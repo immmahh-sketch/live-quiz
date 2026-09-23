@@ -194,7 +194,7 @@ function stateForPlayers() {
   const s = { phase: G.phase, code: G.code, qIndex: G.qIndex, total: total(), title: G.quiz.title, now: Date.now() };
   if (G.phase === 'question' && G.q) {
     s.q = G.q.view; s.remainingMs = Math.max(0, (G.q.deadline || 0) - Date.now()); s.answered = Object.keys(G.q.answers);
-    if (G.q.wipe) { const w = G.q.wipe; s.wipe = { turnPid: w.turnPid, turnName: G.players[w.turnPid]?.name || '', remainingMs: Math.max(0, (w.studyUntil || w.turnDeadline) - Date.now()), studyMs: w.studyUntil ? Math.max(0, w.studyUntil - Date.now()) : 0, gone: w.gone, out: w.out, over: w.over, last: w.last, scores: w.scores }; }
+    if (G.q.wipe) { const w = G.q.wipe; s.wipe = { turnPid: w.turnPid, turnName: G.players[w.turnPid]?.name || '', remainingMs: Math.max(0, (w.studyUntil || w.turnDeadline) - Date.now()), studyMs: w.studyUntil ? Math.max(0, w.studyUntil - Date.now()) : 0, gone: w.gone, out: w.out, over: w.over, last: w.last, scores: w.scores, order: w.order.filter((p) => !w.out.includes(p)) }; }
     if (G.q.race) { const r = G.q.race; s.race = { winner: r.winner, winnerName: r.winner ? G.players[r.winner]?.name : null, over: r.over, target: G.q.view.target, players: Object.fromEntries(Object.entries(r.players).map(([pid, p]) => [pid, { idx: p.idx, correct: p.correct, out: p.out, done: p.done }])) }; }
   }
   if (G.phase === 'countdown') s.next = { type: question().type, n: G.qIndex + 1 };

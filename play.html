@@ -137,10 +137,11 @@ function render() {
   if (s.wipe?.studyMs) { const el = $('#studyLeft'); if (el) el.textContent = Math.ceil(s.wipe.studyMs / 1000); }
   if (s.hl && !s.hl.low) { const el = $('#hlLeft'); if (el) el.textContent = Math.ceil(s.hl.switchInMs / 1000); }
   if (s.hl?.low && $('#hlbox') && !$('#hlbox').dataset.low) { $('#hlbox').innerHTML = hlHtml(s.q, s.hl); $('#hlbox').dataset.low = '1'; }
-  const key = [s.phase, qId, s.qIndex, s.round?.n || '', P.answered[qId] ? 'a' : '', s.wipe ? `${s.wipe.turnPid}:${s.wipe.gone.length}:${s.wipe.out.length}:${s.wipe.over}:${s.wipe.studyMs ? 'study' : ''}` : '', rc ? `${rc.idx}:${rc.pending}:${rc.out}:${rc.done}:${s.race?.winner || ''}` : ''].join(':');
+  const key = [s.phase, qId, s.qIndex, s.round?.n || '', P.answered[qId] ? 'a' : '', s.wipe ? `${s.wipe.turnPid}:${s.wipe.gone.length}:${s.wipe.out.length}:${s.wipe.over}:${s.wipe.studyMs ? 'study' : ''}:${(s.wipe.order || []).length}` : '', rc ? `${rc.idx}:${rc.pending}:${rc.out}:${rc.done}:${s.race?.winner || ''}` : ''].join(':');
   if (key === P.viewKey) { tickTimer(); return; }
   P.viewKey = key;
   clearInterval(timerT);
+  if (!(s.phase === 'question' && s.wipe)) app.className = 'app';
   const r = myResult();
   const score = r ? r.score : (s.top ? (s.top.find((t) => t.name === P.name)?.score ?? '') : '');
   const top = `<div class="app-top"><span>${esc(P.name)}</span><span>${s.phase !== 'lobby' && s.qIndex >= 0 ? `Q${s.qIndex + 1}/${s.total}` : esc(s.title || '')}</span>${score !== '' && score !== undefined ? `<span class="score">${score}</span>` : '<span></span>'}</div>`;
@@ -198,15 +199,25 @@ function bindRace(s) {
   $$('[data-rk]').forEach((b) => b.onclick = () => pick(b.dataset.rk));
   if ($('#raceSkip')) $('#raceSkip').onclick = () => pick('skip');
 }
+/** How many turns until mine: 0 when it's mine now, 1 when I'm next. */
+function turnsUntilMe(w) {
+  const order = w.order || []; const me = order.indexOf(P.pid), cur = order.indexOf(w.turnPid);
+  if (me < 0) return null; if (cur < 0) return me; // before the first turn: my place in the order
+  return ((me - cur) % order.length + order.length) % order.length;
+}
 function wipeHtml(s) {
   const q = s.q, w = s.wipe, mine = w.turnPid === P.pid && !w.over && !w.studyMs, out = w.out.includes(P.pid);
-  const note = w.studyMs ? `<div class="turnnote">👀 Take a look — turns start in <span id="studyLeft">${Math.ceil(w.studyMs / 1000)}</span>s</div>`
+  const until = turnsUntilMe(w);
+  const last = w.last ? `<span class="small">${esc((w.last.name ? w.last.name + ': ' : '') + w.last.text)}${w.last.ok === false ? ' ✘' : w.last.ok ? ' ✔' : ''}</span>` : '';
+  const countdown = until === null || out || w.over || mine ? '' : `<div class="turncount">${until === 1 ? '<span class="big">1</span> — you\'re next!' : `<span class="big">${until}</span> turns until you`}</div>`;
+  const note = w.studyMs ? `<div class="turnnote">👀 Take a look — turns start in <span id="studyLeft">${Math.ceil(w.studyMs / 1000)}</span>s${until !== null && !out ? `<br><span class="small">You go ${LQ.ordinal(until + 1)}</span>` : ''}</div>`
     : w.over ? `<div class="turnnote">${w.last ? esc((w.last.name ? w.last.name + ': ' : '') + w.last.text) + (w.last.ok === false ? ' ✘' : w.last.ok ? ' ✔' : '') : 'Round over'}</div>`
-    : mine ? `<div class="turnnote mine">Your pick! Tap a right answer</div>`
+    : mine ? `<div class="turnnote mine">🟢 Your pick! Tap a right answer</div>`
     : out ? `<div class="turnnote">You're out of this one. ${esc(w.turnName)} is picking…</div>`
-    : `<div class="turnnote">${esc(w.turnName)} is picking…${w.last ? `<br><span class="small">${esc((w.last.name ? w.last.name + ': ' : '') + w.last.text)}${w.last.ok === false ? ' ✘' : w.last.ok ? ' ✔' : ''}</span>` : ''}</div>`;
+    : `<div class="turnnote">${esc(w.turnName)} is picking…${last ? '<br>' + last : ''}</div>${countdown}`;
   const mineScore = w.scores?.[P.pid];
-  return `<div class="pq">${esc(q.text)}</div>${note}<div class="wgrid ${mine ? 'mine' : ''}">${q.board.map((t) => `<button data-w="${t.k}" class="${w.gone.includes(t.k) ? 'gone' : ''}" ${mine && !w.gone.includes(t.k) ? '' : 'disabled'}>${esc(t.text)}</button>`).join('')}</div>${mineScore ? `<p class="center small muted mt">You've scored ${mineScore > 0 ? '+' : ''}${mineScore} so far this round</p>` : ''}`;
+  app.className = 'app ' + (w.over || out || w.studyMs ? '' : mine ? 'turn-mine' : 'turn-wait');
+  return `<div class="pq">${esc(q.text)}</div>${note}<div class="wgrid ${mine ? 'mine' : 'wait'}">${q.board.map((t) => `<button data-w="${t.k}" class="${w.gone.includes(t.k) ? 'gone' : ''}" ${mine && !w.gone.includes(t.k) ? '' : 'disabled'}>${esc(t.text)}</button>`).join('')}</div>${mineScore ? `<p class="center small muted mt">You've scored ${mineScore > 0 ? '+' : ''}${mineScore} so far this round</p>` : ''}`;
 }
 function bindWipe(s) {
   if (s.wipe.turnPid !== P.pid || s.wipe.over || s.wipe.studyMs) return;
