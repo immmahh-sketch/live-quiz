@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#5b3df5">
+<title>Live Quiz — Play</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="player">
+<div class="app" id="app"></div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="assets/common.js"></script>
+<script>
+const { $, $$, esc, uid, TYPES, COLORS, store, ordinal } = LQ;
+const app = $('#app');
+const saved = store('lq_player') || {};
+const P = { pid: /^p_[a-z0-9]{6,12}$/.test(saved.pid || '') ? saved.pid : uid('p'), name: saved.name || '', code: '',
+  state: null, receivedAt: 0, deadline: 0, viewKey: '', answered: {}, sent: {}, joined: false, hostSeen: 0, work: {} };
+let ch = null, sb = null, timerT = null, helloT = null, watchdogT = null;
+
+let toastT;
+function toast(msg, bad) { const t = $('#toast'); t.textContent = msg; t.className = 'toast show' + (bad ? ' bad' : ''); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 3000); }
+function send(event, payload) { if (ch) ch.send({ type: 'broadcast', event, payload }); }
+
+// ------------------------------------------------------------------ join
+function renderJoin(msg) {
+  const code = (new URLSearchParams(location.search).get('g') || P.code || '').toUpperCase();
+  app.innerHTML = `<div class="joinbox card"><h2 class="center" style="font-size:1.8rem">Join the quiz</h2>
+    ${msg ? `<div class="error" style="margin-bottom:12px">${esc(msg)}</div>` : ''}
+    <form id="join"><div class="field"><label>Game code</label><input type="text" id="code" class="codein" value="${esc(code)}" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="ABC123" ${code ? '' : 'autofocus'}></div>
+    <div class="field"><label>Your name</label><input type="text" id="name" value="${esc(P.name)}" maxlength="20" autocomplete="nickname" placeholder="What should we call you?" ${code ? 'autofocus' : ''}></div>
+    <button class="btn btn-primary btn-lg btn-block">Let's go</button></form></div>`;
+  $('#join').onsubmit = (e) => {
+    e.preventDefault();
+    const c = $('#code').value.trim().toUpperCase().replace(/[^A-Z0-9]/g, ''), n = $('#name').value.replace(/\s+/g, ' ').trim();
+    if (c.length !== 6) return renderJoin('The game code is six letters and numbers — it\'s on the shared screen.');
+    if (!n) return renderJoin('Tell us your name so it shows on the scoreboard.');
+    P.code = c; P.name = n; store('lq_player', { pid: P.pid, name: n });
+    connect();
+  };
+}
+function connect() {
+  app.innerHTML = `<div class="state"><span class="spinner"></span><h2>Joining game ${esc(P.code)}…</h2></div>`;
+  if (ch) { try { sb.removeChannel(ch); } catch {} }
+  sb = sb || LQ.client();
+  ch = sb.channel('quiz-' + P.code, { config: { broadcast: { self: false }, presence: { key: P.pid } } });
+  ch.on('broadcast', { event: 'state' }, ({ payload }) => onState(payload));
+  ch.on('broadcast', { event: 'ack' }, ({ payload }) => { if (payload.pid === P.pid) { P.answered[payload.qId] = true; render(); } });
+  ch.subscribe(async (status) => {
+    if (status === 'SUBSCRIBED') {
+      await ch.track({ role: 'player', pid: P.pid, name: P.name });
+      hello(); clearInterval(helloT); helloT = setInterval(() => { if (!P.joined) hello(); }, 2000);
+      setTimeout(() => { if (!P.joined) { clearInterval(helloT); leave(); renderJoin('No game found with that code. Check the screen — the host needs to have the game open.'); } }, 9000);
+    } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') { toast('Connection trouble — retrying…', true); }
+  });
+  clearInterval(watchdogT); watchdogT = setInterval(watchdog, 1500);
+}
+function hello() { send('hello', { pid: P.pid, name: P.name }); }
+function leave() { try { sb.removeChannel(ch); } catch {} ch = null; P.joined = false; P.state = null; P.viewKey = ''; }
+function onState(s) {
+  if (!s || typeof s.phase !== 'string') return;
+  P.state = s; P.receivedAt = Date.now(); P.hostSeen = Date.now();
+  if (!P.joined) { P.joined = true; clearInterval(helloT); }
+  if (s.phase === 'question' && typeof s.remainingMs === 'number') P.deadline = Date.now() + s.remainingMs;
+  if (Array.isArray(s.answered) && s.answered.includes(P.pid)) P.answered[s.q?.id] = true;
+  render();
+}
+function watchdog() {
+  // Re-send an answer the host has not acknowledged, and warn if the host has gone quiet.
+  const s = P.state; if (!s) return;
+  if (s.phase === 'question' && s.q) {
+    const st = P.sent[s.q.id];
+    if (st && !P.answered[s.q.id] && Date.now() - st.at > 1800 && st.tries < 5) { st.tries++; st.at = Date.now(); send('answer', { pid: P.pid, qId: s.q.id, answer: st.answer }); }
+  }
+  const quiet = Date.now() - P.hostSeen;
+  const b = $('#offline');
+  if (quiet > 7000 && !b) { app.insertAdjacentHTML('afterbegin', '<div class="error" id="offline">Lost the host for a moment — hang on…</div>'); hello(); }
+  else if (quiet <= 7000 && b) b.remove();
+}
+
+// ------------------------------------------------------------------ render
+function myResult() { return P.state?.results?.[P.pid]; }
+function render() {
+  const s = P.state; if (!s) return;
+  const qId = s.q?.id || '';
+  const key = [s.phase, qId, s.qIndex, P.answered[qId] ? 'a' : ''].join(':');
+  if (key === P.viewKey) { tickTimer(); return; }
+  P.viewKey = key;
+  clearInterval(timerT);
+  const r = myResult();
+  const score = r ? r.score : (s.top ? (s.top.find((t) => t.name === P.name)?.score ?? '') : '');
+  const top = `<div class="app-top"><span>${esc(P.name)}</span><span>${s.phase !== 'lobby' && s.qIndex >= 0 ? `Q${s.qIndex + 1}/${s.total}` : esc(s.title || '')}</span>${score !== '' && score !== undefined ? `<span class="score">${score}</span>` : '<span></span>'}</div>`;
+  if (s.phase === 'lobby') app.innerHTML = top + `<div class="state"><div class="em">🎉</div><h2>You're in, ${esc(P.name)}!</h2><p class="muted">Watch the shared screen. The quiz starts when the host presses go.</p></div>`;
+  else if (s.phase === 'countdown') app.innerHTML = top + `<div class="state"><div class="em">${TYPES[s.next?.type]?.icon || '⏳'}</div><h2>Get ready…</h2><p class="muted">Question ${s.next?.n || s.qIndex + 1}: ${esc(TYPES[s.next?.type]?.label || '')}</p></div>`;
+  else if (s.phase === 'question') { app.innerHTML = top + `<div class="ptimer" id="ptimer"><i></i></div>` + (P.answered[qId] ? sentHtml() : questionHtml(s.q)); bindQuestion(s.q); timerT = setInterval(tickTimer, 250); tickTimer(); }
+  else if (s.phase === 'grading') app.innerHTML = top + `<div class="state"><div class="em">⏱</div><h2>Time's up!</h2><p class="muted">Checking the answers…</p></div>`;
+  else if (s.phase === 'reveal') app.innerHTML = top + resultHtml(s, r);
+  else if (s.phase === 'scoreboard') app.innerHTML = top + `<div class="state"><div class="em">${r?.rank === 1 ? '🥇' : r?.rank === 2 ? '🥈' : r?.rank === 3 ? '🥉' : '📊'}</div><h2>${r ? `You're ${ordinal(r.rank)} of ${r.of}` : 'Scoreboard'}</h2><p class="muted">${r ? r.score + ' points so far' : ''}</p></div>`;
+  else if (s.phase === 'final') app.innerHTML = top + finalHtml(s, r);
+}
+function tickTimer() {
+  const el = $('#ptimer'); if (!el || !P.state?.q) return;
+  const rem = Math.max(0, P.deadline - Date.now()), pct = Math.min(100, (rem / (P.state.q.time * 1000)) * 100);
+  $('i', el).style.width = pct + '%'; el.classList.toggle('low', rem < 5000);
+}
+function sentHtml() { return `<div class="state"><div class="em">✅</div><h2>Answer sent!</h2><p class="muted">Waiting for the others…</p></div>`; }
+function mediaHtml(q) { return q.media?.url ? `<div class="pmedia"><img src="${esc(q.media.url)}"></div>` : ''; }
+function questionHtml(q) {
+  let body = '';
+  if (q.type === 'choice') body = `<div class="ans-grid">${q.options.map((o) => `<button class="abtn" data-k="${o.k}" style="background:${COLORS[o.c].hex}"><span class="shape">${COLORS[o.c].shape}</span>${esc(o.text)}</button>`).join('')}</div>`;
+  if (q.type === 'text') body = `<form id="textForm" class="state" style="justify-content:flex-start"><input type="text" id="textIn" placeholder="Type your answer" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.2rem;text-align:center" autofocus><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
+  if (q.type === 'order') {
+    P.work.order = P.work.order && P.work.orderQ === q.id ? P.work.order : q.items.map((i) => i.k); P.work.orderQ = q.id;
+    body = `<p class="muted center small">${esc(q.hint || 'Put these in the right order')} — use the arrows</p><div class="olist" id="olist"></div><button class="btn btn-primary btn-lg btn-block mt" id="lockOrder">Lock it in</button>`;
+  }
+  if (q.type === 'match') {
+    P.work.match = P.work.matchQ === q.id ? P.work.match : {}; P.work.matchQ = q.id; P.work.sel = null;
+    body = `<p class="muted center small">Tap a word, then tap its match</p><div class="mleft" id="mleft"></div><div class="mchoices" id="mchoices"></div><button class="btn btn-primary btn-lg btn-block mt" id="lockMatch" disabled>Lock it in</button>`;
+  }
+  if (q.type === 'pin') { P.work.pin = P.work.pinQ === q.id ? P.work.pin : null; P.work.pinQ = q.id; body = `<div class="pinboard tap" id="pinboard"><img src="${esc(q.media?.url || '')}" draggable="false"></div><button class="btn btn-primary btn-lg btn-block mt" id="dropPin" disabled>Drop the pin here</button>`; }
+  return `<div class="pq">${esc(q.text)}</div>${q.type === 'pin' ? '' : mediaHtml(q)}${body}`;
+}
+function submit(q, answer) {
+  P.sent[q.id] = { answer, at: Date.now(), tries: 1 };
+  send('answer', { pid: P.pid, qId: q.id, answer });
+  P.answered[q.id] = 'pending'; // optimistic; the watchdog re-sends until the host acks
+  app.querySelectorAll('.abtn, button').forEach((b) => b.disabled = true);
+  setTimeout(() => { if (P.state?.q?.id === q.id) { P.viewKey = ''; render(); } }, 250);
+}
+function bindQuestion(q) {
+  if (!q || P.answered[q.id]) return;
+  if (q.type === 'choice') $$('.abtn').forEach((b) => b.onclick = () => submit(q, b.dataset.k));
+  if (q.type === 'text') { $('#textForm').onsubmit = (e) => { e.preventDefault(); const t = $('#textIn').value.trim(); if (!t) return; submit(q, t); }; setTimeout(() => $('#textIn')?.focus(), 50); }
+  if (q.type === 'order') {
+    const draw = () => {
+      $('#olist').innerHTML = P.work.order.map((k, i) => { const it = q.items.find((x) => x.k === k); return `<div class="oitem"><div class="n">${i + 1}</div><div>${esc(it.text)}</div><div class="mv"><button data-up="${i}" ${i === 0 ? 'disabled' : ''}>▲</button><button data-dn="${i}" ${i === P.work.order.length - 1 ? 'disabled' : ''}>▼</button></div></div>`; }).join('');
+      $$('[data-up]').forEach((b) => b.onclick = () => { const i = +b.dataset.up; [P.work.order[i - 1], P.work.order[i]] = [P.work.order[i], P.work.order[i - 1]]; draw(); });
+      $$('[data-dn]').forEach((b) => b.onclick = () => { const i = +b.dataset.dn; [P.work.order[i + 1], P.work.order[i]] = [P.work.order[i], P.work.order[i + 1]]; draw(); });
+    };
+    draw(); $('#lockOrder').onclick = () => submit(q, P.work.order.slice());
+  }
+  if (q.type === 'match') {
+    const draw = () => {
+      const used = new Set(Object.values(P.work.match));
+      $('#mleft').innerHTML = q.left.map((l) => { const rk = P.work.match[l.k]; const r = q.right.find((x) => x.k === rk); const idx = r ? q.right.indexOf(r) + 1 : ''; return `<div class="mrow"><div class="mword ${P.work.sel === l.k ? 'sel' : ''}" data-l="${l.k}">${esc(l.text)}</div><div class="mslot ${r ? 'filled' : ''}" data-slot="${l.k}">${r ? (r.kind === 'image' ? `<img src="${esc(r.value)}" alt="${idx}">` : `${idx}. ${esc(r.value)}`) : 'tap to match'}</div></div>`; }).join('');
+      $('#mchoices').innerHTML = q.right.map((r, i) => `<div class="mc ${used.has(r.k) ? 'used' : ''}" data-r="${r.k}">${r.kind === 'image' ? `<img src="${esc(r.value)}">` : ''}<div class="cap">${i + 1}${r.kind === 'text' ? '. ' + esc(r.value) : ''}</div></div>`).join('');
+      $('#lockMatch').disabled = Object.keys(P.work.match).length < q.left.length;
+      $$('[data-l]').forEach((el) => el.onclick = () => { P.work.sel = P.work.sel === el.dataset.l ? null : el.dataset.l; draw(); });
+      $$('[data-slot]').forEach((el) => el.onclick = () => { if (P.work.match[el.dataset.slot]) { delete P.work.match[el.dataset.slot]; P.work.sel = el.dataset.slot; } else P.work.sel = el.dataset.slot; draw(); });
+      $$('[data-r]').forEach((el) => el.onclick = () => {
+        let l = P.work.sel;
+        if (!l) l = q.left.find((x) => !P.work.match[x.k])?.k; // no word picked: fill the next empty slot
+        if (!l) return;
+        for (const k of Object.keys(P.work.match)) if (P.work.match[k] === el.dataset.r) delete P.work.match[k];
+        P.work.match[l] = el.dataset.r; P.work.sel = q.left.find((x) => !P.work.match[x.k])?.k || null; draw();
+      });
+    };
+    draw(); $('#lockMatch').onclick = () => submit(q, { ...P.work.match });
+  }
+  if (q.type === 'pin') {
+    const board = $('#pinboard'), img = $('img', board);
+    const draw = () => { $$('.pin', board).forEach((e) => e.remove()); if (!P.work.pin) return; const w = img.clientWidth, h = img.clientHeight; board.insertAdjacentHTML('beforeend', `<svg class="pin" viewBox="0 0 24 24" style="left:${P.work.pin.x * w}px;top:${P.work.pin.y * h}px"><path fill="#e21b3c" stroke="#fff" stroke-width="1.5" d="M12 1.5a7.5 7.5 0 0 0-7.5 7.5c0 5.6 7.5 13.5 7.5 13.5S19.5 14.6 19.5 9A7.5 7.5 0 0 0 12 1.5z"/><circle cx="12" cy="9" r="3" fill="#fff"/></svg>`); $('#dropPin').disabled = false; };
+    board.onclick = (e) => { const r = img.getBoundingClientRect(); if (!r.width) return; P.work.pin = { x: LQ.clamp((e.clientX - r.left) / r.width, 0, 1), y: LQ.clamp((e.clientY - r.top) / r.height, 0, 1) }; draw(); };
+    img.onload = draw; if (img.complete) draw();
+    $('#dropPin').onclick = () => { if (P.work.pin) submit(q, P.work.pin); };
+  }
+}
+function resultHtml(s, r) {
+  if (!r) return `<div class="state"><h2>Results are on the screen</h2></div>`;
+  const cls = r.correct ? 'ok' : r.partial > 0 ? 'part' : 'no';
+  const head = r.correct ? '✓ Correct!' : !r.answered ? 'Too slow!' : r.partial > 0 ? 'Partly right' : '✗ Not this time';
+  return `<div class="result ${cls}"><div style="font-size:1.6rem;font-weight:900">${head}</div><div class="pts">+${r.points}</div>
+    ${s.answer ? `<div style="font-weight:800;opacity:.95">${r.correct ? '' : 'Answer: '}${esc(s.answer)}</div>` : ''}
+    <div class="rk">${ordinal(r.rank)} of ${r.of} · ${r.score} points</div></div>`;
+}
+function finalHtml(s, r) {
+  const me = r?.rank;
+  return `<div class="state" style="justify-content:flex-start"><div class="em">${me === 1 ? '🏆' : me === 2 ? '🥈' : me === 3 ? '🥉' : '🎉'}</div>
+    <h2>${me === 1 ? 'You won!' : me ? `You came ${ordinal(me)}` : 'Game over'}</h2>${r ? `<p class="muted">${r.score} points</p>` : ''}
+    <div class="board">${(s.top || []).map((t) => `<div class="brow ${t.name === P.name ? 'me' : ''}"><div class="rank">${t.rank}</div><div>${esc(t.name)}</div><div>${t.score}</div></div>`).join('')}</div>
+    <button class="btn btn-ghost mt" id="another">Join another game</button></div>`;
+}
+document.addEventListener('click', (e) => { if (e.target.id === 'another') { leave(); P.code = ''; history.replaceState(null, '', location.pathname); renderJoin(); } });
+
+// ------------------------------------------------------------------ boot
+renderJoin();
+if (new URLSearchParams(location.search).get('g') && P.name) { /* returning player: still confirm the name */ }
+</script>
+</body>
+</html>

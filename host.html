@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live Quiz — Host</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="host">
+<div class="stage" id="stage"><div class="stage-main"><span class="spinner"></span></div></div>
+<div class="confetti hidden" id="confetti"></div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="assets/common.js"></script>
+<script src="assets/demo-quiz.js"></script>
+<script>
+const { $, $$, esc, uid, api, TYPES, COLORS, speedPoints, textMatch, similarity, shuffle, newCode, playUrl, shortPlayUrl, store, unstore, ordinal } = LQ;
+const DEMO = new URLSearchParams(location.search).get('quiz') === 'demo';
+const quizId = new URLSearchParams(location.search).get('quiz');
+const SAVE_KEY = 'lq_live_' + quizId;
+const stage = $('#stage');
+let G = null, ch = null, sb = null, tickT = null, hbT = null, countT = null, helloT = null;
+const present = new Map(); // pid -> name, from presence
+
+let toastT;
+function toast(msg, bad) { const t = $('#toast'); t.textContent = msg; t.className = 'toast show' + (bad ? ' bad' : ''); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 3000); }
+const persist = () => store(SAVE_KEY, G);
+const players = () => Object.values(G.players);
+const ranked = () => players().slice().sort((a, b) => b.score - a.score || a.joinedAt - b.joinedAt);
+const total = () => G.quiz.questions.length;
+const question = () => G.quiz.questions[G.qIndex];
+
+// ------------------------------------------------------------------ boot
+(async function boot() {
+  if (!quizId) return fail('No quiz chosen. Open a quiz in the builder and press Host.');
+  if (!DEMO && !LQ.hostPassword()) { location.href = 'index.html'; return; }
+  const saved = store(SAVE_KEY);
+  if (saved && saved.phase !== 'final' && saved.phase !== 'lobby' && Object.keys(saved.players).length) {
+    const ok = await ask(`Carry on the game in progress?`, `Game ${saved.code} — ${Object.keys(saved.players).length} players, question ${saved.qIndex + 1} of ${saved.quiz.questions.length}.`, 'Carry on', 'Start fresh');
+    if (ok) { G = saved; return connect(); }
+  }
+  let quiz;
+  if (DEMO) quiz = JSON.parse(JSON.stringify(window.DEMO_QUIZ));
+  else { try { quiz = (await api('get', { id: quizId })).quiz; } catch (e) { return fail(e.message); } }
+  quiz.settings = { ...LQ.DEFAULT_SETTINGS, ...(quiz.settings || {}) };
+  quiz.questions = quiz.questions.filter((q) => LQ.validate(q).length === 0);
+  if (!quiz.questions.length) return fail('This quiz has no finished questions to play.');
+  G = { code: newCode(), quizId, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null };
+  persist();
+  connect();
+})();
+function fail(msg) { stage.innerHTML = `<div class="stage-main"><h1 class="big">Hmm.</h1><p style="font-size:1.3rem">${esc(msg)}</p><a class="btn btn-primary" href="index.html">Back to the builder</a></div>`; }
+function ask(title, body, yes, no) {
+  return new Promise((res) => {
+    const bg = document.createElement('div'); bg.className = 'modal-bg';
+    bg.innerHTML = `<div class="modal" style="color:var(--ink)"><h3>${esc(title)}</h3><p class="muted">${esc(body)}</p><div class="row" style="justify-content:flex-end"><button class="btn btn-ghost" data-no style="color:var(--ink)">${esc(no)}</button><button class="btn btn-primary" data-yes style="background:var(--brand);color:#fff">${esc(yes)}</button></div></div>`;
+    document.body.appendChild(bg);
+    $('[data-no]', bg).onclick = () => { bg.remove(); res(false); };
+    $('[data-yes]', bg).onclick = () => { bg.remove(); res(true); };
+  });
+}
+
+// ------------------------------------------------------------------ realtime
+function connect() {
+  sb = LQ.client();
+  ch = sb.channel('quiz-' + G.code, { config: { broadcast: { self: false }, presence: { key: 'host' } } });
+  ch.on('broadcast', { event: 'hello' }, ({ payload }) => onHello(payload));
+  ch.on('broadcast', { event: 'answer' }, ({ payload }) => onAnswer(payload));
+  ch.on('presence', { event: 'sync' }, () => {
+    present.clear();
+    for (const entries of Object.values(ch.presenceState())) for (const e of entries) if (e.role === 'player' && e.pid) present.set(e.pid, e.name);
+    if (G.phase === 'lobby') renderLobbyPlayers();
+    if (G.phase === 'question') { renderAnswered(); maybeAllAnswered(); }
+  });
+  ch.subscribe(async (status) => {
+    if (status === 'SUBSCRIBED') { await ch.track({ role: 'host' }); render(); broadcastState(); startHeartbeat(); if (G.phase === 'question') startTick(); }
+    else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') toast('Connection trouble — retrying…', true);
+  });
+}
+function send(event, payload) { if (ch) ch.send({ type: 'broadcast', event, payload }); }
+function startHeartbeat() { clearInterval(hbT); hbT = setInterval(broadcastState, 2000); }
+
+/** Everything a phone needs to draw its screen. Never the right answers. */
+function stateForPlayers() {
+  const s = { phase: G.phase, code: G.code, qIndex: G.qIndex, total: total(), title: G.quiz.title, now: Date.now() };
+  if (G.phase === 'question' && G.q) { s.q = G.q.view; s.remainingMs = Math.max(0, G.q.deadline - Date.now()); s.answered = Object.keys(G.q.answers); }
+  if (G.phase === 'countdown') s.next = { type: question().type, n: G.qIndex + 1 };
+  if ((G.phase === 'reveal' || G.phase === 'scoreboard' || G.phase === 'final') && G.q?.results) {
+    s.results = {};
+    const rk = ranked();
+    for (const p of rk) { const r = G.q.results.byPlayer[p.id]; s.results[p.id] = { correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, score: p.score, rank: rk.indexOf(p) + 1, of: rk.length }; }
+    if (G.quiz.settings.showAnswersOnPhones !== false) s.answer = answerText(question());
+  }
+  if (G.phase === 'final') s.top = ranked().slice(0, 10).map((p, i) => ({ name: p.name, score: p.score, rank: i + 1 }));
+  return s;
+}
+function broadcastState() { send('state', stateForPlayers()); }
+function answerText(q) {
+  if (q.type === 'choice') return q.options.find((o) => o.id === q.correct)?.text || '';
+  if (q.type === 'text') return q.answers[0];
+  if (q.type === 'order') return q.items.filter((i) => i.text.trim()).map((i) => i.text).join(' → ');
+  if (q.type === 'match') return q.pairs.map((p) => p.left + (p.right.kind === 'text' ? ' – ' + p.right.value : '')).join(', ');
+  if (q.type === 'pin') return q.place ? 'It was ' + q.place : 'See the screen';
+  return '';
+}
+
+function onHello({ pid, name }) {
+  if (typeof pid !== 'string' || !/^p_[a-z0-9]{6,12}$/.test(pid)) return;
+  name = String(name || '').replace(/\s+/g, ' ').trim().slice(0, 20) || 'Player';
+  if (!G.players[pid]) { G.players[pid] = { id: pid, name, score: 0, joinedAt: Date.now() }; persist(); if (G.phase === 'lobby') renderLobbyPlayers(); }
+  else if (G.players[pid].name !== name && G.phase === 'lobby') { G.players[pid].name = name; persist(); renderLobbyPlayers(); }
+  clearTimeout(helloT); helloT = setTimeout(broadcastState, 150);
+}
+function onAnswer({ pid, qId, answer }) {
+  if (G.phase !== 'question' || !G.q || qId !== G.q.view.id) return;
+  if (!G.players[pid]) { onHello({ pid, name: present.get(pid) || 'Player' }); }
+  if (G.q.answers[pid]) return;
+  G.q.answers[pid] = { answer, elapsed: Date.now() - G.q.startedAt };
+  persist();
+  send('ack', { pid, qId });
+  renderAnswered();
+  maybeAllAnswered();
+}
+function maybeAllAnswered() {
+  if (G.phase !== 'question') return;
+  const live = [...present.keys()].filter((pid) => G.players[pid]);
+  const pool = live.length ? live : Object.keys(G.players);
+  if (pool.length && pool.every((pid) => G.q.answers[pid])) setTimeout(() => { if (G.phase === 'question') endQuestion(); }, 600);
+}
+
+// ------------------------------------------------------------------ game flow
+function primaryAction() {
+  if (G.phase === 'lobby') return players().length ? startCountdown(0) : toast('Waiting for at least one player.');
+  if (G.phase === 'countdown') return startQuestion();
+  if (G.phase === 'question') return endQuestion();
+  if (G.phase === 'reveal') return showScoreboard();
+  if (G.phase === 'scoreboard') return G.qIndex + 1 < total() ? startCountdown(G.qIndex + 1) : finish();
+}
+function startCountdown(i) {
+  clearInterval(tickT); clearInterval(countT);
+  G.qIndex = i; G.phase = 'countdown'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString();
+  persist(); render(); broadcastState();
+  const q = question();
+  // Pre-load the picture so the aspect ratio is known for pin scoring and the screen is instant.
+  if (q.media?.kind === 'image' && q.media.url) { const im = new Image(); im.onload = () => { G.aspect = im.naturalHeight / im.naturalWidth; }; im.src = q.media.url; }
+  let n = 3; const el = () => $('#count');
+  countT = setInterval(() => { n--; if (n <= 0) { clearInterval(countT); startQuestion(); } else if (el()) el().textContent = n; }, 1000);
+}
+function buildView(q) {
+  const keys = {}; const tok = (id) => { const t = uid('k'); keys[t] = id; return t; };
+  const v = { id: q.id, type: q.type, text: q.text, time: q.time, hint: q.hint || '', media: q.media?.kind === 'image' && q.media.url ? { kind: 'image', url: q.media.url } : null, video: q.media?.kind === 'youtube' };
+  if (q.type === 'choice') v.options = q.options.filter((o) => o.text.trim()).map((o, i) => ({ k: tok(o.id), text: o.text, c: q.options.indexOf(o) }));
+  if (q.type === 'order') v.items = shuffle(q.items.filter((i) => i.text.trim())).map((i) => ({ k: tok(i.id), text: i.text }));
+  if (q.type === 'match') {
+    const ps = q.pairs.filter((p) => p.left.trim() && p.right?.value);
+    v.left = ps.map((p) => ({ k: tok('L:' + p.id), text: p.left }));
+    v.right = shuffle(ps).map((p) => ({ k: tok('R:' + p.id), kind: p.right.kind, value: p.right.value }));
+  }
+  return { view: v, keys };
+}
+function startQuestion() {
+  clearInterval(countT);
+  const q = question();
+  const { view, keys } = buildView(q);
+  const now = Date.now();
+  G.q = { view, keys, startedAt: now, deadline: now + q.time * 1000, answers: {}, results: null };
+  G.phase = 'question'; persist(); render(); broadcastState(); startTick();
+}
+function startTick() {
+  clearInterval(tickT);
+  tickT = setInterval(() => {
+    if (G.phase !== 'question' || !G.q) return clearInterval(tickT);
+    const rem = G.q.deadline - Date.now();
+    const t = $('#timer'); if (t) { const p = Math.max(0, rem / (question().time * 1000)) * 100; t.style.setProperty('--p', p + '%'); t.dataset.s = Math.max(0, Math.ceil(rem / 1000)); t.classList.toggle('low', rem < 5000); }
+    if (rem <= 0) endQuestion();
+  }, 100);
+}
+async function endQuestion() {
+  if (G.phase !== 'question') return;
+  clearInterval(tickT);
+  G.phase = 'grading'; persist(); render(); broadcastState();
+  try { G.q.results = await grade(); }
+  catch (e) { console.error(e); toast('Scoring hit a snag: ' + e.message, true); G.q.results = await grade(true); }
+  for (const [pid, r] of Object.entries(G.q.results.byPlayer)) if (G.players[pid]) G.players[pid].score += r.points;
+  G.phase = 'reveal'; persist(); render(); broadcastState();
+}
+function showScoreboard() { G.phase = 'scoreboard'; persist(); render(); broadcastState(); }
+async function finish() {
+  G.phase = 'final'; persist(); render(); broadcastState(); confetti();
+  const rk = ranked();
+  api('save_game', { game: { code: G.code, quiz_id: G.quizId, title: G.quiz.title, questions: total(), started_at: G.startedAt,
+    players: rk.map((p, i) => ({ name: p.name, score: p.score, rank: i + 1 })) } }).catch(() => {});
+}
+function endEarly() { ask('End the game now?', 'The scores so far will be shown as the final result.', 'End game', 'Keep going').then((ok) => { if (ok) { clearInterval(tickT); clearInterval(countT); finish(); } }); }
+function playAgain() { unstore(SAVE_KEY); location.reload(); }
+
+// ------------------------------------------------------------------ grading
+async function grade(noAi) {
+  const q = question(), v = G.q.view, keys = G.q.keys, set = G.quiz.settings, timeMs = q.time * 1000;
+  const byPlayer = {}; const stats = { counts: {}, right: 0, answered: 0, pins: [], texts: [] };
+  const entries = Object.entries(G.q.answers).filter(([pid]) => G.players[pid]);
+  stats.answered = entries.length;
+  const sp = (elapsed) => speedPoints(elapsed, timeMs, set);
+  const res = (pid, correct, partial, elapsed, extra = {}) => {
+    const frac = correct ? 1 : (q.partial ? partial : 0);
+    byPlayer[pid] = { answered: true, correct, partial: correct ? 1 : partial, points: Math.round(sp(elapsed) * frac), ...extra };
+    if (correct) stats.right++;
+  };
+
+  if (q.type === 'choice') {
+    for (const [pid, a] of entries) { const id = keys[a.answer]; stats.counts[id] = (stats.counts[id] || 0) + 1; res(pid, id === q.correct, 0, a.elapsed, { choice: id }); }
+  }
+  if (q.type === 'text') {
+    const accepted = q.answers.filter((s) => s.trim());
+    const unsure = [];
+    for (const [pid, a] of entries) {
+      const text = String(a.answer ?? '').slice(0, 200);
+      const m = textMatch(text, accepted);
+      if (m === 'unsure') unsure.push({ id: pid, text });
+      else res(pid, m === 'right', 0, a.elapsed, { text, how: 'match' });
+    }
+    if (unsure.length) {
+      let verdicts = null;
+      if (q.ai !== false && !noAi) { try { verdicts = (await api('check_text', { question: q.text, accepted, answers: unsure }, { timeout: 45000 })).results; } catch (e) { toast('AI check unavailable — using closest match.', true); } }
+      for (const u of unsure) {
+        const a = G.q.answers[u.id];
+        const ok = verdicts?.[u.id] ? verdicts[u.id].correct : accepted.some((acc) => similarity(LQ.normText(u.text), LQ.normText(acc)) >= 0.72);
+        res(u.id, ok, 0, a.elapsed, { text: u.text, how: verdicts?.[u.id]?.how || 'fuzzy' });
+      }
+    }
+    stats.texts = entries.map(([pid]) => ({ name: G.players[pid].name, text: byPlayer[pid].text, ok: byPlayer[pid].correct }));
+  }
+  if (q.type === 'order') {
+    const right = q.items.filter((i) => i.text.trim()).map((i) => i.id);
+    for (const [pid, a] of entries) {
+      const got = Array.isArray(a.answer) ? a.answer.map((t) => keys[t]) : [];
+      let hits = 0; right.forEach((id, i) => { if (got[i] === id) hits++; });
+      res(pid, hits === right.length && got.length === right.length, hits / right.length, a.elapsed);
+    }
+  }
+  if (q.type === 'match') {
+    const n = v.left.length;
+    for (const [pid, a] of entries) {
+      const pairs = a.answer && typeof a.answer === 'object' ? a.answer : {};
+      let hits = 0;
+      for (const [lt, rt] of Object.entries(pairs)) { const L = keys[lt], R = keys[rt]; if (L && R && L.slice(2) === R.slice(2)) hits++; }
+      res(pid, hits === n, hits / n, a.elapsed);
+    }
+  }
+  if (q.type === 'pin') {
+    const asp = G.aspect || 1;
+    const dist = (p) => Math.hypot((p.x - q.pin.x), (p.y - q.pin.y) * asp);
+    const list = [];
+    for (const [pid, a] of entries) {
+      const p = a.answer && isFinite(a.answer.x) && isFinite(a.answer.y) ? { x: LQ.clamp(+a.answer.x, 0, 1), y: LQ.clamp(+a.answer.y, 0, 1) } : null;
+      if (!p) { byPlayer[pid] = { answered: true, correct: false, partial: 0, points: 0 }; continue; }
+      const d = dist(p);
+      const acc = d <= q.radiusFull ? 1 : d >= q.radiusZero ? 0 : 1 - (d - q.radiusFull) / (q.radiusZero - q.radiusFull);
+      byPlayer[pid] = { answered: true, correct: d <= q.radiusFull, partial: +acc.toFixed(3), points: Math.round(sp(a.elapsed) * acc), pin: p, d };
+      if (byPlayer[pid].correct) stats.right++;
+      list.push({ pid, name: G.players[pid].name, d, ...p });
+    }
+    list.sort((a, b) => a.d - b.d);
+    if (list.length) { byPlayer[list[0].pid].closest = true; }
+    stats.pins = list;
+  }
+  for (const p of players()) if (!byPlayer[p.id]) byPlayer[p.id] = { answered: false, correct: false, partial: 0, points: 0 };
+  return { byPlayer, stats };
+}
+
+// ------------------------------------------------------------------ rendering
+function render() {
+  const ph = G.phase;
+  if (ph === 'lobby') return renderLobby();
+  if (ph === 'countdown') return renderCountdown();
+  if (ph === 'question') return renderQuestion();
+  if (ph === 'grading') return renderGrading();
+  if (ph === 'reveal') return renderReveal();
+  if (ph === 'scoreboard') return renderScoreboard();
+  if (ph === 'final') return renderFinal();
+}
+function topBar(extra = '') {
+  const q = question();
+  return `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">Question ${G.qIndex + 1} of ${total()}</span><span class="hpill">${TYPES[q.type].icon} ${esc(TYPES[q.type].label)}</span></div>${extra}</div>`;
+}
+function hostBar(buttons) { return `<div class="stage-bottom"><span class="muted small" style="opacity:.6">Game ${G.code} · ${players().length} players · press Space for next</span><div class="hostbar">${buttons}</div></div>`; }
+function bind() {
+  $$('[data-act]').forEach((b) => b.onclick = () => ({ primary: primaryAction, end: endEarly, again: playAgain, builder: () => location.href = 'index.html?quiz=' + G.quizId })[b.dataset.act]());
+}
+function renderLobby() {
+  const url = playUrl(G.code);
+  stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">${total()} questions</span></div></div>
+    <div class="stage-main"><div class="lobby">
+      <div class="center"><div class="qr" id="qr"></div><p class="joinurl mt">Scan, or go to <b>${esc(shortPlayUrl())}</b></p></div>
+      <div class="center"><div style="opacity:.8;font-weight:800;font-size:1.3rem">and enter the code</div><div class="code">${G.code}</div>
+        <div class="players" id="players"></div></div>
+    </div></div>
+    ${hostBar(`<button class="btn btn-ghost" data-act="builder">Back to builder</button><button class="btn btn-primary btn-lg" data-act="primary" id="startBtn">Start ▶</button>`)}`;
+  new QRCode($('#qr'), { text: url, width: 380, height: 380, correctLevel: QRCode.CorrectLevel.M });
+  renderLobbyPlayers(); bind();
+}
+function renderLobbyPlayers() {
+  const el = $('#players'); if (!el) return;
+  const ps = players().sort((a, b) => a.joinedAt - b.joinedAt);
+  el.innerHTML = ps.length ? ps.map((p) => `<span class="pill" style="${present.has(p.id) ? '' : 'opacity:.45'}">${esc(p.name)}</span>`).join('') : '<span style="opacity:.6;font-weight:800">Waiting for players…</span>';
+  const b = $('#startBtn'); if (b) b.disabled = !ps.length;
+}
+function renderCountdown() {
+  const q = question();
+  stage.innerHTML = `${topBar()}<div class="stage-main"><div style="opacity:.8;font-weight:800;font-size:1.4rem">${esc(TYPES[q.type].blurb)}</div><h1 class="qtext">${esc(q.text)}</h1><div class="huge" id="count">3</div></div>
+    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">Go now ▶</button>`)}`;
+  bind();
+}
+function mediaHtml(q, live) {
+  if (q.media?.kind === 'image' && q.media.url) return `<div class="qmedia"><img src="${esc(q.media.url)}"></div>`;
+  if (q.media?.kind === 'youtube' && q.media.videoId && live) return `<div class="qmedia"><iframe src="https://www.youtube-nocookie.com/embed/${esc(q.media.videoId)}?autoplay=1&start=${+q.media.start || 0}&rel=0&modestbranding=1" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>`;
+  return '';
+}
+function renderQuestion() {
+  const q = question(), v = G.q.view;
+  let body = '';
+  if (q.type === 'choice') body = `<div class="answers">${v.options.map((o) => `<div class="ans" style="background:${COLORS[o.c].hex}"><span class="shape">${COLORS[o.c].shape}</span>${esc(o.text)}</div>`).join('')}</div>`;
+  if (q.type === 'text') body = `<div class="item" style="justify-content:center">✎ Type your answer on your phone</div>`;
+  if (q.type === 'order') body = `<div class="items">${v.items.map((it) => `<div class="item">${esc(it.text)}</div>`).join('')}</div><div style="opacity:.75;font-weight:800;margin-top:8px">${esc(q.hint || 'Put them in order on your phone')}</div>`;
+  if (q.type === 'match') body = `<div class="items">${v.left.map((l) => `<div class="item">${esc(l.text)}</div>`).join('')}</div><div class="items mt">${v.right.map((r, i) => `<div class="item"><span class="k">${i + 1}</span>${r.kind === 'image' ? `<img src="${esc(r.value)}">` : esc(r.value)}</div>`).join('')}</div>`;
+  if (q.type === 'pin') body = `<div class="item" style="justify-content:center">📍 Tap the spot on your phone</div>`;
+  stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill" id="answered">0 of ${players().length} answered</span><div class="timer" id="timer" data-s="${q.time}" style="--p:100%"></div></div>`)}
+    <div class="stage-main"><h1 class="qtext">${esc(q.text)}</h1>${mediaHtml(q, true)}</div>
+    <div>${body}</div>
+    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">Stop the clock ■</button>`)}`;
+  renderAnswered(); bind();
+}
+function renderAnswered() { const el = $('#answered'); if (el && G.q) el.textContent = `${Object.keys(G.q.answers).length} of ${players().length} answered`; }
+function renderGrading() {
+  stage.innerHTML = `${topBar()}<div class="stage-main"><h1 class="big">Time's up!</h1><p style="font-size:1.4rem;font-weight:800"><span class="spinner"></span> &nbsp;Checking the answers…</p></div>`;
+}
+function renderReveal() {
+  const q = question(), v = G.q.view, R = G.q.results, n = players().length;
+  let body = '';
+  if (q.type === 'choice') {
+    const max = Math.max(1, ...Object.values(R.stats.counts));
+    body = `<div class="answers">${v.options.map((o) => { const id = G.q.keys[o.k], c = R.stats.counts[id] || 0, ok = id === q.correct; return `<div class="ans ${ok ? '' : 'dim'}" style="background:${COLORS[o.c].hex}"><div class="bar" style="width:${(c / max) * 100}%"></div><span class="shape" style="position:relative">${COLORS[o.c].shape}</span><span style="position:relative">${esc(o.text)}</span><span class="count" style="position:relative">${c}</span>${ok ? '<span class="tick" style="position:relative">✔</span>' : ''}</div>`; }).join('')}</div>`;
+  }
+  if (q.type === 'text') {
+    body = `<div class="item ok" style="justify-content:center;font-size:1.8rem">✔ ${esc(q.answers[0])}${q.answers.length > 1 ? `<span style="opacity:.7;font-size:.7em"> (or ${esc(q.answers.slice(1, 4).join(', '))})</span>` : ''}</div>
+      <div class="textlist mt">${R.stats.texts.slice(0, 30).map((t) => `<span class="tl ${t.ok ? 'ok' : 'no'}">${esc(t.text || '—')} <span style="opacity:.7;font-size:.85em">· ${esc(t.name)}</span></span>`).join('')}</div>`;
+  }
+  if (q.type === 'order') body = `<div class="items">${q.items.filter((i) => i.text.trim()).map((it, i) => `<div class="item ok"><span class="k">${i + 1}</span>${esc(it.text)}</div>`).join('')}</div>`;
+  if (q.type === 'match') body = `<div class="items">${q.pairs.filter((p) => p.left.trim() && p.right?.value).map((p) => `<div class="item ok">${esc(p.left)} ⇄ ${p.right.kind === 'image' ? `<img src="${esc(p.right.value)}">` : esc(p.right.value)}</div>`).join('')}</div>`;
+  if (q.type === 'pin') {
+    const best = R.stats.pins[0];
+    body = `<div class="center"><div class="pinboard" id="pinboard"><img src="${esc(q.media.url)}"></div>
+      <div class="mt">${best ? `<span class="badge-closest">🎯 Closest: ${esc(best.name)}</span>` : '<span class="muted">Nobody dropped a pin.</span>'}${q.place ? ` &nbsp; <span style="font-weight:800">It was ${esc(q.place)}</span>` : ''}</div></div>`;
+  }
+  const media = q.type === 'pin' ? '' : (q.media?.kind === 'image' ? mediaHtml(q, false) : '');
+  stage.innerHTML = `${topBar(`<span class="hpill">${R.stats.right} of ${n} got it right</span>`)}
+    <div class="stage-main"><h1 class="qtext">${esc(q.text)}</h1>${q.type === 'pin' ? body : media}</div>
+    ${q.type === 'pin' ? '' : `<div>${body}</div>`}
+    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">Scores ▶</button>`)}`;
+  if (q.type === 'pin') drawPins();
+  bind();
+}
+function drawPins() {
+  const q = question(), R = G.q.results, board = $('#pinboard'), img = $('img', board);
+  const draw = () => {
+    const w = img.clientWidth, h = img.clientHeight; if (!w) return;
+    $$('.pp, .target', board).forEach((e) => e.remove());
+    R.stats.pins.forEach((p, i) => { const el = document.createElement('div'); el.className = 'pp' + (i === 0 ? ' best' : ''); el.style.left = p.x * w + 'px'; el.style.top = p.y * h + 'px'; el.textContent = p.name.slice(0, 2).toUpperCase(); el.title = p.name; board.appendChild(el); });
+    const t = document.createElement('div'); t.className = 'target'; t.style.left = q.pin.x * w + 'px'; t.style.top = q.pin.y * h + 'px';
+    t.innerHTML = `<svg viewBox="0 0 24 24" width="34" height="34"><path fill="#e21b3c" stroke="#fff" stroke-width="1.5" d="M12 1.5a7.5 7.5 0 0 0-7.5 7.5c0 5.6 7.5 13.5 7.5 13.5S19.5 14.6 19.5 9A7.5 7.5 0 0 0 12 1.5z"/><circle cx="12" cy="9" r="3" fill="#fff"/></svg>`;
+    board.appendChild(t);
+  };
+  img.onload = draw; if (img.complete) draw(); window.onresize = draw;
+}
+function renderScoreboard() {
+  const rk = ranked().slice(0, 8), top = Math.max(1, rk[0]?.score || 1), R = G.q?.results?.byPlayer || {};
+  stage.innerHTML = `${topBar()}<div class="stage-main"><h1 class="big" style="font-size:2.6rem">Scoreboard</h1><div class="board">${rk.map((p, i) => `<div class="brow"><div class="fill" data-w="${(p.score / top) * 100}"></div><div class="rank">${i + 1}</div><div>${esc(p.name)}${R[p.id]?.points ? `<span class="delta">+${R[p.id].points}</span>` : ''}</div><div>${p.score}</div></div>`).join('')}</div></div>
+    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">${G.qIndex + 1 < total() ? 'Next question ▶' : 'Final results 🏆'}</button>`)}`;
+  requestAnimationFrame(() => $$('.fill').forEach((f) => f.style.width = f.dataset.w + '%'));
+  bind();
+}
+function renderFinal() {
+  const rk = ranked();
+  const pod = (i, cls) => rk[i] ? `<div class="pod ${cls}"><div class="name">${esc(rk[i].name)}</div><div class="score">${rk[i].score} pts</div><div class="block">${i + 1}</div></div>` : '';
+  stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">Final results</span></div></div>
+    <div class="stage-main"><h1 class="big" style="font-size:2.6rem">🏆 ${rk[0] ? esc(rk[0].name) + ' wins!' : 'Game over'}</h1>
+      <div class="podium">${pod(1, 'p2')}${pod(0, 'p1')}${pod(2, 'p3')}</div>
+      ${rk.length > 3 ? `<div class="textlist">${rk.slice(3, 15).map((p, i) => `<span class="tl">${i + 4}. ${esc(p.name)} · ${p.score}</span>`).join('')}</div>` : ''}</div>
+    ${hostBar(`<button class="btn btn-ghost" data-act="builder">Back to builder</button><button class="btn btn-primary" data-act="again">Play again ↻</button>`)}`;
+  bind();
+}
+function confetti() {
+  const c = $('#confetti'); c.classList.remove('hidden'); c.innerHTML = '';
+  const cols = ['#e21b3c', '#1368ce', '#ffd54a', '#26890c', '#fff', '#ff7ab6'];
+  for (let i = 0; i < 140; i++) { const s = document.createElement('i'); s.style.left = Math.random() * 100 + 'vw'; s.style.background = cols[i % cols.length]; s.style.animationDuration = (2.5 + Math.random() * 3) + 's'; s.style.animationDelay = Math.random() * 2 + 's'; s.style.transform = `rotate(${Math.random() * 360}deg)`; c.appendChild(s); }
+  setTimeout(() => c.classList.add('hidden'), 9000);
+}
+document.addEventListener('keydown', (e) => {
+  if (e.target.matches('input, textarea')) return;
+  if (e.code === 'Space' || e.code === 'Enter' || e.code === 'ArrowRight') { e.preventDefault(); if (!document.querySelector('.modal-bg')) primaryAction(); }
+});
+window.addEventListener('beforeunload', (e) => { if (G && G.phase !== 'lobby' && G.phase !== 'final') { e.preventDefault(); e.returnValue = ''; } });
+</script>
+</body>
+</html>

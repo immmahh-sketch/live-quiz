@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live Quiz — Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="builder">
+<div class="topbar">
+  <div class="logo"><span>LQ</span> Live Quiz</div>
+  <div class="grow"></div>
+  <div id="topRight"></div>
+</div>
+<div class="wrap" id="view"></div>
+<div class="toast" id="toast"></div>
+
+<script src="assets/common.js"></script>
+<script>
+const { $, $$, esc, uid, api, TYPES, COLORS, DEFAULT_SETTINGS, newQuestion, validate, youtubeId, resizeImage } = LQ;
+const view = $('#view');
+const S = { quizzes: [], quiz: null, sel: 0, ai: false, saveTimer: null, saving: false, dirty: false };
+
+let toastT;
+function toast(msg, bad) {
+  const t = $('#toast'); t.textContent = msg; t.className = 'toast show' + (bad ? ' bad' : '');
+  clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), bad ? 5000 : 2500);
+}
+function modal(html) {
+  const bg = document.createElement('div'); bg.className = 'modal-bg';
+  bg.innerHTML = `<div class="modal">${html}</div>`;
+  bg.addEventListener('click', (e) => { if (e.target === bg) bg.remove(); });
+  document.body.appendChild(bg);
+  return bg;
+}
+function confirmBox(title, body, okLabel = 'Delete') {
+  return new Promise((res) => {
+    const m = modal(`<h3>${esc(title)}</h3><p class="muted">${esc(body)}</p><div class="row" style="justify-content:flex-end"><button class="btn btn-ghost" data-x>Cancel</button><button class="btn btn-danger" data-ok>${esc(okLabel)}</button></div>`);
+    $('[data-x]', m).onclick = () => { m.remove(); res(false); };
+    $('[data-ok]', m).onclick = () => { m.remove(); res(true); };
+  });
+}
+const fmtDate = (s) => new Date(s).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+
+// ------------------------------------------------------------------ boot
+(async function boot() {
+  if (!LQ.hostPassword()) return viewLogin();
+  try { const r = await api('login'); S.ai = !!r.ai; }
+  catch (e) { if (e.status === 401) { LQ.setHostPassword(''); return viewLogin('Wrong password.'); } view.innerHTML = `<div class="error">${esc(e.message)}</div>`; return; }
+  const id = new URLSearchParams(location.search).get('quiz');
+  if (id) return openQuiz(id);
+  loadList();
+})();
+
+// ------------------------------------------------------------------ login
+function viewLogin(msg) {
+  $('#topRight').innerHTML = '';
+  view.innerHTML = `<div class="card login"><h2>Host sign-in</h2><p class="muted">This is the host's portal. Players don't sign in — they scan the code on the screen.</p>
+    ${msg ? `<div class="error" style="margin-bottom:12px">${esc(msg)}</div>` : ''}
+    <form id="loginForm"><div class="field"><label>Password</label><input type="password" id="pw" autocomplete="current-password" autofocus></div>
+    <button class="btn btn-primary btn-block">Sign in</button></form>
+    <p class="center small mt" style="margin-bottom:0"><a href="host.html?quiz=demo" target="_blank">Try the demo quiz without signing in</a></p></div>`;
+  $('#loginForm').onsubmit = async (e) => {
+    e.preventDefault();
+    const pw = $('#pw').value;
+    try { const r = await api('login', {}, { password: pw }); LQ.setHostPassword(pw); S.ai = !!r.ai; loadList(); }
+    catch (err) { viewLogin(err.status === 401 ? 'Wrong password.' : err.message); }
+  };
+}
+
+// ------------------------------------------------------------------ quiz list
+async function loadList() {
+  view.innerHTML = '<p class="muted">Loading…</p>';
+  try { const r = await api('list'); S.quizzes = r.quizzes; } catch (e) { view.innerHTML = `<div class="error">${esc(e.message)}</div>`; return; }
+  renderList();
+  api('games').then((r) => renderGames(r.games)).catch(() => {});
+}
+function renderList() {
+  history.replaceState(null, '', location.pathname);
+  S.quiz = null;
+  $('#topRight').innerHTML = `<button class="btn btn-ghost btn-sm" id="logout">Sign out</button>`;
+  $('#logout').onclick = () => { LQ.setHostPassword(''); viewLogin(); };
+  view.innerHTML = `
+    <div class="row" style="margin-bottom:18px"><h1 style="margin:0">Your quizzes</h1><div class="grow"></div>
+      <button class="btn btn-ghost" id="aiNew">✨ Write one with AI</button>
+      <button class="btn btn-primary" id="newQuiz">+ New quiz</button></div>
+    <div class="quizgrid">${S.quizzes.map(quizCard).join('')}
+      ${S.quizzes.length ? '' : '<div class="card newcard" id="newQuiz2">Create your first quiz</div>'}</div>
+    <div id="games" class="mt"></div>`;
+  $('#newQuiz').onclick = newQuiz;
+  if ($('#newQuiz2')) $('#newQuiz2').onclick = newQuiz;
+  $('#aiNew').onclick = () => aiModal(true);
+  $$('[data-open]').forEach((b) => b.onclick = () => openQuiz(b.dataset.open));
+  $$('[data-host]').forEach((b) => b.onclick = () => window.open('host.html?quiz=' + b.dataset.host, '_blank'));
+  $$('[data-dup]').forEach((b) => b.onclick = () => duplicateQuiz(b.dataset.dup));
+  $$('[data-del]').forEach((b) => b.onclick = async () => {
+    const q = S.quizzes.find((x) => x.id === b.dataset.del);
+    if (!(await confirmBox('Delete this quiz?', `“${q.title}” and its ${q.count} questions will be gone for good.`))) return;
+    try { await api('delete', { id: q.id }); toast('Deleted'); loadList(); } catch (e) { toast(e.message, true); }
+  });
+}
+function quizCard(q) {
+  return `<div class="card quizcard"><h3>${esc(q.title)}</h3>
+    <div class="muted small">${q.count} question${q.count === 1 ? '' : 's'} · updated ${fmtDate(q.updated_at)}</div>
+    <div class="types">${q.types.map((t) => `<span class="tag">${esc(TYPES[t]?.label || t)}</span>`).join('')}</div>
+    <div class="actions"><button class="btn btn-primary btn-sm" data-host="${q.id}" ${q.count ? '' : 'disabled'}>▶ Host</button>
+      <button class="btn btn-sm" data-open="${q.id}">Edit</button>
+      <button class="btn btn-ghost btn-sm" data-dup="${q.id}">Duplicate</button>
+      <button class="btn btn-ghost btn-sm" data-del="${q.id}" style="color:var(--bad)">Delete</button></div></div>`;
+}
+function renderGames(games) {
+  const el = $('#games'); if (!el || !games?.length) return;
+  el.innerHTML = `<h2 style="font-size:1.2rem">Recent games</h2><div class="card">${games.slice(0, 12).map((g) => {
+    const win = (g.players || [])[0];
+    return `<div class="row" style="padding:8px 0;border-bottom:1px solid var(--line)"><b>${esc(g.title || 'Quiz')}</b><span class="muted small">${fmtDate(g.ended_at)} · ${(g.players || []).length} players</span><div class="grow"></div>${win ? `<span>🏆 ${esc(win.name)} <span class="muted">${win.score} pts</span></span>` : ''}</div>`;
+  }).join('')}</div>`;
+}
+async function duplicateQuiz(id) {
+  try {
+    const r = await api('get', { id });
+    const copy = { title: r.quiz.title + ' (copy)', settings: r.quiz.settings, questions: r.quiz.questions };
+    await api('save', { quiz: copy }); toast('Duplicated'); loadList();
+  } catch (e) { toast(e.message, true); }
+}
+
+// ------------------------------------------------------------------ editor
+function normalizeQuiz(q) {
+  return { id: q.id || null, title: q.title || 'Untitled quiz', settings: { ...DEFAULT_SETTINGS, ...(q.settings || {}) }, questions: Array.isArray(q.questions) ? q.questions : [] };
+}
+async function openQuiz(id) {
+  view.innerHTML = '<p class="muted">Loading…</p>';
+  try { const r = await api('get', { id }); S.quiz = normalizeQuiz(r.quiz); S.sel = 0; renderEditor(); }
+  catch (e) { view.innerHTML = `<div class="error">${esc(e.message)}</div><p class="mt"><a href="index.html">Back to quizzes</a></p>`; }
+}
+function newQuiz() {
+  S.quiz = normalizeQuiz({ title: 'New quiz', questions: [] }); S.sel = 0; renderEditor(); pickType();
+}
+const cur = () => S.quiz.questions[S.sel];
+
+function renderEditor() {
+  const q = S.quiz;
+  if (q.id) history.replaceState(null, '', '?quiz=' + q.id);
+  $('#topRight').innerHTML = '';
+  view.innerHTML = `
+    <div class="row" style="margin-bottom:14px">
+      <button class="btn btn-ghost btn-sm" id="back">← Quizzes</button>
+      <input type="text" id="title" value="${esc(q.title)}" style="font-weight:900;font-size:1.15rem;max-width:460px" placeholder="Quiz title">
+      <span id="saveState" class="muted small"></span>
+      <div class="grow"></div>
+      <button class="btn btn-ghost btn-sm" id="settings">⚙ Settings</button>
+      <button class="btn btn-ghost btn-sm" id="aiAdd">✨ Add with AI</button>
+      <button class="btn btn-sm" id="save">Save</button>
+      <button class="btn btn-primary btn-sm" id="host">▶ Host live</button>
+    </div>
+    <div class="editor"><div class="card qlist" id="qlist"></div><div class="card" id="qform"></div></div>`;
+  $('#back').onclick = async () => { if (S.dirty) await save(); loadList(); };
+  $('#title').oninput = (e) => { q.title = e.target.value; touch(); };
+  $('#settings').onclick = settingsModal;
+  $('#aiAdd').onclick = () => aiModal(false);
+  $('#save').onclick = () => save(true);
+  $('#host').onclick = hostNow;
+  renderQList(); renderQForm();
+}
+function touch() { S.dirty = true; $('#saveState').textContent = 'Unsaved changes'; clearTimeout(S.saveTimer); S.saveTimer = setTimeout(() => save(), 2000); }
+async function save(explicit) {
+  if (S.saving || !S.quiz) return;
+  S.saving = true; const st = $('#saveState'); if (st) st.textContent = 'Saving…';
+  try {
+    const r = await api('save', { quiz: S.quiz });
+    S.quiz.id = r.quiz.id; S.dirty = false;
+    history.replaceState(null, '', '?quiz=' + S.quiz.id);
+    if (st) st.textContent = 'Saved';
+    if (explicit) toast('Saved');
+  } catch (e) { if (st) st.textContent = 'Not saved'; toast('Could not save: ' + e.message, true); }
+  S.saving = false;
+}
+async function hostNow() {
+  const bad = S.quiz.questions.map((q, i) => ({ i, p: validate(q) })).filter((x) => x.p.length);
+  if (!S.quiz.questions.length) return toast('Add a question first.', true);
+  if (bad.length) { S.sel = bad[0].i; renderQList(); renderQForm(); return toast(`Question ${bad[0].i + 1} isn't finished: ${bad[0].p[0]}`, true); }
+  await save();
+  if (!S.quiz.id) return;
+  window.open('host.html?quiz=' + S.quiz.id, '_blank');
+}
+
+function renderQList() {
+  const qs = S.quiz.questions;
+  $('#qlist').innerHTML = qs.map((q, i) => {
+    const probs = validate(q);
+    return `<div class="qtile ${i === S.sel ? 'active' : ''}" data-i="${i}">
+      <div class="n">${i + 1}</div>
+      <div class="t"><small>${TYPES[q.type].icon} ${esc(TYPES[q.type].label)}${q.media?.kind === 'youtube' ? ' · ▶ video' : q.media?.kind === 'image' ? ' · 🖼' : ''}</small>${esc(q.text) || '<span class="muted">Untitled question</span>'}</div>
+      <div class="mv">${probs.length ? '<span class="warn" title="' + esc(probs.join(' ')) + '">!</span>' : ''}<button data-up="${i}" title="Move up" ${i === 0 ? 'disabled' : ''}>▲</button><button data-down="${i}" title="Move down" ${i === qs.length - 1 ? 'disabled' : ''}>▼</button></div></div>`;
+  }).join('') + `<button class="btn btn-block btn-ghost" id="addQ" style="margin-top:6px">+ Add question</button>`;
+  $$('.qtile', $('#qlist')).forEach((t) => t.onclick = (e) => { if (e.target.closest('button')) return; S.sel = +t.dataset.i; renderQList(); renderQForm(); });
+  $$('[data-up]').forEach((b) => b.onclick = () => moveQ(+b.dataset.up, -1));
+  $$('[data-down]').forEach((b) => b.onclick = () => moveQ(+b.dataset.down, 1));
+  $('#addQ').onclick = pickType;
+}
+function moveQ(i, d) { const qs = S.quiz.questions; const j = i + d; if (j < 0 || j >= qs.length) return; [qs[i], qs[j]] = [qs[j], qs[i]]; S.sel = j; touch(); renderQList(); renderQForm(); }
+function pickType() {
+  const m = modal(`<h3>What kind of question?</h3><div class="typepicker">${Object.entries(TYPES).map(([k, t]) => `<button class="typetile" data-t="${k}"><div class="ic">${t.icon}</div><b>${esc(t.label)}</b><small>${esc(t.blurb)}</small></button>`).join('')}</div>
+    <p class="muted small mt">Any question can have a picture or a YouTube video on the screen. A video question is just a question with a video — for “name the singer”, pick <b>Type the answer</b> or <b>Multiple choice</b> and add the video below.</p>`);
+  $$('.typetile', m).forEach((b) => b.onclick = () => { m.remove(); S.quiz.questions.push(newQuestion(b.dataset.t, S.quiz.settings)); S.sel = S.quiz.questions.length - 1; touch(); renderQList(); renderQForm(); $('#f_text')?.focus(); });
+}
+
+// ------------------------------------------------------------------ question form
+function renderQForm() {
+  const q = cur(); const box = $('#qform');
+  if (!q) { box.innerHTML = `<div class="center" style="padding:40px 10px"><h3>No questions yet</h3><p class="muted">Add one by hand, or let AI write a round for you.</p><div class="row" style="justify-content:center"><button class="btn btn-primary" id="add1">+ Add question</button><button class="btn" id="ai1">✨ Add with AI</button></div></div>`; $('#add1').onclick = pickType; $('#ai1').onclick = () => aiModal(false); return; }
+  const n = S.sel + 1;
+  box.innerHTML = `
+    <div class="row" style="justify-content:space-between;margin-bottom:10px"><h3 style="margin:0">Question ${n} <span class="muted">· ${TYPES[q.type].icon} ${esc(TYPES[q.type].label)}</span></h3>
+      <div class="row"><button class="btn btn-ghost btn-sm" id="dupQ">Duplicate</button><button class="btn btn-ghost btn-sm" id="delQ" style="color:var(--bad)">Delete</button></div></div>
+    <div class="field"><label>Question</label><textarea id="f_text" placeholder="${esc(placeholderFor(q.type))}">${esc(q.text)}</textarea></div>
+    <div id="typeBox"></div>
+    <div class="field"><label>${q.type === 'pin' ? 'Picture to drop the pin on' : 'On the screen'}</label><div id="mediaBox"></div></div>
+    <div class="row" style="align-items:flex-end">
+      <div class="field" style="max-width:180px"><label>Time limit (seconds)</label><input type="number" id="f_time" min="5" max="180" value="${q.time}"></div>
+      ${q.type === 'order' || q.type === 'match' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_partial" ${q.partial ? 'checked' : ''}> Partial credit for partly right</label>` : ''}
+      ${q.type === 'text' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_ai" ${q.ai !== false ? 'checked' : ''}> Let AI judge spelling and wording</label>` : ''}
+    </div>
+    <div id="problems"></div>`;
+  $('#f_text').oninput = (e) => { q.text = e.target.value; touch(); refreshTile(); };
+  $('#f_time').onchange = (e) => { q.time = LQ.clamp(+e.target.value || 30, 5, 180); e.target.value = q.time; touch(); };
+  if ($('#f_partial')) $('#f_partial').onchange = (e) => { q.partial = e.target.checked; touch(); };
+  if ($('#f_ai')) $('#f_ai').onchange = (e) => { q.ai = e.target.checked; touch(); };
+  $('#dupQ').onclick = () => { const c = JSON.parse(JSON.stringify(q)); c.id = uid('q'); S.quiz.questions.splice(S.sel + 1, 0, c); S.sel++; touch(); renderQList(); renderQForm(); };
+  $('#delQ').onclick = async () => { if (!(await confirmBox('Delete this question?', 'It will be removed from the quiz.'))) return; S.quiz.questions.splice(S.sel, 1); S.sel = Math.max(0, Math.min(S.sel, S.quiz.questions.length - 1)); touch(); renderQList(); renderQForm(); };
+  renderTypeBox(); renderMediaBox(); showProblems();
+}
+function placeholderFor(t) {
+  return { choice: 'e.g. Which planet is closest to the Sun?', text: 'e.g. Who painted the Mona Lisa?', order: 'e.g. Put these events in order, earliest first', pin: 'e.g. Drop the pin on Namibia', match: 'e.g. Match the dog breed to its picture' }[t] || '';
+}
+function refreshTile() { const t = $(`.qtile[data-i="${S.sel}"] .t`); const q = cur(); if (t) t.innerHTML = t.querySelector('small').outerHTML + (esc(q.text) || '<span class="muted">Untitled question</span>'); }
+function showProblems() { const p = validate(cur()); const el = $('#problems'); if (el) el.innerHTML = p.length ? `<div class="notice">${esc(p.join(' '))}</div>` : ''; const tile = $(`.qtile[data-i="${S.sel}"] .mv`); if (tile) { const w = tile.querySelector('.warn'); if (p.length && !w) tile.insertAdjacentHTML('afterbegin', '<span class="warn">!</span>'); if (!p.length && w) w.remove(); } }
+
+function renderTypeBox() {
+  const q = cur(); const box = $('#typeBox');
+  if (q.type === 'choice') {
+    box.innerHTML = `<div class="field"><label>Answers <span class="muted">— tick the right one. Leave one blank for a three-way question.</span></label>
+      ${q.options.map((o, i) => `<div class="opt"><div class="sw" style="background:${COLORS[i].hex}">${COLORS[i].shape}</div><input type="text" data-opt="${i}" value="${esc(o.text)}" placeholder="Answer ${i + 1}"><input type="radio" name="correct" data-correct="${o.id}" ${q.correct === o.id ? 'checked' : ''} title="This one is right"></div>`).join('')}</div>`;
+    $$('[data-opt]').forEach((inp) => inp.oninput = () => { q.options[+inp.dataset.opt].text = inp.value; touch(); showProblems(); });
+    $$('[data-correct]').forEach((r) => r.onchange = () => { q.correct = r.dataset.correct; touch(); showProblems(); });
+  }
+  if (q.type === 'text') {
+    box.innerHTML = `<div class="field"><label>Accepted answers <span class="muted">— the first is shown as the answer; add other ways of saying it</span></label>
+      ${q.answers.map((a, i) => `<div class="list-item"><div class="n">${i === 0 ? '★' : ''}</div><input type="text" data-ans="${i}" value="${esc(a)}" placeholder="${i === 0 ? 'The answer' : 'Also accept…'}"><button class="btn btn-ghost btn-sm" data-rm-ans="${i}" ${q.answers.length === 1 ? 'disabled' : ''}>✕</button></div>`).join('')}
+      <button class="btn btn-ghost btn-sm" id="addAns">+ Another accepted answer</button>
+      <div class="help">With AI judging on, misspellings and different wording of a right answer still count. Exact matches never need the AI.</div></div>`;
+    $$('[data-ans]').forEach((inp) => inp.oninput = () => { q.answers[+inp.dataset.ans] = inp.value; touch(); showProblems(); });
+    $$('[data-rm-ans]').forEach((b) => b.onclick = () => { q.answers.splice(+b.dataset.rmAns, 1); touch(); renderTypeBox(); showProblems(); });
+    $('#addAns').onclick = () => { q.answers.push(''); touch(); renderTypeBox(); $$('[data-ans]').pop().focus(); };
+  }
+  if (q.type === 'order') {
+    box.innerHTML = `<div class="field"><label>Items, in the correct order <span class="muted">— players see them shuffled</span></label>
+      ${q.items.map((it, i) => `<div class="list-item"><div class="n">${i + 1}</div><input type="text" data-item="${i}" value="${esc(it.text)}" placeholder="Item ${i + 1}"><div class="row" style="gap:4px"><button class="btn btn-ghost btn-sm" data-item-up="${i}" ${i === 0 ? 'disabled' : ''}>▲</button><button class="btn btn-ghost btn-sm" data-item-down="${i}" ${i === q.items.length - 1 ? 'disabled' : ''}>▼</button><button class="btn btn-ghost btn-sm" data-rm-item="${i}" ${q.items.length <= 2 ? 'disabled' : ''}>✕</button></div></div>`).join('')}
+      <button class="btn btn-ghost btn-sm" id="addItem" ${q.items.length >= 8 ? 'disabled' : ''}>+ Add item</button></div>
+      <div class="field"><label>Order hint <span class="muted">— shown to players, e.g. “earliest first” or “smallest to largest”</span></label><input type="text" id="f_hint" value="${esc(q.hint || '')}"></div>`;
+    $$('[data-item]').forEach((inp) => inp.oninput = () => { q.items[+inp.dataset.item].text = inp.value; touch(); showProblems(); });
+    $$('[data-item-up]').forEach((b) => b.onclick = () => { const i = +b.dataset.itemUp; [q.items[i - 1], q.items[i]] = [q.items[i], q.items[i - 1]]; touch(); renderTypeBox(); });
+    $$('[data-item-down]').forEach((b) => b.onclick = () => { const i = +b.dataset.itemDown; [q.items[i + 1], q.items[i]] = [q.items[i], q.items[i + 1]]; touch(); renderTypeBox(); });
+    $$('[data-rm-item]').forEach((b) => b.onclick = () => { q.items.splice(+b.dataset.rmItem, 1); touch(); renderTypeBox(); showProblems(); });
+    $('#addItem').onclick = () => { q.items.push({ id: uid('i'), text: '' }); touch(); renderTypeBox(); $$('[data-item]').pop().focus(); };
+    $('#f_hint').oninput = (e) => { q.hint = e.target.value; touch(); };
+  }
+  if (q.type === 'match') {
+    box.innerHTML = `<div class="field"><label>Pairs <span class="muted">— the word on the left matches the picture or word on the right</span></label>
+      ${q.pairs.map((p, i) => `<div class="pair"><input type="text" data-left="${i}" value="${esc(p.left)}" placeholder="e.g. Labrador">
+        <div class="rt">${p.right.kind === 'image' ? `${p.right.value ? `<img class="thumb" src="${esc(p.right.value)}">` : ''}<button class="btn btn-sm" data-pic="${i}">${p.right.value ? 'Change' : 'Add'} picture</button><button class="btn btn-ghost btn-sm" data-totext="${i}" title="Use a word instead">Aa</button>` : `<input type="text" data-right="${i}" value="${esc(p.right.value)}" placeholder="matches with…"><button class="btn btn-ghost btn-sm" data-topic="${i}" title="Use a picture instead">🖼</button>`}</div>
+        <button class="btn btn-ghost btn-sm" data-rm-pair="${i}" ${q.pairs.length <= 2 ? 'disabled' : ''}>✕</button></div>`).join('')}
+      <button class="btn btn-ghost btn-sm" id="addPair" ${q.pairs.length >= 6 ? 'disabled' : ''}>+ Add pair</button></div>`;
+    $$('[data-left]').forEach((inp) => inp.oninput = () => { q.pairs[+inp.dataset.left].left = inp.value; touch(); showProblems(); });
+    $$('[data-right]').forEach((inp) => inp.oninput = () => { q.pairs[+inp.dataset.right].right.value = inp.value; touch(); showProblems(); });
+    $$('[data-pic]').forEach((b) => b.onclick = () => pickImage((url) => { q.pairs[+b.dataset.pic].right = { kind: 'image', value: url }; touch(); renderTypeBox(); showProblems(); }));
+    $$('[data-totext]').forEach((b) => b.onclick = () => { q.pairs[+b.dataset.totext].right = { kind: 'text', value: '' }; touch(); renderTypeBox(); });
+    $$('[data-topic]').forEach((b) => b.onclick = () => { q.pairs[+b.dataset.topic].right = { kind: 'image', value: '' }; touch(); renderTypeBox(); });
+    $$('[data-rm-pair]').forEach((b) => b.onclick = () => { q.pairs.splice(+b.dataset.rmPair, 1); touch(); renderTypeBox(); showProblems(); });
+    $('#addPair').onclick = () => { q.pairs.push({ id: uid('p'), left: '', right: { kind: 'text', value: '' } }); touch(); renderTypeBox(); $$('[data-left]').pop().focus(); };
+  }
+  if (q.type === 'pin') {
+    box.innerHTML = `<div class="field"><label>Where the pin goes <span class="muted">— click the picture to move it</span></label><div id="pinpick"></div>
+      <div class="row mt"><div class="field grow"><label>Bullseye — full points within</label><input type="range" id="rFull" min="1" max="15" step="0.5" value="${(q.radiusFull * 100).toFixed(1)}"><div class="help"><span id="rFullV">${(q.radiusFull * 100).toFixed(1)}</span>% of the picture width</div></div>
+      <div class="field grow"><label>No points beyond</label><input type="range" id="rZero" min="5" max="45" step="0.5" value="${(q.radiusZero * 100).toFixed(1)}"><div class="help"><span id="rZeroV">${(q.radiusZero * 100).toFixed(1)}</span>% of the picture width</div></div></div>
+      <div class="help">Between the two, points fall off in a straight line. The closest player is always marked as such on the results.</div></div>`;
+    renderPinPick();
+    $('#rFull').oninput = (e) => { q.radiusFull = +e.target.value / 100; if (q.radiusZero < q.radiusFull) { q.radiusZero = q.radiusFull; $('#rZero').value = e.target.value; $('#rZeroV').textContent = e.target.value; } $('#rFullV').textContent = e.target.value; touch(); renderPinPick(); };
+    $('#rZero').oninput = (e) => { q.radiusZero = Math.max(+e.target.value / 100, q.radiusFull); e.target.value = (q.radiusZero * 100).toFixed(1); $('#rZeroV').textContent = e.target.value; touch(); renderPinPick(); };
+  }
+}
+function renderPinPick() {
+  const q = cur(); const box = $('#pinpick'); if (!box) return;
+  if (!q.media?.url) { box.innerHTML = '<div class="notice">Add a picture below first — a map, a photo, anything.</div>'; return; }
+  box.innerHTML = `<div class="pinpick"><img src="${esc(q.media.url)}" draggable="false"><div class="ring zero"></div><div class="ring full"></div><svg class="pin" viewBox="0 0 24 24"><path fill="#e21b3c" stroke="#fff" stroke-width="1.5" d="M12 1.5a7.5 7.5 0 0 0-7.5 7.5c0 5.6 7.5 13.5 7.5 13.5S19.5 14.6 19.5 9A7.5 7.5 0 0 0 12 1.5z"/><circle cx="12" cy="9" r="3" fill="#fff"/></svg></div>`;
+  const wrap = $('.pinpick', box), img = $('img', wrap);
+  const place = () => {
+    const w = img.clientWidth, h = img.clientHeight; if (!w) return;
+    $('.pin', wrap).style.left = (q.pin.x * w) + 'px'; $('.pin', wrap).style.top = (q.pin.y * h) + 'px';
+    for (const [cls, r] of [['full', q.radiusFull], ['zero', q.radiusZero]]) { const el = $('.ring.' + cls, wrap); el.style.left = (q.pin.x * w) + 'px'; el.style.top = (q.pin.y * h) + 'px'; el.style.width = el.style.height = (r * 2 * w) + 'px'; }
+  };
+  img.onload = place; if (img.complete) place();
+  wrap.onclick = (e) => { const r = img.getBoundingClientRect(); q.pin = { x: LQ.clamp((e.clientX - r.left) / r.width, 0, 1), y: LQ.clamp((e.clientY - r.top) / r.height, 0, 1) }; touch(); place(); showProblems(); };
+}
+
+function renderMediaBox() {
+  const q = cur(); const box = $('#mediaBox'); const m = q.media || (q.media = { kind: 'none' });
+  const pinOnly = q.type === 'pin';
+  box.innerHTML = `${pinOnly ? '' : `<div class="media-tabs"><button data-mk="none" class="${m.kind === 'none' ? 'on' : ''}">Nothing</button><button data-mk="image" class="${m.kind === 'image' ? 'on' : ''}">🖼 Picture</button><button data-mk="youtube" class="${m.kind === 'youtube' ? 'on' : ''}">▶ YouTube video</button></div>`}<div id="mediaPanel"></div>`;
+  $$('[data-mk]').forEach((b) => b.onclick = () => { const k = b.dataset.mk; if (k === m.kind) return; q.media = k === 'none' ? { kind: 'none' } : k === 'image' ? { kind: 'image', url: '' } : { kind: 'youtube', url: '', videoId: '', start: 0 }; touch(); renderMediaBox(); showProblems(); });
+  const p = $('#mediaPanel');
+  if (m.kind === 'image' || pinOnly) {
+    if (pinOnly && m.kind !== 'image') q.media = { kind: 'image', url: '' };
+    p.innerHTML = `${q.media.url ? `<div class="preview"><img src="${esc(q.media.url)}"></div>` : ''}
+      <div class="row mt"><button class="btn btn-sm" id="upPic">${q.media.url ? 'Change picture' : 'Upload a picture'}</button><span class="muted small">or paste a link:</span><input type="url" id="picUrl" class="grow" placeholder="https://…jpg" value="${q.media.url && !q.media.url.includes('/quiz-media/') ? esc(q.media.url) : ''}" style="max-width:380px"></div>
+      ${q.media.credit ? `<div class="help">${esc(q.media.credit)}</div>` : ''}
+      ${pinOnly ? '<div class="help">Tip: for “where in the world” questions use a map. For “where on the body / on the pitch / in the painting” use any picture.</div>' : '<div class="help">Shown big on the screen while the question is live, and on players\' phones.</div>'}`;
+    $('#upPic').onclick = () => pickImage((url) => { q.media = { kind: 'image', url }; touch(); renderMediaBox(); if (pinOnly) renderPinPick(); showProblems(); });
+    $('#picUrl').onchange = (e) => { const u = e.target.value.trim(); if (!u) return; q.media = { kind: 'image', url: u }; touch(); renderMediaBox(); if (pinOnly) renderPinPick(); showProblems(); };
+  } else if (m.kind === 'youtube') {
+    p.innerHTML = `<div class="row"><input type="url" id="ytUrl" class="grow" placeholder="Paste a YouTube link" value="${esc(m.url || '')}"><div class="field" style="margin:0;max-width:170px"><input type="number" id="ytStart" min="0" placeholder="Start at (seconds)" value="${m.start || ''}"></div></div>
+      ${m.videoId ? `<div class="preview mt"><iframe src="https://www.youtube-nocookie.com/embed/${esc(m.videoId)}?start=${+m.start || 0}" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>` : ''}
+      <div class="help">The video plays on the host screen with sound as soon as the question starts. Players answer on their phones while it plays. Share your screen with sound on the call.</div>`;
+    $('#ytUrl').onchange = (e) => { m.url = e.target.value.trim(); m.videoId = youtubeId(m.url); touch(); renderMediaBox(); showProblems(); };
+    $('#ytStart').onchange = (e) => { m.start = Math.max(0, +e.target.value || 0); touch(); renderMediaBox(); };
+  } else {
+    p.innerHTML = '<div class="help">Just the question text on the screen.</div>';
+  }
+}
+function pickImage(cb) {
+  const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*';
+  inp.onchange = async () => {
+    const f = inp.files[0]; if (!f) return;
+    toast('Uploading picture…');
+    try { const r = await resizeImage(f); const u = await api('upload', { data: r.data, contentType: r.contentType }, { timeout: 90000 }); toast('Picture added'); cb(u.url); }
+    catch (e) { toast(e.message, true); }
+  };
+  inp.click();
+}
+
+// ------------------------------------------------------------------ settings
+function settingsModal() {
+  const s = S.quiz.settings;
+  const m = modal(`<h3>Quiz settings</h3>
+    <div class="row"><div class="field grow"><label>Points for an instant answer</label><input type="number" id="s_max" value="${s.maxPoints}" min="10" max="10000"></div>
+    <div class="field grow"><label>Points at the buzzer</label><input type="number" id="s_min" value="${s.minPoints}" min="0" max="10000"></div></div>
+    <div class="help" style="margin-top:-8px;margin-bottom:12px">Points fall in a straight line from the first number to the second over the question's time limit. Wrong answers score nothing.</div>
+    <div class="field"><label>Default time limit for new questions (seconds)</label><input type="number" id="s_time" value="${s.defaultTime}" min="5" max="180"></div>
+    <label class="check"><input type="checkbox" id="s_show" ${s.showAnswersOnPhones !== false ? 'checked' : ''}> Show the right answer on players' phones after each question</label>
+    <div class="row mt" style="justify-content:flex-end"><button class="btn btn-ghost" data-x>Cancel</button><button class="btn btn-primary" data-ok>Done</button></div>`);
+  $('[data-x]', m).onclick = () => m.remove();
+  $('[data-ok]', m).onclick = () => {
+    s.maxPoints = LQ.clamp(+$('#s_max', m).value || 1000, 10, 10000);
+    s.minPoints = LQ.clamp(+$('#s_min', m).value || 0, 0, s.maxPoints);
+    s.defaultTime = LQ.clamp(+$('#s_time', m).value || 30, 5, 180);
+    s.showAnswersOnPhones = $('#s_show', m).checked;
+    touch(); m.remove(); toast('Settings updated');
+  };
+}
+
+// ------------------------------------------------------------------ AI writer
+function aiModal(fresh) {
+  const m = modal(`<h3>✨ Write questions with AI</h3>
+    ${S.ai ? '' : '<div class="error" style="margin-bottom:12px">AI isn\'t switched on for this server yet. Add an <b>ANTHROPIC_API_KEY</b> secret to the Supabase project and it will light up.</div>'}
+    <div class="field"><label>Topic or round</label><input type="text" id="g_topic" placeholder="e.g. 1990s music, British geography, Christmas films, general knowledge" autofocus></div>
+    <div class="row"><div class="field grow"><label>How many</label><input type="number" id="g_count" value="8" min="1" max="15"></div>
+      <div class="field grow"><label>Difficulty</label><select id="g_diff"><option value="mixed">Mixed</option><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option></select></div></div>
+    <div class="field"><label>Question types</label><div class="row">${Object.entries(TYPES).map(([k, t]) => `<label class="check"><input type="checkbox" data-gt="${k}" ${['choice', 'text'].includes(k) ? 'checked' : ''}> ${t.icon} ${esc(t.label)}</label>`).join('')}</div>
+      <div class="help">Drop-the-pin questions use a world map, so they suit places. Match-up questions get pictures when the pictures box is ticked.</div></div>
+    <label class="check"><input type="checkbox" id="g_pics" checked> Find pictures for the questions (from Wikipedia)</label><br>
+    <label class="check" style="margin-top:8px"><input type="checkbox" id="g_web" checked> Search the web to check facts and cover recent events</label>
+    <div id="g_prog" class="mt hidden"></div>
+    <div class="row mt" style="justify-content:flex-end"><button class="btn btn-ghost" data-x>Cancel</button><button class="btn btn-primary" data-ok ${S.ai ? '' : 'disabled'}>Write them</button></div>`);
+  $('[data-x]', m).onclick = () => m.remove();
+  $('[data-ok]', m).onclick = async () => {
+    const topic = $('#g_topic', m).value.trim();
+    const types = $$('[data-gt]', m).filter((c) => c.checked).map((c) => c.dataset.gt);
+    if (!types.length) return toast('Tick at least one question type.', true);
+    const btn = $('[data-ok]', m); btn.disabled = true; $('[data-x]', m).disabled = true;
+    const prog = $('#g_prog', m); prog.classList.remove('hidden');
+    const steps = ['Thinking about the topic…', 'Searching the web for facts…', 'Writing the questions…', 'Finding pictures…', 'Nearly there…'];
+    let si = 0; prog.innerHTML = `<div class="gen-progress"><span class="spinner"></span><span id="g_step">${steps[0]}</span></div>`;
+    const tick = setInterval(() => { si = Math.min(si + 1, steps.length - 1); $('#g_step', m).textContent = steps[si]; }, 12000);
+    try {
+      const r = await api('generate', { topic, count: +$('#g_count', m).value || 8, difficulty: $('#g_diff', m).value, types, pictures: $('#g_pics', m).checked, web: $('#g_web', m).checked }, { timeout: 290000 });
+      clearInterval(tick); m.remove();
+      if (fresh || !S.quiz) { S.quiz = normalizeQuiz({ title: topic ? topic.charAt(0).toUpperCase() + topic.slice(1) : 'AI quiz', questions: [] }); renderEditor(); }
+      const start = S.quiz.questions.length;
+      for (const q of r.questions) { q.time = q.time || S.quiz.settings.defaultTime; S.quiz.questions.push(q); }
+      S.sel = start; touch(); renderQList(); renderQForm();
+      toast(`Added ${r.questions.length} question${r.questions.length === 1 ? '' : 's'}. Read them through before you host — AI can be wrong.`);
+      if (r.warnings?.length) setTimeout(() => toast(r.warnings[0] + (r.warnings.length > 1 ? ` (+${r.warnings.length - 1} more)` : ''), true), 2800);
+      save();
+    } catch (e) {
+      clearInterval(tick); prog.innerHTML = `<div class="error">${esc(e.message)}</div>`; btn.disabled = false; $('[data-x]', m).disabled = false;
+    }
+  };
+}
+window.addEventListener('beforeunload', (e) => { if (S.dirty) { e.preventDefault(); e.returnValue = ''; } });
+</script>
+</body>
+</html>
