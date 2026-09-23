@@ -446,7 +446,7 @@ async function generate(o: GenOpts) {
   const wantPictures = o.pictures;
   const typeList = o.types.length ? o.types : ["choice", "text"];
   // The portal asks for a big round in batches; this is what earlier batches already wrote.
-  const avoid = o.avoid.length ? `\nAlready written for this round — do not repeat these facts or ask them another way:\n${o.avoid.map((t) => "- " + t).join("\n")}` : "";
+  const avoid = o.avoid.length ? `\nAlready used, in this quiz or in earlier quizzes the same host has run — do not repeat these facts, ask them another way, or reuse their answers as the answer to something else:\n${o.avoid.map((t) => "- " + t).join("\n")}` : "";
   // The host's own brief for the round outranks the topic line: "a sports round, but every
   // question about Harry Kane" means every question about Harry Kane.
   const brief = o.brief ? `\nThe host's brief for this round — follow it closely, it decides what every question is about:\n${o.brief}` : "";
@@ -675,6 +675,22 @@ Deno.serve(async (req) => {
       })) });
     }
 
+    if (action === "history") {
+      // Every question ever saved, newest quiz first, so the writer can avoid repeating any of them.
+      const rows = await rest(`quiz_quizzes?select=id,title,questions,updated_at&order=updated_at.desc&limit=200`);
+      const out: { quiz: string; text: string }[] = [];
+      for (const r of rows || []) {
+        if (body.exclude && r.id === body.exclude) continue;
+        for (const q of (Array.isArray(r.questions) ? r.questions : [])) {
+          const text = q?.type === "smash" ? `${q.pictureAnswer} + ${q.clueAnswer}` : q?.type === "wheel" ? q.phrase : q?.type === "race" ? `Race: ${q.text}` : q?.text;
+          if (typeof text === "string" && text.trim()) out.push({ quiz: r.title, text: text.trim().slice(0, 160) });
+          if (q?.type === "race" && Array.isArray(q.bank)) for (const b of q.bank) if (b?.text) out.push({ quiz: r.title, text: String(b.text).trim().slice(0, 160) });
+        }
+        if (out.length > 1500) break;
+      }
+      return json({ questions: out.slice(0, 1500), quizzes: (rows || []).length });
+    }
+
     if (action === "get") {
       if (!UUID_RE.test(String(body.id))) return json({ error: "Bad quiz id." }, 400);
       const rows = await rest(`quiz_quizzes?id=eq.${body.id}&select=*`);
@@ -735,7 +751,7 @@ Deno.serve(async (req) => {
         topic: String(body.brief ? (body.title || body.topic || "") : (body.topic || "")).slice(0, 200),
         brief: String(body.brief || "").slice(0, 1500),
         count: Math.min(8, Math.max(1, Math.round(+body.count || 5))),
-        avoid: (Array.isArray(body.avoid) ? body.avoid : []).map((s: unknown) => String(s ?? "").slice(0, 160)).filter(Boolean).slice(-60),
+        avoid: (Array.isArray(body.avoid) ? body.avoid : []).map((s: unknown) => String(s ?? "").slice(0, 160)).filter(Boolean).slice(0, 400),
         usedPictures: (Array.isArray(body.usedPictures) ? body.usedPictures : []).map((s: unknown) => String(s ?? "").slice(0, 300)).filter(Boolean).slice(-300),
         difficulty: ["easy", "medium", "hard", "mixed"].includes(String(body.difficulty)) ? String(body.difficulty) : "mixed",
         types,

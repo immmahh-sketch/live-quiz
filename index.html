@@ -285,7 +285,8 @@ async function generateForRound(r) {
   const total = plan.reduce((a, x) => a + x.need, 0);
   if (!total) return;
   const m = modal(`<h3>✨ Writing Round ${roundIndex(r.id) + 1}${r.title ? ': ' + esc(r.title) : ''}</h3><div class="gen-progress"><span class="spinner"></span><span id="ga_step">Starting…</span></div><p class="muted small mt">${plan.map((x) => `${x.need} × ${esc(TYPES[x.type].label)}`).join(' · ')}</p>`);
-  const avoid = S.quiz.questions.map((q) => q.text).filter(Boolean); let written = 0;
+  $('#ga_step', m).textContent = 'Checking what has been asked before…';
+  const avoid = await avoidList(); let written = 0;
   try {
     for (const { type, need } of plan) {
       const BATCH = ['race', 'wipeout', 'pin', 'match'].includes(type) ? 2 : 4; // the heavy ones fetch pictures
@@ -681,6 +682,21 @@ function settingsModal() {
   };
 }
 
+// ------------------------------------------------------------------ AI: what's been asked before
+/** Question texts from every quiz ever saved (except this one), newest first, fetched once per session. */
+async function pastQuestions() {
+  if (S.history && S.historyFor === (S.quiz?.id || null)) return S.history;
+  try { const r = await api('history', { exclude: S.quiz?.id || null }); S.history = r.questions.map((q) => q.text); S.historyFor = S.quiz?.id || null; S.historyQuizzes = r.quizzes; }
+  catch { S.history = []; }
+  return S.history;
+}
+/** The full do-not-repeat list for a request: this quiz's questions first, then everything from earlier quizzes. */
+async function avoidList(extra = []) {
+  const here = S.quiz ? S.quiz.questions.map((q) => q.type === 'smash' ? `${q.pictureAnswer} + ${q.clueAnswer}` : q.type === 'wheel' ? q.phrase : q.text).filter(Boolean) : [];
+  const past = await pastQuestions();
+  return [...new Set([...extra, ...here, ...past])];
+}
+
 // ------------------------------------------------------------------ AI: fill a race bank
 function bankModal(q) {
   const need = Math.max(0, Math.max(20, (q.target || 10) * 2) - q.bank.filter((b) => b.text.trim()).length);
@@ -699,7 +715,7 @@ function bankModal(q) {
     const total = LQ.clamp(+$('#b_count', m).value || 10, 1, 40), BATCH = 6;
     const btn = $('[data-ok]', m); btn.disabled = true; $('[data-x]', m).disabled = true;
     const prog = $('#b_prog', m); prog.classList.remove('hidden'); prog.innerHTML = `<div class="gen-progress"><span class="spinner"></span><span id="b_step"></span></div>`;
-    const avoid = q.bank.map((b) => b.text).filter(Boolean); let written = 0;
+    const avoid = await avoidList(q.bank.map((b) => b.text).filter(Boolean)); let written = 0;
     try {
       while (written < total) {
         $('#b_step', m).textContent = `Writing questions ${written + 1}–${Math.min(total, written + BATCH)} of ${total}…`;
@@ -817,9 +833,10 @@ function aiModal(fresh, roundId) {
     // Written in batches of four: one edge-function request has a time limit, and with web
     // search and pictures a big round does not fit in it. Each batch lands in the quiz as it
     // arrives, and later batches are told what's already been written so they don't repeat it.
-    const steps = ['thinking about the topic', 'searching the web', 'writing', 'finding pictures'];
-    // Seeded with what the quiz already has, so "Add with AI" on an existing quiz doesn't repeat it.
-    let written = 0, si = 0, start = null; const warnings = [], avoid = (!fresh && S.quiz) ? S.quiz.questions.map((q) => q.text).filter(Boolean) : [];
+    const steps = ['checking earlier quizzes', 'searching the web', 'writing', 'finding pictures'];
+    // Seeded with what this quiz already has and with every earlier quiz, so nothing gets asked twice.
+    let written = 0, si = 0, start = null; const warnings = [];
+    const avoid = await avoidList();
     const status = () => { const el = $('#g_step', m); if (el) el.textContent = `Writing questions ${written + 1}–${Math.min(total, written + BATCH)} of ${total} (${steps[si]})…`; };
     prog.innerHTML = `<div class="gen-progress"><span class="spinner"></span><span id="g_step"></span></div>`; status();
     const tick = setInterval(() => { si = Math.min(si + 1, steps.length - 1); status(); }, 10000);

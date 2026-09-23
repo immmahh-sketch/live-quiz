@@ -160,8 +160,11 @@ shape, with web search enabled to verify facts and cover recent events, then:
   pin questions;
 - drops anything malformed and reports what it left out.
 
-The questions land in the builder unsaved-then-autosaved, selected, for the host to read
-through. AI can be wrong; the portal says so.
+Before writing, the portal fetches the text of every question in every quiz the host has
+ever saved (once per session) and sends it with the request, newest first, up to four
+hundred, and the writer is told not to repeat those facts, ask them another way, or reuse
+their answers. The questions land in the builder unsaved-then-autosaved, selected, for the
+host to read through. AI can be wrong; the portal says so.
 
 ## Fact-checking
 
