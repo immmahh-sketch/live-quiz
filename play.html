@@ -196,8 +196,9 @@ function bindRace(s) {
   if ($('#raceSkip')) $('#raceSkip').onclick = () => pick('skip');
 }
 function wipeHtml(s) {
-  const q = s.q, w = s.wipe, mine = w.turnPid === P.pid && !w.over, out = w.out.includes(P.pid);
-  const note = w.over ? `<div class="turnnote">${w.last ? esc((w.last.name ? w.last.name + ': ' : '') + w.last.text) + (w.last.ok === false ? ' ✘' : w.last.ok ? ' ✔' : '') : 'Round over'}</div>`
+  const q = s.q, w = s.wipe, mine = w.turnPid === P.pid && !w.over && !w.studyMs, out = w.out.includes(P.pid);
+  const note = w.studyMs ? `<div class="turnnote">👀 Take a look — turns start in <span id="studyLeft">${Math.ceil(w.studyMs / 1000)}</span>s</div>`
+    : w.over ? `<div class="turnnote">${w.last ? esc((w.last.name ? w.last.name + ': ' : '') + w.last.text) + (w.last.ok === false ? ' ✘' : w.last.ok ? ' ✔' : '') : 'Round over'}</div>`
     : mine ? `<div class="turnnote mine">Your pick! Tap a right answer</div>`
     : out ? `<div class="turnnote">You're out of this one. ${esc(w.turnName)} is picking…</div>`
     : `<div class="turnnote">${esc(w.turnName)} is picking…${w.last ? `<br><span class="small">${esc((w.last.name ? w.last.name + ': ' : '') + w.last.text)}${w.last.ok === false ? ' ✘' : w.last.ok ? ' ✔' : ''}</span>` : ''}</div>`;
@@ -205,7 +206,7 @@ function wipeHtml(s) {
   return `<div class="pq">${esc(q.text)}</div>${note}<div class="wgrid ${mine ? 'mine' : ''}">${q.board.map((t) => `<button data-w="${t.k}" class="${w.gone.includes(t.k) ? 'gone' : ''}" ${mine && !w.gone.includes(t.k) ? '' : 'disabled'}>${esc(t.text)}</button>`).join('')}</div>${mineScore ? `<p class="center small muted mt">You've scored ${mineScore > 0 ? '+' : ''}${mineScore} so far this round</p>` : ''}`;
 }
 function bindWipe(s) {
-  if (s.wipe.turnPid !== P.pid || s.wipe.over) return;
+  if (s.wipe.turnPid !== P.pid || s.wipe.over || s.wipe.studyMs) return;
   $$('[data-w]').forEach((b) => b.onclick = () => { send('answer', { pid: P.pid, qId: s.q.id, answer: b.dataset.w }); $$('[data-w]').forEach((x) => x.disabled = true); b.style.borderColor = 'var(--brand)'; });
 }
 function questionHtml(q) {
