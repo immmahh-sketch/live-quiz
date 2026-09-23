@@ -90,7 +90,7 @@ function botsOnQuestion() {
   if (q.type === 'race') { for (const b of G.bots) botRaceStep(b); return; }
   for (const b of G.bots) {
     const delay = 1200 + b.pace * q.time * 1000 * rnd(0.25, 0.8);
-    botLater(() => { if (G.phase === 'question' && G.q?.view.id === v.id) onAnswer({ pid: b.pid, qId: v.id, answer: botAnswer(b, q, v) }); }, Math.min(delay, q.time * 1000 - 800));
+    botLater(() => { if (G.phase === 'question' && G.q?.view.id === v.id) onAnswer({ pid: b.pid, qId: v.id, answer: chance(0.07) ? 'skip' : botAnswer(b, q, v) }); }, Math.min(delay, q.time * 1000 - 800));
   }
 }
 function botAnswer(b, q, v) {
@@ -198,7 +198,7 @@ function stateForPlayers() {
   if ((G.phase === 'reveal' || G.phase === 'scoreboard' || G.phase === 'final') && G.q?.results) {
     s.results = {}; s.qType = question()?.type;
     const rk = ranked();
-    for (const p of rk) { const r = G.q.results.byPlayer[p.id]; s.results[p.id] = { correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, wiped: !!r?.wiped, raced: !!r?.raced, got: r?.got, out: !!r?.out, score: p.score, rank: rk.indexOf(p) + 1, of: rk.length }; }
+    for (const p of rk) { const r = G.q.results.byPlayer[p.id]; s.results[p.id] = { correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, skipped: !!r?.skipped, wiped: !!r?.wiped, raced: !!r?.raced, got: r?.got, out: !!r?.out, score: p.score, rank: rk.indexOf(p) + 1, of: rk.length }; }
     if (G.quiz.settings.showAnswersOnPhones !== false) s.answer = answerText(question());
   }
   if (G.phase === 'final') s.top = ranked().slice(0, 10).map((p, i) => ({ name: p.name, score: p.score, rank: i + 1 }));
@@ -429,8 +429,11 @@ function playAgain() { unstore(SAVE_KEY); location.reload(); }
 async function grade(noAi) {
   const q = question(), v = G.q.view, keys = G.q.keys, set = G.quiz.settings, timeMs = q.time * 1000;
   const byPlayer = {}; const stats = { counts: {}, right: 0, answered: 0, pins: [], texts: [] };
-  const entries = Object.entries(G.q.answers).filter(([pid]) => G.players[pid]);
-  stats.answered = entries.length;
+  const all = Object.entries(G.q.answers).filter(([pid]) => G.players[pid]);
+  // A skip counts as an answer (so the question can close) but scores nothing and takes no part in the type's scoring.
+  const entries = all.filter(([pid, a]) => { if (a.answer === 'skip') { byPlayer[pid] = { answered: true, skipped: true, correct: false, partial: 0, points: 0 }; return false; } return true; });
+  stats.answered = all.length; stats.skipped = all.length - entries.length;
+  if (q.type === 'text') stats.texts = all.filter(([, a]) => a.answer === 'skip').map(([pid]) => ({ name: G.players[pid].name, text: 'skipped', ok: null }));
   const sp = (elapsed) => speedPoints(elapsed, timeMs, set);
   const res = (pid, correct, partial, elapsed, extra = {}) => {
     const frac = correct ? 1 : (q.partial ? partial : 0);
@@ -487,7 +490,7 @@ async function grade(noAi) {
         res(u.id, ok, 0, a.elapsed, { text: u.text, how: verdicts?.[u.id]?.how || 'fuzzy' });
       }
     }
-    stats.texts = entries.map(([pid]) => ({ name: G.players[pid].name, text: byPlayer[pid].text, ok: byPlayer[pid].correct }));
+    stats.texts = entries.map(([pid]) => ({ name: G.players[pid].name, text: byPlayer[pid].text, ok: byPlayer[pid].correct })).concat(stats.texts || []);
   }
   if (q.type === 'order') {
     const right = q.items.filter((i) => i.text.trim()).map((i) => i.id);
@@ -647,7 +650,7 @@ function renderReveal() {
   }
   if (q.type === 'text') {
     body = `<div class="item ok" style="justify-content:center;font-size:1.8rem">✔ ${esc(q.answers[0])}${q.answers.length > 1 ? `<span style="opacity:.7;font-size:.7em"> (or ${esc(q.answers.slice(1, 4).join(', '))})</span>` : ''}</div>
-      <div class="textlist mt">${R.stats.texts.slice(0, 30).map((t) => `<span class="tl ${t.ok ? 'ok' : 'no'}">${esc(t.text || '—')} <span style="opacity:.7;font-size:.85em">· ${esc(t.name)}</span></span>`).join('')}</div>`;
+      <div class="textlist mt">${R.stats.texts.slice(0, 30).map((t) => `<span class="tl ${t.ok === null ? '' : t.ok ? 'ok' : 'no'}">${esc(t.text || '—')} <span style="opacity:.7;font-size:.85em">· ${esc(t.name)}</span></span>`).join('')}</div>`;
   }
   if (q.type === 'order') body = `<div class="items">${q.items.filter((i) => i.text.trim()).map((it, i) => `<div class="item ok"><span class="k">${i + 1}</span>${esc(it.text)}</div>`).join('')}</div>`;
   if (q.type === 'match') body = `<div class="items">${q.pairs.filter((p) => p.left.trim() && p.right?.value).map((p) => `<div class="item ok">${esc(p.left)} ⇄ ${p.right.kind === 'image' ? `<img src="${esc(p.right.value)}">` : esc(p.right.value)}</div>`).join('')}</div>`;
@@ -658,7 +661,7 @@ function renderReveal() {
   }
   const media = q.type === 'pin' ? '' : (q.media?.kind === 'image' ? mediaHtml(q, false) : '');
   const inMain = q.type === 'pin' || q.type === 'wipeout' || q.type === 'race';
-  stage.innerHTML = `${topBar(`<span class="hpill">${q.type === 'wipeout' ? `${R.stats.right} scored` : q.type === 'race' ? `${(R.stats.standings || []).filter((s) => s.done).length} finished` : `${R.stats.right} of ${n} got it right`}</span>`)}
+  stage.innerHTML = `${topBar(`<span class="hpill">${q.type === 'wipeout' ? `${R.stats.right} scored` : q.type === 'race' ? `${(R.stats.standings || []).filter((s) => s.done).length} finished` : `${R.stats.right} of ${n} got it right${R.stats.skipped ? ` · ${R.stats.skipped} skipped` : ''}`}</span>`)}
     <div class="stage-main"><h1 class="qtext"${inMain && q.type !== 'pin' ? ' style="font-size:clamp(1.3rem,2.6vw,2.2rem)"' : ''}>${esc(q.text)}</h1>${inMain ? body : media}</div>
     ${inMain ? '' : `<div>${body}</div>`}
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">Scores ▶</button>`)}`;
