@@ -178,7 +178,7 @@ supabase-js from a CDN. The same conventions as the other apps on this stack.
   hundred messages a second; the host sends one message every two seconds plus one per
   answer, so dozens of players are comfortable.
 - One edge-function request has a time limit, and a big round with web search and pictures
-  does not fit in it. The portal therefore asks for a round in batches of five, appending
+  does not fit in it. The portal therefore asks for a round in batches of four, appending
   each batch to the quiz as it lands and telling later batches what has already been
   written so nothing repeats. Up to forty in one go.
 - YouTube autoplay with sound relies on the host having clicked in the page first, which

@@ -379,9 +379,9 @@ function aiModal(fresh) {
     if (!types.length) return toast('Tick at least one question type.', true);
     const btn = $('[data-ok]', m); btn.disabled = true; $('[data-x]', m).disabled = true;
     const prog = $('#g_prog', m); prog.classList.remove('hidden');
-    const total = LQ.clamp(+$('#g_count', m).value || 8, 1, 40), BATCH = 5;
+    const total = LQ.clamp(+$('#g_count', m).value || 8, 1, 40), BATCH = 4;
     const opts = { topic, difficulty: $('#g_diff', m).value, types, pictures: $('#g_pics', m).checked, web: $('#g_web', m).checked };
-    // Written in batches of five: one edge-function request has a time limit, and with web
+    // Written in batches of four: one edge-function request has a time limit, and with web
     // search and pictures a big round does not fit in it. Each batch lands in the quiz as it
     // arrives, and later batches are told what's already been written so they don't repeat it.
     const steps = ['thinking about the topic', 'searching the web', 'writing', 'finding pictures'];
