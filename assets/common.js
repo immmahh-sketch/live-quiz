@@ -157,7 +157,7 @@ window.LQ = (() => {
     if (type === 'tf') { q.answer = true; }
     if (type === 'sort') { q.categories = [0, 1].map(() => ({ id: uid('c'), name: '' })); q.items = [0, 1, 2, 3].map(() => ({ id: uid('i'), text: '', category: q.categories[0].id })); }
     if (type === 'wipeout') { q.right = Array.from({ length: 8 }, () => ({ id: uid('w'), text: '' })); q.wrong = Array.from({ length: 3 }, () => ({ id: uid('w'), text: '' })); q.pickPoints = 200; q.penalty = 500; }
-    if (type === 'race') { q.target = 10; q.prize = 5000; q.prize2 = 2000; q.prize3 = 500; q.forfeit = 2000; q.bank = Array.from({ length: 20 }, () => newBankItem()); }
+    if (type === 'race') { q.target = 10; q.prize = 5000; q.prize2 = 2000; q.prize3 = 500; q.forfeit = 500; q.bank = Array.from({ length: 20 }, () => newBankItem()); }
     return q;
   }
   function newBankItem() { return { id: uid('b'), text: '', options: ['', '', '', ''] }; }

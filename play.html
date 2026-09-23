@@ -59,7 +59,7 @@ async function scanQr(onFound) {
   const close = () => { stop = true; if (stream) stream.getTracks().forEach((t) => t.stop()); overlay.remove(); };
   overlay.querySelector('#scanClose').onclick = close;
   try {
-    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js');
+    await loadScript('https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js');
     stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false });
     video.srcObject = stream; await video.play();
   } catch (e) { close(); return toast(e.name === 'NotAllowedError' ? 'Camera permission was refused. Type the code instead.' : e.message, true); }

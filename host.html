@@ -305,7 +305,7 @@ function buildView(q) {
   if (q.type === 'race') {
     const good = q.bank.filter((b) => b.text.trim() && b.options[0].trim() && b.options.filter((o) => o.trim()).length >= 2);
     v.bank = good.map((b) => ({ k: tok('Q:' + b.id), text: b.text, options: shuffle(b.options.map((o, oi) => ({ o, oi })).filter((x) => x.o.trim())).map((x, i) => ({ k: tok((x.oi === 0 ? 'R:' : 'W:') + b.id), text: x.o, c: i })) }));
-    v.target = q.target || 10; v.prize = q.prize ?? 5000; v.prize2 = q.prize2 ?? 2000; v.prize3 = q.prize3 ?? 500; v.forfeit = q.forfeit ?? 2000;
+    v.target = q.target || 10; v.prize = q.prize ?? 5000; v.prize2 = q.prize2 ?? 2000; v.prize3 = q.prize3 ?? 500; v.forfeit = q.forfeit ?? 500;
   }
   return { view: v, keys };
 }
@@ -501,7 +501,7 @@ async function grade(noAi) {
     }
     // The loser: alone at the bottom of the standings, never the winner, and only when there is a race to lose (two or more runners).
     let loser = null;
-    if (standings.length >= 2 && (v.forfeit ?? 2000) > 0) {
+    if (standings.length >= 2 && (v.forfeit ?? 500) > 0) {
       const last = standings[standings.length - 1], prev = standings[standings.length - 2];
       const tied = last.correct === prev.correct && last.done === prev.done;
       if (!tied && last.pid !== winner) loser = last.pid;
@@ -514,7 +514,7 @@ async function grade(noAi) {
     const third = n > 5 && (v.prize3 ?? 500) > 0 && clear(standings.findIndex((s) => s.pid === ordered[2])) && ordered[2] !== loser ? ordered[2] : null;
     for (const s of standings) {
       const won = s.pid === winner, lost = s.pid === loser, place = won ? 1 : s.pid === second ? 2 : s.pid === third ? 3 : 0;
-      const points = won ? (v.prize ?? 5000) : place === 2 ? (v.prize2 ?? 2000) : place === 3 ? (v.prize3 ?? 500) : lost ? -(v.forfeit ?? 2000) : 0;
+      const points = won ? (v.prize ?? 5000) : place === 2 ? (v.prize2 ?? 2000) : place === 3 ? (v.prize3 ?? 500) : lost ? -(v.forfeit ?? 500) : 0;
       byPlayer[s.pid] = { answered: true, correct: won, partial: won ? 1 : 0, points, raced: true, lost, place, got: s.correct, out: s.out, done: s.done }; if (won) stats.right++;
     }
     stats.answered = standings.length;

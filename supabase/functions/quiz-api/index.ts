@@ -542,7 +542,7 @@ Pictures round: ${wantPictures ? "yes — give roughly half the questions a pict
         return text && right && wrong.length ? { id: uid("b"), text, options: [right, wrong[0] || "", wrong[1] || "", wrong[2] || ""] } : null;
       }).filter(Boolean);
       if (bank.length < 8) return null;
-      base.bank = bank; base.target = Math.min(bank.length - 2, Math.max(3, Math.round(+r.target || 10))); base.prize = 5000; base.prize2 = 2000; base.prize3 = 500; base.forfeit = 2000; base.time = 120;
+      base.bank = bank; base.target = Math.min(bank.length - 2, Math.max(3, Math.round(+r.target || 10))); base.prize = 5000; base.prize2 = 2000; base.prize3 = 500; base.forfeit = 500; base.time = 120;
       return base;
     }
     if (r.type === "wheel") {
