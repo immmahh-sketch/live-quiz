@@ -427,8 +427,19 @@ function renderMediaBox() {
     p.innerHTML = `${q.media.url ? `<div class="preview"><img src="${esc(q.media.url)}"></div>` : ''}
       <div class="row mt"><button class="btn btn-sm" id="upPic">${q.media.url ? 'Change picture' : 'Upload a picture'}</button><span class="muted small">or paste a link:</span><input type="url" id="picUrl" class="grow" placeholder="https://…jpg" value="${q.media.url && !q.media.url.includes('/quiz-media/') ? esc(q.media.url) : ''}" style="max-width:380px"></div>
       ${q.media.credit ? `<div class="help">${esc(q.media.credit)}</div>` : ''}
-      ${pinOnly ? '<div class="help">Tip: for “where in the world” questions use a map. For “where on the body / on the pitch / in the painting” use any picture.</div>' : '<div class="help">Shown big on the screen while the question is live, and on players\' phones.</div>'}`;
-    $('#upPic').onclick = () => pickImage((url) => { q.media = { kind: 'image', url }; touch(); renderMediaBox(); if (pinOnly) renderPinPick(); showProblems(); });
+      ${pinOnly ? `<div class="row mt"><button class="btn btn-sm" id="blankMap">🗺 Blank map of a place…</button><span class="help">A label-free map of any country, region or continent, or “World”.${q.mapRegion ? ` Currently: ${esc(q.mapRegion)}.` : ''}</span></div><div class="help">For “where on the body / on the pitch / in the painting” upload any picture instead.</div>` : '<div class="help">Shown big on the screen while the question is live, and on players\' phones.</div>'}`;
+    $('#upPic').onclick = () => pickImage((url) => { q.media = { kind: 'image', url }; delete q.mapRegion; delete q.mapBounds; touch(); renderMediaBox(); if (pinOnly) renderPinPick(); showProblems(); });
+    if ($('#blankMap')) $('#blankMap').onclick = () => {
+      const m = modal(`<h3>Blank map of…</h3><div class="field"><input type="text" id="mapRegion" placeholder="e.g. France, United Kingdom, Europe, Africa, USA, World" value="${esc(q.mapRegion || '')}" autofocus></div><div id="mapErr"></div><div class="row" style="justify-content:flex-end"><button class="btn btn-ghost" data-x>Cancel</button><button class="btn btn-primary" data-ok>Use this map</button></div>`);
+      $('[data-x]', m).onclick = () => m.remove();
+      const go = async () => {
+        const region = $('#mapRegion', m).value.trim(); if (!region) return;
+        $('[data-ok]', m).disabled = true; $('#mapErr', m).innerHTML = '<span class="spinner"></span>';
+        try { const r = await api('map', { region }, { timeout: 60000 }); q.media = { kind: 'image', url: r.url, credit: `Wikimedia Commons: ${r.region} location map` }; q.mapRegion = r.region; if (r.bounds) q.mapBounds = r.bounds; else delete q.mapBounds; touch(); m.remove(); renderMediaBox(); renderPinPick(); showProblems(); }
+        catch (e) { $('#mapErr', m).innerHTML = `<div class="error" style="margin-bottom:10px">${esc(e.message)}</div>`; $('[data-ok]', m).disabled = false; }
+      };
+      $('[data-ok]', m).onclick = go; $('#mapRegion', m).onkeydown = (e) => { if (e.key === 'Enter') go(); };
+    };
     $('#picUrl').onchange = (e) => { const u = e.target.value.trim(); if (!u) return; q.media = { kind: 'image', url: u }; touch(); renderMediaBox(); if (pinOnly) renderPinPick(); showProblems(); };
   } else if (m.kind === 'youtube') {
     p.innerHTML = `<div class="row"><input type="url" id="ytUrl" class="grow" placeholder="Paste a YouTube link" value="${esc(m.url || '')}"><div class="field" style="margin:0;max-width:170px"><input type="number" id="ytStart" min="0" placeholder="Start at (seconds)" value="${m.start || ''}"></div></div>
@@ -526,7 +537,9 @@ function summaryOf(q) {
   if (q.type === 'race') lines.push(`Race to ${q.target} right. Bank (right answer first, then wrong ones):\n` + q.bank.filter((b) => b.text.trim()).map((b, i) => `${i + 1}. ${b.text} — RIGHT: ${b.options[0]}; wrong: ${b.options.slice(1).filter(Boolean).join(', ')}`).join('\n'));
   if (q.type === 'match') lines.push('Pairs (left → right): ' + q.pairs.map((p) => `${p.left} → ${p.right.kind === 'image' ? '[a picture — cannot be checked here, treat as fine]' : p.right.value}`).join(' | '));
   if (q.type === 'pin') {
-    if (q.media?.url?.includes('/maps/world') && q.pin) lines.push(`Target on a world map: ${q.place || 'unnamed'} at roughly latitude ${(90 - q.pin.y * 180).toFixed(1)}, longitude ${(q.pin.x * 360 - 180).toFixed(1)}`);
+    const b = q.mapBounds || (q.media?.url?.includes('/maps/world') ? { top: 90, bottom: -90, left: -180, right: 180 } : null);
+    if (b && q.pin) lines.push(`Target on a blank map of ${q.mapRegion || 'the world'}: ${q.place || 'unnamed'} at roughly latitude ${(b.top - q.pin.y * (b.top - b.bottom)).toFixed(2)}, longitude ${(b.left + q.pin.x * (b.right - b.left)).toFixed(2)}. Check that is really where the place is.`);
+    else if (q.mapRegion) lines.push(`Target is “${q.place || 'unnamed'}” on a blank map of ${q.mapRegion}; check the place is in that region and the question makes sense.`);
     else lines.push('Target is a spot on a custom picture; only check the question wording makes sense.');
   }
   if (q.media?.kind === 'image') lines.push(`Has a picture${q.media.credit ? ` (${q.media.credit})` : ''}; it is on screen while the question is asked.`);

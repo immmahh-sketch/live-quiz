@@ -17,6 +17,7 @@
 //   check_text  — judge players' typed answers against the accepted ones
 //   generate    — write questions on a topic, with pictures, using web search
 //   verify      — fact-check questions with web search; verdict and note per question
+//   map         — a blank, label-free map of a country, region or continent
 //   save_game   — record a finished game's scoreboard
 //   games       — recent finished games
 //
@@ -194,6 +195,79 @@ async function worldMap(): Promise<string | null> {
   return null;
 }
 
+// ---------------------------------------------------------------- location maps
+//
+// Wikipedia's "location maps" are blank, label-free maps of every country, region and
+// continent, each with the maths to put a latitude/longitude on it (Module:Location
+// map/data/<name>). Simple ones give a bounding box; others give x/y formulas in a
+// tiny arithmetic language, which is evaluated here after a strict character check.
+
+interface LocMap { region: string; name: string; url: string; project: (lat: number, lon: number) => { x: number; y: number } | null; kmPerWidth: (lat: number) => number; bounds?: { top: number; bottom: number; left: number; right: number }; }
+const MAP_ALIASES: Record<string, string> = { uk: "United Kingdom", "great britain": "United Kingdom", britain: "United Kingdom", england: "United Kingdom", scotland: "Scotland", wales: "Wales", us: "USA", usa: "USA", "united states": "USA", "united states of america": "USA", america: "USA", world: "World", earth: "World", globe: "World", "the world": "World", holland: "Netherlands", "czech republic": "Czech Republic", "south korea": "South Korea", "north korea": "North Korea", ireland: "Ireland", "republic of ireland": "Ireland", "northern ireland": "Northern Ireland", uae: "United Arab Emirates" };
+const SAFE_EXPR = /^[\s\d.+\-*/^()<>=,$]*$/;
+function compileExpr(src: string): ((lat: number, lon: number) => number) | null {
+  let s = src.replace(/\s+/g, " ").trim();
+  // Strip the maths words, check nothing else is left, then put them back as Math calls.
+  const words = ["cos", "sin", "tan", "acos", "asin", "atan", "sqrt", "abs", "exp", "log", "pi"];
+  const stripped = s.replace(new RegExp(`\\b(${words.join("|")})\\b`, "g"), "");
+  if (!SAFE_EXPR.test(stripped) || s.length > 2000) return null;
+  s = s.replace(/\$1/g, "lat").replace(/\$2/g, "lon").replace(/\bpi\b/g, "Math.PI").replace(/\^/g, "**");
+  for (const w of words) if (w !== "pi") s = s.replace(new RegExp(`\\b${w}\\(`, "g"), `Math.${w}(`);
+  s = s.replace(/([^<>=!])=([^=])/g, "$1==$2"); // Lua's single '=' comparisons, if any
+  try {
+    const f = new Function("lat", "lon", `"use strict"; return (${s});`) as (lat: number, lon: number) => number;
+    const test = f(45, 10); if (!isFinite(+test)) return null;
+    return f;
+  } catch { return null; }
+}
+const mapCache = new Map<string, LocMap | null>();
+async function locationMap(regionIn: string): Promise<LocMap | null> {
+  const key = String(regionIn || "").trim().replace(/\s+/g, " ");
+  const region = MAP_ALIASES[key.toLowerCase()] || key;
+  if (!region) return null;
+  if (mapCache.has(region)) return mapCache.get(region)!;
+  const build = async (): Promise<LocMap | null> => {
+    if (region === "World") {
+      const url = await worldMap(); if (!url) return null;
+      return { region, name: "World", url, project: (lat, lon) => ({ x: (lon + 180) / 360, y: (90 - lat) / 180 }), kmPerWidth: () => 40075, bounds: { top: 90, bottom: -90, left: -180, right: 180 } };
+    }
+    const data = await mw("https://en.wikipedia.org/w/api.php", { action: "query", prop: "revisions", rvprop: "content", rvslots: "main", formatversion: "2", titles: "Module:Location map/data/" + region }).catch(() => null);
+    const page = data?.query?.pages?.[0]; const src: string = page?.revisions?.[0]?.slots?.main?.content || "";
+    if (!src) return null;
+    const num = (k: string) => { const m = src.match(new RegExp(`\\b${k}\\s*=\\s*(-?[\\d.]+)`)); return m ? +m[1] : NaN; };
+    const str = (k: string) => { const m = src.match(new RegExp(`\\b${k}\\s*=\\s*'([^']+)'`)) || src.match(new RegExp(`\\b${k}\\s*=\\s*"([^"]+)"`)); return m ? m[1] : ""; };
+    const image = str("image"); if (!image) return null;
+    let project: LocMap["project"]; let bounds: LocMap["bounds"];
+    const top = num("top"), bottom = num("bottom"), left = num("left"), right = num("right");
+    if ([top, bottom, left, right].every(isFinite)) {
+      bounds = { top, bottom, left, right };
+      project = (lat, lon) => ({ x: (lon - left) / (right - left), y: (top - lat) / (top - bottom) });
+    } else {
+      const fx = compileExpr(str("x")), fy = compileExpr(str("y"));
+      if (!fx || !fy) return null;
+      project = (lat, lon) => { const x = fx(lat, lon) / 100, y = fy(lat, lon) / 100; return isFinite(x) && isFinite(y) ? { x, y } : null; };
+    }
+    const kmPerWidth = (lat: number) => { const a = project(lat, 0), b = project(lat, 1); const dx = a && b ? Math.abs(b.x - a.x) : 0; return dx > 0 ? (111.32 * Math.cos(lat * Math.PI / 180)) / dx : 40075; };
+    // The map itself: Commons renders the SVG to a PNG at the width asked for.
+    const slugName = slug(region);
+    let url = await storageExists(`maps/${slugName}.png`);
+    if (!url) {
+      const info = await mw("https://commons.wikimedia.org/w/api.php", { action: "query", titles: "File:" + image, prop: "imageinfo", iiprop: "url|mime", iiurlwidth: "1600" }).catch(() => null);
+      const ii = (Object.values(info?.query?.pages || {}) as any[])[0]?.imageinfo?.[0];
+      const thumb = String(ii?.thumburl || "").split("?")[0]; if (!thumb) return null;
+      try {
+        const r = await fetch(thumb, { headers: { "user-agent": UA } }); if (!r.ok) return null;
+        const bytes = new Uint8Array(await r.arrayBuffer()); if (bytes.length < 1000) return null;
+        url = await storagePut(`maps/${slugName}.png`, bytes, "image/png");
+      } catch { return null; }
+    }
+    return { region, name: str("name") || region, url, project, kmPerWidth, bounds };
+  };
+  const m = await build().catch(() => null);
+  mapCache.set(region, m);
+  return m;
+}
+
 // ---------------------------------------------------------------- Claude
 function anthropic() {
   if (!ANTHROPIC_KEY) throw new Error("ANTHROPIC_API_KEY is not set on the server.");
@@ -315,8 +389,8 @@ Question types and their JSON shapes (use only the types you are asked for, and 
   Items listed in the CORRECT order. 3 to 5 items. The question text must say what order.
 - "match": {"type":"match","text":"Match the breed to the picture","pairs":[{"left":"Labrador Retriever","rightPicture":"Labrador Retriever"},...],"time":40}
   3 or 4 pairs. "rightPicture" is the exact English Wikipedia article title whose lead picture shows the thing (only when a pictures round is wanted); otherwise use "right":"text" for a word-to-word match.
-- "pin": {"type":"pin","text":"Drop the pin on Namibia","place":"Namibia","lat":-22.0,"lon":17.0,"sizeKm":1200,"time":20}
-  Only countries, cities, seas and famous landmarks. lat/lon of its centre in decimal degrees; sizeKm is roughly how wide the place is (a city ~30, a small country ~300, a large country ~2000).
+- "pin": {"type":"pin","text":"Drop the pin on the city that hosts the Cannes Film Festival","place":"Cannes","region":"France","lat":43.55,"lon":7.02,"sizeKm":30,"time":20}
+  Only countries, cities, seas and famous landmarks. lat/lon of its centre in decimal degrees; sizeKm is roughly how wide the place is (a city ~30, a small country ~300, a large country ~2000). "region" is the blank map to show: the country the place is in for a city or landmark, the continent for a country, "World" only when the place spans continents or the question is about the world. Use the English Wikipedia name for the country or continent (France, United Kingdom, USA, Europe, Africa, South America, Australia). Never put the region's name in the question text when it gives the answer away.
 - "tf": {"type":"tf","text":"<a statement>","answer":true}
   A crisp statement that is definitely true or definitely false. Mix true and false across the set.
 - "sort": {"type":"sort","text":"Which of these actors have been in Coronation Street?","categories":["Been in Coronation Street","Never been in Coronation Street"],"items":[{"text":"...","category":"<exactly one of the categories>"}]}
@@ -366,11 +440,7 @@ Pictures round: ${wantPictures ? "yes — give roughly half the questions a pict
   const uid = (p: string) => p + "_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8);
   const warnings: string[] = [];
   const used = new Set<string>(o.usedPictures);
-  let map: string | null = null;
-  if (raw.some((q) => q?.type === "pin")) {
-    map = await worldMap();
-    if (!map) warnings.push("Could not fetch a world map, so the drop-the-pin questions were left out.");
-  }
+  const world = raw.some((q) => q?.type === "pin") ? await locationMap("World") : null;
 
   const questions = await Promise.all(raw.slice(0, o.count).map(async (r) => {
     const time = Math.min(90, Math.max(10, Math.round(+r.time || 25)));
@@ -457,15 +527,25 @@ Pictures round: ${wantPictures ? "yes — give roughly half the questions a pict
       return base;
     }
     if (r.type === "pin") {
-      if (!map) return null;
       const lat = +r.lat, lon = +r.lon;
       if (!isFinite(lat) || !isFinite(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) return null;
-      const sizeKm = Math.max(20, Math.min(5000, +r.sizeKm || 300));
-      const full = Math.max(0.012, Math.min(0.08, (sizeKm / 2) / 40075));
-      base.media = { kind: "image", url: map, credit: "Wikimedia Commons: Equirectangular projection SW" };
-      base.pin = { x: (lon + 180) / 360, y: (90 - lat) / 180 };
+      // The map the question asked for, falling back to the world when it has none or the place is off its edge.
+      let map = typeof r.region === "string" && r.region.trim() ? await locationMap(r.region.trim()) : null;
+      let pt = map ? map.project(lat, lon) : null;
+      if (!map || !pt || pt.x < 0.02 || pt.x > 0.98 || pt.y < 0.02 || pt.y > 0.98) {
+        if (map) warnings.push(`“${r.place}” is off the edge of the ${map.name} map, so it is on the world map instead.`);
+        else if (r.region) warnings.push(`No blank map of “${r.region}” could be found, so “${r.place}” is on the world map.`);
+        map = world; pt = map ? map.project(lat, lon) : null;
+      }
+      if (!map || !pt) { warnings.push(`Could not fetch a map for “${r.place}”, so that question was left out.`); return null; }
+      const sizeKm = Math.max(5, Math.min(5000, +r.sizeKm || 300));
+      const full = Math.max(0.012, Math.min(0.12, (sizeKm / 2) / map.kmPerWidth(lat)));
+      base.media = { kind: "image", url: map.url, credit: `Wikimedia Commons: ${map.name} location map` };
+      base.mapRegion = map.name;
+      if (map.bounds) base.mapBounds = map.bounds;
+      base.pin = { x: +pt.x.toFixed(4), y: +pt.y.toFixed(4) };
       base.radiusFull = +full.toFixed(4);
-      base.radiusZero = +Math.min(0.3, full * 4).toFixed(4);
+      base.radiusZero = +Math.min(0.35, full * 4).toFixed(4);
       base.place = String(r.place || "").trim();
       return base;
     }
@@ -599,6 +679,14 @@ Deno.serve(async (req) => {
         web: body.web !== false,
       });
       return json(out);
+    }
+
+    if (action === "map") {
+      const region = String(body.region || "").slice(0, 80);
+      if (!region.trim()) return json({ error: "Which place?" }, 400);
+      const map = await locationMap(region);
+      if (!map) return json({ error: `No blank map of “${region}” could be found. Try the country or continent's usual English name, or “World”.` }, 404);
+      return json({ url: map.url, region: map.name, bounds: map.bounds || null });
     }
 
     if (action === "verify") {

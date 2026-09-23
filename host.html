@@ -422,6 +422,22 @@ async function finish() {
   api('save_game', { game: { code: G.code, quiz_id: G.quizId, title: G.quiz.title, questions: total(), started_at: G.startedAt,
     players: rk.map((p, i) => ({ name: p.name, score: p.score, rank: i + 1 })) } }).catch(() => {});
 }
+/** Removes a player who has left or lost connection, so the game stops waiting for them. Their phone is told. */
+function kickPlayer(pid) {
+  const p = G.players[pid]; if (!p) return;
+  ask(`Remove ${p.name} from the game?`, 'Their score goes with them. If they come back and join again they start from nought.', 'Remove', 'Keep').then((ok) => {
+    if (!ok) return;
+    delete G.players[pid];
+    if (G.bots) G.bots = G.bots.filter((b) => b.pid !== pid);
+    present.delete(pid);
+    if (G.q?.wipe) { const w = G.q.wipe; w.order = w.order.filter((x) => x !== pid); if (w.turnPid === pid && !w.over) { w.turnPid = null; wipeNextTurn(); } }
+    if (G.q?.race) delete G.q.race.players[pid];
+    if (G.q?.answers) delete G.q.answers[pid];
+    send('kick', { pid });
+    persist(); render(); broadcastState(); maybeAllAnswered();
+    toast(`${p.name} removed`);
+  });
+}
 function endEarly() { ask('End the game now?', 'The scores so far will be shown as the final result.', 'End game', 'Keep going').then((ok) => { if (ok) { clearInterval(tickT); clearInterval(countT); finish(); } }); }
 function playAgain() { unstore(SAVE_KEY); location.reload(); }
 
@@ -557,6 +573,7 @@ function renderRound() {
 function hostBar(buttons) { return `<div class="stage-bottom"><span class="muted small" style="opacity:.6">Game ${G.code} · ${players().length} players${G.bots?.length ? ` · test mode, ${G.bots.length} bots` : ''} · press Space for next</span><div class="hostbar">${buttons}</div></div>`; }
 function bind() {
   $$('[data-act]').forEach((b) => b.onclick = () => ({ primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(3), builder: () => location.href = 'index.html?quiz=' + G.quizId })[b.dataset.act]());
+  $$('[data-kick]').forEach((el) => { el.style.cursor = 'pointer'; el.title = 'Click to remove this player from the game'; el.onclick = () => kickPlayer(el.dataset.kick); });
 }
 function renderLobby() {
   const url = playUrl(G.code);
@@ -573,8 +590,9 @@ function renderLobby() {
 function renderLobbyPlayers() {
   const el = $('#players'); if (!el) return;
   const ps = players().sort((a, b) => a.joinedAt - b.joinedAt);
-  el.innerHTML = ps.length ? ps.map((p) => `<span class="pill" style="${present.has(p.id) ? '' : 'opacity:.45'}">${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}</span>`).join('') : '<span style="opacity:.6;font-weight:800">Waiting for players…</span>';
+  el.innerHTML = ps.length ? ps.map((p) => `<span class="pill" data-kick="${p.id}" style="${present.has(p.id) ? '' : 'opacity:.45'}">${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}</span>`).join('') : '<span style="opacity:.6;font-weight:800">Waiting for players…</span>';
   const b = $('#startBtn'); if (b) b.disabled = !ps.length;
+  $$('[data-kick]', el).forEach((x) => { x.style.cursor = 'pointer'; x.title = 'Click to remove this player'; x.onclick = () => kickPlayer(x.dataset.kick); });
 }
 function renderCountdown() {
   const q = question();
@@ -682,7 +700,7 @@ function drawPins() {
 }
 function renderScoreboard() {
   const rk = ranked().slice(0, 8), top = Math.max(1, rk[0]?.score || 1), R = G.q?.results?.byPlayer || {};
-  stage.innerHTML = `${topBar()}<div class="stage-main"><h1 class="big" style="font-size:2.6rem">Scoreboard</h1><div class="board">${rk.map((p, i) => `<div class="brow"><div class="fill" data-w="${(p.score / top) * 100}"></div><div class="rank">${i + 1}</div><div>${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}${R[p.id]?.points ? `<span class="delta" ${R[p.id].points < 0 ? 'style="color:#ffb3c0"' : ''}>${R[p.id].points > 0 ? '+' : ''}${R[p.id].points}</span>` : ''}</div><div>${p.score}</div></div>`).join('')}</div></div>
+  stage.innerHTML = `${topBar()}<div class="stage-main"><h1 class="big" style="font-size:2.6rem">Scoreboard <span class="small" style="opacity:.45;font-size:.85rem;font-weight:700">· click a name to remove a player who has left</span></h1><div class="board">${rk.map((p, i) => `<div class="brow"><div class="fill" data-w="${(p.score / top) * 100}"></div><div class="rank">${i + 1}</div><div><span data-kick="${p.id}">${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}</span>${R[p.id]?.points ? `<span class="delta" ${R[p.id].points < 0 ? 'style="color:#ffb3c0"' : ''}>${R[p.id].points > 0 ? '+' : ''}${R[p.id].points}</span>` : ''}</div><div>${p.score}</div></div>`).join('')}</div></div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">${G.qIndex + 1 < total() ? 'Next question ▶' : 'Final results 🏆'}</button>`)}`;
   requestAnimationFrame(() => $$('.fill').forEach((f) => f.style.width = f.dataset.w + '%'));
   bind();
@@ -693,7 +711,8 @@ function renderFinal() {
   stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">Final results</span></div></div>
     <div class="stage-main"><h1 class="big" style="font-size:2.6rem">🏆 ${rk[0] ? esc(rk[0].name) + ' wins!' : 'Game over'}</h1>
       <div class="podium">${pod(1, 'p2')}${pod(0, 'p1')}${pod(2, 'p3')}</div>
-      ${rk.length > 3 ? `<div class="textlist">${rk.slice(3, 15).map((p, i) => `<span class="tl">${i + 4}. ${esc(p.name)} · ${p.score}</span>`).join('')}</div>` : ''}</div>
+      ${rk.length > 3 ? `<div class="textlist">${rk.slice(3, 15).map((p, i) => `<span class="tl">${i + 4}. ${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)} · ${p.score}</span>`).join('')}</div>` : ''}
+      <p class="small" style="opacity:.5;margin-top:10px">Players can be removed from the scoreboard during the game by clicking their name.</p></div>
     ${hostBar(`<button class="btn btn-ghost" data-act="builder">Back to builder</button><button class="btn btn-primary" data-act="again">Play again ↻</button>`)}`;
   bind();
 }

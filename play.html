@@ -54,6 +54,7 @@ function connect() {
   ch.on('broadcast', { event: 'state' }, ({ payload }) => onState(payload));
   ch.on('broadcast', { event: 'ack' }, ({ payload }) => { if (payload.pid === P.pid) { P.answered[payload.qId] = true; render(); } });
   ch.on('broadcast', { event: 'race' }, ({ payload }) => onRaceEvent(payload));
+  ch.on('broadcast', { event: 'kick' }, ({ payload }) => { if (payload.pid === P.pid) { clearInterval(watchdogT); leave(); P.code = ''; renderJoin('The host has removed you from the game. You can join again if that was a mistake.'); } });
   ch.subscribe(async (status) => {
     if (status === 'SUBSCRIBED') {
       await ch.track({ role: 'player', pid: P.pid, name: P.name, emoji: P.emoji });
