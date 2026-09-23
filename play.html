@@ -32,11 +32,13 @@ function renderJoin(msg) {
   const code = (new URLSearchParams(location.search).get('g') || P.code || '').toUpperCase();
   app.innerHTML = `<div class="joinbox card"><h2 class="center" style="font-size:1.8rem">Join the quiz</h2>
     ${msg ? `<div class="error" style="margin-bottom:12px">${esc(msg)}</div>` : ''}
-    <form id="join"><div class="field"><label>Game code</label><input type="text" id="code" class="codein" value="${esc(code)}" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="ABC123" ${code ? '' : 'autofocus'}></div>
+    <form id="join"><div class="field"><label>Game code</label><input type="text" id="code" class="codein" value="${esc(code)}" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="ABC123" ${code ? '' : 'autofocus'}>
+      <button type="button" class="btn btn-ghost btn-block" id="scanBtn" style="margin-top:8px">📷 Scan the QR code on the screen</button></div>
     <div class="field"><label>Your name</label><input type="text" id="name" value="${esc(P.name)}" maxlength="20" autocomplete="nickname" placeholder="What should we call you?" ${code ? 'autofocus' : ''}></div>
     <div class="field"><label>Your emoji</label><div class="emopick">${LQ.EMOJIS.map((e) => `<button type="button" data-em="${e}" class="${e === P.emoji ? 'on' : ''}">${e}</button>`).join('')}</div></div>
     <button class="btn btn-primary btn-lg btn-block">Let's go</button></form></div>`;
   $$('[data-em]').forEach((b) => b.onclick = () => { P.emoji = b.dataset.em; $$('[data-em]').forEach((x) => x.classList.toggle('on', x === b)); });
+  $('#scanBtn').onclick = () => scanQr((found) => { $('#code').value = found; if ($('#name').value.trim()) $('#join').requestSubmit(); else $('#name').focus(); });
   $('#join').onsubmit = (e) => {
     e.preventDefault();
     const c = $('#code').value.trim().toUpperCase().replace(/[^A-Z0-9]/g, ''), n = $('#name').value.replace(/\s+/g, ' ').trim();
@@ -46,6 +48,39 @@ function renderJoin(msg) {
     connect();
   };
 }
+// ---- QR scanner: the rear camera, decoded in the page; the code is the ?g= of the join link ----
+function loadScript(src) { return new Promise((res, rej) => { if (document.querySelector(`script[src="${src}"]`)) return res(); const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = () => rej(new Error('Could not load the scanner.')); document.head.appendChild(s); }); }
+async function scanQr(onFound) {
+  if (!navigator.mediaDevices?.getUserMedia) return toast('This browser cannot use the camera here. Type the code instead.', true);
+  const overlay = document.createElement('div'); overlay.className = 'scan';
+  overlay.innerHTML = `<video playsinline autoplay muted></video><div class="scan-frame"></div><p class="scan-hint">Point the camera at the QR code on the shared screen</p><button class="btn btn-ghost" id="scanClose" style="color:#fff;border-color:rgba(255,255,255,.5)">Cancel</button>`;
+  document.body.appendChild(overlay);
+  const video = overlay.querySelector('video'); let stream = null, stop = false;
+  const close = () => { stop = true; if (stream) stream.getTracks().forEach((t) => t.stop()); overlay.remove(); };
+  overlay.querySelector('#scanClose').onclick = close;
+  try {
+    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js');
+    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false });
+    video.srcObject = stream; await video.play();
+  } catch (e) { close(); return toast(e.name === 'NotAllowedError' ? 'Camera permission was refused. Type the code instead.' : e.message, true); }
+  const canvas = document.createElement('canvas'), ctx = canvas.getContext('2d', { willReadFrequently: true });
+  const tick = () => {
+    if (stop) return;
+    if (video.readyState >= 2) {
+      const w = Math.min(640, video.videoWidth || 640), h = Math.round(w * (video.videoHeight || 480) / (video.videoWidth || 640));
+      canvas.width = w; canvas.height = h; ctx.drawImage(video, 0, 0, w, h);
+      const img = ctx.getImageData(0, 0, w, h);
+      const hit = window.jsQR && jsQR(img.data, w, h, { inversionAttempts: 'dontInvert' });
+      if (hit?.data) {
+        const m = hit.data.match(/[?&]g=([A-Za-z0-9]{6})/) || hit.data.match(/^\s*([A-Za-z0-9]{6})\s*$/);
+        if (m) { close(); if (navigator.vibrate) navigator.vibrate(60); onFound(m[1].toUpperCase()); return; }
+      }
+    }
+    setTimeout(tick, 120);
+  };
+  tick();
+}
+
 function connect() {
   app.innerHTML = `<div class="state"><span class="spinner"></span><h2>Joining game ${esc(P.code)}…</h2></div>`;
   if (ch) { try { sb.removeChannel(ch); } catch {} }
