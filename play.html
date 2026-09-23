@@ -66,7 +66,7 @@ function onState(s) {
   if (!s || typeof s.phase !== 'string') return;
   P.state = s; P.receivedAt = Date.now(); P.hostSeen = Date.now();
   if (!P.joined) { P.joined = true; clearInterval(helloT); }
-  if (s.phase === 'question' && typeof s.remainingMs === 'number') P.deadline = Date.now() + s.remainingMs;
+  if (s.phase === 'question' && typeof s.remainingMs === 'number') P.deadline = Date.now() + (s.wipe ? s.wipe.remainingMs : s.remainingMs);
   if (Array.isArray(s.answered) && s.answered.includes(P.pid)) P.answered[s.q?.id] = true;
   render();
 }
@@ -88,7 +88,7 @@ function myResult() { return P.state?.results?.[P.pid]; }
 function render() {
   const s = P.state; if (!s) return;
   const qId = s.q?.id || '';
-  const key = [s.phase, qId, s.qIndex, s.round?.n || '', P.answered[qId] ? 'a' : ''].join(':');
+  const key = [s.phase, qId, s.qIndex, s.round?.n || '', P.answered[qId] ? 'a' : '', s.wipe ? `${s.wipe.turnPid}:${s.wipe.gone.length}:${s.wipe.out.length}:${s.wipe.over}` : ''].join(':');
   if (key === P.viewKey) { tickTimer(); return; }
   P.viewKey = key;
   clearInterval(timerT);
@@ -98,6 +98,7 @@ function render() {
   if (s.phase === 'lobby') app.innerHTML = top + `<div class="state"><div class="em">🎉</div><h2>You're in, ${esc(P.name)}!</h2><p class="muted">Watch the shared screen. The quiz starts when the host presses go.</p></div>`;
   else if (s.phase === 'round') app.innerHTML = top + `<div class="state"><div class="em">🎯</div><p class="muted" style="margin:0">Round ${s.round?.n || ''}</p><h2>${esc(s.round?.title || '')}</h2><p class="muted">${s.round?.count || ''} question${s.round?.count === 1 ? '' : 's'} coming up</p></div>`;
   else if (s.phase === 'countdown') app.innerHTML = top + `<div class="state"><div class="em">${TYPES[s.next?.type]?.icon || '⏳'}</div><h2>Get ready…</h2><p class="muted">Question ${s.next?.n || s.qIndex + 1}: ${esc(TYPES[s.next?.type]?.label || '')}</p></div>`;
+  else if (s.phase === 'question' && s.wipe) { P.deadline = Date.now() + (s.wipe.remainingMs || 0); app.innerHTML = top + `<div class="ptimer" id="ptimer"><i></i></div>` + wipeHtml(s); bindWipe(s); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'question') { app.innerHTML = top + `<div class="ptimer" id="ptimer"><i></i></div>` + (P.answered[qId] ? sentHtml() : questionHtml(s.q)); bindQuestion(s.q); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'grading') app.innerHTML = top + `<div class="state"><div class="em">⏱</div><h2>Time's up!</h2><p class="muted">Checking the answers…</p></div>`;
   else if (s.phase === 'reveal') app.innerHTML = top + resultHtml(s, r);
@@ -111,9 +112,26 @@ function tickTimer() {
 }
 function sentHtml() { return `<div class="state"><div class="em">✅</div><h2>Answer sent!</h2><p class="muted">Waiting for the others…</p></div>`; }
 function mediaHtml(q) { return q.media?.url ? `<div class="pmedia"><img src="${esc(q.media.url)}"></div>` : ''; }
+function wipeHtml(s) {
+  const q = s.q, w = s.wipe, mine = w.turnPid === P.pid && !w.over, out = w.out.includes(P.pid);
+  const note = w.over ? `<div class="turnnote">${w.last ? esc((w.last.name ? w.last.name + ': ' : '') + w.last.text) + (w.last.ok === false ? ' ✘' : w.last.ok ? ' ✔' : '') : 'Round over'}</div>`
+    : mine ? `<div class="turnnote mine">Your pick! Tap a right answer</div>`
+    : out ? `<div class="turnnote">You're out of this one. ${esc(w.turnName)} is picking…</div>`
+    : `<div class="turnnote">${esc(w.turnName)} is picking…${w.last ? `<br><span class="small">${esc((w.last.name ? w.last.name + ': ' : '') + w.last.text)}${w.last.ok === false ? ' ✘' : w.last.ok ? ' ✔' : ''}</span>` : ''}</div>`;
+  const mineScore = w.scores?.[P.pid];
+  return `<div class="pq">${esc(q.text)}</div>${note}<div class="wgrid ${mine ? 'mine' : ''}">${q.board.map((t) => `<button data-w="${t.k}" class="${w.gone.includes(t.k) ? 'gone' : ''}" ${mine && !w.gone.includes(t.k) ? '' : 'disabled'}>${esc(t.text)}</button>`).join('')}</div>${mineScore ? `<p class="center small muted mt">You've scored ${mineScore > 0 ? '+' : ''}${mineScore} so far this round</p>` : ''}`;
+}
+function bindWipe(s) {
+  if (s.wipe.turnPid !== P.pid || s.wipe.over) return;
+  $$('[data-w]').forEach((b) => b.onclick = () => { send('answer', { pid: P.pid, qId: s.q.id, answer: b.dataset.w }); $$('[data-w]').forEach((x) => x.disabled = true); b.style.borderColor = 'var(--brand)'; });
+}
 function questionHtml(q) {
   let body = '';
-  if (q.type === 'choice') body = `<div class="ans-grid">${q.options.map((o) => `<button class="abtn" data-k="${o.k}" style="background:${COLORS[o.c].hex}"><span class="shape">${COLORS[o.c].shape}</span>${esc(o.text)}</button>`).join('')}</div>`;
+  if (q.type === 'choice' || q.type === 'tf') body = `<div class="ans-grid">${q.options.map((o) => `<button class="abtn" data-k="${o.k}" style="background:${COLORS[o.c].hex}"><span class="shape">${COLORS[o.c].shape}</span>${esc(o.text)}</button>`).join('')}</div>`;
+  if (q.type === 'sort') {
+    P.work.sort = P.work.sortQ === q.id ? P.work.sort : {}; P.work.sortQ = q.id;
+    body = `<p class="muted center small">Put each answer in its category</p><div id="slist"></div><button class="btn btn-primary btn-lg btn-block mt" id="lockSort" disabled>Lock it in</button>`;
+  }
   if (q.type === 'text') body = `<form id="textForm" class="state" style="justify-content:flex-start"><input type="text" id="textIn" placeholder="Type your answer" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.2rem;text-align:center" autofocus><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
   if (q.type === 'order') {
     P.work.order = P.work.order && P.work.orderQ === q.id ? P.work.order : q.items.map((i) => i.k); P.work.orderQ = q.id;
@@ -135,7 +153,15 @@ function submit(q, answer) {
 }
 function bindQuestion(q) {
   if (!q || P.answered[q.id]) return;
-  if (q.type === 'choice') $$('.abtn').forEach((b) => b.onclick = () => submit(q, b.dataset.k));
+  if (q.type === 'choice' || q.type === 'tf') $$('.abtn').forEach((b) => b.onclick = () => submit(q, b.dataset.k));
+  if (q.type === 'sort') {
+    const draw = () => {
+      $('#slist').innerHTML = q.items.map((it) => `<div class="sitem"><div class="txt">${esc(it.text)}</div><div class="seg">${q.categories.map((c) => `<button data-si="${it.k}" data-sc="${c.k}" class="${P.work.sort[it.k] === c.k ? 'on' : ''}">${esc(c.name)}</button>`).join('')}</div></div>`).join('');
+      $('#lockSort').disabled = Object.keys(P.work.sort).length < q.items.length;
+      $$('[data-si]').forEach((b) => b.onclick = () => { P.work.sort[b.dataset.si] = b.dataset.sc; draw(); });
+    };
+    draw(); $('#lockSort').onclick = () => submit(q, { ...P.work.sort });
+  }
   if (q.type === 'text') { $('#textForm').onsubmit = (e) => { e.preventDefault(); const t = $('#textIn').value.trim(); if (!t) return; submit(q, t); }; setTimeout(() => $('#textIn')?.focus(), 50); }
   if (q.type === 'order') {
     const draw = () => {
@@ -173,9 +199,10 @@ function bindQuestion(q) {
 }
 function resultHtml(s, r) {
   if (!r) return `<div class="state"><h2>Results are on the screen</h2></div>`;
-  const cls = r.correct ? 'ok' : r.partial > 0 ? 'part' : 'no';
-  const head = r.correct ? '✓ Correct!' : !r.answered ? 'Too slow!' : r.partial > 0 ? 'Partly right' : '✗ Not this time';
-  return `<div class="result ${cls}"><div style="font-size:1.6rem;font-weight:900">${head}</div><div class="pts">+${r.points}</div>
+  const wipeQ = s.qType === 'wipeout' || r.wiped || r.points < 0;
+  const cls = r.points < 0 ? 'neg' : r.correct ? 'ok' : r.partial > 0 ? 'part' : 'no';
+  const head = r.wiped ? '💥 Wiped out!' : wipeQ ? (r.points > 0 ? '✓ Nice picking!' : 'No points this round') : r.correct ? '✓ Correct!' : !r.answered ? 'Too slow!' : r.partial > 0 ? 'Partly right' : '✗ Not this time';
+  return `<div class="result ${cls}"><div style="font-size:1.6rem;font-weight:900">${head}</div><div class="pts">${r.points > 0 ? '+' : ''}${r.points}</div>
     ${s.answer ? `<div style="font-weight:800;opacity:.95">${r.correct ? '' : 'Answer: '}${esc(s.answer)}</div>` : ''}
     <div class="rk">${ordinal(r.rank)} of ${r.of} · ${r.score} points</div></div>`;
 }

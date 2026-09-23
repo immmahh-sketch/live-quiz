@@ -3,7 +3,7 @@ window.DEMO_QUIZ = {
   id: 'demo',
   title: 'Demo quiz',
   settings: { maxPoints: 1000, minPoints: 500, defaultTime: 20, showAnswersOnPhones: true,
-    rounds: [{ id: 'r1', title: 'Warm-up', brief: '' }, { id: 'r2', title: 'Pictures, maps and music', brief: '' }] },
+    rounds: [{ id: 'r1', title: 'Warm-up', brief: '' }, { id: 'r2', title: 'Pictures, maps and music', brief: '' }, { id: 'r3', title: 'True, false, sort and Wipeout', brief: '' }] },
   questions: [
     { id: 'd1', round: 'r1', type: 'choice', text: 'Which planet is closest to the Sun?', time: 15, media: { kind: 'none' },
       options: [{ id: 'd1a', text: 'Venus' }, { id: 'd1b', text: 'Mercury' }, { id: 'd1c', text: 'Mars' }, { id: 'd1d', text: 'Earth' }], correct: 'd1b' },
@@ -26,5 +26,12 @@ window.DEMO_QUIZ = {
     { id: 'd7', round: 'r2', type: 'text', text: 'Name the band', time: 25,
       media: { kind: 'youtube', url: 'https://www.youtube.com/watch?v=fJ9rUzIMcZQ', videoId: 'fJ9rUzIMcZQ', start: 0 },
       answers: ['Queen'], ai: true },
+    { id: 'd8', round: 'r3', type: 'tf', text: 'The Great Wall of China is visible from the Moon with the naked eye', time: 15, media: { kind: 'none' }, answer: false },
+    { id: 'd9', round: 'r3', type: 'sort', text: 'Sort these into the right category', time: 45, media: { kind: 'none' }, partial: true,
+      categories: [{ id: 'd9c1', name: 'Capital cities' }, { id: 'd9c2', name: 'Not capitals' }],
+      items: [{ id: 'd9i1', text: 'Canberra', category: 'd9c1' }, { id: 'd9i2', text: 'Sydney', category: 'd9c2' }, { id: 'd9i3', text: 'Ottawa', category: 'd9c1' }, { id: 'd9i4', text: 'Toronto', category: 'd9c2' }, { id: 'd9i5', text: 'Wellington', category: 'd9c1' }, { id: 'd9i6', text: 'Istanbul', category: 'd9c2' }] },
+    { id: 'd10', round: 'r3', type: 'wipeout', text: 'Wipeout: countries in Africa', time: 5, media: { kind: 'none' }, pickPoints: 200, penalty: 500,
+      right: ['Nigeria', 'Kenya', 'Ghana', 'Egypt', 'Morocco', 'Ethiopia', 'Senegal', 'Tanzania', 'Uganda', 'Zambia', 'Namibia', 'Botswana', 'Mali', 'Tunisia', 'Angola'].map((t, i) => ({ id: 'd10r' + i, text: t })),
+      wrong: ['Yemen', 'Oman', 'Suriname', 'Nepal', 'Georgia'].map((t, i) => ({ id: 'd10w' + i, text: t })) },
   ],
 };

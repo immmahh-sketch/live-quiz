@@ -90,13 +90,16 @@ function startHeartbeat() { clearInterval(hbT); hbT = setInterval(broadcastState
 /** Everything a phone needs to draw its screen. Never the right answers. */
 function stateForPlayers() {
   const s = { phase: G.phase, code: G.code, qIndex: G.qIndex, total: total(), title: G.quiz.title, now: Date.now() };
-  if (G.phase === 'question' && G.q) { s.q = G.q.view; s.remainingMs = Math.max(0, G.q.deadline - Date.now()); s.answered = Object.keys(G.q.answers); }
+  if (G.phase === 'question' && G.q) {
+    s.q = G.q.view; s.remainingMs = Math.max(0, (G.q.deadline || 0) - Date.now()); s.answered = Object.keys(G.q.answers);
+    if (G.q.wipe) { const w = G.q.wipe; s.wipe = { turnPid: w.turnPid, turnName: G.players[w.turnPid]?.name || '', remainingMs: Math.max(0, w.turnDeadline - Date.now()), gone: w.gone, out: w.out, over: w.over, last: w.last, scores: w.scores }; }
+  }
   if (G.phase === 'countdown') s.next = { type: question().type, n: G.qIndex + 1 };
   if (G.phase === 'round') { const r = roundOf(G.qIndex); s.round = { n: r.n, title: r.title, count: r.count }; }
   if ((G.phase === 'reveal' || G.phase === 'scoreboard' || G.phase === 'final') && G.q?.results) {
-    s.results = {};
+    s.results = {}; s.qType = question()?.type;
     const rk = ranked();
-    for (const p of rk) { const r = G.q.results.byPlayer[p.id]; s.results[p.id] = { correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, score: p.score, rank: rk.indexOf(p) + 1, of: rk.length }; }
+    for (const p of rk) { const r = G.q.results.byPlayer[p.id]; s.results[p.id] = { correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, wiped: !!r?.wiped, score: p.score, rank: rk.indexOf(p) + 1, of: rk.length }; }
     if (G.quiz.settings.showAnswersOnPhones !== false) s.answer = answerText(question());
   }
   if (G.phase === 'final') s.top = ranked().slice(0, 10).map((p, i) => ({ name: p.name, score: p.score, rank: i + 1 }));
@@ -109,6 +112,9 @@ function answerText(q) {
   if (q.type === 'order') return q.items.filter((i) => i.text.trim()).map((i) => i.text).join(' → ');
   if (q.type === 'match') return q.pairs.map((p) => p.left + (p.right.kind === 'text' ? ' – ' + p.right.value : '')).join(', ');
   if (q.type === 'pin') return q.place ? 'It was ' + q.place : 'See the screen';
+  if (q.type === 'tf') return q.answer === false ? 'False' : 'True';
+  if (q.type === 'sort') return q.categories.filter((c) => c.name.trim()).map((c) => `${c.name}: ${q.items.filter((i) => i.category === c.id && i.text.trim()).map((i) => i.text).join(', ')}`).join(' · ');
+  if (q.type === 'wipeout') return 'Wrong ones: ' + q.wrong.filter((i) => i.text.trim()).map((i) => i.text).join(', ');
   return '';
 }
 
@@ -122,6 +128,7 @@ function onHello({ pid, name }) {
 function onAnswer({ pid, qId, answer }) {
   if (G.phase !== 'question' || !G.q || qId !== G.q.view.id) return;
   if (!G.players[pid]) { onHello({ pid, name: present.get(pid) || 'Player' }); }
+  if (G.q.wipe) return wipePick(pid, String(answer));
   if (G.q.answers[pid]) return;
   G.q.answers[pid] = { answer, elapsed: Date.now() - G.q.startedAt };
   persist();
@@ -130,7 +137,7 @@ function onAnswer({ pid, qId, answer }) {
   maybeAllAnswered();
 }
 function maybeAllAnswered() {
-  if (G.phase !== 'question') return;
+  if (G.phase !== 'question' || G.q?.wipe) return;
   const live = [...present.keys()].filter((pid) => G.players[pid]);
   const pool = live.length ? live : Object.keys(G.players);
   if (pool.length && pool.every((pid) => G.q.answers[pid])) setTimeout(() => { if (G.phase === 'question') endQuestion(); }, 600);
@@ -174,23 +181,91 @@ function buildView(q) {
     v.left = ps.map((p) => ({ k: tok('L:' + p.id), text: p.left }));
     v.right = shuffle(ps).map((p) => ({ k: tok('R:' + p.id), kind: p.right.kind, value: p.right.value }));
   }
+  if (q.type === 'tf') v.options = [{ k: tok('true'), text: 'True', c: 1 }, { k: tok('false'), text: 'False', c: 0 }];
+  if (q.type === 'sort') {
+    const cats = q.categories.filter((c) => c.name.trim());
+    v.categories = cats.map((c) => ({ k: tok('C:' + c.id), name: c.name }));
+    v.items = shuffle(q.items.filter((i) => i.text.trim() && cats.some((c) => c.id === i.category))).map((i) => ({ k: tok('I:' + i.id), text: i.text }));
+  }
+  if (q.type === 'wipeout') {
+    const tiles = [...q.right.filter((i) => i.text.trim()).map((i) => ({ k: tok('R:' + i.id), text: i.text })), ...q.wrong.filter((i) => i.text.trim()).map((i) => ({ k: tok('W:' + i.id), text: i.text }))];
+    v.board = shuffle(tiles).map((t, i, arr) => ({ ...t, ...scatter(i, arr.length) }));
+    v.pickPoints = q.pickPoints ?? 200; v.penalty = q.penalty ?? 500;
+  }
   return { view: v, keys };
+}
+/** A grid with jitter, so the board looks scattered but nothing overlaps. Positions in % of the board. */
+function scatter(i, n) {
+  const cols = n > 16 ? 5 : n > 9 ? 4 : 3, rows = Math.ceil(n / cols);
+  const c = i % cols, r = Math.floor(i / cols);
+  const jx = (Math.random() - 0.5) * (60 / cols), jy = (Math.random() - 0.5) * (40 / rows);
+  return { x: +(((c + 0.5) / cols) * 100 + jx).toFixed(1), y: +(((r + 0.5) / rows) * 100 + jy).toFixed(1), rot: +((Math.random() - 0.5) * 10).toFixed(1) };
+}
+
+// ------------------------------------------------------------------ wipeout: turns
+function wipeStart() {
+  const q = question();
+  const live = Object.keys(G.players).filter((pid) => present.has(pid));
+  const order = shuffle(live.length ? live : Object.keys(G.players));
+  G.q.wipe = { order, turnPid: null, turnDeadline: 0, gone: [], out: [], scores: {}, picks: [], over: false, last: null, seconds: q.time };
+  wipeNextTurn();
+}
+function wipeNextTurn() {
+  const w = G.q.wipe, q = question();
+  const candidates = w.order.filter((pid) => !w.out.includes(pid));
+  if (!candidates.length) { w.over = true; w.last = { text: 'Nobody left to pick', ok: null }; return endQuestion(); }
+  const idx = w.turnPid ? candidates.indexOf(w.turnPid) : -1;
+  // After a pick the turn moves on; after a timeout the timed-out player is already out of the list.
+  w.turnPid = candidates[(idx + 1) % candidates.length];
+  w.turnDeadline = Date.now() + q.time * 1000;
+  persist(); renderWipe(); broadcastState();
+}
+function wipeTimeout() {
+  const w = G.q.wipe, pid = w.turnPid;
+  w.out.push(pid); w.picks.push({ pid, name: G.players[pid]?.name || 'Player', text: 'ran out of time', ok: null });
+  w.last = { name: G.players[pid]?.name, text: 'ran out of time', ok: null };
+  const before = w.turnPid; w.turnPid = null;
+  // Continue from where the order was, skipping the player who is now out.
+  const after = w.order.filter((p) => !w.out.includes(p));
+  if (!after.length) { w.over = true; return endQuestion(); }
+  const pos = w.order.indexOf(before); let next = null;
+  for (let s = 1; s <= w.order.length && !next; s++) { const cand = w.order[(pos + s) % w.order.length]; if (!w.out.includes(cand)) next = cand; }
+  w.turnPid = next; w.turnDeadline = Date.now() + question().time * 1000;
+  persist(); renderWipe(); broadcastState();
+}
+function wipePick(pid, token) {
+  const w = G.q.wipe, q = question(), v = G.q.view;
+  if (!w || w.over || pid !== w.turnPid || w.gone.includes(token)) return;
+  const tile = v.board.find((t) => t.k === token); if (!tile) return;
+  const ok = String(G.q.keys[token] || '').startsWith('R:');
+  w.gone.push(token);
+  w.scores[pid] = (w.scores[pid] || 0) + (ok ? (q.pickPoints ?? 200) : -(q.penalty ?? 500));
+  w.picks.push({ pid, name: G.players[pid]?.name || 'Player', text: tile.text, ok });
+  w.last = { name: G.players[pid]?.name, text: tile.text, ok };
+  send('ack', { pid, qId: v.id });
+  if (!ok) { w.over = true; persist(); renderWipe(token); broadcastState(); setTimeout(() => endQuestion(), 2200); return; }
+  const rightLeft = v.board.some((t) => String(G.q.keys[t.k]).startsWith('R:') && !w.gone.includes(t.k));
+  if (!rightLeft) { w.over = true; w.last = { name: null, text: 'All found!', ok: true }; persist(); renderWipe(); broadcastState(); setTimeout(() => endQuestion(), 1500); return; }
+  wipeNextTurn();
 }
 function startQuestion() {
   clearInterval(countT);
   const q = question();
   const { view, keys } = buildView(q);
   const now = Date.now();
-  G.q = { view, keys, startedAt: now, deadline: now + q.time * 1000, answers: {}, results: null };
-  G.phase = 'question'; persist(); render(); broadcastState(); startTick();
+  G.q = { view, keys, startedAt: now, deadline: q.type === 'wipeout' ? null : now + q.time * 1000, answers: {}, results: null };
+  G.phase = 'question'; persist(); render();
+  if (q.type === 'wipeout') wipeStart(); else broadcastState();
+  startTick();
 }
 function startTick() {
   clearInterval(tickT);
   tickT = setInterval(() => {
     if (G.phase !== 'question' || !G.q) return clearInterval(tickT);
-    const rem = G.q.deadline - Date.now();
-    const t = $('#timer'); if (t) { const p = Math.max(0, rem / (question().time * 1000)) * 100; t.style.setProperty('--p', p + '%'); t.dataset.s = Math.max(0, Math.ceil(rem / 1000)); t.classList.toggle('low', rem < 5000); }
-    if (rem <= 0) endQuestion();
+    const wipe = G.q.wipe;
+    const total = (question().time * 1000), rem = wipe ? wipe.turnDeadline - Date.now() : G.q.deadline - Date.now();
+    const t = $('#timer'); if (t) { const p = Math.max(0, rem / total) * 100; t.style.setProperty('--p', p + '%'); t.dataset.s = Math.max(0, Math.ceil(rem / 1000)); t.classList.toggle('low', rem < 5000 && !wipe); }
+    if (rem <= 0) { if (wipe) { if (!wipe.over) wipeTimeout(); } else endQuestion(); }
   }, 100);
 }
 async function endQuestion() {
@@ -225,8 +300,23 @@ async function grade(noAi) {
     if (correct) stats.right++;
   };
 
-  if (q.type === 'choice') {
-    for (const [pid, a] of entries) { const id = keys[a.answer]; stats.counts[id] = (stats.counts[id] || 0) + 1; res(pid, id === q.correct, 0, a.elapsed, { choice: id }); }
+  if (q.type === 'choice' || q.type === 'tf') {
+    for (const [pid, a] of entries) { const id = keys[a.answer]; stats.counts[id] = (stats.counts[id] || 0) + 1; res(pid, id === LQ.correctId(q), 0, a.elapsed, { choice: id }); }
+  }
+  if (q.type === 'sort') {
+    const n = v.items.length;
+    for (const [pid, a] of entries) {
+      const placed = a.answer && typeof a.answer === 'object' ? a.answer : {};
+      let hits = 0;
+      for (const [it, ct] of Object.entries(placed)) { const I = keys[it], C = keys[ct]; if (!I || !C) continue; const item = q.items.find((x) => 'I:' + x.id === I); if (item && 'C:' + item.category === C) hits++; }
+      res(pid, hits === n, hits / n, a.elapsed);
+    }
+  }
+  if (q.type === 'wipeout') {
+    const w = G.q.wipe || { scores: {}, picks: [] };
+    for (const [pid, pts] of Object.entries(w.scores)) { byPlayer[pid] = { answered: true, correct: pts > 0, partial: pts > 0 ? 1 : 0, points: pts, wiped: w.picks.some((p) => p.pid === pid && p.ok === false) }; if (pts > 0) stats.right++; }
+    stats.answered = Object.keys(w.scores).length;
+    stats.picks = w.picks;
   }
   if (q.type === 'text') {
     const accepted = q.answers.filter((s) => s.trim());
@@ -346,7 +436,9 @@ function mediaHtml(q, live) {
 function renderQuestion() {
   const q = question(), v = G.q.view;
   let body = '';
-  if (q.type === 'choice') body = `<div class="answers">${v.options.map((o) => `<div class="ans" style="background:${COLORS[o.c].hex}"><span class="shape">${COLORS[o.c].shape}</span>${esc(o.text)}</div>`).join('')}</div>`;
+  if (q.type === 'wipeout') return renderWipe();
+  if (q.type === 'choice' || q.type === 'tf') body = `<div class="answers">${v.options.map((o) => `<div class="ans" style="background:${COLORS[o.c].hex}"><span class="shape">${COLORS[o.c].shape}</span>${esc(o.text)}</div>`).join('')}</div>`;
+  if (q.type === 'sort') body = `<div class="cats">${v.categories.map((c) => `<div class="cat"><h3>${esc(c.name)}</h3></div>`).join('')}</div><div class="items mt">${v.items.map((it) => `<div class="item">${esc(it.text)}</div>`).join('')}</div>`;
   if (q.type === 'text') body = `<div class="item" style="justify-content:center">✎ Type your answer on your phone</div>`;
   if (q.type === 'order') body = `<div class="items">${v.items.map((it) => `<div class="item">${esc(it.text)}</div>`).join('')}</div><div style="opacity:.75;font-weight:800;margin-top:8px">${esc(q.hint || 'Put them in order on your phone')}</div>`;
   if (q.type === 'match') body = `<div class="items">${v.left.map((l) => `<div class="item">${esc(l.text)}</div>`).join('')}</div><div class="items mt">${v.right.map((r, i) => `<div class="item"><span class="k">${i + 1}</span>${r.kind === 'image' ? `<img src="${esc(r.value)}">` : esc(r.value)}</div>`).join('')}</div>`;
@@ -357,16 +449,34 @@ function renderQuestion() {
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">Stop the clock ■</button>`)}`;
   renderAnswered(); bind();
 }
-function renderAnswered() { const el = $('#answered'); if (el && G.q) el.textContent = `${Object.keys(G.q.answers).length} of ${players().length} answered`; }
+function renderAnswered() { const el = $('#answered'); if (el && G.q && !G.q.wipe) el.textContent = `${Object.keys(G.q.answers).length} of ${players().length} answered`; }
+/** The Wipeout board and whose turn it is. Re-drawn on every turn; `boomToken` flashes the wrong pick. */
+function renderWipe(boomToken) {
+  const q = question(), v = G.q.view, w = G.q.wipe;
+  const lastHtml = w?.last ? `<span class="last ${w.last.ok === true ? 'ok' : w.last.ok === false ? 'no' : ''}">${w.last.name ? esc(w.last.name) + ': ' : ''}${esc(w.last.text)}${w.last.ok === true ? ' ✔' : w.last.ok === false ? ' ✘ Wiped out!' : ''}</span>` : '';
+  const turn = !w ? '' : w.over ? `<div class="turnbar">${lastHtml || '<span>Round over</span>'}</div>` : `<div class="turnbar"><span>Your pick,</span><span class="who">${esc(G.players[w.turnPid]?.name || '…')}</span>${lastHtml}</div>`;
+  const found = w ? w.gone.filter((k) => String(G.q.keys[k]).startsWith('R:')).length : 0, totalRight = v.board.filter((t) => String(G.q.keys[t.k]).startsWith('R:')).length;
+  stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill">${found} of ${totalRight} found</span><div class="timer" id="timer" data-s="${q.time}" style="--p:100%"></div></div>`)}
+    <div class="stage-main" style="gap:8px"><h1 class="qtext" style="font-size:clamp(1.3rem,2.6vw,2.2rem)">${esc(q.text)}</h1>${turn}
+      <div class="wboard">${v.board.map((t) => `<div class="wtile ${w?.gone.includes(t.k) ? (t.k === boomToken ? 'boom' : 'gone') : ''}" style="left:${t.x}%;top:${t.y}%;--r:${t.rot}deg">${esc(t.text)}</div>`).join('')}</div></div>
+    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">Stop the round ■</button>`)}`;
+  bind();
+}
 function renderGrading() {
   stage.innerHTML = `${topBar()}<div class="stage-main"><h1 class="big">Time's up!</h1><p style="font-size:1.4rem;font-weight:800"><span class="spinner"></span> &nbsp;Checking the answers…</p></div>`;
 }
 function renderReveal() {
   const q = question(), v = G.q.view, R = G.q.results, n = players().length;
   let body = '';
-  if (q.type === 'choice') {
+  if (q.type === 'sort') body = `<div class="cats">${q.categories.filter((c) => c.name.trim()).map((c) => `<div class="cat"><h3>${esc(c.name)}</h3>${q.items.filter((i) => i.category === c.id && i.text.trim()).map((i) => `<div class="item ok">${esc(i.text)}</div>`).join('')}</div>`).join('')}</div>`;
+  if (q.type === 'wipeout') {
+    const w = G.q.wipe || { picks: [] };
+    body = `<div class="wboard" style="height:52vh">${v.board.map((t) => `<div class="wtile ${String(G.q.keys[t.k]).startsWith('R:') ? 'right' : 'wrong'} ${w.gone?.includes(t.k) ? 'gone' : ''}" style="left:${t.x}%;top:${t.y}%;--r:${t.rot}deg">${esc(t.text)}</div>`).join('')}</div>
+      <div class="textlist mt">${(R.stats.picks || []).map((p) => `<span class="tl ${p.ok === true ? 'ok' : p.ok === false ? 'no' : ''}">${esc(p.name)}: ${esc(p.text)}</span>`).join('')}</div>`;
+  }
+  if (q.type === 'choice' || q.type === 'tf') {
     const max = Math.max(1, ...Object.values(R.stats.counts));
-    body = `<div class="answers">${v.options.map((o) => { const id = G.q.keys[o.k], c = R.stats.counts[id] || 0, ok = id === q.correct; return `<div class="ans ${ok ? '' : 'dim'}" style="background:${COLORS[o.c].hex}"><div class="bar" style="width:${(c / max) * 100}%"></div><span class="shape" style="position:relative">${COLORS[o.c].shape}</span><span style="position:relative">${esc(o.text)}</span><span class="count" style="position:relative">${c}</span>${ok ? '<span class="tick" style="position:relative">✔</span>' : ''}</div>`; }).join('')}</div>`;
+    body = `<div class="answers">${v.options.map((o) => { const id = G.q.keys[o.k], c = R.stats.counts[id] || 0, ok = id === LQ.correctId(q); return `<div class="ans ${ok ? '' : 'dim'}" style="background:${COLORS[o.c].hex}"><div class="bar" style="width:${(c / max) * 100}%"></div><span class="shape" style="position:relative">${COLORS[o.c].shape}</span><span style="position:relative">${esc(o.text)}</span><span class="count" style="position:relative">${c}</span>${ok ? '<span class="tick" style="position:relative">✔</span>' : ''}</div>`; }).join('')}</div>`;
   }
   if (q.type === 'text') {
     body = `<div class="item ok" style="justify-content:center;font-size:1.8rem">✔ ${esc(q.answers[0])}${q.answers.length > 1 ? `<span style="opacity:.7;font-size:.7em"> (or ${esc(q.answers.slice(1, 4).join(', '))})</span>` : ''}</div>
@@ -380,9 +490,10 @@ function renderReveal() {
       <div class="mt">${best ? `<span class="badge-closest">🎯 Closest: ${esc(best.name)}</span>` : '<span class="muted">Nobody dropped a pin.</span>'}${q.place ? ` &nbsp; <span style="font-weight:800">It was ${esc(q.place)}</span>` : ''}</div></div>`;
   }
   const media = q.type === 'pin' ? '' : (q.media?.kind === 'image' ? mediaHtml(q, false) : '');
-  stage.innerHTML = `${topBar(`<span class="hpill">${R.stats.right} of ${n} got it right</span>`)}
-    <div class="stage-main"><h1 class="qtext">${esc(q.text)}</h1>${q.type === 'pin' ? body : media}</div>
-    ${q.type === 'pin' ? '' : `<div>${body}</div>`}
+  const inMain = q.type === 'pin' || q.type === 'wipeout';
+  stage.innerHTML = `${topBar(`<span class="hpill">${q.type === 'wipeout' ? `${R.stats.right} scored` : `${R.stats.right} of ${n} got it right`}</span>`)}
+    <div class="stage-main"><h1 class="qtext"${q.type === 'wipeout' ? ' style="font-size:clamp(1.3rem,2.6vw,2.2rem)"' : ''}>${esc(q.text)}</h1>${inMain ? body : media}</div>
+    ${inMain ? '' : `<div>${body}</div>`}
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">Scores ▶</button>`)}`;
   if (q.type === 'pin') drawPins();
   bind();
@@ -401,7 +512,7 @@ function drawPins() {
 }
 function renderScoreboard() {
   const rk = ranked().slice(0, 8), top = Math.max(1, rk[0]?.score || 1), R = G.q?.results?.byPlayer || {};
-  stage.innerHTML = `${topBar()}<div class="stage-main"><h1 class="big" style="font-size:2.6rem">Scoreboard</h1><div class="board">${rk.map((p, i) => `<div class="brow"><div class="fill" data-w="${(p.score / top) * 100}"></div><div class="rank">${i + 1}</div><div>${esc(p.name)}${R[p.id]?.points ? `<span class="delta">+${R[p.id].points}</span>` : ''}</div><div>${p.score}</div></div>`).join('')}</div></div>
+  stage.innerHTML = `${topBar()}<div class="stage-main"><h1 class="big" style="font-size:2.6rem">Scoreboard</h1><div class="board">${rk.map((p, i) => `<div class="brow"><div class="fill" data-w="${(p.score / top) * 100}"></div><div class="rank">${i + 1}</div><div>${esc(p.name)}${R[p.id]?.points ? `<span class="delta" ${R[p.id].points < 0 ? 'style="color:#ffb3c0"' : ''}>${R[p.id].points > 0 ? '+' : ''}${R[p.id].points}</span>` : ''}</div><div>${p.score}</div></div>`).join('')}</div></div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">${G.qIndex + 1 < total() ? 'Next question ▶' : 'Final results 🏆'}</button>`)}`;
   requestAnimationFrame(() => $$('.fill').forEach((f) => f.style.width = f.dataset.w + '%'));
   bind();

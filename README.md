@@ -24,6 +24,9 @@ Full scope and design decisions: [docs/SCOPE.md](docs/SCOPE.md).
 | Put in order | Arrange items with arrows | All-or-nothing, or partial credit per correct position (toggle) |
 | Drop the pin | Tap a spot on a picture | Full points inside the bullseye, falling to zero at the outer radius; closest player is flagged |
 | Match up | Pair each word with a picture or word | All-or-nothing, or partial credit per correct pair (toggle) |
+| True or false | Tap true or false | Right or wrong |
+| Categorise | Put each answer into one of 2–4 categories | All-or-nothing, or partial credit per correct placement (toggle) |
+| Wipeout | Take turns picking right answers from a scattered board of up to 20 (some wrong) | Each right pick scores (default 200) and vanishes; a wrong pick costs the picker (default 500) and ends the question; running out of your 5-second turn drops you out of that question |
 
 Any question can carry a **picture** or a **YouTube video**. The video plays on the host
 screen (with sound, if you share system audio on the call) while players answer.

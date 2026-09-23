@@ -275,14 +275,17 @@ function renderQForm() {
     <div id="typeBox"></div>
     <div class="field"><label>${q.type === 'pin' ? 'Picture to drop the pin on' : 'On the screen'}</label><div id="mediaBox"></div></div>
     <div class="row" style="align-items:flex-end">
-      <div class="field" style="max-width:180px"><label>Time limit (seconds)</label><input type="number" id="f_time" min="5" max="180" value="${q.time}"></div>
+      <div class="field" style="max-width:180px"><label>${q.type === 'wipeout' ? 'Seconds per turn' : 'Time limit (seconds)'}</label><input type="number" id="f_time" min="${q.type === 'wipeout' ? 3 : 5}" max="180" value="${q.time}"></div>
+      ${q.type === 'wipeout' ? `<div class="field" style="max-width:160px"><label>Points per right pick</label><input type="number" id="f_pick" min="0" max="5000" value="${q.pickPoints ?? 200}"></div><div class="field" style="max-width:160px"><label>Wipeout penalty</label><input type="number" id="f_penalty" min="0" max="5000" value="${q.penalty ?? 500}"></div>` : ''}
       ${S.quiz.rounds.length > 1 ? `<div class="field" style="max-width:240px"><label>Round</label><select id="f_round">${S.quiz.rounds.map((r, i) => `<option value="${r.id}" ${r.id === q.round ? 'selected' : ''}>${i + 1}. ${esc(r.title || 'Untitled round')}</option>`).join('')}</select></div>` : ''}
-      ${q.type === 'order' || q.type === 'match' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_partial" ${q.partial ? 'checked' : ''}> Partial credit for partly right</label>` : ''}
+      ${q.type === 'order' || q.type === 'match' || q.type === 'sort' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_partial" ${q.partial ? 'checked' : ''}> Partial credit for partly right</label>` : ''}
       ${q.type === 'text' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_ai" ${q.ai !== false ? 'checked' : ''}> Let AI judge spelling and wording</label>` : ''}
     </div>
     <div id="problems"></div>`;
   $('#f_text').oninput = (e) => { q.text = e.target.value; touch(); refreshTile(); };
-  $('#f_time').onchange = (e) => { q.time = LQ.clamp(+e.target.value || 30, 5, 180); e.target.value = q.time; touch(); renderQList(); };
+  $('#f_time').onchange = (e) => { q.time = LQ.clamp(+e.target.value || 30, q.type === 'wipeout' ? 3 : 5, 180); e.target.value = q.time; touch(); renderQList(); };
+  if ($('#f_pick')) $('#f_pick').onchange = (e) => { q.pickPoints = LQ.clamp(+e.target.value || 0, 0, 5000); touch(); };
+  if ($('#f_penalty')) $('#f_penalty').onchange = (e) => { q.penalty = LQ.clamp(+e.target.value || 0, 0, 5000); touch(); };
   if ($('#f_round')) $('#f_round').onchange = (e) => { q.round = e.target.value; touch(); S.sel = S.quiz.questions.findIndex((x) => x.id === q.id); renderQList(); renderQForm(); };
   if ($('#f_partial')) $('#f_partial').onchange = (e) => { q.partial = e.target.checked; touch(); };
   if ($('#f_ai')) $('#f_ai').onchange = (e) => { q.ai = e.target.checked; touch(); };
@@ -293,7 +296,7 @@ function renderQForm() {
   renderTypeBox(); renderMediaBox(); showProblems();
 }
 function placeholderFor(t) {
-  return { choice: 'e.g. Which planet is closest to the Sun?', text: 'e.g. Who painted the Mona Lisa?', order: 'e.g. Put these events in order, earliest first', pin: 'e.g. Drop the pin on Namibia', match: 'e.g. Match the dog breed to its picture' }[t] || '';
+  return { choice: 'e.g. Which planet is closest to the Sun?', text: 'e.g. Who painted the Mona Lisa?', order: 'e.g. Put these events in order, earliest first', pin: 'e.g. Drop the pin on Namibia', match: 'e.g. Match the dog breed to its picture', tf: 'e.g. The Great Wall of China is visible from space', sort: 'e.g. Sort these actors: who has been in Coronation Street?', wipeout: 'e.g. Footballers who have played for Newcastle United' }[t] || '';
 }
 function refreshTile() { const t = $(`.qtile[data-i="${S.sel}"] .t`); const q = cur(); if (t) t.innerHTML = t.querySelector('small').outerHTML + (esc(q.text) || '<span class="muted">Untitled question</span>'); }
 function showProblems() { const p = validate(cur()); const el = $('#problems'); if (el) el.innerHTML = p.length ? `<div class="notice">${esc(p.join(' '))}</div>` : ''; const tile = $(`.qtile[data-i="${S.sel}"] .mv`); if (tile) { const w = tile.querySelector('.warn'); if (p.length && !w) tile.insertAdjacentHTML('afterbegin', '<span class="warn">!</span>'); if (!p.length && w) w.remove(); } }
@@ -340,6 +343,38 @@ function renderTypeBox() {
     $$('[data-topic]').forEach((b) => b.onclick = () => { q.pairs[+b.dataset.topic].right = { kind: 'image', value: '' }; touch(); renderTypeBox(); });
     $$('[data-rm-pair]').forEach((b) => b.onclick = () => { q.pairs.splice(+b.dataset.rmPair, 1); touch(); renderTypeBox(); showProblems(); });
     $('#addPair').onclick = () => { q.pairs.push({ id: uid('p'), left: '', right: { kind: 'text', value: '' } }); touch(); renderTypeBox(); $$('[data-left]').pop().focus(); };
+  }
+  if (q.type === 'tf') {
+    box.innerHTML = `<div class="field"><label>The statement is…</label><div class="row">
+      <label class="check"><input type="radio" name="tf" value="true" ${q.answer !== false ? 'checked' : ''}> <span class="tag" style="background:var(--blue);color:#fff">◆ True</span></label>
+      <label class="check"><input type="radio" name="tf" value="false" ${q.answer === false ? 'checked' : ''}> <span class="tag" style="background:var(--red);color:#fff">▲ False</span></label></div></div>`;
+    $$('input[name=tf]').forEach((r) => r.onchange = () => { q.answer = r.value === 'true'; touch(); showProblems(); });
+  }
+  if (q.type === 'sort') {
+    const cats = q.categories;
+    box.innerHTML = `<div class="field"><label>Categories <span class="muted">— two to four</span></label>
+      ${cats.map((c, i) => `<div class="list-item"><div class="n">${['A', 'B', 'C', 'D'][i]}</div><input type="text" data-cat="${i}" value="${esc(c.name)}" placeholder="${i === 0 ? 'e.g. Has been in Coronation Street' : i === 1 ? 'e.g. Has never been in Coronation Street' : 'Category ' + (i + 1)}"><button class="btn btn-ghost btn-sm" data-rm-cat="${i}" ${cats.length <= 2 ? 'disabled' : ''}>✕</button></div>`).join('')}
+      <button class="btn btn-ghost btn-sm" id="addCat" ${cats.length >= 4 ? 'disabled' : ''}>+ Add category</button></div>
+      <div class="field"><label>Answers and where they belong <span class="muted">— players see them shuffled</span></label>
+      ${q.items.map((it, i) => `<div class="list-item" style="grid-template-columns:1fr auto auto"><input type="text" data-sitem="${i}" value="${esc(it.text)}" placeholder="Answer ${i + 1}"><select data-scat="${i}">${cats.map((c, ci) => `<option value="${c.id}" ${it.category === c.id ? 'selected' : ''}>${['A', 'B', 'C', 'D'][ci]}. ${esc(c.name) || 'Category ' + (ci + 1)}</option>`).join('')}</select><button class="btn btn-ghost btn-sm" data-rm-sitem="${i}" ${q.items.length <= 2 ? 'disabled' : ''}>✕</button></div>`).join('')}
+      <button class="btn btn-ghost btn-sm" id="addSItem" ${q.items.length >= 12 ? 'disabled' : ''}>+ Add answer</button></div>`;
+    $$('[data-cat]').forEach((inp) => inp.oninput = () => { cats[+inp.dataset.cat].name = inp.value; touch(); showProblems(); $$('[data-scat]').forEach((sel) => { const ci = +inp.dataset.cat; sel.options[ci].text = `${['A', 'B', 'C', 'D'][ci]}. ${inp.value || 'Category ' + (ci + 1)}`; }); });
+    $$('[data-rm-cat]').forEach((b) => b.onclick = () => { const c = cats.splice(+b.dataset.rmCat, 1)[0]; for (const it of q.items) if (it.category === c.id) it.category = cats[0].id; touch(); renderTypeBox(); showProblems(); });
+    $('#addCat').onclick = () => { cats.push({ id: uid('c'), name: '' }); touch(); renderTypeBox(); $$('[data-cat]').pop().focus(); };
+    $$('[data-sitem]').forEach((inp) => inp.oninput = () => { q.items[+inp.dataset.sitem].text = inp.value; touch(); showProblems(); });
+    $$('[data-scat]').forEach((sel) => sel.onchange = () => { q.items[+sel.dataset.scat].category = sel.value; touch(); showProblems(); });
+    $$('[data-rm-sitem]').forEach((b) => b.onclick = () => { q.items.splice(+b.dataset.rmSitem, 1); touch(); renderTypeBox(); showProblems(); });
+    $('#addSItem').onclick = () => { q.items.push({ id: uid('i'), text: '', category: cats[0].id }); touch(); renderTypeBox(); $$('[data-sitem]').pop().focus(); };
+  }
+  if (q.type === 'wipeout') {
+    const list = (arr, key, label, max) => `<div class="field"><label>${label}</label>${arr.map((it, i) => `<div class="list-item"><div class="n">${i + 1}</div><input type="text" data-${key}="${i}" value="${esc(it.text)}" placeholder="${label.split(' ')[0]} answer ${i + 1}"><button class="btn btn-ghost btn-sm" data-rm-${key}="${i}">✕</button></div>`).join('')}<button class="btn btn-ghost btn-sm" data-add="${key}" ${arr.length >= max ? 'disabled' : ''}>+ Add</button></div>`;
+    box.innerHTML = `<div class="notice" style="margin-bottom:12px">Up to twenty answers go on the board. Classic Wipeout is fifteen right and five wrong. Players take turns; a right pick vanishes and scores, a wrong pick ends the question and costs that player the penalty.</div>
+      <div class="row" style="align-items:flex-start;gap:20px"><div class="grow">${list(q.right, 'wr', 'Right answers', 15)}</div><div class="grow">${list(q.wrong, 'ww', 'Wrong answers (plausible, but definitely wrong)', 8)}</div></div>`;
+    for (const [key, arr] of [['wr', q.right], ['ww', q.wrong]]) {
+      $$(`[data-${key}]`).forEach((inp) => inp.oninput = () => { arr[+inp.dataset[key]].text = inp.value; touch(); showProblems(); });
+      $$(`[data-rm-${key}]`).forEach((b) => b.onclick = () => { arr.splice(+b.dataset['rm' + key.charAt(0).toUpperCase() + key.slice(1)], 1); touch(); renderTypeBox(); showProblems(); });
+    }
+    $$('[data-add]').forEach((b) => b.onclick = () => { (b.dataset.add === 'wr' ? q.right : q.wrong).push({ id: uid('w'), text: '' }); touch(); renderTypeBox(); $$(`[data-${b.dataset.add}]`).pop().focus(); });
   }
   if (q.type === 'pin') {
     box.innerHTML = `<div class="field"><label>Where the pin goes <span class="muted">— click the picture to move it</span></label><div id="pinpick"></div>
@@ -428,9 +463,11 @@ function settingsModal() {
 /** The question as the checker sees it — also what a check is tied to, so an edit makes it stale. */
 function summaryOf(q) {
   const lines = [`Type: ${TYPES[q.type].label}`, `Question: ${q.text}`];
-  if (q.type === 'choice') lines.push('Options: ' + q.options.filter((o) => o.text.trim()).map((o) => o.text + (o.id === q.correct ? ' [MARKED CORRECT]' : '')).join(' | '));
-  if (q.type === 'text') lines.push('Accepted answers: ' + q.answers.filter((a) => a.trim()).join(' | '));
+  if (q.type === 'choice') lines.push('Options: ' + q.options.filter((o) => o.text.trim()).map((o) => o.text + (o.id === q.correct ? ' [MARKED CORRECT]' : '')).join(' | '));  if (q.type === 'text') lines.push('Accepted answers: ' + q.answers.filter((a) => a.trim()).join(' | '));
   if (q.type === 'order') lines.push(`Correct order${q.hint ? ` (${q.hint})` : ''}: ` + q.items.filter((i) => i.text.trim()).map((i, n) => `${n + 1}. ${i.text}`).join(' | '));
+  if (q.type === 'tf') lines.push(`Marked as: ${q.answer === false ? 'FALSE' : 'TRUE'}`);
+  if (q.type === 'sort') lines.push('Categories and the answers placed in each: ' + q.categories.filter((c) => c.name.trim()).map((c) => `${c.name}: ${q.items.filter((i) => i.category === c.id && i.text.trim()).map((i) => i.text).join(', ') || '(none)'}`).join(' | '));
+  if (q.type === 'wipeout') lines.push('Marked RIGHT (each must genuinely fit the question): ' + q.right.filter((i) => i.text.trim()).map((i) => i.text).join(' | '), 'Marked WRONG (each must genuinely NOT fit): ' + q.wrong.filter((i) => i.text.trim()).map((i) => i.text).join(' | '));
   if (q.type === 'match') lines.push('Pairs (left → right): ' + q.pairs.map((p) => `${p.left} → ${p.right.kind === 'image' ? '[a picture — cannot be checked here, treat as fine]' : p.right.value}`).join(' | '));
   if (q.type === 'pin') {
     if (q.media?.url?.includes('/maps/world') && q.pin) lines.push(`Target on a world map: ${q.place || 'unnamed'} at roughly latitude ${(90 - q.pin.y * 180).toFixed(1)}, longitude ${(q.pin.x * 360 - 180).toFixed(1)}`);

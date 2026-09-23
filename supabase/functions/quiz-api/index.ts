@@ -317,6 +317,12 @@ Question types and their JSON shapes (use only the types you are asked for, and 
   3 or 4 pairs. "rightPicture" is the exact English Wikipedia article title whose lead picture shows the thing (only when a pictures round is wanted); otherwise use "right":"text" for a word-to-word match.
 - "pin": {"type":"pin","text":"Drop the pin on Namibia","place":"Namibia","lat":-22.0,"lon":17.0,"sizeKm":1200,"time":20}
   Only countries, cities, seas and famous landmarks. lat/lon of its centre in decimal degrees; sizeKm is roughly how wide the place is (a city ~30, a small country ~300, a large country ~2000).
+- "tf": {"type":"tf","text":"<a statement>","answer":true}
+  A crisp statement that is definitely true or definitely false. Mix true and false across the set.
+- "sort": {"type":"sort","text":"Which of these actors have been in Coronation Street?","categories":["Been in Coronation Street","Never been in Coronation Street"],"items":[{"text":"...","category":"<exactly one of the categories>"}]}
+  2 to 4 categories, 4 to 8 items, at least one item per category. Every placement must be certain.
+- "wipeout": {"type":"wipeout","text":"Footballers who have played for Newcastle United","right":["...x15"],"wrong":["...x5"]}
+  A list question. "right" are 15 answers that definitely fit; "wrong" are 5 that are plausible (same kind of thing, same era or league) but definitely do not fit. Verify every one — a wrong answer that actually fits ruins the round.
 
 Pictures: add "picture":"<exact English Wikipedia article title>" to any question where a picture makes it better or is the question itself ("Which city is this?", "Name this bird"). Use only titles you are confident exist, whose lead image shows the thing and does not contain its name as a caption in the image. Do not add a picture that gives the answer away when the question is not about identifying the picture.
 
@@ -413,6 +419,31 @@ Pictures round: ${wantPictures ? "yes — give roughly half the questions a pict
       if (base.pairs.length < 2) return null;
       return base;
     }
+    if (r.type === "tf") {
+      if (typeof r.answer !== "boolean") return null;
+      base.answer = r.answer;
+      return base;
+    }
+    if (r.type === "sort") {
+      const cats = (Array.isArray(r.categories) ? r.categories : []).map((s: unknown) => String(s ?? "").trim()).filter(Boolean).slice(0, 4);
+      if (cats.length < 2) return null;
+      base.categories = cats.map((name: string) => ({ id: uid("c"), name }));
+      base.items = (Array.isArray(r.items) ? r.items : []).slice(0, 12).map((it: any) => {
+        const text = String(it?.text ?? "").trim(); const cat = base.categories.find((c: any) => norm(c.name) === norm(String(it?.category ?? "")));
+        return text && cat ? { id: uid("i"), text, category: cat.id } : null;
+      }).filter(Boolean);
+      if (base.items.length < 2) return null;
+      return base;
+    }
+    if (r.type === "wipeout") {
+      const list = (a: unknown) => (Array.isArray(a) ? a : []).map((s: unknown) => String(s ?? "").trim()).filter(Boolean);
+      const right = list(r.right).slice(0, 15), wrong = list(r.wrong).slice(0, Math.max(1, 20 - Math.min(15, list(r.right).length)));
+      if (right.length < 3 || !wrong.length) return null;
+      base.right = right.map((text: string) => ({ id: uid("w"), text }));
+      base.wrong = wrong.map((text: string) => ({ id: uid("w"), text }));
+      base.pickPoints = 200; base.penalty = 500; base.time = 5;
+      return base;
+    }
     if (r.type === "pin") {
       if (!map) return null;
       const lat = +r.lat, lon = +r.lon;
@@ -442,7 +473,7 @@ Use web search to confirm anything you are not completely certain of — especia
 Verdicts:
 - "ok": the marked answer is correct and it is the one clear answer.
 - "doubt": probably fine, but something is worth the host's look — a second defensible answer, a wrong option that is arguably right, a fact that sources disagree on or that may be out of date, wording that could be read two ways, or an item in an order/match set you could not confirm.
-- "wrong": the marked answer is incorrect, the order or a pairing is wrong, or the question cannot be answered as written.
+- "wrong": the marked answer is incorrect, the order or a pairing is wrong, an item is in the wrong category, a Wipeout "right" answer does not fit or a "wrong" one does, or the question cannot be answered as written.
 
 Be exacting but not pedantic: a pub quiz accepts common knowledge and ordinary rounding. For each question write a note of one or two plain sentences saying what you checked and, if there is a problem, what is wrong and what it should be. When you know the correct answer, give it in "fix".
 
@@ -543,7 +574,7 @@ Deno.serve(async (req) => {
 
     if (action === "generate") {
       if (!ANTHROPIC_KEY) return json({ error: "AI is not set up on the server yet — add ANTHROPIC_API_KEY as a Supabase secret." }, 503);
-      const types = (Array.isArray(body.types) ? body.types : []).filter((t: unknown) => ["choice", "text", "order", "match", "pin"].includes(String(t)));
+      const types = (Array.isArray(body.types) ? body.types : []).filter((t: unknown) => ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout"].includes(String(t)));
       const out = await generate({
         topic: String(body.brief ? (body.title || body.topic || "") : (body.topic || "")).slice(0, 200),
         brief: String(body.brief || "").slice(0, 1500),

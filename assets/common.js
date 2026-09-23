@@ -50,6 +50,9 @@ window.LQ = (() => {
     order:  { label: 'Put in order',    icon: '↕', blurb: 'Players arrange the items into the right order.' },
     pin:    { label: 'Drop the pin',    icon: '📍', blurb: 'Players tap a spot on a picture. Closest scores most.' },
     match:  { label: 'Match up',        icon: '⇄', blurb: 'Pair each word with its picture or partner.' },
+    tf:     { label: 'True or false',   icon: '✓✗', blurb: 'A statement. Players say true or false.' },
+    sort:   { label: 'Categorise',      icon: '🗂', blurb: 'Players drop each answer into the right category.' },
+    wipeout:{ label: 'Wipeout',         icon: '💥', blurb: 'Answers scattered on screen, some wrong. Players take turns picking a right one. Pick a wrong one and you are wiped out.' },
   };
   const COLORS = [
     { name: 'red',    hex: '#e21b3c', shape: '▲' },
@@ -57,7 +60,7 @@ window.LQ = (() => {
     { name: 'yellow', hex: '#d89e00', shape: '●' },
     { name: 'green',  hex: '#26890c', shape: '■' },
   ];
-  const DEFAULT_TIMES = { choice: 20, text: 30, order: 45, pin: 25, match: 45 };
+  const DEFAULT_TIMES = { choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5 };
   const DEFAULT_SETTINGS = { maxPoints: 1000, minPoints: 500, defaultTime: 30, showAnswersOnPhones: true, timeByType: { ...DEFAULT_TIMES } };
 
   /** The time limit a question of this type gets by default in this quiz. */
@@ -97,8 +100,13 @@ window.LQ = (() => {
     if (type === 'order') { q.items = [0, 1, 2, 3].map(() => ({ id: uid('i'), text: '' })); q.hint = ''; }
     if (type === 'pin') { q.media = { kind: 'image', url: '' }; q.pin = { x: 0.5, y: 0.5 }; q.radiusFull = 0.04; q.radiusZero = 0.2; }
     if (type === 'match') { q.pairs = [0, 1, 2, 3].map(() => ({ id: uid('p'), left: '', right: { kind: 'text', value: '' } })); }
+    if (type === 'tf') { q.answer = true; }
+    if (type === 'sort') { q.categories = [0, 1].map(() => ({ id: uid('c'), name: '' })); q.items = [0, 1, 2, 3].map(() => ({ id: uid('i'), text: '', category: q.categories[0].id })); }
+    if (type === 'wipeout') { q.right = Array.from({ length: 8 }, () => ({ id: uid('w'), text: '' })); q.wrong = Array.from({ length: 3 }, () => ({ id: uid('w'), text: '' })); q.pickPoints = 200; q.penalty = 500; }
     return q;
   }
+  /** The id a right answer maps to, for the types that have one. */
+  function correctId(q) { return q.type === 'tf' ? String(q.answer) : q.correct; }
 
   /** Something wrong with the question that would stop it being played. */
   function validate(q) {
@@ -115,6 +123,19 @@ window.LQ = (() => {
     if (q.type === 'match') {
       const ok = (q.pairs || []).filter((p) => p.left.trim() && p.right && p.right.value);
       if (ok.length < 2) problems.push('Needs at least two complete pairs.');
+    }
+    if (q.type === 'sort') {
+      const cats = (q.categories || []).filter((c) => c.name.trim());
+      if (cats.length < 2) problems.push('Needs at least two named categories.');
+      const items = (q.items || []).filter((i) => i.text.trim());
+      if (items.length < 2) problems.push('Needs at least two answers to sort.');
+      if (items.some((i) => !cats.some((c) => c.id === i.category))) problems.push('Every answer needs a category.');
+    }
+    if (q.type === 'wipeout') {
+      const r = (q.right || []).filter((i) => i.text.trim()).length, w = (q.wrong || []).filter((i) => i.text.trim()).length;
+      if (r < 3) problems.push('Needs at least three right answers.');
+      if (w < 1) problems.push('Needs at least one wrong answer.');
+      if (r + w > 20) problems.push('Twenty answers on the board at most.');
     }
     if (q.media && q.media.kind === 'youtube' && !q.media.videoId) problems.push('The YouTube link is not valid.');
     return problems;
@@ -195,6 +216,6 @@ window.LQ = (() => {
   function ordinal(n) { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
   return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
-    TYPES, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, validate, youtubeId, speedPoints, normText, similarity, textMatch,
+    TYPES, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, correctId, validate, youtubeId, speedPoints, normText, similarity, textMatch,
     newCode, playUrl, shortPlayUrl, resizeImage, fmtTime, ordinal };
 })();

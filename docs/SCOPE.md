@@ -66,6 +66,20 @@ points = max − (max − min) × (time taken ÷ time limit)      default max 10
 | Put in order | the items arranged | every item in place | fraction of items in the right position (toggle) |
 | Match up | word → picture/word pairs | every pair right | fraction of pairs right (toggle) |
 | Drop the pin | a point on the picture | within the bullseye radius | linear fall-off to zero at the outer radius, always on |
+| True or false | true or false | it matches | — |
+| Categorise | each answer placed in a category | every answer in its category | fraction placed right (toggle) |
+| Wipeout | turn-based picks from a board | see below | — |
+
+**Wipeout** is the one question that is not "everyone answers at once". Up to twenty
+answers are scattered on the host screen, classically fifteen right and five wrong. Players
+take turns in a shuffled order, each with the question's time limit per turn (default five
+seconds). A right pick vanishes from the board and scores the pick points (default 200); a
+wrong pick costs the picker the penalty (default 500) and ends the question for everyone;
+running out of time drops that player out of the question without a penalty, so someone
+away from their phone cannot stall the call. It also ends when every right answer has been
+found or nobody is left. The phones show the board to everyone, live only for the player
+whose turn it is. Scores accumulate during the question and are applied at the reveal, so a
+player can finish the question with a negative total for it.
 
 Drop the pin measures distance in fractions of the picture width, corrected for the
 picture's aspect ratio. The builder shows both radii as rings on the picture. The closest
