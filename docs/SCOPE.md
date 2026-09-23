@@ -126,9 +126,13 @@ shape, with web search enabled to verify facts and cover recent events, then:
 
 - fetches each requested picture from the English Wikipedia article's lead image and copies
   it into our storage bucket, so a game never depends on someone else's hosting;
-- builds drop-the-pin questions on a plain equirectangular world map (copied once from
-  Wikimedia Commons) from the latitude and longitude Claude gives, with a bullseye sized to
-  the place;
+- builds drop-the-pin questions on a blank map that fits the question: Claude names the
+  region (the country for a city, the continent for a country, the world only when it has
+  to) and the function fetches Wikipedia's label-free location map of it, with the map's
+  own bounds or projection formula used to place the pin from the latitude and longitude,
+  and a bullseye sized to the place in that map's scale. A place off the map's edge falls
+  back to the world map. The same maps are a button away in the builder for hand-written
+  pin questions;
 - drops anything malformed and reports what it left out.
 
 The questions land in the builder unsaved-then-autosaved, selected, for the host to read

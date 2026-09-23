@@ -68,7 +68,8 @@ to see the whole thing from both sides.
 - **Quiz writer** — *Write one with AI* / *Add with AI* in the portal. Give it a topic, how
   many, difficulty and which types; it searches the web to check facts and cover recent
   events, and finds pictures from Wikipedia (copied into our own storage). Drop-the-pin
-  questions use a world map. Read the questions through before hosting.
+  questions get a blank map of the right country or continent. Read the questions through
+  before hosting.
 - **Fact-checker** — *Check all*, or the tick on a round. A separate pass with web search
   marks each question ✓ / ? / ✗ with a note and a suggested answer. Editing a checked
   question marks the check as stale.
