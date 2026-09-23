@@ -115,6 +115,15 @@ textarea { min-height: 80px; resize: vertical; }
 .roundhead .ra button { border: 0; background: transparent; cursor: pointer; color: var(--ink-3); padding: 2px 5px; font-size: .85rem; }
 .roundhead .ra button:hover { color: var(--brand); }
 .roundhead .ra button:disabled { opacity: .3; cursor: default; }
+.chk { font-weight: 900; font-size: .85rem; padding: 0 5px; border-radius: 6px; color: #fff; }
+.chk.ok { background: var(--ok); }
+.chk.doubt { background: var(--warn); }
+.chk.wrong { background: var(--bad); }
+.chk.stale { background: var(--ink-3); }
+.checknote { border-radius: 12px; padding: 10px 14px; margin-bottom: 14px; font-size: .92rem; border-left: 5px solid var(--ink-3); background: var(--paper); }
+.checknote.ok { border-color: var(--ok); background: #eaf6e6; }
+.checknote.doubt { border-color: var(--warn); background: #fff6df; }
+.checknote.wrong { border-color: var(--bad); background: #ffe8ec; }
 .timegrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .timegrid label { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-weight: 700; font-size: .9rem; }
 .timegrid input { width: 84px; }

@@ -107,6 +107,29 @@ shape, with web search enabled to verify facts and cover recent events, then:
 The questions land in the builder unsaved-then-autosaved, selected, for the host to read
 through. AI can be wrong; the portal says so.
 
+## Fact-checking
+
+*Check all* in the toolbar, or the tick on a round, sends each finished question through a
+separate pass: a different prompt that is told to trust nothing, to search the web for
+anything it is not certain of, and to return a verdict per question. The list shows a
+green tick (looks right), an amber question mark (worth a look: a second defensible
+answer, a contested or dated fact, an option that is arguably right) or a red cross (the
+marked answer is wrong), and the question's form shows the note and a suggested answer
+where there is one. The verdict is tied to a hash of what was checked, so editing the
+question turns it into "changed since it was checked" until it is run again. It runs four
+questions per request, the same reason the writer batches. It makes an error much less
+likely to reach the call; it does not make one impossible.
+
+## Pictures
+
+The writer names a Wikipedia article for each picture. Four sources are tried for a photo
+of it, so the same subject does not always get the same picture: every photograph in the
+article, the matching Wikimedia Commons category, a Commons search, and the article's lead
+image. All but the lead image must name the subject in their file name and pass a filter
+for logos, maps, diagrams, portraits and paintings, because article galleries drift (a
+Labrador in the pug article). One is picked at random from what is left, skipping any
+picture the quiz already uses, and copied into our bucket.
+
 ## Architecture
 
 ```

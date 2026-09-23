@@ -16,6 +16,7 @@
 //   upload      — store a picture (base64 in, public URL out)
 //   check_text  — judge players' typed answers against the accepted ones
 //   generate    — write questions on a topic, with pictures, using web search
+//   verify      — fact-check questions with web search; verdict and note per question
 //   save_game   — record a finished game's scoreboard
 //   games       — recent finished games
 //
@@ -86,19 +87,88 @@ async function copyImage(src: string, key: string): Promise<string | null> {
   }
 }
 
-// ---------------------------------------------------------------- Wikipedia pictures
-async function wikiImageUrl(title: string): Promise<string | null> {
-  const u = `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(title)}&prop=pageimages&piprop=thumbnail&pithumbsize=1400&redirects=1&format=json`;
+// ---------------------------------------------------------------- Wikipedia / Commons pictures
+//
+// Three sources, tried in order, so the same subject does not always get the same photo:
+//   1. every photograph in the English Wikipedia article (chosen at random)
+//   2. a Wikimedia Commons search for the subject (chosen at random from the best matches)
+//   3. the article's lead image (the old behaviour) as a last resort
+// Pictures the quiz already uses are skipped, and each one is copied into our bucket.
+
+interface Candidate { url: string; key: string; }
+const BAD_NAME = /logo|icon|flag|map|coat|seal|emblem|crest|diagram|chart|graph|plot|scheme|signature|symbol|banner|badge|stamp|coin|wiki|ambox|edit|question|star|arrow|button|pictogram|silhouette|locator|orthographic|portrait|painting|drawing|engraving|illustration|lithograph|sketch|poster|cover|screenshot|page|skull|skeleton|anatomy|disease|x-ray|xray/i;
+const STOP = new Set(["the", "and", "of", "a", "an", "in", "on", "at", "to", "for", "de", "la", "le", "dog", "cat", "bird", "city", "river", "mount", "lake", "island", "islands", "national", "park", "castle", "cathedral", "church", "bridge", "tower", "palace", "stadium", "football", "club", "united", "city"]);
+/** Words of the subject that a file name should contain to count as being about it. */
+function keyWords(title: string): string[] {
+  const ws = title.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\(.*?\)/g, "").split(/[^a-z0-9]+/).filter((w) => w.length >= 3 && !STOP.has(w));
+  return ws.length ? ws : title.toLowerCase().split(/[^a-z0-9]+/).filter((w) => w.length >= 3);
+}
+async function mw(api: string, params: Record<string, string>): Promise<any> {
+  const u = `${api}?${new URLSearchParams({ ...params, format: "json" })}`;
   const r = await fetch(u, { headers: { "user-agent": UA } });
   if (!r.ok) return null;
-  const data = await r.json();
-  const pages = Object.values(data?.query?.pages || {}) as any[];
-  return pages[0]?.thumbnail?.source || null;
+  return r.json();
 }
-async function wikiPicture(title: string): Promise<string | null> {
-  const src = await wikiImageUrl(title).catch(() => null);
-  if (!src) return null;
-  return copyImage(src, `wiki/${slug(title)}-${crypto.randomUUID().slice(0, 8)}`);
+function candidatesFrom(data: any, words: string[] | null): Candidate[] {
+  const out: Candidate[] = [];
+  for (const p of Object.values(data?.query?.pages || {}) as any[]) {
+    const ii = p?.imageinfo?.[0]; const name = String(p?.title || "");
+    if (!ii || !/^image\/(jpeg|png)$/.test(ii.mime || "")) continue;
+    const norm = name.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+    // Article galleries and searches drift off the subject (a portrait that happens to
+    // include a pug, a labrador in the pug article); the file name has to name the thing.
+    if (words && (BAD_NAME.test(name) || !words.some((w) => norm.includes(w)))) continue;
+    const w = +ii.width || 0, h = +ii.height || 0;
+    if (w < 640 || h < 400 || w / h > 2.4 || h / w > 1.8) continue;
+    const src = String(ii.thumburl || ii.url || "").split("?")[0];
+    if (src) out.push({ url: src, key: name.toLowerCase() });
+  }
+  return out;
+}
+const IIPROPS = { prop: "imageinfo", iiprop: "url|mime|size", iiurlwidth: "1400" };
+async function articlePhotos(title: string, words: string[]): Promise<Candidate[]> {
+  const data = await mw("https://en.wikipedia.org/w/api.php", { action: "query", titles: title, redirects: "1", generator: "images", gimlimit: "50", ...IIPROPS }).catch(() => null);
+  return candidatesFrom(data, words);
+}
+async function categoryPhotos(title: string, words: string[]): Promise<Candidate[]> {
+  // Commons categories are usually the article title, sometimes its plural.
+  for (const cat of [title, title + "s"]) {
+    const data = await mw("https://commons.wikimedia.org/w/api.php", { action: "query", generator: "categorymembers", gcmtitle: "Category:" + cat, gcmtype: "file", gcmlimit: "50", ...IIPROPS }).catch(() => null);
+    const cs = candidatesFrom(data, words);
+    if (cs.length) return cs;
+  }
+  return [];
+}
+async function searchPhotos(title: string, words: string[]): Promise<Candidate[]> {
+  const data = await mw("https://commons.wikimedia.org/w/api.php", { action: "query", generator: "search", gsrsearch: `${title} filetype:bitmap`, gsrnamespace: "6", gsrlimit: "30", ...IIPROPS }).catch(() => null);
+  return candidatesFrom(data, words);
+}
+async function leadPhoto(title: string): Promise<Candidate[]> {
+  const data = await mw("https://en.wikipedia.org/w/api.php", { action: "query", titles: title, redirects: "1", prop: "pageimages", piprop: "thumbnail|name", pithumbsize: "1400" }).catch(() => null);
+  const p = (Object.values(data?.query?.pages || {}) as any[])[0];
+  const src = String(p?.thumbnail?.source || "").split("?")[0];
+  return src ? [{ url: src, key: String(p?.pageimage || src).toLowerCase() }] : [];
+}
+const pick = <T>(arr: T[]): T | undefined => arr.length ? arr[Math.floor(Math.random() * arr.length)] : undefined;
+
+/** Finds a photo of the subject that the quiz is not already using, copies it into our bucket, and returns {url, source}. */
+async function wikiPicture(title: string, used: Set<string>): Promise<{ url: string; source: string } | null> {
+  const fresh = (cs: Candidate[]) => cs.filter((c) => !used.has(c.url) && !used.has(c.key));
+  const words = keyWords(title);
+  const [article, category, search, lead] = await Promise.all([articlePhotos(title, words), categoryPhotos(title, words), searchPhotos(title, words), leadPhoto(title)]);
+  const seen = new Set<string>();
+  let pool = fresh([...article, ...category, ...search]).filter((c) => !seen.has(c.url) && seen.add(c.url));
+  // The lead image is the one Wikipedia's editors chose, so it always stays in the running
+  // when the pool is thin; it just stops being the only choice.
+  if (pool.length < 3) pool = pool.concat(fresh(lead).filter((c) => !seen.has(c.url)));
+  if (!pool.length) pool = lead; // better a repeat than no picture at all
+  // Try up to three candidates in case one fails to download.
+  for (let i = 0; i < 3 && pool.length; i++) {
+    const c = pick(pool)!; pool = pool.filter((x) => x !== c);
+    const url = await copyImage(c.url, `wiki/${slug(title)}-${crypto.randomUUID().slice(0, 8)}`);
+    if (url) { used.add(c.url); used.add(c.key); return { url, source: c.url }; }
+  }
+  return null;
 }
 function slug(s: string) { return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 50) || "pic"; }
 
@@ -254,7 +324,7 @@ Times are in seconds: 15–45. Harder or longer questions get longer.
 
 Reply with JSON only: {"questions":[ ... ]}`;
 
-interface GenOpts { topic: string; brief: string; count: number; difficulty: string; types: string[]; pictures: boolean; web: boolean; avoid: string[]; }
+interface GenOpts { topic: string; brief: string; count: number; difficulty: string; types: string[]; pictures: boolean; web: boolean; avoid: string[]; usedPictures: string[]; }
 
 async function generate(o: GenOpts) {
   const client = anthropic();
@@ -287,6 +357,7 @@ Pictures round: ${wantPictures ? "yes — give roughly half the questions a pict
 
   const uid = (p: string) => p + "_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8);
   const warnings: string[] = [];
+  const used = new Set<string>(o.usedPictures);
   let map: string | null = null;
   if (raw.some((q) => q?.type === "pin")) {
     map = await worldMap();
@@ -299,8 +370,8 @@ Pictures round: ${wantPictures ? "yes — give roughly half the questions a pict
     if (!base.text) return null;
 
     if (wantPictures && typeof r.picture === "string" && r.picture.trim() && r.type !== "pin") {
-      const url = await wikiPicture(r.picture.trim());
-      if (url) base.media = { kind: "image", url, credit: `Wikipedia: ${r.picture.trim()}` };
+      const pic = await wikiPicture(r.picture.trim(), used);
+      if (pic) base.media = { kind: "image", url: pic.url, source: pic.source, credit: `Wikipedia / Wikimedia Commons: ${r.picture.trim()}` };
       else warnings.push(`No picture found for “${r.picture}” (question kept without one).`);
     }
 
@@ -331,8 +402,8 @@ Pictures round: ${wantPictures ? "yes — give roughly half the questions a pict
         const left = String(p?.left ?? "").trim();
         if (!left) return null;
         if (wantPictures && typeof p?.rightPicture === "string" && p.rightPicture.trim()) {
-          const url = await wikiPicture(p.rightPicture.trim());
-          if (url) return { id: uid("p"), left, right: { kind: "image", value: url } };
+          const pic = await wikiPicture(p.rightPicture.trim(), used);
+          if (pic) return { id: uid("p"), left, right: { kind: "image", value: pic.url, source: pic.source } };
           warnings.push(`No picture for “${p.rightPicture}” in a match question.`);
         }
         const right = String(p?.right ?? "").trim();
@@ -361,6 +432,39 @@ Pictures round: ${wantPictures ? "yes — give roughly half the questions a pict
   const kept = questions.filter(Boolean);
   if (!kept.length) throw new Error("None of the AI's questions were usable. Try again.");
   return { questions: kept, warnings, searched: !!o.web };
+}
+
+// ---------------------------------------------------------------- fact-checking
+const CHECK_SYSTEM = `You are the independent fact-checker for a pub quiz. The questions were written by someone else, possibly by an AI. For each question, decide whether the marked answer is correct and the question is fair to ask a room of players who answer quickly on their phones.
+
+Use web search to confirm anything you are not completely certain of — especially numbers, dates, records, "first", "most", "current" and anything that may have changed recently. Do not take the quiz's answer on trust; check it.
+
+Verdicts:
+- "ok": the marked answer is correct and it is the one clear answer.
+- "doubt": probably fine, but something is worth the host's look — a second defensible answer, a wrong option that is arguably right, a fact that sources disagree on or that may be out of date, wording that could be read two ways, or an item in an order/match set you could not confirm.
+- "wrong": the marked answer is incorrect, the order or a pairing is wrong, or the question cannot be answered as written.
+
+Be exacting but not pedantic: a pub quiz accepts common knowledge and ordinary rounding. For each question write a note of one or two plain sentences saying what you checked and, if there is a problem, what is wrong and what it should be. When you know the correct answer, give it in "fix".
+
+Reply with JSON only: {"checks":[{"id":"...","verdict":"ok|doubt|wrong","note":"...","fix":"optional corrected answer"}]}`;
+
+async function verifyQuestions(items: { id: string; summary: string }[]) {
+  const msg = await ask(anthropic(), {
+    model: MODEL,
+    max_tokens: 8000,
+    system: CHECK_SYSTEM,
+    output_config: { effort: "medium" },
+    tools: [{ type: "web_search_20260209", name: "web_search", max_uses: 10 }],
+    messages: [{ role: "user", content: "Check these questions:\n\n" + items.map((i) => `[id ${i.id}]\n${i.summary}`).join("\n\n") }],
+  });
+  const out = extractJson(textOf(msg));
+  const checks: Record<string, { verdict: string; note: string; fix?: string }> = {};
+  for (const c of out?.checks || []) {
+    if (typeof c?.id !== "string" || !items.some((i) => i.id === c.id)) continue;
+    const verdict = ["ok", "doubt", "wrong"].includes(c.verdict) ? c.verdict : "doubt";
+    checks[c.id] = { verdict, note: String(c.note || "").slice(0, 600), ...(c.fix ? { fix: String(c.fix).slice(0, 200) } : {}) };
+  }
+  return { checks };
 }
 
 // ---------------------------------------------------------------- handler
@@ -445,12 +549,23 @@ Deno.serve(async (req) => {
         brief: String(body.brief || "").slice(0, 1500),
         count: Math.min(8, Math.max(1, Math.round(+body.count || 5))),
         avoid: (Array.isArray(body.avoid) ? body.avoid : []).map((s: unknown) => String(s ?? "").slice(0, 160)).filter(Boolean).slice(-60),
+        usedPictures: (Array.isArray(body.usedPictures) ? body.usedPictures : []).map((s: unknown) => String(s ?? "").slice(0, 300)).filter(Boolean).slice(-300),
         difficulty: ["easy", "medium", "hard", "mixed"].includes(String(body.difficulty)) ? String(body.difficulty) : "mixed",
         types,
         pictures: body.pictures !== false,
         web: body.web !== false,
       });
       return json(out);
+    }
+
+    if (action === "verify") {
+      if (!ANTHROPIC_KEY) return json({ error: "AI is not set up on the server yet — add ANTHROPIC_API_KEY as a Supabase secret." }, 503);
+      const items = (Array.isArray(body.questions) ? body.questions : [])
+        .filter((q: any) => q && typeof q.id === "string" && typeof q.summary === "string")
+        .slice(0, 6)
+        .map((q: any) => ({ id: q.id.slice(0, 40), summary: q.summary.slice(0, 1500) }));
+      if (!items.length) return json({ error: "Nothing to check." }, 400);
+      return json(await verifyQuestions(items));
     }
 
     if (action === "save_game") {

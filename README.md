@@ -59,6 +59,9 @@ question of every type.
   many, difficulty and which types; it searches the web to check facts and cover recent
   events, and finds pictures from Wikipedia (copied into our own storage). Drop-the-pin
   questions use a world map. Read the questions through before hosting.
+- **Fact-checker** — *Check all*, or the tick on a round. A separate pass with web search
+  marks each question ✓ / ? / ✗ with a note and a suggested answer. Editing a checked
+  question marks the check as stale.
 
 Both need the `ANTHROPIC_API_KEY` secret on the Supabase project. Without it, judging falls
 back to closest-match and the writer is disabled (the portal says so).
