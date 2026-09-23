@@ -385,7 +385,8 @@ function aiModal(fresh) {
     // search and pictures a big round does not fit in it. Each batch lands in the quiz as it
     // arrives, and later batches are told what's already been written so they don't repeat it.
     const steps = ['thinking about the topic', 'searching the web', 'writing', 'finding pictures'];
-    let written = 0, si = 0, start = null; const warnings = [], avoid = [];
+    // Seeded with what the quiz already has, so "Add with AI" on an existing quiz doesn't repeat it.
+    let written = 0, si = 0, start = null; const warnings = [], avoid = (!fresh && S.quiz) ? S.quiz.questions.map((q) => q.text).filter(Boolean) : [];
     const status = () => { const el = $('#g_step', m); if (el) el.textContent = `Writing questions ${written + 1}–${Math.min(total, written + BATCH)} of ${total} (${steps[si]})…`; };
     prog.innerHTML = `<div class="gen-progress"><span class="spinner"></span><span id="g_step"></span></div>`; status();
     const tick = setInterval(() => { si = Math.min(si + 1, steps.length - 1); status(); }, 10000);
