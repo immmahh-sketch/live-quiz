@@ -3,7 +3,7 @@ window.DEMO_QUIZ = {
   id: 'demo',
   title: 'Demo quiz',
   settings: { maxPoints: 1000, minPoints: 500, defaultTime: 20, showAnswersOnPhones: true,
-    rounds: [{ id: 'r1', title: 'Warm-up', brief: '' }, { id: 'r2', title: 'Pictures, maps and music', brief: '' }, { id: 'r3', title: 'True, false, sort and Wipeout', brief: '' }] },
+    rounds: [{ id: 'r1', title: 'Warm-up', intro: 'Four easy ones to get everybody going', brief: '' }, { id: 'r2', title: 'Pictures, maps and music', intro: 'Look at the screen: a landmark, some dogs, a map and a song', brief: '' }, { id: 'r3', title: 'True, false, sort and Wipeout', intro: 'The party games: true or false, categorise, Wipeout, the race and the wheel', brief: '' }] },
   questions: [
     { id: 'd1', round: 'r1', type: 'choice', text: 'Which planet is closest to the Sun?', time: 15, media: { kind: 'none' },
       options: [{ id: 'd1a', text: 'Venus' }, { id: 'd1b', text: 'Mercury' }, { id: 'd1c', text: 'Mars' }, { id: 'd1d', text: 'Earth' }], correct: 'd1b' },
@@ -33,6 +33,7 @@ window.DEMO_QUIZ = {
     { id: 'd10', round: 'r3', type: 'wipeout', text: 'Wipeout: countries in Africa', time: 5, media: { kind: 'none' }, pickPoints: 200, penalty: 500,
       right: ['Nigeria', 'Kenya', 'Ghana', 'Egypt', 'Morocco', 'Ethiopia', 'Senegal', 'Tanzania', 'Uganda', 'Zambia', 'Namibia', 'Botswana', 'Mali', 'Tunisia', 'Angola'].map((t, i) => ({ id: 'd10r' + i, text: t })),
       wrong: ['Yemen', 'Oman', 'Suriname', 'Nepal', 'Georgia'].map((t, i) => ({ id: 'd10w' + i, text: t })) },
+    { id: 'd12', round: 'r3', type: 'wheel', text: 'A PIECE OF CAKE', phrase: 'A PIECE OF CAKE', category: 'Phrase', time: 60, revealEvery: 3, startLetters: '', ai: true, media: { kind: 'none' } },
     { id: 'd11', round: 'r3', type: 'race', text: 'The Race: capital cities', time: 120, media: { kind: 'none' }, target: 10, prize: 5000,
       bank: [['Capital of France?', 'Paris', 'Lyon', 'Marseille', 'Nice'], ['Capital of Japan?', 'Tokyo', 'Osaka', 'Kyoto', 'Nagoya'], ['Capital of Australia?', 'Canberra', 'Sydney', 'Melbourne', 'Perth'], ['Capital of Canada?', 'Ottawa', 'Toronto', 'Vancouver', 'Montreal'], ['Capital of Brazil?', 'Brasília', 'Rio de Janeiro', 'São Paulo', 'Salvador'], ['Capital of Turkey?', 'Ankara', 'Istanbul', 'Izmir', 'Antalya'], ['Capital of Nigeria?', 'Abuja', 'Lagos', 'Kano', 'Ibadan'], ['Capital of Switzerland?', 'Bern', 'Zurich', 'Geneva', 'Basel'],
         ['Capital of Spain?', 'Madrid', 'Barcelona', 'Seville', 'Valencia'], ['Capital of Italy?', 'Rome', 'Milan', 'Naples', 'Turin'], ['Capital of Germany?', 'Berlin', 'Munich', 'Hamburg', 'Frankfurt'], ['Capital of Egypt?', 'Cairo', 'Alexandria', 'Giza', 'Luxor'], ['Capital of India?', 'New Delhi', 'Mumbai', 'Kolkata', 'Bangalore'], ['Capital of the USA?', 'Washington, D.C.', 'New York', 'Los Angeles', 'Chicago'], ['Capital of Argentina?', 'Buenos Aires', 'Córdoba', 'Rosario', 'Mendoza'], ['Capital of South Korea?', 'Seoul', 'Busan', 'Incheon', 'Daegu'], ['Capital of Kenya?', 'Nairobi', 'Mombasa', 'Kisumu', 'Nakuru'], ['Capital of Portugal?', 'Lisbon', 'Porto', 'Faro', 'Coimbra'], ['Capital of New Zealand?', 'Wellington', 'Auckland', 'Christchurch', 'Dunedin'], ['Capital of Scotland?', 'Edinburgh', 'Glasgow', 'Aberdeen', 'Dundee']].map((b, i) => ({ id: 'd11b' + i, text: b[0], options: b.slice(1) })) },

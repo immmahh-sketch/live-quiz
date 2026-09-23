@@ -12,11 +12,13 @@ host opens the lobby and ends with the podium.
 ## The three pages
 
 **Portal — `index.html`.** Password sign-in. A list of quizzes with Host / Edit / Duplicate /
-Delete, and *Recent games*. The builder: a question list on the left grouped into **rounds**
-(add, rename, reorder and delete rounds; reorder, duplicate and delete questions; move a
-question to another round from its form), the selected question's form on the right. Each
-round carries an optional **brief for the AI** ("a sports round, every question about Harry
-Kane"), and *Write with AI* on a round follows it. Each question has its text, the
+Delete, and *Recent games*. The builder opens on the **rounds planner**: a card per round with
+its title, what it is about (shown on the round card during the game), how many questions,
+which question types it uses and a prompt for the AI, plus *Add a round*, *Write this round
+with AI* and *Write every round with AI*, which fills each round in turn from its own
+settings. The question list on the left is grouped by round (reorder, duplicate and delete
+questions; move a question to another round from its form), with the selected question's
+form on the right. Each question has its text, the
 type-specific answers, optional media (picture upload or link, or a YouTube link with a
 start time), a time limit, and for order/match a partial-credit toggle. Quiz settings hold
 the points curve and a **time limit per question type** (all typed-answer questions a minute,
@@ -70,6 +72,8 @@ points = max − (max − min) × (time taken ÷ time limit)      default max 10
 | Categorise | each answer placed in a category | every answer in its category | fraction placed right (toggle) |
 | Wipeout | turn-based picks from a board | see below | — |
 | The Race | a bank of quick questions on the phone | first to the target | — |
+| Answer Smash | free text | the smash (or both answers), AI-judged | — |
+| Wheel of Fortune | free text | the phrase, AI-judged for typos | — |
 
 **The Race** is played entirely on the phones while the host screen shows a track. The
 question is a bank of quick multiple-choice questions (the builder fills it by hand or with
@@ -82,6 +86,26 @@ is out the moment the questions left cannot get them to the target. If the time 
 (default two minutes) runs out first, the clear leader on right answers wins; a tie means
 no winner. Players pick their emoji when they join, and it follows them onto the lobby,
 the scoreboards and the podium.
+
+**Drop the pin has two modes.** "Closest to a spot" is the map game above. "Anywhere on
+the right thing" scores a hit or a miss against a box the host draws on the picture: full
+speed points inside, nothing outside. The builder's collage tool tiles two to nine pictures
+(uploaded, or fetched from Wikipedia by name) into one image and makes the answer's tile
+the box, which is how "drop the pin on the amalgam carrier" gets built; the AI writer can
+build these too by naming the things to picture. The pictures are composed on a canvas in
+the browser and uploaded as one image.
+
+**Answer Smash** follows House of Games: a picture and a clue whose answers overlap, and
+the player types the two smashed together. The builder works out the overlap (the longest
+run of letters that ends the first answer and starts the second) and shows it highlighted;
+the host can type the smash by hand where the automatic one is wrong. Judged like a typed
+answer, with the AI told the rules.
+
+**Wheel of Fortune** puts a phrase on the show's board (four rows of 12, 14, 14 and 12
+tiles, words never split, drawn in the app rather than fetched from a generator site, which
+blocks automated use). Every few seconds the host turns a letter, everywhere it appears,
+consonants first; players type the phrase whenever they think they have it, and points fall
+with the clock. The host can turn a letter early with a button.
 
 **Wipeout** is the one question that is not "everyone answers at once". Up to twenty
 answers are scattered on the host screen, classically fifteen right and five wrong. Players

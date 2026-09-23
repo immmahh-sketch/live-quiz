@@ -54,7 +54,51 @@ window.LQ = (() => {
     sort:   { label: 'Categorise',      icon: '🗂', blurb: 'Players drop each answer into the right category.' },
     wipeout:{ label: 'Wipeout',         icon: '💥', blurb: 'Answers scattered on screen, some wrong. Players take turns picking a right one. Pick a wrong one and you are wiped out.' },
     race:   { label: 'The Race',        icon: '🏁', blurb: 'A bank of quick questions on the phones. First to ten right wins the prize. Their emoji races across the screen.' },
+    smash:  { label: 'Answer Smash',    icon: '🔀', blurb: 'A picture and a clue whose answers overlap. Players type the two smashed together.' },
+    wheel:  { label: 'Wheel of Fortune', icon: '🎡', blurb: 'A hidden phrase on the board. Letters flip over one by one; the sooner you solve it, the more you score.' },
   };
+  // ---- Wheel of Fortune board: the show's four rows of 12/14/14/12 tiles ----
+  const WHEEL_ROWS = [12, 14, 14, 12];
+  /** Lays the phrase's words onto the board, centred, never splitting a word. Returns rows of tiles or null if it will not fit. */
+  function wheelLayout(phrase) {
+    const words = String(phrase || '').toUpperCase().replace(/\s+/g, ' ').trim().split(' ').filter(Boolean);
+    if (!words.length) return null;
+    // Greedy fill of the middle rows first (they are longest), then the outer ones, keeping word order top to bottom.
+    const tryFit = (rowsOrder) => {
+      const lines = WHEEL_ROWS.map(() => []); let wi = 0;
+      for (const r of rowsOrder) { let len = 0; while (wi < words.length) { const w = words[wi]; const need = (len ? 1 : 0) + w.length; if (len + need > WHEEL_ROWS[r]) break; lines[r].push(w); len += need; wi++; } }
+      return wi === words.length ? lines : null;
+    };
+    const total = words.join(' ').length;
+    let lines = null;
+    if (total <= 14) lines = tryFit([1]) || tryFit([1, 2]);
+    if (!lines) lines = tryFit([1, 2]) || tryFit([0, 1, 2]) || tryFit([1, 2, 3]) || tryFit([0, 1, 2, 3]);
+    if (!lines) return null;
+    return lines.map((ws, r) => {
+      const text = ws.join(' '), width = WHEEL_ROWS[r], pad = Math.floor((width - text.length) / 2);
+      const tiles = [];
+      for (let i = 0; i < width; i++) { const ch = text[i - pad]; tiles.push(!ch ? { t: 'off' } : ch === ' ' ? { t: 'gap' } : /[A-Z]/.test(ch) ? { t: 'L', ch } : { t: 'sym', ch }); }
+      return tiles;
+    });
+  }
+  /** The board as HTML. `revealed` is a string of letters already turned; `all` shows everything. */
+  function wheelBoardHtml(layout, revealed = '', all = false) {
+    if (!layout) return '';
+    const rev = new Set(String(revealed).toUpperCase());
+    return `<div class="wof">${layout.map((row) => `<div class="wof-row">${row.map((t) => t.t === 'off' ? '<span class="wt off"></span>' : t.t === 'gap' ? '<span class="wt gap"></span>' : t.t === 'sym' ? `<span class="wt on">${esc(t.ch)}</span>` : (all || rev.has(t.ch)) ? `<span class="wt on lit">${t.ch}</span>` : '<span class="wt on"></span>').join('')}</div>`).join('')}</div>`;
+  }
+  /** Answer Smash: the longest run of letters that ends the first answer and starts the second. */
+  function smashOf(a, b) {
+    const letters = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]/g, '');
+    const la = letters(a), lb = letters(b);
+    let n = 0;
+    for (let k = Math.min(la.length - 1, lb.length - 1); k >= 1; k--) if (la.slice(-k) === lb.slice(0, k)) { n = k; break; }
+    if (!n) return { smash: '', overlap: 0 };
+    // Drop the first n letters of b (keeping its spacing after them) and glue.
+    let seen = 0, i = 0; const bs = String(b);
+    while (i < bs.length && seen < n) { if (/[a-z0-9]/i.test(bs[i].normalize('NFD')[0])) seen++; i++; }
+    return { smash: String(a).trimEnd() + bs.slice(i), overlap: n };
+  }
   const EMOJIS = ['🦊', '🐸', '🐼', '🦁', '🐙', '🦄', '🐢', '🐝', '🦖', '🐧', '🐨', '🦉', '🐬', '🦋', '🍕', '🚀', '🎸', '🏆', '👾', '🧙'];
   const COLORS = [
     { name: 'red',    hex: '#e21b3c', shape: '▲' },
@@ -62,7 +106,7 @@ window.LQ = (() => {
     { name: 'yellow', hex: '#d89e00', shape: '●' },
     { name: 'green',  hex: '#26890c', shape: '■' },
   ];
-  const DEFAULT_TIMES = { choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120 };
+  const DEFAULT_TIMES = { choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60 };
   const DEFAULT_SETTINGS = { maxPoints: 1000, minPoints: 500, defaultTime: 30, showAnswersOnPhones: true, timeByType: { ...DEFAULT_TIMES } };
 
   /** The time limit a question of this type gets by default in this quiz. */
@@ -76,8 +120,8 @@ window.LQ = (() => {
     const settings = { ...DEFAULT_SETTINGS, ...(q.settings || {}), timeByType: { ...DEFAULT_TIMES, ...((q.settings || {}).timeByType || {}) } };
     const questions = Array.isArray(q.questions) ? q.questions : [];
     let rounds = Array.isArray(q.rounds) ? q.rounds : Array.isArray(settings.rounds) ? settings.rounds : [];
-    rounds = rounds.filter((r) => r && r.id).map((r) => ({ id: r.id, title: r.title || '', brief: r.brief || '' }));
-    if (!rounds.length) rounds = [{ id: uid('r'), title: 'Round 1', brief: '' }];
+    rounds = rounds.filter((r) => r && r.id).map((r) => ({ id: r.id, title: r.title || '', intro: r.intro || '', brief: r.brief || '', count: +r.count || 0, types: Array.isArray(r.types) ? r.types.filter((t) => TYPES[t]) : [] }));
+    if (!rounds.length) rounds = [{ id: uid('r'), title: 'Round 1', intro: '', brief: '', count: 0, types: [] }];
     const ids = new Set(rounds.map((r) => r.id));
     for (const qu of questions) if (!ids.has(qu.round)) qu.round = rounds[rounds.length - 1].id;
     delete settings.rounds;
@@ -100,7 +144,9 @@ window.LQ = (() => {
     if (type === 'choice') { q.options = [0, 1, 2, 3].map(() => ({ id: uid('o'), text: '' })); q.correct = q.options[0].id; }
     if (type === 'text') { q.answers = ['']; q.ai = true; }
     if (type === 'order') { q.items = [0, 1, 2, 3].map(() => ({ id: uid('i'), text: '' })); q.hint = ''; }
-    if (type === 'pin') { q.media = { kind: 'image', url: '' }; q.pin = { x: 0.5, y: 0.5 }; q.radiusFull = 0.04; q.radiusZero = 0.2; }
+    if (type === 'pin') { q.media = { kind: 'image', url: '' }; q.mode = 'point'; q.pin = { x: 0.5, y: 0.5 }; q.radiusFull = 0.04; q.radiusZero = 0.2; }
+    if (type === 'smash') { q.media = { kind: 'image', url: '' }; q.pictureAnswer = ''; q.clueAnswer = ''; q.smash = ''; q.ai = true; }
+    if (type === 'wheel') { q.phrase = ''; q.category = 'Phrase'; q.revealEvery = 4; q.startLetters = ''; q.ai = true; }
     if (type === 'match') { q.pairs = [0, 1, 2, 3].map(() => ({ id: uid('p'), left: '', right: { kind: 'text', value: '' } })); }
     if (type === 'tf') { q.answer = true; }
     if (type === 'sort') { q.categories = [0, 1].map(() => ({ id: uid('c'), name: '' })); q.items = [0, 1, 2, 3].map(() => ({ id: uid('i'), text: '', category: q.categories[0].id })); }
@@ -115,6 +161,12 @@ window.LQ = (() => {
   /** Something wrong with the question that would stop it being played. */
   function validate(q) {
     const problems = [];
+    if (q.type === 'wheel') {
+      if (!(q.phrase || '').trim()) problems.push('Needs the phrase.');
+      else if (!wheelLayout(q.phrase)) problems.push('The phrase does not fit the board (four rows of 12, 14, 14 and 12 letters; a word cannot be split).');
+      if (!(q.category || '').trim()) problems.push('Needs a category, like Phrase, Person or Place.');
+      return problems;
+    }
     if (!q.text || !q.text.trim()) problems.push('Needs question text.');
     if (q.type === 'choice') {
       const filled = (q.options || []).filter((o) => o.text.trim());
@@ -123,7 +175,17 @@ window.LQ = (() => {
     }
     if (q.type === 'text' && !(q.answers || []).some((a) => a.trim())) problems.push('Needs an accepted answer.');
     if (q.type === 'order' && (q.items || []).filter((i) => i.text.trim()).length < 2) problems.push('Needs at least two items.');
-    if (q.type === 'pin') { if (!q.media || q.media.kind !== 'image' || !q.media.url) problems.push('Needs a picture to drop the pin on.'); if (!q.pin) problems.push('Set where the pin goes.'); }
+    if (q.type === 'pin') {
+      if (!q.media || q.media.kind !== 'image' || !q.media.url) problems.push('Needs a picture to drop the pin on.');
+      if (q.mode === 'area') { if (!q.target || !(q.target.w > 0.01) || !(q.target.h > 0.01)) problems.push('Draw a box around the right thing, or pick the right tile.'); }
+      else if (!q.pin) problems.push('Set where the pin goes.');
+    }
+    if (q.type === 'smash') {
+      if (!q.media || !q.media.url) problems.push('Needs the picture.');
+      if (!q.pictureAnswer?.trim()) problems.push('What is the picture of?');
+      if (!q.clueAnswer?.trim()) problems.push('Needs the clue\'s answer.');
+      if (!(q.smash || '').trim()) problems.push('The two answers don\'t overlap — change one, or type the smash yourself.');
+    }
     if (q.type === 'match') {
       const ok = (q.pairs || []).filter((p) => p.left.trim() && p.right && p.right.value);
       if (ok.length < 2) problems.push('Needs at least two complete pairs.');
@@ -225,6 +287,6 @@ window.LQ = (() => {
   function ordinal(n) { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
   return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
-    TYPES, EMOJIS, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, newBankItem, correctId, validate, youtubeId, speedPoints, normText, similarity, textMatch,
+    TYPES, EMOJIS, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
     newCode, playUrl, shortPlayUrl, resizeImage, fmtTime, ordinal };
 })();

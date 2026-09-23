@@ -98,6 +98,7 @@ function render() {
   const qId = s.q?.id || '';
   if (s.race && s.q) syncRace(s);
   const rc = P.race && P.race.qId === qId ? P.race : null;
+  if (s.wheel && P.viewKey.startsWith(`${s.phase}:${qId}:`)) { const b = $('#pwof'); if (b) b.innerHTML = LQ.wheelBoardHtml(s.wheel.layout, s.wheel.revealed); }
   const key = [s.phase, qId, s.qIndex, s.round?.n || '', P.answered[qId] ? 'a' : '', s.wipe ? `${s.wipe.turnPid}:${s.wipe.gone.length}:${s.wipe.out.length}:${s.wipe.over}` : '', rc ? `${rc.idx}:${rc.pending}:${rc.out}:${rc.done}:${s.race?.winner || ''}` : ''].join(':');
   if (key === P.viewKey) { tickTimer(); return; }
   P.viewKey = key;
@@ -106,7 +107,7 @@ function render() {
   const score = r ? r.score : (s.top ? (s.top.find((t) => t.name === P.name)?.score ?? '') : '');
   const top = `<div class="app-top"><span>${esc(P.name)}</span><span>${s.phase !== 'lobby' && s.qIndex >= 0 ? `Q${s.qIndex + 1}/${s.total}` : esc(s.title || '')}</span>${score !== '' && score !== undefined ? `<span class="score">${score}</span>` : '<span></span>'}</div>`;
   if (s.phase === 'lobby') app.innerHTML = top + `<div class="state"><div class="em">🎉</div><h2>You're in, ${esc(P.name)}!</h2><p class="muted">Watch the shared screen. The quiz starts when the host presses go.</p></div>`;
-  else if (s.phase === 'round') app.innerHTML = top + `<div class="state"><div class="em">🎯</div><p class="muted" style="margin:0">Round ${s.round?.n || ''}</p><h2>${esc(s.round?.title || '')}</h2><p class="muted">${s.round?.count || ''} question${s.round?.count === 1 ? '' : 's'} coming up</p></div>`;
+  else if (s.phase === 'round') app.innerHTML = top + `<div class="state"><div class="em">🎯</div><p class="muted" style="margin:0">Round ${s.round?.n || ''}</p><h2>${esc(s.round?.title || '')}</h2>${s.round?.intro ? `<p style="font-weight:700">${esc(s.round.intro)}</p>` : ''}<p class="muted">${s.round?.count || ''} question${s.round?.count === 1 ? '' : 's'} coming up</p></div>`;
   else if (s.phase === 'countdown') app.innerHTML = top + `<div class="state"><div class="em">${TYPES[s.next?.type]?.icon || '⏳'}</div><h2>Get ready…</h2><p class="muted">Question ${s.next?.n || s.qIndex + 1}: ${esc(TYPES[s.next?.type]?.label || '')}</p></div>`;
   else if (s.phase === 'question' && s.race) { app.innerHTML = top + `<div class="ptimer" id="ptimer"><i></i></div>` + raceHtml(s); bindRace(s); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'question' && s.wipe) { P.deadline = Date.now() + (s.wipe.remainingMs || 0); app.innerHTML = top + `<div class="ptimer" id="ptimer"><i></i></div>` + wipeHtml(s); bindWipe(s); timerT = setInterval(tickTimer, 250); tickTimer(); }
@@ -179,7 +180,8 @@ function questionHtml(q) {
     P.work.sort = P.work.sortQ === q.id ? P.work.sort : {}; P.work.sortQ = q.id;
     body = `<p class="muted center small">Put each answer in its category</p><div id="slist"></div><button class="btn btn-primary btn-lg btn-block mt" id="lockSort" disabled>Lock it in</button>`;
   }
-  if (q.type === 'text') body = `<form id="textForm" class="state" style="justify-content:flex-start"><input type="text" id="textIn" placeholder="Type your answer" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.2rem;text-align:center" autofocus><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
+  if (q.type === 'wheel') { const w = P.state.wheel || {}; body = `<div class="center" id="pwof">${LQ.wheelBoardHtml(w.layout || q.layout, w.revealed || '')}</div><div class="center"><span class="wof-cat">${esc(q.category || '')}</span></div><form id="textForm" class="state" style="justify-content:flex-start;padding-top:8px"><input type="text" id="textIn" placeholder="Solve the puzzle" autocomplete="off" autocorrect="off" autocapitalize="characters" style="font-size:1.1rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Solve</button></form>`; }
+  if (q.type === 'text' || q.type === 'smash') body = `${q.type === 'smash' ? '<p class="muted center small">Answer Smash: type the picture and the clue smashed together</p>' : ''}<form id="textForm" class="state" style="justify-content:flex-start"><input type="text" id="textIn" placeholder="Type your answer" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.2rem;text-align:center" autofocus><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
   if (q.type === 'order') {
     P.work.order = P.work.order && P.work.orderQ === q.id ? P.work.order : q.items.map((i) => i.k); P.work.orderQ = q.id;
     body = `<p class="muted center small">${esc(q.hint || 'Put these in the right order')} — use the arrows</p><div class="olist" id="olist"></div><button class="btn btn-primary btn-lg btn-block mt" id="lockOrder">Lock it in</button>`;
@@ -189,7 +191,7 @@ function questionHtml(q) {
     body = `<p class="muted center small">Tap a word, then tap its match</p><div class="mleft" id="mleft"></div><div class="mchoices" id="mchoices"></div><button class="btn btn-primary btn-lg btn-block mt" id="lockMatch" disabled>Lock it in</button>`;
   }
   if (q.type === 'pin') { P.work.pin = P.work.pinQ === q.id ? P.work.pin : null; P.work.pinQ = q.id; body = `<div class="pinboard tap" id="pinboard"><img src="${esc(q.media?.url || '')}" draggable="false"></div><button class="btn btn-primary btn-lg btn-block mt" id="dropPin" disabled>Drop the pin here</button>`; }
-  return `<div class="pq">${esc(q.text)}</div>${q.type === 'pin' ? '' : mediaHtml(q)}${body}<button type="button" class="btn btn-ghost btn-block mt" id="skipQ" style="color:var(--ink-3)">Skip — I don't know ⏭</button>`;
+  return `${q.type === 'wheel' ? '' : `<div class="pq">${esc(q.text)}</div>`}${q.type === 'pin' ? '' : mediaHtml(q)}${body}<button type="button" class="btn btn-ghost btn-block mt" id="skipQ" style="color:var(--ink-3)">Skip — I don't know ⏭</button>`;
 }
 function submit(q, answer) {
   P.sent[q.id] = { answer, at: Date.now(), tries: 1 };
@@ -210,7 +212,7 @@ function bindQuestion(q) {
     };
     draw(); $('#lockSort').onclick = () => submit(q, { ...P.work.sort });
   }
-  if (q.type === 'text') { $('#textForm').onsubmit = (e) => { e.preventDefault(); const t = $('#textIn').value.trim(); if (!t) return; submit(q, t); }; setTimeout(() => $('#textIn')?.focus(), 50); }
+  if (q.type === 'text' || q.type === 'smash' || q.type === 'wheel') { $('#textForm').onsubmit = (e) => { e.preventDefault(); const t = $('#textIn').value.trim(); if (!t) return; submit(q, t); }; setTimeout(() => $('#textIn')?.focus(), 50); }
   if (q.type === 'order') {
     const draw = () => {
       $('#olist').innerHTML = P.work.order.map((k, i) => { const it = q.items.find((x) => x.k === k); return `<div class="oitem"><div class="n">${i + 1}</div><div>${esc(it.text)}</div><div class="mv"><button data-up="${i}" ${i === 0 ? 'disabled' : ''}>▲</button><button data-dn="${i}" ${i === P.work.order.length - 1 ? 'disabled' : ''}>▼</button></div></div>`; }).join('');

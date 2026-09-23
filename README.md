@@ -4,8 +4,9 @@ A Kahoot-style live quiz for video calls. You build quizzes in a desktop portal,
 screen on the call, and everyone plays on their phone by scanning the QR code. Scores reward
 speed as well as accuracy.
 
-- **Host portal** (`index.html`) — sign in, build quizzes in rounds, set time limits per
-  question type, write rounds with AI from a brief, host a game.
+- **Host portal** (`index.html`) — sign in, plan rounds (title, what it's about, how many
+  questions, which types, a prompt for the AI), build questions by hand or have AI write a
+  round or the whole quiz, set time limits per type, host a game.
 - **Host screen** (`host.html`) — the slideshow you share: lobby with QR code, questions,
   timer, answer reveal, scoreboard, podium.
 - **Player app** (`play.html`) — what everyone opens on their phone.
@@ -22,11 +23,13 @@ Full scope and design decisions: [docs/SCOPE.md](docs/SCOPE.md).
 | Multiple choice | Tap one of up to four coloured answers | Right or wrong |
 | Type the answer | Type it in | Exact/near match instantly; anything else judged by AI (misspellings, other wordings) |
 | Put in order | Arrange items with arrows | All-or-nothing, or partial credit per correct position (toggle) |
-| Drop the pin | Tap a spot on a picture | Full points inside the bullseye, falling to zero at the outer radius; closest player is flagged |
+| Drop the pin | Tap a spot on a picture | Two modes: closest to a spot (full points inside the bullseye, falling to zero at the outer radius, closest player flagged), or anywhere on the right thing (a box you draw, or a tile of a collage; hit scores full speed points) |
 | Match up | Pair each word with a picture or word | All-or-nothing, or partial credit per correct pair (toggle) |
 | True or false | Tap true or false | Right or wrong |
 | Categorise | Put each answer into one of 2–4 categories | All-or-nothing, or partial credit per correct placement (toggle) |
 | The Race | Played on the phones: a bank of quick multiple-choice questions, answer or skip, first to the target (default 10 right) wins | Winner takes the prize (default 5000), nobody else scores; you're out once you can't reach the target; on the time limit the clear leader wins |
+| Answer Smash | A picture and a clue whose answers overlap; type them smashed together (Emma Watson + Sonic the Hedgehog = Emma Watsonic the Hedgehog) | Right or wrong, AI-judged for typos |
+| Wheel of Fortune | A hidden phrase on the show's 12/14/14/12 board; a letter flips every few seconds; type the phrase | Right or wrong, points fall with the clock |
 | Wipeout | Take turns picking right answers from a scattered board of up to 20 (some wrong) | Each right pick scores (default 200) and vanishes; a wrong pick costs the picker (default 500) and ends the question; running out of your 5-second turn drops you out of that question |
 
 Any question can carry a **picture** or a **YouTube video**. The video plays on the host

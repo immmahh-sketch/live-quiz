@@ -18,6 +18,7 @@
 //   generate    — write questions on a topic, with pictures, using web search
 //   verify      — fact-check questions with web search; verdict and note per question
 //   map         — a blank, label-free map of a country, region or continent
+//   picture     — a photo of a named subject from Wikipedia / Commons, copied into our bucket
 //   save_game   — record a finished game's scoreboard
 //   games       — recent finished games
 //
@@ -327,6 +328,18 @@ function fuzzyVerdict(answer: string, accepted: string[]): boolean {
   return accepted.some((acc) => { const m = norm(acc); return m && (sim(n, m) >= 0.72 || (m.length >= 5 && n.includes(m))); });
 }
 
+/** Answer Smash: the longest run of letters that ends the first answer and starts the second. Mirrors the portal's copy. */
+function smashOf(a: string, b: string): { smash: string; overlap: number } {
+  const letters = (s: string) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]/g, "");
+  const la = letters(a), lb = letters(b);
+  let n = 0;
+  for (let k = Math.min(la.length - 1, lb.length - 1); k >= 1; k--) if (la.slice(-k) === lb.slice(0, k)) { n = k; break; }
+  if (!n) return { smash: "", overlap: 0 };
+  let seen = 0, i = 0;
+  while (i < b.length && seen < n) { if (/[a-z0-9]/i.test(b[i].normalize("NFD")[0])) seen++; i++; }
+  return { smash: a.trimEnd() + b.slice(i), overlap: n };
+}
+
 const JUDGE_SYSTEM = `You are the adjudicator for a live pub quiz. Players typed their answers on a phone in a hurry. Decide whether each typed answer should be accepted as correct against the accepted answers for the question.
 
 Accept: misspellings and typos, any capitalisation, missing or extra "the"/"a", abbreviations and common short forms, initials with a surname, alternative names that clearly refer to the same thing (NYC for New York City, Bobby Charlton for Sir Bobby Charlton, "1st" for "first"), the answer plus extra correct detail, and numbers written as words or digits. Where the question asks for a surname or a single word, a fuller correct answer is still right.
@@ -399,6 +412,12 @@ Question types and their JSON shapes (use only the types you are asked for, and 
   A list question. "right" are 15 answers that definitely fit; "wrong" are 5 that are plausible (same kind of thing, same era or league) but definitely do not fit. Verify every one — a wrong answer that actually fits ruins the round.
 - "race": {"type":"race","text":"The Race: capital cities","target":10,"bank":[{"q":"Capital of Peru?","right":"Lima","wrong":["Quito","Bogotá","Santiago"]} x20]}
   A quick-fire bank of 20 short multiple-choice questions on one topic, answered in a hurry on a phone: one short line each, four short answers. Easy to medium.
+- "pin" (spot-the-thing): {"type":"pin","mode":"area","text":"Drop the pin on the amalgam carrier","tiles":["Amalgam carrier","Dental mirror","Periodontal probe","Dental explorer","Dental elevator"],"answer":"Amalgam carrier"}
+  A collage of 4 to 6 pictures; the player taps the right one. "tiles" are exact English Wikipedia article titles whose lead image clearly shows the object (tools, animals, cars, flags, foods, buildings, faces); "answer" is one of them. Only when a pictures round is wanted.
+- "wheel": {"type":"wheel","category":"Phrase","phrase":"A PIECE OF CAKE"}
+  A Wheel of Fortune puzzle: a well-known phrase, title, name or place in capitals, letters and spaces only (no punctuation), 8 to 40 letters, no word longer than 12 letters, whole phrase at most 4 words per row across 4 rows of 12/14/14/12 tiles. Category as on the show: Phrase, Person, Place, Thing, Event, Food & Drink, Song Title, Movie Title, TV Show, Before & After, Landmark, Occupation.
+- "smash": {"type":"smash","picture":"Emma Watson","pictureAnswer":"Emma Watson","text":"Sega's blue hedgehog","clueAnswer":"Sonic the Hedgehog"}
+  Answer Smash, as on House of Games: the picture shows a well-known person, place or thing ("picture" is its English Wikipedia title, "pictureAnswer" the name players would say); "text" is a clue whose answer starts with the same letters that end the picture's answer — Emma WatSON + SONic the Hedgehog → "Emma Watsonic the Hedgehog"; Judi DenCH + CHina → "Judi Denchina". The overlap must be at least two letters and genuine. Keep the clue short and the answers well known.
 
 Pictures: add "picture":"<exact English Wikipedia article title>" to any question where a picture makes it better or is the question itself ("Which city is this?", "Name this bird"). Use only titles you are confident exist, whose lead image shows the thing and does not contain its name as a caption in the image. Do not add a picture that gives the answer away when the question is not about identifying the picture.
 
@@ -444,7 +463,7 @@ Pictures round: ${wantPictures ? "yes — give roughly half the questions a pict
 
   const questions = await Promise.all(raw.slice(0, o.count).map(async (r) => {
     const time = Math.min(90, Math.max(10, Math.round(+r.time || 25)));
-    const base: any = { id: uid("q"), type: r.type, text: String(r.text || "").trim(), time, media: { kind: "none" }, partial: false };
+    const base: any = { id: uid("q"), type: r.type, text: String(r.text || r.phrase || "").trim(), time, media: { kind: "none" }, partial: false };
     if (!base.text) return null;
 
     if (wantPictures && typeof r.picture === "string" && r.picture.trim() && r.type !== "pin") {
@@ -524,6 +543,37 @@ Pictures round: ${wantPictures ? "yes — give roughly half the questions a pict
       }).filter(Boolean);
       if (bank.length < 8) return null;
       base.bank = bank; base.target = Math.min(bank.length - 2, Math.max(3, Math.round(+r.target || 10))); base.prize = 5000; base.time = 120;
+      return base;
+    }
+    if (r.type === "wheel") {
+      const phrase = String(r.phrase || "").toUpperCase().replace(/[^A-Z0-9' &-]/g, "").replace(/\s+/g, " ").trim();
+      const words = phrase.split(" ").filter(Boolean);
+      if (!phrase || phrase.replace(/[^A-Z]/g, "").length < 4 || words.some((w) => w.length > 14) || phrase.length > 52) { warnings.push(`Dropped a Wheel of Fortune phrase that would not fit the board (${r.phrase}).`); return null; }
+      base.text = phrase; base.phrase = phrase; base.category = String(r.category || "Phrase").trim().slice(0, 40); base.revealEvery = 4; base.startLetters = ""; base.ai = true; base.media = { kind: "none" };
+      return base;
+    }
+    if (r.type === "smash") {
+      const pictureAnswer = String(r.pictureAnswer || r.picture || "").trim(), clueAnswer = String(r.clueAnswer || "").trim();
+      const sm = smashOf(pictureAnswer, clueAnswer);
+      if (!pictureAnswer || !clueAnswer || sm.overlap < 2) { warnings.push(`Dropped an Answer Smash whose answers did not overlap (${pictureAnswer} + ${clueAnswer}).`); return null; }
+      const pic = await wikiPicture(String(r.picture || pictureAnswer).trim(), used);
+      if (!pic) { warnings.push(`No picture found for “${r.picture || pictureAnswer}”, so that Answer Smash was left out.`); return null; }
+      base.media = { kind: "image", url: pic.url, source: pic.source, credit: `Wikipedia / Wikimedia Commons: ${r.picture || pictureAnswer}` };
+      base.pictureAnswer = pictureAnswer; base.clueAnswer = clueAnswer; base.smash = sm.smash; base.ai = true;
+      return base;
+    }
+    if (r.type === "pin" && r.mode === "area") {
+      const tiles = (Array.isArray(r.tiles) ? r.tiles : []).map((s: unknown) => String(s ?? "").trim()).filter(Boolean).slice(0, 6);
+      const answer = String(r.answer || "").trim();
+      const ai = tiles.findIndex((t) => norm(t) === norm(answer));
+      if (tiles.length < 3 || ai < 0) return null;
+      const pics = await Promise.all(tiles.map((t) => wikiPicture(t, used)));
+      const collage = tiles.map((title, i) => pics[i] ? { title, url: pics[i]!.url, credit: `Wikipedia / Wikimedia Commons: ${title}` } : null);
+      if (!collage[ai]) { warnings.push(`No picture found for “${answer}”, so that spot-the-thing question was left out.`); return null; }
+      const kept = collage.filter(Boolean) as any[];
+      if (kept.length < 3) { warnings.push(`Too few pictures found for “${base.text}”, so it was left out.`); return null; }
+      base.mode = "area"; base.collage = kept; base.answerIndex = kept.findIndex((t: any) => t.title === tiles[ai]); base.place = tiles[ai];
+      base.media = { kind: "none" }; // the portal tiles the pictures into one and uploads it
       return base;
     }
     if (r.type === "pin") {
@@ -666,7 +716,7 @@ Deno.serve(async (req) => {
 
     if (action === "generate") {
       if (!ANTHROPIC_KEY) return json({ error: "AI is not set up on the server yet — add ANTHROPIC_API_KEY as a Supabase secret." }, 503);
-      const types = (Array.isArray(body.types) ? body.types : []).filter((t: unknown) => ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race"].includes(String(t)));
+      const types = (Array.isArray(body.types) ? body.types : []).filter((t: unknown) => ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel"].includes(String(t)));
       const out = await generate({
         topic: String(body.brief ? (body.title || body.topic || "") : (body.topic || "")).slice(0, 200),
         brief: String(body.brief || "").slice(0, 1500),
@@ -679,6 +729,15 @@ Deno.serve(async (req) => {
         web: body.web !== false,
       });
       return json(out);
+    }
+
+    if (action === "picture") {
+      const title = String(body.title || "").trim().slice(0, 120);
+      if (!title) return json({ error: "What should the picture be of?" }, 400);
+      const used = new Set<string>((Array.isArray(body.usedPictures) ? body.usedPictures : []).map((s: unknown) => String(s ?? "")));
+      const pic = await wikiPicture(title, used);
+      if (!pic) return json({ error: `No usable picture of “${title}” on Wikipedia. Try the article's exact title, or upload one.` }, 404);
+      return json({ url: pic.url, source: pic.source });
     }
 
     if (action === "map") {

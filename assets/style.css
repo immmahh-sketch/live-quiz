@@ -151,6 +151,14 @@ textarea { min-height: 80px; resize: vertical; }
 .pinpick img { display: block; max-height: 460px; }
 .pinpick .pin, .pinboard .pin { position: absolute; width: 22px; height: 22px; margin: -22px 0 0 -11px; pointer-events: none; }
 .pinpick .ring { position: absolute; border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none; }
+.pinpick.area { cursor: crosshair; touch-action: none; }
+.pinpick .rect, .pinboard .rect { position: absolute; border: 3px solid var(--ok); background: rgba(38,137,12,.22); pointer-events: none; box-shadow: 0 0 0 2px rgba(255,255,255,.8); }
+.pinpick .tile { position: absolute; border: 2px dashed rgba(91,61,245,.55); cursor: pointer; }
+.pinpick .tile:hover { background: rgba(91,61,245,.15); }
+.smashline { font-size: 1.4rem; font-weight: 900; padding: 10px 14px; background: var(--brand-soft); border-radius: 12px; color: var(--brand-2); }
+.smashline mark { background: #ffd54a; color: var(--ink); border-radius: 4px; padding: 0 2px; }
+.host .smashline { background: rgba(255,255,255,.12); color: #fff; font-size: clamp(1.4rem, 3vw, 2.4rem); display: inline-block; }
+.pinboard .pp.hit { background: var(--green); } .pinboard .pp.miss { background: var(--red); }
 .ring.full { border: 2px solid var(--ok); background: rgba(38,137,12,.18); }
 .ring.zero { border: 2px dashed var(--warn); }
 .sticky-actions { position: sticky; bottom: 0; background: linear-gradient(transparent, var(--paper) 30%); padding: 14px 0 4px; display: flex; gap: 10px; justify-content: flex-end; }
@@ -217,6 +225,27 @@ textarea { min-height: 80px; resize: vertical; }
 .emopick { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
 .emopick button { font-size: 1.6rem; padding: 6px 0; border: 2px solid var(--line); border-radius: 12px; background: #fff; cursor: pointer; }
 .emopick button.on { border-color: var(--brand); background: var(--brand-soft); }
+
+/* Wheel of Fortune board */
+.wof { display: inline-flex; flex-direction: column; gap: 4px; padding: 10px; background: #0b3d1f; border: 4px solid #d4a017; border-radius: 10px; --wt: clamp(22px, 4.6vw, 62px); }
+.wof-row { display: flex; gap: 4px; justify-content: center; }
+.wt { width: var(--wt); height: calc(var(--wt) * 1.25); border-radius: 3px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: calc(var(--wt) * .78); color: #111; font-family: 'Arial Black', 'Nunito', sans-serif; }
+.wt.off { background: #1f7a3a; }
+.wt.gap { background: #0b3d1f; }
+.wt.on { background: #f5f5f0; box-shadow: inset 0 0 0 2px #ddd; }
+.wt.lit { animation: flip .5s ease; }
+@keyframes flip { 0% { transform: rotateY(90deg); background: #ffd54a; } 100% { transform: rotateY(0); } }
+.wof-cat { display: inline-block; background: #d4a017; color: #111; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; padding: 6px 22px; border-radius: 0 0 10px 10px; font-size: clamp(.8rem, 1.6vw, 1.3rem); }
+.player .wof { --wt: 5.6vw; padding: 6px; border-width: 3px; }
+.player .wof-row { gap: 2px; } .player .wof { gap: 2px; }
+
+/* rounds planner (builder) */
+.rplan { display: flex; flex-direction: column; gap: 14px; }
+.rcard { border: 2px solid var(--line); border-radius: 14px; padding: 16px; background: #fff; }
+.rcard .rhead { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.rcard .rhead .badge { background: var(--brand); color: #fff; border-radius: 999px; padding: 3px 12px; font-weight: 900; font-size: .85rem; }
+.rcard .types { display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.rcard .types label { font-size: .88rem; }
 
 /* wipeout board */
 .wboard { position: relative; width: 100%; height: 100%; min-height: 0; }

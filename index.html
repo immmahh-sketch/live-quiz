@@ -21,7 +21,7 @@
 <script>
 const { $, $$, esc, uid, api, TYPES, COLORS, DEFAULT_SETTINGS, newQuestion, validate, youtubeId, resizeImage, normalizeQuiz, orderQuestions, quizForSave, timeFor } = LQ;
 const view = $('#view');
-const S = { quizzes: [], quiz: null, sel: 0, ai: false, saveTimer: null, saving: false, dirty: false };
+const S = { quizzes: [], quiz: null, sel: 0, ai: false, saveTimer: null, saving: false, dirty: false, planner: false };
 
 let toastT;
 function toast(msg, bad) {
@@ -132,7 +132,7 @@ async function openQuiz(id) {
   catch (e) { view.innerHTML = `<div class="error">${esc(e.message)}</div><p class="mt"><a href="index.html">Back to quizzes</a></p>`; }
 }
 function newQuiz() {
-  S.quiz = normalizeQuiz({ title: 'New quiz', questions: [] }); S.sel = 0; renderEditor(); pickType(S.quiz.rounds[0].id);
+  S.quiz = normalizeQuiz({ title: 'New quiz', questions: [] }); S.quiz.rounds[0].count = 8; S.quiz.rounds[0].types = ['choice', 'text']; S.sel = 0; S.planner = true; renderEditor();
 }
 const cur = () => S.quiz.questions[S.sel];
 const roundOf = (q) => S.quiz.rounds.find((r) => r.id === q.round) || S.quiz.rounds[0];
@@ -148,6 +148,7 @@ function renderEditor() {
       <input type="text" id="title" value="${esc(q.title)}" style="font-weight:900;font-size:1.15rem;max-width:460px" placeholder="Quiz title">
       <span id="saveState" class="muted small"></span>
       <div class="grow"></div>
+      <button class="btn btn-ghost btn-sm" id="planner">📋 Rounds</button>
       <button class="btn btn-ghost btn-sm" id="settings">⚙ Settings</button>
       <button class="btn btn-ghost btn-sm" id="aiAdd">✨ Add with AI</button>
       <button class="btn btn-ghost btn-sm" id="checkAll" title="Fact-check every question with AI">✔ Check all</button>
@@ -158,6 +159,7 @@ function renderEditor() {
   $('#back').onclick = async () => { if (S.dirty) await save(); loadList(); };
   $('#title').oninput = (e) => { q.title = e.target.value; touch(); };
   $('#settings').onclick = settingsModal;
+  $('#planner').onclick = () => { S.planner = true; renderPlanner(); };
   $('#aiAdd').onclick = () => aiModal(false, cur()?.round || q.rounds[0].id);
   $('#checkAll').onclick = () => checkRounds(q.rounds.map((r) => r.id));
   $('#save').onclick = () => save(true);
@@ -191,7 +193,7 @@ function renderQList() {
   let html = '';
   rounds.forEach((r, ri) => {
     const inRound = qs.map((q, i) => [q, i]).filter(([q]) => q.round === r.id);
-    html += `<div class="roundhead"><div class="rt"><small>Round ${ri + 1}${r.brief ? ' · ✨' : ''}</small>${esc(r.title) || '<span class="muted">Untitled round</span>'}</div>
+    html += `<div class="roundhead"><div class="rt"><small>Round ${ri + 1} · ${inRound.length}${r.count ? ' of ' + r.count : ''} question${inRound.length === 1 && !r.count ? '' : 's'}${r.brief ? ' · ✨' : ''}</small>${esc(r.title) || '<span class="muted">Untitled round</span>'}</div>
       <div class="ra"><button data-rup="${ri}" title="Move round up" ${ri === 0 ? 'disabled' : ''}>▲</button><button data-rdown="${ri}" title="Move round down" ${ri === rounds.length - 1 ? 'disabled' : ''}>▼</button><button data-redit="${r.id}" title="Round name and AI brief">✎</button><button data-check="${r.id}" title="Fact-check this round with AI" ${inRound.length ? '' : 'disabled'}>✔</button></div></div>`;
     html += inRound.map(([q, i]) => {
       const probs = validate(q), ck = checkState(q);
@@ -203,7 +205,7 @@ function renderQList() {
     html += `<div class="row" style="gap:6px;margin:4px 0 14px"><button class="btn btn-ghost btn-sm grow" data-addq="${r.id}">+ Question</button><button class="btn btn-ghost btn-sm grow" data-ai="${r.id}">✨ Write with AI</button></div>`;
   });
   $('#qlist').innerHTML = html + `<button class="btn btn-block" id="addRound">+ Add a round</button>`;
-  $$('.qtile', $('#qlist')).forEach((t) => t.onclick = (e) => { if (e.target.closest('button')) return; S.sel = +t.dataset.i; renderQList(); renderQForm(); });
+  $$('.qtile', $('#qlist')).forEach((t) => t.onclick = (e) => { if (e.target.closest('button')) return; S.sel = +t.dataset.i; S.planner = false; renderQList(); renderQForm(); });
   $$('[data-up]').forEach((b) => b.onclick = () => moveQ(+b.dataset.up, -1));
   $$('[data-down]').forEach((b) => b.onclick = () => moveQ(+b.dataset.down, 1));
   $$('[data-rup]').forEach((b) => b.onclick = () => moveRound(+b.dataset.rup, -1));
@@ -231,13 +233,72 @@ function pickType(roundId) {
   $$('.typetile', m).forEach((b) => b.onclick = () => {
     m.remove();
     const q = newQuestion(b.dataset.t, S.quiz.settings); q.round = roundId || cur()?.round || S.quiz.rounds[0].id;
-    S.quiz.questions.push(q); touch(); S.sel = S.quiz.questions.findIndex((x) => x.id === q.id); renderQList(); renderQForm(); $('#f_text')?.focus();
+    S.quiz.questions.push(q); touch(); S.planner = false; S.sel = S.quiz.questions.findIndex((x) => x.id === q.id); renderQList(); renderQForm(); ($('#f_text') || $('#w_phrase'))?.focus();
   });
+}
+
+// ------------------------------------------------------------------ rounds planner
+/** The main panel as a planner: one card per round with its title, blurb, size, types and AI prompt. */
+function renderPlanner(focusId) {
+  const box = $('#qform'); const qz = S.quiz;
+  const countIn = (r) => qz.questions.filter((q) => q.round === r.id).length;
+  box.innerHTML = `<div class="row" style="justify-content:space-between;margin-bottom:12px"><h3 style="margin:0">📋 Rounds</h3><div class="row"><button class="btn btn-ghost btn-sm" id="pl_close">Back to questions</button><button class="btn btn-primary btn-sm" id="pl_writeall" ${S.ai ? '' : 'disabled'}>✨ Write every round with AI</button></div></div>
+    <p class="muted small">Set each round up here: what it's called, what it's about, how many questions, which types, and what to tell the AI. Then write a round, or all of them, with AI — or add questions by hand from the list on the left.</p>
+    <div class="rplan">${qz.rounds.map((r, i) => `<div class="rcard" data-r="${r.id}">
+      <div class="rhead"><span class="badge">Round ${i + 1}</span><input type="text" data-pt="${r.id}" value="${esc(r.title)}" placeholder="Round title, e.g. Sports" style="font-weight:900;font-size:1.05rem;max-width:420px"><div class="grow"></div><span class="muted small">${countIn(r)} question${countIn(r) === 1 ? '' : 's'} so far</span>${qz.rounds.length > 1 ? `<button class="btn btn-ghost btn-sm" data-pdel="${r.id}" style="color:var(--bad)">Delete</button>` : ''}</div>
+      <div class="row" style="align-items:flex-start">
+        <div class="field grow"><label>What the round is about <span class="muted">— shown on the round card before it starts</span></label><input type="text" data-pi="${r.id}" value="${esc(r.intro)}" placeholder="e.g. Ten questions on the beautiful game, from Sunday league to the World Cup"></div>
+        <div class="field" style="max-width:150px"><label>Questions</label><input type="number" data-pc="${r.id}" min="1" max="40" value="${r.count || 8}"></div></div>
+      <div class="field"><label>Question types in this round</label><div class="types">${Object.entries(TYPES).map(([k, t]) => `<label class="check"><input type="checkbox" data-ptype="${r.id}" value="${k}" ${(r.types.length ? r.types : ['choice', 'text']).includes(k) ? 'checked' : ''}> ${t.icon} ${esc(t.label)}</label>`).join('')}</div></div>
+      <div class="field"><label>Prompt for the AI <span class="muted">— what you want, as you'd tell a quizmaster</span></label><textarea data-pb="${r.id}" placeholder="e.g. A sports round where every question is about Harry Kane: clubs, records, goals, England career.">${esc(r.brief)}</textarea></div>
+      <div class="row"><button class="btn btn-sm" data-pai="${r.id}" ${S.ai ? '' : 'disabled'}>✨ Write this round with AI</button><button class="btn btn-ghost btn-sm" data-padd="${r.id}">+ Add a question by hand</button></div>
+    </div>`).join('')}
+    <button class="btn btn-block" id="pl_add">+ Add a round</button></div>`;
+  const R = (id) => qz.rounds.find((x) => x.id === id);
+  $$('[data-pt]').forEach((i) => i.oninput = () => { R(i.dataset.pt).title = i.value; touch(); renderQList(); });
+  $$('[data-pi]').forEach((i) => i.oninput = () => { R(i.dataset.pi).intro = i.value; touch(); });
+  $$('[data-pc]').forEach((i) => i.onchange = () => { R(i.dataset.pc).count = LQ.clamp(+i.value || 8, 1, 40); touch(); });
+  $$('[data-pb]').forEach((i) => i.oninput = () => { R(i.dataset.pb).brief = i.value; touch(); renderQList(); });
+  $$('[data-ptype]').forEach((c) => c.onchange = () => { const r = R(c.dataset.ptype); r.types = $$(`[data-ptype="${r.id}"]`).filter((x) => x.checked).map((x) => x.value); touch(); });
+  $$('[data-pdel]').forEach((b) => b.onclick = async () => { const r = R(b.dataset.pdel), n = countIn(r); if (n && !(await confirmBox('Delete this round?', `Its ${n} question${n === 1 ? '' : 's'} will be deleted too.`))) return; qz.questions = qz.questions.filter((q) => q.round !== r.id); qz.rounds = qz.rounds.filter((x) => x !== r); touch(); renderQList(); renderPlanner(); });
+  $$('[data-pai]').forEach((b) => b.onclick = () => aiModal(false, b.dataset.pai));
+  $$('[data-padd]').forEach((b) => b.onclick = () => pickType(b.dataset.padd));
+  $('#pl_add').onclick = () => { qz.rounds.push({ id: uid('r'), title: `Round ${qz.rounds.length + 1}`, intro: '', brief: '', count: 8, types: ['choice', 'text'] }); touch(); renderQList(); renderPlanner(qz.rounds[qz.rounds.length - 1].id); };
+  $('#pl_close').onclick = () => { S.planner = false; renderQForm(); };
+  $('#pl_writeall').onclick = () => writeAllRounds();
+  if (focusId) $(`[data-pt="${focusId}"]`)?.focus();
+}
+/** Writes every round that still needs questions, one after another, following each round's own settings. */
+async function writeAllRounds() {
+  const todo = S.quiz.rounds.map((r) => ({ r, need: Math.max(0, (r.count || 8) - S.quiz.questions.filter((q) => q.round === r.id).length) })).filter((x) => x.need > 0);
+  if (!todo.length) return toast('Every round already has its questions.');
+  if (todo.some((x) => !x.r.title && !x.r.brief)) return toast('Give every round a title or a prompt first.', true);
+  for (const { r, need } of todo) { await generateForRound(r, need); }
+  toast('All rounds written. Read them through before you host.');
+  S.planner = false; renderQList(); renderQForm();
+}
+/** Generates `need` questions into a round using the round's title, prompt and types. Shared by the planner's buttons. */
+async function generateForRound(r, need) {
+  const types = r.types.length ? r.types : ['choice', 'text'];
+  const m = modal(`<h3>✨ Writing Round ${roundIndex(r.id) + 1}${r.title ? ': ' + esc(r.title) : ''}</h3><div class="gen-progress"><span class="spinner"></span><span id="ga_step">Starting…</span></div>`);
+  const BATCH = 4, avoid = S.quiz.questions.map((q) => q.text).filter(Boolean); let written = 0;
+  try {
+    while (written < need) {
+      $('#ga_step', m).textContent = `Writing questions ${written + 1}–${Math.min(need, written + BATCH)} of ${need}…`;
+      const usedPictures = S.quiz.questions.flatMap((q) => [q.media?.source, q.media?.url]).filter((s) => typeof s === 'string' && /^https?:/.test(s));
+      const res = await api('generate', { topic: (r.brief ? `${r.title}. ${r.brief}` : r.title).slice(0, 200), title: r.title, brief: r.brief, usedPictures, count: Math.min(BATCH, need - written), difficulty: 'mixed', types, pictures: true, web: true, avoid }, { timeout: 170000 });
+      if (!res.questions.length) break;
+      for (const q of res.questions) { q.round = r.id; q.time = timeFor(q.type, S.quiz.settings); if (q.collage && !q.media?.url) { try { await buildCollageFor(q); } catch {} } S.quiz.questions.push(q); avoid.push(q.text); written++; }
+      touch(); renderQList(); save();
+    }
+    m.remove();
+  } catch (e) { m.remove(); toast(`Round ${roundIndex(r.id) + 1}: ${e.message}`, true); throw e; }
 }
 
 // ------------------------------------------------------------------ rounds
 function roundModal(id) {
-  const r = id ? S.quiz.rounds.find((x) => x.id === id) : { id: null, title: `Round ${S.quiz.rounds.length + 1}`, brief: '' };
+  if (id) { S.planner = true; renderPlanner(id); return; }
+  const r = id ? S.quiz.rounds.find((x) => x.id === id) : { id: null, title: `Round ${S.quiz.rounds.length + 1}`, intro: '', brief: '', count: 8, types: ['choice', 'text'] };
   const n = id ? S.quiz.questions.filter((q) => q.round === id).length : 0;
   const m = modal(`<h3>${id ? 'Round' : 'Add a round'}</h3>
     <div class="field"><label>Round name <span class="muted">— shown on the screen before it starts</span></label><input type="text" id="r_title" value="${esc(r.title)}" placeholder="e.g. Sports, Picture round, Music"></div>
@@ -265,15 +326,15 @@ function roundModal(id) {
 // ------------------------------------------------------------------ question form
 function renderQForm() {
   const q = cur(); const box = $('#qform');
-  if (!q) { const rid = S.quiz.rounds[0].id; box.innerHTML = `<div class="center" style="padding:40px 10px"><h3>No questions yet</h3><p class="muted">Add one by hand, or let AI write a round for you. Set up your rounds on the left first if you want more than one.</p><div class="row" style="justify-content:center"><button class="btn btn-primary" id="add1">+ Add question</button><button class="btn" id="ai1">✨ Write with AI</button></div></div>`; $('#add1').onclick = () => pickType(rid); $('#ai1').onclick = () => aiModal(false, rid); return; }
+  if (!q || S.planner) { renderPlanner(); return; }
   const n = S.sel + 1, ck = checkState(q);
   box.innerHTML = `
     <div class="row" style="justify-content:space-between;margin-bottom:10px"><h3 style="margin:0">Question ${n} <span class="muted">· ${TYPES[q.type].icon} ${esc(TYPES[q.type].label)}</span></h3>
       <div class="row"><button class="btn btn-ghost btn-sm" id="dupQ">Duplicate</button><button class="btn btn-ghost btn-sm" id="delQ" style="color:var(--bad)">Delete</button></div></div>
     ${ck ? `<div class="checknote ${ck}"><b>${{ ok: '✓ Checked: looks right.', doubt: '? Worth a look.', wrong: '✗ Looks wrong.', stale: '~ Changed since it was checked.' }[ck]}</b> ${esc(q.check.note || '')}${q.check.fix && ck !== 'ok' ? `<div class="mt" style="margin-top:6px"><b>Suggested answer:</b> ${esc(q.check.fix)}</div>` : ''}<div class="row" style="margin-top:8px;gap:6px"><button class="btn btn-ghost btn-sm" id="recheck">Check again</button><button class="btn btn-ghost btn-sm" id="clearCheck">Dismiss</button></div></div>` : ''}
-    <div class="field"><label>Question</label><textarea id="f_text" placeholder="${esc(placeholderFor(q.type))}">${esc(q.text)}</textarea></div>
+    ${q.type === 'wheel' ? '' : `<div class="field"><label>${q.type === 'smash' ? 'The clue' : 'Question'}</label><textarea id="f_text" placeholder="${esc(placeholderFor(q.type))}">${esc(q.text)}</textarea></div>`}
     <div id="typeBox"></div>
-    <div class="field"><label>${q.type === 'pin' ? 'Picture to drop the pin on' : 'On the screen'}</label><div id="mediaBox"></div></div>
+    ${q.type === 'wheel' ? '' : `<div class="field"><label>${q.type === 'pin' ? 'Picture to drop the pin on' : q.type === 'smash' ? 'The picture' : 'On the screen'}</label><div id="mediaBox"></div></div>`}
     <div class="row" style="align-items:flex-end">
       <div class="field" style="max-width:180px"><label>${q.type === 'wipeout' ? 'Seconds per turn' : q.type === 'race' ? 'Race time limit (seconds)' : 'Time limit (seconds)'}</label><input type="number" id="f_time" min="${q.type === 'wipeout' ? 3 : 5}" max="${q.type === 'race' ? 600 : 180}" value="${q.time}"></div>
       ${q.type === 'wipeout' ? `<div class="field" style="max-width:160px"><label>Points per right pick</label><input type="number" id="f_pick" min="0" max="5000" value="${q.pickPoints ?? 200}"></div><div class="field" style="max-width:160px"><label>Wipeout penalty</label><input type="number" id="f_penalty" min="0" max="5000" value="${q.penalty ?? 500}"></div>` : ''}
@@ -282,7 +343,7 @@ function renderQForm() {
       ${q.type === 'text' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_ai" ${q.ai !== false ? 'checked' : ''}> Let AI judge spelling and wording</label>` : ''}
     </div>
     <div id="problems"></div>`;
-  $('#f_text').oninput = (e) => { q.text = e.target.value; touch(); refreshTile(); };
+  if ($('#f_text')) $('#f_text').oninput = (e) => { q.text = e.target.value; touch(); refreshTile(); };
   $('#f_time').onchange = (e) => { q.time = LQ.clamp(+e.target.value || 30, q.type === 'wipeout' ? 3 : 5, q.type === 'race' ? 600 : 180); e.target.value = q.time; touch(); renderQList(); };
   if ($('#f_pick')) $('#f_pick').onchange = (e) => { q.pickPoints = LQ.clamp(+e.target.value || 0, 0, 5000); touch(); };
   if ($('#f_penalty')) $('#f_penalty').onchange = (e) => { q.penalty = LQ.clamp(+e.target.value || 0, 0, 5000); touch(); };
@@ -293,10 +354,10 @@ function renderQForm() {
   if ($('#clearCheck')) $('#clearCheck').onclick = () => { delete q.check; touch(); renderQList(); renderQForm(); };
   $('#dupQ').onclick = () => { const c = JSON.parse(JSON.stringify(q)); c.id = uid('q'); delete c.check; S.quiz.questions.splice(S.sel + 1, 0, c); touch(); S.sel = S.quiz.questions.findIndex((x) => x.id === c.id); renderQList(); renderQForm(); };
   $('#delQ').onclick = async () => { if (!(await confirmBox('Delete this question?', 'It will be removed from the quiz.'))) return; S.quiz.questions.splice(S.sel, 1); S.sel = Math.max(0, Math.min(S.sel, S.quiz.questions.length - 1)); touch(); renderQList(); renderQForm(); };
-  renderTypeBox(); renderMediaBox(); showProblems();
+  renderTypeBox(); if ($('#mediaBox')) renderMediaBox(); showProblems();
 }
 function placeholderFor(t) {
-  return { choice: 'e.g. Which planet is closest to the Sun?', text: 'e.g. Who painted the Mona Lisa?', order: 'e.g. Put these events in order, earliest first', pin: 'e.g. Drop the pin on Namibia', match: 'e.g. Match the dog breed to its picture', race: 'e.g. The Race: capital cities', tf: 'e.g. The Great Wall of China is visible from space', sort: 'e.g. Sort these actors: who has been in Coronation Street?', wipeout: 'e.g. Footballers who have played for Newcastle United' }[t] || '';
+  return { choice: 'e.g. Which planet is closest to the Sun?', text: 'e.g. Who painted the Mona Lisa?', order: 'e.g. Put these events in order, earliest first', pin: 'e.g. Drop the pin on Namibia', match: 'e.g. Match the dog breed to its picture', race: 'e.g. The Race: capital cities', smash: 'e.g. Sega\'s blue hedgehog', tf: 'e.g. The Great Wall of China is visible from space', sort: 'e.g. Sort these actors: who has been in Coronation Street?', wipeout: 'e.g. Footballers who have played for Newcastle United' }[t] || '';
 }
 function refreshTile() { const t = $(`.qtile[data-i="${S.sel}"] .t`); const q = cur(); if (t) t.innerHTML = t.querySelector('small').outerHTML + (esc(q.text) || '<span class="muted">Untitled question</span>'); }
 function showProblems() { const p = validate(cur()); const el = $('#problems'); if (el) el.innerHTML = p.length ? `<div class="notice">${esc(p.join(' '))}</div>` : ''; const tile = $(`.qtile[data-i="${S.sel}"] .mv`); if (tile) { const w = tile.querySelector('.warn'); if (p.length && !w) tile.insertAdjacentHTML('afterbegin', '<span class="warn">!</span>'); if (!p.length && w) w.remove(); } }
@@ -393,32 +454,148 @@ function renderTypeBox() {
     $('#addBank').onclick = () => { q.bank.push(LQ.newBankItem()); touch(); renderTypeBox(); $$('[data-bq]').pop().focus(); };
   }
   if (q.type === 'pin') {
-    box.innerHTML = `<div class="field"><label>Where the pin goes <span class="muted">— click the picture to move it</span></label><div id="pinpick"></div>
-      <div class="row mt"><div class="field grow"><label>Bullseye — full points within</label><input type="range" id="rFull" min="1" max="15" step="0.5" value="${(q.radiusFull * 100).toFixed(1)}"><div class="help"><span id="rFullV">${(q.radiusFull * 100).toFixed(1)}</span>% of the picture width</div></div>
+    q.mode = q.mode || 'point';
+    const area = q.mode === 'area';
+    box.innerHTML = `<div class="field"><label>How it scores</label><div class="media-tabs"><button data-pm="point" class="${area ? '' : 'on'}">📍 Closest to a spot</button><button data-pm="area" class="${area ? 'on' : ''}">🎯 Anywhere on the right thing</button></div>
+      <div class="help">${area ? 'A pin anywhere inside the box scores full speed points; outside scores nothing. Good for “drop the pin on the sirloin” or a collage of pictures.' : 'Full points inside the bullseye, falling to nothing at the outer ring. Good for maps.'}</div></div>
+      <div class="field"><label>${area ? 'The right thing' : 'Where the pin goes'} <span class="muted">— ${area ? (q.collage ? 'click the tile that is the answer, or drag a box' : 'drag a box around it on the picture') : 'click the picture to move it'}</span></label><div id="pinpick"></div>
+      ${area ? `<div class="row mt"><button class="btn btn-sm" id="collageBtn">🖼 ${q.collage ? 'Change the collage…' : 'Make a collage of pictures…'}</button><span class="help">Several pictures tiled into one; the answer is one of the tiles.</span></div>` : `<div class="row mt"><div class="field grow"><label>Bullseye — full points within</label><input type="range" id="rFull" min="1" max="15" step="0.5" value="${(q.radiusFull * 100).toFixed(1)}"><div class="help"><span id="rFullV">${(q.radiusFull * 100).toFixed(1)}</span>% of the picture width</div></div>
       <div class="field grow"><label>No points beyond</label><input type="range" id="rZero" min="5" max="45" step="0.5" value="${(q.radiusZero * 100).toFixed(1)}"><div class="help"><span id="rZeroV">${(q.radiusZero * 100).toFixed(1)}</span>% of the picture width</div></div></div>
-      <div class="help">Between the two, points fall off in a straight line. The closest player is always marked as such on the results.</div></div>`;
+      <div class="help">Between the two, points fall off in a straight line. The closest player is always marked as such on the results.</div>`}</div>`;
     renderPinPick();
-    $('#rFull').oninput = (e) => { q.radiusFull = +e.target.value / 100; if (q.radiusZero < q.radiusFull) { q.radiusZero = q.radiusFull; $('#rZero').value = e.target.value; $('#rZeroV').textContent = e.target.value; } $('#rFullV').textContent = e.target.value; touch(); renderPinPick(); };
-    $('#rZero').oninput = (e) => { q.radiusZero = Math.max(+e.target.value / 100, q.radiusFull); e.target.value = (q.radiusZero * 100).toFixed(1); $('#rZeroV').textContent = e.target.value; touch(); renderPinPick(); };
+    $$('[data-pm]').forEach((b) => b.onclick = () => { q.mode = b.dataset.pm; touch(); renderTypeBox(); showProblems(); });
+    if ($('#collageBtn')) $('#collageBtn').onclick = () => collageModal(q);
+    if ($('#rFull')) $('#rFull').oninput = (e) => { q.radiusFull = +e.target.value / 100; if (q.radiusZero < q.radiusFull) { q.radiusZero = q.radiusFull; $('#rZero').value = e.target.value; $('#rZeroV').textContent = e.target.value; } $('#rFullV').textContent = e.target.value; touch(); renderPinPick(); };
+    if ($('#rZero')) $('#rZero').oninput = (e) => { q.radiusZero = Math.max(+e.target.value / 100, q.radiusFull); e.target.value = (q.radiusZero * 100).toFixed(1); $('#rZeroV').textContent = e.target.value; touch(); renderPinPick(); };
+  }
+  if (q.type === 'wheel') {
+    box.innerHTML = `<div class="notice" style="margin-bottom:12px">The phrase goes up on the board hidden. Every few seconds another letter turns over, everywhere it appears. Players type the whole phrase on their phones whenever they think they know it, and the sooner the better: points fall with the clock.</div>
+      <div class="row"><div class="field grow"><label>The phrase</label><input type="text" id="w_phrase" value="${esc(q.phrase || '')}" placeholder="e.g. A PIECE OF CAKE" style="text-transform:uppercase"></div><div class="field" style="max-width:220px"><label>Category <span class="muted">— shown under the board</span></label><input type="text" id="w_cat" value="${esc(q.category || '')}" placeholder="Phrase, Person, Place, Thing…" list="w_cats"><datalist id="w_cats">${['Phrase', 'Person', 'Place', 'Thing', 'Event', 'Food & Drink', 'Song Title', 'Movie Title', 'TV Show', 'Before & After', 'Same Name', 'Living Thing', 'Proper Name', 'What Are You Doing?', 'On the Map', 'Fictional Character', 'Around the House', 'Landmark', 'Occupation'].map((c) => `<option value="${c}">`).join('')}</datalist></div></div>
+      <div id="w_board" class="center" style="margin:6px 0 14px"></div>
+      <div class="row"><div class="field" style="max-width:200px"><label>Turn a letter every (seconds)</label><input type="number" id="w_every" min="1" max="30" value="${q.revealEvery || 4}"></div><div class="field grow"><label>Letters shown from the start <span class="muted">— optional, e.g. RSTLNE</span></label><input type="text" id="w_start" value="${esc(q.startLetters || '')}" placeholder="none" style="text-transform:uppercase"></div></div>`;
+    const draw = () => { const L = LQ.wheelLayout(q.phrase); $('#w_board').innerHTML = L ? LQ.wheelBoardHtml(L, q.startLetters || '', false) + `<div><span class="wof-cat">${esc(q.category || 'Phrase')}</span></div>` : `<div class="error">${q.phrase ? 'That does not fit the board: four rows of 12, 14, 14 and 12 letters, and a word cannot be split across rows.' : 'Type the phrase to see it on the board.'}</div>`; };
+    $('#w_phrase').oninput = (e) => { q.phrase = e.target.value.toUpperCase(); q.text = q.phrase; touch(); draw(); showProblems(); refreshTile(); };
+    $('#w_cat').oninput = (e) => { q.category = e.target.value; touch(); draw(); showProblems(); };
+    $('#w_every').onchange = (e) => { q.revealEvery = LQ.clamp(+e.target.value || 4, 1, 30); touch(); };
+    $('#w_start').oninput = (e) => { q.startLetters = e.target.value.toUpperCase().replace(/[^A-Z]/g, ''); touch(); draw(); };
+    draw();
+  }
+  if (q.type === 'smash') {
+    box.innerHTML = `<div class="notice" style="margin-bottom:12px">Answer Smash: the picture's answer and the clue's answer overlap, and players type the two smashed into one. <i>Emma Watson</i> + <i>Sonic the Hedgehog</i> = <b>Emma Watsonic the Hedgehog</b>. Write the clue in the question box above.</div>
+      <div class="row"><div class="field grow"><label>The picture is of</label><input type="text" id="s_pic" value="${esc(q.pictureAnswer || '')}" placeholder="e.g. Emma Watson"></div><div class="field grow"><label>The clue's answer</label><input type="text" id="s_ans" value="${esc(q.clueAnswer || '')}" placeholder="e.g. Sonic the Hedgehog"></div></div>
+      <div class="field"><label>The smash <span class="muted">— what players have to type</span></label><div id="smashOut"></div></div>`;
+    const draw = () => {
+      const auto = LQ.smashOf(q.pictureAnswer, q.clueAnswer);
+      if (!q.smashCustom) q.smash = auto.smash;
+      const out = $('#smashOut');
+      if (q.smashCustom) out.innerHTML = `<div class="row"><input type="text" id="s_smash" class="grow" value="${esc(q.smash || '')}"><button class="btn btn-ghost btn-sm" id="s_auto">Work it out for me</button></div>`;
+      else if (auto.overlap) { const a = q.pictureAnswer.trimEnd(), ov = a.slice(a.length - auto.overlap); out.innerHTML = `<div class="smashline">${esc(a.slice(0, a.length - auto.overlap))}<mark>${esc(ov)}</mark>${esc(auto.smash.slice(a.length))}</div><div class="help">The highlighted letters are shared by both answers. <a href="#" id="s_edit">Type the smash yourself instead</a>.</div>`; }
+      else out.innerHTML = `<div class="error">These two don't overlap: the end of the first has to be the start of the second. Change one of them, or <a href="#" id="s_edit">type the smash yourself</a>.</div>`;
+      if ($('#s_edit')) $('#s_edit').onclick = (e) => { e.preventDefault(); q.smashCustom = true; touch(); draw(); $('#s_smash')?.focus(); };
+      if ($('#s_auto')) $('#s_auto').onclick = () => { q.smashCustom = false; touch(); draw(); showProblems(); };
+      if ($('#s_smash')) $('#s_smash').oninput = (e) => { q.smash = e.target.value; touch(); showProblems(); };
+      showProblems();
+    };
+    $('#s_pic').oninput = (e) => { q.pictureAnswer = e.target.value; touch(); draw(); };
+    $('#s_ans').oninput = (e) => { q.clueAnswer = e.target.value; touch(); draw(); };
+    draw();
   }
 }
 function renderPinPick() {
   const q = cur(); const box = $('#pinpick'); if (!box) return;
-  if (!q.media?.url) { box.innerHTML = '<div class="notice">Add a picture below first — a map, a photo, anything.</div>'; return; }
-  box.innerHTML = `<div class="pinpick"><img src="${esc(q.media.url)}" draggable="false"><div class="ring zero"></div><div class="ring full"></div><svg class="pin" viewBox="0 0 24 24"><path fill="#e21b3c" stroke="#fff" stroke-width="1.5" d="M12 1.5a7.5 7.5 0 0 0-7.5 7.5c0 5.6 7.5 13.5 7.5 13.5S19.5 14.6 19.5 9A7.5 7.5 0 0 0 12 1.5z"/><circle cx="12" cy="9" r="3" fill="#fff"/></svg></div>`;
+  if (!q.media?.url) { box.innerHTML = '<div class="notice">Add a picture below first — a map, a photo, a collage, anything.</div>'; return; }
+  const area = q.mode === 'area';
+  box.innerHTML = `<div class="pinpick ${area ? 'area' : ''}"><img src="${esc(q.media.url)}" draggable="false">${area ? '<div class="rect"></div>' : '<div class="ring zero"></div><div class="ring full"></div><svg class="pin" viewBox="0 0 24 24"><path fill="#e21b3c" stroke="#fff" stroke-width="1.5" d="M12 1.5a7.5 7.5 0 0 0-7.5 7.5c0 5.6 7.5 13.5 7.5 13.5S19.5 14.6 19.5 9A7.5 7.5 0 0 0 12 1.5z"/><circle cx="12" cy="9" r="3" fill="#fff"/></svg>'}</div>`;
   const wrap = $('.pinpick', box), img = $('img', wrap);
+  const frac = (e) => { const r = img.getBoundingClientRect(); return { x: LQ.clamp((e.clientX - r.left) / r.width, 0, 1), y: LQ.clamp((e.clientY - r.top) / r.height, 0, 1) }; };
+  if (area) {
+    const place = () => {
+      const w = img.clientWidth, h = img.clientHeight; if (!w) return;
+      $$('.tile', wrap).forEach((t) => t.remove());
+      for (const [i, t] of (q.collage || []).entries()) { const d = document.createElement('div'); d.className = 'tile'; d.style.left = t.rect.x * w + 'px'; d.style.top = t.rect.y * h + 'px'; d.style.width = t.rect.w * w + 'px'; d.style.height = t.rect.h * h + 'px'; d.title = t.title || ''; d.onclick = (e) => { e.stopPropagation(); q.target = { ...t.rect }; q.answerIndex = i; touch(); place(); showProblems(); }; wrap.appendChild(d); }
+      const r = $('.rect', wrap); if (q.target && q.target.w > 0) { r.style.display = 'block'; r.style.left = q.target.x * w + 'px'; r.style.top = q.target.y * h + 'px'; r.style.width = q.target.w * w + 'px'; r.style.height = q.target.h * h + 'px'; } else r.style.display = 'none';
+    };
+    img.onload = place; if (img.complete) place();
+    let start = null;
+    wrap.onpointerdown = (e) => { if (e.target.classList.contains('tile')) return; start = frac(e); wrap.setPointerCapture(e.pointerId); };
+    wrap.onpointermove = (e) => { if (!start) return; const p = frac(e); q.target = { x: Math.min(start.x, p.x), y: Math.min(start.y, p.y), w: Math.abs(p.x - start.x), h: Math.abs(p.y - start.y) }; place(); };
+    wrap.onpointerup = (e) => { if (!start) return; const p = frac(e); const t = { x: Math.min(start.x, p.x), y: Math.min(start.y, p.y), w: Math.abs(p.x - start.x), h: Math.abs(p.y - start.y) }; start = null; if (t.w > 0.01 && t.h > 0.01) { q.target = t; delete q.answerIndex; } touch(); place(); showProblems(); };
+    return;
+  }
   const place = () => {
     const w = img.clientWidth, h = img.clientHeight; if (!w) return;
     $('.pin', wrap).style.left = (q.pin.x * w) + 'px'; $('.pin', wrap).style.top = (q.pin.y * h) + 'px';
     for (const [cls, r] of [['full', q.radiusFull], ['zero', q.radiusZero]]) { const el = $('.ring.' + cls, wrap); el.style.left = (q.pin.x * w) + 'px'; el.style.top = (q.pin.y * h) + 'px'; el.style.width = el.style.height = (r * 2 * w) + 'px'; }
   };
   img.onload = place; if (img.complete) place();
-  wrap.onclick = (e) => { const r = img.getBoundingClientRect(); q.pin = { x: LQ.clamp((e.clientX - r.left) / r.width, 0, 1), y: LQ.clamp((e.clientY - r.top) / r.height, 0, 1) }; touch(); place(); showProblems(); };
+  wrap.onclick = (e) => { q.pin = frac(e); touch(); place(); showProblems(); };
+}
+
+// ------------------------------------------------------------------ collages
+/** Tiles pictures into one image in the browser. Returns the upload payload and each tile's rectangle as fractions. */
+async function composeCollage(tiles) {
+  const imgs = await Promise.all(tiles.map((t) => new Promise((res, rej) => { const im = new Image(); im.crossOrigin = 'anonymous'; im.onload = () => res(im); im.onerror = () => rej(new Error(`Could not load ${t.title || 'a picture'}.`)); im.src = t.url; })));
+  const n = tiles.length, cols = n <= 4 ? 2 : 3, rows = Math.ceil(n / cols), cw = 560, chh = 420, gap = 14;
+  const c = document.createElement('canvas'); c.width = cols * cw + gap * (cols + 1); c.height = rows * chh + gap * (rows + 1);
+  const ctx = c.getContext('2d'); ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, c.width, c.height);
+  const rects = imgs.map((im, i) => {
+    const x = gap + (i % cols) * (cw + gap), y = gap + Math.floor(i / cols) * (chh + gap);
+    const s = Math.max(cw / im.width, chh / im.height), sw = cw / s, sh = chh / s; // cover
+    ctx.save(); ctx.beginPath(); ctx.rect(x, y, cw, chh); ctx.clip();
+    ctx.drawImage(im, (im.width - sw) / 2, (im.height - sh) / 2, sw, sh, x, y, cw, chh); ctx.restore();
+    ctx.strokeStyle = '#d6d6e4'; ctx.lineWidth = 3; ctx.strokeRect(x + 1.5, y + 1.5, cw - 3, chh - 3);
+    return { x: x / c.width, y: y / c.height, w: cw / c.width, h: chh / c.height };
+  });
+  return { data: c.toDataURL('image/jpeg', 0.86).split(',')[1], contentType: 'image/jpeg', rects };
+}
+/** Composes and uploads a collage for a question whose tiles are known, and points the target at the answer. */
+async function buildCollageFor(q) {
+  const tiles = (q.collage || []).filter((t) => t.url);
+  if (tiles.length < 2) throw new Error('A collage needs at least two pictures.');
+  const out = await composeCollage(tiles);
+  const up = await api('upload', { data: out.data, contentType: out.contentType }, { timeout: 90000 });
+  q.media = { kind: 'image', url: up.url, credit: tiles.map((t) => t.credit).filter(Boolean).join('; ') || undefined };
+  q.collage = tiles.map((t, i) => ({ ...t, rect: out.rects[i] }));
+  q.mode = 'area';
+  const ai = Number.isInteger(q.answerIndex) && q.answerIndex < tiles.length ? q.answerIndex : 0;
+  q.answerIndex = ai; q.target = { ...out.rects[ai] };
+}
+function collageModal(q) {
+  const tiles = (q.collage || []).map((t) => ({ title: t.title || '', url: t.url, credit: t.credit }));
+  let answer = Number.isInteger(q.answerIndex) ? q.answerIndex : 0;
+  const m = modal(`<h3>🖼 Make a collage</h3><p class="muted small">Two to nine pictures, tiled into one. Tick the one that is the answer.</p><div id="c_list"></div>
+    <div class="row mt"><input type="text" id="c_title" class="grow" placeholder="Find a picture of… e.g. Amalgam carrier"><button class="btn btn-sm" id="c_find">Find on Wikipedia</button><button class="btn btn-ghost btn-sm" id="c_up">Upload</button></div>
+    <div id="c_err" class="mt"></div>
+    <div class="row mt" style="justify-content:flex-end"><button class="btn btn-ghost" data-x>Cancel</button><button class="btn btn-primary" data-ok>Build the collage</button></div>`);
+  const draw = () => {
+    $('#c_list', m).innerHTML = tiles.length ? tiles.map((t, i) => `<div class="list-item" style="grid-template-columns:44px 1fr auto auto"><img class="thumb" src="${esc(t.url)}"><input type="text" data-ct="${i}" value="${esc(t.title)}" placeholder="What it is (for your notes)"><label class="check" title="This is the answer"><input type="radio" name="c_ans" ${i === answer ? 'checked' : ''} data-ca="${i}"> answer</label><button class="btn btn-ghost btn-sm" data-cr="${i}">✕</button></div>`).join('') : '<p class="muted">No pictures yet.</p>';
+    $$('[data-ct]', m).forEach((inp) => inp.oninput = () => { tiles[+inp.dataset.ct].title = inp.value; });
+    $$('[data-ca]', m).forEach((r) => r.onchange = () => { answer = +r.dataset.ca; });
+    $$('[data-cr]', m).forEach((b) => b.onclick = () => { tiles.splice(+b.dataset.cr, 1); if (answer >= tiles.length) answer = 0; draw(); });
+    $('[data-ok]', m).disabled = tiles.length < 2;
+  };
+  const err = (msg) => { $('#c_err', m).innerHTML = msg ? `<div class="error">${esc(msg)}</div>` : ''; };
+  $('#c_find', m).onclick = async () => {
+    const title = $('#c_title', m).value.trim(); if (!title) return; if (tiles.length >= 9) return err('Nine pictures at most.');
+    err(''); $('#c_find', m).disabled = true;
+    try { const r = await api('picture', { title }, { timeout: 60000 }); tiles.push({ title, url: r.url, credit: `Wikipedia / Wikimedia Commons: ${title}` }); $('#c_title', m).value = ''; draw(); }
+    catch (e) { err(e.message); }
+    $('#c_find', m).disabled = false;
+  };
+  $('#c_title', m).onkeydown = (e) => { if (e.key === 'Enter') { e.preventDefault(); $('#c_find', m).click(); } };
+  $('#c_up', m).onclick = () => { if (tiles.length >= 9) return err('Nine pictures at most.'); pickImage((url) => { tiles.push({ title: '', url }); draw(); }); };
+  $('[data-x]', m).onclick = () => m.remove();
+  $('[data-ok]', m).onclick = async () => {
+    $('[data-ok]', m).disabled = true; err('');
+    try { q.collage = tiles; q.answerIndex = answer; await buildCollageFor(q); touch(); m.remove(); renderTypeBox(); renderMediaBox(); showProblems(); toast('Collage built'); }
+    catch (e) { err(e.message); $('[data-ok]', m).disabled = false; }
+  };
+  draw();
 }
 
 function renderMediaBox() {
   const q = cur(); const box = $('#mediaBox'); const m = q.media || (q.media = { kind: 'none' });
-  const pinOnly = q.type === 'pin';
+  const pinOnly = q.type === 'pin' || q.type === 'smash';
   box.innerHTML = `${pinOnly ? '' : `<div class="media-tabs"><button data-mk="none" class="${m.kind === 'none' ? 'on' : ''}">Nothing</button><button data-mk="image" class="${m.kind === 'image' ? 'on' : ''}">🖼 Picture</button><button data-mk="youtube" class="${m.kind === 'youtube' ? 'on' : ''}">▶ YouTube video</button></div>`}<div id="mediaPanel"></div>`;
   $$('[data-mk]').forEach((b) => b.onclick = () => { const k = b.dataset.mk; if (k === m.kind) return; q.media = k === 'none' ? { kind: 'none' } : k === 'image' ? { kind: 'image', url: '' } : { kind: 'youtube', url: '', videoId: '', start: 0 }; touch(); renderMediaBox(); showProblems(); });
   const p = $('#mediaPanel');
@@ -427,8 +604,14 @@ function renderMediaBox() {
     p.innerHTML = `${q.media.url ? `<div class="preview"><img src="${esc(q.media.url)}"></div>` : ''}
       <div class="row mt"><button class="btn btn-sm" id="upPic">${q.media.url ? 'Change picture' : 'Upload a picture'}</button><span class="muted small">or paste a link:</span><input type="url" id="picUrl" class="grow" placeholder="https://…jpg" value="${q.media.url && !q.media.url.includes('/quiz-media/') ? esc(q.media.url) : ''}" style="max-width:380px"></div>
       ${q.media.credit ? `<div class="help">${esc(q.media.credit)}</div>` : ''}
-      ${pinOnly ? `<div class="row mt"><button class="btn btn-sm" id="blankMap">🗺 Blank map of a place…</button><span class="help">A label-free map of any country, region or continent, or “World”.${q.mapRegion ? ` Currently: ${esc(q.mapRegion)}.` : ''}</span></div><div class="help">For “where on the body / on the pitch / in the painting” upload any picture instead.</div>` : '<div class="help">Shown big on the screen while the question is live, and on players\' phones.</div>'}`;
-    $('#upPic').onclick = () => pickImage((url) => { q.media = { kind: 'image', url }; delete q.mapRegion; delete q.mapBounds; touch(); renderMediaBox(); if (pinOnly) renderPinPick(); showProblems(); });
+      ${q.type === 'pin' ? `<div class="row mt"><button class="btn btn-sm" id="blankMap">🗺 Blank map of a place…</button><span class="help">A label-free map of any country, region or continent, or “World”.${q.mapRegion ? ` Currently: ${esc(q.mapRegion)}.` : ''}</span></div><div class="help">For “where on the body / on the pitch / in the painting” upload any picture instead.</div>` : q.type === 'smash' ? `<div class="row mt"><button class="btn btn-sm" id="findPic">🔎 Find a picture of ${esc(q.pictureAnswer || '…')}</button><span class="help">From Wikipedia, or upload your own.</span></div>` : '<div class="help">Shown big on the screen while the question is live, and on players\' phones.</div>'}`;
+    $('#upPic').onclick = () => pickImage((url) => { q.media = { kind: 'image', url }; delete q.mapRegion; delete q.mapBounds; delete q.collage; touch(); renderMediaBox(); if (pinOnly) renderPinPick(); showProblems(); });
+    if ($('#findPic')) $('#findPic').onclick = async () => {
+      const title = q.pictureAnswer?.trim(); if (!title) return toast('Fill in what the picture is of first.', true);
+      toast('Finding a picture…');
+      try { const r = await api('picture', { title }, { timeout: 60000 }); q.media = { kind: 'image', url: r.url, credit: `Wikipedia / Wikimedia Commons: ${title}` }; touch(); renderMediaBox(); showProblems(); toast('Picture added'); }
+      catch (e) { toast(e.message, true); }
+    };
     if ($('#blankMap')) $('#blankMap').onclick = () => {
       const m = modal(`<h3>Blank map of…</h3><div class="field"><input type="text" id="mapRegion" placeholder="e.g. France, United Kingdom, Europe, Africa, USA, World" value="${esc(q.mapRegion || '')}" autofocus></div><div id="mapErr"></div><div class="row" style="justify-content:flex-end"><button class="btn btn-ghost" data-x>Cancel</button><button class="btn btn-primary" data-ok>Use this map</button></div>`);
       $('[data-x]', m).onclick = () => m.remove();
@@ -528,7 +711,7 @@ function bankModal(q) {
 // ------------------------------------------------------------------ AI fact-check
 /** The question as the checker sees it — also what a check is tied to, so an edit makes it stale. */
 function summaryOf(q) {
-  const lines = [`Type: ${TYPES[q.type].label}`, `Question: ${q.text}`];
+  const lines = [`Type: ${TYPES[q.type].label}`, `Question: ${q.type === 'wheel' ? '(puzzle board)' : q.text}`];
   if (q.type === 'choice') lines.push('Options: ' + q.options.filter((o) => o.text.trim()).map((o) => o.text + (o.id === q.correct ? ' [MARKED CORRECT]' : '')).join(' | '));  if (q.type === 'text') lines.push('Accepted answers: ' + q.answers.filter((a) => a.trim()).join(' | '));
   if (q.type === 'order') lines.push(`Correct order${q.hint ? ` (${q.hint})` : ''}: ` + q.items.filter((i) => i.text.trim()).map((i, n) => `${n + 1}. ${i.text}`).join(' | '));
   if (q.type === 'tf') lines.push(`Marked as: ${q.answer === false ? 'FALSE' : 'TRUE'}`);
@@ -536,7 +719,10 @@ function summaryOf(q) {
   if (q.type === 'wipeout') lines.push('Marked RIGHT (each must genuinely fit the question): ' + q.right.filter((i) => i.text.trim()).map((i) => i.text).join(' | '), 'Marked WRONG (each must genuinely NOT fit): ' + q.wrong.filter((i) => i.text.trim()).map((i) => i.text).join(' | '));
   if (q.type === 'race') lines.push(`Race to ${q.target} right. Bank (right answer first, then wrong ones):\n` + q.bank.filter((b) => b.text.trim()).map((b, i) => `${i + 1}. ${b.text} — RIGHT: ${b.options[0]}; wrong: ${b.options.slice(1).filter(Boolean).join(', ')}`).join('\n'));
   if (q.type === 'match') lines.push('Pairs (left → right): ' + q.pairs.map((p) => `${p.left} → ${p.right.kind === 'image' ? '[a picture — cannot be checked here, treat as fine]' : p.right.value}`).join(' | '));
-  if (q.type === 'pin') {
+  if (q.type === 'wheel') lines.push(`Wheel of Fortune puzzle. Category: ${q.category}. Phrase: ${q.phrase}. Check the phrase is a real, correctly spelt phrase/title/name and that the category fits it.`);
+  if (q.type === 'smash') lines.push(`Answer Smash. The picture shows: ${q.pictureAnswer}. The clue's answer: ${q.clueAnswer}. The smashed answer players must type: ${q.smash}. Check the clue really leads to that answer, the picture subject is right, and the two overlap as claimed.`);
+  if (q.type === 'pin' && q.mode === 'area') lines.push(q.collage ? `Hit-the-right-thing on a collage of: ${q.collage.map((t, i) => (i === q.answerIndex ? '[ANSWER] ' : '') + (t.title || 'untitled')).join(', ')}. Check the marked answer is what the question asks for and no other tile also fits.` : 'Hit-the-right-thing on a custom picture; only check the question wording makes sense.');
+  else if (q.type === 'pin') {
     const b = q.mapBounds || (q.media?.url?.includes('/maps/world') ? { top: 90, bottom: -90, left: -180, right: 180 } : null);
     if (b && q.pin) lines.push(`Target on a blank map of ${q.mapRegion || 'the world'}: ${q.place || 'unnamed'} at roughly latitude ${(b.top - q.pin.y * (b.top - b.bottom)).toFixed(2)}, longitude ${(b.left + q.pin.x * (b.right - b.left)).toFixed(2)}. Check that is really where the place is.`);
     else if (q.mapRegion) lines.push(`Target is “${q.place || 'unnamed'}” on a blank map of ${q.mapRegion}; check the place is in that region and the question makes sense.`);
@@ -595,9 +781,9 @@ function aiModal(fresh, roundId) {
     ${S.ai ? '' : '<div class="error" style="margin-bottom:12px">AI isn\'t switched on for this server yet. Add an <b>ANTHROPIC_API_KEY</b> secret to the Supabase project and it will light up.</div>'}
     <div class="field"><label>${round ? 'Round name' : 'Topic or round'}</label><input type="text" id="g_topic" value="${esc(round ? round.title : '')}" placeholder="e.g. 1990s music, British geography, Christmas films, general knowledge" ${round && round.title ? '' : 'autofocus'}></div>
     <div class="field"><label>Brief for the AI <span class="muted">— optional</span></label><textarea id="g_brief" placeholder="Tell it what you want, as you'd tell a quizmaster. e.g. A sports round where every question is about Harry Kane: clubs, records, goals, England career.">${esc(round ? round.brief : '')}</textarea>${round ? '<div class="help">Saved on the round, so writing more later follows the same brief.</div>' : ''}</div>
-    <div class="row"><div class="field grow"><label>How many</label><input type="number" id="g_count" value="8" min="1" max="40"></div>
+    <div class="row"><div class="field grow"><label>How many</label><input type="number" id="g_count" value="${round ? Math.max(1, (round.count || 8) - S.quiz.questions.filter((q) => q.round === round.id).length) : 8}" min="1" max="40"></div>
       <div class="field grow"><label>Difficulty</label><select id="g_diff"><option value="mixed">Mixed</option><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option></select></div></div>
-    <div class="field"><label>Question types</label><div class="row">${Object.entries(TYPES).map(([k, t]) => `<label class="check"><input type="checkbox" data-gt="${k}" ${['choice', 'text'].includes(k) ? 'checked' : ''}> ${t.icon} ${esc(t.label)}</label>`).join('')}</div>
+    <div class="field"><label>Question types</label><div class="row">${Object.entries(TYPES).map(([k, t]) => `<label class="check"><input type="checkbox" data-gt="${k}" ${(round?.types?.length ? round.types : ['choice', 'text']).includes(k) ? 'checked' : ''}> ${t.icon} ${esc(t.label)}</label>`).join('')}</div>
       <div class="help">Drop-the-pin questions use a world map, so they suit places. Match-up questions get pictures when the pictures box is ticked.</div></div>
     <label class="check"><input type="checkbox" id="g_pics" checked> Find pictures for the questions (from Wikipedia)</label><br>
     <label class="check" style="margin-top:8px"><input type="checkbox" id="g_web" checked> Search the web to check facts and cover recent events</label>
@@ -609,7 +795,7 @@ function aiModal(fresh, roundId) {
     const types = $$('[data-gt]', m).filter((c) => c.checked).map((c) => c.dataset.gt);
     if (!types.length) return toast('Tick at least one question type.', true);
     if (!topic && !brief) return toast('Give it a topic or a brief.', true);
-    if (round) { round.title = topic || round.title; round.brief = brief; touch(); renderQList(); }
+    if (round) { round.title = topic || round.title; round.brief = brief; round.types = types; touch(); renderQList(); }
     const btn = $('[data-ok]', m); btn.disabled = true; $('[data-x]', m).disabled = true;
     const prog = $('#g_prog', m); prog.classList.remove('hidden');
     const total = LQ.clamp(+$('#g_count', m).value || 8, 1, 40), BATCH = 4;
@@ -637,11 +823,15 @@ function aiModal(fresh, roundId) {
         }
         rid = rid || S.quiz.rounds[0].id;
         let firstId = null;
-        for (const q of r.questions) { q.round = rid; q.time = timeFor(q.type, S.quiz.settings); S.quiz.questions.push(q); avoid.push(q.text); firstId = firstId || q.id; }
+        for (const q of r.questions) {
+          q.round = rid; q.time = timeFor(q.type, S.quiz.settings);
+          if (q.collage && !q.media?.url) { try { await buildCollageFor(q); } catch (e) { warnings.push(`Could not build the collage for “${q.text}”: ${e.message}`); } }
+          S.quiz.questions.push(q); avoid.push(q.text); firstId = firstId || q.id;
+        }
         written += r.questions.length; warnings.push(...(r.warnings || []));
         touch(); if (start === null) { start = S.quiz.questions.findIndex((q) => q.id === firstId); } S.sel = start; renderQList(); renderQForm(); save();
       }
-      clearInterval(tick); m.remove();
+      clearInterval(tick); m.remove(); S.planner = false; renderQList(); renderQForm();
       toast(`Added ${written} question${written === 1 ? '' : 's'}. Read them through before you host — AI can be wrong.`);
       if (warnings.length) setTimeout(() => toast(warnings[0] + (warnings.length > 1 ? ` (+${warnings.length - 1} more)` : ''), true), 2800);
     } catch (e) {

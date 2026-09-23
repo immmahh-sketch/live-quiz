@@ -101,9 +101,13 @@ function botAnswer(b, q, v) {
     const others = v.options.filter((o) => o !== right);
     return (ok || !others.length ? right : others[Math.floor(Math.random() * others.length)]).k;
   }
-  if (q.type === 'text') {
-    if (ok) { const a = q.answers[0]; return chance(0.3) && a.length > 4 ? a.slice(0, -1) + a.slice(-1).toLowerCase() + (chance(0.5) ? 'e' : '') : a; }
+  if (q.type === 'text' || q.type === 'smash' || q.type === 'wheel') {
+    if (ok) { const a = q.type === 'smash' ? q.smash : q.type === 'wheel' ? q.phrase : q.answers[0]; return chance(0.3) && a.length > 4 ? a.slice(0, -1) + a.slice(-1).toLowerCase() + (chance(0.5) ? 'e' : '') : a; }
     return ['Pass', 'Not sure', 'Bob', 'Paris', '1966', 'The other one'][Math.floor(Math.random() * 6)];
+  }
+  if (q.type === 'pin' && q.mode === 'area') {
+    const t = q.target || { x: 0.4, y: 0.4, w: 0.2, h: 0.2 };
+    return ok ? { x: t.x + t.w * rnd(0.1, 0.9), y: t.y + t.h * rnd(0.1, 0.9) } : { x: rnd(0, 1), y: rnd(0, 1) };
   }
   if (q.type === 'order') {
     const right = q.items.filter((i) => i.text.trim()).map((i) => inv[i.id]);
@@ -194,7 +198,8 @@ function stateForPlayers() {
     if (G.q.race) { const r = G.q.race; s.race = { winner: r.winner, winnerName: r.winner ? G.players[r.winner]?.name : null, over: r.over, target: G.q.view.target, players: Object.fromEntries(Object.entries(r.players).map(([pid, p]) => [pid, { idx: p.idx, correct: p.correct, out: p.out, done: p.done }])) }; }
   }
   if (G.phase === 'countdown') s.next = { type: question().type, n: G.qIndex + 1 };
-  if (G.phase === 'round') { const r = roundOf(G.qIndex); s.round = { n: r.n, title: r.title, count: r.count }; }
+  if (G.phase === 'round') { const r = roundOf(G.qIndex); s.round = { n: r.n, title: r.title, intro: r.intro || '', count: r.count }; }
+  if (G.phase === 'question' && G.q?.wheelRevealed !== undefined) s.wheel = { revealed: G.q.wheelRevealed, category: question().category, layout: G.q.view.layout };
   if ((G.phase === 'reveal' || G.phase === 'scoreboard' || G.phase === 'final') && G.q?.results) {
     s.results = {}; s.qType = question()?.type;
     const rk = ranked();
@@ -210,7 +215,9 @@ function answerText(q) {
   if (q.type === 'text') return q.answers[0];
   if (q.type === 'order') return q.items.filter((i) => i.text.trim()).map((i) => i.text).join(' → ');
   if (q.type === 'match') return q.pairs.map((p) => p.left + (p.right.kind === 'text' ? ' – ' + p.right.value : '')).join(', ');
-  if (q.type === 'pin') return q.place ? 'It was ' + q.place : 'See the screen';
+  if (q.type === 'pin') return q.place ? 'It was ' + q.place : q.collage?.[q.answerIndex]?.title ? 'It was the ' + q.collage[q.answerIndex].title : 'See the screen';
+  if (q.type === 'smash') return q.smash;
+  if (q.type === 'wheel') return q.phrase;
   if (q.type === 'tf') return q.answer === false ? 'False' : 'True';
   if (q.type === 'sort') return q.categories.filter((c) => c.name.trim()).map((c) => `${c.name}: ${q.items.filter((i) => i.category === c.id && i.text.trim()).map((i) => i.text).join(', ')}`).join(' · ');
   if (q.type === 'wipeout') return 'Wrong ones: ' + q.wrong.filter((i) => i.text.trim()).map((i) => i.text).join(', ');
@@ -294,6 +301,7 @@ function buildView(q) {
     v.board = shuffle(tiles).map((t, i, arr) => ({ ...t, ...scatter(i, arr.length) }));
     v.pickPoints = q.pickPoints ?? 200; v.penalty = q.penalty ?? 500;
   }
+  if (q.type === 'wheel') { v.text = `${q.category}: solve the puzzle`; v.layout = LQ.wheelLayout(q.phrase).map((row) => row.map((t) => t.t === 'L' ? { t: 'L' } : t)); v.category = q.category; }
   if (q.type === 'race') {
     const good = q.bank.filter((b) => b.text.trim() && b.options[0].trim() && b.options.filter((o) => o.trim()).length >= 2);
     v.bank = good.map((b) => ({ k: tok('Q:' + b.id), text: b.text, options: shuffle(b.options.map((o, oi) => ({ o, oi })).filter((x) => x.o.trim())).map((x, i) => ({ k: tok((x.oi === 0 ? 'R:' : 'W:') + b.id), text: x.o, c: i })) }));
@@ -392,6 +400,7 @@ function startQuestion() {
   const { view, keys } = buildView(q);
   const now = Date.now();
   G.q = { view, keys, startedAt: now, deadline: q.type === 'wipeout' ? null : now + q.time * 1000, answers: {}, results: null };
+  if (q.type === 'wheel') { G.q.wheelRevealed = (q.startLetters || '').toUpperCase().replace(/[^A-Z]/g, ''); G.q.nextReveal = now + (q.revealEvery || 4) * 1000; }
   G.phase = 'question'; persist(); render();
   if (q.type === 'wipeout') wipeStart(); else if (q.type === 'race') raceStart(); else broadcastState();
   startTick(); botsOnQuestion();
@@ -403,8 +412,20 @@ function startTick() {
     const wipe = G.q.wipe;
     const total = (question().time * 1000), rem = wipe ? wipe.turnDeadline - Date.now() : G.q.deadline - Date.now();
     const t = $('#timer'); if (t) { const p = Math.max(0, rem / total) * 100; t.style.setProperty('--p', p + '%'); t.dataset.s = Math.max(0, Math.ceil(rem / 1000)); t.classList.toggle('low', rem < 5000 && !wipe); }
+    if (G.q.wheelRevealed !== undefined && Date.now() >= G.q.nextReveal) wheelReveal();
     if (rem <= 0) { if (wipe) { if (!wipe.over) wipeTimeout(); } else endQuestion(); }
   }, 100);
+}
+/** Wheel of Fortune: turns over one more letter, everywhere it appears. Stops when the board is full. */
+function wheelReveal() {
+  const q = question(); const letters = [...new Set(q.phrase.toUpperCase().replace(/[^A-Z]/g, ''))].filter((c) => !G.q.wheelRevealed.includes(c));
+  G.q.nextReveal = Date.now() + (q.revealEvery || 4) * 1000;
+  if (!letters.length) return;
+  // Vowels tend to come late on the show; here, a random consonant first while any remain.
+  const cons = letters.filter((c) => !'AEIOU'.includes(c));
+  const pool = cons.length && Math.random() < 0.8 ? cons : letters;
+  G.q.wheelRevealed += pool[Math.floor(Math.random() * pool.length)];
+  persist(); const b = $('#wofboard'); if (b) b.innerHTML = LQ.wheelBoardHtml(G.q.view.layout ? LQ.wheelLayout(q.phrase) : null, G.q.wheelRevealed); broadcastState();
 }
 async function endQuestion() {
   if (G.phase !== 'question') return;
@@ -488,8 +509,9 @@ async function grade(noAi) {
     stats.answered = Object.keys(w.scores).length;
     stats.picks = w.picks;
   }
-  if (q.type === 'text') {
-    const accepted = q.answers.filter((s) => s.trim());
+  if (q.type === 'text' || q.type === 'smash' || q.type === 'wheel') {
+    const accepted = q.type === 'smash' ? [q.smash, `${q.pictureAnswer} ${q.clueAnswer}`, `${q.pictureAnswer}${q.clueAnswer}`].filter((s) => s && s.trim()) : q.type === 'wheel' ? [q.phrase] : q.answers.filter((s) => s.trim());
+    const judgeQ = q.type === 'smash' ? `Answer Smash. The picture shows "${q.pictureAnswer}"; the clue "${q.text}" has the answer "${q.clueAnswer}"; the smashed answer is "${q.smash}". Accept the smash with typos or spacing differences, or a player who clearly gives both answers.` : q.type === 'wheel' ? `Wheel of Fortune puzzle, category ${q.category}. The phrase is "${q.phrase}". Accept it with typos; every word must be there.` : q.text;
     const unsure = [];
     for (const [pid, a] of entries) {
       const text = String(a.answer ?? '').slice(0, 200);
@@ -499,7 +521,7 @@ async function grade(noAi) {
     }
     if (unsure.length) {
       let verdicts = null;
-      if (q.ai !== false && !noAi) { try { verdicts = (await api('check_text', { question: q.text, accepted, answers: unsure }, { timeout: 45000 })).results; } catch (e) { toast('AI check unavailable — using closest match.', true); } }
+      if (q.ai !== false && !noAi) { try { verdicts = (await api('check_text', { question: judgeQ, accepted, answers: unsure }, { timeout: 45000 })).results; } catch (e) { toast('AI check unavailable — using closest match.', true); } }
       for (const u of unsure) {
         const a = G.q.answers[u.id];
         const ok = verdicts?.[u.id] ? verdicts[u.id].correct : accepted.some((acc) => similarity(LQ.normText(u.text), LQ.normText(acc)) >= 0.72);
@@ -525,7 +547,19 @@ async function grade(noAi) {
       res(pid, hits === n, hits / n, a.elapsed);
     }
   }
-  if (q.type === 'pin') {
+  if (q.type === 'pin' && q.mode === 'area') {
+    const t = q.target || { x: 0, y: 0, w: 0, h: 0 };
+    const list = [];
+    for (const [pid, a] of entries) {
+      const p = a.answer && isFinite(a.answer.x) && isFinite(a.answer.y) ? { x: LQ.clamp(+a.answer.x, 0, 1), y: LQ.clamp(+a.answer.y, 0, 1) } : null;
+      if (!p) { byPlayer[pid] = { answered: true, correct: false, partial: 0, points: 0 }; continue; }
+      const hit = p.x >= t.x && p.x <= t.x + t.w && p.y >= t.y && p.y <= t.y + t.h;
+      byPlayer[pid] = { answered: true, correct: hit, partial: hit ? 1 : 0, points: hit ? sp(a.elapsed) : 0, pin: p, hit };
+      if (hit) stats.right++;
+      list.push({ pid, name: G.players[pid].name, hit, ...p });
+    }
+    stats.pins = list;
+  } else if (q.type === 'pin') {
     const asp = G.aspect || 1;
     const dist = (p) => Math.hypot((p.x - q.pin.x), (p.y - q.pin.y) * asp);
     const list = [];
@@ -566,7 +600,7 @@ function topBar(extra = '') {
 function renderRound() {
   const r = roundOf(G.qIndex);
   stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span></div></div>
-    <div class="stage-main"><div style="opacity:.8;font-weight:800;font-size:1.6rem">Round ${r.n} of ${G.quiz.rounds.length}</div><h1 class="big">${esc(r.title) || 'Round ' + r.n}</h1><div style="opacity:.75;font-weight:800;font-size:1.3rem">${r.count} question${r.count === 1 ? '' : 's'}</div></div>
+    <div class="stage-main"><div style="opacity:.8;font-weight:800;font-size:1.6rem">Round ${r.n} of ${G.quiz.rounds.length}</div><h1 class="big">${esc(r.title) || 'Round ' + r.n}</h1>${r.intro ? `<p style="font-size:clamp(1.1rem,2.2vw,1.8rem);font-weight:800;max-width:1000px;text-wrap:balance">${esc(r.intro)}</p>` : ''}<div style="opacity:.75;font-weight:800;font-size:1.3rem">${r.count} question${r.count === 1 ? '' : 's'}</div></div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary btn-lg" data-act="primary">Start round ▶</button>`)}`;
   bind();
 }
@@ -596,7 +630,7 @@ function renderLobbyPlayers() {
 }
 function renderCountdown() {
   const q = question();
-  stage.innerHTML = `${topBar()}<div class="stage-main"><div style="opacity:.8;font-weight:800;font-size:1.4rem">${esc(TYPES[q.type].blurb)}</div><h1 class="qtext">${esc(q.text)}</h1><div class="huge" id="count">3</div></div>
+  stage.innerHTML = `${topBar()}<div class="stage-main"><div style="opacity:.8;font-weight:800;font-size:1.4rem">${esc(TYPES[q.type].blurb)}</div><h1 class="qtext">${esc(q.type === 'wheel' ? 'Category: ' + q.category : q.text)}</h1><div class="huge" id="count">3</div></div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">Go now ▶</button>`)}`;
   bind();
 }
@@ -613,6 +647,14 @@ function renderQuestion() {
   if (q.type === 'choice' || q.type === 'tf') body = `<div class="answers">${v.options.map((o) => `<div class="ans" style="background:${COLORS[o.c].hex}"><span class="shape">${COLORS[o.c].shape}</span>${esc(o.text)}</div>`).join('')}</div>`;
   if (q.type === 'sort') body = `<div class="cats">${v.categories.map((c) => `<div class="cat"><h3>${esc(c.name)}</h3></div>`).join('')}</div><div class="items mt">${v.items.map((it) => `<div class="item">${esc(it.text)}</div>`).join('')}</div>`;
   if (q.type === 'text') body = `<div class="item" style="justify-content:center">✎ Type your answer on your phone</div>`;
+  if (q.type === 'smash') body = `<div class="item" style="justify-content:center">🔀 Answer Smash — type the picture and the clue smashed together</div>`;
+  if (q.type === 'wheel') {
+    stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill" id="answered">0 of ${players().length} answered</span><div class="timer" id="timer" data-s="${q.time}" style="--p:100%"></div></div>`)}
+      <div class="stage-main" style="gap:6px"><div id="wofboard">${LQ.wheelBoardHtml(LQ.wheelLayout(q.phrase), G.q.wheelRevealed)}</div><div><span class="wof-cat">${esc(q.category)}</span></div><div style="opacity:.8;font-weight:800;font-size:1.2rem;margin-top:10px">Solve it on your phone — the sooner, the more points. Next letter in a few seconds…</div></div>
+      ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-ghost" id="wofNow">Turn a letter now</button><button class="btn btn-primary" data-act="primary">Stop the clock ■</button>`)}`;
+    renderAnswered(); bind(); $('#wofNow').onclick = () => { G.q.nextReveal = 0; };
+    return;
+  }
   if (q.type === 'order') body = `<div class="items">${v.items.map((it) => `<div class="item">${esc(it.text)}</div>`).join('')}</div><div style="opacity:.75;font-weight:800;margin-top:8px">${esc(q.hint || 'Put them in order on your phone')}</div>`;
   if (q.type === 'match') body = `<div class="items">${v.left.map((l) => `<div class="item">${esc(l.text)}</div>`).join('')}</div><div class="items mt">${v.right.map((r, i) => `<div class="item"><span class="k">${i + 1}</span>${r.kind === 'image' ? `<img src="${esc(r.value)}">` : esc(r.value)}</div>`).join('')}</div>`;
   if (q.type === 'pin') body = `<div class="item" style="justify-content:center">📍 Tap the spot on your phone</div>`;
@@ -672,15 +714,29 @@ function renderReveal() {
   }
   if (q.type === 'order') body = `<div class="items">${q.items.filter((i) => i.text.trim()).map((it, i) => `<div class="item ok"><span class="k">${i + 1}</span>${esc(it.text)}</div>`).join('')}</div>`;
   if (q.type === 'match') body = `<div class="items">${q.pairs.filter((p) => p.left.trim() && p.right?.value).map((p) => `<div class="item ok">${esc(p.left)} ⇄ ${p.right.kind === 'image' ? `<img src="${esc(p.right.value)}">` : esc(p.right.value)}</div>`).join('')}</div>`;
-  if (q.type === 'pin') {
+  if (q.type === 'pin' && q.mode === 'area') {
+    const hits = R.stats.pins.filter((p) => p.hit).length;
+    body = `<div class="center"><div class="pinboard" id="pinboard"><img src="${esc(q.media.url)}"></div>
+      <div class="mt"><span class="badge-closest">🎯 ${hits} of ${R.stats.pins.length} hit it</span>${q.place ? ` &nbsp; <span style="font-weight:800">${esc(q.place)}</span>` : q.collage?.[q.answerIndex]?.title ? ` &nbsp; <span style="font-weight:800">${esc(q.collage[q.answerIndex].title)}</span>` : ''}</div></div>`;
+  } else if (q.type === 'pin') {
     const best = R.stats.pins[0];
     body = `<div class="center"><div class="pinboard" id="pinboard"><img src="${esc(q.media.url)}"></div>
       <div class="mt">${best ? `<span class="badge-closest">🎯 Closest: ${esc(best.name)}</span>` : '<span class="muted">Nobody dropped a pin.</span>'}${q.place ? ` &nbsp; <span style="font-weight:800">It was ${esc(q.place)}</span>` : ''}</div></div>`;
   }
+  if (q.type === 'wheel') {
+    body = `<div class="center">${LQ.wheelBoardHtml(LQ.wheelLayout(q.phrase), '', true)}<div><span class="wof-cat">${esc(q.category)}</span></div></div>
+      <div class="textlist mt">${(R.stats.texts || []).slice(0, 30).map((t) => `<span class="tl ${t.ok === null ? '' : t.ok ? 'ok' : 'no'}">${esc(t.text || '—')} <span style="opacity:.7;font-size:.85em">· ${esc(t.name)}</span></span>`).join('')}</div>`;
+  }
+  if (q.type === 'smash') {
+    const a = (q.pictureAnswer || '').trimEnd(), ov = LQ.smashOf(q.pictureAnswer, q.clueAnswer).overlap;
+    const line = ov && !q.smashCustom ? `${esc(a.slice(0, a.length - ov))}<mark>${esc(a.slice(a.length - ov))}</mark>${esc(q.smash.slice(a.length))}` : esc(q.smash);
+    body = `<div class="center"><div style="font-weight:800;opacity:.85;font-size:1.3rem">${esc(q.pictureAnswer)} + ${esc(q.clueAnswer)} =</div><div class="smashline">${line}</div></div>
+      <div class="textlist mt">${(R.stats.texts || []).slice(0, 30).map((t) => `<span class="tl ${t.ok === null ? '' : t.ok ? 'ok' : 'no'}">${esc(t.text || '—')} <span style="opacity:.7;font-size:.85em">· ${esc(t.name)}</span></span>`).join('')}</div>`;
+  }
   const media = q.type === 'pin' ? '' : (q.media?.kind === 'image' ? mediaHtml(q, false) : '');
-  const inMain = q.type === 'pin' || q.type === 'wipeout' || q.type === 'race';
+  const inMain = q.type === 'pin' || q.type === 'wipeout' || q.type === 'race' || q.type === 'wheel';
   stage.innerHTML = `${topBar(`<span class="hpill">${q.type === 'wipeout' ? `${R.stats.right} scored` : q.type === 'race' ? `${(R.stats.standings || []).filter((s) => s.done).length} finished` : `${R.stats.right} of ${n} got it right${R.stats.skipped ? ` · ${R.stats.skipped} skipped` : ''}`}</span>`)}
-    <div class="stage-main"><h1 class="qtext"${inMain && q.type !== 'pin' ? ' style="font-size:clamp(1.3rem,2.6vw,2.2rem)"' : ''}>${esc(q.text)}</h1>${inMain ? body : media}</div>
+    <div class="stage-main"><h1 class="qtext"${inMain && q.type !== 'pin' ? ' style="font-size:clamp(1.3rem,2.6vw,2.2rem)"' : ''}>${esc(q.type === 'wheel' ? q.phrase : q.text)}</h1>${inMain ? body : media}</div>
     ${inMain ? '' : `<div>${body}</div>`}
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">Scores ▶</button>`)}`;
   if (q.type === 'pin') drawPins();
@@ -690,7 +746,12 @@ function drawPins() {
   const q = question(), R = G.q.results, board = $('#pinboard'), img = $('img', board);
   const draw = () => {
     const w = img.clientWidth, h = img.clientHeight; if (!w) return;
-    $$('.pp, .target', board).forEach((e) => e.remove());
+    $$('.pp, .target, .rect', board).forEach((e) => e.remove());
+    if (q.mode === 'area') {
+      const r = document.createElement('div'); r.className = 'rect'; const tg = q.target || { x: 0, y: 0, w: 0, h: 0 }; r.style.left = tg.x * w + 'px'; r.style.top = tg.y * h + 'px'; r.style.width = tg.w * w + 'px'; r.style.height = tg.h * h + 'px'; board.appendChild(r);
+      R.stats.pins.forEach((p) => { const el = document.createElement('div'); el.className = 'pp ' + (p.hit ? 'hit' : 'miss'); el.style.left = p.x * w + 'px'; el.style.top = p.y * h + 'px'; el.textContent = p.name.slice(0, 2).toUpperCase(); el.title = p.name; board.appendChild(el); });
+      return;
+    }
     R.stats.pins.forEach((p, i) => { const el = document.createElement('div'); el.className = 'pp' + (i === 0 ? ' best' : ''); el.style.left = p.x * w + 'px'; el.style.top = p.y * h + 'px'; el.textContent = p.name.slice(0, 2).toUpperCase(); el.title = p.name; board.appendChild(el); });
     const t = document.createElement('div'); t.className = 'target'; t.style.left = q.pin.x * w + 'px'; t.style.top = q.pin.y * h + 'px';
     t.innerHTML = `<svg viewBox="0 0 24 24" width="34" height="34"><path fill="#e21b3c" stroke="#fff" stroke-width="1.5" d="M12 1.5a7.5 7.5 0 0 0-7.5 7.5c0 5.6 7.5 13.5 7.5 13.5S19.5 14.6 19.5 9A7.5 7.5 0 0 0 12 1.5z"/><circle cx="12" cy="9" r="3" fill="#fff"/></svg>`;
