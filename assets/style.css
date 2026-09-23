@@ -94,6 +94,17 @@ textarea { min-height: 80px; resize: vertical; }
 .newcard { border: 2px dashed var(--line); background: transparent; box-shadow: none; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--brand); font-weight: 900; font-size: 1.1rem; }
 .newcard:hover { background: var(--brand-soft); }
 
+/* ---------- reports ---------- */
+.rtable { width: 100%; border-collapse: collapse; font-size: .92rem; }
+.rtable th, .rtable td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.rtable th { font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-3); background: var(--paper); position: sticky; top: 0; }
+.answers-t td { min-width: 120px; }
+.answers-t td:nth-child(2) { min-width: 240px; }
+.ans-t { font-weight: 700; word-break: break-word; }
+.ans-p { font-size: .78rem; font-weight: 800; opacity: .8; }
+.r-ok { background: #eaf6e6; } .r-part { background: #fff6df; } .r-no { background: #ffe8ec; } .r-skip, .r-none { background: #f0f0f5; color: var(--ink-3); }
+@media print { .topbar, .btn, .toast { display: none !important; } body { background: #fff; } .card { box-shadow: none; border: 1px solid #ccc; } }
+
 /* ---------- editor ---------- */
 .editor { display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 20px; align-items: start; }
 .qlist { position: sticky; top: 74px; max-height: calc(100vh - 90px); overflow: auto; padding: 12px; }

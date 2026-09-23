@@ -42,7 +42,11 @@ at a time.
    typed answers marked right or wrong, the correct order, the correct pairs, or the map
    with every pin plus the target and a *Closest* badge.
 5. *Scoreboard* — top eight with what they just gained.
-6. *Podium* — after the last question, with confetti. The result is saved.
+6. *Podium* — after the last question, with confetti. The game is saved with a full
+   report: every question, every player's answer in words, right or wrong, and the points.
+   The portal's *Recent games* opens each report as a scoreboard and an answer-by-answer
+   grid, with a CSV download and a print view. The host keeps the log as it goes, so a
+   game resumed after a refresh still reports in full.
 
 Space, Enter or → advances. The game state is kept in the browser so a refresh offers to
 carry on.

@@ -19,8 +19,9 @@
 //   verify      — fact-check questions with web search; verdict and note per question
 //   map         — a blank, label-free map of a country, region or continent
 //   picture     — a photo of a named subject from Wikipedia / Commons, copied into our bucket
-//   save_game   — record a finished game's scoreboard
-//   games       — recent finished games
+//   save_game   — record a finished game: scoreboard plus the full answer-by-answer report
+//   games       — recent finished games (summaries)
+//   game        — one finished game with its report
 //
 // Deploy with "Verify JWT" OFF — the browser only holds the publishable key.
 
@@ -790,20 +791,30 @@ Deno.serve(async (req) => {
 
     if (action === "save_game") {
       const g = body.game || {};
-      await rest(`quiz_games`, { method: "POST", body: JSON.stringify({
+      const report = g.report && typeof g.report === "object" ? g.report : null;
+      if (report && JSON.stringify(report).length > 4_000_000) return json({ error: "That game's report is too large to save." }, 413);
+      const rows = await rest(`quiz_games`, { method: "POST", headers: { Prefer: "return=representation" }, body: JSON.stringify({
         code: String(g.code || "").slice(0, 12),
         quiz_id: UUID_RE.test(String(g.quiz_id)) ? g.quiz_id : null,
         title: String(g.title || "").slice(0, 120),
         players: Array.isArray(g.players) ? g.players.slice(0, 500) : [],
         questions: Math.max(0, Math.round(+g.questions || 0)),
         started_at: g.started_at || null,
+        report,
       }) });
-      return json({ ok: true });
+      return json({ ok: true, id: rows?.[0]?.id || null });
     }
 
     if (action === "games") {
-      const rows = await rest(`quiz_games?select=*&order=ended_at.desc&limit=50`);
+      const rows = await rest(`quiz_games?select=id,code,quiz_id,title,players,questions,started_at,ended_at&order=ended_at.desc&limit=100`);
       return json({ games: rows || [] });
+    }
+
+    if (action === "game") {
+      if (!UUID_RE.test(String(body.id))) return json({ error: "Bad game id." }, 400);
+      const rows = await rest(`quiz_games?id=eq.${body.id}&select=*`);
+      if (!rows?.[0]) return json({ error: "That game record no longer exists." }, 404);
+      return json({ game: rows[0] });
     }
 
     return json({ error: "Unknown action." }, 400);

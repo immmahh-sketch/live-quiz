@@ -444,14 +444,49 @@ async function endQuestion() {
   try { G.q.results = await grade(); }
   catch (e) { console.error(e); toast('Scoring hit a snag: ' + e.message, true); G.q.results = await grade(true); }
   for (const [pid, r] of Object.entries(G.q.results.byPlayer)) if (G.players[pid]) G.players[pid].score += r.points;
+  logQuestion();
   G.phase = 'reveal'; persist(); render(); broadcastState();
+}
+// ------------------------------------------------------------------ the game report
+/** What a player's answer looked like, in words, for the report. */
+function answerDisplay(q, pid) {
+  const a = G.q.answers[pid], r = G.q.results.byPlayer[pid] || {}, keys = G.q.keys, v = G.q.view;
+  if (q.type === 'wipeout') { const picks = (G.q.wipe?.picks || []).filter((p) => p.pid === pid); return picks.length ? picks.map((p) => p.text + (p.ok === false ? ' ✗' : p.ok ? ' ✓' : '')).join(', ') : '—'; }
+  if (q.type === 'race') { const s = G.q.race?.players?.[pid]; return s ? `${s.correct} right of ${s.idx} answered${s.done ? ', finished' : s.out ? ', out' : ''}` : '—'; }
+  if (!a) return '—';
+  if (a.answer === 'skip') return 'skipped';
+  const ans = a.answer;
+  if (q.type === 'choice' || q.type === 'tf') { const id = keys[ans]; const o = q.type === 'tf' ? { text: id === 'true' ? 'True' : 'False' } : q.options.find((x) => x.id === id); return o?.text || '—'; }
+  if (q.type === 'text' || q.type === 'smash' || q.type === 'wheel') return String(ans ?? '');
+  if (q.type === 'order') return (Array.isArray(ans) ? ans : []).map((t) => q.items.find((i) => i.id === keys[t])?.text || '?').join(' → ');
+  if (q.type === 'match') return Object.entries(ans || {}).map(([lt, rt]) => { const p = q.pairs.find((x) => 'L:' + x.id === keys[lt]); const rp = q.pairs.find((x) => 'R:' + x.id === keys[rt]); return `${p?.left || '?'} → ${rp ? (rp.right.kind === 'image' ? '[picture of ' + rp.left + ']' : rp.right.value) : '?'}`; }).join('; ');
+  if (q.type === 'sort') return Object.entries(ans || {}).map(([it, ct]) => { const item = q.items.find((x) => 'I:' + x.id === keys[it]); const cat = q.categories.find((c) => 'C:' + c.id === keys[ct]); return `${item?.text || '?'}: ${cat?.name || '?'}`; }).join('; ');
+  if (q.type === 'pin') return ans && isFinite(ans.x) ? (q.mode === 'area' ? (r.hit ? 'hit' : 'missed') : `pin at ${(ans.x * 100).toFixed(0)}%, ${(ans.y * 100).toFixed(0)}%` + (r.closest ? ' (closest)' : '')) : '—';
+  return typeof ans === 'string' ? ans : JSON.stringify(ans);
+}
+/** Appends the finished question to the game log that becomes the report. */
+function logQuestion() {
+  const q = question(), R = G.q.results; if (!R) return;
+  G.log = (G.log || []).filter((e) => e.index !== G.qIndex);
+  const round = roundOf(G.qIndex);
+  G.log.push({ index: G.qIndex, n: G.qIndex + 1, id: q.id, type: q.type, text: q.type === 'wheel' ? `${q.category}: ${q.phrase}` : q.text, round: round ? `${round.n}. ${round.title}` : '', answer: answerText(q),
+    players: Object.fromEntries(players().map((p) => { const r = R.byPlayer[p.id] || {}; return [p.id, { name: p.name, emoji: p.emoji || '', answer: answerDisplay(q, p.id), correct: !!r.correct, partial: r.partial ?? 0, points: r.points || 0, skipped: !!r.skipped, answered: !!r.answered }]; })) });
+}
+function buildReport() {
+  const rk = ranked();
+  const log = (G.log || []).slice().sort((a, b) => a.index - b.index);
+  return { players: rk.map((p, i) => ({ pid: p.id, name: p.name, emoji: p.emoji || '', score: p.score, rank: i + 1, correct: log.filter((e) => e.players[p.id]?.correct).length, answered: log.filter((e) => e.players[p.id]?.answered).length })), questions: log, bots: (G.bots || []).map((b) => b.pid) };
 }
 function showScoreboard() { G.phase = 'scoreboard'; persist(); render(); broadcastState(); }
 async function finish() {
   G.phase = 'final'; persist(); render(); broadcastState(); confetti();
   const rk = ranked();
-  api('save_game', { game: { code: G.code, quiz_id: G.quizId, title: G.quiz.title, questions: total(), started_at: G.startedAt,
-    players: rk.map((p, i) => ({ name: p.name, score: p.score, rank: i + 1 })) } }).catch(() => {});
+  if (DEMO || G.reportId) return;
+  try {
+    const r = await api('save_game', { game: { code: G.code, quiz_id: G.quizId, title: G.quiz.title, questions: total(), started_at: G.startedAt,
+      players: rk.map((p, i) => ({ name: p.name, emoji: p.emoji || '', score: p.score, rank: i + 1 })), report: buildReport() } });
+    if (r?.id) { G.reportId = r.id; persist(); const b = $('#reportBtn'); if (b) { b.classList.remove('hidden'); b.href = 'index.html?game=' + r.id; } }
+  } catch (e) { toast('The game report could not be saved: ' + e.message, true); }
 }
 /** Removes a player who has left or lost connection, so the game stops waiting for them. Their phone is told. */
 function kickPlayer(pid) {
@@ -803,7 +838,7 @@ function renderFinal() {
       <div class="podium">${pod(1, 'p2')}${pod(0, 'p1')}${pod(2, 'p3')}</div>
       ${rk.length > 3 ? `<div class="textlist">${rk.slice(3, 15).map((p, i) => `<span class="tl">${i + 4}. ${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)} · ${p.score}</span>`).join('')}</div>` : ''}
       <p class="small" style="opacity:.5;margin-top:10px">Players can be removed from the scoreboard during the game by clicking their name.</p></div>
-    ${hostBar(`<button class="btn btn-ghost" data-act="builder">Back to builder</button><button class="btn btn-primary" data-act="again">Play again ↻</button>`)}`;
+    ${hostBar(`<a class="btn btn-ghost ${G.reportId ? '' : 'hidden'}" id="reportBtn" href="index.html?game=${G.reportId || ''}" target="_blank">📊 Report</a><button class="btn btn-ghost" data-act="builder">Back to builder</button><button class="btn btn-primary" data-act="again">Play again ↻</button>`)}`;
   bind();
 }
 function confetti() {

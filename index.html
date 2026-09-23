@@ -49,10 +49,41 @@ const fmtDate = (s) => new Date(s).toLocaleDateString('en-GB', { day: 'numeric',
   if (!LQ.hostPassword()) return viewLogin();
   try { const r = await api('login'); S.ai = !!r.ai; }
   catch (e) { if (e.status === 401) { LQ.setHostPassword(''); return viewLogin('Wrong password.'); } view.innerHTML = `<div class="error">${esc(e.message)}</div>`; return; }
-  const id = new URLSearchParams(location.search).get('quiz');
+  const params = new URLSearchParams(location.search);
+  if (params.get('game')) return openReport(params.get('game'));
+  const id = params.get('quiz');
   if (id) return openQuiz(id);
   loadList();
 })();
+
+// ------------------------------------------------------------------ reports
+async function openReport(id) {
+  history.replaceState(null, '', '?game=' + id);
+  $('#topRight').innerHTML = '';
+  view.innerHTML = '<p class="muted">Loading the report…</p>';
+  let g;
+  try { g = (await api('game', { id })).game; } catch (e) { view.innerHTML = `<div class="error">${esc(e.message)}</div><p class="mt"><a href="index.html">Back to quizzes</a></p>`; return; }
+  const rep = g.report, when = new Date(g.ended_at).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  if (!rep) { view.innerHTML = `<div class="row" style="margin-bottom:14px"><button class="btn btn-ghost btn-sm" id="back">← Quizzes</button><h1 style="margin:0">${esc(g.title || 'Quiz')}</h1></div><div class="card"><p>This game was played before reports were kept, so only the scoreboard is here.</p><ol>${(g.players || []).map((p) => `<li>${esc(p.name)} — ${p.score}</li>`).join('')}</ol></div>`; $('#back').onclick = () => loadList(); return; }
+  const ps = rep.players, qs = rep.questions;
+  const cell = (e, pid) => { const a = e.players[pid]; if (!a) return '<td class="muted">—</td>'; const cls = a.skipped ? 'r-skip' : a.correct ? 'r-ok' : a.partial > 0 ? 'r-part' : a.answered ? 'r-no' : 'r-none'; return `<td class="${cls}"><div class="ans-t">${esc(a.answer)}</div><div class="ans-p">${a.points > 0 ? '+' : ''}${a.points}</div></td>`; };
+  view.innerHTML = `
+    <div class="row" style="margin-bottom:14px"><button class="btn btn-ghost btn-sm" id="back">← Quizzes</button><h1 style="margin:0">📊 ${esc(g.title || 'Quiz')}</h1><span class="muted small">${when} · game ${esc(g.code)} · ${qs.length} questions · ${ps.length} players</span><div class="grow"></div><button class="btn btn-ghost btn-sm" id="csv">⬇ Download CSV</button><button class="btn btn-ghost btn-sm" onclick="window.print()">🖨 Print</button></div>
+    <div class="card" style="margin-bottom:16px"><h2 style="font-size:1.15rem">Final scores</h2><table class="rtable"><thead><tr><th>#</th><th>Player</th><th>Score</th><th>Right</th><th>Answered</th></tr></thead><tbody>${ps.map((p) => `<tr><td>${p.rank}</td><td>${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}${(rep.bots || []).includes(p.pid) ? ' <span class="tag">bot</span>' : ''}</td><td><b>${p.score}</b></td><td>${p.correct} of ${qs.length}</td><td>${p.answered} of ${qs.length}</td></tr>`).join('')}</tbody></table></div>
+    <div class="card" style="overflow:auto"><h2 style="font-size:1.15rem">Every answer</h2><p class="muted small">Green is right, amber partly right, red wrong, grey skipped or not answered. The figure under each answer is the points it scored.</p>
+      <table class="rtable answers-t"><thead><tr><th>#</th><th>Question</th><th>Answer</th>${ps.map((p) => `<th>${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}</th>`).join('')}</tr></thead>
+      <tbody>${qs.map((e) => `<tr><td>${e.n}</td><td><div class="small muted">${esc(TYPES[e.type]?.label || e.type)}${e.round ? ' · ' + esc(e.round) : ''}</div>${esc(e.text)}</td><td class="small"><b>${esc(e.answer)}</b></td>${ps.map((p) => cell(e, p.pid)).join('')}</tr>`).join('')}</tbody></table></div>`;
+  $('#back').onclick = () => loadList();
+  $('#csv').onclick = () => {
+    const esc2 = (s) => `"${String(s ?? '').replace(/"/g, '""')}"`;
+    const rows = [['Question #', 'Round', 'Type', 'Question', 'Correct answer', 'Player', 'Answer', 'Result', 'Points']];
+    for (const e of qs) for (const p of ps) { const a = e.players[p.pid]; if (!a) continue; rows.push([e.n, e.round, TYPES[e.type]?.label || e.type, e.text, e.answer, p.name, a.answer, a.skipped ? 'skipped' : a.correct ? 'right' : a.partial > 0 ? 'partly right' : a.answered ? 'wrong' : 'no answer', a.points]); }
+    rows.push([]); rows.push(['Final scores']); rows.push(['Rank', 'Player', 'Score', 'Right', 'Answered']);
+    for (const p of ps) rows.push([p.rank, p.name, p.score, p.correct, p.answered]);
+    const blob = new Blob(['﻿' + rows.map((r) => r.map(esc2).join(',')).join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${(g.title || 'quiz').replace(/[^\w\- ]+/g, '')} ${new Date(g.ended_at).toISOString().slice(0, 10)}.csv`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  };
+}
 
 // ------------------------------------------------------------------ login
 function viewLogin(msg) {
@@ -112,10 +143,11 @@ function quizCard(q) {
 }
 function renderGames(games) {
   const el = $('#games'); if (!el || !games?.length) return;
-  el.innerHTML = `<h2 style="font-size:1.2rem">Recent games</h2><div class="card">${games.slice(0, 12).map((g) => {
+  el.innerHTML = `<h2 style="font-size:1.2rem">Recent games</h2><div class="card">${games.slice(0, 20).map((g) => {
     const win = (g.players || [])[0];
-    return `<div class="row" style="padding:8px 0;border-bottom:1px solid var(--line)"><b>${esc(g.title || 'Quiz')}</b><span class="muted small">${fmtDate(g.ended_at)} · ${(g.players || []).length} players</span><div class="grow"></div>${win ? `<span>🏆 ${esc(win.name)} <span class="muted">${win.score} pts</span></span>` : ''}</div>`;
+    return `<div class="row" style="padding:8px 0;border-bottom:1px solid var(--line)"><b>${esc(g.title || 'Quiz')}</b><span class="muted small">${fmtDate(g.ended_at)} · ${(g.players || []).length} players</span><div class="grow"></div>${win ? `<span>🏆 ${win.emoji ? win.emoji + ' ' : ''}${esc(win.name)} <span class="muted">${win.score} pts</span></span>` : ''}<button class="btn btn-ghost btn-sm" data-report="${g.id}">📊 Report</button></div>`;
   }).join('')}</div>`;
+  $$('[data-report]', el).forEach((b) => b.onclick = () => openReport(b.dataset.report));
 }
 async function duplicateQuiz(id) {
   try {

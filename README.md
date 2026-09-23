@@ -47,8 +47,9 @@ Wrong answers score nothing. Both figures and the default time limit are in Quiz
 3. Press **Start**. Each question: 3-second lead-in, the question with timer, then the
    reveal, then the scoreboard. **Space** advances. A question ends early once everyone has
    answered.
-4. After the last question: podium and confetti. The result is saved and shows under
-   *Recent games* in the portal.
+4. After the last question: podium and confetti. The game is saved with every player's
+   answer to every question, and *Recent games* in the portal has a **Report** for each:
+   final scores, an answer-by-answer grid, a CSV download and a print view.
 
 If the host tab is refreshed mid-game it offers to carry on where it left off. Players who
 refresh rejoin as themselves.
