@@ -364,7 +364,7 @@ function aiModal(fresh) {
   const m = modal(`<h3>✨ Write questions with AI</h3>
     ${S.ai ? '' : '<div class="error" style="margin-bottom:12px">AI isn\'t switched on for this server yet. Add an <b>ANTHROPIC_API_KEY</b> secret to the Supabase project and it will light up.</div>'}
     <div class="field"><label>Topic or round</label><input type="text" id="g_topic" placeholder="e.g. 1990s music, British geography, Christmas films, general knowledge" autofocus></div>
-    <div class="row"><div class="field grow"><label>How many</label><input type="number" id="g_count" value="8" min="1" max="15"></div>
+    <div class="row"><div class="field grow"><label>How many</label><input type="number" id="g_count" value="8" min="1" max="40"></div>
       <div class="field grow"><label>Difficulty</label><select id="g_diff"><option value="mixed">Mixed</option><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option></select></div></div>
     <div class="field"><label>Question types</label><div class="row">${Object.entries(TYPES).map(([k, t]) => `<label class="check"><input type="checkbox" data-gt="${k}" ${['choice', 'text'].includes(k) ? 'checked' : ''}> ${t.icon} ${esc(t.label)}</label>`).join('')}</div>
       <div class="help">Drop-the-pin questions use a world map, so they suit places. Match-up questions get pictures when the pictures box is ticked.</div></div>
@@ -379,21 +379,34 @@ function aiModal(fresh) {
     if (!types.length) return toast('Tick at least one question type.', true);
     const btn = $('[data-ok]', m); btn.disabled = true; $('[data-x]', m).disabled = true;
     const prog = $('#g_prog', m); prog.classList.remove('hidden');
-    const steps = ['Thinking about the topic…', 'Searching the web for facts…', 'Writing the questions…', 'Finding pictures…', 'Nearly there…'];
-    let si = 0; prog.innerHTML = `<div class="gen-progress"><span class="spinner"></span><span id="g_step">${steps[0]}</span></div>`;
-    const tick = setInterval(() => { si = Math.min(si + 1, steps.length - 1); $('#g_step', m).textContent = steps[si]; }, 12000);
+    const total = LQ.clamp(+$('#g_count', m).value || 8, 1, 40), BATCH = 5;
+    const opts = { topic, difficulty: $('#g_diff', m).value, types, pictures: $('#g_pics', m).checked, web: $('#g_web', m).checked };
+    // Written in batches of five: one edge-function request has a time limit, and with web
+    // search and pictures a big round does not fit in it. Each batch lands in the quiz as it
+    // arrives, and later batches are told what's already been written so they don't repeat it.
+    const steps = ['thinking about the topic', 'searching the web', 'writing', 'finding pictures'];
+    let written = 0, si = 0, start = null; const warnings = [], avoid = [];
+    const status = () => { const el = $('#g_step', m); if (el) el.textContent = `Writing questions ${written + 1}–${Math.min(total, written + BATCH)} of ${total} (${steps[si]})…`; };
+    prog.innerHTML = `<div class="gen-progress"><span class="spinner"></span><span id="g_step"></span></div>`; status();
+    const tick = setInterval(() => { si = Math.min(si + 1, steps.length - 1); status(); }, 10000);
     try {
-      const r = await api('generate', { topic, count: +$('#g_count', m).value || 8, difficulty: $('#g_diff', m).value, types, pictures: $('#g_pics', m).checked, web: $('#g_web', m).checked }, { timeout: 290000 });
+      while (written < total) {
+        si = 0; status();
+        const r = await api('generate', { ...opts, count: Math.min(BATCH, total - written), avoid }, { timeout: 170000 });
+        if (!r.questions.length) break;
+        if (fresh && start === null) { S.quiz = normalizeQuiz({ title: topic ? topic.charAt(0).toUpperCase() + topic.slice(1) : 'AI quiz', questions: [] }); renderEditor(); }
+        if (start === null) start = S.quiz.questions.length;
+        for (const q of r.questions) { q.time = q.time || S.quiz.settings.defaultTime; S.quiz.questions.push(q); avoid.push(q.text); }
+        written += r.questions.length; warnings.push(...(r.warnings || []));
+        S.sel = start; touch(); renderQList(); renderQForm(); save();
+      }
       clearInterval(tick); m.remove();
-      if (fresh || !S.quiz) { S.quiz = normalizeQuiz({ title: topic ? topic.charAt(0).toUpperCase() + topic.slice(1) : 'AI quiz', questions: [] }); renderEditor(); }
-      const start = S.quiz.questions.length;
-      for (const q of r.questions) { q.time = q.time || S.quiz.settings.defaultTime; S.quiz.questions.push(q); }
-      S.sel = start; touch(); renderQList(); renderQForm();
-      toast(`Added ${r.questions.length} question${r.questions.length === 1 ? '' : 's'}. Read them through before you host — AI can be wrong.`);
-      if (r.warnings?.length) setTimeout(() => toast(r.warnings[0] + (r.warnings.length > 1 ? ` (+${r.warnings.length - 1} more)` : ''), true), 2800);
-      save();
+      toast(`Added ${written} question${written === 1 ? '' : 's'}. Read them through before you host — AI can be wrong.`);
+      if (warnings.length) setTimeout(() => toast(warnings[0] + (warnings.length > 1 ? ` (+${warnings.length - 1} more)` : ''), true), 2800);
     } catch (e) {
-      clearInterval(tick); prog.innerHTML = `<div class="error">${esc(e.message)}</div>`; btn.disabled = false; $('[data-x]', m).disabled = false;
+      clearInterval(tick);
+      prog.innerHTML = `<div class="error">${esc(e.message)}${written ? ` The ${written} question${written === 1 ? '' : 's'} written so far ${written === 1 ? 'is' : 'are'} in the quiz.` : ''}</div>`;
+      btn.disabled = false; $('[data-x]', m).disabled = false;
     }
   };
 }

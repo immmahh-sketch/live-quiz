@@ -254,17 +254,19 @@ Times are in seconds: 15–45. Harder or longer questions get longer.
 
 Reply with JSON only: {"questions":[ ... ]}`;
 
-interface GenOpts { topic: string; count: number; difficulty: string; types: string[]; pictures: boolean; web: boolean; }
+interface GenOpts { topic: string; count: number; difficulty: string; types: string[]; pictures: boolean; web: boolean; avoid: string[]; }
 
 async function generate(o: GenOpts) {
   const client = anthropic();
   const wantPictures = o.pictures;
   const typeList = o.types.length ? o.types : ["choice", "text"];
+  // The portal asks for a big round in batches; this is what earlier batches already wrote.
+  const avoid = o.avoid.length ? `\nAlready written for this round — do not repeat these facts or ask them another way:\n${o.avoid.map((t) => "- " + t).join("\n")}` : "";
   const prompt = `Write ${o.count} pub quiz questions.
 Topic: ${o.topic || "general knowledge"}
 Difficulty: ${o.difficulty}
 Question types to use (mix them across the set): ${typeList.join(", ")}
-Pictures round: ${wantPictures ? "yes — give roughly half the questions a picture, and use rightPicture for match questions" : "no pictures"}`;
+Pictures round: ${wantPictures ? "yes — give roughly half the questions a picture, and use rightPicture for match questions" : "no pictures"}${avoid}`;
 
   const params: Anthropic.MessageCreateParamsNonStreaming = {
     model: MODEL,
@@ -437,7 +439,8 @@ Deno.serve(async (req) => {
       const types = (Array.isArray(body.types) ? body.types : []).filter((t: unknown) => ["choice", "text", "order", "match", "pin"].includes(String(t)));
       const out = await generate({
         topic: String(body.topic || "").slice(0, 200),
-        count: Math.min(15, Math.max(1, Math.round(+body.count || 8))),
+        count: Math.min(8, Math.max(1, Math.round(+body.count || 5))),
+        avoid: (Array.isArray(body.avoid) ? body.avoid : []).map((s: unknown) => String(s ?? "").slice(0, 160)).filter(Boolean).slice(-60),
         difficulty: ["easy", "medium", "hard", "mixed"].includes(String(body.difficulty)) ? String(body.difficulty) : "mixed",
         types,
         pictures: body.pictures !== false,

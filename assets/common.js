@@ -33,7 +33,10 @@ window.LQ = (() => {
     } catch (e) {
       throw new Error(e.name === 'AbortError' ? 'That took too long and was cancelled.' : 'Could not reach the server. Check your connection.');
     } finally { clearTimeout(t); }
-    if (!r.ok || data.error) { const err = new Error(data.error || ('Request failed (' + r.status + ')')); err.status = r.status; throw err; }
+    if (!r.ok || data.error) {
+      const msg = data.error || (r.status === 504 || r.status === 546 ? 'The server took too long on that. Try again, or ask for fewer at once.' : 'Request failed (' + r.status + ')');
+      const err = new Error(msg); err.status = r.status; throw err;
+    }
     return data;
   }
   function client() {
