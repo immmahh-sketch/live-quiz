@@ -53,6 +53,12 @@ refresh rejoin as themselves.
 **Try it without signing in:** `host.html?quiz=demo` loads a built-in sample quiz with one
 question of every type.
 
+**Test mode:** press **Add test bots** in the lobby (or open the host screen with `&bots=3`
+on the URL) to add three simulated players. They answer every question type after a
+realistic pause with mixed accuracy, take their Wipeout turns and run the race, through
+the same code a real phone's answer goes through. Join from your own phone alongside them
+to see the whole thing from both sides.
+
 ## AI
 
 - **Answer judging** — typed answers that don't match an accepted answer closely enough are

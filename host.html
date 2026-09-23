@@ -52,10 +52,107 @@ const startsRound = (i) => i === 0 || G.quiz.questions[i - 1]?.round !== G.quiz.
   quiz.questions = quiz.questions.filter((q) => LQ.validate(q).length === 0);
   quiz.rounds = quiz.rounds.filter((r) => quiz.questions.some((q) => q.round === r.id));
   if (!quiz.questions.length) return fail('This quiz has no finished questions to play.');
-  G = { code: newCode(), quizId, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null };
+  G = { code: newCode(), quizId, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [] };
   persist();
   connect();
+  const nb = +new URLSearchParams(location.search).get('bots');
+  if (nb > 0) setTimeout(() => addBots(Math.min(8, nb)), 0);
 })();
+
+// ------------------------------------------------------------------ test mode: bots
+//
+// Simulated players that live inside this page. They join like phones do, answer every
+// question type after a realistic pause with a skill level, take their Wipeout turns and
+// run the race — all through the same handlers a real phone's message would reach, so a
+// game with bots exercises exactly the code a real game does.
+const BOT_NAMES = [['Ada', '🦉'], ['Bo', '👾'], ['Cy', '🐙'], ['Dee', '🦖'], ['Eli', '🐸'], ['Fen', '🐼'], ['Gus', '🦄'], ['Ivy', '🐨']];
+function addBots(n) {
+  G.bots = G.bots || [];
+  for (let i = 0; i < n && G.bots.length < 8; i++) {
+    const [nm, em] = BOT_NAMES[G.bots.length];
+    const bot = { pid: 'p_bot' + (G.bots.length + 1) + nm.toLowerCase().padEnd(4, 'x'), name: 'Bot ' + nm, emoji: em, skill: [0.85, 0.65, 0.5, 0.75, 0.6, 0.55, 0.7, 0.8][G.bots.length], pace: [0.35, 0.6, 0.9, 0.5, 0.7, 0.8, 0.45, 0.65][G.bots.length] };
+    G.bots.push(bot); present.set(bot.pid, bot.name);
+    onHello({ pid: bot.pid, name: bot.name, emoji: bot.emoji });
+  }
+  persist(); if (G.phase === 'lobby') renderLobby();
+}
+const botTimers = [];
+function botLater(fn, ms) { botTimers.push(setTimeout(fn, ms)); }
+function botClear() { while (botTimers.length) clearTimeout(botTimers.pop()); }
+const rnd = (a, b) => a + Math.random() * (b - a);
+const chance = (p) => Math.random() < p;
+/** Called when a question goes live: every bot schedules its answer. */
+function botsOnQuestion() {
+  botClear();
+  if (!G.bots?.length || !G.q) return;
+  const q = question(), v = G.q.view;
+  if (q.type === 'wipeout') return botWipeTurn(); // and again on every later turn (wipeNextTurn / wipeTimeout)
+  if (q.type === 'race') { for (const b of G.bots) botRaceStep(b); return; }
+  for (const b of G.bots) {
+    const delay = 1200 + b.pace * q.time * 1000 * rnd(0.25, 0.8);
+    botLater(() => { if (G.phase === 'question' && G.q?.view.id === v.id) onAnswer({ pid: b.pid, qId: v.id, answer: botAnswer(b, q, v) }); }, Math.min(delay, q.time * 1000 - 800));
+  }
+}
+function botAnswer(b, q, v) {
+  const keys = G.q.keys, inv = {}; for (const [t, id] of Object.entries(keys)) inv[id] = t;
+  const ok = chance(b.skill);
+  if (q.type === 'choice' || q.type === 'tf') {
+    const right = v.options.find((o) => keys[o.k] === LQ.correctId(q));
+    const others = v.options.filter((o) => o !== right);
+    return (ok || !others.length ? right : others[Math.floor(Math.random() * others.length)]).k;
+  }
+  if (q.type === 'text') {
+    if (ok) { const a = q.answers[0]; return chance(0.3) && a.length > 4 ? a.slice(0, -1) + a.slice(-1).toLowerCase() + (chance(0.5) ? 'e' : '') : a; }
+    return ['Pass', 'Not sure', 'Bob', 'Paris', '1966', 'The other one'][Math.floor(Math.random() * 6)];
+  }
+  if (q.type === 'order') {
+    const right = q.items.filter((i) => i.text.trim()).map((i) => inv[i.id]);
+    if (ok) return right;
+    const r = right.slice(); const i = Math.floor(Math.random() * (r.length - 1)); [r[i], r[i + 1]] = [r[i + 1], r[i]]; return r;
+  }
+  if (q.type === 'match') {
+    const out = {}; const rights = v.right.slice();
+    for (const l of v.left) { const pid = keys[l.k].slice(2); const good = rights.find((r) => keys[r.k] === 'R:' + pid); const pick = chance(b.skill) && good ? good : rights[Math.floor(Math.random() * rights.length)]; out[l.k] = pick.k; rights.splice(rights.indexOf(pick), 1); }
+    return out;
+  }
+  if (q.type === 'sort') {
+    const out = {};
+    for (const it of v.items) { const item = q.items.find((x) => 'I:' + x.id === keys[it.k]); const good = v.categories.find((c) => keys[c.k] === 'C:' + item.category); out[it.k] = (chance(b.skill) ? good : v.categories[Math.floor(Math.random() * v.categories.length)]).k; }
+    return out;
+  }
+  if (q.type === 'pin') {
+    const spread = ok ? q.radiusFull * 0.8 : q.radiusZero * rnd(0.5, 1.6);
+    const ang = rnd(0, Math.PI * 2);
+    return { x: LQ.clamp(q.pin.x + Math.cos(ang) * spread * rnd(0, 1), 0, 1), y: LQ.clamp(q.pin.y + Math.sin(ang) * spread * rnd(0, 1) / (G.aspect || 1), 0, 1) };
+  }
+  return null;
+}
+/** Wipeout: when the turn lands on a bot, it picks after a pause — usually a right one. */
+function botWipeTurn() {
+  const w = G.q?.wipe; if (!w || w.over) return;
+  const b = (G.bots || []).find((x) => x.pid === w.turnPid); if (!b) return;
+  const turnAt = w.turnDeadline;
+  botLater(() => {
+    if (G.phase !== 'question' || !G.q?.wipe || G.q.wipe.turnDeadline !== turnAt || G.q.wipe.over) return;
+    const left = G.q.view.board.filter((t) => !G.q.wipe.gone.includes(t.k));
+    const rights = left.filter((t) => String(G.q.keys[t.k]).startsWith('R:')), wrongs = left.filter((t) => !String(G.q.keys[t.k]).startsWith('R:'));
+    const pool = chance(0.08 + (1 - b.skill) * 0.3) && wrongs.length ? wrongs : (rights.length ? rights : left);
+    if (pool.length) onAnswer({ pid: b.pid, qId: G.q.view.id, answer: pool[Math.floor(Math.random() * pool.length)].k });
+  }, rnd(900, Math.max(1200, question().time * 1000 * 0.7)));
+}
+/** The race: each bot answers its current question every few seconds until it is done or out. */
+function botRaceStep(b) {
+  botLater(() => {
+    const race = G.q?.race; if (G.phase !== 'question' || !race || race.over) return;
+    const r = race.players[b.pid]; if (!r || r.out || r.done) return;
+    const item = G.q.view.bank[r.idx]; if (!item) return;
+    const bid = String(G.q.keys[item.k]).slice(2);
+    const right = item.options.find((o) => G.q.keys[o.k] === 'R:' + bid), others = item.options.filter((o) => o !== right);
+    const k = chance(0.08) ? 'skip' : (chance(b.skill) || !others.length) ? right.k : others[Math.floor(Math.random() * others.length)].k;
+    racePick(b.pid, { idx: r.idx, k });
+    botRaceStep(b);
+  }, rnd(1500, 2500) + b.pace * 3000);
+}
 function fail(msg) { stage.innerHTML = `<div class="stage-main"><h1 class="big">Hmm.</h1><p style="font-size:1.3rem">${esc(msg)}</p><a class="btn btn-primary" href="index.html">Back to the builder</a></div>`; }
 function ask(title, body, yes, no) {
   return new Promise((res) => {
@@ -76,6 +173,7 @@ function connect() {
   ch.on('presence', { event: 'sync' }, () => {
     present.clear();
     for (const entries of Object.values(ch.presenceState())) for (const e of entries) if (e.role === 'player' && e.pid) present.set(e.pid, e.name);
+    for (const b of G.bots || []) present.set(b.pid, b.name);
     if (G.phase === 'lobby') renderLobbyPlayers();
     if (G.phase === 'question') { renderAnswered(); maybeAllAnswered(); }
   });
@@ -84,7 +182,7 @@ function connect() {
     else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') toast('Connection trouble — retrying…', true);
   });
 }
-function send(event, payload) { if (ch) ch.send({ type: 'broadcast', event, payload }); }
+function send(event, payload) { if (ch && ch.state === 'joined') ch.send({ type: 'broadcast', event, payload }); }
 function startHeartbeat() { clearInterval(hbT); hbT = setInterval(broadcastState, 2000); }
 
 /** Everything a phone needs to draw its screen. Never the right answers. */
@@ -258,7 +356,7 @@ function wipeNextTurn() {
   // After a pick the turn moves on; after a timeout the timed-out player is already out of the list.
   w.turnPid = candidates[(idx + 1) % candidates.length];
   w.turnDeadline = Date.now() + q.time * 1000;
-  persist(); renderWipe(); broadcastState();
+  persist(); renderWipe(); broadcastState(); botWipeTurn();
 }
 function wipeTimeout() {
   const w = G.q.wipe, pid = w.turnPid;
@@ -271,7 +369,7 @@ function wipeTimeout() {
   const pos = w.order.indexOf(before); let next = null;
   for (let s = 1; s <= w.order.length && !next; s++) { const cand = w.order[(pos + s) % w.order.length]; if (!w.out.includes(cand)) next = cand; }
   w.turnPid = next; w.turnDeadline = Date.now() + question().time * 1000;
-  persist(); renderWipe(); broadcastState();
+  persist(); renderWipe(); broadcastState(); botWipeTurn();
 }
 function wipePick(pid, token) {
   const w = G.q.wipe, q = question(), v = G.q.view;
@@ -296,7 +394,7 @@ function startQuestion() {
   G.q = { view, keys, startedAt: now, deadline: q.type === 'wipeout' ? null : now + q.time * 1000, answers: {}, results: null };
   G.phase = 'question'; persist(); render();
   if (q.type === 'wipeout') wipeStart(); else if (q.type === 'race') raceStart(); else broadcastState();
-  startTick();
+  startTick(); botsOnQuestion();
 }
 function startTick() {
   clearInterval(tickT);
@@ -310,7 +408,7 @@ function startTick() {
 }
 async function endQuestion() {
   if (G.phase !== 'question') return;
-  clearInterval(tickT);
+  clearInterval(tickT); botClear();
   G.phase = 'grading'; persist(); render(); broadcastState();
   try { G.q.results = await grade(); }
   catch (e) { console.error(e); toast('Scoring hit a snag: ' + e.message, true); G.q.results = await grade(true); }
@@ -453,9 +551,9 @@ function renderRound() {
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary btn-lg" data-act="primary">Start round ▶</button>`)}`;
   bind();
 }
-function hostBar(buttons) { return `<div class="stage-bottom"><span class="muted small" style="opacity:.6">Game ${G.code} · ${players().length} players · press Space for next</span><div class="hostbar">${buttons}</div></div>`; }
+function hostBar(buttons) { return `<div class="stage-bottom"><span class="muted small" style="opacity:.6">Game ${G.code} · ${players().length} players${G.bots?.length ? ` · test mode, ${G.bots.length} bots` : ''} · press Space for next</span><div class="hostbar">${buttons}</div></div>`; }
 function bind() {
-  $$('[data-act]').forEach((b) => b.onclick = () => ({ primary: primaryAction, end: endEarly, again: playAgain, builder: () => location.href = 'index.html?quiz=' + G.quizId })[b.dataset.act]());
+  $$('[data-act]').forEach((b) => b.onclick = () => ({ primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(3), builder: () => location.href = 'index.html?quiz=' + G.quizId })[b.dataset.act]());
 }
 function renderLobby() {
   const url = playUrl(G.code);
@@ -465,7 +563,7 @@ function renderLobby() {
       <div class="center"><div style="opacity:.8;font-weight:800;font-size:1.3rem">and enter the code</div><div class="code">${G.code}</div>
         <div class="players" id="players"></div></div>
     </div></div>
-    ${hostBar(`<button class="btn btn-ghost" data-act="builder">Back to builder</button><button class="btn btn-primary btn-lg" data-act="primary" id="startBtn">Start ▶</button>`)}`;
+    ${hostBar(`<button class="btn btn-ghost" data-act="builder">Back to builder</button><button class="btn btn-ghost" data-act="bots" title="Test mode: add three simulated players who answer on their own">${G.bots?.length ? `🤖 ${G.bots.length} bots · add more` : '🤖 Add test bots'}</button><button class="btn btn-primary btn-lg" data-act="primary" id="startBtn">Start ▶</button>`)}`;
   new QRCode($('#qr'), { text: url, width: 380, height: 380, correctLevel: QRCode.CorrectLevel.M });
   renderLobbyPlayers(); bind();
 }
