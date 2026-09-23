@@ -184,7 +184,10 @@ article, the matching Wikimedia Commons category, a Commons search, and the arti
 image. All but the lead image must name the subject in their file name and pass a filter
 for logos, maps, diagrams, portraits and paintings, because article galleries drift (a
 Labrador in the pug article). One is picked at random from what is left, skipping any
-picture the quiz already uses, and copied into our bucket.
+picture the quiz already uses, and copied into our bucket. A person (Wikidata says the
+subject is a human) always gets the article's lead portrait instead: the random pool for
+David Beckham included the David Beckham Academy building, which is no use on an Answer
+Smash.
 
 ## Architecture
 

@@ -153,15 +153,29 @@ async function leadPhoto(title: string): Promise<Candidate[]> {
 }
 const pick = <T>(arr: T[]): T | undefined => arr.length ? arr[Math.floor(Math.random() * arr.length)] : undefined;
 
-/** Finds a photo of the subject that the quiz is not already using, copies it into our bucket, and returns {url, source}. */
-async function wikiPicture(title: string, used: Set<string>): Promise<{ url: string; source: string } | null> {
+/** Is this Wikipedia subject a person? (Wikidata: instance of human.) People get their portrait, not a random photo that mentions them. */
+async function isHuman(title: string): Promise<boolean> {
+  try {
+    const data = await mw("https://en.wikipedia.org/w/api.php", { action: "query", titles: title, redirects: "1", prop: "pageprops", ppprop: "wikibase_item" });
+    const qid = (Object.values(data?.query?.pages || {}) as any[])[0]?.pageprops?.wikibase_item;
+    if (!qid) return false;
+    const claims = await mw("https://www.wikidata.org/w/api.php", { action: "wbgetclaims", entity: qid, property: "P31" });
+    return (claims?.claims?.P31 || []).some((c: any) => c?.mainsnak?.datavalue?.value?.id === "Q5");
+  } catch { return false; }
+}
+
+/** Finds a photo of the subject that the quiz is not already using, copies it into our bucket, and returns {url, source}. `portrait` forces the article's lead image (the right choice for a person). */
+async function wikiPicture(title: string, used: Set<string>, portrait = false): Promise<{ url: string; source: string } | null> {
   const fresh = (cs: Candidate[]) => cs.filter((c) => !used.has(c.url) && !used.has(c.key));
   const words = keyWords(title);
-  const [article, category, search, lead] = await Promise.all([articlePhotos(title, words), categoryPhotos(title, words), searchPhotos(title, words), leadPhoto(title)]);
+  const person = portrait || await isHuman(title);
+  const [article, category, search, lead] = person
+    ? [[], [], [], await leadPhoto(title)]
+    : await Promise.all([articlePhotos(title, words), categoryPhotos(title, words), searchPhotos(title, words), leadPhoto(title)]);
   const seen = new Set<string>();
   let pool = fresh([...article, ...category, ...search]).filter((c) => !seen.has(c.url) && seen.add(c.url));
   // The lead image is the one Wikipedia's editors chose, so it always stays in the running
-  // when the pool is thin; it just stops being the only choice.
+  // when the pool is thin; it just stops being the only choice. For a person it is the only choice.
   if (pool.length < 3) pool = pool.concat(fresh(lead).filter((c) => !seen.has(c.url)));
   if (!pool.length) pool = lead; // better a repeat than no picture at all
   // Try up to three candidates in case one fails to download.
@@ -556,7 +570,7 @@ Pictures round: ${wantPictures ? "yes — give roughly half the questions a pict
       const pictureAnswer = String(r.pictureAnswer || r.picture || "").trim(), clueAnswer = String(r.clueAnswer || "").trim();
       const sm = smashOf(pictureAnswer, clueAnswer);
       if (!pictureAnswer || !clueAnswer || sm.overlap < 2) { warnings.push(`Dropped an Answer Smash whose answers did not overlap (${pictureAnswer} + ${clueAnswer}).`); return null; }
-      const pic = await wikiPicture(String(r.picture || pictureAnswer).trim(), used);
+      const pic = await wikiPicture(String(r.picture || pictureAnswer).trim(), used, true);
       if (!pic) { warnings.push(`No picture found for “${r.picture || pictureAnswer}”, so that Answer Smash was left out.`); return null; }
       base.media = { kind: "image", url: pic.url, source: pic.source, credit: `Wikipedia / Wikimedia Commons: ${r.picture || pictureAnswer}` };
       base.pictureAnswer = pictureAnswer; base.clueAnswer = clueAnswer; base.smash = sm.smash; base.ai = true;
