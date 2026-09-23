@@ -431,6 +431,10 @@ Question types and their JSON shapes (use only the types you are asked for, and 
   A collage of 4 to 6 pictures; the player taps the right one. "tiles" are exact English Wikipedia article titles whose lead image clearly shows the object (tools, animals, cars, flags, foods, buildings, faces); "answer" is one of them. Only when a pictures round is wanted.
 - "wheel": {"type":"wheel","category":"Phrase","phrase":"A PIECE OF CAKE"}
   A Wheel of Fortune puzzle: a well-known phrase, title, name or place in capitals, letters and spaces only (no punctuation), 8 to 40 letters, no word longer than 12 letters, whole phrase at most 4 words per row across 4 rows of 12/14/14/12 tiles. Category as on the show: Phrase, Person, Place, Thing, Event, Food & Drink, Song Title, Movie Title, TV Show, Before & After, Landmark, Occupation.
+- "highlow": {"type":"highlow","text":"<highbrow clue>","lowText":"<lowbrow clue>","answers":["Gold","Au"]}
+  Highbrow Lowbrow, as on House of Games: two clues with exactly the same answer. The highbrow clue is hard and scholarly (science, history, literature, the arts); the lowbrow clue is easy and from pop culture, telly, sport or everyday life. Neither clue may work for any other answer.
+- "rhyme": {"type":"rhyme","text":"Sherlock Holmes's companion","answer1":"Watson","text2":"A large, loud gathering after dark","answer2":"Party"}
+  Rhyme Time: two clues whose answers rhyme (the endings sound the same when said aloud). Players type both answers. Keep each answer to one or two words.
 - "smash": {"type":"smash","picture":"Emma Watson","pictureAnswer":"Emma Watson","text":"Sega's blue hedgehog","clueAnswer":"Sonic the Hedgehog"}
   Answer Smash, as on House of Games: the picture shows a well-known person, place or thing ("picture" is its English Wikipedia title, "pictureAnswer" the name players would say); "text" is a clue whose answer starts with the same letters that end the picture's answer — Emma WatSON + SONic the Hedgehog → "Emma Watsonic the Hedgehog"; Judi DenCH + CHina → "Judi Denchina". The overlap must be at least two letters and genuine. Keep the clue short and the answers well known.
 
@@ -558,6 +562,19 @@ Pictures round: ${wantPictures ? "yes — give roughly half the questions a pict
       }).filter(Boolean);
       if (bank.length < 8) return null;
       base.bank = bank; base.target = Math.min(bank.length - 2, Math.max(3, Math.round(+r.target || 10))); base.prize = 5000; base.prize2 = 2000; base.prize3 = 500; base.forfeit = 500; base.time = 120;
+      return base;
+    }
+    if (r.type === "highlow") {
+      const lowText = String(r.lowText || "").trim();
+      const answers = (Array.isArray(r.answers) ? r.answers : [r.answer]).map((s: unknown) => String(s ?? "").trim()).filter(Boolean);
+      if (!lowText || !answers.length) return null;
+      base.lowText = lowText; base.answers = answers; base.switchAt = 20; base.highPoints = 1000; base.lowPoints = 500; base.ai = true; base.time = Math.max(base.time, 40);
+      return base;
+    }
+    if (r.type === "rhyme") {
+      const text2 = String(r.text2 || "").trim(), answer1 = String(r.answer1 || "").trim(), answer2 = String(r.answer2 || "").trim();
+      if (!text2 || !answer1 || !answer2) return null;
+      base.text2 = text2; base.answer1 = answer1; base.answer2 = answer2; base.ai = true;
       return base;
     }
     if (r.type === "wheel") {
@@ -747,7 +764,7 @@ Deno.serve(async (req) => {
 
     if (action === "generate") {
       if (!ANTHROPIC_KEY) return json({ error: "AI is not set up on the server yet — add ANTHROPIC_API_KEY as a Supabase secret." }, 503);
-      const types = (Array.isArray(body.types) ? body.types : []).filter((t: unknown) => ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel"].includes(String(t)));
+      const types = (Array.isArray(body.types) ? body.types : []).filter((t: unknown) => ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel", "highlow", "rhyme"].includes(String(t)));
       const out = await generate({
         topic: String(body.brief ? (body.title || body.topic || "") : (body.topic || "")).slice(0, 200),
         brief: String(body.brief || "").slice(0, 1500),

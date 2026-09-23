@@ -56,6 +56,8 @@ window.LQ = (() => {
     race:   { label: 'The Race',        icon: '🏁', blurb: 'A bank of quick questions on the phones. First to ten right wins the prize. Their emoji races across the screen.' },
     smash:  { label: 'Answer Smash',    icon: '🔀', blurb: 'A picture and a clue whose answers overlap. Players type the two smashed together.' },
     wheel:  { label: 'Wheel of Fortune', icon: '🎡', blurb: 'A hidden phrase on the board. Letters flip over one by one; the sooner you solve it, the more you score.' },
+    highlow:{ label: 'Highbrow Lowbrow', icon: '🎓', blurb: 'A hard, scholarly clue first. Later an easy, pop-culture clue with the same answer joins it, for half the points.' },
+    rhyme:  { label: 'Rhyme Time',      icon: '🎤', blurb: 'Two clues whose answers rhyme. Players type both answers in one go.' },
   };
   // ---- Wheel of Fortune board: the show's four rows of 12/14/14/12 tiles ----
   const WHEEL_ROWS = [12, 14, 14, 12];
@@ -106,7 +108,7 @@ window.LQ = (() => {
     { name: 'yellow', hex: '#d89e00', shape: '●' },
     { name: 'green',  hex: '#26890c', shape: '■' },
   ];
-  const DEFAULT_TIMES = { choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60 };
+  const DEFAULT_TIMES = { choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30 };
   const DEFAULT_SETTINGS = { maxPoints: 1000, minPoints: 500, defaultTime: 30, showAnswersOnPhones: true, timeByType: { ...DEFAULT_TIMES } };
 
   /** The time limit a question of this type gets by default in this quiz. */
@@ -153,6 +155,8 @@ window.LQ = (() => {
     if (type === 'pin') { q.media = { kind: 'image', url: '' }; q.mode = 'point'; q.pin = { x: 0.5, y: 0.5 }; q.radiusFull = 0.04; q.radiusZero = 0.2; }
     if (type === 'smash') { q.media = { kind: 'image', url: '' }; q.pictureAnswer = ''; q.clueAnswer = ''; q.smash = ''; q.ai = true; }
     if (type === 'wheel') { q.phrase = ''; q.category = 'Phrase'; q.revealEvery = 4; q.startLetters = ''; q.ai = true; }
+    if (type === 'highlow') { q.lowText = ''; q.answers = ['']; q.switchAt = 20; q.highPoints = 1000; q.lowPoints = 500; q.ai = true; }
+    if (type === 'rhyme') { q.text2 = ''; q.answer1 = ''; q.answer2 = ''; q.ai = true; }
     if (type === 'match') { q.pairs = [0, 1, 2, 3].map(() => ({ id: uid('p'), left: '', right: { kind: 'text', value: '' } })); }
     if (type === 'tf') { q.answer = true; }
     if (type === 'sort') { q.categories = [0, 1].map(() => ({ id: uid('c'), name: '' })); q.items = [0, 1, 2, 3].map(() => ({ id: uid('i'), text: '', category: q.categories[0].id })); }
@@ -185,6 +189,15 @@ window.LQ = (() => {
       if (!q.media || q.media.kind !== 'image' || !q.media.url) problems.push('Needs a picture to drop the pin on.');
       if (q.mode === 'area') { if (!q.target || !(q.target.w > 0.01) || !(q.target.h > 0.01)) problems.push('Draw a box around the right thing, or pick the right tile.'); }
       else if (!q.pin) problems.push('Set where the pin goes.');
+    }
+    if (q.type === 'highlow') {
+      if (!(q.lowText || '').trim()) problems.push('Needs the lowbrow clue.');
+      if (!(q.answers || []).some((a) => a.trim())) problems.push('Needs the answer.');
+      if (!((q.switchAt || 0) < q.time)) problems.push('The lowbrow clue must appear before the time limit ends.');
+    }
+    if (q.type === 'rhyme') {
+      if (!(q.text2 || '').trim()) problems.push('Needs the second clue.');
+      if (!(q.answer1 || '').trim() || !(q.answer2 || '').trim()) problems.push('Needs both answers.');
     }
     if (q.type === 'smash') {
       if (!q.media || !q.media.url) problems.push('Needs the picture.');

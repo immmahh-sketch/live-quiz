@@ -373,7 +373,7 @@ function renderQForm() {
     <div class="row" style="justify-content:space-between;margin-bottom:10px"><h3 style="margin:0">Question ${n} <span class="muted">· ${TYPES[q.type].icon} ${esc(TYPES[q.type].label)}</span></h3>
       <div class="row"><button class="btn btn-ghost btn-sm" id="dupQ">Duplicate</button><button class="btn btn-ghost btn-sm" id="delQ" style="color:var(--bad)">Delete</button></div></div>
     ${ck ? `<div class="checknote ${ck}"><b>${{ ok: '✓ Checked: looks right.', doubt: '? Worth a look.', wrong: '✗ Looks wrong.', stale: '~ Changed since it was checked.' }[ck]}</b> ${esc(q.check.note || '')}${q.check.fix && ck !== 'ok' ? `<div class="mt" style="margin-top:6px"><b>Suggested answer:</b> ${esc(q.check.fix)}</div>` : ''}<div class="row" style="margin-top:8px;gap:6px"><button class="btn btn-ghost btn-sm" id="recheck">Check again</button><button class="btn btn-ghost btn-sm" id="clearCheck">Dismiss</button></div></div>` : ''}
-    ${q.type === 'wheel' ? '' : `<div class="field"><label>${q.type === 'smash' ? 'The clue' : 'Question'}</label><textarea id="f_text" placeholder="${esc(placeholderFor(q.type))}">${esc(q.text)}</textarea></div>`}
+    ${q.type === 'wheel' ? '' : `<div class="field"><label>${q.type === 'smash' ? 'The clue' : q.type === 'highlow' ? 'The highbrow clue' : q.type === 'rhyme' ? 'The first clue' : 'Question'}</label><textarea id="f_text" placeholder="${esc(placeholderFor(q.type))}">${esc(q.text)}</textarea></div>`}
     <div id="typeBox"></div>
     ${q.type === 'wheel' ? '' : `<div class="field"><label>${q.type === 'pin' ? 'Picture to drop the pin on' : q.type === 'smash' ? 'The picture' : 'On the screen'}</label><div id="mediaBox"></div></div>`}
     <div class="row" style="align-items:flex-end">
@@ -381,7 +381,7 @@ function renderQForm() {
       ${q.type === 'wipeout' ? `<div class="field" style="max-width:160px"><label>Points per right pick</label><input type="number" id="f_pick" min="0" max="5000" value="${q.pickPoints ?? 200}"></div><div class="field" style="max-width:160px"><label>Wipeout penalty</label><input type="number" id="f_penalty" min="0" max="5000" value="${q.penalty ?? 500}"></div><div class="field" style="max-width:190px"><label>Look at the board first (seconds)</label><input type="number" id="f_study" min="0" max="60" value="${q.study ?? 10}"></div>` : ''}
       ${S.quiz.rounds.length > 1 ? `<div class="field" style="max-width:240px"><label>Round</label><select id="f_round">${S.quiz.rounds.map((r, i) => `<option value="${r.id}" ${r.id === q.round ? 'selected' : ''}>${i + 1}. ${esc(r.title || 'Untitled round')}</option>`).join('')}</select></div>` : ''}
       ${q.type === 'order' || q.type === 'match' || q.type === 'sort' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_partial" ${q.partial ? 'checked' : ''}> Partial credit for partly right</label>` : ''}
-      ${q.type === 'text' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_ai" ${q.ai !== false ? 'checked' : ''}> Let AI judge spelling and wording</label>` : ''}
+      ${q.type === 'text' || q.type === 'highlow' || q.type === 'rhyme' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_ai" ${q.ai !== false ? 'checked' : ''}> Let AI judge spelling and wording</label>` : ''}
     </div>
     <div id="problems"></div>`;
   if ($('#f_text')) $('#f_text').oninput = (e) => { q.text = e.target.value; touch(); refreshTile(); };
@@ -399,7 +399,7 @@ function renderQForm() {
   renderTypeBox(); if ($('#mediaBox')) renderMediaBox(); showProblems();
 }
 function placeholderFor(t) {
-  return { choice: 'e.g. Which planet is closest to the Sun?', text: 'e.g. Who painted the Mona Lisa?', order: 'e.g. Put these events in order, earliest first', pin: 'e.g. Drop the pin on Namibia', match: 'e.g. Match the dog breed to its picture', race: 'e.g. The Race: capital cities', smash: 'e.g. Sega\'s blue hedgehog', tf: 'e.g. The Great Wall of China is visible from space', sort: 'e.g. Sort these actors: who has been in Coronation Street?', wipeout: 'e.g. Footballers who have played for Newcastle United' }[t] || '';
+  return { choice: 'e.g. Which planet is closest to the Sun?', text: 'e.g. Who painted the Mona Lisa?', order: 'e.g. Put these events in order, earliest first', pin: 'e.g. Drop the pin on Namibia', match: 'e.g. Match the dog breed to its picture', race: 'e.g. The Race: capital cities', smash: 'e.g. Sega\'s blue hedgehog', highlow: 'e.g. Which chemical element, atomic number 79, has the symbol Au?', rhyme: 'e.g. Sherlock Holmes\'s companion', tf: 'e.g. The Great Wall of China is visible from space', sort: 'e.g. Sort these actors: who has been in Coronation Street?', wipeout: 'e.g. Footballers who have played for Newcastle United' }[t] || '';
 }
 function refreshTile() { const t = $(`.qtile[data-i="${S.sel}"] .t`); const q = cur(); if (t) t.innerHTML = t.querySelector('small').outerHTML + (esc(q.text) || '<span class="muted">Untitled question</span>'); }
 function showProblems() { const p = validate(cur()); const el = $('#problems'); if (el) el.innerHTML = p.length ? `<div class="notice">${esc(p.join(' '))}</div>` : ''; const tile = $(`.qtile[data-i="${S.sel}"] .mv`); if (tile) { const w = tile.querySelector('.warn'); if (p.length && !w) tile.insertAdjacentHTML('afterbegin', '<span class="warn">!</span>'); if (!p.length && w) w.remove(); } }
@@ -512,6 +512,33 @@ function renderTypeBox() {
     if ($('#collageBtn')) $('#collageBtn').onclick = () => collageModal(q);
     if ($('#rFull')) $('#rFull').oninput = (e) => { q.radiusFull = +e.target.value / 100; if (q.radiusZero < q.radiusFull) { q.radiusZero = q.radiusFull; $('#rZero').value = e.target.value; $('#rZeroV').textContent = e.target.value; } $('#rFullV').textContent = e.target.value; touch(); renderPinPick(); };
     if ($('#rZero')) $('#rZero').oninput = (e) => { q.radiusZero = Math.max(+e.target.value / 100, q.radiusFull); e.target.value = (q.radiusZero * 100).toFixed(1); $('#rZeroV').textContent = e.target.value; touch(); renderPinPick(); };
+  }
+  if (q.type === 'highlow') {
+    box.innerHTML = `<div class="notice" style="margin-bottom:12px">Highbrow Lowbrow: the scholarly clue above goes up on its own first. After <b>${q.switchAt}</b> seconds the lowbrow clue joins it. A right answer while only the highbrow clue is showing scores <b>${q.highPoints}</b>; once the lowbrow clue is up, <b>${q.lowPoints}</b>.</div>
+      <div class="field"><label>The lowbrow clue <span class="muted">— easier, pop culture, same answer</span></label><textarea id="hl_low" placeholder="e.g. Rick Astley promised he'd never do this to you">${esc(q.lowText || '')}</textarea></div>
+      <div class="field"><label>Accepted answers <span class="muted">— the first is shown as the answer</span></label>
+        ${q.answers.map((a, i) => `<div class="list-item"><div class="n">${i === 0 ? '★' : ''}</div><input type="text" data-ans="${i}" value="${esc(a)}" placeholder="${i === 0 ? 'The answer' : 'Also accept…'}"><button class="btn btn-ghost btn-sm" data-rm-ans="${i}" ${q.answers.length === 1 ? 'disabled' : ''}>✕</button></div>`).join('')}
+        <button class="btn btn-ghost btn-sm" id="addAns">+ Another accepted answer</button></div>
+      <div class="row"><div class="field" style="max-width:180px"><label>Lowbrow clue appears after (s)</label><input type="number" id="hl_switch" min="3" max="170" value="${q.switchAt}"></div><div class="field" style="max-width:160px"><label>Highbrow points</label><input type="number" id="hl_high" min="0" max="10000" value="${q.highPoints}"></div><div class="field" style="max-width:160px"><label>Lowbrow points</label><input type="number" id="hl_lowp" min="0" max="10000" value="${q.lowPoints}"></div></div>`;
+    $('#hl_low').oninput = (e) => { q.lowText = e.target.value; touch(); showProblems(); };
+    $$('[data-ans]').forEach((inp) => inp.oninput = () => { q.answers[+inp.dataset.ans] = inp.value; touch(); showProblems(); });
+    $$('[data-rm-ans]').forEach((b) => b.onclick = () => { q.answers.splice(+b.dataset.rmAns, 1); touch(); renderTypeBox(); showProblems(); });
+    $('#addAns').onclick = () => { q.answers.push(''); touch(); renderTypeBox(); $$('[data-ans]').pop().focus(); };
+    $('#hl_switch').onchange = (e) => { q.switchAt = LQ.clamp(+e.target.value || 20, 3, 170); touch(); renderTypeBox(); showProblems(); };
+    $('#hl_high').onchange = (e) => { q.highPoints = LQ.clamp(+e.target.value || 0, 0, 10000); touch(); renderTypeBox(); };
+    $('#hl_lowp').onchange = (e) => { q.lowPoints = LQ.clamp(+e.target.value || 0, 0, 10000); touch(); renderTypeBox(); };
+  }
+  if (q.type === 'rhyme') {
+    box.innerHTML = `<div class="notice" style="margin-bottom:12px">Rhyme Time: two clues on the screen whose answers rhyme. Players type both answers in one box, first then second. <i>Sherlock's sidekick</i> + <i>Famous Bermondsey bottle</i>… the answers just need to rhyme.</div>
+      <div class="row"><div class="field grow"><label>Answer to the first clue</label><input type="text" id="rh_a1" value="${esc(q.answer1 || '')}" placeholder="e.g. Watson"></div></div>
+      <div class="field"><label>The second clue</label><textarea id="rh_t2" placeholder="e.g. A large, loud gathering after dark">${esc(q.text2 || '')}</textarea></div>
+      <div class="row"><div class="field grow"><label>Answer to the second clue <span class="muted">— rhymes with the first</span></label><input type="text" id="rh_a2" value="${esc(q.answer2 || '')}" placeholder="e.g. Party"></div></div>
+      <div id="rh_check" class="help"></div>`;
+    const check = () => { const a = (q.answer1 || '').trim(), b = (q.answer2 || '').trim(); const end = (s) => LQ.normText(s).replace(/\s/g, '').slice(-2); $('#rh_check').textContent = a && b ? (end(a) === end(b) ? `Players type: "${a} ${b}"` : `Do "${a}" and "${b}" rhyme? They don't share an ending, but you know best.`) : ''; };
+    $('#rh_a1').oninput = (e) => { q.answer1 = e.target.value; touch(); check(); showProblems(); };
+    $('#rh_a2').oninput = (e) => { q.answer2 = e.target.value; touch(); check(); showProblems(); };
+    $('#rh_t2').oninput = (e) => { q.text2 = e.target.value; touch(); showProblems(); };
+    check();
   }
   if (q.type === 'wheel') {
     box.innerHTML = `<div class="notice" style="margin-bottom:12px">The phrase goes up on the board hidden. Every few seconds another letter turns over, everywhere it appears. Players type the whole phrase on their phones whenever they think they know it, and the sooner the better: points fall with the clock.</div>
@@ -779,6 +806,8 @@ function summaryOf(q) {
   if (q.type === 'wipeout') lines.push('Marked RIGHT (each must genuinely fit the question): ' + q.right.filter((i) => i.text.trim()).map((i) => i.text).join(' | '), 'Marked WRONG (each must genuinely NOT fit): ' + q.wrong.filter((i) => i.text.trim()).map((i) => i.text).join(' | '));
   if (q.type === 'race') lines.push(`Race to ${q.target} right. Bank (right answer first, then wrong ones):\n` + q.bank.filter((b) => b.text.trim()).map((b, i) => `${i + 1}. ${b.text} — RIGHT: ${b.options[0]}; wrong: ${b.options.slice(1).filter(Boolean).join(', ')}`).join('\n'));
   if (q.type === 'match') lines.push('Pairs (left → right): ' + q.pairs.map((p) => `${p.left} → ${p.right.kind === 'image' ? '[a picture — cannot be checked here, treat as fine]' : p.right.value}`).join(' | '));
+  if (q.type === 'highlow') lines.push(`Highbrow Lowbrow: both clues must have the same answer. Highbrow clue: ${q.text}. Lowbrow clue: ${q.lowText}. Accepted answers: ${q.answers.filter((a) => a.trim()).join(' | ')}. Check each clue really leads to that answer and nothing else.`);
+  if (q.type === 'rhyme') lines.push(`Rhyme Time: clue 1 "${q.text}" → ${q.answer1}; clue 2 "${q.text2}" → ${q.answer2}. Check each clue leads only to its answer, and that the two answers rhyme.`);
   if (q.type === 'wheel') lines.push(`Wheel of Fortune puzzle. Category: ${q.category}. Phrase: ${q.phrase}. Check the phrase is a real, correctly spelt phrase/title/name and that the category fits it.`);
   if (q.type === 'smash') lines.push(`Answer Smash. The picture shows: ${q.pictureAnswer}. The clue's answer: ${q.clueAnswer}. The smashed answer players must type: ${q.smash}. Check the clue really leads to that answer, the picture subject is right, and the two overlap as claimed.`);
   if (q.type === 'pin' && q.mode === 'area') lines.push(q.collage ? `Hit-the-right-thing on a collage of: ${q.collage.map((t, i) => (i === q.answerIndex ? '[ANSWER] ' : '') + (t.title || 'untitled')).join(', ')}. Check the marked answer is what the question asks for and no other tile also fits.` : 'Hit-the-right-thing on a custom picture; only check the question wording makes sense.');

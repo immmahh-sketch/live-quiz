@@ -30,6 +30,8 @@ Full scope and design decisions: [docs/SCOPE.md](docs/SCOPE.md).
 | The Race | Played on the phones: a bank of quick multiple-choice questions, answer or skip, first to the target (default 10 right) wins | Winner takes the prize (default 5000); 2nd gets 2000 with 4+ runners and 3rd gets 500 with 6+; last place loses the forfeit (default 500); you're out once you can't reach the target; on the time limit the clear leader wins |
 | Answer Smash | A picture and a clue whose answers overlap; type them smashed together (Emma Watson + Sonic the Hedgehog = Emma Watsonic the Hedgehog) | Right or wrong, AI-judged for typos |
 | Wheel of Fortune | A hidden phrase on the show's 12/14/14/12 board; a letter flips every few seconds; type the phrase | Right or wrong, points fall with the clock |
+| Highbrow Lowbrow | A scholarly clue first; after 20s an easy pop-culture clue with the same answer joins it | 1000 while only the highbrow clue shows, 500 once the lowbrow one is up (both editable); AI-judged |
+| Rhyme Time | Two clues whose answers rhyme; type both in one box | Right when both answers are there, either order, AI-judged; points fall with the clock |
 | Wipeout | Take turns picking right answers from a scattered board of up to 20 (some wrong) | Each right pick scores (default 200) and vanishes; a wrong pick costs the picker (default 500) and ends the question; running out of your 5-second turn drops you out of that question |
 
 Any question can carry a **picture** or a **YouTube video**. The video plays on the host

@@ -77,6 +77,8 @@ points = max − (max − min) × (time taken ÷ time limit)      default max 10
 | Wipeout | turn-based picks from a board | see below | — |
 | The Race | a bank of quick questions on the phone | first to the target | — |
 | Answer Smash | free text | the smash (or both answers), AI-judged | — |
+| Highbrow Lowbrow | free text | the answer, AI-judged; flat 1000 before the lowbrow clue, 500 after | — |
+| Rhyme Time | free text | both rhyming answers, either order, AI-judged | — |
 | Wheel of Fortune | free text | the phrase, AI-judged for typos | — |
 
 **The Race** is played entirely on the phones while the host screen shows a track. The
@@ -104,6 +106,14 @@ the player types the two smashed together. The builder works out the overlap (th
 run of letters that ends the first answer and starts the second) and shows it highlighted;
 the host can type the smash by hand where the automatic one is wrong. Judged like a typed
 answer, with the AI told the rules.
+
+**Highbrow Lowbrow** and **Rhyme Time** are House of Games rounds. In the first, the
+highbrow clue stands alone for a set time (default twenty seconds, a countdown on the
+screen and the phones) before the lowbrow clue with the same answer slides in beside it;
+a right answer is worth a flat 1000 in the highbrow phase and 500 after, judged by when
+the host received it, and the reveal says which phase each player answered in. In the
+second, two clues sit side by side and the player types both rhyming answers in one box;
+it counts when both are present in either order, with the AI told the rules for typos.
 
 **Wheel of Fortune** puts a phrase on the show's board (four rows of 12, 14, 14 and 12
 tiles, words never split, drawn in the app rather than fetched from a generator site, which
