@@ -477,7 +477,7 @@ function settingsModal() {
 
 // ------------------------------------------------------------------ AI: fill a race bank
 function bankModal(q) {
-  const need = Math.max(0, (q.target || 10) + 10 - q.bank.filter((b) => b.text.trim()).length);
+  const need = Math.max(0, Math.max(20, (q.target || 10) * 2) - q.bank.filter((b) => b.text.trim()).length);
   const m = modal(`<h3>✨ Fill the question bank</h3>
     ${S.ai ? '' : '<div class="error" style="margin-bottom:12px">AI isn\'t switched on for this server yet.</div>'}
     <div class="field"><label>Topic</label><input type="text" id="b_topic" value="${esc(q.text.replace(/^the race:?\s*/i, ''))}" placeholder="e.g. Capital cities, 90s number ones, the Premier League"></div>
