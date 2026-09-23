@@ -88,7 +88,7 @@ function myResult() { return P.state?.results?.[P.pid]; }
 function render() {
   const s = P.state; if (!s) return;
   const qId = s.q?.id || '';
-  const key = [s.phase, qId, s.qIndex, P.answered[qId] ? 'a' : ''].join(':');
+  const key = [s.phase, qId, s.qIndex, s.round?.n || '', P.answered[qId] ? 'a' : ''].join(':');
   if (key === P.viewKey) { tickTimer(); return; }
   P.viewKey = key;
   clearInterval(timerT);
@@ -96,6 +96,7 @@ function render() {
   const score = r ? r.score : (s.top ? (s.top.find((t) => t.name === P.name)?.score ?? '') : '');
   const top = `<div class="app-top"><span>${esc(P.name)}</span><span>${s.phase !== 'lobby' && s.qIndex >= 0 ? `Q${s.qIndex + 1}/${s.total}` : esc(s.title || '')}</span>${score !== '' && score !== undefined ? `<span class="score">${score}</span>` : '<span></span>'}</div>`;
   if (s.phase === 'lobby') app.innerHTML = top + `<div class="state"><div class="em">🎉</div><h2>You're in, ${esc(P.name)}!</h2><p class="muted">Watch the shared screen. The quiz starts when the host presses go.</p></div>`;
+  else if (s.phase === 'round') app.innerHTML = top + `<div class="state"><div class="em">🎯</div><p class="muted" style="margin:0">Round ${s.round?.n || ''}</p><h2>${esc(s.round?.title || '')}</h2><p class="muted">${s.round?.count || ''} question${s.round?.count === 1 ? '' : 's'} coming up</p></div>`;
   else if (s.phase === 'countdown') app.innerHTML = top + `<div class="state"><div class="em">${TYPES[s.next?.type]?.icon || '⏳'}</div><h2>Get ready…</h2><p class="muted">Question ${s.next?.n || s.qIndex + 1}: ${esc(TYPES[s.next?.type]?.label || '')}</p></div>`;
   else if (s.phase === 'question') { app.innerHTML = top + `<div class="ptimer" id="ptimer"><i></i></div>` + (P.answered[qId] ? sentHtml() : questionHtml(s.q)); bindQuestion(s.q); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'grading') app.innerHTML = top + `<div class="state"><div class="em">⏱</div><h2>Time's up!</h2><p class="muted">Checking the answers…</p></div>`;

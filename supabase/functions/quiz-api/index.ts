@@ -254,7 +254,7 @@ Times are in seconds: 15–45. Harder or longer questions get longer.
 
 Reply with JSON only: {"questions":[ ... ]}`;
 
-interface GenOpts { topic: string; count: number; difficulty: string; types: string[]; pictures: boolean; web: boolean; avoid: string[]; }
+interface GenOpts { topic: string; brief: string; count: number; difficulty: string; types: string[]; pictures: boolean; web: boolean; avoid: string[]; }
 
 async function generate(o: GenOpts) {
   const client = anthropic();
@@ -262,8 +262,11 @@ async function generate(o: GenOpts) {
   const typeList = o.types.length ? o.types : ["choice", "text"];
   // The portal asks for a big round in batches; this is what earlier batches already wrote.
   const avoid = o.avoid.length ? `\nAlready written for this round — do not repeat these facts or ask them another way:\n${o.avoid.map((t) => "- " + t).join("\n")}` : "";
+  // The host's own brief for the round outranks the topic line: "a sports round, but every
+  // question about Harry Kane" means every question about Harry Kane.
+  const brief = o.brief ? `\nThe host's brief for this round — follow it closely, it decides what every question is about:\n${o.brief}` : "";
   const prompt = `Write ${o.count} pub quiz questions.
-Topic: ${o.topic || "general knowledge"}
+Round: ${o.topic || "general knowledge"}${brief}
 Difficulty: ${o.difficulty}
 Question types to use (mix them across the set): ${typeList.join(", ")}
 Pictures round: ${wantPictures ? "yes — give roughly half the questions a picture, and use rightPicture for match questions" : "no pictures"}${avoid}`;
@@ -438,7 +441,8 @@ Deno.serve(async (req) => {
       if (!ANTHROPIC_KEY) return json({ error: "AI is not set up on the server yet — add ANTHROPIC_API_KEY as a Supabase secret." }, 503);
       const types = (Array.isArray(body.types) ? body.types : []).filter((t: unknown) => ["choice", "text", "order", "match", "pin"].includes(String(t)));
       const out = await generate({
-        topic: String(body.topic || "").slice(0, 200),
+        topic: String(body.brief ? (body.title || body.topic || "") : (body.topic || "")).slice(0, 200),
+        brief: String(body.brief || "").slice(0, 1500),
         count: Math.min(8, Math.max(1, Math.round(+body.count || 5))),
         avoid: (Array.isArray(body.avoid) ? body.avoid : []).map((s: unknown) => String(s ?? "").slice(0, 160)).filter(Boolean).slice(-60),
         difficulty: ["easy", "medium", "hard", "mixed"].includes(String(body.difficulty)) ? String(body.difficulty) : "mixed",

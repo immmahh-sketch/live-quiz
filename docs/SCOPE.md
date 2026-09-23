@@ -12,11 +12,16 @@ host opens the lobby and ends with the podium.
 ## The three pages
 
 **Portal — `index.html`.** Password sign-in. A list of quizzes with Host / Edit / Duplicate /
-Delete, and *Recent games*. The builder: a question list on the left (reorder, duplicate,
-delete), the selected question's form on the right. Each question has its text, the
+Delete, and *Recent games*. The builder: a question list on the left grouped into **rounds**
+(add, rename, reorder and delete rounds; reorder, duplicate and delete questions; move a
+question to another round from its form), the selected question's form on the right. Each
+round carries an optional **brief for the AI** ("a sports round, every question about Harry
+Kane"), and *Write with AI* on a round follows it. Each question has its text, the
 type-specific answers, optional media (picture upload or link, or a YouTube link with a
 start time), a time limit, and for order/match a partial-credit toggle. Quiz settings hold
-the points curve and default time. Autosaves two seconds after a change; *Host live* saves
+the points curve and a **time limit per question type** (all typed-answer questions a minute,
+say), with a switch to apply those to everything already in the quiz. New and AI-written
+questions take their type's time; any question can still be changed on its own. Autosaves two seconds after a change; *Host live* saves
 first and refuses to start while a question is unfinished (it selects the one that needs
 attention and says why).
 
@@ -24,6 +29,8 @@ attention and says why).
 at a time.
 
 1. *Lobby* — QR code, six-character code, short link, players appearing as they join.
+1a. *Round card* — when the quiz has more than one round, a title card before each round
+   ("Round 2 of 3 — Sports, 8 questions"). Phones show the same.
 2. *Lead-in* — three seconds showing the question number, type and text, so people can
    read before the clock starts. Any picture is pre-loaded here.
 3. *Question* — question text, picture or video, the answers laid out to match the phones,
@@ -134,6 +141,9 @@ when scoring.
 
 **Presence** tells the host who is connected right now, which is what "everyone has
 answered" means; players who drop out don't hold up the question.
+
+**Rounds live inside the quiz's settings blob**, not in a column of their own, so adding
+them needed no migration. `LQ.normalizeQuiz` gives any older quiz a single round.
 
 **The database only holds what outlives a session:** quizzes, pictures and final
 scoreboards. RLS is on with no public policies, matching the rest of the project; the

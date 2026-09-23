@@ -4,7 +4,8 @@ A Kahoot-style live quiz for video calls. You build quizzes in a desktop portal,
 screen on the call, and everyone plays on their phone by scanning the QR code. Scores reward
 speed as well as accuracy.
 
-- **Host portal** (`index.html`) — sign in, build quizzes, write rounds with AI, host a game.
+- **Host portal** (`index.html`) — sign in, build quizzes in rounds, set time limits per
+  question type, write rounds with AI from a brief, host a game.
 - **Host screen** (`host.html`) — the slideshow you share: lobby with QR code, questions,
   timer, answer reveal, scoreboard, podium.
 - **Player app** (`play.html`) — what everyone opens on their phone.

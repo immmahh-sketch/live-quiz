@@ -107,6 +107,17 @@ textarea { min-height: 80px; resize: vertical; }
 .qtile .mv { display: flex; flex-direction: column; gap: 2px; }
 .qtile .mv button { border: 0; background: transparent; cursor: pointer; padding: 0 4px; line-height: 1; color: var(--ink-3); font-size: .8rem; }
 .qtile .mv button:hover { color: var(--brand); }
+.roundhead { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 8px 6px 6px; border-top: 2px solid var(--line); margin-top: 4px; }
+.roundhead:first-child { border-top: 0; margin-top: 0; }
+.roundhead .rt { font-weight: 900; font-size: .95rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.roundhead .rt small { display: block; color: var(--brand); font-size: .72rem; text-transform: uppercase; letter-spacing: .04em; }
+.roundhead .ra { display: flex; gap: 2px; flex: none; }
+.roundhead .ra button { border: 0; background: transparent; cursor: pointer; color: var(--ink-3); padding: 2px 5px; font-size: .85rem; }
+.roundhead .ra button:hover { color: var(--brand); }
+.roundhead .ra button:disabled { opacity: .3; cursor: default; }
+.timegrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.timegrid label { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-weight: 700; font-size: .9rem; }
+.timegrid input { width: 84px; }
 .typepicker { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
 .typetile { border: 2px solid var(--line); border-radius: 12px; padding: 12px; cursor: pointer; background: #fff; text-align: left; }
 .typetile:hover { border-color: var(--brand); }

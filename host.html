@@ -33,6 +33,8 @@ const players = () => Object.values(G.players);
 const ranked = () => players().slice().sort((a, b) => b.score - a.score || a.joinedAt - b.joinedAt);
 const total = () => G.quiz.questions.length;
 const question = () => G.quiz.questions[G.qIndex];
+const roundOf = (i) => { const q = G.quiz.questions[i]; const ri = G.quiz.rounds.findIndex((r) => r.id === q?.round); return ri < 0 ? null : { n: ri + 1, ...G.quiz.rounds[ri], count: G.quiz.questions.filter((x) => x.round === q.round).length }; };
+const startsRound = (i) => i === 0 || G.quiz.questions[i - 1]?.round !== G.quiz.questions[i]?.round;
 
 // ------------------------------------------------------------------ boot
 (async function boot() {
@@ -46,8 +48,9 @@ const question = () => G.quiz.questions[G.qIndex];
   let quiz;
   if (DEMO) quiz = JSON.parse(JSON.stringify(window.DEMO_QUIZ));
   else { try { quiz = (await api('get', { id: quizId })).quiz; } catch (e) { return fail(e.message); } }
-  quiz.settings = { ...LQ.DEFAULT_SETTINGS, ...(quiz.settings || {}) };
+  quiz = LQ.normalizeQuiz(quiz);
   quiz.questions = quiz.questions.filter((q) => LQ.validate(q).length === 0);
+  quiz.rounds = quiz.rounds.filter((r) => quiz.questions.some((q) => q.round === r.id));
   if (!quiz.questions.length) return fail('This quiz has no finished questions to play.');
   G = { code: newCode(), quizId, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null };
   persist();
@@ -89,6 +92,7 @@ function stateForPlayers() {
   const s = { phase: G.phase, code: G.code, qIndex: G.qIndex, total: total(), title: G.quiz.title, now: Date.now() };
   if (G.phase === 'question' && G.q) { s.q = G.q.view; s.remainingMs = Math.max(0, G.q.deadline - Date.now()); s.answered = Object.keys(G.q.answers); }
   if (G.phase === 'countdown') s.next = { type: question().type, n: G.qIndex + 1 };
+  if (G.phase === 'round') { const r = roundOf(G.qIndex); s.round = { n: r.n, title: r.title, count: r.count }; }
   if ((G.phase === 'reveal' || G.phase === 'scoreboard' || G.phase === 'final') && G.q?.results) {
     s.results = {};
     const rk = ranked();
@@ -134,11 +138,21 @@ function maybeAllAnswered() {
 
 // ------------------------------------------------------------------ game flow
 function primaryAction() {
-  if (G.phase === 'lobby') return players().length ? startCountdown(0) : toast('Waiting for at least one player.');
+  if (G.phase === 'lobby') return players().length ? goTo(0) : toast('Waiting for at least one player.');
+  if (G.phase === 'round') return startCountdown(G.qIndex);
   if (G.phase === 'countdown') return startQuestion();
   if (G.phase === 'question') return endQuestion();
   if (G.phase === 'reveal') return showScoreboard();
-  if (G.phase === 'scoreboard') return G.qIndex + 1 < total() ? startCountdown(G.qIndex + 1) : finish();
+  if (G.phase === 'scoreboard') return G.qIndex + 1 < total() ? goTo(G.qIndex + 1) : finish();
+}
+/** Moves to question i, via a round title card when it starts a new round and the quiz has more than one. */
+function goTo(i) {
+  if (G.quiz.rounds.length > 1 && startsRound(i)) {
+    clearInterval(tickT); clearInterval(countT);
+    G.qIndex = i; G.phase = 'round'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString();
+    persist(); render(); broadcastState(); return;
+  }
+  startCountdown(i);
 }
 function startCountdown(i) {
   clearInterval(tickT); clearInterval(countT);
@@ -276,6 +290,7 @@ async function grade(noAi) {
 function render() {
   const ph = G.phase;
   if (ph === 'lobby') return renderLobby();
+  if (ph === 'round') return renderRound();
   if (ph === 'countdown') return renderCountdown();
   if (ph === 'question') return renderQuestion();
   if (ph === 'grading') return renderGrading();
@@ -284,8 +299,16 @@ function render() {
   if (ph === 'final') return renderFinal();
 }
 function topBar(extra = '') {
-  const q = question();
-  return `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">Question ${G.qIndex + 1} of ${total()}</span><span class="hpill">${TYPES[q.type].icon} ${esc(TYPES[q.type].label)}</span></div>${extra}</div>`;
+  const q = question(), r = roundOf(G.qIndex);
+  const roundPill = G.quiz.rounds.length > 1 && r ? `<span class="hpill">Round ${r.n}${r.title ? ' · ' + esc(r.title) : ''}</span>` : `<span class="hpill">${esc(G.quiz.title)}</span>`;
+  return `<div class="stage-top"><div class="pillbox">${roundPill}<span class="hpill">Question ${G.qIndex + 1} of ${total()}</span><span class="hpill">${TYPES[q.type].icon} ${esc(TYPES[q.type].label)}</span></div>${extra}</div>`;
+}
+function renderRound() {
+  const r = roundOf(G.qIndex);
+  stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span></div></div>
+    <div class="stage-main"><div style="opacity:.8;font-weight:800;font-size:1.6rem">Round ${r.n} of ${G.quiz.rounds.length}</div><h1 class="big">${esc(r.title) || 'Round ' + r.n}</h1><div style="opacity:.75;font-weight:800;font-size:1.3rem">${r.count} question${r.count === 1 ? '' : 's'}</div></div>
+    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary btn-lg" data-act="primary">Start round ▶</button>`)}`;
+  bind();
 }
 function hostBar(buttons) { return `<div class="stage-bottom"><span class="muted small" style="opacity:.6">Game ${G.code} · ${players().length} players · press Space for next</span><div class="hostbar">${buttons}</div></div>`; }
 function bind() {

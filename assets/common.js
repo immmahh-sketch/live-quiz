@@ -57,10 +57,41 @@ window.LQ = (() => {
     { name: 'yellow', hex: '#d89e00', shape: '●' },
     { name: 'green',  hex: '#26890c', shape: '■' },
   ];
-  const DEFAULT_SETTINGS = { maxPoints: 1000, minPoints: 500, defaultTime: 30, showAnswersOnPhones: true };
+  const DEFAULT_TIMES = { choice: 20, text: 30, order: 45, pin: 25, match: 45 };
+  const DEFAULT_SETTINGS = { maxPoints: 1000, minPoints: 500, defaultTime: 30, showAnswersOnPhones: true, timeByType: { ...DEFAULT_TIMES } };
+
+  /** The time limit a question of this type gets by default in this quiz. */
+  function timeFor(type, settings = DEFAULT_SETTINGS) {
+    const t = +(settings.timeByType || {})[type];
+    return clamp(t || +settings.defaultTime || DEFAULT_TIMES[type] || 30, 5, 180);
+  }
+
+  /** Fills in what an older or partial quiz is missing: settings defaults, rounds, and a round on every question. */
+  function normalizeQuiz(q) {
+    const settings = { ...DEFAULT_SETTINGS, ...(q.settings || {}), timeByType: { ...DEFAULT_TIMES, ...((q.settings || {}).timeByType || {}) } };
+    const questions = Array.isArray(q.questions) ? q.questions : [];
+    let rounds = Array.isArray(q.rounds) ? q.rounds : Array.isArray(settings.rounds) ? settings.rounds : [];
+    rounds = rounds.filter((r) => r && r.id).map((r) => ({ id: r.id, title: r.title || '', brief: r.brief || '' }));
+    if (!rounds.length) rounds = [{ id: uid('r'), title: 'Round 1', brief: '' }];
+    const ids = new Set(rounds.map((r) => r.id));
+    for (const qu of questions) if (!ids.has(qu.round)) qu.round = rounds[rounds.length - 1].id;
+    delete settings.rounds;
+    const quiz = { id: q.id || null, title: q.title || 'Untitled quiz', settings, rounds, questions };
+    orderQuestions(quiz);
+    return quiz;
+  }
+  /** Keeps the flat question list in play order: round by round. */
+  function orderQuestions(quiz) {
+    quiz.questions = quiz.rounds.flatMap((r) => quiz.questions.filter((q) => q.round === r.id));
+    return quiz;
+  }
+  /** What gets sent to the server: rounds ride inside settings so the table needs no new column. */
+  function quizForSave(quiz) {
+    return { id: quiz.id, title: quiz.title, settings: { ...quiz.settings, rounds: quiz.rounds }, questions: quiz.questions };
+  }
 
   function newQuestion(type = 'choice', settings = DEFAULT_SETTINGS) {
-    const q = { id: uid('q'), type, text: '', time: settings.defaultTime || 30, media: { kind: 'none' }, partial: false };
+    const q = { id: uid('q'), type, text: '', time: timeFor(type, settings), media: { kind: 'none' }, partial: false };
     if (type === 'choice') { q.options = [0, 1, 2, 3].map(() => ({ id: uid('o'), text: '' })); q.correct = q.options[0].id; }
     if (type === 'text') { q.answers = ['']; q.ai = true; }
     if (type === 'order') { q.items = [0, 1, 2, 3].map(() => ({ id: uid('i'), text: '' })); q.hint = ''; }
@@ -164,6 +195,6 @@ window.LQ = (() => {
   function ordinal(n) { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
   return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
-    TYPES, COLORS, DEFAULT_SETTINGS, newQuestion, validate, youtubeId, speedPoints, normText, similarity, textMatch,
+    TYPES, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, validate, youtubeId, speedPoints, normText, similarity, textMatch,
     newCode, playUrl, shortPlayUrl, resizeImage, fmtTime, ordinal };
 })();

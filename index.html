@@ -19,7 +19,7 @@
 
 <script src="assets/common.js"></script>
 <script>
-const { $, $$, esc, uid, api, TYPES, COLORS, DEFAULT_SETTINGS, newQuestion, validate, youtubeId, resizeImage } = LQ;
+const { $, $$, esc, uid, api, TYPES, COLORS, DEFAULT_SETTINGS, newQuestion, validate, youtubeId, resizeImage, normalizeQuiz, orderQuestions, quizForSave, timeFor } = LQ;
 const view = $('#view');
 const S = { quizzes: [], quiz: null, sel: 0, ai: false, saveTimer: null, saving: false, dirty: false };
 
@@ -120,24 +120,23 @@ function renderGames(games) {
 async function duplicateQuiz(id) {
   try {
     const r = await api('get', { id });
-    const copy = { title: r.quiz.title + ' (copy)', settings: r.quiz.settings, questions: r.quiz.questions };
+    const copy = quizForSave(normalizeQuiz(r.quiz)); copy.id = null; copy.title += ' (copy)';
     await api('save', { quiz: copy }); toast('Duplicated'); loadList();
   } catch (e) { toast(e.message, true); }
 }
 
 // ------------------------------------------------------------------ editor
-function normalizeQuiz(q) {
-  return { id: q.id || null, title: q.title || 'Untitled quiz', settings: { ...DEFAULT_SETTINGS, ...(q.settings || {}) }, questions: Array.isArray(q.questions) ? q.questions : [] };
-}
 async function openQuiz(id) {
   view.innerHTML = '<p class="muted">Loading…</p>';
   try { const r = await api('get', { id }); S.quiz = normalizeQuiz(r.quiz); S.sel = 0; renderEditor(); }
   catch (e) { view.innerHTML = `<div class="error">${esc(e.message)}</div><p class="mt"><a href="index.html">Back to quizzes</a></p>`; }
 }
 function newQuiz() {
-  S.quiz = normalizeQuiz({ title: 'New quiz', questions: [] }); S.sel = 0; renderEditor(); pickType();
+  S.quiz = normalizeQuiz({ title: 'New quiz', questions: [] }); S.sel = 0; renderEditor(); pickType(S.quiz.rounds[0].id);
 }
 const cur = () => S.quiz.questions[S.sel];
+const roundOf = (q) => S.quiz.rounds.find((r) => r.id === q.round) || S.quiz.rounds[0];
+const roundIndex = (id) => S.quiz.rounds.findIndex((r) => r.id === id);
 
 function renderEditor() {
   const q = S.quiz;
@@ -158,17 +157,17 @@ function renderEditor() {
   $('#back').onclick = async () => { if (S.dirty) await save(); loadList(); };
   $('#title').oninput = (e) => { q.title = e.target.value; touch(); };
   $('#settings').onclick = settingsModal;
-  $('#aiAdd').onclick = () => aiModal(false);
+  $('#aiAdd').onclick = () => aiModal(false, cur()?.round || q.rounds[0].id);
   $('#save').onclick = () => save(true);
   $('#host').onclick = hostNow;
   renderQList(); renderQForm();
 }
-function touch() { S.dirty = true; $('#saveState').textContent = 'Unsaved changes'; clearTimeout(S.saveTimer); S.saveTimer = setTimeout(() => save(), 2000); }
+function touch() { S.dirty = true; orderQuestions(S.quiz); $('#saveState').textContent = 'Unsaved changes'; clearTimeout(S.saveTimer); S.saveTimer = setTimeout(() => save(), 2000); }
 async function save(explicit) {
   if (S.saving || !S.quiz) return;
   S.saving = true; const st = $('#saveState'); if (st) st.textContent = 'Saving…';
   try {
-    const r = await api('save', { quiz: S.quiz });
+    const r = await api('save', { quiz: quizForSave(S.quiz) });
     S.quiz.id = r.quiz.id; S.dirty = false;
     history.replaceState(null, '', '?quiz=' + S.quiz.id);
     if (st) st.textContent = 'Saved';
@@ -186,30 +185,84 @@ async function hostNow() {
 }
 
 function renderQList() {
-  const qs = S.quiz.questions;
-  $('#qlist').innerHTML = qs.map((q, i) => {
-    const probs = validate(q);
-    return `<div class="qtile ${i === S.sel ? 'active' : ''}" data-i="${i}">
-      <div class="n">${i + 1}</div>
-      <div class="t"><small>${TYPES[q.type].icon} ${esc(TYPES[q.type].label)}${q.media?.kind === 'youtube' ? ' · ▶ video' : q.media?.kind === 'image' ? ' · 🖼' : ''}</small>${esc(q.text) || '<span class="muted">Untitled question</span>'}</div>
-      <div class="mv">${probs.length ? '<span class="warn" title="' + esc(probs.join(' ')) + '">!</span>' : ''}<button data-up="${i}" title="Move up" ${i === 0 ? 'disabled' : ''}>▲</button><button data-down="${i}" title="Move down" ${i === qs.length - 1 ? 'disabled' : ''}>▼</button></div></div>`;
-  }).join('') + `<button class="btn btn-block btn-ghost" id="addQ" style="margin-top:6px">+ Add question</button>`;
+  const qs = S.quiz.questions, rounds = S.quiz.rounds;
+  let html = '';
+  rounds.forEach((r, ri) => {
+    const inRound = qs.map((q, i) => [q, i]).filter(([q]) => q.round === r.id);
+    html += `<div class="roundhead"><div class="rt"><small>Round ${ri + 1}${r.brief ? ' · ✨' : ''}</small>${esc(r.title) || '<span class="muted">Untitled round</span>'}</div>
+      <div class="ra"><button data-rup="${ri}" title="Move round up" ${ri === 0 ? 'disabled' : ''}>▲</button><button data-rdown="${ri}" title="Move round down" ${ri === rounds.length - 1 ? 'disabled' : ''}>▼</button><button data-redit="${r.id}" title="Round name and AI brief">✎</button></div></div>`;
+    html += inRound.map(([q, i]) => {
+      const probs = validate(q);
+      return `<div class="qtile ${i === S.sel ? 'active' : ''}" data-i="${i}">
+        <div class="n">${i + 1}</div>
+        <div class="t"><small>${TYPES[q.type].icon} ${esc(TYPES[q.type].label)} · ${q.time}s${q.media?.kind === 'youtube' ? ' · ▶ video' : q.media?.kind === 'image' ? ' · 🖼' : ''}</small>${esc(q.text) || '<span class="muted">Untitled question</span>'}</div>
+        <div class="mv">${probs.length ? '<span class="warn" title="' + esc(probs.join(' ')) + '">!</span>' : ''}<button data-up="${i}" title="Move up" ${inRound[0][1] === i ? 'disabled' : ''}>▲</button><button data-down="${i}" title="Move down" ${inRound[inRound.length - 1][1] === i ? 'disabled' : ''}>▼</button></div></div>`;
+    }).join('');
+    html += `<div class="row" style="gap:6px;margin:4px 0 14px"><button class="btn btn-ghost btn-sm grow" data-addq="${r.id}">+ Question</button><button class="btn btn-ghost btn-sm grow" data-ai="${r.id}">✨ Write with AI</button></div>`;
+  });
+  $('#qlist').innerHTML = html + `<button class="btn btn-block" id="addRound">+ Add a round</button>`;
   $$('.qtile', $('#qlist')).forEach((t) => t.onclick = (e) => { if (e.target.closest('button')) return; S.sel = +t.dataset.i; renderQList(); renderQForm(); });
   $$('[data-up]').forEach((b) => b.onclick = () => moveQ(+b.dataset.up, -1));
   $$('[data-down]').forEach((b) => b.onclick = () => moveQ(+b.dataset.down, 1));
-  $('#addQ').onclick = pickType;
+  $$('[data-rup]').forEach((b) => b.onclick = () => moveRound(+b.dataset.rup, -1));
+  $$('[data-rdown]').forEach((b) => b.onclick = () => moveRound(+b.dataset.rdown, 1));
+  $$('[data-redit]').forEach((b) => b.onclick = () => roundModal(b.dataset.redit));
+  $$('[data-addq]').forEach((b) => b.onclick = () => pickType(b.dataset.addq));
+  $$('[data-ai]').forEach((b) => b.onclick = () => aiModal(false, b.dataset.ai));
+  $('#addRound').onclick = () => roundModal(null);
 }
-function moveQ(i, d) { const qs = S.quiz.questions; const j = i + d; if (j < 0 || j >= qs.length) return; [qs[i], qs[j]] = [qs[j], qs[i]]; S.sel = j; touch(); renderQList(); renderQForm(); }
-function pickType() {
-  const m = modal(`<h3>What kind of question?</h3><div class="typepicker">${Object.entries(TYPES).map(([k, t]) => `<button class="typetile" data-t="${k}"><div class="ic">${t.icon}</div><b>${esc(t.label)}</b><small>${esc(t.blurb)}</small></button>`).join('')}</div>
-    <p class="muted small mt">Any question can have a picture or a YouTube video on the screen. A video question is just a question with a video — for “name the singer”, pick <b>Type the answer</b> or <b>Multiple choice</b> and add the video below.</p>`);
-  $$('.typetile', m).forEach((b) => b.onclick = () => { m.remove(); S.quiz.questions.push(newQuestion(b.dataset.t, S.quiz.settings)); S.sel = S.quiz.questions.length - 1; touch(); renderQList(); renderQForm(); $('#f_text')?.focus(); });
+function moveQ(i, d) {
+  const qs = S.quiz.questions; const j = i + d;
+  if (j < 0 || j >= qs.length || qs[j].round !== qs[i].round) return;
+  [qs[i], qs[j]] = [qs[j], qs[i]]; S.sel = j; touch(); renderQList(); renderQForm();
+}
+function moveRound(i, d) {
+  const rs = S.quiz.rounds; const j = i + d; if (j < 0 || j >= rs.length) return;
+  const selId = cur()?.id; [rs[i], rs[j]] = [rs[j], rs[i]]; touch();
+  if (selId) S.sel = S.quiz.questions.findIndex((q) => q.id === selId);
+  renderQList(); renderQForm();
+}
+function pickType(roundId) {
+  const m = modal(`<h3>What kind of question?</h3><div class="typepicker">${Object.entries(TYPES).map(([k, t]) => `<button class="typetile" data-t="${k}"><div class="ic">${t.icon}</div><b>${esc(t.label)}</b><small>${esc(t.blurb)} ${timeFor(k, S.quiz.settings)}s.</small></button>`).join('')}</div>
+    <p class="muted small mt">Any question can have a picture or a YouTube video on the screen. A video question is just a question with a video — for “name the singer”, pick <b>Type the answer</b> or <b>Multiple choice</b> and add the video below. Time limits per type are in Settings.</p>`);
+  $$('.typetile', m).forEach((b) => b.onclick = () => {
+    m.remove();
+    const q = newQuestion(b.dataset.t, S.quiz.settings); q.round = roundId || cur()?.round || S.quiz.rounds[0].id;
+    S.quiz.questions.push(q); touch(); S.sel = S.quiz.questions.findIndex((x) => x.id === q.id); renderQList(); renderQForm(); $('#f_text')?.focus();
+  });
+}
+
+// ------------------------------------------------------------------ rounds
+function roundModal(id) {
+  const r = id ? S.quiz.rounds.find((x) => x.id === id) : { id: null, title: `Round ${S.quiz.rounds.length + 1}`, brief: '' };
+  const n = id ? S.quiz.questions.filter((q) => q.round === id).length : 0;
+  const m = modal(`<h3>${id ? 'Round' : 'Add a round'}</h3>
+    <div class="field"><label>Round name <span class="muted">— shown on the screen before it starts</span></label><input type="text" id="r_title" value="${esc(r.title)}" placeholder="e.g. Sports, Picture round, Music"></div>
+    <div class="field"><label>Brief for the AI <span class="muted">— optional</span></label><textarea id="r_brief" placeholder="What this round should be about, as you'd tell a quizmaster. e.g. A sports round where every question is about Harry Kane: his clubs, records, goals and England career.">${esc(r.brief)}</textarea>
+      <div class="help">Used whenever you write questions for this round with AI. Questions added by hand ignore it.</div></div>
+    ${id && n ? `<p class="muted small">${n} question${n === 1 ? '' : 's'} in this round.</p>` : ''}
+    <div class="row mt" style="justify-content:space-between">
+      <div>${id && S.quiz.rounds.length > 1 ? `<button class="btn btn-ghost btn-sm" data-del style="color:var(--bad)">Delete round</button>` : ''}</div>
+      <div class="row"><button class="btn btn-ghost" data-x>Cancel</button>${id ? '' : '<button class="btn" data-ok-ai>Add and write with AI</button>'}<button class="btn btn-primary" data-ok>${id ? 'Done' : 'Add round'}</button></div></div>`);
+  const read = () => { r.title = $('#r_title', m).value.trim() || r.title; r.brief = $('#r_brief', m).value.trim(); };
+  const commit = () => { read(); if (!id) { r.id = uid('r'); S.quiz.rounds.push(r); } touch(); m.remove(); renderQList(); renderQForm(); };
+  $('[data-x]', m).onclick = () => m.remove();
+  $('[data-ok]', m).onclick = commit;
+  if ($('[data-ok-ai]', m)) $('[data-ok-ai]', m).onclick = () => { commit(); aiModal(false, r.id); };
+  if ($('[data-del]', m)) $('[data-del]', m).onclick = async () => {
+    m.remove();
+    if (n && !(await confirmBox('Delete this round?', `Its ${n} question${n === 1 ? '' : 's'} will be deleted too.`))) return;
+    S.quiz.questions = S.quiz.questions.filter((q) => q.round !== id);
+    S.quiz.rounds = S.quiz.rounds.filter((x) => x.id !== id);
+    S.sel = Math.max(0, Math.min(S.sel, S.quiz.questions.length - 1)); touch(); renderQList(); renderQForm();
+  };
+  setTimeout(() => $('#r_title', m).select(), 50);
 }
 
 // ------------------------------------------------------------------ question form
 function renderQForm() {
   const q = cur(); const box = $('#qform');
-  if (!q) { box.innerHTML = `<div class="center" style="padding:40px 10px"><h3>No questions yet</h3><p class="muted">Add one by hand, or let AI write a round for you.</p><div class="row" style="justify-content:center"><button class="btn btn-primary" id="add1">+ Add question</button><button class="btn" id="ai1">✨ Add with AI</button></div></div>`; $('#add1').onclick = pickType; $('#ai1').onclick = () => aiModal(false); return; }
+  if (!q) { const rid = S.quiz.rounds[0].id; box.innerHTML = `<div class="center" style="padding:40px 10px"><h3>No questions yet</h3><p class="muted">Add one by hand, or let AI write a round for you. Set up your rounds on the left first if you want more than one.</p><div class="row" style="justify-content:center"><button class="btn btn-primary" id="add1">+ Add question</button><button class="btn" id="ai1">✨ Write with AI</button></div></div>`; $('#add1').onclick = () => pickType(rid); $('#ai1').onclick = () => aiModal(false, rid); return; }
   const n = S.sel + 1;
   box.innerHTML = `
     <div class="row" style="justify-content:space-between;margin-bottom:10px"><h3 style="margin:0">Question ${n} <span class="muted">· ${TYPES[q.type].icon} ${esc(TYPES[q.type].label)}</span></h3>
@@ -219,15 +272,17 @@ function renderQForm() {
     <div class="field"><label>${q.type === 'pin' ? 'Picture to drop the pin on' : 'On the screen'}</label><div id="mediaBox"></div></div>
     <div class="row" style="align-items:flex-end">
       <div class="field" style="max-width:180px"><label>Time limit (seconds)</label><input type="number" id="f_time" min="5" max="180" value="${q.time}"></div>
+      ${S.quiz.rounds.length > 1 ? `<div class="field" style="max-width:240px"><label>Round</label><select id="f_round">${S.quiz.rounds.map((r, i) => `<option value="${r.id}" ${r.id === q.round ? 'selected' : ''}>${i + 1}. ${esc(r.title || 'Untitled round')}</option>`).join('')}</select></div>` : ''}
       ${q.type === 'order' || q.type === 'match' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_partial" ${q.partial ? 'checked' : ''}> Partial credit for partly right</label>` : ''}
       ${q.type === 'text' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_ai" ${q.ai !== false ? 'checked' : ''}> Let AI judge spelling and wording</label>` : ''}
     </div>
     <div id="problems"></div>`;
   $('#f_text').oninput = (e) => { q.text = e.target.value; touch(); refreshTile(); };
-  $('#f_time').onchange = (e) => { q.time = LQ.clamp(+e.target.value || 30, 5, 180); e.target.value = q.time; touch(); };
+  $('#f_time').onchange = (e) => { q.time = LQ.clamp(+e.target.value || 30, 5, 180); e.target.value = q.time; touch(); renderQList(); };
+  if ($('#f_round')) $('#f_round').onchange = (e) => { q.round = e.target.value; touch(); S.sel = S.quiz.questions.findIndex((x) => x.id === q.id); renderQList(); renderQForm(); };
   if ($('#f_partial')) $('#f_partial').onchange = (e) => { q.partial = e.target.checked; touch(); };
   if ($('#f_ai')) $('#f_ai').onchange = (e) => { q.ai = e.target.checked; touch(); };
-  $('#dupQ').onclick = () => { const c = JSON.parse(JSON.stringify(q)); c.id = uid('q'); S.quiz.questions.splice(S.sel + 1, 0, c); S.sel++; touch(); renderQList(); renderQForm(); };
+  $('#dupQ').onclick = () => { const c = JSON.parse(JSON.stringify(q)); c.id = uid('q'); S.quiz.questions.splice(S.sel + 1, 0, c); touch(); S.sel = S.quiz.questions.findIndex((x) => x.id === c.id); renderQList(); renderQForm(); };
   $('#delQ').onclick = async () => { if (!(await confirmBox('Delete this question?', 'It will be removed from the quiz.'))) return; S.quiz.questions.splice(S.sel, 1); S.sel = Math.max(0, Math.min(S.sel, S.quiz.questions.length - 1)); touch(); renderQList(); renderQForm(); };
   renderTypeBox(); renderMediaBox(); showProblems();
 }
@@ -346,24 +401,30 @@ function settingsModal() {
     <div class="row"><div class="field grow"><label>Points for an instant answer</label><input type="number" id="s_max" value="${s.maxPoints}" min="10" max="10000"></div>
     <div class="field grow"><label>Points at the buzzer</label><input type="number" id="s_min" value="${s.minPoints}" min="0" max="10000"></div></div>
     <div class="help" style="margin-top:-8px;margin-bottom:12px">Points fall in a straight line from the first number to the second over the question's time limit. Wrong answers score nothing.</div>
-    <div class="field"><label>Default time limit for new questions (seconds)</label><input type="number" id="s_time" value="${s.defaultTime}" min="5" max="180"></div>
+    <div class="field"><label>Time limit by question type (seconds)</label>
+      <div class="timegrid">${Object.entries(TYPES).map(([k, t]) => `<label><span>${t.icon} ${esc(t.label)}</span><input type="number" data-tt="${k}" value="${timeFor(k, s)}" min="5" max="180"></label>`).join('')}</div>
+      <div class="help">New questions and AI-written ones get their type's time. Each question can still be changed on its own.</div>
+      <label class="check" style="margin-top:8px"><input type="checkbox" id="s_apply"> Apply these to every question already in the quiz</label></div>
     <label class="check"><input type="checkbox" id="s_show" ${s.showAnswersOnPhones !== false ? 'checked' : ''}> Show the right answer on players' phones after each question</label>
     <div class="row mt" style="justify-content:flex-end"><button class="btn btn-ghost" data-x>Cancel</button><button class="btn btn-primary" data-ok>Done</button></div>`);
   $('[data-x]', m).onclick = () => m.remove();
   $('[data-ok]', m).onclick = () => {
     s.maxPoints = LQ.clamp(+$('#s_max', m).value || 1000, 10, 10000);
     s.minPoints = LQ.clamp(+$('#s_min', m).value || 0, 0, s.maxPoints);
-    s.defaultTime = LQ.clamp(+$('#s_time', m).value || 30, 5, 180);
+    s.timeByType = {}; $$('[data-tt]', m).forEach((inp) => { s.timeByType[inp.dataset.tt] = LQ.clamp(+inp.value || LQ.DEFAULT_TIMES[inp.dataset.tt], 5, 180); });
     s.showAnswersOnPhones = $('#s_show', m).checked;
-    touch(); m.remove(); toast('Settings updated');
+    if ($('#s_apply', m).checked) for (const q of S.quiz.questions) q.time = timeFor(q.type, s);
+    touch(); m.remove(); renderQList(); renderQForm(); toast('Settings updated');
   };
 }
 
 // ------------------------------------------------------------------ AI writer
-function aiModal(fresh) {
-  const m = modal(`<h3>✨ Write questions with AI</h3>
+function aiModal(fresh, roundId) {
+  const round = !fresh && S.quiz ? (S.quiz.rounds.find((r) => r.id === roundId) || roundOf(cur() || {}) || S.quiz.rounds[0]) : null;
+  const m = modal(`<h3>✨ Write questions with AI${round ? ` <span class="muted">· Round ${roundIndex(round.id) + 1}</span>` : ''}</h3>
     ${S.ai ? '' : '<div class="error" style="margin-bottom:12px">AI isn\'t switched on for this server yet. Add an <b>ANTHROPIC_API_KEY</b> secret to the Supabase project and it will light up.</div>'}
-    <div class="field"><label>Topic or round</label><input type="text" id="g_topic" placeholder="e.g. 1990s music, British geography, Christmas films, general knowledge" autofocus></div>
+    <div class="field"><label>${round ? 'Round name' : 'Topic or round'}</label><input type="text" id="g_topic" value="${esc(round ? round.title : '')}" placeholder="e.g. 1990s music, British geography, Christmas films, general knowledge" ${round && round.title ? '' : 'autofocus'}></div>
+    <div class="field"><label>Brief for the AI <span class="muted">— optional</span></label><textarea id="g_brief" placeholder="Tell it what you want, as you'd tell a quizmaster. e.g. A sports round where every question is about Harry Kane: clubs, records, goals, England career.">${esc(round ? round.brief : '')}</textarea>${round ? '<div class="help">Saved on the round, so writing more later follows the same brief.</div>' : ''}</div>
     <div class="row"><div class="field grow"><label>How many</label><input type="number" id="g_count" value="8" min="1" max="40"></div>
       <div class="field grow"><label>Difficulty</label><select id="g_diff"><option value="mixed">Mixed</option><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option></select></div></div>
     <div class="field"><label>Question types</label><div class="row">${Object.entries(TYPES).map(([k, t]) => `<label class="check"><input type="checkbox" data-gt="${k}" ${['choice', 'text'].includes(k) ? 'checked' : ''}> ${t.icon} ${esc(t.label)}</label>`).join('')}</div>
@@ -374,13 +435,16 @@ function aiModal(fresh) {
     <div class="row mt" style="justify-content:flex-end"><button class="btn btn-ghost" data-x>Cancel</button><button class="btn btn-primary" data-ok ${S.ai ? '' : 'disabled'}>Write them</button></div>`);
   $('[data-x]', m).onclick = () => m.remove();
   $('[data-ok]', m).onclick = async () => {
-    const topic = $('#g_topic', m).value.trim();
+    const topic = $('#g_topic', m).value.trim(), brief = $('#g_brief', m).value.trim();
     const types = $$('[data-gt]', m).filter((c) => c.checked).map((c) => c.dataset.gt);
     if (!types.length) return toast('Tick at least one question type.', true);
+    if (!topic && !brief) return toast('Give it a topic or a brief.', true);
+    if (round) { round.title = topic || round.title; round.brief = brief; touch(); renderQList(); }
     const btn = $('[data-ok]', m); btn.disabled = true; $('[data-x]', m).disabled = true;
     const prog = $('#g_prog', m); prog.classList.remove('hidden');
     const total = LQ.clamp(+$('#g_count', m).value || 8, 1, 40), BATCH = 4;
-    const opts = { topic, difficulty: $('#g_diff', m).value, types, pictures: $('#g_pics', m).checked, web: $('#g_web', m).checked };
+    // "topic" is what an older server reads; "brief" is the full instruction for the current one.
+    const opts = { topic: (brief ? `${topic}. ${brief}` : topic).slice(0, 200), title: topic, brief, difficulty: $('#g_diff', m).value, types, pictures: $('#g_pics', m).checked, web: $('#g_web', m).checked };
     // Written in batches of four: one edge-function request has a time limit, and with web
     // search and pictures a big round does not fit in it. Each batch lands in the quiz as it
     // arrives, and later batches are told what's already been written so they don't repeat it.
@@ -395,11 +459,16 @@ function aiModal(fresh) {
         si = 0; status();
         const r = await api('generate', { ...opts, count: Math.min(BATCH, total - written), avoid }, { timeout: 170000 });
         if (!r.questions.length) break;
-        if (fresh && start === null) { S.quiz = normalizeQuiz({ title: topic ? topic.charAt(0).toUpperCase() + topic.slice(1) : 'AI quiz', questions: [] }); renderEditor(); }
-        if (start === null) start = S.quiz.questions.length;
-        for (const q of r.questions) { q.time = q.time || S.quiz.settings.defaultTime; S.quiz.questions.push(q); avoid.push(q.text); }
+        let rid = round?.id;
+        if (fresh && start === null) {
+          const name = topic ? topic.charAt(0).toUpperCase() + topic.slice(1) : 'AI quiz';
+          S.quiz = normalizeQuiz({ title: name, questions: [] }); S.quiz.rounds[0].title = name; S.quiz.rounds[0].brief = brief; renderEditor();
+        }
+        rid = rid || S.quiz.rounds[0].id;
+        let firstId = null;
+        for (const q of r.questions) { q.round = rid; q.time = timeFor(q.type, S.quiz.settings); S.quiz.questions.push(q); avoid.push(q.text); firstId = firstId || q.id; }
         written += r.questions.length; warnings.push(...(r.warnings || []));
-        S.sel = start; touch(); renderQList(); renderQForm(); save();
+        touch(); if (start === null) { start = S.quiz.questions.findIndex((q) => q.id === firstId); } S.sel = start; renderQList(); renderQForm(); save();
       }
       clearInterval(tick); m.remove();
       toast(`Added ${written} question${written === 1 ? '' : 's'}. Read them through before you host — AI can be wrong.`);
