@@ -26,6 +26,7 @@ Full scope and design decisions: [docs/SCOPE.md](docs/SCOPE.md).
 | Match up | Pair each word with a picture or word | All-or-nothing, or partial credit per correct pair (toggle) |
 | True or false | Tap true or false | Right or wrong |
 | Categorise | Put each answer into one of 2–4 categories | All-or-nothing, or partial credit per correct placement (toggle) |
+| The Race | Played on the phones: a bank of quick multiple-choice questions, answer or skip, first to the target (default 10 right) wins | Winner takes the prize (default 5000), nobody else scores; you're out once you can't reach the target; on the time limit the clear leader wins |
 | Wipeout | Take turns picking right answers from a scattered board of up to 20 (some wrong) | Each right pick scores (default 200) and vanishes; a wrong pick costs the picker (default 500) and ends the question; running out of your 5-second turn drops you out of that question |
 
 Any question can carry a **picture** or a **YouTube video**. The video plays on the host
@@ -39,7 +40,7 @@ Wrong answers score nothing. Both figures and the default time limit are in Quiz
 
 1. Open the portal, sign in with the host password, build or pick a quiz, press **Host live**.
 2. Share the host tab on the call. Players scan the QR code (or go to the short link and
-   type the six-character code) and enter a name.
+   type the six-character code), enter a name and pick an emoji.
 3. Press **Start**. Each question: 3-second lead-in, the question with timer, then the
    reveal, then the scoreboard. **Space** advances. A question ends early once everyone has
    answered.

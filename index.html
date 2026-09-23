@@ -275,7 +275,7 @@ function renderQForm() {
     <div id="typeBox"></div>
     <div class="field"><label>${q.type === 'pin' ? 'Picture to drop the pin on' : 'On the screen'}</label><div id="mediaBox"></div></div>
     <div class="row" style="align-items:flex-end">
-      <div class="field" style="max-width:180px"><label>${q.type === 'wipeout' ? 'Seconds per turn' : 'Time limit (seconds)'}</label><input type="number" id="f_time" min="${q.type === 'wipeout' ? 3 : 5}" max="180" value="${q.time}"></div>
+      <div class="field" style="max-width:180px"><label>${q.type === 'wipeout' ? 'Seconds per turn' : q.type === 'race' ? 'Race time limit (seconds)' : 'Time limit (seconds)'}</label><input type="number" id="f_time" min="${q.type === 'wipeout' ? 3 : 5}" max="${q.type === 'race' ? 600 : 180}" value="${q.time}"></div>
       ${q.type === 'wipeout' ? `<div class="field" style="max-width:160px"><label>Points per right pick</label><input type="number" id="f_pick" min="0" max="5000" value="${q.pickPoints ?? 200}"></div><div class="field" style="max-width:160px"><label>Wipeout penalty</label><input type="number" id="f_penalty" min="0" max="5000" value="${q.penalty ?? 500}"></div>` : ''}
       ${S.quiz.rounds.length > 1 ? `<div class="field" style="max-width:240px"><label>Round</label><select id="f_round">${S.quiz.rounds.map((r, i) => `<option value="${r.id}" ${r.id === q.round ? 'selected' : ''}>${i + 1}. ${esc(r.title || 'Untitled round')}</option>`).join('')}</select></div>` : ''}
       ${q.type === 'order' || q.type === 'match' || q.type === 'sort' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_partial" ${q.partial ? 'checked' : ''}> Partial credit for partly right</label>` : ''}
@@ -283,7 +283,7 @@ function renderQForm() {
     </div>
     <div id="problems"></div>`;
   $('#f_text').oninput = (e) => { q.text = e.target.value; touch(); refreshTile(); };
-  $('#f_time').onchange = (e) => { q.time = LQ.clamp(+e.target.value || 30, q.type === 'wipeout' ? 3 : 5, 180); e.target.value = q.time; touch(); renderQList(); };
+  $('#f_time').onchange = (e) => { q.time = LQ.clamp(+e.target.value || 30, q.type === 'wipeout' ? 3 : 5, q.type === 'race' ? 600 : 180); e.target.value = q.time; touch(); renderQList(); };
   if ($('#f_pick')) $('#f_pick').onchange = (e) => { q.pickPoints = LQ.clamp(+e.target.value || 0, 0, 5000); touch(); };
   if ($('#f_penalty')) $('#f_penalty').onchange = (e) => { q.penalty = LQ.clamp(+e.target.value || 0, 0, 5000); touch(); };
   if ($('#f_round')) $('#f_round').onchange = (e) => { q.round = e.target.value; touch(); S.sel = S.quiz.questions.findIndex((x) => x.id === q.id); renderQList(); renderQForm(); };
@@ -296,7 +296,7 @@ function renderQForm() {
   renderTypeBox(); renderMediaBox(); showProblems();
 }
 function placeholderFor(t) {
-  return { choice: 'e.g. Which planet is closest to the Sun?', text: 'e.g. Who painted the Mona Lisa?', order: 'e.g. Put these events in order, earliest first', pin: 'e.g. Drop the pin on Namibia', match: 'e.g. Match the dog breed to its picture', tf: 'e.g. The Great Wall of China is visible from space', sort: 'e.g. Sort these actors: who has been in Coronation Street?', wipeout: 'e.g. Footballers who have played for Newcastle United' }[t] || '';
+  return { choice: 'e.g. Which planet is closest to the Sun?', text: 'e.g. Who painted the Mona Lisa?', order: 'e.g. Put these events in order, earliest first', pin: 'e.g. Drop the pin on Namibia', match: 'e.g. Match the dog breed to its picture', race: 'e.g. The Race: capital cities', tf: 'e.g. The Great Wall of China is visible from space', sort: 'e.g. Sort these actors: who has been in Coronation Street?', wipeout: 'e.g. Footballers who have played for Newcastle United' }[t] || '';
 }
 function refreshTile() { const t = $(`.qtile[data-i="${S.sel}"] .t`); const q = cur(); if (t) t.innerHTML = t.querySelector('small').outerHTML + (esc(q.text) || '<span class="muted">Untitled question</span>'); }
 function showProblems() { const p = validate(cur()); const el = $('#problems'); if (el) el.innerHTML = p.length ? `<div class="notice">${esc(p.join(' '))}</div>` : ''; const tile = $(`.qtile[data-i="${S.sel}"] .mv`); if (tile) { const w = tile.querySelector('.warn'); if (p.length && !w) tile.insertAdjacentHTML('afterbegin', '<span class="warn">!</span>'); if (!p.length && w) w.remove(); } }
@@ -375,6 +375,22 @@ function renderTypeBox() {
       $$(`[data-rm-${key}]`).forEach((b) => b.onclick = () => { arr.splice(+b.dataset['rm' + key.charAt(0).toUpperCase() + key.slice(1)], 1); touch(); renderTypeBox(); showProblems(); });
     }
     $$('[data-add]').forEach((b) => b.onclick = () => { (b.dataset.add === 'wr' ? q.right : q.wrong).push({ id: uid('w'), text: '' }); touch(); renderTypeBox(); $$(`[data-${b.dataset.add}]`).pop().focus(); });
+  }
+  if (q.type === 'race') {
+    const good = q.bank.filter((b) => b.text.trim() && b.options[0].trim() && b.options.filter((o) => o.trim()).length >= 2).length;
+    box.innerHTML = `<div class="notice" style="margin-bottom:12px">Played on the phones. Everyone gets the same questions in the same order, answers or skips, and the first to <b>${q.target}</b> right wins <b>${q.prize}</b> points. Nobody else scores. A player who can no longer reach the target is out. The time limit is for the whole race.</div>
+      <div class="row"><div class="field" style="max-width:170px"><label>Right answers to win</label><input type="number" id="r_target" min="3" max="50" value="${q.target}"></div><div class="field" style="max-width:170px"><label>Prize for the winner</label><input type="number" id="r_prize" min="0" max="50000" value="${q.prize}"></div><div class="grow"></div><button class="btn" id="fillBank" style="align-self:center">✨ Fill the bank with AI</button></div>
+      <div class="field"><label>Question bank <span class="muted">— ${good} ready of ${q.bank.length}. Put the right answer first; players see the answers shuffled. Have more than ${q.target} so there is room for skips.</span></label>
+        <div class="bankhead"><span></span><span>Question</span><span>★ Right answer</span><span>Wrong</span><span>Wrong</span><span>Wrong</span><span></span></div>
+        ${q.bank.map((b, i) => `<div class="bankrow"><div class="n">${i + 1}</div><input type="text" data-bq="${i}" value="${esc(b.text)}" placeholder="Question">${b.options.map((o, oi) => `<input type="text" data-bo="${i}:${oi}" value="${esc(o)}" placeholder="${oi === 0 ? 'Right' : 'Wrong'}" ${oi === 0 ? 'class="right"' : ''}>`).join('')}<button class="btn btn-ghost btn-sm" data-rm-b="${i}">✕</button></div>`).join('')}
+        <button class="btn btn-ghost btn-sm" id="addBank" ${q.bank.length >= 60 ? 'disabled' : ''}>+ Add question</button></div>`;
+    $('#r_target').onchange = (e) => { q.target = LQ.clamp(+e.target.value || 10, 3, 50); touch(); renderTypeBox(); showProblems(); };
+    $('#r_prize').onchange = (e) => { q.prize = LQ.clamp(+e.target.value || 0, 0, 50000); touch(); renderTypeBox(); };
+    $('#fillBank').onclick = () => bankModal(q);
+    $$('[data-bq]').forEach((inp) => inp.oninput = () => { q.bank[+inp.dataset.bq].text = inp.value; touch(); showProblems(); });
+    $$('[data-bo]').forEach((inp) => inp.oninput = () => { const [i, oi] = inp.dataset.bo.split(':').map(Number); q.bank[i].options[oi] = inp.value; touch(); showProblems(); });
+    $$('[data-rm-b]').forEach((b) => b.onclick = () => { q.bank.splice(+b.dataset.rmB, 1); touch(); renderTypeBox(); showProblems(); });
+    $('#addBank').onclick = () => { q.bank.push(LQ.newBankItem()); touch(); renderTypeBox(); $$('[data-bq]').pop().focus(); };
   }
   if (q.type === 'pin') {
     box.innerHTML = `<div class="field"><label>Where the pin goes <span class="muted">— click the picture to move it</span></label><div id="pinpick"></div>
@@ -459,6 +475,45 @@ function settingsModal() {
   };
 }
 
+// ------------------------------------------------------------------ AI: fill a race bank
+function bankModal(q) {
+  const need = Math.max(0, (q.target || 10) + 10 - q.bank.filter((b) => b.text.trim()).length);
+  const m = modal(`<h3>✨ Fill the question bank</h3>
+    ${S.ai ? '' : '<div class="error" style="margin-bottom:12px">AI isn\'t switched on for this server yet.</div>'}
+    <div class="field"><label>Topic</label><input type="text" id="b_topic" value="${esc(q.text.replace(/^the race:?\s*/i, ''))}" placeholder="e.g. Capital cities, 90s number ones, the Premier League"></div>
+    <div class="row"><div class="field grow"><label>How many to add</label><input type="number" id="b_count" value="${need || 10}" min="1" max="40"></div>
+      <div class="field grow"><label>Difficulty</label><select id="b_diff"><option value="easy">Easy — it's a race</option><option value="mixed" selected>Mixed</option><option value="medium">Medium</option><option value="hard">Hard</option></select></div></div>
+    <label class="check"><input type="checkbox" id="b_web"> Search the web to check facts</label>
+    <div class="help" style="margin-top:6px">Race questions are quick multiple choice: short question, four short answers. Empty rows in the bank are replaced first.</div>
+    <div id="b_prog" class="mt hidden"></div>
+    <div class="row mt" style="justify-content:flex-end"><button class="btn btn-ghost" data-x>Cancel</button><button class="btn btn-primary" data-ok ${S.ai ? '' : 'disabled'}>Write them</button></div>`);
+  $('[data-x]', m).onclick = () => m.remove();
+  $('[data-ok]', m).onclick = async () => {
+    const topic = $('#b_topic', m).value.trim(); if (!topic) return toast('Give it a topic.', true);
+    const total = LQ.clamp(+$('#b_count', m).value || 10, 1, 40), BATCH = 6;
+    const btn = $('[data-ok]', m); btn.disabled = true; $('[data-x]', m).disabled = true;
+    const prog = $('#b_prog', m); prog.classList.remove('hidden'); prog.innerHTML = `<div class="gen-progress"><span class="spinner"></span><span id="b_step"></span></div>`;
+    const avoid = q.bank.map((b) => b.text).filter(Boolean); let written = 0;
+    try {
+      while (written < total) {
+        $('#b_step', m).textContent = `Writing questions ${written + 1}–${Math.min(total, written + BATCH)} of ${total}…`;
+        const r = await api('generate', { topic, title: topic, brief: `Quick-fire race questions on ${topic}: one short line each, four short answers, nothing that needs thinking time.`, count: Math.min(BATCH, total - written), difficulty: $('#b_diff', m).value, types: ['choice'], pictures: false, web: $('#b_web', m).checked, avoid }, { timeout: 170000 });
+        if (!r.questions.length) break;
+        for (const g of r.questions) {
+          const right = g.options.find((o) => o.id === g.correct)?.text; if (!right) continue;
+          const wrong = g.options.filter((o) => o.id !== g.correct).map((o) => o.text);
+          const item = { id: uid('b'), text: g.text, options: [right, wrong[0] || '', wrong[1] || '', wrong[2] || ''] };
+          const empty = q.bank.findIndex((b) => !b.text.trim() && !b.options.some((o) => o.trim()));
+          if (empty >= 0) q.bank[empty] = item; else q.bank.push(item);
+          avoid.push(g.text); written++;
+        }
+        touch(); renderTypeBox(); showProblems(); save();
+      }
+      m.remove(); toast(`Added ${written} question${written === 1 ? '' : 's'} to the bank.`);
+    } catch (e) { prog.innerHTML = `<div class="error">${esc(e.message)}</div>`; btn.disabled = false; $('[data-x]', m).disabled = false; }
+  };
+}
+
 // ------------------------------------------------------------------ AI fact-check
 /** The question as the checker sees it — also what a check is tied to, so an edit makes it stale. */
 function summaryOf(q) {
@@ -468,6 +523,7 @@ function summaryOf(q) {
   if (q.type === 'tf') lines.push(`Marked as: ${q.answer === false ? 'FALSE' : 'TRUE'}`);
   if (q.type === 'sort') lines.push('Categories and the answers placed in each: ' + q.categories.filter((c) => c.name.trim()).map((c) => `${c.name}: ${q.items.filter((i) => i.category === c.id && i.text.trim()).map((i) => i.text).join(', ') || '(none)'}`).join(' | '));
   if (q.type === 'wipeout') lines.push('Marked RIGHT (each must genuinely fit the question): ' + q.right.filter((i) => i.text.trim()).map((i) => i.text).join(' | '), 'Marked WRONG (each must genuinely NOT fit): ' + q.wrong.filter((i) => i.text.trim()).map((i) => i.text).join(' | '));
+  if (q.type === 'race') lines.push(`Race to ${q.target} right. Bank (right answer first, then wrong ones):\n` + q.bank.filter((b) => b.text.trim()).map((b, i) => `${i + 1}. ${b.text} — RIGHT: ${b.options[0]}; wrong: ${b.options.slice(1).filter(Boolean).join(', ')}`).join('\n'));
   if (q.type === 'match') lines.push('Pairs (left → right): ' + q.pairs.map((p) => `${p.left} → ${p.right.kind === 'image' ? '[a picture — cannot be checked here, treat as fine]' : p.right.value}`).join(' | '));
   if (q.type === 'pin') {
     if (q.media?.url?.includes('/maps/world') && q.pin) lines.push(`Target on a world map: ${q.place || 'unnamed'} at roughly latitude ${(90 - q.pin.y * 180).toFixed(1)}, longitude ${(q.pin.x * 360 - 180).toFixed(1)}`);

@@ -323,6 +323,8 @@ Question types and their JSON shapes (use only the types you are asked for, and 
   2 to 4 categories, 4 to 8 items, at least one item per category. Every placement must be certain.
 - "wipeout": {"type":"wipeout","text":"Footballers who have played for Newcastle United","right":["...x15"],"wrong":["...x5"]}
   A list question. "right" are 15 answers that definitely fit; "wrong" are 5 that are plausible (same kind of thing, same era or league) but definitely do not fit. Verify every one — a wrong answer that actually fits ruins the round.
+- "race": {"type":"race","text":"The Race: capital cities","target":10,"bank":[{"q":"Capital of Peru?","right":"Lima","wrong":["Quito","Bogotá","Santiago"]} x20]}
+  A quick-fire bank of 20 short multiple-choice questions on one topic, answered in a hurry on a phone: one short line each, four short answers. Easy to medium.
 
 Pictures: add "picture":"<exact English Wikipedia article title>" to any question where a picture makes it better or is the question itself ("Which city is this?", "Name this bird"). Use only titles you are confident exist, whose lead image shows the thing and does not contain its name as a caption in the image. Do not add a picture that gives the answer away when the question is not about identifying the picture.
 
@@ -442,6 +444,16 @@ Pictures round: ${wantPictures ? "yes — give roughly half the questions a pict
       base.right = right.map((text: string) => ({ id: uid("w"), text }));
       base.wrong = wrong.map((text: string) => ({ id: uid("w"), text }));
       base.pickPoints = 200; base.penalty = 500; base.time = 5;
+      return base;
+    }
+    if (r.type === "race") {
+      const bank = (Array.isArray(r.bank) ? r.bank : []).map((b: any) => {
+        const text = String(b?.q ?? b?.text ?? "").trim(), right = String(b?.right ?? "").trim();
+        const wrong = (Array.isArray(b?.wrong) ? b.wrong : []).map((s: unknown) => String(s ?? "").trim()).filter(Boolean).slice(0, 3);
+        return text && right && wrong.length ? { id: uid("b"), text, options: [right, wrong[0] || "", wrong[1] || "", wrong[2] || ""] } : null;
+      }).filter(Boolean);
+      if (bank.length < 8) return null;
+      base.bank = bank; base.target = Math.min(bank.length - 2, Math.max(3, Math.round(+r.target || 10))); base.prize = 5000; base.time = 120;
       return base;
     }
     if (r.type === "pin") {
@@ -574,7 +586,7 @@ Deno.serve(async (req) => {
 
     if (action === "generate") {
       if (!ANTHROPIC_KEY) return json({ error: "AI is not set up on the server yet — add ANTHROPIC_API_KEY as a Supabase secret." }, 503);
-      const types = (Array.isArray(body.types) ? body.types : []).filter((t: unknown) => ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout"].includes(String(t)));
+      const types = (Array.isArray(body.types) ? body.types : []).filter((t: unknown) => ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race"].includes(String(t)));
       const out = await generate({
         topic: String(body.brief ? (body.title || body.topic || "") : (body.topic || "")).slice(0, 200),
         brief: String(body.brief || "").slice(0, 1500),
@@ -594,7 +606,7 @@ Deno.serve(async (req) => {
       const items = (Array.isArray(body.questions) ? body.questions : [])
         .filter((q: any) => q && typeof q.id === "string" && typeof q.summary === "string")
         .slice(0, 6)
-        .map((q: any) => ({ id: q.id.slice(0, 40), summary: q.summary.slice(0, 1500) }));
+        .map((q: any) => ({ id: q.id.slice(0, 40), summary: q.summary.slice(0, 6000) }));
       if (!items.length) return json({ error: "Nothing to check." }, 400);
       return json(await verifyQuestions(items));
     }

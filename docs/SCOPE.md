@@ -69,6 +69,19 @@ points = max − (max − min) × (time taken ÷ time limit)      default max 10
 | True or false | true or false | it matches | — |
 | Categorise | each answer placed in a category | every answer in its category | fraction placed right (toggle) |
 | Wipeout | turn-based picks from a board | see below | — |
+| The Race | a bank of quick questions on the phone | first to the target | — |
+
+**The Race** is played entirely on the phones while the host screen shows a track. The
+question is a bank of quick multiple-choice questions (the builder fills it by hand or with
+AI; the host needs more than the target to leave room for skips). Everyone gets the bank in
+the same shuffled-answer order, taps an answer or skips, and moves straight on; every pick
+goes to the host, which checks it and replies, so the phones never hold the answers. Each
+player's emoji moves along their lane with their right answers. The first to the target
+(default ten) wins the prize (default 5000) and the race ends; nobody else scores. A player
+is out the moment the questions left cannot get them to the target. If the time limit
+(default two minutes) runs out first, the clear leader on right answers wins; a tie means
+no winner. Players pick their emoji when they join, and it follows them onto the lobby,
+the scoreboards and the podium.
 
 **Wipeout** is the one question that is not "everyone answers at once". Up to twenty
 answers are scattered on the host screen, classically fifteen right and five wrong. Players

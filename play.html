@@ -19,7 +19,7 @@
 const { $, $$, esc, uid, TYPES, COLORS, store, ordinal } = LQ;
 const app = $('#app');
 const saved = store('lq_player') || {};
-const P = { pid: /^p_[a-z0-9]{6,12}$/.test(saved.pid || '') ? saved.pid : uid('p'), name: saved.name || '', code: '',
+const P = { pid: /^p_[a-z0-9]{6,12}$/.test(saved.pid || '') ? saved.pid : uid('p'), name: saved.name || '', emoji: LQ.EMOJIS.includes(saved.emoji) ? saved.emoji : LQ.EMOJIS[Math.floor(Math.random() * LQ.EMOJIS.length)], code: '', race: null,
   state: null, receivedAt: 0, deadline: 0, viewKey: '', answered: {}, sent: {}, joined: false, hostSeen: 0, work: {} };
 let ch = null, sb = null, timerT = null, helloT = null, watchdogT = null;
 
@@ -34,13 +34,15 @@ function renderJoin(msg) {
     ${msg ? `<div class="error" style="margin-bottom:12px">${esc(msg)}</div>` : ''}
     <form id="join"><div class="field"><label>Game code</label><input type="text" id="code" class="codein" value="${esc(code)}" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="ABC123" ${code ? '' : 'autofocus'}></div>
     <div class="field"><label>Your name</label><input type="text" id="name" value="${esc(P.name)}" maxlength="20" autocomplete="nickname" placeholder="What should we call you?" ${code ? 'autofocus' : ''}></div>
+    <div class="field"><label>Your emoji</label><div class="emopick">${LQ.EMOJIS.map((e) => `<button type="button" data-em="${e}" class="${e === P.emoji ? 'on' : ''}">${e}</button>`).join('')}</div></div>
     <button class="btn btn-primary btn-lg btn-block">Let's go</button></form></div>`;
+  $$('[data-em]').forEach((b) => b.onclick = () => { P.emoji = b.dataset.em; $$('[data-em]').forEach((x) => x.classList.toggle('on', x === b)); });
   $('#join').onsubmit = (e) => {
     e.preventDefault();
     const c = $('#code').value.trim().toUpperCase().replace(/[^A-Z0-9]/g, ''), n = $('#name').value.replace(/\s+/g, ' ').trim();
     if (c.length !== 6) return renderJoin('The game code is six letters and numbers — it\'s on the shared screen.');
     if (!n) return renderJoin('Tell us your name so it shows on the scoreboard.');
-    P.code = c; P.name = n; store('lq_player', { pid: P.pid, name: n });
+    P.code = c; P.name = n; store('lq_player', { pid: P.pid, name: n, emoji: P.emoji });
     connect();
   };
 }
@@ -51,16 +53,17 @@ function connect() {
   ch = sb.channel('quiz-' + P.code, { config: { broadcast: { self: false }, presence: { key: P.pid } } });
   ch.on('broadcast', { event: 'state' }, ({ payload }) => onState(payload));
   ch.on('broadcast', { event: 'ack' }, ({ payload }) => { if (payload.pid === P.pid) { P.answered[payload.qId] = true; render(); } });
+  ch.on('broadcast', { event: 'race' }, ({ payload }) => onRaceEvent(payload));
   ch.subscribe(async (status) => {
     if (status === 'SUBSCRIBED') {
-      await ch.track({ role: 'player', pid: P.pid, name: P.name });
+      await ch.track({ role: 'player', pid: P.pid, name: P.name, emoji: P.emoji });
       hello(); clearInterval(helloT); helloT = setInterval(() => { if (!P.joined) hello(); }, 2000);
       setTimeout(() => { if (!P.joined) { clearInterval(helloT); leave(); renderJoin('No game found with that code. Check the screen — the host needs to have the game open.'); } }, 9000);
     } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') { toast('Connection trouble — retrying…', true); }
   });
   clearInterval(watchdogT); watchdogT = setInterval(watchdog, 1500);
 }
-function hello() { send('hello', { pid: P.pid, name: P.name }); }
+function hello() { send('hello', { pid: P.pid, name: P.name, emoji: P.emoji }); }
 function leave() { try { sb.removeChannel(ch); } catch {} ch = null; P.joined = false; P.state = null; P.viewKey = ''; }
 function onState(s) {
   if (!s || typeof s.phase !== 'string') return;
@@ -73,7 +76,11 @@ function onState(s) {
 function watchdog() {
   // Re-send an answer the host has not acknowledged, and warn if the host has gone quiet.
   const s = P.state; if (!s) return;
-  if (s.phase === 'question' && s.q) {
+  if (s.phase === 'question' && s.race && P.race?.pending && Date.now() - P.race.sentAt > 2000) {
+    // The host never confirmed the pick: send it again (it ignores duplicates).
+    P.race.sentAt = Date.now(); send('answer', { pid: P.pid, qId: s.q.id, answer: { idx: P.race.idx, k: P.race.pending } });
+  }
+  if (s.phase === 'question' && s.q && !s.race) {
     const st = P.sent[s.q.id];
     if (st && !P.answered[s.q.id] && Date.now() - st.at > 1800 && st.tries < 5) { st.tries++; st.at = Date.now(); send('answer', { pid: P.pid, qId: s.q.id, answer: st.answer }); }
   }
@@ -88,7 +95,9 @@ function myResult() { return P.state?.results?.[P.pid]; }
 function render() {
   const s = P.state; if (!s) return;
   const qId = s.q?.id || '';
-  const key = [s.phase, qId, s.qIndex, s.round?.n || '', P.answered[qId] ? 'a' : '', s.wipe ? `${s.wipe.turnPid}:${s.wipe.gone.length}:${s.wipe.out.length}:${s.wipe.over}` : ''].join(':');
+  if (s.race && s.q) syncRace(s);
+  const rc = P.race && P.race.qId === qId ? P.race : null;
+  const key = [s.phase, qId, s.qIndex, s.round?.n || '', P.answered[qId] ? 'a' : '', s.wipe ? `${s.wipe.turnPid}:${s.wipe.gone.length}:${s.wipe.out.length}:${s.wipe.over}` : '', rc ? `${rc.idx}:${rc.pending}:${rc.out}:${rc.done}:${s.race?.winner || ''}` : ''].join(':');
   if (key === P.viewKey) { tickTimer(); return; }
   P.viewKey = key;
   clearInterval(timerT);
@@ -98,6 +107,7 @@ function render() {
   if (s.phase === 'lobby') app.innerHTML = top + `<div class="state"><div class="em">🎉</div><h2>You're in, ${esc(P.name)}!</h2><p class="muted">Watch the shared screen. The quiz starts when the host presses go.</p></div>`;
   else if (s.phase === 'round') app.innerHTML = top + `<div class="state"><div class="em">🎯</div><p class="muted" style="margin:0">Round ${s.round?.n || ''}</p><h2>${esc(s.round?.title || '')}</h2><p class="muted">${s.round?.count || ''} question${s.round?.count === 1 ? '' : 's'} coming up</p></div>`;
   else if (s.phase === 'countdown') app.innerHTML = top + `<div class="state"><div class="em">${TYPES[s.next?.type]?.icon || '⏳'}</div><h2>Get ready…</h2><p class="muted">Question ${s.next?.n || s.qIndex + 1}: ${esc(TYPES[s.next?.type]?.label || '')}</p></div>`;
+  else if (s.phase === 'question' && s.race) { app.innerHTML = top + `<div class="ptimer" id="ptimer"><i></i></div>` + raceHtml(s); bindRace(s); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'question' && s.wipe) { P.deadline = Date.now() + (s.wipe.remainingMs || 0); app.innerHTML = top + `<div class="ptimer" id="ptimer"><i></i></div>` + wipeHtml(s); bindWipe(s); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'question') { app.innerHTML = top + `<div class="ptimer" id="ptimer"><i></i></div>` + (P.answered[qId] ? sentHtml() : questionHtml(s.q)); bindQuestion(s.q); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'grading') app.innerHTML = top + `<div class="state"><div class="em">⏱</div><h2>Time's up!</h2><p class="muted">Checking the answers…</p></div>`;
@@ -112,6 +122,42 @@ function tickTimer() {
 }
 function sentHtml() { return `<div class="state"><div class="em">✅</div><h2>Answer sent!</h2><p class="muted">Waiting for the others…</p></div>`; }
 function mediaHtml(q) { return q.media?.url ? `<div class="pmedia"><img src="${esc(q.media.url)}"></div>` : ''; }
+// ---- the race: my own progress lives here; the host confirms every pick ----
+function syncRace(s) {
+  const qId = s.q.id;
+  if (!P.race || P.race.qId !== qId) P.race = { qId, idx: 0, correct: 0, wrong: 0, skipped: 0, out: false, done: false, pending: null, sentAt: 0 };
+  const mine = s.race.players?.[P.pid];
+  if (mine && !P.race.pending && mine.idx > P.race.idx) { Object.assign(P.race, { idx: mine.idx, correct: mine.correct, out: mine.out, done: mine.done }); }
+  if (mine && (mine.out || mine.done)) { P.race.out = mine.out; P.race.done = mine.done; }
+}
+function onRaceEvent(e) {
+  if (e.pid !== P.pid || !P.race || !P.state?.q || P.state.q.id !== P.race.qId) return;
+  if (e.idx !== P.race.idx) return;
+  Object.assign(P.race, { idx: e.idxNext, correct: e.correct, wrong: e.wrong, skipped: e.skipped, out: e.out, done: e.done, pending: null });
+  const f = document.createElement('div'); f.className = 'rflash'; f.textContent = e.ok === null ? '⏭' : e.ok ? '✅' : '❌'; document.body.appendChild(f); setTimeout(() => f.remove(), 550);
+  render();
+}
+function raceHtml(s) {
+  const q = s.q, r = P.race, left = q.bank.length - r.idx, need = s.race.target - r.correct;
+  const standing = Object.values(s.race.players || {});
+  const prog = `<div class="rprog"><span><b>${r.correct}</b> of ${s.race.target} right</span><span>${left} left · ${standing.filter((p) => p.done).length} finished</span></div>`;
+  if (s.race.winner) return `<div class="pq">${esc(q.text)}</div>${prog}<div class="state"><div class="em">${s.race.winner === P.pid ? '🏆' : '🏁'}</div><h2>${s.race.winner === P.pid ? 'You won the race!' : esc(s.race.winnerName || 'Someone') + ' won the race'}</h2></div>`;
+  if (r.done) return `<div class="pq">${esc(q.text)}</div>${prog}<div class="state"><div class="em">🏁</div><h2>Finished!</h2><p class="muted">Waiting to see if anyone beat you to it…</p></div>`;
+  if (r.out) return `<div class="pq">${esc(q.text)}</div>${prog}<div class="state"><div class="em">💨</div><h2>Out of the race</h2><p class="muted">Not enough questions left to reach ${s.race.target}. Watch the screen.</p></div>`;
+  const item = q.bank[r.idx];
+  if (!item) return `<div class="pq">${esc(q.text)}</div>${prog}<div class="state"><h2>No questions left</h2></div>`;
+  return `<div class="pq" style="font-size:.95rem;color:var(--ink-3)">${esc(q.text)}</div>${prog}
+    <div class="pq">${r.idx + 1}. ${esc(item.text)}</div>
+    <div class="ans-grid" style="flex:0 1 auto">${item.options.map((o) => `<button class="abtn" data-rk="${o.k}" style="background:${COLORS[o.c].hex};min-height:84px" ${r.pending ? 'disabled' : ''}><span class="shape">${COLORS[o.c].shape}</span>${esc(o.text)}</button>`).join('')}</div>
+    <button class="btn btn-ghost btn-block mt" id="raceSkip" ${r.pending ? 'disabled' : ''}>Skip this one ⏭</button>
+    ${need > left - 2 && left > 0 ? `<p class="center small muted">Careful — only ${left} left and you need ${need}.</p>` : ''}`;
+}
+function bindRace(s) {
+  const r = P.race; if (!r || r.pending || r.out || r.done || s.race.winner) return;
+  const pick = (k) => { r.pending = k; r.sentAt = Date.now(); send('answer', { pid: P.pid, qId: s.q.id, answer: { idx: r.idx, k } }); render(); };
+  $$('[data-rk]').forEach((b) => b.onclick = () => pick(b.dataset.rk));
+  if ($('#raceSkip')) $('#raceSkip').onclick = () => pick('skip');
+}
 function wipeHtml(s) {
   const q = s.q, w = s.wipe, mine = w.turnPid === P.pid && !w.over, out = w.out.includes(P.pid);
   const note = w.over ? `<div class="turnnote">${w.last ? esc((w.last.name ? w.last.name + ': ' : '') + w.last.text) + (w.last.ok === false ? ' ✘' : w.last.ok ? ' ✔' : '') : 'Round over'}</div>`
@@ -199,9 +245,9 @@ function bindQuestion(q) {
 }
 function resultHtml(s, r) {
   if (!r) return `<div class="state"><h2>Results are on the screen</h2></div>`;
-  const wipeQ = s.qType === 'wipeout' || r.wiped || r.points < 0;
-  const cls = r.points < 0 ? 'neg' : r.correct ? 'ok' : r.partial > 0 ? 'part' : 'no';
-  const head = r.wiped ? '💥 Wiped out!' : wipeQ ? (r.points > 0 ? '✓ Nice picking!' : 'No points this round') : r.correct ? '✓ Correct!' : !r.answered ? 'Too slow!' : r.partial > 0 ? 'Partly right' : '✗ Not this time';
+  const wipeQ = s.qType === 'wipeout' || r.wiped || r.points < 0, raceQ = s.qType === 'race' || r.raced;
+  const cls = r.points < 0 ? 'neg' : r.correct ? 'ok' : raceQ ? 'part' : r.partial > 0 ? 'part' : 'no';
+  const head = r.wiped ? '💥 Wiped out!' : wipeQ ? (r.points > 0 ? '✓ Nice picking!' : 'No points this round') : raceQ ? (r.correct ? '🏆 You won the race!' : r.out ? `Out of the race · ${r.got ?? 0} right` : `No prize this time · ${r.got ?? 0} right`) : r.correct ? '✓ Correct!' : !r.answered ? 'Too slow!' : r.partial > 0 ? 'Partly right' : '✗ Not this time';
   return `<div class="result ${cls}"><div style="font-size:1.6rem;font-weight:900">${head}</div><div class="pts">${r.points > 0 ? '+' : ''}${r.points}</div>
     ${s.answer ? `<div style="font-weight:800;opacity:.95">${r.correct ? '' : 'Answer: '}${esc(s.answer)}</div>` : ''}
     <div class="rk">${ordinal(r.rank)} of ${r.of} · ${r.score} points</div></div>`;

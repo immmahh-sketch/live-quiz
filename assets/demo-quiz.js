@@ -33,5 +33,7 @@ window.DEMO_QUIZ = {
     { id: 'd10', round: 'r3', type: 'wipeout', text: 'Wipeout: countries in Africa', time: 5, media: { kind: 'none' }, pickPoints: 200, penalty: 500,
       right: ['Nigeria', 'Kenya', 'Ghana', 'Egypt', 'Morocco', 'Ethiopia', 'Senegal', 'Tanzania', 'Uganda', 'Zambia', 'Namibia', 'Botswana', 'Mali', 'Tunisia', 'Angola'].map((t, i) => ({ id: 'd10r' + i, text: t })),
       wrong: ['Yemen', 'Oman', 'Suriname', 'Nepal', 'Georgia'].map((t, i) => ({ id: 'd10w' + i, text: t })) },
+    { id: 'd11', round: 'r3', type: 'race', text: 'The Race: capital cities', time: 90, media: { kind: 'none' }, target: 4, prize: 5000,
+      bank: [['Capital of France?', 'Paris', 'Lyon', 'Marseille', 'Nice'], ['Capital of Japan?', 'Tokyo', 'Osaka', 'Kyoto', 'Nagoya'], ['Capital of Australia?', 'Canberra', 'Sydney', 'Melbourne', 'Perth'], ['Capital of Canada?', 'Ottawa', 'Toronto', 'Vancouver', 'Montreal'], ['Capital of Brazil?', 'Brasília', 'Rio de Janeiro', 'São Paulo', 'Salvador'], ['Capital of Turkey?', 'Ankara', 'Istanbul', 'Izmir', 'Antalya'], ['Capital of Nigeria?', 'Abuja', 'Lagos', 'Kano', 'Ibadan'], ['Capital of Switzerland?', 'Bern', 'Zurich', 'Geneva', 'Basel']].map((b, i) => ({ id: 'd11b' + i, text: b[0], options: b.slice(1) })) },
   ],
 };

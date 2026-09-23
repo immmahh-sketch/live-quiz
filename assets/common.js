@@ -53,14 +53,16 @@ window.LQ = (() => {
     tf:     { label: 'True or false',   icon: '✓✗', blurb: 'A statement. Players say true or false.' },
     sort:   { label: 'Categorise',      icon: '🗂', blurb: 'Players drop each answer into the right category.' },
     wipeout:{ label: 'Wipeout',         icon: '💥', blurb: 'Answers scattered on screen, some wrong. Players take turns picking a right one. Pick a wrong one and you are wiped out.' },
+    race:   { label: 'The Race',        icon: '🏁', blurb: 'A bank of quick questions on the phones. First to ten right wins the prize. Their emoji races across the screen.' },
   };
+  const EMOJIS = ['🦊', '🐸', '🐼', '🦁', '🐙', '🦄', '🐢', '🐝', '🦖', '🐧', '🐨', '🦉', '🐬', '🦋', '🍕', '🚀', '🎸', '🏆', '👾', '🧙'];
   const COLORS = [
     { name: 'red',    hex: '#e21b3c', shape: '▲' },
     { name: 'blue',   hex: '#1368ce', shape: '◆' },
     { name: 'yellow', hex: '#d89e00', shape: '●' },
     { name: 'green',  hex: '#26890c', shape: '■' },
   ];
-  const DEFAULT_TIMES = { choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5 };
+  const DEFAULT_TIMES = { choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120 };
   const DEFAULT_SETTINGS = { maxPoints: 1000, minPoints: 500, defaultTime: 30, showAnswersOnPhones: true, timeByType: { ...DEFAULT_TIMES } };
 
   /** The time limit a question of this type gets by default in this quiz. */
@@ -103,8 +105,10 @@ window.LQ = (() => {
     if (type === 'tf') { q.answer = true; }
     if (type === 'sort') { q.categories = [0, 1].map(() => ({ id: uid('c'), name: '' })); q.items = [0, 1, 2, 3].map(() => ({ id: uid('i'), text: '', category: q.categories[0].id })); }
     if (type === 'wipeout') { q.right = Array.from({ length: 8 }, () => ({ id: uid('w'), text: '' })); q.wrong = Array.from({ length: 3 }, () => ({ id: uid('w'), text: '' })); q.pickPoints = 200; q.penalty = 500; }
+    if (type === 'race') { q.target = 10; q.prize = 5000; q.bank = Array.from({ length: 3 }, () => newBankItem()); }
     return q;
   }
+  function newBankItem() { return { id: uid('b'), text: '', options: ['', '', '', ''] }; }
   /** The id a right answer maps to, for the types that have one. */
   function correctId(q) { return q.type === 'tf' ? String(q.answer) : q.correct; }
 
@@ -136,6 +140,11 @@ window.LQ = (() => {
       if (r < 3) problems.push('Needs at least three right answers.');
       if (w < 1) problems.push('Needs at least one wrong answer.');
       if (r + w > 20) problems.push('Twenty answers on the board at most.');
+    }
+    if (q.type === 'race') {
+      const good = (q.bank || []).filter((b) => b.text.trim() && b.options[0].trim() && b.options.filter((o) => o.trim()).length >= 2);
+      const target = +q.target || 10;
+      if (good.length < target) problems.push(`Needs at least ${target} complete questions in the bank (it has ${good.length}); more than that leaves room for skips.`);
     }
     if (q.media && q.media.kind === 'youtube' && !q.media.videoId) problems.push('The YouTube link is not valid.');
     return problems;
@@ -216,6 +225,6 @@ window.LQ = (() => {
   function ordinal(n) { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
   return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
-    TYPES, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, correctId, validate, youtubeId, speedPoints, normText, similarity, textMatch,
+    TYPES, EMOJIS, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, newBankItem, correctId, validate, youtubeId, speedPoints, normText, similarity, textMatch,
     newCode, playUrl, shortPlayUrl, resizeImage, fmtTime, ordinal };
 })();
