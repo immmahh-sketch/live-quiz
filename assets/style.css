@@ -245,6 +245,9 @@ textarea { min-height: 80px; resize: vertical; }
 .rcard .rhead { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
 .rcard .rhead .badge { background: var(--brand); color: #fff; border-radius: 999px; padding: 3px 12px; font-weight: 900; font-size: .85rem; }
 .rcard .types { display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.mixgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 6px 14px; }
+.mixgrid label { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-weight: 700; font-size: .88rem; }
+.mixgrid input { width: 64px; padding: 6px 8px; }
 .rcard .types label { font-size: .88rem; }
 
 /* wipeout board */

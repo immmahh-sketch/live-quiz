@@ -120,8 +120,14 @@ window.LQ = (() => {
     const settings = { ...DEFAULT_SETTINGS, ...(q.settings || {}), timeByType: { ...DEFAULT_TIMES, ...((q.settings || {}).timeByType || {}) } };
     const questions = Array.isArray(q.questions) ? q.questions : [];
     let rounds = Array.isArray(q.rounds) ? q.rounds : Array.isArray(settings.rounds) ? settings.rounds : [];
-    rounds = rounds.filter((r) => r && r.id).map((r) => ({ id: r.id, title: r.title || '', intro: r.intro || '', brief: r.brief || '', count: +r.count || 0, types: Array.isArray(r.types) ? r.types.filter((t) => TYPES[t]) : [] }));
-    if (!rounds.length) rounds = [{ id: uid('r'), title: 'Round 1', intro: '', brief: '', count: 0, types: [] }];
+    rounds = rounds.filter((r) => r && r.id).map((r) => {
+      // The mix is how many of each type the round should have; types and count follow from it.
+      let mix = r.mix && typeof r.mix === 'object' ? Object.fromEntries(Object.entries(r.mix).filter(([k, v]) => TYPES[k] && +v > 0).map(([k, v]) => [k, Math.min(40, Math.round(+v))])) : null;
+      if (!mix) { const types = Array.isArray(r.types) ? r.types.filter((t) => TYPES[t]) : []; const total = +r.count || 0; mix = {}; if (types.length && total) { const each = Math.floor(total / types.length); types.forEach((t, i) => { mix[t] = each + (i < total - each * types.length ? 1 : 0); }); } }
+      const types = Object.keys(mix), count = Object.values(mix).reduce((a, b) => a + b, 0);
+      return { id: r.id, title: r.title || '', intro: r.intro || '', brief: r.brief || '', mix, types, count };
+    });
+    if (!rounds.length) rounds = [{ id: uid('r'), title: 'Round 1', intro: '', brief: '', mix: {}, count: 0, types: [] }];
     const ids = new Set(rounds.map((r) => r.id));
     for (const qu of questions) if (!ids.has(qu.round)) qu.round = rounds[rounds.length - 1].id;
     delete settings.rounds;

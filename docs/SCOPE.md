@@ -13,10 +13,10 @@ host opens the lobby and ends with the podium.
 
 **Portal — `index.html`.** Password sign-in. A list of quizzes with Host / Edit / Duplicate /
 Delete, and *Recent games*. The builder opens on the **rounds planner**: a card per round with
-its title, what it is about (shown on the round card during the game), how many questions,
-which question types it uses and a prompt for the AI, plus *Add a round*, *Write this round
-with AI* and *Write every round with AI*, which fills each round in turn from its own
-settings. The question list on the left is grouped by round (reorder, duplicate and delete
+its title, what it is about (shown on the round card during the game), how many of each
+question type it should have (the round's size is the sum) and a prompt for the AI, plus *Add a round*, *Write this round
+with AI* and *Write every round with AI*, which write each type in the quantity asked,
+skipping what the round already has. The question list on the left is grouped by round (reorder, duplicate and delete
 questions; move a question to another round from its form), with the selected question's
 form on the right. Each question has its text, the
 type-specific answers, optional media (picture upload or link, or a YouTube link with a

@@ -132,7 +132,7 @@ async function openQuiz(id) {
   catch (e) { view.innerHTML = `<div class="error">${esc(e.message)}</div><p class="mt"><a href="index.html">Back to quizzes</a></p>`; }
 }
 function newQuiz() {
-  S.quiz = normalizeQuiz({ title: 'New quiz', questions: [] }); S.quiz.rounds[0].count = 8; S.quiz.rounds[0].types = ['choice', 'text']; S.sel = 0; S.planner = true; renderEditor();
+  S.quiz = normalizeQuiz({ title: 'New quiz', questions: [] }); Object.assign(S.quiz.rounds[0], { mix: { choice: 5, text: 3 }, count: 8, types: ['choice', 'text'] }); S.sel = 0; S.planner = true; renderEditor();
 }
 const cur = () => S.quiz.questions[S.sel];
 const roundOf = (q) => S.quiz.rounds.find((r) => r.id === q.round) || S.quiz.rounds[0];
@@ -246,10 +246,8 @@ function renderPlanner(focusId) {
     <p class="muted small">Set each round up here: what it's called, what it's about, how many questions, which types, and what to tell the AI. Then write a round, or all of them, with AI — or add questions by hand from the list on the left.</p>
     <div class="rplan">${qz.rounds.map((r, i) => `<div class="rcard" data-r="${r.id}">
       <div class="rhead"><span class="badge">Round ${i + 1}</span><input type="text" data-pt="${r.id}" value="${esc(r.title)}" placeholder="Round title, e.g. Sports" style="font-weight:900;font-size:1.05rem;max-width:420px"><div class="grow"></div><span class="muted small">${countIn(r)} question${countIn(r) === 1 ? '' : 's'} so far</span>${qz.rounds.length > 1 ? `<button class="btn btn-ghost btn-sm" data-pdel="${r.id}" style="color:var(--bad)">Delete</button>` : ''}</div>
-      <div class="row" style="align-items:flex-start">
-        <div class="field grow"><label>What the round is about <span class="muted">— shown on the round card before it starts</span></label><input type="text" data-pi="${r.id}" value="${esc(r.intro)}" placeholder="e.g. Ten questions on the beautiful game, from Sunday league to the World Cup"></div>
-        <div class="field" style="max-width:150px"><label>Questions</label><input type="number" data-pc="${r.id}" min="1" max="40" value="${r.count || 8}"></div></div>
-      <div class="field"><label>Question types in this round</label><div class="types">${Object.entries(TYPES).map(([k, t]) => `<label class="check"><input type="checkbox" data-ptype="${r.id}" value="${k}" ${(r.types.length ? r.types : ['choice', 'text']).includes(k) ? 'checked' : ''}> ${t.icon} ${esc(t.label)}</label>`).join('')}</div></div>
+      <div class="field"><label>What the round is about <span class="muted">— shown on the round card before it starts</span></label><input type="text" data-pi="${r.id}" value="${esc(r.intro)}" placeholder="e.g. Ten questions on the beautiful game, from Sunday league to the World Cup"></div>
+      <div class="field"><label>How many of each question type <span class="muted">— total <b data-ptotal="${r.id}">${r.count}</b></span></label><div class="mixgrid">${Object.entries(TYPES).map(([k, t]) => `<label><span>${t.icon} ${esc(t.label)}</span><input type="number" data-pmix="${r.id}" data-type="${k}" min="0" max="40" value="${r.mix[k] || 0}"></label>`).join('')}</div></div>
       <div class="field"><label>Prompt for the AI <span class="muted">— what you want, as you'd tell a quizmaster</span></label><textarea data-pb="${r.id}" placeholder="e.g. A sports round where every question is about Harry Kane: clubs, records, goals, England career.">${esc(r.brief)}</textarea></div>
       <div class="row"><button class="btn btn-sm" data-pai="${r.id}" ${S.ai ? '' : 'disabled'}>✨ Write this round with AI</button><button class="btn btn-ghost btn-sm" data-padd="${r.id}">+ Add a question by hand</button></div>
     </div>`).join('')}
@@ -257,39 +255,49 @@ function renderPlanner(focusId) {
   const R = (id) => qz.rounds.find((x) => x.id === id);
   $$('[data-pt]').forEach((i) => i.oninput = () => { R(i.dataset.pt).title = i.value; touch(); renderQList(); });
   $$('[data-pi]').forEach((i) => i.oninput = () => { R(i.dataset.pi).intro = i.value; touch(); });
-  $$('[data-pc]').forEach((i) => i.onchange = () => { R(i.dataset.pc).count = LQ.clamp(+i.value || 8, 1, 40); touch(); });
   $$('[data-pb]').forEach((i) => i.oninput = () => { R(i.dataset.pb).brief = i.value; touch(); renderQList(); });
-  $$('[data-ptype]').forEach((c) => c.onchange = () => { const r = R(c.dataset.ptype); r.types = $$(`[data-ptype="${r.id}"]`).filter((x) => x.checked).map((x) => x.value); touch(); });
+  $$('[data-pmix]').forEach((i) => i.onchange = () => { const r = R(i.dataset.pmix); const n = LQ.clamp(Math.round(+i.value) || 0, 0, 40); i.value = n; if (n) r.mix[i.dataset.type] = n; else delete r.mix[i.dataset.type]; r.types = Object.keys(r.mix); r.count = Object.values(r.mix).reduce((a, b) => a + b, 0); $(`[data-ptotal="${r.id}"]`).textContent = r.count; touch(); renderQList(); });
   $$('[data-pdel]').forEach((b) => b.onclick = async () => { const r = R(b.dataset.pdel), n = countIn(r); if (n && !(await confirmBox('Delete this round?', `Its ${n} question${n === 1 ? '' : 's'} will be deleted too.`))) return; qz.questions = qz.questions.filter((q) => q.round !== r.id); qz.rounds = qz.rounds.filter((x) => x !== r); touch(); renderQList(); renderPlanner(); });
-  $$('[data-pai]').forEach((b) => b.onclick = () => aiModal(false, b.dataset.pai));
+  $$('[data-pai]').forEach((b) => b.onclick = async () => { const r = R(b.dataset.pai); if (!r.count) return toast('Set how many of each type first.', true); if (!r.title && !r.brief) return toast('Give the round a title or a prompt first.', true); try { await generateForRound(r); toast('Round written. Read it through before you host.'); S.planner = false; renderQList(); renderQForm(); } catch {} });
   $$('[data-padd]').forEach((b) => b.onclick = () => pickType(b.dataset.padd));
-  $('#pl_add').onclick = () => { qz.rounds.push({ id: uid('r'), title: `Round ${qz.rounds.length + 1}`, intro: '', brief: '', count: 8, types: ['choice', 'text'] }); touch(); renderQList(); renderPlanner(qz.rounds[qz.rounds.length - 1].id); };
+  $('#pl_add').onclick = () => { qz.rounds.push({ id: uid('r'), title: `Round ${qz.rounds.length + 1}`, intro: '', brief: '', mix: { choice: 5, text: 3 }, count: 8, types: ['choice', 'text'] }); touch(); renderQList(); renderPlanner(qz.rounds[qz.rounds.length - 1].id); };
   $('#pl_close').onclick = () => { S.planner = false; renderQForm(); };
   $('#pl_writeall').onclick = () => writeAllRounds();
   if (focusId) $(`[data-pt="${focusId}"]`)?.focus();
 }
-/** Writes every round that still needs questions, one after another, following each round's own settings. */
+/** What a round still needs, type by type: its mix minus what is already in it. */
+function roundShortfall(r) {
+  const have = {}; for (const q of S.quiz.questions) if (q.round === r.id) have[q.type] = (have[q.type] || 0) + 1;
+  return Object.entries(r.mix || {}).map(([type, n]) => ({ type, need: Math.max(0, n - (have[type] || 0)) })).filter((x) => x.need > 0);
+}
+/** Writes every round that still needs questions, one after another, following each round's own mix. */
 async function writeAllRounds() {
-  const todo = S.quiz.rounds.map((r) => ({ r, need: Math.max(0, (r.count || 8) - S.quiz.questions.filter((q) => q.round === r.id).length) })).filter((x) => x.need > 0);
+  const todo = S.quiz.rounds.filter((r) => roundShortfall(r).length);
   if (!todo.length) return toast('Every round already has its questions.');
-  if (todo.some((x) => !x.r.title && !x.r.brief)) return toast('Give every round a title or a prompt first.', true);
-  for (const { r, need } of todo) { await generateForRound(r, need); }
+  if (todo.some((r) => !r.title && !r.brief)) return toast('Give every round a title or a prompt first.', true);
+  for (const r of todo) { await generateForRound(r); }
   toast('All rounds written. Read them through before you host.');
   S.planner = false; renderQList(); renderQForm();
 }
-/** Generates `need` questions into a round using the round's title, prompt and types. Shared by the planner's buttons. */
-async function generateForRound(r, need) {
-  const types = r.types.length ? r.types : ['choice', 'text'];
-  const m = modal(`<h3>✨ Writing Round ${roundIndex(r.id) + 1}${r.title ? ': ' + esc(r.title) : ''}</h3><div class="gen-progress"><span class="spinner"></span><span id="ga_step">Starting…</span></div>`);
-  const BATCH = 4, avoid = S.quiz.questions.map((q) => q.text).filter(Boolean); let written = 0;
+/** Generates a round's missing questions, one type at a time in the quantities its mix asks for, following its title and prompt. */
+async function generateForRound(r) {
+  const plan = roundShortfall(r);
+  const total = plan.reduce((a, x) => a + x.need, 0);
+  if (!total) return;
+  const m = modal(`<h3>✨ Writing Round ${roundIndex(r.id) + 1}${r.title ? ': ' + esc(r.title) : ''}</h3><div class="gen-progress"><span class="spinner"></span><span id="ga_step">Starting…</span></div><p class="muted small mt">${plan.map((x) => `${x.need} × ${esc(TYPES[x.type].label)}`).join(' · ')}</p>`);
+  const avoid = S.quiz.questions.map((q) => q.text).filter(Boolean); let written = 0;
   try {
-    while (written < need) {
-      $('#ga_step', m).textContent = `Writing questions ${written + 1}–${Math.min(need, written + BATCH)} of ${need}…`;
-      const usedPictures = S.quiz.questions.flatMap((q) => [q.media?.source, q.media?.url]).filter((s) => typeof s === 'string' && /^https?:/.test(s));
-      const res = await api('generate', { topic: (r.brief ? `${r.title}. ${r.brief}` : r.title).slice(0, 200), title: r.title, brief: r.brief, usedPictures, count: Math.min(BATCH, need - written), difficulty: 'mixed', types, pictures: true, web: true, avoid }, { timeout: 170000 });
-      if (!res.questions.length) break;
-      for (const q of res.questions) { q.round = r.id; q.time = timeFor(q.type, S.quiz.settings); if (q.collage && !q.media?.url) { try { await buildCollageFor(q); } catch {} } S.quiz.questions.push(q); avoid.push(q.text); written++; }
-      touch(); renderQList(); save();
+    for (const { type, need } of plan) {
+      const BATCH = ['race', 'wipeout', 'pin', 'match'].includes(type) ? 2 : 4; // the heavy ones fetch pictures
+      let got = 0;
+      while (got < need) {
+        $('#ga_step', m).textContent = `${TYPES[type].label}: writing ${got + 1}–${Math.min(need, got + BATCH)} of ${need} (${written} of ${total} done)…`;
+        const usedPictures = S.quiz.questions.flatMap((q) => [q.media?.source, q.media?.url]).filter((s) => typeof s === 'string' && /^https?:/.test(s));
+        const res = await api('generate', { topic: (r.brief ? `${r.title}. ${r.brief}` : r.title).slice(0, 200), title: r.title, brief: r.brief, usedPictures, count: Math.min(BATCH, need - got), difficulty: 'mixed', types: [type], pictures: true, web: true, avoid }, { timeout: 170000 });
+        if (!res.questions.length) break;
+        for (const q of res.questions) { q.round = r.id; q.time = timeFor(q.type, S.quiz.settings); if (q.collage && !q.media?.url) { try { await buildCollageFor(q); } catch {} } S.quiz.questions.push(q); avoid.push(q.text); got++; written++; }
+        touch(); renderQList(); save();
+      }
     }
     m.remove();
   } catch (e) { m.remove(); toast(`Round ${roundIndex(r.id) + 1}: ${e.message}`, true); throw e; }
@@ -298,7 +306,7 @@ async function generateForRound(r, need) {
 // ------------------------------------------------------------------ rounds
 function roundModal(id) {
   if (id) { S.planner = true; renderPlanner(id); return; }
-  const r = id ? S.quiz.rounds.find((x) => x.id === id) : { id: null, title: `Round ${S.quiz.rounds.length + 1}`, intro: '', brief: '', count: 8, types: ['choice', 'text'] };
+  const r = id ? S.quiz.rounds.find((x) => x.id === id) : { id: null, title: `Round ${S.quiz.rounds.length + 1}`, intro: '', brief: '', mix: { choice: 5, text: 3 }, count: 8, types: ['choice', 'text'] };
   const n = id ? S.quiz.questions.filter((q) => q.round === id).length : 0;
   const m = modal(`<h3>${id ? 'Round' : 'Add a round'}</h3>
     <div class="field"><label>Round name <span class="muted">— shown on the screen before it starts</span></label><input type="text" id="r_title" value="${esc(r.title)}" placeholder="e.g. Sports, Picture round, Music"></div>
@@ -796,7 +804,7 @@ function aiModal(fresh, roundId) {
     const types = $$('[data-gt]', m).filter((c) => c.checked).map((c) => c.dataset.gt);
     if (!types.length) return toast('Tick at least one question type.', true);
     if (!topic && !brief) return toast('Give it a topic or a brief.', true);
-    if (round) { round.title = topic || round.title; round.brief = brief; round.types = types; touch(); renderQList(); }
+    if (round) { round.title = topic || round.title; round.brief = brief; touch(); renderQList(); }
     const btn = $('[data-ok]', m); btn.disabled = true; $('[data-x]', m).disabled = true;
     const prog = $('#g_prog', m); prog.classList.remove('hidden');
     const total = LQ.clamp(+$('#g_count', m).value || 8, 1, 40), BATCH = 4;
