@@ -86,7 +86,7 @@ The host never waits on the AI for the easy cases. When a text question ends:
 
 ## AI quiz writer
 
-From the portal: topic, count (1–15), difficulty, which types, whether to find pictures, and
+From the portal: topic, count (1–40, written four at a time), difficulty, which types, whether to find pictures, and
 whether to search the web. The edge function asks Claude for the questions in a fixed JSON
 shape, with web search enabled to verify facts and cover recent events, then:
 
