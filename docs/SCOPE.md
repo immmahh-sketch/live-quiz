@@ -81,7 +81,7 @@ AI; the host needs more than the target to leave room for skips). Everyone gets 
 the same shuffled-answer order, taps an answer or skips, and moves straight on; every pick
 goes to the host, which checks it and replies, so the phones never hold the answers. Each
 player's emoji moves along their lane with their right answers. The first to the target
-(default ten) wins the prize (default 5000) and the race ends; whoever is alone at the bottom of the standings loses the forfeit (default 2000); nobody else scores. A player
+(default ten) wins the prize (default 5000) and the race ends; with more than three runners second place takes a prize (default 2000) and with more than five, third does too (default 500), each only when the place is clear-cut; whoever is alone at the bottom loses the forfeit (default 2000). A player
 is out the moment the questions left cannot get them to the target. If the time limit
 (default two minutes) runs out first, the clear leader on right answers wins; a tie means
 no winner. Players pick their emoji when they join, and it follows them onto the lobby,
