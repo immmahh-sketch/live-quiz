@@ -194,7 +194,7 @@ function stateForPlayers() {
   const s = { phase: G.phase, code: G.code, qIndex: G.qIndex, total: total(), title: G.quiz.title, now: Date.now() };
   if (G.phase === 'question' && G.q) {
     s.q = G.q.view; s.remainingMs = Math.max(0, (G.q.deadline || 0) - Date.now()); s.answered = Object.keys(G.q.answers);
-    if (G.q.wipe) { const w = G.q.wipe; s.wipe = { turnPid: w.turnPid, turnName: G.players[w.turnPid]?.name || '', remainingMs: Math.max(0, w.turnDeadline - Date.now()), gone: w.gone, out: w.out, over: w.over, last: w.last, scores: w.scores }; }
+    if (G.q.wipe) { const w = G.q.wipe; s.wipe = { turnPid: w.turnPid, turnName: G.players[w.turnPid]?.name || '', remainingMs: Math.max(0, (w.studyUntil || w.turnDeadline) - Date.now()), studyMs: w.studyUntil ? Math.max(0, w.studyUntil - Date.now()) : 0, gone: w.gone, out: w.out, over: w.over, last: w.last, scores: w.scores }; }
     if (G.q.race) { const r = G.q.race; s.race = { winner: r.winner, winnerName: r.winner ? G.players[r.winner]?.name : null, over: r.over, target: G.q.view.target, players: Object.fromEntries(Object.entries(r.players).map(([pid, p]) => [pid, { idx: p.idx, correct: p.correct, out: p.out, done: p.done }])) }; }
   }
   if (G.phase === 'countdown') s.next = { type: question().type, n: G.qIndex + 1 };
@@ -353,9 +353,13 @@ function wipeStart() {
   const q = question();
   const live = Object.keys(G.players).filter((pid) => present.has(pid));
   const order = shuffle(live.length ? live : Object.keys(G.players));
-  G.q.wipe = { order, turnPid: null, turnDeadline: 0, gone: [], out: [], scores: {}, picks: [], over: false, last: null, seconds: q.time };
+  // Everybody gets a look at the whole board before the first turn.
+  const study = (q.study ?? 10) * 1000;
+  G.q.wipe = { order, turnPid: null, turnDeadline: 0, gone: [], out: [], scores: {}, picks: [], over: false, last: null, seconds: q.time, studyUntil: study ? Date.now() + study : 0 };
+  if (study) { persist(); renderWipe(); broadcastState(); return; }
   wipeNextTurn();
 }
+function wipeStudyDone() { const w = G.q?.wipe; if (!w || !w.studyUntil) return; w.studyUntil = 0; wipeNextTurn(); }
 function wipeNextTurn() {
   const w = G.q.wipe, q = question();
   const candidates = w.order.filter((pid) => !w.out.includes(pid));
@@ -410,6 +414,12 @@ function startTick() {
   tickT = setInterval(() => {
     if (G.phase !== 'question' || !G.q) return clearInterval(tickT);
     const wipe = G.q.wipe;
+    if (wipe?.studyUntil) {
+      const left = wipe.studyUntil - Date.now(); const t = $('#timer'); if (t) { t.style.setProperty('--p', Math.max(0, left / ((question().study || 10) * 1000)) * 100 + '%'); t.dataset.s = Math.max(0, Math.ceil(left / 1000)); }
+      const sc = $('#studyCount'); if (sc) sc.textContent = Math.max(0, Math.ceil(left / 1000));
+      if (left <= 0) wipeStudyDone();
+      return;
+    }
     const total = (question().time * 1000), rem = wipe ? wipe.turnDeadline - Date.now() : G.q.deadline - Date.now();
     const t = $('#timer'); if (t) { const p = Math.max(0, rem / total) * 100; t.style.setProperty('--p', p + '%'); t.dataset.s = Math.max(0, Math.ceil(rem / 1000)); t.classList.toggle('low', rem < 5000 && !wipe); }
     if (G.q.wheelRevealed !== undefined && Date.now() >= G.q.nextReveal) wheelReveal();
@@ -702,13 +712,13 @@ function renderRace() {
 function renderWipe(boomToken) {
   const q = question(), v = G.q.view, w = G.q.wipe;
   const lastHtml = w?.last ? `<span class="last ${w.last.ok === true ? 'ok' : w.last.ok === false ? 'no' : ''}">${w.last.name ? esc(w.last.name) + ': ' : ''}${esc(w.last.text)}${w.last.ok === true ? ' ✔' : w.last.ok === false ? ' ✘ Wiped out!' : ''}</span>` : '';
-  const turn = !w ? '' : w.over ? `<div class="turnbar">${lastHtml || '<span>Round over</span>'}</div>` : `<div class="turnbar"><span>Your pick,</span><span class="who">${esc(G.players[w.turnPid]?.name || '…')}</span>${lastHtml}</div>`;
+  const turn = !w ? '' : w.studyUntil ? `<div class="turnbar"><span>👀 Take a look at the board — turns start in</span><span class="who" id="studyCount">${Math.max(0, Math.ceil((w.studyUntil - Date.now()) / 1000))}</span></div>` : w.over ? `<div class="turnbar">${lastHtml || '<span>Round over</span>'}</div>` : `<div class="turnbar"><span>Your pick,</span><span class="who">${esc(G.players[w.turnPid]?.name || '…')}</span>${lastHtml}</div>`;
   const found = w ? w.gone.filter((k) => String(G.q.keys[k]).startsWith('R:')).length : 0, totalRight = v.board.filter((t) => String(G.q.keys[t.k]).startsWith('R:')).length;
   stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill">${found} of ${totalRight} found</span><div class="timer" id="timer" data-s="${q.time}" style="--p:100%"></div></div>`)}
     <div class="stage-main" style="gap:8px"><h1 class="qtext" style="font-size:clamp(1.3rem,2.6vw,2.2rem)">${esc(q.text)}</h1>${turn}
       <div class="wboard">${v.board.map((t) => `<div class="wtile ${w?.gone.includes(t.k) ? (t.k === boomToken ? 'boom' : 'gone') : ''}" style="left:${t.x}%;top:${t.y}%;--r:${t.rot}deg">${esc(t.text)}</div>`).join('')}</div></div>
-    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">Stop the round ■</button>`)}`;
-  bind();
+    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button>${w?.studyUntil ? '<button class="btn btn-ghost" id="wipeGo">Start the turns now ▶</button>' : ''}<button class="btn btn-primary" data-act="primary">Stop the round ■</button>`)}`;
+  bind(); if ($('#wipeGo')) $('#wipeGo').onclick = wipeStudyDone;
 }
 function renderGrading() {
   stage.innerHTML = `${topBar()}<div class="stage-main"><h1 class="big">Time's up!</h1><p style="font-size:1.4rem;font-weight:800"><span class="spinner"></span> &nbsp;Checking the answers…</p></div>`;

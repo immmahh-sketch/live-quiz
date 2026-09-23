@@ -345,7 +345,7 @@ function renderQForm() {
     ${q.type === 'wheel' ? '' : `<div class="field"><label>${q.type === 'pin' ? 'Picture to drop the pin on' : q.type === 'smash' ? 'The picture' : 'On the screen'}</label><div id="mediaBox"></div></div>`}
     <div class="row" style="align-items:flex-end">
       <div class="field" style="max-width:180px"><label>${q.type === 'wipeout' ? 'Seconds per turn' : q.type === 'race' ? 'Race time limit (seconds)' : 'Time limit (seconds)'}</label><input type="number" id="f_time" min="${q.type === 'wipeout' ? 3 : 5}" max="${q.type === 'race' ? 600 : 180}" value="${q.time}"></div>
-      ${q.type === 'wipeout' ? `<div class="field" style="max-width:160px"><label>Points per right pick</label><input type="number" id="f_pick" min="0" max="5000" value="${q.pickPoints ?? 200}"></div><div class="field" style="max-width:160px"><label>Wipeout penalty</label><input type="number" id="f_penalty" min="0" max="5000" value="${q.penalty ?? 500}"></div>` : ''}
+      ${q.type === 'wipeout' ? `<div class="field" style="max-width:160px"><label>Points per right pick</label><input type="number" id="f_pick" min="0" max="5000" value="${q.pickPoints ?? 200}"></div><div class="field" style="max-width:160px"><label>Wipeout penalty</label><input type="number" id="f_penalty" min="0" max="5000" value="${q.penalty ?? 500}"></div><div class="field" style="max-width:190px"><label>Look at the board first (seconds)</label><input type="number" id="f_study" min="0" max="60" value="${q.study ?? 10}"></div>` : ''}
       ${S.quiz.rounds.length > 1 ? `<div class="field" style="max-width:240px"><label>Round</label><select id="f_round">${S.quiz.rounds.map((r, i) => `<option value="${r.id}" ${r.id === q.round ? 'selected' : ''}>${i + 1}. ${esc(r.title || 'Untitled round')}</option>`).join('')}</select></div>` : ''}
       ${q.type === 'order' || q.type === 'match' || q.type === 'sort' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_partial" ${q.partial ? 'checked' : ''}> Partial credit for partly right</label>` : ''}
       ${q.type === 'text' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_ai" ${q.ai !== false ? 'checked' : ''}> Let AI judge spelling and wording</label>` : ''}
@@ -355,6 +355,7 @@ function renderQForm() {
   $('#f_time').onchange = (e) => { q.time = LQ.clamp(+e.target.value || 30, q.type === 'wipeout' ? 3 : 5, q.type === 'race' ? 600 : 180); e.target.value = q.time; touch(); renderQList(); };
   if ($('#f_pick')) $('#f_pick').onchange = (e) => { q.pickPoints = LQ.clamp(+e.target.value || 0, 0, 5000); touch(); };
   if ($('#f_penalty')) $('#f_penalty').onchange = (e) => { q.penalty = LQ.clamp(+e.target.value || 0, 0, 5000); touch(); };
+  if ($('#f_study')) $('#f_study').onchange = (e) => { q.study = LQ.clamp(+e.target.value || 0, 0, 60); touch(); };
   if ($('#f_round')) $('#f_round').onchange = (e) => { q.round = e.target.value; touch(); S.sel = S.quiz.questions.findIndex((x) => x.id === q.id); renderQList(); renderQForm(); };
   if ($('#f_partial')) $('#f_partial').onchange = (e) => { q.partial = e.target.checked; touch(); };
   if ($('#f_ai')) $('#f_ai').onchange = (e) => { q.ai = e.target.checked; touch(); };

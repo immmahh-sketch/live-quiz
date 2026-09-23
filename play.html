@@ -134,7 +134,8 @@ function render() {
   if (s.race && s.q) syncRace(s);
   const rc = P.race && P.race.qId === qId ? P.race : null;
   if (s.wheel && P.viewKey.startsWith(`${s.phase}:${qId}:`)) { const b = $('#pwof'); if (b) b.innerHTML = LQ.wheelBoardHtml(s.wheel.layout, s.wheel.revealed); }
-  const key = [s.phase, qId, s.qIndex, s.round?.n || '', P.answered[qId] ? 'a' : '', s.wipe ? `${s.wipe.turnPid}:${s.wipe.gone.length}:${s.wipe.out.length}:${s.wipe.over}` : '', rc ? `${rc.idx}:${rc.pending}:${rc.out}:${rc.done}:${s.race?.winner || ''}` : ''].join(':');
+  if (s.wipe?.studyMs) { const el = $('#studyLeft'); if (el) el.textContent = Math.ceil(s.wipe.studyMs / 1000); }
+  const key = [s.phase, qId, s.qIndex, s.round?.n || '', P.answered[qId] ? 'a' : '', s.wipe ? `${s.wipe.turnPid}:${s.wipe.gone.length}:${s.wipe.out.length}:${s.wipe.over}:${s.wipe.studyMs ? 'study' : ''}` : '', rc ? `${rc.idx}:${rc.pending}:${rc.out}:${rc.done}:${s.race?.winner || ''}` : ''].join(':');
   if (key === P.viewKey) { tickTimer(); return; }
   P.viewKey = key;
   clearInterval(timerT);
