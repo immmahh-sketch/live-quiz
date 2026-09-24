@@ -643,3 +643,8 @@ body.solo .stage { padding-right: calc(min(390px, 100vw) + 20px); }
 .bankaud { display: flex; gap: 12px; align-items: center; margin-top: 8px; }
 .bankaud img { width: 72px; height: 72px; border-radius: 8px; object-fit: cover; flex: none; }
 .bankaud audio { width: 100%; }
+
+/* bank editor */
+.bkf { display: block; margin-top: 10px; }
+.bkf > input, .bkf > textarea, .bkf > select { display: block; width: 100%; margin-top: 3px; }
+.bkf textarea { min-height: 0; }

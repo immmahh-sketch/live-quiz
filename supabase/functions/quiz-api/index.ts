@@ -908,7 +908,7 @@ Deno.serve(async (req) => {
       const type = String(body.type || "");
       const row = (await bankRows()).find((r) => r.settings?.type === type);
       const qs: any[] = row ? row.questions : [];
-      return json({ questions: qs.map((q) => ({ id: q.id, text: q.text || q.phrase || q.place || "", answer: q.type === "choice" ? (q.options || []).find((o: any) => o.id === q.correct)?.text : q.type === "tf" ? String(q.answer) : q.type === "wheel" ? q.phrase : q.type === "pin" ? q.place : q.type === "order" ? (q.items || []).map((i: any) => i.text).join(" → ") : (q.answers || [])[0] || "", category: q.category || "", tags: q.tags || [], used: q.used || null, pct: q.pct, rejected: !!q.used?.rejected, difficulty: q.difficulty || "", media: q.media?.kind && q.media.kind !== "none" ? q.media.kind : "" })) });
+      return json({ questions: qs.map((q) => ({ id: q.id, text: q.text || q.phrase || q.place || "", answer: q.type === "choice" ? (q.options || []).find((o: any) => o.id === q.correct)?.text : q.type === "tf" ? String(q.answer) : q.type === "wheel" ? q.phrase : q.type === "pin" ? q.place : q.type === "order" ? (q.items || []).map((i: any) => i.text).join(" → ") : q.type === "rhyme" ? [q.answer1, q.answer2].filter(Boolean).join(" / ") : q.type === "smash" ? q.smash || "" : q.type === "tune" ? `${q.track || ""} — ${q.artist || ""}` : (q.answers || [])[0] || "", category: q.category || "", tags: q.tags || [], used: q.used || null, pct: q.pct, rejected: !!q.used?.rejected, difficulty: q.difficulty || "", media: q.media?.kind && q.media.kind !== "none" ? q.media.kind : "" })) });
     }
     if (action === "bank_patch") {
       // Sets difficulty (and optionally category / tags) on bank items, matched by id or, failing that, by what
@@ -960,18 +960,40 @@ Deno.serve(async (req) => {
       return json({ ok: true });
     }
     if (action === "bank_edit") {
-      // Replaces a bank item's content (same id and stock status), for tidying up rejected ones.
+      // Replaces a bank item's wording and answers (same id and category), for fixing rejected ones. An Answer Smash
+      // gets a fresh picture when its picture answer changes; a tune gets a fresh clip when its song or artist changes.
+      // "fresh" puts the item back into stock.
       const type = String(body.type || ""), id = String(body.id || "");
       const row = await bankRow(type);
       const i = row.questions.findIndex((x: any) => x.id === id);
       if (i < 0) return json({ error: "That bank item no longer exists." }, 404);
       const nq = body.question && typeof body.question === "object" ? body.question : null;
-      if (!nq || nq.type !== type) return json({ error: "Nothing to save." }, 400);
+      if (!nq || (nq.type !== type && nq.kind !== type)) return json({ error: "Nothing to save." }, 400);
       const keep = row.questions[i];
-      row.questions[i] = { ...nq, id, category: keep.category, tags: keep.tags, used: body.fresh ? undefined : keep.used };
+      if (!String(nq.text || nq.phrase || nq.track || "").trim()) return json({ error: "The question needs some words." }, 400);
+      if (nq.type === "smash") {
+        const pa = String(nq.pictureAnswer || "").trim(), ca = String(nq.clueAnswer || "").trim(), sm = smashOf(pa, ca);
+        if (!pa || !ca || sm.overlap < 2) return json({ error: `“${pa}” and “${ca}” need to share at least two letters where they join.` }, 400);
+        nq.pictureAnswer = pa; nq.clueAnswer = ca; nq.smash = sm.smash;
+        if (norm(pa) !== norm(keep.pictureAnswer || "") || !nq.media?.url) {
+          const pic = await wikiPicture(pa, new Set(), true);
+          if (!pic) return json({ error: `No picture of “${pa}” on Wikipedia. Try the article's exact name.` }, 404);
+          nq.media = { kind: "image", url: pic.url, source: pic.source, credit: `Wikipedia / Wikimedia Commons: ${pa}` };
+        }
+      }
+      if (nq.type === "tune" && (norm(nq.track || "") !== norm(keep.track || "") || norm(nq.artist || "") !== norm(keep.artist || ""))) {
+        const track = String(nq.track || "").trim(), artist = String(nq.artist || "").trim();
+        const hit = track && artist ? await tuneLookup(`${track} ${artist}`, track, artist) : null;
+        if (!hit) return json({ error: `No preview of “${track}” by ${artist} could be found. Check the spelling.` }, 404);
+        nq.media = { ...(keep.media || {}), kind: "audio", url: hit.previewUrl, artwork: hit.artwork, start: 0, credit: "Preview via Apple Music" };
+        if (hit.year) nq.year = hit.year;
+        const lead = nq.ask === "artist" ? hit.artist : nq.ask === "song" ? cleanTitle(hit.track) : nq.ask === "year" && hit.year ? String(hit.year) : "";
+        if (lead) nq.answers = [lead, ...(Array.isArray(nq.answers) ? nq.answers : []).filter((a: any) => norm(String(a)) !== norm(lead) && nq.ask !== "year")];
+      }
+      row.questions[i] = { ...nq, id, category: keep.category, tags: keep.tags, used: keep.used };
       if (body.fresh) delete row.questions[i].used;
       await bankSave(row);
-      return json({ ok: true });
+      return json({ ok: true, question: row.questions[i] });
     }
     if (action === "bank_reject") {
       // "I don't like this question": the bank item it came from (or the question itself, added to the bank)

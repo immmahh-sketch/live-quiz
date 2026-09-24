@@ -139,20 +139,20 @@ async function bankBrowse(type) {
     const unused = list.filter((q) => !q.used).length, rejected = list.filter((q) => q.rejected).length;
     $('.modal', m).innerHTML = `<h3>🏦 ${TYPES[type].icon} ${esc(TYPES[type].label)} bank <span class="muted small">· ${unused} unused of ${list.length}</span></h3>
       <div class="row" style="margin-bottom:8px"><input type="text" id="bk_f" class="grow" placeholder="Search the bank" value="${esc(filter)}"><select id="bk_show"><option value="all" ${show === 'all' ? 'selected' : ''}>Everything</option><option value="fresh" ${show === 'fresh' ? 'selected' : ''}>Fresh (${unused})</option><option value="used" ${show === 'used' ? 'selected' : ''}>Used in a quiz</option><option value="rejected" ${show === 'rejected' ? 'selected' : ''}>👎 Rejected (${rejected})</option></select><select id="bk_diff"><option value="all" ${diff === 'all' ? 'selected' : ''}>Any difficulty</option><option value="easy" ${diff === 'easy' ? 'selected' : ''}>Easy</option><option value="medium" ${diff === 'medium' ? 'selected' : ''}>Medium</option><option value="hard" ${diff === 'hard' ? 'selected' : ''}>Hard</option><option value="unrated" ${diff === 'unrated' ? 'selected' : ''}>Unrated</option></select><button class="btn btn-ghost btn-sm" data-x>Close</button></div>
-      ${show === 'rejected' ? '<p class="muted small" style="margin:0 0 8px">Questions a host turned down. Restore puts one back into stock as it is; Delete drops it for good. To improve one, restore it and edit it in the quiz it next appears in, or just delete it.</p>' : ''}
+      ${show === 'rejected' ? '<p class="muted small" style="margin:0 0 8px">Questions a host turned down. Click one to see it, then ✏️ Edit to put it right and send it back into stock. ↺ restores one as it is; ✕ drops it for good.</p>' : ''}
       <div class="banklist">${rows.slice(0, 400).map((q) => `<div class="bankrow ${q.used ? 'used' : ''}" data-bv="${esc(q.id)}" style="cursor:pointer" title="Click to see the whole question"><div><div class="t">${q.media === 'youtube' ? '<span title="Has a video clip: click to watch">🎬</span> ' : q.media === 'audio' ? '<span title="Has a music clip: click to listen">🎵</span> ' : ''}${esc(q.text || (q.answer ? '' : ''))}${q.pct ? ` <span class="tag">${q.pct}%</span>` : ''}${q.difficulty ? ` <span class="tag dif-${q.difficulty}">${q.difficulty}</span>` : ''}</div><div class="a">${esc(q.answer || '')}${q.category ? ` <span class="muted">· ${esc(q.category)}</span>` : ''}${q.used ? ` <span class="usedtag">${q.rejected ? '👎 rejected' : 'used'} ${esc((q.used.at || '').slice(0, 10))}</span>` : ''}</div></div><div class="row" style="gap:4px">${q.used ? `<button class="btn btn-ghost btn-sm" data-br="${esc(q.id)}" title="Back into stock as a fresh question">↺</button>` : ''}<button class="btn btn-ghost btn-sm" data-bd="${esc(q.id)}" title="Remove from the bank">✕</button></div></div>`).join('')}${rows.length > 400 ? `<p class="muted small">Showing 400 of ${rows.length}; narrow the search.</p>` : ''}</div>`;
     $('#bk_f', m).oninput = (e) => { filter = e.target.value.toLowerCase(); draw(); $('#bk_f', m).focus(); $('#bk_f', m).setSelectionRange(filter.length, filter.length); };
     $('[data-x]', m).onclick = () => m.remove();
     $('#bk_show', m).onchange = (e) => { show = e.target.value; draw(); };
     $('#bk_diff', m).onchange = (e) => { diff = e.target.value; draw(); };
     $$('[data-bd]', m).forEach((b) => b.onclick = async () => { try { await api('bank_delete', { type, id: b.dataset.bd }); list = list.filter((q) => q.id !== b.dataset.bd); draw(); } catch (e) { toast(e.message, true); } });
-    $$('[data-bv]', m).forEach((r) => r.onclick = (e) => { if (e.target.closest('button')) return; bankView(type, r.dataset.bv, list.find((q) => q.id === r.dataset.bv)); });
+    $$('[data-bv]', m).forEach((r) => r.onclick = (e) => { if (e.target.closest('button')) return; bankView(type, r.dataset.bv, list.find((q) => q.id === r.dataset.bv), draw); });
     $$('[data-br]', m).forEach((b) => b.onclick = async () => { try { await api('bank_restore', { type, id: b.dataset.br }); const q = list.find((x) => x.id === b.dataset.br); if (q) { q.used = null; q.rejected = false; } draw(); } catch (e) { toast(e.message, true); } });
   };
   draw();
 }
 /** The whole of one bank question, read-only: every option, accepted answer, item, category, picture and tag. */
-async function bankView(type, id, summary) {
+async function bankView(type, id, summary, after) {
   const m = modal(`<h3>${TYPES[type].icon} ${esc(TYPES[type].label)}</h3><p class="muted small">Loading…</p>`);
   let q;
   try { q = (await api('bank_get', { type, id })).question; } catch (e) { $('p', m).textContent = e.message; return; }
@@ -167,7 +167,9 @@ async function bankView(type, id, summary) {
   else if (q.type === 'wheel') body = kv('Phrase', `<b>${esc(q.phrase)}</b>`) + kv('Clue', esc(q.clue || q.category || ''));
   else if (q.type === 'pin') body = kv('Place', `<b>${esc(q.place)}</b>`) + kv('Map', esc(q.map || q.region || ''));
   else if (q.type === 'tune') body = kv('Track', `<b>${esc(q.track)}</b> — ${esc(q.artist)}${q.year ? ' (' + esc(String(q.year)) + ')' : ''}`) + kv('Ask', esc(q.ask || '')) + (q.previewUrl ? `<audio controls src="${esc(q.previewUrl)}" style="margin-top:8px;width:100%"></audio>` : '');
-  else if (q.type === 'smash') body = kv('Picture answer', esc(q.pictureAnswer)) + kv('Clue answer', esc(q.clueAnswer)) + kv('Smash', `<b>${esc((q.answers || [])[0] || '')}</b>`);
+  else if (q.type === 'smash') body = kv('Picture answer', esc(q.pictureAnswer)) + kv('Clue answer', esc(q.clueAnswer)) + kv('Smash', `<b>${esc(q.smash || (q.answers || [])[0] || '')}</b>`);
+  else if (q.type === 'rhyme') body = kv('First answer', `<b>${esc(q.answer1 || '')}</b>`) + kv('Second clue', esc(q.text2 || '')) + kv('Second answer', `<b>${esc(q.answer2 || '')}</b>`);
+  else if (q.type === 'wipeout') body = kv('Right answers', li((q.right || []).map((i) => i.text))) + kv('Wipeouts', li((q.wrong || []).map((i) => i.text)));
   else if (q.type === 'highlow') body = kv('Highbrow answer', `<b>${esc((q.answers || [])[0] || '')}</b>`) + kv('Lowbrow clue', esc(q.low || q.lowText || '')) + kv('Also accepted', esc((q.answers || []).slice(1).join(', ')));
   else if (q.type === 'wipeout' || q.type === 'race') body = kv(q.type === 'race' ? 'Questions' : 'Board', li((q.items || q.bank || []).map((i) => i.text + (i.right === false || i.wipeout ? ' ✗' : i.options ? ' → ' + i.options[0] : ''))));
   else body = kv('Answer', `<b>${esc((q.answers || [])[0] || '')}</b>`) + kv('Also accepted', esc((q.answers || []).slice(1).join(', '))) + kv('Rhymes with', esc(q.rhyme || '')) + kv('Second clue', esc(q.text2 || ''));
@@ -181,12 +183,95 @@ async function bankView(type, id, summary) {
   $('.modal', m).innerHTML = `<h3>${TYPES[type].icon} ${esc(TYPES[type].label)} ${q.pct ? `<span class="tag">${q.pct}%</span>` : ''} ${st}</h3>
     <div style="font-size:1.05em;margin-top:6px">${esc(q.text || q.phrase || q.place || '')}</div>${pic}${body}
     ${kv('Category', esc(q.category || ''))}${kv('Tags', (q.tags || []).map((t) => `<span class="tag">${esc(t)}</span>`).join(' '))}${kv('Time', q.time ? q.time + ' s' : '')}${kv('Difficulty', ['easy', 'medium', 'hard'].map((d) => `<button class="btn btn-sm ${q.difficulty === d ? 'btn-primary' : 'btn-ghost'}" data-rate="${d}">${d[0].toUpperCase() + d.slice(1)}</button>`).join(' ') + (q.difficulty ? '' : ' <span class="muted small">not rated yet</span>'))}
-    <div class="row" style="justify-content:flex-end;margin-top:14px;gap:6px">${q.used ? '<button class="btn btn-ghost btn-sm" data-restore>↺ Back into stock</button>' : ''}<button class="btn btn-ghost btn-sm" data-del style="color:var(--bad)">Remove from bank</button><button class="btn btn-primary btn-sm" data-x>Close</button></div>`;
+    <div class="row" style="justify-content:flex-end;margin-top:14px;gap:6px"><button class="btn btn-ghost btn-sm" data-edit>✏️ Edit</button>${q.used ? '<button class="btn btn-ghost btn-sm" data-restore>↺ Back into stock</button>' : ''}<button class="btn btn-ghost btn-sm" data-del style="color:var(--bad)">Remove from bank</button><button class="btn btn-primary btn-sm" data-x>Close</button></div>`;
   $('[data-x]', m).onclick = () => m.remove();
   const au = $('.bankaud audio', m); if (au) au.addEventListener('play', () => { if (au.currentTime < 0.5 && +au.dataset.start) au.currentTime = +au.dataset.start; }, { once: true });
-  if ($('[data-restore]', m)) $('[data-restore]', m).onclick = async () => { try { await api('bank_restore', { type, id }); if (summary) { summary.used = null; summary.rejected = false; } m.remove(); toast('Back in stock.'); } catch (e) { toast(e.message, true); } };
-  $$('[data-rate]', m).forEach((b) => b.onclick = async () => { try { await api('bank_patch', { type, patches: [{ id, difficulty: b.dataset.rate }] }); if (summary) summary.difficulty = b.dataset.rate; m.remove(); bankView(type, id, summary); } catch (e) { toast(e.message, true); } });
-  $('[data-del]', m).onclick = async () => { if (!(await confirmBox('Remove from the bank?', 'It will be gone for good.'))) return; try { await api('bank_delete', { type, id }); if (summary) summary.gone = true; m.remove(); toast('Removed.'); } catch (e) { toast(e.message, true); } };
+  $('[data-edit]', m).onclick = () => bankEdit(m, type, q, summary, after);
+  if ($('[data-restore]', m)) $('[data-restore]', m).onclick = async () => { try { await api('bank_restore', { type, id }); if (summary) { summary.used = null; summary.rejected = false; } m.remove(); after?.(); toast('Back in stock.'); } catch (e) { toast(e.message, true); } };
+  $$('[data-rate]', m).forEach((b) => b.onclick = async () => { try { await api('bank_patch', { type, patches: [{ id, difficulty: b.dataset.rate }] }); if (summary) summary.difficulty = b.dataset.rate; m.remove(); after?.(); bankView(type, id, summary, after); } catch (e) { toast(e.message, true); } });
+  $('[data-del]', m).onclick = async () => { if (!(await confirmBox('Remove from the bank?', 'It will be gone for good.'))) return; try { await api('bank_delete', { type, id }); if (summary) summary.gone = true; m.remove(); after?.(); toast('Removed.'); } catch (e) { toast(e.message, true); } };
+}
+/** Edits a bank question in place, in the viewer's own window: the wording and the answers, laid out per type.
+ *  Saving can put a rejected question straight back into stock. */
+function bankEdit(m, type, q, summary, after) {
+  const t = q.type, lines = (a) => (a || []).join('\n'), rid = (p) => p + '_' + Math.random().toString(36).slice(2, 10);
+  const inp = (k, label, v, ph = '') => `<label class="bkf"><span class="muted small">${esc(label)}</span><input type="text" data-k="${k}" value="${esc(v ?? '')}" placeholder="${esc(ph)}"></label>`;
+  const area = (k, label, v, rows = 3) => `<label class="bkf"><span class="muted small">${esc(label)}</span><textarea data-k="${k}" rows="${rows}">${esc(v ?? '')}</textarea></label>`;
+  const note = (s) => `<p class="muted small" style="margin:6px 0 0">${esc(s)}</p>`;
+  const qtext = area('text', { smash: 'Clue (for the second answer)', highlow: 'Highbrow question', rhyme: 'First clue', wipeout: 'What the right answers have in common', race: 'Title' }[t] || 'Question', q.text, 2);
+  const answers = area('answers', 'Accepted answers, one per line (the first is shown as the answer)', lines(q.answers), 3);
+  let f;
+  if (t === 'choice') f = qtext + `<div class="bkf"><span class="muted small">Options: tick the right one</span>${[0, 1, 2, 3].map((n) => { const o = (q.options || [])[n]; return `<div class="row" style="gap:8px;margin-top:4px;flex-wrap:nowrap"><input type="radio" name="bk_ok" value="${n}" ${o && o.id === q.correct ? 'checked' : ''}><input type="text" class="grow" data-opt="${n}" value="${esc(o?.text || '')}" placeholder="${n < 2 ? 'Option' : 'Option (optional)'}"></div>`; }).join('')}</div>`;
+  else if (t === 'tf') f = qtext + `<label class="bkf"><span class="muted small">Answer</span><select data-k="answer"><option value="true" ${q.answer ? 'selected' : ''}>True</option><option value="false" ${q.answer ? '' : 'selected'}>False</option></select></label>`;
+  else if (t === 'order') f = qtext + area('items', 'Items in the right order, one per line', lines((q.items || []).map((i) => i.text)), 5) + inp('hint', 'Hint', q.hint, 'e.g. earliest first');
+  else if (t === 'sort') f = qtext + (q.categories || []).map((c, n) => inp('cat' + n, `Group ${n + 1}`, c.name) + area('catitems' + n, `Goes in ${c.name || 'group ' + (n + 1)}, one per line`, lines((q.items || []).filter((i) => i.category === c.id).map((i) => i.text)), 3)).join('');
+  else if (t === 'match') f = qtext + area('pairs', 'Pairs, one per line: left | right (a picture on the right stays as it is)', lines((q.pairs || []).map((p) => p.right?.kind === 'image' ? p.left : `${p.left} | ${p.right?.value ?? p.right?.text ?? p.right ?? ''}`)), 5);
+  else if (t === 'wheel') f = inp('phrase', 'Phrase', q.phrase);
+  else if (t === 'pin') f = qtext + inp('place', 'Answer (the place)', q.place) + note('The spot on the map stays where it is, so keep the same place and change the clue.');
+  else if (t === 'highlow') f = qtext + area('lowText', 'Lowbrow question', q.lowText || q.low, 2) + answers;
+  else if (t === 'smash') f = inp('pictureAnswer', 'Picture answer (who or what is in the picture)', q.pictureAnswer) + qtext + inp('clueAnswer', 'Clue answer', q.clueAnswer) + note('The smash is worked out when you save. A new picture is found if the picture answer changes.');
+  else if (t === 'rhyme') f = qtext + inp('answer1', 'First answer', q.answer1) + area('text2', 'Second clue', q.text2, 2) + inp('answer2', 'Second answer (rhymes with the first)', q.answer2);
+  else if (t === 'tune') f = inp('track', 'Song', q.track) + inp('artist', 'Artist', q.artist) + `<label class="bkf"><span class="muted small">Players name the</span><select data-k="ask">${['song', 'artist', 'year', 'film', 'lyric'].map((a) => `<option ${q.ask === a ? 'selected' : ''}>${a}</option>`).join('')}</select></label>` + answers + note('A new clip is found if the song or artist changes.');
+  else if (t === 'wipeout') f = qtext + area('right', 'Right answers, one per line', lines((q.right || []).map((i) => i.text)), 6) + area('wrong', 'Wipeouts (wrong answers), one per line', lines((q.wrong || []).map((i) => i.text)), 5);
+  else if (t === 'race') f = qtext + area('bank', 'Questions, one per line: question | right answer | wrong | wrong | wrong', lines((q.bank || []).map((b) => [b.text, ...(b.options || [])].join(' | '))), 8);
+  else if (t === 'dingbat') f = answers + note('The picture puzzle itself stays as it is.');
+  else f = qtext + answers;
+  $('.modal', m).innerHTML = `<h3>✏️ Edit: ${TYPES[type].icon} ${esc(TYPES[type].label)}</h3>${q.used?.note ? `<p class="muted small" style="margin:0">Note: ${esc(q.used.note)}</p>` : ''}${f}
+    ${q.used ? `<label class="row" style="gap:8px;margin-top:12px;flex-wrap:nowrap"><input type="checkbox" id="bk_fresh" ${q.used.rejected ? 'checked' : ''}><span>Put it back into stock as a fresh question</span></label>` : ''}
+    <div class="row" style="justify-content:flex-end;margin-top:14px;gap:6px"><button class="btn btn-ghost btn-sm" data-cancel>Cancel</button><button class="btn btn-primary btn-sm" data-save>Save</button></div>`;
+  const val = (k) => ($(`[data-k="${k}"]`, m)?.value || '').trim();
+  const ls = (k) => val(k).split('\n').map((s) => s.trim()).filter(Boolean);
+  $('[data-cancel]', m).onclick = () => { m.remove(); bankView(type, q.id, summary, after); };
+  $('[data-save]', m).onclick = async () => {
+    const nq = JSON.parse(JSON.stringify(q)); delete nq.used;
+    try {
+      if ($('[data-k="text"]', m)) nq.text = val('text');
+      if ($('[data-k="answers"]', m)) { nq.answers = ls('answers'); if (!nq.answers.length) throw new Error('Give at least one accepted answer.'); }
+      if (t === 'choice') {
+        const opts = [0, 1, 2, 3].map((n) => ({ n, text: $(`[data-opt="${n}"]`, m).value.trim() })).filter((o) => o.text);
+        const pick = +($('input[name=bk_ok]:checked', m)?.value ?? -1);
+        if (opts.length < 2) throw new Error('A multiple-choice question needs at least two options.');
+        if (!opts.some((o) => o.n === pick)) throw new Error('Tick the right option.');
+        nq.options = opts.map((o) => ({ id: q.options?.[o.n]?.id || rid('o'), text: o.text }));
+        nq.correct = nq.options[opts.findIndex((o) => o.n === pick)].id;
+      } else if (t === 'tf') nq.answer = val('answer') === 'true';
+      else if (t === 'order') { const it = ls('items'); if (it.length < 3) throw new Error('Give at least three items.'); nq.items = it.map((text, n) => ({ id: q.items?.[n]?.id || rid('i'), text })); nq.hint = val('hint'); }
+      else if (t === 'sort') {
+        nq.categories = (q.categories || []).map((c, n) => ({ id: c.id, name: val('cat' + n) || c.name }));
+        nq.items = nq.categories.flatMap((c, n) => ls('catitems' + n).map((text) => ({ id: (q.items || []).find((i) => i.text === text && i.category === c.id)?.id || rid('i'), text, category: c.id })));
+        if (nq.items.length < 4) throw new Error('Give at least four items to sort.');
+      } else if (t === 'match') {
+        const pl = ls('pairs'); if (pl.length !== (q.pairs || []).length) throw new Error(`Keep one line for each of the ${(q.pairs || []).length} pairs.`);
+        nq.pairs = q.pairs.map((p, n) => { const [l, r] = pl[n].split('|').map((s) => s.trim()); const np = { ...p, left: l || p.left }; if (r && p.right?.kind !== 'image') np.right = typeof p.right === 'object' && p.right ? { ...p.right, value: r } : { kind: 'text', value: r }; return np; });
+      } else if (t === 'wheel') { nq.phrase = val('phrase').toUpperCase(); nq.text = nq.phrase; if (!nq.phrase) throw new Error('Give the phrase.'); }
+      else if (t === 'pin') { nq.place = val('place'); if (!nq.place) throw new Error('Give the place.'); }
+      else if (t === 'highlow') nq.lowText = val('lowText');
+      else if (t === 'smash') { nq.pictureAnswer = val('pictureAnswer'); nq.clueAnswer = val('clueAnswer'); }
+      else if (t === 'rhyme') { nq.answer1 = val('answer1'); nq.text2 = val('text2'); nq.answer2 = val('answer2'); if (!nq.answer1 || !nq.answer2 || !nq.text2) throw new Error('Fill in both clues and both answers.'); }
+      else if (t === 'tune') { nq.track = val('track'); nq.artist = val('artist'); nq.ask = val('ask'); if (!nq.track || !nq.artist) throw new Error('Give the song and the artist.'); }
+      else if (t === 'wipeout') {
+        const keep = (list, texts, p) => texts.map((text) => ({ id: (list || []).find((i) => i.text === text)?.id || rid(p), text }));
+        nq.right = keep(q.right, ls('right'), 'w'); nq.wrong = keep(q.wrong, ls('wrong'), 'w');
+        if (nq.right.length < 3 || nq.wrong.length < 2) throw new Error('Give at least three right answers and two wipeouts.');
+      } else if (t === 'race') {
+        nq.bank = ls('bank').map((line) => { const p = line.split('|').map((s) => s.trim()).filter(Boolean); if (p.length < 2) throw new Error(`“${line}” needs a question and a right answer.`); return { id: (q.bank || []).find((b) => b.text === p[0])?.id || rid('b'), text: p[0], options: p.slice(1) }; });
+        if (nq.bank.length < 5) throw new Error('A race needs at least five questions.');
+      }
+    } catch (e) { toast(e.message, true); return; }
+    const fresh = !!$('#bk_fresh', m)?.checked;
+    const btn = $('[data-save]', m); btn.disabled = true; btn.textContent = 'Saving…';
+    try {
+      const r = await api('bank_edit', { type, id: q.id, question: nq, fresh });
+      const s = r.question;
+      if (summary) {
+        summary.text = s.text || s.phrase || s.place || '';
+        summary.answer = s.type === 'choice' ? (s.options || []).find((o) => o.id === s.correct)?.text : s.type === 'tf' ? String(s.answer) : s.type === 'wheel' ? s.phrase : s.type === 'pin' ? s.place : s.type === 'order' ? (s.items || []).map((i) => i.text).join(' → ') : s.type === 'rhyme' ? [s.answer1, s.answer2].join(' / ') : s.type === 'smash' ? s.smash : s.type === 'tune' ? `${s.track} — ${s.artist}` : (s.answers || [])[0] || '';
+        if (fresh) { summary.used = null; summary.rejected = false; }
+      }
+      m.remove(); after?.(); toast(fresh ? 'Saved and back in stock.' : 'Saved.');
+      bankView(type, q.id, summary, after);
+    } catch (e) { btn.disabled = false; btn.textContent = 'Save'; toast(e.message, true); }
+  };
 }
 // ------------------------------------------------------------------ build log
 /** Every writer call for this quiz: the round, what it was told, how many came from the bank and how many the AI wrote. */
