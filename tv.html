@@ -33,7 +33,7 @@ if (MOBILE) { document.body.classList.remove('tv'); document.body.classList.add(
 const { $, $$, esc, api, TYPES, normalizeQuiz, quizForSave, timeFor, uid } = LQ;
 const view = $('#view');
 const THEMES = ['General knowledge', 'Music', 'Film & TV', 'Sport', 'Geography', 'History', 'Science & nature', 'Food & drink', 'The 80s & 90s', 'Pop culture', 'Kids', 'Christmas'];
-const SPECIALS = ['order', 'match', 'club', 'sort', 'pin', 'dingbat', 'smash', 'highlow', 'rhyme', 'wheel', 'wipeout', 'race'];
+const SPECIALS = ['order', 'tune', 'match', 'club', 'sort', 'pin', 'dingbat', 'smash', 'highlow', 'rhyme', 'wheel', 'wipeout', 'race'];
 const T = { screen: 'home', ai: false, quizzes: [], plan: null, quiz: null, busy: false };
 let toastT;
 function toast(msg, bad) { const t = $('#toast'); t.textContent = msg; t.className = 'toast show' + (bad ? ' bad' : ''); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 3500); }

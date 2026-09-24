@@ -34,6 +34,7 @@ Full scope and design decisions: [docs/SCOPE.md](docs/SCOPE.md).
 | Wheel of Fortune | A hidden phrase on the show's 12/14/14/12 board; a letter flips every few seconds; type the phrase | Right or wrong, points fall with the clock |
 | Highbrow Lowbrow | Only the scholarly clue goes on the screen; anyone stuck taps *Show me the lowbrow clue* on their phone and the easy pop-culture clue appears there alone | 1000 from the highbrow clue, 500 once you have asked for the lowbrow one (both editable); AI-judged; the screen shows how many asked |
 | The 10% Club | Logic, maths, wordplay and lateral thinking in the style of *The 1% Club*: no knowledge needed, work it out in 30s; each question is labelled by how many people get it | Flat, by rarity: 1100 − 10 × percentage, so a 90% question pays 200 and a 10% one 1000; AI-judged typed answer |
+| Name That Tune | A 30-second official preview (Apple's public search, no key, no downloads) plays on the screen behind a spinning record; players name the song, the artist, the film it's from, the year (with a tolerance) or the line that follows a lyric shown on screen; the AI picks well-known tracks and the server attaches the clip and artwork automatically, or search and pick by hand in the builder | Speed points; AI-judged text, years matched numerically |
 | Dingbats | Say what you see: a phrase hidden in how words sit on a white board (over/under, backwards, boxed, struck out, big/small); laid out in the builder or written by the AI, or a picture of one | Type the phrase; speed points; AI-judged |
 | Rhyme Time | Two clues whose answers rhyme; type both in one box | Right when both answers are there, either order, AI-judged; points fall with the clock |
 | Wipeout | Take turns picking right answers from a scattered board of up to 20 (some wrong) | Each right pick scores (default 200) and vanishes; a wrong pick costs the picker (default 500) and ends the question; running out of your 5-second turn drops you out of that question |
@@ -116,6 +117,7 @@ Each job uses the cheapest model that does it well, set in `quiz-api/index.ts`:
 |---|---|---|
 | Writing plain factual types (choice, true/false, typed, order, categorise, match, Race, Wipeout) | Sonnet 5 | up to 3 per batch |
 | Writing the craft types (10% Club, Dingbats, Rhyme Time, Highbrow Lowbrow, Answer Smash, Wheel) | Opus 5 | none |
+| Writing Name That Tune (the clip lookup does the research) | Sonnet 5 | none |
 | Judging typed answers during a game | Haiku 4.5 | none |
 | Fact-checking (*Check this round*) | Sonnet 5 | up to 6 |
 | Wipeout board top-up at game time | Sonnet 5 | none |

@@ -42,7 +42,8 @@ const MODEL = OPUS;
 const CRAFT_TYPES = ["club", "dingbat", "rhyme", "highlow", "smash", "wheel"];
 function writerPlan(types: string[], premium: boolean) {
   const craft = types.length > 0 && types.every((t) => CRAFT_TYPES.includes(t));
-  return { model: premium || craft ? OPUS : SONNET, web: !craft, searches: premium ? 6 : 3 };
+  const tune = types.length > 0 && types.every((t) => t === "tune");
+  return { model: premium || craft ? OPUS : SONNET, web: !craft && !tune, searches: premium ? 6 : 3 };
 }
 /** What a call cost, for the portal to add up. */
 function usageOf(msg: Anthropic.Message, model: string) {
@@ -458,6 +459,8 @@ Question types and their JSON shapes (use only the types you are asked for, and 
   Highbrow Lowbrow, as on House of Games: two clues with exactly the same answer. The highbrow clue is hard and scholarly (science, history, literature, the arts); the lowbrow clue is easy and from pop culture, telly, sport or everyday life. Neither clue may work for any other answer.
 - "club": {"type":"club","pct":50,"text":"If planet EARTH has a HEART, which body part does MARS have?","answers":["Arms"]}
   The 10% Club, in the style of The 1% Club: a logic, maths, pattern, wordplay or lateral-thinking puzzle that needs NO general knowledge, only working out, solvable in 30 seconds by reading the question (anagrams, letter/number patterns, "which is the odd one out", what-comes-next, counting, riddles that reward reading carefully). "pct" is how many people would get it: 90 is easy, 50 medium, 10 hard, 1 fiendish; spread the percentages across a batch and label honestly. The answer must be a single unambiguous word, number or short phrase; write the question so nothing else fits. No pictures.
+- "tune": {"type":"tune","ask":"song","track":"Last Christmas","artist":"Wham!","year":1984,"answers":["Last Christmas"]}
+  Name That Tune: a 30-second official preview of the track plays on the screen. "ask" is what players must give: "song" (the title), "artist", "year" (the year it was first released, as a number), "film" (the film the track is best known from — add "film":"Home Alone" — only for genuine film songs and themes), or "lyric" (add "cueLine": a very famous line from the song, shown on screen, and "lyricLine": the line that follows it; only for lyrics most people know). Use the exact official track title and the artist credit as on streaming services, well-known recordings only, and mix the asks across a set. "answers" holds the accepted answers for the ask (title, artist, year, film or line first). No pictures.
 - "dingbat": {"type":"dingbat","answers":["Man overboard"],"elements":[{"t":"MAN","x":50,"y":30,"s":5},{"t":"BOARD","x":50,"y":70,"s":5}]}
   Dingbats (say what you see): a well-known phrase, saying, title or word hidden in how words sit on a 16:9 white board. Each element is a word or letters with its centre at x,y (0–100, per cent of the board), size s (1 tiny … 6 huge, 4 normal), optional "rot" (degrees, e.g. 90 or -90 for a word on its side, 180 upside down), optional "flip" ("h" mirrored/backwards, "v" upside down) and optional "style" ("strike" crossed out, "underline", "box" for a word in a box, "outline" for hollow letters). Use classic devices: one word over another (over/under/on), inside a box (in/inside), repeated (e.g. "aid aid aid" = first aid), split or missing letters, tiny and huge (little/big), backwards, a word at the far left or right edge (left/right/end), high or low on the board. 1 to 6 elements; keep it fair, solvable and British. The answer is the phrase. No pictures.
 - "rhyme": {"type":"rhyme","text":"Sherlock Holmes's companion","answer1":"Watson","text2":"A large, loud gathering after dark","answer2":"Party"}
@@ -513,7 +516,7 @@ Pictures round: ${wantPictures ? "yes — give roughly half the questions a pict
 
   const questions = await Promise.all(raw.slice(0, o.count).map(async (r) => {
     const time = Math.min(90, Math.max(10, Math.round(+r.time || 25)));
-    const base: any = { id: uid("q"), type: r.type, text: String(r.text || r.phrase || "").trim(), time, media: { kind: "none" }, partial: false };
+    const base: any = { id: uid("q"), type: r.type, text: String(r.text || r.phrase || (r.type === "tune" ? r.track : "") || "").trim(), time, media: { kind: "none" }, partial: false };
     if (!base.text) return null;
 
     if (wantPictures && typeof r.picture === "string" && r.picture.trim() && r.type !== "pin") {
@@ -600,6 +603,24 @@ Pictures round: ${wantPictures ? "yes — give roughly half the questions a pict
       const answers = (Array.isArray(r.answers) ? r.answers : [r.answer]).map((s: unknown) => String(s ?? "").trim()).filter(Boolean);
       if (!lowText || !answers.length) return null;
       base.lowText = lowText; base.answers = answers; base.highPoints = 1000; base.lowPoints = 500; base.ai = true; base.time = Math.max(base.time, 40);
+      return base;
+    }
+    if (r.type === "tune") {
+      const ask = ["song", "artist", "year", "film", "lyric"].includes(r.ask) ? r.ask : "song";
+      const track = String(r.track || "").trim(), artist = String(r.artist || "").trim();
+      if (!track || !artist) return null;
+      const hit = await tuneLookup(`${track} ${artist}`, track, artist);
+      if (!hit) { warnings.push(`No preview found for “${track}” by ${artist} (question dropped).`); return null; }
+      let answers = (Array.isArray(r.answers) ? r.answers : [r.answer]).map((s: unknown) => String(s ?? "").trim()).filter(Boolean);
+      const film = String(r.film || "").trim(), lyric = String(r.lyricLine || "").trim(), cue = String(r.cueLine || "").trim();
+      if (ask === "song") answers = [hit.track, ...answers.filter((a) => norm(a) !== norm(hit.track))];
+      if (ask === "artist") answers = [hit.artist, ...answers.filter((a) => norm(a) !== norm(hit.artist))];
+      if (ask === "year") answers = [String(hit.year || r.year || "")].filter(Boolean);
+      if (ask === "film") { if (!film) return null; answers = [film, ...answers.filter((a) => norm(a) !== norm(film))]; }
+      if (ask === "lyric") { if (!lyric || !cue) return null; answers = [lyric, ...answers.filter((a) => norm(a) !== norm(lyric))]; base.cue = cue; }
+      if (!answers.length) return null;
+      base.text = ""; base.ask = ask; base.track = hit.track; base.artist = hit.artist; base.year = hit.year; base.film = film; base.answers = answers; base.tolerance = 1; base.ai = true; base.time = 30;
+      base.media = { kind: "audio", url: hit.previewUrl, artwork: hit.artwork, start: 0, length: 15, credit: "Preview via Apple Music" };
       return base;
     }
     if (r.type === "club") {
@@ -819,7 +840,7 @@ Deno.serve(async (req) => {
 
     if (action === "generate") {
       if (!ANTHROPIC_KEY) return json({ error: "AI is not set up on the server yet — add ANTHROPIC_API_KEY as a Supabase secret." }, 503);
-      const KNOWN = ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel", "highlow", "rhyme", "club", "dingbat"];
+      const KNOWN = ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel", "highlow", "rhyme", "club", "dingbat", "tune"];
       const asked = (Array.isArray(body.types) ? body.types : []).map(String);
       const types = asked.filter((t) => KNOWN.includes(t));
       const unknownTypes = asked.filter((t) => !KNOWN.includes(t));
@@ -837,6 +858,12 @@ Deno.serve(async (req) => {
         premium: body.premium === true,
       });
       return json({ ...out, unknownTypes });
+    }
+
+    if (action === "tune_search") {
+      const term = String(body.term || "").trim().slice(0, 120);
+      if (!term) return json({ error: "What song?" }, 400);
+      return json({ results: await tuneSearch(term, 8) });
     }
 
     if (action === "picture") {
@@ -919,6 +946,33 @@ Deno.serve(async (req) => {
     return json({ error: friendly(String((e as Error)?.message || e)) }, 500);
   }
 });
+
+// ---------------------------------------------------------------- Name That Tune: Apple's public search for 30-second previews
+interface TuneHit { track: string; artist: string; album: string; year: number | null; previewUrl: string; artwork: string }
+async function tuneSearch(term: string, limit = 8): Promise<TuneHit[]> {
+  const r = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(term)}&entity=song&country=GB&limit=${limit}`);
+  if (!r.ok) throw new Error("The music search is not answering right now.");
+  const d = await r.json();
+  return (d.results || []).filter((x: any) => x.previewUrl).map((x: any) => ({
+    track: String(x.trackName || ""), artist: String(x.artistName || ""), album: String(x.collectionName || ""),
+    year: x.releaseDate ? +String(x.releaseDate).slice(0, 4) : null, previewUrl: String(x.previewUrl), artwork: String(x.artworkUrl100 || ""),
+  }));
+}
+/** The best match for a track the writer named: exact title first, then title-and-artist overlap; skips karaoke and tribute versions. */
+async function tuneLookup(term: string, track: string, artist: string): Promise<TuneHit | null> {
+  let hits: TuneHit[] = [];
+  try { hits = await tuneSearch(term, 10); } catch { return null; }
+  const bad = /karaoke|tribute|in the style of|cover|instrumental|made famous|originally performed|piano dreamers/i;
+  const score = (h: TuneHit) => {
+    if (bad.test(h.track + " " + h.artist + " " + h.album)) return -1;
+    let sc = 0;
+    if (norm(h.track) === norm(track)) sc += 4; else if (norm(h.track).startsWith(norm(track))) sc += 2; else if (norm(h.track).includes(norm(track))) sc += 1;
+    if (norm(h.artist) === norm(artist)) sc += 3; else if (norm(h.artist).includes(norm(artist)) || norm(artist).includes(norm(h.artist))) sc += 2;
+    return sc;
+  };
+  const best = hits.map((h) => ({ h, sc: score(h) })).filter((x) => x.sc >= 3).sort((a, b) => b.sc - a.sc)[0];
+  return best ? best.h : null;
+}
 
 /** Turns the AI provider's raw errors into something a host can act on. */
 function friendly(msg: string): string {

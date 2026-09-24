@@ -60,6 +60,7 @@ window.LQ = (() => {
     rhyme:  { label: 'Rhyme Time',      icon: '🎤', blurb: 'Two clues whose answers rhyme. Players type both answers in one go.' },
     club:   { label: 'The 10% Club',    icon: '🧠', blurb: 'Logic, wordplay and lateral thinking. No knowledge needed, just work it out. The fewer people who get it, the more it pays.' },
     dingbat:{ label: 'Dingbats',        icon: '🔤', blurb: 'Say what you see: a well-known phrase hidden in how the words are laid out.' },
+    tune:   { label: 'Name That Tune',  icon: '🎵', blurb: 'A clip plays on the screen. Name the song, the artist, the film it is from, the year, or the next line.' },
   };
   // ---- Wheel of Fortune board: the show's four rows of 12/14/14/12 tiles ----
   const WHEEL_ROWS = [12, 14, 14, 12];
@@ -110,7 +111,7 @@ window.LQ = (() => {
     { name: 'yellow', hex: '#d89e00', shape: '●' },
     { name: 'green',  hex: '#26890c', shape: '■' },
   ];
-  const DEFAULT_TIMES = { choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45 };
+  const DEFAULT_TIMES = { choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30 };
   const DEFAULT_SETTINGS = { maxPoints: 1000, minPoints: 500, defaultTime: 30, showAnswersOnPhones: true, timeByType: { ...DEFAULT_TIMES } };
 
   /** The time limit a question of this type gets by default in this quiz. */
@@ -160,6 +161,7 @@ window.LQ = (() => {
     if (type === 'highlow') { q.lowText = ''; q.answers = ['']; q.highPoints = 1000; q.lowPoints = 500; q.ai = true; }
     if (type === 'club') { q.answers = ['']; q.pct = 50; q.ai = true; }
     if (type === 'dingbat') { q.answers = ['']; q.elements = [{ t: '', x: 50, y: 50, s: 4 }]; q.ai = true; }
+    if (type === 'tune') { q.ask = 'song'; q.track = ''; q.artist = ''; q.year = ''; q.film = ''; q.cue = ''; q.answers = ['']; q.tolerance = 1; q.media = { kind: 'audio', url: '', start: 0, length: 15 }; q.ai = true; }
     if (type === 'rhyme') { q.text2 = ''; q.answer1 = ''; q.answer2 = ''; q.ai = true; }
     if (type === 'match') { q.pairs = [0, 1, 2, 3].map(() => ({ id: uid('p'), left: '', right: { kind: 'text', value: '' } })); }
     if (type === 'tf') { q.answer = true; }
@@ -181,7 +183,7 @@ window.LQ = (() => {
       if (!(q.category || '').trim()) problems.push('Needs a category, like Phrase, Person or Place.');
       return problems;
     }
-    if (!q.text || !q.text.trim()) problems.push('Needs question text.');
+    if (q.type !== 'tune' && (!q.text || !q.text.trim())) problems.push('Needs question text.');
     if (q.type === 'choice') {
       const filled = (q.options || []).filter((o) => o.text.trim());
       if (filled.length < 2) problems.push('Needs at least two answers.');
@@ -197,6 +199,11 @@ window.LQ = (() => {
     if (q.type === 'club') {
       if (!(q.answers || []).some((a) => a.trim())) problems.push('Needs the answer.');
       if (!(q.pct >= 1 && q.pct <= 99)) problems.push('Pick how many people get it (1–99%).');
+    }
+    if (q.type === 'tune') {
+      if (!(q.media?.kind === 'audio' && q.media.url)) problems.push('Needs a clip: search for the song.');
+      if (!(q.answers || []).some((a) => String(a).trim())) problems.push('Needs the answer.');
+      if (q.ask === 'year' && !/^\d{4}$/.test(String(q.answers?.[0] || '').trim())) problems.push('The year needs four digits.');
     }
     if (q.type === 'dingbat') {
       if (!(q.answers || []).some((a) => a.trim())) problems.push('Needs the phrase it stands for.');
@@ -383,10 +390,17 @@ window.LQ = (() => {
     return rows.length ? { rows, usd: usageCost(all) } : null;
   }
 
+  // ---------------------------------------------------------------- Name That Tune
+  const TUNE_ASKS = { song: { label: 'Name the song', prompt: '🎵 Name that tune' }, artist: { label: 'Name the artist', prompt: '🎤 Who is this?' }, film: { label: 'Which film is it from?', prompt: '🎬 Which film is this music from?' }, year: { label: 'What year?', prompt: '📅 What year was this released?' }, lyric: { label: 'Next line of the lyric', prompt: '🎶 The clip stops — what is the next line?' } };
+  /** What the screen and phones ask for a tune question: the host's own wording, or the ask's default. */
+  function tunePrompt(q) { if ((q.text || '').trim()) return q.text.trim(); if (q.ask === 'lyric' && (q.cue || '').trim()) return `🎶 What line comes after: “${q.cue.trim()}”?`; return (TUNE_ASKS[q.ask] || TUNE_ASKS.song).prompt; }
+  /** Bigger Apple artwork from the 100px thumbnail the search returns. */
+  function bigArt(url) { return String(url || '').replace(/\/\d+x\d+bb\./, '/600x600bb.'); }
+
   function fmtTime(ms) { const s = Math.max(0, Math.ceil(ms / 1000)); return s + 's'; }
   function ordinal(n) { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
   return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
     TYPES, EMOJIS, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
-    newCode, playUrl, shortPlayUrl, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml, addUsage, usageCost, usageSummary, AI_PRICES };
+    newCode, playUrl, shortPlayUrl, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml, addUsage, usageCost, usageSummary, AI_PRICES, TUNE_ASKS, tunePrompt, bigArt };
 })();

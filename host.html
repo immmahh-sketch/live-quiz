@@ -107,7 +107,7 @@ function botAnswer(b, q, v) {
     const others = v.options.filter((o) => o !== right);
     return (ok || !others.length ? right : others[Math.floor(Math.random() * others.length)]).k;
   }
-  if (q.type === 'text' || q.type === 'smash' || q.type === 'wheel' || q.type === 'highlow' || q.type === 'rhyme' || q.type === 'club' || q.type === 'dingbat') {
+  if (q.type === 'text' || q.type === 'smash' || q.type === 'wheel' || q.type === 'highlow' || q.type === 'rhyme' || q.type === 'club' || q.type === 'dingbat' || q.type === 'tune') {
     if (ok) { const a = q.type === 'smash' ? q.smash : q.type === 'wheel' ? q.phrase : q.type === 'rhyme' ? `${q.answer1} ${q.answer2}` : q.answers[0]; return chance(0.3) && a.length > 4 ? a.slice(0, -1) + a.slice(-1).toLowerCase() + (chance(0.5) ? 'e' : '') : a; }
     return ['Pass', 'Not sure', 'Bob', 'Paris', '1966', 'The other one'][Math.floor(Math.random() * 6)];
   }
@@ -228,6 +228,7 @@ function answerText(q) {
   if (q.type === 'smash') return q.smash;
   if (q.type === 'wheel') return q.phrase;
   if (q.type === 'highlow') return q.answers[0];
+  if (q.type === 'tune') return q.ask === 'artist' ? q.answers[0] : q.ask === 'year' ? `${q.answers[0]} · ${q.track} – ${q.artist}` : q.ask === 'film' ? `${q.answers[0]} (${q.track})` : `${q.answers[0]}${q.ask === 'song' && q.artist ? ' – ' + q.artist : ''}`;
   if (q.type === 'rhyme') return `${q.answer1} & ${q.answer2}`;
   if (q.type === 'tf') return q.answer === false ? 'False' : 'True';
   if (q.type === 'sort') return q.categories.filter((c) => c.name.trim()).map((c) => `${c.name}: ${q.items.filter((i) => i.category === c.id && i.text.trim()).map((i) => i.text).join(', ')}`).join(' · ');
@@ -283,7 +284,7 @@ function autoDelay() {
   if (!G.auto) return 0;
   if (G.phase === 'round') return 6000;
   if (G.phase === 'scoreboard') return 6000;
-  if (G.phase === 'reveal') return ['choice', 'tf', 'highlow', 'rhyme', 'smash', 'wheel', 'club', 'dingbat'].includes(question()?.type) ? 8000 : 11000;
+  if (G.phase === 'reveal') return ['choice', 'tf', 'highlow', 'rhyme', 'smash', 'wheel', 'club', 'dingbat', 'tune'].includes(question()?.type) ? 8000 : 11000;
   return 0;
 }
 function scheduleAuto() {
@@ -323,7 +324,7 @@ function goTo(i) {
   startCountdown(i);
 }
 function startCountdown(i) {
-  clearInterval(tickT); clearInterval(countT);
+  clearInterval(tickT); clearInterval(countT); if (typeof stopTune === 'function') stopTune();
   G.qIndex = i; G.phase = 'countdown'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString();
   persist(); render(); broadcastState();
   const q = question();
@@ -380,6 +381,7 @@ function buildView(q) {
   if (q.type === 'highlow') { v.lowText = q.lowText; v.highPoints = q.highPoints ?? 1000; v.lowPoints = q.lowPoints ?? 500; }
   if (q.type === 'club') { v.pct = q.pct; v.points = LQ.clubPoints(q.pct); }
   if (q.type === 'dingbat') { v.elements = (q.elements || []).filter((e) => (e.t || '').trim()); }
+  if (q.type === 'tune') { v.text = LQ.tunePrompt(q); v.ask = q.ask; v.media = null; v.clip = q.media?.length || 15; }
   if (q.type === 'rhyme') { v.text2 = q.text2; }
   if (q.type === 'wheel') { v.text = `${q.category}: solve the puzzle`; v.layout = LQ.wheelLayout(q.phrase).map((row) => row.map((t) => t.t === 'L' ? { t: 'L' } : t)); v.category = q.category; }
   if (q.type === 'race') {
@@ -519,7 +521,7 @@ function wheelReveal() {
 }
 async function endQuestion() {
   if (G.phase !== 'question') return;
-  clearInterval(tickT); botClear();
+  clearInterval(tickT); botClear(); stopTune();
   G.phase = 'grading'; persist(); render(); broadcastState();
   try { G.q.results = await grade(); }
   catch (e) { console.error(e); toast('Scoring hit a snag: ' + e.message, true); G.q.results = await grade(true); }
@@ -655,9 +657,9 @@ async function grade(noAi) {
     stats.answered = Object.keys(w.scores).length;
     stats.picks = w.picks;
   }
-  if (q.type === 'text' || q.type === 'smash' || q.type === 'wheel' || q.type === 'highlow' || q.type === 'rhyme' || q.type === 'club' || q.type === 'dingbat') {
+  if (q.type === 'text' || q.type === 'smash' || q.type === 'wheel' || q.type === 'highlow' || q.type === 'rhyme' || q.type === 'club' || q.type === 'dingbat' || q.type === 'tune') {
     const accepted = q.type === 'smash' ? [q.smash, `${q.pictureAnswer} ${q.clueAnswer}`, `${q.pictureAnswer}${q.clueAnswer}`].filter((s) => s && s.trim()) : q.type === 'wheel' ? [q.phrase] : q.type === 'rhyme' ? [`${q.answer1} ${q.answer2}`, `${q.answer2} ${q.answer1}`] : q.answers.filter((s) => s.trim());
-    const judgeQ = q.type === 'club' ? `The 10% Club: a logic or lateral-thinking puzzle, "${q.text}". The answer is "${q.answers[0]}". Accept the same solution in other words or formats (4 / four, 12:30 / half past twelve), not a different solution.` : q.type === 'dingbat' ? `A Dingbats rebus (say what you see) whose answer is the phrase "${q.answers[0]}". Accept it with typos or tiny wording differences (a/the, plural); a different phrase is wrong.` : q.type === 'smash' ? `Answer Smash. The picture shows "${q.pictureAnswer}"; the clue "${q.text}" has the answer "${q.clueAnswer}"; the smashed answer is "${q.smash}". Accept the smash with typos or spacing differences, or a player who clearly gives both answers.` : q.type === 'wheel' ? `Wheel of Fortune puzzle, category ${q.category}. The phrase is "${q.phrase}". Accept it with typos; every word must be there.` : q.type === 'rhyme' ? `Rhyme Time: two clues, "${q.text}" (answer ${q.answer1}) and "${q.text2}" (answer ${q.answer2}). The player must give BOTH answers, in either order, typos allowed. One answer alone is wrong.` : q.type === 'highlow' ? `Highbrow Lowbrow: "${q.text}" / "${q.lowText}" — both have the answer "${q.answers[0]}".` : q.text;
+    const judgeQ = q.type === 'tune' ? `Name That Tune, asked to ${q.ask === 'artist' ? 'name the artist' : q.ask === 'film' ? 'name the film the music is from' : q.ask === 'lyric' ? 'give the next line of the lyric' : 'name the song'}: the track is "${q.track}" by ${q.artist}. The answer is "${q.answers[0]}". Accept typos, a missing "The", a subtitle left off, or a band member's name for the band.` : q.type === 'club' ? `The 10% Club: a logic or lateral-thinking puzzle, "${q.text}". The answer is "${q.answers[0]}". Accept the same solution in other words or formats (4 / four, 12:30 / half past twelve), not a different solution.` : q.type === 'dingbat' ? `A Dingbats rebus (say what you see) whose answer is the phrase "${q.answers[0]}". Accept it with typos or tiny wording differences (a/the, plural); a different phrase is wrong.` : q.type === 'smash' ? `Answer Smash. The picture shows "${q.pictureAnswer}"; the clue "${q.text}" has the answer "${q.clueAnswer}"; the smashed answer is "${q.smash}". Accept the smash with typos or spacing differences, or a player who clearly gives both answers.` : q.type === 'wheel' ? `Wheel of Fortune puzzle, category ${q.category}. The phrase is "${q.phrase}". Accept it with typos; every word must be there.` : q.type === 'rhyme' ? `Rhyme Time: two clues, "${q.text}" (answer ${q.answer1}) and "${q.text2}" (answer ${q.answer2}). The player must give BOTH answers, in either order, typos allowed. One answer alone is wrong.` : q.type === 'highlow' ? `Highbrow Lowbrow: "${q.text}" / "${q.lowText}" — both have the answer "${q.answers[0]}".` : q.text;
     const unsure = [];
     for (const [pid, a] of entries) {
       const text = String(a.answer ?? '').slice(0, 200);
@@ -679,6 +681,11 @@ async function grade(noAi) {
     if (q.type === 'highlow') {
       // Flat scores, not the speed curve: full for the highbrow clue alone, the lower figure if the phone asked for the lowbrow clue.
       for (const [pid] of entries) { const r = byPlayer[pid]; if (!r) continue; r.low = !!(G.q.low || {})[pid]; r.points = r.correct ? (r.low ? (q.lowPoints ?? 500) : (q.highPoints ?? 1000)) : 0; }
+    }
+    if (q.type === 'tune' && q.ask === 'year') {
+      // A year within the tolerance is right; no AI needed.
+      const want = parseInt(q.answers[0], 10), tol = Math.max(0, +q.tolerance || 0);
+      for (const [pid, a] of entries) { const r = byPlayer[pid]; if (!r) continue; const got = parseInt(String(a.answer).replace(/[^0-9]/g, ''), 10); r.correct = Number.isFinite(got) && Math.abs(got - want) <= tol; r.partial = r.correct ? 1 : 0; r.points = r.correct ? speedPoints(a.elapsed, q.time * 1000, G.quiz.settings) : 0; r.how = 'year'; }
     }
     if (q.type === 'club') {
       // Flat too: the show is about being right, not quick. Rarer answers pay more.
@@ -832,11 +839,29 @@ function renderQuestion() {
   if (q.type === 'order') body = `<div class="items">${v.items.map((it) => `<div class="item">${esc(it.text)}</div>`).join('')}</div><div style="opacity:.75;font-weight:800;margin-top:8px">${esc(q.hint || 'Put them in order on your phone')}</div>`;
   if (q.type === 'match') body = `<div class="items">${v.left.map((l) => `<div class="item">${esc(l.text)}</div>`).join('')}</div><div class="items mt">${v.right.map((r, i) => `<div class="item"><span class="k">${i + 1}</span>${r.kind === 'image' ? `<img src="${esc(r.value)}">` : esc(r.value)}</div>`).join('')}</div>`;
   if (q.type === 'pin') body = `<div class="item" style="justify-content:center">📍 Tap the spot on your phone</div>`;
+  if (q.type === 'tune') body = `<div class="tunestage"><div class="vinyl" id="vinyl"><div class="label"></div></div><div class="tunemeta"><div class="tunehint">${esc(LQ.tunePrompt(q))}</div><div class="tuneprog"><i id="tuneBar"></i></div><div class="small" style="opacity:.75">${q.media?.length || 15}-second clip · type on your phone${q.ask === 'year' ? ` · within ${+q.tolerance || 0} year${+q.tolerance === 1 ? '' : 's'} counts` : ''}</div><button class="btn btn-ghost btn-sm" id="tuneAgain">▶ Play the clip again</button></div></div>`;
   stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill" id="answered">0 of ${players().length} answered</span><div class="timer" id="timer" data-s="${q.time}" style="--p:100%"></div></div>`)}
     <div class="stage-main"><h1 class="qtext">${esc(q.type === 'rhyme' || q.type === 'dingbat' ? '' : q.text)}</h1>${mediaHtml(q, true)}</div>
     <div>${body}</div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">Stop the clock ■</button>`)}`;
   renderAnswered(); bind();
+  if (q.type === 'tune') { playTune(q); const b = $('#tuneAgain'); if (b) b.onclick = () => playTune(q); }
+}
+// ------------------------------------------------------------------ Name That Tune: the clip plays here, on the shared screen
+let tuneAudio = null, tuneT = null;
+function stopTune() { clearInterval(tuneT); if (tuneAudio) { try { tuneAudio.pause(); } catch {} tuneAudio = null; } const v = $('#vinyl'); if (v) v.classList.remove('spin'); }
+function playTune(q) {
+  stopTune();
+  const m = q.media || {}; if (!m.url) return;
+  const start = Math.max(0, +m.start || 0), len = Math.min(30, Math.max(3, +m.length || 15));
+  const a = new Audio(m.url); a.preload = 'auto'; tuneAudio = a;
+  const bar = $('#tuneBar'), v = $('#vinyl');
+  a.addEventListener('loadedmetadata', () => { try { a.currentTime = start; } catch {} });
+  a.addEventListener('playing', () => { if (v) v.classList.add('spin'); });
+  a.addEventListener('error', () => toast('The clip would not play. Check the connection.', true));
+  const stopAt = start + len;
+  tuneT = setInterval(() => { if (!tuneAudio) return; const t = a.currentTime - start; if (bar) bar.style.width = Math.min(100, Math.max(0, t / len * 100)) + '%'; if (a.currentTime >= stopAt) { a.pause(); clearInterval(tuneT); if (v) v.classList.remove('spin'); } }, 100);
+  a.play().catch(() => toast('Press “Play the clip again” — the browser wants a click before it plays sound.', true));
 }
 function renderAnswered() { const el = $('#answered'); if (el && G.q && !G.q.wipe) el.textContent = `${Object.keys(G.q.answers).length} of ${players().length} answered`; }
 /** The race track: one lane per runner, emoji moving with their right answers. Re-drawn on every pick. */
@@ -883,8 +908,8 @@ function renderReveal() {
     const max = Math.max(1, ...Object.values(R.stats.counts));
     body = `<div class="answers">${v.options.map((o) => { const id = G.q.keys[o.k], c = R.stats.counts[id] || 0, ok = id === LQ.correctId(q); return `<div class="ans ${ok ? '' : 'dim'}" style="background:${COLORS[o.c].hex}"><div class="bar" style="width:${(c / max) * 100}%"></div><span class="shape" style="position:relative">${COLORS[o.c].shape}</span><span style="position:relative">${esc(o.text)}</span><span class="count" style="position:relative">${c}</span>${ok ? '<span class="tick" style="position:relative">✔</span>' : ''}</div>`; }).join('')}</div>`;
   }
-  if (q.type === 'text' || q.type === 'club' || q.type === 'dingbat') {
-    const pre = q.type === 'club' ? `<div class="clubrow" style="margin-bottom:12px"><span class="clubpct">${q.pct}%</span><span class="clubnote">were expected to get it · <b>${R.stats.right} of ${n}</b> here did · ${LQ.clubPoints(q.pct)} points each</span></div>` : q.type === 'dingbat' && !(q.media?.kind === 'image' && q.media.url) ? LQ.dingbatHtml(q.elements, 'stage-db sm') : '';
+  if (q.type === 'text' || q.type === 'club' || q.type === 'dingbat' || q.type === 'tune') {
+    const pre = q.type === 'tune' ? `<div class="tunecard">${q.media?.artwork ? `<img src="${esc(LQ.bigArt(q.media.artwork))}" alt="">` : ''}<div><div class="tunetitle">${esc(q.track)}</div><div class="tuneartist">${esc(q.artist)}${q.year ? ` · ${esc(String(q.year))}` : ''}${q.film ? ` · ${esc(q.film)}` : ''}</div><div class="small" style="opacity:.6">Preview via Apple Music</div></div></div>` : q.type === 'club' ? `<div class="clubrow" style="margin-bottom:12px"><span class="clubpct">${q.pct}%</span><span class="clubnote">were expected to get it · <b>${R.stats.right} of ${n}</b> here did · ${LQ.clubPoints(q.pct)} points each</span></div>` : q.type === 'dingbat' && !(q.media?.kind === 'image' && q.media.url) ? LQ.dingbatHtml(q.elements, 'stage-db sm') : '';
     body = `${pre}<div class="item ok" style="justify-content:center;font-size:1.8rem">✔ ${esc(q.answers[0])}${q.answers.length > 1 ? `<span style="opacity:.7;font-size:.7em"> (or ${esc(q.answers.slice(1, 4).join(', '))})</span>` : ''}</div>
       <div class="textlist mt">${R.stats.texts.slice(0, 30).map((t) => `<span class="tl ${t.ok === null ? '' : t.ok ? 'ok' : 'no'}">${esc(t.text || '—')} <span style="opacity:.7;font-size:.85em">· ${esc(t.name)}</span></span>`).join('')}</div>`;
   }
