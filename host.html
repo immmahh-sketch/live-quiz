@@ -718,10 +718,12 @@ function renderLobby() {
     <div class="stage-main"><div class="lobby">
       <div class="center"><div class="qr" id="qr"></div><p class="joinurl mt">Scan, or go to <b>${esc(shortPlayUrl())}</b></p></div>
       <div class="center"><div style="opacity:.8;font-weight:800;font-size:1.3rem">and enter the code</div><div class="code">${G.code}</div>
-        <div class="players" id="players"></div></div>
+        <div class="players" id="players"></div>
+        <div class="appqr"><div class="qr" id="qr2"></div><div class="appqr-text"><b>Keep the app on your phone</b>Scan this one and add it to your home screen.<span>${esc(shortPlayUrl())}</span></div></div></div>
     </div></div>
     ${hostBar(`<button class="btn btn-ghost" data-act="builder">Back to builder</button><button class="btn btn-ghost" data-act="bots" title="Test mode: add three simulated players who answer on their own">${G.bots?.length ? `🤖 ${G.bots.length} bots · add more` : '🤖 Add test bots'}</button><button class="btn btn-primary btn-lg" data-act="primary" id="startBtn">Start ▶</button>`)}`;
   new QRCode($('#qr'), { text: url, width: 380, height: 380, correctLevel: QRCode.CorrectLevel.M });
+  new QRCode($('#qr2'), { text: new URL('play', location.href).toString(), width: 200, height: 200, correctLevel: QRCode.CorrectLevel.M });
   renderLobbyPlayers(); bind();
 }
 function renderLobbyPlayers() {

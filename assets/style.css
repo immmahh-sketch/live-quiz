@@ -340,6 +340,12 @@ body.player:has(.app.turn-wait) { background: #ffe6c2; }
 .joinurl { font-size: clamp(1rem, 1.8vw, 1.5rem); font-weight: 800; opacity: .85; word-break: break-all; }
 .players { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-height: 40vh; overflow: auto; }
 .pill { background: rgba(255,255,255,.15); border-radius: 999px; padding: 8px 18px; font-weight: 900; font-size: 1.2rem; animation: pop .25s ease; }
+.appqr { display: inline-flex; align-items: center; gap: 16px; margin-top: 22px; padding: 12px 18px 12px 12px; border-radius: 18px; background: rgba(255,255,255,.1); text-align: left; }
+.appqr .qr { padding: 8px; border-radius: 12px; }
+.appqr .qr canvas, .appqr .qr img { width: min(14vh, 120px); height: min(14vh, 120px); }
+.appqr-text { font-size: clamp(.85rem, 1.3vw, 1.05rem); font-weight: 700; opacity: .9; line-height: 1.35; max-width: 260px; }
+.appqr-text b { display: block; font-size: 1.1em; font-weight: 900; margin-bottom: 2px; }
+.appqr-text span { display: block; margin-top: 4px; color: var(--sun); font-weight: 900; }
 @keyframes pop { from { transform: scale(.6); opacity: 0; } }
 @media (max-width: 900px) { .lobby { grid-template-columns: 1fr; } }
 
