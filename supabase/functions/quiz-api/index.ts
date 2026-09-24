@@ -595,7 +595,7 @@ Pictures round: ${wantPictures ? "yes — give roughly half the questions a pict
       const answers = (Array.isArray(r.answers) ? r.answers : [r.answer]).map((s: unknown) => String(s ?? "").trim()).filter(Boolean);
       const elements = (Array.isArray(r.elements) ? r.elements : []).slice(0, 8).map((e: any) => {
         const t = String(e?.t ?? e?.text ?? "").trim(); if (!t) return null;
-        const num = (v: unknown, d: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, Number.isFinite(+v) ? +v : d));
+        const num = (v: any, d: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, Number.isFinite(+v) ? +v : d));
         const out: any = { t: t.slice(0, 40), x: num(e?.x, 50, 0, 100), y: num(e?.y, 50, 0, 100), s: num(e?.s, 4, 1, 6) };
         if (e?.rot) out.rot = num(e.rot, 0, -180, 180);
         if (e?.flip === "h" || e?.flip === "v") out.flip = e.flip;
