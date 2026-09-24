@@ -56,8 +56,10 @@ window.LQ = (() => {
     race:   { label: 'The Race',        icon: '🏁', blurb: 'A bank of quick questions on the phones. First to ten right wins the prize. Their emoji races across the screen.' },
     smash:  { label: 'Answer Smash',    icon: '🔀', blurb: 'A picture and a clue whose answers overlap. Players type the two smashed together.' },
     wheel:  { label: 'Wheel of Fortune', icon: '🎡', blurb: 'A hidden phrase on the board. Letters flip over one by one; the sooner you solve it, the more you score.' },
-    highlow:{ label: 'Highbrow Lowbrow', icon: '🎓', blurb: 'A hard, scholarly clue first. Later an easy, pop-culture clue with the same answer joins it, for half the points.' },
+    highlow:{ label: 'Highbrow Lowbrow', icon: '🎓', blurb: 'A hard, scholarly clue on the screen. Stuck? Tap your phone for the easy, pop-culture clue with the same answer, for half the points.' },
     rhyme:  { label: 'Rhyme Time',      icon: '🎤', blurb: 'Two clues whose answers rhyme. Players type both answers in one go.' },
+    club:   { label: 'The 10% Club',    icon: '🧠', blurb: 'Logic, wordplay and lateral thinking. No knowledge needed, just work it out. The fewer people who get it, the more it pays.' },
+    dingbat:{ label: 'Dingbats',        icon: '🔤', blurb: 'Say what you see: a well-known phrase hidden in how the words are laid out.' },
   };
   // ---- Wheel of Fortune board: the show's four rows of 12/14/14/12 tiles ----
   const WHEEL_ROWS = [12, 14, 14, 12];
@@ -108,7 +110,7 @@ window.LQ = (() => {
     { name: 'yellow', hex: '#d89e00', shape: '●' },
     { name: 'green',  hex: '#26890c', shape: '■' },
   ];
-  const DEFAULT_TIMES = { choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30 };
+  const DEFAULT_TIMES = { choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45 };
   const DEFAULT_SETTINGS = { maxPoints: 1000, minPoints: 500, defaultTime: 30, showAnswersOnPhones: true, timeByType: { ...DEFAULT_TIMES } };
 
   /** The time limit a question of this type gets by default in this quiz. */
@@ -155,7 +157,9 @@ window.LQ = (() => {
     if (type === 'pin') { q.media = { kind: 'image', url: '' }; q.mode = 'point'; q.pin = { x: 0.5, y: 0.5 }; q.radiusFull = 0.04; q.radiusZero = 0.2; }
     if (type === 'smash') { q.media = { kind: 'image', url: '' }; q.pictureAnswer = ''; q.clueAnswer = ''; q.smash = ''; q.ai = true; }
     if (type === 'wheel') { q.phrase = ''; q.category = 'Phrase'; q.revealEvery = 4; q.startLetters = ''; q.ai = true; }
-    if (type === 'highlow') { q.lowText = ''; q.answers = ['']; q.switchAt = 20; q.highPoints = 1000; q.lowPoints = 500; q.ai = true; }
+    if (type === 'highlow') { q.lowText = ''; q.answers = ['']; q.highPoints = 1000; q.lowPoints = 500; q.ai = true; }
+    if (type === 'club') { q.answers = ['']; q.pct = 50; q.ai = true; }
+    if (type === 'dingbat') { q.answers = ['']; q.elements = [{ t: '', x: 50, y: 50, s: 4 }]; q.ai = true; }
     if (type === 'rhyme') { q.text2 = ''; q.answer1 = ''; q.answer2 = ''; q.ai = true; }
     if (type === 'match') { q.pairs = [0, 1, 2, 3].map(() => ({ id: uid('p'), left: '', right: { kind: 'text', value: '' } })); }
     if (type === 'tf') { q.answer = true; }
@@ -190,10 +194,17 @@ window.LQ = (() => {
       if (q.mode === 'area') { if (!q.target || !(q.target.w > 0.01) || !(q.target.h > 0.01)) problems.push('Draw a box around the right thing, or pick the right tile.'); }
       else if (!q.pin) problems.push('Set where the pin goes.');
     }
+    if (q.type === 'club') {
+      if (!(q.answers || []).some((a) => a.trim())) problems.push('Needs the answer.');
+      if (!(q.pct >= 1 && q.pct <= 99)) problems.push('Pick how many people get it (1–99%).');
+    }
+    if (q.type === 'dingbat') {
+      if (!(q.answers || []).some((a) => a.trim())) problems.push('Needs the phrase it stands for.');
+      if (!(q.elements || []).some((e) => (e.t || '').trim()) && !(q.media?.kind === 'image' && q.media.url)) problems.push('Lay out the dingbat (or upload a picture of one).');
+    }
     if (q.type === 'highlow') {
       if (!(q.lowText || '').trim()) problems.push('Needs the lowbrow clue.');
       if (!(q.answers || []).some((a) => a.trim())) problems.push('Needs the answer.');
-      if (!((q.switchAt || 0) < q.time)) problems.push('The lowbrow clue must appear before the time limit ends.');
     }
     if (q.type === 'rhyme') {
       if (!(q.text2 || '').trim()) problems.push('Needs the second clue.');
@@ -332,10 +343,25 @@ window.LQ = (() => {
     q.answerIndex = ai; q.target = { ...out.rects[ai] };
   }
 
+  // ---------------------------------------------------------------- The 10% Club + Dingbats
+  /** Flat points for a 10% Club question: the rarer the right answer, the more it pays (90% → 200, 50% → 600, 10% → 1000). */
+  function clubPoints(pct) { return clamp(Math.round(1100 - 10 * (+pct || 50)), 200, 1000); }
+  const CLUB_PCTS = [90, 80, 70, 60, 50, 40, 30, 20, 10, 5, 1];
+  /** Draws a dingbat: text elements placed by percentage on a white board. Sizes 1–6; rot in degrees; flip h/v; style strike/underline/box/outline. */
+  function dingbatHtml(elements, cls = '') {
+    const els = (elements || []).filter((e) => (e.t || '').trim());
+    return `<div class="dingbat ${cls}">${els.map((e) => {
+      const sz = clamp(+e.s || 3, 1, 6);
+      const tf = ['translate(-50%,-50%)', e.rot ? `rotate(${clamp(+e.rot, -180, 180)}deg)` : '', e.flip === 'h' ? 'scaleX(-1)' : e.flip === 'v' ? 'scaleY(-1)' : ''].filter(Boolean).join(' ');
+      const color = /^#[0-9a-f]{3,8}$/i.test(e.color || '') ? `color:${e.color};` : '';
+      return `<span class="db-el ${['strike', 'underline', 'box', 'outline'].includes(e.style) ? e.style : ''}" style="left:${clamp(+e.x || 50, 0, 100)}%;top:${clamp(+e.y || 50, 0, 100)}%;font-size:${sz}em;transform:${tf};${color}">${esc(e.t)}</span>`;
+    }).join('')}</div>`;
+  }
+
   function fmtTime(ms) { const s = Math.max(0, Math.ceil(ms / 1000)); return s + 's'; }
   function ordinal(n) { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
   return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
     TYPES, EMOJIS, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
-    newCode, playUrl, shortPlayUrl, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor };
+    newCode, playUrl, shortPlayUrl, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml };
 })();

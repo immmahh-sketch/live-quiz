@@ -24,7 +24,7 @@
 const { $, $$, esc, api, TYPES, normalizeQuiz, quizForSave, timeFor, uid } = LQ;
 const view = $('#view');
 const THEMES = ['General knowledge', 'Music', 'Film & TV', 'Sport', 'Geography', 'History', 'Science & nature', 'Food & drink', 'The 80s & 90s', 'Pop culture', 'Kids', 'Christmas'];
-const SPECIALS = ['order', 'match', 'sort', 'pin', 'smash', 'highlow', 'rhyme', 'wheel', 'wipeout', 'race'];
+const SPECIALS = ['order', 'match', 'club', 'sort', 'pin', 'dingbat', 'smash', 'highlow', 'rhyme', 'wheel', 'wipeout', 'race'];
 const T = { screen: 'home', ai: false, quizzes: [], plan: null, quiz: null, busy: false };
 let toastT;
 function toast(msg, bad) { const t = $('#toast'); t.textContent = msg; t.className = 'toast show' + (bad ? ' bad' : ''); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 3500); }
@@ -43,6 +43,7 @@ function render() {
   if (s === 'login') return renderLogin();
   if (s === 'home') return renderHome();
   if (s === 'list') return renderList();
+  if (s === 'tpls') return renderTemplates();
   if (s === 'w1') return renderStep1();
   if (s === 'w2') return renderStep2();
   if (s === 'w3') return renderStep3();
@@ -79,11 +80,13 @@ function renderHome() {
     <div class="tvtiles" style="max-width:1100px">
       <button class="tvtile" id="play" data-autofocus><span class="em">▶</span>Play a saved quiz</button>
       <button class="tvtile" id="make"><span class="em">✨</span>Make a new quiz</button>
+      <button class="tvtile" id="tpls"><span class="em">📋</span>Weekly format</button>
       <button class="tvtile" id="demo"><span class="em">🎲</span>Try the demo</button>
     </div>
     <div class="row mt" style="margin-top:28px"><button class="btn btn-ghost" id="logout">Sign out</button></div>`;
   $('#play').onclick = () => go('list');
   $('#make').onclick = () => { T.plan = newPlan(); go('w1'); };
+  $('#tpls').onclick = () => go('tpls');
   $('#demo').onclick = () => location.href = 'host.html?quiz=demo&tv=1&auto=1';
   $('#logout').onclick = () => { LQ.setHostPassword(''); go('login', { replace: true }); };
 }
@@ -99,6 +102,35 @@ async function renderList() {
     <div class="row mt"><button class="btn btn-ghost" id="back">← Back</button></div></div>`;
   $$('[data-id]').forEach((b) => b.onclick = () => location.href = hostUrl(b.dataset.id));
   $('#back').onclick = () => history.back();
+}
+
+// ------------------------------------------------------------------ weekly formats (templates)
+async function renderTemplates() {
+  view.innerHTML = `${head('Weekly format', 'A saved set-up: rounds, question types and prompts. One press writes a fresh quiz in that shape.')}<p class="muted">Loading…</p>`;
+  let rows = [];
+  try { rows = (await api('list')).quizzes.filter((q) => q.template); } catch (e) { view.innerHTML += `<div class="error">${esc(e.message)}</div>`; return; }
+  if (T.screen !== 'tpls') return;
+  view.innerHTML = `${head('Weekly format', 'A saved set-up: rounds, question types and prompts. One press writes a fresh quiz in that shape.')}
+    <div style="max-width:1000px">${rows.length ? rows.map((t, i) => { const n = (t.rounds || []).reduce((a, r) => a + r.count, 0); return `<button class="tvrow" data-id="${esc(t.id)}" ${i === 0 ? 'data-autofocus' : ''}><span style="font-size:1.6rem">📋</span><span class="grow"><b style="font-size:1.35rem">${esc(t.title)}</b><br><span style="opacity:.75;font-size:1rem">${t.rounds?.length || 0} rounds · ${n} questions · ${(t.rounds || []).map((r) => esc(r.title || 'untitled')).join(', ')}</span></span><span class="btn btn-primary">✨ Write a new one</span></button>`; }).join('') : '<p class="muted">No formats saved yet. Set one up in the portal on a computer (Rounds → Save as format), or build a quiz here and save it at the last step.</p>'}
+    <div class="row mt"><button class="btn btn-ghost" id="back">← Back</button></div></div>`;
+  $$('[data-id]').forEach((b) => b.onclick = () => writeFromTemplate(b.dataset.id));
+  $('#back').onclick = () => history.back();
+}
+async function writeFromTemplate(id) {
+  if (!T.ai) return toast('AI is not switched on for this server.', true);
+  let t; try { t = normalizeQuiz((await api('get', { id })).quiz); } catch (e) { return toast(e.message, true); }
+  const when = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  const quiz = normalizeQuiz({ title: `${t.title} · ${when}`, settings: { ...t.settings, template: false }, questions: [],
+    rounds: t.rounds.map((r) => ({ id: uid('r'), title: r.title, intro: r.intro, brief: r.brief, mix: { ...r.mix } })) });
+  T.fromTemplate = true;
+  return startWriting(quiz, t.title, 'mixed');
+}
+/** Saves the wizard's set-up as a weekly format (rounds, types, prompts; no questions). */
+async function savePlanAsTemplate() {
+  const p = T.plan; ensureRoundPlans();
+  const tpl = { id: null, title: themeOf(p), settings: { template: true }, questions: [],
+    rounds: p.roundPlans.map((r, i) => ({ id: uid('r'), title: r.title || `Round ${i + 1}`, intro: '', brief: [r.theme === 'same' ? '' : `Theme: ${r.theme === 'custom' ? r.custom : r.theme}.`, r.brief, p.brief].filter((x) => x && x.trim()).join(' '), mix: { ...r.mix } })) };
+  try { await api('save', { quiz: quizForSave(normalizeQuiz(tpl)) }); toast(`Saved “${themeOf(p)}” as a weekly format.`); } catch (e) { toast(e.message, true); }
 }
 
 // ------------------------------------------------------------------ the wizard
@@ -189,20 +221,27 @@ function renderStep4() {
       <div class="tvrow"><span class="grow">Difficulty</span><b>${p.difficulty[0].toUpperCase() + p.difficulty.slice(1)}</b></div>
       ${p.roundPlans.map((r, i) => `<div class="tvrow" style="font-weight:700;opacity:.9"><span class="grow">Round ${i + 1}: ${esc(r.title || 'Round ' + (i + 1))}${r.theme !== 'same' ? ` · ${esc(r.theme === 'custom' ? r.custom : r.theme)}` : ''}</span><span>${Object.entries(r.mix).map(([t, c]) => `${c} ${TYPES[t].label}`).join(' · ')}</span></div>`).join('')}
       <p class="muted" style="margin-top:14px">Takes a few minutes: about half a minute per four questions, longer for picture rounds. ${T.ai ? '' : '<b>AI is not switched on for this server.</b>'}</p>
-      <div class="row mt"><button class="btn btn-ghost btn-lg" id="back">← Back</button><button class="btn btn-primary btn-lg" id="write" data-autofocus ${T.ai ? '' : 'disabled'}>✨ Write the quiz</button></div>
+      <div class="row mt"><button class="btn btn-ghost btn-lg" id="back">← Back</button><button class="btn btn-primary btn-lg" id="write" data-autofocus ${T.ai ? '' : 'disabled'}>✨ Write the quiz</button><button class="btn btn-ghost btn-lg" id="savefmt" title="Keep this set-up to write a fresh quiz from next week">💾 Save as weekly format</button></div>
     </div>`;
   $('#back').onclick = () => history.back();
   $('#write').onclick = writeQuiz;
+  $('#savefmt').onclick = savePlanAsTemplate;
 }
 
 // ------------------------------------------------------------------ writing it with the AI
 async function writeQuiz() {
-  const p = T.plan; if (T.busy) return; T.busy = true;
-  T.screen = 'writing'; history.pushState({ screen: 'writing' }, '', '#writing');
+  const p = T.plan;
   const quiz = normalizeQuiz({ title: themeOf(p), questions: [], rounds: p.roundPlans.map((r, i) => ({ id: uid('r'), title: r.title || `Round ${i + 1}`, intro: '', brief: [r.theme === 'same' ? '' : `Theme: ${r.theme === 'custom' ? r.custom : r.theme}.`, r.brief, p.brief].filter((s) => s && s.trim()).join(' '), mix: r.mix })) });
+  T.fromTemplate = false;
+  return startWriting(quiz, themeOf(p), p.difficulty);
+}
+/** Writes every round of a planned quiz with the AI, saving as it goes, then offers to play it. */
+async function startWriting(quiz, label, difficulty) {
+  if (T.busy) return; T.busy = true;
+  T.screen = 'writing'; history.pushState({ screen: 'writing' }, '', '#writing');
   T.quiz = quiz;
   const total = quiz.rounds.reduce((a, r) => a + r.count, 0); let written = 0;
-  const draw = (line, sub = '') => { view.innerHTML = `${head('Writing your quiz…', esc(themeOf(p)))}<div style="max-width:900px"><div class="tvrow" style="gap:18px"><span class="spinner"></span><span class="grow" id="line">${line}</span></div><div class="autobar" style="width:100%;height:12px;margin:10px 0"><i style="animation:none;transform:scaleX(${written / total})"></i></div><div style="opacity:.8;font-weight:800">${written} of ${total} written${sub ? ' · ' + sub : ''}</div><div id="qlist" class="mt"></div></div>`; };
+  const draw = (line, sub = '') => { view.innerHTML = `${head('Writing your quiz…', esc(label))}<div style="max-width:900px"><div class="tvrow" style="gap:18px"><span class="spinner"></span><span class="grow" id="line">${line}</span></div><div class="autobar" style="width:100%;height:12px;margin:10px 0"><i style="animation:none;transform:scaleX(${written / total})"></i></div><div style="opacity:.8;font-weight:800">${written} of ${total} written${sub ? ' · ' + sub : ''}</div><div id="qlist" class="mt"></div></div>`; };
   draw('Saving the plan…');
   try {
     const r = await api('save', { quiz: quizForSave(quiz) }); quiz.id = r.quiz.id;
@@ -216,7 +255,7 @@ async function writeQuiz() {
         while (got < need) {
           draw(`Round ${ri + 1}, ${esc(TYPES[type].label)}: writing ${got + 1}–${Math.min(need, got + BATCH)} of ${need}…`, rd.title);
           const usedPictures = quiz.questions.flatMap((q) => [q.media?.source, q.media?.url]).filter((s) => typeof s === 'string' && /^https?:/.test(s));
-          const res = await api('generate', { topic: (rd.brief ? `${rd.title}. ${rd.brief}` : `${rd.title}. ${themeOf(p)}`).slice(0, 200), title: rd.title, brief: rd.brief || `A ${themeOf(p)} quiz.`, usedPictures, count: Math.min(BATCH, need - got), difficulty: p.difficulty, types: [type], pictures: true, web: true, avoid }, { timeout: 170000 });
+          const res = await api('generate', { topic: (rd.brief ? `${rd.title}. ${rd.brief}` : `${rd.title}. ${label}`).slice(0, 200), title: rd.title, brief: rd.brief || `A ${label} quiz.`, usedPictures, count: Math.min(BATCH, need - got), difficulty, types: [type], pictures: true, web: true, avoid }, { timeout: 170000 });
           if (!res.questions.length || !res.questions.some((q) => q.type === type)) break;
           for (const q of res.questions) {
             q.round = rd.id; q.time = timeFor(q.type, quiz.settings);
@@ -232,7 +271,7 @@ async function writeQuiz() {
   } catch (e) {
     T.busy = false;
     view.innerHTML = `${head('That did not finish', esc(e.message))}<div class="row mt"><button class="btn btn-primary btn-lg" id="retry" data-autofocus>Try again</button><button class="btn btn-ghost btn-lg" id="home">Home</button></div><p class="muted mt">${written} question${written === 1 ? '' : 's'} were saved; the quiz is in your list and can be played or finished from the portal.</p>`;
-    $('#retry').onclick = () => { T.screen = 'w4'; render(); };
+    $('#retry').onclick = () => { if (T.fromTemplate) go('tpls', { replace: true }); else { T.screen = 'w4'; render(); } };
     $('#home').onclick = () => go('home', { replace: true });
   }
 }

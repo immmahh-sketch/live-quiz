@@ -114,19 +114,24 @@ async function loadList() {
 function renderList() {
   history.replaceState(null, '', location.pathname);
   S.quiz = null;
+  const tpls = S.quizzes.filter((q) => q.template), quizzes = S.quizzes.filter((q) => !q.template);
   $('#topRight').innerHTML = `<button class="btn btn-ghost btn-sm" id="logout">Sign out</button>`;
   $('#logout').onclick = () => { LQ.setHostPassword(''); viewLogin(); };
   view.innerHTML = `
     <div class="row" style="margin-bottom:18px"><h1 style="margin:0">Your quizzes</h1><div class="grow"></div>
       <button class="btn btn-ghost" id="aiNew">✨ Write one with AI</button>
       <button class="btn btn-primary" id="newQuiz">+ New quiz</button></div>
-    <div class="quizgrid">${S.quizzes.map(quizCard).join('')}
-      ${S.quizzes.length ? '' : '<div class="card newcard" id="newQuiz2">Create your first quiz</div>'}</div>
+    ${tpls.length ? `<div class="tplsec"><div class="row" style="margin-bottom:8px"><h2 style="margin:0">📋 Weekly formats</h2><span class="muted small">Saved set-ups: rounds, types and prompts. One click writes a fresh quiz in that format.</span></div>
+      <div class="quizgrid">${tpls.map(tplCard).join('')}</div></div>` : ''}
+    <div class="row" style="margin:${tpls.length ? '22px' : '0'} 0 8px"><h2 style="margin:0">Quizzes</h2></div>
+    <div class="quizgrid">${quizzes.map(quizCard).join('')}
+      ${quizzes.length ? '' : '<div class="card newcard" id="newQuiz2">Create your first quiz</div>'}</div>
     <div id="games" class="mt"></div>`;
   $('#newQuiz').onclick = newQuiz;
   if ($('#newQuiz2')) $('#newQuiz2').onclick = newQuiz;
   $('#aiNew').onclick = () => aiModal(true);
   $$('[data-open]').forEach((b) => b.onclick = () => openQuiz(b.dataset.open));
+  $$('[data-tnew]').forEach((b) => b.onclick = () => newFromTemplate(b.dataset.tnew));
   $$('[data-host]').forEach((b) => b.onclick = () => window.open('host.html?quiz=' + b.dataset.host, '_blank'));
   $$('[data-dup]').forEach((b) => b.onclick = () => duplicateQuiz(b.dataset.dup));
   $$('[data-del]').forEach((b) => b.onclick = async () => {
@@ -134,6 +139,46 @@ function renderList() {
     if (!(await confirmBox('Delete this quiz?', `“${q.title}” and its ${q.count} questions will be gone for good.`))) return;
     try { await api('delete', { id: q.id }); toast('Deleted'); loadList(); } catch (e) { toast(e.message, true); }
   });
+}
+function tplCard(t) {
+  const n = (t.rounds || []).reduce((a, r) => a + r.count, 0);
+  const types = [...new Set((t.rounds || []).flatMap((r) => r.types))];
+  return `<div class="card quizcard tpl"><h3>📋 ${esc(t.title)}</h3>
+    <div class="muted small">${t.rounds?.length || 0} round${t.rounds?.length === 1 ? '' : 's'} · ${n} question${n === 1 ? '' : 's'}${t.rounds?.length ? ' · ' + t.rounds.map((r) => esc(r.title || 'untitled')).join(', ') : ''}</div>
+    <div class="types">${types.slice(0, 5).map((x) => `<span class="tag">${esc(TYPES[x]?.label || x)}</span>`).join('')}${types.length > 5 ? `<span class="tag" style="background:var(--paper);color:var(--ink-3)">+${types.length - 5} more</span>` : ''}</div>
+    <div class="actions"><button class="btn btn-primary btn-sm" data-tnew="${t.id}" ${S.ai ? '' : 'disabled'}>✨ New quiz from this</button>
+      <button class="btn btn-sm" data-open="${t.id}">Edit format</button>
+      <button class="btn btn-ghost btn-sm" data-del="${t.id}" style="color:var(--bad)">Delete</button></div></div>`;
+}
+/** One click: a fresh quiz with the template's rounds, then the AI writes every round. */
+async function newFromTemplate(id) {
+  let t;
+  try { t = normalizeQuiz((await api('get', { id })).quiz); } catch (e) { return toast(e.message, true); }
+  const when = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  const quiz = normalizeQuiz({ title: `${t.title.replace(/\s*\(format\)$/i, '')} · ${when}`, settings: { ...t.settings, template: false }, questions: [],
+    rounds: t.rounds.map((r) => ({ id: uid('r'), title: r.title, intro: r.intro, brief: r.brief, mix: { ...r.mix } })) });
+  S.quiz = quiz; S.sel = 0; S.planner = true; S.dirty = true;
+  renderEditor();
+  await save();
+  if (!S.quiz.id) return;
+  toast(`New quiz from “${t.title}” — writing it now…`);
+  try { await writeAllRounds(); } catch {}
+}
+/** Saves this quiz's set-up (rounds, types, prompts, settings) as a reusable format, without its questions. */
+async function saveAsTemplate() {
+  const qz = S.quiz;
+  const m = modal(`<h3>💾 Save as a weekly format</h3><p class="muted small">Keeps the rounds, how many of each type, and the AI prompts. Not the questions, so every quiz written from it is fresh.</p>
+    <div class="field"><label>Name</label><input type="text" id="tpl_name" value="${esc(qz.title.replace(/\s*·.*$/, ''))}" placeholder="e.g. Tuesday pub quiz"></div>
+    <div class="row mt" style="justify-content:flex-end"><button class="btn btn-ghost" data-x>Cancel</button><button class="btn btn-primary" data-ok>Save format</button></div>`);
+  $('[data-x]', m).onclick = () => m.remove();
+  $('[data-ok]', m).onclick = async () => {
+    const name = $('#tpl_name', m).value.trim() || qz.title;
+    const tpl = { id: null, title: name, settings: { ...qz.settings, template: true }, questions: [],
+      rounds: qz.rounds.map((r) => ({ id: uid('r'), title: r.title, intro: r.intro, brief: r.brief, mix: { ...r.mix } })) };
+    try { await api('save', { quiz: quizForSave(normalizeQuiz(tpl)) }); m.remove(); toast(`Saved. “${name}” is under Weekly formats on the quiz list.`); }
+    catch (e) { toast('Could not save the format: ' + e.message, true); }
+  };
+  setTimeout(() => $('#tpl_name', m).select(), 50);
 }
 function quizCard(q) {
   return `<div class="card quizcard"><h3>${esc(q.title)}</h3>
@@ -269,7 +314,8 @@ function pickType(roundId) {
 function renderPlanner(focusId) {
   const box = $('#qform'); const qz = S.quiz;
   const countIn = (r) => qz.questions.filter((q) => q.round === r.id).length;
-  box.innerHTML = `<div class="row" style="justify-content:space-between;margin-bottom:12px"><h3 style="margin:0">📋 Rounds</h3><div class="row"><button class="btn btn-ghost btn-sm" id="pl_close">Back to questions</button><button class="btn btn-primary btn-sm" id="pl_writeall" ${S.ai ? '' : 'disabled'}>✨ Write every round with AI</button></div></div>
+  box.innerHTML = `<div class="row" style="justify-content:space-between;margin-bottom:12px"><h3 style="margin:0">📋 Rounds</h3><div class="row"><button class="btn btn-ghost btn-sm" id="pl_close">Back to questions</button><button class="btn btn-ghost btn-sm" id="pl_tpl" title="Keep this set-up (rounds, types, prompts) to write a fresh quiz from later">💾 Save as format</button><button class="btn btn-primary btn-sm" id="pl_writeall" ${S.ai ? '' : 'disabled'}>✨ Write every round with AI</button></div></div>
+    ${qz.settings.template ? '<div class="notice" style="margin-bottom:12px">📋 This is a <b>weekly format</b>: a saved set-up with no questions of its own. Change the rounds, types and prompts here; then on the quiz list press <b>New quiz from this</b> to write a fresh quiz in this shape.</div>' : ''}
     <p class="muted small">Set each round up here: what it's called, what it's about, how many questions, which types, and what to tell the AI. Then write a round, or all of them, with AI — or add questions by hand from the list on the left.</p>
     <div class="rplan">${qz.rounds.map((r, i) => `<div class="rcard" data-r="${r.id}">
       <div class="rhead"><span class="badge">Round ${i + 1}</span><input type="text" data-pt="${r.id}" value="${esc(r.title)}" placeholder="Round title, e.g. Sports" style="font-weight:900;font-size:1.05rem;max-width:420px"><div class="grow"></div><span class="muted small">${countIn(r)} question${countIn(r) === 1 ? '' : 's'} so far</span>${qz.rounds.length > 1 ? `<button class="btn btn-ghost btn-sm" data-pdel="${r.id}" style="color:var(--bad)">Delete</button>` : ''}</div>
@@ -289,7 +335,8 @@ function renderPlanner(focusId) {
   $$('[data-padd]').forEach((b) => b.onclick = () => pickType(b.dataset.padd));
   $('#pl_add').onclick = () => { qz.rounds.push({ id: uid('r'), title: `Round ${qz.rounds.length + 1}`, intro: '', brief: '', mix: { choice: 5, text: 3 }, count: 8, types: ['choice', 'text'] }); touch(); renderQList(); renderPlanner(qz.rounds[qz.rounds.length - 1].id); };
   $('#pl_close').onclick = () => { S.planner = false; renderQForm(); };
-  $('#pl_writeall').onclick = () => writeAllRounds();
+  $('#pl_writeall').onclick = () => { if (S.quiz.settings.template) return toast('This is a format. Write a quiz from it on the quiz list with “New quiz from this”.', true); writeAllRounds(); };
+  $('#pl_tpl').onclick = saveAsTemplate;
   if (focusId) $(`[data-pt="${focusId}"]`)?.focus();
 }
 /** What a round still needs, type by type: its mix minus what is already in it. */
@@ -369,7 +416,7 @@ function renderQForm() {
     <div class="row" style="justify-content:space-between;margin-bottom:10px"><h3 style="margin:0">Question ${n} <span class="muted">· ${TYPES[q.type].icon} ${esc(TYPES[q.type].label)}</span></h3>
       <div class="row"><button class="btn btn-ghost btn-sm" id="dupQ">Duplicate</button><button class="btn btn-ghost btn-sm" id="delQ" style="color:var(--bad)">Delete</button></div></div>
     ${ck ? `<div class="checknote ${ck}"><b>${{ ok: '✓ Checked: looks right.', doubt: '? Worth a look.', wrong: '✗ Looks wrong.', stale: '~ Changed since it was checked.' }[ck]}</b> ${esc(q.check.note || '')}${q.check.fix && ck !== 'ok' ? `<div class="mt" style="margin-top:6px"><b>Suggested answer:</b> ${esc(q.check.fix)}</div>` : ''}<div class="row" style="margin-top:8px;gap:6px"><button class="btn btn-ghost btn-sm" id="recheck">Check again</button><button class="btn btn-ghost btn-sm" id="clearCheck">Dismiss</button></div></div>` : ''}
-    ${q.type === 'wheel' ? '' : `<div class="field"><label>${q.type === 'smash' ? 'The clue' : q.type === 'highlow' ? 'The highbrow clue' : q.type === 'rhyme' ? 'The first clue' : 'Question'}</label><textarea id="f_text" placeholder="${esc(placeholderFor(q.type))}">${esc(q.text)}</textarea></div>`}
+    ${q.type === 'wheel' ? '' : `<div class="field"><label>${q.type === 'smash' ? 'The clue' : q.type === 'highlow' ? 'The highbrow clue' : q.type === 'rhyme' ? 'The first clue' : q.type === 'dingbat' ? 'Instruction on the screen (optional)' : 'Question'}</label><textarea id="f_text" placeholder="${esc(placeholderFor(q.type))}">${esc(q.text)}</textarea></div>`}
     <div id="typeBox"></div>
     ${q.type === 'wheel' ? '' : `<div class="field"><label>${q.type === 'pin' ? 'Picture to drop the pin on' : q.type === 'smash' ? 'The picture' : 'On the screen'}</label><div id="mediaBox"></div></div>`}
     <div class="row" style="align-items:flex-end">
@@ -377,7 +424,7 @@ function renderQForm() {
       ${q.type === 'wipeout' ? `<div class="field" style="max-width:160px"><label>Points per right pick</label><input type="number" id="f_pick" min="0" max="5000" value="${q.pickPoints ?? 200}"></div><div class="field" style="max-width:160px"><label>Wipeout penalty</label><input type="number" id="f_penalty" min="0" max="5000" value="${q.penalty ?? 500}"></div><div class="field" style="max-width:190px"><label>Look at the board first (seconds)</label><input type="number" id="f_study" min="0" max="60" value="${q.study ?? 10}"></div>` : ''}
       ${S.quiz.rounds.length > 1 ? `<div class="field" style="max-width:240px"><label>Round</label><select id="f_round">${S.quiz.rounds.map((r, i) => `<option value="${r.id}" ${r.id === q.round ? 'selected' : ''}>${i + 1}. ${esc(r.title || 'Untitled round')}</option>`).join('')}</select></div>` : ''}
       ${q.type === 'order' || q.type === 'match' || q.type === 'sort' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_partial" ${q.partial ? 'checked' : ''}> Partial credit for partly right</label>` : ''}
-      ${q.type === 'text' || q.type === 'highlow' || q.type === 'rhyme' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_ai" ${q.ai !== false ? 'checked' : ''}> Let AI judge spelling and wording</label>` : ''}
+      ${q.type === 'text' || q.type === 'highlow' || q.type === 'rhyme' || q.type === 'club' || q.type === 'dingbat' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_ai" ${q.ai !== false ? 'checked' : ''}> Let AI judge spelling and wording</label>` : ''}
     </div>
     <div id="problems"></div>`;
   if ($('#f_text')) $('#f_text').oninput = (e) => { q.text = e.target.value; touch(); refreshTile(); };
@@ -395,7 +442,7 @@ function renderQForm() {
   renderTypeBox(); if ($('#mediaBox')) renderMediaBox(); showProblems();
 }
 function placeholderFor(t) {
-  return { choice: 'e.g. Which planet is closest to the Sun?', text: 'e.g. Who painted the Mona Lisa?', order: 'e.g. Put these events in order, earliest first', pin: 'e.g. Drop the pin on Namibia', match: 'e.g. Match the dog breed to its picture', race: 'e.g. The Race: capital cities', smash: 'e.g. Sega\'s blue hedgehog', highlow: 'e.g. Which chemical element, atomic number 79, has the symbol Au?', rhyme: 'e.g. Sherlock Holmes\'s companion', tf: 'e.g. The Great Wall of China is visible from space', sort: 'e.g. Sort these actors: who has been in Coronation Street?', wipeout: 'e.g. Footballers who have played for Newcastle United' }[t] || '';
+  return { choice: 'e.g. Which planet is closest to the Sun?', text: 'e.g. Who painted the Mona Lisa?', order: 'e.g. Put these events in order, earliest first', pin: 'e.g. Drop the pin on Namibia', match: 'e.g. Match the dog breed to its picture', race: 'e.g. The Race: capital cities', smash: 'e.g. Sega\'s blue hedgehog', highlow: 'e.g. Which chemical element, atomic number 79, has the symbol Au?', club: 'e.g. If planet Earth has a Heart, which body part does Mars have?', dingbat: 'e.g. Say what you see', rhyme: 'e.g. Sherlock Holmes\'s companion', tf: 'e.g. The Great Wall of China is visible from space', sort: 'e.g. Sort these actors: who has been in Coronation Street?', wipeout: 'e.g. Footballers who have played for Newcastle United' }[t] || '';
 }
 function refreshTile() { const t = $(`.qtile[data-i="${S.sel}"] .t`); const q = cur(); if (t) t.innerHTML = t.querySelector('small').outerHTML + (esc(q.text) || '<span class="muted">Untitled question</span>'); }
 function showProblems() { const p = validate(cur()); const el = $('#problems'); if (el) el.innerHTML = p.length ? `<div class="notice">${esc(p.join(' '))}</div>` : ''; const tile = $(`.qtile[data-i="${S.sel}"] .mv`); if (tile) { const w = tile.querySelector('.warn'); if (p.length && !w) tile.insertAdjacentHTML('afterbegin', '<span class="warn">!</span>'); if (!p.length && w) w.remove(); } }
@@ -511,19 +558,51 @@ function renderTypeBox() {
     if ($('#rZero')) $('#rZero').oninput = (e) => { q.radiusZero = Math.max(+e.target.value / 100, q.radiusFull); e.target.value = (q.radiusZero * 100).toFixed(1); $('#rZeroV').textContent = e.target.value; touch(); renderPinPick(); };
   }
   if (q.type === 'highlow') {
-    box.innerHTML = `<div class="notice" style="margin-bottom:12px">Highbrow Lowbrow: the scholarly clue above goes up on its own first. After <b>${q.switchAt}</b> seconds the lowbrow clue joins it. A right answer while only the highbrow clue is showing scores <b>${q.highPoints}</b>; once the lowbrow clue is up, <b>${q.lowPoints}</b>.</div>
+    box.innerHTML = `<div class="notice" style="margin-bottom:12px">Highbrow Lowbrow: only the scholarly clue above goes on the screen. Anyone stuck can tap <b>Show me the lowbrow clue</b> on their phone; it appears on that phone only. A right answer from the highbrow clue alone scores <b>${q.highPoints}</b>; after asking for the lowbrow clue, <b>${q.lowPoints}</b>.</div>
       <div class="field"><label>The lowbrow clue <span class="muted">— easier, pop culture, same answer</span></label><textarea id="hl_low" placeholder="e.g. Rick Astley promised he'd never do this to you">${esc(q.lowText || '')}</textarea></div>
       <div class="field"><label>Accepted answers <span class="muted">— the first is shown as the answer</span></label>
         ${q.answers.map((a, i) => `<div class="list-item"><div class="n">${i === 0 ? '★' : ''}</div><input type="text" data-ans="${i}" value="${esc(a)}" placeholder="${i === 0 ? 'The answer' : 'Also accept…'}"><button class="btn btn-ghost btn-sm" data-rm-ans="${i}" ${q.answers.length === 1 ? 'disabled' : ''}>✕</button></div>`).join('')}
         <button class="btn btn-ghost btn-sm" id="addAns">+ Another accepted answer</button></div>
-      <div class="row"><div class="field" style="max-width:180px"><label>Lowbrow clue appears after (s)</label><input type="number" id="hl_switch" min="3" max="170" value="${q.switchAt}"></div><div class="field" style="max-width:160px"><label>Highbrow points</label><input type="number" id="hl_high" min="0" max="10000" value="${q.highPoints}"></div><div class="field" style="max-width:160px"><label>Lowbrow points</label><input type="number" id="hl_lowp" min="0" max="10000" value="${q.lowPoints}"></div></div>`;
+      <div class="row"><div class="field" style="max-width:160px"><label>Highbrow points</label><input type="number" id="hl_high" min="0" max="10000" value="${q.highPoints}"></div><div class="field" style="max-width:160px"><label>Lowbrow points</label><input type="number" id="hl_lowp" min="0" max="10000" value="${q.lowPoints}"></div></div>`;
     $('#hl_low').oninput = (e) => { q.lowText = e.target.value; touch(); showProblems(); };
     $$('[data-ans]').forEach((inp) => inp.oninput = () => { q.answers[+inp.dataset.ans] = inp.value; touch(); showProblems(); });
     $$('[data-rm-ans]').forEach((b) => b.onclick = () => { q.answers.splice(+b.dataset.rmAns, 1); touch(); renderTypeBox(); showProblems(); });
     $('#addAns').onclick = () => { q.answers.push(''); touch(); renderTypeBox(); $$('[data-ans]').pop().focus(); };
-    $('#hl_switch').onchange = (e) => { q.switchAt = LQ.clamp(+e.target.value || 20, 3, 170); touch(); renderTypeBox(); showProblems(); };
     $('#hl_high').onchange = (e) => { q.highPoints = LQ.clamp(+e.target.value || 0, 0, 10000); touch(); renderTypeBox(); };
     $('#hl_lowp').onchange = (e) => { q.lowPoints = LQ.clamp(+e.target.value || 0, 0, 10000); touch(); renderTypeBox(); };
+  }
+  if (q.type === 'club') {
+    box.innerHTML = `<div class="notice" style="margin-bottom:12px">The 10% Club: a logic, maths, wordplay or lateral-thinking question that needs no knowledge, only working out, in ${q.time} seconds. Everyone who gets it scores the same, and the rarer the answer the more it pays: <b>${LQ.clubPoints(q.pct)}</b> points for a ${q.pct}% question.</div>
+      <div class="field" style="max-width:320px"><label>How many people get it</label><select id="cl_pct">${LQ.CLUB_PCTS.map((p) => `<option value="${p}" ${p === q.pct ? 'selected' : ''}>${p}% question · ${LQ.clubPoints(p)} points</option>`).join('')}</select></div>
+      <div class="field"><label>Accepted answers <span class="muted">— the first is shown as the answer</span></label>
+        ${q.answers.map((a, i) => `<div class="list-item"><div class="n">${i === 0 ? '★' : ''}</div><input type="text" data-ans="${i}" value="${esc(a)}" placeholder="${i === 0 ? 'The answer' : 'Also accept…'}"><button class="btn btn-ghost btn-sm" data-rm-ans="${i}" ${q.answers.length === 1 ? 'disabled' : ''}>✕</button></div>`).join('')}
+        <button class="btn btn-ghost btn-sm" id="addAns">+ Another accepted answer</button></div>`;
+    $('#cl_pct').onchange = (e) => { q.pct = +e.target.value; touch(); renderTypeBox(); };
+    $$('[data-ans]').forEach((inp) => inp.oninput = () => { q.answers[+inp.dataset.ans] = inp.value; touch(); showProblems(); });
+    $$('[data-rm-ans]').forEach((b) => b.onclick = () => { q.answers.splice(+b.dataset.rmAns, 1); touch(); renderTypeBox(); showProblems(); });
+    $('#addAns').onclick = () => { q.answers.push(''); touch(); renderTypeBox(); $$('[data-ans]').pop().focus(); };
+  }
+  if (q.type === 'dingbat') {
+    q.elements = Array.isArray(q.elements) ? q.elements : [];
+    box.innerHTML = `<div class="notice" style="margin-bottom:12px">Dingbats: say what you see. Lay words out on the board so their position, size, direction or decoration spells a phrase: MAN over BOARD = <i>man overboard</i>; a reversed WORD = <i>backwards</i>; a big and a tiny word = <i>big/little</i>; a struck-through word = <i>crossed out</i>. Or upload a picture of a dingbat instead.</div>
+      <div class="field"><label>The board <span class="muted">— live preview</span></label><div id="db_prev">${LQ.dingbatHtml(q.elements)}</div></div>
+      <div class="field"><label>Words on the board</label>
+        ${q.elements.map((e, i) => `<div class="list-item dbrow"><input type="text" data-dt="${i}" value="${esc(e.t || '')}" placeholder="Word"><label>x <input type="number" data-dx="${i}" min="0" max="100" value="${e.x ?? 50}"></label><label>y <input type="number" data-dy="${i}" min="0" max="100" value="${e.y ?? 50}"></label><label>size <input type="number" data-ds="${i}" min="1" max="6" value="${e.s ?? 4}"></label><label>turn <input type="number" data-dr="${i}" min="-180" max="180" value="${e.rot ?? 0}"></label><select data-df="${i}"><option value="">as is</option><option value="h" ${e.flip === 'h' ? 'selected' : ''}>mirrored</option><option value="v" ${e.flip === 'v' ? 'selected' : ''}>upside down</option></select><select data-dst="${i}"><option value="">plain</option>${['strike', 'underline', 'box', 'outline'].map((st) => `<option value="${st}" ${e.style === st ? 'selected' : ''}>${st}</option>`).join('')}</select><button class="btn btn-ghost btn-sm" data-drm="${i}">✕</button></div>`).join('')}
+        <button class="btn btn-ghost btn-sm" id="db_add">+ Another word</button></div>
+      <div class="field"><label>The phrase <span class="muted">— accepted answers, the first is shown</span></label>
+        ${q.answers.map((a, i) => `<div class="list-item"><div class="n">${i === 0 ? '★' : ''}</div><input type="text" data-ans="${i}" value="${esc(a)}" placeholder="${i === 0 ? 'e.g. Man overboard' : 'Also accept…'}"><button class="btn btn-ghost btn-sm" data-rm-ans="${i}" ${q.answers.length === 1 ? 'disabled' : ''}>✕</button></div>`).join('')}
+        <button class="btn btn-ghost btn-sm" id="addAns">+ Another accepted answer</button></div>`;
+    const prev = () => { $('#db_prev').innerHTML = LQ.dingbatHtml(q.elements); touch(); showProblems(); };
+    const num = (attr, key, lo, hi) => $$(`[${attr}]`).forEach((inp) => inp.oninput = () => { q.elements[+inp.getAttribute(attr)][key] = LQ.clamp(+inp.value || 0, lo, hi); prev(); });
+    $$('[data-dt]').forEach((inp) => inp.oninput = () => { q.elements[+inp.dataset.dt].t = inp.value; prev(); });
+    num('data-dx', 'x', 0, 100); num('data-dy', 'y', 0, 100); num('data-ds', 's', 1, 6); num('data-dr', 'rot', -180, 180);
+    $$('[data-df]').forEach((sel) => sel.onchange = () => { q.elements[+sel.dataset.df].flip = sel.value; prev(); });
+    $$('[data-dst]').forEach((sel) => sel.onchange = () => { q.elements[+sel.dataset.dst].style = sel.value; prev(); });
+    $$('[data-drm]').forEach((b) => b.onclick = () => { q.elements.splice(+b.dataset.drm, 1); touch(); renderTypeBox(); showProblems(); });
+    $('#db_add').onclick = () => { q.elements.push({ t: '', x: 50, y: q.elements.length ? 70 : 50, s: 4 }); touch(); renderTypeBox(); $$('[data-dt]').pop().focus(); };
+    $$('[data-ans]').forEach((inp) => inp.oninput = () => { q.answers[+inp.dataset.ans] = inp.value; touch(); showProblems(); });
+    $$('[data-rm-ans]').forEach((b) => b.onclick = () => { q.answers.splice(+b.dataset.rmAns, 1); touch(); renderTypeBox(); showProblems(); });
+    $('#addAns').onclick = () => { q.answers.push(''); touch(); renderTypeBox(); $$('[data-ans]').pop().focus(); };
   }
   if (q.type === 'rhyme') {
     box.innerHTML = `<div class="notice" style="margin-bottom:12px">Rhyme Time: two clues on the screen whose answers rhyme. Players type both answers in one box, first then second. <i>Sherlock's sidekick</i> + <i>Famous Bermondsey bottle</i>… the answers just need to rhyme.</div>
@@ -776,6 +855,8 @@ function summaryOf(q) {
   if (q.type === 'race') lines.push(`Race to ${q.target} right. Bank (right answer first, then wrong ones):\n` + q.bank.filter((b) => b.text.trim()).map((b, i) => `${i + 1}. ${b.text} — RIGHT: ${b.options[0]}; wrong: ${b.options.slice(1).filter(Boolean).join(', ')}`).join('\n'));
   if (q.type === 'match') lines.push('Pairs (left → right): ' + q.pairs.map((p) => `${p.left} → ${p.right.kind === 'image' ? '[a picture — cannot be checked here, treat as fine]' : p.right.value}`).join(' | '));
   if (q.type === 'highlow') lines.push(`Highbrow Lowbrow: both clues must have the same answer. Highbrow clue: ${q.text}. Lowbrow clue: ${q.lowText}. Accepted answers: ${q.answers.filter((a) => a.trim()).join(' | ')}. Check each clue really leads to that answer and nothing else.`);
+  if (q.type === 'club') lines.push(`The 10% Club (logic/lateral thinking, no knowledge needed), billed as a ${q.pct}% question. Accepted answers: ${q.answers.filter((a) => a.trim()).join(' | ')}. Check the puzzle has exactly that answer, is solvable by reasoning alone within 30 seconds, and that the difficulty roughly matches the percentage.`);
+  if (q.type === 'dingbat') lines.push(`Dingbats rebus. Words on the board: ${(q.elements || []).filter((e) => (e.t || '').trim()).map((e) => `"${e.t}" at x${e.x} y${e.y} size ${e.s}${e.rot ? ` rotated ${e.rot}°` : ''}${e.flip === 'h' ? ' mirrored' : e.flip === 'v' ? ' upside down' : ''}${e.style ? ` ${e.style}` : ''}`).join('; ')}. Answer: ${q.answers[0]}. Check the layout genuinely suggests that phrase and no other.`);
   if (q.type === 'rhyme') lines.push(`Rhyme Time: clue 1 "${q.text}" → ${q.answer1}; clue 2 "${q.text2}" → ${q.answer2}. Check each clue leads only to its answer, and that the two answers rhyme.`);
   if (q.type === 'wheel') lines.push(`Wheel of Fortune puzzle. Category: ${q.category}. Phrase: ${q.phrase}. Check the phrase is a real, correctly spelt phrase/title/name and that the category fits it.`);
   if (q.type === 'smash') lines.push(`Answer Smash. The picture shows: ${q.pictureAnswer}. The clue's answer: ${q.clueAnswer}. The smashed answer players must type: ${q.smash}. Check the clue really leads to that answer, the picture subject is right, and the two overlap as claimed.`);

@@ -33,6 +33,8 @@ window.DEMO_QUIZ = {
     { id: 'd10', round: 'r3', type: 'wipeout', text: 'Wipeout: countries in Africa', time: 5, media: { kind: 'none' }, pickPoints: 200, penalty: 500,
       right: ['Nigeria', 'Kenya', 'Ghana', 'Egypt', 'Morocco', 'Ethiopia', 'Senegal', 'Tanzania', 'Uganda', 'Zambia', 'Namibia', 'Botswana', 'Mali', 'Tunisia', 'Angola'].map((t, i) => ({ id: 'd10r' + i, text: t })),
       wrong: ['Yemen', 'Oman', 'Suriname', 'Nepal', 'Georgia'].map((t, i) => ({ id: 'd10w' + i, text: t })) },
+    { id: 'd15', round: 'r3', type: 'club', text: 'If planet EARTH has a HEART, which body part does MARS have?', pct: 60, answers: ['Arms', 'Arm'], time: 30, ai: true, media: { kind: 'none' } },
+    { id: 'd16', round: 'r3', type: 'dingbat', text: 'Say what you see', elements: [{ t: 'MAN', x: 50, y: 30, s: 5 }, { t: 'BOARD', x: 50, y: 70, s: 5 }], answers: ['Man overboard'], time: 40, ai: true, media: { kind: 'none' } },
     { id: 'd13', round: 'r3', type: 'highlow', text: 'Which element, atomic number 79, is the most malleable of all metals?', lowText: 'Spandau Ballet said this is what you are', answers: ['Gold'], switchAt: 8, highPoints: 1000, lowPoints: 500, time: 20, ai: true, media: { kind: 'none' } },
     { id: 'd14', round: 'r3', type: 'rhyme', text: "Sherlock Holmes's companion", text2: 'A large, loud gathering after dark', answer1: 'Watson', answer2: 'Party', time: 25, ai: true, media: { kind: 'none' } },
     { id: 'd12', round: 'r3', type: 'wheel', text: 'A PIECE OF CAKE', phrase: 'A PIECE OF CAKE', category: 'Phrase', time: 60, revealEvery: 3, startLetters: '', ai: true, media: { kind: 'none' } },

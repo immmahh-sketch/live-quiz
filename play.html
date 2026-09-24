@@ -139,8 +139,6 @@ function render() {
   const rc = P.race && P.race.qId === qId ? P.race : null;
   if (s.wheel && P.viewKey.startsWith(`${s.phase}:${qId}:`)) { const b = $('#pwof'); if (b) b.innerHTML = LQ.wheelBoardHtml(s.wheel.layout, s.wheel.revealed); }
   if (s.wipe?.studyMs) { const el = $('#studyLeft'); if (el) el.textContent = Math.ceil(s.wipe.studyMs / 1000); }
-  if (s.hl && !s.hl.low) { const el = $('#hlLeft'); if (el) el.textContent = Math.ceil(s.hl.switchInMs / 1000); }
-  if (s.hl?.low && $('#hlbox') && !$('#hlbox').dataset.low) { $('#hlbox').innerHTML = hlHtml(s.q, s.hl); $('#hlbox').dataset.low = '1'; }
   const key = [s.phase, qId, s.qIndex, s.round?.n || '', P.answered[qId] ? 'a' : '', s.wipe ? `${s.wipe.turnPid}:${s.wipe.gone.length}:${s.wipe.out.length}:${s.wipe.over}:${s.wipe.studyMs ? 'study' : ''}:${(s.wipe.order || []).length}` : '', rc ? `${rc.idx}:${rc.pending}:${rc.out}:${rc.done}:${s.race?.winner || ''}` : ''].join(':');
   if (key === P.viewKey) { tickTimer(); return; }
   P.viewKey = key;
@@ -249,7 +247,9 @@ function questionHtml(q) {
     body = `<p class="muted center small">Put each answer in its category</p><div id="slist"></div><button class="btn btn-primary btn-lg btn-block mt" id="lockSort" disabled>Lock it in</button>`;
   }
   if (q.type === 'wheel') { const w = P.state.wheel || {}; body = `<div class="center" id="pwof">${LQ.wheelBoardHtml(w.layout || q.layout, w.revealed || '')}</div><div class="center"><span class="wof-cat">${esc(q.category || '')}</span></div><form id="textForm" class="state" style="justify-content:flex-start;padding-top:8px"><input type="text" id="textIn" placeholder="Solve the puzzle" autocomplete="off" autocorrect="off" autocapitalize="characters" style="font-size:1.1rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Solve</button></form>`; }
-  if (q.type === 'highlow') { const hl = P.state.hl || {}; body = `<div id="hlbox">${hlHtml(q, hl)}</div><form id="textForm" class="state" style="justify-content:flex-start;padding-top:8px"><input type="text" id="textIn" placeholder="Type your answer" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.2rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Send</button></form>`; }
+  if (q.type === 'highlow') { body = `<div id="hlbox">${hlHtml(q)}</div><form id="textForm" class="state" style="justify-content:flex-start;padding-top:8px"><input type="text" id="textIn" placeholder="Type your answer" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.2rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Send</button></form>`; }
+  if (q.type === 'club') body = `<div class="clubrow"><span class="clubpct">${q.pct}%</span><span class="clubnote">of people get this · <b>${q.points}</b> points · no knowledge needed, work it out</span></div><form id="textForm" class="state" style="justify-content:flex-start"><input type="text" id="textIn" placeholder="Your answer" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.2rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
+  if (q.type === 'dingbat') body = `${q.media?.url ? '' : LQ.dingbatHtml(q.elements)}<p class="muted center small">Say what you see: type the phrase</p><form id="textForm" class="state" style="justify-content:flex-start;padding-top:0"><input type="text" id="textIn" placeholder="The phrase" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.15rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
   if (q.type === 'rhyme') body = `<div class="sitem"><div class="txt">🎤 ${esc(q.text2)}</div></div><p class="muted center small">The two answers rhyme. Type both, first then second.</p><form id="textForm" class="state" style="justify-content:flex-start;padding-top:0"><input type="text" id="textIn" placeholder="First answer, second answer" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.15rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
   if (q.type === 'text' || q.type === 'smash') body = `${q.type === 'smash' ? '<p class="muted center small">Answer Smash: type the picture and the clue smashed together</p>' : ''}<form id="textForm" class="state" style="justify-content:flex-start"><input type="text" id="textIn" placeholder="Type your answer" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.2rem;text-align:center" autofocus><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
   if (q.type === 'order') {
@@ -263,13 +263,16 @@ function questionHtml(q) {
   if (q.type === 'pin') { P.work.pin = P.work.pinQ === q.id ? P.work.pin : null; P.work.pinQ = q.id; body = `<div class="pinboard tap" id="pinboard"><img src="${esc(q.media?.url || '')}" draggable="false"></div><button class="btn btn-primary btn-lg btn-block mt" id="dropPin" disabled>Drop the pin here</button>`; }
   return `${q.type === 'wheel' || q.type === 'highlow' ? '' : `<div class="pq">${q.type === 'rhyme' ? '🎤 ' : ''}${esc(q.text)}</div>`}${q.type === 'pin' ? '' : mediaHtml(q)}${body}<button type="button" class="btn btn-ghost btn-block mt" id="skipQ" style="color:var(--ink-3)">Skip — I don't know ⏭</button>`;
 }
-function hlHtml(q, hl) {
-  return `<div class="sitem" style="border-color:var(--brand)"><div class="small muted">🎓 Highbrow · ${q.highPoints} points</div><div class="txt">${esc(q.text)}</div></div>` +
-    (hl.low ? `<div class="sitem" style="border-color:var(--warn)"><div class="small muted">📺 Lowbrow · ${q.lowPoints} points now</div><div class="txt">${esc(q.lowText)}</div></div>` : `<p class="muted center small">Easier clue for half the points in <span id="hlLeft">${Math.ceil((hl.switchInMs || 0) / 1000)}</span>s…</p>`);
+/** Highbrow Lowbrow on the phone: the hard clue, and a button that swaps in the easy one for the lower points. Only this phone sees it. */
+function hlHtml(q) {
+  const low = !!P.low[q.id];
+  return `<div class="sitem" style="border-color:var(--brand)"><div class="small muted">🎓 Highbrow · ${q.highPoints} points${low ? ' <s>(not now)</s>' : ''}</div><div class="txt">${esc(q.text)}</div></div>` +
+    (low ? `<div class="sitem" style="border-color:var(--warn)"><div class="small muted">📺 Lowbrow · ${q.lowPoints} points</div><div class="txt">${esc(q.lowText)}</div></div>`
+         : `<button type="button" class="btn btn-block" id="askLow" style="border-color:var(--warn);color:var(--ink)">📺 Show me the lowbrow clue <span class="muted small">· plays for ${q.lowPoints} instead of ${q.highPoints}</span></button>`);
 }
 function submit(q, answer) {
   P.sent[q.id] = { answer, at: Date.now(), tries: 1 };
-  send('answer', { pid: P.pid, qId: q.id, answer });
+  send('answer', { pid: P.pid, qId: q.id, answer, low: !!P.low[q.id] });
   P.answered[q.id] = 'pending'; // optimistic; the watchdog re-sends until the host acks
   app.querySelectorAll('.abtn, button').forEach((b) => b.disabled = true);
   setTimeout(() => { if (P.state?.q?.id === q.id) { P.viewKey = ''; render(); } }, 250);
@@ -286,7 +289,8 @@ function bindQuestion(q) {
     };
     draw(); $('#lockSort').onclick = () => submit(q, { ...P.work.sort });
   }
-  if (q.type === 'text' || q.type === 'smash' || q.type === 'wheel' || q.type === 'highlow' || q.type === 'rhyme') { $('#textForm').onsubmit = (e) => { e.preventDefault(); const t = $('#textIn').value.trim(); if (!t) return; submit(q, t); }; setTimeout(() => $('#textIn')?.focus(), 50); }
+  if (q.type === 'text' || q.type === 'smash' || q.type === 'wheel' || q.type === 'highlow' || q.type === 'rhyme' || q.type === 'club' || q.type === 'dingbat') { $('#textForm').onsubmit = (e) => { e.preventDefault(); const t = $('#textIn').value.trim(); if (!t) return; submit(q, t); }; setTimeout(() => $('#textIn')?.focus(), 50); }
+  if (q.type === 'highlow' && $('#askLow')) $('#askLow').onclick = () => { P.low[q.id] = true; send('hint', { pid: P.pid, qId: q.id }); $('#hlbox').innerHTML = hlHtml(q); };
   if (q.type === 'order') {
     const draw = () => {
       $('#olist').innerHTML = P.work.order.map((k, i) => { const it = q.items.find((x) => x.k === k); return `<div class="oitem"><div class="n">${i + 1}</div><div>${esc(it.text)}</div><div class="mv"><button data-up="${i}" ${i === 0 ? 'disabled' : ''}>▲</button><button data-dn="${i}" ${i === P.work.order.length - 1 ? 'disabled' : ''}>▼</button></div></div>`; }).join('');

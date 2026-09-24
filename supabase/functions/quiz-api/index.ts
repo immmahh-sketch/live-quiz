@@ -443,6 +443,10 @@ Question types and their JSON shapes (use only the types you are asked for, and 
   A Wheel of Fortune puzzle: a well-known phrase, title, name or place in capitals, letters and spaces only (no punctuation), 8 to 40 letters, no word longer than 12 letters, whole phrase at most 4 words per row across 4 rows of 12/14/14/12 tiles. Category as on the show: Phrase, Person, Place, Thing, Event, Food & Drink, Song Title, Movie Title, TV Show, Before & After, Landmark, Occupation.
 - "highlow": {"type":"highlow","text":"<highbrow clue>","lowText":"<lowbrow clue>","answers":["Gold","Au"]}
   Highbrow Lowbrow, as on House of Games: two clues with exactly the same answer. The highbrow clue is hard and scholarly (science, history, literature, the arts); the lowbrow clue is easy and from pop culture, telly, sport or everyday life. Neither clue may work for any other answer.
+- "club": {"type":"club","pct":50,"text":"If planet EARTH has a HEART, which body part does MARS have?","answers":["Arms"]}
+  The 10% Club, in the style of The 1% Club: a logic, maths, pattern, wordplay or lateral-thinking puzzle that needs NO general knowledge, only working out, solvable in 30 seconds by reading the question (anagrams, letter/number patterns, "which is the odd one out", what-comes-next, counting, riddles that reward reading carefully). "pct" is how many people would get it: 90 is easy, 50 medium, 10 hard, 1 fiendish; spread the percentages across a batch and label honestly. The answer must be a single unambiguous word, number or short phrase; write the question so nothing else fits. No pictures.
+- "dingbat": {"type":"dingbat","answers":["Man overboard"],"elements":[{"t":"MAN","x":50,"y":30,"s":5},{"t":"BOARD","x":50,"y":70,"s":5}]}
+  Dingbats (say what you see): a well-known phrase, saying, title or word hidden in how words sit on a 16:9 white board. Each element is a word or letters with its centre at x,y (0–100, per cent of the board), size s (1 tiny … 6 huge, 4 normal), optional "rot" (degrees, e.g. 90 or -90 for a word on its side, 180 upside down), optional "flip" ("h" mirrored/backwards, "v" upside down) and optional "style" ("strike" crossed out, "underline", "box" for a word in a box, "outline" for hollow letters). Use classic devices: one word over another (over/under/on), inside a box (in/inside), repeated (e.g. "aid aid aid" = first aid), split or missing letters, tiny and huge (little/big), backwards, a word at the far left or right edge (left/right/end), high or low on the board. 1 to 6 elements; keep it fair, solvable and British. The answer is the phrase. No pictures.
 - "rhyme": {"type":"rhyme","text":"Sherlock Holmes's companion","answer1":"Watson","text2":"A large, loud gathering after dark","answer2":"Party"}
   Rhyme Time: two clues whose answers rhyme (the endings sound the same when said aloud). Players type both answers. Keep each answer to one or two words.
 - "smash": {"type":"smash","picture":"Emma Watson","pictureAnswer":"Emma Watson","text":"Sega's blue hedgehog","clueAnswer":"Sonic the Hedgehog"}
@@ -578,7 +582,28 @@ Pictures round: ${wantPictures ? "yes — give roughly half the questions a pict
       const lowText = String(r.lowText || "").trim();
       const answers = (Array.isArray(r.answers) ? r.answers : [r.answer]).map((s: unknown) => String(s ?? "").trim()).filter(Boolean);
       if (!lowText || !answers.length) return null;
-      base.lowText = lowText; base.answers = answers; base.switchAt = 20; base.highPoints = 1000; base.lowPoints = 500; base.ai = true; base.time = Math.max(base.time, 40);
+      base.lowText = lowText; base.answers = answers; base.highPoints = 1000; base.lowPoints = 500; base.ai = true; base.time = Math.max(base.time, 40);
+      return base;
+    }
+    if (r.type === "club") {
+      const answers = (Array.isArray(r.answers) ? r.answers : [r.answer]).map((s: unknown) => String(s ?? "").trim()).filter(Boolean);
+      if (!answers.length) return null;
+      base.answers = answers; base.pct = Math.min(99, Math.max(1, Math.round(+r.pct || 50))); base.ai = true; base.time = 30; base.media = { kind: "none" };
+      return base;
+    }
+    if (r.type === "dingbat") {
+      const answers = (Array.isArray(r.answers) ? r.answers : [r.answer]).map((s: unknown) => String(s ?? "").trim()).filter(Boolean);
+      const elements = (Array.isArray(r.elements) ? r.elements : []).slice(0, 8).map((e: any) => {
+        const t = String(e?.t ?? e?.text ?? "").trim(); if (!t) return null;
+        const num = (v: unknown, d: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, Number.isFinite(+v) ? +v : d));
+        const out: any = { t: t.slice(0, 40), x: num(e?.x, 50, 0, 100), y: num(e?.y, 50, 0, 100), s: num(e?.s, 4, 1, 6) };
+        if (e?.rot) out.rot = num(e.rot, 0, -180, 180);
+        if (e?.flip === "h" || e?.flip === "v") out.flip = e.flip;
+        if (["strike", "underline", "box", "outline"].includes(e?.style)) out.style = e.style;
+        return out;
+      }).filter(Boolean);
+      if (!answers.length || !elements.length) return null;
+      base.text = String(r.text || "Say what you see").trim(); base.answers = answers; base.elements = elements; base.ai = true; base.time = 45; base.media = { kind: "none" };
       return base;
     }
     if (r.type === "rhyme") {
@@ -698,6 +723,8 @@ Deno.serve(async (req) => {
       const rows = await rest(`quiz_quizzes?select=id,title,settings,questions,created_at,updated_at&order=updated_at.desc`);
       return json({ quizzes: (rows || []).map((r: any) => ({
         id: r.id, title: r.title, updated_at: r.updated_at, created_at: r.created_at,
+        template: !!(r.settings && r.settings.template),
+        rounds: Array.isArray(r.settings?.rounds) ? r.settings.rounds.map((x: any) => ({ title: x?.title || "", count: Object.values(x?.mix || {}).reduce((a: number, b: any) => a + (+b || 0), 0) || +x?.count || 0, types: Object.keys(x?.mix || {}) })) : [],
         count: Array.isArray(r.questions) ? r.questions.length : 0,
         types: Array.isArray(r.questions) ? Array.from(new Set(r.questions.map((q: any) => q.type))) : [],
       })) });
@@ -774,7 +801,7 @@ Deno.serve(async (req) => {
 
     if (action === "generate") {
       if (!ANTHROPIC_KEY) return json({ error: "AI is not set up on the server yet — add ANTHROPIC_API_KEY as a Supabase secret." }, 503);
-      const KNOWN = ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel", "highlow", "rhyme"];
+      const KNOWN = ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel", "highlow", "rhyme", "club", "dingbat"];
       const asked = (Array.isArray(body.types) ? body.types : []).map(String);
       const types = asked.filter((t) => KNOWN.includes(t));
       const unknownTypes = asked.filter((t) => !KNOWN.includes(t));
