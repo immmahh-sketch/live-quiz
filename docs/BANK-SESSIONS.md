@@ -4,7 +4,7 @@ The host wants the question bank filled by hand in this tool (no API spend), top
 sessions five minutes apart, until every topic in `bank/topics.json` is complete.
 
 Per topic the targets are: 50 multiple choice, 50 typed, 50 true/false, 5 put-in-order,
-5 categorise, 10 highbrow/lowbrow, 10 answer smash, 10 name that tune, 5 wipeout boards,
+5 categorise, 10 highbrow/lowbrow, 10 answer smash, 10 name that tune, 10 rhyme time, 5 wipeout boards,
 3 races. Signature topics (group "Signature": Alan Shearer, Roger) only need choice and text.
 
 Each session:

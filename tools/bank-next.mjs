@@ -10,7 +10,7 @@ const dir = path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Z]:)/
 const bank = path.join(dir, "..", "bank");
 const args = process.argv.slice(2);
 const TARGET = +(args[args.indexOf("--target") + 1] || 50);
-const GOAL = { choice: TARGET, text: TARGET, tf: TARGET, order: Math.round(TARGET / 10), sort: Math.round(TARGET / 10), highlow: 10, smash: 10, tune: 10, wipeout: 5, race: 3 };
+const GOAL = { choice: TARGET, text: TARGET, tf: TARGET, order: Math.round(TARGET / 10), sort: Math.round(TARGET / 10), highlow: 10, smash: 10, tune: 10, rhyme: 10, wipeout: 5, race: 3 };
 const topics = JSON.parse(fs.readFileSync(path.join(bank, "topics.json"), "utf8"));
 const tdir = path.join(bank, "topics");
 const files = fs.existsSync(tdir) ? fs.readdirSync(tdir).filter((f) => f.endsWith(".json")) : [];
