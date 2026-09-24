@@ -444,3 +444,39 @@ body.player:has(.app.turn-wait) { background: #ffe6c2; }
 .joinbox .codein { text-transform: uppercase; letter-spacing: .2em; font-size: 1.5rem; text-align: center; font-weight: 900; }
 .player .brow { background: #fff; color: var(--ink); box-shadow: var(--shadow); font-size: 1rem; }
 .player .brow .fill { background: var(--brand-soft); }
+
+/* ---------------------------------------------------------------- TV (Fire TV app, D-pad) */
+body.tv :focus { outline: none; }
+body.tv .btn:focus, body.tv button:focus, body.tv a:focus, body.tv input:focus, body.tv select:focus, body.tv textarea:focus, body.tv [tabindex]:focus {
+  outline: 5px solid var(--sun); outline-offset: 4px; box-shadow: 0 0 0 10px rgba(255,214,10,.22); position: relative; z-index: 2; }
+body.tv .btn:focus { transform: scale(1.04); }
+body.tv button, body.tv a, body.tv input, body.tv select, body.tv textarea, body.tv [tabindex] { scroll-margin: 90px 0; }
+.tvrow .row { flex-wrap: nowrap; }
+body.tvpage { overflow-y: auto; height: auto; min-height: 100vh; padding-bottom: 70px; }
+.tvwrap { max-width: 1400px; margin: 0 auto; padding: 36px 56px; color: #fff; font-size: 1.15rem; }
+.tvhead { display: flex; align-items: center; gap: 18px; margin-bottom: 26px; }
+.tvhead h1 { text-wrap: balance; }
+.tvfoot { position: fixed; left: 0; right: 0; bottom: 0; padding: 12px 56px; background: rgba(0,0,0,.4); color: #fff; font-weight: 800; opacity: .85; font-size: 1rem; }
+.tvtiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.tvtiles-4 { grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.tvtile { background: rgba(255,255,255,.1); color: #fff; border: 0; border-radius: 22px; padding: 30px 20px; font: inherit; font-weight: 900; font-size: 1.5rem; cursor: pointer; text-align: center; }
+.tvtile.sm { padding: 20px 14px; font-size: 1.2rem; }
+.tvtile .em { display: block; font-size: 3rem; margin-bottom: 8px; }
+.tvtile.sel { background: var(--sun); color: var(--ink); }
+.tvrow { display: flex; align-items: center; gap: 16px; width: 100%; background: rgba(255,255,255,.08); color: #fff; border: 0; border-radius: 16px; padding: 16px 22px; margin-bottom: 10px; font: inherit; font-weight: 800; font-size: 1.2rem; text-align: left; cursor: pointer; }
+.tvround { background: rgba(255,255,255,.06); border-radius: 20px; padding: 18px 22px; margin-bottom: 16px; }
+.stepper { display: inline-flex; align-items: center; gap: 10px; }
+.stepper .btn { min-width: 54px; font-size: 1.3rem; padding: 8px 14px; }
+.stepper b { min-width: 44px; text-align: center; font-size: 1.5rem; }
+.seg .btn.sel, body.tv .btn.sel { background: var(--sun); color: var(--ink); border-color: var(--sun); }
+.typegrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.typegrid .trow { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: rgba(255,255,255,.08); border-radius: 14px; padding: 8px 8px 8px 16px; font-weight: 800; }
+body.tvpage input, body.tvpage textarea, body.tvpage select { background: rgba(255,255,255,.12); color: #fff; border: 2px solid rgba(255,255,255,.25); border-radius: 12px; padding: 12px 14px; font: inherit; font-weight: 800; }
+body.tvpage input::placeholder, body.tvpage textarea::placeholder { color: rgba(255,255,255,.5); }
+body.tvpage select option { color: var(--ink); }
+body.tvpage .btn { color: #fff; border-color: rgba(255,255,255,.3); background: rgba(255,255,255,.1); }
+body.tvpage .btn-primary { background: var(--sun); color: var(--ink); border-color: var(--sun); }
+body.tvpage .btn-ghost { background: transparent; }
+body.tvpage .muted { color: rgba(255,255,255,.7); }
+body.tvpage .error { background: rgba(226,27,60,.25); color: #fff; }
+@media (max-width: 900px) { .tvtiles, .tvtiles-4, .typegrid { grid-template-columns: repeat(2, 1fr); } .tvwrap, .tvfoot { padding-left: 20px; padding-right: 20px; } }

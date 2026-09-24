@@ -302,10 +302,40 @@ window.LQ = (() => {
     });
   }
 
+  // ---------------------------------------------------------------- collages (Drop the pin on one of several pictures)
+  /** Tiles pictures into one image in the browser. Returns the upload payload and each tile's rectangle as fractions. */
+  async function composeCollage(tiles) {
+    const imgs = await Promise.all(tiles.map((t) => new Promise((res, rej) => { const im = new Image(); im.crossOrigin = 'anonymous'; im.onload = () => res(im); im.onerror = () => rej(new Error(`Could not load ${t.title || 'a picture'}.`)); im.src = t.url; })));
+    const n = tiles.length, cols = n <= 4 ? 2 : 3, rows = Math.ceil(n / cols), cw = 560, chh = 420, gap = 14;
+    const c = document.createElement('canvas'); c.width = cols * cw + gap * (cols + 1); c.height = rows * chh + gap * (rows + 1);
+    const ctx = c.getContext('2d'); ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, c.width, c.height);
+    const rects = imgs.map((im, i) => {
+      const x = gap + (i % cols) * (cw + gap), y = gap + Math.floor(i / cols) * (chh + gap);
+      const s = Math.max(cw / im.width, chh / im.height), sw = cw / s, sh = chh / s; // cover
+      ctx.save(); ctx.beginPath(); ctx.rect(x, y, cw, chh); ctx.clip();
+      ctx.drawImage(im, (im.width - sw) / 2, (im.height - sh) / 2, sw, sh, x, y, cw, chh); ctx.restore();
+      ctx.strokeStyle = '#d6d6e4'; ctx.lineWidth = 3; ctx.strokeRect(x + 1.5, y + 1.5, cw - 3, chh - 3);
+      return { x: x / c.width, y: y / c.height, w: cw / c.width, h: chh / c.height };
+    });
+    return { data: c.toDataURL('image/jpeg', 0.86).split(',')[1], contentType: 'image/jpeg', rects };
+  }
+  /** Composes and uploads a collage for a question whose tiles are known, and points the target at the answer. */
+  async function buildCollageFor(q) {
+    const tiles = (q.collage || []).filter((t) => t.url);
+    if (tiles.length < 2) throw new Error('A collage needs at least two pictures.');
+    const out = await composeCollage(tiles);
+    const up = await api('upload', { data: out.data, contentType: out.contentType }, { timeout: 90000 });
+    q.media = { kind: 'image', url: up.url, credit: tiles.map((t) => t.credit).filter(Boolean).join('; ') || undefined };
+    q.collage = tiles.map((t, i) => ({ ...t, rect: out.rects[i] }));
+    q.mode = 'area';
+    const ai = Number.isInteger(q.answerIndex) && q.answerIndex < tiles.length ? q.answerIndex : 0;
+    q.answerIndex = ai; q.target = { ...out.rects[ai] };
+  }
+
   function fmtTime(ms) { const s = Math.max(0, Math.ceil(ms / 1000)); return s + 's'; }
   function ordinal(n) { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
   return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
     TYPES, EMOJIS, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
-    newCode, playUrl, shortPlayUrl, resizeImage, fmtTime, ordinal };
+    newCode, playUrl, shortPlayUrl, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor };
 })();

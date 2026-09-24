@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Let's Quiz! — TV</title>
+<link rel="icon" type="image/png" sizes="64x64" href="assets/brand/icon-64.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="host tv tvpage">
+<div class="tvwrap" id="view"><div class="center" style="padding-top:30vh"><span class="spinner"></span></div></div>
+<div class="tvfoot" id="foot">Move with the ring on the remote · centre button to choose · Back to go back</div>
+<div class="toast" id="toast"></div>
+
+<script src="assets/common.js"></script>
+<script src="assets/dpad.js"></script>
+<script>
+// Let's Quiz! on a TV. A remote-friendly front door: sign in once, play a saved quiz, or
+// build one in a few presses (theme, rounds, how many of each question type, difficulty,
+// an optional brief for the AI) and let the AI write it. Games run in self-play mode, so the
+// TV moves on by itself and the phones can press Next.
+const { $, $$, esc, api, TYPES, normalizeQuiz, quizForSave, timeFor, uid } = LQ;
+const view = $('#view');
+const THEMES = ['General knowledge', 'Music', 'Film & TV', 'Sport', 'Geography', 'History', 'Science & nature', 'Food & drink', 'The 80s & 90s', 'Pop culture', 'Kids', 'Christmas'];
+const SPECIALS = ['order', 'match', 'sort', 'pin', 'smash', 'highlow', 'rhyme', 'wheel', 'wipeout', 'race'];
+const T = { screen: 'home', ai: false, quizzes: [], plan: null, quiz: null, busy: false };
+let toastT;
+function toast(msg, bad) { const t = $('#toast'); t.textContent = msg; t.className = 'toast show' + (bad ? ' bad' : ''); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 3500); }
+const hostUrl = (id) => `host.html?quiz=${encodeURIComponent(id)}&tv=1&auto=1`;
+
+// ------------------------------------------------------------------ screens + Back button
+function go(screen, opts = {}) {
+  T.screen = screen;
+  if (opts.replace) history.replaceState({ screen }, '', '#' + screen); else history.pushState({ screen }, '', '#' + screen);
+  render();
+}
+window.addEventListener('popstate', (e) => { const s = e.state?.screen; if (!s || s === 'writing') return; T.screen = s === 'done' ? 'home' : s; render(); });
+
+function render() {
+  const s = T.screen;
+  if (s === 'login') return renderLogin();
+  if (s === 'home') return renderHome();
+  if (s === 'list') return renderList();
+  if (s === 'w1') return renderStep1();
+  if (s === 'w2') return renderStep2();
+  if (s === 'w3') return renderStep3();
+  if (s === 'w4') return renderStep4();
+  if (s === 'writing') return; // drawn by writeQuiz
+  if (s === 'done') return renderDone();
+}
+const head = (title, sub = '') => `<div class="tvhead"><img src="assets/brand/mark.png" alt="" style="height:60px"><div><h1 class="big" style="font-size:2.4rem;margin:0">${title}</h1>${sub ? `<div style="opacity:.8;font-weight:800;font-size:1.15rem">${sub}</div>` : ''}</div></div>`;
+
+// ------------------------------------------------------------------ sign in
+function renderLogin() {
+  view.innerHTML = `${head("Let's Quiz!", 'Sign in once. The TV remembers it.')}
+    <div style="max-width:640px">
+      <div class="tvrow" style="flex-direction:column;align-items:stretch;gap:10px">
+        <label style="opacity:.85">Host password</label>
+        <div class="row"><input type="password" id="pw" class="grow" data-autofocus placeholder="Press the centre button to type" autocomplete="current-password"><button class="btn btn-ghost" id="show">Show</button></div>
+        <div id="err" class="error hidden"></div>
+      </div>
+      <div class="row mt"><button class="btn btn-primary btn-lg" id="login">Sign in ▶</button><button class="btn btn-ghost btn-lg" id="demo">Try the demo first</button></div>
+    </div>`;
+  $('#show').onclick = () => { const p = $('#pw'); p.type = p.type === 'password' ? 'text' : 'password'; $('#show').textContent = p.type === 'password' ? 'Show' : 'Hide'; };
+  $('#login').onclick = async () => {
+    const pw = $('#pw').value.trim(); if (!pw) return toast('Type the host password first.', true);
+    $('#login').disabled = true;
+    try { const r = await api('login', {}, { password: pw }); LQ.setHostPassword(pw); T.ai = !!r.ai; go('home', { replace: true }); }
+    catch (e) { $('#err').textContent = e.message; $('#err').classList.remove('hidden'); $('#login').disabled = false; }
+  };
+  $('#demo').onclick = () => location.href = 'host.html?quiz=demo&tv=1&auto=1';
+}
+
+// ------------------------------------------------------------------ home
+function renderHome() {
+  view.innerHTML = `${head("Let's Quiz!", 'Everyone joins from their phone by scanning the TV. This screen runs the game by itself.')}
+    <div class="tvtiles" style="max-width:1100px">
+      <button class="tvtile" id="play" data-autofocus><span class="em">▶</span>Play a saved quiz</button>
+      <button class="tvtile" id="make"><span class="em">✨</span>Make a new quiz</button>
+      <button class="tvtile" id="demo"><span class="em">🎲</span>Try the demo</button>
+    </div>
+    <div class="row mt" style="margin-top:28px"><button class="btn btn-ghost" id="logout">Sign out</button></div>`;
+  $('#play').onclick = () => go('list');
+  $('#make').onclick = () => { T.plan = newPlan(); go('w1'); };
+  $('#demo').onclick = () => location.href = 'host.html?quiz=demo&tv=1&auto=1';
+  $('#logout').onclick = () => { LQ.setHostPassword(''); go('login', { replace: true }); };
+}
+
+// ------------------------------------------------------------------ saved quizzes
+async function renderList() {
+  view.innerHTML = `${head('Play a saved quiz', 'Pick one. The lobby comes up with the QR code for the phones.')}<p class="muted">Loading…</p>`;
+  try { const r = await api('list'); T.quizzes = r.quizzes; } catch (e) { view.innerHTML += `<div class="error">${esc(e.message)}</div>`; return; }
+  if (T.screen !== 'list') return;
+  const rows = T.quizzes.filter((q) => q.count > 0);
+  view.innerHTML = `${head('Play a saved quiz', 'Pick one. The lobby comes up with the QR code for the phones.')}
+    <div style="max-width:1000px">${rows.length ? rows.map((q, i) => `<button class="tvrow" data-id="${esc(q.id)}" ${i === 0 ? 'data-autofocus' : ''}><span style="font-size:1.6rem">▶</span><span class="grow"><b style="font-size:1.35rem">${esc(q.title)}</b><br><span style="opacity:.75;font-size:1rem">${q.count} question${q.count === 1 ? '' : 's'} · ${q.types.slice(0, 5).map((t) => TYPES[t]?.label || t).join(', ')}${q.types.length > 5 ? '…' : ''}</span></span></button>`).join('') : '<p class="muted">No quizzes yet. Make one first.</p>'}
+    <div class="row mt"><button class="btn btn-ghost" id="back">← Back</button></div></div>`;
+  $$('[data-id]').forEach((b) => b.onclick = () => location.href = hostUrl(b.dataset.id));
+  $('#back').onclick = () => history.back();
+}
+
+// ------------------------------------------------------------------ the wizard
+function newPlan() { return { theme: 'General knowledge', custom: '', rounds: 3, perRound: 8, difficulty: 'mixed', brief: '', roundPlans: null }; }
+const themeOf = (p) => p.theme === 'custom' ? (p.custom.trim() || 'General knowledge') : p.theme;
+/** A sensible mix for a round of n questions: mostly multiple choice and typed answers, one special type that changes round by round. */
+function autoMix(n, ri) {
+  const mix = {}; const special = n >= 4 ? SPECIALS[ri % SPECIALS.length] : null;
+  const base = special ? n - 1 : n;
+  mix.choice = Math.max(1, Math.round(base * 0.5)); mix.text = Math.max(0, Math.round(base * 0.3)); mix.tf = Math.max(0, base - mix.choice - mix.text);
+  if (special) mix[special] = 1;
+  for (const k of Object.keys(mix)) if (!mix[k]) delete mix[k];
+  return mix;
+}
+function ensureRoundPlans() {
+  const p = T.plan;
+  const rp = p.roundPlans || [];
+  while (rp.length < p.rounds) rp.push({ title: `Round ${rp.length + 1}`, theme: 'same', custom: '', mix: autoMix(p.perRound, rp.length), brief: '' });
+  rp.length = p.rounds;
+  p.roundPlans = rp;
+}
+const wizardBar = (step) => `<div style="opacity:.7;font-weight:800;margin-bottom:6px">Step ${step} of 4</div>`;
+
+function renderStep1() {
+  const p = T.plan;
+  view.innerHTML = `${wizardBar(1)}${head("What's the quiz about?", 'Pick a theme, or type your own.')}
+    <div class="tvtiles tvtiles-4" style="max-width:1200px">${THEMES.map((t, i) => `<button class="tvtile sm ${p.theme === t ? 'sel' : ''}" data-theme="${esc(t)}" ${p.theme === t || (p.theme === 'custom' && i === 0) ? 'data-autofocus' : ''}>${esc(t)}</button>`).join('')}
+      <button class="tvtile sm ${p.theme === 'custom' ? 'sel' : ''}" data-theme="custom">✎ Type my own</button></div>
+    <div class="row mt ${p.theme === 'custom' ? '' : 'hidden'}" id="customRow" style="max-width:800px"><input type="text" id="custom" class="grow" value="${esc(p.custom)}" placeholder="e.g. Taylor Swift, the Beamish area, our family"></div>
+    <div class="row mt" style="margin-top:24px"><button class="btn btn-ghost btn-lg" id="back">← Back</button><button class="btn btn-primary btn-lg" id="next">Next ▶</button></div>`;
+  $$('[data-theme]').forEach((b) => b.onclick = () => { p.theme = b.dataset.theme; $$('[data-theme]').forEach((x) => x.classList.toggle('sel', x.dataset.theme === p.theme)); $('#customRow').classList.toggle('hidden', p.theme !== 'custom'); if (p.theme === 'custom') $('#custom').focus(); });
+  $('#custom').oninput = (e) => { p.custom = e.target.value; };
+  $('#back').onclick = () => history.back();
+  $('#next').onclick = () => { if (p.theme === 'custom' && !p.custom.trim()) return toast('Type what the quiz is about, or pick a theme.', true); go('w2'); };
+}
+function renderStep2() {
+  const p = T.plan;
+  const stepper = (id, val, min, max) => `<span class="stepper"><button class="btn" data-step="${id}" data-d="-1">−</button><b id="v_${id}">${val}</b><button class="btn" data-step="${id}" data-d="1">+</button></span>`;
+  view.innerHTML = `${wizardBar(2)}${head('How big?', `A ${esc(themeOf(p))} quiz.`)}
+    <div style="max-width:900px">
+      <div class="tvrow"><span class="grow">Rounds</span>${stepper('rounds', p.rounds, 1, 6)}</div>
+      <div class="tvrow"><span class="grow">Questions in each round</span>${stepper('perRound', p.perRound, 3, 15)}</div>
+      <div class="tvrow"><span class="grow">Difficulty</span><span class="seg row">${['easy', 'medium', 'hard', 'mixed'].map((d) => `<button class="btn ${p.difficulty === d ? 'sel' : ''}" data-diff="${d}">${d[0].toUpperCase() + d.slice(1)}</button>`).join('')}</span></div>
+      <div class="tvrow" style="flex-direction:column;align-items:stretch;gap:8px"><span>Anything the AI should know? <span style="opacity:.7;font-weight:700">(optional)</span></span><textarea id="brief" rows="2" placeholder="e.g. It's Dad's 60th, so slip in some 1966 questions. Keep it family-friendly.">${esc(p.brief)}</textarea></div>
+      <div class="row mt"><button class="btn btn-ghost btn-lg" id="back">← Back</button><button class="btn btn-primary btn-lg" id="next" data-autofocus>Next ▶</button></div>
+    </div>`;
+  const lim = { rounds: [1, 6], perRound: [3, 15] };
+  $$('[data-step]').forEach((b) => b.onclick = () => { const k = b.dataset.step; p[k] = Math.min(lim[k][1], Math.max(lim[k][0], p[k] + +b.dataset.d)); $('#v_' + k).textContent = p[k]; if (k === 'perRound' && p.roundPlans) p.roundPlans.forEach((r, i) => { r.mix = autoMix(p.perRound, i); }); });
+  $$('[data-diff]').forEach((b) => b.onclick = () => { p.difficulty = b.dataset.diff; $$('[data-diff]').forEach((x) => x.classList.toggle('sel', x.dataset.diff === p.difficulty)); });
+  $('#brief').oninput = (e) => { p.brief = e.target.value; };
+  $('#back').onclick = () => history.back();
+  $('#next').onclick = () => { ensureRoundPlans(); go('w3'); };
+}
+function renderStep3() {
+  const p = T.plan; ensureRoundPlans();
+  const total = (r) => Object.values(r.mix).reduce((a, b) => a + b, 0);
+  view.innerHTML = `${wizardBar(3)}${head('Round by round', 'Each round has a theme and its own mix of question types. The mix is pre-filled; change what you like.')}
+    ${p.roundPlans.map((r, i) => `<div class="tvround">
+      <div class="row" style="gap:14px;flex-wrap:wrap"><b style="font-size:1.5rem">Round ${i + 1}</b>
+        <input type="text" data-title="${i}" value="${esc(r.title)}" placeholder="Round name" style="max-width:320px" ${i === 0 ? 'data-autofocus' : ''}>
+        <select data-theme="${i}"><option value="same" ${r.theme === 'same' ? 'selected' : ''}>Theme: same as the quiz (${esc(themeOf(p))})</option>${THEMES.map((t) => `<option value="${esc(t)}" ${r.theme === t ? 'selected' : ''}>Theme: ${esc(t)}</option>`).join('')}<option value="custom" ${r.theme === 'custom' ? 'selected' : ''}>Theme: type my own…</option></select>
+        <input type="text" data-custom="${i}" value="${esc(r.custom)}" placeholder="Round theme" class="${r.theme === 'custom' ? '' : 'hidden'}" style="max-width:320px">
+        <span class="grow"></span><span style="opacity:.8;font-weight:800" id="tot_${i}">${total(r)} questions</span></div>
+      <div class="typegrid mt">${Object.keys(TYPES).map((t) => `<div class="trow"><span>${TYPES[t].icon} ${esc(TYPES[t].label)}</span><span class="stepper"><button class="btn btn-sm" data-mix="${i}:${t}:-1">−</button><b id="m_${i}_${t}">${r.mix[t] || 0}</b><button class="btn btn-sm" data-mix="${i}:${t}:1">+</button></span></div>`).join('')}</div>
+      <div class="row mt"><input type="text" data-brief="${i}" class="grow" value="${esc(r.brief)}" placeholder="Tell the AI about this round (optional), e.g. all about Harry Kane"></div>
+    </div>`).join('')}
+    <div class="row mt" style="margin-top:24px"><button class="btn btn-ghost btn-lg" id="back">← Back</button><button class="btn btn-primary btn-lg" id="next">Next ▶</button></div>`;
+  $$('[data-title]').forEach((el) => el.oninput = () => { p.roundPlans[+el.dataset.title].title = el.value; });
+  $$('[data-brief]').forEach((el) => el.oninput = () => { p.roundPlans[+el.dataset.brief].brief = el.value; });
+  $$('[data-custom]').forEach((el) => el.oninput = () => { p.roundPlans[+el.dataset.custom].custom = el.value; });
+  $$('select[data-theme]').forEach((el) => el.onchange = () => { const r = p.roundPlans[+el.dataset.theme]; r.theme = el.value; $(`[data-custom="${el.dataset.theme}"]`).classList.toggle('hidden', r.theme !== 'custom'); });
+  $$('[data-mix]').forEach((b) => b.onclick = () => {
+    const [i, t, d] = b.dataset.mix.split(':'); const r = p.roundPlans[+i];
+    const v = Math.min(20, Math.max(0, (r.mix[t] || 0) + +d)); if (v) r.mix[t] = v; else delete r.mix[t];
+    $(`#m_${i}_${t}`).textContent = v; $(`#tot_${i}`).textContent = `${total(r)} questions`;
+  });
+  $('#back').onclick = () => history.back();
+  $('#next').onclick = () => { if (p.roundPlans.some((r) => !total(r))) return toast('Every round needs at least one question.', true); go('w4'); };
+}
+function renderStep4() {
+  const p = T.plan;
+  const n = p.roundPlans.reduce((a, r) => a + Object.values(r.mix).reduce((x, y) => x + y, 0), 0);
+  view.innerHTML = `${wizardBar(4)}${head('Ready to write it?', 'The AI researches each question online, adds pictures where they help, and checks nothing repeats an earlier quiz.')}
+    <div style="max-width:900px">
+      <div class="tvrow"><span class="grow">Quiz</span><b>${esc(themeOf(p))}</b></div>
+      <div class="tvrow"><span class="grow">Rounds</span><b>${p.rounds}</b></div>
+      <div class="tvrow"><span class="grow">Questions</span><b>${n}</b></div>
+      <div class="tvrow"><span class="grow">Difficulty</span><b>${p.difficulty[0].toUpperCase() + p.difficulty.slice(1)}</b></div>
+      ${p.roundPlans.map((r, i) => `<div class="tvrow" style="font-weight:700;opacity:.9"><span class="grow">Round ${i + 1}: ${esc(r.title || 'Round ' + (i + 1))}${r.theme !== 'same' ? ` · ${esc(r.theme === 'custom' ? r.custom : r.theme)}` : ''}</span><span>${Object.entries(r.mix).map(([t, c]) => `${c} ${TYPES[t].label}`).join(' · ')}</span></div>`).join('')}
+      <p class="muted" style="margin-top:14px">Takes a few minutes: about half a minute per four questions, longer for picture rounds. ${T.ai ? '' : '<b>AI is not switched on for this server.</b>'}</p>
+      <div class="row mt"><button class="btn btn-ghost btn-lg" id="back">← Back</button><button class="btn btn-primary btn-lg" id="write" data-autofocus ${T.ai ? '' : 'disabled'}>✨ Write the quiz</button></div>
+    </div>`;
+  $('#back').onclick = () => history.back();
+  $('#write').onclick = writeQuiz;
+}
+
+// ------------------------------------------------------------------ writing it with the AI
+async function writeQuiz() {
+  const p = T.plan; if (T.busy) return; T.busy = true;
+  T.screen = 'writing'; history.pushState({ screen: 'writing' }, '', '#writing');
+  const quiz = normalizeQuiz({ title: themeOf(p), questions: [], rounds: p.roundPlans.map((r, i) => ({ id: uid('r'), title: r.title || `Round ${i + 1}`, intro: '', brief: [r.theme === 'same' ? '' : `Theme: ${r.theme === 'custom' ? r.custom : r.theme}.`, r.brief, p.brief].filter((s) => s && s.trim()).join(' '), mix: r.mix })) });
+  T.quiz = quiz;
+  const total = quiz.rounds.reduce((a, r) => a + r.count, 0); let written = 0;
+  const draw = (line, sub = '') => { view.innerHTML = `${head('Writing your quiz…', esc(themeOf(p)))}<div style="max-width:900px"><div class="tvrow" style="gap:18px"><span class="spinner"></span><span class="grow" id="line">${line}</span></div><div class="autobar" style="width:100%;height:12px;margin:10px 0"><i style="animation:none;transform:scaleX(${written / total})"></i></div><div style="opacity:.8;font-weight:800">${written} of ${total} written${sub ? ' · ' + sub : ''}</div><div id="qlist" class="mt"></div></div>`; };
+  draw('Saving the plan…');
+  try {
+    const r = await api('save', { quiz: quizForSave(quiz) }); quiz.id = r.quiz.id;
+    draw('Checking what has been asked in earlier quizzes…');
+    let avoid = [];
+    try { const h = await api('history', { exclude: quiz.id }); avoid = h.questions.map((q) => q.text); } catch {}
+    for (const [ri, rd] of quiz.rounds.entries()) {
+      for (const [type, need] of Object.entries(rd.mix)) {
+        const BATCH = ['race', 'wipeout', 'pin', 'match'].includes(type) ? 2 : 4;
+        let got = 0;
+        while (got < need) {
+          draw(`Round ${ri + 1}, ${esc(TYPES[type].label)}: writing ${got + 1}–${Math.min(need, got + BATCH)} of ${need}…`, rd.title);
+          const usedPictures = quiz.questions.flatMap((q) => [q.media?.source, q.media?.url]).filter((s) => typeof s === 'string' && /^https?:/.test(s));
+          const res = await api('generate', { topic: (rd.brief ? `${rd.title}. ${rd.brief}` : `${rd.title}. ${themeOf(p)}`).slice(0, 200), title: rd.title, brief: rd.brief || `A ${themeOf(p)} quiz.`, usedPictures, count: Math.min(BATCH, need - got), difficulty: p.difficulty, types: [type], pictures: true, web: true, avoid }, { timeout: 170000 });
+          if (!res.questions.length || !res.questions.some((q) => q.type === type)) break;
+          for (const q of res.questions) {
+            q.round = rd.id; q.time = timeFor(q.type, quiz.settings);
+            if (q.collage && !q.media?.url) { try { await LQ.buildCollageFor(q); } catch { continue; } }
+            quiz.questions.push(q); avoid.push(q.text); got++; written++;
+          }
+          LQ.orderQuestions(quiz);
+          await api('save', { quiz: quizForSave(quiz) }).catch(() => {});
+        }
+      }
+    }
+    T.busy = false; T.screen = 'done'; history.replaceState({ screen: 'done' }, '', '#done'); renderDone();
+  } catch (e) {
+    T.busy = false;
+    view.innerHTML = `${head('That did not finish', esc(e.message))}<div class="row mt"><button class="btn btn-primary btn-lg" id="retry" data-autofocus>Try again</button><button class="btn btn-ghost btn-lg" id="home">Home</button></div><p class="muted mt">${written} question${written === 1 ? '' : 's'} were saved; the quiz is in your list and can be played or finished from the portal.</p>`;
+    $('#retry').onclick = () => { T.screen = 'w4'; render(); };
+    $('#home').onclick = () => go('home', { replace: true });
+  }
+}
+function renderDone() {
+  const q = T.quiz; const n = q?.questions.length || 0;
+  view.innerHTML = `${head('Your quiz is ready! 🎉', `${esc(q?.title || '')} · ${n} question${n === 1 ? '' : 's'} in ${q?.rounds.length || 0} round${q?.rounds.length === 1 ? '' : 's'}`)}
+    <div class="tvtiles" style="max-width:800px"><button class="tvtile" id="play" data-autofocus><span class="em">▶</span>Play it now</button><button class="tvtile" id="home"><span class="em">🏠</span>Home</button></div>
+    <p class="muted mt">You can read and tweak every question later in the portal on a computer.</p>`;
+  $('#play').onclick = () => location.href = hostUrl(q.id);
+  $('#home').onclick = () => go('home', { replace: true });
+}
+
+// ------------------------------------------------------------------ boot
+(async function boot() {
+  if (!LQ.hostPassword()) return go('login', { replace: true });
+  try { const r = await api('login'); T.ai = !!r.ai; } catch (e) { if (e.status === 401) { LQ.setHostPassword(''); return go('login', { replace: true }); } }
+  go('home', { replace: true });
+})();
+</script>
+</body>
+</html>

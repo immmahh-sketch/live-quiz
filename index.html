@@ -21,7 +21,7 @@
 
 <script src="assets/common.js"></script>
 <script>
-const { $, $$, esc, uid, api, TYPES, COLORS, DEFAULT_SETTINGS, newQuestion, validate, youtubeId, resizeImage, normalizeQuiz, orderQuestions, quizForSave, timeFor } = LQ;
+const { $, $$, esc, uid, api, TYPES, COLORS, DEFAULT_SETTINGS, newQuestion, validate, youtubeId, resizeImage, normalizeQuiz, orderQuestions, quizForSave, timeFor, composeCollage, buildCollageFor } = LQ;
 const view = $('#view');
 const S = { quizzes: [], quiz: null, sel: 0, ai: false, saveTimer: null, saving: false, dirty: false, planner: false };
 
@@ -601,34 +601,6 @@ function renderPinPick() {
 }
 
 // ------------------------------------------------------------------ collages
-/** Tiles pictures into one image in the browser. Returns the upload payload and each tile's rectangle as fractions. */
-async function composeCollage(tiles) {
-  const imgs = await Promise.all(tiles.map((t) => new Promise((res, rej) => { const im = new Image(); im.crossOrigin = 'anonymous'; im.onload = () => res(im); im.onerror = () => rej(new Error(`Could not load ${t.title || 'a picture'}.`)); im.src = t.url; })));
-  const n = tiles.length, cols = n <= 4 ? 2 : 3, rows = Math.ceil(n / cols), cw = 560, chh = 420, gap = 14;
-  const c = document.createElement('canvas'); c.width = cols * cw + gap * (cols + 1); c.height = rows * chh + gap * (rows + 1);
-  const ctx = c.getContext('2d'); ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, c.width, c.height);
-  const rects = imgs.map((im, i) => {
-    const x = gap + (i % cols) * (cw + gap), y = gap + Math.floor(i / cols) * (chh + gap);
-    const s = Math.max(cw / im.width, chh / im.height), sw = cw / s, sh = chh / s; // cover
-    ctx.save(); ctx.beginPath(); ctx.rect(x, y, cw, chh); ctx.clip();
-    ctx.drawImage(im, (im.width - sw) / 2, (im.height - sh) / 2, sw, sh, x, y, cw, chh); ctx.restore();
-    ctx.strokeStyle = '#d6d6e4'; ctx.lineWidth = 3; ctx.strokeRect(x + 1.5, y + 1.5, cw - 3, chh - 3);
-    return { x: x / c.width, y: y / c.height, w: cw / c.width, h: chh / c.height };
-  });
-  return { data: c.toDataURL('image/jpeg', 0.86).split(',')[1], contentType: 'image/jpeg', rects };
-}
-/** Composes and uploads a collage for a question whose tiles are known, and points the target at the answer. */
-async function buildCollageFor(q) {
-  const tiles = (q.collage || []).filter((t) => t.url);
-  if (tiles.length < 2) throw new Error('A collage needs at least two pictures.');
-  const out = await composeCollage(tiles);
-  const up = await api('upload', { data: out.data, contentType: out.contentType }, { timeout: 90000 });
-  q.media = { kind: 'image', url: up.url, credit: tiles.map((t) => t.credit).filter(Boolean).join('; ') || undefined };
-  q.collage = tiles.map((t, i) => ({ ...t, rect: out.rects[i] }));
-  q.mode = 'area';
-  const ai = Number.isInteger(q.answerIndex) && q.answerIndex < tiles.length ? q.answerIndex : 0;
-  q.answerIndex = ai; q.target = { ...out.rects[ai] };
-}
 function collageModal(q) {
   const tiles = (q.collage || []).map((t) => ({ title: t.title || '', url: t.url, credit: t.credit }));
   let answer = Number.isInteger(q.answerIndex) ? q.answerIndex : 0;
