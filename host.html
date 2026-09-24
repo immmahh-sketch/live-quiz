@@ -53,7 +53,7 @@ const startsRound = (i) => i === 0 || G.quiz.questions[i - 1]?.round !== G.quiz.
   quiz.questions = quiz.questions.filter((q) => LQ.validate(q).length === 0);
   quiz.rounds = quiz.rounds.filter((r) => quiz.questions.some((q) => q.round === r.id));
   if (!quiz.questions.length) return fail('This quiz has no finished questions to play.');
-  G = { code: newCode(), quizId, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [] };
+  G = { code: newCode(), quizId, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: autoWanted() };
   persist();
   connect();
   const nb = +new URLSearchParams(location.search).get('bots');
@@ -175,6 +175,7 @@ function connect() {
   ch = sb.channel('quiz-' + G.code, { config: { broadcast: { self: false }, presence: { key: 'host' } } });
   ch.on('broadcast', { event: 'hello' }, ({ payload }) => onHello(payload));
   ch.on('broadcast', { event: 'answer' }, ({ payload }) => onAnswer(payload));
+  ch.on('broadcast', { event: 'ctrl' }, ({ payload }) => onCtrl(payload || {}));
   ch.on('presence', { event: 'sync' }, () => {
     present.clear();
     for (const entries of Object.values(ch.presenceState())) for (const e of entries) if (e.role === 'player' && e.pid) present.set(e.pid, e.name);
@@ -192,7 +193,7 @@ function startHeartbeat() { clearInterval(hbT); hbT = setInterval(broadcastState
 
 /** Everything a phone needs to draw its screen. Never the right answers. */
 function stateForPlayers() {
-  const s = { phase: G.phase, code: G.code, qIndex: G.qIndex, total: total(), title: G.quiz.title, now: Date.now() };
+  const s = { phase: G.phase, code: G.code, qIndex: G.qIndex, total: total(), title: G.quiz.title, now: Date.now(), auto: !!G.auto };
   if (G.phase === 'question' && G.q) {
     s.q = G.q.view; s.remainingMs = Math.max(0, (G.q.deadline || 0) - Date.now()); s.answered = Object.keys(G.q.answers);
     if (G.q.wipe) { const w = G.q.wipe; s.wipe = { turnPid: w.turnPid, turnName: G.players[w.turnPid]?.name || '', remainingMs: Math.max(0, (w.studyUntil || w.turnDeadline) - Date.now()), studyMs: w.studyUntil ? Math.max(0, w.studyUntil - Date.now()) : 0, gone: w.gone, out: w.out, over: w.over, last: w.last, scores: w.scores, order: w.order.filter((p) => !w.out.includes(p)) }; }
@@ -256,8 +257,41 @@ function maybeAllAnswered() {
   if (pool.length && pool.every((pid) => G.q.answers[pid])) setTimeout(() => { if (G.phase === 'question') endQuestion(); }, 600);
 }
 
+// ------------------------------------------------------------------ self-play ("runs itself")
+//
+// With auto on, nobody has to drive this screen: round cards, reveals and scoreboards move on
+// by themselves after a pause, and every phone gets Start and Next buttons so any player can
+// push things along sooner. Questions already end on their own (everyone answered, or time up).
+function autoWanted() { if (new URLSearchParams(location.search).get('auto') === '1') return true; try { return localStorage.getItem('lq_auto') === '1'; } catch { return false; } }
+let autoT = null;
+/** How long this screen stays up before moving on by itself, in ms; 0 when it waits for a press. */
+function autoDelay() {
+  if (!G.auto) return 0;
+  if (G.phase === 'round') return 6000;
+  if (G.phase === 'scoreboard') return 6000;
+  if (G.phase === 'reveal') return ['choice', 'tf', 'highlow', 'rhyme', 'smash', 'wheel'].includes(question()?.type) ? 8000 : 11000;
+  return 0;
+}
+function scheduleAuto() {
+  clearTimeout(autoT); const d = autoDelay(); if (!d) return;
+  const ph = G.phase, qi = G.qIndex;
+  autoT = setTimeout(() => { if (G.auto && G.phase === ph && G.qIndex === qi && !document.querySelector('.modal-bg')) primaryAction(); }, d);
+}
+function toggleAuto() {
+  G.auto = !G.auto; try { localStorage.setItem('lq_auto', G.auto ? '1' : ''); } catch {}
+  persist(); render(); broadcastState();
+  toast(G.auto ? 'The game will run itself. Players can press Start and Next on their phones.' : 'You are driving the screen again.');
+}
+/** A phone pressed Start or Next. Only honoured in self-play, from a player in the game. */
+function onCtrl({ pid, cmd }) {
+  if (!G.auto || !G.players[pid] || document.querySelector('.modal-bg')) return;
+  if (cmd === 'start' && G.phase === 'lobby') return primaryAction();
+  if (cmd === 'next' && ['round', 'reveal', 'scoreboard'].includes(G.phase)) return primaryAction();
+}
+
 // ------------------------------------------------------------------ game flow
 function primaryAction() {
+  clearTimeout(autoT);
   if (G.phase === 'lobby') return players().length ? goTo(0) : toast('Waiting for at least one player.');
   if (G.phase === 'round') return startCountdown(G.qIndex);
   if (G.phase === 'countdown') return startQuestion();
@@ -684,7 +718,8 @@ async function grade(noAi) {
 }
 
 // ------------------------------------------------------------------ rendering
-function render() {
+function render() { renderPhase(); scheduleAuto(); }
+function renderPhase() {
   const ph = G.phase;
   if (ph === 'lobby') return renderLobby();
   if (ph === 'round') return renderRound();
@@ -707,9 +742,13 @@ function renderRound() {
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary btn-lg" data-act="primary">Start round ▶</button>`)}`;
   bind();
 }
-function hostBar(buttons) { return `<div class="stage-bottom"><span class="muted small" style="opacity:.6">Game ${G.code} · ${players().length} players${G.bots?.length ? ` · test mode, ${G.bots.length} bots` : ''} · press Space for next</span><div class="hostbar">${buttons}</div></div>`; }
+function hostBar(buttons) {
+  const d = autoDelay();
+  const hint = G.auto ? 'runs itself · players can press Start and Next on their phones' : 'press Space for next';
+  return `<div class="stage-bottom"><span class="muted small" style="opacity:.6">Game ${G.code} · ${players().length} players${G.bots?.length ? ` · test mode, ${G.bots.length} bots` : ''} · ${hint}</span>${d ? `<div class="autobar" title="Moving on by itself"><i style="animation-duration:${d}ms"></i></div>` : ''}<div class="hostbar">${buttons}</div></div>`;
+}
 function bind() {
-  $$('[data-act]').forEach((b) => b.onclick = () => ({ primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(3), builder: () => location.href = 'index.html?quiz=' + G.quizId })[b.dataset.act]());
+  $$('[data-act]').forEach((b) => b.onclick = () => ({ primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(3), auto: toggleAuto, builder: () => location.href = 'index.html?quiz=' + G.quizId })[b.dataset.act]());
   $$('[data-kick]').forEach((el) => { el.style.cursor = 'pointer'; el.title = 'Click to remove this player from the game'; el.onclick = () => kickPlayer(el.dataset.kick); });
 }
 function renderLobby() {
@@ -721,7 +760,7 @@ function renderLobby() {
         <div class="players" id="players"></div>
         <div class="appqr"><div class="qr" id="qr2"></div><div class="appqr-text"><b>Keep the app on your phone</b>Scan this one and add it to your home screen.<span>${esc(shortPlayUrl())}</span></div></div></div>
     </div></div>
-    ${hostBar(`<button class="btn btn-ghost" data-act="builder">Back to builder</button><button class="btn btn-ghost" data-act="bots" title="Test mode: add three simulated players who answer on their own">${G.bots?.length ? `🤖 ${G.bots.length} bots · add more` : '🤖 Add test bots'}</button><button class="btn btn-primary btn-lg" data-act="primary" id="startBtn">Start ▶</button>`)}`;
+    ${hostBar(`<button class="btn btn-ghost" data-act="builder">Back to builder</button><button class="btn btn-ghost ${G.auto ? 'on' : ''}" data-act="auto" title="Self-play: the screen moves on by itself and players can press Start and Next on their phones, so nobody has to sit at this screen">${G.auto ? '🎮 Runs itself: on' : '🎮 Runs itself: off'}</button><button class="btn btn-ghost" data-act="bots" title="Test mode: add three simulated players who answer on their own">${G.bots?.length ? `🤖 ${G.bots.length} bots · add more` : '🤖 Add test bots'}</button><button class="btn btn-primary btn-lg" data-act="primary" id="startBtn">Start ▶</button>`)}`;
   new QRCode($('#qr'), { text: url, width: 380, height: 380, correctLevel: QRCode.CorrectLevel.M });
   new QRCode($('#qr2'), { text: new URL('play', location.href).toString(), width: 200, height: 200, correctLevel: QRCode.CorrectLevel.M });
   renderLobbyPlayers(); bind();

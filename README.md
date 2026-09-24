@@ -58,6 +58,12 @@ Wrong answers score nothing. Both figures and the default time limit are in Quiz
 If the host tab is refreshed mid-game it offers to carry on where it left off. Players who
 refresh rejoin as themselves.
 
+**Self-play (nobody driving the screen):** press **Runs itself** in the lobby (or open the
+host screen with `&auto=1`). Leave the host tab open on a TV or laptop and play from your
+phones: any player can press **Start** and **Next** on their phone, and if nobody does, round
+cards, reveals and scoreboards move on by themselves after a few seconds. Questions already
+end on their own. The setting is remembered for next time.
+
 **Try it without signing in:** `host.html?quiz=demo` loads a built-in sample quiz with one
 question of every type.
 

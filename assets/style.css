@@ -340,6 +340,11 @@ body.player:has(.app.turn-wait) { background: #ffe6c2; }
 .joinurl { font-size: clamp(1rem, 1.8vw, 1.5rem); font-weight: 800; opacity: .85; word-break: break-all; }
 .players { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-height: 40vh; overflow: auto; }
 .pill { background: rgba(255,255,255,.15); border-radius: 999px; padding: 8px 18px; font-weight: 900; font-size: 1.2rem; animation: pop .25s ease; }
+.autobar { width: 200px; height: 6px; border-radius: 3px; background: rgba(255,255,255,.15); overflow: hidden; }
+.autobar i { display: block; height: 100%; background: var(--sun); transform-origin: left; animation: autoshrink linear forwards; }
+@keyframes autoshrink { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+.btn-ghost.on { background: rgba(255,214,10,.22); border-color: var(--sun); color: var(--sun); }
+.ctrlbtn { margin-top: 14px; max-width: 420px; }
 .appqr { display: inline-flex; align-items: center; gap: 16px; margin-top: 22px; padding: 12px 18px 12px 12px; border-radius: 18px; background: rgba(255,255,255,.1); text-align: left; }
 .appqr .qr { padding: 8px; border-radius: 12px; }
 .appqr .qr canvas, .appqr .qr img { width: min(14vh, 120px); height: min(14vh, 120px); }
