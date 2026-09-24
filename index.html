@@ -6,6 +6,9 @@
 <title>Let's Quiz! — Builder</title>
 <link rel="icon" type="image/png" sizes="64x64" href="assets/brand/icon-64.png">
 <link rel="apple-touch-icon" href="assets/brand/icon-180.png">
+<link rel="manifest" href="manifest-build.webmanifest">
+<meta name="apple-mobile-web-app-title" content="Quiz Builder">
+<meta name="theme-color" content="#5b3df5">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
@@ -119,6 +122,7 @@ function renderList() {
   $('#logout').onclick = () => { LQ.setHostPassword(''); viewLogin(); };
   view.innerHTML = `
     <div class="row" style="margin-bottom:18px"><h1 style="margin:0">Your quizzes</h1><div class="grow"></div>
+      <a class="btn btn-ghost" href="tv.html?m=1" title="A big-button wizard that builds a whole quiz in a few taps">📱 Quick build</a>
       <button class="btn btn-ghost" id="aiNew">✨ Write one with AI</button>
       <button class="btn btn-primary" id="newQuiz">+ New quiz</button></div>
     ${tpls.length ? `<div class="tplsec"><div class="row" style="margin-bottom:8px"><h2 style="margin:0">📋 Weekly formats</h2><span class="muted small">Saved set-ups: rounds, types and prompts. One click writes a fresh quiz in that format.</span></div>

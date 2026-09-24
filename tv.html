@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Let's Quiz! — TV</title>
 <link rel="icon" type="image/png" sizes="64x64" href="assets/brand/icon-64.png">
+<link rel="manifest" href="manifest-build.webmanifest">
+<link rel="apple-touch-icon" href="assets/brand/icon-180.png">
+<meta name="apple-mobile-web-app-title" content="Quiz Builder">
+<meta name="theme-color" content="#5b3df5">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
@@ -15,6 +19,11 @@
 <div class="toast" id="toast"></div>
 
 <script src="assets/common.js"></script>
+<script>
+// Phone mode (tv.html?m=1, or any touch phone): the same wizard, tap-driven, without the remote hints.
+const MOBILE = new URLSearchParams(location.search).get('m') === '1' || (!/LetsQuizTV/.test(navigator.userAgent) && matchMedia('(pointer: coarse) and (max-width: 900px)').matches);
+if (MOBILE) { document.body.classList.remove('tv'); document.body.classList.add('mobilewiz'); }
+</script>
 <script src="assets/dpad.js"></script>
 <script>
 // Let's Quiz! on a TV. A remote-friendly front door: sign in once, play a saved quiz, or
@@ -28,7 +37,7 @@ const SPECIALS = ['order', 'match', 'club', 'sort', 'pin', 'dingbat', 'smash', '
 const T = { screen: 'home', ai: false, quizzes: [], plan: null, quiz: null, busy: false };
 let toastT;
 function toast(msg, bad) { const t = $('#toast'); t.textContent = msg; t.className = 'toast show' + (bad ? ' bad' : ''); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 3500); }
-const hostUrl = (id) => `host.html?quiz=${encodeURIComponent(id)}&tv=1&auto=1`;
+const hostUrl = (id) => MOBILE ? `host.html?quiz=${encodeURIComponent(id)}&auto=1` : `host.html?quiz=${encodeURIComponent(id)}&tv=1&auto=1`;
 
 // ------------------------------------------------------------------ screens + Back button
 function go(screen, opts = {}) {
@@ -76,18 +85,18 @@ function renderLogin() {
 
 // ------------------------------------------------------------------ home
 function renderHome() {
-  view.innerHTML = `${head("Let's Quiz!", 'Everyone joins from their phone by scanning the TV. This screen runs the game by itself.')}
+  view.innerHTML = `${head("Let's Quiz!", MOBILE ? 'Build a quiz from your phone in a few taps. Host it later on the TV or a computer.' : 'Everyone joins from their phone by scanning the TV. This screen runs the game by itself.')}
     <div class="tvtiles" style="max-width:1100px">
-      <button class="tvtile" id="play" data-autofocus><span class="em">▶</span>Play a saved quiz</button>
+      <button class="tvtile" id="play" data-autofocus><span class="em">▶</span>${MOBILE ? 'My quizzes' : 'Play a saved quiz'}</button>
       <button class="tvtile" id="make"><span class="em">✨</span>Make a new quiz</button>
       <button class="tvtile" id="tpls"><span class="em">📋</span>Weekly format</button>
-      <button class="tvtile" id="demo"><span class="em">🎲</span>Try the demo</button>
+      <button class="tvtile" id="demo"><span class="em">${MOBILE ? '🖥' : '🎲'}</span>${MOBILE ? 'Full builder' : 'Try the demo'}</button>
     </div>
     <div class="row mt" style="margin-top:28px"><button class="btn btn-ghost" id="logout">Sign out</button></div>`;
   $('#play').onclick = () => go('list');
   $('#make').onclick = () => { T.plan = newPlan(); go('w1'); };
   $('#tpls').onclick = () => go('tpls');
-  $('#demo').onclick = () => location.href = 'host.html?quiz=demo&tv=1&auto=1';
+  $('#demo').onclick = () => location.href = MOBILE ? 'index.html' : 'host.html?quiz=demo&tv=1&auto=1';
   $('#logout').onclick = () => { LQ.setHostPassword(''); go('login', { replace: true }); };
 }
 
@@ -97,10 +106,10 @@ async function renderList() {
   try { const r = await api('list'); T.quizzes = r.quizzes; } catch (e) { view.innerHTML += `<div class="error">${esc(e.message)}</div>`; return; }
   if (T.screen !== 'list') return;
   const rows = T.quizzes.filter((q) => q.count > 0);
-  view.innerHTML = `${head('Play a saved quiz', 'Pick one. The lobby comes up with the QR code for the phones.')}
+  view.innerHTML = `${head(MOBILE ? 'My quizzes' : 'Play a saved quiz', MOBILE ? 'Tap one to open it in the full builder.' : 'Pick one. The lobby comes up with the QR code for the phones.')}
     <div style="max-width:1000px">${rows.length ? rows.map((q, i) => `<button class="tvrow" data-id="${esc(q.id)}" ${i === 0 ? 'data-autofocus' : ''}><span style="font-size:1.6rem">▶</span><span class="grow"><b style="font-size:1.35rem">${esc(q.title)}</b><br><span style="opacity:.75;font-size:1rem">${q.count} question${q.count === 1 ? '' : 's'} · ${q.types.slice(0, 5).map((t) => TYPES[t]?.label || t).join(', ')}${q.types.length > 5 ? '…' : ''}</span></span></button>`).join('') : '<p class="muted">No quizzes yet. Make one first.</p>'}
     <div class="row mt"><button class="btn btn-ghost" id="back">← Back</button></div></div>`;
-  $$('[data-id]').forEach((b) => b.onclick = () => location.href = hostUrl(b.dataset.id));
+  $$('[data-id]').forEach((b) => b.onclick = () => location.href = MOBILE ? 'index.html?quiz=' + encodeURIComponent(b.dataset.id) : hostUrl(b.dataset.id));
   $('#back').onclick = () => history.back();
 }
 
@@ -279,9 +288,9 @@ async function startWriting(quiz, label, difficulty) {
 function renderDone() {
   const q = T.quiz; const n = q?.questions.length || 0;
   view.innerHTML = `${head('Your quiz is ready! 🎉', `${esc(q?.title || '')} · ${n} question${n === 1 ? '' : 's'} in ${q?.rounds.length || 0} round${q?.rounds.length === 1 ? '' : 's'}`)}
-    <div class="tvtiles" style="max-width:800px"><button class="tvtile" id="play" data-autofocus><span class="em">▶</span>Play it now</button><button class="tvtile" id="home"><span class="em">🏠</span>Home</button></div>
-    <p class="muted mt">You can read and tweak every question later in the portal on a computer.</p>`;
-  $('#play').onclick = () => location.href = hostUrl(q.id);
+    <div class="tvtiles" style="max-width:800px"><button class="tvtile" id="play" data-autofocus><span class="em">${MOBILE ? '✎' : '▶'}</span>${MOBILE ? 'Read it through' : 'Play it now'}</button><button class="tvtile" id="home"><span class="em">🏠</span>Home</button></div>
+    <p class="muted mt">${MOBILE ? 'It is saved. Host it from the TV app, or from letsquiz.uk on a computer, when everyone is ready.' : 'You can read and tweak every question later in the portal on a computer.'}</p>`;
+  $('#play').onclick = () => location.href = MOBILE ? 'index.html?quiz=' + encodeURIComponent(q.id) : hostUrl(q.id);
   $('#home').onclick = () => go('home', { replace: true });
 }
 
