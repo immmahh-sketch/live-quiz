@@ -64,6 +64,15 @@ phones: any player can press **Start** and **Next** on their phone, and if nobod
 cards, reveals and scoreboards move on by themselves after a few seconds. Questions already
 end on their own. The setting is remembered for next time.
 
+**On a Fire TV:** sideload the app and it opens `letsquiz.uk/tv`, a remote-friendly front
+door: sign in once, play a saved quiz, or build one in four steps (theme, rounds and
+difficulty, how many of each question type per round with optional briefs, write it with
+AI) and play in self-play mode, with the phones scanning the TV. To install, open the
+**Downloader** app on the Fire TV and enter `tv.letsquiz.uk`, which redirects to the
+latest APK on GitHub Releases. The app is a thin WebView (`android/`), so quiz features
+update on the website without a new APK; `assets/dpad.js` gives every page D-pad
+navigation when the app (or `?tv=1`) is detected.
+
 **Try it without signing in:** `host.html?quiz=demo` loads a built-in sample quiz with one
 question of every type.
 
@@ -101,6 +110,21 @@ The domain is registered at Cloudflare Registrar (renews yearly, ~$5). Cloudflar
 the DNS: four `A` and four `AAAA` records on the root pointing at GitHub Pages' IPs plus a
 `www` CNAME to `immmahh-sketch.github.io`, all *DNS only* (not proxied) so GitHub can
 issue the certificate. The `CNAME` file in the repo tells Pages which domain to serve.
+
+### Fire TV app
+
+`android/` is a Gradle project (AGP 9, Java, no dependencies). Build with Android Studio's
+JDK and SDK:
+
+```powershell
+cd C:\Users\GM\Documents\live-quiz\android; $env:JAVA_HOME="C:\Program Files\Android\Android Studio\jbr"; .\gradlew.bat assembleRelease
+```
+
+The release key is `C:\Users\GM\Documents\live-quiz-keys\letsquiz-tv.jks` (with its
+`keystore.properties`, read by `app/build.gradle.kts`); keep it, because a Fire TV will only
+update the app over the top if the new APK is signed with the same key. Publish the APK as a
+GitHub release asset named `letsquiz-tv.apk` (`gh release create tv-1.1 letsquiz-tv.apk`);
+`tv.letsquiz.uk` is a Cloudflare redirect to the `releases/latest/download` link.
 
 ### Backend (Supabase project `safcrtrfdzsnftghibot`)
 

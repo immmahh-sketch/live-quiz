@@ -480,3 +480,8 @@ body.tvpage .btn-ghost { background: transparent; }
 body.tvpage .muted { color: rgba(255,255,255,.7); }
 body.tvpage .error { background: rgba(226,27,60,.25); color: #fff; }
 @media (max-width: 900px) { .tvtiles, .tvtiles-4, .typegrid { grid-template-columns: repeat(2, 1fr); } .tvwrap, .tvfoot { padding-left: 20px; padding-right: 20px; } }
+
+/* small TV viewports (a 1080p Fire TV renders at 960x540 CSS px) */
+.hostbar .btn { white-space: nowrap; }
+body.tv [data-act="auto"] { display: none; }
+@media (max-height: 620px) { .appqr { display: none; } .lobby .qr canvas, .lobby .qr img { width: min(46vh, 380px); height: min(46vh, 380px); } .lobby { gap: 16px; } }
