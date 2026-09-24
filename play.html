@@ -131,7 +131,7 @@ function myResult() { return P.state?.results?.[P.pid]; }
 function render() {
   const s = P.state; if (!s) return;
   const qId = s.q?.id || '';
-  if (s.race && s.q) syncRace(s);
+  if (s.race && s.q) { syncRace(s); const el = $('#racePos'); if (el) el.outerHTML = racePlaceHtml(s); }
   const rc = P.race && P.race.qId === qId ? P.race : null;
   if (s.wheel && P.viewKey.startsWith(`${s.phase}:${qId}:`)) { const b = $('#pwof'); if (b) b.innerHTML = LQ.wheelBoardHtml(s.wheel.layout, s.wheel.revealed); }
   if (s.wipe?.studyMs) { const el = $('#studyLeft'); if (el) el.textContent = Math.ceil(s.wipe.studyMs / 1000); }
@@ -178,10 +178,22 @@ function onRaceEvent(e) {
   const f = document.createElement('div'); f.className = 'rflash'; f.textContent = e.ok === null ? '⏭' : e.ok ? '✅' : '❌'; document.body.appendChild(f); setTimeout(() => f.remove(), 550);
   render();
 }
+/** My place in the race right now: finishers first, then by right answers. Ties share the higher place. */
+function racePlace(s) {
+  const ps = Object.entries(s.race.players || {}).map(([pid, p]) => ({ pid, ...p }));
+  const mine = ps.find((p) => p.pid === P.pid); if (!mine) return null;
+  const better = ps.filter((p) => (p.done && !mine.done) || (p.done === mine.done && p.correct > mine.correct)).length;
+  return { place: better + 1, of: ps.length };
+}
+function racePlaceHtml(s) {
+  const pl = racePlace(s); if (!pl) return '';
+  const medal = pl.place === 1 ? '🥇' : pl.place === 2 ? '🥈' : pl.place === 3 ? '🥉' : '🏃';
+  return `<div class="raceplace ${pl.place === 1 ? 'first' : ''}" id="racePos">${medal} You're in <b>${LQ.ordinal(pl.place)}</b> place <span class="small">of ${pl.of}</span></div>`;
+}
 function raceHtml(s) {
   const q = s.q, r = P.race, left = q.bank.length - r.idx, need = s.race.target - r.correct;
   const standing = Object.values(s.race.players || {});
-  const prog = `<div class="rprog"><span><b>${r.correct}</b> of ${s.race.target} right</span><span>${left} left · ${standing.filter((p) => p.done).length} finished</span></div>`;
+  const prog = `${racePlaceHtml(s)}<div class="rprog"><span><b>${r.correct}</b> of ${s.race.target} right</span><span>${left} left · ${standing.filter((p) => p.done).length} finished</span></div>`;
   if (s.race.winner) return `<div class="pq">${esc(q.text)}</div>${prog}<div class="state"><div class="em">${s.race.winner === P.pid ? '🏆' : '🏁'}</div><h2>${s.race.winner === P.pid ? 'You won the race!' : esc(s.race.winnerName || 'Someone') + ' won the race'}</h2></div>`;
   if (r.done) return `<div class="pq">${esc(q.text)}</div>${prog}<div class="state"><div class="em">🏁</div><h2>Finished!</h2><p class="muted">Waiting to see if anyone beat you to it…</p></div>`;
   if (r.out) return `<div class="pq">${esc(q.text)}</div>${prog}<div class="state"><div class="em">💨</div><h2>Out of the race</h2><p class="muted">Not enough questions left to reach ${s.race.target}. Watch the screen.</p></div>`;
