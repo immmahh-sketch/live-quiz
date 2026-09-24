@@ -3,14 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Live Quiz — Builder</title>
+<title>Let's Quiz! — Builder</title>
+<link rel="icon" type="image/png" sizes="64x64" href="assets/brand/icon-64.png">
+<link rel="apple-touch-icon" href="assets/brand/icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body class="builder">
 <div class="topbar">
-  <div class="logo"><span>LQ</span> Live Quiz</div>
+  <div class="logo"><img src="assets/brand/mark.png" alt=""> Let's Quiz!</div>
   <div class="grow"></div>
   <div id="topRight"></div>
 </div>
@@ -88,7 +90,8 @@ async function openReport(id) {
 // ------------------------------------------------------------------ login
 function viewLogin(msg) {
   $('#topRight').innerHTML = '';
-  view.innerHTML = `<div class="card login"><h2>Host sign-in</h2><p class="muted">This is the host's portal. Players don't sign in — they scan the code on the screen.</p>
+  view.innerHTML = `<div class="hero"><img src="assets/brand/logo.png" alt="Let's Quiz!"><h1>Let's Quiz!</h1><p>Build the quiz here. Share your screen on the call. Everyone plays on their phone.</p></div>
+    <div class="card login"><h2>Host sign-in</h2><p class="muted">This is the host's portal. Players don't sign in — they scan the code on the screen.</p>
     ${msg ? `<div class="error" style="margin-bottom:12px">${esc(msg)}</div>` : ''}
     <form id="loginForm"><div class="field"><label>Password</label><input type="password" id="pw" autocomplete="current-password" autofocus></div>
     <button class="btn btn-primary btn-block">Sign in</button></form>
@@ -135,7 +138,7 @@ function renderList() {
 function quizCard(q) {
   return `<div class="card quizcard"><h3>${esc(q.title)}</h3>
     <div class="muted small">${q.count} question${q.count === 1 ? '' : 's'} · updated ${fmtDate(q.updated_at)}</div>
-    <div class="types">${q.types.map((t) => `<span class="tag">${esc(TYPES[t]?.label || t)}</span>`).join('')}</div>
+    <div class="types">${q.types.slice(0, 4).map((t) => `<span class="tag">${esc(TYPES[t]?.label || t)}</span>`).join('')}${q.types.length > 4 ? `<span class="tag" style="background:var(--paper);color:var(--ink-3)">+${q.types.length - 4} more</span>` : ''}</div>
     <div class="actions"><button class="btn btn-primary btn-sm" data-host="${q.id}" ${q.count ? '' : 'disabled'}>▶ Host</button>
       <button class="btn btn-sm" data-open="${q.id}">Edit</button>
       <button class="btn btn-ghost btn-sm" data-dup="${q.id}">Duplicate</button>
@@ -175,17 +178,9 @@ function renderEditor() {
   if (q.id) history.replaceState(null, '', '?quiz=' + q.id);
   $('#topRight').innerHTML = '';
   view.innerHTML = `
-    <div class="row" style="margin-bottom:14px">
-      <button class="btn btn-ghost btn-sm" id="back">← Quizzes</button>
-      <input type="text" id="title" value="${esc(q.title)}" style="font-weight:900;font-size:1.15rem;max-width:460px" placeholder="Quiz title">
-      <span id="saveState" class="muted small"></span>
-      <div class="grow"></div>
-      <button class="btn btn-ghost btn-sm" id="planner">📋 Rounds</button>
-      <button class="btn btn-ghost btn-sm" id="settings">⚙ Settings</button>
-      <button class="btn btn-ghost btn-sm" id="aiAdd">✨ Add with AI</button>
-      <button class="btn btn-ghost btn-sm" id="checkAll" title="Fact-check every question with AI">✔ Check all</button>
-      <button class="btn btn-sm" id="save">Save</button>
-      <button class="btn btn-primary btn-sm" id="host">▶ Host live</button>
+    <div class="edhead">
+      <div class="row"><button class="btn btn-ghost btn-sm" id="back">← Quizzes</button><input type="text" id="title" value="${esc(q.title)}" class="grow" style="font-weight:900;font-size:1.2rem;max-width:560px" placeholder="Quiz title"><span id="saveState" class="muted small"></span></div>
+      <div class="row"><button class="btn btn-ghost btn-sm" id="planner">📋 Rounds</button><button class="btn btn-ghost btn-sm" id="settings">⚙ Settings</button><button class="btn btn-ghost btn-sm" id="aiAdd">✨ Add with AI</button><button class="btn btn-ghost btn-sm" id="checkAll" title="Fact-check every question with AI">✔ Check all</button><div class="grow"></div><button class="btn btn-sm" id="save">Save</button><button class="btn btn-primary btn-sm" id="host">▶ Host live</button></div>
     </div>
     <div class="editor"><div class="card qlist" id="qlist"></div><div class="card" id="qform"></div></div>`;
   $('#back').onclick = async () => { if (S.dirty) await save(); loadList(); };
@@ -328,6 +323,7 @@ async function generateForRound(r) {
         const usedPictures = S.quiz.questions.flatMap((q) => [q.media?.source, q.media?.url]).filter((s) => typeof s === 'string' && /^https?:/.test(s));
         const res = await api('generate', { topic: (r.brief ? `${r.title}. ${r.brief}` : r.title).slice(0, 200), title: r.title, brief: r.brief, usedPictures, count: Math.min(BATCH, need - got), difficulty: 'mixed', types: [type], pictures: true, web: true, avoid }, { timeout: 170000 });
         if (!res.questions.length) break;
+        if (!res.questions.some((q) => q.type === type)) { toast(`The server wrote ${TYPES[res.questions[0].type]?.label || 'other'} questions instead of ${TYPES[type].label}: the quiz-api function is out of date and needs redeploying. They were not added.`, true); break; }
         for (const q of res.questions) { q.round = r.id; q.time = timeFor(q.type, S.quiz.settings); if (q.collage && !q.media?.url) { try { await buildCollageFor(q); } catch {} } S.quiz.questions.push(q); avoid.push(q.text); got++; written++; }
         touch(); renderQList(); save();
       }
@@ -907,6 +903,7 @@ function aiModal(fresh, roundId) {
         si = 0; status();
         const r = await api('generate', { ...opts, count: Math.min(BATCH, total - written), avoid }, { timeout: 170000 });
         if (!r.questions.length) break;
+        if (!r.questions.some((q) => types.includes(q.type))) { warnings.push(`The server does not know the question types you asked for yet (the quiz-api function needs redeploying); it wrote ${[...new Set(r.questions.map((q) => TYPES[q.type]?.label))].join(' and ')} instead.`); }
         let rid = round?.id;
         if (fresh && start === null) {
           const name = topic ? topic.charAt(0).toUpperCase() + topic.slice(1) : 'AI quiz';

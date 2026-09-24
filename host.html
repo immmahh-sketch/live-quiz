@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Live Quiz — Host</title>
+<title>Let's Quiz! — Host</title>
+<link rel="icon" type="image/png" sizes="64x64" href="assets/brand/icon-64.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
@@ -713,7 +714,7 @@ function bind() {
 }
 function renderLobby() {
   const url = playUrl(G.code);
-  stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">${total()} questions</span></div></div>
+  stage.innerHTML = `<div class="stage-top"><div class="lobbylogo"><img src="assets/brand/mark.png" alt="">Let's Quiz!</div><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">${total()} questions</span></div></div>
     <div class="stage-main"><div class="lobby">
       <div class="center"><div class="qr" id="qr"></div><p class="joinurl mt">Scan, or go to <b>${esc(shortPlayUrl())}</b></p></div>
       <div class="center"><div style="opacity:.8;font-weight:800;font-size:1.3rem">and enter the code</div><div class="code">${G.code}</div>

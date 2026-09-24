@@ -1,4 +1,4 @@
-# Live Quiz — scope and design
+# Let's Quiz! — scope and design
 
 *Written 23 September 2026, alongside the first build.*
 

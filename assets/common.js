@@ -1,4 +1,4 @@
-/* Live Quiz — shared config and helpers used by the builder, host screen and player app. */
+/* Let's Quiz! — shared config and helpers used by the builder, host screen and player app. */
 window.LQ = (() => {
   const SUPABASE_URL = 'https://safcrtrfdzsnftghibot.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_RGaIB8W145BFCWzOxamQvA_7VIkTHMU';

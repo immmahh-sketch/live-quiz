@@ -1,4 +1,4 @@
-# Live Quiz
+# Let's Quiz!
 
 A Kahoot-style live quiz for video calls. You build quizzes in a desktop portal, share your
 screen on the call, and everyone plays on their phone by scanning the QR code. Scores reward

@@ -411,6 +411,13 @@ Rules:
 - Never put the answer, or a giveaway, in the question text.
 - Keep question text under 140 characters. Answers under 40 characters.
 
+What makes a good pub-quiz question (this matters as much as accuracy):
+- It should make the room think or argue: a specific, interesting fact with a hook, not something everybody knows instantly. "What is given on the fifth day of the Twelve Days of Christmas", "the capital of France", "how many legs has a spider", "the largest planet" — nursery-level staples like these are never acceptable, even at easy. Easy means a fact most adults know but have to reach for, not one a child chants.
+- Do not ask for something the audience can recite as a list or a lyric; do not ask the most famous thing about a famous subject unless you are asking for a detail of it.
+- Wrong options must be genuinely tempting: the same kind of thing, the same era, things a player could believe. Never fillers from a well-known list where the odd one out is obvious, never options that rule themselves out.
+- Prefer the surprising angle: the record nobody expects, the connection between two things, the detail behind the famous fact, the number people misjudge.
+- Before you reply, reread every question and delete any that a bored ten-year-old would answer without pausing, then write a better one in its place.
+
 Question types and their JSON shapes (use only the types you are asked for, and mix them):
 - "choice": {"type":"choice","text":"...","options":["A","B","C","D"],"answer":"<exactly one of the options>","time":20}
   Wrong options must be plausible and of the same kind as the answer.
@@ -767,7 +774,11 @@ Deno.serve(async (req) => {
 
     if (action === "generate") {
       if (!ANTHROPIC_KEY) return json({ error: "AI is not set up on the server yet — add ANTHROPIC_API_KEY as a Supabase secret." }, 503);
-      const types = (Array.isArray(body.types) ? body.types : []).filter((t: unknown) => ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel", "highlow", "rhyme"].includes(String(t)));
+      const KNOWN = ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel", "highlow", "rhyme"];
+      const asked = (Array.isArray(body.types) ? body.types : []).map(String);
+      const types = asked.filter((t) => KNOWN.includes(t));
+      const unknownTypes = asked.filter((t) => !KNOWN.includes(t));
+      if (asked.length && !types.length) return json({ error: `This server does not know the question type${unknownTypes.length > 1 ? 's' : ''} ${unknownTypes.join(", ")} yet — redeploy the quiz-api function.` }, 400);
       const out = await generate({
         topic: String(body.brief ? (body.title || body.topic || "") : (body.topic || "")).slice(0, 200),
         brief: String(body.brief || "").slice(0, 1500),
@@ -779,7 +790,7 @@ Deno.serve(async (req) => {
         pictures: body.pictures !== false,
         web: body.web !== false,
       });
-      return json(out);
+      return json({ ...out, unknownTypes });
     }
 
     if (action === "picture") {
