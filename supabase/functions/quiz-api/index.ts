@@ -985,7 +985,7 @@ Deno.serve(async (req) => {
       let added = 0;
       questions.forEach((q: any, n: number) => {
         const key = keyOf(q);
-        if (!key || have.has(key)) return;
+        if (!key || have.has(key) || row.questions.some((x: any) => nearDuplicate(x, q))) return;
         have.add(key);
         const src = items.find((r: any) => rawKey(r) === key) || items[n] || {};
         q.category = String(src.category || "").slice(0, 60); q.tags = (Array.isArray(src.tags) ? src.tags : []).map((t: unknown) => String(t).slice(0, 40)).slice(0, 12);
