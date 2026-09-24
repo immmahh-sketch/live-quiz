@@ -1137,7 +1137,7 @@ Deno.serve(async (req) => {
 const BANK_LOW = 25;
 const EVERGREEN = ["club", "dingbat", "wheel", "pin", "tune"]; // theme-free types: any unused item will do when the round has no matching one
 /** What makes two items "the same": the phrase for dingbats and wheels, the place for pins, the track for tunes, the wording otherwise. */
-function bankKey(q: any): string { if (q?.media?.kind === "youtube" && q.media.videoId) return "yt:" + q.media.videoId; return norm(q?.type === "dingbat" ? (q.answers || [])[0] || "" : q?.type === "tune" ? `${q.track} ${q.artist}` : q?.type === "pin" ? q.place || q.text : q?.phrase || q?.text || ""); }
+function bankKey(q: any): string { if (q?.media?.kind === "youtube" && q.media.videoId) return "yt:" + q.media.videoId; if (q?.media?.kind === "image" && q.media.source && /which .*(flag|picture|this)/i.test(q.text || "")) return "img:" + q.media.source; return norm(q?.type === "dingbat" ? (q.answers || [])[0] || "" : q?.type === "tune" ? `${q.track} ${q.artist}` : q?.type === "pin" ? q.place || q.text : q?.phrase || q?.text || ""); }
 /** The right answer of a finished question, as plain text, for near-duplicate checks. */
 function bankAnswer(q: any): string {
   if (!q) return "";
@@ -1157,6 +1157,7 @@ function nearDuplicate(a: any, b: any): boolean {
   if (a.type !== b.type) return false;
   const ka = bankKey(a), kb = bankKey(b);
   if (ka && ka === kb) return true;
+  if (ka.startsWith("img:") || kb.startsWith("img:") || ka.startsWith("yt:") || kb.startsWith("yt:")) return false; // different picture or clip = different question
   const ta = tokens(ka), tb = tokens(kb);
   if (!ta.size || !tb.size) return false;
   let shared = 0; for (const w of ta) if (tb.has(w)) shared++;
