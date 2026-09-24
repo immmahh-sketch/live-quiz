@@ -968,7 +968,7 @@ function renderQuestion() {
   if (q.type === 'pin') body = `<div class="item" style="justify-content:center">📍 Tap the spot on your phone</div>`;
   if (q.type === 'tune') body = `<div class="tunestage"><div class="vinyl" id="vinyl"><div class="label"></div></div><div class="tunemeta"><div class="tunehint">${esc(LQ.tunePrompt(q))}</div><div class="tuneprog"><i id="tuneBar"></i></div><div class="small" style="opacity:.75">${q.media?.length || 15}-second clip · type on your phone${q.ask === 'year' ? ` · within ${+q.tolerance || 0} year${+q.tolerance === 1 ? '' : 's'} counts` : ''}</div><button class="btn btn-ghost btn-sm" id="tuneAgain">▶ Play the clip again</button></div></div>`;
   stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill" id="answered">0 of ${players().length} answered</span><div class="timer" id="timer" data-s="${q.time}" style="--p:100%"></div></div>`)}
-    <div class="stage-main"><h1 class="qtext">${esc(q.type === 'rhyme' || q.type === 'dingbat' ? '' : q.text)}</h1>${mediaHtml(q, true)}</div>
+    <div class="stage-main">${q.type === 'smash' ? `${mediaHtml(q, true)}<h1 class="qtext smashclue"><span>+</span> ${esc(q.text)}</h1>` : `<h1 class="qtext">${esc(q.type === 'rhyme' || q.type === 'dingbat' ? '' : q.text)}</h1>${mediaHtml(q, true)}`}</div>
     <div>${body}</div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">Stop the clock ■</button>`)}`;
   renderAnswered(); bind();

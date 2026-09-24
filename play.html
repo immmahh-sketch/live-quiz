@@ -276,6 +276,7 @@ function questionHtml(q) {
     body = `<p class="muted center small">Tap a word, then tap its match</p><div class="mleft" id="mleft"></div><div class="mchoices" id="mchoices"></div><button class="btn btn-primary btn-lg btn-block mt" id="lockMatch" disabled>Lock it in</button>`;
   }
   if (q.type === 'pin') { P.work.pin = P.work.pinQ === q.id ? P.work.pin : null; P.work.pinQ = q.id; body = `<div class="pinboard tap" id="pinboard"><img src="${esc(q.media?.url || '')}" draggable="false"></div><button class="btn btn-primary btn-lg btn-block mt" id="dropPin" disabled>Drop the pin here</button>`; }
+  if (q.type === 'smash') return `${mediaHtml(q)}<div class="pq smashclue"><span>+</span> ${esc(q.text)}</div>${body}<button type="button" class="btn btn-ghost btn-block mt" id="skipQ" style="color:var(--ink-3)">Skip — I don't know ⏭</button>`;
   return `${q.type === 'wheel' || q.type === 'highlow' ? '' : `<div class="pq">${q.type === 'rhyme' ? '🎤 ' : ''}${esc(q.text)}</div>`}${q.type === 'pin' ? '' : mediaHtml(q)}${body}<button type="button" class="btn btn-ghost btn-block mt" id="skipQ" style="color:var(--ink-3)">Skip — I don't know ⏭</button>`;
 }
 /** Highbrow Lowbrow on the phone: the hard clue, and a button that swaps in the easy one for the lower points. Only this phone sees it. */

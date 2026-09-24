@@ -648,3 +648,7 @@ body.solo .stage { padding-right: calc(min(390px, 100vw) + 20px); }
 .bkf { display: block; margin-top: 10px; }
 .bkf > input, .bkf > textarea, .bkf > select { display: block; width: 100%; margin-top: 3px; }
 .bkf textarea { min-height: 0; }
+
+/* Answer Smash: the picture is the first half, so the clue sits under it after a plus */
+.smashclue span { opacity: .55; font-weight: 900; margin-right: .15em; }
+.pq.smashclue { margin-top: 10px; }
