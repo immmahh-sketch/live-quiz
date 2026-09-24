@@ -1,0 +1,33 @@
+name: Deploy quiz-api
+
+# Deploys the edge function to Supabase whenever its code changes on main, so nobody has
+# to run the CLI by hand. Needs one repository secret: SUPABASE_ACCESS_TOKEN, a personal
+# access token from https://supabase.com/dashboard/account/tokens.
+#
+# Database migrations are not pushed from here on purpose: the project's full migration
+# history lives in the Till App repo, and pushing from this one would be incomplete.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "supabase/functions/quiz-api/**"
+      - ".github/workflows/deploy-quiz-api.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-quiz-api
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Deploy the function
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: supabase functions deploy quiz-api --project-ref safcrtrfdzsnftghibot --no-verify-jwt
