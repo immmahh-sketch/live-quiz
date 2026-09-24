@@ -349,8 +349,12 @@ document.addEventListener('click', (e) => {
 });
 
 // ------------------------------------------------------------------ boot
-renderJoin();
-if (new URLSearchParams(location.search).get('g') && P.name) { /* returning player: still confirm the name */ }
+const bootQ = new URLSearchParams(location.search);
+if (bootQ.get('solo') === '1' && /^[A-Z0-9]{6}$/i.test(bootQ.get('g') || '')) {
+  // the host testing alone: this panel sits inside the host page, so join without the form
+  P.code = bootQ.get('g').toUpperCase(); P.name = P.name || 'Me'; store('lq_player', { pid: P.pid, name: P.name, emoji: P.emoji });
+  connect();
+} else renderJoin();
 </script>
 </body>
 </html>

@@ -586,3 +586,34 @@ body.mobilewiz { padding-bottom: 24px; }
 .bankrow.used { opacity: .55; } .usedtag { background: var(--paper); border-radius: 999px; padding: 1px 8px; font-size: .75rem; font-weight: 800; }
 .tag.dif-easy { background: #e3f6e3; color: #1d6b1d; } .tag.dif-medium { background: #fff1c9; color: #7a5a00; } .tag.dif-hard { background: #fde1e1; color: #8a1d1d; }
 .bankcell .mix { font-size: .7rem; font-weight: 600; color: var(--ink-3); }
+
+/* ---------------------------------------------------------------- host stage on a phone */
+@media (max-width: 700px) {
+  body.host { overflow: auto; }
+  .stage { height: auto; min-height: 100vh; padding: 12px 14px calc(14px + env(safe-area-inset-bottom)); gap: 10px; }
+  .stage-top { flex-wrap: wrap; font-size: 1rem; gap: 8px; }
+  .stage-top .pillbox { flex-wrap: wrap; gap: 6px; }
+  .hpill { padding: 4px 12px; font-size: .9rem; }
+  .lobbylogo { font-size: 1.15rem; } .lobbylogo img { height: 40px; }
+  .stage-main { flex: none; }
+  .lobby { gap: 14px; }
+  .lobby .qr { padding: 10px; border-radius: 14px; }
+  .lobby .qr canvas, .lobby .qr img { width: min(62vw, 300px); height: min(62vw, 300px); }
+  .code { font-size: 2.6rem; }
+  .appqr { flex-direction: column; text-align: center; gap: 8px; margin-top: 12px; padding: 10px; }
+  .appqr-text { max-width: none; }
+  .stage-bottom { flex-wrap: wrap; gap: 8px; }
+  .stage-bottom > .small { width: 100%; }
+  .hostbar { margin-left: 0; width: 100%; flex-wrap: wrap; }
+  .hostbar .btn { white-space: normal; flex: 1 1 45%; }
+  .hostbar .btn-lg { flex-basis: 100%; }
+}
+/* ---------------------------------------------------------------- test by myself: the player panel docked on the host page */
+.solopanel { position: fixed; right: 0; top: 0; bottom: 0; width: min(390px, 100vw); background: var(--paper); border-left: 3px solid var(--sun); z-index: 30; display: flex; flex-direction: column; box-shadow: -10px 0 40px rgba(0,0,0,.35); }
+.solohead { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: var(--stage); color: #fff; }
+.solopanel iframe { flex: 1 1 auto; border: 0; width: 100%; }
+body.solo .stage { padding-right: calc(min(390px, 100vw) + 20px); }
+@media (max-width: 700px) {
+  .solopanel { top: auto; left: 0; width: 100%; height: 52vh; border-left: 0; border-top: 3px solid var(--sun); box-shadow: 0 -10px 40px rgba(0,0,0,.35); }
+  body.solo .stage { padding-right: 14px; padding-bottom: calc(52vh + 20px); }
+}

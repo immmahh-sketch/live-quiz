@@ -32,6 +32,17 @@ let G = null, ch = null, sb = null, tickT = null, hbT = null, countT = null, hel
 const present = new Map(); // pid -> name, from presence
 
 let toastT;
+/** Test by myself: three bots for company and a player panel docked on this page (play.html in an iframe, joined as "Me"). */
+function toggleSolo() {
+  if (G.solo) { G.solo = false; document.body.classList.remove('solo'); $('#solopanel')?.remove(); renderLobby(); return; }
+  G.solo = true; document.body.classList.add('solo');
+  if (!G.bots?.length) addBots(3);
+  const p = document.createElement('div'); p.id = 'solopanel'; p.className = 'solopanel';
+  p.innerHTML = `<div class="solohead"><b>🧪 You, as a player</b><button class="btn btn-ghost btn-sm" id="soloClose">Close</button></div><iframe src="play?g=${G.code}&solo=1" allow="camera"></iframe>`;
+  document.body.appendChild(p);
+  $('#soloClose').onclick = toggleSolo;
+  renderLobby();
+}
 /** After a test run: every question goes back into the bank as unused (AI-written ones are added) and the quiz is deleted. Two presses, so a stray click on the remote does nothing. */
 async function returnToBank() {
   const b = $('[data-act="restock"]'); if (!b || !G.quizId) return;
@@ -786,7 +797,7 @@ function hostBar(buttons) {
   return `<div class="stage-bottom"><span class="muted small" style="opacity:.6">Game ${G.code} · ${players().length} players${G.bots?.length ? ` · test mode, ${G.bots.length} bots` : ''} · ${hint}</span>${d ? `<div class="autobar" title="Moving on by itself"><i style="animation-duration:${d}ms"></i></div>` : ''}<div class="hostbar">${buttons}</div></div>`;
 }
 function bind() {
-  $$('[data-act]').forEach((b) => b.onclick = () => ({ primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(3), auto: toggleAuto, restock: returnToBank, builder: () => location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
+  $$('[data-act]').forEach((b) => b.onclick = () => ({ primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(3), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, builder: () => location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
   $$('[data-kick]').forEach((el) => { el.style.cursor = 'pointer'; el.title = 'Click to remove this player from the game'; el.onclick = () => kickPlayer(el.dataset.kick); });
 }
 function renderLobby() {
@@ -798,7 +809,7 @@ function renderLobby() {
         <div class="players" id="players"></div>
         <div class="appqr"><div class="qr" id="qr2"></div><div class="appqr-text"><b>Keep the app on your phone</b>Scan this one and add it to your home screen.<span>${esc(shortPlayUrl())}</span></div></div></div>
     </div></div>
-    ${hostBar(`<button class="btn btn-ghost" data-act="builder">${TV ? '🏠 Home' : 'Back to builder'}</button><button class="btn btn-ghost ${G.auto ? 'on' : ''}" data-act="auto" title="Self-play: the screen moves on by itself and players can press Start and Next on their phones, so nobody has to sit at this screen">${G.auto ? '🎮 Runs itself: on' : '🎮 Runs itself: off'}</button><button class="btn btn-ghost" data-act="bots" title="Test mode: add three simulated players who answer on their own">${G.bots?.length ? `🤖 ${G.bots.length} bots · add more` : '🤖 Add test bots'}</button><button class="btn btn-primary btn-lg" data-act="primary" id="startBtn">Start ▶</button>`)}`;
+    ${hostBar(`<button class="btn btn-ghost" data-act="builder">${TV ? '🏠 Home' : 'Back to builder'}</button><button class="btn btn-ghost ${G.auto ? 'on' : ''}" data-act="auto" title="Self-play: the screen moves on by itself and players can press Start and Next on their phones, so nobody has to sit at this screen">${G.auto ? '🎮 Runs itself: on' : '🎮 Runs itself: off'}</button>${TV ? '' : `<button class="btn btn-ghost ${G.solo ? 'on' : ''}" data-act="solo" title="Test by yourself: adds three bots and opens a player panel here so you can answer on this screen">${G.solo ? '🧪 Testing solo: on' : '🧪 Test by myself'}</button>`}<button class="btn btn-ghost" data-act="bots" title="Test mode: add three simulated players who answer on their own">${G.bots?.length ? `🤖 ${G.bots.length} bots · add more` : '🤖 Add test bots'}</button><button class="btn btn-primary btn-lg" data-act="primary" id="startBtn">Start ▶</button>`)}`;
   new QRCode($('#qr'), { text: url, width: 380, height: 380, correctLevel: QRCode.CorrectLevel.M });
   new QRCode($('#qr2'), { text: new URL('play', location.href).toString(), width: 200, height: 200, correctLevel: QRCode.CorrectLevel.M });
   renderLobbyPlayers(); bind();
