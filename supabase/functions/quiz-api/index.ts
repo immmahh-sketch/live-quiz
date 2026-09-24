@@ -884,6 +884,13 @@ Deno.serve(async (req) => {
       const qs: any[] = row ? row.questions : [];
       return json({ questions: qs.map((q) => ({ id: q.id, text: q.text || q.phrase || q.place || "", answer: q.type === "choice" ? (q.options || []).find((o: any) => o.id === q.correct)?.text : q.type === "tf" ? String(q.answer) : q.type === "wheel" ? q.phrase : q.type === "pin" ? q.place : q.type === "order" ? (q.items || []).map((i: any) => i.text).join(" → ") : (q.answers || [])[0] || "", category: q.category || "", tags: q.tags || [], used: q.used || null, pct: q.pct, rejected: !!q.used?.rejected })) });
     }
+    if (action === "bank_get") {
+      const type = String(body.type || ""), id = String(body.id || "");
+      const row = (await bankRows()).find((r) => r.settings?.type === type);
+      const q = row?.questions?.find((x: any) => x.id === id);
+      if (!q) return json({ error: "That bank item no longer exists." }, 404);
+      return json({ question: q });
+    }
     if (action === "bank_restore") {
       // Back to fresh: clears the used stamp (rejected or not) so the item can go into a quiz again.
       const type = String(body.type || ""), id = String(body.id || "");

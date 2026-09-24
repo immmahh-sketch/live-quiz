@@ -125,28 +125,60 @@ function renderBankPanel(r) {
   el.innerHTML = `<div class="banksec"><div class="row" style="margin-bottom:6px"><h2 style="margin:0">🏦 Question bank</h2><span class="muted small">Pre-written questions the AI writer uses first, free. Each is marked off once it goes into a quiz and never comes round again.</span></div>
     ${low.length ? `<div class="error" style="margin-bottom:10px">⚠ Running low: ${low.map((t) => `${TYPES[t].label} (${S.bank[t].unused} left)`).join(', ')}. Time to top the bank up.</div>` : ''}
     <div class="bankgrid">${types.map((t) => `<button class="bankcell ${S.bank[t].low ? 'low' : ''}" data-bank="${t}"><span>${TYPES[t].icon} ${esc(TYPES[t].label)}</span><b>${S.bank[t].unused}</b><small>of ${S.bank[t].total} unused</small></button>`).join('')}${types.length ? '' : '<p class="muted small">Empty. Import a bank to get started.</p>'}</div></div>`;
-  $$('[data-bank]').forEach((b) => b.onclick = () => bankModal(b.dataset.bank));
+  $$('[data-bank]').forEach((b) => b.onclick = () => bankBrowse(b.dataset.bank));
   if (low.length && !S.bankWarned) { S.bankWarned = true; toast(`Question bank running low: ${low.map((t) => TYPES[t].label).join(', ')}`, true); }
 }
-async function bankModal(type) {
+async function bankBrowse(type) {
   const m = modal(`<h3>🏦 ${TYPES[type].icon} ${esc(TYPES[type].label)} bank</h3><p class="muted small">Loading…</p>`);
   let list = [];
   try { list = (await api('bank_list', { type })).questions; } catch (e) { $('p', m).textContent = e.message; return; }
   let filter = '', show = 'all';
   const draw = () => {
+    list = list.filter((q) => !q.gone);
     const rows = list.filter((q) => (show === 'all' || (show === 'rejected' ? q.rejected : show === 'fresh' ? !q.used : q.used && !q.rejected)) && (!filter || (q.text + ' ' + q.answer + ' ' + q.category).toLowerCase().includes(filter)));
     const unused = list.filter((q) => !q.used).length, rejected = list.filter((q) => q.rejected).length;
     m.innerHTML = `<h3>🏦 ${TYPES[type].icon} ${esc(TYPES[type].label)} bank <span class="muted small">· ${unused} unused of ${list.length}</span></h3>
       <div class="row" style="margin-bottom:8px"><input type="text" id="bk_f" class="grow" placeholder="Search the bank" value="${esc(filter)}"><select id="bk_show"><option value="all" ${show === 'all' ? 'selected' : ''}>Everything</option><option value="fresh" ${show === 'fresh' ? 'selected' : ''}>Fresh (${unused})</option><option value="used" ${show === 'used' ? 'selected' : ''}>Used in a quiz</option><option value="rejected" ${show === 'rejected' ? 'selected' : ''}>👎 Rejected (${rejected})</option></select><button class="btn btn-ghost btn-sm" data-x>Close</button></div>
       ${show === 'rejected' ? '<p class="muted small" style="margin:0 0 8px">Questions a host turned down. Restore puts one back into stock as it is; Delete drops it for good. To improve one, restore it and edit it in the quiz it next appears in, or just delete it.</p>' : ''}
-      <div class="banklist">${rows.slice(0, 400).map((q) => `<div class="bankrow ${q.used ? 'used' : ''}"><div><div class="t">${esc(q.text)}${q.pct ? ` <span class="tag">${q.pct}%</span>` : ''}</div><div class="a">${esc(q.answer || '')}${q.category ? ` <span class="muted">· ${esc(q.category)}</span>` : ''}${q.used ? ` <span class="usedtag">${q.rejected ? '👎 rejected' : 'used'} ${esc((q.used.at || '').slice(0, 10))}</span>` : ''}</div></div><div class="row" style="gap:4px">${q.used ? `<button class="btn btn-ghost btn-sm" data-br="${esc(q.id)}" title="Back into stock as a fresh question">↺</button>` : ''}<button class="btn btn-ghost btn-sm" data-bd="${esc(q.id)}" title="Remove from the bank">✕</button></div></div>`).join('')}${rows.length > 400 ? `<p class="muted small">Showing 400 of ${rows.length}; narrow the search.</p>` : ''}</div>`;
+      <div class="banklist">${rows.slice(0, 400).map((q) => `<div class="bankrow ${q.used ? 'used' : ''}" data-bv="${esc(q.id)}" style="cursor:pointer" title="Click to see the whole question"><div><div class="t">${esc(q.text)}${q.pct ? ` <span class="tag">${q.pct}%</span>` : ''}</div><div class="a">${esc(q.answer || '')}${q.category ? ` <span class="muted">· ${esc(q.category)}</span>` : ''}${q.used ? ` <span class="usedtag">${q.rejected ? '👎 rejected' : 'used'} ${esc((q.used.at || '').slice(0, 10))}</span>` : ''}</div></div><div class="row" style="gap:4px">${q.used ? `<button class="btn btn-ghost btn-sm" data-br="${esc(q.id)}" title="Back into stock as a fresh question">↺</button>` : ''}<button class="btn btn-ghost btn-sm" data-bd="${esc(q.id)}" title="Remove from the bank">✕</button></div></div>`).join('')}${rows.length > 400 ? `<p class="muted small">Showing 400 of ${rows.length}; narrow the search.</p>` : ''}</div>`;
     $('#bk_f', m).oninput = (e) => { filter = e.target.value.toLowerCase(); draw(); $('#bk_f', m).focus(); $('#bk_f', m).setSelectionRange(filter.length, filter.length); };
     $('[data-x]', m).onclick = () => m.remove();
     $('#bk_show', m).onchange = (e) => { show = e.target.value; draw(); };
-    $('[data-bd]', m).forEach((b) => b.onclick = async () => { try { await api('bank_delete', { type, id: b.dataset.bd }); list = list.filter((q) => q.id !== b.dataset.bd); draw(); } catch (e) { toast(e.message, true); } });
-    $('[data-br]', m).forEach((b) => b.onclick = async () => { try { await api('bank_restore', { type, id: b.dataset.br }); const q = list.find((x) => x.id === b.dataset.br); if (q) { q.used = null; q.rejected = false; } draw(); } catch (e) { toast(e.message, true); } });
+    $$('[data-bd]', m).forEach((b) => b.onclick = async () => { try { await api('bank_delete', { type, id: b.dataset.bd }); list = list.filter((q) => q.id !== b.dataset.bd); draw(); } catch (e) { toast(e.message, true); } });
+    $$('[data-bv]', m).forEach((r) => r.onclick = (e) => { if (e.target.closest('button')) return; bankView(type, r.dataset.bv, list.find((q) => q.id === r.dataset.bv)); });
+    $$('[data-br]', m).forEach((b) => b.onclick = async () => { try { await api('bank_restore', { type, id: b.dataset.br }); const q = list.find((x) => x.id === b.dataset.br); if (q) { q.used = null; q.rejected = false; } draw(); } catch (e) { toast(e.message, true); } });
   };
   draw();
+}
+/** The whole of one bank question, read-only: every option, accepted answer, item, category, picture and tag. */
+async function bankView(type, id, summary) {
+  const m = modal(`<h3>${TYPES[type].icon} ${esc(TYPES[type].label)}</h3><p class="muted small">Loading…</p>`);
+  let q;
+  try { q = (await api('bank_get', { type, id })).question; } catch (e) { $('p', m).textContent = e.message; return; }
+  const li = (arr) => `<ol style="margin:4px 0 0 18px;padding:0">${arr.map((x) => `<li>${esc(x)}</li>`).join('')}</ol>`;
+  const kv = (k, v) => v ? `<div style="margin-top:8px"><div class="muted small">${esc(k)}</div><div>${v}</div></div>` : '';
+  let body = '';
+  if (q.type === 'choice') body = kv('Options', `<ul style="margin:4px 0 0 18px;padding:0">${(q.options || []).map((o) => `<li>${o.id === q.correct ? '<b>✓ ' + esc(o.text) + '</b>' : esc(o.text)}</li>`).join('')}</ul>`);
+  else if (q.type === 'tf') body = kv('Answer', `<b>${q.answer ? 'True' : 'False'}</b>`) + kv('Why', esc(q.why || q.explain || ''));
+  else if (q.type === 'order') body = kv('Right order', li((q.items || []).map((i) => i.text))) + kv('Hint', esc(q.hint || ''));
+  else if (q.type === 'sort') body = kv('Categories', (q.categories || []).map((c) => `<div><b>${esc(c.name)}</b>: ${esc((q.items || []).filter((i) => i.category === c.id).map((i) => i.text).join(', '))}</div>`).join(''));
+  else if (q.type === 'match') body = kv('Pairs', li((q.pairs || []).map((p) => `${p.left} → ${p.right?.value || p.right?.text || p.right || ''}`)));
+  else if (q.type === 'wheel') body = kv('Phrase', `<b>${esc(q.phrase)}</b>`) + kv('Clue', esc(q.clue || q.category || ''));
+  else if (q.type === 'pin') body = kv('Place', `<b>${esc(q.place)}</b>`) + kv('Map', esc(q.map || q.region || ''));
+  else if (q.type === 'tune') body = kv('Track', `<b>${esc(q.track)}</b> — ${esc(q.artist)}${q.year ? ' (' + esc(String(q.year)) + ')' : ''}`) + kv('Ask', esc(q.ask || '')) + (q.previewUrl ? `<audio controls src="${esc(q.previewUrl)}" style="margin-top:8px;width:100%"></audio>` : '');
+  else if (q.type === 'smash') body = kv('Picture answer', esc(q.pictureAnswer)) + kv('Clue answer', esc(q.clueAnswer)) + kv('Smash', `<b>${esc((q.answers || [])[0] || '')}</b>`);
+  else if (q.type === 'highlow') body = kv('Highbrow answer', `<b>${esc((q.answers || [])[0] || '')}</b>`) + kv('Lowbrow clue', esc(q.low || q.lowText || '')) + kv('Also accepted', esc((q.answers || []).slice(1).join(', ')));
+  else if (q.type === 'wipeout' || q.type === 'race') body = kv(q.type === 'race' ? 'Questions' : 'Board', li((q.items || q.bank || []).map((i) => i.text + (i.right === false || i.wipeout ? ' ✗' : i.options ? ' → ' + i.options[0] : ''))));
+  else body = kv('Answer', `<b>${esc((q.answers || [])[0] || '')}</b>`) + kv('Also accepted', esc((q.answers || []).slice(1).join(', '))) + kv('Rhymes with', esc(q.rhyme || '')) + kv('Second clue', esc(q.text2 || ''));
+  const pic = q.media?.url ? `<img src="${esc(q.media.url)}" style="max-width:100%;max-height:220px;border-radius:8px;margin-top:8px" alt="">` : '';
+  const st = q.used ? `<span class="usedtag">${q.used.rejected ? '👎 rejected' : 'used'} ${esc((q.used.at || '').slice(0, 10))}${q.used.note ? ' · ' + esc(q.used.note) : ''}</span>` : '<span class="tag">fresh</span>';
+  m.innerHTML = `<h3>${TYPES[type].icon} ${esc(TYPES[type].label)} ${q.pct ? `<span class="tag">${q.pct}%</span>` : ''} ${st}</h3>
+    <div style="font-size:1.05em;margin-top:6px">${esc(q.text || q.phrase || q.place || '')}</div>${pic}${body}
+    ${kv('Category', esc(q.category || ''))}${kv('Tags', (q.tags || []).map((t) => `<span class="tag">${esc(t)}</span>`).join(' '))}${kv('Time', q.time ? q.time + ' s' : '')}
+    <div class="row" style="justify-content:flex-end;margin-top:14px;gap:6px">${q.used ? '<button class="btn btn-ghost btn-sm" data-restore>↺ Back into stock</button>' : ''}<button class="btn btn-ghost btn-sm" data-del style="color:var(--bad)">Remove from bank</button><button class="btn btn-primary btn-sm" data-x>Close</button></div>`;
+  $('[data-x]', m).onclick = () => m.remove();
+  if ($('[data-restore]', m)) $('[data-restore]', m).onclick = async () => { try { await api('bank_restore', { type, id }); if (summary) { summary.used = null; summary.rejected = false; } m.remove(); toast('Back in stock.'); } catch (e) { toast(e.message, true); } };
+  $('[data-del]', m).onclick = async () => { if (!(await confirmBox('Remove from the bank?', 'It will be gone for good.'))) return; try { await api('bank_delete', { type, id }); if (summary) summary.gone = true; m.remove(); toast('Removed.'); } catch (e) { toast(e.message, true); } };
 }
 function renderList() {
   history.replaceState(null, '', location.pathname);
