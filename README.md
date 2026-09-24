@@ -32,7 +32,9 @@ Full scope and design decisions: [docs/SCOPE.md](docs/SCOPE.md).
 | The Race | Played on the phones: a bank of quick multiple-choice questions, answer or skip, first to the target (default 10 right) wins | Winner takes the prize (default 5000); 2nd gets 2000 with 4+ runners and 3rd gets 500 with 6+; last place loses the forfeit (default 500); you're out once you can't reach the target; on the time limit the clear leader wins |
 | Answer Smash | A picture and a clue whose answers overlap; type them smashed together (Emma Watson + Sonic the Hedgehog = Emma Watsonic the Hedgehog) | Right or wrong, AI-judged for typos |
 | Wheel of Fortune | A hidden phrase on the show's 12/14/14/12 board; a letter flips every few seconds; type the phrase | Right or wrong, points fall with the clock |
-| Highbrow Lowbrow | A scholarly clue first; after 20s an easy pop-culture clue with the same answer joins it | 1000 while only the highbrow clue shows, 500 once the lowbrow one is up (both editable); AI-judged |
+| Highbrow Lowbrow | Only the scholarly clue goes on the screen; anyone stuck taps *Show me the lowbrow clue* on their phone and the easy pop-culture clue appears there alone | 1000 from the highbrow clue, 500 once you have asked for the lowbrow one (both editable); AI-judged; the screen shows how many asked |
+| The 10% Club | Logic, maths, wordplay and lateral thinking in the style of *The 1% Club*: no knowledge needed, work it out in 30s; each question is labelled by how many people get it | Flat, by rarity: 1100 − 10 × percentage, so a 90% question pays 200 and a 10% one 1000; AI-judged typed answer |
+| Dingbats | Say what you see: a phrase hidden in how words sit on a white board (over/under, backwards, boxed, struck out, big/small); laid out in the builder or written by the AI, or a picture of one | Type the phrase; speed points; AI-judged |
 | Rhyme Time | Two clues whose answers rhyme; type both in one box | Right when both answers are there, either order, AI-judged; points fall with the clock |
 | Wipeout | Take turns picking right answers from a scattered board of up to 20 (some wrong) | Each right pick scores (default 200) and vanishes; a wrong pick costs the picker (default 500) and ends the question; running out of your 5-second turn drops you out of that question |
 
@@ -57,6 +59,12 @@ Wrong answers score nothing. Both figures and the default time limit are in Quiz
 
 If the host tab is refreshed mid-game it offers to carry on where it left off. Players who
 refresh rejoin as themselves.
+
+**Weekly formats:** on the Rounds planner press **Save as format** to keep a quiz's set-up
+(rounds, how many of each type, the AI prompts) without its questions. The quiz list then
+shows it under *Weekly formats*, and **New quiz from this** creates a fresh, dated quiz in
+that shape and writes every round with the AI in one click. The TV has a *Weekly format*
+tile that does the same.
 
 **Self-play (nobody driving the screen):** press **Runs itself** in the lobby (or open the
 host screen with `&auto=1`). Leave the host tab open on a TV or laptop and play from your

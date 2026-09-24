@@ -77,7 +77,9 @@ points = max − (max − min) × (time taken ÷ time limit)      default max 10
 | Wipeout | turn-based picks from a board | see below | — |
 | The Race | a bank of quick questions on the phone | first to the target | — |
 | Answer Smash | free text | the smash (or both answers), AI-judged | — |
-| Highbrow Lowbrow | free text | the answer, AI-judged; flat 1000 before the lowbrow clue, 500 after | — |
+| Highbrow Lowbrow | free text, plus a button that reveals the lowbrow clue on that phone only | the answer, AI-judged; flat 1000 from the highbrow clue, 500 once the lowbrow one was asked for | — |
+| The 10% Club | free text | the answer, AI-judged; flat points by rarity (1100 − 10 × %) | — |
+| Dingbats | free text | the phrase, AI-judged; speed points | — |
 | Rhyme Time | free text | both rhyming answers, either order, AI-judged | — |
 | Wheel of Fortune | free text | the phrase, AI-judged for typos | — |
 
