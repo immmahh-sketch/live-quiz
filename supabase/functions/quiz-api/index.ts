@@ -1137,7 +1137,7 @@ Deno.serve(async (req) => {
 const BANK_LOW = 25;
 const EVERGREEN = ["club", "dingbat", "wheel", "pin", "tune"]; // theme-free types: any unused item will do when the round has no matching one
 /** What makes two items "the same": the phrase for dingbats and wheels, the place for pins, the track for tunes, the wording otherwise. */
-function bankKey(q: any): string { return norm(q?.type === "dingbat" ? (q.answers || [])[0] || "" : q?.type === "tune" ? `${q.track} ${q.artist}` : q?.type === "pin" ? q.place || q.text : q?.phrase || q?.text || ""); }
+function bankKey(q: any): string { if (q?.media?.kind === "youtube" && q.media.videoId) return "yt:" + q.media.videoId; return norm(q?.type === "dingbat" ? (q.answers || [])[0] || "" : q?.type === "tune" ? `${q.track} ${q.artist}` : q?.type === "pin" ? q.place || q.text : q?.phrase || q?.text || ""); }
 /** The right answer of a finished question, as plain text, for near-duplicate checks. */
 function bankAnswer(q: any): string {
   if (!q) return "";
