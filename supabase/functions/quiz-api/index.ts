@@ -916,6 +916,28 @@ Deno.serve(async (req) => {
       await bankSave(row);
       return json({ added, skipped: items.length - added, warnings, total: row.questions.length });
     }
+    if (action === "bank_add") {
+      // Already-finished questions (from the writer) go straight into the bank under a topic.
+      const type = String(body.type || "");
+      const category = String(body.category || "").slice(0, 60);
+      const tags = (Array.isArray(body.tags) ? body.tags : []).map((t: unknown) => String(t).slice(0, 40)).slice(0, 12);
+      const qs = (Array.isArray(body.questions) ? body.questions : []).filter((q: any) => q && q.type === type).slice(0, 40);
+      if (!qs.length) return json({ error: "Nothing to add." }, 400);
+      const row = await bankRow(type);
+      const keyOf = (q: any) => norm(q.type === "dingbat" ? (q.answers || [])[0] || "" : q.type === "tune" ? `${q.track} ${q.artist}` : q.type === "pin" ? q.place || q.text : q.phrase || q.text || "");
+      const have = new Set(row.questions.map(keyOf));
+      let added = 0;
+      for (const q of qs) {
+        const key = keyOf(q); if (!key || have.has(key)) continue;
+        have.add(key);
+        const c = { ...q, id: "q_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8), category, tags: [...new Set([...(q.tags || []), ...tags])] };
+        delete c.used; delete c.fromBank; delete c.round;
+        row.questions.push(c); added++;
+      }
+      if (JSON.stringify(row.questions).length > 1_900_000) return json({ error: "That bank row is full; start a second one for this type." }, 413);
+      if (added) await bankSave(row);
+      return json({ added, skipped: qs.length - added, total: row.questions.length });
+    }
     if (action === "tune_search") {
       const term = String(body.term || "").trim().slice(0, 120);
       if (!term) return json({ error: "What song?" }, 400);
