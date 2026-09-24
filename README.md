@@ -33,7 +33,7 @@ Full scope and design decisions: [docs/SCOPE.md](docs/SCOPE.md).
 | Answer Smash | A picture and a clue whose answers overlap; type them smashed together (Emma Watson + Sonic the Hedgehog = Emma Watsonic the Hedgehog) | Right or wrong, AI-judged for typos |
 | Wheel of Fortune | A hidden phrase on the show's 12/14/14/12 board; a letter flips every few seconds; type the phrase | Right or wrong, points fall with the clock |
 | Highbrow Lowbrow | Only the scholarly clue goes on the screen; anyone stuck taps *Show me the lowbrow clue* on their phone and the easy pop-culture clue appears there alone | 1000 from the highbrow clue, 500 once you have asked for the lowbrow one (both editable); AI-judged; the screen shows how many asked |
-| The 10% Club | Logic, maths, wordplay and lateral thinking in the style of *The 1% Club*: no knowledge needed, work it out in 30s; each question is labelled by how many people get it | Flat, by rarity: 1100 − 10 × percentage, so a 90% question pays 200 and a 10% one 1000; AI-judged typed answer |
+| The 1% Club | Logic, maths, wordplay and lateral thinking in the style of *The 1% Club*: no knowledge needed, work it out in 30s; each question is labelled by how many people get it | Flat, by rarity: 1100 − 10 × percentage, so a 90% question pays 200 and a 10% one 1000; AI-judged typed answer |
 | Name That Tune | A 30-second official preview (Apple's public search, no key, no downloads) plays on the screen behind a spinning record; players name the song, the artist, the film it's from, the year (with a tolerance) or the line that follows a lyric shown on screen; the AI picks well-known tracks and the server attaches the clip and artwork automatically, or search and pick by hand in the builder | Speed points; AI-judged text, years matched numerically |
 | Dingbats | Say what you see: a phrase hidden in how words sit on a white board (over/under, backwards, boxed, struck out, big/small); laid out in the builder or written by the AI, or a picture of one | Type the phrase; speed points; AI-judged |
 | Rhyme Time | Two clues whose answers rhyme; type both in one box | Right when both answers are there, either order, AI-judged; points fall with the clock |
@@ -109,6 +109,19 @@ to see the whole thing from both sides.
 Both need the `ANTHROPIC_API_KEY` secret on the Supabase project. Without it, judging falls
 back to closest-match and the writer is disabled (the portal says so).
 
+## The question bank
+
+Pre-written questions live in `bank/<type>.json` (the writer's JSON shape plus `category`
+and `tags`) and on the server as one `quiz_quizzes` row per type flagged `settings.bank`.
+`node tools/import-bank.mjs [types]` (with `LQ_PASSWORD` set) finishes and uploads them:
+pictures, maps and clips are resolved once at import, duplicates are skipped, so re-running
+is safe. When a round is written, the server takes matching unused bank questions first
+(any unused for a general round; keyword and category matches for a themed one, with the
+theme-free types falling back to any) and asks the AI only for the shortfall. Each question
+taken is stamped with the quiz it went into and never comes round again. The quiz list has
+a **Question bank** panel with counts per type, a browser to search and remove items, and a
+warning when a type drops below 25 unused.
+
 ## AI models and cost
 
 Each job uses the cheapest model that does it well, set in `quiz-api/index.ts`:
@@ -116,7 +129,7 @@ Each job uses the cheapest model that does it well, set in `quiz-api/index.ts`:
 | Job | Model | Web search |
 |---|---|---|
 | Writing plain factual types (choice, true/false, typed, order, categorise, match, Race, Wipeout) | Sonnet 5 | up to 3 per batch |
-| Writing the craft types (10% Club, Dingbats, Rhyme Time, Highbrow Lowbrow, Answer Smash, Wheel) | Opus 5 | none |
+| Writing the craft types (1% Club, Dingbats, Rhyme Time, Highbrow Lowbrow, Answer Smash, Wheel) | Opus 5 | none |
 | Writing Name That Tune (the clip lookup does the research) | Sonnet 5 | none |
 | Judging typed answers during a game | Haiku 4.5 | none |
 | Fact-checking (*Check this round*) | Sonnet 5 | up to 6 |

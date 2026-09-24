@@ -58,7 +58,7 @@ window.LQ = (() => {
     wheel:  { label: 'Wheel of Fortune', icon: '🎡', blurb: 'A hidden phrase on the board. Letters flip over one by one; the sooner you solve it, the more you score.' },
     highlow:{ label: 'Highbrow Lowbrow', icon: '🎓', blurb: 'A hard, scholarly clue on the screen. Stuck? Tap your phone for the easy, pop-culture clue with the same answer, for half the points.' },
     rhyme:  { label: 'Rhyme Time',      icon: '🎤', blurb: 'Two clues whose answers rhyme. Players type both answers in one go.' },
-    club:   { label: 'The 10% Club',    icon: '🧠', blurb: 'Logic, wordplay and lateral thinking. No knowledge needed, just work it out. The fewer people who get it, the more it pays.' },
+    club:   { label: 'The 1% Club',    icon: '🧠', blurb: 'Logic, wordplay and lateral thinking. No knowledge needed, just work it out. The fewer people who get it, the more it pays.' },
     dingbat:{ label: 'Dingbats',        icon: '🔤', blurb: 'Say what you see: a well-known phrase hidden in how the words are laid out.' },
     tune:   { label: 'Name That Tune',  icon: '🎵', blurb: 'A clip plays on the screen. Name the song, the artist, the film it is from, the year, or the next line.' },
   };
@@ -350,8 +350,8 @@ window.LQ = (() => {
     q.answerIndex = ai; q.target = { ...out.rects[ai] };
   }
 
-  // ---------------------------------------------------------------- The 10% Club + Dingbats
-  /** Flat points for a 10% Club question: the rarer the right answer, the more it pays (90% → 200, 50% → 600, 10% → 1000). */
+  // ---------------------------------------------------------------- The 1% Club + Dingbats
+  /** Flat points for a 1% Club question: the rarer the right answer, the more it pays (90% → 200, 50% → 600, 10% → 1000). */
   function clubPoints(pct) { return clamp(Math.round(1100 - 10 * (+pct || 50)), 200, 1000); }
   const CLUB_PCTS = [90, 80, 70, 60, 50, 40, 30, 20, 10, 5, 1];
   /** Draws a dingbat: text elements placed by percentage on a white board. Sizes 1–6; rot in degrees; flip h/v; style strike/underline/box/outline. */
@@ -394,6 +394,8 @@ window.LQ = (() => {
   const TUNE_ASKS = { song: { label: 'Name the song', prompt: '🎵 Name that tune' }, artist: { label: 'Name the artist', prompt: '🎤 Who is this?' }, film: { label: 'Which film is it from?', prompt: '🎬 Which film is this music from?' }, year: { label: 'What year?', prompt: '📅 What year was this released?' }, lyric: { label: 'Next line of the lyric', prompt: '🎶 The clip stops — what is the next line?' } };
   /** What the screen and phones ask for a tune question: the host's own wording, or the ask's default. */
   function tunePrompt(q) { if ((q.text || '').trim()) return q.text.trim(); if (q.ask === 'lyric' && (q.cue || '').trim()) return `🎶 What line comes after: “${q.cue.trim()}”?`; return (TUNE_ASKS[q.ask] || TUNE_ASKS.song).prompt; }
+  /** A track title without the "(feat. …)", "- Remastered" and "[Single Version]" clutter: what a player would actually say. */
+  function cleanTitle(t) { return String(t || '').replace(/\s*[\(\[][^)\]]*(feat\.|featuring|remaster|remastered|version|edit|mix|mono|stereo|live|radio)[^)\]]*[\)\]]/gi, '').replace(/\s+-\s+(remaster(ed)?|single version|radio edit|\d{4} remaster).*$/i, '').trim(); }
   /** Bigger Apple artwork from the 100px thumbnail the search returns. */
   function bigArt(url) { return String(url || '').replace(/\/\d+x\d+bb\./, '/600x600bb.'); }
 
@@ -402,5 +404,5 @@ window.LQ = (() => {
 
   return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
     TYPES, EMOJIS, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
-    newCode, playUrl, shortPlayUrl, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml, addUsage, usageCost, usageSummary, AI_PRICES, TUNE_ASKS, tunePrompt, bigArt };
+    newCode, playUrl, shortPlayUrl, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml, addUsage, usageCost, usageSummary, AI_PRICES, TUNE_ASKS, tunePrompt, bigArt, cleanTitle };
 })();

@@ -113,11 +113,42 @@ async function loadList() {
   try { const r = await api('list'); S.quizzes = r.quizzes; } catch (e) { view.innerHTML = `<div class="error">${esc(e.message)}</div>`; return; }
   renderList();
   api('games').then((r) => renderGames(r.games)).catch(() => {});
+  api('bank_status').then((r) => renderBankPanel(r)).catch(() => {});
+}
+// ------------------------------------------------------------------ the question bank
+/** Counts per type, with a warning when a type is running low. Click a type to browse it. */
+function renderBankPanel(r) {
+  const el = $('#bankpanel'); if (!el) return;
+  S.bank = r.bank || {};
+  const types = Object.keys(TYPES).filter((t) => S.bank[t]);
+  const low = types.filter((t) => S.bank[t].low);
+  el.innerHTML = `<div class="banksec"><div class="row" style="margin-bottom:6px"><h2 style="margin:0">🏦 Question bank</h2><span class="muted small">Pre-written questions the AI writer uses first, free. Each is marked off once it goes into a quiz and never comes round again.</span></div>
+    ${low.length ? `<div class="error" style="margin-bottom:10px">⚠ Running low: ${low.map((t) => `${TYPES[t].label} (${S.bank[t].unused} left)`).join(', ')}. Time to top the bank up.</div>` : ''}
+    <div class="bankgrid">${types.map((t) => `<button class="bankcell ${S.bank[t].low ? 'low' : ''}" data-bank="${t}"><span>${TYPES[t].icon} ${esc(TYPES[t].label)}</span><b>${S.bank[t].unused}</b><small>of ${S.bank[t].total} unused</small></button>`).join('')}${types.length ? '' : '<p class="muted small">Empty. Import a bank to get started.</p>'}</div></div>`;
+  $$('[data-bank]').forEach((b) => b.onclick = () => bankModal(b.dataset.bank));
+  if (low.length && !S.bankWarned) { S.bankWarned = true; toast(`Question bank running low: ${low.map((t) => TYPES[t].label).join(', ')}`, true); }
+}
+async function bankModal(type) {
+  const m = modal(`<h3>🏦 ${TYPES[type].icon} ${esc(TYPES[type].label)} bank</h3><p class="muted small">Loading…</p>`);
+  let list = [];
+  try { list = (await api('bank_list', { type })).questions; } catch (e) { $('p', m).textContent = e.message; return; }
+  let filter = '';
+  const draw = () => {
+    const rows = list.filter((q) => !filter || (q.text + ' ' + q.answer + ' ' + q.category).toLowerCase().includes(filter));
+    const unused = list.filter((q) => !q.used).length;
+    m.innerHTML = `<h3>🏦 ${TYPES[type].icon} ${esc(TYPES[type].label)} bank <span class="muted small">· ${unused} unused of ${list.length}</span></h3>
+      <div class="row" style="margin-bottom:8px"><input type="text" id="bk_f" class="grow" placeholder="Search the bank" value="${esc(filter)}"><button class="btn btn-ghost btn-sm" data-x>Close</button></div>
+      <div class="banklist">${rows.slice(0, 400).map((q) => `<div class="bankrow ${q.used ? 'used' : ''}"><div><div class="t">${esc(q.text)}${q.pct ? ` <span class="tag">${q.pct}%</span>` : ''}</div><div class="a">${esc(q.answer || '')}${q.category ? ` <span class="muted">· ${esc(q.category)}</span>` : ''}${q.used ? ` <span class="usedtag">used ${esc((q.used.at || '').slice(0, 10))}</span>` : ''}</div></div><button class="btn btn-ghost btn-sm" data-bd="${esc(q.id)}" title="Remove from the bank">✕</button></div>`).join('')}${rows.length > 400 ? `<p class="muted small">Showing 400 of ${rows.length}; narrow the search.</p>` : ''}</div>`;
+    $('#bk_f', m).oninput = (e) => { filter = e.target.value.toLowerCase(); draw(); $('#bk_f', m).focus(); $('#bk_f', m).setSelectionRange(filter.length, filter.length); };
+    $('[data-x]', m).onclick = () => m.remove();
+    $$('[data-bd]', m).forEach((b) => b.onclick = async () => { try { await api('bank_delete', { type, id: b.dataset.bd }); list = list.filter((q) => q.id !== b.dataset.bd); draw(); } catch (e) { toast(e.message, true); } });
+  };
+  draw();
 }
 function renderList() {
   history.replaceState(null, '', location.pathname);
   S.quiz = null;
-  const tpls = S.quizzes.filter((q) => q.template), quizzes = S.quizzes.filter((q) => !q.template);
+  const tpls = S.quizzes.filter((q) => q.template && !q.bank), quizzes = S.quizzes.filter((q) => !q.template && !q.bank);
   $('#topRight').innerHTML = `<button class="btn btn-ghost btn-sm" id="logout">Sign out</button>`;
   $('#logout').onclick = () => { LQ.setHostPassword(''); viewLogin(); };
   view.innerHTML = `
@@ -127,6 +158,7 @@ function renderList() {
       <button class="btn btn-primary" id="newQuiz">+ New quiz</button></div>
     ${tpls.length ? `<div class="tplsec"><div class="row" style="margin-bottom:8px"><h2 style="margin:0">📋 Weekly formats</h2><span class="muted small">Saved set-ups: rounds, types and prompts. One click writes a fresh quiz in that format.</span></div>
       <div class="quizgrid">${tpls.map(tplCard).join('')}</div></div>` : ''}
+    <div id="bankpanel"></div>
     <div class="row" style="margin:${tpls.length ? '22px' : '0'} 0 8px"><h2 style="margin:0">Quizzes</h2></div>
     <div class="quizgrid">${quizzes.map(quizCard).join('')}
       ${quizzes.length ? '' : '<div class="card newcard" id="newQuiz2">Create your first quiz</div>'}</div>
@@ -365,6 +397,7 @@ async function generateForRound(r) {
   const m = modal(`<h3>✨ Writing Round ${roundIndex(r.id) + 1}${r.title ? ': ' + esc(r.title) : ''}</h3><div class="gen-progress"><span class="spinner"></span><span id="ga_step">Starting…</span></div><p class="muted small mt">${plan.map((x) => `${x.need} × ${esc(TYPES[x.type].label)}`).join(' · ')}</p>`);
   $('#ga_step', m).textContent = 'Checking what has been asked before…';
   const avoid = await avoidList(); let written = 0;
+  if (!S.quiz.id) await save();
   try {
     for (const { type, need } of plan) {
       const BATCH = ['race', 'wipeout', 'pin', 'match'].includes(type) ? 2 : ['choice', 'tf', 'text', 'order', 'sort'].includes(type) ? 6 : 4; // heavy ones fetch pictures; plain ones are quick on Sonnet
@@ -372,9 +405,10 @@ async function generateForRound(r) {
       while (got < need) {
         $('#ga_step', m).textContent = `${TYPES[type].label}: writing ${got + 1}–${Math.min(need, got + BATCH)} of ${need} (${written} of ${total} done)…`;
         const usedPictures = S.quiz.questions.flatMap((q) => [q.media?.source, q.media?.url]).filter((s) => typeof s === 'string' && /^https?:/.test(s));
-        const res = await api('generate', { topic: (r.brief ? `${r.title}. ${r.brief}` : r.title).slice(0, 200), title: r.title, brief: r.brief, usedPictures, count: Math.min(BATCH, need - got), difficulty: 'mixed', types: [type], pictures: true, web: true, avoid, premium: !!S.quiz.settings.aiPremium }, { timeout: 170000 });
+        const res = await api('generate', { topic: (r.brief ? `${r.title}. ${r.brief}` : r.title).slice(0, 200), title: r.title, brief: r.brief, usedPictures, count: Math.min(BATCH, need - got), difficulty: 'mixed', types: [type], pictures: true, web: true, avoid, premium: !!S.quiz.settings.aiPremium, quizId: S.quiz.id }, { timeout: 170000 });
         LQ.addUsage(S.quiz.settings, res.usage);
         if (!res.questions.length) break;
+        if (res.fromBank) $('#ga_step', m).textContent = `${TYPES[type].label}: ${res.fromBank} from the bank`;
         if (!res.questions.some((q) => q.type === type)) { toast(`The server wrote ${TYPES[res.questions[0].type]?.label || 'other'} questions instead of ${TYPES[type].label}: the quiz-api function is out of date and needs redeploying. They were not added.`, true); break; }
         for (const q of res.questions) { q.round = r.id; q.time = timeFor(q.type, S.quiz.settings); if (q.collage && !q.media?.url) { try { await buildCollageFor(q); } catch {} } S.quiz.questions.push(q); avoid.push(q.text); got++; written++; }
         touch(); renderQList(); save();
@@ -578,7 +612,7 @@ function renderTypeBox() {
   }
   if (q.type === 'tune') {
     const m = q.media = q.media?.kind === 'audio' ? q.media : { kind: 'audio', url: '', start: 0, length: 15 };
-    const defaultAnswer = () => q.ask === 'song' ? q.track : q.ask === 'artist' ? q.artist : q.ask === 'year' ? String(q.year || '') : q.ask === 'film' ? (q.film || '') : (q.answers[0] || '');
+    const defaultAnswer = () => q.ask === 'song' ? LQ.cleanTitle(q.track) : q.ask === 'artist' ? q.artist : q.ask === 'year' ? String(q.year || '') : q.ask === 'film' ? (q.film || '') : (q.answers[0] || '');
     box.innerHTML = `<div class="notice" style="margin-bottom:12px">Name That Tune: a 30-second official preview plays on the screen (found on Apple Music, no downloads). Pick what players have to name. Search for the song, hear it, set the clip, and the answer fills itself in.</div>
       <div class="row"><div class="field" style="max-width:260px"><label>Players must name</label><select id="tu_ask">${Object.entries(LQ.TUNE_ASKS).map(([k, a]) => `<option value="${k}" ${q.ask === k ? 'selected' : ''}>${a.label}</option>`).join('')}</select></div>
         ${q.ask === 'year' ? `<div class="field" style="max-width:160px"><label>Years either side still count</label><input type="number" id="tu_tol" min="0" max="10" value="${q.tolerance ?? 1}"></div>` : ''}</div>
@@ -615,7 +649,7 @@ function renderTypeBox() {
     $('#addAns').onclick = () => { q.answers.push(''); touch(); renderTypeBox(); $$('[data-ans]').pop().focus(); };
   }
   if (q.type === 'club') {
-    box.innerHTML = `<div class="notice" style="margin-bottom:12px">The 10% Club: a logic, maths, wordplay or lateral-thinking question that needs no knowledge, only working out, in ${q.time} seconds. Everyone who gets it scores the same, and the rarer the answer the more it pays: <b>${LQ.clubPoints(q.pct)}</b> points for a ${q.pct}% question.</div>
+    box.innerHTML = `<div class="notice" style="margin-bottom:12px">The 1% Club: a logic, maths, wordplay or lateral-thinking question that needs no knowledge, only working out, in ${q.time} seconds. Everyone who gets it scores the same, and the rarer the answer the more it pays: <b>${LQ.clubPoints(q.pct)}</b> points for a ${q.pct}% question.</div>
       <div class="field" style="max-width:320px"><label>How many people get it</label><select id="cl_pct">${LQ.CLUB_PCTS.map((p) => `<option value="${p}" ${p === q.pct ? 'selected' : ''}>${p}% question · ${LQ.clubPoints(p)} points</option>`).join('')}</select></div>
       <div class="field"><label>Accepted answers <span class="muted">— the first is shown as the answer</span></label>
         ${q.answers.map((a, i) => `<div class="list-item"><div class="n">${i === 0 ? '★' : ''}</div><input type="text" data-ans="${i}" value="${esc(a)}" placeholder="${i === 0 ? 'The answer' : 'Also accept…'}"><button class="btn btn-ghost btn-sm" data-rm-ans="${i}" ${q.answers.length === 1 ? 'disabled' : ''}>✕</button></div>`).join('')}
@@ -823,7 +857,7 @@ function settingsModal() {
     <label class="check"><input type="checkbox" id="s_show" ${s.showAnswersOnPhones !== false ? 'checked' : ''}> Show the right answer on players' phones after each question</label>
     <div class="field mt"><label>AI models</label>
       <label class="check"><input type="checkbox" id="s_premium" ${s.aiPremium ? 'checked' : ''}> Use the top model (Opus) for every question type</label>
-      <div class="help">Off: plain factual questions are written by Sonnet with a few web searches, the wordplay and logic types (10% Club, Dingbats, Rhyme Time, Highbrow Lowbrow, Answer Smash, Wheel) by Opus without searching, and typed answers are judged by Haiku. On: everything on Opus with more searches, at several times the cost.</div>
+      <div class="help">Off: plain factual questions are written by Sonnet with a few web searches, the wordplay and logic types (1% Club, Dingbats, Rhyme Time, Highbrow Lowbrow, Answer Smash, Wheel) by Opus without searching, and typed answers are judged by Haiku. On: everything on Opus with more searches, at several times the cost.</div>
       ${(() => { const u = LQ.usageSummary(s.aiUsage); return u ? `<div class="notice" style="margin-top:8px"><b>AI used on this quiz so far:</b> about $${u.usd.toFixed(2)} at list prices.<br><span class="small">${u.rows.map(esc).join('<br>')}</span></div>` : '<div class="help">No AI used on this quiz yet.</div>'; })()}</div>
     <div class="row mt" style="justify-content:flex-end"><button class="btn btn-ghost" data-x>Cancel</button><button class="btn btn-primary" data-ok>Done</button></div>`);
   $('[data-x]', m).onclick = () => m.remove();
@@ -875,7 +909,7 @@ function bankModal(q) {
     try {
       while (written < total) {
         $('#b_step', m).textContent = `Writing questions ${written + 1}–${Math.min(total, written + BATCH)} of ${total}…`;
-        const r = await api('generate', { topic, title: topic, brief: `Quick-fire race questions on ${topic}: one short line each, four short answers, nothing that needs thinking time.`, count: Math.min(BATCH, total - written), difficulty: $('#b_diff', m).value, types: ['choice'], pictures: false, web: $('#b_web', m).checked, avoid, premium: !!S.quiz.settings.aiPremium }, { timeout: 170000 });
+        const r = await api('generate', { topic, title: topic, brief: `Quick-fire race questions on ${topic}: one short line each, four short answers, nothing that needs thinking time.`, count: Math.min(BATCH, total - written), difficulty: $('#b_diff', m).value, types: ['choice'], pictures: false, web: $('#b_web', m).checked, avoid, premium: !!S.quiz.settings.aiPremium, quizId: S.quiz.id }, { timeout: 170000 });
         LQ.addUsage(S.quiz.settings, r.usage);
         if (!r.questions.length) break;
         for (const g of r.questions) {
@@ -906,7 +940,7 @@ function summaryOf(q) {
   if (q.type === 'match') lines.push('Pairs (left → right): ' + q.pairs.map((p) => `${p.left} → ${p.right.kind === 'image' ? '[a picture — cannot be checked here, treat as fine]' : p.right.value}`).join(' | '));
   if (q.type === 'highlow') lines.push(`Highbrow Lowbrow: both clues must have the same answer. Highbrow clue: ${q.text}. Lowbrow clue: ${q.lowText}. Accepted answers: ${q.answers.filter((a) => a.trim()).join(' | ')}. Check each clue really leads to that answer and nothing else.`);
   if (q.type === 'tune') lines.push(`Name That Tune: a clip of "${q.track}" by ${q.artist}${q.year ? ` (${q.year})` : ''} plays; players must ${LQ.TUNE_ASKS[q.ask]?.label.toLowerCase() || 'name the song'}. Accepted answers: ${q.answers.filter((a) => String(a).trim()).join(' | ')}${q.film ? `. Film: ${q.film}` : ''}. Check the answer is right for that track (artist credit, release year, which film it is from).`);
-  if (q.type === 'club') lines.push(`The 10% Club (logic/lateral thinking, no knowledge needed), billed as a ${q.pct}% question. Accepted answers: ${q.answers.filter((a) => a.trim()).join(' | ')}. Check the puzzle has exactly that answer, is solvable by reasoning alone within 30 seconds, and that the difficulty roughly matches the percentage.`);
+  if (q.type === 'club') lines.push(`The 1% Club (logic/lateral thinking, no knowledge needed), billed as a ${q.pct}% question. Accepted answers: ${q.answers.filter((a) => a.trim()).join(' | ')}. Check the puzzle has exactly that answer, is solvable by reasoning alone within 30 seconds, and that the difficulty roughly matches the percentage.`);
   if (q.type === 'dingbat') lines.push(`Dingbats rebus. Words on the board: ${(q.elements || []).filter((e) => (e.t || '').trim()).map((e) => `"${e.t}" at x${e.x} y${e.y} size ${e.s}${e.rot ? ` rotated ${e.rot}°` : ''}${e.flip === 'h' ? ' mirrored' : e.flip === 'v' ? ' upside down' : ''}${e.style ? ` ${e.style}` : ''}`).join('; ')}. Answer: ${q.answers[0]}. Check the layout genuinely suggests that phrase and no other.`);
   if (q.type === 'rhyme') lines.push(`Rhyme Time: clue 1 "${q.text}" → ${q.answer1}; clue 2 "${q.text2}" → ${q.answer2}. Check each clue leads only to its answer, and that the two answers rhyme.`);
   if (q.type === 'wheel') lines.push(`Wheel of Fortune puzzle. Category: ${q.category}. Phrase: ${q.phrase}. Check the phrase is a real, correctly spelt phrase/title/name and that the category fits it.`);
@@ -1006,7 +1040,7 @@ function aiModal(fresh, roundId) {
     try {
       while (written < total) {
         si = 0; status();
-        const r = await api('generate', { ...opts, count: Math.min(BATCH, total - written), avoid, premium: !!S.quiz.settings.aiPremium }, { timeout: 170000 });
+        const r = await api('generate', { ...opts, count: Math.min(BATCH, total - written), avoid, premium: !!S.quiz.settings.aiPremium, quizId: S.quiz.id }, { timeout: 170000 });
         LQ.addUsage(S.quiz.settings, r.usage);
         if (!r.questions.length) break;
         if (!r.questions.some((q) => types.includes(q.type))) { warnings.push(`The server does not know the question types you asked for yet (the quiz-api function needs redeploying); it wrote ${[...new Set(r.questions.map((q) => TYPES[q.type]?.label))].join(' and ')} instead.`); }

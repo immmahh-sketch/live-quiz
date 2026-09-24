@@ -78,7 +78,7 @@ points = max − (max − min) × (time taken ÷ time limit)      default max 10
 | The Race | a bank of quick questions on the phone | first to the target | — |
 | Answer Smash | free text | the smash (or both answers), AI-judged | — |
 | Highbrow Lowbrow | free text, plus a button that reveals the lowbrow clue on that phone only | the answer, AI-judged; flat 1000 from the highbrow clue, 500 once the lowbrow one was asked for | — |
-| The 10% Club | free text | the answer, AI-judged; flat points by rarity (1100 − 10 × %) | — |
+| The 1% Club | free text | the answer, AI-judged; flat points by rarity (1100 − 10 × %) | — |
 | Dingbats | free text | the phrase, AI-judged; speed points | — |
 | Name That Tune | free text while a preview clip plays on the screen | song / artist / film / year (±tolerance) / next line; AI-judged except years | — |
 | Rhyme Time | free text | both rhyming answers, either order, AI-judged | — |

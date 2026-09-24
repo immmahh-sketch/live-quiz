@@ -458,7 +458,7 @@ Question types and their JSON shapes (use only the types you are asked for, and 
 - "highlow": {"type":"highlow","text":"<highbrow clue>","lowText":"<lowbrow clue>","answers":["Gold","Au"]}
   Highbrow Lowbrow, as on House of Games: two clues with exactly the same answer. The highbrow clue is hard and scholarly (science, history, literature, the arts); the lowbrow clue is easy and from pop culture, telly, sport or everyday life. Neither clue may work for any other answer.
 - "club": {"type":"club","pct":50,"text":"If planet EARTH has a HEART, which body part does MARS have?","answers":["Arms"]}
-  The 10% Club, in the style of The 1% Club: a logic, maths, pattern, wordplay or lateral-thinking puzzle that needs NO general knowledge, only working out, solvable in 30 seconds by reading the question (anagrams, letter/number patterns, "which is the odd one out", what-comes-next, counting, riddles that reward reading carefully). "pct" is how many people would get it: 90 is easy, 50 medium, 10 hard, 1 fiendish; spread the percentages across a batch and label honestly. The answer must be a single unambiguous word, number or short phrase; write the question so nothing else fits. No pictures.
+  The 1% Club, in the style of The 1% Club: a logic, maths, pattern, wordplay or lateral-thinking puzzle that needs NO general knowledge, only working out, solvable in 30 seconds by reading the question (anagrams, letter/number patterns, "which is the odd one out", what-comes-next, counting, riddles that reward reading carefully). "pct" is how many people would get it: 90 is easy, 50 medium, 10 hard, 1 fiendish; spread the percentages across a batch and label honestly. The answer must be a single unambiguous word, number or short phrase; write the question so nothing else fits. No pictures.
 - "tune": {"type":"tune","ask":"song","track":"Last Christmas","artist":"Wham!","year":1984,"answers":["Last Christmas"]}
   Name That Tune: a 30-second official preview of the track plays on the screen. "ask" is what players must give: "song" (the title), "artist", "year" (the year it was first released, as a number), "film" (the film the track is best known from — add "film":"Home Alone" — only for genuine film songs and themes), or "lyric" (add "cueLine": a very famous line from the song, shown on screen, and "lyricLine": the line that follows it; only for lyrics most people know). Use the exact official track title and the artist credit as on streaming services, well-known recordings only, and mix the asks across a set. "answers" holds the accepted answers for the ask (title, artist, year, film or line first). No pictures.
 - "dingbat": {"type":"dingbat","answers":["Man overboard"],"elements":[{"t":"MAN","x":50,"y":30,"s":5},{"t":"BOARD","x":50,"y":70,"s":5}]}
@@ -476,47 +476,16 @@ Reply with JSON only: {"questions":[ ... ]}`;
 
 interface GenOpts { topic: string; brief: string; count: number; difficulty: string; types: string[]; pictures: boolean; web: boolean; avoid: string[]; usedPictures: string[]; premium: boolean; }
 
-async function generate(o: GenOpts) {
-  const client = anthropic();
-  const wantPictures = o.pictures;
-  const typeList = o.types.length ? o.types : ["choice", "text"];
-  // The portal asks for a big round in batches; this is what earlier batches already wrote.
-  const avoid = o.avoid.length ? `Already used, in this quiz or in earlier quizzes the same host has run — do not repeat these facts, ask them another way, or reuse their answers as the answer to something else:\n${o.avoid.map((t) => "- " + t).join("\n")}` : "";
-  // The host's own brief for the round outranks the topic line: "a sports round, but every
-  // question about Harry Kane" means every question about Harry Kane.
-  const brief = o.brief ? `\nThe host's brief for this round — follow it closely, it decides what every question is about:\n${o.brief}` : "";
-  const prompt = `Write ${o.count} pub quiz questions.
-Round: ${o.topic || "general knowledge"}${brief}
-Difficulty: ${o.difficulty}
-Question types to use (mix them across the set): ${typeList.join(", ")}
-Pictures round: ${wantPictures ? "yes — give roughly half the questions a picture, and use rightPicture for match questions" : "no pictures"}`;
-
-  const plan = writerPlan(typeList, o.premium);
-  // The long system prompt and the do-not-repeat list are the same for every batch of a
-  // round, so they are marked cacheable: later batches read them at a fraction of the price.
-  const params: Anthropic.MessageCreateParamsNonStreaming = {
-    model: plan.model,
-    max_tokens: 16000,
-    system: [{ type: "text", text: WRITER_SYSTEM, cache_control: { type: "ephemeral" } }],
-    output_config: { effort: "medium" },
-    messages: [{ role: "user", content: avoid ? [{ type: "text", text: avoid, cache_control: { type: "ephemeral" } }, { type: "text", text: prompt }] : prompt }],
-  };
-  if (o.web && plan.web) params.tools = [{ type: "web_search_20260209", name: "web_search", max_uses: plan.searches }];
-
-  const msg = await ask(client, params);
-  const usage = usageOf(msg, plan.model);
-  const out = extractJson(textOf(msg));
-  const raw: any[] = Array.isArray(out?.questions) ? out.questions : [];
-  if (!raw.length) throw new Error("The AI did not write any questions. Try a broader topic.");
-
+/** Turns the writer's raw JSON (or a bank file in the same shape) into finished questions: pictures, maps, clips, ids. */
+async function finishRaw(raw: any[], count: number, usedPictures: string[], wantPictures: boolean): Promise<{ questions: any[]; warnings: string[] }> {
   const uid = (p: string) => p + "_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8);
   const warnings: string[] = [];
-  const used = new Set<string>(o.usedPictures);
+  const used = new Set<string>(usedPictures);
   const world = raw.some((q) => q?.type === "pin") ? await locationMap("World") : null;
 
-  const questions = await Promise.all(raw.slice(0, o.count).map(async (r) => {
+  const questions = await Promise.all(raw.slice(0, count).map(async (r) => {
     const time = Math.min(90, Math.max(10, Math.round(+r.time || 25)));
-    const base: any = { id: uid("q"), type: r.type, text: String(r.text || r.phrase || (r.type === "tune" ? r.track : "") || "").trim(), time, media: { kind: "none" }, partial: false };
+    const base: any = { id: uid("q"), type: r.type, text: String(r.text || r.phrase || (r.type === "tune" ? r.track : r.type === "dingbat" ? "Say what you see" : "") || "").trim(), time, media: { kind: "none" }, partial: false };
     if (!base.text) return null;
 
     if (wantPictures && typeof r.picture === "string" && r.picture.trim() && r.type !== "pin") {
@@ -613,7 +582,7 @@ Pictures round: ${wantPictures ? "yes — give roughly half the questions a pict
       if (!hit) { warnings.push(`No preview found for “${track}” by ${artist} (question dropped).`); return null; }
       let answers = (Array.isArray(r.answers) ? r.answers : [r.answer]).map((s: unknown) => String(s ?? "").trim()).filter(Boolean);
       const film = String(r.film || "").trim(), lyric = String(r.lyricLine || "").trim(), cue = String(r.cueLine || "").trim();
-      if (ask === "song") answers = [hit.track, ...answers.filter((a) => norm(a) !== norm(hit.track))];
+      if (ask === "song") { const clean = cleanTitle(hit.track); answers = [clean, ...answers.filter((a) => norm(a) !== norm(clean)), ...(norm(hit.track) !== norm(clean) ? [hit.track] : [])]; }
       if (ask === "artist") answers = [hit.artist, ...answers.filter((a) => norm(a) !== norm(hit.artist))];
       if (ask === "year") answers = [String(hit.year || r.year || "")].filter(Boolean);
       if (ask === "film") { if (!film) return null; answers = [film, ...answers.filter((a) => norm(a) !== norm(film))]; }
@@ -708,6 +677,43 @@ Pictures round: ${wantPictures ? "yes — give roughly half the questions a pict
   }));
 
   const kept = questions.filter(Boolean);
+  return { questions: kept, warnings };
+}
+
+async function generate(o: GenOpts) {
+  const client = anthropic();
+  const wantPictures = o.pictures;
+  const typeList = o.types.length ? o.types : ["choice", "text"];
+  // The portal asks for a big round in batches; this is what earlier batches already wrote.
+  const avoid = o.avoid.length ? `Already used, in this quiz or in earlier quizzes the same host has run — do not repeat these facts, ask them another way, or reuse their answers as the answer to something else:\n${o.avoid.map((t) => "- " + t).join("\n")}` : "";
+  // The host's own brief for the round outranks the topic line: "a sports round, but every
+  // question about Harry Kane" means every question about Harry Kane.
+  const brief = o.brief ? `\nThe host's brief for this round — follow it closely, it decides what every question is about:\n${o.brief}` : "";
+  const prompt = `Write ${o.count} pub quiz questions.
+Round: ${o.topic || "general knowledge"}${brief}
+Difficulty: ${o.difficulty}
+Question types to use (mix them across the set): ${typeList.join(", ")}
+Pictures round: ${wantPictures ? "yes — give roughly half the questions a picture, and use rightPicture for match questions" : "no pictures"}`;
+
+  const plan = writerPlan(typeList, o.premium);
+  // The long system prompt and the do-not-repeat list are the same for every batch of a
+  // round, so they are marked cacheable: later batches read them at a fraction of the price.
+  const params: Anthropic.MessageCreateParamsNonStreaming = {
+    model: plan.model,
+    max_tokens: 16000,
+    system: [{ type: "text", text: WRITER_SYSTEM, cache_control: { type: "ephemeral" } }],
+    output_config: { effort: "medium" },
+    messages: [{ role: "user", content: avoid ? [{ type: "text", text: avoid, cache_control: { type: "ephemeral" } }, { type: "text", text: prompt }] : prompt }],
+  };
+  if (o.web && plan.web) params.tools = [{ type: "web_search_20260209", name: "web_search", max_uses: plan.searches }];
+
+  const msg = await ask(client, params);
+  const usage = usageOf(msg, plan.model);
+  const out = extractJson(textOf(msg));
+  const raw: any[] = Array.isArray(out?.questions) ? out.questions : [];
+  if (!raw.length) throw new Error("The AI did not write any questions. Try a broader topic.");
+
+  const { questions: kept, warnings } = await finishRaw(raw, o.count, o.usedPictures, wantPictures);
   if (!kept.length) throw new Error("None of the AI's questions were usable. Try again.");
   return { questions: kept, warnings, searched: !!(o.web && plan.web), usage };
 }
@@ -763,6 +769,7 @@ Deno.serve(async (req) => {
       return json({ quizzes: (rows || []).map((r: any) => ({
         id: r.id, title: r.title, updated_at: r.updated_at, created_at: r.created_at,
         template: !!(r.settings && r.settings.template),
+        bank: !!(r.settings && r.settings.bank),
         rounds: Array.isArray(r.settings?.rounds) ? r.settings.rounds.map((x: any) => ({ title: x?.title || "", count: Object.values(x?.mix || {}).reduce((a: number, b: any) => a + (+b || 0), 0) || +x?.count || 0, types: Object.keys(x?.mix || {}) })) : [],
         count: Array.isArray(r.questions) ? r.questions.length : 0,
         types: Array.isArray(r.questions) ? Array.from(new Set(r.questions.map((q: any) => q.type))) : [],
@@ -845,11 +852,19 @@ Deno.serve(async (req) => {
       const types = asked.filter((t) => KNOWN.includes(t));
       const unknownTypes = asked.filter((t) => !KNOWN.includes(t));
       if (asked.length && !types.length) return json({ error: `This server does not know the question type${unknownTypes.length > 1 ? 's' : ''} ${unknownTypes.join(", ")} yet — redeploy the quiz-api function.` }, 400);
+      // The bank first: anything pre-written that fits this round comes free, and only the shortfall is written by the AI.
+      const wantCount = Math.min(8, Math.max(1, Math.round(+body.count || 5)));
+      const quizId = UUID_RE.test(String(body.quizId || "")) ? String(body.quizId) : "";
+      let fromBank: any[] = [];
+      if (body.useBank !== false && quizId && types.length === 1) {
+        try { fromBank = await bankTake(types[0], wantCount, String(body.topic || body.title || ""), String(body.brief || ""), quizId); } catch (e) { console.warn("bank take failed", String(e)); }
+      }
+      if (fromBank.length >= wantCount) return json({ questions: fromBank, warnings: [], searched: false, usage: null, unknownTypes, fromBank: fromBank.length });
       const out = await generate({
         topic: String(body.brief ? (body.title || body.topic || "") : (body.topic || "")).slice(0, 200),
         brief: String(body.brief || "").slice(0, 1500),
-        count: Math.min(8, Math.max(1, Math.round(+body.count || 5))),
-        avoid: (Array.isArray(body.avoid) ? body.avoid : []).map((s: unknown) => String(s ?? "").slice(0, 160)).filter(Boolean).slice(0, 400),
+        count: wantCount - fromBank.length,
+        avoid: [...fromBank.map((q: any) => String(q.text || "")), ...(Array.isArray(body.avoid) ? body.avoid : []).map((s: unknown) => String(s ?? "").slice(0, 160))].filter(Boolean).slice(0, 400),
         usedPictures: (Array.isArray(body.usedPictures) ? body.usedPictures : []).map((s: unknown) => String(s ?? "").slice(0, 300)).filter(Boolean).slice(-300),
         difficulty: ["easy", "medium", "hard", "mixed"].includes(String(body.difficulty)) ? String(body.difficulty) : "mixed",
         types,
@@ -857,9 +872,50 @@ Deno.serve(async (req) => {
         web: body.web !== false,
         premium: body.premium === true,
       });
-      return json({ ...out, unknownTypes });
+      return json({ ...out, questions: [...fromBank, ...out.questions], unknownTypes, fromBank: fromBank.length });
     }
 
+    if (action === "bank_status") {
+      return json({ bank: bankStatus(await bankRows()), low: BANK_LOW });
+    }
+    if (action === "bank_list") {
+      const type = String(body.type || "");
+      const row = (await bankRows()).find((r) => r.settings?.type === type);
+      const qs: any[] = row ? row.questions : [];
+      return json({ questions: qs.map((q) => ({ id: q.id, text: q.text || q.phrase || q.place || "", answer: q.type === "choice" ? (q.options || []).find((o: any) => o.id === q.correct)?.text : q.type === "tf" ? String(q.answer) : q.type === "wheel" ? q.phrase : q.type === "pin" ? q.place : q.type === "order" ? (q.items || []).map((i: any) => i.text).join(" → ") : (q.answers || [])[0] || "", category: q.category || "", tags: q.tags || [], used: q.used || null, pct: q.pct })) });
+    }
+    if (action === "bank_delete") {
+      const type = String(body.type || ""), id = String(body.id || "");
+      const row = await bankRow(type);
+      const before = row.questions.length;
+      row.questions = row.questions.filter((q: any) => q.id !== id);
+      if (row.questions.length !== before) await bankSave(row);
+      return json({ ok: true, removed: before - row.questions.length });
+    }
+    if (action === "bank_import") {
+      // Raw items in the writer's JSON shape (plus category/tags); finished here so pictures, maps and clips are resolved once.
+      const type = String(body.type || "");
+      const items = (Array.isArray(body.items) ? body.items : []).slice(0, 60).map((r: any) => ({ ...r, type }));
+      if (!items.length) return json({ error: "Nothing to import." }, 400);
+      const { questions, warnings } = await finishRaw(items, items.length, [], true);
+      const row = await bankRow(type);
+      // What makes two items "the same": the phrase for dingbats and wheels, the place for pins, the track for tunes, the wording otherwise.
+      const keyOf = (q: any) => norm(q.type === "dingbat" ? (q.answers || [])[0] || "" : q.type === "tune" ? `${q.track} ${q.artist}` : q.type === "pin" ? q.place || q.text : q.phrase || q.text || "");
+      const rawKey = (r: any) => norm(r.type === "dingbat" ? (r.answers || [])[0] || "" : r.type === "tune" ? `${r.track} ${r.artist}` : r.type === "pin" ? r.place || r.text : r.phrase || r.text || "");
+      const have = new Set(row.questions.map(keyOf));
+      let added = 0;
+      questions.forEach((q: any, n: number) => {
+        const key = keyOf(q);
+        if (!key || have.has(key)) return;
+        have.add(key);
+        const src = items.find((r: any) => rawKey(r) === key) || items[n] || {};
+        q.category = String(src.category || "").slice(0, 60); q.tags = (Array.isArray(src.tags) ? src.tags : []).map((t: unknown) => String(t).slice(0, 40)).slice(0, 12);
+        row.questions.push(q); added++;
+      });
+      if (JSON.stringify(row.questions).length > 1_900_000) return json({ error: "That bank row is full; start a second one for this type." }, 413);
+      await bankSave(row);
+      return json({ added, skipped: items.length - added, warnings, total: row.questions.length });
+    }
     if (action === "tune_search") {
       const term = String(body.term || "").trim().slice(0, 120);
       if (!term) return json({ error: "What song?" }, 400);
@@ -947,7 +1003,56 @@ Deno.serve(async (req) => {
   }
 });
 
+// ---------------------------------------------------------------- the question bank
+//
+// Pre-written questions, one quiz_quizzes row per type flagged settings.bank = true, so no new
+// table is needed. Each item carries category/tags for matching a themed round and a "used"
+// stamp once it has gone into a quiz, so it never comes round again.
+const BANK_LOW = 25;
+const EVERGREEN = ["club", "dingbat", "wheel", "pin", "tune"]; // theme-free types: any unused item will do when the round has no matching one
+async function bankRows(): Promise<any[]> {
+  return (await rest(`quiz_quizzes?settings->>bank=eq.true&select=id,title,settings,questions`)) || [];
+}
+async function bankRow(type: string): Promise<any> {
+  const rows = await bankRows();
+  const row = rows.find((r) => r.settings?.type === type);
+  if (row) return row;
+  const label: Record<string, string> = { choice: "Multiple choice", text: "Type the answer", order: "Put in order", pin: "Drop the pin", match: "Match up", tf: "True or false", sort: "Categorise", wipeout: "Wipeout", race: "The Race", smash: "Answer Smash", wheel: "Wheel of Fortune", highlow: "Highbrow Lowbrow", rhyme: "Rhyme Time", club: "The 1% Club", dingbat: "Dingbats", tune: "Name That Tune" };
+  const made = await rest(`quiz_quizzes`, { method: "POST", headers: { Prefer: "return=representation" }, body: JSON.stringify({ title: `Question bank: ${label[type] || type}`, settings: { bank: true, type }, questions: [] }) });
+  return Array.isArray(made) ? made[0] : made;
+}
+async function bankSave(row: any) {
+  await rest(`quiz_quizzes?id=eq.${row.id}`, { method: "PATCH", body: JSON.stringify({ questions: row.questions, updated_at: new Date().toISOString() }) });
+}
+function bankStatus(rows: any[]) {
+  const out: Record<string, { total: number; unused: number; low: boolean }> = {};
+  for (const r of rows) { const qs = Array.isArray(r.questions) ? r.questions : []; const unused = qs.filter((q: any) => !q.used).length; out[r.settings.type] = { total: qs.length, unused, low: unused < BANK_LOW }; }
+  return out;
+}
+const WORD = (s: string) => new Set(norm(s).split(" ").filter((w) => w.length >= 4));
+const GENERIC = /general knowledge|anything|mixed bag|pot ?luck|pub quiz|warm.?up|quick.?fire|random/i;
+/** Takes up to `need` unused bank questions of a type for a quiz, preferring ones that match the round's topic and brief. */
+async function bankTake(type: string, need: number, topic: string, brief: string, quizId: string): Promise<any[]> {
+  if (need <= 0) return [];
+  const row = await bankRow(type);
+  const qs: any[] = Array.isArray(row.questions) ? row.questions : [];
+  const themed = !!(topic || brief).trim() && !GENERIC.test(topic + " " + brief) && (topic + " " + brief).trim().length > 3;
+  const want = WORD(topic + " " + brief);
+  const score = (q: any) => { let sc = 0; const cat = norm(q.category || ""); if (cat && norm(topic + " " + brief).includes(cat)) sc += 3; const have = WORD([q.category, ...(q.tags || []), q.text, q.place, q.phrase, ...(q.answers || [])].filter(Boolean).join(" ")); for (const w of want) if (have.has(w)) sc += 1; return sc; };
+  let pool = qs.filter((q) => !q.used).map((q) => ({ q, sc: score(q) }));
+  if (themed) { const matching = pool.filter((x) => x.sc > 0); pool = matching.length || !EVERGREEN.includes(type) ? matching : pool; }
+  // best matches first, then a shuffle among equals so the same items do not always lead
+  pool.sort((a, b) => b.sc - a.sc || Math.random() - 0.5);
+  const picked = pool.slice(0, need).map((x) => x.q);
+  if (!picked.length) return [];
+  const at = new Date().toISOString();
+  for (const q of picked) q.used = { quiz: quizId, at };
+  await bankSave(row);
+  return picked.map((q) => { const c = JSON.parse(JSON.stringify(q)); delete c.used; c.id = "q_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8); c.fromBank = true; return c; });
+}
+
 // ---------------------------------------------------------------- Name That Tune: Apple's public search for 30-second previews
+function cleanTitle(t: string): string { return String(t || "").replace(/\s*[\(\[][^)\]]*(feat\.|featuring|remaster|remastered|version|edit|mix|mono|stereo|live|radio)[^)\]]*[\)\]]/gi, "").replace(/\s+-\s+(remaster(ed)?|single version|radio edit|\d{4} remaster).*$/i, "").trim(); }
 interface TuneHit { track: string; artist: string; album: string; year: number | null; previewUrl: string; artwork: string }
 async function tuneSearch(term: string, limit = 8): Promise<TuneHit[]> {
   const r = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(term)}&entity=song&country=GB&limit=${limit}`);
