@@ -442,7 +442,8 @@ Question types and their JSON shapes (use only the types you are asked for, and 
   Items listed in the CORRECT order. 3 to 5 items. The question text must say what order.
 - "match": {"type":"match","text":"Match the breed to the picture","pairs":[{"left":"Labrador Retriever","rightPicture":"Labrador Retriever"},...],"time":40}
   3 or 4 pairs. "rightPicture" is the exact English Wikipedia article title whose lead picture shows the thing (only when a pictures round is wanted); otherwise use "right":"text" for a word-to-word match.
-- "pin": {"type":"pin","text":"Drop the pin on the city that hosts the Cannes Film Festival","place":"Cannes","region":"France","lat":43.55,"lon":7.02,"sizeKm":30,"time":20}
+- "pin": {"type":"pin","text":"Which city hosts a famous film festival every May?","place":"Cannes","region":"France","lat":43.55,"lon":7.02,"sizeKm":30,"time":20}
+  A pin question is two tests in one: the text asks a fact the player must know, and the place is the answer they then have to find on the map. Never name the place, or a giveaway of it, in the text ("Which city hosted the 2016 Olympics?" → Rio de Janeiro; "In which state was the Declaration of Independence signed?" → Pennsylvania). "Drop the pin on X" is never acceptable.
   Only countries, cities, seas and famous landmarks. lat/lon of its centre in decimal degrees; sizeKm is roughly how wide the place is (a city ~30, a small country ~300, a large country ~2000). "region" is the blank map to show: the country the place is in for a city or landmark, the continent for a country, "World" only when the place spans continents or the question is about the world. Use the English Wikipedia name for the country or continent (France, United Kingdom, USA, Europe, Africa, South America, Australia). Never put the region's name in the question text when it gives the answer away.
 - "tf": {"type":"tf","text":"<a statement>","answer":true}
   A crisp statement that is definitely true or definitely false. Mix true and false across the set.
@@ -452,7 +453,8 @@ Question types and their JSON shapes (use only the types you are asked for, and 
   A list question. "right" are 15 answers that definitely fit; "wrong" are 5 that are plausible (same kind of thing, same era or league) but definitely do not fit. Verify every one — a wrong answer that actually fits ruins the round.
 - "race": {"type":"race","text":"The Race: capital cities","target":10,"bank":[{"q":"Capital of Peru?","right":"Lima","wrong":["Quito","Bogotá","Santiago"]} x20]}
   A quick-fire bank of 20 short multiple-choice questions on one topic, answered in a hurry on a phone: one short line each, four short answers. Easy to medium.
-- "pin" (spot-the-thing): {"type":"pin","mode":"area","text":"Drop the pin on the amalgam carrier","tiles":["Amalgam carrier","Dental mirror","Periodontal probe","Dental explorer","Dental elevator"],"answer":"Amalgam carrier"}
+- "pin" (spot-the-thing): {"type":"pin","mode":"area","text":"Which of these instruments carries the filling to the tooth?","tiles":["Amalgam carrier","Dental mirror","Periodontal probe","Dental explorer","Dental elevator"],"answer":"Amalgam carrier"}
+  The same rule: the tiles are a line-up, and the text asks a fact about one of them without naming it ("Which Simpson shot Mr Burns?" over a line-up of Simpsons characters → Maggie).
   A collage of 4 to 6 pictures; the player taps the right one. "tiles" are exact English Wikipedia article titles whose lead image clearly shows the object (tools, animals, cars, flags, foods, buildings, faces); "answer" is one of them. Only when a pictures round is wanted.
 - "wheel": {"type":"wheel","category":"Phrase","phrase":"A PIECE OF CAKE"}
   A Wheel of Fortune puzzle: a well-known phrase, title, name or place in capitals, letters and spaces only (no punctuation), 8 to 40 letters, no word longer than 12 letters, whole phrase at most 4 words per row across 4 rows of 12/14/14/12 tiles. Category as on the show: Phrase, Person, Place, Thing, Event, Food & Drink, Song Title, Movie Title, TV Show, Before & After, Landmark, Occupation.
@@ -899,6 +901,7 @@ Deno.serve(async (req) => {
         const q = (p.id && row.questions.find((x: any) => x.id === p.id)) || byKey.get(bankKey({ ...p, type }));
         if (!q) { missing++; continue; }
         if (["easy", "medium", "hard"].includes(p.difficulty)) q.difficulty = p.difficulty;
+        if (typeof p.newText === "string" && p.newText.trim()) q.text = p.newText.trim().slice(0, 200);
         if (typeof p.category === "string") q.category = p.category.slice(0, 60);
         if (Array.isArray(p.tags)) q.tags = p.tags.map((t: unknown) => String(t).slice(0, 40)).slice(0, 12);
         changed++;

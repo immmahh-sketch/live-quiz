@@ -1,290 +1,3806 @@
 [
-{"text":"Drop the pin on Bordeaux","place":"Bordeaux","region":"France","lat":44.84,"lon":-0.58,"sizeKm":25,"category":"Geography","tags":["France","cities","wine"]},
-{"text":"Drop the pin on Marseille","place":"Marseille","region":"France","lat":43.3,"lon":5.37,"sizeKm":30,"category":"Geography","tags":["France","cities"]},
-{"text":"Drop the pin on Lyon","place":"Lyon","region":"France","lat":45.76,"lon":4.84,"sizeKm":25,"category":"Geography","tags":["France","cities"]},
-{"text":"Drop the pin on Nice","place":"Nice","region":"France","lat":43.7,"lon":7.27,"sizeKm":20,"category":"Geography","tags":["France","cities","holidays"]},
-{"text":"Drop the pin on Calais","place":"Calais","region":"France","lat":50.95,"lon":1.86,"sizeKm":15,"category":"Geography","tags":["France","ports"]},
-{"text":"Drop the pin on Strasbourg","place":"Strasbourg","region":"France","lat":48.57,"lon":7.75,"sizeKm":20,"category":"Geography","tags":["France","cities"]},
-{"text":"Drop the pin on Toulouse","place":"Toulouse","region":"France","lat":43.6,"lon":1.44,"sizeKm":25,"category":"Geography","tags":["France","cities"]},
-{"text":"Drop the pin on Disneyland Paris","place":"Disneyland Paris","region":"France","lat":48.87,"lon":2.78,"sizeKm":10,"category":"Geography","tags":["France","holidays","Disney"]},
-{"text":"Drop the pin on Cannes","place":"Cannes","region":"France","lat":43.55,"lon":7.02,"sizeKm":15,"category":"Geography","tags":["France","film"]},
-{"text":"Drop the pin on Mont Blanc","place":"Mont Blanc","region":"France","lat":45.83,"lon":6.86,"sizeKm":20,"category":"Geography","tags":["France","mountains"]},
-{"text":"Drop the pin on Milan","place":"Milan","region":"Italy","lat":45.46,"lon":9.19,"sizeKm":25,"category":"Geography","tags":["Italy","cities","fashion"]},
-{"text":"Drop the pin on Naples","place":"Naples","region":"Italy","lat":40.85,"lon":14.27,"sizeKm":25,"category":"Geography","tags":["Italy","cities","pizza"]},
-{"text":"Drop the pin on Florence","place":"Florence","region":"Italy","lat":43.77,"lon":11.25,"sizeKm":20,"category":"Geography","tags":["Italy","cities","art"]},
-{"text":"Drop the pin on Turin","place":"Turin","region":"Italy","lat":45.07,"lon":7.69,"sizeKm":25,"category":"Geography","tags":["Italy","cities"]},
-{"text":"Drop the pin on Pisa","place":"Pisa","region":"Italy","lat":43.72,"lon":10.4,"sizeKm":15,"category":"Geography","tags":["Italy","landmarks"]},
-{"text":"Drop the pin on Mount Vesuvius","place":"Mount Vesuvius","region":"Italy","lat":40.82,"lon":14.43,"sizeKm":15,"category":"Geography","tags":["Italy","volcanoes"]},
-{"text":"Drop the pin on Mount Etna","place":"Mount Etna","region":"Italy","lat":37.75,"lon":14.99,"sizeKm":25,"category":"Geography","tags":["Italy","volcanoes","Sicily"]},
-{"text":"Drop the pin on Lake Como","place":"Lake Como","region":"Italy","lat":46.0,"lon":9.26,"sizeKm":30,"category":"Geography","tags":["Italy","lakes"]},
-{"text":"Drop the pin on Sardinia","place":"Sardinia","region":"Italy","lat":40.1,"lon":9.0,"sizeKm":250,"category":"Geography","tags":["Italy","islands"]},
-{"text":"Drop the pin on Verona","place":"Verona","region":"Italy","lat":45.44,"lon":10.99,"sizeKm":15,"category":"Geography","tags":["Italy","Shakespeare"]},
-{"text":"Drop the pin on Seville","place":"Seville","region":"Spain","lat":37.39,"lon":-5.98,"sizeKm":25,"category":"Geography","tags":["Spain","cities"]},
-{"text":"Drop the pin on Valencia","place":"Valencia","region":"Spain","lat":39.47,"lon":-0.38,"sizeKm":25,"category":"Geography","tags":["Spain","cities"]},
-{"text":"Drop the pin on Bilbao","place":"Bilbao","region":"Spain","lat":43.26,"lon":-2.93,"sizeKm":20,"category":"Geography","tags":["Spain","cities"]},
-{"text":"Drop the pin on Málaga","place":"Málaga","region":"Spain","lat":36.72,"lon":-4.42,"sizeKm":20,"category":"Geography","tags":["Spain","holidays"]},
-{"text":"Drop the pin on Benidorm","place":"Benidorm","region":"Spain","lat":38.54,"lon":-0.13,"sizeKm":10,"category":"Geography","tags":["Spain","holidays"]},
-{"text":"Drop the pin on Ibiza","place":"Ibiza","region":"Spain","lat":39.0,"lon":1.43,"sizeKm":45,"category":"Geography","tags":["Spain","islands","holidays"]},
-{"text":"Drop the pin on Tenerife","place":"Tenerife","region":"Spain","lat":28.29,"lon":-16.63,"sizeKm":80,"category":"Geography","tags":["Spain","islands","holidays"]},
-{"text":"Drop the pin on Gibraltar","place":"Gibraltar","region":"Spain","lat":36.14,"lon":-5.35,"sizeKm":8,"category":"Geography","tags":["Spain","UK"]},
-{"text":"Drop the pin on Granada","place":"Granada","region":"Spain","lat":37.18,"lon":-3.6,"sizeKm":15,"category":"Geography","tags":["Spain","cities","Alhambra"]},
-{"text":"Drop the pin on Pamplona","place":"Pamplona","region":"Spain","lat":42.82,"lon":-1.64,"sizeKm":15,"category":"Geography","tags":["Spain","bulls"]},
-{"text":"Drop the pin on Hamburg","place":"Hamburg","region":"Germany","lat":53.55,"lon":9.99,"sizeKm":30,"category":"Geography","tags":["Germany","cities"]},
-{"text":"Drop the pin on Frankfurt","place":"Frankfurt","region":"Germany","lat":50.11,"lon":8.68,"sizeKm":25,"category":"Geography","tags":["Germany","cities"]},
-{"text":"Drop the pin on Cologne","place":"Cologne","region":"Germany","lat":50.94,"lon":6.96,"sizeKm":25,"category":"Geography","tags":["Germany","cities"]},
-{"text":"Drop the pin on Dresden","place":"Dresden","region":"Germany","lat":51.05,"lon":13.74,"sizeKm":20,"category":"Geography","tags":["Germany","cities"]},
-{"text":"Drop the pin on Stuttgart","place":"Stuttgart","region":"Germany","lat":48.78,"lon":9.18,"sizeKm":20,"category":"Geography","tags":["Germany","cities","cars"]},
-{"text":"Drop the pin on Nuremberg","place":"Nuremberg","region":"Germany","lat":49.45,"lon":11.08,"sizeKm":20,"category":"Geography","tags":["Germany","cities","Christmas markets"]},
-{"text":"Drop the pin on the Black Forest","place":"The Black Forest","region":"Germany","lat":48.3,"lon":8.2,"sizeKm":120,"category":"Geography","tags":["Germany","forests"]},
-{"text":"Drop the pin on Dortmund","place":"Dortmund","region":"Germany","lat":51.51,"lon":7.47,"sizeKm":20,"category":"Geography","tags":["Germany","football"]},
-{"text":"Drop the pin on Leipzig","place":"Leipzig","region":"Germany","lat":51.34,"lon":12.37,"sizeKm":20,"category":"Geography","tags":["Germany","cities"]},
-{"text":"Drop the pin on Bremen","place":"Bremen","region":"Germany","lat":53.08,"lon":8.8,"sizeKm":20,"category":"Geography","tags":["Germany","cities"]},
-{"text":"Drop the pin on Stirling","place":"Stirling","region":"Scotland","lat":56.12,"lon":-3.94,"sizeKm":12,"category":"Geography","tags":["Scotland","castles"]},
-{"text":"Drop the pin on Dundee","place":"Dundee","region":"Scotland","lat":56.46,"lon":-2.97,"sizeKm":15,"category":"Geography","tags":["Scotland","cities"]},
-{"text":"Drop the pin on Perth","place":"Perth","region":"Scotland","lat":56.4,"lon":-3.43,"sizeKm":12,"category":"Geography","tags":["Scotland","cities"]},
-{"text":"Drop the pin on Fort William","place":"Fort William","region":"Scotland","lat":56.82,"lon":-5.11,"sizeKm":10,"category":"Geography","tags":["Scotland","Highlands"]},
-{"text":"Drop the pin on Oban","place":"Oban","region":"Scotland","lat":56.41,"lon":-5.47,"sizeKm":10,"category":"Geography","tags":["Scotland","ports"]},
-{"text":"Drop the pin on St Andrews","place":"St Andrews","region":"Scotland","lat":56.34,"lon":-2.8,"sizeKm":10,"category":"Geography","tags":["Scotland","golf"]},
-{"text":"Drop the pin on the Isle of Arran","place":"Isle of Arran","region":"Scotland","lat":55.58,"lon":-5.25,"sizeKm":30,"category":"Geography","tags":["Scotland","islands"]},
-{"text":"Drop the pin on Loch Lomond","place":"Loch Lomond","region":"Scotland","lat":56.1,"lon":-4.62,"sizeKm":30,"category":"Geography","tags":["Scotland","lakes"]},
-{"text":"Drop the pin on the Orkney Islands","place":"Orkney","region":"Scotland","lat":59.0,"lon":-3.0,"sizeKm":70,"category":"Geography","tags":["Scotland","islands"]},
-{"text":"Drop the pin on Gretna Green","place":"Gretna Green","region":"Scotland","lat":55.0,"lon":-3.07,"sizeKm":8,"category":"Geography","tags":["Scotland","weddings"]},
-{"text":"Drop the pin on Newquay","place":"Newquay","region":"England","lat":50.41,"lon":-5.08,"sizeKm":10,"category":"Geography","tags":["England","seaside","surfing"]},
-{"text":"Drop the pin on Bournemouth","place":"Bournemouth","region":"England","lat":50.72,"lon":-1.88,"sizeKm":15,"category":"Geography","tags":["England","seaside"]},
-{"text":"Drop the pin on Scarborough","place":"Scarborough","region":"England","lat":54.28,"lon":-0.4,"sizeKm":12,"category":"Geography","tags":["England","seaside"]},
-{"text":"Drop the pin on Whitby","place":"Whitby","region":"England","lat":54.49,"lon":-0.61,"sizeKm":8,"category":"Geography","tags":["England","seaside","Dracula"]},
-{"text":"Drop the pin on Skegness","place":"Skegness","region":"England","lat":53.14,"lon":0.34,"sizeKm":10,"category":"Geography","tags":["England","seaside"]},
-{"text":"Drop the pin on Great Yarmouth","place":"Great Yarmouth","region":"England","lat":52.61,"lon":1.73,"sizeKm":10,"category":"Geography","tags":["England","seaside"]},
-{"text":"Drop the pin on Margate","place":"Margate","region":"England","lat":51.39,"lon":1.38,"sizeKm":10,"category":"Geography","tags":["England","seaside"]},
-{"text":"Drop the pin on Weston-super-Mare","place":"Weston-super-Mare","region":"England","lat":51.35,"lon":-2.98,"sizeKm":10,"category":"Geography","tags":["England","seaside"]},
-{"text":"Drop the pin on Stratford-upon-Avon","place":"Stratford-upon-Avon","region":"England","lat":52.19,"lon":-1.71,"sizeKm":10,"category":"Geography","tags":["England","Shakespeare"]},
-{"text":"Drop the pin on Windsor","place":"Windsor","region":"England","lat":51.48,"lon":-0.61,"sizeKm":10,"category":"Geography","tags":["England","royalty"]},
-{"text":"Drop the pin on Salisbury","place":"Salisbury","region":"England","lat":51.07,"lon":-1.79,"sizeKm":10,"category":"Geography","tags":["England","cathedrals"]},
-{"text":"Drop the pin on Winchester","place":"Winchester","region":"England","lat":51.06,"lon":-1.31,"sizeKm":10,"category":"Geography","tags":["England","cathedrals"]},
-{"text":"Drop the pin on Chester","place":"Chester","region":"England","lat":53.19,"lon":-2.89,"sizeKm":12,"category":"Geography","tags":["England","Romans"]},
-{"text":"Drop the pin on Harrogate","place":"Harrogate","region":"England","lat":53.99,"lon":-1.54,"sizeKm":10,"category":"Geography","tags":["England","Yorkshire"]},
-{"text":"Drop the pin on Bradford","place":"Bradford","region":"England","lat":53.8,"lon":-1.75,"sizeKm":15,"category":"Geography","tags":["England","Yorkshire","cities"]},
-{"text":"Drop the pin on Wolverhampton","place":"Wolverhampton","region":"England","lat":52.59,"lon":-2.13,"sizeKm":15,"category":"Geography","tags":["England","cities"]},
-{"text":"Drop the pin on Milton Keynes","place":"Milton Keynes","region":"England","lat":52.04,"lon":-0.76,"sizeKm":15,"category":"Geography","tags":["England","cities"]},
-{"text":"Drop the pin on Luton","place":"Luton","region":"England","lat":51.88,"lon":-0.42,"sizeKm":12,"category":"Geography","tags":["England","airports"]},
-{"text":"Drop the pin on Reading","place":"Reading","region":"England","lat":51.45,"lon":-0.97,"sizeKm":12,"category":"Geography","tags":["England","cities"]},
-{"text":"Drop the pin on Peterborough","place":"Peterborough","region":"England","lat":52.57,"lon":-0.24,"sizeKm":12,"category":"Geography","tags":["England","cities"]},
-{"text":"Drop the pin on Preston","place":"Preston","region":"England","lat":53.76,"lon":-2.7,"sizeKm":12,"category":"Geography","tags":["England","cities"]},
-{"text":"Drop the pin on Lancaster","place":"Lancaster","region":"England","lat":54.05,"lon":-2.8,"sizeKm":10,"category":"Geography","tags":["England","cities"]},
-{"text":"Drop the pin on Kendal","place":"Kendal","region":"England","lat":54.33,"lon":-2.75,"sizeKm":8,"category":"Geography","tags":["England","Lake District"]},
-{"text":"Drop the pin on Hexham","place":"Hexham","region":"England","lat":54.97,"lon":-2.1,"sizeKm":8,"category":"Geography","tags":["England","North East"]},
-{"text":"Drop the pin on Alnwick","place":"Alnwick","region":"England","lat":55.41,"lon":-1.71,"sizeKm":8,"category":"Geography","tags":["England","North East","castles"]},
-{"text":"Drop the pin on Berwick-upon-Tweed","place":"Berwick-upon-Tweed","region":"England","lat":55.77,"lon":-2.0,"sizeKm":8,"category":"Geography","tags":["England","North East"]},
-{"text":"Drop the pin on Hartlepool","place":"Hartlepool","region":"England","lat":54.69,"lon":-1.21,"sizeKm":10,"category":"Geography","tags":["England","North East"]},
-{"text":"Drop the pin on Darlington","place":"Darlington","region":"England","lat":54.52,"lon":-1.55,"sizeKm":10,"category":"Geography","tags":["England","North East"]},
-{"text":"Drop the pin on Gateshead","place":"Gateshead","region":"England","lat":54.95,"lon":-1.6,"sizeKm":10,"category":"Geography","tags":["England","North East"]},
-{"text":"Drop the pin on South Shields","place":"South Shields","region":"England","lat":54.99,"lon":-1.43,"sizeKm":8,"category":"Geography","tags":["England","North East","seaside"]},
-{"text":"Drop the pin on Whitley Bay","place":"Whitley Bay","region":"England","lat":55.04,"lon":-1.45,"sizeKm":8,"category":"Geography","tags":["England","North East","seaside"]},
-{"text":"Drop the pin on Consett","place":"Consett","region":"England","lat":54.85,"lon":-1.83,"sizeKm":8,"category":"Geography","tags":["England","North East"]},
-{"text":"Drop the pin on Stanley, County Durham","place":"Stanley","region":"England","lat":54.87,"lon":-1.7,"sizeKm":6,"category":"Geography","tags":["England","North East","local"]},
-{"text":"Drop the pin on Chester-le-Street","place":"Chester-le-Street","region":"England","lat":54.86,"lon":-1.57,"sizeKm":6,"category":"Geography","tags":["England","North East","local"]},
-{"text":"Drop the pin on Bishop Auckland","place":"Bishop Auckland","region":"England","lat":54.66,"lon":-1.68,"sizeKm":8,"category":"Geography","tags":["England","North East"]},
-{"text":"Drop the pin on Barnard Castle","place":"Barnard Castle","region":"England","lat":54.54,"lon":-1.92,"sizeKm":6,"category":"Geography","tags":["England","North East"]},
-{"text":"Drop the pin on Seaham","place":"Seaham","region":"England","lat":54.84,"lon":-1.34,"sizeKm":6,"category":"Geography","tags":["England","North East","seaside"]},
-{"text":"Drop the pin on Redcar","place":"Redcar","region":"England","lat":54.62,"lon":-1.07,"sizeKm":8,"category":"Geography","tags":["England","North East","seaside"]},
-{"text":"Drop the pin on Morpeth","place":"Morpeth","region":"England","lat":55.17,"lon":-1.69,"sizeKm":6,"category":"Geography","tags":["England","North East"]},
-{"text":"Drop the pin on Cheltenham","place":"Cheltenham","region":"England","lat":51.9,"lon":-2.07,"sizeKm":10,"category":"Geography","tags":["England","horse racing"]},
-{"text":"Drop the pin on Gloucester","place":"Gloucester","region":"England","lat":51.86,"lon":-2.24,"sizeKm":10,"category":"Geography","tags":["England","cathedrals"]},
-{"text":"Drop the pin on Worcester","place":"Worcester","region":"England","lat":52.19,"lon":-2.22,"sizeKm":10,"category":"Geography","tags":["England","cathedrals"]},
-{"text":"Drop the pin on Hereford","place":"Hereford","region":"England","lat":52.06,"lon":-2.72,"sizeKm":8,"category":"Geography","tags":["England","cathedrals"]},
-{"text":"Drop the pin on Shrewsbury","place":"Shrewsbury","region":"England","lat":52.71,"lon":-2.75,"sizeKm":8,"category":"Geography","tags":["England","towns"]},
-{"text":"Drop the pin on Northampton","place":"Northampton","region":"England","lat":52.24,"lon":-0.9,"sizeKm":12,"category":"Geography","tags":["England","towns"]},
-{"text":"Drop the pin on Colchester","place":"Colchester","region":"England","lat":51.89,"lon":0.9,"sizeKm":10,"category":"Geography","tags":["England","Romans"]},
-{"text":"Drop the pin on Chelmsford","place":"Chelmsford","region":"England","lat":51.74,"lon":0.47,"sizeKm":10,"category":"Geography","tags":["England","cities"]},
-{"text":"Drop the pin on Guildford","place":"Guildford","region":"England","lat":51.24,"lon":-0.57,"sizeKm":10,"category":"Geography","tags":["England","towns"]},
-{"text":"Drop the pin on Maidstone","place":"Maidstone","region":"England","lat":51.27,"lon":0.52,"sizeKm":10,"category":"Geography","tags":["England","towns"]},
-{"text":"Drop the pin on Hastings","place":"Hastings","region":"England","lat":50.86,"lon":0.57,"sizeKm":8,"category":"Geography","tags":["England","1066"]},
-{"text":"Drop the pin on Eastbourne","place":"Eastbourne","region":"England","lat":50.77,"lon":0.28,"sizeKm":8,"category":"Geography","tags":["England","seaside"]},
-{"text":"Drop the pin on Torquay","place":"Torquay","region":"England","lat":50.46,"lon":-3.52,"sizeKm":8,"category":"Geography","tags":["England","seaside","Fawlty Towers"]},
-{"text":"Drop the pin on Penzance","place":"Penzance","region":"England","lat":50.12,"lon":-5.54,"sizeKm":8,"category":"Geography","tags":["England","Cornwall"]},
-{"text":"Drop the pin on St Ives, Cornwall","place":"St Ives","region":"England","lat":50.21,"lon":-5.48,"sizeKm":6,"category":"Geography","tags":["England","Cornwall"]},
-{"text":"Drop the pin on Taunton","place":"Taunton","region":"England","lat":51.02,"lon":-3.1,"sizeKm":8,"category":"Geography","tags":["England","Somerset"]},
-{"text":"Drop the pin on Glastonbury","place":"Glastonbury","region":"England","lat":51.15,"lon":-2.71,"sizeKm":8,"category":"Geography","tags":["England","festivals"]},
-{"text":"Drop the pin on Yeovil","place":"Yeovil","region":"England","lat":50.94,"lon":-2.63,"sizeKm":8,"category":"Geography","tags":["England","Somerset"]},
-{"text":"Drop the pin on Swindon","place":"Swindon","region":"England","lat":51.56,"lon":-1.78,"sizeKm":10,"category":"Geography","tags":["England","towns"]},
-{"text":"Drop the pin on Stevenage","place":"Stevenage","region":"England","lat":51.9,"lon":-0.2,"sizeKm":8,"category":"Geography","tags":["England","towns"]},
-{"text":"Drop the pin on Wrexham","place":"Wrexham","region":"Wales","lat":53.05,"lon":-3.0,"sizeKm":10,"category":"Geography","tags":["Wales","football"]},
-{"text":"Drop the pin on Newport","place":"Newport","region":"Wales","lat":51.58,"lon":-3.0,"sizeKm":12,"category":"Geography","tags":["Wales","cities"]},
-{"text":"Drop the pin on Aberystwyth","place":"Aberystwyth","region":"Wales","lat":52.42,"lon":-4.08,"sizeKm":8,"category":"Geography","tags":["Wales","seaside"]},
-{"text":"Drop the pin on Tenby","place":"Tenby","region":"Wales","lat":51.67,"lon":-4.7,"sizeKm":6,"category":"Geography","tags":["Wales","seaside"]},
-{"text":"Drop the pin on Llandudno","place":"Llandudno","region":"Wales","lat":53.32,"lon":-3.83,"sizeKm":8,"category":"Geography","tags":["Wales","seaside"]},
-{"text":"Drop the pin on Bangor","place":"Bangor","region":"Wales","lat":53.23,"lon":-4.13,"sizeKm":8,"category":"Geography","tags":["Wales","cities"]},
-{"text":"Drop the pin on St Davids","place":"St Davids","region":"Wales","lat":51.88,"lon":-5.27,"sizeKm":6,"category":"Geography","tags":["Wales","cathedrals"]},
-{"text":"Drop the pin on Caernarfon","place":"Caernarfon","region":"Wales","lat":53.14,"lon":-4.27,"sizeKm":6,"category":"Geography","tags":["Wales","castles"]},
-{"text":"Drop the pin on the Brecon Beacons","place":"Brecon Beacons","region":"Wales","lat":51.88,"lon":-3.44,"sizeKm":40,"category":"Geography","tags":["Wales","national parks"]},
-{"text":"Drop the pin on Merthyr Tydfil","place":"Merthyr Tydfil","region":"Wales","lat":51.75,"lon":-3.38,"sizeKm":8,"category":"Geography","tags":["Wales","towns"]},
-{"text":"Drop the pin on Cork","place":"Cork","region":"Ireland","lat":51.9,"lon":-8.47,"sizeKm":15,"category":"Geography","tags":["Ireland","cities"]},
-{"text":"Drop the pin on Galway","place":"Galway","region":"Ireland","lat":53.27,"lon":-9.05,"sizeKm":12,"category":"Geography","tags":["Ireland","cities"]},
-{"text":"Drop the pin on Limerick","place":"Limerick","region":"Ireland","lat":52.66,"lon":-8.63,"sizeKm":12,"category":"Geography","tags":["Ireland","cities"]},
-{"text":"Drop the pin on Killarney","place":"Killarney","region":"Ireland","lat":52.06,"lon":-9.51,"sizeKm":8,"category":"Geography","tags":["Ireland","towns"]},
-{"text":"Drop the pin on Derry","place":"Derry","region":"Ireland","lat":54.99,"lon":-7.32,"sizeKm":10,"category":"Geography","tags":["Northern Ireland","cities"]},
-{"text":"Drop the pin on the Giant's Causeway","place":"Giant's Causeway","region":"Ireland","lat":55.24,"lon":-6.51,"sizeKm":6,"category":"Geography","tags":["Northern Ireland","landmarks"]},
-{"text":"Drop the pin on Toronto","place":"Toronto","region":"Canada","lat":43.65,"lon":-79.38,"sizeKm":40,"category":"Geography","tags":["Canada","cities"]},
-{"text":"Drop the pin on Vancouver","place":"Vancouver","region":"Canada","lat":49.28,"lon":-123.12,"sizeKm":35,"category":"Geography","tags":["Canada","cities"]},
-{"text":"Drop the pin on Montreal","place":"Montreal","region":"Canada","lat":45.5,"lon":-73.57,"sizeKm":35,"category":"Geography","tags":["Canada","cities"]},
-{"text":"Drop the pin on Ottawa","place":"Ottawa","region":"Canada","lat":45.42,"lon":-75.7,"sizeKm":30,"category":"Geography","tags":["Canada","capitals"]},
-{"text":"Drop the pin on Calgary","place":"Calgary","region":"Canada","lat":51.05,"lon":-114.07,"sizeKm":30,"category":"Geography","tags":["Canada","cities"]},
-{"text":"Drop the pin on Newfoundland","place":"Newfoundland","region":"Canada","lat":48.6,"lon":-56.0,"sizeKm":500,"category":"Geography","tags":["Canada","islands"]},
-{"text":"Drop the pin on Perth, Australia","place":"Perth","region":"Australia","lat":-31.95,"lon":115.86,"sizeKm":60,"category":"Geography","tags":["Australia","cities"]},
-{"text":"Drop the pin on Melbourne","place":"Melbourne","region":"Australia","lat":-37.81,"lon":144.96,"sizeKm":60,"category":"Geography","tags":["Australia","cities"]},
-{"text":"Drop the pin on Brisbane","place":"Brisbane","region":"Australia","lat":-27.47,"lon":153.03,"sizeKm":60,"category":"Geography","tags":["Australia","cities"]},
-{"text":"Drop the pin on Adelaide","place":"Adelaide","region":"Australia","lat":-34.93,"lon":138.6,"sizeKm":50,"category":"Geography","tags":["Australia","cities"]},
-{"text":"Drop the pin on Canberra","place":"Canberra","region":"Australia","lat":-35.28,"lon":149.13,"sizeKm":40,"category":"Geography","tags":["Australia","capitals"]},
-{"text":"Drop the pin on Darwin","place":"Darwin","region":"Australia","lat":-12.46,"lon":130.84,"sizeKm":40,"category":"Geography","tags":["Australia","cities"]},
-{"text":"Drop the pin on Tasmania","place":"Tasmania","region":"Australia","lat":-42.0,"lon":146.8,"sizeKm":300,"category":"Geography","tags":["Australia","islands"]},
-{"text":"Drop the pin on Uluru","place":"Uluru","region":"Australia","lat":-25.34,"lon":131.04,"sizeKm":30,"category":"Geography","tags":["Australia","landmarks"]},
-{"text":"Drop the pin on Cairns","place":"Cairns","region":"Australia","lat":-16.92,"lon":145.77,"sizeKm":40,"category":"Geography","tags":["Australia","cities","reef"]},
-{"text":"Drop the pin on the Gold Coast","place":"Gold Coast","region":"Australia","lat":-28.02,"lon":153.4,"sizeKm":40,"category":"Geography","tags":["Australia","holidays"]},
-{"text":"Drop the pin on Osaka","place":"Osaka","region":"Japan","lat":34.69,"lon":135.5,"sizeKm":40,"category":"Geography","tags":["Japan","cities"]},
-{"text":"Drop the pin on Kyoto","place":"Kyoto","region":"Japan","lat":35.01,"lon":135.77,"sizeKm":30,"category":"Geography","tags":["Japan","cities"]},
-{"text":"Drop the pin on Hiroshima","place":"Hiroshima","region":"Japan","lat":34.39,"lon":132.46,"sizeKm":30,"category":"Geography","tags":["Japan","cities","history"]},
-{"text":"Drop the pin on Sapporo","place":"Sapporo","region":"Japan","lat":43.06,"lon":141.35,"sizeKm":40,"category":"Geography","tags":["Japan","cities"]},
-{"text":"Drop the pin on Mount Fuji","place":"Mount Fuji","region":"Japan","lat":35.36,"lon":138.73,"sizeKm":25,"category":"Geography","tags":["Japan","mountains"]},
-{"text":"Drop the pin on Delhi","place":"Delhi","region":"India","lat":28.61,"lon":77.21,"sizeKm":60,"category":"Geography","tags":["India","capitals"]},
-{"text":"Drop the pin on Kolkata","place":"Kolkata","region":"India","lat":22.57,"lon":88.36,"sizeKm":50,"category":"Geography","tags":["India","cities"]},
-{"text":"Drop the pin on Chennai","place":"Chennai","region":"India","lat":13.08,"lon":80.27,"sizeKm":50,"category":"Geography","tags":["India","cities"]},
-{"text":"Drop the pin on Bangalore","place":"Bangalore","region":"India","lat":12.97,"lon":77.59,"sizeKm":50,"category":"Geography","tags":["India","cities"]},
-{"text":"Drop the pin on the Taj Mahal","place":"The Taj Mahal","region":"India","lat":27.17,"lon":78.04,"sizeKm":20,"category":"Geography","tags":["India","landmarks"]},
-{"text":"Drop the pin on Goa","place":"Goa","region":"India","lat":15.3,"lon":74.1,"sizeKm":80,"category":"Geography","tags":["India","holidays"]},
-{"text":"Drop the pin on Shanghai","place":"Shanghai","region":"China","lat":31.23,"lon":121.47,"sizeKm":80,"category":"Geography","tags":["China","cities"]},
-{"text":"Drop the pin on Hong Kong","place":"Hong Kong","region":"China","lat":22.32,"lon":114.17,"sizeKm":50,"category":"Geography","tags":["China","cities"]},
-{"text":"Drop the pin on Xi'an, home of the Terracotta Army","place":"Xi'an","region":"China","lat":34.34,"lon":108.94,"sizeKm":60,"category":"Geography","tags":["China","history"]},
-{"text":"Drop the pin on Tibet's capital, Lhasa","place":"Lhasa","region":"China","lat":29.65,"lon":91.1,"sizeKm":60,"category":"Geography","tags":["China","Tibet"]},
-{"text":"Drop the pin on São Paulo","place":"São Paulo","region":"Brazil","lat":-23.55,"lon":-46.63,"sizeKm":80,"category":"Geography","tags":["Brazil","cities"]},
-{"text":"Drop the pin on Brasília","place":"Brasília","region":"Brazil","lat":-15.79,"lon":-47.88,"sizeKm":60,"category":"Geography","tags":["Brazil","capitals"]},
-{"text":"Drop the pin on Salvador","place":"Salvador","region":"Brazil","lat":-12.97,"lon":-38.51,"sizeKm":60,"category":"Geography","tags":["Brazil","cities"]},
-{"text":"Drop the pin on Manaus, in the Amazon","place":"Manaus","region":"Brazil","lat":-3.12,"lon":-60.02,"sizeKm":80,"category":"Geography","tags":["Brazil","Amazon"]},
-{"text":"Drop the pin on Cancún","place":"Cancún","region":"Mexico","lat":21.16,"lon":-86.85,"sizeKm":40,"category":"Geography","tags":["Mexico","holidays"]},
-{"text":"Drop the pin on Tijuana","place":"Tijuana","region":"Mexico","lat":32.51,"lon":-117.04,"sizeKm":40,"category":"Geography","tags":["Mexico","cities"]},
-{"text":"Drop the pin on Guadalajara","place":"Guadalajara","region":"Mexico","lat":20.66,"lon":-103.35,"sizeKm":50,"category":"Geography","tags":["Mexico","cities"]},
-{"text":"Drop the pin on Acapulco","place":"Acapulco","region":"Mexico","lat":16.85,"lon":-99.82,"sizeKm":40,"category":"Geography","tags":["Mexico","holidays"]},
-{"text":"Drop the pin on Boston","place":"Boston","region":"USA","lat":42.36,"lon":-71.06,"sizeKm":40,"category":"Geography","tags":["USA","cities"]},
-{"text":"Drop the pin on Philadelphia","place":"Philadelphia","region":"USA","lat":39.95,"lon":-75.17,"sizeKm":40,"category":"Geography","tags":["USA","cities"]},
-{"text":"Drop the pin on Atlanta","place":"Atlanta","region":"USA","lat":33.75,"lon":-84.39,"sizeKm":40,"category":"Geography","tags":["USA","cities"]},
-{"text":"Drop the pin on Houston","place":"Houston","region":"USA","lat":29.76,"lon":-95.37,"sizeKm":50,"category":"Geography","tags":["USA","cities"]},
-{"text":"Drop the pin on Dallas","place":"Dallas","region":"USA","lat":32.78,"lon":-96.8,"sizeKm":50,"category":"Geography","tags":["USA","cities"]},
-{"text":"Drop the pin on Denver","place":"Denver","region":"USA","lat":39.74,"lon":-104.99,"sizeKm":40,"category":"Geography","tags":["USA","cities"]},
-{"text":"Drop the pin on Phoenix","place":"Phoenix","region":"USA","lat":33.45,"lon":-112.07,"sizeKm":50,"category":"Geography","tags":["USA","cities"]},
-{"text":"Drop the pin on Detroit","place":"Detroit","region":"USA","lat":42.33,"lon":-83.05,"sizeKm":40,"category":"Geography","tags":["USA","cities","Motown"]},
-{"text":"Drop the pin on Memphis","place":"Memphis","region":"USA","lat":35.15,"lon":-90.05,"sizeKm":40,"category":"Geography","tags":["USA","cities","Elvis"]},
-{"text":"Drop the pin on Orlando","place":"Orlando","region":"USA","lat":28.54,"lon":-81.38,"sizeKm":40,"category":"Geography","tags":["USA","cities","Disney"]},
-{"text":"Drop the pin on Salt Lake City","place":"Salt Lake City","region":"USA","lat":40.76,"lon":-111.89,"sizeKm":40,"category":"Geography","tags":["USA","cities"]},
-{"text":"Drop the pin on Minneapolis","place":"Minneapolis","region":"USA","lat":44.98,"lon":-93.27,"sizeKm":40,"category":"Geography","tags":["USA","cities"]},
-{"text":"Drop the pin on New York State","place":"New York State","region":"USA","lat":43.0,"lon":-75.5,"sizeKm":400,"category":"Geography","tags":["USA","states"]},
-{"text":"Drop the pin on Alabama","place":"Alabama","region":"USA","lat":32.8,"lon":-86.8,"sizeKm":400,"category":"Geography","tags":["USA","states"]},
-{"text":"Drop the pin on Colorado","place":"Colorado","region":"USA","lat":39.0,"lon":-105.5,"sizeKm":500,"category":"Geography","tags":["USA","states"]},
-{"text":"Drop the pin on Michigan","place":"Michigan","region":"USA","lat":44.3,"lon":-85.4,"sizeKm":500,"category":"Geography","tags":["USA","states"]},
-{"text":"Drop the pin on Ohio","place":"Ohio","region":"USA","lat":40.4,"lon":-82.8,"sizeKm":350,"category":"Geography","tags":["USA","states"]},
-{"text":"Drop the pin on Georgia (the US state)","place":"Georgia","region":"USA","lat":32.7,"lon":-83.4,"sizeKm":400,"category":"Geography","tags":["USA","states"]},
-{"text":"Drop the pin on Nevada","place":"Nevada","region":"USA","lat":39.0,"lon":-116.9,"sizeKm":550,"category":"Geography","tags":["USA","states"]},
-{"text":"Drop the pin on Oregon","place":"Oregon","region":"USA","lat":44.0,"lon":-120.5,"sizeKm":500,"category":"Geography","tags":["USA","states"]},
-{"text":"Drop the pin on Louisiana","place":"Louisiana","region":"USA","lat":31.0,"lon":-92.0,"sizeKm":400,"category":"Geography","tags":["USA","states"]},
-{"text":"Drop the pin on Montana","place":"Montana","region":"USA","lat":47.0,"lon":-109.6,"sizeKm":700,"category":"Geography","tags":["USA","states"]},
-{"text":"Drop the pin on Marrakesh","place":"Marrakesh","region":"Africa","lat":31.63,"lon":-8.0,"sizeKm":80,"category":"Geography","tags":["Africa","cities","Morocco"]},
-{"text":"Drop the pin on Johannesburg","place":"Johannesburg","region":"Africa","lat":-26.2,"lon":28.04,"sizeKm":80,"category":"Geography","tags":["Africa","cities","South Africa"]},
-{"text":"Drop the pin on Addis Ababa","place":"Addis Ababa","region":"Africa","lat":9.03,"lon":38.74,"sizeKm":80,"category":"Geography","tags":["Africa","capitals","Ethiopia"]},
-{"text":"Drop the pin on Tunis","place":"Tunis","region":"Africa","lat":36.8,"lon":10.18,"sizeKm":80,"category":"Geography","tags":["Africa","capitals","Tunisia"]},
-{"text":"Drop the pin on Dakar","place":"Dakar","region":"Africa","lat":14.72,"lon":-17.47,"sizeKm":80,"category":"Geography","tags":["Africa","capitals","Senegal"]},
-{"text":"Drop the pin on Kinshasa","place":"Kinshasa","region":"Africa","lat":-4.32,"lon":15.31,"sizeKm":80,"category":"Geography","tags":["Africa","capitals"]},
-{"text":"Drop the pin on Zanzibar","place":"Zanzibar","region":"Africa","lat":-6.16,"lon":39.2,"sizeKm":80,"category":"Geography","tags":["Africa","islands","Tanzania"]},
-{"text":"Drop the pin on Victoria Falls","place":"Victoria Falls","region":"Africa","lat":-17.92,"lon":25.86,"sizeKm":60,"category":"Geography","tags":["Africa","landmarks"]},
-{"text":"Drop the pin on Mount Kilimanjaro","place":"Mount Kilimanjaro","region":"Africa","lat":-3.07,"lon":37.36,"sizeKm":80,"category":"Geography","tags":["Africa","mountains"]},
-{"text":"Drop the pin on the Serengeti","place":"The Serengeti","region":"Africa","lat":-2.33,"lon":34.83,"sizeKm":200,"category":"Geography","tags":["Africa","nature"]},
-{"text":"Drop the pin on Lake Tanganyika","place":"Lake Tanganyika","region":"Africa","lat":-6.5,"lon":29.8,"sizeKm":400,"category":"Geography","tags":["Africa","lakes"]},
-{"text":"Drop the pin on Timbuktu","place":"Timbuktu","region":"Africa","lat":16.77,"lon":-3.01,"sizeKm":80,"category":"Geography","tags":["Africa","history","Mali"]},
-{"text":"Drop the pin on Casablanca","place":"Casablanca","region":"Africa","lat":33.57,"lon":-7.59,"sizeKm":80,"category":"Geography","tags":["Africa","cities","film"]},
-{"text":"Drop the pin on Mauritius","place":"Mauritius","region":"Africa","lat":-20.35,"lon":57.55,"sizeKm":80,"category":"Geography","tags":["Africa","islands","holidays"]},
-{"text":"Drop the pin on Seoul","place":"Seoul","region":"Asia","lat":37.57,"lon":126.98,"sizeKm":80,"category":"Geography","tags":["Asia","capitals","South Korea"]},
-{"text":"Drop the pin on Manila","place":"Manila","region":"Asia","lat":14.6,"lon":120.98,"sizeKm":80,"category":"Geography","tags":["Asia","capitals","Philippines"]},
-{"text":"Drop the pin on Kuala Lumpur","place":"Kuala Lumpur","region":"Asia","lat":3.14,"lon":101.69,"sizeKm":80,"category":"Geography","tags":["Asia","capitals","Malaysia"]},
-{"text":"Drop the pin on Jakarta","place":"Jakarta","region":"Asia","lat":-6.21,"lon":106.85,"sizeKm":80,"category":"Geography","tags":["Asia","capitals","Indonesia"]},
-{"text":"Drop the pin on Hanoi","place":"Hanoi","region":"Asia","lat":21.03,"lon":105.85,"sizeKm":80,"category":"Geography","tags":["Asia","capitals","Vietnam"]},
-{"text":"Drop the pin on Kathmandu","place":"Kathmandu","region":"Asia","lat":27.72,"lon":85.32,"sizeKm":80,"category":"Geography","tags":["Asia","capitals","Nepal"]},
-{"text":"Drop the pin on Bali","place":"Bali","region":"Asia","lat":-8.4,"lon":115.19,"sizeKm":120,"category":"Geography","tags":["Asia","islands","holidays"]},
-{"text":"Drop the pin on Phuket","place":"Phuket","region":"Asia","lat":7.88,"lon":98.39,"sizeKm":60,"category":"Geography","tags":["Asia","islands","holidays"]},
-{"text":"Drop the pin on the Maldives","place":"The Maldives","region":"Asia","lat":3.2,"lon":73.2,"sizeKm":300,"category":"Geography","tags":["Asia","islands","holidays"]},
-{"text":"Drop the pin on Taiwan","place":"Taiwan","region":"Asia","lat":23.7,"lon":121.0,"sizeKm":350,"category":"Geography","tags":["Asia","islands"]},
-{"text":"Drop the pin on Jerusalem","place":"Jerusalem","region":"Asia","lat":31.77,"lon":35.21,"sizeKm":60,"category":"Geography","tags":["Asia","cities","religion"]},
-{"text":"Drop the pin on Mecca","place":"Mecca","region":"Asia","lat":21.39,"lon":39.86,"sizeKm":60,"category":"Geography","tags":["Asia","cities","religion"]},
-{"text":"Drop the pin on Baghdad","place":"Baghdad","region":"Asia","lat":33.31,"lon":44.37,"sizeKm":80,"category":"Geography","tags":["Asia","capitals","Iraq"]},
-{"text":"Drop the pin on Tehran","place":"Tehran","region":"Asia","lat":35.69,"lon":51.39,"sizeKm":80,"category":"Geography","tags":["Asia","capitals","Iran"]},
-{"text":"Drop the pin on Doha","place":"Doha","region":"Asia","lat":25.29,"lon":51.53,"sizeKm":60,"category":"Geography","tags":["Asia","capitals","Qatar"]},
-{"text":"Drop the pin on Lake Baikal","place":"Lake Baikal","region":"Asia","lat":53.5,"lon":108.0,"sizeKm":500,"category":"Geography","tags":["Asia","lakes","Russia"]},
-{"text":"Drop the pin on Lima","place":"Lima","region":"South America","lat":-12.05,"lon":-77.04,"sizeKm":80,"category":"Geography","tags":["South America","capitals","Peru"]},
-{"text":"Drop the pin on Santiago","place":"Santiago","region":"South America","lat":-33.45,"lon":-70.67,"sizeKm":80,"category":"Geography","tags":["South America","capitals","Chile"]},
-{"text":"Drop the pin on Bogotá","place":"Bogotá","region":"South America","lat":4.71,"lon":-74.07,"sizeKm":80,"category":"Geography","tags":["South America","capitals","Colombia"]},
-{"text":"Drop the pin on Caracas","place":"Caracas","region":"South America","lat":10.48,"lon":-66.9,"sizeKm":80,"category":"Geography","tags":["South America","capitals","Venezuela"]},
-{"text":"Drop the pin on Quito","place":"Quito","region":"South America","lat":-0.18,"lon":-78.47,"sizeKm":80,"category":"Geography","tags":["South America","capitals","Ecuador"]},
-{"text":"Drop the pin on Montevideo","place":"Montevideo","region":"South America","lat":-34.9,"lon":-56.16,"sizeKm":80,"category":"Geography","tags":["South America","capitals","Uruguay"]},
-{"text":"Drop the pin on Machu Picchu","place":"Machu Picchu","region":"South America","lat":-13.16,"lon":-72.55,"sizeKm":60,"category":"Geography","tags":["South America","landmarks","Peru"]},
-{"text":"Drop the pin on Lake Titicaca","place":"Lake Titicaca","region":"South America","lat":-15.9,"lon":-69.3,"sizeKm":150,"category":"Geography","tags":["South America","lakes"]},
-{"text":"Drop the pin on Patagonia","place":"Patagonia","region":"South America","lat":-45.0,"lon":-69.0,"sizeKm":1000,"category":"Geography","tags":["South America","regions"]},
-{"text":"Drop the pin on Cape Horn","place":"Cape Horn","region":"South America","lat":-55.98,"lon":-67.27,"sizeKm":60,"category":"Geography","tags":["South America","landmarks"]},
-{"text":"Drop the pin on Ecuador","place":"Ecuador","region":"South America","lat":-1.8,"lon":-78.2,"sizeKm":600,"category":"Geography","tags":["South America","countries"]},
-{"text":"Drop the pin on Paraguay","place":"Paraguay","region":"South America","lat":-23.4,"lon":-58.4,"sizeKm":600,"category":"Geography","tags":["South America","countries"]},
-{"text":"Drop the pin on Guyana","place":"Guyana","region":"South America","lat":4.9,"lon":-58.9,"sizeKm":500,"category":"Geography","tags":["South America","countries"]},
-{"text":"Drop the pin on Luxembourg","place":"Luxembourg","region":"Europe","lat":49.8,"lon":6.1,"sizeKm":60,"category":"Geography","tags":["Europe","countries"]},
-{"text":"Drop the pin on Monaco","place":"Monaco","region":"Europe","lat":43.74,"lon":7.42,"sizeKm":10,"category":"Geography","tags":["Europe","countries","hard"]},
-{"text":"Drop the pin on Slovenia","place":"Slovenia","region":"Europe","lat":46.15,"lon":14.99,"sizeKm":200,"category":"Geography","tags":["Europe","countries"]},
-{"text":"Drop the pin on Slovakia","place":"Slovakia","region":"Europe","lat":48.7,"lon":19.7,"sizeKm":350,"category":"Geography","tags":["Europe","countries"]},
-{"text":"Drop the pin on Serbia","place":"Serbia","region":"Europe","lat":44.0,"lon":21.0,"sizeKm":400,"category":"Geography","tags":["Europe","countries"]},
-{"text":"Drop the pin on Albania","place":"Albania","region":"Europe","lat":41.15,"lon":20.17,"sizeKm":300,"category":"Geography","tags":["Europe","countries"]},
-{"text":"Drop the pin on Lithuania","place":"Lithuania","region":"Europe","lat":55.2,"lon":23.9,"sizeKm":300,"category":"Geography","tags":["Europe","countries"]},
-{"text":"Drop the pin on Latvia","place":"Latvia","region":"Europe","lat":56.9,"lon":24.6,"sizeKm":300,"category":"Geography","tags":["Europe","countries"]},
-{"text":"Drop the pin on Estonia","place":"Estonia","region":"Europe","lat":58.6,"lon":25.0,"sizeKm":300,"category":"Geography","tags":["Europe","countries"]},
-{"text":"Drop the pin on Belarus","place":"Belarus","region":"Europe","lat":53.7,"lon":27.9,"sizeKm":550,"category":"Geography","tags":["Europe","countries"]},
-{"text":"Drop the pin on Moldova","place":"Moldova","region":"Europe","lat":47.4,"lon":28.4,"sizeKm":300,"category":"Geography","tags":["Europe","countries"]},
-{"text":"Drop the pin on Bosnia and Herzegovina","place":"Bosnia and Herzegovina","region":"Europe","lat":44.0,"lon":17.8,"sizeKm":300,"category":"Geography","tags":["Europe","countries"]},
-{"text":"Drop the pin on North Macedonia","place":"North Macedonia","region":"Europe","lat":41.6,"lon":21.7,"sizeKm":200,"category":"Geography","tags":["Europe","countries"]},
-{"text":"Drop the pin on Montenegro","place":"Montenegro","region":"Europe","lat":42.7,"lon":19.4,"sizeKm":150,"category":"Geography","tags":["Europe","countries"]},
-{"text":"Drop the pin on Andorra","place":"Andorra","region":"Europe","lat":42.5,"lon":1.5,"sizeKm":40,"category":"Geography","tags":["Europe","countries","hard"]},
-{"text":"Drop the pin on Corfu","place":"Corfu","region":"Europe","lat":39.62,"lon":19.92,"sizeKm":60,"category":"Geography","tags":["Europe","islands","holidays"]},
-{"text":"Drop the pin on Rhodes","place":"Rhodes","region":"Europe","lat":36.2,"lon":28.0,"sizeKm":80,"category":"Geography","tags":["Europe","islands","holidays"]},
-{"text":"Drop the pin on Santorini","place":"Santorini","region":"Europe","lat":36.39,"lon":25.46,"sizeKm":30,"category":"Geography","tags":["Europe","islands","holidays"]},
-{"text":"Drop the pin on Lanzarote","place":"Lanzarote","region":"World","lat":29.05,"lon":-13.6,"sizeKm":60,"category":"Geography","tags":["islands","holidays","Spain"]},
-{"text":"Drop the pin on Madeira","place":"Madeira","region":"World","lat":32.75,"lon":-16.97,"sizeKm":60,"category":"Geography","tags":["islands","holidays","Portugal"]},
-{"text":"Drop the pin on Bermuda","place":"Bermuda","region":"World","lat":32.3,"lon":-64.78,"sizeKm":40,"category":"Geography","tags":["islands"]},
-{"text":"Drop the pin on Barbados","place":"Barbados","region":"World","lat":13.19,"lon":-59.54,"sizeKm":40,"category":"Geography","tags":["islands","Caribbean"]},
-{"text":"Drop the pin on Puerto Rico","place":"Puerto Rico","region":"World","lat":18.2,"lon":-66.5,"sizeKm":200,"category":"Geography","tags":["islands","Caribbean"]},
-{"text":"Drop the pin on Haiti","place":"Haiti","region":"World","lat":19.0,"lon":-72.7,"sizeKm":300,"category":"Geography","tags":["countries","Caribbean"]},
-{"text":"Drop the pin on Costa Rica","place":"Costa Rica","region":"World","lat":9.9,"lon":-84.1,"sizeKm":300,"category":"Geography","tags":["countries","Central America"]},
-{"text":"Drop the pin on Panama","place":"Panama","region":"World","lat":8.5,"lon":-80.0,"sizeKm":500,"category":"Geography","tags":["countries","Central America"]},
-{"text":"Drop the pin on Guatemala","place":"Guatemala","region":"World","lat":15.6,"lon":-90.3,"sizeKm":400,"category":"Geography","tags":["countries","Central America"]},
-{"text":"Drop the pin on Antarctica","place":"Antarctica","region":"World","lat":-80.0,"lon":0.0,"sizeKm":4000,"category":"Geography","tags":["continents"]},
-{"text":"Drop the pin on Svalbard","place":"Svalbard","region":"World","lat":78.5,"lon":16.0,"sizeKm":500,"category":"Geography","tags":["islands","Arctic","hard"]},
-{"text":"Drop the pin on Easter Island","place":"Easter Island","region":"World","lat":-27.11,"lon":-109.35,"sizeKm":40,"category":"Geography","tags":["islands","hard"]},
-{"text":"Drop the pin on Tahiti","place":"Tahiti","region":"World","lat":-17.65,"lon":-149.43,"sizeKm":60,"category":"Geography","tags":["islands","hard"]},
-{"text":"Drop the pin on the Seychelles","place":"The Seychelles","region":"World","lat":-4.68,"lon":55.49,"sizeKm":100,"category":"Geography","tags":["islands","holidays"]},
-{"text":"Drop the pin on the Canary Islands","place":"The Canary Islands","region":"World","lat":28.3,"lon":-15.9,"sizeKm":300,"category":"Geography","tags":["islands","holidays"]},
-{"text":"Drop the pin on Uzbekistan","place":"Uzbekistan","region":"World","lat":41.4,"lon":64.6,"sizeKm":1000,"category":"Geography","tags":["countries","Asia","hard"]},
-{"text":"Drop the pin on Afghanistan","place":"Afghanistan","region":"World","lat":33.9,"lon":67.7,"sizeKm":1000,"category":"Geography","tags":["countries","Asia"]},
-{"text":"Drop the pin on Bangladesh","place":"Bangladesh","region":"World","lat":23.7,"lon":90.4,"sizeKm":500,"category":"Geography","tags":["countries","Asia"]},
-{"text":"Drop the pin on Myanmar","place":"Myanmar","region":"World","lat":19.0,"lon":96.7,"sizeKm":1200,"category":"Geography","tags":["countries","Asia"]},
-{"text":"Drop the pin on Malaysia","place":"Malaysia","region":"World","lat":4.2,"lon":102.0,"sizeKm":1000,"category":"Geography","tags":["countries","Asia"]},
-{"text":"Drop the pin on North Korea","place":"North Korea","region":"World","lat":40.3,"lon":127.5,"sizeKm":500,"category":"Geography","tags":["countries","Asia"]},
-{"text":"Drop the pin on Israel","place":"Israel","region":"World","lat":31.5,"lon":34.9,"sizeKm":400,"category":"Geography","tags":["countries"]},
-{"text":"Drop the pin on Jordan","place":"Jordan","region":"World","lat":31.2,"lon":36.5,"sizeKm":500,"category":"Geography","tags":["countries"]},
-{"text":"Drop the pin on Iraq","place":"Iraq","region":"World","lat":33.2,"lon":43.7,"sizeKm":900,"category":"Geography","tags":["countries"]},
-{"text":"Drop the pin on Syria","place":"Syria","region":"World","lat":35.0,"lon":38.5,"sizeKm":600,"category":"Geography","tags":["countries"]},
-{"text":"Drop the pin on Yemen","place":"Yemen","region":"World","lat":15.6,"lon":48.5,"sizeKm":900,"category":"Geography","tags":["countries"]},
-{"text":"Drop the pin on Oman","place":"Oman","region":"World","lat":21.5,"lon":56.0,"sizeKm":800,"category":"Geography","tags":["countries"]},
-{"text":"Drop the pin on the United Arab Emirates","place":"United Arab Emirates","region":"World","lat":24.0,"lon":54.0,"sizeKm":500,"category":"Geography","tags":["countries"]},
-{"text":"Drop the pin on Somalia","place":"Somalia","region":"World","lat":5.2,"lon":46.2,"sizeKm":1200,"category":"Geography","tags":["countries","Africa"]},
-{"text":"Drop the pin on Cameroon","place":"Cameroon","region":"World","lat":7.4,"lon":12.4,"sizeKm":900,"category":"Geography","tags":["countries","Africa"]},
-{"text":"Drop the pin on Ivory Coast","place":"Ivory Coast","region":"World","lat":7.5,"lon":-5.5,"sizeKm":600,"category":"Geography","tags":["countries","Africa"]},
-{"text":"Drop the pin on Senegal","place":"Senegal","region":"World","lat":14.5,"lon":-14.5,"sizeKm":600,"category":"Geography","tags":["countries","Africa"]},
-{"text":"Drop the pin on Zimbabwe","place":"Zimbabwe","region":"World","lat":-19.0,"lon":29.2,"sizeKm":800,"category":"Geography","tags":["countries","Africa"]},
-{"text":"Drop the pin on Zambia","place":"Zambia","region":"World","lat":-13.1,"lon":27.8,"sizeKm":1000,"category":"Geography","tags":["countries","Africa"]},
-{"text":"Drop the pin on Botswana","place":"Botswana","region":"World","lat":-22.3,"lon":24.7,"sizeKm":900,"category":"Geography","tags":["countries","Africa"]},
-{"text":"Drop the pin on Uganda","place":"Uganda","region":"World","lat":1.4,"lon":32.3,"sizeKm":600,"category":"Geography","tags":["countries","Africa"]},
-{"text":"Drop the pin on Rwanda","place":"Rwanda","region":"World","lat":-1.9,"lon":29.9,"sizeKm":250,"category":"Geography","tags":["countries","Africa","hard"]},
-{"text":"Drop the pin on Mali","place":"Mali","region":"World","lat":17.6,"lon":-4.0,"sizeKm":1400,"category":"Geography","tags":["countries","Africa"]},
-{"text":"Drop the pin on Niger","place":"Niger","region":"World","lat":17.6,"lon":8.1,"sizeKm":1300,"category":"Geography","tags":["countries","Africa"]},
-{"text":"Drop the pin on Chad","place":"Chad","region":"World","lat":15.5,"lon":18.7,"sizeKm":1400,"category":"Geography","tags":["countries","Africa"]},
-{"text":"Drop the pin on Tunisia","place":"Tunisia","region":"World","lat":33.9,"lon":9.5,"sizeKm":600,"category":"Geography","tags":["countries","Africa"]}
+ {
+  "text": "Which French city is famous for its red wine?",
+  "place": "Bordeaux",
+  "region": "France",
+  "lat": 44.84,
+  "lon": -0.58,
+  "sizeKm": 25,
+  "category": "Geography",
+  "tags": [
+   "France",
+   "cities",
+   "wine"
+  ]
+ },
+ {
+  "text": "Which is France's oldest city and largest port?",
+  "place": "Marseille",
+  "region": "France",
+  "lat": 43.3,
+  "lon": 5.37,
+  "sizeKm": 30,
+  "category": "Geography",
+  "tags": [
+   "France",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which French city is known as the gastronomic capital of France?",
+  "place": "Lyon",
+  "region": "France",
+  "lat": 45.76,
+  "lon": 4.84,
+  "sizeKm": 25,
+  "category": "Geography",
+  "tags": [
+   "France",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which French Riviera city has the Promenade des Anglais?",
+  "place": "Nice",
+  "region": "France",
+  "lat": 43.7,
+  "lon": 7.27,
+  "sizeKm": 20,
+  "category": "Geography",
+  "tags": [
+   "France",
+   "cities",
+   "holidays"
+  ]
+ },
+ {
+  "text": "Which French port is the shortest ferry crossing from Dover?",
+  "place": "Calais",
+  "region": "France",
+  "lat": 50.95,
+  "lon": 1.86,
+  "sizeKm": 15,
+  "category": "Geography",
+  "tags": [
+   "France",
+   "ports"
+  ]
+ },
+ {
+  "text": "Which French city is home to the European Parliament?",
+  "place": "Strasbourg",
+  "region": "France",
+  "lat": 48.57,
+  "lon": 7.75,
+  "sizeKm": 20,
+  "category": "Geography",
+  "tags": [
+   "France",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which French city is the home of Airbus?",
+  "place": "Toulouse",
+  "region": "France",
+  "lat": 43.6,
+  "lon": 1.44,
+  "sizeKm": 25,
+  "category": "Geography",
+  "tags": [
+   "France",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which theme park opened at Marne-la-Vallée in 1992?",
+  "place": "Disneyland Paris",
+  "region": "France",
+  "lat": 48.87,
+  "lon": 2.78,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "France",
+   "holidays",
+   "Disney"
+  ]
+ },
+ {
+  "text": "Which town hosts a famous film festival every May?",
+  "place": "Cannes",
+  "region": "France",
+  "lat": 43.55,
+  "lon": 7.02,
+  "sizeKm": 15,
+  "category": "Geography",
+  "tags": [
+   "France",
+   "film"
+  ]
+ },
+ {
+  "text": "What is the highest mountain in the Alps?",
+  "place": "Mont Blanc",
+  "region": "France",
+  "lat": 45.83,
+  "lon": 6.86,
+  "sizeKm": 20,
+  "category": "Geography",
+  "tags": [
+   "France",
+   "mountains"
+  ]
+ },
+ {
+  "text": "Which Italian city is the home of fashion and La Scala?",
+  "place": "Milan",
+  "region": "Italy",
+  "lat": 45.46,
+  "lon": 9.19,
+  "sizeKm": 25,
+  "category": "Geography",
+  "tags": [
+   "Italy",
+   "cities",
+   "fashion"
+  ]
+ },
+ {
+  "text": "Which Italian city is the birthplace of pizza?",
+  "place": "Naples",
+  "region": "Italy",
+  "lat": 40.85,
+  "lon": 14.27,
+  "sizeKm": 25,
+  "category": "Geography",
+  "tags": [
+   "Italy",
+   "cities",
+   "pizza"
+  ]
+ },
+ {
+  "text": "Which Italian city is home to Michelangelo's David?",
+  "place": "Florence",
+  "region": "Italy",
+  "lat": 43.77,
+  "lon": 11.25,
+  "sizeKm": 20,
+  "category": "Geography",
+  "tags": [
+   "Italy",
+   "cities",
+   "art"
+  ]
+ },
+ {
+  "text": "Which Italian city is home to Juventus and a famous shroud?",
+  "place": "Turin",
+  "region": "Italy",
+  "lat": 45.07,
+  "lon": 7.69,
+  "sizeKm": 25,
+  "category": "Geography",
+  "tags": [
+   "Italy",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which Italian city has a famous leaning tower?",
+  "place": "Pisa",
+  "region": "Italy",
+  "lat": 43.72,
+  "lon": 10.4,
+  "sizeKm": 15,
+  "category": "Geography",
+  "tags": [
+   "Italy",
+   "landmarks"
+  ]
+ },
+ {
+  "text": "Which volcano destroyed Pompeii?",
+  "place": "Mount Vesuvius",
+  "region": "Italy",
+  "lat": 40.82,
+  "lon": 14.43,
+  "sizeKm": 15,
+  "category": "Geography",
+  "tags": [
+   "Italy",
+   "volcanoes"
+  ]
+ },
+ {
+  "text": "What is Europe's most active volcano?",
+  "place": "Mount Etna",
+  "region": "Italy",
+  "lat": 37.75,
+  "lon": 14.99,
+  "sizeKm": 25,
+  "category": "Geography",
+  "tags": [
+   "Italy",
+   "volcanoes",
+   "Sicily"
+  ]
+ },
+ {
+  "text": "Which Italian lake has George Clooney's villa on its shore?",
+  "place": "Lake Como",
+  "region": "Italy",
+  "lat": 46,
+  "lon": 9.26,
+  "sizeKm": 30,
+  "category": "Geography",
+  "tags": [
+   "Italy",
+   "lakes"
+  ]
+ },
+ {
+  "text": "What is the second-largest island in the Mediterranean?",
+  "place": "Sardinia",
+  "region": "Italy",
+  "lat": 40.1,
+  "lon": 9,
+  "sizeKm": 250,
+  "category": "Geography",
+  "tags": [
+   "Italy",
+   "islands"
+  ]
+ },
+ {
+  "text": "Which Italian city is the setting of 'Romeo and Juliet'?",
+  "place": "Verona",
+  "region": "Italy",
+  "lat": 45.44,
+  "lon": 10.99,
+  "sizeKm": 15,
+  "category": "Geography",
+  "tags": [
+   "Italy",
+   "Shakespeare"
+  ]
+ },
+ {
+  "text": "Which Spanish city is the home of flamenco and the Alcázar?",
+  "place": "Seville",
+  "region": "Spain",
+  "lat": 37.39,
+  "lon": -5.98,
+  "sizeKm": 25,
+  "category": "Geography",
+  "tags": [
+   "Spain",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which Spanish city is the birthplace of paella?",
+  "place": "Valencia",
+  "region": "Spain",
+  "lat": 39.47,
+  "lon": -0.38,
+  "sizeKm": 25,
+  "category": "Geography",
+  "tags": [
+   "Spain",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which Spanish city has a Guggenheim Museum?",
+  "place": "Bilbao",
+  "region": "Spain",
+  "lat": 43.26,
+  "lon": -2.93,
+  "sizeKm": 20,
+  "category": "Geography",
+  "tags": [
+   "Spain",
+   "cities"
+  ]
+ },
+ {
+  "text": "In which Spanish city was Picasso born?",
+  "place": "Málaga",
+  "region": "Spain",
+  "lat": 36.72,
+  "lon": -4.42,
+  "sizeKm": 20,
+  "category": "Geography",
+  "tags": [
+   "Spain",
+   "holidays"
+  ]
+ },
+ {
+  "text": "Which Costa Blanca resort gave its name to an ITV sitcom?",
+  "place": "Benidorm",
+  "region": "Spain",
+  "lat": 38.54,
+  "lon": -0.13,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "Spain",
+   "holidays"
+  ]
+ },
+ {
+  "text": "Which Balearic island is famous for its superclubs?",
+  "place": "Ibiza",
+  "region": "Spain",
+  "lat": 39,
+  "lon": 1.43,
+  "sizeKm": 45,
+  "category": "Geography",
+  "tags": [
+   "Spain",
+   "islands",
+   "holidays"
+  ]
+ },
+ {
+  "text": "Which is the largest of the Canary Islands?",
+  "place": "Tenerife",
+  "region": "Spain",
+  "lat": 28.29,
+  "lon": -16.63,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "Spain",
+   "islands",
+   "holidays"
+  ]
+ },
+ {
+  "text": "Which British territory has a famous Rock and Barbary macaques?",
+  "place": "Gibraltar",
+  "region": "Spain",
+  "lat": 36.14,
+  "lon": -5.35,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "Spain",
+   "UK"
+  ]
+ },
+ {
+  "text": "Which Spanish city is home to the Alhambra?",
+  "place": "Granada",
+  "region": "Spain",
+  "lat": 37.18,
+  "lon": -3.6,
+  "sizeKm": 15,
+  "category": "Geography",
+  "tags": [
+   "Spain",
+   "cities",
+   "Alhambra"
+  ]
+ },
+ {
+  "text": "Which Spanish city holds the running of the bulls?",
+  "place": "Pamplona",
+  "region": "Spain",
+  "lat": 42.82,
+  "lon": -1.64,
+  "sizeKm": 15,
+  "category": "Geography",
+  "tags": [
+   "Spain",
+   "bulls"
+  ]
+ },
+ {
+  "text": "In which German port city did The Beatles play before they were famous?",
+  "place": "Hamburg",
+  "region": "Germany",
+  "lat": 53.55,
+  "lon": 9.99,
+  "sizeKm": 30,
+  "category": "Geography",
+  "tags": [
+   "Germany",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which German city is the home of the European Central Bank?",
+  "place": "Frankfurt",
+  "region": "Germany",
+  "lat": 50.11,
+  "lon": 8.68,
+  "sizeKm": 25,
+  "category": "Geography",
+  "tags": [
+   "Germany",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which German city has a famous twin-spired cathedral on the Rhine?",
+  "place": "Cologne",
+  "region": "Germany",
+  "lat": 50.94,
+  "lon": 6.96,
+  "sizeKm": 25,
+  "category": "Geography",
+  "tags": [
+   "Germany",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which German city was destroyed by Allied firebombing in February 1945?",
+  "place": "Dresden",
+  "region": "Germany",
+  "lat": 51.05,
+  "lon": 13.74,
+  "sizeKm": 20,
+  "category": "Geography",
+  "tags": [
+   "Germany",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which German city is the home of Mercedes-Benz and Porsche?",
+  "place": "Stuttgart",
+  "region": "Germany",
+  "lat": 48.78,
+  "lon": 9.18,
+  "sizeKm": 20,
+  "category": "Geography",
+  "tags": [
+   "Germany",
+   "cities",
+   "cars"
+  ]
+ },
+ {
+  "text": "Which German city hosted the post-war Nazi trials?",
+  "place": "Nuremberg",
+  "region": "Germany",
+  "lat": 49.45,
+  "lon": 11.08,
+  "sizeKm": 20,
+  "category": "Geography",
+  "tags": [
+   "Germany",
+   "cities",
+   "Christmas markets"
+  ]
+ },
+ {
+  "text": "Which German region gave its name to a cherry gateau?",
+  "place": "The Black Forest",
+  "region": "Germany",
+  "lat": 48.3,
+  "lon": 8.2,
+  "sizeKm": 120,
+  "category": "Geography",
+  "tags": [
+   "Germany",
+   "forests"
+  ]
+ },
+ {
+  "text": "Which German city's football club is Borussia?",
+  "place": "Dortmund",
+  "region": "Germany",
+  "lat": 51.51,
+  "lon": 7.47,
+  "sizeKm": 20,
+  "category": "Geography",
+  "tags": [
+   "Germany",
+   "football"
+  ]
+ },
+ {
+  "text": "In which German city was Bach cantor of St Thomas Church?",
+  "place": "Leipzig",
+  "region": "Germany",
+  "lat": 51.34,
+  "lon": 12.37,
+  "sizeKm": 20,
+  "category": "Geography",
+  "tags": [
+   "Germany",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which German city has famous 'Town Musicians' in a Grimm tale?",
+  "place": "Bremen",
+  "region": "Germany",
+  "lat": 53.08,
+  "lon": 8.8,
+  "sizeKm": 20,
+  "category": "Geography",
+  "tags": [
+   "Germany",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which Scottish city has the Wallace Monument?",
+  "place": "Stirling",
+  "region": "Scotland",
+  "lat": 56.12,
+  "lon": -3.94,
+  "sizeKm": 12,
+  "category": "Geography",
+  "tags": [
+   "Scotland",
+   "castles"
+  ]
+ },
+ {
+  "text": "Which Scottish city is the home of the Beano and the Dandy?",
+  "place": "Dundee",
+  "region": "Scotland",
+  "lat": 56.46,
+  "lon": -2.97,
+  "sizeKm": 15,
+  "category": "Geography",
+  "tags": [
+   "Scotland",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which Scottish city is known as the Fair City?",
+  "place": "Perth",
+  "region": "Scotland",
+  "lat": 56.4,
+  "lon": -3.43,
+  "sizeKm": 12,
+  "category": "Geography",
+  "tags": [
+   "Scotland",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which Highland town sits at the foot of Ben Nevis?",
+  "place": "Fort William",
+  "region": "Scotland",
+  "lat": 56.82,
+  "lon": -5.11,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "Scotland",
+   "Highlands"
+  ]
+ },
+ {
+  "text": "Which Highland port is the gateway to Mull and Iona?",
+  "place": "Oban",
+  "region": "Scotland",
+  "lat": 56.41,
+  "lon": -5.47,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "Scotland",
+   "ports"
+  ]
+ },
+ {
+  "text": "Which Scottish town is the home of golf?",
+  "place": "St Andrews",
+  "region": "Scotland",
+  "lat": 56.34,
+  "lon": -2.8,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "Scotland",
+   "golf"
+  ]
+ },
+ {
+  "text": "Which island in the Firth of Clyde is called 'Scotland in miniature'?",
+  "place": "Isle of Arran",
+  "region": "Scotland",
+  "lat": 55.58,
+  "lon": -5.25,
+  "sizeKm": 30,
+  "category": "Geography",
+  "tags": [
+   "Scotland",
+   "islands"
+  ]
+ },
+ {
+  "text": "Which loch is the largest in Great Britain by surface area?",
+  "place": "Loch Lomond",
+  "region": "Scotland",
+  "lat": 56.1,
+  "lon": -4.62,
+  "sizeKm": 30,
+  "category": "Geography",
+  "tags": [
+   "Scotland",
+   "lakes"
+  ]
+ },
+ {
+  "text": "Which island group is home to Skara Brae and Scapa Flow?",
+  "place": "Orkney",
+  "region": "Scotland",
+  "lat": 59,
+  "lon": -3,
+  "sizeKm": 70,
+  "category": "Geography",
+  "tags": [
+   "Scotland",
+   "islands"
+  ]
+ },
+ {
+  "text": "Which Scottish village is famous for runaway weddings?",
+  "place": "Gretna Green",
+  "region": "Scotland",
+  "lat": 55,
+  "lon": -3.07,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "Scotland",
+   "weddings"
+  ]
+ },
+ {
+  "text": "Which Cornish town is the UK's surfing capital?",
+  "place": "Newquay",
+  "region": "England",
+  "lat": 50.41,
+  "lon": -5.08,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "seaside",
+   "surfing"
+  ]
+ },
+ {
+  "text": "Which Dorset resort has seven miles of sandy beach and a Premier League club?",
+  "place": "Bournemouth",
+  "region": "England",
+  "lat": 50.72,
+  "lon": -1.88,
+  "sizeKm": 15,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "seaside"
+  ]
+ },
+ {
+  "text": "Which Yorkshire resort has a fair immortalised in song?",
+  "place": "Scarborough",
+  "region": "England",
+  "lat": 54.28,
+  "lon": -0.4,
+  "sizeKm": 12,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "seaside"
+  ]
+ },
+ {
+  "text": "Which Yorkshire port features in 'Dracula'?",
+  "place": "Whitby",
+  "region": "England",
+  "lat": 54.49,
+  "lon": -0.61,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "seaside",
+   "Dracula"
+  ]
+ },
+ {
+  "text": "Which Lincolnshire resort's slogan is 'so bracing'?",
+  "place": "Skegness",
+  "region": "England",
+  "lat": 53.14,
+  "lon": 0.34,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "seaside"
+  ]
+ },
+ {
+  "text": "Which Norfolk resort has a Pleasure Beach and a Golden Mile?",
+  "place": "Great Yarmouth",
+  "region": "England",
+  "lat": 52.61,
+  "lon": 1.73,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "seaside"
+  ]
+ },
+ {
+  "text": "Which Kent resort has Dreamland and the Turner Contemporary?",
+  "place": "Margate",
+  "region": "England",
+  "lat": 51.39,
+  "lon": 1.38,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "seaside"
+  ]
+ },
+ {
+  "text": "Which Somerset resort's Grand Pier was rebuilt after a fire in 2008?",
+  "place": "Weston-super-Mare",
+  "region": "England",
+  "lat": 51.35,
+  "lon": -2.98,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "seaside"
+  ]
+ },
+ {
+  "text": "Where was William Shakespeare born?",
+  "place": "Stratford-upon-Avon",
+  "region": "England",
+  "lat": 52.19,
+  "lon": -1.71,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "Shakespeare"
+  ]
+ },
+ {
+  "text": "Which Berkshire town has a royal castle and Legoland?",
+  "place": "Windsor",
+  "region": "England",
+  "lat": 51.48,
+  "lon": -0.61,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "royalty"
+  ]
+ },
+ {
+  "text": "Which city has the tallest cathedral spire in Britain?",
+  "place": "Salisbury",
+  "region": "England",
+  "lat": 51.07,
+  "lon": -1.79,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "cathedrals"
+  ]
+ },
+ {
+  "text": "Which city was the capital of Alfred the Great's Wessex?",
+  "place": "Winchester",
+  "region": "England",
+  "lat": 51.06,
+  "lon": -1.31,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "cathedrals"
+  ]
+ },
+ {
+  "text": "Which city has Roman walls, black-and-white Rows and a famous zoo?",
+  "place": "Chester",
+  "region": "England",
+  "lat": 53.19,
+  "lon": -2.89,
+  "sizeKm": 12,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "Romans"
+  ]
+ },
+ {
+  "text": "Which Yorkshire spa town is home to Bettys tea rooms?",
+  "place": "Harrogate",
+  "region": "England",
+  "lat": 53.99,
+  "lon": -1.54,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "Yorkshire"
+  ]
+ },
+ {
+  "text": "Which Yorkshire city was UK City of Culture in 2025?",
+  "place": "Bradford",
+  "region": "England",
+  "lat": 53.8,
+  "lon": -1.75,
+  "sizeKm": 15,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "Yorkshire",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which city's football club is nicknamed Wolves?",
+  "place": "Wolverhampton",
+  "region": "England",
+  "lat": 52.59,
+  "lon": -2.13,
+  "sizeKm": 15,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which new town is famous for roundabouts and concrete cows?",
+  "place": "Milton Keynes",
+  "region": "England",
+  "lat": 52.04,
+  "lon": -0.76,
+  "sizeKm": 15,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which Bedfordshire town has an airport and a hat-making history?",
+  "place": "Luton",
+  "region": "England",
+  "lat": 51.88,
+  "lon": -0.42,
+  "sizeKm": 12,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "airports"
+  ]
+ },
+ {
+  "text": "Which Berkshire town hosts a famous music festival every August bank holiday?",
+  "place": "Reading",
+  "region": "England",
+  "lat": 51.45,
+  "lon": -0.97,
+  "sizeKm": 12,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "cities"
+  ]
+ },
+ {
+  "text": "In which cathedral city is Katherine of Aragon buried?",
+  "place": "Peterborough",
+  "region": "England",
+  "lat": 52.57,
+  "lon": -0.24,
+  "sizeKm": 12,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which Lancashire city's football club were the first champions of England?",
+  "place": "Preston",
+  "region": "England",
+  "lat": 53.76,
+  "lon": -2.7,
+  "sizeKm": 12,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which city's castle held the trial of the Pendle witches?",
+  "place": "Lancaster",
+  "region": "England",
+  "lat": 54.05,
+  "lon": -2.8,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which Cumbrian town is famous for its mint cake?",
+  "place": "Kendal",
+  "region": "England",
+  "lat": 54.33,
+  "lon": -2.75,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "Lake District"
+  ]
+ },
+ {
+  "text": "Which Northumberland market town has an abbey near Hadrian's Wall?",
+  "place": "Hexham",
+  "region": "England",
+  "lat": 54.97,
+  "lon": -2.1,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "North East"
+  ]
+ },
+ {
+  "text": "Which Northumberland castle stood in for Hogwarts in the Harry Potter films?",
+  "place": "Alnwick",
+  "region": "England",
+  "lat": 55.41,
+  "lon": -1.71,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "North East",
+   "castles"
+  ]
+ },
+ {
+  "text": "Which is England's most northerly town?",
+  "place": "Berwick-upon-Tweed",
+  "region": "England",
+  "lat": 55.77,
+  "lon": -2,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "North East"
+  ]
+ },
+ {
+  "text": "Which town is said to have hanged a monkey as a French spy?",
+  "place": "Hartlepool",
+  "region": "England",
+  "lat": 54.69,
+  "lon": -1.21,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "North East"
+  ]
+ },
+ {
+  "text": "Which town, with Stockton, gave its name to the world's first passenger railway?",
+  "place": "Darlington",
+  "region": "England",
+  "lat": 54.52,
+  "lon": -1.55,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "North East"
+  ]
+ },
+ {
+  "text": "Which town is home to the Angel of the North?",
+  "place": "Gateshead",
+  "region": "England",
+  "lat": 54.95,
+  "lon": -1.6,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "North East"
+  ]
+ },
+ {
+  "text": "Which Tyneside town is the setting of Catherine Cookson's novels?",
+  "place": "South Shields",
+  "region": "England",
+  "lat": 54.99,
+  "lon": -1.43,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "North East",
+   "seaside"
+  ]
+ },
+ {
+  "text": "Which North Tyneside resort has the Spanish City dome?",
+  "place": "Whitley Bay",
+  "region": "England",
+  "lat": 55.04,
+  "lon": -1.45,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "North East",
+   "seaside"
+  ]
+ },
+ {
+  "text": "Which County Durham town's steelworks closed in 1980?",
+  "place": "Consett",
+  "region": "England",
+  "lat": 54.85,
+  "lon": -1.83,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "North East"
+  ]
+ },
+ {
+  "text": "Which County Durham town is next door to Beamish Museum?",
+  "place": "Stanley",
+  "region": "England",
+  "lat": 54.87,
+  "lon": -1.7,
+  "sizeKm": 6,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "North East",
+   "local"
+  ]
+ },
+ {
+  "text": "Which County Durham town is home to the Riverside cricket ground?",
+  "place": "Chester-le-Street",
+  "region": "England",
+  "lat": 54.86,
+  "lon": -1.57,
+  "sizeKm": 6,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "North East",
+   "local"
+  ]
+ },
+ {
+  "text": "Which County Durham town has the Prince Bishops' palace and the Kynren show?",
+  "place": "Bishop Auckland",
+  "region": "England",
+  "lat": 54.66,
+  "lon": -1.68,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "North East"
+  ]
+ },
+ {
+  "text": "Which Teesdale town did Dominic Cummings drive to 'to test his eyesight'?",
+  "place": "Barnard Castle",
+  "region": "England",
+  "lat": 54.54,
+  "lon": -1.92,
+  "sizeKm": 6,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "North East"
+  ]
+ },
+ {
+  "text": "Which County Durham coastal town is famous for its sea glass?",
+  "place": "Seaham",
+  "region": "England",
+  "lat": 54.84,
+  "lon": -1.34,
+  "sizeKm": 6,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "North East",
+   "seaside"
+  ]
+ },
+ {
+  "text": "Which Teesside resort has a racecourse and a former steelworks?",
+  "place": "Redcar",
+  "region": "England",
+  "lat": 54.62,
+  "lon": -1.07,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "North East",
+   "seaside"
+  ]
+ },
+ {
+  "text": "Which market town is Northumberland's administrative centre?",
+  "place": "Morpeth",
+  "region": "England",
+  "lat": 55.17,
+  "lon": -1.69,
+  "sizeKm": 6,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "North East"
+  ]
+ },
+ {
+  "text": "Which spa town hosts the Gold Cup horse race every March?",
+  "place": "Cheltenham",
+  "region": "England",
+  "lat": 51.9,
+  "lon": -2.07,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "horse racing"
+  ]
+ },
+ {
+  "text": "Which city's cathedral cloisters stood in for Hogwarts' corridors?",
+  "place": "Gloucester",
+  "region": "England",
+  "lat": 51.86,
+  "lon": -2.24,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "cathedrals"
+  ]
+ },
+ {
+  "text": "Which city gives its name to a famous sauce?",
+  "place": "Worcester",
+  "region": "England",
+  "lat": 52.19,
+  "lon": -2.22,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "cathedrals"
+  ]
+ },
+ {
+  "text": "Which city is home to the Mappa Mundi?",
+  "place": "Hereford",
+  "region": "England",
+  "lat": 52.06,
+  "lon": -2.72,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "cathedrals"
+  ]
+ },
+ {
+  "text": "Which town was the birthplace of Charles Darwin?",
+  "place": "Shrewsbury",
+  "region": "England",
+  "lat": 52.71,
+  "lon": -2.75,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "towns"
+  ]
+ },
+ {
+  "text": "Which town is famous for shoemaking?",
+  "place": "Northampton",
+  "region": "England",
+  "lat": 52.24,
+  "lon": -0.9,
+  "sizeKm": 12,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "towns"
+  ]
+ },
+ {
+  "text": "Which is Britain's oldest recorded town?",
+  "place": "Colchester",
+  "region": "England",
+  "lat": 51.89,
+  "lon": 0.9,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "Romans"
+  ]
+ },
+ {
+  "text": "Which is the county town of Essex?",
+  "place": "Chelmsford",
+  "region": "England",
+  "lat": 51.74,
+  "lon": 0.47,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which is the county town of Surrey?",
+  "place": "Guildford",
+  "region": "England",
+  "lat": 51.24,
+  "lon": -0.57,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "towns"
+  ]
+ },
+ {
+  "text": "Which is the county town of Kent?",
+  "place": "Maidstone",
+  "region": "England",
+  "lat": 51.27,
+  "lon": 0.52,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "towns"
+  ]
+ },
+ {
+  "text": "Near which town was the famous battle of 1066 fought?",
+  "place": "Hastings",
+  "region": "England",
+  "lat": 50.86,
+  "lon": 0.57,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "1066"
+  ]
+ },
+ {
+  "text": "Which Sussex resort sits beside Beachy Head?",
+  "place": "Eastbourne",
+  "region": "England",
+  "lat": 50.77,
+  "lon": 0.28,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "seaside"
+  ]
+ },
+ {
+  "text": "Which Devon resort was the birthplace of Agatha Christie and the setting of 'Fawlty Towers'?",
+  "place": "Torquay",
+  "region": "England",
+  "lat": 50.46,
+  "lon": -3.52,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "seaside",
+   "Fawlty Towers"
+  ]
+ },
+ {
+  "text": "Which Cornish town gave its name to a Gilbert and Sullivan opera about pirates?",
+  "place": "Penzance",
+  "region": "England",
+  "lat": 50.12,
+  "lon": -5.54,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "Cornwall"
+  ]
+ },
+ {
+  "text": "Which Cornish town has its own Tate gallery?",
+  "place": "St Ives",
+  "region": "England",
+  "lat": 50.21,
+  "lon": -5.48,
+  "sizeKm": 6,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "Cornwall"
+  ]
+ },
+ {
+  "text": "Which is the county town of Somerset?",
+  "place": "Taunton",
+  "region": "England",
+  "lat": 51.02,
+  "lon": -3.1,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "Somerset"
+  ]
+ },
+ {
+  "text": "Which Somerset town gives its name to a famous festival held at nearby Pilton?",
+  "place": "Glastonbury",
+  "region": "England",
+  "lat": 51.15,
+  "lon": -2.71,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "festivals"
+  ]
+ },
+ {
+  "text": "Which Somerset town builds helicopters and has a football club called the Glovers?",
+  "place": "Yeovil",
+  "region": "England",
+  "lat": 50.94,
+  "lon": -2.63,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "Somerset"
+  ]
+ },
+ {
+  "text": "Which Wiltshire town has the Magic Roundabout?",
+  "place": "Swindon",
+  "region": "England",
+  "lat": 51.56,
+  "lon": -1.78,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "towns"
+  ]
+ },
+ {
+  "text": "Which was Britain's first post-war new town?",
+  "place": "Stevenage",
+  "region": "England",
+  "lat": 51.9,
+  "lon": -0.2,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "England",
+   "towns"
+  ]
+ },
+ {
+  "text": "Which Welsh football club is owned by Ryan Reynolds and Rob McElhenney?",
+  "place": "Wrexham",
+  "region": "Wales",
+  "lat": 53.05,
+  "lon": -3,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "Wales",
+   "football"
+  ]
+ },
+ {
+  "text": "Which Welsh city hosted the 2010 Ryder Cup at Celtic Manor?",
+  "place": "Newport",
+  "region": "Wales",
+  "lat": 51.58,
+  "lon": -3,
+  "sizeKm": 12,
+  "category": "Geography",
+  "tags": [
+   "Wales",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which Welsh seaside town is home to the National Library of Wales?",
+  "place": "Aberystwyth",
+  "region": "Wales",
+  "lat": 52.42,
+  "lon": -4.08,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "Wales",
+   "seaside"
+  ]
+ },
+ {
+  "text": "Which walled Pembrokeshire resort has colourful harbour houses?",
+  "place": "Tenby",
+  "region": "Wales",
+  "lat": 51.67,
+  "lon": -4.7,
+  "sizeKm": 6,
+  "category": "Geography",
+  "tags": [
+   "Wales",
+   "seaside"
+  ]
+ },
+ {
+  "text": "Which Welsh resort sits between the Great Orme and the Little Orme?",
+  "place": "Llandudno",
+  "region": "Wales",
+  "lat": 53.32,
+  "lon": -3.83,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "Wales",
+   "seaside"
+  ]
+ },
+ {
+  "text": "Which is the smallest city in Wales, near the Menai Bridge?",
+  "place": "Bangor",
+  "region": "Wales",
+  "lat": 53.23,
+  "lon": -4.13,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "Wales",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which is the smallest city in the UK?",
+  "place": "St Davids",
+  "region": "Wales",
+  "lat": 51.88,
+  "lon": -5.27,
+  "sizeKm": 6,
+  "category": "Geography",
+  "tags": [
+   "Wales",
+   "cathedrals"
+  ]
+ },
+ {
+  "text": "At which castle was Prince Charles invested as Prince of Wales in 1969?",
+  "place": "Caernarfon",
+  "region": "Wales",
+  "lat": 53.14,
+  "lon": -4.27,
+  "sizeKm": 6,
+  "category": "Geography",
+  "tags": [
+   "Wales",
+   "castles"
+  ]
+ },
+ {
+  "text": "Which national park is home to Pen y Fan?",
+  "place": "Brecon Beacons",
+  "region": "Wales",
+  "lat": 51.88,
+  "lon": -3.44,
+  "sizeKm": 40,
+  "category": "Geography",
+  "tags": [
+   "Wales",
+   "national parks"
+  ]
+ },
+ {
+  "text": "Which Welsh town was once the iron capital of the world?",
+  "place": "Merthyr Tydfil",
+  "region": "Wales",
+  "lat": 51.75,
+  "lon": -3.38,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "Wales",
+   "towns"
+  ]
+ },
+ {
+  "text": "Which is the Republic of Ireland's second city?",
+  "place": "Cork",
+  "region": "Ireland",
+  "lat": 51.9,
+  "lon": -8.47,
+  "sizeKm": 15,
+  "category": "Geography",
+  "tags": [
+   "Ireland",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which Irish city gave its name to a Steve Earle song about a girl?",
+  "place": "Galway",
+  "region": "Ireland",
+  "lat": 53.27,
+  "lon": -9.05,
+  "sizeKm": 12,
+  "category": "Geography",
+  "tags": [
+   "Ireland",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which Irish city shares its name with a five-line comic poem?",
+  "place": "Limerick",
+  "region": "Ireland",
+  "lat": 52.66,
+  "lon": -8.63,
+  "sizeKm": 12,
+  "category": "Geography",
+  "tags": [
+   "Ireland",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which Kerry town is the gateway to the Ring of Kerry?",
+  "place": "Killarney",
+  "region": "Ireland",
+  "lat": 52.06,
+  "lon": -9.51,
+  "sizeKm": 8,
+  "category": "Geography",
+  "tags": [
+   "Ireland",
+   "towns"
+  ]
+ },
+ {
+  "text": "Which walled Northern Irish city is the setting of 'Derry Girls'?",
+  "place": "Derry",
+  "region": "Ireland",
+  "lat": 54.99,
+  "lon": -7.32,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "Northern Ireland",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which Northern Irish landmark is made of about 40,000 basalt columns?",
+  "place": "Giant's Causeway",
+  "region": "Ireland",
+  "lat": 55.24,
+  "lon": -6.51,
+  "sizeKm": 6,
+  "category": "Geography",
+  "tags": [
+   "Northern Ireland",
+   "landmarks"
+  ]
+ },
+ {
+  "text": "What is Canada's largest city?",
+  "place": "Toronto",
+  "region": "Canada",
+  "lat": 43.65,
+  "lon": -79.38,
+  "sizeKm": 40,
+  "category": "Geography",
+  "tags": [
+   "Canada",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which Canadian city hosted the 2010 Winter Olympics?",
+  "place": "Vancouver",
+  "region": "Canada",
+  "lat": 49.28,
+  "lon": -123.12,
+  "sizeKm": 35,
+  "category": "Geography",
+  "tags": [
+   "Canada",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which is the largest French-speaking city in Canada?",
+  "place": "Montreal",
+  "region": "Canada",
+  "lat": 45.5,
+  "lon": -73.57,
+  "sizeKm": 35,
+  "category": "Geography",
+  "tags": [
+   "Canada",
+   "cities"
+  ]
+ },
+ {
+  "text": "What is the capital of Canada?",
+  "place": "Ottawa",
+  "region": "Canada",
+  "lat": 45.42,
+  "lon": -75.7,
+  "sizeKm": 30,
+  "category": "Geography",
+  "tags": [
+   "Canada",
+   "capitals"
+  ]
+ },
+ {
+  "text": "Which Canadian city hosts a famous Stampede rodeo?",
+  "place": "Calgary",
+  "region": "Canada",
+  "lat": 51.05,
+  "lon": -114.07,
+  "sizeKm": 30,
+  "category": "Geography",
+  "tags": [
+   "Canada",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which Canadian island is the most easterly part of North America?",
+  "place": "Newfoundland",
+  "region": "Canada",
+  "lat": 48.6,
+  "lon": -56,
+  "sizeKm": 500,
+  "category": "Geography",
+  "tags": [
+   "Canada",
+   "islands"
+  ]
+ },
+ {
+  "text": "Which Scottish city is known as the Fair City?",
+  "place": "Perth",
+  "region": "Australia",
+  "lat": -31.95,
+  "lon": 115.86,
+  "sizeKm": 60,
+  "category": "Geography",
+  "tags": [
+   "Australia",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which city hosts the Australian Open tennis?",
+  "place": "Melbourne",
+  "region": "Australia",
+  "lat": -37.81,
+  "lon": 144.96,
+  "sizeKm": 60,
+  "category": "Geography",
+  "tags": [
+   "Australia",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which city will host the 2032 Olympic Games?",
+  "place": "Brisbane",
+  "region": "Australia",
+  "lat": -27.47,
+  "lon": 153.03,
+  "sizeKm": 60,
+  "category": "Geography",
+  "tags": [
+   "Australia",
+   "cities"
+  ]
+ },
+ {
+  "text": "What is the capital of South Australia?",
+  "place": "Adelaide",
+  "region": "Australia",
+  "lat": -34.93,
+  "lon": 138.6,
+  "sizeKm": 50,
+  "category": "Geography",
+  "tags": [
+   "Australia",
+   "cities"
+  ]
+ },
+ {
+  "text": "What is the capital of Australia?",
+  "place": "Canberra",
+  "region": "Australia",
+  "lat": -35.28,
+  "lon": 149.13,
+  "sizeKm": 40,
+  "category": "Geography",
+  "tags": [
+   "Australia",
+   "capitals"
+  ]
+ },
+ {
+  "text": "What is the capital of Australia's Northern Territory?",
+  "place": "Darwin",
+  "region": "Australia",
+  "lat": -12.46,
+  "lon": 130.84,
+  "sizeKm": 40,
+  "category": "Geography",
+  "tags": [
+   "Australia",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which Australian island state is home to a famous 'devil'?",
+  "place": "Tasmania",
+  "region": "Australia",
+  "lat": -42,
+  "lon": 146.8,
+  "sizeKm": 300,
+  "category": "Geography",
+  "tags": [
+   "Australia",
+   "islands"
+  ]
+ },
+ {
+  "text": "Which giant sandstone rock was formerly called Ayers Rock?",
+  "place": "Uluru",
+  "region": "Australia",
+  "lat": -25.34,
+  "lon": 131.04,
+  "sizeKm": 30,
+  "category": "Geography",
+  "tags": [
+   "Australia",
+   "landmarks"
+  ]
+ },
+ {
+  "text": "Which Queensland city is the gateway to the Great Barrier Reef?",
+  "place": "Cairns",
+  "region": "Australia",
+  "lat": -16.92,
+  "lon": 145.77,
+  "sizeKm": 40,
+  "category": "Geography",
+  "tags": [
+   "Australia",
+   "cities",
+   "reef"
+  ]
+ },
+ {
+  "text": "Which Queensland city has Surfers Paradise?",
+  "place": "Gold Coast",
+  "region": "Australia",
+  "lat": -28.02,
+  "lon": 153.4,
+  "sizeKm": 40,
+  "category": "Geography",
+  "tags": [
+   "Australia",
+   "holidays"
+  ]
+ },
+ {
+  "text": "Which Japanese city hosted Expo 2025?",
+  "place": "Osaka",
+  "region": "Japan",
+  "lat": 34.69,
+  "lon": 135.5,
+  "sizeKm": 40,
+  "category": "Geography",
+  "tags": [
+   "Japan",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which city was Japan's capital for more than 1,000 years?",
+  "place": "Kyoto",
+  "region": "Japan",
+  "lat": 35.01,
+  "lon": 135.77,
+  "sizeKm": 30,
+  "category": "Geography",
+  "tags": [
+   "Japan",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which city was hit by the first atomic bomb in August 1945?",
+  "place": "Hiroshima",
+  "region": "Japan",
+  "lat": 34.39,
+  "lon": 132.46,
+  "sizeKm": 30,
+  "category": "Geography",
+  "tags": [
+   "Japan",
+   "cities",
+   "history"
+  ]
+ },
+ {
+  "text": "Which Japanese city hosted the 1972 Winter Olympics and is famous for its beer?",
+  "place": "Sapporo",
+  "region": "Japan",
+  "lat": 43.06,
+  "lon": 141.35,
+  "sizeKm": 40,
+  "category": "Geography",
+  "tags": [
+   "Japan",
+   "cities"
+  ]
+ },
+ {
+  "text": "What is Japan's highest mountain?",
+  "place": "Mount Fuji",
+  "region": "Japan",
+  "lat": 35.36,
+  "lon": 138.73,
+  "sizeKm": 25,
+  "category": "Geography",
+  "tags": [
+   "Japan",
+   "mountains"
+  ]
+ },
+ {
+  "text": "Which city is the capital of India?",
+  "place": "Delhi",
+  "region": "India",
+  "lat": 28.61,
+  "lon": 77.21,
+  "sizeKm": 60,
+  "category": "Geography",
+  "tags": [
+   "India",
+   "capitals"
+  ]
+ },
+ {
+  "text": "Which Indian city was formerly called Calcutta?",
+  "place": "Kolkata",
+  "region": "India",
+  "lat": 22.57,
+  "lon": 88.36,
+  "sizeKm": 50,
+  "category": "Geography",
+  "tags": [
+   "India",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which Indian city was formerly called Madras?",
+  "place": "Chennai",
+  "region": "India",
+  "lat": 13.08,
+  "lon": 80.27,
+  "sizeKm": 50,
+  "category": "Geography",
+  "tags": [
+   "India",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which Indian city is known as the Silicon Valley of India?",
+  "place": "Bangalore",
+  "region": "India",
+  "lat": 12.97,
+  "lon": 77.59,
+  "sizeKm": 50,
+  "category": "Geography",
+  "tags": [
+   "India",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which white marble mausoleum did Shah Jahan build for his wife?",
+  "place": "The Taj Mahal",
+  "region": "India",
+  "lat": 27.17,
+  "lon": 78.04,
+  "sizeKm": 20,
+  "category": "Geography",
+  "tags": [
+   "India",
+   "landmarks"
+  ]
+ },
+ {
+  "text": "Which Indian state was a Portuguese colony until 1961?",
+  "place": "Goa",
+  "region": "India",
+  "lat": 15.3,
+  "lon": 74.1,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "India",
+   "holidays"
+  ]
+ },
+ {
+  "text": "What is China's largest city?",
+  "place": "Shanghai",
+  "region": "China",
+  "lat": 31.23,
+  "lon": 121.47,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "China",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which city was handed from Britain to China in 1997?",
+  "place": "Hong Kong",
+  "region": "China",
+  "lat": 22.32,
+  "lon": 114.17,
+  "sizeKm": 50,
+  "category": "Geography",
+  "tags": [
+   "China",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which Chinese city is home to the Terracotta Army?",
+  "place": "Xi'an",
+  "region": "China",
+  "lat": 34.34,
+  "lon": 108.94,
+  "sizeKm": 60,
+  "category": "Geography",
+  "tags": [
+   "China",
+   "history"
+  ]
+ },
+ {
+  "text": "Which city is the capital of Tibet and home of the Potala Palace?",
+  "place": "Lhasa",
+  "region": "China",
+  "lat": 29.65,
+  "lon": 91.1,
+  "sizeKm": 60,
+  "category": "Geography",
+  "tags": [
+   "China",
+   "Tibet"
+  ]
+ },
+ {
+  "text": "What is South America's largest city?",
+  "place": "São Paulo",
+  "region": "Brazil",
+  "lat": -23.55,
+  "lon": -46.63,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "Brazil",
+   "cities"
+  ]
+ },
+ {
+  "text": "What is the capital of Brazil?",
+  "place": "Brasília",
+  "region": "Brazil",
+  "lat": -15.79,
+  "lon": -47.88,
+  "sizeKm": 60,
+  "category": "Geography",
+  "tags": [
+   "Brazil",
+   "capitals"
+  ]
+ },
+ {
+  "text": "Which Brazilian city was the country's first capital?",
+  "place": "Salvador",
+  "region": "Brazil",
+  "lat": -12.97,
+  "lon": -38.51,
+  "sizeKm": 60,
+  "category": "Geography",
+  "tags": [
+   "Brazil",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which city deep in the Amazon has a famous opera house?",
+  "place": "Manaus",
+  "region": "Brazil",
+  "lat": -3.12,
+  "lon": -60.02,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "Brazil",
+   "Amazon"
+  ]
+ },
+ {
+  "text": "Which Mexican resort is on the Yucatán Peninsula?",
+  "place": "Cancún",
+  "region": "Mexico",
+  "lat": 21.16,
+  "lon": -86.85,
+  "sizeKm": 40,
+  "category": "Geography",
+  "tags": [
+   "Mexico",
+   "holidays"
+  ]
+ },
+ {
+  "text": "Which Mexican city borders San Diego?",
+  "place": "Tijuana",
+  "region": "Mexico",
+  "lat": 32.51,
+  "lon": -117.04,
+  "sizeKm": 40,
+  "category": "Geography",
+  "tags": [
+   "Mexico",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which Mexican city is the home of mariachi and tequila?",
+  "place": "Guadalajara",
+  "region": "Mexico",
+  "lat": 20.66,
+  "lon": -103.35,
+  "sizeKm": 50,
+  "category": "Geography",
+  "tags": [
+   "Mexico",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which Mexican Pacific resort is famous for its cliff divers?",
+  "place": "Acapulco",
+  "region": "Mexico",
+  "lat": 16.85,
+  "lon": -99.82,
+  "sizeKm": 40,
+  "category": "Geography",
+  "tags": [
+   "Mexico",
+   "holidays"
+  ]
+ },
+ {
+  "text": "Which US city had a famous Tea Party in 1773?",
+  "place": "Boston",
+  "region": "USA",
+  "lat": 42.36,
+  "lon": -71.06,
+  "sizeKm": 40,
+  "category": "Geography",
+  "tags": [
+   "USA",
+   "cities"
+  ]
+ },
+ {
+  "text": "In which city was the Declaration of Independence signed?",
+  "place": "Philadelphia",
+  "region": "USA",
+  "lat": 39.95,
+  "lon": -75.17,
+  "sizeKm": 40,
+  "category": "Geography",
+  "tags": [
+   "USA",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which US city hosted the 1996 Olympic Games?",
+  "place": "Atlanta",
+  "region": "USA",
+  "lat": 33.75,
+  "lon": -84.39,
+  "sizeKm": 40,
+  "category": "Geography",
+  "tags": [
+   "USA",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which city is home to NASA's mission control?",
+  "place": "Houston",
+  "region": "USA",
+  "lat": 29.76,
+  "lon": -95.37,
+  "sizeKm": 50,
+  "category": "Geography",
+  "tags": [
+   "USA",
+   "cities"
+  ]
+ },
+ {
+  "text": "In which city was President Kennedy assassinated?",
+  "place": "Dallas",
+  "region": "USA",
+  "lat": 32.78,
+  "lon": -96.8,
+  "sizeKm": 50,
+  "category": "Geography",
+  "tags": [
+   "USA",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which US city is the Mile High City?",
+  "place": "Denver",
+  "region": "USA",
+  "lat": 39.74,
+  "lon": -104.99,
+  "sizeKm": 40,
+  "category": "Geography",
+  "tags": [
+   "USA",
+   "cities"
+  ]
+ },
+ {
+  "text": "What is the capital of Arizona?",
+  "place": "Phoenix",
+  "region": "USA",
+  "lat": 33.45,
+  "lon": -112.07,
+  "sizeKm": 50,
+  "category": "Geography",
+  "tags": [
+   "USA",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which US city is Motor City, the home of Motown?",
+  "place": "Detroit",
+  "region": "USA",
+  "lat": 42.33,
+  "lon": -83.05,
+  "sizeKm": 40,
+  "category": "Geography",
+  "tags": [
+   "USA",
+   "cities",
+   "Motown"
+  ]
+ },
+ {
+  "text": "Which city is home to Graceland?",
+  "place": "Memphis",
+  "region": "USA",
+  "lat": 35.15,
+  "lon": -90.05,
+  "sizeKm": 40,
+  "category": "Geography",
+  "tags": [
+   "USA",
+   "cities",
+   "Elvis"
+  ]
+ },
+ {
+  "text": "Which Florida city is home to Walt Disney World?",
+  "place": "Orlando",
+  "region": "USA",
+  "lat": 28.54,
+  "lon": -81.38,
+  "sizeKm": 40,
+  "category": "Geography",
+  "tags": [
+   "USA",
+   "cities",
+   "Disney"
+  ]
+ },
+ {
+  "text": "Which US city is the headquarters of the Mormon church?",
+  "place": "Salt Lake City",
+  "region": "USA",
+  "lat": 40.76,
+  "lon": -111.89,
+  "sizeKm": 40,
+  "category": "Geography",
+  "tags": [
+   "USA",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which Minnesota city was the home of Prince?",
+  "place": "Minneapolis",
+  "region": "USA",
+  "lat": 44.98,
+  "lon": -93.27,
+  "sizeKm": 40,
+  "category": "Geography",
+  "tags": [
+   "USA",
+   "cities"
+  ]
+ },
+ {
+  "text": "Which US state is nicknamed the Empire State?",
+  "place": "New York State",
+  "region": "USA",
+  "lat": 43,
+  "lon": -75.5,
+  "sizeKm": 400,
+  "category": "Geography",
+  "tags": [
+   "USA",
+   "states"
+  ]
+ },
+ {
+  "text": "Which US state is the setting of 'Forrest Gump' and a Lynyrd Skynyrd anthem?",
+  "place": "Alabama",
+  "region": "USA",
+  "lat": 32.8,
+  "lon": -86.8,
+  "sizeKm": 400,
+  "category": "Geography",
+  "tags": [
+   "USA",
+   "states"
+  ]
+ },
+ {
+  "text": "Which US state is home to Denver and the Rockies?",
+  "place": "Colorado",
+  "region": "USA",
+  "lat": 39,
+  "lon": -105.5,
+  "sizeKm": 500,
+  "category": "Geography",
+  "tags": [
+   "USA",
+   "states"
+  ]
+ },
+ {
+  "text": "Which US state is home to Detroit?",
+  "place": "Michigan",
+  "region": "USA",
+  "lat": 44.3,
+  "lon": -85.4,
+  "sizeKm": 500,
+  "category": "Geography",
+  "tags": [
+   "USA",
+   "states"
+  ]
+ },
+ {
+  "text": "Which US state is home to Cleveland and Cincinnati?",
+  "place": "Ohio",
+  "region": "USA",
+  "lat": 40.4,
+  "lon": -82.8,
+  "sizeKm": 350,
+  "category": "Geography",
+  "tags": [
+   "USA",
+   "states"
+  ]
+ },
+ {
+  "text": "Which US state is the home of Coca-Cola and CNN?",
+  "place": "Georgia",
+  "region": "USA",
+  "lat": 32.7,
+  "lon": -83.4,
+  "sizeKm": 400,
+  "category": "Geography",
+  "tags": [
+   "USA",
+   "states"
+  ]
+ },
+ {
+  "text": "Which US state is home to Las Vegas?",
+  "place": "Nevada",
+  "region": "USA",
+  "lat": 39,
+  "lon": -116.9,
+  "sizeKm": 550,
+  "category": "Geography",
+  "tags": [
+   "USA",
+   "states"
+  ]
+ },
+ {
+  "text": "Which US state has Portland as its largest city?",
+  "place": "Oregon",
+  "region": "USA",
+  "lat": 44,
+  "lon": -120.5,
+  "sizeKm": 500,
+  "category": "Geography",
+  "tags": [
+   "USA",
+   "states"
+  ]
+ },
+ {
+  "text": "Which US state is home to New Orleans?",
+  "place": "Louisiana",
+  "region": "USA",
+  "lat": 31,
+  "lon": -92,
+  "sizeKm": 400,
+  "category": "Geography",
+  "tags": [
+   "USA",
+   "states"
+  ]
+ },
+ {
+  "text": "Which US state's name means 'mountain' in Spanish?",
+  "place": "Montana",
+  "region": "USA",
+  "lat": 47,
+  "lon": -109.6,
+  "sizeKm": 700,
+  "category": "Geography",
+  "tags": [
+   "USA",
+   "states"
+  ]
+ },
+ {
+  "text": "Which Moroccan city has the Jemaa el-Fnaa square?",
+  "place": "Marrakesh",
+  "region": "Africa",
+  "lat": 31.63,
+  "lon": -8,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "Africa",
+   "cities",
+   "Morocco"
+  ]
+ },
+ {
+  "text": "What is South Africa's largest city?",
+  "place": "Johannesburg",
+  "region": "Africa",
+  "lat": -26.2,
+  "lon": 28.04,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "Africa",
+   "cities",
+   "South Africa"
+  ]
+ },
+ {
+  "text": "What is the capital of Ethiopia?",
+  "place": "Addis Ababa",
+  "region": "Africa",
+  "lat": 9.03,
+  "lon": 38.74,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "Africa",
+   "capitals",
+   "Ethiopia"
+  ]
+ },
+ {
+  "text": "What is the capital of Tunisia?",
+  "place": "Tunis",
+  "region": "Africa",
+  "lat": 36.8,
+  "lon": 10.18,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "Africa",
+   "capitals",
+   "Tunisia"
+  ]
+ },
+ {
+  "text": "Which African capital was the finish line of a famous desert rally?",
+  "place": "Dakar",
+  "region": "Africa",
+  "lat": 14.72,
+  "lon": -17.47,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "Africa",
+   "capitals",
+   "Senegal"
+  ]
+ },
+ {
+  "text": "Which city hosted the Rumble in the Jungle in 1974?",
+  "place": "Kinshasa",
+  "region": "Africa",
+  "lat": -4.32,
+  "lon": 15.31,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "Africa",
+   "capitals"
+  ]
+ },
+ {
+  "text": "On which island off Tanzania was Freddie Mercury born?",
+  "place": "Zanzibar",
+  "region": "Africa",
+  "lat": -6.16,
+  "lon": 39.2,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "Africa",
+   "islands",
+   "Tanzania"
+  ]
+ },
+ {
+  "text": "Which waterfall on the Zambezi is called 'the smoke that thunders'?",
+  "place": "Victoria Falls",
+  "region": "Africa",
+  "lat": -17.92,
+  "lon": 25.86,
+  "sizeKm": 60,
+  "category": "Geography",
+  "tags": [
+   "Africa",
+   "landmarks"
+  ]
+ },
+ {
+  "text": "What is the highest mountain in Africa?",
+  "place": "Mount Kilimanjaro",
+  "region": "Africa",
+  "lat": -3.07,
+  "lon": 37.36,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "Africa",
+   "mountains"
+  ]
+ },
+ {
+  "text": "Which Tanzanian park is famous for the great wildebeest migration?",
+  "place": "The Serengeti",
+  "region": "Africa",
+  "lat": -2.33,
+  "lon": 34.83,
+  "sizeKm": 200,
+  "category": "Geography",
+  "tags": [
+   "Africa",
+   "nature"
+  ]
+ },
+ {
+  "text": "Which is the world's longest freshwater lake?",
+  "place": "Lake Tanganyika",
+  "region": "Africa",
+  "lat": -6.5,
+  "lon": 29.8,
+  "sizeKm": 400,
+  "category": "Geography",
+  "tags": [
+   "Africa",
+   "lakes"
+  ]
+ },
+ {
+  "text": "Which Malian city is a byword for the middle of nowhere?",
+  "place": "Timbuktu",
+  "region": "Africa",
+  "lat": 16.77,
+  "lon": -3.01,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "Africa",
+   "history",
+   "Mali"
+  ]
+ },
+ {
+  "text": "Which Moroccan city gave its name to a 1942 Humphrey Bogart film?",
+  "place": "Casablanca",
+  "region": "Africa",
+  "lat": 33.57,
+  "lon": -7.59,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "Africa",
+   "cities",
+   "film"
+  ]
+ },
+ {
+  "text": "Which Indian Ocean island was the home of the dodo?",
+  "place": "Mauritius",
+  "region": "Africa",
+  "lat": -20.35,
+  "lon": 57.55,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "Africa",
+   "islands",
+   "holidays"
+  ]
+ },
+ {
+  "text": "What is the capital of South Korea?",
+  "place": "Seoul",
+  "region": "Asia",
+  "lat": 37.57,
+  "lon": 126.98,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "Asia",
+   "capitals",
+   "South Korea"
+  ]
+ },
+ {
+  "text": "What is the capital of the Philippines?",
+  "place": "Manila",
+  "region": "Asia",
+  "lat": 14.6,
+  "lon": 120.98,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "Asia",
+   "capitals",
+   "Philippines"
+  ]
+ },
+ {
+  "text": "Which capital has the Petronas Towers?",
+  "place": "Kuala Lumpur",
+  "region": "Asia",
+  "lat": 3.14,
+  "lon": 101.69,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "Asia",
+   "capitals",
+   "Malaysia"
+  ]
+ },
+ {
+  "text": "What is the capital of Indonesia?",
+  "place": "Jakarta",
+  "region": "Asia",
+  "lat": -6.21,
+  "lon": 106.85,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "Asia",
+   "capitals",
+   "Indonesia"
+  ]
+ },
+ {
+  "text": "What is the capital of Vietnam?",
+  "place": "Hanoi",
+  "region": "Asia",
+  "lat": 21.03,
+  "lon": 105.85,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "Asia",
+   "capitals",
+   "Vietnam"
+  ]
+ },
+ {
+  "text": "What is the capital of Nepal?",
+  "place": "Kathmandu",
+  "region": "Asia",
+  "lat": 27.72,
+  "lon": 85.32,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "Asia",
+   "capitals",
+   "Nepal"
+  ]
+ },
+ {
+  "text": "Which Indonesian island is famous for its temples and surf?",
+  "place": "Bali",
+  "region": "Asia",
+  "lat": -8.4,
+  "lon": 115.19,
+  "sizeKm": 120,
+  "category": "Geography",
+  "tags": [
+   "Asia",
+   "islands",
+   "holidays"
+  ]
+ },
+ {
+  "text": "What is Thailand's largest island?",
+  "place": "Phuket",
+  "region": "Asia",
+  "lat": 7.88,
+  "lon": 98.39,
+  "sizeKm": 60,
+  "category": "Geography",
+  "tags": [
+   "Asia",
+   "islands",
+   "holidays"
+  ]
+ },
+ {
+  "text": "Which Indian Ocean nation is the lowest-lying country in the world?",
+  "place": "The Maldives",
+  "region": "Asia",
+  "lat": 3.2,
+  "lon": 73.2,
+  "sizeKm": 300,
+  "category": "Geography",
+  "tags": [
+   "Asia",
+   "islands",
+   "holidays"
+  ]
+ },
+ {
+  "text": "Which island did Portuguese sailors name Formosa?",
+  "place": "Taiwan",
+  "region": "Asia",
+  "lat": 23.7,
+  "lon": 121,
+  "sizeKm": 350,
+  "category": "Geography",
+  "tags": [
+   "Asia",
+   "islands"
+  ]
+ },
+ {
+  "text": "Which city has the Western Wall and the Dome of the Rock?",
+  "place": "Jerusalem",
+  "region": "Asia",
+  "lat": 31.77,
+  "lon": 35.21,
+  "sizeKm": 60,
+  "category": "Geography",
+  "tags": [
+   "Asia",
+   "cities",
+   "religion"
+  ]
+ },
+ {
+  "text": "Which city do Muslims face when they pray?",
+  "place": "Mecca",
+  "region": "Asia",
+  "lat": 21.39,
+  "lon": 39.86,
+  "sizeKm": 60,
+  "category": "Geography",
+  "tags": [
+   "Asia",
+   "cities",
+   "religion"
+  ]
+ },
+ {
+  "text": "What is the capital of Iraq?",
+  "place": "Baghdad",
+  "region": "Asia",
+  "lat": 33.31,
+  "lon": 44.37,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "Asia",
+   "capitals",
+   "Iraq"
+  ]
+ },
+ {
+  "text": "What is the capital of Iran?",
+  "place": "Tehran",
+  "region": "Asia",
+  "lat": 35.69,
+  "lon": 51.39,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "Asia",
+   "capitals",
+   "Iran"
+  ]
+ },
+ {
+  "text": "Which capital city hosted the 2022 FIFA World Cup?",
+  "place": "Doha",
+  "region": "Asia",
+  "lat": 25.29,
+  "lon": 51.53,
+  "sizeKm": 60,
+  "category": "Geography",
+  "tags": [
+   "Asia",
+   "capitals",
+   "Qatar"
+  ]
+ },
+ {
+  "text": "What is the deepest lake in the world?",
+  "place": "Lake Baikal",
+  "region": "Asia",
+  "lat": 53.5,
+  "lon": 108,
+  "sizeKm": 500,
+  "category": "Geography",
+  "tags": [
+   "Asia",
+   "lakes",
+   "Russia"
+  ]
+ },
+ {
+  "text": "What is the capital of Peru?",
+  "place": "Lima",
+  "region": "South America",
+  "lat": -12.05,
+  "lon": -77.04,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "South America",
+   "capitals",
+   "Peru"
+  ]
+ },
+ {
+  "text": "What is the capital of Chile?",
+  "place": "Santiago",
+  "region": "South America",
+  "lat": -33.45,
+  "lon": -70.67,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "South America",
+   "capitals",
+   "Chile"
+  ]
+ },
+ {
+  "text": "What is the capital of Colombia?",
+  "place": "Bogotá",
+  "region": "South America",
+  "lat": 4.71,
+  "lon": -74.07,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "South America",
+   "capitals",
+   "Colombia"
+  ]
+ },
+ {
+  "text": "What is the capital of Venezuela?",
+  "place": "Caracas",
+  "region": "South America",
+  "lat": 10.48,
+  "lon": -66.9,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "South America",
+   "capitals",
+   "Venezuela"
+  ]
+ },
+ {
+  "text": "Which capital city lies almost exactly on the Equator?",
+  "place": "Quito",
+  "region": "South America",
+  "lat": -0.18,
+  "lon": -78.47,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "South America",
+   "capitals",
+   "Ecuador"
+  ]
+ },
+ {
+  "text": "What is the capital of Uruguay?",
+  "place": "Montevideo",
+  "region": "South America",
+  "lat": -34.9,
+  "lon": -56.16,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "South America",
+   "capitals",
+   "Uruguay"
+  ]
+ },
+ {
+  "text": "Which Inca citadel was 'rediscovered' by Hiram Bingham in 1911?",
+  "place": "Machu Picchu",
+  "region": "South America",
+  "lat": -13.16,
+  "lon": -72.55,
+  "sizeKm": 60,
+  "category": "Geography",
+  "tags": [
+   "South America",
+   "landmarks",
+   "Peru"
+  ]
+ },
+ {
+  "text": "What is the highest navigable lake in the world?",
+  "place": "Lake Titicaca",
+  "region": "South America",
+  "lat": -15.9,
+  "lon": -69.3,
+  "sizeKm": 150,
+  "category": "Geography",
+  "tags": [
+   "South America",
+   "lakes"
+  ]
+ },
+ {
+  "text": "Which region at the southern tip of South America gave its name to an outdoor clothing brand?",
+  "place": "Patagonia",
+  "region": "South America",
+  "lat": -45,
+  "lon": -69,
+  "sizeKm": 1000,
+  "category": "Geography",
+  "tags": [
+   "South America",
+   "regions"
+  ]
+ },
+ {
+  "text": "Which cape at the tip of South America was feared by sailors rounding the Americas?",
+  "place": "Cape Horn",
+  "region": "South America",
+  "lat": -55.98,
+  "lon": -67.27,
+  "sizeKm": 60,
+  "category": "Geography",
+  "tags": [
+   "South America",
+   "landmarks"
+  ]
+ },
+ {
+  "text": "Which country is named after the Equator?",
+  "place": "Ecuador",
+  "region": "South America",
+  "lat": -1.8,
+  "lon": -78.2,
+  "sizeKm": 600,
+  "category": "Geography",
+  "tags": [
+   "South America",
+   "countries"
+  ]
+ },
+ {
+  "text": "Which landlocked South American country's capital is Asunción?",
+  "place": "Paraguay",
+  "region": "South America",
+  "lat": -23.4,
+  "lon": -58.4,
+  "sizeKm": 600,
+  "category": "Geography",
+  "tags": [
+   "South America",
+   "countries"
+  ]
+ },
+ {
+  "text": "Which is the only English-speaking country in South America?",
+  "place": "Guyana",
+  "region": "South America",
+  "lat": 4.9,
+  "lon": -58.9,
+  "sizeKm": 500,
+  "category": "Geography",
+  "tags": [
+   "South America",
+   "countries"
+  ]
+ },
+ {
+  "text": "Which is the only Grand Duchy in the world?",
+  "place": "Luxembourg",
+  "region": "Europe",
+  "lat": 49.8,
+  "lon": 6.1,
+  "sizeKm": 60,
+  "category": "Geography",
+  "tags": [
+   "Europe",
+   "countries"
+  ]
+ },
+ {
+  "text": "Which principality hosts a Grand Prix through its streets?",
+  "place": "Monaco",
+  "region": "Europe",
+  "lat": 43.74,
+  "lon": 7.42,
+  "sizeKm": 10,
+  "category": "Geography",
+  "tags": [
+   "Europe",
+   "countries",
+   "hard"
+  ]
+ },
+ {
+  "text": "Which country's capital is Ljubljana?",
+  "place": "Slovenia",
+  "region": "Europe",
+  "lat": 46.15,
+  "lon": 14.99,
+  "sizeKm": 200,
+  "category": "Geography",
+  "tags": [
+   "Europe",
+   "countries"
+  ]
+ },
+ {
+  "text": "Which country's capital is Bratislava?",
+  "place": "Slovakia",
+  "region": "Europe",
+  "lat": 48.7,
+  "lon": 19.7,
+  "sizeKm": 350,
+  "category": "Geography",
+  "tags": [
+   "Europe",
+   "countries"
+  ]
+ },
+ {
+  "text": "Which country's capital is Belgrade?",
+  "place": "Serbia",
+  "region": "Europe",
+  "lat": 44,
+  "lon": 21,
+  "sizeKm": 400,
+  "category": "Geography",
+  "tags": [
+   "Europe",
+   "countries"
+  ]
+ },
+ {
+  "text": "Which country's capital is Tirana?",
+  "place": "Albania",
+  "region": "Europe",
+  "lat": 41.15,
+  "lon": 20.17,
+  "sizeKm": 300,
+  "category": "Geography",
+  "tags": [
+   "Europe",
+   "countries"
+  ]
+ },
+ {
+  "text": "Which Baltic state's capital is Vilnius?",
+  "place": "Lithuania",
+  "region": "Europe",
+  "lat": 55.2,
+  "lon": 23.9,
+  "sizeKm": 300,
+  "category": "Geography",
+  "tags": [
+   "Europe",
+   "countries"
+  ]
+ },
+ {
+  "text": "Which Baltic state's capital is Riga?",
+  "place": "Latvia",
+  "region": "Europe",
+  "lat": 56.9,
+  "lon": 24.6,
+  "sizeKm": 300,
+  "category": "Geography",
+  "tags": [
+   "Europe",
+   "countries"
+  ]
+ },
+ {
+  "text": "Which Baltic state's capital is Tallinn?",
+  "place": "Estonia",
+  "region": "Europe",
+  "lat": 58.6,
+  "lon": 25,
+  "sizeKm": 300,
+  "category": "Geography",
+  "tags": [
+   "Europe",
+   "countries"
+  ]
+ },
+ {
+  "text": "Which country's capital is Minsk?",
+  "place": "Belarus",
+  "region": "Europe",
+  "lat": 53.7,
+  "lon": 27.9,
+  "sizeKm": 550,
+  "category": "Geography",
+  "tags": [
+   "Europe",
+   "countries"
+  ]
+ },
+ {
+  "text": "Which country's capital is Chișinău?",
+  "place": "Moldova",
+  "region": "Europe",
+  "lat": 47.4,
+  "lon": 28.4,
+  "sizeKm": 300,
+  "category": "Geography",
+  "tags": [
+   "Europe",
+   "countries"
+  ]
+ },
+ {
+  "text": "Which country's capital is Sarajevo?",
+  "place": "Bosnia and Herzegovina",
+  "region": "Europe",
+  "lat": 44,
+  "lon": 17.8,
+  "sizeKm": 300,
+  "category": "Geography",
+  "tags": [
+   "Europe",
+   "countries"
+  ]
+ },
+ {
+  "text": "Which country's capital is Skopje?",
+  "place": "North Macedonia",
+  "region": "Europe",
+  "lat": 41.6,
+  "lon": 21.7,
+  "sizeKm": 200,
+  "category": "Geography",
+  "tags": [
+   "Europe",
+   "countries"
+  ]
+ },
+ {
+  "text": "Which Adriatic country's name means 'black mountain'?",
+  "place": "Montenegro",
+  "region": "Europe",
+  "lat": 42.7,
+  "lon": 19.4,
+  "sizeKm": 150,
+  "category": "Geography",
+  "tags": [
+   "Europe",
+   "countries"
+  ]
+ },
+ {
+  "text": "Which tiny country lies in the Pyrenees between France and Spain?",
+  "place": "Andorra",
+  "region": "Europe",
+  "lat": 42.5,
+  "lon": 1.5,
+  "sizeKm": 40,
+  "category": "Geography",
+  "tags": [
+   "Europe",
+   "countries",
+   "hard"
+  ]
+ },
+ {
+  "text": "Which Greek island is the setting of 'My Family and Other Animals'?",
+  "place": "Corfu",
+  "region": "Europe",
+  "lat": 39.62,
+  "lon": 19.92,
+  "sizeKm": 60,
+  "category": "Geography",
+  "tags": [
+   "Europe",
+   "islands",
+   "holidays"
+  ]
+ },
+ {
+  "text": "Which Greek island once had a Colossus among the Seven Wonders?",
+  "place": "Rhodes",
+  "region": "Europe",
+  "lat": 36.2,
+  "lon": 28,
+  "sizeKm": 80,
+  "category": "Geography",
+  "tags": [
+   "Europe",
+   "islands",
+   "holidays"
+  ]
+ },
+ {
+  "text": "Which Greek island has white-washed villages on the rim of a volcanic caldera?",
+  "place": "Santorini",
+  "region": "Europe",
+  "lat": 36.39,
+  "lon": 25.46,
+  "sizeKm": 30,
+  "category": "Geography",
+  "tags": [
+   "Europe",
+   "islands",
+   "holidays"
+  ]
+ },
+ {
+  "text": "Which Canary Island has the Timanfaya volcanic park?",
+  "place": "Lanzarote",
+  "region": "World",
+  "lat": 29.05,
+  "lon": -13.6,
+  "sizeKm": 60,
+  "category": "Geography",
+  "tags": [
+   "islands",
+   "holidays",
+   "Spain"
+  ]
+ },
+ {
+  "text": "Which Portuguese island is famous for fortified wine and as Cristiano Ronaldo's birthplace?",
+  "place": "Madeira",
+  "region": "World",
+  "lat": 32.75,
+  "lon": -16.97,
+  "sizeKm": 60,
+  "category": "Geography",
+  "tags": [
+   "islands",
+   "holidays",
+   "Portugal"
+  ]
+ },
+ {
+  "text": "Which British territory gives its name to a triangle and a style of shorts?",
+  "place": "Bermuda",
+  "region": "World",
+  "lat": 32.3,
+  "lon": -64.78,
+  "sizeKm": 40,
+  "category": "Geography",
+  "tags": [
+   "islands"
+  ]
+ },
+ {
+  "text": "Which Caribbean island is Rihanna from?",
+  "place": "Barbados",
+  "region": "World",
+  "lat": 13.19,
+  "lon": -59.54,
+  "sizeKm": 40,
+  "category": "Geography",
+  "tags": [
+   "islands",
+   "Caribbean"
+  ]
+ },
+ {
+  "text": "Which Caribbean island is a territory of the United States?",
+  "place": "Puerto Rico",
+  "region": "World",
+  "lat": 18.2,
+  "lon": -66.5,
+  "sizeKm": 200,
+  "category": "Geography",
+  "tags": [
+   "islands",
+   "Caribbean"
+  ]
+ },
+ {
+  "text": "Which country shares Hispaniola with the Dominican Republic?",
+  "place": "Haiti",
+  "region": "World",
+  "lat": 19,
+  "lon": -72.7,
+  "sizeKm": 300,
+  "category": "Geography",
+  "tags": [
+   "countries",
+   "Caribbean"
+  ]
+ },
+ {
+  "text": "Which Central American country abolished its army in 1948?",
+  "place": "Costa Rica",
+  "region": "World",
+  "lat": 9.9,
+  "lon": -84.1,
+  "sizeKm": 300,
+  "category": "Geography",
+  "tags": [
+   "countries",
+   "Central America"
+  ]
+ },
+ {
+  "text": "Which country has a canal joining the Atlantic and the Pacific?",
+  "place": "Panama",
+  "region": "World",
+  "lat": 8.5,
+  "lon": -80,
+  "sizeKm": 500,
+  "category": "Geography",
+  "tags": [
+   "countries",
+   "Central America"
+  ]
+ },
+ {
+  "text": "Which Central American country has the Mayan ruins of Tikal?",
+  "place": "Guatemala",
+  "region": "World",
+  "lat": 15.6,
+  "lon": -90.3,
+  "sizeKm": 400,
+  "category": "Geography",
+  "tags": [
+   "countries",
+   "Central America"
+  ]
+ },
+ {
+  "text": "Which continent has no permanent population?",
+  "place": "Antarctica",
+  "region": "World",
+  "lat": -80,
+  "lon": 0,
+  "sizeKm": 4000,
+  "category": "Geography",
+  "tags": [
+   "continents"
+  ]
+ },
+ {
+  "text": "Which Arctic archipelago has the Global Seed Vault?",
+  "place": "Svalbard",
+  "region": "World",
+  "lat": 78.5,
+  "lon": 16,
+  "sizeKm": 500,
+  "category": "Geography",
+  "tags": [
+   "islands",
+   "Arctic",
+   "hard"
+  ]
+ },
+ {
+  "text": "Which Pacific island is famous for its giant moai statues?",
+  "place": "Easter Island",
+  "region": "World",
+  "lat": -27.11,
+  "lon": -109.35,
+  "sizeKm": 40,
+  "category": "Geography",
+  "tags": [
+   "islands",
+   "hard"
+  ]
+ },
+ {
+  "text": "What is the largest island in French Polynesia?",
+  "place": "Tahiti",
+  "region": "World",
+  "lat": -17.65,
+  "lon": -149.43,
+  "sizeKm": 60,
+  "category": "Geography",
+  "tags": [
+   "islands",
+   "hard"
+  ]
+ },
+ {
+  "text": "Which Indian Ocean island nation's capital is Victoria?",
+  "place": "The Seychelles",
+  "region": "World",
+  "lat": -4.68,
+  "lon": 55.49,
+  "sizeKm": 100,
+  "category": "Geography",
+  "tags": [
+   "islands",
+   "holidays"
+  ]
+ },
+ {
+  "text": "Which Spanish islands off Africa include Tenerife and Gran Canaria?",
+  "place": "The Canary Islands",
+  "region": "World",
+  "lat": 28.3,
+  "lon": -15.9,
+  "sizeKm": 300,
+  "category": "Geography",
+  "tags": [
+   "islands",
+   "holidays"
+  ]
+ },
+ {
+  "text": "Which Central Asian country has the Silk Road cities of Samarkand and Bukhara?",
+  "place": "Uzbekistan",
+  "region": "World",
+  "lat": 41.4,
+  "lon": 64.6,
+  "sizeKm": 1000,
+  "category": "Geography",
+  "tags": [
+   "countries",
+   "Asia",
+   "hard"
+  ]
+ },
+ {
+  "text": "Which country's capital is Kabul?",
+  "place": "Afghanistan",
+  "region": "World",
+  "lat": 33.9,
+  "lon": 67.7,
+  "sizeKm": 1000,
+  "category": "Geography",
+  "tags": [
+   "countries",
+   "Asia"
+  ]
+ },
+ {
+  "text": "Which country's capital is Dhaka?",
+  "place": "Bangladesh",
+  "region": "World",
+  "lat": 23.7,
+  "lon": 90.4,
+  "sizeKm": 500,
+  "category": "Geography",
+  "tags": [
+   "countries",
+   "Asia"
+  ]
+ },
+ {
+  "text": "Which country was formerly called Burma?",
+  "place": "Myanmar",
+  "region": "World",
+  "lat": 19,
+  "lon": 96.7,
+  "sizeKm": 1200,
+  "category": "Geography",
+  "tags": [
+   "countries",
+   "Asia"
+  ]
+ },
+ {
+  "text": "Which country's capital is Kuala Lumpur?",
+  "place": "Malaysia",
+  "region": "World",
+  "lat": 4.2,
+  "lon": 102,
+  "sizeKm": 1000,
+  "category": "Geography",
+  "tags": [
+   "countries",
+   "Asia"
+  ]
+ },
+ {
+  "text": "Which country is ruled by Kim Jong Un?",
+  "place": "North Korea",
+  "region": "World",
+  "lat": 40.3,
+  "lon": 127.5,
+  "sizeKm": 500,
+  "category": "Geography",
+  "tags": [
+   "countries",
+   "Asia"
+  ]
+ },
+ {
+  "text": "Which country has the cities of Tel Aviv and Haifa?",
+  "place": "Israel",
+  "region": "World",
+  "lat": 31.5,
+  "lon": 34.9,
+  "sizeKm": 400,
+  "category": "Geography",
+  "tags": [
+   "countries"
+  ]
+ },
+ {
+  "text": "Which country is home to the rock-cut city of Petra?",
+  "place": "Jordan",
+  "region": "World",
+  "lat": 31.2,
+  "lon": 36.5,
+  "sizeKm": 500,
+  "category": "Geography",
+  "tags": [
+   "countries"
+  ]
+ },
+ {
+  "text": "Which country has the ancient site of Babylon?",
+  "place": "Iraq",
+  "region": "World",
+  "lat": 33.2,
+  "lon": 43.7,
+  "sizeKm": 900,
+  "category": "Geography",
+  "tags": [
+   "countries"
+  ]
+ },
+ {
+  "text": "Which country's capital is Damascus?",
+  "place": "Syria",
+  "region": "World",
+  "lat": 35,
+  "lon": 38.5,
+  "sizeKm": 600,
+  "category": "Geography",
+  "tags": [
+   "countries"
+  ]
+ },
+ {
+  "text": "Which country's capital is Sana'a?",
+  "place": "Yemen",
+  "region": "World",
+  "lat": 15.6,
+  "lon": 48.5,
+  "sizeKm": 900,
+  "category": "Geography",
+  "tags": [
+   "countries"
+  ]
+ },
+ {
+  "text": "Which country's capital is Muscat?",
+  "place": "Oman",
+  "region": "World",
+  "lat": 21.5,
+  "lon": 56,
+  "sizeKm": 800,
+  "category": "Geography",
+  "tags": [
+   "countries"
+  ]
+ },
+ {
+  "text": "Which country is Dubai part of?",
+  "place": "United Arab Emirates",
+  "region": "World",
+  "lat": 24,
+  "lon": 54,
+  "sizeKm": 500,
+  "category": "Geography",
+  "tags": [
+   "countries"
+  ]
+ },
+ {
+  "text": "Which country's capital is Mogadishu?",
+  "place": "Somalia",
+  "region": "World",
+  "lat": 5.2,
+  "lon": 46.2,
+  "sizeKm": 1200,
+  "category": "Geography",
+  "tags": [
+   "countries",
+   "Africa"
+  ]
+ },
+ {
+  "text": "Which African country's footballers are the Indomitable Lions?",
+  "place": "Cameroon",
+  "region": "World",
+  "lat": 7.4,
+  "lon": 12.4,
+  "sizeKm": 900,
+  "category": "Geography",
+  "tags": [
+   "countries",
+   "Africa"
+  ]
+ },
+ {
+  "text": "Which African country's capital is Yamoussoukro?",
+  "place": "Ivory Coast",
+  "region": "World",
+  "lat": 7.5,
+  "lon": -5.5,
+  "sizeKm": 600,
+  "category": "Geography",
+  "tags": [
+   "countries",
+   "Africa"
+  ]
+ },
+ {
+  "text": "Which African country's capital is Dakar?",
+  "place": "Senegal",
+  "region": "World",
+  "lat": 14.5,
+  "lon": -14.5,
+  "sizeKm": 600,
+  "category": "Geography",
+  "tags": [
+   "countries",
+   "Africa"
+  ]
+ },
+ {
+  "text": "Which country was formerly called Rhodesia?",
+  "place": "Zimbabwe",
+  "region": "World",
+  "lat": -19,
+  "lon": 29.2,
+  "sizeKm": 800,
+  "category": "Geography",
+  "tags": [
+   "countries",
+   "Africa"
+  ]
+ },
+ {
+  "text": "Which country's capital is Lusaka?",
+  "place": "Zambia",
+  "region": "World",
+  "lat": -13.1,
+  "lon": 27.8,
+  "sizeKm": 1000,
+  "category": "Geography",
+  "tags": [
+   "countries",
+   "Africa"
+  ]
+ },
+ {
+  "text": "Which country's capital is Gaborone?",
+  "place": "Botswana",
+  "region": "World",
+  "lat": -22.3,
+  "lon": 24.7,
+  "sizeKm": 900,
+  "category": "Geography",
+  "tags": [
+   "countries",
+   "Africa"
+  ]
+ },
+ {
+  "text": "Which country was ruled by Idi Amin?",
+  "place": "Uganda",
+  "region": "World",
+  "lat": 1.4,
+  "lon": 32.3,
+  "sizeKm": 600,
+  "category": "Geography",
+  "tags": [
+   "countries",
+   "Africa"
+  ]
+ },
+ {
+  "text": "Which country's capital is Kigali?",
+  "place": "Rwanda",
+  "region": "World",
+  "lat": -1.9,
+  "lon": 29.9,
+  "sizeKm": 250,
+  "category": "Geography",
+  "tags": [
+   "countries",
+   "Africa",
+   "hard"
+  ]
+ },
+ {
+  "text": "Which country is Timbuktu in?",
+  "place": "Mali",
+  "region": "World",
+  "lat": 17.6,
+  "lon": -4,
+  "sizeKm": 1400,
+  "category": "Geography",
+  "tags": [
+   "countries",
+   "Africa"
+  ]
+ },
+ {
+  "text": "Which country's capital is Niamey?",
+  "place": "Niger",
+  "region": "World",
+  "lat": 17.6,
+  "lon": 8.1,
+  "sizeKm": 1300,
+  "category": "Geography",
+  "tags": [
+   "countries",
+   "Africa"
+  ]
+ },
+ {
+  "text": "Which African country's capital is N'Djamena?",
+  "place": "Chad",
+  "region": "World",
+  "lat": 15.5,
+  "lon": 18.7,
+  "sizeKm": 1400,
+  "category": "Geography",
+  "tags": [
+   "countries",
+   "Africa"
+  ]
+ },
+ {
+  "text": "Which country's capital is Tunis?",
+  "place": "Tunisia",
+  "region": "World",
+  "lat": 33.9,
+  "lon": 9.5,
+  "sizeKm": 600,
+  "category": "Geography",
+  "tags": [
+   "countries",
+   "Africa"
+  ]
+ }
 ]

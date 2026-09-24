@@ -36,3 +36,8 @@ Each session:
 5. Schedule the next session five minutes later with the same instructions.
 
 `node tools/bank-next.mjs --list` shows every topic's counts; `--all` lists every incomplete topic.
+
+Drop-the-pin rule (all pin questions, bank and writer): the text never names the place. It asks a fact whose
+answer is the place, so the player must know the fact and then find it on the map ("Which city hosted the
+2016 Olympics?"). Line-up pins ask a fact about one of the people or things shown. bank/pin-clues.json holds
+the clue for every place in the pin bank; tools/rewrite-pins.mjs applies it.
