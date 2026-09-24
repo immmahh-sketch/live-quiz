@@ -530,7 +530,7 @@ function startQuestion() {
   if (q.type === 'wheel') { G.q.wheelRevealed = (q.startLetters || '').toUpperCase().replace(/[^A-Z]/g, ''); G.q.nextReveal = now + (q.revealEvery || 4) * 1000; }
   G.phase = 'question'; persist(); render();
   if (q.type === 'wipeout') wipeStart(); else if (q.type === 'race') raceStart(); else broadcastState();
-  startTick(); botsOnQuestion();
+  startTick(); botsOnQuestion(); musicStart(q);
 }
 function startTick() {
   clearInterval(tickT);
@@ -562,6 +562,7 @@ function wheelReveal() {
   persist(); const b = $('#wofboard'); if (b) b.innerHTML = LQ.wheelBoardHtml(G.q.view.layout ? LQ.wheelLayout(q.phrase) : null, G.q.wheelRevealed); broadcastState();
 }
 async function endQuestion() {
+  musicStop();
   if (G.phase !== 'question') return;
   clearInterval(tickT); botClear(); stopTune();
   G.phase = 'grading'; persist(); render(); broadcastState();
@@ -786,7 +787,7 @@ async function grade(noAi) {
 }
 
 // ------------------------------------------------------------------ rendering
-function render() { renderPhase(); scheduleAuto(); syncPause(); }
+function render() { renderPhase(); scheduleAuto(); syncPause(); if (G.phase !== 'question') musicStop(); }
 function renderPhase() {
   const ph = G.phase;
   if (ph === 'lobby') return renderLobby();
@@ -811,6 +812,59 @@ function renderRound() {
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary btn-lg" data-act="primary">Start round ▶</button>`)}`;
   bind();
 }
+// ---------------------------------------------------------------- background music
+// Kahoot's own soundtrack, from the host's YouTube playlist. Each question gets the countdown track that matches its
+// timer, started so the track's finale lands as the clock runs out; Wipeout (no single timer) and very long timers get
+// a lobby loop. Name That Tune and video questions stay silent, and the music stops when the question ends.
+const MUSIC = {
+  countdown: {
+    5: [['121Iv6Q7Xn4', 11], ['BX3PZl4n__o', 11], ['Y76xoAbpKNc', 11]],
+    10: [['zlK9ppf-O_s', 14], ['9SLgQEznnSk', 14], ['aE-DXZUMigo', 10], ['zqHwG8zbnbI', 11]],
+    20: [['EI4mIc_QKjY', 20], ['htQij7Z7DqM', 20], ['g2cORKAqBDc', 21], ['_Pu30Ta4Trk', 21], ['fWWWH3HHtp8', 25]],
+    30: [['DSZCehssGBo', 31], ['O_HbxebGGsM', 31], ['Kn7aWyV5Wjw', 31], ['-ShuoFKg5cM', 36], ['T234SKspCfk', 37]],
+    60: [['pHYHyZS_Xzo', 61], ['jz-dy1B1RD8', 61], ['F4GeRrCBeKk', 66]],
+    90: [['l-f5yMpuV3w', 86], ['xeVqZOr-NXk', 97], ['ejApxp8SH8s', 94]],
+    120: [['ur4zDFjQT24', 118], ['1RCzbP13q6U', 125], ['JcM7VFx-Q2E', 122], ['ff92C_ONAH0', 124]],
+    240: [['vBb8WzBrbjQ', 247]],
+  },
+  loop: ['-O3z9xRM5Rc', '6mCLPHv-BOs', '5e6SxEPO9X0', 'cLUJ_NPG9WE', 'uXt3JmbsDik', 'jk0XGWS5uIQ', '7E1YQawqMOo', 'mxf51t72NQY', 'ZLQopVmXMx4', '5GGL1Qc2gWw', '2FgO-oA94D0', 'V1QKMTsf45w', 'VH6jlzgBNmQ', 'RCwWaeWGO9o', 'OG5Cq8B5GaM', 'cDsEhy_01sY'],
+};
+let ytP = null, ytReady = null, musicMode = null, lastTrack = '';
+function musicOn() { try { return localStorage.getItem('lq_music') !== 'off'; } catch { return true; } }
+function toggleMusic() {
+  const on = !musicOn(); try { localStorage.setItem('lq_music', on ? 'on' : 'off'); } catch {}
+  if (!on) musicStop(); else if (G?.phase === 'question' && !G.paused) musicStart(question());
+  const b = $('[data-act="music"]'); if (b) { b.textContent = on ? '🎵 Music: on' : '🔇 Music: off'; b.classList.toggle('on', on); }
+  toast(on ? 'Music on while the clock runs.' : 'Music off.');
+}
+function loadYT() {
+  if (ytReady) return ytReady;
+  ytReady = new Promise((res, rej) => {
+    if (window.YT?.Player) return res();
+    window.onYouTubeIframeAPIReady = () => res();
+    const sc = document.createElement('script'); sc.src = 'https://www.youtube.com/iframe_api'; sc.onerror = () => rej(new Error('no YouTube')); document.head.appendChild(sc);
+  }).then(() => new Promise((res) => {
+    const wrap = document.createElement('div'); wrap.className = 'bgm'; wrap.innerHTML = '<div id="bgmPlayer"></div>'; document.body.appendChild(wrap);
+    ytP = new YT.Player('bgmPlayer', { width: 200, height: 200, playerVars: { controls: 0, disablekb: 1, playsinline: 1, rel: 0, iv_load_policy: 3 },
+      events: { onReady: () => res(ytP), onStateChange: (e) => { if (e.data === 0 && musicMode === 'loop') playLoop(); }, onError: () => { if (musicMode === 'loop') playLoop(); } } });
+  }));
+  ytReady.catch(() => { ytReady = null; });
+  return ytReady;
+}
+const pick = (arr) => { const opts = arr.filter((x) => (Array.isArray(x) ? x[0] : x) !== lastTrack); const x = (opts.length ? opts : arr)[Math.floor(Math.random() * (opts.length || arr.length))]; lastTrack = Array.isArray(x) ? x[0] : x; return x; };
+async function musicStart(q) {
+  if (!q || !musicOn() || q.type === 'tune' || q.media?.kind === 'youtube') return musicStop();
+  const p = await loadYT().catch(() => null);
+  if (!p || G.phase !== 'question' || G.paused || question() !== q) return;
+  const T = q.type === 'wipeout' ? 0 : +q.time || 0;
+  const bucket = T ? Object.keys(MUSIC.countdown).map(Number).sort((a, b) => a - b).find((b) => b >= T) : null;
+  if (!bucket) return playLoop();
+  const [id, dur] = pick(MUSIC.countdown[bucket]);
+  musicMode = 'countdown'; p.setVolume(45); p.loadVideoById({ videoId: id, startSeconds: Math.max(0, dur - T) });
+}
+function playLoop() { if (!ytP) return; musicMode = 'loop'; ytP.setVolume(35); ytP.loadVideoById(pick(MUSIC.loop)); }
+function musicStop() { musicMode = null; try { ytP?.stopVideo(); } catch {} }
+function musicPause(on) { try { if (on) ytP?.pauseVideo(); else if (musicMode) ytP?.playVideo(); } catch {} }
 function renderTypeCard() {
   const q = question(), T = TYPES[q.type] || { icon: '❓', label: q.type }, run = typeRun(G.qIndex);
   stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">Question ${G.qIndex + 1} of ${total()}</span></div></div>
@@ -822,9 +876,9 @@ function renderTypeCard() {
 function togglePause(want, quiet) {
   want = typeof want === 'boolean' ? want : !G.paused;
   if (want === !!G.paused) return;
-  if (want) { G.paused = true; G.pausedAt = Date.now(); clearTimeout(autoT); }
+  if (want) { G.paused = true; G.pausedAt = Date.now(); clearTimeout(autoT); musicPause(true); }
   else {
-    const d = Date.now() - (G.pausedAt || Date.now()); G.paused = false; G.pausedAt = 0;
+    const d = Date.now() - (G.pausedAt || Date.now()); G.paused = false; G.pausedAt = 0; musicPause(false);
     if (G.q) { if (G.q.deadline) G.q.deadline += d; if (G.q.nextReveal) G.q.nextReveal += d; const w = G.q.wipe; if (w) { if (w.studyUntil) w.studyUntil += d; if (w.turnDeadline) w.turnDeadline += d; } }
   }
   persist();
@@ -847,7 +901,7 @@ function hostBar(buttons) {
   return `<div class="stage-bottom"><span class="muted small" style="opacity:.6">Game ${G.code} · ${players().length} players${G.bots?.length ? ` · test mode, ${G.bots.length} bots` : ''} · ${hint}</span>${d ? `<div class="autobar" title="Moving on by itself"><i style="animation-duration:${d}ms"></i></div>` : ''}<div class="hostbar">${G.auto && !['lobby', 'final'].includes(G.phase) ? `<button class="btn btn-ghost" data-act="pause" title="Stop the clock and hold this screen (P)">${G.paused ? '▶ Resume' : '⏸ Pause'}</button>` : ''}${buttons}</div></div>`;
 }
 function bind() {
-  $$('[data-act]').forEach((b) => b.onclick = () => ({ primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(3), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, pause: () => togglePause(), builder: () => location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
+  $$('[data-act]').forEach((b) => b.onclick = () => ({ primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(3), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, pause: () => togglePause(), music: toggleMusic, builder: () => location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
   $$('[data-kick]').forEach((el) => { el.style.cursor = 'pointer'; el.title = 'Click to remove this player from the game'; el.onclick = () => kickPlayer(el.dataset.kick); });
 }
 function renderLobby() {
@@ -859,7 +913,7 @@ function renderLobby() {
         <div class="players" id="players"></div>
         <div class="appqr"><div class="qr" id="qr2"></div><div class="appqr-text"><b>Keep the app on your phone</b>Scan this one and add it to your home screen.<span>${esc(shortPlayUrl())}</span></div></div></div>
     </div></div>
-    ${hostBar(`<button class="btn btn-ghost" data-act="builder">${TV ? '🏠 Home' : 'Back to builder'}</button><button class="btn btn-ghost ${G.auto ? 'on' : ''}" data-act="auto" title="Self-play: the screen moves on by itself and players can press Start and Next on their phones, so nobody has to sit at this screen">${G.auto ? '🎮 Runs itself: on' : '🎮 Runs itself: off'}</button>${TV ? '' : `<button class="btn btn-ghost ${G.solo ? 'on' : ''}" data-act="solo" title="Test by yourself: adds three bots and opens a player panel here so you can answer on this screen">${G.solo ? '🧪 Testing solo: on' : '🧪 Test by myself'}</button>`}<button class="btn btn-ghost" data-act="bots" title="Test mode: add three simulated players who answer on their own">${G.bots?.length ? `🤖 ${G.bots.length} bots · add more` : '🤖 Add test bots'}</button><button class="btn btn-primary btn-lg" data-act="primary" id="startBtn">Start ▶</button>`)}`;
+    ${hostBar(`<button class="btn btn-ghost" data-act="builder">${TV ? '🏠 Home' : 'Back to builder'}</button><button class="btn btn-ghost ${musicOn() ? 'on' : ''}" data-act="music" title="Background music while the clock runs (M)">${musicOn() ? '🎵 Music: on' : '🔇 Music: off'}</button><button class="btn btn-ghost ${G.auto ? 'on' : ''}" data-act="auto" title="Self-play: the screen moves on by itself and players can press Start and Next on their phones, so nobody has to sit at this screen">${G.auto ? '🎮 Runs itself: on' : '🎮 Runs itself: off'}</button>${TV ? '' : `<button class="btn btn-ghost ${G.solo ? 'on' : ''}" data-act="solo" title="Test by yourself: adds three bots and opens a player panel here so you can answer on this screen">${G.solo ? '🧪 Testing solo: on' : '🧪 Test by myself'}</button>`}<button class="btn btn-ghost" data-act="bots" title="Test mode: add three simulated players who answer on their own">${G.bots?.length ? `🤖 ${G.bots.length} bots · add more` : '🤖 Add test bots'}</button><button class="btn btn-primary btn-lg" data-act="primary" id="startBtn">Start ▶</button>`)}`;
   new QRCode($('#qr'), { text: url, width: 380, height: 380, correctLevel: QRCode.CorrectLevel.M });
   new QRCode($('#qr2'), { text: new URL('play', location.href).toString(), width: 200, height: 200, correctLevel: QRCode.CorrectLevel.M });
   renderLobbyPlayers(); bind();
@@ -1064,6 +1118,7 @@ function confetti() {
   setTimeout(() => c.classList.add('hidden'), 9000);
 }
 document.addEventListener('keydown', (e) => {
+  if ((e.key === 'm' || e.key === 'M') && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName || '')) { e.preventDefault(); toggleMusic(); return; }
   if ((e.key === 'p' || e.key === 'P') && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName || '') && typeof G !== 'undefined' && G && G.auto && !['lobby', 'final'].includes(G.phase)) { e.preventDefault(); togglePause(); return; }
   if (e.target.matches('input, textarea, button, a, select')) return; // a focused control handles its own key
   if (TV && e.key === 'ArrowRight') return; // on a TV the arrows move the focus ring

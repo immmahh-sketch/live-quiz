@@ -633,3 +633,6 @@ body.solo .stage { padding-right: calc(min(390px, 100vw) + 20px); }
 .kq { display: flex; gap: 10px; align-items: flex-start; padding: 8px; border: 1px solid var(--line); border-radius: 10px; }
 .kq img { width: 72px; height: 54px; object-fit: contain; background: #111; border-radius: 6px; flex: none; }
 .kq .kq-n { width: 72px; flex: none; text-align: center; font-size: 1.4rem; }
+
+/* background music: the YouTube player, kept off to the side and invisible */
+.bgm { position: fixed; left: 0; bottom: 0; width: 200px; height: 200px; opacity: 0; pointer-events: none; z-index: -1; }
