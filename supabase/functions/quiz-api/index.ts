@@ -422,6 +422,7 @@ const WRITER_SYSTEM = `You write questions for a live pub quiz played over a vid
 Rules:
 - Every fact must be correct. If you are not certain, verify with web search before using it — and always search for anything that could have changed recently (current record holders, "most recent", this year's events, who currently holds a job).
 - Vary the sub-topics and difficulty within the set; never two questions on the same fact.
+- Give every question a "difficulty" field: "easy", "medium" or "hard". For a mixed set aim for roughly a quarter easy, nearly half medium and the rest hard.
 - Never put the answer, or a giveaway, in the question text.
 - Keep question text under 140 characters. Answers under 40 characters.
 
@@ -486,6 +487,7 @@ async function finishRaw(raw: any[], count: number, usedPictures: string[], want
   const questions = await Promise.all(raw.slice(0, count).map(async (r) => {
     const time = Math.min(90, Math.max(10, Math.round(+r.time || 25)));
     const base: any = { id: uid("q"), type: r.type, text: String(r.text || r.phrase || (r.type === "tune" ? r.track : r.type === "dingbat" ? "Say what you see" : "") || "").trim(), time, media: { kind: "none" }, partial: false };
+    if (["easy", "medium", "hard"].includes(r.difficulty)) base.difficulty = r.difficulty; // easy / medium / hard, from the writer or the bank file
     if (!base.text) return null;
 
     if (wantPictures && typeof r.picture === "string" && r.picture.trim() && r.type !== "pin") {
@@ -691,7 +693,7 @@ async function generate(o: GenOpts) {
   const brief = o.brief ? `\nThe host's brief for this round — follow it closely, it decides what every question is about:\n${o.brief}` : "";
   const prompt = `Write ${o.count} pub quiz questions.
 Round: ${o.topic || "general knowledge"}${brief}
-Difficulty: ${o.difficulty}
+Difficulty: ${o.difficulty}${o.difficulty === "mixed" ? " (about 25% easy, 45% medium, 30% hard)" : ""}
 Question types to use (mix them across the set): ${typeList.join(", ")}
 Pictures round: ${wantPictures ? "yes — give roughly half the questions a picture, and use rightPicture for match questions" : "no pictures"}`;
 
@@ -857,7 +859,7 @@ Deno.serve(async (req) => {
       const quizId = UUID_RE.test(String(body.quizId || "")) ? String(body.quizId) : "";
       let fromBank: any[] = [];
       if (body.useBank !== false && quizId && types.length === 1) {
-        try { fromBank = await bankTake(types[0], wantCount, String(body.topic || body.title || ""), String(body.brief || ""), quizId); } catch (e) { console.warn("bank take failed", String(e)); }
+        try { fromBank = await bankTake(types[0], wantCount, String(body.topic || body.title || ""), String(body.brief || ""), quizId, ["easy", "medium", "hard"].includes(String(body.difficulty)) ? String(body.difficulty) : "mixed"); } catch (e) { console.warn("bank take failed", String(e)); }
       }
       if (fromBank.length >= wantCount) return json({ questions: fromBank, warnings: [], searched: false, usage: null, unknownTypes, fromBank: fromBank.length });
       const out = await generate({
@@ -882,7 +884,27 @@ Deno.serve(async (req) => {
       const type = String(body.type || "");
       const row = (await bankRows()).find((r) => r.settings?.type === type);
       const qs: any[] = row ? row.questions : [];
-      return json({ questions: qs.map((q) => ({ id: q.id, text: q.text || q.phrase || q.place || "", answer: q.type === "choice" ? (q.options || []).find((o: any) => o.id === q.correct)?.text : q.type === "tf" ? String(q.answer) : q.type === "wheel" ? q.phrase : q.type === "pin" ? q.place : q.type === "order" ? (q.items || []).map((i: any) => i.text).join(" → ") : (q.answers || [])[0] || "", category: q.category || "", tags: q.tags || [], used: q.used || null, pct: q.pct, rejected: !!q.used?.rejected })) });
+      return json({ questions: qs.map((q) => ({ id: q.id, text: q.text || q.phrase || q.place || "", answer: q.type === "choice" ? (q.options || []).find((o: any) => o.id === q.correct)?.text : q.type === "tf" ? String(q.answer) : q.type === "wheel" ? q.phrase : q.type === "pin" ? q.place : q.type === "order" ? (q.items || []).map((i: any) => i.text).join(" → ") : (q.answers || [])[0] || "", category: q.category || "", tags: q.tags || [], used: q.used || null, pct: q.pct, rejected: !!q.used?.rejected, difficulty: q.difficulty || "" })) });
+    }
+    if (action === "bank_patch") {
+      // Sets difficulty (and optionally category / tags) on bank items, matched by id or, failing that, by what
+      // makes them the same question (bankKey), so a topic file with ratings can rate what it already imported.
+      const type = String(body.type || "");
+      const patches = (Array.isArray(body.patches) ? body.patches : []).slice(0, 500);
+      if (!patches.length) return json({ error: "Nothing to change." }, 400);
+      const row = await bankRow(type);
+      const byKey = new Map<string, any>(); for (const q of row.questions) byKey.set(bankKey(q), q);
+      let changed = 0, missing = 0;
+      for (const p of patches) {
+        const q = (p.id && row.questions.find((x: any) => x.id === p.id)) || byKey.get(bankKey({ ...p, type }));
+        if (!q) { missing++; continue; }
+        if (["easy", "medium", "hard"].includes(p.difficulty)) q.difficulty = p.difficulty;
+        if (typeof p.category === "string") q.category = p.category.slice(0, 60);
+        if (Array.isArray(p.tags)) q.tags = p.tags.map((t: unknown) => String(t).slice(0, 40)).slice(0, 12);
+        changed++;
+      }
+      if (changed) await bankSave(row);
+      return json({ ok: true, changed, missing });
     }
     if (action === "bank_get") {
       const type = String(body.type || ""), id = String(body.id || "");
@@ -1136,7 +1158,7 @@ function nearDuplicate(a: any, b: any): boolean {
   if (!ta.size || !tb.size) return false;
   let shared = 0; for (const w of ta) if (tb.has(w)) shared++;
   const overlap = shared / Math.min(ta.size, tb.size);
-  const sameAnswer = norm(bankAnswer(a)) === norm(bankAnswer(b)) && norm(bankAnswer(a)).length > 1;
+  const sameAnswer = a.type !== "tf" && ta.size >= 3 && tb.size >= 3 && norm(bankAnswer(a)) === norm(bankAnswer(b)) && norm(bankAnswer(a)).length > 1;
   return overlap >= 0.8 || (sameAnswer && overlap >= 0.5);
 }
 async function bankRows(): Promise<any[]> {
@@ -1154,14 +1176,18 @@ async function bankSave(row: any) {
   await rest(`quiz_quizzes?id=eq.${row.id}`, { method: "PATCH", body: JSON.stringify({ questions: row.questions, updated_at: new Date().toISOString() }) });
 }
 function bankStatus(rows: any[]) {
-  const out: Record<string, { total: number; unused: number; low: boolean }> = {};
-  for (const r of rows) { const qs = Array.isArray(r.questions) ? r.questions : []; const unused = qs.filter((q: any) => !q.used).length; out[r.settings.type] = { total: qs.length, unused, low: unused < BANK_LOW }; }
+  const out: Record<string, { total: number; unused: number; low: boolean; mix: Record<string, number> }> = {};
+  for (const r of rows) {
+    const qs = Array.isArray(r.questions) ? r.questions : []; const fresh = qs.filter((q: any) => !q.used);
+    const mix = { easy: 0, medium: 0, hard: 0, unrated: 0 }; for (const q of fresh) mix[(["easy", "medium", "hard"].includes(q.difficulty) ? q.difficulty : "unrated") as keyof typeof mix]++;
+    out[r.settings.type] = { total: qs.length, unused: fresh.length, low: fresh.length < BANK_LOW, mix };
+  }
   return out;
 }
 const WORD = (s: string) => new Set(norm(s).split(" ").filter((w) => w.length >= 4));
 const GENERIC = /general knowledge|anything|mixed bag|pot ?luck|pub quiz|warm.?up|quick.?fire|random/i;
 /** Takes up to `need` unused bank questions of a type for a quiz, preferring ones that match the round's topic and brief. */
-async function bankTake(type: string, need: number, topic: string, brief: string, quizId: string): Promise<any[]> {
+async function bankTake(type: string, need: number, topic: string, brief: string, quizId: string, difficulty = "mixed"): Promise<any[]> {
   if (need <= 0) return [];
   const row = await bankRow(type);
   const qs: any[] = Array.isArray(row.questions) ? row.questions : [];
@@ -1172,7 +1198,17 @@ async function bankTake(type: string, need: number, topic: string, brief: string
   if (themed) { const matching = pool.filter((x) => x.sc > 0); pool = matching.length || !EVERGREEN.includes(type) ? matching : pool; }
   // best matches first, then a shuffle among equals so the same items do not always lead
   pool.sort((a, b) => b.sc - a.sc || Math.random() - 0.5);
-  const picked = pool.slice(0, need).map((x) => x.q);
+  // Difficulty: a set round takes that level first; a mixed round is built about a quarter easy, nearly half medium
+  // and the rest hard (unrated items count as medium), falling back to whatever is left once a level runs dry.
+  const level = (q: any) => (["easy", "medium", "hard"].includes(q.difficulty) ? q.difficulty : "medium");
+  const quota: Record<string, number> = difficulty === "mixed"
+    ? { easy: Math.round(need * 0.25), hard: Math.round(need * 0.3), medium: 0 }
+    : { easy: 0, medium: 0, hard: 0, [difficulty]: need };
+  if (difficulty === "mixed") quota.medium = need - quota.easy - quota.hard;
+  const picked: any[] = [], left: typeof pool = [];
+  for (const x of pool) { const l = level(x.q); if (quota[l] > 0) { quota[l]--; picked.push(x.q); } else left.push(x); }
+  for (const x of left) { if (picked.length >= need) break; picked.push(x.q); }
+  picked.length = Math.min(picked.length, need);
   if (!picked.length) return [];
   const at = new Date().toISOString();
   for (const q of picked) q.used = { quiz: quizId, at };

@@ -584,3 +584,5 @@ body.mobilewiz { padding-bottom: 24px; }
 .bankrow { display: flex; align-items: center; gap: 8px; padding: 8px 6px; border-top: 1px solid var(--line); }
 .bankrow > div { flex: 1 1 auto; min-width: 0; } .bankrow .t { font-weight: 800; } .bankrow .a { font-size: .85rem; color: var(--ink-2); }
 .bankrow.used { opacity: .55; } .usedtag { background: var(--paper); border-radius: 999px; padding: 1px 8px; font-size: .75rem; font-weight: 800; }
+.tag.dif-easy { background: #e3f6e3; color: #1d6b1d; } .tag.dif-medium { background: #fff1c9; color: #7a5a00; } .tag.dif-hard { background: #fde1e1; color: #8a1d1d; }
+.bankcell .mix { font-size: .7rem; font-weight: 600; color: var(--ink-3); }
