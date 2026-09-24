@@ -188,7 +188,8 @@ function racePlace(s) {
 function racePlaceHtml(s) {
   const pl = racePlace(s); if (!pl) return '';
   const medal = pl.place === 1 ? '🥇' : pl.place === 2 ? '🥈' : pl.place === 3 ? '🥉' : '🏃';
-  return `<div class="raceplace ${pl.place === 1 ? 'first' : ''}" id="racePos">${medal} You're in <b>${LQ.ordinal(pl.place)}</b> place <span class="small">of ${pl.of}</span></div>`;
+  const pts = (P.race?.correct || 0) * (s.q?.perCorrect ?? 100);
+  return `<div class="raceplace ${pl.place === 1 ? 'first' : ''}" id="racePos">${medal} You're in <b>${LQ.ordinal(pl.place)}</b> place <span class="small">of ${pl.of}</span><div class="racepts">+${pts} so far${pl.place <= 3 ? ` · ${pl.place === 1 ? '+' + (s.q?.prize ?? 500) : pl.place === 2 ? '+' + (s.q?.prize2 ?? 200) : '+' + (s.q?.prize3 ?? 100)} bonus if you stay ${LQ.ordinal(pl.place)}` : pl.place === pl.of && pl.of >= 4 ? ` · −${s.q?.forfeit ?? 200} if you finish last` : ''}</div></div>`;
 }
 function raceHtml(s) {
   const q = s.q, r = P.race, left = q.bank.length - r.idx, need = s.race.target - r.correct;
@@ -319,8 +320,9 @@ function resultHtml(s, r) {
   if (!r) return `<div class="state"><h2>Results are on the screen</h2></div>`;
   const wipeQ = s.qType === 'wipeout' || r.wiped || r.points < 0, raceQ = s.qType === 'race' || r.raced;
   const cls = r.points < 0 ? 'neg' : r.correct || r.place ? 'ok' : raceQ ? 'part' : r.partial > 0 ? 'part' : 'no';
-  const head = r.skipped ? '⏭ Skipped' : r.wiped ? '💥 Wiped out!' : r.lost ? `💨 Last place · ${r.got ?? 0} right` : r.place === 2 ? `🥈 Second place · ${r.got ?? 0} right` : r.place === 3 ? `🥉 Third place · ${r.got ?? 0} right` : wipeQ ? (r.points > 0 ? '✓ Nice picking!' : 'No points this round') : raceQ ? (r.correct ? '🏆 You won the race!' : r.out ? `Out of the race · ${r.got ?? 0} right` : `No prize this time · ${r.got ?? 0} right`) : r.correct ? '✓ Correct!' : !r.answered ? 'Too slow!' : r.partial > 0 ? 'Partly right' : '✗ Not this time';
+  const head = r.skipped ? '⏭ Skipped' : r.wiped ? '💥 Wiped out!' : r.lost ? `💨 Last place · ${r.got ?? 0} right` : r.place === 2 ? `🥈 Second place · ${r.got ?? 0} right` : r.place === 3 ? `🥉 Third place · ${r.got ?? 0} right` : wipeQ ? (r.points > 0 ? '✓ Nice picking!' : 'No points this round') : raceQ ? (r.correct ? `🏆 You won the race! · ${r.got ?? 0} right` : r.out ? `Out of the race · ${r.got ?? 0} right` : `${r.got ?? 0} right`) : r.correct ? '✓ Correct!' : !r.answered ? 'Too slow!' : r.partial > 0 ? 'Partly right' : '✗ Not this time';
   return `<div class="result ${cls}"><div style="font-size:1.6rem;font-weight:900">${head}</div><div class="pts">${r.points > 0 ? '+' : ''}${r.points}</div>
+    ${raceQ && (r.base || r.bonus) ? `<div style="font-weight:800;opacity:.95">${r.got ?? 0} right = +${r.base}${r.bonus ? ` · ${r.bonus > 0 ? '+' : '−'}${Math.abs(r.bonus)} ${r.bonus > 0 ? 'bonus' : 'for last place'}` : ''}</div>` : ''}
     ${s.answer ? `<div style="font-weight:800;opacity:.95">${r.correct ? '' : 'Answer: '}${esc(s.answer)}</div>` : ''}
     <div class="rk">${ordinal(r.rank)} of ${r.of} · ${r.score} points</div></div>`;
 }

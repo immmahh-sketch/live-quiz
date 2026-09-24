@@ -204,7 +204,7 @@ function stateForPlayers() {
   if ((G.phase === 'reveal' || G.phase === 'scoreboard' || G.phase === 'final') && G.q?.results) {
     s.results = {}; s.qType = question()?.type;
     const rk = ranked();
-    for (const p of rk) { const r = G.q.results.byPlayer[p.id]; s.results[p.id] = { correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, skipped: !!r?.skipped, wiped: !!r?.wiped, raced: !!r?.raced, lost: !!r?.lost, place: r?.place || 0, got: r?.got, out: !!r?.out, score: p.score, rank: rk.indexOf(p) + 1, of: rk.length }; }
+    for (const p of rk) { const r = G.q.results.byPlayer[p.id]; s.results[p.id] = { correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, skipped: !!r?.skipped, wiped: !!r?.wiped, raced: !!r?.raced, lost: !!r?.lost, place: r?.place || 0, base: r?.base || 0, bonus: r?.bonus || 0, got: r?.got, out: !!r?.out, score: p.score, rank: rk.indexOf(p) + 1, of: rk.length }; }
     if (G.quiz.settings.showAnswersOnPhones !== false) s.answer = answerText(question());
   }
   if (G.phase === 'final') s.top = ranked().slice(0, 10).map((p, i) => ({ name: p.name, score: p.score, rank: i + 1 }));
@@ -334,7 +334,7 @@ function buildView(q) {
   if (q.type === 'race') {
     const good = q.bank.filter((b) => b.text.trim() && b.options[0].trim() && b.options.filter((o) => o.trim()).length >= 2);
     v.bank = good.map((b) => ({ k: tok('Q:' + b.id), text: b.text, options: shuffle(b.options.map((o, oi) => ({ o, oi })).filter((x) => x.o.trim())).map((x, i) => ({ k: tok((x.oi === 0 ? 'R:' : 'W:') + b.id), text: x.o, c: i })) }));
-    v.target = q.target || 10; v.prize = q.prize ?? 5000; v.prize2 = q.prize2 ?? 2000; v.prize3 = q.prize3 ?? 500; v.forfeit = q.forfeit ?? 500;
+    v.target = q.target || 10; v.perCorrect = q.perCorrect ?? 100; v.prize = q.prize ?? 500; v.prize2 = q.prize2 ?? 200; v.prize3 = q.prize3 ?? 100; v.forfeit = q.forfeit ?? 200;
   }
   return { view: v, keys };
 }
@@ -776,16 +776,17 @@ function renderQuestion() {
 }
 function renderAnswered() { const el = $('#answered'); if (el && G.q && !G.q.wipe) el.textContent = `${Object.keys(G.q.answers).length} of ${players().length} answered`; }
 /** The race track: one lane per runner, emoji moving with their right answers. Re-drawn on every pick. */
-function trackHtml(standings, target, winner) {
+function trackHtml(standings, target, winner, perCorrect) {
   const lanes = standings.length ? standings : Object.values(G.players).map((p) => ({ pid: p.id, name: p.name, emoji: p.emoji, correct: 0, out: false, done: false }));
-  return `<div class="track ${lanes.length > 8 ? 'many' : ''}">${lanes.map((r) => `<div class="lane ${r.out ? 'out' : ''} ${r.pid === winner ? 'won' : ''}"><div class="runner" style="left:${3 + Math.min(1, r.correct / target) * 88}%"><span class="em">${r.emoji || '🙂'}</span><span class="nm">${esc(r.name)}</span><span class="ct">${r.out ? '✗ out' : r.done ? '🏁' : r.correct + '/' + target}</span></div></div>`).join('')}</div>`;
+  const pts = (r) => perCorrect ? ` · +${r.correct * perCorrect}` : '';
+  return `<div class="track ${lanes.length > 8 ? 'many' : ''}">${lanes.map((r) => `<div class="lane ${r.out ? 'out' : ''} ${r.pid === winner ? 'won' : ''}"><div class="runner" style="left:${3 + Math.min(1, r.correct / target) * 88}%"><span class="em">${r.emoji || '🙂'}</span><span class="nm">${esc(r.name)}</span><span class="ct">${r.out ? '✗ out' : r.done ? '🏁' : r.correct + '/' + target}${pts(r)}</span></div></div>`).join('')}</div>`;
 }
 function renderRace() {
   const q = question(), v = G.q.view, race = G.q.race;
   const standings = raceStandings();
-  const banner = race?.winner ? `<div class="turnbar"><span class="who">🏆 ${esc(G.players[race.winner]?.name || '')} wins the race!</span></div>` : `<div style="opacity:.8;font-weight:800;font-size:1.2rem">First to ${v.target} right wins ${v.prize} points · answer on your phones</div>`;
+  const banner = race?.winner ? `<div class="turnbar"><span class="who">🏆 ${esc(G.players[race.winner]?.name || '')} wins the race!</span></div>` : `<div style="opacity:.8;font-weight:800;font-size:1.2rem">${v.perCorrect} a right answer · first to ${v.target} wins a ${v.prize} bonus · answer on your phones</div>`;
   stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill">${standings.filter((s) => s.done).length} finished · ${standings.filter((s) => s.out).length} out</span><div class="timer" id="timer" data-s="${q.time}" style="--p:100%"></div></div>`)}
-    <div class="stage-main" style="gap:10px"><h1 class="qtext" style="font-size:clamp(1.3rem,2.6vw,2.2rem)">${esc(q.text)}</h1>${banner}${trackHtml(standings, v.target, race?.winner)}</div>
+    <div class="stage-main" style="gap:10px"><h1 class="qtext" style="font-size:clamp(1.3rem,2.6vw,2.2rem)">${esc(q.text)}</h1>${banner}${trackHtml(standings, v.target, race?.winner, v.perCorrect)}</div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">Stop the race ■</button>`)}`;
   bind();
 }
@@ -808,7 +809,7 @@ function renderReveal() {
   const q = question(), v = G.q.view, R = G.q.results, n = players().length;
   let body = '';
   if (q.type === 'sort') body = `<div class="cats">${q.categories.filter((c) => c.name.trim()).map((c) => `<div class="cat"><h3>${esc(c.name)}</h3>${q.items.filter((i) => i.category === c.id && i.text.trim()).map((i) => `<div class="item ok">${esc(i.text)}</div>`).join('')}</div>`).join('')}</div>`;
-  if (q.type === 'race') { const st = R.stats; body = `<div class="turnbar" style="flex-wrap:wrap">${st.winner ? `<span class="who">🏆 ${st.winner.emoji || ''} ${esc(st.winner.name)} wins ${v.prize} points</span>` : '<span>Nobody finished — no prize this time</span>'}${(st.places || []).map((p) => `<span class="last ok">${p.place === 2 ? '🥈' : '🥉'} ${p.emoji || ''} ${esc(p.name)} +${p.points}</span>`).join('')}${st.loser ? `<span class="last no">💨 ${st.loser.emoji || ''} ${esc(st.loser.name)} finishes last: −${v.forfeit}</span>` : ''}</div>` + trackHtml(st.standings || [], v.target, st.winner?.pid); }
+  if (q.type === 'race') { const st = R.stats; body = `<div class="turnbar" style="flex-wrap:wrap">${st.winner ? `<span class="who">🏆 ${st.winner.emoji || ''} ${esc(st.winner.name)} wins: +${v.prize} bonus</span>` : '<span>Nobody finished — no winner\'s bonus</span>'}${(st.places || []).map((p) => `<span class="last ok">${p.place === 2 ? '🥈' : '🥉'} ${p.emoji || ''} ${esc(p.name)} +${p.points}</span>`).join('')}${st.loser ? `<span class="last no">💨 ${st.loser.emoji || ''} ${esc(st.loser.name)} finishes last: −${v.forfeit}</span>` : ''}<span class="last" style="opacity:.7">${v.perCorrect} a right answer</span></div>` + trackHtml(st.standings || [], v.target, st.winner?.pid, v.perCorrect); }
   if (q.type === 'wipeout') {
     const w = G.q.wipe || { picks: [] };
     body = `<div class="wboard" style="height:52vh">${v.board.map((t) => `<div class="wtile ${String(G.q.keys[t.k]).startsWith('R:') ? 'right' : 'wrong'} ${w.gone?.includes(t.k) ? 'gone' : ''}" style="left:${t.x}%;top:${t.y}%;--r:${t.rot}deg">${esc(t.text)}</div>`).join('')}</div>
