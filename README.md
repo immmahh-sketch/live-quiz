@@ -11,6 +11,8 @@ speed as well as accuracy.
   timer, answer reveal, scoreboard, podium.
 - **Player app** (`play.html`) — what everyone opens on their phone.
 
+Live at **https://letsquiz.uk** (players join at `letsquiz.uk/play`).
+
 Plain static HTML, no build step. Hosted on GitHub Pages; backend on Supabase
 (Realtime for the live game, one edge function for storage and AI).
 
@@ -87,7 +89,12 @@ back to closest-match and the writer is disabled (the portal says so).
 
 ### Front end
 
-Push to `main`. GitHub Pages serves the repo root.
+Push to `main`. GitHub Pages serves the repo root at `letsquiz.uk`.
+
+The domain is registered at Cloudflare Registrar (renews yearly, ~$5). Cloudflare hosts
+the DNS: four `A` and four `AAAA` records on the root pointing at GitHub Pages' IPs plus a
+`www` CNAME to `immmahh-sketch.github.io`, all *DNS only* (not proxied) so GitHub can
+issue the certificate. The `CNAME` file in the repo tells Pages which domain to serve.
 
 ### Backend (Supabase project `safcrtrfdzsnftghibot`)
 
