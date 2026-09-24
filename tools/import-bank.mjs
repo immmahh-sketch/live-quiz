@@ -26,10 +26,15 @@ async function call(body) {
 }
 
 const dir = new URL("../bank/", import.meta.url);
-const types = process.argv.slice(2).length ? process.argv.slice(2) : fs.readdirSync(dir).filter((f) => f.endsWith(".json")).map((f) => f.replace(/\.json$/, ""));
+// bank/<type>.json plus any bank/<type>-2.json, bank/<type>-extra.json… all count for that type
+const dirPath = dir.pathname.replace(/^\/([A-Z]:)/, "$1");
+const files = fs.readdirSync(dirPath).filter((f) => f.endsWith(".json"));
+const typeOf = (f) => f.replace(/\.json$/, "").replace(/-.*$/, "");
+const types = process.argv.slice(2).length ? process.argv.slice(2) : [...new Set(files.map(typeOf))];
 for (const type of types) {
-  const file = path.join(dir.pathname.replace(/^\/([A-Z]:)/, "$1"), type + ".json");
-  let items = JSON.parse(fs.readFileSync(file, "utf8"));
+  const mine = files.filter((f) => typeOf(f) === type).sort();
+  if (!mine.length) { console.warn(`${type}: no bank files`); continue; }
+  let items = mine.flatMap((f) => JSON.parse(fs.readFileSync(path.join(dirPath, f), "utf8")));
   if (type === "wheel") {
     const before = items.length;
     items = items.filter((it) => { const ok = !!LQ.wheelLayout(String(it.phrase || "").toUpperCase()); if (!ok) console.warn(`  wheel: "${it.phrase}" does not fit the board, skipped`); return ok; });
