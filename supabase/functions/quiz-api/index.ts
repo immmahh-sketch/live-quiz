@@ -851,7 +851,7 @@ Deno.serve(async (req) => {
 
     if (action === "generate") {
       if (!ANTHROPIC_KEY) return json({ error: "AI is not set up on the server yet — add ANTHROPIC_API_KEY as a Supabase secret." }, 503);
-      const KNOWN = ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel", "highlow", "rhyme", "club", "dingbat", "tune"];
+      const KNOWN = ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel", "highlow", "rhyme", "club", "dingbat", "tune", "catchphrase"];
       const asked = (Array.isArray(body.types) ? body.types : []).map(String);
       const types = asked.filter((t) => KNOWN.includes(t));
       const unknownTypes = asked.filter((t) => !KNOWN.includes(t));
@@ -864,6 +864,8 @@ Deno.serve(async (req) => {
         try { fromBank = await bankTake(types[0], wantCount, String(body.topic || body.title || ""), String(body.brief || ""), quizId, ["easy", "medium", "hard"].includes(String(body.difficulty)) ? String(body.difficulty) : "mixed", bankInfo); } catch (e) { console.warn("bank take failed", String(e)); }
       }
       if (fromBank.length >= wantCount) return json({ questions: fromBank, warnings: [], searched: false, usage: null, unknownTypes, fromBank: fromBank.length, bankInfo });
+      // Catchphrase clips only come from the bank: the AI cannot make a video.
+      if (types[0] === "catchphrase") return json({ questions: fromBank, warnings: fromBank.length < wantCount ? ["The Catchphrase clips in the bank have run out. Add more, or pick another type for the rest."] : [], searched: false, usage: null, unknownTypes, fromBank: fromBank.length, bankInfo });
       const out = await generate({
         topic: String(body.brief ? (body.title || body.topic || "") : (body.topic || "")).slice(0, 200),
         brief: String(body.brief || "").slice(0, 1500),
@@ -888,6 +890,7 @@ Deno.serve(async (req) => {
       if (!uuid && Array.isArray(body.pages) && body.pages.length) {
         if (!ANTHROPIC_KEY) return json({ error: "Reading a PDF needs the AI, and ANTHROPIC_API_KEY is not set on the server." }, 503);
         read = await kahootRead(body.pages.slice(0, 15).map(String));
+        read.offset = Math.max(0, Math.round(+body.offset || 0));
         uuid = kahootId(String(read.url || ""));
       }
       if (uuid) {
@@ -929,6 +932,17 @@ Deno.serve(async (req) => {
       if (changed) await bankSave(row);
       return json({ ok: true, changed, missing });
     }
+    if (action === "bank_move") {
+      // Moves a category of items from one bank row to another (e.g. Catchphrase clips out of Type the answer).
+      const from = await bankRow(String(body.from || "")), to = await bankRow(String(body.to || "")), cat = String(body.category || "");
+      if (!cat || from.id === to.id) return json({ error: "Nothing to move." }, 400);
+      const moving = from.questions.filter((q: any) => q.category === cat);
+      if (!moving.length) return json({ moved: 0 });
+      from.questions = from.questions.filter((q: any) => q.category !== cat);
+      for (const q of moving) { if (body.kind) q.kind = String(body.kind).slice(0, 30); to.questions.push(q); }
+      await bankSave(to); await bankSave(from);
+      return json({ moved: moving.length });
+    }
     if (action === "bank_get") {
       const type = String(body.type || ""), id = String(body.id || "");
       const row = (await bankRows()).find((r) => r.settings?.type === type);
@@ -965,7 +979,7 @@ Deno.serve(async (req) => {
       const q = body.question && typeof body.question === "object" ? body.question : null;
       if (!q || !q.type) return json({ error: "Nothing to reject." }, 400);
       const quizId = UUID_RE.test(String(body.quizId || "")) ? String(body.quizId) : "";
-      const row = await bankRow(String(q.type));
+      const row = await bankRow(String(q.kind || q.type));
       const at = new Date().toISOString();
       let item = row.questions.find((x: any) => x.id === q.bankId) || row.questions.find((x: any) => nearDuplicate(x, q));
       let added = false;
@@ -996,7 +1010,7 @@ Deno.serve(async (req) => {
       // 2. everything the writer made goes in as new stock, with a duplicate check against the whole bank of its type
       for (const q of (Array.isArray(quiz.questions) ? quiz.questions : [])) {
         if (!q || !q.type) continue;
-        const t = String(q.type); out[t] = out[t] || { restored: 0, added: 0, skipped: 0 };
+        const t = String(q.kind || q.type); out[t] = out[t] || { restored: 0, added: 0, skipped: 0 };
         if (q.fromBank || q.bankId) continue; // already counted under restored
         let row = banks.find((r) => r.settings?.type === t);
         if (!row) { row = await bankRow(t); banks.push(row); }
@@ -1047,7 +1061,7 @@ Deno.serve(async (req) => {
       const type = String(body.type || "");
       const category = String(body.category || "").slice(0, 60);
       const tags = (Array.isArray(body.tags) ? body.tags : []).map((t: unknown) => String(t).slice(0, 40)).slice(0, 12);
-      const qs = (Array.isArray(body.questions) ? body.questions : []).filter((q: any) => q && q.type === type).slice(0, 40);
+      const qs = (Array.isArray(body.questions) ? body.questions : []).filter((q: any) => q && (q.type === type || q.kind === type)).slice(0, 40);
       if (!qs.length) return json({ error: "Nothing to add." }, 400);
       const row = await bankRow(type);
       const keyOf = bankKey;
@@ -1175,7 +1189,7 @@ async function kahootFinish(raws: { raw: any; image?: string }[]): Promise<any[]
   for (const { raw, image } of raws) {
     const { questions } = await finishRaw([raw], 1, [], false);
     const q = questions[0]; if (!q) continue;
-    q.time = raw.time;
+    q.time = raw.time; if (raw.kn) q.kn = raw.kn; if (raw.kpic) q.kpic = raw.kpic; if (raw.kvideo) q.kvideo = true;
     if (image) q.media = { kind: "image", url: image, credit: "Kahoot" };
     out.push(q);
   }
@@ -1196,9 +1210,10 @@ async function kahootRead(pages: string[]): Promise<any> {
   const content: any[] = pages.map((p) => { const m = p.match(/^data:(image\/(?:jpeg|png|webp));base64,(.+)$/); return m ? { type: "image", source: { type: "base64", media_type: m[1], data: m[2] } } : null; }).filter(Boolean);
   if (!content.length) throw new Error("The PDF pages could not be read.");
   content.push({ type: "text", text: `These are the pages of a Kahoot quiz, printed from Kahoot's website. Read every question slide in order across all pages and reply with JSON only, no prose:
-{"title":"the quiz title","url":"the create.kahoot.it link printed in the page header or footer, copied exactly character by character, or null","questions":[{"n":1,"type":"quiz | true_false | type_answer | puzzle | poll | other","question":"the question wording, exactly","answers":["answers in screen order: top-left, top-right, bottom-left, bottom-right"],"correct":[0-based indexes of the answers marked with a tick]}]}
-Copy wording exactly as printed, including capitals. Skip nothing.` });
-  const msg = await anthropic().messages.create({ model: SONNET, max_tokens: 8000, messages: [{ role: "user", content }] });
+{"title":"the quiz title","url":"the create.kahoot.it link printed in the page header or footer, copied exactly character by character, or null","questions":[{"n":1,"type":"quiz | true_false | type_answer | puzzle | poll | other","question":"the question wording, exactly","answers":["answers in screen order: top-left, top-right, bottom-left, bottom-right"],"correct":[0-based indexes of the answers marked with a tick],"page":1,"picture":[0.1,0.2,0.3,0.4],"video":false}]}
+"page" is which image the slide is on (1 = the first image). "picture" is the box around the photo or drawing inside that slide, as [left, top, right, bottom] fractions (0 to 1) of that whole image's width and height, drawn tightly round the picture itself and not the purple background, or null when the slide has no picture. "video" is true when the slide shows "Video no longer supported" in place of its media.
+"n" is the slide number printed above each slide (as in "7 - Quiz"). Copy wording exactly as printed, including capitals. Skip nothing, except a slide cut off at the top or bottom edge of a page whose answers you cannot fully see.` });
+  const msg = await anthropic().messages.create({ model: SONNET, max_tokens: 16000, messages: [{ role: "user", content }] });
   const t = textOf(msg); const j = t.slice(t.indexOf("{"), t.lastIndexOf("}") + 1);
   let read: any; try { read = JSON.parse(j); } catch { throw new Error("The PDF could not be read as a Kahoot. Try a clearer printout, or paste the Kahoot's link."); }
   read.usage = usageOf(msg, SONNET);
@@ -1210,7 +1225,12 @@ async function kahootFromRead(read: any): Promise<{ title: string; description: 
     const answers = (Array.isArray(q.answers) ? q.answers : []).map((a: unknown) => String(a ?? "").trim()).filter(Boolean);
     const correct = (Array.isArray(q.correct) ? q.correct : []).map((n: any) => +n).filter((n: number) => n >= 0 && n < answers.length);
     const type = q.type === "true_false" ? "true_false" : q.type === "type_answer" ? "open_ended" : q.type === "puzzle" ? "jumble" : q.type === "quiz" ? "quiz" : "other";
-    return { raw: kahootRaw({ type, question: q.question, time: 20000, choices: answers.map((a: string, i: number) => ({ answer: a, correct: type === "jumble" || type === "open_ended" || correct.includes(i) })) }) };
+    const raw = kahootRaw({ type, question: q.question, time: 20000, choices: answers.map((a: string, i: number) => ({ answer: a, correct: type === "jumble" || type === "open_ended" || correct.includes(i) })) });
+    if (raw && +q.n > 0) raw.kn = Math.round(+q.n); // the slide number, so pages read in batches can be stitched back together
+    const box = Array.isArray(q.picture) && q.picture.length === 4 && q.picture.every((v: any) => isFinite(+v) && +v >= 0 && +v <= 1) ? q.picture.map(Number) : null;
+    if (raw && box && box[2] - box[0] > 0.02 && box[3] - box[1] > 0.02 && +q.page >= 1) raw.kpic = { page: (read.offset || 0) + Math.round(+q.page) - 1, box };
+    if (raw && q.video === true) raw.kvideo = true;
+    return { raw };
   }).filter((x: any) => x.raw);
   return { title: String(read.title || "Kahoot quiz").trim(), description: "", questions: await kahootFinish(raws), skipped: slides.length - raws.length };
 }
@@ -1221,7 +1241,7 @@ async function kahootFromRead(read: any): Promise<{ title: string; description: 
 // table is needed. Each item carries category/tags for matching a themed round and a "used"
 // stamp once it has gone into a quiz, so it never comes round again.
 const BANK_LOW = 25;
-const EVERGREEN = ["club", "dingbat", "wheel", "pin", "tune"]; // theme-free types: any unused item will do when the round has no matching one
+const EVERGREEN = ["club", "dingbat", "wheel", "pin", "tune", "catchphrase"]; // theme-free types: any unused item will do when the round has no matching one
 /** What makes two items "the same": the phrase for dingbats and wheels, the place for pins, the track for tunes, the wording otherwise. */
 function bankKey(q: any): string { if (q?.media?.kind === "youtube" && q.media.videoId) return "yt:" + q.media.videoId; if (q?.media?.kind === "image" && q.media.source && /which .*(flag|picture|this)/i.test(q.text || "")) return "img:" + q.media.source; return norm(q?.type === "dingbat" ? (q.answers || [])[0] || "" : q?.type === "tune" ? `${q.track} ${q.artist}` : q?.type === "pin" ? q.place || q.text : q?.phrase || q?.text || ""); }
 /** The right answer of a finished question, as plain text, for near-duplicate checks. */
@@ -1262,7 +1282,7 @@ async function bankRow(type: string): Promise<any> {
   const rows = await bankRows();
   const row = rows.find((r) => r.settings?.type === type);
   if (row) return row;
-  const label: Record<string, string> = { choice: "Multiple choice", text: "Type the answer", order: "Put in order", pin: "Drop the pin", match: "Match up", tf: "True or false", sort: "Categorise", wipeout: "Wipeout", race: "The Race", smash: "Answer Smash", wheel: "Wheel of Fortune", highlow: "Highbrow Lowbrow", rhyme: "Rhyme Time", club: "The 1% Club", dingbat: "Dingbats", tune: "Name That Tune" };
+  const label: Record<string, string> = { choice: "Multiple choice", text: "Type the answer", order: "Put in order", pin: "Drop the pin", match: "Match up", tf: "True or false", sort: "Categorise", wipeout: "Wipeout", race: "The Race", smash: "Answer Smash", wheel: "Wheel of Fortune", highlow: "Highbrow Lowbrow", rhyme: "Rhyme Time", club: "The 1% Club", catchphrase: "Catchphrase", dingbat: "Dingbats", tune: "Name That Tune" };
   const made = await rest(`quiz_quizzes`, { method: "POST", headers: { Prefer: "return=representation" }, body: JSON.stringify({ title: `Question bank: ${label[type] || type}`, settings: { bank: true, type }, questions: [] }) });
   return Array.isArray(made) ? made[0] : made;
 }

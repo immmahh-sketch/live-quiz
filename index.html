@@ -210,15 +210,29 @@ async function pdfPages(file, step) {
   }
   const doc = await window.pdfjsLib.getDocument({ data: await file.arrayBuffer() }).promise;
   const pages = [];
-  for (let i = 1; i <= Math.min(doc.numPages, 15); i++) {
+  for (let i = 1; i <= Math.min(doc.numPages, 60); i++) {
     step(`Opening page ${i} of ${doc.numPages}…`);
-    const page = await doc.getPage(i), w = page.getViewport({ scale: 1 }).width, vp = page.getViewport({ scale: Math.min(2.5, 1400 / w) });
+    const page = await doc.getPage(i), w = page.getViewport({ scale: 1 }).width, vp = page.getViewport({ scale: Math.min(3, 1800 / w) });
     const c = document.createElement('canvas'); c.width = Math.round(vp.width); c.height = Math.round(vp.height);
     const ctx = c.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
     await page.render({ canvasContext: ctx, viewport: vp }).promise;
     pages.push(c.toDataURL('image/jpeg', 0.82));
   }
   return pages;
+}
+/** Cuts a box (fractions of the page) out of a page image and returns it as base64 JPEG, with a small margin. */
+function cropPage(src, box) {
+  return new Promise((res, rej) => {
+    const im = new Image(); im.onerror = () => rej(new Error('page image')); im.onload = () => {
+      const W = im.naturalWidth, H = im.naturalHeight, pad = 0.004;
+      const x0 = Math.max(0, (box[0] - pad) * W), y0 = Math.max(0, (box[1] - pad) * H), x1 = Math.min(W, (box[2] + pad) * W), y1 = Math.min(H, (box[3] + pad) * H);
+      const scale = Math.max(1, 900 / Math.max(1, x1 - x0));
+      const c = document.createElement('canvas'); c.width = Math.round((x1 - x0) * Math.min(scale, 2.5)); c.height = Math.round((y1 - y0) * Math.min(scale, 2.5));
+      c.getContext('2d').drawImage(im, x0, y0, x1 - x0, y1 - y0, 0, 0, c.width, c.height);
+      res(c.toDataURL('image/jpeg', 0.88).split(',')[1]);
+    };
+    im.src = src;
+  });
 }
 function kAnswer(q) {
   if (q.type === 'choice') return q.options.map((o) => (o.id === q.correct ? '✓ ' : '') + o.text).join('  ·  ');
@@ -244,12 +258,37 @@ function kahootModal() {
     btn.disabled = true; out.innerHTML = `<div class="gen-progress"><span class="spinner"></span><span id="k_step">${url ? 'Fetching the Kahoot…' : 'Opening the PDF…'}</span></div>`;
     const step = (t) => { const el = $('#k_step', m); if (el) step.el = el, el.textContent = t; };
     try {
-      const body = url ? { url } : { pages: await pdfPages(file, step) };
-      if (!url) step('Reading the questions off the pages…');
-      const r = await api('kahoot_import', body, { timeout: 170000 });
+      let r = null;
+      if (url) r = await api('kahoot_import', { url }, { timeout: 170000 });
+      else {
+        // Read four pages at a time (overlapping by one, so a slide split across a page break is not lost), stopping
+        // early if the first batch finds the Kahoot's link and Kahoot shares it; otherwise stitch by slide number.
+        const pages = await pdfPages(file, step), got = new Map(), usages = []; let title = '';
+        for (let i = 0; i < pages.length; i += 4) {
+          step(`Reading pages ${i + 1}–${Math.min(pages.length, i + 4)} of ${pages.length}…`);
+          const part = await api('kahoot_import', { pages: pages.slice(i ? i - 1 : 0, i + 4), offset: i ? i - 1 : 0 }, { timeout: 170000 });
+          usages.push(part.usage);
+          if (part.source === 'kahoot') { r = part; break; }
+          title = title || part.title;
+          for (const q of part.questions || []) { const k = q.kn ? 'n' + q.kn : 't' + String(q.text).toLowerCase(); if (!got.has(k)) got.set(k, q); }
+        }
+        if (!r) {
+          let qs = [...got.values()].sort((a, b) => (a.kn || 1e9) - (b.kn || 1e9)); const top = Math.max(0, ...qs.map((q) => q.kn || 0));
+          const dead = qs.filter((q) => q.kvideo).length; qs = qs.filter((q) => !q.kvideo); // their YouTube clips no longer play, so they cannot be asked
+          // Each picture is cut out of its page and uploaded, so 'Name the celeb' questions keep their photos.
+          let done = 0; const withPic = qs.filter((q) => q.kpic && pages[q.kpic.page]);
+          for (const q of withPic) {
+            step(`Cutting out pictures: ${++done} of ${withPic.length}…`);
+            try { const data = await cropPage(pages[q.kpic.page], q.kpic.box); const u = await api('upload', { data, contentType: 'image/jpeg' }, { timeout: 90000 }); q.media = { kind: 'image', url: u.url, credit: 'Kahoot' }; } catch {}
+          }
+          r = { source: 'pdf', title: title || file.name.replace(/\.pdf$/i, ''), questions: qs, skipped: top ? Math.max(0, top - qs.length - dead) : 0, deadVideos: dead };
+        }
+        r.usages = usages;
+      }
+      (r.questions || []).forEach((q) => { delete q.kn; delete q.kpic; delete q.kvideo; });
       if (!r.questions?.length) throw new Error('No quiz questions were found in that.');
       found = r;
-      out.innerHTML = `<div class="notice">${r.source === 'kahoot' ? '✓ Found it on Kahoot: the exact questions, answers, timers and pictures.' : 'Read from the PDF (the Kahoot is private, so no pictures). Check the ticked answers below.'}${r.skipped ? ` ${r.skipped} slide${r.skipped === 1 ? '' : 's'} with no quiz equivalent (polls, word clouds, info slides) left out.` : ''}</div>
+      out.innerHTML = `<div class="notice">${r.source === 'kahoot' ? '✓ Found it on Kahoot: the exact questions, answers, timers and pictures.' : 'Read from the PDF, pictures cut from the pages (the Kahoot is private, so Kahoot would not share it directly). Check the answers and pictures below.'}${r.skipped ? ` ${r.skipped} slide${r.skipped === 1 ? '' : 's'} with no quiz equivalent (title slides, polls, word clouds) left out.` : ''}${r.deadVideos ? ` ${r.deadVideos} question${r.deadVideos === 1 ? '' : 's'} left out because ${r.deadVideos === 1 ? 'its' : 'their'} YouTube video no longer plays.` : ''}</div>
         <div class="field"><label>Quiz title</label><input type="text" id="k_title" value="${esc(r.title)}"></div>
         <div class="kprev">${r.questions.map((q, i) => `<div class="kq">${q.media?.url ? `<img src="${esc(q.media.url)}" alt="">` : '<span class="kq-n">' + (TYPES[q.type]?.icon || '') + '</span>'}<div><b>${i + 1}. ${esc(q.text)}</b><div class="small muted">${esc(kAnswer(q))}</div></div></div>`).join('')}</div>`;
       btn.disabled = false; btn.textContent = `Create the quiz (${r.questions.length} questions)`;
@@ -263,7 +302,7 @@ async function createFromKahoot(r, m) {
   const mix = {}; for (const q of r.questions) { q.round = round.id; quiz.questions.push(q); mix[q.type] = (mix[q.type] || 0) + 1; }
   round.mix = mix; round.count = r.questions.length; round.types = Object.keys(mix);
   LQ.pushLog(quiz.settings, { at: new Date().toISOString(), how: 'Kahoot import', source: r.source, count: r.questions.length, skipped: r.skipped || 0, uuid: r.uuid || '' });
-  LQ.addUsage(quiz.settings, r.usage);
+  (r.usages || [r.usage]).forEach((u) => LQ.addUsage(quiz.settings, u));
   try {
     const saved = await api('save', { quiz: quizForSave(quiz) });
     m.remove(); toast(`Imported ${r.questions.length} questions. Read them through before you host.`);
@@ -505,7 +544,7 @@ function renderPlanner(focusId) {
 }
 /** What a round still needs, type by type: its mix minus what is already in it. */
 function roundShortfall(r) {
-  const have = {}; for (const q of S.quiz.questions) if (q.round === r.id) have[q.type] = (have[q.type] || 0) + 1;
+  const have = {}; for (const q of S.quiz.questions) if (q.round === r.id) have[q.kind || q.type] = (have[q.kind || q.type] || 0) + 1;
   return Object.entries(r.mix || {}).map(([type, n]) => ({ type, need: Math.max(0, n - (have[type] || 0)) })).filter((x) => x.need > 0);
 }
 /** Writes every round that still needs questions, one after another, following each round's own mix. */
@@ -538,8 +577,8 @@ async function generateForRound(r) {
         LQ.addUsage(S.quiz.settings, res.usage); LQ.genLog(S.quiz.settings, 'Write round', res, { round: r.title });
         if (!res.questions.length) break;
         if (res.fromBank) $('#ga_step', m).textContent = `${TYPES[type].label}: ${res.fromBank} from the bank`;
-        if (!res.questions.some((q) => q.type === type)) { toast(`The server wrote ${TYPES[res.questions[0].type]?.label || 'other'} questions instead of ${TYPES[type].label}: the quiz-api function is out of date and needs redeploying. They were not added.`, true); break; }
-        for (const q of res.questions) { q.round = r.id; q.time = timeFor(q.type, S.quiz.settings); if (q.collage && !q.media?.url) { try { await buildCollageFor(q); } catch {} } S.quiz.questions.push(q); avoid.push(q.text); got++; written++; }
+        if (!res.questions.some((q) => (q.kind || q.type) === type)) { toast(`The server wrote ${TYPES[res.questions[0].type]?.label || 'other'} questions instead of ${TYPES[type].label}: the quiz-api function is out of date and needs redeploying. They were not added.`, true); break; }
+        for (const q of res.questions) { q.round = r.id; q.time = timeFor(q.kind || q.type, S.quiz.settings); if (q.collage && !q.media?.url) { try { await buildCollageFor(q); } catch {} } S.quiz.questions.push(q); avoid.push(q.text); got++; written++; }
         touch(); renderQList(); save();
       }
     }
@@ -623,9 +662,9 @@ async function rejectQuestion(q) {
     $('#rj_step', m).textContent = `Writing a new ${TYPES[q.type].label} question…`;
     const avoid = [...(await avoidList()), q.text].filter(Boolean);
     const usedPictures = S.quiz.questions.flatMap((x) => [x.media?.source, x.media?.url]).filter((u) => typeof u === 'string' && /^https?:/.test(u));
-    const res = await api('generate', { topic: (r.brief ? `${r.title}. ${r.brief}` : r.title || S.quiz.title).slice(0, 200), title: r.title || S.quiz.title, brief: r.brief || '', usedPictures, count: 1, difficulty: 'mixed', types: [q.type], pictures: true, web: true, avoid, premium: !!S.quiz.settings.aiPremium, quizId: S.quiz.id }, { timeout: 170000 });
+    const res = await api('generate', { topic: (r.brief ? `${r.title}. ${r.brief}` : r.title || S.quiz.title).slice(0, 200), title: r.title || S.quiz.title, brief: r.brief || '', usedPictures, count: 1, difficulty: 'mixed', types: [q.kind || q.type], pictures: true, web: true, avoid, premium: !!S.quiz.settings.aiPremium, quizId: S.quiz.id }, { timeout: 170000 });
     LQ.addUsage(S.quiz.settings, res.usage); LQ.genLog(S.quiz.settings, 'Replace a rejected question', res, { round: r.title });
-    const nq = res.questions.find((x) => x.type === q.type);
+    const nq = res.questions.find((x) => (x.kind || x.type) === (q.kind || q.type));
     if (nq) { nq.round = q.round; nq.time = timeFor(nq.type, S.quiz.settings); if (nq.collage && !nq.media?.url) { try { await buildCollageFor(nq); } catch {} } S.quiz.questions.splice(at, 0, nq); S.sel = at; }
     else { S.sel = Math.max(0, Math.min(at, S.quiz.questions.length - 1)); toast('Nothing came back for the replacement; add one by hand.', true); }
     touch(); renderQList(); renderQForm(); save();
@@ -1019,7 +1058,7 @@ function settingsModal() {
     s.timeByType = {}; $$('[data-tt]', m).forEach((inp) => { s.timeByType[inp.dataset.tt] = LQ.clamp(+inp.value || LQ.DEFAULT_TIMES[inp.dataset.tt], 5, 180); });
     s.showAnswersOnPhones = $('#s_show', m).checked;
     s.aiPremium = $('#s_premium', m).checked;
-    if ($('#s_apply', m).checked) for (const q of S.quiz.questions) q.time = timeFor(q.type, s);
+    if ($('#s_apply', m).checked) for (const q of S.quiz.questions) q.time = timeFor(q.kind || q.type, s);
     touch(); m.remove(); renderQList(); renderQForm(); toast('Settings updated');
   };
 }
@@ -1195,7 +1234,7 @@ function aiModal(fresh, roundId) {
         const r = await api('generate', { ...opts, count: Math.min(BATCH, total - written), avoid, premium: !!S.quiz.settings.aiPremium, quizId: S.quiz.id }, { timeout: 170000 });
         LQ.addUsage(S.quiz.settings, r.usage); { const box = { buildLog: [] }; LQ.genLog(box, fresh ? 'Write a quiz with AI' : 'Add with AI', r, { round: topic }); logs.push(...box.buildLog); }
         if (!r.questions.length) break;
-        if (!r.questions.some((q) => types.includes(q.type))) { warnings.push(`The server does not know the question types you asked for yet (the quiz-api function needs redeploying); it wrote ${[...new Set(r.questions.map((q) => TYPES[q.type]?.label))].join(' and ')} instead.`); }
+        if (!r.questions.some((q) => types.includes(q.kind || q.type))) { warnings.push(`The server does not know the question types you asked for yet (the quiz-api function needs redeploying); it wrote ${[...new Set(r.questions.map((q) => TYPES[q.type]?.label))].join(' and ')} instead.`); }
         let rid = round?.id;
         if (fresh && start === null) {
           const name = topic ? topic.charAt(0).toUpperCase() + topic.slice(1) : 'AI quiz';
@@ -1204,7 +1243,7 @@ function aiModal(fresh, roundId) {
         rid = rid || S.quiz.rounds[0].id;
         let firstId = null;
         for (const q of r.questions) {
-          q.round = rid; q.time = timeFor(q.type, S.quiz.settings);
+          q.round = rid; q.time = timeFor(q.kind || q.type, S.quiz.settings);
           if (q.collage && !q.media?.url) { try { await buildCollageFor(q); } catch (e) { warnings.push(`Could not build the collage for “${q.text}”: ${e.message}`); } }
           S.quiz.questions.push(q); avoid.push(q.text); firstId = firstId || q.id;
         }

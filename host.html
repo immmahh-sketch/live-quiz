@@ -229,8 +229,8 @@ function stateForPlayers() {
     if (G.q.wipe) { const w = G.q.wipe; s.wipe = { turnPid: w.turnPid, turnName: G.players[w.turnPid]?.name || '', remainingMs: Math.max(0, (w.studyUntil || w.turnDeadline) - nowT), studyMs: w.studyUntil ? Math.max(0, w.studyUntil - nowT) : 0, gone: w.gone, out: w.out, over: w.over, last: w.last, scores: w.scores, order: w.order.filter((p) => !w.out.includes(p)) }; }
     if (G.q.race) { const r = G.q.race; s.race = { winner: r.winner, winnerName: r.winner ? G.players[r.winner]?.name : null, over: r.over, target: G.q.view.target, players: Object.fromEntries(Object.entries(r.players).map(([pid, p]) => [pid, { idx: p.idx, correct: p.correct, out: p.out, done: p.done }])) }; }
   }
-  if (G.phase === 'countdown') s.next = { type: question().type, n: G.qIndex + 1 };
-  if (G.phase === 'typecard') s.typecard = { type: question().type, n: G.qIndex + 1, run: typeRun(G.qIndex) };
+  if (G.phase === 'countdown') s.next = { type: question().kind || question().type, n: G.qIndex + 1 };
+  if (G.phase === 'typecard') s.typecard = { type: question().kind || question().type, n: G.qIndex + 1, run: typeRun(G.qIndex) };
   if (G.phase === 'round') { const r = roundOf(G.qIndex); s.round = { n: r.n, title: r.title, intro: r.intro || '', count: r.count }; }
   if (G.phase === 'question' && G.q?.wheelRevealed !== undefined) s.wheel = { revealed: G.q.wheelRevealed, category: question().category, layout: G.q.view.layout };
   if (G.phase === 'question' && G.q && question().type === 'highlow') s.hl = { asked: Object.keys(G.q.low || {}).length };
@@ -354,11 +354,11 @@ function goTo(i) {
   toTypeCard(i);
 }
 /** How many questions in a row, from i, share its type. */
-function typeRun(i) { const qs = G.quiz.questions, t = qs[i]?.type; let n = 0; while (qs[i + n] && qs[i + n].type === t) n++; return n; }
+function typeRun(i) { const qs = G.quiz.questions, k = (q) => q && (q.kind || q.type), t = k(qs[i]); let n = 0; while (qs[i + n] && k(qs[i + n]) === t) n++; return n; }
 /** A title card whenever the question type changes (and before the first question), so everyone knows how the next lot works. */
 function toTypeCard(i) {
   const qs = G.quiz.questions;
-  if (i > 0 && qs[i - 1]?.type === qs[i]?.type) return startCountdown(i);
+  if (i > 0 && (qs[i - 1]?.kind || qs[i - 1]?.type) === (qs[i]?.kind || qs[i]?.type)) return startCountdown(i);
   clearInterval(tickT); clearInterval(countT);
   G.qIndex = i; G.phase = 'typecard'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString();
   persist(); render(); broadcastState();
@@ -803,7 +803,7 @@ function renderPhase() {
 function topBar(extra = '') {
   const q = question(), r = roundOf(G.qIndex);
   const roundPill = G.quiz.rounds.length > 1 && r ? `<span class="hpill">Round ${r.n}${r.title ? ' · ' + esc(r.title) : ''}</span>` : `<span class="hpill">${esc(G.quiz.title)}</span>`;
-  return `<div class="stage-top"><div class="pillbox">${roundPill}<span class="hpill">Question ${G.qIndex + 1} of ${total()}</span><span class="hpill">${TYPES[q.type].icon} ${esc(TYPES[q.type].label)}</span></div>${extra}</div>`;
+  return `<div class="stage-top"><div class="pillbox">${roundPill}<span class="hpill">Question ${G.qIndex + 1} of ${total()}</span><span class="hpill">${TYPES[q.kind || q.type].icon} ${esc(TYPES[q.kind || q.type].label)}</span></div>${extra}</div>`;
 }
 function renderRound() {
   const r = roundOf(G.qIndex);
@@ -866,9 +866,9 @@ function playLoop() { if (!ytP) return; musicMode = 'loop'; ytP.setVolume(35); y
 function musicStop() { musicMode = null; try { ytP?.stopVideo(); } catch {} }
 function musicPause(on) { try { if (on) ytP?.pauseVideo(); else if (musicMode) ytP?.playVideo(); } catch {} }
 function renderTypeCard() {
-  const q = question(), T = TYPES[q.type] || { icon: '❓', label: q.type }, run = typeRun(G.qIndex);
+  const q = question(), k = q.kind || q.type, T = TYPES[k] || { icon: '❓', label: k }, run = typeRun(G.qIndex);
   stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">Question ${G.qIndex + 1} of ${total()}</span></div></div>
-    <div class="stage-main typecard"><div class="tc-icon">${T.icon}</div><div class="tc-next">Next up${run > 1 ? ` · ${run} questions` : ''}</div><h1 class="big">${esc(T.label)}</h1><p class="tc-how">${esc(LQ.HOWTO[q.type] || T.blurb || '')}</p></div>
+    <div class="stage-main typecard"><div class="tc-icon">${T.icon}</div><div class="tc-next">Next up${run > 1 ? ` · ${run} questions` : ''}</div><h1 class="big">${esc(T.label)}</h1><p class="tc-how">${esc(LQ.HOWTO[k] || T.blurb || '')}</p></div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary btn-lg" data-act="primary">Let's go ▶</button>`)}`;
   bind();
 }

@@ -15,13 +15,13 @@ const seen = new Set(); const fresh = [], unsure = [];
 for (const r of review) {
   if (r.kind !== "catchphrase" || !r.answer) continue;
   const key = tidy(r.answer).toLowerCase(); if (seen.has(key)) continue; seen.add(key); // duplicate uploads of the same clip
-  const q = { type: "text", text: "Catchphrase: say what you see", answers: [tidy(r.answer)], media: { kind: "youtube", url: `https://www.youtube.com/watch?v=${r.id}`, videoId: r.id, start: 0, end: END }, time: END, ai: true, difficulty: r.confidence === "high" ? "medium" : "hard", tags: ["catchphrase", "say what you see", "video"] };
+  const q = { type: "text", kind: "catchphrase", text: "Catchphrase: say what you see", answers: [tidy(r.answer)], media: { kind: "youtube", url: `https://www.youtube.com/watch?v=${r.id}`, videoId: r.id, start: 0, end: END }, time: END, ai: true, difficulty: r.confidence === "high" ? "medium" : "hard", tags: ["catchphrase", "say what you see", "video"] };
   (r.confidence === "low" ? unsure : fresh).push({ q, r });
 }
 console.log(`catchphrases: ${fresh.length} to add as fresh, ${unsure.length} as 'check me'`);
 if (!process.env.LQ_PASSWORD) { console.log("(no LQ_PASSWORD: bank not updated)"); process.exit(0); }
 let added = 0;
-for (let i = 0; i < fresh.length; i += 40) { const r = await call({ action: "bank_add", type: "text", category: "Catchphrase", tags: ["catchphrase"], questions: fresh.slice(i, i + 40).map((x) => x.q) }); added += r.added; }
+for (let i = 0; i < fresh.length; i += 40) { const r = await call({ action: "bank_add", type: "catchphrase", category: "Catchphrase", tags: ["catchphrase"], questions: fresh.slice(i, i + 40).map((x) => x.q) }); added += r.added; }
 console.log(`fresh: ${added} added`);
 let parked = 0;
 for (const { q, r } of unsure) { await call({ action: "bank_reject", question: { ...q, category: "Catchphrase" }, category: "Catchphrase", note: `Unverified guess from the clip's frames: ${r.note || ""}`.slice(0, 200) }); parked++; }

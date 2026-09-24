@@ -61,6 +61,7 @@ window.LQ = (() => {
     rhyme:  { label: 'Rhyme Time',      icon: '🎤', blurb: 'Two clues whose answers rhyme. Players type both answers in one go.' },
     club:   { label: 'The 1% Club',    icon: '🧠', blurb: 'Logic, wordplay and lateral thinking. No knowledge needed, just work it out. The fewer people who get it, the more it pays.' },
     dingbat:{ label: 'Dingbats',        icon: '🔤', blurb: 'Say what you see: a well-known phrase hidden in how the words are laid out.' },
+    catchphrase: { label: 'Catchphrase', icon: '🗯️', blurb: 'A clip from the show plays on the screen. Players type the well-known phrase it shows.' },
     tune:   { label: 'Name That Tune',  icon: '🎵', blurb: 'A clip plays on the screen. Name the song, the artist, the film it is from, the year, or the next line.' },
   };
   // ---- Wheel of Fortune board: the show's four rows of 12/14/14/12 tiles ----
@@ -124,6 +125,7 @@ window.LQ = (() => {
     rhyme: 'Two clues whose answers rhyme. Type both answers.',
     club: 'No knowledge needed, just logic. The fewer people who get it, the more it is worth.',
     dingbat: 'Say what you see: a well-known phrase hidden in how the words are laid out.',
+    catchphrase: 'Watch the clip and say what you see: type the well-known saying it shows.',
     tune: 'Listen to the clip and answer on your phone.',
   };
   /** The build log: every writer call for a quiz, with what was asked and what came back, kept in its settings. */
@@ -148,7 +150,7 @@ window.LQ = (() => {
     { name: 'yellow', hex: '#d89e00', shape: '●' },
     { name: 'green',  hex: '#26890c', shape: '■' },
   ];
-  const DEFAULT_TIMES = { choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30 };
+  const DEFAULT_TIMES = { catchphrase: 50, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30 };
   const DEFAULT_SETTINGS = { maxPoints: 1000, minPoints: 500, defaultTime: 30, showAnswersOnPhones: true, timeByType: { ...DEFAULT_TIMES } };
 
   /** The time limit a question of this type gets by default in this quiz. */
@@ -188,6 +190,7 @@ window.LQ = (() => {
   }
 
   function newQuestion(type = 'choice', settings = DEFAULT_SETTINGS) {
+    if (type === 'catchphrase') { const c = newQuestion('text', settings); c.kind = 'catchphrase'; c.text = 'Catchphrase: say what you see'; c.media = { kind: 'youtube', url: '', videoId: '', start: 0 }; c.time = timeFor('catchphrase', settings); return c; }
     const q = { id: uid('q'), type, text: '', time: timeFor(type, settings), media: { kind: 'none' }, partial: false };
     if (type === 'choice') { q.options = [0, 1, 2, 3].map(() => ({ id: uid('o'), text: '' })); q.correct = q.options[0].id; }
     if (type === 'text') { q.answers = ['']; q.ai = true; }
