@@ -280,8 +280,32 @@ function startCountdown(i) {
   const q = question();
   // Pre-load the picture so the aspect ratio is known for pin scoring and the screen is instant.
   if (q.media?.kind === 'image' && q.media.url) { const im = new Image(); im.onload = () => { G.aspect = im.naturalHeight / im.naturalWidth; }; im.src = q.media.url; }
+  // A Wipeout board must outnumber the players: top it up with the AI while the lead-in runs.
+  G.prep = q.type === 'wipeout' ? prepareWipeout(q) : null;
   let n = 3; const el = () => $('#count');
-  countT = setInterval(() => { n--; if (n <= 0) { clearInterval(countT); startQuestion(); } else if (el()) el().textContent = n; }, 1000);
+  countT = setInterval(() => {
+    n--;
+    if (n <= 0) {
+      if (G.prep && !G.prepDone) { if (el()) el().innerHTML = '<span class="spinner"></span>'; const note = $('#prepNote'); if (note) note.textContent = `Adding answers so the board beats ${players().length} players…`; return; }
+      clearInterval(countT); startQuestion();
+    } else if (el()) el().textContent = n;
+  }, 1000);
+}
+const WIPE_MARGIN = 5;
+/** Makes sure a Wipeout board has at least WIPE_MARGIN more right answers than players, asking the AI for extras if not. */
+async function prepareWipeout(q) {
+  G.prepDone = false;
+  try {
+    const rightNow = q.right.filter((i) => i.text.trim());
+    const need = players().length + WIPE_MARGIN - rightNow.length;
+    if (need > 0 && !DEMO) {
+      const r = await api('more_wipeout', { text: q.text, right: rightNow.map((i) => i.text), wrong: q.wrong.filter((i) => i.text.trim()).map((i) => i.text), need }, { timeout: 90000 });
+      const extra = (r.right || []).map((text) => ({ id: uid('w'), text }));
+      if (extra.length) { q.right = [...q.right, ...extra]; q.toppedUp = (q.toppedUp || 0) + extra.length; persist(); toast(`Added ${extra.length} answer${extra.length === 1 ? '' : 's'} to the board for ${players().length} players`); }
+      if (extra.length < need) toast(`The board has ${rightNow.length + extra.length} right answers for ${players().length} players — it may run out.`, true);
+    } else if (need > 0 && DEMO) toast(`Demo: the board has ${rightNow.length} right answers for ${players().length} players (no AI top-up in the demo).`);
+  } catch (e) { toast('Could not add answers: ' + e.message, true); }
+  G.prepDone = true;
 }
 function buildView(q) {
   const keys = {}; const tok = (id) => { const t = uid('k'); keys[t] = id; return t; };
@@ -347,7 +371,7 @@ function raceStandings() {
 }
 /** A grid with jitter, so the board looks scattered but nothing overlaps. Positions in % of the board. */
 function scatter(i, n) {
-  const cols = n > 16 ? 5 : n > 9 ? 4 : 3, rows = Math.ceil(n / cols);
+  const cols = n > 30 ? 7 : n > 24 ? 6 : n > 16 ? 5 : n > 9 ? 4 : 3, rows = Math.ceil(n / cols);
   const c = i % cols, r = Math.floor(i / cols);
   const jx = (Math.random() - 0.5) * (60 / cols), jy = (Math.random() - 0.5) * (40 / rows);
   return { x: +(((c + 0.5) / cols) * 100 + jx).toFixed(1), y: +(((r + 0.5) / rows) * 100 + jy).toFixed(1), rot: +((Math.random() - 0.5) * 10).toFixed(1) };
@@ -707,7 +731,7 @@ function renderLobbyPlayers() {
 }
 function renderCountdown() {
   const q = question();
-  stage.innerHTML = `${topBar()}<div class="stage-main"><div style="opacity:.8;font-weight:800;font-size:1.4rem">${esc(TYPES[q.type].blurb)}</div><h1 class="qtext">${esc(q.type === 'wheel' ? 'Category: ' + q.category : q.text)}</h1><div class="huge" id="count">3</div></div>
+  stage.innerHTML = `${topBar()}<div class="stage-main"><div style="opacity:.8;font-weight:800;font-size:1.4rem">${esc(TYPES[q.type].blurb)}</div><h1 class="qtext">${esc(q.type === 'wheel' ? 'Category: ' + q.category : q.text)}</h1><div class="huge" id="count">3</div><div id="prepNote" style="opacity:.75;font-weight:800;font-size:1.1rem"></div></div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">Go now ▶</button>`)}`;
   bind();
 }
@@ -754,7 +778,7 @@ function renderAnswered() { const el = $('#answered'); if (el && G.q && !G.q.wip
 /** The race track: one lane per runner, emoji moving with their right answers. Re-drawn on every pick. */
 function trackHtml(standings, target, winner) {
   const lanes = standings.length ? standings : Object.values(G.players).map((p) => ({ pid: p.id, name: p.name, emoji: p.emoji, correct: 0, out: false, done: false }));
-  return `<div class="track">${lanes.map((r) => `<div class="lane ${r.out ? 'out' : ''} ${r.pid === winner ? 'won' : ''}"><div class="runner" style="left:${3 + Math.min(1, r.correct / target) * 88}%"><span class="em">${r.emoji || '🙂'}</span><span class="nm">${esc(r.name)}</span><span class="ct">${r.out ? '✗ out' : r.done ? '🏁' : r.correct + '/' + target}</span></div></div>`).join('')}</div>`;
+  return `<div class="track ${lanes.length > 8 ? 'many' : ''}">${lanes.map((r) => `<div class="lane ${r.out ? 'out' : ''} ${r.pid === winner ? 'won' : ''}"><div class="runner" style="left:${3 + Math.min(1, r.correct / target) * 88}%"><span class="em">${r.emoji || '🙂'}</span><span class="nm">${esc(r.name)}</span><span class="ct">${r.out ? '✗ out' : r.done ? '🏁' : r.correct + '/' + target}</span></div></div>`).join('')}</div>`;
 }
 function renderRace() {
   const q = question(), v = G.q.view, race = G.q.race;
@@ -773,7 +797,7 @@ function renderWipe(boomToken) {
   const found = w ? w.gone.filter((k) => String(G.q.keys[k]).startsWith('R:')).length : 0, totalRight = v.board.filter((t) => String(G.q.keys[t.k]).startsWith('R:')).length;
   stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill">${found} of ${totalRight} found</span><div class="timer" id="timer" data-s="${q.time}" style="--p:100%"></div></div>`)}
     <div class="stage-main" style="gap:8px"><h1 class="qtext" style="font-size:clamp(1.3rem,2.6vw,2.2rem)">${esc(q.text)}</h1>${turn}
-      <div class="wboard">${v.board.map((t) => `<div class="wtile ${w?.gone.includes(t.k) ? (t.k === boomToken ? 'boom' : 'gone') : ''}" style="left:${t.x}%;top:${t.y}%;--r:${t.rot}deg">${esc(t.text)}</div>`).join('')}</div></div>
+      <div class="wboard ${v.board.length > 20 ? 'dense' : ''}">${v.board.map((t) => `<div class="wtile ${w?.gone.includes(t.k) ? (t.k === boomToken ? 'boom' : 'gone') : ''}" style="left:${t.x}%;top:${t.y}%;--r:${t.rot}deg">${esc(t.text)}</div>`).join('')}</div></div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button>${w?.studyUntil ? '<button class="btn btn-ghost" id="wipeGo">Start the turns now ▶</button>' : ''}<button class="btn btn-primary" data-act="primary">Stop the round ■</button>`)}`;
   bind(); if ($('#wipeGo')) $('#wipeGo').onclick = wipeStudyDone;
 }

@@ -17,6 +17,7 @@
 //   check_text  — judge players' typed answers against the accepted ones
 //   generate    — write questions on a topic, with pictures, using web search
 //   verify      — fact-check questions with web search; verdict and note per question
+//   more_wipeout — extra right answers for a Wipeout board, so it outnumbers the players
 //   map         — a blank, label-free map of a country, region or continent
 //   picture     — a photo of a named subject from Wikipedia / Commons, copied into our bucket
 //   save_game   — record a finished game: scoreboard plus the full answer-by-answer report
@@ -169,7 +170,9 @@ async function isHuman(title: string): Promise<boolean> {
 async function wikiPicture(title: string, used: Set<string>, portrait = false): Promise<{ url: string; source: string } | null> {
   const fresh = (cs: Candidate[]) => cs.filter((c) => !used.has(c.url) && !used.has(c.key));
   const words = keyWords(title);
-  const person = portrait || await isHuman(title);
+  // Flags, emblems, logos, maps and the like have one canonical image: the article's own. The varied pool would hand back photos that merely mention them.
+  const canonical = /^(flag|flags|coat of arms|emblem|seal|logo|map|national anthem|crest|badge|insignia)s? of /i.test(title) || /\b(flag|logo|coat of arms|emblem)\b/i.test(title);
+  const person = portrait || canonical || await isHuman(title);
   const [article, category, search, lead] = person
     ? [[], [], [], await leadPhoto(title)]
     : await Promise.all([articlePhotos(title, words), categoryPhotos(title, words), searchPhotos(title, words), leadPhoto(title)]);
@@ -438,7 +441,7 @@ Question types and their JSON shapes (use only the types you are asked for, and 
 - "smash": {"type":"smash","picture":"Emma Watson","pictureAnswer":"Emma Watson","text":"Sega's blue hedgehog","clueAnswer":"Sonic the Hedgehog"}
   Answer Smash, as on House of Games: the picture shows a well-known person, place or thing ("picture" is its English Wikipedia title, "pictureAnswer" the name players would say); "text" is a clue whose answer starts with the same letters that end the picture's answer — Emma WatSON + SONic the Hedgehog → "Emma Watsonic the Hedgehog"; Judi DenCH + CHina → "Judi Denchina". The overlap must be at least two letters and genuine. Keep the clue short and the answers well known.
 
-Pictures: add "picture":"<exact English Wikipedia article title>" to any question where a picture makes it better or is the question itself ("Which city is this?", "Name this bird"). Use only titles you are confident exist, whose lead image shows the thing and does not contain its name as a caption in the image. Do not add a picture that gives the answer away when the question is not about identifying the picture.
+Pictures: add "picture":"<exact English Wikipedia article title>" to any question where a picture makes it better or is the question itself ("Which city is this?", "Name this bird"). The title must be the article whose LEAD IMAGE IS THE THING ASKED ABOUT: for a flag question that is "Flag of Bhutan", never "Bhutan"; for a logo "Logo of …" or the company; for a coat of arms "Coat of arms of …"; for a landmark the landmark's own article, not the city's; for a person, their article. Use only titles you are confident exist, whose lead image shows the thing and does not contain its name as a caption in the image. Do not add a picture that gives the answer away when the question is not about identifying the picture.
 
 Times are in seconds: 15–45. Harder or longer questions get longer.
 
@@ -794,6 +797,26 @@ Deno.serve(async (req) => {
       const map = await locationMap(region);
       if (!map) return json({ error: `No blank map of “${region}” could be found. Try the country or continent's usual English name, or “World”.` }, 404);
       return json({ url: map.url, region: map.name, bounds: map.bounds || null });
+    }
+
+    if (action === "more_wipeout") {
+      // A Wipeout board needs more right answers than there are players. Asked for at game time once the host knows how many joined.
+      if (!ANTHROPIC_KEY) return json({ error: "AI is not set up on the server." }, 503);
+      const text = String(body.text || "").slice(0, 300);
+      const right = (Array.isArray(body.right) ? body.right : []).map((s: unknown) => String(s ?? "").trim()).filter(Boolean).slice(0, 60);
+      const wrong = (Array.isArray(body.wrong) ? body.wrong : []).map((s: unknown) => String(s ?? "").trim()).filter(Boolean).slice(0, 30);
+      const need = Math.min(25, Math.max(1, Math.round(+body.need || 5)));
+      if (!text) return json({ error: "No question." }, 400);
+      const msg = await ask(anthropic(), {
+        model: MODEL, max_tokens: 4000, output_config: { effort: "medium" },
+        tools: [{ type: "web_search_20260209", name: "web_search", max_uses: 6 }],
+        system: `You add answers to a Wipeout quiz board. The board is a list question; every answer on it must be short (a name or a few words) and either definitely fit the question or definitely not. You are asked for MORE answers that definitely fit. Verify with web search when unsure — one that does not truly fit ruins the round. Never repeat anything already on the board, in any spelling. Reply with JSON only: {"right":["..."]}`,
+        messages: [{ role: "user", content: `Question: ${text}\nAlready on the board as RIGHT: ${right.join(" | ")}\nAlready on the board as WRONG: ${wrong.join(" | ")}\nGive ${need} more answers that definitely fit, most famous first.` }],
+      });
+      const out = extractJson(textOf(msg));
+      const have = new Set([...right, ...wrong].map(norm));
+      const extra = (Array.isArray(out?.right) ? out.right : []).map((s: unknown) => String(s ?? "").trim().slice(0, 60)).filter((s: string) => s && !have.has(norm(s)) && have.add(norm(s))).slice(0, need);
+      return json({ right: extra });
     }
 
     if (action === "verify") {

@@ -220,7 +220,7 @@ window.LQ = (() => {
       const r = (q.right || []).filter((i) => i.text.trim()).length, w = (q.wrong || []).filter((i) => i.text.trim()).length;
       if (r < 3) problems.push('Needs at least three right answers.');
       if (w < 1) problems.push('Needs at least one wrong answer.');
-      if (r + w > 20) problems.push('Twenty answers on the board at most.');
+      if (r + w > 35) problems.push('Thirty-five answers on the board at most.');
     }
     if (q.type === 'race') {
       const good = (q.bank || []).filter((b) => b.text.trim() && b.options[0].trim() && b.options.filter((o) => o.trim()).length >= 2);

@@ -225,6 +225,11 @@ textarea { min-height: 80px; resize: vertical; }
 .lane .runner .nm { font-weight: 900; font-size: clamp(.85rem, 1.5vw, 1.15rem); background: rgba(0,0,0,.35); border-radius: 999px; padding: 2px 10px; }
 .lane .runner .ct { font-weight: 800; opacity: .8; font-size: .8em; }
 .lane.out { opacity: .45; } .lane.out .runner .em { filter: grayscale(1); }
+.track.many { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 18px; }
+.track.many .lane { height: clamp(34px, 4.6vh, 46px); }
+.track.many .lane .runner .em { font-size: clamp(1.2rem, 2.6vh, 1.7rem); }
+.track.many .lane .runner .nm { font-size: clamp(.75rem, 1.2vw, .95rem); padding: 1px 8px; }
+.wboard.dense .wtile { font-size: clamp(.8rem, 1.3vw, 1.15rem); padding: 7px 11px; max-width: 16vw; }
 .lane.won { border-color: #ffd54a; background: rgba(255,213,74,.18); }
 .lane.won .runner .nm { background: #ffd54a; color: var(--stage); }
 

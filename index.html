@@ -471,8 +471,8 @@ function renderTypeBox() {
   }
   if (q.type === 'wipeout') {
     const list = (arr, key, label, max) => `<div class="field"><label>${label}</label>${arr.map((it, i) => `<div class="list-item"><div class="n">${i + 1}</div><input type="text" data-${key}="${i}" value="${esc(it.text)}" placeholder="${label.split(' ')[0]} answer ${i + 1}"><button class="btn btn-ghost btn-sm" data-rm-${key}="${i}">✕</button></div>`).join('')}<button class="btn btn-ghost btn-sm" data-add="${key}" ${arr.length >= max ? 'disabled' : ''}>+ Add</button></div>`;
-    box.innerHTML = `<div class="notice" style="margin-bottom:12px">Up to twenty answers go on the board. Classic Wipeout is fifteen right and five wrong. Players take turns; a right pick vanishes and scores, a wrong pick ends the question and costs that player the penalty.</div>
-      <div class="row" style="align-items:flex-start;gap:20px"><div class="grow">${list(q.right, 'wr', 'Right answers', 15)}</div><div class="grow">${list(q.wrong, 'ww', 'Wrong answers (plausible, but definitely wrong)', 8)}</div></div>`;
+    box.innerHTML = `<div class="notice" style="margin-bottom:12px">Classic Wipeout is fifteen right and five wrong. Players take turns; a right pick vanishes and scores, a wrong pick ends the question and costs that player the penalty. When the game starts, the host checks how many players have joined and, if there aren't at least five more right answers than players, asks the AI for extra ones before the board goes up.</div>
+      <div class="row" style="align-items:flex-start;gap:20px"><div class="grow">${list(q.right, 'wr', 'Right answers', 30)}</div><div class="grow">${list(q.wrong, 'ww', 'Wrong answers (plausible, but definitely wrong)', 8)}</div></div>`;
     for (const [key, arr] of [['wr', q.right], ['ww', q.wrong]]) {
       $$(`[data-${key}]`).forEach((inp) => inp.oninput = () => { arr[+inp.dataset[key]].text = inp.value; touch(); showProblems(); });
       $$(`[data-rm-${key}]`).forEach((b) => b.onclick = () => { arr.splice(+b.dataset['rm' + key.charAt(0).toUpperCase() + key.slice(1)], 1); touch(); renderTypeBox(); showProblems(); });

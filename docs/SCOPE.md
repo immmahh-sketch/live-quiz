@@ -122,7 +122,10 @@ consonants first; players type the phrase whenever they think they have it, and 
 with the clock. The host can turn a letter early with a button.
 
 **Wipeout** is the one question that is not "everyone answers at once". Up to twenty
-answers are scattered on the host screen, classically fifteen right and five wrong. Everyone
+answers are scattered on the host screen, classically fifteen right and five wrong. As the
+question is about to start the host counts the players in the game and, if there are not at
+least five more right answers than players, asks the AI for extra ones that definitely fit
+(web-searched) and adds them to the board first, so a big room cannot exhaust it. Everyone
 gets ten seconds (editable) to look at the whole board before the first turn. Players
 take turns in a shuffled order, each with the question's time limit per turn (default five
 seconds). A right pick vanishes from the board and scores the pick points (default 200); a
