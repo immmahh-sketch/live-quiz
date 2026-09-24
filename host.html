@@ -32,6 +32,18 @@ let G = null, ch = null, sb = null, tickT = null, hbT = null, countT = null, hel
 const present = new Map(); // pid -> name, from presence
 
 let toastT;
+/** After a test run: every question goes back into the bank as unused (AI-written ones are added) and the quiz is deleted. Two presses, so a stray click on the remote does nothing. */
+async function returnToBank() {
+  const b = $('[data-act="restock"]'); if (!b || !G.quizId) return;
+  if (!b.dataset.armed) { b.dataset.armed = '1'; b.textContent = 'Press again to return them and delete this quiz'; b.classList.add('on'); setTimeout(() => { if (b.isConnected) { delete b.dataset.armed; b.textContent = '↩ Return questions to the bank'; b.classList.remove('on'); } }, 6000); return; }
+  b.disabled = true; b.textContent = 'Returning…';
+  try {
+    const r = await api('bank_restock', { id: G.quizId });
+    const n = Object.values(r.result || {}).reduce((a, v) => a + (v.restored || 0) + (v.added || 0), 0);
+    toast(`${n} question${n === 1 ? '' : 's'} back in the bank. The quiz has been deleted.`);
+    b.remove(); $$('[data-act="again"]').forEach((x) => x.remove());
+  } catch (e) { toast(e.message, true); b.disabled = false; b.textContent = '↩ Return questions to the bank'; }
+}
 function toast(msg, bad) { const t = $('#toast'); t.textContent = msg; t.className = 'toast show' + (bad ? ' bad' : ''); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 3000); }
 const persist = () => store(SAVE_KEY, G);
 const players = () => Object.values(G.players);
@@ -774,7 +786,7 @@ function hostBar(buttons) {
   return `<div class="stage-bottom"><span class="muted small" style="opacity:.6">Game ${G.code} · ${players().length} players${G.bots?.length ? ` · test mode, ${G.bots.length} bots` : ''} · ${hint}</span>${d ? `<div class="autobar" title="Moving on by itself"><i style="animation-duration:${d}ms"></i></div>` : ''}<div class="hostbar">${buttons}</div></div>`;
 }
 function bind() {
-  $$('[data-act]').forEach((b) => b.onclick = () => ({ primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(3), auto: toggleAuto, builder: () => location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
+  $$('[data-act]').forEach((b) => b.onclick = () => ({ primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(3), auto: toggleAuto, restock: returnToBank, builder: () => location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
   $$('[data-kick]').forEach((el) => { el.style.cursor = 'pointer'; el.title = 'Click to remove this player from the game'; el.onclick = () => kickPlayer(el.dataset.kick); });
 }
 function renderLobby() {
@@ -981,7 +993,7 @@ function renderFinal() {
       <div class="podium">${pod(1, 'p2')}${pod(0, 'p1')}${pod(2, 'p3')}</div>
       ${rk.length > 3 ? `<div class="textlist">${rk.slice(3, 15).map((p, i) => `<span class="tl">${i + 4}. ${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)} · ${p.score}</span>`).join('')}</div>` : ''}
       <p class="small" style="opacity:.5;margin-top:10px">Players can be removed from the scoreboard during the game by clicking their name.</p></div>
-    ${hostBar(`<a class="btn btn-ghost ${G.reportId ? '' : 'hidden'}" id="reportBtn" href="index.html?game=${G.reportId || ''}" target="_blank">📊 Report</a><button class="btn btn-ghost" data-act="builder">${TV ? '🏠 Home' : 'Back to builder'}</button><button class="btn btn-primary" data-act="again">Play again ↻</button>`)}`;
+    ${hostBar(`<a class="btn btn-ghost ${G.reportId ? '' : 'hidden'}" id="reportBtn" href="index.html?game=${G.reportId || ''}" target="_blank">📊 Report</a><button class="btn btn-ghost" data-act="builder">${TV ? '🏠 Home' : 'Back to builder'}</button>${G.quizId ? '<button class="btn btn-ghost" data-act="restock" title="Just testing? Put every question back into the bank as unused and delete this quiz">↩ Return questions to the bank</button>' : ''}<button class="btn btn-primary" data-act="again">Play again ↻</button>`)}`;
   bind();
 }
 function confetti() {
