@@ -799,7 +799,7 @@ function renderCountdown() {
 }
 function mediaHtml(q, live) {
   if (q.media?.kind === 'image' && q.media.url) return `<div class="qmedia"><img src="${esc(q.media.url)}"></div>`;
-  if (q.media?.kind === 'youtube' && q.media.videoId && live) return `<div class="qmedia"><iframe src="https://www.youtube-nocookie.com/embed/${esc(q.media.videoId)}?autoplay=1&start=${+q.media.start || 0}&rel=0&modestbranding=1" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>`;
+  if (q.media?.kind === 'youtube' && q.media.videoId && live) return `<div class="qmedia"><iframe src="https://www.youtube-nocookie.com/embed/${esc(q.media.videoId)}?autoplay=1&start=${+q.media.start || 0}${q.media.end ? '&end=' + (+q.media.end) : ''}&rel=0&modestbranding=1" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>`;
   return '';
 }
 function renderQuestion() {

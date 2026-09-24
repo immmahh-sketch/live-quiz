@@ -745,11 +745,12 @@ function renderMediaBox() {
     };
     $('#picUrl').onchange = (e) => { const u = e.target.value.trim(); if (!u) return; q.media = { kind: 'image', url: u }; touch(); renderMediaBox(); if (pinOnly) renderPinPick(); showProblems(); };
   } else if (m.kind === 'youtube') {
-    p.innerHTML = `<div class="row"><input type="url" id="ytUrl" class="grow" placeholder="Paste a YouTube link" value="${esc(m.url || '')}"><div class="field" style="margin:0;max-width:170px"><input type="number" id="ytStart" min="0" placeholder="Start at (seconds)" value="${m.start || ''}"></div></div>
-      ${m.videoId ? `<div class="preview mt"><iframe src="https://www.youtube-nocookie.com/embed/${esc(m.videoId)}?start=${+m.start || 0}" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>` : ''}
-      <div class="help">The video plays on the host screen with sound as soon as the question starts. Players answer on their phones while it plays. Share your screen with sound on the call.</div>`;
+    p.innerHTML = `<div class="row"><input type="url" id="ytUrl" class="grow" placeholder="Paste a YouTube link" value="${esc(m.url || '')}"><div class="field" style="margin:0;max-width:170px"><input type="number" id="ytStart" min="0" placeholder="Start at (s)" value="${m.start || ''}"></div><div class="field" style="margin:0;max-width:150px"><input type="number" id="ytEnd" min="0" placeholder="Stop at (s)" value="${m.end || ''}"></div></div>
+      ${m.videoId ? `<div class="preview mt"><iframe src="https://www.youtube-nocookie.com/embed/${esc(m.videoId)}?start=${+m.start || 0}${m.end ? '&end=' + (+m.end) : ''}" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>` : ''}
+      <div class="help">The video plays on the host screen with sound as soon as the question starts and stops at the stop time (blank plays on). For Catchphrase-style clips, start just before the scene and stop before the answer is said. Players answer on their phones while it plays. Share your screen with sound on the call.</div>`;
     $('#ytUrl').onchange = (e) => { m.url = e.target.value.trim(); m.videoId = youtubeId(m.url); touch(); renderMediaBox(); showProblems(); };
     $('#ytStart').onchange = (e) => { m.start = Math.max(0, +e.target.value || 0); touch(); renderMediaBox(); };
+    $('#ytEnd').onchange = (e) => { m.end = Math.max(0, +e.target.value || 0) || undefined; touch(); renderMediaBox(); };
   } else {
     p.innerHTML = '<div class="help">Just the question text on the screen.</div>';
   }
