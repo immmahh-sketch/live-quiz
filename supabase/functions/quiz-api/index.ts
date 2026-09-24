@@ -34,7 +34,21 @@ const HOST_PW = Deno.env.get("QUIZ_HOST_PASSWORD") || "";
 const ANTHROPIC_KEY = Deno.env.get("ANTHROPIC_API_KEY") || "";
 const BUCKET = "quiz-media";
 const UA = "LiveQuiz/1.0 (https://github.com/immmahh-sketch/live-quiz)";
-const MODEL = "claude-opus-5";
+// Models by job. Opus writes the craft types (wordplay and logic) where quality shows and
+// no lookup is needed; Sonnet writes plain factual questions with web search and does the
+// fact-checking; Haiku judges typed answers during games. "premium" puts everything on Opus.
+const OPUS = "claude-opus-5", SONNET = "claude-sonnet-5", HAIKU = "claude-haiku-4-5-20251001";
+const MODEL = OPUS;
+const CRAFT_TYPES = ["club", "dingbat", "rhyme", "highlow", "smash", "wheel"];
+function writerPlan(types: string[], premium: boolean) {
+  const craft = types.length > 0 && types.every((t) => CRAFT_TYPES.includes(t));
+  return { model: premium || craft ? OPUS : SONNET, web: !craft, searches: premium ? 6 : 3 };
+}
+/** What a call cost, for the portal to add up. */
+function usageOf(msg: Anthropic.Message, model: string) {
+  const u: any = msg.usage || {};
+  return { model, input: u.input_tokens || 0, output: u.output_tokens || 0, cacheRead: u.cache_read_input_tokens || 0, cacheWrite: u.cache_creation_input_tokens || 0, searches: u.server_tool_use?.web_search_requests || 0 };
+}
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 const CORS = {
@@ -378,10 +392,9 @@ async function checkText(question: string, accepted: string[], answers: { id: st
   if (pending.length && ANTHROPIC_KEY) {
     try {
       const msg = await ask(anthropic(), {
-        model: MODEL,
+        model: HAIKU,
         max_tokens: 4000,
         system: JUDGE_SYSTEM,
-        output_config: { effort: "low" },
         messages: [{ role: "user", content: JSON.stringify({ question, accepted_answers: accepted, player_answers: pending }) }],
       });
       const out = extractJson(textOf(msg));
@@ -458,14 +471,14 @@ Times are in seconds: 15–45. Harder or longer questions get longer.
 
 Reply with JSON only: {"questions":[ ... ]}`;
 
-interface GenOpts { topic: string; brief: string; count: number; difficulty: string; types: string[]; pictures: boolean; web: boolean; avoid: string[]; usedPictures: string[]; }
+interface GenOpts { topic: string; brief: string; count: number; difficulty: string; types: string[]; pictures: boolean; web: boolean; avoid: string[]; usedPictures: string[]; premium: boolean; }
 
 async function generate(o: GenOpts) {
   const client = anthropic();
   const wantPictures = o.pictures;
   const typeList = o.types.length ? o.types : ["choice", "text"];
   // The portal asks for a big round in batches; this is what earlier batches already wrote.
-  const avoid = o.avoid.length ? `\nAlready used, in this quiz or in earlier quizzes the same host has run — do not repeat these facts, ask them another way, or reuse their answers as the answer to something else:\n${o.avoid.map((t) => "- " + t).join("\n")}` : "";
+  const avoid = o.avoid.length ? `Already used, in this quiz or in earlier quizzes the same host has run — do not repeat these facts, ask them another way, or reuse their answers as the answer to something else:\n${o.avoid.map((t) => "- " + t).join("\n")}` : "";
   // The host's own brief for the round outranks the topic line: "a sports round, but every
   // question about Harry Kane" means every question about Harry Kane.
   const brief = o.brief ? `\nThe host's brief for this round — follow it closely, it decides what every question is about:\n${o.brief}` : "";
@@ -473,18 +486,22 @@ async function generate(o: GenOpts) {
 Round: ${o.topic || "general knowledge"}${brief}
 Difficulty: ${o.difficulty}
 Question types to use (mix them across the set): ${typeList.join(", ")}
-Pictures round: ${wantPictures ? "yes — give roughly half the questions a picture, and use rightPicture for match questions" : "no pictures"}${avoid}`;
+Pictures round: ${wantPictures ? "yes — give roughly half the questions a picture, and use rightPicture for match questions" : "no pictures"}`;
 
+  const plan = writerPlan(typeList, o.premium);
+  // The long system prompt and the do-not-repeat list are the same for every batch of a
+  // round, so they are marked cacheable: later batches read them at a fraction of the price.
   const params: Anthropic.MessageCreateParamsNonStreaming = {
-    model: MODEL,
+    model: plan.model,
     max_tokens: 16000,
-    system: WRITER_SYSTEM,
+    system: [{ type: "text", text: WRITER_SYSTEM, cache_control: { type: "ephemeral" } }],
     output_config: { effort: "medium" },
-    messages: [{ role: "user", content: prompt }],
+    messages: [{ role: "user", content: avoid ? [{ type: "text", text: avoid, cache_control: { type: "ephemeral" } }, { type: "text", text: prompt }] : prompt }],
   };
-  if (o.web) params.tools = [{ type: "web_search_20260209", name: "web_search", max_uses: 8 }];
+  if (o.web && plan.web) params.tools = [{ type: "web_search_20260209", name: "web_search", max_uses: plan.searches }];
 
   const msg = await ask(client, params);
+  const usage = usageOf(msg, plan.model);
   const out = extractJson(textOf(msg));
   const raw: any[] = Array.isArray(out?.questions) ? out.questions : [];
   if (!raw.length) throw new Error("The AI did not write any questions. Try a broader topic.");
@@ -671,7 +688,7 @@ Pictures round: ${wantPictures ? "yes — give roughly half the questions a pict
 
   const kept = questions.filter(Boolean);
   if (!kept.length) throw new Error("None of the AI's questions were usable. Try again.");
-  return { questions: kept, warnings, searched: !!o.web };
+  return { questions: kept, warnings, searched: !!(o.web && plan.web), usage };
 }
 
 // ---------------------------------------------------------------- fact-checking
@@ -688,13 +705,14 @@ Be exacting but not pedantic: a pub quiz accepts common knowledge and ordinary r
 
 Reply with JSON only: {"checks":[{"id":"...","verdict":"ok|doubt|wrong","note":"...","fix":"optional corrected answer"}]}`;
 
-async function verifyQuestions(items: { id: string; summary: string }[]) {
+async function verifyQuestions(items: { id: string; summary: string }[], premium = false) {
+  const model = premium ? OPUS : SONNET;
   const msg = await ask(anthropic(), {
-    model: MODEL,
+    model,
     max_tokens: 8000,
-    system: CHECK_SYSTEM,
+    system: [{ type: "text", text: CHECK_SYSTEM, cache_control: { type: "ephemeral" } }],
     output_config: { effort: "medium" },
-    tools: [{ type: "web_search_20260209", name: "web_search", max_uses: 10 }],
+    tools: [{ type: "web_search_20260209", name: "web_search", max_uses: premium ? 10 : 6 }],
     messages: [{ role: "user", content: "Check these questions:\n\n" + items.map((i) => `[id ${i.id}]\n${i.summary}`).join("\n\n") }],
   });
   const out = extractJson(textOf(msg));
@@ -704,7 +722,7 @@ async function verifyQuestions(items: { id: string; summary: string }[]) {
     const verdict = ["ok", "doubt", "wrong"].includes(c.verdict) ? c.verdict : "doubt";
     checks[c.id] = { verdict, note: String(c.note || "").slice(0, 600), ...(c.fix ? { fix: String(c.fix).slice(0, 200) } : {}) };
   }
-  return { checks };
+  return { usage: usageOf(msg, model), checks };
 }
 
 // ---------------------------------------------------------------- handler
@@ -816,6 +834,7 @@ Deno.serve(async (req) => {
         types,
         pictures: body.pictures !== false,
         web: body.web !== false,
+        premium: body.premium === true,
       });
       return json({ ...out, unknownTypes });
     }
@@ -846,8 +865,7 @@ Deno.serve(async (req) => {
       const need = Math.min(25, Math.max(1, Math.round(+body.need || 5)));
       if (!text) return json({ error: "No question." }, 400);
       const msg = await ask(anthropic(), {
-        model: MODEL, max_tokens: 4000, output_config: { effort: "medium" },
-        tools: [{ type: "web_search_20260209", name: "web_search", max_uses: 6 }],
+        model: SONNET, max_tokens: 4000, output_config: { effort: "medium" },
         system: `You add answers to a Wipeout quiz board. The board is a list question; every answer on it must be short (a name or a few words) and either definitely fit the question or definitely not. You are asked for MORE answers that definitely fit. Verify with web search when unsure — one that does not truly fit ruins the round. Never repeat anything already on the board, in any spelling. Reply with JSON only: {"right":["..."]}`,
         messages: [{ role: "user", content: `Question: ${text}\nAlready on the board as RIGHT: ${right.join(" | ")}\nAlready on the board as WRONG: ${wrong.join(" | ")}\nGive ${need} more answers that definitely fit, most famous first.` }],
       });
@@ -864,7 +882,7 @@ Deno.serve(async (req) => {
         .slice(0, 6)
         .map((q: any) => ({ id: q.id.slice(0, 40), summary: q.summary.slice(0, 6000) }));
       if (!items.length) return json({ error: "Nothing to check." }, 400);
-      return json(await verifyQuestions(items));
+      return json(await verifyQuestions(items, body.premium === true));
     }
 
     if (action === "save_game") {

@@ -363,12 +363,13 @@ async function generateForRound(r) {
   const avoid = await avoidList(); let written = 0;
   try {
     for (const { type, need } of plan) {
-      const BATCH = ['race', 'wipeout', 'pin', 'match'].includes(type) ? 2 : 4; // the heavy ones fetch pictures
+      const BATCH = ['race', 'wipeout', 'pin', 'match'].includes(type) ? 2 : ['choice', 'tf', 'text', 'order', 'sort'].includes(type) ? 6 : 4; // heavy ones fetch pictures; plain ones are quick on Sonnet
       let got = 0;
       while (got < need) {
         $('#ga_step', m).textContent = `${TYPES[type].label}: writing ${got + 1}–${Math.min(need, got + BATCH)} of ${need} (${written} of ${total} done)…`;
         const usedPictures = S.quiz.questions.flatMap((q) => [q.media?.source, q.media?.url]).filter((s) => typeof s === 'string' && /^https?:/.test(s));
-        const res = await api('generate', { topic: (r.brief ? `${r.title}. ${r.brief}` : r.title).slice(0, 200), title: r.title, brief: r.brief, usedPictures, count: Math.min(BATCH, need - got), difficulty: 'mixed', types: [type], pictures: true, web: true, avoid }, { timeout: 170000 });
+        const res = await api('generate', { topic: (r.brief ? `${r.title}. ${r.brief}` : r.title).slice(0, 200), title: r.title, brief: r.brief, usedPictures, count: Math.min(BATCH, need - got), difficulty: 'mixed', types: [type], pictures: true, web: true, avoid, premium: !!S.quiz.settings.aiPremium }, { timeout: 170000 });
+        LQ.addUsage(S.quiz.settings, res.usage);
         if (!res.questions.length) break;
         if (!res.questions.some((q) => q.type === type)) { toast(`The server wrote ${TYPES[res.questions[0].type]?.label || 'other'} questions instead of ${TYPES[type].label}: the quiz-api function is out of date and needs redeploying. They were not added.`, true); break; }
         for (const q of res.questions) { q.round = r.id; q.time = timeFor(q.type, S.quiz.settings); if (q.collage && !q.media?.url) { try { await buildCollageFor(q); } catch {} } S.quiz.questions.push(q); avoid.push(q.text); got++; written++; }
@@ -778,6 +779,10 @@ function settingsModal() {
       <div class="help">New questions and AI-written ones get their type's time. Each question can still be changed on its own.</div>
       <label class="check" style="margin-top:8px"><input type="checkbox" id="s_apply"> Apply these to every question already in the quiz</label></div>
     <label class="check"><input type="checkbox" id="s_show" ${s.showAnswersOnPhones !== false ? 'checked' : ''}> Show the right answer on players' phones after each question</label>
+    <div class="field mt"><label>AI models</label>
+      <label class="check"><input type="checkbox" id="s_premium" ${s.aiPremium ? 'checked' : ''}> Use the top model (Opus) for every question type</label>
+      <div class="help">Off: plain factual questions are written by Sonnet with a few web searches, the wordplay and logic types (10% Club, Dingbats, Rhyme Time, Highbrow Lowbrow, Answer Smash, Wheel) by Opus without searching, and typed answers are judged by Haiku. On: everything on Opus with more searches, at several times the cost.</div>
+      ${(() => { const u = LQ.usageSummary(s.aiUsage); return u ? `<div class="notice" style="margin-top:8px"><b>AI used on this quiz so far:</b> about $${u.usd.toFixed(2)} at list prices.<br><span class="small">${u.rows.map(esc).join('<br>')}</span></div>` : '<div class="help">No AI used on this quiz yet.</div>'; })()}</div>
     <div class="row mt" style="justify-content:flex-end"><button class="btn btn-ghost" data-x>Cancel</button><button class="btn btn-primary" data-ok>Done</button></div>`);
   $('[data-x]', m).onclick = () => m.remove();
   $('[data-ok]', m).onclick = () => {
@@ -785,6 +790,7 @@ function settingsModal() {
     s.minPoints = LQ.clamp(+$('#s_min', m).value || 0, 0, s.maxPoints);
     s.timeByType = {}; $$('[data-tt]', m).forEach((inp) => { s.timeByType[inp.dataset.tt] = LQ.clamp(+inp.value || LQ.DEFAULT_TIMES[inp.dataset.tt], 5, 180); });
     s.showAnswersOnPhones = $('#s_show', m).checked;
+    s.aiPremium = $('#s_premium', m).checked;
     if ($('#s_apply', m).checked) for (const q of S.quiz.questions) q.time = timeFor(q.type, s);
     touch(); m.remove(); renderQList(); renderQForm(); toast('Settings updated');
   };
@@ -827,7 +833,8 @@ function bankModal(q) {
     try {
       while (written < total) {
         $('#b_step', m).textContent = `Writing questions ${written + 1}–${Math.min(total, written + BATCH)} of ${total}…`;
-        const r = await api('generate', { topic, title: topic, brief: `Quick-fire race questions on ${topic}: one short line each, four short answers, nothing that needs thinking time.`, count: Math.min(BATCH, total - written), difficulty: $('#b_diff', m).value, types: ['choice'], pictures: false, web: $('#b_web', m).checked, avoid }, { timeout: 170000 });
+        const r = await api('generate', { topic, title: topic, brief: `Quick-fire race questions on ${topic}: one short line each, four short answers, nothing that needs thinking time.`, count: Math.min(BATCH, total - written), difficulty: $('#b_diff', m).value, types: ['choice'], pictures: false, web: $('#b_web', m).checked, avoid, premium: !!S.quiz.settings.aiPremium }, { timeout: 170000 });
+        LQ.addUsage(S.quiz.settings, r.usage);
         if (!r.questions.length) break;
         for (const g of r.questions) {
           const right = g.options.find((o) => o.id === g.correct)?.text; if (!right) continue;
@@ -892,7 +899,8 @@ async function checkQuestions(qs) {
     for (let i = 0; i < qs.length && !stop; i += BATCH) {
       const batch = qs.slice(i, i + BATCH);
       const step = $('#c_step', m); if (step) step.textContent = `Checking ${i + 1}–${Math.min(qs.length, i + BATCH)} of ${qs.length}…`;
-      const r = await api('verify', { questions: batch.map((q) => ({ id: q.id, summary: summaryOf(q) })) }, { timeout: 170000 });
+      const r = await api('verify', { premium: !!S.quiz.settings.aiPremium, questions: batch.map((q) => ({ id: q.id, summary: summaryOf(q) })) }, { timeout: 170000 });
+      LQ.addUsage(S.quiz.settings, r.usage);
       if (stop) break;
       for (const q of batch) {
         const c = r.checks[q.id];
@@ -955,7 +963,8 @@ function aiModal(fresh, roundId) {
     try {
       while (written < total) {
         si = 0; status();
-        const r = await api('generate', { ...opts, count: Math.min(BATCH, total - written), avoid }, { timeout: 170000 });
+        const r = await api('generate', { ...opts, count: Math.min(BATCH, total - written), avoid, premium: !!S.quiz.settings.aiPremium }, { timeout: 170000 });
+        LQ.addUsage(S.quiz.settings, r.usage);
         if (!r.questions.length) break;
         if (!r.questions.some((q) => types.includes(q.type))) { warnings.push(`The server does not know the question types you asked for yet (the quiz-api function needs redeploying); it wrote ${[...new Set(r.questions.map((q) => TYPES[q.type]?.label))].join(' and ')} instead.`); }
         let rid = round?.id;

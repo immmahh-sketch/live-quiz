@@ -358,10 +358,35 @@ window.LQ = (() => {
     }).join('')}</div>`;
   }
 
+  // ---------------------------------------------------------------- AI usage and a rough cost
+  // List prices in US dollars per million tokens (in, out); cache reads cost a tenth of input, cache writes a quarter more.
+  // Edit here if the prices change. Web searches are priced per thousand.
+  const AI_PRICES = { 'claude-opus-5': [15, 75], 'claude-sonnet-5': [3, 15], 'claude-haiku-4-5-20251001': [1, 5] };
+  const SEARCH_PRICE = 10;
+  const AI_NAMES = { 'claude-opus-5': 'Opus', 'claude-sonnet-5': 'Sonnet', 'claude-haiku-4-5-20251001': 'Haiku' };
+  /** Adds one call's usage (as the server reports it) to a quiz's running total. */
+  function addUsage(settings, u) {
+    if (!settings || !u || !u.model) return;
+    const all = settings.aiUsage = settings.aiUsage || {};
+    const m = all[u.model] = all[u.model] || { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, searches: 0, calls: 0 };
+    for (const k of ['input', 'output', 'cacheRead', 'cacheWrite', 'searches']) m[k] += +u[k] || 0;
+    m.calls += 1;
+  }
+  function usageCost(all) {
+    let usd = 0;
+    for (const [model, m] of Object.entries(all || {})) { const [pi, po] = AI_PRICES[model] || [15, 75]; usd += (m.input * pi + m.cacheRead * pi * 0.1 + m.cacheWrite * pi * 1.25 + m.output * po) / 1e6 + (m.searches || 0) * SEARCH_PRICE / 1000; }
+    return usd;
+  }
+  /** One line per model, plus the estimate. */
+  function usageSummary(all) {
+    const rows = Object.entries(all || {}).map(([model, m]) => `${AI_NAMES[model] || model}: ${m.calls} call${m.calls === 1 ? '' : 's'}, ${Math.round((m.input + m.cacheRead + m.cacheWrite) / 1000)}k in (${Math.round(m.cacheRead / 1000)}k cached), ${Math.round(m.output / 1000)}k out${m.searches ? `, ${m.searches} searches` : ''}`);
+    return rows.length ? { rows, usd: usageCost(all) } : null;
+  }
+
   function fmtTime(ms) { const s = Math.max(0, Math.ceil(ms / 1000)); return s + 's'; }
   function ordinal(n) { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
   return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
     TYPES, EMOJIS, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
-    newCode, playUrl, shortPlayUrl, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml };
+    newCode, playUrl, shortPlayUrl, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml, addUsage, usageCost, usageSummary, AI_PRICES };
 })();

@@ -108,6 +108,24 @@ to see the whole thing from both sides.
 Both need the `ANTHROPIC_API_KEY` secret on the Supabase project. Without it, judging falls
 back to closest-match and the writer is disabled (the portal says so).
 
+## AI models and cost
+
+Each job uses the cheapest model that does it well, set in `quiz-api/index.ts`:
+
+| Job | Model | Web search |
+|---|---|---|
+| Writing plain factual types (choice, true/false, typed, order, categorise, match, Race, Wipeout) | Sonnet 5 | up to 3 per batch |
+| Writing the craft types (10% Club, Dingbats, Rhyme Time, Highbrow Lowbrow, Answer Smash, Wheel) | Opus 5 | none |
+| Judging typed answers during a game | Haiku 4.5 | none |
+| Fact-checking (*Check this round*) | Sonnet 5 | up to 6 |
+| Wipeout board top-up at game time | Sonnet 5 | none |
+
+The writer's system prompt and the do-not-repeat list are marked cacheable, so every batch
+after the first in a round reads them at a tenth of the price. Plain types are written six
+to a batch. *Quiz settings → AI models* has an **Opus for everything** switch for when
+quality matters more than cost, and shows what the quiz has used so far with a rough
+dollar figure at list prices (edit `AI_PRICES` in `assets/common.js` if prices change).
+
 ## Deploying
 
 ### Front end
