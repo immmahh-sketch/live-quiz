@@ -1233,7 +1233,9 @@ function bankAnswer(q: any): string {
   if (q.type === "pin") return String(q.place || "");
   if (q.type === "tune") return `${q.track} ${q.artist}`;
   if (q.type === "smash") return `${q.pictureAnswer} ${q.clueAnswer}`;
-  if (q.type === "order" || q.type === "sort" || q.type === "match" || q.type === "wipeout") return (q.items || q.pairs || []).map((i: any) => i.text || i.left || "").join(" ");
+  if (q.type === "order" || q.type === "sort" || q.type === "match") return (q.items || q.pairs || []).map((i: any) => i.text || i.left || "").join(" ");
+  if (q.type === "wipeout") return (q.right || []).map((i: any) => i.text || "").join(" ");
+  if (q.type === "race") return (q.bank || []).map((b: any) => b.text || "").join(" ");
   return String((q.answers || [])[0] || "");
 }
 const DUP_STOP = new Set(["which", "what", "who", "where", "when", "this", "that", "these", "those", "from", "with", "does", "were", "was", "the", "and", "for", "has", "have", "had", "his", "her", "their", "its", "into", "name", "called", "many", "much", "following"]);
@@ -1243,6 +1245,8 @@ function nearDuplicate(a: any, b: any): boolean {
   if (a.type !== b.type) return false;
   const ka = bankKey(a), kb = bankKey(b);
   if (ka && ka === kb) return true;
+  // Rounds made of lists all read alike ("Put these in order, earliest first"): what makes them the same is their items.
+  if (["order", "sort", "match", "wipeout", "race"].includes(a.type)) { const x = norm(bankAnswer(a)), y = norm(bankAnswer(b)); return !!x && x === y; }
   if (ka.startsWith("img:") || kb.startsWith("img:") || ka.startsWith("yt:") || kb.startsWith("yt:")) return false; // different picture or clip = different question
   const ta = tokens(ka), tb = tokens(kb);
   if (!ta.size || !tb.size) return false;
@@ -1302,7 +1306,10 @@ async function bankTake(type: string, need: number, topic: string, brief: string
   info.themed = themed; info.keywords = [...want]; info.matching = pool.filter((x) => x.sc > 0).length;
   if (themed) { const matching = pool.filter((x) => x.sc > 0); pool = matching.length || !EVERGREEN.includes(type) ? matching : pool; }
   // best matches first, then a shuffle among equals so the same items do not always lead
-  pool.sort((a, b) => b.sc - a.sc || Math.random() - 0.5);
+  // A true shuffle first (a random sort comparator barely moves anything, so the same early items kept winning),
+  // then best matches first; the sort is stable, so equals stay in their shuffled order.
+  for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
+  pool.sort((a, b) => b.sc - a.sc);
   // Difficulty: a set round takes that level first; a mixed round is built about a quarter easy, nearly half medium
   // and the rest hard (unrated items count as medium), falling back to whatever is left once a level runs dry.
   const level = (q: any) => (["easy", "medium", "hard"].includes(q.difficulty) ? q.difficulty : "medium");
