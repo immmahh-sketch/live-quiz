@@ -24,7 +24,7 @@ const { $, $$, esc, uid, TYPES, COLORS, store, ordinal } = LQ;
 const app = $('#app');
 const saved = store('lq_player') || {};
 const P = { pid: /^p_[a-z0-9]{6,12}$/.test(saved.pid || '') ? saved.pid : uid('p'), name: saved.name || '', emoji: LQ.EMOJIS.includes(saved.emoji) ? saved.emoji : LQ.EMOJIS[Math.floor(Math.random() * LQ.EMOJIS.length)], code: '', race: null,
-  state: null, receivedAt: 0, deadline: 0, viewKey: '', answered: {}, skipped: {}, sent: {}, joined: false, hostSeen: 0, work: {} };
+  state: null, receivedAt: 0, deadline: 0, viewKey: '', answered: {}, skipped: {}, sent: {}, low: {}, joined: false, hostSeen: 0, work: {} };
 let ch = null, sb = null, timerT = null, helloT = null, watchdogT = null;
 
 let toastT;
