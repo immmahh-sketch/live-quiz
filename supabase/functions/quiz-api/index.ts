@@ -908,7 +908,7 @@ Deno.serve(async (req) => {
       const type = String(body.type || "");
       const row = (await bankRows()).find((r) => r.settings?.type === type);
       const qs: any[] = row ? row.questions : [];
-      return json({ questions: qs.map((q) => ({ id: q.id, text: q.text || q.phrase || q.place || "", answer: q.type === "choice" ? (q.options || []).find((o: any) => o.id === q.correct)?.text : q.type === "tf" ? String(q.answer) : q.type === "wheel" ? q.phrase : q.type === "pin" ? q.place : q.type === "order" ? (q.items || []).map((i: any) => i.text).join(" → ") : (q.answers || [])[0] || "", category: q.category || "", tags: q.tags || [], used: q.used || null, pct: q.pct, rejected: !!q.used?.rejected, difficulty: q.difficulty || "" })) });
+      return json({ questions: qs.map((q) => ({ id: q.id, text: q.text || q.phrase || q.place || "", answer: q.type === "choice" ? (q.options || []).find((o: any) => o.id === q.correct)?.text : q.type === "tf" ? String(q.answer) : q.type === "wheel" ? q.phrase : q.type === "pin" ? q.place : q.type === "order" ? (q.items || []).map((i: any) => i.text).join(" → ") : (q.answers || [])[0] || "", category: q.category || "", tags: q.tags || [], used: q.used || null, pct: q.pct, rejected: !!q.used?.rejected, difficulty: q.difficulty || "", media: q.media?.kind && q.media.kind !== "none" ? q.media.kind : "" })) });
     }
     if (action === "bank_patch") {
       // Sets difficulty (and optionally category / tags) on bank items, matched by id or, failing that, by what
