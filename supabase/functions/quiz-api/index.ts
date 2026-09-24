@@ -882,7 +882,81 @@ Deno.serve(async (req) => {
       const type = String(body.type || "");
       const row = (await bankRows()).find((r) => r.settings?.type === type);
       const qs: any[] = row ? row.questions : [];
-      return json({ questions: qs.map((q) => ({ id: q.id, text: q.text || q.phrase || q.place || "", answer: q.type === "choice" ? (q.options || []).find((o: any) => o.id === q.correct)?.text : q.type === "tf" ? String(q.answer) : q.type === "wheel" ? q.phrase : q.type === "pin" ? q.place : q.type === "order" ? (q.items || []).map((i: any) => i.text).join(" → ") : (q.answers || [])[0] || "", category: q.category || "", tags: q.tags || [], used: q.used || null, pct: q.pct })) });
+      return json({ questions: qs.map((q) => ({ id: q.id, text: q.text || q.phrase || q.place || "", answer: q.type === "choice" ? (q.options || []).find((o: any) => o.id === q.correct)?.text : q.type === "tf" ? String(q.answer) : q.type === "wheel" ? q.phrase : q.type === "pin" ? q.place : q.type === "order" ? (q.items || []).map((i: any) => i.text).join(" → ") : (q.answers || [])[0] || "", category: q.category || "", tags: q.tags || [], used: q.used || null, pct: q.pct, rejected: !!q.used?.rejected })) });
+    }
+    if (action === "bank_restore") {
+      // Back to fresh: clears the used stamp (rejected or not) so the item can go into a quiz again.
+      const type = String(body.type || ""), id = String(body.id || "");
+      const row = await bankRow(type);
+      const q = row.questions.find((x: any) => x.id === id);
+      if (!q) return json({ error: "That bank item no longer exists." }, 404);
+      delete q.used; await bankSave(row);
+      return json({ ok: true });
+    }
+    if (action === "bank_edit") {
+      // Replaces a bank item's content (same id and stock status), for tidying up rejected ones.
+      const type = String(body.type || ""), id = String(body.id || "");
+      const row = await bankRow(type);
+      const i = row.questions.findIndex((x: any) => x.id === id);
+      if (i < 0) return json({ error: "That bank item no longer exists." }, 404);
+      const nq = body.question && typeof body.question === "object" ? body.question : null;
+      if (!nq || nq.type !== type) return json({ error: "Nothing to save." }, 400);
+      const keep = row.questions[i];
+      row.questions[i] = { ...nq, id, category: keep.category, tags: keep.tags, used: body.fresh ? undefined : keep.used };
+      if (body.fresh) delete row.questions[i].used;
+      await bankSave(row);
+      return json({ ok: true });
+    }
+    if (action === "bank_reject") {
+      // "I don't like this question": the bank item it came from (or the question itself, added to the bank)
+      // is stamped used + rejected, so it never comes round again but can be reviewed and improved later.
+      const q = body.question && typeof body.question === "object" ? body.question : null;
+      if (!q || !q.type) return json({ error: "Nothing to reject." }, 400);
+      const quizId = UUID_RE.test(String(body.quizId || "")) ? String(body.quizId) : "";
+      const row = await bankRow(String(q.type));
+      const at = new Date().toISOString();
+      let item = row.questions.find((x: any) => x.id === q.bankId) || row.questions.find((x: any) => nearDuplicate(x, q));
+      let added = false;
+      if (!item) {
+        item = { ...q, id: "q_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8), category: String(body.category || q.category || "").slice(0, 60), tags: (q.tags || []).slice(0, 12) };
+        delete item.fromBank; delete item.round; delete item.bankId; delete item.check;
+        row.questions.push(item); added = true;
+      }
+      item.used = { quiz: quizId, at, rejected: true, note: String(body.note || "").slice(0, 200) };
+      await bankSave(row);
+      return json({ ok: true, id: item.id, added });
+    }
+    if (action === "bank_restock") {
+      // Puts a finished quiz's questions back into stock and deletes the quiz: bank-sourced ones go back to
+      // unused, AI-written ones are added (skipping anything that is already in the bank or near enough).
+      const id = String(body.id || "");
+      if (!UUID_RE.test(id)) return json({ error: "Bad quiz id." }, 400);
+      const rows = await rest(`quiz_quizzes?id=eq.${id}&select=*`);
+      const quiz = rows?.[0];
+      if (!quiz) return json({ error: "That quiz no longer exists." }, 404);
+      if (quiz.settings?.bank) return json({ error: "That is a bank row, not a quiz." }, 400);
+      const roundTitle = (rid: string) => String((Array.isArray(quiz.settings?.rounds) ? quiz.settings.rounds : []).find((r: any) => r?.id === rid)?.title || "");
+      const banks = await bankRows();
+      const out: Record<string, { restored: number; added: number; skipped: number }> = {};
+      const touched = new Set<any>();
+      // 1. anything this quiz took from the bank goes back to fresh (rejected stays rejected)
+      for (const row of banks) for (const q of row.questions || []) if (q.used && q.used.quiz === id && !q.used.rejected) { delete q.used; touched.add(row); const t = row.settings.type; out[t] = out[t] || { restored: 0, added: 0, skipped: 0 }; out[t].restored++; }
+      // 2. everything the writer made goes in as new stock, with a duplicate check against the whole bank of its type
+      for (const q of (Array.isArray(quiz.questions) ? quiz.questions : [])) {
+        if (!q || !q.type) continue;
+        const t = String(q.type); out[t] = out[t] || { restored: 0, added: 0, skipped: 0 };
+        if (q.fromBank || q.bankId) continue; // already counted under restored
+        let row = banks.find((r) => r.settings?.type === t);
+        if (!row) { row = await bankRow(t); banks.push(row); }
+        const key = bankKey(q);
+        if (!key || row.questions.some((x: any) => nearDuplicate(x, q))) { out[t].skipped++; continue; }
+        const c = { ...q, id: "q_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8), category: String(q.category || roundTitle(q.round) || "").slice(0, 60), tags: (q.tags || []).slice(0, 12) };
+        delete c.used; delete c.fromBank; delete c.round; delete c.bankId; delete c.check;
+        row.questions.push(c); touched.add(row); out[t].added++;
+      }
+      for (const row of touched) { if (JSON.stringify(row.questions).length > 1_900_000) return json({ error: `The ${row.settings.type} bank row is full.` }, 413); await bankSave(row); }
+      if (body.keep !== true) await rest(`quiz_quizzes?id=eq.${id}`, { method: "DELETE" });
+      return json({ ok: true, title: quiz.title, deleted: body.keep !== true, result: out });
     }
     if (action === "bank_delete") {
       const type = String(body.type || ""), id = String(body.id || "");
@@ -899,9 +973,7 @@ Deno.serve(async (req) => {
       if (!items.length) return json({ error: "Nothing to import." }, 400);
       const { questions, warnings } = await finishRaw(items, items.length, [], true);
       const row = await bankRow(type);
-      // What makes two items "the same": the phrase for dingbats and wheels, the place for pins, the track for tunes, the wording otherwise.
-      const keyOf = (q: any) => norm(q.type === "dingbat" ? (q.answers || [])[0] || "" : q.type === "tune" ? `${q.track} ${q.artist}` : q.type === "pin" ? q.place || q.text : q.phrase || q.text || "");
-      const rawKey = (r: any) => norm(r.type === "dingbat" ? (r.answers || [])[0] || "" : r.type === "tune" ? `${r.track} ${r.artist}` : r.type === "pin" ? r.place || r.text : r.phrase || r.text || "");
+      const keyOf = bankKey, rawKey = bankKey;
       const have = new Set(row.questions.map(keyOf));
       let added = 0;
       questions.forEach((q: any, n: number) => {
@@ -924,11 +996,11 @@ Deno.serve(async (req) => {
       const qs = (Array.isArray(body.questions) ? body.questions : []).filter((q: any) => q && q.type === type).slice(0, 40);
       if (!qs.length) return json({ error: "Nothing to add." }, 400);
       const row = await bankRow(type);
-      const keyOf = (q: any) => norm(q.type === "dingbat" ? (q.answers || [])[0] || "" : q.type === "tune" ? `${q.track} ${q.artist}` : q.type === "pin" ? q.place || q.text : q.phrase || q.text || "");
+      const keyOf = bankKey;
       const have = new Set(row.questions.map(keyOf));
       let added = 0;
       for (const q of qs) {
-        const key = keyOf(q); if (!key || have.has(key)) continue;
+        const key = keyOf(q); if (!key || have.has(key) || row.questions.some((x: any) => nearDuplicate(x, q))) continue;
         have.add(key);
         const c = { ...q, id: "q_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8), category, tags: [...new Set([...(q.tags || []), ...tags])] };
         delete c.used; delete c.fromBank; delete c.round;
@@ -1032,6 +1104,34 @@ Deno.serve(async (req) => {
 // stamp once it has gone into a quiz, so it never comes round again.
 const BANK_LOW = 25;
 const EVERGREEN = ["club", "dingbat", "wheel", "pin", "tune"]; // theme-free types: any unused item will do when the round has no matching one
+/** What makes two items "the same": the phrase for dingbats and wheels, the place for pins, the track for tunes, the wording otherwise. */
+function bankKey(q: any): string { return norm(q?.type === "dingbat" ? (q.answers || [])[0] || "" : q?.type === "tune" ? `${q.track} ${q.artist}` : q?.type === "pin" ? q.place || q.text : q?.phrase || q?.text || ""); }
+/** The right answer of a finished question, as plain text, for near-duplicate checks. */
+function bankAnswer(q: any): string {
+  if (!q) return "";
+  if (q.type === "choice") return String((q.options || []).find((o: any) => o.id === q.correct)?.text || "");
+  if (q.type === "tf") return String(q.answer);
+  if (q.type === "wheel") return String(q.phrase || "");
+  if (q.type === "pin") return String(q.place || "");
+  if (q.type === "tune") return `${q.track} ${q.artist}`;
+  if (q.type === "smash") return `${q.pictureAnswer} ${q.clueAnswer}`;
+  if (q.type === "order" || q.type === "sort" || q.type === "match" || q.type === "wipeout") return (q.items || q.pairs || []).map((i: any) => i.text || i.left || "").join(" ");
+  return String((q.answers || [])[0] || "");
+}
+const DUP_STOP = new Set(["which", "what", "who", "where", "when", "this", "that", "these", "those", "from", "with", "does", "were", "was", "the", "and", "for", "has", "have", "had", "his", "her", "their", "its", "into", "name", "called", "many", "much", "following"]);
+const tokens = (s: string) => new Set(norm(s).split(" ").filter((w) => w.length >= 3 && !DUP_STOP.has(w)));
+/** True when two items ask the same thing another way: same answer and most of the same words, or nearly identical wording. */
+function nearDuplicate(a: any, b: any): boolean {
+  if (a.type !== b.type) return false;
+  const ka = bankKey(a), kb = bankKey(b);
+  if (ka && ka === kb) return true;
+  const ta = tokens(ka), tb = tokens(kb);
+  if (!ta.size || !tb.size) return false;
+  let shared = 0; for (const w of ta) if (tb.has(w)) shared++;
+  const overlap = shared / Math.min(ta.size, tb.size);
+  const sameAnswer = norm(bankAnswer(a)) === norm(bankAnswer(b)) && norm(bankAnswer(a)).length > 1;
+  return overlap >= 0.8 || (sameAnswer && overlap >= 0.5);
+}
 async function bankRows(): Promise<any[]> {
   return (await rest(`quiz_quizzes?settings->>bank=eq.true&select=id,title,settings,questions`)) || [];
 }
@@ -1070,7 +1170,7 @@ async function bankTake(type: string, need: number, topic: string, brief: string
   const at = new Date().toISOString();
   for (const q of picked) q.used = { quiz: quizId, at };
   await bankSave(row);
-  return picked.map((q) => { const c = JSON.parse(JSON.stringify(q)); delete c.used; c.id = "q_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8); c.fromBank = true; return c; });
+  return picked.map((q) => { const c = JSON.parse(JSON.stringify(q)); delete c.used; c.bankId = q.id; c.id = "q_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8); c.fromBank = true; return c; });
 }
 
 // ---------------------------------------------------------------- Name That Tune: Apple's public search for 30-second previews

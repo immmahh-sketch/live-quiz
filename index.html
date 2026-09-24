@@ -132,16 +132,19 @@ async function bankModal(type) {
   const m = modal(`<h3>🏦 ${TYPES[type].icon} ${esc(TYPES[type].label)} bank</h3><p class="muted small">Loading…</p>`);
   let list = [];
   try { list = (await api('bank_list', { type })).questions; } catch (e) { $('p', m).textContent = e.message; return; }
-  let filter = '';
+  let filter = '', show = 'all';
   const draw = () => {
-    const rows = list.filter((q) => !filter || (q.text + ' ' + q.answer + ' ' + q.category).toLowerCase().includes(filter));
-    const unused = list.filter((q) => !q.used).length;
+    const rows = list.filter((q) => (show === 'all' || (show === 'rejected' ? q.rejected : show === 'fresh' ? !q.used : q.used && !q.rejected)) && (!filter || (q.text + ' ' + q.answer + ' ' + q.category).toLowerCase().includes(filter)));
+    const unused = list.filter((q) => !q.used).length, rejected = list.filter((q) => q.rejected).length;
     m.innerHTML = `<h3>🏦 ${TYPES[type].icon} ${esc(TYPES[type].label)} bank <span class="muted small">· ${unused} unused of ${list.length}</span></h3>
-      <div class="row" style="margin-bottom:8px"><input type="text" id="bk_f" class="grow" placeholder="Search the bank" value="${esc(filter)}"><button class="btn btn-ghost btn-sm" data-x>Close</button></div>
-      <div class="banklist">${rows.slice(0, 400).map((q) => `<div class="bankrow ${q.used ? 'used' : ''}"><div><div class="t">${esc(q.text)}${q.pct ? ` <span class="tag">${q.pct}%</span>` : ''}</div><div class="a">${esc(q.answer || '')}${q.category ? ` <span class="muted">· ${esc(q.category)}</span>` : ''}${q.used ? ` <span class="usedtag">used ${esc((q.used.at || '').slice(0, 10))}</span>` : ''}</div></div><button class="btn btn-ghost btn-sm" data-bd="${esc(q.id)}" title="Remove from the bank">✕</button></div>`).join('')}${rows.length > 400 ? `<p class="muted small">Showing 400 of ${rows.length}; narrow the search.</p>` : ''}</div>`;
+      <div class="row" style="margin-bottom:8px"><input type="text" id="bk_f" class="grow" placeholder="Search the bank" value="${esc(filter)}"><select id="bk_show"><option value="all" ${show === 'all' ? 'selected' : ''}>Everything</option><option value="fresh" ${show === 'fresh' ? 'selected' : ''}>Fresh (${unused})</option><option value="used" ${show === 'used' ? 'selected' : ''}>Used in a quiz</option><option value="rejected" ${show === 'rejected' ? 'selected' : ''}>👎 Rejected (${rejected})</option></select><button class="btn btn-ghost btn-sm" data-x>Close</button></div>
+      ${show === 'rejected' ? '<p class="muted small" style="margin:0 0 8px">Questions a host turned down. Restore puts one back into stock as it is; Delete drops it for good. To improve one, restore it and edit it in the quiz it next appears in, or just delete it.</p>' : ''}
+      <div class="banklist">${rows.slice(0, 400).map((q) => `<div class="bankrow ${q.used ? 'used' : ''}"><div><div class="t">${esc(q.text)}${q.pct ? ` <span class="tag">${q.pct}%</span>` : ''}</div><div class="a">${esc(q.answer || '')}${q.category ? ` <span class="muted">· ${esc(q.category)}</span>` : ''}${q.used ? ` <span class="usedtag">${q.rejected ? '👎 rejected' : 'used'} ${esc((q.used.at || '').slice(0, 10))}</span>` : ''}</div></div><div class="row" style="gap:4px">${q.used ? `<button class="btn btn-ghost btn-sm" data-br="${esc(q.id)}" title="Back into stock as a fresh question">↺</button>` : ''}<button class="btn btn-ghost btn-sm" data-bd="${esc(q.id)}" title="Remove from the bank">✕</button></div></div>`).join('')}${rows.length > 400 ? `<p class="muted small">Showing 400 of ${rows.length}; narrow the search.</p>` : ''}</div>`;
     $('#bk_f', m).oninput = (e) => { filter = e.target.value.toLowerCase(); draw(); $('#bk_f', m).focus(); $('#bk_f', m).setSelectionRange(filter.length, filter.length); };
     $('[data-x]', m).onclick = () => m.remove();
-    $$('[data-bd]', m).forEach((b) => b.onclick = async () => { try { await api('bank_delete', { type, id: b.dataset.bd }); list = list.filter((q) => q.id !== b.dataset.bd); draw(); } catch (e) { toast(e.message, true); } });
+    $('#bk_show', m).onchange = (e) => { show = e.target.value; draw(); };
+    $('[data-bd]', m).forEach((b) => b.onclick = async () => { try { await api('bank_delete', { type, id: b.dataset.bd }); list = list.filter((q) => q.id !== b.dataset.bd); draw(); } catch (e) { toast(e.message, true); } });
+    $('[data-br]', m).forEach((b) => b.onclick = async () => { try { await api('bank_restore', { type, id: b.dataset.br }); const q = list.find((x) => x.id === b.dataset.br); if (q) { q.used = null; q.rejected = false; } draw(); } catch (e) { toast(e.message, true); } });
   };
   draw();
 }
@@ -453,7 +456,7 @@ function renderQForm() {
   const n = S.sel + 1, ck = checkState(q);
   box.innerHTML = `
     <div class="row" style="justify-content:space-between;margin-bottom:10px"><h3 style="margin:0">Question ${n} <span class="muted">· ${TYPES[q.type].icon} ${esc(TYPES[q.type].label)}</span></h3>
-      <div class="row"><button class="btn btn-ghost btn-sm" id="dupQ">Duplicate</button><button class="btn btn-ghost btn-sm" id="delQ" style="color:var(--bad)">Delete</button></div></div>
+      <div class="row"><button class="btn btn-ghost btn-sm" id="rejQ" title="Mark it rejected in the bank so it never comes round again, and write a replacement">👎 Not this one</button><button class="btn btn-ghost btn-sm" id="dupQ">Duplicate</button><button class="btn btn-ghost btn-sm" id="delQ" style="color:var(--bad)">Delete</button></div></div>
     ${ck ? `<div class="checknote ${ck}"><b>${{ ok: '✓ Checked: looks right.', doubt: '? Worth a look.', wrong: '✗ Looks wrong.', stale: '~ Changed since it was checked.' }[ck]}</b> ${esc(q.check.note || '')}${q.check.fix && ck !== 'ok' ? `<div class="mt" style="margin-top:6px"><b>Suggested answer:</b> ${esc(q.check.fix)}</div>` : ''}<div class="row" style="margin-top:8px;gap:6px"><button class="btn btn-ghost btn-sm" id="recheck">Check again</button><button class="btn btn-ghost btn-sm" id="clearCheck">Dismiss</button></div></div>` : ''}
     ${q.type === 'wheel' ? '' : `<div class="field"><label>${q.type === 'smash' ? 'The clue' : q.type === 'highlow' ? 'The highbrow clue' : q.type === 'rhyme' ? 'The first clue' : q.type === 'dingbat' ? 'Instruction on the screen (optional)' : q.type === 'tune' ? 'Wording on the screen (optional — the ask below sets a default)' : 'Question'}</label><textarea id="f_text" placeholder="${esc(placeholderFor(q.type))}">${esc(q.text)}</textarea></div>`}
     <div id="typeBox"></div>
@@ -478,7 +481,30 @@ function renderQForm() {
   if ($('#clearCheck')) $('#clearCheck').onclick = () => { delete q.check; touch(); renderQList(); renderQForm(); };
   $('#dupQ').onclick = () => { const c = JSON.parse(JSON.stringify(q)); c.id = uid('q'); delete c.check; S.quiz.questions.splice(S.sel + 1, 0, c); touch(); S.sel = S.quiz.questions.findIndex((x) => x.id === c.id); renderQList(); renderQForm(); };
   $('#delQ').onclick = async () => { if (!(await confirmBox('Delete this question?', 'It will be removed from the quiz.'))) return; S.quiz.questions.splice(S.sel, 1); S.sel = Math.max(0, Math.min(S.sel, S.quiz.questions.length - 1)); touch(); renderQList(); renderQForm(); };
+  $('#rejQ').onclick = () => rejectQuestion(q);
   renderTypeBox(); if ($('#mediaBox')) renderMediaBox(); showProblems();
+}
+/** "I don't like this question": stamps it rejected in the bank (adding it there if the writer made it), then writes one replacement of the same type for the same round. */
+async function rejectQuestion(q) {
+  if (!(await confirmBox('Not this one?', 'It goes into the bank marked rejected, so it never comes round again and you can improve it later from the bank panel. A replacement is written in its place.', 'Reject and replace'))) return;
+  const r = S.quiz.rounds.find((x) => x.id === q.round) || S.quiz.rounds[0] || { title: S.quiz.title, brief: '' };
+  const m = modal(`<h3>👎 Replacing question ${S.sel + 1}</h3><div class="gen-progress"><span class="spinner"></span><span id="rj_step">Marking it rejected in the bank…</span></div>`);
+  try {
+    if (!S.quiz.id) await save();
+    await api('bank_reject', { question: q, quizId: S.quiz.id, category: r.title || '' });
+    const at = S.quiz.questions.indexOf(q);
+    S.quiz.questions.splice(at, 1); touch(); renderQList();
+    $('#rj_step', m).textContent = `Writing a new ${TYPES[q.type].label} question…`;
+    const avoid = [...(await avoidList()), q.text].filter(Boolean);
+    const usedPictures = S.quiz.questions.flatMap((x) => [x.media?.source, x.media?.url]).filter((u) => typeof u === 'string' && /^https?:/.test(u));
+    const res = await api('generate', { topic: (r.brief ? `${r.title}. ${r.brief}` : r.title || S.quiz.title).slice(0, 200), title: r.title || S.quiz.title, brief: r.brief || '', usedPictures, count: 1, difficulty: 'mixed', types: [q.type], pictures: true, web: true, avoid, premium: !!S.quiz.settings.aiPremium, quizId: S.quiz.id }, { timeout: 170000 });
+    LQ.addUsage(S.quiz.settings, res.usage);
+    const nq = res.questions.find((x) => x.type === q.type);
+    if (nq) { nq.round = q.round; nq.time = timeFor(nq.type, S.quiz.settings); if (nq.collage && !nq.media?.url) { try { await buildCollageFor(nq); } catch {} } S.quiz.questions.splice(at, 0, nq); S.sel = at; }
+    else { S.sel = Math.max(0, Math.min(at, S.quiz.questions.length - 1)); toast('Nothing came back for the replacement; add one by hand.', true); }
+    touch(); renderQList(); renderQForm(); save();
+    m.remove(); toast(nq ? (res.fromBank ? 'Replaced from the bank.' : 'Replaced with a freshly written one.') : 'Rejected.');
+  } catch (e) { m.remove(); toast(e.message, true); renderQList(); renderQForm(); }
 }
 function placeholderFor(t) {
   return { choice: 'e.g. Which planet is closest to the Sun?', text: 'e.g. Who painted the Mona Lisa?', order: 'e.g. Put these events in order, earliest first', pin: 'e.g. Drop the pin on Namibia', match: 'e.g. Match the dog breed to its picture', race: 'e.g. The Race: capital cities', smash: 'e.g. Sega\'s blue hedgehog', highlow: 'e.g. Which chemical element, atomic number 79, has the symbol Au?', club: 'e.g. If planet Earth has a Heart, which body part does Mars have?', dingbat: 'e.g. Say what you see', tune: 'e.g. Name that Christmas number one', rhyme: 'e.g. Sherlock Holmes\'s companion', tf: 'e.g. The Great Wall of China is visible from space', sort: 'e.g. Sort these actors: who has been in Coronation Street?', wipeout: 'e.g. Footballers who have played for Newcastle United' }[t] || '';

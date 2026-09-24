@@ -1,0 +1,607 @@
+[
+{
+"type": "choice",
+"text": "What is the name of the coffee house in 'Friends'?",
+"options": [
+"Central Perk",
+"Central Park Café",
+"The Grind",
+"Java Joe's"
+]
+},
+{
+"type": "choice",
+"text": "Which character says 'How you doin'?'",
+"options": [
+"Joey",
+"Chandler",
+"Ross",
+"Gunther"
+]
+},
+{
+"type": "choice",
+"text": "What is Ross's job?",
+"options": [
+"Palaeontologist",
+"Archaeologist",
+"Dentist",
+"Statistician"
+]
+},
+{
+"type": "choice",
+"text": "What is the name of Ross's pet monkey?",
+"options": [
+"Marcel",
+"Marlon",
+"Marvin",
+"Mickey"
+]
+},
+{
+"type": "choice",
+"text": "Which soap opera does Joey star in as Dr Drake Ramoray?",
+"options": [
+"Days of Our Lives",
+"General Hospital",
+"The Bold and the Beautiful",
+"All My Children"
+]
+},
+{
+"type": "choice",
+"text": "What is Chandler's middle name?",
+"options": [
+"Muriel",
+"Marcel",
+"Maurice",
+"Milton"
+]
+},
+{
+"type": "choice",
+"text": "What instrument does Ross play, badly, in later series?",
+"options": [
+"Keyboard",
+"Bagpipes",
+"Guitar",
+"Drums"
+]
+},
+{
+"type": "choice",
+"text": "What is the name of Phoebe's twin sister?",
+"options": [
+"Ursula",
+"Regina",
+"Estelle",
+"Emma"
+]
+},
+{
+"type": "choice",
+"text": "Which city do the friends live in?",
+"options": [
+"New York",
+"Los Angeles",
+"Chicago",
+"Boston"
+]
+},
+{
+"type": "choice",
+"text": "Which character was once a masseuse?",
+"options": [
+"Phoebe",
+"Rachel",
+"Monica",
+"Janice"
+]
+},
+{
+"type": "choice",
+"text": "Who is Rachel's first boyfriend in the series, whom she jilts at the altar?",
+"options": [
+"Barry",
+"Paolo",
+"Tag",
+"Joshua"
+]
+},
+{
+"type": "choice",
+"text": "What is Monica's profession?",
+"options": [
+"Chef",
+"Fashion buyer",
+"Actress",
+"Data analyst"
+]
+},
+{
+"type": "choice",
+"text": "What is Rachel and Ross's daughter called?",
+"options": [
+"Emma",
+"Erica",
+"Ella",
+"Emily"
+]
+},
+{
+"type": "choice",
+"text": "Which animals do Joey and Chandler keep as pets?",
+"options": [
+"A chick and a duck",
+"Two cats",
+"A dog and a duck",
+"A parrot and a rabbit"
+]
+},
+{
+"type": "choice",
+"text": "Who does Monica marry?",
+"options": [
+"Chandler",
+"Richard",
+"Pete",
+"Joey"
+]
+},
+{
+"type": "choice",
+"text": "What is the name of Chandler's on-off girlfriend with the nasal laugh?",
+"options": [
+"Janice",
+"Kathy",
+"Monica",
+"Carol"
+]
+},
+{
+"type": "choice",
+"text": "Where did Ross and Rachel get drunk and married?",
+"options": [
+"Las Vegas",
+"Atlantic City",
+"Miami",
+"London"
+]
+},
+{
+"type": "choice",
+"text": "In which city does Ross marry Emily?",
+"options": [
+"London",
+"New York",
+"Paris",
+"Dublin"
+]
+},
+{
+"type": "choice",
+"text": "How many times has Ross been divorced by the end of the series?",
+"options": [
+"Three",
+"Two",
+"Four",
+"One"
+]
+},
+{
+"type": "choice",
+"text": "What is the name of Joey's stuffed penguin?",
+"options": [
+"Hugsy",
+"Huggy",
+"Cuddles",
+"Percy"
+]
+},
+{
+"type": "choice",
+"text": "Which character's catchphrase is 'We were on a break!'?",
+"options": [
+"Ross",
+"Rachel",
+"Chandler",
+"Joey"
+]
+},
+{
+"type": "choice",
+"text": "Which actress plays Rachel?",
+"options": [
+"Jennifer Aniston",
+"Courteney Cox",
+"Lisa Kudrow",
+"Helen Hunt"
+]
+},
+{
+"type": "choice",
+"text": "What is the name of the song Phoebe is famous for?",
+"options": [
+"Smelly Cat",
+"Sticky Shoes",
+"Grumpy Dog",
+"Lonely Sock"
+]
+},
+{
+"type": "choice",
+"text": "Which character has a job at Bloomingdale's and later Ralph Lauren?",
+"options": [
+"Rachel",
+"Monica",
+"Phoebe",
+"Ursula"
+]
+},
+{
+"type": "choice",
+"text": "What does Joey refuse to share?",
+"options": [
+"Food",
+"His couch",
+"Clothes",
+"His sandwiches only"
+]
+},
+{
+"type": "choice",
+"text": "Which famous actor played Rachel's boyfriend Will in the Thanksgiving episode?",
+"options": [
+"Brad Pitt",
+"George Clooney",
+"Tom Selleck",
+"Bruce Willis"
+]
+},
+{
+"type": "choice",
+"text": "Which actor plays Richard, Monica's older boyfriend?",
+"options": [
+"Tom Selleck",
+"Kevin Costner",
+"Alec Baldwin",
+"Jon Lovitz"
+]
+},
+{
+"type": "choice",
+"text": "In the last episode, where are Chandler and Monica moving to?",
+"options": [
+"Westchester",
+"New Jersey",
+"Long Island",
+"Connecticut"
+]
+},
+{
+"type": "choice",
+"text": "What is the name of Ross and Carol's son?",
+"options": [
+"Ben",
+"Sam",
+"Jack",
+"Charlie"
+]
+},
+{
+"type": "choice",
+"text": "What year did 'Friends' first air?",
+"options": [
+"1994",
+"1992",
+"1996",
+"1998"
+]
+},
+{
+"type": "text",
+"text": "Who manages Central Perk and secretly loves Rachel?",
+"answers": [
+"Gunther"
+]
+},
+{
+"type": "text",
+"text": "What is Joey's surname?",
+"answers": [
+"Tribbiani"
+]
+},
+{
+"type": "text",
+"text": "What is Chandler's surname?",
+"answers": [
+"Bing"
+]
+},
+{
+"type": "text",
+"text": "What is Monica and Ross's surname?",
+"answers": [
+"Geller"
+]
+},
+{
+"type": "text",
+"text": "What is Rachel's surname?",
+"answers": [
+"Green",
+"Greene"
+]
+},
+{
+"type": "text",
+"text": "What is Phoebe's surname?",
+"answers": [
+"Buffay"
+]
+},
+{
+"type": "text",
+"text": "Which word does Chandler famously give as his made-up job title in the quiz?",
+"answers": [
+"Transponster"
+]
+},
+{
+"type": "text",
+"text": "Complete the catchphrase: 'Oh. My. ___.'",
+"answers": [
+"God"
+]
+},
+{
+"type": "text",
+"text": "Which actor plays Joey?",
+"answers": [
+"Matt LeBlanc",
+"LeBlanc"
+]
+},
+{
+"type": "text",
+"text": "Which actor plays Chandler?",
+"answers": [
+"Matthew Perry",
+"Perry"
+]
+},
+{
+"type": "text",
+"text": "Which actor plays Ross?",
+"answers": [
+"David Schwimmer",
+"Schwimmer"
+]
+},
+{
+"type": "text",
+"text": "Which actress plays Phoebe?",
+"answers": [
+"Lisa Kudrow",
+"Kudrow"
+]
+},
+{
+"type": "text",
+"text": "Which actress plays Monica?",
+"answers": [
+"Courteney Cox",
+"Cox"
+]
+},
+{
+"type": "text",
+"text": "What word does Ross shout repeatedly while carrying a sofa upstairs?",
+"answers": [
+"Pivot"
+]
+},
+{
+"type": "text",
+"text": "Which band sang the 'Friends' theme tune 'I'll Be There for You'?",
+"answers": [
+"The Rembrandts",
+"Rembrandts"
+]
+},
+{
+"type": "text",
+"text": "What colour is the famous couch in Central Perk?",
+"answers": [
+"Orange"
+]
+},
+{
+"type": "text",
+"text": "What is the name of Phoebe's scientist husband, played by Paul Rudd?",
+"answers": [
+"Mike",
+"Mike Hannigan"
+]
+},
+{
+"type": "text",
+"text": "What is the name of Joey's agent?",
+"answers": [
+"Estelle",
+"Estelle Leonard"
+]
+},
+{
+"type": "text",
+"text": "Which country does Chandler pretend to move to in order to escape Janice?",
+"answers": [
+"Yemen"
+]
+},
+{
+"type": "text",
+"text": "What are the names of Monica and Chandler's twins?",
+"answers": [
+"Jack and Erica",
+"Erica and Jack"
+]
+},
+{
+"type": "text",
+"text": "How many seasons of 'Friends' were made?",
+"answers": [
+"10",
+"Ten"
+]
+},
+{
+"type": "text",
+"text": "Which Thanksgiving food does Rachel ruin by mixing it with a shepherd's pie?",
+"answers": [
+"Trifle",
+"The trifle"
+]
+},
+{
+"type": "text",
+"text": "What is Phoebe's alter ego when she wants to be someone else?",
+"answers": [
+"Regina Phalange",
+"Regina"
+]
+},
+{
+"type": "text",
+"text": "What is the name of the little girl scout Ross accidentally breaks the leg of?",
+"answers": [
+"Sarah"
+]
+},
+{
+"type": "tf",
+"text": "'Friends' ran from 1994 to 2004.",
+"answer": true
+},
+{
+"type": "tf",
+"text": "Phoebe gave birth to triplets for her brother Frank.",
+"answer": true
+},
+{
+"type": "tf",
+"text": "Ross's first wife Carol left him for a man.",
+"answer": false
+},
+{
+"type": "tf",
+"text": "Monica was overweight as a teenager.",
+"answer": true
+},
+{
+"type": "tf",
+"text": "Chandler's father is a Las Vegas drag performer.",
+"answer": true
+},
+{
+"type": "tf",
+"text": "Rachel and Joey never dated.",
+"answer": false
+},
+{
+"type": "tf",
+"text": "The final episode of 'Friends' was watched by over 50 million people in the US.",
+"answer": true
+},
+{
+"type": "tf",
+"text": "Ross and Monica's parents are called Jack and Judy.",
+"answer": true
+},
+{
+"type": "tf",
+"text": "Central Perk is on the ground floor of the friends' apartment building.",
+"answer": true
+},
+{
+"type": "tf",
+"text": "Rachel gives birth in season eight.",
+"answer": true
+},
+{
+"type": "tf",
+"text": "Joey's spin-off series was called 'Joey'.",
+"answer": true
+},
+{
+"type": "order",
+"text": "Put these 'Friends' events in order",
+"items": [
+"Rachel arrives in a wedding dress",
+"Ross and Rachel's first kiss",
+"Monica and Chandler get together in London",
+"Rachel gets off the plane"
+],
+"hint": "first to last"
+},
+{
+"type": "sort",
+"text": "Who dated whom? Sort these partners to the friend they dated",
+"categories": [
+"Ross",
+"Rachel",
+"Monica"
+],
+"items": [
+{
+"text": "Emily",
+"category": "Ross"
+},
+{
+"text": "Tag",
+"category": "Rachel"
+},
+{
+"text": "Richard",
+"category": "Monica"
+},
+{
+"text": "Carol",
+"category": "Ross"
+},
+{
+"text": "Paolo",
+"category": "Rachel"
+},
+{
+"text": "Pete",
+"category": "Monica"
+}
+]
+},
+{
+"type": "sort",
+"text": "Job or not their job?",
+"categories": [
+"Chef",
+"Actor",
+"Palaeontologist"
+],
+"items": [
+{
+"text": "Monica",
+"category": "Chef"
+},
+{
+"text": "Joey",
+"category": "Actor"
+},
+{
+"text": "Ross",
+"category": "Palaeontologist"
+}
+]
+}
+]
