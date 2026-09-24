@@ -37,6 +37,7 @@ window.LQ = (() => {
       const msg = data.error || (r.status === 504 || r.status === 546 ? 'The server took too long on that. Try again, or ask for fewer at once.' : 'Request failed (' + r.status + ')');
       const err = new Error(msg); err.status = r.status; throw err;
     }
+    if (action === 'generate' && data && typeof data === 'object') Object.defineProperty(data, '__req', { value: payload, enumerable: false }); // for the build log
     return data;
   }
   function client() {
@@ -104,7 +105,43 @@ window.LQ = (() => {
     while (i < bs.length && seen < n) { if (/[a-z0-9]/i.test(bs[i].normalize('NFD')[0])) seen++; i++; }
     return { smash: String(a).trimEnd() + bs.slice(i), overlap: n };
   }
-  const EMOJIS = ['🦊', '🐸', '🐼', '🦁', '🐙', '🦄', '🐢', '🐝', '🦖', '🐧', '🐨', '🦉', '🐬', '🦋', '🍕', '🚀', '🎸', '🏆', '👾', '🧙'];
+  const EMOJIS = ['🦊', '🐸', '🐼', '🦁', '🐙', '🦄', '🐢', '🐝', '🦖', '🐧', '🐨', '🦉', '🐬', '🦋', '🍕', '🚀', '🎸', '🏆', '👾', '🧙',
+    '🐶', '🐱', '🐯', '🐮', '🐷', '🐵', '🦒', '🦓', '🐘', '🦈', '🐳', '🦀', '🐞', '🦜', '🌵', '🌈', '⚡', '🍔', '🎮', '👑'];
+  /** What a player needs to know before a run of questions of a new type: shown on the title card, on the screen and the phones. */
+  const HOWTO = {
+    choice: 'Four answers on your phone. Tap the right one. The faster you are, the more you score.',
+    text: 'Type your answer on your phone. Close spellings count.',
+    order: 'Put the items on your phone into the right order, then lock it in.',
+    pin: 'Work out the answer, then drop your pin on it. The closer you are, the more you score.',
+    match: 'Tap an item, then tap its partner, until everything is paired up.',
+    tf: 'True or false? Tap your answer. Quick!',
+    sort: 'Put each answer into the right category.',
+    wipeout: 'A board full of answers, and some of them are wrong. You get a good look first, then take turns to pick a right one. Pick a wrong one and you are wiped out.',
+    race: 'Quick-fire questions on your phone. First to the target wins the bonus. Watch your emoji race across the screen.',
+    smash: 'Name the picture, answer the clue, then smash the two together where they overlap: Brad Pitt + Pittsburgh = Brad Pittsburgh.',
+    wheel: 'A hidden phrase. Letters turn over one at a time. Solve it on your phone: the sooner you do, the more you score.',
+    highlow: 'A hard clue on the screen. Stuck? Tap your phone for the easy clue, for half the points.',
+    rhyme: 'Two clues whose answers rhyme. Type both answers.',
+    club: 'No knowledge needed, just logic. The fewer people who get it, the more it is worth.',
+    dingbat: 'Say what you see: a well-known phrase hidden in how the words are laid out.',
+    tune: 'Listen to the clip and answer on your phone.',
+  };
+  /** The build log: every writer call for a quiz, with what was asked and what came back, kept in its settings. */
+  function genLog(settings, how, res, extra = {}) {
+    if (!settings || !res) return;
+    const q = res.__req || {};
+    const got = (res.questions || []).map((x) => ({ type: x.type, text: String(x.text || x.phrase || x.place || x.track || '').slice(0, 140), bank: !!x.fromBank }));
+    pushLog(settings, { at: new Date().toISOString(), how, round: extra.round || q.title || '', topic: String(q.topic || ''), brief: String(q.brief || '').slice(0, 600), types: q.types || [], asked: q.count || 0, difficulty: q.difficulty || '', fromBank: res.fromBank || 0, written: Math.max(0, got.length - (res.fromBank || 0)), keywords: res.bankInfo?.keywords || null, matching: res.bankInfo?.matching ?? null, got, warnings: (res.warnings || []).slice(0, 4) });
+  }
+  function genPlan(settings, how, rounds) {
+    pushLog(settings, { at: new Date().toISOString(), how, plan: (rounds || []).map((r) => ({ title: r.title || '', brief: String(r.brief || '').slice(0, 600), mix: r.mix || {} })) });
+  }
+  function pushLog(settings, entry) {
+    if (!settings) return;
+    settings.buildLog = Array.isArray(settings.buildLog) ? settings.buildLog : [];
+    settings.buildLog.push(entry);
+    if (settings.buildLog.length > 150) settings.buildLog.splice(0, settings.buildLog.length - 150);
+  }
   const COLORS = [
     { name: 'red',    hex: '#e21b3c', shape: '▲' },
     { name: 'blue',   hex: '#1368ce', shape: '◆' },
@@ -166,7 +203,7 @@ window.LQ = (() => {
     if (type === 'match') { q.pairs = [0, 1, 2, 3].map(() => ({ id: uid('p'), left: '', right: { kind: 'text', value: '' } })); }
     if (type === 'tf') { q.answer = true; }
     if (type === 'sort') { q.categories = [0, 1].map(() => ({ id: uid('c'), name: '' })); q.items = [0, 1, 2, 3].map(() => ({ id: uid('i'), text: '', category: q.categories[0].id })); }
-    if (type === 'wipeout') { q.right = Array.from({ length: 8 }, () => ({ id: uid('w'), text: '' })); q.wrong = Array.from({ length: 3 }, () => ({ id: uid('w'), text: '' })); q.pickPoints = 200; q.penalty = 500; q.study = 10; }
+    if (type === 'wipeout') { q.right = Array.from({ length: 8 }, () => ({ id: uid('w'), text: '' })); q.wrong = Array.from({ length: 3 }, () => ({ id: uid('w'), text: '' })); q.pickPoints = 200; q.penalty = 500; q.study = 20; }
     if (type === 'race') { q.target = 10; q.perCorrect = 100; q.prize = 500; q.prize2 = 200; q.prize3 = 100; q.forfeit = 200; q.bank = Array.from({ length: 20 }, () => newBankItem()); }
     return q;
   }
@@ -403,6 +440,6 @@ window.LQ = (() => {
   function ordinal(n) { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
   return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
-    TYPES, EMOJIS, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
+    TYPES, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
     newCode, playUrl, shortPlayUrl, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml, addUsage, usageCost, usageSummary, AI_PRICES, TUNE_ASKS, tunePrompt, bigArt, cleanTitle };
 })();

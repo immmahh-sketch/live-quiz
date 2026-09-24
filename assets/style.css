@@ -255,7 +255,7 @@ textarea { min-height: 80px; resize: vertical; }
 .rprog b { color: var(--brand); }
 .rflash { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 5rem; pointer-events: none; animation: rflash .5s ease forwards; z-index: 30; }
 @keyframes rflash { 0% { opacity: 0; transform: scale(.6); } 30% { opacity: 1; transform: scale(1.1); } 100% { opacity: 0; transform: scale(1); } }
-.emopick { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.emopick { display: grid; grid-template-columns: repeat(auto-fill, minmax(44px, 1fr)); gap: 6px; max-height: 232px; overflow-y: auto; padding: 2px; }
 .emopick button { font-size: 1.6rem; padding: 6px 0; border: 2px solid var(--line); border-radius: 12px; background: #fff; cursor: pointer; }
 .emopick button.on { border-color: var(--brand); background: var(--brand-soft); }
 
@@ -617,3 +617,19 @@ body.solo .stage { padding-right: calc(min(390px, 100vw) + 20px); }
   .solopanel { top: auto; left: 0; width: 100%; height: 52vh; border-left: 0; border-top: 3px solid var(--sun); box-shadow: 0 -10px 40px rgba(0,0,0,.35); }
   body.solo .stage { padding-right: 14px; padding-bottom: calc(52vh + 20px); }
 }
+
+/* ---------------------------------------------------------------- pause, type title cards, build log, Kahoot import */
+.pauseveil { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px; background: rgba(14,10,48,.86); color: #fff; }
+.pauseveil h1, .pauseveil h2 { color: #fff; margin: 6px 0; } .pauseveil .em { font-size: 4rem; } .pauseveil p { opacity: .85; font-weight: 700; }
+.pausebtn { position: fixed; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); width: 48px; height: 48px; border-radius: 50%; border: 0; background: var(--brand); color: #fff; font-size: 1.25rem; z-index: 40; box-shadow: 0 6px 20px rgba(0,0,0,.25); cursor: pointer; }
+.typecard .tc-icon { font-size: clamp(4rem, 12vw, 9rem); line-height: 1; }
+.typecard .tc-next { opacity: .8; font-weight: 800; font-size: clamp(1.1rem, 2vw, 1.6rem); }
+.typecard .tc-how { font-size: clamp(1.1rem, 2.2vw, 1.8rem); font-weight: 800; max-width: 1000px; text-wrap: balance; opacity: .92; margin: 0; }
+.buildlog { max-height: 62vh; overflow: auto; }
+.logrow { border-top: 1px solid var(--line); padding: 10px 2px; }
+.logrow.plan { background: var(--brand-soft); border-radius: 10px; padding: 10px; margin: 6px 0; }
+.logrow ol { margin: 6px 0 0 20px; padding: 0; }
+.kprev { max-height: 48vh; overflow: auto; display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+.kq { display: flex; gap: 10px; align-items: flex-start; padding: 8px; border: 1px solid var(--line); border-radius: 10px; }
+.kq img { width: 72px; height: 54px; object-fit: contain; background: #111; border-radius: 6px; flex: none; }
+.kq .kq-n { width: 72px; flex: none; text-align: center; font-size: 1.4rem; }

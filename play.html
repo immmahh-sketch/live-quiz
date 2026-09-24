@@ -108,6 +108,8 @@ function leave() { try { sb.removeChannel(ch); } catch {} ch = null; P.joined = 
 function onState(s) {
   if (!s || typeof s.phase !== 'string') return;
   P.state = s; P.receivedAt = Date.now(); P.hostSeen = Date.now();
+  P.pausedRem = s.paused && s.phase === 'question' ? (s.wipe ? s.wipe.remainingMs : s.remainingMs) : null;
+  syncPauseUi(s);
   if (!P.joined) { P.joined = true; clearInterval(helloT); }
   if (s.phase === 'question' && typeof s.remainingMs === 'number') P.deadline = Date.now() + (s.wipe ? s.wipe.remainingMs : s.remainingMs);
   if (Array.isArray(s.answered) && s.answered.includes(P.pid)) P.answered[s.q?.id] = true;
@@ -150,6 +152,7 @@ function render() {
   const ctrl = (cmd, label) => s.auto ? `<button class="btn btn-primary btn-lg btn-block ctrlbtn" data-ctrl="${cmd}">${label}</button>` : '';
   if (s.phase === 'lobby') app.innerHTML = top + `<div class="state"><div class="em">🎉</div><h2>You're in, ${esc(P.name)}!</h2><p class="muted">${s.auto ? 'The game runs itself. When everyone is in, start it from here.' : 'Watch the shared screen. The quiz starts when the host presses go.'}</p>${ctrl('start', 'Start the quiz ▶')}</div>`;
   else if (s.phase === 'round') app.innerHTML = top + `<div class="state"><div class="em">🎯</div><p class="muted" style="margin:0">Round ${s.round?.n || ''}</p><h2>${esc(s.round?.title || '')}</h2>${s.round?.intro ? `<p style="font-weight:700">${esc(s.round.intro)}</p>` : ''}<p class="muted">${s.round?.count || ''} question${s.round?.count === 1 ? '' : 's'} coming up</p>${ctrl('next', 'Start round ▶')}</div>`;
+  else if (s.phase === 'typecard') { const t = s.typecard?.type; app.innerHTML = top + `<div class="state typecard"><div class="em">${TYPES[t]?.icon || '❓'}</div><p class="muted" style="margin:0">Next up${s.typecard?.run > 1 ? ` · ${s.typecard.run} questions` : ''}</p><h2>${esc(TYPES[t]?.label || '')}</h2><p style="font-weight:700">${esc(LQ.HOWTO[t] || '')}</p>${ctrl('next', "Let's go ▶")}</div>`; }
   else if (s.phase === 'countdown') app.innerHTML = top + `<div class="state"><div class="em">${TYPES[s.next?.type]?.icon || '⏳'}</div><h2>Get ready…</h2><p class="muted">Question ${s.next?.n || s.qIndex + 1}: ${esc(TYPES[s.next?.type]?.label || '')}</p></div>`;
   else if (s.phase === 'question' && s.race) { app.innerHTML = top + `<div class="ptimer" id="ptimer"><i></i></div>` + raceHtml(s); bindRace(s); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'question' && s.wipe) { P.deadline = Date.now() + (s.wipe.remainingMs || 0); app.innerHTML = top + `<div class="ptimer" id="ptimer"><i></i></div>` + wipeHtml(s); bindWipe(s); timerT = setInterval(tickTimer, 250); tickTimer(); }
@@ -159,9 +162,20 @@ function render() {
   else if (s.phase === 'scoreboard') app.innerHTML = top + `<div class="state"><div class="em">${r?.rank === 1 ? '🥇' : r?.rank === 2 ? '🥈' : r?.rank === 3 ? '🥉' : '📊'}</div><h2>${r ? `You're ${ordinal(r.rank)} of ${r.of}` : 'Scoreboard'}</h2><p class="muted">${r ? r.score + ' points so far' : ''}</p>${ctrl('next', s.qIndex + 1 < s.total ? 'Next question ▶' : 'Final results 🏆')}</div>`;
   else if (s.phase === 'final') app.innerHTML = top + finalHtml(s, r);
 }
+/** The pause veil over the phone, and in run-itself mode a small pause button in the corner. */
+function syncPauseUi(s) {
+  let v = $('#pauseVeil');
+  if (s.paused) {
+    if (!v) { v = document.createElement('div'); v.id = 'pauseVeil'; v.className = 'pauseveil'; document.body.appendChild(v); }
+    v.innerHTML = `<div><div class="em">⏸</div><h2>Paused</h2><p>The clock has stopped.</p>${s.auto ? '<button class="btn btn-primary btn-lg" data-ctrl="resume">Resume ▶</button>' : ''}</div>`;
+  } else if (v) v.remove();
+  let b = $('#pauseBtn'); const want = s.auto && !s.paused && !['lobby', 'final'].includes(s.phase);
+  if (want && !b) { b = document.createElement('button'); b.id = 'pauseBtn'; b.className = 'pausebtn'; b.dataset.ctrl = 'pause'; b.title = 'Pause the game'; b.textContent = '⏸'; document.body.appendChild(b); }
+  if (!want && b) b.remove();
+}
 function tickTimer() {
   const el = $('#ptimer'); if (!el || !P.state?.q) return;
-  const rem = Math.max(0, P.deadline - Date.now()), pct = Math.min(100, (rem / (P.state.q.time * 1000)) * 100);
+  const rem = P.pausedRem != null ? P.pausedRem : Math.max(0, P.deadline - Date.now()), pct = Math.min(100, (rem / (P.state.q.time * 1000)) * 100);
   $('i', el).style.width = pct + '%'; el.classList.toggle('low', rem < 5000);
 }
 function sentHtml() { return `<div class="state"><div class="em">✅</div><h2>Answer sent!</h2><p class="muted">Waiting for the others…</p></div>`; }
@@ -345,7 +359,7 @@ function finalHtml(s, r) {
 }
 document.addEventListener('click', (e) => {
   if (e.target.id === 'another') { leave(); P.code = ''; history.replaceState(null, '', location.pathname); renderJoin(); }
-  const c = e.target.closest?.('[data-ctrl]'); if (c) { send('ctrl', { pid: P.pid, cmd: c.dataset.ctrl }); c.disabled = true; c.textContent = 'Moving on…'; }
+  const c = e.target.closest?.('[data-ctrl]'); if (c) { send('ctrl', { pid: P.pid, cmd: c.dataset.ctrl }); c.disabled = true; if (!['pause', 'resume'].includes(c.dataset.ctrl)) c.textContent = 'Moving on…'; }
 });
 
 // ------------------------------------------------------------------ boot

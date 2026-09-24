@@ -859,11 +859,11 @@ Deno.serve(async (req) => {
       // The bank first: anything pre-written that fits this round comes free, and only the shortfall is written by the AI.
       const wantCount = Math.min(8, Math.max(1, Math.round(+body.count || 5)));
       const quizId = UUID_RE.test(String(body.quizId || "")) ? String(body.quizId) : "";
-      let fromBank: any[] = [];
+      let fromBank: any[] = []; const bankInfo: any = {};
       if (body.useBank !== false && quizId && types.length === 1) {
-        try { fromBank = await bankTake(types[0], wantCount, String(body.topic || body.title || ""), String(body.brief || ""), quizId, ["easy", "medium", "hard"].includes(String(body.difficulty)) ? String(body.difficulty) : "mixed"); } catch (e) { console.warn("bank take failed", String(e)); }
+        try { fromBank = await bankTake(types[0], wantCount, String(body.topic || body.title || ""), String(body.brief || ""), quizId, ["easy", "medium", "hard"].includes(String(body.difficulty)) ? String(body.difficulty) : "mixed", bankInfo); } catch (e) { console.warn("bank take failed", String(e)); }
       }
-      if (fromBank.length >= wantCount) return json({ questions: fromBank, warnings: [], searched: false, usage: null, unknownTypes, fromBank: fromBank.length });
+      if (fromBank.length >= wantCount) return json({ questions: fromBank, warnings: [], searched: false, usage: null, unknownTypes, fromBank: fromBank.length, bankInfo });
       const out = await generate({
         topic: String(body.brief ? (body.title || body.topic || "") : (body.topic || "")).slice(0, 200),
         brief: String(body.brief || "").slice(0, 1500),
@@ -876,9 +876,28 @@ Deno.serve(async (req) => {
         web: body.web !== false,
         premium: body.premium === true,
       });
-      return json({ ...out, questions: [...fromBank, ...out.questions], unknownTypes, fromBank: fromBank.length });
+      return json({ ...out, questions: [...fromBank, ...out.questions], unknownTypes, fromBank: fromBank.length, bankInfo });
     }
 
+    if (action === "kahoot_import") {
+      // A Kahoot, from its link (Kahoot's own public data: exact wording, answers, timers and pictures) or from a printout
+      // of its page. A printout is read by Claude; the link printed in its footer is then tried first, so a public
+      // Kahoot still comes through exactly, and only a private one falls back to what was read off the page.
+      let uuid = kahootId(String(body.url || ""));
+      let read: any = null;
+      if (!uuid && Array.isArray(body.pages) && body.pages.length) {
+        if (!ANTHROPIC_KEY) return json({ error: "Reading a PDF needs the AI, and ANTHROPIC_API_KEY is not set on the server." }, 503);
+        read = await kahootRead(body.pages.slice(0, 15).map(String));
+        uuid = kahootId(String(read.url || ""));
+      }
+      if (uuid) {
+        const k = await kahootFetch(uuid);
+        if (k && (!read || Math.abs(k.questions.length + k.skipped - (read.questions || []).length) <= 2)) return json({ source: "kahoot", uuid, usage: read?.usage || null, ...k });
+        if (!read) return json({ error: "Kahoot would not share that quiz. Set its visibility to Public in Kahoot, or upload a PDF of it instead." }, 404);
+      }
+      if (!read) return json({ error: "Upload a PDF of the Kahoot, or paste its link." }, 400);
+      return json({ source: "pdf", ...(await kahootFromRead(read)), usage: read.usage || null });
+    }
     if (action === "bank_status") {
       return json({ bank: bankStatus(await bankRows()), low: BANK_LOW });
     }
@@ -904,6 +923,7 @@ Deno.serve(async (req) => {
         if (typeof p.newText === "string" && p.newText.trim()) q.text = p.newText.trim().slice(0, 200);
         if (typeof p.category === "string") q.category = p.category.slice(0, 60);
         if (Array.isArray(p.tags)) q.tags = p.tags.map((t: unknown) => String(t).slice(0, 40)).slice(0, 12);
+        if (p.set && typeof p.set === "object") for (const k of ["perCorrect", "prize", "prize2", "prize3", "forfeit", "study", "time", "target"]) if (typeof p.set[k] === "number" && isFinite(p.set[k])) q[k] = Math.max(0, Math.min(50000, p.set[k]));
         changed++;
       }
       if (changed) await bankSave(row);
@@ -982,7 +1002,9 @@ Deno.serve(async (req) => {
         if (!row) { row = await bankRow(t); banks.push(row); }
         const key = bankKey(q);
         if (!key || row.questions.some((x: any) => nearDuplicate(x, q))) { out[t].skipped++; continue; }
-        const c = { ...q, id: "q_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8), category: String(q.category || roundTitle(q.round) || "").slice(0, 60), tags: (q.tags || []).slice(0, 12) };
+        const cat0 = String(q.category || roundTitle(q.round) || "").trim();
+        const c = { ...q, id: "q_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8), category: (JUNK_CATEGORY.test(cat0) ? "" : cat0).slice(0, 60), tags: (q.tags || []).slice(0, 12) };
+        if (c.type === "race") Object.assign(c, { perCorrect: 100, prize: 500, prize2: 200, prize3: 100, forfeit: 200 });
         delete c.used; delete c.fromBank; delete c.round; delete c.bankId; delete c.check;
         row.questions.push(c); touched.add(row); out[t].added++;
       }
@@ -1129,6 +1151,70 @@ Deno.serve(async (req) => {
   }
 });
 
+// ---------------------------------------------------------------- Kahoot import
+function kahootId(s: string): string { const m = String(s || "").match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i); return m ? m[0].toLowerCase() : ""; }
+const unhtml = (s: unknown) => String(s ?? "").replace(/<br\s*\/?>/gi, " ").replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#0?39;|&apos;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/\s+/g, " ").trim();
+/** One Kahoot slide in the writer's raw shape, or null for slides with no quiz equivalent (polls, word clouds, content). */
+function kahootRaw(k: any): any | null {
+  const text = unhtml(k.question || k.title), time = Math.max(5, Math.min(120, Math.round((+k.time || 20000) / 1000)));
+  const ch = (Array.isArray(k.choices) ? k.choices : []).map((c: any) => ({ t: unhtml(c.answer), ok: !!c.correct })).filter((c: any) => c.t);
+  if (!text) return null;
+  if (k.type === "quiz" || k.type === "multiple_select_quiz") {
+    if (ch.length < 2 || !ch.some((c: any) => c.ok)) return null;
+    const right = ch.find((c: any) => c.ok).t, rest = ch.filter((c: any) => c.t !== right).map((c: any) => c.t);
+    if (ch.length === 2 && ch.every((c: any) => /^(true|false)$/i.test(c.t))) return { type: "tf", text, answer: /^true$/i.test(right), time };
+    return { type: "choice", text, options: [right, ...rest].slice(0, 4), answer: right, time };
+  }
+  if (k.type === "true_false") { const right = ch.find((c: any) => c.ok)?.t || ""; return /^(true|false)$/i.test(right) ? { type: "tf", text, answer: /^true$/i.test(right), time } : null; }
+  if (k.type === "open_ended") return ch.length ? { type: "text", text, answers: ch.map((c: any) => c.t), time } : null;
+  if (k.type === "jumble") return ch.length >= 2 ? { type: "order", text, items: ch.map((c: any) => c.t), hint: "", time } : null;
+  return null;
+}
+async function kahootFinish(raws: { raw: any; image?: string }[]): Promise<any[]> {
+  const out: any[] = [];
+  for (const { raw, image } of raws) {
+    const { questions } = await finishRaw([raw], 1, [], false);
+    const q = questions[0]; if (!q) continue;
+    q.time = raw.time;
+    if (image) q.media = { kind: "image", url: image, credit: "Kahoot" };
+    out.push(q);
+  }
+  return out;
+}
+async function kahootFetch(uuid: string): Promise<{ title: string; description: string; questions: any[]; skipped: number } | null> {
+  try {
+    const r = await fetch(`https://create.kahoot.it/rest/kahoots/${uuid}`, { headers: { accept: "application/json" } });
+    if (!r.ok) return null;
+    const d = await r.json();
+    const slides = Array.isArray(d.questions) ? d.questions : [];
+    const raws = slides.map((k: any) => ({ raw: kahootRaw(k), image: typeof k.image === "string" && /^https:\/\//.test(k.image) ? k.image : undefined })).filter((x: any) => x.raw);
+    return { title: unhtml(d.title) || "Kahoot quiz", description: unhtml(d.description), questions: await kahootFinish(raws), skipped: slides.length - raws.length };
+  } catch { return null; }
+}
+/** Claude reads printed Kahoot pages: every question, its answers in screen order, which are ticked, and the page link. */
+async function kahootRead(pages: string[]): Promise<any> {
+  const content: any[] = pages.map((p) => { const m = p.match(/^data:(image\/(?:jpeg|png|webp));base64,(.+)$/); return m ? { type: "image", source: { type: "base64", media_type: m[1], data: m[2] } } : null; }).filter(Boolean);
+  if (!content.length) throw new Error("The PDF pages could not be read.");
+  content.push({ type: "text", text: `These are the pages of a Kahoot quiz, printed from Kahoot's website. Read every question slide in order across all pages and reply with JSON only, no prose:
+{"title":"the quiz title","url":"the create.kahoot.it link printed in the page header or footer, copied exactly character by character, or null","questions":[{"n":1,"type":"quiz | true_false | type_answer | puzzle | poll | other","question":"the question wording, exactly","answers":["answers in screen order: top-left, top-right, bottom-left, bottom-right"],"correct":[0-based indexes of the answers marked with a tick]}]}
+Copy wording exactly as printed, including capitals. Skip nothing.` });
+  const msg = await anthropic().messages.create({ model: SONNET, max_tokens: 8000, messages: [{ role: "user", content }] });
+  const t = textOf(msg); const j = t.slice(t.indexOf("{"), t.lastIndexOf("}") + 1);
+  let read: any; try { read = JSON.parse(j); } catch { throw new Error("The PDF could not be read as a Kahoot. Try a clearer printout, or paste the Kahoot's link."); }
+  read.usage = usageOf(msg, SONNET);
+  return read;
+}
+async function kahootFromRead(read: any): Promise<{ title: string; description: string; questions: any[]; skipped: number }> {
+  const slides = Array.isArray(read.questions) ? read.questions : [];
+  const raws = slides.map((q: any) => {
+    const answers = (Array.isArray(q.answers) ? q.answers : []).map((a: unknown) => String(a ?? "").trim()).filter(Boolean);
+    const correct = (Array.isArray(q.correct) ? q.correct : []).map((n: any) => +n).filter((n: number) => n >= 0 && n < answers.length);
+    const type = q.type === "true_false" ? "true_false" : q.type === "type_answer" ? "open_ended" : q.type === "puzzle" ? "jumble" : q.type === "quiz" ? "quiz" : "other";
+    return { raw: kahootRaw({ type, question: q.question, time: 20000, choices: answers.map((a: string, i: number) => ({ answer: a, correct: type === "jumble" || type === "open_ended" || correct.includes(i) })) }) };
+  }).filter((x: any) => x.raw);
+  return { title: String(read.title || "Kahoot quiz").trim(), description: "", questions: await kahootFinish(raws), skipped: slides.length - raws.length };
+}
+
 // ---------------------------------------------------------------- the question bank
 //
 // Pre-written questions, one quiz_quizzes row per type flagged settings.bank = true, so no new
@@ -1189,16 +1275,31 @@ function bankStatus(rows: any[]) {
   return out;
 }
 const WORD = (s: string) => new Set(norm(s).split(" ").filter((w) => w.length >= 4));
+/** Words in a round's title or brief that say nothing about its theme ("Round 1", "questions about the show"). */
+const THEME_STOP = new Set(["round", "rounds", "quiz", "quizzes", "question", "questions", "about", "based", "show", "shows", "series", "programme", "program", "from", "with", "that", "this", "these", "those", "their", "there", "what", "which", "some", "more", "most", "only", "mixed", "general", "knowledge", "trivia", "easy", "hard", "medium", "difficult", "tricky", "family", "friendly", "answer", "answers", "each", "every", "make", "made", "write", "include", "including", "like", "also", "just", "plus", "other", "things", "stuff", "anything", "everything", "famous", "popular", "classic", "best", "good", "great", "topic", "theme", "themed", "fun", "please", "want", "should", "would", "could", "about", "into", "over", "under", "your", "them", "they", "have", "been", "will", "than", "then", "when", "where", "while", "people", "players", "player", "team", "teams", "night", "tonight", "week", "weekly", "new", "untitled"]);
+const JUNK_CATEGORY = /^(round\s*\d*|new quiz|untitled.*|ai quiz|quiz|general|test.*)$/i;
 const GENERIC = /general knowledge|anything|mixed bag|pot ?luck|pub quiz|warm.?up|quick.?fire|random/i;
 /** Takes up to `need` unused bank questions of a type for a quiz, preferring ones that match the round's topic and brief. */
-async function bankTake(type: string, need: number, topic: string, brief: string, quizId: string, difficulty = "mixed"): Promise<any[]> {
+async function bankTake(type: string, need: number, topic: string, brief: string, quizId: string, difficulty = "mixed", info: any = {}): Promise<any[]> {
   if (need <= 0) return [];
   const row = await bankRow(type);
   const qs: any[] = Array.isArray(row.questions) ? row.questions : [];
   const themed = !!(topic || brief).trim() && !GENERIC.test(topic + " " + brief) && (topic + " " + brief).trim().length > 3;
-  const want = WORD(topic + " " + brief);
-  const score = (q: any) => { let sc = 0; const cat = norm(q.category || ""); if (cat && norm(topic + " " + brief).includes(cat)) sc += 3; const have = WORD([q.category, ...(q.tags || []), q.text, q.place, q.phrase, ...(q.answers || [])].filter(Boolean).join(" ")); for (const w of want) if (have.has(w)) sc += 1; return sc; };
-  let pool = qs.filter((q) => !q.used).map((q) => ({ q, sc: score(q) }));
+  const fresh = qs.filter((q) => !q.used);
+  const haveOf = (q: any) => WORD([q.category, ...(q.tags || []), q.text, q.place, q.phrase, ...(q.answers || [])].filter(Boolean).join(" "));
+  const haves = new Map(fresh.map((q) => [q, haveOf(q)]));
+  // A word counts only when it is specific: not a filler word, and not one that turns up across a big slice of the
+  // bank (so "Dexter" pulls Dexter questions, while "round" or "show" pull nothing).
+  const common = Math.max(8, Math.round(fresh.length * 0.03));
+  const want = new Set([...WORD(topic + " " + brief)].filter((w) => !THEME_STOP.has(w) && [...haves.values()].filter((h) => h.has(w)).length <= common));
+  const text = " " + norm(topic + " " + brief) + " ";
+  const score = (q: any) => {
+    let sc = 0; const cat = norm(q.category || "");
+    if (cat.length >= 4 && !JUNK_CATEGORY.test(cat) && !THEME_STOP.has(cat) && text.includes(" " + cat + " ")) sc += 3;
+    const have = haves.get(q) || haveOf(q); for (const w of want) if (have.has(w)) sc += 1; return sc;
+  };
+  let pool = fresh.map((q) => ({ q, sc: score(q) }));
+  info.themed = themed; info.keywords = [...want]; info.matching = pool.filter((x) => x.sc > 0).length;
   if (themed) { const matching = pool.filter((x) => x.sc > 0); pool = matching.length || !EVERGREEN.includes(type) ? matching : pool; }
   // best matches first, then a shuffle among equals so the same items do not always lead
   pool.sort((a, b) => b.sc - a.sc || Math.random() - 0.5);
@@ -1217,7 +1318,11 @@ async function bankTake(type: string, need: number, topic: string, brief: string
   const at = new Date().toISOString();
   for (const q of picked) q.used = { quiz: quizId, at };
   await bankSave(row);
-  return picked.map((q) => { const c = JSON.parse(JSON.stringify(q)); delete c.used; c.bankId = q.id; c.id = "q_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8); c.fromBank = true; return c; });
+  return picked.map((q) => {
+    const c = JSON.parse(JSON.stringify(q)); delete c.used; c.bankId = q.id; c.id = "q_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8); c.fromBank = true;
+    if (c.type === "race") Object.assign(c, { perCorrect: 100, prize: 500, prize2: 200, prize3: 100, forfeit: 200 }); // today's scoring, whatever an old item carried
+    return c;
+  });
 }
 
 // ---------------------------------------------------------------- Name That Tune: Apple's public search for 30-second previews

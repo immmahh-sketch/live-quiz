@@ -222,13 +222,15 @@ function startHeartbeat() { clearInterval(hbT); hbT = setInterval(broadcastState
 
 /** Everything a phone needs to draw its screen. Never the right answers. */
 function stateForPlayers() {
-  const s = { phase: G.phase, code: G.code, qIndex: G.qIndex, total: total(), title: G.quiz.title, now: Date.now(), auto: !!G.auto };
+  const s = { phase: G.phase, code: G.code, qIndex: G.qIndex, total: total(), title: G.quiz.title, now: Date.now(), auto: !!G.auto, paused: !!G.paused };
+  const nowT = G.paused ? G.pausedAt : Date.now(); // a paused clock reads the same until it is picked up again
   if (G.phase === 'question' && G.q) {
-    s.q = G.q.view; s.remainingMs = Math.max(0, (G.q.deadline || 0) - Date.now()); s.answered = Object.keys(G.q.answers);
-    if (G.q.wipe) { const w = G.q.wipe; s.wipe = { turnPid: w.turnPid, turnName: G.players[w.turnPid]?.name || '', remainingMs: Math.max(0, (w.studyUntil || w.turnDeadline) - Date.now()), studyMs: w.studyUntil ? Math.max(0, w.studyUntil - Date.now()) : 0, gone: w.gone, out: w.out, over: w.over, last: w.last, scores: w.scores, order: w.order.filter((p) => !w.out.includes(p)) }; }
+    s.q = G.q.view; s.remainingMs = Math.max(0, (G.q.deadline || 0) - nowT); s.answered = Object.keys(G.q.answers);
+    if (G.q.wipe) { const w = G.q.wipe; s.wipe = { turnPid: w.turnPid, turnName: G.players[w.turnPid]?.name || '', remainingMs: Math.max(0, (w.studyUntil || w.turnDeadline) - nowT), studyMs: w.studyUntil ? Math.max(0, w.studyUntil - nowT) : 0, gone: w.gone, out: w.out, over: w.over, last: w.last, scores: w.scores, order: w.order.filter((p) => !w.out.includes(p)) }; }
     if (G.q.race) { const r = G.q.race; s.race = { winner: r.winner, winnerName: r.winner ? G.players[r.winner]?.name : null, over: r.over, target: G.q.view.target, players: Object.fromEntries(Object.entries(r.players).map(([pid, p]) => [pid, { idx: p.idx, correct: p.correct, out: p.out, done: p.done }])) }; }
   }
   if (G.phase === 'countdown') s.next = { type: question().type, n: G.qIndex + 1 };
+  if (G.phase === 'typecard') s.typecard = { type: question().type, n: G.qIndex + 1, run: typeRun(G.qIndex) };
   if (G.phase === 'round') { const r = roundOf(G.qIndex); s.round = { n: r.n, title: r.title, intro: r.intro || '', count: r.count }; }
   if (G.phase === 'question' && G.q?.wheelRevealed !== undefined) s.wheel = { revealed: G.q.wheelRevealed, category: question().category, layout: G.q.view.layout };
   if (G.phase === 'question' && G.q && question().type === 'highlow') s.hl = { asked: Object.keys(G.q.low || {}).length };
@@ -306,14 +308,15 @@ let autoT = null;
 function autoDelay() {
   if (!G.auto) return 0;
   if (G.phase === 'round') return 6000;
+  if (G.phase === 'typecard') return 8000;
   if (G.phase === 'scoreboard') return 6000;
   if (G.phase === 'reveal') return ['choice', 'tf', 'highlow', 'rhyme', 'smash', 'wheel', 'club', 'dingbat', 'tune'].includes(question()?.type) ? 8000 : 11000;
   return 0;
 }
 function scheduleAuto() {
-  clearTimeout(autoT); const d = autoDelay(); if (!d) return;
+  clearTimeout(autoT); const d = autoDelay(); if (!d || G.paused) return;
   const ph = G.phase, qi = G.qIndex;
-  autoT = setTimeout(() => { if (G.auto && G.phase === ph && G.qIndex === qi && !document.querySelector('.modal-bg')) primaryAction(); }, d);
+  autoT = setTimeout(() => { if (G.auto && !G.paused && G.phase === ph && G.qIndex === qi && !document.querySelector('.modal-bg')) primaryAction(); }, d);
 }
 function toggleAuto() {
   G.auto = !G.auto; try { localStorage.setItem('lq_auto', G.auto ? '1' : ''); } catch {}
@@ -323,15 +326,19 @@ function toggleAuto() {
 /** A phone pressed Start or Next. Only honoured in self-play, from a player in the game. */
 function onCtrl({ pid, cmd }) {
   if (!G.auto || !G.players[pid] || document.querySelector('.modal-bg')) return;
+  if (cmd === 'pause') return togglePause(true);
+  if (cmd === 'resume') return togglePause(false);
   if (cmd === 'start' && G.phase === 'lobby') return primaryAction();
-  if (cmd === 'next' && ['round', 'reveal', 'scoreboard'].includes(G.phase)) return primaryAction();
+  if (cmd === 'next' && ['round', 'typecard', 'reveal', 'scoreboard'].includes(G.phase)) return primaryAction();
 }
 
 // ------------------------------------------------------------------ game flow
 function primaryAction() {
   clearTimeout(autoT);
+  if (G.paused) togglePause(false, true);
   if (G.phase === 'lobby') return players().length ? goTo(0) : toast('Waiting for at least one player.');
-  if (G.phase === 'round') return startCountdown(G.qIndex);
+  if (G.phase === 'round') return toTypeCard(G.qIndex);
+  if (G.phase === 'typecard') return startCountdown(G.qIndex);
   if (G.phase === 'countdown') return startQuestion();
   if (G.phase === 'question') return endQuestion();
   if (G.phase === 'reveal') return showScoreboard();
@@ -344,7 +351,17 @@ function goTo(i) {
     G.qIndex = i; G.phase = 'round'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString();
     persist(); render(); broadcastState(); return;
   }
-  startCountdown(i);
+  toTypeCard(i);
+}
+/** How many questions in a row, from i, share its type. */
+function typeRun(i) { const qs = G.quiz.questions, t = qs[i]?.type; let n = 0; while (qs[i + n] && qs[i + n].type === t) n++; return n; }
+/** A title card whenever the question type changes (and before the first question), so everyone knows how the next lot works. */
+function toTypeCard(i) {
+  const qs = G.quiz.questions;
+  if (i > 0 && qs[i - 1]?.type === qs[i]?.type) return startCountdown(i);
+  clearInterval(tickT); clearInterval(countT);
+  G.qIndex = i; G.phase = 'typecard'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString();
+  persist(); render(); broadcastState();
 }
 function startCountdown(i) {
   clearInterval(tickT); clearInterval(countT); if (typeof stopTune === 'function') stopTune();
@@ -357,6 +374,7 @@ function startCountdown(i) {
   G.prep = q.type === 'wipeout' ? prepareWipeout(q) : null;
   let n = 3; const el = () => $('#count');
   countT = setInterval(() => {
+    if (G.paused) return;
     n--;
     if (n <= 0) {
       if (G.prep && !G.prepDone) { if (el()) el().innerHTML = '<span class="spinner"></span>'; const note = $('#prepNote'); if (note) note.textContent = `Adding answers so the board beats ${players().length} players…`; return; }
@@ -459,7 +477,7 @@ function wipeStart() {
   const live = Object.keys(G.players).filter((pid) => present.has(pid));
   const order = shuffle(live.length ? live : Object.keys(G.players));
   // Everybody gets a look at the whole board before the first turn.
-  const study = (q.study ?? 10) * 1000;
+  const study = (q.study ?? 20) * 1000;
   G.q.wipe = { order, turnPid: null, turnDeadline: 0, gone: [], out: [], scores: {}, picks: [], over: false, last: null, seconds: q.time, studyUntil: study ? Date.now() + study : 0 };
   if (study) { persist(); renderWipe(); broadcastState(); return; }
   wipeNextTurn();
@@ -518,9 +536,10 @@ function startTick() {
   clearInterval(tickT);
   tickT = setInterval(() => {
     if (G.phase !== 'question' || !G.q) return clearInterval(tickT);
+    if (G.paused) return;
     const wipe = G.q.wipe;
     if (wipe?.studyUntil) {
-      const left = wipe.studyUntil - Date.now(); const t = $('#timer'); if (t) { t.style.setProperty('--p', Math.max(0, left / ((question().study || 10) * 1000)) * 100 + '%'); t.dataset.s = Math.max(0, Math.ceil(left / 1000)); }
+      const left = wipe.studyUntil - Date.now(); const t = $('#timer'); if (t) { t.style.setProperty('--p', Math.max(0, left / ((question().study || 20) * 1000)) * 100 + '%'); t.dataset.s = Math.max(0, Math.ceil(left / 1000)); }
       const sc = $('#studyCount'); if (sc) sc.textContent = Math.max(0, Math.ceil(left / 1000));
       if (left <= 0) wipeStudyDone();
       return;
@@ -767,11 +786,12 @@ async function grade(noAi) {
 }
 
 // ------------------------------------------------------------------ rendering
-function render() { renderPhase(); scheduleAuto(); }
+function render() { renderPhase(); scheduleAuto(); syncPause(); }
 function renderPhase() {
   const ph = G.phase;
   if (ph === 'lobby') return renderLobby();
   if (ph === 'round') return renderRound();
+  if (ph === 'typecard') return renderTypeCard();
   if (ph === 'countdown') return renderCountdown();
   if (ph === 'question') return renderQuestion();
   if (ph === 'grading') return renderGrading();
@@ -791,13 +811,43 @@ function renderRound() {
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary btn-lg" data-act="primary">Start round ▶</button>`)}`;
   bind();
 }
+function renderTypeCard() {
+  const q = question(), T = TYPES[q.type] || { icon: '❓', label: q.type }, run = typeRun(G.qIndex);
+  stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">Question ${G.qIndex + 1} of ${total()}</span></div></div>
+    <div class="stage-main typecard"><div class="tc-icon">${T.icon}</div><div class="tc-next">Next up${run > 1 ? ` · ${run} questions` : ''}</div><h1 class="big">${esc(T.label)}</h1><p class="tc-how">${esc(LQ.HOWTO[q.type] || T.blurb || '')}</p></div>
+    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary btn-lg" data-act="primary">Let's go ▶</button>`)}`;
+  bind();
+}
+/** Run-itself mode: freeze the clock, the countdown and the moving-on, then pick it all up from the same moment. */
+function togglePause(want, quiet) {
+  want = typeof want === 'boolean' ? want : !G.paused;
+  if (want === !!G.paused) return;
+  if (want) { G.paused = true; G.pausedAt = Date.now(); clearTimeout(autoT); }
+  else {
+    const d = Date.now() - (G.pausedAt || Date.now()); G.paused = false; G.pausedAt = 0;
+    if (G.q) { if (G.q.deadline) G.q.deadline += d; if (G.q.nextReveal) G.q.nextReveal += d; const w = G.q.wipe; if (w) { if (w.studyUntil) w.studyUntil += d; if (w.turnDeadline) w.turnDeadline += d; } }
+  }
+  persist();
+  if (!G.paused && G.phase !== 'question') render(); else { syncPause(); scheduleAuto(); }
+  const b = $('[data-act="pause"]'); if (b) b.textContent = G.paused ? '▶ Resume' : '⏸ Pause';
+  broadcastState();
+  if (!quiet) toast(G.paused ? 'Paused. Press Resume (or P) to carry on.' : 'Carrying on.');
+}
+function syncPause() {
+  let v = $('#pauseVeil');
+  if (G.paused && !v) {
+    v = document.createElement('div'); v.id = 'pauseVeil'; v.className = 'pauseveil';
+    v.innerHTML = '<div><div class="huge">⏸</div><h1 class="big">Paused</h1><p style="font-weight:800;opacity:.85">The clock has stopped. It carries on from the same moment.</p><button class="btn btn-primary btn-lg" id="resumeBtn">Resume ▶</button></div>';
+    document.body.appendChild(v); $('#resumeBtn').onclick = () => togglePause(false);
+  } else if (!G.paused && v) v.remove();
+}
 function hostBar(buttons) {
   const d = autoDelay();
   const hint = G.auto ? `runs itself · players can press Start and Next on their phones${TV ? ' · centre button for next' : ''}` : TV ? 'press the centre button for next' : 'press Space for next';
-  return `<div class="stage-bottom"><span class="muted small" style="opacity:.6">Game ${G.code} · ${players().length} players${G.bots?.length ? ` · test mode, ${G.bots.length} bots` : ''} · ${hint}</span>${d ? `<div class="autobar" title="Moving on by itself"><i style="animation-duration:${d}ms"></i></div>` : ''}<div class="hostbar">${buttons}</div></div>`;
+  return `<div class="stage-bottom"><span class="muted small" style="opacity:.6">Game ${G.code} · ${players().length} players${G.bots?.length ? ` · test mode, ${G.bots.length} bots` : ''} · ${hint}</span>${d ? `<div class="autobar" title="Moving on by itself"><i style="animation-duration:${d}ms"></i></div>` : ''}<div class="hostbar">${G.auto && !['lobby', 'final'].includes(G.phase) ? `<button class="btn btn-ghost" data-act="pause" title="Stop the clock and hold this screen (P)">${G.paused ? '▶ Resume' : '⏸ Pause'}</button>` : ''}${buttons}</div></div>`;
 }
 function bind() {
-  $$('[data-act]').forEach((b) => b.onclick = () => ({ primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(3), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, builder: () => location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
+  $$('[data-act]').forEach((b) => b.onclick = () => ({ primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(3), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, pause: () => togglePause(), builder: () => location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
   $$('[data-kick]').forEach((el) => { el.style.cursor = 'pointer'; el.title = 'Click to remove this player from the game'; el.onclick = () => kickPlayer(el.dataset.kick); });
 }
 function renderLobby() {
@@ -1014,6 +1064,7 @@ function confetti() {
   setTimeout(() => c.classList.add('hidden'), 9000);
 }
 document.addEventListener('keydown', (e) => {
+  if ((e.key === 'p' || e.key === 'P') && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName || '') && typeof G !== 'undefined' && G && G.auto && !['lobby', 'final'].includes(G.phase)) { e.preventDefault(); togglePause(); return; }
   if (e.target.matches('input, textarea, button, a, select')) return; // a focused control handles its own key
   if (TV && e.key === 'ArrowRight') return; // on a TV the arrows move the focus ring
   if (e.key === ' ' || e.key === 'Enter' || e.key === 'ArrowRight' || e.code === 'Space') { e.preventDefault(); if (!document.querySelector('.modal-bg')) primaryAction(); }

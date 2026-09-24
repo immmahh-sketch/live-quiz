@@ -254,6 +254,7 @@ async function startWriting(quiz, label, difficulty) {
   draw('Saving the plan…');
   try {
     const r = await api('save', { quiz: quizForSave(quiz) }); quiz.id = r.quiz.id;
+    LQ.genPlan(quiz.settings, 'Quick build: ' + label, quiz.rounds);
     draw('Checking what has been asked in earlier quizzes…');
     let avoid = [];
     try { const h = await api('history', { exclude: quiz.id }); avoid = h.questions.map((q) => q.text); } catch {}
@@ -265,7 +266,7 @@ async function startWriting(quiz, label, difficulty) {
           draw(`Round ${ri + 1}, ${esc(TYPES[type].label)}: writing ${got + 1}–${Math.min(need, got + BATCH)} of ${need}…`, rd.title);
           const usedPictures = quiz.questions.flatMap((q) => [q.media?.source, q.media?.url]).filter((s) => typeof s === 'string' && /^https?:/.test(s));
           const res = await api('generate', { topic: (rd.brief ? `${rd.title}. ${rd.brief}` : `${rd.title}. ${label}`).slice(0, 200), title: rd.title, brief: rd.brief || `A ${label} quiz.`, usedPictures, count: Math.min(BATCH, need - got), difficulty, types: [type], pictures: true, web: true, avoid, premium: !!quiz.settings.aiPremium, quizId: quiz.id }, { timeout: 170000 });
-          LQ.addUsage(quiz.settings, res.usage);
+          LQ.addUsage(quiz.settings, res.usage); LQ.genLog(quiz.settings, 'Quick build', res, { round: rd.title });
           if (!res.questions.length || !res.questions.some((q) => q.type === type)) break;
           for (const q of res.questions) {
             q.round = rd.id; q.time = timeFor(q.type, quiz.settings);

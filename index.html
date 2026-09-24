@@ -182,6 +182,94 @@ async function bankView(type, id, summary) {
   $$('[data-rate]', m).forEach((b) => b.onclick = async () => { try { await api('bank_patch', { type, patches: [{ id, difficulty: b.dataset.rate }] }); if (summary) summary.difficulty = b.dataset.rate; m.remove(); bankView(type, id, summary); } catch (e) { toast(e.message, true); } });
   $('[data-del]', m).onclick = async () => { if (!(await confirmBox('Remove from the bank?', 'It will be gone for good.'))) return; try { await api('bank_delete', { type, id }); if (summary) summary.gone = true; m.remove(); toast('Removed.'); } catch (e) { toast(e.message, true); } };
 }
+// ------------------------------------------------------------------ build log
+/** Every writer call for this quiz: the round, what it was told, how many came from the bank and how many the AI wrote. */
+function buildLogModal() {
+  const log = (S.quiz.settings.buildLog || []).slice().reverse();
+  const when = (s) => { try { return new Date(s).toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); } catch { return ''; } };
+  const mixText = (mix) => Object.entries(mix || {}).map(([t, n]) => `${n} × ${TYPES[t]?.label || t}`).join(', ');
+  const row = (e) => e.plan
+    ? `<div class="logrow plan"><div><b>📋 ${esc(e.how)}</b> <span class="muted small">${when(e.at)}</span></div>${e.plan.map((r) => `<div class="small"><b>${esc(r.title || 'Untitled round')}</b>: ${esc(mixText(r.mix))}${r.brief ? `<div class="muted">Prompt: ${esc(r.brief)}</div>` : ''}</div>`).join('')}</div>`
+    : e.how === 'Kahoot import'
+    ? `<div class="logrow"><div><b>📄 Kahoot import</b> <span class="muted small">${when(e.at)}</span></div><div class="small">${e.count} questions ${e.source === 'kahoot' ? 'taken exactly from Kahoot' : 'read from the PDF'}${e.skipped ? `, ${e.skipped} slides left out` : ''}.</div></div>`
+    : `<div class="logrow"><div><b>${(e.types || []).map((t) => (TYPES[t]?.icon || '') + ' ' + (TYPES[t]?.label || t)).join(', ')}</b> · ${esc(e.round || '')} <span class="muted small">${when(e.at)} · ${esc(e.how)}</span></div>
+      <div class="small">Asked for ${e.asked}${e.difficulty && e.difficulty !== 'mixed' ? ' (' + esc(e.difficulty) + ')' : ''}: <b>${e.fromBank} from the bank</b>, <b>${e.written} written by the AI</b>${e.keywords ? ` · bank matched on: ${e.keywords.length ? esc(e.keywords.join(', ')) : '<i>no specific words</i>'}${e.matching != null ? ` (${e.matching} fitting)` : ''}` : ''}</div>
+      <details><summary class="small">What the writer was told, and what came back</summary><div class="small" style="margin:6px 0"><b>Topic:</b> ${esc(e.topic || '')}${e.brief ? `<br><b>Prompt:</b> ${esc(e.brief)}` : ''}</div><ol class="small">${(e.got || []).map((g) => `<li>${g.bank ? '🏦' : '✨'} ${esc(g.text)}</li>`).join('')}</ol>${(e.warnings || []).length ? `<div class="small muted">${e.warnings.map(esc).join('<br>')}</div>` : ''}</details></div>`;
+  const m = modal(`<h3>📜 How this quiz was built</h3><p class="muted small">Each time the writer was asked for questions: the round, the prompt it was given, and where the questions came from (🏦 the bank, ✨ the AI).</p>
+    <div class="buildlog">${log.length ? log.map(row).join('') : '<p class="muted">Nothing logged yet. Quizzes written from now on keep their log here.</p>'}</div>
+    <div class="row" style="justify-content:flex-end;margin-top:10px"><button class="btn btn-primary btn-sm" data-x>Close</button></div>`);
+  $('[data-x]', m).onclick = () => m.remove();
+}
+// ------------------------------------------------------------------ Kahoot import
+function loadScript(src) { return new Promise((res, rej) => { if (document.querySelector(`script[src="${src}"]`)) return res(); const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = () => rej(new Error('Could not load the PDF reader. Check your connection.')); document.head.appendChild(s); }); }
+/** Each page of a PDF as a JPEG, for the AI to read. */
+async function pdfPages(file, step) {
+  if (!window.pdfjsLib) {
+    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  }
+  const doc = await window.pdfjsLib.getDocument({ data: await file.arrayBuffer() }).promise;
+  const pages = [];
+  for (let i = 1; i <= Math.min(doc.numPages, 15); i++) {
+    step(`Opening page ${i} of ${doc.numPages}…`);
+    const page = await doc.getPage(i), w = page.getViewport({ scale: 1 }).width, vp = page.getViewport({ scale: Math.min(2.5, 1400 / w) });
+    const c = document.createElement('canvas'); c.width = Math.round(vp.width); c.height = Math.round(vp.height);
+    const ctx = c.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
+    await page.render({ canvasContext: ctx, viewport: vp }).promise;
+    pages.push(c.toDataURL('image/jpeg', 0.82));
+  }
+  return pages;
+}
+function kAnswer(q) {
+  if (q.type === 'choice') return q.options.map((o) => (o.id === q.correct ? '✓ ' : '') + o.text).join('  ·  ');
+  if (q.type === 'tf') return q.answer ? '✓ True' : '✓ False';
+  if (q.type === 'order') return (q.items || []).map((i) => i.text).join(' → ');
+  return '✓ ' + (q.answers || []).join(' / ');
+}
+/** Build a quiz from a Kahoot: its link, or a PDF printout of its page (the AI reads it, and finds the link on it). */
+function kahootModal() {
+  const m = modal(`<h3>📄 Import a Kahoot</h3>
+    <p class="muted small">Upload a PDF of the Kahoot (open it in Kahoot and print the page to PDF), or paste its link. A public Kahoot comes through exactly, pictures and all. For a private one the AI reads the questions off the PDF, which costs a few pence.</p>
+    <div class="field"><label>Kahoot PDF</label><input type="file" id="k_pdf" accept="application/pdf,.pdf"></div>
+    <div class="field"><label>…or the Kahoot's link</label><input type="text" id="k_url" placeholder="https://create.kahoot.it/details/…"></div>
+    <div id="k_out"></div>
+    <div class="row" style="justify-content:flex-end;margin-top:10px"><button class="btn btn-ghost" data-x>Cancel</button><button class="btn btn-primary" data-ok>Read it</button></div>`);
+  let found = null;
+  $('[data-x]', m).onclick = () => m.remove();
+  $('[data-ok]', m).onclick = async () => {
+    const out = $('#k_out', m), btn = $('[data-ok]', m);
+    if (found) return createFromKahoot(found, m);
+    const file = $('#k_pdf', m).files[0], url = $('#k_url', m).value.trim();
+    if (!file && !url) return toast('Choose a PDF, or paste the Kahoot link.', true);
+    btn.disabled = true; out.innerHTML = `<div class="gen-progress"><span class="spinner"></span><span id="k_step">${url ? 'Fetching the Kahoot…' : 'Opening the PDF…'}</span></div>`;
+    const step = (t) => { const el = $('#k_step', m); if (el) step.el = el, el.textContent = t; };
+    try {
+      const body = url ? { url } : { pages: await pdfPages(file, step) };
+      if (!url) step('Reading the questions off the pages…');
+      const r = await api('kahoot_import', body, { timeout: 170000 });
+      if (!r.questions?.length) throw new Error('No quiz questions were found in that.');
+      found = r;
+      out.innerHTML = `<div class="notice">${r.source === 'kahoot' ? '✓ Found it on Kahoot: the exact questions, answers, timers and pictures.' : 'Read from the PDF (the Kahoot is private, so no pictures). Check the ticked answers below.'}${r.skipped ? ` ${r.skipped} slide${r.skipped === 1 ? '' : 's'} with no quiz equivalent (polls, word clouds, info slides) left out.` : ''}</div>
+        <div class="field"><label>Quiz title</label><input type="text" id="k_title" value="${esc(r.title)}"></div>
+        <div class="kprev">${r.questions.map((q, i) => `<div class="kq">${q.media?.url ? `<img src="${esc(q.media.url)}" alt="">` : '<span class="kq-n">' + (TYPES[q.type]?.icon || '') + '</span>'}<div><b>${i + 1}. ${esc(q.text)}</b><div class="small muted">${esc(kAnswer(q))}</div></div></div>`).join('')}</div>`;
+      btn.disabled = false; btn.textContent = `Create the quiz (${r.questions.length} questions)`;
+    } catch (e) { out.innerHTML = `<div class="error">${esc(e.message)}</div>`; btn.disabled = false; }
+  };
+}
+async function createFromKahoot(r, m) {
+  const title = ($('#k_title', m)?.value || r.title || 'Kahoot quiz').trim();
+  const quiz = normalizeQuiz({ title, questions: [] });
+  const round = quiz.rounds[0]; round.title = title; round.brief = '';
+  const mix = {}; for (const q of r.questions) { q.round = round.id; quiz.questions.push(q); mix[q.type] = (mix[q.type] || 0) + 1; }
+  round.mix = mix; round.count = r.questions.length; round.types = Object.keys(mix);
+  LQ.pushLog(quiz.settings, { at: new Date().toISOString(), how: 'Kahoot import', source: r.source, count: r.questions.length, skipped: r.skipped || 0, uuid: r.uuid || '' });
+  LQ.addUsage(quiz.settings, r.usage);
+  try {
+    const saved = await api('save', { quiz: quizForSave(quiz) });
+    m.remove(); toast(`Imported ${r.questions.length} questions. Read them through before you host.`);
+    openQuiz(saved.quiz.id);
+  } catch (e) { toast(e.message, true); }
+}
 function renderList() {
   history.replaceState(null, '', location.pathname);
   S.quiz = null;
@@ -191,6 +279,7 @@ function renderList() {
   view.innerHTML = `
     <div class="row" style="margin-bottom:18px"><h1 style="margin:0">Your quizzes</h1><div class="grow"></div>
       <a class="btn btn-ghost" href="tv.html?m=1" title="A big-button wizard that builds a whole quiz in a few taps">📱 Quick build</a>
+      <button class="btn btn-ghost" id="kahootImp" title="Build a quiz from a Kahoot: upload a PDF of it, or paste its link">📄 Import a Kahoot</button>
       <button class="btn btn-ghost" id="aiNew">✨ Write one with AI</button>
       <button class="btn btn-primary" id="newQuiz">+ New quiz</button></div>
     ${tpls.length ? `<div class="tplsec"><div class="row" style="margin-bottom:8px"><h2 style="margin:0">📋 Weekly formats</h2><span class="muted small">Saved set-ups: rounds, types and prompts. One click writes a fresh quiz in that format.</span></div>
@@ -203,6 +292,7 @@ function renderList() {
   $('#newQuiz').onclick = newQuiz;
   if ($('#newQuiz2')) $('#newQuiz2').onclick = newQuiz;
   $('#aiNew').onclick = () => aiModal(true);
+  $('#kahootImp').onclick = kahootModal;
   $$('[data-open]').forEach((b) => b.onclick = () => openQuiz(b.dataset.open));
   $$('[data-tnew]').forEach((b) => b.onclick = () => newFromTemplate(b.dataset.tnew));
   $$('[data-host]').forEach((b) => b.onclick = () => window.open('host.html?quiz=' + b.dataset.host, '_blank'));
@@ -298,12 +388,13 @@ function renderEditor() {
   view.innerHTML = `
     <div class="edhead">
       <div class="row"><button class="btn btn-ghost btn-sm" id="back">← Quizzes</button><input type="text" id="title" value="${esc(q.title)}" class="grow" style="font-weight:900;font-size:1.2rem;max-width:560px" placeholder="Quiz title"><span id="saveState" class="muted small"></span></div>
-      <div class="row"><button class="btn btn-ghost btn-sm" id="planner">📋 Rounds</button><button class="btn btn-ghost btn-sm" id="settings">⚙ Settings</button><button class="btn btn-ghost btn-sm" id="aiAdd">✨ Add with AI</button><button class="btn btn-ghost btn-sm" id="checkAll" title="Fact-check every question with AI">✔ Check all</button><div class="grow"></div><button class="btn btn-sm" id="save">Save</button><button class="btn btn-primary btn-sm" id="host">▶ Host live</button></div>
+      <div class="row"><button class="btn btn-ghost btn-sm" id="planner">📋 Rounds</button><button class="btn btn-ghost btn-sm" id="settings">⚙ Settings</button><button class="btn btn-ghost btn-sm" id="aiAdd">✨ Add with AI</button><button class="btn btn-ghost btn-sm" id="checkAll" title="Fact-check every question with AI">✔ Check all</button><button class="btn btn-ghost btn-sm" id="buildLog" title="How this quiz was written: what the writer was asked and what came back">📜 Build log</button><div class="grow"></div><button class="btn btn-sm" id="save">Save</button><button class="btn btn-primary btn-sm" id="host">▶ Host live</button></div>
     </div>
     <div class="editor"><div class="card qlist" id="qlist"></div><div class="card" id="qform"></div></div>`;
   $('#back').onclick = async () => { if (S.dirty) await save(); loadList(); };
   $('#title').oninput = (e) => { q.title = e.target.value; touch(); };
   $('#settings').onclick = settingsModal;
+  $('#buildLog').onclick = buildLogModal;
   $('#planner').onclick = () => { S.planner = true; renderPlanner(); };
   $('#aiAdd').onclick = () => aiModal(false, cur()?.round || q.rounds[0].id);
   $('#checkAll').onclick = () => checkRounds(q.rounds.map((r) => r.id));
@@ -422,6 +513,7 @@ async function writeAllRounds() {
   const todo = S.quiz.rounds.filter((r) => roundShortfall(r).length);
   if (!todo.length) return toast('Every round already has its questions.');
   if (todo.some((r) => !r.title && !r.brief)) return toast('Give every round a title or a prompt first.', true);
+  LQ.genPlan(S.quiz.settings, 'Write all rounds', todo);
   for (const r of todo) { await generateForRound(r); }
   toast('All rounds written. Read them through before you host.');
   S.planner = false; renderQList(); renderQForm();
@@ -443,7 +535,7 @@ async function generateForRound(r) {
         $('#ga_step', m).textContent = `${TYPES[type].label}: writing ${got + 1}–${Math.min(need, got + BATCH)} of ${need} (${written} of ${total} done)…`;
         const usedPictures = S.quiz.questions.flatMap((q) => [q.media?.source, q.media?.url]).filter((s) => typeof s === 'string' && /^https?:/.test(s));
         const res = await api('generate', { topic: (r.brief ? `${r.title}. ${r.brief}` : r.title).slice(0, 200), title: r.title, brief: r.brief, usedPictures, count: Math.min(BATCH, need - got), difficulty: 'mixed', types: [type], pictures: true, web: true, avoid, premium: !!S.quiz.settings.aiPremium, quizId: S.quiz.id }, { timeout: 170000 });
-        LQ.addUsage(S.quiz.settings, res.usage);
+        LQ.addUsage(S.quiz.settings, res.usage); LQ.genLog(S.quiz.settings, 'Write round', res, { round: r.title });
         if (!res.questions.length) break;
         if (res.fromBank) $('#ga_step', m).textContent = `${TYPES[type].label}: ${res.fromBank} from the bank`;
         if (!res.questions.some((q) => q.type === type)) { toast(`The server wrote ${TYPES[res.questions[0].type]?.label || 'other'} questions instead of ${TYPES[type].label}: the quiz-api function is out of date and needs redeploying. They were not added.`, true); break; }
@@ -497,7 +589,7 @@ function renderQForm() {
     ${q.type === 'wheel' || q.type === 'tune' ? '' : `<div class="field"><label>${q.type === 'pin' ? 'Picture to drop the pin on' : q.type === 'smash' ? 'The picture' : 'On the screen'}</label><div id="mediaBox"></div></div>`}
     <div class="row" style="align-items:flex-end">
       <div class="field" style="max-width:180px"><label>${q.type === 'wipeout' ? 'Seconds per turn' : q.type === 'race' ? 'Race time limit (seconds)' : 'Time limit (seconds)'}</label><input type="number" id="f_time" min="${q.type === 'wipeout' ? 3 : 5}" max="${q.type === 'race' ? 600 : 180}" value="${q.time}"></div>
-      ${q.type === 'wipeout' ? `<div class="field" style="max-width:160px"><label>Points per right pick</label><input type="number" id="f_pick" min="0" max="5000" value="${q.pickPoints ?? 200}"></div><div class="field" style="max-width:160px"><label>Wipeout penalty</label><input type="number" id="f_penalty" min="0" max="5000" value="${q.penalty ?? 500}"></div><div class="field" style="max-width:190px"><label>Look at the board first (seconds)</label><input type="number" id="f_study" min="0" max="60" value="${q.study ?? 10}"></div>` : ''}
+      ${q.type === 'wipeout' ? `<div class="field" style="max-width:160px"><label>Points per right pick</label><input type="number" id="f_pick" min="0" max="5000" value="${q.pickPoints ?? 200}"></div><div class="field" style="max-width:160px"><label>Wipeout penalty</label><input type="number" id="f_penalty" min="0" max="5000" value="${q.penalty ?? 500}"></div><div class="field" style="max-width:190px"><label>Look at the board first (seconds)</label><input type="number" id="f_study" min="0" max="60" value="${q.study ?? 20}"></div>` : ''}
       ${S.quiz.rounds.length > 1 ? `<div class="field" style="max-width:240px"><label>Round</label><select id="f_round">${S.quiz.rounds.map((r, i) => `<option value="${r.id}" ${r.id === q.round ? 'selected' : ''}>${i + 1}. ${esc(r.title || 'Untitled round')}</option>`).join('')}</select></div>` : ''}
       ${q.type === 'order' || q.type === 'match' || q.type === 'sort' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_partial" ${q.partial ? 'checked' : ''}> Partial credit for partly right</label>` : ''}
       ${q.type === 'text' || q.type === 'highlow' || q.type === 'rhyme' || q.type === 'club' || q.type === 'dingbat' || q.type === 'tune' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_ai" ${q.ai !== false ? 'checked' : ''}> Let AI judge spelling and wording</label>` : ''}
@@ -532,7 +624,7 @@ async function rejectQuestion(q) {
     const avoid = [...(await avoidList()), q.text].filter(Boolean);
     const usedPictures = S.quiz.questions.flatMap((x) => [x.media?.source, x.media?.url]).filter((u) => typeof u === 'string' && /^https?:/.test(u));
     const res = await api('generate', { topic: (r.brief ? `${r.title}. ${r.brief}` : r.title || S.quiz.title).slice(0, 200), title: r.title || S.quiz.title, brief: r.brief || '', usedPictures, count: 1, difficulty: 'mixed', types: [q.type], pictures: true, web: true, avoid, premium: !!S.quiz.settings.aiPremium, quizId: S.quiz.id }, { timeout: 170000 });
-    LQ.addUsage(S.quiz.settings, res.usage);
+    LQ.addUsage(S.quiz.settings, res.usage); LQ.genLog(S.quiz.settings, 'Replace a rejected question', res, { round: r.title });
     const nq = res.questions.find((x) => x.type === q.type);
     if (nq) { nq.round = q.round; nq.time = timeFor(nq.type, S.quiz.settings); if (nq.collage && !nq.media?.url) { try { await buildCollageFor(nq); } catch {} } S.quiz.questions.splice(at, 0, nq); S.sel = at; }
     else { S.sel = Math.max(0, Math.min(at, S.quiz.questions.length - 1)); toast('Nothing came back for the replacement; add one by hand.', true); }
@@ -970,7 +1062,7 @@ function bankModal(q) {
       while (written < total) {
         $('#b_step', m).textContent = `Writing questions ${written + 1}–${Math.min(total, written + BATCH)} of ${total}…`;
         const r = await api('generate', { topic, title: topic, brief: `Quick-fire race questions on ${topic}: one short line each, four short answers, nothing that needs thinking time.`, count: Math.min(BATCH, total - written), difficulty: $('#b_diff', m).value, types: ['choice'], pictures: false, web: $('#b_web', m).checked, avoid, premium: !!S.quiz.settings.aiPremium, quizId: S.quiz.id }, { timeout: 170000 });
-        LQ.addUsage(S.quiz.settings, r.usage);
+        LQ.addUsage(S.quiz.settings, r.usage); LQ.genLog(S.quiz.settings, 'Race bank', r, { round: topic });
         if (!r.questions.length) break;
         for (const g of r.questions) {
           const right = g.options.find((o) => o.id === g.correct)?.text; if (!right) continue;
@@ -1092,7 +1184,7 @@ function aiModal(fresh, roundId) {
     // arrives, and later batches are told what's already been written so they don't repeat it.
     const steps = ['checking earlier quizzes', 'searching the web', 'writing', 'finding pictures'];
     // Seeded with what this quiz already has and with every earlier quiz, so nothing gets asked twice.
-    let written = 0, si = 0, start = null; const warnings = [];
+    let written = 0, si = 0, start = null; const warnings = []; const logs = [];
     const avoid = await avoidList();
     const status = () => { const el = $('#g_step', m); if (el) el.textContent = `Writing questions ${written + 1}–${Math.min(total, written + BATCH)} of ${total} (${steps[si]})…`; };
     prog.innerHTML = `<div class="gen-progress"><span class="spinner"></span><span id="g_step"></span></div>`; status();
@@ -1101,7 +1193,7 @@ function aiModal(fresh, roundId) {
       while (written < total) {
         si = 0; status();
         const r = await api('generate', { ...opts, count: Math.min(BATCH, total - written), avoid, premium: !!S.quiz.settings.aiPremium, quizId: S.quiz.id }, { timeout: 170000 });
-        LQ.addUsage(S.quiz.settings, r.usage);
+        LQ.addUsage(S.quiz.settings, r.usage); { const box = { buildLog: [] }; LQ.genLog(box, fresh ? 'Write a quiz with AI' : 'Add with AI', r, { round: topic }); logs.push(...box.buildLog); }
         if (!r.questions.length) break;
         if (!r.questions.some((q) => types.includes(q.type))) { warnings.push(`The server does not know the question types you asked for yet (the quiz-api function needs redeploying); it wrote ${[...new Set(r.questions.map((q) => TYPES[q.type]?.label))].join(' and ')} instead.`); }
         let rid = round?.id;
@@ -1119,11 +1211,11 @@ function aiModal(fresh, roundId) {
         written += r.questions.length; warnings.push(...(r.warnings || []));
         touch(); if (start === null) { start = S.quiz.questions.findIndex((q) => q.id === firstId); } S.sel = start; renderQList(); renderQForm(); save();
       }
-      clearInterval(tick); m.remove(); S.planner = false; renderQList(); renderQForm();
+      clearInterval(tick); logs.forEach((e) => LQ.pushLog(S.quiz.settings, e)); touch(); save(); m.remove(); S.planner = false; renderQList(); renderQForm();
       toast(`Added ${written} question${written === 1 ? '' : 's'}. Read them through before you host — AI can be wrong.`);
       if (warnings.length) setTimeout(() => toast(warnings[0] + (warnings.length > 1 ? ` (+${warnings.length - 1} more)` : ''), true), 2800);
     } catch (e) {
-      clearInterval(tick);
+      clearInterval(tick); if (S.quiz) { logs.forEach((x) => LQ.pushLog(S.quiz.settings, x)); touch(); }
       prog.innerHTML = `<div class="error">${esc(e.message)}${written ? ` The ${written} question${written === 1 ? '' : 's'} written so far ${written === 1 ? 'is' : 'are'} in the quiz.` : ''}</div>`;
       btn.disabled = false; $('[data-x]', m).disabled = false;
     }
