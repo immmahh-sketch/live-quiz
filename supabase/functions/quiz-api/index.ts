@@ -898,6 +898,15 @@ Deno.serve(async (req) => {
     return json({ error: "Unknown action." }, 400);
   } catch (e) {
     console.error(e);
-    return json({ error: String((e as Error)?.message || e) }, 500);
+    return json({ error: friendly(String((e as Error)?.message || e)) }, 500);
   }
 });
+
+/** Turns the AI provider's raw errors into something a host can act on. */
+function friendly(msg: string): string {
+  if (/credit balance is too low/i.test(msg)) return "The AI account is out of credit, so nothing can be written or judged right now. Top it up at console.anthropic.com (Plans & Billing), then try again.";
+  if (/invalid x-api-key|authentication_error/i.test(msg)) return "The AI key on the server is not valid. Check the ANTHROPIC_API_KEY secret.";
+  if (/rate_limit|429/i.test(msg)) return "The AI is being rate-limited. Wait a minute and try again.";
+  if (/overloaded|529/i.test(msg)) return "The AI is overloaded right now. Try again in a moment.";
+  return msg;
+}
