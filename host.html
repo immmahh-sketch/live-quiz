@@ -575,28 +575,29 @@ async function grade(noAi) {
       const top = standings[0].correct;
       if (top > 0 && standings.filter((s) => s.correct === top).length === 1) winner = standings[0].pid;
     }
-    // The loser: alone at the bottom of the standings, never the winner, and only when there is a race to lose (two or more runners).
+    // Every right answer scores; then the bonuses. The loser: alone at the bottom, never the winner, and only with four or more runners.
+    const n = standings.length;
     let loser = null;
-    if (standings.length >= 2 && (v.forfeit ?? 500) > 0) {
-      const last = standings[standings.length - 1], prev = standings[standings.length - 2];
+    if (n >= 4 && (v.forfeit ?? 200) > 0) {
+      const last = standings[n - 1], prev = standings[n - 2];
       const tied = last.correct === prev.correct && last.done === prev.done;
       if (!tied && last.pid !== winner) loser = last.pid;
     }
-    // Place prizes: second with more than three runners, third with more than five — and only when the place is clear-cut.
+    // Second and third bonuses whenever the place is clear-cut (no runner threshold; the loser rule handles small fields).
     const clear = (i) => standings[i] && !(standings[i + 1] && standings[i + 1].correct === standings[i].correct && standings[i + 1].done === standings[i].done) && !(standings[i - 1] && standings[i - 1].correct === standings[i].correct && standings[i - 1].done === standings[i].done && !standings[i].done);
-    const n = standings.length;
     const ordered = winner ? [winner, ...standings.map((s) => s.pid).filter((p) => p !== winner)] : standings.map((s) => s.pid);
-    const second = n > 3 && (v.prize2 ?? 2000) > 0 && clear(standings.findIndex((s) => s.pid === ordered[1])) && ordered[1] !== loser ? ordered[1] : null;
-    const third = n > 5 && (v.prize3 ?? 500) > 0 && clear(standings.findIndex((s) => s.pid === ordered[2])) && ordered[2] !== loser ? ordered[2] : null;
+    const second = (v.prize2 ?? 200) > 0 && clear(standings.findIndex((s) => s.pid === ordered[1])) && ordered[1] !== loser ? ordered[1] : null;
+    const third = (v.prize3 ?? 100) > 0 && clear(standings.findIndex((s) => s.pid === ordered[2])) && ordered[2] !== loser ? ordered[2] : null;
     for (const s of standings) {
       const won = s.pid === winner, lost = s.pid === loser, place = won ? 1 : s.pid === second ? 2 : s.pid === third ? 3 : 0;
-      const points = won ? (v.prize ?? 5000) : place === 2 ? (v.prize2 ?? 2000) : place === 3 ? (v.prize3 ?? 500) : lost ? -(v.forfeit ?? 500) : 0;
-      byPlayer[s.pid] = { answered: true, correct: won, partial: won ? 1 : 0, points, raced: true, lost, place, got: s.correct, out: s.out, done: s.done }; if (won) stats.right++;
+      const base = s.correct * (v.perCorrect ?? 100);
+      const bonus = won ? (v.prize ?? 500) : place === 2 ? (v.prize2 ?? 200) : place === 3 ? (v.prize3 ?? 100) : lost ? -(v.forfeit ?? 200) : 0;
+      byPlayer[s.pid] = { answered: true, correct: won, partial: won ? 1 : 0, points: base + bonus, base, bonus, raced: true, lost, place, got: s.correct, out: s.out, done: s.done }; if (won) stats.right++;
     }
     stats.answered = standings.length;
     stats.standings = standings; stats.winner = winner ? { pid: winner, name: G.players[winner]?.name || 'Player', emoji: G.players[winner]?.emoji || '' } : null;
     stats.loser = loser ? { pid: loser, name: G.players[loser]?.name || 'Player', emoji: G.players[loser]?.emoji || '' } : null;
-    stats.places = [second, third].map((pid, i) => pid ? { pid, name: G.players[pid]?.name || 'Player', emoji: G.players[pid]?.emoji || '', place: i + 2, points: i === 0 ? (v.prize2 ?? 2000) : (v.prize3 ?? 500) } : null).filter(Boolean);
+    stats.places = [second, third].map((pid, i) => pid ? { pid, name: G.players[pid]?.name || 'Player', emoji: G.players[pid]?.emoji || '', place: i + 2, points: i === 0 ? (v.prize2 ?? 200) : (v.prize3 ?? 100) } : null).filter(Boolean);
   }
   if (q.type === 'wipeout') {
     const w = G.q.wipe || { scores: {}, picks: [] };
