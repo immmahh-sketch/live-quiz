@@ -74,7 +74,12 @@ window.LQ = (() => {
     dingbat:{ label: 'Dingbats',        icon: '🔤', blurb: 'Say what you see: a well-known phrase hidden in how the words are laid out.' },
     catchphrase: { label: 'Catchphrase', icon: '🗯️', blurb: 'A clip from the show plays on the screen. Players type the well-known phrase it shows.' },
     tune:   { label: 'Name That Tune',  icon: '🎵', blurb: 'A clip plays on the screen. Name the song, the artist, the film it is from, the year, or the next line.' },
+    potato: { label: 'Hot Potato',      icon: '💣', blurb: 'A lit bomb passes round the room. Whoever holds it answers on their phone; get it right and pass it on. Holding it when it blows costs you points.' },
+    koth:   { label: 'King of the Hill', icon: '👑', blurb: 'Fastest finger picks two players for a head-to-head buzzer battle, answered out loud. Right keeps you on the hill. First to the target wins the prize.' },
+    blockbusters: { label: 'Blockbusters', icon: '⬢', blurb: 'Two teams battle across a board of letter hexagons. First to type the answer claims the hex; the first team to link its two sides wins.' },
   };
+  /** The games that run on a bank of quick questions, like The Race. */
+  const BANK_GAMES = ['race', 'potato', 'koth', 'blockbusters'];
   /** Not a question: a title, a few lines and an optional picture or video on the screen and the phones. No clock, no points. */
   const SLIDE = { label: 'Slide', icon: '🪧', blurb: 'Not a question: a welcome, the rules, a break or a message, on the screen and the phones. No points.' };
   /** Label and icon for any item in a quiz, slides included. */
@@ -171,6 +176,9 @@ window.LQ = (() => {
     dingbat: 'Say what you see: a well-known phrase hidden in how the words are laid out.',
     catchphrase: 'Watch the clip and say what you see: type the well-known saying it shows.',
     tune: 'Listen to the clip and answer on your phone.',
+    potato: 'The bomb is lit and nobody knows how long the fuse is. If it lands on you, answer the question on your phone. Get it right and you choose who gets it next. Holding it when it goes bang costs you points.',
+    koth: 'Fastest finger first picks two players to go head to head. Buzz on your phone, then say your answer out loud. Get it right and you stay on the hill and score a point. First to the target wins the prize.',
+    blockbusters: 'Pick a side. Your side chooses a letter, and the answer starts with it. First to type the right answer wins the hexagon for their side. Link your two sides of the board to win.',
   };
   /** The build log: every writer call for a quiz, with what was asked and what came back, kept in its settings. */
   function genLog(settings, how, res, extra = {}) {
@@ -194,7 +202,7 @@ window.LQ = (() => {
     { name: 'yellow', hex: '#d89e00', shape: '●' },
     { name: 'green',  hex: '#26890c', shape: '■' },
   ];
-  const DEFAULT_TIMES = { catchphrase: 50, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30 };
+  const DEFAULT_TIMES = { catchphrase: 50, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30, potato: 90, koth: 15, blockbusters: 20 };
   const DEFAULT_SETTINGS = { maxPoints: 1000, minPoints: 500, defaultTime: 30, showAnswersOnPhones: true, timeByType: { ...DEFAULT_TIMES } };
 
   /** The time limit a question of this type gets by default in this quiz. */
@@ -221,6 +229,7 @@ window.LQ = (() => {
     // Races saved under the old scoring (5000 to the winner, nothing per right answer) move to today's: 100 per right answer, 500/200/100, −200 for last.
     for (const qu of questions) if (qu.type === 'race' && qu.perCorrect === undefined) Object.assign(qu, { perCorrect: 100, prize: 500, prize2: 200, prize3: 100, forfeit: 200 });
     for (const qu of questions) if (qu.type === 'race' && qu.maxWrong === undefined) qu.maxWrong = 10;
+    for (const qu of questions) if (NEW_GAME_DEFAULTS[qu.type]) for (const [k, v] of Object.entries(NEW_GAME_DEFAULTS[qu.type]())) if (qu[k] === undefined) qu[k] = v;
     delete settings.rounds;
     const quiz = { id: q.id || null, title: q.title || 'Untitled quiz', settings, rounds, questions };
     orderQuestions(quiz);
@@ -258,8 +267,17 @@ window.LQ = (() => {
     if (type === 'sort') { q.categories = [0, 1].map(() => ({ id: uid('c'), name: '' })); q.items = [0, 1, 2, 3].map(() => ({ id: uid('i'), text: '', category: q.categories[0].id })); }
     if (type === 'wipeout') { q.right = Array.from({ length: 8 }, () => ({ id: uid('w'), text: '' })); q.wrong = Array.from({ length: 3 }, () => ({ id: uid('w'), text: '' })); q.pickPoints = 200; q.penalty = 500; q.study = 20; }
     if (type === 'race') { q.target = 10; q.maxWrong = 10; q.perCorrect = 100; q.prize = 500; q.prize2 = 200; q.prize3 = 100; q.forfeit = 200; q.bank = Array.from({ length: 20 }, () => newBankItem()); }
+    if (NEW_GAME_DEFAULTS[type]) Object.assign(q, NEW_GAME_DEFAULTS[type](), { bank: Array.from({ length: type === 'potato' ? 20 : 30 }, () => newBankItem()) });
     return q;
   }
+  /** Settings for the three newer bank games: filled in on new questions, and on older saves that lack them. */
+  const NEW_GAME_DEFAULTS = {
+    potato: () => ({ fuseMin: 40, fuseMax: 90, perCorrect: 50, penalty: 300 }),
+    koth: () => ({ target: 3, prize: 1000, answerSecs: 3 }),
+    blockbusters: () => ({ teams: [{ name: 'Newcastle', color: '#f2f2f2' }, { name: 'Sunderland', color: '#e21b3c' }], hexPoints: 50, prize: 500 }),
+  };
+  /** The bank rows a game can use: a question and its right answer, plus (except in Blockbusters) at least one wrong one. */
+  function goodRows(q) { return (q.bank || []).filter((b) => b.text?.trim() && b.options?.[0]?.trim() && (q.type === 'blockbusters' || b.options.filter((o) => o.trim()).length >= 2)); }
   function newBankItem() { return { id: uid('b'), text: '', options: ['', '', '', ''] }; }
   /** The id a right answer maps to, for the types that have one. */
   function correctId(q) { return q.type === 'tf' ? String(q.answer) : q.correct; }
@@ -341,8 +359,58 @@ window.LQ = (() => {
       const target = +q.target || 10, lives = q.maxWrong ?? 10;
       if (good.length < target + lives) problems.push(`Needs ${target + lives} complete questions in the bank (it has ${good.length}), so a player can get ${lives} wrong and still finish.`);
     }
+    if (q.type === 'potato') {
+      const n = goodRows(q).length;
+      if (n < 10) problems.push(`Needs at least 10 complete questions in the bank (it has ${n}). They are reused if the bomb goes round a lot.`);
+      if (!(+q.fuseMin >= 10) || !(+q.fuseMax >= +q.fuseMin) || +q.fuseMax > 600) problems.push('The fuse needs a shortest time of at least 10 seconds, and a longest time no shorter than that (600 at most).');
+    }
+    if (q.type === 'koth') {
+      const n = goodRows(q).length;
+      if (n < 12) problems.push(`Needs at least 12 complete questions in the bank (it has ${n}); a game to ${q.target || 3} can easily use 20 or more.`);
+      if (!(+q.target >= 1 && +q.target <= 10)) problems.push('Points to win must be between 1 and 10.');
+    }
+    if (q.type === 'blockbusters') {
+      const n = goodRows(q).length;
+      if (n < BB_COLS * BB_ROWS) problems.push(`Needs at least ${BB_COLS * BB_ROWS} complete questions, one for each hexagon (it has ${n}). A few spares cover the ones nobody gets.`);
+      if ((q.teams || []).length !== 2 || !q.teams.every((t) => (t.name || '').trim())) problems.push('Both teams need a name.');
+    }
     if (q.media && q.media.kind === 'youtube' && !q.media.videoId) problems.push('The YouTube link is not valid.');
     return problems;
+  }
+
+  // ---- Blockbusters board: five columns of four hexagons, every other column dropped half a hex, as on the show ----
+  const BB_COLS = 5, BB_ROWS = 4;
+  /** The hexagons touching hexagon i (i = row * BB_COLS + column). */
+  function bbNeighbours(i) {
+    const c = i % BB_COLS, r = Math.floor(i / BB_COLS), odd = c % 2 === 1;
+    const cand = [[c, r - 1], [c, r + 1], [c - 1, odd ? r : r - 1], [c - 1, odd ? r + 1 : r], [c + 1, odd ? r : r - 1], [c + 1, odd ? r + 1 : r]];
+    return cand.filter(([x, y]) => x >= 0 && x < BB_COLS && y >= 0 && y < BB_ROWS).map(([x, y]) => y * BB_COLS + x);
+  }
+  /** A team's linked path as hexagon indices, or null. Team 0 joins left to right; team 1 joins top to bottom. */
+  function bbPath(owner, team) {
+    const n = BB_COLS * BB_ROWS, prev = {};
+    const start = [...Array(n).keys()].filter((i) => owner[i] === team && (team === 0 ? i % BB_COLS === 0 : i < BB_COLS));
+    const seen = new Set(start), queue = start.slice();
+    while (queue.length) {
+      const i = queue.shift();
+      if (team === 0 ? i % BB_COLS === BB_COLS - 1 : i >= n - BB_COLS) { const path = [i]; let p = i; while (prev[p] !== undefined) { p = prev[p]; path.push(p); } return path; }
+      for (const j of bbNeighbours(i)) if (owner[j] === team && !seen.has(j)) { seen.add(j); prev[j] = i; queue.push(j); }
+    }
+    return null;
+  }
+  /** Dark or light writing, whichever reads on a team's colour. */
+  function inkOn(hex) { const h = String(hex || '').replace('#', ''); if (h.length < 6) return '#fff'; const [r, g, b] = [0, 2, 4].map((k) => parseInt(h.slice(k, k + 2), 16)); return (r * 299 + g * 587 + b * 114) / 1000 > 150 ? '#1b1640' : '#fff'; }
+  /** The board as HTML. hexes: [{ letter, owner (-1 open, 0 or 1) }]; opts: { teams, hot (index), win (indices), pick (open ones tappable), cls }. */
+  function bbBoardHtml(hexes, opts = {}) {
+    const teams = opts.teams || [], win = new Set(opts.win || []);
+    const col = (t) => teams[t]?.color || (t === 0 ? '#f2f2f2' : '#e21b3c');
+    const cells = hexes.map((h, i) => {
+      const c = i % BB_COLS, r = Math.floor(i / BB_COLS);
+      const style = `left:${c * 18.75}%;top:${((r + (c % 2) / 2) / 4.5) * 100}%;${h.owner >= 0 ? `--hx:${col(h.owner)};color:${inkOn(col(h.owner))}` : ''}`;
+      const tag = opts.pick && h.owner < 0 ? 'button' : 'div';
+      return `<${tag} class="bbhex ${h.owner >= 0 ? 'owned' : ''} ${opts.hot === i ? 'hot' : ''} ${win.has(i) ? 'win' : ''}" style="${style}" ${tag === 'button' ? `data-hex="${i}"` : ''}><span>${esc(h.letter || '')}</span></${tag}>`;
+    }).join('');
+    return `<div class="bbframe ${opts.cls || ''}" style="--t0:${col(0)};--t1:${col(1)}"><div class="bbboard">${cells}</div></div>`;
   }
 
   function youtubeId(url) {
@@ -499,6 +567,6 @@ window.LQ = (() => {
   function ordinal(n) { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
   return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
-    TYPES, SLIDE, BREAK, isPractice, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
+    TYPES, BANK_GAMES, NEW_GAME_DEFAULTS, goodRows, BB_COLS, BB_ROWS, bbNeighbours, bbPath, bbBoardHtml, inkOn, SLIDE, BREAK, isPractice, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
     newCode, playUrl, shortPlayUrl, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml, addUsage, usageCost, usageSummary, AI_PRICES, TUNE_ASKS, tunePrompt, bigArt, cleanTitle };
 })();

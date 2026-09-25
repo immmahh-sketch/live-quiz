@@ -237,10 +237,22 @@ function stateForPlayers() {
   if (G.phase === 'question' && G.q) {
     s.q = G.q.view; s.remainingMs = Math.max(0, (G.q.deadline || 0) - nowT); s.answered = Object.keys(G.q.answers);
     if (G.q.wipe) { const w = G.q.wipe; s.wipe = { turnPid: w.turnPid, turnName: G.players[w.turnPid]?.name || '', remainingMs: Math.max(0, (w.studyUntil || w.turnDeadline) - nowT), studyMs: w.studyUntil ? Math.max(0, w.studyUntil - nowT) : 0, gone: w.gone, out: w.out, over: w.over, last: w.last, scores: w.scores, order: w.order.filter((p) => !w.out.includes(p)) }; }
+    if (G.q.potato) { const p = G.q.potato, q = question(); s.potato = { holder: p.holder, stage: p.stage, row: p.stage === 'answer' && !p.exploded ? rowForPhone(potatoRow(p), p.row) : null, players: livePids().map((x) => ({ pid: x, name: pname(x), emoji: pem(x) })), passes: p.passes, last: p.last, exploded: p.exploded, scores: p.scores, penalty: q.penalty ?? 300, perCorrect: q.perCorrect ?? 50 }; }
+    if (G.q.koth) {
+      const g = G.q.koth, q = question(), frow = g.fff ? kothRow(g.fff.row) : null, hrow = g.h2h ? kothRow(g.h2h.row) : null;
+      s.koth = { step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, target: q.target || 3, prize: q.prize ?? 1000, pts: g.pts, king: g.king, pair: g.pair, judges: kothJudges(), result: g.result, winner: g.winner,
+        fff: frow && (g.step === 'fff' || g.step === 'fffShow') ? { row: rowForPhone(frow, g.next), eligible: g.fff.eligible, answered: Object.keys(g.fff.answered), through: g.fff.through, need: g.fff.need, right: g.step === 'fffShow' ? frow.right : null } : null,
+        h2h: hrow && ['h2h', 'noBuzz', 'answer', 'claxon', 'judge', 'result'].includes(g.step) ? { text: hrow.text, buzz: g.h2h.buzz, answer: ['noBuzz', 'judge', 'result'].includes(g.step) ? hrow.right : null } : null };
+    }
+    if (G.q.bb) {
+      const g = G.q.bb, q = question();
+      s.bb = { step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, teams: q.teams, teamOf: g.teams, hexes: g.hexes.map((h, i) => ({ letter: h.letter, owner: g.owner[i] })), picker: g.picker, hot: g.hot, letter: g.hot >= 0 ? g.hexes[g.hot]?.letter : '', text: g.step === 'ask' ? G.q.rows[g.hexes[g.hot].row].text : '', answered: Object.keys(g.answered), claim: g.claim, winner: g.winner, path: g.path, scores: g.scores, prize: q.prize ?? 500 };
+    }
+    if (s.potato || s.koth || s.bb) s.names = Object.fromEntries(Object.values(G.players).map((p) => [p.id, { name: p.name, emoji: p.emoji || '' }]));
     if (G.q.race) { const r = G.q.race; s.race = { winner: r.winner, winnerName: r.winner ? G.players[r.winner]?.name : null, over: r.over, target: G.q.view.target, maxWrong: G.q.view.maxWrong ?? 10, players: Object.fromEntries(Object.entries(r.players).map(([pid, p]) => [pid, { idx: p.idx, correct: p.correct, wrong: p.wrong, out: p.out, why: p.why, done: p.done }])) }; }
   }
   if (G.phase === 'countdown') s.next = { type: question().kind || question().type, n: qNum(G.qIndex) };
-  if (G.phase === 'countdown' && G.raceIntro) s.raceIntro = { step: G.raceIntro.step, n: G.raceIntro.n, topic: raceTopic(question()), target: +question().target || 10, maxWrong: question().maxWrong ?? 10 };
+  if (G.phase === 'countdown' && G.raceIntro) s.raceIntro = { kind: G.raceIntro.kind || 'race', title: TYPES[question().type]?.label, icon: TYPES[question().type]?.icon, sub: introSub(question()), step: G.raceIntro.step, n: G.raceIntro.n, topic: raceTopic(question()), target: +question().target || 10, maxWrong: question().maxWrong ?? 10 };
   if (G.phase === 'typecard') s.typecard = { type: question().kind || question().type, n: qNum(G.qIndex), run: typeRun(G.qIndex) };
   if (G.phase === 'round') { const r = roundOf(G.qIndex); s.round = { n: r.n, title: r.title, practice: !!r.practice, intro: r.intro || '', count: r.count }; }
   if (G.phase === 'question' && G.q?.wheelRevealed !== undefined) s.wheel = { revealed: G.q.wheelRevealed, category: question().category, layout: G.q.view.layout };
@@ -248,7 +260,7 @@ function stateForPlayers() {
   if ((G.phase === 'reveal' || G.phase === 'scoreboard' || G.phase === 'final') && G.q?.results) {
     s.results = {}; s.qType = question()?.type;
     const rk = ranked();
-    for (const p of rk) { const r = G.q.results.byPlayer[p.id]; s.results[p.id] = { practice: !!r?.practice, would: r?.would || 0, correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, skipped: !!r?.skipped, wiped: !!r?.wiped, raced: !!r?.raced, lost: !!r?.lost, place: r?.place || 0, base: r?.base || 0, bonus: r?.bonus || 0, got: r?.got, out: !!r?.out, score: p.score, rank: rk.indexOf(p) + 1, of: rk.length }; }
+    for (const p of rk) { const r = G.q.results.byPlayer[p.id]; s.results[p.id] = { note: r?.note || '', practice: !!r?.practice, would: r?.would || 0, correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, skipped: !!r?.skipped, wiped: !!r?.wiped, raced: !!r?.raced, lost: !!r?.lost, place: r?.place || 0, base: r?.base || 0, bonus: r?.bonus || 0, got: r?.got, out: !!r?.out, score: p.score, rank: rk.indexOf(p) + 1, of: rk.length }; }
     if (G.quiz.settings.showAnswersOnPhones !== false) { s.answer = answerText(question()); if (question()?.type === 'club' && question().why) s.why = question().why; }
   }
   if (G.phase === 'final') s.top = ranked().slice(0, 10).map((p, i) => ({ name: p.name, score: p.score, rank: i + 1 }));
@@ -270,6 +282,9 @@ function answerText(q) {
   if (q.type === 'sort') return q.categories.filter((c) => c.name.trim()).map((c) => `${c.name}: ${q.items.filter((i) => i.category === c.id && i.text.trim()).map((i) => i.text).join(', ')}`).join(' · ');
   if (q.type === 'wipeout') return 'Wrong ones: ' + q.wrong.filter((i) => i.text.trim()).map((i) => i.text).join(', ');
   if (q.type === 'race') { const w = G.q?.results?.stats?.winner; return w ? `${w.name} won the race` : 'Nobody finished the race'; }
+  if (q.type === 'potato') { const x = G.q?.potato?.exploded; return x ? `💥 ${pname(x)} was holding the bomb` : 'The bomb never went off'; }
+  if (q.type === 'koth') { const x = G.q?.koth?.winner; return x ? `👑 ${pname(x)} is King of the Hill` : `Nobody reached ${q.target || 3} points`; }
+  if (q.type === 'blockbusters') { const t = G.q?.bb?.winner; return t >= 0 ? `${q.teams[t].name} won the board` : 'Nobody linked their sides'; }
   return '';
 }
 
@@ -293,6 +308,9 @@ function onAnswer({ pid, qId, answer, low }) {
   if (!G.players[pid]) { onHello({ pid, name: present.get(pid) || 'Player' }); }
   if (G.q.wipe) return wipePick(pid, String(answer));
   if (G.q.race) return racePick(pid, answer);
+  if (G.q.potato) return potatoAnswer(pid, answer);
+  if (G.q.koth) return kothAnswer(pid, answer);
+  if (G.q.bb) return bbAnswer(pid, answer);
   if (G.q.answers[pid]) return;
   if (low) onHint({ pid, qId });
   G.q.answers[pid] = { answer, elapsed: Date.now() - G.q.startedAt };
@@ -302,7 +320,7 @@ function onAnswer({ pid, qId, answer, low }) {
   maybeAllAnswered();
 }
 function maybeAllAnswered() {
-  if (G.phase !== 'question' || G.q?.wipe || G.q?.race) return;
+  if (G.phase !== 'question' || G.q?.wipe || G.q?.race || gameKind()) return;
   const live = [...present.keys()].filter((pid) => G.players[pid]);
   const pool = live.length ? live : Object.keys(G.players);
   if (pool.length && pool.every((pid) => G.q.answers[pid])) setTimeout(() => { if (G.phase === 'question') endQuestion(); }, 600);
@@ -416,7 +434,7 @@ function toTypeCard(i) {
 }
 // ------------------------------------------------------------------ the race's start: splash, 3-2-1, starting pistol
 /** The race's topic, without the "The Race:" it usually starts with. */
-function raceTopic(q) { const t = String(q.text || '').replace(/^the race\s*[:\-–—]\s*/i, '').trim(); return t ? t[0].toUpperCase() + t.slice(1) : 'Quick-fire questions'; }
+function raceTopic(q) { const t = String(q.text || '').replace(/^(the race|hot potato|king of the hill|blockbusters)\s*[:\-–—]\s*/i, '').trim(); return t ? t[0].toUpperCase() + t.slice(1) : 'Quick-fire questions'; }
 /** Beeps for the countdown and a crack for the pistol, made in the browser. Quiet when the music is off. */
 let sfx = null;
 function sound(kind) {
@@ -453,6 +471,33 @@ function sound(kind) {
         g.gain.setValueAtTime(0.0001, t + at); g.gain.exponentialRampToValueAtTime(0.22, t + at + 0.02); g.gain.exponentialRampToValueAtTime(0.001, t + at + len);
         o.connect(g).connect(ac.destination); o.start(t + at); o.stop(t + at + len + 0.05);
       });
+    } else if (kind === 'tick') {
+      const o = ac.createOscillator(), g = ac.createGain(); o.type = 'square'; o.frequency.value = 2200;
+      g.gain.setValueAtTime(0.05, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.04); o.connect(g).connect(ac.destination); o.start(t); o.stop(t + 0.05);
+    } else if (kind === 'explode') {
+      // A big low boom: rumbling noise through a closing filter, and a sub-bass thump.
+      const len = Math.floor(ac.sampleRate * 2.2), buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0);
+      for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.2);
+      const n = ac.createBufferSource(), f = ac.createBiquadFilter(), ng = ac.createGain(); n.buffer = buf; f.type = 'lowpass'; f.frequency.setValueAtTime(3000, t); f.frequency.exponentialRampToValueAtTime(120, t + 2); ng.gain.value = 1.1;
+      n.connect(f).connect(ng).connect(ac.destination); n.start(t);
+      const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sine'; o.frequency.setValueAtTime(90, t); o.frequency.exponentialRampToValueAtTime(30, t + 0.9);
+      g.gain.setValueAtTime(0.6, t); g.gain.exponentialRampToValueAtTime(0.001, t + 1); o.connect(g).connect(ac.destination); o.start(t); o.stop(t + 1.05);
+    } else if (kind === 'buzz') {
+      const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sawtooth'; o.frequency.value = 150;
+      g.gain.setValueAtTime(0.25, t); g.gain.setValueAtTime(0.25, t + 0.45); g.gain.exponentialRampToValueAtTime(0.001, t + 0.55); o.connect(g).connect(ac.destination); o.start(t); o.stop(t + 0.6);
+    } else if (kind === 'claxon') {
+      // A loud two-tone klaxon, three blasts.
+      for (let k = 0; k < 3; k++) { const at = t + k * 0.32; for (const f of [440, 554]) { const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sawtooth'; o.frequency.value = f; g.gain.setValueAtTime(0.0001, at); g.gain.exponentialRampToValueAtTime(0.22, at + 0.02); g.gain.setValueAtTime(0.22, at + 0.24); g.gain.exponentialRampToValueAtTime(0.001, at + 0.3); o.connect(g).connect(ac.destination); o.start(at); o.stop(at + 0.31); } }
+    } else if (kind === 'ding') {
+      [[880, 0], [1320, 0.09]].forEach(([f, at]) => { const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sine'; o.frequency.value = f; g.gain.setValueAtTime(0.2, t + at); g.gain.exponentialRampToValueAtTime(0.001, t + at + 0.5); o.connect(g).connect(ac.destination); o.start(t + at); o.stop(t + at + 0.55); });
+    } else if (kind === 'wrong') {
+      const o = ac.createOscillator(), g = ac.createGain(); o.type = 'square'; o.frequency.setValueAtTime(200, t); o.frequency.setValueAtTime(150, t + 0.15);
+      g.gain.setValueAtTime(0.12, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.35); o.connect(g).connect(ac.destination); o.start(t); o.stop(t + 0.4);
+    } else if (kind === 'whoosh') {
+      const len = Math.floor(ac.sampleRate * 0.5), buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0);
+      for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.sin(Math.PI * i / len);
+      const n = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain(); n.buffer = buf; f.type = 'bandpass'; f.frequency.setValueAtTime(400, t); f.frequency.exponentialRampToValueAtTime(2500, t + 0.45); g.gain.value = 0.35;
+      n.connect(f).connect(g).connect(ac.destination); n.start(t);
     } else if (kind === 'beep' || kind === 'go') {
       const o = ac.createOscillator(), g = ac.createGain(); o.type = 'square'; o.frequency.value = kind === 'go' ? 1320 : 660;
       g.gain.setValueAtTime(0.18, t); g.gain.exponentialRampToValueAtTime(0.001, t + (kind === 'go' ? 0.5 : 0.22));
@@ -470,7 +515,7 @@ function sound(kind) {
 function startRaceIntro(i) {
   clearInterval(tickT); clearInterval(countT); if (typeof stopTune === 'function') stopTune();
   G.qIndex = i; G.phase = 'countdown'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString();
-  G.raceIntro = { step: 'splash', n: 3 };
+  G.raceIntro = { step: 'splash', n: 3, kind: G.quiz.questions[i].type };
   persist(); render(); broadcastState();
   let t = 0;
   countT = setInterval(() => {
@@ -478,14 +523,14 @@ function startRaceIntro(i) {
     if (!ri || G.phase !== 'countdown') return clearInterval(countT);
     if (G.paused) return;
     t++;
-    if (ri.step === 'splash') { if (t < 4) return; ri.step = 'count'; ri.n = 3; sound('beep'); }
+    if (ri.step === 'splash') { if (t < (ri.kind === 'race' ? 4 : 7)) return; if (ri.kind !== 'race') { clearInterval(countT); startQuestion(); return; } ri.step = 'count'; ri.n = 3; sound('beep'); }
     else if (ri.step === 'count') { if (ri.n > 1) { ri.n--; sound('beep'); } else { ri.step = 'bang'; sound('bang'); } }
     else { clearInterval(countT); startQuestion(); return; }
     persist(); render(); broadcastState();
   }, 1000);
 }
 function startCountdown(i) {
-  if (G.quiz.questions[i]?.type === 'race') return startRaceIntro(i);
+  if (LQ.BANK_GAMES.includes(G.quiz.questions[i]?.type)) return startRaceIntro(i); // a splash first; the race adds 3-2-1 and the pistol
   clearInterval(tickT); clearInterval(countT); if (typeof stopTune === 'function') stopTune(); G.raceIntro = null;
   G.qIndex = i; G.phase = 'countdown'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString();
   persist(); render(); broadcastState();
@@ -552,7 +597,12 @@ function buildView(q) {
     v.bank = good.map((b) => ({ k: tok('Q:' + b.id), text: b.text, options: shuffle(b.options.map((o, oi) => ({ o, oi })).filter((x) => x.o.trim())).map((x, i) => ({ k: tok((x.oi === 0 ? 'R:' : 'W:') + b.id), text: x.o, c: i })) }));
     v.target = q.target || 10; v.maxWrong = q.maxWrong ?? 10; v.perCorrect = q.perCorrect ?? 100; v.prize = q.prize ?? 500; v.prize2 = q.prize2 ?? 200; v.prize3 = q.prize3 ?? 100; v.forfeit = q.forfeit ?? 200;
   }
-  return { view: v, keys };
+  // The newer bank games keep their rows (and so the answers) on this screen; the phones get one question at a time.
+  let rows = null;
+  if (q.type === 'potato') { rows = gameRows(q, tok); v.perCorrect = q.perCorrect ?? 50; v.penalty = q.penalty ?? 300; }
+  if (q.type === 'koth') { rows = gameRows(q, tok); v.target = q.target || 3; v.prize = q.prize ?? 1000; v.answerSecs = q.answerSecs ?? 3; }
+  if (q.type === 'blockbusters') { rows = gameRows(q, tok); v.teams = q.teams; v.hexPoints = q.hexPoints ?? 50; v.prize = q.prize ?? 500; }
+  return { view: v, keys, rows };
 }
 
 // ------------------------------------------------------------------ the race
@@ -644,14 +694,365 @@ function wipePick(pid, token) {
   if (!rightLeft) { w.over = true; w.last = { name: null, text: 'All found!', ok: true }; persist(); renderWipe(); broadcastState(); setTimeout(() => endQuestion(), 1500); return; }
   wipeNextTurn();
 }
+
+// ------------------------------------------------------------------ Hot Potato, King of the Hill, Blockbusters
+//
+// Three turn-based games on a bank of quick questions. Each keeps its own state on G.q (potato, koth, bb), moves
+// through steps with deadlines that gameTick() checks, and draws itself; the phones get what they need through
+// stateForPlayers(). Bots take part through the same answer handler a phone's message reaches.
+const pname = (pid) => G.players[pid]?.name || 'Player', pem = (pid) => G.players[pid]?.emoji || '🙂';
+function livePids() { const live = Object.keys(G.players).filter((pid) => present.has(pid)); return live.length ? live : Object.keys(G.players); }
+const gameKind = () => G.q?.potato ? 'potato' : G.q?.koth ? 'koth' : G.q?.bb ? 'bb' : '';
+/** The question's bank as playable rows, shuffled once: the right answer, and option tokens for the phones (right answer's token maps to R:). */
+function gameRows(q, tok) {
+  return shuffle(LQ.goodRows(q)).map((b) => ({ id: b.id, text: b.text, right: b.options[0].trim(), options: shuffle(b.options.map((o, oi) => ({ o: o.trim(), oi })).filter((x) => x.o)).map((x, i) => ({ k: tok((x.oi === 0 ? 'R:' : 'W:') + b.id), text: x.o, c: i })) }));
+}
+/** A row as a phone sees it: the question and its answer buttons, never which is right. */
+const rowForPhone = (row, i) => row ? { i, text: row.text, options: row.options.map(({ k, text, c }) => ({ k, text, c })) } : null;
+const isRight = (row, k) => !!row && G.q.keys[k] === 'R:' + row.id;
+/** Moves every game deadline on by d ms (after a pause). */
+function shiftGame(d) {
+  const p = G.q?.potato; if (p) { p.fuseEnd += d; p.startedAt += d; if (p.passBy) p.passBy += d; }
+  for (const g of [G.q?.koth, G.q?.bb]) if (g?.until) g.until += d;
+}
+function stepTo(g, step, ms) { g.step = step; g.until = ms ? Date.now() + ms : 0; g.total = ms || 0; }
+let gameTickAt = 0;
+/** Called ten times a second while one of these games runs. */
+function gameTick() {
+  const k = gameKind(); if (!k) return;
+  const g = G.q[k], now = Date.now();
+  const t = $('#timer'); if (t) { const tot = k === 'potato' ? 0 : g.total, rem = g.until - now; if (tot && g.until) { t.style.setProperty('--p', Math.max(0, rem / tot) * 100 + '%'); t.dataset.s = Math.max(0, Math.ceil(rem / 1000)); t.classList.remove('hidden'); } else t.classList.add('hidden'); }
+  if (k === 'potato') return potatoTick(now);
+  if (g.until && now >= g.until) { g.until = 0; if (k === 'koth') kothStepDone(); else bbStepDone(); }
+  else if (k === 'koth' && g.step === 'answer') { const c = $('#kothCount'); if (c) c.textContent = Math.max(0, Math.ceil((g.until - now) / 1000)); }
+}
+function gameStop() { ask('Stop this game now?', 'Points scored so far are kept; nobody gets the winner\'s bonus unless they have already won.', 'Stop the game', 'Keep playing').then((ok) => { if (ok && G.phase === 'question') endQuestion(); }); }
+
+// ---- Hot Potato ----
+function potatoStart() {
+  const q = question(), order = livePids();
+  const fuse = rnd(+q.fuseMin || 40, Math.max(+q.fuseMin || 40, +q.fuseMax || 90)) * 1000;
+  G.q.potato = { holder: order[Math.floor(Math.random() * order.length)], stage: 'answer', row: 0, fuseEnd: Date.now() + fuse, startedAt: Date.now(), fuseMax: (+q.fuseMax || 90) * 1000, passBy: 0, scores: {}, rights: {}, passes: 0, last: null, exploded: null };
+  persist(); renderPotato(); broadcastState(); botPotato(); sound('whoosh');
+}
+function potatoRow(p) { return G.q.rows[p.row % G.q.rows.length]; }
+function potatoAnswer(pid, a) {
+  const p = G.q.potato; if (!p || p.exploded || pid !== p.holder) return;
+  if (p.stage === 'answer' && a && +a.i === p.row) {
+    const row = potatoRow(p), ok = isRight(row, String(a.k || ''));
+    if (ok) { p.scores[pid] = (p.scores[pid] || 0) + (question().perCorrect ?? 50); p.rights[pid] = (p.rights[pid] || 0) + 1; p.stage = 'pass'; p.passBy = Date.now() + 12000; p.last = { pid, ok: true }; sound('ding'); }
+    else { p.last = { pid, ok: false, answer: row.right }; p.row++; sound('wrong'); }
+  } else if (p.stage === 'pass' && a && a.pass && a.pass !== pid && G.players[a.pass]) return potatoPass(a.pass);
+  else return;
+  persist(); renderPotato(); broadcastState(); botPotato();
+}
+function potatoPass(to) {
+  const p = G.q.potato, from = p.holder;
+  p.passes++; p.holder = to; p.stage = 'answer'; p.row++; p.passBy = 0; p.last = { pass: true, from, to };
+  sound('whoosh'); persist(); renderPotato(); broadcastState(); botPotato();
+}
+let potatoNextTick = 0;
+function potatoTick(now) {
+  const p = G.q.potato; if (!p || p.exploded) return;
+  const heat = LQ.clamp((now - p.startedAt) / p.fuseMax, 0, 1);
+  const b = $('#bomb'); if (b) b.style.setProperty('--heat', heat.toFixed(3));
+  if (now >= potatoNextTick) { sound('tick'); potatoNextTick = now + Math.max(220, 1000 - heat * 780); }
+  if (now >= p.fuseEnd) return potatoBoom();
+  if (p.stage === 'pass' && p.passBy && now >= p.passBy) { const others = livePids().filter((x) => x !== p.holder); if (others.length) potatoPass(others[Math.floor(Math.random() * others.length)]); else { p.stage = 'answer'; p.row++; } }
+}
+function potatoBoom() {
+  const p = G.q.potato; if (p.exploded) return;
+  p.exploded = p.holder; p.stage = 'boom'; p.scores[p.holder] = (p.scores[p.holder] || 0) - (question().penalty ?? 300);
+  sound('explode'); persist(); renderPotato(); broadcastState(); botClear();
+  setTimeout(() => { if (G.phase === 'question' && G.q?.potato === p) endQuestion(); }, 4200);
+}
+function botPotato() {
+  const p = G.q?.potato; if (!p || p.exploded) return;
+  const b = (G.bots || []).find((x) => x.pid === p.holder); if (!b) return;
+  const at = `${p.holder}:${p.stage}:${p.row}`;
+  botLater(() => {
+    const now = G.q?.potato; if (!now || now.exploded || `${now.holder}:${now.stage}:${now.row}` !== at) return;
+    if (now.stage === 'answer') { const row = potatoRow(now), right = row.options.find((o) => isRight(row, o.k)), wrong = row.options.filter((o) => o !== right); potatoAnswer(b.pid, { i: now.row, k: (chance(b.skill) || !wrong.length ? right : wrong[Math.floor(Math.random() * wrong.length)]).k }); }
+    else if (now.stage === 'pass') { const others = livePids().filter((x) => x !== b.pid); if (others.length) potatoAnswer(b.pid, { pass: others[Math.floor(Math.random() * others.length)] }); }
+  }, p.stage === 'pass' ? rnd(700, 1800) : rnd(1400, 3200) + b.pace * 2500);
+}
+/** The ring of players with the bomb bouncing round it. Built once, then only the moving parts change, so the bomb glides. */
+function renderPotato() {
+  const q = question(), p = G.q.potato; if (!p) return;
+  const pids = [...new Set([...livePids(), ...Object.keys(p.scores)])].filter((x) => G.players[x]);
+  const pos = (i, n) => { const a = -Math.PI / 2 + (i / Math.max(1, n)) * Math.PI * 2; return { x: 50 + Math.cos(a) * 41, y: 50 + Math.sin(a) * 38 }; };
+  if (!$('#potRing') || $('#potRing').dataset.q !== G.q.view.id || +$('#potRing').dataset.n !== pids.length) {
+    stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill" id="potPasses">0 passes</span></div>`)}
+      <div class="stage-main" style="gap:6px"><h1 class="qtext" style="font-size:clamp(1.2rem,2.3vw,2rem)">${esc(q.text)}</h1>
+        <div class="potring" id="potRing" data-q="${G.q.view.id}" data-n="${pids.length}">${pids.map((pid, i) => { const o = pos(i, pids.length); return `<div class="potp" data-pp="${pid}" style="left:${o.x}%;top:${o.y}%"><span class="em">${pem(pid)}</span><span class="nm">${esc(pname(pid))}</span><span class="pt" data-ppt="${pid}"></span></div>`; }).join('')}
+          <div class="bomb" id="bomb"><span class="bb-body">💣</span><span class="bb-spark">✨</span></div>
+          <div class="potcentre"><div class="potwho" id="potWho"></div><div class="potmsg" id="potMsg"></div></div></div></div>
+      ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="stopgame">Stop the game ■</button>`)}`;
+    bind();
+  }
+  const idx = pids.indexOf(p.holder), o = pos(Math.max(0, idx), pids.length), bomb = $('#bomb');
+  bomb.style.left = o.x + '%'; bomb.style.top = o.y + '%'; bomb.classList.toggle('boom', !!p.exploded);
+  $$('.potp').forEach((el) => { el.classList.toggle('hold', el.dataset.pp === p.holder); el.classList.toggle('dead', el.dataset.pp === p.exploded); });
+  $$('[data-ppt]').forEach((el) => { const s = p.scores[el.dataset.ppt] || 0; el.textContent = s ? (s > 0 ? '+' : '') + s : ''; el.classList.toggle('neg', s < 0); });
+  $('#potPasses').textContent = `${p.passes} pass${p.passes === 1 ? '' : 'es'}`;
+  $('#potWho').innerHTML = p.exploded ? `💥 BOOM! <b>${esc(pname(p.exploded))}</b> was holding it` : `<b>${esc(pname(p.holder))}</b> has the bomb`;
+  const l = p.last;
+  $('#potMsg').innerHTML = p.exploded ? `−${q.penalty ?? 300} points` : p.stage === 'pass' ? `✅ Right! Choosing who gets it next…` : l && l.ok === false && l.pid === p.holder ? `✗ Wrong (it was ${esc(l.answer)}). Another question…` : l?.pass ? `${esc(pname(l.from))} passed it to ${esc(pname(l.to))}. Answer on your phone!` : 'Answer on your phone to get rid of it!';
+  if (p.exploded) { const r = $('#potRing'); if (r && !r.querySelector('.boomflash')) r.insertAdjacentHTML('beforeend', '<div class="boomflash">💥</div>'); }
+}
+
+// ---- King of the Hill ----
+function kothStart() {
+  G.q.koth = { step: 'fff', pts: {}, king: null, pair: [], next: 0, fff: null, h2h: null, result: null, winner: null, until: 0, total: 0 };
+  kothFff();
+}
+function kothNextRow() { const g = G.q.koth; return G.q.rows[g.next++ % G.q.rows.length]; }
+/** Fastest finger first: a multiple-choice question for everyone not already in the head-to-head. */
+function kothFff() {
+  const g = G.q.koth, q = question();
+  const have = g.king ? [g.king] : (g.carry || []);
+  const need = 2 - have.length;
+  const eligible = livePids().filter((pid) => !have.includes(pid));
+  if (!eligible.length || need <= 0) { if (have.length >= 2) return kothH2h(have.slice(0, 2)); g.result = { text: 'Not enough players for a head-to-head' }; return endQuestion(); }
+  const row = kothNextRow();
+  g.fff = { row: row.id, eligible, need, answered: {}, through: [] };
+  stepTo(g, 'fff', q.time * 1000);
+  persist(); renderKoth(); broadcastState(); botKothFff();
+}
+function kothRow(id) { return G.q.rows.find((r) => r.id === id); }
+function kothAnswer(pid, a) {
+  const g = G.q.koth; if (!g || g.winner) return;
+  if (g.step === 'fff' && a && a.k) {
+    const f = g.fff; if (!f.eligible.includes(pid) || f.answered[pid]) return;
+    const ok = isRight(kothRow(f.row), String(a.k));
+    f.answered[pid] = { ok, at: Date.now() }; send('ack', { pid, qId: G.q.view.id });
+    if (ok && f.through.length < f.need) { f.through.push(pid); sound('ding'); }
+    if (f.through.length >= f.need || f.eligible.every((x) => f.answered[x])) return kothFffDone();
+    persist(); renderKoth(); broadcastState(); return;
+  }
+  if (g.step === 'h2h' && a && a.buzz && g.pair.includes(pid) && !g.h2h.buzz) {
+    g.h2h.buzz = pid; stepTo(g, 'answer', (question().answerSecs ?? 3) * 1000); sound('buzz');
+    persist(); renderKoth(); broadcastState(); return;
+  }
+  if (g.step === 'judge' && a && typeof a.judge === 'boolean' && kothJudges().includes(pid)) return kothJudge(a.judge);
+}
+function kothFffDone() {
+  const g = G.q.koth, f = g.fff;
+  const have = g.king ? [g.king] : (g.carry || []);
+  g.carry = [...have.filter((x) => x !== g.king), ...f.through];
+  stepTo(g, 'fffShow', 3500); sound(f.through.length ? 'go' : 'wrong');
+  persist(); renderKoth(); broadcastState();
+}
+function kothH2h(pair) {
+  const g = G.q.koth, q = question();
+  g.pair = pair; g.carry = []; const row = kothNextRow();
+  g.h2h = { row: row.id, buzz: null, says: null };
+  stepTo(g, 'h2h', q.time * 1000);
+  persist(); renderKoth(); broadcastState(); botKothBuzz();
+}
+/** Who may press Correct / Incorrect: the host screen always; in self-play, the other players' phones too (the opponent's if nobody else is playing). */
+function kothJudges() {
+  const g = G.q.koth; if (!G.auto || !g?.h2h?.buzz) return [];
+  const others = livePids().filter((x) => !g.pair.includes(x)); return others.length ? others : g.pair.filter((x) => x !== g.h2h.buzz);
+}
+function kothStepDone() {
+  const g = G.q.koth, q = question();
+  if (g.step === 'fff') return kothFffDone();
+  if (g.step === 'fffShow') { const have = g.king ? [g.king, ...(g.carry || [])] : (g.carry || []); if (have.length >= 2) return kothH2h(have.slice(0, 2)); return kothFff(); }
+  if (g.step === 'h2h') { stepTo(g, 'noBuzz', 3500); sound('wrong'); persist(); renderKoth(); broadcastState(); return; }
+  if (g.step === 'noBuzz') return kothH2h(g.pair);
+  if (g.step === 'answer') { stepTo(g, 'claxon', 1000); sound('claxon'); persist(); renderKoth(); broadcastState(); return; }
+  if (g.step === 'claxon') {
+    stepTo(g, 'judge', 0); persist(); renderKoth(); broadcastState();
+    // A bot's answer is judged by the screen itself in self-play; a person's needs a Correct or Incorrect press.
+    const bot = (G.bots || []).find((b) => b.pid === g.h2h.buzz);
+    if (bot && G.auto) setTimeout(() => { if (G.q?.koth === g && g.step === 'judge') kothJudge(g.h2h.says === kothRow(g.h2h.row).right); }, 2200);
+    return;
+  }
+  if (g.step === 'result') return kothFff();
+  if (g.step === 'won') return endQuestion();
+}
+function kothJudge(ok) {
+  const g = G.q.koth; if (!g || g.step !== 'judge') return;
+  const buzzer = g.h2h.buzz, other = g.pair.find((x) => x !== buzzer), q = question();
+  if (ok) {
+    g.pts[buzzer] = (g.pts[buzzer] || 0) + 1; g.king = buzzer; g.result = { pid: buzzer, ok: true, out: other };
+    if (g.pts[buzzer] >= (q.target || 3)) { g.winner = buzzer; stepTo(g, 'won', 7000); sound('fanfare'); confetti(); persist(); renderKoth(); broadcastState(); return; }
+    sound('ding');
+  } else { g.king = other; g.result = { pid: buzzer, ok: false, out: buzzer }; sound('trombone'); }
+  stepTo(g, 'result', 3000); persist(); renderKoth(); broadcastState();
+}
+function botKothFff() {
+  const g = G.q.koth, f = g.fff, row = kothRow(f.row), q = question();
+  for (const b of G.bots || []) if (f.eligible.includes(b.pid)) botLater(() => {
+    if (G.q?.koth !== g || g.step !== 'fff' || g.fff !== f) return;
+    const right = row.options.find((o) => isRight(row, o.k)), wrong = row.options.filter((o) => o !== right);
+    kothAnswer(b.pid, { k: (chance(b.skill) || !wrong.length ? right : wrong[Math.floor(Math.random() * wrong.length)]).k });
+  }, Math.min(q.time * 1000 - 500, 1500 + b.pace * rnd(2000, 7000)));
+}
+function botKothBuzz() {
+  const g = G.q.koth, h = g.h2h, row = kothRow(h.row);
+  for (const b of G.bots || []) if (g.pair.includes(b.pid)) botLater(() => {
+    if (G.q?.koth !== g || g.step !== 'h2h' || g.h2h !== h || h.buzz) return;
+    h.says = chance(b.skill) ? row.right : (row.options.find((o) => !isRight(row, o.k))?.text || 'Pass');
+    kothAnswer(b.pid, { buzz: true });
+  }, 1200 + b.pace * rnd(1500, 6000));
+}
+function renderKoth() {
+  const q = question(), g = G.q.koth; if (!g) return;
+  const target = q.target || 3;
+  const chip = (pid) => `<span class="kchip ${pid === g.king ? 'king' : ''}">${pid === g.king ? '👑 ' : ''}${pem(pid)} ${esc(pname(pid))} <b>${g.pts[pid] || 0}</b></span>`;
+  const table = Object.keys(g.pts).length || g.king ? `<div class="kchips">${[...new Set([g.king, ...Object.keys(g.pts)])].filter(Boolean).sort((a, b) => (g.pts[b] || 0) - (g.pts[a] || 0)).map(chip).join('')}<span class="kchip goal">First to ${target} wins ${q.prize ?? 1000}</span></div>` : `<div class="kchips"><span class="kchip goal">First to ${target} points wins ${q.prize ?? 1000}</span></div>`;
+  const card = (pid, cls = '') => `<div class="kcard ${cls} ${pid === g.king ? 'king' : ''}">${pid === g.king ? '<div class="kcrown">👑</div>' : ''}<div class="em">${pem(pid)}</div><div class="nm">${esc(pname(pid))}</div><div class="kp">${g.pts[pid] || 0} / ${target}</div></div>`;
+  const vs = () => `<div class="kvs">${card(g.pair[0], g.h2h?.buzz === g.pair[0] ? 'buzzed' : g.h2h?.buzz ? 'dim' : '')}<div class="kvsword">VS</div>${card(g.pair[1], g.h2h?.buzz === g.pair[1] ? 'buzzed' : g.h2h?.buzz ? 'dim' : '')}</div>`;
+  let main = '', buttons = '';
+  if (g.step === 'fff' || g.step === 'fffShow') {
+    const f = g.fff, row = kothRow(f.row), show = g.step === 'fffShow';
+    const through = show ? (g.carry || []) : f.through;
+    main = `<div class="kkicker">⚡ Fastest finger first · ${g.king ? `a challenger for 👑 ${esc(pname(g.king))}` : 'the first two right go head to head'}</div><h1 class="qtext">${esc(row.text)}</h1>
+      <div class="answers">${row.options.map((o) => `<div class="ans ${show && !isRight(row, o.k) ? 'dim' : ''}" style="background:${COLORS[o.c].hex}"><span class="shape">${COLORS[o.c].shape}</span>${esc(o.text)}${show && isRight(row, o.k) ? '<span class="tick">✔</span>' : ''}</div>`).join('')}</div>
+      <div class="kthrough">${show ? (f.through.length ? `${f.through.map((x) => `${pem(x)} <b>${esc(pname(x))}</b>`).join(' and ')} ${f.through.length === 1 ? 'is' : 'are'} through!` : 'Nobody got it. Another one…') : `${Object.keys(f.answered).length} of ${f.eligible.length} answered${through.length ? ` · through: ${through.map((x) => esc(pname(x))).join(', ')}` : ''}`}</div>`;
+  } else if (g.step === 'h2h' || g.step === 'noBuzz') {
+    const row = kothRow(g.h2h.row);
+    main = `${vs()}<h1 class="qtext khq">${esc(row.text)}</h1>${g.step === 'noBuzz' ? `<div class="kanswer">Nobody buzzed. It was <b>${esc(row.right)}</b></div>` : '<div class="kbuzzcall">🔴 BUZZ on your phone!</div>'}`;
+  } else if (g.step === 'answer' || g.step === 'claxon') {
+    const row = kothRow(g.h2h.row);
+    main = `${vs()}<h1 class="qtext khq">${esc(row.text)}</h1>${g.step === 'answer' ? `<div class="kbuzzed">${pem(g.h2h.buzz)} <b>${esc(pname(g.h2h.buzz))}</b> buzzed! Answer out loud… <span class="kcount" id="kothCount">${Math.max(0, Math.ceil((g.until - Date.now()) / 1000))}</span></div>` : '<div class="kclaxon">⏰ TIME!</div>'}`;
+  } else if (g.step === 'judge') {
+    const row = kothRow(g.h2h.row);
+    main = `${vs()}<h1 class="qtext khq">${esc(row.text)}</h1><div class="kanswer">✔ ${esc(row.right)}</div>${g.h2h.says ? `<div class="kbot">🤖 ${esc(pname(g.h2h.buzz))} said: <b>${esc(g.h2h.says)}</b></div>` : ''}<div class="kjudge"><span>Did <b>${esc(pname(g.h2h.buzz))}</b> get it?</span><button class="btn kyes" id="kYes">✅ Correct</button><button class="btn kno" id="kNo">❌ Incorrect</button></div>`;
+  } else if (g.step === 'result') {
+    const r = g.result;
+    main = `${vs()}<div class="kresult ${r.ok ? 'ok' : 'no'}">${r.ok ? `✅ ${esc(pname(r.pid))} is right! <b>${g.pts[r.pid]} / ${target}</b>` : `❌ ${esc(pname(r.pid))} is wrong and leaves the hill`}</div><div class="kthrough">${esc(pname(g.king))} stays on 👑 · ${esc(pname(r.out))} is off. Next: fastest finger for a new challenger…</div>`;
+  } else if (g.step === 'won') {
+    main = `<div class="kwin"><div class="kcrown big">👑</div><div class="em">${pem(g.winner)}</div><h1 class="big">${esc(pname(g.winner))}</h1><div class="kwinsub">King of the Hill! +${q.prize ?? 1000} points</div></div>`;
+  }
+  if (g.step === 'judge') buttons = '';
+  stage.innerHTML = `${topBar(`<div class="pillbox"><div class="timer" id="timer" data-s="${q.time}" style="--p:100%"></div></div>`)}
+    <div class="stage-main koth" style="gap:10px">${table}${main}</div>
+    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button>${buttons}<button class="btn btn-primary" data-act="stopgame">Stop the game ■</button>`)}`;
+  bind();
+  if ($('#kYes')) { $('#kYes').onclick = () => kothJudge(true); $('#kNo').onclick = () => kothJudge(false); }
+  gameTick();
+}
+
+// ---- Blockbusters ----
+/** The letter a hexagon shows: the first letter of the answer, skipping a leading "The", "A" or "An". */
+function bbLetter(answer) { const s = String(answer || '').trim().replace(/^(the|a|an)\s+/i, ''); const m = s.normalize('NFD').match(/[A-Za-z0-9]/); return m ? m[0].toUpperCase() : '?'; }
+function bbStart() {
+  const q = question(), rows = G.q.rows, n = LQ.BB_COLS * LQ.BB_ROWS;
+  // One question per letter where the bank allows, so the board shows as many different letters as possible.
+  const byLetter = {}; rows.forEach((r, i) => { (byLetter[bbLetter(r.right)] = byLetter[bbLetter(r.right)] || []).push(i); });
+  const first = shuffle(Object.values(byLetter).map((l) => l[0])).slice(0, n);
+  const rest = shuffle(rows.map((_, i) => i).filter((i) => !first.includes(i)));
+  const onBoard = shuffle([...first, ...rest.slice(0, n - first.length)]);
+  G.q.bb = { step: 'teams', teams: {}, owner: Array(n).fill(-1), hexes: onBoard.map((ri) => ({ row: ri, letter: bbLetter(rows[ri].right) })), spare: rest.slice(n - first.length), picker: 0, hot: -1, answered: {}, claim: null, scores: {}, winner: -1, path: [], until: 0, total: 0, feed: [] };
+  stepTo(G.q.bb, 'teams', 20000);
+  persist(); renderBB(); broadcastState(); botBBTeams();
+}
+const bbTeam = (pid) => G.q.bb?.teams[pid];
+function bbTeamsFinal() {
+  const g = G.q.bb, pids = livePids(), count = (t) => pids.filter((x) => g.teams[x] === t).length;
+  for (const pid of shuffle(pids)) if (g.teams[pid] === undefined) g.teams[pid] = count(0) <= count(1) ? 0 : 1;
+  // Nobody on one side: move one across so both sides have someone.
+  for (const t of [0, 1]) if (pids.length > 1 && !count(t)) { const from = pids.find((x) => g.teams[x] === 1 - t); if (from) g.teams[from] = t; }
+  g.picker = Math.random() < 0.5 ? 0 : 1;
+  bbPick();
+}
+function bbPick() { const g = G.q.bb; stepTo(g, 'pick', 15000); g.hot = -1; persist(); renderBB(); broadcastState(); botBBPick(); }
+function bbAsk(i) {
+  const g = G.q.bb; if (g.owner[i] !== -1) return;
+  g.hot = i; g.answered = {}; g.claim = null; g.feed = [];
+  stepTo(g, 'ask', question().time * 1000); sound('beep');
+  persist(); renderBB(); broadcastState(); botBBAnswer();
+}
+function bbAnswer(pid, a) {
+  const g = G.q.bb; if (!g) return;
+  if (g.step === 'teams' && a && (a.team === 0 || a.team === 1)) { g.teams[pid] = a.team; persist(); renderBB(); broadcastState(); return; }
+  if (g.teams[pid] === undefined && g.step !== 'teams') { const pids = livePids(); g.teams[pid] = pids.filter((x) => g.teams[x] === 0).length <= pids.filter((x) => g.teams[x] === 1).length ? 0 : 1; }
+  if (g.step === 'pick' && a && Number.isInteger(a.hex) && g.teams[pid] === g.picker) return bbAsk(a.hex);
+  if (g.step === 'ask' && a && typeof a.text === 'string' && !g.answered[pid]) {
+    const row = G.q.rows[g.hexes[g.hot].row], text = a.text.slice(0, 80);
+    g.answered[pid] = true; send('ack', { pid, qId: G.q.view.id });
+    const m = textMatch(text, [row.right]);
+    const ok = m === 'right' || (m === 'unsure' && similarity(LQ.normText(text), LQ.normText(row.right)) >= 0.78);
+    if (ok) return bbClaim(pid);
+    g.feed.push({ pid, text }); sound('wrong');
+    if (livePids().every((x) => g.answered[x])) { g.until = 0; return bbStepDone(); }
+    persist(); renderBB(); broadcastState();
+  }
+}
+function bbClaim(pid) {
+  const g = G.q.bb, q = question(), team = g.teams[pid];
+  g.owner[g.hot] = team; g.scores[pid] = (g.scores[pid] || 0) + (q.hexPoints ?? 50); g.claim = { pid, team, hex: g.hot, answer: G.q.rows[g.hexes[g.hot].row].right };
+  g.picker = team;
+  const path = LQ.bbPath(g.owner, team);
+  if (path) { g.winner = team; g.path = path; stepTo(g, 'won', 7000); sound('fanfare'); confetti(); }
+  else { stepTo(g, 'claim', 2800); sound('ding'); }
+  persist(); renderBB(); broadcastState();
+}
+function bbStepDone() {
+  const g = G.q.bb;
+  if (g.step === 'teams') return bbTeamsFinal();
+  if (g.step === 'pick') { const open = g.owner.map((o, i) => o === -1 ? i : -1).filter((i) => i >= 0); if (!open.length) return endQuestion(); return bbAsk(open[Math.floor(Math.random() * open.length)]); }
+  if (g.step === 'ask') {
+    g.claim = { miss: true, answer: G.q.rows[g.hexes[g.hot].row].right, hex: g.hot };
+    // A fresh question for the same hexagon: the same letter if the spares have one, otherwise any spare (the letter changes).
+    const L = g.hexes[g.hot].letter, si = g.spare.findIndex((ri) => bbLetter(G.q.rows[ri].right) === L), take = si >= 0 ? si : g.spare.length ? 0 : -1;
+    if (take >= 0) { const ri = g.spare.splice(take, 1)[0]; g.hexes[g.hot] = { row: ri, letter: bbLetter(G.q.rows[ri].right) }; }
+    stepTo(g, 'miss', 3500); sound('trombone'); persist(); renderBB(); broadcastState(); return;
+  }
+  if (g.step === 'claim' || g.step === 'miss') { if (g.owner.every((o) => o !== -1)) { const n0 = g.owner.filter((o) => o === 0).length; g.winner = n0 * 2 > g.owner.length ? 0 : 1; stepTo(g, 'won', 6000); persist(); renderBB(); broadcastState(); return; } return bbPick(); }
+  if (g.step === 'won') return endQuestion();
+}
+function botBBTeams() { const g = G.q.bb; for (const b of G.bots || []) botLater(() => { if (G.q?.bb === g && g.step === 'teams' && g.teams[b.pid] === undefined) bbAnswer(b.pid, { team: Math.random() < 0.5 ? 0 : 1 }); }, rnd(1200, 5000)); }
+function botBBPick() {
+  const g = G.q.bb, bots = (G.bots || []).filter((b) => g.teams[b.pid] === g.picker); if (!bots.length) return;
+  const b = bots[Math.floor(Math.random() * bots.length)];
+  botLater(() => {
+    if (G.q?.bb !== g || g.step !== 'pick') return;
+    const open = g.owner.map((o, i) => o === -1 ? i : -1).filter((i) => i >= 0);
+    const near = open.filter((i) => LQ.bbNeighbours(i).some((j) => g.owner[j] === g.picker));
+    const pool = near.length && chance(0.7) ? near : open; if (pool.length) bbAnswer(b.pid, { hex: pool[Math.floor(Math.random() * pool.length)] });
+  }, rnd(1800, 4200));
+}
+function botBBAnswer() {
+  const g = G.q.bb, hot = g.hot, q = question();
+  for (const b of G.bots || []) botLater(() => {
+    if (G.q?.bb !== g || g.step !== 'ask' || g.hot !== hot) return;
+    bbAnswer(b.pid, { text: chance(b.skill * 0.55) ? G.q.rows[g.hexes[hot].row].right : ['Pass', 'No idea', 'Paris', 'Bob'][Math.floor(Math.random() * 4)] });
+  }, 2500 + b.pace * rnd(2000, q.time * 1000 * 0.8));
+}
+function renderBB() {
+  const q = question(), g = G.q.bb; if (!g) return;
+  const teams = q.teams, pids = livePids();
+  const side = (t) => { const mem = pids.filter((x) => g.teams[x] === t); return `<div class="bbside ${g.picker === t && g.step === 'pick' ? 'picking' : ''} ${g.winner === t ? 'won' : ''}" style="--tc:${teams[t].color};--ti:${LQ.inkOn(teams[t].color)}"><div class="bbname">${esc(teams[t].name)}</div><div class="bbdir">${t === 0 ? '⟷ links left to right' : '↕ links top to bottom'}</div><div class="bbcount">${g.owner.filter((o) => o === t).length} ⬢</div><div class="bbmem">${mem.map((x) => `<span title="${esc(pname(x))}">${pem(x)}<small>${esc(pname(x))}${g.scores[x] ? ` +${g.scores[x]}` : ''}</small></span>`).join('') || '<span class="muted">Nobody yet</span>'}</div></div>`; };
+  const hexes = g.hexes.map((h, i) => ({ letter: h.letter, owner: g.owner[i] }));
+  let prompt = '';
+  if (g.step === 'teams') prompt = `<div class="bbprompt"><b>Pick a side on your phone!</b> ${pids.filter((x) => g.teams[x] === undefined).length} still to choose. Anyone who doesn't gets put on the smaller side.</div>`;
+  else if (g.step === 'pick') prompt = `<div class="bbprompt"><b style="color:${teams[g.picker].color}">${esc(teams[g.picker].name)}</b> to pick a letter, on their phones${TV ? '' : ' (or click a hexagon here)'}</div>`;
+  else if (g.step === 'ask') { const row = G.q.rows[g.hexes[g.hot].row]; prompt = `<div class="bbask"><span class="bbletter">${esc(g.hexes[g.hot].letter)}</span><div><div class="bbq">${esc(row.text)}</div><div class="bbfeed">${g.feed.map((f) => `<span class="tl no">✗ ${esc(f.text)} · ${esc(pname(f.pid))}</span>`).join('')}</div></div></div>`; }
+  else if (g.step === 'claim') prompt = `<div class="bbprompt ok">✔ <b>${esc(g.claim.answer)}</b> · ${pem(g.claim.pid)} ${esc(pname(g.claim.pid))} wins it for <b>${esc(teams[g.claim.team].name)}</b>, who pick next</div>`;
+  else if (g.step === 'miss') prompt = `<div class="bbprompt no">Nobody got it: it was <b>${esc(g.claim.answer)}</b>. ${esc(teams[g.picker].name)} pick again.</div>`;
+  else if (g.step === 'won') prompt = `<div class="bbprompt win">🏆 <b>${esc(teams[g.winner].name)}</b> win the board! +${q.prize ?? 500} each</div>`;
+  stage.innerHTML = `${topBar(`<div class="pillbox"><div class="timer" id="timer" data-s="${q.time}" style="--p:100%"></div></div>`)}
+    <div class="stage-main bbstage">${side(0)}<div class="bbmid">${LQ.bbBoardHtml(hexes, { teams, hot: g.step === 'ask' || g.step === 'claim' || g.step === 'miss' ? g.hot : -1, win: g.path, pick: g.step === 'pick' && !TV })}${prompt}</div>${side(1)}</div>
+    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button>${g.step === 'teams' ? '<button class="btn btn-ghost" id="bbGo">Sides are set: start ▶</button>' : ''}<button class="btn btn-primary" data-act="stopgame">Stop the game ■</button>`)}`;
+  bind();
+  $$('[data-hex]').forEach((b) => b.onclick = () => { if (G.q.bb.step === 'pick') bbAsk(+b.dataset.hex); });
+  if ($('#bbGo')) $('#bbGo').onclick = () => { if (G.q.bb.step === 'teams') bbTeamsFinal(); };
+  gameTick();
+}
 function startQuestion() {
   clearInterval(countT); G.raceIntro = null;
   const q = question();
-  const { view, keys } = buildView(q);
-  const now = Date.now();
-  G.q = { view, keys, startedAt: now, deadline: q.type === 'wipeout' ? null : now + q.time * 1000, answers: {}, results: null };
+  const { view, keys, rows } = buildView(q);
+  const now = Date.now(), own = ['wipeout', 'potato', 'koth', 'blockbusters'].includes(q.type); // these run their own clocks
+  G.q = { view, keys, rows, startedAt: now, deadline: own ? null : now + q.time * 1000, answers: {}, results: null };
   if (q.type === 'wheel') { G.q.wheelRevealed = (q.startLetters || '').toUpperCase().replace(/[^A-Z]/g, ''); G.q.nextReveal = now + (q.revealEvery || 4) * 1000; }
-  G.phase = 'question'; persist(); render();
+  G.phase = 'question'; persist();
+  if (q.type === 'potato' || q.type === 'koth' || q.type === 'blockbusters') { botClear(); if (q.type === 'potato') potatoStart(); else if (q.type === 'koth') kothStart(); else bbStart(); startTick(); musicStart(q); return; }
+  render();
   if (q.type === 'wipeout') wipeStart(); else if (q.type === 'race') raceStart(); else broadcastState();
   startTick(); botsOnQuestion(); musicStart(q);
 }
@@ -660,6 +1061,7 @@ function startTick() {
   tickT = setInterval(() => {
     if (G.phase !== 'question' || !G.q) return clearInterval(tickT);
     if (G.paused) return;
+    if (gameKind()) return gameTick();
     const wipe = G.q.wipe;
     if (wipe?.studyUntil) {
       const left = wipe.studyUntil - Date.now(); const t = $('#timer'); if (t) { t.style.setProperty('--p', Math.max(0, left / ((question().study || 20) * 1000)) * 100 + '%'); t.dataset.s = Math.max(0, Math.ceil(left / 1000)); }
@@ -701,6 +1103,9 @@ async function endQuestion() {
 function answerDisplay(q, pid) {
   const a = G.q.answers[pid], r = G.q.results.byPlayer[pid] || {}, keys = G.q.keys, v = G.q.view;
   if (q.type === 'wipeout') { const picks = (G.q.wipe?.picks || []).filter((p) => p.pid === pid); return picks.length ? picks.map((p) => p.text + (p.ok === false ? ' ✗' : p.ok ? ' ✓' : '')).join(', ') : '—'; }
+  if (q.type === 'potato') { const p = G.q.potato; return p ? `${p.rights[pid] || 0} right${p.exploded === pid ? ', holding the bomb 💥' : ''}` : '—'; }
+  if (q.type === 'koth') { const g = G.q.koth; return g ? `${g.pts[pid] || 0} on the hill${g.winner === pid ? ', won 👑' : ''}` : '—'; }
+  if (q.type === 'blockbusters') { const g = G.q.bb, t = g?.teams[pid]; return t === undefined ? '—' : `${question().teams[t].name}, ${Math.round((g.scores[pid] || 0) / (question().hexPoints || 50))} hexagons`; }
   if (q.type === 'race') { const s = G.q.race?.players?.[pid]; return s ? `${s.correct} right of ${s.idx} answered${s.done ? ', finished' : s.out ? ', out' : ''}` : '—'; }
   if (!a) return '—';
   if (a.answer === 'skip') return 'skipped';
@@ -748,6 +1153,9 @@ function kickPlayer(pid) {
     present.delete(pid);
     if (G.q?.wipe) { const w = G.q.wipe; w.order = w.order.filter((x) => x !== pid); if (w.turnPid === pid && !w.over) { w.turnPid = null; wipeNextTurn(); } }
     if (G.q?.race) delete G.q.race.players[pid];
+    if (G.q?.potato && G.q.potato.holder === pid && !G.q.potato.exploded) { const others = livePids().filter((x) => x !== pid); if (others.length) potatoPass(others[0]); }
+    if (G.q?.koth) { const g = G.q.koth; if (g.fff) g.fff.eligible = g.fff.eligible.filter((x) => x !== pid); if (g.carry) g.carry = g.carry.filter((x) => x !== pid); if (g.king === pid) g.king = null; if (g.pair.includes(pid) && !g.winner) { g.king = g.pair.find((x) => x !== pid) || null; g.pair = []; kothFff(); } }
+    if (G.q?.bb) delete G.q.bb.teams[pid];
     if (G.q?.answers) delete G.q.answers[pid];
     send('kick', { pid });
     persist(); render(); broadcastState(); maybeAllAnswered();
@@ -817,6 +1225,36 @@ async function grade(noAi) {
     stats.standings = standings; stats.winner = winner ? { pid: winner, name: G.players[winner]?.name || 'Player', emoji: G.players[winner]?.emoji || '' } : null;
     stats.loser = loser ? { pid: loser, name: G.players[loser]?.name || 'Player', emoji: G.players[loser]?.emoji || '' } : null;
     stats.places = [second, third].map((pid, i) => pid ? { pid, name: G.players[pid]?.name || 'Player', emoji: G.players[pid]?.emoji || '', place: i + 2, points: i === 0 ? (v.prize2 ?? 200) : (v.prize3 ?? 100) } : null).filter(Boolean);
+  }
+  if (q.type === 'potato') {
+    const p = G.q.potato || { scores: {}, rights: {}, passes: 0 };
+    for (const pid of new Set([...livePids(), ...Object.keys(p.scores)])) {
+      if (!G.players[pid]) continue;
+      const pts = p.scores[pid] || 0, boom = pid === p.exploded, n = p.rights[pid] || 0;
+      byPlayer[pid] = { answered: true, correct: pts > 0, partial: pts > 0 ? 1 : 0, points: pts, got: n, exploded: boom, note: boom ? '💥 BOOM! You were holding the bomb' : n ? `💣 ${n} right with the bomb in your hands` : '💣 You survived the bomb' };
+      if (pts > 0) stats.right++;
+    }
+    stats.exploded = p.exploded ? { pid: p.exploded, name: pname(p.exploded), emoji: pem(p.exploded) } : null; stats.passes = p.passes; stats.answered = Object.keys(byPlayer).length;
+  }
+  if (q.type === 'koth') {
+    const g = G.q.koth || { pts: {} };
+    for (const pid of new Set([...livePids(), ...Object.keys(g.pts)])) {
+      if (!G.players[pid]) continue;
+      const won = pid === g.winner, n = g.pts[pid] || 0;
+      byPlayer[pid] = { answered: true, correct: won, partial: won ? 1 : 0, points: won ? (q.prize ?? 1000) : 0, got: n, note: won ? '👑 King of the Hill!' : n ? `${n} of ${q.target || 3} on the hill: so close` : 'No points on the hill this time' };
+      if (won) stats.right++;
+    }
+    stats.winner = g.winner ? { pid: g.winner, name: pname(g.winner), emoji: pem(g.winner) } : null; stats.pts = g.pts; stats.answered = Object.keys(byPlayer).length;
+  }
+  if (q.type === 'blockbusters') {
+    const g = G.q.bb || { teams: {}, scores: {}, winner: -1, owner: [] }, hp = q.hexPoints ?? 50;
+    for (const pid of new Set([...livePids(), ...Object.keys(g.teams)])) {
+      if (!G.players[pid]) continue;
+      const t = g.teams[pid], won = t !== undefined && t === g.winner, base = g.scores[pid] || 0, bonus = won ? (q.prize ?? 500) : 0, hexes = Math.round(base / (hp || 1));
+      byPlayer[pid] = { answered: t !== undefined, correct: won, partial: won ? 1 : 0, points: base + bonus, base, bonus, note: t === undefined ? 'You were not on a side' : `${won ? '🏆 ' : ''}${q.teams[t].name} ${won ? 'won the board!' : 'lost this one'}${hexes ? ` · you won ${hexes} hexagon${hexes === 1 ? '' : 's'}` : ''}` };
+      if (won) stats.right++;
+    }
+    stats.winner = g.winner; stats.counts = [0, 1].map((t) => g.owner.filter((o) => o === t).length); stats.answered = Object.keys(byPlayer).length;
   }
   if (q.type === 'wipeout') {
     const w = G.q.wipe || { scores: {}, picks: [] };
@@ -994,10 +1432,10 @@ function loadYT() {
 }
 const pick = (arr) => { const opts = arr.filter((x) => (Array.isArray(x) ? x[0] : x) !== lastTrack); const x = (opts.length ? opts : arr)[Math.floor(Math.random() * (opts.length || arr.length))]; lastTrack = Array.isArray(x) ? x[0] : x; return x; };
 async function musicStart(q) {
-  if (!q || !musicOn() || q.type === 'tune' || q.media?.kind === 'youtube') return musicStop();
+  if (!q || !musicOn() || q.type === 'tune' || q.type === 'koth' || q.media?.kind === 'youtube') return musicStop(); // King of the Hill is answered out loud
   const p = await loadYT().catch(() => null);
   if (!p || G.phase !== 'question' || G.paused || question() !== q) return;
-  const T = q.type === 'wipeout' ? 0 : +q.time || 0;
+  const T = ['wipeout', 'potato', 'blockbusters'].includes(q.type) ? 0 : +q.time || 0;
   const bucket = T ? Object.keys(MUSIC.countdown).map(Number).sort((a, b) => a - b).find((b) => b >= T) : null;
   if (!bucket) return playLoop();
   const [id, dur] = pick(MUSIC.countdown[bucket]);
@@ -1021,7 +1459,7 @@ function togglePause(want, quiet) {
   else {
     const d = Date.now() - (G.pausedAt || Date.now()); G.paused = false; G.pausedAt = 0; musicPause(false);
     if (G.brk) G.brk.endsAt += d;
-    if (G.q) { if (G.q.deadline) G.q.deadline += d; if (G.q.nextReveal) G.q.nextReveal += d; const w = G.q.wipe; if (w) { if (w.studyUntil) w.studyUntil += d; if (w.turnDeadline) w.turnDeadline += d; } }
+    if (G.q) { if (G.q.deadline) G.q.deadline += d; if (G.q.nextReveal) G.q.nextReveal += d; const w = G.q.wipe; if (w) { if (w.studyUntil) w.studyUntil += d; if (w.turnDeadline) w.turnDeadline += d; } shiftGame(d); }
   }
   persist();
   if (!G.paused && G.phase !== 'question') render(); else { syncPause(); scheduleAuto(); }
@@ -1043,7 +1481,7 @@ function hostBar(buttons) {
   return `<div class="stage-bottom"><span class="muted small" style="opacity:.6">Game ${G.code} · ${players().length} players${G.bots?.length ? ` · test mode, ${G.bots.length} bots` : ''} · ${hint}</span>${d ? `<div class="autobar" title="Moving on by itself"><i style="animation-duration:${d}ms"></i></div>` : ''}<div class="hostbar">${G.auto && !['lobby', 'final'].includes(G.phase) ? `<button class="btn btn-ghost" data-act="pause" title="Stop the clock and hold this screen (P)">${G.paused ? '▶ Resume' : '⏸ Pause'}</button>` : ''}${buttons}</div></div>`;
 }
 function bind() {
-  $$('[data-act]').forEach((b) => b.onclick = () => ({ primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(G.bots?.length ? 5 : 3), bots20: () => addBots(MAX_BOTS), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, pause: () => togglePause(), music: toggleMusic, builder: () => location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
+  $$('[data-act]').forEach((b) => b.onclick = () => ({ primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(G.bots?.length ? 5 : 3), bots20: () => addBots(MAX_BOTS), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, pause: () => togglePause(), music: toggleMusic, stopgame: gameStop, builder: () => location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
   $$('[data-kick]').forEach((el) => { el.style.cursor = 'pointer'; el.title = 'Click to remove this player from the game'; el.onclick = () => kickPlayer(el.dataset.kick); });
 }
 function renderLobby() {
@@ -1073,10 +1511,18 @@ const PISTOL_SVG = `<svg class="ri-gun" viewBox="0 0 300 220" aria-hidden="true"
     <path d="M86 84 L126 84 L114 158 L68 158 Z" fill="#6b7196"/><rect x="76" y="98" width="34" height="48" rx="6" fill="#b7793a"/><path d="M124 86 q14 2 16 20 q1 14 -14 14" fill="none" stroke="#8f96bf" stroke-width="8" stroke-linecap="round"/><rect x="118" y="88" width="7" height="18" rx="3" fill="#3a3f5c"/></g>
   <g class="ri-flash"><polygon points="222,69 262,36 250,64 290,56 256,78 288,104 248,90 258,126 230,92" fill="#ffd23f"/><polygon points="226,69 250,52 244,68 266,66 246,78 262,92 240,86" fill="#fff" opacity=".9"/></g>
   <g class="ri-smoke"><circle cx="236" cy="60" r="13"/><circle cx="254" cy="44" r="18"/><circle cx="232" cy="32" r="14"/></g></g></svg>`;
+/** The one-line rules under a game's splash title. */
+function introSub(q) {
+  if (q.type === 'potato') return `The bomb is lit · answer right to pass it on · holding it when it blows costs ${q.penalty ?? 300} points`;
+  if (q.type === 'koth') return `Fastest finger first, then head-to-head buzzers · answer out loud · first to ${q.target || 3} wins ${q.prize ?? 1000} points`;
+  if (q.type === 'blockbusters') return `${q.teams[0].name} link left to right · ${q.teams[1].name} link top to bottom · first right answer wins the hexagon`;
+  return '';
+}
 function renderRaceIntro() {
   const q = question(), ri = G.raceIntro, target = +q.target || 10;
   let main;
-  if (ri.step === 'splash') main = `<div class="stage-main raceintro"><div class="ri-flag">🏁</div><div class="ri-kicker">The Race</div><h1 class="big ri-topic">${esc(raceTopic(q))}</h1><p class="ri-sub">Quick-fire questions on your phone · first to ${target} right wins the prize · ${(q.maxWrong ?? 10) + 1} wrong and you're out</p><p class="ri-ready">Fingers on your phones…</p></div>`;
+  if (ri.kind && ri.kind !== 'race') { const T = TYPES[q.type]; main = `<div class="stage-main raceintro gamesplash ${q.type}"><div class="ri-flag">${T.icon}</div><div class="ri-kicker">${esc(T.label)}</div><h1 class="big ri-topic">${esc(raceTopic(q))}</h1><p class="ri-sub">${esc(introSub(q))}</p><p class="ri-ready">${q.type === 'blockbusters' ? 'Get ready to pick a side…' : q.type === 'koth' ? 'Fingers on your phones for fastest finger first…' : 'Nobody knows how long the fuse is…'}</p></div>`; }
+  else if (ri.step === 'splash') main = `<div class="stage-main raceintro"><div class="ri-flag">🏁</div><div class="ri-kicker">The Race</div><h1 class="big ri-topic">${esc(raceTopic(q))}</h1><p class="ri-sub">Quick-fire questions on your phone · first to ${target} right wins the prize · ${(q.maxWrong ?? 10) + 1} wrong and you're out</p><p class="ri-ready">Fingers on your phones…</p></div>`;
   else if (ri.step === 'count') main = `<div class="stage-main raceintro"><div class="ri-kicker">${esc(raceTopic(q))}</div><div class="ri-num" data-n="${ri.n}">${ri.n}</div><div class="ri-lights">${[3, 2, 1].map((k) => `<i class="${ri.n <= k ? 'on' : ''}"></i>`).join('')}</div></div>`;
   else main = `<div class="stage-main raceintro bang">${PISTOL_SVG}<div class="ri-bang">BANG!</div><div class="ri-go">GO!</div></div>`;
   stage.innerHTML = `${topBar()}${main}${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">Start now ▶</button>`)}`;
@@ -1099,6 +1545,9 @@ function renderQuestion() {
   let body = '';
   if (q.type === 'wipeout') return renderWipe();
   if (q.type === 'race') return renderRace();
+  if (q.type === 'potato') { if (G.q.potato) renderPotato(); return; }
+  if (q.type === 'koth') { if (G.q.koth) renderKoth(); return; }
+  if (q.type === 'blockbusters') { if (G.q.bb) renderBB(); return; }
   if (q.type === 'choice' || q.type === 'tf') body = `<div class="answers">${v.options.map((o) => `<div class="ans" style="background:${COLORS[o.c].hex}"><span class="shape">${COLORS[o.c].shape}</span>${esc(o.text)}</div>`).join('')}</div>`;
   if (q.type === 'sort') body = `<div class="cats">${v.categories.map((c) => `<div class="cat"><h3>${esc(c.name)}</h3></div>`).join('')}</div><div class="items mt">${v.items.map((it) => `<div class="item">${esc(it.text)}</div>`).join('')}</div>`;
   if (q.type === 'text') body = `<div class="item" style="justify-content:center">✎ Type your answer on your phone</div>`;
@@ -1205,6 +1654,9 @@ function renderReveal() {
     body = `<div class="wboard" style="height:52vh">${v.board.map((t) => `<div class="wtile ${String(G.q.keys[t.k]).startsWith('R:') ? 'right' : 'wrong'} ${w.gone?.includes(t.k) ? 'gone' : ''}" style="left:${t.x}%;top:${t.y}%;--r:${t.rot}deg">${esc(t.text)}</div>`).join('')}</div>
       <div class="textlist mt">${(R.stats.picks || []).map((p) => `<span class="tl ${p.ok === true ? 'ok' : p.ok === false ? 'no' : ''}">${esc(p.name)}: ${esc(p.text)}</span>`).join('')}</div>`;
   }
+  if (q.type === 'potato') { const st = R.stats, pt = G.q.potato || { scores: {} }; body = `<div class="boomreveal">${st.exploded ? `<div class="bigboom">💥</div><div class="turnbar"><span class="who">${st.exploded.emoji} ${esc(st.exploded.name)} was holding the bomb: −${q.penalty ?? 300}</span><span class="last" style="opacity:.8">${st.passes} passes · +${q.perCorrect ?? 50} per right answer</span></div>` : '<div class="turnbar"><span>The bomb never went off</span></div>'}</div><div class="textlist mt">${Object.entries(pt.scores).sort((a, b) => b[1] - a[1]).map(([pid, v]) => `<span class="tl ${v < 0 ? 'no' : 'ok'}">${pem(pid)} ${esc(pname(pid))} ${v > 0 ? '+' : ''}${v}</span>`).join('')}</div>`; }
+  if (q.type === 'koth') { const g = G.q.koth || { pts: {} }, st = R.stats; body = `<div class="kwin">${st.winner ? `<div class="kcrown big">👑</div><div class="em">${st.winner.emoji}</div><h1 class="big">${esc(st.winner.name)}</h1><div class="kwinsub">King of the Hill · +${q.prize ?? 1000} points</div>` : `<h1 class="big">No king this time</h1><div class="kwinsub">Nobody reached ${q.target || 3} points</div>`}</div><div class="textlist mt">${Object.entries(g.pts).sort((a, b) => b[1] - a[1]).map(([pid, n]) => `<span class="tl ${pid === g.winner ? 'ok' : ''}">${pem(pid)} ${esc(pname(pid))} · ${n} on the hill</span>`).join('')}</div>`; }
+  if (q.type === 'blockbusters') { const g = G.q.bb, st = R.stats; body = `<div class="bbmid" style="width:min(520px,80vw,52vh);flex:none;margin:0 auto">${LQ.bbBoardHtml(g.hexes.map((h, i) => ({ letter: h.letter, owner: g.owner[i] })), { teams: q.teams, win: g.path })}</div><div class="turnbar" style="flex-wrap:wrap;margin-top:10px">${st.winner >= 0 ? `<span class="who">🏆 ${esc(q.teams[st.winner].name)} win the board: +${q.prize ?? 500} each</span>` : '<span>Nobody linked their sides: no bonus</span>'}<span class="last">${esc(q.teams[0].name)} ${st.counts[0]} ⬢ · ${esc(q.teams[1].name)} ${st.counts[1]} ⬢</span></div>`; }
   if (q.type === 'choice' || q.type === 'tf') {
     const max = Math.max(1, ...Object.values(R.stats.counts));
     body = `<div class="answers">${v.options.map((o) => { const id = G.q.keys[o.k], c = R.stats.counts[id] || 0, ok = id === LQ.correctId(q); return `<div class="ans ${ok ? '' : 'dim'}" style="background:${COLORS[o.c].hex}"><div class="bar" style="width:${(c / max) * 100}%"></div><span class="shape" style="position:relative">${COLORS[o.c].shape}</span><span style="position:relative">${esc(o.text)}</span><span class="count" style="position:relative">${c}</span>${ok ? '<span class="tick" style="position:relative">✔</span>' : ''}</div>`; }).join('')}</div>`;
@@ -1242,8 +1694,8 @@ function renderReveal() {
       <div class="textlist mt">${(R.stats.texts || []).slice(0, 30).map((t) => `<span class="tl ${t.ok === null ? '' : t.ok ? 'ok' : 'no'}">${esc(t.text || '—')} <span style="opacity:.7;font-size:.85em">· ${esc(t.name)}</span></span>`).join('')}</div>`;
   }
   const media = q.type === 'pin' ? '' : (q.media?.kind === 'image' ? mediaHtml(q, false) : '');
-  const inMain = q.type === 'pin' || q.type === 'wipeout' || q.type === 'race' || q.type === 'wheel';
-  stage.innerHTML = `${topBar(`<span class="hpill">${q.type === 'wipeout' ? `${R.stats.right} scored` : q.type === 'race' ? `${(R.stats.standings || []).filter((s) => s.done).length} finished` : `${R.stats.right} of ${n} got it right${R.stats.skipped ? ` · ${R.stats.skipped} skipped` : ''}`}</span>`)}
+  const inMain = q.type === 'pin' || q.type === 'wipeout' || q.type === 'race' || q.type === 'wheel' || q.type === 'potato' || q.type === 'koth' || q.type === 'blockbusters';
+  stage.innerHTML = `${topBar(`<span class="hpill">${q.type === 'potato' ? `💣 ${R.stats.passes} passes` : q.type === 'koth' ? `First to ${q.target || 3} on the hill` : q.type === 'blockbusters' ? `${esc(q.teams[0].name)} ${R.stats.counts[0]} · ${esc(q.teams[1].name)} ${R.stats.counts[1]}` : q.type === 'wipeout' ? `${R.stats.right} scored` : q.type === 'race' ? `${(R.stats.standings || []).filter((s) => s.done).length} finished` : `${R.stats.right} of ${n} got it right${R.stats.skipped ? ` · ${R.stats.skipped} skipped` : ''}`}</span>`)}
     <div class="stage-main"><h1 class="qtext"${inMain && q.type !== 'pin' ? ' style="font-size:clamp(1.3rem,2.6vw,2.2rem)"' : ''}>${esc(q.type === 'wheel' ? q.phrase : q.type === 'highlow' || q.type === 'rhyme' || q.type === 'dingbat' ? '' : q.text)}</h1>${inMain ? body : media}</div>
     ${inMain ? '' : `<div>${body}</div>`}
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">${practiceQ() ? (G.qIndex + 1 < G.quiz.questions.length ? 'Next ▶' : 'Final results 🏆') : 'Scores ▶'}</button>`)}`;

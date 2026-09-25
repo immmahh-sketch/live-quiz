@@ -141,7 +141,7 @@ function render() {
   const rc = P.race && P.race.qId === qId ? P.race : null;
   if (s.wheel && P.viewKey.startsWith(`${s.phase}:${qId}:`)) { const b = $('#pwof'); if (b) b.innerHTML = LQ.wheelBoardHtml(s.wheel.layout, s.wheel.revealed); }
   if (s.wipe?.studyMs) { const el = $('#studyLeft'); if (el) el.textContent = Math.ceil(s.wipe.studyMs / 1000); }
-  const key = [s.phase, qId, s.qIndex, s.round?.n || '', s.raceIntro ? s.raceIntro.step + s.raceIntro.n : '', P.answered[qId] ? 'a' : '', s.wipe ? `${s.wipe.turnPid}:${s.wipe.gone.length}:${s.wipe.out.length}:${s.wipe.over}:${s.wipe.studyMs ? 'study' : ''}:${(s.wipe.order || []).length}` : '', rc ? `${rc.idx}:${rc.pending}:${rc.out}:${rc.done}:${s.race?.winner || ''}` : ''].join(':');
+  const key = [s.phase, qId, s.qIndex, s.round?.n || '', s.raceIntro ? s.raceIntro.step + s.raceIntro.n : '', P.answered[qId] ? 'a' : '', s.wipe ? `${s.wipe.turnPid}:${s.wipe.gone.length}:${s.wipe.out.length}:${s.wipe.over}:${s.wipe.studyMs ? 'study' : ''}:${(s.wipe.order || []).length}` : '', rc ? `${rc.idx}:${rc.pending}:${rc.out}:${rc.done}:${s.race?.winner || ''}` : '', gameKey(s)].join(':');
   // A break clock: keep the phone's countdown in step with the host's, which the host can stretch or shorten.
   if (s.phase === 'slide' && s.brk) { P.brk = { end: Date.now() + s.brk.remainingMs, total: s.brk.totalMs, frozen: s.paused ? s.brk.remainingMs : null }; }
   if (key === P.viewKey) { tickTimer(); tickBreak(); return; }
@@ -158,6 +158,7 @@ function render() {
   else if (s.phase === 'slide' && s.brk) { app.innerHTML = top + top2 + `<div class="state slide brk">${s.slide?.title ? `<h2>${esc(s.slide.title)}</h2>` : ''}${LQ.breakClockHtml('pbrk')}${s.slide?.body ? `<div class="slidebody">${LQ.slideHtml(s.slide.body)}</div>` : ''}</div>`; tickBreak(); timerT = setInterval(tickBreak, 250); }
   else if (s.phase === 'slide') app.innerHTML = top + top2 + `<div class="state slide">${s.slide?.image ? `<img class="slideimg" src="${esc(s.slide.image)}" alt="">` : '<div class="em">🪧</div>'}${s.slide?.title ? `<h2>${esc(s.slide.title)}</h2>` : ''}<div class="slidebody">${LQ.slideHtml(s.slide?.body || '')}</div>${ctrl('next', s.more === false ? 'Final results 🏆' : 'Next ▶')}</div>`;
   else if (s.phase === 'typecard') { const t = s.typecard?.type; app.innerHTML = top + top2 + `<div class="state typecard"><div class="em">${TYPES[t]?.icon || '❓'}</div><p class="muted" style="margin:0">Next up${s.typecard?.run > 1 ? ` · ${s.typecard.run} questions` : ''}</p><h2>${esc(TYPES[t]?.label || '')}</h2><p style="font-weight:700">${esc(LQ.HOWTO[t] || '')}</p>${ctrl('next', "Let's go ▶")}</div>`; }
+  else if (s.phase === 'countdown' && s.raceIntro && s.raceIntro.kind && s.raceIntro.kind !== 'race') { const ri = s.raceIntro; app.innerHTML = top + top2 + `<div class="state raceintro"><div class="em">${ri.icon || '🎮'}</div><p class="muted" style="margin:0;font-weight:800;letter-spacing:.08em;text-transform:uppercase">${esc(ri.title || '')}</p><h2>${esc(ri.topic)}</h2><p style="font-weight:700">${esc(ri.sub || '')}</p></div>`; }
   else if (s.phase === 'countdown' && s.raceIntro) {
     const ri = s.raceIntro;
     app.innerHTML = top + top2 + (ri.step === 'splash' ? `<div class="state raceintro"><div class="em">🏁</div><p class="muted" style="margin:0;font-weight:800;letter-spacing:.08em;text-transform:uppercase">The Race</p><h2>${esc(ri.topic)}</h2><p style="font-weight:700">First to ${ri.target} right wins the prize. ${(ri.maxWrong ?? 10) + 1} wrong and you're out. Get your fingers ready!</p></div>`
@@ -166,6 +167,7 @@ function render() {
     if (ri.step !== 'splash' && navigator.vibrate) try { navigator.vibrate(ri.step === 'bang' ? 200 : 40); } catch {}
   }
   else if (s.phase === 'countdown') app.innerHTML = top + top2 + `<div class="state"><div class="em">${TYPES[s.next?.type]?.icon || '⏳'}</div><h2>Get ready…</h2><p class="muted">Question ${s.next?.n || s.qIndex + 1}: ${esc(TYPES[s.next?.type]?.label || '')}</p></div>`;
+  else if (s.phase === 'question' && (s.potato || s.koth || s.bb)) { P.game = { at: Date.now(), rem: (s.koth || s.bb)?.remainingMs || 0, total: (s.koth || s.bb)?.totalMs || 0, frozen: s.paused }; app.innerHTML = top + top2 + (s.potato ? '' : '<div class="ptimer" id="gtimer"><i></i></div>') + (s.potato ? potatoHtml(s) : s.koth ? kothHtml(s) : bbHtml(s)); bindGame(s); timerT = setInterval(tickGame, 200); tickGame(); }
   else if (s.phase === 'question' && s.race) { app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + raceHtml(s); bindRace(s); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'question' && s.wipe) { P.deadline = Date.now() + (s.wipe.remainingMs || 0); app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + wipeHtml(s); bindWipe(s); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'question') { app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + (P.answered[qId] ? (P.skipped[qId] ? `<div class="state"><div class="em">⏭</div><h2>Skipped</h2><p class="muted">No points this time. Waiting for the others…</p></div>` : sentHtml()) : questionHtml(s.q)); bindQuestion(s.q); timerT = setInterval(tickTimer, 250); tickTimer(); }
@@ -244,6 +246,99 @@ function bindRace(s) {
   const pick = (k) => { r.pending = k; r.sentAt = Date.now(); send('answer', { pid: P.pid, qId: s.q.id, answer: { idx: r.idx, k } }); render(); };
   $$('[data-rk]').forEach((b) => b.onclick = () => pick(b.dataset.rk));
   if ($('#raceSkip')) $('#raceSkip').onclick = () => pick('skip');
+}
+// ---- Hot Potato, King of the Hill, Blockbusters ----
+const nm = (s, pid) => s.names?.[pid]?.name || 'Player', em = (s, pid) => s.names?.[pid]?.emoji || '🙂';
+/** What changes a game's screen: when it differs, the phone redraws. */
+function gameKey(s) {
+  if (s.phase !== 'question') return '';
+  if (s.potato) { const p = s.potato; return ['pot', p.holder, p.stage, p.row?.i, p.exploded, p.players.length, p.holder === P.pid ? P.work.potSent : ''].join('|'); }
+  if (s.koth) { const g = s.koth; return ['koth', g.step, g.fff?.row?.i, (g.fff?.answered || []).includes(P.pid), g.fff?.through?.length, g.h2h?.buzz, g.judges.includes(P.pid), g.result?.pid, g.winner, g.pair.join(), g.king].join('|'); }
+  if (s.bb) { const g = s.bb; return ['bb', g.step, g.teamOf[P.pid], g.picker, g.hot, g.answered.includes(P.pid), g.hexes.map((h) => h.owner).join(''), Object.keys(g.teamOf).length].join('|'); }
+  return '';
+}
+function tickGame() {
+  const el = $('#gtimer'); if (!el || !P.game?.total) { if (el) el.style.visibility = 'hidden'; return; }
+  const rem = P.game.frozen ? P.game.rem : Math.max(0, P.game.rem - (Date.now() - P.game.at));
+  el.style.visibility = ''; $('i', el).style.width = Math.min(100, rem / P.game.total * 100) + '%'; el.classList.toggle('low', rem < 4000);
+  const c = $('#gcount'); if (c) c.textContent = Math.ceil(rem / 1000);
+}
+const optsHtml = (row, attr) => `<div class="ans-grid" style="flex:0 1 auto">${row.options.map((o) => `<button class="abtn" ${attr}="${o.k}" style="background:${COLORS[o.c].hex};min-height:84px"><span class="shape">${COLORS[o.c].shape}</span>${esc(o.text)}</button>`).join('')}</div>`;
+function potatoHtml(s) {
+  const p = s.potato, mine = p.holder === P.pid;
+  if (P.lastHolder !== p.holder) { if (mine && P.lastHolder !== undefined && navigator.vibrate) try { navigator.vibrate([80, 40, 80]); } catch {} P.lastHolder = p.holder; P.work.potSent = ''; }
+  const myPts = p.scores?.[P.pid] || 0, foot = myPts ? `<p class="center small muted mt">You've scored ${myPts > 0 ? '+' : ''}${myPts} this round</p>` : '';
+  if (p.exploded) { app.className = 'app ' + (p.exploded === P.pid ? 'turn-boom' : ''); return `<div class="state potboom"><div class="em">💥</div><h2>${p.exploded === P.pid ? 'BOOM! You were holding it!' : `BOOM! ${esc(nm(s, p.exploded))} was holding it`}</h2>${p.exploded === P.pid ? `<p style="font-weight:800">−${p.penalty} points</p>` : '<p class="muted">Phew!</p>'}</div>${foot}`; }
+  app.className = 'app ' + (mine ? 'turn-bomb' : 'turn-wait');
+  if (!mine) {
+    const l = p.last; const note = l?.pass ? (l.to === P.pid ? '' : `${esc(nm(s, l.from))} passed it to ${esc(nm(s, l.to))}`) : l?.ok === false ? `${esc(nm(s, l.pid))} got one wrong` : '';
+    return `<div class="state"><div class="em potbob">💣</div><h2>${em(s, p.holder)} ${esc(nm(s, p.holder))} has the bomb</h2><p class="muted">${note || 'Fingers crossed it doesn\'t come to you…'}</p><p class="small muted">${p.passes} pass${p.passes === 1 ? '' : 'es'} so far</p></div>${foot}`;
+  }
+  if (p.stage === 'pass') return `<div class="pq">✅ Right! Get rid of it: who gets the bomb?</div><div class="potpass">${p.players.filter((x) => x.pid !== P.pid).map((x) => `<button class="btn" data-pass="${x.pid}"><span class="em">${x.emoji || '🙂'}</span>${esc(x.name)}</button>`).join('')}</div>`;
+  if (!p.row) return `<div class="state"><div class="em">💣</div><h2>You've got the bomb!</h2></div>`;
+  const wrong = p.last?.ok === false && p.last.pid === P.pid ? `<p class="center small" style="color:var(--bad);font-weight:800;margin:4px 0">✗ Wrong, it was ${esc(p.last.answer)}. Try this one, quick!</p>` : '';
+  return `<div class="potalert">💣 You've got the bomb! Answer to pass it on</div>${wrong}<div class="pq">${esc(p.row.text)}</div>${optsHtml(p.row, 'data-pk')}${foot}`;
+}
+function kothHtml(s) {
+  const g = s.koth, me = P.pid, inPair = g.pair.includes(me), mePts = g.pts[me] || 0;
+  const pts = `<div class="rprog"><span>👑 ${g.king ? esc(nm(s, g.king)) + ' is on the hill' : 'Nobody on the hill yet'}</span><span>You: <b>${mePts}</b> / ${g.target}</span></div>`;
+  const vs = () => `<div class="kvsp">${em(s, g.pair[0])} <b>${esc(nm(s, g.pair[0]))}</b> <span>VS</span> ${em(s, g.pair[1])} <b>${esc(nm(s, g.pair[1]))}</b></div>`;
+  app.className = 'app';
+  if (g.step === 'fff' || g.step === 'fffShow') {
+    const f = g.fff; if (!f) return pts;
+    if (g.step === 'fffShow') return `${pts}<div class="state"><div class="em">${f.through.includes(me) ? '⚡' : '✔'}</div><h2>${f.through.includes(me) ? "You're through to the head-to-head!" : f.right ? 'It was ' + esc(f.right) : ''}</h2>${f.through.length ? `<p class="muted">${f.through.map((x) => esc(nm(s, x))).join(' and ')} ${f.through.length === 1 ? 'is' : 'are'} through</p>` : '<p class="muted">Nobody got it: another one…</p>'}</div>`;
+    if (me === g.king) return `${pts}<div class="state"><div class="em">👑</div><h2>You're on the hill</h2><p class="muted">Everyone else is racing to be your next challenger…</p></div>`;
+    if (!f.eligible.includes(me)) return `${pts}<div class="state"><div class="em">⚡</div><h2>You're through!</h2><p class="muted">Waiting for your opponent…</p></div>`;
+    if (f.answered.includes(me)) return `${pts}<div class="state"><div class="em">🔒</div><h2>Locked in</h2><p class="muted">Fastest right answer${f.need > 1 ? 's go' : ' goes'} through…</p></div>`;
+    return `${pts}<div class="potalert" style="background:var(--brand)">⚡ Fastest finger first!</div><div class="pq">${esc(f.row.text)}</div>${optsHtml(f.row, 'data-fk')}`;
+  }
+  if (g.step === 'won') return `<div class="state"><div class="em">👑</div><h2>${g.winner === me ? 'You are King of the Hill!' : esc(nm(s, g.winner)) + ' is King of the Hill'}</h2><p class="muted">+${g.prize} points${g.winner === me ? ' for you' : ''}</p></div>`;
+  const h = g.h2h; if (!h) return pts;
+  if (g.step === 'h2h') {
+    if (inPair) { app.className = 'app turn-buzz'; return `${vs()}<div class="pq">${esc(h.text)}</div><button class="buzzer" id="buzzBtn">BUZZ</button><p class="center small muted">Buzz first, then say your answer out loud</p>`; }
+    return `${pts}${vs()}<div class="pq">${esc(h.text)}</div><p class="center muted">Who will buzz first?</p>`;
+  }
+  if (g.step === 'answer' || g.step === 'claxon') {
+    if (h.buzz === me) { app.className = 'app turn-mine'; return `${vs()}<div class="state"><div class="em">🗣️</div><h2>${g.step === 'claxon' ? "TIME'S UP!" : 'Say your answer out loud NOW!'}</h2>${g.step === 'answer' ? '<div class="kcountp" id="gcount"></div>' : ''}</div>`; }
+    return `${vs()}<div class="state"><div class="em">🔴</div><h2>${esc(nm(s, h.buzz))} buzzed first</h2><p class="muted">${esc(h.text)}</p></div>`;
+  }
+  if (g.step === 'noBuzz') return `${vs()}<div class="state"><h2>Nobody buzzed</h2><p class="muted">It was <b>${esc(h.answer || '')}</b>. Same two again…</p></div>`;
+  if (g.step === 'judge') {
+    const judge = g.judges.includes(me);
+    return `${vs()}<div class="state"><h2>${esc(nm(s, h.buzz))} answered…</h2><p style="font-weight:800">The answer: ${esc(h.answer || '')}</p>${judge ? `<p class="muted">Did they get it right?</p><div class="kjudgep"><button class="btn kyes" data-judge="1">✅ Correct</button><button class="btn kno" data-judge="0">❌ Incorrect</button></div>` : '<p class="muted">Waiting for the verdict…</p>'}</div>`;
+  }
+  if (g.step === 'result') { const r = g.result; return `${pts}<div class="state"><div class="em">${r.ok ? '✅' : '❌'}</div><h2>${r.ok ? `${esc(nm(s, r.pid))} got it: ${g.pts[r.pid]} / ${g.target}` : `${esc(nm(s, r.pid))} got it wrong`}</h2><p class="muted">${esc(nm(s, g.king))} stays on the hill 👑</p></div>`; }
+  return pts;
+}
+function bbHtml(s) {
+  const g = s.bb, t = g.teamOf[P.pid], teams = g.teams;
+  const band = t === undefined ? '' : `<div class="bbband" style="background:${teams[t].color};color:${LQ.inkOn(teams[t].color)}">You're on ${esc(teams[t].name)} · ${t === 0 ? 'link left ⟷ right' : 'link top ↕ bottom'}</div>`;
+  const board = (pick) => LQ.bbBoardHtml(g.hexes, { teams, hot: g.hot, win: g.path, pick, cls: 'phone' });
+  app.className = 'app';
+  if (g.step === 'teams') {
+    if (t === undefined) return `<div class="pq">Pick your side!</div><div class="bbpick">${teams.map((x, i) => `<button class="bbteam" data-team="${i}" style="background:${x.color};color:${LQ.inkOn(x.color)}">${esc(x.name)}<small>${i === 0 ? 'link left ⟷ right' : 'link top ↕ bottom'} · ${Object.values(g.teamOf).filter((v) => v === i).length} so far</small></button>`).join('')}</div>`;
+    return `${band}<div class="state"><div class="em">⬢</div><h2>You're on ${esc(teams[t].name)}!</h2><p class="muted">Waiting for everyone to pick a side…</p></div>`;
+  }
+  if (g.step === 'pick') return `${band}${g.picker === t ? '<div class="pq">Your side picks! Tap a letter</div>' : `<div class="pq">${esc(teams[g.picker].name)} are picking a letter…</div>`}${board(g.picker === t)}`;
+  if (g.step === 'ask') {
+    if (g.answered.includes(P.pid)) return `${band}<div class="state"><div class="bbl">${esc(g.letter)}</div><h2>Answer sent</h2><p class="muted">If you were first and right, the hexagon is yours…</p></div>`;
+    return `${band}<div class="bbaskp"><span class="bbl">${esc(g.letter)}</span><div class="pq" style="margin:0">${esc(g.text)}</div></div><p class="center small muted">The answer starts with <b>${esc(g.letter)}</b>. One go each, first right answer wins it.</p><form id="bbForm" class="state" style="justify-content:flex-start;padding-top:0"><input type="text" id="bbIn" placeholder="${esc(g.letter)}…" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.2rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
+  }
+  if (g.step === 'claim') return `${band}<div class="state"><div class="em">${g.claim.team === t ? '🎉' : '😬'}</div><h2>${esc(nm(s, g.claim.pid))} won it for ${esc(teams[g.claim.team].name)}</h2><p class="muted">It was ${esc(g.claim.answer)}</p></div>${board(false)}`;
+  if (g.step === 'miss') return `${band}<div class="state"><h2>Nobody got it</h2><p class="muted">It was ${esc(g.claim?.answer || '')}</p></div>${board(false)}`;
+  if (g.step === 'won') return `${band}<div class="state"><div class="em">${g.winner === t ? '🏆' : '😞'}</div><h2>${esc(teams[g.winner].name)} win the board!</h2><p class="muted">${g.winner === t ? `+${g.prize} for everyone on your side` : 'Better luck next time'}</p></div>${board(false)}`;
+  return band;
+}
+function bindGame(s) {
+  const qId = s.q.id, go = (answer) => send('answer', { pid: P.pid, qId, answer });
+  $$('[data-pk]').forEach((b) => b.onclick = () => { P.work.potSent = 'x'; go({ i: s.potato.row.i, k: b.dataset.pk }); $$('[data-pk]').forEach((x) => x.disabled = true); });
+  $$('[data-pass]').forEach((b) => b.onclick = () => { go({ pass: b.dataset.pass }); $$('[data-pass]').forEach((x) => x.disabled = true); });
+  $$('[data-fk]').forEach((b) => b.onclick = () => { go({ k: b.dataset.fk }); $$('[data-fk]').forEach((x) => x.disabled = true); b.style.outline = '4px solid #fff'; });
+  if ($('#buzzBtn')) $('#buzzBtn').onclick = () => { go({ buzz: true }); $('#buzzBtn').disabled = true; $('#buzzBtn').textContent = '…'; if (navigator.vibrate) try { navigator.vibrate(120); } catch {} };
+  $$('[data-judge]').forEach((b) => b.onclick = () => { go({ judge: b.dataset.judge === '1' }); $$('[data-judge]').forEach((x) => x.disabled = true); });
+  $$('[data-team]').forEach((b) => b.onclick = () => { go({ team: +b.dataset.team }); $$('[data-team]').forEach((x) => x.disabled = true); });
+  $$('[data-hex]').forEach((b) => b.onclick = () => { go({ hex: +b.dataset.hex }); $$('[data-hex]').forEach((x) => x.disabled = true); });
+  if ($('#bbForm')) { $('#bbForm').onsubmit = (e) => { e.preventDefault(); const t = $('#bbIn').value.trim(); if (!t) return; go({ text: t }); $('#bbIn').disabled = true; }; setTimeout(() => $('#bbIn')?.focus(), 50); }
 }
 /** How many turns until mine: 0 when it's mine now, 1 when I'm next. */
 function turnsUntilMe(w) {
@@ -361,7 +456,7 @@ function resultHtml(s, r) {
   if (!r) return `<div class="state"><h2>Results are on the screen</h2></div>`;
   const wipeQ = s.qType === 'wipeout' || r.wiped || r.points < 0, raceQ = s.qType === 'race' || r.raced;
   const cls = r.points < 0 ? 'neg' : r.correct || r.place ? 'ok' : raceQ ? 'part' : r.partial > 0 ? 'part' : 'no';
-  const head = r.skipped ? '⏭ Skipped' : r.wiped ? '💥 Wiped out!' : r.lost ? `💨 Last place · ${r.got ?? 0} right` : r.place === 2 ? `🥈 Second place · ${r.got ?? 0} right` : r.place === 3 ? `🥉 Third place · ${r.got ?? 0} right` : wipeQ ? (r.points > 0 ? '✓ Nice picking!' : 'No points this round') : raceQ ? (r.correct ? `🏆 You won the race! · ${r.got ?? 0} right` : r.out ? `Out of the race · ${r.got ?? 0} right` : `${r.got ?? 0} right`) : r.correct ? '✓ Correct!' : !r.answered ? 'Too slow!' : r.partial > 0 ? 'Partly right' : '✗ Not this time';
+  const head = r.note && ['potato', 'koth', 'blockbusters'].includes(s.qType) ? esc(r.note) : r.skipped ? '⏭ Skipped' : r.wiped ? '💥 Wiped out!' : r.lost ? `💨 Last place · ${r.got ?? 0} right` : r.place === 2 ? `🥈 Second place · ${r.got ?? 0} right` : r.place === 3 ? `🥉 Third place · ${r.got ?? 0} right` : wipeQ ? (r.points > 0 ? '✓ Nice picking!' : 'No points this round') : raceQ ? (r.correct ? `🏆 You won the race! · ${r.got ?? 0} right` : r.out ? `Out of the race · ${r.got ?? 0} right` : `${r.got ?? 0} right`) : r.correct ? '✓ Correct!' : !r.answered ? 'Too slow!' : r.partial > 0 ? 'Partly right' : '✗ Not this time';
   const medal = raceQ && !r.lost ? (r.correct ? '🏆' : r.place === 2 ? '🥈' : r.place === 3 ? '🥉' : '') : '';
   if (medal && navigator.vibrate) try { navigator.vibrate(r.correct ? [120, 60, 120, 60, 300] : 150); } catch {}
   return `<div class="result ${cls}">${medal ? `<div class="rpmedal">${medal}</div>` : ''}<div style="font-size:1.6rem;font-weight:900">${head}</div>${r.practice ? `<div class="pts" style="opacity:.55">${r.would > 0 ? '+' : ''}${r.would}</div><div style="font-weight:900">🧪 Practice: that would have been your score. It doesn't count.</div>` : `<div class="pts">${r.points > 0 ? '+' : ''}${r.points}</div>`}

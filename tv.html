@@ -33,7 +33,7 @@ if (MOBILE) { document.body.classList.remove('tv'); document.body.classList.add(
 const { $, $$, esc, api, TYPES, normalizeQuiz, quizForSave, timeFor, uid } = LQ;
 const view = $('#view');
 const THEMES = ['General knowledge', 'Music', 'Film & TV', 'Sport', 'Geography', 'History', 'Science & nature', 'Food & drink', 'The 80s & 90s', 'Pop culture', 'Kids', 'Christmas'];
-const SPECIALS = ['order', 'tune', 'match', 'club', 'sort', 'pin', 'dingbat', 'smash', 'highlow', 'rhyme', 'wheel', 'wipeout', 'race'];
+const SPECIALS = ['order', 'tune', 'match', 'club', 'sort', 'pin', 'dingbat', 'smash', 'highlow', 'rhyme', 'wheel', 'wipeout', 'race', 'potato', 'koth', 'blockbusters'];
 const T = { screen: 'home', ai: false, quizzes: [], plan: null, quiz: null, busy: false };
 let toastT;
 function toast(msg, bad) { const t = $('#toast'); t.textContent = msg; t.className = 'toast show' + (bad ? ' bad' : ''); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 3500); }
@@ -260,7 +260,7 @@ async function startWriting(quiz, label, difficulty) {
     try { const h = await api('history', { exclude: quiz.id }); avoid = h.questions.map((q) => q.text); } catch {}
     for (const [ri, rd] of quiz.rounds.entries()) {
       for (const [type, need] of Object.entries(rd.mix)) {
-        const BATCH = ['race', 'wipeout', 'pin', 'match'].includes(type) ? 2 : ['choice', 'tf', 'text', 'order', 'sort'].includes(type) ? 6 : 4;
+        const BATCH = ['potato', 'koth', 'blockbusters'].includes(type) ? 1 : ['race', 'wipeout', 'pin', 'match'].includes(type) ? 2 : ['choice', 'tf', 'text', 'order', 'sort'].includes(type) ? 6 : 4;
         let got = 0;
         while (got < need) {
           draw(`Round ${ri + 1}, ${esc(TYPES[type].label)}: writing ${got + 1}–${Math.min(need, got + BATCH)} of ${need}…`, rd.title);

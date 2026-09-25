@@ -861,9 +861,16 @@ Deno.serve(async (req) => {
 
     if (action === "generate") {
       if (!ANTHROPIC_KEY) return json({ error: "AI is not set up on the server yet — add ANTHROPIC_API_KEY as a Supabase secret." }, 503);
-      const KNOWN = ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel", "highlow", "rhyme", "club", "dingbat", "tune", "catchphrase"];
+      const KNOWN = ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel", "highlow", "rhyme", "club", "dingbat", "tune", "catchphrase", ...Object.keys(RACE_GAMES)];
       const asked = (Array.isArray(body.types) ? body.types : []).map(String);
-      const types = asked.filter((t) => KNOWN.includes(t));
+      let types = asked.filter((t) => KNOWN.includes(t));
+      // Hot Potato, King of the Hill and Blockbusters play on a race's bank of quick questions: take or write a race, then reshape it.
+      const game = types.length === 1 && RACE_GAMES[types[0]] ? types[0] : "";
+      if (game) {
+        types = ["race"];
+        if (game === "blockbusters") body.brief = `${String(body.brief || "")}\nThis bank is for Blockbusters: every right answer is a single word or short name, and the 20 right answers each start with a DIFFERENT letter of the alphabet (never Q, X or Z).`.trim();
+      }
+      const reshape = (list: any[]) => game ? list.map((q: any) => q?.type === "race" ? raceToGame(q, game) : q) : list;
       const unknownTypes = asked.filter((t) => !KNOWN.includes(t));
       if (asked.length && !types.length) return json({ error: `This server does not know the question type${unknownTypes.length > 1 ? 's' : ''} ${unknownTypes.join(", ")} yet — redeploy the quiz-api function.` }, 400);
       // The bank first: anything pre-written that fits this round comes free, and only the shortfall is written by the AI.
@@ -873,7 +880,7 @@ Deno.serve(async (req) => {
       if (body.useBank !== false && quizId && types.length === 1) {
         try { fromBank = await bankTake(types[0], wantCount, String(body.topic || body.title || ""), String(body.brief || ""), quizId, ["easy", "medium", "hard"].includes(String(body.difficulty)) ? String(body.difficulty) : "mixed", bankInfo); } catch (e) { console.warn("bank take failed", String(e)); }
       }
-      if (fromBank.length >= wantCount) return json({ questions: fromBank, warnings: [], searched: false, usage: null, unknownTypes, fromBank: fromBank.length, bankInfo });
+      if (fromBank.length >= wantCount) return json({ questions: reshape(fromBank), warnings: [], searched: false, usage: null, unknownTypes, fromBank: fromBank.length, bankInfo });
       // Catchphrase clips only come from the bank: the AI cannot make a video.
       if (types[0] === "catchphrase") return json({ questions: fromBank, warnings: fromBank.length < wantCount ? ["The Catchphrase clips in the bank have run out. Add more, or pick another type for the rest."] : [], searched: false, usage: null, unknownTypes, fromBank: fromBank.length, bankInfo });
       const out = await generate({
@@ -888,7 +895,7 @@ Deno.serve(async (req) => {
         web: body.web !== false,
         premium: body.premium === true,
       });
-      return json({ ...out, questions: [...fromBank, ...out.questions], unknownTypes, fromBank: fromBank.length, bankInfo });
+      return json({ ...out, questions: reshape([...fromBank, ...out.questions]), unknownTypes, fromBank: fromBank.length, bankInfo });
     }
 
     if (action === "kahoot_import") {
@@ -1016,6 +1023,7 @@ Deno.serve(async (req) => {
       // is stamped used + rejected, so it never comes round again but can be reviewed and improved later.
       const q = body.question && typeof body.question === "object" ? body.question : null;
       if (!q || !q.type) return json({ error: "Nothing to reject." }, 400);
+      if (RACE_GAMES[String(q.type)]) return json({ ok: true, skipped: true }); // these games keep no bank rows of their own
       const quizId = UUID_RE.test(String(body.quizId || "")) ? String(body.quizId) : "";
       const row = await bankRow(String(q.kind || q.type));
       const at = new Date().toISOString();
@@ -1035,6 +1043,7 @@ Deno.serve(async (req) => {
       // as new stock if the AI wrote it, and is marked passed-over for this quiz so the swap brings a different one.
       const q = body.question && typeof body.question === "object" ? body.question : null;
       if (!q || !q.type) return json({ error: "Nothing to pass on." }, 400);
+      if (RACE_GAMES[String(q.type)]) return json({ ok: true, skipped: true }); // these games keep no bank rows of their own
       const quizId = UUID_RE.test(String(body.quizId || "")) ? String(body.quizId) : "";
       const row = await bankRow(String(q.kind || q.type));
       let item = row.questions.find((x: any) => x.id === q.bankId) || row.questions.find((x: any) => nearDuplicate(x, q));
@@ -1068,7 +1077,7 @@ Deno.serve(async (req) => {
       for (const row of banks) for (const q of row.questions || []) if (q.used && q.used.quiz === id && !q.used.rejected) { delete q.used; touched.add(row); const t = row.settings.type; out[t] = out[t] || { restored: 0, added: 0, skipped: 0 }; out[t].restored++; }
       // 2. everything the writer made goes in as new stock, with a duplicate check against the whole bank of its type
       for (const q of (Array.isArray(quiz.questions) ? quiz.questions : [])) {
-        if (!q || !q.type || q.type === "slide") continue; // slides are not questions and never go in the bank
+        if (!q || !q.type || q.type === "slide" || RACE_GAMES[q.type]) continue; // slides are not questions, and the race-bank games have no bank rows of their own
         const t = String(q.kind || q.type); out[t] = out[t] || { restored: 0, added: 0, skipped: 0 };
         if (q.fromBank || q.bankId) continue; // already counted under restored
         let row = banks.find((r) => r.settings?.type === t);
@@ -1379,8 +1388,22 @@ const WORD = (s: string) => new Set(norm(s).split(" ").filter((w) => w.length >=
 const THEME_STOP = new Set(["round", "rounds", "quiz", "quizzes", "question", "questions", "about", "based", "show", "shows", "series", "programme", "program", "from", "with", "that", "this", "these", "those", "their", "there", "what", "which", "some", "more", "most", "only", "mixed", "general", "knowledge", "trivia", "easy", "hard", "medium", "difficult", "tricky", "family", "friendly", "answer", "answers", "each", "every", "make", "made", "write", "include", "including", "like", "also", "just", "plus", "other", "things", "stuff", "anything", "everything", "famous", "popular", "classic", "best", "good", "great", "topic", "theme", "themed", "fun", "please", "want", "should", "would", "could", "about", "into", "over", "under", "your", "them", "they", "have", "been", "will", "than", "then", "when", "where", "while", "people", "players", "player", "team", "teams", "night", "tonight", "week", "weekly", "new", "untitled", "incorrect", "correct", "wrong", "right", "often", "think", "thinks", "thought", "actually", "really", "commonly", "usually", "mistake", "mistaken", "mistakes", "confuse", "confused", "trick", "tricks", "trap", "traps", "option", "options", "similar", "include", "includes", "adding", "fake", "real", "list", "lists", "ones", "called", "sound", "sounds", "instead", "rather", "though", "wipeout", "race", "smash", "catchphrase", "dingbat", "dingbats"]);
 const JUNK_CATEGORY = /^(round\s*\d*|new quiz|untitled.*|ai quiz|quiz|general|test.*)$/i;
 /** The games' own names. A round called "Wipeout" says which game it is, not what it is about, so these never count as a theme. */
-const GAME_NAME = /^(the\s+)?(wipeout|race|answer smash|smash|wheel of fortune|wheel|dingbats?|catchphrase|rhyme time|highbrow,? lowbrow|1% club|one per ?cent club|name that tune|multiple choice|true or false|true\/false|type the answer|put in order|drop the pin|match up|categorise|categorize)( round)?$/i;
+const GAME_NAME = /^(the\s+)?(wipeout|race|hot potato|king of the hill|blockbusters|answer smash|smash|wheel of fortune|wheel|dingbats?|catchphrase|rhyme time|highbrow,? lowbrow|1% club|one per ?cent club|name that tune|multiple choice|true or false|true\/false|type the answer|put in order|drop the pin|match up|categorise|categorize)( round)?$/i;
 const junkCategory = (c: string) => JUNK_CATEGORY.test(c) || GAME_NAME.test(c.trim());
+/** Games built on a race's bank of quick questions, with the settings each starts with. They never get bank rows of their own. */
+const RACE_GAMES: Record<string, { label: string; set: () => Record<string, unknown> }> = {
+  potato: { label: "Hot Potato", set: () => ({ fuseMin: 40, fuseMax: 90, perCorrect: 50, penalty: 300, time: 90 }) },
+  koth: { label: "King of the Hill", set: () => ({ target: 3, prize: 1000, answerSecs: 3, time: 15 }) },
+  blockbusters: { label: "Blockbusters", set: () => ({ teams: [{ name: "Newcastle", color: "#f2f2f2" }, { name: "Sunderland", color: "#e21b3c" }], hexPoints: 50, prize: 500, time: 20 }) },
+};
+/** A race (from the bank or freshly written) reshaped into one of those games: same questions, the game's own title and settings. */
+function raceToGame(q: any, game: string) {
+  const set = RACE_GAMES[game].set();
+  const c = { ...q, type: game, ...set };
+  for (const k of ["target", "maxWrong", "perCorrect", "prize", "prize2", "prize3", "forfeit"]) if (!(k in set)) delete c[k];
+  c.text = `${RACE_GAMES[game].label}: ${String(q.text || "").replace(/^the race\s*[:\-–—]\s*/i, "").trim() || "quick-fire questions"}`;
+  return c;
+}
 const GENERIC = /general knowledge|anything|mixed bag|pot ?luck|pub quiz|warm.?up|quick.?fire|random/i;
 /** Takes up to `need` unused bank questions of a type for a quiz, preferring ones that match the round's topic and brief. */
 async function bankTake(type: string, need: number, topic: string, brief: string, quizId: string, difficulty = "mixed", info: any = {}): Promise<any[]> {

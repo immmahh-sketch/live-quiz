@@ -708,7 +708,7 @@ async function generateForRound(r) {
   if (!S.quiz.id) await save();
   try {
     for (const { type, need } of plan) {
-      const BATCH = ['race', 'wipeout', 'pin', 'match'].includes(type) ? 2 : ['choice', 'tf', 'text', 'order', 'sort'].includes(type) ? 6 : 4; // heavy ones fetch pictures; plain ones are quick on Sonnet
+      const BATCH = ['potato', 'koth', 'blockbusters'].includes(type) ? 1 : ['race', 'wipeout', 'pin', 'match'].includes(type) ? 2 : ['choice', 'tf', 'text', 'order', 'sort'].includes(type) ? 6 : 4; // heavy ones fetch pictures; plain ones are quick on Sonnet
       let got = 0;
       while (got < need) {
         $('#ga_step', m).textContent = `${TYPES[type].label}: writing ${got + 1}–${Math.min(need, got + BATCH)} of ${need} (${written} of ${total} done)…`;
@@ -768,7 +768,7 @@ function renderQForm() {
     <div id="typeBox"></div>
     ${q.type === 'wheel' || q.type === 'tune' ? '' : `<div class="field"><label>${q.type === 'pin' ? 'Picture to drop the pin on' : q.type === 'smash' ? 'The picture' : 'On the screen'}</label><div id="mediaBox"></div></div>`}
     <div class="row" style="align-items:flex-end">
-      <div class="field" style="max-width:180px"><label>${q.type === 'wipeout' ? 'Seconds per turn' : q.type === 'race' ? 'Race time limit (seconds)' : 'Time limit (seconds)'}</label><input type="number" id="f_time" min="${q.type === 'wipeout' ? 3 : 5}" max="${q.type === 'race' ? 600 : 180}" value="${q.time}"></div>
+      <div class="field" style="max-width:180px${q.type === 'potato' ? ';display:none' : ''}"><label>${q.type === 'wipeout' ? 'Seconds per turn' : q.type === 'race' ? 'Race time limit (seconds)' : q.type === 'koth' ? 'Seconds to answer or buzz' : q.type === 'blockbusters' ? 'Seconds per question' : 'Time limit (seconds)'}</label><input type="number" id="f_time" min="${q.type === 'wipeout' ? 3 : 5}" max="${q.type === 'race' ? 600 : 180}" value="${q.time}"></div>
       ${q.type === 'wipeout' ? `<div class="field" style="max-width:160px"><label>Points per right pick</label><input type="number" id="f_pick" min="0" max="5000" value="${q.pickPoints ?? 200}"></div><div class="field" style="max-width:160px"><label>Wipeout penalty</label><input type="number" id="f_penalty" min="0" max="5000" value="${q.penalty ?? 500}"></div><div class="field" style="max-width:190px"><label>Look at the board first (seconds)</label><input type="number" id="f_study" min="0" max="60" value="${q.study ?? 20}"></div>` : ''}
       ${S.quiz.rounds.length > 1 ? `<div class="field" style="max-width:240px"><label>Round</label><select id="f_round">${S.quiz.rounds.map((r, i) => `<option value="${r.id}" ${r.id === q.round ? 'selected' : ''}>${i + 1}. ${esc(r.title || 'Untitled round')}</option>`).join('')}</select></div>` : ''}
       ${q.type === 'order' || q.type === 'match' || q.type === 'sort' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_partial" ${q.partial ? 'checked' : ''}> Partial credit for partly right</label>` : ''}
@@ -954,6 +954,34 @@ function renderTypeBox() {
     $('#r_prize2').onchange = (e) => { q.prize2 = LQ.clamp(+e.target.value || 0, 0, 50000); touch(); renderTypeBox(); };
     $('#r_per').onchange = (e) => { q.perCorrect = LQ.clamp(+e.target.value || 0, 0, 5000); touch(); renderTypeBox(); };
     $('#r_prize3').onchange = (e) => { q.prize3 = LQ.clamp(+e.target.value || 0, 0, 50000); touch(); renderTypeBox(); };
+    $('#fillBank').onclick = () => bankModal(q);
+    $$('[data-bq]').forEach((inp) => inp.oninput = () => { q.bank[+inp.dataset.bq].text = inp.value; touch(); showProblems(); });
+    $$('[data-bo]').forEach((inp) => inp.oninput = () => { const [i, oi] = inp.dataset.bo.split(':').map(Number); q.bank[i].options[oi] = inp.value; touch(); showProblems(); });
+    $$('[data-rm-b]').forEach((b) => b.onclick = () => { q.bank.splice(+b.dataset.rmB, 1); touch(); renderTypeBox(); showProblems(); });
+    $('#addBank').onclick = () => { q.bank.push(LQ.newBankItem()); touch(); renderTypeBox(); $$('[data-bq]').pop().focus(); };
+  }
+  if (q.type === 'potato' || q.type === 'koth' || q.type === 'blockbusters') {
+    const bb = q.type === 'blockbusters', good = LQ.goodRows(q).length;
+    const num = (id, label, val, min, max, w = 130) => `<div class="field" style="max-width:${w}px"><label>${label}</label><input type="number" id="${id}" min="${min}" max="${max}" value="${val}"></div>`;
+    const notice = q.type === 'potato'
+      ? `A lit bomb goes round the room. Whoever holds it gets a question from this bank on their phone: right scores <b>${q.perCorrect ?? 50}</b> and they choose who gets the bomb next; wrong and they get another question. The fuse burns for a random time between <b>${q.fuseMin}</b> and <b>${q.fuseMax}</b> seconds (nobody knows exactly), and whoever holds it when it blows loses <b>${q.penalty ?? 300}</b>. Questions are reused if it goes round a lot.`
+      : q.type === 'koth'
+      ? `Fastest finger first: a multiple-choice question from this bank, and the first two right go head to head. Then a question from the bank on the screen (no answers shown): the first to buzz on their phone has <b>${q.answerSecs ?? 3}</b> seconds to say it out loud, then the klaxon, then the answer, and you press Correct or Incorrect. Right: a point, and they stay on against the next fastest finger. Wrong: the other player stays on. Points carry over when a player comes back. First to <b>${q.target}</b> points wins <b>${q.prize ?? 1000}</b>. In self-play mode the other players judge on their phones.`
+      : `Players pick a side on their phones. The side that won the last hexagon picks a letter; everyone types the answer, which starts with that letter, and the first right answer wins the hexagon for their side (<b>${q.hexPoints ?? 50}</b> to that player). <b>${esc(q.teams[0].name)}</b> link left to right, <b>${esc(q.teams[1].name)}</b> top to bottom, and the first to link wins <b>${q.prize ?? 500}</b> for everyone on that side. The board has 20 hexagons, one question each, lettered from the answers; write answers that start with lots of different letters, plus a few spares.`;
+    const settings = q.type === 'potato' ? num('g_fmin', 'Fuse at least (seconds)', q.fuseMin, 10, 600, 160) + num('g_fmax', 'Fuse at most (seconds)', q.fuseMax, 10, 600, 160) + num('g_per', 'Per right answer', q.perCorrect ?? 50, 0, 5000) + num('g_pen', 'Blown up: lose', q.penalty ?? 300, 0, 50000)
+      : q.type === 'koth' ? num('g_target', 'Points to win', q.target, 1, 10) + num('g_prize', 'Winner gets', q.prize ?? 1000, 0, 50000) + num('g_ans', 'Seconds to answer after buzzing', q.answerSecs ?? 3, 1, 15, 200)
+      : q.teams.map((t, i) => `<div class="field" style="max-width:200px"><label>Side ${i + 1} · links ${i === 0 ? 'left to right' : 'top to bottom'}</label><div class="row" style="flex-wrap:nowrap;gap:6px"><input type="text" data-tn="${i}" value="${esc(t.name)}" maxlength="24"><input type="color" data-tc="${i}" value="${esc(t.color)}" style="width:46px;padding:2px;flex:none"></div></div>`).join('') + num('g_hex', 'Per hexagon', q.hexPoints ?? 50, 0, 5000) + num('g_prize', 'Winning side gets', q.prize ?? 500, 0, 50000, 150);
+    box.innerHTML = `<div class="notice" style="margin-bottom:12px">${notice}</div>
+      <div class="row">${settings}<div class="grow"></div><button class="btn" id="fillBank" style="align-self:center">✨ Fill the bank with AI</button></div>
+      <div class="field"><label>Question bank <span class="muted">— ${good} ready of ${q.bank.length}. ${bb ? 'A short question and its answer; the hexagon shows the answer\'s first letter.' : 'Put the right answer first; players see the answers shuffled.'}</span></label>
+        <div class="racehead ${bb ? 'two' : ''}"><span></span><span>Question</span><span>${bb ? 'Answer' : '★ Right answer'}</span>${bb ? '' : '<span>Wrong</span><span>Wrong</span><span>Wrong</span>'}<span></span></div>
+        ${q.bank.map((b, i) => `<div class="racerow ${bb ? 'two' : ''}"><div class="n">${i + 1}</div><input type="text" data-bq="${i}" value="${esc(b.text)}" placeholder="Question">${b.options.slice(0, bb ? 1 : 4).map((o, oi) => `<input type="text" data-bo="${i}:${oi}" value="${esc(o)}" placeholder="${oi === 0 ? (bb ? 'Answer' : 'Right') : 'Wrong'}" ${oi === 0 ? 'class="right"' : ''}>`).join('')}<button class="btn btn-ghost btn-sm" data-rm-b="${i}">✕</button></div>`).join('')}
+        <button class="btn btn-ghost btn-sm" id="addBank" ${q.bank.length >= 80 ? 'disabled' : ''}>+ Add question</button></div>`;
+    const setNum = (id, key, min, max, redraw = true) => { if ($('#' + id)) $('#' + id).onchange = (e) => { q[key] = LQ.clamp(Math.round(+e.target.value) || 0, min, max); if (key === 'fuseMin' && q.fuseMax < q.fuseMin) q.fuseMax = q.fuseMin; if (key === 'fuseMax' && q.fuseMax < q.fuseMin) q.fuseMin = q.fuseMax; if (key === 'fuseMax') q.time = q.fuseMax; touch(); if (redraw) renderTypeBox(); showProblems(); }; };
+    setNum('g_fmin', 'fuseMin', 10, 600); setNum('g_fmax', 'fuseMax', 10, 600); setNum('g_per', 'perCorrect', 0, 5000); setNum('g_pen', 'penalty', 0, 50000);
+    setNum('g_target', 'target', 1, 10); setNum('g_prize', 'prize', 0, 50000); setNum('g_ans', 'answerSecs', 1, 15); setNum('g_hex', 'hexPoints', 0, 5000);
+    $$('[data-tn]').forEach((inp) => inp.oninput = () => { q.teams[+inp.dataset.tn].name = inp.value; touch(); showProblems(); });
+    $$('[data-tc]').forEach((inp) => inp.oninput = () => { q.teams[+inp.dataset.tc].color = inp.value; touch(); });
     $('#fillBank').onclick = () => bankModal(q);
     $$('[data-bq]').forEach((inp) => inp.oninput = () => { q.bank[+inp.dataset.bq].text = inp.value; touch(); showProblems(); });
     $$('[data-bo]').forEach((inp) => inp.oninput = () => { const [i, oi] = inp.dataset.bo.split(':').map(Number); q.bank[i].options[oi] = inp.value; touch(); showProblems(); });
@@ -1270,14 +1298,15 @@ async function avoidList(extra = []) {
 
 // ------------------------------------------------------------------ AI: fill a race bank
 function bankModal(q) {
-  const need = Math.max(0, Math.max(20, (q.target || 10) + (q.maxWrong ?? 10)) - q.bank.filter((b) => b.text.trim()).length);
+  const want = q.type === 'race' ? Math.max(20, (q.target || 10) + (q.maxWrong ?? 10)) : q.type === 'potato' ? 20 : 30, bb = q.type === 'blockbusters';
+  const need = Math.max(0, want - q.bank.filter((b) => b.text.trim()).length);
   const m = modal(`<h3>✨ Fill the question bank</h3>
     ${S.ai ? '' : '<div class="error" style="margin-bottom:12px">AI isn\'t switched on for this server yet.</div>'}
-    <div class="field"><label>Topic</label><input type="text" id="b_topic" value="${esc(q.text.replace(/^the race:?\s*/i, ''))}" placeholder="e.g. Capital cities, 90s number ones, the Premier League"></div>
+    <div class="field"><label>Topic</label><input type="text" id="b_topic" value="${esc(q.text.replace(/^(the race|hot potato|king of the hill|blockbusters)\s*[:\-–—]?\s*/i, ''))}" placeholder="e.g. Capital cities, 90s number ones, the Premier League"></div>
     <div class="row"><div class="field grow"><label>How many to add</label><input type="number" id="b_count" value="${need || 10}" min="1" max="40"></div>
       <div class="field grow"><label>Difficulty</label><select id="b_diff"><option value="easy">Easy — it's a race</option><option value="mixed" selected>Mixed</option><option value="medium">Medium</option><option value="hard">Hard</option></select></div></div>
     <label class="check"><input type="checkbox" id="b_web"> Search the web to check facts</label>
-    <div class="help" style="margin-top:6px">Race questions are quick multiple choice: short question, four short answers. Empty rows in the bank are replaced first.</div>
+    <div class="help" style="margin-top:6px">${bb ? 'Blockbusters questions: a short question whose answer is one word or a short name, with the answers starting with as many different letters as possible.' : q.type === 'koth' ? 'Quick multiple choice. The head-to-head questions are read without the options, so every one needs a short, clear answer.' : 'Quick multiple choice: short question, four short answers.'} Empty rows in the bank are replaced first.</div>
     <div id="b_prog" class="mt hidden"></div>
     <div class="row mt" style="justify-content:flex-end"><button class="btn btn-ghost" data-x>Cancel</button><button class="btn btn-primary" data-ok ${S.ai ? '' : 'disabled'}>Write them</button></div>`);
   $('[data-x]', m).onclick = () => m.remove();
@@ -1290,8 +1319,9 @@ function bankModal(q) {
     try {
       while (written < total) {
         $('#b_step', m).textContent = `Writing questions ${written + 1}–${Math.min(total, written + BATCH)} of ${total}…`;
-        const r = await api('generate', { topic, title: topic, brief: `Quick-fire race questions on ${topic}: one short line each, four short answers, nothing that needs thinking time.`, count: Math.min(BATCH, total - written), difficulty: $('#b_diff', m).value, types: ['choice'], pictures: false, web: $('#b_web', m).checked, avoid, premium: !!S.quiz.settings.aiPremium, quizId: S.quiz.id }, { timeout: 170000 });
-        LQ.addUsage(S.quiz.settings, r.usage); LQ.genLog(S.quiz.settings, 'Race bank', r, { round: topic });
+        const used = [...new Set(q.bank.map((b) => (b.options[0] || '').trim().replace(/^(the|a|an)\s+/i, '').charAt(0).toUpperCase()).filter(Boolean))].join(', ');
+        const r = await api('generate', { topic, title: topic, brief: bb ? `Blockbusters questions on ${topic}: one short line each; every answer is a single word or short name, and every answer starts with a DIFFERENT letter of the alphabet (never Q, X or Z)${used ? `; none may start with ${used}` : ''}.` : `Quick-fire questions on ${topic}: one short line each, four short answers, nothing that needs thinking time${q.type === 'koth' ? '; each must also work read aloud without its options, with one short, clear answer' : ''}.`, count: Math.min(BATCH, total - written), difficulty: $('#b_diff', m).value, types: ['choice'], pictures: false, web: $('#b_web', m).checked, avoid, premium: !!S.quiz.settings.aiPremium, quizId: S.quiz.id }, { timeout: 170000 });
+        LQ.addUsage(S.quiz.settings, r.usage); LQ.genLog(S.quiz.settings, `${TYPES[q.type].label} bank`, r, { round: topic });
         if (!r.questions.length) break;
         for (const g of r.questions) {
           const right = g.options.find((o) => o.id === g.correct)?.text; if (!right) continue;
@@ -1317,6 +1347,8 @@ function summaryOf(q) {
   if (q.type === 'tf') lines.push(`Marked as: ${q.answer === false ? 'FALSE' : 'TRUE'}`);
   if (q.type === 'sort') lines.push('Categories and the answers placed in each: ' + q.categories.filter((c) => c.name.trim()).map((c) => `${c.name}: ${q.items.filter((i) => i.category === c.id && i.text.trim()).map((i) => i.text).join(', ') || '(none)'}`).join(' | '));
   if (q.type === 'wipeout') lines.push('Marked RIGHT (each must genuinely fit the question): ' + q.right.filter((i) => i.text.trim()).map((i) => i.text).join(' | '), 'Marked WRONG (each must genuinely NOT fit): ' + q.wrong.filter((i) => i.text.trim()).map((i) => i.text).join(' | '));
+  if (q.type === 'potato' || q.type === 'koth') lines.push(`${TYPES[q.type].label}. Bank (right answer first, then wrong ones):\n` + q.bank.filter((b) => b.text.trim()).map((b, i) => `${i + 1}. ${b.text} — RIGHT: ${b.options[0]}; wrong: ${b.options.slice(1).filter(Boolean).join(', ')}`).join('\n'));
+  if (q.type === 'blockbusters') lines.push('Blockbusters. Each question and its answer:\n' + q.bank.filter((b) => b.text.trim()).map((b, i) => `${i + 1}. ${b.text} — ANSWER: ${b.options[0]}`).join('\n'));
   if (q.type === 'race') lines.push(`Race to ${q.target} right. Bank (right answer first, then wrong ones):\n` + q.bank.filter((b) => b.text.trim()).map((b, i) => `${i + 1}. ${b.text} — RIGHT: ${b.options[0]}; wrong: ${b.options.slice(1).filter(Boolean).join(', ')}`).join('\n'));
   if (q.type === 'match') lines.push('Pairs (left → right): ' + q.pairs.map((p) => `${p.left} → ${p.right.kind === 'image' ? '[a picture — cannot be checked here, treat as fine]' : p.right.value}`).join(' | '));
   if (q.type === 'highlow') lines.push(`Highbrow Lowbrow: both clues must have the same answer. Highbrow clue: ${q.text}. Lowbrow clue: ${q.lowText}. Accepted answers: ${q.answers.filter((a) => a.trim()).join(' | ')}. Check each clue really leads to that answer and nothing else.`);
