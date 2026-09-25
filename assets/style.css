@@ -963,3 +963,11 @@ body.player:has(.app.turn-chaser) { background: #ffe0e5; }
 .kready { font-size: clamp(1.6rem, 4vw, 3rem); font-weight: 900; color: var(--sun); animation: kpulse .8s ease-in-out infinite alternate; }
 .kreadybtn { font-size: 1.6rem; padding: 16px 44px; }
 .kcountbig { font-size: clamp(5rem, 20vh, 12rem); font-weight: 900; line-height: 1; }
+/* The Chase: ??? on the board until the drumroll lands (4.3 s), then the name; the phone name waits for the same moment */
+.chmask { display: inline-block; animation: chhide 0s linear 4.3s forwards; }
+.chunmask { display: inline-block; opacity: 0; font-size: 0; animation: chshow .4s ease-out 4.3s forwards; }
+@keyframes chhide { to { opacity: 0; font-size: 0; } }
+@keyframes chshow { to { opacity: 1; font-size: 1em; } }
+.chwhop { opacity: 0; animation: ripop .6s cubic-bezier(.2, 1.6, .4, 1) 4.3s both; }
+.potqprev { opacity: .75; font-weight: 800; font-size: clamp(.9rem, 1.3vw, 1.1rem); margin-top: 6px; }
+@media (prefers-reduced-motion: reduce) { .chmask { display: none; } .chunmask, .chwhop { animation: none; opacity: 1; font-size: 1em; } }

@@ -252,7 +252,7 @@ function stateForPlayers() {
     if (G.q.chase) {
       const g = G.q.chase, q = question(), row = g.row ? chaseRow(g) : null;
       s.chase = { step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, chaser: g.chaser, team: g.team, teamSteps: g.teamSteps, chaserSteps: g.chaserSteps, headStart: q.headStart ?? 2, target: q.target || 5, teamPrize: q.teamPrize ?? 1000, chaserPrize: q.chaserPrize ?? 200,
-        row: g.step === 'q' && row ? rowForPhone(row, g.next) : null, answered: Object.keys(g.answered), first: g.first, right: g.step === 'show' && row ? row.right : null, result: g.result };
+        row: g.step === 'q' && row ? rowForPhone(row, g.next) : null, answered: Object.keys(g.answered), first: g.first, wrongBy: g.wrongBy, right: g.step === 'show' && row ? row.right : null, result: g.result };
     }
     if (s.potato || s.koth || s.bb || s.chase) s.names = Object.fromEntries(Object.values(G.players).map((p) => [p.id, { name: p.name, emoji: p.emoji || '' }]));
     if (G.q.race) { const r = G.q.race; s.race = { winner: r.winner, winnerName: r.winner ? G.players[r.winner]?.name : null, over: r.over, target: G.q.view.target, maxWrong: G.q.view.maxWrong ?? 10, players: Object.fromEntries(Object.entries(r.players).map(([pid, p]) => [pid, { idx: p.idx, correct: p.correct, wrong: p.wrong, out: p.out, why: p.why, done: p.done }])) }; }
@@ -339,7 +339,7 @@ function maybeAllAnswered() {
 // With auto on, nobody has to drive this screen: round cards, reveals and scoreboards move on
 // by themselves after a pause, and every phone gets Start and Next buttons so any player can
 // push things along sooner. Questions already end on their own (everyone answered, or time up).
-function autoWanted() { if (TV || new URLSearchParams(location.search).get('auto') === '1') return true; try { return localStorage.getItem('lq_auto') === '1'; } catch { return false; } }
+function autoWanted() { const a = new URLSearchParams(location.search).get('auto'); if (a === '0') return false; if (TV || a === '1') return true; try { return localStorage.getItem('lq_auto') === '1'; } catch { return false; } }
 let autoT = null;
 /** How long this screen stays up before moving on by itself, in ms; 0 when it waits for a press. */
 function autoDelay() {
@@ -777,7 +777,7 @@ function potatoAnswer(pid, a) {
   const b = Number.isInteger(a.b) ? p.bombs[a.b] : liveBombs(p).find((x) => x.holder === pid);
   if (!b || b.exploded || b.holder !== pid) return;
   if (b.stage === 'answer' && +a.i === b.row && a.k) {
-    const row = potatoRow(b), ok = isRight(row, String(a.k));
+    const row = potatoRow(b), ok = isRight(row, String(a.k)); b.lastQ = row.text;
     if (ok) { p.scores[pid] = (p.scores[pid] || 0) + (question().perCorrect ?? 50); p.rights[pid] = (p.rights[pid] || 0) + 1; b.stage = 'pass'; b.passBy = Date.now() + 12000; b.last = { pid, ok: true, answer: row.right }; sound('ding'); }
     else { b.last = { pid, ok: false, answer: row.right }; b.row = p.nextRow++; sound('wrong'); }
   } else if (b.stage === 'pass' && a.pass && passTargets(b).includes(a.pass)) return potatoPass(b, a.pass);
@@ -849,9 +849,9 @@ function renderPotato() {
     const tag = p.bombs.length > 1 ? `Bomb ${b.i + 1} · ` : '';
     if (b.exploded) return `<div class="potq boom"><div class="potqwho">💥 ${tag}BOOM! ${pem(b.exploded)} <b>${esc(pname(b.exploded))}</b> was holding it</div><div class="potqmsg">−${q.penalty ?? 300} points</div></div>`;
     const who = `<div class="potqwho">💣 ${tag}${pem(b.holder)} <b>${esc(pname(b.holder))}</b> ${b.stage === 'pass' ? 'is choosing who gets it next' : 'has the bomb'}</div>`;
-    if (b.stage === 'pass') return `<div class="potq">${who}<div class="potqmsg ok">✅ Right! It was ${esc(b.last?.answer || '')}</div></div>`;
-    const row = potatoRow(b), wrong = b.last && b.last.ok === false && b.last.pid === b.holder ? `<div class="potqmsg no">✗ Wrong, it was ${esc(b.last.answer)}. Another one…</div>` : '';
-    return `<div class="potq">${who}${wrong}<div class="potqtext">${esc(row.text)}</div><div class="potqopts">${row.options.map((o) => `<span style="background:${COLORS[o.c].hex}">${COLORS[o.c].shape} ${esc(o.text)}</span>`).join('')}</div></div>`;
+    if (b.stage === 'pass') return `<div class="potq">${who}<div class="potqtext">${esc(b.lastQ || '')}</div><div class="potqmsg ok">✅ Right! It was ${esc(b.last?.answer || '')}</div></div>`;
+    const row = potatoRow(b), wrong = b.last && b.last.ok === false && b.last.pid === b.holder ? `<div class="potqprev">${esc(b.lastQ || '')}</div><div class="potqmsg no">✗ Wrong, it was ${esc(b.last.answer)}. Another one…</div>` : '';
+    return `<div class="potq">${who}${wrong}<div class="potqtext">${esc(row.text)}</div></div>`;
   };
   $('#potQs').innerHTML = p.bombs.map(card).join('');
   const r = $('#potRing'); if (dead.length > +(r.dataset.booms || 0)) { r.dataset.booms = dead.length; r.insertAdjacentHTML('beforeend', '<div class="boomflash">💥</div>'); setTimeout(() => r.querySelectorAll('.boomflash').forEach((x, i, all) => { if (i < all.length - 1 || liveBombs(p).length) x.remove(); }), 1600); }
@@ -1140,18 +1140,19 @@ function chaseAnswer(pid, a) {
   if (pid !== g.chaser && !g.team.includes(pid)) g.team.push(pid); // someone who joined late plays for the team
   const ok = isRight(chaseRow(g), String(a.k));
   g.answered[pid] = ok; send('ack', { pid, qId: G.q.view.id });
-  if (ok) return chaseStep(pid);
-  if ([g.chaser, ...g.team].filter((x) => present.has(x) || G.bots?.some((b) => b.pid === x)).every((x) => g.answered[x] !== undefined)) return chaseStep(null);
-  persist(); renderChase(); broadcastState();
+  // The team's first answer settles it: right moves the team a step, wrong moves the Chaser a step closer.
+  // The Chaser moves by being first and right; a wrong Chaser is simply out of that question.
+  if (pid === g.chaser) { if (ok) return chaseStep(pid); persist(); renderChase(); broadcastState(); return; }
+  return ok ? chaseStep(pid) : chaseStep(g.chaser, pid);
 }
 /** The question is decided: whoever was first and right moves a step (nobody, if nobody was). */
-function chaseStep(pid) {
+function chaseStep(pid, wrongBy = null) {
   const g = G.q.chase, q = question();
-  g.first = pid;
+  g.first = pid; g.wrongBy = wrongBy;
   if (pid === g.chaser) { g.chaserSteps++; sound('chaser'); }
   else if (pid) { g.teamSteps++; sound('ding'); }
   else sound('wrong');
-  g.log.push({ row: g.row, pid });
+  g.log.push({ row: g.row, pid, wrongBy });
   if (g.teamSteps >= (q.target || 5)) { g.result = 'home'; stepTo(g, 'over', 7000); setTimeout(() => { sound('fanfare'); confetti(); }, 900); }
   else if (chaseGap(g) <= 0) { g.result = 'caught'; stepTo(g, 'over', 7000); setTimeout(() => sound('caught'), 700); }
   else stepTo(g, 'show', 3200);
@@ -1181,7 +1182,7 @@ function renderChase() {
   // The board, top to bottom: the start, then the steps, then HOME at the foot.
   const board = `<div class="chboard">${Array.from({ length: rowsN }, (_, i) => {
     const t = i === teamPos && g.result !== 'caught', c = i === chaserPos, home = i === rowsN - 1;
-    return `<div class="chrow ${t ? 'team' : ''} ${c ? 'chaser' : ''} ${home ? 'home' : ''} ${i < chaserPos ? 'passed' : ''}">${c ? `<span class="chtok">${pem(g.chaser)} ${esc(pname(g.chaser))}</span>` : t ? `<span class="chtok">👥 Everyone else</span>` : home ? '🏠 HOME' : ''}</div>`;
+    return `<div class="chrow ${t ? 'team' : ''} ${c ? 'chaser' : ''} ${home ? 'home' : ''} ${i < chaserPos ? 'passed' : ''}">${c ? (g.step === 'reveal' ? `<span class="chtok"><span class="chmask">❓ ???</span><span class="chunmask">${pem(g.chaser)} ${esc(pname(g.chaser))}</span></span>` : `<span class="chtok">${pem(g.chaser)} ${esc(pname(g.chaser))}</span>`) : t ? `<span class="chtok">👥 Everyone else</span>` : home ? '🏠 HOME' : ''}</div>`;
   }).join('')}</div>`;
   let main = '';
   if (g.step === 'reveal') main = `<div class="chreveal"><div class="ri-kicker">And your Chaser is…</div><div class="chdrum">🥁</div><div class="chwho"><div class="em">${pem(g.chaser)}</div><h1 class="big">${esc(pname(g.chaser))}</h1><div class="chsub">In the lead, so they're the Chaser. Everyone else: you're one team, ${head} step${head === 1 ? '' : 's'} ahead. Get ${target} right before you're caught!</div></div></div>`;
@@ -1189,12 +1190,12 @@ function renderChase() {
     const row = chaseRow(g), show = g.step === 'show', n = Object.keys(g.answered).length;
     main = `<h1 class="qtext" style="font-size:clamp(1.4rem,2.8vw,2.4rem)">${esc(row.text)}</h1>
       <div class="answers">${row.options.map((o) => `<div class="ans ${show && !isRight(row, o.k) ? 'dim' : ''}" style="background:${COLORS[o.c].hex}"><span class="shape">${COLORS[o.c].shape}</span>${esc(o.text)}${show && isRight(row, o.k) ? '<span class="tick">✔</span>' : ''}</div>`).join('')}</div>
-      <div class="chstatus ${show ? (g.first === g.chaser ? 'bad' : g.first ? 'good' : '') : ''}">${show ? (g.first === g.chaser ? `🏃 ${esc(pname(g.chaser))} got there first: the Chaser moves a step closer!` : g.first ? `✅ ${pem(g.first)} ${esc(pname(g.first))} got there first: the team moves a step towards home!` : 'Nobody got it: nobody moves') : `First right answer wins the step · ${n} answered`}</div>`;
+      <div class="chstatus ${show ? (g.first === g.chaser ? 'bad' : g.first ? 'good' : '') : ''}">${show ? (g.wrongBy ? `❌ ${pem(g.wrongBy)} ${esc(pname(g.wrongBy))} answered first for the team, and got it wrong: the Chaser moves a step closer!` : g.first === g.chaser ? `🏃 ${esc(pname(g.chaser))} got there first: the Chaser moves a step closer!` : g.first ? `✅ ${pem(g.first)} ${esc(pname(g.first))} got there first: the team moves a step towards home!` : 'Nobody got it: nobody moves') : `The team's first answer counts: right moves you home, wrong lets the Chaser closer · ${n} answered`}</div>`;
   } else if (g.step === 'over') {
     main = g.result === 'home' ? `<div class="chend good"><div class="em">🏠</div><h1 class="big">Home and dry!</h1><div class="chsub">The team got home. Everyone but the Chaser gets +${q.teamPrize ?? 1000}!</div></div>`
       : `<div class="chend bad"><div class="em">😈</div><h1 class="big">Caught!</h1><div class="chsub">${pem(g.chaser)} ${esc(pname(g.chaser))} caught the team and takes +${q.chaserPrize ?? 200}</div></div>`;
   }
-  stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill">🏃 ${esc(pname(g.chaser))} · ${g.chaserSteps} · 👥 Team ${g.teamSteps}/${target}</span><div class="timer" id="timer" data-s="${q.time}" style="--p:100%"></div></div>`)}
+  stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill">🏃 ${g.step === 'reveal' ? '???' : esc(pname(g.chaser))} · ${g.chaserSteps} · 👥 Team ${g.teamSteps}/${target}</span><div class="timer" id="timer" data-s="${q.time}" style="--p:100%"></div></div>`)}
     <div class="stage-main chstage">${board}<div class="chmain">${main}</div></div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="stopgame">Stop the game ■</button>`)}`;
   bind(); gameTick();

@@ -80,7 +80,20 @@ function renderLogin() {
     try { const r = await api('login', {}, { password: pw }); LQ.setHostPassword(pw); T.ai = !!r.ai; go('home', { replace: true }); }
     catch (e) { $('#err').textContent = e.message; $('#err').classList.remove('hidden'); $('#login').disabled = false; }
   };
-  $('#demo').onclick = () => location.href = 'host.html?quiz=demo&tv=1&auto=1';
+  $('#demo').onclick = demoChoice;
+}
+/** The demo, run by itself (to see the pacing) or driven with the remote. */
+function demoChoice() {
+  view.innerHTML = `${head('Try the demo', 'One of each party game: the Race, Wipeout, Hot Potato, the Chase, a break, King of the Hill, Blockbusters and the final Chase.')}
+    <div class="tvtiles" style="max-width:900px;grid-template-columns:repeat(2,1fr)">
+      <button class="tvtile" id="dAuto" data-autofocus><span class="em">🎮</span>Run by itself<small style="display:block;font-size:1rem;opacity:.8;margin-top:6px">Moves on by itself, at the game's own pace</small></button>
+      <button class="tvtile" id="dDrive"><span class="em">🕹️</span>I'll drive it<small style="display:block;font-size:1rem;opacity:.8;margin-top:6px">Press the centre button to move on</small></button>
+    </div>
+    <div class="row mt" style="margin-top:24px"><button class="btn btn-ghost" id="dBack">← Back</button></div>`;
+  $('#dAuto').onclick = () => location.href = 'host.html?quiz=demo&tv=1&auto=1';
+  $('#dDrive').onclick = () => location.href = 'host.html?quiz=demo&tv=1&auto=0';
+  $('#dBack').onclick = () => (LQ.hostPassword() ? render() : renderLogin());
+  $('[data-autofocus]')?.focus();
 }
 
 // ------------------------------------------------------------------ home
@@ -96,7 +109,7 @@ function renderHome() {
   $('#play').onclick = () => go('list');
   $('#make').onclick = () => { T.plan = newPlan(); go('w1'); };
   $('#tpls').onclick = () => go('tpls');
-  $('#demo').onclick = () => location.href = MOBILE ? 'index.html' : 'host.html?quiz=demo&tv=1&auto=1';
+  $('#demo').onclick = () => MOBILE ? (location.href = 'index.html') : demoChoice();
   $('#logout').onclick = () => { LQ.setHostPassword(''); go('login', { replace: true }); };
 }
 
