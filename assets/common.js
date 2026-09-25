@@ -1,4 +1,15 @@
 /* Let's Quiz! — shared config and helpers used by the builder, host screen and player app. */
+// GitHub Pages lets browsers keep a page for up to 10 minutes, so after an update people can be served the old one.
+// On opening, ask for the page afresh; if a newer one is live, reload once to pick it up.
+(async () => {
+  try {
+    const r = await fetch(location.pathname, { method: 'HEAD', cache: 'no-store' });
+    const live = r.headers.get('last-modified');
+    if (!live || new Date(live) - new Date(document.lastModified) < 2000 || sessionStorage.getItem('lq_reloaded_for') === live) return;
+    sessionStorage.setItem('lq_reloaded_for', live);
+    location.reload();
+  } catch {}
+})();
 window.LQ = (() => {
   const SUPABASE_URL = 'https://safcrtrfdzsnftghibot.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_RGaIB8W145BFCWzOxamQvA_7VIkTHMU';
