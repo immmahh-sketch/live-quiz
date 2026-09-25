@@ -1055,7 +1055,7 @@ Deno.serve(async (req) => {
         const key = bankKey(q);
         if (!key || row.questions.some((x: any) => nearDuplicate(x, q))) { out[t].skipped++; continue; }
         const cat0 = String(q.category || roundTitle(q.round) || "").trim();
-        const c = { ...q, id: "q_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8), category: (JUNK_CATEGORY.test(cat0) ? "" : cat0).slice(0, 60), tags: (q.tags || []).slice(0, 12) };
+        const c = { ...q, id: "q_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8), category: (junkCategory(cat0) ? "" : cat0).slice(0, 60), tags: (q.tags || []).slice(0, 12) };
         if (c.type === "race") Object.assign(c, { perCorrect: 100, prize: 500, prize2: 200, prize3: 100, forfeit: 200 });
         delete c.used; delete c.fromBank; delete c.round; delete c.bankId; delete c.check;
         row.questions.push(c); touched.add(row); out[t].added++;
@@ -1355,12 +1355,18 @@ function bankCategories(rows: any[]) {
 }
 const WORD = (s: string) => new Set(norm(s).split(" ").filter((w) => w.length >= 4));
 /** Words in a round's title or brief that say nothing about its theme ("Round 1", "questions about the show"). */
-const THEME_STOP = new Set(["round", "rounds", "quiz", "quizzes", "question", "questions", "about", "based", "show", "shows", "series", "programme", "program", "from", "with", "that", "this", "these", "those", "their", "there", "what", "which", "some", "more", "most", "only", "mixed", "general", "knowledge", "trivia", "easy", "hard", "medium", "difficult", "tricky", "family", "friendly", "answer", "answers", "each", "every", "make", "made", "write", "include", "including", "like", "also", "just", "plus", "other", "things", "stuff", "anything", "everything", "famous", "popular", "classic", "best", "good", "great", "topic", "theme", "themed", "fun", "please", "want", "should", "would", "could", "about", "into", "over", "under", "your", "them", "they", "have", "been", "will", "than", "then", "when", "where", "while", "people", "players", "player", "team", "teams", "night", "tonight", "week", "weekly", "new", "untitled"]);
+const THEME_STOP = new Set(["round", "rounds", "quiz", "quizzes", "question", "questions", "about", "based", "show", "shows", "series", "programme", "program", "from", "with", "that", "this", "these", "those", "their", "there", "what", "which", "some", "more", "most", "only", "mixed", "general", "knowledge", "trivia", "easy", "hard", "medium", "difficult", "tricky", "family", "friendly", "answer", "answers", "each", "every", "make", "made", "write", "include", "including", "like", "also", "just", "plus", "other", "things", "stuff", "anything", "everything", "famous", "popular", "classic", "best", "good", "great", "topic", "theme", "themed", "fun", "please", "want", "should", "would", "could", "about", "into", "over", "under", "your", "them", "they", "have", "been", "will", "than", "then", "when", "where", "while", "people", "players", "player", "team", "teams", "night", "tonight", "week", "weekly", "new", "untitled", "incorrect", "correct", "wrong", "right", "often", "think", "thinks", "thought", "actually", "really", "commonly", "usually", "mistake", "mistaken", "mistakes", "confuse", "confused", "trick", "tricks", "trap", "traps", "option", "options", "similar", "include", "includes", "adding", "fake", "real", "list", "lists", "ones", "called", "sound", "sounds", "instead", "rather", "though", "wipeout", "race", "smash", "catchphrase", "dingbat", "dingbats"]);
 const JUNK_CATEGORY = /^(round\s*\d*|new quiz|untitled.*|ai quiz|quiz|general|test.*)$/i;
+/** The games' own names. A round called "Wipeout" says which game it is, not what it is about, so these never count as a theme. */
+const GAME_NAME = /^(the\s+)?(wipeout|race|answer smash|smash|wheel of fortune|wheel|dingbats?|catchphrase|rhyme time|highbrow,? lowbrow|1% club|one per ?cent club|name that tune|multiple choice|true or false|true\/false|type the answer|put in order|drop the pin|match up|categorise|categorize)( round)?$/i;
+const junkCategory = (c: string) => JUNK_CATEGORY.test(c) || GAME_NAME.test(c.trim());
 const GENERIC = /general knowledge|anything|mixed bag|pot ?luck|pub quiz|warm.?up|quick.?fire|random/i;
 /** Takes up to `need` unused bank questions of a type for a quiz, preferring ones that match the round's topic and brief. */
 async function bankTake(type: string, need: number, topic: string, brief: string, quizId: string, difficulty = "mixed", info: any = {}): Promise<any[]> {
   if (need <= 0) return [];
+  // The builder sends "Round title. Brief": drop a title that is only a game's name, so the brief decides.
+  const lead = topic.split(/[.:]/)[0].trim();
+  if (GAME_NAME.test(lead)) topic = topic.slice(topic.indexOf(lead) + lead.length).replace(/^[\s.:–-]+/, "");
   const row = await bankRow(type);
   const qs: any[] = Array.isArray(row.questions) ? row.questions : [];
   const themed = !!(topic || brief).trim() && !GENERIC.test(topic + " " + brief) && (topic + " " + brief).trim().length > 3;
@@ -1374,12 +1380,17 @@ async function bankTake(type: string, need: number, topic: string, brief: string
   const text = " " + norm(topic + " " + brief) + " ";
   const score = (q: any) => {
     let sc = 0; const cat = norm(q.category || "");
-    if (cat.length >= 4 && !JUNK_CATEGORY.test(cat) && !THEME_STOP.has(cat) && text.includes(" " + cat + " ")) sc += 3;
+    if (cat.length >= 4 && !junkCategory(cat) && !THEME_STOP.has(cat) && text.includes(" " + cat + " ")) sc += 3;
+    // The item's own wording inside the brief ("US states" in "US states, with some cities as traps") is the strongest sign.
+    const own = norm(q.text || ""); if (own.length >= 6 && text.includes(" " + own + " ")) sc += 3;
     const have = haves.get(q) || haveOf(q); for (const w of want) if (have.has(w)) sc += 1; return sc;
   };
   let pool = fresh.map((q) => ({ q, sc: score(q) }));
   info.themed = themed; info.keywords = [...want]; info.matching = pool.filter((x) => x.sc > 0).length;
-  if (themed) { const matching = pool.filter((x) => x.sc > 0); pool = matching.length || !EVERGREEN.includes(type) ? matching : pool; }
+  // Themed rounds take only close matches: at least half as good as the best, so one stray shared word
+  // ("places", "cities") does not pull in a question from another subject.
+  const best = Math.max(0, ...pool.map((x) => x.sc)), floor = best >= 2 ? Math.max(2, Math.ceil(best / 2)) : 1;
+  if (themed) { const matching = pool.filter((x) => x.sc >= floor); pool = matching.length || !EVERGREEN.includes(type) ? matching : pool; }
   // best matches first, then a shuffle among equals so the same items do not always lead
   // A true shuffle first (a random sort comparator barely moves anything, so the same early items kept winning),
   // then best matches first; the sort is stable, so equals stay in their shuffled order.
