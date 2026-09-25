@@ -292,7 +292,8 @@ function bankEdit(m, type, q, summary, after) {
         if (nq.right.length < 3 || nq.wrong.length < 2) throw new Error('Give at least three right answers and two wipeouts.');
       } else if (t === 'race') {
         nq.bank = ls('bank').map((line) => { const p = line.split('|').map((s) => s.trim()).filter(Boolean); if (p.length < 2) throw new Error(`“${line}” needs a question and a right answer.`); return { id: (q.bank || []).find((b) => b.text === p[0])?.id || rid('b'), text: p[0], options: p.slice(1) }; });
-        if (nq.bank.length < 5) throw new Error('A race needs at least five questions.');
+        if (nq.bank.length !== 20) throw new Error(`A bank race needs exactly 20 questions, so a player can get ten wrong and still reach ten right (it has ${nq.bank.length}).`);
+        nq.target = 10;
       }
     } catch (e) { toast(e.message, true); return; }
     const fresh = !!$('#bk_fresh', m)?.checked;

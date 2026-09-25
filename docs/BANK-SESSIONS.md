@@ -30,7 +30,7 @@ Each session:
      (the end of pictureAnswer must overlap the start of clueAnswer by 2+ letters, or the server drops it)
    - `{"type":"tune","track":"…","artist":"…","ask":"song"|"artist"|"film"|"lyric"}` (`film` needs `"film"`, `lyric` needs `"lyricLine"` and `"cueLine"`; the server drops tracks with no iTunes preview)
    - `{"type":"wipeout","text":"board title","right":["…"×3–15],"wrong":["…"×1–8]}`
-   - `{"type":"race","text":"The Race: …","target":10,"bank":[{"q":"…","right":"…","wrong":["…","…","…"]}×8–12]}`
+   - `{"type":"race","text":"The Race: …","target":10,"bank":[{"q":"…","right":"…","wrong":["…","…","…"]}×20]}` — exactly 20 questions and a target of 10, so a player can get ten wrong and still finish (the server rejects a race with fewer)
    - `{"type":"pin","text":"fact clue that never names the place","place":"Cardiff","region":"Wales","lat":51.48,"lon":-3.18,"sizeKm":10}`
      (region is the map: a country or continent's usual English name, "London" for Greater London, a UK county such as "Tyne and Wear", "Northumberland" or "Cornwall", or "World"; sizeKm is how big the place is, which sets how close a pin must be)
    - `{"type":"match","text":"Match each … to …","pairs":[{"left":"…","right":"…"}×4]}` (max 4 pairs; `"rightPicture":"Wikipedia title"` swaps the right side for a photo)

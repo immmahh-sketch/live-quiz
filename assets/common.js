@@ -294,7 +294,7 @@ window.LQ = (() => {
     if (q.type === 'race') {
       const good = (q.bank || []).filter((b) => b.text.trim() && b.options[0].trim() && b.options.filter((o) => o.trim()).length >= 2);
       const target = +q.target || 10;
-      if (good.length < target) problems.push(`Needs at least ${target} complete questions in the bank (it has ${good.length}); more than that leaves room for skips.`);
+      if (good.length < target + 10) problems.push(`Needs ${target + 10} complete questions in the bank (it has ${good.length}), so a player can get ten wrong and still finish.`);
     }
     if (q.media && q.media.kind === 'youtube' && !q.media.videoId) problems.push('The YouTube link is not valid.');
     return problems;

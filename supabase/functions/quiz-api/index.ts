@@ -575,8 +575,9 @@ async function finishRaw(raw: any[], count: number, usedPictures: string[], want
         const wrong = (Array.isArray(b?.wrong) ? b.wrong : []).map((s: unknown) => String(s ?? "").trim()).filter(Boolean).slice(0, 3);
         return text && right && wrong.length ? { id: uid("b"), text, options: [right, wrong[0] || "", wrong[1] || "", wrong[2] || ""] } : null;
       }).filter(Boolean);
-      if (bank.length < 8) return null;
-      base.bank = bank; base.target = Math.min(bank.length - 2, Math.max(3, Math.round(+r.target || 10))); base.perCorrect = 100; base.prize = 500; base.prize2 = 200; base.prize3 = 100; base.forfeit = 200; base.time = 120;
+      // Always 20 questions and a target of 10, so a player can get ten wrong and still finish.
+      if (bank.length < 20) return null;
+      base.bank = bank.slice(0, 20); base.target = 10; base.perCorrect = 100; base.prize = 500; base.prize2 = 200; base.prize3 = 100; base.forfeit = 200; base.time = 120;
       return base;
     }
     if (r.type === "highlow") {
@@ -980,6 +981,10 @@ Deno.serve(async (req) => {
       if (!nq || (nq.type !== type && nq.kind !== type)) return json({ error: "Nothing to save." }, 400);
       const keep = row.questions[i];
       if (!String(nq.text || nq.phrase || nq.track || "").trim()) return json({ error: "The question needs some words." }, 400);
+      if (nq.type === "race") {
+        if (!Array.isArray(nq.bank) || nq.bank.length !== 20) return json({ error: "A race needs exactly 20 questions, so a player can get ten wrong and still finish." }, 400);
+        nq.target = 10;
+      }
       if (nq.type === "smash") {
         const pa = String(nq.pictureAnswer || "").trim(), ca = String(nq.clueAnswer || "").trim(), sm = smashOf(pa, ca);
         if (!pa || !ca || sm.overlap < 2) return json({ error: `“${pa}” and “${ca}” need to share at least two letters where they join.` }, 400);
