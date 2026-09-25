@@ -827,7 +827,7 @@ body.solo .stage { padding-right: calc(min(390px, 100vw) + 20px); }
 @keyframes kpulse { to { transform: scale(1.08); } }
 .kbuzzed { font-size: clamp(1.4rem, 3vw, 2.4rem); font-weight: 900; display: flex; align-items: center; gap: 16px; }
 .kcount { display: inline-grid; place-items: center; width: 1.8em; height: 1.8em; border-radius: 50%; background: var(--bad); color: #fff; font-size: 1.6em; }
-.kclaxon { font-size: clamp(3rem, 10vh, 6rem); font-weight: 900; color: #fff; background: var(--bad); padding: 6px 40px; border-radius: 18px; animation: kflash .16s steps(2) 6; }
+.kclaxon { font-size: clamp(3rem, 10vh, 6rem); font-weight: 900; color: #fff; background: var(--bad); padding: 6px 40px; border-radius: 18px; animation: kflash .16s steps(2) infinite; }
 @keyframes kflash { 50% { background: #fff; color: var(--bad); } }
 .kanswer { font-size: clamp(1.4rem, 3vw, 2.4rem); font-weight: 900; background: rgba(38, 137, 12, .9); padding: 8px 28px; border-radius: 16px; }
 .kbot { font-weight: 800; font-size: 1.2rem; opacity: .9; }
@@ -971,3 +971,4 @@ body.player:has(.app.turn-chaser) { background: #ffe0e5; }
 .chwhop { opacity: 0; animation: ripop .6s cubic-bezier(.2, 1.6, .4, 1) 4.3s both; }
 .potqprev { opacity: .75; font-weight: 800; font-size: clamp(.9rem, 1.3vw, 1.1rem); margin-top: 6px; }
 @media (prefers-reduced-motion: reduce) { .chmask { display: none; } .chunmask, .chwhop { animation: none; opacity: 1; font-size: 1em; } }
+.kchip.rounds.low { background: var(--bad); color: #fff; }

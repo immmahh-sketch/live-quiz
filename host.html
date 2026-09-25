@@ -910,7 +910,7 @@ function kothReady(pair) {
 function kothCount() { const g = G.q.koth; g.n = 3; g.h2h = null; stepTo(g, 'count', 1000); sound('beep'); persist(); renderKoth(); broadcastState(); }
 function kothH2h(pair) {
   const g = G.q.koth, q = question();
-  g.pair = pair; g.carry = []; const row = kothNextRow();
+  g.pair = pair; g.carry = []; g.rounds = (g.rounds || 0) + 1; const row = kothNextRow();
   g.h2h = { row: row.id, buzz: null, says: null };
   stepTo(g, 'h2h', q.time * 1000);
   persist(); renderKoth(); broadcastState(); botKothBuzz();
@@ -927,8 +927,8 @@ function kothStepDone() {
   if (g.step === 'ready') return kothCount(); // self-play: nobody pressed Ready, so it goes by itself
   if (g.step === 'count') { if (g.n > 1) { g.n--; stepTo(g, 'count', 1000); sound('beep'); persist(); renderKoth(); broadcastState(); return; } sound('go'); return kothH2h(g.pair); }
   if (g.step === 'h2h') { stepTo(g, 'noBuzz', 3500); sound('wrong'); persist(); renderKoth(); broadcastState(); return; }
-  if (g.step === 'noBuzz') return kothCount(); // same two again, straight into the 3-2-1
-  if (g.step === 'answer') { stepTo(g, 'claxon', 1000); sound('claxon'); persist(); renderKoth(); broadcastState(); return; }
+  if (g.step === 'noBuzz') return kothOutOfRounds() || kothCount(); // same two again, straight into the 3-2-1
+  if (g.step === 'answer') { stepTo(g, 'claxon', 2500); sound('claxon'); persist(); renderKoth(); broadcastState(); return; }
   if (g.step === 'claxon') {
     stepTo(g, 'judge', 0); persist(); renderKoth(); broadcastState();
     // A bot's answer is judged by the screen itself in self-play; a person's needs a Correct or Incorrect press.
@@ -936,8 +936,15 @@ function kothStepDone() {
     if (bot && G.auto) setTimeout(() => { if (G.q?.koth === g && g.step === 'judge') kothJudge(g.h2h.says === kothRow(g.h2h.row).right); }, 2200);
     return;
   }
-  if (g.step === 'result') return kothFff();
+  if (g.step === 'result') return kothOutOfRounds() || kothFff();
+  if (g.step === 'timeup') return endQuestion();
   if (g.step === 'won') return endQuestion();
+}
+const kothMaxRounds = () => Math.max(1, +question().maxRounds || 12);
+/** After the last allowed head-to-head: if nobody has reached the target, the game ends with no bonus (hill points still count). */
+function kothOutOfRounds() {
+  const g = G.q.koth; if ((g.rounds || 0) < kothMaxRounds() || g.winner) return false;
+  stepTo(g, 'timeup', 7000); sound('trombone'); persist(); renderKoth(); broadcastState(); return true;
 }
 function kothJudge(ok) {
   const g = G.q.koth; if (!g || g.step !== 'judge') return;
@@ -969,7 +976,9 @@ function renderKoth() {
   const q = question(), g = G.q.koth; if (!g) return;
   const target = q.target || 3;
   const chip = (pid) => `<span class="kchip ${pid === g.king ? 'king' : ''}">${pid === g.king ? '👑 ' : ''}${pem(pid)} ${esc(pname(pid))} <b>${g.pts[pid] || 0}</b></span>`;
-  const table = Object.keys(g.pts).length || g.king ? `<div class="kchips">${[...new Set([g.king, ...Object.keys(g.pts)])].filter(Boolean).sort((a, b) => (g.pts[b] || 0) - (g.pts[a] || 0)).map(chip).join('')}<span class="kchip goal">First to ${target} wins ${q.prize ?? 1000}</span></div>` : `<div class="kchips"><span class="kchip goal">First to ${target} points wins ${q.prize ?? 1000}</span></div>`;
+  const left = kothMaxRounds() - (g.rounds || 0);
+  const roundsChip = `<span class="kchip rounds ${left <= 3 ? 'low' : ''}">⚔️ ${Math.max(0, left)} of ${kothMaxRounds()} head-to-head${left === 1 ? '' : 's'} left</span><span class="kchip">${q.perPoint ?? 100} per hill point</span>`;
+  const table = Object.keys(g.pts).length || g.king ? `<div class="kchips">${[...new Set([g.king, ...Object.keys(g.pts)])].filter(Boolean).sort((a, b) => (g.pts[b] || 0) - (g.pts[a] || 0)).map(chip).join('')}<span class="kchip goal">First to ${target} wins ${q.prize ?? 1000}</span>${roundsChip}</div>` : `<div class="kchips"><span class="kchip goal">First to ${target} points wins ${q.prize ?? 1000}</span>${roundsChip}</div>`;
   const card = (pid, cls = '') => `<div class="kcard ${cls} ${pid === g.king ? 'king' : ''}">${pid === g.king ? '<div class="kcrown">👑</div>' : ''}<div class="em">${pem(pid)}</div><div class="nm">${esc(pname(pid))}</div><div class="kp">${g.pts[pid] || 0} / ${target}</div></div>`;
   const vs = () => `<div class="kvs">${card(g.pair[0], g.h2h?.buzz === g.pair[0] ? 'buzzed' : g.h2h?.buzz ? 'dim' : '')}<div class="kvsword">VS</div>${card(g.pair[1], g.h2h?.buzz === g.pair[1] ? 'buzzed' : g.h2h?.buzz ? 'dim' : '')}</div>`;
   let main = '', buttons = '';
@@ -995,6 +1004,8 @@ function renderKoth() {
   } else if (g.step === 'result') {
     const r = g.result;
     main = `${vs()}<div class="kresult ${r.ok ? 'ok' : 'no'}">${r.ok ? `✅ ${esc(pname(r.pid))} is right! <b>${g.pts[r.pid]} / ${target}</b>` : `❌ ${esc(pname(r.pid))} is wrong and leaves the hill`}</div><div class="kthrough">${esc(pname(g.king))} stays on 👑 · ${esc(pname(r.out))} is off. Next: fastest finger for a new challenger…</div>`;
+  } else if (g.step === 'timeup') {
+    main = `<div class="kwin"><div class="kcrown big">⏱️</div><h1 class="big">Out of head-to-heads!</h1><div class="kwinsub">All ${kothMaxRounds()} are done and nobody reached ${target}, so nobody gets the ${q.prize ?? 1000} bonus. Every hill point still pays ${q.perPoint ?? 100}.</div></div>`;
   } else if (g.step === 'won') {
     main = `<div class="kwin"><div class="kcrown big">👑</div><div class="em">${pem(g.winner)}</div><h1 class="big">${esc(pname(g.winner))}</h1><div class="kwinsub">King of the Hill! +${q.prize ?? 1000} points</div></div>`;
   }
@@ -1403,7 +1414,8 @@ async function grade(noAi) {
     for (const pid of new Set([...livePids(), ...Object.keys(g.pts)])) {
       if (!G.players[pid]) continue;
       const won = pid === g.winner, n = g.pts[pid] || 0;
-      byPlayer[pid] = { answered: true, correct: won, partial: won ? 1 : 0, points: won ? (q.prize ?? 1000) : 0, got: n, note: won ? '👑 King of the Hill!' : n ? `${n} of ${q.target || 3} on the hill: so close` : 'No points on the hill this time' };
+      const base = n * (q.perPoint ?? 100), bonus = won ? (q.prize ?? 1000) : 0;
+      byPlayer[pid] = { answered: true, correct: won, partial: won ? 1 : n ? 0.5 : 0, points: base + bonus, base, bonus, got: n, note: won ? `👑 King of the Hill! ${n} hill points + the bonus` : n ? `${n} hill point${n === 1 ? '' : 's'}: ${base} points` : 'No hill points this time' };
       if (won) stats.right++;
     }
     stats.winner = g.winner ? { pid: g.winner, name: pname(g.winner), emoji: pem(g.winner) } : null; stats.pts = g.pts; stats.answered = Object.keys(byPlayer).length;
@@ -1711,7 +1723,7 @@ const PISTOL_SVG = `<svg class="ri-gun" viewBox="0 0 300 220" aria-hidden="true"
 /** The one-line rules under a game's splash title. */
 function introSub(q) {
   if (q.type === 'potato') return `The bomb is lit · answer right to pass it on · holding it when it blows costs ${q.penalty ?? 300} points`;
-  if (q.type === 'koth') return `Fastest finger first, then head-to-head buzzers · answer out loud · first to ${q.target || 3} wins ${q.prize ?? 1000} points`;
+  if (q.type === 'koth') return `Fastest finger first, then head-to-head buzzers · answer out loud · ${q.perPoint ?? 100} per hill point · first to ${q.target || 3} gets a ${q.prize ?? 1000} bonus · ${q.maxRounds || 12} head-to-heads at most`;
   if (q.type === 'chase') return `The leader is the Chaser · everyone else starts ${q.headStart ?? 2} steps ahead · first right answer moves a step · ${q.target || 5} to get home`;
   if (q.type === 'blockbusters') return `${q.teams[0].name} link left to right · ${q.teams[1].name} link top to bottom · first right answer wins the hexagon`;
   return '';
@@ -1931,7 +1943,7 @@ function drawPins() {
   img.onload = draw; if (img.complete) draw(); window.onresize = draw;
 }
 function renderScoreboard() {
-  const rk = ranked().slice(0, 7), top = Math.max(1, rk[0]?.score || 1), R = G.q?.results?.byPlayer || {};
+  const rk = ranked().slice(0, 5), top = Math.max(1, rk[0]?.score || 1), R = G.q?.results?.byPlayer || {};
   stage.innerHTML = `${topBar()}<div class="stage-main"><h1 class="big" style="font-size:2.6rem">Scoreboard <span class="small" style="opacity:.45;font-size:.85rem;font-weight:700">· click a name to remove a player who has left</span></h1><div class="board">${rk.map((p, i) => `<div class="brow"><div class="fill" data-w="${(p.score / top) * 100}"></div><div class="rank">${i + 1}</div><div><span data-kick="${p.id}">${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}</span>${R[p.id]?.points ? `<span class="delta" ${R[p.id].points < 0 ? 'style="color:#ffb3c0"' : ''}>${R[p.id].points > 0 ? '+' : ''}${R[p.id].points}</span>` : ''}</div><div>${p.score}</div></div>`).join('')}</div></div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">${G.qIndex + 1 < G.quiz.questions.length ? 'Next ▶' : 'Final results 🏆'}</button>`)}`;
   requestAnimationFrame(() => $$('.fill').forEach((f) => f.style.width = f.dataset.w + '%'));

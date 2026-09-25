@@ -1393,7 +1393,7 @@ const junkCategory = (c: string) => JUNK_CATEGORY.test(c) || GAME_NAME.test(c.tr
 /** Games built on a race's bank of quick questions, with the settings each starts with. They never get bank rows of their own. */
 const RACE_GAMES: Record<string, { label: string; set: () => Record<string, unknown> }> = {
   potato: { label: "Hot Potato", set: () => ({ fuseMin: 40, fuseMax: 90, perCorrect: 50, penalty: 300, time: 90 }) },
-  koth: { label: "King of the Hill", set: () => ({ target: 3, prize: 1000, answerSecs: 3, time: 15 }) },
+  koth: { label: "King of the Hill", set: () => ({ target: 3, prize: 1000, answerSecs: 3, perPoint: 100, maxRounds: 12, time: 15 }) },
   chase: { label: "The Chase", set: () => ({ headStart: 2, target: 5, teamPrize: 1000, chaserPrize: 200, time: 15 }) },
   blockbusters: { label: "Blockbusters", set: () => ({ teams: [{ name: "Newcastle", color: "#f2f2f2" }, { name: "Sunderland", color: "#e21b3c" }], hexPoints: 50, prize: 500, time: 20 }) },
 };

@@ -178,7 +178,7 @@ window.LQ = (() => {
     catchphrase: 'Watch the clip and say what you see: type the well-known saying it shows.',
     tune: 'Listen to the clip and answer on your phone.',
     potato: 'The bomb is lit and nobody knows how long the fuse is. If it lands on you, answer the question on your phone. Get it right and you choose who gets it next. Holding it when it goes bang costs you points.',
-    koth: 'Fastest finger first picks two players to go head to head. Buzz on your phone, then say your answer out loud. Get it right and you stay on the hill and score a point. First to the target wins the prize.',
+    koth: 'Fastest finger first picks two players to go head to head. Buzz on your phone, then say your answer out loud. Get it right and you stay on the hill and win a hill point: every one is worth points. First to the target wins the bonus too, but there are only so many head-to-heads.',
     chase: 'Whoever is in the lead is the Chaser. Everyone else plays as one team with a head start. The first right answer on each question moves that side one step: the team towards home, the Chaser towards the team. Get home before you are caught!',
     blockbusters: 'Pick a side. Your side chooses a letter, and the answer starts with it. First to type the right answer wins the hexagon for their side. Link your two sides of the board to win.',
   };
@@ -275,7 +275,7 @@ window.LQ = (() => {
   /** Settings for the three newer bank games: filled in on new questions, and on older saves that lack them. */
   const NEW_GAME_DEFAULTS = {
     potato: () => ({ fuseMin: 40, fuseMax: 90, perCorrect: 50, penalty: 300 }),
-    koth: () => ({ target: 3, prize: 1000, answerSecs: 3 }),
+    koth: () => ({ target: 3, prize: 1000, answerSecs: 3, perPoint: 100, maxRounds: 12 }),
     chase: () => ({ headStart: 2, target: 5, teamPrize: 1000, chaserPrize: 200 }),
     blockbusters: () => ({ teams: [{ name: 'Newcastle', color: '#f2f2f2' }, { name: 'Sunderland', color: '#e21b3c' }], hexPoints: 50, prize: 500 }),
   };

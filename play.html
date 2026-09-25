@@ -299,6 +299,7 @@ function kothHtml(s) {
   }
   if (g.step === 'ready') { const me2 = g.pair.includes(me), other = g.pair.find((x) => x !== me); if (me2) app.className = 'app turn-buzz'; return `${vs()}<div class="state"><div class="em">${me2 ? '⚔️' : '👀'}</div><h2>${me2 ? `You're up against ${esc(nm(s, other))}!` : 'Head to head!'}</h2><p class="muted">${me2 ? 'Get your buzzer finger ready. The question comes after a 3-2-1.' : 'Watch the screen: the question comes after a 3-2-1.'}</p>${me2 && s.auto ? '<button class="btn btn-primary btn-lg btn-block" data-ready="1">Ready ▶</button>' : ''}</div>`; }
   if (g.step === 'count') return `${vs()}<div class="state"><div class="ri-num" data-n="${g.n}">${g.n}</div></div>`;
+  if (g.step === 'timeup') return `${pts}<div class="state"><div class="em">⏱️</div><h2>Out of head-to-heads!</h2><p class="muted">Nobody reached ${g.target}, so no bonus this time. Your hill points still count.</p></div>`;
   if (g.step === 'won') return `<div class="state"><div class="em">👑</div><h2>${g.winner === me ? 'You are King of the Hill!' : esc(nm(s, g.winner)) + ' is King of the Hill'}</h2><p class="muted">+${g.prize} points${g.winner === me ? ' for you' : ''}</p></div>`;
   const h = g.h2h; if (!h) return pts;
   if (g.step === 'h2h') {
