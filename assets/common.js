@@ -213,16 +213,20 @@ window.LQ = (() => {
       let mix = r.mix && typeof r.mix === 'object' ? Object.fromEntries(Object.entries(r.mix).filter(([k, v]) => TYPES[k] && +v > 0).map(([k, v]) => [k, Math.min(40, Math.round(+v))])) : null;
       if (!mix) { const types = Array.isArray(r.types) ? r.types.filter((t) => TYPES[t]) : []; const total = +r.count || 0; mix = {}; if (types.length && total) { const each = Math.floor(total / types.length); types.forEach((t, i) => { mix[t] = each + (i < total - each * types.length ? 1 : 0); }); } }
       const types = Object.keys(mix), count = Object.values(mix).reduce((a, b) => a + b, 0);
-      return { id: r.id, title: r.title || '', intro: r.intro || '', brief: r.brief || '', mix, types, count };
+      return { id: r.id, title: r.title || '', intro: r.intro || '', brief: r.brief || '', mix, types, count, practice: !!r.practice };
     });
     if (!rounds.length) rounds = [{ id: uid('r'), title: 'Round 1', intro: '', brief: '', mix: {}, count: 0, types: [] }];
     const ids = new Set(rounds.map((r) => r.id));
     for (const qu of questions) if (!ids.has(qu.round)) qu.round = rounds[rounds.length - 1].id;
+    // Races saved under the old scoring (5000 to the winner, nothing per right answer) move to today's: 100 per right answer, 500/200/100, −200 for last.
+    for (const qu of questions) if (qu.type === 'race' && qu.perCorrect === undefined) Object.assign(qu, { perCorrect: 100, prize: 500, prize2: 200, prize3: 100, forfeit: 200 });
     delete settings.rounds;
     const quiz = { id: q.id || null, title: q.title || 'Untitled quiz', settings, rounds, questions };
     orderQuestions(quiz);
     return quiz;
   }
+  /** A practice question scores nothing: ticked on its own, or its whole round is a practice round. */
+  function isPractice(quiz, q) { return !!(q && (q.practice || (quiz?.rounds || []).find((r) => r.id === q.round)?.practice)); }
   /** Keeps the flat question list in play order: round by round. */
   function orderQuestions(quiz) {
     quiz.questions = quiz.rounds.flatMap((r) => quiz.questions.filter((q) => q.round === r.id));
@@ -494,6 +498,6 @@ window.LQ = (() => {
   function ordinal(n) { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
   return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
-    TYPES, SLIDE, BREAK, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
+    TYPES, SLIDE, BREAK, isPractice, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
     newCode, playUrl, shortPlayUrl, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml, addUsage, usageCost, usageSummary, AI_PRICES, TUNE_ASKS, tunePrompt, bigArt, cleanTitle };
 })();

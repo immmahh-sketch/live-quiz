@@ -65,6 +65,8 @@ const total = () => G.quiz.questions.filter((q) => !isSlide(q)).length;
 /** The question number of item i, not counting slides. */
 const qNum = (i) => G.quiz.questions.slice(0, i + 1).filter((q) => !isSlide(q)).length;
 const question = () => G.quiz.questions[G.qIndex];
+/** A practice question (or a question in a practice round): played in full, scores nothing. */
+const practiceQ = (i = G.qIndex) => LQ.isPractice(G.quiz, G.quiz.questions[i]);
 const roundOf = (i) => { const q = G.quiz.questions[i]; const ri = G.quiz.rounds.findIndex((r) => r.id === q?.round); return ri < 0 ? null : { n: ri + 1, ...G.quiz.rounds[ri], count: G.quiz.questions.filter((x) => x.round === q.round).length }; };
 const startsRound = (i) => i === 0 || G.quiz.questions[i - 1]?.round !== G.quiz.questions[i]?.round;
 
@@ -226,7 +228,7 @@ function startHeartbeat() { clearInterval(hbT); hbT = setInterval(broadcastState
 
 /** Everything a phone needs to draw its screen. Never the right answers. */
 function stateForPlayers() {
-  const s = { phase: G.phase, code: G.code, qIndex: G.qIndex, num: qNum(G.qIndex), total: total(), more: G.qIndex + 1 < G.quiz.questions.length, title: G.quiz.title, now: Date.now(), auto: !!G.auto, paused: !!G.paused };
+  const s = { phase: G.phase, code: G.code, qIndex: G.qIndex, num: qNum(G.qIndex), practice: G.qIndex >= 0 && practiceQ(), total: total(), more: G.qIndex + 1 < G.quiz.questions.length, title: G.quiz.title, now: Date.now(), auto: !!G.auto, paused: !!G.paused };
   const nowT = G.paused ? G.pausedAt : Date.now(); // a paused clock reads the same until it is picked up again
   if (G.phase === 'slide') { const q = question(); s.slide = { title: q.text || '', body: q.body || '', image: q.media?.kind === 'image' ? q.media.url || '' : '' }; if (G.brk) s.brk = { remainingMs: Math.max(0, G.brk.endsAt - nowT), totalMs: G.brk.totalMs }; }
   if (G.phase === 'question' && G.q) {
@@ -237,13 +239,13 @@ function stateForPlayers() {
   if (G.phase === 'countdown') s.next = { type: question().kind || question().type, n: qNum(G.qIndex) };
   if (G.phase === 'countdown' && G.raceIntro) s.raceIntro = { step: G.raceIntro.step, n: G.raceIntro.n, topic: raceTopic(question()), target: +question().target || 10 };
   if (G.phase === 'typecard') s.typecard = { type: question().kind || question().type, n: qNum(G.qIndex), run: typeRun(G.qIndex) };
-  if (G.phase === 'round') { const r = roundOf(G.qIndex); s.round = { n: r.n, title: r.title, intro: r.intro || '', count: r.count }; }
+  if (G.phase === 'round') { const r = roundOf(G.qIndex); s.round = { n: r.n, title: r.title, practice: !!r.practice, intro: r.intro || '', count: r.count }; }
   if (G.phase === 'question' && G.q?.wheelRevealed !== undefined) s.wheel = { revealed: G.q.wheelRevealed, category: question().category, layout: G.q.view.layout };
   if (G.phase === 'question' && G.q && question().type === 'highlow') s.hl = { asked: Object.keys(G.q.low || {}).length };
   if ((G.phase === 'reveal' || G.phase === 'scoreboard' || G.phase === 'final') && G.q?.results) {
     s.results = {}; s.qType = question()?.type;
     const rk = ranked();
-    for (const p of rk) { const r = G.q.results.byPlayer[p.id]; s.results[p.id] = { correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, skipped: !!r?.skipped, wiped: !!r?.wiped, raced: !!r?.raced, lost: !!r?.lost, place: r?.place || 0, base: r?.base || 0, bonus: r?.bonus || 0, got: r?.got, out: !!r?.out, score: p.score, rank: rk.indexOf(p) + 1, of: rk.length }; }
+    for (const p of rk) { const r = G.q.results.byPlayer[p.id]; s.results[p.id] = { practice: !!r?.practice, would: r?.would || 0, correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, skipped: !!r?.skipped, wiped: !!r?.wiped, raced: !!r?.raced, lost: !!r?.lost, place: r?.place || 0, base: r?.base || 0, bonus: r?.bonus || 0, got: r?.got, out: !!r?.out, score: p.score, rank: rk.indexOf(p) + 1, of: rk.length }; }
     if (G.quiz.settings.showAnswersOnPhones !== false) { s.answer = answerText(question()); if (question()?.type === 'club' && question().why) s.why = question().why; }
   }
   if (G.phase === 'final') s.top = ranked().slice(0, 10).map((p, i) => ({ name: p.name, score: p.score, rank: i + 1 }));
@@ -350,7 +352,8 @@ function primaryAction() {
   if (G.phase === 'typecard') return startCountdown(G.qIndex);
   if (G.phase === 'countdown') return startQuestion();
   if (G.phase === 'question') return endQuestion();
-  if (G.phase === 'reveal') return showScoreboard();
+  if (G.phase === 'reveal' && lossList().length && !G.q.lossShown) { G.q.lossShown = true; persist(); render(); broadcastState(); return; } // after the podium: who lost points
+  if (G.phase === 'reveal') return practiceQ() ? nextFrom(G.qIndex) : showScoreboard(); // scores cannot have moved after practice
   if (G.phase === 'scoreboard') return nextFrom(G.qIndex);
 }
 /** On to whatever follows item i, or the final results after the last. */
@@ -417,7 +420,16 @@ function sound(kind) {
   if (!musicOn()) return;
   try {
     sfx = sfx || new (window.AudioContext || window.webkitAudioContext)(); const ac = sfx, t = ac.currentTime;
-    if (kind === 'fanfare') {
+    if (kind === 'trombone') {
+      // Wah wah wah waaah: four falling notes, the last one wobbling down.
+      [[311, 0, .45], [294, .5, .45], [277, 1, .45], [262, 1.5, 1.3]].forEach(([f, at, len], i) => {
+        const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sawtooth'; o.frequency.setValueAtTime(f, t + at);
+        if (i === 3) { const l = ac.createOscillator(), lg = ac.createGain(); l.frequency.value = 6; lg.gain.value = 8; l.connect(lg).connect(o.frequency); l.start(t + at); l.stop(t + at + len); o.frequency.linearRampToValueAtTime(f - 30, t + at + len); }
+        g.gain.setValueAtTime(0.0001, t + at); g.gain.exponentialRampToValueAtTime(0.12, t + at + 0.05); g.gain.exponentialRampToValueAtTime(0.001, t + at + len);
+        const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 1200;
+        o.connect(lp).connect(g).connect(ac.destination); o.start(t + at); o.stop(t + at + len + 0.05);
+      });
+    } else if (kind === 'fanfare') {
       [[523, 0, .16], [659, .14, .16], [784, .28, .16], [1047, .42, .7]].forEach(([f, at, len]) => {
         const o = ac.createOscillator(), g = ac.createGain(); o.type = 'triangle'; o.frequency.value = f;
         g.gain.setValueAtTime(0.0001, t + at); g.gain.exponentialRampToValueAtTime(0.22, t + at + 0.02); g.gain.exponentialRampToValueAtTime(0.001, t + at + len);
@@ -660,6 +672,7 @@ async function endQuestion() {
   G.phase = 'grading'; persist(); render(); broadcastState();
   try { G.q.results = await grade(); }
   catch (e) { console.error(e); toast('Scoring hit a snag: ' + e.message, true); G.q.results = await grade(true); }
+  if (practiceQ()) for (const r of Object.values(G.q.results.byPlayer)) { r.practice = true; r.would = r.points; r.points = 0; } // shown, never counted
   for (const [pid, r] of Object.entries(G.q.results.byPlayer)) if (G.players[pid]) G.players[pid].score += r.points;
   logQuestion();
   G.phase = 'reveal'; persist(); render(); broadcastState();
@@ -687,13 +700,13 @@ function logQuestion() {
   const q = question(), R = G.q.results; if (!R) return;
   G.log = (G.log || []).filter((e) => e.index !== G.qIndex);
   const round = roundOf(G.qIndex);
-  G.log.push({ index: G.qIndex, n: qNum(G.qIndex), id: q.id, type: q.type, text: q.type === 'wheel' ? `${q.category}: ${q.phrase}` : q.text, round: round ? `${round.n}. ${round.title}` : '', answer: answerText(q),
+  G.log.push({ index: G.qIndex, n: qNum(G.qIndex), practice: practiceQ(), id: q.id, type: q.type, text: q.type === 'wheel' ? `${q.category}: ${q.phrase}` : q.text, round: round ? `${round.n}. ${round.title}` : '', answer: answerText(q),
     players: Object.fromEntries(players().map((p) => { const r = R.byPlayer[p.id] || {}; return [p.id, { name: p.name, emoji: p.emoji || '', answer: answerDisplay(q, p.id), correct: !!r.correct, partial: r.partial ?? 0, points: r.points || 0, skipped: !!r.skipped, answered: !!r.answered }]; })) });
 }
 function buildReport() {
   const rk = ranked();
   const log = (G.log || []).slice().sort((a, b) => a.index - b.index);
-  return { players: rk.map((p, i) => ({ pid: p.id, name: p.name, emoji: p.emoji || '', score: p.score, rank: i + 1, correct: log.filter((e) => e.players[p.id]?.correct).length, answered: log.filter((e) => e.players[p.id]?.answered).length })), questions: log, bots: (G.bots || []).map((b) => b.pid) };
+  return { players: rk.map((p, i) => ({ pid: p.id, name: p.name, emoji: p.emoji || '', score: p.score, rank: i + 1, correct: log.filter((e) => !e.practice && e.players[p.id]?.correct).length, answered: log.filter((e) => !e.practice && e.players[p.id]?.answered).length })), questions: log, bots: (G.bots || []).map((b) => b.pid) };
 }
 function showScoreboard() { G.phase = 'scoreboard'; persist(); render(); broadcastState(); }
 async function finish() {
@@ -896,7 +909,7 @@ function renderPhase() {
 function topBar(extra = '') {
   const q = question(), r = roundOf(G.qIndex);
   const roundPill = G.quiz.rounds.length > 1 && r ? `<span class="hpill">Round ${r.n}${r.title ? ' · ' + esc(r.title) : ''}</span>` : `<span class="hpill">${esc(G.quiz.title)}</span>`;
-  return `<div class="stage-top"><div class="pillbox">${roundPill}<span class="hpill">Question ${qNum(G.qIndex)} of ${total()}</span><span class="hpill">${TYPES[q.kind || q.type].icon} ${esc(TYPES[q.kind || q.type].label)}</span></div>${extra}</div>`;
+  return `<div class="stage-top"><div class="pillbox">${roundPill}<span class="hpill">Question ${qNum(G.qIndex)} of ${total()}</span>${practiceQ() ? '<span class="hpill practicepill">🧪 Practice · no points</span>' : ''}<span class="hpill">${TYPES[q.kind || q.type].icon} ${esc(TYPES[q.kind || q.type].label)}</span></div>${extra}</div>`;
 }
 function renderSlide() {
   const q = question(), r = roundOf(G.qIndex), body = LQ.slideHtml(q.body), more = G.qIndex + 1 < G.quiz.questions.length;
@@ -917,7 +930,7 @@ function renderSlide() {
 function renderRound() {
   const r = roundOf(G.qIndex);
   stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span></div></div>
-    <div class="stage-main"><div style="opacity:.8;font-weight:800;font-size:1.6rem">Round ${r.n} of ${G.quiz.rounds.length}</div><h1 class="big">${esc(r.title) || 'Round ' + r.n}</h1>${r.intro ? `<p style="font-size:clamp(1.1rem,2.2vw,1.8rem);font-weight:800;max-width:1000px;text-wrap:balance">${esc(r.intro)}</p>` : ''}<div style="opacity:.75;font-weight:800;font-size:1.3rem">${r.count} question${r.count === 1 ? '' : 's'}</div></div>
+    <div class="stage-main"><div style="opacity:.8;font-weight:800;font-size:1.6rem">Round ${r.n} of ${G.quiz.rounds.length}</div><h1 class="big">${esc(r.title) || 'Round ' + r.n}</h1>${r.intro ? `<p style="font-size:clamp(1.1rem,2.2vw,1.8rem);font-weight:800;max-width:1000px;text-wrap:balance">${esc(r.intro)}</p>` : ''}<div style="opacity:.75;font-weight:800;font-size:1.3rem">${r.count} question${r.count === 1 ? '' : 's'}</div>${r.practice ? '<div class="practicepill big">🧪 Practice round · no points, just a go at each game</div>' : ''}</div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary btn-lg" data-act="primary">Start round ▶</button>`)}`;
   bind();
 }
@@ -976,7 +989,7 @@ function musicStop() { musicMode = null; try { ytP?.stopVideo(); } catch {} }
 function musicPause(on) { try { if (on) ytP?.pauseVideo(); else if (musicMode) ytP?.playVideo(); } catch {} }
 function renderTypeCard() {
   const q = question(), k = q.kind || q.type, T = TYPES[k] || { icon: '❓', label: k }, run = typeRun(G.qIndex);
-  stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">Question ${qNum(G.qIndex)} of ${total()}</span></div></div>
+  stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">Question ${qNum(G.qIndex)} of ${total()}</span>${practiceQ() ? '<span class="hpill practicepill">🧪 Practice · no points</span>' : ''}</div></div>
     <div class="stage-main typecard"><div class="tc-icon">${T.icon}</div><div class="tc-next">Next up${run > 1 ? ` · ${run} questions` : ''}</div><h1 class="big">${esc(T.label)}</h1><p class="tc-how">${esc(LQ.HOWTO[k] || T.blurb || '')}</p></div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary btn-lg" data-act="primary">Let's go ▶</button>`)}`;
   bind();
@@ -1126,7 +1139,7 @@ function trackHtml(standings, target, winner, perCorrect) {
 function renderRace() {
   const q = question(), v = G.q.view, race = G.q.race;
   const standings = raceStandings();
-  const banner = race?.winner ? `<div class="turnbar"><span class="who">🏆 ${esc(G.players[race.winner]?.name || '')} wins the race!</span></div>` : `<div style="opacity:.8;font-weight:800;font-size:1.2rem">${v.perCorrect} a right answer · first to ${v.target} wins a ${v.prize} bonus · answer on your phones</div>`;
+  const banner = race?.winner ? `<div class="turnbar"><span class="who">🏆 ${esc(G.players[race.winner]?.name || '')} wins the race!</span></div>` : `<div style="opacity:.8;font-weight:800;font-size:1.2rem">${v.perCorrect} per right answer · first to ${v.target} wins a ${v.prize} bonus · answer on your phones</div>`;
   stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill">${standings.filter((s) => s.done).length} finished · ${standings.filter((s) => s.out).length} out</span><div class="timer" id="timer" data-s="${q.time}" style="--p:100%"></div></div>`)}
     <div class="stage-main" style="gap:10px"><h1 class="qtext" style="font-size:clamp(1.3rem,2.6vw,2.2rem)">${esc(q.text)}</h1>${banner}${trackHtml(standings, v.target, race?.winner, v.perCorrect)}</div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">Stop the race ■</button>`)}`;
@@ -1147,12 +1160,27 @@ function renderWipe(boomToken) {
 function renderGrading() {
   stage.innerHTML = `${topBar()}<div class="stage-main"><h1 class="big">Time's up!</h1><p style="font-size:1.4rem;font-weight:800"><span class="spinner"></span> &nbsp;Checking the answers…</p></div>`;
 }
+/** Who lost points on a race: the runner who came last, and anyone else who ended the race down. */
+function lossList() {
+  const q = question(), R = G.q?.results; if (!R || q?.type !== 'race') return [];
+  return Object.entries(R.byPlayer).filter(([, r]) => (r.bonus || 0) < 0 || (r.practice ? r.would : r.points) < 0).map(([pid, r]) => ({ pid, name: G.players[pid]?.name || 'Player', emoji: G.players[pid]?.emoji || '', got: r.got || 0, base: r.base || 0, bonus: r.bonus || 0, net: r.practice ? r.would : r.points, practice: !!r.practice }));
+}
+/** After the podium: the runner who finished last gets their moment too, as the points drain away. */
+function renderRaceLoss() {
+  const v = G.q.view, list = lossList();
+  const card = (x, i) => `<div class="losscard" style="animation-delay:${.3 + i * .4}s"><div class="loss-cloud">🌧️</div><div class="loss-av">${x.emoji || '🙂'}</div><div class="loss-name">${esc(x.name)}</div><div class="loss-pts" style="animation-delay:${1 + i * .4}s">−${Math.abs(x.bonus) || Math.abs(x.net)}</div><div class="loss-sum">${x.got} right = +${x.base} · last place −${Math.abs(x.bonus)} · <b>${x.net >= 0 ? '+' : '−'}${Math.abs(x.net)}</b>${x.practice ? ' · practice, so it doesn&#39;t count' : ''}</div></div>`;
+  stage.innerHTML = `${topBar('<span class="hpill">💨 Points lost</span>')}<div class="stage-main lossscreen"><div class="ri-kicker">💨 Last across the line</div><h1 class="big">Who lost points</h1><div class="losslist">${list.map(card).join('')}</div><p class="ri-sub">Finish last in the race and it costs you ${v.forfeit ?? 200} points.</p></div>
+    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">${practiceQ() ? (G.qIndex + 1 < G.quiz.questions.length ? 'Next ▶' : 'Final results 🏆') : 'Scores ▶'}</button>`)}`;
+  bind(); $('#confetti')?.classList.add('hidden');
+  if (!G.q.lossSound) { G.q.lossSound = true; persist(); setTimeout(() => { if (G.phase === 'reveal') sound('trombone'); }, 900); }
+}
 function renderReveal() {
+  if (G.q?.lossShown) return renderRaceLoss();
   const q = question(), v = G.q.view, R = G.q.results, n = players().length;
   let body = '';
   if (q.type === 'sort') body = `<div class="cats">${q.categories.filter((c) => c.name.trim()).map((c) => `<div class="cat"><h3>${esc(c.name)}</h3>${q.items.filter((i) => i.category === c.id && i.text.trim()).map((i) => `<div class="item ok">${esc(i.text)}</div>`).join('')}</div>`).join('')}</div>`;
   if (q.type === 'race' && R.stats.winner) body = podiumHtml(R.stats, v);
-  else if (q.type === 'race') { const st = R.stats; body = `<div class="turnbar" style="flex-wrap:wrap">${st.winner ? `<span class="who">🏆 ${st.winner.emoji || ''} ${esc(st.winner.name)} wins: +${v.prize} bonus</span>` : '<span>Nobody finished — no winner\'s bonus</span>'}${(st.places || []).map((p) => `<span class="last ok">${p.place === 2 ? '🥈' : '🥉'} ${p.emoji || ''} ${esc(p.name)} +${p.points}</span>`).join('')}${st.loser ? `<span class="last no">💨 ${st.loser.emoji || ''} ${esc(st.loser.name)} finishes last: −${v.forfeit}</span>` : ''}<span class="last" style="opacity:.7">${v.perCorrect} a right answer</span></div>` + trackHtml(st.standings || [], v.target, st.winner?.pid, v.perCorrect); }
+  else if (q.type === 'race') { const st = R.stats; body = `<div class="turnbar" style="flex-wrap:wrap">${st.winner ? `<span class="who">🏆 ${st.winner.emoji || ''} ${esc(st.winner.name)} wins: +${v.prize} bonus</span>` : '<span>Nobody finished — no winner\'s bonus</span>'}${(st.places || []).map((p) => `<span class="last ok">${p.place === 2 ? '🥈' : '🥉'} ${p.emoji || ''} ${esc(p.name)} +${p.points}</span>`).join('')}${st.loser ? `<span class="last no">💨 ${st.loser.emoji || ''} ${esc(st.loser.name)} finishes last: −${v.forfeit}</span>` : ''}<span class="last" style="opacity:.7">${v.perCorrect} per right answer</span></div>` + trackHtml(st.standings || [], v.target, st.winner?.pid, v.perCorrect); }
   if (q.type === 'wipeout') {
     const w = G.q.wipe || { picks: [] };
     body = `<div class="wboard" style="height:52vh">${v.board.map((t) => `<div class="wtile ${String(G.q.keys[t.k]).startsWith('R:') ? 'right' : 'wrong'} ${w.gone?.includes(t.k) ? 'gone' : ''}" style="left:${t.x}%;top:${t.y}%;--r:${t.rot}deg">${esc(t.text)}</div>`).join('')}</div>
@@ -1199,7 +1227,7 @@ function renderReveal() {
   stage.innerHTML = `${topBar(`<span class="hpill">${q.type === 'wipeout' ? `${R.stats.right} scored` : q.type === 'race' ? `${(R.stats.standings || []).filter((s) => s.done).length} finished` : `${R.stats.right} of ${n} got it right${R.stats.skipped ? ` · ${R.stats.skipped} skipped` : ''}`}</span>`)}
     <div class="stage-main"><h1 class="qtext"${inMain && q.type !== 'pin' ? ' style="font-size:clamp(1.3rem,2.6vw,2.2rem)"' : ''}>${esc(q.type === 'wheel' ? q.phrase : q.type === 'highlow' || q.type === 'rhyme' || q.type === 'dingbat' ? '' : q.text)}</h1>${inMain ? body : media}</div>
     ${inMain ? '' : `<div>${body}</div>`}
-    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">Scores ▶</button>`)}`;
+    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">${practiceQ() ? (G.qIndex + 1 < G.quiz.questions.length ? 'Next ▶' : 'Final results 🏆') : 'Scores ▶'}</button>`)}`;
   if (q.type === 'pin') drawPins();
   bind();
   // The winner's moment: fanfare and confetti as the crown lands, once per race.
@@ -1211,7 +1239,7 @@ function podiumHtml(st, v) {
   const p2 = (st.places || []).find((p) => p.place === 2), p3 = (st.places || []).find((p) => p.place === 3);
   const step = (p, place, prize) => `<div class="pod p${place}">${place === 1 ? '<div class="pod-rays"></div>' : ''}${p ? `<div class="pod-who">${place === 1 ? '<div class="pod-crown">👑</div>' : ''}<div class="pod-av">${p.emoji || '🙂'}</div><div class="pod-name">${esc(p.name)}</div><div class="pod-pts">${got(p.pid)} right · +${prize} bonus</div></div>` : '<div class="pod-who empty"></div>'}<div class="pod-block"><span>${place}</span></div></div>`;
   const sparks = [[12, 18, 0], [84, 12, .5], [24, 52, 1], [76, 44, .3], [50, 4, .8], [6, 70, 1.2], [94, 64, .6]].map(([x, y, d]) => `<span class="pod-spark" style="left:${x}%;top:${y}%;animation-delay:${2.4 + d}s">✨</span>`).join('');
-  const notes = [st.loser ? `<span class="last no">💨 ${st.loser.emoji || ''} ${esc(st.loser.name)} finishes last: −${v.forfeit}</span>` : '', `<span class="last" style="opacity:.7">${v.perCorrect} a right answer</span>`].join('');
+  const notes = [st.loser ? `<span class="last no">💨 ${st.loser.emoji || ''} ${esc(st.loser.name)} finishes last: −${v.forfeit}</span>` : '', `<span class="last" style="opacity:.7">${v.perCorrect} per right answer</span>`].join('');
   return `<div class="podium">${sparks}${step(p2, 2, v.prize2 ?? 200)}${step(st.winner, 1, v.prize ?? 500)}${step(p3, 3, v.prize3 ?? 100)}</div><div class="turnbar podnote" style="flex-wrap:wrap"><span class="who">🏆 ${esc(st.winner.name)} wins the race!</span>${notes}</div>`;
 }
 function drawPins() {

@@ -599,13 +599,13 @@ function renderQList() {
   rounds.forEach((r, ri) => {
     const inRound = qs.map((q, i) => [q, i]).filter(([q]) => q.round === r.id);
     const nq = inRound.filter(([q]) => q.type !== 'slide').length;
-    html += `<div class="roundhead"><div class="rt"><small>Round ${ri + 1} · ${nq}${r.count ? ' of ' + r.count : ''} question${nq === 1 && !r.count ? '' : 's'}${r.brief ? ' · ✨' : ''}</small>${esc(r.title) || '<span class="muted">Untitled round</span>'}</div>
+    html += `<div class="roundhead"><div class="rt"><small>Round ${ri + 1} · ${nq}${r.count ? ' of ' + r.count : ''} question${nq === 1 && !r.count ? '' : 's'}${r.brief ? ' · ✨' : ''}${r.practice ? ' · 🧪 practice' : ''}</small>${esc(r.title) || '<span class="muted">Untitled round</span>'}</div>
       <div class="ra"><button data-rup="${ri}" title="Move round up" ${ri === 0 ? 'disabled' : ''}>▲</button><button data-rdown="${ri}" title="Move round down" ${ri === rounds.length - 1 ? 'disabled' : ''}>▼</button><button data-redit="${r.id}" title="Round name and AI brief">✎</button><button data-check="${r.id}" title="Fact-check this round with AI" ${inRound.length ? '' : 'disabled'}>✔</button></div></div>`;
     html += inRound.map(([q, i]) => {
       const probs = validate(q), ck = checkState(q), T = LQ.typeInfo(q.kind || q.type, q), slide = q.type === 'slide';
       return `<div class="qtile ${i === S.sel ? 'active' : ''}" data-i="${i}">
         <div class="n">${slide ? T.icon : qs.slice(0, i + 1).filter((x) => x.type !== 'slide').length}</div>
-        <div class="t"><small>${T.icon} ${esc(T.label)}${slide ? (q.break ? ` · ${LQ.breakMs(q) / 60000} min` : '') : ` · ${q.time}s`}${q.media?.kind === 'youtube' ? ' · ▶ video' : q.media?.kind === 'image' ? ' · 🖼' : ''}</small>${esc(q.text) || `<span class="muted">${slide ? 'Untitled slide' : 'Untitled question'}</span>`}</div>
+        <div class="t"><small>${T.icon} ${esc(T.label)}${slide ? (q.break ? ` · ${LQ.breakMs(q) / 60000} min` : '') : ` · ${q.time}s`}${!slide && LQ.isPractice(S.quiz, q) ? ' · 🧪 practice' : ''}${q.media?.kind === 'youtube' ? ' · ▶ video' : q.media?.kind === 'image' ? ' · 🖼' : ''}</small>${esc(q.text) || `<span class="muted">${slide ? 'Untitled slide' : 'Untitled question'}</span>`}</div>
         <div class="mv">${probs.length ? '<span class="warn" title="' + esc(probs.join(' ')) + '">!</span>' : ''}${ck ? `<span class="chk ${ck}" title="${esc(q.check.note || '')}">${{ ok: '✓', doubt: '?', wrong: '✗', stale: '~' }[ck]}</span>` : ''}<button data-up="${i}" title="Move up" ${inRound[0][1] === i ? 'disabled' : ''}>▲</button><button data-down="${i}" title="Move down" ${inRound[inRound.length - 1][1] === i ? 'disabled' : ''}>▼</button></div></div>`;
     }).join('');
     html += `<div class="row" style="gap:6px;margin:4px 0 14px"><button class="btn btn-ghost btn-sm grow" data-addq="${r.id}">+ Question</button><button class="btn btn-ghost btn-sm grow" data-ai="${r.id}">✨ Write with AI</button></div>`;
@@ -654,6 +654,7 @@ function renderPlanner(focusId) {
     <div class="rplan">${qz.rounds.map((r, i) => `<div class="rcard" data-r="${r.id}">
       <div class="rhead"><span class="badge">Round ${i + 1}</span><input type="text" data-pt="${r.id}" value="${esc(r.title)}" placeholder="Round title, e.g. Sports" style="font-weight:900;font-size:1.05rem;max-width:420px"><div class="grow"></div><span class="muted small">${countIn(r)} question${countIn(r) === 1 ? '' : 's'} so far</span>${qz.rounds.length > 1 ? `<button class="btn btn-ghost btn-sm" data-pdel="${r.id}" style="color:var(--bad)">Delete</button>` : ''}</div>
       <div class="field"><label>What the round is about <span class="muted">— shown on the round card before it starts</span></label><input type="text" data-pi="${r.id}" value="${esc(r.intro)}" placeholder="e.g. Ten questions on the beautiful game, from Sunday league to the World Cup"></div>
+      <label class="check" style="margin:-4px 0 12px"><input type="checkbox" data-pprac="${r.id}" ${r.practice ? 'checked' : ''}> 🧪 Practice round: every question is played but scores nothing, to show people the new games</label>
       <div class="field"><label>How many of each question type <span class="muted">— total <b data-ptotal="${r.id}">${r.count}</b></span></label><div class="mixgrid">${Object.entries(TYPES).map(([k, t]) => `<label><span>${t.icon} ${esc(t.label)}</span><input type="number" data-pmix="${r.id}" data-type="${k}" min="0" max="40" value="${r.mix[k] || 0}"></label>`).join('')}</div></div>
       <div class="field"><label>Prompt for the AI <span class="muted">— what you want, as you'd tell a quizmaster</span></label><textarea data-pb="${r.id}" placeholder="e.g. A sports round where every question is about Harry Kane: clubs, records, goals, England career.">${esc(r.brief)}</textarea></div>
       <div class="row"><button class="btn btn-sm" data-pai="${r.id}" ${S.ai ? '' : 'disabled'}>✨ Write this round with AI</button><button class="btn btn-ghost btn-sm" data-padd="${r.id}">+ Add a question by hand</button></div>
@@ -662,6 +663,7 @@ function renderPlanner(focusId) {
   const R = (id) => qz.rounds.find((x) => x.id === id);
   $$('[data-pt]').forEach((i) => i.oninput = () => { R(i.dataset.pt).title = i.value; touch(); renderQList(); });
   $$('[data-pi]').forEach((i) => i.oninput = () => { R(i.dataset.pi).intro = i.value; touch(); });
+  $$('[data-pprac]').forEach((i) => i.onchange = () => { const r = R(i.dataset.pprac); r.practice = i.checked; if (r.practice && !r.intro) r.intro = 'A practice round: have a go at each game. No points!'; touch(); renderQList(); renderPlanner(r.id); });
   $$('[data-pb]').forEach((i) => i.oninput = () => { R(i.dataset.pb).brief = i.value; touch(); renderQList(); });
   $$('[data-pmix]').forEach((i) => i.onchange = () => { const r = R(i.dataset.pmix); const n = LQ.clamp(Math.round(+i.value) || 0, 0, 40); i.value = n; if (n) r.mix[i.dataset.type] = n; else delete r.mix[i.dataset.type]; r.types = Object.keys(r.mix); r.count = Object.values(r.mix).reduce((a, b) => a + b, 0); $(`[data-ptotal="${r.id}"]`).textContent = r.count; touch(); renderQList(); });
   $$('[data-pdel]').forEach((b) => b.onclick = async () => { const r = R(b.dataset.pdel), n = countIn(r); if (n && !(await confirmBox('Delete this round?', `Its ${n} question${n === 1 ? '' : 's'} will be deleted too.`))) return; qz.questions = qz.questions.filter((q) => q.round !== r.id); qz.rounds = qz.rounds.filter((x) => x !== r); touch(); renderQList(); renderPlanner(); });
@@ -764,6 +766,7 @@ function renderQForm() {
       ${S.quiz.rounds.length > 1 ? `<div class="field" style="max-width:240px"><label>Round</label><select id="f_round">${S.quiz.rounds.map((r, i) => `<option value="${r.id}" ${r.id === q.round ? 'selected' : ''}>${i + 1}. ${esc(r.title || 'Untitled round')}</option>`).join('')}</select></div>` : ''}
       ${q.type === 'order' || q.type === 'match' || q.type === 'sort' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_partial" ${q.partial ? 'checked' : ''}> Partial credit for partly right</label>` : ''}
       ${q.type === 'text' || q.type === 'highlow' || q.type === 'rhyme' || q.type === 'club' || q.type === 'dingbat' || q.type === 'tune' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_ai" ${q.ai !== false ? 'checked' : ''}> Let AI judge spelling and wording</label>` : ''}
+      ${S.quiz.rounds.find((r) => r.id === q.round)?.practice ? '<span class="muted small" style="margin-bottom:14px">🧪 Practice: the whole round scores nothing</span>' : `<label class="check" style="margin-bottom:14px" title="Played in full, but the points don&#39;t count: good for showing people how a game works"><input type="checkbox" id="f_practice" ${q.practice ? 'checked' : ''}> 🧪 Practice: no points</label>`}
     </div>
     <div id="problems"></div>`;
   if ($('#f_text')) $('#f_text').oninput = (e) => { q.text = e.target.value; touch(); refreshTile(); };
@@ -774,6 +777,7 @@ function renderQForm() {
   if ($('#f_round')) $('#f_round').onchange = (e) => { q.round = e.target.value; touch(); S.sel = S.quiz.questions.findIndex((x) => x.id === q.id); renderQList(); renderQForm(); };
   if ($('#f_partial')) $('#f_partial').onchange = (e) => { q.partial = e.target.checked; touch(); };
   if ($('#f_ai')) $('#f_ai').onchange = (e) => { q.ai = e.target.checked; touch(); };
+  if ($('#f_practice')) $('#f_practice').onchange = (e) => { q.practice = e.target.checked; if (!q.practice) delete q.practice; touch(); renderQList(); };
   if ($('#recheck')) $('#recheck').onclick = () => checkQuestions([q]);
   if ($('#clearCheck')) $('#clearCheck').onclick = () => { delete q.check; touch(); renderQList(); renderQForm(); };
   $('#dupQ').onclick = () => { const c = JSON.parse(JSON.stringify(q)); c.id = uid('q'); delete c.check; S.quiz.questions.splice(S.sel + 1, 0, c); touch(); S.sel = S.quiz.questions.findIndex((x) => x.id === c.id); renderQList(); renderQForm(); };
