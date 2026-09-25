@@ -89,6 +89,7 @@ const startsRound = (i) => i === 0 || G.quiz.questions[i - 1]?.round !== G.quiz.
   G = { code: newCode(), quizId, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: autoWanted() };
   persist();
   connect();
+  if (musicOn()) loadYT().catch(() => {});
   const nb = +new URLSearchParams(location.search).get('bots');
   if (nb > 0) setTimeout(() => addBots(Math.min(MAX_BOTS, nb)), 0);
 })();
@@ -478,6 +479,12 @@ function sound(kind) {
         g.gain.setValueAtTime(0.0001, t + at); g.gain.exponentialRampToValueAtTime(0.22, t + at + 0.02); g.gain.exponentialRampToValueAtTime(0.001, t + at + len);
         o.connect(g).connect(ac.destination); o.start(t + at); o.stop(t + at + len + 0.05);
       });
+    } else if (kind === 'gong') {
+      // A gong struck: low inharmonic partials with a long shimmering decay, and a crash of cymbal on top.
+      [[82, .5], [165, .35], [231, .25], [297, .18], [412, .12], [553, .08]].forEach(([fq, vol], i) => { const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sine'; o.frequency.setValueAtTime(fq * 1.02, t); o.frequency.exponentialRampToValueAtTime(fq, t + 1.5); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol * 0.5, t + 0.02 + i * 0.01); g.gain.exponentialRampToValueAtTime(0.001, t + 3.2 - i * 0.2); o.connect(g).connect(ac.destination); o.start(t); o.stop(t + 3.3); });
+      const len = Math.floor(ac.sampleRate * 2.5), buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0);
+      for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.5);
+      const n = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain(); n.buffer = buf; f.type = 'highpass'; f.frequency.value = 2500; g.gain.value = 0.45; n.connect(f).connect(g).connect(ac.destination); n.start(t);
     } else if (kind === 'drumroll') {
       // A snare roll building up, then a cymbal crash as the Chaser is revealed.
       for (let k = 0; k < 60; k++) { const at = t + k * 0.07, len = Math.floor(ac.sampleRate * 0.05), buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0); for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3); const n = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain(); n.buffer = buf; f.type = 'bandpass'; f.frequency.value = 1800; g.gain.value = 0.15 + 0.5 * (k / 60); n.connect(f).connect(g).connect(ac.destination); n.start(at); }
@@ -533,7 +540,7 @@ function startRaceIntro(i) {
   clearInterval(tickT); clearInterval(countT); if (typeof stopTune === 'function') stopTune();
   G.qIndex = i; G.phase = 'countdown'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString();
   G.raceIntro = { step: 'splash', n: 3, kind: G.quiz.questions[i].type };
-  persist(); render(); broadcastState();
+  persist(); render(); broadcastState(); musicPrepare(G.quiz.questions[i]);
   let t = 0;
   countT = setInterval(() => {
     const ri = G.raceIntro;
@@ -551,7 +558,7 @@ function startCountdown(i) {
   clearInterval(tickT); clearInterval(countT); if (typeof stopTune === 'function') stopTune(); G.raceIntro = null;
   G.qIndex = i; G.phase = 'countdown'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString();
   persist(); render(); broadcastState();
-  const q = question();
+  const q = question(); musicPrepare(q);
   // Pre-load the picture so the aspect ratio is known for pin scoring and the screen is instant.
   if (q.media?.kind === 'image' && q.media.url) { const im = new Image(); im.onload = () => { G.aspect = im.naturalHeight / im.naturalWidth; }; im.src = q.media.url; }
   // A Wipeout board must outnumber the players: top it up with the AI while the lead-in runs.
@@ -1158,11 +1165,13 @@ function startQuestion() {
   if (q.type === 'wipeout') wipeStart(); else if (q.type === 'race') raceStart(); else broadcastState();
   startTick(); botsOnQuestion(); musicStart(q);
 }
+let musicSyncAt = 0;
 function startTick() {
   clearInterval(tickT);
   tickT = setInterval(() => {
     if (G.phase !== 'question' || !G.q) return clearInterval(tickT);
     if (G.paused) return;
+    if (Date.now() - musicSyncAt > 2000) { musicSyncAt = Date.now(); musicSync(); }
     if (gameKind()) return gameTick();
     const wipe = G.q.wipe;
     if (wipe?.studyUntil) {
@@ -1191,6 +1200,7 @@ function wheelReveal() {
 async function endQuestion() {
   musicStop();
   if (G.phase !== 'question') return;
+  if (!['wipeout', 'race', 'potato', 'koth', 'blockbusters', 'chase'].includes(question()?.type)) sound('gong');
   clearInterval(tickT); botClear(); stopTune();
   G.phase = 'grading'; persist(); render(); broadcastState();
   try { G.q.results = await grade(); }
@@ -1527,7 +1537,7 @@ let ytP = null, ytReady = null, musicMode = null, lastTrack = '';
 function musicOn() { try { return localStorage.getItem('lq_music') !== 'off'; } catch { return true; } }
 function toggleMusic() {
   const on = !musicOn(); try { localStorage.setItem('lq_music', on ? 'on' : 'off'); } catch {}
-  if (!on) musicStop(); else if (G?.phase === 'question' && !G.paused) musicStart(question());
+  if (!on) { musicMode = musicMode || 'off'; musicStop(); } else if (G?.phase === 'question' && !G.paused) musicStart(question());
   const b = $('[data-act="music"]'); if (b) { b.textContent = on ? '🎵 Music: on' : '🔇 Music: off'; b.classList.toggle('on', on); }
   toast(on ? 'Music on while the clock runs.' : 'Music off.');
 }
@@ -1540,24 +1550,48 @@ function loadYT() {
   }).then(() => new Promise((res) => {
     const wrap = document.createElement('div'); wrap.className = 'bgm'; wrap.innerHTML = '<div id="bgmPlayer"></div>'; document.body.appendChild(wrap);
     ytP = new YT.Player('bgmPlayer', { width: 200, height: 200, playerVars: { controls: 0, disablekb: 1, playsinline: 1, rel: 0, iv_load_policy: 3 },
-      events: { onReady: () => res(ytP), onStateChange: (e) => { if (e.data === 0 && musicMode === 'loop') playLoop(); }, onError: () => { if (musicMode === 'loop') playLoop(); } } });
+      events: { onReady: () => res(ytP), onStateChange: (e) => { if (e.data === 0 && musicMode === 'loop') playLoop(); if (e.data === 1) musicSync(); }, onError: () => { if (musicMode === 'loop') playLoop(); } } });
   }));
   ytReady.catch(() => { ytReady = null; });
   return ytReady;
 }
 const pick = (arr) => { const opts = arr.filter((x) => (Array.isArray(x) ? x[0] : x) !== lastTrack); const x = (opts.length ? opts : arr)[Math.floor(Math.random() * (opts.length || arr.length))]; lastTrack = Array.isArray(x) ? x[0] : x; return x; };
-async function musicStart(q) {
-  if (!q || !musicOn() || q.type === 'tune' || q.type === 'koth' || q.media?.kind === 'youtube') return musicStop(); // King of the Hill is answered out loud
-  const p = await loadYT().catch(() => null);
-  if (!p || G.phase !== 'question' || G.paused || question() !== q) return;
+// A countdown track is lined up so its finale lands as the clock runs out. It is picked and buffered during the 3-2-1
+// (musicPrepare), started at once when the question goes live, and kept in step with the clock: whenever it plays, and
+// every couple of seconds after, it is moved to where it should be for the time left (musicSync).
+let musicPlan = null;
+function planFor(q) {
+  if (!q || q.type === 'tune' || q.type === 'koth' || q.media?.kind === 'youtube') return null; // King of the Hill is answered out loud
   const T = ['wipeout', 'potato', 'blockbusters', 'chase'].includes(q.type) ? 0 : +q.time || 0;
   const bucket = T ? Object.keys(MUSIC.countdown).map(Number).sort((a, b) => a - b).find((b) => b >= T) : null;
-  if (!bucket) return playLoop();
+  if (!bucket) return { qid: q.id, loop: true };
   const [id, dur] = pick(MUSIC.countdown[bucket]);
-  musicMode = 'countdown'; p.setVolume(45); p.loadVideoById({ videoId: id, startSeconds: Math.max(0, dur - T) });
+  return { qid: q.id, id, dur, T };
+}
+async function musicPrepare(q) {
+  if (!musicOn()) return;
+  const plan = planFor(q); musicPlan = plan; if (!plan || plan.loop) return;
+  const p = await loadYT().catch(() => null); if (!p || musicPlan !== plan) return;
+  try { p.setVolume(45); p.cueVideoById({ videoId: plan.id, startSeconds: Math.max(0, plan.dur - plan.T) }); } catch {}
+}
+/** Where the countdown track should be right now: its length less the time left on the clock. */
+function musicTarget() { if (!musicPlan?.dur || !G.q?.deadline) return 0; const rem = (G.q.deadline - (G.paused ? G.pausedAt : Date.now())) / 1000; return Math.max(0, musicPlan.dur - rem); }
+function musicSync() {
+  if (musicMode !== 'countdown' || !ytP || G.paused) return;
+  try { if (ytP.getPlayerState() !== 1) return; const want = musicTarget(); if (Math.abs(ytP.getCurrentTime() - want) > 0.6) ytP.seekTo(want, true); } catch {}
+}
+async function musicStart(q) {
+  if (!q || !musicOn()) return musicStop();
+  const plan = musicPlan && musicPlan.qid === q.id ? musicPlan : planFor(q); musicPlan = plan;
+  if (!plan) return musicStop();
+  const p = await loadYT().catch(() => null);
+  if (!p || G.phase !== 'question' || G.paused || question() !== q) return;
+  if (plan.loop) return playLoop();
+  musicMode = 'countdown'; p.setVolume(45);
+  try { if (p.getVideoData?.()?.video_id === plan.id) { p.seekTo(musicTarget(), true); p.playVideo(); } else p.loadVideoById({ videoId: plan.id, startSeconds: musicTarget() }); } catch {}
 }
 function playLoop() { if (!ytP) return; musicMode = 'loop'; ytP.setVolume(35); ytP.loadVideoById(pick(MUSIC.loop)); }
-function musicStop() { musicMode = null; try { ytP?.stopVideo(); } catch {} }
+function musicStop() { if (!musicMode) return; musicMode = null; try { ytP?.stopVideo(); } catch {} }
 function musicPause(on) { try { if (on) ytP?.pauseVideo(); else if (musicMode) ytP?.playVideo(); } catch {} }
 function renderTypeCard() {
   const q = question(), k = q.kind || q.type, T = TYPES[k] || { icon: '❓', label: k }, run = typeRun(G.qIndex);
@@ -1849,7 +1883,7 @@ function drawPins() {
   img.onload = draw; if (img.complete) draw(); window.onresize = draw;
 }
 function renderScoreboard() {
-  const rk = ranked().slice(0, 8), top = Math.max(1, rk[0]?.score || 1), R = G.q?.results?.byPlayer || {};
+  const rk = ranked().slice(0, 7), top = Math.max(1, rk[0]?.score || 1), R = G.q?.results?.byPlayer || {};
   stage.innerHTML = `${topBar()}<div class="stage-main"><h1 class="big" style="font-size:2.6rem">Scoreboard <span class="small" style="opacity:.45;font-size:.85rem;font-weight:700">· click a name to remove a player who has left</span></h1><div class="board">${rk.map((p, i) => `<div class="brow"><div class="fill" data-w="${(p.score / top) * 100}"></div><div class="rank">${i + 1}</div><div><span data-kick="${p.id}">${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}</span>${R[p.id]?.points ? `<span class="delta" ${R[p.id].points < 0 ? 'style="color:#ffb3c0"' : ''}>${R[p.id].points > 0 ? '+' : ''}${R[p.id].points}</span>` : ''}</div><div>${p.score}</div></div>`).join('')}</div></div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">${G.qIndex + 1 < G.quiz.questions.length ? 'Next ▶' : 'Final results 🏆'}</button>`)}`;
   requestAnimationFrame(() => $$('.fill').forEach((f) => f.style.width = f.dataset.w + '%'));

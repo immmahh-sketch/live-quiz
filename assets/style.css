@@ -215,7 +215,7 @@ textarea { min-height: 80px; resize: vertical; }
 .slidebody ul { margin: .3em auto; padding-left: 1.2em; text-align: left; display: table; }
 .slidebody li { margin: .25em 0; }
 /* Break clock: minute ticks round the edge, a glowing arc that drains, the time left in the middle */
-.brkclock { --c: #36d67a; position: relative; width: min(50vh, 70vw); aspect-ratio: 1; flex: 0 0 auto; }
+.brkclock { --c: #36d67a; position: relative; width: min(40vh, 70vw); aspect-ratio: 1; flex: 0 0 auto; }
 .brkclock svg { width: 100%; height: 100%; display: block; overflow: visible; }
 .brkclock .ticks { fill: none; stroke: var(--c); stroke-width: 3; stroke-dasharray: .35 1.65; opacity: .5; transition: stroke .6s; }
 .brkclock .trk { fill: none; stroke: rgba(255,255,255,.12); stroke-width: 14; }
@@ -227,8 +227,9 @@ textarea { min-height: 80px; resize: vertical; }
 .brkclock.end { --c: #ff4d5e; animation: brkpulse 1s ease-in-out infinite; }
 .brkclock.over { --c: #ff4d5e; animation: brkpulse .6s ease-in-out infinite; }
 @keyframes brkpulse { 50% { transform: scale(1.035); } }
-.brkback { font-size: clamp(1.1rem, 2.4vw, 2rem); font-weight: 900; opacity: .85; }
-.stage-main.slide.brk { gap: 12px; }
+.brkback { font-size: clamp(1rem, min(2.4vw, 3.6vh), 2rem); font-weight: 900; opacity: .85; }
+.stage-main.slide.brk { gap: min(12px, 1.4vh); }
+.stage-main.slide.brk .slidebody { font-size: clamp(1rem, min(2.3vw, 3.4vh), 2rem); }
 .stage-main.slide.brk h1.big { margin: 0; }
 @media (prefers-reduced-motion: reduce) { .brkclock.end, .brkclock.over { animation: none; } }
 /* The race's start: a splash with the topic, 3-2-1 with start lights, then the starting pistol fires */
@@ -468,7 +469,7 @@ body.player:has(.app.turn-wait) { background: #ffe6c2; }
 @media (max-width: 900px) { .lobby { grid-template-columns: 1fr; } }
 
 /* countdown / interstitial */
-.big { font-size: clamp(2.5rem, 8vw, 6rem); font-weight: 900; line-height: 1.1; }
+.big { font-size: clamp(2.2rem, min(8vw, 11vh), 6rem); font-weight: 900; line-height: 1.1; }
 .huge { font-size: clamp(5rem, 18vw, 14rem); font-weight: 900; line-height: 1; }
 
 /* scoreboard */
@@ -573,14 +574,14 @@ body.tv button, body.tv a, body.tv input, body.tv select, body.tv textarea, body
 .tvrow .row { flex-wrap: nowrap; }
 body.tvpage { overflow-y: auto; height: auto; min-height: 100vh; padding-bottom: 70px; }
 .tvwrap { max-width: 1400px; margin: 0 auto; padding: 36px 56px; color: #fff; font-size: 1.15rem; }
-.tvhead { display: flex; align-items: center; gap: 18px; margin-bottom: 26px; }
+.tvhead { display: flex; align-items: center; gap: 18px; margin-bottom: min(26px, 3vh); }
 .tvhead h1 { text-wrap: balance; }
 .tvfoot { position: fixed; left: 0; right: 0; bottom: 0; padding: 12px 56px; background: rgba(0,0,0,.4); color: #fff; font-weight: 800; opacity: .85; font-size: 1rem; }
 .tvtiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
 .tvtiles-4 { grid-template-columns: repeat(4, 1fr); gap: 14px; }
-.tvtile { background: rgba(255,255,255,.1); color: #fff; border: 0; border-radius: 22px; padding: 30px 20px; font: inherit; font-weight: 900; font-size: 1.5rem; cursor: pointer; text-align: center; }
-.tvtile.sm { padding: 20px 14px; font-size: 1.2rem; }
-.tvtile .em { display: block; font-size: 3rem; margin-bottom: 8px; }
+.tvtile { background: rgba(255,255,255,.1); color: #fff; border: 0; border-radius: 22px; padding: min(30px, 4vh) 20px; font: inherit; font-weight: 900; font-size: 1.5rem; cursor: pointer; text-align: center; }
+.tvtile.sm { padding: min(20px, 2.6vh) 14px; font-size: 1.2rem; }
+.tvtile .em { display: block; font-size: min(3rem, 7vh); margin-bottom: 8px; }
 .tvtile.sel { background: var(--sun); color: var(--ink); }
 .tvrow { display: flex; align-items: center; gap: 16px; width: 100%; background: rgba(255,255,255,.08); color: #fff; border: 0; border-radius: 16px; padding: 16px 22px; margin-bottom: 10px; font: inherit; font-weight: 800; font-size: 1.2rem; text-align: left; cursor: pointer; }
 .tvround { background: rgba(255,255,255,.06); border-radius: 20px; padding: 18px 22px; margin-bottom: 16px; }

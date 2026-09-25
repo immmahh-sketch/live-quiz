@@ -1,59 +1,1622 @@
-/* A built-in sample quiz so the game can be tried before any quiz is saved: host.html?quiz=demo */
+/* A built-in sample quiz so the game can be tried before any quiz is saved: host.html?quiz=demo
+   One of each party game: the race, Wipeout, Hot Potato, the Chase, a break, King of the Hill, Blockbusters, the final Chase. */
 window.DEMO_QUIZ = {
-  id: 'demo',
-  title: 'Demo quiz',
-  settings: { maxPoints: 1000, minPoints: 500, defaultTime: 20, showAnswersOnPhones: true,
-    rounds: [{ id: 'r1', title: 'Warm-up', intro: 'Four easy ones to get everybody going', brief: '' }, { id: 'r2', title: 'Pictures, maps and music', intro: 'Look at the screen: a landmark, some dogs, a map and a song', brief: '' }, { id: 'r3', title: 'True, false, sort and Wipeout', intro: 'The party games: true or false, categorise, Wipeout, the race and the wheel', brief: '' }, { id: 'r4', title: 'New games', intro: 'Hot Potato, King of the Hill and Blockbusters', brief: '' }] },
-  questions: [
-    { id: 'd0', round: 'r1', type: 'slide', text: 'How to play', time: 15, media: { kind: 'none' },
-      body: '- Answer on your phone: the faster you are, the more you score\n- Some rounds put a picture, a map or a song on this screen\n- No googling!' },
-    { id: 'd1', round: 'r1', type: 'choice', text: 'Which planet is closest to the Sun?', time: 15, media: { kind: 'none' },
-      options: [{ id: 'd1a', text: 'Venus' }, { id: 'd1b', text: 'Mercury' }, { id: 'd1c', text: 'Mars' }, { id: 'd1d', text: 'Earth' }], correct: 'd1b' },
-    { id: 'd2', round: 'r1', type: 'choice', text: 'Which city is this landmark in?', time: 15,
-      media: { kind: 'image', url: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a0/Sydney_Australia._%2821339175489%29.jpg/960px-Sydney_Australia._%2821339175489%29.jpg', credit: 'Wikipedia: Sydney Opera House' },
-      options: [{ id: 'd2a', text: 'Melbourne' }, { id: 'd2b', text: 'Auckland' }, { id: 'd2c', text: 'Sydney' }, { id: 'd2d', text: 'Cape Town' }], correct: 'd2c' },
-    { id: 'd3', round: 'r1', type: 'text', text: 'Who painted the Mona Lisa?', time: 20, media: { kind: 'none' }, answers: ['Leonardo da Vinci', 'Da Vinci', 'Leonardo'], ai: true },
-    { id: 'd4', round: 'r1', type: 'order', text: 'Put these in order, earliest first', time: 30, media: { kind: 'none' }, hint: 'earliest to latest', partial: true,
-      items: [{ id: 'd4a', text: 'First Moon landing' }, { id: 'd4b', text: 'Fall of the Berlin Wall' }, { id: 'd4c', text: 'Launch of the iPhone' }, { id: 'd4d', text: 'London Olympics' }] },
-    { id: 'd23', round: 'r1', type: 'chase', text: 'The Chase: before the break', time: 15, media: { kind: 'none' }, headStart: 2, target: 5, teamPrize: 1000, chaserPrize: 200,
-      bank: [{ id: 'd23b0', text: "Which country is home to the kangaroo?", options: ["Australia","New Zealand","South Africa","Brazil"] }, { id: 'd23b1', text: "How many continents are there?", options: ["Seven","Five","Six","Eight"] }, { id: 'd23b2', text: "What is the capital of Scotland?", options: ["Edinburgh","Glasgow","Aberdeen","Dundee"] }, { id: 'd23b3', text: "Which sport is played at Wimbledon?", options: ["Tennis","Cricket","Golf","Rugby"] }, { id: 'd23b4', text: "How many hours are in a day?", options: ["24","12","48","36"] }, { id: 'd23b5', text: "What colour do you get mixing blue and yellow?", options: ["Green","Purple","Orange","Brown"] }, { id: 'd23b6', text: "Which is the tallest animal?", options: ["Giraffe","Elephant","Camel","Horse"] }, { id: 'd23b7', text: "Who wrote Oliver Twist?", options: ["Charles Dickens","Jane Austen","Thomas Hardy","George Eliot"] }, { id: 'd23b8', text: "What is the chemical symbol for water?", options: ["H2O","CO2","O2","NaCl"] }, { id: 'd23b9', text: "Which planet do we live on?", options: ["Earth","Mars","Venus","Saturn"] }, { id: 'd23b10', text: "How many weeks are in a year?", options: ["52","48","50","56"] }, { id: 'd23b11', text: "Which instrument has pedals and 47 strings?", options: ["Harp","Piano","Cello","Guitar"] }, { id: 'd23b12', text: "What is the capital of Wales?", options: ["Cardiff","Swansea","Newport","Bangor"] }, { id: 'd23b13', text: "Which sea creature has eight arms?", options: ["Octopus","Squid","Starfish","Jellyfish"] }, { id: 'd23b14', text: "In which city is the Colosseum?", options: ["Rome","Athens","Paris","Madrid"] }, { id: 'd23b15', text: "What is the freezing point of water in Celsius?", options: ["0","10","32","-10"] }, { id: 'd23b16', text: "Which fruit is dried to make a raisin?", options: ["Grape","Plum","Apricot","Fig"] }, { id: 'd23b17', text: "How many players are on a netball team on court?", options: ["Seven","Five","Six","Nine"] }, { id: 'd23b18', text: "Which bird lays the largest eggs?", options: ["Ostrich","Emu","Eagle","Swan"] }, { id: 'd23b19', text: "What is the largest country in the world by area?", options: ["Russia","Canada","China","USA"] }, { id: 'd23b20', text: "Which metal is liquid at room temperature?", options: ["Mercury","Lead","Tin","Zinc"] }, { id: 'd23b21', text: "What do bees make?", options: ["Honey","Silk","Wax only","Nectar"] }, { id: 'd23b22', text: "Which North East city is famous for its Angel sculpture nearby?", options: ["Gateshead","Durham","Sunderland","Middlesbrough"] }, { id: 'd23b23', text: "How many sides does a triangle have?", options: ["Three","Four","Two","Five"] }] },
-    { id: 'dB', round: 'r2', type: 'slide', text: 'Half-time', break: true, breakMins: 1, time: 15, media: { kind: 'none' }, body: 'Top up your drinks. Back when the clock runs out!' },
-    { id: 'd5', round: 'r2', type: 'match', text: 'Match the breed to the dog', time: 40, media: { kind: 'none' }, partial: true,
-      pairs: [
-        { id: 'd5a', left: 'Labrador', right: { kind: 'image', value: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/3/34/Labrador_on_Quantock_%282175262184%29.jpg/960px-Labrador_on_Quantock_%282175262184%29.jpg' } },
-        { id: 'd5b', left: 'Dalmatian', right: { kind: 'image', value: 'https://upload.wikimedia.org/wikipedia/commons/6/68/Sun_Dog_Dalmatian.jpg' } },
-        { id: 'd5c', left: 'Pug', right: { kind: 'image', value: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Mops-duke-mopszucht-vom-maegdebrunnen.jpg/960px-Mops-duke-mopszucht-vom-maegdebrunnen.jpg' } },
-        { id: 'd5d', left: 'Border Collie', right: { kind: 'image', value: 'https://upload.wikimedia.org/wikipedia/commons/e/e4/Border_Collie_600.jpg' } },
-      ] },
-    { id: 'd6', round: 'r2', type: 'pin', text: 'Drop the pin on Namibia', time: 20, place: 'Namibia',
-      media: { kind: 'image', url: 'https://upload.wikimedia.org/wikipedia/commons/8/83/Equirectangular_projection_SW.jpg', credit: 'Wikimedia Commons' },
-      pin: { x: (17 + 180) / 360, y: (90 - -22) / 180 }, radiusFull: 0.02, radiusZero: 0.08 },
-    { id: 'd7', round: 'r2', type: 'text', text: 'Name the band', time: 25,
-      media: { kind: 'youtube', url: 'https://www.youtube.com/watch?v=fJ9rUzIMcZQ', videoId: 'fJ9rUzIMcZQ', start: 0 },
-      answers: ['Queen'], ai: true },
-    { id: 'd8', round: 'r3', type: 'tf', text: 'The Great Wall of China is visible from the Moon with the naked eye', time: 15, media: { kind: 'none' }, answer: false },
-    { id: 'd9', round: 'r3', type: 'sort', text: 'Sort these into the right category', time: 45, media: { kind: 'none' }, partial: true,
-      categories: [{ id: 'd9c1', name: 'Capital cities' }, { id: 'd9c2', name: 'Not capitals' }],
-      items: [{ id: 'd9i1', text: 'Canberra', category: 'd9c1' }, { id: 'd9i2', text: 'Sydney', category: 'd9c2' }, { id: 'd9i3', text: 'Ottawa', category: 'd9c1' }, { id: 'd9i4', text: 'Toronto', category: 'd9c2' }, { id: 'd9i5', text: 'Wellington', category: 'd9c1' }, { id: 'd9i6', text: 'Istanbul', category: 'd9c2' }] },
-    { id: 'd10', round: 'r3', type: 'wipeout', text: 'Wipeout: countries in Africa', time: 5, media: { kind: 'none' }, pickPoints: 200, penalty: 500,
-      right: ['Nigeria', 'Kenya', 'Ghana', 'Egypt', 'Morocco', 'Ethiopia', 'Senegal', 'Tanzania', 'Uganda', 'Zambia', 'Namibia', 'Botswana', 'Mali', 'Tunisia', 'Angola'].map((t, i) => ({ id: 'd10r' + i, text: t })),
-      wrong: ['Yemen', 'Oman', 'Suriname', 'Nepal', 'Georgia'].map((t, i) => ({ id: 'd10w' + i, text: t })) },
-    { id: 'd17', round: 'r2', type: 'tune', ask: 'song', text: '', track: "Last Christmas", artist: "Wham!", year: 1984, film: '', answers: ["Last Christmas"], tolerance: 1, time: 25, ai: true, media: { kind: 'audio', url: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/88/4e/30/884e30b6-0aca-aa0a-104e-00ad6871542f/mzaf_4599357113525773661.plus.aac.p.m4a", artwork: "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/47/55/0c/47550cd6-7ef5-bf86-c194-c7695d63c759/dj.xuditatj.jpg/100x100bb.jpg", start: 0, length: 15, credit: 'Preview via Apple Music' } },
-    { id: 'd15', round: 'r3', type: 'club', text: 'If planet EARTH has a HEART, which body part does MARS have?', pct: 60, answers: ['Arms', 'Arm'], time: 30, ai: true, media: { kind: 'none' } },
-    { id: 'd16', round: 'r3', type: 'dingbat', text: 'Say what you see', elements: [{ t: 'MAN', x: 50, y: 30, s: 5 }, { t: 'BOARD', x: 50, y: 70, s: 5 }], answers: ['Man overboard'], time: 40, ai: true, media: { kind: 'none' } },
-    { id: 'd13', round: 'r3', type: 'highlow', text: 'Which element, atomic number 79, is the most malleable of all metals?', lowText: 'Spandau Ballet said this is what you are', answers: ['Gold'], switchAt: 8, highPoints: 1000, lowPoints: 500, time: 20, ai: true, media: { kind: 'none' } },
-    { id: 'd14', round: 'r3', type: 'rhyme', text: "Sherlock Holmes's companion", text2: 'A large, loud gathering after dark', answer1: 'Watson', answer2: 'Party', time: 25, ai: true, media: { kind: 'none' } },
-    { id: 'd12', round: 'r3', type: 'wheel', text: 'A PIECE OF CAKE', phrase: 'A PIECE OF CAKE', category: 'Phrase', time: 60, revealEvery: 3, startLetters: '', ai: true, media: { kind: 'none' } },
-    { id: 'd11', round: 'r3', type: 'race', text: 'The Race: capital cities', time: 120, media: { kind: 'none' }, target: 10, perCorrect: 100, prize: 500, prize2: 200, prize3: 100, forfeit: 200,
-      bank: [['Capital of France?', 'Paris', 'Lyon', 'Marseille', 'Nice'], ['Capital of Japan?', 'Tokyo', 'Osaka', 'Kyoto', 'Nagoya'], ['Capital of Australia?', 'Canberra', 'Sydney', 'Melbourne', 'Perth'], ['Capital of Canada?', 'Ottawa', 'Toronto', 'Vancouver', 'Montreal'], ['Capital of Brazil?', 'Brasília', 'Rio de Janeiro', 'São Paulo', 'Salvador'], ['Capital of Turkey?', 'Ankara', 'Istanbul', 'Izmir', 'Antalya'], ['Capital of Nigeria?', 'Abuja', 'Lagos', 'Kano', 'Ibadan'], ['Capital of Switzerland?', 'Bern', 'Zurich', 'Geneva', 'Basel'],
-        ['Capital of Spain?', 'Madrid', 'Barcelona', 'Seville', 'Valencia'], ['Capital of Italy?', 'Rome', 'Milan', 'Naples', 'Turin'], ['Capital of Germany?', 'Berlin', 'Munich', 'Hamburg', 'Frankfurt'], ['Capital of Egypt?', 'Cairo', 'Alexandria', 'Giza', 'Luxor'], ['Capital of India?', 'New Delhi', 'Mumbai', 'Kolkata', 'Bangalore'], ['Capital of the USA?', 'Washington, D.C.', 'New York', 'Los Angeles', 'Chicago'], ['Capital of Argentina?', 'Buenos Aires', 'Córdoba', 'Rosario', 'Mendoza'], ['Capital of South Korea?', 'Seoul', 'Busan', 'Incheon', 'Daegu'], ['Capital of Kenya?', 'Nairobi', 'Mombasa', 'Kisumu', 'Nakuru'], ['Capital of Portugal?', 'Lisbon', 'Porto', 'Faro', 'Coimbra'], ['Capital of New Zealand?', 'Wellington', 'Auckland', 'Christchurch', 'Dunedin'], ['Capital of Scotland?', 'Edinburgh', 'Glasgow', 'Aberdeen', 'Dundee']].map((b, i) => ({ id: 'd11b' + i, text: b[0], options: b.slice(1) })) },
-    { id: 'd20', round: 'r4', type: 'potato', text: 'Hot Potato: general knowledge', time: 60, media: { kind: 'none' }, fuseMin: 30, fuseMax: 60, perCorrect: 50, penalty: 300,
-      bank: [{ id: 'd20b0', text: "How many sides does a hexagon have?", options: ["Six","Five","Seven","Eight"] }, { id: 'd20b1', text: "What colour is a London bus?", options: ["Red","Blue","Green","Yellow"] }, { id: 'd20b2', text: "Which planet is known as the Red Planet?", options: ["Mars","Venus","Jupiter","Saturn"] }, { id: 'd20b3', text: "How many players does a football team have on the pitch?", options: ["Eleven","Ten","Twelve","Nine"] }, { id: 'd20b4', text: "What is the capital of France?", options: ["Paris","Lyon","Marseille","Nice"] }, { id: 'd20b5', text: "Which animal says \"moo\"?", options: ["Cow","Sheep","Goat","Horse"] }, { id: 'd20b6', text: "What is 7 × 8?", options: ["56","54","64","48"] }, { id: 'd20b7', text: "Which is the largest ocean?", options: ["Pacific","Atlantic","Indian","Arctic"] }, { id: 'd20b8', text: "What is frozen water called?", options: ["Ice","Steam","Snow","Frost"] }, { id: 'd20b9', text: "An apple a day keeps who away?", options: ["The doctor","The dentist","The postman","The vicar"] }, { id: 'd20b10', text: "How many days are in a leap year?", options: ["366","365","364","367"] }, { id: 'd20b11', text: "Which bird is the symbol of peace?", options: ["Dove","Eagle","Robin","Swan"] }, { id: 'd20b12', text: "What is the largest mammal?", options: ["Blue whale","Elephant","Giraffe","Hippo"] }, { id: 'd20b13', text: "Which city is home to Big Ben?", options: ["London","Manchester","Edinburgh","Cardiff"] }, { id: 'd20b14', text: "How many legs does a spider have?", options: ["Eight","Six","Ten","Twelve"] }, { id: 'd20b15', text: "Which gas do plants take in?", options: ["Carbon dioxide","Oxygen","Nitrogen","Helium"] }, { id: 'd20b16', text: "Which river flows through Newcastle?", options: ["Tyne","Wear","Tees","Thames"] }, { id: 'd20b17', text: "Which river flows through Sunderland?", options: ["Wear","Tyne","Tees","Mersey"] }, { id: 'd20b18', text: "What is the square root of 81?", options: ["Nine","Eight","Seven","Six"] }, { id: 'd20b19', text: "Which country is shaped like a boot?", options: ["Italy","Spain","Greece","Portugal"] }] },
-    { id: 'd21', round: 'r4', type: 'koth', text: 'King of the Hill: general knowledge', time: 15, media: { kind: 'none' }, target: 3, prize: 1000, answerSecs: 3,
-      bank: [{ id: 'd21b0', text: "Which is the smallest planet in our solar system?", options: ["Mercury","Mars","Venus","Pluto"] }, { id: 'd21b1', text: "Who wrote Romeo and Juliet?", options: ["Shakespeare","Dickens","Chaucer","Marlowe"] }, { id: 'd21b2', text: "What is the chemical symbol for gold?", options: ["Au","Ag","Gd","Go"] }, { id: 'd21b3', text: "How many strings does a standard guitar have?", options: ["Six","Four","Five","Seven"] }, { id: 'd21b4', text: "Which country gave the Statue of Liberty to the USA?", options: ["France","Britain","Spain","Italy"] }, { id: 'd21b5', text: "What is the capital of Japan?", options: ["Tokyo","Osaka","Kyoto","Hiroshima"] }, { id: 'd21b6', text: "Which club plays at St James' Park?", options: ["Newcastle United","Sunderland","Middlesbrough","Leeds United"] }, { id: 'd21b7', text: "Which club plays at the Stadium of Light?", options: ["Sunderland","Newcastle United","Hartlepool United","Middlesbrough"] }, { id: 'd21b8', text: "How many hearts does an octopus have?", options: ["Three","One","Two","Four"] }, { id: 'd21b9', text: "What is the longest river in Africa?", options: ["Nile","Congo","Niger","Zambezi"] }, { id: 'd21b10', text: "In which year did the Second World War end?", options: ["1945","1944","1946","1939"] }, { id: 'd21b11', text: "What is the hardest natural substance?", options: ["Diamond","Granite","Quartz","Iron"] }, { id: 'd21b12', text: "Which instrument has 88 keys?", options: ["Piano","Organ","Accordion","Harpsichord"] }, { id: 'd21b13', text: "What is the capital of Australia?", options: ["Canberra","Sydney","Melbourne","Perth"] }, { id: 'd21b14', text: "Which planet has the most famous rings?", options: ["Saturn","Jupiter","Uranus","Neptune"] }, { id: 'd21b15', text: "How many minutes are there in a day?", options: ["1,440","1,200","1,600","1,340"] }, { id: 'd21b16', text: "Who painted The Starry Night?", options: ["Van Gogh","Monet","Picasso","Dalí"] }, { id: 'd21b17', text: "Which Newcastle bridge tilts to let boats through?", options: ["Gateshead Millennium Bridge","Tyne Bridge","High Level Bridge","Redheugh Bridge"] }, { id: 'd21b18', text: "At what temperature in Celsius does water boil?", options: ["100","90","212","80"] }, { id: 'd21b19', text: "Who was the first person to walk on the Moon?", options: ["Neil Armstrong","Buzz Aldrin","Yuri Gagarin","John Glenn"] }, { id: 'd21b20', text: "Which is the only mammal that can truly fly?", options: ["Bat","Flying squirrel","Sugar glider","Colugo"] }, { id: 'd21b21', text: "How many sides does a 50p coin have?", options: ["Seven","Six","Eight","Five"] }] },
-    { id: 'd22', round: 'r4', type: 'blockbusters', text: 'Blockbusters: general knowledge', time: 20, media: { kind: 'none' }, teams: [{ name: 'Newcastle', color: '#f2f2f2' }, { name: 'Sunderland', color: '#e21b3c' }], hexPoints: 50, prize: 500,
-      bank: [{ id: 'd22b0', text: "Seabird with the longest wingspan of any bird", options: ["Albatross","","",""] }, { id: 'd22b1', text: "Capital of Germany", options: ["Berlin","","",""] }, { id: 'd22b2', text: "Capital of Egypt", options: ["Cairo","","",""] }, { id: 'd22b3', text: "Country whose capital is Copenhagen", options: ["Denmark","","",""] }, { id: 'd22b4', text: "Tallest mountain in the world", options: ["Everest","","",""] }, { id: 'd22b5', text: "Country famous for the Eiffel Tower", options: ["France","","",""] }, { id: 'd22b6', text: "Hermione's surname in Harry Potter", options: ["Granger","","",""] }, { id: 'd22b7', text: "Gas used to fill party balloons", options: ["Helium","","",""] }, { id: 'd22b8', text: "Country whose capital is Rome", options: ["Italy","","",""] }, { id: 'd22b9', text: "Largest planet in our solar system", options: ["Jupiter","","",""] }, { id: 'd22b10', text: "Australian animal that carries its baby in a pouch", options: ["Kangaroo","","",""] }, { id: 'd22b11', text: "Capital of Portugal", options: ["Lisbon","","",""] }, { id: 'd22b12', text: "Planet closest to the Sun", options: ["Mercury","","",""] }, { id: 'd22b13', text: "Longest river in Africa", options: ["Nile","","",""] }, { id: 'd22b14', text: "Fruit that is also a colour", options: ["Orange","","",""] }, { id: 'd22b15', text: "Largest ocean on Earth", options: ["Pacific","","",""] }, { id: 'd22b16', text: "Capital of Italy", options: ["Rome","","",""] }, { id: 'd22b17', text: "Planet with the most famous rings", options: ["Saturn","","",""] }, { id: 'd22b18', text: "River that flows through Newcastle", options: ["Tyne","","",""] }, { id: 'd22b19', text: "Mythical horse with a single horn", options: ["Unicorn","","",""] }, { id: 'd22b20', text: "Italian city built on canals", options: ["Venice","","",""] }, { id: 'd22b21', text: "River that flows through Sunderland", options: ["Wear","","",""] }, { id: 'd22b22', text: "Colour of a ripe banana", options: ["Yellow","","",""] }, { id: 'd22b23', text: "Capital of Spain", options: ["Madrid","","",""] }, { id: 'd22b24', text: "Capital of Norway", options: ["Oslo","","",""] }, { id: 'd22b25', text: "Big cat with black stripes", options: ["Tiger","","",""] }, { id: 'd22b26', text: "Home city of the Beatles", options: ["Liverpool","","",""] }, { id: 'd22b27', text: "Metal with the chemical symbol Fe", options: ["Iron","","",""] }] },
-    { id: 'd24', round: 'r4', type: 'chase', text: 'The Chase: the final chase', time: 15, media: { kind: 'none' }, headStart: 2, target: 5, teamPrize: 1000, chaserPrize: 200,
-      bank: [{ id: 'd24b0', text: "Which band sang \"Hey Jude\"?", options: ["The Beatles","The Rolling Stones","Queen","The Who"] }, { id: 'd24b1', text: "What is the capital of Ireland?", options: ["Dublin","Cork","Belfast","Galway"] }, { id: 'd24b2', text: "How many centimetres are in a metre?", options: ["100","10","1,000","50"] }, { id: 'd24b3', text: "Which animal is known as the King of the Jungle?", options: ["Lion","Tiger","Gorilla","Elephant"] }, { id: 'd24b4', text: "What is the main ingredient of guacamole?", options: ["Avocado","Tomato","Pea","Lime"] }, { id: 'd24b5', text: "Which ocean lies between Europe and America?", options: ["Atlantic","Pacific","Indian","Arctic"] }, { id: 'd24b6', text: "Who painted the Mona Lisa?", options: ["Leonardo da Vinci","Michelangelo","Raphael","Botticelli"] }, { id: 'd24b7', text: "Which gas do we breathe in to live?", options: ["Oxygen","Carbon dioxide","Nitrogen","Hydrogen"] }, { id: 'd24b8', text: "What is the name of the UK parliament clock tower?", options: ["Elizabeth Tower","Victoria Tower","Albert Tower","Jewel Tower"] }, { id: 'd24b9', text: "How many years are in a century?", options: ["100","10","1,000","50"] }, { id: 'd24b10', text: "Which country is famous for tulips and windmills?", options: ["The Netherlands","Belgium","Denmark","Switzerland"] }, { id: 'd24b11', text: "What is the fastest land animal?", options: ["Cheetah","Leopard","Horse","Greyhound"] }, { id: 'd24b12', text: "Which Sunderland stadium opened in 1997?", options: ["Stadium of Light","Roker Park","The Riverside","St James' Park"] }, { id: 'd24b13', text: "What is 12 × 12?", options: ["144","124","132","156"] }, { id: 'd24b14', text: "Which is the largest bone in the human body?", options: ["Femur","Tibia","Humerus","Spine"] }, { id: 'd24b15', text: "What is the capital of Canada?", options: ["Ottawa","Toronto","Vancouver","Montreal"] }, { id: 'd24b16', text: "Which famous ship sank in 1912?", options: ["Titanic","Lusitania","Mary Rose","Bismarck"] }, { id: 'd24b17', text: "How many strings does a violin have?", options: ["Four","Five","Six","Three"] }, { id: 'd24b18', text: "Which planet is the hottest?", options: ["Venus","Mercury","Mars","Jupiter"] }, { id: 'd24b19', text: "What do caterpillars turn into?", options: ["Butterflies","Beetles","Spiders","Worms"] }, { id: 'd24b20', text: "Which country hosted the 2012 Olympics?", options: ["Great Britain","China","Brazil","Greece"] }, { id: 'd24b21', text: "How many sides does a pentagon have?", options: ["Five","Six","Four","Eight"] }, { id: 'd24b22', text: "Which snooker ball is worth the most?", options: ["Black","Pink","Blue","Brown"] }, { id: 'd24b23', text: "What is the capital of Egypt?", options: ["Cairo","Alexandria","Giza","Luxor"] }] },
-  ],
+  "id": "demo",
+  "title": "Demo quiz",
+  "settings": {
+    "maxPoints": 1000,
+    "minPoints": 500,
+    "defaultTime": 20,
+    "showAnswersOnPhones": true,
+    "rounds": [
+      {
+        "id": "r1",
+        "title": "Party games",
+        "intro": "The Race, Wipeout, Hot Potato and the first Chase, then a break",
+        "brief": ""
+      },
+      {
+        "id": "r2",
+        "title": "Head to head",
+        "intro": "King of the Hill, Blockbusters and the final Chase",
+        "brief": ""
+      }
+    ]
+  },
+  "questions": [
+    {
+      "id": "d11",
+      "round": "r1",
+      "type": "race",
+      "text": "The Race: capital cities",
+      "time": 120,
+      "media": {
+        "kind": "none"
+      },
+      "target": 10,
+      "perCorrect": 100,
+      "prize": 500,
+      "prize2": 200,
+      "prize3": 100,
+      "forfeit": 200,
+      "bank": [
+        {
+          "id": "d11b0",
+          "text": "Capital of France?",
+          "options": [
+            "Paris",
+            "Lyon",
+            "Marseille",
+            "Nice"
+          ]
+        },
+        {
+          "id": "d11b1",
+          "text": "Capital of Japan?",
+          "options": [
+            "Tokyo",
+            "Osaka",
+            "Kyoto",
+            "Nagoya"
+          ]
+        },
+        {
+          "id": "d11b2",
+          "text": "Capital of Australia?",
+          "options": [
+            "Canberra",
+            "Sydney",
+            "Melbourne",
+            "Perth"
+          ]
+        },
+        {
+          "id": "d11b3",
+          "text": "Capital of Canada?",
+          "options": [
+            "Ottawa",
+            "Toronto",
+            "Vancouver",
+            "Montreal"
+          ]
+        },
+        {
+          "id": "d11b4",
+          "text": "Capital of Brazil?",
+          "options": [
+            "Brasília",
+            "Rio de Janeiro",
+            "São Paulo",
+            "Salvador"
+          ]
+        },
+        {
+          "id": "d11b5",
+          "text": "Capital of Turkey?",
+          "options": [
+            "Ankara",
+            "Istanbul",
+            "Izmir",
+            "Antalya"
+          ]
+        },
+        {
+          "id": "d11b6",
+          "text": "Capital of Nigeria?",
+          "options": [
+            "Abuja",
+            "Lagos",
+            "Kano",
+            "Ibadan"
+          ]
+        },
+        {
+          "id": "d11b7",
+          "text": "Capital of Switzerland?",
+          "options": [
+            "Bern",
+            "Zurich",
+            "Geneva",
+            "Basel"
+          ]
+        },
+        {
+          "id": "d11b8",
+          "text": "Capital of Spain?",
+          "options": [
+            "Madrid",
+            "Barcelona",
+            "Seville",
+            "Valencia"
+          ]
+        },
+        {
+          "id": "d11b9",
+          "text": "Capital of Italy?",
+          "options": [
+            "Rome",
+            "Milan",
+            "Naples",
+            "Turin"
+          ]
+        },
+        {
+          "id": "d11b10",
+          "text": "Capital of Germany?",
+          "options": [
+            "Berlin",
+            "Munich",
+            "Hamburg",
+            "Frankfurt"
+          ]
+        },
+        {
+          "id": "d11b11",
+          "text": "Capital of Egypt?",
+          "options": [
+            "Cairo",
+            "Alexandria",
+            "Giza",
+            "Luxor"
+          ]
+        },
+        {
+          "id": "d11b12",
+          "text": "Capital of India?",
+          "options": [
+            "New Delhi",
+            "Mumbai",
+            "Kolkata",
+            "Bangalore"
+          ]
+        },
+        {
+          "id": "d11b13",
+          "text": "Capital of the USA?",
+          "options": [
+            "Washington, D.C.",
+            "New York",
+            "Los Angeles",
+            "Chicago"
+          ]
+        },
+        {
+          "id": "d11b14",
+          "text": "Capital of Argentina?",
+          "options": [
+            "Buenos Aires",
+            "Córdoba",
+            "Rosario",
+            "Mendoza"
+          ]
+        },
+        {
+          "id": "d11b15",
+          "text": "Capital of South Korea?",
+          "options": [
+            "Seoul",
+            "Busan",
+            "Incheon",
+            "Daegu"
+          ]
+        },
+        {
+          "id": "d11b16",
+          "text": "Capital of Kenya?",
+          "options": [
+            "Nairobi",
+            "Mombasa",
+            "Kisumu",
+            "Nakuru"
+          ]
+        },
+        {
+          "id": "d11b17",
+          "text": "Capital of Portugal?",
+          "options": [
+            "Lisbon",
+            "Porto",
+            "Faro",
+            "Coimbra"
+          ]
+        },
+        {
+          "id": "d11b18",
+          "text": "Capital of New Zealand?",
+          "options": [
+            "Wellington",
+            "Auckland",
+            "Christchurch",
+            "Dunedin"
+          ]
+        },
+        {
+          "id": "d11b19",
+          "text": "Capital of Scotland?",
+          "options": [
+            "Edinburgh",
+            "Glasgow",
+            "Aberdeen",
+            "Dundee"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "d10",
+      "round": "r1",
+      "type": "wipeout",
+      "text": "Wipeout: countries in Africa",
+      "time": 5,
+      "media": {
+        "kind": "none"
+      },
+      "pickPoints": 200,
+      "penalty": 500,
+      "right": [
+        {
+          "id": "d10r0",
+          "text": "Nigeria"
+        },
+        {
+          "id": "d10r1",
+          "text": "Kenya"
+        },
+        {
+          "id": "d10r2",
+          "text": "Ghana"
+        },
+        {
+          "id": "d10r3",
+          "text": "Egypt"
+        },
+        {
+          "id": "d10r4",
+          "text": "Morocco"
+        },
+        {
+          "id": "d10r5",
+          "text": "Ethiopia"
+        },
+        {
+          "id": "d10r6",
+          "text": "Senegal"
+        },
+        {
+          "id": "d10r7",
+          "text": "Tanzania"
+        },
+        {
+          "id": "d10r8",
+          "text": "Uganda"
+        },
+        {
+          "id": "d10r9",
+          "text": "Zambia"
+        },
+        {
+          "id": "d10r10",
+          "text": "Namibia"
+        },
+        {
+          "id": "d10r11",
+          "text": "Botswana"
+        },
+        {
+          "id": "d10r12",
+          "text": "Mali"
+        },
+        {
+          "id": "d10r13",
+          "text": "Tunisia"
+        },
+        {
+          "id": "d10r14",
+          "text": "Angola"
+        }
+      ],
+      "wrong": [
+        {
+          "id": "d10w0",
+          "text": "Yemen"
+        },
+        {
+          "id": "d10w1",
+          "text": "Oman"
+        },
+        {
+          "id": "d10w2",
+          "text": "Suriname"
+        },
+        {
+          "id": "d10w3",
+          "text": "Nepal"
+        },
+        {
+          "id": "d10w4",
+          "text": "Georgia"
+        }
+      ]
+    },
+    {
+      "id": "d20",
+      "round": "r1",
+      "type": "potato",
+      "text": "Hot Potato: general knowledge",
+      "time": 60,
+      "media": {
+        "kind": "none"
+      },
+      "fuseMin": 30,
+      "fuseMax": 60,
+      "perCorrect": 50,
+      "penalty": 300,
+      "bank": [
+        {
+          "id": "d20b0",
+          "text": "How many sides does a hexagon have?",
+          "options": [
+            "Six",
+            "Five",
+            "Seven",
+            "Eight"
+          ]
+        },
+        {
+          "id": "d20b1",
+          "text": "What colour is a London bus?",
+          "options": [
+            "Red",
+            "Blue",
+            "Green",
+            "Yellow"
+          ]
+        },
+        {
+          "id": "d20b2",
+          "text": "Which planet is known as the Red Planet?",
+          "options": [
+            "Mars",
+            "Venus",
+            "Jupiter",
+            "Saturn"
+          ]
+        },
+        {
+          "id": "d20b3",
+          "text": "How many players does a football team have on the pitch?",
+          "options": [
+            "Eleven",
+            "Ten",
+            "Twelve",
+            "Nine"
+          ]
+        },
+        {
+          "id": "d20b4",
+          "text": "What is the capital of France?",
+          "options": [
+            "Paris",
+            "Lyon",
+            "Marseille",
+            "Nice"
+          ]
+        },
+        {
+          "id": "d20b5",
+          "text": "Which animal says \"moo\"?",
+          "options": [
+            "Cow",
+            "Sheep",
+            "Goat",
+            "Horse"
+          ]
+        },
+        {
+          "id": "d20b6",
+          "text": "What is 7 × 8?",
+          "options": [
+            "56",
+            "54",
+            "64",
+            "48"
+          ]
+        },
+        {
+          "id": "d20b7",
+          "text": "Which is the largest ocean?",
+          "options": [
+            "Pacific",
+            "Atlantic",
+            "Indian",
+            "Arctic"
+          ]
+        },
+        {
+          "id": "d20b8",
+          "text": "What is frozen water called?",
+          "options": [
+            "Ice",
+            "Steam",
+            "Snow",
+            "Frost"
+          ]
+        },
+        {
+          "id": "d20b9",
+          "text": "An apple a day keeps who away?",
+          "options": [
+            "The doctor",
+            "The dentist",
+            "The postman",
+            "The vicar"
+          ]
+        },
+        {
+          "id": "d20b10",
+          "text": "How many days are in a leap year?",
+          "options": [
+            "366",
+            "365",
+            "364",
+            "367"
+          ]
+        },
+        {
+          "id": "d20b11",
+          "text": "Which bird is the symbol of peace?",
+          "options": [
+            "Dove",
+            "Eagle",
+            "Robin",
+            "Swan"
+          ]
+        },
+        {
+          "id": "d20b12",
+          "text": "What is the largest mammal?",
+          "options": [
+            "Blue whale",
+            "Elephant",
+            "Giraffe",
+            "Hippo"
+          ]
+        },
+        {
+          "id": "d20b13",
+          "text": "Which city is home to Big Ben?",
+          "options": [
+            "London",
+            "Manchester",
+            "Edinburgh",
+            "Cardiff"
+          ]
+        },
+        {
+          "id": "d20b14",
+          "text": "How many legs does a spider have?",
+          "options": [
+            "Eight",
+            "Six",
+            "Ten",
+            "Twelve"
+          ]
+        },
+        {
+          "id": "d20b15",
+          "text": "Which gas do plants take in?",
+          "options": [
+            "Carbon dioxide",
+            "Oxygen",
+            "Nitrogen",
+            "Helium"
+          ]
+        },
+        {
+          "id": "d20b16",
+          "text": "Which river flows through Newcastle?",
+          "options": [
+            "Tyne",
+            "Wear",
+            "Tees",
+            "Thames"
+          ]
+        },
+        {
+          "id": "d20b17",
+          "text": "Which river flows through Sunderland?",
+          "options": [
+            "Wear",
+            "Tyne",
+            "Tees",
+            "Mersey"
+          ]
+        },
+        {
+          "id": "d20b18",
+          "text": "What is the square root of 81?",
+          "options": [
+            "Nine",
+            "Eight",
+            "Seven",
+            "Six"
+          ]
+        },
+        {
+          "id": "d20b19",
+          "text": "Which country is shaped like a boot?",
+          "options": [
+            "Italy",
+            "Spain",
+            "Greece",
+            "Portugal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "d23",
+      "round": "r1",
+      "type": "chase",
+      "text": "The Chase: before the break",
+      "time": 15,
+      "media": {
+        "kind": "none"
+      },
+      "headStart": 2,
+      "target": 5,
+      "teamPrize": 1000,
+      "chaserPrize": 200,
+      "bank": [
+        {
+          "id": "d23b0",
+          "text": "Which country is home to the kangaroo?",
+          "options": [
+            "Australia",
+            "New Zealand",
+            "South Africa",
+            "Brazil"
+          ]
+        },
+        {
+          "id": "d23b1",
+          "text": "How many continents are there?",
+          "options": [
+            "Seven",
+            "Five",
+            "Six",
+            "Eight"
+          ]
+        },
+        {
+          "id": "d23b2",
+          "text": "What is the capital of Scotland?",
+          "options": [
+            "Edinburgh",
+            "Glasgow",
+            "Aberdeen",
+            "Dundee"
+          ]
+        },
+        {
+          "id": "d23b3",
+          "text": "Which sport is played at Wimbledon?",
+          "options": [
+            "Tennis",
+            "Cricket",
+            "Golf",
+            "Rugby"
+          ]
+        },
+        {
+          "id": "d23b4",
+          "text": "How many hours are in a day?",
+          "options": [
+            "24",
+            "12",
+            "48",
+            "36"
+          ]
+        },
+        {
+          "id": "d23b5",
+          "text": "What colour do you get mixing blue and yellow?",
+          "options": [
+            "Green",
+            "Purple",
+            "Orange",
+            "Brown"
+          ]
+        },
+        {
+          "id": "d23b6",
+          "text": "Which is the tallest animal?",
+          "options": [
+            "Giraffe",
+            "Elephant",
+            "Camel",
+            "Horse"
+          ]
+        },
+        {
+          "id": "d23b7",
+          "text": "Who wrote Oliver Twist?",
+          "options": [
+            "Charles Dickens",
+            "Jane Austen",
+            "Thomas Hardy",
+            "George Eliot"
+          ]
+        },
+        {
+          "id": "d23b8",
+          "text": "What is the chemical symbol for water?",
+          "options": [
+            "H2O",
+            "CO2",
+            "O2",
+            "NaCl"
+          ]
+        },
+        {
+          "id": "d23b9",
+          "text": "Which planet do we live on?",
+          "options": [
+            "Earth",
+            "Mars",
+            "Venus",
+            "Saturn"
+          ]
+        },
+        {
+          "id": "d23b10",
+          "text": "How many weeks are in a year?",
+          "options": [
+            "52",
+            "48",
+            "50",
+            "56"
+          ]
+        },
+        {
+          "id": "d23b11",
+          "text": "Which instrument has pedals and 47 strings?",
+          "options": [
+            "Harp",
+            "Piano",
+            "Cello",
+            "Guitar"
+          ]
+        },
+        {
+          "id": "d23b12",
+          "text": "What is the capital of Wales?",
+          "options": [
+            "Cardiff",
+            "Swansea",
+            "Newport",
+            "Bangor"
+          ]
+        },
+        {
+          "id": "d23b13",
+          "text": "Which sea creature has eight arms?",
+          "options": [
+            "Octopus",
+            "Squid",
+            "Starfish",
+            "Jellyfish"
+          ]
+        },
+        {
+          "id": "d23b14",
+          "text": "In which city is the Colosseum?",
+          "options": [
+            "Rome",
+            "Athens",
+            "Paris",
+            "Madrid"
+          ]
+        },
+        {
+          "id": "d23b15",
+          "text": "What is the freezing point of water in Celsius?",
+          "options": [
+            "0",
+            "10",
+            "32",
+            "-10"
+          ]
+        },
+        {
+          "id": "d23b16",
+          "text": "Which fruit is dried to make a raisin?",
+          "options": [
+            "Grape",
+            "Plum",
+            "Apricot",
+            "Fig"
+          ]
+        },
+        {
+          "id": "d23b17",
+          "text": "How many players are on a netball team on court?",
+          "options": [
+            "Seven",
+            "Five",
+            "Six",
+            "Nine"
+          ]
+        },
+        {
+          "id": "d23b18",
+          "text": "Which bird lays the largest eggs?",
+          "options": [
+            "Ostrich",
+            "Emu",
+            "Eagle",
+            "Swan"
+          ]
+        },
+        {
+          "id": "d23b19",
+          "text": "What is the largest country in the world by area?",
+          "options": [
+            "Russia",
+            "Canada",
+            "China",
+            "USA"
+          ]
+        },
+        {
+          "id": "d23b20",
+          "text": "Which metal is liquid at room temperature?",
+          "options": [
+            "Mercury",
+            "Lead",
+            "Tin",
+            "Zinc"
+          ]
+        },
+        {
+          "id": "d23b21",
+          "text": "What do bees make?",
+          "options": [
+            "Honey",
+            "Silk",
+            "Wax only",
+            "Nectar"
+          ]
+        },
+        {
+          "id": "d23b22",
+          "text": "Which North East city is famous for its Angel sculpture nearby?",
+          "options": [
+            "Gateshead",
+            "Durham",
+            "Sunderland",
+            "Middlesbrough"
+          ]
+        },
+        {
+          "id": "d23b23",
+          "text": "How many sides does a triangle have?",
+          "options": [
+            "Three",
+            "Four",
+            "Two",
+            "Five"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dB",
+      "round": "r1",
+      "type": "slide",
+      "text": "Half-time",
+      "break": true,
+      "breakMins": 1,
+      "time": 15,
+      "media": {
+        "kind": "none"
+      },
+      "body": "Top up your drinks. Back when the clock runs out!"
+    },
+    {
+      "id": "d21",
+      "round": "r2",
+      "type": "koth",
+      "text": "King of the Hill: general knowledge",
+      "time": 15,
+      "media": {
+        "kind": "none"
+      },
+      "target": 3,
+      "prize": 1000,
+      "answerSecs": 3,
+      "bank": [
+        {
+          "id": "d21b0",
+          "text": "Which is the smallest planet in our solar system?",
+          "options": [
+            "Mercury",
+            "Mars",
+            "Venus",
+            "Pluto"
+          ]
+        },
+        {
+          "id": "d21b1",
+          "text": "Who wrote Romeo and Juliet?",
+          "options": [
+            "Shakespeare",
+            "Dickens",
+            "Chaucer",
+            "Marlowe"
+          ]
+        },
+        {
+          "id": "d21b2",
+          "text": "What is the chemical symbol for gold?",
+          "options": [
+            "Au",
+            "Ag",
+            "Gd",
+            "Go"
+          ]
+        },
+        {
+          "id": "d21b3",
+          "text": "How many strings does a standard guitar have?",
+          "options": [
+            "Six",
+            "Four",
+            "Five",
+            "Seven"
+          ]
+        },
+        {
+          "id": "d21b4",
+          "text": "Which country gave the Statue of Liberty to the USA?",
+          "options": [
+            "France",
+            "Britain",
+            "Spain",
+            "Italy"
+          ]
+        },
+        {
+          "id": "d21b5",
+          "text": "What is the capital of Japan?",
+          "options": [
+            "Tokyo",
+            "Osaka",
+            "Kyoto",
+            "Hiroshima"
+          ]
+        },
+        {
+          "id": "d21b6",
+          "text": "Which club plays at St James' Park?",
+          "options": [
+            "Newcastle United",
+            "Sunderland",
+            "Middlesbrough",
+            "Leeds United"
+          ]
+        },
+        {
+          "id": "d21b7",
+          "text": "Which club plays at the Stadium of Light?",
+          "options": [
+            "Sunderland",
+            "Newcastle United",
+            "Hartlepool United",
+            "Middlesbrough"
+          ]
+        },
+        {
+          "id": "d21b8",
+          "text": "How many hearts does an octopus have?",
+          "options": [
+            "Three",
+            "One",
+            "Two",
+            "Four"
+          ]
+        },
+        {
+          "id": "d21b9",
+          "text": "What is the longest river in Africa?",
+          "options": [
+            "Nile",
+            "Congo",
+            "Niger",
+            "Zambezi"
+          ]
+        },
+        {
+          "id": "d21b10",
+          "text": "In which year did the Second World War end?",
+          "options": [
+            "1945",
+            "1944",
+            "1946",
+            "1939"
+          ]
+        },
+        {
+          "id": "d21b11",
+          "text": "What is the hardest natural substance?",
+          "options": [
+            "Diamond",
+            "Granite",
+            "Quartz",
+            "Iron"
+          ]
+        },
+        {
+          "id": "d21b12",
+          "text": "Which instrument has 88 keys?",
+          "options": [
+            "Piano",
+            "Organ",
+            "Accordion",
+            "Harpsichord"
+          ]
+        },
+        {
+          "id": "d21b13",
+          "text": "What is the capital of Australia?",
+          "options": [
+            "Canberra",
+            "Sydney",
+            "Melbourne",
+            "Perth"
+          ]
+        },
+        {
+          "id": "d21b14",
+          "text": "Which planet has the most famous rings?",
+          "options": [
+            "Saturn",
+            "Jupiter",
+            "Uranus",
+            "Neptune"
+          ]
+        },
+        {
+          "id": "d21b15",
+          "text": "How many minutes are there in a day?",
+          "options": [
+            "1,440",
+            "1,200",
+            "1,600",
+            "1,340"
+          ]
+        },
+        {
+          "id": "d21b16",
+          "text": "Who painted The Starry Night?",
+          "options": [
+            "Van Gogh",
+            "Monet",
+            "Picasso",
+            "Dalí"
+          ]
+        },
+        {
+          "id": "d21b17",
+          "text": "Which Newcastle bridge tilts to let boats through?",
+          "options": [
+            "Gateshead Millennium Bridge",
+            "Tyne Bridge",
+            "High Level Bridge",
+            "Redheugh Bridge"
+          ]
+        },
+        {
+          "id": "d21b18",
+          "text": "At what temperature in Celsius does water boil?",
+          "options": [
+            "100",
+            "90",
+            "212",
+            "80"
+          ]
+        },
+        {
+          "id": "d21b19",
+          "text": "Who was the first person to walk on the Moon?",
+          "options": [
+            "Neil Armstrong",
+            "Buzz Aldrin",
+            "Yuri Gagarin",
+            "John Glenn"
+          ]
+        },
+        {
+          "id": "d21b20",
+          "text": "Which is the only mammal that can truly fly?",
+          "options": [
+            "Bat",
+            "Flying squirrel",
+            "Sugar glider",
+            "Colugo"
+          ]
+        },
+        {
+          "id": "d21b21",
+          "text": "How many sides does a 50p coin have?",
+          "options": [
+            "Seven",
+            "Six",
+            "Eight",
+            "Five"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "d22",
+      "round": "r2",
+      "type": "blockbusters",
+      "text": "Blockbusters: general knowledge",
+      "time": 20,
+      "media": {
+        "kind": "none"
+      },
+      "teams": [
+        {
+          "name": "Newcastle",
+          "color": "#f2f2f2"
+        },
+        {
+          "name": "Sunderland",
+          "color": "#e21b3c"
+        }
+      ],
+      "hexPoints": 50,
+      "prize": 500,
+      "bank": [
+        {
+          "id": "d22b0",
+          "text": "Seabird with the longest wingspan of any bird",
+          "options": [
+            "Albatross",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b1",
+          "text": "Capital of Germany",
+          "options": [
+            "Berlin",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b2",
+          "text": "Capital of Egypt",
+          "options": [
+            "Cairo",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b3",
+          "text": "Country whose capital is Copenhagen",
+          "options": [
+            "Denmark",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b4",
+          "text": "Tallest mountain in the world",
+          "options": [
+            "Everest",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b5",
+          "text": "Country famous for the Eiffel Tower",
+          "options": [
+            "France",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b6",
+          "text": "Hermione's surname in Harry Potter",
+          "options": [
+            "Granger",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b7",
+          "text": "Gas used to fill party balloons",
+          "options": [
+            "Helium",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b8",
+          "text": "Country whose capital is Rome",
+          "options": [
+            "Italy",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b9",
+          "text": "Largest planet in our solar system",
+          "options": [
+            "Jupiter",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b10",
+          "text": "Australian animal that carries its baby in a pouch",
+          "options": [
+            "Kangaroo",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b11",
+          "text": "Capital of Portugal",
+          "options": [
+            "Lisbon",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b12",
+          "text": "Planet closest to the Sun",
+          "options": [
+            "Mercury",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b13",
+          "text": "Longest river in Africa",
+          "options": [
+            "Nile",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b14",
+          "text": "Fruit that is also a colour",
+          "options": [
+            "Orange",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b15",
+          "text": "Largest ocean on Earth",
+          "options": [
+            "Pacific",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b16",
+          "text": "Capital of Italy",
+          "options": [
+            "Rome",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b17",
+          "text": "Planet with the most famous rings",
+          "options": [
+            "Saturn",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b18",
+          "text": "River that flows through Newcastle",
+          "options": [
+            "Tyne",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b19",
+          "text": "Mythical horse with a single horn",
+          "options": [
+            "Unicorn",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b20",
+          "text": "Italian city built on canals",
+          "options": [
+            "Venice",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b21",
+          "text": "River that flows through Sunderland",
+          "options": [
+            "Wear",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b22",
+          "text": "Colour of a ripe banana",
+          "options": [
+            "Yellow",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b23",
+          "text": "Capital of Spain",
+          "options": [
+            "Madrid",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b24",
+          "text": "Capital of Norway",
+          "options": [
+            "Oslo",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b25",
+          "text": "Big cat with black stripes",
+          "options": [
+            "Tiger",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b26",
+          "text": "Home city of the Beatles",
+          "options": [
+            "Liverpool",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "id": "d22b27",
+          "text": "Metal with the chemical symbol Fe",
+          "options": [
+            "Iron",
+            "",
+            "",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "id": "d24",
+      "round": "r2",
+      "type": "chase",
+      "text": "The Chase: the final chase",
+      "time": 15,
+      "media": {
+        "kind": "none"
+      },
+      "headStart": 2,
+      "target": 5,
+      "teamPrize": 1000,
+      "chaserPrize": 200,
+      "bank": [
+        {
+          "id": "d24b0",
+          "text": "Which band sang \"Hey Jude\"?",
+          "options": [
+            "The Beatles",
+            "The Rolling Stones",
+            "Queen",
+            "The Who"
+          ]
+        },
+        {
+          "id": "d24b1",
+          "text": "What is the capital of Ireland?",
+          "options": [
+            "Dublin",
+            "Cork",
+            "Belfast",
+            "Galway"
+          ]
+        },
+        {
+          "id": "d24b2",
+          "text": "How many centimetres are in a metre?",
+          "options": [
+            "100",
+            "10",
+            "1,000",
+            "50"
+          ]
+        },
+        {
+          "id": "d24b3",
+          "text": "Which animal is known as the King of the Jungle?",
+          "options": [
+            "Lion",
+            "Tiger",
+            "Gorilla",
+            "Elephant"
+          ]
+        },
+        {
+          "id": "d24b4",
+          "text": "What is the main ingredient of guacamole?",
+          "options": [
+            "Avocado",
+            "Tomato",
+            "Pea",
+            "Lime"
+          ]
+        },
+        {
+          "id": "d24b5",
+          "text": "Which ocean lies between Europe and America?",
+          "options": [
+            "Atlantic",
+            "Pacific",
+            "Indian",
+            "Arctic"
+          ]
+        },
+        {
+          "id": "d24b6",
+          "text": "Who painted the Mona Lisa?",
+          "options": [
+            "Leonardo da Vinci",
+            "Michelangelo",
+            "Raphael",
+            "Botticelli"
+          ]
+        },
+        {
+          "id": "d24b7",
+          "text": "Which gas do we breathe in to live?",
+          "options": [
+            "Oxygen",
+            "Carbon dioxide",
+            "Nitrogen",
+            "Hydrogen"
+          ]
+        },
+        {
+          "id": "d24b8",
+          "text": "What is the name of the UK parliament clock tower?",
+          "options": [
+            "Elizabeth Tower",
+            "Victoria Tower",
+            "Albert Tower",
+            "Jewel Tower"
+          ]
+        },
+        {
+          "id": "d24b9",
+          "text": "How many years are in a century?",
+          "options": [
+            "100",
+            "10",
+            "1,000",
+            "50"
+          ]
+        },
+        {
+          "id": "d24b10",
+          "text": "Which country is famous for tulips and windmills?",
+          "options": [
+            "The Netherlands",
+            "Belgium",
+            "Denmark",
+            "Switzerland"
+          ]
+        },
+        {
+          "id": "d24b11",
+          "text": "What is the fastest land animal?",
+          "options": [
+            "Cheetah",
+            "Leopard",
+            "Horse",
+            "Greyhound"
+          ]
+        },
+        {
+          "id": "d24b12",
+          "text": "Which Sunderland stadium opened in 1997?",
+          "options": [
+            "Stadium of Light",
+            "Roker Park",
+            "The Riverside",
+            "St James' Park"
+          ]
+        },
+        {
+          "id": "d24b13",
+          "text": "What is 12 × 12?",
+          "options": [
+            "144",
+            "124",
+            "132",
+            "156"
+          ]
+        },
+        {
+          "id": "d24b14",
+          "text": "Which is the largest bone in the human body?",
+          "options": [
+            "Femur",
+            "Tibia",
+            "Humerus",
+            "Spine"
+          ]
+        },
+        {
+          "id": "d24b15",
+          "text": "What is the capital of Canada?",
+          "options": [
+            "Ottawa",
+            "Toronto",
+            "Vancouver",
+            "Montreal"
+          ]
+        },
+        {
+          "id": "d24b16",
+          "text": "Which famous ship sank in 1912?",
+          "options": [
+            "Titanic",
+            "Lusitania",
+            "Mary Rose",
+            "Bismarck"
+          ]
+        },
+        {
+          "id": "d24b17",
+          "text": "How many strings does a violin have?",
+          "options": [
+            "Four",
+            "Five",
+            "Six",
+            "Three"
+          ]
+        },
+        {
+          "id": "d24b18",
+          "text": "Which planet is the hottest?",
+          "options": [
+            "Venus",
+            "Mercury",
+            "Mars",
+            "Jupiter"
+          ]
+        },
+        {
+          "id": "d24b19",
+          "text": "What do caterpillars turn into?",
+          "options": [
+            "Butterflies",
+            "Beetles",
+            "Spiders",
+            "Worms"
+          ]
+        },
+        {
+          "id": "d24b20",
+          "text": "Which country hosted the 2012 Olympics?",
+          "options": [
+            "Great Britain",
+            "China",
+            "Brazil",
+            "Greece"
+          ]
+        },
+        {
+          "id": "d24b21",
+          "text": "How many sides does a pentagon have?",
+          "options": [
+            "Five",
+            "Six",
+            "Four",
+            "Eight"
+          ]
+        },
+        {
+          "id": "d24b22",
+          "text": "Which snooker ball is worth the most?",
+          "options": [
+            "Black",
+            "Pink",
+            "Blue",
+            "Brown"
+          ]
+        },
+        {
+          "id": "d24b23",
+          "text": "What is the capital of Egypt?",
+          "options": [
+            "Cairo",
+            "Alexandria",
+            "Giza",
+            "Luxor"
+          ]
+        }
+      ]
+    }
+  ]
 };

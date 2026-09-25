@@ -86,7 +86,7 @@ function renderLogin() {
 // ------------------------------------------------------------------ home
 function renderHome() {
   view.innerHTML = `${head("Let's Quiz!", MOBILE ? 'Build a quiz from your phone in a few taps. Host it later on the TV or a computer.' : 'Everyone joins from their phone by scanning the TV. This screen runs the game by itself.')}
-    <div class="tvtiles" style="max-width:1100px">
+    <div class="tvtiles ${MOBILE ? "" : "tvtiles-4"}" style="max-width:1300px">
       <button class="tvtile" id="play" data-autofocus><span class="em">▶</span>${MOBILE ? 'My quizzes' : 'Play a saved quiz'}</button>
       <button class="tvtile" id="make"><span class="em">✨</span>Make a new quiz</button>
       <button class="tvtile" id="tpls"><span class="em">📋</span>Weekly format</button>
