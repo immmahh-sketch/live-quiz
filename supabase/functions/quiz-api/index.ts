@@ -910,7 +910,8 @@ Deno.serve(async (req) => {
       return json({ source: "pdf", ...(await kahootFromRead(read)), usage: read.usage || null });
     }
     if (action === "bank_status") {
-      return json({ bank: bankStatus(await bankRows()), low: BANK_LOW });
+      const rows = await bankRows();
+      return json({ bank: bankStatus(rows), categories: bankCategories(rows), low: BANK_LOW });
     }
     if (action === "bank_list") {
       const type = String(body.type || "");
@@ -1326,6 +1327,22 @@ function bankStatus(rows: any[]) {
     const qs = Array.isArray(r.questions) ? r.questions : []; const fresh = qs.filter((q: any) => !q.used);
     const mix = { easy: 0, medium: 0, hard: 0, unrated: 0 }; for (const q of fresh) mix[(["easy", "medium", "hard"].includes(q.difficulty) ? q.difficulty : "unrated") as keyof typeof mix]++;
     out[r.settings.type] = { total: qs.length, unused: fresh.length, low: fresh.length < BANK_LOW, mix };
+  }
+  return out;
+}
+/** The same counts cut by category (the topic an item was written for), with how many of each type it holds. */
+function bankCategories(rows: any[]) {
+  const out: Record<string, { total: number; unused: number; mix: Record<string, number>; types: Record<string, { total: number; unused: number }> }> = {};
+  for (const r of rows) {
+    const type = r.settings.type;
+    for (const q of Array.isArray(r.questions) ? r.questions : []) {
+      const c = out[q.category || ""] ||= { total: 0, unused: 0, mix: { easy: 0, medium: 0, hard: 0, unrated: 0 }, types: {} };
+      const t = c.types[type] ||= { total: 0, unused: 0 };
+      c.total++; t.total++;
+      if (q.used) continue;
+      c.unused++; t.unused++;
+      c.mix[["easy", "medium", "hard"].includes(q.difficulty) ? q.difficulty : "unrated"]++;
+    }
   }
   return out;
 }

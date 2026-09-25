@@ -124,25 +124,62 @@ function renderBankPanel(r) {
   const low = types.filter((t) => S.bank[t].low);
   el.innerHTML = `<div class="banksec"><div class="row" style="margin-bottom:6px"><h2 style="margin:0">🏦 Question bank</h2><span class="muted small">Pre-written questions the AI writer uses first, free. Each is marked off once it goes into a quiz and never comes round again.</span></div>
     ${low.length ? `<div class="error" style="margin-bottom:10px">⚠ Running low: ${low.map((t) => `${TYPES[t].label} (${S.bank[t].unused} left)`).join(', ')}. Time to top the bank up.</div>` : ''}
-    <div class="bankgrid">${types.map((t) => `<button class="bankcell ${S.bank[t].low ? 'low' : ''}" data-bank="${t}"><span>${TYPES[t].icon} ${esc(TYPES[t].label)}</span><b>${S.bank[t].unused}</b><small>of ${S.bank[t].total} unused</small>${S.bank[t].mix ? `<small class="mix">${S.bank[t].mix.easy} easy · ${S.bank[t].mix.medium} medium · ${S.bank[t].mix.hard} hard${S.bank[t].mix.unrated ? ` · ${S.bank[t].mix.unrated} unrated` : ''}</small>` : ''}</button>`).join('')}${types.length ? '' : '<p class="muted small">Empty. Import a bank to get started.</p>'}</div></div>`;
+    <div class="bankgrid">${types.map((t) => `<button class="bankcell ${S.bank[t].low ? 'low' : ''}" data-bank="${t}"><span>${TYPES[t].icon} ${esc(TYPES[t].label)}</span><b>${S.bank[t].unused}</b><small>of ${S.bank[t].total} unused</small>${mixLine(S.bank[t].mix)}</button>`).join('')}${types.length ? '' : '<p class="muted small">Empty. Import a bank to get started.</p>'}</div>
+    <div id="bankcats"></div></div>`;
   $$('[data-bank]').forEach((b) => b.onclick = () => bankBrowse(b.dataset.bank));
   if (low.length && !S.bankWarned) { S.bankWarned = true; toast(`Question bank running low: ${low.map((t) => TYPES[t].label).join(', ')}`, true); }
+  renderBankCats(r.categories || {});
 }
-async function bankBrowse(type) {
+const mixLine = (mix) => mix ? `<small class="mix">${mix.easy} easy · ${mix.medium} medium · ${mix.hard} hard${mix.unrated ? ` · ${mix.unrated} unrated` : ''}</small>` : '';
+/** The same bank cut by category (the topic each question was written for), grouped as bank/topics.json groups them. */
+async function renderBankCats(cats) {
+  const el = $('#bankcats'); if (!el) return;
+  S.bankCats = cats;
+  if (!S.topicGroups) {
+    try { const t = await (await fetch('bank/topics.json')).json(); S.topicGroups = new Map(t.map((x) => [x.name, x.group])); S.topicOrder = t.map((x) => x.name); }
+    catch { S.topicGroups = new Map(); S.topicOrder = []; }
+  }
+  const names = Object.keys(cats);
+  if (!names.length) { el.innerHTML = ''; return; }
+  const at = (n) => { const i = S.topicOrder.indexOf(n); return i < 0 ? 1e9 : i; };
+  names.sort((a, b) => at(a) - at(b) || a.localeCompare(b));
+  const groups = new Map();
+  for (const n of names) { const g = n ? S.topicGroups.get(n) || 'Other' : 'Uncategorised'; if (!groups.has(g)) groups.set(g, []); groups.get(g).push(n); }
+  let open = true; try { open = localStorage.getItem('lq_bankcats') !== 'closed'; } catch {}
+  el.innerHTML = `<details class="bankcats" ${open ? 'open' : ''}><summary><b>📚 By category</b> <span class="muted small">· ${names.length} categories. Click one to see its question types.</span></summary>
+    ${[...groups].map(([g, ns]) => `<div class="bankgroup">${esc(g)}</div><div class="bankgrid">${ns.map((n) => { const c = cats[n]; return `<button class="bankcell" data-bankcat="${esc(n)}"><span>${esc(n || 'Uncategorised')}</span><b>${c.unused}</b><small>of ${c.total} unused · ${Object.keys(c.types).length} types</small>${mixLine(c.mix)}</button>`; }).join('')}</div>`).join('')}</details>`;
+  $('details', el).ontoggle = (e) => { try { localStorage.setItem('lq_bankcats', e.target.open ? 'open' : 'closed'); } catch {} };
+  $$('[data-bankcat]', el).forEach((b) => b.onclick = () => bankCategory(b.dataset.bankcat));
+}
+/** One category's questions, type by type. Click a type to browse just this category's questions of that type. */
+function bankCategory(name) {
+  const c = S.bankCats?.[name]; if (!c) return;
+  const types = Object.keys(TYPES).filter((t) => c.types[t]);
+  const none = Object.keys(TYPES).filter((t) => !c.types[t] && S.bank?.[t]);
+  const m = modal(`<h3>📚 ${esc(name || 'Uncategorised')} <span class="muted small">· ${c.unused} unused of ${c.total}</span></h3>
+    <div class="bankgrid">${types.map((t) => `<button class="bankcell" data-bct="${t}"><span>${TYPES[t].icon} ${esc(TYPES[t].label)}</span><b>${c.types[t].unused}</b><small>of ${c.types[t].total} unused</small></button>`).join('')}</div>
+    ${none.length ? `<p class="muted small" style="margin:10px 0 0">None yet: ${none.map((t) => esc(TYPES[t].label)).join(', ')}.</p>` : ''}
+    <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn btn-primary btn-sm" data-x>Close</button></div>`);
+  $('[data-x]', m).onclick = () => m.remove();
+  $$('[data-bct]', m).forEach((b) => b.onclick = () => { m.remove(); bankBrowse(b.dataset.bct, name); });
+}
+async function bankBrowse(type, cat = null) {
   const m = modal(`<h3>🏦 ${TYPES[type].icon} ${esc(TYPES[type].label)} bank</h3><p class="muted small">Loading…</p>`);
   let list = [];
   try { list = (await api('bank_list', { type })).questions; } catch (e) { $('p', m).textContent = e.message; return; }
   let filter = '', show = 'all', diff = 'all';
   const draw = () => {
     list = list.filter((q) => !q.gone);
-    const rows = list.filter((q) => (show === 'all' || (show === 'rejected' ? q.rejected : show === 'fresh' ? !q.used : q.used && !q.rejected)) && (diff === 'all' || (diff === 'unrated' ? !q.difficulty : q.difficulty === diff)) && (!filter || (q.text + ' ' + q.answer + ' ' + q.category).toLowerCase().includes(filter)));
-    const unused = list.filter((q) => !q.used).length, rejected = list.filter((q) => q.rejected).length;
-    $('.modal', m).innerHTML = `<h3>🏦 ${TYPES[type].icon} ${esc(TYPES[type].label)} bank <span class="muted small">· ${unused} unused of ${list.length}</span></h3>
+    const pool = cat === null ? list : list.filter((q) => (q.category || '') === cat);
+    const rows = pool.filter((q) => (show === 'all' || (show === 'rejected' ? q.rejected : show === 'fresh' ? !q.used : q.used && !q.rejected)) && (diff === 'all' || (diff === 'unrated' ? !q.difficulty : q.difficulty === diff)) && (!filter || (q.text + ' ' + q.answer + ' ' + q.category).toLowerCase().includes(filter)));
+    const unused = pool.filter((q) => !q.used).length, rejected = pool.filter((q) => q.rejected).length;
+    $('.modal', m).innerHTML = `<h3>🏦 ${TYPES[type].icon} ${esc(TYPES[type].label)} bank <span class="muted small">· ${unused} unused of ${pool.length}</span>${cat === null ? '' : ` <button class="tag" data-allcat title="Show every category">📚 ${esc(cat || 'Uncategorised')} ✕</button>`}</h3>
       <div class="row" style="margin-bottom:8px"><input type="text" id="bk_f" class="grow" placeholder="Search the bank" value="${esc(filter)}"><select id="bk_show"><option value="all" ${show === 'all' ? 'selected' : ''}>Everything</option><option value="fresh" ${show === 'fresh' ? 'selected' : ''}>Fresh (${unused})</option><option value="used" ${show === 'used' ? 'selected' : ''}>Used in a quiz</option><option value="rejected" ${show === 'rejected' ? 'selected' : ''}>👎 Rejected (${rejected})</option></select><select id="bk_diff"><option value="all" ${diff === 'all' ? 'selected' : ''}>Any difficulty</option><option value="easy" ${diff === 'easy' ? 'selected' : ''}>Easy</option><option value="medium" ${diff === 'medium' ? 'selected' : ''}>Medium</option><option value="hard" ${diff === 'hard' ? 'selected' : ''}>Hard</option><option value="unrated" ${diff === 'unrated' ? 'selected' : ''}>Unrated</option></select><button class="btn btn-ghost btn-sm" data-x>Close</button></div>
       ${show === 'rejected' ? '<p class="muted small" style="margin:0 0 8px">Questions a host turned down. Click one to see it, then ✏️ Edit to put it right and send it back into stock. ↺ restores one as it is; ✕ drops it for good.</p>' : ''}
       <div class="banklist">${rows.slice(0, 400).map((q) => `<div class="bankrow ${q.used ? 'used' : ''}" data-bv="${esc(q.id)}" style="cursor:pointer" title="Click to see the whole question"><div><div class="t">${q.media === 'youtube' ? '<span title="Has a video clip: click to watch">🎬</span> ' : q.media === 'audio' ? '<span title="Has a music clip: click to listen">🎵</span> ' : ''}${esc(q.text || (q.answer ? '' : ''))}${q.pct ? ` <span class="tag">${q.pct}%</span>` : ''}${q.difficulty ? ` <span class="tag dif-${q.difficulty}">${q.difficulty}</span>` : ''}</div><div class="a">${esc(q.answer || '')}${q.category ? ` <span class="muted">· ${esc(q.category)}</span>` : ''}${q.used ? ` <span class="usedtag">${q.rejected ? '👎 rejected' : 'used'} ${esc((q.used.at || '').slice(0, 10))}</span>` : ''}</div></div><div class="row" style="gap:4px">${q.used ? `<button class="btn btn-ghost btn-sm" data-br="${esc(q.id)}" title="Back into stock as a fresh question">↺</button>` : ''}<button class="btn btn-ghost btn-sm" data-bd="${esc(q.id)}" title="Remove from the bank">✕</button></div></div>`).join('')}${rows.length > 400 ? `<p class="muted small">Showing 400 of ${rows.length}; narrow the search.</p>` : ''}</div>`;
     $('#bk_f', m).oninput = (e) => { filter = e.target.value.toLowerCase(); draw(); $('#bk_f', m).focus(); $('#bk_f', m).setSelectionRange(filter.length, filter.length); };
     $('[data-x]', m).onclick = () => m.remove();
+    if ($('[data-allcat]', m)) $('[data-allcat]', m).onclick = () => { cat = null; draw(); };
     $('#bk_show', m).onchange = (e) => { show = e.target.value; draw(); };
     $('#bk_diff', m).onchange = (e) => { diff = e.target.value; draw(); };
     $$('[data-bd]', m).forEach((b) => b.onclick = async () => { try { await api('bank_delete', { type, id: b.dataset.bd }); list = list.filter((q) => q.id !== b.dataset.bd); draw(); } catch (e) { toast(e.message, true); } });
