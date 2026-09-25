@@ -51,14 +51,15 @@ window.QuizCall = (() => {
     return { stream: s, stop: () => s.getTracks().forEach((t) => t.stop()) };
   }
 
-  // A tab only produces frames when something on it changes, and Cloudflare drops
-  // a track that sends nothing for 30 seconds. A dot that never stops changing
-  // keeps the picture flowing on a still screen.
+  // A tab only produces frames when something on it changes. On a still screen
+  // the picture then stalls, and Gather shows the placeholder until the next
+  // change (a flash), and Cloudflare drops a track silent for 30 seconds. A dot
+  // that changes on every repaint keeps the picture flowing.
   function keepAlive(on) {
     if (on && !S.keep) {
       const d = document.createElement('div');
       d.id = 'callKeepAlive';
-      d.style.cssText = 'position:fixed;right:0;bottom:0;width:2px;height:2px;pointer-events:none;z-index:2147483647;animation:callKeep 1s steps(2) infinite';
+      d.style.cssText = 'position:fixed;right:0;bottom:0;width:2px;height:2px;pointer-events:none;z-index:2147483647;animation:callKeep .5s linear infinite alternate';
       const st = document.createElement('style');
       st.textContent = '@keyframes callKeep{0%{background:rgba(0,0,0,.02)}100%{background:rgba(255,255,255,.02)}}';
       d.appendChild(st);
@@ -229,8 +230,10 @@ window.QuizCall = (() => {
         const stream = this.canvas.captureStream(15);
         const audio = LQ.soundStream ? LQ.soundStream() : null;
         if (audio) audio.getAudioTracks().forEach((t) => stream.addTrack(t));
-        // A canvas repaints only when a frame arrives; nudge it so the track never goes quiet.
-        this.nudge = setInterval(() => { const x = this.ctx.getImageData(0, 0, 1, 1); this.ctx.putImageData(x, 0, 0); }, 1000);
+        // A canvas only yields a frame when it changes, and the TV sends frames only when its
+        // screen changes. Touch it ten times a second so the picture never stalls (a stall makes
+        // Gather flash to the placeholder).
+        this.nudge = setInterval(() => { const x = this.ctx.getImageData(0, 0, 1, 1); this.ctx.putImageData(x, 0, 0); }, 100);
         const r = this.resolve; this.resolve = this.reject = null;
         r({ stream, stop: () => this.stop() });
       } else if (st === 'denied' || st === 'error') {

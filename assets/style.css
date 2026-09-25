@@ -336,6 +336,11 @@ textarea { min-height: 80px; resize: vertical; }
 .stage-bottom { flex-wrap: wrap; row-gap: 8px; }
 .stage-bottom > .small { flex: 1 1 280px; min-width: 0; }
 .hostbar { flex-wrap: wrap; justify-content: flex-end; row-gap: 8px; }
+/* On a TV the buttons are bigger, so the bar can take two rows: a smaller QR keeps the
+   lobby clear of it (at 46vh the "Scan, or go to" line ended up under the buttons). */
+body.tv .lobby .qr canvas, body.tv .lobby .qr img { width: min(32vh, 340px); height: min(32vh, 340px); }
+body.tv .lobby .qr { padding: 12px; }
+body.tv .lobby { grid-template-columns: 1fr 1fr; } /* a TV is always landscape: never the stacked phone layout */
 .stage .btn-primary { background: var(--sun); color: var(--stage); }
 .stage .btn-primary:hover { filter: brightness(1.04); }
 
