@@ -145,7 +145,7 @@ function render() {
   const key = [s.phase, qId, s.qIndex, s.round?.n || '', s.raceIntro ? s.raceIntro.step + s.raceIntro.n : '', P.answered[qId] ? 'a' : '', s.wipe ? `${s.wipe.turnPid}:${s.wipe.gone.length}:${s.wipe.out.length}:${s.wipe.over}:${s.wipe.studyMs ? 'study' : ''}:${(s.wipe.order || []).length}` : '', rc ? `${rc.idx}:${rc.pending}:${rc.out}:${rc.done}:${s.race?.winner || ''}` : '', gameKey(s)].join(':');
   // A break clock: keep the phone's countdown in step with the host's, which the host can stretch or shorten.
   if (s.phase === 'slide' && s.brk) { P.brk = { end: Date.now() + s.brk.remainingMs, total: s.brk.totalMs, frozen: s.paused ? s.brk.remainingMs : null }; }
-  if (key === P.viewKey) { tickTimer(); tickBreak(); return; }
+  if (key === P.viewKey) { tickTimer(); tickBreak(); if (s.draw) drawUpdate(s); return; }
   P.viewKey = key;
   clearInterval(timerT);
   if (!(s.phase === 'question' && s.wipe)) app.className = 'app';
@@ -168,7 +168,7 @@ function render() {
     if (ri.step !== 'splash' && navigator.vibrate) try { navigator.vibrate(ri.step === 'bang' ? 200 : 40); } catch {}
   }
   else if (s.phase === 'countdown') app.innerHTML = top + top2 + `<div class="state"><div class="em">${TYPES[s.next?.type]?.icon || '⏳'}</div><h2>Get ready…</h2><p class="muted">Question ${s.next?.n || s.qIndex + 1}: ${esc(TYPES[s.next?.type]?.label || '')}</p></div>`;
-  else if (s.phase === 'question' && (s.potato || s.koth || s.bb || s.chase)) { const gs = s.koth || s.bb || s.chase; P.game = { at: Date.now(), rem: gs?.remainingMs || 0, total: gs?.totalMs || 0, frozen: s.paused }; app.innerHTML = top + top2 + (s.potato ? '' : '<div class="ptimer" id="gtimer"><i></i></div>') + (s.potato ? potatoHtml(s) : s.koth ? kothHtml(s) : s.chase ? chaseHtml(s) : bbHtml(s)); bindGame(s); timerT = setInterval(tickGame, 200); tickGame(); }
+  else if (s.phase === 'question' && (s.potato || s.koth || s.bb || s.chase || s.draw)) { const gs = s.koth || s.bb || s.chase || s.draw; P.game = { at: Date.now(), rem: gs?.remainingMs || 0, total: gs?.totalMs || 0, frozen: s.paused }; app.innerHTML = top + top2 + (s.potato ? '' : '<div class="ptimer" id="gtimer"><i></i></div>') + (s.potato ? potatoHtml(s) : s.koth ? kothHtml(s) : s.chase ? chaseHtml(s) : s.draw ? drawHtml(s) : bbHtml(s)); if (s.draw) bindDraw(s); else bindGame(s); timerT = setInterval(tickGame, 200); tickGame(); }
   else if (s.phase === 'question' && s.race) { app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + raceHtml(s); bindRace(s); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'question' && s.wipe) { P.deadline = Date.now() + (s.wipe.remainingMs || 0); app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + wipeHtml(s); bindWipe(s); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'question') { app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + (P.answered[qId] ? (P.skipped[qId] ? `<div class="state"><div class="em">⏭</div><h2>Skipped</h2><p class="muted">No points this time. Waiting for the others…</p></div>` : sentHtml()) : questionHtml(s.q)); bindQuestion(s.q); timerT = setInterval(tickTimer, 250); tickTimer(); }
@@ -255,6 +255,7 @@ function gameKey(s) {
   if (s.phase !== 'question') return '';
   if (s.potato) { const p = s.potato; return ['pot', (p.bombs || []).map((b) => [b.holder, b.stage, b.row?.i, b.exploded].join(',')).join(';'), p.players.length, P.work.potSent].join('|'); }
   if (s.koth) { const g = s.koth; return ['koth', g.n, g.step, g.fff?.row?.i, (g.fff?.answered || []).includes(P.pid), g.fff?.through?.length, g.h2h?.buzz, g.judges.includes(P.pid), g.result?.pid, g.winner, g.pair.join(), g.king].join('|'); }
+  if (s.draw) { const g = s.draw; return ['draw', g.step, g.turn, g.drawer, g.got.includes(P.pid), g.drawer === P.pid && g.secret ? 's' : ''].join('|'); }
   if (s.chase) { const g = s.chase; return ['chase', g.step, g.row?.i, g.answered.includes(P.pid), g.teamSteps, g.chaserSteps, g.result].join('|'); }
   if (s.bb) { const g = s.bb; return ['bb', g.step, g.teamOf[P.pid], g.picker, g.hot, g.answered.includes(P.pid), g.hexes.map((h) => h.owner).join(''), Object.keys(g.teamOf).length, g.cap, [0, 1].map((i) => Object.values(g.teamOf).filter((v) => v === i).length).join('-')].join('|'); }
   return '';
@@ -354,6 +355,63 @@ function bbHtml(s) {
   if (g.step === 'won') return `${band}<div class="state"><div class="em">${g.winner === t ? '🏆' : '😞'}</div><h2>${esc(teams[g.winner].name)} win the board!</h2><p class="muted">${g.winner === t ? `+${g.prize} for everyone on your side` : 'Better luck next time'}</p></div>${board(false)}`;
   return band;
 }
+// ---- Draw It ----
+const DRAW_COLORS = ['#111111', '#e21b3c', '#1368ce', '#26890c', '#d89e00', '#8e44ad', '#ffffff'];
+/** The artist's word choices, unscrambled with this phone's id (the host scrambles them so other phones never show them). */
+function drawSecret(sec) { try { const s = atob(sec), pid = P.pid; let out = ''; for (let i = 0; i < s.length; i++) out += String.fromCharCode(s.charCodeAt(i) ^ pid.charCodeAt(i % pid.length)); return JSON.parse(decodeURIComponent(escape(out))); } catch { return null; } }
+function drawHtml(s) {
+  const g = s.draw, me = P.pid, mine = g.drawer === me, sec = mine && g.secret ? drawSecret(g.secret) : null;
+  app.className = 'app';
+  if (g.step === 'choose') return mine
+    ? `<div class="pq">🎨 Your turn to draw! Pick a word</div><div class="drawpick">${(sec?.choices || []).map((w, i) => `<button class="btn btn-primary btn-lg btn-block" data-dpick="${i}">${esc(w)}</button>`).join('')}</div><p class="center small muted mt">Draw it on your phone: no letters or numbers!</p>`
+    : `<div class="state"><div class="em">${em(s, g.drawer)}</div><h2>${esc(nm(s, g.drawer))} is choosing a word</h2><p class="muted">Get ready to guess! Drawing ${g.turn + 1} of ${g.turns}</p></div>`;
+  if (g.step === 'draw') {
+    if (mine) return `<div class="drawtop"><span>Draw: <b>${esc(sec?.word || '')}</b></span><span id="drawGot">${g.got.length} got it</span></div><div class="drawpad"><canvas id="padCv"></canvas></div>
+      <div class="drawtools">${DRAW_COLORS.map((c) => `<button class="dcol ${(P.work.dcol || '#111111') === c ? 'on' : ''}" data-dcol="${c}" style="background:${c}" aria-label="colour"></button>`).join('')}</div>
+      <div class="drawtools"><button class="btn btn-ghost btn-sm" data-dsize>${(P.work.dw || 5) > 8 ? '🖌 Thick' : '✏️ Thin'}</button><button class="btn btn-ghost btn-sm" data-dundo>↶ Undo</button><button class="btn btn-ghost btn-sm" data-dclear>🗑 Clear</button></div>`;
+    if (g.got.includes(me)) return `<div class="state"><div class="em">✅</div><h2>You got it!</h2><p class="muted">+${g.gotPts?.[me] || 0} · waiting for the others</p></div>`;
+    return `<div class="pq">Guess ${esc(nm(s, g.drawer))}'s drawing!</div><div class="drawhint p" id="pHint">${esc(g.hint)}</div><p class="center small muted">Watch the screen · guess as often as you like</p>
+      <form id="drawForm" class="state" style="justify-content:flex-start;padding-top:0"><input type="text" id="drawIn" placeholder="Your guess" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.2rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Guess</button></form><div id="drawFb" class="center drawfb">${drawFbHtml(g)}</div>`;
+  }
+  const got = g.got.includes(me);
+  return `<div class="state"><div class="em">${mine ? '🎨' : got ? '🎉' : '🙈'}</div><h2>It was ${esc(g.word)}</h2><p class="muted">${mine ? `${g.got.length} guessed your drawing` : got ? 'You got it!' : 'Not this time'}</p></div>`;
+}
+function drawFbHtml(g) { const l = g.last?.[P.pid]; return l ? (l.close ? `🔥 <b>${esc(l.t)}</b> is close!` : `✗ Not ${esc(l.t)}`) : ''; }
+/** Between redraws: the hint letters, your last guess and the artist's count change in place, so typing isn't interrupted. */
+function drawUpdate(s) {
+  const g = s.draw; if (!g) return;
+  const h = $('#pHint'); if (h) h.textContent = g.hint;
+  const f = $('#drawFb'); if (f) f.innerHTML = drawFbHtml(g);
+  const c = $('#drawGot'); if (c) c.textContent = `${g.got.length} got it`;
+}
+function bindDraw(s) {
+  const g = s.draw, go = (answer) => send('answer', { pid: P.pid, qId: s.q.id, answer });
+  $$('[data-dpick]').forEach((b) => b.onclick = () => { go({ pick: +b.dataset.dpick }); $$('[data-dpick]').forEach((x) => x.disabled = true); b.textContent = '✓ ' + b.textContent; });
+  if ($('#drawForm')) { $('#drawForm').onsubmit = (e) => { e.preventDefault(); const i = $('#drawIn'), t = i.value.trim(); if (!t) return; go({ guess: t }); i.value = ''; i.focus(); }; setTimeout(() => $('#drawIn')?.focus(), 50); }
+  const cv = $('#padCv'); if (!cv) return;
+  const turnKey = s.q.id + ':' + g.turn;
+  if (P.work.drawTurn !== turnKey) { P.work.drawTurn = turnKey; P.work.strokes = []; }
+  const ctx = cv.getContext('2d');
+  const fit = () => { const r = cv.getBoundingClientRect(), dpr = window.devicePixelRatio || 1; cv.width = Math.max(1, Math.round(r.width * dpr)); cv.height = Math.max(1, Math.round(r.height * dpr)); redraw(); };
+  const seg = (st, from) => {
+    const W = cv.width, H = cv.height, p = st.p; if (p.length < 2) return;
+    ctx.strokeStyle = st.c; ctx.fillStyle = st.c; ctx.lineWidth = Math.max(1, st.w * W / 600); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    if (p.length === 2) { ctx.beginPath(); ctx.arc(p[0] * W, p[1] * H, ctx.lineWidth / 2, 0, Math.PI * 2); ctx.fill(); return; }
+    const a = Math.max(0, from - 2); ctx.beginPath(); ctx.moveTo(p[a] * W, p[a + 1] * H); for (let i = a + 2; i < p.length; i += 2) ctx.lineTo(p[i] * W, p[i + 1] * H); ctx.stroke();
+  };
+  const redraw = () => { ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cv.width, cv.height); for (const st of P.work.strokes) seg(st, 0); };
+  let cur = null, pending = [], flushT = null;
+  const flush = () => { flushT = null; if (!cur || !pending.length) return; go({ st: { id: cur.id, c: cur.c, w: cur.w, p: pending } }); pending = []; };
+  const pt = (e) => { const r = cv.getBoundingClientRect(); return [+LQ.clamp((e.clientX - r.left) / r.width, 0, 1).toFixed(4), +LQ.clamp((e.clientY - r.top) / r.height, 0, 1).toFixed(4)]; };
+  cv.onpointerdown = (e) => { e.preventDefault(); cv.setPointerCapture?.(e.pointerId); cur = { id: 's' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), c: P.work.dcol || '#111111', w: (P.work.dcol === '#ffffff' ? 3 : 1) * (P.work.dw || 5), p: pt(e) }; P.work.strokes.push(cur); pending = cur.p.slice(); seg(cur, 0); flushT = flushT || setTimeout(flush, 70); };
+  cv.onpointermove = (e) => { if (!cur) return; e.preventDefault(); const from = cur.p.length, q = pt(e); cur.p.push(...q); pending.push(...q); seg(cur, from); flushT = flushT || setTimeout(flush, 70); };
+  cv.onpointerup = cv.onpointercancel = () => { if (!cur) return; clearTimeout(flushT); flush(); cur = null; };
+  $$('[data-dcol]').forEach((b) => b.onclick = () => { P.work.dcol = b.dataset.dcol; $$('[data-dcol]').forEach((x) => x.classList.toggle('on', x === b)); });
+  const sz = $('[data-dsize]'); if (sz) sz.onclick = () => { P.work.dw = (P.work.dw || 5) > 8 ? 5 : 12; sz.textContent = P.work.dw > 8 ? '🖌 Thick' : '✏️ Thin'; };
+  const un = $('[data-dundo]'); if (un) un.onclick = () => { const st = P.work.strokes.pop(); if (!st) return; redraw(); go({ undo: st.id }); };
+  const cl = $('[data-dclear]'); if (cl) cl.onclick = () => { P.work.strokes = []; redraw(); go({ clear: true }); };
+  fit(); window.onresize = fit;
+}
 function bindGame(s) {
   const qId = s.q.id, go = (answer) => send('answer', { pid: P.pid, qId, answer });
   $$('[data-pk]').forEach((b) => b.onclick = () => { const mine = s.potato.bombs.find((x) => x.holder === P.pid && !x.exploded); if (!mine?.row) return; P.work.potSent = 'x' + mine.row.i; go({ b: mine.i, i: mine.row.i, k: b.dataset.pk }); $$('[data-pk]').forEach((x) => x.disabled = true); });
@@ -403,6 +461,7 @@ function questionHtml(q) {
   if (q.type === 'tune') body = `<div class="tunephone"><span class="note">🎵</span><p class="muted center small">Listen to the clip on the screen</p></div><form id="textForm" class="state" style="justify-content:flex-start;padding-top:0"><input type="text" id="textIn" placeholder="${q.ask === 'year' ? 'The year, e.g. 1984' : q.ask === 'artist' ? 'The artist' : q.ask === 'film' ? 'The film' : q.ask === 'lyric' ? 'The next line' : 'The song'}" ${q.ask === 'year' ? 'inputmode="numeric"' : ''} autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.15rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
   if (q.type === 'dingbat') body = `${q.media?.url ? '' : LQ.dingbatHtml(q.elements)}<p class="muted center small">Say what you see: type the phrase</p><form id="textForm" class="state" style="justify-content:flex-start;padding-top:0"><input type="text" id="textIn" placeholder="The phrase" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.15rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
   if (q.type === 'rhyme') body = `<div class="sitem"><div class="txt">🎤 ${esc(q.text2)}</div></div><p class="muted center small">The two answers rhyme. Type both, first then second.</p><form id="textForm" class="state" style="justify-content:flex-start;padding-top:0"><input type="text" id="textIn" placeholder="First answer, second answer" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.15rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
+  if (q.type === 'nearest') body = `<p class="muted center small">🎯 Closest wins · type a number${q.unit ? ` in <b>${esc(q.unit)}</b>` : ''}</p><form id="textForm" class="state" style="justify-content:flex-start"><input type="text" id="textIn" inputmode="decimal" placeholder="Your guess${q.unit ? ' (' + esc(q.unit) + ')' : ''}" autocomplete="off" style="font-size:1.4rem;text-align:center"><div id="numErr" class="small center" style="color:var(--bad);min-height:1.2em"></div><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
   if (q.type === 'text' || q.type === 'smash') body = `${q.type === 'smash' ? '<p class="muted center small">Answer Smash: type the picture and the clue smashed together</p>' : ''}<form id="textForm" class="state" style="justify-content:flex-start"><input type="text" id="textIn" placeholder="Type your answer" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.2rem;text-align:center" autofocus><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
   if (q.type === 'order') {
     P.work.order = P.work.order && P.work.orderQ === q.id ? P.work.order : q.items.map((i) => i.k); P.work.orderQ = q.id;
@@ -442,7 +501,7 @@ function bindQuestion(q) {
     };
     draw(); $('#lockSort').onclick = () => submit(q, { ...P.work.sort });
   }
-  if (q.type === 'text' || q.type === 'smash' || q.type === 'wheel' || q.type === 'highlow' || q.type === 'rhyme' || q.type === 'club' || q.type === 'dingbat' || q.type === 'tune') { $('#textForm').onsubmit = (e) => { e.preventDefault(); const t = $('#textIn').value.trim(); if (!t) return; submit(q, t); }; setTimeout(() => $('#textIn')?.focus(), 50); }
+  if (q.type === 'text' || q.type === 'smash' || q.type === 'wheel' || q.type === 'highlow' || q.type === 'rhyme' || q.type === 'club' || q.type === 'dingbat' || q.type === 'tune' || q.type === 'nearest') { $('#textForm').onsubmit = (e) => { e.preventDefault(); const t = $('#textIn').value.trim(); if (!t) return; if (q.type === 'nearest' && !Number.isFinite(LQ.parseNum(t))) { $('#numErr').textContent = 'Type a number, like 1250'; return; } submit(q, t); }; setTimeout(() => $('#textIn')?.focus(), 50); }
   if (q.type === 'highlow' && $('#askLow')) $('#askLow').onclick = () => { P.low[q.id] = true; send('hint', { pid: P.pid, qId: q.id }); $('#hlbox').innerHTML = hlHtml(q); };
   if (q.type === 'order') {
     const draw = () => {
@@ -482,7 +541,7 @@ function resultHtml(s, r) {
   if (!r) return `<div class="state"><h2>Results are on the screen</h2></div>`;
   const wipeQ = s.qType === 'wipeout' || r.wiped || r.points < 0, raceQ = s.qType === 'race' || r.raced;
   const cls = r.points < 0 ? 'neg' : r.correct || r.place ? 'ok' : raceQ ? 'part' : r.partial > 0 ? 'part' : 'no';
-  const head = r.note && ['potato', 'koth', 'blockbusters', 'chase'].includes(s.qType) ? esc(r.note) : r.skipped ? '⏭ Skipped' : r.wiped ? '💥 Wiped out!' : r.lost ? `💨 Last place · ${r.got ?? 0} right` : r.place === 2 ? `🥈 Second place · ${r.got ?? 0} right` : r.place === 3 ? `🥉 Third place · ${r.got ?? 0} right` : wipeQ ? (r.points > 0 ? '✓ Nice picking!' : 'No points this round') : raceQ ? (r.correct ? `🏆 You won the race! · ${r.got ?? 0} right` : r.out ? `Out of the race · ${r.got ?? 0} right` : `${r.got ?? 0} right`) : r.correct ? '✓ Correct!' : !r.answered ? 'Too slow!' : r.partial > 0 ? 'Partly right' : '✗ Not this time';
+  const head = r.note && ['potato', 'koth', 'blockbusters', 'chase', 'nearest', 'draw'].includes(s.qType) ? esc(r.note) : r.skipped ? '⏭ Skipped' : r.wiped ? '💥 Wiped out!' : r.lost ? `💨 Last place · ${r.got ?? 0} right` : r.place === 2 ? `🥈 Second place · ${r.got ?? 0} right` : r.place === 3 ? `🥉 Third place · ${r.got ?? 0} right` : wipeQ ? (r.points > 0 ? '✓ Nice picking!' : 'No points this round') : raceQ ? (r.correct ? `🏆 You won the race! · ${r.got ?? 0} right` : r.out ? `Out of the race · ${r.got ?? 0} right` : `${r.got ?? 0} right`) : r.correct ? '✓ Correct!' : !r.answered ? 'Too slow!' : r.partial > 0 ? 'Partly right' : '✗ Not this time';
   const medal = raceQ && !r.lost ? (r.correct ? '🏆' : r.place === 2 ? '🥈' : r.place === 3 ? '🥉' : '') : '';
   if (medal && navigator.vibrate) try { navigator.vibrate(r.correct ? [120, 60, 120, 60, 300] : 150); } catch {}
   return `<div class="result ${cls}">${medal ? `<div class="rpmedal">${medal}</div>` : ''}<div style="font-size:1.6rem;font-weight:900">${head}</div>${r.practice ? `<div class="pts" style="opacity:.55">${r.would > 0 ? '+' : ''}${r.would}</div><div style="font-weight:900">🧪 Practice: that would have been your score. It doesn't count.</div>` : `<div class="pts">${r.points > 0 ? '+' : ''}${r.points}</div>`}

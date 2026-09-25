@@ -454,6 +454,10 @@ Question types and their JSON shapes (use only the types you are asked for, and 
   A pin question is two tests in one: the text asks a fact the player must know, and the place is the answer they then have to find on the map. Never name the place, or a giveaway of it, in the text ("Which city hosted the 2016 Olympics?" → Rio de Janeiro; "In which state was the Declaration of Independence signed?" → Pennsylvania). "Drop the pin on X" is never acceptable.
   Only countries, cities, seas and famous landmarks. lat/lon of its centre in decimal degrees; sizeKm is roughly how wide the place is (a city ~30, a small country ~300, a large country ~2000). "region" is the blank map to show: the country the place is in for a city or landmark, the continent for a country, "World" only when the place spans continents or the question is about the world. Use the English Wikipedia name for the country or continent (France, United Kingdom, USA, Europe, Africa, South America, Australia). Never put the region's name in the question text when it gives the answer away.
 - "tf": {"type":"tf","text":"<a statement>","answer":true}
+- "nearest": {"type":"nearest","text":"How many steps are there to the top of Grey's Monument?","answer":164,"unit":"steps","spread":80}
+  Nearest Wins, like House of Games' Distinctly Average: a question whose answer is ONE certain number, and players guess how close they can get (closest wins). Pick numbers people misjudge, never ones everybody knows: heights, lengths, years, counts, distances, records, ages, populations, prices at the time. "answer" is a plain number (no commas or units); "unit" is a short word for what it counts, or "" for a year; "spread" is how far off a guess can be and still score a little: about 25 for a year, about half the answer for most other numbers. The number must be stable and verifiable: say "at the 2021 census", "when it opened" and so on where it could change.
+- "draw": {"type":"draw","text":"Draw It: at the seaside","words":["Sandcastle","Deckchair","Seagull","Ice cream","Lighthouse","Crab","Bucket and spade","Pier","Donkey","Beach hut","Surfboard","Sunglasses"]}
+  Draw It (Pictionary on phones): players take turns to draw a word for the others to guess. Give 12 to 20 words on the round's theme that can be DRAWN without writing letters: concrete, picturable things and places, one to three words each, known to everyone in the room. No abstract ideas, no brand names that only work as a logo.
   A crisp statement that is definitely true or definitely false. Mix true and false across the set.
 - "sort": {"type":"sort","text":"Which of these actors have been in Coronation Street?","categories":["Been in Coronation Street","Never been in Coronation Street"],"items":[{"text":"...","category":"<exactly one of the categories>"}]}
   2 to 4 categories, 4 to 8 items, at least one item per category. Every placement must be certain.
@@ -496,7 +500,7 @@ async function finishRaw(raw: any[], count: number, usedPictures: string[], want
 
   const questions = await Promise.all(raw.slice(0, count).map(async (r) => {
     const time = Math.min(90, Math.max(10, Math.round(+r.time || 25)));
-    const base: any = { id: uid("q"), type: r.type, text: String(r.text || r.phrase || (r.type === "tune" ? r.track : r.type === "dingbat" ? "Say what you see" : "") || "").trim(), time, media: { kind: "none" }, partial: false };
+    const base: any = { id: uid("q"), type: r.type, text: String(r.text || r.phrase || (r.type === "tune" ? r.track : r.type === "dingbat" ? "Say what you see" : r.type === "draw" ? "Draw It" : "") || "").trim(), time, media: { kind: "none" }, partial: false };
     if (["easy", "medium", "hard"].includes(r.difficulty)) base.difficulty = r.difficulty; // easy / medium / hard, from the writer or the bank file
     if (!base.text) return null;
 
@@ -547,6 +551,19 @@ async function finishRaw(raw: any[], count: number, usedPictures: string[], want
     if (r.type === "tf") {
       if (typeof r.answer !== "boolean") return null;
       base.answer = r.answer;
+      return base;
+    }
+    if (r.type === "nearest") {
+      const n = typeof r.answer === "number" ? r.answer : parseFloat(String(r.answer ?? "").replace(/[,£$€\s]/g, ""));
+      if (!Number.isFinite(n)) return null;
+      base.answer = String(n); base.unit = String(r.unit ?? "").trim().slice(0, 20);
+      const sp = +r.spread; base.spread = Number.isFinite(sp) && sp > 0 ? sp : null; base.time = 25; base.media = { kind: "none" };
+      return base;
+    }
+    if (r.type === "draw") {
+      const words = [...new Set((Array.isArray(r.words) ? r.words : []).map((w: unknown) => String(w ?? "").trim()).filter((w: string) => w && w.length <= 30))].slice(0, 30);
+      if (words.length < 6) return null;
+      base.text = String(r.text || "Draw It").trim() || "Draw It"; base.words = words; base.turns = 3; base.guessPoints = 500; base.drawerPoints = 100; base.time = 60; base.media = { kind: "none" };
       return base;
     }
     if (r.type === "sort") {
@@ -861,7 +878,7 @@ Deno.serve(async (req) => {
 
     if (action === "generate") {
       if (!ANTHROPIC_KEY) return json({ error: "AI is not set up on the server yet — add ANTHROPIC_API_KEY as a Supabase secret." }, 503);
-      const KNOWN = ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel", "highlow", "rhyme", "club", "dingbat", "tune", "catchphrase", ...Object.keys(RACE_GAMES)];
+      const KNOWN = ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel", "highlow", "rhyme", "club", "dingbat", "tune", "catchphrase", "nearest", "draw", ...Object.keys(RACE_GAMES)];
       const asked = (Array.isArray(body.types) ? body.types : []).map(String);
       let types = asked.filter((t) => KNOWN.includes(t));
       // Hot Potato, King of the Hill and Blockbusters play on a race's bank of quick questions: take or write a race, then reshape it.
@@ -1023,7 +1040,7 @@ Deno.serve(async (req) => {
       // is stamped used + rejected, so it never comes round again but can be reviewed and improved later.
       const q = body.question && typeof body.question === "object" ? body.question : null;
       if (!q || !q.type) return json({ error: "Nothing to reject." }, 400);
-      if (RACE_GAMES[String(q.type)]) return json({ ok: true, skipped: true }); // these games keep no bank rows of their own
+      if (RACE_GAMES[String(q.type)] || q.type === "draw") return json({ ok: true, skipped: true }); // these games keep no bank rows of their own
       const quizId = UUID_RE.test(String(body.quizId || "")) ? String(body.quizId) : "";
       const row = await bankRow(String(q.kind || q.type));
       const at = new Date().toISOString();
@@ -1043,7 +1060,7 @@ Deno.serve(async (req) => {
       // as new stock if the AI wrote it, and is marked passed-over for this quiz so the swap brings a different one.
       const q = body.question && typeof body.question === "object" ? body.question : null;
       if (!q || !q.type) return json({ error: "Nothing to pass on." }, 400);
-      if (RACE_GAMES[String(q.type)]) return json({ ok: true, skipped: true }); // these games keep no bank rows of their own
+      if (RACE_GAMES[String(q.type)] || q.type === "draw") return json({ ok: true, skipped: true }); // these games keep no bank rows of their own
       const quizId = UUID_RE.test(String(body.quizId || "")) ? String(body.quizId) : "";
       const row = await bankRow(String(q.kind || q.type));
       let item = row.questions.find((x: any) => x.id === q.bankId) || row.questions.find((x: any) => nearDuplicate(x, q));
@@ -1077,7 +1094,7 @@ Deno.serve(async (req) => {
       for (const row of banks) for (const q of row.questions || []) if (q.used && q.used.quiz === id && !q.used.rejected) { delete q.used; touched.add(row); const t = row.settings.type; out[t] = out[t] || { restored: 0, added: 0, skipped: 0 }; out[t].restored++; }
       // 2. everything the writer made goes in as new stock, with a duplicate check against the whole bank of its type
       for (const q of (Array.isArray(quiz.questions) ? quiz.questions : [])) {
-        if (!q || !q.type || q.type === "slide" || RACE_GAMES[q.type]) continue; // slides are not questions, and the race-bank games have no bank rows of their own
+        if (!q || !q.type || q.type === "slide" || q.type === "draw" || RACE_GAMES[q.type]) continue; // slides are not questions, and the race-bank games have no bank rows of their own
         const t = String(q.kind || q.type); out[t] = out[t] || { restored: 0, added: 0, skipped: 0 };
         if (q.fromBank || q.bankId) continue; // already counted under restored
         let row = banks.find((r) => r.settings?.type === t);
@@ -1351,7 +1368,7 @@ async function bankRow(type: string): Promise<any> {
   const rows = await bankRows();
   const row = rows.find((r) => r.settings?.type === type);
   if (row) return row;
-  const label: Record<string, string> = { choice: "Multiple choice", text: "Type the answer", order: "Put in order", pin: "Drop the pin", match: "Match up", tf: "True or false", sort: "Categorise", wipeout: "Wipeout", race: "The Race", smash: "Answer Smash", wheel: "Wheel of Fortune", highlow: "Highbrow Lowbrow", rhyme: "Rhyme Time", club: "The 1% Club", catchphrase: "Catchphrase", dingbat: "Dingbats", tune: "Name That Tune" };
+  const label: Record<string, string> = { choice: "Multiple choice", text: "Type the answer", order: "Put in order", pin: "Drop the pin", match: "Match up", tf: "True or false", sort: "Categorise", wipeout: "Wipeout", race: "The Race", smash: "Answer Smash", wheel: "Wheel of Fortune", highlow: "Highbrow Lowbrow", rhyme: "Rhyme Time", club: "The 1% Club", catchphrase: "Catchphrase", dingbat: "Dingbats", tune: "Name That Tune", nearest: "Nearest Wins", draw: "Draw It" };
   const made = await rest(`quiz_quizzes`, { method: "POST", headers: { Prefer: "return=representation" }, body: JSON.stringify({ title: `Question bank: ${label[type] || type}`, settings: { bank: true, type }, questions: [] }) });
   return Array.isArray(made) ? made[0] : made;
 }
@@ -1388,7 +1405,7 @@ const WORD = (s: string) => new Set(norm(s).split(" ").filter((w) => w.length >=
 const THEME_STOP = new Set(["round", "rounds", "quiz", "quizzes", "question", "questions", "about", "based", "show", "shows", "series", "programme", "program", "from", "with", "that", "this", "these", "those", "their", "there", "what", "which", "some", "more", "most", "only", "mixed", "general", "knowledge", "trivia", "easy", "hard", "medium", "difficult", "tricky", "family", "friendly", "answer", "answers", "each", "every", "make", "made", "write", "include", "including", "like", "also", "just", "plus", "other", "things", "stuff", "anything", "everything", "famous", "popular", "classic", "best", "good", "great", "topic", "theme", "themed", "fun", "please", "want", "should", "would", "could", "about", "into", "over", "under", "your", "them", "they", "have", "been", "will", "than", "then", "when", "where", "while", "people", "players", "player", "team", "teams", "night", "tonight", "week", "weekly", "new", "untitled", "incorrect", "correct", "wrong", "right", "often", "think", "thinks", "thought", "actually", "really", "commonly", "usually", "mistake", "mistaken", "mistakes", "confuse", "confused", "trick", "tricks", "trap", "traps", "option", "options", "similar", "include", "includes", "adding", "fake", "real", "list", "lists", "ones", "called", "sound", "sounds", "instead", "rather", "though", "wipeout", "race", "smash", "catchphrase", "dingbat", "dingbats"]);
 const JUNK_CATEGORY = /^(round\s*\d*|new quiz|untitled.*|ai quiz|quiz|general|test.*)$/i;
 /** The games' own names. A round called "Wipeout" says which game it is, not what it is about, so these never count as a theme. */
-const GAME_NAME = /^(the\s+)?(wipeout|race|hot potato|king of the hill|blockbusters|the chase|chase|answer smash|smash|wheel of fortune|wheel|dingbats?|catchphrase|rhyme time|highbrow,? lowbrow|1% club|one per ?cent club|name that tune|multiple choice|true or false|true\/false|type the answer|put in order|drop the pin|match up|categorise|categorize)( round)?$/i;
+const GAME_NAME = /^(the\s+)?(wipeout|race|hot potato|king of the hill|blockbusters|the chase|chase|answer smash|smash|wheel of fortune|wheel|dingbats?|catchphrase|rhyme time|highbrow,? lowbrow|1% club|one per ?cent club|name that tune|multiple choice|true or false|true\/false|type the answer|put in order|drop the pin|match up|categorise|categorize|nearest wins|draw it)( round)?$/i;
 const junkCategory = (c: string) => JUNK_CATEGORY.test(c) || GAME_NAME.test(c.trim());
 /** Games built on a race's bank of quick questions, with the settings each starts with. They never get bank rows of their own. */
 const RACE_GAMES: Record<string, { label: string; set: () => Record<string, unknown> }> = {

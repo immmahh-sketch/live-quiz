@@ -164,6 +164,7 @@ function botAnswer(b, q, v) {
     for (const it of v.items) { const item = q.items.find((x) => 'I:' + x.id === keys[it.k]); const good = v.categories.find((c) => keys[c.k] === 'C:' + item.category); out[it.k] = (chance(b.skill) ? good : v.categories[Math.floor(Math.random() * v.categories.length)]).k; }
     return out;
   }
+  if (q.type === 'nearest') { const a = LQ.parseNum(q.answer), s = LQ.nearestSpread(q); const g = a + (ok ? rnd(-0.15, 0.15) : rnd(-1.4, 1.4)) * s; return String(Number.isInteger(a) ? Math.round(g) : Math.round(g * 100) / 100); }
   if (q.type === 'pin') {
     const spread = ok ? q.radiusFull * 0.8 : q.radiusZero * rnd(0.5, 1.6);
     const ang = rnd(0, Math.PI * 2);
@@ -255,7 +256,12 @@ function stateForPlayers() {
       s.chase = { step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, chaser: g.chaser, team: g.team, teamSteps: g.teamSteps, chaserSteps: g.chaserSteps, headStart: q.headStart ?? 2, target: q.target || 5, teamPrize: q.teamPrize ?? 1000, chaserPrize: q.chaserPrize ?? 200,
         row: g.step === 'q' && row ? rowForPhone(row, g.next) : null, answered: Object.keys(g.answered), first: g.first, wrongBy: g.wrongBy, right: g.step === 'show' && row ? row.right : null, result: g.result };
     }
-    if (s.potato || s.koth || s.bb || s.chase) s.names = Object.fromEntries(Object.values(G.players).map((p) => [p.id, { name: p.name, emoji: p.emoji || '' }]));
+    if (G.q.draw) {
+      const g = G.q.draw;
+      s.draw = { step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, turn: g.turn, turns: g.order.length, drawer: g.drawer, got: Object.keys(g.got), gotPts: Object.fromEntries(Object.entries(g.got).map(([k, v]) => [k, v.pts])), last: g.last, scores: g.scores,
+        hint: g.word ? LQ.drawHint(g.word, g.shown) : '', word: g.step === 'reveal' ? g.word : '', secret: g.drawer && g.step !== 'reveal' ? drawSecret(g.drawer, { choices: g.step === 'choose' ? g.choices : [], word: g.word }) : '' };
+    }
+    if (s.potato || s.koth || s.bb || s.chase || s.draw) s.names = Object.fromEntries(Object.values(G.players).map((p) => [p.id, { name: p.name, emoji: p.emoji || '' }]));
     if (G.q.race) { const r = G.q.race; s.race = { winner: r.winner, winnerName: r.winner ? G.players[r.winner]?.name : null, over: r.over, target: G.q.view.target, maxWrong: G.q.view.maxWrong ?? 10, players: Object.fromEntries(Object.entries(r.players).map(([pid, p]) => [pid, { idx: p.idx, correct: p.correct, wrong: p.wrong, out: p.out, why: p.why, done: p.done }])) }; }
   }
   if (G.phase === 'countdown') s.next = { type: question().kind || question().type, n: qNum(G.qIndex) };
@@ -292,6 +298,8 @@ function answerText(q) {
   if (q.type === 'potato') { const x = (G.q?.potato?.bombs || []).map((b) => b.exploded).filter(Boolean); return x.length ? `💥 ${x.map(pname).join(' and ')} ${x.length > 1 ? 'were' : 'was'} holding ${x.length > 1 ? 'the bombs' : 'the bomb'}` : 'The bomb never went off'; }
   if (q.type === 'koth') { const x = G.q?.koth?.winner; return x ? `👑 ${pname(x)} is King of the Hill` : `Nobody reached ${q.target || 3} points`; }
   if (q.type === 'chase') { const g = G.q?.chase; return g?.result === 'home' ? 'The team got home!' : g?.result === 'caught' ? `${pname(g.chaser)} caught the team` : 'The chase was stopped'; }
+  if (q.type === 'nearest') return LQ.fmtNum(LQ.parseNum(q.answer)) + (q.unit ? ' ' + q.unit : '');
+  if (q.type === 'draw') { const w = G.q?.draw?.used || []; return w.length ? 'The words: ' + w.join(', ') : 'Nothing was drawn'; }
   if (q.type === 'blockbusters') { const t = G.q?.bb?.winner; return t >= 0 ? `${q.teams[t].name} won the board` : 'Nobody linked their sides'; }
   return '';
 }
@@ -320,6 +328,7 @@ function onAnswer({ pid, qId, answer, low }) {
   if (G.q.koth) return kothAnswer(pid, answer);
   if (G.q.bb) return bbAnswer(pid, answer);
   if (G.q.chase) return chaseAnswer(pid, answer);
+  if (G.q.draw) return drawAnswer(pid, answer);
   if (G.q.answers[pid]) return;
   if (low) onHint({ pid, qId });
   G.q.answers[pid] = { answer, elapsed: Date.now() - G.q.startedAt };
@@ -443,7 +452,7 @@ function toTypeCard(i) {
 }
 // ------------------------------------------------------------------ the race's start: splash, 3-2-1, starting pistol
 /** The race's topic, without the "The Race:" it usually starts with. */
-function raceTopic(q) { const t = String(q.text || '').replace(/^(the race|hot potato|king of the hill|blockbusters|the chase)\s*[:\-–—]\s*/i, '').trim(); return t ? t[0].toUpperCase() + t.slice(1) : 'Quick-fire questions'; }
+function raceTopic(q) { const t = String(q.text || '').replace(/^(the race|hot potato|king of the hill|blockbusters|the chase|draw it)\s*[:\-–—]\s*/i, '').trim(); return t ? t[0].toUpperCase() + t.slice(1) : 'Quick-fire questions'; }
 /** Beeps for the countdown and a crack for the pistol, made in the browser. Quiet when the music is off. */
 let sfx = null, sfxMaster = null, sfxTap = null;
 // Every sound goes through one gain node, so the quiz call can take a copy of it.
@@ -567,7 +576,7 @@ function startRaceIntro(i) {
   }, 1000);
 }
 function startCountdown(i) {
-  if (LQ.BANK_GAMES.includes(G.quiz.questions[i]?.type)) return startRaceIntro(i); // a splash first; the race adds 3-2-1 and the pistol
+  if (LQ.BANK_GAMES.includes(G.quiz.questions[i]?.type) || G.quiz.questions[i]?.type === 'draw') return startRaceIntro(i); // a splash first; the race adds 3-2-1 and the pistol
   clearInterval(tickT); clearInterval(countT); if (typeof stopTune === 'function') stopTune(); G.raceIntro = null;
   G.qIndex = i; G.phase = 'countdown'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString();
   persist(); render(); broadcastState();
@@ -628,6 +637,7 @@ function buildView(q) {
   if (q.type === 'dingbat') { v.elements = (q.elements || []).filter((e) => (e.t || '').trim()); }
   if (q.type === 'tune') { v.text = LQ.tunePrompt(q); v.ask = q.ask; v.media = null; v.clip = q.media?.length || 15; }
   if (q.type === 'rhyme') { v.text2 = q.text2; }
+  if (q.type === 'nearest') v.unit = q.unit || '';
   if (q.type === 'wheel') { v.text = `${q.category}: solve the puzzle`; v.layout = LQ.wheelLayout(q.phrase).map((row) => row.map((t) => t.t === 'L' ? { t: 'L' } : t)); v.category = q.category; }
   if (q.type === 'race') {
     const good = q.bank.filter((b) => b.text.trim() && b.options[0].trim() && b.options.filter((o) => o.trim()).length >= 2);
@@ -740,7 +750,7 @@ function wipePick(pid, token) {
 // stateForPlayers(). Bots take part through the same answer handler a phone's message reaches.
 const pname = (pid) => G.players[pid]?.name || 'Player', pem = (pid) => G.players[pid]?.emoji || '🙂';
 function livePids() { const live = Object.keys(G.players).filter((pid) => present.has(pid)); return live.length ? live : Object.keys(G.players); }
-const gameKind = () => G.q?.potato ? 'potato' : G.q?.koth ? 'koth' : G.q?.bb ? 'bb' : G.q?.chase ? 'chase' : '';
+const gameKind = () => G.q?.potato ? 'potato' : G.q?.koth ? 'koth' : G.q?.bb ? 'bb' : G.q?.chase ? 'chase' : G.q?.draw ? 'draw' : '';
 /** The question's bank as playable rows, shuffled once: the right answer, and option tokens for the phones (right answer's token maps to R:). */
 function gameRows(q, tok) {
   return shuffle(LQ.goodRows(q)).map((b) => ({ id: b.id, text: b.text, right: b.options[0].trim(), options: shuffle(b.options.map((o, oi) => ({ o: o.trim(), oi })).filter((x) => x.o)).map((x, i) => ({ k: tok((x.oi === 0 ? 'R:' : 'W:') + b.id), text: x.o, c: i })) }));
@@ -751,7 +761,7 @@ const isRight = (row, k) => !!row && G.q.keys[k] === 'R:' + row.id;
 /** Moves every game deadline on by d ms (after a pause). */
 function shiftGame(d) {
   const p = G.q?.potato; if (p) for (const b of p.bombs) { b.fuseEnd += d; b.startedAt += d; if (b.passBy) b.passBy += d; }
-  for (const g of [G.q?.koth, G.q?.bb, G.q?.chase]) if (g?.until) g.until += d;
+  for (const g of [G.q?.koth, G.q?.bb, G.q?.chase, G.q?.draw]) if (g?.until) g.until += d;
 }
 function stepTo(g, step, ms) { g.step = step; g.until = ms ? Date.now() + ms : 0; g.total = ms || 0; }
 let gameTickAt = 0;
@@ -761,10 +771,160 @@ function gameTick() {
   const g = G.q[k], now = Date.now();
   const t = $('#timer'); if (t) { const tot = k === 'potato' ? 0 : g.total, rem = g.until - now; if (tot && g.until) { t.style.setProperty('--p', Math.max(0, rem / tot) * 100 + '%'); t.dataset.s = Math.max(0, Math.ceil(rem / 1000)); t.classList.remove('hidden'); } else t.classList.add('hidden'); }
   if (k === 'potato') return potatoTick(now);
-  if (g.until && now >= g.until) { g.until = 0; if (k === 'koth') kothStepDone(); else if (k === 'chase') chaseStepDone(); else bbStepDone(); }
+  if (k === 'draw') drawTick(now);
+  if (g.until && now >= g.until) { g.until = 0; if (k === 'koth') kothStepDone(); else if (k === 'chase') chaseStepDone(); else if (k === 'draw') drawStepDone(); else bbStepDone(); }
   else if (k === 'koth' && g.step === 'answer') { const c = $('#kothCount'); if (c) c.textContent = Math.max(0, Math.ceil((g.until - now) / 1000)); }
 }
 function gameStop() { ask('Stop this game now?', 'Points scored so far are kept; nobody gets the winner\'s bonus unless they have already won.', 'Stop the game', 'Keep playing').then((ok) => { if (ok && G.phase === 'question') endQuestion(); }); }
+
+// ---- Draw It ----
+// Players take turns to draw. The artist picks one of two words, draws on their phone, and the strokes stream here
+// (normalised 0–1 on a 4:3 board) as they draw. Everyone else types guesses as often as they like; a right guess
+// scores more the sooner it comes, and the artist scores for each one. Letters of the word appear as the clock runs down.
+function drawStart() {
+  const q = question(), pids = shuffle(livePids());
+  const turns = Math.max(1, Math.min(+q.turns || 3, pids.length));
+  G.q.draw = { order: pids.slice(0, turns), turn: -1, drawer: null, choices: [], word: '', strokes: [], got: {}, scores: {}, hits: {}, drew: {}, feed: [], shown: [], last: {}, used: [], until: 0, total: 0, step: 'choose' };
+  drawNextTurn();
+}
+function drawPickWords(g, n = 2) {
+  const all = LQ.drawWords(question()), fresh = all.filter((w) => !g.used.includes(w) && !(G.drawUsed || []).includes(w));
+  return shuffle(fresh.length >= n ? fresh : all.filter((w) => !g.used.includes(w))).slice(0, n);
+}
+function drawNextTurn() {
+  const g = G.q.draw; g.turn++;
+  while (g.turn < g.order.length && !livePids().includes(g.order[g.turn])) g.turn++; // an artist who has left is skipped
+  if (g.turn >= g.order.length) return endQuestion();
+  g.drawer = g.order[g.turn]; g.choices = drawPickWords(g); g.word = ''; g.strokes = []; g.got = {}; g.feed = []; g.shown = []; g.last = {};
+  stepTo(g, 'choose', 12000); persist(); renderDraw(); broadcastState(); botDraw();
+}
+function drawChoose(i) {
+  const g = G.q.draw; if (g.step !== 'choose') return;
+  g.word = g.choices[i] ?? g.choices[0]; g.used.push(g.word); (G.drawUsed = G.drawUsed || []).push(g.word);
+  stepTo(g, 'draw', question().time * 1000); sound('go'); persist(); renderDraw(); broadcastState(); botDraw();
+}
+function drawAnswer(pid, a) {
+  const g = G.q.draw; if (!g || !a || typeof a !== 'object') return;
+  if (pid === g.drawer) {
+    if (g.step === 'choose' && Number.isInteger(a.pick)) return drawChoose(a.pick);
+    if (g.step !== 'draw') return;
+    if (a.clear) { g.strokes = []; g.dirty = true; return drawCanvasAll(); }
+    if (typeof a.undo === 'string') { g.strokes = g.strokes.filter((s) => s.id !== a.undo); g.dirty = true; return drawCanvasAll(); }
+    const st = a.st; if (!st || typeof st.id !== 'string' || !Array.isArray(st.p)) return;
+    let s = g.strokes.find((x) => x.id === st.id);
+    if (!s) { if (g.strokes.length >= 800) return; s = { id: st.id.slice(0, 24), c: /^#[0-9a-f]{6}$/i.test(st.c) ? st.c : '#111111', w: LQ.clamp(+st.w || 5, 1, 40), p: [] }; g.strokes.push(s); }
+    const from = s.p.length;
+    for (const v of st.p.slice(0, 600)) { const n = +v; if (Number.isFinite(n)) s.p.push(LQ.clamp(n, 0, 1)); }
+    if (s.p.length % 2) s.p.pop();
+    drawCanvasSeg(s, from); g.dirty = true; return;
+  }
+  if (g.step !== 'draw' || g.got[pid] || typeof a.guess !== 'string') return;
+  const text = a.guess.trim().slice(0, 60); if (!text) return;
+  const n = LQ.normText(text), w = LQ.normText(g.word), m = textMatch(text, [g.word]);
+  // Right: the word, a near spelling, or a sentence with the word in it ("it's a windmill!").
+  if (m === 'right' || n === w || (w.length >= 3 && (' ' + n + ' ').includes(' ' + w + ' '))) {
+    const q = question(), frac = g.total ? Math.max(0, g.until - Date.now()) / g.total : 0, pts = Math.round((q.guessPoints ?? 500) * (0.3 + 0.7 * frac));
+    g.got[pid] = { at: Date.now(), pts }; g.scores[pid] = (g.scores[pid] || 0) + pts; g.hits[pid] = (g.hits[pid] || 0) + 1;
+    g.scores[g.drawer] = (g.scores[g.drawer] || 0) + (q.drawerPoints ?? 100); g.drew[g.drawer] = (g.drew[g.drawer] || 0) + 1;
+    delete g.last[pid]; sound('ding');
+    if (livePids().filter((x) => x !== g.drawer).every((x) => g.got[x])) { g.until = 0; return drawStepDone(); }
+  } else {
+    const close = similarity(n, w) >= 0.6;
+    g.last[pid] = { t: text, close };
+    if (!close) { g.feed.push({ pid, text }); if (g.feed.length > 40) g.feed.splice(0, g.feed.length - 40); } // near misses stay off the screen: they'd give it away
+  }
+  persist(); drawUpdateSide(); broadcastState();
+}
+function drawStepDone() {
+  const g = G.q.draw;
+  if (g.step === 'choose') return drawChoose(Math.random() < 0.5 ? 0 : 1);
+  if (g.step === 'draw') { stepTo(g, 'reveal', 5000); sound(Object.keys(g.got).length ? 'fanfare' : 'trombone'); persist(); renderDraw(); broadcastState(); return; }
+  if (g.step === 'reveal') return drawNextTurn();
+}
+/** Ten times a second while drawing: a letter of the word turns over at half time and again at a quarter left. */
+function drawTick(now) {
+  const g = G.q.draw; if (!g) return;
+  if (g.step === 'draw' && g.total && g.word) {
+    const frac = (g.until - now) / g.total, want = frac < 0.25 ? 2 : frac < 0.5 ? 1 : 0;
+    const letters = [...g.word].map((c, i) => /[a-z0-9]/i.test(c) ? i : -1).filter((i) => i >= 0), most = Math.max(0, Math.floor(letters.length / 2) - 1);
+    while (g.shown.length < Math.min(want, most)) {
+      const left = letters.filter((i) => !g.shown.includes(i)); g.shown.push(left[Math.floor(Math.random() * left.length)]);
+      const h = $('#drawHint'); if (h) h.textContent = LQ.drawHint(g.word, g.shown); broadcastState();
+    }
+  }
+  if (g.dirty && now - (g.savedAt || 0) > 3000) { g.dirty = false; g.savedAt = now; persist(); }
+}
+/** The artist's words reach only their phone's screen: lightly scrambled with their id, so the others' phones never show them. */
+function drawSecret(pid, obj) { const s = unescape(encodeURIComponent(JSON.stringify(obj))); let out = ''; for (let i = 0; i < s.length; i++) out += String.fromCharCode(s.charCodeAt(i) ^ pid.charCodeAt(i % pid.length)); return btoa(out); }
+function botDraw() {
+  const g = G.q.draw; if (!g) return; const turn = g.turn, step = g.step, q = question();
+  const bot = (G.bots || []).find((b) => b.pid === g.drawer);
+  if (bot && step === 'choose') botLater(() => { if (G.q?.draw === g && g.turn === turn && g.step === 'choose') drawAnswer(bot.pid, { pick: Math.random() < 0.5 ? 0 : 1 }); }, rnd(1500, 4000));
+  if (step !== 'draw') return;
+  if (bot) { let n = 0; const one = () => { if (G.q?.draw !== g || g.turn !== turn || g.step !== 'draw' || n++ > 14) return; const cx = rnd(0.2, 0.8), cy = rnd(0.25, 0.75), r = rnd(0.04, 0.16), pts = []; for (let t = 0; t <= Math.PI * 2 + 0.3; t += 0.25) pts.push(+(cx + Math.cos(t) * r).toFixed(3), +(cy + Math.sin(t) * r * 1.33).toFixed(3)); drawAnswer(bot.pid, { st: { id: 'b' + turn + '_' + n, c: ['#111111', '#e21b3c', '#1368ce', '#26890c'][n % 4], w: 6, p: pts } }); botLater(one, rnd(500, 1300)); }; botLater(one, 700); }
+  for (const b of G.bots || []) {
+    if (b.pid === g.drawer) continue;
+    for (const k of [0, 1]) botLater(() => { if (G.q?.draw !== g || g.turn !== turn || g.step !== 'draw' || g.got[b.pid]) return; drawAnswer(b.pid, { guess: chance(b.skill * (k ? 0.9 : 0.5)) ? g.word : ['Cat', 'A house', 'Sun', 'Tree', 'Dog?', 'Car', 'Boat'][Math.floor(Math.random() * 7)] }); }, rnd(3000, q.time * 1000 * (k ? 0.85 : 0.5)) * (0.5 + b.pace));
+  }
+}
+function renderDraw() {
+  const q = question(), g = G.q.draw; if (!g) return;
+  const who = `${pem(g.drawer)} <b>${esc(pname(g.drawer))}</b>`;
+  let main;
+  if (g.step === 'choose') main = `<div class="drawwait"><div class="em">${pem(g.drawer)}</div><h2>${esc(pname(g.drawer))} is choosing a word…</h2><p>Drawing ${g.turn + 1} of ${g.order.length} · get ready to guess on your phone</p></div>`;
+  else main = `<div class="drawwrap"><div class="drawboard"><canvas id="drawCv"></canvas>${g.step === 'reveal' ? `<div class="drawreveal"><small>It was</small><b>${esc(g.word)}</b><span>${Object.keys(g.got).length ? `${Object.keys(g.got).length} guessed it` : 'Nobody got it!'}</span></div>` : ''}</div>
+    <div class="drawside"><div class="drawwho">${who} is drawing <small>${g.turn + 1} of ${g.order.length}</small></div><div class="drawhint" id="drawHint">${esc(g.step === 'reveal' ? g.word.toUpperCase() : LQ.drawHint(g.word, g.shown))}</div><div class="drawfeed" id="drawFeed">${drawFeedHtml(g)}</div></div></div>`;
+  stage.innerHTML = `${topBar(`<div class="pillbox"><div class="timer" id="timer" data-s="${q.time}" style="--p:100%"></div></div>`)}<div class="stage-main drawstage">${main}</div>
+    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button>${g.step !== 'reveal' ? '<button class="btn btn-ghost" id="drawSkip">Skip this drawing ⏭</button>' : ''}<button class="btn btn-primary" data-act="stopgame">Stop the game ■</button>`)}`;
+  bind();
+  if ($('#drawSkip')) $('#drawSkip').onclick = () => { if (G.q?.draw) { G.q.draw.until = 0; drawStepDone(); } };
+  drawCanvasAll();
+}
+function drawFeedHtml(g) {
+  const got = Object.entries(g.got).sort((a, b) => a[1].at - b[1].at).map(([pid, x]) => `<div class="df ok">✓ ${pem(pid)} ${esc(pname(pid))} got it <small>+${x.pts}</small></div>`).join('');
+  return got + g.feed.slice(-8).reverse().map((f) => `<div class="df">${esc(f.text)} <small>· ${esc(pname(f.pid))}</small></div>`).join('');
+}
+function drawUpdateSide() { const f = $('#drawFeed'); if (f && G.q?.draw) f.innerHTML = drawFeedHtml(G.q.draw); }
+function drawCanvasAll() {
+  const cv = $('#drawCv'), g = G.q?.draw; if (!cv || !g) return;
+  // The board is exactly 4:3, like the artist's phone, so the drawing is never stretched.
+  const wrap = $('.drawwrap'), side = $('.drawside'), board = cv.parentElement;
+  if (wrap && side && board) { const w = Math.max(120, Math.min(wrap.clientWidth - side.offsetWidth - 18, wrap.clientHeight * 4 / 3)); board.style.width = w + 'px'; board.style.height = w * 3 / 4 + 'px'; }
+  const r = cv.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+  cv.width = Math.max(1, Math.round(r.width * dpr)); cv.height = Math.max(1, Math.round(r.height * dpr));
+  const ctx = cv.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cv.width, cv.height);
+  for (const s of g.strokes) drawCanvasSeg(s, 0);
+}
+/** Draws a stroke from point index `from` on (joined onto the point before, so a stroke arriving in pieces is seamless). */
+function drawCanvasSeg(s, from) {
+  const cv = $('#drawCv'); if (!cv || s.p.length < 2) return;
+  const ctx = cv.getContext('2d'), W = cv.width, H = cv.height, p = s.p;
+  ctx.strokeStyle = s.c; ctx.fillStyle = s.c; ctx.lineWidth = Math.max(1, s.w * W / 600); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  if (p.length === 2) { ctx.beginPath(); ctx.arc(p[0] * W, p[1] * H, ctx.lineWidth / 2, 0, Math.PI * 2); ctx.fill(); return; }
+  const start = Math.max(0, from - 2);
+  ctx.beginPath(); ctx.moveTo(p[start] * W, p[start + 1] * H);
+  for (let i = start + 2; i < p.length; i += 2) ctx.lineTo(p[i] * W, p[i + 1] * H);
+  ctx.stroke();
+}
+window.addEventListener('resize', () => { if (G?.q?.draw) drawCanvasAll(); });
+
+// ---- Nearest Wins: the number line on the reveal ----
+function nearestHtml(q, st) {
+  const want = st.want, spread = LQ.nearestSpread(q), gs = st.guesses || [], unit = q.unit ? ' ' + esc(q.unit) : '', fmt = LQ.fmtNum;
+  let lo = Math.min(want, ...gs.map((x) => x.g)), hi = Math.max(want, ...gs.map((x) => x.g));
+  lo = Math.max(lo, want - 3 * spread); hi = Math.min(hi, want + 3 * spread); // a wild guess waits at the end of the line rather than squashing the rest
+  if (hi - lo < spread * 0.4) { lo -= spread * 0.3; hi += spread * 0.3; }
+  const pad = (hi - lo) * 0.06; lo -= pad; hi += pad;
+  const pos = (v) => LQ.clamp((v - lo) / (hi - lo) * 100, 0, 100);
+  const lanes = [], best = gs.length ? gs[0].d : null;
+  const marks = gs.slice().sort((a, b) => a.g - b.g).map((x) => { const p = pos(x.g); let lane = 0; while (lane < 6 && (lanes[lane] ?? -99) > p - 12) lane++; lanes[lane] = p; return { ...x, p, lane }; });
+  const nLanes = Math.max(1, ...marks.map((m) => m.lane + 1)), dropAt = 0.4 + marks.length * 0.12 + 0.6;
+  return `<div class="nwline" style="--lanes:${nLanes}">
+    <div class="nwaxis"></div><div class="nwend l">${fmt(lo)}</div><div class="nwend r">${fmt(hi)}</div>
+    ${marks.map((m, i) => `<div class="nw-g ${m.d === best ? 'best' : ''}" style="left:${m.p}%;--lane:${m.lane};animation-delay:${(0.4 + i * 0.12).toFixed(2)}s;--bd:${(dropAt + 0.5).toFixed(2)}s"><span class="nw-em">${m.emoji || '🙂'}</span><span class="nw-nm">${m.g < lo ? '◀ ' : m.g > hi ? '▶ ' : ''}${esc(m.name)} <b>${fmt(m.g)}</b></span></div>`).join('')}
+    <div class="nw-ans" style="left:${pos(want)}%;animation-delay:${dropAt.toFixed(2)}s"><span>🎯 ${fmt(want)}${unit}</span></div></div>
+    <div class="nwbest" style="animation-delay:${(dropAt + 0.6).toFixed(2)}s">${gs.length ? gs.filter((x) => x.d === best).map((x) => `🎯 Closest: ${x.emoji || ''} <b>${esc(x.name)}</b> with ${fmt(x.g)}${x.d ? ` (${fmt(x.d)} out)` : ' · spot on!'}`).join(' · ') : 'Nobody guessed.'}</div>`;
+}
 
 // ---- Hot Potato ----
 // One bomb, or two when more than ten are playing, each with its own hidden fuse (at least ten seconds apart, so they
@@ -1241,11 +1401,11 @@ function startQuestion() {
   clearInterval(countT); G.raceIntro = null;
   const q = question();
   const { view, keys, rows } = buildView(q);
-  const now = Date.now(), own = ['wipeout', 'potato', 'koth', 'blockbusters', 'chase'].includes(q.type); // these run their own clocks
+  const now = Date.now(), own = ['wipeout', 'potato', 'koth', 'blockbusters', 'chase', 'draw'].includes(q.type); // these run their own clocks
   G.q = { view, keys, rows, startedAt: now, deadline: own ? null : now + q.time * 1000, answers: {}, results: null };
   if (q.type === 'wheel') { G.q.wheelRevealed = (q.startLetters || '').toUpperCase().replace(/[^A-Z]/g, ''); G.q.nextReveal = now + (q.revealEvery || 4) * 1000; }
   G.phase = 'question'; persist();
-  if (q.type === 'potato' || q.type === 'koth' || q.type === 'blockbusters' || q.type === 'chase') { botClear(); if (q.type === 'potato') potatoStart(); else if (q.type === 'koth') kothStart(); else if (q.type === 'chase') chaseStart(); else bbStart(); startTick(); musicStart(q); return; }
+  if (q.type === 'potato' || q.type === 'koth' || q.type === 'blockbusters' || q.type === 'chase' || q.type === 'draw') { botClear(); if (q.type === 'potato') potatoStart(); else if (q.type === 'koth') kothStart(); else if (q.type === 'chase') chaseStart(); else if (q.type === 'draw') drawStart(); else bbStart(); startTick(); musicStart(q); return; }
   render();
   if (q.type === 'wipeout') wipeStart(); else if (q.type === 'race') raceStart(); else broadcastState();
   startTick(); botsOnQuestion(); musicStart(q);
@@ -1285,7 +1445,7 @@ function wheelReveal() {
 async function endQuestion() {
   musicStop();
   if (G.phase !== 'question') return;
-  if (!['wipeout', 'race', 'potato', 'koth', 'blockbusters', 'chase'].includes(question()?.type)) sound('gong');
+  if (!['wipeout', 'race', 'potato', 'koth', 'blockbusters', 'chase', 'draw'].includes(question()?.type)) sound('gong');
   clearInterval(tickT); botClear(); stopTune();
   G.phase = 'grading'; persist(); render(); broadcastState();
   try { G.q.results = await grade(); }
@@ -1304,6 +1464,7 @@ function answerDisplay(q, pid) {
   if (q.type === 'koth') { const g = G.q.koth; return g ? `${g.pts[pid] || 0} on the hill${g.winner === pid ? ', won 👑' : ''}` : '—'; }
   if (q.type === 'chase') { const g = G.q.chase; return !g ? '—' : pid === g.chaser ? 'the Chaser' : `team, ${(g.log || []).filter((l) => l.pid === pid).length} steps won`; }
   if (q.type === 'blockbusters') { const g = G.q.bb, t = g?.teams[pid]; return t === undefined ? '—' : `${question().teams[t].name}, ${Math.round((g.scores[pid] || 0) / (question().hexPoints || 50))} hexagons`; }
+  if (q.type === 'draw') { const g = G.q.draw; return g ? `guessed ${g.hits[pid] || 0}${g.order.includes(pid) ? `, ${g.drew[pid] || 0} guessed their drawing` : ''}` : '—'; }
   if (q.type === 'race') { const s = G.q.race?.players?.[pid]; return s ? `${s.correct} right of ${s.idx} answered${s.done ? ', finished' : s.out ? ', out' : ''}` : '—'; }
   if (!a) return '—';
   if (a.answer === 'skip') return 'skipped';
@@ -1314,6 +1475,7 @@ function answerDisplay(q, pid) {
   if (q.type === 'order') return (Array.isArray(ans) ? ans : []).map((t) => q.items.find((i) => i.id === keys[t])?.text || '?').join(' → ');
   if (q.type === 'match') return Object.entries(ans || {}).map(([lt, rt]) => { const p = q.pairs.find((x) => 'L:' + x.id === keys[lt]); const rp = q.pairs.find((x) => 'R:' + x.id === keys[rt]); return `${p?.left || '?'} → ${rp ? (rp.right.kind === 'image' ? '[picture of ' + rp.left + ']' : rp.right.value) : '?'}`; }).join('; ');
   if (q.type === 'sort') return Object.entries(ans || {}).map(([it, ct]) => { const item = q.items.find((x) => 'I:' + x.id === keys[it]); const cat = q.categories.find((c) => 'C:' + c.id === keys[ct]); return `${item?.text || '?'}: ${cat?.name || '?'}`; }).join('; ');
+  if (q.type === 'nearest') return String(ans ?? '') + (r.closest ? ' (closest)' : '');
   if (q.type === 'pin') return ans && isFinite(ans.x) ? (q.mode === 'area' ? (r.hit ? 'hit' : 'missed') : `pin at ${(ans.x * 100).toFixed(0)}%, ${(ans.y * 100).toFixed(0)}%` + (r.closest ? ' (closest)' : '')) : '—';
   return typeof ans === 'string' ? ans : JSON.stringify(ans);
 }
@@ -1466,6 +1628,29 @@ async function grade(noAi) {
       if (won) stats.right++;
     }
     stats.winner = g.winner; stats.counts = [0, 1].map((t) => g.owner.filter((o) => o === t).length); stats.answered = Object.keys(byPlayer).length;
+  }
+  if (q.type === 'draw') {
+    const g = G.q.draw || { scores: {}, hits: {}, drew: {}, order: [] };
+    for (const pid of new Set([...livePids(), ...Object.keys(g.scores)])) {
+      if (!G.players[pid]) continue;
+      const pts = g.scores[pid] || 0, h = g.hits[pid] || 0, drew = g.order.slice(0, g.turn + 1).includes(pid), k = g.drew[pid] || 0;
+      byPlayer[pid] = { answered: true, correct: pts > 0, partial: pts > 0 ? 1 : 0, points: pts, note: `🎨 You guessed ${h} drawing${h === 1 ? '' : 's'}${drew ? ` · ${k} guessed yours` : ''}` };
+      if (pts > 0) stats.right++;
+    }
+    stats.used = g.used || []; stats.answered = Object.keys(byPlayer).length;
+  }
+  if (q.type === 'nearest') {
+    const want = LQ.parseNum(q.answer), spread = LQ.nearestSpread(q), max = +set.maxPoints || 1000, list = [], fmt = LQ.fmtNum;
+    for (const [pid, a] of entries) {
+      const g = LQ.parseNum(a.answer);
+      if (!Number.isFinite(g)) { byPlayer[pid] = { answered: true, correct: false, partial: 0, points: 0, note: 'That wasn\'t a number' }; continue; }
+      const d = Math.abs(g - want), acc = Math.max(0, 1 - d / spread);
+      byPlayer[pid] = { answered: true, correct: false, partial: +acc.toFixed(3), points: Math.round(max * acc), guess: g, d, note: d === 0 ? `🎯 Spot on! ${fmt(g)}` : `You said ${fmt(g)}: ${fmt(d)} out` };
+      list.push({ pid, name: pname(pid), emoji: pem(pid), g, d });
+    }
+    list.sort((a, b) => a.d - b.d);
+    for (const x of list) if (x.d === list[0].d) { const r = byPlayer[x.pid]; r.closest = true; r.correct = true; r.partial = 1; r.points += 250; r.note = `🎯 Closest! You said ${fmt(x.g)}${x.d ? `, ${fmt(x.d)} out` : ''} · +250 bonus`; }
+    stats.right = list.filter((x) => byPlayer[x.pid].closest).length; stats.guesses = list; stats.want = want;
   }
   if (q.type === 'wipeout') {
     const w = G.q.wipe || { scores: {}, picks: [] };
@@ -1648,7 +1833,7 @@ const pick = (arr) => { const opts = arr.filter((x) => (Array.isArray(x) ? x[0] 
 let musicPlan = null;
 function planFor(q) {
   if (!q || q.type === 'tune' || q.type === 'koth' || q.media?.kind === 'youtube') return null; // King of the Hill is answered out loud
-  const T = ['wipeout', 'potato', 'blockbusters', 'chase'].includes(q.type) ? 0 : +q.time || 0;
+  const T = ['wipeout', 'potato', 'blockbusters', 'chase', 'draw'].includes(q.type) ? 0 : +q.time || 0;
   const bucket = T ? Object.keys(MUSIC.countdown).map(Number).sort((a, b) => a - b).find((b) => b >= T) : null;
   if (!bucket) return { qid: q.id, loop: true };
   const [id, dur] = pick(MUSIC.countdown[bucket]);
@@ -1777,13 +1962,14 @@ function introSub(q) {
   if (q.type === 'potato') return `The bomb is lit · answer right to pass it on · holding it when it blows costs ${q.penalty ?? 300} points`;
   if (q.type === 'koth') return `Fastest finger first, then head-to-head buzzers · answer out loud · ${q.perPoint ?? 100} per hill point · first to ${q.target || 3} gets a ${q.prize ?? 1000} bonus · ${q.maxRounds || 12} head-to-heads at most`;
   if (q.type === 'chase') return `The leader is the Chaser · everyone else starts ${q.headStart ?? 2} steps ahead · first right answer moves a step · ${q.target || 5} to get home`;
+  if (q.type === 'draw') return `${Math.max(1, +q.turns || 3)} drawings · the artist draws a secret word on their phone · everyone else guesses on theirs, as often as they like · quick guessers score most`;
   if (q.type === 'blockbusters') return `${q.teams[0].name} link left to right · ${q.teams[1].name} link top to bottom · first right answer wins the hexagon`;
   return '';
 }
 function renderRaceIntro() {
   const q = question(), ri = G.raceIntro, target = +q.target || 10;
   let main;
-  if (ri.kind && ri.kind !== 'race') { const T = TYPES[q.type]; main = `<div class="stage-main raceintro gamesplash ${q.type}"><div class="ri-flag">${T.icon}</div><div class="ri-kicker">${esc(T.label)}</div><h1 class="big ri-topic">${esc(raceTopic(q))}</h1><p class="ri-sub">${esc(introSub(q))}</p><p class="ri-ready">${q.type === 'chase' ? 'Who will the Chaser be…?' : q.type === 'blockbusters' ? 'Get ready to pick a side…' : q.type === 'koth' ? 'Fingers on your phones for fastest finger first…' : 'Nobody knows how long the fuse is…'}</p></div>`; }
+  if (ri.kind && ri.kind !== 'race') { const T = TYPES[q.type]; main = `<div class="stage-main raceintro gamesplash ${q.type}"><div class="ri-flag">${T.icon}</div><div class="ri-kicker">${esc(T.label)}</div><h1 class="big ri-topic">${esc(raceTopic(q))}</h1><p class="ri-sub">${esc(introSub(q))}</p><p class="ri-ready">${q.type === 'chase' ? 'Who will the Chaser be…?' : q.type === 'blockbusters' ? 'Get ready to pick a side…' : q.type === 'koth' ? 'Fingers on your phones for fastest finger first…' : q.type === 'draw' ? 'Warm up your drawing finger…' : 'Nobody knows how long the fuse is…'}</p></div>`; }
   else if (ri.step === 'splash') main = `<div class="stage-main raceintro"><div class="ri-flag">🏁</div><div class="ri-kicker">The Race</div><h1 class="big ri-topic">${esc(raceTopic(q))}</h1><p class="ri-sub">Quick-fire questions on your phone · first to ${target} right wins the prize · ${(q.maxWrong ?? 10) + 1} wrong and you're out</p><p class="ri-ready">Fingers on your phones…</p></div>`;
   else if (ri.step === 'count') main = `<div class="stage-main raceintro"><div class="ri-kicker">${esc(raceTopic(q))}</div><div class="ri-num" data-n="${ri.n}">${ri.n}</div><div class="ri-lights">${[3, 2, 1].map((k) => `<i class="${ri.n <= k ? 'on' : ''}"></i>`).join('')}</div></div>`;
   else main = `<div class="stage-main raceintro bang">${PISTOL_SVG}<div class="ri-bang">BANG!</div><div class="ri-go">GO!</div></div>`;
@@ -1811,6 +1997,7 @@ function renderQuestion() {
   if (q.type === 'koth') { if (G.q.koth) renderKoth(); return; }
   if (q.type === 'blockbusters') { if (G.q.bb) renderBB(); return; }
   if (q.type === 'chase') { if (G.q.chase) renderChase(); return; }
+  if (q.type === 'draw') { if (G.q.draw) renderDraw(); return; }
   if (q.type === 'choice' || q.type === 'tf') body = `<div class="answers">${v.options.map((o) => `<div class="ans" style="background:${COLORS[o.c].hex}"><span class="shape">${COLORS[o.c].shape}</span>${esc(o.text)}</div>`).join('')}</div>`;
   if (q.type === 'sort') body = `<div class="cats">${v.categories.map((c) => `<div class="cat"><h3>${esc(c.name)}</h3></div>`).join('')}</div><div class="items mt">${v.items.map((it) => `<div class="item">${esc(it.text)}</div>`).join('')}</div>`;
   if (q.type === 'text') body = `<div class="item" style="justify-content:center">✎ Type your answer on your phone</div>`;
@@ -1836,6 +2023,7 @@ function renderQuestion() {
   if (q.type === 'order') body = `<div class="items">${v.items.map((it) => `<div class="item">${esc(it.text)}</div>`).join('')}</div><div style="opacity:.75;font-weight:800;margin-top:8px">${esc(q.hint || 'Put them in order on your phone')}</div>`;
   if (q.type === 'match') body = `<div class="items">${v.left.map((l) => `<div class="item">${esc(l.text)}</div>`).join('')}</div><div class="items mt">${v.right.map((r, i) => `<div class="item"><span class="k">${i + 1}</span>${r.kind === 'image' ? `<img src="${esc(r.value)}">` : esc(r.value)}</div>`).join('')}</div>`;
   if (q.type === 'pin') body = `<div class="item" style="justify-content:center">📍 Tap the spot on your phone</div>`;
+  if (q.type === 'nearest') body = `<div class="item" style="justify-content:center">🎯 Type your best guess on your phone${q.unit ? ` · in ${esc(q.unit)}` : ''} · the closest wins</div>`;
   if (q.type === 'tune') body = `<div class="tunestage"><div class="vinyl" id="vinyl"><div class="label"></div></div><div class="tunemeta"><div class="tunehint">${esc(LQ.tunePrompt(q))}</div><div class="tuneprog"><i id="tuneBar"></i></div><div class="small" style="opacity:.75">${q.media?.length || 15}-second clip · type on your phone${q.ask === 'year' ? ` · within ${+q.tolerance || 0} year${+q.tolerance === 1 ? '' : 's'} counts` : ''}</div><button class="btn btn-ghost btn-sm" id="tuneAgain">▶ Play the clip again</button></div></div>`;
   stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill" id="answered">0 of ${players().length} answered</span><div class="timer" id="timer" data-s="${q.time}" style="--p:100%"></div></div>`)}
     <div class="stage-main">${q.type === 'smash' ? `${mediaHtml(q, true)}<h1 class="qtext smashclue"><span>+</span> ${esc(q.text)}</h1>` : `<h1 class="qtext">${esc(q.type === 'rhyme' || q.type === 'dingbat' ? '' : q.text)}</h1>${mediaHtml(q, true)}`}</div>
@@ -1957,14 +2145,17 @@ function renderReveal() {
     body = `<div class="center"><div style="font-weight:800;opacity:.85;font-size:1.3rem">${esc(q.pictureAnswer)} + ${esc(q.clueAnswer)} =</div><div class="smashline">${line}</div></div>
       <div class="textlist mt">${(R.stats.texts || []).slice(0, 30).map((t) => `<span class="tl ${t.ok === null ? '' : t.ok ? 'ok' : 'no'}">${esc(t.text || '—')} <span style="opacity:.7;font-size:.85em">· ${esc(t.name)}</span></span>`).join('')}</div>`;
   }
+  if (q.type === 'nearest') body = nearestHtml(q, R.stats);
+  if (q.type === 'draw') body = `<div class="drawsum"><div class="ri-kicker">The words</div>${(R.stats.used || []).map((w) => `<span class="tl ok">🎨 ${esc(w)}</span>`).join('') || '<span class="muted">Nothing was drawn.</span>'}</div>`;
   const media = q.type === 'pin' ? '' : (q.media?.kind === 'image' ? mediaHtml(q, false) : '');
-  const inMain = q.type === 'pin' || q.type === 'wipeout' || q.type === 'race' || q.type === 'wheel' || q.type === 'potato' || q.type === 'koth' || q.type === 'blockbusters' || q.type === 'chase';
-  stage.innerHTML = `${topBar(`<span class="hpill">${q.type === 'chase' ? `🏃 ${esc(R.stats.chaser?.name || '')} was the Chaser` : q.type === 'potato' ? `💣 ${R.stats.passes} passes` : q.type === 'koth' ? `First to ${q.target || 3} on the hill` : q.type === 'blockbusters' ? `${esc(q.teams[0].name)} ${R.stats.counts[0]} · ${esc(q.teams[1].name)} ${R.stats.counts[1]}` : q.type === 'wipeout' ? `${R.stats.right} scored` : q.type === 'race' ? `${(R.stats.standings || []).filter((s) => s.done).length} finished` : `${R.stats.right} of ${n} got it right${R.stats.skipped ? ` · ${R.stats.skipped} skipped` : ''}`}</span>`)}
+  const inMain = q.type === 'nearest' || q.type === 'draw' || q.type === 'pin' || q.type === 'wipeout' || q.type === 'race' || q.type === 'wheel' || q.type === 'potato' || q.type === 'koth' || q.type === 'blockbusters' || q.type === 'chase';
+  stage.innerHTML = `${topBar(`<span class="hpill">${q.type === 'nearest' ? `🎯 ${(R.stats.guesses || []).length} guesses` : q.type === 'draw' ? `🎨 ${(R.stats.used || []).length} drawings` : q.type === 'chase' ? `🏃 ${esc(R.stats.chaser?.name || '')} was the Chaser` : q.type === 'potato' ? `💣 ${R.stats.passes} passes` : q.type === 'koth' ? `First to ${q.target || 3} on the hill` : q.type === 'blockbusters' ? `${esc(q.teams[0].name)} ${R.stats.counts[0]} · ${esc(q.teams[1].name)} ${R.stats.counts[1]}` : q.type === 'wipeout' ? `${R.stats.right} scored` : q.type === 'race' ? `${(R.stats.standings || []).filter((s) => s.done).length} finished` : `${R.stats.right} of ${n} got it right${R.stats.skipped ? ` · ${R.stats.skipped} skipped` : ''}`}</span>`)}
     <div class="stage-main"><h1 class="qtext"${inMain && q.type !== 'pin' ? ' style="font-size:clamp(1.3rem,2.6vw,2.2rem)"' : ''}>${esc(q.type === 'wheel' ? q.phrase : q.type === 'highlow' || q.type === 'rhyme' || q.type === 'dingbat' ? '' : q.text)}</h1>${inMain ? body : media}</div>
     ${inMain ? '' : `<div>${body}</div>`}
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">${practiceQ() ? (G.qIndex + 1 < G.quiz.questions.length ? 'Next ▶' : 'Final results 🏆') : 'Scores ▶'}</button>`)}`;
   if (q.type === 'pin') drawPins();
   bind();
+  if (q.type === 'nearest' && !G.q.nearDone) { G.q.nearDone = true; persist(); sound('drumroll'); const at = (0.4 + (R.stats.guesses || []).length * 0.12 + 0.6) * 1000; setTimeout(() => { if (G.phase === 'reveal') sound('ding'); }, at + 350); }
   // The winner's moment: fanfare and confetti as the crown lands, once per race.
   if (q.type === 'race' && R.stats.winner && !G.q.podiumDone) { G.q.podiumDone = true; persist(); setTimeout(() => { if (G.phase === 'reveal') { sound('fanfare'); confetti(); } }, 2300); }
 }

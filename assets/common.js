@@ -78,6 +78,8 @@ window.LQ = (() => {
     koth:   { label: 'King of the Hill', icon: '👑', blurb: 'Fastest finger picks two players for a head-to-head buzzer battle, answered out loud. Right keeps you on the hill. First to the target wins the prize.' },
     chase:  { label: 'The Chase',       icon: '🏃', blurb: 'The leader becomes the Chaser and takes on everyone else as one team, who start a few steps ahead. First right answer on each question moves that side a step. Get home before you are caught.' },
     blockbusters: { label: 'Blockbusters', icon: '⬢', blurb: 'Two teams battle across a board of letter hexagons. First to type the answer claims the hex; the first team to link its two sides wins.' },
+    nearest:{ label: 'Nearest Wins',    icon: '🎯', blurb: 'A number question. Everyone guesses, the guesses go up on a number line, then the answer drops in. The closer you are, the more you score.' },
+    draw:   { label: 'Draw It',         icon: '🎨', blurb: 'One player draws a secret word on their phone and it appears live on the screen. Everyone else races to guess it. Quick guessers score, and so does the artist.' },
   };
   /** The games that run on a bank of quick questions, like The Race. */
   const BANK_GAMES = ['race', 'potato', 'koth', 'blockbusters', 'chase'];
@@ -181,6 +183,8 @@ window.LQ = (() => {
     koth: 'Fastest finger first picks two players to go head to head. Buzz on your phone, then say your answer out loud. Get it right and you stay on the hill and win a hill point: every one is worth points. First to the target wins the bonus too, but there are only so many head-to-heads.',
     chase: 'Whoever is in the lead is the Chaser. Everyone else plays as one team with a head start. The first right answer on each question moves that side one step: the team towards home, the Chaser towards the team. Get home before you are caught!',
     blockbusters: 'Pick a side, quick: each side holds half the players, so once one is full you join the other. Your side chooses a letter, and the answer starts with it. First to type the right answer wins the hexagon for their side. Link your two sides of the board to win.',
+    nearest: 'Type your best guess at the number. The closer you are, the more you score, and the closest of all gets a bonus.',
+    draw: 'When it is your turn, pick a word and draw it on your phone: no letters or numbers! Everyone else types guesses as fast as they can. Quick guessers score most, and the artist scores for every right guess.',
   };
   /** The build log: every writer call for a quiz, with what was asked and what came back, kept in its settings. */
   function genLog(settings, how, res, extra = {}) {
@@ -204,7 +208,7 @@ window.LQ = (() => {
     { name: 'yellow', hex: '#d89e00', shape: '●' },
     { name: 'green',  hex: '#26890c', shape: '■' },
   ];
-  const DEFAULT_TIMES = { catchphrase: 50, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30, potato: 90, koth: 15, blockbusters: 20, chase: 15 };
+  const DEFAULT_TIMES = { nearest: 25, draw: 60, catchphrase: 50, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30, potato: 90, koth: 15, blockbusters: 20, chase: 15 };
   const DEFAULT_SETTINGS = { maxPoints: 1000, minPoints: 500, defaultTime: 30, showAnswersOnPhones: true, timeByType: { ...DEFAULT_TIMES } };
 
   /** The time limit a question of this type gets by default in this quiz. */
@@ -266,6 +270,8 @@ window.LQ = (() => {
     if (type === 'rhyme') { q.text2 = ''; q.answer1 = ''; q.answer2 = ''; q.ai = true; }
     if (type === 'match') { q.pairs = [0, 1, 2, 3].map(() => ({ id: uid('p'), left: '', right: { kind: 'text', value: '' } })); }
     if (type === 'tf') { q.answer = true; }
+    if (type === 'nearest') { q.answer = ''; q.unit = ''; q.spread = null; }
+    if (type === 'draw') { q.text = 'Draw It'; q.turns = 3; q.words = []; q.guessPoints = 500; q.drawerPoints = 100; }
     if (type === 'sort') { q.categories = [0, 1].map(() => ({ id: uid('c'), name: '' })); q.items = [0, 1, 2, 3].map(() => ({ id: uid('i'), text: '', category: q.categories[0].id })); }
     if (type === 'wipeout') { q.right = Array.from({ length: 8 }, () => ({ id: uid('w'), text: '' })); q.wrong = Array.from({ length: 3 }, () => ({ id: uid('w'), text: '' })); q.pickPoints = 200; q.penalty = 500; q.study = 20; }
     if (type === 'race') { q.target = 10; q.maxWrong = 10; q.perCorrect = 100; q.prize = 500; q.prize2 = 200; q.prize3 = 100; q.forfeit = 200; q.bank = Array.from({ length: 20 }, () => newBankItem()); }
@@ -307,6 +313,15 @@ window.LQ = (() => {
       if (!(q.options || []).some((o) => o.id === q.correct && o.text.trim())) problems.push('Mark which answer is right.');
     }
     if (q.type === 'text' && !(q.answers || []).some((a) => a.trim())) problems.push('Needs an accepted answer.');
+    if (q.type === 'nearest') {
+      if (!Number.isFinite(parseNum(q.answer))) problems.push('Needs the answer as a number.');
+      if (q.spread != null && q.spread !== '' && !(parseNum(q.spread) > 0)) problems.push('"Points run out at" must be a number above nought, or blank for automatic.');
+    }
+    if (q.type === 'draw') {
+      const turns = +q.turns || 0, words = drawWords(q);
+      if (turns < 1 || turns > 12) problems.push('Between 1 and 12 drawings.');
+      if ((q.words || []).some((w) => String(w).trim()) && words.length < turns * 2) problems.push(`Needs at least ${turns * 2} words (two to choose from for each drawing), or leave the list empty to use the built-in words.`);
+    }
     if (q.type === 'order' && (q.items || []).filter((i) => i.text.trim()).length < 2) problems.push('Needs at least two items.');
     if (q.type === 'pin') {
       if (!q.media || q.media.kind !== 'image' || !q.media.url) problems.push('Needs a picture to drop the pin on.');
@@ -571,10 +586,50 @@ window.LQ = (() => {
   /** Bigger Apple artwork from the 100px thumbnail the search returns. */
   function bigArt(url) { return String(url || '').replace(/\/\d+x\d+bb\./, '/600x600bb.'); }
 
+  // ---------------------------------------------------------------- Nearest Wins
+  /** A number typed by a person: "1,250", "£3.5m", "12 000", "-4" all read as numbers. */
+  function parseNum(v) {
+    if (typeof v === 'number') return v;
+    const raw = String(v ?? '').trim().toLowerCase(), money = /[£$€]/.test(raw);
+    const s = raw.replace(/[£$€,]/g, '').replace(/(\d)\s+(?=\d)/g, '$1');
+    const m = s.match(/(-?\d*\.?\d+)(?![\d.])\s*(?:(thousand|million|billion|bn|k|m)(?![a-z]))?/); if (!m) return NaN;
+    const mult = { thousand: 1e3, k: 1e3, million: 1e6, billion: 1e9, bn: 1e9, m: money ? 1e6 : 1 }[m[2]] || 1; // 100m is metres, £100m is money
+    return parseFloat(m[1]) * mult;
+  }
+
+  /** How far off a guess can be before it scores nothing: set on the question, or worked out from the answer (a year: 25; otherwise half the answer). */
+  function nearestSpread(q) {
+    const set = parseNum(q.spread); if (set > 0) return set;
+    const a = parseNum(q.answer); if (!Number.isFinite(a)) return 1;
+    if (Number.isInteger(a) && a >= 1000 && a <= 2100) return 25;
+    return Math.max(Math.abs(a) * 0.5, 1);
+  }
+  /** A number for the screen: thousands separated, no stray decimals. */
+  function fmtNum(n) { if (!Number.isFinite(n)) return '?'; const r = Math.abs(n) >= 100 ? Math.round(n) : Math.round(n * 100) / 100; return Number.isInteger(r) && r >= 1000 && r <= 2100 ? String(r) : r.toLocaleString('en-GB'); } // years without a comma
+
+  // ---------------------------------------------------------------- Draw It
+  /** Words anyone can have a go at drawing, used when a Draw It question has no list of its own. */
+  const DRAW_WORDS = ['Banana', 'Umbrella', 'Snowman', 'Rocket', 'Pizza', 'Guitar', 'Bicycle', 'Castle', 'Spider', 'Rainbow', 'Toothbrush', 'Lighthouse', 'Volcano', 'Octopus', 'Ladder', 'Kite', 'Anchor', 'Cactus', 'Penguin', 'Helicopter',
+    'Sandcastle', 'Mermaid', 'Dragon', 'Crown', 'Teapot', 'Scissors', 'Glasses', 'Wheelbarrow', 'Tent', 'Candle', 'Hot dog', 'Ice cream', 'Snail', 'Tortoise', 'Giraffe', 'Elephant', 'Kangaroo', 'Hedgehog', 'Jellyfish', 'Shark',
+    'Bridge', 'Windmill', 'Igloo', 'Pyramid', 'Treasure chest', 'Pirate', 'Ghost', 'Robot', 'Alien', 'Wizard', 'Skateboard', 'Trampoline', 'Swing', 'Rollercoaster', 'Ferris wheel', 'Hot air balloon', 'Submarine', 'Tractor', 'Double-decker bus', 'Train',
+    'Football', 'Goalkeeper', 'Trophy', 'Medal', 'Boxing glove', 'Fishing rod', 'Golf', 'Darts', 'Snooker', 'Tennis racket', 'Bowling', 'Surfboard', 'Scarecrow', 'Chimney', 'Doorbell', 'Toaster', 'Kettle', 'Washing machine', 'Fridge', 'Sofa',
+    'Lamp', 'Clock', 'Alarm clock', 'Mobile phone', 'Television', 'Headphones', 'Camera', 'Microphone', 'Drum', 'Trumpet', 'Piano', 'Violin', 'Paintbrush', 'Pencil', 'Envelope', 'Stamp', 'Map', 'Compass', 'Magnet', 'Battery',
+    'Light bulb', 'Key', 'Padlock', 'Sword', 'Shield', 'Bow and arrow', 'Cowboy', 'Horse', 'Unicorn', 'Chicken', 'Egg', 'Frying pan', 'Sausage', 'Chips', 'Cheese', 'Sandwich', 'Birthday cake', 'Cupcake', 'Doughnut', 'Popcorn',
+    'Carrot', 'Pineapple', 'Strawberry', 'Mushroom', 'Tree', 'Palm tree', 'Flower', 'Sunflower', 'Leaf', 'Snowflake', 'Lightning', 'Tornado', 'Moon', 'Star', 'Sun', 'Cloud', 'Island', 'Mountain', 'Waterfall', 'Beach',
+    'Fireworks', 'Christmas tree', 'Pumpkin', 'Easter egg', 'Santa', 'Present', 'Balloon', 'Bubble', 'Spaceship', 'Astronaut', 'Dinosaur', 'Skeleton', 'Zombie', 'Vampire', 'Superhero', 'King', 'Queen', 'Angel', 'Clown', 'Chef',
+    'Angel of the North', 'Tyne Bridge', 'Stottie', 'Pint of beer', 'Fish and chips', 'Seagull', 'Magpie', 'Black cat', 'Football shirt', 'Referee', 'Bus stop', 'Traffic lights', 'Roundabout', 'Car park', 'Shopping trolley', 'Tattoo', 'Beard', 'Moustache', 'Handbag'];
+  /** The words a Draw It question plays with: its own list, or the built-in one. No repeats. */
+  function drawWords(q) {
+    const own = (q?.words || []).map((w) => String(w).trim()).filter(Boolean);
+    return [...new Set(own.length ? own : DRAW_WORDS)];
+  }
+  /** The word as the guessers see it: a line per letter, spaces and hyphens kept, some letters shown. */
+  function drawHint(word, shown = []) { return [...String(word)].map((ch, i) => /[a-z0-9]/i.test(ch) ? (shown.includes(i) ? ch.toUpperCase() : '_') : ch === ' ' ? '\u2003' : ch).join(' '); }
+
   function fmtTime(ms) { const s = Math.max(0, Math.ceil(ms / 1000)); return s + 's'; }
   function ordinal(n) { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
   return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
-    TYPES, BANK_GAMES, NEW_GAME_DEFAULTS, goodRows, BB_COLS, BB_ROWS, bbNeighbours, bbPath, bbBoardHtml, inkOn, SLIDE, BREAK, isPractice, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
+    TYPES, BANK_GAMES, NEW_GAME_DEFAULTS, parseNum, nearestSpread, fmtNum, DRAW_WORDS, drawWords, drawHint, goodRows, BB_COLS, BB_ROWS, bbNeighbours, bbPath, bbBoardHtml, inkOn, SLIDE, BREAK, isPractice, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
     newCode, playUrl, shortPlayUrl, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml, addUsage, usageCost, usageSummary, AI_PRICES, TUNE_ASKS, tunePrompt, bigArt, cleanTitle };
 })();
