@@ -939,3 +939,9 @@ body.player:has(.app.turn-buzz) { background: #fff3c4; }
 .app.turn-chaser { background: #ffe0e5; }
 body.player:has(.app.turn-chaser) { background: #ffe0e5; }
 @media (prefers-reduced-motion: reduce) { .chdrum { animation: none; display: none; } .chwho { animation: none; opacity: 1; } }
+/* Phones in a browser tab: the steps to add the app to the home screen */
+.installsteps { margin: 8px 0 14px; padding-left: 1.3em; display: grid; gap: 10px; font-weight: 700; line-height: 1.4; }
+.installsteps li::marker { font-weight: 900; color: var(--brand); }
+.shareic { display: inline-grid; place-items: center; width: 1.6em; height: 1.6em; border-radius: 6px; background: var(--brand-soft); color: var(--brand); font-weight: 900; }
+.installcode { margin-top: 14px; text-align: center; color: var(--ink-2); font-weight: 800; }
+.installcode b { display: block; font-size: 2rem; letter-spacing: .12em; color: var(--ink); }
