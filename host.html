@@ -17,6 +17,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="assets/common.js"></script>
+<script src="assets/quizcall.js"></script>
 <script src="assets/dpad.js"></script>
 <script src="assets/demo-quiz.js"></script>
 <script>
@@ -444,26 +445,38 @@ function toTypeCard(i) {
 /** The race's topic, without the "The Race:" it usually starts with. */
 function raceTopic(q) { const t = String(q.text || '').replace(/^(the race|hot potato|king of the hill|blockbusters|the chase)\s*[:\-–—]\s*/i, '').trim(); return t ? t[0].toUpperCase() + t.slice(1) : 'Quick-fire questions'; }
 /** Beeps for the countdown and a crack for the pistol, made in the browser. Quiet when the music is off. */
-let sfx = null;
+let sfx = null, sfxMaster = null, sfxTap = null;
+// Every sound goes through one gain node, so the quiz call can take a copy of it.
+function sfxBus(ac) { if (!sfxMaster) { sfxMaster = ac.createGain(); sfxMaster.connect(ac.destination); } return sfxMaster; }
+// The sound effects as a stream, for the Fire TV quiz call (a browser tab shares its own sound).
+// A silent constant source keeps packets flowing between sounds, or the call drops the track.
+LQ.soundStream = () => {
+  try {
+    sfx = sfx || new (window.AudioContext || window.webkitAudioContext)();
+    if (!sfxTap) { sfxTap = sfx.createMediaStreamDestination(); sfxBus(sfx).connect(sfxTap); const k = sfx.createConstantSource(); k.offset.value = 0; k.connect(sfxTap); k.start(); }
+    if (sfx.state === 'suspended') sfx.resume().catch(() => {});
+    return sfxTap.stream;
+  } catch { return null; }
+};
 function sound(kind) {
   if (!musicOn()) return;
   try {
-    sfx = sfx || new (window.AudioContext || window.webkitAudioContext)(); const ac = sfx, t = ac.currentTime;
+    sfx = sfx || new (window.AudioContext || window.webkitAudioContext)(); const ac = sfx, t = ac.currentTime, out = sfxBus(ac);
     if (kind === 'wipeout') {
       // A slide whistle falling, a crash as it lands, and a wobbly boing.
       const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sine';
       o.frequency.setValueAtTime(1400, t); o.frequency.exponentialRampToValueAtTime(140, t + 0.75);
       g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.2, t + 0.04); g.gain.setValueAtTime(0.2, t + 0.6); g.gain.exponentialRampToValueAtTime(0.001, t + 0.8);
-      o.connect(g).connect(ac.destination); o.start(t); o.stop(t + 0.85);
+      o.connect(g).connect(out); o.start(t); o.stop(t + 0.85);
       const len = Math.floor(ac.sampleRate * 1.2), buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0);
       for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3);
       const n = ac.createBufferSource(), f = ac.createBiquadFilter(), ng = ac.createGain();
       n.buffer = buf; f.type = 'lowpass'; f.frequency.setValueAtTime(1800, t + 0.78); f.frequency.exponentialRampToValueAtTime(200, t + 1.9); ng.gain.value = 0.8;
-      n.connect(f).connect(ng).connect(ac.destination); n.start(t + 0.78);
+      n.connect(f).connect(ng).connect(out); n.start(t + 0.78);
       const b = ac.createOscillator(), bg = ac.createGain(), lfo = ac.createOscillator(), lg = ac.createGain(); b.type = 'triangle';
       b.frequency.setValueAtTime(220, t + 0.85); b.frequency.exponentialRampToValueAtTime(90, t + 1.6); lfo.frequency.value = 14; lg.gain.value = 18; lfo.connect(lg).connect(b.frequency);
       bg.gain.setValueAtTime(0.0001, t + 0.85); bg.gain.exponentialRampToValueAtTime(0.18, t + 0.9); bg.gain.exponentialRampToValueAtTime(0.001, t + 1.7);
-      b.connect(bg).connect(ac.destination); b.start(t + 0.85); b.stop(t + 1.75); lfo.start(t + 0.85); lfo.stop(t + 1.75);
+      b.connect(bg).connect(out); b.start(t + 0.85); b.stop(t + 1.75); lfo.start(t + 0.85); lfo.stop(t + 1.75);
     } else if (kind === 'trombone') {
       // Wah wah wah waaah: four falling notes, the last one wobbling down.
       [[311, 0, .45], [294, .5, .45], [277, 1, .45], [262, 1.5, 1.3]].forEach(([f, at, len], i) => {
@@ -471,67 +484,67 @@ function sound(kind) {
         if (i === 3) { const l = ac.createOscillator(), lg = ac.createGain(); l.frequency.value = 6; lg.gain.value = 8; l.connect(lg).connect(o.frequency); l.start(t + at); l.stop(t + at + len); o.frequency.linearRampToValueAtTime(f - 30, t + at + len); }
         g.gain.setValueAtTime(0.0001, t + at); g.gain.exponentialRampToValueAtTime(0.12, t + at + 0.05); g.gain.exponentialRampToValueAtTime(0.001, t + at + len);
         const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 1200;
-        o.connect(lp).connect(g).connect(ac.destination); o.start(t + at); o.stop(t + at + len + 0.05);
+        o.connect(lp).connect(g).connect(out); o.start(t + at); o.stop(t + at + len + 0.05);
       });
     } else if (kind === 'fanfare') {
       [[523, 0, .16], [659, .14, .16], [784, .28, .16], [1047, .42, .7]].forEach(([f, at, len]) => {
         const o = ac.createOscillator(), g = ac.createGain(); o.type = 'triangle'; o.frequency.value = f;
         g.gain.setValueAtTime(0.0001, t + at); g.gain.exponentialRampToValueAtTime(0.22, t + at + 0.02); g.gain.exponentialRampToValueAtTime(0.001, t + at + len);
-        o.connect(g).connect(ac.destination); o.start(t + at); o.stop(t + at + len + 0.05);
+        o.connect(g).connect(out); o.start(t + at); o.stop(t + at + len + 0.05);
       });
     } else if (kind === 'gong') {
       // A gong struck: low inharmonic partials with a long shimmering decay, and a crash of cymbal on top.
-      [[82, .5], [165, .35], [231, .25], [297, .18], [412, .12], [553, .08]].forEach(([fq, vol], i) => { const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sine'; o.frequency.setValueAtTime(fq * 1.02, t); o.frequency.exponentialRampToValueAtTime(fq, t + 1.5); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol * 0.5, t + 0.02 + i * 0.01); g.gain.exponentialRampToValueAtTime(0.001, t + 3.2 - i * 0.2); o.connect(g).connect(ac.destination); o.start(t); o.stop(t + 3.3); });
+      [[82, .5], [165, .35], [231, .25], [297, .18], [412, .12], [553, .08]].forEach(([fq, vol], i) => { const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sine'; o.frequency.setValueAtTime(fq * 1.02, t); o.frequency.exponentialRampToValueAtTime(fq, t + 1.5); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol * 0.5, t + 0.02 + i * 0.01); g.gain.exponentialRampToValueAtTime(0.001, t + 3.2 - i * 0.2); o.connect(g).connect(out); o.start(t); o.stop(t + 3.3); });
       const len = Math.floor(ac.sampleRate * 2.5), buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0);
       for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.5);
-      const n = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain(); n.buffer = buf; f.type = 'highpass'; f.frequency.value = 2500; g.gain.value = 0.45; n.connect(f).connect(g).connect(ac.destination); n.start(t);
+      const n = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain(); n.buffer = buf; f.type = 'highpass'; f.frequency.value = 2500; g.gain.value = 0.45; n.connect(f).connect(g).connect(out); n.start(t);
     } else if (kind === 'drumroll') {
       // A snare roll building up, then a cymbal crash as the Chaser is revealed.
-      for (let k = 0; k < 60; k++) { const at = t + k * 0.07, len = Math.floor(ac.sampleRate * 0.05), buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0); for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3); const n = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain(); n.buffer = buf; f.type = 'bandpass'; f.frequency.value = 1800; g.gain.value = 0.15 + 0.5 * (k / 60); n.connect(f).connect(g).connect(ac.destination); n.start(at); }
+      for (let k = 0; k < 60; k++) { const at = t + k * 0.07, len = Math.floor(ac.sampleRate * 0.05), buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0); for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3); const n = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain(); n.buffer = buf; f.type = 'bandpass'; f.frequency.value = 1800; g.gain.value = 0.15 + 0.5 * (k / 60); n.connect(f).connect(g).connect(out); n.start(at); }
       const len = Math.floor(ac.sampleRate * 2), buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0); for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2);
-      const n = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain(); n.buffer = buf; f.type = 'highpass'; f.frequency.value = 3000; g.gain.value = 0.6; n.connect(f).connect(g).connect(ac.destination); n.start(t + 4.3);
+      const n = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain(); n.buffer = buf; f.type = 'highpass'; f.frequency.value = 3000; g.gain.value = 0.6; n.connect(f).connect(g).connect(out); n.start(t + 4.3);
     } else if (kind === 'chaser') {
       // A low, menacing two-note stab as the Chaser closes in.
-      [[98, 0], [92.5, 0.28]].forEach(([fq, at]) => { const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sawtooth'; o.frequency.value = fq; g.gain.setValueAtTime(0.0001, t + at); g.gain.exponentialRampToValueAtTime(0.3, t + at + 0.03); g.gain.exponentialRampToValueAtTime(0.001, t + at + 0.5); const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 700; o.connect(lp).connect(g).connect(ac.destination); o.start(t + at); o.stop(t + at + 0.55); });
+      [[98, 0], [92.5, 0.28]].forEach(([fq, at]) => { const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sawtooth'; o.frequency.value = fq; g.gain.setValueAtTime(0.0001, t + at); g.gain.exponentialRampToValueAtTime(0.3, t + at + 0.03); g.gain.exponentialRampToValueAtTime(0.001, t + at + 0.5); const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 700; o.connect(lp).connect(g).connect(out); o.start(t + at); o.stop(t + at + 0.55); });
     } else if (kind === 'caught') {
-      [[196, 0, .3], [185, .3, .3], [175, .6, .3], [110, .9, 1.4]].forEach(([fq, at, len]) => { const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sawtooth'; o.frequency.value = fq; g.gain.setValueAtTime(0.0001, t + at); g.gain.exponentialRampToValueAtTime(0.25, t + at + 0.03); g.gain.exponentialRampToValueAtTime(0.001, t + at + len); const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 900; o.connect(lp).connect(g).connect(ac.destination); o.start(t + at); o.stop(t + at + len + 0.05); });
+      [[196, 0, .3], [185, .3, .3], [175, .6, .3], [110, .9, 1.4]].forEach(([fq, at, len]) => { const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sawtooth'; o.frequency.value = fq; g.gain.setValueAtTime(0.0001, t + at); g.gain.exponentialRampToValueAtTime(0.25, t + at + 0.03); g.gain.exponentialRampToValueAtTime(0.001, t + at + len); const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 900; o.connect(lp).connect(g).connect(out); o.start(t + at); o.stop(t + at + len + 0.05); });
     } else if (kind === 'tick') {
       const o = ac.createOscillator(), g = ac.createGain(); o.type = 'square'; o.frequency.value = 2200;
-      g.gain.setValueAtTime(0.05, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.04); o.connect(g).connect(ac.destination); o.start(t); o.stop(t + 0.05);
+      g.gain.setValueAtTime(0.05, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.04); o.connect(g).connect(out); o.start(t); o.stop(t + 0.05);
     } else if (kind === 'explode') {
       // A big low boom: rumbling noise through a closing filter, and a sub-bass thump.
       const len = Math.floor(ac.sampleRate * 2.2), buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0);
       for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.2);
       const n = ac.createBufferSource(), f = ac.createBiquadFilter(), ng = ac.createGain(); n.buffer = buf; f.type = 'lowpass'; f.frequency.setValueAtTime(3000, t); f.frequency.exponentialRampToValueAtTime(120, t + 2); ng.gain.value = 1.1;
-      n.connect(f).connect(ng).connect(ac.destination); n.start(t);
+      n.connect(f).connect(ng).connect(out); n.start(t);
       const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sine'; o.frequency.setValueAtTime(90, t); o.frequency.exponentialRampToValueAtTime(30, t + 0.9);
-      g.gain.setValueAtTime(0.6, t); g.gain.exponentialRampToValueAtTime(0.001, t + 1); o.connect(g).connect(ac.destination); o.start(t); o.stop(t + 1.05);
+      g.gain.setValueAtTime(0.6, t); g.gain.exponentialRampToValueAtTime(0.001, t + 1); o.connect(g).connect(out); o.start(t); o.stop(t + 1.05);
     } else if (kind === 'buzz') {
       const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sawtooth'; o.frequency.value = 150;
-      g.gain.setValueAtTime(0.25, t); g.gain.setValueAtTime(0.25, t + 0.45); g.gain.exponentialRampToValueAtTime(0.001, t + 0.55); o.connect(g).connect(ac.destination); o.start(t); o.stop(t + 0.6);
+      g.gain.setValueAtTime(0.25, t); g.gain.setValueAtTime(0.25, t + 0.45); g.gain.exponentialRampToValueAtTime(0.001, t + 0.55); o.connect(g).connect(out); o.start(t); o.stop(t + 0.6);
     } else if (kind === 'claxon') {
       // A loud two-tone klaxon, three blasts.
-      for (let k = 0; k < 3; k++) { const at = t + k * 0.32; for (const f of [440, 554]) { const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sawtooth'; o.frequency.value = f; g.gain.setValueAtTime(0.0001, at); g.gain.exponentialRampToValueAtTime(0.22, at + 0.02); g.gain.setValueAtTime(0.22, at + 0.24); g.gain.exponentialRampToValueAtTime(0.001, at + 0.3); o.connect(g).connect(ac.destination); o.start(at); o.stop(at + 0.31); } }
+      for (let k = 0; k < 3; k++) { const at = t + k * 0.32; for (const f of [440, 554]) { const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sawtooth'; o.frequency.value = f; g.gain.setValueAtTime(0.0001, at); g.gain.exponentialRampToValueAtTime(0.22, at + 0.02); g.gain.setValueAtTime(0.22, at + 0.24); g.gain.exponentialRampToValueAtTime(0.001, at + 0.3); o.connect(g).connect(out); o.start(at); o.stop(at + 0.31); } }
     } else if (kind === 'ding') {
-      [[880, 0], [1320, 0.09]].forEach(([f, at]) => { const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sine'; o.frequency.value = f; g.gain.setValueAtTime(0.2, t + at); g.gain.exponentialRampToValueAtTime(0.001, t + at + 0.5); o.connect(g).connect(ac.destination); o.start(t + at); o.stop(t + at + 0.55); });
+      [[880, 0], [1320, 0.09]].forEach(([f, at]) => { const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sine'; o.frequency.value = f; g.gain.setValueAtTime(0.2, t + at); g.gain.exponentialRampToValueAtTime(0.001, t + at + 0.5); o.connect(g).connect(out); o.start(t + at); o.stop(t + at + 0.55); });
     } else if (kind === 'wrong') {
       const o = ac.createOscillator(), g = ac.createGain(); o.type = 'square'; o.frequency.setValueAtTime(200, t); o.frequency.setValueAtTime(150, t + 0.15);
-      g.gain.setValueAtTime(0.12, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.35); o.connect(g).connect(ac.destination); o.start(t); o.stop(t + 0.4);
+      g.gain.setValueAtTime(0.12, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.35); o.connect(g).connect(out); o.start(t); o.stop(t + 0.4);
     } else if (kind === 'whoosh') {
       const len = Math.floor(ac.sampleRate * 0.5), buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0);
       for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.sin(Math.PI * i / len);
       const n = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain(); n.buffer = buf; f.type = 'bandpass'; f.frequency.setValueAtTime(400, t); f.frequency.exponentialRampToValueAtTime(2500, t + 0.45); g.gain.value = 0.35;
-      n.connect(f).connect(g).connect(ac.destination); n.start(t);
+      n.connect(f).connect(g).connect(out); n.start(t);
     } else if (kind === 'beep' || kind === 'go') {
       const o = ac.createOscillator(), g = ac.createGain(); o.type = 'square'; o.frequency.value = kind === 'go' ? 1320 : 660;
       g.gain.setValueAtTime(0.18, t); g.gain.exponentialRampToValueAtTime(0.001, t + (kind === 'go' ? 0.5 : 0.22));
-      o.connect(g).connect(ac.destination); o.start(t); o.stop(t + 0.55);
+      o.connect(g).connect(out); o.start(t); o.stop(t + 0.55);
     } else if (kind === 'bang') {
       const len = Math.floor(ac.sampleRate * 0.6), buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0);
       for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 5);
       const src = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain();
       src.buffer = buf; f.type = 'lowpass'; f.frequency.value = 2400; g.gain.value = 0.9;
-      src.connect(f).connect(g).connect(ac.destination); src.start(t);
+      src.connect(f).connect(g).connect(out); src.start(t);
     }
   } catch {}
 }
@@ -1687,10 +1700,36 @@ function syncPause() {
 function hostBar(buttons) {
   const d = autoDelay();
   const hint = G.auto ? `runs itself · players can press Start and Next on their phones${TV ? ' · centre button for next' : ''}` : TV ? 'press the centre button for next' : 'press Space for next';
-  return `<div class="stage-bottom"><span class="muted small" style="opacity:.6">Game ${G.code} · ${players().length} players${G.bots?.length ? ` · test mode, ${G.bots.length} bots` : ''} · ${hint}</span>${d ? `<div class="autobar" title="Moving on by itself"><i style="animation-duration:${d}ms"></i></div>` : ''}<div class="hostbar">${G.auto && !['lobby', 'final'].includes(G.phase) ? `<button class="btn btn-ghost" data-act="pause" title="Stop the clock and hold this screen (P)">${G.paused ? '▶ Resume' : '⏸ Pause'}</button>` : ''}${buttons}</div></div>`;
+  return `<div class="stage-bottom"><span class="muted small" style="opacity:.6">Game ${G.code} · ${players().length} players${G.bots?.length ? ` · test mode, ${G.bots.length} bots` : ''} · ${hint}</span>${d ? `<div class="autobar" title="Moving on by itself"><i style="animation-duration:${d}ms"></i></div>` : ''}<div class="hostbar">${callBtn()}${G.auto && !['lobby', 'final'].includes(G.phase) ? `<button class="btn btn-ghost" data-act="pause" title="Stop the clock and hold this screen (P)">${G.paused ? '▶ Resume' : '⏸ Pause'}</button>` : ''}${buttons}</div></div>`;
+}
+/* ---------- the quiz night video call (Gather) ---------- */
+function callLabel() {
+  const s = QuizCall.state, n = QuizCall.people;
+  return s === 'live' ? `🔴 On the quiz call${n ? ` · ${n} watching` : ''}` : s === 'starting' ? '📞 Joining the call…' : s === 'reconnecting' ? '📞 Reconnecting…' : '📞 Launch the quiz call';
+}
+function callBtn() {
+  if (!window.QuizCall || !QuizCall.supported()) return '';
+  const s = QuizCall.state;
+  return `<button class="btn btn-ghost ${s === 'live' || s === 'reconnecting' ? 'on' : ''}" data-act="call" title="Put this screen and its sound into the quiz night video call (gathercall.uk/quiz). Press again to leave.">${callLabel()}</button>`;
+}
+function callClick() {
+  const s = QuizCall.state;
+  if (s === 'starting') return;
+  if (s === 'live' || s === 'reconnecting') return ask('Leave the quiz call?', 'People on the call will stop seeing this screen. The game carries on.', 'Leave the call', 'Stay on').then((ok) => { if (ok) QuizCall.stop(); });
+  QuizCall.start();
+}
+if (window.QuizCall) {
+  let lastErr = '';
+  QuizCall.onChange(() => {
+    const b = $('[data-act="call"]');
+    if (b) { b.textContent = callLabel(); b.classList.toggle('on', QuizCall.state === 'live' || QuizCall.state === 'reconnecting'); }
+    if (QuizCall.state === 'error' && QuizCall.error !== lastErr) toast(QuizCall.error, true);
+    if (QuizCall.state === 'live' && lastErr !== 'live') toast('📞 This screen is now on the quiz call');
+    lastErr = QuizCall.state === 'error' ? QuizCall.error : QuizCall.state;
+  });
 }
 function bind() {
-  $$('[data-act]').forEach((b) => b.onclick = () => ({ primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(G.bots?.length ? 5 : 3), bots20: () => addBots(MAX_BOTS), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, pause: () => togglePause(), music: toggleMusic, stopgame: gameStop, builder: () => location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
+  $$('[data-act]').forEach((b) => b.onclick = () => ({ call: callClick, primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(G.bots?.length ? 5 : 3), bots20: () => addBots(MAX_BOTS), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, pause: () => togglePause(), music: toggleMusic, stopgame: gameStop, builder: () => location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
   $$('[data-kick]').forEach((el) => { el.style.cursor = 'pointer'; el.title = 'Click to remove this player from the game'; el.onclick = () => kickPlayer(el.dataset.kick); });
 }
 function renderLobby() {
