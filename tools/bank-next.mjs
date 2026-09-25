@@ -48,7 +48,10 @@ const pending = (r) => short(r).length > 0 || unbalanced(r);
 if (args.includes("--list")) { for (const r of rows) console.log(`${r.t.slug.padEnd(26)} ${Object.keys(GOAL).map((t) => `${t} ${String(r.have[t] || 0).padStart(2)}`).join("  ")}  | ${mixOf(r.t.slug)}`); process.exit(0); }
 const done = rows.filter((r) => !pending(r)).length;
 console.log(`${done}/${topics.length} topics complete (${rows.filter(unbalanced).length} more have every type but need difficulty balancing).`);
-const todo = args.includes("--all") ? rows.filter(pending) : rows.filter(pending).slice(0, 1);
+// Topics with fewer than 100 questions come first, so every topic can carry a themed quiz; balancing follows.
+const total = (r) => Object.values(r.have).reduce((x, y) => x + y, 0);
+const order = [...rows.filter((r) => pending(r) && total(r) < 100), ...rows.filter((r) => pending(r) && total(r) >= 100)];
+const todo = args.includes("--all") ? order : order.slice(0, 1);
 if (!todo.length) { console.log("All topics at target."); process.exit(0); }
 for (const next of todo) {
   const n = files.filter((f) => f === next.t.slug + ".json" || f.startsWith(next.t.slug + "__")).length;
