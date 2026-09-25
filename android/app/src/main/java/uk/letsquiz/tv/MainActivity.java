@@ -2,8 +2,11 @@ package uk.letsquiz.tv;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.media.projection.MediaProjectionManager;
+import android.os.Build;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -20,6 +23,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
+import org.json.JSONObject;
+
 /**
  * Let's Quiz! for Fire TV: a full-screen WebView on letsquiz.uk/tv, the TV-only page that is
  * built for a remote's ring and centre button. Everything else (the quiz writer, the game,
@@ -31,6 +36,9 @@ public class MainActivity extends Activity {
     private FrameLayout root;
     private View fullscreenView;
     private WebChromeClient.CustomViewCallback fullscreenCallback;
+    private static final int REQ_CAPTURE = 41;
+    /** A frame is on its way to the page; newer ones are dropped until it has been painted. */
+    private volatile boolean framePending;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +49,8 @@ public class MainActivity extends Activity {
 
         root = new FrameLayout(this);
         root.setBackgroundColor(Color.parseColor("#1b1544"));
+        // Debug builds only: lets Chrome DevTools on a computer inspect the page.
+        if ((getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0) WebView.setWebContentsDebuggingEnabled(true);
         web = new WebView(this);
         web.setBackgroundColor(Color.parseColor("#1b1544"));
         web.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -108,12 +118,58 @@ public class MainActivity extends Activity {
         if (savedInstanceState != null) web.restoreState(savedInstanceState); else web.loadUrl(HOME);
     }
 
-    /** What the web page may ask of the app: only to close it completely (not just send it to the background). */
+    /**
+     * What the web page may ask of the app: to close it completely (not just send it to the
+     * background), and to start or stop sharing the screen into the quiz call.
+     */
     private final class AppBridge {
         @JavascriptInterface
         public void exit() {
             runOnUiThread(() -> finishAndRemoveTask());
         }
+
+        @JavascriptInterface
+        public void startCapture() {
+            runOnUiThread(() -> {
+                if (CaptureService.running) { toPage("started", ""); return; }
+                CaptureService.sink = sink;
+                MediaProjectionManager mpm = (MediaProjectionManager) getSystemService(MEDIA_PROJECTION_SERVICE);
+                try { startActivityForResult(mpm.createScreenCaptureIntent(), REQ_CAPTURE); }
+                catch (Exception e) { toPage("error", "This Fire TV cannot share its screen"); }
+            });
+        }
+
+        @JavascriptInterface
+        public void stopCapture() {
+            runOnUiThread(() -> stopService(new Intent(MainActivity.this, CaptureService.class)));
+        }
+    }
+
+    // Frames and news from the capture service, passed on to the web page (window.__lqFrame / __lqCaptureState).
+    private final CaptureService.Sink sink = new CaptureService.Sink() {
+        @Override public boolean ready() { return !framePending; }
+        @Override public void frame(String dataUrl) {
+            framePending = true;
+            String js = "window.__lqFrame&&window.__lqFrame('" + dataUrl + "')";
+            web.post(() -> web.evaluateJavascript(js, v -> framePending = false));
+        }
+        @Override public void state(String state, String message) { web.post(() -> toPage(state, message)); }
+    };
+
+    private void toPage(String state, String message) {
+        String js = "window.__lqCaptureState&&window.__lqCaptureState(" + JSONObject.quote(state) + "," + JSONObject.quote(message) + ")";
+        web.evaluateJavascript(js, null);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode != REQ_CAPTURE) return;
+        if (resultCode != RESULT_OK || data == null) { toPage("denied", "Screen sharing was not allowed"); return; }
+        Intent svc = new Intent(this, CaptureService.class)
+            .putExtra(CaptureService.EXTRA_CODE, resultCode)
+            .putExtra(CaptureService.EXTRA_DATA, data);
+        if (Build.VERSION.SDK_INT >= 26) startForegroundService(svc); else startService(svc);
     }
 
     private String offlinePage() {
@@ -167,6 +223,8 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onDestroy() {
+        stopService(new Intent(this, CaptureService.class));
+        CaptureService.sink = null;
         web.destroy();
         super.onDestroy();
     }
