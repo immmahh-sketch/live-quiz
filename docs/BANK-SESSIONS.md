@@ -1,7 +1,7 @@
 # Bank-writing sessions
 
 The host wants the question bank filled by hand in this tool (no API spend), topic by topic,
-sessions five minutes apart, until every topic in `bank/topics.json` is complete.
+sessions one minute apart, until every topic in `bank/topics.json` is complete.
 
 Per topic the targets are: 50 multiple choice, 50 typed, 50 true/false, 5 put-in-order,
 5 categorise, 10 highbrow/lowbrow, 10 answer smash, 10 name that tune, 10 rhyme time, 5 wipeout boards,
@@ -56,7 +56,7 @@ Each session:
    duplicate of a question already in the bank: replace those in the file with fresh ones and import again,
    so the file (which bank-next.mjs counts) matches the bank.
 4. Commit and push the new file.
-5. Schedule the next session five minutes later with the same instructions.
+5. Schedule the next session one minute later (ScheduleWakeup delaySeconds 60) with the same instructions.
 
 `node tools/bank-next.mjs --list` shows every topic's counts; `--all` lists every incomplete topic.
 
