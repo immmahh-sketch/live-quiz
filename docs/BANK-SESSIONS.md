@@ -32,7 +32,7 @@ Each session:
    - `{"type":"wipeout","text":"board title","right":["…"×3–15],"wrong":["…"×1–8]}`
    - `{"type":"race","text":"The Race: …","target":10,"bank":[{"q":"…","right":"…","wrong":["…","…","…"]}×8–12]}`
    - `{"type":"pin","text":"fact clue that never names the place","place":"Cardiff","region":"Wales","lat":51.48,"lon":-3.18,"sizeKm":10}`
-     (region is the map: a country or continent's usual English name, or "World"; sizeKm is how big the place is, which sets how close a pin must be)
+     (region is the map: a country or continent's usual English name, "London" for Greater London, or "World"; sizeKm is how big the place is, which sets how close a pin must be)
    - `{"type":"match","text":"Match each … to …","pairs":[{"left":"…","right":"…"}×4]}` (max 4 pairs; `"rightPicture":"Wikipedia title"` swaps the right side for a photo)
    - `{"type":"wheel","phrase":"UPPER CASE PHRASE"}` (a well-known phrase, title or name tied to the topic; the importer skips any that do not fit the board)
    - `{"type":"club","text":"a logic or observation puzzle","answers":["…"],"pct":90}` (pct: the share of people expected to get it, 90 easy down to 1; it must be a genuine puzzle, not a plain fact)
