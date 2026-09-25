@@ -945,3 +945,21 @@ body.player:has(.app.turn-chaser) { background: #ffe0e5; }
 .shareic { display: inline-grid; place-items: center; width: 1.6em; height: 1.6em; border-radius: 6px; background: var(--brand-soft); color: var(--brand); font-weight: 900; }
 .installcode { margin-top: 14px; text-align: center; color: var(--ink-2); font-weight: 800; }
 .installcode b { display: block; font-size: 2rem; letter-spacing: .12em; color: var(--ink); }
+
+/* Hot Potato: the ring beside the question card(s), so everyone can see what the holder is answering */
+.potstage { flex-direction: row; align-items: center; gap: 18px; }
+.potstage .potring { width: min(62vw, 110vh); height: min(66vh, 680px); flex: 0 0 auto; }
+.potqs { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 14px; justify-content: center; }
+.potq { background: rgba(255,255,255,.1); border: 3px solid rgba(255,255,255,.2); border-radius: 18px; padding: 14px 16px; text-align: left; animation: ripop .4s cubic-bezier(.2, 1.6, .4, 1) both; }
+.potq.boom { border-color: var(--bad); background: rgba(226, 27, 60, .3); }
+.potqwho { font-weight: 900; font-size: clamp(1rem, 1.7vw, 1.4rem); }
+.potqmsg { font-weight: 800; margin-top: 4px; font-size: clamp(.95rem, 1.4vw, 1.2rem); }
+.potqmsg.ok { color: #b8ffb0; }
+.potqmsg.no { color: #ffb3c0; }
+.potqtext { font-weight: 900; font-size: clamp(1.15rem, 2.1vw, 1.9rem); margin: 8px 0; text-wrap: balance; }
+.potqopts { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.potqopts span { border-radius: 10px; padding: 6px 10px; font-weight: 900; font-size: clamp(.85rem, 1.3vw, 1.1rem); }
+@media (max-width: 900px) { .potstage { flex-direction: column; } .potstage .potring { width: 94vw; height: 46vh; } }
+.kready { font-size: clamp(1.6rem, 4vw, 3rem); font-weight: 900; color: var(--sun); animation: kpulse .8s ease-in-out infinite alternate; }
+.kreadybtn { font-size: 1.6rem; padding: 16px 44px; }
+.kcountbig { font-size: clamp(5rem, 20vh, 12rem); font-weight: 900; line-height: 1; }

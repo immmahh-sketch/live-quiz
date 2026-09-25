@@ -89,7 +89,7 @@ const startsRound = (i) => i === 0 || G.quiz.questions[i - 1]?.round !== G.quiz.
   G = { code: newCode(), quizId, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: autoWanted() };
   persist();
   connect();
-  if (musicOn()) loadYT().catch(() => {});
+  setTimeout(() => { if (musicOn()) loadYT().catch(() => {}); }, 0); // once the whole script has run, so the player code is ready
   const nb = +new URLSearchParams(location.search).get('bots');
   if (nb > 0) setTimeout(() => addBots(Math.min(MAX_BOTS, nb)), 0);
 })();
@@ -238,10 +238,10 @@ function stateForPlayers() {
   if (G.phase === 'question' && G.q) {
     s.q = G.q.view; s.remainingMs = Math.max(0, (G.q.deadline || 0) - nowT); s.answered = Object.keys(G.q.answers);
     if (G.q.wipe) { const w = G.q.wipe; s.wipe = { turnPid: w.turnPid, turnName: G.players[w.turnPid]?.name || '', remainingMs: Math.max(0, (w.studyUntil || w.turnDeadline) - nowT), studyMs: w.studyUntil ? Math.max(0, w.studyUntil - nowT) : 0, gone: w.gone, out: w.out, over: w.over, last: w.last, scores: w.scores, order: w.order.filter((p) => !w.out.includes(p)) }; }
-    if (G.q.potato) { const p = G.q.potato, q = question(); s.potato = { holder: p.holder, stage: p.stage, row: p.stage === 'answer' && !p.exploded ? rowForPhone(potatoRow(p), p.row) : null, players: livePids().map((x) => ({ pid: x, name: pname(x), emoji: pem(x) })), passes: p.passes, last: p.last, exploded: p.exploded, scores: p.scores, penalty: q.penalty ?? 300, perCorrect: q.perCorrect ?? 50 }; }
+    if (G.q.potato) { const p = G.q.potato, q = question(); s.potato = { bombs: p.bombs.map((b) => ({ i: b.i, holder: b.holder, stage: b.stage, row: b.stage === 'answer' && !b.exploded ? rowForPhone(potatoRow(b), b.row) : null, last: b.last, exploded: b.exploded })), players: livePids().map((x) => ({ pid: x, name: pname(x), emoji: pem(x) })), passes: p.passes, scores: p.scores, penalty: q.penalty ?? 300, perCorrect: q.perCorrect ?? 50 }; }
     if (G.q.koth) {
       const g = G.q.koth, q = question(), frow = g.fff ? kothRow(g.fff.row) : null, hrow = g.h2h ? kothRow(g.h2h.row) : null;
-      s.koth = { step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, target: q.target || 3, prize: q.prize ?? 1000, pts: g.pts, king: g.king, pair: g.pair, judges: kothJudges(), result: g.result, winner: g.winner,
+      s.koth = { n: g.n, step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, target: q.target || 3, prize: q.prize ?? 1000, pts: g.pts, king: g.king, pair: g.pair, judges: kothJudges(), result: g.result, winner: g.winner,
         fff: frow && (g.step === 'fff' || g.step === 'fffShow') ? { row: rowForPhone(frow, g.next), eligible: g.fff.eligible, answered: Object.keys(g.fff.answered), through: g.fff.through, need: g.fff.need, right: g.step === 'fffShow' ? frow.right : null } : null,
         h2h: hrow && ['h2h', 'noBuzz', 'answer', 'claxon', 'judge', 'result'].includes(g.step) ? { text: hrow.text, buzz: g.h2h.buzz, answer: ['noBuzz', 'judge', 'result'].includes(g.step) ? hrow.right : null } : null };
     }
@@ -288,7 +288,7 @@ function answerText(q) {
   if (q.type === 'sort') return q.categories.filter((c) => c.name.trim()).map((c) => `${c.name}: ${q.items.filter((i) => i.category === c.id && i.text.trim()).map((i) => i.text).join(', ')}`).join(' · ');
   if (q.type === 'wipeout') return 'Wrong ones: ' + q.wrong.filter((i) => i.text.trim()).map((i) => i.text).join(', ');
   if (q.type === 'race') { const w = G.q?.results?.stats?.winner; return w ? `${w.name} won the race` : 'Nobody finished the race'; }
-  if (q.type === 'potato') { const x = G.q?.potato?.exploded; return x ? `💥 ${pname(x)} was holding the bomb` : 'The bomb never went off'; }
+  if (q.type === 'potato') { const x = (G.q?.potato?.bombs || []).map((b) => b.exploded).filter(Boolean); return x.length ? `💥 ${x.map(pname).join(' and ')} ${x.length > 1 ? 'were' : 'was'} holding ${x.length > 1 ? 'the bombs' : 'the bomb'}` : 'The bomb never went off'; }
   if (q.type === 'koth') { const x = G.q?.koth?.winner; return x ? `👑 ${pname(x)} is King of the Hill` : `Nobody reached ${q.target || 3} points`; }
   if (q.type === 'chase') { const g = G.q?.chase; return g?.result === 'home' ? 'The team got home!' : g?.result === 'caught' ? `${pname(g.chaser)} caught the team` : 'The chase was stopped'; }
   if (q.type === 'blockbusters') { const t = G.q?.bb?.winner; return t >= 0 ? `${q.teams[t].name} won the board` : 'Nobody linked their sides'; }
@@ -737,7 +737,7 @@ const rowForPhone = (row, i) => row ? { i, text: row.text, options: row.options.
 const isRight = (row, k) => !!row && G.q.keys[k] === 'R:' + row.id;
 /** Moves every game deadline on by d ms (after a pause). */
 function shiftGame(d) {
-  const p = G.q?.potato; if (p) { p.fuseEnd += d; p.startedAt += d; if (p.passBy) p.passBy += d; }
+  const p = G.q?.potato; if (p) for (const b of p.bombs) { b.fuseEnd += d; b.startedAt += d; if (b.passBy) b.passBy += d; }
   for (const g of [G.q?.koth, G.q?.bb, G.q?.chase]) if (g?.until) g.until += d;
 }
 function stepTo(g, step, ms) { g.step = step; g.until = ms ? Date.now() + ms : 0; g.total = ms || 0; }
@@ -754,76 +754,107 @@ function gameTick() {
 function gameStop() { ask('Stop this game now?', 'Points scored so far are kept; nobody gets the winner\'s bonus unless they have already won.', 'Stop the game', 'Keep playing').then((ok) => { if (ok && G.phase === 'question') endQuestion(); }); }
 
 // ---- Hot Potato ----
+// One bomb, or two when more than ten are playing, each with its own hidden fuse (at least ten seconds apart, so they
+// go off at different times). Whoever holds a bomb answers on their phone; right, and they pass it to someone not
+// already holding one. The question being answered is up on the screen for everyone. The game ends when every bomb has blown.
 function potatoStart() {
-  const q = question(), order = livePids();
-  const fuse = rnd(+q.fuseMin || 40, Math.max(+q.fuseMin || 40, +q.fuseMax || 90)) * 1000;
-  G.q.potato = { holder: order[Math.floor(Math.random() * order.length)], stage: 'answer', row: 0, fuseEnd: Date.now() + fuse, startedAt: Date.now(), fuseMax: (+q.fuseMax || 90) * 1000, passBy: 0, scores: {}, rights: {}, passes: 0, last: null, exploded: null };
+  const q = question(), order = shuffle(livePids()), min = +q.fuseMin || 40, max = Math.max(min, +q.fuseMax || 90);
+  if (!order.length) return endQuestion(); // nobody to hold it
+  const n = order.length > 10 ? 2 : 1, now = Date.now();
+  let fuses = Array.from({ length: n }, () => rnd(min, max) * 1000);
+  if (n === 2 && Math.abs(fuses[0] - fuses[1]) < 10000) fuses[1] = fuses[0] + (fuses[0] + 10000 <= max * 1000 ? 10000 : -10000); // apart
+  const p = { bombs: [], scores: {}, rights: {}, passes: 0, nextRow: 0 };
+  p.bombs = fuses.map((f, i) => ({ i, holder: order[i], stage: 'answer', row: p.nextRow++, fuseEnd: now + Math.max(8000, f), startedAt: now, fuseMax: max * 1000, passBy: 0, last: null, exploded: null }));
+  G.q.potato = p;
   persist(); renderPotato(); broadcastState(); botPotato(); sound('whoosh');
 }
-function potatoRow(p) { return G.q.rows[p.row % G.q.rows.length]; }
+function potatoRow(b) { return G.q.rows[b.row % G.q.rows.length]; }
+const liveBombs = (p = G.q.potato) => (p?.bombs || []).filter((b) => !b.exploded);
+/** Who a bomb can be passed to: anyone playing who isn't already holding one. */
+function passTargets(b) { const busy = liveBombs().map((x) => x.holder); return livePids().filter((x) => x !== b.holder && !busy.includes(x)); }
 function potatoAnswer(pid, a) {
-  const p = G.q.potato; if (!p || p.exploded || pid !== p.holder) return;
-  if (p.stage === 'answer' && a && +a.i === p.row) {
-    const row = potatoRow(p), ok = isRight(row, String(a.k || ''));
-    if (ok) { p.scores[pid] = (p.scores[pid] || 0) + (question().perCorrect ?? 50); p.rights[pid] = (p.rights[pid] || 0) + 1; p.stage = 'pass'; p.passBy = Date.now() + 12000; p.last = { pid, ok: true }; sound('ding'); }
-    else { p.last = { pid, ok: false, answer: row.right }; p.row++; sound('wrong'); }
-  } else if (p.stage === 'pass' && a && a.pass && a.pass !== pid && G.players[a.pass]) return potatoPass(a.pass);
+  const p = G.q.potato; if (!p || !a) return;
+  const b = Number.isInteger(a.b) ? p.bombs[a.b] : liveBombs(p).find((x) => x.holder === pid);
+  if (!b || b.exploded || b.holder !== pid) return;
+  if (b.stage === 'answer' && +a.i === b.row && a.k) {
+    const row = potatoRow(b), ok = isRight(row, String(a.k));
+    if (ok) { p.scores[pid] = (p.scores[pid] || 0) + (question().perCorrect ?? 50); p.rights[pid] = (p.rights[pid] || 0) + 1; b.stage = 'pass'; b.passBy = Date.now() + 12000; b.last = { pid, ok: true, answer: row.right }; sound('ding'); }
+    else { b.last = { pid, ok: false, answer: row.right }; b.row = p.nextRow++; sound('wrong'); }
+  } else if (b.stage === 'pass' && a.pass && passTargets(b).includes(a.pass)) return potatoPass(b, a.pass);
   else return;
   persist(); renderPotato(); broadcastState(); botPotato();
 }
-function potatoPass(to) {
-  const p = G.q.potato, from = p.holder;
-  p.passes++; p.holder = to; p.stage = 'answer'; p.row++; p.passBy = 0; p.last = { pass: true, from, to };
+function potatoPass(b, to) {
+  const p = G.q.potato, from = b.holder;
+  p.passes++; b.holder = to; b.stage = 'answer'; b.row = p.nextRow++; b.passBy = 0; b.last = { pass: true, from, to };
   sound('whoosh'); persist(); renderPotato(); broadcastState(); botPotato();
 }
 let potatoNextTick = 0;
 function potatoTick(now) {
-  const p = G.q.potato; if (!p || p.exploded) return;
-  const heat = LQ.clamp((now - p.startedAt) / p.fuseMax, 0, 1);
-  const b = $('#bomb'); if (b) b.style.setProperty('--heat', heat.toFixed(3));
+  const p = G.q.potato; if (!p) return;
+  const live = liveBombs(p); if (!live.length) return;
+  let heat = 0;
+  for (const b of live) {
+    const h = LQ.clamp((now - b.startedAt) / b.fuseMax, 0, 1); heat = Math.max(heat, h);
+    const el = $('#bomb' + b.i); if (el) el.style.setProperty('--heat', h.toFixed(3));
+    if (now >= b.fuseEnd) { potatoBoom(b); continue; }
+    if (b.stage === 'pass' && b.passBy && now >= b.passBy) { const t = passTargets(b); if (t.length) potatoPass(b, t[Math.floor(Math.random() * t.length)]); else { b.stage = 'answer'; b.row = p.nextRow++; b.passBy = 0; } }
+  }
   if (now >= potatoNextTick) { sound('tick'); potatoNextTick = now + Math.max(220, 1000 - heat * 780); }
-  if (now >= p.fuseEnd) return potatoBoom();
-  if (p.stage === 'pass' && p.passBy && now >= p.passBy) { const others = livePids().filter((x) => x !== p.holder); if (others.length) potatoPass(others[Math.floor(Math.random() * others.length)]); else { p.stage = 'answer'; p.row++; } }
 }
-function potatoBoom() {
-  const p = G.q.potato; if (p.exploded) return;
-  p.exploded = p.holder; p.stage = 'boom'; p.scores[p.holder] = (p.scores[p.holder] || 0) - (question().penalty ?? 300);
-  sound('explode'); persist(); renderPotato(); broadcastState(); botClear();
-  setTimeout(() => { if (G.phase === 'question' && G.q?.potato === p) endQuestion(); }, 4200);
+function potatoBoom(b) {
+  const p = G.q.potato; if (b.exploded) return;
+  b.exploded = b.holder; b.stage = 'boom'; p.scores[b.holder] = (p.scores[b.holder] || 0) - (question().penalty ?? 300);
+  sound('explode'); persist(); renderPotato(); broadcastState();
+  if (!liveBombs(p).length) { botClear(); setTimeout(() => { if (G.phase === 'question' && G.q?.potato === p) endQuestion(); }, 4200); }
+  else botPotato();
 }
 function botPotato() {
-  const p = G.q?.potato; if (!p || p.exploded) return;
-  const b = (G.bots || []).find((x) => x.pid === p.holder); if (!b) return;
-  const at = `${p.holder}:${p.stage}:${p.row}`;
-  botLater(() => {
-    const now = G.q?.potato; if (!now || now.exploded || `${now.holder}:${now.stage}:${now.row}` !== at) return;
-    if (now.stage === 'answer') { const row = potatoRow(now), right = row.options.find((o) => isRight(row, o.k)), wrong = row.options.filter((o) => o !== right); potatoAnswer(b.pid, { i: now.row, k: (chance(b.skill) || !wrong.length ? right : wrong[Math.floor(Math.random() * wrong.length)]).k }); }
-    else if (now.stage === 'pass') { const others = livePids().filter((x) => x !== b.pid); if (others.length) potatoAnswer(b.pid, { pass: others[Math.floor(Math.random() * others.length)] }); }
-  }, p.stage === 'pass' ? rnd(700, 1800) : rnd(1400, 3200) + b.pace * 2500);
+  const p = G.q?.potato; if (!p) return;
+  for (const b of liveBombs(p)) {
+    const bot = (G.bots || []).find((x) => x.pid === b.holder); if (!bot) continue;
+    const at = `${b.holder}:${b.stage}:${b.row}`;
+    botLater(() => {
+      if (G.q?.potato !== p || b.exploded || `${b.holder}:${b.stage}:${b.row}` !== at) return;
+      if (b.stage === 'answer') { const row = potatoRow(b), right = row.options.find((o) => isRight(row, o.k)), wrong = row.options.filter((o) => o !== right); potatoAnswer(bot.pid, { b: b.i, i: b.row, k: (chance(bot.skill) || !wrong.length ? right : wrong[Math.floor(Math.random() * wrong.length)]).k }); }
+      else if (b.stage === 'pass') { const t = passTargets(b); if (t.length) potatoAnswer(bot.pid, { b: b.i, pass: t[Math.floor(Math.random() * t.length)] }); }
+    }, b.stage === 'pass' ? rnd(700, 1800) : rnd(1400, 3200) + bot.pace * 2500);
+  }
 }
-/** The ring of players with the bomb bouncing round it. Built once, then only the moving parts change, so the bomb glides. */
+/** The ring of players with the bomb(s) moving round it, and beside it the question each holder is answering. The ring is
+ *  built once and only its moving parts change, so a bomb glides from one player to the next. */
 function renderPotato() {
   const q = question(), p = G.q.potato; if (!p) return;
   const pids = [...new Set([...livePids(), ...Object.keys(p.scores)])].filter((x) => G.players[x]);
-  const pos = (i, n) => { const a = -Math.PI / 2 + (i / Math.max(1, n)) * Math.PI * 2; return { x: 50 + Math.cos(a) * 41, y: 50 + Math.sin(a) * 38 }; };
-  if (!$('#potRing') || $('#potRing').dataset.q !== G.q.view.id || +$('#potRing').dataset.n !== pids.length) {
-    stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill" id="potPasses">0 passes</span></div>`)}
-      <div class="stage-main" style="gap:6px"><h1 class="qtext" style="font-size:clamp(1.2rem,2.3vw,2rem)">${esc(q.text)}</h1>
-        <div class="potring" id="potRing" data-q="${G.q.view.id}" data-n="${pids.length}">${pids.map((pid, i) => { const o = pos(i, pids.length); return `<div class="potp" data-pp="${pid}" style="left:${o.x}%;top:${o.y}%"><span class="em">${pem(pid)}</span><span class="nm">${esc(pname(pid))}</span><span class="pt" data-ppt="${pid}"></span></div>`; }).join('')}
-          <div class="bomb" id="bomb"><span class="bb-body">💣</span><span class="bb-spark">✨</span></div>
-          <div class="potcentre"><div class="potwho" id="potWho"></div><div class="potmsg" id="potMsg"></div></div></div></div>
+  const pos = (i, n) => { const a = -Math.PI / 2 + (i / Math.max(1, n)) * Math.PI * 2; return { x: 50 + Math.cos(a) * 41, y: 50 + Math.sin(a) * 40 }; };
+  const key = `${G.q.view.id}:${pids.length}:${p.bombs.length}`;
+  if (!$('#potRing') || $('#potRing').dataset.key !== key) {
+    stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill" id="potPasses">0 passes</span>${p.bombs.length > 1 ? '<span class="hpill">💣💣 Two bombs</span>' : ''}</div>`)}
+      <div class="stage-main potstage"><div class="potring" id="potRing" data-key="${key}">${pids.map((pid, i) => { const o = pos(i, pids.length); return `<div class="potp" data-pp="${pid}" style="left:${o.x}%;top:${o.y}%"><span class="em">${pem(pid)}</span><span class="nm">${esc(pname(pid))}</span><span class="pt" data-ppt="${pid}"></span></div>`; }).join('')}
+          ${p.bombs.map((b) => `<div class="bomb" id="bomb${b.i}"><span class="bb-body">💣</span><span class="bb-spark">✨</span></div>`).join('')}</div>
+        <div class="potqs" id="potQs"></div></div>
       ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="stopgame">Stop the game ■</button>`)}`;
     bind();
   }
-  const idx = pids.indexOf(p.holder), o = pos(Math.max(0, idx), pids.length), bomb = $('#bomb');
-  bomb.style.left = o.x + '%'; bomb.style.top = o.y + '%'; bomb.classList.toggle('boom', !!p.exploded);
-  $$('.potp').forEach((el) => { el.classList.toggle('hold', el.dataset.pp === p.holder); el.classList.toggle('dead', el.dataset.pp === p.exploded); });
+  for (const b of p.bombs) {
+    const el = $('#bomb' + b.i), o = pos(Math.max(0, pids.indexOf(b.exploded || b.holder)), pids.length);
+    el.style.left = o.x + '%'; el.style.top = o.y + '%'; el.classList.toggle('boom', !!b.exploded);
+  }
+  const holders = liveBombs(p).map((b) => b.holder), dead = p.bombs.map((b) => b.exploded).filter(Boolean);
+  $$('.potp').forEach((el) => { el.classList.toggle('hold', holders.includes(el.dataset.pp)); el.classList.toggle('dead', dead.includes(el.dataset.pp)); });
   $$('[data-ppt]').forEach((el) => { const s = p.scores[el.dataset.ppt] || 0; el.textContent = s ? (s > 0 ? '+' : '') + s : ''; el.classList.toggle('neg', s < 0); });
   $('#potPasses').textContent = `${p.passes} pass${p.passes === 1 ? '' : 'es'}`;
-  $('#potWho').innerHTML = p.exploded ? `💥 BOOM! <b>${esc(pname(p.exploded))}</b> was holding it` : `<b>${esc(pname(p.holder))}</b> has the bomb`;
-  const l = p.last;
-  $('#potMsg').innerHTML = p.exploded ? `−${q.penalty ?? 300} points` : p.stage === 'pass' ? `✅ Right! Choosing who gets it next…` : l && l.ok === false && l.pid === p.holder ? `✗ Wrong (it was ${esc(l.answer)}). Another question…` : l?.pass ? `${esc(pname(l.from))} passed it to ${esc(pname(l.to))}. Answer on your phone!` : 'Answer on your phone to get rid of it!';
-  if (p.exploded) { const r = $('#potRing'); if (r && !r.querySelector('.boomflash')) r.insertAdjacentHTML('beforeend', '<div class="boomflash">💥</div>'); }
+  // The question card for each bomb: what its holder is answering, or what just happened.
+  const card = (b) => {
+    const tag = p.bombs.length > 1 ? `Bomb ${b.i + 1} · ` : '';
+    if (b.exploded) return `<div class="potq boom"><div class="potqwho">💥 ${tag}BOOM! ${pem(b.exploded)} <b>${esc(pname(b.exploded))}</b> was holding it</div><div class="potqmsg">−${q.penalty ?? 300} points</div></div>`;
+    const who = `<div class="potqwho">💣 ${tag}${pem(b.holder)} <b>${esc(pname(b.holder))}</b> ${b.stage === 'pass' ? 'is choosing who gets it next' : 'has the bomb'}</div>`;
+    if (b.stage === 'pass') return `<div class="potq">${who}<div class="potqmsg ok">✅ Right! It was ${esc(b.last?.answer || '')}</div></div>`;
+    const row = potatoRow(b), wrong = b.last && b.last.ok === false && b.last.pid === b.holder ? `<div class="potqmsg no">✗ Wrong, it was ${esc(b.last.answer)}. Another one…</div>` : '';
+    return `<div class="potq">${who}${wrong}<div class="potqtext">${esc(row.text)}</div><div class="potqopts">${row.options.map((o) => `<span style="background:${COLORS[o.c].hex}">${COLORS[o.c].shape} ${esc(o.text)}</span>`).join('')}</div></div>`;
+  };
+  $('#potQs').innerHTML = p.bombs.map(card).join('');
+  const r = $('#potRing'); if (dead.length > +(r.dataset.booms || 0)) { r.dataset.booms = dead.length; r.insertAdjacentHTML('beforeend', '<div class="boomflash">💥</div>'); setTimeout(() => r.querySelectorAll('.boomflash').forEach((x, i, all) => { if (i < all.length - 1 || liveBombs(p).length) x.remove(); }), 1600); }
 }
 
 // ---- King of the Hill ----
@@ -859,6 +890,7 @@ function kothAnswer(pid, a) {
     g.h2h.buzz = pid; stepTo(g, 'answer', (question().answerSecs ?? 3) * 1000); sound('buzz');
     persist(); renderKoth(); broadcastState(); return;
   }
+  if (g.step === 'ready' && a && a.ready && G.auto && g.pair.includes(pid)) return kothCount();
   if (g.step === 'judge' && a && typeof a.judge === 'boolean' && kothJudges().includes(pid)) return kothJudge(a.judge);
 }
 function kothFffDone() {
@@ -868,6 +900,14 @@ function kothFffDone() {
   stepTo(g, 'fffShow', 3500); sound(f.through.length ? 'go' : 'wrong');
   persist(); renderKoth(); broadcastState();
 }
+/** The two contestants are up on the screen; the host presses Ready (in self-play, a contestant's phone does, or it goes after 20 seconds). */
+function kothReady(pair) {
+  const g = G.q.koth; g.pair = pair; g.carry = []; g.h2h = null;
+  stepTo(g, 'ready', G.auto ? 20000 : 0); sound('fanfare');
+  persist(); renderKoth(); broadcastState();
+  if (G.auto && pair.some((x) => (G.bots || []).some((b) => b.pid === x))) botLater(() => { if (G.q?.koth === g && g.step === 'ready') kothCount(); }, 4000);
+}
+function kothCount() { const g = G.q.koth; g.n = 3; g.h2h = null; stepTo(g, 'count', 1000); sound('beep'); persist(); renderKoth(); broadcastState(); }
 function kothH2h(pair) {
   const g = G.q.koth, q = question();
   g.pair = pair; g.carry = []; const row = kothNextRow();
@@ -883,9 +923,11 @@ function kothJudges() {
 function kothStepDone() {
   const g = G.q.koth, q = question();
   if (g.step === 'fff') return kothFffDone();
-  if (g.step === 'fffShow') { const have = g.king ? [g.king, ...(g.carry || [])] : (g.carry || []); if (have.length >= 2) return kothH2h(have.slice(0, 2)); return kothFff(); }
+  if (g.step === 'fffShow') { const have = g.king ? [g.king, ...(g.carry || [])] : (g.carry || []); if (have.length >= 2) return kothReady(have.slice(0, 2)); return kothFff(); }
+  if (g.step === 'ready') return kothCount(); // self-play: nobody pressed Ready, so it goes by itself
+  if (g.step === 'count') { if (g.n > 1) { g.n--; stepTo(g, 'count', 1000); sound('beep'); persist(); renderKoth(); broadcastState(); return; } sound('go'); return kothH2h(g.pair); }
   if (g.step === 'h2h') { stepTo(g, 'noBuzz', 3500); sound('wrong'); persist(); renderKoth(); broadcastState(); return; }
-  if (g.step === 'noBuzz') return kothH2h(g.pair);
+  if (g.step === 'noBuzz') return kothCount(); // same two again, straight into the 3-2-1
   if (g.step === 'answer') { stepTo(g, 'claxon', 1000); sound('claxon'); persist(); renderKoth(); broadcastState(); return; }
   if (g.step === 'claxon') {
     stepTo(g, 'judge', 0); persist(); renderKoth(); broadcastState();
@@ -937,6 +979,10 @@ function renderKoth() {
     main = `<div class="kkicker">⚡ Fastest finger first · ${g.king ? `a challenger for 👑 ${esc(pname(g.king))}` : 'the first two right go head to head'}</div><h1 class="qtext">${esc(row.text)}</h1>
       <div class="answers">${row.options.map((o) => `<div class="ans ${show && !isRight(row, o.k) ? 'dim' : ''}" style="background:${COLORS[o.c].hex}"><span class="shape">${COLORS[o.c].shape}</span>${esc(o.text)}${show && isRight(row, o.k) ? '<span class="tick">✔</span>' : ''}</div>`).join('')}</div>
       <div class="kthrough">${show ? (f.through.length ? `${f.through.map((x) => `${pem(x)} <b>${esc(pname(x))}</b>`).join(' and ')} ${f.through.length === 1 ? 'is' : 'are'} through!` : 'Nobody got it. Another one…') : `${Object.keys(f.answered).length} of ${f.eligible.length} answered${through.length ? ` · through: ${through.map((x) => esc(pname(x))).join(', ')}` : ''}`}</div>`;
+  } else if (g.step === 'ready') {
+    main = `${vs()}<div class="kready">Head to head! Get ready…</div><div class="kthrough">${G.auto ? 'Either player can press Ready on their phone' : 'Press Ready when the two are set'}</div>${G.auto ? '' : '<button class="btn btn-primary btn-lg kreadybtn" id="kReady">Ready ▶</button>'}`;
+  } else if (g.step === 'count') {
+    main = `${vs()}<div class="ri-num kcountbig" data-n="${g.n}">${g.n}</div>`;
   } else if (g.step === 'h2h' || g.step === 'noBuzz') {
     const row = kothRow(g.h2h.row);
     main = `${vs()}<h1 class="qtext khq">${esc(row.text)}</h1>${g.step === 'noBuzz' ? `<div class="kanswer">Nobody buzzed. It was <b>${esc(row.right)}</b></div>` : '<div class="kbuzzcall">🔴 BUZZ on your phone!</div>'}`;
@@ -958,6 +1004,7 @@ function renderKoth() {
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button>${buttons}<button class="btn btn-primary" data-act="stopgame">Stop the game ■</button>`)}`;
   bind();
   if ($('#kYes')) { $('#kYes').onclick = () => kothJudge(true); $('#kNo').onclick = () => kothJudge(false); }
+  if ($('#kReady')) $('#kReady').onclick = () => { if (G.q.koth?.step === 'ready') kothCount(); };
   gameTick();
 }
 
@@ -1215,7 +1262,7 @@ async function endQuestion() {
 function answerDisplay(q, pid) {
   const a = G.q.answers[pid], r = G.q.results.byPlayer[pid] || {}, keys = G.q.keys, v = G.q.view;
   if (q.type === 'wipeout') { const picks = (G.q.wipe?.picks || []).filter((p) => p.pid === pid); return picks.length ? picks.map((p) => p.text + (p.ok === false ? ' ✗' : p.ok ? ' ✓' : '')).join(', ') : '—'; }
-  if (q.type === 'potato') { const p = G.q.potato; return p ? `${p.rights[pid] || 0} right${p.exploded === pid ? ', holding the bomb 💥' : ''}` : '—'; }
+  if (q.type === 'potato') { const p = G.q.potato; return p ? `${p.rights[pid] || 0} right${p.bombs.some((b) => b.exploded === pid) ? ', holding a bomb 💥' : ''}` : '—'; }
   if (q.type === 'koth') { const g = G.q.koth; return g ? `${g.pts[pid] || 0} on the hill${g.winner === pid ? ', won 👑' : ''}` : '—'; }
   if (q.type === 'chase') { const g = G.q.chase; return !g ? '—' : pid === g.chaser ? 'the Chaser' : `team, ${(g.log || []).filter((l) => l.pid === pid).length} steps won`; }
   if (q.type === 'blockbusters') { const g = G.q.bb, t = g?.teams[pid]; return t === undefined ? '—' : `${question().teams[t].name}, ${Math.round((g.scores[pid] || 0) / (question().hexPoints || 50))} hexagons`; }
@@ -1266,7 +1313,7 @@ function kickPlayer(pid) {
     present.delete(pid);
     if (G.q?.wipe) { const w = G.q.wipe; w.order = w.order.filter((x) => x !== pid); if (w.turnPid === pid && !w.over) { w.turnPid = null; wipeNextTurn(); } }
     if (G.q?.race) delete G.q.race.players[pid];
-    if (G.q?.potato && G.q.potato.holder === pid && !G.q.potato.exploded) { const others = livePids().filter((x) => x !== pid); if (others.length) potatoPass(others[0]); }
+    if (G.q?.potato) for (const b of liveBombs()) if (b.holder === pid) { const t = passTargets(b); if (t.length) potatoPass(b, t[0]); }
     if (G.q?.koth) { const g = G.q.koth; if (g.fff) g.fff.eligible = g.fff.eligible.filter((x) => x !== pid); if (g.carry) g.carry = g.carry.filter((x) => x !== pid); if (g.king === pid) g.king = null; if (g.pair.includes(pid) && !g.winner) { g.king = g.pair.find((x) => x !== pid) || null; g.pair = []; kothFff(); } }
     if (G.q?.bb) delete G.q.bb.teams[pid];
     if (G.q?.chase) { const g = G.q.chase; g.team = g.team.filter((x) => x !== pid); if (g.chaser === pid && !g.result) { g.result = null; endQuestion(); } }
@@ -1341,14 +1388,14 @@ async function grade(noAi) {
     stats.places = [second, third].map((pid, i) => pid ? { pid, name: G.players[pid]?.name || 'Player', emoji: G.players[pid]?.emoji || '', place: i + 2, points: i === 0 ? (v.prize2 ?? 200) : (v.prize3 ?? 100) } : null).filter(Boolean);
   }
   if (q.type === 'potato') {
-    const p = G.q.potato || { scores: {}, rights: {}, passes: 0 };
+    const p = G.q.potato || { scores: {}, rights: {}, passes: 0, bombs: [] }, booms = p.bombs.map((b) => b.exploded).filter(Boolean);
     for (const pid of new Set([...livePids(), ...Object.keys(p.scores)])) {
       if (!G.players[pid]) continue;
-      const pts = p.scores[pid] || 0, boom = pid === p.exploded, n = p.rights[pid] || 0;
+      const pts = p.scores[pid] || 0, boom = booms.includes(pid), n = p.rights[pid] || 0;
       byPlayer[pid] = { answered: true, correct: pts > 0, partial: pts > 0 ? 1 : 0, points: pts, got: n, exploded: boom, note: boom ? '💥 BOOM! You were holding the bomb' : n ? `💣 ${n} right with the bomb in your hands` : '💣 You survived the bomb' };
       if (pts > 0) stats.right++;
     }
-    stats.exploded = p.exploded ? { pid: p.exploded, name: pname(p.exploded), emoji: pem(p.exploded) } : null; stats.passes = p.passes; stats.answered = Object.keys(byPlayer).length;
+    stats.exploded = booms.map((x) => ({ pid: x, name: pname(x), emoji: pem(x) })); stats.passes = p.passes; stats.answered = Object.keys(byPlayer).length;
   }
   if (q.type === 'koth') {
     const g = G.q.koth || { pts: {} };
@@ -1805,7 +1852,7 @@ function renderReveal() {
     body = `<div class="wboard" style="height:52vh">${v.board.map((t) => `<div class="wtile ${String(G.q.keys[t.k]).startsWith('R:') ? 'right' : 'wrong'} ${w.gone?.includes(t.k) ? 'gone' : ''}" style="left:${t.x}%;top:${t.y}%;--r:${t.rot}deg">${esc(t.text)}</div>`).join('')}</div>
       <div class="textlist mt">${(R.stats.picks || []).map((p) => `<span class="tl ${p.ok === true ? 'ok' : p.ok === false ? 'no' : ''}">${esc(p.name)}: ${esc(p.text)}</span>`).join('')}</div>`;
   }
-  if (q.type === 'potato') { const st = R.stats, pt = G.q.potato || { scores: {} }; body = `<div class="boomreveal">${st.exploded ? `<div class="bigboom">💥</div><div class="turnbar"><span class="who">${st.exploded.emoji} ${esc(st.exploded.name)} was holding the bomb: −${q.penalty ?? 300}</span><span class="last" style="opacity:.8">${st.passes} passes · +${q.perCorrect ?? 50} per right answer</span></div>` : '<div class="turnbar"><span>The bomb never went off</span></div>'}</div><div class="textlist mt">${Object.entries(pt.scores).sort((a, b) => b[1] - a[1]).map(([pid, v]) => `<span class="tl ${v < 0 ? 'no' : 'ok'}">${pem(pid)} ${esc(pname(pid))} ${v > 0 ? '+' : ''}${v}</span>`).join('')}</div>`; }
+  if (q.type === 'potato') { const st = R.stats, pt = G.q.potato || { scores: {} }; body = `<div class="boomreveal">${st.exploded.length ? `<div class="bigboom">${st.exploded.map(() => '💥').join('')}</div><div class="turnbar" style="flex-wrap:wrap">${st.exploded.map((x) => `<span class="who">${x.emoji} ${esc(x.name)} was holding a bomb: −${q.penalty ?? 300}</span>`).join('')}<span class="last" style="opacity:.8">${st.passes} passes · +${q.perCorrect ?? 50} per right answer</span></div>` : '<div class="turnbar"><span>The bomb never went off</span></div>'}</div><div class="textlist mt">${Object.entries(pt.scores).sort((a, b) => b[1] - a[1]).map(([pid, v]) => `<span class="tl ${v < 0 ? 'no' : 'ok'}">${pem(pid)} ${esc(pname(pid))} ${v > 0 ? '+' : ''}${v}</span>`).join('')}</div>`; }
   if (q.type === 'koth') { const g = G.q.koth || { pts: {} }, st = R.stats; body = `<div class="kwin">${st.winner ? `<div class="kcrown big">👑</div><div class="em">${st.winner.emoji}</div><h1 class="big">${esc(st.winner.name)}</h1><div class="kwinsub">King of the Hill · +${q.prize ?? 1000} points</div>` : `<h1 class="big">No king this time</h1><div class="kwinsub">Nobody reached ${q.target || 3} points</div>`}</div><div class="textlist mt">${Object.entries(g.pts).sort((a, b) => b[1] - a[1]).map(([pid, n]) => `<span class="tl ${pid === g.winner ? 'ok' : ''}">${pem(pid)} ${esc(pname(pid))} · ${n} on the hill</span>`).join('')}</div>`; }
   if (q.type === 'chase') { const st = R.stats; body = st.result === 'home' ? `<div class="chend good"><div class="em">🏠</div><h1 class="big">The team got home!</h1><div class="chsub">+${q.teamPrize ?? 1000} to everyone except the Chaser, ${esc(st.chaser?.name || '')}</div></div>` : st.result === 'caught' ? `<div class="chend bad"><div class="em">😈</div><h1 class="big">Caught by ${esc(st.chaser?.name || 'the Chaser')}</h1><div class="chsub">+${q.chaserPrize ?? 200} to the Chaser</div></div>` : '<div class="chend"><h1 class="big">The chase was stopped</h1></div>'; }
   if (q.type === 'blockbusters') { const g = G.q.bb, st = R.stats; body = `<div class="bbmid" style="width:min(520px,80vw,52vh);flex:none;margin:0 auto">${LQ.bbBoardHtml(g.hexes.map((h, i) => ({ letter: h.letter, owner: g.owner[i] })), { teams: q.teams, win: g.path })}</div><div class="turnbar" style="flex-wrap:wrap;margin-top:10px">${st.winner >= 0 ? `<span class="who">🏆 ${esc(q.teams[st.winner].name)} win the board: +${q.prize ?? 500} each</span>` : '<span>Nobody linked their sides: no bonus</span>'}<span class="last">${esc(q.teams[0].name)} ${st.counts[0]} ⬢ · ${esc(q.teams[1].name)} ${st.counts[1]} ⬢</span></div>`; }
