@@ -420,7 +420,22 @@ function sound(kind) {
   if (!musicOn()) return;
   try {
     sfx = sfx || new (window.AudioContext || window.webkitAudioContext)(); const ac = sfx, t = ac.currentTime;
-    if (kind === 'trombone') {
+    if (kind === 'wipeout') {
+      // A slide whistle falling, a crash as it lands, and a wobbly boing.
+      const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sine';
+      o.frequency.setValueAtTime(1400, t); o.frequency.exponentialRampToValueAtTime(140, t + 0.75);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.2, t + 0.04); g.gain.setValueAtTime(0.2, t + 0.6); g.gain.exponentialRampToValueAtTime(0.001, t + 0.8);
+      o.connect(g).connect(ac.destination); o.start(t); o.stop(t + 0.85);
+      const len = Math.floor(ac.sampleRate * 1.2), buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0);
+      for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3);
+      const n = ac.createBufferSource(), f = ac.createBiquadFilter(), ng = ac.createGain();
+      n.buffer = buf; f.type = 'lowpass'; f.frequency.setValueAtTime(1800, t + 0.78); f.frequency.exponentialRampToValueAtTime(200, t + 1.9); ng.gain.value = 0.8;
+      n.connect(f).connect(ng).connect(ac.destination); n.start(t + 0.78);
+      const b = ac.createOscillator(), bg = ac.createGain(), lfo = ac.createOscillator(), lg = ac.createGain(); b.type = 'triangle';
+      b.frequency.setValueAtTime(220, t + 0.85); b.frequency.exponentialRampToValueAtTime(90, t + 1.6); lfo.frequency.value = 14; lg.gain.value = 18; lfo.connect(lg).connect(b.frequency);
+      bg.gain.setValueAtTime(0.0001, t + 0.85); bg.gain.exponentialRampToValueAtTime(0.18, t + 0.9); bg.gain.exponentialRampToValueAtTime(0.001, t + 1.7);
+      b.connect(bg).connect(ac.destination); b.start(t + 0.85); b.stop(t + 1.75); lfo.start(t + 0.85); lfo.stop(t + 1.75);
+    } else if (kind === 'trombone') {
       // Wah wah wah waaah: four falling notes, the last one wobbling down.
       [[311, 0, .45], [294, .5, .45], [277, 1, .45], [262, 1.5, 1.3]].forEach(([f, at, len], i) => {
         const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sawtooth'; o.frequency.setValueAtTime(f, t + at);
@@ -620,7 +635,7 @@ function wipePick(pid, token) {
   w.picks.push({ pid, name: G.players[pid]?.name || 'Player', text: tile.text, ok });
   w.last = { name: G.players[pid]?.name, text: tile.text, ok };
   send('ack', { pid, qId: v.id });
-  if (!ok) { w.over = true; persist(); renderWipe(token); broadcastState(); setTimeout(() => endQuestion(), 2200); return; }
+  if (!ok) { w.over = true; sound('wipeout'); persist(); renderWipe(token); broadcastState(); setTimeout(() => endQuestion(), 2200); return; }
   const rightLeft = v.board.some((t) => String(G.q.keys[t.k]).startsWith('R:') && !w.gone.includes(t.k));
   if (!rightLeft) { w.over = true; w.last = { name: null, text: 'All found!', ok: true }; persist(); renderWipe(); broadcastState(); setTimeout(() => endQuestion(), 1500); return; }
   wipeNextTurn();
