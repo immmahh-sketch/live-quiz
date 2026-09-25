@@ -341,6 +341,19 @@ textarea { min-height: 80px; resize: vertical; }
 body.tv .lobby .qr canvas, body.tv .lobby .qr img { width: min(32vh, 340px); height: min(32vh, 340px); }
 body.tv .lobby .qr { padding: 12px; }
 body.tv .lobby { grid-template-columns: 1fr 1fr; } /* a TV is always landscape: never the stacked phone layout */
+/* Tall screens (the final podium) must fit whatever room the bars leave: the podium gives
+   way, and anything still too tall runs downwards rather than up over the top bar. */
+.stage-main { justify-content: safe center; }
+.stage-main > .podium { flex: 0 1 auto; min-height: 170px; margin-top: clamp(8px, 3vh, 40px); }
+/* The names sit inside each column and the blocks share out what height is left
+   (1 : .7 : .48), so however small the podium gets, nothing pokes out of its top. */
+.stage-main .pod { align-self: stretch; }
+.stage-main .pod::before { content: ''; flex: 0 1 0; }
+.stage-main .pod.p2::before { flex-grow: .3; }
+.stage-main .pod.p3::before { flex-grow: .52; }
+.stage-main .pod.p1 .block, .stage-main .pod.p2 .block, .stage-main .pod.p3 .block { height: auto; flex: 1 1 0; min-height: 48px; font-size: clamp(1.5rem, 6vh, 2.6rem); padding-top: 6px; }
+.stage-main .pod.p2 .block { flex-grow: .7; }
+.stage-main .pod.p3 .block { flex-grow: .48; }
 .stage .btn-primary { background: var(--sun); color: var(--stage); }
 .stage .btn-primary:hover { filter: brightness(1.04); }
 
@@ -982,3 +995,5 @@ body.player:has(.app.turn-chaser) { background: #ffe0e5; }
 .potqprev { opacity: .75; font-weight: 800; font-size: clamp(.9rem, 1.3vw, 1.1rem); margin-top: 6px; }
 @media (prefers-reduced-motion: reduce) { .chmask { display: none; } .chunmask, .chwhop { animation: none; opacity: 1; font-size: 1em; } }
 .kchip.rounds.low { background: var(--bad); color: #fff; }
+/* A TV has no pointer, so the "click a name to remove them" tip is only clutter there. */
+body.tv .clicktip { display: none; }
