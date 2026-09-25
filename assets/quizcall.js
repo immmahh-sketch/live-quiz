@@ -261,7 +261,7 @@ window.QuizCall = (() => {
 
   return {
     start, stop, supported,
-    get state() { return S.state; }, get error() { return S.error; }, get people() { return S.people; },
+    get state() { return S.state; }, get error() { return S.error; }, get people() { return S.people; }, get stream() { return S.stream; },
     onChange(fn) { listeners.add(fn); return () => listeners.delete(fn); }
   };
 })();
