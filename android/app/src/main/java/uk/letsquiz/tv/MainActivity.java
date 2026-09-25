@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -98,10 +99,21 @@ public class MainActivity extends Activity {
             }
         });
 
+        // The TV page's "Exit to Fire TV" button calls LetsQuizApp.exit().
+        web.addJavascriptInterface(new AppBridge(), "LetsQuizApp");
+
         web.setFocusable(true);
         web.setFocusableInTouchMode(true);
         web.requestFocus();
         if (savedInstanceState != null) web.restoreState(savedInstanceState); else web.loadUrl(HOME);
+    }
+
+    /** What the web page may ask of the app: only to close it completely (not just send it to the background). */
+    private final class AppBridge {
+        @JavascriptInterface
+        public void exit() {
+            runOnUiThread(() -> finishAndRemoveTask());
+        }
     }
 
     private String offlinePage() {
