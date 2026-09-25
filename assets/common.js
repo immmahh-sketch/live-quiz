@@ -76,10 +76,11 @@ window.LQ = (() => {
     tune:   { label: 'Name That Tune',  icon: '🎵', blurb: 'A clip plays on the screen. Name the song, the artist, the film it is from, the year, or the next line.' },
     potato: { label: 'Hot Potato',      icon: '💣', blurb: 'A lit bomb passes round the room. Whoever holds it answers on their phone; get it right and pass it on. Holding it when it blows costs you points.' },
     koth:   { label: 'King of the Hill', icon: '👑', blurb: 'Fastest finger picks two players for a head-to-head buzzer battle, answered out loud. Right keeps you on the hill. First to the target wins the prize.' },
+    chase:  { label: 'The Chase',       icon: '🏃', blurb: 'The leader becomes the Chaser and takes on everyone else as one team, who start a few steps ahead. First right answer on each question moves that side a step. Get home before you are caught.' },
     blockbusters: { label: 'Blockbusters', icon: '⬢', blurb: 'Two teams battle across a board of letter hexagons. First to type the answer claims the hex; the first team to link its two sides wins.' },
   };
   /** The games that run on a bank of quick questions, like The Race. */
-  const BANK_GAMES = ['race', 'potato', 'koth', 'blockbusters'];
+  const BANK_GAMES = ['race', 'potato', 'koth', 'blockbusters', 'chase'];
   /** Not a question: a title, a few lines and an optional picture or video on the screen and the phones. No clock, no points. */
   const SLIDE = { label: 'Slide', icon: '🪧', blurb: 'Not a question: a welcome, the rules, a break or a message, on the screen and the phones. No points.' };
   /** Label and icon for any item in a quiz, slides included. */
@@ -178,6 +179,7 @@ window.LQ = (() => {
     tune: 'Listen to the clip and answer on your phone.',
     potato: 'The bomb is lit and nobody knows how long the fuse is. If it lands on you, answer the question on your phone. Get it right and you choose who gets it next. Holding it when it goes bang costs you points.',
     koth: 'Fastest finger first picks two players to go head to head. Buzz on your phone, then say your answer out loud. Get it right and you stay on the hill and score a point. First to the target wins the prize.',
+    chase: 'Whoever is in the lead is the Chaser. Everyone else plays as one team with a head start. The first right answer on each question moves that side one step: the team towards home, the Chaser towards the team. Get home before you are caught!',
     blockbusters: 'Pick a side. Your side chooses a letter, and the answer starts with it. First to type the right answer wins the hexagon for their side. Link your two sides of the board to win.',
   };
   /** The build log: every writer call for a quiz, with what was asked and what came back, kept in its settings. */
@@ -202,7 +204,7 @@ window.LQ = (() => {
     { name: 'yellow', hex: '#d89e00', shape: '●' },
     { name: 'green',  hex: '#26890c', shape: '■' },
   ];
-  const DEFAULT_TIMES = { catchphrase: 50, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30, potato: 90, koth: 15, blockbusters: 20 };
+  const DEFAULT_TIMES = { catchphrase: 50, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30, potato: 90, koth: 15, blockbusters: 20, chase: 15 };
   const DEFAULT_SETTINGS = { maxPoints: 1000, minPoints: 500, defaultTime: 30, showAnswersOnPhones: true, timeByType: { ...DEFAULT_TIMES } };
 
   /** The time limit a question of this type gets by default in this quiz. */
@@ -274,6 +276,7 @@ window.LQ = (() => {
   const NEW_GAME_DEFAULTS = {
     potato: () => ({ fuseMin: 40, fuseMax: 90, perCorrect: 50, penalty: 300 }),
     koth: () => ({ target: 3, prize: 1000, answerSecs: 3 }),
+    chase: () => ({ headStart: 2, target: 5, teamPrize: 1000, chaserPrize: 200 }),
     blockbusters: () => ({ teams: [{ name: 'Newcastle', color: '#f2f2f2' }, { name: 'Sunderland', color: '#e21b3c' }], hexPoints: 50, prize: 500 }),
   };
   /** The bank rows a game can use: a question and its right answer, plus (except in Blockbusters) at least one wrong one. */
@@ -368,6 +371,11 @@ window.LQ = (() => {
       const n = goodRows(q).length;
       if (n < 12) problems.push(`Needs at least 12 complete questions in the bank (it has ${n}); a game to ${q.target || 3} can easily use 20 or more.`);
       if (!(+q.target >= 1 && +q.target <= 10)) problems.push('Points to win must be between 1 and 10.');
+    }
+    if (q.type === 'chase') {
+      const n = goodRows(q).length;
+      if (n < 15) problems.push(`Needs at least 15 complete questions in the bank (it has ${n}); a close chase can use 20 or more.`);
+      if (!(+q.target >= 1 && +q.target <= 15) || !(+q.headStart >= 0 && +q.headStart <= 10)) problems.push('Steps home must be 1 to 15, and the head start 0 to 10.');
     }
     if (q.type === 'blockbusters') {
       const n = goodRows(q).length;

@@ -905,3 +905,36 @@ body.player:has(.app.turn-buzz) { background: #fff3c4; }
   .bomb { transition: none; }
 }
 .bbframe.phone { box-shadow: 0 0 0 2px rgba(23, 23, 58, .25); }
+
+/* ---- The Chase: the board down the left (start at the top, HOME at the foot), the question beside it ---- */
+.chstage { flex-direction: row; align-items: stretch; gap: 24px; }
+.chboard { flex: 0 0 min(340px, 28vw); display: flex; flex-direction: column; gap: 6px; justify-content: center; }
+.chrow { flex: 1 1 0; max-height: 64px; min-height: 30px; border-radius: 12px; background: rgba(255,255,255,.08); border: 2px solid rgba(255,255,255,.14); display: grid; place-items: center; font-weight: 900; font-size: clamp(.9rem, 1.6vw, 1.3rem); transition: background .5s; }
+.chrow.passed { background: rgba(226, 27, 60, .35); border-color: rgba(226, 27, 60, .5); }
+.chrow.team { background: var(--blue); border-color: #fff; animation: ripop .45s cubic-bezier(.2, 1.6, .4, 1) both; }
+.chrow.chaser { background: var(--bad); border-color: #fff; animation: ripop .45s cubic-bezier(.2, 1.6, .4, 1) both; }
+.chrow.home { background: rgba(38, 137, 12, .5); border-color: #b8ffb0; }
+.chrow.home.team { background: var(--ok); }
+.chtok { padding: 0 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.chmain { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+.chreveal { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.chdrum { font-size: clamp(3rem, 9vh, 6rem); animation: chdrum .12s linear 34 alternate, chgone .01s linear 4.2s forwards; }
+@keyframes chdrum { from { transform: rotate(-6deg); } to { transform: rotate(6deg) translateY(-4px); } }
+@keyframes chgone { to { display: none; opacity: 0; height: 0; font-size: 0; } }
+.chwho { opacity: 0; animation: ripop .7s cubic-bezier(.2, 1.6, .4, 1) 4.3s both; }
+.chwho .em { font-size: clamp(4rem, 12vh, 8rem); line-height: 1; }
+.chwho h1 { color: #ff6b81; }
+.chsub { font-size: clamp(1.1rem, 2.2vw, 1.8rem); font-weight: 800; max-width: 900px; text-wrap: balance; }
+.chstatus { font-size: clamp(1.1rem, 2.2vw, 1.8rem); font-weight: 900; padding: 8px 22px; border-radius: 14px; }
+.chstatus.good { background: rgba(19, 104, 206, .9); }
+.chstatus.bad { background: rgba(226, 27, 60, .9); }
+.chend { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.chend .em { font-size: clamp(4rem, 12vh, 8rem); line-height: 1; animation: ripop .7s cubic-bezier(.2, 1.6, .4, 1) both; }
+.chend.good h1 { color: #b8ffb0; }
+.chend.bad h1 { color: #ff6b81; }
+.chband { border-radius: 12px; padding: 8px 12px; font-weight: 900; text-align: center; color: #fff; }
+.chband.chaser { background: var(--bad); }
+.chband.team { background: var(--blue); }
+.app.turn-chaser { background: #ffe0e5; }
+body.player:has(.app.turn-chaser) { background: #ffe0e5; }
+@media (prefers-reduced-motion: reduce) { .chdrum { animation: none; display: none; } .chwho { animation: none; opacity: 1; } }

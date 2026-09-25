@@ -167,7 +167,7 @@ function render() {
     if (ri.step !== 'splash' && navigator.vibrate) try { navigator.vibrate(ri.step === 'bang' ? 200 : 40); } catch {}
   }
   else if (s.phase === 'countdown') app.innerHTML = top + top2 + `<div class="state"><div class="em">${TYPES[s.next?.type]?.icon || '⏳'}</div><h2>Get ready…</h2><p class="muted">Question ${s.next?.n || s.qIndex + 1}: ${esc(TYPES[s.next?.type]?.label || '')}</p></div>`;
-  else if (s.phase === 'question' && (s.potato || s.koth || s.bb)) { P.game = { at: Date.now(), rem: (s.koth || s.bb)?.remainingMs || 0, total: (s.koth || s.bb)?.totalMs || 0, frozen: s.paused }; app.innerHTML = top + top2 + (s.potato ? '' : '<div class="ptimer" id="gtimer"><i></i></div>') + (s.potato ? potatoHtml(s) : s.koth ? kothHtml(s) : bbHtml(s)); bindGame(s); timerT = setInterval(tickGame, 200); tickGame(); }
+  else if (s.phase === 'question' && (s.potato || s.koth || s.bb || s.chase)) { const gs = s.koth || s.bb || s.chase; P.game = { at: Date.now(), rem: gs?.remainingMs || 0, total: gs?.totalMs || 0, frozen: s.paused }; app.innerHTML = top + top2 + (s.potato ? '' : '<div class="ptimer" id="gtimer"><i></i></div>') + (s.potato ? potatoHtml(s) : s.koth ? kothHtml(s) : s.chase ? chaseHtml(s) : bbHtml(s)); bindGame(s); timerT = setInterval(tickGame, 200); tickGame(); }
   else if (s.phase === 'question' && s.race) { app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + raceHtml(s); bindRace(s); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'question' && s.wipe) { P.deadline = Date.now() + (s.wipe.remainingMs || 0); app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + wipeHtml(s); bindWipe(s); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'question') { app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + (P.answered[qId] ? (P.skipped[qId] ? `<div class="state"><div class="em">⏭</div><h2>Skipped</h2><p class="muted">No points this time. Waiting for the others…</p></div>` : sentHtml()) : questionHtml(s.q)); bindQuestion(s.q); timerT = setInterval(tickTimer, 250); tickTimer(); }
@@ -254,6 +254,7 @@ function gameKey(s) {
   if (s.phase !== 'question') return '';
   if (s.potato) { const p = s.potato; return ['pot', p.holder, p.stage, p.row?.i, p.exploded, p.players.length, p.holder === P.pid ? P.work.potSent : ''].join('|'); }
   if (s.koth) { const g = s.koth; return ['koth', g.step, g.fff?.row?.i, (g.fff?.answered || []).includes(P.pid), g.fff?.through?.length, g.h2h?.buzz, g.judges.includes(P.pid), g.result?.pid, g.winner, g.pair.join(), g.king].join('|'); }
+  if (s.chase) { const g = s.chase; return ['chase', g.step, g.row?.i, g.answered.includes(P.pid), g.teamSteps, g.chaserSteps, g.result].join('|'); }
   if (s.bb) { const g = s.bb; return ['bb', g.step, g.teamOf[P.pid], g.picker, g.hot, g.answered.includes(P.pid), g.hexes.map((h) => h.owner).join(''), Object.keys(g.teamOf).length].join('|'); }
   return '';
 }
@@ -309,6 +310,18 @@ function kothHtml(s) {
   }
   if (g.step === 'result') { const r = g.result; return `${pts}<div class="state"><div class="em">${r.ok ? '✅' : '❌'}</div><h2>${r.ok ? `${esc(nm(s, r.pid))} got it: ${g.pts[r.pid]} / ${g.target}` : `${esc(nm(s, r.pid))} got it wrong`}</h2><p class="muted">${esc(nm(s, g.king))} stays on the hill 👑</p></div>`; }
   return pts;
+}
+function chaseHtml(s) {
+  const g = s.chase, me = P.pid, isChaser = g.chaser === me, gap = g.headStart + g.teamSteps - g.chaserSteps;
+  const band = `<div class="chband ${isChaser ? 'chaser' : 'team'}">${isChaser ? '😈 You are the Chaser' : `👥 Team everyone else · chased by ${esc(nm(s, g.chaser))}`}</div>`;
+  const prog = `<div class="rprog"><span>🏠 Team: <b>${g.teamSteps}</b> of ${g.target}</span><span>🏃 Chaser ${gap} step${gap === 1 ? '' : 's'} behind</span></div>`;
+  app.className = 'app ' + (isChaser ? 'turn-chaser' : '');
+  if (g.step === 'reveal') return `<div class="state"><div class="em">${isChaser ? '😈' : em(s, g.chaser)}</div><p class="muted" style="margin:0">And the Chaser is…</p><h2>${isChaser ? 'YOU! You are the Chaser' : esc(nm(s, g.chaser))}</h2><p style="font-weight:700">${isChaser ? `Answer first and right to catch them. Catch them and you win ${g.chaserPrize}.` : `Everyone else is one team, ${g.headStart} steps ahead. Get ${g.target} right before you're caught and you each win ${g.teamPrize}.`}</p></div>`;
+  if (g.step === 'over') return `${band}<div class="state"><div class="em">${g.result === 'home' ? '🏠' : '😈'}</div><h2>${g.result === 'home' ? 'The team got home!' : 'Caught!'}</h2><p class="muted">${g.result === 'home' ? (isChaser ? 'They got away from you' : `+${g.teamPrize} for you!`) : (isChaser ? `You caught them: +${g.chaserPrize}` : 'The Chaser caught the team')}</p></div>`;
+  if (g.step === 'show') return `${band}${prog}<div class="state"><div class="em">${g.first === g.chaser ? '🏃' : g.first ? '✅' : '🤷'}</div><h2>${g.first === g.chaser ? (isChaser ? 'You were first: a step closer!' : 'The Chaser was first: a step closer…') : g.first ? `${esc(nm(s, g.first))} was first: a step towards home!` : 'Nobody got it'}</h2><p class="muted">It was ${esc(g.right || '')}</p></div>`;
+  if (!g.row) return band + prog;
+  if (g.answered.includes(me)) return `${band}${prog}<div class="state"><div class="em">🔒</div><h2>Locked in</h2><p class="muted">The first right answer wins the step…</p></div>`;
+  return `${band}${prog}<div class="pq">${esc(g.row.text)}</div>${optsHtml(g.row, 'data-fk')}<p class="center small muted">Be quick: only the first right answer counts</p>`;
 }
 function bbHtml(s) {
   const g = s.bb, t = g.teamOf[P.pid], teams = g.teams;
@@ -456,7 +469,7 @@ function resultHtml(s, r) {
   if (!r) return `<div class="state"><h2>Results are on the screen</h2></div>`;
   const wipeQ = s.qType === 'wipeout' || r.wiped || r.points < 0, raceQ = s.qType === 'race' || r.raced;
   const cls = r.points < 0 ? 'neg' : r.correct || r.place ? 'ok' : raceQ ? 'part' : r.partial > 0 ? 'part' : 'no';
-  const head = r.note && ['potato', 'koth', 'blockbusters'].includes(s.qType) ? esc(r.note) : r.skipped ? '⏭ Skipped' : r.wiped ? '💥 Wiped out!' : r.lost ? `💨 Last place · ${r.got ?? 0} right` : r.place === 2 ? `🥈 Second place · ${r.got ?? 0} right` : r.place === 3 ? `🥉 Third place · ${r.got ?? 0} right` : wipeQ ? (r.points > 0 ? '✓ Nice picking!' : 'No points this round') : raceQ ? (r.correct ? `🏆 You won the race! · ${r.got ?? 0} right` : r.out ? `Out of the race · ${r.got ?? 0} right` : `${r.got ?? 0} right`) : r.correct ? '✓ Correct!' : !r.answered ? 'Too slow!' : r.partial > 0 ? 'Partly right' : '✗ Not this time';
+  const head = r.note && ['potato', 'koth', 'blockbusters', 'chase'].includes(s.qType) ? esc(r.note) : r.skipped ? '⏭ Skipped' : r.wiped ? '💥 Wiped out!' : r.lost ? `💨 Last place · ${r.got ?? 0} right` : r.place === 2 ? `🥈 Second place · ${r.got ?? 0} right` : r.place === 3 ? `🥉 Third place · ${r.got ?? 0} right` : wipeQ ? (r.points > 0 ? '✓ Nice picking!' : 'No points this round') : raceQ ? (r.correct ? `🏆 You won the race! · ${r.got ?? 0} right` : r.out ? `Out of the race · ${r.got ?? 0} right` : `${r.got ?? 0} right`) : r.correct ? '✓ Correct!' : !r.answered ? 'Too slow!' : r.partial > 0 ? 'Partly right' : '✗ Not this time';
   const medal = raceQ && !r.lost ? (r.correct ? '🏆' : r.place === 2 ? '🥈' : r.place === 3 ? '🥉' : '') : '';
   if (medal && navigator.vibrate) try { navigator.vibrate(r.correct ? [120, 60, 120, 60, 300] : 150); } catch {}
   return `<div class="result ${cls}">${medal ? `<div class="rpmedal">${medal}</div>` : ''}<div style="font-size:1.6rem;font-weight:900">${head}</div>${r.practice ? `<div class="pts" style="opacity:.55">${r.would > 0 ? '+' : ''}${r.would}</div><div style="font-weight:900">🧪 Practice: that would have been your score. It doesn't count.</div>` : `<div class="pts">${r.points > 0 ? '+' : ''}${r.points}</div>`}
