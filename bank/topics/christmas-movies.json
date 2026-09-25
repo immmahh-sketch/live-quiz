@@ -1,712 +1,80 @@
 [
-{
-"type": "choice",
-"text": "In 'Home Alone', which city does Kevin's family fly to for Christmas?",
-"options": [
-"Paris",
-"New York",
-"Rome",
-"London"
-]
-},
-{
-"type": "choice",
-"text": "What are the two burglars in 'Home Alone' known as?",
-"options": [
-"The Wet Bandits",
-"The Sticky Bandits",
-"The Wonder Twins",
-"The Christmas Crooks"
-]
-},
-{
-"type": "choice",
-"text": "Who plays Kevin McCallister in 'Home Alone'?",
-"options": [
-"Macaulay Culkin",
-"Joseph Gorden-Levitt",
-"Elijah Wood",
-"Haley Joel Osment"
-]
-},
-{
-"type": "choice",
-"text": "In 'Elf', what is the first rule of the Code of the Elves?",
-"options": [
-"Treat every day like Christmas",
-"There's room for everyone on the nice list",
-"Never bring a bell to a snowball fight",
-"Always wear your hat indoors"
-]
-},
-{
-"type": "choice",
-"text": "Who plays Buddy in 'Elf'?",
-"options": [
-"Will Ferrell",
-"Adam Sandler",
-"Jim Carrey",
-"Ben Stiller"
-]
-},
-{
-"type": "choice",
-"text": "Which department store does Buddy work in, in 'Elf'?",
-"options": [
-"Gimbels",
-"Macy's",
-"Bloomingdale's",
-"Saks"
-]
-},
-{
-"type": "choice",
-"text": "In 'Love Actually', who plays the Prime Minister?",
-"options": [
-"Hugh Grant",
-"Colin Firth",
-"Liam Neeson",
-"Alan Rickman"
-]
-},
-{
-"type": "choice",
-"text": "In 'Love Actually', which song does Billy Mack turn into a Christmas record?",
-"options": [
-"Love Is All Around",
-"All You Need Is Love",
-"Wonderwall",
-"Everlasting Love"
-]
-},
-{
-"type": "choice",
-"text": "In 'Die Hard', where is the Nakatomi Plaza?",
-"options": [
-"Los Angeles",
-"New York",
-"Chicago",
-"San Francisco"
-]
-},
-{
-"type": "choice",
-"text": "Who plays Hans Gruber in 'Die Hard'?",
-"options": [
-"Alan Rickman",
-"Jeremy Irons",
-"Gary Oldman",
-"Anthony Hopkins"
-]
-},
-{
-"type": "choice",
-"text": "In 'The Muppet Christmas Carol', who plays Scrooge?",
-"options": [
-"Michael Caine",
-"Patrick Stewart",
-"Albert Finney",
-"George C. Scott"
-]
-},
-{
-"type": "choice",
-"text": "Which Muppet plays Bob Cratchit in 'The Muppet Christmas Carol'?",
-"options": [
-"Kermit the Frog",
-"Fozzie Bear",
-"Gonzo",
-"Rizzo the Rat"
-]
-},
-{
-"type": "choice",
-"text": "In 'The Grinch' (2000), who plays the Grinch?",
-"options": [
-"Jim Carrey",
-"Mike Myers",
-"Eddie Murphy",
-"Robin Williams"
-]
-},
-{
-"type": "choice",
-"text": "What is the name of the Grinch's dog?",
-"options": [
-"Max",
-"Rex",
-"Buddy",
-"Sam"
-]
-},
-{
-"type": "choice",
-"text": "In 'It's a Wonderful Life', what is George Bailey's home town called?",
-"options": [
-"Bedford Falls",
-"Pottersville",
-"Springfield",
-"Pleasantville"
-]
-},
-{
-"type": "choice",
-"text": "In 'It's a Wonderful Life', what happens every time a bell rings?",
-"options": [
-"An angel gets its wings",
-"A wish comes true",
-"Snow starts to fall",
-"Someone is born"
-]
-},
-{
-"type": "choice",
-"text": "In 'The Polar Express', who voices the conductor?",
-"options": [
-"Tom Hanks",
-"Tim Allen",
-"Bill Murray",
-"Robin Williams"
-]
-},
-{
-"type": "choice",
-"text": "Which Christmas film features a boy who befriends a snowman that comes to life, from a Raymond Briggs book?",
-"options": [
-"The Snowman",
-"Frosty the Snowman",
-"Jack Frost",
-"Arthur Christmas"
-]
-},
-{
-"type": "choice",
-"text": "In 'Miracle on 34th Street', which store's Santa claims to be the real one?",
-"options": [
-"Macy's",
-"Gimbels",
-"Harrods",
-"Bloomingdale's"
-]
-},
-{
-"type": "choice",
-"text": "In 'The Nightmare Before Christmas', what is the name of the Pumpkin King?",
-"options": [
-"Jack Skellington",
-"Oogie Boogie",
-"Sandy Claws",
-"Dr Finkelstein"
-]
-},
-{
-"type": "choice",
-"text": "Which Christmas film sees Tim Allen become Santa after the previous one falls off his roof?",
-"options": [
-"The Santa Clause",
-"Fred Claus",
-"Jingle All the Way",
-"Deck the Halls"
-]
-},
-{
-"type": "choice",
-"text": "In 'Jingle All the Way', which toy is Arnold Schwarzenegger desperate to buy?",
-"options": [
-"Turbo Man",
-"Buzz Lightyear",
-"Power Ranger",
-"Action Man"
-]
-},
-{
-"type": "choice",
-"text": "In 'Nativity!' (2009), where do the school children believe a Hollywood producer is coming from?",
-"options": [
-"Hollywood",
-"New York",
-"Broadway",
-"Disneyland"
-]
-},
-{
-"type": "choice",
-"text": "Which festive film features Cameron Diaz and Kate Winslet swapping houses?",
-"options": [
-"The Holiday",
-"Love Actually",
-"Last Christmas",
-"Four Christmases"
-]
-},
-{
-"type": "choice",
-"text": "In 'Gremlins', what must you never do to a mogwai?",
-"options": [
-"Feed it after midnight",
-"Take it outdoors",
-"Let it sleep",
-"Give it chocolate"
-]
-},
-{
-"type": "choice",
-"text": "Which film features Bill Murray as a TV executive visited by three ghosts?",
-"options": [
-"Scrooged",
-"Groundhog Day",
-"Ghostbusters",
-"Bad Santa"
-]
-},
-{
-"type": "choice",
-"text": "In 'Bad Santa', who plays the drunken department-store Santa?",
-"options": [
-"Billy Bob Thornton",
-"Bill Murray",
-"Danny DeVito",
-"John Goodman"
-]
-},
-{
-"type": "choice",
-"text": "Which Christmas film features Emilia Clarke and the songs of George Michael?",
-"options": [
-"Last Christmas",
-"Love Actually",
-"The Holiday",
-"Christmas with the Kranks"
-]
-},
-{
-"type": "choice",
-"text": "In 'Arthur Christmas', which company made the film?",
-"options": [
-"Aardman",
-"Pixar",
-"Illumination",
-"DreamWorks"
-]
-},
-{
-"type": "choice",
-"text": "In 'Home Alone 2', which hotel does Kevin stay in?",
-"options": [
-"The Plaza",
-"The Ritz",
-"The Waldorf",
-"The Carlyle"
-]
-},
-{
-"type": "choice",
-"text": "In 'Frozen', what does Olaf like?",
-"options": [
-"Warm hugs",
-"Cold showers",
-"Long walks",
-"Carrots"
-]
-},
-{
-"type": "text",
-"text": "What is the surname of the family in 'Home Alone'?",
-"answers": [
-"McCallister"
-]
-},
-{
-"type": "text",
-"text": "In 'Home Alone', what does Kevin wish for that makes his family disappear?",
-"answers": [
-"To be alone",
-"That his family would disappear",
-"No family"
-]
-},
-{
-"type": "text",
-"text": "Name the actor who plays Harry, one of the burglars in 'Home Alone'.",
-"answers": [
-"Joe Pesci",
-"Pesci"
-]
-},
-{
-"type": "text",
-"text": "In 'Elf', what is the name of Buddy's father, played by James Caan?",
-"answers": [
-"Walter Hobbs",
-"Walter"
-]
-},
-{
-"type": "text",
-"text": "In 'Elf', what does Buddy pour onto his spaghetti?",
-"answers": [
-"Maple syrup",
-"Syrup"
-]
-},
-{
-"type": "text",
-"text": "In 'Elf', which famous actor plays Santa?",
-"answers": [
-"Ed Asner",
-"Edward Asner"
-]
-},
-{
-"type": "text",
-"text": "Which actor plays the ageing rock star Billy Mack in 'Love Actually'?",
-"answers": [
-"Bill Nighy",
-"Nighy"
-]
-},
-{
-"type": "text",
-"text": "In 'Love Actually', what does Mark use to declare his love for Juliet on her doorstep?",
-"answers": [
-"Cue cards",
-"Cards",
-"Signs",
-"Placards"
-]
-},
-{
-"type": "text",
-"text": "Which airport features at the start and end of 'Love Actually'?",
-"answers": [
-"Heathrow",
-"London Heathrow"
-]
-},
-{
-"type": "text",
-"text": "In 'Die Hard', what is the name of Bruce Willis's character?",
-"answers": [
-"John McClane",
-"McClane"
-]
-},
-{
-"type": "text",
-"text": "Complete the 'Die Hard' line: 'Now I have a machine gun. ___ ___ ___.'",
-"answers": [
-"Ho ho ho",
-"Ho-ho-ho"
-]
-},
-{
-"type": "text",
-"text": "In 'A Christmas Carol', what is the name of Scrooge's dead business partner?",
-"answers": [
-"Jacob Marley",
-"Marley"
-]
-},
-{
-"type": "text",
-"text": "In 'The Muppet Christmas Carol', which Muppet narrates as Charles Dickens?",
-"answers": [
-"Gonzo",
-"The Great Gonzo"
-]
-},
-{
-"type": "text",
-"text": "Who wrote 'How the Grinch Stole Christmas!'?",
-"answers": [
-"Dr Seuss",
-"Dr. Seuss",
-"Theodor Geisel"
-]
-},
-{
-"type": "text",
-"text": "In 'The Grinch', what is the name of the little girl who befriends him?",
-"answers": [
-"Cindy Lou Who",
-"Cindy Lou"
-]
-},
-{
-"type": "text",
-"text": "Who directed 'It's a Wonderful Life'?",
-"answers": [
-"Frank Capra",
-"Capra"
-]
-},
-{
-"type": "text",
-"text": "Who plays George Bailey in 'It's a Wonderful Life'?",
-"answers": [
-"James Stewart",
-"Jimmy Stewart",
-"Stewart"
-]
-},
-{
-"type": "text",
-"text": "Which animated Christmas film is based on a 1985 book by Chris Van Allsburg about a train to the North Pole?",
-"answers": [
-"The Polar Express",
-"Polar Express"
-]
-},
-{
-"type": "text",
-"text": "Who composed the music for 'The Snowman', including 'Walking in the Air'?",
-"answers": [
-"Howard Blake",
-"Blake"
-]
-},
-{
-"type": "text",
-"text": "Who sang 'Walking in the Air' in the 1985 hit single version?",
-"answers": [
-"Aled Jones"
-]
-},
-{
-"type": "text",
-"text": "In 'Miracle on 34th Street', what does the Santa call himself?",
-"answers": [
-"Kris Kringle",
-"Kringle"
-]
-},
-{
-"type": "text",
-"text": "Who directed 'The Nightmare Before Christmas'?",
-"answers": [
-"Henry Selick",
-"Selick"
-]
-},
-{
-"type": "text",
-"text": "Which Christmas film features Scott Calvin?",
-"answers": [
-"The Santa Clause",
-"Santa Clause"
-]
-},
-{
-"type": "text",
-"text": "Which festive film stars Vince Vaughn as Santa's brother?",
-"answers": [
-"Fred Claus"
-]
-},
-{
-"type": "text",
-"text": "In 'Nativity!', who plays teacher Paul Maddens?",
-"answers": [
-"Martin Freeman",
-"Freeman"
-]
-},
-{
-"type": "text",
-"text": "In 'The Holiday', which country does Iris live in?",
-"answers": [
-"England",
-"The UK",
-"Britain"
-]
-},
-{
-"type": "text",
-"text": "In 'Home Alone', what does Kevin use to make it look like a party is happening inside the house?",
-"answers": [
-"Mannequins",
-"Cardboard cut-outs and mannequins",
-"Dummies"
-]
-},
-{
-"type": "text",
-"text": "In 'Home Alone', what is the name of Kevin's scary next-door neighbour with the shovel?",
-"answers": [
-"Old Man Marley",
-"Marley"
-]
-},
-{
-"type": "tf",
-"text": "'Die Hard' is set on Christmas Eve.",
-"answer": true
-},
-{
-"type": "tf",
-"text": "'Home Alone' was released in 1992.",
-"answer": false
-},
-{
-"type": "tf",
-"text": "In 'Elf', Buddy travels to New York from the North Pole.",
-"answer": true
-},
-{
-"type": "tf",
-"text": "'Love Actually' was directed by Richard Curtis.",
-"answer": true
-},
-{
-"type": "tf",
-"text": "'It's a Wonderful Life' was a box-office hit on release in 1946.",
-"answer": false
-},
-{
-"type": "tf",
-"text": "'The Muppet Christmas Carol' was released in 1992.",
-"answer": true
-},
-{
-"type": "tf",
-"text": "In 'The Grinch' (2000), the Grinch lives on Mount Crumpit.",
-"answer": true
-},
-{
-"type": "tf",
-"text": "'The Nightmare Before Christmas' was directed by Tim Burton.",
-"answer": false
-},
-{
-"type": "tf",
-"text": "'Gremlins' is set at Christmas.",
-"answer": true
-},
-{
-"type": "tf",
-"text": "'The Holiday' stars Jude Law and Jack Black.",
-"answer": true
-},
-{
-"type": "tf",
-"text": "'Arthur Christmas' is a Pixar film.",
-"answer": false
-},
-{
-"type": "tf",
-"text": "'Home Alone 2' is subtitled 'Lost in New York'.",
-"answer": true
-},
-{
-"type": "tf",
-"text": "'Miracle on 34th Street' was first made in 1947.",
-"answer": true
-},
-{
-"type": "tf",
-"text": "'Last Christmas' (2019) was written by Emma Thompson.",
-"answer": true
-},
-{
-"type": "order",
-"text": "Put these Christmas films in order of release, earliest first",
-"items": [
-"It's a Wonderful Life",
-"Home Alone",
-"Elf",
-"Last Christmas"
-],
-"hint": "1946, 1990, 2003, 2019"
-},
-{
-"type": "order",
-"text": "Put these in the order the ghosts visit Scrooge",
-"items": [
-"Jacob Marley",
-"Ghost of Christmas Past",
-"Ghost of Christmas Present",
-"Ghost of Christmas Yet to Come"
-],
-"hint": "first to last"
-},
-{
-"type": "order",
-"text": "Put these 'Home Alone' events in order",
-"items": [
-"The family oversleeps",
-"Kevin goes shopping alone",
-"The burglars break in",
-"Kevin's mum returns"
-],
-"hint": "first to last"
-},
-{
-"type": "sort",
-"text": "Which Christmas film are these characters from?",
-"categories": [
-"Home Alone",
-"Elf",
-"Love Actually"
-],
-"items": [
-{
-"text": "Kevin McCallister",
-"category": "Home Alone"
-},
-{
-"text": "Buddy",
-"category": "Elf"
-},
-{
-"text": "Billy Mack",
-"category": "Love Actually"
-},
-{
-"text": "Harry and Marv",
-"category": "Home Alone"
-},
-{
-"text": "Jovie",
-"category": "Elf"
-},
-{
-"text": "Karen",
-"category": "Love Actually"
-}
-]
-},
-{
-"type": "sort",
-"text": "Live action or animated?",
-"categories": [
-"Live action",
-"Animated"
-],
-"items": [
-{
-"text": "Elf",
-"category": "Live action"
-},
-{
-"text": "The Polar Express",
-"category": "Animated"
-},
-{
-"text": "Die Hard",
-"category": "Live action"
-},
-{
-"text": "The Snowman",
-"category": "Animated"
-},
-{
-"text": "Nativity!",
-"category": "Live action"
-},
-{
-"text": "Arthur Christmas",
-"category": "Animated"
-}
-]
-}
+{"type":"choice","text":"In 'Home Alone', which city does Kevin's family fly to for Christmas?","options":["Paris","New York","Rome","London"],"difficulty":"easy"},
+{"type":"choice","text":"What are the two burglars in 'Home Alone' known as?","options":["The Wet Bandits","The Sticky Bandits","The Wonder Twins","The Christmas Crooks"],"difficulty":"easy"},
+{"type":"choice","text":"Who plays Kevin McCallister in 'Home Alone'?","options":["Macaulay Culkin","Joseph Gordon-Levitt","Elijah Wood","Haley Joel Osment"],"difficulty":"easy"},
+{"type":"choice","text":"In 'Elf', what is the first rule of the Code of the Elves?","options":["Treat every day like Christmas","There's room for everyone on the nice list","Never bring a bell to a snowball fight","Always wear your hat indoors"],"difficulty":"medium"},
+{"type":"choice","text":"Who plays Buddy in 'Elf'?","options":["Will Ferrell","Adam Sandler","Jim Carrey","Ben Stiller"],"difficulty":"easy"},
+{"type":"choice","text":"Which department store does Buddy work in, in 'Elf'?","options":["Gimbels","Macy's","Bloomingdale's","Saks"],"difficulty":"hard"},
+{"type":"choice","text":"In 'Love Actually', who plays the Prime Minister?","options":["Hugh Grant","Colin Firth","Liam Neeson","Alan Rickman"],"difficulty":"easy"},
+{"type":"choice","text":"In 'Love Actually', which song does Billy Mack turn into a Christmas record?","options":["Love Is All Around","All You Need Is Love","Wonderwall","Everlasting Love"],"difficulty":"easy"},
+{"type":"choice","text":"In 'Die Hard', where is the Nakatomi Plaza?","options":["Los Angeles","New York","Chicago","San Francisco"],"difficulty":"medium"},
+{"type":"choice","text":"Who plays Hans Gruber in 'Die Hard'?","options":["Alan Rickman","Jeremy Irons","Gary Oldman","Anthony Hopkins"],"difficulty":"easy"},
+{"type":"choice","text":"In 'The Muppet Christmas Carol', who plays Scrooge?","options":["Michael Caine","Patrick Stewart","Albert Finney","George C. Scott"],"difficulty":"medium"},
+{"type":"choice","text":"Which Muppet plays Bob Cratchit in 'The Muppet Christmas Carol'?","options":["Kermit the Frog","Fozzie Bear","Gonzo","Rizzo the Rat"],"difficulty":"easy"},
+{"type":"choice","text":"In 'The Grinch' (2000), who plays the Grinch?","options":["Jim Carrey","Mike Myers","Eddie Murphy","Robin Williams"],"difficulty":"easy"},
+{"type":"choice","text":"What is the name of the Grinch's dog?","options":["Max","Rex","Buddy","Sam"],"difficulty":"medium"},
+{"type":"choice","text":"In 'It's a Wonderful Life', what is George Bailey's home town called?","options":["Bedford Falls","Pottersville","Springfield","Pleasantville"],"difficulty":"medium"},
+{"type":"choice","text":"In 'It's a Wonderful Life', what happens every time a bell rings?","options":["An angel gets its wings","A wish comes true","Snow starts to fall","Someone is born"],"difficulty":"easy"},
+{"type":"choice","text":"In 'The Polar Express', who voices the conductor?","options":["Tom Hanks","Tim Allen","Bill Murray","Robin Williams"],"difficulty":"medium"},
+{"type":"choice","text":"Which Christmas film features a boy who befriends a snowman that comes to life, from a Raymond Briggs book?","options":["The Snowman","Frosty the Snowman","Jack Frost","Arthur Christmas"],"difficulty":"easy"},
+{"type":"choice","text":"In 'Miracle on 34th Street', which store's Santa claims to be the real one?","options":["Macy's","Gimbels","Harrods","Bloomingdale's"],"difficulty":"medium"},
+{"type":"choice","text":"In 'The Nightmare Before Christmas', what is the name of the Pumpkin King?","options":["Jack Skellington","Oogie Boogie","Sandy Claws","Dr Finkelstein"],"difficulty":"easy"},
+{"type":"choice","text":"Which Christmas film sees Tim Allen become Santa after the previous one falls off his roof?","options":["The Santa Clause","Fred Claus","Jingle All the Way","Deck the Halls"],"difficulty":"easy"},
+{"type":"choice","text":"In 'Jingle All the Way', which toy is Arnold Schwarzenegger desperate to buy?","options":["Turbo Man","Buzz Lightyear","Power Ranger","Action Man"],"difficulty":"medium"},
+{"type":"choice","text":"In 'Nativity!' (2009), in which city is the school where Mr Maddens teaches?","options":["Coventry","Birmingham","Leicester","Nottingham"],"difficulty":"easy"},
+{"type":"choice","text":"Which festive film features Cameron Diaz and Kate Winslet swapping houses?","options":["The Holiday","Love Actually","Last Christmas","Four Christmases"],"difficulty":"easy"},
+{"type":"choice","text":"In 'Gremlins', what must you never do to a mogwai?","options":["Feed it after midnight","Take it outdoors","Let it sleep","Give it chocolate"],"difficulty":"easy"},
+{"type":"choice","text":"Which film features Bill Murray as a TV executive visited by three ghosts?","options":["Scrooged","Groundhog Day","Ghostbusters","Bad Santa"],"difficulty":"easy"},
+{"type":"choice","text":"In 'Bad Santa', who plays the drunken department-store Santa?","options":["Billy Bob Thornton","Bill Murray","Danny DeVito","John Goodman"],"difficulty":"medium"},
+{"type":"choice","text":"Which Christmas film features Emilia Clarke and the songs of George Michael?","options":["Last Christmas","Love Actually","The Holiday","Christmas with the Kranks"],"difficulty":"easy"},
+{"type":"choice","text":"In 'Arthur Christmas', which company made the film?","options":["Aardman","Pixar","Illumination","DreamWorks"],"difficulty":"medium"},
+{"type":"choice","text":"In 'Home Alone 2', which hotel does Kevin stay in?","options":["The Plaza","The Ritz","The Waldorf","The Carlyle"],"difficulty":"medium"},
+{"type":"choice","text":"In 'Frozen', what does Olaf like?","options":["Warm hugs","Cold showers","Long walks","Carrots"],"difficulty":"easy"},
+{"type":"text","text":"What is the surname of the family in 'Home Alone'?","answers":["McCallister"],"difficulty":"medium"},
+{"type":"text","text":"In 'Home Alone', what does Kevin wish for that makes his family disappear?","answers":["To be alone","That his family would disappear","No family"],"difficulty":"medium"},
+{"type":"text","text":"Name the actor who plays Harry, one of the burglars in 'Home Alone'.","answers":["Joe Pesci","Pesci"],"difficulty":"medium"},
+{"type":"text","text":"In 'Elf', what is the name of Buddy's father, played by James Caan?","answers":["Walter Hobbs","Walter"],"difficulty":"hard"},
+{"type":"text","text":"In 'Elf', what does Buddy pour onto his spaghetti?","answers":["Maple syrup","Syrup"],"difficulty":"medium"},
+{"type":"text","text":"In 'Elf', which famous actor plays Santa?","answers":["Ed Asner","Edward Asner"],"difficulty":"hard"},
+{"type":"text","text":"Which actor plays the ageing rock star Billy Mack in 'Love Actually'?","answers":["Bill Nighy","Nighy"],"difficulty":"easy"},
+{"type":"text","text":"In 'Love Actually', what does Mark use to declare his love for Juliet on her doorstep?","answers":["Cue cards","Cards","Signs","Placards"],"difficulty":"easy"},
+{"type":"text","text":"Which airport features at the start and end of 'Love Actually'?","answers":["Heathrow","London Heathrow"],"difficulty":"easy"},
+{"type":"text","text":"In 'Die Hard', what is the name of Bruce Willis's character?","answers":["John McClane","McClane"],"difficulty":"easy"},
+{"type":"text","text":"Complete the 'Die Hard' line: 'Now I have a machine gun. ___ ___ ___.'","answers":["Ho ho ho","Ho-ho-ho"],"difficulty":"easy"},
+{"type":"text","text":"In 'A Christmas Carol', what is the name of Scrooge's dead business partner?","answers":["Jacob Marley","Marley"],"difficulty":"easy"},
+{"type":"text","text":"In 'The Muppet Christmas Carol', which Muppet narrates as Charles Dickens?","answers":["Gonzo","The Great Gonzo"],"difficulty":"medium"},
+{"type":"text","text":"Who wrote 'How the Grinch Stole Christmas!'?","answers":["Dr Seuss","Dr. Seuss","Theodor Geisel"],"difficulty":"easy"},
+{"type":"text","text":"In 'The Grinch', what is the name of the little girl who befriends him?","answers":["Cindy Lou Who","Cindy Lou"],"difficulty":"medium"},
+{"type":"text","text":"Who directed 'It's a Wonderful Life'?","answers":["Frank Capra","Capra"],"difficulty":"medium"},
+{"type":"text","text":"Who plays George Bailey in 'It's a Wonderful Life'?","answers":["James Stewart","Jimmy Stewart","Stewart"],"difficulty":"medium"},
+{"type":"text","text":"Which animated Christmas film is based on a 1985 book by Chris Van Allsburg about a train to the North Pole?","answers":["The Polar Express","Polar Express"],"difficulty":"easy"},
+{"type":"text","text":"Who composed the music for 'The Snowman', including 'Walking in the Air'?","answers":["Howard Blake","Blake"],"difficulty":"hard"},
+{"type":"text","text":"Who sang 'Walking in the Air' in the 1985 hit single version?","answers":["Aled Jones"],"difficulty":"medium"},
+{"type":"text","text":"In 'Miracle on 34th Street', what does the Santa call himself?","answers":["Kris Kringle","Kringle"],"difficulty":"medium"},
+{"type":"text","text":"Who directed 'The Nightmare Before Christmas'?","answers":["Henry Selick","Selick"],"difficulty":"hard"},
+{"type":"text","text":"Which Christmas film features Scott Calvin?","answers":["The Santa Clause","Santa Clause"],"difficulty":"medium"},
+{"type":"text","text":"Which festive film stars Vince Vaughn as Santa's brother?","answers":["Fred Claus"],"difficulty":"medium"},
+{"type":"text","text":"In 'Nativity!', who plays teacher Paul Maddens?","answers":["Martin Freeman","Freeman"],"difficulty":"medium"},
+{"type":"text","text":"In 'The Holiday', which country does Iris live in?","answers":["England","The UK","Britain"],"difficulty":"easy"},
+{"type":"text","text":"In 'Home Alone', what does Kevin use to make it look like a party is happening inside the house?","answers":["Mannequins","Cardboard cut-outs and mannequins","Dummies"],"difficulty":"medium"},
+{"type":"text","text":"In 'Home Alone', what is the name of Kevin's scary next-door neighbour with the shovel?","answers":["Old Man Marley","Marley"],"difficulty":"medium"},
+{"type":"tf","text":"'Die Hard' is set on Christmas Eve.","answer":true,"difficulty":"easy"},
+{"type":"tf","text":"'Home Alone' was released in 1992.","answer":false,"difficulty":"medium"},
+{"type":"tf","text":"In 'Elf', Buddy travels to New York from the North Pole.","answer":true,"difficulty":"easy"},
+{"type":"tf","text":"'Love Actually' was directed by Richard Curtis.","answer":true,"difficulty":"easy"},
+{"type":"tf","text":"'It's a Wonderful Life' was a box-office hit on release in 1946.","answer":false,"difficulty":"medium"},
+{"type":"tf","text":"'The Muppet Christmas Carol' was released in 1992.","answer":true,"difficulty":"medium"},
+{"type":"tf","text":"In 'The Grinch' (2000), the Grinch lives on Mount Crumpit.","answer":true,"difficulty":"medium"},
+{"type":"tf","text":"'The Nightmare Before Christmas' was directed by Tim Burton.","answer":false,"difficulty":"medium"},
+{"type":"tf","text":"'Gremlins' is set at Christmas.","answer":true,"difficulty":"easy"},
+{"type":"tf","text":"'The Holiday' stars Jude Law and Jack Black.","answer":true,"difficulty":"medium"},
+{"type":"tf","text":"'Arthur Christmas' is a Pixar film.","answer":false,"difficulty":"medium"},
+{"type":"tf","text":"'Home Alone 2' is subtitled 'Lost in New York'.","answer":true,"difficulty":"easy"},
+{"type":"tf","text":"'Miracle on 34th Street' was first made in 1947.","answer":true,"difficulty":"medium"},
+{"type":"tf","text":"'Last Christmas' (2019) was written by Emma Thompson.","answer":true,"difficulty":"medium"},
+{"type":"order","text":"Put these Christmas films in order of release, earliest first","items":["It's a Wonderful Life","Home Alone","Elf","Last Christmas"],"hint":"1946, 1990, 2003, 2019","difficulty":"easy"},
+{"type":"order","text":"Put these in the order the ghosts visit Scrooge","items":["Jacob Marley","Ghost of Christmas Past","Ghost of Christmas Present","Ghost of Christmas Yet to Come"],"hint":"first to last","difficulty":"easy"},
+{"type":"order","text":"Put these 'Home Alone' events in order","items":["The family oversleeps","Kevin goes shopping alone","The burglars break in","Kevin's mum returns"],"hint":"first to last","difficulty":"easy"},
+{"type":"sort","text":"Which Christmas film are these characters from?","categories":["Home Alone","Elf","Love Actually"],"items":[{"text":"Kevin McCallister","category":"Home Alone"},{"text":"Buddy","category":"Elf"},{"text":"Billy Mack","category":"Love Actually"},{"text":"Harry and Marv","category":"Home Alone"},{"text":"Jovie","category":"Elf"},{"text":"Karen","category":"Love Actually"}],"difficulty":"easy"},
+{"type":"sort","text":"Live action or animated?","categories":["Live action","Animated"],"items":[{"text":"Elf","category":"Live action"},{"text":"The Polar Express","category":"Animated"},{"text":"Die Hard","category":"Live action"},{"text":"The Snowman","category":"Animated"},{"text":"Nativity!","category":"Live action"},{"text":"Arthur Christmas","category":"Animated"}],"difficulty":"easy"}
 ]

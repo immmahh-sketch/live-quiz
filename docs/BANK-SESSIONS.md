@@ -37,10 +37,16 @@ Each session:
    - `{"type":"wheel","phrase":"UPPER CASE PHRASE"}` (a well-known phrase, title or name tied to the topic; the importer skips any that do not fit the board)
    - `{"type":"club","text":"a logic or observation puzzle","answers":["…"],"pct":90}` (pct: the share of people expected to get it, 90 easy down to 1; it must be a genuine puzzle, not a plain fact)
    - `{"type":"dingbat","answers":["…"],"elements":[{"t":"MAN","x":50,"y":30,"s":5}]}` (x/y 0–100, s size 1–6, optional rot, flip "h"/"v", style strike/underline/box/outline)
-   Every item also carries `"difficulty": "easy" | "medium" | "hard"`. Aim for roughly a
-   quarter easy, nearly half medium and the rest hard (the bank picks in that proportion for a
-   mixed round). Easy: most of the room knows it. Medium: a good table gets it. Hard: one
-   person in the room knows it, but they exist.
+   Every item also carries `"difficulty": "easy" | "medium" | "hard"`, judged honestly for that
+   question as asked. Easy: most of the room knows it. Medium: a good table gets it. Hard: one
+   person in the room knows it, but they exist. Multiple choice and true/false are easier than
+   the same fact asked as free text. The bank wants each topic at roughly a quarter easy, nearly
+   half medium and the rest hard (it picks in that proportion for a mixed round), so write
+   questions that genuinely land there. Never re-label a question to hit the mix. If the set
+   comes out too easy, the ratings stay as they are and bank-next.mjs asks for a BALANCE top-up
+   of genuinely harder questions (or easier ones, if a topic is too hard) in the next session.
+   A BALANCE line gives the file name and how many questions of each level to write; the types
+   are free, but mostly choice, text and tf.
    Quality bar: facts you are sure of, UK spelling, no "Trick:" or "no:" corrections in the
    text, no duplicates of what is already in the file, a spread of easy to hard. Pub-quiz
    quality: nothing nursery-level, nothing only a specialist could know.
