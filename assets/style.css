@@ -84,6 +84,10 @@ textarea { min-height: 80px; resize: vertical; }
 .toast.bad { background: var(--bad); }
 .modal-bg { position: fixed; inset: 0; background: rgba(20,16,60,.55); display: flex; align-items: center; justify-content: center; z-index: 40; padding: 16px; }
 .modal.nudge { animation: modalNudge .35s ease; }
+.notpick { display: grid; gap: 10px; margin-top: 6px; }
+.notopt { display: flex; flex-direction: column; gap: 4px; text-align: left; padding: 14px 16px; border: 2px solid var(--line); border-radius: 14px; background: #fff; cursor: pointer; font: inherit; color: inherit; }
+.notopt:hover, .notopt:focus-visible { border-color: var(--brand, #5b3df5); background: #f7f5ff; }
+.notopt b { font-size: 1rem; }
 @keyframes modalNudge { 0%, 100% { transform: none; } 25% { transform: scale(1.02); } 60% { transform: scale(.99); } }
 .modal { background: #fff; border-radius: 18px; padding: 24px; width: 100%; max-width: 560px; max-height: 92vh; overflow: auto; box-shadow: 0 20px 60px rgba(0,0,0,.35); }
 .spinner { width: 22px; height: 22px; border: 3px solid rgba(0,0,0,.12); border-top-color: var(--brand); border-radius: 50%; animation: spin .8s linear infinite; display: inline-block; vertical-align: middle; }

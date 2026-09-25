@@ -1030,6 +1030,27 @@ Deno.serve(async (req) => {
       await bankSave(row);
       return json({ ok: true, id: item.id, added });
     }
+    if (action === "bank_pass") {
+      // "Not the one I want" (as opposed to "bad question"): the question goes back into stock unused, or is added
+      // as new stock if the AI wrote it, and is marked passed-over for this quiz so the swap brings a different one.
+      const q = body.question && typeof body.question === "object" ? body.question : null;
+      if (!q || !q.type) return json({ error: "Nothing to pass on." }, 400);
+      const quizId = UUID_RE.test(String(body.quizId || "")) ? String(body.quizId) : "";
+      const row = await bankRow(String(q.kind || q.type));
+      let item = row.questions.find((x: any) => x.id === q.bankId) || row.questions.find((x: any) => nearDuplicate(x, q));
+      let added = false;
+      if (!item) {
+        const cat0 = String(body.category || q.category || "").trim();
+        item = { ...q, id: "q_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8), category: (junkCategory(cat0) ? "" : cat0).slice(0, 60), tags: (q.tags || []).slice(0, 12) };
+        delete item.fromBank; delete item.round; delete item.bankId; delete item.check;
+        if (item.type === "race") Object.assign(item, { perCorrect: 100, prize: 500, prize2: 200, prize3: 100, forfeit: 200 });
+        row.questions.push(item); added = true;
+      }
+      if (!item.used?.rejected) delete item.used;
+      if (quizId) item.passed = [...new Set([...(Array.isArray(item.passed) ? item.passed : []), quizId])].slice(-20);
+      await bankSave(row);
+      return json({ ok: true, id: item.id, added });
+    }
     if (action === "bank_restock") {
       // Puts a finished quiz's questions back into stock and deletes the quiz: bank-sourced ones go back to
       // unused, AI-written ones are added (skipping anything that is already in the bank or near enough).
@@ -1370,7 +1391,7 @@ async function bankTake(type: string, need: number, topic: string, brief: string
   const row = await bankRow(type);
   const qs: any[] = Array.isArray(row.questions) ? row.questions : [];
   const themed = !!(topic || brief).trim() && !GENERIC.test(topic + " " + brief) && (topic + " " + brief).trim().length > 3;
-  const fresh = qs.filter((q) => !q.used);
+  const fresh = qs.filter((q) => !q.used && !(quizId && Array.isArray(q.passed) && q.passed.includes(quizId)));
   const haveOf = (q: any) => WORD([q.category, ...(q.tags || []), q.text, q.place, q.phrase, ...(q.answers || [])].filter(Boolean).join(" "));
   const haves = new Map(fresh.map((q) => [q, haveOf(q)]));
   // A word counts only when it is specific: not a filler word, and not one that turns up across a big slice of the
@@ -1412,7 +1433,7 @@ async function bankTake(type: string, need: number, topic: string, brief: string
   for (const q of picked) q.used = { quiz: quizId, at };
   await bankSave(row);
   return picked.map((q) => {
-    const c = JSON.parse(JSON.stringify(q)); delete c.used; c.bankId = q.id; c.id = "q_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8); c.fromBank = true;
+    const c = JSON.parse(JSON.stringify(q)); delete c.used; delete c.passed; c.bankId = q.id; c.id = "q_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8); c.fromBank = true;
     if (c.type === "race") Object.assign(c, { perCorrect: 100, prize: 500, prize2: 200, prize3: 100, forfeit: 200 }); // today's scoring, whatever an old item carried
     return c;
   });

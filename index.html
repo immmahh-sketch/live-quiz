@@ -762,7 +762,7 @@ function renderQForm() {
   const n = S.sel + 1, ck = checkState(q);
   box.innerHTML = `
     <div class="row" style="justify-content:space-between;margin-bottom:10px"><h3 style="margin:0">Question ${n} <span class="muted">· ${TYPES[q.kind || q.type].icon} ${esc(TYPES[q.kind || q.type].label)}</span></h3>
-      <div class="row"><button class="btn btn-ghost btn-sm" id="rejQ" title="Mark it rejected in the bank so it never comes round again, and write a replacement">👎 Not this one</button><button class="btn btn-ghost btn-sm" id="dupQ">Duplicate</button><button class="btn btn-ghost btn-sm" id="delQ" style="color:var(--bad)">Delete</button></div></div>
+      <div class="row"><button class="btn btn-ghost btn-sm" id="rejQ" title="Swap it for a different question, or reject it as a bad one">👎 Not this one</button><button class="btn btn-ghost btn-sm" id="dupQ">Duplicate</button><button class="btn btn-ghost btn-sm" id="delQ" style="color:var(--bad)">Delete</button></div></div>
     ${ck ? `<div class="checknote ${ck}"><b>${{ ok: '✓ Checked: looks right.', doubt: '? Worth a look.', wrong: '✗ Looks wrong.', stale: '~ Changed since it was checked.' }[ck]}</b> ${esc(q.check.note || '')}${q.check.fix && ck !== 'ok' ? `<div class="mt" style="margin-top:6px"><b>Suggested answer:</b> ${esc(q.check.fix)}</div>` : ''}<div class="row" style="margin-top:8px;gap:6px"><button class="btn btn-ghost btn-sm" id="recheck">Check again</button><button class="btn btn-ghost btn-sm" id="clearCheck">Dismiss</button></div></div>` : ''}
     ${q.type === 'wheel' ? '' : `<div class="field"><label>${q.type === 'smash' ? 'The clue' : q.type === 'highlow' ? 'The highbrow clue' : q.type === 'rhyme' ? 'The first clue' : q.type === 'dingbat' ? 'Instruction on the screen (optional)' : q.type === 'tune' ? 'Wording on the screen (optional — the ask below sets a default)' : 'Question'}</label><textarea id="f_text" placeholder="${esc(placeholderFor(q.type))}">${esc(q.text)}</textarea></div>`}
     <div id="typeBox"></div>
@@ -823,25 +823,39 @@ function renderSlideForm(q) {
   if ($('#mediaBox')) renderMediaBox(); showProblems();
 }
 /** "I don't like this question": stamps it rejected in the bank (adding it there if the writer made it), then writes one replacement of the same type for the same round. */
+/** "Not this one": swap a fine question that just isn't wanted here (it goes back to the bank), or reject a bad one. */
+function notThisOne() {
+  return new Promise((res) => {
+    const m = modal(`<h3>Not this one?</h3>
+      <div class="notpick">
+        <button class="notopt" data-pick="swap"><b>🔄 Swap it for another</b><span class="muted small">Nothing wrong with it, just not what you want here. It goes back into the bank unused for other quizzes, and a different question loads in its place.</span></button>
+        <button class="notopt" data-pick="reject"><b>👎 It's a bad question</b><span class="muted small">Marked rejected in the bank so it never comes round again (you can fix it later from the bank panel), and a replacement is written.</span></button>
+      </div>
+      <div class="row mt" style="justify-content:flex-end"><button class="btn btn-ghost" data-x>Cancel</button></div>`);
+    $('[data-x]', m).onclick = () => { m.remove(); res(null); };
+    $$('[data-pick]', m).forEach((b) => b.onclick = () => { m.remove(); res(b.dataset.pick); });
+  });
+}
 async function rejectQuestion(q) {
-  if (!(await confirmBox('Not this one?', 'It goes into the bank marked rejected, so it never comes round again and you can improve it later from the bank panel. A replacement is written in its place.', 'Reject and replace'))) return;
+  const how = await notThisOne(); if (!how) return;
+  const swap = how === 'swap';
   const r = S.quiz.rounds.find((x) => x.id === q.round) || S.quiz.rounds[0] || { title: S.quiz.title, brief: '' };
-  const m = modal(`<h3>👎 Replacing question ${S.sel + 1}</h3><div class="gen-progress"><span class="spinner"></span><span id="rj_step">Marking it rejected in the bank…</span></div>`);
+  const m = modal(`<h3>${swap ? '🔄 Swapping' : '👎 Replacing'} question ${S.sel + 1}</h3><div class="gen-progress"><span class="spinner"></span><span id="rj_step">${swap ? 'Putting it back in the bank…' : 'Marking it rejected in the bank…'}</span></div>`);
   try {
     if (!S.quiz.id) await save();
-    await api('bank_reject', { question: q, quizId: S.quiz.id, category: r.title || '' });
+    await api(swap ? 'bank_pass' : 'bank_reject', { question: q, quizId: S.quiz.id, category: r.title || '' });
     const at = S.quiz.questions.indexOf(q);
     S.quiz.questions.splice(at, 1); touch(); renderQList();
     $('#rj_step', m).textContent = `Writing a new ${TYPES[q.type].label} question…`;
     const avoid = [...(await avoidList()), q.text].filter(Boolean);
     const usedPictures = S.quiz.questions.flatMap((x) => [x.media?.source, x.media?.url]).filter((u) => typeof u === 'string' && /^https?:/.test(u));
     const res = await api('generate', { topic: (r.brief ? `${r.title}. ${r.brief}` : r.title || S.quiz.title).slice(0, 200), title: r.title || S.quiz.title, brief: r.brief || '', usedPictures, count: 1, difficulty: 'mixed', types: [q.kind || q.type], pictures: true, web: true, avoid, premium: !!S.quiz.settings.aiPremium, quizId: S.quiz.id }, { timeout: 170000 });
-    LQ.addUsage(S.quiz.settings, res.usage); LQ.genLog(S.quiz.settings, 'Replace a rejected question', res, { round: r.title });
+    LQ.addUsage(S.quiz.settings, res.usage); LQ.genLog(S.quiz.settings, swap ? 'Swap a question' : 'Replace a rejected question', res, { round: r.title });
     const nq = res.questions.find((x) => (x.kind || x.type) === (q.kind || q.type));
     if (nq) { nq.round = q.round; nq.time = timeFor(nq.type, S.quiz.settings); if (nq.collage && !nq.media?.url) { try { await buildCollageFor(nq); } catch {} } S.quiz.questions.splice(at, 0, nq); S.sel = at; }
     else { S.sel = Math.max(0, Math.min(at, S.quiz.questions.length - 1)); toast('Nothing came back for the replacement; add one by hand.', true); }
     touch(); renderQList(); renderQForm(); save();
-    m.remove(); toast(nq ? (res.fromBank ? 'Replaced from the bank.' : 'Replaced with a freshly written one.') : 'Rejected.');
+    m.remove(); toast(nq ? (res.fromBank ? 'Replaced from the bank.' : 'Replaced with a freshly written one.') : (swap ? 'Put back in the bank.' : 'Rejected.'));
   } catch (e) { m.remove(); toast(e.message, true); renderQList(); renderQForm(); }
 }
 function placeholderFor(t) {
