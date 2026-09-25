@@ -248,7 +248,7 @@ function stateForPlayers() {
     }
     if (G.q.bb) {
       const g = G.q.bb, q = question();
-      s.bb = { step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, teams: q.teams, teamOf: g.teams, hexes: g.hexes.map((h, i) => ({ letter: h.letter, owner: g.owner[i] })), picker: g.picker, hot: g.hot, letter: g.hot >= 0 ? g.hexes[g.hot]?.letter : '', text: g.step === 'ask' ? G.q.rows[g.hexes[g.hot].row].text : '', answered: Object.keys(g.answered), claim: g.claim, winner: g.winner, path: g.path, scores: g.scores, prize: q.prize ?? 500 };
+      s.bb = { step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, teams: q.teams, teamOf: g.teams, cap: bbCap(), hexes: g.hexes.map((h, i) => ({ letter: h.letter, owner: g.owner[i] })), picker: g.picker, hot: g.hot, letter: g.hot >= 0 ? g.hexes[g.hot]?.letter : '', text: g.step === 'ask' ? G.q.rows[g.hexes[g.hot].row].text : '', answered: Object.keys(g.answered), claim: g.claim, winner: g.winner, path: g.path, scores: g.scores, prize: q.prize ?? 500 };
     }
     if (G.q.chase) {
       const g = G.q.chase, q = question(), row = g.row ? chaseRow(g) : null;
@@ -1042,14 +1042,23 @@ function bbStart() {
   const first = shuffle(Object.values(byLetter).map((l) => l[0])).slice(0, n);
   const rest = shuffle(rows.map((_, i) => i).filter((i) => !first.includes(i)));
   const onBoard = shuffle([...first, ...rest.slice(0, n - first.length)]);
-  G.q.bb = { step: 'teams', teams: {}, owner: Array(n).fill(-1), hexes: onBoard.map((ri) => ({ row: ri, letter: bbLetter(rows[ri].right) })), spare: rest.slice(n - first.length), picker: 0, hot: -1, answered: {}, claim: null, scores: {}, winner: -1, path: [], until: 0, total: 0, feed: [] };
+  G.q.bb = { step: 'teams', teams: {}, pickedAt: {}, owner: Array(n).fill(-1), hexes: onBoard.map((ri) => ({ row: ri, letter: bbLetter(rows[ri].right) })), spare: rest.slice(n - first.length), picker: 0, hot: -1, answered: {}, claim: null, scores: {}, winner: -1, path: [], until: 0, total: 0, feed: [] };
   stepTo(G.q.bb, 'teams', 20000);
   persist(); renderBB(); broadcastState(); botBBTeams();
 }
 const bbTeam = (pid) => G.q.bb?.teams[pid];
+/** Sides are capped at half the players (rounded up), so they can't end up lopsided: first come, first served. */
+function bbCap() { return Math.max(1, Math.ceil(livePids().length / 2)); }
+const bbCount = (g, t, pids = livePids()) => pids.filter((x) => g.teams[x] === t).length;
 function bbTeamsFinal() {
-  const g = G.q.bb, pids = livePids(), count = (t) => pids.filter((x) => g.teams[x] === t).length;
+  const g = G.q.bb, pids = livePids(), count = (t) => bbCount(g, t, pids);
   for (const pid of shuffle(pids)) if (g.teams[pid] === undefined) g.teams[pid] = count(0) <= count(1) ? 0 : 1;
+  // Still more than one apart (people left, or joined once a side was full): move the latest
+  // pickers from the bigger side across until the sides are level.
+  while (Math.abs(count(0) - count(1)) > 1) {
+    const big = count(0) > count(1) ? 0 : 1, mover = pids.filter((x) => g.teams[x] === big).sort((a, b) => (g.pickedAt?.[b] || Infinity) - (g.pickedAt?.[a] || Infinity))[0];
+    g.teams[mover] = 1 - big;
+  }
   // Nobody on one side: move one across so both sides have someone.
   for (const t of [0, 1]) if (pids.length > 1 && !count(t)) { const from = pids.find((x) => g.teams[x] === 1 - t); if (from) g.teams[from] = t; }
   g.picker = Math.random() < 0.5 ? 0 : 1;
@@ -1064,7 +1073,11 @@ function bbAsk(i) {
 }
 function bbAnswer(pid, a) {
   const g = G.q.bb; if (!g) return;
-  if (g.step === 'teams' && a && (a.team === 0 || a.team === 1)) { g.teams[pid] = a.team; persist(); renderBB(); broadcastState(); return; }
+  if (g.step === 'teams' && a && (a.team === 0 || a.team === 1)) {
+    if (g.teams[pid] === a.team) return;
+    if (bbCount(g, a.team) >= bbCap()) { broadcastState(); return; } // that side is full: the phone shows why
+    g.teams[pid] = a.team; (g.pickedAt = g.pickedAt || {})[pid] = Date.now(); persist(); renderBB(); broadcastState(); return;
+  }
   if (g.teams[pid] === undefined && g.step !== 'teams') { const pids = livePids(); g.teams[pid] = pids.filter((x) => g.teams[x] === 0).length <= pids.filter((x) => g.teams[x] === 1).length ? 0 : 1; }
   if (g.step === 'pick' && a && Number.isInteger(a.hex) && g.teams[pid] === g.picker) return bbAsk(a.hex);
   if (g.step === 'ask' && a && typeof a.text === 'string' && !g.answered[pid]) {
@@ -1101,7 +1114,7 @@ function bbStepDone() {
   if (g.step === 'claim' || g.step === 'miss') { if (g.owner.every((o) => o !== -1)) { const n0 = g.owner.filter((o) => o === 0).length; g.winner = n0 * 2 > g.owner.length ? 0 : 1; stepTo(g, 'won', 6000); persist(); renderBB(); broadcastState(); return; } return bbPick(); }
   if (g.step === 'won') return endQuestion();
 }
-function botBBTeams() { const g = G.q.bb; for (const b of G.bots || []) botLater(() => { if (G.q?.bb === g && g.step === 'teams' && g.teams[b.pid] === undefined) bbAnswer(b.pid, { team: Math.random() < 0.5 ? 0 : 1 }); }, rnd(1200, 5000)); }
+function botBBTeams() { const g = G.q.bb; for (const b of G.bots || []) botLater(() => { if (G.q?.bb === g && g.step === 'teams' && g.teams[b.pid] === undefined) { const want = Math.random() < 0.5 ? 0 : 1; bbAnswer(b.pid, { team: bbCount(g, want) < bbCap() ? want : 1 - want }); } }, rnd(1200, 5000)); }
 function botBBPick() {
   const g = G.q.bb, bots = (G.bots || []).filter((b) => g.teams[b.pid] === g.picker); if (!bots.length) return;
   const b = bots[Math.floor(Math.random() * bots.length)];
@@ -1122,10 +1135,10 @@ function botBBAnswer() {
 function renderBB() {
   const q = question(), g = G.q.bb; if (!g) return;
   const teams = q.teams, pids = livePids();
-  const side = (t) => { const mem = pids.filter((x) => g.teams[x] === t); return `<div class="bbside ${g.picker === t && g.step === 'pick' ? 'picking' : ''} ${g.winner === t ? 'won' : ''}" style="--tc:${teams[t].color};--ti:${LQ.inkOn(teams[t].color)}"><div class="bbname">${esc(teams[t].name)}</div><div class="bbdir">${t === 0 ? '⟷ links left to right' : '↕ links top to bottom'}</div><div class="bbcount">${g.owner.filter((o) => o === t).length} ⬢</div><div class="bbmem">${mem.map((x) => `<span title="${esc(pname(x))}">${pem(x)}<small>${esc(pname(x))}${g.scores[x] ? ` +${g.scores[x]}` : ''}</small></span>`).join('') || '<span class="muted">Nobody yet</span>'}</div></div>`; };
+  const side = (t) => { const mem = pids.filter((x) => g.teams[x] === t); return `<div class="bbside ${g.picker === t && g.step === 'pick' ? 'picking' : ''} ${g.winner === t ? 'won' : ''}" style="--tc:${teams[t].color};--ti:${LQ.inkOn(teams[t].color)}"><div class="bbname">${esc(teams[t].name)}</div><div class="bbdir">${t === 0 ? '⟷ links left to right' : '↕ links top to bottom'}</div><div class="bbcount">${g.step === 'teams' ? `${mem.length}/${bbCap()} players${mem.length >= bbCap() ? ' · <b>full</b>' : ''}` : `${g.owner.filter((o) => o === t).length} ⬢`}</div><div class="bbmem">${mem.map((x) => `<span title="${esc(pname(x))}">${pem(x)}<small>${esc(pname(x))}${g.scores[x] ? ` +${g.scores[x]}` : ''}</small></span>`).join('') || '<span class="muted">Nobody yet</span>'}</div></div>`; };
   const hexes = g.hexes.map((h, i) => ({ letter: h.letter, owner: g.owner[i] }));
   let prompt = '';
-  if (g.step === 'teams') prompt = `<div class="bbprompt"><b>Pick a side on your phone!</b> ${pids.filter((x) => g.teams[x] === undefined).length} still to choose. Anyone who doesn't gets put on the smaller side.</div>`;
+  if (g.step === 'teams') prompt = `<div class="bbprompt"><b>Pick a side on your phone!</b> Up to ${bbCap()} on each side, first come first served. ${pids.filter((x) => g.teams[x] === undefined).length} still to choose; anyone who doesn't goes on the smaller side.</div>`;
   else if (g.step === 'pick') prompt = `<div class="bbprompt"><b style="color:${teams[g.picker].color}">${esc(teams[g.picker].name)}</b> to pick a letter, on their phones${TV ? '' : ' (or click a hexagon here)'}</div>`;
   else if (g.step === 'ask') { const row = G.q.rows[g.hexes[g.hot].row]; prompt = `<div class="bbask"><span class="bbletter">${esc(g.hexes[g.hot].letter)}</span><div><div class="bbq">${esc(row.text)}</div><div class="bbfeed">${g.feed.map((f) => `<span class="tl no">✗ ${esc(f.text)} · ${esc(pname(f.pid))}</span>`).join('')}</div></div></div>`; }
   else if (g.step === 'claim') prompt = `<div class="bbprompt ok">✔ <b>${esc(g.claim.answer)}</b> · ${pem(g.claim.pid)} ${esc(pname(g.claim.pid))} wins it for <b>${esc(teams[g.claim.team].name)}</b>, who pick next</div>`;

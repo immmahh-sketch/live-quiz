@@ -256,7 +256,7 @@ function gameKey(s) {
   if (s.potato) { const p = s.potato; return ['pot', (p.bombs || []).map((b) => [b.holder, b.stage, b.row?.i, b.exploded].join(',')).join(';'), p.players.length, P.work.potSent].join('|'); }
   if (s.koth) { const g = s.koth; return ['koth', g.n, g.step, g.fff?.row?.i, (g.fff?.answered || []).includes(P.pid), g.fff?.through?.length, g.h2h?.buzz, g.judges.includes(P.pid), g.result?.pid, g.winner, g.pair.join(), g.king].join('|'); }
   if (s.chase) { const g = s.chase; return ['chase', g.step, g.row?.i, g.answered.includes(P.pid), g.teamSteps, g.chaserSteps, g.result].join('|'); }
-  if (s.bb) { const g = s.bb; return ['bb', g.step, g.teamOf[P.pid], g.picker, g.hot, g.answered.includes(P.pid), g.hexes.map((h) => h.owner).join(''), Object.keys(g.teamOf).length].join('|'); }
+  if (s.bb) { const g = s.bb; return ['bb', g.step, g.teamOf[P.pid], g.picker, g.hot, g.answered.includes(P.pid), g.hexes.map((h) => h.owner).join(''), Object.keys(g.teamOf).length, g.cap, [0, 1].map((i) => Object.values(g.teamOf).filter((v) => v === i).length).join('-')].join('|'); }
   return '';
 }
 function tickGame() {
@@ -336,8 +336,13 @@ function bbHtml(s) {
   const board = (pick) => LQ.bbBoardHtml(g.hexes, { teams, hot: g.hot, win: g.path, pick, cls: 'phone' });
   app.className = 'app';
   if (g.step === 'teams') {
-    if (t === undefined) return `<div class="pq">Pick your side!</div><div class="bbpick">${teams.map((x, i) => `<button class="bbteam" data-team="${i}" style="background:${x.color};color:${LQ.inkOn(x.color)}">${esc(x.name)}<small>${i === 0 ? 'link left ⟷ right' : 'link top ↕ bottom'} · ${Object.values(g.teamOf).filter((v) => v === i).length} so far</small></button>`).join('')}</div>`;
-    return `${band}<div class="state"><div class="em">⬢</div><h2>You're on ${esc(teams[t].name)}!</h2><p class="muted">Waiting for everyone to pick a side…</p></div>`;
+    // Each side takes up to g.cap players (half, rounded up), so the sides stay even.
+    const cap = g.cap || 99, on = (i) => Object.values(g.teamOf).filter((v) => v === i).length, full = (i) => on(i) >= cap;
+    if (t === undefined) return `<div class="pq">Pick your side!</div><p class="center small muted" style="margin-top:-6px">Up to ${cap} on each side, first come first served</p><div class="bbpick">${teams.map((x, i) => full(i)
+      ? `<button class="bbteam full" disabled style="background:${x.color};color:${LQ.inkOn(x.color)}">${esc(x.name)} is full<small>${on(i)}/${cap} · join ${esc(teams[1 - i].name)}</small></button>`
+      : `<button class="bbteam" data-team="${i}" style="background:${x.color};color:${LQ.inkOn(x.color)}">${esc(x.name)}<small>${i === 0 ? 'link left ⟷ right' : 'link top ↕ bottom'} · ${on(i)}/${cap}</small></button>`).join('')}</div>`;
+    const o = 1 - t;
+    return `${band}<div class="state"><div class="em">⬢</div><h2>You're on ${esc(teams[t].name)}!</h2><p class="muted">${esc(teams[0].name)} ${on(0)}/${cap} · ${esc(teams[1].name)} ${on(1)}/${cap}. Waiting for everyone to pick…</p>${full(o) ? '' : `<button class="btn btn-ghost" data-team="${o}" style="margin-top:10px">Switch to ${esc(teams[o].name)}</button>`}</div>`;
   }
   if (g.step === 'pick') return `${band}${g.picker === t ? '<div class="pq">Your side picks! Tap a letter</div>' : `<div class="pq">${esc(teams[g.picker].name)} are picking a letter…</div>`}${board(g.picker === t)}`;
   if (g.step === 'ask') {

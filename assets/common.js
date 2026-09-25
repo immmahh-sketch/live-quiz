@@ -180,7 +180,7 @@ window.LQ = (() => {
     potato: 'The bomb is lit and nobody knows how long the fuse is. If it lands on you, answer the question on your phone. Get it right and you choose who gets it next. Holding it when it goes bang costs you points.',
     koth: 'Fastest finger first picks two players to go head to head. Buzz on your phone, then say your answer out loud. Get it right and you stay on the hill and win a hill point: every one is worth points. First to the target wins the bonus too, but there are only so many head-to-heads.',
     chase: 'Whoever is in the lead is the Chaser. Everyone else plays as one team with a head start. The first right answer on each question moves that side one step: the team towards home, the Chaser towards the team. Get home before you are caught!',
-    blockbusters: 'Pick a side. Your side chooses a letter, and the answer starts with it. First to type the right answer wins the hexagon for their side. Link your two sides of the board to win.',
+    blockbusters: 'Pick a side, quick: each side holds half the players, so once one is full you join the other. Your side chooses a letter, and the answer starts with it. First to type the right answer wins the hexagon for their side. Link your two sides of the board to win.',
   };
   /** The build log: every writer call for a quiz, with what was asked and what came back, kept in its settings. */
   function genLog(settings, how, res, extra = {}) {

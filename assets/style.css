@@ -997,3 +997,5 @@ body.player:has(.app.turn-chaser) { background: #ffe0e5; }
 .kchip.rounds.low { background: var(--bad); color: #fff; }
 /* A TV has no pointer, so the "click a name to remove them" tip is only clutter there. */
 body.tv .clicktip { display: none; }
+/* Blockbusters: a side that has reached its cap */
+.bbteam.full { opacity: .45; cursor: not-allowed; filter: saturate(.5); }
