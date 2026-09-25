@@ -36,7 +36,14 @@ function toast(msg, bad) {
 function modal(html) {
   const bg = document.createElement('div'); bg.className = 'modal-bg';
   bg.innerHTML = `<div class="modal">${html}</div>`;
-  bg.addEventListener('click', (e) => { if (e.target === bg) bg.remove(); });
+  // Clicking off only dismisses a pop-up with nothing to lose. Anything with a form or work in progress
+  // stays until its own Cancel/Close, and gives a little nudge to say so.
+  bg.addEventListener('click', (e) => {
+    if (e.target !== bg) return;
+    const box = bg.querySelector('.modal');
+    if (!box || !box.querySelector('input, textarea, select, .spinner')) { bg.remove(); return; }
+    box.classList.remove('nudge'); void box.offsetWidth; box.classList.add('nudge');
+  });
   document.body.appendChild(bg);
   return bg;
 }
