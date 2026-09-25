@@ -297,7 +297,9 @@ async function locationMap(regionIn: string): Promise<LocMap | null> {
     }
     return { region, name: str("name") || region, url, project, kmPerWidth, bounds };
   };
-  const m = await build().catch(() => null);
+  let m = await build().catch(() => null);
+  // Wikipedia files UK counties and cities as "United Kingdom <name>" (Tyne and Wear, Cornwall, Greater London…).
+  if (!m && region !== "World" && !/^United Kingdom /.test(region)) m = await locationMap("United Kingdom " + region);
   mapCache.set(region, m);
   return m;
 }
