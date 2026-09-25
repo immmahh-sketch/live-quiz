@@ -220,6 +220,7 @@ window.LQ = (() => {
     for (const qu of questions) if (!ids.has(qu.round)) qu.round = rounds[rounds.length - 1].id;
     // Races saved under the old scoring (5000 to the winner, nothing per right answer) move to today's: 100 per right answer, 500/200/100, −200 for last.
     for (const qu of questions) if (qu.type === 'race' && qu.perCorrect === undefined) Object.assign(qu, { perCorrect: 100, prize: 500, prize2: 200, prize3: 100, forfeit: 200 });
+    for (const qu of questions) if (qu.type === 'race' && qu.maxWrong === undefined) qu.maxWrong = 10;
     delete settings.rounds;
     const quiz = { id: q.id || null, title: q.title || 'Untitled quiz', settings, rounds, questions };
     orderQuestions(quiz);
@@ -256,7 +257,7 @@ window.LQ = (() => {
     if (type === 'tf') { q.answer = true; }
     if (type === 'sort') { q.categories = [0, 1].map(() => ({ id: uid('c'), name: '' })); q.items = [0, 1, 2, 3].map(() => ({ id: uid('i'), text: '', category: q.categories[0].id })); }
     if (type === 'wipeout') { q.right = Array.from({ length: 8 }, () => ({ id: uid('w'), text: '' })); q.wrong = Array.from({ length: 3 }, () => ({ id: uid('w'), text: '' })); q.pickPoints = 200; q.penalty = 500; q.study = 20; }
-    if (type === 'race') { q.target = 10; q.perCorrect = 100; q.prize = 500; q.prize2 = 200; q.prize3 = 100; q.forfeit = 200; q.bank = Array.from({ length: 20 }, () => newBankItem()); }
+    if (type === 'race') { q.target = 10; q.maxWrong = 10; q.perCorrect = 100; q.prize = 500; q.prize2 = 200; q.prize3 = 100; q.forfeit = 200; q.bank = Array.from({ length: 20 }, () => newBankItem()); }
     return q;
   }
   function newBankItem() { return { id: uid('b'), text: '', options: ['', '', '', ''] }; }
@@ -337,8 +338,8 @@ window.LQ = (() => {
     }
     if (q.type === 'race') {
       const good = (q.bank || []).filter((b) => b.text.trim() && b.options[0].trim() && b.options.filter((o) => o.trim()).length >= 2);
-      const target = +q.target || 10;
-      if (good.length < target + 10) problems.push(`Needs ${target + 10} complete questions in the bank (it has ${good.length}), so a player can get ten wrong and still finish.`);
+      const target = +q.target || 10, lives = q.maxWrong ?? 10;
+      if (good.length < target + lives) problems.push(`Needs ${target + lives} complete questions in the bank (it has ${good.length}), so a player can get ${lives} wrong and still finish.`);
     }
     if (q.media && q.media.kind === 'youtube' && !q.media.videoId) problems.push('The YouTube link is not valid.');
     return problems;

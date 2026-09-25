@@ -328,12 +328,12 @@ textarea { min-height: 80px; resize: vertical; }
 .stage .btn-primary:hover { filter: brightness(1.04); }
 
 /* race bank (builder) */
-.bankhead, .bankrow { display: grid; grid-template-columns: 26px 2fr 1fr 1fr 1fr 1fr 34px; gap: 6px; align-items: center; margin-bottom: 6px; }
-.bankhead { font-size: .72rem; font-weight: 800; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
-.bankrow .n { font-weight: 900; color: var(--ink-3); text-align: center; font-size: .85rem; }
-.bankrow input { padding: 8px 10px; font-size: .9rem; }
-.bankrow input.right { border-color: #bfe3b4; background: #f2fbef; }
-@media (max-width: 900px) { .bankhead { display: none; } .bankrow { grid-template-columns: 26px 1fr 1fr 34px; } }
+.racehead, .racerow { display: grid; grid-template-columns: 26px 2fr 1fr 1fr 1fr 1fr 34px; gap: 6px; align-items: center; margin-bottom: 6px; }
+.racehead { font-size: .72rem; font-weight: 800; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.racerow .n { font-weight: 900; color: var(--ink-3); text-align: center; font-size: .85rem; }
+.racerow input { padding: 8px 10px; font-size: .9rem; }
+.racerow input.right { border-color: #bfe3b4; background: #f2fbef; }
+@media (max-width: 900px) { .racehead { display: none; } .racerow { grid-template-columns: 26px 1fr 1fr 34px; } }
 
 /* race track (host) */
 .track { width: 100%; max-width: 1500px; display: flex; flex-direction: column; gap: 8px; flex: 1 1 auto; min-height: 0; justify-content: center; }

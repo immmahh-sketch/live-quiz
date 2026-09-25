@@ -160,7 +160,7 @@ function render() {
   else if (s.phase === 'typecard') { const t = s.typecard?.type; app.innerHTML = top + top2 + `<div class="state typecard"><div class="em">${TYPES[t]?.icon || '❓'}</div><p class="muted" style="margin:0">Next up${s.typecard?.run > 1 ? ` · ${s.typecard.run} questions` : ''}</p><h2>${esc(TYPES[t]?.label || '')}</h2><p style="font-weight:700">${esc(LQ.HOWTO[t] || '')}</p>${ctrl('next', "Let's go ▶")}</div>`; }
   else if (s.phase === 'countdown' && s.raceIntro) {
     const ri = s.raceIntro;
-    app.innerHTML = top + top2 + (ri.step === 'splash' ? `<div class="state raceintro"><div class="em">🏁</div><p class="muted" style="margin:0;font-weight:800;letter-spacing:.08em;text-transform:uppercase">The Race</p><h2>${esc(ri.topic)}</h2><p style="font-weight:700">First to ${ri.target} right wins the prize. Get your fingers ready!</p></div>`
+    app.innerHTML = top + top2 + (ri.step === 'splash' ? `<div class="state raceintro"><div class="em">🏁</div><p class="muted" style="margin:0;font-weight:800;letter-spacing:.08em;text-transform:uppercase">The Race</p><h2>${esc(ri.topic)}</h2><p style="font-weight:700">First to ${ri.target} right wins the prize. ${(ri.maxWrong ?? 10) + 1} wrong and you're out. Get your fingers ready!</p></div>`
       : ri.step === 'count' ? `<div class="state raceintro"><p class="muted" style="margin:0">${esc(ri.topic)}</p><div class="ri-num" data-n="${ri.n}">${ri.n}</div></div>`
       : `<div class="state raceintro bang"><div class="ri-bang">BANG!</div><div class="ri-go">GO!</div></div>`);
     if (ri.step !== 'splash' && navigator.vibrate) try { navigator.vibrate(ri.step === 'bang' ? 200 : 40); } catch {}
@@ -207,7 +207,7 @@ function syncRace(s) {
 function onRaceEvent(e) {
   if (e.pid !== P.pid || !P.race || !P.state?.q || P.state.q.id !== P.race.qId) return;
   if (e.idx !== P.race.idx) return;
-  Object.assign(P.race, { idx: e.idxNext, correct: e.correct, wrong: e.wrong, skipped: e.skipped, out: e.out, done: e.done, pending: null });
+  Object.assign(P.race, { idx: e.idxNext, correct: e.correct, wrong: e.wrong, skipped: e.skipped, out: e.out, why: e.why, done: e.done, pending: null });
   const f = document.createElement('div'); f.className = 'rflash'; f.textContent = e.ok === null ? '⏭' : e.ok ? '✅' : '❌'; document.body.appendChild(f); setTimeout(() => f.remove(), 550);
   render();
 }
@@ -227,10 +227,10 @@ function racePlaceHtml(s) {
 function raceHtml(s) {
   const q = s.q, r = P.race, left = q.bank.length - r.idx, need = s.race.target - r.correct;
   const standing = Object.values(s.race.players || {});
-  const prog = `${racePlaceHtml(s)}<div class="rprog"><span><b>${r.correct}</b> of ${s.race.target} right</span><span>${left} left · ${standing.filter((p) => p.done).length} finished</span></div>`;
+  const prog = `${racePlaceHtml(s)}<div class="rprog"><span><b>${r.correct}</b> of ${s.race.target} right</span><span>❌ ${r.wrong} of ${s.race.maxWrong ?? 10} wrong allowed · ${left} left</span></div>`;
   if (s.race.winner) return `<div class="pq">${esc(q.text)}</div>${prog}<div class="state"><div class="em">${s.race.winner === P.pid ? '🏆' : '🏁'}</div><h2>${s.race.winner === P.pid ? 'You won the race!' : esc(s.race.winnerName || 'Someone') + ' won the race'}</h2></div>`;
   if (r.done) return `<div class="pq">${esc(q.text)}</div>${prog}<div class="state"><div class="em">🏁</div><h2>Finished!</h2><p class="muted">Waiting to see if anyone beat you to it…</p></div>`;
-  if (r.out) return `<div class="pq">${esc(q.text)}</div>${prog}<div class="state"><div class="em">💨</div><h2>Out of the race</h2><p class="muted">Not enough questions left to reach ${s.race.target}. Watch the screen.</p></div>`;
+  if (r.out) return `<div class="pq">${esc(q.text)}</div>${prog}<div class="state"><div class="em">💨</div><h2>Out of the race</h2><p class="muted">${r.why === 'wrong' ? `That's more than ${s.race.maxWrong ?? 10} wrong.` : `Not enough questions left to reach ${s.race.target}.`} Watch the screen.</p></div>`;
   const item = q.bank[r.idx];
   if (!item) return `<div class="pq">${esc(q.text)}</div>${prog}<div class="state"><h2>No questions left</h2></div>`;
   return `<div class="pq" style="font-size:.95rem;color:var(--ink-3)">${esc(q.text)}</div>${prog}
