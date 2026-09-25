@@ -417,7 +417,13 @@ function sound(kind) {
   if (!musicOn()) return;
   try {
     sfx = sfx || new (window.AudioContext || window.webkitAudioContext)(); const ac = sfx, t = ac.currentTime;
-    if (kind === 'beep' || kind === 'go') {
+    if (kind === 'fanfare') {
+      [[523, 0, .16], [659, .14, .16], [784, .28, .16], [1047, .42, .7]].forEach(([f, at, len]) => {
+        const o = ac.createOscillator(), g = ac.createGain(); o.type = 'triangle'; o.frequency.value = f;
+        g.gain.setValueAtTime(0.0001, t + at); g.gain.exponentialRampToValueAtTime(0.22, t + at + 0.02); g.gain.exponentialRampToValueAtTime(0.001, t + at + len);
+        o.connect(g).connect(ac.destination); o.start(t + at); o.stop(t + at + len + 0.05);
+      });
+    } else if (kind === 'beep' || kind === 'go') {
       const o = ac.createOscillator(), g = ac.createGain(); o.type = 'square'; o.frequency.value = kind === 'go' ? 1320 : 660;
       g.gain.setValueAtTime(0.18, t); g.gain.exponentialRampToValueAtTime(0.001, t + (kind === 'go' ? 0.5 : 0.22));
       o.connect(g).connect(ac.destination); o.start(t); o.stop(t + 0.55);
@@ -1145,7 +1151,8 @@ function renderReveal() {
   const q = question(), v = G.q.view, R = G.q.results, n = players().length;
   let body = '';
   if (q.type === 'sort') body = `<div class="cats">${q.categories.filter((c) => c.name.trim()).map((c) => `<div class="cat"><h3>${esc(c.name)}</h3>${q.items.filter((i) => i.category === c.id && i.text.trim()).map((i) => `<div class="item ok">${esc(i.text)}</div>`).join('')}</div>`).join('')}</div>`;
-  if (q.type === 'race') { const st = R.stats; body = `<div class="turnbar" style="flex-wrap:wrap">${st.winner ? `<span class="who">🏆 ${st.winner.emoji || ''} ${esc(st.winner.name)} wins: +${v.prize} bonus</span>` : '<span>Nobody finished — no winner\'s bonus</span>'}${(st.places || []).map((p) => `<span class="last ok">${p.place === 2 ? '🥈' : '🥉'} ${p.emoji || ''} ${esc(p.name)} +${p.points}</span>`).join('')}${st.loser ? `<span class="last no">💨 ${st.loser.emoji || ''} ${esc(st.loser.name)} finishes last: −${v.forfeit}</span>` : ''}<span class="last" style="opacity:.7">${v.perCorrect} a right answer</span></div>` + trackHtml(st.standings || [], v.target, st.winner?.pid, v.perCorrect); }
+  if (q.type === 'race' && R.stats.winner) body = podiumHtml(R.stats, v);
+  else if (q.type === 'race') { const st = R.stats; body = `<div class="turnbar" style="flex-wrap:wrap">${st.winner ? `<span class="who">🏆 ${st.winner.emoji || ''} ${esc(st.winner.name)} wins: +${v.prize} bonus</span>` : '<span>Nobody finished — no winner\'s bonus</span>'}${(st.places || []).map((p) => `<span class="last ok">${p.place === 2 ? '🥈' : '🥉'} ${p.emoji || ''} ${esc(p.name)} +${p.points}</span>`).join('')}${st.loser ? `<span class="last no">💨 ${st.loser.emoji || ''} ${esc(st.loser.name)} finishes last: −${v.forfeit}</span>` : ''}<span class="last" style="opacity:.7">${v.perCorrect} a right answer</span></div>` + trackHtml(st.standings || [], v.target, st.winner?.pid, v.perCorrect); }
   if (q.type === 'wipeout') {
     const w = G.q.wipe || { picks: [] };
     body = `<div class="wboard" style="height:52vh">${v.board.map((t) => `<div class="wtile ${String(G.q.keys[t.k]).startsWith('R:') ? 'right' : 'wrong'} ${w.gone?.includes(t.k) ? 'gone' : ''}" style="left:${t.x}%;top:${t.y}%;--r:${t.rot}deg">${esc(t.text)}</div>`).join('')}</div>
@@ -1195,6 +1202,17 @@ function renderReveal() {
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">Scores ▶</button>`)}`;
   if (q.type === 'pin') drawPins();
   bind();
+  // The winner's moment: fanfare and confetti as the crown lands, once per race.
+  if (q.type === 'race' && R.stats.winner && !G.q.podiumDone) { G.q.podiumDone = true; persist(); setTimeout(() => { if (G.phase === 'reveal') { sound('fanfare'); confetti(); } }, 2300); }
+}
+/** The race's podium: third, then second, then the winner rise up; the crown drops on the champion. */
+function podiumHtml(st, v) {
+  const got = (pid) => (st.standings || []).find((s) => s.pid === pid)?.correct ?? 0;
+  const p2 = (st.places || []).find((p) => p.place === 2), p3 = (st.places || []).find((p) => p.place === 3);
+  const step = (p, place, prize) => `<div class="pod p${place}">${place === 1 ? '<div class="pod-rays"></div>' : ''}${p ? `<div class="pod-who">${place === 1 ? '<div class="pod-crown">👑</div>' : ''}<div class="pod-av">${p.emoji || '🙂'}</div><div class="pod-name">${esc(p.name)}</div><div class="pod-pts">${got(p.pid)} right · +${prize} bonus</div></div>` : '<div class="pod-who empty"></div>'}<div class="pod-block"><span>${place}</span></div></div>`;
+  const sparks = [[12, 18, 0], [84, 12, .5], [24, 52, 1], [76, 44, .3], [50, 4, .8], [6, 70, 1.2], [94, 64, .6]].map(([x, y, d]) => `<span class="pod-spark" style="left:${x}%;top:${y}%;animation-delay:${2.4 + d}s">✨</span>`).join('');
+  const notes = [st.loser ? `<span class="last no">💨 ${st.loser.emoji || ''} ${esc(st.loser.name)} finishes last: −${v.forfeit}</span>` : '', `<span class="last" style="opacity:.7">${v.perCorrect} a right answer</span>`].join('');
+  return `<div class="podium">${sparks}${step(p2, 2, v.prize2 ?? 200)}${step(st.winner, 1, v.prize ?? 500)}${step(p3, 3, v.prize3 ?? 100)}</div><div class="turnbar podnote" style="flex-wrap:wrap"><span class="who">🏆 ${esc(st.winner.name)} wins the race!</span>${notes}</div>`;
 }
 function drawPins() {
   const q = question(), R = G.q.results, board = $('#pinboard'), img = $('img', board);
