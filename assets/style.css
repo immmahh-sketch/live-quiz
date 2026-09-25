@@ -225,6 +225,38 @@ textarea { min-height: 80px; resize: vertical; }
 .stage-main.slide.brk { gap: 12px; }
 .stage-main.slide.brk h1.big { margin: 0; }
 @media (prefers-reduced-motion: reduce) { .brkclock.end, .brkclock.over { animation: none; } }
+/* The race's start: a splash with the topic, 3-2-1 with start lights, then the starting pistol fires */
+.raceintro .ri-flag { font-size: clamp(4rem, 12vh, 8rem); line-height: 1; animation: riwave 1.2s ease-in-out infinite alternate; transform-origin: 20% 90%; }
+@keyframes riwave { from { transform: rotate(-8deg); } to { transform: rotate(8deg); } }
+.ri-kicker { font-weight: 900; letter-spacing: .12em; text-transform: uppercase; opacity: .8; font-size: clamp(1rem, 2vw, 1.6rem); }
+.ri-topic { max-width: 1300px; text-wrap: balance; animation: ripop .6s cubic-bezier(.2, 1.6, .4, 1) both; }
+.ri-sub { font-weight: 800; font-size: clamp(1rem, 2vw, 1.6rem); opacity: .85; margin: 0; }
+.ri-ready { font-weight: 900; font-size: clamp(1.1rem, 2.4vw, 2rem); margin: 0; animation: riblink 1s steps(2) infinite; }
+@keyframes riblink { 50% { opacity: .35; } }
+.ri-num { font-size: clamp(8rem, 38vh, 22rem); font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; animation: ricount 1s ease-out both; }
+.ri-num[data-n="3"] { color: #ff4d5e; } .ri-num[data-n="2"] { color: #ffb020; } .ri-num[data-n="1"] { color: #36d67a; }
+@keyframes ricount { 0% { transform: scale(2.2); opacity: 0; } 25% { transform: scale(1); opacity: 1; } 80% { transform: scale(.95); opacity: 1; } 100% { transform: scale(.75); opacity: .25; } }
+.ri-lights { display: flex; gap: 18px; }
+.ri-lights i { width: clamp(28px, 5vh, 56px); aspect-ratio: 1; border-radius: 50%; background: rgba(255,255,255,.12); box-shadow: inset 0 0 0 4px rgba(0,0,0,.25); }
+.ri-lights i.on { background: #ff4d5e; box-shadow: 0 0 24px #ff4d5e; }
+.raceintro.bang::before { content: ''; position: fixed; inset: 0; background: #fff; pointer-events: none; animation: riscreen .45s ease-out both; }
+@keyframes riscreen { from { opacity: .85; } to { opacity: 0; } }
+.ri-gun { width: min(64vh, 72vw); overflow: visible; filter: drop-shadow(0 8px 24px rgba(0,0,0,.45)); }
+.ri-pistol { transform-origin: 92px 130px; animation: rikick .5s ease-out both; }
+@keyframes rikick { 0% { transform: rotate(0); } 15% { transform: rotate(-14deg) translate(-8px, 0); } 100% { transform: rotate(-4deg); } }
+.ri-flash { transform-origin: 226px 69px; animation: riflash .4s ease-out both; }
+@keyframes riflash { 0% { transform: scale(.2); opacity: 1; } 40% { transform: scale(1.3); opacity: 1; } 100% { transform: scale(1.7); opacity: 0; } }
+.ri-smoke circle { fill: rgba(225,225,240,.8); transform-box: fill-box; transform-origin: center; animation: rismoke 1s ease-out .15s both; }
+.ri-smoke circle:nth-child(2) { animation-delay: .25s; } .ri-smoke circle:nth-child(3) { animation-delay: .35s; }
+@keyframes rismoke { from { transform: scale(.2); opacity: .9; } to { transform: scale(2.3) translate(6px, -14px); opacity: 0; } }
+.ri-bang { font-size: clamp(4rem, 16vh, 10rem); font-weight: 900; line-height: 1; color: #ffd23f; text-shadow: 0 0 30px rgba(255,210,63,.7), 5px 5px 0 #e21b3c; animation: ribang .5s cubic-bezier(.2, 1.8, .4, 1) both; }
+@keyframes ribang { 0% { transform: scale(.2) rotate(-12deg); opacity: 0; } 100% { transform: scale(1) rotate(-6deg); opacity: 1; } }
+.ri-go { font-size: clamp(2rem, 7vh, 4.5rem); font-weight: 900; letter-spacing: .12em; animation: ripop .5s .35s cubic-bezier(.2, 1.6, .4, 1) both; }
+@keyframes ripop { from { transform: scale(.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.state.raceintro .ri-num { font-size: 9rem; }
+.state.raceintro .ri-bang { font-size: 4.5rem; text-shadow: 3px 3px 0 #e21b3c; }
+.state.raceintro .ri-go { font-size: 2.5rem; }
+@media (prefers-reduced-motion: reduce) { .raceintro *, .raceintro.bang::before { animation: none !important; } }
 .qmedia img { max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 14px; box-shadow: 0 10px 40px rgba(0,0,0,.4); }
 .qmedia iframe { height: 100%; aspect-ratio: 16/9; max-width: 100%; border: 0; border-radius: 14px; box-shadow: 0 10px 40px rgba(0,0,0,.4); }
 .answers { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
