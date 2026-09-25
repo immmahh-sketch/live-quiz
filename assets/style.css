@@ -490,6 +490,7 @@ body.tv [data-act="auto"] { display: none; }
 .clubrow { display: flex; align-items: center; gap: 16px; justify-content: center; flex-wrap: wrap; }
 .clubpct { display: inline-flex; align-items: center; justify-content: center; min-width: 3.2em; padding: .15em .35em; border-radius: 14px; background: var(--sun); color: var(--ink); font-weight: 900; font-size: clamp(1.6rem, 3.4vw, 3rem); line-height: 1; }
 .clubnote { font-weight: 800; font-size: clamp(.95rem, 1.5vw, 1.2rem); opacity: .9; max-width: 720px; text-wrap: balance; }
+.clubwhy { margin: 14px auto 0; max-width: 820px; text-align: center; font-weight: 700; font-size: clamp(1rem, 1.8vw, 1.35rem); opacity: .92; text-wrap: balance; }
 body.player .clubrow { margin: 6px 0 12px; } body.player .clubpct { font-size: 1.6rem; } body.player .clubnote { font-size: .95rem; color: var(--ink-3); }
 
 /* ---------------------------------------------------------------- Dingbats */

@@ -238,7 +238,7 @@ function stateForPlayers() {
     s.results = {}; s.qType = question()?.type;
     const rk = ranked();
     for (const p of rk) { const r = G.q.results.byPlayer[p.id]; s.results[p.id] = { correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, skipped: !!r?.skipped, wiped: !!r?.wiped, raced: !!r?.raced, lost: !!r?.lost, place: r?.place || 0, base: r?.base || 0, bonus: r?.bonus || 0, got: r?.got, out: !!r?.out, score: p.score, rank: rk.indexOf(p) + 1, of: rk.length }; }
-    if (G.quiz.settings.showAnswersOnPhones !== false) s.answer = answerText(question());
+    if (G.quiz.settings.showAnswersOnPhones !== false) { s.answer = answerText(question()); if (question()?.type === 'club' && question().why) s.why = question().why; }
   }
   if (G.phase === 'final') s.top = ranked().slice(0, 10).map((p, i) => ({ name: p.name, score: p.score, rank: i + 1 }));
   return s;
@@ -1037,7 +1037,7 @@ function renderReveal() {
   }
   if (q.type === 'text' || q.type === 'club' || q.type === 'dingbat' || q.type === 'tune') {
     const pre = q.type === 'tune' ? `<div class="tunecard">${q.media?.artwork ? `<img src="${esc(LQ.bigArt(q.media.artwork))}" alt="">` : ''}<div><div class="tunetitle">${esc(q.track)}</div><div class="tuneartist">${esc(q.artist)}${q.year ? ` · ${esc(String(q.year))}` : ''}${q.film ? ` · ${esc(q.film)}` : ''}</div><div class="small" style="opacity:.6">Preview via Apple Music</div></div></div>` : q.type === 'club' ? `<div class="clubrow" style="margin-bottom:12px"><span class="clubpct">${q.pct}%</span><span class="clubnote">were expected to get it · <b>${R.stats.right} of ${n}</b> here did · ${LQ.clubPoints(q.pct)} points each</span></div>` : q.type === 'dingbat' && !(q.media?.kind === 'image' && q.media.url) ? LQ.dingbatHtml(q.elements, 'stage-db sm') : '';
-    body = `${pre}<div class="item ok" style="justify-content:center;font-size:1.8rem">✔ ${esc(q.answers[0])}${q.answers.length > 1 ? `<span style="opacity:.7;font-size:.7em"> (or ${esc(q.answers.slice(1, 4).join(', '))})</span>` : ''}</div>
+    body = `${pre}<div class="item ok" style="justify-content:center;font-size:1.8rem">✔ ${esc(q.answers[0])}${q.answers.length > 1 ? `<span style="opacity:.7;font-size:.7em"> (or ${esc(q.answers.slice(1, 4).join(', '))})</span>` : ''}</div>${q.type === 'club' && q.why ? `<div class="clubwhy">💡 ${esc(q.why)}</div>` : ''}
       <div class="textlist mt">${R.stats.texts.slice(0, 30).map((t) => `<span class="tl ${t.ok === null ? '' : t.ok ? 'ok' : 'no'}">${esc(t.text || '—')} <span style="opacity:.7;font-size:.85em">· ${esc(t.name)}</span></span>`).join('')}</div>`;
   }
   if (q.type === 'order') body = `<div class="items">${q.items.filter((i) => i.text.trim()).map((it, i) => `<div class="item ok"><span class="k">${i + 1}</span>${esc(it.text)}</div>`).join('')}</div>`;

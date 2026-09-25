@@ -468,8 +468,8 @@ Question types and their JSON shapes (use only the types you are asked for, and 
   A Wheel of Fortune puzzle: a well-known phrase, title, name or place in capitals, letters and spaces only (no punctuation), 8 to 40 letters, no word longer than 12 letters, whole phrase at most 4 words per row across 4 rows of 12/14/14/12 tiles. Category as on the show: Phrase, Person, Place, Thing, Event, Food & Drink, Song Title, Movie Title, TV Show, Before & After, Landmark, Occupation.
 - "highlow": {"type":"highlow","text":"<highbrow clue>","lowText":"<lowbrow clue>","answers":["Gold","Au"]}
   Highbrow Lowbrow, as on House of Games: two clues with exactly the same answer. The highbrow clue is hard and scholarly (science, history, literature, the arts); the lowbrow clue is easy and from pop culture, telly, sport or everyday life. Neither clue may work for any other answer.
-- "club": {"type":"club","pct":50,"text":"If planet EARTH has a HEART, which body part does MARS have?","answers":["Arms"]}
-  The 1% Club, in the style of The 1% Club: a logic, maths, pattern, wordplay or lateral-thinking puzzle that needs NO general knowledge, only working out, solvable in 30 seconds by reading the question (anagrams, letter/number patterns, "which is the odd one out", what-comes-next, counting, riddles that reward reading carefully). "pct" is how many people would get it: 90 is easy, 50 medium, 10 hard, 1 fiendish; spread the percentages across a batch and label honestly. The answer must be a single unambiguous word, number or short phrase; write the question so nothing else fits. No pictures.
+- "club": {"type":"club","pct":50,"text":"If planet EARTH has a HEART, which body part does MARS have?","answers":["Arms"],"why":"EARTH is an anagram of HEART, so MARS is an anagram of ARMS."}
+  The 1% Club, in the style of The 1% Club: a logic, maths, pattern, wordplay or lateral-thinking puzzle that needs NO general knowledge, only working out, solvable in 30 seconds by reading the question (anagrams, letter/number patterns, "which is the odd one out", what-comes-next, counting, riddles that reward reading carefully). "pct" is how many people would get it: 90 is easy, 50 medium, 10 hard, 1 fiendish; spread the percentages across a batch and label honestly. The answer must be a single unambiguous word, number or short phrase; write the question so nothing else fits. "why" is one short sentence of working that shows why the answer is right (it is shown with the answer). No pictures.
 - "tune": {"type":"tune","ask":"song","track":"Last Christmas","artist":"Wham!","year":1984,"answers":["Last Christmas"]}
   Name That Tune: a 30-second official preview of the track plays on the screen. "ask" is what players must give: "song" (the title), "artist", "year" (the year it was first released, as a number), "film" (the film the track is best known from — add "film":"Home Alone" — only for genuine film songs and themes), or "lyric" (add "cueLine": a very famous line from the song, shown on screen, and "lyricLine": the line that follows it; only for lyrics most people know). Use the exact official track title and the artist credit as on streaming services, well-known recordings only, and mix the asks across a set. "answers" holds the accepted answers for the ask (title, artist, year, film or line first). No pictures.
 - "dingbat": {"type":"dingbat","answers":["Man overboard"],"elements":[{"t":"MAN","x":50,"y":30,"s":5},{"t":"BOARD","x":50,"y":70,"s":5}]}
@@ -609,6 +609,7 @@ async function finishRaw(raw: any[], count: number, usedPictures: string[], want
       const answers = (Array.isArray(r.answers) ? r.answers : [r.answer]).map((s: unknown) => String(s ?? "").trim()).filter(Boolean);
       if (!answers.length) return null;
       base.answers = answers; base.pct = Math.min(99, Math.max(1, Math.round(+r.pct || 50))); base.ai = true; base.time = 30; base.media = { kind: "none" };
+      const why = String(r.why ?? "").trim(); if (why) base.why = why.slice(0, 300); // one line of working, shown with the answer
       return base;
     }
     if (r.type === "dingbat") {
@@ -935,6 +936,7 @@ Deno.serve(async (req) => {
         if (["easy", "medium", "hard"].includes(p.difficulty)) q.difficulty = p.difficulty;
         if (typeof p.newText === "string" && p.newText.trim()) q.text = p.newText.trim().slice(0, 200);
         if (typeof p.category === "string") q.category = p.category.slice(0, 60);
+        if (typeof p.why === "string" && p.why.trim()) q.why = p.why.trim().slice(0, 300);
         if (Array.isArray(p.tags)) q.tags = p.tags.map((t: unknown) => String(t).slice(0, 40)).slice(0, 12);
         if (p.set && typeof p.set === "object") for (const k of ["perCorrect", "prize", "prize2", "prize3", "forfeit", "study", "time", "target"]) if (typeof p.set[k] === "number" && isFinite(p.set[k])) q[k] = Math.max(0, Math.min(50000, p.set[k]));
         changed++;

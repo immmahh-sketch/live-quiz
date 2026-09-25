@@ -208,6 +208,7 @@ async function bankView(type, id, summary, after) {
   else if (q.type === 'rhyme') body = kv('First answer', `<b>${esc(q.answer1 || '')}</b>`) + kv('Second clue', esc(q.text2 || '')) + kv('Second answer', `<b>${esc(q.answer2 || '')}</b>`);
   else if (q.type === 'wipeout') body = kv('Right answers', li((q.right || []).map((i) => i.text))) + kv('Wipeouts', li((q.wrong || []).map((i) => i.text)));
   else if (q.type === 'highlow') body = kv('Highbrow answer', `<b>${esc((q.answers || [])[0] || '')}</b>`) + kv('Lowbrow clue', esc(q.low || q.lowText || '')) + kv('Also accepted', esc((q.answers || []).slice(1).join(', ')));
+  else if (q.type === 'club') body = kv('Answer', `<b>${esc((q.answers || [])[0] || '')}</b>`) + kv('Also accepted', esc((q.answers || []).slice(1).join(', '))) + kv('Why', esc(q.why || '')) + kv('Billed as', q.pct ? esc(q.pct + '%') : '');
   else if (q.type === 'wipeout' || q.type === 'race') body = kv(q.type === 'race' ? 'Questions' : 'Board', li((q.items || q.bank || []).map((i) => i.text + (i.right === false || i.wipeout ? ' ✗' : i.options ? ' → ' + i.options[0] : ''))));
   else body = kv('Answer', `<b>${esc((q.answers || [])[0] || '')}</b>`) + kv('Also accepted', esc((q.answers || []).slice(1).join(', '))) + kv('Rhymes with', esc(q.rhyme || '')) + kv('Second clue', esc(q.text2 || ''));
   const md = q.media || {};
@@ -973,7 +974,9 @@ function renderTypeBox() {
       <div class="field" style="max-width:320px"><label>How many people get it</label><select id="cl_pct">${LQ.CLUB_PCTS.map((p) => `<option value="${p}" ${p === q.pct ? 'selected' : ''}>${p}% question · ${LQ.clubPoints(p)} points</option>`).join('')}</select></div>
       <div class="field"><label>Accepted answers <span class="muted">— the first is shown as the answer</span></label>
         ${q.answers.map((a, i) => `<div class="list-item"><div class="n">${i === 0 ? '★' : ''}</div><input type="text" data-ans="${i}" value="${esc(a)}" placeholder="${i === 0 ? 'The answer' : 'Also accept…'}"><button class="btn btn-ghost btn-sm" data-rm-ans="${i}" ${q.answers.length === 1 ? 'disabled' : ''}>✕</button></div>`).join('')}
-        <button class="btn btn-ghost btn-sm" id="addAns">+ Another accepted answer</button></div>`;
+        <button class="btn btn-ghost btn-sm" id="addAns">+ Another accepted answer</button></div>
+      <div class="field"><label>Why <span class="muted">— one short line of working, shown with the answer</span></label><input type="text" id="cl_why" maxlength="300" value="${esc(q.why || '')}" placeholder="e.g. EARTH is an anagram of HEART, so MARS is an anagram of ARMS"></div>`;
+    $('#cl_why').oninput = (e) => { q.why = e.target.value; touch(); };
     $('#cl_pct').onchange = (e) => { q.pct = +e.target.value; touch(); renderTypeBox(); };
     $$('[data-ans]').forEach((inp) => inp.oninput = () => { q.answers[+inp.dataset.ans] = inp.value; touch(); showProblems(); });
     $$('[data-rm-ans]').forEach((b) => b.onclick = () => { q.answers.splice(+b.dataset.rmAns, 1); touch(); renderTypeBox(); showProblems(); });
