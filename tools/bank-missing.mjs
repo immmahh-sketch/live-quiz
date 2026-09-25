@@ -12,6 +12,8 @@ let n = 0;
 for (const [i, q] of items.entries()) {
   const t = q.type;
   live[t] = live[t] || new Set((await call({ action: "bank_list", type: t })).questions.map((x) => norm(t === "pin" || t === "dingbat" || t === "tune" ? x.answer : x.text)));
-  if (!live[t].has(key(t, q))) { n++; console.log(`${i}\t${t}\t${q.difficulty || ""}\t${q.text || q.phrase || q.place || q.track}`); }
+  // iTunes often stores a tune under a longer title ("Song (feat. X) [Remastered]"), so a tune only needs its title to lead a live one
+  const k = key(t, q), trackKey = t === "tune" ? norm(q.track) : "";
+  if (!live[t].has(k) && !(trackKey && [...live[t]].some((x) => x.startsWith(trackKey)))) { n++; console.log(`${i}\t${t}\t${q.difficulty || ""}\t${q.text || q.phrase || q.place || q.track}`); }
 }
 console.log(n ? `${n} of ${items.length} not in the bank (duplicates): replace them and import again.` : `All ${items.length} are in the bank.`);
