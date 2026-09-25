@@ -265,8 +265,14 @@ async function locationMap(regionIn: string): Promise<LocMap | null> {
       const url = await worldMap(); if (!url) return null;
       return { region, name: "World", url, project: (lat, lon) => ({ x: (lon + 180) / 360, y: (90 - lat) / 180 }), kmPerWidth: () => 40075, bounds: { top: 90, bottom: -90, left: -180, right: 180 } };
     }
-    const data = await mw("https://en.wikipedia.org/w/api.php", { action: "query", prop: "revisions", rvprop: "content", rvslots: "main", formatversion: "2", titles: "Module:Location map/data/" + region }).catch(() => null);
-    const page = data?.query?.pages?.[0]; const src: string = page?.revisions?.[0]?.slots?.main?.content || "";
+    // Some modules are just a pointer to another ("return require [[Module:Location map/data/UK Scotland]]"): follow up to two.
+    let title = "Module:Location map/data/" + region, src = "";
+    for (let hop = 0; hop < 3; hop++) {
+      const data = await mw("https://en.wikipedia.org/w/api.php", { action: "query", prop: "revisions", rvprop: "content", rvslots: "main", formatversion: "2", redirects: "1", titles: title }).catch(() => null);
+      src = data?.query?.pages?.[0]?.revisions?.[0]?.slots?.main?.content || "";
+      const next = src.length < 300 ? src.match(/require\s*\(?\s*(?:\[\[|["'])(Module:Location map\/data\/[^\]"']+)/) : null;
+      if (!next) break; title = next[1];
+    }
     if (!src) return null;
     const num = (k: string) => { const m = src.match(new RegExp(`\\b${k}\\s*=\\s*(-?[\\d.]+)`)); return m ? +m[1] : NaN; };
     const str = (k: string) => { const m = src.match(new RegExp(`\\b${k}\\s*=\\s*'([^']+)'`)) || src.match(new RegExp(`\\b${k}\\s*=\\s*"([^"]+)"`)); return m ? m[1] : ""; };
