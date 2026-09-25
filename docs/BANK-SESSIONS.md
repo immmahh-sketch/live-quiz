@@ -35,7 +35,7 @@ Each session:
      (region is the map: a country or continent's usual English name, "London" for Greater London, a UK county such as "Tyne and Wear", "Northumberland" or "Cornwall", or "World"; sizeKm is how big the place is, which sets how close a pin must be)
    - `{"type":"match","text":"Match each … to …","pairs":[{"left":"…","right":"…"}×4]}` (max 4 pairs; `"rightPicture":"Wikipedia title"` swaps the right side for a photo)
    - `{"type":"wheel","phrase":"UPPER CASE PHRASE"}` (a well-known phrase, title or name tied to the topic; the importer skips any that do not fit the board)
-   - `{"type":"club","text":"a logic or observation puzzle","answers":["…"],"pct":90}` (pct: the share of people expected to get it, 90 easy down to 1; it must be a genuine puzzle, not a plain fact)
+   - `{"type":"club","text":"a logic or observation puzzle","answers":["…"],"pct":90,"why":"one short line of working"}` (pct: the share of people expected to get it, 90 easy down to 1; it must be a genuine puzzle, not a plain fact; "why" is shown with the answer and should prove it, e.g. "EARTH is an anagram of HEART, so MARS is an anagram of ARMS.")
    - `{"type":"dingbat","answers":["…"],"elements":[{"t":"MAN","x":50,"y":30,"s":5}]}` (x/y 0–100, s size 1–6, optional rot, flip "h"/"v", style strike/underline/box/outline)
    Every item also carries `"difficulty": "easy" | "medium" | "hard"`, judged honestly for that
    question as asked. Easy: most of the room knows it. Medium: a good table gets it. Hard: one
@@ -52,6 +52,9 @@ Each session:
    quality: nothing nursery-level, nothing only a specialist could know.
 3. Import: `LQ_PASSWORD=Buzzer-Round-1465 TOPICS=<slug> node tools/import-bank.mjs topics`
    (run from the repo root; exact and near duplicates are skipped, so re-running is safe).
+   Then `LQ_PASSWORD=… node tools/bank-missing.mjs bank/topics/<file>.json` lists anything skipped as a
+   duplicate of a question already in the bank: replace those in the file with fresh ones and import again,
+   so the file (which bank-next.mjs counts) matches the bank.
 4. Commit and push the new file.
 5. Schedule the next session five minutes later with the same instructions.
 
