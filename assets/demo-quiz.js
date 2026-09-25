@@ -5,6 +5,8 @@ window.DEMO_QUIZ = {
   settings: { maxPoints: 1000, minPoints: 500, defaultTime: 20, showAnswersOnPhones: true,
     rounds: [{ id: 'r1', title: 'Warm-up', intro: 'Four easy ones to get everybody going', brief: '' }, { id: 'r2', title: 'Pictures, maps and music', intro: 'Look at the screen: a landmark, some dogs, a map and a song', brief: '' }, { id: 'r3', title: 'True, false, sort and Wipeout', intro: 'The party games: true or false, categorise, Wipeout, the race and the wheel', brief: '' }] },
   questions: [
+    { id: 'd0', round: 'r1', type: 'slide', text: 'How to play', time: 15, media: { kind: 'none' },
+      body: '- Answer on your phone: the faster you are, the more you score\n- Some rounds put a picture, a map or a song on this screen\n- No googling!' },
     { id: 'd1', round: 'r1', type: 'choice', text: 'Which planet is closest to the Sun?', time: 15, media: { kind: 'none' },
       options: [{ id: 'd1a', text: 'Venus' }, { id: 'd1b', text: 'Mercury' }, { id: 'd1c', text: 'Mars' }, { id: 'd1d', text: 'Earth' }], correct: 'd1b' },
     { id: 'd2', round: 'r1', type: 'choice', text: 'Which city is this landmark in?', time: 15,
@@ -13,6 +15,7 @@ window.DEMO_QUIZ = {
     { id: 'd3', round: 'r1', type: 'text', text: 'Who painted the Mona Lisa?', time: 20, media: { kind: 'none' }, answers: ['Leonardo da Vinci', 'Da Vinci', 'Leonardo'], ai: true },
     { id: 'd4', round: 'r1', type: 'order', text: 'Put these in order, earliest first', time: 30, media: { kind: 'none' }, hint: 'earliest to latest', partial: true,
       items: [{ id: 'd4a', text: 'First Moon landing' }, { id: 'd4b', text: 'Fall of the Berlin Wall' }, { id: 'd4c', text: 'Launch of the iPhone' }, { id: 'd4d', text: 'London Olympics' }] },
+    { id: 'dB', round: 'r2', type: 'slide', text: 'Half-time', break: true, breakMins: 1, time: 15, media: { kind: 'none' }, body: 'Top up your drinks. Back when the clock runs out!' },
     { id: 'd5', round: 'r2', type: 'match', text: 'Match the breed to the dog', time: 40, media: { kind: 'none' }, partial: true,
       pairs: [
         { id: 'd5a', left: 'Labrador', right: { kind: 'image', value: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/3/34/Labrador_on_Quantock_%282175262184%29.jpg/960px-Labrador_on_Quantock_%282175262184%29.jpg' } },

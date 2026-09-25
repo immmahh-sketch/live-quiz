@@ -142,16 +142,20 @@ function render() {
   if (s.wheel && P.viewKey.startsWith(`${s.phase}:${qId}:`)) { const b = $('#pwof'); if (b) b.innerHTML = LQ.wheelBoardHtml(s.wheel.layout, s.wheel.revealed); }
   if (s.wipe?.studyMs) { const el = $('#studyLeft'); if (el) el.textContent = Math.ceil(s.wipe.studyMs / 1000); }
   const key = [s.phase, qId, s.qIndex, s.round?.n || '', P.answered[qId] ? 'a' : '', s.wipe ? `${s.wipe.turnPid}:${s.wipe.gone.length}:${s.wipe.out.length}:${s.wipe.over}:${s.wipe.studyMs ? 'study' : ''}:${(s.wipe.order || []).length}` : '', rc ? `${rc.idx}:${rc.pending}:${rc.out}:${rc.done}:${s.race?.winner || ''}` : ''].join(':');
-  if (key === P.viewKey) { tickTimer(); return; }
+  // A break clock: keep the phone's countdown in step with the host's, which the host can stretch or shorten.
+  if (s.phase === 'slide' && s.brk) { P.brk = { end: Date.now() + s.brk.remainingMs, total: s.brk.totalMs, frozen: s.paused ? s.brk.remainingMs : null }; }
+  if (key === P.viewKey) { tickTimer(); tickBreak(); return; }
   P.viewKey = key;
   clearInterval(timerT);
   if (!(s.phase === 'question' && s.wipe)) app.className = 'app';
   const r = myResult();
   const score = r ? r.score : (s.top ? (s.top.find((t) => t.name === P.name)?.score ?? '') : '');
-  const top = `<div class="app-top"><span>${esc(P.name)}</span><span>${s.phase !== 'lobby' && s.qIndex >= 0 ? `Q${s.qIndex + 1}/${s.total}` : esc(s.title || '')}</span>${score !== '' && score !== undefined ? `<span class="score">${score}</span>` : '<span></span>'}</div>`;
+  const top = `<div class="app-top"><span>${esc(P.name)}</span><span>${s.phase !== 'lobby' && s.phase !== 'slide' && s.qIndex >= 0 ? `Q${s.num ?? s.qIndex + 1}/${s.total}` : esc(s.title || '')}</span>${score !== '' && score !== undefined ? `<span class="score">${score}</span>` : '<span></span>'}</div>`;
   const ctrl = (cmd, label) => s.auto ? `<button class="btn btn-primary btn-lg btn-block ctrlbtn" data-ctrl="${cmd}">${label}</button>` : '';
   if (s.phase === 'lobby') app.innerHTML = top + `<div class="state"><div class="em">🎉</div><h2>You're in, ${esc(P.name)}!</h2><p class="muted">${s.auto ? 'The game runs itself. When everyone is in, start it from here.' : 'Watch the shared screen. The quiz starts when the host presses go.'}</p>${ctrl('start', 'Start the quiz ▶')}</div>`;
   else if (s.phase === 'round') app.innerHTML = top + `<div class="state"><div class="em">🎯</div><p class="muted" style="margin:0">Round ${s.round?.n || ''}</p><h2>${esc(s.round?.title || '')}</h2>${s.round?.intro ? `<p style="font-weight:700">${esc(s.round.intro)}</p>` : ''}<p class="muted">${s.round?.count || ''} question${s.round?.count === 1 ? '' : 's'} coming up</p>${ctrl('next', 'Start round ▶')}</div>`;
+  else if (s.phase === 'slide' && s.brk) { app.innerHTML = top + `<div class="state slide brk">${s.slide?.title ? `<h2>${esc(s.slide.title)}</h2>` : ''}${LQ.breakClockHtml('pbrk')}${s.slide?.body ? `<div class="slidebody">${LQ.slideHtml(s.slide.body)}</div>` : ''}</div>`; tickBreak(); timerT = setInterval(tickBreak, 250); }
+  else if (s.phase === 'slide') app.innerHTML = top + `<div class="state slide">${s.slide?.image ? `<img class="slideimg" src="${esc(s.slide.image)}" alt="">` : '<div class="em">🪧</div>'}${s.slide?.title ? `<h2>${esc(s.slide.title)}</h2>` : ''}<div class="slidebody">${LQ.slideHtml(s.slide?.body || '')}</div>${ctrl('next', s.more === false ? 'Final results 🏆' : 'Next ▶')}</div>`;
   else if (s.phase === 'typecard') { const t = s.typecard?.type; app.innerHTML = top + `<div class="state typecard"><div class="em">${TYPES[t]?.icon || '❓'}</div><p class="muted" style="margin:0">Next up${s.typecard?.run > 1 ? ` · ${s.typecard.run} questions` : ''}</p><h2>${esc(TYPES[t]?.label || '')}</h2><p style="font-weight:700">${esc(LQ.HOWTO[t] || '')}</p>${ctrl('next', "Let's go ▶")}</div>`; }
   else if (s.phase === 'countdown') app.innerHTML = top + `<div class="state"><div class="em">${TYPES[s.next?.type]?.icon || '⏳'}</div><h2>Get ready…</h2><p class="muted">Question ${s.next?.n || s.qIndex + 1}: ${esc(TYPES[s.next?.type]?.label || '')}</p></div>`;
   else if (s.phase === 'question' && s.race) { app.innerHTML = top + `<div class="ptimer" id="ptimer"><i></i></div>` + raceHtml(s); bindRace(s); timerT = setInterval(tickTimer, 250); tickTimer(); }
@@ -159,7 +163,7 @@ function render() {
   else if (s.phase === 'question') { app.innerHTML = top + `<div class="ptimer" id="ptimer"><i></i></div>` + (P.answered[qId] ? (P.skipped[qId] ? `<div class="state"><div class="em">⏭</div><h2>Skipped</h2><p class="muted">No points this time. Waiting for the others…</p></div>` : sentHtml()) : questionHtml(s.q)); bindQuestion(s.q); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'grading') app.innerHTML = top + `<div class="state"><div class="em">⏱</div><h2>Time's up!</h2><p class="muted">Checking the answers…</p></div>`;
   else if (s.phase === 'reveal') app.innerHTML = top + resultHtml(s, r) + ctrl('next', 'Scores ▶');
-  else if (s.phase === 'scoreboard') app.innerHTML = top + `<div class="state"><div class="em">${r?.rank === 1 ? '🥇' : r?.rank === 2 ? '🥈' : r?.rank === 3 ? '🥉' : '📊'}</div><h2>${r ? `You're ${ordinal(r.rank)} of ${r.of}` : 'Scoreboard'}</h2><p class="muted">${r ? r.score + ' points so far' : ''}</p>${ctrl('next', s.qIndex + 1 < s.total ? 'Next question ▶' : 'Final results 🏆')}</div>`;
+  else if (s.phase === 'scoreboard') app.innerHTML = top + `<div class="state"><div class="em">${r?.rank === 1 ? '🥇' : r?.rank === 2 ? '🥈' : r?.rank === 3 ? '🥉' : '📊'}</div><h2>${r ? `You're ${ordinal(r.rank)} of ${r.of}` : 'Scoreboard'}</h2><p class="muted">${r ? r.score + ' points so far' : ''}</p>${ctrl('next', (s.more ?? s.qIndex + 1 < s.total) ? 'Next ▶' : 'Final results 🏆')}</div>`;
   else if (s.phase === 'final') app.innerHTML = top + finalHtml(s, r);
 }
 /** The pause veil over the phone, and in run-itself mode a small pause button in the corner. */
@@ -172,6 +176,10 @@ function syncPauseUi(s) {
   let b = $('#pauseBtn'); const want = s.auto && !s.paused && !['lobby', 'final'].includes(s.phase);
   if (want && !b) { b = document.createElement('button'); b.id = 'pauseBtn'; b.className = 'pausebtn'; b.dataset.ctrl = 'pause'; b.title = 'Pause the game'; b.textContent = '⏸'; document.body.appendChild(b); }
   if (!want && b) b.remove();
+}
+function tickBreak() {
+  if (!P.brk || !$('#pbrkClock')) return;
+  LQ.setBreakClock('pbrk', P.brk.frozen != null ? P.brk.frozen : P.brk.end - Date.now(), P.brk.total);
 }
 function tickTimer() {
   const el = $('#ptimer'); if (!el || !P.state?.q) return;

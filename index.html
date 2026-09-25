@@ -515,7 +515,7 @@ async function saveAsTemplate() {
 function quizCard(q) {
   return `<div class="card quizcard"><h3>${esc(q.title)}</h3>
     <div class="muted small">${q.count} question${q.count === 1 ? '' : 's'} · updated ${fmtDate(q.updated_at)}</div>
-    <div class="types">${q.types.slice(0, 4).map((t) => `<span class="tag">${esc(TYPES[t]?.label || t)}</span>`).join('')}${q.types.length > 4 ? `<span class="tag" style="background:var(--paper);color:var(--ink-3)">+${q.types.length - 4} more</span>` : ''}</div>
+    <div class="types">${(q.types = q.types.filter((t) => t !== 'slide')).slice(0, 4).map((t) => `<span class="tag">${esc(TYPES[t]?.label || t)}</span>`).join('')}${q.types.length > 4 ? `<span class="tag" style="background:var(--paper);color:var(--ink-3)">+${q.types.length - 4} more</span>` : ''}</div>
     <div class="actions"><button class="btn btn-primary btn-sm" data-host="${q.id}" ${q.count ? '' : 'disabled'}>▶ Host</button>
       <button class="btn btn-sm" data-open="${q.id}">Edit</button>
       <button class="btn btn-ghost btn-sm" data-dup="${q.id}">Duplicate</button>
@@ -598,13 +598,14 @@ function renderQList() {
   let html = '';
   rounds.forEach((r, ri) => {
     const inRound = qs.map((q, i) => [q, i]).filter(([q]) => q.round === r.id);
-    html += `<div class="roundhead"><div class="rt"><small>Round ${ri + 1} · ${inRound.length}${r.count ? ' of ' + r.count : ''} question${inRound.length === 1 && !r.count ? '' : 's'}${r.brief ? ' · ✨' : ''}</small>${esc(r.title) || '<span class="muted">Untitled round</span>'}</div>
+    const nq = inRound.filter(([q]) => q.type !== 'slide').length;
+    html += `<div class="roundhead"><div class="rt"><small>Round ${ri + 1} · ${nq}${r.count ? ' of ' + r.count : ''} question${nq === 1 && !r.count ? '' : 's'}${r.brief ? ' · ✨' : ''}</small>${esc(r.title) || '<span class="muted">Untitled round</span>'}</div>
       <div class="ra"><button data-rup="${ri}" title="Move round up" ${ri === 0 ? 'disabled' : ''}>▲</button><button data-rdown="${ri}" title="Move round down" ${ri === rounds.length - 1 ? 'disabled' : ''}>▼</button><button data-redit="${r.id}" title="Round name and AI brief">✎</button><button data-check="${r.id}" title="Fact-check this round with AI" ${inRound.length ? '' : 'disabled'}>✔</button></div></div>`;
     html += inRound.map(([q, i]) => {
-      const probs = validate(q), ck = checkState(q);
+      const probs = validate(q), ck = checkState(q), T = LQ.typeInfo(q.kind || q.type, q), slide = q.type === 'slide';
       return `<div class="qtile ${i === S.sel ? 'active' : ''}" data-i="${i}">
-        <div class="n">${i + 1}</div>
-        <div class="t"><small>${TYPES[q.kind || q.type].icon} ${esc(TYPES[q.kind || q.type].label)} · ${q.time}s${q.media?.kind === 'youtube' ? ' · ▶ video' : q.media?.kind === 'image' ? ' · 🖼' : ''}</small>${esc(q.text) || '<span class="muted">Untitled question</span>'}</div>
+        <div class="n">${slide ? T.icon : qs.slice(0, i + 1).filter((x) => x.type !== 'slide').length}</div>
+        <div class="t"><small>${T.icon} ${esc(T.label)}${slide ? (q.break ? ` · ${LQ.breakMs(q) / 60000} min` : '') : ` · ${q.time}s`}${q.media?.kind === 'youtube' ? ' · ▶ video' : q.media?.kind === 'image' ? ' · 🖼' : ''}</small>${esc(q.text) || `<span class="muted">${slide ? 'Untitled slide' : 'Untitled question'}</span>`}</div>
         <div class="mv">${probs.length ? '<span class="warn" title="' + esc(probs.join(' ')) + '">!</span>' : ''}${ck ? `<span class="chk ${ck}" title="${esc(q.check.note || '')}">${{ ok: '✓', doubt: '?', wrong: '✗', stale: '~' }[ck]}</span>` : ''}<button data-up="${i}" title="Move up" ${inRound[0][1] === i ? 'disabled' : ''}>▲</button><button data-down="${i}" title="Move down" ${inRound[inRound.length - 1][1] === i ? 'disabled' : ''}>▼</button></div></div>`;
     }).join('');
     html += `<div class="row" style="gap:6px;margin:4px 0 14px"><button class="btn btn-ghost btn-sm grow" data-addq="${r.id}">+ Question</button><button class="btn btn-ghost btn-sm grow" data-ai="${r.id}">✨ Write with AI</button></div>`;
@@ -633,11 +634,11 @@ function moveRound(i, d) {
   renderQList(); renderQForm();
 }
 function pickType(roundId) {
-  const m = modal(`<h3>What kind of question?</h3><div class="typepicker">${Object.entries(TYPES).map(([k, t]) => `<button class="typetile" data-t="${k}"><div class="ic">${t.icon}</div><b>${esc(t.label)}</b><small>${esc(t.blurb)} ${timeFor(k, S.quiz.settings)}s.</small></button>`).join('')}</div>
+  const m = modal(`<h3>What kind of question?</h3><div class="typepicker">${Object.entries(TYPES).map(([k, t]) => `<button class="typetile" data-t="${k}"><div class="ic">${t.icon}</div><b>${esc(t.label)}</b><small>${esc(t.blurb)} ${timeFor(k, S.quiz.settings)}s.</small></button>`).join('')}${[['slide', LQ.SLIDE], ['break', LQ.BREAK]].map(([k, t]) => `<button class="typetile" data-t="${k}"><div class="ic">${t.icon}</div><b>${esc(t.label)}</b><small>${esc(t.blurb)}</small></button>`).join('')}</div>
     <p class="muted small mt">Any question can have a picture or a YouTube video on the screen. A video question is just a question with a video — for “name the singer”, pick <b>Type the answer</b> or <b>Multiple choice</b> and add the video below. Time limits per type are in Settings.</p>`);
   $$('.typetile', m).forEach((b) => b.onclick = () => {
     m.remove();
-    const q = newQuestion(b.dataset.t, S.quiz.settings); q.round = roundId || cur()?.round || S.quiz.rounds[0].id;
+    const q = b.dataset.t === 'break' ? Object.assign(newQuestion('slide'), { text: 'Time for a break', break: true, breakMins: 10 }) : newQuestion(b.dataset.t, S.quiz.settings); q.round = roundId || cur()?.round || S.quiz.rounds[0].id;
     S.quiz.questions.push(q); touch(); S.planner = false; S.sel = S.quiz.questions.findIndex((x) => x.id === q.id); renderQList(); renderQForm(); ($('#f_text') || $('#w_phrase'))?.focus();
   });
 }
@@ -646,7 +647,7 @@ function pickType(roundId) {
 /** The main panel as a planner: one card per round with its title, blurb, size, types and AI prompt. */
 function renderPlanner(focusId) {
   const box = $('#qform'); const qz = S.quiz;
-  const countIn = (r) => qz.questions.filter((q) => q.round === r.id).length;
+  const countIn = (r) => qz.questions.filter((q) => q.round === r.id && q.type !== 'slide').length;
   box.innerHTML = `<div class="row" style="justify-content:space-between;margin-bottom:12px"><h3 style="margin:0">📋 Rounds</h3><div class="row"><button class="btn btn-ghost btn-sm" id="pl_close">Back to questions</button><button class="btn btn-ghost btn-sm" id="pl_tpl" title="Keep this set-up (rounds, types, prompts) to write a fresh quiz from later">💾 Save as format</button><button class="btn btn-primary btn-sm" id="pl_writeall" ${S.ai ? '' : 'disabled'}>✨ Write every round with AI</button></div></div>
     ${qz.settings.template ? '<div class="notice" style="margin-bottom:12px">📋 This is a <b>weekly format</b>: a saved set-up with no questions of its own. Change the rounds, types and prompts here; then on the quiz list press <b>New quiz from this</b> to write a fresh quiz in this shape.</div>' : ''}
     <p class="muted small">Set each round up here: what it's called, what it's about, how many questions, which types, and what to tell the AI. Then write a round, or all of them, with AI — or add questions by hand from the list on the left.</p>
@@ -748,6 +749,7 @@ function roundModal(id) {
 function renderQForm() {
   const q = cur(); const box = $('#qform');
   if (!q || S.planner) { renderPlanner(); return; }
+  if (q.type === 'slide') return renderSlideForm(q);
   const n = S.sel + 1, ck = checkState(q);
   box.innerHTML = `
     <div class="row" style="justify-content:space-between;margin-bottom:10px"><h3 style="margin:0">Question ${n} <span class="muted">· ${TYPES[q.kind || q.type].icon} ${esc(TYPES[q.kind || q.type].label)}</span></h3>
@@ -778,6 +780,36 @@ function renderQForm() {
   $('#delQ').onclick = async () => { if (!(await confirmBox('Delete this question?', 'It will be removed from the quiz.'))) return; S.quiz.questions.splice(S.sel, 1); S.sel = Math.max(0, Math.min(S.sel, S.quiz.questions.length - 1)); touch(); renderQList(); renderQForm(); };
   $('#rejQ').onclick = () => rejectQuestion(q);
   renderTypeBox(); if ($('#mediaBox')) renderMediaBox(); showProblems();
+}
+/** A slide: a title, a few lines and an optional picture or video. Shown between questions, on the screen and the phones. */
+function renderSlideForm(q) {
+  const box = $('#qform');
+  const T = LQ.typeInfo('slide', q);
+  box.innerHTML = `
+    <div class="row" style="justify-content:space-between;margin-bottom:10px"><h3 style="margin:0">${T.icon} ${T.label} <span class="muted small">· not a question, no points</span></h3>
+      <div class="row"><button class="btn btn-ghost btn-sm" id="dupQ">Duplicate</button><button class="btn btn-ghost btn-sm" id="delQ" style="color:var(--bad)">Delete</button></div></div>
+    <div class="field"><label>Title</label><input type="text" id="f_text" value="${esc(q.text)}" placeholder="e.g. Welcome to Quiz Night!  ·  How to play  ·  Half-time"></div>
+    <div class="field"><label>Text <span class="muted">— start lines with "-" to make a list</span></label><textarea id="f_body" rows="7" placeholder="e.g.&#10;- Phones out, join with the code on the screen&#10;- The faster you answer, the more you score&#10;- No googling!">${esc(q.body || '')}</textarea></div>
+    <div class="field"><label class="check"><input type="checkbox" id="f_break" ${q.break ? 'checked' : ''}> ☕ Break, with a big countdown clock on the screen and the phones</label></div>
+    ${q.break ? '' : `<div class="field"><label>On the screen <span class="muted">— optional</span></label><div id="mediaBox"></div></div>`}
+    <div class="row" style="align-items:flex-end">
+      ${q.break ? `<div class="field" style="max-width:260px"><label>Break length (minutes) <span class="muted">— add or take off minutes on the screen while it runs</span></label><div class="row" style="gap:6px"><button class="btn btn-ghost btn-sm" data-bm="-5">−5</button><button class="btn btn-ghost btn-sm" data-bm="-1">−1</button><input type="number" id="f_mins" min="1" max="120" value="${LQ.breakMs(q) / 60000}" style="max-width:80px;text-align:center"><button class="btn btn-ghost btn-sm" data-bm="1">+1</button><button class="btn btn-ghost btn-sm" data-bm="5">+5</button></div></div>`
+      : `<div class="field" style="max-width:260px"><label>Moves on by itself after (seconds) <span class="muted">— when the game runs itself</span></label><input type="number" id="f_time" min="5" max="120" value="${q.time || 20}"></div>`}
+      ${S.quiz.rounds.length > 1 ? `<div class="field" style="max-width:240px"><label>Round</label><select id="f_round">${S.quiz.rounds.map((r, i) => `<option value="${r.id}" ${r.id === q.round ? 'selected' : ''}>${i + 1}. ${esc(r.title || 'Untitled round')}</option>`).join('')}</select></div>` : ''}
+    </div>
+    <p class="muted small">${q.break ? 'The clock starts as the slide comes up. On the screen: −1 min, +1 min, +5 min (or the − and + keys), and End break to move on early. When the game runs itself it moves on a few seconds after the clock hits zero.' : "It stays up until you press Next. Put it first in a round and it comes after the round's title card."}</p>
+    <div id="problems"></div>`;
+  $('#f_text').oninput = (e) => { q.text = e.target.value; touch(); refreshTile(); showProblems(); };
+  $('#f_body').oninput = (e) => { q.body = e.target.value; touch(); showProblems(); };
+  $('#f_break').onchange = (e) => { q.break = e.target.checked; if (q.break) { q.breakMins = q.breakMins || 10; q.media = { kind: 'none' }; } touch(); renderQList(); renderSlideForm(q); };
+  const setMins = (n) => { q.breakMins = LQ.clamp(Math.round(+n) || 10, 1, 120); const i = $('#f_mins'); if (i) i.value = q.breakMins; touch(); renderQList(); showProblems(); };
+  if ($('#f_mins')) $('#f_mins').onchange = (e) => setMins(e.target.value);
+  $$('[data-bm]', box).forEach((b) => b.onclick = () => setMins((+q.breakMins || 10) + +b.dataset.bm));
+  if ($('#f_time')) $('#f_time').onchange = (e) => { q.time = LQ.clamp(+e.target.value || 20, 5, 120); e.target.value = q.time; touch(); };
+  if ($('#f_round')) $('#f_round').onchange = (e) => { q.round = e.target.value; touch(); S.sel = S.quiz.questions.findIndex((x) => x.id === q.id); renderQList(); renderQForm(); };
+  $('#dupQ').onclick = () => { const c = JSON.parse(JSON.stringify(q)); c.id = uid('q'); S.quiz.questions.splice(S.sel + 1, 0, c); touch(); S.sel = S.quiz.questions.findIndex((x) => x.id === c.id); renderQList(); renderQForm(); };
+  $('#delQ').onclick = async () => { if (!(await confirmBox('Delete this slide?', 'It will be removed from the quiz.'))) return; S.quiz.questions.splice(S.sel, 1); S.sel = Math.max(0, Math.min(S.sel, S.quiz.questions.length - 1)); touch(); renderQList(); renderQForm(); };
+  if ($('#mediaBox')) renderMediaBox(); showProblems();
 }
 /** "I don't like this question": stamps it rejected in the bank (adding it there if the writer made it), then writes one replacement of the same type for the same round. */
 async function rejectQuestion(q) {
@@ -1283,7 +1315,7 @@ function hashOf(s) { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 +
 function checkState(q) { if (!q.check) return null; return q.check.hash === hashOf(summaryOf(q)) ? q.check.verdict : 'stale'; }
 
 function checkRounds(roundIds) {
-  const qs = S.quiz.questions.filter((q) => roundIds.includes(q.round) && !validate(q).length);
+  const qs = S.quiz.questions.filter((q) => roundIds.includes(q.round) && q.type !== 'slide' && !validate(q).length);
   if (!qs.length) return toast('Nothing finished to check yet.', true);
   checkQuestions(qs);
 }

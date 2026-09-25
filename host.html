@@ -59,7 +59,11 @@ function toast(msg, bad) { const t = $('#toast'); t.textContent = msg; t.classNa
 const persist = () => store(SAVE_KEY, G);
 const players = () => Object.values(G.players);
 const ranked = () => players().slice().sort((a, b) => b.score - a.score || a.joinedAt - b.joinedAt);
-const total = () => G.quiz.questions.length;
+const isSlide = (q) => q?.type === 'slide';
+/** How many questions the game has; slides are not counted. */
+const total = () => G.quiz.questions.filter((q) => !isSlide(q)).length;
+/** The question number of item i, not counting slides. */
+const qNum = (i) => G.quiz.questions.slice(0, i + 1).filter((q) => !isSlide(q)).length;
 const question = () => G.quiz.questions[G.qIndex];
 const roundOf = (i) => { const q = G.quiz.questions[i]; const ri = G.quiz.rounds.findIndex((r) => r.id === q?.round); return ri < 0 ? null : { n: ri + 1, ...G.quiz.rounds[ri], count: G.quiz.questions.filter((x) => x.round === q.round).length }; };
 const startsRound = (i) => i === 0 || G.quiz.questions[i - 1]?.round !== G.quiz.questions[i]?.round;
@@ -222,15 +226,16 @@ function startHeartbeat() { clearInterval(hbT); hbT = setInterval(broadcastState
 
 /** Everything a phone needs to draw its screen. Never the right answers. */
 function stateForPlayers() {
-  const s = { phase: G.phase, code: G.code, qIndex: G.qIndex, total: total(), title: G.quiz.title, now: Date.now(), auto: !!G.auto, paused: !!G.paused };
+  const s = { phase: G.phase, code: G.code, qIndex: G.qIndex, num: qNum(G.qIndex), total: total(), more: G.qIndex + 1 < G.quiz.questions.length, title: G.quiz.title, now: Date.now(), auto: !!G.auto, paused: !!G.paused };
   const nowT = G.paused ? G.pausedAt : Date.now(); // a paused clock reads the same until it is picked up again
+  if (G.phase === 'slide') { const q = question(); s.slide = { title: q.text || '', body: q.body || '', image: q.media?.kind === 'image' ? q.media.url || '' : '' }; if (G.brk) s.brk = { remainingMs: Math.max(0, G.brk.endsAt - nowT), totalMs: G.brk.totalMs }; }
   if (G.phase === 'question' && G.q) {
     s.q = G.q.view; s.remainingMs = Math.max(0, (G.q.deadline || 0) - nowT); s.answered = Object.keys(G.q.answers);
     if (G.q.wipe) { const w = G.q.wipe; s.wipe = { turnPid: w.turnPid, turnName: G.players[w.turnPid]?.name || '', remainingMs: Math.max(0, (w.studyUntil || w.turnDeadline) - nowT), studyMs: w.studyUntil ? Math.max(0, w.studyUntil - nowT) : 0, gone: w.gone, out: w.out, over: w.over, last: w.last, scores: w.scores, order: w.order.filter((p) => !w.out.includes(p)) }; }
     if (G.q.race) { const r = G.q.race; s.race = { winner: r.winner, winnerName: r.winner ? G.players[r.winner]?.name : null, over: r.over, target: G.q.view.target, players: Object.fromEntries(Object.entries(r.players).map(([pid, p]) => [pid, { idx: p.idx, correct: p.correct, out: p.out, done: p.done }])) }; }
   }
-  if (G.phase === 'countdown') s.next = { type: question().kind || question().type, n: G.qIndex + 1 };
-  if (G.phase === 'typecard') s.typecard = { type: question().kind || question().type, n: G.qIndex + 1, run: typeRun(G.qIndex) };
+  if (G.phase === 'countdown') s.next = { type: question().kind || question().type, n: qNum(G.qIndex) };
+  if (G.phase === 'typecard') s.typecard = { type: question().kind || question().type, n: qNum(G.qIndex), run: typeRun(G.qIndex) };
   if (G.phase === 'round') { const r = roundOf(G.qIndex); s.round = { n: r.n, title: r.title, intro: r.intro || '', count: r.count }; }
   if (G.phase === 'question' && G.q?.wheelRevealed !== undefined) s.wheel = { revealed: G.q.wheelRevealed, category: question().category, layout: G.q.view.layout };
   if (G.phase === 'question' && G.q && question().type === 'highlow') s.hl = { asked: Object.keys(G.q.low || {}).length };
@@ -308,6 +313,7 @@ let autoT = null;
 function autoDelay() {
   if (!G.auto) return 0;
   if (G.phase === 'round') return 6000;
+  if (G.phase === 'slide') return G.brk ? 0 : LQ.clamp(+question()?.time || 20, 5, 120) * 1000; // a break moves on when its clock runs out
   if (G.phase === 'typecard') return 8000;
   if (G.phase === 'scoreboard') return 6000;
   if (G.phase === 'reveal') return ['choice', 'tf', 'highlow', 'rhyme', 'smash', 'wheel', 'club', 'dingbat', 'tune'].includes(question()?.type) ? 8000 : 11000;
@@ -329,7 +335,8 @@ function onCtrl({ pid, cmd }) {
   if (cmd === 'pause') return togglePause(true);
   if (cmd === 'resume') return togglePause(false);
   if (cmd === 'start' && G.phase === 'lobby') return primaryAction();
-  if (cmd === 'next' && ['round', 'typecard', 'reveal', 'scoreboard'].includes(G.phase)) return primaryAction();
+  if (cmd === 'next' && G.phase === 'slide' && G.brk) return; // a break runs its clock; only the host screen ends it early
+  if (cmd === 'next' && ['round', 'slide', 'typecard', 'reveal', 'scoreboard'].includes(G.phase)) return primaryAction();
 }
 
 // ------------------------------------------------------------------ game flow
@@ -338,11 +345,47 @@ function primaryAction() {
   if (G.paused) togglePause(false, true);
   if (G.phase === 'lobby') return players().length ? goTo(0) : toast('Waiting for at least one player.');
   if (G.phase === 'round') return toTypeCard(G.qIndex);
+  if (G.phase === 'slide') return nextFrom(G.qIndex);
   if (G.phase === 'typecard') return startCountdown(G.qIndex);
   if (G.phase === 'countdown') return startQuestion();
   if (G.phase === 'question') return endQuestion();
   if (G.phase === 'reveal') return showScoreboard();
-  if (G.phase === 'scoreboard') return G.qIndex + 1 < total() ? goTo(G.qIndex + 1) : finish();
+  if (G.phase === 'scoreboard') return nextFrom(G.qIndex);
+}
+/** On to whatever follows item i, or the final results after the last. */
+function nextFrom(i) { return i + 1 < G.quiz.questions.length ? goTo(i + 1) : finish(); }
+/** A slide: up on the screen and the phones until someone moves on. A break slide starts its countdown clock. */
+function showSlide(i) {
+  clearInterval(tickT); clearInterval(countT); if (typeof stopTune === 'function') stopTune();
+  G.qIndex = i; G.phase = 'slide'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString();
+  const q = G.quiz.questions[i], ms = LQ.breakMs(q);
+  G.brk = q.break ? { endsAt: Date.now() + ms, totalMs: ms, done: false } : null;
+  persist(); render(); broadcastState();
+}
+// ------------------------------------------------------------------ break clock
+let brkT = null;
+/** What is left of the break, frozen while paused. */
+function breakLeft() { return G.brk ? G.brk.endsAt - (G.paused ? G.pausedAt : Date.now()) : 0; }
+/** Adds (or takes off) minutes while the break runs. Never below ten seconds; the ring rescales if it grows past the start. */
+function adjustBreak(mins) {
+  if (G.phase !== 'slide' || !G.brk) return;
+  const rem = Math.max(10000, breakLeft() + mins * 60000);
+  G.brk.endsAt = (G.paused ? G.pausedAt : Date.now()) + rem;
+  G.brk.totalMs = Math.max(rem, G.brk.totalMs + (mins > 0 ? mins * 60000 : 0));
+  G.brk.done = false;
+  persist(); tickBreak(); broadcastState();
+  toast(mins > 0 ? `Added ${mins} minute${mins === 1 ? '' : 's'}: ${LQ.clockText(rem)} left` : `Took off ${-mins} minute${mins === -1 ? '' : 's'}: ${LQ.clockText(rem)} left`);
+}
+function tickBreak() {
+  if (G.phase !== 'slide' || !G.brk) return clearInterval(brkT);
+  const rem = breakLeft();
+  LQ.setBreakClock('brk', rem, G.brk.totalMs);
+  const back = $('#brkBack');
+  if (back) back.textContent = rem > 0 ? `Back at ${new Date(Date.now() + rem).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : 'Back to the quiz!';
+  if (rem <= 0 && !G.brk.done) {
+    G.brk.done = true; persist(); broadcastState();
+    if (G.auto) { const qi = G.qIndex; setTimeout(() => { if (G.phase === 'slide' && G.qIndex === qi && !G.paused) primaryAction(); }, 4000); }
+  }
 }
 /** Moves to question i, via a round title card when it starts a new round and the quiz has more than one. */
 function goTo(i) {
@@ -358,6 +401,7 @@ function typeRun(i) { const qs = G.quiz.questions, k = (q) => q && (q.kind || q.
 /** A title card whenever the question type changes (and before the first question), so everyone knows how the next lot works. */
 function toTypeCard(i) {
   const qs = G.quiz.questions;
+  if (isSlide(qs[i])) return showSlide(i);
   if (i > 0 && (qs[i - 1]?.kind || qs[i - 1]?.type) === (qs[i]?.kind || qs[i]?.type)) return startCountdown(i);
   clearInterval(tickT); clearInterval(countT);
   G.qIndex = i; G.phase = 'typecard'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString();
@@ -595,7 +639,7 @@ function logQuestion() {
   const q = question(), R = G.q.results; if (!R) return;
   G.log = (G.log || []).filter((e) => e.index !== G.qIndex);
   const round = roundOf(G.qIndex);
-  G.log.push({ index: G.qIndex, n: G.qIndex + 1, id: q.id, type: q.type, text: q.type === 'wheel' ? `${q.category}: ${q.phrase}` : q.text, round: round ? `${round.n}. ${round.title}` : '', answer: answerText(q),
+  G.log.push({ index: G.qIndex, n: qNum(G.qIndex), id: q.id, type: q.type, text: q.type === 'wheel' ? `${q.category}: ${q.phrase}` : q.text, round: round ? `${round.n}. ${round.title}` : '', answer: answerText(q),
     players: Object.fromEntries(players().map((p) => { const r = R.byPlayer[p.id] || {}; return [p.id, { name: p.name, emoji: p.emoji || '', answer: answerDisplay(q, p.id), correct: !!r.correct, partial: r.partial ?? 0, points: r.points || 0, skipped: !!r.skipped, answered: !!r.answered }]; })) });
 }
 function buildReport() {
@@ -792,6 +836,7 @@ function renderPhase() {
   const ph = G.phase;
   if (ph === 'lobby') return renderLobby();
   if (ph === 'round') return renderRound();
+  if (ph === 'slide') return renderSlide();
   if (ph === 'typecard') return renderTypeCard();
   if (ph === 'countdown') return renderCountdown();
   if (ph === 'question') return renderQuestion();
@@ -803,7 +848,23 @@ function renderPhase() {
 function topBar(extra = '') {
   const q = question(), r = roundOf(G.qIndex);
   const roundPill = G.quiz.rounds.length > 1 && r ? `<span class="hpill">Round ${r.n}${r.title ? ' · ' + esc(r.title) : ''}</span>` : `<span class="hpill">${esc(G.quiz.title)}</span>`;
-  return `<div class="stage-top"><div class="pillbox">${roundPill}<span class="hpill">Question ${G.qIndex + 1} of ${total()}</span><span class="hpill">${TYPES[q.kind || q.type].icon} ${esc(TYPES[q.kind || q.type].label)}</span></div>${extra}</div>`;
+  return `<div class="stage-top"><div class="pillbox">${roundPill}<span class="hpill">Question ${qNum(G.qIndex)} of ${total()}</span><span class="hpill">${TYPES[q.kind || q.type].icon} ${esc(TYPES[q.kind || q.type].label)}</span></div>${extra}</div>`;
+}
+function renderSlide() {
+  const q = question(), r = roundOf(G.qIndex), body = LQ.slideHtml(q.body), more = G.qIndex + 1 < G.quiz.questions.length;
+  const pill = G.quiz.rounds.length > 1 && r ? `Round ${r.n}${r.title ? ' · ' + esc(r.title) : ''}` : esc(G.quiz.title);
+  if (G.brk) {
+    stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${pill}</span><span class="hpill">☕ Break</span></div></div>
+      <div class="stage-main slide brk">${q.text ? `<h1 class="big">${esc(q.text)}</h1>` : ''}${LQ.breakClockHtml('brk')}<div class="brkback" id="brkBack"></div>${body ? `<div class="slidebody">${body}</div>` : ''}</div>
+      ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-ghost" data-brk="-1" title="Take a minute off (−)">−1 min</button><button class="btn btn-ghost" data-brk="1" title="Add a minute (+)">+1 min</button><button class="btn btn-ghost" data-brk="5">+5 min</button><button class="btn btn-primary btn-lg" data-act="primary">${more ? 'End break ▶' : 'Final results 🏆'}</button>`)}`;
+    bind(); $$('[data-brk]').forEach((b) => b.onclick = () => adjustBreak(+b.dataset.brk));
+    clearInterval(brkT); tickBreak(); brkT = setInterval(tickBreak, 250);
+    return;
+  }
+  stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${pill}</span></div></div>
+    <div class="stage-main slide">${q.text ? `<h1 class="big">${esc(q.text)}</h1>` : ''}${mediaHtml(q, true)}${body ? `<div class="slidebody">${body}</div>` : ''}</div>
+    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary btn-lg" data-act="primary">${more ? 'Next ▶' : 'Final results 🏆'}</button>`)}`;
+  bind();
 }
 function renderRound() {
   const r = roundOf(G.qIndex);
@@ -867,7 +928,7 @@ function musicStop() { musicMode = null; try { ytP?.stopVideo(); } catch {} }
 function musicPause(on) { try { if (on) ytP?.pauseVideo(); else if (musicMode) ytP?.playVideo(); } catch {} }
 function renderTypeCard() {
   const q = question(), k = q.kind || q.type, T = TYPES[k] || { icon: '❓', label: k }, run = typeRun(G.qIndex);
-  stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">Question ${G.qIndex + 1} of ${total()}</span></div></div>
+  stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">Question ${qNum(G.qIndex)} of ${total()}</span></div></div>
     <div class="stage-main typecard"><div class="tc-icon">${T.icon}</div><div class="tc-next">Next up${run > 1 ? ` · ${run} questions` : ''}</div><h1 class="big">${esc(T.label)}</h1><p class="tc-how">${esc(LQ.HOWTO[k] || T.blurb || '')}</p></div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary btn-lg" data-act="primary">Let's go ▶</button>`)}`;
   bind();
@@ -879,6 +940,7 @@ function togglePause(want, quiet) {
   if (want) { G.paused = true; G.pausedAt = Date.now(); clearTimeout(autoT); musicPause(true); }
   else {
     const d = Date.now() - (G.pausedAt || Date.now()); G.paused = false; G.pausedAt = 0; musicPause(false);
+    if (G.brk) G.brk.endsAt += d;
     if (G.q) { if (G.q.deadline) G.q.deadline += d; if (G.q.nextReveal) G.q.nextReveal += d; const w = G.q.wipe; if (w) { if (w.studyUntil) w.studyUntil += d; if (w.turnDeadline) w.turnDeadline += d; } }
   }
   persist();
@@ -1096,7 +1158,7 @@ function drawPins() {
 function renderScoreboard() {
   const rk = ranked().slice(0, 8), top = Math.max(1, rk[0]?.score || 1), R = G.q?.results?.byPlayer || {};
   stage.innerHTML = `${topBar()}<div class="stage-main"><h1 class="big" style="font-size:2.6rem">Scoreboard <span class="small" style="opacity:.45;font-size:.85rem;font-weight:700">· click a name to remove a player who has left</span></h1><div class="board">${rk.map((p, i) => `<div class="brow"><div class="fill" data-w="${(p.score / top) * 100}"></div><div class="rank">${i + 1}</div><div><span data-kick="${p.id}">${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}</span>${R[p.id]?.points ? `<span class="delta" ${R[p.id].points < 0 ? 'style="color:#ffb3c0"' : ''}>${R[p.id].points > 0 ? '+' : ''}${R[p.id].points}</span>` : ''}</div><div>${p.score}</div></div>`).join('')}</div></div>
-    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">${G.qIndex + 1 < total() ? 'Next question ▶' : 'Final results 🏆'}</button>`)}`;
+    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">${G.qIndex + 1 < G.quiz.questions.length ? 'Next ▶' : 'Final results 🏆'}</button>`)}`;
   requestAnimationFrame(() => $$('.fill').forEach((f) => f.style.width = f.dataset.w + '%'));
   bind();
 }
@@ -1120,6 +1182,7 @@ function confetti() {
 document.addEventListener('keydown', (e) => {
   if ((e.key === 'm' || e.key === 'M') && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName || '')) { e.preventDefault(); toggleMusic(); return; }
   if ((e.key === 'p' || e.key === 'P') && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName || '') && typeof G !== 'undefined' && G && G.auto && !['lobby', 'final'].includes(G.phase)) { e.preventDefault(); togglePause(); return; }
+  if (G?.phase === 'slide' && G.brk && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName || '') && ['+', '=', '-', '_'].includes(e.key)) { e.preventDefault(); adjustBreak(e.key === '-' || e.key === '_' ? -1 : 1); return; }
   if (e.target.matches('input, textarea, button, a, select')) return; // a focused control handles its own key
   if (TV && e.key === 'ArrowRight') return; // on a TV the arrows move the focus ring
   if (e.key === ' ' || e.key === 'Enter' || e.key === 'ArrowRight' || e.code === 'Space') { e.preventDefault(); if (!document.querySelector('.modal-bg')) primaryAction(); }

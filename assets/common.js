@@ -75,6 +75,39 @@ window.LQ = (() => {
     catchphrase: { label: 'Catchphrase', icon: '🗯️', blurb: 'A clip from the show plays on the screen. Players type the well-known phrase it shows.' },
     tune:   { label: 'Name That Tune',  icon: '🎵', blurb: 'A clip plays on the screen. Name the song, the artist, the film it is from, the year, or the next line.' },
   };
+  /** Not a question: a title, a few lines and an optional picture or video on the screen and the phones. No clock, no points. */
+  const SLIDE = { label: 'Slide', icon: '🪧', blurb: 'Not a question: a welcome, the rules, a break or a message, on the screen and the phones. No points.' };
+  /** Label and icon for any item in a quiz, slides included. */
+  function typeInfo(t, q) { return TYPES[t] || (t === 'slide' ? (q?.break ? BREAK : SLIDE) : { icon: '❓', label: String(t || ''), blurb: '' }); }
+  /** A slide's text as HTML: lines starting "-", "•" or "1." become a list, the rest paragraphs. */
+  function slideHtml(body) {
+    let html = '', list = [];
+    const flush = () => { if (list.length) { html += `<ul>${list.map((l) => `<li>${esc(l)}</li>`).join('')}</ul>`; list = []; } };
+    for (const raw of String(body || '').split(/\r?\n/)) {
+      const l = raw.trim(); if (!l) { flush(); continue; }
+      const m = l.match(/^(?:[-•*]|\d+[.)])\s+(.*)$/);
+      if (m) list.push(m[1]); else { flush(); html += `<p>${esc(l)}</p>`; }
+    }
+    flush(); return html;
+  }
+  /** A break slide: a slide with a countdown clock. */
+  const BREAK = { label: 'Break', icon: '☕', blurb: 'A big countdown clock on the screen and the phones, for half-time or a bar run. Add or take off minutes while it runs.' };
+  function breakMs(q) { return clamp(Math.round(+q?.breakMins || 10), 1, 120) * 60000; }
+  /** 9:05, or 1:02:05 for an hour or more. */
+  function clockText(ms) { const t = Math.max(0, Math.ceil(ms / 1000)), h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), s = t % 60; return h ? `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}` : `${m}:${String(s).padStart(2, '0')}`; }
+  /** The countdown ring: minute ticks round the edge, an arc that drains, the time in the middle. Ids get a prefix so screen and phone can differ. */
+  function breakClockHtml(p = 'brk') {
+    return `<div class="brkclock" id="${p}Clock"><svg viewBox="0 0 200 200" aria-hidden="true"><circle class="ticks" cx="100" cy="100" r="95" pathLength="120"/><circle class="trk" cx="100" cy="100" r="82"/><circle class="arc" id="${p}Arc" cx="100" cy="100" r="82" pathLength="1000" transform="rotate(-90 100 100)"/></svg><div class="brktime"><span id="${p}Time">0:00</span><small id="${p}Note">left of the break</small></div></div>`;
+  }
+  /** Moves a clock drawn by breakClockHtml on to `rem` of `total` ms. */
+  function setBreakClock(p, rem, total) {
+    const c = document.getElementById(p + 'Clock'); if (!c) return;
+    const f = total > 0 ? clamp(rem / total, 0, 1) : 0;
+    document.getElementById(p + 'Arc').style.strokeDashoffset = String(1000 * (1 - f));
+    document.getElementById(p + 'Time').textContent = rem > 0 ? clockText(rem) : '0:00';
+    document.getElementById(p + 'Note').textContent = rem > 0 ? 'left of the break' : "time's up!";
+    c.classList.toggle('warn', rem > 0 && rem <= 120000); c.classList.toggle('end', rem > 0 && rem <= 30000); c.classList.toggle('over', rem <= 0);
+  }
   // ---- Wheel of Fortune board: the show's four rows of 12/14/14/12 tiles ----
   const WHEEL_ROWS = [12, 14, 14, 12];
   /** Lays the phrase's words onto the board, centred, never splitting a word. Returns rows of tiles or null if it will not fit. */
@@ -201,6 +234,7 @@ window.LQ = (() => {
   }
 
   function newQuestion(type = 'choice', settings = DEFAULT_SETTINGS) {
+    if (type === 'slide') return { id: uid('q'), type: 'slide', text: '', body: '', time: 20, media: { kind: 'none' } };
     if (type === 'catchphrase') { const c = newQuestion('text', settings); c.kind = 'catchphrase'; c.text = 'Catchphrase: say what you see'; c.media = { kind: 'youtube', url: '', videoId: '', start: 0 }; c.time = timeFor('catchphrase', settings); return c; }
     const q = { id: uid('q'), type, text: '', time: timeFor(type, settings), media: { kind: 'none' }, partial: false };
     if (type === 'choice') { q.options = [0, 1, 2, 3].map(() => ({ id: uid('o'), text: '' })); q.correct = q.options[0].id; }
@@ -228,6 +262,12 @@ window.LQ = (() => {
   /** Something wrong with the question that would stop it being played. */
   function validate(q) {
     const problems = [];
+    if (q.type === 'slide') {
+      if (!(q.text || '').trim() && !(q.body || '').trim() && !q.break) problems.push('Needs a title or some text.');
+      if (q.break && !(+q.breakMins >= 1 && +q.breakMins <= 120)) problems.push('A break lasts between 1 and 120 minutes.');
+      if (q.media && q.media.kind === 'youtube' && !q.media.videoId) problems.push('The YouTube link is not valid.');
+      return problems;
+    }
     if (q.type === 'wheel') {
       if (!(q.phrase || '').trim()) problems.push('Needs the phrase.');
       else if (!wheelLayout(q.phrase)) problems.push('The phrase does not fit the board (four rows of 12, 14, 14 and 12 letters; a word cannot be split).');
@@ -454,6 +494,6 @@ window.LQ = (() => {
   function ordinal(n) { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
   return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
-    TYPES, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
+    TYPES, SLIDE, BREAK, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
     newCode, playUrl, shortPlayUrl, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml, addUsage, usageCost, usageSummary, AI_PRICES, TUNE_ASKS, tunePrompt, bigArt, cleanTitle };
 })();

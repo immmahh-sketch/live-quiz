@@ -785,8 +785,8 @@ Deno.serve(async (req) => {
         template: !!(r.settings && r.settings.template),
         bank: !!(r.settings && r.settings.bank),
         rounds: Array.isArray(r.settings?.rounds) ? r.settings.rounds.map((x: any) => ({ title: x?.title || "", count: Object.values(x?.mix || {}).reduce((a: number, b: any) => a + (+b || 0), 0) || +x?.count || 0, types: Object.keys(x?.mix || {}) })) : [],
-        count: Array.isArray(r.questions) ? r.questions.length : 0,
-        types: Array.isArray(r.questions) ? Array.from(new Set(r.questions.map((q: any) => q.type))) : [],
+        count: Array.isArray(r.questions) ? r.questions.filter((q: any) => q?.type !== "slide").length : 0,
+        types: Array.isArray(r.questions) ? Array.from(new Set(r.questions.filter((q: any) => q?.type !== "slide").map((q: any) => q.type))) : [],
       })) });
     }
 
@@ -1047,7 +1047,7 @@ Deno.serve(async (req) => {
       for (const row of banks) for (const q of row.questions || []) if (q.used && q.used.quiz === id && !q.used.rejected) { delete q.used; touched.add(row); const t = row.settings.type; out[t] = out[t] || { restored: 0, added: 0, skipped: 0 }; out[t].restored++; }
       // 2. everything the writer made goes in as new stock, with a duplicate check against the whole bank of its type
       for (const q of (Array.isArray(quiz.questions) ? quiz.questions : [])) {
-        if (!q || !q.type) continue;
+        if (!q || !q.type || q.type === "slide") continue; // slides are not questions and never go in the bank
         const t = String(q.kind || q.type); out[t] = out[t] || { restored: 0, added: 0, skipped: 0 };
         if (q.fromBank || q.bankId) continue; // already counted under restored
         let row = banks.find((r) => r.settings?.type === t);
