@@ -653,6 +653,9 @@ if (bootQ.get('solo') === '1' && /^[A-Z0-9]{6}$/.test(bootCode)) {
   connect();
 } else if (PHONE && !STANDALONE) {
   if (/^[A-Z0-9]{6}$/.test(bootCode)) store('lq_pending', { code: bootCode, at: Date.now() });
+  // The code is kept above for the installed app; take it off the address so 'Add to Home Screen' (which on iPhone
+  // saves the current address) never bakes an old game code into the icon.
+  if (bootCode) history.replaceState(null, '', location.pathname);
   renderInstall(/^[A-Z0-9]{6}$/.test(bootCode) ? bootCode : '');
 } else renderJoin();
 </script>
