@@ -1,5 +1,6 @@
 /* The built-in demo, playable without signing in: host.html?quiz=demo (the phone demo wraps it).
-   A tick-box picker chooses question types; the demo then plays one sample question of each. */
+   A tick-box picker chooses question types and how many of each; the demo then plays random bank questions
+   (read only, so nothing is used up), falling back to the one sample question of each type below. */
 window.DEMO_SAMPLES = {
  "twenty": {"id":"d_tq","type":"twenty","text":"20 Questions: who am I?","answers":["Gary Barlow","Barlow"],"what":"person","facts":{"p_man":true,"p_woman":false,"p_alive":true,"p_over50":true,"p_over70":false,"p_under30":false,"p_history":false,"p_british":true,"p_american":false,"p_irish":false,"p_knighted":false,"p_english":true,"p_scottish":false,"p_welsh":false,"p_northeast":false,"p_north":true,"p_london":false,"p_music":true,"p_actor":false,"p_sport":false,"p_tv":false,"p_comedy":false,"p_politics":false,"p_royal":false,"p_writer":false,"p_science":false,"p_business":false,"p_hero":false,"p_b1970":false,"p_b1980":false,"p_b1990":false,"p_b2000":true,"p_b2010":true,"p_band":true,"p_boyband":true,"p_frontman":true,"p_solo":true,"p_number1":true,"p_christmas1":false,"p_songwriter":true,"p_instrument":true,"p_pop":true,"p_rock":false,"p_rap":false,"p_soul":false,"p_dance":false,"p_talent":false,"p_judge":true,"p_acted":false,"p_brit":true,"p_grammy":false,"p_glasto":false,"p_active":true,"p_bondtheme":false,"p_eurovision":false,"p_xfactorwin":false,"p_takethat":true,"p_westlife":false,"p_boyzone":false,"p_1d":false,"p_busted":false,"p_spice":false,"p_girlsaloud":false,"p_littlemix":false,"p_sugababes":false,"p_steps":false,"p_beatles":false,"p_stones":false,"p_queenband":false,"p_oasis":false,"p_police":false,"p_coldplay":false,"p_u2":false,"p_abba":false,"p_arctic":false,"p_direstraits":false,"p_hollywood":false,"p_oscar":false,"p_soap":false,"p_sitcom":false,"p_funny":false,"p_action":false,"p_bond":false,"p_superhero":false,"p_potter":false,"p_whoactor":false,"p_voice":false,"p_sang":false,"p_period":false,"p_stage":false,"p_corrie":false,"p_eastenders":false,"p_emmerdale":false,"p_hollyoaks":false,"p_marvel":false,"p_starwars":false,"p_football":false,"p_cricket":false,"p_tennis":false,"p_rugby":false,"p_athletics":false,"p_boxing":false,"p_motor":false,"p_golf":false,"p_cycling":false,"p_swim":false,"p_cue":false,"p_country":false,"p_captain":false,"p_olympic":false,"p_world":false,"p_spoty":false,"p_retired":false,"p_pundit":false,"p_manager":false,"p_toon":false,"p_mackem":false,"p_prem":false,"p_manutd":false,"p_liverpool":false,"p_striker":false,"p_keeper":false,"p_arsenal":false,"p_chelsea":false,"p_mancity":false,"p_spurs":false,"p_everton":false,"p_boro":false,"p_leeds":false,"p_abroad":false,"p_ballon":false,"p_reality":false,"p_gameshow":false,"p_chat":false,"p_saturday":false,"p_cook":false,"p_nature":false,"p_news":false,"p_duo":false,"p_strictly":false,"p_jungle":false,"p_daytime":false,"p_kidstv":false,"p_takeaway":false,"p_imceleb":false,"p_bgt":false,"p_bakeoff":false,"p_topgear":false,"p_bluepeter":false,"p_thismorning":false,"p_standup":false,"p_panel":false,"p_csitcom":false,"p_double":false,"p_characters":false,"p_silent":false,"p_cfilm":false,"p_blackadder":false,"p_python":false,"p_pm":false,"p_president":false,"p_mp":false,"p_labour":false,"p_tory":false,"p_inoffice":false,"p_wartime":false,"p_resigned":false,"p_monarch":false,"p_heir":false,"p_marriedin":false,"p_tudor":false,"p_divorced":false,"p_kidsbooks":false,"p_crime":false,"p_poet":false,"p_plays":false,"p_fantasy":false,"p_filmed":false,"p_bookseries":false,"p_school":false,"p_invented":false,"p_theory":false,"p_space":false,"p_medicine":false,"p_nobel":false,"p_tvsci":false,"p_billion":false,"p_techco":false,"p_shopco":false,"p_den":false,"p_rocket":false,"p_sea":false,"p_war":false,"p_rescue":false,"p_explore":false,"p_astro":false,"p_nurse":false},"maxQ":20,"prize":1000,"prize2":500,"prize3":100,"penalty":200,"time":180,"media":{"kind":"none"},"partial":false},
  "choice": {
@@ -1807,37 +1808,93 @@ window.DEMO_TYPES = [
   ['wipeout', 'Wipeout', '💥'], ['race', 'The Race', '🏁'], ['potato', 'Hot Potato', '💣'], ['koth', 'King of the Hill', '👑'],
   ['chase', 'The Chase', '🏃'], ['blockbusters', 'Blockbusters', '⬢'], ['draw', 'Draw It', '🎨'], ['twenty', '20 Questions', '🕵️'],
 ];
-/** A demo quiz with one question of each chosen type, in picker order. */
+/** Types with no bank of their own: only the one built-in sample, so at most one each. */
+window.DEMO_ONE_ONLY = ['nearest', 'draw'];
+/** The picker hands over 'type:count' strings (a bare type means one); this reads them back as [[type, count]]. */
+window.demoSpec = function (list) {
+  return list.map((s) => { const [t, n] = String(s).split(':'); return [t, Math.max(1, Math.min(window.DEMO_ONE_ONLY.includes(t) ? 1 : 5, Math.floor(+n) || 1))]; })
+    .filter(([t]) => window.DEMO_SAMPLES[t]);
+};
+function demoWrap(questions, intro) {
+  questions.forEach((q, i) => Object.assign(q, { id: 'd' + (i + 1), round: 'r1' }));
+  return { id: 'demo', title: 'Demo quiz', settings: { maxPoints: 1000, minPoints: 500, defaultTime: 20, showAnswersOnPhones: true, rounds: [{ id: 'r1', title: 'Demo', intro, brief: '' }] }, questions };
+}
+/** The built-in demo: one fixed sample question of each chosen type, in picker order. */
 window.demoQuiz = function (types) {
-  const pick = window.DEMO_TYPES.map((t) => t[0]).filter((t) => types.includes(t) && window.DEMO_SAMPLES[t]);
-  const questions = pick.map((t, i) => Object.assign(JSON.parse(JSON.stringify(window.DEMO_SAMPLES[t])), { id: 'd' + (i + 1), round: 'r1' }));
-  return { id: 'demo', title: 'Demo quiz', settings: { maxPoints: 1000, minPoints: 500, defaultTime: 20, showAnswersOnPhones: true, rounds: [{ id: 'r1', title: 'Demo', intro: 'One question of each type you picked', brief: '' }] }, questions };
+  const want = new Set(window.demoSpec(types).map(([t]) => t));
+  const pick = window.DEMO_TYPES.map((t) => t[0]).filter((t) => want.has(t));
+  return demoWrap(pick.map((t) => JSON.parse(JSON.stringify(window.DEMO_SAMPLES[t]))), 'One question of each type you picked');
+};
+/** The live demo: random questions from the question bank, as many of each type as asked for, different every
+ *  time. The server only reads the bank, so nothing a demo shows is marked used. A type the bank cannot fill
+ *  (or every type, if the server cannot be reached) is topped up with its built-in sample. */
+window.demoQuizLive = async function (list) {
+  const spec = window.demoSpec(list);
+  let got = [];
+  try {
+    const want = Object.fromEntries(spec.filter(([t]) => !window.DEMO_ONE_ONLY.includes(t)));
+    if (Object.keys(want).length) got = (await window.LQ.api('demo_sample', { types: want }, { timeout: 20000 })).questions || [];
+  } catch {}
+  const order = window.DEMO_TYPES.map((t) => t[0]);
+  const questions = [];
+  for (const [t, n] of spec.sort((a, b) => order.indexOf(a[0]) - order.indexOf(b[0]))) {
+    const mine = got.filter((g) => g.type === t).map((g) => g.question).slice(0, n);
+    if (mine.length < n) mine.push(JSON.parse(JSON.stringify(window.DEMO_SAMPLES[t])));
+    questions.push(...mine.slice(0, n));
+  }
+  return demoWrap(questions, 'Random questions from the question bank');
 };
 /** The last choice, kept on this device so the next demo starts from it. */
 window.demoTypesSaved = function () {
-  try { const s = JSON.parse(localStorage.getItem('lq_demo_types') || 'null'); if (Array.isArray(s) && s.length) return s; } catch {}
+  try { const s = JSON.parse(localStorage.getItem('lq_demo_types') || 'null'); if (Array.isArray(s) && s.length) return s.map((x) => String(x).split(':')[0]); } catch {}
   return ['catchphrase', 'twenty'];
 };
-/** Tick boxes for the question types, then a Start button that hands the chosen types to onStart. */
+window.demoCountsSaved = function () {
+  try { const s = JSON.parse(localStorage.getItem('lq_demo_counts') || 'null'); if (s && typeof s === 'object') return s; } catch {}
+  return {};
+};
+/** Tick boxes for the question types, each with a count, then a Start button that hands 'type:count' strings to onStart. */
 window.demoPicker = function (el, onStart) {
-  const chosen = new Set(window.demoTypesSaved());
+  const chosen = new Set(window.demoTypesSaved()), counts = window.demoCountsSaved();
+  const maxOf = (t) => (window.DEMO_ONE_ONLY.includes(t) ? 1 : 5);
+  const countOf = (t) => Math.max(1, Math.min(maxOf(t), Math.floor(+counts[t]) || 1));
+  const btn = (primary) => `font:inherit;font-weight:900;border:0;border-radius:12px;padding:10px 18px;cursor:pointer;${primary ? 'background:#ffd60a;color:#17173a;font-size:1.15rem' : 'background:rgba(255,255,255,.15);color:#fff'}`;
+  const step = 'font:inherit;font-weight:900;font-size:1.1rem;width:34px;height:34px;flex:none;border:0;border-radius:10px;cursor:pointer;background:rgba(255,255,255,.18);color:#fff';
   el.innerHTML = `<div style="max-width:880px;margin:0 auto;padding:18px 16px;color:#fff;font-family:Nunito,system-ui,sans-serif">
     <h1 style="margin:0 0 4px;font-size:clamp(1.4rem,4vw,2.2rem);font-weight:900">Try the demo</h1>
-    <p style="margin:0 0 14px;opacity:.85;font-weight:700">Tick the question types to try. The demo plays one question of each.</p>
+    <p style="margin:0 0 14px;opacity:.85;font-weight:700">Tick the question types to try and set how many of each. Every demo picks fresh questions from the bank, and none of them get used up.</p>
     <div style="display:flex;gap:8px;margin-bottom:12px"><button type="button" data-all style="${btn(false)}">Tick all</button><button type="button" data-none style="${btn(false)}">Clear</button></div>
-    <div data-grid style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px"></div>
+    <div data-grid style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px"></div>
     <div style="display:flex;align-items:center;gap:12px;margin-top:16px"><button type="button" data-go style="${btn(true)}">Start demo ▶</button><span data-n style="font-weight:800;opacity:.85"></span></div></div>`;
-  function btn(primary) { return `font:inherit;font-weight:900;border:0;border-radius:12px;padding:10px 18px;cursor:pointer;${primary ? 'background:#ffd60a;color:#17173a;font-size:1.15rem' : 'background:rgba(255,255,255,.15);color:#fff'}`; }
   const grid = el.querySelector('[data-grid]'), go = el.querySelector('[data-go]');
-  function draw() {
-    grid.innerHTML = window.DEMO_TYPES.map(([t, label, icon]) => { const on = chosen.has(t); return `<button type="button" role="checkbox" aria-checked="${on}" data-t="${t}" style="display:flex;align-items:center;gap:10px;text-align:left;font:inherit;font-weight:800;padding:10px 12px;border-radius:12px;cursor:pointer;border:2px solid ${on ? '#ffd60a' : 'rgba(255,255,255,.25)'};background:${on ? 'rgba(255,214,10,.18)' : 'rgba(255,255,255,.06)'};color:#fff"><span style="font-size:1.3rem;width:1.4em">${on ? '☑' : '☐'}</span><span>${icon} ${label}</span></button>`; }).join('');
-    grid.querySelectorAll('[data-t]').forEach((b) => b.onclick = () => { chosen.has(b.dataset.t) ? chosen.delete(b.dataset.t) : chosen.add(b.dataset.t); draw(); const f = grid.querySelector(`[data-t="${b.dataset.t}"]`); f?.focus(); });
-    el.querySelector('[data-n]').textContent = chosen.size ? `${chosen.size} question${chosen.size === 1 ? '' : 's'}` : 'Tick at least one type';
-    go.disabled = !chosen.size; go.style.opacity = chosen.size ? '1' : '.5';
+  const total = () => [...chosen].reduce((a, t) => a + countOf(t), 0);
+  const save = () => { try { localStorage.setItem('lq_demo_counts', JSON.stringify(counts)); } catch {} };
+  function draw(focus) {
+    grid.innerHTML = window.DEMO_TYPES.map(([t, label, icon]) => {
+      const on = chosen.has(t);
+      const stepper = on && maxOf(t) > 1 ? `<button type="button" data-dec="${t}" aria-label="Fewer ${label}" style="${step}">−</button><b style="min-width:1.2em;text-align:center;font-size:1.15rem">${countOf(t)}</b><button type="button" data-inc="${t}" aria-label="More ${label}" style="${step}">+</button>` : '';
+      return `<div style="display:flex;align-items:center;gap:6px;padding:6px 8px 6px 4px;border-radius:12px;border:2px solid ${on ? '#ffd60a' : 'rgba(255,255,255,.25)'};background:${on ? 'rgba(255,214,10,.18)' : 'rgba(255,255,255,.06)'}">`
+        + `<button type="button" role="checkbox" aria-checked="${on}" data-t="${t}" style="flex:1;display:flex;align-items:center;gap:10px;text-align:left;font:inherit;font-weight:800;padding:4px 6px;border:0;background:none;cursor:pointer;color:#fff"><span style="font-size:1.3rem;width:1.4em">${on ? '☑' : '☐'}</span><span>${icon} ${label}</span></button>${stepper}</div>`;
+    }).join('');
+    grid.querySelectorAll('[data-t]').forEach((b) => b.onclick = () => { const t = b.dataset.t; chosen.has(t) ? chosen.delete(t) : chosen.add(t); draw(`[data-t="${t}"]`); });
+    grid.querySelectorAll('[data-dec],[data-inc]').forEach((b) => b.onclick = () => {
+      const t = b.dataset.dec || b.dataset.inc;
+      counts[t] = Math.max(1, Math.min(maxOf(t), countOf(t) + (b.dataset.inc ? 1 : -1))); save();
+      draw(`[data-${b.dataset.inc ? 'inc' : 'dec'}="${t}"]`);
+    });
+    const n = total();
+    el.querySelector('[data-n]').textContent = n ? `${n} question${n === 1 ? '' : 's'}` : 'Tick at least one type';
+    go.disabled = !n; go.style.opacity = n ? '1' : '.5';
+    if (focus) grid.querySelector(focus)?.focus();
   }
   el.querySelector('[data-all]').onclick = () => { window.DEMO_TYPES.forEach(([t]) => chosen.add(t)); draw(); };
   el.querySelector('[data-none]').onclick = () => { chosen.clear(); draw(); };
-  go.onclick = () => { if (!chosen.size) return; const list = window.DEMO_TYPES.map((t) => t[0]).filter((t) => chosen.has(t)); try { localStorage.setItem('lq_demo_types', JSON.stringify(list)); } catch {} onStart(list); };
+  go.onclick = () => {
+    if (!chosen.size) return;
+    const list = window.DEMO_TYPES.map((t) => t[0]).filter((t) => chosen.has(t));
+    try { localStorage.setItem('lq_demo_types', JSON.stringify(list)); } catch {}
+    onStart(list.map((t) => t + ':' + countOf(t)));
+  };
   draw();
   (grid.querySelector('[data-t]') || go).focus();
 };

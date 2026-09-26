@@ -82,10 +82,12 @@ const startsRound = (i) => i === 0 || G.quiz.questions[i - 1]?.round !== G.quiz.
   }
   let quiz;
   if (DEMO) {
-    // The demo first asks which question types to try (tick boxes), then plays one of each: ?types=choice,tune,…
+    // The demo first asks which question types to try and how many of each (?types=choice:3,tune:1,…), then plays
+    // random questions from the bank. The server only reads them, so a demo never uses a question up.
     const types = new URLSearchParams(location.search).get('types');
     if (!types) { stage.innerHTML = '<div class="stage-main" style="overflow:auto;align-items:flex-start"></div>'; window.demoPicker(stage.firstChild, (list) => { const u = new URL(location.href); u.searchParams.set('types', list.join(',')); location.replace(u); }); return; }
-    quiz = window.demoQuiz(types.split(','));
+    stage.innerHTML = '<div class="stage-main"><div class="waiting">Picking questions from the bank…</div></div>';
+    quiz = await window.demoQuizLive(types.split(','));
   }
   else { try { quiz = (await api('get', { id: quizId })).quiz; } catch (e) { return fail(e.message); } }
   quiz = LQ.normalizeQuiz(quiz);

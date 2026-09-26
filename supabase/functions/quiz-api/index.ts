@@ -814,6 +814,29 @@ Deno.serve(async (req) => {
     const body = await req.json().catch(() => ({}));
     const { action, password } = body;
 
+    if (action === "demo_sample") {
+      // The public demo (no sign-in): a few random bank questions of each type asked for, { types: { choice: 3, … } }.
+      // Read-only: nothing is stamped used, so a demo never takes a question out of stock.
+      const want = body.types && typeof body.types === "object" ? body.types : {};
+      const out: any[] = [];
+      for (const [t, n0] of Object.entries(want).slice(0, 30)) {
+        const n = Math.max(0, Math.min(5, Math.floor(+(n0 as number) || 0)));
+        const game = RACE_GAMES[t] ? t : "", from = game ? "race" : t;
+        if (!n || !/^[a-z]+$/.test(from)) continue;
+        const rows: any[] = (await rest(`rpc/quiz_bank_random`, { method: "POST", body: JSON.stringify({ t: from, n }) })) || [];
+        for (const r of rows) {
+          const q = r && typeof r === "object" && "quiz_bank_random" in r ? r.quiz_bank_random : r;
+          if (!q || typeof q !== "object") continue;
+          const c = game ? raceToGame(q, game) : JSON.parse(JSON.stringify(q));
+          delete c.used; delete c.passed;
+          if (c.type === "race") Object.assign(c, { perCorrect: 100, prize: 500, prize2: 200, prize3: 100, forfeit: 200 });
+          c.id = "q_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8);
+          out.push({ type: t, question: c });
+        }
+      }
+      return json({ questions: out });
+    }
+
     if (!HOST_PW) return json({ error: "The server has no QUIZ_HOST_PASSWORD set." }, 500);
     if (typeof password !== "string" || password !== HOST_PW) return json({ error: "Wrong password." }, 401);
 
