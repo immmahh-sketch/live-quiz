@@ -956,13 +956,12 @@ Deno.serve(async (req) => {
       return json({ source: "pdf", ...(await kahootFromRead(read)), usage: read.usage || null });
     }
     if (action === "bank_status") {
-      const rows = await bankRows();
-      return json({ bank: bankStatus(rows), categories: bankCategories(rows), low: BANK_LOW });
+      const counts = await restAll(`quiz_bank_counts?select=type,category,difficulty,used,n&order=type,category,difficulty,used`);
+      return json({ bank: bankStatus(counts), categories: bankCategories(counts), low: BANK_LOW });
     }
     if (action === "bank_list") {
       const type = String(body.type || "");
-      const row = (await bankRows(type)).find((r) => r.settings?.type === type);
-      const qs: any[] = row ? row.questions : [];
+      const qs: any[] = (await bankRow(type)).questions;
       return json({ questions: qs.map((q) => ({ id: q.id, text: q.text || q.phrase || q.place || "", answer: q.type === "choice" ? (q.options || []).find((o: any) => o.id === q.correct)?.text : q.type === "tf" ? String(q.answer) : q.type === "wheel" ? q.phrase : q.type === "pin" ? q.place : q.type === "order" ? (q.items || []).map((i: any) => i.text).join(" → ") : q.type === "rhyme" ? [q.answer1, q.answer2].filter(Boolean).join(" / ") : q.type === "smash" ? q.smash || "" : q.type === "tune" ? `${q.track || ""} — ${q.artist || ""}` : (q.answers || [])[0] || "", category: q.category || "", tags: q.tags || [], used: q.used || null, pct: q.pct, rejected: !!q.used?.rejected, difficulty: q.difficulty || "", media: q.media?.kind && q.media.kind !== "none" ? q.media.kind : "" })) });
     }
     if (action === "bank_patch") {
@@ -1001,8 +1000,7 @@ Deno.serve(async (req) => {
     }
     if (action === "bank_get") {
       const type = String(body.type || ""), id = String(body.id || "");
-      const row = (await bankRows(type)).find((r) => r.settings?.type === type);
-      const q = row?.questions?.find((x: any) => x.id === id);
+      const q = ((await rest(`quiz_bank?type=eq.${encodeURIComponent(type)}&id=eq.${encodeURIComponent(id)}&select=q`)) || [])[0]?.q;
       if (!q) return json({ error: "That bank item no longer exists." }, 404);
       return json({ question: q });
     }
@@ -1107,7 +1105,8 @@ Deno.serve(async (req) => {
       if (!quiz) return json({ error: "That quiz no longer exists." }, 404);
       if (quiz.settings?.bank) return json({ error: "That is a bank row, not a quiz." }, 400);
       const roundTitle = (rid: string) => String((Array.isArray(quiz.settings?.rounds) ? quiz.settings.rounds : []).find((r: any) => r?.id === rid)?.title || "");
-      const banks = await bankRows();
+      const usedTypes = [...new Set((await restAll(`quiz_bank?used=is.true&q->used->>quiz=eq.${id}&select=type&order=id`)).map((r) => String(r.type)))];
+      const banks: any[] = []; for (const t of usedTypes) banks.push(await bankRow(t));
       const out: Record<string, { restored: number; added: number; skipped: number }> = {};
       const touched = new Set<any>();
       // 1. anything this quiz took from the bank goes back to fresh (rejected stays rejected)
@@ -1127,7 +1126,7 @@ Deno.serve(async (req) => {
         delete c.used; delete c.fromBank; delete c.round; delete c.bankId; delete c.check;
         row.questions.push(c); touched.add(row); out[t].added++;
       }
-      for (const row of touched) await bankSave(row); // a full part spills into a new one
+      for (const row of touched) await bankSave(row);
       if (body.keep !== true) await rest(`quiz_quizzes?id=eq.${id}`, { method: "DELETE" });
       return json({ ok: true, title: quiz.title, deleted: body.keep !== true, result: out });
     }
@@ -1340,9 +1339,8 @@ async function kahootFromRead(read: any): Promise<{ title: string; description: 
 
 // ---------------------------------------------------------------- the question bank
 //
-// Pre-written questions, one quiz_quizzes row per type flagged settings.bank = true, so no new
-// table is needed. Each item carries category/tags for matching a themed round and a "used"
-// stamp once it has gone into a quiz, so it never comes round again.
+// Pre-written questions, one quiz_bank row each (see bankRow below). Each item carries category/tags for matching
+// a themed round and a "used" stamp once it has gone into a quiz, so it never comes round again.
 const BANK_LOW = 25;
 const EVERGREEN = ["club", "dingbat", "wheel", "pin", "tune", "catchphrase", "twenty"]; // theme-free types: any unused item will do when the round has no matching one
 /** What makes two items "the same": the phrase for dingbats and wheels, the place for pins, the track for tunes, the wording otherwise. */
@@ -1380,81 +1378,66 @@ function nearDuplicate(a: any, b: any): boolean {
   const sameAnswer = a.type !== "tf" && ta.size >= 3 && tb.size >= 3 && norm(bankAnswer(a)) === norm(bankAnswer(b)) && norm(bankAnswer(a)).length > 1;
   return overlap >= 0.8 || (sameAnswer && overlap >= 0.5);
 }
-// A type's bank can outgrow one row (multiple choice passed 4,000 items), so it lives in parts: rows with the same
-// settings.type and a settings.part number. bankRows() hands back ONE merged row per type, holding every part's
-// questions in order; bankSave() puts each question back in the part it came from and adds new ones to the last
-// part, opening another part when that one is full. Everything else works on the merged row as before.
-const BANK_PART_MAX = 1_800_000; // characters of JSON per part
+// The bank lives in quiz_bank, one row per question: q is the whole item, and type / category / difficulty /
+// used sit beside it for counting and filtering. bankRow(type) hands back ONE object per type holding that type's
+// questions in order, as the rest of the code expects, and remembers each item as it was loaded; bankSave() then
+// writes only what changed: new or edited items are upserted, removed ones deleted. (It used to be a few
+// quiz_quizzes rows of several MB each, so every small change rewrote megabytes and reads hit the statement timeout.)
 const BANK_LABEL: Record<string, string> = { choice: "Multiple choice", text: "Type the answer", order: "Put in order", pin: "Drop the pin", match: "Match up", tf: "True or false", sort: "Categorise", wipeout: "Wipeout", race: "The Race", smash: "Answer Smash", wheel: "Wheel of Fortune", highlow: "Highbrow Lowbrow", rhyme: "Rhyme Time", club: "The 1% Club", catchphrase: "Catchphrase", dingbat: "Dingbats", tune: "Name That Tune", nearest: "Nearest Wins", draw: "Draw It", twenty: "20 Questions" };
-// Pass a type to fetch just that type's parts: the whole bank is tens of MB and reading it all can hit the statement timeout.
-async function bankRows(type?: string): Promise<any[]> {
-  const one = async (t: string) => (await rest(`quiz_quizzes?settings->>bank=eq.true&settings->>type=eq.${encodeURIComponent(t)}&select=id,title,settings,questions`)) || [];
-  let raw: any[];
-  if (type) raw = await one(type);
-  else { const types = [...new Set(((await rest(`quiz_quizzes?settings->>bank=eq.true&select=settings`)) || []).map((r: any) => String(r.settings?.type || "")))]; raw = []; for (const t of types) raw.push(...await one(t)); }
-  const byType = new Map<string, any[]>();
-  for (const r of raw) { const t = String(r.settings?.type || ""); if (!byType.has(t)) byType.set(t, []); byType.get(t)!.push(r); }
-  return [...byType.entries()].map(([type, parts]) => {
-    parts.sort((a, b) => (+a.settings?.part || 0) - (+b.settings?.part || 0));
-    for (const p of parts) { p.questions = Array.isArray(p.questions) ? p.questions : []; p._orig = JSON.stringify(p.questions); }
-    return { id: parts[0].id, title: parts[0].title, settings: { ...parts[0].settings, type }, questions: parts.flatMap((p) => p.questions), _parts: parts };
-  });
-}
-async function bankNewPart(type: string, part: number): Promise<any> {
-  const made = await rest(`quiz_quizzes`, { method: "POST", headers: { Prefer: "return=representation" }, body: JSON.stringify({ title: `Question bank: ${BANK_LABEL[type] || type}${part ? ` (part ${part + 1})` : ""}`, settings: { bank: true, type, ...(part ? { part } : {}) }, questions: [] }) });
-  const row = Array.isArray(made) ? made[0] : made;
-  row.questions = []; row._orig = "[]";
-  return row;
+const BANK_PAGE = 1000; // PostgREST hands back at most this many rows a request
+async function restAll(path: string): Promise<any[]> {
+  const out: any[] = [];
+  for (let from = 0; ; from += BANK_PAGE) {
+    const page: any[] = (await rest(`${path}&limit=${BANK_PAGE}&offset=${from}`)) || [];
+    out.push(...page);
+    if (page.length < BANK_PAGE) return out;
+  }
 }
 async function bankRow(type: string): Promise<any> {
-  const row = (await bankRows(type)).find((r) => r.settings?.type === type);
-  if (row) return row;
-  const first = await bankNewPart(type, 0);
-  return { id: first.id, title: first.title, settings: { ...first.settings, type }, questions: [], _parts: [first] };
+  const questions = (await restAll(`quiz_bank?type=eq.${encodeURIComponent(type)}&select=q&order=pos`)).map((r) => r.q);
+  const orig = new Map<string, string>(); for (const q of questions) if (q?.id) orig.set(q.id, JSON.stringify(q));
+  return { id: "bank:" + type, title: `Question bank: ${BANK_LABEL[type] || type}`, settings: { bank: true, type }, questions, _orig: orig };
 }
 async function bankSave(row: any) {
-  const parts: any[] = row._parts || [{ ...row, _orig: "" }];
-  const home = new Map<string, number>();
-  parts.forEach((p, i) => { for (const q of JSON.parse(p._orig || "[]")) if (q?.id) home.set(q.id, i); });
-  const lists: any[][] = parts.map(() => []), fresh: any[] = [];
-  for (const q of row.questions) { const i = q?.id ? home.get(q.id) : undefined; if (i === undefined) fresh.push(q); else lists[i].push(q); }
-  for (const q of fresh) {
-    let last = lists.length - 1;
-    if (JSON.stringify(lists[last]).length + JSON.stringify(q).length > BANK_PART_MAX) {
-      parts.push(await bankNewPart(String(row.settings?.type || ""), (+parts[last].settings?.part || 0) + 1)); lists.push([]); last++;
-    }
-    lists[last].push(q);
+  const type = String(row.settings?.type || "");
+  const orig: Map<string, string> = row._orig || new Map();
+  const now = new Date().toISOString(), up: any[] = [], seen = new Set<string>();
+  for (const q of row.questions) {
+    if (!q || typeof q !== "object") continue;
+    if (!q.id) q.id = "q_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8);
+    seen.add(q.id);
+    const str = JSON.stringify(q);
+    if (orig.get(q.id) === str) continue;
+    up.push({ id: q.id, type, category: String(q.category || ""), difficulty: String(q.difficulty || ""), used: !!q.used, q, updated_at: now });
+    orig.set(q.id, str);
   }
-  for (let i = 0; i < parts.length; i++) {
-    const json = JSON.stringify(lists[i]);
-    if (json === parts[i]._orig) continue;
-    await rest(`quiz_quizzes?id=eq.${parts[i].id}`, { method: "PATCH", body: JSON.stringify({ questions: lists[i], updated_at: new Date().toISOString() }) });
-    parts[i].questions = lists[i]; parts[i]._orig = json;
-  }
-  row._parts = parts;
+  for (let i = 0; i < up.length; i += 200) await rest(`quiz_bank?on_conflict=id`, { method: "POST", headers: { Prefer: "resolution=merge-duplicates,return=minimal" }, body: JSON.stringify(up.slice(i, i + 200)) });
+  // Deletes are limited to this type, so an item bank_move has just saved under another type is left alone.
+  const gone = [...orig.keys()].filter((id) => !seen.has(id));
+  for (let i = 0; i < gone.length; i += 100) await rest(`quiz_bank?type=eq.${encodeURIComponent(type)}&id=in.(${gone.slice(i, i + 100).map((id) => `"${id}"`).join(",")})`, { method: "DELETE" });
+  for (const id of gone) orig.delete(id);
+  row._orig = orig;
 }
-function bankStatus(rows: any[]) {
+const bankLevel = (d: string) => (["easy", "medium", "hard"].includes(d) ? d : "unrated") as "easy" | "medium" | "hard" | "unrated";
+/** Per-type totals from the quiz_bank_counts view (one line per type, category, difficulty and used). */
+function bankStatus(counts: any[]) {
   const out: Record<string, { total: number; unused: number; low: boolean; mix: Record<string, number> }> = {};
-  for (const r of rows) {
-    const qs = Array.isArray(r.questions) ? r.questions : []; const fresh = qs.filter((q: any) => !q.used);
-    const mix = { easy: 0, medium: 0, hard: 0, unrated: 0 }; for (const q of fresh) mix[(["easy", "medium", "hard"].includes(q.difficulty) ? q.difficulty : "unrated") as keyof typeof mix]++;
-    out[r.settings.type] = { total: qs.length, unused: fresh.length, low: fresh.length < BANK_LOW, mix };
+  for (const c of counts) {
+    const s = out[c.type] ||= { total: 0, unused: 0, low: false, mix: { easy: 0, medium: 0, hard: 0, unrated: 0 } };
+    s.total += c.n; if (!c.used) { s.unused += c.n; s.mix[bankLevel(c.difficulty)] += c.n; }
   }
+  for (const s of Object.values(out)) s.low = s.unused < BANK_LOW;
   return out;
 }
 /** The same counts cut by category (the topic an item was written for), with how many of each type it holds. */
-function bankCategories(rows: any[]) {
+function bankCategories(counts: any[]) {
   const out: Record<string, { total: number; unused: number; mix: Record<string, number>; types: Record<string, { total: number; unused: number }> }> = {};
-  for (const r of rows) {
-    const type = r.settings.type;
-    for (const q of Array.isArray(r.questions) ? r.questions : []) {
-      const c = out[q.category || ""] ||= { total: 0, unused: 0, mix: { easy: 0, medium: 0, hard: 0, unrated: 0 }, types: {} };
-      const t = c.types[type] ||= { total: 0, unused: 0 };
-      c.total++; t.total++;
-      if (q.used) continue;
-      c.unused++; t.unused++;
-      c.mix[["easy", "medium", "hard"].includes(q.difficulty) ? q.difficulty : "unrated"]++;
-    }
+  for (const c of counts) {
+    const cat = out[c.category || ""] ||= { total: 0, unused: 0, mix: { easy: 0, medium: 0, hard: 0, unrated: 0 }, types: {} };
+    const t = cat.types[c.type] ||= { total: 0, unused: 0 };
+    cat.total += c.n; t.total += c.n;
+    if (c.used) continue;
+    cat.unused += c.n; t.unused += c.n; cat.mix[bankLevel(c.difficulty)] += c.n;
   }
   return out;
 }
