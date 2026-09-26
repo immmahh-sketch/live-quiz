@@ -92,71 +92,316 @@ window.LQ = (() => {
     { id: 'food', text: 'Is it a food or drink?' }, { id: 'object', text: 'Is it an object?' },
     { id: 'title', text: 'Is it a film, TV show, book or song?' }, { id: 'brand', text: 'Is it a brand or company?' },
   ];
-  const TWENTY_QS = [
-    // a real person
-    ['person', 'p_man', 'Is it a man?'], ['person', 'p_woman', 'Is it a woman?'], ['person', 'p_alive', 'Are they alive?'],
-    ['person', 'p_over50', 'Are they over 50?'], ['person', 'p_british', 'Are they British?'], ['person', 'p_american', 'Are they American?'],
-    ['person', 'p_northeast', 'Are they from the North East?'], ['person', 'p_music', 'Are they a singer or musician?'],
-    ['person', 'p_actor', 'Are they an actor?'], ['person', 'p_sport', 'Are they a sports personality?'], ['person', 'p_tv', 'Are they a TV presenter or personality?'],
-    ['person', 'p_comedy', 'Are they a comedian?'], ['person', 'p_politics', 'Are they a politician?'], ['person', 'p_royal', 'Are they royal?'],
-    ['person', 'p_history', 'Did they live before 1900?'], ['person', 'p_writer', 'Are they an author?'],
-    ['person', 'p_band', 'Have they been in a band or group?', ['p_music']], ['person', 'p_number1', 'Have they had a UK number one?', ['p_music']],
-    ['person', 'p_football', 'Are they a footballer?', ['p_sport']], ['person', 'p_toon', 'Have they played for Newcastle or Sunderland?', ['p_sport']],
-    ['person', 'p_olympic', 'Have they won an Olympic medal?', ['p_sport']], ['person', 'p_hollywood', 'Have they starred in Hollywood films?', ['p_actor']],
-    ['person', 'p_soap', 'Have they been in a soap?', ['p_actor']], ['person', 'p_reality', 'Did they find fame on reality TV?', ['p_tv']],
-    // a fictional character
-    ['character', 'c_human', 'Are they human?'], ['character', 'c_male', 'Are they male?'], ['character', 'c_animated', 'Are they animated or a cartoon?'],
-    ['character', 'c_film', 'Are they best known from films?'], ['character', 'c_tv', 'Are they best known from TV?'], ['character', 'c_book', 'Did they start in a book?'],
-    ['character', 'c_kids', 'Are they mainly for children?'], ['character', 'c_hero', 'Are they a goodie?'], ['character', 'c_villain', 'Are they a baddie?'],
-    ['character', 'c_powers', 'Do they have powers or magic?'], ['character', 'c_animal', 'Are they an animal?'], ['character', 'c_british', 'Are they British?'],
-    ['character', 'c_disney', 'Are they a Disney character?', ['c_animated']], ['character', 'c_super', 'Are they a superhero?', ['c_powers']],
-    // an animal
-    ['animal', 'a_mammal', 'Is it a mammal?'], ['animal', 'a_bird', 'Is it a bird?'], ['animal', 'a_water', 'Does it live in water?'],
-    ['animal', 'a_pet', 'Is it a common pet?'], ['animal', 'a_farm', 'Is it a farm animal?'], ['animal', 'a_wildbritain', 'Is it found wild in Britain?'],
-    ['animal', 'a_bigger', 'Is it bigger than a person?'], ['animal', 'a_fourlegs', 'Does it have four legs?'], ['animal', 'a_fly', 'Can it fly?'],
-    ['animal', 'a_meat', 'Does it eat meat?'], ['animal', 'a_danger', 'Can it be dangerous to people?'], ['animal', 'a_africa', 'Is it found in Africa?'],
-    ['animal', 'a_stripes', 'Does it have stripes or spots?', ['a_mammal']], ['animal', 'a_insect', 'Is it an insect or a bug?'],
-    // a place
-    ['place', 'pl_uk', 'Is it in the UK?'], ['place', 'pl_europe', 'Is it in Europe?'], ['place', 'pl_americas', 'Is it in the Americas?'],
-    ['place', 'pl_country', 'Is it a country?'], ['place', 'pl_city', 'Is it a city or town?'], ['place', 'pl_capital', 'Is it a capital city?'],
-    ['place', 'pl_building', 'Is it a building or landmark?'], ['place', 'pl_natural', 'Is it a natural feature?'], ['place', 'pl_sea', 'Is it by the sea?'],
-    ['place', 'pl_hot', 'Is it usually hot there?'], ['place', 'pl_tourist', 'Is it a big tourist attraction?'],
-    ['place', 'pl_northeast', 'Is it in the North East?', ['pl_uk']], ['place', 'pl_london', 'Is it in London?', ['pl_uk']],
-    // food or drink
-    ['food', 'f_drink', 'Is it a drink?'], ['food', 'f_alcohol', 'Does it contain alcohol?', ['f_drink']], ['food', 'f_fizzy', 'Is it fizzy?', ['f_drink']],
-    ['food', 'f_sweet', 'Is it sweet?'], ['food', 'f_hot', 'Is it usually served hot?'], ['food', 'f_fruitveg', 'Is it a fruit or vegetable?'],
-    ['food', 'f_meat', 'Does it contain meat or fish?'], ['food', 'f_dairy', 'Does it contain dairy?'], ['food', 'f_british', 'Is it a British classic?'],
-    ['food', 'f_breakfast', 'Is it eaten at breakfast?'], ['food', 'f_snack', 'Is it a snack?'], ['food', 'f_brand', 'Is it a brand name?'],
-    ['food', 'f_christmas', 'Is it linked to Christmas?'], ['food', 'f_foreign', 'Is it from another country\'s cuisine?'],
-    // an object
-    ['object', 'o_home', 'Would you find it in most homes?'], ['object', 'o_kitchen', 'Is it found in the kitchen?', ['o_home']],
-    ['object', 'o_electric', 'Does it use electricity or batteries?'], ['object', 'o_pocket', 'Can it fit in your pocket?'],
-    ['object', 'o_heavy', 'Is it heavier than a person?'], ['object', 'o_vehicle', 'Is it a vehicle?'], ['object', 'o_wear', 'Do you wear it?'],
-    ['object', 'o_toy', 'Is it a toy or game?'], ['object', 'o_tool', 'Is it a tool?'], ['object', 'o_metal', 'Is it mostly metal?'],
-    ['object', 'o_sport', 'Is it used in sport?'], ['object', 'o_old', 'Was it around before 1900?'], ['object', 'o_screen', 'Does it have a screen?', ['o_electric']],
-    // a film, TV show, book or song
-    ['title', 't_film', 'Is it a film?'], ['title', 't_tv', 'Is it a TV show?'], ['title', 't_book', 'Is it a book?'], ['title', 't_song', 'Is it a song?'],
-    ['title', 't_pre2000', 'Did it come out before 2000?'], ['title', 't_british', 'Is it British?'], ['title', 't_kids', 'Is it mainly for children?'],
-    ['title', 't_comedy', 'Is it a comedy?'], ['title', 't_animated', 'Is it animated?'], ['title', 't_series', 'Is it part of a series or franchise?'],
-    ['title', 't_scary', 'Is it scary?'], ['title', 't_love', 'Is it a love story?'], ['title', 't_number1', 'Was it a UK number one?', ['t_song']],
-    // a brand or company
-    ['brand', 'b_food', 'Does it sell food or drink?'], ['brand', 'b_uk', 'Is it British?'], ['brand', 'b_american', 'Is it American?'],
-    ['brand', 'b_tech', 'Is it a tech company?'], ['brand', 'b_cars', 'Does it make cars?'], ['brand', 'b_clothes', 'Does it sell clothes or shoes?'],
-    ['brand', 'b_shop', 'Is it a shop or supermarket?'], ['brand', 'b_online', 'Is it mainly online?'], ['brand', 'b_old', 'Was it founded before 1950?'],
-    ['brand', 'b_sport', 'Is it a sports brand?'], ['brand', 'b_logo', 'Is its logo an animal or a person?'], ['brand', 'b_fastfood', 'Is it a fast-food chain?', ['b_food']],
-  ].map(([cat, id, text, needs]) => ({ cat, id, text, needs: needs || [] }));
+  // Each kind's questions, in sections the phone shows as headings. A question can be gated:
+  //   needs: every id answered Yes · any: at least one answered Yes · not: hidden once any is answered Yes
+  //   notNo: hidden once any is answered No · pair: hidden once its partner has been asked at all
+  //   group: once one question in the group is answered Yes, the rest of the group go (a singer is not also asked "a politician?")
+  const TWENTY_QS = [];
+  function tq(cat, sec, o, rows) {
+    for (const [id, text, x = {}] of rows) TWENTY_QS.push({ cat, sec, id, text, needs: [...(o.needs || []), ...(x.needs || [])], any: x.any || o.any || [], not: [...(o.not || []), ...(x.not || [])], notNo: x.notNo || [], pair: x.pair || null, group: 'group' in x ? x.group : (o.group || null) });
+  }
+  const P_ROLES = ['p_music', 'p_actor', 'p_sport', 'p_tv', 'p_comedy', 'p_politics', 'p_royal', 'p_writer', 'p_science', 'p_business', 'p_hero'];
+  // ---- a real person ----
+  tq('person', 'About them', {}, [
+    ['p_man', 'Is it a man?', { pair: 'p_woman' }], ['p_woman', 'Is it a woman?', { pair: 'p_man' }],
+    ['p_alive', 'Are they alive?'], ['p_over50', 'Are they over 50? (Or were they, when they died?)', { notNo: [] }], ['p_over70', 'Are they over 70?', { needs: ['p_over50'] }],
+    ['p_under30', 'Are they under 30?', { needs: ['p_alive'], not: ['p_over50'], notNo: [] }], ['p_history', 'Did they live before 1900?', { notNo: [], not: ['p_alive'] }],
+    ['p_british', 'Are they British?', { group: 'nat' }], ['p_american', 'Are they American?', { group: 'nat' }], ['p_irish', 'Are they Irish?', { group: 'nat' }],
+    ['p_knighted', 'Have they been knighted or made a dame?', { not: ['p_royal'] }],
+  ]);
+  tq('person', 'Where are they from?', { needs: ['p_british'] }, [
+    ['p_english', 'Are they English?', { group: 'home' }], ['p_scottish', 'Are they Scottish?', { group: 'home' }], ['p_welsh', 'Are they Welsh?', { group: 'home' }],
+    ['p_northeast', 'Are they from the North East?', { not: ['p_scottish', 'p_welsh'] }],
+    ['p_north', 'Are they from the north of England?', { not: ['p_scottish', 'p_welsh', 'p_northeast'] }],
+    ['p_london', 'Are they from London?', { not: ['p_scottish', 'p_welsh', 'p_northeast', 'p_north'] }],
+  ]);
+  tq('person', 'What are they known for?', { group: 'role' }, [
+    ['p_music', 'Are they a singer or musician?'], ['p_actor', 'Are they an actor?'], ['p_sport', 'Are they a sports star?'],
+    ['p_tv', 'Are they a TV presenter or personality?'], ['p_comedy', 'Are they a comedian?'], ['p_politics', 'Are they a politician or leader?'],
+    ['p_royal', 'Are they royal?'], ['p_writer', 'Are they a writer?'], ['p_science', 'Are they a scientist or inventor?'],
+    ['p_business', 'Are they a business person?'], ['p_hero', 'Are they famous for bravery or a daring feat?'],
+  ]);
+  tq('person', 'When did they become famous?', { any: P_ROLES }, [
+    ['p_b1970', 'Were they famous before 1970?', { notNo: ['p_b1980', 'p_b1990', 'p_b2000', 'p_b2010'] }],
+    ['p_b1980', 'Were they famous before 1980?', { not: ['p_b1970'], notNo: ['p_b1990', 'p_b2000', 'p_b2010'] }],
+    ['p_b1990', 'Were they famous before 1990?', { not: ['p_b1970', 'p_b1980'], notNo: ['p_b2000', 'p_b2010'] }],
+    ['p_b2000', 'Were they famous before 2000?', { not: ['p_b1970', 'p_b1980', 'p_b1990'], notNo: ['p_b2010'] }],
+    ['p_b2010', 'Were they famous before 2010?', { not: ['p_b1970', 'p_b1980', 'p_b1990', 'p_b2000'] }],
+  ]);
+  tq('person', 'Their music', { needs: ['p_music'] }, [
+    ['p_band', 'Have they been in a band or group?'], ['p_boyband', 'Were they in a boy band or girl group?', { needs: ['p_band'] }],
+    ['p_frontman', 'Were they the main singer of their band?', { needs: ['p_band'] }], ['p_solo', 'Have they had hits as a solo artist?'],
+    ['p_number1', 'Have they had a UK number one?'], ['p_christmas1', 'Have they had a Christmas number one?', { needs: ['p_number1'] }],
+    ['p_songwriter', 'Do they write their own songs?'], ['p_instrument', 'Do they play guitar or piano on stage?'],
+    ['p_pop', 'Are they mainly a pop act?', { group: 'genre' }], ['p_rock', 'Are they mainly rock or indie?', { group: 'genre' }],
+    ['p_rap', 'Are they a rapper or grime artist?', { group: 'genre' }], ['p_soul', 'Are they mainly soul, R&B or Motown?', { group: 'genre' }],
+    ['p_dance', 'Are they mainly dance or electronic?', { group: 'genre' }], ['p_talent', 'Did they find fame on a TV talent show?'],
+    ['p_judge', 'Have they been a judge on a TV talent show?'], ['p_acted', 'Have they also acted in films or TV dramas?'],
+    ['p_brit', 'Have they won a Brit Award?'], ['p_grammy', 'Have they won a Grammy?'], ['p_glasto', 'Have they headlined Glastonbury?'],
+    ['p_active', 'Are they still performing?', { needs: ['p_alive'] }],
+  ]);
+  tq('person', 'Their acting', { needs: ['p_actor'] }, [
+    ['p_hollywood', 'Have they starred in Hollywood films?'], ['p_oscar', 'Have they won an Oscar?'], ['p_soap', 'Have they been in a soap?'],
+    ['p_sitcom', 'Have they starred in a sitcom?'], ['p_funny', 'Are they best known for comedy roles?'], ['p_action', 'Are they known for action films?'],
+    ['p_bond', 'Have they been in a James Bond film?'], ['p_superhero', 'Have they played a superhero?'], ['p_potter', 'Have they been in a Harry Potter film?'],
+    ['p_whoactor', 'Have they been in Doctor Who?'], ['p_voice', 'Have they voiced an animated character?'], ['p_sang', 'Have they sung in a musical film or show?'],
+    ['p_period', 'Are they known for costume or period dramas?'], ['p_stage', 'Are they known for theatre and Shakespeare?'],
+  ]);
+  tq('person', 'Their sport', { needs: ['p_sport'] }, [
+    ['p_football', 'Are they a footballer?', { group: 'sport' }], ['p_cricket', 'Are they a cricketer?', { group: 'sport' }], ['p_tennis', 'Do they play tennis?', { group: 'sport' }],
+    ['p_rugby', 'Do they play rugby?', { group: 'sport' }], ['p_athletics', 'Are they an athlete (running, jumping or throwing)?', { group: 'sport' }],
+    ['p_boxing', 'Are they a boxer or fighter?', { group: 'sport' }], ['p_motor', 'Are they a racing driver?', { group: 'sport' }], ['p_golf', 'Are they a golfer?', { group: 'sport' }],
+    ['p_cycling', 'Are they a cyclist?', { group: 'sport' }], ['p_swim', 'Are they a swimmer or diver?', { group: 'sport' }], ['p_cue', 'Do they play darts or snooker?', { group: 'sport' }],
+    ['p_country', 'Have they represented their country?'], ['p_captain', 'Have they captained their country?', { needs: ['p_country'] }],
+    ['p_olympic', 'Have they won an Olympic medal?'], ['p_world', 'Have they been world champion or won a World Cup?'],
+    ['p_spoty', 'Have they won BBC Sports Personality of the Year?'], ['p_retired', 'Have they retired from playing?'],
+    ['p_pundit', 'Are they a TV pundit or commentator?'], ['p_manager', 'Have they been a manager or coach?'],
+    ['p_toon', 'Have they played for Newcastle?', { needs: ['p_football'] }], ['p_mackem', 'Have they played for Sunderland?', { needs: ['p_football'] }],
+    ['p_prem', 'Have they played in the Premier League?', { needs: ['p_football'] }], ['p_manutd', 'Have they played for Manchester United?', { needs: ['p_football'] }],
+    ['p_liverpool', 'Have they played for Liverpool?', { needs: ['p_football'] }], ['p_striker', 'Are they a striker?', { needs: ['p_football'], group: 'pos' }],
+    ['p_keeper', 'Are they a goalkeeper?', { needs: ['p_football'], group: 'pos' }],
+  ]);
+  tq('person', 'Their TV work', { needs: ['p_tv'] }, [
+    ['p_reality', 'Did they find fame on reality TV?'], ['p_gameshow', 'Have they hosted a quiz or game show?'], ['p_chat', 'Have they hosted a chat show?'],
+    ['p_saturday', 'Have they fronted Saturday-night TV?'], ['p_cook', 'Are they a TV cook or chef?'], ['p_nature', 'Do they present nature or travel shows?'],
+    ['p_news', 'Are they a newsreader or journalist?'], ['p_duo', 'Are they half of a presenting double act?'], ['p_strictly', 'Have they been a contestant on Strictly?'],
+    ['p_jungle', "Have they been a contestant on I'm a Celebrity?"], ['p_daytime', 'Have they presented breakfast or daytime TV?'], ['p_kidstv', "Did they start on children's TV?"],
+  ]);
+  tq('person', 'Their comedy', { needs: ['p_comedy'] }, [
+    ['p_standup', 'Are they a stand-up comic?'], ['p_panel', 'Are they a regular on TV panel shows?'], ['p_csitcom', 'Have they starred in a sitcom?'],
+    ['p_double', 'Are they part of a double act?'], ['p_characters', 'Are they known for playing comic characters?'], ['p_silent', 'Are they known for visual or silent comedy?'],
+    ['p_cfilm', 'Have they starred in films?'],
+  ]);
+  tq('person', 'Their politics', { needs: ['p_politics'] }, [
+    ['p_pm', 'Have they been Prime Minister?'], ['p_president', 'Have they been a president?'], ['p_mp', 'Have they been a UK MP?'],
+    ['p_labour', 'Are they Labour?', { group: 'party' }], ['p_tory', 'Are they Conservative?', { group: 'party' }], ['p_inoffice', 'Are they in office now?'],
+    ['p_wartime', 'Did they lead a country in a war?'], ['p_resigned', 'Did they resign or get forced out?'],
+  ]);
+  tq('person', 'Their royal life', { needs: ['p_royal'] }, [
+    ['p_monarch', 'Have they been king or queen?'], ['p_heir', 'Are they in line to the throne?'], ['p_marriedin', 'Did they marry into the royal family?'],
+    ['p_tudor', 'Were they a Tudor?'], ['p_divorced', 'Have they been divorced?'],
+  ]);
+  tq('person', 'Their writing', { needs: ['p_writer'] }, [
+    ['p_kidsbooks', "Do they write children's books?"], ['p_crime', 'Do they write crime or thrillers?'], ['p_poet', 'Are they a poet?'], ['p_plays', 'Did they write plays?'],
+    ['p_fantasy', 'Do they write fantasy or science fiction?'], ['p_filmed', 'Have their books been made into films?'], ['p_bookseries', 'Did they write a famous series of books?'],
+    ['p_school', 'Are their books studied at school?'],
+  ]);
+  tq('person', 'Their work', { needs: ['p_science'] }, [
+    ['p_invented', 'Did they invent something we still use?'], ['p_theory', 'Are they famous for a theory or law?'], ['p_space', 'Are they linked to space or the stars?'],
+    ['p_medicine', 'Are they linked to medicine?'], ['p_nobel', 'Did they win a Nobel Prize?'], ['p_tvsci', 'Do they present science on TV?'],
+  ]);
+  tq('person', 'Their business', { needs: ['p_business'] }, [
+    ['p_billion', 'Are they a billionaire?'], ['p_techco', 'Did they found a tech company?'], ['p_shopco', 'Did they found a shop or high-street brand?'],
+    ['p_den', "Have they been on Dragons' Den or The Apprentice?"], ['p_rocket', 'Have they run a space company?'],
+  ]);
+  tq('person', 'Their feat', { needs: ['p_hero'] }, [
+    ['p_sea', 'Did their feat happen at sea?'], ['p_war', 'Are they linked to a war?'], ['p_rescue', 'Did they save lives?'],
+    ['p_explore', 'Were they an explorer or adventurer?'], ['p_astro', 'Have they been into space?'], ['p_nurse', 'Were they a nurse or doctor?'],
+  ]);
+  // ---- a fictional character ----
+  tq('character', 'About them', {}, [
+    ['c_human', 'Are they human?'], ['c_animal', 'Are they an animal?', { not: ['c_human'] }],
+    ['c_male', 'Are they male?', { pair: 'c_female' }], ['c_female', 'Are they female?', { pair: 'c_male' }],
+    ['c_hero', 'Are they a goodie?', { pair: 'c_villain' }], ['c_villain', 'Are they a baddie?', { pair: 'c_hero' }],
+    ['c_kids', 'Are they mainly for children?'], ['c_animated', 'Are they animated, a cartoon or a puppet?'], ['c_powers', 'Do they have special powers or magic?'],
+    ['c_british', 'Are they British?', { group: 'cnat' }], ['c_american', 'Are they American?', { group: 'cnat' }],
+    ['c_old', 'Did they first appear before 1980?'], ['c_hat', 'Do they usually wear a hat?'], ['c_royal', 'Are they a king, queen, prince or princess?'],
+    ['c_christmas', 'Are they linked to Christmas?'], ['c_school', 'Do they go to school?'], ['c_detective', 'Are they a detective or spy?'],
+  ]);
+  tq('character', 'Where do they appear?', {}, [
+    ['c_film', 'Are they best known from films?', { group: 'med' }], ['c_tv', 'Are they best known from TV?', { group: 'med' }],
+    ['c_book', 'Did they start in a book?', { group: 'med' }], ['c_game', 'Are they from a video game?', { group: 'med' }], ['c_comic', 'Did they start in comics?', { group: 'med' }],
+    ['c_franchise', 'Have they been in more than three films?', { needs: ['c_film'] }], ['c_starwars', 'Are they from Star Wars?', { needs: ['c_film'] }],
+    ['c_potter', 'Are they from Harry Potter?', { any: ['c_film', 'c_book'] }], ['c_soapc', 'Are they from a soap?', { needs: ['c_tv'] }],
+    ['c_sitcomc', 'Are they from a sitcom?', { needs: ['c_tv'] }], ['c_classic', 'Are they from a book over 100 years old?', { needs: ['c_book'] }],
+    ['c_bookseries', 'Are they in a series of books?', { needs: ['c_book'] }],
+  ]);
+  tq('character', 'What sort of animal?', { needs: ['c_animal'] }, [
+    ['c_bear', 'Are they a bear?', { group: 'sp' }], ['c_dog', 'Are they a dog?', { group: 'sp' }], ['c_cat', 'Are they a cat?', { group: 'sp' }],
+    ['c_mouse', 'Are they a mouse or rat?', { group: 'sp' }], ['c_pig', 'Are they a pig?', { group: 'sp' }], ['c_bird', 'Are they a bird?', { group: 'sp' }],
+    ['c_rabbit', 'Are they a rabbit?', { group: 'sp' }], ['c_lion', 'Are they a lion?', { group: 'sp' }],
+    ['c_talks', 'Can they talk?'], ['c_clothes', 'Do they wear clothes?'],
+  ]);
+  tq('character', 'Cartoons', { needs: ['c_animated'] }, [
+    ['c_disney', 'Are they a Disney character?', { group: 'studio' }], ['c_pixar', 'Are they from Pixar?', { group: 'studio' }],
+    ['c_simpsons', 'Are they from The Simpsons?', { group: 'studio' }], ['c_stopmotion', 'Are they stop-motion or a puppet?'],
+  ]);
+  tq('character', 'Their powers', { needs: ['c_powers'] }, [
+    ['c_super', 'Are they a superhero?'], ['c_marvel', 'Are they from Marvel?', { needs: ['c_super'] }], ['c_mask', 'Do they wear a mask?'],
+    ['c_fly', 'Can they fly?'], ['c_wizard', 'Do they cast spells?'], ['c_alien', 'Are they from another planet?'],
+  ]);
+  // ---- an animal ----
+  tq('animal', 'What sort of animal?', { group: 'class' }, [
+    ['a_mammal', 'Is it a mammal?'], ['a_bird', 'Is it a bird?'], ['a_reptile', 'Is it a reptile?'], ['a_fish', 'Is it a fish?'],
+    ['a_insect', 'Is it an insect, spider or bug?'], ['a_amphibian', 'Is it a frog, toad or newt?'],
+  ]);
+  tq('animal', 'About it', {}, [
+    ['a_pet', 'Is it a common pet?'], ['a_farm', 'Is it a farm animal?'], ['a_wildbritain', 'Is it found wild in Britain?'], ['a_zoo', 'Would you see it at a zoo?'],
+    ['a_bigger', 'Is it bigger than a person?', { pair: 'a_small' }], ['a_small', 'Is it smaller than a cat?', { pair: 'a_bigger' }],
+    ['a_fourlegs', 'Does it have four legs?'], ['a_fly', 'Can it fly?'], ['a_water', 'Does it live in or around water?'], ['a_sea', 'Does it live in the sea?', { needs: ['a_water'] }],
+    ['a_meat', 'Does it eat meat?'], ['a_plants', 'Does it eat plants?'], ['a_danger', 'Can it be dangerous to people?'], ['a_venom', 'Is it venomous or poisonous?'],
+    ['a_stripes', 'Does it have stripes or spots?'], ['a_blackwhite', 'Is it black and white?'], ['a_horns', 'Does it have horns, antlers or tusks?'], ['a_tail', 'Does it have a long tail?'],
+    ['a_herd', 'Does it live in a herd, pack or colony?'], ['a_eggs', 'Does it lay eggs?'], ['a_nocturnal', 'Is it mostly active at night?'], ['a_hibernate', 'Does it hibernate?'],
+    ['a_fast', 'Is it famous for being fast?'], ['a_endangered', 'Is it endangered?'], ['a_eat', 'Do people in Britain eat it?'],
+  ]);
+  tq('animal', 'Where does it live?', {}, [
+    ['a_africa', 'Is it found in Africa?'], ['a_asia', 'Is it found in Asia?'], ['a_australia', 'Is it found in Australia?'], ['a_americas', 'Is it found in the Americas?'],
+  ]);
+  tq('animal', 'Which mammal?', { needs: ['a_mammal'], group: 'fam' }, [
+    ['a_catfam', 'Is it in the cat family?'], ['a_dogfam', 'Is it in the dog family?'], ['a_hooves', 'Does it have hooves?'], ['a_ape', 'Is it a monkey or ape?'],
+    ['a_rodent', 'Is it a rodent?'], ['a_marsupial', 'Is it a marsupial?'], ['a_whale', 'Is it a whale, dolphin or seal?'], ['a_bear', 'Is it a bear?'],
+  ]);
+  tq('animal', 'Which bird?', { needs: ['a_bird'] }, [
+    ['a_flightless', "Is it a bird that can't fly?"], ['a_prey', 'Is it a bird of prey?'], ['a_garden', 'Would you see it in a British garden?'],
+    ['a_swims', 'Does it swim?'], ['a_talkbird', 'Can it copy speech?'], ['a_colourful', 'Is it brightly coloured?'],
+  ]);
+  tq('animal', 'Which creepy-crawly?', { needs: ['a_insect'] }, [['a_sting', 'Can it sting?'], ['a_eightlegs', 'Does it have eight legs?']]);
+  tq('animal', 'Which reptile?', { needs: ['a_reptile'] }, [['a_snake', 'Is it a snake?'], ['a_shell', 'Does it have a shell?']]);
+  // ---- a place ----
+  tq('place', 'Where is it?', {}, [
+    ['pl_uk', 'Is it in the UK?'],
+    ['pl_europe', 'Is it in Europe?', { group: 'cont', not: ['pl_uk'] }], ['pl_americas', 'Is it in the Americas?', { group: 'cont', not: ['pl_uk'] }],
+    ['pl_asia', 'Is it in Asia?', { group: 'cont', not: ['pl_uk'] }], ['pl_africa', 'Is it in Africa?', { group: 'cont', not: ['pl_uk'] }],
+    ['pl_oceania', 'Is it in Australia or the Pacific?', { group: 'cont', not: ['pl_uk'] }],
+    ['pl_england', 'Is it in England?', { needs: ['pl_uk'], group: 'part' }], ['pl_scotland', 'Is it in Scotland?', { needs: ['pl_uk'], group: 'part' }],
+    ['pl_wales', 'Is it in Wales?', { needs: ['pl_uk'], group: 'part' }], ['pl_ni', 'Is it in Northern Ireland?', { needs: ['pl_uk'], group: 'part' }],
+    ['pl_northeast', 'Is it in the North East?', { needs: ['pl_uk'], not: ['pl_scotland', 'pl_wales', 'pl_ni'] }],
+    ['pl_north', 'Is it in the north of England?', { needs: ['pl_uk'], not: ['pl_scotland', 'pl_wales', 'pl_ni', 'pl_northeast'] }],
+    ['pl_london', 'Is it in London?', { needs: ['pl_uk'], not: ['pl_scotland', 'pl_wales', 'pl_ni', 'pl_northeast', 'pl_north'] }],
+  ]);
+  tq('place', 'What is it?', {}, [
+    ['pl_country', 'Is it a country?', { group: 'ptype' }], ['pl_city', 'Is it a city or town?', { group: 'ptype' }], ['pl_region', 'Is it a region, county or state?', { group: 'ptype' }],
+    ['pl_building', 'Is it a building or landmark?', { group: 'ptype' }], ['pl_natural', 'Is it a natural feature?', { group: 'ptype' }], ['pl_island', 'Is it an island?'],
+    ['pl_capital', 'Is it a capital city?', { needs: ['pl_city'] }], ['pl_bigpop', 'Do more than a million people live there?', { any: ['pl_city', 'pl_country', 'pl_region'] }],
+    ['pl_english', 'Do they speak English there?', { any: ['pl_city', 'pl_country', 'pl_region'], not: ['pl_uk'] }],
+    ['pl_olympics', 'Has it hosted the Olympics?', { any: ['pl_city', 'pl_country'] }], ['pl_club', 'Is it home to a famous football club?', { needs: ['pl_city'] }],
+    ['pl_religious', 'Is it a church, cathedral or temple?', { needs: ['pl_building'], group: 'bld' }], ['pl_castle', 'Is it a castle or palace?', { needs: ['pl_building'], group: 'bld' }],
+    ['pl_stadium', 'Is it a stadium?', { needs: ['pl_building'], group: 'bld' }], ['pl_bridge', 'Is it a bridge?', { needs: ['pl_building'], group: 'bld' }],
+    ['pl_statue', 'Is it a statue or sculpture?', { needs: ['pl_building'], group: 'bld' }], ['pl_tall', 'Is it taller than 100 metres?', { needs: ['pl_building'] }],
+    ['pl_old', 'Is it over 500 years old?', { needs: ['pl_building'] }],
+    ['pl_mountain', 'Is it a mountain or hill?', { needs: ['pl_natural'], group: 'nat' }], ['pl_waterfeat', 'Is it a river, lake, waterfall or sea?', { needs: ['pl_natural'], group: 'nat' }],
+    ['pl_beach', 'Is it a beach or stretch of coast?', { needs: ['pl_natural'], group: 'nat' }], ['pl_forest', 'Is it a forest, park or moor?', { needs: ['pl_natural'], group: 'nat' }],
+  ]);
+  tq('place', 'About it', {}, [
+    ['pl_sea', 'Is it by the sea?'], ['pl_river', 'Is it on a river?'], ['pl_hot', 'Is it usually hot there?'], ['pl_snow', 'Does it often get snow?'],
+    ['pl_tourist', 'Is it a big tourist attraction?'], ['pl_heritage', 'Is it (or is it home to) a World Heritage Site?'],
+  ]);
+  // ---- food or drink ----
+  tq('food', 'Food or drink?', {}, [['f_drink', 'Is it a drink?']]);
+  tq('food', 'The drink', { needs: ['f_drink'] }, [
+    ['f_alcohol', 'Does it contain alcohol?'], ['f_beer', 'Is it a beer, lager or cider?', { needs: ['f_alcohol'], group: 'alc' }],
+    ['f_spirit', 'Is it a spirit?', { needs: ['f_alcohol'], group: 'alc' }], ['f_wine', 'Is it wine or champagne?', { needs: ['f_alcohol'], group: 'alc' }],
+    ['f_cocktail', 'Is it a cocktail?', { needs: ['f_alcohol'], group: 'alc' }], ['f_fizzy', 'Is it fizzy?'], ['f_hotdrink', 'Is it drunk hot?'],
+    ['f_milk', 'Is it made with milk?'], ['f_juice', 'Is it a fruit juice?'], ['f_caffeine', 'Does it contain caffeine?'],
+  ]);
+  tq('food', 'The food', { not: ['f_drink'] }, [
+    ['f_sweet', 'Is it sweet?'], ['f_hot', 'Is it usually served hot?'], ['f_fruitveg', 'Is it a fruit or vegetable?'], ['f_fruit', 'Is it a fruit?', { needs: ['f_fruitveg'] }],
+    ['f_tropical', 'Does it grow in hot countries?', { needs: ['f_fruitveg'] }], ['f_raw', 'Is it usually eaten raw?'],
+    ['f_meat', 'Does it contain meat or fish?'], ['f_fish', 'Does it contain fish or seafood?', { needs: ['f_meat'] }], ['f_pork', 'Does it contain pork?', { needs: ['f_meat'] }],
+    ['f_beef', 'Does it contain beef?', { needs: ['f_meat'] }], ['f_chicken', 'Does it contain chicken?', { needs: ['f_meat'] }], ['f_egg', 'Does it contain egg?'],
+    ['f_dairy', 'Does it contain dairy?'], ['f_cheese', 'Does it contain cheese?', { needs: ['f_dairy'] }], ['f_chocolate', 'Does it contain chocolate?', { needs: ['f_sweet'] }],
+    ['f_cake', 'Is it a cake, biscuit or pudding?', { needs: ['f_sweet'] }], ['f_pastry', 'Is it made with pastry?'], ['f_bread', 'Is it bread or served in bread?'],
+    ['f_potato', 'Is it made from potato?'], ['f_rice', 'Does it contain rice or pasta?'], ['f_fried', 'Is it fried?'], ['f_hands', 'Do you eat it with your hands?'],
+    ['f_takeaway', 'Is it a takeaway favourite?'], ['f_breakfast', 'Is it eaten at breakfast?'], ['f_snack', 'Is it a snack?'], ['f_round', 'Is it round?'],
+  ]);
+  tq('food', 'About it', {}, [
+    ['f_brand', 'Is it a brand name?'], ['f_christmas', 'Is it linked to Christmas?'], ['f_orange', 'Is it orange?'],
+    ['f_british', 'Is it a British classic?', { group: 'origin' }], ['f_scot', 'Is it Scottish?', { needs: ['f_british'] }], ['f_northeast', 'Is it from the North East?', { needs: ['f_british'] }],
+    ['f_italian', 'Is it Italian?', { group: 'origin' }], ['f_indian', 'Is it Indian?', { group: 'origin' }], ['f_chinese', 'Is it Chinese?', { group: 'origin' }],
+    ['f_japanese', 'Is it Japanese?', { group: 'origin' }], ['f_american', 'Is it American?', { group: 'origin' }], ['f_mexican', 'Is it Mexican?', { group: 'origin' }],
+    ['f_french', 'Is it French?', { group: 'origin' }],
+  ]);
+  // ---- an object ----
+  tq('object', 'What is it for?', { group: 'use' }, [
+    ['o_vehicle', 'Is it a vehicle?'], ['o_wear', 'Do you wear it?'], ['o_toy', 'Is it a toy or game?'], ['o_tool', 'Is it a tool?'], ['o_sport', 'Is it used in sport?'],
+    ['o_music', 'Is it a musical instrument?'], ['o_eat', 'Is it used for eating or drinking?'], ['o_cook', 'Is it used for cooking?'], ['o_clean', 'Is it used for cleaning?'],
+    ['o_write', 'Is it used for writing or drawing?'], ['o_furniture', 'Is it furniture?'], ['o_comm', 'Is it used to communicate?'], ['o_money', 'Is it to do with money?'],
+    ['o_time', 'Does it tell the time?'],
+  ]);
+  tq('object', 'Where would you find it?', {}, [
+    ['o_home', 'Would you find it in most homes?'],
+    ['o_kitchen', 'Is it kept in the kitchen?', { needs: ['o_home'], group: 'room' }], ['o_bathroom', 'Is it kept in the bathroom?', { needs: ['o_home'], group: 'room' }],
+    ['o_bedroom', 'Is it kept in the bedroom?', { needs: ['o_home'], group: 'room' }], ['o_living', 'Is it kept in the living room?', { needs: ['o_home'], group: 'room' }],
+    ['o_garden', 'Is it used in the garden?'], ['o_office', 'Is it used at school or work?'],
+  ]);
+  tq('object', 'About it', {}, [
+    ['o_electric', 'Does it use electricity or batteries?'], ['o_screen', 'Does it have a screen?', { needs: ['o_electric'] }], ['o_plug', 'Does it plug into the wall?', { needs: ['o_electric'] }],
+    ['o_internet', 'Does it connect to the internet?', { needs: ['o_electric'] }],
+    ['o_pocket', 'Can it fit in your pocket?', { pair: 'o_heavy' }], ['o_heavy', 'Is it heavier than a person?', { pair: 'o_pocket' }], ['o_hold', 'Do you hold it in your hand to use it?'],
+    ['o_metal', 'Is it mostly metal?', { group: 'mat' }], ['o_wood', 'Is it mostly wood?', { group: 'mat' }], ['o_plastic', 'Is it mostly plastic?', { group: 'mat' }],
+    ['o_glass', 'Is it mostly glass?', { group: 'mat' }], ['o_paper', 'Is it mostly paper or card?', { group: 'mat' }], ['o_fabric', 'Is it mostly fabric?', { group: 'mat' }],
+    ['o_old', 'Was it around before 1900?'], ['o_new', 'Was it invented after 1990?', { not: ['o_old'] }], ['o_sharp', 'Is it sharp?'], ['o_wheels', 'Does it have wheels?'],
+    ['o_moving', 'Does it have moving parts?'], ['o_light', 'Does it give off light?'], ['o_sound', 'Does it make a sound or music?'], ['o_round', 'Is it round?'],
+  ]);
+  tq('object', 'More about it', {}, [
+    ['o_engine', 'Does it have an engine?', { needs: ['o_vehicle'] }], ['o_flies', 'Does it fly?', { needs: ['o_vehicle'] }], ['o_boat', 'Does it go on water?', { needs: ['o_vehicle'] }],
+    ['o_public', 'Is it public transport?', { needs: ['o_vehicle'] }], ['o_rails', 'Does it run on rails?', { needs: ['o_vehicle'] }],
+    ['o_feet', 'Do you wear it on your feet?', { needs: ['o_wear'] }], ['o_head', 'Do you wear it on your head?', { needs: ['o_wear'] }],
+    ['o_jewel', 'Is it jewellery?', { needs: ['o_wear'] }], ['o_warm', 'Is it worn to keep warm?', { needs: ['o_wear'] }],
+    ['o_ball', 'Is it a ball?', { needs: ['o_sport'] }], ['o_hit', 'Do you hit something with it?', { needs: ['o_sport'] }],
+    ['o_strings', 'Does it have strings?', { needs: ['o_music'] }], ['o_blow', 'Do you blow into it?', { needs: ['o_music'] }], ['o_keys', 'Does it have keys?', { needs: ['o_music'] }],
+  ]);
+  // ---- a film, TV show, book or song ----
+  tq('title', 'What is it?', { group: 'med' }, [['t_film', 'Is it a film?'], ['t_tv', 'Is it a TV show?'], ['t_book', 'Is it a book?'], ['t_song', 'Is it a song?'], ['t_game', 'Is it a video game?']]);
+  tq('title', 'When did it come out?', { group: 'era' }, [
+    ['t_e_old', 'Did it come out before 1970?'], ['t_e_70', 'Did it come out in the 1970s?'], ['t_e_80', 'Did it come out in the 1980s?'],
+    ['t_e_90', 'Did it come out in the 1990s?'], ['t_e_00', 'Did it come out in the 2000s?'], ['t_e_10', 'Did it come out in 2010 or later?'],
+  ]);
+  tq('title', 'About it', {}, [
+    ['t_british', 'Is it British?', { group: 'orig' }], ['t_american', 'Is it American?', { group: 'orig' }], ['t_kids', 'Is it mainly for children?'],
+    ['t_comedy', 'Is it a comedy?'], ['t_animated', 'Is it animated?'], ['t_series', 'Is it part of a series or franchise?'], ['t_scary', 'Is it scary?'],
+    ['t_love', 'Is it a love story?'], ['t_christmas', 'Is it linked to Christmas?'], ['t_real', 'Is it based on a true story?'], ['t_scifi', 'Is it science fiction or fantasy?'],
+    ['t_crime', 'Is it about crime or detectives?'], ['t_war', 'Is it about a war?'], ['t_sport', 'Is it about sport?'], ['t_animal', 'Is an animal a main character?'],
+    ['t_northeast', 'Is it set in the North East?'], ['t_london', 'Is it set in London?'], ['t_named', "Is its title a character's name?"],
+    ['t_bookfirst', 'Was it a book first?', { not: ['t_book', 't_song'] }],
+  ]);
+  tq('title', 'More about it', {}, [
+    ['t_disney', 'Is it a Disney film?', { needs: ['t_film'] }], ['t_pixar', 'Is it a Pixar film?', { needs: ['t_film'] }], ['t_bestpic', 'Did it win the Best Picture Oscar?', { needs: ['t_film'] }],
+    ['t_bond', 'Is it a James Bond film?', { needs: ['t_film'] }], ['t_superhero', 'Is it a superhero film?', { needs: ['t_film'] }], ['t_sequel', 'Is it a sequel?', { needs: ['t_film'] }],
+    ['t_musical', 'Is it a musical?', { needs: ['t_film'] }],
+    ['t_sitcom', 'Is it a sitcom?', { needs: ['t_tv'], group: 'genre' }], ['t_soap', 'Is it a soap?', { needs: ['t_tv'], group: 'genre' }], ['t_quiz', 'Is it a quiz or game show?', { needs: ['t_tv'], group: 'genre' }],
+    ['t_reality', 'Is it reality TV?', { needs: ['t_tv'], group: 'genre' }], ['t_drama', 'Is it a drama?', { needs: ['t_tv'], group: 'genre' }],
+    ['t_bbc', 'Is it on the BBC?', { needs: ['t_tv'], group: 'chan' }], ['t_itv', 'Is it on ITV?', { needs: ['t_tv'], group: 'chan' }], ['t_netflix', 'Is it on Netflix?', { needs: ['t_tv'], group: 'chan' }],
+    ['t_running', 'Is it still being made?', { needs: ['t_tv'] }], ['t_long', 'Has it run for over 20 years?', { needs: ['t_tv'] }],
+    ['t_number1', 'Was it a UK number one?', { needs: ['t_song'] }], ['t_xmas1', 'Was it a Christmas number one?', { needs: ['t_number1'] }],
+    ['t_band', 'Is it by a band or group?', { needs: ['t_song'] }], ['t_male', 'Is it sung by a man?', { needs: ['t_song'] }], ['t_slow', 'Is it a slow song?', { needs: ['t_song'] }],
+    ['t_dance', 'Is it a party or dance song?', { needs: ['t_song'] }], ['t_filmsong', 'Is it from a film?', { needs: ['t_song'] }], ['t_cover', 'Is it a cover version?', { needs: ['t_song'] }],
+    ['t_novel', 'Is it a novel?', { needs: ['t_book'] }], ['t_picture', 'Is it a picture book?', { needs: ['t_book'] }], ['t_classic', 'Is it over 100 years old?', { needs: ['t_book'] }],
+  ]);
+  // ---- a brand or company ----
+  tq('brand', 'What does it do?', {}, [
+    ['b_food', 'Does it sell food or drink?'], ['b_shop', 'Is it a shop or supermarket?'], ['b_tech', 'Is it a tech company?'], ['b_cars', 'Does it make cars?'],
+    ['b_clothes', 'Does it sell clothes or shoes?'], ['b_sport', 'Is it a sports brand?'], ['b_bank', 'Is it a bank?'], ['b_airline', 'Is it an airline?'], ['b_online', 'Is it mainly online?'],
+  ]);
+  tq('brand', 'Where is it from?', { group: 'orig' }, [
+    ['b_uk', 'Is it British?'], ['b_american', 'Is it American?'], ['b_german', 'Is it German?'], ['b_japanese', 'Is it Japanese?'], ['b_french', 'Is it French?'],
+    ['b_northeast', 'Was it founded in the North East?', { needs: ['b_uk'], group: null }],
+  ]);
+  tq('brand', 'About it', {}, [
+    ['b_old', 'Was it founded before 1950?'], ['b_logo', 'Is its logo an animal or a person?'], ['b_red', 'Is its logo mainly red?'], ['b_letters', 'Is its name letters or initials?'],
+    ['b_person', 'Is it named after a person?'], ['b_highstreet', 'Is it on most high streets?'], ['b_luxury', 'Is it a luxury brand?'],
+  ]);
+  tq('brand', 'More about it', {}, [
+    ['b_supermarket', 'Is it a supermarket?', { needs: ['b_shop'] }], ['b_fastfood', 'Is it a fast-food chain?', { needs: ['b_food'] }], ['b_coffee', 'Does it sell coffee?', { needs: ['b_food'] }],
+    ['b_drinks', 'Does it mainly make drinks?', { needs: ['b_food'] }], ['b_sweets', 'Does it make sweets, chocolate or crisps?', { needs: ['b_food'] }],
+    ['b_phone', 'Does it make phones or computers?', { needs: ['b_tech'] }], ['b_social', 'Is it a social media app?', { needs: ['b_tech'] }],
+    ['b_search', 'Is it a search engine?', { needs: ['b_tech'] }], ['b_stream', 'Is it a streaming service?', { needs: ['b_tech'] }], ['b_games', 'Does it make games or consoles?', { needs: ['b_tech'] }],
+    ['b_sportscar', 'Does it make luxury or sports cars?', { needs: ['b_cars'] }], ['b_ukfactory', 'Does it build cars in Britain?', { needs: ['b_cars'] }],
+  ]);
   const twentyQ = (id) => TWENTY_KINDS.find((k) => k.id === id) || TWENTY_QS.find((x) => x.id === id) || null;
   /** The questions in one kind's branch, openers excluded. */
   const twentyBranch = (kind) => TWENTY_QS.filter((x) => x.cat === kind);
   /** The true answer to a question about this item: the openers from its kind, the rest from its facts. */
   function twentyYes(q, id) { return TWENTY_KINDS.some((k) => k.id === id) ? q.what === id : !!(q.facts || {})[id]; }
-  /** Which questions a player can ask next, given what they've asked ([{id, yes}]): the openers until one is yes,
-   *  then that kind's questions whose needs are all answered yes. Never one they've already asked. */
+  /** Which questions a player can ask next, given what they've asked ([{id, yes}]): the openers until one is yes, then
+   *  that kind's questions that the answers so far make worth asking (see the gates on TWENTY_QS). Never one already asked. */
   function twentyOpen(asked) {
-    const done = new Set(asked.map((a) => a.id)), yes = new Set(asked.filter((a) => a.yes).map((a) => a.id));
+    const done = new Set(asked.map((a) => a.id)), yes = new Set(asked.filter((a) => a.yes).map((a) => a.id)), no = new Set(asked.filter((a) => !a.yes).map((a) => a.id));
     const kind = TWENTY_KINDS.find((k) => yes.has(k.id));
     if (!kind) return TWENTY_KINDS.filter((k) => !done.has(k.id));
-    return twentyBranch(kind.id).filter((x) => !done.has(x.id) && x.needs.every((n) => yes.has(n)));
+    const branch = twentyBranch(kind.id), closed = new Set(branch.filter((x) => x.group && yes.has(x.id)).map((x) => x.group));
+    return branch.filter((x) => !done.has(x.id) && x.needs.every((n) => yes.has(n)) && (!x.any.length || x.any.some((n) => yes.has(n)))
+      && !x.not.some((n) => yes.has(n)) && !x.notNo.some((n) => no.has(n)) && !(x.pair && done.has(x.pair)) && !(x.group && closed.has(x.group)));
   }
   /** The games that run on a bank of quick questions, like The Race. */
   const BANK_GAMES = ['race', 'potato', 'koth', 'blockbusters', 'chase'];

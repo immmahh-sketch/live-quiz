@@ -229,7 +229,7 @@ function twentyHtml(s) {
   const open = LQ.twentyOpen(me.asked), busy = !!P.tq?.pending;
   const kinds = !me.asked.some((a) => a.yes && LQ.TWENTY_KINDS.some((k) => k.id === a.id));
   return head + lastHtml + `<p class="tqhint">${kinds ? 'Start by finding out what kind of thing it is:' : 'Tap a question to ask it:'}</p>
-    <div class="tqlist">${open.map((x) => `<button class="tqq" data-tq="${x.id}" ${busy ? 'disabled' : ''}>${esc(x.text)}</button>`).join('') || '<p class="muted center">No questions left to ask. Time to guess!</p>'}</div>${hist}
+    <div class="tqlist">${open.map((x, i) => `${x.sec && x.sec !== open[i - 1]?.sec ? `<div class="tqsec">${esc(x.sec)}</div>` : ''}<button class="tqq" data-tq="${x.id}" ${busy ? 'disabled' : ''}>${esc(x.text)}</button>`).join('') || '<p class="muted center">No questions left to ask. Time to guess!</p>'}</div>${hist}
     <form class="tqguess" id="tqForm"><input id="tqIn" placeholder="Who or what is it?" autocomplete="off" maxlength="60" ${busy ? 'disabled' : ''}><button class="btn btn-primary" ${busy ? 'disabled' : ''}>Guess</button></form>
     <p class="tqnote">A wrong guess uses up a question.</p>`;
 }

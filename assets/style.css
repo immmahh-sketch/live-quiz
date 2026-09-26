@@ -413,6 +413,8 @@ body.tv .lobby { grid-template-columns: 1fr 1fr; } /* a TV is always landscape: 
 .tqans.no { background: #fde2e7; color: #a3122b; }
 .tqhint { font-weight: 800; color: var(--ink-2); margin: 6px 2px; }
 .tqlist { display: flex; flex-direction: column; gap: 6px; }
+.tqsec { margin: 10px 2px 0; font-size: .78rem; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; opacity: .6; }
+.tqfacts .tqsec:first-child, .tqlist .tqsec:first-child { margin-top: 0; }
 .tqq { font: inherit; font-weight: 800; text-align: left; padding: 12px 14px; border-radius: 12px; border: 2px solid var(--line); background: #fff; color: var(--ink); cursor: pointer; }
 .tqq:active { background: var(--brand-soft); border-color: var(--brand); }
 .tqq:disabled { opacity: .5; }
