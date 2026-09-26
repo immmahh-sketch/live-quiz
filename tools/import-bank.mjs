@@ -80,8 +80,9 @@ if (fs.existsSync(topicsDir) && (!process.argv.slice(2).length || process.argv.i
     }
     console.log(`${t.name}: ${items.length} items (${Object.entries(byType).map(([k, v]) => `${k} ${v.length}`).join(", ")})`);
     for (const [type, list] of Object.entries(byType)) {
-      for (let i = 0; i < list.length; i += 40) {
-        try { const r = await call({ action: "bank_import", type, items: list.slice(i, i + 40) }); for (const w of r.warnings || []) console.warn("  !", w); process.stdout.write(`  ${type}: +${r.added} (${r.skipped} dupes) → ${r.total}
+      const CHUNK = +process.env.CHUNK || 10; // batches of 40 hit the server's CPU limit (HTTP 546) once the bank passed ~6,000 of a type
+      for (let i = 0; i < list.length; i += CHUNK) {
+        try { const r = await call({ action: "bank_import", type, items: list.slice(i, i + CHUNK) }); for (const w of r.warnings || []) console.warn("  !", w); process.stdout.write(`  ${type}: +${r.added} (${r.skipped} dupes) → ${r.total}
 `); }
         catch (e) { console.error(`  ${type}: ${e.message}`); }
       }
