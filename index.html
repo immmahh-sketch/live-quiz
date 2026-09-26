@@ -562,7 +562,7 @@ async function openQuiz(id) {
   catch (e) { view.innerHTML = `<div class="error">${esc(e.message)}</div><p class="mt"><a href="index.html">Back to quizzes</a></p>`; }
 }
 function newQuiz() {
-  S.quiz = normalizeQuiz({ title: 'New quiz', questions: [] }); Object.assign(S.quiz.rounds[0], { mix: { choice: 5, text: 3 }, count: 8, types: ['choice', 'text'] }); S.sel = 0; S.planner = true; renderEditor();
+  S.quiz = normalizeQuiz({ title: 'New quiz', questions: [] }); Object.assign(S.quiz.rounds[0], { mix: {}, count: 0, types: [] }); S.sel = 0; S.planner = true; renderEditor();
 }
 const cur = () => S.quiz.questions[S.sel];
 const roundOf = (q) => S.quiz.rounds.find((r) => r.id === q.round) || S.quiz.rounds[0];
@@ -685,9 +685,9 @@ function renderPlanner(focusId) {
   $$('[data-pb]').forEach((i) => i.oninput = () => { R(i.dataset.pb).brief = i.value; touch(); renderQList(); });
   $$('[data-pmix]').forEach((i) => i.onchange = () => { const r = R(i.dataset.pmix); const n = LQ.clamp(Math.round(+i.value) || 0, 0, 40); i.value = n; if (n) r.mix[i.dataset.type] = n; else delete r.mix[i.dataset.type]; r.types = Object.keys(r.mix); r.count = Object.values(r.mix).reduce((a, b) => a + b, 0); $(`[data-ptotal="${r.id}"]`).textContent = r.count; touch(); renderQList(); });
   $$('[data-pdel]').forEach((b) => b.onclick = async () => { const r = R(b.dataset.pdel), n = countIn(r); if (n && !(await confirmBox('Delete this round?', `Its ${n} question${n === 1 ? '' : 's'} will be deleted too.`))) return; qz.questions = qz.questions.filter((q) => q.round !== r.id); qz.rounds = qz.rounds.filter((x) => x !== r); touch(); renderQList(); renderPlanner(); });
-  $$('[data-pai]').forEach((b) => b.onclick = async () => { const r = R(b.dataset.pai); if (!r.count) return toast('Set how many of each type first.', true); if (!r.title && !r.brief) return toast('Give the round a title or a prompt first.', true); try { await generateForRound(r); toast('Round written. Read it through before you host.'); S.planner = false; renderQList(); renderQForm(); } catch {} });
+  $$('[data-pai]').forEach((b) => b.onclick = async () => { const r = R(b.dataset.pai); if (!r.count) return toast('Set how many of each type first.', true); if (!r.title && !r.brief) return toast('Give the round a title or a prompt first.', true); try { if ((await generateForRound(r)) === 'stopped') { renderQList(); return; } toast('Round written. Read it through before you host.'); S.planner = false; renderQList(); renderQForm(); } catch {} });
   $$('[data-padd]').forEach((b) => b.onclick = () => pickType(b.dataset.padd));
-  $('#pl_add').onclick = () => { qz.rounds.push({ id: uid('r'), title: `Round ${qz.rounds.length + 1}`, intro: '', brief: '', mix: { choice: 5, text: 3 }, count: 8, types: ['choice', 'text'] }); touch(); renderQList(); renderPlanner(qz.rounds[qz.rounds.length - 1].id); };
+  $('#pl_add').onclick = () => { qz.rounds.push({ id: uid('r'), title: `Round ${qz.rounds.length + 1}`, intro: '', brief: '', mix: {}, count: 0, types: [] }); touch(); renderQList(); renderPlanner(qz.rounds[qz.rounds.length - 1].id); };
   $('#pl_close').onclick = () => { S.planner = false; renderQForm(); };
   $('#pl_writeall').onclick = () => { if (S.quiz.settings.template) return toast('This is a format. Write a quiz from it on the quiz list with “New quiz from this”.', true); writeAllRounds(); };
   $('#pl_tpl').onclick = saveAsTemplate;
@@ -704,7 +704,7 @@ async function writeAllRounds() {
   if (!todo.length) return toast('Every round already has its questions.');
   if (todo.some((r) => !r.title && !r.brief)) return toast('Give every round a title or a prompt first.', true);
   LQ.genPlan(S.quiz.settings, 'Write all rounds', todo);
-  for (const r of todo) { await generateForRound(r); }
+  for (const r of todo) { if ((await generateForRound(r)) === 'stopped') { S.planner = false; renderQList(); renderQForm(); return; } }
   toast('All rounds written. Read them through before you host.');
   S.planner = false; renderQList(); renderQForm();
 }
@@ -713,19 +713,25 @@ async function generateForRound(r) {
   const plan = roundShortfall(r);
   const total = plan.reduce((a, x) => a + x.need, 0);
   if (!total) return;
-  const m = modal(`<h3>✨ Writing Round ${roundIndex(r.id) + 1}${r.title ? ': ' + esc(r.title) : ''}</h3><div class="gen-progress"><span class="spinner"></span><span id="ga_step">Starting…</span></div><p class="muted small mt">${plan.map((x) => `${x.need} × ${esc(TYPES[x.type].label)}`).join(' · ')}</p>`);
+  // The ✕ stops after the batch in flight (its questions are dropped) and keeps everything already written.
+  let written = 0, stopped = false;
+  const m = modal(`<div class="row" style="justify-content:space-between;align-items:flex-start;flex-wrap:nowrap"><h3 style="margin:0 0 12px">✨ Writing Round ${roundIndex(r.id) + 1}${r.title ? ': ' + esc(r.title) : ''}</h3><button class="btn btn-ghost btn-sm" data-stop title="Stop writing and close. Questions already written are kept.">✕</button></div><div class="gen-progress"><span class="spinner"></span><span id="ga_step">Starting…</span></div><p class="muted small mt">${plan.map((x) => `${x.need} × ${esc(TYPES[x.type].label)}`).join(' · ')}</p>`);
+  $('[data-stop]', m).onclick = () => { stopped = true; m.remove(); toast(written ? `Stopped. The ${written} question${written === 1 ? '' : 's'} already written ${written === 1 ? 'is' : 'are'} kept.` : 'Stopped. Nothing was added.'); };
   $('#ga_step', m).textContent = 'Checking what has been asked before…';
-  const avoid = await avoidList(); let written = 0;
+  const avoid = await avoidList();
+  if (stopped) return 'stopped';
   if (!S.quiz.id) await save();
   try {
-    for (const { type, need } of plan) {
+    outer: for (const { type, need } of plan) {
       const BATCH = ['potato', 'koth', 'blockbusters', 'chase'].includes(type) ? 1 : ['race', 'wipeout', 'pin', 'match'].includes(type) ? 2 : ['choice', 'tf', 'text', 'order', 'sort'].includes(type) ? 6 : 4; // heavy ones fetch pictures; plain ones are quick on Sonnet
       let got = 0;
       while (got < need) {
+        if (stopped) break outer;
         $('#ga_step', m).textContent = `${TYPES[type].label}: writing ${got + 1}–${Math.min(need, got + BATCH)} of ${need} (${written} of ${total} done)…`;
         const usedPictures = S.quiz.questions.flatMap((q) => [q.media?.source, q.media?.url]).filter((s) => typeof s === 'string' && /^https?:/.test(s));
         const res = await api('generate', { topic: (r.brief ? `${r.title}. ${r.brief}` : r.title).slice(0, 200), title: r.title, brief: r.brief, usedPictures, count: Math.min(BATCH, need - got), difficulty: 'mixed', types: [type], pictures: true, web: true, avoid, premium: !!S.quiz.settings.aiPremium, quizId: S.quiz.id }, { timeout: 170000 });
         LQ.addUsage(S.quiz.settings, res.usage); LQ.genLog(S.quiz.settings, 'Write round', res, { round: r.title });
+        if (stopped) break outer; // closed while this batch was being written: leave it out
         if (!res.questions.length) break;
         if (res.fromBank) $('#ga_step', m).textContent = `${TYPES[type].label}: ${res.fromBank} from the bank`;
         if (!res.questions.some((q) => (q.kind || q.type) === type)) { toast(`The server wrote ${TYPES[res.questions[0].type]?.label || 'other'} questions instead of ${TYPES[type].label}: the quiz-api function is out of date and needs redeploying. They were not added.`, true); break; }
@@ -734,13 +740,14 @@ async function generateForRound(r) {
       }
     }
     m.remove();
-  } catch (e) { m.remove(); toast(`Round ${roundIndex(r.id) + 1}: ${e.message}`, true); throw e; }
+    if (stopped) return 'stopped';
+  } catch (e) { m.remove(); if (stopped) return 'stopped'; toast(`Round ${roundIndex(r.id) + 1}: ${e.message}`, true); throw e; }
 }
 
 // ------------------------------------------------------------------ rounds
 function roundModal(id) {
   if (id) { S.planner = true; renderPlanner(id); return; }
-  const r = id ? S.quiz.rounds.find((x) => x.id === id) : { id: null, title: `Round ${S.quiz.rounds.length + 1}`, intro: '', brief: '', mix: { choice: 5, text: 3 }, count: 8, types: ['choice', 'text'] };
+  const r = id ? S.quiz.rounds.find((x) => x.id === id) : { id: null, title: `Round ${S.quiz.rounds.length + 1}`, intro: '', brief: '', mix: {}, count: 0, types: [] };
   const n = id ? S.quiz.questions.filter((q) => q.round === id).length : 0;
   const m = modal(`<h3>${id ? 'Round' : 'Add a round'}</h3>
     <div class="field"><label>Round name <span class="muted">— shown on the screen before it starts</span></label><input type="text" id="r_title" value="${esc(r.title)}" placeholder="e.g. Sports, Picture round, Music"></div>
