@@ -24,6 +24,7 @@
 <script>
 const { $, $$, esc, uid, api, TYPES, COLORS, speedPoints, textMatch, similarity, shuffle, newCode, playUrl, shortPlayUrl, store, unstore, ordinal } = LQ;
 const DEMO = new URLSearchParams(location.search).get('quiz') === 'demo';
+const PREVIEW = new URLSearchParams(location.search).get('quiz') === 'preview'; // one question or slide from the builder (previewItem there)
 // On a TV (the Fire TV app, or ?tv=1): D-pad focus ring, self-play on, Back goes to the TV home.
 const TV = new URLSearchParams(location.search).get('tv') === '1' || /LetsQuizTV/.test(navigator.userAgent);
 if (TV) document.body.classList.add('tv');
@@ -44,6 +45,18 @@ function toggleSolo() {
   document.body.appendChild(p);
   $('#soloClose').onclick = toggleSolo;
   renderLobby();
+}
+/** Preview from the builder: bots and the player panel, then straight into the 3-2-1 (or the slide) once your panel has joined. */
+const question0 = () => G.quiz.questions[0];
+function startPreview() {
+  G.auto = false; document.body.classList.add('preview');
+  toggleSolo();
+  const t0 = Date.now();
+  const go = () => {
+    if (G.phase !== 'lobby') return;
+    if (players().some((p) => !p.id.startsWith('p_bot')) || Date.now() - t0 > 8000) (isSlide(question0()) ? showSlide(0) : startCountdown(0)); else setTimeout(go, 300);
+  };
+  setTimeout(go, 300);
 }
 /** After a test run: every question goes back into the bank as unused (AI-written ones are added) and the quiz is deleted. Two presses, so a stray click on the remote does nothing. */
 async function returnToBank() {
@@ -90,14 +103,20 @@ const startsRound = (i) => i === 0 || G.quiz.questions[i - 1]?.round !== G.quiz.
     stage.innerHTML = '<div class="stage-main"><div class="waiting">Picking questions from the bank…</div></div>';
     quiz = await window.demoQuizLive(types.split(','));
   }
+  else if (PREVIEW) {
+    const p = store('lq_preview');
+    if (!p?.question) return fail('Nothing to preview. Open a question in the builder and press Preview.');
+    quiz = { title: 'Preview · ' + (p.title || 'Untitled quiz'), settings: p.settings, rounds: [], questions: [p.question] };
+  }
   else { try { quiz = (await api('get', { id: quizId })).quiz; } catch (e) { return fail(e.message); } }
   quiz = LQ.normalizeQuiz(quiz);
   quiz.questions = quiz.questions.filter((q) => LQ.validate(q).length === 0);
   quiz.rounds = quiz.rounds.filter((r) => quiz.questions.some((q) => q.round === r.id));
-  if (!quiz.questions.length) return fail('This quiz has no finished questions to play.');
+  if (!quiz.questions.length) return fail(PREVIEW ? 'This question is not finished yet, so it cannot be previewed.' : 'This quiz has no finished questions to play.');
   G = { code: newCode(), quizId, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: autoWanted() };
   persist();
   connect();
+  if (PREVIEW) setTimeout(startPreview, 0); // once the whole script has run (no server call to wait for here)
   setTimeout(() => { if (musicOn()) loadYT().catch(() => {}); }, 0); // once the whole script has run, so the player code is ready
   const nb = +new URLSearchParams(location.search).get('bots');
   if (nb > 0) setTimeout(() => addBots(Math.min(MAX_BOTS, nb)), 0);
@@ -614,12 +633,12 @@ async function prepareWipeout(q) {
   try {
     const rightNow = q.right.filter((i) => i.text.trim());
     const need = players().length + WIPE_MARGIN - rightNow.length;
-    if (need > 0 && !DEMO) {
+    if (need > 0 && !DEMO && !PREVIEW) {
       const r = await api('more_wipeout', { text: q.text, right: rightNow.map((i) => i.text), wrong: q.wrong.filter((i) => i.text.trim()).map((i) => i.text), need }, { timeout: 90000 });
       const extra = (r.right || []).map((text) => ({ id: uid('w'), text }));
       if (extra.length) { q.right = [...q.right, ...extra]; q.toppedUp = (q.toppedUp || 0) + extra.length; persist(); toast(`Added ${extra.length} answer${extra.length === 1 ? '' : 's'} to the board for ${players().length} players`); }
       if (extra.length < need) toast(`The board has ${rightNow.length + extra.length} right answers for ${players().length} players — it may run out.`, true);
-    } else if (need > 0 && DEMO) toast(`Demo: the board has ${rightNow.length} right answers for ${players().length} players (no AI top-up in the demo).`);
+    } else if (need > 0 && (DEMO || PREVIEW)) toast(`${PREVIEW ? 'Preview' : 'Demo'}: the board has ${rightNow.length} right answers for ${players().length} players (no AI top-up in the demo).`);
   } catch (e) { toast('Could not add answers: ' + e.message, true); }
   G.prepDone = true;
 }
@@ -1598,7 +1617,7 @@ function showScoreboard() { G.phase = 'scoreboard'; persist(); render(); broadca
 async function finish() {
   G.phase = 'final'; persist(); render(); broadcastState(); confetti();
   const rk = ranked();
-  if (DEMO || G.reportId) return;
+  if (DEMO || PREVIEW || G.reportId) return;
   try {
     const r = await api('save_game', { game: { code: G.code, quiz_id: G.quizId, title: G.quiz.title, questions: total(), started_at: G.startedAt,
       players: rk.map((p, i) => ({ name: p.name, emoji: p.emoji || '', score: p.score, rank: i + 1 })), report: buildReport() } });
@@ -2049,7 +2068,7 @@ if (window.QuizCall) {
   });
 }
 function bind() {
-  $$('[data-act]').forEach((b) => b.onclick = () => ({ call: callClick, primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(G.bots?.length ? 5 : 3), bots20: () => addBots(MAX_BOTS), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, pause: () => togglePause(), music: toggleMusic, stopgame: gameStop, builder: () => location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
+  $$('[data-act]').forEach((b) => b.onclick = () => ({ call: callClick, primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(G.bots?.length ? 5 : 3), bots20: () => addBots(MAX_BOTS), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, pause: () => togglePause(), music: toggleMusic, stopgame: gameStop, builder: () => PREVIEW ? window.close() : location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
   $$('[data-kick]').forEach((el) => { el.style.cursor = 'pointer'; el.title = 'Click to remove this player from the game'; el.onclick = () => kickPlayer(el.dataset.kick); });
 }
 function renderLobby() {
@@ -2061,7 +2080,7 @@ function renderLobby() {
         <div class="players" id="players"></div>
         <div class="appqr"><div class="qr" id="qr2"></div><div class="appqr-text"><b>Keep the app on your phone</b>Scan this one and add it to your home screen.<span>${esc(shortPlayUrl())}</span></div></div></div>
     </div></div>
-    ${hostBar(`<button class="btn btn-ghost" data-act="builder">${TV ? '🏠 Home' : 'Back to builder'}</button><button class="btn btn-ghost ${musicOn() ? 'on' : ''}" data-act="music" title="Background music while the clock runs (M)">${musicOn() ? '🎵 Music: on' : '🔇 Music: off'}</button><button class="btn btn-ghost ${G.auto ? 'on' : ''}" data-act="auto" title="Self-play: the screen moves on by itself and players can press Start and Next on their phones, so nobody has to sit at this screen">${G.auto ? '🎮 Runs itself: on' : '🎮 Runs itself: off'}</button>${TV ? '' : `<button class="btn btn-ghost ${G.solo ? 'on' : ''}" data-act="solo" title="Test by yourself: adds three bots and opens a player panel here so you can answer on this screen">${G.solo ? '🧪 Testing solo: on' : '🧪 Test by myself'}</button>`}<button class="btn btn-ghost" data-act="bots" ${(G.bots?.length || 0) >= MAX_BOTS ? 'disabled' : ''} title="Test mode: add simulated players who answer on their own (three, then five at a time, up to ${MAX_BOTS})">${(G.bots?.length || 0) >= MAX_BOTS ? `🤖 ${G.bots.length} bots (the most)` : G.bots?.length ? `🤖 ${G.bots.length} bots · add 5` : '🤖 Add test bots'}</button>${(G.bots?.length || 0) < MAX_BOTS ? `<button class="btn btn-ghost" data-act="bots20" title="Fill up to ${MAX_BOTS} bots to see a big game">🤖×${MAX_BOTS}</button>` : ''}<button class="btn btn-primary btn-lg" data-act="primary" id="startBtn">Start ▶</button>`)}`;
+    ${hostBar(`<button class="btn btn-ghost" data-act="builder">${TV ? '🏠 Home' : PREVIEW ? 'Close preview' : 'Back to builder'}</button><button class="btn btn-ghost ${musicOn() ? 'on' : ''}" data-act="music" title="Background music while the clock runs (M)">${musicOn() ? '🎵 Music: on' : '🔇 Music: off'}</button><button class="btn btn-ghost ${G.auto ? 'on' : ''}" data-act="auto" title="Self-play: the screen moves on by itself and players can press Start and Next on their phones, so nobody has to sit at this screen">${G.auto ? '🎮 Runs itself: on' : '🎮 Runs itself: off'}</button>${TV ? '' : `<button class="btn btn-ghost ${G.solo ? 'on' : ''}" data-act="solo" title="Test by yourself: adds three bots and opens a player panel here so you can answer on this screen">${G.solo ? '🧪 Testing solo: on' : '🧪 Test by myself'}</button>`}<button class="btn btn-ghost" data-act="bots" ${(G.bots?.length || 0) >= MAX_BOTS ? 'disabled' : ''} title="Test mode: add simulated players who answer on their own (three, then five at a time, up to ${MAX_BOTS})">${(G.bots?.length || 0) >= MAX_BOTS ? `🤖 ${G.bots.length} bots (the most)` : G.bots?.length ? `🤖 ${G.bots.length} bots · add 5` : '🤖 Add test bots'}</button>${(G.bots?.length || 0) < MAX_BOTS ? `<button class="btn btn-ghost" data-act="bots20" title="Fill up to ${MAX_BOTS} bots to see a big game">🤖×${MAX_BOTS}</button>` : ''}<button class="btn btn-primary btn-lg" data-act="primary" id="startBtn">Start ▶</button>`)}`;
   new QRCode($('#qr'), { text: url, width: 380, height: 380, correctLevel: QRCode.CorrectLevel.M });
   new QRCode($('#qr2'), { text: new URL('play', location.href).toString(), width: 200, height: 200, correctLevel: QRCode.CorrectLevel.M });
   renderLobbyPlayers(); bind();
@@ -2363,7 +2382,7 @@ function renderFinal() {
       <div class="podium">${pod(1, 'p2')}${pod(0, 'p1')}${pod(2, 'p3')}</div>
       ${rk.length > 3 ? `<div class="textlist">${rk.slice(3, 15).map((p, i) => `<span class="tl">${i + 4}. ${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)} · ${p.score}</span>`).join('')}</div>` : ''}
       <p class="small clicktip" style="opacity:.5;margin-top:10px">Players can be removed from the scoreboard during the game by clicking their name.</p></div>
-    ${hostBar(`<a class="btn btn-ghost ${G.reportId ? '' : 'hidden'}" id="reportBtn" href="index.html?game=${G.reportId || ''}" target="_blank">📊 Report</a><button class="btn btn-ghost" data-act="builder">${TV ? '🏠 Home' : 'Back to builder'}</button>${G.quizId ? '<button class="btn btn-ghost" data-act="restock" title="Just testing? Put every question back into the bank as unused and delete this quiz">↩ Return questions to the bank</button>' : ''}<button class="btn btn-primary" data-act="again">Play again ↻</button>`)}`;
+    ${hostBar(`<a class="btn btn-ghost ${G.reportId ? '' : 'hidden'}" id="reportBtn" href="index.html?game=${G.reportId || ''}" target="_blank">📊 Report</a><button class="btn btn-ghost" data-act="builder">${TV ? '🏠 Home' : PREVIEW ? 'Close preview' : 'Back to builder'}</button>${G.quizId && !PREVIEW ? '<button class="btn btn-ghost" data-act="restock" title="Just testing? Put every question back into the bank as unused and delete this quiz">↩ Return questions to the bank</button>' : ''}<button class="btn btn-primary" data-act="again">Play again ↻</button>`)}`;
   bind();
 }
 function confetti() {

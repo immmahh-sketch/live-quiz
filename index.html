@@ -766,6 +766,14 @@ function roundModal(id) {
 }
 
 // ------------------------------------------------------------------ question form
+/** Preview: this one question or slide on the host screen straight away, with three bots and you as a player beside it.
+ *  Handed over through localStorage, so unsaved edits show too; nothing is saved, scored or taken from the bank. */
+function previewItem(q) {
+  const probs = validate(q);
+  if (probs.length) return toast('Finish it first: ' + probs[0], true);
+  LQ.store('lq_preview', { title: S.quiz.title || 'Untitled quiz', settings: S.quiz.settings, question: JSON.parse(JSON.stringify(q)), at: Date.now() });
+  window.open('host.html?quiz=preview&fresh=1', '_blank');
+}
 function renderQForm() {
   const q = cur(); const box = $('#qform');
   if (!q || S.planner) { renderPlanner(); return; }
@@ -773,7 +781,7 @@ function renderQForm() {
   const n = S.sel + 1, ck = checkState(q);
   box.innerHTML = `
     <div class="row" style="justify-content:space-between;margin-bottom:10px"><h3 style="margin:0">Question ${n} <span class="muted">· ${TYPES[q.kind || q.type].icon} ${esc(TYPES[q.kind || q.type].label)}</span></h3>
-      <div class="row"><button class="btn btn-ghost btn-sm" id="rejQ" title="Swap it for a different question, or reject it as a bad one">👎 Not this one</button><button class="btn btn-ghost btn-sm" id="dupQ">Duplicate</button><button class="btn btn-ghost btn-sm" id="delQ" style="color:var(--bad)">Delete</button></div></div>
+      <div class="row"><button class="btn btn-ghost btn-sm" id="prevQ" title="See it as the players will, on the big screen and a phone, without starting a game">👁 Preview</button><button class="btn btn-ghost btn-sm" id="rejQ" title="Swap it for a different question, or reject it as a bad one">👎 Not this one</button><button class="btn btn-ghost btn-sm" id="dupQ">Duplicate</button><button class="btn btn-ghost btn-sm" id="delQ" style="color:var(--bad)">Delete</button></div></div>
     ${ck ? `<div class="checknote ${ck}"><b>${{ ok: '✓ Checked: looks right.', doubt: '? Worth a look.', wrong: '✗ Looks wrong.', stale: '~ Changed since it was checked.' }[ck]}</b> ${esc(q.check.note || '')}${q.check.fix && ck !== 'ok' ? `<div class="mt" style="margin-top:6px"><b>Suggested answer:</b> ${esc(q.check.fix)}</div>` : ''}<div class="row" style="margin-top:8px;gap:6px"><button class="btn btn-ghost btn-sm" id="recheck">Check again</button><button class="btn btn-ghost btn-sm" id="clearCheck">Dismiss</button></div></div>` : ''}
     ${q.type === 'wheel' ? '' : `<div class="field"><label>${q.type === 'smash' ? 'The clue' : q.type === 'highlow' ? 'The highbrow clue' : q.type === 'rhyme' ? 'The first clue' : q.type === 'dingbat' ? 'Instruction on the screen (optional)' : q.type === 'tune' ? 'Wording on the screen (optional — the ask below sets a default)' : 'Question'}</label><textarea id="f_text" placeholder="${esc(placeholderFor(q.type))}">${esc(q.text)}</textarea></div>`}
     <div id="typeBox"></div>
@@ -798,6 +806,7 @@ function renderQForm() {
   if ($('#f_practice')) $('#f_practice').onchange = (e) => { q.practice = e.target.checked; if (!q.practice) delete q.practice; touch(); renderQList(); };
   if ($('#recheck')) $('#recheck').onclick = () => checkQuestions([q]);
   if ($('#clearCheck')) $('#clearCheck').onclick = () => { delete q.check; touch(); renderQList(); renderQForm(); };
+  $('#prevQ').onclick = () => previewItem(q);
   $('#dupQ').onclick = () => { const c = JSON.parse(JSON.stringify(q)); c.id = uid('q'); delete c.check; S.quiz.questions.splice(S.sel + 1, 0, c); touch(); S.sel = S.quiz.questions.findIndex((x) => x.id === c.id); renderQList(); renderQForm(); };
   $('#delQ').onclick = async () => { if (!(await confirmBox('Delete this question?', 'It will be removed from the quiz.'))) return; S.quiz.questions.splice(S.sel, 1); S.sel = Math.max(0, Math.min(S.sel, S.quiz.questions.length - 1)); touch(); renderQList(); renderQForm(); };
   $('#rejQ').onclick = () => rejectQuestion(q);
@@ -809,7 +818,7 @@ function renderSlideForm(q) {
   const T = LQ.typeInfo('slide', q);
   box.innerHTML = `
     <div class="row" style="justify-content:space-between;margin-bottom:10px"><h3 style="margin:0">${T.icon} ${T.label} <span class="muted small">· not a question, no points</span></h3>
-      <div class="row"><button class="btn btn-ghost btn-sm" id="dupQ">Duplicate</button><button class="btn btn-ghost btn-sm" id="delQ" style="color:var(--bad)">Delete</button></div></div>
+      <div class="row"><button class="btn btn-ghost btn-sm" id="prevQ" title="See it as the players will, on the big screen and a phone, without starting a game">👁 Preview</button><button class="btn btn-ghost btn-sm" id="dupQ">Duplicate</button><button class="btn btn-ghost btn-sm" id="delQ" style="color:var(--bad)">Delete</button></div></div>
     <div class="field"><label>Title</label><input type="text" id="f_text" value="${esc(q.text)}" placeholder="e.g. Welcome to Quiz Night!  ·  How to play  ·  Half-time"></div>
     <div class="field"><label>Text <span class="muted">— start lines with "-" to make a list</span></label><textarea id="f_body" rows="7" placeholder="e.g.&#10;- Phones out, join with the code on the screen&#10;- The faster you answer, the more you score&#10;- No googling!">${esc(q.body || '')}</textarea></div>
     <div class="field"><label class="check"><input type="checkbox" id="f_break" ${q.break ? 'checked' : ''}> ☕ Break, with a big countdown clock on the screen and the phones</label></div>
@@ -829,6 +838,7 @@ function renderSlideForm(q) {
   $$('[data-bm]', box).forEach((b) => b.onclick = () => setMins((+q.breakMins || 10) + +b.dataset.bm));
   if ($('#f_time')) $('#f_time').onchange = (e) => { q.time = LQ.clamp(+e.target.value || 20, 5, 120); e.target.value = q.time; touch(); };
   if ($('#f_round')) $('#f_round').onchange = (e) => { q.round = e.target.value; touch(); S.sel = S.quiz.questions.findIndex((x) => x.id === q.id); renderQList(); renderQForm(); };
+  $('#prevQ').onclick = () => previewItem(q);
   $('#dupQ').onclick = () => { const c = JSON.parse(JSON.stringify(q)); c.id = uid('q'); S.quiz.questions.splice(S.sel + 1, 0, c); touch(); S.sel = S.quiz.questions.findIndex((x) => x.id === c.id); renderQList(); renderQForm(); };
   $('#delQ').onclick = async () => { if (!(await confirmBox('Delete this slide?', 'It will be removed from the quiz.'))) return; S.quiz.questions.splice(S.sel, 1); S.sel = Math.max(0, Math.min(S.sel, S.quiz.questions.length - 1)); touch(); renderQList(); renderQForm(); };
   if ($('#mediaBox')) renderMediaBox(); showProblems();
