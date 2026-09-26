@@ -1,5 +1,5 @@
 /* A built-in sample quiz so the game can be tried before any quiz is saved: host.html?quiz=demo
-   One of each party game: the race, Wipeout, Hot Potato, the Chase, a break, King of the Hill, Blockbusters, the final Chase. */
+   One of each party game: the race, Wipeout, Hot Potato, Nearest Wins, the Chase, a break, King of the Hill, Draw It, Blockbusters, the final Chase. */
 window.DEMO_QUIZ = {
   "id": "demo",
   "title": "Demo quiz",
@@ -12,13 +12,13 @@ window.DEMO_QUIZ = {
       {
         "id": "r1",
         "title": "Party games",
-        "intro": "The Race, Wipeout, Hot Potato and the first Chase, then a break",
+        "intro": "The Race, Wipeout, Hot Potato, Nearest Wins and the first Chase, then a break",
         "brief": ""
       },
       {
         "id": "r2",
         "title": "Head to head",
-        "intro": "King of the Hill, Blockbusters and the final Chase",
+        "intro": "King of the Hill, Draw It, Blockbusters and the final Chase",
         "brief": ""
       }
     ]
@@ -555,6 +555,20 @@ window.DEMO_QUIZ = {
       ]
     },
     {
+      "id": "d25",
+      "round": "r1",
+      "type": "nearest",
+      "text": "How many steps are there to the top of Grey's Monument in Newcastle?",
+      "time": 25,
+      "media": {
+        "kind": "none"
+      },
+      "partial": false,
+      "answer": "164",
+      "unit": "steps",
+      "spread": null
+    },
+    {
       "id": "d23",
       "round": "r1",
       "type": "chase",
@@ -1057,6 +1071,21 @@ window.DEMO_QUIZ = {
           ]
         }
       ]
+    },
+    {
+      "id": "d26",
+      "round": "r2",
+      "type": "draw",
+      "text": "Draw It: anything goes",
+      "time": 60,
+      "media": {
+        "kind": "none"
+      },
+      "partial": false,
+      "turns": 3,
+      "words": [],
+      "guessPoints": 500,
+      "drawerPoints": 100
     },
     {
       "id": "d22",
