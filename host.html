@@ -81,7 +81,12 @@ const startsRound = (i) => i === 0 || G.quiz.questions[i - 1]?.round !== G.quiz.
     if (ok) { G = saved; return connect(); }
   }
   let quiz;
-  if (DEMO) quiz = JSON.parse(JSON.stringify(window.DEMO_QUIZ));
+  if (DEMO) {
+    // The demo first asks which question types to try (tick boxes), then plays one of each: ?types=choice,tune,…
+    const types = new URLSearchParams(location.search).get('types');
+    if (!types) { stage.innerHTML = '<div class="stage-main" style="overflow:auto;align-items:flex-start"></div>'; window.demoPicker(stage.firstChild, (list) => { const u = new URL(location.href); u.searchParams.set('types', list.join(',')); location.replace(u); }); return; }
+    quiz = window.demoQuiz(types.split(','));
+  }
   else { try { quiz = (await api('get', { id: quizId })).quiz; } catch (e) { return fail(e.message); } }
   quiz = LQ.normalizeQuiz(quiz);
   quiz.questions = quiz.questions.filter((q) => LQ.validate(q).length === 0);
@@ -127,6 +132,7 @@ function botsOnQuestion() {
   const q = question(), v = G.q.view;
   if (q.type === 'wipeout') return botWipeTurn(); // and again on every later turn (wipeNextTurn / wipeTimeout)
   if (q.type === 'race') { for (const b of G.bots) botRaceStep(b); return; }
+  if (q.type === 'twenty') { for (const b of G.bots) botTwentyStep(b); return; }
   for (const b of G.bots) {
     const delay = 1200 + b.pace * q.time * 1000 * rnd(0.25, 0.8);
     if (q.type === 'highlow' && chance(0.5)) botLater(() => { if (G.phase === 'question' && G.q?.view.id === v.id) onHint({ pid: b.pid, qId: v.id }); }, Math.max(800, delay * 0.5));
@@ -262,6 +268,7 @@ function stateForPlayers() {
         hint: g.word ? LQ.drawHint(g.word, g.shown) : '', word: g.step === 'reveal' ? g.word : '', secret: g.drawer && g.step !== 'reveal' ? drawSecret(g.drawer, { choices: g.step === 'choose' ? g.choices : [], word: g.word }) : '' };
     }
     if (s.potato || s.koth || s.bb || s.chase || s.draw) s.names = Object.fromEntries(Object.values(G.players).map((p) => [p.id, { name: p.name, emoji: p.emoji || '' }]));
+    if (G.q.tq) { const t = G.q.tq; s.tq = { over: t.over, maxQ: G.q.view.maxQ, solved: t.solved, players: Object.fromEntries(Object.entries(t.players).map(([pid, p]) => [pid, { n: p.n, asked: p.asked, guesses: p.guesses.map((g) => ({ t: g.t, ok: g.ok })), done: p.done, out: p.out, place: p.place }])) }; }
     if (G.q.race) { const r = G.q.race; s.race = { winner: r.winner, winnerName: r.winner ? G.players[r.winner]?.name : null, over: r.over, target: G.q.view.target, maxWrong: G.q.view.maxWrong ?? 10, players: Object.fromEntries(Object.entries(r.players).map(([pid, p]) => [pid, { idx: p.idx, correct: p.correct, wrong: p.wrong, out: p.out, why: p.why, done: p.done }])) }; }
   }
   if (G.phase === 'countdown') s.next = { type: question().kind || question().type, n: qNum(G.qIndex) };
@@ -294,6 +301,7 @@ function answerText(q) {
   if (q.type === 'tf') return q.answer === false ? 'False' : 'True';
   if (q.type === 'sort') return q.categories.filter((c) => c.name.trim()).map((c) => `${c.name}: ${q.items.filter((i) => i.category === c.id && i.text.trim()).map((i) => i.text).join(', ')}`).join(' · ');
   if (q.type === 'wipeout') return 'Wrong ones: ' + q.wrong.filter((i) => i.text.trim()).map((i) => i.text).join(', ');
+  if (q.type === 'twenty') return 'It was ' + (q.answers[0] || '');
   if (q.type === 'race') { const w = G.q?.results?.stats?.winner; return w ? `${w.name} won the race` : 'Nobody finished the race'; }
   if (q.type === 'potato') { const x = (G.q?.potato?.bombs || []).map((b) => b.exploded).filter(Boolean); return x.length ? `💥 ${x.map(pname).join(' and ')} ${x.length > 1 ? 'were' : 'was'} holding ${x.length > 1 ? 'the bombs' : 'the bomb'}` : 'The bomb never went off'; }
   if (q.type === 'koth') { const x = G.q?.koth?.winner; return x ? `👑 ${pname(x)} is King of the Hill` : `Nobody reached ${q.target || 3} points`; }
@@ -324,6 +332,7 @@ function onAnswer({ pid, qId, answer, low }) {
   if (!G.players[pid]) { onHello({ pid, name: present.get(pid) || 'Player' }); }
   if (G.q.wipe) return wipePick(pid, String(answer));
   if (G.q.race) return racePick(pid, answer);
+  if (G.q.tq) return twentyPick(pid, answer);
   if (G.q.potato) return potatoAnswer(pid, answer);
   if (G.q.koth) return kothAnswer(pid, answer);
   if (G.q.bb) return bbAnswer(pid, answer);
@@ -338,7 +347,7 @@ function onAnswer({ pid, qId, answer, low }) {
   maybeAllAnswered();
 }
 function maybeAllAnswered() {
-  if (G.phase !== 'question' || G.q?.wipe || G.q?.race || gameKind()) return;
+  if (G.phase !== 'question' || G.q?.wipe || G.q?.race || G.q?.tq || gameKind()) return;
   const live = [...present.keys()].filter((pid) => G.players[pid]);
   const pool = live.length ? live : Object.keys(G.players);
   if (pool.length && pool.every((pid) => G.q.answers[pid])) setTimeout(() => { if (G.phase === 'question') endQuestion(); }, 600);
@@ -452,7 +461,7 @@ function toTypeCard(i) {
 }
 // ------------------------------------------------------------------ the race's start: splash, 3-2-1, starting pistol
 /** The race's topic, without the "The Race:" it usually starts with. */
-function raceTopic(q) { const t = String(q.text || '').replace(/^(the race|hot potato|king of the hill|blockbusters|the chase|draw it)\s*[:\-–—]\s*/i, '').trim(); return t ? t[0].toUpperCase() + t.slice(1) : 'Quick-fire questions'; }
+function raceTopic(q) { const t = String(q.text || '').replace(/^(the race|hot potato|king of the hill|blockbusters|the chase|draw it|20 questions|twenty questions)\s*[:\-–—]\s*/i, '').trim(); return t ? t[0].toUpperCase() + t.slice(1) : 'Quick-fire questions'; }
 /** Beeps for the countdown and a crack for the pistol, made in the browser. Quiet when the music is off. */
 let sfx = null, sfxMaster = null, sfxTap = null;
 // Every sound goes through one gain node, so the quiz call can take a copy of it.
@@ -576,7 +585,7 @@ function startRaceIntro(i) {
   }, 1000);
 }
 function startCountdown(i) {
-  if (LQ.BANK_GAMES.includes(G.quiz.questions[i]?.type) || G.quiz.questions[i]?.type === 'draw') return startRaceIntro(i); // a splash first; the race adds 3-2-1 and the pistol
+  if (LQ.BANK_GAMES.includes(G.quiz.questions[i]?.type) || ['draw', 'twenty'].includes(G.quiz.questions[i]?.type)) return startRaceIntro(i); // a splash first; the race adds 3-2-1 and the pistol
   clearInterval(tickT); clearInterval(countT); if (typeof stopTune === 'function') stopTune(); G.raceIntro = null;
   G.qIndex = i; G.phase = 'countdown'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString();
   persist(); render(); broadcastState();
@@ -639,6 +648,7 @@ function buildView(q) {
   if (q.type === 'rhyme') { v.text2 = q.text2; }
   if (q.type === 'nearest') v.unit = q.unit || '';
   if (q.type === 'wheel') { v.text = `${q.category}: solve the puzzle`; v.layout = LQ.wheelLayout(q.phrase).map((row) => row.map((t) => t.t === 'L' ? { t: 'L' } : t)); v.category = q.category; }
+  if (q.type === 'twenty') { v.maxQ = +q.maxQ || 20; v.prize = q.prize ?? 1000; v.prize2 = q.prize2 ?? 500; v.prize3 = q.prize3 ?? 100; v.penalty = q.penalty ?? 200; }
   if (q.type === 'race') {
     const good = q.bank.filter((b) => b.text.trim() && b.options[0].trim() && b.options.filter((o) => o.trim()).length >= 2);
     v.bank = good.map((b) => ({ k: tok('Q:' + b.id), text: b.text, options: shuffle(b.options.map((o, oi) => ({ o, oi })).filter((x) => x.o.trim())).map((x, i) => ({ k: tok((x.oi === 0 ? 'R:' : 'W:') + b.id), text: x.o, c: i })) }));
@@ -683,6 +693,82 @@ function raceStandings() {
   const race = G.q.race || { players: {} };
   return Object.entries(race.players).map(([pid, r]) => ({ pid, name: G.players[pid]?.name || 'Player', emoji: G.players[pid]?.emoji || '', ...r }))
     .sort((a, b) => (b.done - a.done) || (b.correct - a.correct) || ((a.finishedAt || Infinity) - (b.finishedAt || Infinity)) || (a.out - b.out));
+}
+// ------------------------------------------------------------------ 20 Questions
+// Everyone hunts the same answer. Each phone asks yes/no questions from the shared tree (LQ.TWENTY_QS) and guesses
+// whenever it likes; this screen keeps the answer and its facts and replies to every ask, so the phones never hold
+// either. A wrong guess costs a question. The first three to crack it score; anyone without it at the end loses.
+const twentyFresh = () => ({ asked: [], guesses: [], n: 0, done: false, out: false, place: 0 });
+function twentyStart() {
+  G.q.tq = { players: {}, solved: [], over: false };
+  for (const pid of Object.keys(G.players)) if (present.has(pid)) G.q.tq.players[pid] = twentyFresh();
+  persist(); renderTwenty(); broadcastState();
+}
+async function twentyPick(pid, a) {
+  const tq = G.q?.tq, q = question(), maxQ = +q.maxQ || 20;
+  if (!tq || tq.over || !a || typeof a !== 'object') return;
+  const r = tq.players[pid] || (tq.players[pid] = twentyFresh());
+  if (r.done || r.out || r.busy || +a.n !== r.n) return; // finished, mid-check, or a repeat of a message already handled
+  let last;
+  if (a.ask) {
+    if (!LQ.twentyOpen(r.asked).some((x) => x.id === a.ask)) return;
+    const yes = LQ.twentyYes(q, a.ask);
+    r.asked.push({ id: a.ask, yes }); r.n++; last = { id: a.ask, yes };
+  } else {
+    const text = String(a.guess || '').replace(/\s+/g, ' ').trim().slice(0, 60); if (!text) return;
+    const m = LQ.textMatch(text, q.answers);
+    r.busy = true; const ok = m === 'right' || (m === 'unsure' && await twentyJudge(q, text)); r.busy = false;
+    if (G.q?.tq !== tq || tq.over) return;
+    r.guesses.push({ t: text, ok });
+    if (ok) { r.done = true; r.doneAt = Date.now(); r.used = r.n; tq.solved.push(pid); r.place = tq.solved.length; sound('ding'); }
+    else r.n++;
+    last = { guess: text, ok };
+  }
+  if (!r.done && r.n >= maxQ) r.out = true;
+  send('tq', { pid, n: r.n, last, done: r.done, out: r.out, place: r.place });
+  persist(); renderTwenty(); broadcastState();
+  if (Object.values(tq.players).every((x) => x.done || x.out)) { tq.over = true; setTimeout(() => { if (G.phase === 'question' && G.q?.tq === tq) endQuestion(); }, 1500); }
+}
+/** A near miss goes to the AI judge (not in the demo, which has no server); otherwise a close spelling will do. */
+async function twentyJudge(q, text) {
+  const close = () => q.answers.some((acc) => acc && LQ.similarity(LQ.normText(text), LQ.normText(acc)) >= 0.72);
+  if (DEMO || q.ai === false) return close();
+  try { const r = await api('check_text', { question: '20 Questions: who or what is it?', accepted: q.answers.filter(Boolean), answers: [{ id: 'g', text }] }, { timeout: 15000 }); return r.results?.g ? !!r.results.g.correct : close(); }
+  catch { return close(); }
+}
+function twentyStandings() {
+  const tq = G.q?.tq || { players: {} };
+  return Object.entries(tq.players).map(([pid, r]) => ({ pid, name: pname(pid), emoji: pem(pid), ...r }))
+    .sort((a, b) => (b.done - a.done) || ((a.place || 99) - (b.place || 99)) || (a.out - b.out) || (b.n - a.n));
+}
+/** A bot asks a random open question every few seconds and, once it has a few yeses, has a go at the answer. */
+function botTwentyStep(b) {
+  botLater(() => {
+    const tq = G.q?.tq; if (G.phase !== 'question' || !tq || tq.over) return;
+    const r = tq.players[b.pid] || (tq.players[b.pid] = twentyFresh()); if (r.done || r.out) return;
+    if (r.busy) return botTwentyStep(b);
+    const q = question(), open = LQ.twentyOpen(r.asked), yeses = r.asked.filter((x) => x.yes).length;
+    const guess = !open.length || (yeses >= 3 && chance(0.15 + b.skill * 0.25));
+    twentyPick(b.pid, guess ? { n: r.n, guess: chance(b.skill) ? q.answers[0] : ['Bob', 'Paris', 'A spoon', 'Elvis', 'Cheese'][Math.floor(Math.random() * 5)] } : { n: r.n, ask: open[Math.floor(Math.random() * open.length)].id });
+    botTwentyStep(b);
+  }, rnd(1800, 3200) + b.pace * 2500);
+}
+/** The big screen during 20 Questions: how far each player has got, never what they asked, so the room can't copy. */
+function renderTwenty() {
+  const q = question(), maxQ = +q.maxQ || 20, st = twentyStandings(), medal = ['🥇', '🥈', '🥉'];
+  const prizes = [q.prize ?? 1000, q.prize2 ?? 500, q.prize3 ?? 100], solved = st.filter((s) => s.done);
+  const rows = st.map((s) => `<div class="tqrow ${s.done ? 'done' : s.out ? 'out' : ''}"><span class="tqname">${s.emoji || ''} ${esc(s.name)}</span><span class="tqdots">${Array.from({ length: maxQ }, (_, i) => `<i class="${i < (s.done ? s.used : s.n) ? 'on' : ''}"></i>`).join('')}</span><span class="tqstat">${s.done ? `${medal[s.place - 1] || '✅'} in ${s.used}` : s.out ? '💀 out' : `${s.n}/${maxQ}`}</span></div>`).join('');
+  const banner = solved.length ? `<div class="turnbar" style="flex-wrap:wrap">${solved.slice(0, 3).map((s) => `<span class="who">${medal[s.place - 1]} ${s.emoji || ''} ${esc(s.name)} cracked it in ${s.used}: +${prizes[s.place - 1]}</span>`).join('')}</div>`
+    : `<div style="opacity:.85;font-weight:800;font-size:1.1rem;text-align:center">Ask yes/no questions on your phone and guess whenever you like · a wrong guess uses a question · 1st ${prizes[0]}, 2nd ${prizes[1]}, 3rd ${prizes[2]} · still stuck at the end: −${q.penalty ?? 200}</div>`;
+  stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill">🕵️ ${solved.length} cracked it · ${st.filter((s) => s.out).length} out</span><div class="timer" id="timer" data-s="${q.time}" style="--p:100%"></div></div>`)}
+    <div class="stage-main" style="gap:10px"><h1 class="qtext" style="font-size:clamp(1.4rem,2.8vw,2.4rem)">${esc(q.text)}</h1>${banner}<div class="tqboard ${st.length > 10 ? 'dense' : ''}">${rows || '<p style="opacity:.7">Waiting for players…</p>'}</div></div>
+    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">Stop the clock ■</button>`)}`;
+  bind();
+}
+function twentyRevealHtml(q, st) {
+  const medal = ['🥇', '🥈', '🥉'];
+  return `<div class="tqreveal"><div class="ri-kicker">It was…</div><div class="tqanswer">${esc(q.answers[0] || '')}</div></div>
+    <div class="turnbar" style="flex-wrap:wrap">${(st.solved || []).map((s, i) => `<span class="${i < 3 ? 'who' : 'last ok'}">${medal[i] || '✅'} ${s.emoji || ''} ${esc(s.name)} in ${s.n}${s.points ? `: +${s.points}` : ''}</span>`).join('') || '<span>Nobody cracked it</span>'}${(st.stuck || []).map((s) => `<span class="last no">${s.out ? '💀' : '⏱'} ${s.emoji || ''} ${esc(s.name)}: −${q.penalty ?? 200}</span>`).join('')}</div>`;
 }
 /** A grid with jitter, so the board looks scattered but nothing overlaps. Positions in % of the board. */
 function scatter(i, n) {
@@ -1407,7 +1493,7 @@ function startQuestion() {
   G.phase = 'question'; persist();
   if (q.type === 'potato' || q.type === 'koth' || q.type === 'blockbusters' || q.type === 'chase' || q.type === 'draw') { botClear(); if (q.type === 'potato') potatoStart(); else if (q.type === 'koth') kothStart(); else if (q.type === 'chase') chaseStart(); else if (q.type === 'draw') drawStart(); else bbStart(); startTick(); musicStart(q); return; }
   render();
-  if (q.type === 'wipeout') wipeStart(); else if (q.type === 'race') raceStart(); else broadcastState();
+  if (q.type === 'wipeout') wipeStart(); else if (q.type === 'race') raceStart(); else if (q.type === 'twenty') twentyStart(); else broadcastState();
   startTick(); botsOnQuestion(); musicStart(q);
 }
 let musicSyncAt = 0;
@@ -1465,6 +1551,7 @@ function answerDisplay(q, pid) {
   if (q.type === 'chase') { const g = G.q.chase; return !g ? '—' : pid === g.chaser ? 'the Chaser' : `team, ${(g.log || []).filter((l) => l.pid === pid).length} steps won`; }
   if (q.type === 'blockbusters') { const g = G.q.bb, t = g?.teams[pid]; return t === undefined ? '—' : `${question().teams[t].name}, ${Math.round((g.scores[pid] || 0) / (question().hexPoints || 50))} hexagons`; }
   if (q.type === 'draw') { const g = G.q.draw; return g ? `guessed ${g.hits[pid] || 0}${g.order.includes(pid) ? `, ${g.drew[pid] || 0} guessed their drawing` : ''}` : '—'; }
+  if (q.type === 'twenty') { const s = G.q.tq?.players?.[pid]; return s ? (s.done ? `cracked it in ${s.used} (${LQ.ordinal(s.place)})` : s.out ? 'out of questions' : `stuck after ${s.n}`) : '—'; }
   if (q.type === 'race') { const s = G.q.race?.players?.[pid]; return s ? `${s.correct} right of ${s.idx} answered${s.done ? ', finished' : s.out ? ', out' : ''}` : '—'; }
   if (!a) return '—';
   if (a.answer === 'skip') return 'skipped';
@@ -1553,6 +1640,18 @@ async function grade(noAi) {
       for (const [it, ct] of Object.entries(placed)) { const I = keys[it], C = keys[ct]; if (!I || !C) continue; const item = q.items.find((x) => 'I:' + x.id === I); if (item && 'C:' + item.category === C) hits++; }
       res(pid, hits === n, hits / n, a.elapsed);
     }
+  }
+  if (q.type === 'twenty') {
+    const tq = G.q.tq || { players: {}, solved: [] }, prizes = [q.prize ?? 1000, q.prize2 ?? 500, q.prize3 ?? 100], pen = q.penalty ?? 200, medal = ['🥇', '🥈', '🥉'];
+    for (const [pid, r] of Object.entries(tq.players)) {
+      if (!G.players[pid]) continue;
+      const pts = r.done ? (prizes[r.place - 1] || 0) : -pen;
+      byPlayer[pid] = { answered: true, correct: r.done, partial: r.done ? 1 : 0, points: pts, place: r.done ? r.place : 0, got: r.done ? r.used : r.n, lost: !r.done,
+        note: r.done ? `${medal[r.place - 1] || '✅'} You cracked it in ${r.used} question${r.used === 1 ? '' : 's'}${pts ? '' : ' (only the first three score)'}` : r.out ? '💀 Out of questions' : '⏱ Time up, still stuck' };
+      if (r.done) stats.right++;
+    }
+    stats.solved = (tq.solved || []).filter((pid) => G.players[pid]).map((pid, i) => ({ pid, name: pname(pid), emoji: pem(pid), n: tq.players[pid]?.used, points: prizes[i] || 0 }));
+    stats.stuck = Object.entries(tq.players).filter(([pid, r]) => G.players[pid] && !r.done).map(([pid, r]) => ({ pid, name: pname(pid), emoji: pem(pid), out: r.out }));
   }
   if (q.type === 'race') {
     const race = G.q.race || { players: {}, winner: null };
@@ -1959,6 +2058,7 @@ const PISTOL_SVG = `<svg class="ri-gun" viewBox="0 0 300 220" aria-hidden="true"
   <g class="ri-smoke"><circle cx="236" cy="60" r="13"/><circle cx="254" cy="44" r="18"/><circle cx="232" cy="32" r="14"/></g></g></svg>`;
 /** The one-line rules under a game's splash title. */
 function introSub(q) {
+  if (q.type === 'twenty') return `Ask yes/no questions on your phone and guess whenever you like · a wrong guess uses a question · ${+q.maxQ || 20} questions each · 1st ${q.prize ?? 1000}, 2nd ${q.prize2 ?? 500}, 3rd ${q.prize3 ?? 100} · still stuck at the end: −${q.penalty ?? 200}`;
   if (q.type === 'potato') return `The bomb is lit · answer right to pass it on · holding it when it blows costs ${q.penalty ?? 300} points`;
   if (q.type === 'koth') return `Fastest finger first, then head-to-head buzzers · answer out loud · ${q.perPoint ?? 100} per hill point · first to ${q.target || 3} gets a ${q.prize ?? 1000} bonus · ${q.maxRounds || 12} head-to-heads at most`;
   if (q.type === 'chase') return `The leader is the Chaser · everyone else starts ${q.headStart ?? 2} steps ahead · first right answer moves a step · ${q.target || 5} to get home`;
@@ -1969,7 +2069,7 @@ function introSub(q) {
 function renderRaceIntro() {
   const q = question(), ri = G.raceIntro, target = +q.target || 10;
   let main;
-  if (ri.kind && ri.kind !== 'race') { const T = TYPES[q.type]; main = `<div class="stage-main raceintro gamesplash ${q.type}"><div class="ri-flag">${T.icon}</div><div class="ri-kicker">${esc(T.label)}</div><h1 class="big ri-topic">${esc(raceTopic(q))}</h1><p class="ri-sub">${esc(introSub(q))}</p><p class="ri-ready">${q.type === 'chase' ? 'Who will the Chaser be…?' : q.type === 'blockbusters' ? 'Get ready to pick a side…' : q.type === 'koth' ? 'Fingers on your phones for fastest finger first…' : q.type === 'draw' ? 'Warm up your drawing finger…' : 'Nobody knows how long the fuse is…'}</p></div>`; }
+  if (ri.kind && ri.kind !== 'race') { const T = TYPES[q.type]; main = `<div class="stage-main raceintro gamesplash ${q.type}"><div class="ri-flag">${T.icon}</div><div class="ri-kicker">${esc(T.label)}</div><h1 class="big ri-topic">${esc(raceTopic(q))}</h1><p class="ri-sub">${esc(introSub(q))}</p><p class="ri-ready">${q.type === 'chase' ? 'Who will the Chaser be…?' : q.type === 'blockbusters' ? 'Get ready to pick a side…' : q.type === 'koth' ? 'Fingers on your phones for fastest finger first…' : q.type === 'draw' ? 'Warm up your drawing finger…' : q.type === 'twenty' ? 'Phones at the ready… who or what is it?' : 'Nobody knows how long the fuse is…'}</p></div>`; }
   else if (ri.step === 'splash') main = `<div class="stage-main raceintro"><div class="ri-flag">🏁</div><div class="ri-kicker">The Race</div><h1 class="big ri-topic">${esc(raceTopic(q))}</h1><p class="ri-sub">Quick-fire questions on your phone · first to ${target} right wins the prize · ${(q.maxWrong ?? 10) + 1} wrong and you're out</p><p class="ri-ready">Fingers on your phones…</p></div>`;
   else if (ri.step === 'count') main = `<div class="stage-main raceintro"><div class="ri-kicker">${esc(raceTopic(q))}</div><div class="ri-num" data-n="${ri.n}">${ri.n}</div><div class="ri-lights">${[3, 2, 1].map((k) => `<i class="${ri.n <= k ? 'on' : ''}"></i>`).join('')}</div></div>`;
   else main = `<div class="stage-main raceintro bang">${PISTOL_SVG}<div class="ri-bang">BANG!</div><div class="ri-go">GO!</div></div>`;
@@ -1993,6 +2093,7 @@ function renderQuestion() {
   let body = '';
   if (q.type === 'wipeout') return renderWipe();
   if (q.type === 'race') return renderRace();
+  if (q.type === 'twenty') return renderTwenty();
   if (q.type === 'potato') { if (G.q.potato) renderPotato(); return; }
   if (q.type === 'koth') { if (G.q.koth) renderKoth(); return; }
   if (q.type === 'blockbusters') { if (G.q.bb) renderBB(); return; }
@@ -2148,8 +2249,9 @@ function renderReveal() {
   if (q.type === 'nearest') body = nearestHtml(q, R.stats);
   if (q.type === 'draw') body = `<div class="drawsum"><div class="ri-kicker">The words</div>${(R.stats.used || []).map((w) => `<span class="tl ok">🎨 ${esc(w)}</span>`).join('') || '<span class="muted">Nothing was drawn.</span>'}</div>`;
   const media = q.type === 'pin' ? '' : (q.media?.kind === 'image' ? mediaHtml(q, false) : '');
-  const inMain = q.type === 'nearest' || q.type === 'draw' || q.type === 'pin' || q.type === 'wipeout' || q.type === 'race' || q.type === 'wheel' || q.type === 'potato' || q.type === 'koth' || q.type === 'blockbusters' || q.type === 'chase';
-  stage.innerHTML = `${topBar(`<span class="hpill">${q.type === 'nearest' ? `🎯 ${(R.stats.guesses || []).length} guesses` : q.type === 'draw' ? `🎨 ${(R.stats.used || []).length} drawings` : q.type === 'chase' ? `🏃 ${esc(R.stats.chaser?.name || '')} was the Chaser` : q.type === 'potato' ? `💣 ${R.stats.passes} passes` : q.type === 'koth' ? `First to ${q.target || 3} on the hill` : q.type === 'blockbusters' ? `${esc(q.teams[0].name)} ${R.stats.counts[0]} · ${esc(q.teams[1].name)} ${R.stats.counts[1]}` : q.type === 'wipeout' ? `${R.stats.right} scored` : q.type === 'race' ? `${(R.stats.standings || []).filter((s) => s.done).length} finished` : `${R.stats.right} of ${n} got it right${R.stats.skipped ? ` · ${R.stats.skipped} skipped` : ''}`}</span>`)}
+  if (q.type === 'twenty') body = twentyRevealHtml(q, R.stats);
+  const inMain = q.type === 'twenty' || q.type === 'nearest' || q.type === 'draw' || q.type === 'pin' || q.type === 'wipeout' || q.type === 'race' || q.type === 'wheel' || q.type === 'potato' || q.type === 'koth' || q.type === 'blockbusters' || q.type === 'chase';
+  stage.innerHTML = `${topBar(`<span class="hpill">${q.type === 'nearest' ? `🎯 ${(R.stats.guesses || []).length} guesses` : q.type === 'draw' ? `🎨 ${(R.stats.used || []).length} drawings` : q.type === 'chase' ? `🏃 ${esc(R.stats.chaser?.name || '')} was the Chaser` : q.type === 'potato' ? `💣 ${R.stats.passes} passes` : q.type === 'koth' ? `First to ${q.target || 3} on the hill` : q.type === 'blockbusters' ? `${esc(q.teams[0].name)} ${R.stats.counts[0]} · ${esc(q.teams[1].name)} ${R.stats.counts[1]}` : q.type === 'wipeout' ? `${R.stats.right} scored` : q.type === 'race' ? `${(R.stats.standings || []).filter((s) => s.done).length} finished` : q.type === 'twenty' ? `🕵️ ${(R.stats.solved || []).length} of ${n} cracked it` : `${R.stats.right} of ${n} got it right${R.stats.skipped ? ` · ${R.stats.skipped} skipped` : ''}`}</span>`)}
     <div class="stage-main"><h1 class="qtext"${inMain && q.type !== 'pin' ? ' style="font-size:clamp(1.3rem,2.6vw,2.2rem)"' : ''}>${esc(q.type === 'wheel' ? q.phrase : q.type === 'highlow' || q.type === 'rhyme' || q.type === 'dingbat' ? '' : q.text)}</h1>${inMain ? body : media}</div>
     ${inMain ? '' : `<div>${body}</div>`}
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">${practiceQ() ? (G.qIndex + 1 < G.quiz.questions.length ? 'Next ▶' : 'Final results 🏆') : 'Scores ▶'}</button>`)}`;
@@ -2157,6 +2259,7 @@ function renderReveal() {
   bind();
   if (q.type === 'nearest' && !G.q.nearDone) { G.q.nearDone = true; persist(); sound('drumroll'); const at = (0.4 + (R.stats.guesses || []).length * 0.12 + 0.6) * 1000; setTimeout(() => { if (G.phase === 'reveal') sound('ding'); }, at + 350); }
   // The winner's moment: fanfare and confetti as the crown lands, once per race.
+  if (q.type === 'twenty' && (R.stats.solved || []).length && !G.q.podiumDone) { G.q.podiumDone = true; persist(); setTimeout(() => { if (G.phase === 'reveal') { sound('fanfare'); confetti(); } }, 900); }
   if (q.type === 'race' && R.stats.winner && !G.q.podiumDone) { G.q.podiumDone = true; persist(); setTimeout(() => { if (G.phase === 'reveal') { sound('fanfare'); confetti(); } }, 2300); }
 }
 /** The race's podium: third, then second, then the winner rise up; the crown drops on the champion. */

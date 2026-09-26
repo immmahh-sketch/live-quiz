@@ -42,11 +42,19 @@
   </div>
 </div>
 <div class="turn"><div class="ph">📱</div><h1>Turn your phone sideways</h1><p>The demo shows the big screen and your player screen side by side, so it needs the phone on its side.</p></div>
+<script src="assets/demo-quiz.js"></script>
 <script>
   const W = 1024, H = 576;
   const hostFrame = document.getElementById('hostFrame'), hostbox = document.getElementById('hostbox'), hostside = document.getElementById('hostside');
-  // The demo quiz with three bots for company, running itself (you can still press the host's buttons).
-  hostFrame.src = 'host?quiz=demo&bots=3&auto=1&fresh=1&x=' + Date.now().toString(36);
+  // First the tick boxes for which question types to try; then the demo quiz with one of each and three bots
+  // for company, running itself (you can still press the host's buttons).
+  const picker = document.createElement('div');
+  picker.style.cssText = 'position:fixed;inset:0;z-index:50;overflow:auto;background:var(--stage)';
+  document.body.appendChild(picker);
+  window.demoPicker(picker, (list) => {
+    picker.remove();
+    hostFrame.src = 'host?quiz=demo&bots=3&auto=1&fresh=1&types=' + encodeURIComponent(list.join(',')) + '&x=' + Date.now().toString(36);
+  });
   function fit() {
     const r = hostside.getBoundingClientRect(), pad = 6;
     const s = Math.max(0.1, Math.min((r.width - pad * 2) / W, (r.height - pad * 2) / H));

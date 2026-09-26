@@ -384,6 +384,38 @@ body.tv .lobby { grid-template-columns: 1fr 1fr; } /* a TV is always landscape: 
 .lane.won .runner .nm { background: #ffd54a; color: var(--stage); }
 
 /* race (phone) */
+/* 20 Questions: the host's progress board and the phone's question list */
+.tqboard { width: 100%; max-width: 1400px; display: flex; flex-direction: column; gap: 8px; flex: 1 1 auto; min-height: 0; overflow: auto; justify-content: center; }
+.tqboard.dense { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 18px; align-content: center; }
+.tqrow { display: grid; grid-template-columns: minmax(120px, 1.2fr) 3fr auto; align-items: center; gap: 12px; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.08); border: 2px solid rgba(255,255,255,.12); font-weight: 800; font-size: clamp(.95rem, 1.6vw, 1.3rem); }
+.tqrow.done { background: rgba(38,137,12,.35); border-color: #7bd65e; }
+.tqrow.out { opacity: .5; }
+.tqname { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tqdots { display: flex; gap: 4px; flex-wrap: nowrap; }
+.tqdots i { flex: 1 1 0; max-width: 22px; height: 12px; border-radius: 4px; background: rgba(255,255,255,.15); }
+.tqdots i.on { background: var(--sun); }
+.tqrow.done .tqdots i.on { background: #7bd65e; }
+.tqstat { white-space: nowrap; text-align: right; }
+.tqreveal { text-align: center; margin: 4px 0 12px; }
+.tqanswer { font-size: clamp(2.4rem, 6vw, 4.8rem); font-weight: 900; color: var(--sun); line-height: 1.1; animation: pop .6s ease-out; }
+.tqcount { display: flex; justify-content: space-between; font-weight: 800; color: var(--ink-2); margin: 4px 2px 8px; }
+.tqcount b { font-size: 1.3rem; color: var(--brand); }
+.tqans { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; border-radius: var(--radius); font-weight: 800; margin-bottom: 8px; animation: pop .35s ease-out; }
+.tqans b { font-size: 1.5rem; font-weight: 900; white-space: nowrap; }
+.tqans.yes { background: #e2f6dc; color: #1c6a07; }
+.tqans.no { background: #fde2e7; color: #a3122b; }
+.tqhint { font-weight: 800; color: var(--ink-2); margin: 6px 2px; }
+.tqlist { display: flex; flex-direction: column; gap: 6px; }
+.tqq { font: inherit; font-weight: 800; text-align: left; padding: 12px 14px; border-radius: 12px; border: 2px solid var(--line); background: #fff; color: var(--ink); cursor: pointer; }
+.tqq:active { background: var(--brand-soft); border-color: var(--brand); }
+.tqq:disabled { opacity: .5; }
+.tqhist { margin: 10px 0 4px; background: #fff; border-radius: 12px; padding: 8px 12px; border: 1px solid var(--line); }
+.tqhist summary { font-weight: 800; cursor: pointer; color: var(--ink-2); }
+.tqhist ul { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 4px; font-weight: 700; font-size: .95rem; }
+.tqhist li.yes { color: #1c6a07; } .tqhist li.no { color: #a3122b; }
+.tqguess { position: sticky; bottom: 0; display: flex; gap: 8px; padding: 10px 0 6px; background: var(--paper); margin-top: 8px; }
+.tqguess input { flex: 1 1 auto; min-width: 0; font: inherit; font-size: 1.1rem; padding: 12px 14px; border-radius: 12px; border: 2px solid var(--brand); }
+.tqnote { text-align: center; font-size: .85rem; color: var(--ink-3); margin: 0 0 6px; }
 .raceplace { text-align: center; font-weight: 900; font-size: 1.35rem; padding: 10px; border-radius: 14px; background: var(--brand-soft); color: var(--brand-2); }
 .raceplace b { font-size: 1.6rem; }
 .raceplace.first { background: #fff3c4; color: #7a4a00; }

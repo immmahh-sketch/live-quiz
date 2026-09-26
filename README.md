@@ -82,8 +82,8 @@ latest APK on GitHub Releases. The app is a thin WebView (`android/`), so quiz f
 update on the website without a new APK; `assets/dpad.js` gives every page D-pad
 navigation when the app (or `?tv=1`) is detected.
 
-**Try it without signing in:** `host.html?quiz=demo` loads a built-in sample quiz with one
-question of every type.
+**Try it without signing in:** `host.html?quiz=demo` asks which question types to try (tick
+boxes), then plays one sample question of each.
 
 **Test mode:** press **Add test bots** in the lobby (or open the host screen with `&bots=3`
 on the URL) to add three simulated players. They answer every question type after a

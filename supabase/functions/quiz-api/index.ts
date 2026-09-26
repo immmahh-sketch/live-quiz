@@ -425,6 +425,18 @@ async function checkText(question: string, accepted: string[], answers: { id: st
 }
 
 // ---------------------------------------------------------------- AI quiz writing
+// 20 Questions: the same yes/no tree as assets/common.js (TWENTY_KINDS / TWENTY_QS). Keep the two in step.
+const TWENTY_KINDS: [string, string][] = [["person","Is it a person?"],["character","Is it a fictional character?"],["animal","Is it an animal?"],["place","Is it a place?"],["food","Is it a food or drink?"],["object","Is it an object?"],["title","Is it a film, TV show, book or song?"],["brand","Is it a brand or company?"]];
+const TWENTY_TREE: Record<string, [string, string][]> = {"person":[["p_man","Is it a man?"],["p_woman","Is it a woman?"],["p_alive","Are they alive?"],["p_over50","Are they over 50?"],["p_british","Are they British?"],["p_american","Are they American?"],["p_northeast","Are they from the North East?"],["p_music","Are they a singer or musician?"],["p_actor","Are they an actor?"],["p_sport","Are they a sports personality?"],["p_tv","Are they a TV presenter or personality?"],["p_comedy","Are they a comedian?"],["p_politics","Are they a politician?"],["p_royal","Are they royal?"],["p_history","Did they live before 1900?"],["p_writer","Are they an author?"],["p_band","Have they been in a band or group?"],["p_number1","Have they had a UK number one?"],["p_football","Are they a footballer?"],["p_toon","Have they played for Newcastle or Sunderland?"],["p_olympic","Have they won an Olympic medal?"],["p_hollywood","Have they starred in Hollywood films?"],["p_soap","Have they been in a soap?"],["p_reality","Did they find fame on reality TV?"]],"character":[["c_human","Are they human?"],["c_male","Are they male?"],["c_animated","Are they animated or a cartoon?"],["c_film","Are they best known from films?"],["c_tv","Are they best known from TV?"],["c_book","Did they start in a book?"],["c_kids","Are they mainly for children?"],["c_hero","Are they a goodie?"],["c_villain","Are they a baddie?"],["c_powers","Do they have powers or magic?"],["c_animal","Are they an animal?"],["c_british","Are they British?"],["c_disney","Are they a Disney character?"],["c_super","Are they a superhero?"]],"animal":[["a_mammal","Is it a mammal?"],["a_bird","Is it a bird?"],["a_water","Does it live in water?"],["a_pet","Is it a common pet?"],["a_farm","Is it a farm animal?"],["a_wildbritain","Is it found wild in Britain?"],["a_bigger","Is it bigger than a person?"],["a_fourlegs","Does it have four legs?"],["a_fly","Can it fly?"],["a_meat","Does it eat meat?"],["a_danger","Can it be dangerous to people?"],["a_africa","Is it found in Africa?"],["a_stripes","Does it have stripes or spots?"],["a_insect","Is it an insect or a bug?"]],"place":[["pl_uk","Is it in the UK?"],["pl_europe","Is it in Europe?"],["pl_americas","Is it in the Americas?"],["pl_country","Is it a country?"],["pl_city","Is it a city or town?"],["pl_capital","Is it a capital city?"],["pl_building","Is it a building or landmark?"],["pl_natural","Is it a natural feature?"],["pl_sea","Is it by the sea?"],["pl_hot","Is it usually hot there?"],["pl_tourist","Is it a big tourist attraction?"],["pl_northeast","Is it in the North East?"],["pl_london","Is it in London?"]],"food":[["f_drink","Is it a drink?"],["f_alcohol","Does it contain alcohol?"],["f_fizzy","Is it fizzy?"],["f_sweet","Is it sweet?"],["f_hot","Is it usually served hot?"],["f_fruitveg","Is it a fruit or vegetable?"],["f_meat","Does it contain meat or fish?"],["f_dairy","Does it contain dairy?"],["f_british","Is it a British classic?"],["f_breakfast","Is it eaten at breakfast?"],["f_snack","Is it a snack?"],["f_brand","Is it a brand name?"],["f_christmas","Is it linked to Christmas?"],["f_foreign","Is it from another country's cuisine?"]],"object":[["o_home","Would you find it in most homes?"],["o_kitchen","Is it found in the kitchen?"],["o_electric","Does it use electricity or batteries?"],["o_pocket","Can it fit in your pocket?"],["o_heavy","Is it heavier than a person?"],["o_vehicle","Is it a vehicle?"],["o_wear","Do you wear it?"],["o_toy","Is it a toy or game?"],["o_tool","Is it a tool?"],["o_metal","Is it mostly metal?"],["o_sport","Is it used in sport?"],["o_old","Was it around before 1900?"],["o_screen","Does it have a screen?"]],"title":[["t_film","Is it a film?"],["t_tv","Is it a TV show?"],["t_book","Is it a book?"],["t_song","Is it a song?"],["t_pre2000","Did it come out before 2000?"],["t_british","Is it British?"],["t_kids","Is it mainly for children?"],["t_comedy","Is it a comedy?"],["t_animated","Is it animated?"],["t_series","Is it part of a series or franchise?"],["t_scary","Is it scary?"],["t_love","Is it a love story?"],["t_number1","Was it a UK number one?"]],"brand":[["b_food","Does it sell food or drink?"],["b_uk","Is it British?"],["b_american","Is it American?"],["b_tech","Is it a tech company?"],["b_cars","Does it make cars?"],["b_clothes","Does it sell clothes or shoes?"],["b_shop","Is it a shop or supermarket?"],["b_online","Is it mainly online?"],["b_old","Was it founded before 1950?"],["b_sport","Is it a sports brand?"],["b_logo","Is its logo an animal or a person?"],["b_fastfood","Is it a fast-food chain?"]]};
+/** What the writer is told when a round wants 20 Questions: the item shape and every question id it must answer. */
+function twentyGuide(): string {
+  return `20 Questions ("twenty"): everyone hunts the same well-known answer by asking yes/no questions from a FIXED list, then guessing.
+Shape: {"type":"twenty","answers":["Gary Barlow","Barlow"],"what":"person","facts":{"p_man":true,"p_woman":false,...}}
+- "answers": the answer first, then other ways people would type it. Pick answers a British room knows well.
+- "what": exactly one of ${TWENTY_KINDS.map(([id, t]) => `${id} (${t})`).join(", ")}.
+- "facts": true or false for EVERY question id in that kind's list below (and none from other lists). Every fact must be certainly true for the answer today; if one is arguable, choose a different answer.
+${Object.entries(TWENTY_TREE).map(([k, qs]) => `${k}: ${qs.map(([id, t]) => `${id} = ${t}`).join(" | ")}`).join("\n")}`;
+}
 const WRITER_SYSTEM = `You write questions for a live pub quiz played over a video call. Players answer on their phones and score more the faster they answer, so questions must be crisp, unambiguous and have one clearly correct answer. Write for a British audience: British spelling, and references a British room would know, unless the topic says otherwise.
 
 Rules:
@@ -500,7 +512,7 @@ async function finishRaw(raw: any[], count: number, usedPictures: string[], want
 
   const questions = await Promise.all(raw.slice(0, count).map(async (r) => {
     const time = Math.min(90, Math.max(10, Math.round(+r.time || 25)));
-    const base: any = { id: uid("q"), type: r.type, text: String(r.text || r.phrase || (r.type === "tune" ? r.track : r.type === "dingbat" ? "Say what you see" : r.type === "draw" ? "Draw It" : "") || "").trim(), time, media: { kind: "none" }, partial: false };
+    const base: any = { id: uid("q"), type: r.type, text: String(r.text || r.phrase || (r.type === "tune" ? r.track : r.type === "dingbat" ? "Say what you see" : r.type === "draw" ? "Draw It" : r.type === "twenty" ? "20 Questions: who or what am I?" : "") || "").trim(), time, media: { kind: "none" }, partial: false };
     if (["easy", "medium", "hard"].includes(r.difficulty)) base.difficulty = r.difficulty; // easy / medium / hard, from the writer or the bank file
     if (!base.text) return null;
 
@@ -558,6 +570,14 @@ async function finishRaw(raw: any[], count: number, usedPictures: string[], want
       if (!Number.isFinite(n)) return null;
       base.answer = String(n); base.unit = String(r.unit ?? "").trim().slice(0, 20);
       const sp = +r.spread; base.spread = Number.isFinite(sp) && sp > 0 ? sp : null; base.time = 25; base.media = { kind: "none" };
+      return base;
+    }
+    if (r.type === "twenty") {
+      const what = String(r.what || r.kind || ""), ids = TWENTY_TREE[what];
+      const answers = [...new Set((Array.isArray(r.answers) ? r.answers : [r.answer]).map((a: unknown) => String(a ?? "").trim()).filter(Boolean))].slice(0, 8);
+      if (!ids || !answers.length) return null;
+      const f = r.facts && typeof r.facts === "object" ? r.facts : {};
+      Object.assign(base, { what, answers, facts: Object.fromEntries(ids.map(([id]) => [id, f[id] === true])), maxQ: 20, prize: 1000, prize2: 500, prize3: 100, penalty: 200, time: 120, ai: true, media: { kind: "none" } });
       return base;
     }
     if (r.type === "draw") {
@@ -723,7 +743,7 @@ async function generate(o: GenOpts) {
   const prompt = `Write ${o.count} pub quiz questions.
 Round: ${o.topic || "general knowledge"}${brief}
 Difficulty: ${o.difficulty}${o.difficulty === "mixed" ? " (about 25% easy, 45% medium, 30% hard)" : ""}
-Question types to use (mix them across the set): ${typeList.join(", ")}
+Question types to use (mix them across the set): ${typeList.join(", ")}${typeList.includes("twenty") ? "\n\n" + twentyGuide() : ""}
 Pictures round: ${wantPictures ? "yes — give roughly half the questions a picture, and use rightPicture for match questions" : "no pictures"}`;
 
   const plan = writerPlan(typeList, o.premium);
@@ -878,7 +898,7 @@ Deno.serve(async (req) => {
 
     if (action === "generate") {
       if (!ANTHROPIC_KEY) return json({ error: "AI is not set up on the server yet — add ANTHROPIC_API_KEY as a Supabase secret." }, 503);
-      const KNOWN = ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel", "highlow", "rhyme", "club", "dingbat", "tune", "catchphrase", "nearest", "draw", ...Object.keys(RACE_GAMES)];
+      const KNOWN = ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel", "highlow", "rhyme", "club", "dingbat", "tune", "catchphrase", "nearest", "draw", "twenty", ...Object.keys(RACE_GAMES)];
       const asked = (Array.isArray(body.types) ? body.types : []).map(String);
       let types = asked.filter((t) => KNOWN.includes(t));
       // Hot Potato, King of the Hill and Blockbusters play on a race's bank of quick questions: take or write a race, then reshape it.
@@ -1324,9 +1344,9 @@ async function kahootFromRead(read: any): Promise<{ title: string; description: 
 // table is needed. Each item carries category/tags for matching a themed round and a "used"
 // stamp once it has gone into a quiz, so it never comes round again.
 const BANK_LOW = 25;
-const EVERGREEN = ["club", "dingbat", "wheel", "pin", "tune", "catchphrase"]; // theme-free types: any unused item will do when the round has no matching one
+const EVERGREEN = ["club", "dingbat", "wheel", "pin", "tune", "catchphrase", "twenty"]; // theme-free types: any unused item will do when the round has no matching one
 /** What makes two items "the same": the phrase for dingbats and wheels, the place for pins, the track for tunes, the wording otherwise. */
-function bankKey(q: any): string { if (q?.media?.kind === "youtube" && q.media.videoId) return "yt:" + q.media.videoId; if (q?.media?.kind === "image" && q.media.source && /which .*(flag|picture|this)/i.test(q.text || "")) return "img:" + q.media.source; return norm(q?.type === "dingbat" ? (q.answers || [])[0] || "" : q?.type === "tune" ? `${q.track} ${q.artist}` : q?.type === "pin" ? q.place || q.text : q?.phrase || q?.text || ""); }
+function bankKey(q: any): string { if (q?.media?.kind === "youtube" && q.media.videoId) return "yt:" + q.media.videoId; if (q?.media?.kind === "image" && q.media.source && /which .*(flag|picture|this)/i.test(q.text || "")) return "img:" + q.media.source; return norm(q?.type === "dingbat" || q?.type === "twenty" ? (q.answers || [])[0] || "" : q?.type === "tune" ? `${q.track} ${q.artist}` : q?.type === "pin" ? q.place || q.text : q?.phrase || q?.text || ""); }
 /** The right answer of a finished question, as plain text, for near-duplicate checks. */
 function bankAnswer(q: any): string {
   if (!q) return "";
@@ -1349,6 +1369,7 @@ function nearDuplicate(a: any, b: any): boolean {
   const ka = bankKey(a), kb = bankKey(b);
   if (ka && ka === kb) return true;
   // Rounds made of lists all read alike ("Put these in order, earliest first"): what makes them the same is their items.
+  if (a.type === "twenty") return false; // one answer each: the same answer already has the same key
   if (["order", "sort", "match", "wipeout", "race"].includes(a.type)) { const x = norm(bankAnswer(a)), y = norm(bankAnswer(b)); return !!x && x === y; }
   if (a.type === "pin") return false; // a pin is its place: Brighton Palace Pier is not Brighton, Washington Old Hall is not Washington, D.C.
   if (ka.startsWith("img:") || kb.startsWith("img:") || ka.startsWith("yt:") || kb.startsWith("yt:")) return false; // different picture or clip = different question
@@ -1364,7 +1385,7 @@ function nearDuplicate(a: any, b: any): boolean {
 // questions in order; bankSave() puts each question back in the part it came from and adds new ones to the last
 // part, opening another part when that one is full. Everything else works on the merged row as before.
 const BANK_PART_MAX = 1_800_000; // characters of JSON per part
-const BANK_LABEL: Record<string, string> = { choice: "Multiple choice", text: "Type the answer", order: "Put in order", pin: "Drop the pin", match: "Match up", tf: "True or false", sort: "Categorise", wipeout: "Wipeout", race: "The Race", smash: "Answer Smash", wheel: "Wheel of Fortune", highlow: "Highbrow Lowbrow", rhyme: "Rhyme Time", club: "The 1% Club", catchphrase: "Catchphrase", dingbat: "Dingbats", tune: "Name That Tune", nearest: "Nearest Wins", draw: "Draw It" };
+const BANK_LABEL: Record<string, string> = { choice: "Multiple choice", text: "Type the answer", order: "Put in order", pin: "Drop the pin", match: "Match up", tf: "True or false", sort: "Categorise", wipeout: "Wipeout", race: "The Race", smash: "Answer Smash", wheel: "Wheel of Fortune", highlow: "Highbrow Lowbrow", rhyme: "Rhyme Time", club: "The 1% Club", catchphrase: "Catchphrase", dingbat: "Dingbats", tune: "Name That Tune", nearest: "Nearest Wins", draw: "Draw It", twenty: "20 Questions" };
 async function bankRows(): Promise<any[]> {
   const raw: any[] = (await rest(`quiz_quizzes?settings->>bank=eq.true&select=id,title,settings,questions`)) || [];
   const byType = new Map<string, any[]>();

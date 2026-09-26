@@ -80,7 +80,84 @@ window.LQ = (() => {
     blockbusters: { label: 'Blockbusters', icon: '⬢', blurb: 'Two teams battle across a board of letter hexagons. First to type the answer claims the hex; the first team to join two opposite sides of the board wins.' },
     nearest:{ label: 'Nearest Wins',    icon: '🎯', blurb: 'A number question. Everyone guesses, the guesses go up on a number line, then the answer drops in. The closer you are, the more you score.' },
     draw:   { label: 'Draw It',         icon: '🎨', blurb: 'One player draws a secret word on their phone and it appears live on the screen. Everyone else races to guess it. Quick guessers score, and so does the artist.' },
+    twenty: { label: '20 Questions',    icon: '🕵️', blurb: 'Everyone has the same mystery person or thing to find. Players tap yes/no questions on their phones and guess whenever they like. The first three to crack it score; running out of questions or time costs points.' },
   };
+  // ---------------------------------------------------------------- 20 Questions
+  // One tree of yes/no questions that works for any answer. The openers say what kind of thing it is; a yes to
+  // one opens that kind's questions, and a question with `needs` only appears once all of those were answered yes.
+  // Each 20 Questions item stores what it is (q.what: which opener is yes) and a yes/no for each question in that branch.
+  const TWENTY_KINDS = [
+    { id: 'person', text: 'Is it a person?' }, { id: 'character', text: 'Is it a fictional character?' },
+    { id: 'animal', text: 'Is it an animal?' }, { id: 'place', text: 'Is it a place?' },
+    { id: 'food', text: 'Is it a food or drink?' }, { id: 'object', text: 'Is it an object?' },
+    { id: 'title', text: 'Is it a film, TV show, book or song?' }, { id: 'brand', text: 'Is it a brand or company?' },
+  ];
+  const TWENTY_QS = [
+    // a real person
+    ['person', 'p_man', 'Is it a man?'], ['person', 'p_woman', 'Is it a woman?'], ['person', 'p_alive', 'Are they alive?'],
+    ['person', 'p_over50', 'Are they over 50?'], ['person', 'p_british', 'Are they British?'], ['person', 'p_american', 'Are they American?'],
+    ['person', 'p_northeast', 'Are they from the North East?'], ['person', 'p_music', 'Are they a singer or musician?'],
+    ['person', 'p_actor', 'Are they an actor?'], ['person', 'p_sport', 'Are they a sports personality?'], ['person', 'p_tv', 'Are they a TV presenter or personality?'],
+    ['person', 'p_comedy', 'Are they a comedian?'], ['person', 'p_politics', 'Are they a politician?'], ['person', 'p_royal', 'Are they royal?'],
+    ['person', 'p_history', 'Did they live before 1900?'], ['person', 'p_writer', 'Are they an author?'],
+    ['person', 'p_band', 'Have they been in a band or group?', ['p_music']], ['person', 'p_number1', 'Have they had a UK number one?', ['p_music']],
+    ['person', 'p_football', 'Are they a footballer?', ['p_sport']], ['person', 'p_toon', 'Have they played for Newcastle or Sunderland?', ['p_sport']],
+    ['person', 'p_olympic', 'Have they won an Olympic medal?', ['p_sport']], ['person', 'p_hollywood', 'Have they starred in Hollywood films?', ['p_actor']],
+    ['person', 'p_soap', 'Have they been in a soap?', ['p_actor']], ['person', 'p_reality', 'Did they find fame on reality TV?', ['p_tv']],
+    // a fictional character
+    ['character', 'c_human', 'Are they human?'], ['character', 'c_male', 'Are they male?'], ['character', 'c_animated', 'Are they animated or a cartoon?'],
+    ['character', 'c_film', 'Are they best known from films?'], ['character', 'c_tv', 'Are they best known from TV?'], ['character', 'c_book', 'Did they start in a book?'],
+    ['character', 'c_kids', 'Are they mainly for children?'], ['character', 'c_hero', 'Are they a goodie?'], ['character', 'c_villain', 'Are they a baddie?'],
+    ['character', 'c_powers', 'Do they have powers or magic?'], ['character', 'c_animal', 'Are they an animal?'], ['character', 'c_british', 'Are they British?'],
+    ['character', 'c_disney', 'Are they a Disney character?', ['c_animated']], ['character', 'c_super', 'Are they a superhero?', ['c_powers']],
+    // an animal
+    ['animal', 'a_mammal', 'Is it a mammal?'], ['animal', 'a_bird', 'Is it a bird?'], ['animal', 'a_water', 'Does it live in water?'],
+    ['animal', 'a_pet', 'Is it a common pet?'], ['animal', 'a_farm', 'Is it a farm animal?'], ['animal', 'a_wildbritain', 'Is it found wild in Britain?'],
+    ['animal', 'a_bigger', 'Is it bigger than a person?'], ['animal', 'a_fourlegs', 'Does it have four legs?'], ['animal', 'a_fly', 'Can it fly?'],
+    ['animal', 'a_meat', 'Does it eat meat?'], ['animal', 'a_danger', 'Can it be dangerous to people?'], ['animal', 'a_africa', 'Is it found in Africa?'],
+    ['animal', 'a_stripes', 'Does it have stripes or spots?', ['a_mammal']], ['animal', 'a_insect', 'Is it an insect or a bug?'],
+    // a place
+    ['place', 'pl_uk', 'Is it in the UK?'], ['place', 'pl_europe', 'Is it in Europe?'], ['place', 'pl_americas', 'Is it in the Americas?'],
+    ['place', 'pl_country', 'Is it a country?'], ['place', 'pl_city', 'Is it a city or town?'], ['place', 'pl_capital', 'Is it a capital city?'],
+    ['place', 'pl_building', 'Is it a building or landmark?'], ['place', 'pl_natural', 'Is it a natural feature?'], ['place', 'pl_sea', 'Is it by the sea?'],
+    ['place', 'pl_hot', 'Is it usually hot there?'], ['place', 'pl_tourist', 'Is it a big tourist attraction?'],
+    ['place', 'pl_northeast', 'Is it in the North East?', ['pl_uk']], ['place', 'pl_london', 'Is it in London?', ['pl_uk']],
+    // food or drink
+    ['food', 'f_drink', 'Is it a drink?'], ['food', 'f_alcohol', 'Does it contain alcohol?', ['f_drink']], ['food', 'f_fizzy', 'Is it fizzy?', ['f_drink']],
+    ['food', 'f_sweet', 'Is it sweet?'], ['food', 'f_hot', 'Is it usually served hot?'], ['food', 'f_fruitveg', 'Is it a fruit or vegetable?'],
+    ['food', 'f_meat', 'Does it contain meat or fish?'], ['food', 'f_dairy', 'Does it contain dairy?'], ['food', 'f_british', 'Is it a British classic?'],
+    ['food', 'f_breakfast', 'Is it eaten at breakfast?'], ['food', 'f_snack', 'Is it a snack?'], ['food', 'f_brand', 'Is it a brand name?'],
+    ['food', 'f_christmas', 'Is it linked to Christmas?'], ['food', 'f_foreign', 'Is it from another country\'s cuisine?'],
+    // an object
+    ['object', 'o_home', 'Would you find it in most homes?'], ['object', 'o_kitchen', 'Is it found in the kitchen?', ['o_home']],
+    ['object', 'o_electric', 'Does it use electricity or batteries?'], ['object', 'o_pocket', 'Can it fit in your pocket?'],
+    ['object', 'o_heavy', 'Is it heavier than a person?'], ['object', 'o_vehicle', 'Is it a vehicle?'], ['object', 'o_wear', 'Do you wear it?'],
+    ['object', 'o_toy', 'Is it a toy or game?'], ['object', 'o_tool', 'Is it a tool?'], ['object', 'o_metal', 'Is it mostly metal?'],
+    ['object', 'o_sport', 'Is it used in sport?'], ['object', 'o_old', 'Was it around before 1900?'], ['object', 'o_screen', 'Does it have a screen?', ['o_electric']],
+    // a film, TV show, book or song
+    ['title', 't_film', 'Is it a film?'], ['title', 't_tv', 'Is it a TV show?'], ['title', 't_book', 'Is it a book?'], ['title', 't_song', 'Is it a song?'],
+    ['title', 't_pre2000', 'Did it come out before 2000?'], ['title', 't_british', 'Is it British?'], ['title', 't_kids', 'Is it mainly for children?'],
+    ['title', 't_comedy', 'Is it a comedy?'], ['title', 't_animated', 'Is it animated?'], ['title', 't_series', 'Is it part of a series or franchise?'],
+    ['title', 't_scary', 'Is it scary?'], ['title', 't_love', 'Is it a love story?'], ['title', 't_number1', 'Was it a UK number one?', ['t_song']],
+    // a brand or company
+    ['brand', 'b_food', 'Does it sell food or drink?'], ['brand', 'b_uk', 'Is it British?'], ['brand', 'b_american', 'Is it American?'],
+    ['brand', 'b_tech', 'Is it a tech company?'], ['brand', 'b_cars', 'Does it make cars?'], ['brand', 'b_clothes', 'Does it sell clothes or shoes?'],
+    ['brand', 'b_shop', 'Is it a shop or supermarket?'], ['brand', 'b_online', 'Is it mainly online?'], ['brand', 'b_old', 'Was it founded before 1950?'],
+    ['brand', 'b_sport', 'Is it a sports brand?'], ['brand', 'b_logo', 'Is its logo an animal or a person?'], ['brand', 'b_fastfood', 'Is it a fast-food chain?', ['b_food']],
+  ].map(([cat, id, text, needs]) => ({ cat, id, text, needs: needs || [] }));
+  const twentyQ = (id) => TWENTY_KINDS.find((k) => k.id === id) || TWENTY_QS.find((x) => x.id === id) || null;
+  /** The questions in one kind's branch, openers excluded. */
+  const twentyBranch = (kind) => TWENTY_QS.filter((x) => x.cat === kind);
+  /** The true answer to a question about this item: the openers from its kind, the rest from its facts. */
+  function twentyYes(q, id) { return TWENTY_KINDS.some((k) => k.id === id) ? q.what === id : !!(q.facts || {})[id]; }
+  /** Which questions a player can ask next, given what they've asked ([{id, yes}]): the openers until one is yes,
+   *  then that kind's questions whose needs are all answered yes. Never one they've already asked. */
+  function twentyOpen(asked) {
+    const done = new Set(asked.map((a) => a.id)), yes = new Set(asked.filter((a) => a.yes).map((a) => a.id));
+    const kind = TWENTY_KINDS.find((k) => yes.has(k.id));
+    if (!kind) return TWENTY_KINDS.filter((k) => !done.has(k.id));
+    return twentyBranch(kind.id).filter((x) => !done.has(x.id) && x.needs.every((n) => yes.has(n)));
+  }
   /** The games that run on a bank of quick questions, like The Race. */
   const BANK_GAMES = ['race', 'potato', 'koth', 'blockbusters', 'chase'];
   /** Not a question: a title, a few lines and an optional picture or video on the screen and the phones. No clock, no points. */
@@ -184,6 +261,7 @@ window.LQ = (() => {
     chase: 'Whoever is in the lead is the Chaser. Everyone else plays as one team with a head start. The first right answer on each question moves that side one step: the team towards home, the Chaser towards the team. Get home before you are caught!',
     blockbusters: 'Pick a side, quick: each side holds half the players, so once one is full you join the other. Your side chooses a letter, and the answer starts with it. First to type the right answer wins the hexagon for their side. Join any two opposite sides of the board, left to right or top to bottom, to win.',
     nearest: 'Type your best guess at the number. The closer you are, the more you score, and the closest of all gets a bonus.',
+    twenty: 'Everyone has the same mystery person or thing. Tap a question and your phone says yes or no; new questions open up as you go. Guess whenever you like in the box, but a wrong guess uses up a question. You have 20 questions and the clock. First to crack it scores most, then second and third; still stuck at the end and it costs you.',
     draw: 'When it is your turn, pick a word and draw it on your phone: no letters or numbers! Everyone else types guesses as fast as they can. Quick guessers score most, and the artist scores for every right guess.',
   };
   /** The build log: every writer call for a quiz, with what was asked and what came back, kept in its settings. */
@@ -208,7 +286,7 @@ window.LQ = (() => {
     { name: 'yellow', hex: '#d89e00', shape: '●' },
     { name: 'green',  hex: '#26890c', shape: '■' },
   ];
-  const DEFAULT_TIMES = { nearest: 25, draw: 60, catchphrase: 50, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30, potato: 90, koth: 15, blockbusters: 20, chase: 15 };
+  const DEFAULT_TIMES = { nearest: 25, draw: 60, catchphrase: 50, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30, potato: 90, koth: 15, blockbusters: 20, chase: 15, twenty: 120 };
   const DEFAULT_SETTINGS = { maxPoints: 1000, minPoints: 500, defaultTime: 30, showAnswersOnPhones: true, timeByType: { ...DEFAULT_TIMES } };
 
   /** The time limit a question of this type gets by default in this quiz. */
@@ -272,6 +350,7 @@ window.LQ = (() => {
     if (type === 'tf') { q.answer = true; }
     if (type === 'nearest') { q.answer = ''; q.unit = ''; q.spread = null; }
     if (type === 'draw') { q.text = 'Draw It'; q.turns = 3; q.words = []; q.guessPoints = 500; q.drawerPoints = 100; }
+    if (type === 'twenty') { q.text = '20 Questions: who or what am I?'; q.answers = ['']; q.what = ''; q.facts = {}; q.maxQ = 20; q.prize = 1000; q.prize2 = 500; q.prize3 = 100; q.penalty = 200; }
     if (type === 'sort') { q.categories = [0, 1].map(() => ({ id: uid('c'), name: '' })); q.items = [0, 1, 2, 3].map(() => ({ id: uid('i'), text: '', category: q.categories[0].id })); }
     if (type === 'wipeout') { q.right = Array.from({ length: 8 }, () => ({ id: uid('w'), text: '' })); q.wrong = Array.from({ length: 3 }, () => ({ id: uid('w'), text: '' })); q.pickPoints = 200; q.penalty = 500; q.study = 20; }
     if (type === 'race') { q.target = 10; q.maxWrong = 10; q.perCorrect = 100; q.prize = 500; q.prize2 = 200; q.prize3 = 100; q.forfeit = 200; q.bank = Array.from({ length: 20 }, () => newBankItem()); }
@@ -340,6 +419,10 @@ window.LQ = (() => {
     if (q.type === 'dingbat') {
       if (!(q.answers || []).some((a) => a.trim())) problems.push('Needs the phrase it stands for.');
       if (!(q.elements || []).some((e) => (e.t || '').trim()) && !(q.media?.kind === 'image' && q.media.url)) problems.push('Lay out the dingbat (or upload a picture of one).');
+    }
+    if (q.type === 'twenty') {
+      if (!(q.answers || []).some((a) => String(a).trim())) problems.push('Needs the answer: who or what it is.');
+      if (!TWENTY_KINDS.some((k) => k.id === q.what)) problems.push('Say what kind of thing it is (a person, an animal, a place…).');
     }
     if (q.type === 'highlow') {
       if (!(q.lowText || '').trim()) problems.push('Needs the lowbrow clue.');
@@ -636,6 +719,6 @@ window.LQ = (() => {
   function ordinal(n) { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
   return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
-    TYPES, BANK_GAMES, NEW_GAME_DEFAULTS, parseNum, nearestSpread, fmtNum, DRAW_WORDS, drawWords, drawHint, goodRows, BB_COLS, BB_ROWS, bbNeighbours, bbPath, bbBoardHtml, inkOn, SLIDE, BREAK, isPractice, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
+    TYPES, BANK_GAMES, NEW_GAME_DEFAULTS, TWENTY_KINDS, TWENTY_QS, twentyQ, twentyBranch, twentyYes, twentyOpen, parseNum, nearestSpread, fmtNum, DRAW_WORDS, drawWords, drawHint, goodRows, BB_COLS, BB_ROWS, bbNeighbours, bbPath, bbBoardHtml, inkOn, SLIDE, BREAK, isPractice, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
     newCode, playUrl, shortPlayUrl, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml, addUsage, usageCost, usageSummary, AI_PRICES, TUNE_ASKS, tunePrompt, bigArt, cleanTitle };
 })();

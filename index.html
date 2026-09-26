@@ -220,6 +220,7 @@ async function bankView(type, id, summary, after) {
   else if (q.type === 'wipeout') body = kv('Right answers', li((q.right || []).map((i) => i.text))) + kv('Wipeouts', li((q.wrong || []).map((i) => i.text)));
   else if (q.type === 'highlow') body = kv('Highbrow answer', `<b>${esc((q.answers || [])[0] || '')}</b>`) + kv('Lowbrow clue', esc(q.low || q.lowText || '')) + kv('Also accepted', esc((q.answers || []).slice(1).join(', ')));
   else if (q.type === 'nearest') body = kv('Answer', `<b>${esc(String(q.answer ?? ''))}${q.unit ? ' ' + esc(q.unit) : ''}</b>`) + kv('Points run out at', `± ${esc(LQ.fmtNum(LQ.nearestSpread(q)))}${q.spread ? '' : ' (automatic)'}`);
+  else if (q.type === 'twenty') body = kv('Answer', '<b>' + esc((q.answers || [])[0] || '') + '</b>') + kv('Also accepted', esc((q.answers || []).slice(1).join(', '))) + kv('What it is', esc(LQ.twentyQ(q.what)?.text || q.what || '')) + kv('Yes to', esc(LQ.twentyBranch(q.what).filter((x) => (q.facts || {})[x.id]).map((x) => x.text).join(' · ')));
   else if (q.type === 'draw') body = kv('Drawings', esc(String(q.turns || 3))) + kv('Words', (q.words || []).filter((w) => String(w).trim()).length ? esc(q.words.filter((w) => String(w).trim()).join(', ')) : 'The built-in list');
   else if (q.type === 'club') body = kv('Answer', `<b>${esc((q.answers || [])[0] || '')}</b>`) + kv('Also accepted', esc((q.answers || []).slice(1).join(', '))) + kv('Why', esc(q.why || '')) + kv('Billed as', q.pct ? esc(q.pct + '%') : '');
   else if (q.type === 'wipeout' || q.type === 'race') body = kv(q.type === 'race' ? 'Questions' : 'Board', li((q.items || q.bank || []).map((i) => i.text + (i.right === false || i.wipeout ? ' ✗' : i.options ? ' → ' + i.options[0] : ''))));
@@ -382,6 +383,7 @@ function kAnswer(q) {
   if (q.type === 'tf') return q.answer ? '✓ True' : '✓ False';
   if (q.type === 'nearest') return '✓ ' + (q.answer ?? '') + (q.unit ? ' ' + q.unit : '');
   if (q.type === 'draw') return `🎨 ${q.turns || 3} drawings`;
+  if (q.type === 'twenty') return '🕵️ ' + ((q.answers || [])[0] || '?');
   if (q.type === 'order') return (q.items || []).map((i) => i.text).join(' → ');
   return '✓ ' + (q.answers || []).join(' / ');
 }
@@ -941,6 +943,24 @@ function renderTypeBox() {
     $('#dr_dp').oninput = (e) => { q.drawerPoints = Math.max(0, Math.round(+e.target.value || 0)); touch(); };
     $('#dr_words').oninput = (e) => { q.words = e.target.value.split('\n').map((w) => w.trim()).filter(Boolean).slice(0, 300); touch(); showProblems(); };
   }
+  if (q.type === 'twenty') {
+    q.facts = q.facts || {};
+    const branch = q.what ? LQ.twentyBranch(q.what) : [];
+    box.innerHTML = `<div class="notice" style="margin-bottom:12px">20 Questions: everyone hunts the same answer. Players tap yes/no questions from the shared list on their phones (the same list every time) and guess whenever they like; a wrong guess uses a question. Say what the answer is, then tick every question in its list that should get a <b>Yes</b>.</div>
+      <div class="field"><label>The answer <span class="muted">— one per line: the answer first, then other ways people might type it (e.g. a surname on its own)</span></label><textarea id="tq_ans" rows="3" placeholder="Gary Barlow&#10;Barlow">${esc((q.answers || []).join('\n'))}</textarea></div>
+      <div class="field"><label>What is it?</label><select id="tq_what"><option value="">Choose…</option>${LQ.TWENTY_KINDS.map((k) => `<option value="${k.id}" ${q.what === k.id ? 'selected' : ''}>${esc(k.text.replace(/^Is it (a |an )?/, '').replace(/\?$/, ''))}</option>`).join('')}</select></div>
+      ${branch.length ? `<div class="field"><label>Tick each question that gets a Yes <span class="muted">— indented ones only appear once the one above is a Yes</span></label><div class="tqfacts">${branch.map((x) => `<label class="check" style="${x.needs.length ? 'margin-left:22px' : ''}"><input type="checkbox" data-fact="${x.id}" ${q.facts[x.id] ? 'checked' : ''}> ${esc(x.text)}</label>`).join('')}</div></div>` : ''}
+      <div class="row" style="gap:12px;flex-wrap:wrap"><div class="field" style="flex:0 1 150px"><label>Questions each</label><input type="number" id="tq_max" min="5" max="40" value="${+q.maxQ || 20}"></div>
+      <div class="field" style="flex:0 1 120px"><label>1st</label><input type="number" id="tq_p1" step="50" value="${q.prize ?? 1000}"></div>
+      <div class="field" style="flex:0 1 120px"><label>2nd</label><input type="number" id="tq_p2" step="50" value="${q.prize2 ?? 500}"></div>
+      <div class="field" style="flex:0 1 120px"><label>3rd</label><input type="number" id="tq_p3" step="50" value="${q.prize3 ?? 100}"></div>
+      <div class="field" style="flex:0 1 160px"><label>Still stuck loses</label><input type="number" id="tq_pen" min="0" step="50" value="${q.penalty ?? 200}"></div></div>`;
+    $('#tq_ans').oninput = (e) => { q.answers = e.target.value.split('\n').map((a) => a.trim()).filter(Boolean).slice(0, 12); if (!q.answers.length) q.answers = ['']; touch(); showProblems(); };
+    $('#tq_what').onchange = (e) => { q.what = e.target.value; const keep = new Set(LQ.twentyBranch(q.what).map((x) => x.id)); q.facts = Object.fromEntries(Object.entries(q.facts || {}).filter(([k]) => keep.has(k))); touch(); renderTypeBox(); showProblems(); };
+    $$('[data-fact]').forEach((c) => c.onchange = () => { q.facts[c.dataset.fact] = c.checked; touch(); });
+    const num = (id, key, lo, hi) => { $(id).oninput = (e) => { q[key] = LQ.clamp(Math.round(+e.target.value || 0), lo, hi); touch(); }; };
+    num('#tq_max', 'maxQ', 5, 40); num('#tq_p1', 'prize', 0, 10000); num('#tq_p2', 'prize2', 0, 10000); num('#tq_p3', 'prize3', 0, 10000); num('#tq_pen', 'penalty', 0, 5000);
+  }
   if (q.type === 'tf') {
     box.innerHTML = `<div class="field"><label>The statement is…</label><div class="row">
       <label class="check"><input type="radio" name="tf" value="true" ${q.answer !== false ? 'checked' : ''}> <span class="tag" style="background:var(--blue);color:#fff">◆ True</span></label>
@@ -1391,6 +1411,7 @@ function summaryOf(q) {
   if (q.type === 'highlow') lines.push(`Highbrow Lowbrow: both clues must have the same answer. Highbrow clue: ${q.text}. Lowbrow clue: ${q.lowText}. Accepted answers: ${q.answers.filter((a) => a.trim()).join(' | ')}. Check each clue really leads to that answer and nothing else.`);
   if (q.type === 'tune') lines.push(`Name That Tune: a clip of "${q.track}" by ${q.artist}${q.year ? ` (${q.year})` : ''} plays; players must ${LQ.TUNE_ASKS[q.ask]?.label.toLowerCase() || 'name the song'}. Accepted answers: ${q.answers.filter((a) => String(a).trim()).join(' | ')}${q.film ? `. Film: ${q.film}` : ''}. Check the answer is right for that track (artist credit, release year, which film it is from).`);
   if (q.type === 'nearest') lines.push(`Nearest Wins (players guess a number; closest wins). The answer is ${q.answer}${q.unit ? ' ' + q.unit : ''}. Check that number is right and current, and that the question has one clear numeric answer.`);
+  if (q.type === 'twenty') lines.push(`20 Questions: players ask yes/no questions to find the answer, ${(q.answers || [])[0] || '?'} (${LQ.twentyQ(q.what)?.text || 'kind not set'}). They'll get Yes to: ${LQ.twentyBranch(q.what).filter((x) => (q.facts || {})[x.id]).map((x) => x.text).join(' ') || 'nothing'} and No to every other question in that list. Check each Yes and No is true, and that the answer is well known.`);
   if (q.type === 'draw') lines.push(`Draw It: players draw words for others to guess. Words: ${(q.words || []).filter((w) => String(w).trim()).join(', ') || '(the built-in list)'}. Check each word can be drawn without writing letters.`);
   if (q.type === 'club') lines.push(`The 1% Club (logic/lateral thinking, no knowledge needed), billed as a ${q.pct}% question. Accepted answers: ${q.answers.filter((a) => a.trim()).join(' | ')}. Check the puzzle has exactly that answer, is solvable by reasoning alone within 30 seconds, and that the difficulty roughly matches the percentage.`);
   if (q.type === 'dingbat') lines.push(`Dingbats rebus. Words on the board: ${(q.elements || []).filter((e) => (e.t || '').trim()).map((e) => `"${e.t}" at x${e.x} y${e.y} size ${e.s}${e.rot ? ` rotated ${e.rot}°` : ''}${e.flip === 'h' ? ' mirrored' : e.flip === 'v' ? ' upside down' : ''}${e.style ? ` ${e.style}` : ''}`).join('; ')}. Answer: ${q.answers[0]}. Check the layout genuinely suggests that phrase and no other.`);
