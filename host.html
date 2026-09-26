@@ -1844,7 +1844,7 @@ async function grade(noAi) {
 }
 
 // ------------------------------------------------------------------ rendering
-function render() { renderPhase(); scheduleAuto(); syncPause(); if (G.phase !== 'question') musicStop(); }
+function render() { renderPhase(); mountClip(); scheduleAuto(); syncPause(); if (G.phase !== 'question') musicStop(); }
 function renderPhase() {
   const ph = G.phase;
   if (ph === 'lobby') return renderLobby();
@@ -1911,13 +1911,20 @@ function toggleMusic() {
   const b = $('[data-act="music"]'); if (b) { b.textContent = on ? '🎵 Music: on' : '🔇 Music: off'; b.classList.toggle('on', on); }
   toast(on ? 'Music on while the clock runs.' : 'Music off.');
 }
+let ytApiP = null;
+function ytApi() {
+  if (ytApiP) return ytApiP;
+  ytApiP = new Promise((res, rej) => {
+    if (window.YT?.Player) return res();
+    const prev = window.onYouTubeIframeAPIReady; window.onYouTubeIframeAPIReady = () => { res(); if (prev) prev(); };
+    const sc = document.createElement('script'); sc.src = 'https://www.youtube.com/iframe_api'; sc.onerror = () => rej(new Error('no YouTube')); document.head.appendChild(sc);
+  });
+  ytApiP.catch(() => { ytApiP = null; });
+  return ytApiP;
+}
 function loadYT() {
   if (ytReady) return ytReady;
-  ytReady = new Promise((res, rej) => {
-    if (window.YT?.Player) return res();
-    window.onYouTubeIframeAPIReady = () => res();
-    const sc = document.createElement('script'); sc.src = 'https://www.youtube.com/iframe_api'; sc.onerror = () => rej(new Error('no YouTube')); document.head.appendChild(sc);
-  }).then(() => new Promise((res) => {
+  ytReady = ytApi().then(() => new Promise((res) => {
     const wrap = document.createElement('div'); wrap.className = 'bgm'; wrap.innerHTML = '<div id="bgmPlayer"></div>'; document.body.appendChild(wrap);
     ytP = new YT.Player('bgmPlayer', { width: 200, height: 200, playerVars: { controls: 0, disablekb: 1, playsinline: 1, rel: 0, iv_load_policy: 3 },
       events: { onReady: () => res(ytP), onStateChange: (e) => { if (e.data === 0 && musicMode === 'loop') playLoop(); if (e.data === 1) musicSync(); }, onError: () => { if (musicMode === 'loop') playLoop(); } } });
@@ -1993,6 +2000,7 @@ function syncPause() {
     v.innerHTML = '<div><div class="huge">⏸</div><h1 class="big">Paused</h1><p style="font-weight:800;opacity:.85">The clock has stopped. It carries on from the same moment.</p><button class="btn btn-primary btn-lg" id="resumeBtn">Resume ▶</button></div>';
     document.body.appendChild(v); $('#resumeBtn').onclick = () => togglePause(false);
   } else if (!G.paused && v) v.remove();
+  if (ytQ?.p?.getPlayerState) try { G.paused ? ytQ.p.pauseVideo() : ytQ.p.playVideo(); } catch {}
 }
 function hostBar(buttons) {
   const d = autoDelay();
@@ -2085,8 +2093,41 @@ function renderCountdown() {
 }
 function mediaHtml(q, live) {
   if (q.media?.kind === 'image' && q.media.url) return `<div class="qmedia"><img src="${esc(q.media.url)}"></div>`;
-  if (q.media?.kind === 'youtube' && q.media.videoId && live) return `<div class="qmedia"><iframe src="https://www.youtube-nocookie.com/embed/${esc(q.media.videoId)}?autoplay=1&start=${+q.media.start || 0}${q.media.end ? '&end=' + (+q.media.end) : ''}&rel=0&modestbranding=1" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>`;
+  if (q.media?.kind === 'youtube' && q.media.videoId && live) return `<div class="qmedia"><div class="ytbox" data-yt="${esc(q.id)}"></div></div>`;
   return '';
+}
+// Question clips play in an IFrame API player that starts muted, so every browser lets it autoplay (Catchphrase stays
+// muted; other clips try for sound once playing). The player is taller than its box, so the picture sits between
+// letterbox bars that carry YouTube's title, channel and 'Watch on YouTube', and the box crops those bars off. Clicks
+// can't reach it, so no controls appear, and a cover hides it until it is actually playing. Catchphrase clips loop.
+let ytQ = null;
+function mountClip() {
+  const slot = document.querySelector('.ytbox[data-yt]');
+  if (ytQ && (!slot || slot.dataset.yt !== ytQ.id)) { try { ytQ.p?.destroy?.(); } catch {} ytQ.el.remove(); ytQ = null; }
+  if (!slot) return;
+  if (ytQ) { if (ytQ.el.parentNode !== slot) slot.appendChild(ytQ.el); return; }
+  const q = question(), m = q?.media; if (!m?.videoId) return;
+  const el = document.createElement('div'); el.className = 'ytclip'; el.innerHTML = '<div></div><div class="ytcover"><span>▶</span></div>'; slot.appendChild(el);
+  const me = ytQ = { id: slot.dataset.yt, el, p: null, sound: q.kind !== 'catchphrase', tried: false };
+  const start = +m.start || 0, end = +m.end || 0, loop = q.kind === 'catchphrase';
+  ytApi().then(() => {
+    if (ytQ !== me) return;
+    me.p = new YT.Player(el.firstChild, {
+      videoId: m.videoId, host: 'https://www.youtube-nocookie.com',
+      playerVars: { autoplay: 1, mute: 1, controls: 0, disablekb: 1, fs: 0, iv_load_policy: 3, modestbranding: 1, playsinline: 1, rel: 0, start, ...(end ? { end } : {}) },
+      events: {
+        onReady: (e) => { e.target.mute(); if (!G.paused) e.target.playVideo(); },
+        onStateChange: (e) => {
+          if (ytQ !== me) return;
+          const P = e.target;
+          if (e.data === 1) { el.classList.add('on'); if (me.sound && !me.tried) { me.tried = true; P.unMute(); } }
+          else if (e.data === 2 && me.sound && me.tried && !G.paused && !P.isMuted()) { me.sound = false; P.mute(); P.playVideo(); } // the browser stopped it for having sound
+          else if (e.data === 0) { if (loop) { P.seekTo(start, true); P.playVideo(); } else el.classList.remove('on'); }
+          if (e.data === 2 && G.paused) el.classList.remove('on');
+        },
+      },
+    });
+  }).catch(() => { el.querySelector('.ytcover span').textContent = 'The clip would not load'; });
 }
 function renderQuestion() {
   const q = question(), v = G.q.view;
