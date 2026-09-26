@@ -934,6 +934,15 @@ Deno.serve(async (req) => {
         types = ["race"];
         if (game === "blockbusters") body.brief = `${String(body.brief || "")}\nThis bank is for Blockbusters: every right answer is a single word or short name, and the 20 right answers each start with a DIFFERENT letter of the alphabet (never Q, X or Z).`.trim();
       }
+      // Hot Potato, King of the Hill and The Chase are general knowledge whatever the round is about, unless a topic is
+      // asked for: in the title ("The Chase: 80s music") or the brief ("a chase on football").
+      if (game === "potato" || game === "koth" || game === "chase") {
+        const name = game === "potato" ? "(?:hot )?potato" : game === "koth" ? "(?:king of the hill|koth)" : "(?:the )?chase";
+        const titled = String(body.title || body.topic || "").match(new RegExp(`^\\s*${name}\\s*[:\\-–—]\\s*(.{3,})`, "i"));
+        const briefed = new RegExp(`\\b${name}\\b[^.]{0,40}\\b(on|about|of|themed)\\b`, "i").test(String(body.brief || ""));
+        if (titled) { body.topic = body.title = titled[1].trim(); }
+        else if (!briefed) { body.topic = body.title = "General knowledge"; body.brief = "General knowledge: a broad mix of subjects (history, geography, science, sport, music, film and TV, food and drink, nature, words), not tied to any one theme."; }
+      }
       const reshape = (list: any[]) => game ? list.map((q: any) => q?.type === "race" ? raceToGame(q, game) : q) : list;
       const unknownTypes = asked.filter((t) => !KNOWN.includes(t));
       if (asked.length && !types.length) return json({ error: `This server does not know the question type${unknownTypes.length > 1 ? 's' : ''} ${unknownTypes.join(", ")} yet — redeploy the quiz-api function.` }, 400);
