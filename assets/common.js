@@ -140,12 +140,33 @@ window.LQ = (() => {
     ['p_brit', 'Have they won a Brit Award?'], ['p_grammy', 'Have they won a Grammy?'], ['p_glasto', 'Have they headlined Glastonbury?'],
     ['p_active', 'Are they still performing?', { needs: ['p_alive'] }],
   ]);
+  tq('person', 'Their music', { needs: ['p_music'] }, [
+    ['p_bondtheme', 'Have they sung a James Bond theme?'], ['p_eurovision', 'Have they sung at Eurovision?'],
+    ['p_xfactorwin', 'Did they win The X Factor?', { needs: ['p_talent'] }],
+  ]);
+  tq('person', 'Which group?', { needs: ['p_boyband'], group: 'bb' }, [
+    ['p_takethat', 'Were they in Take That?', { not: ['p_woman'] }], ['p_westlife', 'Were they in Westlife?', { not: ['p_woman'] }],
+    ['p_boyzone', 'Were they in Boyzone?', { not: ['p_woman'] }], ['p_1d', 'Were they in One Direction?', { not: ['p_woman'] }],
+    ['p_busted', 'Were they in Busted or McFly?', { not: ['p_woman'] }], ['p_spice', 'Were they in the Spice Girls?', { not: ['p_man'] }],
+    ['p_girlsaloud', 'Were they in Girls Aloud?', { not: ['p_man'] }], ['p_littlemix', 'Were they in Little Mix?', { not: ['p_man'] }],
+    ['p_sugababes', 'Were they in the Sugababes?', { not: ['p_man'] }], ['p_steps', 'Were they in Steps?'],
+  ]);
+  tq('person', 'Which band?', { needs: ['p_band'], not: ['p_boyband'], group: 'bandname' }, [
+    ['p_beatles', 'Were they in the Beatles?'], ['p_stones', 'Were they in the Rolling Stones?'], ['p_queenband', 'Were they in Queen?'],
+    ['p_oasis', 'Were they in Oasis?'], ['p_police', 'Were they in the Police?'], ['p_coldplay', 'Were they in Coldplay?'], ['p_u2', 'Were they in U2?'],
+    ['p_abba', 'Were they in ABBA?'], ['p_arctic', 'Were they in Arctic Monkeys?'], ['p_direstraits', 'Were they in Dire Straits?'],
+  ]);
   tq('person', 'Their acting', { needs: ['p_actor'] }, [
     ['p_hollywood', 'Have they starred in Hollywood films?'], ['p_oscar', 'Have they won an Oscar?'], ['p_soap', 'Have they been in a soap?'],
     ['p_sitcom', 'Have they starred in a sitcom?'], ['p_funny', 'Are they best known for comedy roles?'], ['p_action', 'Are they known for action films?'],
     ['p_bond', 'Have they been in a James Bond film?'], ['p_superhero', 'Have they played a superhero?'], ['p_potter', 'Have they been in a Harry Potter film?'],
     ['p_whoactor', 'Have they been in Doctor Who?'], ['p_voice', 'Have they voiced an animated character?'], ['p_sang', 'Have they sung in a musical film or show?'],
     ['p_period', 'Are they known for costume or period dramas?'], ['p_stage', 'Are they known for theatre and Shakespeare?'],
+  ]);
+  tq('person', 'Which roles?', { needs: ['p_actor'] }, [
+    ['p_corrie', 'Have they been in Coronation Street?', { needs: ['p_soap'], group: 'soapname' }], ['p_eastenders', 'Have they been in EastEnders?', { needs: ['p_soap'], group: 'soapname' }],
+    ['p_emmerdale', 'Have they been in Emmerdale?', { needs: ['p_soap'], group: 'soapname' }], ['p_hollyoaks', 'Have they been in Hollyoaks?', { needs: ['p_soap'], group: 'soapname' }],
+    ['p_marvel', 'Have they been in a Marvel film?', { needs: ['p_hollywood'] }], ['p_starwars', 'Have they been in a Star Wars film?', { needs: ['p_hollywood'] }],
   ]);
   tq('person', 'Their sport', { needs: ['p_sport'] }, [
     ['p_football', 'Are they a footballer?', { group: 'sport' }], ['p_cricket', 'Are they a cricketer?', { group: 'sport' }], ['p_tennis', 'Do they play tennis?', { group: 'sport' }],
@@ -161,16 +182,29 @@ window.LQ = (() => {
     ['p_liverpool', 'Have they played for Liverpool?', { needs: ['p_football'] }], ['p_striker', 'Are they a striker?', { needs: ['p_football'], group: 'pos' }],
     ['p_keeper', 'Are they a goalkeeper?', { needs: ['p_football'], group: 'pos' }],
   ]);
+  tq('person', 'Which clubs?', { needs: ['p_football'] }, [
+    ['p_arsenal', 'Have they played for Arsenal?'], ['p_chelsea', 'Have they played for Chelsea?'], ['p_mancity', 'Have they played for Manchester City?'],
+    ['p_spurs', 'Have they played for Spurs?'], ['p_everton', 'Have they played for Everton?'], ['p_boro', 'Have they played for Middlesbrough?'],
+    ['p_leeds', 'Have they played for Leeds?'], ['p_abroad', 'Have they played for a club abroad?'], ['p_ballon', "Have they won the Ballon d'Or?"],
+  ]);
   tq('person', 'Their TV work', { needs: ['p_tv'] }, [
     ['p_reality', 'Did they find fame on reality TV?'], ['p_gameshow', 'Have they hosted a quiz or game show?'], ['p_chat', 'Have they hosted a chat show?'],
     ['p_saturday', 'Have they fronted Saturday-night TV?'], ['p_cook', 'Are they a TV cook or chef?'], ['p_nature', 'Do they present nature or travel shows?'],
     ['p_news', 'Are they a newsreader or journalist?'], ['p_duo', 'Are they half of a presenting double act?'], ['p_strictly', 'Have they been a contestant on Strictly?'],
     ['p_jungle', "Have they been a contestant on I'm a Celebrity?"], ['p_daytime', 'Have they presented breakfast or daytime TV?'], ['p_kidstv', "Did they start on children's TV?"],
   ]);
+  tq('person', 'Which shows?', { needs: ['p_tv'] }, [
+    ['p_takeaway', 'Have they presented Saturday Night Takeaway?'], ['p_imceleb', "Have they presented I'm a Celebrity?"],
+    ['p_bgt', "Have they hosted or judged Britain's Got Talent?"], ['p_bakeoff', 'Have they presented or judged Bake Off?'],
+    ['p_topgear', 'Have they presented Top Gear?'], ['p_bluepeter', 'Have they presented Blue Peter?'], ['p_thismorning', 'Have they presented This Morning?'],
+  ]);
   tq('person', 'Their comedy', { needs: ['p_comedy'] }, [
     ['p_standup', 'Are they a stand-up comic?'], ['p_panel', 'Are they a regular on TV panel shows?'], ['p_csitcom', 'Have they starred in a sitcom?'],
     ['p_double', 'Are they part of a double act?'], ['p_characters', 'Are they known for playing comic characters?'], ['p_silent', 'Are they known for visual or silent comedy?'],
     ['p_cfilm', 'Have they starred in films?'],
+  ]);
+  tq('person', 'Which shows?', { needs: ['p_comedy'] }, [
+    ['p_blackadder', 'Were they in Blackadder?'], ['p_python', 'Were they in Monty Python?'],
   ]);
   tq('person', 'Their politics', { needs: ['p_politics'] }, [
     ['p_pm', 'Have they been Prime Minister?'], ['p_president', 'Have they been a president?'], ['p_mp', 'Have they been a UK MP?'],
@@ -231,6 +265,11 @@ window.LQ = (() => {
     ['c_fly', 'Can they fly?'], ['c_wizard', 'Do they cast spells?'], ['c_alien', 'Are they from another planet?'],
   ]);
   // ---- an animal ----
+  tq('character', 'Which story?', {}, [
+    ['c_toystory', 'Are they from Toy Story?', { needs: ['c_pixar'] }], ['c_lionking', 'Are they from The Lion King?', { needs: ['c_disney'], group: 'dfilm' }],
+    ['c_frozen', 'Are they from Frozen?', { needs: ['c_disney'], group: 'dfilm' }], ['c_muppet', 'Are they a Muppet?', { needs: ['c_animated'] }],
+    ['c_wallace', 'Are they from Wallace and Gromit?', { needs: ['c_stopmotion'] }], ['c_dc', 'Are they from DC Comics?', { needs: ['c_super'], not: ['c_marvel'] }],
+  ]);
   tq('animal', 'What sort of animal?', { group: 'class' }, [
     ['a_mammal', 'Is it a mammal?'], ['a_bird', 'Is it a bird?'], ['a_reptile', 'Is it a reptile?'], ['a_fish', 'Is it a fish?'],
     ['a_insect', 'Is it an insect, spider or bug?'], ['a_amphibian', 'Is it a frog, toad or newt?'],
@@ -268,6 +307,15 @@ window.LQ = (() => {
     ['pl_northeast', 'Is it in the North East?', { needs: ['pl_uk'], not: ['pl_scotland', 'pl_wales', 'pl_ni'] }],
     ['pl_north', 'Is it in the north of England?', { needs: ['pl_uk'], not: ['pl_scotland', 'pl_wales', 'pl_ni', 'pl_northeast'] }],
     ['pl_london', 'Is it in London?', { needs: ['pl_uk'], not: ['pl_scotland', 'pl_wales', 'pl_ni', 'pl_northeast', 'pl_north'] }],
+  ]);
+  tq('place', 'Which country or area?', {}, [
+    ['pl_france', 'Is it in France?', { needs: ['pl_europe'], group: 'ctry' }], ['pl_italy', 'Is it in Italy?', { needs: ['pl_europe'], group: 'ctry' }],
+    ['pl_spain', 'Is it in Spain?', { needs: ['pl_europe'], group: 'ctry' }], ['pl_germany', 'Is it in Germany?', { needs: ['pl_europe'], group: 'ctry' }],
+    ['pl_usa', 'Is it in the USA?', { needs: ['pl_americas'] }], ['pl_canada', 'Is it in Canada?', { needs: ['pl_americas'] }],
+    ['pl_nyc', 'Is it in New York?', { needs: ['pl_usa'] }],
+    ['pl_tyneside', 'Is it on Tyneside?', { needs: ['pl_northeast'] }], ['pl_sunderland', 'Is it in Sunderland?', { needs: ['pl_northeast'], not: ['pl_tyneside'] }],
+    ['pl_northumberland', 'Is it in Northumberland?', { needs: ['pl_northeast'], not: ['pl_tyneside', 'pl_sunderland'] }],
+    ['pl_durham', 'Is it in County Durham?', { needs: ['pl_northeast'], not: ['pl_tyneside', 'pl_sunderland', 'pl_northumberland'] }],
   ]);
   tq('place', 'What is it?', {}, [
     ['pl_country', 'Is it a country?', { group: 'ptype' }], ['pl_city', 'Is it a city or town?', { group: 'ptype' }], ['pl_region', 'Is it a region, county or state?', { group: 'ptype' }],
@@ -369,6 +417,12 @@ window.LQ = (() => {
     ['t_novel', 'Is it a novel?', { needs: ['t_book'] }], ['t_picture', 'Is it a picture book?', { needs: ['t_book'] }], ['t_classic', 'Is it over 100 years old?', { needs: ['t_book'] }],
   ]);
   // ---- a brand or company ----
+  tq('title', 'Which one?', {}, [
+    ['t_oasis', 'Is it by Oasis?', { needs: ['t_song'], group: 'act' }], ['t_queen', 'Is it by Queen?', { needs: ['t_song'], group: 'act' }],
+    ['t_beatles', 'Is it by the Beatles?', { needs: ['t_song'], group: 'act' }], ['t_wham', 'Is it by Wham! or George Michael?', { needs: ['t_song'], group: 'act' }],
+    ['t_abba', 'Is it by ABBA?', { needs: ['t_song'], group: 'act' }],
+    ['t_starwars', 'Is it a Star Wars film?', { needs: ['t_film'] }], ['t_hpfilm', 'Is it a Harry Potter film?', { needs: ['t_film'] }],
+  ]);
   tq('brand', 'What does it do?', {}, [
     ['b_food', 'Does it sell food or drink?'], ['b_shop', 'Is it a shop or supermarket?'], ['b_tech', 'Is it a tech company?'], ['b_cars', 'Does it make cars?'],
     ['b_clothes', 'Does it sell clothes or shoes?'], ['b_sport', 'Is it a sports brand?'], ['b_bank', 'Is it a bank?'], ['b_airline', 'Is it an airline?'], ['b_online', 'Is it mainly online?'],
@@ -506,7 +560,7 @@ window.LQ = (() => {
     chase: 'Whoever is in the lead is the Chaser. Everyone else plays as one team with a head start. The first right answer on each question moves that side one step: the team towards home, the Chaser towards the team. Get home before you are caught!',
     blockbusters: 'Pick a side, quick: each side holds half the players, so once one is full you join the other. Your side chooses a letter, and the answer starts with it. First to type the right answer wins the hexagon for their side. Join any two opposite sides of the board, left to right or top to bottom, to win.',
     nearest: 'Type your best guess at the number. The closer you are, the more you score, and the closest of all gets a bonus.',
-    twenty: 'Everyone has the same mystery person or thing. Tap a question and your phone says yes or no; new questions open up as you go. Guess whenever you like in the box, but a wrong guess uses up a question. You have 20 questions and the clock. First to crack it scores most, then second and third; still stuck at the end and it costs you.',
+    twenty: 'Everyone has the same mystery person or thing. Tap a question and your phone says yes or no; new questions open up as you go. Guess whenever you like in the box, but a wrong guess uses up a question. You have 20 questions and a three-minute clock. First to crack it scores most, then second and third; still stuck at the end and it costs you.',
     draw: 'When it is your turn, pick a word and draw it on your phone: no letters or numbers! Everyone else types guesses as fast as they can. Quick guessers score most, and the artist scores for every right guess.',
   };
   /** The build log: every writer call for a quiz, with what was asked and what came back, kept in its settings. */
@@ -531,7 +585,7 @@ window.LQ = (() => {
     { name: 'yellow', hex: '#d89e00', shape: '●' },
     { name: 'green',  hex: '#26890c', shape: '■' },
   ];
-  const DEFAULT_TIMES = { nearest: 25, draw: 60, catchphrase: 50, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30, potato: 90, koth: 15, blockbusters: 20, chase: 15, twenty: 120 };
+  const DEFAULT_TIMES = { nearest: 25, draw: 60, catchphrase: 50, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30, potato: 90, koth: 15, blockbusters: 20, chase: 15, twenty: 180 };
   const DEFAULT_SETTINGS = { maxPoints: 1000, minPoints: 500, defaultTime: 30, showAnswersOnPhones: true, timeByType: { ...DEFAULT_TIMES } };
 
   /** The time limit a question of this type gets by default in this quiz. */

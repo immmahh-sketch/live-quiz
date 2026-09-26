@@ -209,11 +209,20 @@ function twentyKey(s) {
   if (!P.tq || P.tq.qId !== s.q.id) P.tq = { qId: s.q.id, pending: null, sentAt: 0, last: null };
   const me = twentyMine(s);
   if (P.tq.pending && me.n !== P.tq.pending.n) P.tq.pending = null; // the host has moved on past what I sent
-  return ['tq', me.n, me.done, me.out, me.place, P.tq.pending ? 'p' : '', s.tq.over].join('|');
+  const fl = twentyFlash();
+  return ['tq', me.n, me.done, me.out, me.place, P.tq.pending ? 'p' : '', s.tq.over, fl ? 'f' + (fl.id || 'g') : ''].join('|');
 }
+/** The answer just in, while it's still being shown: { id (a question) or guess: true, yes, until }. */
+function twentyFlash() { const f = P.tq?.flash; return f && Date.now() < f.until ? f : null; }
 function onTwentyEvent(e) {
   if (e.pid !== P.pid || !P.tq || !P.state?.q || P.state.q.id !== P.tq.qId) return;
   P.tq.pending = null; P.tq.last = e.last;
+  const yes = e.last?.id ? !!e.last.yes : !!e.last?.ok;
+  if (e.last) {
+    P.tq.flash = { id: e.last.id || null, guess: !e.last.id, yes, until: Date.now() + 1000 };
+    const fx = document.createElement('div'); fx.className = 'tqflash ' + (yes ? 'yes' : 'no'); document.body.appendChild(fx);
+    setTimeout(() => fx.remove(), 1000); setTimeout(render, 1050);
+  }
   const mine = P.state.tq?.players?.[P.pid]; if (mine) Object.assign(mine, { n: e.n, done: e.done, out: e.out, place: e.place }, e.last?.id ? { asked: [...(mine.asked || []).filter((a) => a.id !== e.last.id), { id: e.last.id, yes: e.last.yes }] } : {}, e.last?.guess ? { guesses: [...(mine.guesses || []), { t: e.last.guess, ok: e.last.ok }] } : {});
   if (navigator.vibrate) try { navigator.vibrate(e.done ? [100, 50, 100, 50, 250] : 30); } catch {}
   render();
@@ -226,11 +235,15 @@ function twentyHtml(s) {
   const head = `<div class="pq">${esc(q.text)}</div><div class="tqcount"><span><b>${me.n}</b> of ${maxQ} questions used</span><span>${left} left</span></div>`;
   if (me.done) return head + `<div class="state"><div class="em">${medal[me.place - 1] || '🎉'}</div><h2>You got it!</h2><p class="muted">${me.place <= 3 ? `${ordinal(me.place)} to crack it` : 'Cracked it, but the first three take the points'} · watch the screen for the others</p></div>${hist}`;
   if (me.out) return head + `<div class="state"><div class="em">💀</div><h2>Out of questions</h2><p class="muted">Wait for the answer on the screen.</p></div>${hist}`;
-  const open = LQ.twentyOpen(me.asked), busy = !!P.tq?.pending;
+  // while an answer is being shown, keep the list as it was, with the tapped question coloured in
+  const fl = twentyFlash(), pend = P.tq?.pending;
+  const open = LQ.twentyOpen(fl?.id ? me.asked.filter((a) => a.id !== fl.id) : me.asked), busy = !!pend || !!fl;
+  const tone = (id) => fl?.id === id ? (fl.yes ? ' yes' : ' no') : pend?.ask === id ? ' pending' : '';
+  const gtone = fl?.guess ? (fl.yes ? ' yes' : ' no') : pend?.guess ? ' pending' : '';
   const kinds = !me.asked.some((a) => a.yes && LQ.TWENTY_KINDS.some((k) => k.id === a.id));
   return head + lastHtml + `<p class="tqhint">${kinds ? 'Start by finding out what kind of thing it is:' : 'Tap a question to ask it:'}</p>
-    <div class="tqlist">${open.map((x, i) => `${x.sec && x.sec !== open[i - 1]?.sec ? `<div class="tqsec">${esc(x.sec)}</div>` : ''}<button class="tqq" data-tq="${x.id}" ${busy ? 'disabled' : ''}>${esc(x.text)}</button>`).join('') || '<p class="muted center">No questions left to ask. Time to guess!</p>'}</div>${hist}
-    <form class="tqguess" id="tqForm"><input id="tqIn" placeholder="Who or what is it?" autocomplete="off" maxlength="60" ${busy ? 'disabled' : ''}><button class="btn btn-primary" ${busy ? 'disabled' : ''}>Guess</button></form>
+    <div class="tqlist">${open.map((x, i) => `${x.sec && x.sec !== open[i - 1]?.sec ? `<div class="tqsec">${esc(x.sec)}</div>` : ''}<button class="tqq${tone(x.id)}" data-tq="${x.id}" ${busy ? 'disabled' : ''}>${esc(x.text)}</button>`).join('') || '<p class="muted center">No questions left to ask. Time to guess!</p>'}</div>${hist}
+    <form class="tqguess" id="tqForm"><input id="tqIn" placeholder="Who or what is it?" autocomplete="off" maxlength="60" ${busy ? 'disabled' : ''}><button class="btn btn-primary${gtone}" ${busy ? 'disabled' : ''}>Guess</button></form>
     <p class="tqnote">A wrong guess uses up a question.</p>`;
 }
 function bindTwenty(s, draft) {

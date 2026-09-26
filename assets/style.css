@@ -413,6 +413,15 @@ body.tv .lobby { grid-template-columns: 1fr 1fr; } /* a TV is always landscape: 
 .tqans.no { background: #fde2e7; color: #a3122b; }
 .tqhint { font-weight: 800; color: var(--ink-2); margin: 6px 2px; }
 .tqlist { display: flex; flex-direction: column; gap: 6px; }
+/* 20 Questions answer feedback: the whole screen flashes, the tapped button fills in */
+.tqflash { position: fixed; inset: 0; z-index: 90; pointer-events: none; animation: tqflash 1s ease-out forwards; }
+.tqflash.yes { background: rgba(134, 239, 172, .6); }
+.tqflash.no { background: rgba(252, 165, 165, .6); }
+@keyframes tqflash { 0% { opacity: 0; } 12% { opacity: 1; } 70% { opacity: .85; } 100% { opacity: 0; } }
+.tqlist .tqq.yes, .tqlist .tqq.yes:disabled, .tqguess .btn.yes, .tqguess .btn.yes:disabled { background: #15803d; border-color: #15803d; color: #fff; opacity: 1; }
+.tqlist .tqq.no, .tqlist .tqq.no:disabled, .tqguess .btn.no, .tqguess .btn.no:disabled { background: #b91c1c; border-color: #b91c1c; color: #fff; opacity: 1; }
+.tqlist .tqq.pending, .tqlist .tqq.pending:disabled, .tqguess .btn.pending, .tqguess .btn.pending:disabled { outline: 3px solid var(--accent, #6d5efc); outline-offset: 1px; opacity: 1; animation: tqpend .8s ease-in-out infinite alternate; }
+@keyframes tqpend { to { outline-color: transparent; } }
 .tqsec { margin: 10px 2px 0; font-size: .78rem; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; opacity: .6; }
 .tqfacts .tqsec:first-child, .tqlist .tqsec:first-child { margin-top: 0; }
 .tqq { font: inherit; font-weight: 800; text-align: left; padding: 12px 14px; border-radius: 12px; border: 2px solid var(--line); background: #fff; color: var(--ink); cursor: pointer; }
