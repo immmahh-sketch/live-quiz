@@ -67,6 +67,7 @@ if (fs.existsSync(topicsDir) && (!process.argv.slice(2).length || process.argv.i
   for (const f of fs.readdirSync(topicsDir).filter((f) => f.endsWith(".json")).sort()) {
     const slug = f.replace(/\.json$/, "").split("__")[0]; // christmas-movies__2.json tops up christmas-movies
     if (only.length && !only.includes(slug)) continue;
+    if (process.env.FILE && f !== process.env.FILE && f !== process.env.FILE + ".json") continue; // FILE=uk-geography__6 imports just that top-up
     const t = topics.find((x) => x.slug === slug);
     if (!t) { console.warn(`topics/${f}: no such topic in topics.json, skipped`); continue; }
     const items = JSON.parse(fs.readFileSync(path.join(topicsDir, f), "utf8"));

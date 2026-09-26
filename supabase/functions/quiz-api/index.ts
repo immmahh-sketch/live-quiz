@@ -961,7 +961,7 @@ Deno.serve(async (req) => {
     }
     if (action === "bank_list") {
       const type = String(body.type || "");
-      const row = (await bankRows()).find((r) => r.settings?.type === type);
+      const row = (await bankRows(type)).find((r) => r.settings?.type === type);
       const qs: any[] = row ? row.questions : [];
       return json({ questions: qs.map((q) => ({ id: q.id, text: q.text || q.phrase || q.place || "", answer: q.type === "choice" ? (q.options || []).find((o: any) => o.id === q.correct)?.text : q.type === "tf" ? String(q.answer) : q.type === "wheel" ? q.phrase : q.type === "pin" ? q.place : q.type === "order" ? (q.items || []).map((i: any) => i.text).join(" → ") : q.type === "rhyme" ? [q.answer1, q.answer2].filter(Boolean).join(" / ") : q.type === "smash" ? q.smash || "" : q.type === "tune" ? `${q.track || ""} — ${q.artist || ""}` : (q.answers || [])[0] || "", category: q.category || "", tags: q.tags || [], used: q.used || null, pct: q.pct, rejected: !!q.used?.rejected, difficulty: q.difficulty || "", media: q.media?.kind && q.media.kind !== "none" ? q.media.kind : "" })) });
     }
@@ -1001,7 +1001,7 @@ Deno.serve(async (req) => {
     }
     if (action === "bank_get") {
       const type = String(body.type || ""), id = String(body.id || "");
-      const row = (await bankRows()).find((r) => r.settings?.type === type);
+      const row = (await bankRows(type)).find((r) => r.settings?.type === type);
       const q = row?.questions?.find((x: any) => x.id === id);
       if (!q) return json({ error: "That bank item no longer exists." }, 404);
       return json({ question: q });
@@ -1386,8 +1386,12 @@ function nearDuplicate(a: any, b: any): boolean {
 // part, opening another part when that one is full. Everything else works on the merged row as before.
 const BANK_PART_MAX = 1_800_000; // characters of JSON per part
 const BANK_LABEL: Record<string, string> = { choice: "Multiple choice", text: "Type the answer", order: "Put in order", pin: "Drop the pin", match: "Match up", tf: "True or false", sort: "Categorise", wipeout: "Wipeout", race: "The Race", smash: "Answer Smash", wheel: "Wheel of Fortune", highlow: "Highbrow Lowbrow", rhyme: "Rhyme Time", club: "The 1% Club", catchphrase: "Catchphrase", dingbat: "Dingbats", tune: "Name That Tune", nearest: "Nearest Wins", draw: "Draw It", twenty: "20 Questions" };
-async function bankRows(): Promise<any[]> {
-  const raw: any[] = (await rest(`quiz_quizzes?settings->>bank=eq.true&select=id,title,settings,questions`)) || [];
+// Pass a type to fetch just that type's parts: the whole bank is tens of MB and reading it all can hit the statement timeout.
+async function bankRows(type?: string): Promise<any[]> {
+  const one = async (t: string) => (await rest(`quiz_quizzes?settings->>bank=eq.true&settings->>type=eq.${encodeURIComponent(t)}&select=id,title,settings,questions`)) || [];
+  let raw: any[];
+  if (type) raw = await one(type);
+  else { const types = [...new Set(((await rest(`quiz_quizzes?settings->>bank=eq.true&select=settings`)) || []).map((r: any) => String(r.settings?.type || "")))]; raw = []; for (const t of types) raw.push(...await one(t)); }
   const byType = new Map<string, any[]>();
   for (const r of raw) { const t = String(r.settings?.type || ""); if (!byType.has(t)) byType.set(t, []); byType.get(t)!.push(r); }
   return [...byType.entries()].map(([type, parts]) => {
@@ -1403,7 +1407,7 @@ async function bankNewPart(type: string, part: number): Promise<any> {
   return row;
 }
 async function bankRow(type: string): Promise<any> {
-  const row = (await bankRows()).find((r) => r.settings?.type === type);
+  const row = (await bankRows(type)).find((r) => r.settings?.type === type);
   if (row) return row;
   const first = await bankNewPart(type, 0);
   return { id: first.id, title: first.title, settings: { ...first.settings, type }, questions: [], _parts: [first] };
