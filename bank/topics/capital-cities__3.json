@@ -1,0 +1,190 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: name the capital city",
+  "target": 10,
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Capital of France?",
+    "right": "Paris",
+    "wrong": [
+     "Lyon",
+     "Marseille",
+     "Nice"
+    ]
+   },
+   {
+    "q": "Capital of Japan?",
+    "right": "Tokyo",
+    "wrong": [
+     "Osaka",
+     "Kyoto",
+     "Nagoya"
+    ]
+   },
+   {
+    "q": "Capital of Australia?",
+    "right": "Canberra",
+    "wrong": [
+     "Sydney",
+     "Melbourne",
+     "Perth"
+    ]
+   },
+   {
+    "q": "Capital of Canada?",
+    "right": "Ottawa",
+    "wrong": [
+     "Toronto",
+     "Vancouver",
+     "Montreal"
+    ]
+   },
+   {
+    "q": "Capital of Brazil?",
+    "right": "Brasília",
+    "wrong": [
+     "Rio de Janeiro",
+     "São Paulo",
+     "Salvador"
+    ]
+   },
+   {
+    "q": "Capital of Turkey?",
+    "right": "Ankara",
+    "wrong": [
+     "Istanbul",
+     "Izmir",
+     "Antalya"
+    ]
+   },
+   {
+    "q": "Capital of Nigeria?",
+    "right": "Abuja",
+    "wrong": [
+     "Lagos",
+     "Kano",
+     "Ibadan"
+    ]
+   },
+   {
+    "q": "Capital of Switzerland?",
+    "right": "Bern",
+    "wrong": [
+     "Zurich",
+     "Geneva",
+     "Basel"
+    ]
+   },
+   {
+    "q": "Capital of Spain?",
+    "right": "Madrid",
+    "wrong": [
+     "Barcelona",
+     "Seville",
+     "Valencia"
+    ]
+   },
+   {
+    "q": "Capital of Italy?",
+    "right": "Rome",
+    "wrong": [
+     "Milan",
+     "Naples",
+     "Turin"
+    ]
+   },
+   {
+    "q": "Capital of Germany?",
+    "right": "Berlin",
+    "wrong": [
+     "Munich",
+     "Hamburg",
+     "Frankfurt"
+    ]
+   },
+   {
+    "q": "Capital of Egypt?",
+    "right": "Cairo",
+    "wrong": [
+     "Alexandria",
+     "Giza",
+     "Luxor"
+    ]
+   },
+   {
+    "q": "Capital of India?",
+    "right": "New Delhi",
+    "wrong": [
+     "Mumbai",
+     "Kolkata",
+     "Bangalore"
+    ]
+   },
+   {
+    "q": "Capital of the USA?",
+    "right": "Washington, D.C.",
+    "wrong": [
+     "New York",
+     "Los Angeles",
+     "Chicago"
+    ]
+   },
+   {
+    "q": "Capital of Argentina?",
+    "right": "Buenos Aires",
+    "wrong": [
+     "Córdoba",
+     "Rosario",
+     "Mendoza"
+    ]
+   },
+   {
+    "q": "Capital of South Korea?",
+    "right": "Seoul",
+    "wrong": [
+     "Busan",
+     "Incheon",
+     "Daegu"
+    ]
+   },
+   {
+    "q": "Capital of Kenya?",
+    "right": "Nairobi",
+    "wrong": [
+     "Mombasa",
+     "Kisumu",
+     "Nakuru"
+    ]
+   },
+   {
+    "q": "Capital of Portugal?",
+    "right": "Lisbon",
+    "wrong": [
+     "Porto",
+     "Faro",
+     "Coimbra"
+    ]
+   },
+   {
+    "q": "Capital of New Zealand?",
+    "right": "Wellington",
+    "wrong": [
+     "Auckland",
+     "Christchurch",
+     "Dunedin"
+    ]
+   },
+   {
+    "q": "Capital of Scotland?",
+    "right": "Edinburgh",
+    "wrong": [
+     "Glasgow",
+     "Aberdeen",
+     "Dundee"
+    ]
+   }
+  ]
+ }
+]
