@@ -9,6 +9,39 @@
   "brief": "Classic pub-quiz general knowledge across every subject, the kind everyone has a shot at."
  },
  {
+  "slug": "record-breakers",
+  "name": "Record breakers",
+  "group": "Core",
+  "tags": [
+   "records",
+   "Guinness World Records",
+   "Record Breakers"
+  ],
+  "brief": "World records of every kind, Guinness World Records, and the BBC show Record Breakers with Roy Castle and the McWhirters."
+ },
+ {
+  "slug": "ripleys-believe-it-or-not",
+  "name": "Ripley's Believe It or Not",
+  "group": "Core",
+  "tags": [
+   "Ripley",
+   "strange but true",
+   "oddities"
+  ],
+  "brief": "Strange-but-true facts in the spirit of Ripley's Believe It or Not: odd people, bizarre records, curious objects and unlikely events, all verifiably true, plus Robert Ripley himself."
+ },
+ {
+  "slug": "no-such-thing-as-a-fish",
+  "name": "No Such Thing As a Fish facts",
+  "group": "Core",
+  "tags": [
+   "QI",
+   "No Such Thing As a Fish",
+   "facts"
+  ],
+  "brief": "Surprising, verifiable facts of the kind the QI elves love on No Such Thing As a Fish: history, science, animals and language oddities. Our own wording, never copied from the podcast."
+ },
+ {
   "slug": "uk-geography",
   "name": "UK geography",
   "group": "Geography",
@@ -260,6 +293,18 @@
    "leaders"
   ],
   "brief": "Explorers, inventors, leaders, scientists and reformers and what they are remembered for."
+ },
+ {
+  "slug": "covid-19",
+  "name": "Covid-19",
+  "group": "History",
+  "tags": [
+   "Covid",
+   "coronavirus",
+   "pandemic",
+   "lockdown"
+  ],
+  "brief": "The Covid-19 pandemic: the virus, lockdowns, vaccines, key figures and the language it gave us, handled factually and respectfully."
  },
  {
   "slug": "space",
@@ -1019,6 +1064,40 @@
    "Netflix"
   ],
   "brief": "American series: The Simpsons, The Sopranos, Stranger Things, Succession and the streaming era."
+ },
+ {
+  "slug": "dexter",
+  "name": "Dexter",
+  "group": "Television",
+  "tags": [
+   "Dexter",
+   "Dexter Morgan",
+   "Michael C. Hall"
+  ],
+  "brief": "Dexter and its follow-ups (New Blood, Original Sin, Resurrection): characters, killers, plot, Miami, quotes."
+ },
+ {
+  "slug": "bridgerton",
+  "name": "Bridgerton",
+  "group": "Television",
+  "tags": [
+   "Bridgerton",
+   "Shondaland",
+   "Regency"
+  ],
+  "brief": "Bridgerton and Queen Charlotte: the Bridgerton siblings, Lady Whistledown, the ton, cast, books and music."
+ },
+ {
+  "slug": "handmaids-tale",
+  "name": "The Handmaid's Tale",
+  "group": "Television",
+  "tags": [
+   "The Handmaid's Tale",
+   "Gilead",
+   "June Osborne",
+   "Margaret Atwood"
+  ],
+  "brief": "The Handmaid's Tale TV series and its world of Gilead: characters, plot, cast, the novels and The Testaments."
  },
  {
   "slug": "football",
