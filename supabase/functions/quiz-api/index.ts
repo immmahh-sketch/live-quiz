@@ -816,7 +816,7 @@ Deno.serve(async (req) => {
     if (action === "login") return json({ ok: true, ai: !!ANTHROPIC_KEY });
 
     if (action === "list") {
-      const rows = await rest(`quiz_quizzes?select=id,title,settings,questions,created_at,updated_at&order=updated_at.desc`);
+      const rows = await rest(`quiz_quizzes?or=(settings->>bank.is.null,settings->>bank.neq.true)&select=id,title,settings,questions,created_at,updated_at&order=updated_at.desc`);
       return json({ quizzes: (rows || []).map((r: any) => ({
         id: r.id, title: r.title, updated_at: r.updated_at, created_at: r.created_at,
         template: !!(r.settings && r.settings.template),
@@ -829,7 +829,7 @@ Deno.serve(async (req) => {
 
     if (action === "history") {
       // Every question ever saved, newest quiz first, so the writer can avoid repeating any of them.
-      const rows = await rest(`quiz_quizzes?select=id,title,questions,updated_at&order=updated_at.desc&limit=200`);
+      const rows = await rest(`quiz_quizzes?or=(settings->>bank.is.null,settings->>bank.neq.true)&select=id,title,questions,updated_at&order=updated_at.desc&limit=200`);
       const out: { quiz: string; text: string }[] = [];
       for (const r of rows || []) {
         if (body.exclude && r.id === body.exclude) continue;
