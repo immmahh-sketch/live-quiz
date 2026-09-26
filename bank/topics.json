@@ -1,1371 +1,1371 @@
 [
-  {
-    "slug": "general-knowledge",
-    "name": "General knowledge",
-    "group": "Core",
-    "tags": [
-      "general"
-    ],
-    "brief": "Classic pub-quiz general knowledge across every subject, the kind everyone has a shot at."
-  },
-  {
-    "slug": "record-breakers",
-    "name": "Record breakers",
-    "group": "Core",
-    "tags": [
-      "records",
-      "Guinness World Records",
-      "Record Breakers"
-    ],
-    "brief": "World records of every kind, Guinness World Records, and the BBC show Record Breakers with Roy Castle and the McWhirters."
-  },
-  {
-    "slug": "ripleys-believe-it-or-not",
-    "name": "Ripley's Believe It or Not",
-    "group": "Core",
-    "tags": [
-      "Ripley",
-      "strange but true",
-      "oddities"
-    ],
-    "brief": "Strange-but-true facts in the spirit of Ripley's Believe It or Not: odd people, bizarre records, curious objects and unlikely events, all verifiably true, plus Robert Ripley himself."
-  },
-  {
-    "slug": "no-such-thing-as-a-fish",
-    "name": "No Such Thing As a Fish facts",
-    "group": "Core",
-    "tags": [
-      "QI",
-      "No Such Thing As a Fish",
-      "facts"
-    ],
-    "brief": "Surprising, verifiable facts of the kind the QI elves love on No Such Thing As a Fish: history, science, animals and language oddities. Our own wording, never copied from the podcast."
-  },
-  {
-    "slug": "uk-geography",
-    "name": "UK geography",
-    "group": "Geography",
-    "tags": [
-      "UK",
-      "Britain",
-      "counties",
-      "cities",
-      "rivers"
-    ],
-    "brief": "Cities, counties, rivers, mountains, coasts and landmarks of England, Scotland, Wales and Northern Ireland."
-  },
-  {
-    "slug": "world-geography",
-    "name": "World geography",
-    "group": "Geography",
-    "tags": [
-      "countries",
-      "continents",
-      "oceans"
-    ],
-    "brief": "Countries, continents, oceans, rivers, deserts and mountain ranges around the world."
-  },
-  {
-    "slug": "capital-cities",
-    "name": "Capital cities",
-    "group": "Geography",
-    "tags": [
-      "capitals",
-      "countries"
-    ],
-    "brief": "Capital cities of the world, from the obvious to the tricky ones."
-  },
-  {
-    "slug": "flags",
-    "name": "Flags of the world",
-    "group": "Geography",
-    "tags": [
-      "flags",
-      "countries"
-    ],
-    "brief": "Flags: colours, symbols, which country, look-alikes. Use flag pictures where the type allows."
-  },
-  {
-    "slug": "europe",
-    "name": "Europe",
-    "group": "Geography",
-    "tags": [
-      "Europe",
-      "EU",
-      "countries"
-    ],
-    "brief": "European countries, cities, culture, landmarks and the EU."
-  },
-  {
-    "slug": "usa",
-    "name": "The United States",
-    "group": "Geography",
-    "tags": [
-      "USA",
-      "America",
-      "states"
-    ],
-    "brief": "US states, cities, presidents, landmarks and American life."
-  },
-  {
-    "slug": "london",
-    "name": "London",
-    "group": "Geography",
-    "tags": [
-      "London",
-      "Thames",
-      "Underground"
-    ],
-    "brief": "London landmarks, boroughs, the Tube, history and culture."
-  },
-  {
-    "slug": "north-east-england",
-    "name": "The North East of England",
-    "group": "Geography",
-    "tags": [
-      "North East",
-      "Newcastle",
-      "Durham",
-      "Sunderland",
-      "Geordie",
-      "Beamish"
-    ],
-    "brief": "Newcastle, Gateshead, Sunderland, Durham, Northumberland and Teesside: places, people, football, food, dialect and history."
-  },
-  {
-    "slug": "newcastle-v-sunderland",
-    "name": "Newcastle v Sunderland",
-    "group": "Sport",
-    "tags": [
-      "Newcastle United",
-      "Sunderland",
-      "Tyne-Wear derby",
-      "Toon",
-      "Magpies",
-      "Black Cats",
-      "Mackems",
-      "football"
-    ],
-    "brief": "The Tyne-Wear rivalry, told from the Gallowgate: Newcastle United's glories (trophies, European nights, legends) against Sunderland's lowlights (relegations, League One, record-low points). Every fact true, every angle black and white."
-  },
-  {
-    "slug": "brighton",
-    "name": "Brighton",
-    "group": "Geography",
-    "tags": [
-      "Brighton",
-      "Sussex",
-      "seaside"
-    ],
-    "brief": "Brighton and Hove: the piers, the Pavilion, the Lanes, the football club, music and famous residents."
-  },
-  {
-    "slug": "scotland",
-    "name": "Scotland",
-    "group": "Geography",
-    "tags": [
-      "Scotland",
-      "Scottish",
-      "Highlands"
-    ],
-    "brief": "Scottish places, history, food and drink, sport, inventors and culture."
-  },
-  {
-    "slug": "wales",
-    "name": "Wales",
-    "group": "Geography",
-    "tags": [
-      "Wales",
-      "Welsh"
-    ],
-    "brief": "Welsh places, history, rugby, music, language and culture."
-  },
-  {
-    "slug": "ireland",
-    "name": "Ireland",
-    "group": "Geography",
-    "tags": [
-      "Ireland",
-      "Irish",
-      "Dublin"
-    ],
-    "brief": "Ireland north and south: places, history, music, sport and culture."
-  },
-  {
-    "slug": "australia",
-    "name": "Australia and New Zealand",
-    "group": "Geography",
-    "tags": [
-      "Australia",
-      "New Zealand",
-      "Sydney"
-    ],
-    "brief": "Australia and New Zealand: places, wildlife, sport, history and culture."
-  },
-  {
-    "slug": "landmarks",
-    "name": "Famous landmarks",
-    "group": "Geography",
-    "tags": [
-      "landmarks",
-      "buildings",
-      "wonders"
-    ],
-    "brief": "Famous buildings, monuments and natural wonders: where they are, who built them, what they are for."
-  },
-  {
-    "slug": "british-history",
-    "name": "British history",
-    "group": "History",
-    "tags": [
-      "history",
-      "Britain",
-      "kings",
-      "queens"
-    ],
-    "brief": "British history from the Romans to the present: monarchs, battles, laws, everyday life."
-  },
-  {
-    "slug": "tudors",
-    "name": "The Tudors",
-    "group": "History",
-    "tags": [
-      "Tudors",
-      "Henry VIII",
-      "Elizabeth I"
-    ],
-    "brief": "Henry VIII, his wives, Elizabeth I, the Reformation, the Armada and Tudor life."
-  },
-  {
-    "slug": "world-wars",
-    "name": "The World Wars",
-    "group": "History",
-    "tags": [
-      "WW1",
-      "WW2",
-      "war",
-      "1914",
-      "1939"
-    ],
-    "brief": "The First and Second World Wars: leaders, battles, the home front, technology, aftermath."
-  },
-  {
-    "slug": "ancient-history",
-    "name": "Ancient history",
-    "group": "History",
-    "tags": [
-      "Romans",
-      "Greeks",
-      "Egyptians",
-      "ancient"
-    ],
-    "brief": "Egypt, Greece, Rome and other ancient civilisations: rulers, gods, buildings, inventions."
-  },
-  {
-    "slug": "royal-family",
-    "name": "The Royal Family",
-    "group": "History",
-    "tags": [
-      "royalty",
-      "monarchy",
-      "Windsor"
-    ],
-    "brief": "The British royal family past and present: succession, weddings, homes, titles, traditions."
-  },
-  {
-    "slug": "20th-century",
-    "name": "The 20th century",
-    "group": "History",
-    "tags": [
-      "20th century",
-      "events"
-    ],
-    "brief": "Big events of the 1900s: politics, disasters, achievements, inventions and social change."
-  },
-  {
-    "slug": "famous-people",
-    "name": "Famous people in history",
-    "group": "History",
-    "tags": [
-      "biography",
-      "explorers",
-      "inventors",
-      "leaders"
-    ],
-    "brief": "Explorers, inventors, leaders, scientists and reformers and what they are remembered for."
-  },
-  {
-    "slug": "covid-19",
-    "name": "Covid-19",
-    "group": "History",
-    "tags": [
-      "Covid",
-      "coronavirus",
-      "pandemic",
-      "lockdown"
-    ],
-    "brief": "The Covid-19 pandemic: the virus, lockdowns, vaccines, key figures and the language it gave us, handled factually and respectfully."
-  },
-  {
-    "slug": "space",
-    "name": "Space and astronomy",
-    "group": "Science",
-    "tags": [
-      "space",
-      "planets",
-      "astronauts",
-      "NASA"
-    ],
-    "brief": "The solar system, stars, space missions, astronauts and telescopes."
-  },
-  {
-    "slug": "human-body",
-    "name": "The human body",
-    "group": "Science",
-    "tags": [
-      "anatomy",
-      "medicine",
-      "health"
-    ],
-    "brief": "Bones, organs, senses, blood, medicine and how the body works."
-  },
-  {
-    "slug": "animals",
-    "name": "Animals",
-    "group": "Science",
-    "tags": [
-      "animals",
-      "wildlife",
-      "nature"
-    ],
-    "brief": "Wild and domestic animals: records, habits, habitats, young, collective nouns."
-  },
-  {
-    "slug": "science-technology",
-    "name": "Science and technology",
-    "group": "Science",
-    "tags": [
-      "science",
-      "technology",
-      "inventions",
-      "physics",
-      "chemistry"
-    ],
-    "brief": "Physics, chemistry, biology and inventions, pitched for a pub rather than a lab."
-  },
-  {
-    "slug": "computers-internet",
-    "name": "Computers and the internet",
-    "group": "Science",
-    "tags": [
-      "computing",
-      "internet",
-      "apps",
-      "tech companies"
-    ],
-    "brief": "Computers, phones, apps, websites, tech companies and the people behind them."
-  },
-  {
-    "slug": "nature-environment",
-    "name": "Nature and the environment",
-    "group": "Science",
-    "tags": [
-      "plants",
-      "trees",
-      "weather",
-      "climate",
-      "environment"
-    ],
-    "brief": "Plants, trees, weather, oceans, climate and conservation."
-  },
-  {
-    "slug": "maths-numbers",
-    "name": "Maths and numbers",
-    "group": "Science",
-    "tags": [
-      "maths",
-      "numbers",
-      "puzzles"
-    ],
-    "brief": "Numbers, shapes, mental arithmetic and number facts that a pub crowd can attempt."
-  },
-  {
-    "slug": "food-drink",
-    "name": "Food and drink",
-    "group": "Lifestyle",
-    "tags": [
-      "food",
-      "cooking",
-      "cuisine"
-    ],
-    "brief": "Dishes, ingredients, cuisines, cooking terms and food history."
-  },
-  {
-    "slug": "beer-wine-spirits",
-    "name": "Beer, wine and spirits",
-    "group": "Lifestyle",
-    "tags": [
-      "beer",
-      "wine",
-      "cocktails",
-      "whisky"
-    ],
-    "brief": "Beers, wines, cocktails, spirits, breweries and drinking traditions."
-  },
-  {
-    "slug": "british-food",
-    "name": "British food",
-    "group": "Lifestyle",
-    "tags": [
-      "British food",
-      "pub food",
-      "sweets",
-      "chocolate"
-    ],
-    "brief": "British dishes, regional specialities, sweets, chocolate bars, crisps and supermarket brands."
-  },
-  {
-    "slug": "brands-logos",
-    "name": "Brands and logos",
-    "group": "Lifestyle",
-    "tags": [
-      "brands",
-      "logos",
-      "adverts",
-      "slogans"
-    ],
-    "brief": "Companies, logos, slogans, adverts and product mascots."
-  },
-  {
-    "slug": "cars-motoring",
-    "name": "Cars and motoring",
-    "group": "Lifestyle",
-    "tags": [
-      "cars",
-      "motoring",
-      "driving"
-    ],
-    "brief": "Car makers, models, badges, motoring history and driving in the UK."
-  },
-  {
-    "slug": "fashion",
-    "name": "Fashion",
-    "group": "Lifestyle",
-    "tags": [
-      "fashion",
-      "designers",
-      "clothes"
-    ],
-    "brief": "Designers, brands, trends by decade and fashion history."
-  },
-  {
-    "slug": "games-toys",
-    "name": "Games and toys",
-    "group": "Lifestyle",
-    "tags": [
-      "board games",
-      "toys",
-      "playground"
-    ],
-    "brief": "Board games, card games, toys and playground games past and present."
-  },
-  {
-    "slug": "video-games",
-    "name": "Video games",
-    "group": "Lifestyle",
-    "tags": [
-      "video games",
-      "Nintendo",
-      "PlayStation",
-      "Xbox"
-    ],
-    "brief": "Consoles, classic and modern games, characters and gaming history."
-  },
-  {
-    "slug": "the-1960s",
-    "name": "The 1960s",
-    "group": "Decades",
-    "tags": [
-      "1960s",
-      "sixties"
-    ],
-    "brief": "Music, TV, film, fashion, news and sport of the 1960s."
-  },
-  {
-    "slug": "the-1970s",
-    "name": "The 1970s",
-    "group": "Decades",
-    "tags": [
-      "1970s",
-      "seventies"
-    ],
-    "brief": "Music, TV, film, fashion, news and sport of the 1970s."
-  },
-  {
-    "slug": "the-1980s",
-    "name": "The 1980s",
-    "group": "Decades",
-    "tags": [
-      "1980s",
-      "eighties"
-    ],
-    "brief": "Music, TV, film, fashion, toys, news and sport of the 1980s."
-  },
-  {
-    "slug": "the-1990s",
-    "name": "The 1990s",
-    "group": "Decades",
-    "tags": [
-      "1990s",
-      "nineties",
-      "Britpop"
-    ],
-    "brief": "Music, TV, film, fashion, toys, news and sport of the 1990s."
-  },
-  {
-    "slug": "the-2000s",
-    "name": "The 2000s",
-    "group": "Decades",
-    "tags": [
-      "2000s",
-      "noughties"
-    ],
-    "brief": "Music, TV, film, technology, news and sport of the 2000s."
-  },
-  {
-    "slug": "the-2010s",
-    "name": "The 2010s",
-    "group": "Decades",
-    "tags": [
-      "2010s"
-    ],
-    "brief": "Music, TV, film, technology, news and sport of the 2010s."
-  },
-  {
-    "slug": "christmas",
-    "name": "Christmas",
-    "group": "Seasonal",
-    "tags": [
-      "Christmas",
-      "festive",
-      "Xmas"
-    ],
-    "brief": "Christmas traditions, food, carols, history and customs around the world."
-  },
-  {
-    "slug": "christmas-movies",
-    "name": "Christmas films",
-    "group": "Seasonal",
-    "tags": [
-      "Christmas",
-      "films",
-      "festive"
-    ],
-    "brief": "Christmas films: plots, characters, quotes, actors and behind the scenes."
-  },
-  {
-    "slug": "christmas-music",
-    "name": "Christmas songs",
-    "group": "Seasonal",
-    "tags": [
-      "Christmas",
-      "songs",
-      "carols",
-      "number ones"
-    ],
-    "brief": "Christmas songs and carols, Christmas number ones and festive albums."
-  },
-  {
-    "slug": "christmas-tv",
-    "name": "Christmas TV",
-    "group": "Seasonal",
-    "tags": [
-      "Christmas",
-      "television",
-      "specials"
-    ],
-    "brief": "Christmas TV specials, adverts, the King's Speech, festive episodes of favourite shows."
-  },
-  {
-    "slug": "halloween",
-    "name": "Halloween",
-    "group": "Seasonal",
-    "tags": [
-      "Halloween",
-      "horror",
-      "spooky"
-    ],
-    "brief": "Halloween traditions, monsters, horror films, spooky music and folklore."
-  },
-  {
-    "slug": "halloween-music",
-    "name": "Halloween music",
-    "group": "Seasonal",
-    "tags": [
-      "Halloween",
-      "songs",
-      "spooky"
-    ],
-    "brief": "Spooky songs, horror film themes, Thriller, Monster Mash and anything ghoulish in the charts."
-  },
-  {
-    "slug": "bonfire-night",
-    "name": "Bonfire Night and autumn",
-    "group": "Seasonal",
-    "tags": [
-      "Bonfire Night",
-      "Guy Fawkes",
-      "autumn"
-    ],
-    "brief": "Guy Fawkes, fireworks, the Gunpowder Plot and autumn traditions."
-  },
-  {
-    "slug": "easter-spring",
-    "name": "Easter and spring",
-    "group": "Seasonal",
-    "tags": [
-      "Easter",
-      "spring"
-    ],
-    "brief": "Easter traditions, chocolate, spring festivals and customs."
-  },
-  {
-    "slug": "new-year",
-    "name": "New Year",
-    "group": "Seasonal",
-    "tags": [
-      "New Year",
-      "Hogmanay"
-    ],
-    "brief": "New Year traditions around the world, Hogmanay, resolutions, famous New Year events."
-  },
-  {
-    "slug": "valentines",
-    "name": "Valentine's Day and love songs",
-    "group": "Seasonal",
-    "tags": [
-      "Valentine",
-      "love",
-      "romance"
-    ],
-    "brief": "Romance in history, love songs, famous couples and Valentine's traditions."
-  },
-  {
-    "slug": "summer-holidays",
-    "name": "Summer holidays",
-    "group": "Seasonal",
-    "tags": [
-      "holidays",
-      "travel",
-      "summer",
-      "seaside"
-    ],
-    "brief": "Holiday destinations, seaside traditions, airlines, travel trivia."
-  },
-  {
-    "slug": "pop-music",
-    "name": "Pop music",
-    "group": "Music",
-    "tags": [
-      "pop",
-      "charts",
-      "singles"
-    ],
-    "brief": "Pop music from the 1950s to now: singers, bands, singles, albums, chart facts."
-  },
-  {
-    "slug": "rock-music",
-    "name": "Rock music",
-    "group": "Music",
-    "tags": [
-      "rock",
-      "bands",
-      "guitar"
-    ],
-    "brief": "Rock bands and artists, albums, guitarists and festivals."
-  },
-  {
-    "slug": "the-beatles",
-    "name": "The Beatles",
-    "group": "Music",
-    "tags": [
-      "Beatles",
-      "Liverpool",
-      "Lennon",
-      "McCartney"
-    ],
-    "brief": "The Beatles: members, songs, albums, films and solo careers."
-  },
-  {
-    "slug": "number-ones",
-    "name": "UK number ones",
-    "group": "Music",
-    "tags": [
-      "charts",
-      "number one",
-      "singles"
-    ],
-    "brief": "UK number one singles and albums, chart records and famous chart battles."
-  },
-  {
-    "slug": "eurovision",
-    "name": "Eurovision",
-    "group": "Music",
-    "tags": [
-      "Eurovision",
-      "song contest"
-    ],
-    "brief": "The Eurovision Song Contest: winners, UK entries, host cities, famous moments."
-  },
-  {
-    "slug": "musicals",
-    "name": "Musicals",
-    "group": "Music",
-    "tags": [
-      "musicals",
-      "West End",
-      "Broadway"
-    ],
-    "brief": "Stage and film musicals: shows, songs, composers, characters."
-  },
-  {
-    "slug": "classical-music",
-    "name": "Classical music",
-    "group": "Music",
-    "tags": [
-      "classical",
-      "composers",
-      "orchestra"
-    ],
-    "brief": "Composers, famous works, instruments and the orchestra."
-  },
-  {
-    "slug": "boy-bands-girl-groups",
-    "name": "Boy bands and girl groups",
-    "group": "Music",
-    "tags": [
-      "boy bands",
-      "girl groups",
-      "Take That",
-      "Spice Girls"
-    ],
-    "brief": "Boy bands and girl groups from the 1990s on: members, hits, reunions."
-  },
-  {
-    "slug": "one-hit-wonders",
-    "name": "One-hit wonders",
-    "group": "Music",
-    "tags": [
-      "one-hit wonders",
-      "novelty"
-    ],
-    "brief": "Acts remembered for a single hit, novelty records and where-are-they-now."
-  },
-  {
-    "slug": "music-lyrics",
-    "name": "Song lyrics",
-    "group": "Music",
-    "tags": [
-      "lyrics",
-      "songs"
-    ],
-    "brief": "Finish the lyric, which song has this line, misheard lyrics."
-  },
-  {
-    "slug": "disney",
-    "name": "Disney films",
-    "group": "Film",
-    "tags": [
-      "Disney",
-      "Pixar",
-      "animation"
-    ],
-    "brief": "Disney and Pixar films: characters, songs, villains, sidekicks, release order."
-  },
-  {
-    "slug": "marvel",
-    "name": "The Marvel universe",
-    "group": "Film",
-    "tags": [
-      "Marvel",
-      "superheroes",
-      "Avengers",
-      "MCU"
-    ],
-    "brief": "Marvel comics and the Marvel Cinematic Universe: heroes, villains, actors, films in order."
-  },
-  {
-    "slug": "dc-batman",
-    "name": "DC, Batman and Superman",
-    "group": "Film",
-    "tags": [
-      "DC",
-      "Batman",
-      "Superman",
-      "superheroes"
-    ],
-    "brief": "DC comics and films: Batman, Superman, Wonder Woman, villains and actors."
-  },
-  {
-    "slug": "james-bond",
-    "name": "James Bond",
-    "group": "Film",
-    "tags": [
-      "James Bond",
-      "007",
-      "spy"
-    ],
-    "brief": "The Bond films: actors, villains, gadgets, theme songs, locations, Bond girls."
-  },
-  {
-    "slug": "harry-potter",
-    "name": "Harry Potter",
-    "group": "Film",
-    "tags": [
-      "Harry Potter",
-      "Hogwarts",
-      "wizards"
-    ],
-    "brief": "The Harry Potter books and films: characters, spells, houses, creatures, actors."
-  },
-  {
-    "slug": "star-wars",
-    "name": "Star Wars",
-    "group": "Film",
-    "tags": [
-      "Star Wars",
-      "Jedi",
-      "Skywalker"
-    ],
-    "brief": "The Star Wars films and series: characters, planets, ships, quotes, actors."
-  },
-  {
-    "slug": "lord-of-the-rings",
-    "name": "The Lord of the Rings and fantasy",
-    "group": "Film",
-    "tags": [
-      "Lord of the Rings",
-      "Tolkien",
-      "fantasy",
-      "Hobbit"
-    ],
-    "brief": "Tolkien's world in books and films, plus Game of Thrones and other fantasy."
-  },
-  {
-    "slug": "oscars",
-    "name": "The Oscars and award winners",
-    "group": "Film",
-    "tags": [
-      "Oscars",
-      "Academy Awards",
-      "BAFTA"
-    ],
-    "brief": "Best Picture winners, acting winners, records and famous Oscar moments."
-  },
-  {
-    "slug": "british-films",
-    "name": "British films",
-    "group": "Film",
-    "tags": [
-      "British films",
-      "Richard Curtis",
-      "Ealing"
-    ],
-    "brief": "British cinema: Four Weddings, Love Actually, The Full Monty, Bond, Carry On, Ealing and more."
-  },
-  {
-    "slug": "action-films",
-    "name": "Action and blockbusters",
-    "group": "Film",
-    "tags": [
-      "action",
-      "blockbusters",
-      "Die Hard"
-    ],
-    "brief": "Action films and blockbusters: stars, franchises, stunts, quotes."
-  },
-  {
-    "slug": "horror-films",
-    "name": "Horror films",
-    "group": "Film",
-    "tags": [
-      "horror",
-      "scary",
-      "Halloween"
-    ],
-    "brief": "Horror films from Hitchcock to now: villains, directors, famous scenes."
-  },
-  {
-    "slug": "rom-coms",
-    "name": "Romantic comedies",
-    "group": "Film",
-    "tags": [
-      "rom-com",
-      "romance",
-      "comedy"
-    ],
-    "brief": "Romantic comedies: plots, couples, actors and lines."
-  },
-  {
-    "slug": "film-quotes",
-    "name": "Film quotes",
-    "group": "Film",
-    "tags": [
-      "quotes",
-      "lines",
-      "films"
-    ],
-    "brief": "Famous lines from films: who said it and in which film."
-  },
-  {
-    "slug": "pixar-animation",
-    "name": "Animated films",
-    "group": "Film",
-    "tags": [
-      "animation",
-      "Pixar",
-      "DreamWorks",
-      "Studio Ghibli"
-    ],
-    "brief": "Animated films beyond Disney: Pixar, DreamWorks, Aardman, Studio Ghibli."
-  },
-  {
-    "slug": "friends",
-    "name": "Friends",
-    "group": "Television",
-    "tags": [
-      "Friends",
-      "Central Perk",
-      "sitcom"
-    ],
-    "brief": "The sitcom Friends: characters, episodes, catchphrases, guest stars, Central Perk."
-  },
-  {
-    "slug": "breaking-bad",
-    "name": "Breaking Bad and Better Call Saul",
-    "group": "Television",
-    "tags": [
-      "Breaking Bad",
-      "Walter White",
-      "Better Call Saul"
-    ],
-    "brief": "Breaking Bad and Better Call Saul: characters, plot, quotes, locations."
-  },
-  {
-    "slug": "game-of-thrones",
-    "name": "Game of Thrones",
-    "group": "Television",
-    "tags": [
-      "Game of Thrones",
-      "Westeros",
-      "Stark"
-    ],
-    "brief": "Game of Thrones and House of the Dragon: houses, characters, battles, actors."
-  },
-  {
-    "slug": "the-office",
-    "name": "The Office and workplace comedies",
-    "group": "Television",
-    "tags": [
-      "The Office",
-      "Gervais",
-      "sitcom"
-    ],
-    "brief": "The Office UK and US, Parks and Recreation and other workplace comedies."
-  },
-  {
-    "slug": "british-sitcoms",
-    "name": "British sitcoms",
-    "group": "Television",
-    "tags": [
-      "sitcom",
-      "comedy",
-      "Only Fools",
-      "Fawlty Towers"
-    ],
-    "brief": "Only Fools and Horses, Fawlty Towers, Blackadder, Gavin and Stacey, The Inbetweeners and more."
-  },
-  {
-    "slug": "soaps",
-    "name": "Soaps",
-    "group": "Television",
-    "tags": [
-      "soaps",
-      "EastEnders",
-      "Coronation Street",
-      "Emmerdale"
-    ],
-    "brief": "EastEnders, Coronation Street, Emmerdale, Hollyoaks and Neighbours: characters, families, storylines."
-  },
-  {
-    "slug": "reality-tv",
-    "name": "Reality TV",
-    "group": "Television",
-    "tags": [
-      "reality TV",
-      "Big Brother",
-      "Love Island",
-      "Strictly"
-    ],
-    "brief": "Strictly, I'm a Celebrity, Big Brother, Love Island, The Traitors, Bake Off and their winners and hosts."
-  },
-  {
-    "slug": "quiz-shows",
-    "name": "Quiz and game shows",
-    "group": "Television",
-    "tags": [
-      "quiz shows",
-      "game shows",
-      "hosts"
-    ],
-    "brief": "TV quiz and game shows: hosts, formats, catchphrases, famous moments."
-  },
-  {
-    "slug": "doctor-who",
-    "name": "Doctor Who",
-    "group": "Television",
-    "tags": [
-      "Doctor Who",
-      "TARDIS",
-      "Daleks"
-    ],
-    "brief": "Doctor Who: the Doctors, companions, monsters, episodes."
-  },
-  {
-    "slug": "crime-dramas",
-    "name": "Crime dramas",
-    "group": "Television",
-    "tags": [
-      "crime",
-      "detectives",
-      "Line of Duty",
-      "Vera"
-    ],
-    "brief": "TV detectives and crime dramas: Line of Duty, Vera, Sherlock, Broadchurch, Poirot, Morse."
-  },
-  {
-    "slug": "kids-tv",
-    "name": "Children's TV",
-    "group": "Television",
-    "tags": [
-      "children's TV",
-      "cartoons",
-      "CBeebies"
-    ],
-    "brief": "Children's TV from the 1970s to now: cartoons, presenters, puppets, theme tunes."
-  },
-  {
-    "slug": "us-tv",
-    "name": "American TV",
-    "group": "Television",
-    "tags": [
-      "US TV",
-      "The Simpsons",
-      "Netflix"
-    ],
-    "brief": "American series: The Simpsons, The Sopranos, Stranger Things, Succession and the streaming era."
-  },
-  {
-    "slug": "dexter",
-    "name": "Dexter",
-    "group": "Television",
-    "tags": [
-      "Dexter",
-      "Dexter Morgan",
-      "Michael C. Hall"
-    ],
-    "brief": "Dexter and its follow-ups (New Blood, Original Sin, Resurrection): characters, killers, plot, Miami, quotes."
-  },
-  {
-    "slug": "bridgerton",
-    "name": "Bridgerton",
-    "group": "Television",
-    "tags": [
-      "Bridgerton",
-      "Shondaland",
-      "Regency"
-    ],
-    "brief": "Bridgerton and Queen Charlotte: the Bridgerton siblings, Lady Whistledown, the ton, cast, books and music."
-  },
-  {
-    "slug": "handmaids-tale",
-    "name": "The Handmaid's Tale",
-    "group": "Television",
-    "tags": [
-      "The Handmaid's Tale",
-      "Gilead",
-      "June Osborne",
-      "Margaret Atwood"
-    ],
-    "brief": "The Handmaid's Tale TV series and its world of Gilead: characters, plot, cast, the novels and The Testaments."
-  },
-  {
-    "slug": "football",
-    "name": "Football",
-    "group": "Sport",
-    "tags": [
-      "football",
-      "Premier League",
-      "World Cup"
-    ],
-    "brief": "Football: clubs, players, managers, the Premier League, cups and international tournaments."
-  },
-  {
-    "slug": "world-cup",
-    "name": "The football World Cup",
-    "group": "Sport",
-    "tags": [
-      "World Cup",
-      "football",
-      "1966"
-    ],
-    "brief": "Every World Cup: hosts, winners, goals, England's campaigns, famous moments."
-  },
-  {
-    "slug": "olympics",
-    "name": "The Olympics",
-    "group": "Sport",
-    "tags": [
-      "Olympics",
-      "athletics",
-      "Team GB"
-    ],
-    "brief": "Summer and Winter Olympics: host cities, sports, medallists, records, Team GB."
-  },
-  {
-    "slug": "cricket",
-    "name": "Cricket",
-    "group": "Sport",
-    "tags": [
-      "cricket",
-      "Ashes",
-      "Test"
-    ],
-    "brief": "Cricket: the Ashes, players, grounds, terms and formats."
-  },
-  {
-    "slug": "rugby",
-    "name": "Rugby",
-    "group": "Sport",
-    "tags": [
-      "rugby",
-      "Six Nations",
-      "union",
-      "league"
-    ],
-    "brief": "Rugby union and league: the Six Nations, World Cups, positions, players."
-  },
-  {
-    "slug": "tennis-golf",
-    "name": "Tennis and golf",
-    "group": "Sport",
-    "tags": [
-      "tennis",
-      "golf",
-      "Wimbledon",
-      "Masters"
-    ],
-    "brief": "Tennis and golf: majors, champions, courses, terms."
-  },
-  {
-    "slug": "motorsport",
-    "name": "Motorsport",
-    "group": "Sport",
-    "tags": [
-      "Formula One",
-      "F1",
-      "motor racing"
-    ],
-    "brief": "Formula One and other motorsport: drivers, teams, circuits, champions."
-  },
-  {
-    "slug": "boxing-combat",
-    "name": "Boxing and combat sports",
-    "group": "Sport",
-    "tags": [
-      "boxing",
-      "MMA",
-      "wrestling"
-    ],
-    "brief": "Boxing, MMA, wrestling and martial arts: champions, bouts, nicknames."
-  },
-  {
-    "slug": "horse-racing",
-    "name": "Horse racing and darts",
-    "group": "Sport",
-    "tags": [
-      "horse racing",
-      "darts",
-      "snooker"
-    ],
-    "brief": "Racing classics and Grand Nationals, plus darts and snooker champions and terms."
-  },
-  {
-    "slug": "books",
-    "name": "Books and literature",
-    "group": "Arts",
-    "tags": [
-      "books",
-      "novels",
-      "authors"
-    ],
-    "brief": "Novels, authors, characters, opening lines and prizes."
-  },
-  {
-    "slug": "shakespeare",
-    "name": "Shakespeare",
-    "group": "Arts",
-    "tags": [
-      "Shakespeare",
-      "plays",
-      "Stratford"
-    ],
-    "brief": "Shakespeare's plays, characters, quotes and life."
-  },
-  {
-    "slug": "childrens-books",
-    "name": "Children's books",
-    "group": "Arts",
-    "tags": [
-      "children's books",
-      "Roald Dahl",
-      "picture books"
-    ],
-    "brief": "Children's books from Beatrix Potter to Julia Donaldson: authors, characters, illustrators."
-  },
-  {
-    "slug": "art",
-    "name": "Art and artists",
-    "group": "Arts",
-    "tags": [
-      "art",
-      "painting",
-      "artists",
-      "galleries"
-    ],
-    "brief": "Painters, sculptors, famous works, movements and galleries."
-  },
-  {
-    "slug": "theatre",
-    "name": "Theatre",
-    "group": "Arts",
-    "tags": [
-      "theatre",
-      "West End",
-      "plays"
-    ],
-    "brief": "Plays, playwrights, theatres and the West End."
-  },
-  {
-    "slug": "words-language",
-    "name": "Words and language",
-    "group": "Arts",
-    "tags": [
-      "words",
-      "language",
-      "spelling",
-      "phrases"
-    ],
-    "brief": "Word origins, meanings, spelling, phrases, foreign words used in English."
-  },
-  {
-    "slug": "mythology",
-    "name": "Mythology and legends",
-    "group": "Arts",
-    "tags": [
-      "mythology",
-      "gods",
-      "legends",
-      "King Arthur"
-    ],
-    "brief": "Greek, Roman, Norse and British myths and legends."
-  },
-  {
-    "slug": "religion-festivals",
-    "name": "Religions and festivals",
-    "group": "Arts",
-    "tags": [
-      "religion",
-      "festivals",
-      "faith"
-    ],
-    "brief": "World religions, holy books, festivals and customs, respectfully and accurately."
-  },
-  {
-    "slug": "famous-firsts",
-    "name": "Famous firsts and records",
-    "group": "Core",
-    "tags": [
-      "records",
-      "firsts",
-      "Guinness"
-    ],
-    "brief": "Firsts, biggest, smallest, fastest and world records."
-  },
-  {
-    "slug": "days-that-shook-the-world",
-    "name": "Days that shook the world",
-    "group": "History",
-    "tags": [
-      "history",
-      "disasters",
-      "events",
-      "news"
-    ],
-    "brief": "The days everyone remembers: Titanic, Hiroshima, the Wall Street Crash, Chernobyl, 9/11, the Berlin Wall falling, the Moon landing, Diana, the tsunami and more. Dates, places, causes and consequences, handled factually and respectfully."
-  },
-  {
-    "slug": "anagrams-wordplay",
-    "name": "Anagrams and wordplay",
-    "group": "Core",
-    "tags": [
-      "anagrams",
-      "wordplay",
-      "puzzles"
-    ],
-    "brief": "Anagrams of famous names and places, hidden words, wordplay puzzles."
-  },
-  {
-    "slug": "name-the-year",
-    "name": "Name the year",
-    "group": "Core",
-    "tags": [
-      "years",
-      "dates",
-      "events"
-    ],
-    "brief": "In which year did these things happen: a mix of news, sport, music and film events."
-  },
-  {
-    "slug": "connections",
-    "name": "Connections and links",
-    "group": "Core",
-    "tags": [
-      "connections",
-      "links",
-      "lateral"
-    ],
-    "brief": "What links these things: answers that share a theme, word or person."
-  },
-  {
-    "slug": "alan-shearer",
-    "name": "Alan Shearer",
-    "group": "Signature",
-    "tags": [
-      "Alan Shearer",
-      "Shearer",
-      "football",
-      "Newcastle United"
-    ],
-    "brief": "Every answer is Alan Shearer, or just Shearer: the striker's records and career, plus the other famous Shearers."
-  },
-  {
-    "slug": "roger",
-    "name": "Roger",
-    "group": "Signature",
-    "tags": [
-      "Roger"
-    ],
-    "brief": "Every answer is a Roger: Federer, Moore, Daltrey, Waters, Bannister, Rabbit and the rest."
-  }
+ {
+  "slug": "general-knowledge",
+  "name": "General knowledge",
+  "group": "Core",
+  "tags": [
+   "general"
+  ],
+  "brief": "Classic pub-quiz general knowledge across every subject, the kind everyone has a shot at."
+ },
+ {
+  "slug": "record-breakers",
+  "name": "Record breakers",
+  "group": "Core",
+  "tags": [
+   "records",
+   "Guinness World Records",
+   "Record Breakers"
+  ],
+  "brief": "World records of every kind, Guinness World Records, and the BBC show Record Breakers with Roy Castle and the McWhirters."
+ },
+ {
+  "slug": "ripleys-believe-it-or-not",
+  "name": "Ripley's Believe It or Not",
+  "group": "Core",
+  "tags": [
+   "Ripley",
+   "strange but true",
+   "oddities"
+  ],
+  "brief": "Strange-but-true facts in the spirit of Ripley's Believe It or Not: odd people, bizarre records, curious objects and unlikely events, all verifiably true, plus Robert Ripley himself."
+ },
+ {
+  "slug": "no-such-thing-as-a-fish",
+  "name": "No Such Thing As a Fish facts",
+  "group": "Core",
+  "tags": [
+   "QI",
+   "No Such Thing As a Fish",
+   "facts"
+  ],
+  "brief": "Surprising, verifiable facts of the kind the QI elves love on No Such Thing As a Fish: history, science, animals and language oddities. Our own wording, never copied from the podcast."
+ },
+ {
+  "slug": "uk-geography",
+  "name": "UK geography",
+  "group": "Geography",
+  "tags": [
+   "UK",
+   "Britain",
+   "counties",
+   "cities",
+   "rivers"
+  ],
+  "brief": "Cities, counties, rivers, mountains, coasts and landmarks of England, Scotland, Wales and Northern Ireland."
+ },
+ {
+  "slug": "world-geography",
+  "name": "World geography",
+  "group": "Geography",
+  "tags": [
+   "countries",
+   "continents",
+   "oceans"
+  ],
+  "brief": "Countries, continents, oceans, rivers, deserts and mountain ranges around the world."
+ },
+ {
+  "slug": "capital-cities",
+  "name": "Capital cities",
+  "group": "Geography",
+  "tags": [
+   "capitals",
+   "countries"
+  ],
+  "brief": "Capital cities of the world, from the obvious to the tricky ones."
+ },
+ {
+  "slug": "flags",
+  "name": "Flags of the world",
+  "group": "Geography",
+  "tags": [
+   "flags",
+   "countries"
+  ],
+  "brief": "Flags: colours, symbols, which country, look-alikes. Use flag pictures where the type allows."
+ },
+ {
+  "slug": "europe",
+  "name": "Europe",
+  "group": "Geography",
+  "tags": [
+   "Europe",
+   "EU",
+   "countries"
+  ],
+  "brief": "European countries, cities, culture, landmarks and the EU."
+ },
+ {
+  "slug": "usa",
+  "name": "The United States",
+  "group": "Geography",
+  "tags": [
+   "USA",
+   "America",
+   "states"
+  ],
+  "brief": "US states, cities, presidents, landmarks and American life."
+ },
+ {
+  "slug": "london",
+  "name": "London",
+  "group": "Geography",
+  "tags": [
+   "London",
+   "Thames",
+   "Underground"
+  ],
+  "brief": "London landmarks, boroughs, the Tube, history and culture."
+ },
+ {
+  "slug": "north-east-england",
+  "name": "The North East of England",
+  "group": "Geography",
+  "tags": [
+   "North East",
+   "Newcastle",
+   "Durham",
+   "Sunderland",
+   "Geordie",
+   "Beamish"
+  ],
+  "brief": "Newcastle, Gateshead, Sunderland, Durham, Northumberland and Teesside: places, people, football, food, dialect and history."
+ },
+ {
+  "slug": "newcastle-v-sunderland",
+  "name": "Newcastle v Sunderland",
+  "group": "Sport",
+  "tags": [
+   "Newcastle United",
+   "Sunderland",
+   "Tyne-Wear derby",
+   "Toon",
+   "Magpies",
+   "Black Cats",
+   "Mackems",
+   "football"
+  ],
+  "brief": "The Tyne-Wear rivalry, told from the Gallowgate: Newcastle United's glories (trophies, European nights, legends) against Sunderland's lowlights (relegations, League One, record-low points). Every fact true, every angle black and white."
+ },
+ {
+  "slug": "brighton",
+  "name": "Brighton",
+  "group": "Geography",
+  "tags": [
+   "Brighton",
+   "Sussex",
+   "seaside"
+  ],
+  "brief": "Brighton and Hove: the piers, the Pavilion, the Lanes, the football club, music and famous residents."
+ },
+ {
+  "slug": "scotland",
+  "name": "Scotland",
+  "group": "Geography",
+  "tags": [
+   "Scotland",
+   "Scottish",
+   "Highlands"
+  ],
+  "brief": "Scottish places, history, food and drink, sport, inventors and culture."
+ },
+ {
+  "slug": "wales",
+  "name": "Wales",
+  "group": "Geography",
+  "tags": [
+   "Wales",
+   "Welsh"
+  ],
+  "brief": "Welsh places, history, rugby, music, language and culture."
+ },
+ {
+  "slug": "ireland",
+  "name": "Ireland",
+  "group": "Geography",
+  "tags": [
+   "Ireland",
+   "Irish",
+   "Dublin"
+  ],
+  "brief": "Ireland north and south: places, history, music, sport and culture."
+ },
+ {
+  "slug": "australia",
+  "name": "Australia and New Zealand",
+  "group": "Geography",
+  "tags": [
+   "Australia",
+   "New Zealand",
+   "Sydney"
+  ],
+  "brief": "Australia and New Zealand: places, wildlife, sport, history and culture."
+ },
+ {
+  "slug": "landmarks",
+  "name": "Famous landmarks",
+  "group": "Geography",
+  "tags": [
+   "landmarks",
+   "buildings",
+   "wonders"
+  ],
+  "brief": "Famous buildings, monuments and natural wonders: where they are, who built them, what they are for."
+ },
+ {
+  "slug": "british-history",
+  "name": "British history",
+  "group": "History",
+  "tags": [
+   "history",
+   "Britain",
+   "kings",
+   "queens"
+  ],
+  "brief": "British history from the Romans to the present: monarchs, battles, laws, everyday life."
+ },
+ {
+  "slug": "tudors",
+  "name": "The Tudors",
+  "group": "History",
+  "tags": [
+   "Tudors",
+   "Henry VIII",
+   "Elizabeth I"
+  ],
+  "brief": "Henry VIII, his wives, Elizabeth I, the Reformation, the Armada and Tudor life."
+ },
+ {
+  "slug": "world-wars",
+  "name": "The World Wars",
+  "group": "History",
+  "tags": [
+   "WW1",
+   "WW2",
+   "war",
+   "1914",
+   "1939"
+  ],
+  "brief": "The First and Second World Wars: leaders, battles, the home front, technology, aftermath."
+ },
+ {
+  "slug": "ancient-history",
+  "name": "Ancient history",
+  "group": "History",
+  "tags": [
+   "Romans",
+   "Greeks",
+   "Egyptians",
+   "ancient"
+  ],
+  "brief": "Egypt, Greece, Rome and other ancient civilisations: rulers, gods, buildings, inventions."
+ },
+ {
+  "slug": "royal-family",
+  "name": "The Royal Family",
+  "group": "History",
+  "tags": [
+   "royalty",
+   "monarchy",
+   "Windsor"
+  ],
+  "brief": "The British royal family past and present: succession, weddings, homes, titles, traditions."
+ },
+ {
+  "slug": "20th-century",
+  "name": "The 20th century",
+  "group": "History",
+  "tags": [
+   "20th century",
+   "events"
+  ],
+  "brief": "Big events of the 1900s: politics, disasters, achievements, inventions and social change."
+ },
+ {
+  "slug": "famous-people",
+  "name": "Famous people in history",
+  "group": "History",
+  "tags": [
+   "biography",
+   "explorers",
+   "inventors",
+   "leaders"
+  ],
+  "brief": "Explorers, inventors, leaders, scientists and reformers and what they are remembered for."
+ },
+ {
+  "slug": "covid-19",
+  "name": "Covid-19",
+  "group": "History",
+  "tags": [
+   "Covid",
+   "coronavirus",
+   "pandemic",
+   "lockdown"
+  ],
+  "brief": "The Covid-19 pandemic: the virus, lockdowns, vaccines, key figures and the language it gave us, handled factually and respectfully."
+ },
+ {
+  "slug": "space",
+  "name": "Space and astronomy",
+  "group": "Science",
+  "tags": [
+   "space",
+   "planets",
+   "astronauts",
+   "NASA"
+  ],
+  "brief": "The solar system, stars, space missions, astronauts and telescopes."
+ },
+ {
+  "slug": "human-body",
+  "name": "The human body",
+  "group": "Science",
+  "tags": [
+   "anatomy",
+   "medicine",
+   "health"
+  ],
+  "brief": "Bones, organs, senses, blood, medicine and how the body works."
+ },
+ {
+  "slug": "animals",
+  "name": "Animals",
+  "group": "Science",
+  "tags": [
+   "animals",
+   "wildlife",
+   "nature"
+  ],
+  "brief": "Wild and domestic animals: records, habits, habitats, young, collective nouns."
+ },
+ {
+  "slug": "science-technology",
+  "name": "Science and technology",
+  "group": "Science",
+  "tags": [
+   "science",
+   "technology",
+   "inventions",
+   "physics",
+   "chemistry"
+  ],
+  "brief": "Physics, chemistry, biology and inventions, pitched for a pub rather than a lab."
+ },
+ {
+  "slug": "computers-internet",
+  "name": "Computers and the internet",
+  "group": "Science",
+  "tags": [
+   "computing",
+   "internet",
+   "apps",
+   "tech companies"
+  ],
+  "brief": "Computers, phones, apps, websites, tech companies and the people behind them."
+ },
+ {
+  "slug": "nature-environment",
+  "name": "Nature and the environment",
+  "group": "Science",
+  "tags": [
+   "plants",
+   "trees",
+   "weather",
+   "climate",
+   "environment"
+  ],
+  "brief": "Plants, trees, weather, oceans, climate and conservation."
+ },
+ {
+  "slug": "maths-numbers",
+  "name": "Maths and numbers",
+  "group": "Science",
+  "tags": [
+   "maths",
+   "numbers",
+   "puzzles"
+  ],
+  "brief": "Numbers, shapes, mental arithmetic and number facts that a pub crowd can attempt."
+ },
+ {
+  "slug": "food-drink",
+  "name": "Food and drink",
+  "group": "Lifestyle",
+  "tags": [
+   "food",
+   "cooking",
+   "cuisine"
+  ],
+  "brief": "Dishes, ingredients, cuisines, cooking terms and food history."
+ },
+ {
+  "slug": "beer-wine-spirits",
+  "name": "Beer, wine and spirits",
+  "group": "Lifestyle",
+  "tags": [
+   "beer",
+   "wine",
+   "cocktails",
+   "whisky"
+  ],
+  "brief": "Beers, wines, cocktails, spirits, breweries and drinking traditions."
+ },
+ {
+  "slug": "british-food",
+  "name": "British food",
+  "group": "Lifestyle",
+  "tags": [
+   "British food",
+   "pub food",
+   "sweets",
+   "chocolate"
+  ],
+  "brief": "British dishes, regional specialities, sweets, chocolate bars, crisps and supermarket brands."
+ },
+ {
+  "slug": "brands-logos",
+  "name": "Brands and logos",
+  "group": "Lifestyle",
+  "tags": [
+   "brands",
+   "logos",
+   "adverts",
+   "slogans"
+  ],
+  "brief": "Companies, logos, slogans, adverts and product mascots."
+ },
+ {
+  "slug": "cars-motoring",
+  "name": "Cars and motoring",
+  "group": "Lifestyle",
+  "tags": [
+   "cars",
+   "motoring",
+   "driving"
+  ],
+  "brief": "Car makers, models, badges, motoring history and driving in the UK."
+ },
+ {
+  "slug": "fashion",
+  "name": "Fashion",
+  "group": "Lifestyle",
+  "tags": [
+   "fashion",
+   "designers",
+   "clothes"
+  ],
+  "brief": "Designers, brands, trends by decade and fashion history."
+ },
+ {
+  "slug": "games-toys",
+  "name": "Games and toys",
+  "group": "Lifestyle",
+  "tags": [
+   "board games",
+   "toys",
+   "playground"
+  ],
+  "brief": "Board games, card games, toys and playground games past and present."
+ },
+ {
+  "slug": "video-games",
+  "name": "Video games",
+  "group": "Lifestyle",
+  "tags": [
+   "video games",
+   "Nintendo",
+   "PlayStation",
+   "Xbox"
+  ],
+  "brief": "Consoles, classic and modern games, characters and gaming history."
+ },
+ {
+  "slug": "the-1960s",
+  "name": "The 1960s",
+  "group": "Decades",
+  "tags": [
+   "1960s",
+   "sixties"
+  ],
+  "brief": "Music, TV, film, fashion, news and sport of the 1960s."
+ },
+ {
+  "slug": "the-1970s",
+  "name": "The 1970s",
+  "group": "Decades",
+  "tags": [
+   "1970s",
+   "seventies"
+  ],
+  "brief": "Music, TV, film, fashion, news and sport of the 1970s."
+ },
+ {
+  "slug": "the-1980s",
+  "name": "The 1980s",
+  "group": "Decades",
+  "tags": [
+   "1980s",
+   "eighties"
+  ],
+  "brief": "Music, TV, film, fashion, toys, news and sport of the 1980s."
+ },
+ {
+  "slug": "the-1990s",
+  "name": "The 1990s",
+  "group": "Decades",
+  "tags": [
+   "1990s",
+   "nineties",
+   "Britpop"
+  ],
+  "brief": "Music, TV, film, fashion, toys, news and sport of the 1990s."
+ },
+ {
+  "slug": "the-2000s",
+  "name": "The 2000s",
+  "group": "Decades",
+  "tags": [
+   "2000s",
+   "noughties"
+  ],
+  "brief": "Music, TV, film, technology, news and sport of the 2000s."
+ },
+ {
+  "slug": "the-2010s",
+  "name": "The 2010s",
+  "group": "Decades",
+  "tags": [
+   "2010s"
+  ],
+  "brief": "Music, TV, film, technology, news and sport of the 2010s."
+ },
+ {
+  "slug": "christmas",
+  "name": "Christmas",
+  "group": "Seasonal",
+  "tags": [
+   "Christmas",
+   "festive",
+   "Xmas"
+  ],
+  "brief": "Christmas traditions, food, carols, history and customs around the world."
+ },
+ {
+  "slug": "christmas-movies",
+  "name": "Christmas films",
+  "group": "Seasonal",
+  "tags": [
+   "Christmas",
+   "films",
+   "festive"
+  ],
+  "brief": "Christmas films: plots, characters, quotes, actors and behind the scenes."
+ },
+ {
+  "slug": "christmas-music",
+  "name": "Christmas songs",
+  "group": "Seasonal",
+  "tags": [
+   "Christmas",
+   "songs",
+   "carols",
+   "number ones"
+  ],
+  "brief": "Christmas songs and carols, Christmas number ones and festive albums."
+ },
+ {
+  "slug": "christmas-tv",
+  "name": "Christmas TV",
+  "group": "Seasonal",
+  "tags": [
+   "Christmas",
+   "television",
+   "specials"
+  ],
+  "brief": "Christmas TV specials, adverts, the King's Speech, festive episodes of favourite shows."
+ },
+ {
+  "slug": "halloween",
+  "name": "Halloween",
+  "group": "Seasonal",
+  "tags": [
+   "Halloween",
+   "horror",
+   "spooky"
+  ],
+  "brief": "Halloween traditions, monsters, horror films, spooky music and folklore."
+ },
+ {
+  "slug": "halloween-music",
+  "name": "Halloween music",
+  "group": "Seasonal",
+  "tags": [
+   "Halloween",
+   "songs",
+   "spooky"
+  ],
+  "brief": "Spooky songs, horror film themes, Thriller, Monster Mash and anything ghoulish in the charts."
+ },
+ {
+  "slug": "bonfire-night",
+  "name": "Bonfire Night and autumn",
+  "group": "Seasonal",
+  "tags": [
+   "Bonfire Night",
+   "Guy Fawkes",
+   "autumn"
+  ],
+  "brief": "Guy Fawkes, fireworks, the Gunpowder Plot and autumn traditions."
+ },
+ {
+  "slug": "easter-spring",
+  "name": "Easter and spring",
+  "group": "Seasonal",
+  "tags": [
+   "Easter",
+   "spring"
+  ],
+  "brief": "Easter traditions, chocolate, spring festivals and customs."
+ },
+ {
+  "slug": "new-year",
+  "name": "New Year",
+  "group": "Seasonal",
+  "tags": [
+   "New Year",
+   "Hogmanay"
+  ],
+  "brief": "New Year traditions around the world, Hogmanay, resolutions, famous New Year events."
+ },
+ {
+  "slug": "valentines",
+  "name": "Valentine's Day and love songs",
+  "group": "Seasonal",
+  "tags": [
+   "Valentine",
+   "love",
+   "romance"
+  ],
+  "brief": "Romance in history, love songs, famous couples and Valentine's traditions."
+ },
+ {
+  "slug": "summer-holidays",
+  "name": "Summer holidays",
+  "group": "Seasonal",
+  "tags": [
+   "holidays",
+   "travel",
+   "summer",
+   "seaside"
+  ],
+  "brief": "Holiday destinations, seaside traditions, airlines, travel trivia."
+ },
+ {
+  "slug": "pop-music",
+  "name": "Pop music",
+  "group": "Music",
+  "tags": [
+   "pop",
+   "charts",
+   "singles"
+  ],
+  "brief": "Pop music from the 1950s to now: singers, bands, singles, albums, chart facts."
+ },
+ {
+  "slug": "rock-music",
+  "name": "Rock music",
+  "group": "Music",
+  "tags": [
+   "rock",
+   "bands",
+   "guitar"
+  ],
+  "brief": "Rock bands and artists, albums, guitarists and festivals."
+ },
+ {
+  "slug": "the-beatles",
+  "name": "The Beatles",
+  "group": "Music",
+  "tags": [
+   "Beatles",
+   "Liverpool",
+   "Lennon",
+   "McCartney"
+  ],
+  "brief": "The Beatles: members, songs, albums, films and solo careers."
+ },
+ {
+  "slug": "number-ones",
+  "name": "UK number ones",
+  "group": "Music",
+  "tags": [
+   "charts",
+   "number one",
+   "singles"
+  ],
+  "brief": "UK number one singles and albums, chart records and famous chart battles."
+ },
+ {
+  "slug": "eurovision",
+  "name": "Eurovision",
+  "group": "Music",
+  "tags": [
+   "Eurovision",
+   "song contest"
+  ],
+  "brief": "The Eurovision Song Contest: winners, UK entries, host cities, famous moments."
+ },
+ {
+  "slug": "musicals",
+  "name": "Musicals",
+  "group": "Music",
+  "tags": [
+   "musicals",
+   "West End",
+   "Broadway"
+  ],
+  "brief": "Stage and film musicals: shows, songs, composers, characters."
+ },
+ {
+  "slug": "classical-music",
+  "name": "Classical music",
+  "group": "Music",
+  "tags": [
+   "classical",
+   "composers",
+   "orchestra"
+  ],
+  "brief": "Composers, famous works, instruments and the orchestra."
+ },
+ {
+  "slug": "boy-bands-girl-groups",
+  "name": "Boy bands and girl groups",
+  "group": "Music",
+  "tags": [
+   "boy bands",
+   "girl groups",
+   "Take That",
+   "Spice Girls"
+  ],
+  "brief": "Boy bands and girl groups from the 1990s on: members, hits, reunions."
+ },
+ {
+  "slug": "one-hit-wonders",
+  "name": "One-hit wonders",
+  "group": "Music",
+  "tags": [
+   "one-hit wonders",
+   "novelty"
+  ],
+  "brief": "Acts remembered for a single hit, novelty records and where-are-they-now."
+ },
+ {
+  "slug": "music-lyrics",
+  "name": "Song lyrics",
+  "group": "Music",
+  "tags": [
+   "lyrics",
+   "songs"
+  ],
+  "brief": "Finish the lyric, which song has this line, misheard lyrics."
+ },
+ {
+  "slug": "disney",
+  "name": "Disney films",
+  "group": "Film",
+  "tags": [
+   "Disney",
+   "Pixar",
+   "animation"
+  ],
+  "brief": "Disney and Pixar films: characters, songs, villains, sidekicks, release order."
+ },
+ {
+  "slug": "marvel",
+  "name": "The Marvel universe",
+  "group": "Film",
+  "tags": [
+   "Marvel",
+   "superheroes",
+   "Avengers",
+   "MCU"
+  ],
+  "brief": "Marvel comics and the Marvel Cinematic Universe: heroes, villains, actors, films in order."
+ },
+ {
+  "slug": "dc-batman",
+  "name": "DC, Batman and Superman",
+  "group": "Film",
+  "tags": [
+   "DC",
+   "Batman",
+   "Superman",
+   "superheroes"
+  ],
+  "brief": "DC comics and films: Batman, Superman, Wonder Woman, villains and actors."
+ },
+ {
+  "slug": "james-bond",
+  "name": "James Bond",
+  "group": "Film",
+  "tags": [
+   "James Bond",
+   "007",
+   "spy"
+  ],
+  "brief": "The Bond films: actors, villains, gadgets, theme songs, locations, Bond girls."
+ },
+ {
+  "slug": "harry-potter",
+  "name": "Harry Potter",
+  "group": "Film",
+  "tags": [
+   "Harry Potter",
+   "Hogwarts",
+   "wizards"
+  ],
+  "brief": "The Harry Potter books and films: characters, spells, houses, creatures, actors."
+ },
+ {
+  "slug": "star-wars",
+  "name": "Star Wars",
+  "group": "Film",
+  "tags": [
+   "Star Wars",
+   "Jedi",
+   "Skywalker"
+  ],
+  "brief": "The Star Wars films and series: characters, planets, ships, quotes, actors."
+ },
+ {
+  "slug": "lord-of-the-rings",
+  "name": "The Lord of the Rings and fantasy",
+  "group": "Film",
+  "tags": [
+   "Lord of the Rings",
+   "Tolkien",
+   "fantasy",
+   "Hobbit"
+  ],
+  "brief": "Tolkien's world in books and films, plus Game of Thrones and other fantasy."
+ },
+ {
+  "slug": "oscars",
+  "name": "The Oscars and award winners",
+  "group": "Film",
+  "tags": [
+   "Oscars",
+   "Academy Awards",
+   "BAFTA"
+  ],
+  "brief": "Best Picture winners, acting winners, records and famous Oscar moments."
+ },
+ {
+  "slug": "british-films",
+  "name": "British films",
+  "group": "Film",
+  "tags": [
+   "British films",
+   "Richard Curtis",
+   "Ealing"
+  ],
+  "brief": "British cinema: Four Weddings, Love Actually, The Full Monty, Bond, Carry On, Ealing and more."
+ },
+ {
+  "slug": "action-films",
+  "name": "Action and blockbusters",
+  "group": "Film",
+  "tags": [
+   "action",
+   "blockbusters",
+   "Die Hard"
+  ],
+  "brief": "Action films and blockbusters: stars, franchises, stunts, quotes."
+ },
+ {
+  "slug": "horror-films",
+  "name": "Horror films",
+  "group": "Film",
+  "tags": [
+   "horror",
+   "scary",
+   "Halloween"
+  ],
+  "brief": "Horror films from Hitchcock to now: villains, directors, famous scenes."
+ },
+ {
+  "slug": "rom-coms",
+  "name": "Romantic comedies",
+  "group": "Film",
+  "tags": [
+   "rom-com",
+   "romance",
+   "comedy"
+  ],
+  "brief": "Romantic comedies: plots, couples, actors and lines."
+ },
+ {
+  "slug": "film-quotes",
+  "name": "Film quotes",
+  "group": "Film",
+  "tags": [
+   "quotes",
+   "lines",
+   "films"
+  ],
+  "brief": "Famous lines from films: who said it and in which film."
+ },
+ {
+  "slug": "pixar-animation",
+  "name": "Animated films",
+  "group": "Film",
+  "tags": [
+   "animation",
+   "Pixar",
+   "DreamWorks",
+   "Studio Ghibli"
+  ],
+  "brief": "Animated films beyond Disney: Pixar, DreamWorks, Aardman, Studio Ghibli."
+ },
+ {
+  "slug": "friends",
+  "name": "Friends",
+  "group": "Television",
+  "tags": [
+   "Friends",
+   "Central Perk",
+   "sitcom"
+  ],
+  "brief": "The sitcom Friends: characters, episodes, catchphrases, guest stars, Central Perk."
+ },
+ {
+  "slug": "breaking-bad",
+  "name": "Breaking Bad and Better Call Saul",
+  "group": "Television",
+  "tags": [
+   "Breaking Bad",
+   "Walter White",
+   "Better Call Saul"
+  ],
+  "brief": "Breaking Bad and Better Call Saul: characters, plot, quotes, locations."
+ },
+ {
+  "slug": "game-of-thrones",
+  "name": "Game of Thrones",
+  "group": "Television",
+  "tags": [
+   "Game of Thrones",
+   "Westeros",
+   "Stark"
+  ],
+  "brief": "Game of Thrones and House of the Dragon: houses, characters, battles, actors."
+ },
+ {
+  "slug": "the-office",
+  "name": "The Office and workplace comedies",
+  "group": "Television",
+  "tags": [
+   "The Office",
+   "Gervais",
+   "sitcom"
+  ],
+  "brief": "The Office UK and US, Parks and Recreation and other workplace comedies."
+ },
+ {
+  "slug": "british-sitcoms",
+  "name": "British sitcoms",
+  "group": "Television",
+  "tags": [
+   "sitcom",
+   "comedy",
+   "Only Fools",
+   "Fawlty Towers"
+  ],
+  "brief": "Only Fools and Horses, Fawlty Towers, Blackadder, Gavin and Stacey, The Inbetweeners and more."
+ },
+ {
+  "slug": "soaps",
+  "name": "Soaps",
+  "group": "Television",
+  "tags": [
+   "soaps",
+   "EastEnders",
+   "Coronation Street",
+   "Emmerdale"
+  ],
+  "brief": "EastEnders, Coronation Street, Emmerdale, Hollyoaks and Neighbours: characters, families, storylines."
+ },
+ {
+  "slug": "reality-tv",
+  "name": "Reality TV",
+  "group": "Television",
+  "tags": [
+   "reality TV",
+   "Big Brother",
+   "Love Island",
+   "Strictly"
+  ],
+  "brief": "Strictly, I'm a Celebrity, Big Brother, Love Island, The Traitors, Bake Off and their winners and hosts."
+ },
+ {
+  "slug": "quiz-shows",
+  "name": "Quiz and game shows",
+  "group": "Television",
+  "tags": [
+   "quiz shows",
+   "game shows",
+   "hosts"
+  ],
+  "brief": "TV quiz and game shows: hosts, formats, catchphrases, famous moments."
+ },
+ {
+  "slug": "doctor-who",
+  "name": "Doctor Who",
+  "group": "Television",
+  "tags": [
+   "Doctor Who",
+   "TARDIS",
+   "Daleks"
+  ],
+  "brief": "Doctor Who: the Doctors, companions, monsters, episodes."
+ },
+ {
+  "slug": "crime-dramas",
+  "name": "Crime dramas",
+  "group": "Television",
+  "tags": [
+   "crime",
+   "detectives",
+   "Line of Duty",
+   "Vera"
+  ],
+  "brief": "TV detectives and crime dramas: Line of Duty, Vera, Sherlock, Broadchurch, Poirot, Morse."
+ },
+ {
+  "slug": "kids-tv",
+  "name": "Children's TV",
+  "group": "Television",
+  "tags": [
+   "children's TV",
+   "cartoons",
+   "CBeebies"
+  ],
+  "brief": "Children's TV from the 1970s to now: cartoons, presenters, puppets, theme tunes."
+ },
+ {
+  "slug": "us-tv",
+  "name": "American TV",
+  "group": "Television",
+  "tags": [
+   "US TV",
+   "The Simpsons",
+   "Netflix"
+  ],
+  "brief": "American series: The Simpsons, The Sopranos, Stranger Things, Succession and the streaming era."
+ },
+ {
+  "slug": "dexter",
+  "name": "Dexter",
+  "group": "Television",
+  "tags": [
+   "Dexter",
+   "Dexter Morgan",
+   "Michael C. Hall"
+  ],
+  "brief": "Dexter and its follow-ups (New Blood, Original Sin, Resurrection): characters, killers, plot, Miami, quotes."
+ },
+ {
+  "slug": "bridgerton",
+  "name": "Bridgerton",
+  "group": "Television",
+  "tags": [
+   "Bridgerton",
+   "Shondaland",
+   "Regency"
+  ],
+  "brief": "Bridgerton and Queen Charlotte: the Bridgerton siblings, Lady Whistledown, the ton, cast, books and music."
+ },
+ {
+  "slug": "handmaids-tale",
+  "name": "The Handmaid's Tale",
+  "group": "Television",
+  "tags": [
+   "The Handmaid's Tale",
+   "Gilead",
+   "June Osborne",
+   "Margaret Atwood"
+  ],
+  "brief": "The Handmaid's Tale TV series and its world of Gilead: characters, plot, cast, the novels and The Testaments."
+ },
+ {
+  "slug": "football",
+  "name": "Football",
+  "group": "Sport",
+  "tags": [
+   "football",
+   "Premier League",
+   "World Cup"
+  ],
+  "brief": "Football: clubs, players, managers, the Premier League, cups and international tournaments."
+ },
+ {
+  "slug": "world-cup",
+  "name": "The football World Cup",
+  "group": "Sport",
+  "tags": [
+   "World Cup",
+   "football",
+   "1966"
+  ],
+  "brief": "Every World Cup: hosts, winners, goals, England's campaigns, famous moments."
+ },
+ {
+  "slug": "olympics",
+  "name": "The Olympics",
+  "group": "Sport",
+  "tags": [
+   "Olympics",
+   "athletics",
+   "Team GB"
+  ],
+  "brief": "Summer and Winter Olympics: host cities, sports, medallists, records, Team GB."
+ },
+ {
+  "slug": "cricket",
+  "name": "Cricket",
+  "group": "Sport",
+  "tags": [
+   "cricket",
+   "Ashes",
+   "Test"
+  ],
+  "brief": "Cricket: the Ashes, players, grounds, terms and formats."
+ },
+ {
+  "slug": "rugby",
+  "name": "Rugby",
+  "group": "Sport",
+  "tags": [
+   "rugby",
+   "Six Nations",
+   "union",
+   "league"
+  ],
+  "brief": "Rugby union and league: the Six Nations, World Cups, positions, players."
+ },
+ {
+  "slug": "tennis-golf",
+  "name": "Tennis and golf",
+  "group": "Sport",
+  "tags": [
+   "tennis",
+   "golf",
+   "Wimbledon",
+   "Masters"
+  ],
+  "brief": "Tennis and golf: majors, champions, courses, terms."
+ },
+ {
+  "slug": "motorsport",
+  "name": "Motorsport",
+  "group": "Sport",
+  "tags": [
+   "Formula One",
+   "F1",
+   "motor racing"
+  ],
+  "brief": "Formula One and other motorsport: drivers, teams, circuits, champions."
+ },
+ {
+  "slug": "boxing-combat",
+  "name": "Boxing and combat sports",
+  "group": "Sport",
+  "tags": [
+   "boxing",
+   "MMA",
+   "wrestling"
+  ],
+  "brief": "Boxing, MMA, wrestling and martial arts: champions, bouts, nicknames."
+ },
+ {
+  "slug": "horse-racing",
+  "name": "Horse racing and darts",
+  "group": "Sport",
+  "tags": [
+   "horse racing",
+   "darts",
+   "snooker"
+  ],
+  "brief": "Racing classics and Grand Nationals, plus darts and snooker champions and terms."
+ },
+ {
+  "slug": "books",
+  "name": "Books and literature",
+  "group": "Arts",
+  "tags": [
+   "books",
+   "novels",
+   "authors"
+  ],
+  "brief": "Novels, authors, characters, opening lines and prizes."
+ },
+ {
+  "slug": "shakespeare",
+  "name": "Shakespeare",
+  "group": "Arts",
+  "tags": [
+   "Shakespeare",
+   "plays",
+   "Stratford"
+  ],
+  "brief": "Shakespeare's plays, characters, quotes and life."
+ },
+ {
+  "slug": "childrens-books",
+  "name": "Children's books",
+  "group": "Arts",
+  "tags": [
+   "children's books",
+   "Roald Dahl",
+   "picture books"
+  ],
+  "brief": "Children's books from Beatrix Potter to Julia Donaldson: authors, characters, illustrators."
+ },
+ {
+  "slug": "art",
+  "name": "Art and artists",
+  "group": "Arts",
+  "tags": [
+   "art",
+   "painting",
+   "artists",
+   "galleries"
+  ],
+  "brief": "Painters, sculptors, famous works, movements and galleries."
+ },
+ {
+  "slug": "theatre",
+  "name": "Theatre",
+  "group": "Arts",
+  "tags": [
+   "theatre",
+   "West End",
+   "plays"
+  ],
+  "brief": "Plays, playwrights, theatres and the West End."
+ },
+ {
+  "slug": "words-language",
+  "name": "Words and language",
+  "group": "Arts",
+  "tags": [
+   "words",
+   "language",
+   "spelling",
+   "phrases"
+  ],
+  "brief": "Word origins, meanings, spelling, phrases, foreign words used in English."
+ },
+ {
+  "slug": "mythology",
+  "name": "Mythology and legends",
+  "group": "Arts",
+  "tags": [
+   "mythology",
+   "gods",
+   "legends",
+   "King Arthur"
+  ],
+  "brief": "Greek, Roman, Norse and British myths and legends."
+ },
+ {
+  "slug": "religion-festivals",
+  "name": "Religions and festivals",
+  "group": "Arts",
+  "tags": [
+   "religion",
+   "festivals",
+   "faith"
+  ],
+  "brief": "World religions, holy books, festivals and customs, respectfully and accurately."
+ },
+ {
+  "slug": "famous-firsts",
+  "name": "Famous firsts and records",
+  "group": "Core",
+  "tags": [
+   "records",
+   "firsts",
+   "Guinness"
+  ],
+  "brief": "Firsts, biggest, smallest, fastest and world records."
+ },
+ {
+  "slug": "days-that-shook-the-world",
+  "name": "Days that shook the world",
+  "group": "History",
+  "tags": [
+   "history",
+   "disasters",
+   "events",
+   "news"
+  ],
+  "brief": "The days everyone remembers: Titanic, Hiroshima, the Wall Street Crash, Chernobyl, 9/11, the Berlin Wall falling, the Moon landing, Diana, the tsunami and more. Dates, places, causes and consequences, handled factually and respectfully."
+ },
+ {
+  "slug": "anagrams-wordplay",
+  "name": "Anagrams and wordplay",
+  "group": "Core",
+  "tags": [
+   "anagrams",
+   "wordplay",
+   "puzzles"
+  ],
+  "brief": "Anagrams of famous names and places, hidden words, wordplay puzzles."
+ },
+ {
+  "slug": "name-the-year",
+  "name": "Name the year",
+  "group": "Core",
+  "tags": [
+   "years",
+   "dates",
+   "events"
+  ],
+  "brief": "In which year did these things happen: a mix of news, sport, music and film events."
+ },
+ {
+  "slug": "connections",
+  "name": "Connections and links",
+  "group": "Core",
+  "tags": [
+   "connections",
+   "links",
+   "lateral"
+  ],
+  "brief": "What links these things: answers that share a theme, word or person."
+ },
+ {
+  "slug": "alan-shearer",
+  "name": "Alan Shearer",
+  "group": "Signature",
+  "tags": [
+   "Alan Shearer",
+   "Shearer",
+   "football",
+   "Newcastle United"
+  ],
+  "brief": "Every answer is Alan Shearer, or just Shearer: the striker's records and career, plus the other famous Shearers."
+ },
+ {
+  "slug": "roger",
+  "name": "Roger",
+  "group": "Signature",
+  "tags": [
+   "Roger"
+  ],
+  "brief": "Every answer is a Roger: Federer, Moore, Daltrey, Waters, Bannister, Rabbit and the rest."
+ }
 ]
