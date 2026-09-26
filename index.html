@@ -26,6 +26,8 @@
 <script>
 const { $, $$, esc, uid, api, TYPES, COLORS, DEFAULT_SETTINGS, newQuestion, validate, youtubeId, resizeImage, normalizeQuiz, orderQuestions, quizForSave, timeFor, composeCollage, buildCollageFor } = LQ;
 const view = $('#view');
+/** A phone (touch, small screen): the demo opens as the side-by-side phone version. */
+const PHONE_UI = matchMedia('(pointer: coarse) and (max-width: 950px)').matches;
 const S = { quizzes: [], quiz: null, sel: 0, ai: false, saveTimer: null, saving: false, dirty: false, planner: false };
 
 let toastT;
@@ -105,7 +107,7 @@ function viewLogin(msg) {
     ${msg ? `<div class="error" style="margin-bottom:12px">${esc(msg)}</div>` : ''}
     <form id="loginForm"><div class="field"><label>Password</label><input type="password" id="pw" autocomplete="current-password" autofocus></div>
     <button class="btn btn-primary btn-block">Sign in</button></form>
-    <p class="center small mt" style="margin-bottom:0"><a href="host.html?quiz=demo" target="_blank">Try the demo quiz without signing in</a></p></div>`;
+    <p class="center small mt" style="margin-bottom:0"><a href="${PHONE_UI ? 'demo.html' : 'host.html?quiz=demo'}" ${PHONE_UI ? '' : 'target="_blank"'}>Try the demo quiz without signing in</a>${PHONE_UI ? '' : ' · <a href="demo.html">or on one phone, held sideways</a>'}</p></div>`;
   $('#loginForm').onsubmit = async (e) => {
     e.preventDefault();
     const pw = $('#pw').value;
@@ -459,6 +461,7 @@ function renderList() {
   view.innerHTML = `
     <div class="row" style="margin-bottom:18px"><h1 style="margin:0">Your quizzes</h1><div class="grow"></div>
       <a class="btn btn-ghost" href="tv.html?m=1" title="A big-button wizard that builds a whole quiz in a few taps">📱 Quick build</a>
+      <a class="btn btn-ghost" href="demo.html" title="Play the demo on one phone held sideways: the big screen and your player screen side by side">🎲 Demo on a phone</a>
       <button class="btn btn-ghost" id="kahootImp" title="Build a quiz from a Kahoot: upload a PDF of it, or paste its link">📄 Import a Kahoot</button>
       <button class="btn btn-ghost" id="aiNew">✨ Write one with AI</button>
       <button class="btn btn-primary" id="newQuiz">+ New quiz</button></div>

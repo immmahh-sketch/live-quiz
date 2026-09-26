@@ -103,7 +103,7 @@ function renderHome() {
       <button class="tvtile" id="play" data-autofocus><span class="em">▶</span>${MOBILE ? 'My quizzes' : 'Play a saved quiz'}</button>
       <button class="tvtile" id="make"><span class="em">✨</span>Make a new quiz</button>
       <button class="tvtile" id="tpls"><span class="em">📋</span>Weekly format</button>
-      <button class="tvtile" id="demo"><span class="em">${MOBILE ? '🖥' : '🎲'}</span>${MOBILE ? 'Full builder' : 'Try the demo'}</button>
+      <button class="tvtile" id="demo"><span class="em">${MOBILE ? '🖥' : '🎲'}</span>${MOBILE ? 'Full builder' : 'Try the demo'}</button>${MOBILE ? '<button class="tvtile" id="phoneDemo"><span class="em">🎲</span>Try the demo</button>' : ''}
     </div>
     <div class="row mt" style="margin-top:28px"><button class="btn btn-ghost" id="logout">Sign out</button>${window.LetsQuizApp ? '<button class="btn btn-ghost" id="exitApp">⏻ Exit to Fire TV</button>' : ''}</div>`;
   // Only inside the Fire TV app (version 1.1 on), which offers a way to close itself completely.
@@ -112,6 +112,7 @@ function renderHome() {
   $('#make').onclick = () => { T.plan = newPlan(); go('w1'); };
   $('#tpls').onclick = () => go('tpls');
   $('#demo').onclick = () => MOBILE ? (location.href = 'index.html') : demoChoice();
+  if ($('#phoneDemo')) $('#phoneDemo').onclick = () => location.href = 'demo.html'; // the big screen and your player screen, side by side
   $('#logout').onclick = () => { LQ.setHostPassword(''); go('login', { replace: true }); };
 }
 

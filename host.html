@@ -75,7 +75,7 @@ const startsRound = (i) => i === 0 || G.quiz.questions[i - 1]?.round !== G.quiz.
 (async function boot() {
   if (!quizId) return fail('No quiz chosen. Open a quiz in the builder and press Host.');
   if (!DEMO && !LQ.hostPassword()) { location.href = 'index.html'; return; }
-  const saved = store(SAVE_KEY);
+  const saved = new URLSearchParams(location.search).get('fresh') === '1' ? null : store(SAVE_KEY); // ?fresh=1 (the phone demo) always starts a new game
   if (saved && saved.phase !== 'final' && saved.phase !== 'lobby' && Object.keys(saved.players).length) {
     const ok = await ask(`Carry on the game in progress?`, `Game ${saved.code} — ${Object.keys(saved.players).length} players, question ${saved.qIndex + 1} of ${saved.quiz.questions.length}.`, 'Carry on', 'Start fresh');
     if (ok) { G = saved; return connect(); }

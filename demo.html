@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1b1544">
+<title>Let's Quiz! — Demo on your phone</title>
+<link rel="manifest" href="manifest-build.webmanifest">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/brand/icon-64.png">
+<link rel="apple-touch-icon" href="assets/brand/icon-build-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<style>
+  /* The demo on one phone, held sideways: the host screen (drawn at a TV-like 1024×576 and
+     scaled to fit) on the left, and you as a player on the right. */
+  :root { --stage: #1b1544; --sun: #ffd54a; --ink: #1b1544; }
+  html, body { margin: 0; height: 100%; background: var(--stage); color: #fff; font-family: Nunito, system-ui, sans-serif; overflow: hidden; }
+  .wrap { position: fixed; inset: 0; display: flex; padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
+  .hostside { position: relative; flex: 1 1 auto; min-width: 0; }
+  .hostbox { position: absolute; overflow: hidden; border-radius: 10px; box-shadow: 0 6px 24px rgba(0,0,0,.4); }
+  .hostbox iframe { position: absolute; left: 0; top: 0; width: 1024px; height: 576px; border: 0; transform-origin: 0 0; background: var(--stage); }
+  .playside { flex: 0 0 clamp(260px, 36vw, 420px); display: flex; flex-direction: column; border-left: 3px solid var(--sun); background: #f4f3fb; }
+  .playhead { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 4px 10px; background: var(--stage); font-weight: 800; font-size: .85rem; }
+  .playhead a, .playhead button { color: #fff; background: rgba(255,255,255,.14); border: 0; border-radius: 8px; padding: 4px 10px; font: inherit; text-decoration: none; cursor: pointer; }
+  .playside iframe { flex: 1 1 auto; width: 100%; border: 0; background: #f4f3fb; }
+  .waiting { flex: 1 1 auto; display: grid; place-items: center; color: var(--ink); font-weight: 800; text-align: center; padding: 16px; }
+  /* Upright: ask for sideways. */
+  .turn { position: fixed; inset: 0; z-index: 10; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; padding: 24px; background: var(--stage); }
+  .turn .ph { font-size: 4.5rem; animation: tilt 2.2s ease-in-out infinite; }
+  .turn h1 { margin: 0; font-size: 1.6rem; } .turn p { margin: 0; opacity: .8; font-weight: 600; max-width: 22em; }
+  @keyframes tilt { 0%, 30% { transform: rotate(0); } 60%, 100% { transform: rotate(-90deg); } }
+  @media (orientation: portrait) { .turn { display: flex; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hostside" id="hostside"><div class="hostbox" id="hostbox"><iframe id="hostFrame" title="The host screen" allow="autoplay; fullscreen"></iframe></div></div>
+  <div class="playside">
+    <div class="playhead"><span>🧪 You, as a player</span><span><button id="fs" type="button">⛶</button> <a href="index.html">Exit</a></span></div>
+    <div class="waiting" id="waiting">Setting up the game…</div>
+    <iframe id="playFrame" title="Your phone" hidden></iframe>
+  </div>
+</div>
+<div class="turn"><div class="ph">📱</div><h1>Turn your phone sideways</h1><p>The demo shows the big screen and your player screen side by side, so it needs the phone on its side.</p></div>
+<script>
+  const W = 1024, H = 576;
+  const hostFrame = document.getElementById('hostFrame'), hostbox = document.getElementById('hostbox'), hostside = document.getElementById('hostside');
+  // The demo quiz with three bots for company, running itself (you can still press the host's buttons).
+  hostFrame.src = 'host?quiz=demo&bots=3&auto=1&fresh=1&x=' + Date.now().toString(36);
+  function fit() {
+    const r = hostside.getBoundingClientRect(), pad = 6;
+    const s = Math.max(0.1, Math.min((r.width - pad * 2) / W, (r.height - pad * 2) / H));
+    hostFrame.style.transform = `scale(${s})`;
+    hostbox.style.width = W * s + 'px'; hostbox.style.height = H * s + 'px';
+    hostbox.style.left = (r.width - W * s) / 2 + 'px'; hostbox.style.top = (r.height - H * s) / 2 + 'px';
+  }
+  addEventListener('resize', fit); addEventListener('orientationchange', () => setTimeout(fit, 250)); fit();
+  // Phones only let a frame play sound after a tap inside that frame, and the player taps land in the
+  // other frame. So the host screen opens under a "tap to start" cover: tapping it switches its sound on.
+  hostFrame.addEventListener('load', () => {
+    const d = hostFrame.contentDocument; if (!d || d.getElementById('demoTap')) return;
+    const o = d.createElement('div'); o.id = 'demoTap';
+    o.style.cssText = 'position:fixed;inset:0;z-index:99;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;background:rgba(27,21,68,.72);color:#fff;font:900 46px Nunito,sans-serif;cursor:pointer;text-align:center';
+    o.innerHTML = '🔊 Tap here to start<span style="font-size:26px;font-weight:700;opacity:.85">then play on the right, as a player</span>';
+    o.addEventListener('click', () => {
+      try { hostFrame.contentWindow.eval("sfx = sfx || new (window.AudioContext || window.webkitAudioContext)(); if (sfx.state === 'suspended') sfx.resume();"); } catch {}
+      o.remove();
+    });
+    d.body.appendChild(o);
+  });
+  // Once the host has its game code, join it as a player in the right-hand panel.
+  const wait = setInterval(() => {
+    let code = null; try { code = hostFrame.contentWindow.eval('typeof G !== "undefined" && G ? G.code : null'); } catch {} // the host keeps its game in a script-level variable
+    if (!code) return;
+    clearInterval(wait);
+    const pf = document.getElementById('playFrame');
+    pf.src = 'play?g=' + encodeURIComponent(code) + '&solo=1';
+    pf.hidden = false; document.getElementById('waiting').remove();
+  }, 300);
+  document.getElementById('fs').onclick = () => { const d = document.documentElement; if (document.fullscreenElement) document.exitFullscreen?.(); else d.requestFullscreen?.().then(() => screen.orientation?.lock?.('landscape').catch(() => {})).catch(() => {}); };
+</script>
+</body>
+</html>
