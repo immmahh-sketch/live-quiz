@@ -1,0 +1,15 @@
+[
+{"type":"choice","text":"Which microstate's flag is blue over red with a gold crown?","options":["Liechtenstein","Andorra","Monaco","San Marino"],"difficulty":"medium"},
+{"type":"choice","text":"Which country's flag has a red Nordic cross on blue?","options":["Iceland","Norway","Denmark","Finland"],"difficulty":"medium"},
+{"type":"choice","text":"Which country's flag has plain white, blue and red horizontal stripes?","options":["Russia","Slovenia","Serbia","Slovakia"],"difficulty":"medium"},
+{"type":"choice","text":"Which country's flag has plain black, yellow and red vertical stripes?","options":["Belgium","Germany","Uganda","Angola"],"difficulty":"medium"},
+{"type":"choice","text":"Which country's flag has plain yellow, green and red horizontal stripes?","options":["Lithuania","Bolivia","Ghana","Ethiopia"],"difficulty":"hard"},
+{"type":"text","text":"Which country's flag is a red disc on a green background?","answers":["Bangladesh"],"difficulty":"medium"},
+{"type":"tf","text":"Nepal's flag contains a sun and a moon.","answer":true,"difficulty":"medium"},
+{"type":"choice","text":"Which of these flags has the Union Jack in its corner?","options":["Tuvalu","Canada","Jamaica","Ireland"],"difficulty":"medium"},
+{"type":"choice","text":"Which of these flags has an emblem in the middle?","options":["Mexico","Italy","Ireland","France"],"difficulty":"medium"},
+{"type":"choice","text":"Which of these flags has a diagonal band across it?","options":["Tanzania","Kenya","Uganda","Ghana"],"difficulty":"medium"},
+{"type":"choice","text":"Which of these flags is NOT a tricolour?","options":["Japan","France","Italy","Ireland"],"difficulty":"medium"},
+{"type":"tf","text":"The map on Cyprus's flag is copper-coloured.","answer":true,"difficulty":"hard"},
+{"type":"tf","text":"Kosovo's flag also shows a map of the country.","answer":true,"difficulty":"hard"}
+]
