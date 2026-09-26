@@ -74,6 +74,9 @@ public class MainActivity extends Activity {
         web.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                // Only the page itself is kept on the quiz; frames inside it (a YouTube clip and its own
+                // redirects) load normally, or the clip never plays.
+                if (!request.isForMainFrame()) return false;
                 Uri u = request.getUrl();
                 String host = u.getHost() == null ? "" : u.getHost();
                 // Stay inside the quiz; anything else (a YouTube link, say) is not for the TV.
