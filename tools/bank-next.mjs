@@ -13,7 +13,7 @@ import path from "node:path";
 const dir = path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Z]:)/, "$1"));
 const bank = path.join(dir, "..", "bank");
 const args = process.argv.slice(2);
-const TARGET = +(args[args.indexOf("--target") + 1] || 50);
+const TARGET = args.includes("--target") ? +args[args.indexOf("--target") + 1] : 50;
 // Every topic gets every writable type, so a themed quiz can have any round. Catchphrase is left out: it only comes from video clips.
 const GOAL = { choice: TARGET, text: TARGET, tf: TARGET, order: Math.round(TARGET / 10), sort: Math.round(TARGET / 10), highlow: 10, smash: 10, tune: 10, rhyme: 10, wipeout: 5, race: 3, pin: 5, match: 5, wheel: 5, club: 5, dingbat: 3 };
 const MIX = { easy: 0.25, medium: 0.45, hard: 0.3 };
