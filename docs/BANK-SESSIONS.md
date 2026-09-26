@@ -55,8 +55,21 @@ Each session:
    Then `LQ_PASSWORD=… node tools/bank-missing.mjs bank/topics/<file>.json` lists anything skipped as a
    duplicate of a question already in the bank: replace those in the file with fresh ones and import again,
    so the file (which bank-next.mjs counts) matches the bank.
-4. Commit and push the new file.
-5. Schedule the next session one minute later (ScheduleWakeup delaySeconds 60) with the same instructions.
+4. Wipeout repair (every session, before committing): the bank still has hundreds of thin Wipeout
+   boards, and the host plays a board exactly as written (no AI top-up). Run `tools/wipe-next.sql`
+   (command in the file) to get the next 25 thin boards, fewest right answers first, and write
+   `bank/wipe-topups/NN-<name>.json` for `tools/wipe-topup.mjs` (format in the tool's header):
+   - Open sets (more true answers exist): add answers to reach 15 right and 5 wrong. Right answers
+     must be certain and fairly well known (the guessable-names rule applies); wrong answers must be
+     plausible but definitely wrong.
+   - Closed sets (all the true answers are already there, e.g. 'Members of Queen'): widen them into a
+     good board of at least 10 right with `text` + `setRight` + `setWrong` (e.g. 'Members of Queen, ABBA
+     or Led Zeppelin'), and retire the boards the widened one absorbs.
+   - Retire (`"retire": true`, reversible with bank_restore) anything that can't reach 8 good right
+     answers, or whose answers are too niche.
+   Run `LQ_PASSWORD=… node tools/wipe-topup.mjs bank/wipe-topups/<file>.json` and commit the file with the rest.
+5. Commit and push the new files.
+6. Schedule the next session one minute later (ScheduleWakeup delaySeconds 60) with the same instructions.
 
 `node tools/bank-next.mjs --list` shows every topic's counts; `--all` lists every incomplete topic.
 
