@@ -877,9 +877,9 @@ body.solo .stage { padding-right: calc(min(390px, 100vw) + 20px); }
 .bbmem span { display: flex; flex-direction: column; align-items: center; font-size: 1.6rem; }
 .bbmem small { font-size: .7rem; font-weight: 800; opacity: .85; }
 .bbmid { flex: 1 1 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; min-width: 0; }
-.bbframe { width: min(100%, 60vh); padding: 14px 16px; border: 12px solid var(--t1); border-left-color: var(--t0); border-right-color: var(--t0); border-radius: 18px; background: rgba(0,0,0,.18); }
-.bbboard { position: relative; width: 100%; aspect-ratio: 1.026; }
-.bbhex { position: absolute; width: 25%; height: 22.2222%; clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); background: var(--hx, #f5b800); display: grid; place-items: center; border: none; padding: 0; margin: 0; color: #1b1640; font: inherit; font-weight: 900; font-size: clamp(1.2rem, 4.2vh, 3rem); transform: scale(.94); transition: background .4s, transform .3s; }
+.bbframe { width: min(100%, calc(58vh * var(--ar, 1.026))); padding: 14px 16px; border: 12px solid rgba(255,255,255,.35); /* either side may link either way, so no side owns an edge */ border-radius: 18px; background: rgba(0,0,0,.18); }
+.bbboard { position: relative; width: 100%; aspect-ratio: var(--ar, 1.026); }
+.bbhex { position: absolute; width: var(--hw, 25%); height: var(--hh, 22.2222%); clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); background: var(--hx, #f5b800); display: grid; place-items: center; border: none; padding: 0; margin: 0; color: #1b1640; font: inherit; font-weight: 900; font-size: clamp(1.2rem, 4.2vh, 3rem); transform: scale(.94); transition: background .4s, transform .3s; }
 button.bbhex { cursor: pointer; }
 button.bbhex:hover, button.bbhex:focus-visible { filter: brightness(1.15); transform: scale(1); }
 .bbhex.hot { animation: bbhot .8s ease-in-out infinite alternate; z-index: 2; }

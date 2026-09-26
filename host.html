@@ -1295,7 +1295,7 @@ function botBBAnswer() {
 function renderBB() {
   const q = question(), g = G.q.bb; if (!g) return;
   const teams = q.teams, pids = livePids();
-  const side = (t) => { const mem = pids.filter((x) => g.teams[x] === t); return `<div class="bbside ${g.picker === t && g.step === 'pick' ? 'picking' : ''} ${g.winner === t ? 'won' : ''}" style="--tc:${teams[t].color};--ti:${LQ.inkOn(teams[t].color)}"><div class="bbname">${esc(teams[t].name)}</div><div class="bbdir">${t === 0 ? '⟷ links left to right' : '↕ links top to bottom'}</div><div class="bbcount">${g.step === 'teams' ? `${mem.length}/${bbCap()} players${mem.length >= bbCap() ? ' · <b>full</b>' : ''}` : `${g.owner.filter((o) => o === t).length} ⬢`}</div><div class="bbmem">${mem.map((x) => `<span title="${esc(pname(x))}">${pem(x)}<small>${esc(pname(x))}${g.scores[x] ? ` +${g.scores[x]}` : ''}</small></span>`).join('') || '<span class="muted">Nobody yet</span>'}</div></div>`; };
+  const side = (t) => { const mem = pids.filter((x) => g.teams[x] === t); return `<div class="bbside ${g.picker === t && g.step === 'pick' ? 'picking' : ''} ${g.winner === t ? 'won' : ''}" style="--tc:${teams[t].color};--ti:${LQ.inkOn(teams[t].color)}"><div class="bbname">${esc(teams[t].name)}</div><div class="bbdir">⟷ or ↕ join opposite sides</div><div class="bbcount">${g.step === 'teams' ? `${mem.length}/${bbCap()} players${mem.length >= bbCap() ? ' · <b>full</b>' : ''}` : `${g.owner.filter((o) => o === t).length} ⬢`}</div><div class="bbmem">${mem.map((x) => `<span title="${esc(pname(x))}">${pem(x)}<small>${esc(pname(x))}${g.scores[x] ? ` +${g.scores[x]}` : ''}</small></span>`).join('') || '<span class="muted">Nobody yet</span>'}</div></div>`; };
   const hexes = g.hexes.map((h, i) => ({ letter: h.letter, owner: g.owner[i] }));
   let prompt = '';
   if (g.step === 'teams') prompt = `<div class="bbprompt"><b>Pick a side on your phone!</b> Up to ${bbCap()} on each side, first come first served. ${pids.filter((x) => g.teams[x] === undefined).length} still to choose; anyone who doesn't goes on the smaller side.</div>`;
@@ -1963,7 +1963,7 @@ function introSub(q) {
   if (q.type === 'koth') return `Fastest finger first, then head-to-head buzzers · answer out loud · ${q.perPoint ?? 100} per hill point · first to ${q.target || 3} gets a ${q.prize ?? 1000} bonus · ${q.maxRounds || 12} head-to-heads at most`;
   if (q.type === 'chase') return `The leader is the Chaser · everyone else starts ${q.headStart ?? 2} steps ahead · first right answer moves a step · ${q.target || 5} to get home`;
   if (q.type === 'draw') return `${Math.max(1, +q.turns || 3)} drawings · the artist draws a secret word on their phone · everyone else guesses on theirs, as often as they like · quick guessers score most`;
-  if (q.type === 'blockbusters') return `${q.teams[0].name} link left to right · ${q.teams[1].name} link top to bottom · first right answer wins the hexagon`;
+  if (q.type === 'blockbusters') return `${q.teams[0].name} v ${q.teams[1].name} · first right answer wins the hexagon · join two opposite sides, across or down, to win`;
   return '';
 }
 function renderRaceIntro() {

@@ -77,7 +77,7 @@ window.LQ = (() => {
     potato: { label: 'Hot Potato',      icon: '💣', blurb: 'A lit bomb passes round the room. Whoever holds it answers on their phone; get it right and pass it on. Holding it when it blows costs you points.' },
     koth:   { label: 'King of the Hill', icon: '👑', blurb: 'Fastest finger picks two players for a head-to-head buzzer battle, answered out loud. Right keeps you on the hill. First to the target wins the prize.' },
     chase:  { label: 'The Chase',       icon: '🏃', blurb: 'The leader becomes the Chaser and takes on everyone else as one team, who start a few steps ahead. First right answer on each question moves that side a step. Get home before you are caught.' },
-    blockbusters: { label: 'Blockbusters', icon: '⬢', blurb: 'Two teams battle across a board of letter hexagons. First to type the answer claims the hex; the first team to link its two sides wins.' },
+    blockbusters: { label: 'Blockbusters', icon: '⬢', blurb: 'Two teams battle across a board of letter hexagons. First to type the answer claims the hex; the first team to join two opposite sides of the board wins.' },
     nearest:{ label: 'Nearest Wins',    icon: '🎯', blurb: 'A number question. Everyone guesses, the guesses go up on a number line, then the answer drops in. The closer you are, the more you score.' },
     draw:   { label: 'Draw It',         icon: '🎨', blurb: 'One player draws a secret word on their phone and it appears live on the screen. Everyone else races to guess it. Quick guessers score, and so does the artist.' },
   };
@@ -182,7 +182,7 @@ window.LQ = (() => {
     potato: 'The bomb is lit and nobody knows how long the fuse is. If it lands on you, answer the question on your phone. Get it right and you choose who gets it next. Holding it when it goes bang costs you points.',
     koth: 'Fastest finger first picks two players to go head to head. Buzz on your phone, then say your answer out loud. Get it right and you stay on the hill and win a hill point: every one is worth points. First to the target wins the bonus too, but there are only so many head-to-heads.',
     chase: 'Whoever is in the lead is the Chaser. Everyone else plays as one team with a head start. The first right answer on each question moves that side one step: the team towards home, the Chaser towards the team. Get home before you are caught!',
-    blockbusters: 'Pick a side, quick: each side holds half the players, so once one is full you join the other. Your side chooses a letter, and the answer starts with it. First to type the right answer wins the hexagon for their side. Link your two sides of the board to win.',
+    blockbusters: 'Pick a side, quick: each side holds half the players, so once one is full you join the other. Your side chooses a letter, and the answer starts with it. First to type the right answer wins the hexagon for their side. Join any two opposite sides of the board, left to right or top to bottom, to win.',
     nearest: 'Type your best guess at the number. The closer you are, the more you score, and the closest of all gets a bonus.',
     draw: 'When it is your turn, pick a word and draw it on your phone: no letters or numbers! Everyone else types guesses as fast as they can. Quick guessers score most, and the artist scores for every right guess.',
   };
@@ -401,7 +401,9 @@ window.LQ = (() => {
     return problems;
   }
 
-  // ---- Blockbusters board: five columns of four hexagons, every other column dropped half a hex, as on the show ----
+  // ---- Blockbusters board: five columns of four hexagons, every other column dropped half a hex, as on the show.
+  // Unlike the show (a pair going across against one player going down), either side wins by joining EITHER pair of
+  // opposite sides: left to right or top to bottom. The first side to link wins, so there is only ever one winner. ----
   const BB_COLS = 5, BB_ROWS = 4;
   /** The hexagons touching hexagon i (i = row * BB_COLS + column). */
   function bbNeighbours(i) {
@@ -409,14 +411,16 @@ window.LQ = (() => {
     const cand = [[c, r - 1], [c, r + 1], [c - 1, odd ? r : r - 1], [c - 1, odd ? r + 1 : r], [c + 1, odd ? r : r - 1], [c + 1, odd ? r + 1 : r]];
     return cand.filter(([x, y]) => x >= 0 && x < BB_COLS && y >= 0 && y < BB_ROWS).map(([x, y]) => y * BB_COLS + x);
   }
-  /** A team's linked path as hexagon indices, or null. Team 0 joins left to right; team 1 joins top to bottom. */
-  function bbPath(owner, team) {
+  /** A team's linked path as hexagon indices, or null: left edge to right edge, or top edge to bottom edge. */
+  function bbPath(owner, team) { return bbLink(owner, team, true) || bbLink(owner, team, false); }
+  /** One direction: across (left to right) or down (top to bottom). */
+  function bbLink(owner, team, across) {
     const n = BB_COLS * BB_ROWS, prev = {};
-    const start = [...Array(n).keys()].filter((i) => owner[i] === team && (team === 0 ? i % BB_COLS === 0 : i < BB_COLS));
+    const start = [...Array(n).keys()].filter((i) => owner[i] === team && (across ? i % BB_COLS === 0 : i < BB_COLS));
     const seen = new Set(start), queue = start.slice();
     while (queue.length) {
       const i = queue.shift();
-      if (team === 0 ? i % BB_COLS === BB_COLS - 1 : i >= n - BB_COLS) { const path = [i]; let p = i; while (prev[p] !== undefined) { p = prev[p]; path.push(p); } return path; }
+      if (across ? i % BB_COLS === BB_COLS - 1 : i >= n - BB_COLS) { const path = [i]; let p = i; while (prev[p] !== undefined) { p = prev[p]; path.push(p); } return path; }
       for (const j of bbNeighbours(i)) if (owner[j] === team && !seen.has(j)) { seen.add(j); prev[j] = i; queue.push(j); }
     }
     return null;
@@ -427,13 +431,15 @@ window.LQ = (() => {
   function bbBoardHtml(hexes, opts = {}) {
     const teams = opts.teams || [], win = new Set(opts.win || []);
     const col = (t) => teams[t]?.color || (t === 0 ? '#f2f2f2' : '#e21b3c');
+    // Hexagon width w (share of the board): columns overlap by a quarter, so C columns span w × (0.75C + 0.25).
+    const w = 1 / (0.75 * BB_COLS + 0.25), rows = BB_ROWS + 0.5, ar = 1 / (rows * w * Math.sqrt(3) / 2);
     const cells = hexes.map((h, i) => {
       const c = i % BB_COLS, r = Math.floor(i / BB_COLS);
-      const style = `left:${c * 18.75}%;top:${((r + (c % 2) / 2) / 4.5) * 100}%;${h.owner >= 0 ? `--hx:${col(h.owner)};color:${inkOn(col(h.owner))}` : ''}`;
+      const style = `left:${(c * 0.75 * w * 100).toFixed(3)}%;top:${(((r + (c % 2) / 2) / rows) * 100).toFixed(3)}%;${h.owner >= 0 ? `--hx:${col(h.owner)};color:${inkOn(col(h.owner))}` : ''}`;
       const tag = opts.pick && h.owner < 0 ? 'button' : 'div';
       return `<${tag} class="bbhex ${h.owner >= 0 ? 'owned' : ''} ${opts.hot === i ? 'hot' : ''} ${win.has(i) ? 'win' : ''}" style="${style}" ${tag === 'button' ? `data-hex="${i}"` : ''}><span>${esc(h.letter || '')}</span></${tag}>`;
     }).join('');
-    return `<div class="bbframe ${opts.cls || ''}" style="--t0:${col(0)};--t1:${col(1)}"><div class="bbboard">${cells}</div></div>`;
+    return `<div class="bbframe ${opts.cls || ''}" style="--t0:${col(0)};--t1:${col(1)};--hw:${(w * 100).toFixed(3)}%;--hh:${(100 / rows).toFixed(3)}%;--ar:${ar.toFixed(4)}"><div class="bbboard">${cells}</div></div>`;
   }
 
   function youtubeId(url) {
