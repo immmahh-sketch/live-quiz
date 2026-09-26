@@ -1513,8 +1513,9 @@ function aiModal(fresh, roundId) {
     try {
       while (written < total) {
         si = 0; status();
-        const r = await api('generate', { ...opts, count: Math.min(BATCH, total - written), avoid, premium: !!S.quiz.settings.aiPremium, quizId: S.quiz.id }, { timeout: 170000 });
-        LQ.addUsage(S.quiz.settings, r.usage); { const box = { buildLog: [] }; LQ.genLog(box, fresh ? 'Write a quiz with AI' : 'Add with AI', r, { round: topic }); logs.push(...box.buildLog); }
+        // A fresh quiz has no S.quiz until its first batch arrives (it is made below).
+        const r = await api('generate', { ...opts, count: Math.min(BATCH, total - written), avoid, premium: !!S.quiz?.settings?.aiPremium, quizId: S.quiz?.id || null }, { timeout: 170000 });
+        { const box = { buildLog: [] }; LQ.genLog(box, fresh ? 'Write a quiz with AI' : 'Add with AI', r, { round: topic }); logs.push(...box.buildLog); }
         if (!r.questions.length) break;
         if (!r.questions.some((q) => types.includes(q.kind || q.type))) { warnings.push(`The server does not know the question types you asked for yet (the quiz-api function needs redeploying); it wrote ${[...new Set(r.questions.map((q) => TYPES[q.type]?.label))].join(' and ')} instead.`); }
         let rid = round?.id;
@@ -1522,6 +1523,7 @@ function aiModal(fresh, roundId) {
           const name = topic ? topic.charAt(0).toUpperCase() + topic.slice(1) : 'AI quiz';
           S.quiz = normalizeQuiz({ title: name, questions: [] }); S.quiz.rounds[0].title = name; S.quiz.rounds[0].brief = brief; renderEditor();
         }
+        LQ.addUsage(S.quiz.settings, r.usage);
         rid = rid || S.quiz.rounds[0].id;
         let firstId = null;
         for (const q of r.questions) {
@@ -1532,7 +1534,9 @@ function aiModal(fresh, roundId) {
         written += r.questions.length; warnings.push(...(r.warnings || []));
         touch(); if (start === null) { start = S.quiz.questions.findIndex((q) => q.id === firstId); } S.sel = start; renderQList(); renderQForm(); save();
       }
-      clearInterval(tick); logs.forEach((e) => LQ.pushLog(S.quiz.settings, e)); touch(); save(); m.remove(); S.planner = false; renderQList(); renderQForm();
+      clearInterval(tick);
+      if (!S.quiz) { m.remove(); return toast('The AI sent nothing back. Try a different topic or brief.', true); }
+      logs.forEach((e) => LQ.pushLog(S.quiz.settings, e)); touch(); save(); m.remove(); S.planner = false; renderQList(); renderQForm();
       toast(`Added ${written} question${written === 1 ? '' : 's'}. Read them through before you host — AI can be wrong.`);
       if (warnings.length) setTimeout(() => toast(warnings[0] + (warnings.length > 1 ? ` (+${warnings.length - 1} more)` : ''), true), 2800);
     } catch (e) {
