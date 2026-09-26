@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin"><!-- YouTube clips refuse to play (errors 150/152/153) if they can't see which site embedded them -->
 <title>Let's Quiz! — Host</title>
 <link rel="icon" type="image/png" sizes="64x64" href="assets/brand/icon-64.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2126,18 +2127,12 @@ function mountClip() {
   const start = +m.start || 0, end = +m.end || 0, loop = q.kind === 'catchphrase';
   const cover = (msg) => { const sp = el.querySelector('.ytcover span'); if (sp && !el.classList.contains('on')) sp.innerHTML = msg; };
   // If it never starts (a TV app's browser that YouTube won't serve, say), say so rather than pulse a ▶ for ever.
-  setTimeout(() => { if (ytQ === me && !el.classList.contains('on') && !G.paused) cover("The clip didn’t start<small>Players can still answer on their phones</small>"); }, 15000);
+  setTimeout(() => { if (ytQ === me && !el.classList.contains('on') && !G.paused) cover("The clip didn’t start<small>Players can still answer on their phones</small>"); }, 20000);
   ytApi().then(() => {
     if (ytQ !== me) return;
-    // Our own iframe, so it carries an explicit referrer policy: YouTube refuses to play (errors 150/152/153) when it
-    // can't see which site embedded it, which is what some Android WebViews (the Fire TV app) otherwise send.
-    const qs = new URLSearchParams({ autoplay: 1, mute: 1, controls: 0, disablekb: 1, fs: 0, iv_load_policy: 3, modestbranding: 1, playsinline: 1, rel: 0, start, ...(end ? { end } : {}), enablejsapi: 1, origin: location.origin });
-    const fr = document.createElement('iframe');
-    fr.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-    fr.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture');
-    fr.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(m.videoId)}?${qs}`;
-    el.firstChild.replaceWith(fr);
-    me.p = new YT.Player(fr, {
+    me.p = new YT.Player(el.firstChild, {
+      videoId: m.videoId, host: 'https://www.youtube-nocookie.com',
+      playerVars: { autoplay: 1, mute: 1, controls: 0, disablekb: 1, fs: 0, iv_load_policy: 3, modestbranding: 1, playsinline: 1, rel: 0, start, ...(end ? { end } : {}) },
       events: {
         onError: (e) => { if (ytQ === me) cover(`YouTube won't play this clip here<small>error ${e.data} · players can still answer</small>`); },
         onReady: (e) => { e.target.mute(); if (!G.paused) e.target.playVideo(); },
