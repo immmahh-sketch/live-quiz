@@ -131,7 +131,9 @@ function renderBankPanel(r) {
   S.bank = r.bank || {};
   const types = Object.keys(TYPES).filter((t) => S.bank[t]);
   const low = types.filter((t) => S.bank[t].low);
+  const sum = (k) => types.reduce((n, t) => n + (S.bank[t][k] || 0), 0);
   el.innerHTML = `<div class="banksec"><div class="row" style="margin-bottom:6px"><h2 style="margin:0">🏦 Question bank</h2><span class="muted small">Pre-written questions the AI writer uses first, free. Each is marked off once it goes into a quiz and never comes round again.</span></div>
+    ${types.length ? `<div class="banktotal">Total question count: <b>${sum('total').toLocaleString('en-GB')}</b> <span>· ${sum('unused').toLocaleString('en-GB')} unused</span></div>` : ''}
     ${low.length ? `<div class="error" style="margin-bottom:10px">⚠ Running low: ${low.map((t) => `${TYPES[t].label} (${S.bank[t].unused} left)`).join(', ')}. Time to top the bank up.</div>` : ''}
     <div class="bankgrid">${types.map((t) => `<button class="bankcell ${S.bank[t].low ? 'low' : ''}" data-bank="${t}"><span>${TYPES[t].icon} ${esc(TYPES[t].label)}</span><b>${S.bank[t].unused}</b><small>of ${S.bank[t].total} unused</small>${mixLine(S.bank[t].mix)}</button>`).join('')}${types.length ? '' : '<p class="muted small">Empty. Import a bank to get started.</p>'}</div>
     <div id="bankcats"></div></div>`;
