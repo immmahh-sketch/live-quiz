@@ -64,7 +64,7 @@ window.LQ = (() => {
     match:  { label: 'Match up',        icon: '⇄', blurb: 'Pair each word with its picture or partner.' },
     tf:     { label: 'True or false',   icon: '✓✗', blurb: 'A statement. Players say true or false.' },
     sort:   { label: 'Categorise',      icon: '🗂', blurb: 'Players drop each answer into the right category.' },
-    wipeout:{ label: 'Wipeout',         icon: '💥', blurb: 'Answers scattered on screen, some wrong. Players take turns picking a right one. Pick a wrong one and you are wiped out.' },
+    wipeout:{ label: 'Wipeout',         icon: '💥', blurb: 'Answers scattered on screen, some wrong. Players take turns picking a right one. Pick a wrong one and you are out.' },
     race:   { label: 'The Race',        icon: '🏁', blurb: 'A bank of quick questions on the phones. First to ten right wins the prize. Their emoji races across the screen.' },
     smash:  { label: 'Answer Smash',    icon: '🔀', blurb: 'A picture and a clue whose answers overlap. Players type the two smashed together.' },
     wheel:  { label: 'Wheel of Fortune', icon: '🎡', blurb: 'A hidden phrase on the board. Letters flip over one by one; the sooner you solve it, the more you score.' },
@@ -545,7 +545,7 @@ window.LQ = (() => {
     match: 'Tap an item, then tap its partner, until everything is paired up.',
     tf: 'True or false? Tap your answer. Quick!',
     sort: 'Put each answer into the right category.',
-    wipeout: 'A board full of answers, and some of them are wrong. You get a good look first, then take turns to pick a right one. Pick a wrong one and you are wiped out.',
+    wipeout: 'A board full of answers, and some of them are wrong. You get a good look first, then take turns to pick a right one. Each right pick scores; pick a wrong one and you lose 100 points and are out, while everyone else plays on until all the right answers, or all the wrong ones, have been picked.',
     race: 'Quick-fire questions on your phone. First to the target wins the bonus. Watch your emoji race across the screen.',
     smash: 'Name the picture, answer the clue, then smash the two together where they overlap: Brad Pitt + Pittsburgh = Brad Pittsburgh.',
     wheel: 'A hidden phrase. Letters turn over one at a time. Solve it on your phone: the sooner you do, the more you score.',
@@ -651,7 +651,7 @@ window.LQ = (() => {
     if (type === 'draw') { q.text = 'Draw It'; q.turns = 3; q.words = []; q.guessPoints = 500; q.drawerPoints = 100; }
     if (type === 'twenty') { q.text = '20 Questions: who or what am I?'; q.answers = ['']; q.what = ''; q.facts = {}; q.maxQ = 20; q.prize = 1000; q.prize2 = 500; q.prize3 = 100; q.penalty = 200; }
     if (type === 'sort') { q.categories = [0, 1].map(() => ({ id: uid('c'), name: '' })); q.items = [0, 1, 2, 3].map(() => ({ id: uid('i'), text: '', category: q.categories[0].id })); }
-    if (type === 'wipeout') { q.right = Array.from({ length: 8 }, () => ({ id: uid('w'), text: '' })); q.wrong = Array.from({ length: 3 }, () => ({ id: uid('w'), text: '' })); q.pickPoints = 200; q.penalty = 500; q.study = 20; }
+    if (type === 'wipeout') { q.right = Array.from({ length: 8 }, () => ({ id: uid('w'), text: '' })); q.wrong = Array.from({ length: 3 }, () => ({ id: uid('w'), text: '' })); q.pickPoints = 200; q.penalty = 100; q.study = 20; }
     if (type === 'race') { q.target = 10; q.maxWrong = 10; q.perCorrect = 100; q.prize = 500; q.prize2 = 200; q.prize3 = 100; q.forfeit = 200; q.bank = Array.from({ length: 20 }, () => newBankItem()); }
     if (NEW_GAME_DEFAULTS[type]) Object.assign(q, NEW_GAME_DEFAULTS[type](), { bank: Array.from({ length: type === 'potato' ? 20 : 30 }, () => newBankItem()) });
     return q;

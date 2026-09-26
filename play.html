@@ -492,8 +492,8 @@ function wipeHtml(s) {
   const note = w.studyMs ? `<div class="turnnote">👀 Take a look — turns start in <span id="studyLeft">${Math.ceil(w.studyMs / 1000)}</span>s${until !== null && !out ? `<br><span class="small">You go ${LQ.ordinal(until + 1)}</span>` : ''}</div>`
     : w.over ? `<div class="turnnote">${w.last ? esc((w.last.name ? w.last.name + ': ' : '') + w.last.text) + (w.last.ok === false ? ' ✘' : w.last.ok ? ' ✔' : '') : 'Round over'}</div>`
     : mine ? `<div class="turnnote mine">🟢 Your pick! Tap a right answer</div>`
-    : out ? `<div class="turnnote">You're out of this one. ${esc(w.turnName)} is picking…</div>`
-    : `<div class="turnnote">${esc(w.turnName)} is picking…${last ? '<br>' + last : ''}</div>${countdown}`;
+    : out ? `<div class="turnnote">💥 You're out of this one.${w.turnName ? ` ${esc(w.turnName)} is picking…` : ''}${last ? '<br>' + last : ''}</div>`
+    : `<div class="turnnote">${w.turnName ? `${esc(w.turnName)} is picking…` : 'Next pick coming up…'}${last ? '<br>' + last : ''}</div>${countdown}`;
   const mineScore = w.scores?.[P.pid];
   app.className = 'app ' + (w.over || out || w.studyMs ? '' : mine ? 'turn-mine' : 'turn-wait');
   return `<div class="pq">${esc(q.text)}</div>${note}<div class="wgrid ${mine ? 'mine' : 'wait'}">${q.board.map((t) => `<button data-w="${t.k}" class="${w.gone.includes(t.k) ? 'gone' : ''}" ${mine && !w.gone.includes(t.k) ? '' : 'disabled'}>${esc(t.text)}</button>`).join('')}</div>${mineScore ? `<p class="center small muted mt">You've scored ${mineScore > 0 ? '+' : ''}${mineScore} so far this round</p>` : ''}`;

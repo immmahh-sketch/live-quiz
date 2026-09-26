@@ -641,7 +641,7 @@ function buildView(q) {
   if (q.type === 'wipeout') {
     const tiles = [...q.right.filter((i) => i.text.trim()).map((i) => ({ k: tok('R:' + i.id), text: i.text })), ...q.wrong.filter((i) => i.text.trim()).map((i) => ({ k: tok('W:' + i.id), text: i.text }))];
     v.board = shuffle(tiles).map((t, i, arr) => ({ ...t, ...scatter(i, arr.length) }));
-    v.pickPoints = q.pickPoints ?? 200; v.penalty = q.penalty ?? 500;
+    v.pickPoints = q.pickPoints ?? 200; v.penalty = wipePenalty(q);
   }
   if (q.type === 'highlow') { v.lowText = q.lowText; v.highPoints = q.highPoints ?? 1000; v.lowPoints = q.lowPoints ?? 500; }
   if (q.type === 'club') { v.pct = q.pct; v.points = LQ.clubPoints(q.pct); }
@@ -803,31 +803,43 @@ function wipeNextTurn() {
   persist(); renderWipe(); broadcastState(); botWipeTurn();
 }
 function wipeTimeout() {
-  const w = G.q.wipe, pid = w.turnPid;
+  const w = G.q.wipe, pid = w.turnPid; if (!pid) return;
   w.out.push(pid); w.picks.push({ pid, name: G.players[pid]?.name || 'Player', text: 'ran out of time', ok: null });
   w.last = { name: G.players[pid]?.name, text: 'ran out of time', ok: null };
-  const before = w.turnPid; w.turnPid = null;
-  // Continue from where the order was, skipping the player who is now out.
+  w.turnPid = null; wipeAfter(pid);
+}
+/** The turn passes on from `before` (now out) to the next player still in; nobody left ends the round. */
+function wipeAfter(before) {
+  const w = G.q.wipe;
   const after = w.order.filter((p) => !w.out.includes(p));
-  if (!after.length) { w.over = true; return endQuestion(); }
+  if (!after.length) { w.over = true; w.last = { name: null, text: 'Everybody is out!', ok: null }; persist(); renderWipe(); broadcastState(); setTimeout(() => endQuestion(), 1500); return; }
   const pos = w.order.indexOf(before); let next = null;
   for (let s = 1; s <= w.order.length && !next; s++) { const cand = w.order[(pos + s) % w.order.length]; if (!w.out.includes(cand)) next = cand; }
   w.turnPid = next; w.turnDeadline = Date.now() + question().time * 1000;
   persist(); renderWipe(); broadcastState(); botWipeTurn();
 }
+/** The wrong-pick penalty: 100 unless the quiz sets its own (500 was the old default, so it counts as unset). */
+function wipePenalty(q) { const p = q.penalty; return p == null || +p === 500 ? 100 : +p; }
 function wipePick(pid, token) {
   const w = G.q.wipe, q = question(), v = G.q.view;
   if (!w || w.over || pid !== w.turnPid || w.gone.includes(token)) return;
   const tile = v.board.find((t) => t.k === token); if (!tile) return;
   const ok = String(G.q.keys[token] || '').startsWith('R:');
   w.gone.push(token);
-  w.scores[pid] = (w.scores[pid] || 0) + (ok ? (q.pickPoints ?? 200) : -(q.penalty ?? 500));
+  w.scores[pid] = (w.scores[pid] || 0) + (ok ? (q.pickPoints ?? 200) : -wipePenalty(q));
   w.picks.push({ pid, name: G.players[pid]?.name || 'Player', text: tile.text, ok });
   w.last = { name: G.players[pid]?.name, text: tile.text, ok };
   send('ack', { pid, qId: v.id });
-  if (!ok) { w.over = true; sound('wipeout'); persist(); renderWipe(token); broadcastState(); setTimeout(() => endQuestion(), 2200); return; }
-  const rightLeft = v.board.some((t) => String(G.q.keys[t.k]).startsWith('R:') && !w.gone.includes(t.k));
-  if (!rightLeft) { w.over = true; w.last = { name: null, text: 'All found!', ok: true }; persist(); renderWipe(); broadcastState(); setTimeout(() => endQuestion(), 1500); return; }
+  // A wrong pick puts that player out; the rest play on until every right or every wrong answer has gone.
+  const left = (right) => v.board.some((t) => String(G.q.keys[t.k]).startsWith('R:') === right && !w.gone.includes(t.k));
+  if (!ok) {
+    w.out.push(pid); sound('wipeout');
+    if (!left(false)) { w.over = true; w.last = { name: G.players[pid]?.name, text: tile.text + ' · every wrong answer has gone', ok: false }; persist(); renderWipe(token); broadcastState(); setTimeout(() => endQuestion(), 2200); return; }
+    w.turnPid = null; w.turnDeadline = Date.now() + 60000; persist(); renderWipe(token); broadcastState();
+    setTimeout(() => { if (G.q?.wipe === w && !w.over && !w.turnPid) wipeAfter(pid); }, 2200);
+    return;
+  }
+  if (!left(true)) { w.over = true; w.last = { name: null, text: 'All found!', ok: true }; persist(); renderWipe(); broadcastState(); setTimeout(() => endQuestion(), 1500); return; }
   wipeNextTurn();
 }
 
@@ -2112,12 +2124,22 @@ function mountClip() {
   const el = document.createElement('div'); el.className = 'ytclip'; el.innerHTML = '<div></div><div class="ytcover"><span>▶</span></div>'; slot.appendChild(el);
   const me = ytQ = { id: slot.dataset.yt, el, p: null, sound: q.kind !== 'catchphrase', tried: false };
   const start = +m.start || 0, end = +m.end || 0, loop = q.kind === 'catchphrase';
+  const cover = (msg) => { const sp = el.querySelector('.ytcover span'); if (sp && !el.classList.contains('on')) sp.innerHTML = msg; };
+  // If it never starts (a TV app's browser that YouTube won't serve, say), say so rather than pulse a ▶ for ever.
+  setTimeout(() => { if (ytQ === me && !el.classList.contains('on') && !G.paused) cover("The clip didn’t start<small>Players can still answer on their phones</small>"); }, 15000);
   ytApi().then(() => {
     if (ytQ !== me) return;
-    me.p = new YT.Player(el.firstChild, {
-      videoId: m.videoId, host: 'https://www.youtube-nocookie.com',
-      playerVars: { autoplay: 1, mute: 1, controls: 0, disablekb: 1, fs: 0, iv_load_policy: 3, modestbranding: 1, playsinline: 1, rel: 0, start, ...(end ? { end } : {}) },
+    // Our own iframe, so it carries an explicit referrer policy: YouTube refuses to play (errors 150/152/153) when it
+    // can't see which site embedded it, which is what some Android WebViews (the Fire TV app) otherwise send.
+    const qs = new URLSearchParams({ autoplay: 1, mute: 1, controls: 0, disablekb: 1, fs: 0, iv_load_policy: 3, modestbranding: 1, playsinline: 1, rel: 0, start, ...(end ? { end } : {}), enablejsapi: 1, origin: location.origin });
+    const fr = document.createElement('iframe');
+    fr.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+    fr.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture');
+    fr.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(m.videoId)}?${qs}`;
+    el.firstChild.replaceWith(fr);
+    me.p = new YT.Player(fr, {
       events: {
+        onError: (e) => { if (ytQ === me) cover(`YouTube won't play this clip here<small>error ${e.data} · players can still answer</small>`); },
         onReady: (e) => { e.target.mute(); if (!G.paused) e.target.playVideo(); },
         onStateChange: (e) => {
           if (ytQ !== me) return;
@@ -2212,7 +2234,7 @@ function renderRace() {
 function renderWipe(boomToken) {
   const q = question(), v = G.q.view, w = G.q.wipe;
   const lastHtml = w?.last ? `<span class="last ${w.last.ok === true ? 'ok' : w.last.ok === false ? 'no' : ''}">${w.last.name ? esc(w.last.name) + ': ' : ''}${esc(w.last.text)}${w.last.ok === true ? ' ✔' : w.last.ok === false ? ' ✘ Wiped out!' : ''}</span>` : '';
-  const turn = !w ? '' : w.studyUntil ? `<div class="turnbar"><span>👀 Take a look at the board — turns start in</span><span class="who" id="studyCount">${Math.max(0, Math.ceil((w.studyUntil - Date.now()) / 1000))}</span></div>` : w.over ? `<div class="turnbar">${lastHtml || '<span>Round over</span>'}</div>` : `<div class="turnbar"><span>Your pick,</span><span class="who">${esc(G.players[w.turnPid]?.name || '…')}</span>${lastHtml}</div>`;
+  const turn = !w ? '' : w.studyUntil ? `<div class="turnbar"><span>👀 Take a look at the board — turns start in</span><span class="who" id="studyCount">${Math.max(0, Math.ceil((w.studyUntil - Date.now()) / 1000))}</span></div>` : w.over ? `<div class="turnbar">${lastHtml || '<span>Round over</span>'}</div>` : !w.turnPid ? `<div class="turnbar">${lastHtml}</div>` : `<div class="turnbar"><span>Your pick,</span><span class="who">${esc(G.players[w.turnPid]?.name || '…')}</span>${lastHtml}</div>`;
   const found = w ? w.gone.filter((k) => String(G.q.keys[k]).startsWith('R:')).length : 0, totalRight = v.board.filter((t) => String(G.q.keys[t.k]).startsWith('R:')).length;
   stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill">${found} of ${totalRight} found</span><div class="timer" id="timer" data-s="${q.time}" style="--p:100%"></div></div>`)}
     <div class="stage-main" style="gap:8px"><h1 class="qtext" style="font-size:clamp(1.3rem,2.6vw,2.2rem)">${esc(q.text)}</h1>${turn}
