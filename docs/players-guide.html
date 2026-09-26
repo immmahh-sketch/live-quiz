@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Let's Quiz! Players' Guide</title>
+<style>
+  @page { size: A4; margin: 12mm 12mm 14mm; }
+  :root { --ink: #1b1544; --purple: #5b3fd6; --yellow: #ffd60a; --soft: #f3f0ff; --line: #ddd6fb; --muted: #5d5878; --red: #d93a4a; --green: #1f9d5c; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif; color: var(--ink); font-size: 10.2pt; line-height: 1.38; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .cover { background: var(--ink); color: #fff; border-radius: 16px; padding: 22px 26px 20px; display: flex; gap: 22px; align-items: center; }
+  .cover h1 { margin: 0; font-size: 30pt; line-height: 1; letter-spacing: -.5px; }
+  .cover h1 span { color: var(--yellow); }
+  .cover p { margin: 8px 0 0; font-size: 11.5pt; opacity: .92; }
+  .badge { font-size: 46pt; line-height: 1; }
+  h2 { font-size: 14.5pt; margin: 18px 0 8px; padding-bottom: 4px; border-bottom: 3px solid var(--yellow); display: inline-block; }
+  .basics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+  .step { background: var(--soft); border-radius: 12px; padding: 10px 12px; }
+  .step b { display: block; font-size: 11pt; margin-bottom: 2px; }
+  .speed { margin-top: 12px; border: 2px solid var(--line); border-radius: 12px; padding: 10px 14px; display: flex; gap: 16px; align-items: center; }
+  .speed .bar { flex: 0 0 210px; height: 26px; border-radius: 8px; background: linear-gradient(90deg, var(--green), var(--yellow) 70%, #f59e0b); position: relative; }
+  .speed .bar i { position: absolute; top: 30px; font-style: normal; font-size: 8.5pt; color: var(--muted); }
+  .speed .bar i:first-child { left: 0; } .speed .bar i:last-child { right: 0; }
+  .speed p { margin: 0; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  .g { border: 1.5px solid var(--line); border-radius: 12px; padding: 9px 12px 10px; break-inside: avoid; page-break-inside: avoid; }
+  .g h3 { margin: 0 0 4px; font-size: 11.5pt; display: flex; align-items: center; gap: 7px; }
+  .g h3 .ic { font-size: 14pt; }
+  .g p { margin: 0 0 5px; }
+  .pts { background: var(--soft); border-radius: 8px; padding: 5px 9px; margin-top: 4px; font-size: 9.6pt; }
+  .pts b { color: var(--purple); }
+  .minus { color: var(--red); font-weight: 700; }
+  .plus { color: var(--green); font-weight: 700; }
+  .wide { grid-column: 1 / -1; }
+  table { border-collapse: collapse; width: 100%; font-size: 9.4pt; margin-top: 4px; }
+  td, th { border-bottom: 1px solid var(--line); padding: 3px 6px; text-align: left; }
+  th { font-size: 8.8pt; color: var(--muted); font-weight: 700; }
+  .break { break-before: page; page-break-before: always; }
+  .foot { margin-top: 14px; font-size: 8.8pt; color: var(--muted); text-align: center; }
+  .tip { margin-top: 10px; background: #fff8d1; border-radius: 10px; padding: 8px 12px; font-size: 9.6pt; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="badge">🎉</div>
+  <div>
+    <h1>Let's Quiz<span>!</span> Players' Guide</h1>
+    <p>How every game works and how you score. All you need is your phone and something to shout at the telly.</p>
+  </div>
+</div>
+
+<div class="basics">
+  <div class="step"><b>1 · Join</b>Go to <b>letsquiz.uk/play</b> (or scan the QR code on the big screen) and type the game code shown on screen.</div>
+  <div class="step"><b>2 · Pick a name and emoji</b>That's you on the scoreboard. Keep the page open: your phone is your buzzer, keypad and answer pad.</div>
+  <div class="step"><b>3 · Watch the big screen</b>Questions appear on the TV, and you answer on your phone. After each one you'll see who got it and the scores.</div>
+</div>
+
+<h2>How scoring works</h2>
+<div class="speed">
+  <div class="bar"><i>instant: 1000</i><i>buzzer: 500</i></div>
+  <p><b>Most questions pay for speed.</b> A right answer is worth <b>1000 points</b> if you answer instantly, sliding evenly down to <b>500</b> if you answer as the clock runs out. A wrong answer, or no answer, scores nothing and never loses points, unless a game below says otherwise. Games with their own scoring explain it in their panel below.</p>
+</div>
+<div class="tip">💡 These are the standard settings. The host can change points, timers and targets for their own quiz, and the screen always shows what a question is worth before you play.</div>
+
+<h2>The quick-fire classics</h2>
+<div class="grid">
+  <div class="g"><h3><span class="ic">🔤</span>Multiple choice</h3><p>Four answers on your phone. Tap the right one. 20 seconds.</p><div class="pts">Right: <b>500–1000</b>, faster is more.</div></div>
+  <div class="g"><h3><span class="ic">✅</span>True or false</h3><p>Is the statement true or false? Tap your answer. 15 seconds, so be quick.</p><div class="pts">Right: <b>500–1000</b>, faster is more.</div></div>
+  <div class="g"><h3><span class="ic">✎</span>Type the answer</h3><p>Type your answer on your phone. Close spellings count, and anything borderline gets a fair check. 30 seconds.</p><div class="pts">Right: <b>500–1000</b>, faster is more.</div></div>
+  <div class="g"><h3><span class="ic">🔢</span>Put in order</h3><p>Drag the items into the right order (oldest first, biggest first and so on), then lock it in. 45 seconds.</p><div class="pts">All in the right order: <b>500–1000</b>. If the host switches on part marks, you get a share for each item in the right place.</div></div>
+  <div class="g"><h3><span class="ic">🔗</span>Match up</h3><p>Tap an item, then tap its partner, until everything is paired. 45 seconds.</p><div class="pts">All pairs right: <b>500–1000</b> (a share for each right pair if part marks are on).</div></div>
+  <div class="g"><h3><span class="ic">🗂️</span>Categorise</h3><p>Put each answer into the right group. 45 seconds.</p><div class="pts">All sorted right: <b>500–1000</b> (a share for each one if part marks are on).</div></div>
+  <div class="g"><h3><span class="ic">📍</span>Drop the pin</h3><p>A map on your phone. Work out the answer and drop your pin on it. 25 seconds.</p><div class="pts">Pin on (or very near) the spot: <b>500–1000</b> for speed. The further away, the more that shrinks, down to nothing if you're way off. The closest pin gets a shout on screen.</div></div>
+  <div class="g"><h3><span class="ic">🎯</span>Nearest wins</h3><p>A question with a number for an answer. Type your best guess. 25 seconds, and speed doesn't matter here.</p><div class="pts">Up to <b>1000</b> for how close you are, plus a <span class="plus">+250 bonus</span> for the closest guess (shared if tied).</div></div>
+</div>
+
+<h2>Word and picture puzzles</h2>
+<div class="grid">
+  <div class="g"><h3><span class="ic">🔀</span>Answer Smash</h3><p>Name the picture, answer the clue, then smash the two together where they overlap: Brad Pitt + Pittsburgh = <i>Brad Pittsburgh</i>. 30 seconds.</p><div class="pts">The full smash, right: <b>500–1000</b>.</div></div>
+  <div class="g"><h3><span class="ic">🎡</span>Wheel of Fortune</h3><p>A hidden phrase and its category. Letters turn over one at a time. Solve it on your phone whenever you can. 60 seconds.</p><div class="pts">Right: <b>500–1000</b>. The sooner you solve it (fewer letters showing), the more you score.</div></div>
+  <div class="g"><h3><span class="ic">🎤</span>Rhyme Time</h3><p>Two clues whose answers rhyme. Type <b>both</b> answers, in either order. 30 seconds.</p><div class="pts">Both right: <b>500–1000</b>. One on its own doesn't count.</div></div>
+  <div class="g"><h3><span class="ic">🧩</span>Dingbats</h3><p>Say what you see: a well-known phrase hidden in how the words are laid out. 45 seconds.</p><div class="pts">Right: <b>500–1000</b>.</div></div>
+  <div class="g"><h3><span class="ic">🗯️</span>Catchphrase</h3><p>A clip plays on the big screen. Say what you see: type the well-known saying it shows. 50 seconds.</p><div class="pts">Right: <b>500–1000</b>.</div></div>
+  <div class="g"><h3><span class="ic">🎵</span>Name That Tune</h3><p>Listen to the clip and answer what's asked: the song, the artist, the film it's from, the next line, or the year. 30 seconds.</p><div class="pts">Right: <b>500–1000</b>. For the year, anything within the allowed range counts.</div></div>
+  <div class="g"><h3><span class="ic">🎓</span>Highbrow Lowbrow</h3><p>A hard clue on screen. Stuck? Tap your phone for the easy clue, but it halves your prize. 40 seconds.</p><div class="pts">Right on the hard clue: <b>1000</b> flat. Right after asking for the easy clue: <b>500</b>. Speed doesn't matter.</div></div>
+  <div class="g"><h3><span class="ic">🧠</span>The 1% Club</h3><p>No knowledge needed, just logic. The screen shows what percentage of people get it. 30 seconds.</p><div class="pts">A flat prize: the rarer, the richer. <b>1100 − 10 × the percentage</b>, between 200 and 1000.
+    <table><tr><th>Get it</th><td>90%</td><td>70%</td><td>50%</td><td>30%</td><td>10% or fewer</td></tr><tr><th>Worth</th><td>200</td><td>400</td><td>600</td><td>800</td><td>1000</td></tr></table></div></div>
+</div>
+
+<h2>The big games</h2>
+<div class="grid">
+  <div class="g wide"><h3><span class="ic">💥</span>Wipeout</h3><p>A board full of answers to one question, and some of them are wrong. Everyone gets 20 seconds to study the board, then you take turns to pick one answer you think is right. You have 5 seconds on your turn.</p>
+    <div class="pts">Each right pick: <span class="plus">+200</span>, and play moves to the next player. Pick a wrong one: <span class="minus">−100</span> and you're <b>out</b> of this board, while everyone else plays on. Run out of time: you're out, but you lose nothing. The board ends when <b>every right answer</b> has been found, or <b>every wrong answer</b> has been picked, or everyone is out.</div></div>
+
+  <div class="g"><h3><span class="ic">🏁</span>The Race</h3><p>Quick-fire questions on your phone, all at your own pace, while your emoji races across the screen. First to <b>10 right</b> wins. 10 wrong and you're out of the race. 2 minutes.</p>
+    <div class="pts">Every right answer: <span class="plus">+100</span>. Winner: <span class="plus">+500</span> (first to 10, or the clear leader when time's up). Second: <span class="plus">+200</span>. Third: <span class="plus">+100</span>. With four or more runners, finishing <b>last on your own</b> costs <span class="minus">−200</span>.</div></div>
+
+  <div class="g"><h3><span class="ic">💣</span>Hot Potato</h3><p>A lit bomb goes round the room, and nobody knows how long the fuse is (somewhere between 40 and 90 seconds). If it's in your hands, answer the question on your phone. Right, and you choose who gets it next. Wrong, and you get another question. General-knowledge questions unless the host picks a topic.</p>
+    <div class="pts">Each right answer while holding it: <span class="plus">+50</span>. Holding it when it goes <b>BOOM</b>: <span class="minus">−300</span>.</div></div>
+
+  <div class="g"><h3><span class="ic">👑</span>King of the Hill</h3><p>A fastest-finger question picks two players to go head to head. Buzz on your phone, then say your answer out loud (you get 3 seconds). Get it right and you're on the hill and win a hill point. At most 12 head-to-heads. General knowledge unless a topic is set.</p>
+    <div class="pts">Every hill point: <span class="plus">+100</span>. First to <b>3</b> hill points is King of the Hill: <span class="plus">+1000</span> bonus. If nobody gets there, hill points still pay.</div></div>
+
+  <div class="g"><h3><span class="ic">🏃</span>The Chase</h3><p>Whoever is leading the quiz becomes the <b>Chaser</b>. Everyone else is one team, starting 2 steps ahead. On each question, the first right answer moves that side one step: the team towards home, the Chaser towards the team. The team needs 5 steps to get home. General knowledge unless a topic is set.</p>
+    <div class="pts">Team gets home: <span class="plus">+1000</span> to every team player. Chaser catches them: <span class="plus">+200</span> to the Chaser.</div></div>
+
+  <div class="g"><h3><span class="ic">⬢</span>Blockbusters</h3><p>Two sides, half the players on each (once one is full you join the other). Your side picks a letter, and the answer starts with that letter. First to type it right wins the hexagon for their side. Join opposite edges of the board (left to right, or top to bottom) to win.</p>
+    <div class="pts">Each hexagon you win: <span class="plus">+50</span> to you. The side that links up: <span class="plus">+500</span> to every player on it.</div></div>
+
+  <div class="g"><h3><span class="ic">🕵️</span>20 Questions</h3><p>Everyone has the same mystery person or thing. Tap a question and your phone says yes or no, with new questions opening up as you go. Guess whenever you like, but a wrong guess uses up a question. 20 questions, 3 minutes.</p>
+    <div class="pts">First to crack it: <span class="plus">+1000</span>. Second: <span class="plus">+500</span>. Third: <span class="plus">+100</span>. Still stuck at the end, or out of questions: <span class="minus">−200</span>.</div></div>
+
+  <div class="g"><h3><span class="ic">🎨</span>Draw It</h3><p>When it's your turn, pick a word and draw it on your phone (no letters or numbers!). Everyone else types guesses as often as they like. Letters of the word appear as the clock runs down. Usually three drawings, 60 seconds each.</p>
+    <div class="pts">Guessers: <b>150–500</b>, the quicker the better. The artist: <span class="plus">+100</span> for every player who guesses their drawing.</div></div>
+</div>
+
+<h2>Good to know</h2>
+<div class="grid">
+  <div class="g"><h3><span class="ic">⏭</span>Skipping</h3><p>Some questions let you skip. A skip scores nothing and costs nothing.</p></div>
+  <div class="g"><h3><span class="ic">🔌</span>Dropped out?</h3><p>Open letsquiz.uk/play again on the same phone and join with the same code. You come back as yourself, score and all.</p></div>
+  <div class="g"><h3><span class="ic">📉</span>Where you can lose points</h3><p>Only in Wipeout (wrong pick), The Race (last place), Hot Potato (holding the bomb) and 20 Questions (still stuck). Everywhere else, a wrong answer just scores nothing.</p></div>
+  <div class="g"><h3><span class="ic">🏆</span>The winner</h3><p>Points add up across every round. The scoreboard shows after each question, and the final podium at the end.</p></div>
+</div>
+
+<div class="foot">Let's Quiz! · letsquiz.uk · Standard settings shown. The host may tweak them for their own quiz.</div>
+</body>
+</html>
