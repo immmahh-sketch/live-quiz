@@ -255,6 +255,16 @@ function compileExpr(src: string): ((lat: number, lon: number) => number) | null
   } catch { return null; }
 }
 const mapCache = new Map<string, LocMap | null>();
+/** Puts a pin question's place on a map: the blank map, where the place is on it, and how close counts. */
+function pinOnMap(q: any, map: LocMap, pt: { x: number; y: number }, lat: number, sizeKm: number) {
+  const full = Math.max(0.012, Math.min(0.12, (Math.max(5, Math.min(5000, sizeKm)) / 2) / map.kmPerWidth(lat)));
+  q.media = { kind: "image", url: map.url, credit: `Wikimedia Commons: ${map.name} location map` };
+  q.mapRegion = map.name;
+  if (map.bounds) q.mapBounds = map.bounds; else delete q.mapBounds;
+  q.pin = { x: +pt.x.toFixed(4), y: +pt.y.toFixed(4) };
+  q.radiusFull = +full.toFixed(4);
+  q.radiusZero = +Math.min(0.35, full * 4).toFixed(4);
+}
 async function locationMap(regionIn: string): Promise<LocMap | null> {
   const key = String(regionIn || "").trim().replace(/\s+/g, " ");
   const region = MAP_ALIASES[key.toLowerCase()] || key;
@@ -463,6 +473,7 @@ Question types and their JSON shapes (use only the types you are asked for, and 
 - "match": {"type":"match","text":"Match the breed to the picture","pairs":[{"left":"Labrador Retriever","rightPicture":"Labrador Retriever"},...],"time":40}
   3 or 4 pairs. "rightPicture" is the exact English Wikipedia article title whose lead picture shows the RIGHT-HAND answer itself (only when a pictures round is wanted); otherwise use "right":"text" for a word-to-word match. Use pictures only when the right-hand things are recognisable from a photo: people (their article title), animals and breeds, foods, logos, artworks, landmarks, or countries as "Flag of <country>". Never picture the left-hand item on the right (a "landmark to its country" match shows each country's flag on the right, not the landmark), and never use a picture for an abstract answer such as a year, a name or a job.
 - "pin": {"type":"pin","text":"Which city hosts a famous film festival every May?","place":"Cannes","region":"France","lat":43.55,"lon":7.02,"sizeKm":30,"time":20}
+  The region is the map players see, with no labels on it, so it must be one they can recognise: the country only when the question names it (or it is the UK, Ireland, the USA or Australia); otherwise the continent ("Europe", "Asia", "Africa", "North America", "South America"). Never a country, state or county the question does not name.
   A pin question is two tests in one: the text asks a fact the player must know, and the place is the answer they then have to find on the map. Never name the place, or a giveaway of it, in the text ("Which city hosted the 2016 Olympics?" → Rio de Janeiro; "In which state was the Declaration of Independence signed?" → Pennsylvania). "Drop the pin on X" is never acceptable.
   Only countries, cities, seas and famous landmarks. lat/lon of its centre in decimal degrees; sizeKm is roughly how wide the place is (a city ~30, a small country ~300, a large country ~2000). "region" is the blank map to show: the country the place is in for a city or landmark, the continent for a country, "World" only when the place spans continents or the question is about the world. Use the English Wikipedia name for the country or continent (France, United Kingdom, USA, Europe, Africa, South America, Australia). Never put the region's name in the question text when it gives the answer away.
 - "tf": {"type":"tf","text":"<a statement>","answer":true}
@@ -713,14 +724,7 @@ async function finishRaw(raw: any[], count: number, usedPictures: string[], want
         map = world; pt = map ? map.project(lat, lon) : null;
       }
       if (!map || !pt) { warnings.push(`Could not fetch a map for “${r.place}”, so that question was left out.`); return null; }
-      const sizeKm = Math.max(5, Math.min(5000, +r.sizeKm || 300));
-      const full = Math.max(0.012, Math.min(0.12, (sizeKm / 2) / map.kmPerWidth(lat)));
-      base.media = { kind: "image", url: map.url, credit: `Wikimedia Commons: ${map.name} location map` };
-      base.mapRegion = map.name;
-      if (map.bounds) base.mapBounds = map.bounds;
-      base.pin = { x: +pt.x.toFixed(4), y: +pt.y.toFixed(4) };
-      base.radiusFull = +full.toFixed(4);
-      base.radiusZero = +Math.min(0.35, full * 4).toFixed(4);
+      pinOnMap(base, map, pt, lat, +r.sizeKm || 300);
       base.place = String(r.place || "").trim();
       return base;
     }
@@ -986,6 +990,26 @@ Deno.serve(async (req) => {
       }
       if (changed) await bankSave(row);
       return json({ ok: true, changed, missing });
+    }
+    if (action === "bank_repin") {
+      // Moves drop-the-pin bank items onto another map ({id, region, lat, lon, sizeKm}), e.g. from a country
+      // players might not recognise to its continent. An item whose place would be off the new map is left alone.
+      const patches = (Array.isArray(body.patches) ? body.patches : []).slice(0, 400);
+      if (!patches.length) return json({ error: "Nothing to change." }, 400);
+      const row = await bankRow("pin");
+      const byId = new Map<string, any>(row.questions.map((q: any) => [q.id, q]));
+      let changed = 0; const skipped: string[] = [];
+      for (const p of patches) {
+        const q = byId.get(String(p.id || "")), lat = +p.lat, lon = +p.lon;
+        if (!q || q.mode === "area" || !isFinite(lat) || !isFinite(lon)) { skipped.push(String(p.id)); continue; }
+        const map = await locationMap(String(p.region || ""));
+        const pt = map ? map.project(lat, lon) : null;
+        if (!map || !pt || pt.x < 0.02 || pt.x > 0.98 || pt.y < 0.02 || pt.y > 0.98) { skipped.push(`${q.place} (${p.region})`); continue; }
+        pinOnMap(q, map, pt, lat, +p.sizeKm || 300);
+        changed++;
+      }
+      if (changed) await bankSave(row);
+      return json({ ok: true, changed, skipped });
     }
     if (action === "bank_move") {
       // Moves a category of items from one bank row to another (e.g. Catchphrase clips out of Type the answer).
