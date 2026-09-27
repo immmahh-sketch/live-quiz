@@ -297,8 +297,8 @@ function stateForPlayers() {
       s.draw = { step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, turn: g.turn, turns: g.order.length, drawer: g.drawer, got: Object.keys(g.got), gotPts: Object.fromEntries(Object.entries(g.got).map(([k, v]) => [k, v.pts])), last: g.last, scores: g.scores,
         hint: g.word ? LQ.drawHint(g.word, g.shown) : '', word: g.step === 'reveal' ? g.word : '', secret: g.drawer && g.step !== 'reveal' ? drawSecret(g.drawer, { choices: g.step === 'choose' ? g.choices : [], word: g.word }) : '' };
     }
-    if (G.q.uq) { const g = G.q.uq; s.uq = { step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, round: g.pi + 1, prompt: g.prompts[g.pi] || '', alive: g.alive, answered: g.step === 'ask' ? Object.keys(g.answers) : [], winners: g.winners,
-      results: g.step === 'judge' ? g.alive.map((pid) => ({ pid, a: g.answers[pid] || '', out: uqIsOut(g, pid), host: g.override[pid] !== undefined, mates: g.matchWith[pid] || [] })) : null }; }
+    if (G.q.uq) { const g = G.q.uq; s.uq = { step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, round: g.pi + 1, prompt: uqText(g.prompts[g.pi]), alive: g.alive, answered: g.step === 'ask' ? Object.keys(g.answers) : [], winners: g.winners,
+      results: g.step === 'judge' ? g.alive.map((pid) => ({ pid, a: g.answers[pid] || '', out: uqIsOut(g, pid), host: g.override[pid] !== undefined, mates: g.matchWith[pid] || [], why: g.why?.[pid] || '' })) : null }; }
     if (s.potato || s.koth || s.bb || s.chase || s.draw || s.uq) s.names = Object.fromEntries(Object.values(G.players).map((p) => [p.id, { name: p.name, emoji: p.emoji || '' }]));
     if (G.q.tq) { const t = G.q.tq; s.tq = { over: t.over, maxQ: G.q.view.maxQ, solved: t.solved, players: Object.fromEntries(Object.entries(t.players).map(([pid, p]) => [pid, { n: p.n, asked: p.asked, guesses: p.guesses.map((g) => ({ t: g.t, ok: g.ok })), done: p.done, out: p.out, place: p.place }])) }; }
     if (G.q.race) { const r = G.q.race; s.race = { winner: r.winner, winnerName: r.winner ? G.players[r.winner]?.name : null, over: r.over, target: G.q.view.target, maxWrong: G.q.view.maxWrong ?? 10, players: Object.fromEntries(Object.entries(r.players).map(([pid, p]) => [pid, { idx: p.idx, correct: p.correct, wrong: p.wrong, out: p.out, why: p.why, done: p.done }])) }; }
@@ -901,6 +901,20 @@ function gameStop() { ask('Stop this game now?', 'Points scored so far are kept;
 // answer and can click a name to kick a nonsense answer ("Shoes") or to bring back a wrong match. Last one standing wins.
 // If everyone left would go out on the same prompt, nobody does and the next prompt is played.
 const uqKey = (t) => LQ.normText(t).replace(/^(a|an|the|some|my|your) /, '').split(' ').map((w) => w.length > 3 ? w.replace(/(es|s)$/, '') : w).join(' ').trim();
+const uqText = (p) => typeof p === 'string' ? p : String(p?.p || '');
+const uqList = (p) => p && typeof p === 'object' && Array.isArray(p.a) ? p.a.map(String) : [];
+/** Which listed answer a typed one is: its index, -1 if it is not on the list, -2 if it could be more than one ("John"). */
+function uqCanon(text, list) {
+  const t = uqKey(text); if (!t) return -1;
+  const forms = list.map((a) => a.split('/').map(uqKey).filter(Boolean));
+  const exact = forms.findIndex((f) => f.includes(t)); if (exact >= 0) return exact;
+  if (!t.includes(' ') && t.length >= 3) { // a surname or first name alone ("Barlow", "Robbie"), if only one listed answer has it
+    const hits = forms.map((f, i) => f.some((x) => { const w = x.split(' '); return w.length > 1 && (w[w.length - 1] === t || w[0] === t); }) ? i : -1).filter((i) => i >= 0);
+    if (hits.length === 1) return hits[0]; if (hits.length > 1) return -2;
+  }
+  let best = -1, bs = 0; forms.forEach((f, i) => f.forEach((x) => { const s = similarity(t, x); if (s > bs) { bs = s; best = i; } }));
+  return bs >= 0.82 ? best : -1;
+}
 const uqSame = (a, b) => a === b || (a.length >= 4 && b.length >= 4 && (similarity(a, b) >= 0.84 || (a.length >= 5 && b.includes(a)) || (b.length >= 5 && a.includes(b))));
 function uqStart() {
   const q = question();
@@ -926,6 +940,21 @@ function uqAnswer(pid, a) {
 /** Groups the answers: unique ones go through, shared ones and blanks go out (until the host says otherwise). */
 function uqJudge() {
   const g = G.q.uq; g.until = 0;
+  const list = uqList(g.prompts[g.pi]); g.why = {}; g.left = null;
+  if (list.length) {
+    const canon = Object.fromEntries(g.alive.map((pid) => [pid, g.answers[pid] ? uqCanon(g.answers[pid], list) : null]));
+    for (const pid of g.alive) {
+      const c = canon[pid];
+      if (c === null) { g.verdict[pid] = 'none'; continue; }
+      if (c < 0) { g.verdict[pid] = 'invalid'; g.why[pid] = c === -2 ? 'which one? be more specific' : 'not on the list'; continue; }
+      const mates = g.alive.filter((x) => x !== pid && canon[x] === c);
+      g.verdict[pid] = mates.length ? 'match' : 'unique'; if (mates.length) g.matchWith[pid] = mates;
+    }
+    const said = new Set(Object.values(canon).filter((c) => c !== null && c >= 0));
+    g.left = list.map((a, i) => said.has(i) ? '' : a.split('/')[0]).filter(Boolean);
+    stepTo(g, 'judge', G.auto ? 15000 : 0); sound('gong');
+    persist(); renderUnique(); broadcastState(); return;
+  }
   const keys = Object.fromEntries(g.alive.map((pid) => [pid, g.answers[pid] ? uqKey(g.answers[pid]) : '']));
   for (const pid of g.alive) {
     if (!keys[pid]) { g.verdict[pid] = 'none'; continue; }
@@ -948,7 +977,7 @@ function uqResolve() {
   const allOut = out.length === g.alive.length;
   if (allOut) out = []; // everyone would go: nobody does, play another prompt
   const per = question().perRound ?? 100;
-  g.history.push({ prompt: g.prompts[g.pi], answers: { ...g.answers }, out, allOut });
+  g.history.push({ prompt: uqText(g.prompts[g.pi]), answers: { ...g.answers }, out, allOut });
   for (const pid of out) g.outAt[pid] = g.pi + 1;
   g.alive = g.alive.filter((pid) => !out.includes(pid));
   for (const pid of g.alive) g.scores[pid] = (g.scores[pid] || 0) + per;
@@ -974,7 +1003,7 @@ function botUq() {
 }
 function renderUnique() {
   const q = question(), g = G.q.uq; if (!g) return;
-  const prompt = g.prompts[g.pi] || '';
+  const prompt = uqText(g.prompts[g.pi]);
   const chip = (pid, inner, cls = '', click = false) => `<div class="uqchip ${cls}" ${click ? `data-uq="${pid}" title="Click to ${uqIsOut(g, pid) ? 'bring them back' : 'kick them'}"` : ''}><span class="uqem">${pem(pid)}</span><span class="uqname">${esc(pname(pid))}</span>${inner}</div>`;
   let main;
   if (g.step === 'ask') {
@@ -983,7 +1012,8 @@ function renderUnique() {
   } else if (g.step === 'judge') {
     const outs = g.alive.filter((pid) => uqIsOut(g, pid));
     main = `<div class="uqhead"><span class="uqround">Round ${g.pi + 1}</span><h1 class="qtext">${esc(prompt)}</h1><p class="uqrule">${outs.length === g.alive.length ? '😱 Everyone would be out, so nobody goes: another prompt!' : `🟢 through · 🔴 out · <b>click a name</b> to kick an answer that doesn't count, or to bring someone back`}</p></div>
-      <div class="uqgrid">${g.alive.map((pid) => { const o = uqIsOut(g, pid), a = g.answers[pid]; return chip(pid, `<span class="uqans">${a ? esc(a) : '<i>no answer</i>'}</span>${g.override[pid] !== undefined ? `<span class="uqwhy">${o ? 'kicked by the host' : 'let through by the host'}</span>` : g.verdict[pid] === 'match' ? `<span class="uqwhy">same as ${esc(g.matchWith[pid].map(pname).join(', '))}</span>` : ''}`, o ? 'out' : 'in', true); }).join('')}</div>`;
+      <div class="uqgrid">${g.alive.map((pid) => { const o = uqIsOut(g, pid), a = g.answers[pid]; return chip(pid, `<span class="uqans">${a ? esc(a) : '<i>no answer</i>'}</span>${g.override[pid] !== undefined ? `<span class="uqwhy">${o ? 'kicked by the host' : 'let through by the host'}</span>` : g.verdict[pid] === 'match' ? `<span class="uqwhy">same as ${esc(g.matchWith[pid].map(pname).join(', '))}</span>` : g.why?.[pid] ? `<span class="uqwhy">${esc(g.why[pid])}</span>` : ''}`, o ? 'out' : 'in', true); }).join('')}</div>
+      ${g.left?.length ? `<div class="uqleft">Nobody said: ${esc(g.left.join(' · '))}</div>` : g.left ? '<div class="uqleft">Every answer on the list was used!</div>' : ''}`;
   } else {
     main = `<div class="kwin"><div class="kcrown big">☝️</div>${g.winners.length === 1 ? `<div class="em">${pem(g.winners[0])}</div><h1 class="big">${esc(pname(g.winners[0]))}</h1><div class="kwinsub">The only one left! +${q.prize ?? 1000}</div>` : `<h1 class="big">${g.winners.map((p) => esc(pname(p))).join(' & ')}</h1><div class="kwinsub">Out of prompts: they share the prize</div>`}</div>`;
   }

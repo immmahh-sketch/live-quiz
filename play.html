@@ -419,7 +419,7 @@ function uqHtml(s) {
     const mine = (g.results || []).find((r) => r.pid === me);
     const list = (g.results || []).map((r) => `<div class="uqp ${r.out ? 'out' : 'in'} ${r.pid === me ? 'me' : ''}"><b>${esc(nm(s, r.pid))}</b><span>${esc(r.a || '—')}</span></div>`).join('');
     const head = !mine ? `<div class="pq">${esc(g.prompt)}</div><p class="center muted">You're out. Here's what everyone said:</p>`
-      : mine.out ? `<div class="state"><div class="em">😬</div><h2>${!mine.a ? 'No answer!' : mine.host ? 'The host kicked that one' : mine.mates.length ? `Same as ${esc(mine.mates.map((p) => nm(s, p)).join(', '))}!` : 'Out!'}</h2><p class="muted">You're out, unless the host lets you back in</p></div>`
+      : mine.out ? `<div class="state"><div class="em">😬</div><h2>${!mine.a ? 'No answer!' : mine.host ? 'The host kicked that one' : mine.why ? (mine.why.startsWith('which') ? `“${esc(mine.a)}”: which one? Be more specific!` : `“${esc(mine.a)}” isn't on the list!`) : mine.mates.length ? `Same as ${esc(mine.mates.map((p) => nm(s, p)).join(', '))}!` : 'Out!'}</h2><p class="muted">You're out, unless the host lets you back in</p></div>`
       : `<div class="state"><div class="em">🟢</div><h2>Only you said it!</h2><p class="muted">You're through to the next round</p></div>`;
     return head + `<div class="uqlist">${list}</div>`;
   }

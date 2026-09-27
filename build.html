@@ -217,7 +217,7 @@ function itemsOf(q) {
   if (t === 'nearest') return [{ ...base, text: q.text, answer: `${q.answer} ${q.unit || ''}` }];
   if (t === 'pin') return [{ ...base, text: q.text, answer: q.place || (q.answer || '') }];
   if (t === 'reveal') return [{ ...base, text: 'Picture Reveal: who is this?', answer: (q.answers || [])[0] }];
-  if (t === 'unique') return [{ ...base, text: `Only One prompts (players must each give a DIFFERENT answer; judge whether these prompts have plenty of possible answers): ${(q.prompts || []).join(' | ')}`, answer: '(each player gives a unique answer)' }];
+  if (t === 'unique') return [{ ...base, text: `Only One (each player must give a DIFFERENT answer from the list; check every list is complete and correct, with no wrong entries): ${(q.prompts || []).map((p) => typeof p === 'string' ? p : `${p.p}: ${(p.a || []).join(', ')}`).join(' || ')}`, answer: '(the lists above)' }];
   if (t === 'survey') return [{ ...base, text: `Family Fortunes (the room is the survey): ${q.text}`, answer: 'whatever most of the room says' }];
   if (t === 'twenty') return [{ ...base, text: `20 Questions (${q.what || ''})`, answer: (q.answers || [])[0] }];
   if (t === 'dingbat') return [{ ...base, text: 'Dingbat', answer: (q.answers || [])[0] }];

@@ -235,10 +235,11 @@ async function bankView(type, id, summary, after) {
   $('.modal', m).innerHTML = `<h3>${TYPES[type].icon} ${esc(TYPES[type].label)} ${q.pct ? `<span class="tag">${q.pct}%</span>` : ''} ${st}</h3>
     <div style="font-size:1.05em;margin-top:6px">${esc(q.text || q.phrase || q.place || '')}</div>${pic}${body}
     ${kv('Category', esc(q.category || ''))}${kv('Tags', (q.tags || []).map((t) => `<span class="tag">${esc(t)}</span>`).join(' '))}${kv('Time', q.time ? q.time + ' s' : '')}${kv('Difficulty', ['easy', 'medium', 'hard'].map((d) => `<button class="btn btn-sm ${q.difficulty === d ? 'btn-primary' : 'btn-ghost'}" data-rate="${d}">${d[0].toUpperCase() + d.slice(1)}</button>`).join(' ') + (q.difficulty ? '' : ' <span class="muted small">not rated yet</span>'))}
-    <div class="row" style="justify-content:flex-end;margin-top:14px;gap:6px"><button class="btn btn-ghost btn-sm" data-edit>✏️ Edit</button>${q.used ? '<button class="btn btn-ghost btn-sm" data-restore>↺ Back into stock</button>' : ''}<button class="btn btn-ghost btn-sm" data-del style="color:var(--bad)">Remove from bank</button><button class="btn btn-primary btn-sm" data-x>Close</button></div>`;
+    <div class="row" style="justify-content:flex-end;margin-top:14px;gap:6px"><button class="btn btn-primary btn-sm" data-preview title="Play it now on the big screen with you and 3 bots">▶ Preview this question</button><button class="btn btn-ghost btn-sm" data-edit>✏️ Edit</button>${q.used ? '<button class="btn btn-ghost btn-sm" data-restore>↺ Back into stock</button>' : ''}<button class="btn btn-ghost btn-sm" data-del style="color:var(--bad)">Remove from bank</button><button class="btn btn-primary btn-sm" data-x>Close</button></div>`;
   $('[data-x]', m).onclick = () => m.remove();
   const au = $('.bankaud audio', m); if (au) au.addEventListener('play', () => { if (au.currentTime < 0.5 && +au.dataset.start) au.currentTime = +au.dataset.start; }, { once: true });
   $('[data-edit]', m).onclick = () => bankEdit(m, type, q, summary, after);
+  $('[data-preview]', m).onclick = () => previewBankItem(q);
   if ($('[data-restore]', m)) $('[data-restore]', m).onclick = async () => { try { await api('bank_restore', { type, id }); if (summary) { summary.used = null; summary.rejected = false; } m.remove(); after?.(); toast('Back in stock.'); } catch (e) { toast(e.message, true); } };
   $$('[data-rate]', m).forEach((b) => b.onclick = async () => { try { await api('bank_patch', { type, patches: [{ id, difficulty: b.dataset.rate }] }); if (summary) summary.difficulty = b.dataset.rate; m.remove(); after?.(); bankView(type, id, summary, after); } catch (e) { toast(e.message, true); } });
   $('[data-del]', m).onclick = async () => { if (!(await confirmBox('Remove from the bank?', 'It will be gone for good.'))) return; try { await api('bank_delete', { type, id }); if (summary) summary.gone = true; m.remove(); after?.(); toast('Removed.'); } catch (e) { toast(e.message, true); } };
@@ -789,6 +790,14 @@ function roundModal(id) {
 // ------------------------------------------------------------------ question form
 /** Preview: this one question or slide on the host screen straight away, with three bots and you as a player beside it.
  *  Handed over through localStorage, so unsaved edits show too; nothing is saved, scored or taken from the bank. */
+/** A bank question straight into the try-it-yourself screen: you and 3 bots, no quiz needed. */
+function previewBankItem(item) {
+  const q = JSON.parse(JSON.stringify(item)); delete q.used; delete q.passed;
+  q.id = q.id || uid('q'); q.time = q.time || timeFor(q.kind || q.type, S.quiz?.settings || LQ.DEFAULT_SETTINGS);
+  const probs = validate(q); if (probs.length) return toast('This one cannot be played as it stands: ' + probs[0], true);
+  LQ.store('lq_preview', { title: 'Question bank', settings: S.quiz?.settings || LQ.DEFAULT_SETTINGS, question: q, at: Date.now() });
+  window.open('host.html?quiz=preview&fresh=1', '_blank');
+}
 function previewItem(q) {
   const probs = validate(q);
   if (probs.length) return toast('Finish it first: ' + probs[0], true);
@@ -966,13 +975,13 @@ function renderTypeBox() {
     $('#nw_spread').oninput = (e) => { const v = e.target.value.trim(); q.spread = v === '' ? null : v; touch(); showProblems(); };
   }
   if (q.type === 'unique') {
-    box.innerHTML = `<div class="notice" style="margin-bottom:12px">Only One: everyone still in answers the same prompt. An answer nobody else gave goes through; anyone who matches someone else is out, and so is a blank. You can click a name on the screen to kick an answer that doesn't count, or bring back a wrong match. Last one standing wins. Pick prompts with lots of possible answers.</div>
+    box.innerHTML = `<div class="notice" style="margin-bottom:12px">Only One: everyone still in answers the same prompt. An answer nobody else gave goes through; a match, a blank or an answer that isn't on the list is out. You can click a name on the screen to overrule. Last one standing wins. Use closed lists of about 10 to 20 answers that can be checked (signs of the zodiac, members of Take That…), not open ones like "a fruit".</div>
       <div class="row" style="gap:12px;flex-wrap:wrap"><div class="field" style="flex:0 1 200px"><label>Points per round survived</label><input type="number" id="uq_pr" min="0" max="1000" step="10" value="${q.perRound ?? 100}"></div>
       <div class="field" style="flex:0 1 200px"><label>Prize for the last one standing</label><input type="number" id="uq_prize" min="0" max="5000" step="50" value="${q.prize ?? 1000}"></div></div>
-      <div class="field"><label>Prompts <span class="muted">— one per line, played in a random order until one player is left</span></label><textarea id="uq_prompts" rows="8" placeholder="Name a pizza topping&#10;Name a country in Europe&#10;…">${esc((q.prompts || []).join('\n'))}</textarea></div>`;
+      <div class="field"><label>Prompts <span class="muted">— one per line: the prompt, a colon, then every correct answer separated by semicolons (other accepted forms after a slash). Played in a random order until one player is left.</span></label><textarea id="uq_prompts" rows="10" placeholder="Name a sign of the zodiac: Aries; Taurus; Gemini; …&#10;Name a member of Take That: Gary Barlow; Mark Owen; Robbie Williams/Robbie; …">${esc((q.prompts || []).map((p) => typeof p === 'string' ? p : `${p.p}: ${(p.a || []).join('; ')}`).join('\n'))}</textarea></div>`;
     $('#uq_pr').oninput = (e) => { q.perRound = Math.max(0, Math.round(+e.target.value || 0)); touch(); };
     $('#uq_prize').oninput = (e) => { q.prize = Math.max(0, Math.round(+e.target.value || 0)); touch(); };
-    $('#uq_prompts').oninput = (e) => { q.prompts = e.target.value.split('\n').map((x) => x.trim()).filter(Boolean); touch(); showProblems(); };
+    $('#uq_prompts').oninput = (e) => { q.prompts = e.target.value.split('\n').map((x) => x.trim()).filter(Boolean).map((line) => { const i = line.indexOf(':'); if (i < 0) return line; const a = line.slice(i + 1).split(';').map((x) => x.trim()).filter(Boolean); return a.length ? { p: line.slice(0, i).trim(), a } : line.slice(0, i).trim(); }); touch(); showProblems(); };
     return;
   }
   if (q.type === 'draw') {

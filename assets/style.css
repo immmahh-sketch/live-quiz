@@ -1137,3 +1137,4 @@ body.tv .drawside { flex-basis: 34%; }
 .uqlist { display: flex; flex-direction: column; gap: 6px; padding: 0 12px 12px; }
 .uqp { display: flex; justify-content: space-between; gap: 10px; padding: 8px 12px; border-radius: 10px; color: #fff; font-weight: 700; }
 .uqp.in { background: #1f9d55; } .uqp.out { background: #c0392b; } .uqp.me { outline: 3px solid #ffd60a; }
+.uqleft { max-width: min(1100px, 94vw); text-align: center; font-weight: 700; opacity: .8; font-size: clamp(.9rem, 1.4vw, 1.15rem); }
