@@ -239,7 +239,7 @@ function itemsOf(q) {
   if (t === 'nearest') return [{ ...base, text: q.text, answer: `${q.answer} ${q.unit || ''}` }];
   if (t === 'pin') return [{ ...base, text: q.text, answer: q.place || (q.answer || '') }];
   if (t === 'reveal') return [{ ...base, text: 'Picture Reveal: who is this?', answer: (q.answers || [])[0] }];
-  if (t === 'unique') return (q.prompts || []).map((p, i) => ({ id: `${q.id}#p${i}`, type: 'Only One list', text: `Only One prompt (each player still in must give a DIFFERENT answer that is on this list; judge the list: complete and correct, 12 to 25 answers a pub room can actually reach, not nursery-easy, not obscure): ${typeof p === 'string' ? p : p.p}`, answer: typeof p === 'string' ? '(no list: open-ended)' : (p.a || []).map((a) => a.split('/')[0]).join(', '), difficulty: '' }));
+  if (t === 'unique') return (q.prompts || []).map((p, i) => ({ id: `${q.id}#p${i}`, type: 'Only One list', text: `Only One list (players must each give a DIFFERENT answer from this list; well-known lists are ideal, since the challenge is being unique; flag only if the list is wrong, incomplete, open-ended or too obscure): ${typeof p === 'string' ? p : p.p}`, answer: typeof p === 'string' ? '(no list: open-ended)' : (p.a || []).map((a) => a.split('/')[0]).join(', '), difficulty: '' }));
   if (t === 'survey') return [{ ...base, text: `Family Fortunes (the room is the survey): ${q.text}`, answer: 'whatever most of the room says' }];
   if (t === 'twenty') return [{ ...base, text: `20 Questions (${q.what || ''})`, answer: (q.answers || [])[0] }];
   if (t === 'dingbat') return [{ ...base, text: 'Dingbat', answer: (q.answers || [])[0] }];
@@ -293,7 +293,7 @@ async function checkQuiz() {
       const bad = roundQs(r).flatMap(itemsOf).filter((i) => verdicts[i.id]?.flags?.length && !(pass > 1 && changed.has(i.id)));
       // pre-made sets with several bad rows are swapped whole, before any of their rows are touched
       const setBad = new Map();
-      for (const it of bad) { const { q, row } = findItem(it.id); if (row && !q.dealt && !q.edited && !q.keep && verdicts[it.id].flags.some((f) => f !== 'wording')) setBad.set(q, (setBad.get(q) || 0) + 1); }
+      for (const it of roundQs(r).flatMap(itemsOf).filter((i) => verdicts[i.id]?.flags?.length)) { const { q, row } = findItem(it.id); if (row && row.prompt === undefined && !q.dealt && !q.edited && !q.keep && verdicts[it.id].flags.some((f) => f !== 'wording')) setBad.set(q, (setBad.get(q) || 0) + 1); }
       const swapped = new Set();
       for (const [q, n] of setBad) {
         if (n < 4 || B.stop) continue;
@@ -309,13 +309,13 @@ async function checkQuiz() {
         const v = verdicts[it.id], { q, row } = findItem(it.id); if (!q || swapped.has(q)) continue;
         const entry = { id: it.id, where: whereOf(q, row), flags: v.flags, note: v.note, before: said(it), pass };
         if (q.edited || q.keep) { if (!v.flags.every((f) => f === 'wording')) { entry.status = 'review'; entry.note = (entry.note ? entry.note + ' ' : '') + (q.keep ? '(You pinned this one, so it was left alone.)' : '(You edited this one, so it was left alone.)'); rr.flags.push(entry); } continue; }
-        const ans = LQ.normText(String(it.answer || '')), rwOk = v.rewrite && v.rewrite.length > 8 && !(row && row.prompt !== undefined) && !(ans.length >= 4 && LQ.normText(v.rewrite).includes(ans));
+        const ans = LQ.normText(String(it.answer || '')), rwOk = v.rewrite && v.rewrite.length > 8 && !(row && row.prompt !== undefined) && !(row && q.dealt) && !(ans.length >= 4 && LQ.normText(v.rewrite).includes(ans));
         if (v.flags.every((f) => f === 'wording' || f === 'giveaway') && rwOk) {
           rewrites.push({ id: it.id, q, row, old: row ? row.text : q.text, flags: v.flags, entry });
           if (row) row.text = v.rewrite; else q.text = v.rewrite;
           entry.status = 'rewritten'; entry.after = `${v.rewrite} → ${it.answer}`; rr.flags.push(entry); changed.add(it.id); continue;
         }
-        if (v.flags.every((f) => f === 'wording')) continue; // clumsy but no better wording offered: leave it
+        if (v.flags.every((f) => f === 'wording') && ['catchphrase', 'draw', 'unique'].includes(q.kind || q.type)) continue; // nothing better to swap in: leave it
         if (row) { if (!rowsByGame.has(q)) rowsByGame.set(q, []); rowsByGame.get(q).push({ row, entry }); continue; }
         if (['catchphrase', 'draw'].includes(q.kind || q.type)) { entry.status = 'review'; rr.flags.push(entry); continue; }
         drawSteps('Fixing flagged questions…', `${r.title}: replacing “${it.text.slice(0, 60)}”`);

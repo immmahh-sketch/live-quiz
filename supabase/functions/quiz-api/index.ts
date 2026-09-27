@@ -833,6 +833,8 @@ For EVERY item, give:
 
 Rows of The Chase, King of the Hill, Hot Potato and Blockbusters are quick-fire questions read out one after another: they are general knowledge in a general round, or on the round's subject when the game sits inside a subject round, so judge each row on its own merits and only flag "off_topic" when a row inside a subject round is plainly off that subject.
 
+Only One lists are a different game: every player still in must give a DIFFERENT answer from the list, so the challenge is being unique, not knowing the answer. Well-known closed lists are ideal (signs of the zodiac, members of Take That, Premier League clubs, the host's own examples), and so is local knowledge like Newcastle managers. Flag a list only if it is wrong or incomplete (check against the full list given), open-ended, or so obscure that most of the room cannot name even one.
+
 Game-show items (Wheel of Fortune phrases, Catchphrase clips, Draw It, 20 Questions, Answer Smash, Rhyme Time, Dingbats, Name That Tune, Picture Reveal) are judged on whether they are fun and fair for the room, not on "wow".
 
 Then judge the round as a whole: "score" 1 to 5 (5 = the host would be proud of it), and a "summary" of 2 or 3 plain sentences on its quality, difficulty and variety.
@@ -1028,7 +1030,7 @@ Deno.serve(async (req) => {
       if (body.bankOnly === true) return json({ questions: reshape(fromBank), warnings: [], searched: false, usage: null, unknownTypes, fromBank: fromBank.length, bankInfo });
       // Catchphrase clips only come from the bank: the AI cannot make a video.
       if (types[0] === "catchphrase" || types[0] === "reveal" || types[0] === "survey" || types[0] === "unique") return json({ questions: fromBank, warnings: fromBank.length < wantCount ? [types[0] === "reveal" ? "The Picture Reveal pictures in the bank have run out. Add more, or pick another type for the rest." : "The Catchphrase clips in the bank have run out. Add more, or pick another type for the rest."] : [], searched: false, usage: null, unknownTypes, fromBank: fromBank.length, bankInfo });
-      const out = await generate({
+      const genOpts = {
         topic: String(body.brief ? (body.title || body.topic || "") : (body.topic || "")).slice(0, 200),
         brief: String(body.brief || "").slice(0, 1500),
         count: wantCount - fromBank.length,
@@ -1039,7 +1041,14 @@ Deno.serve(async (req) => {
         pictures: body.pictures !== false,
         web: body.web !== false,
         premium: body.premium === true,
-      });
+      };
+      let out = await generate(genOpts);
+      if (types[0] === "race" && out.questions.some((q: any) => q?.type === "race" && !raceOk(q))) {
+        const bad = out.questions.filter((q: any) => q?.type === "race" && !raceOk(q)).map(raceProblems).join("; ");
+        const again = await generate({ ...genOpts, brief: `${genOpts.brief}\nYour last attempt failed these checks: ${bad}. Every row a full question ending in "?"; every row its own wrong answers; no row's answer used as another row's option; no wrong answer on more than 2 rows; never a closed set.`.slice(0, 1800) });
+        const good = [...out.questions, ...again.questions].filter((q: any) => q?.type !== "race" || raceOk(q));
+        out = { ...again, questions: good.slice(0, genOpts.count), warnings: [...(out.warnings || []), ...(again.warnings || []), ...(good.length ? [] : ["The quick-fire set the writer produced failed the quality checks twice, so none was added."])] };
+      }
       return json({ ...out, questions: reshape([...fromBank, ...out.questions]), unknownTypes, fromBank: fromBank.length, bankInfo });
     }
 
@@ -1056,7 +1065,7 @@ Deno.serve(async (req) => {
       if (!ANTHROPIC_KEY) return json({ error: "AI is not set up on the server yet — add ANTHROPIC_API_KEY as a Supabase secret." }, 503);
       const items = (Array.isArray(body.items) ? body.items : []).slice(0, 60).map((i: any) => ({
         id: String(i?.id || "").slice(0, 40), type: String(i?.type || "").slice(0, 20), text: String(i?.text || "").slice(0, 400),
-        answer: String(i?.answer || "").slice(0, 300), other: String(i?.other || "").slice(0, 400), rated: String(i?.difficulty || ""), game: String(i?.game || ""),
+        answer: String(i?.answer || "").slice(0, 1200), other: String(i?.other || "").slice(0, 400), rated: String(i?.difficulty || ""), game: String(i?.game || ""),
       })).filter((i: any) => i.id);
       if (!items.length) return json({ error: "Nothing to review." }, 400);
       return json(await reviewRound(body.round || {}, items, (Array.isArray(body.others) ? body.others : []).map((x: unknown) => String(x ?? "").slice(0, 160)).slice(0, 300)));
@@ -1706,7 +1715,19 @@ function levelQuota(need: number, difficulty: string, shape = { easy: 0.15, hard
 const levelOf = (q: any) => (["easy", "medium", "hard"].includes(q.difficulty) ? q.difficulty : "medium");
 /** Flags from the hand review of the bank: never picked. */
 /** A Race fit to play: full questions, and no row whose answer turns up among another row's options (the clicking-contest problem). */
+/** Why a Race fails raceOk, in words the writer can act on. */
+function raceProblems(q: any): string {
+  const rows = Array.isArray(q?.bank) ? q.bank : [], out: string[] = [];
+  if (rows.length < 20) out.push(`only ${rows.length} rows`);
+  const ans = rows.map((b: any) => norm(String(b?.options?.[0] ?? "")));
+  if (rows.some((b: any) => !/\?\s*$/.test(String(b?.text || "")) || String(b?.text || "").trim().split(/\s+/).length < 4)) out.push("some rows are not full questions");
+  if (rows.some((b: any, i: number) => (b.options || []).slice(1).some((o: any) => { const j = ans.indexOf(norm(String(o))); return j >= 0 && j !== i; }))) out.push("answers reused as other rows' options");
+  const wc: Record<string, number> = {}; rows.forEach((b: any) => (b.options || []).slice(1).forEach((o: any) => { const k = norm(String(o)); wc[k] = (wc[k] || 0) + 1; }));
+  if (Object.values(wc).some((c) => c > 2)) out.push("the same wrong answers on many rows");
+  return out.join(", ") || "ok";
+}
 function raceOk(q: any): boolean {
+  if (raceProblems(q) !== "ok") return false;
   const rows = Array.isArray(q?.bank) ? q.bank : []; if (rows.length < 20) return false;
   const ans = rows.map((b: any) => norm(String(b?.options?.[0] ?? "")));
   return rows.every((b: any, i: number) => /\?\s*$/.test(String(b?.text || "")) && String(b.text).trim().split(/\s+/).length >= 4
@@ -1817,7 +1838,7 @@ async function bankTake(type: string, need: number, topic: string, brief: string
 const GAME_ROWS: Record<string, number> = { potato: 20, koth: 24, chase: 24, blockbusters: 24 };
 const GAME_LEVELS: Record<string, { easy: number; hard: number }> = { potato: { easy: 0.2, hard: 0.25 }, koth: { easy: 0.15, hard: 0.35 }, chase: { easy: 0.1, hard: 0.4 }, blockbusters: { easy: 0.2, hard: 0.3 } };
 /** Needs its options to make sense ("Which of these…"), so it cannot be read aloud in a head-to-head. */
-const NEEDS_OPTIONS = /\b(of these|the following|odd one out|which one|not\b|none of|all of|true or false)\b/i;
+const NEEDS_OPTIONS = /\b(of these|the following|odd one out|which one|not\b|none of|all of|true or false|which is there more of|which is (bigger|larger|longer|older|taller|heavier))\b|, or [^?]*\?$/i;
 /**
  * A general-knowledge Hot Potato, King of the Hill, Chase or Blockbusters, dealt from the multiple-choice bank: every
  * row a different subject and a different shape of question, full sentences, short answers, mostly medium and hard,

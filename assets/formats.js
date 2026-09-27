@@ -9,7 +9,7 @@ window.LQ_FORMATS = (() => {
     'Quiz and game shows', "Children's TV", 'Doctor Who', 'Friends', 'The Office and workplace comedies'];
   const MUSIC = ['Music', 'Pop music', 'Rock music', 'UK number ones', 'One-hit wonders', 'Boy bands and girl groups', 'The Beatles', 'Eurovision'];
   const SPORT = ['Sport', 'Football', 'The football World Cup', 'The Olympics', 'Cricket', 'Rugby', 'Tennis and golf', 'Boxing and combat sports',
-    'Horse racing and darts', 'Motorsport', 'Newcastle v Sunderland'];
+    'Horse racing and darts', 'Motorsport']; // not 'Newcastle v Sunderland': every local knows those, so they give points away
   const ABOUT = {
     tv: 'Films, telly, soaps and sitcoms: behind-the-scenes stories, famous relatives, real names, quotes and the detail behind the famous scene. Opens warm and nostalgic.',
     music: 'Songs, singers and bands: covers and who did it first, real names, famous relatives, chart records, release years, band line-ups and lyrics. Not musicals.',
