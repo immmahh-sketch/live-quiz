@@ -383,7 +383,7 @@ async function checkQuiz() {
   LQ.orderQuestions(B.quiz); await save();
   step('report', 'done');
   B.busy = false;
-  history.replaceState(null, '', '?quiz=' + encodeURIComponent(B.quiz.id));
+  try { history.replaceState(null, '', '?quiz=' + encodeURIComponent(B.quiz.id)); } catch {}
   renderReport();
 }
 /** Swaps a question for a fresh one of the same type in the same round; the old one goes back to the bank (or is rejected for good). */
