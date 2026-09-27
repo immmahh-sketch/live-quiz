@@ -49,7 +49,8 @@ function toggleSolo() {
 /** Preview from the builder: bots and the player panel, then straight into the 3-2-1 (or the slide) once your panel has joined. */
 const question0 = () => G.quiz.questions[0];
 function startPreview() {
-  G.auto = false; document.body.classList.add('preview');
+  G.auto = true; // a preview drives itself: straight in, and it stops on the answer and the points
+  document.body.classList.add('preview');
   toggleSolo();
   const t0 = Date.now();
   const go = () => {
@@ -270,7 +271,7 @@ function startHeartbeat() { clearInterval(hbT); hbT = setInterval(broadcastState
 
 /** Everything a phone needs to draw its screen. Never the right answers. */
 function stateForPlayers() {
-  const s = { phase: G.phase, code: G.code, qIndex: G.qIndex, num: qNum(G.qIndex), practice: G.qIndex >= 0 && practiceQ(), total: total(), more: G.qIndex + 1 < G.quiz.questions.length, title: G.quiz.title, now: Date.now(), auto: !!G.auto, paused: !!G.paused };
+  const s = { phase: G.phase, code: G.code, qIndex: G.qIndex, num: qNum(G.qIndex), practice: G.qIndex >= 0 && practiceQ(), total: total(), more: G.qIndex + 1 < G.quiz.questions.length, title: G.quiz.title, now: Date.now(), auto: !!G.auto, paused: !!G.paused, ...(PREVIEW ? { preview: true } : {}) };
   const nowT = G.paused ? G.pausedAt : Date.now(); // a paused clock reads the same until it is picked up again
   if (G.phase === 'slide') { const q = question(); s.slide = { title: q.text || '', body: q.body || '', image: q.media?.kind === 'image' ? q.media.url || '' : '' }; if (G.brk) s.brk = { remainingMs: Math.max(0, G.brk.endsAt - nowT), totalMs: G.brk.totalMs }; }
   if (G.phase === 'question' && G.q) {
@@ -398,6 +399,7 @@ let autoT = null;
 /** How long this screen stays up before moving on by itself, in ms; 0 when it waits for a press. */
 function autoDelay() {
   if (!G.auto) return 0;
+  if (PREVIEW && (G.phase === 'reveal' || G.phase === 'scoreboard')) return 0; // a preview ends on the answer and each player's points
   if (G.phase === 'round') return 6000;
   if (G.phase === 'slide') return G.brk ? 0 : LQ.clamp(+question()?.time || 20, 5, 120) * 1000; // a break moves on when its clock runs out
   if (G.phase === 'typecard') return 8000;
@@ -436,6 +438,7 @@ function primaryAction() {
   if (G.phase === 'countdown') return startQuestion();
   if (G.phase === 'question') return endQuestion();
   if (G.phase === 'reveal' && lossList().length && !G.q.lossShown) { G.q.lossShown = true; persist(); render(); broadcastState(); return; } // after the podium: who lost points
+  if (G.phase === 'reveal' && PREVIEW) return; // nothing after the answer in a preview: play it again or close
   if (G.phase === 'reveal') return practiceQ() ? nextFrom(G.qIndex) : showScoreboard(); // scores cannot have moved after practice
   if (G.phase === 'scoreboard') return nextFrom(G.qIndex);
 }
@@ -2044,7 +2047,12 @@ async function grade(noAi) {
 }
 
 // ------------------------------------------------------------------ rendering
-function render() { renderPhase(); mountClip(); scheduleAuto(); syncPause(); if (G.phase !== 'question') musicStop(); }
+function render() { renderPhase(); if (PREVIEW && G.phase === 'reveal') previewEnd(); mountClip(); scheduleAuto(); syncPause(); if (G.phase !== 'question') musicStop(); }
+/** The reveal is the end of a preview: its buttons become Play it again and Close. */
+function previewEnd() {
+  const p = $('[data-act="primary"]'); if (p) { p.dataset.act = 'again'; p.textContent = '↻ Play it again'; }
+  const e = $('[data-act="end"]'); if (e) { e.dataset.act = 'builder'; e.textContent = 'Close preview'; }
+}
 function renderPhase() {
   const ph = G.phase;
   if (ph === 'lobby') return renderLobby();
