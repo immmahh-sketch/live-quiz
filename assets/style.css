@@ -1138,3 +1138,54 @@ body.tv .drawside { flex-basis: 34%; }
 .uqp { display: flex; justify-content: space-between; gap: 10px; padding: 8px 12px; border-radius: 10px; color: #fff; font-weight: 700; }
 .uqp.in { background: #1f9d55; } .uqp.out { background: #c0392b; } .uqp.me { outline: 3px solid #ffd60a; }
 .uqleft { max-width: min(1100px, 94vw); text-align: center; font-weight: 700; opacity: .8; font-size: clamp(.9rem, 1.4vw, 1.15rem); }
+
+/* ---------- editor: toast actions, drop-down menus, swapping ---------- */
+.toast.show.act { pointer-events: auto; }
+.toast .toastbtn { margin-left: 12px; border: 0; background: #fff; color: var(--ink); border-radius: 8px; padding: 4px 12px; font-weight: 900; cursor: pointer; }
+.popmenu { position: fixed; z-index: 45; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 6px; min-width: 200px; max-width: 92vw; display: flex; flex-direction: column; }
+.popmenu button { border: 0; background: transparent; text-align: left; padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; color: var(--ink); white-space: nowrap; }
+.popmenu button:hover:not(:disabled), .popmenu button:focus-visible { background: var(--brand-soft); outline: none; }
+.popmenu button:disabled { opacity: .4; cursor: default; }
+.popmenu button.danger { color: var(--bad); }
+.popmenu hr { border: 0; border-top: 1px solid var(--line); margin: 4px 0; }
+.splitbtn { display: inline-flex; }
+.splitbtn .btn:first-child { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+.splitbtn .btn + .btn { border-top-left-radius: 0; border-bottom-left-radius: 0; border-left-width: 0; padding-left: 8px; padding-right: 8px; }
+.qtile.swapping { opacity: .6; }
+.qtile.swapping .t small { color: var(--brand); }
+/* where a question came from, its difficulty, and a "well I never" star */
+.qchips { display: inline-flex; align-items: center; gap: 4px; vertical-align: middle; }
+.qchips .qsrc { border-radius: 999px; padding: 0 6px; font-size: .68rem; font-weight: 900; line-height: 1.5; letter-spacing: .02em; }
+.qchips .qsrc.bank { background: #e3f0ff; color: #1856a8; }
+.qchips .qsrc.ai { background: var(--brand-soft); color: var(--brand-2); }
+.qchips .qsrc.mine { background: #e6f6e6; color: #1d6b1d; }
+.qchips .qdot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.qchips .qdot.easy { background: #7bd389; } .qchips .qdot.medium { background: #f5c542; } .qchips .qdot.hard { background: #e0525e; }
+.qchips .qwow { color: #d89e00; font-size: .85rem; line-height: 1; }
+h3 .qchips { font-size: 1rem; }
+.typetile.hi { border-color: var(--brand); background: var(--brand-soft); }
+.typetile .tag { margin: 2px 0 4px; }
+.roundhead .rt input.rtname { padding: 3px 8px; font-weight: 900; font-size: .95rem; border-radius: 8px; }
+.roundhead .rt { flex: 1 1 auto; min-width: 0; }
+/* planner: one chip per question type in a round's mix, showing have / wanted */
+.rcard .mixchips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.rcard .mixchip { display: inline-flex; align-items: center; gap: 6px; background: var(--brand-soft); border-radius: 99px; padding: 4px 6px 4px 12px; font-weight: 800; font-size: .88rem; }
+.rcard .mixchip.done { background: #e3f6e3; }
+.rcard .mixchip button { border: 0; background: #fff; border-radius: 99px; width: 24px; height: 24px; font-weight: 900; cursor: pointer; color: var(--ink); }
+.rcard .mixchip button:hover { color: var(--brand); }
+.rcard .mixchip b { min-width: 34px; text-align: center; }
+.rcard .mixchips select { width: auto; padding: 5px 10px; border-radius: 99px; font-size: .88rem; }
+/* question list drag and drop */
+.qlist .qtile.dragging, .qlist .roundhead.dragging { opacity: .4; }
+.qlist .qtile.drop-before, .qlist .roundhead.drop-before { box-shadow: 0 -3px 0 var(--brand); }
+.qlist .qtile.drop-after, .qlist .roundhead.drop-after { box-shadow: 0 3px 0 var(--brand); }
+.qlist .roundhead.drop-in { background: var(--brand-soft); border-radius: 10px; }
+.qlist .roundhead[draggable="true"] { cursor: grab; }
+/* 📌 keep toggle on a question tile */
+.qtile .n { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.qtile .n .keep { border: 0; background: transparent; cursor: pointer; padding: 0; font-size: .72rem; line-height: 1; opacity: 0; filter: grayscale(1); }
+.qtile:hover .n .keep { opacity: .45; }
+.qtile .n .keep.on { opacity: 1; filter: none; }
+.qtile .n .keep:focus-visible { opacity: 1; }
+.edhead .ednote { color: var(--warn); font-weight: 800; font-size: .85rem; }
+.edhead .ednote:empty { display: none; }
