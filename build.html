@@ -74,7 +74,7 @@ const GAMES = ['potato', 'koth', 'chase', 'blockbusters'];
 const TRIVIA = ['choice', 'text', 'tf', 'order', 'sort', 'match', 'nearest', 'pin'];
 const QUALITY = ['too_easy', 'giveaway', 'fact', 'weak_options', 'local'];
 const FLAG_LABEL = { too_easy: 'too easy', giveaway: 'gives the answer away', repetitive: 'repeats another question', weak_options: 'weak wrong answers', wording: 'clumsy wording', fact: 'fact in doubt', off_topic: 'off topic for the round', local: 'every Geordie knows it' };
-const SECS = { survey: 60, choice: 30, text: 40, tf: 20, order: 50, sort: 55, match: 55, pin: 35, nearest: 40, tune: 45, wipeout: 180, race: 240, koth: 480, chase: 420, potato: 300, blockbusters: 480, wheel: 70, catchphrase: 60, reveal: 50, smash: 45, rhyme: 45, dingbat: 55, highlow: 50, club: 45, twenty: 240, draw: 360 };
+const SECS = { unique: 300, survey: 60, choice: 30, text: 40, tf: 20, order: 50, sort: 55, match: 55, pin: 35, nearest: 40, tune: 45, wipeout: 180, race: 240, koth: 480, chase: 420, potato: 300, blockbusters: 480, wheel: 70, catchphrase: 60, reveal: 50, smash: 45, rhyme: 45, dingbat: 55, highlow: 50, club: 45, twenty: 240, draw: 360 };
 const B = { plan: null, quiz: null, busy: false, stop: false };
 let toastT;
 function toast(msg, bad) { const t = $('#toast'); t.textContent = msg; t.className = 'toast show' + (bad ? ' bad' : ''); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 4000); }
@@ -217,6 +217,7 @@ function itemsOf(q) {
   if (t === 'nearest') return [{ ...base, text: q.text, answer: `${q.answer} ${q.unit || ''}` }];
   if (t === 'pin') return [{ ...base, text: q.text, answer: q.place || (q.answer || '') }];
   if (t === 'reveal') return [{ ...base, text: 'Picture Reveal: who is this?', answer: (q.answers || [])[0] }];
+  if (t === 'unique') return [{ ...base, text: `Only One prompts (players must each give a DIFFERENT answer; judge whether these prompts have plenty of possible answers): ${(q.prompts || []).join(' | ')}`, answer: '(each player gives a unique answer)' }];
   if (t === 'survey') return [{ ...base, text: `Family Fortunes (the room is the survey): ${q.text}`, answer: 'whatever most of the room says' }];
   if (t === 'twenty') return [{ ...base, text: `20 Questions (${q.what || ''})`, answer: (q.answers || [])[0] }];
   if (t === 'dingbat') return [{ ...base, text: 'Dingbat', answer: (q.answers || [])[0] }];

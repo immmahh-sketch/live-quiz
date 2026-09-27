@@ -297,7 +297,9 @@ function stateForPlayers() {
       s.draw = { step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, turn: g.turn, turns: g.order.length, drawer: g.drawer, got: Object.keys(g.got), gotPts: Object.fromEntries(Object.entries(g.got).map(([k, v]) => [k, v.pts])), last: g.last, scores: g.scores,
         hint: g.word ? LQ.drawHint(g.word, g.shown) : '', word: g.step === 'reveal' ? g.word : '', secret: g.drawer && g.step !== 'reveal' ? drawSecret(g.drawer, { choices: g.step === 'choose' ? g.choices : [], word: g.word }) : '' };
     }
-    if (s.potato || s.koth || s.bb || s.chase || s.draw) s.names = Object.fromEntries(Object.values(G.players).map((p) => [p.id, { name: p.name, emoji: p.emoji || '' }]));
+    if (G.q.uq) { const g = G.q.uq; s.uq = { step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, round: g.pi + 1, prompt: g.prompts[g.pi] || '', alive: g.alive, answered: g.step === 'ask' ? Object.keys(g.answers) : [], winners: g.winners,
+      results: g.step === 'judge' ? g.alive.map((pid) => ({ pid, a: g.answers[pid] || '', out: uqIsOut(g, pid), host: g.override[pid] !== undefined, mates: g.matchWith[pid] || [] })) : null }; }
+    if (s.potato || s.koth || s.bb || s.chase || s.draw || s.uq) s.names = Object.fromEntries(Object.values(G.players).map((p) => [p.id, { name: p.name, emoji: p.emoji || '' }]));
     if (G.q.tq) { const t = G.q.tq; s.tq = { over: t.over, maxQ: G.q.view.maxQ, solved: t.solved, players: Object.fromEntries(Object.entries(t.players).map(([pid, p]) => [pid, { n: p.n, asked: p.asked, guesses: p.guesses.map((g) => ({ t: g.t, ok: g.ok })), done: p.done, out: p.out, place: p.place }])) }; }
     if (G.q.race) { const r = G.q.race; s.race = { winner: r.winner, winnerName: r.winner ? G.players[r.winner]?.name : null, over: r.over, target: G.q.view.target, maxWrong: G.q.view.maxWrong ?? 10, players: Object.fromEntries(Object.entries(r.players).map(([pid, p]) => [pid, { idx: p.idx, correct: p.correct, wrong: p.wrong, out: p.out, why: p.why, done: p.done }])) }; }
   }
@@ -338,6 +340,7 @@ function answerText(q) {
   if (q.type === 'koth') { const x = G.q?.koth?.winner; return x ? `👑 ${pname(x)} is King of the Hill` : `Nobody reached ${q.target || 3} points`; }
   if (q.type === 'chase') { const g = G.q?.chase; return g?.result === 'home' ? 'The team got home!' : g?.result === 'caught' ? `${pname(g.chaser)} caught the team` : 'The chase was stopped'; }
   if (q.type === 'nearest') return LQ.fmtNum(LQ.parseNum(q.answer)) + (q.unit ? ' ' + q.unit : '');
+  if (q.type === 'unique') { const w = G.q?.uq?.winners || []; return w.length ? `The only one left: ${w.map(pname).join(' & ')}` : ''; }
   if (q.type === 'draw') { const w = G.q?.draw?.used || []; return w.length ? 'The words: ' + w.join(', ') : 'Nothing was drawn'; }
   if (q.type === 'blockbusters') { const t = G.q?.bb?.winner; return t >= 0 ? `${q.teams[t].name} won the board` : 'Nobody linked their sides'; }
   return '';
@@ -369,6 +372,7 @@ function onAnswer({ pid, qId, answer, low }) {
   if (G.q.bb) return bbAnswer(pid, answer);
   if (G.q.chase) return chaseAnswer(pid, answer);
   if (G.q.draw) return drawAnswer(pid, answer);
+  if (G.q.uq) return uqAnswer(pid, answer);
   if (G.q.answers[pid]) return;
   if (low) onHint({ pid, qId });
   G.q.answers[pid] = { answer, elapsed: Date.now() - G.q.startedAt };
@@ -616,7 +620,7 @@ function startRaceIntro(i) {
   }, 1000);
 }
 function startCountdown(i) {
-  if (LQ.BANK_GAMES.includes(G.quiz.questions[i]?.type) || ['draw', 'twenty'].includes(G.quiz.questions[i]?.type)) return startRaceIntro(i); // a splash first; the race adds 3-2-1 and the pistol
+  if (LQ.BANK_GAMES.includes(G.quiz.questions[i]?.type) || ['draw', 'twenty', 'unique'].includes(G.quiz.questions[i]?.type)) return startRaceIntro(i); // a splash first; the race adds 3-2-1 and the pistol
   clearInterval(tickT); clearInterval(countT); if (typeof stopTune === 'function') stopTune(); G.raceIntro = null;
   G.qIndex = i; G.phase = 'countdown'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString();
   persist(); render(); broadcastState();
@@ -864,7 +868,7 @@ function wipePick(pid, token) {
 // stateForPlayers(). Bots take part through the same answer handler a phone's message reaches.
 const pname = (pid) => G.players[pid]?.name || 'Player', pem = (pid) => G.players[pid]?.emoji || '🙂';
 function livePids() { const live = Object.keys(G.players).filter((pid) => present.has(pid)); return live.length ? live : Object.keys(G.players); }
-const gameKind = () => G.q?.potato ? 'potato' : G.q?.koth ? 'koth' : G.q?.bb ? 'bb' : G.q?.chase ? 'chase' : G.q?.draw ? 'draw' : '';
+const gameKind = () => G.q?.potato ? 'potato' : G.q?.koth ? 'koth' : G.q?.bb ? 'bb' : G.q?.chase ? 'chase' : G.q?.draw ? 'draw' : G.q?.uq ? 'uq' : '';
 /** The question's bank as playable rows, shuffled once: the right answer, and option tokens for the phones (right answer's token maps to R:). */
 function gameRows(q, tok) {
   return shuffle(LQ.goodRows(q)).map((b) => ({ id: b.id, text: b.text, right: b.options[0].trim(), options: shuffle(b.options.map((o, oi) => ({ o: o.trim(), oi })).filter((x) => x.o)).map((x, i) => ({ k: tok((x.oi === 0 ? 'R:' : 'W:') + b.id), text: x.o, c: i })) }));
@@ -875,7 +879,7 @@ const isRight = (row, k) => !!row && G.q.keys[k] === 'R:' + row.id;
 /** Moves every game deadline on by d ms (after a pause). */
 function shiftGame(d) {
   const p = G.q?.potato; if (p) for (const b of p.bombs) { b.fuseEnd += d; b.startedAt += d; if (b.passBy) b.passBy += d; }
-  for (const g of [G.q?.koth, G.q?.bb, G.q?.chase, G.q?.draw]) if (g?.until) g.until += d;
+  for (const g of [G.q?.koth, G.q?.bb, G.q?.chase, G.q?.draw, G.q?.uq]) if (g?.until) g.until += d;
 }
 function stepTo(g, step, ms) { g.step = step; g.until = ms ? Date.now() + ms : 0; g.total = ms || 0; }
 let gameTickAt = 0;
@@ -886,10 +890,112 @@ function gameTick() {
   const t = $('#timer'); if (t) { const tot = k === 'potato' ? 0 : g.total, rem = g.until - now; if (tot && g.until) { t.style.setProperty('--p', Math.max(0, rem / tot) * 100 + '%'); t.dataset.s = Math.max(0, Math.ceil(rem / 1000)); t.classList.remove('hidden'); } else t.classList.add('hidden'); }
   if (k === 'potato') return potatoTick(now);
   if (k === 'draw') drawTick(now);
-  if (g.until && now >= g.until) { g.until = 0; if (k === 'koth') kothStepDone(); else if (k === 'chase') chaseStepDone(); else if (k === 'draw') drawStepDone(); else bbStepDone(); }
+  if (g.until && now >= g.until) { g.until = 0; if (k === 'koth') kothStepDone(); else if (k === 'chase') chaseStepDone(); else if (k === 'draw') drawStepDone(); else if (k === 'uq') uqStepDone(); else bbStepDone(); }
   else if (k === 'koth' && g.step === 'answer') { const c = $('#kothCount'); if (c) c.textContent = Math.max(0, Math.ceil((g.until - now) / 1000)); }
 }
 function gameStop() { ask('Stop this game now?', 'Points scored so far are kept; nobody gets the winner\'s bonus unless they have already won.', 'Stop the game', 'Keep playing').then((ok) => { if (ok && G.phase === 'question') endQuestion(); }); }
+
+// ---- Only One ----
+// Everyone still in answers the same prompt ("Name a pizza topping"). An answer nobody else gave goes through; an
+// answer someone else also gave knocks out everyone who gave it (and no answer is out too). The host sees every
+// answer and can click a name to kick a nonsense answer ("Shoes") or to bring back a wrong match. Last one standing wins.
+// If everyone left would go out on the same prompt, nobody does and the next prompt is played.
+const uqKey = (t) => LQ.normText(t).replace(/^(a|an|the|some|my|your) /, '').split(' ').map((w) => w.length > 3 ? w.replace(/(es|s)$/, '') : w).join(' ').trim();
+const uqSame = (a, b) => a === b || (a.length >= 4 && b.length >= 4 && (similarity(a, b) >= 0.84 || (a.length >= 5 && b.includes(a)) || (b.length >= 5 && a.includes(b))));
+function uqStart() {
+  const q = question();
+  const prompts = shuffle((q.prompts || []).map((p) => String(p).trim()).filter(Boolean));
+  G.q.uq = { prompts, pi: -1, alive: livePids().slice(), outAt: {}, scores: {}, answers: {}, verdict: {}, override: {}, history: [], winners: [], step: 'ask', until: 0, total: 0 };
+  uqNext();
+}
+function uqNext() {
+  const g = G.q.uq; g.pi++;
+  if (g.alive.length <= 1 || g.pi >= g.prompts.length) return uqOver();
+  g.answers = {}; g.verdict = {}; g.override = {}; g.matchWith = {};
+  stepTo(g, 'ask', (question().time || 25) * 1000); sound('go');
+  persist(); renderUnique(); broadcastState(); botUq();
+}
+function uqAnswer(pid, a) {
+  const g = G.q.uq; if (!g) return;
+  if (g.step === 'ask' && a && typeof a.t === 'string' && g.alive.includes(pid) && !g.answers[pid] && a.t.trim()) {
+    g.answers[pid] = a.t.trim().slice(0, 60); sound('ding');
+    if (g.alive.every((x) => g.answers[x])) return uqJudge();
+    persist(); renderUnique(); broadcastState();
+  }
+}
+/** Groups the answers: unique ones go through, shared ones and blanks go out (until the host says otherwise). */
+function uqJudge() {
+  const g = G.q.uq; g.until = 0;
+  const keys = Object.fromEntries(g.alive.map((pid) => [pid, g.answers[pid] ? uqKey(g.answers[pid]) : '']));
+  for (const pid of g.alive) {
+    if (!keys[pid]) { g.verdict[pid] = 'none'; continue; }
+    const mates = g.alive.filter((x) => x !== pid && keys[x] && uqSame(keys[pid], keys[x]));
+    g.verdict[pid] = mates.length ? 'match' : 'unique'; if (mates.length) g.matchWith[pid] = mates;
+  }
+  stepTo(g, 'judge', G.auto ? 15000 : 0); sound('gong');
+  persist(); renderUnique(); broadcastState();
+}
+const uqIsOut = (g, pid) => g.override[pid] !== undefined ? g.override[pid] : g.verdict[pid] !== 'unique';
+function uqToggle(pid) {
+  const g = G.q.uq; if (!g || g.step !== 'judge' || !g.alive.includes(pid)) return;
+  g.override[pid] = !uqIsOut(g, pid);
+  persist(); renderUnique(); broadcastState();
+}
+/** The host's Next: the knocked-out leave, the rest score for surviving the round, and on to the next prompt. */
+function uqResolve() {
+  const g = G.q.uq; if (!g || g.step !== 'judge') return;
+  let out = g.alive.filter((pid) => uqIsOut(g, pid));
+  const allOut = out.length === g.alive.length;
+  if (allOut) out = []; // everyone would go: nobody does, play another prompt
+  const per = question().perRound ?? 100;
+  g.history.push({ prompt: g.prompts[g.pi], answers: { ...g.answers }, out, allOut });
+  for (const pid of out) g.outAt[pid] = g.pi + 1;
+  g.alive = g.alive.filter((pid) => !out.includes(pid));
+  for (const pid of g.alive) g.scores[pid] = (g.scores[pid] || 0) + per;
+  uqNext();
+}
+function uqOver() {
+  const g = G.q.uq, q = question();
+  g.winners = g.alive.slice();
+  const prize = Math.round((q.prize ?? 1000) / Math.max(1, g.winners.length));
+  for (const pid of g.winners) g.scores[pid] = (g.scores[pid] || 0) + prize;
+  stepTo(g, 'over', 6000); sound('fanfare');
+  persist(); renderUnique(); broadcastState();
+}
+function uqStepDone() {
+  const g = G.q.uq;
+  if (g.step === 'ask') uqJudge();
+  else if (g.step === 'judge') uqResolve();
+  else if (g.step === 'over') endQuestion();
+}
+function botUq() {
+  const g = G.q.uq, words = ['Pepperoni', 'Banana', 'Blue', 'London', 'Dog', 'Pizza', 'Toast', 'Guitar', 'Spain', 'Tiger', 'Crisps', 'Seagull', 'Kettle', 'Rain', 'Batman'];
+  for (const b of G.bots || []) if (g.alive.includes(b.pid)) botLater(() => { if (G.q?.uq === g && g.step === 'ask') uqAnswer(b.pid, { t: words[Math.floor(Math.random() * words.length)] }); }, rnd(2500, 9000));
+}
+function renderUnique() {
+  const q = question(), g = G.q.uq; if (!g) return;
+  const prompt = g.prompts[g.pi] || '';
+  const chip = (pid, inner, cls = '', click = false) => `<div class="uqchip ${cls}" ${click ? `data-uq="${pid}" title="Click to ${uqIsOut(g, pid) ? 'bring them back' : 'kick them'}"` : ''}><span class="uqem">${pem(pid)}</span><span class="uqname">${esc(pname(pid))}</span>${inner}</div>`;
+  let main;
+  if (g.step === 'ask') {
+    main = `<div class="uqhead"><span class="uqround">Round ${g.pi + 1} · ${g.alive.length} left</span><h1 class="qtext">${esc(prompt)}</h1><p class="uqrule">Be the <b>only one</b> to say it. Match anyone and you're both out!</p></div>
+      <div class="uqgrid">${g.alive.map((pid) => chip(pid, `<span class="uqstate">${g.answers[pid] ? '✅ in' : '…'}</span>`, g.answers[pid] ? 'sent' : '')).join('')}</div>`;
+  } else if (g.step === 'judge') {
+    const outs = g.alive.filter((pid) => uqIsOut(g, pid));
+    main = `<div class="uqhead"><span class="uqround">Round ${g.pi + 1}</span><h1 class="qtext">${esc(prompt)}</h1><p class="uqrule">${outs.length === g.alive.length ? '😱 Everyone would be out, so nobody goes: another prompt!' : `🟢 through · 🔴 out · <b>click a name</b> to kick an answer that doesn't count, or to bring someone back`}</p></div>
+      <div class="uqgrid">${g.alive.map((pid) => { const o = uqIsOut(g, pid), a = g.answers[pid]; return chip(pid, `<span class="uqans">${a ? esc(a) : '<i>no answer</i>'}</span>${g.override[pid] !== undefined ? `<span class="uqwhy">${o ? 'kicked by the host' : 'let through by the host'}</span>` : g.verdict[pid] === 'match' ? `<span class="uqwhy">same as ${esc(g.matchWith[pid].map(pname).join(', '))}</span>` : ''}`, o ? 'out' : 'in', true); }).join('')}</div>`;
+  } else {
+    main = `<div class="kwin"><div class="kcrown big">☝️</div>${g.winners.length === 1 ? `<div class="em">${pem(g.winners[0])}</div><h1 class="big">${esc(pname(g.winners[0]))}</h1><div class="kwinsub">The only one left! +${q.prize ?? 1000}</div>` : `<h1 class="big">${g.winners.map((p) => esc(pname(p))).join(' & ')}</h1><div class="kwinsub">Out of prompts: they share the prize</div>`}</div>`;
+  }
+  const primary = g.step === 'ask' ? '<button class="btn btn-primary" id="uqReveal">Show the answers ▶</button>' : g.step === 'judge' ? '<button class="btn btn-primary" id="uqNext">Next round ▶</button>' : '<button class="btn btn-primary" id="uqEnd">Finish ▶</button>';
+  stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill">☝️ ${g.alive.length} still in</span><div class="timer ${g.until ? '' : 'hidden'}" id="timer" data-s="${Math.ceil((g.total || 0) / 1000)}" style="--p:100%"></div></div>`)}<div class="stage-main uqstage">${main}</div>
+    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-ghost" data-act="stopgame">Stop the game ■</button>${primary}`)}`;
+  bind();
+  $$('[data-uq]').forEach((el) => el.onclick = () => uqToggle(el.dataset.uq));
+  if ($('#uqReveal')) $('#uqReveal').onclick = () => { if (G.q?.uq?.step === 'ask') uqJudge(); };
+  if ($('#uqNext')) $('#uqNext').onclick = () => uqResolve();
+  if ($('#uqEnd')) $('#uqEnd').onclick = () => { if (G.phase === 'question') endQuestion(); };
+}
 
 // ---- Draw It ----
 // Players take turns to draw. The artist picks one of two words, draws on their phone, and the strokes stream here
@@ -1515,11 +1621,12 @@ function startQuestion() {
   clearInterval(countT); G.raceIntro = null;
   const q = question();
   const { view, keys, rows } = buildView(q);
-  const now = Date.now(), own = ['wipeout', 'potato', 'koth', 'blockbusters', 'chase', 'draw'].includes(q.type); // these run their own clocks
+  const now = Date.now(), own = ['wipeout', 'potato', 'koth', 'blockbusters', 'chase', 'draw', 'unique'].includes(q.type); // these run their own clocks
   G.q = { view, keys, rows, startedAt: now, deadline: own ? null : now + q.time * 1000, answers: {}, results: null };
   if (q.kind === 'reveal') G.q.reveal = revealPlan(q, now);
   if (q.type === 'wheel') { G.q.wheelRevealed = (q.startLetters || '').toUpperCase().replace(/[^A-Z]/g, ''); G.q.nextReveal = now + (q.revealEvery || 4) * 1000; }
   G.phase = 'question'; persist();
+  if (q.type === 'unique') { botClear(); uqStart(); startTick(); musicStart(q); return; }
   if (q.type === 'potato' || q.type === 'koth' || q.type === 'blockbusters' || q.type === 'chase' || q.type === 'draw') { botClear(); if (q.type === 'potato') potatoStart(); else if (q.type === 'koth') kothStart(); else if (q.type === 'chase') chaseStart(); else if (q.type === 'draw') drawStart(); else bbStart(); startTick(); musicStart(q); return; }
   render();
   if (q.type === 'wipeout') wipeStart(); else if (q.type === 'race') raceStart(); else if (q.type === 'twenty') twentyStart(); else broadcastState();
@@ -1561,7 +1668,7 @@ function wheelReveal() {
 async function endQuestion() {
   musicStop();
   if (G.phase !== 'question') return;
-  if (!['wipeout', 'race', 'potato', 'koth', 'blockbusters', 'chase', 'draw'].includes(question()?.type)) sound('gong');
+  if (!['wipeout', 'race', 'potato', 'koth', 'blockbusters', 'chase', 'draw', 'unique'].includes(question()?.type)) sound('gong');
   clearInterval(tickT); botClear(); stopTune();
   G.phase = 'grading'; persist(); render(); broadcastState();
   try { G.q.results = await grade(); }
@@ -1581,6 +1688,7 @@ function answerDisplay(q, pid) {
   if (q.type === 'koth') { const g = G.q.koth; return g ? `${g.pts[pid] || 0} on the hill${g.winner === pid ? ', won 👑' : ''}` : '—'; }
   if (q.type === 'chase') { const g = G.q.chase; return !g ? '—' : pid === g.chaser ? 'the Chaser' : `team, ${(g.log || []).filter((l) => l.pid === pid).length} steps won`; }
   if (q.type === 'blockbusters') { const g = G.q.bb, t = g?.teams[pid]; return t === undefined ? '—' : `${question().teams[t].name}, ${Math.round((g.scores[pid] || 0) / (question().hexPoints || 50))} hexagons`; }
+  if (q.type === 'unique') { const g = G.q.uq; return !g ? '—' : g.winners.includes(pid) ? 'the only one left 🏆' : g.outAt[pid] ? `out in round ${g.outAt[pid]}` : 'still in'; }
   if (q.type === 'draw') { const g = G.q.draw; return g ? `guessed ${g.hits[pid] || 0}${g.order.includes(pid) ? `, ${g.drew[pid] || 0} guessed their drawing` : ''}` : '—'; }
   if (q.type === 'twenty') { const s = G.q.tq?.players?.[pid]; return s ? (s.done ? `cracked it in ${s.used} (${LQ.ordinal(s.place)})` : s.out ? 'out of questions' : `stuck after ${s.n}`) : '—'; }
   if (q.type === 'race') { const s = G.q.race?.players?.[pid]; return s ? `${s.correct} right of ${s.idx} answered${s.done ? ', finished' : s.out ? ', out' : ''}` : '—'; }
@@ -1758,6 +1866,16 @@ async function grade(noAi) {
       if (won) stats.right++;
     }
     stats.winner = g.winner; stats.counts = [0, 1].map((t) => g.owner.filter((o) => o === t).length); stats.answered = Object.keys(byPlayer).length;
+  }
+  if (q.type === 'unique') {
+    const g = G.q.uq || { scores: {}, outAt: {}, winners: [], history: [] };
+    for (const pid of new Set([...livePids(), ...Object.keys(g.scores)])) {
+      if (!G.players[pid]) continue;
+      const pts = g.scores[pid] || 0, won = g.winners.includes(pid);
+      byPlayer[pid] = { answered: true, correct: won, partial: won ? 1 : 0, points: pts, note: won ? '☝️ The only one left!' : g.outAt[pid] ? `☝️ Out in round ${g.outAt[pid]}` : '☝️ Still in when the game stopped' };
+      if (won) stats.right++;
+    }
+    stats.winners = g.winners.map((pid) => ({ pid, name: pname(pid), emoji: pem(pid) })); stats.history = g.history;
   }
   if (q.type === 'draw') {
     const g = G.q.draw || { scores: {}, hits: {}, drew: {}, order: [] };
@@ -1991,7 +2109,7 @@ const pick = (arr) => { const opts = arr.filter((x) => (Array.isArray(x) ? x[0] 
 let musicPlan = null;
 function planFor(q) {
   if (!q || q.type === 'tune' || q.type === 'koth' || q.media?.kind === 'youtube') return null; // King of the Hill is answered out loud
-  const T = ['wipeout', 'potato', 'blockbusters', 'chase', 'draw'].includes(q.type) ? 0 : +q.time || 0;
+  const T = ['wipeout', 'potato', 'blockbusters', 'chase', 'draw', 'unique'].includes(q.type) ? 0 : +q.time || 0;
   const bucket = T ? Object.keys(MUSIC.countdown).map(Number).sort((a, b) => a - b).find((b) => b >= T) : null;
   if (!bucket) return { qid: q.id, loop: true };
   const [id, dur] = pick(MUSIC.countdown[bucket]);
@@ -2118,6 +2236,7 @@ const PISTOL_SVG = `<svg class="ri-gun" viewBox="0 0 300 220" aria-hidden="true"
 /** The one-line rules under a game's splash title. */
 function introSub(q) {
   if (q.type === 'twenty') return `Ask yes/no questions on your phone and guess whenever you like · a wrong guess uses a question · ${+q.maxQ || 20} questions each · 1st ${q.prize ?? 1000}, 2nd ${q.prize2 ?? 500}, 3rd ${q.prize3 ?? 100} · still stuck at the end: −${q.penalty ?? 200}`;
+  if (q.type === 'unique') return `Everyone answers the same prompt · a unique answer goes through · match anyone and you're both out · ${q.perRound ?? 100} for each round you survive · the last one standing wins ${q.prize ?? 1000}`;
   if (q.type === 'potato') return `The bomb is lit · answer right to pass it on · holding it when it blows costs ${q.penalty ?? 300} points`;
   if (q.type === 'koth') return `Fastest finger first, then head-to-head buzzers · answer out loud · ${q.perPoint ?? 100} per hill point · first to ${q.target || 3} gets a ${q.prize ?? 1000} bonus · ${q.maxRounds || 12} head-to-heads at most`;
   if (q.type === 'chase') return `The leader is the Chaser · everyone else starts ${q.headStart ?? 2} steps ahead · first right answer moves a step · ${q.target || 5} to get home`;
@@ -2197,6 +2316,7 @@ function renderQuestion() {
   if (q.type === 'blockbusters') { if (G.q.bb) renderBB(); return; }
   if (q.type === 'chase') { if (G.q.chase) renderChase(); return; }
   if (q.type === 'draw') { if (G.q.draw) renderDraw(); return; }
+  if (q.type === 'unique') { if (G.q.uq) renderUnique(); return; }
   if (q.type === 'choice' || q.type === 'tf') body = `<div class="answers">${v.options.map((o) => `<div class="ans" style="background:${COLORS[o.c].hex}"><span class="shape">${COLORS[o.c].shape}</span>${esc(o.text)}</div>`).join('')}</div>`;
   if (q.type === 'sort') body = `<div class="cats">${v.categories.map((c) => `<div class="cat"><h3>${esc(c.name)}</h3></div>`).join('')}</div><div class="items mt">${v.items.map((it) => `<div class="item">${esc(it.text)}</div>`).join('')}</div>`;
   if (q.type === 'text') body = `<div class="item" style="justify-content:center">${q.kind === 'survey' ? '👪 We asked the room! Type the first answer that comes to mind: match the most people to score most' : q.kind === 'reveal' ? '🧩 Who is it? Type it on your phone: the fewer tiles it takes, the more you score' : '✎ Type your answer on your phone'}</div>`;
@@ -2390,10 +2510,11 @@ function renderReveal() {
       <div class="textlist mt">${(R.stats.texts || []).slice(0, 30).map((t) => `<span class="tl ${t.ok === null ? '' : t.ok ? 'ok' : 'no'}">${esc(t.text || '—')} <span style="opacity:.7;font-size:.85em">· ${esc(t.name)}</span></span>`).join('')}</div>`;
   }
   if (q.type === 'nearest') body = nearestHtml(q, R.stats);
+  if (q.type === 'unique') { const st = R.stats; body = `<div class="kwin"><div class="kcrown big">☝️</div>${st.winners?.length ? `<h1 class="big">${st.winners.map((w) => `${w.emoji} ${esc(w.name)}`).join(' & ')}</h1><div class="kwinsub">${st.winners.length === 1 ? 'The only one left!' : 'Still standing together'}</div>` : '<h1 class="big">The game was stopped</h1>'}</div><div class="textlist mt">${(st.history || []).map((h, i) => `<span class="tl">${i + 1}. ${esc(h.prompt)}: ${h.allOut ? 'everyone matched, nobody out' : h.out.length ? esc(h.out.map(pname).join(', ')) + ' out' : 'nobody out'}</span>`).join('')}</div>`; }
   if (q.type === 'draw') body = `<div class="drawsum"><div class="ri-kicker">The words</div>${(R.stats.used || []).map((w) => `<span class="tl ok">🎨 ${esc(w)}</span>`).join('') || '<span class="muted">Nothing was drawn.</span>'}</div>`;
   const media = q.type === 'pin' ? '' : (q.media?.kind === 'image' ? mediaHtml(q, false) : '');
   if (q.type === 'twenty') body = twentyRevealHtml(q, R.stats);
-  const inMain = q.type === 'twenty' || q.type === 'nearest' || q.type === 'draw' || q.type === 'pin' || q.type === 'wipeout' || q.type === 'race' || q.type === 'wheel' || q.type === 'potato' || q.type === 'koth' || q.type === 'blockbusters' || q.type === 'chase';
+  const inMain = q.type === 'twenty' || q.type === 'nearest' || q.type === 'draw' || q.type === 'unique' || q.type === 'pin' || q.type === 'wipeout' || q.type === 'race' || q.type === 'wheel' || q.type === 'potato' || q.type === 'koth' || q.type === 'blockbusters' || q.type === 'chase';
   stage.innerHTML = `${topBar(`<span class="hpill">${q.type === 'nearest' ? `🎯 ${(R.stats.guesses || []).length} guesses` : q.type === 'draw' ? `🎨 ${(R.stats.used || []).length} drawings` : q.type === 'chase' ? `🏃 ${esc(R.stats.chaser?.name || '')} was the Chaser` : q.type === 'potato' ? `💣 ${R.stats.passes} passes` : q.type === 'koth' ? `First to ${q.target || 3} on the hill` : q.type === 'blockbusters' ? `${esc(q.teams[0].name)} ${R.stats.counts[0]} · ${esc(q.teams[1].name)} ${R.stats.counts[1]}` : q.type === 'wipeout' ? `${R.stats.right} scored` : q.type === 'race' ? `${(R.stats.standings || []).filter((s) => s.done).length} finished` : q.type === 'twenty' ? `🕵️ ${(R.stats.solved || []).length} of ${n} cracked it` : `${R.stats.right} of ${n} got it right${R.stats.skipped ? ` · ${R.stats.skipped} skipped` : ''}`}</span>`)}
     <div class="stage-main"><h1 class="qtext"${inMain && q.type !== 'pin' ? ' style="font-size:clamp(1.3rem,2.6vw,2.2rem)"' : ''}>${esc(q.type === 'wheel' ? q.phrase : q.type === 'highlow' || q.type === 'rhyme' || q.type === 'dingbat' ? '' : q.text)}</h1>${inMain ? body : media}</div>
     ${inMain ? '' : `<div>${body}</div>`}

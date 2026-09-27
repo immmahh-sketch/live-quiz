@@ -73,6 +73,7 @@ window.LQ = (() => {
     club:   { label: 'The 1% Club',    icon: '🧠', blurb: 'Logic, wordplay and lateral thinking. No knowledge needed, just work it out. The fewer people who get it, the more it pays.' },
     dingbat:{ label: 'Dingbats',        icon: '🔤', blurb: 'Say what you see: a well-known phrase hidden in how the words are laid out.' },
     catchphrase: { label: 'Catchphrase', icon: '🗯️', blurb: 'A clip from the show plays on the screen. Players type the well-known phrase it shows.' },
+    unique: { label: 'Only One', icon: '☝️', blurb: 'Everyone answers the same prompt ("Name a pizza topping"). Be the only one to say it: match anyone and you are both out. The host can kick an answer that does not count. Last one standing wins.' },
     survey: { label: 'Family Fortunes', icon: '👪', blurb: '"We asked the room…": everyone types an answer, and you score by matching everyone else. The more players who said what you said, the more you score.' },
     reveal: { label: 'Picture Reveal', icon: '🧩', blurb: 'A picture hidden behind tiles that flip over one by one. Players type who or what it is: the fewer tiles it takes, the more they score.' },
     tune:   { label: 'Name That Tune',  icon: '🎵', blurb: 'A clip plays on the screen. Name the song, the artist, the film it is from, the year, or the next line.' },
@@ -556,6 +557,7 @@ window.LQ = (() => {
     club: 'No knowledge needed, just logic. The fewer people who get it, the more it is worth.',
     dingbat: 'Say what you see: a well-known phrase hidden in how the words are laid out.',
     catchphrase: 'Watch the clip and say what you see: type the well-known saying it shows.',
+    unique: 'Everyone answers the same prompt. Be the ONLY one to say it: if anyone else gives the same answer, you are both out. It has to be a real answer, or the host will kick you! Last one standing wins.',
     survey: 'We asked the room! Type the first answer that comes to mind. The more people who say the same as you, the more you score. A lonely answer scores nothing.',
     reveal: 'A picture is hidden behind tiles that flip over one by one. Type who or what it is on your phone: the sooner you get it, the more you score.',
     tune: 'Listen to the clip and answer on your phone.',
@@ -589,7 +591,7 @@ window.LQ = (() => {
     { name: 'yellow', hex: '#d89e00', shape: '●' },
     { name: 'green',  hex: '#26890c', shape: '■' },
   ];
-  const DEFAULT_TIMES = { nearest: 25, draw: 60, catchphrase: 50, reveal: 40, survey: 30, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30, potato: 90, koth: 15, blockbusters: 20, chase: 15, twenty: 180 };
+  const DEFAULT_TIMES = { nearest: 25, draw: 60, catchphrase: 50, reveal: 40, survey: 30, unique: 25, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30, potato: 90, koth: 15, blockbusters: 20, chase: 15, twenty: 180 };
   const DEFAULT_SETTINGS = { maxPoints: 1000, minPoints: 500, defaultTime: 30, showAnswersOnPhones: true, timeByType: { ...DEFAULT_TIMES } };
 
   /** The time limit a question of this type gets by default in this quiz. */
@@ -649,6 +651,7 @@ window.LQ = (() => {
 
   function newQuestion(type = 'choice', settings = DEFAULT_SETTINGS) {
     if (type === 'slide') return { id: uid('q'), type: 'slide', text: '', body: '', time: 20, media: { kind: 'none' } };
+    if (type === 'unique') return { id: uid('q'), type: 'unique', text: 'Only One', prompts: ['Name a pizza topping', 'Name a country in Europe', 'Name a Premier League club', 'Name a breed of dog', 'Name a Beatles song', 'Name a chocolate bar', 'Name a Disney film', 'Name a London Underground station', 'Name a fruit', 'Name a board game'], perRound: 100, prize: 1000, time: timeFor('unique', settings), media: { kind: 'none' }, partial: false };
     if (type === 'survey') { const c = newQuestion('text', settings); c.kind = 'survey'; c.text = 'We asked the room: name something…'; c.answers = ['']; c.ai = false; c.time = timeFor('survey', settings); return c; }
     if (type === 'reveal') { const c = newQuestion('text', settings); c.kind = 'reveal'; c.text = 'Picture Reveal: who is this?'; c.media = { kind: 'image', url: '' }; c.tiles = 16; c.time = timeFor('reveal', settings); return c; }
     if (type === 'catchphrase') { const c = newQuestion('text', settings); c.kind = 'catchphrase'; c.text = 'Catchphrase: say what you see'; c.media = { kind: 'youtube', url: '', videoId: '', start: 0 }; c.time = timeFor('catchphrase', settings); return c; }
@@ -691,6 +694,7 @@ window.LQ = (() => {
   /** Something wrong with the question that would stop it being played. */
   function validate(q) {
     const problems = [];
+    if (q.type === 'unique' && (q.prompts || []).filter((p) => String(p).trim()).length < 3) problems.push('Needs at least three prompts.');
     if (q.type === 'slide') {
       if (!(q.text || '').trim() && !(q.body || '').trim() && !q.break) problems.push('Needs a title or some text.');
       if (q.break && !(+q.breakMins >= 1 && +q.breakMins <= 120)) problems.push('A break lasts between 1 and 120 minutes.');

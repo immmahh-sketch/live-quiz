@@ -382,6 +382,7 @@ function kAnswer(q) {
   if (q.type === 'choice') return q.options.map((o) => (o.id === q.correct ? '✓ ' : '') + o.text).join('  ·  ');
   if (q.type === 'tf') return q.answer ? '✓ True' : '✓ False';
   if (q.type === 'nearest') return '✓ ' + (q.answer ?? '') + (q.unit ? ' ' + q.unit : '');
+  if (q.type === 'unique') return `☝️ ${(q.prompts || []).length} prompts`;
   if (q.type === 'draw') return `🎨 ${q.turns || 3} drawings`;
   if (q.type === 'twenty') return '🕵️ ' + ((q.answers || [])[0] || '?');
   if (q.type === 'order') return (q.items || []).map((i) => i.text).join(' → ');
@@ -684,8 +685,8 @@ function renderPlanner(focusId) {
   $$('[data-pt]').forEach((i) => i.oninput = () => { R(i.dataset.pt).title = i.value; touch(); renderQList(); });
   $$('[data-pi]').forEach((i) => i.oninput = () => { R(i.dataset.pi).intro = i.value; touch(); });
   $$('[data-pprac]').forEach((i) => i.onchange = () => { const r = R(i.dataset.pprac); r.practice = i.checked; if (r.practice && !r.intro) r.intro = 'A practice round: have a go at each game. No points!'; touch(); renderQList(); renderPlanner(r.id); });
-  $('[data-pb]').forEach((i) => i.oninput = () => { R(i.dataset.pb).brief = i.value; touch(); renderQList(); });
-  $('[data-pdbl]').forEach((i) => i.onchange = () => { const r = R(i.dataset.pdbl); r.double = i.checked; if (!r.double) delete r.double; touch(); renderQList(); });
+  $$('[data-pb]').forEach((i) => i.oninput = () => { R(i.dataset.pb).brief = i.value; touch(); renderQList(); });
+  $$('[data-pdbl]').forEach((i) => i.onchange = () => { const r = R(i.dataset.pdbl); r.double = i.checked; if (!r.double) delete r.double; touch(); renderQList(); });
   $$('[data-pmix]').forEach((i) => i.onchange = () => { const r = R(i.dataset.pmix); const n = LQ.clamp(Math.round(+i.value) || 0, 0, 40); i.value = n; if (n) r.mix[i.dataset.type] = n; else delete r.mix[i.dataset.type]; r.types = Object.keys(r.mix); r.count = Object.values(r.mix).reduce((a, b) => a + b, 0); $(`[data-ptotal="${r.id}"]`).textContent = r.count; touch(); renderQList(); });
   $$('[data-pdel]').forEach((b) => b.onclick = async () => { const r = R(b.dataset.pdel), n = countIn(r); if (n && !(await confirmBox('Delete this round?', `Its ${n} question${n === 1 ? '' : 's'} will be deleted too.`))) return; qz.questions = qz.questions.filter((q) => q.round !== r.id); qz.rounds = qz.rounds.filter((x) => x !== r); touch(); renderQList(); renderPlanner(); });
   $$('[data-pai]').forEach((b) => b.onclick = async () => { const r = R(b.dataset.pai); if (!r.count) return toast('Set how many of each type first.', true); if (!r.title && !r.brief) return toast('Give the round a title or a prompt first.', true); try { if ((await generateForRound(r)) === 'stopped') { renderQList(); return; } toast('Round written. Read it through before you host.'); S.planner = false; renderQList(); renderQForm(); } catch {} });
@@ -963,6 +964,16 @@ function renderTypeBox() {
     $('#nw_ans').oninput = (e) => { q.answer = e.target.value.trim(); touch(); showProblems(); const s = $('#nw_spread'); if (s) s.placeholder = 'Automatic: ± ' + LQ.fmtNum(LQ.nearestSpread({ answer: q.answer })); };
     $('#nw_unit').oninput = (e) => { q.unit = e.target.value; touch(); };
     $('#nw_spread').oninput = (e) => { const v = e.target.value.trim(); q.spread = v === '' ? null : v; touch(); showProblems(); };
+  }
+  if (q.type === 'unique') {
+    box.innerHTML = `<div class="notice" style="margin-bottom:12px">Only One: everyone still in answers the same prompt. An answer nobody else gave goes through; anyone who matches someone else is out, and so is a blank. You can click a name on the screen to kick an answer that doesn't count, or bring back a wrong match. Last one standing wins. Pick prompts with lots of possible answers.</div>
+      <div class="row" style="gap:12px;flex-wrap:wrap"><div class="field" style="flex:0 1 200px"><label>Points per round survived</label><input type="number" id="uq_pr" min="0" max="1000" step="10" value="${q.perRound ?? 100}"></div>
+      <div class="field" style="flex:0 1 200px"><label>Prize for the last one standing</label><input type="number" id="uq_prize" min="0" max="5000" step="50" value="${q.prize ?? 1000}"></div></div>
+      <div class="field"><label>Prompts <span class="muted">— one per line, played in a random order until one player is left</span></label><textarea id="uq_prompts" rows="8" placeholder="Name a pizza topping&#10;Name a country in Europe&#10;…">${esc((q.prompts || []).join('\n'))}</textarea></div>`;
+    $('#uq_pr').oninput = (e) => { q.perRound = Math.max(0, Math.round(+e.target.value || 0)); touch(); };
+    $('#uq_prize').oninput = (e) => { q.prize = Math.max(0, Math.round(+e.target.value || 0)); touch(); };
+    $('#uq_prompts').oninput = (e) => { q.prompts = e.target.value.split('\n').map((x) => x.trim()).filter(Boolean); touch(); showProblems(); };
+    return;
   }
   if (q.type === 'draw') {
     const words = (q.words || []).join('\n');
