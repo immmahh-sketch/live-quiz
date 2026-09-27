@@ -921,7 +921,8 @@ function uqCanon(text, list) {
 const uqSame = (a, b) => a === b || (a.length >= 4 && b.length >= 4 && (similarity(a, b) >= 0.84 || (a.length >= 5 && b.includes(a)) || (b.length >= 5 && a.includes(b))));
 function uqStart() {
   const q = question();
-  const prompts = shuffle((q.prompts || []).map((p) => String(p).trim()).filter(Boolean));
+  // a prompt is text, or { p: text, a: [every right answer] } for a closed list: keep the list, it is what answers are checked against
+  const prompts = shuffle((q.prompts || []).map((p) => typeof p === 'string' ? p.trim() : p && typeof p === 'object' && String(p.p || '').trim() ? p : null).filter(Boolean));
   G.q.uq = { prompts, pi: -1, alive: livePids().slice(), outAt: {}, scores: {}, answers: {}, verdict: {}, override: {}, history: [], winners: [], step: 'ask', until: 0, total: 0 };
   uqNext();
 }
@@ -1002,7 +1003,8 @@ function uqStepDone() {
 }
 function botUq() {
   const g = G.q.uq, words = ['Pepperoni', 'Banana', 'Blue', 'London', 'Dog', 'Pizza', 'Toast', 'Guitar', 'Spain', 'Tiger', 'Crisps', 'Seagull', 'Kettle', 'Rain', 'Batman'];
-  for (const b of G.bots || []) if (g.alive.includes(b.pid)) botLater(() => { if (G.q?.uq === g && g.step === 'ask') uqAnswer(b.pid, { t: words[Math.floor(Math.random() * words.length)] }); }, rnd(2500, 9000));
+  const list = uqList(g.prompts[g.pi]).map((x) => x.split('/')[0]);
+  for (const b of G.bots || []) if (g.alive.includes(b.pid)) botLater(() => { if (G.q?.uq === g && g.step === 'ask') uqAnswer(b.pid, { t: list.length && Math.random() < 0.85 ? list[Math.floor(Math.random() * list.length)] : words[Math.floor(Math.random() * words.length)] }); }, rnd(2500, 9000));
 }
 function renderUnique() {
   const q = question(), g = G.q.uq; if (!g) return;
