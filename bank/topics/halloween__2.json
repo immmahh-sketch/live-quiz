@@ -1,0 +1,15 @@
+[
+{"type":"choice","text":"On which date is Halloween?","options":["31 October","1 November","30 October","2 November"],"difficulty":"easy"},
+{"type":"choice","text":"What do children say at the door when they go out in costume on Halloween?","options":["Trick or treat","Happy Halloween","Boo","Knock knock"],"difficulty":"easy"},
+{"type":"choice","text":"What does a vampire traditionally sleep in?","options":["A coffin","A hammock","A four-poster bed","A haystack"],"difficulty":"easy"},
+{"type":"choice","text":"What are Egyptian mummies wrapped in?","options":["Bandages","Cobwebs","Sheets","Leaves"],"difficulty":"easy"},
+{"type":"choice","text":"Which creature does Dracula most famously turn into?","options":["A bat","A rat","A crow","A cat"],"difficulty":"easy"},
+{"type":"choice","text":"Which creepy-crawly spins webs used as Halloween decorations?","options":["A spider","A bat","A moth","A beetle"],"difficulty":"easy"},
+{"type":"choice","text":"What kind of hat is part of a classic witch costume?","options":["A black pointed hat","A top hat","A bowler hat","A beret"],"difficulty":"easy"},
+{"type":"choice","text":"What does a werewolf turn into?","options":["A wolf","A bat","A bear","A cat"],"difficulty":"easy"},
+{"type":"choice","text":"Which night-flying birds hoot in many spooky films?","options":["Owls","Crows","Ravens","Magpies"],"difficulty":"easy"},
+{"type":"tf","text":"Dracula is a vampire.","answer":true,"difficulty":"easy"},
+{"type":"choice","text":"Which 1957 Hammer film first paired Peter Cushing and Christopher Lee in colour gothic horror?","options":["The Curse of Frankenstein","Dracula","The Mummy","The Hound of the Baskervilles"],"difficulty":"hard"},
+{"type":"choice","text":"Which Irish writer's 1872 novella 'Carmilla' featured a female vampire?","options":["Sheridan Le Fanu","Bram Stoker","Oscar Wilde","W. B. Yeats"],"difficulty":"hard"},
+{"type":"choice","text":"In which city is 'The Strange Case of Dr Jekyll and Mr Hyde' set?","options":["London","Edinburgh","Glasgow","Paris"],"difficulty":"hard"}
+]
