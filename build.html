@@ -327,14 +327,21 @@ async function checkQuiz() {
     }
   }
 
-  step('check', 'now'); await review('AI editor');
-  step('check', 'done'); step('fix', 'now'); await fix(1); await topUpWow(); step('fix', 'done');
-  // Second pass: the whole quiz again as it now stands, so the scores describe what will be played; then one more round of fixes.
-  step('check2', 'now'); const first = new Set(changed);
-  await review('Second check');
-  await fix(2);
-  const late = new Set([...changed].filter((id) => !first.has(id)));
-  if (late.size) await review('Checking the last fixes', late);
+  // If the AI cannot run (no credit, an outage), the quiz is still usable: the report says so, and Re-check runs it later.
+  try {
+    step('check', 'now'); await review('AI editor');
+    step('check', 'done'); step('fix', 'now'); await fix(1); await topUpWow(); step('fix', 'done');
+    // Second pass: the whole quiz again as it now stands, so the scores describe what will be played; then one more round of fixes.
+    step('check2', 'now'); const first = new Set(changed);
+    await review('Second check');
+    await fix(2);
+    const late = new Set([...changed].filter((id) => !first.has(id)));
+    if (late.size) await review('Checking the last fixes', late);
+  } catch (e) {
+    if (B.stop) throw e;
+    rep.aiError = e.message;
+    for (const q of B.quiz.questions) for (const it of itemsOf(q)) if (!verdicts[it.id]) { const { row } = findItem(it.id); verdicts[it.id] = { level: (row ? row.difficulty : q.difficulty) || 'medium', wow: !!(row ? row.wow : q.wow), flags: [], unchecked: true }; }
+  }
   // whatever is still flagged after all that goes to the host
   for (const r of rounds) {
     const rr = RR(r);
@@ -415,6 +422,7 @@ function renderReport() {
     </div>
     <div class="row" style="margin-bottom:16px"><a class="btn" href="index.html?quiz=${encodeURIComponent(qz.id)}" target="_blank">✎ Edit the quiz</a><button class="btn btn-ghost" id="recheck">↻ Re-check after editing</button><div class="grow"></div>
       ${confirmed ? `<a class="btn btn-primary btn-lg" href="host.html?quiz=${encodeURIComponent(qz.id)}" target="_blank">▶ Host it</a>` : `<button class="btn btn-primary btn-lg" id="confirm">✓ Confirm the quiz</button>`}</div>
+    ${rep.aiError ? `<div class="notice" style="background:#fff3cd;color:#6b4e00;margin-bottom:14px">⚠️ The AI editor could not finish: ${esc(rep.aiError)} Rounds it did not reach show the bank's own ratings and have not been checked. Press <b>Re-check</b> once that is sorted.</div>` : ''}
     ${rep.rounds.map((rr, i) => roundReport(rr, i)).join('')}
   </div>`;
   $('#recheck').onclick = () => recheck();
