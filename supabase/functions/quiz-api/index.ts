@@ -1709,7 +1709,7 @@ const levelOf = (q: any) => (["easy", "medium", "hard"].includes(q.difficulty) ?
 function raceOk(q: any): boolean {
   const rows = Array.isArray(q?.bank) ? q.bank : []; if (rows.length < 20) return false;
   const ans = rows.map((b: any) => norm(String(b?.options?.[0] ?? "")));
-  return rows.every((b: any, i: number) => /?s*$/.test(String(b?.text || "")) && String(b.text).trim().split(/s+/).length >= 4
+  return rows.every((b: any, i: number) => /\?\s*$/.test(String(b?.text || "")) && String(b.text).trim().split(/\s+/).length >= 4
     && (b.options || []).slice(1).every((o: any) => { const j = ans.indexOf(norm(String(o))); return j < 0 || j === i; }));
 }
 const flagged = (q: any) => !!(q.tooEasy || q.giveaway || q.doubt || q.recycled);

@@ -42,7 +42,7 @@ window.LQ = (() => {
       });
       data = await r.json().catch(() => ({ error: 'The server sent back something unexpected.' }));
     } catch (e) {
-      throw new Error(e.name === 'AbortError' ? 'That took too long and was cancelled.' : 'Could not reach the server. Check your connection.');
+      throw new Error(e.name === 'AbortError' ? 'That took too long and was cancelled.' : navigator.onLine === false ? 'You are offline. Check your connection.' : 'Could not reach the quiz server. If other websites work, the server is having a moment: try again in a minute.');
     } finally { clearTimeout(t); }
     if (!r.ok || data.error) {
       const msg = data.error || (r.status === 504 || r.status === 546 ? 'The server took too long on that. Try again, or ask for fewer at once.' : 'Request failed (' + r.status + ')');
