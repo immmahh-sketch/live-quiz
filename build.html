@@ -309,7 +309,7 @@ async function checkQuiz() {
         const v = verdicts[it.id], { q, row } = findItem(it.id); if (!q || swapped.has(q)) continue;
         const entry = { id: it.id, where: whereOf(q, row), flags: v.flags, note: v.note, before: said(it), pass };
         if (q.edited || q.keep) { if (!v.flags.every((f) => f === 'wording')) { entry.status = 'review'; entry.note = (entry.note ? entry.note + ' ' : '') + (q.keep ? '(You pinned this one, so it was left alone.)' : '(You edited this one, so it was left alone.)'); rr.flags.push(entry); } continue; }
-        const ans = LQ.normText(String(it.answer || '')), rwOk = v.rewrite && v.rewrite.length > 8 && !(row && row.prompt !== undefined) && !(row && q.dealt) && !(ans.length >= 4 && LQ.normText(v.rewrite).includes(ans));
+        const ans = LQ.normText(String(it.answer || '')), rwOk = v.rewrite && v.rewrite.length > 8 && (row ? row.prompt === undefined && !q.dealt : ['choice', 'text', 'tf', 'order', 'sort', 'match', 'nearest', 'pin'].includes(q.kind || q.type)) && !(ans.length >= 4 && LQ.normText(v.rewrite).includes(ans));
         if (v.flags.every((f) => f === 'wording' || f === 'giveaway') && rwOk) {
           rewrites.push({ id: it.id, q, row, old: row ? row.text : q.text, flags: v.flags, entry });
           if (row) row.text = v.rewrite; else q.text = v.rewrite;
