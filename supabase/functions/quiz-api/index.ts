@@ -820,13 +820,16 @@ The host's standards:
 - North East facts every local knows (Geordie words, the Great North Run, the Angel of the North) are giveaways for this crowd.
 - Music rounds are about songs, singers, bands, albums, release dates, chart records, covers, real names. Not musicals.
 - Facts must be right and current. If the marked answer is wrong, disputed, out of date, or another answer is defensible, say so.
+- Every question stands on its own: flag "wording" when it leans on context the player hasn't got ("Who scored the winner in the 2010 final?" — which final? "Which school did Catherine attend?" — which Catherine?).
+- Two items that overlap (one row's question names another row's answer, two questions on the same person or event) are "repetitive".
+- Blockbusters rows are answered by typing, with no options shown: flag "wording" on any Blockbusters row that only works with its options ("Which of these…"), and "weak_options" on one whose answer is a number or too long to type quickly.
 
 For EVERY item, give:
 - "level": your honest difficulty for this room: "easy", "medium" or "hard".
 - "wow": true only for a genuine "well I never knew that" item.
 - "flags": any of "too_easy", "giveaway", "repetitive" (same shape, subject or answer as another question in this round or in the other rounds listed), "weak_options", "wording", "fact", "off_topic", "local". Empty if it is good.
 - "note": one short plain sentence when flagged, saying what is wrong.
-- "rewrite": only when the question is good but its wording is the problem (terse, clumsy, or a giveaway that rewording removes): the improved question text, same answer, same options. Otherwise omit.
+- "rewrite": it must ask for EXACTLY the same answer, with the same options, and never change what the question is asking; give one only when the question is good but its wording is the problem (terse, clumsy, or a giveaway that rewording removes): the improved question text, same answer, same options. Otherwise omit.
 
 Rows of The Chase, King of the Hill, Hot Potato and Blockbusters are quick-fire questions read out one after another: they are general knowledge in a general round, or on the round's subject when the game sits inside a subject round, so judge each row on its own merits and only flag "off_topic" when a row inside a subject round is plainly off that subject.
 
@@ -1650,7 +1653,7 @@ const NOT_MUSIC = /^(musicals|classical music|theatre)$/i;
 const MUSIC_ASKED = /\b(musicals?|classical|opera|theatre|west end|broadway)\b/i;
 
 /** What a quiz already holds, sent by the builder so a new pick fits around it. */
-interface PickCtx { round: string; items: { same: boolean; text: string; category: string; answer: string; difficulty: string; wow: boolean; game: boolean }[] }
+interface PickCtx { round: string; items: { same: boolean; text: string; category: string; answer: string; difficulty: string; wow: boolean; game: boolean; ask?: string }[] }
 function pickCtx(body: any): PickCtx {
   const round = String(body.round || "");
   const items: PickCtx["items"] = [];
@@ -1661,7 +1664,7 @@ function pickCtx(body: any): PickCtx {
       for (const b of q.bank.slice(0, 30)) items.push({ same, text: String(b?.text || ""), category: "", answer: String(b?.options?.[0] ?? b?.right ?? ""), difficulty: "", wow: false, game: true });
       continue;
     }
-    items.push({ same, text: String(q.text || ""), category: String(q.category || ""), answer: bankAnswer(q), difficulty: String(q.difficulty || ""), wow: !!q.wow, game: false });
+    items.push({ same, text: String(q.text || ""), category: String(q.category || ""), answer: bankAnswer(q), difficulty: String(q.difficulty || ""), wow: !!q.wow, game: false, ...(q.type === "tune" ? { ask: String(q.ask || "song") } : {}) });
   }
   return { round, items };
 }
@@ -1702,10 +1705,17 @@ function levelQuota(need: number, difficulty: string, shape = { easy: 0.15, hard
 }
 const levelOf = (q: any) => (["easy", "medium", "hard"].includes(q.difficulty) ? q.difficulty : "medium");
 /** Flags from the hand review of the bank: never picked. */
+/** A Race fit to play: full questions, and no row whose answer turns up among another row's options (the clicking-contest problem). */
+function raceOk(q: any): boolean {
+  const rows = Array.isArray(q?.bank) ? q.bank : []; if (rows.length < 20) return false;
+  const ans = rows.map((b: any) => norm(String(b?.options?.[0] ?? "")));
+  return rows.every((b: any, i: number) => /?s*$/.test(String(b?.text || "")) && String(b.text).trim().split(/s+/).length >= 4
+    && (b.options || []).slice(1).every((o: any) => { const j = ans.indexOf(norm(String(o))); return j < 0 || j === i; }));
+}
 const flagged = (q: any) => !!(q.tooEasy || q.giveaway || q.doubt || q.recycled);
 /** Categories that are nothing but surprising facts. */
 const WOW_CATS = /^(ripley's believe it or not|no such thing as a fish facts)$/i;
-const isWow = (q: any) => !!q.wow || WOW_CATS.test(String(q.category || ""));
+const isWow = (q: any) => !!q.wow; // marked by the hand review; a Ripley's or Fish-facts topic alone is not enough
 interface TakeOpts { categories?: string[]; wowOnly?: boolean; preferWow?: boolean }
 
 /** Takes up to `need` unused bank questions of a type for a quiz, preferring ones that match the round's topic and brief. */
@@ -1724,7 +1734,7 @@ async function bankTake(type: string, need: number, topic: string, brief: string
   const themed = !byCategory && !wowOnly && !!about.trim() && !GENERIC.test(about) && about.trim().length > 3;
   const localRound = LOCAL.test(about);
   const musicRound = themed && MUSIC_ROUND.test(about) && !MUSIC_ASKED.test(about);
-  const fresh = qs.filter((q) => !q.used && !flagged(q) && !(quizId && Array.isArray(q.passed) && q.passed.includes(quizId))
+  const fresh = qs.filter((q) => !q.used && !flagged(q) && (type !== "race" || raceOk(q)) && !(quizId && Array.isArray(q.passed) && q.passed.includes(quizId))
     // North East questions only where the round is about the North East, and never the easy ones
     && (localRound ? true : !(q.local || (LOCAL.test(String(q.category || "")) && levelOf(q) === "easy")))
     && (themed || !NICHE.test(String(q.category || "")))
@@ -1764,9 +1774,11 @@ async function bankTake(type: string, need: number, topic: string, brief: string
   let wowLeft = facts ? Math.ceil(need * (opts.preferWow ? 0.6 : themed ? 0.2 : 0.25)) : 0;
   const picked: any[] = [];
   const answerOf = (q: any) => type === "choice" ? bankAnswer(q) : type === "tf" ? "" : type === "race" ? "" : bankAnswer(q);
+  const askCount = (a: string) => ctx.items.filter((it) => it.same && it.ask === a).length + picked.filter((p) => p.type === "tune" && String(p.ask || "song") === a).length;
   const tryTake = (x: { q: any }, relax: number, needLevel: boolean) => {
     const q = x.q; if (picked.includes(q)) return false;
     if (needLevel && quota[levelOf(q)] <= 0) return false;
+    if (type === "tune" && relax < 2 && askCount(String(q.ask || "song")) >= 2) return false;
     if (facts && !mix.fits(String(q.text || ""), String(q.category || ""), answerOf(q), relax)) return false;
     picked.push(q); quota[levelOf(q)]--; if (isWow(q)) wowLeft--; mix.take(String(q.text || ""), String(q.category || ""), answerOf(q));
     return true;
@@ -1826,8 +1838,9 @@ async function gameDeal(game: string, quizId: string, ctx: PickCtx, info: any = 
     const t = String(q.text || ""); const o = optsOf(q);
     if (!o || o.length !== 4 || t.length > 110 || t.length < 18 || !/\?$/.test(t.trim())) return false;
     if (o.some((x) => x.length > 30)) return false;
-    if ((game === "koth" || game === "chase") && NEEDS_OPTIONS.test(t)) return false;
-    if (game === "blockbusters" && (words(o[0]) > 3 || /^[QXZ]/i.test(o[0].replace(/^the\s+/i, "")))) return false;
+    if ((game === "koth" || game === "chase" || game === "blockbusters") && NEEDS_OPTIONS.test(t)) return false;
+    // Blockbusters is typed against the clock: a letter to start with, short, no numbers
+    if (game === "blockbusters" && (words(o[0]) > 3 || o[0].length > 22 || /\d/.test(o[0]) || !/^[a-z]/i.test(o[0].replace(/^(the|a|an)\s+/i, "")) || /^[QXZ]/i.test(o[0].replace(/^(the|a|an)\s+/i, "")))) return false;
     return true;
   });
   for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
@@ -1844,6 +1857,10 @@ async function gameDeal(game: string, quizId: string, ctx: PickCtx, info: any = 
     const o = optsOf(q)!; const a = norm(o[0]);
     // no row may carry an answer already shown as an option, or show an earlier row's answer among its own options
     if (optionWords.has(a) || o.slice(1).some((x) => answersSoFar.has(norm(x)))) return false;
+    // and no row may name another row's answer in its question, either way round ("Hamilton joined Ferrari" / "Which Ferrari driver…")
+    const txt = " " + norm(String(q.text)) + " ";
+    if ([...answersSoFar].some((x) => x.length >= 4 && txt.includes(" " + x + " "))) return false;
+    if (a.length >= 4 && picked.some((p) => (" " + norm(String(p.text)) + " ").includes(" " + a + " "))) return false;
     if (game === "blockbusters" && (letters.get(first(o[0])) || 0) >= (relax >= 1 ? 2 : 1)) return false;
     if (!mix.fits(String(q.text), String(q.category || ""), o[0], relax)) return false;
     picked.push(q); quota[levelOf(q)]--; if (q.wow) wowLeft--; mix.take(String(q.text), String(q.category || ""), o[0]);

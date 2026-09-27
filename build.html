@@ -239,7 +239,7 @@ function itemsOf(q) {
   if (t === 'nearest') return [{ ...base, text: q.text, answer: `${q.answer} ${q.unit || ''}` }];
   if (t === 'pin') return [{ ...base, text: q.text, answer: q.place || (q.answer || '') }];
   if (t === 'reveal') return [{ ...base, text: 'Picture Reveal: who is this?', answer: (q.answers || [])[0] }];
-  if (t === 'unique') return [{ ...base, text: `Only One (each player must give a DIFFERENT answer from the list; check every list is complete and correct, with no wrong entries): ${(q.prompts || []).map((p) => typeof p === 'string' ? p : `${p.p}: ${(p.a || []).join(', ')}`).join(' || ')}`, answer: '(the lists above)' }];
+  if (t === 'unique') return (q.prompts || []).map((p, i) => ({ id: `${q.id}#p${i}`, type: 'Only One list', text: `Only One prompt (each player still in must give a DIFFERENT answer that is on this list; judge the list: complete and correct, 12 to 25 answers a pub room can actually reach, not nursery-easy, not obscure): ${typeof p === 'string' ? p : p.p}`, answer: typeof p === 'string' ? '(no list: open-ended)' : (p.a || []).map((a) => a.split('/')[0]).join(', '), difficulty: '' }));
   if (t === 'survey') return [{ ...base, text: `Family Fortunes (the room is the survey): ${q.text}`, answer: 'whatever most of the room says' }];
   if (t === 'twenty') return [{ ...base, text: `20 Questions (${q.what || ''})`, answer: (q.answers || [])[0] }];
   if (t === 'dingbat') return [{ ...base, text: 'Dingbat', answer: (q.answers || [])[0] }];
@@ -258,6 +258,7 @@ async function reviewItems(r, items) {
 }
 function findItem(id) {
   const [qid, rid] = id.split('#'); const q = B.quiz.questions.find((x) => x.id === qid); if (!q) return {};
+  if (rid && q.type === 'unique' && /^p\d+$/.test(rid)) return { q, row: { prompt: +rid.slice(1) } };
   return rid ? { q, row: (q.bank || []).find((b) => b.id === rid) } : { q };
 }
 const said = (it) => `${it.text} → ${it.answer ?? ''}`;
@@ -271,6 +272,7 @@ async function checkQuiz() {
   const RR = (r) => rep.rounds.find((x) => x.id === r.id);
   const verdicts = {};
   const changed = new Set(); // item ids replaced or reworded in this run
+  const rewrites = []; // rewordings, kept so any that fail the final check go back to the original
 
   /** Reviews whole rounds (or only the listed item ids) and records the verdicts. */
   async function review(label, only) {
@@ -307,7 +309,9 @@ async function checkQuiz() {
         const v = verdicts[it.id], { q, row } = findItem(it.id); if (!q || swapped.has(q)) continue;
         const entry = { id: it.id, where: whereOf(q, row), flags: v.flags, note: v.note, before: said(it), pass };
         if (q.edited || q.keep) { if (!v.flags.every((f) => f === 'wording')) { entry.status = 'review'; entry.note = (entry.note ? entry.note + ' ' : '') + (q.keep ? '(You pinned this one, so it was left alone.)' : '(You edited this one, so it was left alone.)'); rr.flags.push(entry); } continue; }
-        if (v.flags.every((f) => f === 'wording' || f === 'giveaway') && v.rewrite && v.rewrite.length > 8) {
+        const ans = LQ.normText(String(it.answer || '')), rwOk = v.rewrite && v.rewrite.length > 8 && !(row && row.prompt !== undefined) && !(ans.length >= 4 && LQ.normText(v.rewrite).includes(ans));
+        if (v.flags.every((f) => f === 'wording' || f === 'giveaway') && rwOk) {
+          rewrites.push({ id: it.id, q, row, old: row ? row.text : q.text, flags: v.flags, entry });
           if (row) row.text = v.rewrite; else q.text = v.rewrite;
           entry.status = 'rewritten'; entry.after = `${v.rewrite} → ${it.answer}`; rr.flags.push(entry); changed.add(it.id); continue;
         }
@@ -322,6 +326,14 @@ async function checkQuiz() {
       }
       for (const [q, list] of rowsByGame) {
         if (B.stop) break;
+        if (q.type === 'unique') {
+          for (const { row, entry } of [...list].sort((a, b) => b.row.prompt - a.row.prompt)) {
+            if ((q.prompts || []).length > 5) { q.prompts.splice(row.prompt, 1); entry.status = 'removed'; entry.after = 'List taken out of the game.'; }
+            else entry.status = 'review';
+            rr.flags.push(entry);
+          }
+          continue;
+        }
         drawSteps('Fixing flagged questions…', `${r.title}: ${list.length} row${list.length === 1 ? '' : 's'} of ${TYPES[q.type].label}`);
         let fresh = [];
         if (q.dealt) try { fresh = (await api('game_rows', { game: q.type, quizId: B.quiz.id, count: list.length, round: r.id, context: LQ.pickContext(B.quiz), categories: r.categories || [] }, { timeout: 120000 })).rows || []; } catch {}
@@ -363,8 +375,15 @@ async function checkQuiz() {
     step('check2', 'now'); const first = new Set(changed);
     await review('Second check');
     await fix(2);
-    const late = new Set([...changed].filter((id) => !first.has(id)));
-    if (late.size) await review('Checking the last fixes', late);
+    // A final check of the whole quiz as it now stands: the scores and summaries in the report describe what will be played.
+    await review('Final check');
+    for (const rw of rewrites) {
+      const v = verdicts[rw.id]; if (!v || !v.flags.length) continue;
+      if (rw.row) rw.row.text = rw.old; else rw.q.text = rw.old;
+      rw.entry.status = 'review'; rw.entry.after = ''; rw.entry.note = `${v.note || rw.entry.note || ''} The reworded version did not pass the final check, so the original wording is back.`.trim();
+      verdicts[rw.id] = { ...v, flags: rw.flags.some((f) => f !== 'wording') ? rw.flags : ['giveaway'] };
+    }
+    await save().catch(() => {});
   } catch (e) {
     if (B.stop) throw e;
     rep.aiError = e.message;
@@ -419,6 +438,9 @@ async function replaceQuestion(q, r, flags, note, opts = {}) {
   const nq = res.questions.find((x) => (x.kind || x.type) === type); if (!nq) return null;
   if (nq.collage && !nq.media?.url) { try { await LQ.buildCollageFor(nq); } catch { return null; } }
   nq.round = r.id; nq.time = timeFor(type, B.quiz.settings);
+  if (type === 'reveal') { if (q.revealStyle) nq.revealStyle = q.revealStyle; if (q.tiles) nq.tiles = q.tiles; }
+  if (q.type === 'tune' && q.backwards && !['lyric', 'year'].includes(nq.ask)) nq.backwards = true;
+  if (q.type === 'unique' && nq.type === 'unique') nq.time = q.time || nq.time;
   B.quiz.questions[idx] = nq; (B.avoid || []).push(nq.text);
   const reject = flags.some((f) => QUALITY.includes(f));
   if (!GAMES.includes(q.type)) api(reject ? 'bank_reject' : 'bank_pass', { question: q, quizId: B.quiz.id, note }).catch(() => {});
@@ -426,7 +448,7 @@ async function replaceQuestion(q, r, flags, note, opts = {}) {
 }
 function whereOf(q, row) {
   const n = B.quiz.questions.filter((x) => x.type !== 'slide').indexOf(q) + 1;
-  return row ? `Q${n}, row ${(q.bank || []).indexOf(row) + 1}` : `Q${n}`;
+  return row ? (row.prompt !== undefined ? `Q${n}, list ${row.prompt + 1}` : `Q${n}, row ${(q.bank || []).indexOf(row) + 1}`) : `Q${n}`;
 }
 
 // ------------------------------------------------------------------ 4. the report

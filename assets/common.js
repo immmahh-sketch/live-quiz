@@ -640,6 +640,7 @@ window.LQ = (() => {
       if (Array.isArray(q.answers)) c.answers = q.answers.slice(0, 2);
       for (const k of ['answer', 'place', 'phrase', 'track', 'artist', 'pictureAnswer', 'clueAnswer']) if (q[k] != null) c[k] = q[k];
       if (q.type === 'wipeout') c.right = (q.right || []).slice(0, 15);
+      if (q.type === 'tune') c.ask = q.ask || 'song';
       if (Array.isArray(q.bank)) c.bank = q.bank.map((b) => ({ text: String(b.text || '').slice(0, 160), options: [(b.options || [])[0]] }));
       return c;
     });

@@ -16,8 +16,8 @@ window.LQ_FORMATS = (() => {
     sport: 'Football first (Newcastle banter welcome), then darts, snooker, boxing, rugby, cricket, tennis, the Olympics and the odd oddity. Records, firsts and daft moments.',
     qi: '"Well I never knew that!" Surprising, counter-intuitive and funny true facts from every subject, where the obvious answer is often the wrong one.',
   };
-  const tv = (games) => ({ title: 'TV & Film', about: ABOUT.tv, categories: TV_FILM, mix: { choice: 6, text: 3, order: 1, tf: 1, ...games } });
-  const music = (games) => ({ title: 'Music', about: ABOUT.music, categories: MUSIC, mix: { tune: 5, choice: 4, text: 3, order: 1, tf: 1, ...games } });
+  const tv = (games) => ({ title: 'TV & Film', about: ABOUT.tv, categories: TV_FILM, mix: { choice: 5, text: 4, order: 1, tf: 1, ...games } });
+  const music = (games) => ({ title: 'Music', about: ABOUT.music, categories: MUSIC, mix: { tune: 5, choice: 3, text: 4, order: 1, tf: 1, ...games } });
   const sport = (games) => ({ title: 'Sport', about: ABOUT.sport, categories: SPORT, mix: { choice: 7, text: 3, order: 1, tf: 1, ...games } });
   const qi = (extra) => ({ title: 'Well I Never Knew That!', about: ABOUT.qi, wowOnly: true, mix: { choice: 7, tf: 3, nearest: 1, ...extra } });
   const game = (title, about, mix) => ({ title, about, mix, general: true });
