@@ -1105,3 +1105,10 @@ body.tv .drawside { flex-basis: 34%; }
 .drawfb { font-weight: 800; min-height: 1.5em; }
 .nw-g.best .nw-nm b { animation: nwbestb .5s var(--bd, 2s) both; }
 @keyframes nwbestb { to { color: #1b1544; } }
+
+/* Picture Reveal: tiles over the picture flip away one by one */
+.qmedia.reveal { position: relative; display: inline-block; }
+.qmedia.reveal img { display: block; }
+.rtiles { position: absolute; inset: 0; display: grid; gap: 3px; }
+.rtiles i { background: linear-gradient(135deg, #5b3df5, #3b22c9); border-radius: 6px; box-shadow: inset 0 0 0 2px rgba(255,255,255,.18); transition: transform .5s ease, opacity .5s ease; transform-origin: center; }
+.rtiles i.off { transform: rotateY(90deg); opacity: 0; }

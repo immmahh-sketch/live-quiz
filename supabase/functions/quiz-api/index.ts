@@ -807,6 +807,67 @@ async function verifyQuestions(items: { id: string; summary: string }[], premium
   return { usage: usageOf(msg, model), checks };
 }
 
+const REVIEW_SYSTEM = `You are the quiz editor for a live pub quiz night in the North East of England (Newcastle and Sunderland; football banter favours Newcastle). The host hand-writes Kahoot quiz nights and is picky. You review one round of a quiz built automatically and say, question by question, what is wrong, so bad questions can be replaced before the night.
+
+The host's standards:
+- It is a test of knowledge and thinking, not of how fast you can click the obviously right answer. When people get one wrong it should usually be because they didn't know it. Nursery-level or instantly obvious questions (how many legs a spider has, what animal Peppa is, what you win for second place, what cheese is on a Margherita, who makes the iPhone) are too easy.
+- The range is: easy if you know it, challenging but guessable, and "wow, how did you get that?". Across the night about a third easy-if-you-know-it, just under half challenging but guessable, and a fifth hard.
+- At least 15% of questions should make people say "Well I never knew that!" or "Is that really true?": a surprising, counter-intuitive, funny or delightful fact that is fun to reveal. Examples: Bob Dylan won the Nobel Prize in Literature; Love Is All Around was originally by The Troggs; Olympic gold medals are mostly silver; Cleopatra lived closer to the Moon landings than to the building of the pyramids; Sir Nils Olav is a penguin.
+- Clues never give the answer away: not the answer, part of it, or an obvious alias of it in the question ("1997: two enemies swap faces" gives away Face/Off; "Which board game? Ladders" gives away Snakes and Ladders).
+- Wrong options are plausible: the same kind of thing, similar-sounding or about a similar subject (for Hot Fuzz: Hot Pursuit, Let's Be Cops, Beverly Hills Cop III; for Zulu: 300, Hacksaw Ridge, Starship Troopers). Within a quick-fire game the same answers must not keep coming back as options, or later rows become a clicking contest.
+- A mixed round is truly mixed: never several questions of the same shape (which flag, which organ, which company makes it, what currency, capital of, which monarch) or on the same subject.
+- Questions are full, natural sentences ("What currency is used in India?", not "Which currency? India").
+- North East facts every local knows (Geordie words, the Great North Run, the Angel of the North) are giveaways for this crowd.
+- Music rounds are about songs, singers, bands, albums, release dates, chart records, covers, real names. Not musicals.
+- Facts must be right and current. If the marked answer is wrong, disputed, out of date, or another answer is defensible, say so.
+
+For EVERY item, give:
+- "level": your honest difficulty for this room: "easy", "medium" or "hard".
+- "wow": true only for a genuine "well I never knew that" item.
+- "flags": any of "too_easy", "giveaway", "repetitive" (same shape, subject or answer as another question in this round or in the other rounds listed), "weak_options", "wording", "fact", "off_topic", "local". Empty if it is good.
+- "note": one short plain sentence when flagged, saying what is wrong.
+- "rewrite": only when the question is good but its wording is the problem (terse, clumsy, or a giveaway that rewording removes): the improved question text, same answer, same options. Otherwise omit.
+
+Rows of The Chase, King of the Hill, Hot Potato and Blockbusters are quick-fire questions read out one after another: they are general knowledge in a general round, or on the round's subject when the game sits inside a subject round, so judge each row on its own merits and only flag "off_topic" when a row inside a subject round is plainly off that subject.
+
+Game-show items (Wheel of Fortune phrases, Catchphrase clips, Draw It, 20 Questions, Answer Smash, Rhyme Time, Dingbats, Name That Tune, Picture Reveal) are judged on whether they are fun and fair for the room, not on "wow".
+
+Then judge the round as a whole: "score" 1 to 5 (5 = the host would be proud of it), and a "summary" of 2 or 3 plain sentences on its quality, difficulty and variety.
+
+Reply with JSON only: {"round":{"score":4,"summary":"..."},"items":[{"id":"...","level":"medium","wow":false,"flags":[],"note":"","rewrite":""}]}`;
+
+async function reviewRound(round: any, items: any[], others: string[]) {
+  const model = OPUS;
+  const lines = items.map((i) => `[${i.id}] (${i.type}${i.game ? ", row of " + i.game : ""}${i.rated ? ", rated " + i.rated : ""}) ${i.text} => ${i.answer}${i.other ? "  | " + i.other : ""}`);
+  // The verdicts come back through a tool call, so they are always well-formed JSON (free text broke on a stray quote).
+  const REPORT_TOOL = {
+    name: "report", description: "Report the review of this round.",
+    input_schema: { type: "object", required: ["round", "items"], properties: {
+      round: { type: "object", required: ["score", "summary"], properties: { score: { type: "integer" }, summary: { type: "string" } } },
+      items: { type: "array", items: { type: "object", required: ["id", "level", "wow", "flags"], properties: {
+        id: { type: "string" }, level: { type: "string", enum: ["easy", "medium", "hard"] }, wow: { type: "boolean" },
+        flags: { type: "array", items: { type: "string" } }, note: { type: "string" }, rewrite: { type: "string" } } } },
+    } },
+  };
+  const msg = await ask(anthropic(), {
+    model, max_tokens: 16000,
+    system: [{ type: "text", text: REVIEW_SYSTEM, cache_control: { type: "ephemeral" } }],
+    tools: [REPORT_TOOL as any], tool_choice: { type: "tool", name: "report" },
+    messages: [{ role: "user", content: `Round: ${String(round.title || "").slice(0, 80)}\nWhat the round is about: ${String(round.about || "").slice(0, 400)}\n\nQuestions already in the OTHER rounds of this quiz (for repetition):\n${others.join("\n") || "(none)"}\n\nReview these items:\n${lines.join("\n")}` }],
+  });
+  const call = (msg.content as any[]).find((b) => b.type === "tool_use");
+  let out: any = call?.input || null;
+  if (!out) { try { out = extractJson(textOf(msg)); } catch { out = {}; } }
+  out = out || {};
+  const FLAGS = ["too_easy", "giveaway", "repetitive", "weak_options", "wording", "fact", "off_topic", "local"];
+  const verdicts: Record<string, any> = {};
+  for (const v of Array.isArray(out.items) ? out.items : []) {
+    const id = String(v?.id || ""); if (!items.some((i) => i.id === id)) continue;
+    verdicts[id] = { level: ["easy", "medium", "hard"].includes(v.level) ? v.level : "medium", wow: v.wow === true, flags: (Array.isArray(v.flags) ? v.flags : []).map(String).filter((x: string) => FLAGS.includes(x)), note: String(v.note || "").slice(0, 300), ...(v.rewrite ? { rewrite: String(v.rewrite).slice(0, 300) } : {}) };
+  }
+  return { usage: usageOf(msg, model), round: { score: Math.max(1, Math.min(5, Math.round(+out.round?.score || 3))), summary: String(out.round?.summary || "").slice(0, 800) }, verdicts };
+}
+
 // ---------------------------------------------------------------- handler
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: CORS });
@@ -925,7 +986,7 @@ Deno.serve(async (req) => {
 
     if (action === "generate") {
       if (!ANTHROPIC_KEY) return json({ error: "AI is not set up on the server yet — add ANTHROPIC_API_KEY as a Supabase secret." }, 503);
-      const KNOWN = ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel", "highlow", "rhyme", "club", "dingbat", "tune", "catchphrase", "nearest", "draw", "twenty", ...Object.keys(RACE_GAMES)];
+      const KNOWN = ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel", "highlow", "rhyme", "club", "dingbat", "tune", "catchphrase", "reveal", "nearest", "draw", "twenty", ...Object.keys(RACE_GAMES)];
       const asked = (Array.isArray(body.types) ? body.types : []).map(String);
       let types = asked.filter((t) => KNOWN.includes(t));
       // Hot Potato, King of the Hill and Blockbusters play on a race's bank of quick questions: take or write a race, then reshape it.
@@ -949,13 +1010,21 @@ Deno.serve(async (req) => {
       // The bank first: anything pre-written that fits this round comes free, and only the shortfall is written by the AI.
       const wantCount = Math.min(8, Math.max(1, Math.round(+body.count || 5)));
       const quizId = UUID_RE.test(String(body.quizId || "")) ? String(body.quizId) : "";
+      const ctx = pickCtx(body);
       let fromBank: any[] = []; const bankInfo: any = {};
+      // A general-knowledge game is dealt row by row from the multiple-choice bank: every row a different subject and
+      // shape of question, instead of one pre-made set that repeats itself ("Which organ?… Which organ?…").
+      const generalGame = !!game && body.useBank !== false && !!quizId && (game !== "blockbusters" ? String(body.topic) === "General knowledge" : !String(body.brief || "").replace(/This bank is for Blockbusters:[\s\S]*$/, "").trim() && (!String(body.topic || "").trim() || GENERIC.test(String(body.topic || "")) || GAME_NAME.test(String(body.topic || "").trim().replace(/[.:\s]+$/, ""))));
+      if (generalGame) {
+        try { const dealt = await gameDeal(game, quizId, ctx, bankInfo, 0, Array.isArray(body.categories) ? body.categories.map(String).slice(0, 60) : [], String(body.subject || "").slice(0, 60)); if (dealt) return json({ questions: [dealt], warnings: [], searched: false, usage: null, unknownTypes, fromBank: 1, bankInfo }); } catch (e) { console.warn("game deal failed", String(e)); }
+      }
       if (body.useBank !== false && quizId && types.length === 1) {
-        try { fromBank = await bankTake(types[0], wantCount, String(body.topic || body.title || ""), String(body.brief || ""), quizId, ["easy", "medium", "hard"].includes(String(body.difficulty)) ? String(body.difficulty) : "mixed", bankInfo); } catch (e) { console.warn("bank take failed", String(e)); }
+        try { fromBank = await bankTake(types[0], wantCount, String(body.topic || body.title || ""), String(body.brief || ""), quizId, ["easy", "medium", "hard"].includes(String(body.difficulty)) ? String(body.difficulty) : "mixed", bankInfo, ctx, { categories: Array.isArray(body.categories) ? body.categories.map(String).slice(0, 60) : [], wowOnly: body.wowOnly === true, preferWow: body.preferWow === true }); } catch (e) { console.warn("bank take failed", String(e)); }
       }
       if (fromBank.length >= wantCount) return json({ questions: reshape(fromBank), warnings: [], searched: false, usage: null, unknownTypes, fromBank: fromBank.length, bankInfo });
+      if (body.bankOnly === true) return json({ questions: reshape(fromBank), warnings: [], searched: false, usage: null, unknownTypes, fromBank: fromBank.length, bankInfo });
       // Catchphrase clips only come from the bank: the AI cannot make a video.
-      if (types[0] === "catchphrase") return json({ questions: fromBank, warnings: fromBank.length < wantCount ? ["The Catchphrase clips in the bank have run out. Add more, or pick another type for the rest."] : [], searched: false, usage: null, unknownTypes, fromBank: fromBank.length, bankInfo });
+      if (types[0] === "catchphrase" || types[0] === "reveal") return json({ questions: fromBank, warnings: fromBank.length < wantCount ? [types[0] === "reveal" ? "The Picture Reveal pictures in the bank have run out. Add more, or pick another type for the rest." : "The Catchphrase clips in the bank have run out. Add more, or pick another type for the rest."] : [], searched: false, usage: null, unknownTypes, fromBank: fromBank.length, bankInfo });
       const out = await generate({
         topic: String(body.brief ? (body.title || body.topic || "") : (body.topic || "")).slice(0, 200),
         brief: String(body.brief || "").slice(0, 1500),
@@ -971,6 +1040,24 @@ Deno.serve(async (req) => {
       return json({ ...out, questions: reshape([...fromBank, ...out.questions]), unknownTypes, fromBank: fromBank.length, bankInfo });
     }
 
+    if (action === "game_rows") {
+      // Fresh rows for a dealt general-knowledge game, to replace ones the quality check threw out.
+      const game = String(body.game || "");
+      const quizId = UUID_RE.test(String(body.quizId || "")) ? String(body.quizId) : "";
+      if (!RACE_GAMES[game] || !quizId) return json({ error: "Which game, in which quiz?" }, 400);
+      const n = Math.max(1, Math.min(12, Math.round(+body.count || 1)));
+      const dealt = await gameDeal(game, quizId, pickCtx(body), {}, n, Array.isArray(body.categories) ? body.categories.map(String).slice(0, 60) : []);
+      return json({ rows: dealt ? dealt.bank : [] });
+    }
+    if (action === "review_round") {
+      if (!ANTHROPIC_KEY) return json({ error: "AI is not set up on the server yet — add ANTHROPIC_API_KEY as a Supabase secret." }, 503);
+      const items = (Array.isArray(body.items) ? body.items : []).slice(0, 60).map((i: any) => ({
+        id: String(i?.id || "").slice(0, 40), type: String(i?.type || "").slice(0, 20), text: String(i?.text || "").slice(0, 400),
+        answer: String(i?.answer || "").slice(0, 300), other: String(i?.other || "").slice(0, 400), rated: String(i?.difficulty || ""), game: String(i?.game || ""),
+      })).filter((i: any) => i.id);
+      if (!items.length) return json({ error: "Nothing to review." }, 400);
+      return json(await reviewRound(body.round || {}, items, (Array.isArray(body.others) ? body.others : []).map((x: unknown) => String(x ?? "").slice(0, 160)).slice(0, 300)));
+    }
     if (action === "kahoot_import") {
       // A Kahoot, from its link (Kahoot's own public data: exact wording, answers, timers and pictures) or from a printout
       // of its page. A printout is read by Claude; the link printed in its footer is then tried first, so a public
@@ -1398,9 +1485,9 @@ async function kahootFromRead(read: any): Promise<{ title: string; description: 
 // Pre-written questions, one quiz_bank row each (see bankRow below). Each item carries category/tags for matching
 // a themed round and a "used" stamp once it has gone into a quiz, so it never comes round again.
 const BANK_LOW = 25;
-const EVERGREEN = ["club", "dingbat", "wheel", "pin", "tune", "catchphrase", "twenty"]; // theme-free types: any unused item will do when the round has no matching one
+const EVERGREEN = ["club", "dingbat", "wheel", "pin", "tune", "catchphrase", "reveal", "twenty"]; // theme-free types: any unused item will do when the round has no matching one
 /** What makes two items "the same": the phrase for dingbats and wheels, the place for pins, the track for tunes, the wording otherwise. */
-function bankKey(q: any): string { if (q?.media?.kind === "youtube" && q.media.videoId) return "yt:" + q.media.videoId; if (q?.media?.kind === "image" && q.media.source && /which .*(flag|picture|this)/i.test(q.text || "")) return "img:" + q.media.source; return norm(q?.type === "dingbat" || q?.type === "twenty" ? (q.answers || [])[0] || "" : q?.type === "tune" ? `${q.track} ${q.artist}` : q?.type === "pin" ? q.place || q.text : q?.phrase || q?.text || ""); }
+function bankKey(q: any): string { if (q?.kind === "reveal") return "rv:" + norm((q.answers || [])[0] || ""); if (q?.media?.kind === "youtube" && q.media.videoId) return "yt:" + q.media.videoId; if (q?.media?.kind === "image" && q.media.source && /which .*(flag|picture|this)/i.test(q.text || "")) return "img:" + q.media.source; return norm(q?.type === "dingbat" || q?.type === "twenty" ? (q.answers || [])[0] || "" : q?.type === "tune" ? `${q.track} ${q.artist}` : q?.type === "pin" ? q.place || q.text : q?.phrase || q?.text || ""); }
 /** The right answer of a finished question, as plain text, for near-duplicate checks. */
 function bankAnswer(q: any): string {
   if (!q) return "";
@@ -1439,7 +1526,7 @@ function nearDuplicate(a: any, b: any): boolean {
 // questions in order, as the rest of the code expects, and remembers each item as it was loaded; bankSave() then
 // writes only what changed: new or edited items are upserted, removed ones deleted. (It used to be a few
 // quiz_quizzes rows of several MB each, so every small change rewrote megabytes and reads hit the statement timeout.)
-const BANK_LABEL: Record<string, string> = { choice: "Multiple choice", text: "Type the answer", order: "Put in order", pin: "Drop the pin", match: "Match up", tf: "True or false", sort: "Categorise", wipeout: "Wipeout", race: "The Race", smash: "Answer Smash", wheel: "Wheel of Fortune", highlow: "Highbrow Lowbrow", rhyme: "Rhyme Time", club: "The 1% Club", catchphrase: "Catchphrase", dingbat: "Dingbats", tune: "Name That Tune", nearest: "Nearest Wins", draw: "Draw It", twenty: "20 Questions" };
+const BANK_LABEL: Record<string, string> = { choice: "Multiple choice", text: "Type the answer", order: "Put in order", pin: "Drop the pin", match: "Match up", tf: "True or false", sort: "Categorise", wipeout: "Wipeout", race: "The Race", smash: "Answer Smash", wheel: "Wheel of Fortune", highlow: "Highbrow Lowbrow", rhyme: "Rhyme Time", club: "The 1% Club", catchphrase: "Catchphrase", reveal: "Picture Reveal", dingbat: "Dingbats", tune: "Name That Tune", nearest: "Nearest Wins", draw: "Draw It", twenty: "20 Questions" };
 const BANK_PAGE = 1000; // PostgREST hands back at most this many rows a request
 async function restAll(path: string): Promise<any[]> {
   const out: any[] = [];
@@ -1502,7 +1589,7 @@ const WORD = (s: string) => new Set(norm(s).split(" ").filter((w) => w.length >=
 const THEME_STOP = new Set(["round", "rounds", "quiz", "quizzes", "question", "questions", "about", "based", "show", "shows", "series", "programme", "program", "from", "with", "that", "this", "these", "those", "their", "there", "what", "which", "some", "more", "most", "only", "mixed", "general", "knowledge", "trivia", "easy", "hard", "medium", "difficult", "tricky", "family", "friendly", "answer", "answers", "each", "every", "make", "made", "write", "include", "including", "like", "also", "just", "plus", "other", "things", "stuff", "anything", "everything", "famous", "popular", "classic", "best", "good", "great", "topic", "theme", "themed", "fun", "please", "want", "should", "would", "could", "about", "into", "over", "under", "your", "them", "they", "have", "been", "will", "than", "then", "when", "where", "while", "people", "players", "player", "team", "teams", "night", "tonight", "week", "weekly", "new", "untitled", "incorrect", "correct", "wrong", "right", "often", "think", "thinks", "thought", "actually", "really", "commonly", "usually", "mistake", "mistaken", "mistakes", "confuse", "confused", "trick", "tricks", "trap", "traps", "option", "options", "similar", "include", "includes", "adding", "fake", "real", "list", "lists", "ones", "called", "sound", "sounds", "instead", "rather", "though", "wipeout", "race", "smash", "catchphrase", "dingbat", "dingbats"]);
 const JUNK_CATEGORY = /^(round\s*\d*|new quiz|untitled.*|ai quiz|quiz|general|test.*)$/i;
 /** The games' own names. A round called "Wipeout" says which game it is, not what it is about, so these never count as a theme. */
-const GAME_NAME = /^(the\s+)?(wipeout|race|hot potato|king of the hill|blockbusters|the chase|chase|answer smash|smash|wheel of fortune|wheel|dingbats?|catchphrase|rhyme time|highbrow,? lowbrow|1% club|one per ?cent club|name that tune|multiple choice|true or false|true\/false|type the answer|put in order|drop the pin|match up|categorise|categorize|nearest wins|draw it)( round)?$/i;
+const GAME_NAME = /^(the\s+)?(wipeout|race|hot potato|king of the hill|blockbusters|the chase|chase|answer smash|smash|wheel of fortune|wheel|dingbats?|catchphrase|rhyme time|highbrow,? lowbrow|1% club|one per ?cent club|name that tune|multiple choice|true or false|true\/false|type the answer|put in order|drop the pin|match up|categorise|categorize|nearest wins|draw it|picture reveal|reveal)( round)?$/i;
 const junkCategory = (c: string) => JUNK_CATEGORY.test(c) || GAME_NAME.test(c.trim());
 /** Games built on a race's bank of quick questions, with the settings each starts with. They never get bank rows of their own. */
 const RACE_GAMES: Record<string, { label: string; set: () => Record<string, unknown> }> = {
@@ -1519,24 +1606,139 @@ function raceToGame(q: any, game: string) {
   c.text = `${RACE_GAMES[game].label}: ${String(q.text || "").replace(/^the race\s*[:\-–—]\s*/i, "").trim() || "quick-fire questions"}`;
   return c;
 }
-const GENERIC = /general knowledge|anything|mixed bag|pot ?luck|pub quiz|warm.?up|quick.?fire|random/i;
+const GENERIC = /general knowledge|anything|mixed bag|pot ?luck|pub quiz|warm.?up|quick.?fire|random|bit of everything|a mix\b|mixed round/i;
+
+// ---------------------------------------------------------------- what makes a quiz feel mixed
+// The host's rules (Sept 2026 feedback): a mixed round is mixed in subject, difficulty AND the shape of question, so
+// "Which flag…", "Which organ…", "Which company makes…" never pile up; far fewer easy questions; at least 15% "well I
+// never knew that" facts; nothing a North East room gets for free; no two questions with the same answer.
+/** Question shapes that feel samey when they repeat. One of each per mixed round; the first group at most twice a quiz. */
+const PATTERNS: [string, RegExp][] = [
+  ["flag", /\bflags?\b/i], ["capital", /\bcapital\b/i], ["body", /\b(organs?|bones?|glands?|muscles?)\b/i],
+  ["maker", /\b(which|what) (company|brand|firm|manufacturer|car ?maker)\b|\bmade by\b|\bwho makes\b|\bmanufactur/i],
+  ["currency", /\bcurrenc(y|ies)\b/i], ["monarch", /\b(king|queen|monarch|reigned|throne)\b/i], ["invent", /\binvent/i],
+  ["planet", /\bplanets?\b/i], ["element", /\b(chemical (element|symbol)|element|periodic table)\b/i],
+  ["collective", /\bcollective noun\b|\ba group of \w+ (is )?called\b|\bwhat is a group of\b/i], ["young", /\b(baby|young)\b.*\bcalled\b/i],
+  ["translate", /\b(french|spanish|german|italian|latin|welsh|greek|japanese|dutch|cockney|geordie) (word |phrase )?(for|mean)|\bwhat does .{2,30} mean\b/i],
+  ["anagram", /\banagram\b/i], ["olympic", /\bolympic/i], ["host", /\bhost(ed|s)? the\b/i],
+  // shapes that may appear twice in a quiz but once a round
+  ["year", /\b(which|what) year\b/i], ["decade", /\bdecade\b/i], ["river", /\brivers?\b/i], ["country", /^(in )?which country\b/i],
+  ["city", /^(in )?which (city|town)\b/i], ["cast", /\bwho (played|plays|starred|voiced|voices)\b|\bwhich (actor|actress)\b/i],
+  ["lyric", /\blyrics?\b|\bwhich song (contains|includes|opens|begins)\b/i], ["author", /^who wrote\b|\bwhich (author|writer|novelist)\b/i],
+  ["nickname", /\bnickname/i], ["colour", /\b(what|which) colou?r\b/i], ["number-one", /\bnumber (one|1)\b/i], ["language", /\blanguage\b/i],
+  ["animal", /\b(animal|mammal|creature)\b/i], ["bird", /\bbirds?\b/i], ["record", /\b(largest|biggest|tallest|longest|smallest|fastest|highest|deepest)\b/i],
+];
+const SAMEY = new Set(["flag", "capital", "body", "maker", "currency", "monarch", "invent", "planet", "element", "collective", "young", "translate", "anagram", "olympic", "host"]);
+/** Opening words too common to count as a shape of their own. */
+const PLAIN_STEM = new Set(["what is the", "what was the", "which is the", "who was the", "what is a", "what are the", "who is the", "in which year", "what does the", "which of these", "how many", "true or false"]);
+const stemOf = (s: string) => { const w = norm(s).split(" ").filter(Boolean); const k3 = w.slice(0, 3).join(" "), k2 = w.slice(0, 2).join(" "); return PLAIN_STEM.has(k3) || PLAIN_STEM.has(k2) ? "" : k3; };
+const patternsOf = (text: string) => PATTERNS.filter(([, re]) => re.test(text)).map(([k]) => k);
+/** Topics every North East room knows, so their easy questions give points away. */
+const LOCAL = /newcastle|sunderland|north east|geordie|mackem|tyne|wearside|gateshead|durham|northumberland|teesside|middlesbrough/i;
+/** One-show and one-season topics: fine for a themed night, out of place in a general-knowledge round. */
+const NICHE = /^(dexter|bridgerton|the handmaid's tale|breaking bad and better call saul|game of thrones|covid-19|halloween music|christmas songs|christmas films|christmas tv|christmas|easter and spring|valentine's day and love songs|bonfire night and autumn|new year|summer holidays|halloween|brighton|roger|alan shearer|song lyrics|connections and links|anagrams and wordplay|name the year)$/i;
+/** Signature questions: every quiz has one whose answer is Alan Shearer and one whose answer is a Roger. */
+const SIGNATURE: { cat: string; answer: RegExp }[] = [{ cat: "Alan Shearer", answer: /\balan shearer\b/i }, { cat: "Roger", answer: /\broger\b/i }];
+/** What a subject round is about, so a signature question can be picked to suit it. */
+const SIG_FIT: [RegExp, RegExp][] = [
+  [/\bsport|football|olympic|tennis|cricket|rugby|boxing/i, /\b(scor|goal|match|cup|league|club|tennis|wimbledon|grand slam|olympi|race|racing|champion|cricket|rugby|boxing|world cup|england|captain|striker|played for)/i],
+  [/\bfilm|tv|telly|television|movie|cinema|soap|sitcom/i, /\b(film|movie|actor|actress|played|plays|role|starred|star|tv|series|bond|directed|director|oscar|voice|sitcom|soap)/i],
+  [/\bmusic|song|band|chart|pop/i, /\b(song|single|album|band|singer|sang|sings|hit|chart|number one|guitar|drummer|bass|vocal|queen|pink floyd|the who|beatles|musician)/i],
+];
+const MUSIC_ROUND = /\b(music|songs?|charts?|pop|singles?|albums?|bands?|hits?|number ones?)\b/i;
+const NOT_MUSIC = /^(musicals|classical music|theatre)$/i;
+const MUSIC_ASKED = /\b(musicals?|classical|opera|theatre|west end|broadway)\b/i;
+
+/** What a quiz already holds, sent by the builder so a new pick fits around it. */
+interface PickCtx { round: string; items: { same: boolean; text: string; category: string; answer: string; difficulty: string; wow: boolean; game: boolean }[] }
+function pickCtx(body: any): PickCtx {
+  const round = String(body.round || "");
+  const items: PickCtx["items"] = [];
+  for (const q of Array.isArray(body.context) ? body.context.slice(0, 400) : []) {
+    if (!q || typeof q !== "object") continue;
+    const same = !!round && String(q.round || "") === round;
+    if (Array.isArray(q.bank) && q.bank.length) {
+      for (const b of q.bank.slice(0, 30)) items.push({ same, text: String(b?.text || ""), category: "", answer: String(b?.options?.[0] ?? b?.right ?? ""), difficulty: "", wow: false, game: true });
+      continue;
+    }
+    items.push({ same, text: String(q.text || ""), category: String(q.category || ""), answer: bankAnswer(q), difficulty: String(q.difficulty || ""), wow: !!q.wow, game: false });
+  }
+  return { round, items };
+}
+/** Tracks shapes, subjects and answers as questions are chosen, and says whether the next one fits. */
+function mixer(ctx: PickCtx, topic: string, opts: { perCategory: number; strict: boolean }) {
+  const exempt = new Set(PATTERNS.filter(([, re]) => re.test(topic)).map(([k]) => k)); // a "Flags" round may ask about flags
+  const roundPat = new Map<string, number>(), quizPat = new Map<string, number>(), stems = new Set<string>(), cats = new Map<string, number>(), answers = new Set<string>();
+  const bump = (m: Map<string, number>, k: string) => m.set(k, (m.get(k) || 0) + 1);
+  const add = (text: string, category: string, answer: string, same: boolean) => {
+    for (const p of patternsOf(text)) { bump(quizPat, p); if (same) bump(roundPat, p); }
+    if (same) { const s = stemOf(text); if (s) stems.add(s); if (category) bump(cats, category); }
+    const a = norm(answer); if (a.length > 1 && !/^(true|false)$/.test(a)) answers.add(a);
+  };
+  for (const it of ctx.items) add(it.text, it.category, it.answer, it.same);
+  return {
+    fits(text: string, category: string, answer: string, relax = 0): boolean {
+      const a = norm(answer); if (a.length > 1 && answers.has(a)) return false;
+      if (relax >= 2) return true;
+      for (const p of patternsOf(text)) {
+        if (exempt.has(p)) continue;
+        if ((roundPat.get(p) || 0) >= 1) return false;
+        if (opts.strict && SAMEY.has(p) && (quizPat.get(p) || 0) >= 2) return false;
+      }
+      if (relax >= 1) return true;
+      const s = stemOf(text); if (s && stems.has(s)) return false;
+      if (category && (cats.get(category) || 0) >= opts.perCategory) return false;
+      return true;
+    },
+    take(text: string, category: string, answer: string) { add(text, category, answer, true); },
+    catUse: (c: string) => cats.get(c) || 0,
+  };
+}
+/** Level quotas. Mixed now leans hard: the host wants people to get questions wrong because they didn't know them. */
+function levelQuota(need: number, difficulty: string, shape = { easy: 0.15, hard: 0.35 }): Record<string, number> {
+  if (difficulty !== "mixed") return { easy: 0, medium: 0, hard: 0, [difficulty]: need };
+  const q: Record<string, number> = { easy: Math.round(need * shape.easy), hard: Math.round(need * shape.hard), medium: 0 };
+  q.medium = need - q.easy - q.hard; return q;
+}
+const levelOf = (q: any) => (["easy", "medium", "hard"].includes(q.difficulty) ? q.difficulty : "medium");
+/** Flags from the hand review of the bank: never picked. */
+const flagged = (q: any) => !!(q.tooEasy || q.giveaway || q.doubt || q.recycled);
+/** Categories that are nothing but surprising facts. */
+const WOW_CATS = /^(ripley's believe it or not|no such thing as a fish facts)$/i;
+const isWow = (q: any) => !!q.wow || WOW_CATS.test(String(q.category || ""));
+interface TakeOpts { categories?: string[]; wowOnly?: boolean; preferWow?: boolean }
+
 /** Takes up to `need` unused bank questions of a type for a quiz, preferring ones that match the round's topic and brief. */
-async function bankTake(type: string, need: number, topic: string, brief: string, quizId: string, difficulty = "mixed", info: any = {}): Promise<any[]> {
+async function bankTake(type: string, need: number, topic: string, brief: string, quizId: string, difficulty = "mixed", info: any = {}, ctx: PickCtx = { round: "", items: [] }, opts: TakeOpts = {}): Promise<any[]> {
   if (need <= 0) return [];
   // The builder sends "Round title. Brief": drop a title that is only a game's name, so the brief decides.
   const lead = topic.split(/[.:]/)[0].trim();
   if (GAME_NAME.test(lead)) topic = topic.slice(topic.indexOf(lead) + lead.length).replace(/^[\s.:–-]+/, "");
   const row = await bankRow(type);
   const qs: any[] = Array.isArray(row.questions) ? row.questions : [];
-  const themed = !!(topic || brief).trim() && !GENERIC.test(topic + " " + brief) && (topic + " " + brief).trim().length > 3;
-  const fresh = qs.filter((q) => !q.used && !(quizId && Array.isArray(q.passed) && q.passed.includes(quizId)));
+  const about = topic + " " + brief;
+  // A round can name the bank categories it draws from ("Music": pop, rock, number ones… never musicals), or ask only
+  // for the "well I never knew that" facts; either way it is spread across those categories, not matched by keyword.
+  const cats = new Set((opts.categories || []).map((c) => c.toLowerCase()));
+  const byCategory = cats.size > 0 && type !== "tune", wowOnly = !!opts.wowOnly && ["choice", "text", "tf"].includes(type);
+  const themed = !byCategory && !wowOnly && !!about.trim() && !GENERIC.test(about) && about.trim().length > 3;
+  const localRound = LOCAL.test(about);
+  const musicRound = themed && MUSIC_ROUND.test(about) && !MUSIC_ASKED.test(about);
+  const fresh = qs.filter((q) => !q.used && !flagged(q) && !(quizId && Array.isArray(q.passed) && q.passed.includes(quizId))
+    // North East questions only where the round is about the North East, and never the easy ones
+    && (localRound ? true : !(q.local || (LOCAL.test(String(q.category || "")) && levelOf(q) === "easy")))
+    && (themed || !NICHE.test(String(q.category || "")))
+    && !(musicRound && NOT_MUSIC.test(String(q.category || "")))
+    && (!byCategory || cats.has(String(q.category || "").toLowerCase()))
+    && (!wowOnly || isWow(q))
+    && !(type === "tune" && (!themed || musicRound) && NICHE.test(String(q.category || ""))));
   const haveOf = (q: any) => WORD([q.category, ...(q.tags || []), q.text, q.place, q.phrase, ...(q.answers || [])].filter(Boolean).join(" "));
   const haves = new Map(fresh.map((q) => [q, haveOf(q)]));
   // A word counts only when it is specific: not a filler word, and not one that turns up across a big slice of the
   // bank (so "Dexter" pulls Dexter questions, while "round" or "show" pull nothing).
   const common = Math.max(8, Math.round(fresh.length * 0.03));
-  const want = new Set([...WORD(topic + " " + brief)].filter((w) => !THEME_STOP.has(w) && [...haves.values()].filter((h) => h.has(w)).length <= common));
-  const text = " " + norm(topic + " " + brief) + " ";
+  const want = new Set([...WORD(about)].filter((w) => !THEME_STOP.has(w) && [...haves.values()].filter((h) => h.has(w)).length <= common));
+  const text = " " + norm(about) + " ";
   const score = (q: any) => {
     let sc = 0; const cat = norm(q.category || "");
     if (cat.length >= 4 && !junkCategory(cat) && !THEME_STOP.has(cat) && text.includes(" " + cat + " ")) sc += 3;
@@ -1550,31 +1752,123 @@ async function bankTake(type: string, need: number, topic: string, brief: string
   // ("places", "cities") does not pull in a question from another subject.
   const best = Math.max(0, ...pool.map((x) => x.sc)), floor = best >= 2 ? Math.max(2, Math.ceil(best / 2)) : 1;
   if (themed) { const matching = pool.filter((x) => x.sc >= floor); pool = matching.length || !EVERGREEN.includes(type) ? matching : pool; }
-  // best matches first, then a shuffle among equals so the same items do not always lead
-  // A true shuffle first (a random sort comparator barely moves anything, so the same early items kept winning),
-  // then best matches first; the sort is stable, so equals stay in their shuffled order.
+  // A true shuffle first, then best matches first; the sort is stable, so equals stay in their shuffled order.
   for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
   pool.sort((a, b) => b.sc - a.sc);
-  // Difficulty: a set round takes that level first; a mixed round is built about a quarter easy, nearly half medium
-  // and the rest hard (unrated items count as medium), falling back to whatever is left once a level runs dry.
-  const level = (q: any) => (["easy", "medium", "hard"].includes(q.difficulty) ? q.difficulty : "medium");
-  const quota: Record<string, number> = difficulty === "mixed"
-    ? { easy: Math.round(need * 0.25), hard: Math.round(need * 0.3), medium: 0 }
-    : { easy: 0, medium: 0, hard: 0, [difficulty]: need };
-  if (difficulty === "mixed") quota.medium = need - quota.easy - quota.hard;
-  const picked: any[] = [], left: typeof pool = [];
-  for (const x of pool) { const l = level(x.q); if (quota[l] > 0) { quota[l]--; picked.push(x.q); } else left.push(x); }
-  for (const x of left) { if (picked.length >= need) break; picked.push(x.q); }
+  const facts = ["choice", "text", "tf"].includes(type) || (byCategory && ["order", "sort", "match", "wipeout", "race"].includes(type));
+  const mix = mixer(ctx, byCategory ? "" : about, { perCategory: themed ? 99 : byCategory ? Math.max(2, Math.ceil(need / 3)) : 1, strict: !themed });
+  // Mixed rounds spread across subjects: prefer categories this quiz has not used yet.
+  if (!themed && facts && !byCategory) { const quizCats = new Map<string, number>(); for (const it of ctx.items) if (it.category) quizCats.set(it.category, (quizCats.get(it.category) || 0) + 1); pool.sort((a, b) => (quizCats.get(a.q.category) || 0) - (quizCats.get(b.q.category) || 0)); }
+  const quota = levelQuota(need, difficulty);
+  // At least 15% "well I never knew that" across the quiz: a quarter of every plain-fact batch where the bank has them.
+  let wowLeft = facts ? Math.ceil(need * (opts.preferWow ? 0.6 : themed ? 0.2 : 0.25)) : 0;
+  const picked: any[] = [];
+  const answerOf = (q: any) => type === "choice" ? bankAnswer(q) : type === "tf" ? "" : type === "race" ? "" : bankAnswer(q);
+  const tryTake = (x: { q: any }, relax: number, needLevel: boolean) => {
+    const q = x.q; if (picked.includes(q)) return false;
+    if (needLevel && quota[levelOf(q)] <= 0) return false;
+    if (facts && !mix.fits(String(q.text || ""), String(q.category || ""), answerOf(q), relax)) return false;
+    picked.push(q); quota[levelOf(q)]--; if (isWow(q)) wowLeft--; mix.take(String(q.text || ""), String(q.category || ""), answerOf(q));
+    return true;
+  };
+  // Signature questions: when a general round is written and the quiz has no Shearer or Roger yet, one comes in.
+  if (!themed && facts && type !== "tf" && !wowOnly) {
+    const fit = byCategory ? SIG_FIT.find(([round]) => round.test(topic + " " + brief))?.[1] : null;
+    const missing = SIGNATURE.find((sg) => !ctx.items.some((it) => sg.answer.test(it.answer)));
+    if (missing && (!byCategory || fit)) {
+      const sig = qs.filter((q) => !q.used && !flagged(q) && !q.local && q.category === missing.cat && levelOf(q) !== "easy" && missing.answer.test(bankAnswer(q)) && (!fit || fit.test(String(q.text || ""))) && mix.fits(String(q.text || ""), "", bankAnswer(q), 1));
+      const sq = sig[Math.floor(Math.random() * sig.length)];
+      if (sq && picked.length < need) { picked.push(sq); quota[levelOf(sq)] = Math.max(0, quota[levelOf(sq)] - 1); mix.take(String(sq.text || ""), String(sq.category || ""), bankAnswer(sq)); info.signature = missing.cat; }
+    }
+  }
+  if (wowLeft > 0) for (const x of pool) { if (wowLeft <= 0 || picked.length >= need) break; if (isWow(x.q)) tryTake(x, 0, true); }
+  for (const relax of [0, 1, 2]) {
+    for (const x of pool) { if (picked.length >= need) break; tryTake(x, relax, true); }
+    if (picked.length >= need) break;
+  }
+  // Once a level runs dry, whatever fits best from the rest.
+  for (const relax of [0, 1, 2]) { for (const x of pool) { if (picked.length >= need) break; tryTake(x, relax, false); } if (picked.length >= need) break; }
   picked.length = Math.min(picked.length, need);
+  info.wow = picked.filter(isWow).length; info.levels = picked.map(levelOf);
   if (!picked.length) return [];
   const at = new Date().toISOString();
   for (const q of picked) q.used = { quiz: quizId, at };
   await bankSave(row);
   return picked.map((q) => {
-    const c = JSON.parse(JSON.stringify(q)); delete c.used; delete c.passed; c.bankId = q.id; c.id = "q_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8); c.fromBank = true;
+    const c = JSON.parse(JSON.stringify(q)); delete c.used; delete c.passed; delete c.tooEasy; delete c.giveaway; delete c.doubt; delete c.recycled; delete c.local; if (isWow(q)) c.wow = true; c.bankId = q.id; c.id = "q_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8); c.fromBank = true;
     if (c.type === "race") Object.assign(c, { perCorrect: 100, prize: 500, prize2: 200, prize3: 100, forfeit: 200 }); // today's scoring, whatever an old item carried
     return c;
   });
+}
+
+/** Rows per game when a general-knowledge game is dealt from the multiple-choice bank. */
+const GAME_ROWS: Record<string, number> = { potato: 20, koth: 24, chase: 24, blockbusters: 24 };
+const GAME_LEVELS: Record<string, { easy: number; hard: number }> = { potato: { easy: 0.2, hard: 0.25 }, koth: { easy: 0.15, hard: 0.35 }, chase: { easy: 0.1, hard: 0.4 }, blockbusters: { easy: 0.2, hard: 0.3 } };
+/** Needs its options to make sense ("Which of these…"), so it cannot be read aloud in a head-to-head. */
+const NEEDS_OPTIONS = /\b(of these|the following|odd one out|which one|not\b|none of|all of|true or false)\b/i;
+/**
+ * A general-knowledge Hot Potato, King of the Hill, Chase or Blockbusters, dealt from the multiple-choice bank: every
+ * row a different subject and a different shape of question, full sentences, short answers, mostly medium and hard,
+ * some "well I never knew that" facts, and no row whose answer turns up among another row's options.
+ */
+async function gameDeal(game: string, quizId: string, ctx: PickCtx, info: any = {}, rowsWanted = 0, categories: string[] = [], subject = ""): Promise<any | null> {
+  const n = rowsWanted || GAME_ROWS[game] || 20;
+  const cats = new Set(categories.map((c) => c.toLowerCase()));
+  const row = await bankRow("choice");
+  const qs: any[] = Array.isArray(row.questions) ? row.questions : [];
+  const optsOf = (q: any) => { const right = (q.options || []).find((o: any) => o.id === q.correct); const rest = (q.options || []).filter((o: any) => o.id !== q.correct); return right ? [right.text, ...rest.map((o: any) => o.text)].map(String) : null; };
+  const words = (s: string) => s.trim().split(/\s+/).length;
+  let pool = qs.filter((q) => {
+    if (q.used || flagged(q) || q.local || (quizId && Array.isArray(q.passed) && q.passed.includes(quizId))) return false;
+    if (cats.size ? !cats.has(String(q.category || "").toLowerCase()) : NICHE.test(String(q.category || ""))) return false;
+    if (LOCAL.test(String(q.category || "")) && levelOf(q) === "easy") return false;
+    if (q.media && q.media.kind && q.media.kind !== "none") return false;
+    const t = String(q.text || ""); const o = optsOf(q);
+    if (!o || o.length !== 4 || t.length > 110 || t.length < 18 || !/\?$/.test(t.trim())) return false;
+    if (o.some((x) => x.length > 30)) return false;
+    if ((game === "koth" || game === "chase") && NEEDS_OPTIONS.test(t)) return false;
+    if (game === "blockbusters" && (words(o[0]) > 3 || /^[QXZ]/i.test(o[0].replace(/^the\s+/i, "")))) return false;
+    return true;
+  });
+  for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
+  // wow facts first so they are not crowded out, then the rest in shuffled order
+  pool.sort((a, b) => (b.wow ? 1 : 0) - (a.wow ? 1 : 0));
+  const mix = mixer(ctx, "", { perCategory: cats.size ? Math.ceil(n / cats.size) + 1 : 1, strict: true });
+  const quota = levelQuota(n, "mixed", GAME_LEVELS[game] || { easy: 0.15, hard: 0.35 });
+  let wowLeft = Math.ceil(n * 0.2);
+  const picked: any[] = [], optionWords = new Set<string>(), answersSoFar = new Set<string>(), letters = new Map<string, number>();
+  const first = (s: string) => s.replace(/^the\s+/i, "").charAt(0).toUpperCase();
+  const tryTake = (q: any, relax: number, needLevel: boolean) => {
+    if (picked.includes(q)) return false;
+    if (needLevel && quota[levelOf(q)] <= 0) return false;
+    const o = optsOf(q)!; const a = norm(o[0]);
+    // no row may carry an answer already shown as an option, or show an earlier row's answer among its own options
+    if (optionWords.has(a) || o.slice(1).some((x) => answersSoFar.has(norm(x)))) return false;
+    if (game === "blockbusters" && (letters.get(first(o[0])) || 0) >= (relax >= 1 ? 2 : 1)) return false;
+    if (!mix.fits(String(q.text), String(q.category || ""), o[0], relax)) return false;
+    picked.push(q); quota[levelOf(q)]--; if (q.wow) wowLeft--; mix.take(String(q.text), String(q.category || ""), o[0]);
+    for (const x of o) optionWords.add(norm(x)); answersSoFar.add(a);
+    letters.set(first(o[0]), (letters.get(first(o[0])) || 0) + 1);
+    return true;
+  };
+  for (const q of pool) { if (wowLeft <= 0 || picked.length >= n) break; if (q.wow) tryTake(q, 0, true); }
+  const rest = pool.filter((q) => !q.wow);
+  for (let i = rest.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [rest[i], rest[j]] = [rest[j], rest[i]]; }
+  for (const relax of [0, 1]) for (const needLevel of [true, false]) for (const q of [...rest, ...pool]) { if (picked.length >= n) break; tryTake(q, relax, needLevel); }
+  if (!picked.length || picked.length < Math.min(n, 16)) return null;
+  const at = new Date().toISOString();
+  for (const q of picked) q.used = { quiz: quizId, at, game };
+  await bankSave(row);
+  // keep the night flowing: easy and medium first, the hard ones later, a surprise now and then
+  const rank = { easy: 0, medium: 1, hard: 2 } as Record<string, number>;
+  picked.sort((a, b) => rank[levelOf(a)] - rank[levelOf(b)] + (Math.random() - 0.5) * 1.2);
+  info.dealt = picked.length; info.wow = picked.filter((q) => q.wow).length; info.levels = picked.map(levelOf);
+  const set = RACE_GAMES[game].set();
+  return {
+    id: "q_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8), type: game, text: `${RACE_GAMES[game].label}: ${subject || "General knowledge"}`,
+    media: { kind: "none" }, partial: false, difficulty: "medium", category: subject || "General knowledge", fromBank: true, dealt: true, ...set,
+    bank: picked.map((q) => ({ id: "b_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8), text: String(q.text), options: optsOf(q)!, bankId: q.id, difficulty: levelOf(q), ...(q.wow ? { wow: true } : {}) })),
+  };
 }
 
 // ---------------------------------------------------------------- Name That Tune: Apple's public search for 30-second previews

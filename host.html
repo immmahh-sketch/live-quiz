@@ -636,7 +636,7 @@ function startCountdown(i) {
 }
 function buildView(q) {
   const keys = {}; const tok = (id) => { const t = uid('k'); keys[t] = id; return t; };
-  const v = { id: q.id, type: q.type, text: q.text, time: q.time, hint: q.hint || '', media: q.media?.kind === 'image' && q.media.url ? { kind: 'image', url: q.media.url } : null, video: q.media?.kind === 'youtube' };
+  const v = { id: q.id, type: q.type, text: q.text, time: q.time, hint: q.hint || '', media: q.media?.kind === 'image' && q.media.url && q.kind !== 'reveal' ? { kind: 'image', url: q.media.url } : null, video: q.media?.kind === 'youtube' };
   if (q.type === 'choice') v.options = q.options.filter((o) => o.text.trim()).map((o, i) => ({ k: tok(o.id), text: o.text, c: q.options.indexOf(o) }));
   if (q.type === 'order') v.items = shuffle(q.items.filter((i) => i.text.trim())).map((i) => ({ k: tok(i.id), text: i.text }));
   if (q.type === 'match') {
@@ -1515,6 +1515,7 @@ function startQuestion() {
   const { view, keys, rows } = buildView(q);
   const now = Date.now(), own = ['wipeout', 'potato', 'koth', 'blockbusters', 'chase', 'draw'].includes(q.type); // these run their own clocks
   G.q = { view, keys, rows, startedAt: now, deadline: own ? null : now + q.time * 1000, answers: {}, results: null };
+  if (q.kind === 'reveal') G.q.reveal = revealPlan(q, now);
   if (q.type === 'wheel') { G.q.wheelRevealed = (q.startLetters || '').toUpperCase().replace(/[^A-Z]/g, ''); G.q.nextReveal = now + (q.revealEvery || 4) * 1000; }
   G.phase = 'question'; persist();
   if (q.type === 'potato' || q.type === 'koth' || q.type === 'blockbusters' || q.type === 'chase' || q.type === 'draw') { botClear(); if (q.type === 'potato') potatoStart(); else if (q.type === 'koth') kothStart(); else if (q.type === 'chase') chaseStart(); else if (q.type === 'draw') drawStart(); else bbStart(); startTick(); musicStart(q); return; }
@@ -1540,6 +1541,7 @@ function startTick() {
     const total = (question().time * 1000), rem = wipe ? wipe.turnDeadline - Date.now() : G.q.deadline - Date.now();
     const t = $('#timer'); if (t) { const p = Math.max(0, rem / total) * 100; t.style.setProperty('--p', p + '%'); t.dataset.s = Math.max(0, Math.ceil(rem / 1000)); t.classList.toggle('low', rem < 5000 && !wipe); }
     if (G.q.wheelRevealed !== undefined && Date.now() >= G.q.nextReveal) wheelReveal();
+    if (G.q.reveal) revealTick();
     if (rem <= 0) { if (wipe) { if (!wipe.over) wipeTimeout(); } else endQuestion(); }
   }, 100);
 }
@@ -2117,6 +2119,7 @@ function renderCountdown() {
   bind();
 }
 function mediaHtml(q, live) {
+  if (q.kind === 'reveal' && live && q.media?.url && G.q?.reveal) { const r = G.q.reveal; return `<div class="qmedia reveal"><img src="${esc(q.media.url)}"><div class="rtiles" style="grid-template-columns:repeat(${r.cols},1fr);grid-template-rows:repeat(${r.rows},1fr)">${Array.from({ length: r.cols * r.rows }, (_, i) => `<i data-t="${i}" class="${r.order.indexOf(i) < r.shown ? 'off' : ''}"></i>`).join('')}</div></div>`; }
   if (q.media?.kind === 'image' && q.media.url) return `<div class="qmedia"><img src="${esc(q.media.url)}"></div>`;
   if (q.media?.kind === 'youtube' && q.media.videoId && live) return `<div class="qmedia"><div class="ytbox" data-yt="${esc(q.id)}"></div></div>`;
   return '';
@@ -2171,7 +2174,7 @@ function renderQuestion() {
   if (q.type === 'draw') { if (G.q.draw) renderDraw(); return; }
   if (q.type === 'choice' || q.type === 'tf') body = `<div class="answers">${v.options.map((o) => `<div class="ans" style="background:${COLORS[o.c].hex}"><span class="shape">${COLORS[o.c].shape}</span>${esc(o.text)}</div>`).join('')}</div>`;
   if (q.type === 'sort') body = `<div class="cats">${v.categories.map((c) => `<div class="cat"><h3>${esc(c.name)}</h3></div>`).join('')}</div><div class="items mt">${v.items.map((it) => `<div class="item">${esc(it.text)}</div>`).join('')}</div>`;
-  if (q.type === 'text') body = `<div class="item" style="justify-content:center">✎ Type your answer on your phone</div>`;
+  if (q.type === 'text') body = `<div class="item" style="justify-content:center">${q.kind === 'reveal' ? '🧩 Who is it? Type it on your phone: the fewer tiles it takes, the more you score' : '✎ Type your answer on your phone'}</div>`;
   if (q.type === 'smash') body = `<div class="item" style="justify-content:center">🔀 Answer Smash — type the picture and the clue smashed together</div>`;
   if (q.type === 'highlow') {
     stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill" id="answered">0 of ${players().length} answered</span><div class="timer" id="timer" data-s="${q.time}" style="--p:100%"></div></div>`)}
@@ -2202,6 +2205,21 @@ function renderQuestion() {
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">Stop the clock ■</button>`)}`;
   renderAnswered(); bind();
   if (q.type === 'tune') { playTune(q); const b = $('#tuneAgain'); if (b) b.onclick = () => playTune(q); }
+}
+// ------------------------------------------------------------------ Picture Reveal: tiles flip off the picture one at a time
+/** 12 to 20 tiles depending on the picture's shape; all but a couple are gone by 85% of the clock, so the last answers still need a look. */
+function revealPlan(q, now) {
+  const n = Math.max(12, Math.min(20, +q.tiles || 16)), wide = (G.aspect || 1) < 0.8;
+  const cols = wide ? (n >= 20 ? 5 : n >= 16 ? 4 : 4) : n >= 20 ? 4 : n >= 16 ? 4 : 3, rows = Math.ceil(n / cols);
+  const total = cols * rows, order = shuffle([...Array(total).keys()]);
+  const span = q.time * 1000 * 0.85, every = span / (total - 1);
+  return { cols, rows, order, shown: 1, every, next: now + every };
+}
+function revealTick() {
+  const r = G.q.reveal, now = Date.now();
+  if (now < r.next || r.shown >= r.order.length - 1) return;
+  r.shown++; r.next += r.every;
+  const el = document.querySelector(`.rtiles i[data-t="${r.order[r.shown - 1]}"]`); if (el) el.classList.add('off');
 }
 // ------------------------------------------------------------------ Name That Tune: the clip plays here, on the shared screen
 let tuneAudio = null, tuneT = null;

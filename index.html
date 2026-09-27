@@ -464,6 +464,7 @@ function renderList() {
   $('#logout').onclick = () => { LQ.setHostPassword(''); viewLogin(); };
   view.innerHTML = `
     <div class="row" style="margin-bottom:18px"><h1 style="margin:0">Your quizzes</h1><div class="grow"></div>
+      <a class="btn btn-primary" href="build.html" title="This week's format, filled from the bank, checked by the AI editor, with a report to read before you confirm">✨ One-click quiz builder</a>
       <a class="btn btn-ghost" href="tv.html?m=1" title="A big-button wizard that builds a whole quiz in a few taps">📱 Quick build</a>
       <a class="btn btn-ghost" href="demo.html" title="Play the demo on one phone held sideways: the big screen and your player screen side by side">🎲 Demo on a phone</a>
       <button class="btn btn-ghost" id="kahootImp" title="Build a quiz from a Kahoot: upload a PDF of it, or paste its link">📄 Import a Kahoot</button>
@@ -698,6 +699,16 @@ function roundShortfall(r) {
   const have = {}; for (const q of S.quiz.questions) if (q.round === r.id) have[q.kind || q.type] = (have[q.kind || q.type] || 0) + 1;
   return Object.entries(r.mix || {}).map(([type, n]) => ({ type, need: Math.max(0, n - (have[type] || 0)) })).filter((x) => x.need > 0);
 }
+/** A round made by the one-click builder keeps its rules: named bank subjects, "well I never" only, or general knowledge. */
+function roundReq(r, type) {
+  if (!r) return {};
+  if (['potato', 'koth', 'chase', 'blockbusters'].includes(type) && (r.categories || r.wowOnly || r.general)) return { topic: 'General knowledge', title: 'General knowledge', brief: '' };
+  if (type === 'tune' && r.categories) return { topic: 'Music', title: 'Music', brief: '' };
+  if (r.wowOnly) return { topic: 'General knowledge', wowOnly: true };
+  if (r.general) return { topic: 'General knowledge', brief: '' };
+  if (r.categories) return { topic: r.title, categories: r.categories };
+  return {};
+}
 /** Writes every round that still needs questions, one after another, following each round's own mix. */
 async function writeAllRounds() {
   const todo = S.quiz.rounds.filter((r) => roundShortfall(r).length);
@@ -729,7 +740,7 @@ async function generateForRound(r) {
         if (stopped) break outer;
         $('#ga_step', m).textContent = `${TYPES[type].label}: writing ${got + 1}–${Math.min(need, got + BATCH)} of ${need} (${written} of ${total} done)…`;
         const usedPictures = S.quiz.questions.flatMap((q) => [q.media?.source, q.media?.url]).filter((s) => typeof s === 'string' && /^https?:/.test(s));
-        const res = await api('generate', { topic: (r.brief ? `${r.title}. ${r.brief}` : r.title).slice(0, 200), title: r.title, brief: r.brief, usedPictures, count: Math.min(BATCH, need - got), difficulty: 'mixed', types: [type], pictures: true, web: true, avoid, premium: !!S.quiz.settings.aiPremium, quizId: S.quiz.id }, { timeout: 170000 });
+        const res = await api('generate', { topic: (r.brief ? `${r.title}. ${r.brief}` : r.title).slice(0, 200), title: r.title, brief: r.brief, usedPictures, count: Math.min(BATCH, need - got), difficulty: 'mixed', types: [type], pictures: true, web: true, avoid, premium: !!S.quiz.settings.aiPremium, quizId: S.quiz.id, ...roundReq(r, type), round: r.id, context: LQ.pickContext(S.quiz) }, { timeout: 170000 });
         LQ.addUsage(S.quiz.settings, res.usage); LQ.genLog(S.quiz.settings, 'Write round', res, { round: r.title });
         if (stopped) break outer; // closed while this batch was being written: leave it out
         if (!res.questions.length) break;
@@ -877,7 +888,7 @@ async function rejectQuestion(q) {
     $('#rj_step', m).textContent = `Writing a new ${TYPES[q.type].label} question…`;
     const avoid = [...(await avoidList()), q.text].filter(Boolean);
     const usedPictures = S.quiz.questions.flatMap((x) => [x.media?.source, x.media?.url]).filter((u) => typeof u === 'string' && /^https?:/.test(u));
-    const res = await api('generate', { topic: (r.brief ? `${r.title}. ${r.brief}` : r.title || S.quiz.title).slice(0, 200), title: r.title || S.quiz.title, brief: r.brief || '', usedPictures, count: 1, difficulty: 'mixed', types: [q.kind || q.type], pictures: true, web: true, avoid, premium: !!S.quiz.settings.aiPremium, quizId: S.quiz.id }, { timeout: 170000 });
+    const res = await api('generate', { topic: (r.brief ? `${r.title}. ${r.brief}` : r.title || S.quiz.title).slice(0, 200), title: r.title || S.quiz.title, brief: r.brief || '', usedPictures, count: 1, difficulty: 'mixed', types: [q.kind || q.type], pictures: true, web: true, avoid, premium: !!S.quiz.settings.aiPremium, quizId: S.quiz.id, ...roundReq(r, q.kind || q.type), round: r.id, context: LQ.pickContext(S.quiz) }, { timeout: 170000 });
     LQ.addUsage(S.quiz.settings, res.usage); LQ.genLog(S.quiz.settings, swap ? 'Swap a question' : 'Replace a rejected question', res, { round: r.title });
     const nq = res.questions.find((x) => (x.kind || x.type) === (q.kind || q.type));
     if (nq) { nq.round = q.round; nq.time = timeFor(nq.type, S.quiz.settings); if (nq.collage && !nq.media?.url) { try { await buildCollageFor(nq); } catch {} } S.quiz.questions.splice(at, 0, nq); S.sel = at; }

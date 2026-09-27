@@ -73,6 +73,7 @@ window.LQ = (() => {
     club:   { label: 'The 1% Club',    icon: '🧠', blurb: 'Logic, wordplay and lateral thinking. No knowledge needed, just work it out. The fewer people who get it, the more it pays.' },
     dingbat:{ label: 'Dingbats',        icon: '🔤', blurb: 'Say what you see: a well-known phrase hidden in how the words are laid out.' },
     catchphrase: { label: 'Catchphrase', icon: '🗯️', blurb: 'A clip from the show plays on the screen. Players type the well-known phrase it shows.' },
+    reveal: { label: 'Picture Reveal', icon: '🧩', blurb: 'A picture hidden behind tiles that flip over one by one. Players type who or what it is: the fewer tiles it takes, the more they score.' },
     tune:   { label: 'Name That Tune',  icon: '🎵', blurb: 'A clip plays on the screen. Name the song, the artist, the film it is from, the year, or the next line.' },
     potato: { label: 'Hot Potato',      icon: '💣', blurb: 'A lit bomb passes round the room. Whoever holds it answers on their phone; get it right and pass it on. Holding it when it blows costs you points.' },
     koth:   { label: 'King of the Hill', icon: '👑', blurb: 'Fastest finger picks two players for a head-to-head buzzer battle, answered out loud. Right keeps you on the hill. First to the target wins the prize.' },
@@ -554,6 +555,7 @@ window.LQ = (() => {
     club: 'No knowledge needed, just logic. The fewer people who get it, the more it is worth.',
     dingbat: 'Say what you see: a well-known phrase hidden in how the words are laid out.',
     catchphrase: 'Watch the clip and say what you see: type the well-known saying it shows.',
+    reveal: 'A picture is hidden behind tiles that flip over one by one. Type who or what it is on your phone: the sooner you get it, the more you score.',
     tune: 'Listen to the clip and answer on your phone.',
     potato: 'The bomb is lit and nobody knows how long the fuse is. If it lands on you, answer the question on your phone. Get it right and you choose who gets it next. Holding it when it goes bang costs you points.',
     koth: 'Fastest finger first picks two players to go head to head. Buzz on your phone, then say your answer out loud. Get it right and you stay on the hill and win a hill point: every one is worth points. First to the target wins the bonus too, but there are only so many head-to-heads.',
@@ -585,7 +587,7 @@ window.LQ = (() => {
     { name: 'yellow', hex: '#d89e00', shape: '●' },
     { name: 'green',  hex: '#26890c', shape: '■' },
   ];
-  const DEFAULT_TIMES = { nearest: 25, draw: 60, catchphrase: 50, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30, potato: 90, koth: 15, blockbusters: 20, chase: 15, twenty: 180 };
+  const DEFAULT_TIMES = { nearest: 25, draw: 60, catchphrase: 50, reveal: 40, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30, potato: 90, koth: 15, blockbusters: 20, chase: 15, twenty: 180 };
   const DEFAULT_SETTINGS = { maxPoints: 1000, minPoints: 500, defaultTime: 30, showAnswersOnPhones: true, timeByType: { ...DEFAULT_TIMES } };
 
   /** The time limit a question of this type gets by default in this quiz. */
@@ -604,7 +606,7 @@ window.LQ = (() => {
       let mix = r.mix && typeof r.mix === 'object' ? Object.fromEntries(Object.entries(r.mix).filter(([k, v]) => TYPES[k] && +v > 0).map(([k, v]) => [k, Math.min(40, Math.round(+v))])) : null;
       if (!mix) { const types = Array.isArray(r.types) ? r.types.filter((t) => TYPES[t]) : []; const total = +r.count || 0; mix = {}; if (types.length && total) { const each = Math.floor(total / types.length); types.forEach((t, i) => { mix[t] = each + (i < total - each * types.length ? 1 : 0); }); } }
       const types = Object.keys(mix), count = Object.values(mix).reduce((a, b) => a + b, 0);
-      return { id: r.id, title: r.title || '', intro: r.intro || '', brief: r.brief || '', mix, types, count, practice: !!r.practice };
+      return { id: r.id, title: r.title || '', intro: r.intro || '', brief: r.brief || '', mix, types, count, practice: !!r.practice, ...(Array.isArray(r.categories) && r.categories.length ? { categories: r.categories } : {}), ...(r.wowOnly ? { wowOnly: true } : {}), ...(r.general ? { general: true } : {}) };
     });
     if (!rounds.length) rounds = [{ id: uid('r'), title: 'Round 1', intro: '', brief: '', mix: {}, count: 0, types: [] }];
     const ids = new Set(rounds.map((r) => r.id));
@@ -625,6 +627,19 @@ window.LQ = (() => {
     quiz.questions = quiz.rounds.flatMap((r) => quiz.questions.filter((q) => q.round === r.id));
     return quiz;
   }
+  /** A quiz's questions cut down to what the server's picker needs to keep a new batch from repeating them. */
+  function pickContext(quiz) {
+    return (quiz.questions || []).filter((q) => q.type !== 'slide').map((q) => {
+      const c = { round: q.round, type: q.type, text: String(q.text || '').slice(0, 200), category: q.category || '', difficulty: q.difficulty || '' };
+      if (q.wow) c.wow = true;
+      if (q.type === 'choice') { c.options = q.options; c.correct = q.correct; }
+      if (Array.isArray(q.answers)) c.answers = q.answers.slice(0, 2);
+      for (const k of ['answer', 'place', 'phrase', 'track', 'artist', 'pictureAnswer', 'clueAnswer']) if (q[k] != null) c[k] = q[k];
+      if (q.type === 'wipeout') c.right = (q.right || []).slice(0, 15);
+      if (Array.isArray(q.bank)) c.bank = q.bank.map((b) => ({ text: String(b.text || '').slice(0, 160), options: [(b.options || [])[0]] }));
+      return c;
+    });
+  }
   /** What gets sent to the server: rounds ride inside settings so the table needs no new column. */
   function quizForSave(quiz) {
     return { id: quiz.id, title: quiz.title, settings: { ...quiz.settings, rounds: quiz.rounds }, questions: quiz.questions };
@@ -632,6 +647,7 @@ window.LQ = (() => {
 
   function newQuestion(type = 'choice', settings = DEFAULT_SETTINGS) {
     if (type === 'slide') return { id: uid('q'), type: 'slide', text: '', body: '', time: 20, media: { kind: 'none' } };
+    if (type === 'reveal') { const c = newQuestion('text', settings); c.kind = 'reveal'; c.text = 'Picture Reveal: who is this?'; c.media = { kind: 'image', url: '' }; c.tiles = 16; c.time = timeFor('reveal', settings); return c; }
     if (type === 'catchphrase') { const c = newQuestion('text', settings); c.kind = 'catchphrase'; c.text = 'Catchphrase: say what you see'; c.media = { kind: 'youtube', url: '', videoId: '', start: 0 }; c.time = timeFor('catchphrase', settings); return c; }
     const q = { id: uid('q'), type, text: '', time: timeFor(type, settings), media: { kind: 'none' }, partial: false };
     if (type === 'choice') { q.options = [0, 1, 2, 3].map(() => ({ id: uid('o'), text: '' })); q.correct = q.options[0].id; }
@@ -1018,6 +1034,6 @@ window.LQ = (() => {
   function ordinal(n) { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
   return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
-    TYPES, BANK_GAMES, NEW_GAME_DEFAULTS, TWENTY_KINDS, TWENTY_QS, twentyQ, twentyBranch, twentyYes, twentyOpen, parseNum, nearestSpread, fmtNum, DRAW_WORDS, drawWords, drawHint, goodRows, BB_COLS, BB_ROWS, bbNeighbours, bbPath, bbBoardHtml, inkOn, SLIDE, BREAK, isPractice, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
+    TYPES, BANK_GAMES, NEW_GAME_DEFAULTS, TWENTY_KINDS, TWENTY_QS, twentyQ, twentyBranch, twentyYes, twentyOpen, parseNum, nearestSpread, fmtNum, DRAW_WORDS, drawWords, drawHint, goodRows, BB_COLS, BB_ROWS, bbNeighbours, bbPath, bbBoardHtml, inkOn, SLIDE, BREAK, isPractice, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, pickContext, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
     newCode, playUrl, shortPlayUrl, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml, addUsage, usageCost, usageSummary, AI_PRICES, TUNE_ASKS, tunePrompt, bigArt, cleanTitle };
 })();

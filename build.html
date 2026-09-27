@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Let's Quiz! — One-click quiz builder</title>
+<link rel="icon" type="image/png" sizes="64x64" href="assets/brand/icon-64.png">
+<meta name="theme-color" content="#5b3df5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  .ocb { max-width: 1040px; margin: 0 auto; }
+  .fmtgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; margin: 10px 0 22px; }
+  .fmt { cursor: pointer; border: 3px solid transparent; position: relative; padding: 16px; }
+  .fmt.on { border-color: var(--brand); }
+  .fmt h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  .fmt .wk { position: absolute; top: -10px; right: 12px; background: var(--yellow, #ffd60a); color: #222; font-weight: 900; font-size: .75rem; padding: 3px 8px; border-radius: 99px; }
+  .rcard { margin-bottom: 12px; padding: 14px 16px; }
+  .rhead { display: flex; gap: 10px; align-items: center; }
+  .rnum { background: var(--brand); color: #fff; font-weight: 900; border-radius: 10px; min-width: 34px; height: 34px; display: grid; place-items: center; }
+  .rhead input { flex: 1; font-weight: 800; font-size: 1.05rem; }
+  .rcard textarea { width: 100%; min-height: 44px; margin-top: 8px; font: inherit; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; align-items: center; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; background: var(--brand-soft, #eeeaff); border-radius: 99px; padding: 4px 6px 4px 12px; font-weight: 800; font-size: .9rem; }
+  .chip button { border: 0; background: #fff; border-radius: 99px; width: 24px; height: 24px; font-weight: 900; cursor: pointer; }
+  .chip b { min-width: 16px; text-align: center; }
+  .cats { font-size: .8rem; color: var(--ink-3); margin-top: 6px; }
+  .sticky { position: sticky; bottom: 0; background: var(--paper, #f6f5fb); padding: 12px 0; border-top: 1px solid var(--line); display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .steps .st { display: flex; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); }
+  .steps .st .ic { width: 26px; text-align: center; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin: 12px 0; }
+  .kpi { background: var(--brand-soft, #eeeaff); border-radius: 12px; padding: 12px; text-align: center; }
+  .kpi b { display: block; font-size: 1.6rem; color: var(--brand); }
+  .kpi span { font-size: .82rem; color: var(--ink-2); }
+  .kpi.warn b { color: var(--bad); }
+  .rrep { margin-bottom: 14px; }
+  .rrep h3 { margin: 0; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .stars { color: #f5a300; letter-spacing: 1px; }
+  .fl { border-left: 4px solid var(--line); padding: 8px 10px; margin: 8px 0; background: #fafafe; border-radius: 6px; }
+  .fl.replaced, .fl.rewritten, .fl.removed { border-color: var(--ok); }
+  .fl.review { border-color: var(--bad); background: #fff6f6; }
+  .fl .tagx { font-weight: 900; font-size: .78rem; text-transform: uppercase; letter-spacing: .03em; }
+  .fl.review .tagx { color: var(--bad); } .fl.replaced .tagx, .fl.rewritten .tagx, .fl.removed .tagx { color: var(--ok); }
+  .fl .was { text-decoration: line-through; color: var(--ink-3); }
+  .levels { display: inline-flex; height: 10px; width: 160px; border-radius: 99px; overflow: hidden; vertical-align: middle; background: var(--line); }
+  .levels i { display: block; height: 100%; } .levels .e { background: #7bd389; } .levels .m { background: #f5c542; } .levels .h { background: #e0525e; }
+  details > summary { cursor: pointer; font-weight: 800; margin-top: 6px; }
+  .qline { font-size: .9rem; padding: 3px 0; border-bottom: 1px dashed var(--line); }
+  .qline .a { color: var(--ok); font-weight: 800; }
+  .pill { font-size: .72rem; font-weight: 900; border-radius: 99px; padding: 2px 7px; background: var(--line); margin-left: 4px; }
+  .pill.wow { background: #ffd60a; }
+</style>
+</head>
+<body class="builder">
+<div class="topbar">
+  <div class="logo"><img src="assets/brand/mark.png" alt=""> Let's Quiz!</div>
+  <div class="grow"></div>
+  <a class="btn btn-ghost btn-sm" href="index.html">← Your quizzes</a>
+</div>
+<div class="wrap" id="view"><div class="center" style="padding-top:20vh"><span class="spinner"></span></div></div>
+<div class="toast" id="toast"></div>
+<script src="assets/common.js"></script>
+<script src="assets/formats.js"></script>
+<script>
+// The one-click quiz builder. Pick (or accept) this week's format, tweak the rounds, press Make the quiz: every round
+// is filled from the bank (the AI writes only what the bank lacks), then an AI editor reviews every round against the
+// host's standards, bad questions are swapped automatically, and a round-by-round report says what was found,
+// what was fixed and what still wants a look. Edit, then confirm.
+const { $, $$, esc, api, TYPES, normalizeQuiz, quizForSave, timeFor, uid } = LQ;
+const { FORMATS, thisWeek } = LQ_FORMATS;
+const view = $('#view');
+const GAMES = ['potato', 'koth', 'chase', 'blockbusters'];
+const TRIVIA = ['choice', 'text', 'tf', 'order', 'sort', 'match', 'nearest', 'pin'];
+const QUALITY = ['too_easy', 'giveaway', 'fact', 'weak_options', 'local'];
+const FLAG_LABEL = { too_easy: 'too easy', giveaway: 'gives the answer away', repetitive: 'repeats another question', weak_options: 'weak wrong answers', wording: 'clumsy wording', fact: 'fact in doubt', off_topic: 'off topic for the round', local: 'every Geordie knows it' };
+const SECS = { choice: 30, text: 40, tf: 20, order: 50, sort: 55, match: 55, pin: 35, nearest: 40, tune: 45, wipeout: 180, race: 240, koth: 480, chase: 420, potato: 300, blockbusters: 480, wheel: 70, catchphrase: 60, reveal: 50, smash: 45, rhyme: 45, dingbat: 55, highlow: 50, club: 45, twenty: 240, draw: 360 };
+const B = { plan: null, quiz: null, busy: false, stop: false };
+let toastT;
+function toast(msg, bad) { const t = $('#toast'); t.textContent = msg; t.className = 'toast show' + (bad ? ' bad' : ''); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 4000); }
+
+function nextFriday() { const d = new Date(); d.setDate(d.getDate() + ((5 - d.getDay() + 7) % 7)); return d; }
+function planFrom(fmt, title) {
+  return { format: fmt.id, title: title || `Friday Quiz Night · ${nextFriday().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}`,
+    rounds: fmt.rounds.map((r) => ({ ...JSON.parse(JSON.stringify(r)), id: uid('r') })) };
+}
+const roundCount = (r) => Object.values(r.mix || {}).reduce((a, b) => a + b, 0);
+const mins = (p) => Math.round(p.rounds.reduce((a, r) => a + Object.entries(r.mix || {}).reduce((x, [t, n]) => x + (SECS[t] || 40) * n, 0) + (r.breakMins || 0) * 60, 0) / 60);
+
+// ------------------------------------------------------------------ 1. the plan
+function renderPlan() {
+  const p = B.plan, wk = thisWeek(nextFriday());
+  view.innerHTML = `<div class="ocb">
+    <h1 style="margin-bottom:4px">✨ One-click quiz builder</h1>
+    <p class="muted" style="margin-top:0">Four formats built on your own quiz nights take turns week by week. This week's is picked for you; change anything, then press <b>Make the quiz</b>. It fills every round, checks every question with the AI editor, fixes what it can and gives you a report.</p>
+    <div class="fmtgrid">${FORMATS.map((f) => `<div class="card fmt ${f.id === p.format ? 'on' : ''}" data-fmt="${f.id}">${f.id === wk.id ? '<span class="wk">This week</span>' : ''}<h3>${esc(f.name)}</h3><div class="small muted">${esc(f.blurb)}</div></div>`).join('')}</div>
+    <div class="field"><label>Quiz title</label><input type="text" id="p_title" value="${esc(p.title)}"></div>
+    <div id="rounds">${p.rounds.map((r, i) => roundCard(r, i)).join('')}</div>
+    <button class="btn btn-ghost" id="addRound">+ Add a round</button>
+    <div class="sticky mt"><b>${p.rounds.length} rounds · ${p.rounds.reduce((a, r) => a + roundCount(r), 0)} questions and games · about ${Math.floor(mins(p) / 60)} h ${mins(p) % 60} min</b><div class="grow"></div>
+      <button class="btn btn-primary btn-lg" id="make">✨ Make the quiz</button></div>
+  </div>`;
+  $$('[data-fmt]').forEach((el) => el.onclick = () => { B.plan = planFrom(FORMATS.find((f) => f.id === el.dataset.fmt), $('#p_title').value.trim()); renderPlan(); });
+  $('#p_title').oninput = (e) => { p.title = e.target.value; };
+  $('#addRound').onclick = () => { p.rounds.push({ id: uid('r'), title: `Round ${p.rounds.length + 1}`, about: '', mix: { choice: 6 }, general: true }); renderPlan(); };
+  $('#make').onclick = () => makeQuiz();
+  bindRounds();
+}
+function roundCard(r, i) {
+  const p = B.plan;
+  const all = Object.keys(TYPES).filter((t) => !(t in (r.mix || {})));
+  return `<div class="card rcard" data-r="${i}"><div class="rhead"><span class="rnum">${i + 1}</span><input type="text" data-title="${i}" value="${esc(r.title)}">
+      <button class="btn btn-ghost btn-sm" data-up="${i}" ${i ? '' : 'disabled'} title="Move up">↑</button><button class="btn btn-ghost btn-sm" data-down="${i}" ${i < p.rounds.length - 1 ? '' : 'disabled'} title="Move down">↓</button><button class="btn btn-ghost btn-sm" data-del="${i}" title="Remove round" style="color:var(--bad)">✕</button></div>
+    ${r.breakMins ? `<p class="muted small" style="margin:8px 0 0">☕ A ${r.breakMins}-minute break with a countdown clock on the screen and phones.</p>` : `<textarea data-about="${i}" placeholder="What this round is about">${esc(r.about || '')}</textarea>
+    <div class="chips">${Object.entries(r.mix || {}).map(([t, n]) => `<span class="chip">${TYPES[t]?.icon || ''} ${esc(TYPES[t]?.label || t)} <button data-mix="${i}:${t}:-1">−</button><b>${n}</b><button data-mix="${i}:${t}:1">+</button></span>`).join('')}
+      <select data-add="${i}" class="btn-sm"><option value="">+ question type</option>${all.map((t) => `<option value="${t}">${esc(TYPES[t].label)}</option>`).join('')}</select></div>
+    ${r.categories ? `<div class="cats">Draws from: ${r.categories.map(esc).join(', ')}</div>` : r.wowOnly ? '<div class="cats">Draws only from the "well I never knew that" questions, across every subject.</div>' : r.general ? '<div class="cats">General knowledge: any subject, truly mixed.</div>' : ''}`}
+  </div>`;
+}
+function bindRounds() {
+  const p = B.plan;
+  $$('[data-title]').forEach((el) => el.oninput = () => { p.rounds[+el.dataset.title].title = el.value; });
+  $$('[data-about]').forEach((el) => el.oninput = () => { p.rounds[+el.dataset.about].about = el.value; });
+  $$('[data-mix]').forEach((b) => b.onclick = () => { const [i, t, d] = b.dataset.mix.split(':'); const r = p.rounds[+i]; const v = Math.max(0, Math.min(20, (r.mix[t] || 0) + +d)); if (v) r.mix[t] = v; else delete r.mix[t]; renderPlan(); });
+  $$('[data-add]').forEach((s) => s.onchange = () => { if (!s.value) return; p.rounds[+s.dataset.add].mix[s.value] = GAMES.includes(s.value) || ['race', 'draw'].includes(s.value) ? 1 : 3; renderPlan(); });
+  $$('[data-del]').forEach((b) => b.onclick = () => { p.rounds.splice(+b.dataset.del, 1); renderPlan(); });
+  $$('[data-up]').forEach((b) => b.onclick = () => { const i = +b.dataset.up; [p.rounds[i - 1], p.rounds[i]] = [p.rounds[i], p.rounds[i - 1]]; renderPlan(); });
+  $$('[data-down]').forEach((b) => b.onclick = () => { const i = +b.dataset.down; [p.rounds[i + 1], p.rounds[i]] = [p.rounds[i], p.rounds[i + 1]]; renderPlan(); });
+}
+
+// ------------------------------------------------------------------ 2. making it
+/** What to ask the server for, per round and type. Game shows are general knowledge; subject rounds name their bank categories. */
+function reqFor(r, type) {
+  if (GAMES.includes(type)) return { topic: 'General knowledge', title: 'General knowledge', brief: '', ...(r.categories ? { categories: r.categories, subject: r.title } : {}) };
+  if (type === 'tune') return { topic: 'Music', title: 'Music', brief: '' };
+  if (r.wowOnly) return { topic: 'General knowledge', title: r.title, brief: r.brief || r.about || '', wowOnly: true };
+  if (r.general || !r.categories) return { topic: 'General knowledge', title: r.title, brief: '' };
+  return { topic: r.title, title: r.title, brief: r.brief || r.about || '', categories: r.categories };
+}
+const batchOf = (type) => GAMES.includes(type) ? 1 : ['race', 'wipeout', 'pin', 'match'].includes(type) ? 2 : ['choice', 'tf', 'text', 'order', 'sort'].includes(type) ? 6 : 4;
+let steps = [];
+function drawSteps(head, line) {
+  view.innerHTML = `<div class="ocb"><h1>${esc(head)}</h1><p class="muted">${esc(B.quiz?.title || '')}</p>
+    <div class="card"><div class="row" style="margin-bottom:10px"><span class="spinner"></span><b id="line">${esc(line || '')}</b><div class="grow"></div><button class="btn btn-ghost btn-sm" id="stop">Stop</button></div>
+    <div class="steps">${steps.map((s) => `<div class="st"><span class="ic">${s.state === 'done' ? '✅' : s.state === 'now' ? '⏳' : s.state === 'warn' ? '⚠️' : '·'}</span><span class="grow">${esc(s.label)}</span><span class="muted small">${esc(s.note || '')}</span></div>`).join('')}</div></div></div>`;
+  $('#stop').onclick = () => { B.stop = true; $('#line').textContent = 'Stopping after this step…'; };
+}
+async function save() { const r = await api('save', { quiz: quizForSave(B.quiz) }); B.quiz.id = r.quiz.id; return r; }
+
+async function makeQuiz() {
+  if (B.busy) return; B.busy = true; B.stop = false;
+  const p = B.plan; p.title = $('#p_title')?.value.trim() || p.title;
+  const rounds = p.rounds.map((r) => ({ id: r.id, title: r.title, intro: '', brief: r.about || '', mix: { ...r.mix }, ...(r.categories ? { categories: r.categories } : {}), ...(r.wowOnly ? { wowOnly: true } : {}), ...(r.general ? { general: true } : {}), ...(r.breakMins ? { breakMins: r.breakMins } : {}) }));
+  B.quiz = normalizeQuiz({ title: p.title, settings: { oneClick: { format: p.format, at: new Date().toISOString() } }, rounds, questions: [] });
+  // A welcome slide, and the half-time break as a real break slide.
+  B.quiz.questions.push({ id: uid('q'), type: 'slide', text: `Welcome to ${p.title.replace(/\s*·.*$/, '')}!`, body: 'Join on your phone at letsquiz.uk/play\nFastest right answers score the most.', round: rounds[0].id, time: 20, media: { kind: 'none' } });
+  for (const r of p.rounds) if (r.breakMins) B.quiz.questions.push({ id: uid('q'), type: 'slide', break: true, breakMins: r.breakMins, text: 'Half-time', body: 'Get one in! Back when the clock runs out.', round: r.id, time: 20, media: { kind: 'none' } });
+  steps = [...rounds.filter((r) => roundCount(r)).map((r) => ({ id: r.id, label: `Write: ${r.title}`, state: '' })), { id: 'check', label: 'AI editor checks every round', state: '' }, { id: 'fix', label: 'Fix what was flagged, then re-check the fixes', state: '' }, { id: 'report', label: 'Write the report', state: '' }];
+  try {
+    drawSteps('Making your quiz…', 'Saving the plan…');
+    await save();
+    LQ.genPlan(B.quiz.settings, 'One-click build: ' + p.title, B.quiz.rounds);
+    let avoid = []; try { avoid = (await api('history', { exclude: B.quiz.id })).questions.map((q) => q.text); } catch {}
+    B.avoid = avoid;
+    for (const r of B.quiz.rounds) {
+      if (!roundCount(r)) continue;
+      const st = steps.find((s) => s.id === r.id); st.state = 'now';
+      for (const [type, need] of Object.entries(r.mix)) {
+        let got = 0, tries = 0;
+        while (got < need && tries < need + 3) {
+          if (B.stop) throw new Error('Stopped. What was written so far is saved.');
+          tries++;
+          drawSteps('Making your quiz…', `${r.title}: ${TYPES[type].label} ${got + 1} of ${need}`);
+          const res = await api('generate', { ...reqFor(r, type), count: Math.min(batchOf(type), need - got), difficulty: 'mixed', types: [type], pictures: true, web: true, avoid, premium: !!B.quiz.settings.aiPremium, quizId: B.quiz.id, round: r.id, context: LQ.pickContext(B.quiz) }, { timeout: 170000 });
+          LQ.addUsage(B.quiz.settings, res.usage); LQ.genLog(B.quiz.settings, 'One-click build', res, { round: r.title });
+          const fit = res.questions.filter((q) => (q.kind || q.type) === type);
+          if (!fit.length) { st.note = `${TYPES[type].label}: the bank ran short`; st.state = 'warn'; break; }
+          for (const q of fit.slice(0, need - got)) {
+            q.round = r.id; q.time = timeFor(q.kind || q.type, B.quiz.settings);
+            if (q.collage && !q.media?.url) { try { await LQ.buildCollageFor(q); } catch { continue; } }
+            B.quiz.questions.push(q); avoid.push(q.text); got++;
+          }
+          LQ.orderQuestions(B.quiz); await save().catch(() => {});
+        }
+      }
+      if (st.state !== 'warn') st.state = 'done';
+    }
+    await checkQuiz();
+  } catch (e) {
+    B.busy = false;
+    view.innerHTML = `<div class="ocb"><h1>That did not finish</h1><p>${esc(e.message)}</p><div class="row"><button class="btn btn-primary" id="retry">Check what is there</button><a class="btn btn-ghost" href="index.html?quiz=${encodeURIComponent(B.quiz?.id || '')}">Open it in the editor</a></div></div>`;
+    $('#retry').onclick = () => { B.busy = true; B.stop = false; checkQuiz().catch((er) => { B.busy = false; toast(er.message, true); }); };
+  }
+}
+
+// ------------------------------------------------------------------ 3. the AI editor
+/** One line per question (and per row of a game) for the reviewer: question, answer, and the other options. */
+function itemsOf(q) {
+  const t = q.kind || q.type, base = { id: q.id, type: TYPES[t]?.label || t, difficulty: q.difficulty || '' };
+  const names = (a) => (a || []).map((x) => typeof x === 'string' ? x : x.text).filter(Boolean);
+  if (q.type === 'slide' || t === 'draw' || t === 'catchphrase') return [];
+  if (Array.isArray(q.bank) && q.bank.length) return q.bank.map((b, j) => ({ id: `${q.id}#${b.id}`, type: 'quick-fire row', game: TYPES[t]?.label || t, text: b.text, answer: (b.options || [])[0], other: (b.options || []).slice(1).join(' / '), difficulty: b.difficulty || '' }));
+  if (t === 'choice') { const r = q.options.find((o) => o.id === q.correct); return [{ ...base, text: q.text, answer: r?.text, other: q.options.filter((o) => o !== r).map((o) => o.text).join(' / ') }]; }
+  if (t === 'tf') return [{ ...base, text: q.text, answer: q.answer ? 'True' : 'False' }];
+  if (t === 'order') return [{ ...base, text: q.text, answer: names(q.items).join(' → ') }];
+  if (t === 'sort') return [{ ...base, text: q.text, answer: (q.items || []).map((i) => `${i.text} [${(q.categories || []).find((c) => c.id === i.category)?.name || '?'}]`).join('; ') }];
+  if (t === 'match') return [{ ...base, text: q.text, answer: (q.pairs || []).map((p) => `${p.left} = ${p.right?.kind === 'image' ? '(picture)' : p.right?.value}`).join('; ') }];
+  if (t === 'wipeout') return [{ ...base, text: `Wipeout board: ${q.text}`, answer: names(q.right).join(', '), other: 'Wrong: ' + names(q.wrong).join(', ') }];
+  if (t === 'wheel') return [{ ...base, text: `Wheel of Fortune (${q.category || 'Phrase'})`, answer: q.phrase }];
+  if (t === 'rhyme') return [{ ...base, text: `${q.text} + ${q.text2}`, answer: `${q.answer1} / ${q.answer2}` }];
+  if (t === 'smash') return [{ ...base, text: `Picture of ${q.pictureAnswer} + clue: ${q.text}`, answer: q.smash || `${q.pictureAnswer} + ${q.clueAnswer}` }];
+  if (t === 'tune') return [{ ...base, text: `Name That Tune (${LQ.tunePrompt(q)})`, answer: `${q.track} by ${q.artist}${q.year ? ' (' + q.year + ')' : ''}` }];
+  if (t === 'highlow') return [{ ...base, text: `Highbrow: ${q.text} | Lowbrow: ${q.lowText}`, answer: (q.answers || [])[0] }];
+  if (t === 'nearest') return [{ ...base, text: q.text, answer: `${q.answer} ${q.unit || ''}` }];
+  if (t === 'pin') return [{ ...base, text: q.text, answer: q.place || (q.answer || '') }];
+  if (t === 'reveal') return [{ ...base, text: 'Picture Reveal: who is this?', answer: (q.answers || [])[0] }];
+  if (t === 'twenty') return [{ ...base, text: `20 Questions (${q.what || ''})`, answer: (q.answers || [])[0] }];
+  if (t === 'dingbat') return [{ ...base, text: 'Dingbat', answer: (q.answers || [])[0] }];
+  return [{ ...base, text: q.text, answer: names(q.answers).join(' / ') || String(q.answer ?? '') }];
+}
+const roundQs = (r) => B.quiz.questions.filter((q) => q.round === r.id && q.type !== 'slide');
+function othersFor(r) { return B.quiz.questions.filter((q) => q.round !== r.id).flatMap(itemsOf).map((i) => `${i.text} => ${i.answer}`.slice(0, 150)).slice(0, 250); }
+async function reviewItems(r, items) {
+  const out = { verdicts: {}, round: null };
+  for (let i = 0; i < items.length; i += 45) {
+    const res = await api('review_round', { round: { title: r.title, about: r.brief }, items: items.slice(i, i + 45), others: othersFor(r) }, { timeout: 170000 });
+    LQ.addUsage(B.quiz.settings, res.usage);
+    Object.assign(out.verdicts, res.verdicts); if (!out.round) out.round = res.round;
+  }
+  return out;
+}
+function findItem(id) {
+  const [qid, rid] = id.split('#'); const q = B.quiz.questions.find((x) => x.id === qid); if (!q) return {};
+  return rid ? { q, row: (q.bank || []).find((b) => b.id === rid) } : { q };
+}
+const said = (it) => `${it.text} → ${it.answer ?? ''}`;
+
+async function checkQuiz() {
+  const rounds = B.quiz.rounds.filter((r) => roundQs(r).length);
+  const rep = { at: new Date().toISOString(), format: B.quiz.settings.oneClick?.format || '', rounds: rounds.map((r) => ({ id: r.id, title: r.title, score: null, before: null, summary: 'Not reviewed (clips and drawings are checked by eye).', flags: [] })) };
+  const step = (id, state, note) => { const s = steps.find((x) => x.id === id); if (s) { s.state = state; if (note !== undefined) s.note = note; } };
+  if (!steps.some((s) => s.id === 'check')) steps = [];
+  if (!steps.length) steps = [{ id: 'check', label: 'AI editor checks every round', state: '' }, { id: 'fix', label: 'Fix what was flagged', state: '' }, { id: 'check2', label: 'Second full check of the fixed quiz, and fix again', state: '' }, { id: 'report', label: 'Write the report', state: '' }];
+  const RR = (r) => rep.rounds.find((x) => x.id === r.id);
+  const verdicts = {};
+  const changed = new Set(); // item ids replaced or reworded in this run
+
+  /** Reviews whole rounds (or only the listed item ids) and records the verdicts. */
+  async function review(label, only) {
+    for (const [n, r] of rounds.entries()) {
+      if (B.stop) throw new Error('Stopped before the checks finished.');
+      let items = roundQs(r).flatMap(itemsOf); if (only) items = items.filter((i) => only.has(i.id));
+      if (!items.length) continue;
+      drawSteps('Checking your quiz…', `${label}: round ${n + 1} of ${rounds.length}, ${r.title}`);
+      const res = await reviewItems(r, items);
+      Object.assign(verdicts, res.verdicts);
+      if (!only && res.round) { const rr = RR(r); if (rr.score == null) rr.before = res.round.score; rr.score = res.round.score; rr.summary = res.round.summary; }
+    }
+  }
+  /** Fixes what the last review flagged: rewords, swaps whole weak sets, swaps single questions and rows. */
+  async function fix(pass) {
+    for (const r of rounds) {
+      const rr = RR(r);
+      const bad = roundQs(r).flatMap(itemsOf).filter((i) => verdicts[i.id]?.flags?.length && !(pass > 1 && changed.has(i.id)));
+      // pre-made sets with several bad rows are swapped whole, before any of their rows are touched
+      const setBad = new Map();
+      for (const it of bad) { const { q, row } = findItem(it.id); if (row && !q.dealt && verdicts[it.id].flags.some((f) => f !== 'wording')) setBad.set(q, (setBad.get(q) || 0) + 1); }
+      const swapped = new Set();
+      for (const [q, n] of setBad) {
+        if (n < 4 || B.stop) continue;
+        drawSteps('Fixing flagged questions…', `${r.title}: swapping the whole ${TYPES[q.type].label} set (${n} weak rows)`);
+        const it0 = { text: q.text, answer: `${n} weak rows` };
+        const nq = await replaceQuestion(q, r, ['weak_options'], `${n} weak rows`).catch(() => null);
+        rr.flags.push({ id: q.id, where: whereOf(nq || q), flags: ['weak_options'], note: `${n} of its rows were flagged (too easy, repeated answers or clumsy), so the whole set was swapped.`, before: said(it0), after: nq ? nq.text : '', status: nq ? 'replaced' : 'review', pass });
+        swapped.add(q); if (nq) for (const x of itemsOf(nq)) changed.add(x.id);
+      }
+      const rowsByGame = new Map();
+      for (const it of bad) {
+        if (B.stop) break;
+        const v = verdicts[it.id], { q, row } = findItem(it.id); if (!q || swapped.has(q)) continue;
+        const entry = { id: it.id, where: whereOf(q, row), flags: v.flags, note: v.note, before: said(it), pass };
+        if (v.flags.every((f) => f === 'wording' || f === 'giveaway') && v.rewrite && v.rewrite.length > 8) {
+          if (row) row.text = v.rewrite; else q.text = v.rewrite;
+          entry.status = 'rewritten'; entry.after = `${v.rewrite} → ${it.answer}`; rr.flags.push(entry); changed.add(it.id); continue;
+        }
+        if (v.flags.every((f) => f === 'wording')) continue; // clumsy but no better wording offered: leave it
+        if (row) { if (!rowsByGame.has(q)) rowsByGame.set(q, []); rowsByGame.get(q).push({ row, entry }); continue; }
+        if (['catchphrase', 'draw'].includes(q.kind || q.type)) { entry.status = 'review'; rr.flags.push(entry); continue; }
+        drawSteps('Fixing flagged questions…', `${r.title}: replacing “${it.text.slice(0, 60)}”`);
+        const nq = await replaceQuestion(q, r, v.flags, v.note).catch(() => null);
+        if (nq) { entry.status = 'replaced'; entry.after = itemsOf(nq).map(said).join(' | '); for (const x of itemsOf(nq)) changed.add(x.id); }
+        else entry.status = 'review';
+        rr.flags.push(entry);
+      }
+      for (const [q, list] of rowsByGame) {
+        if (B.stop) break;
+        drawSteps('Fixing flagged questions…', `${r.title}: ${list.length} row${list.length === 1 ? '' : 's'} of ${TYPES[q.type].label}`);
+        let fresh = [];
+        if (q.dealt) try { fresh = (await api('game_rows', { game: q.type, quizId: B.quiz.id, count: list.length, round: r.id, context: LQ.pickContext(B.quiz), categories: r.categories || [] }, { timeout: 120000 })).rows || []; } catch {}
+        list.forEach(({ row, entry }, k) => {
+          if (QUALITY.some((f) => entry.flags.includes(f)) && row.bankId) api('bank_reject', { question: { type: 'choice', bankId: row.bankId, text: row.text }, quizId: B.quiz.id, note: entry.note }).catch(() => {});
+          const nr = fresh[k];
+          if (nr) { q.bank[q.bank.indexOf(row)] = nr; entry.status = 'replaced'; entry.after = `${nr.text} → ${nr.options[0]}`; changed.add(`${q.id}#${nr.id}`); }
+          else if (q.type !== 'race' && q.bank.length > 16) { q.bank.splice(q.bank.indexOf(row), 1); entry.status = 'removed'; entry.after = 'Row taken out of the game.'; }
+          else entry.status = 'review';
+          rr.flags.push(entry);
+        });
+      }
+      await save().catch(() => {});
+    }
+  }
+  /** At least 15% "well I never": short of it, plain questions in the subject rounds become surprising ones from the same subjects. */
+  async function topUpWow() {
+    const its = () => rounds.flatMap((r) => roundQs(r).filter((q) => TRIVIA.includes(q.kind || q.type) || q.bank).flatMap(itemsOf));
+    const all = its(); let need = Math.ceil(all.length * 0.15) - all.filter((i) => verdicts[i.id]?.wow).length;
+    if (need <= 0) return;
+    const plain = rounds.filter((r) => r.categories).flatMap((r) => roundQs(r).filter((q) => ['choice', 'tf'].includes(q.type) && !changed.has(q.id) && !verdicts[q.id]?.wow && !verdicts[q.id]?.flags?.length && verdicts[q.id]?.level !== 'hard').map((q) => ({ q, r })));
+    for (const { q, r } of plain.sort(() => Math.random() - 0.5)) {
+      if (need <= 0 || B.stop) break;
+      drawSteps('Adding “well I never” moments…', `${r.title}: looking for a surprising ${r.title} fact`);
+      const it = itemsOf(q)[0];
+      const nq = await replaceQuestion(q, r, [], 'swapped for a surprising fact', { wowOnly: true }).catch(() => null);
+      if (!nq) continue;
+      RR(r).flags.push({ id: it.id, where: whereOf(nq), flags: ['plain'], note: 'A plain question swapped for a “well I never knew that” one on the same subject, to lift the night past 15%.', before: said(it), after: itemsOf(nq).map(said).join(' | '), status: 'replaced', pass: 1 });
+      for (const x of itemsOf(nq)) { changed.add(x.id); verdicts[x.id] = { level: 'medium', wow: true, flags: [] }; }
+      need--;
+    }
+  }
+
+  step('check', 'now'); await review('AI editor');
+  step('check', 'done'); step('fix', 'now'); await fix(1); await topUpWow(); step('fix', 'done');
+  // Second pass: the whole quiz again as it now stands, so the scores describe what will be played; then one more round of fixes.
+  step('check2', 'now'); const first = new Set(changed);
+  await review('Second check');
+  await fix(2);
+  const late = new Set([...changed].filter((id) => !first.has(id)));
+  if (late.size) await review('Checking the last fixes', late);
+  // whatever is still flagged after all that goes to the host
+  for (const r of rounds) {
+    const rr = RR(r);
+    for (const it of roundQs(r).flatMap(itemsOf)) {
+      const v = verdicts[it.id]; if (!v?.flags?.length || v.flags.every((f) => f === 'wording')) continue;
+      if (rr.flags.some((f) => f.id === it.id && f.status === 'review')) continue;
+      const { q, row } = findItem(it.id);
+      rr.flags.push({ id: it.id, where: q ? whereOf(q, row) : '', flags: v.flags, note: v.note, before: said(it), status: 'review', pass: 3 });
+    }
+    // a "review" entry for something later fixed is noise
+    const now = new Map(roundQs(r).flatMap(itemsOf).map((i) => [i.id, verdicts[i.id]]));
+    rr.flags = rr.flags.filter((f) => f.status !== 'review' || !now.has(f.id) || now.get(f.id)?.flags?.some((x) => x !== 'wording'));
+  }
+  step('check2', 'done'); step('report', 'now');
+  for (const rr of rep.rounds) {
+    const r = B.quiz.rounds.find((x) => x.id === rr.id);
+    const its = roundQs(r).flatMap(itemsOf), lv = { easy: 0, medium: 0, hard: 0 };
+    for (const i of its) { const v = verdicts[i.id]; if (v) lv[v.level]++; }
+    rr.count = its.length; rr.levels = lv; rr.wow = its.filter((i) => verdicts[i.id]?.wow).length;
+    rr.types = Object.entries(roundQs(r).reduce((a, q) => { const t = q.kind || q.type; a[t] = (a[t] || 0) + 1; return a; }, {})).map(([t, n]) => `${n} ${TYPES[t]?.label || t}`).join(', ');
+  }
+  const trivia = rounds.flatMap((r) => roundQs(r).filter((q) => TRIVIA.includes(q.kind || q.type) || q.bank).flatMap(itemsOf));
+  const all = rep.rounds.reduce((a, r) => ({ easy: a.easy + r.levels.easy, medium: a.medium + r.levels.medium, hard: a.hard + r.levels.hard }), { easy: 0, medium: 0, hard: 0 });
+  const scored = rep.rounds.filter((r) => r.score);
+  const wow = trivia.filter((i) => verdicts[i.id]?.wow).length;
+  rep.overall = { levels: all, wowShare: trivia.length ? wow / trivia.length : 0, wow, trivia: trivia.length,
+    fixed: rep.rounds.reduce((a, r) => a + r.flags.filter((f) => f.status !== 'review').length, 0),
+    review: rep.rounds.reduce((a, r) => a + r.flags.filter((f) => f.status === 'review').length, 0),
+    score: scored.length ? scored.reduce((a, r) => a + r.score, 0) / scored.length : null,
+    before: scored.length ? scored.reduce((a, r) => a + (r.before || r.score), 0) / scored.length : null };
+  B.quiz.settings.report = rep;
+  // the reviewer's honest levels and wow marks go on the questions, so the editor and future checks see them
+  for (const q of B.quiz.questions) { const v = verdicts[q.id]; if (v) { q.difficulty = v.level; if (v.wow) q.wow = true; } for (const b of q.bank || []) { const w = verdicts[`${q.id}#${b.id}`]; if (w) { b.difficulty = w.level; if (w.wow) b.wow = true; } } }
+  delete B.quiz.settings.confirmed;
+  LQ.orderQuestions(B.quiz); await save();
+  step('report', 'done');
+  B.busy = false;
+  history.replaceState(null, '', '?quiz=' + encodeURIComponent(B.quiz.id));
+  renderReport();
+}
+/** Swaps a question for a fresh one of the same type in the same round; the old one goes back to the bank (or is rejected for good). */
+async function replaceQuestion(q, r, flags, note, opts = {}) {
+  const type = q.kind || q.type, idx = B.quiz.questions.indexOf(q);
+  const ctxQuiz = { questions: B.quiz.questions.filter((x) => x !== q) };
+  const res = await api('generate', { ...reqFor(r, type), count: 1, difficulty: 'mixed', types: [type], pictures: true, web: true, avoid: [...(B.avoid || []), q.text], quizId: B.quiz.id, round: r.id, context: LQ.pickContext(ctxQuiz), ...(opts.wowOnly ? { wowOnly: true, bankOnly: true } : {}) }, { timeout: 170000 });
+  LQ.addUsage(B.quiz.settings, res.usage);
+  const nq = res.questions.find((x) => (x.kind || x.type) === type); if (!nq) return null;
+  if (nq.collage && !nq.media?.url) { try { await LQ.buildCollageFor(nq); } catch { return null; } }
+  nq.round = r.id; nq.time = timeFor(type, B.quiz.settings);
+  B.quiz.questions[idx] = nq; (B.avoid || []).push(nq.text);
+  const reject = flags.some((f) => QUALITY.includes(f));
+  if (!GAMES.includes(q.type)) api(reject ? 'bank_reject' : 'bank_pass', { question: q, quizId: B.quiz.id, note }).catch(() => {});
+  return nq;
+}
+function whereOf(q, row) {
+  const n = B.quiz.questions.filter((x) => x.type !== 'slide').indexOf(q) + 1;
+  return row ? `Q${n}, row ${(q.bank || []).indexOf(row) + 1}` : `Q${n}`;
+}
+
+// ------------------------------------------------------------------ 4. the report
+const stars = (n) => n ? '★'.repeat(n) + '☆'.repeat(5 - n) : '';
+const levelBar = (l) => { const t = l.easy + l.medium + l.hard || 1; return `<span class="levels" title="${l.easy} easy · ${l.medium} medium · ${l.hard} hard"><i class="e" style="width:${l.easy / t * 100}%"></i><i class="m" style="width:${l.medium / t * 100}%"></i><i class="h" style="width:${l.hard / t * 100}%"></i></span>`; };
+function renderReport() {
+  const qz = B.quiz, rep = qz.settings.report, o = rep?.overall;
+  if (!rep) { view.innerHTML = `<div class="ocb"><h1>${esc(qz.title)}</h1><p>This quiz has no check report yet.</p><button class="btn btn-primary" id="recheck">Check it now</button></div>`; $('#recheck').onclick = () => recheck(); return; }
+  const tot = o.levels.easy + o.levels.medium + o.levels.hard || 1;
+  const pct = (x) => Math.round(x * 100) + '%';
+  const confirmed = qz.settings.confirmed;
+  view.innerHTML = `<div class="ocb">
+    <div class="row"><h1 style="margin:0">${esc(qz.title)}</h1><div class="grow"></div>${confirmed ? `<span class="tag" style="background:var(--ok);color:#fff">✓ Confirmed ${new Date(confirmed.at).toLocaleString('en-GB', { weekday: 'short', hour: '2-digit', minute: '2-digit' })}</span>` : ''}</div>
+    <p class="muted">Quality report from the AI editor · ${new Date(rep.at).toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</p>
+    <div class="kpis">
+      <div class="kpi"><b>${o.score ? o.score.toFixed(1) : '–'}</b><span>average round score out of 5${o.before && o.before !== o.score ? ` (${o.before.toFixed(1)} before the fixes)` : ''}</span></div>
+      <div class="kpi ${o.wowShare < 0.15 ? 'warn' : ''}"><b>${pct(o.wowShare)}</b><span>“well I never” (${o.wow} of ${o.trivia}; target 15%+)</span></div>
+      <div class="kpi ${o.levels.easy / tot > 0.35 ? 'warn' : ''}"><b>${pct(o.levels.easy / tot)} · ${pct(o.levels.medium / tot)} · ${pct(o.levels.hard / tot)}</b><span>easy · medium · hard (honest rating)</span></div>
+      <div class="kpi"><b>${o.fixed}</b><span>flagged and fixed automatically</span></div>
+      <div class="kpi ${o.review ? 'warn' : ''}"><b>${o.review}</b><span>still need your look</span></div>
+    </div>
+    <div class="row" style="margin-bottom:16px"><a class="btn" href="index.html?quiz=${encodeURIComponent(qz.id)}" target="_blank">✎ Edit the quiz</a><button class="btn btn-ghost" id="recheck">↻ Re-check after editing</button><div class="grow"></div>
+      ${confirmed ? `<a class="btn btn-primary btn-lg" href="host.html?quiz=${encodeURIComponent(qz.id)}" target="_blank">▶ Host it</a>` : `<button class="btn btn-primary btn-lg" id="confirm">✓ Confirm the quiz</button>`}</div>
+    ${rep.rounds.map((rr, i) => roundReport(rr, i)).join('')}
+  </div>`;
+  $('#recheck').onclick = () => recheck();
+  if ($('#confirm')) $('#confirm').onclick = async () => {
+    const left = o.review; if (left && !confirm(`${left} question${left === 1 ? '' : 's'} still flagged for your look. Confirm anyway?`)) return;
+    qz.settings.confirmed = { at: new Date().toISOString() }; await save(); toast('Confirmed. It is in your quiz list, ready to host.'); renderReport();
+  };
+}
+function roundReport(rr, i) {
+  const r = B.quiz.rounds.find((x) => x.id === rr.id); const qs = r ? roundQs(r) : [];
+  const review = rr.flags.filter((f) => f.status === 'review'), fixed = rr.flags.filter((f) => f.status !== 'review');
+  const statusLabel = { replaced: 'Replaced', rewritten: 'Reworded', removed: 'Removed', review: 'Needs your look' };
+  const fl = (f) => `<div class="fl ${f.status}"><span class="tagx">${statusLabel[f.status]}${f.recheck ? ' (after the fix)' : ''}</span> · <span class="muted small">${esc(f.where || '')} · ${f.flags.map((x) => FLAG_LABEL[x] || x).map(esc).join(', ')}</span>
+      <div class="small">${esc(f.note || '')}</div><div class="small ${f.after ? 'was' : ''}">${esc(f.before || '')}</div>${f.after ? `<div class="small">→ ${esc(f.after)}</div>` : ''}</div>`;
+  return `<div class="card rrep"><h3><span class="rnum">${i + 1}</span>${esc(rr.title)} <span class="stars">${stars(rr.score)}</span> ${rr.levels ? levelBar(rr.levels) : ''} <span class="muted small">${rr.count || 0} questions${rr.wow ? ` · ${rr.wow} “well I never”` : ''}</span></h3>
+    <p style="margin:8px 0">${esc(rr.summary || '')}</p><div class="muted small">${esc(rr.types || '')}</div>
+    ${review.length ? `<h4 style="margin:10px 0 0;color:var(--bad)">Needs your look (${review.length})</h4>${review.map(fl).join('')}` : ''}
+    ${fixed.length ? `<details ${review.length ? '' : 'open'}><summary>Flagged and fixed (${fixed.length})</summary>${fixed.map(fl).join('')}</details>` : '<p class="small muted">Nothing flagged.</p>'}
+    <details><summary>All questions in this round</summary>${qs.flatMap(itemsOf).map((it) => `<div class="qline">${esc(it.text)} <span class="a">→ ${esc(it.answer ?? '')}</span></div>`).join('') || '<p class="small muted">Clips and drawings only.</p>'}</details>
+  </div>`;
+}
+async function recheck() {
+  if (B.busy) return; B.busy = true; B.stop = false;
+  try { B.quiz = normalizeQuiz((await api('get', { id: B.quiz.id })).quiz); steps = []; await checkQuiz(); }
+  catch (e) { B.busy = false; toast(e.message, true); renderReport(); }
+}
+
+// ------------------------------------------------------------------ boot
+(async function boot() {
+  if (!LQ.hostPassword()) { view.innerHTML = `<div class="ocb"><h1>Sign in first</h1><p>Sign in on the <a href="index.html">quiz portal</a>, then come back here.</p></div>`; return; }
+  try { const r = await api('login'); if (!r.ai) toast('AI is not switched on for this server: building works from the bank, but the checks will not run.', true); }
+  catch (e) { if (e.status === 401) { LQ.setHostPassword(''); location.href = 'index.html'; return; } }
+  const id = new URLSearchParams(location.search).get('quiz');
+  if (id) { try { B.quiz = normalizeQuiz((await api('get', { id })).quiz); return renderReport(); } catch (e) { toast(e.message, true); } }
+  B.plan = planFrom(thisWeek(nextFriday()));
+  renderPlan();
+})();
+</script>
+</body>
+</html>

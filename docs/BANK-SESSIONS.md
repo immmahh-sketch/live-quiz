@@ -77,3 +77,24 @@ Drop-the-pin rule (all pin questions, bank and writer): the text never names the
 answer is the place, so the player must know the fact and then find it on the map ("Which city hosted the
 2016 Olympics?"). Line-up pins ask a fact about one of the people or things shown. bank/pin-clues.json holds
 the clue for every place in the pin bank; tools/rewrite-pins.mjs applies it.
+
+## Quality flags and the host's standards (27 Sept 2026)
+
+After the host's feedback on "The Return!", the whole bank was reviewed by hand. Each item can carry flags in `q`:
+
+- `wow`: a "Well I never knew that!" fact. The builder prefers these; every quiz aims for 15%+.
+- `tooEasy`: nursery-level for an adult room. Never picked.
+- `giveaway`: the question gives its answer away. Never picked.
+- `local`: a North East fact every local knows. Picked only for North East rounds.
+- `doubt`: the answer is disputed or out of date (with a note). Never picked until fixed.
+- `recycled`: a race whose rows use each other's answers as wrong options. Never picked until it is rewritten.
+
+When writing new questions:
+
+- Full natural sentences.
+- Plausible wrong options of the same kind; never recycle a race's answers as its options.
+- No North East freebies.
+- Music is songs, artists, albums, dates and charts, not musicals.
+- Aim for at least one in five being a genuine "well I never" (set `"wow": true` on those).
+
+The standards come from the host's Kahoot nights (`docs/kahoot-analysis.html`) and are coded into quiz-api's `REVIEW_SYSTEM`.

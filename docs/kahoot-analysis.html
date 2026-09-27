@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<title>Your Kahoot quiz nights: what makes them work</title>
+<style>
+  @page { size: A4; margin: 16mm 15mm; }
+  :root { --ink: #1c1633; --muted: #5d5878; --purple: #5b3df5; --yellow: #ffd60a; --line: #e4e0f3; --soft: #f5f3fd; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Calibri, Arial, sans-serif; color: var(--ink); font-size: 10.3pt; line-height: 1.45; margin: 0; }
+  h1 { font-size: 22pt; margin: 0 0 4px; color: var(--purple); }
+  h2 { font-size: 13.5pt; margin: 20px 0 6px; color: var(--purple); border-bottom: 2px solid var(--yellow); padding-bottom: 3px; break-after: avoid; }
+  h3 { font-size: 11pt; margin: 12px 0 4px; break-after: avoid; }
+  p { margin: 5px 0; }
+  ul { margin: 4px 0 6px 18px; padding: 0; }
+  li { margin: 2px 0; }
+  .sub { color: var(--muted); font-size: 10.5pt; margin-bottom: 12px; }
+  .take { background: var(--soft); border-left: 4px solid var(--purple); padding: 8px 12px; margin: 10px 0; border-radius: 4px; break-inside: avoid; }
+  .take b.t { color: var(--purple); }
+  table { border-collapse: collapse; width: 100%; margin: 6px 0 8px; font-size: 9.6pt; break-inside: avoid; }
+  th, td { border: 1px solid var(--line); padding: 4px 6px; text-align: left; vertical-align: top; }
+  th { background: var(--soft); }
+  .kpis { display: flex; gap: 8px; margin: 10px 0 4px; }
+  .kpi { flex: 1; background: var(--soft); border-radius: 6px; padding: 8px; text-align: center; }
+  .kpi b { display: block; font-size: 17pt; color: var(--purple); }
+  .kpi span { font-size: 8.8pt; color: var(--muted); }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .small { font-size: 9pt; color: var(--muted); }
+  .brk { break-before: page; }
+</style>
+</head>
+<body>
+<h1>Your Kahoot quiz nights: what makes them work</h1>
+<div class="sub">An analysis of the six hand-written nights (20 June, 10 July, 18 July, 1 August, the Friday 90s edition and Laura's Birthday), with my take on what the one-click builder has to copy. Prepared 27 September 2026.</div>
+
+<div class="kpis">
+  <div class="kpi"><b>525</b><span>real questions across 6 nights</span></div>
+  <div class="kpi"><b>~88</b><span>questions a night, plus slides</span></div>
+  <div class="kpi"><b>~33–40%</b><span>"well I never" or funny</span></div>
+  <div class="kpi"><b>~31%</b><span>game-show format rounds</span></div>
+</div>
+
+<div class="take"><b class="t">My take in one paragraph.</b> Your nights feel good because of a <b>fixed running order with fresh content in each slot</b>, not because of random variety. Every week has the same shape: a warm TV &amp; Film opener, a long Music round, a light picture round into the break, Sport straight after it, a QI "General Ignorance" round packed with surprises, a silly wordplay run-in and a Double Points finale that ends on a joke. Inside each round, no two questions in a row share a shape. The wrong answers are chosen with real craft, and about a third of the questions have a story behind them. The first auto-built quiz ("The Return!") got this wrong on every count. It was built from pre-made quick-fire sets that repeated one template, with easy, obvious options. The builder now copies your skeleton instead.</div>
+
+<h2>1. The skeleton: five of the six nights are the same Kahoot, re-filled</h2>
+<p>The 20 June, 10 July, 18 July, 1 August and Friday nights are the same Kahoot duplicated with the questions swapped. The round order, the round sizes and even the question type in each slot stay the same week to week.</p>
+<table>
+  <tr><th>#</th><th>Round</th><th>Size</th><th>What goes in it</th></tr>
+  <tr><td>1</td><td>TV &amp; Film</td><td>13</td><td>Three warm, nostalgic multiple-choice openers (Corrie, Only Fools, Toy Story), then name-the-actor photo, a "put these TV events in order", behind-the-scenes trivia, the cryptic alphabetical celebs puzzle, a film dingbat, a quote and a theme tune.</td></tr>
+  <tr><td>2</td><td>Music</td><td>16–17</td><td>The longest, loudest round. Name the artist, backwards songs, covers and who did it first, a pop timeline in order, "who is this singer's famous relative", complete the lyric, a pixelated album cover and "what year was this released?".</td></tr>
+  <tr><td>3</td><td>Breather</td><td>6</td><td>Wheel of Fortune or Face Swap.</td></tr>
+  <tr><td>4</td><td>Catchphrase</td><td>5</td><td>"Say what you see!" The last one is signposted "Last one before the break!".</td></tr>
+  <tr><td>–</td><td>Interval</td><td></td><td>"Get me one while your up?" and a 10-minute countdown.</td></tr>
+  <tr><td>5</td><td>Sport</td><td>15–16</td><td>Opens with a topical or local football question (Sunderland v Newcastle). Mostly multiple choice: records, numbers, daft moments, the sport-celebs alphabetical puzzle.</td></tr>
+  <tr><td>6</td><td>QI General Ignorance</td><td>13–15</td><td>The "is that really true?" round. About 10 multiple choice, a true/false pair and one order puzzle, with silly decoys throughout.</td></tr>
+  <tr><td>7</td><td>Answer Smash, then Wonkey Donkey (Rhyme Time)</td><td>5–6 + 4–5</td><td>Puns and groans. "Last one!" signposted.</td></tr>
+  <tr><td>8</td><td>Final: Double Points</td><td>5–8</td><td>A different mechanic each time: Highbrow/Lowbrow, In the News, The Mole or Family Fortunes. It <b>always ends on a joke</b>: host vanity, "sexiest / nicest / funniest / smartest", or SHEARER.</td></tr>
+</table>
+<p><b>Laura's Birthday</b> is the personalised variant. It has flat rounds of 10 and a bespoke "Babies and Pregnancy!" round. Its Wheel of Fortune is themed on her birth year, and its finale ("Haven't I heard that one before?") re-runs crowd favourites.</p>
+
+<h2>2. Pacing and flow</h2>
+<ul>
+  <li><b>Difficulty goes up and down; it doesn't climb.</b> A light format round comes every 15–20 questions.</li>
+  <li><b>The hardest factual stretch (Sport, QI) comes straight after the break</b>, when attention is fresh. It stays playable because most of it is multiple choice.</li>
+  <li><b>Rounds open warm and close with a signpost or a gag.</b> The first three questions of the night are easy on purpose, so everyone scores early.</li>
+  <li><b>About 31% of the night is game-show formats</b> (Catchphrase, Wheel of Fortune, Answer Smash, rhymes and the finale). The other 69% is trivia.</li>
+</ul>
+<div class="take"><b class="t">What this means for us.</b> A one-click quiz should be a <i>format</i>: fixed rounds in a fixed order, with the game shows rotating week by week. It shouldn't be a random pile of types. That's what the new builder does. There are four formats that take turns, and each keeps your skeleton. One week leans on Wipeout, the next on King of the Hill, the next on Hot Potato and Blockbusters.</div>
+
+<h2>3. The question styles you use (≈365 trivia questions)</h2>
+<table>
+  <tr><th>Style</th><th>Share</th><th>Example (answer)</th></tr>
+  <tr><td>Media ID: photo, clip, childhood photo, backwards song, pixelated cover</td><td>19%</td><td>Name this actress from a childhood photo (Julia Roberts)</td></tr>
+  <tr><td>How many / how much</td><td>12%</td><td>How many paintings did Van Gogh sell in his lifetime? (1)</td></tr>
+  <tr><td>Bizarre true story: "how did / why did"</td><td>10%</td><td>How did Bobby Leach die after surviving Niagara Falls in a barrel? (He slipped on orange peel)</td></tr>
+  <tr><td>Put in order</td><td>8%</td><td>180 darts → 147 break → 120 minutes → 92 league teams</td></tr>
+  <tr><td>Record / first / only</td><td>8%</td><td>The only musician awarded the Nobel Prize for Literature (Bob Dylan)</td></tr>
+  <tr><td>Surprising true/false</td><td>7%</td><td>Brazil is the main producer of Brazil nuts (False)</td></tr>
+  <tr><td>QI traps: the obvious answer is wrong</td><td>4%</td><td>Jingle Bells was written for… (Thanksgiving); Canary Islands named after… (dogs)</td></tr>
+  <tr><td>Behind the scenes</td><td>4%</td><td>Most false feet ever used by a costume department (Lord of the Rings)</td></tr>
+  <tr><td>Hidden family / real name → stage name</td><td>5%</td><td>Adam Richard Wiles (Calvin Harris); Alfie Allen's singing sibling (Lily Allen)</td></tr>
+  <tr><td>Topical and local banter</td><td>7%</td><td>Sunderland have lost fewer games than Chelsea since the restart (True: they're not in it)</td></tr>
+  <tr><td>Cryptic alphabetical celebs (your signature)</td><td>2.5%</td><td>"Hannah Montana became a wrecking ball" → put in first-name order</td></tr>
+</table>
+<p><b>Repetition:</b> the same wording template never appears twice in a row in the TV, Music and Sport rounds. The same Kahoot type runs at most 2–3 in a row. In a mixed round every question is a different subject. Sport, for example, runs football ×5–7, then one each of snooker or darts, tennis, boxing, rugby, cricket and the Olympics.</p>
+
+<h2>4. How you choose wrong answers</h2>
+<div class="two">
+<ul>
+  <li><b>Same-set plausibles:</b> Frances / Rosamund / <b>Renesmee</b> / Emmaline. Only knowledge decides.</li>
+  <li><b>Numeric ladders with the truth at the surprising end:</b> 5,000 / <b>50,000</b> / 500,000 tons; 1677 / 1777 / <b>1877</b> / 1977.</li>
+  <li><b>The obvious answer as the trap:</b> Gold for gold medals (they're mostly silver); 100 years for the Hundred Years War (116).</li>
+</ul>
+<ul>
+  <li><b>A comic decoy next to an absurd truth:</b> "Scotland: no, we haven't got pants under there".</li>
+  <li><b>Rhyming decoys:</b> Kate Hudson's middle name: Howie / Barry / Larry / <b>Garry</b>.</li>
+  <li><b>Celebrity decoys for laughs:</b> a singer's famous parent: <b>Alan Shearer</b> / Michael McIntyre / Holly Willoughby / David Cameron.</li>
+</ul>
+</div>
+<div class="take"><b class="t">What this means for us.</b> This is where "The Return!" fell down most. Its quick-fire games recycled each other's answers as options ("Speed", "Taken" and "Total Recall" kept reappearing), so later rows became a clicking contest. The new dealer never shows one row's answer as another row's option. It has also retired 168 pre-made races that recycled their options, until they're rewritten.</div>
+
+<h2 class="brk">5. The "Well I never knew that!" factor</h2>
+<p>About <b>40%</b> of your trivia questions carry a surprise or a laugh, and about a third are strong "gasp" moments. That's <b>80–90% of the QI round</b> and about 25–35% of TV, Music and Sport. A few favourites:</p>
+<div class="two">
+<ul>
+  <li>Cleopatra lived closer to the Moon landings than to the pyramids.</li>
+  <li>All Tom Cruise's wives were 33 when their marriages ended.</li>
+  <li>Olympic gold medals are mostly silver.</li>
+  <li>Mozart outsold Beyoncé on CD in 2016.</li>
+  <li>Henry VI banned kissing (1439).</li>
+</ul>
+<ul>
+  <li>Cookie Monster's real name is Sid.</li>
+  <li>Paula Radcliffe and the 2005 London Marathon.</li>
+  <li>Bradley Walsh had 2016's best-selling British debut album.</li>
+  <li>Love Is All Around was originally by The Troggs.</li>
+  <li>Gary Lineker was never booked.</li>
+</ul>
+</div>
+<div class="take"><b class="t">What this means for us.</b> Your ask of "at least 15%" is a floor, not the target: your own nights run at about a third. The bank now carries a hand-review flag: 847 questions are marked "wow" on top of the Ripley's and "No Such Thing As a Fish" topics. Every format has a dedicated "Well I Never Knew That!" round drawn only from those. Mixed rounds reserve a quarter of their slots for them.</div>
+
+<h2>6. Difficulty</h2>
+<p>Roughly <b>35% easy-if-you-know-it, 45% challenging but guessable, 20% "how did you get that?"</b>. The hard ones are almost always multiple choice, so they stay guessable. The easy ones stay interesting because of the angle: "Which Beatle led the way across Abbey Road?" rather than "Who were the Beatles?". The picture or clip can be the puzzle, a joke decoy can lighten it, and nostalgia and local pride help. <b>Nothing is nursery-level.</b></p>
+<div class="take"><b class="t">What this means for us.</b> A hand review of 14,000 bank questions found about 3,500 that are nursery-level for an adult room (spider legs, "merci", Peppa Pig, the plural of mouse). They're now excluded from every build. Mixed rounds are picked at about 15% easy, 50% medium and 35% hard on the bank's labels, since those labels run generous. The AI check then re-rates every question honestly and replaces anything too easy.</div>
+
+<h2>7. Music rounds</h2>
+<p>They're about the <b>stories around songs</b> as much as recognising them:</p>
+<ul>
+  <li>covers and originals (Hurt / Nine Inch Nails, The Troggs);</li>
+  <li>band members and lead singers, real names and famous relatives;</li>
+  <li>chart records (White Christmas, Fleetwood Mac's only UK No.1);</li>
+  <li>release years, pop timelines, lyrics and pixelated album covers.</li>
+</ul>
+<p>They lean to the 90s and 00s. There are no musicals at all.</p>
+
+<h2>8. Wording</h2>
+<ul>
+  <li>One natural sentence of 8–20 words. QI questions run to 25–35 words with a set-up. Terse prompts only for media ("Name the band").</li>
+  <li><b>"&amp;" used freely; "+" only in a sum.</b> That answers your 1% Club note: use "&amp;".</li>
+  <li>British spelling and slang, £ for money, chatty asides ("FOCUS PAUL!"), and Newcastle banter over Sunderland.</li>
+  <li>Typed answers of 1–4 words, with several accepted spellings.</li>
+</ul>
+<p class="small">The answer keys contain a few errors, which is worth knowing if these are ever reused:</p>
+<ul class="small">
+  <li>Muhammad Ali's losses are keyed as 1 in one quiz and 5 in another. It's 5.</li>
+  <li>The NASA film is keyed to Tom Hanks. It was Tom Cruise.</li>
+  <li>Mary Berry's birth year is keyed 1926. It's 1935.</li>
+  <li>Dolly Parton is keyed as a singer's grandparent. She's Miley Cyrus's godmother.</li>
+</ul>
+<p class="small">The builder fact-checks rather than trusting a key.</p>
+
+<h2>9. Formats you use that we don't have yet</h2>
+<table>
+  <tr><th>Format</th><th>How it works</th><th>Status</th></tr>
+  <tr><td><b>Picture Reveal</b></td><td>A picture under 12–20 tiles that flip away one by one. Type who it is: fewer tiles, more points.</td><td><b>Being added now.</b></td></tr>
+  <tr><td>Face Swap</td><td>Two celebrity faces merged; name the celeb (or both).</td><td>Could reuse Picture Reveal's picture handling, but it needs merged photos.</td></tr>
+  <tr><td>Backwards song</td><td>A clip played in reverse; name the song.</td><td>Feasible as a Name That Tune option if the host screen can reverse the preview.</td></tr>
+  <tr><td>Pixelated album cover</td><td>The cover sharpens over time.</td><td>Close to Picture Reveal (blur instead of tiles).</td></tr>
+  <tr><td>Family Fortunes</td><td>Match one of the top two survey answers.</td><td>New type; the answers need a "survey".</td></tr>
+  <tr><td>The Mole / chain of clues</td><td>Each answer is a clue to a mystery person (→ Mary Berry).</td><td>Could be a 20 Questions variant.</td></tr>
+  <tr><td>Cryptic alphabetical celebs</td><td>Put cryptically described celebs in first-name order.</td><td>Works today as a Put in Order question; worth writing a bank of them.</td></tr>
+  <tr><td>Double Points finale and a joke closer</td><td>The last round scores double; the last question is a gag.</td><td>Small change: a per-round points multiplier.</td></tr>
+</table>
+
+<h2>10. What changed in the builder</h2>
+<ul>
+  <li><b>One-click formats</b> copy your running order: four of them, taking turns week by week, all editable before building.</li>
+  <li><b>Chase, King of the Hill, Hot Potato and Blockbusters</b> are dealt question by question from the 13,800 multiple-choice questions. Every row is a different subject and question shape, the rows are full sentences, and no answer is ever recycled as another row's option.</li>
+  <li><b>Mixed rounds are truly mixed:</b> never two "which flag / which organ / which company / what currency / capital of" in a round, at most two a night, one question per subject, and no answer repeated anywhere in the quiz.</li>
+  <li><b>Rounds draw from named subjects</b> (Music means pop, rock, number ones and bands, never musicals). Easy North East questions are kept out unless a round is about the North East.</li>
+  <li><b>Every quiz includes one Alan Shearer question and one Roger question.</b></li>
+  <li><b>After building, an AI editor reviews every round</b> against these standards. It replaces what it can, rewrites clumsy wording and lists what still needs your eye in a round-by-round report. You then edit and confirm.</li>
+</ul>
+</body>
+</html>
