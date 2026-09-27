@@ -75,11 +75,29 @@ const TRIVIA = ['choice', 'text', 'tf', 'order', 'sort', 'match', 'nearest', 'pi
 const QUALITY = ['too_easy', 'giveaway', 'fact', 'weak_options', 'local'];
 const FLAG_LABEL = { too_easy: 'too easy', giveaway: 'gives the answer away', repetitive: 'repeats another question', weak_options: 'weak wrong answers', wording: 'clumsy wording', fact: 'fact in doubt', off_topic: 'off topic for the round', local: 'every Geordie knows it' };
 const SECS = { unique: 300, survey: 60, choice: 30, text: 40, tf: 20, order: 50, sort: 55, match: 55, pin: 35, nearest: 40, tune: 45, wipeout: 180, race: 240, koth: 480, chase: 420, potato: 300, blockbusters: 480, wheel: 70, catchphrase: 60, reveal: 50, smash: 45, rhyme: 45, dingbat: 55, highlow: 50, club: 45, twenty: 240, draw: 360 };
-const B = { plan: null, quiz: null, busy: false, stop: false };
+const B = { plan: null, quiz: null, busy: false, stop: false, saved: null };
 let toastT;
 function toast(msg, bad) { const t = $('#toast'); t.textContent = msg; t.className = 'toast show' + (bad ? ' bad' : ''); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 4000); }
 
 function nextFriday() { const d = new Date(); d.setDate(d.getDate() + ((5 - d.getDay() + 7) % 7)); return d; }
+/** A saved weekly format as a plan: the builder's own rounds when it saved them, otherwise the editor's rounds. */
+function planFromSaved(t, title) {
+  const raw = Array.isArray(t.settings?.planRounds) && t.settings.planRounds.length ? t.settings.planRounds
+    : (t.settings?.rounds || []).map((r) => ({ title: r.title, about: r.brief || r.intro || '', mix: { ...(r.mix || {}) }, ...(r.categories ? { categories: r.categories } : {}), ...(r.wowOnly ? { wowOnly: true } : {}), ...(r.general ? { general: true } : {}), ...(r.double ? { double: true } : {}) }));
+  return { format: 'saved:' + t.id, savedName: t.title, title: title || `${t.title.replace(/\s*\(format\)$/i, '')} · ${nextFriday().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}`, rounds: JSON.parse(JSON.stringify(raw)).map((r) => ({ ...r, id: uid('r') })) };
+}
+async function loadSaved() { if (B.saved) return B.saved; try { B.saved = (await api('list')).quizzes.filter((q) => q.template); } catch { B.saved = []; } return B.saved; }
+async function useSaved(id) {
+  try { const t = (await api('get', { id })).quiz; B.plan = planFromSaved(t, $('#p_title')?.value.trim()); renderPlan(); }
+  catch (e) { toast(e.message, true); }
+}
+async function saveFormat() {
+  const p = B.plan, name = prompt('Name this format (it appears under Weekly formats):', p.savedName || 'My quiz night');
+  if (!name) return;
+  const rounds = p.rounds.map((r) => ({ id: uid('r'), title: r.title, intro: '', brief: r.about || '', mix: { ...r.mix }, ...(r.categories ? { categories: r.categories } : {}), ...(r.wowOnly ? { wowOnly: true } : {}), ...(r.general ? { general: true } : {}), ...(r.double ? { double: true } : {}) }));
+  try { await api('save', { quiz: { id: null, title: name, settings: { template: true, oneClickFormat: true, planRounds: p.rounds.map(({ id, ...r }) => r), rounds }, questions: [] } }); B.saved = null; toast(`Saved. “${name}” is under your formats.`); renderPlan(); }
+  catch (e) { toast('Could not save the format: ' + e.message, true); }
+}
 function planFrom(fmt, title) {
   return { format: fmt.id, title: title || `Friday Quiz Night · ${nextFriday().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}`,
     rounds: fmt.rounds.map((r) => ({ ...JSON.parse(JSON.stringify(r)), id: uid('r') })) };
@@ -93,14 +111,18 @@ function renderPlan() {
   view.innerHTML = `<div class="ocb">
     <h1 style="margin-bottom:4px">✨ One-click quiz builder</h1>
     <p class="muted" style="margin-top:0">Four formats built on your own quiz nights take turns week by week. This week's is picked for you; change anything, then press <b>Make the quiz</b>. It fills every round, checks every question with the AI editor, fixes what it can and gives you a report.</p>
-    <div class="fmtgrid">${FORMATS.map((f) => `<div class="card fmt ${f.id === p.format ? 'on' : ''}" data-fmt="${f.id}">${f.id === wk.id ? '<span class="wk">This week</span>' : ''}<h3>${esc(f.name)}</h3><div class="small muted">${esc(f.blurb)}</div></div>`).join('')}</div>
+    <div class="fmtgrid">${FORMATS.map((f) => `<div class="card fmt ${f.id === p.format ? 'on' : ''}" data-fmt="${f.id}">${f.id === wk.id ? '<span class="wk">This week</span>' : ''}<h3>${esc(f.name)}</h3><div class="small muted">${esc(f.blurb)}</div></div>`).join('')}
+      ${(B.saved || []).map((t) => `<div class="card fmt ${p.format === 'saved:' + t.id ? 'on' : ''}" data-saved="${t.id}"><h3>📋 ${esc(t.title)}</h3><div class="small muted">Your saved format · ${(t.rounds || []).length} rounds${(t.rounds || []).length ? ': ' + esc(t.rounds.map((r) => r.title).join(', ')) : ''}</div></div>`).join('')}</div>
     <div class="field"><label>Quiz title</label><input type="text" id="p_title" value="${esc(p.title)}"></div>
     <div id="rounds">${p.rounds.map((r, i) => roundCard(r, i)).join('')}</div>
     <button class="btn btn-ghost" id="addRound">+ Add a round</button>
     <div class="sticky mt"><b>${p.rounds.length} rounds · ${p.rounds.reduce((a, r) => a + roundCount(r), 0)} questions and games · about ${Math.floor(mins(p) / 60)} h ${mins(p) % 60} min</b><div class="grow"></div>
-      <button class="btn btn-primary btn-lg" id="make">✨ Make the quiz</button></div>
+      <button class="btn btn-ghost" id="saveFmt" title="Keep this set-up (rounds, types, subjects) to build from again">💾 Save as format</button><button class="btn btn-primary btn-lg" id="make">✨ Make the quiz</button></div>
   </div>`;
   $$('[data-fmt]').forEach((el) => el.onclick = () => { B.plan = planFrom(FORMATS.find((f) => f.id === el.dataset.fmt), $('#p_title').value.trim()); renderPlan(); });
+  $$('[data-saved]').forEach((el) => el.onclick = () => useSaved(el.dataset.saved));
+  $('#saveFmt').onclick = saveFormat;
+  if (!B.saved) loadSaved().then((l) => { if (l.length && B.plan === p) renderPlan(); });
   $('#p_title').oninput = (e) => { p.title = e.target.value; };
   $('#addRound').onclick = () => { p.rounds.push({ id: uid('r'), title: `Round ${p.rounds.length + 1}`, about: '', mix: { choice: 6 }, general: true }); renderPlan(); };
   $('#make').onclick = () => makeQuiz();
@@ -269,7 +291,7 @@ async function checkQuiz() {
       const bad = roundQs(r).flatMap(itemsOf).filter((i) => verdicts[i.id]?.flags?.length && !(pass > 1 && changed.has(i.id)));
       // pre-made sets with several bad rows are swapped whole, before any of their rows are touched
       const setBad = new Map();
-      for (const it of bad) { const { q, row } = findItem(it.id); if (row && !q.dealt && verdicts[it.id].flags.some((f) => f !== 'wording')) setBad.set(q, (setBad.get(q) || 0) + 1); }
+      for (const it of bad) { const { q, row } = findItem(it.id); if (row && !q.dealt && !q.edited && !q.keep && verdicts[it.id].flags.some((f) => f !== 'wording')) setBad.set(q, (setBad.get(q) || 0) + 1); }
       const swapped = new Set();
       for (const [q, n] of setBad) {
         if (n < 4 || B.stop) continue;
@@ -284,6 +306,7 @@ async function checkQuiz() {
         if (B.stop) break;
         const v = verdicts[it.id], { q, row } = findItem(it.id); if (!q || swapped.has(q)) continue;
         const entry = { id: it.id, where: whereOf(q, row), flags: v.flags, note: v.note, before: said(it), pass };
+        if (q.edited || q.keep) { if (!v.flags.every((f) => f === 'wording')) { entry.status = 'review'; entry.note = (entry.note ? entry.note + ' ' : '') + (q.keep ? '(You pinned this one, so it was left alone.)' : '(You edited this one, so it was left alone.)'); rr.flags.push(entry); } continue; }
         if (v.flags.every((f) => f === 'wording' || f === 'giveaway') && v.rewrite && v.rewrite.length > 8) {
           if (row) row.text = v.rewrite; else q.text = v.rewrite;
           entry.status = 'rewritten'; entry.after = `${v.rewrite} → ${it.answer}`; rr.flags.push(entry); changed.add(it.id); continue;
@@ -319,7 +342,7 @@ async function checkQuiz() {
     const its = () => rounds.flatMap((r) => roundQs(r).filter((q) => TRIVIA.includes(q.kind || q.type) || q.bank).flatMap(itemsOf));
     const all = its(); let need = Math.ceil(all.length * 0.15) - all.filter((i) => verdicts[i.id]?.wow).length;
     if (need <= 0) return;
-    const plain = rounds.filter((r) => r.categories).flatMap((r) => roundQs(r).filter((q) => ['choice', 'tf'].includes(q.type) && !changed.has(q.id) && !verdicts[q.id]?.wow && !verdicts[q.id]?.flags?.length && verdicts[q.id]?.level !== 'hard').map((q) => ({ q, r })));
+    const plain = rounds.filter((r) => r.categories).flatMap((r) => roundQs(r).filter((q) => ['choice', 'tf'].includes(q.type) && !q.edited && !q.keep && !changed.has(q.id) && !verdicts[q.id]?.wow && !verdicts[q.id]?.flags?.length && verdicts[q.id]?.level !== 'hard').map((q) => ({ q, r })));
     for (const { q, r } of plain.sort(() => Math.random() - 0.5)) {
       if (need <= 0 || B.stop) break;
       drawSteps('Adding “well I never” moments…', `${r.title}: looking for a surprising ${r.title} fact`);
@@ -425,7 +448,7 @@ function renderReport() {
       <div class="kpi"><b>${o.fixed}</b><span>flagged and fixed automatically</span></div>
       <div class="kpi ${o.review ? 'warn' : ''}"><b>${o.review}</b><span>still need your look</span></div>
     </div>
-    <div class="row" style="margin-bottom:16px"><a class="btn" href="index.html?quiz=${encodeURIComponent(qz.id)}" target="_blank">✎ Edit the quiz</a><button class="btn btn-ghost" id="recheck">↻ Re-check after editing</button><div class="grow"></div>
+    <div class="row" style="margin-bottom:16px"><a class="btn" href="index.html?quiz=${encodeURIComponent(qz.id)}">✎ Edit the quiz</a><button class="btn btn-ghost" id="recheck">↻ Re-check after editing</button><div class="grow"></div>
       ${confirmed ? `<a class="btn btn-primary btn-lg" href="host.html?quiz=${encodeURIComponent(qz.id)}" target="_blank">▶ Host it</a>` : `<button class="btn btn-primary btn-lg" id="confirm">✓ Confirm the quiz</button>`}</div>
     ${rep.aiError ? `<div class="notice" style="background:#fff3cd;color:#6b4e00;margin-bottom:14px">⚠️ The AI editor could not finish: ${esc(rep.aiError)} Rounds it did not reach show the bank's own ratings and have not been checked. Press <b>Re-check</b> once that is sorted.</div>` : ''}
     ${rep.rounds.map((rr, i) => roundReport(rr, i)).join('')}
@@ -441,7 +464,7 @@ function roundReport(rr, i) {
   const review = rr.flags.filter((f) => f.status === 'review'), fixed = rr.flags.filter((f) => f.status !== 'review');
   const statusLabel = { replaced: 'Replaced', rewritten: 'Reworded', removed: 'Removed', review: 'Needs your look' };
   const fl = (f) => `<div class="fl ${f.status}"><span class="tagx">${statusLabel[f.status]}${f.recheck ? ' (after the fix)' : ''}</span> · <span class="muted small">${esc(f.where || '')} · ${f.flags.map((x) => FLAG_LABEL[x] || x).map(esc).join(', ')}</span>
-      <div class="small">${esc(f.note || '')}</div><div class="small ${f.after ? 'was' : ''}">${esc(f.before || '')}</div>${f.after ? `<div class="small">→ ${esc(f.after)}</div>` : ''}</div>`;
+      <div class="small">${esc(f.note || '')} ${f.id && (f.status === 'review' || f.status === 'rewritten') ? `<a class="small" href="index.html?quiz=${encodeURIComponent(B.quiz.id)}&q=${encodeURIComponent(String(f.id).split('#')[0])}">Open ✎</a>` : ''}</div><div class="small ${f.after ? 'was' : ''}">${esc(f.before || '')}</div>${f.after ? `<div class="small">→ ${esc(f.after)}</div>` : ''}</div>`;
   return `<div class="card rrep"><h3><span class="rnum">${i + 1}</span>${esc(rr.title)} <span class="stars">${stars(rr.score)}</span> ${rr.levels ? levelBar(rr.levels) : ''} <span class="muted small">${rr.count || 0} questions${rr.wow ? ` · ${rr.wow} “well I never”` : ''}</span></h3>
     <p style="margin:8px 0">${esc(rr.summary || '')}</p><div class="muted small">${esc(rr.types || '')}</div>
     ${review.length ? `<h4 style="margin:10px 0 0;color:var(--bad)">Needs your look (${review.length})</h4>${review.map(fl).join('')}` : ''}
@@ -460,7 +483,8 @@ async function recheck() {
   if (!LQ.hostPassword()) { view.innerHTML = `<div class="ocb"><h1>Sign in first</h1><p>Sign in on the <a href="index.html">quiz portal</a>, then come back here.</p></div>`; return; }
   try { const r = await api('login'); if (!r.ai) toast('AI is not switched on for this server: building works from the bank, but the checks will not run.', true); }
   catch (e) { if (e.status === 401) { LQ.setHostPassword(''); location.href = 'index.html'; return; } }
-  const id = new URLSearchParams(location.search).get('quiz');
+  const id = new URLSearchParams(location.search).get('quiz'), fmt = new URLSearchParams(location.search).get('format');
+  if (fmt) { try { B.plan = planFromSaved((await api('get', { id: fmt })).quiz); return renderPlan(); } catch (e) { toast(e.message, true); } }
   if (id) { try { B.quiz = normalizeQuiz((await api('get', { id })).quiz); return renderReport(); } catch (e) { toast(e.message, true); } }
   B.plan = planFrom(thisWeek(nextFriday()));
   renderPlan();

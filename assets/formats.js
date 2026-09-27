@@ -21,63 +21,66 @@ window.LQ_FORMATS = (() => {
   const sport = (games) => ({ title: 'Sport', about: ABOUT.sport, categories: SPORT, mix: { choice: 7, text: 3, order: 1, tf: 1, ...games } });
   const qi = (extra) => ({ title: 'Well I Never Knew That!', about: ABOUT.qi, wowOnly: true, mix: { choice: 7, tf: 3, nearest: 1, ...extra } });
   const game = (title, about, mix) => ({ title, about, mix, general: true });
-  const finale = (title, about, mix) => ({ ...game(title, about, mix), double: true });
+  const dbl = (title, about, mix) => ({ ...game('Double Points: ' + title, about + ' Every score in this round counts twice!', mix), double: true });
   const BREAK = { title: 'Half-time', about: 'A 10-minute break with a countdown clock. Get one in!', mix: {}, breakMins: 10 };
+  // Every night: The Chase just before the break, a Double Points round, then The Final Chase to finish.
+  const CHASE = game('The Chase', 'Last game before the break! General knowledge: the leader becomes the Chaser and takes on the rest of the room.', { chase: 1 });
+  const FINAL = game('The Final Chase', 'The last game of the night. General knowledge: whoever is leading now is the Chaser.', { chase: 1 });
+  const catchphrase = game('Catchphrase', 'Say what you see!', { catchphrase: 5 });
 
   const FORMATS = [
-    { id: 'classic', name: 'Friday Classic', blurb: 'Wheel of Fortune and Catchphrase before the break, Wipeout boards in Music and Sport, The Chase to finish.',
+    { id: 'classic', name: 'Friday Classic', blurb: 'Wheel of Fortune and Catchphrase, The Chase before the break, Wipeout boards in Music and Sport, Double Points Highbrow Lowbrow, and The Final Chase.',
       rounds: [
         tv({ race: 1 }),
         music({ wipeout: 1 }),
         game('Wheel of Fortune', 'Phrases, names and titles on the board, letters flipping over one by one.', { wheel: 5 }),
-        game('Catchphrase', 'Say what you see! Last one before the break.', { catchphrase: 5 }),
-        BREAK,
+        catchphrase, CHASE, BREAK,
         sport({ wipeout: 1 }),
         qi(),
         game('Answer Smash', 'A picture and a clue whose answers overlap. Smash them together.', { smash: 5 }),
         game('Rhyme Time', 'Two clues, two rhyming answers. Type both.', { rhyme: 5 }),
-        finale('Grand Finale: The Chase', 'General knowledge. The leader becomes the Chaser and takes on the rest of the room.', { chase: 1 }),
+        dbl('Highbrow Lowbrow', 'A hard, scholarly clue, or tap for the easy pop-culture clue with the same answer for half the points.', { highlow: 5 }),
+        FINAL,
       ] },
-    { id: 'king', name: 'King of the Hill Night', blurb: 'Dingbats and Catchphrase before the break, a head-to-head King of the Hill finale, Highbrow Lowbrow for the brainy ones.',
+    { id: 'king', name: 'King of the Hill Night', blurb: 'Dingbats and Catchphrase, The Chase before the break, The 1% Club and Highbrow Lowbrow, Double Points King of the Hill, and The Final Chase.',
       rounds: [
         tv({ race: 1 }),
         music({ tune: 6, race: 1 }),
         game('Dingbats', 'Say what you see: phrases hidden in how the words are laid out.', { dingbat: 5 }),
-        game('Catchphrase', 'Say what you see! Last one before the break.', { catchphrase: 5 }),
-        BREAK,
-        sport({ pin: 1, koth: 1 }),
+        catchphrase, CHASE, BREAK,
+        sport({ pin: 1 }),
         qi(),
         game('Highbrow Lowbrow', 'A hard, scholarly clue, or tap for the easy pop-culture clue with the same answer for half the points.', { highlow: 5 }),
         game('The 1% Club', 'No knowledge needed, just work it out.', { club: 5 }),
-        finale('Grand Finale: King of the Hill', 'General knowledge head-to-heads, answered out loud. Stay on the hill to win.', { koth: 1 }),
+        dbl('King of the Hill', 'General knowledge head-to-heads, answered out loud. Stay on the hill to win.', { koth: 1 }),
+        FINAL,
       ] },
-    { id: 'games', name: 'Games Night', blurb: 'Picture Reveal and Draw It, Hot Potato after the break, Only One, and Newcastle v Sunderland Blockbusters to finish.',
+    { id: 'games', name: 'Games Night', blurb: 'Picture Reveal and Catchphrase, The Chase before the break, Hot Potato, Draw It and Only One, Double Points Blockbusters, and The Final Chase.',
       rounds: [
         tv({ wipeout: 1 }),
         music({ race: 1 }),
         game('Picture Reveal', 'Famous faces hidden behind tiles that flip over one by one. The sooner you get it, the more you score.', { reveal: 5 }),
-        game('Catchphrase', 'Say what you see! Last one before the break.', { catchphrase: 5 }),
-        BREAK,
+        catchphrase, CHASE, BREAK,
         sport({ potato: 1 }),
         qi(),
         game('Draw It', 'One player draws, everyone else guesses.', { draw: 1 }),
         game('Answer Smash', 'A picture and a clue whose answers overlap. Smash them together.', { smash: 5 }),
         game('Only One', 'Be the only one to say it: match anyone and you are out. Last one standing wins.', { unique: 1 }),
-        finale('Grand Finale: Blockbusters', 'Newcastle v Sunderland across the letter board. General knowledge.', { blockbusters: 1 }),
+        dbl('Blockbusters', 'Newcastle v Sunderland across the letter board. General knowledge.', { blockbusters: 1 }),
+        FINAL,
       ] },
-    { id: 'wipeout', name: 'Wipeout & Rhymes', blurb: 'A full Wipeout round, 20 Questions, Only One and Rhyme Time, Hot Potato, and The Chase to finish.',
+    { id: 'wipeout', name: 'Wipeout & Rhymes', blurb: '20 Questions, Only One and Catchphrase, The Chase before the break, Hot Potato and Rhyme Time, Double Points Wipeout, and The Final Chase.',
       rounds: [
         tv({ race: 1 }),
         music({ wipeout: 1 }),
         game('20 Questions', 'Everyone hunts the same mystery person or thing with yes/no questions.', { twenty: 2 }),
         game('Only One', 'Be the only one to say it: match anyone and you are out. Last one standing wins.', { unique: 1 }),
-        game('Catchphrase', 'Say what you see! Last one before the break.', { catchphrase: 5 }),
-        BREAK,
+        catchphrase, CHASE, BREAK,
         sport({ potato: 1 }),
         qi(),
-        game('Wipeout', 'Pick the right answers off the board. One wrong pick and you are out.', { wipeout: 3 }),
         game('Rhyme Time', 'Two clues, two rhyming answers. Type both.', { rhyme: 5 }),
-        finale('Grand Finale: The Chase', 'General knowledge. The leader becomes the Chaser and takes on the rest of the room.', { chase: 1 }),
+        dbl('Wipeout', 'Pick the right answers off the board. One wrong pick and you are out.', { wipeout: 3 }),
+        FINAL,
       ] },
   ];
   /** This week's format: they take turns week by week, so no two weeks running feel the same. */
