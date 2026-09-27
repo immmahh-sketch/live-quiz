@@ -1,0 +1,12 @@
+[
+{"type":"choice","text":"What colour is the Grinch?","options":["Green","Red","Blue","Purple"],"difficulty":"easy"},
+{"type":"choice","text":"What is the name of the singing snowman in 'Frozen'?","options":["Olaf","Sven","Kristoff","Hans"],"difficulty":"easy"},
+{"type":"choice","text":"What is the name of Kristoff's reindeer in 'Frozen'?","options":["Sven","Olaf","Rudolph","Marshmallow"],"difficulty":"easy"},
+{"type":"choice","text":"Which actor plays John McClane in 'Die Hard'?","options":["Bruce Willis","Mel Gibson","Arnold Schwarzenegger","Sylvester Stallone"],"difficulty":"easy"},
+{"type":"choice","text":"Which Dickens miser is visited by three spirits on Christmas Eve?","options":["Ebenezer Scrooge","Bob Cratchit","Jacob Marley","Mr Fezziwig"],"difficulty":"easy"},
+{"type":"choice","text":"What carries the children to the North Pole in 'The Polar Express'?","options":["A train","A sleigh","A bus","A plane"],"difficulty":"easy"},
+{"type":"choice","text":"What colours is Buddy's elf outfit in 'Elf'?","options":["Green and yellow","Red and white","Blue and silver","Purple and gold"],"difficulty":"easy"},
+{"type":"tf","text":"'Home Alone' is set at Christmas.","answer":true,"difficulty":"easy"},
+{"type":"choice","text":"Who directed 'Die Hard'?","options":["John McTiernan","Richard Donner","Renny Harlin","Tony Scott"],"difficulty":"hard"},
+{"type":"choice","text":"In which town is 'Gremlins' set?","options":["Kingston Falls","Bedford Falls","Whoville","Hill Valley"],"difficulty":"hard"}
+]
