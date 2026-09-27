@@ -82,8 +82,15 @@ const qNum = (i) => G.quiz.questions.slice(0, i + 1).filter((q) => !isSlide(q)).
 const question = () => G.quiz.questions[G.qIndex];
 /** A practice question (or a question in a practice round): played in full, scores nothing. */
 const practiceQ = (i = G.qIndex) => LQ.isPractice(G.quiz, G.quiz.questions[i]);
-const roundOf = (i) => { const q = G.quiz.questions[i]; const ri = G.quiz.rounds.findIndex((r) => r.id === q?.round); return ri < 0 ? null : { n: ri + 1, ...G.quiz.rounds[ri], count: G.quiz.questions.filter((x) => x.round === q.round).length }; };
-const startsRound = (i) => i === 0 || G.quiz.questions[i - 1]?.round !== G.quiz.questions[i]?.round;
+const roundOf = (i) => { const q = G.quiz.questions[i]; const ri = G.quiz.rounds.findIndex((r) => r.id === q?.round); return ri < 0 ? null : { n: ri + 1, ...G.quiz.rounds[ri], count: G.quiz.questions.filter((x) => x.round === q.round && !isSlide(x)).length }; };
+/** Where a round title card goes: at each change of round, except that welcome slides opening the quiz come first,
+ *  with the first round's card after them. */
+const startsRound = (i) => {
+  const qs = G.quiz.questions, lead = (j) => qs.slice(0, j).every(isSlide);
+  if (lead(i + 1)) return false;
+  if (lead(i)) return true;
+  return qs[i - 1]?.round !== qs[i]?.round;
+};
 
 // ------------------------------------------------------------------ boot
 (async function boot() {
