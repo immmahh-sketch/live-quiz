@@ -1,0 +1,20 @@
+[
+{"type":"choice","text":"Which Swedish group won Eurovision in 1974?","options":["ABBA","Roxette","Ace of Base","Europe"],"difficulty":"easy"},
+{"type":"choice","text":"How often is the Eurovision Song Contest held?","options":["Every year","Every two years","Every four years","Twice a year"],"difficulty":"easy"},
+{"type":"choice","text":"In which month is Eurovision usually held?","options":["May","March","June","December"],"difficulty":"easy"},
+{"type":"choice","text":"What does the winning country usually do the following year?","options":["Host the contest","Skip the contest","Pick the judges","Nothing special"],"difficulty":"easy"},
+{"type":"choice","text":"Which two countries share the record for the most Eurovision wins?","options":["Ireland and Sweden","The UK and France","Norway and Denmark","Italy and Spain"],"difficulty":"easy"},
+{"type":"choice","text":"Which UK singer won Eurovision in 1967 performing barefoot?","options":["Sandie Shaw","Lulu","Cilla Black","Dusty Springfield"],"difficulty":"easy"},
+{"type":"choice","text":"Which Scottish singer shared the 1969 Eurovision win?","options":["Lulu","Sandie Shaw","Mary Hopkin","Petula Clark"],"difficulty":"easy"},
+{"type":"tf","text":"The UK has won Eurovision five times.","answer":true,"difficulty":"easy"},
+{"type":"tf","text":"Eurovision is shown on BBC One in the UK.","answer":true,"difficulty":"easy"},
+{"type":"text","text":"Complete Bucks Fizz's winning title: 'Making Your Mind ___'","answers":["Up"],"difficulty":"easy"},
+{"type":"text","text":"Complete Sandie Shaw's winning title: 'Puppet on a ___'","answers":["String"],"difficulty":"easy"},
+{"type":"text","text":"Complete Brotherhood of Man's winning title: 'Save Your Kisses for ___'","answers":["Me"],"difficulty":"easy"},
+{"type":"text","text":"Complete Lordi's winning title: 'Hard Rock ___'","answers":["Hallelujah"],"difficulty":"easy"},
+{"type":"choice","text":"What is the last night of Eurovision week called?","options":["The Grand Final","The Big Night","The Eurofinal","The Showdown"],"difficulty":"easy"},
+{"type":"tf","text":"Countries are allowed to vote for their own song.","answer":false,"difficulty":"easy"},
+{"type":"tf","text":"Eurovision songs must last no longer than three minutes.","answer":true,"difficulty":"easy"},
+{"type":"choice","text":"Which city hosted Eurovision 2017 after Jamala's win for Ukraine?","options":["Kyiv","Kharkiv","Odesa","Lviv"],"difficulty":"hard"},
+{"type":"choice","text":"Which country won Eurovision in 1990 with 'Insieme: 1992'?","options":["Italy","San Marino","Switzerland","Malta"],"difficulty":"hard"}
+]
