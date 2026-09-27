@@ -176,6 +176,7 @@ function botAnswer(b, q, v) {
     const others = v.options.filter((o) => o !== right);
     return (ok || !others.length ? right : others[Math.floor(Math.random() * others.length)]).k;
   }
+  if (q.kind === 'survey') { const pool = (q.answers || []).filter(Boolean); return pool.length && Math.random() < 0.85 ? pool[Math.floor(Math.random() * Math.min(pool.length, 3))] : ['Anchovies', 'Olives', 'Chips', 'Not sure'][Math.floor(Math.random() * 4)]; }
   if (q.type === 'text' || q.type === 'smash' || q.type === 'wheel' || q.type === 'highlow' || q.type === 'rhyme' || q.type === 'club' || q.type === 'dingbat' || q.type === 'tune') {
     if (ok) { const a = q.type === 'smash' ? q.smash : q.type === 'wheel' ? q.phrase : q.type === 'rhyme' ? `${q.answer1} ${q.answer2}` : q.answers[0]; return chance(0.3) && a.length > 4 ? a.slice(0, -1) + a.slice(-1).toLowerCase() + (chance(0.5) ? 'e' : '') : a; }
     return ['Pass', 'Not sure', 'Bob', 'Paris', '1966', 'The other one'][Math.floor(Math.random() * 6)];
@@ -318,6 +319,7 @@ function stateForPlayers() {
 function broadcastState() { send('state', stateForPlayers()); }
 function answerText(q) {
   if (q.type === 'choice') return q.options.find((o) => o.id === q.correct)?.text || '';
+  if (q.kind === 'survey') { const top = G.q?.results?.stats?.survey?.[0]; return top ? `Top answer: ${top.label} (${top.n})` : ''; }
   if (q.type === 'text') return q.answers[0];
   if (q.type === 'order') return q.items.filter((i) => i.text.trim()).map((i) => i.text).join(' → ');
   if (q.type === 'match') return q.pairs.map((p) => p.left + (p.right.kind === 'text' ? ' – ' + p.right.value : '')).join(', ');
@@ -1564,6 +1566,7 @@ async function endQuestion() {
   G.phase = 'grading'; persist(); render(); broadcastState();
   try { G.q.results = await grade(); }
   catch (e) { console.error(e); toast('Scoring hit a snag: ' + e.message, true); G.q.results = await grade(true); }
+  if (roundOf(G.qIndex)?.double) for (const r of Object.values(G.q.results.byPlayer)) if (r.points > 0) { r.points *= 2; r.doubled = true; r.note = (r.note ? r.note + ' · ' : '') + '✨ Double points!'; }
   if (practiceQ()) for (const r of Object.values(G.q.results.byPlayer)) { r.practice = true; r.would = r.points; r.points = 0; } // shown, never counted
   for (const [pid, r] of Object.entries(G.q.results.byPlayer)) if (G.players[pid]) G.players[pid].score += r.points;
   logQuestion();
@@ -1785,7 +1788,28 @@ async function grade(noAi) {
     stats.answered = Object.keys(w.scores).length;
     stats.picks = w.picks;
   }
-  if (q.type === 'text' || q.type === 'smash' || q.type === 'wheel' || q.type === 'highlow' || q.type === 'rhyme' || q.type === 'club' || q.type === 'dingbat' || q.type === 'tune') {
+  if (q.kind === 'survey') {
+    // Family Fortunes with the room as the survey: answers that mean the same are grouped; the biggest group is the top
+    // answer (1000 points), other groups score in proportion to their size, and an answer nobody else gave scores nothing.
+    const key = (t) => LQ.normText(t).replace(/^(a|an|the|some|my|your) /, '').split(' ').map((w) => w.length > 3 ? w.replace(/(es|s)$/, '') : w).join(' ').trim();
+    const groups = [];
+    for (const [pid, a] of entries) {
+      const text = String(a.answer ?? '').trim().slice(0, 80); const k = key(text); if (!k) continue;
+      let g = groups.find((x) => x.key === k || (k.length >= 4 && x.key.length >= 4 && (similarity(k, x.key) >= 0.8 || (k.length >= 5 && x.key.includes(k)) || (x.key.length >= 5 && k.includes(x.key)))));
+      if (!g) { g = { key: k, labels: {}, pids: [] }; groups.push(g); }
+      g.pids.push(pid); g.labels[text] = (g.labels[text] || 0) + 1;
+    }
+    groups.sort((a, b) => b.pids.length - a.pids.length);
+    const top = groups[0]?.pids.length || 0;
+    for (const g of groups) {
+      const n = g.pids.length, pts = n >= 2 ? Math.round(1000 * n / top) : 0;
+      g.label = Object.entries(g.labels).sort((a, b) => b[1] - a[1])[0][0]; g.points = pts;
+      for (const pid of g.pids) { byPlayer[pid] = { answered: true, correct: pts > 0, partial: top ? n / top : 0, points: pts, text: G.q.answers[pid].answer, note: n >= 2 ? `👪 ${n - 1} other${n === 2 ? '' : 's'} said “${g.label}” too${g === groups[0] ? ': the top answer!' : ''}` : '👪 Nobody else said that one' }; if (pts) stats.right++; }
+    }
+    stats.survey = groups.slice(0, 8).map((g) => ({ label: g.label, n: g.pids.length, points: g.points }));
+    stats.texts = entries.map(([pid, a]) => ({ name: G.players[pid].name, text: String(a.answer ?? ''), ok: !!byPlayer[pid]?.correct }));
+  }
+  if ((q.type === 'text' && q.kind !== 'survey') || q.type === 'smash' || q.type === 'wheel' || q.type === 'highlow' || q.type === 'rhyme' || q.type === 'club' || q.type === 'dingbat' || q.type === 'tune') {
     const accepted = q.type === 'smash' ? [q.smash, `${q.pictureAnswer} ${q.clueAnswer}`, `${q.pictureAnswer}${q.clueAnswer}`].filter((s) => s && s.trim()) : q.type === 'wheel' ? [q.phrase] : q.type === 'rhyme' ? [`${q.answer1} ${q.answer2}`, `${q.answer2} ${q.answer1}`] : q.answers.filter((s) => s.trim());
     const judgeQ = q.type === 'tune' ? `Name That Tune, asked to ${q.ask === 'artist' ? 'name the artist' : q.ask === 'film' ? 'name the film the music is from' : q.ask === 'lyric' ? 'give the next line of the lyric' : 'name the song'}: the track is "${q.track}" by ${q.artist}. The answer is "${q.answers[0]}". Accept typos, a missing "The", a subtitle left off, or a band member's name for the band.` : q.type === 'club' ? `The 1% Club: a logic or lateral-thinking puzzle, "${q.text}". The answer is "${q.answers[0]}". Accept the same solution in other words or formats (4 / four, 12:30 / half past twelve), not a different solution.` : q.type === 'dingbat' ? `A Dingbats rebus (say what you see) whose answer is the phrase "${q.answers[0]}". Accept it with typos or tiny wording differences (a/the, plural); a different phrase is wrong.` : q.type === 'smash' ? `Answer Smash. The picture shows "${q.pictureAnswer}"; the clue "${q.text}" has the answer "${q.clueAnswer}"; the smashed answer is "${q.smash}". Accept the smash with typos or spacing differences, or a player who clearly gives both answers.` : q.type === 'wheel' ? `Wheel of Fortune puzzle, category ${q.category}. The phrase is "${q.phrase}". Accept it with typos; every word must be there.` : q.type === 'rhyme' ? `Rhyme Time: two clues, "${q.text}" (answer ${q.answer1}) and "${q.text2}" (answer ${q.answer2}). The player must give BOTH answers, in either order, typos allowed. One answer alone is wrong.` : q.type === 'highlow' ? `Highbrow Lowbrow: "${q.text}" / "${q.lowText}" — both have the answer "${q.answers[0]}".` : q.text;
     const unsure = [];
@@ -1910,7 +1934,7 @@ function renderSlide() {
 function renderRound() {
   const r = roundOf(G.qIndex);
   stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span></div></div>
-    <div class="stage-main"><div style="opacity:.8;font-weight:800;font-size:1.6rem">Round ${r.n} of ${G.quiz.rounds.length}</div><h1 class="big">${esc(r.title) || 'Round ' + r.n}</h1>${r.intro ? `<p style="font-size:clamp(1.1rem,2.2vw,1.8rem);font-weight:800;max-width:1000px;text-wrap:balance">${esc(r.intro)}</p>` : ''}<div style="opacity:.75;font-weight:800;font-size:1.3rem">${r.count} question${r.count === 1 ? '' : 's'}</div>${r.practice ? '<div class="practicepill big">🧪 Practice round · no points, just a go at each game</div>' : ''}</div>
+    <div class="stage-main"><div style="opacity:.8;font-weight:800;font-size:1.6rem">Round ${r.n} of ${G.quiz.rounds.length}</div><h1 class="big">${esc(r.title) || 'Round ' + r.n}</h1>${r.double ? '<div class="dblbadge">✨ Double points! ✨</div>' : ''}${r.intro ? `<p style="font-size:clamp(1.1rem,2.2vw,1.8rem);font-weight:800;max-width:1000px;text-wrap:balance">${esc(r.intro)}</p>` : ''}<div style="opacity:.75;font-weight:800;font-size:1.3rem">${r.count} question${r.count === 1 ? '' : 's'}</div>${r.practice ? '<div class="practicepill big">🧪 Practice round · no points, just a go at each game</div>' : ''}</div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary btn-lg" data-act="primary">Start round ▶</button>`)}`;
   bind();
 }
@@ -2119,6 +2143,7 @@ function renderCountdown() {
   bind();
 }
 function mediaHtml(q, live) {
+  if (q.kind === 'reveal' && live && q.media?.url && G.q?.reveal?.blur) return `<div class="qmedia reveal"><img class="rblur" src="${esc(q.media.url)}" style="filter:blur(${blurPx(G.q.reveal)}px)"></div>`;
   if (q.kind === 'reveal' && live && q.media?.url && G.q?.reveal) { const r = G.q.reveal; return `<div class="qmedia reveal"><img src="${esc(q.media.url)}"><div class="rtiles" style="grid-template-columns:repeat(${r.cols},1fr);grid-template-rows:repeat(${r.rows},1fr)">${Array.from({ length: r.cols * r.rows }, (_, i) => `<i data-t="${i}" class="${r.order.indexOf(i) < r.shown ? 'off' : ''}"></i>`).join('')}</div></div>`; }
   if (q.media?.kind === 'image' && q.media.url) return `<div class="qmedia"><img src="${esc(q.media.url)}"></div>`;
   if (q.media?.kind === 'youtube' && q.media.videoId && live) return `<div class="qmedia"><div class="ytbox" data-yt="${esc(q.id)}"></div></div>`;
@@ -2174,7 +2199,7 @@ function renderQuestion() {
   if (q.type === 'draw') { if (G.q.draw) renderDraw(); return; }
   if (q.type === 'choice' || q.type === 'tf') body = `<div class="answers">${v.options.map((o) => `<div class="ans" style="background:${COLORS[o.c].hex}"><span class="shape">${COLORS[o.c].shape}</span>${esc(o.text)}</div>`).join('')}</div>`;
   if (q.type === 'sort') body = `<div class="cats">${v.categories.map((c) => `<div class="cat"><h3>${esc(c.name)}</h3></div>`).join('')}</div><div class="items mt">${v.items.map((it) => `<div class="item">${esc(it.text)}</div>`).join('')}</div>`;
-  if (q.type === 'text') body = `<div class="item" style="justify-content:center">${q.kind === 'reveal' ? '🧩 Who is it? Type it on your phone: the fewer tiles it takes, the more you score' : '✎ Type your answer on your phone'}</div>`;
+  if (q.type === 'text') body = `<div class="item" style="justify-content:center">${q.kind === 'survey' ? '👪 We asked the room! Type the first answer that comes to mind: match the most people to score most' : q.kind === 'reveal' ? '🧩 Who is it? Type it on your phone: the fewer tiles it takes, the more you score' : '✎ Type your answer on your phone'}</div>`;
   if (q.type === 'smash') body = `<div class="item" style="justify-content:center">🔀 Answer Smash — type the picture and the clue smashed together</div>`;
   if (q.type === 'highlow') {
     stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill" id="answered">0 of ${players().length} answered</span><div class="timer" id="timer" data-s="${q.time}" style="--p:100%"></div></div>`)}
@@ -2213,21 +2238,48 @@ function revealPlan(q, now) {
   const cols = wide ? (n >= 20 ? 5 : n >= 16 ? 4 : 4) : n >= 20 ? 4 : n >= 16 ? 4 : 3, rows = Math.ceil(n / cols);
   const total = cols * rows, order = shuffle([...Array(total).keys()]);
   const span = q.time * 1000 * 0.85, every = span / (total - 1);
-  return { cols, rows, order, shown: 1, every, next: now + every };
+  return { cols, rows, order, shown: 1, every, next: now + every, blur: q.revealStyle === 'blur' };
 }
+/** Blur reveal: the same steps as the tiles, from a heavy blur down to a clear picture. */
+const blurPx = (r) => Math.round(42 * Math.max(0, 1 - r.shown / (r.order.length - 1)) ** 1.3);
 function revealTick() {
   const r = G.q.reveal, now = Date.now();
   if (now < r.next || r.shown >= r.order.length - 1) return;
   r.shown++; r.next += r.every;
+  if (r.blur) { const im = document.querySelector('.rblur'); if (im) im.style.filter = `blur(${blurPx(r)}px)`; return; }
   const el = document.querySelector(`.rtiles i[data-t="${r.order[r.shown - 1]}"]`); if (el) el.classList.add('off');
 }
 // ------------------------------------------------------------------ Name That Tune: the clip plays here, on the shared screen
+let revCache = { url: '', buf: null };
+/** Backwards: the clip is fetched (Apple's previews allow it), decoded, its samples reversed, and played through Web Audio. */
+async function playBackwards(url, start, len) {
+  const bar = $('#tuneBar'), v = $('#vinyl');
+  try {
+    const ctx = window._lqAudio || (window._lqAudio = new (window.AudioContext || window.webkitAudioContext)());
+    if (ctx.state === 'suspended') await ctx.resume().catch(() => {});
+    if (revCache.url !== url) {
+      const data = await (await fetch(url)).arrayBuffer();
+      const src = await ctx.decodeAudioData(data);
+      const from = Math.min(Math.floor(start * src.sampleRate), src.length - 1), n = Math.max(1, Math.min(Math.floor(len * src.sampleRate), src.length - from));
+      const out = ctx.createBuffer(src.numberOfChannels, n, src.sampleRate);
+      for (let c = 0; c < src.numberOfChannels; c++) { const a = src.getChannelData(c).subarray(from, from + n), b = out.getChannelData(c); for (let i = 0; i < n; i++) b[i] = a[n - 1 - i]; }
+      revCache = { url, buf: out };
+    }
+    const node = ctx.createBufferSource(); node.buffer = revCache.buf; node.connect(ctx.destination);
+    const t0 = ctx.currentTime, dur = revCache.buf.duration;
+    tuneAudio = { pause: () => { try { node.stop(); } catch {} } };
+    node.onended = () => { clearInterval(tuneT); if (v) v.classList.remove('spin'); };
+    node.start(); if (v) v.classList.add('spin');
+    tuneT = setInterval(() => { if (bar) bar.style.width = Math.min(100, (ctx.currentTime - t0) / dur * 100) + '%'; }, 100);
+  } catch (e) { toast('The backwards clip would not play: ' + e.message, true); }
+}
 let tuneAudio = null, tuneT = null;
 function stopTune() { clearInterval(tuneT); if (tuneAudio) { try { tuneAudio.pause(); } catch {} tuneAudio = null; } const v = $('#vinyl'); if (v) v.classList.remove('spin'); }
 function playTune(q) {
   stopTune();
   const m = q.media || {}; if (!m.url) return;
   const start = Math.max(0, +m.start || 0), len = Math.min(30, Math.max(3, +m.length || 15));
+  if (q.backwards) return playBackwards(m.url, start, len);
   const a = new Audio(m.url); a.preload = 'auto'; tuneAudio = a;
   const bar = $('#tuneBar'), v = $('#vinyl');
   a.addEventListener('loadedmetadata', () => { try { a.currentTime = start; } catch {} });
@@ -2302,7 +2354,10 @@ function renderReveal() {
     const max = Math.max(1, ...Object.values(R.stats.counts));
     body = `<div class="answers">${v.options.map((o) => { const id = G.q.keys[o.k], c = R.stats.counts[id] || 0, ok = id === LQ.correctId(q); return `<div class="ans ${ok ? '' : 'dim'}" style="background:${COLORS[o.c].hex}"><div class="bar" style="width:${(c / max) * 100}%"></div><span class="shape" style="position:relative">${COLORS[o.c].shape}</span><span style="position:relative">${esc(o.text)}</span><span class="count" style="position:relative">${c}</span>${ok ? '<span class="tick" style="position:relative">✔</span>' : ''}</div>`; }).join('')}</div>`;
   }
-  if (q.type === 'text' || q.type === 'club' || q.type === 'dingbat' || q.type === 'tune') {
+  if (q.kind === 'survey') {
+    const sv = R.stats.survey || [], max = sv[0]?.n || 1;
+    body = `<div class="ffboard">${sv.length ? sv.map((g, i) => `<div class="ffrow" style="animation-delay:${i * 0.35}s"><span class="ffn">${i + 1}</span><span class="fflabel">${esc(g.label)}</span><span class="ffbar"><i style="width:${g.n / max * 100}%"></i></span><span class="ffcount">${g.n}</span><span class="ffpts">${g.points ? '+' + g.points : '✗'}</span></div>`).join('') : '<div class="item">Nobody answered!</div>'}</div>`;
+  } else if (q.type === 'text' || q.type === 'club' || q.type === 'dingbat' || q.type === 'tune') {
     const pre = q.type === 'tune' ? `<div class="tunecard">${q.media?.artwork ? `<img src="${esc(LQ.bigArt(q.media.artwork))}" alt="">` : ''}<div><div class="tunetitle">${esc(q.track)}</div><div class="tuneartist">${esc(q.artist)}${q.year ? ` · ${esc(String(q.year))}` : ''}${q.film ? ` · ${esc(q.film)}` : ''}</div><div class="small" style="opacity:.6">Preview via Apple Music</div></div></div>` : q.type === 'club' ? `<div class="clubrow" style="margin-bottom:12px"><span class="clubpct">${q.pct}%</span><span class="clubnote">were expected to get it · <b>${R.stats.right} of ${n}</b> here did · ${LQ.clubPoints(q.pct)} points each</span></div>` : q.type === 'dingbat' && !(q.media?.kind === 'image' && q.media.url) ? LQ.dingbatHtml(q.elements, 'stage-db sm') : '';
     body = `${pre}<div class="item ok" style="justify-content:center;font-size:1.8rem">✔ ${esc(q.answers[0])}${q.answers.length > 1 ? `<span style="opacity:.7;font-size:.7em"> (or ${esc(q.answers.slice(1, 4).join(', '))})</span>` : ''}</div>${q.type === 'club' && q.why ? `<div class="clubwhy">💡 ${esc(q.why)}</div>` : ''}
       <div class="textlist mt">${R.stats.texts.slice(0, 30).map((t) => `<span class="tl ${t.ok === null ? '' : t.ok ? 'ok' : 'no'}">${esc(t.text || '—')} <span style="opacity:.7;font-size:.85em">· ${esc(t.name)}</span></span>`).join('')}</div>`;

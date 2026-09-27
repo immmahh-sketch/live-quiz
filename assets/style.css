@@ -1107,8 +1107,21 @@ body.tv .drawside { flex-basis: 34%; }
 @keyframes nwbestb { to { color: #1b1544; } }
 
 /* Picture Reveal: tiles over the picture flip away one by one */
-.qmedia.reveal { position: relative; display: inline-block; }
-.qmedia.reveal img { display: block; }
+.qmedia.reveal { position: relative; display: block; width: fit-content; max-width: 100%; height: 100%; margin: 0 auto; flex: 1 1 auto; min-height: 0; }
+.qmedia.reveal img { display: block; height: 100%; width: auto; max-width: 100%; object-fit: contain; }
 .rtiles { position: absolute; inset: 0; display: grid; gap: 3px; }
 .rtiles i { background: linear-gradient(135deg, #5b3df5, #3b22c9); border-radius: 6px; box-shadow: inset 0 0 0 2px rgba(255,255,255,.18); transition: transform .5s ease, opacity .5s ease; transform-origin: center; }
 .rtiles i.off { transform: rotateY(90deg); opacity: 0; }
+
+.dblbadge { display: inline-block; margin-top: 10px; background: #ffd60a; color: #2a1d00; font-weight: 900; font-size: clamp(1.2rem, 2.6vw, 2.2rem); padding: 8px 22px; border-radius: 999px; box-shadow: 0 6px 24px rgba(255,214,10,.45); animation: dblpulse 1.2s ease-in-out infinite alternate; }
+@keyframes dblpulse { from { transform: scale(1); } to { transform: scale(1.06); } }
+.qmedia.reveal .rblur { transition: filter .8s linear; }
+
+/* Family Fortunes: the room's answers as a survey board */
+.ffboard { display: flex; flex-direction: column; gap: 8px; width: min(900px, 92vw); margin: 0 auto; }
+.ffrow { display: grid; grid-template-columns: 48px 1fr 30% 56px 90px; gap: 12px; align-items: center; background: #1d3a8a; color: #fff; border: 3px solid #f5c542; border-radius: 12px; padding: 8px 14px; font-weight: 900; font-size: clamp(1rem, 2vw, 1.6rem); opacity: 0; animation: ffin .45s ease forwards; }
+.ffrow:first-child { background: #2a4fb8; }
+.ffn { background: #f5c542; color: #1d3a8a; border-radius: 8px; text-align: center; }
+.ffbar { height: 14px; background: rgba(255,255,255,.15); border-radius: 99px; overflow: hidden; } .ffbar i { display: block; height: 100%; background: #f5c542; }
+.ffcount { text-align: right; } .ffpts { text-align: right; color: #f5c542; }
+@keyframes ffin { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }

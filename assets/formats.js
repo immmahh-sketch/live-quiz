@@ -21,6 +21,7 @@ window.LQ_FORMATS = (() => {
   const sport = (games) => ({ title: 'Sport', about: ABOUT.sport, categories: SPORT, mix: { choice: 7, text: 3, order: 1, tf: 1, ...games } });
   const qi = (extra) => ({ title: 'Well I Never Knew That!', about: ABOUT.qi, wowOnly: true, mix: { choice: 7, tf: 3, nearest: 1, ...extra } });
   const game = (title, about, mix) => ({ title, about, mix, general: true });
+  const finale = (title, about, mix) => ({ ...game(title, about, mix), double: true });
   const BREAK = { title: 'Half-time', about: 'A 10-minute break with a countdown clock. Get one in!', mix: {}, breakMins: 10 };
 
   const FORMATS = [
@@ -35,7 +36,7 @@ window.LQ_FORMATS = (() => {
         qi(),
         game('Answer Smash', 'A picture and a clue whose answers overlap. Smash them together.', { smash: 5 }),
         game('Rhyme Time', 'Two clues, two rhyming answers. Type both.', { rhyme: 5 }),
-        game('Grand Finale: The Chase', 'General knowledge. The leader becomes the Chaser and takes on the rest of the room.', { chase: 1 }),
+        finale('Grand Finale: The Chase', 'General knowledge. The leader becomes the Chaser and takes on the rest of the room.', { chase: 1 }),
       ] },
     { id: 'king', name: 'King of the Hill Night', blurb: 'Dingbats and Catchphrase before the break, a head-to-head King of the Hill finale, Highbrow Lowbrow for the brainy ones.',
       rounds: [
@@ -48,9 +49,9 @@ window.LQ_FORMATS = (() => {
         qi(),
         game('Highbrow Lowbrow', 'A hard, scholarly clue, or tap for the easy pop-culture clue with the same answer for half the points.', { highlow: 5 }),
         game('The 1% Club', 'No knowledge needed, just work it out.', { club: 5 }),
-        game('Grand Finale: King of the Hill', 'General knowledge head-to-heads, answered out loud. Stay on the hill to win.', { koth: 1 }),
+        finale('Grand Finale: King of the Hill', 'General knowledge head-to-heads, answered out loud. Stay on the hill to win.', { koth: 1 }),
       ] },
-    { id: 'games', name: 'Games Night', blurb: 'Picture Reveal and Draw It, Hot Potato after the break, and Newcastle v Sunderland Blockbusters to finish.',
+    { id: 'games', name: 'Games Night', blurb: 'Picture Reveal and Draw It, Hot Potato after the break, Family Fortunes, and Newcastle v Sunderland Blockbusters to finish.',
       rounds: [
         tv({ wipeout: 1 }),
         music({ race: 1 }),
@@ -61,20 +62,22 @@ window.LQ_FORMATS = (() => {
         qi(),
         game('Draw It', 'One player draws, everyone else guesses.', { draw: 1 }),
         game('Answer Smash', 'A picture and a clue whose answers overlap. Smash them together.', { smash: 5 }),
-        game('Grand Finale: Blockbusters', 'Newcastle v Sunderland across the letter board. General knowledge.', { blockbusters: 1 }),
+        game('Family Fortunes', 'We asked the room! Match the most people to score the most.', { survey: 4 }),
+        finale('Grand Finale: Blockbusters', 'Newcastle v Sunderland across the letter board. General knowledge.', { blockbusters: 1 }),
       ] },
-    { id: 'wipeout', name: 'Wipeout & Rhymes', blurb: 'A full Wipeout round, 20 Questions and Rhyme Time, Hot Potato, and The Chase to finish.',
+    { id: 'wipeout', name: 'Wipeout & Rhymes', blurb: 'A full Wipeout round, 20 Questions, Family Fortunes and Rhyme Time, Hot Potato, and The Chase to finish.',
       rounds: [
         tv({ race: 1 }),
         music({ wipeout: 1 }),
         game('20 Questions', 'Everyone hunts the same mystery person or thing with yes/no questions.', { twenty: 2 }),
+        game('Family Fortunes', 'We asked the room! Match the most people to score the most.', { survey: 4 }),
         game('Catchphrase', 'Say what you see! Last one before the break.', { catchphrase: 5 }),
         BREAK,
         sport({ potato: 1 }),
         qi(),
         game('Wipeout', 'Pick the right answers off the board. One wrong pick and you are out.', { wipeout: 3 }),
         game('Rhyme Time', 'Two clues, two rhyming answers. Type both.', { rhyme: 5 }),
-        game('Grand Finale: The Chase', 'General knowledge. The leader becomes the Chaser and takes on the rest of the room.', { chase: 1 }),
+        finale('Grand Finale: The Chase', 'General knowledge. The leader becomes the Chaser and takes on the rest of the room.', { chase: 1 }),
       ] },
   ];
   /** This week's format: they take turns week by week, so no two weeks running feel the same. */

@@ -73,6 +73,7 @@ window.LQ = (() => {
     club:   { label: 'The 1% Club',    icon: '🧠', blurb: 'Logic, wordplay and lateral thinking. No knowledge needed, just work it out. The fewer people who get it, the more it pays.' },
     dingbat:{ label: 'Dingbats',        icon: '🔤', blurb: 'Say what you see: a well-known phrase hidden in how the words are laid out.' },
     catchphrase: { label: 'Catchphrase', icon: '🗯️', blurb: 'A clip from the show plays on the screen. Players type the well-known phrase it shows.' },
+    survey: { label: 'Family Fortunes', icon: '👪', blurb: '"We asked the room…": everyone types an answer, and you score by matching everyone else. The more players who said what you said, the more you score.' },
     reveal: { label: 'Picture Reveal', icon: '🧩', blurb: 'A picture hidden behind tiles that flip over one by one. Players type who or what it is: the fewer tiles it takes, the more they score.' },
     tune:   { label: 'Name That Tune',  icon: '🎵', blurb: 'A clip plays on the screen. Name the song, the artist, the film it is from, the year, or the next line.' },
     potato: { label: 'Hot Potato',      icon: '💣', blurb: 'A lit bomb passes round the room. Whoever holds it answers on their phone; get it right and pass it on. Holding it when it blows costs you points.' },
@@ -555,6 +556,7 @@ window.LQ = (() => {
     club: 'No knowledge needed, just logic. The fewer people who get it, the more it is worth.',
     dingbat: 'Say what you see: a well-known phrase hidden in how the words are laid out.',
     catchphrase: 'Watch the clip and say what you see: type the well-known saying it shows.',
+    survey: 'We asked the room! Type the first answer that comes to mind. The more people who say the same as you, the more you score. A lonely answer scores nothing.',
     reveal: 'A picture is hidden behind tiles that flip over one by one. Type who or what it is on your phone: the sooner you get it, the more you score.',
     tune: 'Listen to the clip and answer on your phone.',
     potato: 'The bomb is lit and nobody knows how long the fuse is. If it lands on you, answer the question on your phone. Get it right and you choose who gets it next. Holding it when it goes bang costs you points.',
@@ -587,7 +589,7 @@ window.LQ = (() => {
     { name: 'yellow', hex: '#d89e00', shape: '●' },
     { name: 'green',  hex: '#26890c', shape: '■' },
   ];
-  const DEFAULT_TIMES = { nearest: 25, draw: 60, catchphrase: 50, reveal: 40, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30, potato: 90, koth: 15, blockbusters: 20, chase: 15, twenty: 180 };
+  const DEFAULT_TIMES = { nearest: 25, draw: 60, catchphrase: 50, reveal: 40, survey: 30, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30, potato: 90, koth: 15, blockbusters: 20, chase: 15, twenty: 180 };
   const DEFAULT_SETTINGS = { maxPoints: 1000, minPoints: 500, defaultTime: 30, showAnswersOnPhones: true, timeByType: { ...DEFAULT_TIMES } };
 
   /** The time limit a question of this type gets by default in this quiz. */
@@ -606,7 +608,7 @@ window.LQ = (() => {
       let mix = r.mix && typeof r.mix === 'object' ? Object.fromEntries(Object.entries(r.mix).filter(([k, v]) => TYPES[k] && +v > 0).map(([k, v]) => [k, Math.min(40, Math.round(+v))])) : null;
       if (!mix) { const types = Array.isArray(r.types) ? r.types.filter((t) => TYPES[t]) : []; const total = +r.count || 0; mix = {}; if (types.length && total) { const each = Math.floor(total / types.length); types.forEach((t, i) => { mix[t] = each + (i < total - each * types.length ? 1 : 0); }); } }
       const types = Object.keys(mix), count = Object.values(mix).reduce((a, b) => a + b, 0);
-      return { id: r.id, title: r.title || '', intro: r.intro || '', brief: r.brief || '', mix, types, count, practice: !!r.practice, ...(Array.isArray(r.categories) && r.categories.length ? { categories: r.categories } : {}), ...(r.wowOnly ? { wowOnly: true } : {}), ...(r.general ? { general: true } : {}) };
+      return { id: r.id, title: r.title || '', intro: r.intro || '', brief: r.brief || '', mix, types, count, practice: !!r.practice, ...(Array.isArray(r.categories) && r.categories.length ? { categories: r.categories } : {}), ...(r.wowOnly ? { wowOnly: true } : {}), ...(r.general ? { general: true } : {}), ...(r.double ? { double: true } : {}) };
     });
     if (!rounds.length) rounds = [{ id: uid('r'), title: 'Round 1', intro: '', brief: '', mix: {}, count: 0, types: [] }];
     const ids = new Set(rounds.map((r) => r.id));
@@ -647,6 +649,7 @@ window.LQ = (() => {
 
   function newQuestion(type = 'choice', settings = DEFAULT_SETTINGS) {
     if (type === 'slide') return { id: uid('q'), type: 'slide', text: '', body: '', time: 20, media: { kind: 'none' } };
+    if (type === 'survey') { const c = newQuestion('text', settings); c.kind = 'survey'; c.text = 'We asked the room: name something…'; c.answers = ['']; c.ai = false; c.time = timeFor('survey', settings); return c; }
     if (type === 'reveal') { const c = newQuestion('text', settings); c.kind = 'reveal'; c.text = 'Picture Reveal: who is this?'; c.media = { kind: 'image', url: '' }; c.tiles = 16; c.time = timeFor('reveal', settings); return c; }
     if (type === 'catchphrase') { const c = newQuestion('text', settings); c.kind = 'catchphrase'; c.text = 'Catchphrase: say what you see'; c.media = { kind: 'youtube', url: '', videoId: '', start: 0 }; c.time = timeFor('catchphrase', settings); return c; }
     const q = { id: uid('q'), type, text: '', time: timeFor(type, settings), media: { kind: 'none' }, partial: false };
@@ -706,7 +709,7 @@ window.LQ = (() => {
       if (filled.length < 2) problems.push('Needs at least two answers.');
       if (!(q.options || []).some((o) => o.id === q.correct && o.text.trim())) problems.push('Mark which answer is right.');
     }
-    if (q.type === 'text' && !(q.answers || []).some((a) => a.trim())) problems.push('Needs an accepted answer.');
+    if (q.type === 'text' && q.kind !== 'survey' && !(q.answers || []).some((a) => a.trim())) problems.push('Needs an accepted answer.');
     if (q.type === 'nearest') {
       if (!Number.isFinite(parseNum(q.answer))) problems.push('Needs the answer as a number.');
       if (q.spread != null && q.spread !== '' && !(parseNum(q.spread) > 0)) problems.push('"Points run out at" must be a number above nought, or blank for automatic.');
@@ -984,7 +987,7 @@ window.LQ = (() => {
   // ---------------------------------------------------------------- Name That Tune
   const TUNE_ASKS = { song: { label: 'Name the song', prompt: '🎵 Name that tune' }, artist: { label: 'Name the artist', prompt: '🎤 Who is this?' }, film: { label: 'Which film is it from?', prompt: '🎬 Which film is this music from?' }, year: { label: 'What year?', prompt: '📅 What year was this released?' }, lyric: { label: 'Next line of the lyric', prompt: '🎶 The clip stops — what is the next line?' } };
   /** What the screen and phones ask for a tune question: the host's own wording, or the ask's default. */
-  function tunePrompt(q) { if ((q.text || '').trim()) return q.text.trim(); if (q.ask === 'lyric' && (q.cue || '').trim()) return `🎶 What line comes after: “${q.cue.trim()}”?`; return (TUNE_ASKS[q.ask] || TUNE_ASKS.song).prompt; }
+  function tunePrompt(q) { if ((q.text || '').trim()) return q.text.trim(); if (q.backwards) return '🔄 Backwards! ' + (TUNE_ASKS[q.ask] || TUNE_ASKS.song).prompt.replace(/^\S+\s/, ''); if (q.ask === 'lyric' && (q.cue || '').trim()) return `🎶 What line comes after: “${q.cue.trim()}”?`; return (TUNE_ASKS[q.ask] || TUNE_ASKS.song).prompt; }
   /** A track title without the "(feat. …)", "- Remastered" and "[Single Version]" clutter: what a player would actually say. */
   function cleanTitle(t) { return String(t || '').replace(/\s*[\(\[][^)\]]*(feat\.|featuring|remaster|remastered|version|edit|mix|mono|stereo|live|radio)[^)\]]*[\)\]]/gi, '').replace(/\s+-\s+(remaster(ed)?|single version|radio edit|\d{4} remaster).*$/i, '').trim(); }
   /** Bigger Apple artwork from the 100px thumbnail the search returns. */

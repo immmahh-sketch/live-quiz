@@ -986,7 +986,7 @@ Deno.serve(async (req) => {
 
     if (action === "generate") {
       if (!ANTHROPIC_KEY) return json({ error: "AI is not set up on the server yet — add ANTHROPIC_API_KEY as a Supabase secret." }, 503);
-      const KNOWN = ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel", "highlow", "rhyme", "club", "dingbat", "tune", "catchphrase", "reveal", "nearest", "draw", "twenty", ...Object.keys(RACE_GAMES)];
+      const KNOWN = ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel", "highlow", "rhyme", "club", "dingbat", "tune", "catchphrase", "reveal", "survey", "nearest", "draw", "twenty", ...Object.keys(RACE_GAMES)];
       const asked = (Array.isArray(body.types) ? body.types : []).map(String);
       let types = asked.filter((t) => KNOWN.includes(t));
       // Hot Potato, King of the Hill and Blockbusters play on a race's bank of quick questions: take or write a race, then reshape it.
@@ -1024,7 +1024,7 @@ Deno.serve(async (req) => {
       if (fromBank.length >= wantCount) return json({ questions: reshape(fromBank), warnings: [], searched: false, usage: null, unknownTypes, fromBank: fromBank.length, bankInfo });
       if (body.bankOnly === true) return json({ questions: reshape(fromBank), warnings: [], searched: false, usage: null, unknownTypes, fromBank: fromBank.length, bankInfo });
       // Catchphrase clips only come from the bank: the AI cannot make a video.
-      if (types[0] === "catchphrase" || types[0] === "reveal") return json({ questions: fromBank, warnings: fromBank.length < wantCount ? [types[0] === "reveal" ? "The Picture Reveal pictures in the bank have run out. Add more, or pick another type for the rest." : "The Catchphrase clips in the bank have run out. Add more, or pick another type for the rest."] : [], searched: false, usage: null, unknownTypes, fromBank: fromBank.length, bankInfo });
+      if (types[0] === "catchphrase" || types[0] === "reveal" || types[0] === "survey") return json({ questions: fromBank, warnings: fromBank.length < wantCount ? [types[0] === "reveal" ? "The Picture Reveal pictures in the bank have run out. Add more, or pick another type for the rest." : "The Catchphrase clips in the bank have run out. Add more, or pick another type for the rest."] : [], searched: false, usage: null, unknownTypes, fromBank: fromBank.length, bankInfo });
       const out = await generate({
         topic: String(body.brief ? (body.title || body.topic || "") : (body.topic || "")).slice(0, 200),
         brief: String(body.brief || "").slice(0, 1500),
@@ -1485,7 +1485,7 @@ async function kahootFromRead(read: any): Promise<{ title: string; description: 
 // Pre-written questions, one quiz_bank row each (see bankRow below). Each item carries category/tags for matching
 // a themed round and a "used" stamp once it has gone into a quiz, so it never comes round again.
 const BANK_LOW = 25;
-const EVERGREEN = ["club", "dingbat", "wheel", "pin", "tune", "catchphrase", "reveal", "twenty"]; // theme-free types: any unused item will do when the round has no matching one
+const EVERGREEN = ["club", "dingbat", "wheel", "pin", "tune", "catchphrase", "reveal", "survey", "twenty"]; // theme-free types: any unused item will do when the round has no matching one
 /** What makes two items "the same": the phrase for dingbats and wheels, the place for pins, the track for tunes, the wording otherwise. */
 function bankKey(q: any): string { if (q?.kind === "reveal") return "rv:" + norm((q.answers || [])[0] || ""); if (q?.media?.kind === "youtube" && q.media.videoId) return "yt:" + q.media.videoId; if (q?.media?.kind === "image" && q.media.source && /which .*(flag|picture|this)/i.test(q.text || "")) return "img:" + q.media.source; return norm(q?.type === "dingbat" || q?.type === "twenty" ? (q.answers || [])[0] || "" : q?.type === "tune" ? `${q.track} ${q.artist}` : q?.type === "pin" ? q.place || q.text : q?.phrase || q?.text || ""); }
 /** The right answer of a finished question, as plain text, for near-duplicate checks. */
@@ -1526,7 +1526,7 @@ function nearDuplicate(a: any, b: any): boolean {
 // questions in order, as the rest of the code expects, and remembers each item as it was loaded; bankSave() then
 // writes only what changed: new or edited items are upserted, removed ones deleted. (It used to be a few
 // quiz_quizzes rows of several MB each, so every small change rewrote megabytes and reads hit the statement timeout.)
-const BANK_LABEL: Record<string, string> = { choice: "Multiple choice", text: "Type the answer", order: "Put in order", pin: "Drop the pin", match: "Match up", tf: "True or false", sort: "Categorise", wipeout: "Wipeout", race: "The Race", smash: "Answer Smash", wheel: "Wheel of Fortune", highlow: "Highbrow Lowbrow", rhyme: "Rhyme Time", club: "The 1% Club", catchphrase: "Catchphrase", reveal: "Picture Reveal", dingbat: "Dingbats", tune: "Name That Tune", nearest: "Nearest Wins", draw: "Draw It", twenty: "20 Questions" };
+const BANK_LABEL: Record<string, string> = { choice: "Multiple choice", text: "Type the answer", order: "Put in order", pin: "Drop the pin", match: "Match up", tf: "True or false", sort: "Categorise", wipeout: "Wipeout", race: "The Race", smash: "Answer Smash", wheel: "Wheel of Fortune", highlow: "Highbrow Lowbrow", rhyme: "Rhyme Time", club: "The 1% Club", catchphrase: "Catchphrase", reveal: "Picture Reveal", survey: "Family Fortunes", dingbat: "Dingbats", tune: "Name That Tune", nearest: "Nearest Wins", draw: "Draw It", twenty: "20 Questions" };
 const BANK_PAGE = 1000; // PostgREST hands back at most this many rows a request
 async function restAll(path: string): Promise<any[]> {
   const out: any[] = [];
@@ -1589,7 +1589,7 @@ const WORD = (s: string) => new Set(norm(s).split(" ").filter((w) => w.length >=
 const THEME_STOP = new Set(["round", "rounds", "quiz", "quizzes", "question", "questions", "about", "based", "show", "shows", "series", "programme", "program", "from", "with", "that", "this", "these", "those", "their", "there", "what", "which", "some", "more", "most", "only", "mixed", "general", "knowledge", "trivia", "easy", "hard", "medium", "difficult", "tricky", "family", "friendly", "answer", "answers", "each", "every", "make", "made", "write", "include", "including", "like", "also", "just", "plus", "other", "things", "stuff", "anything", "everything", "famous", "popular", "classic", "best", "good", "great", "topic", "theme", "themed", "fun", "please", "want", "should", "would", "could", "about", "into", "over", "under", "your", "them", "they", "have", "been", "will", "than", "then", "when", "where", "while", "people", "players", "player", "team", "teams", "night", "tonight", "week", "weekly", "new", "untitled", "incorrect", "correct", "wrong", "right", "often", "think", "thinks", "thought", "actually", "really", "commonly", "usually", "mistake", "mistaken", "mistakes", "confuse", "confused", "trick", "tricks", "trap", "traps", "option", "options", "similar", "include", "includes", "adding", "fake", "real", "list", "lists", "ones", "called", "sound", "sounds", "instead", "rather", "though", "wipeout", "race", "smash", "catchphrase", "dingbat", "dingbats"]);
 const JUNK_CATEGORY = /^(round\s*\d*|new quiz|untitled.*|ai quiz|quiz|general|test.*)$/i;
 /** The games' own names. A round called "Wipeout" says which game it is, not what it is about, so these never count as a theme. */
-const GAME_NAME = /^(the\s+)?(wipeout|race|hot potato|king of the hill|blockbusters|the chase|chase|answer smash|smash|wheel of fortune|wheel|dingbats?|catchphrase|rhyme time|highbrow,? lowbrow|1% club|one per ?cent club|name that tune|multiple choice|true or false|true\/false|type the answer|put in order|drop the pin|match up|categorise|categorize|nearest wins|draw it|picture reveal|reveal)( round)?$/i;
+const GAME_NAME = /^(the\s+)?(wipeout|race|hot potato|king of the hill|blockbusters|the chase|chase|answer smash|smash|wheel of fortune|wheel|dingbats?|catchphrase|rhyme time|highbrow,? lowbrow|1% club|one per ?cent club|name that tune|multiple choice|true or false|true\/false|type the answer|put in order|drop the pin|match up|categorise|categorize|nearest wins|draw it|picture reveal|reveal|family fortunes)( round)?$/i;
 const junkCategory = (c: string) => JUNK_CATEGORY.test(c) || GAME_NAME.test(c.trim());
 /** Games built on a race's bank of quick questions, with the settings each starts with. They never get bank rows of their own. */
 const RACE_GAMES: Record<string, { label: string; set: () => Record<string, unknown> }> = {
