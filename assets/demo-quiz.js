@@ -1816,6 +1816,8 @@ window.demoSpec = function (list) {
     .filter(([t]) => window.DEMO_SAMPLES[t]);
 };
 function demoWrap(questions, intro) {
+  // Blockbusters sides: a random pair of great debates each time (Pineapple on Pizza v No Pineapple…)
+  for (const q of questions) if (q.type === 'blockbusters' && window.LQ?.bbTeams) q.teams = window.LQ.bbTeams();
   questions.forEach((q, i) => Object.assign(q, { id: 'd' + (i + 1), round: 'r1' }));
   return { id: 'demo', title: 'Demo quiz', settings: { maxPoints: 1000, minPoints: 500, defaultTime: 20, showAnswersOnPhones: true, rounds: [{ id: 'r1', title: 'Demo', intro, brief: '' }] }, questions };
 }

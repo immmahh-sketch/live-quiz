@@ -1507,6 +1507,32 @@ Deno.serve(async (req) => {
   }
 });
 
+// ---------------------------------------------------------------- Blockbusters sides
+/** The great debates, so everyone picks a side they believe in: [name, colour, name, colour]. Keep in step with assets/common.js. */
+const BB_TEAM_PAIRS: [string, string, string, string][] = [
+  ["Pineapple on Pizza", "#ffd23f", "No Pineapple, Thank You", "#e21b3c"],
+  ["Marmite: Love It", "#ffd23f", "Marmite: Hate It!", "#6b3e1f"],
+  ["MJ Did It!", "#c0c0c0", "MJ Is the King of Pop!", "#e21b3c"],
+  ["Milk In First", "#f2f2f2", "Tea Bag In First", "#8b5a2b"],
+  ["It's Called Dinner", "#26890c", "It's Called Tea", "#1368ce"],
+  ["Die Hard's a Xmas Film", "#e21b3c", "It's an Action Film!", "#26890c"],
+  ["We Were on a Break!", "#7b2ff7", "Not on a Break, Ross", "#ff7ab6"],
+  ["Jaffa Cake: a Cake", "#ff8c1a", "Jaffa Cake: a Biscuit", "#5a3a1a"],
+  ["Rose Had Room for Jack", "#1368ce", "The Door Was Too Small", "#ff7ab6"],
+  ["Team Ant", "#ffd23f", "Team Dec", "#1368ce"],
+  ["Oasis", "#e21b3c", "Blur", "#1368ce"],
+  ["Toilet Roll Over", "#f2f2f2", "Toilet Roll Under", "#7fb3ff"],
+  ["Crisps IN the Sarnie", "#ffd23f", "Crisps on the Side", "#26890c"],
+  ["Ketchup in the Fridge", "#e21b3c", "Ketchup in the Cupboard", "#8b5a2b"],
+  ["Cat People", "#ff7ab6", "Dog People", "#8b5a2b"],
+  ["Scone Rhymes With Gone", "#ffd23f", "Scone Rhymes With Bone", "#e21b3c"],
+  ["Socks With Sandals", "#26890c", "Absolutely Not", "#e21b3c"],
+  ["Early Birds", "#ffd23f", "Night Owls", "#1b1544"],
+  ["Christmas Starts Nov 1st", "#e21b3c", "Not Till December!", "#26890c"],
+  ["Newcastle", "#f2f2f2", "Sunderland", "#e21b3c"],
+];
+function bbTeams() { const p = BB_TEAM_PAIRS[Math.floor(Math.random() * BB_TEAM_PAIRS.length)]; return [{ name: p[0], color: p[1] }, { name: p[2], color: p[3] }]; }
+
 // ---------------------------------------------------------------- warm-up v quiz
 const CLASH_STOP = new Set("which what where when whose does were that this with from have into about their there these those they them than then name named first most many much only also over under after before your called known".split(" "));
 /** Every question and game row in a quiz, with its answer, for comparing two quizzes. */
@@ -1724,7 +1750,7 @@ const RACE_GAMES: Record<string, { label: string; set: () => Record<string, unkn
   potato: { label: "Hot Potato", set: () => ({ fuseMin: 40, fuseMax: 90, perCorrect: 50, penalty: 300, time: 90 }) },
   koth: { label: "King of the Hill", set: () => ({ target: 3, prize: 1000, answerSecs: 3, perPoint: 100, maxRounds: 12, time: 15 }) },
   chase: { label: "The Chase", set: () => ({ headStart: 2, target: 5, teamPrize: 1000, chaserPrize: 200, time: 15 }) },
-  blockbusters: { label: "Blockbusters", set: () => ({ teams: [{ name: "Newcastle", color: "#f2f2f2" }, { name: "Sunderland", color: "#e21b3c" }], hexPoints: 50, prize: 500, time: 20 }) },
+  blockbusters: { label: "Blockbusters", set: () => ({ teams: bbTeams(), hexPoints: 50, prize: 500, time: 20 }) },
 };
 /** A race (from the bank or freshly written) reshaped into one of those games: same questions, the game's own title and settings. */
 function raceToGame(q: any, game: string) {

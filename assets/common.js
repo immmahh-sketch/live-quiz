@@ -679,12 +679,41 @@ window.LQ = (() => {
     if (NEW_GAME_DEFAULTS[type]) Object.assign(q, NEW_GAME_DEFAULTS[type](), { bank: Array.from({ length: type === 'potato' ? 20 : 30 }, () => newBankItem()) });
     return q;
   }
+  /** Blockbusters sides: the great debates, so everyone picks a side they believe in. [name, colour, name, colour]. */
+  const BB_TEAM_PAIRS = [
+    ['Pineapple on Pizza', '#ffd23f', 'No Pineapple, Thank You', '#e21b3c'],
+    ['Marmite: Love It', '#ffd23f', 'Marmite: Hate It!', '#6b3e1f'],
+    ['MJ Did It!', '#c0c0c0', 'MJ Is the King of Pop!', '#e21b3c'],
+    ['Milk In First', '#f2f2f2', 'Tea Bag In First', '#8b5a2b'],
+    ["It's Called Dinner", '#26890c', "It's Called Tea", '#1368ce'],
+    ["Die Hard's a Xmas Film", '#e21b3c', "It's an Action Film!", '#26890c'],
+    ['We Were on a Break!', '#7b2ff7', 'Not on a Break, Ross', '#ff7ab6'],
+    ['Jaffa Cake: a Cake', '#ff8c1a', 'Jaffa Cake: a Biscuit', '#5a3a1a'],
+    ['Rose Had Room for Jack', '#1368ce', 'The Door Was Too Small', '#ff7ab6'],
+    ['Team Ant', '#ffd23f', 'Team Dec', '#1368ce'],
+    ['Oasis', '#e21b3c', 'Blur', '#1368ce'],
+    ['Toilet Roll Over', '#f2f2f2', 'Toilet Roll Under', '#7fb3ff'],
+    ['Crisps IN the Sarnie', '#ffd23f', 'Crisps on the Side', '#26890c'],
+    ['Ketchup in the Fridge', '#e21b3c', 'Ketchup in the Cupboard', '#8b5a2b'],
+    ['Cat People', '#ff7ab6', 'Dog People', '#8b5a2b'],
+    ['Scone Rhymes With Gone', '#ffd23f', 'Scone Rhymes With Bone', '#e21b3c'],
+    ['Socks With Sandals', '#26890c', 'Absolutely Not', '#e21b3c'],
+    ['Early Birds', '#ffd23f', 'Night Owls', '#1b1544'],
+    ['Christmas Starts Nov 1st', '#e21b3c', 'Not Till December!', '#26890c'],
+    ['Newcastle', '#f2f2f2', 'Sunderland', '#e21b3c'],
+  ];
+  /** A random pair of sides (not the one in `not`, a list of the current names), as fresh objects. */
+  function bbTeams(not = []) {
+    const pool = BB_TEAM_PAIRS.filter((p) => !not.includes(p[0]) && !not.includes(p[2]));
+    const p = pool[Math.floor(Math.random() * pool.length)] || BB_TEAM_PAIRS[0];
+    return [{ name: p[0], color: p[1] }, { name: p[2], color: p[3] }];
+  }
   /** Settings for the three newer bank games: filled in on new questions, and on older saves that lack them. */
   const NEW_GAME_DEFAULTS = {
     potato: () => ({ fuseMin: 40, fuseMax: 90, perCorrect: 50, penalty: 300 }),
     koth: () => ({ target: 3, prize: 1000, answerSecs: 3, perPoint: 100, maxRounds: 12 }),
     chase: () => ({ headStart: 2, target: 5, teamPrize: 1000, chaserPrize: 200 }),
-    blockbusters: () => ({ teams: [{ name: 'Newcastle', color: '#f2f2f2' }, { name: 'Sunderland', color: '#e21b3c' }], hexPoints: 50, prize: 500 }),
+    blockbusters: () => ({ teams: bbTeams(), hexPoints: 50, prize: 500 }),
   };
   /** The bank rows a game can use: a question and its right answer, plus (except in Blockbusters) at least one wrong one. */
   function goodRows(q) { return (q.bank || []).filter((b) => b.text?.trim() && b.options?.[0]?.trim() && (q.type === 'blockbusters' || b.options.filter((o) => o.trim()).length >= 2)); }
@@ -1043,5 +1072,5 @@ window.LQ = (() => {
 
   return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
     TYPES, BANK_GAMES, NEW_GAME_DEFAULTS, TWENTY_KINDS, TWENTY_QS, twentyQ, twentyBranch, twentyYes, twentyOpen, parseNum, nearestSpread, fmtNum, DRAW_WORDS, drawWords, drawHint, goodRows, BB_COLS, BB_ROWS, bbNeighbours, bbPath, bbBoardHtml, inkOn, SLIDE, BREAK, isPractice, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, pickContext, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
-    newCode, playUrl, shortPlayUrl, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml, addUsage, usageCost, usageSummary, AI_PRICES, TUNE_ASKS, tunePrompt, bigArt, cleanTitle };
+    newCode, playUrl, shortPlayUrl, bbTeams, BB_TEAM_PAIRS, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml, addUsage, usageCost, usageSummary, AI_PRICES, TUNE_ASKS, tunePrompt, bigArt, cleanTitle };
 })();
