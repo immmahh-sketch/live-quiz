@@ -23,6 +23,7 @@
 <div class="toast" id="toast"></div>
 
 <script src="assets/common.js"></script>
+<script src="assets/warmup-tools.js"></script>
 <script>
 const { $, $$, esc, uid, api, TYPES, COLORS, DEFAULT_SETTINGS, newQuestion, validate, youtubeId, resizeImage, orderQuestions, quizForSave, timeFor, composeCollage, buildCollageFor } = LQ;
 /** normalizeQuiz (common.js) keeps a fixed set of round fields. These ride along from the raw rounds, matched by id:
@@ -187,6 +188,7 @@ async function loadList() {
   try { const r = await api('list'); S.quizzes = r.quizzes; } catch (e) { view.innerHTML = `<div class="error">${esc(e.message)}</div>`; return; }
   renderList();
   api('games').then((r) => renderGames(r.games)).catch(() => {});
+  api('warmup_board').then(renderWarmups).catch(() => {});
   api('bank_status').then((r) => renderBankPanel(r)).catch(() => {});
 }
 // ------------------------------------------------------------------ the question bank
@@ -539,6 +541,7 @@ function renderList() {
     <div class="row" style="margin:${tpls.length ? '22px' : '0'} 0 8px"><h2 style="margin:0">Quizzes</h2></div>
     <div class="quizgrid">${quizzes.map(quizCard).join('')}
       ${quizzes.length ? '' : '<div class="card newcard" id="newQuiz2">Create your first quiz</div>'}</div>
+    <div id="warmups" class="mt"></div>
     <div id="games" class="mt"></div>`;
   $('#newQuiz').onclick = (e) => popMenu(e.currentTarget, [
     { label: '📝 Blank quiz', fn: newQuiz },
@@ -597,6 +600,74 @@ function quizCard(q) {
       <button class="btn btn-sm" data-open="${q.id}">Edit</button>
       <button class="btn btn-ghost btn-sm" data-dup="${q.id}">Duplicate</button>
       <button class="btn btn-ghost btn-sm" data-del="${q.id}" style="color:var(--bad)">Delete</button></div></div>`;
+}
+const warmupLink = (code) => `${location.origin}${location.pathname.replace(/[^/]*$/, '')}warmup?c=${encodeURIComponent(code)}`;
+/** Each warm-up: its link, when it ends, which quiz it leads up to, and this run's scores (every phone, best first,
+ *  with when it was played). Check looks for anything it shares with its quiz; Refresh writes it afresh for a later one. */
+function renderWarmups(r) {
+  const el = $('#warmups'); if (!el || !r?.warmups?.length) return;
+  const when = (t) => new Date(t).toLocaleString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+  const left = (iso) => { const ms = new Date(iso) - Date.now(); if (ms <= 0) return 'ended'; const h = Math.floor(ms / 3600e3); return h >= 48 ? `${Math.floor(h / 24)} days to go` : h >= 1 ? `${h} hours to go` : `${Math.ceil(ms / 60e3)} minutes to go`; };
+  const titleOf = (id) => S.quizzes?.find((q) => q.id === id)?.title || 'a quiz';
+  el.innerHTML = r.warmups.map((w) => {
+    const plays = r.plays.filter((p) => p.code === w.code && (p.season || '') === (w.season || '')), games = new Set(plays.map((p) => p.game_code)).size;
+    const state = w.switchedOff ? 'Switched off' : w.open ? 'Open' : 'Ended';
+    return `<h2 style="font-size:1.2rem">🔥 Warm-up scoreboard · ${esc(w.title)}</h2><div class="card">
+      <div class="row" style="margin-bottom:6px;flex-wrap:wrap"><span class="tag" style="${w.open ? '' : 'background:var(--paper);color:var(--ink-3)'}">${state}</span><b>Code ${esc(w.code)}</b>
+        <span class="muted small">${w.until ? `ends ${esc(LQW.fmtEnd(w.until))} · ${left(w.until)}` : 'no end time set'} · ${plays.length} player${plays.length === 1 ? '' : 's'} · ${games} game${games === 1 ? '' : 's'}</span></div>
+      <div class="row" style="margin-bottom:8px;flex-wrap:wrap"><span class="muted small">${w.forQuiz ? `Leads up to <b>${esc(titleOf(w.forQuiz))}</b>` : 'Not linked to a quiz yet (Settings on the warm-up)'}</span><div class="grow"></div>
+        <code class="small">${esc(warmupLink(w.code))}</code><button class="btn btn-ghost btn-sm" data-wucopy="${esc(w.code)}">Copy link</button>
+        ${w.forQuiz ? `<button class="btn btn-ghost btn-sm" data-wucheck="${w.id}" title="Look for any question the warm-up shares with its quiz, game rows included">🔍 Check for overlap</button>` : ''}
+        <button class="btn btn-ghost btn-sm" data-wurefresh="${w.id}" title="New questions from the bank for a later quiz, a new end time and a fresh scoreboard">🔄 Refresh for a new quiz</button><button class="btn btn-ghost btn-sm" data-open="${w.id}">Edit</button></div>
+      ${plays.length ? `<table class="wutable"><thead><tr><th>#</th><th>Player</th><th>Score</th><th>Played</th><th>In that game</th><th></th></tr></thead><tbody>${plays.map((p, i) => `<tr><td>${i === 0 ? '🥇' : i + 1}</td><td>${esc(p.emoji || '')} ${esc(p.name)}</td><td><b>${p.score}</b></td><td>${when(p.played_at)}</td><td class="muted small">${p.players} player${p.players === 1 ? '' : 's'} + ${p.bots} bots · game ${esc(p.game_code)} · came ${LQ.ordinal(p.rank)}</td><td><button class="btn btn-ghost btn-sm" data-wuforget="${esc(p.code)}|${esc(p.season || '')}|${esc(p.pid)}|${esc(p.name)}" title="Take this score off so that phone can play again (a crash, a mistake)">Let them replay</button></td></tr>`).join('')}</tbody></table>` : '<p class="muted" style="margin:0">Nobody has played yet. Send the link!</p>'}
+      <p class="muted small" style="margin:8px 0 0">One go per phone; bots are never counted. At the quiz, the 🎁 Bonus points button in the lobby picks out the top scorer.</p></div>`;
+  }).join('');
+  const reload = () => api('warmup_board').then(renderWarmups);
+  $$('[data-wucopy]', el).forEach((b) => b.onclick = async () => { try { await navigator.clipboard.writeText(warmupLink(b.dataset.wucopy)); toast('Link copied'); } catch { toast(warmupLink(b.dataset.wucopy)); } });
+  $$('[data-open]', el).forEach((b) => b.onclick = () => openQuiz(b.dataset.open));
+  $$('[data-wuforget]', el).forEach((b) => b.onclick = async () => {
+    const [code, season, pid, name] = b.dataset.wuforget.split('|');
+    if (!(await confirmBox(`Let ${name} play again?`, 'Their score comes off the scoreboard and that phone can have another go.', 'Let them replay'))) return;
+    try { await api('warmup_forget', { code, season, pid }); toast('Done: that phone can play again.'); reload(); } catch (e) { toast(e.message, true); }
+  });
+  $$('[data-wucheck]', el).forEach((b) => b.onclick = () => warmupCheckModal(b.dataset.wucheck, reload));
+  $$('[data-wurefresh]', el).forEach((b) => b.onclick = () => warmupRefreshModal(r.warmups.find((w) => w.id === b.dataset.wurefresh), reload));
+}
+/** What the warm-up shares with its quiz, and a button to swap those out of the warm-up. */
+async function warmupCheckModal(id, after) {
+  const m = modal('<h3>🔍 Warm-up v quiz</h3><p class="muted">Comparing every question and game row…</p>');
+  let r; try { r = await LQW.clashes(id); } catch (e) { $('p', m).textContent = e.message; return; }
+  const list = (r.clashes || []).map((c) => `<li><b>${c.why}</b>: warm-up ${c.warmup.i + 1}${c.warmup.row >= 0 ? ` (row ${c.warmup.row + 1})` : ''} “${esc(c.warmup.text.slice(0, 90))}” <span class="muted">(${esc(c.warmup.answer)})</span><br><span class="muted small">quiz ${c.quiz.i + 1}${c.quiz.row >= 0 ? ` (row ${c.quiz.row + 1})` : ''}: “${esc(c.quiz.text.slice(0, 90))}” (${esc(c.quiz.answer)})</span></li>`).join('');
+  $('.modal', m).innerHTML = `<h3>🔍 Warm-up v ${esc(r.against?.title || 'quiz')}</h3>${r.clashes?.length ? `<p>${r.clashes.length} thing${r.clashes.length === 1 ? '' : 's'} in common. The quiz stays as it is; these come out of the warm-up for fresh ones from the bank.</p><ul class="small" style="max-height:50vh;overflow:auto">${list}</ul>` : '<p>✅ Nothing in common: no question, game row or answer from the quiz is in the warm-up, and none of the warm-up is in the quiz.</p>'}
+    <div id="wufixlog" class="muted small"></div><div class="row mt" style="justify-content:flex-end"><button class="btn btn-ghost" data-x>Close</button>${r.clashes?.length ? '<button class="btn btn-primary" data-fix>Swap them out of the warm-up</button>' : ''}</div>`;
+  $('[data-x]', m).onclick = () => m.remove();
+  const fx = $('[data-fix]', m);
+  if (fx) fx.onclick = async () => {
+    fx.disabled = true; $('[data-x]', m).disabled = true;
+    try { const out = await LQW.fix(id, (t) => { $('#wufixlog', m).textContent = t; }); m.remove(); toast(out.left.length ? `Swapped ${out.fixed}; ${out.left.length} still to look at.` : `Swapped ${out.fixed}. The warm-up and the quiz now share nothing.`, !!out.left.length); after?.(); }
+    catch (e) { $('#wufixlog', m).textContent = e.message; fx.disabled = false; $('[data-x]', m).disabled = false; }
+  };
+}
+/** A later quiz: new questions from the bank (none from any quiz), a new end time, a fresh scoreboard. */
+function warmupRefreshModal(w, after) {
+  const quizzes = (S.quizzes || []).filter((q) => !q.template && !q.bank && q.id !== w.id);
+  const m = modal(`<h3>🔄 Refresh the warm-up for a new quiz</h3>
+    <p class="muted small">Every question is replaced with a fresh one from the bank (the same mix of games), none that has been in any quiz. A new scoreboard starts, so every phone can play again. The code and link stay the same.</p>
+    <div class="row"><div class="field grow"><label>Ends</label><input type="datetime-local" id="wr_until" value="${LQW.toLocalInput(LQW.nextFriday5pm(w.until && new Date(w.until) > new Date() ? new Date(w.until) : new Date()))}"></div>
+      <div class="field grow"><label>Leads up to</label><select id="wr_for"><option value="">(choose later)</option>${quizzes.map((q) => `<option value="${q.id}">${esc(q.title)}</option>`).join('')}</select></div></div>
+    <div class="help">Pick the quiz it leads up to so nothing is shared. If that quiz isn't written yet, choose it later in the warm-up's Settings; confirming the quiz in the one-click builder checks the two against each other.</div>
+    <div id="wrlog" class="muted small mt"></div>
+    <div class="row mt" style="justify-content:flex-end"><button class="btn btn-ghost" data-x>Cancel</button><button class="btn btn-primary" data-ok>Refresh it</button></div>`);
+  $('[data-x]', m).onclick = () => m.remove();
+  $('[data-ok]', m).onclick = async () => {
+    const until = new Date($('#wr_until', m).value);
+    if (isNaN(until) || until <= new Date()) return toast('Pick an end time in the future.', true);
+    const b = $('[data-ok]', m); b.disabled = true; $('[data-x]', m).disabled = true;
+    try {
+      const out = await LQW.refresh(w.id, { until, forQuiz: $('#wr_for', m).value || null }, (t) => { $('#wrlog', m).textContent = t; });
+      m.remove(); toast(`Done: ${out.count} fresh questions, open until ${LQW.fmtEnd(until.toISOString())}.${out.left?.length ? ` ${out.left.length} overlap${out.left.length === 1 ? '' : 's'} still to look at.` : ''}`, !!out.left?.length); after?.();
+    } catch (e) { $('#wrlog', m).textContent = 'Stopped: ' + e.message; b.disabled = false; $('[data-x]', m).disabled = false; }
+  };
 }
 function renderGames(games) {
   const el = $('#games'); if (!el || !games?.length) return;
@@ -1680,17 +1751,37 @@ function settingsModal() {
       <div class="help">New questions and AI-written ones get their type's time. Each question can still be changed on its own.</div>
       <label class="check" style="margin-top:8px"><input type="checkbox" id="s_apply"> Apply these to every question already in the quiz</label></div>
     <label class="check"><input type="checkbox" id="s_show" ${s.showAnswersOnPhones !== false ? 'checked' : ''}> Show the right answer on players' phones after each question</label>
+    <div class="field mt"><label>🔥 Warm-up game</label>
+      <label class="check"><input type="checkbox" id="s_wu" ${s.warmup ? 'checked' : ''}> Open this quiz as a warm-up: anyone with the code plays it on their own phone against three bots, one go per phone, and every score goes on the warm-up scoreboard</label>
+      <div class="row" id="s_wurow" style="${s.warmup ? '' : 'display:none'}"><div class="field grow" style="margin:0"><label>Code (4 to 12 letters or numbers)</label><input type="text" id="s_wucode" value="${esc(s.warmup?.code || 'WARMUP')}" maxlength="12" style="text-transform:uppercase"></div>
+        <label class="check" style="margin-top:22px"><input type="checkbox" id="s_wuopen" ${s.warmup?.open !== false ? 'checked' : ''}> Open to play</label></div>
+      <div class="row" id="s_wurow2" style="${s.warmup ? '' : 'display:none'}"><div class="field grow" style="margin:0"><label>Ends (it closes by itself)</label><input type="datetime-local" id="s_wuuntil" value="${LQW.toLocalInput(s.warmup?.until ? new Date(s.warmup.until) : LQW.nextFriday5pm())}"></div>
+        <div class="field grow" style="margin:0"><label>Leads up to (never shares a question with it)</label><select id="s_wufor"><option value="">Loading…</option></select></div></div>
+      <div class="help" id="s_wuhelp">${s.warmup ? `Send people <b>${esc(warmupLink(s.warmup.code))}</b>, or they type the code at letsquiz.uk/play. Moving the end time keeps the scores; <b>🔄 Refresh for a new quiz</b> on the quiz list writes new questions and starts a fresh scoreboard. Save the quiz for changes to reach the link.` : 'Players see the quiz as it is saved, so edit it here as normal.'}</div></div>
     <div class="field mt"><label>AI models</label>
       <label class="check"><input type="checkbox" id="s_premium" ${s.aiPremium ? 'checked' : ''}> Use the top model (Opus) for every question type</label>
       <div class="help">Off: plain factual questions are written by Sonnet with a few web searches, the wordplay and logic types (1% Club, Dingbats, Rhyme Time, Highbrow Lowbrow, Answer Smash, Wheel) by Opus without searching, and typed answers are judged by Haiku. On: everything on Opus with more searches, at several times the cost.</div>
       ${(() => { const u = LQ.usageSummary(s.aiUsage); return u ? `<div class="notice" style="margin-top:8px"><b>AI used on this quiz so far:</b> about $${u.usd.toFixed(2)} at list prices.<br><span class="small">${u.rows.map(esc).join('<br>')}</span></div>` : '<div class="help">No AI used on this quiz yet.</div>'; })()}</div>
     <div class="row mt" style="justify-content:flex-end"><button class="btn btn-ghost" data-x>Cancel</button><button class="btn btn-primary" data-ok>Done</button></div>`);
   $('[data-x]', m).onclick = () => m.remove();
+  $('#s_wu', m).onchange = (e) => { $('#s_wurow', m).style.display = $('#s_wurow2', m).style.display = e.target.checked ? '' : 'none'; };
+  // the quizzes it can lead up to: every other quiz, the most recent first
+  api('list').then((r) => { const sel = $('#s_wufor', m); if (!sel) return; const cur = s.warmup?.forQuiz || '';
+    sel.innerHTML = '<option value="">(none yet)</option>' + r.quizzes.filter((x) => !x.template && !x.bank && x.id !== S.quiz.id).map((x) => `<option value="${x.id}" ${x.id === cur ? 'selected' : ''}>${esc(x.title)}</option>`).join(''); }).catch(() => {});
   $('[data-ok]', m).onclick = () => {
     s.maxPoints = LQ.clamp(+$('#s_max', m).value || 1000, 10, 10000);
     s.minPoints = LQ.clamp(+$('#s_min', m).value || 0, 0, s.maxPoints);
     s.timeByType = {}; $$('[data-tt]', m).forEach((inp) => { s.timeByType[inp.dataset.tt] = LQ.clamp(+inp.value || LQ.DEFAULT_TIMES[inp.dataset.tt], 5, 180); });
     s.showAnswersOnPhones = $('#s_show', m).checked;
+    const wcode = $('#s_wucode', m).value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12);
+    if ($('#s_wu', m).checked) {
+      if (wcode.length < 4) { toast('The warm-up code needs at least 4 letters or numbers.', true); return; }
+      const until = $('#s_wuuntil', m).value ? new Date($('#s_wuuntil', m).value) : null;
+      if (!until || isNaN(until)) { toast('Set when the warm-up ends.', true); return; }
+      const forQuiz = $('#s_wufor', m).value || s.warmup?.forQuiz || null;
+      s.warmup = { ...(s.warmup || {}), code: wcode, open: $('#s_wuopen', m).checked, until: until.toISOString(), forQuiz };
+    }
+    else delete s.warmup;
     s.aiPremium = $('#s_premium', m).checked;
     let u = null; if ($('#s_apply', m).checked) { u = snap('times on every question'); for (const q of S.quiz.questions) q.time = timeFor(q.kind || q.type, s); }
     touch(); m.remove(); renderQList(); renderQForm(); toast(u ? 'Settings updated, and the times applied to every question.' : 'Settings updated', false, undoAct(u));

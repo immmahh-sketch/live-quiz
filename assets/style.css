@@ -1219,3 +1219,42 @@ body.solo .camtile { right: calc(min(390px, 100vw) + 12px); }
 .camdebug i { display: block; height: 6px; background: #1368ce; margin-top: 2px; }
 .camdebug u { position: absolute; bottom: 3px; width: 2px; height: 10px; background: #ffd54a; }
 @media (prefers-reduced-motion: reduce) { .camtile, .camlayer-v { transition: none; } }
+
+/* ---------- warm-up games (host.html?quiz=warmup inside warmup.html) ---------- */
+.wulobby { display: flex; flex-direction: column; align-items: center; gap: 10px; width: min(1100px, 100%); }
+.wutitle { margin: 0; font-size: clamp(1.8rem, 4.2vw, 3.2rem); line-height: 1.05; text-wrap: balance; }
+.wusub { margin: 0; font-size: clamp(1rem, 1.9vw, 1.35rem); font-weight: 700; opacity: .92; max-width: 46em; text-wrap: balance; }
+.wusub b { color: var(--sun); }
+.wugrid { display: flex; gap: clamp(16px, 4vw, 48px); align-items: center; justify-content: center; margin-top: 6px; }
+.wujoin { display: flex; gap: 18px; align-items: center; background: rgba(255,255,255,.08); border-radius: 18px; padding: 14px 18px; }
+.wujoin .qr { background: #fff; padding: 8px; border-radius: 12px; line-height: 0; }
+.wujoin .qr img, .wujoin .qr canvas { width: 150px !important; height: 150px !important; }
+.wujoin .code { font-size: clamp(2rem, 4.4vw, 3.2rem); margin: 2px 0; }
+.wuside { text-align: left; min-width: 240px; }
+.wuside .players { justify-content: flex-start; margin-top: 6px; }
+.wusmall { font-weight: 800; opacity: .75; font-size: .95rem; }
+.wutop { margin: 6px 0 0; padding-left: 1.4em; font-weight: 800; }
+.wutop li { margin: 2px 0; } .wutop b { color: var(--sun); margin-left: 6px; }
+.wugo { margin: 6px 0 0; font-weight: 900; font-size: 1.2rem; animation: riblink 1.2s steps(2) infinite; }
+.wugo b { color: var(--sun); }
+.wusave { margin-top: 10px; padding: 10px 16px; border-radius: 14px; background: rgba(255,255,255,.1); font-weight: 800; font-size: 1.15rem; }
+.wusave.ok { background: rgba(38,137,12,.35); } .wusave.bad { background: rgba(226,27,60,.35); }
+.wusave b { color: var(--sun); }
+.wutopfinal { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; align-items: center; }
+@media (prefers-reduced-motion: reduce) { .wugo { animation: none; } }
+
+/* ---------- bonus points (the real quiz's lobby) ---------- */
+.bonustag { color: var(--sun); margin-left: 4px; }
+.bonusflash { position: fixed; inset: 0; z-index: 70; display: flex; align-items: center; justify-content: center; text-align: center; pointer-events: none; background: radial-gradient(circle, rgba(27,21,68,.85), rgba(27,21,68,.55)); animation: bflash 4.2s ease both; }
+.bonusflash .bf-em { font-size: clamp(4rem, 14vh, 9rem); animation: ripop .6s cubic-bezier(.2, 1.6, .4, 1) both; }
+.bonusflash .bf-name { font-size: clamp(2rem, 6vh, 4rem); font-weight: 900; }
+.bonusflash .bf-pts { font-size: clamp(3rem, 11vh, 7rem); font-weight: 900; color: var(--sun); text-shadow: 0 0 30px rgba(255,214,10,.6); animation: ripop .6s .2s cubic-bezier(.2, 1.6, .4, 1) both; }
+.bonusflash .bf-why { font-size: clamp(1.2rem, 3vh, 2rem); font-weight: 800; opacity: .85; }
+@keyframes bflash { 0% { opacity: 0; } 8%, 85% { opacity: 1; } 100% { opacity: 0; } }
+/* the warm-up scoreboard in the builder */
+.wutable { width: 100%; border-collapse: collapse; }
+.wutable th { text-align: left; font-size: .8rem; color: var(--ink-3); font-weight: 800; padding: 4px 6px; border-bottom: 2px solid var(--line); }
+.wutable td { padding: 6px; border-bottom: 1px solid var(--line); }
+.wutable tr:first-child td { background: #fff7d6; }
+/* A warm-up player can pause or stop the clock, but not end their one go by accident. */
+body.warmup [data-act="stopgame"], body.warmup [data-act="end"] { display: none !important; }

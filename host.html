@@ -26,6 +26,11 @@
 const { $, $$, esc, uid, api, TYPES, COLORS, speedPoints, textMatch, similarity, shuffle, newCode, playUrl, shortPlayUrl, store, unstore, ordinal } = LQ;
 const DEMO = new URLSearchParams(location.search).get('quiz') === 'demo';
 const PREVIEW = new URLSearchParams(location.search).get('quiz') === 'preview'; // one question or slide from the builder (previewItem there)
+// A warm-up game (?quiz=warmup&w=CODE, inside warmup.html): anyone with the code plays the quiz opened as a warm-up on
+// their own device, against three bots, friends welcome. No sign-in. Each real player's score is saved at the end, and a
+// device that has played once can't play again.
+const WARMUP = new URLSearchParams(location.search).get('quiz') === 'warmup' ? (new URLSearchParams(location.search).get('w') || '').toUpperCase().replace(/[^A-Z0-9]/g, '') : '';
+if (WARMUP) document.body.classList.add('warmup');
 // On a TV (the Fire TV app, or ?tv=1): D-pad focus ring, self-play on, Back goes to the TV home.
 const TV = new URLSearchParams(location.search).get('tv') === '1' || /LetsQuizTV/.test(navigator.userAgent);
 if (TV) document.body.classList.add('tv');
@@ -144,7 +149,8 @@ const startsRound = (i) => {
 // ------------------------------------------------------------------ boot
 (async function boot() {
   if (!quizId) return fail('No quiz chosen. Open a quiz in the builder and press Host.');
-  if (!DEMO && !LQ.hostPassword()) { location.href = 'index.html'; return; }
+  if (!DEMO && !WARMUP && !LQ.hostPassword()) { location.href = 'index.html'; return; }
+  if (WARMUP) return bootWarmup();
   const saved = new URLSearchParams(location.search).get('fresh') === '1' ? null : store(SAVE_KEY); // ?fresh=1 (the phone demo) always starts a new game
   if (saved && saved.phase !== 'final' && saved.phase !== 'lobby' && Object.keys(saved.players).length) {
     const ok = await ask(`Carry on the game in progress?`, `Game ${saved.code} — ${Object.keys(saved.players).length} players, question ${saved.qIndex + 1} of ${saved.quiz.questions.length}.`, 'Carry on', 'Start fresh');
@@ -177,6 +183,57 @@ const startsRound = (i) => {
   const nb = +new URLSearchParams(location.search).get('bots');
   if (nb > 0) setTimeout(() => addBots(Math.min(MAX_BOTS, nb)), 0);
 })();
+
+// ------------------------------------------------------------------ warm-up games
+/** This device's player id: the one its player screen (play.html) keeps, so a device is one player. */
+function myPid() { const p = store('lq_player'); return p && /^p_[a-z0-9]{6,12}$/.test(p.pid || '') ? p.pid : ''; }
+async function bootWarmup() {
+  const back = () => { (window.top || window).location.href = 'warmup?c=' + encodeURIComponent(WARMUP); };
+  if (!myPid()) return back(); // no name yet: warmup.html asks for one
+  // A game already under way on this device carries on where it was (a reload, a dropped connection).
+  const saved = store(SAVE_KEY);
+  if (saved?.warmup === WARMUP && saved.phase !== 'lobby') {
+    if (saved.phase === 'final') { G = saved; if (!G.warmSaved?.ok) await warmupSave(); if (G.warmSaved?.ok) return back(); connect(); return; }
+    G = saved; connect(); return;
+  }
+  stage.innerHTML = '<div class="stage-main"><div class="waiting">Getting the questions ready…</div></div>';
+  let r;
+  try { r = await api('warmup_open', { code: WARMUP, pid: myPid() }, { timeout: 20000 }); } catch (e) { return fail(e.message); }
+  if (r.played) return back();
+  if (!r.open) return fail('This warm-up has closed. See you at the quiz!');
+  let quiz = LQ.normalizeQuiz(r.quiz);
+  quiz.questions = quiz.questions.filter((q) => LQ.validate(q).length === 0);
+  quiz.rounds = quiz.rounds.filter((x) => quiz.questions.some((q) => q.round === x.id));
+  G = { code: newCode(), quizId: r.quiz.id, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: true, warmup: WARMUP, warmTop: r.top || [], warmCount: r.count || 0, warmUntil: r.until || null };
+  persist(); connect();
+  setTimeout(() => addBots(3), 0);
+  setTimeout(() => { if (musicOn()) loadYT().catch(() => {}); }, 0);
+}
+/** Someone joining from another phone who has had their go already is turned away, kindly. */
+const warmChecked = new Set();
+async function warmupGate(pid) {
+  if (!WARMUP || warmChecked.has(pid) || pid.startsWith('p_bot') || pid === myPid()) return;
+  warmChecked.add(pid);
+  try {
+    const r = await api('warmup_check', { code: WARMUP, pids: [pid] });
+    if (r.played?.includes(pid) && G.players[pid]) {
+      delete G.players[pid]; present.delete(pid); persist();
+      send('kick', { pid, why: "You've already played the warm-up on this phone. See you at the quiz!" });
+      if (G.phase === 'lobby') renderLobbyPlayers();
+    }
+  } catch {}
+}
+/** The end of a warm-up: every real player's score goes on the scoreboard (bots never do). */
+async function warmupSave() {
+  const rk = ranked();
+  const real = rk.map((p, i) => ({ pid: p.id, name: p.name, emoji: p.emoji || '', score: p.score, rank: i + 1 })).filter((p) => !p.pid.startsWith('p_bot'));
+  G.warmSaved = 'saving'; persist();
+  try {
+    const r = await api('warmup_save', { code: WARMUP, game: { code: G.code, started_at: G.startedAt, bots: (G.bots || []).length }, players: real }, { timeout: 20000 });
+    G.warmSaved = r; persist();
+  } catch (e) { G.warmSaved = { error: e.message }; persist(); }
+  if (G.phase === 'final') render();
+}
 
 // ------------------------------------------------------------------ test mode: bots
 //
@@ -399,7 +456,7 @@ function onHello({ pid, name, emoji }) {
   if (typeof pid !== 'string' || !/^p_[a-z0-9]{6,12}$/.test(pid)) return;
   name = String(name || '').replace(/\s+/g, ' ').trim().slice(0, 20) || 'Player';
   emoji = LQ.EMOJIS.includes(emoji) ? emoji : '';
-  if (!G.players[pid]) { G.players[pid] = { id: pid, name, emoji, score: 0, joinedAt: Date.now() }; persist(); if (G.phase === 'lobby') renderLobbyPlayers(); }
+  if (!G.players[pid]) { G.players[pid] = { id: pid, name, emoji, score: 0, joinedAt: Date.now() }; persist(); if (G.phase === 'lobby') renderLobbyPlayers(); warmupGate(pid); }
   else if ((G.players[pid].name !== name || G.players[pid].emoji !== emoji) && G.phase === 'lobby') { G.players[pid].name = name; G.players[pid].emoji = emoji; persist(); renderLobbyPlayers(); }
   clearTimeout(helloT); helloT = setTimeout(broadcastState, 150);
 }
@@ -803,7 +860,7 @@ async function twentyPick(pid, a) {
 /** A near miss goes to the AI judge (not in the demo, which has no server); otherwise a close spelling will do. */
 async function twentyJudge(q, text) {
   const close = () => q.answers.some((acc) => acc && LQ.similarity(LQ.normText(text), LQ.normText(acc)) >= 0.72);
-  if (DEMO || q.ai === false) return close();
+  if (DEMO || WARMUP || q.ai === false) return close();
   try { const r = await api('check_text', { question: '20 Questions: who or what is it?', accepted: q.answers.filter(Boolean), answers: [{ id: 'g', text }] }, { timeout: 15000 }); return r.results?.g ? !!r.results.g.correct : close(); }
   catch { return close(); }
 }
@@ -1805,6 +1862,7 @@ function showScoreboard() { G.phase = 'scoreboard'; persist(); render(); broadca
 async function finish() {
   G.phase = 'final'; persist(); render(); broadcastState(); confetti();
   const rk = ranked();
+  if (WARMUP) { if (!G.warmSaved) warmupSave(); return; }
   if (DEMO || PREVIEW || G.reportId) return;
   try {
     const r = await api('save_game', { game: { code: G.code, quiz_id: G.quizId, title: G.quiz.title, questions: total(), started_at: G.startedAt,
@@ -2023,7 +2081,7 @@ async function grade(noAi) {
     }
     if (unsure.length) {
       let verdicts = null;
-      if (q.ai !== false && !noAi) { try { verdicts = (await api('check_text', { question: judgeQ, accepted, answers: unsure }, { timeout: 45000 })).results; } catch (e) { toast('AI check unavailable — using closest match.', true); } }
+      if (q.ai !== false && !noAi && !WARMUP) { try { verdicts = (await api('check_text', { question: judgeQ, accepted, answers: unsure }, { timeout: 45000 })).results; } catch (e) { toast('AI check unavailable — using closest match.', true); } }
       for (const u of unsure) {
         const a = G.q.answers[u.id];
         const ok = verdicts?.[u.id] ? verdicts[u.id].correct : accepted.some((acc) => similarity(LQ.normText(u.text), LQ.normText(acc)) >= 0.72);
@@ -2263,7 +2321,7 @@ function syncPause() {
 function hostBar(buttons) {
   const d = autoDelay();
   const hint = G.auto ? `runs itself · players can press Start and Next on their phones${TV ? ' · centre button for next' : ''}` : TV ? 'press the centre button for next' : 'press Space for next';
-  return `<div class="stage-bottom"><span class="muted small" style="opacity:.6">Game ${G.code} · ${players().length} players${G.bots?.length ? ` · test mode, ${G.bots.length} bots` : ''} · ${hint}</span>${d ? `<div class="autobar" title="Moving on by itself"><i style="animation-duration:${d}ms"></i></div>` : ''}<div class="hostbar">${callBtn()}${G.auto && !['lobby', 'final'].includes(G.phase) ? `<button class="btn btn-ghost" data-act="pause" title="Stop the clock and hold this screen (P)">${G.paused ? '▶ Resume' : '⏸ Pause'}</button>` : ''}${buttons}</div></div>`;
+  return `<div class="stage-bottom"><span class="muted small" style="opacity:.6">Game ${G.code} · ${players().length} players${G.bots?.length ? (WARMUP ? ` + ${G.bots.length} bots` : ` · test mode, ${G.bots.length} bots`) : ''} · ${hint}</span>${d ? `<div class="autobar" title="Moving on by itself"><i style="animation-duration:${d}ms"></i></div>` : ''}<div class="hostbar">${callBtn()}${G.auto && !['lobby', 'final'].includes(G.phase) ? `<button class="btn btn-ghost" data-act="pause" title="Stop the clock and hold this screen (P)">${G.paused ? '▶ Resume' : '⏸ Pause'}</button>` : ''}${buttons}</div></div>`;
 }
 /* ---------- the quiz night video call (Gather) ---------- */
 function callLabel() {
@@ -2272,6 +2330,7 @@ function callLabel() {
 }
 function callBtn() { return `<span class="callbtns">${callBtns()}</span>`; }
 function callBtns() {
+  if (WARMUP) return '';
   if (!window.QuizCall || !QuizCall.supported()) return fsBtn();
   const s = QuizCall.state;
   return `<button class="btn btn-ghost ${s === 'live' || s === 'reconnecting' ? 'on' : ''}" data-act="call" title="Put this screen and its sound into the quiz night video call (gathercall.uk/quiz), and open the call window with everyone's cameras. Press again to leave.">${callLabel()}</button>${camBtn()}${fsBtn()}`;
@@ -2325,10 +2384,11 @@ if (window.QuizCall) {
   });
 }
 function bind() {
-  $$('[data-act]').forEach((b) => b.onclick = () => ({ call: callClick, cam: camToggle, fs: fsToggle, primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(G.bots?.length ? 5 : 3), bots20: () => addBots(MAX_BOTS), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, pause: () => togglePause(), music: toggleMusic, stopgame: gameStop, builder: () => PREVIEW ? window.close() : location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
+  $$('[data-act]').forEach((b) => b.onclick = () => ({ call: callClick, cam: camToggle, fs: fsToggle, bonus: bonusModal, wusave: () => { G.warmSaved = null; render(); warmupSave(); }, wuboard: () => { (window.top || window).location.href = 'warmup?c=' + encodeURIComponent(G.warmup); }, primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(G.bots?.length ? 5 : 3), bots20: () => addBots(MAX_BOTS), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, pause: () => togglePause(), music: toggleMusic, stopgame: gameStop, builder: () => PREVIEW ? window.close() : location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
   $$('[data-kick]').forEach((el) => { el.style.cursor = 'pointer'; el.title = 'Click to remove this player from the game'; el.onclick = () => kickPlayer(el.dataset.kick); });
 }
 function renderLobby() {
+  if (G.warmup) return renderWarmLobby();
   const url = playUrl(G.code);
   stage.innerHTML = `<div class="stage-top"><div class="lobbylogo"><img src="assets/brand/mark.png" alt="">Let's Quiz!</div><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">${total()} questions</span></div></div>
     <div class="stage-main"><div class="lobby">
@@ -2337,14 +2397,100 @@ function renderLobby() {
         <div class="players" id="players"></div>
         </div>
     </div></div>
-    ${hostBar(`<button class="btn btn-ghost" data-act="builder">${TV ? '🏠 Home' : PREVIEW ? 'Close preview' : 'Back to builder'}</button><button class="btn btn-ghost ${musicOn() ? 'on' : ''}" data-act="music" title="Background music while the clock runs (M)">${musicOn() ? '🎵 Music: on' : '🔇 Music: off'}</button><button class="btn btn-ghost ${G.auto ? 'on' : ''}" data-act="auto" title="Self-play: the screen moves on by itself and players can press Start and Next on their phones, so nobody has to sit at this screen">${G.auto ? '🎮 Runs itself: on' : '🎮 Runs itself: off'}</button>${TV ? '' : `<button class="btn btn-ghost ${G.solo ? 'on' : ''}" data-act="solo" title="Test by yourself: adds three bots and opens a player panel here so you can answer on this screen">${G.solo ? '🧪 Testing solo: on' : '🧪 Test by myself'}</button>`}<button class="btn btn-ghost" data-act="bots" ${(G.bots?.length || 0) >= MAX_BOTS ? 'disabled' : ''} title="Test mode: add simulated players who answer on their own (three, then five at a time, up to ${MAX_BOTS})">${(G.bots?.length || 0) >= MAX_BOTS ? `🤖 ${G.bots.length} bots (the most)` : G.bots?.length ? `🤖 ${G.bots.length} bots · add 5` : '🤖 Add test bots'}</button>${(G.bots?.length || 0) < MAX_BOTS ? `<button class="btn btn-ghost" data-act="bots20" title="Fill up to ${MAX_BOTS} bots to see a big game">🤖×${MAX_BOTS}</button>` : ''}<button class="btn btn-primary btn-lg" data-act="primary" id="startBtn">Start ▶</button>`)}`;
+    ${hostBar(`<button class="btn btn-ghost" data-act="builder">${TV ? '🏠 Home' : PREVIEW ? 'Close preview' : 'Back to builder'}</button><button class="btn btn-ghost ${musicOn() ? 'on' : ''}" data-act="music" title="Background music while the clock runs (M)">${musicOn() ? '🎵 Music: on' : '🔇 Music: off'}</button><button class="btn btn-ghost ${G.auto ? 'on' : ''}" data-act="auto" title="Self-play: the screen moves on by itself and players can press Start and Next on their phones, so nobody has to sit at this screen">${G.auto ? '🎮 Runs itself: on' : '🎮 Runs itself: off'}</button>${TV ? '' : `<button class="btn btn-ghost ${G.solo ? 'on' : ''}" data-act="solo" title="Test by yourself: adds three bots and opens a player panel here so you can answer on this screen">${G.solo ? '🧪 Testing solo: on' : '🧪 Test by myself'}</button>`}<button class="btn btn-ghost" data-act="bots" ${(G.bots?.length || 0) >= MAX_BOTS ? 'disabled' : ''} title="Test mode: add simulated players who answer on their own (three, then five at a time, up to ${MAX_BOTS})">${(G.bots?.length || 0) >= MAX_BOTS ? `🤖 ${G.bots.length} bots (the most)` : G.bots?.length ? `🤖 ${G.bots.length} bots · add 5` : '🤖 Add test bots'}</button>${(G.bots?.length || 0) < MAX_BOTS ? `<button class="btn btn-ghost" data-act="bots20" title="Fill up to ${MAX_BOTS} bots to see a big game">🤖×${MAX_BOTS}</button>` : ''}${!DEMO && !PREVIEW ? `<button class="btn btn-ghost ${G.bonuses?.length ? 'on' : ''}" data-act="bonus" title="Give a player bonus points before the first question, like the warm-up's top scorer">🎁 Bonus points${G.bonuses?.length ? ' · ' + G.bonuses.length : ''}</button>` : ''}<button class="btn btn-primary btn-lg" data-act="primary" id="startBtn">Start ▶</button>`)}`;
   new QRCode($('#qr'), { text: url, width: 380, height: 380, correctLevel: QRCode.CorrectLevel.M });
   renderLobbyPlayers(); bind();
+}
+// ------------------------------------------------------------------ bonus points
+/** Before the first question: points for a player, like the warm-up's top scorer. The warm-up scoreboard is read so
+ *  its leader is picked out if they have joined under the same name. Each bonus can be taken back. */
+async function bonusModal() {
+  const bg = document.createElement('div'); bg.className = 'modal-bg';
+  bg.innerHTML = '<div class="modal bonusmodal" style="color:var(--ink)"><h3>🎁 Bonus points</h3><p class="muted">Loading the warm-up scoreboard…</p></div>';
+  document.body.appendChild(bg);
+  let leaders = [];
+  try {
+    const r = await api('warmup_board');
+    // the warm-up that leads up to this quiz (else the latest), and only its current run's scores
+    const wu = (r.warmups || []).find((w) => w.forQuiz === G.quizId) || (r.warmups || [])[0];
+    leaders = wu ? (r.plays || []).filter((p) => p.code === wu.code && (p.season || '') === (wu.season || '')).slice(0, 5) : [];
+  } catch {}
+  const norm = (x) => String(x || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const real = () => players().filter((p) => !p.id.startsWith('p_bot')).sort((a, b) => a.name.localeCompare(b.name));
+  const lead = leaders[0], leadPid = lead ? real().find((p) => norm(p.name) === norm(lead.name))?.id : null;
+  const draw = () => {
+    const m = $('.modal', bg), ps = real();
+    m.innerHTML = `<h3>🎁 Bonus points</h3>
+      ${lead ? `<div class="notice">🥇 Warm-up winner: <b>${esc(lead.emoji || '')} ${esc(lead.name)}</b> with ${lead.score} points${leadPid ? ' · in this game' : ' · <b>not in this game yet</b> (or joined under another name)'}${leaders.length > 1 ? `<br><span class="small">Then ${leaders.slice(1, 4).map((p) => `${esc(p.name)} ${p.score}`).join(' · ')}</span>` : ''}</div>` : '<p class="muted small">No warm-up scores yet.</p>'}
+      ${ps.length ? `<div class="field"><label>Who</label><select id="bn_who">${ps.map((p) => `<option value="${p.id}" ${p.id === leadPid ? 'selected' : ''}>${esc(p.emoji || '')} ${esc(p.name)}${p.bonus ? ` (has ${p.bonus > 0 ? '+' : ''}${p.bonus})` : ''}</option>`).join('')}</select></div>
+      <div class="row"><div class="field grow"><label>Points</label><input type="number" id="bn_pts" value="1000" step="100" min="-5000" max="10000"></div><div class="field grow"><label>Why (shown on the screen)</label><input type="text" id="bn_why" value="${leadPid ? 'Warm-up winner' : 'Bonus'}" maxlength="40"></div></div>` : '<p class="muted">Nobody has joined yet. Players need to be in the game first.</p>'}
+      ${(G.bonuses || []).length ? `<div class="field"><label>Given so far</label>${G.bonuses.map((b, i) => `<div class="row" style="padding:4px 0"><span>${esc(b.name)} <b>${b.pts > 0 ? '+' : ''}${b.pts}</b> <span class="muted small">${esc(b.why)}</span></span><div class="grow"></div><button class="btn btn-ghost btn-sm" data-undo="${i}" style="color:var(--ink)">Take back</button></div>`).join('')}</div>` : ''}
+      <div class="row" style="justify-content:flex-end"><button class="btn btn-ghost" data-x style="color:var(--ink)">Done</button>${ps.length ? '<button class="btn btn-primary" data-give style="background:var(--brand);color:#fff">Give the points</button>' : ''}</div>`;
+    $('[data-x]', m).onclick = () => { bg.remove(); if (G.phase === 'lobby') renderLobby(); };
+    $$('[data-undo]', m).forEach((b) => b.onclick = () => {
+      const x = G.bonuses.splice(+b.dataset.undo, 1)[0], p = G.players[x.pid];
+      if (p) { p.score -= x.pts; p.bonus = (p.bonus || 0) - x.pts; if (!p.bonus) delete p.bonus; }
+      persist(); broadcastState(); if (G.phase === 'lobby') renderLobbyPlayers(); draw();
+    });
+    const give = $('[data-give]', m);
+    if (give) give.onclick = () => {
+      const p = G.players[$('#bn_who', m).value], pts = Math.round(+$('#bn_pts', m).value || 0), why = $('#bn_why', m).value.trim() || 'Bonus';
+      if (!p || !pts) return;
+      p.score += pts; p.bonus = (p.bonus || 0) + pts;
+      (G.bonuses = G.bonuses || []).push({ pid: p.id, name: p.name, pts, why, at: Date.now() });
+      persist(); broadcastState(); if (G.phase === 'lobby') renderLobbyPlayers();
+      bonusFlash(p, pts, why); draw();
+    };
+  };
+  draw();
+}
+/** The bonus, big on the screen for a moment, so everyone on the call sees it. */
+function bonusFlash(p, pts, why) {
+  const d = document.createElement('div'); d.className = 'bonusflash';
+  d.innerHTML = `<div><div class="bf-em">🎁</div><div class="bf-name">${esc(p.emoji || '')} ${esc(p.name)}</div><div class="bf-pts">${pts > 0 ? '+' : ''}${pts} points</div><div class="bf-why">${esc(why)}</div></div>`;
+  document.body.appendChild(d); setTimeout(() => d.remove(), 4200);
+  try { sound('fanfare'); } catch {}
+}
+/** The warm-up's lobby: what it is, the prize, a code for friends, and Start. */
+function renderWarmLobby() {
+  const top = (G.warmTop || []).slice(0, 3);
+  stage.innerHTML = `<div class="stage-top"><div class="lobbylogo"><img src="assets/brand/mark.png" alt="">Let's Quiz!</div><div class="pillbox"><span class="hpill">🔥 Warm-up</span><span class="hpill">${total()} questions and games</span>${G.warmUntil ? `<span class="hpill">⏰ Ends ${esc(endsText(G.warmUntil))}</span>` : ''}</div></div>
+    <div class="stage-main"><div class="wulobby">
+      <h1 class="big wutitle">${esc(G.quiz.title)}</h1>
+      <p class="wusub">You against three bots, and anyone you invite. <b>The top score when it closes${G.warmUntil ? ' on ' + esc(endsText(G.warmUntil)) : ''} gets 1,000 bonus points</b> in the quiz!</p>
+      <div class="wugrid">
+        <div class="wujoin"><div class="qr" id="qr"></div><div><div class="wusmall">Friends can join this game</div><div class="code">${G.code}</div><div class="wusmall">at <b>${esc(shortPlayUrl())}</b></div></div></div>
+        <div class="wuside"><div class="wusmall">In this game</div><div class="players" id="players"></div>
+          <div class="wusmall" style="margin-top:14px">${top.length ? 'Top scores so far' : 'No scores yet: yours could be the first!'}</div>
+          ${top.length ? `<ol class="wutop">${top.map((p) => `<li>${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)} <b>${p.score}</b></li>`).join('')}</ol>` : ''}</div>
+      </div>
+      <p class="wugo">Press <b>Start ▶</b> when you're ready</p>
+    </div></div>
+    ${hostBar(`<button class="btn btn-ghost ${musicOn() ? 'on' : ''}" data-act="music" title="Background music while the clock runs (M)">${musicOn() ? '🎵 Music: on' : '🔇 Music: off'}</button><button class="btn btn-primary btn-lg" data-act="primary" id="startBtn">Start ▶</button>`)}`;
+  new QRCode($('#qr'), { text: playUrl(G.code), width: 200, height: 200, correctLevel: QRCode.CorrectLevel.M });
+  renderLobbyPlayers(); bind();
+}
+/** "Friday at 5pm" (or "2 October at 5pm" when it is more than a week away). */
+function endsText(iso) {
+  const d = new Date(iso), days = (d - Date.now()) / 864e5;
+  const time = d.toLocaleTimeString('en-GB', { hour: 'numeric', minute: '2-digit', hour12: true }).replace(':00', '').replace(' ', '');
+  return (days < 6 ? d.toLocaleDateString('en-GB', { weekday: 'long' }) : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })) + ' at ' + time;
+}
+/** The warm-up's final screen: where your score landed on the scoreboard. */
+function warmFinalHtml() {
+  const sv = G.warmSaved, mine = sv?.places?.[myPid()];
+  const status = !sv || sv === 'saving' ? '<div class="wusave">Saving your score…</div>'
+    : sv.error ? `<div class="wusave bad">Your score didn't save: ${esc(sv.error)} <button class="btn btn-sm" data-act="wusave">Try again</button></div>`
+    : mine ? `<div class="wusave ok">✅ Saved! ${mine.kept ? `This phone had played already, so its first score stays: <b>${mine.score}</b>` : `You scored <b>${mine.score}</b>`}, <b>${ordinal(mine.place)}</b> of ${sv.count} on the warm-up scoreboard.${mine.place === 1 ? ' 🥇 Top of the table!' : ''}</div>`
+    : '<div class="wusave ok">✅ Scores saved.</div>';
+  const top = (sv?.top || []).slice(0, 5);
+  return `${status}${top.length ? `<div class="wutopfinal"><span class="wusmall">Warm-up top 5:</span> ${top.map((p, i) => `<span class="tl">${i + 1}. ${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)} · ${p.score}</span>`).join('')}</div>` : ''}
+    <p class="wusmall" style="margin-top:6px">The top score when the warm-up closes${G.warmUntil ? " on " + esc(endsText(G.warmUntil)) : ""} gets 1,000 bonus points at the start of the quiz.</p>`;
 }
 function renderLobbyPlayers() {
   const el = $('#players'); if (!el) return;
   const ps = players().sort((a, b) => a.joinedAt - b.joinedAt);
-  el.innerHTML = ps.length ? ps.map((p) => `<span class="pill" data-kick="${p.id}" style="${present.has(p.id) ? '' : 'opacity:.45'}">${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}</span>`).join('') : '<span style="opacity:.6;font-weight:800">Waiting for players…</span>';
+  el.innerHTML = ps.length ? ps.map((p) => `<span class="pill" data-kick="${p.id}" style="${present.has(p.id) ? '' : 'opacity:.45'}">${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}${p.bonus ? ` <b class="bonustag">🎁 ${p.bonus > 0 ? '+' : ''}${p.bonus}</b>` : ''}</span>`).join('') : '<span style="opacity:.6;font-weight:800">Waiting for players…</span>';
   const b = $('#startBtn'); if (b) b.disabled = !ps.length;
   $$('[data-kick]', el).forEach((x) => { x.style.cursor = 'pointer'; x.title = 'Click to remove this player'; x.onclick = () => kickPlayer(x.dataset.kick); });
 }
@@ -2689,8 +2835,8 @@ function renderFinal() {
     <div class="stage-main"><h1 class="big" style="font-size:2.6rem">🏆 ${rk[0] ? esc(rk[0].name) + ' wins!' : 'Game over'}</h1>
       <div class="podium">${pod(1, 'p2')}${pod(0, 'p1')}${pod(2, 'p3')}</div>
       ${rk.length > 3 ? `<div class="textlist">${rk.slice(3, 15).map((p, i) => `<span class="tl">${i + 4}. ${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)} · ${p.score}</span>`).join('')}</div>` : ''}
-      <p class="small clicktip" style="opacity:.5;margin-top:10px">Players can be removed from the scoreboard during the game by clicking their name.</p></div>
-    ${hostBar(`<a class="btn btn-ghost ${G.reportId ? '' : 'hidden'}" id="reportBtn" href="index.html?game=${G.reportId || ''}" target="_blank">📊 Report</a><button class="btn btn-ghost" data-act="builder">${TV ? '🏠 Home' : PREVIEW ? 'Close preview' : 'Back to builder'}</button>${G.quizId && !PREVIEW ? '<button class="btn btn-ghost" data-act="restock" title="Just testing? Put every question back into the bank as unused and delete this quiz">↩ Return questions to the bank</button>' : ''}<button class="btn btn-primary" data-act="again">Play again ↻</button>`)}`;
+      ${G.warmup ? warmFinalHtml() : '<p class="small clicktip" style="opacity:.5;margin-top:10px">Players can be removed from the scoreboard during the game by clicking their name.</p>'}</div>
+    ${G.warmup ? hostBar('<button class="btn btn-primary" data-act="wuboard">See the full scoreboard</button>') : hostBar(`<a class="btn btn-ghost ${G.reportId ? '' : 'hidden'}" id="reportBtn" href="index.html?game=${G.reportId || ''}" target="_blank">📊 Report</a><button class="btn btn-ghost" data-act="builder">${TV ? '🏠 Home' : PREVIEW ? 'Close preview' : 'Back to builder'}</button>${G.quizId && !PREVIEW ? '<button class="btn btn-ghost" data-act="restock" title="Just testing? Put every question back into the bank as unused and delete this quiz">↩ Return questions to the bank</button>' : ''}<button class="btn btn-primary" data-act="again">Play again ↻</button>`)}`;
   bind();
 }
 function confetti() {

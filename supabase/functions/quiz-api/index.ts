@@ -903,6 +903,59 @@ Deno.serve(async (req) => {
       return json({ questions: out });
     }
 
+    // Warm-up games (no sign-in): a quiz with settings.warmup = { code, open, until, season, forQuiz } is played by
+    // anyone with the code, on their own device, against three bots, until the `until` time. One row per device
+    // (its player id) per season goes into quiz_warmup_plays when the game ends, so each device plays once a season;
+    // refreshing the warm-up for a later quiz starts a new season (a fresh scoreboard). Bots are never written.
+    if (action === "warmup_open" || action === "warmup_check" || action === "warmup_save") {
+      const code = String(body.code || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 12);
+      if (code.length < 4) return json({ error: "That's not a warm-up code." }, 400);
+      const found = await rest(`quiz_quizzes?settings->warmup->>code=eq.${code}&select=id,title,settings,questions&order=updated_at.desc&limit=1`);
+      const quiz = found?.[0];
+      if (!quiz?.settings?.warmup) return json({ error: "No warm-up game has that code." }, 404);
+      const wu = quiz.settings.warmup, until = wu.until && !isNaN(Date.parse(wu.until)) ? Date.parse(wu.until) : null;
+      const season = String(wu.season || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 40);
+      const ended = !!until && Date.now() >= until;
+      const open = wu.open !== false && !ended;
+      const pidOk = (p: unknown) => typeof p === "string" && /^p_[a-z0-9]{6,12}$/.test(p) && !p.startsWith("p_bot");
+      const board = `quiz_warmup_plays?code=eq.${code}&season=eq.${season}&select=pid,name,emoji,score,played_at&order=score.desc,played_at.asc&limit=5000`;
+      const all: any[] = (await rest(board)) || [];
+      const placeOf = (score: number) => all.filter((r) => r.score > score).length + 1;
+      const top = all.slice(0, 10).map((r) => ({ name: r.name, emoji: r.emoji, score: r.score }));
+      if (action === "warmup_check") {
+        const pids = new Set((Array.isArray(body.pids) ? body.pids : []).filter(pidOk).slice(0, 50));
+        return json({ played: all.filter((r) => pids.has(r.pid)).map((r) => r.pid) });
+      }
+      if (action === "warmup_open") {
+        const mine = pidOk(body.pid) ? all.find((r) => r.pid === body.pid) : null;
+        const played = mine ? { name: mine.name, emoji: mine.emoji, score: mine.score, played_at: mine.played_at, place: placeOf(mine.score) } : null;
+        const s = { ...quiz.settings }; delete s.report; delete s.buildLog; delete s.aiUsage; delete s.planRounds;
+        return json({ code, open, ended, until: until ? new Date(until).toISOString() : null, title: quiz.title, count: all.length, top, played,
+          ...(body.peek ? {} : { quiz: { id: quiz.id, title: quiz.title, settings: s, questions: quiz.questions } }) });
+      }
+      // warmup_save: the end of a game
+      const g = body.game && typeof body.game === "object" ? body.game : {};
+      // A game that started before the end time still counts if it finishes within two hours of it.
+      const startedMs = g.started_at && !isNaN(Date.parse(g.started_at)) ? Date.parse(g.started_at) : 0;
+      const late = ended && !!startedMs && startedMs < until! && Date.now() < until! + 2 * 3600e3;
+      if (wu.open === false || (ended && !late)) return json({ error: "This warm-up has closed, so the score can't go on the scoreboard." }, 403);
+      const seen = new Set<string>();
+      const ps = (Array.isArray(body.players) ? body.players : []).filter((p: any) => pidOk(p?.pid) && !seen.has(p.pid) && seen.add(p.pid)).slice(0, 40);
+      const started = g.started_at && !isNaN(Date.parse(g.started_at)) ? new Date(g.started_at).toISOString() : null;
+      const rows = ps.map((p: any) => ({
+        code, quiz_id: quiz.id, game_code: String(g.code || "").replace(/[^A-Z0-9]/g, "").slice(0, 12), pid: p.pid,
+        name: String(p.name || "Player").replace(/\s+/g, " ").trim().slice(0, 20) || "Player", emoji: String(p.emoji || "").slice(0, 8),
+        score: Math.max(-20000, Math.min(200000, Math.round(+p.score || 0))), rank: Math.max(0, Math.min(99, Math.round(+p.rank || 0))),
+        players: ps.length, bots: Math.max(0, Math.min(40, Math.round(+g.bots || 0))), started_at: started, season,
+      }));
+      // A device that has played already keeps its first score (on conflict: ignore).
+      if (rows.length) await rest(`quiz_warmup_plays?on_conflict=code,season,pid`, { method: "POST", headers: { Prefer: "resolution=ignore-duplicates,return=minimal" }, body: JSON.stringify(rows) });
+      const after: any[] = (await rest(board)) || [];
+      const places: Record<string, any> = {};
+      for (const p of ps) { const r = after.find((x) => x.pid === p.pid); if (r) places[p.pid] = { score: r.score, place: after.filter((x) => x.score > r.score).length + 1, kept: r.score !== Math.round(+p.score || 0) }; }
+      return json({ ok: true, places, count: after.length, top: after.slice(0, 10).map((r) => ({ name: r.name, emoji: r.emoji, score: r.score })) });
+    }
+
     if (!HOST_PW) return json({ error: "The server has no QUIZ_HOST_PASSWORD set." }, 500);
     if (typeof password !== "string" || password !== HOST_PW) return json({ error: "Wrong password." }, 401);
 
@@ -1403,6 +1456,36 @@ Deno.serve(async (req) => {
       return json({ ok: true, id: rows?.[0]?.id || null });
     }
 
+    if (action === "warmup_board") {
+      // Every warm-up and every device's score, best first, with when each game was played.
+      const quizzes: any[] = (await rest(`quiz_quizzes?settings->warmup=not.is.null&select=id,title,warmup:settings->warmup,updated_at&order=updated_at.desc`)) || [];
+      const rows: any[] = (await rest(`quiz_warmup_plays?select=code,season,quiz_id,game_code,pid,name,emoji,score,rank,players,bots,started_at,played_at&order=score.desc,played_at.asc&limit=5000`)) || [];
+      return json({ warmups: quizzes.map((q) => { const w = q.warmup || {}, until = w.until && !isNaN(Date.parse(w.until)) ? Date.parse(w.until) : null;
+        return { id: q.id, title: q.title, code: w.code || "", season: w.season || "", until: until ? new Date(until).toISOString() : null, forQuiz: w.forQuiz || null, open: w.open !== false && !(until && Date.now() >= until), switchedOff: w.open === false }; }), plays: rows });
+    }
+
+    if (action === "warmup_forget") {
+      // The host lets a device play again (a mistake, a crash): its row goes.
+      const code = String(body.code || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+      if (!code || !/^p_[a-z0-9]{6,12}$/.test(String(body.pid))) return json({ error: "Bad request." }, 400);
+      const season = String(body.season || "").replace(/[^A-Za-z0-9_-]/g, "");
+      await rest(`quiz_warmup_plays?code=eq.${code}&season=eq.${season}&pid=eq.${body.pid}`, { method: "DELETE" });
+      return json({ ok: true });
+    }
+
+    if (action === "warmup_clash") {
+      // Anything the warm-up shares with its quiz: the same question, a game row asking the same thing, or the same
+      // answer to a question about the same thing. Both quizzes are read whole, game rows included.
+      if (!UUID_RE.test(String(body.id))) return json({ error: "Bad warm-up id." }, 400);
+      const w = (await rest(`quiz_quizzes?id=eq.${body.id}&select=id,title,settings,questions`))?.[0];
+      if (!w) return json({ error: "That warm-up no longer exists." }, 404);
+      const against = UUID_RE.test(String(body.against || "")) ? body.against : w.settings?.warmup?.forQuiz;
+      if (!against || !UUID_RE.test(String(against))) return json({ clashes: [], against: null });
+      const f = (await rest(`quiz_quizzes?id=eq.${against}&select=id,title,questions`))?.[0];
+      if (!f) return json({ clashes: [], against: null });
+      return json({ against: { id: f.id, title: f.title }, clashes: quizClashes(w.questions || [], f.questions || []) });
+    }
+
     if (action === "games") {
       const rows = await rest(`quiz_games?select=id,code,quiz_id,title,players,questions,started_at,ended_at&order=ended_at.desc&limit=100`);
       return json({ games: rows || [] });
@@ -1421,6 +1504,37 @@ Deno.serve(async (req) => {
     return json({ error: friendly(String((e as Error)?.message || e)) }, 500);
   }
 });
+
+// ---------------------------------------------------------------- warm-up v quiz
+const CLASH_STOP = new Set("which what where when whose does were that this with from have into about their there these those they them than then name named first most many much only also over under after before your called known".split(" "));
+/** Every question and game row in a quiz, with its answer, for comparing two quizzes. */
+function clashItems(qs: any[]) {
+  const out: any[] = [];
+  qs.forEach((q, i) => {
+    if (!q || q.type === "slide") return;
+    const right = q.type === "choice" ? (q.options || []).find((o: any) => o.id === q.correct)?.text : q.type === "smash" ? q.smash : q.type === "wheel" ? q.phrase : q.type === "pin" ? q.place : q.type === "rhyme" ? `${q.answer1} ${q.answer2}` : Array.isArray(q.answers) ? q.answers[0] : "";
+    const text = q.type === "smash" ? `${q.text} ${q.pictureAnswer || ""}` : q.type === "wheel" ? q.phrase : q.type === "reveal" ? `${q.text} ${right}` : q.text;
+    if (text) out.push({ i, row: -1, type: q.kind || q.type, text: String(text), answer: String(right || "") });
+    (Array.isArray(q.bank) ? q.bank : []).forEach((b: any, j: number) => out.push({ i, row: j, type: q.type, text: String(b?.text || ""), answer: String(b?.options?.[0] ?? "") }));
+    if (Array.isArray(q.prompts)) q.prompts.forEach((p: any, j: number) => out.push({ i, row: j, type: "unique", text: String(typeof p === "string" ? p : p?.p || ""), answer: "" }));
+  });
+  return out;
+}
+const clashWords = (s: string) => new Set(norm(s).split(" ").filter((w) => w.length > 3 && !CLASH_STOP.has(w)));
+/** Pairs of items the two quizzes share. Picture Reveal and 20 Questions compare by answer only. */
+function quizClashes(a: any[], b: any[]) {
+  const A = clashItems(a), B = clashItems(b), out: any[] = [];
+  for (const x of A) for (const y of B) {
+    const wa = clashWords(x.text), wb = clashWords(y.text), common = [...wa].filter((t) => wb.has(t)).length;
+    const ax = norm(x.answer), ay = norm(y.answer), sameAns = ax.length > 3 && ax === ay && !/^(true|false|yes|no)$/.test(ax);
+    const textSame = common >= 3 && common / Math.max(1, Math.min(wa.size, wb.size)) >= 0.5;
+    const generic = /^(picture reveal|20 questions|say what you see|catchphrase|draw it|only one|hot potato|king of the hill|the chase|blockbusters)/i.test(x.text);
+    if ((textSame && !generic) || (sameAns && (common >= 1 || x.type === "reveal" || x.type === "twenty" || y.type === "reveal" || y.type === "twenty"))) {
+      out.push({ warmup: x, quiz: y, why: textSame ? "same question" : "same answer" });
+    }
+  }
+  return out.slice(0, 200);
+}
 
 // ---------------------------------------------------------------- Kahoot import
 function kahootId(s: string): string { const m = String(s || "").match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i); return m ? m[0].toLowerCase() : ""; }
