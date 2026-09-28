@@ -145,7 +145,7 @@ function render() {
   const rc = P.race && P.race.qId === qId ? P.race : null;
   if (s.wheel && P.viewKey.startsWith(`${s.phase}:${qId}:`)) { const b = $('#pwof'); if (b) b.innerHTML = LQ.wheelBoardHtml(s.wheel.layout, s.wheel.revealed); }
   if (s.wipe?.studyMs) { const el = $('#studyLeft'); if (el) el.textContent = Math.ceil(s.wipe.studyMs / 1000); }
-  const key = [s.phase, qId, s.qIndex, s.round?.n || '', s.raceIntro ? s.raceIntro.step + s.raceIntro.n : '', P.answered[qId] ? 'a' : '', s.wipe ? `${s.wipe.turnPid}:${s.wipe.gone.length}:${s.wipe.out.length}:${s.wipe.over}:${s.wipe.studyMs ? 'study' : ''}:${(s.wipe.order || []).length}` : '', rc ? `${rc.idx}:${rc.pending}:${rc.out}:${rc.done}:${s.race?.winner || ''}` : '', gameKey(s), twentyKey(s)].join(':');
+  const key = [s.phase, qId, s.qIndex, s.round?.n || '', s.raceIntro ? s.raceIntro.step + s.raceIntro.n : '', P.answered[qId] ? 'a' : '', s.wipe ? `${s.wipe.turnPid}:${s.wipe.gone.length}:${s.wipe.out.length}:${s.wipe.over}:${s.wipe.studyMs ? 'study' : ''}:${(s.wipe.order || []).length}` : '', rc ? `${rc.idx}:${rc.pending}:${rc.out}:${rc.done}:${s.race?.winner || ''}` : '', gameKey(s), twentyKey(s), s.warm ? 'w' + s.warm.count : ''].join(':');
   // A break clock: keep the phone's countdown in step with the host's, which the host can stretch or shorten.
   if (s.phase === 'slide' && s.brk) { P.brk = { end: Date.now() + s.brk.remainingMs, total: s.brk.totalMs, frozen: s.paused ? s.brk.remainingMs : null }; }
   if (key === P.viewKey) { tickTimer(); tickBreak(); if (s.draw) drawUpdate(s); return; }
@@ -179,7 +179,7 @@ function render() {
   else if (s.phase === 'grading') app.innerHTML = top + top2 + `<div class="state"><div class="em">⏱</div><h2>Time's up!</h2><p class="muted">Checking the answers…</p></div>`;
   else if (s.phase === 'reveal') app.innerHTML = top + top2 + resultHtml(s, r) + (s.preview ? '' : ctrl('next', s.practice ? 'Next ▶' : 'Scores ▶'));
   else if (s.phase === 'scoreboard') app.innerHTML = top + top2 + `<div class="state"><div class="em">${r?.rank === 1 ? '🥇' : r?.rank === 2 ? '🥈' : r?.rank === 3 ? '🥉' : '📊'}</div><h2>${r ? `You're ${ordinal(r.rank)} of ${r.of}` : 'Scoreboard'}</h2><p class="muted">${r ? r.score + ' points so far' : ''}</p>${ctrl('next', (s.more ?? s.qIndex + 1 < s.total) ? 'Next ▶' : 'Final results 🏆')}</div>`;
-  else if (s.phase === 'final') app.innerHTML = top + top2 + finalHtml(s, r);
+  else if (s.phase === 'final') { app.innerHTML = top + top2 + finalHtml(s, r); const b = $('#warmBoard'), me = b?.querySelector('.me'); if (b && me) b.scrollTop = Math.max(0, me.offsetTop - b.offsetTop - b.clientHeight / 2); }
 }
 /** The pause veil over the phone, and in run-itself mode a small pause button in the corner. */
 function syncPauseUi(s) {
@@ -633,7 +633,15 @@ function finalHtml(s, r) {
   return `<div class="state" style="justify-content:flex-start"><div class="em">${me === 1 ? '🏆' : me === 2 ? '🥈' : me === 3 ? '🥉' : '🎉'}</div>
     <h2>${me === 1 ? 'You won!' : me ? `You came ${ordinal(me)}` : 'Game over'}</h2>${r ? `<p class="muted">${r.score} points</p>` : ''}
     <div class="board">${(s.top || []).map((t) => `<div class="brow ${t.name === P.name ? 'me' : ''}"><div class="rank">${t.rank}</div><div>${esc(t.name)}</div><div>${t.score}</div></div>`).join('')}</div>
-    <button class="btn btn-ghost mt" id="another">Join another game</button></div>`;
+    ${s.warm ? warmBoardHtml(s) : '<button class="btn btn-ghost mt" id="another">Join another game</button>'}</div>`;
+}
+/** The end of a warm-up: everyone who has played so far, best first, with this phone's row picked out. */
+function warmBoardHtml(s) {
+  const w = s.warm, mine = w.places?.[P.pid]; let hit = false;
+  const place = (t) => w.board.filter((x) => x.score > t.score).length + 1;
+  return `<h3 style="margin:18px 0 4px">🏆 Warm-up scoreboard</h3><p class="muted small" style="margin:0 0 6px">${mine ? `You're ${ordinal(mine.place)} of ${w.count} so far` : `${w.count} played so far`}</p>
+    <div class="board warmboard" id="warmBoard">${w.board.map((t) => { const me = !hit && mine && t.score === mine.score && t.name === P.name; if (me) hit = true; return `<div class="brow ${me ? 'me' : ''}"><div class="rank">${place(t)}</div><div>${esc(t.emoji || '')} ${esc(t.name)}</div><div>${t.score}</div></div>`; }).join('')}</div>
+    <p class="muted small" style="margin-top:8px">The top score when the warm-up closes gets 1,000 bonus points at the start of the quiz.</p>`;
 }
 document.addEventListener('click', (e) => {
   if (e.target.id === 'another') { leave(); P.code = ''; history.replaceState(null, '', location.pathname); renderJoin(); }

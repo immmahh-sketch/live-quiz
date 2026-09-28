@@ -47,7 +47,8 @@
   .board li:last-child { border-bottom: 0; }
   .board .n { width: 1.6em; text-align: center; color: #8a86a6; }
   .board .s { margin-left: auto; font-weight: 900; }
-  .board li.me { background: #fff7d6; border-radius: 10px; }
+  .board { max-height: 55vh; overflow: auto; }
+  .board li.me { background: #ffd54a; border-radius: 10px; }
   .board li:first-child .n { color: #c9930a; }
   .muted { color: #6f6b8c; font-weight: 700; }
   .small { font-size: .9rem; }
@@ -88,7 +89,10 @@ const CODE = (new URLSearchParams(location.search).get('c') || new URLSearchPara
 const me = () => { const p = store('lq_player') || {}; return { pid: /^p_[a-z0-9]{6,12}$/.test(p.pid || '') ? p.pid : '', name: p.name || '', emoji: LQ.EMOJIS.includes(p.emoji) ? p.emoji : '' }; };
 const SAVE_KEY = 'lq_live_warmup';
 const brand = `<div class="brand"><img src="assets/brand/mark.png" alt="">Let's Quiz!</div>`;
-const boardHtml = (top, mine) => top.length ? `<ol class="board">${top.map((p, i) => `<li class="${mine && p.name === mine.name && p.score === mine.score ? 'me' : ''}"><span class="n">${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : i + 1}</span><span>${esc(p.emoji || '')} ${esc(p.name)}</span><span class="s">${p.score}</span></li>`).join('')}</ol>` : '<p class="muted small" style="margin:0">No scores yet. Yours could be the first!</p>';
+// Everyone who has played, best first; equal scores share a place. `mine` is picked out (and scrolled to).
+const boardHtml = (rows, mine) => { let hit = false; const place = (p) => rows.filter((x) => x.score > p.score).length + 1;
+  return rows.length ? `<ol class="board" id="board">${rows.map((p) => { const me = !hit && mine && p.name === mine.name && p.score === mine.score; if (me) hit = true; const n = place(p); return `<li class="${me ? 'me' : ''}"><span class="n">${n === 1 ? '🥇' : n === 2 ? '🥈' : n === 3 ? '🥉' : n}</span><span>${esc(p.emoji || '')} ${esc(p.name)}${me ? ' <b>(you)</b>' : ''}</span><span class="s">${p.score}</span></li>`; }).join('')}</ol>` : '<p class="muted small" style="margin:0">No scores yet. Yours could be the first!</p>'; };
+const scrollToMe = () => { const b = $('#board'), r = b?.querySelector('.me'); if (b && r) b.scrollTop = Math.max(0, r.offsetTop - b.offsetTop - b.clientHeight / 2); };
 
 async function start() {
   // A game already going on this device carries straight on (a reload, a dropped connection).
@@ -139,7 +143,7 @@ function closed(r) {
   app.innerHTML = `<div class="land">${brand}<h1>${esc(r.title)}</h1>
     <div class="card played"><div class="em">⏰</div><h2 style="margin:4px 0 0">The warm-up has closed</h2>
       ${w ? `<p class="muted" style="margin:8px 0 0">Top of the table: <b>${esc(w.emoji || '')} ${esc(w.name)}</b> with ${w.score} points, who starts the quiz 1,000 points ahead.</p>` : '<p class="muted">See you at the quiz!</p>'}</div>
-    <div class="card"><h2>🏆 Final warm-up scoreboard</h2>${boardHtml(r.top || [])}</div></div>`;
+    <div class="card"><h2>🏆 Final warm-up scoreboard</h2>${boardHtml(r.board || r.top || [])}</div></div>`;
 }
 function played(r) {
   const p = r.played;
@@ -147,8 +151,9 @@ function played(r) {
     <div class="card played"><div class="em">${esc(p.emoji || '🎉')}</div><h2 style="margin:4px 0 0">You've had your go, ${esc(p.name)}!</h2>
       <div class="score">${p.score} points</div><p class="muted" style="margin:0">${ordinal(p.place)} of ${r.count} on the warm-up scoreboard${p.place === 1 ? ' · 🥇 top of the table!' : ''}</p>
       <p class="muted small" style="margin:10px 0 0">It's one go per phone. The top score${r.until ? ' when it closes on ' + esc(endsText(r.until)) : ''} gets 1,000 bonus points at the start of the quiz.</p></div>
-    <div class="card"><h2>🏆 Warm-up scoreboard</h2>${boardHtml(r.top || [], p)}${r.count > 10 ? `<p class="muted small" style="margin:8px 0 0">${r.count} people have played.</p>` : ''}</div>
+    <div class="card"><h2>🏆 Warm-up scoreboard${r.count ? ` · ${r.count} played` : ''}</h2>${boardHtml(r.board || r.top || [], p)}</div>
     <p class="note">Played on ${new Date(p.played_at).toLocaleString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit' })}.</p></div>`;
+  scrollToMe();
 }
 
 // ---------- the game: host screen and your player screen side by side ----------

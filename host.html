@@ -422,6 +422,8 @@ function stateForPlayers() {
     if (G.quiz.settings.showAnswersOnPhones !== false) { s.answer = answerText(question()); if (question()?.type === 'club' && question().why) s.why = question().why; }
   }
   if (G.phase === 'final') s.top = ranked().slice(0, 10).map((p, i) => ({ name: p.name, score: p.score, rank: i + 1 }));
+  // a warm-up: the whole scoreboard so far, for every phone in the game to see where it ranks
+  if (G.phase === 'final' && G.warmup && G.warmSaved?.board) s.warm = { board: G.warmSaved.board.slice(0, 150), count: G.warmSaved.count, places: G.warmSaved.places || {} };
   return s;
 }
 function broadcastState() { send('state', stateForPlayers()); }
@@ -2476,16 +2478,32 @@ function endsText(iso) {
   const time = d.toLocaleTimeString('en-GB', { hour: 'numeric', minute: '2-digit', hour12: true }).replace(':00', '').replace(' ', '');
   return (days < 6 ? d.toLocaleDateString('en-GB', { weekday: 'long' }) : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })) + ' at ' + time;
 }
-/** The warm-up's final screen: where your score landed on the scoreboard. */
-function warmFinalHtml() {
-  const sv = G.warmSaved, mine = sv?.places?.[myPid()];
+/** The end of a warm-up: your score, this game's players, and the whole warm-up scoreboard (everyone who has
+ *  played so far) with your row picked out and scrolled into view, so you see where you rank. */
+function renderWarmFinal() {
+  const rk = ranked(), sv = G.warmSaved, me = G.players[myPid()], mine = sv?.places?.[myPid()];
+  const board = sv?.board || [];
+  const meAt = mine ? board.findIndex((p) => p.score === mine.score && p.name === (me?.name || p.name)) : -1;
+  const place = (p) => board.filter((x) => x.score > p.score).length + 1;
+  const medal = (n) => n === 1 ? '🥇' : n === 2 ? '🥈' : n === 3 ? '🥉' : n;
   const status = !sv || sv === 'saving' ? '<div class="wusave">Saving your score…</div>'
     : sv.error ? `<div class="wusave bad">Your score didn't save: ${esc(sv.error)} <button class="btn btn-sm" data-act="wusave">Try again</button></div>`
-    : mine ? `<div class="wusave ok">✅ Saved! ${mine.kept ? `This phone had played already, so its first score stays: <b>${mine.score}</b>` : `You scored <b>${mine.score}</b>`}, <b>${ordinal(mine.place)}</b> of ${sv.count} on the warm-up scoreboard.${mine.place === 1 ? ' 🥇 Top of the table!' : ''}</div>`
+    : mine ? `<div class="wusave ok">✅ Saved! ${mine.kept ? `This phone had played already, so its first score stays: <b>${mine.score}</b>. ` : ''}You're <b>${ordinal(mine.place)}</b> of ${sv.count} on the warm-up scoreboard.${mine.place === 1 ? ' 🥇 Top of the table!' : ''}</div>`
     : '<div class="wusave ok">✅ Scores saved.</div>';
-  const top = (sv?.top || []).slice(0, 5);
-  return `${status}${top.length ? `<div class="wutopfinal"><span class="wusmall">Warm-up top 5:</span> ${top.map((p, i) => `<span class="tl">${i + 1}. ${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)} · ${p.score}</span>`).join('')}</div>` : ''}
-    <p class="wusmall" style="margin-top:6px">The top score when the warm-up closes${G.warmUntil ? " on " + esc(endsText(G.warmUntil)) : ""} gets 1,000 bonus points at the start of the quiz.</p>`;
+  stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">🏁 Finished</span></div></div>
+    <div class="stage-main"><div class="wufinal">
+      <div class="wuleft"><h1 class="big wutitle">${me ? `You scored ${me.score}!` : 'Game over'}</h1>${status}
+        <div class="wusmall" style="margin-top:14px">This game</div>
+        <ol class="wulist">${rk.map((p, i) => `<li class="${p.id === myPid() ? 'me' : ''}"><span class="n">${i + 1}</span><span class="nm">${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}</span><b>${p.score}</b></li>`).join('')}</ol>
+        <p class="wusmall" style="margin-top:auto">The top score when the warm-up closes${G.warmUntil ? ' on ' + esc(endsText(G.warmUntil)) : ''} gets 1,000 bonus points at the start of the quiz.</p></div>
+      <div class="wuright"><div class="wusmall">🏆 Warm-up scoreboard${sv?.count ? ` · ${sv.count} played so far` : ''}</div>
+        ${board.length ? `<ol class="wulist" id="wuBoard">${board.map((p, i) => `<li class="${i === meAt ? 'me' : ''}"><span class="n">${medal(place(p))}</span><span class="nm">${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}${i === meAt ? ' (you)' : ''}</span><b>${p.score}</b></li>`).join('')}</ol>`
+          : `<p class="wusmall" style="margin-top:12px">${!sv || sv === 'saving' ? 'Loading the scoreboard…' : 'The scoreboard shows here once your score is saved.'}</p>`}</div>
+    </div></div>
+    ${hostBar('<button class="btn btn-primary" data-act="wuboard">Done</button>')}`;
+  bind();
+  const list = $('#wuBoard'), row = list?.querySelector('.me');
+  if (list && row) list.scrollTop = Math.max(0, row.offsetTop - list.offsetTop - list.clientHeight / 2 + row.offsetHeight / 2);
 }
 function renderLobbyPlayers() {
   const el = $('#players'); if (!el) return;
@@ -2829,14 +2847,15 @@ function renderScoreboard() {
   bind();
 }
 function renderFinal() {
+  if (G.warmup) return renderWarmFinal();
   const rk = ranked();
   const pod = (i, cls) => rk[i] ? `<div class="pod ${cls}"><div class="name">${rk[i].emoji ? `<div style="font-size:1.6em">${rk[i].emoji}</div>` : ''}${esc(rk[i].name)}</div><div class="score">${rk[i].score} pts</div><div class="block">${i + 1}</div></div>` : '';
   stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">Final results</span></div></div>
     <div class="stage-main"><h1 class="big" style="font-size:2.6rem">🏆 ${rk[0] ? esc(rk[0].name) + ' wins!' : 'Game over'}</h1>
       <div class="podium">${pod(1, 'p2')}${pod(0, 'p1')}${pod(2, 'p3')}</div>
       ${rk.length > 3 ? `<div class="textlist">${rk.slice(3, 15).map((p, i) => `<span class="tl">${i + 4}. ${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)} · ${p.score}</span>`).join('')}</div>` : ''}
-      ${G.warmup ? warmFinalHtml() : '<p class="small clicktip" style="opacity:.5;margin-top:10px">Players can be removed from the scoreboard during the game by clicking their name.</p>'}</div>
-    ${G.warmup ? hostBar('<button class="btn btn-primary" data-act="wuboard">See the full scoreboard</button>') : hostBar(`<a class="btn btn-ghost ${G.reportId ? '' : 'hidden'}" id="reportBtn" href="index.html?game=${G.reportId || ''}" target="_blank">📊 Report</a><button class="btn btn-ghost" data-act="builder">${TV ? '🏠 Home' : PREVIEW ? 'Close preview' : 'Back to builder'}</button>${G.quizId && !PREVIEW ? '<button class="btn btn-ghost" data-act="restock" title="Just testing? Put every question back into the bank as unused and delete this quiz">↩ Return questions to the bank</button>' : ''}<button class="btn btn-primary" data-act="again">Play again ↻</button>`)}`;
+      <p class="small clicktip" style="opacity:.5;margin-top:10px">Players can be removed from the scoreboard during the game by clicking their name.</p></div>
+    ${hostBar(`<a class="btn btn-ghost ${G.reportId ? '' : 'hidden'}" id="reportBtn" href="index.html?game=${G.reportId || ''}" target="_blank">📊 Report</a><button class="btn btn-ghost" data-act="builder">${TV ? '🏠 Home' : PREVIEW ? 'Close preview' : 'Back to builder'}</button>${G.quizId && !PREVIEW ? '<button class="btn btn-ghost" data-act="restock" title="Just testing? Put every question back into the bank as unused and delete this quiz">↩ Return questions to the bank</button>' : ''}<button class="btn btn-primary" data-act="again">Play again ↻</button>`)}`;
   bind();
 }
 function confetti() {

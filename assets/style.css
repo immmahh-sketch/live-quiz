@@ -1258,3 +1258,21 @@ body.solo .camtile { right: calc(min(390px, 100vw) + 12px); }
 .wutable tr:first-child td { background: #fff7d6; }
 /* A warm-up player can pause or stop the clock, but not end their one go by accident. */
 body.warmup [data-act="stopgame"], body.warmup [data-act="end"] { display: none !important; }
+/* the end of a warm-up: your game on the left, the whole warm-up scoreboard on the right */
+.wufinal { flex: 1 1 auto; min-height: 0; width: min(1040px, 100%); display: flex; gap: 22px; text-align: left; }
+.wufinal .wuleft { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.wufinal .wuright { flex: 1.15 1 0; min-width: 0; min-height: 0; display: flex; flex-direction: column; background: rgba(255,255,255,.08); border-radius: 18px; padding: 12px 12px 10px; }
+.wufinal .wutitle { text-align: left; font-size: clamp(1.8rem, 3.4vw, 2.7rem); }
+.wufinal .wusave { font-size: 1rem; margin-top: 4px; }
+.wulist { list-style: none; margin: 6px 0 0; padding: 0; font-weight: 800; }
+.wulist li { display: flex; gap: 10px; align-items: center; padding: 5px 10px; border-radius: 10px; }
+.wulist li:nth-child(odd) { background: rgba(255,255,255,.05); }
+.wulist li.me { background: var(--sun); color: var(--stage); }
+.wulist .n { width: 2em; text-align: center; flex: none; }
+.wulist .nm { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#wuBoard { flex: 1 1 auto; min-height: 0; overflow: auto; }
+/* the warm-up scoreboard on a phone at the end: scrolls, your row picked out */
+.warmboard { max-height: 46vh; overflow: auto; width: 100%; }
+.warmboard .brow.me { background: var(--sun); color: var(--ink); outline: 3px solid var(--ink); }
+.warmboard { gap: 6px; }
+.warmboard .brow { padding: 7px 12px; gap: 8px; grid-template-columns: 40px 1fr auto; font-size: 1rem; }

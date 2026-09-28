@@ -922,6 +922,8 @@ Deno.serve(async (req) => {
       const all: any[] = (await rest(board)) || [];
       const placeOf = (score: number) => all.filter((r) => r.score > score).length + 1;
       const top = all.slice(0, 10).map((r) => ({ name: r.name, emoji: r.emoji, score: r.score }));
+      // Everyone who has played this run, best first (names and scores only), so a player sees where they rank.
+      const boardOf = (rows: any[]) => rows.slice(0, 500).map((r) => ({ name: r.name, emoji: r.emoji, score: r.score }));
       if (action === "warmup_check") {
         const pids = new Set((Array.isArray(body.pids) ? body.pids : []).filter(pidOk).slice(0, 50));
         return json({ played: all.filter((r) => pids.has(r.pid)).map((r) => r.pid) });
@@ -930,7 +932,7 @@ Deno.serve(async (req) => {
         const mine = pidOk(body.pid) ? all.find((r) => r.pid === body.pid) : null;
         const played = mine ? { name: mine.name, emoji: mine.emoji, score: mine.score, played_at: mine.played_at, place: placeOf(mine.score) } : null;
         const s = { ...quiz.settings }; delete s.report; delete s.buildLog; delete s.aiUsage; delete s.planRounds;
-        return json({ code, open, ended, until: until ? new Date(until).toISOString() : null, title: quiz.title, count: all.length, top, played,
+        return json({ code, open, ended, until: until ? new Date(until).toISOString() : null, title: quiz.title, count: all.length, top, board: boardOf(all), played,
           ...(body.peek ? {} : { quiz: { id: quiz.id, title: quiz.title, settings: s, questions: quiz.questions } }) });
       }
       // warmup_save: the end of a game
@@ -953,7 +955,7 @@ Deno.serve(async (req) => {
       const after: any[] = (await rest(board)) || [];
       const places: Record<string, any> = {};
       for (const p of ps) { const r = after.find((x) => x.pid === p.pid); if (r) places[p.pid] = { score: r.score, place: after.filter((x) => x.score > r.score).length + 1, kept: r.score !== Math.round(+p.score || 0) }; }
-      return json({ ok: true, places, count: after.length, top: after.slice(0, 10).map((r) => ({ name: r.name, emoji: r.emoji, score: r.score })) });
+      return json({ ok: true, places, count: after.length, top: after.slice(0, 10).map((r) => ({ name: r.name, emoji: r.emoji, score: r.score })), board: boardOf(after) });
     }
 
     if (!HOST_PW) return json({ error: "The server has no QUIZ_HOST_PASSWORD set." }, 500);
