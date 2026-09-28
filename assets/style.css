@@ -354,6 +354,7 @@ body.tv .lobby { grid-template-columns: 1fr 1fr; } /* a TV is always landscape: 
 /* Tall screens (the final podium) must fit whatever room the bars leave: the podium gives
    way, and anything still too tall runs downwards rather than up over the top bar. */
 .stage-main { justify-content: safe center; }
+.stage-main > * { zoom: var(--fit, 1); } /* see fitStage() in host.html */
 .stage-main > .podium { flex: 0 1 auto; min-height: 170px; margin-top: clamp(8px, 3vh, 40px); }
 /* The names sit inside each column and the blocks share out what height is left
    (1 : .7 : .48), so however small the podium gets, nothing pokes out of its top. */
@@ -1189,3 +1190,32 @@ h3 .qchips { font-size: 1rem; }
 .qtile .n .keep:focus-visible { opacity: 1; }
 .edhead .ednote { color: var(--warn); font-weight: 800; font-size: .85rem; }
 .edhead .ednote:empty { display: none; }
+
+/* ---------- the camera in the corner (assets/quizcam.js) ----------
+   While the camera is on, the top bar grows to the tile's height and everything
+   in it moves to the left of the tile, so the tile never covers any words. The
+   space stays reserved while the tile is faded, so the game never jumps. */
+body.camlayer { --cam-w: clamp(200px, 16vw, 340px); --cam-h: calc(var(--cam-w) * 9 / 16); }
+/* The band ends just below the tile, with room to spare: the tile's bottom is 12px + its height down; the main
+   area starts 18px (stage padding) + band + 12px (gap) down, so 12px clear (a big heading's line box reaches above its letters). */
+body.camlayer .stage-top { padding-right: var(--cam-w); min-height: calc(var(--cam-h) - 6px); flex-wrap: wrap; row-gap: 8px; }
+body.camlayer .stage-top .pillbox { flex-wrap: wrap; row-gap: 8px; }
+.camtile { position: fixed; top: 12px; right: 12px; width: var(--cam-w, 16vw); aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; background: #0b0820; z-index: 62; pointer-events: none;
+  box-shadow: 0 10px 30px rgba(0,0,0,.45), 0 0 0 3px rgba(255,255,255,.14); opacity: 0; transform: scale(.94); transition: opacity .6s ease, transform .6s ease; }
+.camtile.show { opacity: 1; transform: none; transition-duration: .25s; }
+.camtile.host { box-shadow: 0 10px 30px rgba(0,0,0,.45), 0 0 0 3px var(--sun); }
+.camlayer-v { position: absolute; inset: 0; opacity: 0; transition: opacity .3s ease; }
+.camlayer-v.front { opacity: 1; }
+.camlayer-v video { width: 100%; height: 100%; object-fit: cover; display: block; background: #000; }
+.camcard { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; }
+.camcard b { width: 38%; aspect-ratio: 1; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,.18); color: #fff; font-weight: 900; font-size: calc(var(--cam-w, 16vw) * .16); }
+.camlayer-v.novideo video { display: none; }
+.camlayer-v.novideo .camcard { display: flex; }
+.camname { position: absolute; left: 8px; bottom: 7px; max-width: calc(100% - 16px); padding: 3px 10px; border-radius: 999px; background: rgba(10,6,40,.72); color: #fff; font-weight: 800; font-size: clamp(.75rem, .85vw, 1rem); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+body.solo .camtile { right: calc(min(390px, 100vw) + 12px); }
+.camdebug { position: fixed; left: 12px; top: 50%; z-index: 63; width: 280px; background: rgba(0,0,0,.8); color: #fff; font: 12px/1.3 system-ui, sans-serif; padding: 8px; border-radius: 10px; }
+.camdebug div { position: relative; padding: 3px 0; }
+.camdebug div.on b { color: #36d67a; }
+.camdebug i { display: block; height: 6px; background: #1368ce; margin-top: 2px; }
+.camdebug u { position: absolute; bottom: 3px; width: 2px; height: 10px; background: #ffd54a; }
+@media (prefers-reduced-motion: reduce) { .camtile, .camlayer-v { transition: none; } }

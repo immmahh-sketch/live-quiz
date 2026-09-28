@@ -4,8 +4,9 @@
 // It joins the call the same way a Gather page does: one sending connection to
 // Cloudflare's SFU through the gather-rtc function, and a presence entry on the
 // Supabase channel call-lets-quiz naming the published tracks. Gather pages then
-// pull the screen onto their stage (full screen on TVs). This page only sends;
-// it never pulls anyone's camera or sound.
+// pull the screen onto their stage (full screen on TVs). This connection only
+// sends. The camera tile in the corner (assets/quizcam.js) pulls people's
+// cameras and microphones on a session of its own, using the presence here.
 //
 // Capture: a browser shares this tab (preferCurrentTab, so the only choice is
 // "Share"); the Windows app answers the request itself with this window and its
@@ -19,7 +20,9 @@ window.QuizCall = (() => {
   const STUN = [{ urls: 'stun:stun.cloudflare.com:3478' }, { urls: ['stun:stun.l.google.com:19302'] }];
   const S = { state: 'off', error: '', people: 0, stream: null, pc: null, sessionId: null, published: [], supa: null, channel: null, subscribed: false, retry: null, keep: null, stopCapture: null };
   const id = 'lq-' + Math.random().toString(36).slice(2, 10);
-  const listeners = new Set();
+  const listeners = new Set(), presenceFns = new Set();
+  let entries = [];
+  const others = () => entries;
   const emit = () => listeners.forEach((fn) => { try { fn(S); } catch {} });
   const set = (state, error = '') => { S.state = state; S.error = error; emit(); };
 
@@ -157,6 +160,8 @@ window.QuizCall = (() => {
       .on('presence', { event: 'sync' }, () => {
         const st = S.channel.presenceState();
         S.people = Object.entries(st).filter(([k, m]) => k !== id && !(m[m.length - 1] || {}).tv).length;
+        entries = Object.entries(st).filter(([k]) => k !== id).map(([k, m]) => ({ id: k, meta: m[m.length - 1] || {} }));
+        presenceFns.forEach((fn) => { try { fn(entries); } catch (e) { console.warn(e); } });
         emit();
       })
       .subscribe((status) => {
@@ -195,7 +200,7 @@ window.QuizCall = (() => {
     S.state = 'off';
     clearTimeout(S.retry); S.retry = null;
     if (S.channel) { try { S.channel.untrack(); } catch {} try { S.supa.removeChannel(S.channel); } catch {} }
-    S.channel = null; S.subscribed = false; S.people = 0;
+    S.channel = null; S.subscribed = false; S.people = 0; entries = [];
     closePc();
     if (S.stopCapture) { try { S.stopCapture(); } catch {} }
     S.stream = null; S.stopCapture = null;
@@ -265,6 +270,10 @@ window.QuizCall = (() => {
   return {
     start, stop, supported,
     get state() { return S.state; }, get error() { return S.error; }, get people() { return S.people; }, get stream() { return S.stream; },
-    onChange(fn) { listeners.add(fn); return () => listeners.delete(fn); }
+    onChange(fn) { listeners.add(fn); return () => listeners.delete(fn); },
+    // For the camera tile: who is on the call (not this screen), now and on every change.
+    onPresence(fn) { presenceFns.add(fn); fn(others()); return () => presenceFns.delete(fn); },
+    rtc: { api, iceServers }, room: ROOM,
+    get native() { return nativeCapture(); }
   };
 })();

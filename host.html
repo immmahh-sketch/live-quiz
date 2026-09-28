@@ -19,6 +19,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="assets/common.js"></script>
 <script src="assets/quizcall.js"></script>
+<script src="assets/quizcam.js"></script>
 <script src="assets/dpad.js"></script>
 <script src="assets/demo-quiz.js"></script>
 <script>
@@ -31,6 +32,53 @@ if (TV) document.body.classList.add('tv');
 const quizId = new URLSearchParams(location.search).get('quiz');
 const SAVE_KEY = 'lq_live_' + quizId;
 const stage = $('#stage');
+// Fit: a screen whose contents are taller than the space left for them has them gently shrunk
+// (to 75% at most) rather than cut off at the bottom. The camera corner takes some height, so it
+// matters most with the camera on, but some screens overflowed on a 720p screen before that.
+// It measures layout boxes (offsetHeight), which leave out animations: a number that pops in at
+// twice its size must not shrink the whole screen. It runs straight after each change, before the
+// next paint (so nothing flickers), and not on animation frames, which stop while the window is
+// hidden behind another (like the call window).
+let fitQueued = false;
+function fitStage() {
+  if (fitQueued) return;
+  fitQueued = true;
+  queueMicrotask(() => {
+    fitQueued = false;
+    const sm = stage.querySelector(':scope > .stage-main');
+    if (!sm || sm.style.overflow) return; // a screen that scrolls on purpose
+    sm.style.setProperty('--fit', '1');
+    const kids = [...sm.children].filter((el) => !/absolute|fixed/.test(getComputedStyle(el).position) && el.offsetParent);
+    if (!kids.length) return;
+    // Most screens stack their parts; some (Blockbusters, Draw It) set them side by side.
+    const cs0 = getComputedStyle(sm), stacked = !/flex/.test(cs0.display) || cs0.flexDirection.startsWith('column');
+    const gaps = stacked && /flex/.test(cs0.display) ? (parseFloat(cs0.rowGap) || 0) * (kids.length - 1) : 0; // gaps do not shrink
+    // Height of the contents at zoom z, before zooming (offsetHeight leaves out zoom and animations).
+    // A picture sized by its width grows back a little as it shrinks, so this is measured at each try.
+    const size = (z) => {
+      sm.style.setProperty('--fit', String(z));
+      let total = 0;
+      for (const el of kids) {
+        const cs = getComputedStyle(el), h = el.offsetHeight + (parseFloat(cs.marginTop) || 0) + (parseFloat(cs.marginBottom) || 0);
+        total = stacked ? total + h : Math.max(total, h);
+      }
+      return total;
+    };
+    const have = sm.clientHeight - 2;
+    let natural = size(1);
+    if (natural + gaps <= sm.clientHeight + 1) { sm.style.setProperty('--fit', '1'); return; } // it fits: leave it alone
+    let best = 0.75, z = 1;
+    for (let i = 0; i < 4; i++) {
+      z = Math.max(0.75, Math.min(1, (have - gaps) / natural));
+      natural = size(z);
+      if (natural * z + gaps <= have) best = Math.max(best, z);
+    }
+    sm.style.setProperty('--fit', best.toFixed(3));
+  });
+}
+new MutationObserver(fitStage).observe(stage, { childList: true, subtree: true, characterData: true });
+stage.addEventListener('load', fitStage, true); // pictures arriving
+window.addEventListener('resize', fitStage);
 let G = null, ch = null, sb = null, tickT = null, hbT = null, countT = null, helloT = null;
 const present = new Map(); // pid -> name, from presence
 
@@ -2222,15 +2270,43 @@ function callLabel() {
   const s = QuizCall.state, n = QuizCall.people;
   return s === 'live' ? `🔴 On the quiz call${n ? ` · ${n} watching` : ''}` : s === 'starting' ? '📞 Joining the call…' : s === 'reconnecting' ? '📞 Reconnecting…' : '📞 Launch the quiz call';
 }
-function callBtn() {
-  if (!window.QuizCall || !QuizCall.supported()) return '';
+function callBtn() { return `<span class="callbtns">${callBtns()}</span>`; }
+function callBtns() {
+  if (!window.QuizCall || !QuizCall.supported()) return fsBtn();
   const s = QuizCall.state;
-  return `<button class="btn btn-ghost ${s === 'live' || s === 'reconnecting' ? 'on' : ''}" data-act="call" title="Put this screen and its sound into the quiz night video call (gathercall.uk/quiz). Press again to leave.">${callLabel()}</button>`;
+  return `<button class="btn btn-ghost ${s === 'live' || s === 'reconnecting' ? 'on' : ''}" data-act="call" title="Put this screen and its sound into the quiz night video call (gathercall.uk/quiz), and open the call window with everyone's cameras. Press again to leave.">${callLabel()}</button>${camBtn()}${fsBtn()}`;
+}
+// The camera in the corner (assets/quizcam.js): on while the screen is on the call. C hides or shows it.
+function camBtn() { return window.QuizCam && QuizCam.on ? `<button class="btn btn-ghost ${QuizCam.enabled ? 'on' : ''}" data-act="cam" title="Show whoever is talking in the top right corner (C)">${QuizCam.enabled ? '🎥 Camera on' : '🎥 Camera off'}</button>` : ''; }
+function camToggle() { const on = QuizCam.toggle(); toast(on ? '🎥 Camera on: whoever is talking shows top right' : '🎥 Camera off'); refreshCallBtns(); }
+function refreshCallBtns() { $$('.callbtns').forEach((el) => { el.innerHTML = callBtns(); }); bind(); }
+function fsBtn() { return !TV && document.fullscreenEnabled && !document.fullscreenElement ? '<button class="btn btn-ghost" data-act="fs" title="Fill the screen (F)">⛶</button>' : ''; }
+function fsToggle() { if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); else document.documentElement.requestFullscreen().catch(() => toast('Full screen was not allowed here', true)); }
+document.addEventListener('fullscreenchange', refreshCallBtns);
+// The quizmaster's call window: everyone's cameras, and their own camera and microphone going to the room.
+const GATHER_HOST = () => 'https://gathercall.uk/call.html?room=' + encodeURIComponent(QuizCall.room) + '&quizhost=1';
+let wantCallWindow = false;
+function openCallWindow() {
+  // Opened by name with no address first: if the call window is already open (say this page was
+  // reloaded) it comes back as it is, rather than reloading and dropping the quizmaster off the call.
+  let w = null;
+  try { w = window.open('', 'lqQuizCall'); } catch {}
+  if (w) {
+    let blank = false;
+    try { blank = !w.location.href || w.location.href === 'about:blank'; } catch {} // a Gather window is another site: unreadable
+    if (blank) w.location.href = GATHER_HOST();
+    try { w.focus(); } catch {}
+    return true;
+  }
+  // The browser held it back (the share took more than a few seconds): one more click opens it.
+  ask('Open the call window?', 'It shows everyone on the call and sends your camera and microphone to the room. Your browser needs one more click to open it.', 'Open it', 'Not now').then((ok) => { if (ok && !window.open(GATHER_HOST(), 'lqQuizCall')) toast('Allow pop-ups for letsquiz.uk, then press the call button again', true); });
+  return false;
 }
 function callClick() {
   const s = QuizCall.state;
   if (s === 'starting') return;
   if (s === 'live' || s === 'reconnecting') return ask('Leave the quiz call?', 'People on the call will stop seeing this screen. The game carries on.', 'Leave the call', 'Stay on').then((ok) => { if (ok) QuizCall.stop(); });
+  wantCallWindow = true;
   QuizCall.start();
 }
 if (window.QuizCall) {
@@ -2240,11 +2316,16 @@ if (window.QuizCall) {
     if (b) { b.textContent = callLabel(); b.classList.toggle('on', QuizCall.state === 'live' || QuizCall.state === 'reconnecting'); }
     if (QuizCall.state === 'error' && QuizCall.error !== lastErr) toast(QuizCall.error, true);
     if (QuizCall.state === 'live' && lastErr !== 'live') toast('📞 This screen is now on the quiz call');
+    // The camera tile runs while the screen is on the call (not on a Fire TV, which only shares).
+    if ((QuizCall.state === 'live' || QuizCall.state === 'reconnecting') && !QuizCall.native && window.QuizCam && !QuizCam.on) { QuizCam.start(); refreshCallBtns(); }
+    if ((QuizCall.state === 'off' || QuizCall.state === 'error') && window.QuizCam?.on) { QuizCam.stop(); refreshCallBtns(); }
+    if (QuizCall.state === 'live' && wantCallWindow) { wantCallWindow = false; if (!TV) openCallWindow(); }
+    if (QuizCall.state === 'off' || QuizCall.state === 'error') wantCallWindow = false;
     lastErr = QuizCall.state === 'error' ? QuizCall.error : QuizCall.state;
   });
 }
 function bind() {
-  $$('[data-act]').forEach((b) => b.onclick = () => ({ call: callClick, primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(G.bots?.length ? 5 : 3), bots20: () => addBots(MAX_BOTS), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, pause: () => togglePause(), music: toggleMusic, stopgame: gameStop, builder: () => PREVIEW ? window.close() : location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
+  $$('[data-act]').forEach((b) => b.onclick = () => ({ call: callClick, cam: camToggle, fs: fsToggle, primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(G.bots?.length ? 5 : 3), bots20: () => addBots(MAX_BOTS), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, pause: () => togglePause(), music: toggleMusic, stopgame: gameStop, builder: () => PREVIEW ? window.close() : location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
   $$('[data-kick]').forEach((el) => { el.style.cursor = 'pointer'; el.title = 'Click to remove this player from the game'; el.onclick = () => kickPlayer(el.dataset.kick); });
 }
 function renderLobby() {
@@ -2313,6 +2394,8 @@ function mediaHtml(q, live) {
 // letterbox bars that carry YouTube's title, channel and 'Watch on YouTube', and the box crops those bars off. Clicks
 // can't reach it, so no controls appear, and a cover hides it until it is actually playing. Catchphrase clips loop.
 let ytQ = null;
+// While the quiz plays music or a clip, some of it reaches the quizmaster's microphone: the camera then needs them a little louder.
+if (window.QuizCam) QuizCam.config({ noisy: () => musicMode === 'loop' || musicMode === 'countdown' || (() => { try { return ytQ?.p?.getPlayerState?.() === 1; } catch { return false; } })() });
 function mountClip() {
   const slot = document.querySelector('.ytbox[data-yt]');
   if (ytQ && (!slot || slot.dataset.yt !== ytQ.id)) { try { ytQ.p?.destroy?.(); } catch {} ytQ.el.remove(); ytQ = null; }
@@ -2619,6 +2702,8 @@ function confetti() {
 document.addEventListener('keydown', (e) => {
   if ((e.key === 'm' || e.key === 'M') && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName || '')) { e.preventDefault(); toggleMusic(); return; }
   if ((e.key === 'p' || e.key === 'P') && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName || '') && typeof G !== 'undefined' && G && G.auto && !['lobby', 'final'].includes(G.phase)) { e.preventDefault(); togglePause(); return; }
+  if ((e.key === 'c' || e.key === 'C') && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName || '') && window.QuizCam?.on && !e.ctrlKey && !e.metaKey) { e.preventDefault(); camToggle(); return; }
+  if ((e.key === 'f' || e.key === 'F') && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName || '') && !TV && !e.ctrlKey && !e.metaKey) { e.preventDefault(); fsToggle(); return; }
   if (G?.phase === 'slide' && G.brk && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName || '') && ['+', '=', '-', '_'].includes(e.key)) { e.preventDefault(); adjustBreak(e.key === '-' || e.key === '_' ? -1 : 1); return; }
   if (e.target.matches('input, textarea, button, a, select')) return; // a focused control handles its own key
   if (TV && e.key === 'ArrowRight') return; // on a TV the arrows move the focus ring
