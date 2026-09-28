@@ -19,6 +19,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="assets/common.js"></script>
 <script src="assets/quizcall.js"></script>
+<script src="assets/facecam.js"></script>
 <script src="assets/quizcam.js"></script>
 <script src="assets/dpad.js"></script>
 <script src="assets/demo-quiz.js"></script>
@@ -38,7 +39,7 @@ const quizId = new URLSearchParams(location.search).get('quiz');
 const SAVE_KEY = 'lq_live_' + quizId;
 const stage = $('#stage');
 // Fit: a screen whose contents are taller than the space left for them has them gently shrunk
-// (to 75% at most) rather than cut off at the bottom. The camera corner takes some height, so it
+// (to 70% at most) rather than cut off at the bottom. The camera corner takes some height, so it
 // matters most with the camera on, but some screens overflowed on a 720p screen before that.
 // It measures layout boxes (offsetHeight), which leave out animations: a number that pops in at
 // twice its size must not shrink the whole screen. It runs straight after each change, before the
@@ -72,9 +73,9 @@ function fitStage() {
     const have = sm.clientHeight - 2;
     let natural = size(1);
     if (natural + gaps <= sm.clientHeight + 1) { sm.style.setProperty('--fit', '1'); return; } // it fits: leave it alone
-    let best = 0.75, z = 1;
+    let best = 0.7, z = 1;
     for (let i = 0; i < 4; i++) {
-      z = Math.max(0.75, Math.min(1, (have - gaps) / natural));
+      z = Math.max(0.7, Math.min(1, (have - gaps) / natural));
       natural = size(z);
       if (natural * z + gaps <= have) best = Math.max(best, z);
     }
@@ -977,6 +978,9 @@ function wipePick(pid, token) {
 // through steps with deadlines that gameTick() checks, and draws itself; the phones get what they need through
 // stateForPlayers(). Bots take part through the same answer handler a phone's message reaches.
 const pname = (pid) => G.players[pid]?.name || 'Player', pem = (pid) => G.players[pid]?.emoji || '🙂';
+/** A player's face: their camera from the quiz call, face-framed in a circle, when they are linked to one and on
+ *  camera (assets/quizcam.js fills it in and sizes it up); otherwise their emoji, as before. */
+const face = (pid, emoji) => `<span class="pface" data-pcam="${esc(pid || '')}"><span class="pface-em">${emoji || pem(pid)}</span></span>`;
 function livePids() { const live = Object.keys(G.players).filter((pid) => present.has(pid)); return live.length ? live : Object.keys(G.players); }
 const gameKind = () => G.q?.potato ? 'potato' : G.q?.koth ? 'koth' : G.q?.bb ? 'bb' : G.q?.chase ? 'chase' : G.q?.draw ? 'draw' : G.q?.uq ? 'uq' : '';
 /** The question's bank as playable rows, shuffled once: the right answer, and option tokens for the phones (right answer's token maps to R:). */
@@ -1127,7 +1131,7 @@ function renderUnique() {
       <div class="uqgrid">${g.alive.map((pid) => { const o = uqIsOut(g, pid), a = g.answers[pid]; return chip(pid, `<span class="uqans">${a ? esc(a) : '<i>no answer</i>'}</span>${g.override[pid] !== undefined ? `<span class="uqwhy">${o ? 'kicked by the host' : 'let through by the host'}</span>` : g.verdict[pid] === 'match' ? `<span class="uqwhy">same as ${esc(g.matchWith[pid].map(pname).join(', '))}</span>` : g.why?.[pid] ? `<span class="uqwhy">${esc(g.why[pid])}</span>` : ''}`, o ? 'out' : 'in', true); }).join('')}</div>
       ${g.left?.length ? `<div class="uqleft">Nobody said: ${esc(g.left.join(' · '))}</div>` : g.left ? '<div class="uqleft">Every answer on the list was used!</div>' : ''}`;
   } else {
-    main = `<div class="kwin"><div class="kcrown big">☝️</div>${g.winners.length === 1 ? `<div class="em">${pem(g.winners[0])}</div><h1 class="big">${esc(pname(g.winners[0]))}</h1><div class="kwinsub">The only one left! +${q.prize ?? 1000}</div>` : `<h1 class="big">${g.winners.map((p) => esc(pname(p))).join(' & ')}</h1><div class="kwinsub">Out of prompts: they share the prize</div>`}</div>`;
+    main = `<div class="kwin"><div class="kcrown big">☝️</div>${g.winners.length === 1 ? `<div class="em">${face(g.winners[0])}</div><h1 class="big">${esc(pname(g.winners[0]))}</h1><div class="kwinsub">The only one left! +${q.prize ?? 1000}</div>` : `<h1 class="big">${g.winners.map((p) => esc(pname(p))).join(' & ')}</h1><div class="kwinsub">Out of prompts: they share the prize</div>`}</div>`;
   }
   const primary = g.step === 'ask' ? '<button class="btn btn-primary" id="uqReveal">Show the answers ▶</button>' : g.step === 'judge' ? '<button class="btn btn-primary" id="uqNext">Next round ▶</button>' : '<button class="btn btn-primary" id="uqEnd">Finish ▶</button>';
   stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill">☝️ ${g.alive.length} still in</span><div class="timer ${g.until ? '' : 'hidden'}" id="timer" data-s="${Math.ceil((g.total || 0) / 1000)}" style="--p:100%"></div></div>`)}<div class="stage-main uqstage">${main}</div>
@@ -1514,7 +1518,7 @@ function renderKoth() {
   const left = kothMaxRounds() - (g.rounds || 0);
   const roundsChip = `<span class="kchip rounds ${left <= 3 ? 'low' : ''}">⚔️ ${Math.max(0, left)} of ${kothMaxRounds()} head-to-head${left === 1 ? '' : 's'} left</span><span class="kchip">${q.perPoint ?? 100} per hill point</span>`;
   const table = Object.keys(g.pts).length || g.king ? `<div class="kchips">${[...new Set([g.king, ...Object.keys(g.pts)])].filter(Boolean).sort((a, b) => (g.pts[b] || 0) - (g.pts[a] || 0)).map(chip).join('')}<span class="kchip goal">First to ${target} wins ${q.prize ?? 1000}</span>${roundsChip}</div>` : `<div class="kchips"><span class="kchip goal">First to ${target} points wins ${q.prize ?? 1000}</span>${roundsChip}</div>`;
-  const card = (pid, cls = '') => `<div class="kcard ${cls} ${pid === g.king ? 'king' : ''}">${pid === g.king ? '<div class="kcrown">👑</div>' : ''}<div class="em">${pem(pid)}</div><div class="nm">${esc(pname(pid))}</div><div class="kp">${g.pts[pid] || 0} / ${target}</div></div>`;
+  const card = (pid, cls = '') => `<div class="kcard ${cls} ${pid === g.king ? 'king' : ''}">${pid === g.king ? '<div class="kcrown">👑</div>' : ''}<div class="em">${face(pid)}</div><div class="nm">${esc(pname(pid))}</div><div class="kp">${g.pts[pid] || 0} / ${target}</div></div>`;
   const vs = () => `<div class="kvs">${card(g.pair[0], g.h2h?.buzz === g.pair[0] ? 'buzzed' : g.h2h?.buzz ? 'dim' : '')}<div class="kvsword">VS</div>${card(g.pair[1], g.h2h?.buzz === g.pair[1] ? 'buzzed' : g.h2h?.buzz ? 'dim' : '')}</div>`;
   let main = '', buttons = '';
   if (g.step === 'fff' || g.step === 'fffShow') {
@@ -1542,7 +1546,7 @@ function renderKoth() {
   } else if (g.step === 'timeup') {
     main = `<div class="kwin"><div class="kcrown big">⏱️</div><h1 class="big">Out of head-to-heads!</h1><div class="kwinsub">All ${kothMaxRounds()} are done and nobody reached ${target}, so nobody gets the ${q.prize ?? 1000} bonus. Every hill point still pays ${q.perPoint ?? 100}.</div></div>`;
   } else if (g.step === 'won') {
-    main = `<div class="kwin"><div class="kcrown big">👑</div><div class="em">${pem(g.winner)}</div><h1 class="big">${esc(pname(g.winner))}</h1><div class="kwinsub">King of the Hill! +${q.prize ?? 1000} points</div></div>`;
+    main = `<div class="kwin"><div class="kcrown big">👑</div><div class="em">${face(g.winner)}</div><h1 class="big">${esc(pname(g.winner))}</h1><div class="kwinsub">King of the Hill! +${q.prize ?? 1000} points</div></div>`;
   }
   if (g.step === 'judge') buttons = '';
   stage.innerHTML = `${topBar(`<div class="pillbox"><div class="timer" id="timer" data-s="${q.time}" style="--p:100%"></div></div>`)}
@@ -2386,7 +2390,7 @@ if (window.QuizCall) {
   });
 }
 function bind() {
-  $$('[data-act]').forEach((b) => b.onclick = () => ({ call: callClick, cam: camToggle, fs: fsToggle, bonus: bonusModal, wusave: () => { G.warmSaved = null; render(); warmupSave(); }, wuboard: () => { (window.top || window).location.href = 'warmup?c=' + encodeURIComponent(G.warmup); }, primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(G.bots?.length ? 5 : 3), bots20: () => addBots(MAX_BOTS), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, pause: () => togglePause(), music: toggleMusic, stopgame: gameStop, builder: () => PREVIEW ? window.close() : location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
+  $$('[data-act]').forEach((b) => b.onclick = () => ({ call: callClick, cam: camToggle, fs: fsToggle, bonus: bonusModal, camlinks: camLinksModal, wusave: () => { G.warmSaved = null; render(); warmupSave(); }, wuboard: () => { (window.top || window).location.href = 'warmup?c=' + encodeURIComponent(G.warmup); }, primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(G.bots?.length ? 5 : 3), bots20: () => addBots(MAX_BOTS), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, pause: () => togglePause(), music: toggleMusic, stopgame: gameStop, builder: () => PREVIEW ? window.close() : location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
   $$('[data-kick]').forEach((el) => { el.style.cursor = 'pointer'; el.title = 'Click to remove this player from the game'; el.onclick = () => kickPlayer(el.dataset.kick); });
 }
 function renderLobby() {
@@ -2399,7 +2403,7 @@ function renderLobby() {
         <div class="players" id="players"></div>
         </div>
     </div></div>
-    ${hostBar(`<button class="btn btn-ghost" data-act="builder">${TV ? '🏠 Home' : PREVIEW ? 'Close preview' : 'Back to builder'}</button><button class="btn btn-ghost ${musicOn() ? 'on' : ''}" data-act="music" title="Background music while the clock runs (M)">${musicOn() ? '🎵 Music: on' : '🔇 Music: off'}</button><button class="btn btn-ghost ${G.auto ? 'on' : ''}" data-act="auto" title="Self-play: the screen moves on by itself and players can press Start and Next on their phones, so nobody has to sit at this screen">${G.auto ? '🎮 Runs itself: on' : '🎮 Runs itself: off'}</button>${TV ? '' : `<button class="btn btn-ghost ${G.solo ? 'on' : ''}" data-act="solo" title="Test by yourself: adds three bots and opens a player panel here so you can answer on this screen">${G.solo ? '🧪 Testing solo: on' : '🧪 Test by myself'}</button>`}<button class="btn btn-ghost" data-act="bots" ${(G.bots?.length || 0) >= MAX_BOTS ? 'disabled' : ''} title="Test mode: add simulated players who answer on their own (three, then five at a time, up to ${MAX_BOTS})">${(G.bots?.length || 0) >= MAX_BOTS ? `🤖 ${G.bots.length} bots (the most)` : G.bots?.length ? `🤖 ${G.bots.length} bots · add 5` : '🤖 Add test bots'}</button>${(G.bots?.length || 0) < MAX_BOTS ? `<button class="btn btn-ghost" data-act="bots20" title="Fill up to ${MAX_BOTS} bots to see a big game">🤖×${MAX_BOTS}</button>` : ''}${!DEMO && !PREVIEW ? `<button class="btn btn-ghost ${G.bonuses?.length ? 'on' : ''}" data-act="bonus" title="Give a player bonus points before the first question, like the warm-up's top scorer">🎁 Bonus points${G.bonuses?.length ? ' · ' + G.bonuses.length : ''}</button>` : ''}<button class="btn btn-primary btn-lg" data-act="primary" id="startBtn">Start ▶</button>`)}`;
+    ${hostBar(`<button class="btn btn-ghost" data-act="builder">${TV ? '🏠 Home' : PREVIEW ? 'Close preview' : 'Back to builder'}</button><button class="btn btn-ghost ${musicOn() ? 'on' : ''}" data-act="music" title="Background music while the clock runs (M)">${musicOn() ? '🎵 Music: on' : '🔇 Music: off'}</button><button class="btn btn-ghost ${G.auto ? 'on' : ''}" data-act="auto" title="Self-play: the screen moves on by itself and players can press Start and Next on their phones, so nobody has to sit at this screen">${G.auto ? '🎮 Runs itself: on' : '🎮 Runs itself: off'}</button>${TV ? '' : `<button class="btn btn-ghost ${G.solo ? 'on' : ''}" data-act="solo" title="Test by yourself: adds three bots and opens a player panel here so you can answer on this screen">${G.solo ? '🧪 Testing solo: on' : '🧪 Test by myself'}</button>`}<button class="btn btn-ghost" data-act="bots" ${(G.bots?.length || 0) >= MAX_BOTS ? 'disabled' : ''} title="Test mode: add simulated players who answer on their own (three, then five at a time, up to ${MAX_BOTS})">${(G.bots?.length || 0) >= MAX_BOTS ? `🤖 ${G.bots.length} bots (the most)` : G.bots?.length ? `🤖 ${G.bots.length} bots · add 5` : '🤖 Add test bots'}</button>${(G.bots?.length || 0) < MAX_BOTS ? `<button class="btn btn-ghost" data-act="bots20" title="Fill up to ${MAX_BOTS} bots to see a big game">🤖×${MAX_BOTS}</button>` : ''}${window.QuizCam?.on ? '<button class="btn btn-ghost" data-act="camlinks" title="Which camera on the call belongs to which player (matched by name; fix any here)">🎥 Cameras</button>' : ''}${!DEMO && !PREVIEW ? `<button class="btn btn-ghost ${G.bonuses?.length ? 'on' : ''}" data-act="bonus" title="Give a player bonus points before the first question, like the warm-up's top scorer">🎁 Bonus points${G.bonuses?.length ? ' · ' + G.bonuses.length : ''}</button>` : ''}<button class="btn btn-primary btn-lg" data-act="primary" id="startBtn">Start ▶</button>`)}`;
   new QRCode($('#qr'), { text: url, width: 380, height: 380, correctLevel: QRCode.CorrectLevel.M });
   renderLobbyPlayers(); bind();
 }
@@ -2443,6 +2447,23 @@ async function bonusModal() {
       persist(); broadcastState(); if (G.phase === 'lobby') renderLobbyPlayers();
       bonusFlash(p, pts, why); draw();
     };
+  };
+  draw();
+}
+/** Which camera on the call is which player. Each is matched by name; the host can pick another person or none. */
+function camLinksModal() {
+  const bg = document.createElement('div'); bg.className = 'modal-bg';
+  bg.innerHTML = '<div class="modal" style="color:var(--ink)"></div>';
+  document.body.appendChild(bg);
+  const draw = () => {
+    const m = $('.modal', bg), ps = players().filter((p) => !p.id.startsWith('p_bot')).sort((a, b) => a.name.localeCompare(b.name));
+    const names = QuizCam.callNames.filter((c) => !c.host), links = G.camLinks || {};
+    m.innerHTML = `<h3>🎥 Players' cameras</h3><p class="muted small">Each player's camera from the call shows in place of their emoji on head-to-heads, podiums and the Race's points-lost screen. They're matched by name; pick the right person where the names differ.</p>
+      ${ps.length ? `<table class="camlinks">${ps.map((p) => { const cur = links[p.id], auto = QuizCam.linkedName(p.id); return `<tr><td>${esc(p.emoji || '')} <b>${esc(p.name)}</b></td><td><select data-link="${p.id}"><option value="">${cur ? 'Match by name' : auto ? '✓ ' + esc(auto) + ' (same name)' : 'Match by name: nobody yet'}</option>${names.map((c) => `<option value="${esc(c.name)}" ${cur === c.name ? 'selected' : ''}>${esc(c.name)}${c.video ? '' : ' (camera off)'}</option>`).join('')}<option value="-" ${cur === '-' ? 'selected' : ''}>No camera</option></select></td></tr>`; }).join('')}</table>` : '<p class="muted">Nobody has joined the game yet.</p>'}
+      <p class="muted small">${names.length} on the call: ${names.map((c) => esc(c.name)).join(', ') || 'nobody yet'}</p>
+      <div class="row" style="justify-content:flex-end"><button class="btn btn-primary" data-x style="background:var(--brand);color:#fff">Done</button></div>`;
+    $('[data-x]', m).onclick = () => bg.remove();
+    $$('[data-link]', m).forEach((sel) => sel.onchange = () => { G.camLinks = G.camLinks || {}; if (sel.value) G.camLinks[sel.dataset.link] = sel.value; else delete G.camLinks[sel.dataset.link]; persist(); draw(); });
   };
   draw();
 }
@@ -2559,6 +2580,8 @@ function mediaHtml(q, live) {
 // can't reach it, so no controls appear, and a cover hides it until it is actually playing. Catchphrase clips loop.
 let ytQ = null;
 // While the quiz plays music or a clip, some of it reaches the quizmaster's microphone: the camera then needs them a little louder.
+// Players' faces: a quiz player's camera is the call person with the same name, unless the host has picked another.
+if (window.QuizCam) QuizCam.config({ playerName: (pid) => G?.players?.[pid]?.name || '', links: () => G?.camLinks || {} });
 if (window.QuizCam) QuizCam.config({ noisy: () => musicMode === 'loop' || musicMode === 'countdown' || (() => { try { return ytQ?.p?.getPlayerState?.() === 1; } catch { return false; } })() });
 function mountClip() {
   const slot = document.querySelector('.ytbox[data-yt]');
@@ -2735,7 +2758,7 @@ function lossList() {
 /** After the podium: the runner who finished last gets their moment too, as the points drain away. */
 function renderRaceLoss() {
   const v = G.q.view, list = lossList();
-  const card = (x, i) => `<div class="losscard" style="animation-delay:${.3 + i * .4}s"><div class="loss-cloud">🌧️</div><div class="loss-av">${x.emoji || '🙂'}</div><div class="loss-name">${esc(x.name)}</div><div class="loss-pts" style="animation-delay:${1 + i * .4}s">−${Math.abs(x.bonus) || Math.abs(x.net)}</div><div class="loss-sum">${x.got} right = +${x.base} · last place −${Math.abs(x.bonus)} · <b>${x.net >= 0 ? '+' : '−'}${Math.abs(x.net)}</b>${x.practice ? ' · practice, so it doesn&#39;t count' : ''}</div></div>`;
+  const card = (x, i) => `<div class="losscard" style="animation-delay:${.3 + i * .4}s"><div class="loss-cloud">🌧️</div><div class="loss-av">${face(x.pid, x.emoji || '🙂')}</div><div class="loss-name">${esc(x.name)}</div><div class="loss-pts" style="animation-delay:${1 + i * .4}s">−${Math.abs(x.bonus) || Math.abs(x.net)}</div><div class="loss-sum">${x.got} right = +${x.base} · last place −${Math.abs(x.bonus)} · <b>${x.net >= 0 ? '+' : '−'}${Math.abs(x.net)}</b>${x.practice ? ' · practice, so it doesn&#39;t count' : ''}</div></div>`;
   stage.innerHTML = `${topBar('<span class="hpill">💨 Points lost</span>')}<div class="stage-main lossscreen"><div class="ri-kicker">💨 Last across the line</div><h1 class="big">Who lost points</h1><div class="losslist">${list.map(card).join('')}</div><p class="ri-sub">Finish last in the race and it costs you ${v.forfeit ?? 200} points.</p></div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">${practiceQ() ? (G.qIndex + 1 < G.quiz.questions.length ? 'Next ▶' : 'Final results 🏆') : 'Scores ▶'}</button>`)}`;
   bind(); $('#confetti')?.classList.add('hidden');
@@ -2754,7 +2777,7 @@ function renderReveal() {
       <div class="textlist mt">${(R.stats.picks || []).map((p) => `<span class="tl ${p.ok === true ? 'ok' : p.ok === false ? 'no' : ''}">${esc(p.name)}: ${esc(p.text)}</span>`).join('')}</div>`;
   }
   if (q.type === 'potato') { const st = R.stats, pt = G.q.potato || { scores: {} }; body = `<div class="boomreveal">${st.exploded.length ? `<div class="bigboom">${st.exploded.map(() => '💥').join('')}</div><div class="turnbar" style="flex-wrap:wrap">${st.exploded.map((x) => `<span class="who">${x.emoji} ${esc(x.name)} was holding a bomb: −${q.penalty ?? 300}</span>`).join('')}<span class="last" style="opacity:.8">${st.passes} passes · +${q.perCorrect ?? 50} per right answer</span></div>` : '<div class="turnbar"><span>The bomb never went off</span></div>'}</div><div class="textlist mt">${Object.entries(pt.scores).sort((a, b) => b[1] - a[1]).map(([pid, v]) => `<span class="tl ${v < 0 ? 'no' : 'ok'}">${pem(pid)} ${esc(pname(pid))} ${v > 0 ? '+' : ''}${v}</span>`).join('')}</div>`; }
-  if (q.type === 'koth') { const g = G.q.koth || { pts: {} }, st = R.stats; body = `<div class="kwin">${st.winner ? `<div class="kcrown big">👑</div><div class="em">${st.winner.emoji}</div><h1 class="big">${esc(st.winner.name)}</h1><div class="kwinsub">King of the Hill · +${q.prize ?? 1000} points</div>` : `<h1 class="big">No king this time</h1><div class="kwinsub">Nobody reached ${q.target || 3} points</div>`}</div><div class="textlist mt">${Object.entries(g.pts).sort((a, b) => b[1] - a[1]).map(([pid, n]) => `<span class="tl ${pid === g.winner ? 'ok' : ''}">${pem(pid)} ${esc(pname(pid))} · ${n} on the hill</span>`).join('')}</div>`; }
+  if (q.type === 'koth') { const g = G.q.koth || { pts: {} }, st = R.stats; body = `<div class="kwin">${st.winner ? `<div class="kcrown big">👑</div><div class="em">${face(st.winner.pid, st.winner.emoji)}</div><h1 class="big">${esc(st.winner.name)}</h1><div class="kwinsub">King of the Hill · +${q.prize ?? 1000} points</div>` : `<h1 class="big">No king this time</h1><div class="kwinsub">Nobody reached ${q.target || 3} points</div>`}</div><div class="textlist mt">${Object.entries(g.pts).sort((a, b) => b[1] - a[1]).map(([pid, n]) => `<span class="tl ${pid === g.winner ? 'ok' : ''}">${pem(pid)} ${esc(pname(pid))} · ${n} on the hill</span>`).join('')}</div>`; }
   if (q.type === 'chase') { const st = R.stats; body = st.result === 'home' ? `<div class="chend good"><div class="em">🏠</div><h1 class="big">The team got home!</h1><div class="chsub">+${q.teamPrize ?? 1000} to everyone except the Chaser, ${esc(st.chaser?.name || '')}</div></div>` : st.result === 'caught' ? `<div class="chend bad"><div class="em">😈</div><h1 class="big">Caught by ${esc(st.chaser?.name || 'the Chaser')}</h1><div class="chsub">+${q.chaserPrize ?? 200} to the Chaser</div></div>` : '<div class="chend"><h1 class="big">The chase was stopped</h1></div>'; }
   if (q.type === 'blockbusters') { const g = G.q.bb, st = R.stats; body = `<div class="bbmid" style="width:min(520px,80vw,52vh);flex:none;margin:0 auto">${LQ.bbBoardHtml(g.hexes.map((h, i) => ({ letter: h.letter, owner: g.owner[i] })), { teams: q.teams, win: g.path })}</div><div class="turnbar" style="flex-wrap:wrap;margin-top:10px">${st.winner >= 0 ? `<span class="who">🏆 ${esc(q.teams[st.winner].name)} win the board: +${q.prize ?? 500} each</span>` : '<span>Nobody linked their sides: no bonus</span>'}<span class="last">${esc(q.teams[0].name)} ${st.counts[0]} ⬢ · ${esc(q.teams[1].name)} ${st.counts[1]} ⬢</span></div>`; }
   if (q.type === 'choice' || q.type === 'tf') {
@@ -2817,7 +2840,7 @@ function renderReveal() {
 function podiumHtml(st, v) {
   const got = (pid) => (st.standings || []).find((s) => s.pid === pid)?.correct ?? 0;
   const p2 = (st.places || []).find((p) => p.place === 2), p3 = (st.places || []).find((p) => p.place === 3);
-  const step = (p, place, prize) => `<div class="pod p${place}">${place === 1 ? '<div class="pod-rays"></div>' : ''}${p ? `<div class="pod-who">${place === 1 ? '<div class="pod-crown">👑</div>' : ''}<div class="pod-av">${p.emoji || '🙂'}</div><div class="pod-name">${esc(p.name)}</div><div class="pod-pts">${got(p.pid)} right · +${prize} bonus</div></div>` : '<div class="pod-who empty"></div>'}<div class="pod-block"><span>${place}</span></div></div>`;
+  const step = (p, place, prize) => `<div class="pod p${place}">${place === 1 ? '<div class="pod-rays"></div>' : ''}${p ? `<div class="pod-who">${place === 1 ? '<div class="pod-crown">👑</div>' : ''}<div class="pod-av">${face(p.pid, p.emoji || '🙂')}</div><div class="pod-name">${esc(p.name)}</div><div class="pod-pts">${got(p.pid)} right · +${prize} bonus</div></div>` : '<div class="pod-who empty"></div>'}<div class="pod-block"><span>${place}</span></div></div>`;
   const sparks = [[12, 18, 0], [84, 12, .5], [24, 52, 1], [76, 44, .3], [50, 4, .8], [6, 70, 1.2], [94, 64, .6]].map(([x, y, d]) => `<span class="pod-spark" style="left:${x}%;top:${y}%;animation-delay:${2.4 + d}s">✨</span>`).join('');
   const notes = [st.loser ? `<span class="last no">💨 ${st.loser.emoji || ''} ${esc(st.loser.name)} finishes last: −${v.forfeit}</span>` : '', `<span class="last" style="opacity:.7">${v.perCorrect} per right answer</span>`].join('');
   return `<div class="podium">${sparks}${step(p2, 2, v.prize2 ?? 200)}${step(st.winner, 1, v.prize ?? 500)}${step(p3, 3, v.prize3 ?? 100)}</div><div class="turnbar podnote" style="flex-wrap:wrap"><span class="who">🏆 ${esc(st.winner.name)} wins the race!</span>${notes}</div>`;
@@ -2849,7 +2872,7 @@ function renderScoreboard() {
 function renderFinal() {
   if (G.warmup) return renderWarmFinal();
   const rk = ranked();
-  const pod = (i, cls) => rk[i] ? `<div class="pod ${cls}"><div class="name">${rk[i].emoji ? `<div style="font-size:1.6em">${rk[i].emoji}</div>` : ''}${esc(rk[i].name)}</div><div class="score">${rk[i].score} pts</div><div class="block">${i + 1}</div></div>` : '';
+  const pod = (i, cls) => rk[i] ? `<div class="pod ${cls}"><div class="name"><div class="podface">${face(rk[i].id, rk[i].emoji || '🙂')}</div>${esc(rk[i].name)}</div><div class="score">${rk[i].score} pts</div><div class="block">${i + 1}</div></div>` : '';
   stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">Final results</span></div></div>
     <div class="stage-main"><h1 class="big" style="font-size:2.6rem">🏆 ${rk[0] ? esc(rk[0].name) + ' wins!' : 'Game over'}</h1>
       <div class="podium">${pod(1, 'p2')}${pod(0, 'p1')}${pod(2, 'p3')}</div>

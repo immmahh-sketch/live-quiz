@@ -14,6 +14,11 @@
 // left. It does not come and go with the tile, or the game would jump about
 // every time someone spoke.
 //
+// Pictures are face-framed (assets/facecam.js): head and shoulders in the tile. Quiz players linked to a camera on
+// the call (by name, or by the host in the lobby) also get a round close-up in place of their emoji wherever the
+// screen has a spot for it (`<span class="pface" data-pcam="<player id>">`): head-to-heads, podiums, the Race's
+// points-lost screen, winners.
+//
 // ?camdebug=1 shows everyone's level and the speech threshold.
 window.QuizCam = (() => {
   'use strict';
@@ -38,9 +43,11 @@ window.QuizCam = (() => {
     on: false, enabled: true, people: new Map(), featured: null, featuredSince: 0, lastSpeech: 0, visible: false, louder: null,
     pc: null, sessionId: null, pulls: new Map(), byMid: new Map(), idle: 0, queue: Promise.resolve(),
     failures: 0, retryTimer: null, retryCount: 0, coolOff: new Map(), coolTimer: null, pullTimer: null,
-    actx: null, tick: null, ridTimer: null, unsub: null, ice: null
+    actx: null, tick: null, ridTimer: null, unsub: null, ice: null, onScreen: new Set(), raf: 0, recent: new Map()
   };
-  let opts = { noisy: () => false };
+  // noisy(): quiz music is playing. playerName(pid) and links() (the host's player → call-name choices) find a quiz
+  // player's camera.
+  let opts = { noisy: () => false, playerName: () => '', links: () => ({}) };
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
   // ---------- the tile ----------
@@ -50,14 +57,14 @@ window.QuizCam = (() => {
     tile = document.createElement('div');
     tile.className = 'camtile';
     tile.setAttribute('aria-hidden', 'true');
-    tile.innerHTML = '<div class="camlayer-v"><video muted autoplay playsinline></video><div class="camcard"><b></b></div></div><div class="camlayer-v"><video muted autoplay playsinline></video><div class="camcard"><b></b></div></div><div class="camname"></div>';
-    layers = [...tile.querySelectorAll('.camlayer-v')].map((el) => ({ el, video: el.querySelector('video'), card: el.querySelector('.camcard'), who: null }));
+    tile.innerHTML = '<div class="camlayer-v"><canvas></canvas><div class="camcard"><b></b></div></div><div class="camlayer-v"><canvas></canvas><div class="camcard"><b></b></div></div><div class="camname"></div>';
+    layers = [...tile.querySelectorAll('.camlayer-v')].map((el) => ({ el, canvas: el.querySelector('canvas'), card: el.querySelector('.camcard'), who: null }));
     label = tile.querySelector('.camname');
     document.body.appendChild(tile);
     if (DEBUG) { dbg = document.createElement('div'); dbg.className = 'camdebug'; document.body.appendChild(dbg); }
   }
   function removeTile() {
-    if (tile) { layers.forEach((l) => { l.video.srcObject = null; }); tile.remove(); }
+    if (tile) tile.remove();
     tile = null; layers = []; label = null;
     if (dbg) { dbg.remove(); dbg = null; }
   }
@@ -78,8 +85,6 @@ window.QuizCam = (() => {
       next.card.querySelector('b').textContent = (p.name.trim()[0] || '?').toUpperCase();
       next.card.style.background = `hsl(${hue(p.name)} 55% 40%)`;
       next.el.classList.toggle('novideo', !next.vid);
-      if (next.vid) { if (next.video.srcObject !== p.camStream) next.video.srcObject = p.camStream; next.video.play().catch(() => {}); }
-      else next.video.srcObject = null;
       if (next !== cur) {
         front = layers.indexOf(next);
         next.el.classList.add('front'); cur.el.classList.remove('front');
@@ -87,6 +92,46 @@ window.QuizCam = (() => {
     }
     label.textContent = p.name;
     tile.classList.toggle('host', !!p.host);
+  }
+
+  // ---------- painting: the tile and the player bubbles, every frame ----------
+  const norm = (x) => String(x || '').toLowerCase().normalize('NFKD').replace(/[^a-z0-9]/g, '');
+  /** The call person whose camera belongs to quiz player `pid`: the host's choice if made, else the same name
+   *  (or one name starting with the other, when only one person fits). */
+  function personFor(pid) {
+    const pick = (opts.links() || {})[pid];
+    if (pick === '-') return null;
+    const want = norm(pick || opts.playerName(pid)); if (!want) return null;
+    const people = [...S.people.values()];
+    const exact = people.find((p) => norm(p.name) === want); if (exact) return exact;
+    if (pick) return null;
+    const near = people.filter((p) => { const n = norm(p.name); return n && want.length >= 3 && n.length >= 3 && (n.startsWith(want) || want.startsWith(n)); });
+    return near.length === 1 ? near[0] : null;
+  }
+  // Animation frames stop when the window is hidden (say, behind the call window), so a timer takes over then.
+  const nextFrame = () => { S.raf = document.hidden ? setTimeout(frame, 66) : requestAnimationFrame(frame); };
+  function frame() {
+    if (!S.on) return;
+    nextFrame();
+    if (!window.FaceCam) return;
+    FaceCam.tick();
+    // the corner tile: head and shoulders
+    if (tile && tile.classList.contains('show')) for (const l of layers) if (l.who && l.vid && (l.el.classList.contains('front') || getComputedStyle(l.el).opacity > 0.01)) FaceCam.paint(l.canvas, l.who, 2.7);
+    // the round player bubbles: a close-up
+    const seen = new Set(); let changed = false;
+    for (const el of document.querySelectorAll('[data-pcam]')) {
+      const p = S.enabled ? personFor(el.dataset.pcam) : null;
+      let ok = false;
+      if (p && hasVideo(p)) {
+        seen.add(p.id);
+        let c = el.querySelector('canvas'); if (!c) { c = document.createElement('canvas'); el.appendChild(c); }
+        ok = FaceCam.paint(c, p.id, 1.9);
+      }
+      if (el.classList.contains('live') !== ok) { el.classList.toggle('live', ok); changed = true; }
+    }
+    if (changed && typeof window.fitStage === 'function') window.fitStage();
+    const now = Date.now(); for (const id of seen) S.recent.set(id, now); if (S.featured && S.visible) S.recent.set(S.featured, now);
+    if (seen.size !== S.onScreen.size || [...seen].some((x) => !S.onScreen.has(x))) { S.onScreen = seen; scheduleRids(); }
   }
 
   // ---------- presence: who is on the call ----------
@@ -98,14 +143,14 @@ window.QuizCam = (() => {
       let p = S.people.get(id);
       if (!p) { p = { id, camStream: new MediaStream(), micStream: null, meter: null, hist: [], levels: [], floor: -70, db: -100, loud: -100, speaking: false, speakStart: 0, lastSpeech: 0 }; S.people.set(id, p); }
       const session = typeof meta.sessionId === 'string' ? meta.sessionId : null;
-      if (p.sessionId && p.sessionId !== session) { p.camStream = new MediaStream(); dropMeter(p); }
+      if (p.sessionId && p.sessionId !== session) { p.camStream = new MediaStream(); dropMeter(p); window.FaceCam?.drop(id); }
       Object.assign(p, {
         name: String(meta.name || 'Guest').slice(0, 30), host: meta.quizHost === true,
         mic: meta.mic !== false, cam: meta.cam !== false, sessionId: session,
         tracks: Array.isArray(meta.tracks) ? meta.tracks.filter((t) => t === 'mic' || t === 'cam') : []
       });
     }
-    for (const [id, p] of S.people) if (!seen.has(id)) { dropMeter(p); S.people.delete(id); if (S.featured === id) S.featured = null; }
+    for (const [id, p] of S.people) if (!seen.has(id)) { dropMeter(p); window.FaceCam?.drop(id); S.people.delete(id); if (S.featured === id) S.featured = null; }
     syncPulls();
     paint();
   }
@@ -123,7 +168,9 @@ window.QuizCam = (() => {
     return out;
   }
   // The person on the tile arrives at half size (plenty for a corner at 1080p); everyone else at a quarter.
-  const ridFor = (personId) => personId === S.featured ? 'h' : 'q';
+  // Every camera at half size (640×360, about 400 kbps each): the round tile and the player bubbles need it, and
+  // Cloudflare keeps one layer per camera per connection, so it can't be raised when someone comes on screen.
+  const ridFor = () => 'h';
   const simulcast = (rid) => ({ simulcast: { preferredRid: rid, priorityOrdering: 'asciibetical', ridNotAvailable: 'asciibetical' } });
 
   async function ensurePull() {
@@ -146,7 +193,7 @@ window.QuizCam = (() => {
     if (pc) { pc.ontrack = null; pc.onconnectionstatechange = null; try { pc.close(); } catch {} }
     S.pc = null; S.sessionId = null; S.pulls.clear(); S.byMid.clear(); S.idle = 0;
     clearTimeout(S.pullTimer); S.pullTimer = null;
-    for (const p of S.people.values()) { p.camStream = new MediaStream(); dropMeter(p); }
+    for (const p of S.people.values()) { p.camStream = new MediaStream(); dropMeter(p); window.FaceCam?.drop(p.id); }
   }
   function rebuild(e, tidy) {
     if (!S.on) return;
@@ -183,17 +230,19 @@ window.QuizCam = (() => {
         const pl = Object.assign({}, w, { mid: t.mid, rid: w.media === 'video' ? ridFor(w.personId) : null, track: null });
         S.pulls.set(w.key, pl); S.byMid.set(t.mid, pl);
       });
-      if (res.requiresImmediateRenegotiation && res.sessionDescription) {
-        await S.pc.setRemoteDescription(res.sessionDescription);
-        const answer = await S.pc.createAnswer();
-        await S.pc.setLocalDescription(answer);
-        await api('/sessions/' + S.sessionId + '/renegotiate', 'PUT', { sessionDescription: { type: 'answer', sdp: answer.sdp } });
-      }
+      if (res.requiresImmediateRenegotiation && res.sessionDescription) await answerOffer(res.sessionDescription);
       S.failures = 0;
       clearTimeout(S.retryTimer);
       if (failed) S.retryTimer = setTimeout(syncPulls, Math.min(30000, 2500 * Math.pow(2, S.retryCount++)));
       else S.retryCount = 0;
     }).then(() => { if (S.idle > 30 && S.on) rebuild(new Error('tidying up'), true); }).catch((e) => rebuild(e));
+  }
+
+  async function answerOffer(offer) {
+    await S.pc.setRemoteDescription(offer);
+    const answer = await S.pc.createAnswer();
+    await S.pc.setLocalDescription(answer);
+    await api('/sessions/' + S.sessionId + '/renegotiate', 'PUT', { sessionDescription: { type: 'answer', sdp: answer.sdp } });
   }
 
   // Gone tracks: stop Cloudflare sending them and leave the slots idle (closing a
@@ -213,21 +262,38 @@ window.QuizCam = (() => {
     if (pl.media === 'video') {
       p.camStream.getVideoTracks().forEach((t) => { if (t !== pl.track) p.camStream.removeTrack(t); });
       if (!p.camStream.getTracks().includes(pl.track)) p.camStream.addTrack(pl.track);
+      if (window.FaceCam) FaceCam.setStream(p.id, p.camStream);
       if (!pl.track._lqcam) { pl.track._lqcam = true; pl.track.addEventListener('mute', paint); pl.track.addEventListener('unmute', paint); }
       paint();
     } else meter(p, pl.track);
   }
 
-  // Layers: whoever is on the tile at half size, the rest at a quarter.
+  // Layers: should a pull ever need another layer than it has (see ridFor), the camera is pulled again at that
+  // layer; Cloudflare does not reliably switch in place. The old picture stays up until the new one is in.
   function scheduleRids() { clearTimeout(S.ridTimer); S.ridTimer = setTimeout(updateRids, 300); }
   function updateRids() {
-    if (!S.sessionId) return;
-    const changes = [...S.pulls.values()].filter((pl) => pl.media === 'video' && pl.rid !== ridFor(pl.personId));
-    if (!changes.length) return;
-    changes.forEach((pl) => { pl.rid = ridFor(pl.personId); });
-    enqueue(() => api('/sessions/' + S.sessionId + '/tracks/update', 'PUT', {
-      tracks: changes.map((pl) => Object.assign({ location: 'remote', sessionId: pl.sessionId, trackName: pl.trackName, mid: pl.mid }, simulcast(pl.rid)))
-    })).catch((e) => console.warn('quiz camera: layer', e && e.message));
+    if (!S.sessionId || !S.pc) return;
+    const redo = [...S.pulls.values()].filter((pl) => pl.media === 'video' && pl.track && pl.rid !== ridFor(pl.personId));
+    if (!redo.length) return;
+    enqueue(async () => {
+      if (!S.pc || !S.sessionId) return;
+      const res = await api('/sessions/' + S.sessionId + '/tracks/new', 'POST', {
+        tracks: redo.map((pl) => Object.assign({ location: 'remote', sessionId: pl.sessionId, trackName: pl.trackName }, simulcast(ridFor(pl.personId))))
+      });
+      const old = [];
+      (res.tracks || []).forEach((t, i) => {
+        const pl = redo.find((x) => x.trackName === t.trackName && (!t.sessionId || x.sessionId === t.sessionId)) || redo[i];
+        if (!pl || t.errorCode || !t.mid || S.pulls.get(pl.key) !== pl) return;
+        const np = Object.assign({}, pl, { mid: t.mid, rid: ridFor(pl.personId), track: null });
+        S.pulls.set(pl.key, np); S.byMid.set(t.mid, np); old.push(pl);
+      });
+      if (res.requiresImmediateRenegotiation && res.sessionDescription) await answerOffer(res.sessionDescription);
+      // attach() swaps the new picture in as it arrives; the old slots go a few seconds later
+      setTimeout(() => enqueue(async () => {
+        for (const pl of old) { S.byMid.delete(pl.mid); S.idle++; }
+        if (S.sessionId && old.length) await api('/sessions/' + S.sessionId + '/tracks/close', 'PUT', { tracks: old.map((pl) => ({ mid: pl.mid })), force: true }).catch(() => {});
+      }), 4000);
+    }).catch((e) => rebuild(e));
   }
 
   // ---------- levels ----------
@@ -299,8 +365,10 @@ window.QuizCam = (() => {
     if (vis !== S.visible || next !== cur) { S.visible = vis; paint(); }
   }
 
+  let ridCheck = 0;
   function tick() {
     const now = Date.now(), noisy = !!opts.noisy();
+    if (++ridCheck % 50 === 0) scheduleRids();
     for (const p of S.people.values()) read(p, now, noisy);
     choose(now);
     if (dbg) dbg.innerHTML = [...S.people.values()].map((p) => `<div class="${p.speaking ? 'on' : ''}"><b>${p.host ? '★ ' : ''}${LQ.esc(p.name)}</b> <i style="width:${Math.max(0, 100 + p.db)}%"></i><u style="left:${Math.max(0, 100 + (p.thr || -50))}%"></u>${p.meter ? '' : ' no mic'}${hasVideo(p) ? '' : ' · no cam'}</div>`).join('') || '<div>nobody on the call yet</div>';
@@ -316,12 +384,14 @@ window.QuizCam = (() => {
     if (!S.on) return;
     S.unsub = QuizCall.onPresence(onPresence);
     S.tick = setInterval(tick, TICK);
+    nextFrame();
     document.addEventListener('pointerdown', audioCtx);
   }
   function stop() {
     if (!S.on) return;
     S.on = false;
-    clearInterval(S.tick); clearTimeout(S.retryTimer); clearTimeout(S.coolTimer); clearTimeout(S.ridTimer);
+    clearInterval(S.tick); cancelAnimationFrame(S.raf); clearTimeout(S.raf); clearTimeout(S.retryTimer);
+    for (const el of document.querySelectorAll('[data-pcam].live')) el.classList.remove('live'); clearTimeout(S.coolTimer); clearTimeout(S.ridTimer);
     if (S.unsub) S.unsub(); S.unsub = null;
     document.removeEventListener('pointerdown', audioCtx);
     resetPull();
@@ -334,6 +404,13 @@ window.QuizCam = (() => {
     start, stop, toggle,
     config(o) { opts = Object.assign(opts, o); },
     get on() { return S.on; }, get enabled() { return S.enabled; },
+    /** Everyone on the call, for the host's camera links. */
+    /** For diagnosing: the receiving connection. */
+    get pc() { return S.pc; },
+    /** For diagnosing: each video pull, the layer asked for, and who is on screen. */
+    get pulls() { return { onScreen: [...S.onScreen], featured: S.featured, pulls: [...S.pulls.values()].filter((p) => p.media === 'video').map((p) => ({ who: S.people.get(p.personId)?.name, rid: p.rid, want: ridFor(p.personId) })) }; },
+    get callNames() { return [...S.people.values()].map((p) => ({ name: p.name, host: !!p.host, video: hasVideo(p) })); },
+    linkedName(pid) { return personFor(pid)?.name || ''; },
     get state() { return { featured: S.featured, visible: S.visible, people: [...S.people.values()].map((p) => ({ name: p.name, host: p.host, speaking: p.speaking, db: Math.round(p.db), video: hasVideo(p), mic: !!p.meter })) }; }
   };
 })();

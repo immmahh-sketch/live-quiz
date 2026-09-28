@@ -1195,23 +1195,24 @@ h3 .qchips { font-size: 1rem; }
    While the camera is on, the top bar grows to the tile's height and everything
    in it moves to the left of the tile, so the tile never covers any words. The
    space stays reserved while the tile is faded, so the game never jumps. */
-body.camlayer { --cam-w: clamp(220px, 20vw, 420px); --cam-h: calc(var(--cam-w) * 9 / 16); }
+/* A round camera: 14% of the width across (a head-and-shoulders circle shows a face bigger than the old 20% rectangle). */
+body.camlayer { --cam-w: clamp(170px, 14vw, 300px); --cam-h: var(--cam-w); }
 /* The band ends just below the tile, with room to spare: the tile's bottom is 12px + its height down; the main
    area starts 18px (stage padding) + band + 12px (gap) down, so 12px clear (a big heading's line box reaches above its letters). */
 body.camlayer .stage-top { padding-right: var(--cam-w); min-height: calc(var(--cam-h) - 6px); flex-wrap: wrap; row-gap: 8px; }
 body.camlayer .stage-top .pillbox { flex-wrap: wrap; row-gap: 8px; }
-.camtile { position: fixed; top: 12px; right: 12px; width: var(--cam-w, 16vw); aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; background: #0b0820; z-index: 62; pointer-events: none;
+.camtile { position: fixed; top: 12px; right: 12px; width: var(--cam-w, 14vw); aspect-ratio: 1; border-radius: 50%; overflow: hidden; background: #0b0820; z-index: 62; pointer-events: none;
   box-shadow: 0 10px 30px rgba(0,0,0,.45), 0 0 0 3px rgba(255,255,255,.14); opacity: 0; transform: scale(.94); transition: opacity .6s ease, transform .6s ease; }
 .camtile.show { opacity: 1; transform: none; transition-duration: .25s; }
 .camtile.host { box-shadow: 0 10px 30px rgba(0,0,0,.45), 0 0 0 3px var(--sun); }
 .camlayer-v { position: absolute; inset: 0; opacity: 0; transition: opacity .3s ease; }
 .camlayer-v.front { opacity: 1; }
-.camlayer-v video { width: 100%; height: 100%; object-fit: cover; display: block; background: #000; }
+.camlayer-v canvas { width: 100%; height: 100%; display: block; background: #000; }
 .camcard { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; }
 .camcard b { width: 38%; aspect-ratio: 1; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,.18); color: #fff; font-weight: 900; font-size: calc(var(--cam-w, 16vw) * .16); }
-.camlayer-v.novideo video { display: none; }
+.camlayer-v.novideo canvas { display: none; }
 .camlayer-v.novideo .camcard { display: flex; }
-.camname { position: absolute; left: 8px; bottom: 7px; max-width: calc(100% - 16px); padding: 3px 10px; border-radius: 999px; background: rgba(10,6,40,.72); color: #fff; font-weight: 800; font-size: clamp(.75rem, .85vw, 1rem); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.camname { position: absolute; left: 50%; bottom: 8%; transform: translateX(-50%); max-width: 76%; text-align: center; padding: 3px 10px; border-radius: 999px; background: rgba(10,6,40,.72); color: #fff; font-weight: 800; font-size: clamp(.75rem, .85vw, 1rem); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 body.solo .camtile { right: calc(min(390px, 100vw) + 12px); }
 .camdebug { position: fixed; left: 12px; top: 50%; z-index: 63; width: 280px; background: rgba(0,0,0,.8); color: #fff; font: 12px/1.3 system-ui, sans-serif; padding: 8px; border-radius: 10px; }
 .camdebug div { position: relative; padding: 3px 0; }
@@ -1276,3 +1277,37 @@ body.warmup [data-act="stopgame"], body.warmup [data-act="end"] { display: none 
 .warmboard .brow.me { background: var(--sun); color: var(--ink); outline: 3px solid var(--ink); }
 .warmboard { gap: 6px; }
 .warmboard .brow { padding: 7px 12px; gap: 8px; grid-template-columns: 40px 1fr auto; font-size: 1rem; }
+
+/* ---------- players' faces (assets/quizcam.js + facecam.js) ----------
+   A player's emoji, which becomes their face-framed camera, in a circle, when they are on the quiz call. The circle
+   grows to a size that suits the spot: big for a head-to-head or a winner, a little smaller on a podium step. */
+.pface { position: relative; display: inline-grid; place-items: center; width: var(--pf, 1em); height: var(--pf, 1em); border-radius: 50%; vertical-align: middle; flex: none;
+  transition: width .5s cubic-bezier(.2, 1.3, .4, 1), height .5s cubic-bezier(.2, 1.3, .4, 1), box-shadow .4s; }
+.pface-em { line-height: 1; transition: opacity .3s; }
+.pface canvas { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 50%; opacity: 0; transition: opacity .45s; background: #000; }
+.pface.live { --pf: var(--pf-live, 3em); box-shadow: 0 0 0 4px var(--sun), 0 12px 30px rgba(0,0,0,.45); }
+.pface.live canvas { opacity: 1; }
+.pface.live .pface-em { opacity: 0; }
+/* King of the Hill head-to-head cards, and the winners of King of the Hill and Only One */
+.kcard .pface { --pf-live: min(20vh, 190px); }
+.kcard.buzzed .pface.live { box-shadow: 0 0 0 5px var(--sun), 0 0 34px rgba(255,214,10,.7); }
+.kwin .pface { --pf-live: min(28vh, 260px); }
+/* the Race podium: the winner a size up. With cameras on it the podium sizes to what is on it (steps of a set height,
+   not a share of a fixed box), so nothing spills over the question above and shrink-to-fit sees its real height. */
+.pod-av:has(.pface.live), .loss-av:has(.pface.live) { width: auto; height: auto; background: none; box-shadow: none; }
+.pod-av .pface { --pf-live: min(12vh, 115px); }
+.p1 .pod-av .pface { --pf-live: min(16vh, 150px); box-shadow: 0 0 0 5px #ffd54a, 0 0 44px rgba(255,213,74,.65); }
+.pod-crown { z-index: 3; } /* the crown sits on the winner's camera, not behind it */
+.podium:has(.pface.live), .podium:has(.pface.live) .pod { height: auto; }
+.stage-main > .podium:has(.pface.live) { flex-shrink: 0; } /* never squeezed below what is on it: the screen shrinks to fit instead */
+.podium:has(.pface.live) .p1 .pod-block { height: min(18vh, 170px); }
+.podium:has(.pface.live) .p2 .pod-block { height: min(13vh, 120px); }
+.podium:has(.pface.live) .p3 .pod-block { height: min(9vh, 85px); }
+/* the Race: last across the line */
+.loss-av .pface { --pf-live: min(14vh, 150px); } /* the card also has the cloud, the name and the points: a size down */
+.losscard:has(.pface.live) .loss-cloud { margin-bottom: 16px; } /* the rain cloud stays just above the camera */
+.loss-av .pface.live { box-shadow: 0 0 0 4px rgba(120,140,200,.9), 0 12px 30px rgba(0,0,0,.45); filter: saturate(.6); }
+/* the final podium */
+.podface { font-size: 1.6em; line-height: 1; margin-bottom: 4px; }
+.podface .pface { --pf-live: min(13vh, 130px); }
+.pod.p1 .podface .pface { --pf-live: min(17vh, 160px); }
