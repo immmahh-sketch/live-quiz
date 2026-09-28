@@ -1195,7 +1195,7 @@ h3 .qchips { font-size: 1rem; }
    While the camera is on, the top bar grows to the tile's height and everything
    in it moves to the left of the tile, so the tile never covers any words. The
    space stays reserved while the tile is faded, so the game never jumps. */
-body.camlayer { --cam-w: clamp(200px, 16vw, 340px); --cam-h: calc(var(--cam-w) * 9 / 16); }
+body.camlayer { --cam-w: clamp(220px, 20vw, 420px); --cam-h: calc(var(--cam-w) * 9 / 16); }
 /* The band ends just below the tile, with room to spare: the tile's bottom is 12px + its height down; the main
    area starts 18px (stage padding) + band + 12px (gap) down, so 12px clear (a big heading's line box reaches above its letters). */
 body.camlayer .stage-top { padding-right: var(--cam-w); min-height: calc(var(--cam-h) - 6px); flex-wrap: wrap; row-gap: 8px; }
