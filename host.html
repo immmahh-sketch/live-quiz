@@ -427,6 +427,11 @@ function stateForPlayers() {
     for (const p of rk) { const r = G.q.results.byPlayer[p.id]; s.results[p.id] = { note: r?.note || '', practice: !!r?.practice, would: r?.would || 0, correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, skipped: !!r?.skipped, wiped: !!r?.wiped, raced: !!r?.raced, lost: !!r?.lost, place: r?.place || 0, base: r?.base || 0, bonus: r?.bonus || 0, got: r?.got, out: !!r?.out, score: p.score, rank: rk.indexOf(p) + 1, of: rk.length }; }
     if (G.quiz.settings.showAnswersOnPhones !== false) { s.answer = answerText(question()); if (question()?.type === 'club' && question().why) s.why = question().why; }
   }
+  // Drop the Pin in a warm-up: the map, the right spot and everyone's pins, so each phone can see how far off it was
+  if (G.warmup && (G.phase === 'reveal' || G.phase === 'scoreboard') && G.q?.results?.stats?.pins && question()?.type === 'pin' && question().media?.url) {
+    const q = question();
+    s.pin = { url: q.media.url, area: q.mode === 'area' ? (q.target || null) : null, spot: q.mode === 'area' ? null : q.pin, place: q.place || '', pins: G.q.results.stats.pins.map((p) => ({ pid: p.pid, name: p.name, x: p.x, y: p.y, hit: !!p.hit })) };
+  }
   if (G.warmup) s.roster = players().map((p) => ({ id: p.id, name: p.name, emoji: p.emoji || '', bot: p.id.startsWith('p_bot') }));
   if (G.phase === 'final' || (G.warmup && G.phase === 'scoreboard')) s.top = ranked().slice(0, 10).map((p, i) => ({ name: p.name, score: p.score, rank: i + 1 }));
   // A warm-up has no shared screen: everything plays on the phone, so a Picture Reveal's picture and tiles go there too.

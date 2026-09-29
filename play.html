@@ -147,6 +147,7 @@ function render() {
   if (s.wheel && P.viewKey.startsWith(`${s.phase}:${qId}:`)) { const b = $('#pwof'); if (b) b.innerHTML = LQ.wheelBoardHtml(s.wheel.layout, s.wheel.revealed); }
   if (s.reveal) syncReveal(s);
   if (s.roster) syncRoster(s);
+  if (s.roster && s.potato) syncPotRing(s);
   if (P.tuneFor && (s.phase !== 'question' || qId !== P.tuneFor)) { stopPhoneTune(); P.tuneFor = null; }
   if (s.wipe?.studyMs) { const el = $('#studyLeft'); if (el) el.textContent = Math.ceil(s.wipe.studyMs / 1000); }
   const key = [s.phase, qId, s.qIndex, s.round?.n || '', s.raceIntro ? s.raceIntro.step + s.raceIntro.n : '', P.answered[qId] ? 'a' : '', s.wipe ? `${s.wipe.turnPid}:${s.wipe.gone.length}:${s.wipe.out.length}:${s.wipe.over}:${s.wipe.studyMs ? 'study' : ''}:${(s.wipe.order || []).length}` : '', rc ? `${rc.idx}:${rc.pending}:${rc.out}:${rc.done}:${s.race?.winner || ''}` : '', gameKey(s), twentyKey(s), s.warm ? 'w' + s.warm.count : ''].join(':');
@@ -181,10 +182,11 @@ function render() {
   else if (s.phase === 'question' && s.wipe) { P.deadline = Date.now() + (s.wipe.remainingMs || 0); app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + wipeHtml(s); bindWipe(s); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'question') { app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + rosterHtml(s) + (P.answered[qId] ? (P.skipped[qId] ? `<div class="state"><div class="em">⏭</div><h2>Skipped</h2><p class="muted">No points this time. Waiting for the others…</p></div>` : sentHtml()) : questionHtml(s.q)); bindQuestion(s.q); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'grading') app.innerHTML = top + top2 + `<div class="state"><div class="em">⏱</div><h2>Time's up!</h2><p class="muted">Checking the answers…</p></div>`;
-  else if (s.phase === 'reveal') app.innerHTML = top + top2 + resultHtml(s, r) + (s.preview ? '' : ctrl('next', s.practice ? 'Next ▶' : 'Scores ▶'));
+  else if (s.phase === 'reveal') app.innerHTML = top + top2 + (s.pin ? pinRevealHtml(s) : '') + resultHtml(s, r) + (s.preview ? '' : ctrl('next', s.practice ? 'Next ▶' : 'Scores ▶'));
   else if (s.phase === 'scoreboard') app.innerHTML = top + top2 + `<div class="state"><div class="em">${r?.rank === 1 ? '🥇' : r?.rank === 2 ? '🥈' : r?.rank === 3 ? '🥉' : '📊'}</div><h2>${r ? `You're ${ordinal(r.rank)} of ${r.of}` : 'Scoreboard'}</h2><p class="muted">${r ? r.score + ' points so far' : ''}</p>${s.top ? `<div class="board" style="width:100%;margin-bottom:12px">${s.top.slice(0, 8).map((t) => `<div class="brow ${t.name === P.name ? 'me' : ''}"><div class="rank">${t.rank}</div><div>${esc(t.name)}</div><div>${t.score}</div></div>`).join('')}</div>` : ''}${ctrl('next', (s.more ?? s.qIndex + 1 < s.total) ? 'Next ▶' : 'Final results 🏆')}</div>`;
   else if (s.phase === 'final') { app.innerHTML = top + top2 + finalHtml(s, r); const b = $('#warmBoard'), me = b?.querySelector('.me'); if (b && me) b.scrollTop = Math.max(0, me.offsetTop - b.offsetTop - b.clientHeight / 2); }
   if (s.reveal) syncReveal(s);
+  if (s.roster && s.potato) syncPotRing(s);
 }
 /** A Picture Reveal drawn on the phone (a warm-up has no shared screen): the picture under tiles that flip away, or a blur that clears. */
 function syncReveal(s) {
@@ -203,7 +205,7 @@ function syncPauseUi(s) {
     if (!v) { v = document.createElement('div'); v.id = 'pauseVeil'; v.className = 'pauseveil'; document.body.appendChild(v); }
     v.innerHTML = `<div><div class="em">⏸</div><h2>Paused</h2><p>The clock has stopped.</p>${s.auto ? '<button class="btn btn-primary btn-lg" data-ctrl="resume">Resume ▶</button>' : ''}</div>`;
   } else if (v) v.remove();
-  let b = $('#pauseBtn'); const want = s.auto && !s.paused && !['lobby', 'final'].includes(s.phase);
+  let b = $('#pauseBtn'); const want = s.auto && !s.roster && !s.paused && !['lobby', 'final'].includes(s.phase); // no pausing to think in a warm-up (s.roster)
   if (want && !b) { b = document.createElement('button'); b.id = 'pauseBtn'; b.className = 'pausebtn'; b.dataset.ctrl = 'pause'; b.title = 'Pause the game'; b.textContent = '⏸'; document.body.appendChild(b); }
   if (!want && b) b.remove();
 }
@@ -338,7 +340,8 @@ function tickGame() {
   const c = $('#gcount'); if (c) c.textContent = Math.ceil(rem / 1000);
 }
 const optsHtml = (row, attr) => `<div class="ans-grid" style="flex:0 1 auto">${row.options.map((o) => `<button class="abtn" ${attr}="${o.k}" style="background:${COLORS[o.c].hex};min-height:84px"><span class="shape">${COLORS[o.c].shape}</span>${esc(o.text)}</button>`).join('')}</div>`;
-function potatoHtml(s) {
+function potatoHtml(s) { return (s.roster ? potRingHtml(s) : '') + potatoView(s); }
+function potatoView(s) {
   const p = s.potato, bombs = p.bombs || [], mine = bombs.find((b) => b.holder === P.pid && !b.exploded), live = bombs.filter((b) => !b.exploded);
   if (!!mine !== !!P.hadBomb) { if (mine && P.hadBomb !== undefined && navigator.vibrate) try { navigator.vibrate([80, 40, 80]); } catch {} P.hadBomb = !!mine; P.work.potSent = ''; }
   const myPts = p.scores?.[P.pid] || 0, foot = myPts ? `<p class="center small muted mt">You've scored ${myPts > 0 ? '+' : ''}${myPts} this round</p>` : '';
@@ -659,6 +662,46 @@ function mountPhoneYt(y) {
       },
     });
   }).catch(() => { const c = box.querySelector('.pytcover'); if (c) c.textContent = 'The clip would not load'; });
+}
+// ---- Warm-up only (a hosted quiz night never sends s.roster or s.pin): the Hot Potato ring and the pin answer map
+/** Hot Potato as a picture: everyone round a ring, the bomb sliding to whoever has it. */
+function potRingHtml(s) {
+  const ps = s.potato?.players || [], n = Math.max(1, ps.length);
+  const seats = ps.map((x, i) => { const a = -Math.PI / 2 + (i / n) * Math.PI * 2; return `<div class="pseat" data-seat="${esc(x.pid)}" style="left:${50 + Math.cos(a) * 40}%;top:${50 + Math.sin(a) * 36}%"><span class="em">${esc(x.emoji || '🙂')}</span><span class="nm">${x.pid === P.pid ? 'You' : esc(x.name)}</span></div>`; }).join('');
+  return `<div class="pring" id="pring">${seats}${(s.potato?.bombs || []).map((b) => `<div class="pbomb" id="pbomb${b.i}">💣</div>`).join('')}</div>`;
+}
+function syncPotRing(s) {
+  const ring = $('#pring'), pot = s.potato; if (!ring || !pot) return;
+  const ps = pot.players || [], n = Math.max(1, ps.length), at = (pid) => { const i = Math.max(0, ps.findIndex((x) => x.pid === pid)); const a = -Math.PI / 2 + (i / n) * Math.PI * 2; return { x: 50 + Math.cos(a) * 40, y: 50 + Math.sin(a) * 36 }; };
+  P.bombPos = P.bombPos || {};
+  const holders = [], dead = [];
+  for (const b of pot.bombs || []) {
+    const el = $('#pbomb' + b.i); if (!el) continue;
+    const who = b.exploded || b.holder, o = at(who), prev = P.bombPos[b.i];
+    (b.exploded ? dead : holders).push(who);
+    el.classList.toggle('boom', !!b.exploded); el.textContent = b.exploded ? '💥' : '💣';
+    // a fresh element starts where the bomb was, then slides to where it is now: you see it passed
+    if (prev && !el.dataset.placed) { el.style.transition = 'none'; el.style.left = prev.x + '%'; el.style.top = prev.y + '%'; void el.offsetWidth; el.style.transition = ''; }
+    el.dataset.placed = '1'; el.style.left = o.x + '%'; el.style.top = o.y + '%';
+    P.bombPos[b.i] = o;
+  }
+  ring.querySelectorAll('.pseat').forEach((el) => { el.classList.toggle('hold', holders.includes(el.dataset.seat)); el.classList.toggle('dead', dead.includes(el.dataset.seat)); });
+}
+
+/** Drop the Pin, after the question: the map with the right spot, your pin (a line between them) and everyone else's. */
+function pinRevealHtml(s) {
+  const pn = s.pin; if (!pn) return '';
+  const mine = pn.pins.find((p) => p.pid === P.pid);
+  const place = pn.area ? null : pn.pins.findIndex((p) => p.pid === P.pid);
+  const t = pn.spot || (pn.area ? { x: pn.area.x + pn.area.w / 2, y: pn.area.y + pn.area.h / 2 } : null);
+  const acc = s.results?.[P.pid]?.partial ?? 0;
+  const verdict = !mine ? "You didn't drop a pin" : pn.area ? (mine.hit ? '🎯 Right on it!' : '✗ Just outside the area') : acc >= 1 ? '🎯 Spot on!' : acc >= 0.6 ? 'Close!' : acc >= 0.25 ? 'Not bad' : acc > 0 ? 'A fair way off' : 'Miles away!';
+  const others = pn.pins.filter((p) => p.pid !== P.pid).map((p) => `<div class="ppin other" style="left:${p.x * 100}%;top:${p.y * 100}%" title="${esc(p.name)}">${esc(p.name.replace(/^Bot /, '').slice(0, 2))}</div>`).join('');
+  return `<div class="pinres"><div class="pinwrap"><img src="${esc(pn.url)}" alt="">
+      ${pn.area ? `<div class="parea" style="left:${pn.area.x * 100}%;top:${pn.area.y * 100}%;width:${pn.area.w * 100}%;height:${pn.area.h * 100}%"></div>` : ''}
+      ${mine && t ? `<svg class="pline" viewBox="0 0 100 100" preserveAspectRatio="none"><line x1="${mine.x * 100}" y1="${mine.y * 100}" x2="${t.x * 100}" y2="${t.y * 100}" vector-effect="non-scaling-stroke"/></svg>` : ''}
+      ${others}${t && !pn.area ? `<div class="ptarget" style="left:${t.x * 100}%;top:${t.y * 100}%">📍</div>` : ''}${mine ? `<div class="ppin mine" style="left:${mine.x * 100}%;top:${mine.y * 100}%">You</div>` : ''}</div>
+    <div class="pinverdict">${verdict}${place >= 0 && pn.pins.length > 1 ? ` · ${ordinal(place + 1)} closest of ${pn.pins.length}` : ''}</div></div>`;
 }
 function bindQuestion(q) {
   if (!q || P.answered[q.id]) return;
