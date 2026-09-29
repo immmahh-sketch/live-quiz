@@ -1318,3 +1318,20 @@ body.warmup [data-act="stopgame"], body.warmup [data-act="end"] { display: none 
 .prvt { position: absolute; inset: 0; display: grid; gap: 3px; }
 .prvt i { background: linear-gradient(135deg, #5b3df5, #3b22c9); border-radius: 6px; box-shadow: inset 0 0 0 2px rgba(255,255,255,.18); transition: transform .5s ease, opacity .5s ease; }
 .prvt i.off { transform: rotateY(90deg); opacity: 0; }
+/* Warm-up phones: who's still answering, the tune, the Catchphrase clip */
+.roster { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin: 4px 0 6px; }
+.roster .rhead { width: 100%; text-align: center; font-size: .78rem; font-weight: 800; color: var(--ink-3); }
+.rp { font-size: .78rem; font-weight: 800; padding: 3px 9px; border-radius: 99px; background: #ecebf5; color: #6b6890; }
+.rp.done { background: #dcf5e4; color: #1d7a3a; }
+.rdots { font-style: normal; animation: rdots 1.2s infinite; }
+@keyframes rdots { 50% { opacity: .2; } }
+.ptune { display: flex; flex-direction: column; align-items: center; gap: 10px; margin: 6px 0 10px; }
+.pvinyl { width: 120px; height: 120px; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle, #5b3df5 0 18%, #1b1640 19% 100%); box-shadow: inset 0 0 0 6px #2a2356, 0 8px 20px rgba(0,0,0,.2); font-size: 1.6rem; }
+.pvinyl.spin { animation: pspin 2s linear infinite; }
+@keyframes pspin { to { transform: rotate(360deg); } }
+.pbar { width: 100%; height: 8px; border-radius: 99px; background: #e2e0f0; overflow: hidden; }
+.pbar i { display: block; height: 100%; width: 0; background: var(--brand); transition: width .1s linear; }
+.pyt { position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; background: #000; margin: 4px 0 10px; }
+.pyt iframe, .pyt > div:first-child { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.pytcover { position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font-weight: 800; background: #1b1640; text-align: center; padding: 10px; }
+.pytcover.tap { cursor: pointer; font-size: 1.2rem; background: rgba(27,22,64,.92); }

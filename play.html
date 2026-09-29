@@ -146,6 +146,8 @@ function render() {
   const rc = P.race && P.race.qId === qId ? P.race : null;
   if (s.wheel && P.viewKey.startsWith(`${s.phase}:${qId}:`)) { const b = $('#pwof'); if (b) b.innerHTML = LQ.wheelBoardHtml(s.wheel.layout, s.wheel.revealed); }
   if (s.reveal) syncReveal(s);
+  if (s.roster) syncRoster(s);
+  if (P.tuneFor && (s.phase !== 'question' || qId !== P.tuneFor)) { stopPhoneTune(); P.tuneFor = null; }
   if (s.wipe?.studyMs) { const el = $('#studyLeft'); if (el) el.textContent = Math.ceil(s.wipe.studyMs / 1000); }
   const key = [s.phase, qId, s.qIndex, s.round?.n || '', s.raceIntro ? s.raceIntro.step + s.raceIntro.n : '', P.answered[qId] ? 'a' : '', s.wipe ? `${s.wipe.turnPid}:${s.wipe.gone.length}:${s.wipe.out.length}:${s.wipe.over}:${s.wipe.studyMs ? 'study' : ''}:${(s.wipe.order || []).length}` : '', rc ? `${rc.idx}:${rc.pending}:${rc.out}:${rc.done}:${s.race?.winner || ''}` : '', gameKey(s), twentyKey(s), s.warm ? 'w' + s.warm.count : ''].join(':');
   // A break clock: keep the phone's countdown in step with the host's, which the host can stretch or shorten.
@@ -177,7 +179,7 @@ function render() {
   else if (s.phase === 'question' && s.tq) { const draft = $('#tqIn')?.value || P.tqDraft || ''; app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + twentyHtml(s); bindTwenty(s, draft); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'question' && s.race) { app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + raceHtml(s); bindRace(s); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'question' && s.wipe) { P.deadline = Date.now() + (s.wipe.remainingMs || 0); app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + wipeHtml(s); bindWipe(s); timerT = setInterval(tickTimer, 250); tickTimer(); }
-  else if (s.phase === 'question') { app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + (P.answered[qId] ? (P.skipped[qId] ? `<div class="state"><div class="em">⏭</div><h2>Skipped</h2><p class="muted">No points this time. Waiting for the others…</p></div>` : sentHtml()) : questionHtml(s.q)); bindQuestion(s.q); timerT = setInterval(tickTimer, 250); tickTimer(); }
+  else if (s.phase === 'question') { app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + rosterHtml(s) + (P.answered[qId] ? (P.skipped[qId] ? `<div class="state"><div class="em">⏭</div><h2>Skipped</h2><p class="muted">No points this time. Waiting for the others…</p></div>` : sentHtml()) : questionHtml(s.q)); bindQuestion(s.q); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'grading') app.innerHTML = top + top2 + `<div class="state"><div class="em">⏱</div><h2>Time's up!</h2><p class="muted">Checking the answers…</p></div>`;
   else if (s.phase === 'reveal') app.innerHTML = top + top2 + resultHtml(s, r) + (s.preview ? '' : ctrl('next', s.practice ? 'Next ▶' : 'Scores ▶'));
   else if (s.phase === 'scoreboard') app.innerHTML = top + top2 + `<div class="state"><div class="em">${r?.rank === 1 ? '🥇' : r?.rank === 2 ? '🥈' : r?.rank === 3 ? '🥉' : '📊'}</div><h2>${r ? `You're ${ordinal(r.rank)} of ${r.of}` : 'Scoreboard'}</h2><p class="muted">${r ? r.score + ' points so far' : ''}</p>${s.top ? `<div class="board" style="width:100%;margin-bottom:12px">${s.top.slice(0, 8).map((t) => `<div class="brow ${t.name === P.name ? 'me' : ''}"><div class="rank">${t.rank}</div><div>${esc(t.name)}</div><div>${t.score}</div></div>`).join('')}</div>` : ''}${ctrl('next', (s.more ?? s.qIndex + 1 < s.total) ? 'Next ▶' : 'Final results 🏆')}</div>`;
@@ -550,7 +552,7 @@ function questionHtml(q) {
   if (q.type === 'wheel') { const w = P.state.wheel || {}; body = `<div class="center" id="pwof">${LQ.wheelBoardHtml(w.layout || q.layout, w.revealed || '')}</div><div class="center"><span class="wof-cat">${esc(q.category || '')}</span></div><form id="textForm" class="state" style="justify-content:flex-start;padding-top:8px"><input type="text" id="textIn" placeholder="Solve the puzzle" autocomplete="off" autocorrect="off" autocapitalize="characters" style="font-size:1.1rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Solve</button></form>`; }
   if (q.type === 'highlow') { body = `<div id="hlbox">${hlHtml(q)}</div><form id="textForm" class="state" style="justify-content:flex-start;padding-top:8px"><input type="text" id="textIn" placeholder="Type your answer" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.2rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Send</button></form>`; }
   if (q.type === 'club') body = `<div class="clubrow"><span class="clubpct">${q.pct}%</span><span class="clubnote">of people get this · <b>${q.points}</b> points · no knowledge needed, work it out</span></div><form id="textForm" class="state" style="justify-content:flex-start"><input type="text" id="textIn" placeholder="Your answer" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.2rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
-  if (q.type === 'tune') body = `<div class="tunephone"><span class="note">🎵</span><p class="muted center small">Listen to the clip on the screen</p></div><form id="textForm" class="state" style="justify-content:flex-start;padding-top:0"><input type="text" id="textIn" placeholder="${q.ask === 'year' ? 'The year, e.g. 1984' : q.ask === 'artist' ? 'The artist' : q.ask === 'film' ? 'The film' : q.ask === 'lyric' ? 'The next line' : 'The song'}" ${q.ask === 'year' ? 'inputmode="numeric"' : ''} autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.15rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
+  if (q.type === 'tune') body = `${q.tune ? tuneBody(q) : '<div class="tunephone"><span class="note">🎵</span><p class="muted center small">Listen to the clip on the screen</p></div>'}<form id="textForm" class="state" style="justify-content:flex-start;padding-top:0"><input type="text" id="textIn" placeholder="${q.ask === 'year' ? 'The year, e.g. 1984' : q.ask === 'artist' ? 'The artist' : q.ask === 'film' ? 'The film' : q.ask === 'lyric' ? 'The next line' : 'The song'}" ${q.ask === 'year' ? 'inputmode="numeric"' : ''} autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.15rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
   if (q.type === 'dingbat') body = `${q.media?.url ? '' : LQ.dingbatHtml(q.elements)}<p class="muted center small">Say what you see: type the phrase</p><form id="textForm" class="state" style="justify-content:flex-start;padding-top:0"><input type="text" id="textIn" placeholder="The phrase" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.15rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
   if (q.type === 'rhyme') body = `<div class="sitem"><div class="txt">🎤 ${esc(q.text2)}</div></div><p class="muted center small">The two answers rhyme. Type both, first then second.</p><form id="textForm" class="state" style="justify-content:flex-start;padding-top:0"><input type="text" id="textIn" placeholder="First answer, second answer" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.15rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
   if (q.type === 'nearest') body = `<p class="muted center small">🎯 Closest wins · type a number${q.unit ? ` in <b>${esc(q.unit)}</b>` : ''}</p><form id="textForm" class="state" style="justify-content:flex-start"><input type="text" id="textIn" inputmode="decimal" placeholder="Your guess${q.unit ? ' (' + esc(q.unit) + ')' : ''}" autocomplete="off" style="font-size:1.4rem;text-align:center"><div id="numErr" class="small center" style="color:var(--bad);min-height:1.2em"></div><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
@@ -565,7 +567,7 @@ function questionHtml(q) {
   }
   if (q.type === 'pin') { P.work.pin = P.work.pinQ === q.id ? P.work.pin : null; P.work.pinQ = q.id; body = `<div class="pinboard tap" id="pinboard"><img src="${esc(q.media?.url || '')}" draggable="false"></div><button class="btn btn-primary btn-lg btn-block mt" id="dropPin" disabled>Drop the pin here</button>`; }
   if (q.type === 'smash') return `${mediaHtml(q)}<div class="pq smashclue"><span>+</span> ${esc(q.text)}</div>${body}<button type="button" class="btn btn-ghost btn-block mt" id="skipQ" style="color:var(--ink-3)">Skip — I don't know ⏭</button>`;
-  return `${q.type === 'wheel' || q.type === 'highlow' ? '' : `<div class="pq">${q.type === 'rhyme' ? '🎤 ' : ''}${esc(q.text)}</div>`}${P.state?.reveal ? '<div class="prv" id="prv"></div>' : ''}${q.type === 'pin' ? '' : mediaHtml(q)}${body}<button type="button" class="btn btn-ghost btn-block mt" id="skipQ" style="color:var(--ink-3)">Skip — I don't know ⏭</button>`;
+  return `${q.type === 'wheel' || q.type === 'highlow' ? '' : `<div class="pq">${q.type === 'rhyme' ? '🎤 ' : ''}${esc(q.text)}</div>`}${P.state?.reveal ? '<div class="prv" id="prv"></div>' : ''}${q.yt ? '<div class="pyt" id="pyt"></div>' : ''}${q.type === 'pin' ? '' : mediaHtml(q)}${body}<button type="button" class="btn btn-ghost btn-block mt" id="skipQ" style="color:var(--ink-3)">Skip — I don't know ⏭</button>`;
 }
 /** Highbrow Lowbrow on the phone: the hard clue, and a button that swaps in the easy one for the lower points. Only this phone sees it. */
 function hlHtml(q) {
@@ -581,8 +583,87 @@ function submit(q, answer) {
   app.querySelectorAll('.abtn, button').forEach((b) => b.disabled = true);
   setTimeout(() => { if (P.state?.q?.id === q.id) { P.viewKey = ''; render(); } }, 250);
 }
+// ---- Warm-up only: there is no shared screen, so the phone shows who's still answering, plays the tune and shows
+// the clip. (A hosted quiz night never sends s.roster, q.tune or q.yt, so none of this runs there.)
+/** Everyone else in the game, ticked off as they answer: nobody wonders why the game hasn't moved on. */
+function rosterInner(s) {
+  const done = new Set(s.answered || []);
+  const others = (s.roster || []).filter((p) => p.id !== P.pid);
+  const left = others.filter((p) => !done.has(p.id)).length;
+  const mine = !!P.answered[s.q?.id];
+  return `<div class="rhead">${left ? `Waiting for ${left} more…` : mine ? 'Everyone has answered' : 'The others have all answered: over to you!'}</div>` + others.map((p) => `<span class="rp ${done.has(p.id) ? 'done' : ''}">${esc(p.emoji)} ${esc(p.name)} ${done.has(p.id) ? '✓' : '<i class="rdots">…</i>'}</span>`).join('');
+}
+function rosterHtml(s) { return s.roster && s.phase === 'question' && s.q && !(s.wipe || s.race || s.tq || s.potato || s.koth || s.bb || s.chase || s.draw || s.uq) ? `<div class="roster" id="roster">${rosterInner(s)}</div>` : ''; }
+function syncRoster(s) { const el = $('#roster'); if (el && s.roster) el.innerHTML = rosterInner(s); }
+
+/** Name That Tune on the phone: the clip decoded and played through Web Audio (backwards when asked), with a record
+ *  that spins and a bar that fills; a "Play it again" button for when the phone wants a tap first. */
+function tuneBody(q) {
+  return `<div class="ptune"><div class="pvinyl" id="pvinyl"><span>🎵</span></div><div class="pbar"><i id="pbar"></i></div>
+    <button type="button" class="btn btn-ghost btn-block" id="ptuneAgain">▶ Play it again</button></div>`;
+}
+function stopPhoneTune() {
+  clearInterval(P.tuneT);
+  try { P.tuneNode?.stop(); } catch {} try { P.tuneEl?.pause(); } catch {}
+  P.tuneNode = null; P.tuneEl = null; $('#pvinyl')?.classList.remove('spin');
+}
+async function playPhoneTune(t, qId) {
+  stopPhoneTune(); P.tuneFor = qId;
+  const bar = () => $('#pbar'), btn = $('#ptuneAgain');
+  const spin = (on) => $('#pvinyl')?.classList.toggle('spin', on);
+  const track = (dur, now) => { const t0 = now(); clearInterval(P.tuneT); P.tuneT = setInterval(() => { const f = Math.min(1, (now() - t0) / dur); if (bar()) bar().style.width = f * 100 + '%'; if (f >= 1) { clearInterval(P.tuneT); spin(false); } }, 100); };
+  try {
+    const ctx = P.actx || (P.actx = new (window.AudioContext || window.webkitAudioContext)());
+    if (ctx.state === 'suspended') await ctx.resume().catch(() => {});
+    if (ctx.state !== 'running') throw new Error('locked');
+    let buf = P.tuneBuf?.url === t.url ? P.tuneBuf.buf : null;
+    if (!buf) { const data = await (await fetch(t.url)).arrayBuffer(); buf = await ctx.decodeAudioData(data); P.tuneBuf = { url: t.url, buf }; }
+    if (P.tuneFor !== qId) return;
+    const from = Math.min(Math.floor(t.start * buf.sampleRate), buf.length - 1), n = Math.max(1, Math.min(Math.floor(t.len * buf.sampleRate), buf.length - from));
+    const seg = ctx.createBuffer(buf.numberOfChannels, n, buf.sampleRate);
+    for (let c = 0; c < buf.numberOfChannels; c++) { const a = buf.getChannelData(c).subarray(from, from + n), b = seg.getChannelData(c); if (t.backwards) { for (let i = 0; i < n; i++) b[i] = a[n - 1 - i]; } else b.set(a); }
+    const src = ctx.createBufferSource(); src.buffer = seg; src.connect(ctx.destination); src.start(); P.tuneNode = src;
+    spin(true); track(n / buf.sampleRate, () => ctx.currentTime);
+    if (btn) btn.textContent = '▶ Play it again';
+  } catch (e) {
+    // no Web Audio yet (the phone wants a tap), or the clip can't be decoded here: a plain audio element, forwards
+    if (P.tuneFor !== qId) return;
+    try {
+      const a = new Audio(t.url); P.tuneEl = a; a.currentTime = t.start;
+      a.addEventListener('loadedmetadata', () => { try { a.currentTime = t.start; } catch {} });
+      await a.play(); spin(true); track(t.len, () => a.currentTime - t.start);
+      setTimeout(() => { if (P.tuneEl === a) { a.pause(); spin(false); } }, t.len * 1000);
+    } catch { if (btn) { btn.textContent = '▶ Tap to play the clip'; btn.classList.add('btn-primary'); } }
+  }
+}
+
+/** Catchphrase on the phone: the clip plays here (muted and looping, as it does on the big screen). */
+function ytApi() {
+  if (window.YT?.Player) return Promise.resolve();
+  return new Promise((res, rej) => { const prev = window.onYouTubeIframeAPIReady; window.onYouTubeIframeAPIReady = () => { try { prev?.(); } catch {} res(); }; loadScript('https://www.youtube.com/iframe_api').catch(rej); });
+}
+function mountPhoneYt(y) {
+  const box = $('#pyt'); if (!box) return;
+  box.innerHTML = '<div></div><div class="pytcover">Loading the clip…</div>';
+  ytApi().then(() => {
+    if (!document.body.contains(box)) return;
+    // if it hasn't started in a few seconds (Low Power Mode, a strict browser), a tap starts it
+    setTimeout(() => { const c = box.querySelector('.pytcover'); if (c && document.body.contains(box)) { c.innerHTML = '▶ Tap to play the clip'; c.classList.add('tap'); c.onclick = () => { try { ytp.playVideo(); } catch {} }; } }, 4000);
+    const ytp = new YT.Player(box.firstChild, {
+      videoId: y.id, host: 'https://www.youtube-nocookie.com', width: '100%', height: '100%',
+      playerVars: { autoplay: 1, mute: 1, controls: 0, disablekb: 1, fs: 0, iv_load_policy: 3, modestbranding: 1, playsinline: 1, rel: 0, start: y.start, ...(y.end ? { end: y.end } : {}) },
+      events: {
+        onReady: (e) => { e.target.mute(); e.target.playVideo(); },
+        onStateChange: (e) => { if (e.data === 1) box.querySelector('.pytcover')?.remove(); if (e.data === 0 && y.loop) { e.target.seekTo(y.start, true); e.target.playVideo(); } },
+        onError: () => { const c = box.querySelector('.pytcover'); if (c) c.textContent = "The clip won't play here. Have a guess anyway!"; },
+      },
+    });
+  }).catch(() => { const c = box.querySelector('.pytcover'); if (c) c.textContent = 'The clip would not load'; });
+}
 function bindQuestion(q) {
   if (!q || P.answered[q.id]) return;
+  if (q.tune) { if (P.tuneFor !== q.id) playPhoneTune(q.tune, q.id); const b = $('#ptuneAgain'); if (b) b.onclick = () => playPhoneTune(q.tune, q.id); }
+  if (q.yt) mountPhoneYt(q.yt);
   if ($('#skipQ')) $('#skipQ').onclick = () => { P.skipped[q.id] = true; submit(q, 'skip'); };
   if (q.type === 'choice' || q.type === 'tf') $$('.abtn').forEach((b) => b.onclick = () => submit(q, b.dataset.k));
   if (q.type === 'sort') {
@@ -692,6 +773,8 @@ function renderInstall(code) {
 
 // ------------------------------------------------------------------ boot
 const bootQ = new URLSearchParams(location.search);
+// A warm-up (solo) plays tunes on this phone: the first tap unlocks the sound, as phones insist.
+if (bootQ.get('solo') === '1') document.addEventListener('pointerdown', () => { try { const c = P.actx || (P.actx = new (window.AudioContext || window.webkitAudioContext)()); if (c.state === 'suspended') c.resume(); } catch {} });
 const bootCode = (bootQ.get('g') || '').toUpperCase();
 if (bootQ.get('solo') === '1' && /^[A-Z0-9]{6}$/.test(bootCode)) {
   // the host testing alone: this panel sits inside the host page, so join without the form

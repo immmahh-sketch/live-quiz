@@ -427,6 +427,7 @@ function stateForPlayers() {
     for (const p of rk) { const r = G.q.results.byPlayer[p.id]; s.results[p.id] = { note: r?.note || '', practice: !!r?.practice, would: r?.would || 0, correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, skipped: !!r?.skipped, wiped: !!r?.wiped, raced: !!r?.raced, lost: !!r?.lost, place: r?.place || 0, base: r?.base || 0, bonus: r?.bonus || 0, got: r?.got, out: !!r?.out, score: p.score, rank: rk.indexOf(p) + 1, of: rk.length }; }
     if (G.quiz.settings.showAnswersOnPhones !== false) { s.answer = answerText(question()); if (question()?.type === 'club' && question().why) s.why = question().why; }
   }
+  if (G.warmup) s.roster = players().map((p) => ({ id: p.id, name: p.name, emoji: p.emoji || '', bot: p.id.startsWith('p_bot') }));
   if (G.phase === 'final' || (G.warmup && G.phase === 'scoreboard')) s.top = ranked().slice(0, 10).map((p, i) => ({ name: p.name, score: p.score, rank: i + 1 }));
   // A warm-up has no shared screen: everything plays on the phone, so a Picture Reveal's picture and tiles go there too.
   if (G.warmup && G.phase === 'question' && G.q?.reveal && question()?.media?.url) { const r = G.q.reveal; s.reveal = { url: question().media.url, cols: r.cols, rows: r.rows, off: r.order.slice(0, r.shown), blur: r.blur ? blurPx(r) : null }; }
@@ -495,6 +496,7 @@ function onAnswer({ pid, qId, answer, low }) {
   persist();
   send('ack', { pid, qId });
   renderAnswered();
+  if (WARMUP) broadcastState(); // warm-up phones tick off who has answered
   maybeAllAnswered();
 }
 function maybeAllAnswered() {
@@ -783,6 +785,9 @@ function buildView(q) {
   if (q.type === 'club') { v.pct = q.pct; v.points = LQ.clubPoints(q.pct); }
   if (q.type === 'dingbat') { v.elements = (q.elements || []).filter((e) => (e.t || '').trim()); }
   if (q.type === 'tune') { v.text = LQ.tunePrompt(q); v.ask = q.ask; v.media = null; v.clip = q.media?.length || 15; }
+  // A warm-up has no shared screen: the phone plays the clip itself (no artwork: it would give the answer away)
+  if (WARMUP && q.type === 'tune' && q.media?.url) v.tune = { url: q.media.url, start: Math.max(0, +q.media.start || 0), len: Math.min(30, Math.max(3, +q.media.length || 15)), backwards: !!q.backwards };
+  if (WARMUP && q.media?.kind === 'youtube' && q.media.videoId) v.yt = { id: q.media.videoId, start: +q.media.start || 0, end: +q.media.end || 0, loop: q.kind === 'catchphrase' };
   if (q.type === 'rhyme') { v.text2 = q.text2; }
   if (q.type === 'nearest') v.unit = q.unit || '';
   if (q.type === 'wheel') { v.text = `${q.category}: solve the puzzle`; v.layout = LQ.wheelLayout(q.phrase).map((row) => row.map((t) => t.t === 'L' ? { t: 'L' } : t)); v.category = q.category; }
@@ -2578,7 +2583,7 @@ function mediaHtml(q, live) {
   if (q.kind === 'reveal' && live && q.media?.url && G.q?.reveal?.blur) return `<div class="qmedia reveal"><img class="rblur" src="${esc(q.media.url)}" style="filter:blur(${blurPx(G.q.reveal)}px)"></div>`;
   if (q.kind === 'reveal' && live && q.media?.url && G.q?.reveal) { const r = G.q.reveal; return `<div class="qmedia reveal"><img src="${esc(q.media.url)}"><div class="rtiles" style="grid-template-columns:repeat(${r.cols},1fr);grid-template-rows:repeat(${r.rows},1fr)">${Array.from({ length: r.cols * r.rows }, (_, i) => `<i data-t="${i}" class="${r.order.indexOf(i) < r.shown ? 'off' : ''}"></i>`).join('')}</div></div>`; }
   if (q.media?.kind === 'image' && q.media.url) return `<div class="qmedia"><img src="${esc(q.media.url)}"></div>`;
-  if (q.media?.kind === 'youtube' && q.media.videoId && live) return `<div class="qmedia"><div class="ytbox" data-yt="${esc(q.id)}"></div></div>`;
+  if (q.media?.kind === 'youtube' && q.media.videoId && live && !WARMUP) return `<div class="qmedia"><div class="ytbox" data-yt="${esc(q.id)}"></div></div>`;
   return '';
 }
 // Question clips play in an IFrame API player that starts muted, so every browser lets it autoplay (Catchphrase stays
@@ -2666,7 +2671,7 @@ function renderQuestion() {
     <div>${body}</div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">Stop the clock ■</button>`)}`;
   renderAnswered(); bind();
-  if (q.type === 'tune') { playTune(q); const b = $('#tuneAgain'); if (b) b.onclick = () => playTune(q); }
+  if (q.type === 'tune' && !WARMUP) { playTune(q); const b = $('#tuneAgain'); if (b) b.onclick = () => playTune(q); }
 }
 // ------------------------------------------------------------------ Picture Reveal: tiles flip off the picture one at a time
 /** 12 to 20 tiles depending on the picture's shape; all but a couple are gone by 85% of the clock, so the last answers still need a look. */
