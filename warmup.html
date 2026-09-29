@@ -79,6 +79,7 @@ const app = $('#app');
 const CODE = (new URLSearchParams(location.search).get('c') || new URLSearchParams(location.search).get('code') || 'WARMUP').toUpperCase().replace(/[^A-Z0-9]/g, '');
 const me = () => { const p = store('lq_player') || {}; return { pid: /^p_[a-z0-9]{6,12}$/.test(p.pid || '') ? p.pid : '', name: p.name || '', emoji: LQ.EMOJIS.includes(p.emoji) ? p.emoji : '' }; };
 const SAVE_KEY = 'lq_live_warmup';
+const TEST = CODE === 'TESTWARMUP'; // the host trying the warm-up: play as often as you like, nothing saved
 const brand = `<div class="brand"><img src="assets/brand/mark.png" alt="">Let's Quiz!</div>`;
 // Everyone who has played, best first; equal scores share a place. `mine` is picked out (and scrolled to).
 const boardHtml = (rows, mine) => { let hit = false; const place = (p) => rows.filter((x) => x.score > p.score).length + 1;
@@ -90,8 +91,9 @@ async function start() {
   // A finished go still counts: the server keeps one score per phone whatever this phone has saved.
   const qs = new URLSearchParams(location.search);
   if (qs.get('reset') === '1') { LQ.unstore(SAVE_KEY); qs.delete('reset'); history.replaceState(null, '', location.pathname + (qs.toString() ? '?' + qs : '')); }
-  // A game already going on this device carries straight on (a reload, a dropped connection).
-  const g = store(SAVE_KEY);
+  // A game already going on this device carries straight on (a reload, a dropped connection). Not a test game
+  // (TESTWARMUP): that starts afresh every time and is saved apart, so it never touches a real one.
+  const g = TEST ? null : store(SAVE_KEY);
   if (g?.warmup === CODE && g.phase && g.phase !== 'lobby' && g.phase !== 'final' && me().pid) return game();
   app.innerHTML = `<div class="land">${brand}<p class="muted" style="color:#fff;opacity:.7">Loading…</p></div>`;
   let r;
@@ -112,6 +114,7 @@ function intro(r) {
     <h1>${esc(r.title)}</h1>
     <p class="lead">Twenty questions and games on your phone, against three bots, before quiz night.</p>
     <div class="prize"><span class="big">🏆</span><span>The top score starts the quiz <u>1,000 points</u> ahead<small>One go per phone, so make it count!</small></span></div>
+    ${r.test ? `<div class="chip" style="align-self:flex-start;background:#7ee0a8;color:#1b1544">🧪 Test game: nothing is saved and you can play as often as you like</div>` : ''}
     ${r.practice ? `<div class="chip" style="align-self:flex-start;background:#ffd54a;color:#1b1544">🧪 Practice go: your score of ${r.practice.score} stays on the scoreboard, whatever you get this time</div>` : ''}
     ${r.until ? `<div class="chip" style="align-self:flex-start;background:rgba(255,255,255,.16)">⏰ Closes ${esc(endsText(r.until))} · ${leftText(r.until)}</div>` : ''}
     <div class="chips"><span class="chip">💥 Wipeout</span><span class="chip">💣 Hot Potato</span><span class="chip">🏁 The Race</span><span class="chip">🕵️ 20 Questions</span><span class="chip">🎡 Wheel of Fortune</span><span class="chip">🧠 The 1% Club</span><span class="chip">🖼️ Picture Reveal</span><span class="chip">🔀 Answer Smash</span><span class="chip">📍 Drop the Pin</span><span class="chip">…and more</span></div>

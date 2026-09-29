@@ -36,7 +36,8 @@ if (WARMUP) document.body.classList.add('warmup');
 const TV = new URLSearchParams(location.search).get('tv') === '1' || /LetsQuizTV/.test(navigator.userAgent);
 if (TV) document.body.classList.add('tv');
 const quizId = new URLSearchParams(location.search).get('quiz');
-const SAVE_KEY = 'lq_live_' + quizId;
+// a TESTWARMUP game saves apart from a real warm-up, so testing can never clobber a real game on the same phone
+const SAVE_KEY = 'lq_live_' + quizId + (WARMUP === 'TESTWARMUP' ? '_test' : '');
 const stage = $('#stage');
 // Fit: a screen whose contents are taller than the space left for them has them gently shrunk
 // (to 70% at most) rather than cut off at the bottom. The camera corner takes some height, so it
@@ -191,6 +192,8 @@ function myPid() { const p = store('lq_player'); return p && /^p_[a-z0-9]{6,12}$
 async function bootWarmup() {
   const back = () => { (window.top || window).location.href = 'warmup?c=' + encodeURIComponent(WARMUP); };
   if (!myPid()) return back(); // no name yet: warmup.html asks for one
+  // A test game (TESTWARMUP) never carries on: every visit starts afresh.
+  if (WARMUP === 'TESTWARMUP') unstore(SAVE_KEY);
   // A game already under way on this device carries on where it was (a reload, a dropped connection).
   const saved = store(SAVE_KEY);
   if (saved?.warmup === WARMUP && saved.phase !== 'lobby') {
@@ -439,7 +442,7 @@ function stateForPlayers() {
   // A warm-up has no shared screen: everything plays on the phone, so a Picture Reveal's picture and tiles go there too.
   if (G.warmup && G.phase === 'question' && G.q?.reveal && question()?.media?.url) { const r = G.q.reveal; s.reveal = { url: question().media.url, cols: r.cols, rows: r.rows, off: r.order.slice(0, r.shown), blur: r.blur ? blurPx(r) : null }; }
   // a warm-up: the whole scoreboard so far, for every phone in the game to see where it ranks
-  if (G.phase === 'final' && G.warmup && G.warmSaved?.board) s.warm = { board: G.warmSaved.board.slice(0, 150), count: G.warmSaved.count, places: G.warmSaved.places || {} };
+  if (G.phase === 'final' && G.warmup && G.warmSaved?.board) s.warm = { board: G.warmSaved.board.slice(0, 150), count: G.warmSaved.count, places: G.warmSaved.places || {}, test: !!G.warmSaved.test };
   return s;
 }
 function broadcastState() { send('state', stateForPlayers()); }

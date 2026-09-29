@@ -910,35 +910,45 @@ Deno.serve(async (req) => {
     if (action === "warmup_open" || action === "warmup_check" || action === "warmup_save") {
       const code = String(body.code || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 12);
       if (code.length < 4) return json({ error: "That's not a warm-up code." }, 400);
-      const found = await rest(`quiz_quizzes?settings->warmup->>code=eq.${code}&select=id,title,settings,questions&order=updated_at.desc&limit=1`);
+      // TESTWARMUP: the host trying the latest warm-up. Play as often as you like, nothing is saved, it never closes.
+      const TEST = code === "TESTWARMUP";
+      const found = await rest(TEST ? `quiz_quizzes?settings->warmup=not.is.null&select=id,title,settings,questions&order=updated_at.desc&limit=1` : `quiz_quizzes?settings->warmup->>code=eq.${code}&select=id,title,settings,questions&order=updated_at.desc&limit=1`);
       const quiz = found?.[0];
       if (!quiz?.settings?.warmup) return json({ error: "No warm-up game has that code." }, 404);
       const wu = quiz.settings.warmup, until = wu.until && !isNaN(Date.parse(wu.until)) ? Date.parse(wu.until) : null;
       const season = String(wu.season || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 40);
       const ended = !!until && Date.now() >= until;
-      const open = wu.open !== false && !ended;
+      const open = TEST || (wu.open !== false && !ended);
+      const boardCode = TEST ? String(wu.code || "").toUpperCase().replace(/[^A-Z0-9]/g, "") : code; // a test game reads the real scoreboard
       const pidOk = (p: unknown) => typeof p === "string" && /^p_[a-z0-9]{6,12}$/.test(p) && !p.startsWith("p_bot");
-      const board = `quiz_warmup_plays?code=eq.${code}&season=eq.${season}&select=pid,name,emoji,score,played_at,test_go&order=score.desc,played_at.asc&limit=5000`;
+      const board = `quiz_warmup_plays?code=eq.${boardCode}&season=eq.${season}&select=pid,name,emoji,score,played_at,test_go&order=score.desc,played_at.asc&limit=5000`;
       const all: any[] = (await rest(board)) || [];
       const placeOf = (score: number) => all.filter((r) => r.score > score).length + 1;
       const top = all.slice(0, 10).map((r) => ({ name: r.name, emoji: r.emoji, score: r.score }));
       // Everyone who has played this run, best first (names and scores only), so a player sees where they rank.
       const boardOf = (rows: any[]) => rows.slice(0, 500).map((r) => ({ name: r.name, emoji: r.emoji, score: r.score }));
       if (action === "warmup_check") {
+        if (TEST) return json({ played: [] });
         const pids = new Set((Array.isArray(body.pids) ? body.pids : []).filter(pidOk).slice(0, 50));
         // a device the host has allowed a practice go (test_go) may join again
         return json({ played: all.filter((r) => pids.has(r.pid) && !r.test_go).map((r) => r.pid) });
       }
       if (action === "warmup_open") {
         const mine = pidOk(body.pid) ? all.find((r) => r.pid === body.pid) : null;
-        const played = mine && !mine.test_go ? { name: mine.name, emoji: mine.emoji, score: mine.score, played_at: mine.played_at, place: placeOf(mine.score) } : null;
+        const played = !TEST && mine && !mine.test_go ? { name: mine.name, emoji: mine.emoji, score: mine.score, played_at: mine.played_at, place: placeOf(mine.score) } : null;
         // a practice go: the device plays again, its score on the board stays as it is
-        const practice = mine?.test_go ? { score: mine.score, place: placeOf(mine.score) } : null;
+        const practice = !TEST && mine?.test_go ? { score: mine.score, place: placeOf(mine.score) } : null;
         const s = { ...quiz.settings }; delete s.report; delete s.buildLog; delete s.aiUsage; delete s.planRounds;
-        return json({ code, open, ended, until: until ? new Date(until).toISOString() : null, title: quiz.title, count: all.length, top, board: boardOf(all), played, practice,
+        return json({ code, open, ended, until: until ? new Date(until).toISOString() : null, title: quiz.title, count: all.length, top, board: boardOf(all), played, practice, test: TEST,
           ...(body.peek ? {} : { quiz: { id: quiz.id, title: quiz.title, settings: s, questions: quiz.questions } }) });
       }
       // warmup_save: the end of a game
+      if (TEST) {
+        // a test game: nothing is written; each player is told where they would have come
+        const places: Record<string, any> = {};
+        for (const p of (Array.isArray(body.players) ? body.players : []).filter((x: any) => pidOk(x?.pid))) { const sc = Math.round(+p.score || 0); places[p.pid] = { score: sc, place: all.filter((r) => r.score > sc).length + 1, test: true }; }
+        return json({ ok: true, test: true, places, count: all.length, top, board: boardOf(all) });
+      }
       const g = body.game && typeof body.game === "object" ? body.game : {};
       // A game that started before the end time still counts if it finishes within two hours of it.
       const startedMs = g.started_at && !isNaN(Date.parse(g.started_at)) ? Date.parse(g.started_at) : 0;
