@@ -76,7 +76,7 @@ HQ.topBar($('#top'), 'The 1% Club');
 const TOTAL = 100, STAKE = 1000;
 // How many bots get each rung right: tuned so about 65 are left after 50%, 20 or so after 20%, a handful at the 1%
 const BASE = { 90: 0.97, 80: 0.945, 70: 0.93, 60: 0.9, 50: 0.86, 40: 0.8, 30: 0.72, 20: 0.63, 10: 0.47, 5: 0.4, 1: 0.14 };
-const timeFor = (pct) => (pct === 1 ? 60000 : pct === 5 ? 45000 : 30000);
+const timeFor = () => 60000; // a minute on every question (on your own there's an End the clock button)
 const logit = (p) => Math.log(p / (1 - p)), sig = (x) => 1 / (1 + Math.exp(-x));
 const gauss = () => { let u = 0, v = 0; while (!u) u = Math.random(); while (!v) v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
 
@@ -87,11 +87,12 @@ const engine = {
     const bots = HQ.bots(TOTAL - humans.length, humans.map((p) => p.name)).map((b) => ({ ...b, z: gauss() * 0.6 }));
     // humans spread through the grid, not bunched at the top
     const all = LQ.shuffle([...humans, ...bots]).map((p) => ({ id: p.id, name: p.name, emoji: p.emoji, bot: !!p.bot, z: p.z || 0, alive: true, pass: false, walked: false }));
-    return { qs: set.lists.questions, qi: -1, all, pot: 0, phase: 'intro', until: Date.now() + 7000, ans: {}, passNow: {}, walk: {}, n: 0 };
+    return { qs: set.lists.questions, qi: -1, all, pot: 0, phase: 'intro', until: Date.now() + 7000, ans: {}, passNow: {}, walk: {}, n: 0, solo: !!opts.solo };
   },
   act(S, pid, kind, d, now) {
     const p = S.all.find((x) => x.id === pid); if (!p) return;
     if (kind === 'skip' && pid === firstHuman(S) && ['intro', 'qIntro', 'reveal'].includes(S.phase)) { S.until = now; return; }
+    if (kind === 'endClock' && S.solo && S.phase === 'q') { S.until = now; return; } // on your own: stop waiting
     if (S.phase === 'q' && p.alive && !p.walked && S.ans[pid] === undefined && S.passNow[pid] === undefined) {
       if (kind === 'answer') { S.ans[pid] = String(d.text).slice(0, 40); allIn(S, now); }
       if (kind === 'pass' && !p.pass && S.qs[S.qi].pct !== 1) { S.passNow[pid] = true; p.pass = true; allIn(S, now); }
@@ -104,7 +105,7 @@ const engine = {
     const V = { phase: S.phase, ms: Math.max(0, S.until - now), qi: S.qi, pct: q ? q.pct : null, ladder: S.qs.map((x) => x.pct), pot: S.pot,
       left: S.all.filter((p) => p.alive && !p.walked).length, grid: S.all.map((p) => (p.walked ? 3 : !p.alive ? 0 : p.bot ? 1 : 2)), gone: S.gone || [],
       humans: hum.map((p) => ({ id: p.id, name: p.name, emoji: p.emoji, alive: p.alive, pass: p.pass, walked: p.walked, idx: S.all.indexOf(p), last: S.lastRes ? S.lastRes[p.id] : undefined })), n: S.n };
-    if (S.phase === 'q') { V.q = q.text; V.total = S.qTotal; V.locked = Object.keys(S.ans).concat(Object.keys(S.passNow)); } // who has locked in, never what they said
+    if (S.phase === 'q') { V.q = q.text; V.total = S.qTotal; V.solo = S.solo; V.locked = Object.keys(S.ans).concat(Object.keys(S.passNow)); } // who has locked in, never what they said
     if (S.phase === 'reveal' || S.phase === 'over') { V.q = q && q.text; V.answer = q && q.answers[0]; V.why = q && q.why; V.said = S.ans; V.out = S.lastOut; V.passed = Object.keys(S.passNow); }
     if (S.phase === 'walk') { V.walkMade = Object.keys(S.walk); }
     if (S.phase === 'over') V.result = S.result;
@@ -117,8 +118,8 @@ function allIn(S, now) { if (aliveHumans(S).every((h) => S.ans[h.id] !== undefin
 function ask(S, now) {
   S.phase = 'q'; S.ans = {}; S.passNow = {};
   const q = S.qs[S.qi];
-  // nobody real left in it: the bots don't need thinking time
-  S.qTotal = aliveHumans(S).length ? timeFor(q.pct) : 2500; S.until = now + S.qTotal;
+  // a full minute, even once you're out (on your own, End the clock moves it on)
+  S.qTotal = timeFor(q.pct); S.until = now + S.qTotal;
 }
 function reveal(S, now) {
   const q = S.qs[S.qi], base = BASE[q.pct] ?? Math.min(0.98, 0.1 + q.pct / 100);
@@ -207,8 +208,11 @@ function render(V, ctx) {
       screen('q' + V.qi + ':' + locked + ':' + inIt, `<div class="qline"><span class="badge">${V.pct}%</span><div style="flex:1"><div class="hq-clockbar" ${HQ.clock(V, V.ms, V.total, 'data-tick="5"')}><i></i></div></div><b ${HQ.clock(V, V.ms, V.total)}></b></div>
         <div class="qtext hq-rise">${esc(V.q)}</div>
         ${inIt ? (locked ? `<div class="locked">${mySaid[V.qi] !== undefined ? 'Locked in: “' + esc(mySaid[V.qi]) + '”' : 'Passed ✋'}</div>` : '') : `<div class="hq-muted" style="text-align:center">${mine.id ? "You're out: have a go in your head" : ''}</div>`}
+        ${V.solo ? '<button class="hq-btn hq-btn-ghost" id="endclk" type="button">⏭ End the clock</button>' : ''}
         ${numsHtml(V)}${gridHtml(V, me)}`, '',
         () => {
+          const ec = $('#endclk');
+          if (ec) ec.onclick = () => { if (inIt && !locked && !confirm("You haven't locked in an answer, so you'll be out. End the clock anyway?")) return; ec.disabled = true; act('endClock'); };
           if (inIt && !locked) {
             const canPass = !mine.pass && V.pct !== 1;
             bar = HQ.answerBar(dock, { placeholder: 'Your answer', go: 'Lock in', onSubmit: (t) => { mySaid[V.qi] = t; act('answer', { text: t }); }, onPass: canPass ? () => { if (confirm('Use your one pass on this question?')) act('pass'); } : null, passLabel: 'Pass' });
