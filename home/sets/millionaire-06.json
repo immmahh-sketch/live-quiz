@@ -5,199 +5,214 @@
  "lists": {
   "questions": [
    {
-    "id": "q_f9426f5e",
-    "text": "Who is called 'the father of medicine'?",
-    "category": "Ancient history",
+    "id": "q_5a7eabda",
+    "text": "Which sport is Lewis Hamilton famous for?",
+    "options": [
+     "Cycling",
+     "MotoGP",
+     "Rowing",
+     "Formula One"
+    ],
+    "correct": 3,
+    "category": "Sport",
     "difficulty": "easy",
-    "options": [
-     "Asclepius",
-     "Aristotle",
-     "Hippocrates",
-     "Galen"
-    ],
-    "correct": 2
+    "rating": 1
    },
    {
-    "id": "q_09dcc4f7",
-    "text": "What is the capital of Croatia?",
-    "category": "Capital cities",
+    "id": "q_4bb6850f",
+    "text": "What is the name of the monster in Julia Donaldson's best-known picture book?",
+    "options": [
+     "The Gruffalo",
+     "Room on the Broom",
+     "The Snail",
+     "Stick Man"
+    ],
+    "correct": 0,
+    "category": "Books and literature",
     "difficulty": "easy",
-    "options": [
-     "Zagreb",
-     "Dubrovnik",
-     "Split",
-     "Ljubljana"
-    ],
-    "correct": 0
+    "rating": 1
    },
    {
-    "id": "q_be293c8f",
-    "text": "Who is the Doctor's renegade Time Lord arch-enemy?",
-    "category": "Doctor Who",
-    "difficulty": "easy",
+    "id": "q_67649fbc",
+    "text": "Which comparison website's adverts starred an opera singer called Gio Compario?",
     "options": [
-     "Omega",
-     "Davros",
-     "The Rani",
-     "The Master"
+     "GoCompare",
+     "MoneySupermarket",
+     "Confused.com",
+     "Compare the Market"
     ],
-    "correct": 3
-   },
-   {
-    "id": "q_fc8d8954",
-    "text": "Which Motown group was fronted by Diana Ross?",
-    "category": "Pop music",
-    "difficulty": "easy",
-    "options": [
-     "The Supremes",
-     "The Marvelettes",
-     "The Ronettes",
-     "Martha and the Vandellas"
-    ],
-    "correct": 0
-   },
-   {
-    "id": "q_4509dd4a",
-    "text": "Which Wet Wet Wet hit spent 15 weeks at number one in 1994?",
-    "category": "The 1990s",
-    "difficulty": "easy",
-    "options": [
-     "Love Is All Around",
-     "Goodnight Girl",
-     "Julia Says",
-     "Sweet Little Mystery"
-    ],
-    "correct": 0
-   },
-   {
-    "id": "q_6fb67f1f",
-    "text": "At which 1066 battle did Harold defeat Harald Hardrada?",
-    "category": "British history",
-    "difficulty": "medium",
-    "options": [
-     "Fulford",
-     "Stamford Bridge",
-     "Maldon",
-     "Hastings"
-    ],
-    "correct": 1
-   },
-   {
-    "id": "q_7eeef62a",
-    "text": "Where did the fourth hijacked plane come down on 9/11?",
-    "category": "Days that shook the world",
-    "difficulty": "medium",
-    "options": [
-     "The Hudson River",
-     "The White House",
-     "The Capitol",
-     "A field in Pennsylvania"
-    ],
-    "correct": 3
-   },
-   {
-    "id": "q_1df731e4",
-    "text": "Which of Henry VIII's wives was executed in 1542?",
-    "category": "General knowledge",
-    "difficulty": "medium",
-    "options": [
-     "Catherine Howard",
-     "Anne of Cleves",
-     "Anne Boleyn",
-     "Jane Seymour"
-    ],
-    "correct": 0
-   },
-   {
-    "id": "q_4b6ec2bc",
-    "text": "Which Neighbours character did Kylie Minogue play?",
-    "category": "The 1980s",
-    "difficulty": "medium",
-    "options": [
-     "Bronwyn",
-     "Charlene",
-     "Madge",
-     "Daphne"
-    ],
-    "correct": 1
-   },
-   {
-    "id": "q_24673fc5",
-    "text": "Which band had a 1986 hit with 'Don't Dream It's Over'?",
-    "category": "Australia and New Zealand",
-    "difficulty": "medium",
-    "options": [
-     "Split Enz",
-     "INXS",
-     "Men at Work",
-     "Crowded House"
-    ],
-    "correct": 3
-   },
-   {
-    "id": "q_4eca8412",
-    "text": "What is the faint radiation left over from the Big Bang called?",
-    "category": "Space and astronomy",
-    "difficulty": "hard",
-    "options": [
-     "The cosmic microwave background",
-     "Hawking radiation",
-     "The solar wind",
-     "The Van Allen belts"
-    ],
-    "correct": 0
-   },
-   {
-    "id": "q_8b044fdb",
-    "text": "What does 'dopiaza' mean on a curry menu?",
-    "category": "Food and drink",
-    "difficulty": "hard",
-    "options": [
-     "Double chilli",
-     "Cooked twice",
-     "Double onions",
-     "Two meats"
-    ],
-    "correct": 2
-   },
-   {
-    "id": "q_17b2039f",
-    "text": "Which goddess of discord threw a golden apple 'to the fairest'?",
-    "category": "Mythology and legends",
-    "difficulty": "hard",
-    "options": [
-     "Eris",
-     "Nemesis",
-     "Hera",
-     "Hecate"
-    ],
-    "correct": 0
-   },
-   {
-    "id": "q_593f4bf3",
-    "text": "Which company's name is short for 'Minnesota Mining and Manufacturing'?",
-    "category": "Brands and logos",
-    "difficulty": "hard",
-    "options": [
-     "Honeywell",
-     "GE",
-     "IBM",
-     "3M"
-    ],
-    "correct": 3
-   },
-   {
-    "id": "q_6cc84b62",
-    "text": "In which year did the Sony Walkman go on sale?",
+    "correct": 0,
     "category": "Computers and the internet",
-    "difficulty": "hard",
+    "difficulty": "easy",
+    "rating": 2
+   },
+   {
+    "id": "q_7b59e2aa",
+    "text": "How many strings does a standard guitar have?",
     "options": [
-     "1979",
-     "1969",
-     "1985",
-     "1991"
+     "Six",
+     "Five",
+     "Eight",
+     "Four"
     ],
-    "correct": 0
+    "correct": 0,
+    "category": "Music",
+    "difficulty": "easy",
+    "rating": 2
+   },
+   {
+    "id": "q_4a11085e",
+    "text": "Whose adverts sang 'Everyone's a fruit and nut case'?",
+    "options": [
+     "Rowntree's",
+     "Terry's",
+     "Galaxy",
+     "Cadbury"
+    ],
+    "correct": 3,
+    "category": "British food",
+    "difficulty": "easy",
+    "rating": 3
+   },
+   {
+    "id": "q_4d0543c0",
+    "text": "Which of these is NOT one of Phoebe's triplets?",
+    "options": [
+     "Frank Jr. Jr.",
+     "Leslie",
+     "Ross",
+     "Chandler"
+    ],
+    "correct": 2,
+    "category": "Friends",
+    "difficulty": "easy",
+    "rating": 3
+   },
+   {
+    "id": "q_71417563",
+    "text": "Which BBC weatherman is remembered for playing down a hurricane the night before the Great Storm of 1987?",
+    "options": [
+     "John Kettley",
+     "Michael Fish",
+     "Ian McCaskill",
+     "Bill Giles"
+    ],
+    "correct": 1,
+    "category": "Nature and the environment",
+    "difficulty": "medium",
+    "rating": 4
+   },
+   {
+    "id": "q_440fda8f",
+    "text": "Which Kylie and Jason duet was a number one in January 1989?",
+    "options": [
+     "Too Many Broken Hearts",
+     "Tears on My Pillow",
+     "Especially for You",
+     "Hand on Your Heart"
+    ],
+    "correct": 2,
+    "category": "UK number ones",
+    "difficulty": "medium",
+    "rating": 4
+   },
+   {
+    "id": "q_6a48a65f",
+    "text": "What is the medical name for sleepwalking?",
+    "options": [
+     "Narcolepsy",
+     "Somnambulism",
+     "Parasomnia",
+     "Catalepsy"
+    ],
+    "correct": 1,
+    "category": "The human body",
+    "difficulty": "medium",
+    "rating": 5
+   },
+   {
+    "id": "q_dbabe764",
+    "text": "Which petrol company told drivers to 'Put a tiger in your tank'?",
+    "options": [
+     "Texaco",
+     "Shell",
+     "BP",
+     "Esso"
+    ],
+    "correct": 3,
+    "category": "Brands and logos",
+    "difficulty": "medium",
+    "rating": 5
+   },
+   {
+    "id": "q_5a83bd5a",
+    "text": "Who was the first DJ heard on Radio 1?",
+    "options": [
+     "John Peel",
+     "Jimmy Savile",
+     "Kenny Everett",
+     "Tony Blackburn"
+    ],
+    "correct": 3,
+    "category": "The 1960s",
+    "difficulty": "medium",
+    "rating": 6
+   },
+   {
+    "id": "q_21b445e9",
+    "text": "Which body of water separates Sweden from Finland at its northern end?",
+    "options": [
+     "Kattegat",
+     "Gulf of Bothnia",
+     "Skagerrak",
+     "Gulf of Riga"
+    ],
+    "correct": 1,
+    "category": "General knowledge",
+    "difficulty": "hard",
+    "rating": 7
+   },
+   {
+    "id": "q_9e9e8200",
+    "text": "Which prison is 'Porridge' set in?",
+    "options": [
+     "HMP Wandsworth",
+     "HMP Slade",
+     "HMP Brixton",
+     "HMP Strangeways"
+    ],
+    "correct": 1,
+    "category": "British sitcoms",
+    "difficulty": "hard",
+    "rating": 7
+   },
+   {
+    "id": "q_8d3b0ce6",
+    "text": "Through his mother, Henry VII claimed descent from John of Gaunt. What was her name?",
+    "options": [
+     "Catherine of Valois",
+     "Elizabeth Woodville",
+     "Margaret Beaufort",
+     "Margaret Tudor"
+    ],
+    "correct": 2,
+    "category": "The Tudors",
+    "difficulty": "hard",
+    "rating": 8
+   },
+   {
+    "id": "q_67d4a509",
+    "text": "Where does Wainwright's Coast to Coast walk start?",
+    "options": [
+     "St Bees",
+     "Whitehaven",
+     "Maryport",
+     "Ravenglass"
+    ],
+    "correct": 0,
+    "category": "UK geography",
+    "difficulty": "hard",
+    "rating": 9
    }
   ]
  }

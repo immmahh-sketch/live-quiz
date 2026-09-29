@@ -5,199 +5,214 @@
  "lists": {
   "questions": [
    {
-    "id": "q_1f7f80c9",
-    "text": "Who managed the Beatles from 1962 until his death in 1967?",
-    "category": "The Beatles",
-    "difficulty": "easy",
+    "id": "q_e54916da",
+    "text": "What does the Very Hungry Caterpillar turn into?",
     "options": [
-     "Allen Klein",
-     "Brian Epstein",
-     "Derek Taylor",
-     "Neil Aspinall"
+     "A moth",
+     "A bee",
+     "A dragonfly",
+     "A butterfly"
     ],
-    "correct": 1
+    "correct": 3,
+    "category": "Children's books",
+    "difficulty": "easy",
+    "rating": 1
    },
    {
-    "id": "q_0148ed7a",
-    "text": "Which Surrealist painted melting clocks?",
-    "category": "Art and artists",
-    "difficulty": "easy",
+    "id": "q_7aca91de",
+    "text": "What does the TARDIS look like from the outside?",
     "options": [
-     "Salvador Dalí",
-     "René Magritte",
-     "Max Ernst",
-     "Joan Miró"
+     "A phone box",
+     "A police box",
+     "A post box",
+     "A garden shed"
     ],
-    "correct": 0
+    "correct": 1,
+    "category": "Doctor Who",
+    "difficulty": "easy",
+    "rating": 1
    },
    {
-    "id": "q_7be56e4c",
-    "text": "Which British comedian is famous for roasting Hollywood as host of the Golden Globes?",
-    "category": "The Oscars and award winners",
-    "difficulty": "easy",
+    "id": "q_fba22f44",
+    "text": "What does Ariel give Ursula in exchange for legs?",
     "options": [
-     "Graham Norton",
-     "James Corden",
-     "Ricky Gervais",
-     "Jimmy Carr"
+     "Her tail",
+     "Her shell",
+     "Her memory",
+     "Her voice"
     ],
-    "correct": 2
+    "correct": 3,
+    "category": "Disney films",
+    "difficulty": "easy",
+    "rating": 2
    },
    {
-    "id": "q_2f70d9e5",
-    "text": "Three-quarter-length trousers are named after which Italian island?",
-    "category": "Fashion",
-    "difficulty": "easy",
+    "id": "q_e9013246",
+    "text": "What is a group of four musicians called?",
     "options": [
-     "Elba",
-     "Capri",
-     "Sicily",
-     "Sardinia"
+     "A trio",
+     "A duet",
+     "A quintet",
+     "A quartet"
     ],
-    "correct": 1
+    "correct": 3,
+    "category": "Classical music",
+    "difficulty": "easy",
+    "rating": 2
    },
    {
-    "id": "q_3fc8f08a",
-    "text": "Which sketch show first aired on the BBC in October 1969?",
-    "category": "The 1960s",
-    "difficulty": "easy",
+    "id": "q_7d33523b",
+    "text": "Which Nirvana singer died in 1994?",
     "options": [
-     "The Goodies",
-     "Not the Nine O'Clock News",
-     "Monty Python's Flying Circus",
-     "The Two Ronnies"
+     "Dave Grohl",
+     "Chris Cornell",
+     "Kurt Cobain",
+     "Eddie Vedder"
     ],
-    "correct": 2
+    "correct": 2,
+    "category": "The 1990s",
+    "difficulty": "easy",
+    "rating": 3
    },
    {
-    "id": "q_1752b1be",
-    "text": "Which animals does the word 'bovine' describe?",
-    "category": "Animals",
+    "id": "q_b7dac04c",
+    "text": "Which rapper's real name is Marshall Mathers?",
+    "options": [
+     "Snoop Dogg",
+     "Eminem",
+     "Dr. Dre",
+     "Jay-Z"
+    ],
+    "correct": 1,
+    "category": "Music",
+    "difficulty": "easy",
+    "rating": 3
+   },
+   {
+    "id": "q_f9426f5e",
+    "text": "Who is called 'the father of medicine'?",
+    "options": [
+     "Aristotle",
+     "Asclepius",
+     "Hippocrates",
+     "Galen"
+    ],
+    "correct": 2,
+    "category": "Ancient history",
     "difficulty": "medium",
-    "options": [
-     "Sheep",
-     "Cattle",
-     "Pigs",
-     "Horses"
-    ],
-    "correct": 1
+    "rating": 4
    },
    {
-    "id": "q_d2c9f969",
-    "text": "What is a mixture in which one substance has dissolved into another called?",
-    "category": "Science and technology",
-    "difficulty": "medium",
+    "id": "q_58e719c1",
+    "text": "What is the highest-scoring box in Yahtzee?",
     "options": [
-     "A suspension",
-     "A solution",
-     "An emulsion",
-     "An alloy"
+     "Chance",
+     "Full house",
+     "Large straight",
+     "Five of a kind"
     ],
-    "correct": 1
+    "correct": 3,
+    "category": "Games and toys",
+    "difficulty": "medium",
+    "rating": 4
    },
    {
-    "id": "q_9841b319",
-    "text": "What is Jamaica's best-known lager?",
-    "category": "Beer, wine and spirits",
-    "difficulty": "medium",
+    "id": "q_f07f3452",
+    "text": "What are the chances of drawing a red king from a full pack?",
     "options": [
-     "Kalik",
-     "Carib",
-     "Red Stripe",
-     "Banks"
+     "1 in 4",
+     "1 in 13",
+     "1 in 52",
+     "1 in 26"
     ],
-    "correct": 2
-   },
-   {
-    "id": "q_ba29ba68",
-    "text": "In 1997 the Thrust SSC car became the first to do what?",
-    "category": "Record breakers",
+    "correct": 3,
+    "category": "Maths and numbers",
     "difficulty": "medium",
-    "options": [
-     "Break the sound barrier",
-     "Pass 300mph",
-     "Drive itself",
-     "Run on electricity"
-    ],
-    "correct": 0
+    "rating": 5
    },
    {
     "id": "q_c14a29e2",
     "text": "What is the Statue of Liberty holding in her left arm?",
+    "options": [
+     "A tablet",
+     "A scroll",
+     "A torch",
+     "A sword"
+    ],
+    "correct": 0,
     "category": "Famous landmarks",
     "difficulty": "medium",
-    "options": [
-     "A scroll",
-     "A sword",
-     "A torch",
-     "A tablet"
-    ],
-    "correct": 3
+    "rating": 5
    },
    {
-    "id": "q_4b416742",
-    "text": "Who composed the 'Going for Gold' theme?",
-    "category": "Quiz and game shows",
-    "difficulty": "hard",
+    "id": "q_a54fd383",
+    "text": "Which heavyweight was nicknamed 'the Brown Bomber'?",
     "options": [
-     "Ron Grainer",
-     "Howard Goodall",
-     "Hans Zimmer",
-     "John Williams"
+     "Joe Louis",
+     "Jack Johnson",
+     "Joe Frazier",
+     "Larry Holmes"
     ],
-    "correct": 2
+    "correct": 0,
+    "category": "Boxing and combat sports",
+    "difficulty": "medium",
+    "rating": 6
    },
    {
-    "id": "q_eba8554d",
-    "text": "Who compiled the famous English dictionary of 1755?",
-    "category": "Words and language",
-    "difficulty": "hard",
+    "id": "q_5daabc12",
+    "text": "Which French chemist, 'the father of modern chemistry', was guillotined in 1794?",
     "options": [
-     "Samuel Johnson",
-     "Noah Webster",
-     "James Murray",
-     "John Walker"
+     "Antoine Lavoisier",
+     "Claude Berthollet",
+     "Joseph Gay-Lussac",
+     "Louis Pasteur"
     ],
-    "correct": 0
+    "correct": 0,
+    "category": "Famous people in history",
+    "difficulty": "hard",
+    "rating": 7
    },
    {
-    "id": "q_21b445e9",
-    "text": "Which body of water separates Sweden from Finland at its northern end?",
-    "category": "General knowledge",
-    "difficulty": "hard",
+    "id": "q_c589ba04",
+    "text": "Which wartime cartoon character encouraged Britons to eat carrots?",
     "options": [
-     "Kattegat",
-     "Gulf of Riga",
-     "Skagerrak",
-     "Gulf of Bothnia"
+     "Captain Crunch",
+     "Potato Pete",
+     "Mr Veg",
+     "Doctor Carrot"
     ],
-    "correct": 3
+    "correct": 3,
+    "category": "British food",
+    "difficulty": "hard",
+    "rating": 7
    },
    {
-    "id": "q_374bdab7",
-    "text": "Which Delibes opera contains the 'Flower Duet'?",
-    "category": "Classical music",
-    "difficulty": "hard",
+    "id": "q_67f875e3",
+    "text": "Which African country took part in Eurovision only once, in 1980?",
     "options": [
-     "Le roi l'a dit",
-     "Sylvia",
-     "Lakmé",
-     "Coppélia"
+     "Morocco",
+     "Algeria",
+     "Egypt",
+     "Tunisia"
     ],
-    "correct": 2
+    "correct": 0,
+    "category": "Eurovision",
+    "difficulty": "hard",
+    "rating": 8
    },
    {
-    "id": "q_4d0543c0",
-    "text": "Which of these is NOT one of Phoebe's triplets?",
-    "category": "Friends",
-    "difficulty": "hard",
+    "id": "q_2357494f",
+    "text": "Until 1752, on which date did the legal year begin in England?",
     "options": [
-     "Leslie",
-     "Chandler",
-     "Ross",
-     "Frank Jr. Jr."
+     "25 December",
+     "25 March",
+     "6 April",
+     "1 September"
     ],
-    "correct": 2
+    "correct": 1,
+    "category": "New Year",
+    "difficulty": "hard",
+    "rating": 9
    }
   ]
  }

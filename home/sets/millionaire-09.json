@@ -5,199 +5,214 @@
  "lists": {
   "questions": [
    {
-    "id": "q_767b9ae5",
-    "text": "Which treaty of 1919 formally ended the war with Germany?",
-    "category": "The World Wars",
-    "difficulty": "easy",
+    "id": "q_328f4224",
+    "text": "Which fruit is famously served with cream at Wimbledon?",
     "options": [
-     "Trianon",
-     "Locarno",
-     "Brest-Litovsk",
-     "Versailles"
+     "Cherries",
+     "Peaches",
+     "Raspberries",
+     "Strawberries"
     ],
-    "correct": 3
+    "correct": 3,
+    "category": "Tennis and golf",
+    "difficulty": "easy",
+    "rating": 1
    },
    {
-    "id": "q_21138467",
-    "text": "Who presented 'Big Brother' on Channel 4?",
+    "id": "q_af6586ca",
+    "text": "Which Dr Seuss character stole Christmas?",
+    "options": [
+     "Horton",
+     "The Grinch",
+     "Sam-I-Am",
+     "The Lorax"
+    ],
+    "correct": 1,
+    "category": "Children's books",
+    "difficulty": "easy",
+    "rating": 1
+   },
+   {
+    "id": "q_86042a9d",
+    "text": "Where does Homer Simpson work?",
+    "options": [
+     "A nuclear power plant",
+     "A brewery",
+     "A bowling alley",
+     "A doughnut shop"
+    ],
+    "correct": 0,
+    "category": "American TV",
+    "difficulty": "easy",
+    "rating": 2
+   },
+   {
+    "id": "q_42b7dffb",
+    "text": "How many letters are in the English alphabet?",
+    "options": [
+     "28",
+     "24",
+     "26",
+     "25"
+    ],
+    "correct": 2,
+    "category": "Words and language",
+    "difficulty": "easy",
+    "rating": 2
+   },
+   {
+    "id": "q_81050c7f",
+    "text": "What was the world's first adhesive postage stamp?",
+    "options": [
+     "The Penny Black",
+     "The Half Crown",
+     "The Twopenny Blue",
+     "The Penny Red"
+    ],
+    "correct": 0,
+    "category": "Famous firsts and records",
+    "difficulty": "easy",
+    "rating": 3
+   },
+   {
+    "id": "q_e1beacad",
+    "text": "Rose Ayling-Ellis was the first 'Strictly' contestant who was what?",
+    "options": [
+     "A Paralympian",
+     "Blind",
+     "Under 20",
+     "Deaf"
+    ],
+    "correct": 3,
     "category": "Reality TV",
     "difficulty": "easy",
-    "options": [
-     "Davina McCall",
-     "Caroline Flack",
-     "Emma Willis",
-     "Dermot O'Leary"
-    ],
-    "correct": 0
+    "rating": 3
    },
    {
-    "id": "q_42fdde64",
-    "text": "Which Edinburgh-born inventor patented the telephone?",
-    "category": "Scotland",
-    "difficulty": "easy",
+    "id": "q_d37a98d9",
+    "text": "Which flower's name comes from the French for 'lion's tooth'?",
     "options": [
-     "Robert Watson-Watt",
-     "Alexander Graham Bell",
-     "John Logie Baird",
-     "James Watt"
+     "Snapdragon",
+     "Tiger lily",
+     "Dandelion",
+     "Marigold"
     ],
-    "correct": 1
+    "correct": 2,
+    "category": "Nature and the environment",
+    "difficulty": "medium",
+    "rating": 4
    },
    {
-    "id": "q_28cec51c",
-    "text": "Which three-headed dog guards the underworld?",
-    "category": "Mythology and legends",
-    "difficulty": "easy",
+    "id": "q_829df58b",
+    "text": "Which Ralph McTell song was his one big hit, in 1974?",
     "options": [
-     "Fenrir",
-     "Garm",
-     "Orthrus",
-     "Cerberus"
+     "Waterloo Sunset",
+     "Maybe It's Because I'm a Londoner",
+     "London Pride",
+     "Streets of London"
     ],
-    "correct": 3
+    "correct": 3,
+    "category": "One-hit wonders",
+    "difficulty": "medium",
+    "rating": 4
    },
    {
-    "id": "q_cd019a8d",
-    "text": "Which actor played Bond only once, in 'On Her Majesty's Secret Service'?",
-    "category": "James Bond",
-    "difficulty": "easy",
+    "id": "q_4b0a4e80",
+    "text": "Traditionally, what does a flag flown upside down signal?",
     "options": [
-     "George Lazenby",
-     "David Niven",
-     "Roger Moore",
-     "Timothy Dalton"
+     "Distress",
+     "Mourning",
+     "Surrender",
+     "Victory"
     ],
-    "correct": 0
+    "correct": 0,
+    "category": "Flags of the world",
+    "difficulty": "medium",
+    "rating": 5
    },
    {
     "id": "q_5e3ae74c",
     "text": "The Battle of Trafalgar was fought in which year?",
-    "category": "History",
-    "difficulty": "medium",
     "options": [
+     "1805",
      "1815",
      "1825",
-     "1795",
-     "1805"
+     "1795"
     ],
-    "correct": 3
-   },
-   {
-    "id": "q_ab446b81",
-    "text": "Which clothing brand is famous for its catalogue and bright 'Mini' kids' range?",
-    "category": "Fashion",
+    "correct": 0,
+    "category": "History",
     "difficulty": "medium",
-    "options": [
-     "White Stuff",
-     "Next",
-     "Joules",
-     "Boden"
-    ],
-    "correct": 3
+    "rating": 5
    },
    {
-    "id": "q_9e9e8200",
-    "text": "Which prison is 'Porridge' set in?",
-    "category": "British sitcoms",
+    "id": "q_e6931922",
+    "text": "What are the names of Mars's two moons?",
+    "options": [
+     "Castor and Pollux",
+     "Phobos and Deimos",
+     "Io and Europa",
+     "Titan and Rhea"
+    ],
+    "correct": 1,
+    "category": "Space and astronomy",
     "difficulty": "medium",
-    "options": [
-     "HMP Brixton",
-     "HMP Strangeways",
-     "HMP Slade",
-     "HMP Wandsworth"
-    ],
-    "correct": 2
+    "rating": 6
    },
    {
-    "id": "q_43bd6e52",
-    "text": "In which 1928 cartoon did Mickey Mouse make his famous public debut?",
-    "category": "Disney films",
-    "difficulty": "medium",
+    "id": "q_7004d790",
+    "text": "Which Derbyshire stately home is nicknamed 'the Palace of the Peak'?",
     "options": [
-     "The Skeleton Dance",
-     "Steamboat Willie",
-     "Plane Crazy",
-     "The Band Concert"
+     "Haddon Hall",
+     "Kedleston Hall",
+     "Hardwick Hall",
+     "Chatsworth"
     ],
-    "correct": 1
-   },
-   {
-    "id": "q_24e80387",
-    "text": "What gun does Harry Callahan famously carry in 'Dirty Harry'?",
-    "category": "Action and blockbusters",
-    "difficulty": "medium",
-    "options": [
-     ".44 Magnum",
-     ".38 Special",
-     "Colt .45",
-     "Desert Eagle"
-    ],
-    "correct": 0
-   },
-   {
-    "id": "q_72b77c12",
-    "text": "Which play contains the word 'honorificabilitudinitatibus'?",
-    "category": "Shakespeare",
+    "correct": 3,
+    "category": "Famous landmarks",
     "difficulty": "hard",
-    "options": [
-     "Much Ado About Nothing",
-     "Twelfth Night",
-     "Hamlet",
-     "Love's Labour's Lost"
-    ],
-    "correct": 3
+    "rating": 7
    },
    {
-    "id": "q_97b51dba",
-    "text": "Which early Cambridge computer of 1949 ran one of the first regular computing services?",
-    "category": "Science and technology",
-    "difficulty": "hard",
+    "id": "q_1dce0e13",
+    "text": "What vegetable did Peter Davison's Doctor wear on his lapel?",
     "options": [
-     "ENIAC",
-     "UNIVAC",
-     "Pegasus",
-     "EDSAC"
+     "A carrot",
+     "A stick of celery",
+     "A sprig of parsley",
+     "A leek"
     ],
-    "correct": 3
+    "correct": 1,
+    "category": "Doctor Who",
+    "difficulty": "hard",
+    "rating": 7
    },
    {
-    "id": "q_7603ba7e",
-    "text": "Roughly how long is the River Thames?",
-    "category": "London",
-    "difficulty": "hard",
+    "id": "q_60cfc468",
+    "text": "Which Colombian won the 2014 Golden Boot?",
     "options": [
-     "350 miles",
-     "500 miles",
-     "215 miles",
-     "100 miles"
+     "Carlos Valderrama",
+     "James Rodríguez",
+     "Juan Cuadrado",
+     "Radamel Falcao"
     ],
-    "correct": 2
+    "correct": 1,
+    "category": "The football World Cup",
+    "difficulty": "hard",
+    "rating": 8
    },
    {
-    "id": "q_01a4ce20",
-    "text": "Which Irish play caused riots at the Abbey Theatre in 1907?",
-    "category": "Theatre",
-    "difficulty": "hard",
+    "id": "q_4b416742",
+    "text": "Who composed the 'Going for Gold' theme?",
     "options": [
-     "Juno and the Paycock",
-     "The Plough and the Stars",
-     "The Playboy of the Western World",
-     "Riders to the Sea"
+     "John Williams",
+     "Ron Grainer",
+     "Hans Zimmer",
+     "Howard Goodall"
     ],
-    "correct": 2
-   },
-   {
-    "id": "q_75bb12bb",
-    "text": "Which senator did George W. Bush defeat in 2004?",
-    "category": "The 2000s",
+    "correct": 2,
+    "category": "Quiz and game shows",
     "difficulty": "hard",
-    "options": [
-     "Al Gore",
-     "Howard Dean",
-     "John Kerry",
-     "John McCain"
-    ],
-    "correct": 2
+    "rating": 9
    }
   ]
  }

@@ -5,199 +5,214 @@
  "lists": {
   "questions": [
    {
+    "id": "q_0609293d",
+    "text": "What is Mario usually said to be by trade?",
+    "options": [
+     "An electrician",
+     "A builder",
+     "A carpenter",
+     "A plumber"
+    ],
+    "correct": 3,
+    "category": "Video games",
+    "difficulty": "easy",
+    "rating": 1
+   },
+   {
+    "id": "q_74148dd6",
+    "text": "What kind of animal is Peppa?",
+    "options": [
+     "A pig",
+     "A rabbit",
+     "A sheep",
+     "A cow"
+    ],
+    "correct": 0,
+    "category": "Children's TV",
+    "difficulty": "easy",
+    "rating": 1
+   },
+   {
     "id": "q_42bd3f1e",
     "text": "In 'A Christmas Carol', what is Scrooge's first name?",
-    "category": "Books and literature",
-    "difficulty": "easy",
     "options": [
      "Fezziwig",
+     "Jacob",
      "Ebenezer",
-     "Bob",
-     "Jacob"
+     "Bob"
     ],
-    "correct": 1
-   },
-   {
-    "id": "q_1459f606",
-    "text": "What does Del Boy famously fall through in the wine bar?",
-    "category": "British sitcoms",
+    "correct": 2,
+    "category": "Books and literature",
     "difficulty": "easy",
-    "options": [
-     "The counter flap",
-     "A trapdoor",
-     "A glass table",
-     "A window"
-    ],
-    "correct": 0
+    "rating": 2
    },
    {
-    "id": "q_04131052",
-    "text": "Which messaging app did Facebook buy in 2014 for about $19 billion?",
-    "category": "Computers and the internet",
+    "id": "q_2f35519c",
+    "text": "Which snooker star is nicknamed 'the Rocket'?",
+    "options": [
+     "Jimmy White",
+     "Judd Trump",
+     "Mark Selby",
+     "Ronnie O'Sullivan"
+    ],
+    "correct": 3,
+    "category": "Horse racing and darts",
     "difficulty": "easy",
-    "options": [
-     "Snapchat",
-     "Skype",
-     "Telegram",
-     "WhatsApp"
-    ],
-    "correct": 3
+    "rating": 2
    },
    {
-    "id": "q_254e0d67",
-    "text": "Who are the two witches at the heart of 'Wicked'?",
-    "category": "Musicals",
+    "id": "q_3af91308",
+    "text": "What is the holy book of Islam?",
+    "options": [
+     "The Guru Granth Sahib",
+     "The Vedas",
+     "The Qur'an",
+     "The Torah"
+    ],
+    "correct": 2,
+    "category": "Religions and festivals",
     "difficulty": "easy",
-    "options": [
-     "Elphaba and Madame Morrible",
-     "Glinda and Dorothy",
-     "Nessarose and Glinda",
-     "Elphaba and Glinda"
-    ],
-    "correct": 3
+    "rating": 3
    },
    {
-    "id": "q_440fda8f",
-    "text": "Which Kylie and Jason duet was a number one in January 1989?",
-    "category": "UK number ones",
+    "id": "q_220f22cd",
+    "text": "Which wizard betrays the free peoples and allies with Sauron?",
+    "options": [
+     "Gandalf",
+     "Alatar",
+     "Saruman",
+     "Radagast"
+    ],
+    "correct": 2,
+    "category": "The Lord of the Rings and fantasy",
     "difficulty": "easy",
-    "options": [
-     "Especially for You",
-     "Tears on My Pillow",
-     "Hand on Your Heart",
-     "Too Many Broken Hearts"
-    ],
-    "correct": 0
+    "rating": 3
    },
    {
-    "id": "q_8bb91dba",
-    "text": "Which carmaker makes the Clio?",
-    "category": "Cars and motoring",
+    "id": "q_be293c8f",
+    "text": "Who is the Doctor's renegade Time Lord arch-enemy?",
+    "options": [
+     "Omega",
+     "Davros",
+     "The Master",
+     "The Rani"
+    ],
+    "correct": 2,
+    "category": "Doctor Who",
     "difficulty": "medium",
-    "options": [
-     "Renault",
-     "Peugeot",
-     "Citroën",
-     "Fiat"
-    ],
-    "correct": 0
+    "rating": 4
    },
    {
-    "id": "q_8aff0409",
-    "text": "Which Welsh bass-baritone is one of the world's great opera singers?",
-    "category": "Wales",
+    "id": "q_28cec51c",
+    "text": "Which three-headed dog guards the underworld?",
+    "options": [
+     "Garm",
+     "Fenrir",
+     "Cerberus",
+     "Orthrus"
+    ],
+    "correct": 2,
+    "category": "Mythology and legends",
     "difficulty": "medium",
-    "options": [
-     "Bryn Terfel",
-     "Tom Jones",
-     "Karl Jenkins",
-     "Aled Jones"
-    ],
-    "correct": 0
+    "rating": 4
    },
    {
-    "id": "q_2db51be1",
-    "text": "Who appears on the $100 bill?",
-    "category": "The United States",
+    "id": "q_4eca8412",
+    "text": "What is the faint radiation left over from the Big Bang called?",
+    "options": [
+     "The cosmic microwave background",
+     "The solar wind",
+     "The Van Allen belts",
+     "Hawking radiation"
+    ],
+    "correct": 0,
+    "category": "Space and astronomy",
     "difficulty": "medium",
-    "options": [
-     "George Washington",
-     "Ulysses S. Grant",
-     "Benjamin Franklin",
-     "Alexander Hamilton"
-    ],
-    "correct": 2
+    "rating": 5
    },
    {
-    "id": "q_ca054dd7",
-    "text": "Which soul legend voiced Chef in 'South Park'?",
-    "category": "One-hit wonders",
+    "id": "q_28f94dff",
+    "text": "How many players does a rugby league team have on the pitch?",
+    "options": [
+     "12",
+     "11",
+     "13",
+     "15"
+    ],
+    "correct": 2,
+    "category": "Rugby",
     "difficulty": "medium",
-    "options": [
-     "Barry White",
-     "Isaac Hayes",
-     "Lou Rawls",
-     "Al Green"
-    ],
-    "correct": 1
+    "rating": 5
    },
    {
-    "id": "q_b99caad9",
-    "text": "Which club won the 2025 Europa League?",
-    "category": "Football",
+    "id": "q_6c6f956e",
+    "text": "Which small hovering falcon can see ultraviolet light, which may help it track voles by their urine trails?",
+    "options": [
+     "Merlin",
+     "Hobby",
+     "Kestrel",
+     "Peregrine"
+    ],
+    "correct": 2,
+    "category": "Animals",
     "difficulty": "medium",
-    "options": [
-     "Chelsea",
-     "Aston Villa",
-     "Manchester United",
-     "Tottenham Hotspur"
-    ],
-    "correct": 3
+    "rating": 6
    },
    {
-    "id": "q_4cfa6900",
-    "text": "Which women's team competition is named after an American legend?",
-    "category": "Tennis and golf",
+    "id": "q_ec10339c",
+    "text": "Which director was announced in 2025 to make the next Bond film?",
+    "options": [
+     "Christopher Nolan",
+     "Sam Mendes",
+     "Danny Boyle",
+     "Denis Villeneuve"
+    ],
+    "correct": 3,
+    "category": "James Bond",
     "difficulty": "hard",
-    "options": [
-     "The Serena Trophy",
-     "The Billie Jean King Cup",
-     "The Venus Plate",
-     "The Chris Evert Cup"
-    ],
-    "correct": 1
+    "rating": 7
    },
    {
-    "id": "q_fa31e9d5",
-    "text": "N'Djamena is the capital of which country?",
-    "category": "Capital cities",
-    "difficulty": "hard",
+    "id": "q_5e22b3f2",
+    "text": "What is a 'wynd' in a Scottish town?",
     "options": [
-     "Niger",
-     "Chad",
-     "Sudan",
-     "Cameroon"
+     "A tower",
+     "A narrow lane",
+     "A harbour",
+     "A market square"
     ],
-    "correct": 1
+    "correct": 1,
+    "category": "Scotland",
+    "difficulty": "hard",
+    "rating": 7
+   },
+   {
+    "id": "q_92a3ee81",
+    "text": "Which London block of flats is Poirot's home?",
+    "options": [
+     "Albany",
+     "Dolphin Square",
+     "Florin Court",
+     "Whitehaven Mansions"
+    ],
+    "correct": 3,
+    "category": "Crime dramas",
+    "difficulty": "hard",
+    "rating": 8
    },
    {
     "id": "q_fbb67fcb",
     "text": "Who designed the Lancaster bomber?",
-    "category": "The World Wars",
-    "difficulty": "hard",
     "options": [
+     "Roy Chadwick",
      "R.J. Mitchell",
      "Geoffrey de Havilland",
-     "Sydney Camm",
-     "Roy Chadwick"
+     "Sydney Camm"
     ],
-    "correct": 3
-   },
-   {
-    "id": "q_8a6133c7",
-    "text": "Who voices Homer Simpson?",
-    "category": "American TV",
+    "correct": 0,
+    "category": "The World Wars",
     "difficulty": "hard",
-    "options": [
-     "Dan Castellaneta",
-     "Harry Shearer",
-     "Hank Azaria",
-     "Nancy Cartwright"
-    ],
-    "correct": 0
-   },
-   {
-    "id": "q_956afc5f",
-    "text": "Which Stiltskin singer later replaced Phil Collins in Genesis?",
-    "category": "One-hit wonders",
-    "difficulty": "hard",
-    "options": [
-     "Steve Hackett",
-     "Ray Wilson",
-     "Peter Gabriel",
-     "Fish"
-    ],
-    "correct": 1
+    "rating": 9
    }
   ]
  }

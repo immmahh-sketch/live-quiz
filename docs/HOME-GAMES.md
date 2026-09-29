@@ -74,7 +74,7 @@ Everything runs from the repo, with a working folder (here `../lqsql/home`) for 
 
 ### What's in each set
 
-- **Millionaire:** 15 four-option questions, 5 easy, then 5 medium, then 5 hard.
+- **Millionaire:** 15 four-option questions on a ladder, like the show. Every question is rated 1–10 by hand and the rungs run 1 1 2 2 3 3 4 4 5 5 6 7 7 8 9: two nursery questions (the bank's "too easy" pile, which hosted quizzes never use), then a steady climb to a £1,000,000 question most people have to guess. Built by `tools/home-mil-ladder.mjs` from `home/build/millionaire-ratings-01-10.json`; it reserves the new questions and hands back what the sets no longer use.
 - **The Chase:** 125 typed quick-fire questions (30 easy, 70 medium, 25 hard) and 48 three-option head-to-head questions. They are dealt as one stream through the whole game, so a set is sized for four contestants.
 - **The Weakest Link:** 160 typed questions (68 easy, 76 medium, 16 hard).
 - **The 1% Club:** 11 questions, one each at 90, 80, 70, 60, 50, 40, 30, 20, 10, 5 and 1%.

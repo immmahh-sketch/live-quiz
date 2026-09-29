@@ -5,199 +5,214 @@
  "lists": {
   "questions": [
    {
-    "id": "q_df0f0041",
-    "text": "How many seconds are there in an hour?",
-    "category": "Maths and numbers",
+    "id": "q_bc5ea022",
+    "text": "What is the name of Batman's young sidekick?",
+    "options": [
+     "Robin",
+     "Speedy",
+     "Kid Flash",
+     "Aqualad"
+    ],
+    "correct": 0,
+    "category": "DC, Batman and Superman",
     "difficulty": "easy",
-    "options": [
-     "1,200",
-     "6,000",
-     "3,600",
-     "360"
-    ],
-    "correct": 2
+    "rating": 1
    },
    {
-    "id": "q_2f35519c",
-    "text": "Which snooker star is nicknamed 'the Rocket'?",
-    "category": "Horse racing and darts",
+    "id": "q_95b91aea",
+    "text": "In which Roald Dahl book does Sophie meet a giant?",
+    "options": [
+     "The BFG",
+     "Matilda",
+     "The Witches",
+     "The Twits"
+    ],
+    "correct": 0,
+    "category": "Books and literature",
     "difficulty": "easy",
-    "options": [
-     "Judd Trump",
-     "Mark Selby",
-     "Ronnie O'Sullivan",
-     "Jimmy White"
-    ],
-    "correct": 2
+    "rating": 1
    },
    {
-    "id": "q_6271ba78",
-    "text": "What does the pH scale measure?",
-    "category": "Science and technology",
-    "difficulty": "easy",
+    "id": "q_b59568b1",
+    "text": "What is a female fox called?",
     "options": [
-     "Pressure",
-     "Heat",
-     "Acidity",
-     "Density"
+     "Doe",
+     "Jill",
+     "Pen",
+     "Vixen"
     ],
-    "correct": 2
-   },
-   {
-    "id": "q_1d1bfceb",
-    "text": "Which president was impeached in 1998?",
-    "category": "The United States",
-    "difficulty": "easy",
-    "options": [
-     "Richard Nixon",
-     "Bill Clinton",
-     "George H. W. Bush",
-     "Ronald Reagan"
-    ],
-    "correct": 1
-   },
-   {
-    "id": "q_105836c6",
-    "text": "Which drama about the Crawley family began on ITV in 2010?",
-    "category": "The 2010s",
-    "difficulty": "easy",
-    "options": [
-     "The Crown",
-     "Downton Abbey",
-     "Victoria",
-     "Call the Midwife"
-    ],
-    "correct": 1
-   },
-   {
-    "id": "q_a981ee2a",
-    "text": "What colour is the triangle on Cuba's flag?",
-    "category": "Flags of the world",
-    "difficulty": "medium",
-    "options": [
-     "Blue",
-     "White",
-     "Yellow",
-     "Red"
-    ],
-    "correct": 3
-   },
-   {
-    "id": "q_e1beacad",
-    "text": "Rose Ayling-Ellis was the first 'Strictly' contestant who was what?",
-    "category": "Reality TV",
-    "difficulty": "medium",
-    "options": [
-     "A Paralympian",
-     "Deaf",
-     "Under 20",
-     "Blind"
-    ],
-    "correct": 1
-   },
-   {
-    "id": "q_d40f65ae",
-    "text": "Which Chaser is nicknamed 'The Beast'?",
-    "category": "Quiz and game shows",
-    "difficulty": "medium",
-    "options": [
-     "Mark Labbett",
-     "Shaun Wallace",
-     "Paul Sinha",
-     "Darragh Ennis"
-    ],
-    "correct": 0
-   },
-   {
-    "id": "q_a49aa564",
-    "text": "Which 'Neighbours' actor went on to star in 'Memento' and 'L.A. Confidential'?",
-    "category": "Soaps",
-    "difficulty": "medium",
-    "options": [
-     "Jason Donovan",
-     "Alan Dale",
-     "Guy Pearce",
-     "Jesse Spencer"
-    ],
-    "correct": 2
-   },
-   {
-    "id": "q_cbb5c88a",
-    "text": "Which virus was identified in the early 1980s as the cause of AIDS?",
-    "category": "The 20th century",
-    "difficulty": "medium",
-    "options": [
-     "Hepatitis C",
-     "HIV",
-     "HPV",
-     "Ebola"
-    ],
-    "correct": 1
-   },
-   {
-    "id": "q_ca58d7e8",
-    "text": "Which Australian prime minister vanished while swimming in 1967?",
-    "category": "Australia and New Zealand",
-    "difficulty": "hard",
-    "options": [
-     "Robert Menzies",
-     "Gough Whitlam",
-     "John Gorton",
-     "Harold Holt"
-    ],
-    "correct": 3
-   },
-   {
-    "id": "q_f07f3452",
-    "text": "What are the chances of drawing a red king from a full pack?",
-    "category": "Maths and numbers",
-    "difficulty": "hard",
-    "options": [
-     "1 in 4",
-     "1 in 52",
-     "1 in 13",
-     "1 in 26"
-    ],
-    "correct": 3
-   },
-   {
-    "id": "q_58e719c1",
-    "text": "What is the highest-scoring box in Yahtzee?",
-    "category": "Games and toys",
-    "difficulty": "hard",
-    "options": [
-     "Five of a kind",
-     "Chance",
-     "Full house",
-     "Large straight"
-    ],
-    "correct": 0
-   },
-   {
-    "id": "q_6c6f956e",
-    "text": "Which small hovering falcon can see ultraviolet light, which may help it track voles by their urine trails?",
+    "correct": 3,
     "category": "Animals",
-    "difficulty": "hard",
-    "options": [
-     "Kestrel",
-     "Merlin",
-     "Peregrine",
-     "Hobby"
-    ],
-    "correct": 0
+    "difficulty": "easy",
+    "rating": 2
    },
    {
-    "id": "q_54a75e5e",
-    "text": "Which cow-horned Egyptian goddess was linked with love, music and motherhood?",
-    "category": "Ancient history",
-    "difficulty": "hard",
+    "id": "q_1f6deb4d",
+    "text": "'To infinity and beyond!' is the catchphrase of which character?",
     "options": [
-     "Isis",
-     "Sekhmet",
-     "Nut",
-     "Hathor"
+     "Buzz Lightyear",
+     "Jessie",
+     "Rex",
+     "Woody"
     ],
-    "correct": 3
+    "correct": 0,
+    "category": "Film quotes",
+    "difficulty": "easy",
+    "rating": 2
+   },
+   {
+    "id": "q_1459f606",
+    "text": "What does Del Boy famously fall through in the wine bar?",
+    "options": [
+     "A trapdoor",
+     "A glass table",
+     "A window",
+     "The counter flap"
+    ],
+    "correct": 3,
+    "category": "British sitcoms",
+    "difficulty": "easy",
+    "rating": 3
+   },
+   {
+    "id": "q_42fdde64",
+    "text": "Which Edinburgh-born inventor patented the telephone?",
+    "options": [
+     "Alexander Graham Bell",
+     "James Watt",
+     "John Logie Baird",
+     "Robert Watson-Watt"
+    ],
+    "correct": 0,
+    "category": "Scotland",
+    "difficulty": "easy",
+    "rating": 3
+   },
+   {
+    "id": "q_36da7a5d",
+    "text": "Which giant New Zealand winger ran over England at the 1995 World Cup?",
+    "options": [
+     "Jeff Wilson",
+     "Doug Howlett",
+     "Christian Cullen",
+     "Jonah Lomu"
+    ],
+    "correct": 3,
+    "category": "Rugby",
+    "difficulty": "medium",
+    "rating": 4
+   },
+   {
+    "id": "q_1c363cf9",
+    "text": "Which financier's vast Ponzi scheme was exposed in December 2008?",
+    "options": [
+     "Jordan Belfort",
+     "Nick Leeson",
+     "Allen Stanford",
+     "Bernie Madoff"
+    ],
+    "correct": 3,
+    "category": "The 2000s",
+    "difficulty": "medium",
+    "rating": 4
+   },
+   {
+    "id": "q_254e0d67",
+    "text": "Who are the two witches at the heart of 'Wicked'?",
+    "options": [
+     "Glinda and Dorothy",
+     "Elphaba and Glinda",
+     "Elphaba and Madame Morrible",
+     "Nessarose and Glinda"
+    ],
+    "correct": 1,
+    "category": "Musicals",
+    "difficulty": "medium",
+    "rating": 5
+   },
+   {
+    "id": "q_b99caad9",
+    "text": "Which club won the 2025 Europa League?",
+    "options": [
+     "Aston Villa",
+     "Tottenham Hotspur",
+     "Manchester United",
+     "Chelsea"
+    ],
+    "correct": 1,
+    "category": "Football",
+    "difficulty": "medium",
+    "rating": 5
+   },
+   {
+    "id": "q_63d81647",
+    "text": "In which Portuguese valley are port wine grapes grown?",
+    "options": [
+     "Tagus",
+     "Douro",
+     "Minho",
+     "Alentejo"
+    ],
+    "correct": 1,
+    "category": "Europe",
+    "difficulty": "medium",
+    "rating": 6
+   },
+   {
+    "id": "q_b53e9b41",
+    "text": "What do New Zealanders call flip-flops?",
+    "options": [
+     "Slippers",
+     "Thongs",
+     "Scuffs",
+     "Jandals"
+    ],
+    "correct": 3,
+    "category": "Fashion",
+    "difficulty": "hard",
+    "rating": 7
+   },
+   {
+    "id": "q_7d94614b",
+    "text": "Where does Stephen Strange learn the mystic arts?",
+    "options": [
+     "The Sanctum Sanctorum",
+     "K'un-Lun",
+     "Wakanda",
+     "Kamar-Taj"
+    ],
+    "correct": 3,
+    "category": "The Marvel universe",
+    "difficulty": "hard",
+    "rating": 7
+   },
+   {
+    "id": "q_01a4ce20",
+    "text": "Which Irish play caused riots at the Abbey Theatre in 1907?",
+    "options": [
+     "The Plough and the Stars",
+     "Juno and the Paycock",
+     "The Playboy of the Western World",
+     "Riders to the Sea"
+    ],
+    "correct": 2,
+    "category": "Theatre",
+    "difficulty": "hard",
+    "rating": 8
+   },
+   {
+    "id": "q_03d01a50",
+    "text": "In which country did the Danish pastry originate?",
+    "options": [
+     "France",
+     "Denmark",
+     "Sweden",
+     "Austria"
+    ],
+    "correct": 3,
+    "category": "General knowledge",
+    "difficulty": "hard",
+    "rating": 9
    }
   ]
  }

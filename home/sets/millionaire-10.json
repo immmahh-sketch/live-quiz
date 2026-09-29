@@ -5,199 +5,214 @@
  "lists": {
   "questions": [
    {
-    "id": "q_6ef2b3f9",
-    "text": "Which prime minister grew up in Llanystumdwy with Welsh as his first language?",
+    "id": "q_2d3fcfa4",
+    "text": "What do 'Blue Peter' viewers hope to be sent for their efforts?",
+    "options": [
+     "A medal",
+     "A scarf",
+     "A certificate",
+     "A badge"
+    ],
+    "correct": 3,
+    "category": "Children's TV",
+    "difficulty": "easy",
+    "rating": 1
+   },
+   {
+    "id": "q_c5dbdd6d",
+    "text": "Which tree produces acorns?",
+    "options": [
+     "Ash",
+     "Sycamore",
+     "Beech",
+     "Oak"
+    ],
+    "correct": 3,
+    "category": "Nature and the environment",
+    "difficulty": "easy",
+    "rating": 1
+   },
+   {
+    "id": "q_56cb4034",
+    "text": "Who wrote 'Romeo and Juliet'?",
+    "options": [
+     "Geoffrey Chaucer",
+     "William Shakespeare",
+     "Jane Austen",
+     "Charles Dickens"
+    ],
+    "correct": 1,
+    "category": "Literature",
+    "difficulty": "easy",
+    "rating": 2
+   },
+   {
+    "id": "q_ee207d98",
+    "text": "Which Christmas theatre tradition features a dame and 'He's behind you!'?",
+    "options": [
+     "Ballet",
+     "Pantomime",
+     "Opera",
+     "Farce"
+    ],
+    "correct": 1,
+    "category": "Theatre",
+    "difficulty": "easy",
+    "rating": 2
+   },
+   {
+    "id": "q_ae184168",
+    "text": "Which One Direction member left in March 2015?",
+    "options": [
+     "Niall Horan",
+     "Liam Payne",
+     "Louis Tomlinson",
+     "Zayn Malik"
+    ],
+    "correct": 3,
+    "category": "Boy bands and girl groups",
+    "difficulty": "easy",
+    "rating": 3
+   },
+   {
+    "id": "q_7be56e4c",
+    "text": "Which British comedian is famous for roasting Hollywood as host of the Golden Globes?",
+    "options": [
+     "Graham Norton",
+     "Jimmy Carr",
+     "James Corden",
+     "Ricky Gervais"
+    ],
+    "correct": 3,
+    "category": "The Oscars and award winners",
+    "difficulty": "easy",
+    "rating": 3
+   },
+   {
+    "id": "q_788dac1b",
+    "text": "Roughly how often does Halley's Comet return?",
+    "options": [
+     "Every 150 years",
+     "Every 76 years",
+     "Every 12 years",
+     "Every 1,000 years"
+    ],
+    "correct": 1,
+    "category": "Space and astronomy",
+    "difficulty": "medium",
+    "rating": 4
+   },
+   {
+    "id": "q_4509dd4a",
+    "text": "Which Wet Wet Wet hit spent 15 weeks at number one in 1994?",
+    "options": [
+     "Sweet Little Mystery",
+     "Julia Says",
+     "Goodnight Girl",
+     "Love Is All Around"
+    ],
+    "correct": 3,
+    "category": "The 1990s",
+    "difficulty": "medium",
+    "rating": 4
+   },
+   {
+    "id": "q_8aff0409",
+    "text": "Which Welsh bass-baritone is one of the world's great opera singers?",
+    "options": [
+     "Karl Jenkins",
+     "Aled Jones",
+     "Tom Jones",
+     "Bryn Terfel"
+    ],
+    "correct": 3,
     "category": "Wales",
-    "difficulty": "easy",
-    "options": [
-     "David Lloyd George",
-     "Clement Attlee",
-     "Stanley Baldwin",
-     "Harold Wilson"
-    ],
-    "correct": 0
+    "difficulty": "medium",
+    "rating": 5
    },
    {
-    "id": "q_636011af",
-    "text": "Goulash is the national dish of which country?",
-    "category": "Europe",
-    "difficulty": "easy",
+    "id": "q_3fc8f08a",
+    "text": "Which sketch show first aired on the BBC in October 1969?",
     "options": [
-     "Hungary",
-     "Austria",
-     "Czech Republic",
-     "Poland"
+     "Not the Nine O'Clock News",
+     "The Two Ronnies",
+     "Monty Python's Flying Circus",
+     "The Goodies"
     ],
-    "correct": 0
+    "correct": 2,
+    "category": "The 1960s",
+    "difficulty": "medium",
+    "rating": 5
    },
    {
-    "id": "q_aff02dc4",
-    "text": "What is a group of flamingos called?",
-    "category": "Ripley's Believe It or Not",
-    "difficulty": "easy",
+    "id": "q_28cf2f03",
+    "text": "What are the dots on a dice called?",
     "options": [
-     "A flamboyance",
-     "A fever",
-     "A flash",
-     "A fandango"
+     "Studs",
+     "Specks",
+     "Pips",
+     "Pits"
     ],
-    "correct": 0
+    "correct": 2,
+    "category": "No Such Thing As a Fish facts",
+    "difficulty": "medium",
+    "rating": 6
    },
    {
-    "id": "q_7d1b20ed",
-    "text": "Which spirit is the base of a mojito?",
-    "category": "Food and drink",
-    "difficulty": "easy",
+    "id": "q_0ea829dd",
+    "text": "Which 'Strictly' professional partnered Ed Balls?",
     "options": [
-     "Gin",
-     "Rum",
-     "Vodka",
-     "Tequila"
+     "Oti Mabuse",
+     "Janette Manrara",
+     "Katya Jones",
+     "Karen Hauer"
     ],
-    "correct": 1
-   },
-   {
-    "id": "q_08119bcb",
-    "text": "Which dukedom did William hold before he became Prince of Wales?",
-    "category": "The Royal Family",
-    "difficulty": "easy",
-    "options": [
-     "Duke of Cambridge",
-     "Duke of Gloucester",
-     "Duke of Clarence",
-     "Duke of Sussex"
-    ],
-    "correct": 0
+    "correct": 2,
+    "category": "Reality TV",
+    "difficulty": "hard",
+    "rating": 7
    },
    {
     "id": "q_97c77b28",
     "text": "In the last episode, where are Chandler and Monica moving to?",
-    "category": "Friends",
-    "difficulty": "medium",
     "options": [
-     "Long Island",
-     "Westchester",
      "New Jersey",
+     "Westchester",
+     "Long Island",
      "Connecticut"
     ],
-    "correct": 1
-   },
-   {
-    "id": "q_f7cb48fd",
-    "text": "In Minecraft, what do you make a crafting table from?",
-    "category": "Video games",
-    "difficulty": "medium",
-    "options": [
-     "Cobblestone",
-     "Iron",
-     "Wooden planks",
-     "Wool"
-    ],
-    "correct": 2
-   },
-   {
-    "id": "q_19b4680f",
-    "text": "What does the Latin phrase 'carpe diem' mean?",
-    "category": "Words and language",
-    "difficulty": "medium",
-    "options": [
-     "Let the buyer beware",
-     "Beware of the dog",
-     "Seize the day",
-     "Know yourself"
-    ],
-    "correct": 2
-   },
-   {
-    "id": "q_dbabe764",
-    "text": "Which petrol company told drivers to 'Put a tiger in your tank'?",
-    "category": "Brands and logos",
-    "difficulty": "medium",
-    "options": [
-     "Esso",
-     "Shell",
-     "Texaco",
-     "BP"
-    ],
-    "correct": 0
-   },
-   {
-    "id": "q_24ec7e9a",
-    "text": "What is 'coq au vin'?",
-    "category": "Food and drink",
-    "difficulty": "medium",
-    "options": [
-     "Beef in beer",
-     "Rabbit in cider",
-     "Duck with orange",
-     "Chicken cooked in wine"
-    ],
-    "correct": 3
-   },
-   {
-    "id": "q_5cb84b86",
-    "text": "Which ELO single with Olivia Newton-John topped the UK chart in 1980?",
-    "category": "UK number ones",
+    "correct": 1,
+    "category": "Friends",
     "difficulty": "hard",
-    "options": [
-     "Livin' Thing",
-     "Xanadu",
-     "Don't Bring Me Down",
-     "Mr. Blue Sky"
-    ],
-    "correct": 1
+    "rating": 7
    },
    {
-    "id": "q_a54fd383",
-    "text": "Which heavyweight was nicknamed 'the Brown Bomber'?",
-    "category": "Boxing and combat sports",
-    "difficulty": "hard",
+    "id": "q_a0c5aec9",
+    "text": "Which American won the Formula One title in 1978?",
     "options": [
-     "Joe Louis",
-     "Joe Frazier",
-     "Larry Holmes",
-     "Jack Johnson"
+     "Phil Hill",
+     "Dan Gurney",
+     "Mario Andretti",
+     "Eddie Cheever"
     ],
-    "correct": 0
+    "correct": 2,
+    "category": "The 1970s",
+    "difficulty": "hard",
+    "rating": 8
    },
    {
-    "id": "q_67d4a509",
-    "text": "Where does Wainwright's Coast to Coast walk start?",
-    "category": "UK geography",
-    "difficulty": "hard",
+    "id": "q_374bdab7",
+    "text": "Which Delibes opera contains the 'Flower Duet'?",
     "options": [
-     "Ravenglass",
-     "Maryport",
-     "St Bees",
-     "Whitehaven"
+     "Coppélia",
+     "Sylvia",
+     "Le roi l'a dit",
+     "Lakmé"
     ],
-    "correct": 2
-   },
-   {
-    "id": "q_63d81647",
-    "text": "In which Portuguese valley are port wine grapes grown?",
-    "category": "Europe",
+    "correct": 3,
+    "category": "Classical music",
     "difficulty": "hard",
-    "options": [
-     "Douro",
-     "Tagus",
-     "Alentejo",
-     "Minho"
-    ],
-    "correct": 0
-   },
-   {
-    "id": "q_b5fbbfc6",
-    "text": "At which Kenyan lodge, built in a tree, was Elizabeth staying when she became queen?",
-    "category": "The Royal Family",
-    "difficulty": "hard",
-    "options": [
-     "Giraffe Manor",
-     "Mount Kenya Lodge",
-     "Sagana Lodge",
-     "Treetops"
-    ],
-    "correct": 3
+    "rating": 9
    }
   ]
  }

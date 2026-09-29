@@ -5,199 +5,214 @@
  "lists": {
   "questions": [
    {
-    "id": "q_6f34b7ee",
-    "text": "Which New Jersey rocker is nicknamed 'The Boss'?",
-    "category": "Rock music",
-    "difficulty": "easy",
+    "id": "q_73a60981",
+    "text": "How often is the Eurovision Song Contest held?",
     "options": [
-     "Tom Petty",
-     "Bruce Springsteen",
-     "Jon Bon Jovi",
-     "Billy Joel"
+     "Twice a year",
+     "Every four years",
+     "Every two years",
+     "Every year"
     ],
-    "correct": 1
+    "correct": 3,
+    "category": "Eurovision",
+    "difficulty": "easy",
+    "rating": 1
    },
    {
-    "id": "q_788dac1b",
-    "text": "Roughly how often does Halley's Comet return?",
-    "category": "Space and astronomy",
-    "difficulty": "easy",
+    "id": "q_578c2f9e",
+    "text": "Which comedian played Mr Bean?",
     "options": [
-     "Every 1,000 years",
-     "Every 150 years",
-     "Every 12 years",
-     "Every 76 years"
+     "Lee Evans",
+     "Rowan Atkinson",
+     "Steve Coogan",
+     "Ricky Gervais"
     ],
-    "correct": 3
+    "correct": 1,
+    "category": "Television",
+    "difficulty": "easy",
+    "rating": 1
    },
    {
-    "id": "q_4a11085e",
-    "text": "Whose adverts sang 'Everyone's a fruit and nut case'?",
-    "category": "British food",
-    "difficulty": "easy",
+    "id": "q_a1836c07",
+    "text": "What is 7 × 8?",
     "options": [
-     "Cadbury",
-     "Galaxy",
-     "Terry's",
-     "Rowntree's"
+     "54",
+     "56",
+     "64",
+     "58"
     ],
-    "correct": 0
+    "correct": 1,
+    "category": "Maths and numbers",
+    "difficulty": "easy",
+    "rating": 2
    },
    {
-    "id": "q_a12f9f2d",
-    "text": "In which fictional Indiana town is 'Stranger Things' set?",
+    "id": "q_7d1b20ed",
+    "text": "Which spirit is the base of a mojito?",
+    "options": [
+     "Rum",
+     "Tequila",
+     "Vodka",
+     "Gin"
+    ],
+    "correct": 0,
+    "category": "Food and drink",
+    "difficulty": "easy",
+    "rating": 2
+   },
+   {
+    "id": "q_58d99710",
+    "text": "Which bank has a black horse as its logo?",
+    "options": [
+     "Barclays",
+     "Halifax",
+     "NatWest",
+     "Lloyds"
+    ],
+    "correct": 3,
+    "category": "Brands and logos",
+    "difficulty": "easy",
+    "rating": 3
+   },
+   {
+    "id": "q_f37d7855",
+    "text": "What is the closest star to Earth?",
+    "options": [
+     "Alpha Centauri",
+     "Sirius",
+     "Proxima Centauri",
+     "The Sun"
+    ],
+    "correct": 3,
+    "category": "Science",
+    "difficulty": "easy",
+    "rating": 3
+   },
+   {
+    "id": "q_f2651020",
+    "text": "Which sea lies between Italy and the Balkans?",
+    "options": [
+     "Tyrrhenian",
+     "Adriatic",
+     "Ionian",
+     "Aegean"
+    ],
+    "correct": 1,
+    "category": "World geography",
+    "difficulty": "medium",
+    "rating": 4
+   },
+   {
+    "id": "q_90ffac2d",
+    "text": "Which US president was in office during the Bay of Pigs invasion?",
+    "options": [
+     "Dwight D. Eisenhower",
+     "Lyndon B. Johnson",
+     "Harry Truman",
+     "John F. Kennedy"
+    ],
+    "correct": 3,
+    "category": "The 20th century",
+    "difficulty": "medium",
+    "rating": 4
+   },
+   {
+    "id": "q_9094c587",
+    "text": "Which Ravel piece did Torvill and Dean skate to in 1984?",
+    "options": [
+     "Boléro",
+     "Pavane",
+     "Daphnis et Chloé",
+     "La Valse"
+    ],
+    "correct": 0,
+    "category": "Classical music",
+    "difficulty": "medium",
+    "rating": 5
+   },
+   {
+    "id": "q_27c1ee35",
+    "text": "Which wife, according to legend, did Henry call 'the Flanders Mare'?",
+    "options": [
+     "Catherine Parr",
+     "Catherine Howard",
+     "Anne of Cleves",
+     "Jane Seymour"
+    ],
+    "correct": 2,
+    "category": "The Tudors",
+    "difficulty": "medium",
+    "rating": 5
+   },
+   {
+    "id": "q_24673fc5",
+    "text": "Which band had a 1986 hit with 'Don't Dream It's Over'?",
+    "options": [
+     "INXS",
+     "Split Enz",
+     "Men at Work",
+     "Crowded House"
+    ],
+    "correct": 3,
+    "category": "Australia and New Zealand",
+    "difficulty": "medium",
+    "rating": 6
+   },
+   {
+    "id": "q_94d8719c",
+    "text": "What are the names of Hades's two minions in 'Hercules'?",
+    "options": [
+     "Horace and Jasper",
+     "Banzai and Ed",
+     "Flotsam and Jetsam",
+     "Pain and Panic"
+    ],
+    "correct": 3,
+    "category": "Disney films",
+    "difficulty": "hard",
+    "rating": 7
+   },
+   {
+    "id": "q_8a6133c7",
+    "text": "Who voices Homer Simpson?",
+    "options": [
+     "Hank Azaria",
+     "Dan Castellaneta",
+     "Nancy Cartwright",
+     "Harry Shearer"
+    ],
+    "correct": 1,
     "category": "American TV",
-    "difficulty": "easy",
-    "options": [
-     "Riverdale",
-     "Hawkins",
-     "Twin Peaks",
-     "Derry"
-    ],
-    "correct": 1
+    "difficulty": "hard",
+    "rating": 7
    },
    {
-    "id": "q_829df58b",
-    "text": "Which Ralph McTell song was his one big hit, in 1974?",
+    "id": "q_9e94b8d3",
+    "text": "In which Swiss town is UEFA based?",
+    "options": [
+     "Lausanne",
+     "Basel",
+     "Nyon",
+     "Montreux"
+    ],
+    "correct": 2,
+    "category": "Football",
+    "difficulty": "hard",
+    "rating": 8
+   },
+   {
+    "id": "q_956afc5f",
+    "text": "Which Stiltskin singer later replaced Phil Collins in Genesis?",
+    "options": [
+     "Steve Hackett",
+     "Ray Wilson",
+     "Fish",
+     "Peter Gabriel"
+    ],
+    "correct": 1,
     "category": "One-hit wonders",
-    "difficulty": "easy",
-    "options": [
-     "Streets of London",
-     "Maybe It's Because I'm a Londoner",
-     "London Pride",
-     "Waterloo Sunset"
-    ],
-    "correct": 0
-   },
-   {
-    "id": "q_9b633941",
-    "text": "In bingo, which number is 'unlucky for some'?",
-    "category": "Games and toys",
-    "difficulty": "medium",
-    "options": [
-     "22",
-     "11",
-     "7",
-     "13"
-    ],
-    "correct": 3
-   },
-   {
-    "id": "q_ef949ef0",
-    "text": "Who played Blofeld in 'Spectre'?",
-    "category": "James Bond",
-    "difficulty": "medium",
-    "options": [
-     "Mads Mikkelsen",
-     "Javier Bardem",
-     "Rami Malek",
-     "Christoph Waltz"
-    ],
-    "correct": 3
-   },
-   {
-    "id": "q_7d94614b",
-    "text": "Where does Stephen Strange learn the mystic arts?",
-    "category": "The Marvel universe",
-    "difficulty": "medium",
-    "options": [
-     "K'un-Lun",
-     "The Sanctum Sanctorum",
-     "Wakanda",
-     "Kamar-Taj"
-    ],
-    "correct": 3
-   },
-   {
-    "id": "q_36da7a5d",
-    "text": "Which giant New Zealand winger ran over England at the 1995 World Cup?",
-    "category": "Rugby",
-    "difficulty": "medium",
-    "options": [
-     "Doug Howlett",
-     "Jeff Wilson",
-     "Jonah Lomu",
-     "Christian Cullen"
-    ],
-    "correct": 2
-   },
-   {
-    "id": "q_8aa2a2b9",
-    "text": "Where does the London Marathon finish?",
-    "category": "London",
-    "difficulty": "medium",
-    "options": [
-     "Westminster Bridge",
-     "The Mall",
-     "Tower Bridge",
-     "Trafalgar Square"
-    ],
-    "correct": 1
-   },
-   {
-    "id": "q_c589ba04",
-    "text": "Which wartime cartoon character encouraged Britons to eat carrots?",
-    "category": "British food",
     "difficulty": "hard",
-    "options": [
-     "Potato Pete",
-     "Mr Veg",
-     "Captain Crunch",
-     "Doctor Carrot"
-    ],
-    "correct": 3
-   },
-   {
-    "id": "q_5ee83095",
-    "text": "Who presented the BBC's 'Record Breakers' alongside the McWhirter twins?",
-    "category": "Record breakers",
-    "difficulty": "hard",
-    "options": [
-     "Johnny Ball",
-     "Keith Chegwin",
-     "Noel Edmonds",
-     "Roy Castle"
-    ],
-    "correct": 3
-   },
-   {
-    "id": "q_d6d028a1",
-    "text": "Which bitters, first made in Venezuela, come with an oversized paper label?",
-    "category": "Beer, wine and spirits",
-    "difficulty": "hard",
-    "options": [
-     "Fernet-Branca",
-     "Peychaud's",
-     "Angostura",
-     "Campari"
-    ],
-    "correct": 2
-   },
-   {
-    "id": "q_fef1a47d",
-    "text": "Which calling service did Microsoft buy in 2011?",
-    "category": "The 2010s",
-    "difficulty": "hard",
-    "options": [
-     "WhatsApp",
-     "Viber",
-     "Skype",
-     "Zoom"
-    ],
-    "correct": 2
-   },
-   {
-    "id": "q_6a48a65f",
-    "text": "What is the medical name for sleepwalking?",
-    "category": "The human body",
-    "difficulty": "hard",
-    "options": [
-     "Catalepsy",
-     "Narcolepsy",
-     "Somnambulism",
-     "Parasomnia"
-    ],
-    "correct": 2
+    "rating": 9
    }
   ]
  }

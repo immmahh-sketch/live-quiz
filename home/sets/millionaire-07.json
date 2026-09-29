@@ -5,200 +5,214 @@
  "lists": {
   "questions": [
    {
+    "id": "q_53713a03",
+    "text": "Which festival is celebrated on 5 November in the UK?",
+    "options": [
+     "St Andrew's Day",
+     "Bonfire Night",
+     "Halloween",
+     "Remembrance Sunday"
+    ],
+    "correct": 1,
+    "category": "General knowledge",
+    "difficulty": "easy",
+    "rating": 1
+   },
+   {
+    "id": "q_423fe3a4",
+    "text": "What kind of animal is Eric Hill's Spot?",
+    "options": [
+     "A rabbit",
+     "A cat",
+     "A dog",
+     "A pig"
+    ],
+    "correct": 2,
+    "category": "Children's books",
+    "difficulty": "easy",
+    "rating": 1
+   },
+   {
     "id": "q_a5c22c39",
     "text": "Which drawing toy has a grey screen and two white knobs?",
-    "category": "Games and toys",
-    "difficulty": "easy",
     "options": [
+     "Etch A Sketch",
      "Fuzzy-Felt",
      "Spirograph",
-     "Etch A Sketch",
      "Magna Doodle"
     ],
-    "correct": 2
-   },
-   {
-    "id": "q_71417563",
-    "text": "Which BBC weatherman is remembered for playing down a hurricane the night before the Great Storm of 1987?",
-    "category": "Nature and the environment",
+    "correct": 0,
+    "category": "Games and toys",
     "difficulty": "easy",
-    "options": [
-     "Bill Giles",
-     "Michael Fish",
-     "John Kettley",
-     "Ian McCaskill"
-    ],
-    "correct": 1
+    "rating": 2
    },
    {
-    "id": "q_fba22f44",
-    "text": "What does Ariel give Ursula in exchange for legs?",
+    "id": "q_e2abf582",
+    "text": "Which civilisation built the pyramids at Giza?",
+    "options": [
+     "The Romans",
+     "The Greeks",
+     "The Babylonians",
+     "The Egyptians"
+    ],
+    "correct": 3,
+    "category": "History",
+    "difficulty": "easy",
+    "rating": 2
+   },
+   {
+    "id": "q_76f70eec",
+    "text": "At which racecourse is the Grand National run?",
+    "options": [
+     "Cheltenham",
+     "Epsom",
+     "Ascot",
+     "Aintree"
+    ],
+    "correct": 3,
+    "category": "Horse racing and darts",
+    "difficulty": "easy",
+    "rating": 3
+   },
+   {
+    "id": "q_8a09911c",
+    "text": "Which Christmas film features the Wet Bandits?",
+    "options": [
+     "Jingle All the Way",
+     "Elf",
+     "Home Alone",
+     "The Santa Clause"
+    ],
+    "correct": 2,
+    "category": "Film",
+    "difficulty": "easy",
+    "rating": 3
+   },
+   {
+    "id": "q_43bd6e52",
+    "text": "In which 1928 cartoon did Mickey Mouse make his famous public debut?",
+    "options": [
+     "The Skeleton Dance",
+     "Plane Crazy",
+     "Steamboat Willie",
+     "The Band Concert"
+    ],
+    "correct": 2,
     "category": "Disney films",
-    "difficulty": "easy",
-    "options": [
-     "Her tail",
-     "Her voice",
-     "Her shell",
-     "Her memory"
-    ],
-    "correct": 1
-   },
-   {
-    "id": "q_5b0d4484",
-    "text": "Which comedy sees Sandra Bullock's FBI agent go undercover at a beauty pageant?",
-    "category": "Romantic comedies",
-    "difficulty": "easy",
-    "options": [
-     "The Proposal",
-     "While You Were Sleeping",
-     "Two Weeks Notice",
-     "Miss Congeniality"
-    ],
-    "correct": 3
-   },
-   {
-    "id": "q_27c1ee35",
-    "text": "Which wife, according to legend, did Henry call 'the Flanders Mare'?",
-    "category": "The Tudors",
-    "difficulty": "easy",
-    "options": [
-     "Catherine Howard",
-     "Anne of Cleves",
-     "Catherine Parr",
-     "Jane Seymour"
-    ],
-    "correct": 1
-   },
-   {
-    "id": "q_f7c12cb9",
-    "text": "Which condition, caused by an unevenly curved cornea, blurs vision at all distances?",
-    "category": "The human body",
     "difficulty": "medium",
-    "options": [
-     "Glaucoma",
-     "Astigmatism",
-     "Strabismus",
-     "Presbyopia"
-    ],
-    "correct": 1
+    "rating": 4
    },
    {
-    "id": "q_b08a23ef",
-    "text": "Which spin-off featured a vegetarian vampire duck?",
-    "category": "Children's TV",
+    "id": "q_077b5dc4",
+    "text": "Which hills are known as the 'backbone of England'?",
+    "options": [
+     "Cheviots",
+     "Cotswolds",
+     "Pennines",
+     "Chilterns"
+    ],
+    "correct": 2,
+    "category": "UK geography",
     "difficulty": "medium",
-    "options": [
-     "Duck Dodgers",
-     "Count Duckula",
-     "DuckTales",
-     "Darkwing Duck"
-    ],
-    "correct": 1
+    "rating": 4
    },
    {
-    "id": "q_62354663",
-    "text": "Which Irish girl group wore double denim for 'C'est la Vie'?",
-    "category": "The 1990s",
+    "id": "q_24e80387",
+    "text": "What gun does Harry Callahan famously carry in 'Dirty Harry'?",
+    "options": [
+     ".44 Magnum",
+     "Colt .45",
+     "Desert Eagle",
+     ".38 Special"
+    ],
+    "correct": 0,
+    "category": "Action and blockbusters",
     "difficulty": "medium",
-    "options": [
-     "Girls Aloud",
-     "Atomic Kitten",
-     "B*Witched",
-     "All Saints"
-    ],
-    "correct": 2
+    "rating": 5
    },
    {
-    "id": "q_7aee184b",
-    "text": "In which village does Miss Marple live?",
-    "category": "Crime dramas",
+    "id": "q_1f7f80c9",
+    "text": "Who managed the Beatles from 1962 until his death in 1967?",
+    "options": [
+     "Allen Klein",
+     "Derek Taylor",
+     "Brian Epstein",
+     "Neil Aspinall"
+    ],
+    "correct": 2,
+    "category": "The Beatles",
     "difficulty": "medium",
-    "options": [
-     "St Mary Mead",
-     "Midsomer Norton",
-     "Kingsmarkham",
-     "Causton"
-    ],
-    "correct": 0
+    "rating": 5
    },
    {
-    "id": "q_1c363cf9",
-    "text": "Which financier's vast Ponzi scheme was exposed in December 2008?",
-    "category": "The 2000s",
+    "id": "q_ab446b81",
+    "text": "Which clothing brand is famous for its catalogue and bright 'Mini' kids' range?",
+    "options": [
+     "Joules",
+     "White Stuff",
+     "Next",
+     "Boden"
+    ],
+    "correct": 3,
+    "category": "Fashion",
     "difficulty": "medium",
-    "options": [
-     "Jordan Belfort",
-     "Nick Leeson",
-     "Allen Stanford",
-     "Bernie Madoff"
-    ],
-    "correct": 3
-   },
-   {
-    "id": "q_dbf677b6",
-    "text": "Which Oxford chair did Tolkien take up in 1925?",
-    "category": "The Lord of the Rings and fantasy",
-    "difficulty": "hard",
-    "options": [
-     "Professor of Poetry",
-     "Professor of Anglo-Saxon",
-     "Professor of Astronomy",
-     "Regius Professor of History"
-    ],
-    "correct": 1
-   },
-   {
-    "id": "q_90ffac2d",
-    "text": "Which US president was in office during the Bay of Pigs invasion?",
-    "category": "The 20th century",
-    "difficulty": "hard",
-    "options": [
-     "Harry Truman",
-     "Dwight D. Eisenhower",
-     "Lyndon B. Johnson",
-     "John F. Kennedy"
-    ],
-    "correct": 3
-   },
-   {
-    "id": "q_7250aa95",
-    "text": "Where is the lowest point in North America?",
-    "category": "The United States",
-    "difficulty": "hard",
-    "options": [
-     "Badwater Basin, Death Valley",
-     "The Great Salt Lake",
-     "The Mississippi Delta",
-     "The Salton Sea"
-    ],
-    "correct": 0
+    "rating": 6
    },
    {
     "id": "q_e6d50494",
     "text": "How did Fred Lorz 'win' the 1904 Olympic marathon before being disqualified?",
-    "category": "No Such Thing As a Fish facts",
-    "difficulty": "hard",
     "options": [
-     "He took a train",
+     "He started an hour early",
      "He swapped with his twin",
      "He rode part of the way in a car",
-     "He started an hour early"
+     "He took a train"
     ],
     "correct": 2,
-    "wow": true
+    "category": "No Such Thing As a Fish facts",
+    "difficulty": "hard",
+    "rating": 7
    },
    {
-    "id": "q_67f875e3",
-    "text": "Which African country took part in Eurovision only once, in 1980?",
-    "category": "Eurovision",
-    "difficulty": "hard",
+    "id": "q_2eed9531",
+    "text": "Which Persian king founded the Achaemenid Empire?",
     "options": [
-     "Egypt",
-     "Morocco",
-     "Tunisia",
-     "Algeria"
+     "Darius I",
+     "Cyrus the Great",
+     "Cambyses II",
+     "Xerxes I"
     ],
-    "correct": 1
+    "correct": 1,
+    "category": "Ancient history",
+    "difficulty": "hard",
+    "rating": 7
+   },
+   {
+    "id": "q_dbf677b6",
+    "text": "Which Oxford chair did Tolkien take up in 1925?",
+    "options": [
+     "Professor of Astronomy",
+     "Professor of Anglo-Saxon",
+     "Regius Professor of History",
+     "Professor of Poetry"
+    ],
+    "correct": 1,
+    "category": "The Lord of the Rings and fantasy",
+    "difficulty": "hard",
+    "rating": 8
+   },
+   {
+    "id": "q_97b51dba",
+    "text": "Which early Cambridge computer of 1949 ran one of the first regular computing services?",
+    "options": [
+     "Pegasus",
+     "ENIAC",
+     "UNIVAC",
+     "EDSAC"
+    ],
+    "correct": 3,
+    "category": "Science and technology",
+    "difficulty": "hard",
+    "rating": 9
    }
   ]
  }

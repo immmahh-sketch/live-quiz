@@ -5,199 +5,214 @@
  "lists": {
   "questions": [
    {
-    "id": "q_64e7f865",
-    "text": "In 1975, Britain voted in a referendum to stay in what?",
-    "category": "The 1970s",
-    "difficulty": "easy",
+    "id": "q_c0a1efb5",
+    "text": "What is inside a traditional Christmas cracker, besides a hat and a joke?",
     "options": [
-     "The European Economic Community",
-     "The Commonwealth",
-     "NATO",
-     "The United Nations"
+     "A chocolate",
+     "A coin",
+     "A small gift",
+     "A candle"
     ],
-    "correct": 0
-   },
-   {
-    "id": "q_58d99710",
-    "text": "Which bank has a black horse as its logo?",
-    "category": "Brands and logos",
-    "difficulty": "easy",
-    "options": [
-     "Barclays",
-     "Lloyds",
-     "Halifax",
-     "NatWest"
-    ],
-    "correct": 1
-   },
-   {
-    "id": "q_e3d552da",
-    "text": "How many sides does a dodecagon have?",
+    "correct": 2,
     "category": "General knowledge",
     "difficulty": "easy",
-    "options": [
-     "Ten",
-     "Twenty",
-     "Twelve",
-     "Fifteen"
-    ],
-    "correct": 2
+    "rating": 1
    },
    {
-    "id": "q_9094c587",
-    "text": "Which Ravel piece did Torvill and Dean skate to in 1984?",
-    "category": "Classical music",
+    "id": "q_0c80fbe9",
+    "text": "What colour card means a player is sent off?",
+    "options": [
+     "Blue",
+     "Red",
+     "Yellow",
+     "Black"
+    ],
+    "correct": 1,
+    "category": "Football",
     "difficulty": "easy",
-    "options": [
-     "Pavane",
-     "La Valse",
-     "Boléro",
-     "Daphnis et Chloé"
-    ],
-    "correct": 2
+    "rating": 1
    },
    {
-    "id": "q_677d151c",
-    "text": "Which dam on the Colorado River was finished in 1936 on the Nevada–Arizona border?",
-    "category": "Famous landmarks",
+    "id": "q_6f34b7ee",
+    "text": "Which New Jersey rocker is nicknamed 'The Boss'?",
+    "options": [
+     "Bruce Springsteen",
+     "Tom Petty",
+     "Jon Bon Jovi",
+     "Billy Joel"
+    ],
+    "correct": 0,
+    "category": "Rock music",
     "difficulty": "easy",
-    "options": [
-     "Grand Coulee Dam",
-     "Hoover Dam",
-     "Glen Canyon Dam",
-     "Shasta Dam"
-    ],
-    "correct": 1
+    "rating": 2
    },
    {
-    "id": "q_e6931922",
-    "text": "What are the names of Mars's two moons?",
-    "category": "Space and astronomy",
+    "id": "q_06002c1b",
+    "text": "What happened to anyone who looked at Medusa?",
+    "options": [
+     "They fell in love",
+     "They turned to stone",
+     "They went blind",
+     "They fell asleep"
+    ],
+    "correct": 1,
+    "category": "Mythology and legends",
+    "difficulty": "easy",
+    "rating": 2
+   },
+   {
+    "id": "q_2597d170",
+    "text": "Which Amy Winehouse album featured 'Rehab'?",
+    "options": [
+     "Frank",
+     "Amy",
+     "Back to Black",
+     "Lioness: Hidden Treasures"
+    ],
+    "correct": 2,
+    "category": "Pop music",
+    "difficulty": "easy",
+    "rating": 3
+   },
+   {
+    "id": "q_5ae9e69a",
+    "text": "In 'Elf', what is Buddy's favourite food group?",
+    "options": [
+     "Fruit",
+     "Meat",
+     "Vegetables",
+     "Candy"
+    ],
+    "correct": 3,
+    "category": "Film",
+    "difficulty": "easy",
+    "rating": 3
+   },
+   {
+    "id": "q_09dcc4f7",
+    "text": "What is the capital of Croatia?",
+    "options": [
+     "Dubrovnik",
+     "Split",
+     "Ljubljana",
+     "Zagreb"
+    ],
+    "correct": 3,
+    "category": "Capital cities",
     "difficulty": "medium",
-    "options": [
-     "Io and Europa",
-     "Titan and Rhea",
-     "Castor and Pollux",
-     "Phobos and Deimos"
-    ],
-    "correct": 3
+    "rating": 4
    },
    {
-    "id": "q_2eed9531",
-    "text": "Which Persian king founded the Achaemenid Empire?",
-    "category": "Ancient history",
+    "id": "q_3863868e",
+    "text": "In 'Coraline', what do the Other Mother's family have instead of eyes?",
+    "options": [
+     "Coins",
+     "Buttons",
+     "Holes",
+     "Marbles"
+    ],
+    "correct": 1,
+    "category": "Animated films",
     "difficulty": "medium",
-    "options": [
-     "Xerxes I",
-     "Darius I",
-     "Cambyses II",
-     "Cyrus the Great"
-    ],
-    "correct": 3
+    "rating": 4
    },
    {
-    "id": "q_137d81dc",
-    "text": "Who wrote 'Look Back in Anger'?",
-    "category": "Theatre",
+    "id": "q_6d96157c",
+    "text": "Which horse race is 'the race that stops a nation'?",
+    "options": [
+     "Melbourne Cup",
+     "Caulfield Cup",
+     "Golden Slipper",
+     "Cox Plate"
+    ],
+    "correct": 0,
+    "category": "Australia and New Zealand",
     "difficulty": "medium",
-    "options": [
-     "Arnold Wesker",
-     "John Osborne",
-     "Harold Pinter",
-     "Joe Orton"
-    ],
-    "correct": 1
+    "rating": 5
    },
    {
-    "id": "q_8b1a824f",
-    "text": "Which European country has four official languages?",
-    "category": "Europe",
-    "difficulty": "medium",
+    "id": "q_4b6ec2bc",
+    "text": "Which Neighbours character did Kylie Minogue play?",
     "options": [
-     "Luxembourg",
-     "Belgium",
-     "Spain",
-     "Switzerland"
+     "Bronwyn",
+     "Madge",
+     "Daphne",
+     "Charlene"
     ],
-    "correct": 3
-   },
-   {
-    "id": "q_eb4c6f0e",
-    "text": "What is the name of Lando's floating mining colony on Bespin?",
-    "category": "Star Wars",
-    "difficulty": "medium",
-    "options": [
-     "Sky Town",
-     "Theed",
-     "Cloud City",
-     "Mos Eisley"
-    ],
-    "correct": 2
-   },
-   {
-    "id": "q_76725ecd",
-    "text": "Which Ubisoft game stars the pirate Edward Kenway?",
-    "category": "Video games",
-    "difficulty": "hard",
-    "options": [
-     "Assassin's Creed IV: Black Flag",
-     "Skull and Bones",
-     "Uncharted 4",
-     "Sea of Thieves"
-    ],
-    "correct": 0
-   },
-   {
-    "id": "q_9b9c64a9",
-    "text": "Who plays Lord Flashheart?",
-    "category": "British sitcoms",
-    "difficulty": "hard",
-    "options": [
-     "Brian Blessed",
-     "Rik Mayall",
-     "Nigel Planer",
-     "Adrian Edmondson"
-    ],
-    "correct": 1
-   },
-   {
-    "id": "q_ff3f8de7",
-    "text": "Who wrote 'The Picture of Dorian Gray'?",
-    "category": "Books and literature",
-    "difficulty": "hard",
-    "options": [
-     "Bram Stoker",
-     "Henry James",
-     "Oscar Wilde",
-     "Robert Louis Stevenson"
-    ],
-    "correct": 2
-   },
-   {
-    "id": "q_ec10339c",
-    "text": "Which director was announced in 2025 to make the next Bond film?",
-    "category": "James Bond",
-    "difficulty": "hard",
-    "options": [
-     "Sam Mendes",
-     "Denis Villeneuve",
-     "Christopher Nolan",
-     "Danny Boyle"
-    ],
-    "correct": 1
-   },
-   {
-    "id": "q_950f5def",
-    "text": "Which barefoot runner tangled with Mary Decker at the 1984 Olympics?",
+    "correct": 3,
     "category": "The 1980s",
-    "difficulty": "hard",
+    "difficulty": "medium",
+    "rating": 5
+   },
+   {
+    "id": "q_ca054dd7",
+    "text": "Which soul legend voiced Chef in 'South Park'?",
     "options": [
-     "Maricica Puică",
-     "Zola Budd",
-     "Liz McColgan",
-     "Ingrid Kristiansen"
+     "Barry White",
+     "Lou Rawls",
+     "Al Green",
+     "Isaac Hayes"
     ],
-    "correct": 1
+    "correct": 3,
+    "category": "One-hit wonders",
+    "difficulty": "medium",
+    "rating": 6
+   },
+   {
+    "id": "q_d6d028a1",
+    "text": "Which bitters, first made in Venezuela, come with an oversized paper label?",
+    "options": [
+     "Angostura",
+     "Fernet-Branca",
+     "Peychaud's",
+     "Campari"
+    ],
+    "correct": 0,
+    "category": "Beer, wine and spirits",
+    "difficulty": "hard",
+    "rating": 7
+   },
+   {
+    "id": "q_8b044fdb",
+    "text": "What does 'dopiaza' mean on a curry menu?",
+    "options": [
+     "Cooked twice",
+     "Two meats",
+     "Double chilli",
+     "Double onions"
+    ],
+    "correct": 3,
+    "category": "Food and drink",
+    "difficulty": "hard",
+    "rating": 7
+   },
+   {
+    "id": "q_6bb800b1",
+    "text": "What is the UK's lowest recorded temperature, measured at Braemar and Altnaharra?",
+    "options": [
+     "−33.8°C",
+     "−19.4°C",
+     "−27.2°C",
+     "−40.1°C"
+    ],
+    "correct": 2,
+    "category": "Nature and the environment",
+    "difficulty": "hard",
+    "rating": 8
+   },
+   {
+    "id": "q_3e3ef8b8",
+    "text": "Which painting was slashed by suffragette Mary Richardson in 1914?",
+    "options": [
+     "The Laughing Cavalier",
+     "Whistler's Mother",
+     "The Hay Wain",
+     "The Rokeby Venus"
+    ],
+    "correct": 3,
+    "category": "Art and artists",
+    "difficulty": "hard",
+    "rating": 9
    }
   ]
  }
