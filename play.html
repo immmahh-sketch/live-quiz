@@ -37,7 +37,7 @@ function renderJoin(msg) {
   const code = (new URLSearchParams(location.search).get('g') || P.code || pending || '').toUpperCase();
   app.innerHTML = `<div class="joinbox card"><div class="joinlogo"><img src="assets/brand/mark.png" alt=""><h2>Let's Quiz!</h2></div><p class="center muted" style="margin-top:-6px">Join the game on the screen</p>
     ${msg ? `<div class="error" style="margin-bottom:12px">${esc(msg)}</div>` : ''}
-    <form id="join"><div class="field"><label>Game code</label><input type="text" id="code" class="codein" value="${esc(code)}" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="ABC123" ${code ? '' : 'autofocus'}>
+    <form id="join"><div class="field"><label>Game code</label><input type="text" id="code" class="codein" value="${esc(code)}" maxlength="12" oninput="this.style.letterSpacing = this.value.length > 6 ? '.06em' : ''" autocomplete="off" autocapitalize="characters" placeholder="ABC123" ${code ? '' : 'autofocus'}>
       <button type="button" class="btn btn-ghost btn-block" id="scanBtn" style="margin-top:8px">📷 Scan the QR code on the screen</button></div>
     <div class="field"><label>Your name</label><input type="text" id="name" value="${esc(P.name)}" maxlength="20" autocomplete="nickname" placeholder="What should we call you?" ${code ? 'autofocus' : ''}></div>
     <div class="field"><label>Your emoji</label><div class="emopick">${LQ.EMOJIS.map((e) => `<button type="button" data-em="${e}" class="${e === P.emoji ? 'on' : ''}">${e}</button>`).join('')}</div></div>
@@ -48,9 +48,15 @@ function renderJoin(msg) {
   $('#join').onsubmit = (e) => {
     e.preventDefault();
     const c = $('#code').value.trim().toUpperCase().replace(/[^A-Z0-9]/g, ''), n = $('#name').value.replace(/\s+/g, ' ').trim();
-    if (c.length !== 6) return renderJoin('The game code is six letters and numbers — it\'s on the shared screen.');
+    if (c.length < 4) return renderJoin('The game code is six letters and numbers — it\'s on the shared screen.');
     if (!n) return renderJoin('Tell us your name so it shows on the scoreboard.');
     P.code = c; P.name = n; store('lq_player', { pid: P.pid, name: n, emoji: P.emoji });
+    // A live game's code is always six characters; anything else can only be a warm-up (TESTWARMUP, say)
+    if (c.length !== 6) {
+      LQ.api('warmup_open', { code: c, peek: true }, { timeout: 8000 }).then(() => { location.href = 'warmup?c=' + encodeURIComponent(c); })
+        .catch(() => renderJoin('No game or warm-up has that code. Check it and try again.'));
+      return;
+    }
     connect();
     LQ.api('warmup_open', { code: c, peek: true }, { timeout: 8000 }).then(() => { if (P.joined) return; clearInterval(watchdogT); leave(); location.href = 'warmup?c=' + encodeURIComponent(c); }).catch(() => {});
   };
