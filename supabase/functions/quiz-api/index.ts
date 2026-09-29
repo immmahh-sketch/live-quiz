@@ -1692,8 +1692,36 @@ async function restAll(path: string): Promise<any[]> {
 }
 async function bankRow(type: string): Promise<any> {
   const questions = (await restAll(`quiz_bank?type=eq.${encodeURIComponent(type)}&select=q&order=pos`)).map((r) => r.q);
+  return bankRowOf(type, questions);
+}
+function bankRowOf(type: string, questions: any[]): any {
   const orig = new Map<string, string>(); for (const q of questions) if (q?.id) orig.set(q.id, JSON.stringify(q));
   return { id: "bank:" + type, title: `Question bank: ${BANK_LABEL[type] || type}`, settings: { bank: true, type }, questions, _orig: orig };
+}
+/**
+ * Only the part of a type's bank a pick can use: unused rows, and of those just the named categories, or just the
+ * "well I never" facts, or (for the big types, when any question will do) a random sample plus every wow fact and the
+ * signature categories. Reading whole types for every pick spent 22 GB of the Free plan's 5 GB monthly egress in one
+ * day (26 Sept 2026). bankSave works on this as on a full row: it writes what changed and deletes nothing.
+ */
+async function bankPool(type: string, { categories = null as string[] | null, wowOnly = false, sample = 0 } = {}): Promise<any> {
+  const base = `quiz_bank?type=eq.${encodeURIComponent(type)}&used=is.false&select=q`;
+  const quote = (s: string) => '"' + String(s).split("\\").join("\\\\").split('"').join('\\"') + '"';
+  let qs: any[] = [];
+  if (categories && categories.length) {
+    qs = (await restAll(`${base}&category=ilike(any).${encodeURIComponent("{" + categories.map(quote).join(",") + "}")}&order=pos`)).map((r) => r.q);
+  } else if (wowOnly) {
+    qs = (await restAll(`${base}&q->>wow=eq.true&order=pos`)).map((r) => r.q);
+  } else if (sample > 0) {
+    const rnd: any[] = (await rest(`rpc/quiz_bank_sample`, { method: "POST", body: JSON.stringify({ t: type, n: sample }) })) || [];
+    const also = SIGNATURE.map((s) => quote(s.cat)).join(",");
+    const extra = (await restAll(`${base}&or=${encodeURIComponent(`(q->>wow.eq.true,category.in.(${also}))`)}&order=pos`)).map((r) => r.q);
+    const seen = new Set<string>();
+    for (const r of [...extra, ...rnd]) { const q = r && typeof r === "object" && "quiz_bank_sample" in r ? r.quiz_bank_sample : r; if (q?.id && !seen.has(q.id)) { seen.add(q.id); qs.push(q); } }
+  } else {
+    qs = (await restAll(`${base}&order=pos`)).map((r) => r.q);
+  }
+  return bankRowOf(type, qs);
 }
 async function bankSave(row: any) {
   const type = String(row.settings?.type || "");
@@ -1887,8 +1915,6 @@ async function bankTake(type: string, need: number, topic: string, brief: string
   // The builder sends "Round title. Brief": drop a title that is only a game's name, so the brief decides.
   const lead = topic.split(/[.:]/)[0].trim();
   if (GAME_NAME.test(lead)) topic = topic.slice(topic.indexOf(lead) + lead.length).replace(/^[\s.:–-]+/, "");
-  const row = await bankRow(type);
-  const qs: any[] = Array.isArray(row.questions) ? row.questions : [];
   const about = topic + " " + brief;
   // A round can name the bank categories it draws from ("Music": pop, rock, number ones… never musicals), or ask only
   // for the "well I never knew that" facts; either way it is spread across those categories, not matched by keyword.
@@ -1897,6 +1923,9 @@ async function bankTake(type: string, need: number, topic: string, brief: string
   const themed = !byCategory && !wowOnly && !!about.trim() && !GENERIC.test(about) && about.trim().length > 3;
   const localRound = LOCAL.test(about);
   const musicRound = themed && MUSIC_ROUND.test(about) && !MUSIC_ASKED.test(about);
+  // Load only what this pick can use (see bankPool): a mixed round of a big type draws on a random sample.
+  const row = await bankPool(type, { categories: byCategory ? [...cats] : null, wowOnly, sample: !byCategory && !wowOnly && !themed && ["choice", "text", "tf"].includes(type) ? 900 : 0 });
+  const qs: any[] = Array.isArray(row.questions) ? row.questions : [];
   const fresh = qs.filter((q) => !q.used && !flagged(q) && (type !== "race" || raceOk(q)) && !(quizId && Array.isArray(q.passed) && q.passed.includes(quizId))
     // North East questions only where the round is about the North East, and never the easy ones
     && (localRound ? true : !(q.local || (LOCAL.test(String(q.category || "")) && levelOf(q) === "easy")))
@@ -1989,7 +2018,7 @@ const NEEDS_OPTIONS = /\b(of these|the following|odd one out|which one|not\b|non
 async function gameDeal(game: string, quizId: string, ctx: PickCtx, info: any = {}, rowsWanted = 0, categories: string[] = [], subject = ""): Promise<any | null> {
   const n = rowsWanted || GAME_ROWS[game] || 20;
   const cats = new Set(categories.map((c) => c.toLowerCase()));
-  const row = await bankRow("choice");
+  const row = await bankPool("choice", { categories: cats.size ? [...cats] : null, sample: cats.size ? 0 : 900 });
   const qs: any[] = Array.isArray(row.questions) ? row.questions : [];
   const optsOf = (q: any) => { const right = (q.options || []).find((o: any) => o.id === q.correct); const rest = (q.options || []).filter((o: any) => o.id !== q.correct); return right ? [right.text, ...rest.map((o: any) => o.text)].map(String) : null; };
   const words = (s: string) => s.trim().split(/\s+/).length;
