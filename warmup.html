@@ -86,6 +86,10 @@ const boardHtml = (rows, mine) => { let hit = false; const place = (p) => rows.f
 const scrollToMe = () => { const b = $('#board'), r = b?.querySelector('.me'); if (b && r) b.scrollTop = Math.max(0, r.offsetTop - b.offsetTop - b.clientHeight / 2); };
 
 async function start() {
+  // warmup?c=CODE&reset=1 throws away a game part-played on this phone and starts afresh (for the host testing it).
+  // A finished go still counts: the server keeps one score per phone whatever this phone has saved.
+  const qs = new URLSearchParams(location.search);
+  if (qs.get('reset') === '1') { LQ.unstore(SAVE_KEY); qs.delete('reset'); history.replaceState(null, '', location.pathname + (qs.toString() ? '?' + qs : '')); }
   // A game already going on this device carries straight on (a reload, a dropped connection).
   const g = store(SAVE_KEY);
   if (g?.warmup === CODE && g.phase && g.phase !== 'lobby' && g.phase !== 'final' && me().pid) return game();
