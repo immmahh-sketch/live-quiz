@@ -420,6 +420,8 @@ function stateForPlayers() {
   if (G.phase === 'typecard') s.typecard = { type: question().kind || question().type, n: qNum(G.qIndex), run: typeRun(G.qIndex) };
   if (G.phase === 'round') { const r = roundOf(G.qIndex); s.round = { n: r.n, title: r.title, practice: !!r.practice, intro: r.intro || '', count: r.count }; }
   if (G.phase === 'question' && G.q?.wheelRevealed !== undefined) s.wheel = { revealed: G.q.wheelRevealed, category: question().category, layout: G.q.view.layout };
+  // A warm-up has no shared screen, so the phone's board turns the letters: it gets the ones already turned, never the rest
+  if (s.wheel && G.warmup) { const rev = new Set(G.q.wheelRevealed); s.wheel.layout = LQ.wheelLayout(question().phrase).map((row) => row.map((t) => t.t === 'L' ? (rev.has(t.ch) ? t : { t: 'L' }) : t)); }
   if (G.phase === 'question' && G.q && question().type === 'highlow') s.hl = { asked: Object.keys(G.q.low || {}).length };
   if ((G.phase === 'reveal' || G.phase === 'scoreboard' || G.phase === 'final') && G.q?.results) {
     s.results = {}; s.qType = question()?.type;

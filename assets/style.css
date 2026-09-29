@@ -1356,3 +1356,4 @@ body.warmup [data-act="stopgame"], body.warmup [data-act="end"] { display: none 
 .ptarget { position: absolute; transform: translate(-50%, -92%); font-size: 1.9rem; z-index: 4; filter: drop-shadow(0 2px 3px rgba(0,0,0,.35)); }
 .parea { position: absolute; border: 3px solid #26890c; background: rgba(38,137,12,.2); border-radius: 6px; }
 .pinverdict { text-align: center; font-weight: 900; margin-top: 8px; }
+.wt.lit.old { animation: none; }

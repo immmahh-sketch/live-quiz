@@ -144,7 +144,14 @@ function render() {
   const qId = s.q?.id || '';
   if (s.race && s.q) { syncRace(s); const el = $('#racePos'); if (el) el.outerHTML = racePlaceHtml(s); }
   const rc = P.race && P.race.qId === qId ? P.race : null;
-  if (s.wheel && P.viewKey.startsWith(`${s.phase}:${qId}:`)) { const b = $('#pwof'); if (b) b.innerHTML = LQ.wheelBoardHtml(s.wheel.layout, s.wheel.revealed); }
+  if (s.wheel && P.viewKey.startsWith(`${s.phase}:${qId}:`)) {
+    // redraw only when a letter has turned, and flip only the new one (the rest stay put)
+    const b = $('#pwof');
+    if (b && b.dataset.rev !== s.wheel.revealed) {
+      const old = new Set(b.dataset.rev || ''); b.innerHTML = LQ.wheelBoardHtml(s.wheel.layout, s.wheel.revealed); b.dataset.rev = s.wheel.revealed;
+      if (old.size) b.querySelectorAll('.wt.lit').forEach((t) => { if (old.has(t.textContent)) t.classList.add('old'); });
+    }
+  }
   if (s.reveal) syncReveal(s);
   if (s.roster) syncRoster(s);
   if (s.roster && s.potato) syncPotRing(s);
