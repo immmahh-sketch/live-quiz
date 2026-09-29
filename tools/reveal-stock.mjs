@@ -10,7 +10,8 @@ async function call(body) {
   const r = await fetch(API, { method: "POST", headers: { "content-type": "application/json", apikey: KEY, Authorization: "Bearer " + KEY }, body: JSON.stringify({ password: PASSWORD, ...body }) });
   const d = await r.json().catch(() => ({})); if (!r.ok || d.error) throw new Error(d.error || "HTTP " + r.status); return d;
 }
-const people = JSON.parse(fs.readFileSync(new URL("../bank/reveal-people.json", import.meta.url), "utf8"));
+// PEOPLE=<file> stocks just the people in that file (the same shape), not the whole list again.
+const people = JSON.parse(fs.readFileSync(process.env.PEOPLE || new URL("../bank/reveal-people.json", import.meta.url), "utf8"));
 const out = [];
 for (const p of people) {
   try {
