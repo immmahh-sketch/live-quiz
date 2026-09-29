@@ -918,7 +918,7 @@ Deno.serve(async (req) => {
       const ended = !!until && Date.now() >= until;
       const open = wu.open !== false && !ended;
       const pidOk = (p: unknown) => typeof p === "string" && /^p_[a-z0-9]{6,12}$/.test(p) && !p.startsWith("p_bot");
-      const board = `quiz_warmup_plays?code=eq.${code}&season=eq.${season}&select=pid,name,emoji,score,played_at&order=score.desc,played_at.asc&limit=5000`;
+      const board = `quiz_warmup_plays?code=eq.${code}&season=eq.${season}&select=pid,name,emoji,score,played_at,test_go&order=score.desc,played_at.asc&limit=5000`;
       const all: any[] = (await rest(board)) || [];
       const placeOf = (score: number) => all.filter((r) => r.score > score).length + 1;
       const top = all.slice(0, 10).map((r) => ({ name: r.name, emoji: r.emoji, score: r.score }));
@@ -926,13 +926,16 @@ Deno.serve(async (req) => {
       const boardOf = (rows: any[]) => rows.slice(0, 500).map((r) => ({ name: r.name, emoji: r.emoji, score: r.score }));
       if (action === "warmup_check") {
         const pids = new Set((Array.isArray(body.pids) ? body.pids : []).filter(pidOk).slice(0, 50));
-        return json({ played: all.filter((r) => pids.has(r.pid)).map((r) => r.pid) });
+        // a device the host has allowed a practice go (test_go) may join again
+        return json({ played: all.filter((r) => pids.has(r.pid) && !r.test_go).map((r) => r.pid) });
       }
       if (action === "warmup_open") {
         const mine = pidOk(body.pid) ? all.find((r) => r.pid === body.pid) : null;
-        const played = mine ? { name: mine.name, emoji: mine.emoji, score: mine.score, played_at: mine.played_at, place: placeOf(mine.score) } : null;
+        const played = mine && !mine.test_go ? { name: mine.name, emoji: mine.emoji, score: mine.score, played_at: mine.played_at, place: placeOf(mine.score) } : null;
+        // a practice go: the device plays again, its score on the board stays as it is
+        const practice = mine?.test_go ? { score: mine.score, place: placeOf(mine.score) } : null;
         const s = { ...quiz.settings }; delete s.report; delete s.buildLog; delete s.aiUsage; delete s.planRounds;
-        return json({ code, open, ended, until: until ? new Date(until).toISOString() : null, title: quiz.title, count: all.length, top, board: boardOf(all), played,
+        return json({ code, open, ended, until: until ? new Date(until).toISOString() : null, title: quiz.title, count: all.length, top, board: boardOf(all), played, practice,
           ...(body.peek ? {} : { quiz: { id: quiz.id, title: quiz.title, settings: s, questions: quiz.questions } }) });
       }
       // warmup_save: the end of a game
@@ -952,6 +955,9 @@ Deno.serve(async (req) => {
       }));
       // A device that has played already keeps its first score (on conflict: ignore).
       if (rows.length) await rest(`quiz_warmup_plays?on_conflict=code,season,pid`, { method: "POST", headers: { Prefer: "resolution=ignore-duplicates,return=minimal" }, body: JSON.stringify(rows) });
+      // a practice go is used up: the first score stood (above), and next time that device has had its go again
+      const practiced = ps.filter((p: any) => all.some((r) => r.pid === p.pid && r.test_go)).map((p: any) => p.pid);
+      if (practiced.length) await rest(`quiz_warmup_plays?code=eq.${code}&season=eq.${season}&pid=in.(${practiced.join(",")})`, { method: "PATCH", headers: { Prefer: "return=minimal" }, body: JSON.stringify({ test_go: false }) });
       const after: any[] = (await rest(board)) || [];
       const places: Record<string, any> = {};
       for (const p of ps) { const r = after.find((x) => x.pid === p.pid); if (r) places[p.pid] = { score: r.score, place: after.filter((x) => x.score > r.score).length + 1, kept: r.score !== Math.round(+p.score || 0) }; }
@@ -1461,18 +1467,20 @@ Deno.serve(async (req) => {
     if (action === "warmup_board") {
       // Every warm-up and every device's score, best first, with when each game was played.
       const quizzes: any[] = (await rest(`quiz_quizzes?settings->warmup=not.is.null&select=id,title,warmup:settings->warmup,updated_at&order=updated_at.desc`)) || [];
-      const rows: any[] = (await rest(`quiz_warmup_plays?select=code,season,quiz_id,game_code,pid,name,emoji,score,rank,players,bots,started_at,played_at&order=score.desc,played_at.asc&limit=5000`)) || [];
+      const rows: any[] = (await rest(`quiz_warmup_plays?select=code,season,quiz_id,game_code,pid,name,emoji,score,rank,players,bots,started_at,played_at,test_go&order=score.desc,played_at.asc&limit=5000`)) || [];
       return json({ warmups: quizzes.map((q) => { const w = q.warmup || {}, until = w.until && !isNaN(Date.parse(w.until)) ? Date.parse(w.until) : null;
         return { id: q.id, title: q.title, code: w.code || "", season: w.season || "", until: until ? new Date(until).toISOString() : null, forQuiz: w.forQuiz || null, open: w.open !== false && !(until && Date.now() >= until), switchedOff: w.open === false }; }), plays: rows });
     }
 
     if (action === "warmup_forget") {
-      // The host lets a device play again (a mistake, a crash): its row goes.
+      // The host lets a device play again. keep: a practice go (the row and its score stay; the device may play once
+      // more and its first score stands). Otherwise the row goes, and the next go is the one that counts.
       const code = String(body.code || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
       if (!code || !/^p_[a-z0-9]{6,12}$/.test(String(body.pid))) return json({ error: "Bad request." }, 400);
       const season = String(body.season || "").replace(/[^A-Za-z0-9_-]/g, "");
-      await rest(`quiz_warmup_plays?code=eq.${code}&season=eq.${season}&pid=eq.${body.pid}`, { method: "DELETE" });
-      return json({ ok: true });
+      if (body.keep) await rest(`quiz_warmup_plays?code=eq.${code}&season=eq.${season}&pid=eq.${body.pid}`, { method: "PATCH", headers: { Prefer: "return=minimal" }, body: JSON.stringify({ test_go: true }) });
+      else await rest(`quiz_warmup_plays?code=eq.${code}&season=eq.${season}&pid=eq.${body.pid}`, { method: "DELETE" });
+      return json({ ok: true, keep: !!body.keep });
     }
 
     if (action === "warmup_clash") {

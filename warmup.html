@@ -112,6 +112,7 @@ function intro(r) {
     <h1>${esc(r.title)}</h1>
     <p class="lead">Twenty questions and games on your phone, against three bots, before quiz night.</p>
     <div class="prize"><span class="big">🏆</span><span>The top score starts the quiz <u>1,000 points</u> ahead<small>One go per phone, so make it count!</small></span></div>
+    ${r.practice ? `<div class="chip" style="align-self:flex-start;background:#ffd54a;color:#1b1544">🧪 Practice go: your score of ${r.practice.score} stays on the scoreboard, whatever you get this time</div>` : ''}
     ${r.until ? `<div class="chip" style="align-self:flex-start;background:rgba(255,255,255,.16)">⏰ Closes ${esc(endsText(r.until))} · ${leftText(r.until)}</div>` : ''}
     <div class="chips"><span class="chip">💥 Wipeout</span><span class="chip">💣 Hot Potato</span><span class="chip">🏁 The Race</span><span class="chip">🕵️ 20 Questions</span><span class="chip">🎡 Wheel of Fortune</span><span class="chip">🧠 The 1% Club</span><span class="chip">🖼️ Picture Reveal</span><span class="chip">🔀 Answer Smash</span><span class="chip">📍 Drop the Pin</span><span class="chip">…and more</span></div>
     <div class="card"><h2>Who's playing?</h2>

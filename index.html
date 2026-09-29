@@ -619,7 +619,7 @@ function renderWarmups(r) {
         <code class="small">${esc(warmupLink(w.code))}</code><button class="btn btn-ghost btn-sm" data-wucopy="${esc(w.code)}">Copy link</button>
         ${w.forQuiz ? `<button class="btn btn-ghost btn-sm" data-wucheck="${w.id}" title="Look for any question the warm-up shares with its quiz, game rows included">🔍 Check for overlap</button>` : ''}
         <button class="btn btn-ghost btn-sm" data-wurefresh="${w.id}" title="New questions from the bank for a later quiz, a new end time and a fresh scoreboard">🔄 Refresh for a new quiz</button><button class="btn btn-ghost btn-sm" data-open="${w.id}">Edit</button></div>
-      ${plays.length ? `<table class="wutable"><thead><tr><th>#</th><th>Player</th><th>Score</th><th>Played</th><th>In that game</th><th></th></tr></thead><tbody>${plays.map((p, i) => `<tr><td>${i === 0 ? '🥇' : i + 1}</td><td>${esc(p.emoji || '')} ${esc(p.name)}</td><td><b>${p.score}</b></td><td>${when(p.played_at)}</td><td class="muted small">${p.players} player${p.players === 1 ? '' : 's'} + ${p.bots} bots · game ${esc(p.game_code)} · came ${LQ.ordinal(p.rank)}</td><td><button class="btn btn-ghost btn-sm" data-wuforget="${esc(p.code)}|${esc(p.season || '')}|${esc(p.pid)}|${esc(p.name)}" title="Take this score off so that phone can play again (a crash, a mistake)">Let them replay</button></td></tr>`).join('')}</tbody></table>` : '<p class="muted" style="margin:0">Nobody has played yet. Send the link!</p>'}
+      ${plays.length ? `<table class="wutable"><thead><tr><th>#</th><th>Player</th><th>Score</th><th>Played</th><th>In that game</th><th></th></tr></thead><tbody>${plays.map((p, i) => `<tr><td>${i === 0 ? '🥇' : i + 1}</td><td>${esc(p.emoji || '')} ${esc(p.name)}</td><td><b>${p.score}</b></td><td>${when(p.played_at)}</td><td class="muted small">${p.players} player${p.players === 1 ? '' : 's'} + ${p.bots} bots · game ${esc(p.game_code)} · came ${LQ.ordinal(p.rank)}</td><td><button class="btn btn-ghost btn-sm" data-wuforget="${esc(p.code)}|${esc(p.season || '')}|${esc(p.pid)}|${esc(p.name)}" title="Let that phone play again: a practice go that keeps their score, or reset their score">Let them replay</button>${p.test_go ? '<div class="muted small" style="margin-top:4px">🧪 Practice go allowed</div>' : ''}</td></tr>`).join('')}</tbody></table>` : '<p class="muted" style="margin:0">Nobody has played yet. Send the link!</p>'}
       <p class="muted small" style="margin:8px 0 0">One go per phone; bots are never counted. At the quiz, the 🎁 Bonus points button in the lobby picks out the top scorer.</p></div>`;
   }).join('');
   const reload = () => api('warmup_board').then(renderWarmups);
@@ -627,8 +627,20 @@ function renderWarmups(r) {
   $$('[data-open]', el).forEach((b) => b.onclick = () => openQuiz(b.dataset.open));
   $$('[data-wuforget]', el).forEach((b) => b.onclick = async () => {
     const [code, season, pid, name] = b.dataset.wuforget.split('|');
-    if (!(await confirmBox(`Let ${name} play again?`, 'Their score comes off the scoreboard and that phone can have another go.', 'Let them replay'))) return;
-    try { await api('warmup_forget', { code, season, pid }); toast('Done: that phone can play again.'); reload(); } catch (e) { toast(e.message, true); }
+    // Two kinds of replay: a practice go (to try changes: the score on the board stays) or a real reset (it comes off)
+    const choice = await new Promise((res) => {
+      const m = modal(`<h3>Let ${esc(name)} play again?</h3>
+        <button class="btn btn-block" data-c="keep" style="justify-content:flex-start;text-align:left;margin-bottom:8px;display:block"><b>🧪 Practice go: keep their score</b><br><span class="muted small">They can play once more to try the game. Their score on the scoreboard stays as it is, whatever they get.</span></button>
+        <button class="btn btn-block" data-c="reset" style="justify-content:flex-start;text-align:left;margin-bottom:8px;display:block"><b>🔄 Reset their score</b><br><span class="muted small">Their score comes off the scoreboard and their next go is the one that counts.</span></button>
+        <div class="row" style="justify-content:flex-end"><button class="btn btn-ghost" data-x>Cancel</button></div>`);
+      $('[data-x]', m).onclick = () => { m.remove(); res(null); };
+      $$('[data-c]', m).forEach((b) => b.onclick = () => { m.remove(); res(b.dataset.c); });
+    });
+    if (!choice) return;
+    try {
+      await api('warmup_forget', { code, season, pid, keep: choice === 'keep' });
+      toast(choice === 'keep' ? `Done: ${name} can have a practice go. Their score stays on the board.` : `Done: ${name}'s score is off and that phone can play again.`); reload();
+    } catch (e) { toast(e.message, true); }
   });
   $$('[data-wucheck]', el).forEach((b) => b.onclick = () => warmupCheckModal(b.dataset.wucheck, reload));
   $$('[data-wurefresh]', el).forEach((b) => b.onclick = () => warmupRefreshModal(r.warmups.find((w) => w.id === b.dataset.wurefresh), reload));
