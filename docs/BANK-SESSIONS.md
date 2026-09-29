@@ -73,6 +73,9 @@ Each session:
    that merely share answers (e.g. 'EU members' and 'Countries that use the euro'). A keyword search of
    board titles is not enough: 'Things that are botanically berries' and 'Fruits that botanists class
    as true berries' slipped past one.
+   Races can repeat each other too: `tools/race-dupes.sql` lists pairs sharing ten or more answers.
+   Retire true repeats (any type) with `node tools/bank-retire.mjs <type> <id> …`, which uses the API's
+   own reject so the `used` column is set as well as the JSON.
 5. Commit and push the new files.
 6. Schedule the next session one minute later (ScheduleWakeup delaySeconds 60) with the same instructions.
 
