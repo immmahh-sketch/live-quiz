@@ -427,7 +427,9 @@ function stateForPlayers() {
     for (const p of rk) { const r = G.q.results.byPlayer[p.id]; s.results[p.id] = { note: r?.note || '', practice: !!r?.practice, would: r?.would || 0, correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, skipped: !!r?.skipped, wiped: !!r?.wiped, raced: !!r?.raced, lost: !!r?.lost, place: r?.place || 0, base: r?.base || 0, bonus: r?.bonus || 0, got: r?.got, out: !!r?.out, score: p.score, rank: rk.indexOf(p) + 1, of: rk.length }; }
     if (G.quiz.settings.showAnswersOnPhones !== false) { s.answer = answerText(question()); if (question()?.type === 'club' && question().why) s.why = question().why; }
   }
-  if (G.phase === 'final') s.top = ranked().slice(0, 10).map((p, i) => ({ name: p.name, score: p.score, rank: i + 1 }));
+  if (G.phase === 'final' || (G.warmup && G.phase === 'scoreboard')) s.top = ranked().slice(0, 10).map((p, i) => ({ name: p.name, score: p.score, rank: i + 1 }));
+  // A warm-up has no shared screen: everything plays on the phone, so a Picture Reveal's picture and tiles go there too.
+  if (G.warmup && G.phase === 'question' && G.q?.reveal && question()?.media?.url) { const r = G.q.reveal; s.reveal = { url: question().media.url, cols: r.cols, rows: r.rows, off: r.order.slice(0, r.shown), blur: r.blur ? blurPx(r) : null }; }
   // a warm-up: the whole scoreboard so far, for every phone in the game to see where it ranks
   if (G.phase === 'final' && G.warmup && G.warmSaved?.board) s.warm = { board: G.warmSaved.board.slice(0, 150), count: G.warmSaved.count, places: G.warmSaved.places || {} };
   return s;
@@ -2681,6 +2683,7 @@ function revealTick() {
   const r = G.q.reveal, now = Date.now();
   if (now < r.next || r.shown >= r.order.length - 1) return;
   r.shown++; r.next += r.every;
+  if (G.warmup) broadcastState(); // the warm-up's phones show the tiles themselves
   if (r.blur) { const im = document.querySelector('.rblur'); if (im) im.style.filter = `blur(${blurPx(r)}px)`; return; }
   const el = document.querySelector(`.rtiles i[data-t="${r.order[r.shown - 1]}"]`); if (el) el.classList.add('off');
 }

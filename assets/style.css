@@ -1311,3 +1311,10 @@ body.warmup [data-act="stopgame"], body.warmup [data-act="end"] { display: none 
 .podface { font-size: 1.6em; line-height: 1; margin-bottom: 4px; }
 .podface .pface { --pf-live: min(13vh, 130px); }
 .pod.p1 .podface .pface { --pf-live: min(17vh, 160px); }
+
+/* A Picture Reveal on the phone itself (warm-up games have no shared screen) */
+.prv { position: relative; width: fit-content; max-width: 100%; margin: 4px auto 10px; }
+.prv img { display: block; max-width: 100%; max-height: 36vh; border-radius: 12px; transition: filter .8s linear; }
+.prvt { position: absolute; inset: 0; display: grid; gap: 3px; }
+.prvt i { background: linear-gradient(135deg, #5b3df5, #3b22c9); border-radius: 6px; box-shadow: inset 0 0 0 2px rgba(255,255,255,.18); transition: transform .5s ease, opacity .5s ease; }
+.prvt i.off { transform: rotateY(90deg); opacity: 0; }

@@ -145,6 +145,7 @@ function render() {
   if (s.race && s.q) { syncRace(s); const el = $('#racePos'); if (el) el.outerHTML = racePlaceHtml(s); }
   const rc = P.race && P.race.qId === qId ? P.race : null;
   if (s.wheel && P.viewKey.startsWith(`${s.phase}:${qId}:`)) { const b = $('#pwof'); if (b) b.innerHTML = LQ.wheelBoardHtml(s.wheel.layout, s.wheel.revealed); }
+  if (s.reveal) syncReveal(s);
   if (s.wipe?.studyMs) { const el = $('#studyLeft'); if (el) el.textContent = Math.ceil(s.wipe.studyMs / 1000); }
   const key = [s.phase, qId, s.qIndex, s.round?.n || '', s.raceIntro ? s.raceIntro.step + s.raceIntro.n : '', P.answered[qId] ? 'a' : '', s.wipe ? `${s.wipe.turnPid}:${s.wipe.gone.length}:${s.wipe.out.length}:${s.wipe.over}:${s.wipe.studyMs ? 'study' : ''}:${(s.wipe.order || []).length}` : '', rc ? `${rc.idx}:${rc.pending}:${rc.out}:${rc.done}:${s.race?.winner || ''}` : '', gameKey(s), twentyKey(s), s.warm ? 'w' + s.warm.count : ''].join(':');
   // A break clock: keep the phone's countdown in step with the host's, which the host can stretch or shorten.
@@ -179,8 +180,19 @@ function render() {
   else if (s.phase === 'question') { app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + (P.answered[qId] ? (P.skipped[qId] ? `<div class="state"><div class="em">⏭</div><h2>Skipped</h2><p class="muted">No points this time. Waiting for the others…</p></div>` : sentHtml()) : questionHtml(s.q)); bindQuestion(s.q); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'grading') app.innerHTML = top + top2 + `<div class="state"><div class="em">⏱</div><h2>Time's up!</h2><p class="muted">Checking the answers…</p></div>`;
   else if (s.phase === 'reveal') app.innerHTML = top + top2 + resultHtml(s, r) + (s.preview ? '' : ctrl('next', s.practice ? 'Next ▶' : 'Scores ▶'));
-  else if (s.phase === 'scoreboard') app.innerHTML = top + top2 + `<div class="state"><div class="em">${r?.rank === 1 ? '🥇' : r?.rank === 2 ? '🥈' : r?.rank === 3 ? '🥉' : '📊'}</div><h2>${r ? `You're ${ordinal(r.rank)} of ${r.of}` : 'Scoreboard'}</h2><p class="muted">${r ? r.score + ' points so far' : ''}</p>${ctrl('next', (s.more ?? s.qIndex + 1 < s.total) ? 'Next ▶' : 'Final results 🏆')}</div>`;
+  else if (s.phase === 'scoreboard') app.innerHTML = top + top2 + `<div class="state"><div class="em">${r?.rank === 1 ? '🥇' : r?.rank === 2 ? '🥈' : r?.rank === 3 ? '🥉' : '📊'}</div><h2>${r ? `You're ${ordinal(r.rank)} of ${r.of}` : 'Scoreboard'}</h2><p class="muted">${r ? r.score + ' points so far' : ''}</p>${s.top ? `<div class="board" style="width:100%;margin-bottom:12px">${s.top.slice(0, 8).map((t) => `<div class="brow ${t.name === P.name ? 'me' : ''}"><div class="rank">${t.rank}</div><div>${esc(t.name)}</div><div>${t.score}</div></div>`).join('')}</div>` : ''}${ctrl('next', (s.more ?? s.qIndex + 1 < s.total) ? 'Next ▶' : 'Final results 🏆')}</div>`;
   else if (s.phase === 'final') { app.innerHTML = top + top2 + finalHtml(s, r); const b = $('#warmBoard'), me = b?.querySelector('.me'); if (b && me) b.scrollTop = Math.max(0, me.offsetTop - b.offsetTop - b.clientHeight / 2); }
+  if (s.reveal) syncReveal(s);
+}
+/** A Picture Reveal drawn on the phone (a warm-up has no shared screen): the picture under tiles that flip away, or a blur that clears. */
+function syncReveal(s) {
+  const box = $('#prv'), r = s.reveal; if (!box || !r) return;
+  if (box.dataset.url !== r.url) {
+    box.dataset.url = r.url;
+    box.innerHTML = `<img src="${esc(r.url)}" alt="">` + (r.blur === null ? `<div class="prvt" style="grid-template-columns:repeat(${r.cols},1fr);grid-template-rows:repeat(${r.rows},1fr)">${Array.from({ length: r.cols * r.rows }, (_, i) => `<i data-t="${i}"></i>`).join('')}</div>` : '');
+  }
+  if (r.blur !== null) { const im = box.querySelector('img'); if (im) im.style.filter = `blur(${r.blur}px)`; return; }
+  const off = new Set(r.off); box.querySelectorAll('.prvt i').forEach((t) => t.classList.toggle('off', off.has(+t.dataset.t)));
 }
 /** The pause veil over the phone, and in run-itself mode a small pause button in the corner. */
 function syncPauseUi(s) {
@@ -553,7 +565,7 @@ function questionHtml(q) {
   }
   if (q.type === 'pin') { P.work.pin = P.work.pinQ === q.id ? P.work.pin : null; P.work.pinQ = q.id; body = `<div class="pinboard tap" id="pinboard"><img src="${esc(q.media?.url || '')}" draggable="false"></div><button class="btn btn-primary btn-lg btn-block mt" id="dropPin" disabled>Drop the pin here</button>`; }
   if (q.type === 'smash') return `${mediaHtml(q)}<div class="pq smashclue"><span>+</span> ${esc(q.text)}</div>${body}<button type="button" class="btn btn-ghost btn-block mt" id="skipQ" style="color:var(--ink-3)">Skip — I don't know ⏭</button>`;
-  return `${q.type === 'wheel' || q.type === 'highlow' ? '' : `<div class="pq">${q.type === 'rhyme' ? '🎤 ' : ''}${esc(q.text)}</div>`}${q.type === 'pin' ? '' : mediaHtml(q)}${body}<button type="button" class="btn btn-ghost btn-block mt" id="skipQ" style="color:var(--ink-3)">Skip — I don't know ⏭</button>`;
+  return `${q.type === 'wheel' || q.type === 'highlow' ? '' : `<div class="pq">${q.type === 'rhyme' ? '🎤 ' : ''}${esc(q.text)}</div>`}${P.state?.reveal ? '<div class="prv" id="prv"></div>' : ''}${q.type === 'pin' ? '' : mediaHtml(q)}${body}<button type="button" class="btn btn-ghost btn-block mt" id="skipQ" style="color:var(--ink-3)">Skip — I don't know ⏭</button>`;
 }
 /** Highbrow Lowbrow on the phone: the hard clue, and a button that swaps in the easy one for the lower points. Only this phone sees it. */
 function hlHtml(q) {
