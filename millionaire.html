@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#06052a">
+<title>Millionaire · Let's Quiz!</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/brand/icon-64.png">
+<link rel="apple-touch-icon" href="assets/brand/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/home.css">
+<style>
+  body.mil { --hq-bg: #03021e; --hq-bg2: #231a7a; --gold: #f6c343; --amber: #f29f05; --silver: linear-gradient(180deg, #e9ecf5, #8d94b3 50%, #dfe3ef); }
+  body.mil { background: radial-gradient(700px 520px at 50% 18%, #2d2291 0%, #120c52 45%, #03021e 80%) fixed; }
+  .spot { position: fixed; inset: 0; pointer-events: none; background: conic-gradient(from 200deg at 50% -10%, transparent 0 20deg, rgba(120,110,255,.10) 24deg, transparent 30deg 50deg, rgba(120,110,255,.08) 55deg, transparent 60deg); z-index: 0; }
+  .hq-app { position: relative; z-index: 1; }
+
+  /* the logo on the start screen */
+  .mlogo { width: 190px; height: 190px; margin: 6px auto 0; border-radius: 50%; display: grid; place-items: center; position: relative; background: radial-gradient(circle at 50% 40%, #3b31b8, #0c0845 70%); box-shadow: 0 0 0 4px #c9cde0, 0 0 0 8px #1a1466, 0 0 60px rgba(120,110,255,.5); }
+  .mlogo::before { content: ''; position: absolute; inset: 14px; border-radius: 50%; border: 2px dashed rgba(246,195,67,.5); animation: spin 30s linear infinite; }
+  .mlogo b { font-size: 1.05rem; letter-spacing: .08em; text-align: center; line-height: 1.15; font-weight: 900; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,.6); }
+  .mlogo b span { display: block; color: var(--gold); font-size: 1.6rem; letter-spacing: .02em; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* status row */
+  .status { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .qno { font-weight: 900; color: var(--hq-dim); letter-spacing: .06em; text-transform: uppercase; font-size: .8rem; }
+  .for { font-weight: 900; padding: 6px 14px; border-radius: 99px; background: rgba(246,195,67,.14); color: var(--gold); border: 1px solid rgba(246,195,67,.35); }
+  .for.safe { background: var(--gold); color: #1b1640; }
+  .ladbtn { border: 0; background: var(--hq-card); color: #fff; font-weight: 800; padding: 6px 12px; border-radius: 99px; cursor: pointer; }
+
+  /* lifelines */
+  .lifes { display: flex; justify-content: center; gap: 14px; }
+  .life { width: 64px; height: 42px; border-radius: 50%; border: 2px solid #aab0cc; background: radial-gradient(circle at 50% 35%, #2e2a9e, #0b0845); color: #fff; font-weight: 900; font-size: .95rem; cursor: pointer; position: relative; display: grid; place-items: center; box-shadow: 0 0 14px rgba(120,110,255,.35); }
+  .life:disabled { opacity: .35; cursor: default; box-shadow: none; }
+  .life.used::after { content: ''; position: absolute; left: 6px; right: 6px; top: 50%; height: 3px; background: #ff4d6d; transform: rotate(-24deg); border-radius: 2px; }
+
+  /* the lozenges: silver edge, dark middle, pointed ends, with the show's line running behind them */
+  .loz { position: relative; padding: 2px; background: var(--silver); clip-path: polygon(16px 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 16px 100%, 0 50%); }
+  .loz > div { clip-path: polygon(15px 0, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, 15px 100%, 0 50%); background: linear-gradient(180deg, #0d1780 0%, #040947 55%, #0a1270 100%); padding: 12px 26px; min-height: 52px; display: flex; align-items: center; }
+  .lrow { position: relative; }
+  .question.lrow::before { content: ''; position: absolute; left: -16px; right: -16px; top: 50%; height: 2px; background: linear-gradient(90deg, transparent, #9aa1c2 12%, #9aa1c2 88%, transparent); z-index: -1; }
+  .question .loz > div { min-height: 104px; justify-content: center; text-align: center; font-size: 1.18rem; font-weight: 800; line-height: 1.3; padding: 16px 30px; }
+  .answers { display: grid; gap: 10px; }
+  .ans { all: unset; display: block; cursor: pointer; }
+  .ans .loz > div { font-weight: 800; font-size: 1.02rem; gap: 10px; }
+  .ans .l { color: var(--amber); font-weight: 900; }
+  .ans.sel .loz > div { background: linear-gradient(180deg, #ffbe3b, #e08600 55%, #ffb21f); color: #1b1000; }
+  .ans.sel .l { color: #fff; }
+  .ans.right .loz > div { background: linear-gradient(180deg, #4ee07a, #13922f 55%, #3bd466); color: #fff; animation: flash .35s 4 alternate; }
+  .ans.right .l { color: #fff; }
+  .ans.gone { pointer-events: none; }
+  .ans.gone .loz > div > * { visibility: hidden; }
+  .ans:focus-visible .loz { outline: 3px solid #fff; }
+  @keyframes flash { from { filter: brightness(1.35); } to { filter: brightness(.85); } }
+  .hint { text-align: center; font-size: .85rem; font-weight: 800; color: #cfd3ff; background: rgba(255,255,255,.06); border-radius: 12px; padding: 8px 12px; }
+
+  /* the final answer bar */
+  .final { display: flex; gap: 10px; align-items: center; }
+  .final .q { flex: 1.2; font-weight: 900; font-size: 1.05rem; }
+  .walk { font-size: .92rem; padding: 12px; }
+
+  /* the money ladder */
+  .ladder { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column-reverse; gap: 3px; }
+  .ladder li { display: flex; justify-content: space-between; padding: 6px 14px; border-radius: 10px; font-weight: 800; color: var(--amber); }
+  .ladder li .n { color: rgba(255,255,255,.55); width: 2.2em; }
+  .ladder li.safe { color: #fff; }
+  .ladder li.done { opacity: .55; }
+  .ladder li.now { background: linear-gradient(90deg, #ffbe3b, #e08600); color: #1b1000; }
+  .ladder li.now .n { color: #1b1000; }
+
+  /* phone a friend and ask the audience */
+  .friends { display: grid; gap: 10px; }
+  .friend { all: unset; cursor: pointer; display: flex; gap: 12px; align-items: center; padding: 12px 14px; border-radius: 16px; background: rgba(255,255,255,.07); border: 1px solid var(--hq-line); }
+  .friend .e { font-size: 2rem; }
+  .friend b { display: block; }
+  .call { text-align: center; }
+  .call .face { font-size: 4rem; width: 110px; height: 110px; margin: 6px auto 10px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.08); }
+  .call .face.ringing { animation: ring 0.5s infinite alternate; }
+  @keyframes ring { from { box-shadow: 0 0 0 0 rgba(246,195,67,.6); } to { box-shadow: 0 0 0 16px rgba(246,195,67,0); } }
+  .bubble { position: relative; background: #fff; color: #1b1640; border-radius: 18px; padding: 14px 16px; font-weight: 800; font-size: 1.05rem; min-height: 60px; text-align: left; margin-top: 12px; }
+  .bubble::before { content: ''; position: absolute; top: -10px; left: 50%; border: 10px solid transparent; border-top: 0; border-bottom-color: #fff; transform: translateX(-50%); }
+  .callclock { font-weight: 900; font-size: 1.6rem; color: var(--gold); margin-top: 4px; }
+  .bars { display: flex; justify-content: space-around; align-items: flex-end; height: 200px; gap: 14px; padding: 10px 4px 0; border-bottom: 2px solid rgba(255,255,255,.3); }
+  .bar { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
+  .bar i { display: block; width: 100%; height: 0; background: linear-gradient(180deg, #8f86ff, #3c2fd0); border-radius: 8px 8px 0 0; transition: height 1.6s cubic-bezier(.2,.8,.2,1); }
+  .bar span { font-weight: 900; margin-bottom: 4px; }
+  .barl { display: flex; justify-content: space-around; gap: 14px; padding-top: 6px; font-weight: 900; color: var(--amber); }
+  .barl span { flex: 1; text-align: center; }
+
+  /* the result cards */
+  .big { text-align: center; }
+  .big h2 { font-size: 2.6rem; margin: 6px 0; color: var(--gold); }
+  .big .sub { color: var(--hq-dim); }
+  .milestone { text-align: center; }
+  .milestone .amt { font-size: 2.8rem; font-weight: 900; color: var(--gold); }
+  .reveal-ans { margin-top: 10px; }
+</style>
+</head>
+<body class="hq mil">
+<div class="spot"></div>
+<div class="hq-app">
+  <div class="hq-top" id="top"></div>
+  <main class="hq-main" id="main"></main>
+  <div class="hq-dock" id="dock"></div>
+</div>
+<script src="assets/common.js"></script>
+<script src="assets/home.js"></script>
+<script>
+'use strict';
+const { esc } = LQ;
+const $ = (s) => document.querySelector(s);
+const GAME = 'millionaire', SAVE = 'lq_mil_game';
+const LADDER = [100, 200, 300, 500, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 125000, 250000, 500000, 1000000];
+const SAFE = [4, 9]; // £1,000 and £32,000
+const L = 'ABCD';
+const FRIENDS = [
+  { name: 'Auntie Pat', emoji: '👵', about: 'Never misses a quiz night. Or a soap.' },
+  { name: 'Dave from the pub', emoji: '🧔', about: 'Knows a bit about everything. Says so, too.' },
+  { name: 'Priya', emoji: '👩🏽', about: 'The clever one from school. Now a vet.' },
+];
+let G = null, SET = null;
+
+HQ.topBar($('#top'), 'Millionaire');
+const save = () => LQ.store(SAVE, G);
+const main = $('#main'), dock = $('#dock');
+const banked = (i) => (i > 0 ? LADDER[i - 1] : 0); // what you have after answering i questions
+const safeFor = (i) => { let s = 0; for (const k of SAFE) if (i > k) s = LADDER[k]; return s; }; // what a wrong answer at question i leaves you
+
+// ------------------------------------------------------------------ start
+async function start() {
+  const saved = LQ.store(SAVE);
+  if (saved && saved.status === 'playing' && saved.set) { G = saved; try { SET = await HQ.loadSet(GAME, G.set); return question(); } catch (e) { G = null; } }
+  let pick; try { pick = await HQ.pickSet(GAME); } catch (e) { main.innerHTML = `<div class="hq-card">${esc(e.message)}</div>`; return; }
+  const best = HQ.best(GAME);
+  main.innerHTML = `<div class="mlogo hq-pop"><b>WHO WANTS TO BE A<span>MILLIONAIRE?</span></b></div>
+    <div class="hq-card hq-rise" style="text-align:center">
+      <div style="font-weight:900;font-size:1.2rem">Game ${pick.n} of ${pick.total}</div>
+      <p class="hq-muted" style="margin:6px 0 0">Fifteen questions between you and £1,000,000. Reach £1,000 and £32,000 and they're yours to keep. Get one wrong and you drop back to the last of those. You can walk away with what you've got at any time.</p>
+      ${pick.replay ? `<p class="hq-banner" style="margin-top:10px">You've played every game we have. New ones are on the way. This one is a replay.</p>` : ''}
+      ${best !== undefined ? `<p class="hq-muted hq-small" style="margin:8px 0 0">Your best so far: <b style="color:var(--gold)">${HQ.money(best)}</b></p>` : ''}
+    </div>
+    <div class="hq-card hq-rise hq-small" style="animation-delay:.1s"><b>Your three lifelines</b><div class="hq-muted" style="margin-top:4px">50:50 takes away two wrong answers. Phone a Friend puts you through to someone who might know. Ask the Audience lets the studio vote. Each can be used once.</div></div>`;
+  dock.innerHTML = `<button class="hq-btn hq-btn-main" id="go">Let's play</button>`;
+  $('#go').onclick = async () => {
+    HQ.sound('reveal');
+    try { SET = await HQ.loadSet(GAME, pick.n); } catch (e) { return HQ.toast(e.message, true); }
+    HQ.markPlayed(GAME, pick.n);
+    G = { set: pick.n, i: 0, status: 'playing', life: { fifty: false, phone: false, aud: false }, gone: [], hints: [], sel: null };
+    save(); HQ.keepAwake(true); question();
+  };
+}
+
+// ------------------------------------------------------------------ a question
+function question() {
+  const q = SET.lists.questions[G.i], i = G.i;
+  const isSafe = SAFE.includes(i);
+  main.innerHTML = `<div class="status hq-rise"><span class="qno">Question ${i + 1} of 15</span><span class="for ${isSafe ? 'safe' : ''}">for ${HQ.money(LADDER[i])}</span><button class="ladbtn" id="lad">Ladder</button></div>
+    <div class="lifes">
+      <button class="life ${G.life.fifty ? 'used' : ''}" id="lf" ${G.life.fifty ? 'disabled' : ''} aria-label="50:50">50:50</button>
+      <button class="life ${G.life.phone ? 'used' : ''}" id="lp" ${G.life.phone ? 'disabled' : ''} aria-label="Phone a friend"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg></button>
+      <button class="life ${G.life.aud ? 'used' : ''}" id="la" ${G.life.aud ? 'disabled' : ''} aria-label="Ask the audience"><svg width="30" height="22" viewBox="0 0 30 22" fill="#fff"><circle cx="8" cy="6" r="3.2"/><circle cx="15" cy="5" r="3.6"/><circle cx="22" cy="6" r="3.2"/><path d="M2 20c0-4 2.7-7 6-7s6 3 6 7zM16 20c0-4 2.7-7 6-7s6 3 6 7z"/><path d="M8 21c0-5 3.1-8.5 7-8.5s7 3.5 7 8.5z"/></svg></button>
+    </div>
+    <div class="question lrow hq-pop"><div class="loz"><div>${esc(q.text)}</div></div></div>
+    <div class="answers">${q.options.map((o, k) => `<button class="ans lrow hq-rise ${G.gone.includes(k) ? 'gone' : ''}" style="animation-delay:${0.15 + k * 0.12}s" data-k="${k}"><div class="loz"><div><span class="l">${L[k]}:</span><span>${esc(o)}</span></div></div></button>`).join('')}</div>
+    ${G.hints.map((h) => `<div class="hint">${esc(h)}</div>`).join('')}`;
+  $('#lad').onclick = showLadder;
+  $('#lf').onclick = fifty; $('#lp').onclick = phone; $('#la').onclick = audience;
+  document.querySelectorAll('.ans').forEach((b) => b.onclick = () => choose(+b.dataset.k));
+  walkDock();
+  if (G.sel !== null && G.sel !== undefined) choose(G.sel, true);
+}
+function walkDock() {
+  dock.innerHTML = G.i === 0 ? `<p class="hq-muted hq-small" style="text-align:center;margin:0">Tap an answer. Take your time: there's no clock.</p>`
+    : `<button class="hq-btn hq-btn-ghost walk" id="walk">Walk away with ${HQ.money(banked(G.i))}</button>`;
+  const w = $('#walk'); if (w) w.onclick = walkAway;
+}
+function choose(k, quiet) {
+  if (G.status !== 'playing' || G.locking) return;
+  G.sel = k; save(); if (!quiet) HQ.sound('tap');
+  document.querySelectorAll('.ans').forEach((b) => b.classList.toggle('sel', +b.dataset.k === k));
+  dock.innerHTML = `<div class="final hq-rise"><div class="q">Is that your final answer?</div><button class="hq-btn hq-btn-main" id="yes" style="flex:1">Final answer</button><button class="hq-btn hq-btn-ghost" id="no" style="flex:.7">No</button></div>`;
+  $('#yes').onclick = lockIn;
+  $('#no').onclick = () => { G.sel = null; save(); document.querySelectorAll('.ans').forEach((b) => b.classList.remove('sel')); walkDock(); };
+}
+async function lockIn() {
+  const q = SET.lists.questions[G.i], k = G.sel, i = G.i;
+  G.locking = true; dock.innerHTML = ''; HQ.sound('lock'); HQ.buzzPhone(30);
+  document.querySelectorAll('.ans, .life, #lad').forEach((b) => b.disabled = true);
+  // the pause gets longer as the money goes up
+  const wait = i < 5 ? 1300 : i < 10 ? 2400 : 3600;
+  HQ.heartbeat(i >= 5); await LQ.sleep(wait); HQ.heartbeat(false);
+  G.locking = false;
+  const right = k === q.correct;
+  document.querySelector(`.ans[data-k="${q.correct}"]`).classList.add('right');
+  if (right) {
+    HQ.sound('right'); G.i++; G.sel = null; G.gone = []; G.hints = [];
+    if (G.i >= 15) { G.status = 'won'; save(); await LQ.sleep(1600); return over(1000000, 'win'); }
+    save(); await LQ.sleep(1500); return milestone(i);
+  }
+  HQ.sound('wrong'); HQ.buzzPhone([60, 60, 120]);
+  G.status = 'lost'; save();
+  await LQ.sleep(2200);
+  over(safeFor(i), 'wrong', q);
+}
+function milestone(i) {
+  const safe = SAFE.includes(i);
+  if (safe) { HQ.sound('win'); HQ.confetti(60); }
+  main.innerHTML = `<div class="hq-card milestone hq-pop" style="margin-top:14vh">
+      <div class="hq-muted">${safe ? "That's banked! Whatever happens now, you leave with at least" : 'Correct! You now have'}</div>
+      <div class="amt">${HQ.money(LADDER[i])}</div>
+      <div class="hq-muted">Next up: question ${i + 2}, for ${HQ.money(LADDER[i + 1])}</div>
+    </div>${ladderHtml(i + 1)}`;
+  dock.innerHTML = `<button class="hq-btn hq-btn-main" id="next">Next question</button>`;
+  $('#next').onclick = () => { HQ.sound('whoosh'); question(); };
+}
+
+// ------------------------------------------------------------------ the end
+function walkAway() {
+  const q = SET.lists.questions[G.i];
+  over(banked(G.i), 'walk', q);
+}
+function over(amount, how, q) {
+  G.status = 'over'; G.won = amount; save(); LQ.unstore(SAVE);
+  HQ.heartbeat(false); HQ.keepAwake(false);
+  const isBest = HQ.best(GAME, amount);
+  if (how === 'win') { HQ.sound('win'); HQ.confetti(220); }
+  else if (how === 'walk') HQ.sound('reveal');
+  else HQ.sound('lose');
+  const title = how === 'win' ? "You're a millionaire!" : how === 'walk' ? 'You walk away with' : amount ? 'You leave with' : 'Unlucky!';
+  const qHtml = q ? `<div class="hq-card reveal-ans hq-small"><div class="hq-muted">${how === 'walk' ? 'For ' + HQ.money(LADDER[G.i]) + ', the answer was' : 'The right answer was'}</div><div style="font-weight:900;font-size:1.05rem;margin-top:4px">${L[q.correct]}: ${esc(q.options[q.correct])}</div>${how === 'walk' && G.sel !== null && G.sel !== undefined ? `<div class="hq-muted" style="margin-top:6px">${G.sel === q.correct ? 'You had it! Right answer, but a safe decision.' : 'You were leaning towards ' + L[G.sel] + ', so good call.'}</div>` : ''}</div>` : '';
+  main.innerHTML = `<div class="big hq-pop" style="margin-top:6vh"><div class="sub">${esc(title)}</div><h2>${how === 'wrong' && !amount ? '£0' : HQ.money(amount)}</h2>
+    ${isBest && amount > 0 ? `<div class="hq-banner">Your best ever!</div>` : ''}</div>${qHtml}`;
+  dock.innerHTML = `<div style="display:grid;gap:10px"><button class="hq-btn hq-btn-main" id="again">Play the next game</button>
+    <div class="hq-row"><button class="hq-btn hq-btn-ghost" id="share">Share</button><a class="hq-btn hq-btn-ghost" href="home">All games</a></div></div>`;
+  $('#again').onclick = () => { G = null; start(); };
+  $('#share').onclick = () => HQ.share(how === 'win' ? `I just won £1,000,000 on Millionaire (Game ${SET.set}) at Let's Quiz!` : `I won ${HQ.money(amount)} on Millionaire (Game ${SET.set}) at Let's Quiz! Can you beat it?`);
+}
+
+// ------------------------------------------------------------------ the ladder
+function ladderHtml(now) {
+  return `<ul class="ladder hq-rise">${LADDER.map((m, k) => `<li class="${SAFE.includes(k) ? 'safe' : ''} ${k < now ? 'done' : ''} ${k === now ? 'now' : ''}"><span class="n">${k + 1}</span><span>${HQ.money(m)}</span></li>`).join('')}</ul>`;
+}
+function showLadder() {
+  const o = document.createElement('div'); o.className = 'hq-over';
+  o.innerHTML = `<div class="hq-card hq-pop">${ladderHtml(G.i)}<p class="hq-muted hq-small" style="margin:10px 0 0">The white amounts are safe: once you reach them, you keep them.</p><button class="hq-btn hq-btn-main" style="margin-top:12px">Back to the question</button></div>`;
+  o.onclick = (e) => { if (e.target === o || e.target.tagName === 'BUTTON') o.remove(); };
+  document.body.appendChild(o);
+}
+
+// ------------------------------------------------------------------ lifelines
+const left = (q) => [0, 1, 2, 3].filter((k) => !G.gone.includes(k));
+const say = (q, k) => `${L[k]}, ${q.options[k]}`;
+function fifty() {
+  if (G.life.fifty) return; const q = SET.lists.questions[G.i];
+  const wrong = left(q).filter((k) => k !== q.correct);
+  G.gone = [...G.gone, ...LQ.shuffle(wrong).slice(0, Math.max(0, wrong.length - 1))];
+  G.life.fifty = true; if (G.gone.includes(G.sel)) G.sel = null;
+  save(); HQ.sound('whoosh'); question();
+}
+/** What the friend says. They name the right answer as their pick about 70% of the time, and sound surest when right. */
+function friendLine(q) {
+  const opts = left(q), wrongs = opts.filter((k) => k !== q.correct), pick = HQ.pick, r = Math.random();
+  const T = {
+    sure: ['It\'s {a}. Definitely, 100%!', 'Oh, I know this one! It\'s {a}. Put your house on it.', '{a}. No question. Go for it!', 'Easy: it\'s {a}. I\'d bet my life on it.'],
+    fairly: ['I\'m pretty sure it\'s {a}. Not certain, but pretty sure.', 'I think it\'s {a}… yeah, about 80% sure.', 'My gut says {a}, and my gut\'s usually right.'],
+    unsure: ['Hmm… I\'m really not sure. I think it might be {a}, but I\'m not 100%.', 'Ooh, that\'s a tough one. Maybe {a}? Don\'t hold me to it.', 'I\'ve got a feeling it\'s {a}, but honestly I\'m guessing.'],
+    two: ['It\'s either {a} or {b}, I\'m not sure… I think it\'s {a}.', 'I\'d rule the others out. It\'s {a} or {b}… if I had to pick, {a}.'],
+    guess: ['No idea, sorry! If you\'re making me guess… {a}?', 'I haven\'t a clue, love. {a}, maybe? Total guess.'],
+    none: ['Sorry, I\'ve got absolutely no idea. Go with your gut!', 'Oh no, you\'ve caught me out. I really don\'t know. Sorry!'],
+  };
+  const fill = (t, a, b) => t.replace(/\{a\}/g, say(q, a)).replace(/\{b\}/g, b !== undefined ? say(q, b) : '');
+  if (HQ.chance(0.7) || !wrongs.length) { // good advice
+    if (r < 0.45) return fill(pick(T.sure), q.correct);
+    if (r < 0.7) return fill(pick(T.fairly), q.correct);
+    if (r < 0.85 || !wrongs.length) return fill(pick(T.unsure), q.correct);
+    return fill(pick(T.two), q.correct, pick(wrongs));
+  }
+  const w = pick(wrongs);
+  if (r < 0.25) return fill(pick(T.sure), w);
+  if (r < 0.55) return fill(pick(T.unsure), w);
+  if (r < 0.8) return fill(pick(T.two), w, q.correct);
+  if (r < 0.9) return fill(pick(T.guess), w);
+  return pick(T.none);
+}
+function phone() {
+  if (G.life.phone) return; const q = SET.lists.questions[G.i];
+  const o = document.createElement('div'); o.className = 'hq-over';
+  o.innerHTML = `<div class="hq-card hq-pop"><h3 style="margin:0 0 4px">Phone a Friend</h3><p class="hq-muted hq-small" style="margin:0 0 12px">Who are you going to call? You get 30 seconds.</p>
+    <div class="friends">${FRIENDS.map((f, k) => `<button class="friend" data-f="${k}"><span class="e">${f.emoji}</span><span><b>${esc(f.name)}</b><span class="hq-muted hq-small">${esc(f.about)}</span></span></button>`).join('')}</div>
+    <button class="hq-btn hq-btn-ghost" id="nevermind" style="margin-top:12px">Not yet</button></div>`;
+  document.body.appendChild(o);
+  o.querySelector('#nevermind').onclick = () => o.remove();
+  o.querySelectorAll('[data-f]').forEach((b) => b.onclick = async () => {
+    const f = FRIENDS[+b.dataset.f]; G.life.phone = true; save();
+    const line = friendLine(q);
+    o.innerHTML = `<div class="hq-card call hq-pop"><div class="face ringing">${f.emoji}</div><b>${esc(f.name)}</b><div class="hq-muted hq-small" id="cst">Calling…</div><div class="callclock" id="cclk">30</div><div class="bubble hq-hidden" id="bub"></div><button class="hq-btn hq-btn-main" id="hang" style="margin-top:14px" disabled>Hang up</button></div>`;
+    HQ.sound('ring'); await LQ.sleep(1800);
+    o.querySelector('.face').classList.remove('ringing'); o.querySelector('#cst').textContent = 'You read out the question…';
+    let t = 30; const clk = setInterval(() => { t--; const c = o.querySelector('#cclk'); if (c) c.textContent = t; if (t <= 5 && t > 0) HQ.sound('tick'); if (t <= 0) clearInterval(clk); }, 1000);
+    await LQ.sleep(2500);
+    o.querySelector('#cst').textContent = f.name + ' says:';
+    const bub = o.querySelector('#bub'); bub.classList.remove('hq-hidden');
+    for (let n = 1; n <= line.length; n++) { bub.textContent = line.slice(0, n); await LQ.sleep(line[n - 1] === '…' || line[n - 1] === '.' ? 180 : 28); }
+    G.hints.push(`📞 ${f.name}: “${line}”`); save();
+    const hb = o.querySelector('#hang'); hb.disabled = false; hb.onclick = () => { clearInterval(clk); o.remove(); question(); };
+  });
+}
+/** The audience vote. Strong and right 40% of the time, narrowly right 20%, strongly wrong 20%, narrowly wrong 20%. */
+function audienceVote(q) {
+  const opts = left(q), n = opts.length, wrongs = opts.filter((k) => k !== q.correct), r = Math.random(), rand = HQ.rand;
+  const kind = r < 0.4 ? 'strongRight' : r < 0.6 ? 'weakRight' : r < 0.8 ? 'strongWrong' : 'weakWrong';
+  const top = kind.endsWith('Right') || !wrongs.length ? q.correct : HQ.pick(wrongs);
+  const strong = kind.startsWith('strong');
+  const pct = {}; opts.forEach((k) => pct[k] = 0);
+  let topP = strong ? rand(n === 2 ? 68 : 52, n === 2 ? 88 : 76) : rand(n === 2 ? 51 : 32, n === 2 ? 58 : 41);
+  pct[top] = topP;
+  const others = opts.filter((k) => k !== top);
+  if (!strong && others.length) {
+    // a close second: the right answer when the audience is narrowly wrong
+    const second = top === q.correct ? HQ.pick(others) : q.correct;
+    pct[second] = topP - rand(2, 8);
+    const rest = others.filter((k) => k !== second); let left100 = 100 - topP - pct[second];
+    rest.forEach((k, j) => { const share = j === rest.length - 1 ? left100 : left100 * rand(0.35, 0.65); pct[k] = share; left100 -= share; });
+    if (!rest.length) pct[second] = 100 - topP;
+  } else {
+    let left100 = 100 - topP; const w = others.map(() => rand(0.3, 1)), sw = w.reduce((a, b) => a + b, 0) || 1;
+    others.forEach((k, j) => pct[k] = left100 * w[j] / sw);
+  }
+  // whole numbers adding up to 100, the top one still on top
+  const keys = Object.keys(pct).map(Number); let tot = 0;
+  keys.forEach((k) => { pct[k] = Math.max(0, Math.round(pct[k])); tot += pct[k]; });
+  pct[top] += 100 - tot;
+  keys.forEach((k) => { if (k !== top && pct[k] >= pct[top]) { const d = pct[k] - pct[top] + 1; pct[k] -= d; pct[top] += d; } });
+  return pct;
+}
+async function audience() {
+  if (G.life.aud) return; const q = SET.lists.questions[G.i];
+  G.life.aud = true; save();
+  const pct = audienceVote(q);
+  const o = document.createElement('div'); o.className = 'hq-over';
+  o.innerHTML = `<div class="hq-card hq-pop"><h3 style="margin:0 0 2px">Ask the Audience</h3><p class="hq-muted hq-small" style="margin:0" id="ast">The audience are voting now…</p>
+    <div class="bars">${[0, 1, 2, 3].map((k) => `<div class="bar"><span id="p${k}">${G.gone.includes(k) ? '' : '…'}</span><i id="b${k}"></i></div>`).join('')}</div>
+    <div class="barl">${[0, 1, 2, 3].map((k) => `<span style="${G.gone.includes(k) ? 'opacity:.25' : ''}">${L[k]}</span>`).join('')}</div>
+    <button class="hq-btn hq-btn-main" id="ok" style="margin-top:14px" disabled>Thanks, audience</button></div>`;
+  document.body.appendChild(o);
+  for (let t = 0; t < 8; t++) { HQ.sound(t % 2 ? 'tick' : 'tock'); await LQ.sleep(220); }
+  o.querySelector('#ast').textContent = 'Here is how they voted:';
+  for (const k of [0, 1, 2, 3]) { if (G.gone.includes(k)) continue; o.querySelector('#b' + k).style.height = pct[k] + '%'; o.querySelector('#p' + k).textContent = pct[k] + '%'; }
+  HQ.sound('reveal');
+  G.hints.push('👥 Audience: ' + [0, 1, 2, 3].filter((k) => !G.gone.includes(k)).map((k) => `${L[k]} ${pct[k]}%`).join(' · ')); save();
+  const ok = o.querySelector('#ok'); ok.disabled = false; ok.onclick = () => { o.remove(); question(); };
+}
+
+window.addEventListener('beforeunload', () => { if (G && G.status === 'playing') save(); });
+start();
+</script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+{
+ "game": "club",
+ "set": 3,
+ "made": "2026-09-29",
+ "lists": {
+  "questions": [
+   {
+    "id": "q_a4420f3a",
+    "pct": 90,
+    "text": "There are six balls in an over. How many balls are there in three overs?",
+    "answers": [
+     "18",
+     "Eighteen"
+    ],
+    "why": "3 × 6 = 18.",
+    "category": "Cricket"
+   },
+   {
+    "id": "q_10639f85",
+    "pct": 80,
+    "text": "Which letter comes next: A, C, E, G, ___?",
+    "answers": [
+     "I"
+    ],
+    "why": "Each step skips one letter: A (b) C (d) E (f) G (h) I.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_90d840f6",
+    "pct": 70,
+    "text": "What has to be broken before you can use it?",
+    "answers": [
+     "An egg",
+     "Egg"
+    ],
+    "why": "You have to break an egg before you can use it.",
+    "category": "Riddle"
+   },
+   {
+    "id": "q_0d4c4bae",
+    "pct": 60,
+    "text": "A light is off. You flick its switch seven times. Is it now on or off?",
+    "answers": [
+     "On"
+    ],
+    "why": "Every two flicks cancel out, so after an odd number like seven, the light has changed state: off becomes on.",
+    "category": "Science and technology"
+   },
+   {
+    "id": "q_402b806c",
+    "pct": 50,
+    "text": "What is the missing number: 3, 6, 11, 18, 27, ___?",
+    "answers": [
+     "38",
+     "Thirty-eight"
+    ],
+    "why": "The gaps go up by 2 each time (3, 5, 7, 9), so the next gap is 11: 27 + 11 = 38.",
+    "category": "Maths"
+   },
+   {
+    "id": "q_07aae40e",
+    "pct": 40,
+    "text": "Which of these words does NOT rhyme with the others when spoken: BOUGH, COUGH, PLOUGH, NOW?",
+    "answers": [
+     "Cough"
+    ],
+    "why": "BOUGH, PLOUGH and NOW all end in an \"ow\" sound, but COUGH is said \"coff\".",
+    "category": "Wordplay"
+   },
+   {
+    "id": "q_3b1c5fd9",
+    "pct": 30,
+    "text": "Dolly the sheep was born in July 1996 and died in February 2003. How old was she, in whole years?",
+    "answers": [
+     "6",
+     "Six"
+    ],
+    "why": "She turned 6 in July 2002 and died in February 2003, before she could turn 7.",
+    "category": "The 1990s"
+   },
+   {
+    "id": "q_f474206d",
+    "pct": 20,
+    "text": "At what temperature are Celsius and Fahrenheit the same?",
+    "answers": [
+     "-40",
+     "Minus 40",
+     "-40°"
+    ],
+    "why": "F = 9/5 × C + 32, and 9/5 × −40 + 32 = −72 + 32 = −40.",
+    "category": "Nature and the environment"
+   },
+   {
+    "id": "q_f3f9d8b7",
+    "pct": 10,
+    "text": "A cube of side 3 is painted red and cut into 27 unit cubes. How many small cubes have exactly two red faces?",
+    "answers": [
+     "12",
+     "Twelve"
+    ],
+    "why": "Only the middle cube on each edge has exactly two painted faces, and a cube has 12 edges.",
+    "category": "Maths"
+   },
+   {
+    "id": "q_f044a9dd",
+    "pct": 5,
+    "text": "What do you get if you add up every number on a roulette wheel, from 0 to 36?",
+    "answers": [
+     "666",
+     "Six hundred and sixty-six"
+    ],
+    "why": "Pair them up: 1 + 36, 2 + 35 and so on make 18 pairs of 37, which is 666 (the 0 adds nothing).",
+    "category": "Maths"
+   },
+   {
+    "id": "q_09e6c4d6",
+    "pct": 1,
+    "text": "The letters of ELEVEN PLUS TWO can be rearranged into another sum with the same answer. What is it?",
+    "answers": [
+     "Twelve plus one",
+     "One plus twelve",
+     "12 plus 1",
+     "12+1",
+     "12 + 1"
+    ],
+    "why": "TWELVE PLUS ONE uses exactly the same thirteen letters, and both sums make 13.",
+    "category": "Logic"
+   }
+  ]
+ }
+}

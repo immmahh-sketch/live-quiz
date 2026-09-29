@@ -1,0 +1,138 @@
+{
+ "game": "club",
+ "set": 1,
+ "made": "2026-09-29",
+ "lists": {
+  "questions": [
+   {
+    "id": "q_6dfe281b",
+    "pct": 90,
+    "text": "How many wheels do two bicycles and one tricycle have altogether?",
+    "answers": [
+     "7",
+     "Seven"
+    ],
+    "why": "Two bicycles have 4 wheels and a tricycle has 3: 4 + 3 = 7.",
+    "category": "Maths"
+   },
+   {
+    "id": "q_9b73f4f4",
+    "pct": 80,
+    "text": "The UK singles chart began in 1952 and Top of the Pops in 1964. How many years apart?",
+    "answers": [
+     "12",
+     "Twelve"
+    ],
+    "why": "1964 − 1952 = 12.",
+    "category": "Pop music"
+   },
+   {
+    "id": "q_6d441562",
+    "pct": 70,
+    "text": "A farmer has 17 sheep. All but 9 run away. How many sheep are left?",
+    "answers": [
+     "9",
+     "Nine"
+    ],
+    "why": "\"All but 9 run away\" means every sheep except 9 left, so 9 remain.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_ca90b173",
+    "pct": 60,
+    "text": "Which word can follow FAN, GOLF and NIGHT?",
+    "answers": [
+     "Club"
+    ],
+    "why": "Fan club, golf club and nightclub.",
+    "category": "Boy bands and girl groups"
+   },
+   {
+    "id": "q_bb336e59",
+    "pct": 50,
+    "text": "How many degrees are there between the hands of a clock at 6 o'clock?",
+    "answers": [
+     "180"
+    ],
+    "why": "At 6 o'clock the hands point straight up and straight down, which makes a straight line of 180°.",
+    "category": "Maths"
+   },
+   {
+    "id": "q_e604b87d",
+    "pct": 40,
+    "text": "Two-Face flips his coin three times. How many different heads-and-tails sequences could come up?",
+    "answers": [
+     "8",
+     "Eight"
+    ],
+    "why": "Two outcomes each time: 2 × 2 × 2 = 8.",
+    "category": "DC, Batman and Superman"
+   },
+   {
+    "id": "q_62e3852d",
+    "pct": 30,
+    "text": "What is 1 + 2 + 3 + ... + 100?",
+    "answers": [
+     "5050",
+     "5,050"
+    ],
+    "why": "Pair the numbers as 1+100, 2+99 and so on: that's 50 pairs of 101, which is 5050.",
+    "category": "Maths"
+   },
+   {
+    "id": "q_af849e0b",
+    "pct": 20,
+    "text": "A rope ladder hangs over the side of a ship with its bottom rung touching the water. The rungs are 30 cm apart and the tide rises 90 cm an hour. After two hours, how many rungs are under water?",
+    "answers": [
+     "None",
+     "0",
+     "Zero",
+     "The ship rises with the tide",
+     "No rungs",
+     "Nothing",
+     "Not any"
+    ],
+    "why": "The ship floats, so it rises with the tide, and the ladder rises too; no more rungs go under water.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_2d150eeb",
+    "pct": 10,
+    "text": "These are the numbers one to ten in a certain order: 8, 5, 4, 9, 1, 7, 6, ___. What comes next?",
+    "answers": [
+     "10",
+     "Ten"
+    ],
+    "why": "They are in alphabetical order: eight, five, four, nine, one, seven, six, ten, three, two.",
+    "category": "Wordplay"
+   },
+   {
+    "id": "q_9594d2cd",
+    "pct": 5,
+    "text": "A clock takes 5 seconds to strike six o'clock. How many seconds does it take to strike twelve?",
+    "answers": [
+     "11",
+     "Eleven"
+    ],
+    "why": "Six strikes have five gaps, one second each. Twelve strikes have eleven gaps: 11 seconds.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_684902bd",
+    "pct": 1,
+    "text": "The day before yesterday I was 25. Next year I will be 28. On what day of the year is my birthday?",
+    "answers": [
+     "31 December",
+     "December 31",
+     "31st December",
+     "31 Dec",
+     "31st Dec",
+     "December 31st",
+     "New Year's Eve"
+    ],
+    "why": "Today must be 1 January and your birthday 31 December: you were 25 on 30 December, turned 26 yesterday, turn 27 this December and 28 next year.",
+    "category": "Logic"
+   }
+  ]
+ }
+}

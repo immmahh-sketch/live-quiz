@@ -1,0 +1,139 @@
+{
+ "game": "club",
+ "set": 10,
+ "made": "2026-09-29",
+ "lists": {
+  "questions": [
+   {
+    "id": "q_59c08ab8",
+    "pct": 90,
+    "text": "A gallery hangs 12 paintings in each of its 5 rooms. How many paintings in total?",
+    "answers": [
+     "60",
+     "Sixty"
+    ],
+    "why": "12 × 5 = 60.",
+    "category": "Art and artists"
+   },
+   {
+    "id": "q_ea8b57b3",
+    "pct": 80,
+    "text": "A snooker player pots a red, then the black. How many points?",
+    "answers": [
+     "8",
+     "Eight"
+    ],
+    "why": "Red 1 + black 7 = 8.",
+    "category": "Horse racing and darts"
+   },
+   {
+    "id": "q_41be711e",
+    "pct": 70,
+    "text": "Which word can go before all of these to make new words: BOARD, HOLE, NOTE?",
+    "answers": [
+     "Key"
+    ],
+    "why": "KEYBOARD, KEYHOLE and KEYNOTE.",
+    "category": "Wordplay"
+   },
+   {
+    "id": "q_02c93bce",
+    "pct": 60,
+    "text": "When it is noon on Christmas Day in London, it is 11pm in Sydney. What date is it in Sydney?",
+    "answers": [
+     "25 December",
+     "Christmas Day",
+     "25th December",
+     "December 25",
+     "25th Dec",
+     "25 Dec",
+     "Dec 25",
+     "December 25th",
+     "Christmas"
+    ],
+    "why": "Sydney is 11 hours ahead in December, so noon on the 25th in London is 11pm on the 25th there.",
+    "category": "Australia and New Zealand"
+   },
+   {
+    "id": "q_f42b02dd",
+    "pct": 50,
+    "text": "How many of the letters in MISSISSIPPI are either an I or an S?",
+    "answers": [
+     "8",
+     "Eight"
+    ],
+    "why": "M-I-S-S-I-S-S-I-P-P-I has four Is and four Ss: 4 + 4 = 8.",
+    "category": "The United States"
+   },
+   {
+    "id": "q_c1cf5418",
+    "pct": 40,
+    "text": "If it takes 5 machines 5 minutes to make 5 widgets, how long does it take 100 machines to make 100 widgets?",
+    "answers": [
+     "5 minutes",
+     "5",
+     "Five minutes"
+    ],
+    "why": "Each machine takes 5 minutes to make one widget, so 100 machines make 100 widgets in the same 5 minutes.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_aafe98e5",
+    "pct": 30,
+    "text": "The six friends each hug every other friend exactly once. How many hugs is that?",
+    "answers": [
+     "15",
+     "Fifteen"
+    ],
+    "why": "Each of 6 hugs 5 others, 30, but every hug is counted twice, so 15.",
+    "category": "Friends"
+   },
+   {
+    "id": "q_64223380",
+    "pct": 20,
+    "text": "A man looks at a portrait and says 'Brothers and sisters I have none, but that man's father is my father's son.' Who is in the portrait?",
+    "answers": [
+     "His son",
+     "Son",
+     "~son"
+    ],
+    "why": "He has no brothers, so \"my father's son\" is himself, which makes the man in the portrait his son.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_d0e773fa",
+    "pct": 10,
+    "text": "In a knockout tennis tournament with 128 players, how many matches are played in total?",
+    "answers": [
+     "127"
+    ],
+    "why": "Each match knocks out one player, and 127 players must go out to leave one winner.",
+    "category": "Maths"
+   },
+   {
+    "id": "q_f9b0d195",
+    "pct": 5,
+    "text": "On an old calculator, which number do you type so that the display turned upside down reads 'hELLO'?",
+    "answers": [
+     "0.7734",
+     "07734",
+     "7734",
+     ".7734"
+    ],
+    "why": "0.7734 upside down: 4 looks like h, 3 like E, the 7s like Ls and 0 like O.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_926ad75c",
+    "pct": 1,
+    "text": "Which two-digit number is exactly twice the product of its two digits?",
+    "answers": [
+     "36",
+     "Thirty-six"
+    ],
+    "why": "3 × 6 = 18, and 18 × 2 = 36. No other two-digit number works.",
+    "category": "Maths"
+   }
+  ]
+ }
+}

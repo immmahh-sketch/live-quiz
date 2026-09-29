@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#12002b">
+<title>The 1% Club · Let's Quiz!</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/brand/icon-64.png">
+<link rel="apple-touch-icon" href="assets/brand/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/home.css">
+<style>
+  body.club { --hq-bg: #0a0019; --hq-bg2: #3b0a7a; --neon: #39ff9f; --pink: #ff4fd8; --hq-accent: #39ff9f; }
+  body.club { background: radial-gradient(760px 520px at 50% -8%, #5b12a8 0%, #22064d 45%, #0a0019 85%) fixed; }
+  .hq-go, .hq-btn-main { background: var(--neon); color: #06200f; }
+  .hq-answer input:focus { border-color: var(--neon); }
+  .hq-clockbar > i { background: var(--neon); }
+
+  .mark { text-align: center; margin-top: 2vh; }
+  .mark .big { font-size: 5.2rem; font-weight: 900; line-height: 1; background: linear-gradient(180deg, #fff, #b28cff); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 0 40px rgba(178,140,255,.35); }
+  .mark .sub { letter-spacing: .3em; font-weight: 900; color: var(--neon); }
+
+  .grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; padding: 10px; border-radius: 16px; background: rgba(0,0,0,.25); border: 1px solid rgba(178,140,255,.25); }
+  .grid i { aspect-ratio: 1; border-radius: 50%; background: var(--neon); box-shadow: 0 0 6px rgba(57,255,159,.6); transition: background .6s, box-shadow .6s, transform .6s; }
+  .grid i.out { background: rgba(255,255,255,.1); box-shadow: none; transform: scale(.7); }
+  .grid i.walk { background: #ffd60a; box-shadow: 0 0 6px rgba(255,214,10,.6); }
+  .grid i.h { background: #fff; box-shadow: 0 0 8px #fff; }
+  .grid i.h.out { background: rgba(255,255,255,.25); }
+  .grid i.me { outline: 2px solid var(--pink); outline-offset: 2px; }
+  .grid i.gone { animation: pop .7s ease-out; }
+  @keyframes pop { 0% { transform: scale(1.4); background: #ff4d6d; } 100% { transform: scale(.7); } }
+  .nums { display: flex; justify-content: space-between; align-items: baseline; }
+  .nums .n { font-size: 1.6rem; font-weight: 900; }
+  .nums .l { font-size: .72rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: var(--hq-dim); }
+  .pct { text-align: center; }
+  .pct .p { font-size: 5rem; font-weight: 900; line-height: 1; color: var(--neon); text-shadow: 0 0 30px rgba(57,255,159,.5); }
+  .pct .t { color: var(--hq-dim); font-weight: 800; }
+  .qline { display: flex; align-items: center; gap: 10px; }
+  .badge { font-weight: 900; font-size: 1.2rem; color: #06200f; background: var(--neon); padding: 6px 12px; border-radius: 12px; box-shadow: 0 0 16px rgba(57,255,159,.5); }
+  .qtext { font-size: 1.22rem; font-weight: 800; line-height: 1.35; padding: 16px; border-radius: 18px; background: rgba(255,255,255,.06); border: 1px solid rgba(178,140,255,.35); }
+  .locked { text-align: center; padding: 12px; border-radius: 14px; background: rgba(57,255,159,.12); color: var(--neon); font-weight: 900; }
+  .ansbox { text-align: center; padding: 16px; border-radius: 18px; background: rgba(57,255,159,.12); border: 2px solid var(--neon); }
+  .ansbox .a { font-size: 1.8rem; font-weight: 900; color: var(--neon); }
+  .ansbox .why { color: #fff; font-weight: 700; margin-top: 6px; }
+  .verdict { text-align: center; font-size: 1.3rem; font-weight: 900; }
+  .verdict.in { color: var(--neon); } .verdict.out { color: #ff6b8a; } .verdict.pass { color: #ffd60a; }
+  .ladder { display: flex; gap: 4px; justify-content: space-between; }
+  .ladder span { flex: 1; text-align: center; font-size: .7rem; font-weight: 900; padding: 4px 0; border-radius: 6px; background: rgba(255,255,255,.06); color: var(--hq-dim); }
+  .ladder span.done { background: rgba(57,255,159,.2); color: var(--neon); }
+  .ladder span.now { background: var(--neon); color: #06200f; }
+  .humans { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+  .humans span { padding: 3px 9px; border-radius: 99px; font-weight: 800; font-size: .82rem; background: rgba(57,255,159,.15); }
+  .humans span.out { background: rgba(255,255,255,.05); color: var(--hq-dim); text-decoration: line-through; }
+  .humans span.ok { background: rgba(57,255,159,.35); }
+</style>
+</head>
+<body class="hq club">
+<div class="hq-app">
+  <div class="hq-top" id="top"></div>
+  <main class="hq-main" id="main"></main>
+  <div class="hq-dock" id="dock"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="assets/common.js"></script>
+<script src="assets/home.js"></script>
+<script>
+'use strict';
+const { esc } = LQ;
+const $ = (s) => document.querySelector(s), $$ = (s) => Array.from(document.querySelectorAll(s));
+const main = $('#main'), dock = $('#dock');
+HQ.topBar($('#top'), 'The 1% Club');
+
+const TOTAL = 100, STAKE = 1000;
+// How many bots get each rung right: tuned so about 65 are left after 50%, 20 or so after 20%, a handful at the 1%
+const BASE = { 90: 0.97, 80: 0.945, 70: 0.93, 60: 0.9, 50: 0.86, 40: 0.8, 30: 0.72, 20: 0.63, 10: 0.47, 5: 0.4, 1: 0.14 };
+const timeFor = (pct) => (pct === 1 ? 60000 : pct === 5 ? 45000 : 30000);
+const logit = (p) => Math.log(p / (1 - p)), sig = (x) => 1 / (1 + Math.exp(-x));
+const gauss = () => { let u = 0, v = 0; while (!u) u = Math.random(); while (!v) v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
+
+// ================================================================== the game (lead phone)
+const engine = {
+  create({ players, opts, set }) {
+    const humans = players.slice(0, TOTAL).map((p) => ({ ...p, bot: false }));
+    const bots = HQ.bots(TOTAL - humans.length, humans.map((p) => p.name)).map((b) => ({ ...b, z: gauss() * 0.6 }));
+    // humans spread through the grid, not bunched at the top
+    const all = LQ.shuffle([...humans, ...bots]).map((p) => ({ id: p.id, name: p.name, emoji: p.emoji, bot: !!p.bot, z: p.z || 0, alive: true, pass: false, walked: false }));
+    return { qs: set.lists.questions, qi: -1, all, pot: 0, phase: 'intro', until: Date.now() + 7000, ans: {}, passNow: {}, walk: {}, n: 0 };
+  },
+  act(S, pid, kind, d, now) {
+    const p = S.all.find((x) => x.id === pid); if (!p) return;
+    if (kind === 'skip' && pid === firstHuman(S) && ['intro', 'qIntro', 'reveal'].includes(S.phase)) { S.until = now; return; }
+    if (S.phase === 'q' && p.alive && !p.walked && S.ans[pid] === undefined && S.passNow[pid] === undefined) {
+      if (kind === 'answer') { S.ans[pid] = String(d.text).slice(0, 40); allIn(S, now); }
+      if (kind === 'pass' && !p.pass && S.qs[S.qi].pct !== 1) { S.passNow[pid] = true; p.pass = true; allIn(S, now); }
+    }
+    if (S.phase === 'walk' && p.alive && !p.bot && S.walk[pid] === undefined && (kind === 'walk' || kind === 'stay')) { S.walk[pid] = kind === 'walk'; if (aliveHumans(S).every((h) => S.walk[h.id] !== undefined)) S.until = now; }
+  },
+  tick(S, now) { if (now < S.until) return false; step(S, now); return true; },
+  view(S, now) {
+    const q = S.qs[S.qi], hum = S.all.filter((p) => !p.bot);
+    const V = { phase: S.phase, ms: Math.max(0, S.until - now), qi: S.qi, pct: q ? q.pct : null, ladder: S.qs.map((x) => x.pct), pot: S.pot,
+      left: S.all.filter((p) => p.alive && !p.walked).length, grid: S.all.map((p) => (p.walked ? 3 : !p.alive ? 0 : p.bot ? 1 : 2)), gone: S.gone || [],
+      humans: hum.map((p) => ({ id: p.id, name: p.name, emoji: p.emoji, alive: p.alive, pass: p.pass, walked: p.walked, idx: S.all.indexOf(p), last: S.lastRes ? S.lastRes[p.id] : undefined })), n: S.n };
+    if (S.phase === 'q') { V.q = q.text; V.total = S.qTotal; V.locked = Object.keys(S.ans).concat(Object.keys(S.passNow)); } // who has locked in, never what they said
+    if (S.phase === 'reveal' || S.phase === 'over') { V.q = q && q.text; V.answer = q && q.answers[0]; V.why = q && q.why; V.said = S.ans; V.out = S.lastOut; V.passed = Object.keys(S.passNow); }
+    if (S.phase === 'walk') { V.walkMade = Object.keys(S.walk); }
+    if (S.phase === 'over') V.result = S.result;
+    return V;
+  },
+};
+const firstHuman = (S) => (S.all.find((p) => !p.bot) || {}).id;
+const aliveHumans = (S) => S.all.filter((p) => !p.bot && p.alive && !p.walked);
+function allIn(S, now) { if (aliveHumans(S).every((h) => S.ans[h.id] !== undefined || S.passNow[h.id])) S.until = Math.min(S.until, now + 800); }
+function ask(S, now) {
+  S.phase = 'q'; S.ans = {}; S.passNow = {};
+  const q = S.qs[S.qi];
+  // nobody real left in it: the bots don't need thinking time
+  S.qTotal = aliveHumans(S).length ? timeFor(q.pct) : 2500; S.until = now + S.qTotal;
+}
+function reveal(S, now) {
+  const q = S.qs[S.qi], base = BASE[q.pct] ?? Math.min(0.98, 0.1 + q.pct / 100);
+  const res = {}, gone = [];
+  for (const p of S.all) {
+    if (!p.alive || p.walked) continue;
+    let ok;
+    if (p.bot) {
+      const chanceRight = sig(logit(base) + p.z);
+      // a bot unsure of itself uses its pass (never on the 1%)
+      if (!p.pass && q.pct !== 1 && chanceRight < 0.6 && HQ.chance(0.55)) { p.pass = true; S.passNow[p.id] = true; res[p.id] = 'pass'; continue; }
+      ok = HQ.chance(chanceRight);
+    } else {
+      if (S.passNow[p.id]) { res[p.id] = 'pass'; continue; }
+      ok = S.ans[p.id] !== undefined && HQ.isRight(S.ans[p.id], q.answers);
+    }
+    res[p.id] = ok ? 'in' : 'out';
+    if (!ok) { p.alive = false; gone.push(S.all.indexOf(p)); }
+  }
+  if (q.pct !== 1) S.pot += gone.length * STAKE;
+  S.gone = gone; S.lastOut = gone.length; S.lastRes = res;
+  S.phase = 'reveal'; S.until = now + (aliveHumans(S).length || S.qi === S.qs.length - 1 ? 9000 : 4500);
+}
+function finish(S, now) {
+  const winners = S.all.filter((p) => p.alive && !p.walked);
+  const walkers = S.all.filter((p) => p.walked);
+  const share = winners.length ? Math.floor(S.pot / winners.length) : 0;
+  S.result = { winners: winners.map((p) => p.id), share, pot: S.pot, walkers: walkers.map((p) => p.id), winnersN: winners.length, walkersN: walkers.length };
+  S.phase = 'over'; S.until = now + 36e5;
+}
+function step(S, now) {
+  switch (S.phase) {
+    case 'intro': S.qi = 0; S.phase = 'qIntro'; S.until = now + 3500; break;
+    case 'qIntro': ask(S, now); break;
+    case 'q': reveal(S, now); break;
+    case 'reveal': {
+      const alive = S.all.filter((p) => p.alive && !p.walked);
+      if (S.qi >= S.qs.length - 1 || !alive.length) return finish(S, now);
+      S.qi++; S.gone = [];
+      if (S.qs[S.qi].pct === 1) {
+        // before the 1% question: walk away with your £1,000, or play on for a share of the pot
+        S.phase = 'walk'; S.walk = {}; S.until = now + (aliveHumans(S).length ? 25000 : 2500);
+        break;
+      }
+      S.phase = 'qIntro'; S.until = now + (aliveHumans(S).length ? 3500 : 1500); break;
+    }
+    case 'walk':
+      for (const p of S.all) {
+        if (!p.alive || p.walked) continue;
+        const w = p.bot ? HQ.chance(sig(-p.z) * 0.8) : !!S.walk[p.id];
+        if (w) { p.walked = true; S.pot = Math.max(0, S.pot - STAKE); }
+      }
+      if (!S.all.some((p) => p.alive && !p.walked)) return finish(S, now);
+      S.phase = 'qIntro'; S.until = now + 4000; break;
+  }
+}
+
+// ================================================================== the screens
+let lastKey = '', bar = null, lastSnd = ''; const mySaid = {}; // what this phone locked in, by question
+function screen(key, html, dockHtml, bind) { if (key === lastKey) return false; lastKey = key; main.innerHTML = html; dock.innerHTML = dockHtml || ''; bar = null; bind && bind(); return true; }
+function once(k, fn) { if (lastSnd !== k) { lastSnd = k; fn(); } }
+function gridHtml(V, me, animate) {
+  const myIdx = (V.humans.find((h) => h.id === me) || {}).idx, humanIdx = new Set(V.humans.map((h) => h.idx)), gone = new Set(animate ? V.gone : []);
+  return `<div class="grid">${V.grid.map((g, i) => `<i class="${g === 0 ? 'out' : g === 3 ? 'walk' : ''} ${humanIdx.has(i) ? 'h' : ''} ${i === myIdx ? 'me' : ''} ${gone.has(i) ? 'gone' : ''}"></i>`).join('')}</div>`;
+}
+const numsHtml = (V) => `<div class="nums"><div><div class="n">${V.left}</div><div class="l">Players left</div></div><div style="text-align:right"><div class="n">${HQ.money(V.pot)}</div><div class="l">Prize pot</div></div></div>`;
+const ladderHtml = (V) => `<div class="ladder">${V.ladder.map((p, i) => `<span class="${i < V.qi ? 'done' : i === V.qi ? 'now' : ''}">${p}%</span>`).join('')}</div>`;
+const humansHtml = (V) => V.humans.length > 1 ? `<div class="humans">${V.humans.map((h) => `<span class="${h.alive && !h.walked ? (h.last === 'in' ? 'ok' : '') : 'out'}">${esc(h.emoji)} ${esc(h.name)}${h.walked ? ' 🚶' : ''}</span>`).join('')}</div>` : '';
+
+function render(V, ctx) {
+  const me = ctx.me, act = ctx.act, mine = V.humans.find((h) => h.id === me) || {}, inIt = mine.alive && !mine.walked;
+  switch (V.phase) {
+    case 'intro':
+      screen('intro', `<div class="mark hq-pop"><div class="big">1%</div><div class="sub">CLUB</div></div>
+        ${numsHtml(V)}${gridHtml(V, me)}
+        <div class="hq-card hq-small hq-muted">A hundred players. Eleven questions, each answered correctly by fewer people, from 90% down to 1%. Get one wrong and you're out, and your £1,000 goes in the pot. You have one pass. It's not what you know, it's how you think.</div>`,
+        firstHuman0(V) === me ? `<button class="hq-btn hq-btn-main" id="go">Let's play</button>` : '', () => { const g = $('#go'); if (g) g.onclick = () => act('skip'); });
+      once('intro', () => HQ.sound('reveal'));
+      break;
+    case 'qIntro':
+      screen('qi' + V.qi, `<div class="pct hq-pop" style="margin-top:8vh"><div class="p">${V.pct}%</div><div class="t">of people got this right</div></div>${ladderHtml(V)}${numsHtml(V)}${humansHtml(V)}`, '');
+      once('qi' + V.qi, () => HQ.sound(V.pct === 1 ? 'caught' : 'whoosh'));
+      break;
+    case 'q': {
+      const locked = (V.locked || []).includes(me);
+      screen('q' + V.qi + ':' + locked + ':' + inIt, `<div class="qline"><span class="badge">${V.pct}%</span><div style="flex:1"><div class="hq-clockbar" ${HQ.clock(V, V.ms, V.total, 'data-tick="5"')}><i></i></div></div><b ${HQ.clock(V, V.ms, V.total)}></b></div>
+        <div class="qtext hq-rise">${esc(V.q)}</div>
+        ${inIt ? (locked ? `<div class="locked">${mySaid[V.qi] !== undefined ? 'Locked in: “' + esc(mySaid[V.qi]) + '”' : 'Passed ✋'}</div>` : '') : `<div class="hq-muted" style="text-align:center">${mine.id ? "You're out: have a go in your head" : ''}</div>`}
+        ${numsHtml(V)}${gridHtml(V, me)}`, '',
+        () => {
+          if (inIt && !locked) {
+            const canPass = !mine.pass && V.pct !== 1;
+            bar = HQ.answerBar(dock, { placeholder: 'Your answer', go: 'Lock in', onSubmit: (t) => { mySaid[V.qi] = t; act('answer', { text: t }); }, onPass: canPass ? () => { if (confirm('Use your one pass on this question?')) act('pass'); } : null, passLabel: 'Pass' });
+            setTimeout(() => bar && bar.focus(), 60);
+            if (!canPass) dock.insertAdjacentHTML('beforeend', `<div class="hq-muted hq-small" style="text-align:center;margin-top:6px">${V.pct === 1 ? 'No passes on the 1% question' : 'Pass used'}</div>`);
+          }
+        });
+      break;
+    }
+    case 'reveal': {
+      const r = mine.last, verdict = !mine.id ? '' : r === 'in' ? `<div class="verdict in">You're through!</div>` : r === 'pass' ? `<div class="verdict pass">You passed. Still in!</div>` : r === 'out' ? `<div class="verdict out">You're out!</div>` : '';
+      if (screen('rv' + V.qi, `<div class="qline"><span class="badge">${V.pct}%</span><div class="hq-muted hq-small" style="flex:1">${esc(V.q)}</div></div>
+          <div class="ansbox hq-pop"><div class="hq-muted hq-small">The answer</div><div class="a">${esc(V.answer)}</div>${V.why ? `<div class="why">${esc(V.why)}</div>` : ''}</div>
+          ${verdict}${V.said && V.said[me] !== undefined && r === 'out' ? `<div class="hq-muted" style="text-align:center">You said “${esc(V.said[me])}”</div>` : ''}
+          ${numsHtml(V)}${gridHtml(V, me, true)}<div class="hq-muted hq-small" style="text-align:center">${V.out} ${V.out === 1 ? 'player' : 'players'} out${V.passed && V.passed.length ? ` · ${V.passed.length} passed` : ''}</div>${humansHtml(V)}`,
+        firstHuman0(V) === me && V.humans.some((h) => h.alive && !h.walked) ? `<button class="hq-btn hq-btn-main" id="go">Next question</button>` : '', () => { const g = $('#go'); if (g) g.onclick = () => act('skip'); })) {
+        HQ.sound(r === 'out' ? 'wrong' : r === 'in' ? 'right' : 'reveal'); if (r === 'out') HQ.buzzPhone([80, 60, 200]);
+      }
+      break;
+    }
+    case 'walk': {
+      const made = (V.walkMade || []).includes(me);
+      screen('walk' + made + inIt, `<div class="pct hq-pop" style="margin-top:4vh"><div class="p" style="font-size:3.6rem">1%</div><div class="t">The last question</div></div>
+        <div class="hq-card" style="text-align:center">${numsHtml(V)}<div class="hq-muted" style="margin-top:10px">${inIt ? `Walk away now with <b style="color:#fff">£1,000</b>, or play the 1% question for a share of the ${HQ.money(V.pot)} pot. Get it wrong and you leave with nothing.` : 'The finalists are deciding whether to walk away or play on…'}</div></div>`,
+        inIt && !made ? `<div class="hq-row"><button class="hq-btn hq-btn-ghost" id="walk">Walk with £1,000</button><button class="hq-btn hq-btn-main" id="stay">Play for the pot</button></div>` : inIt ? `<div class="locked">Decision made. Waiting…</div>` : '',
+        () => { const w = $('#walk'), s = $('#stay'); if (w) w.onclick = () => act('walk'); if (s) s.onclick = () => act('stay'); });
+      once('walk', () => HQ.sound('heart'));
+      break;
+    }
+    case 'over': {
+      const R = V.result, won = R.winners.includes(me), walked = mine.walked;
+      if (screen('over', `<div class="mark hq-pop"><div class="big" style="font-size:4rem">${won ? '🏆' : walked ? '🚶' : R.winnersN ? '1%' : '😶'}</div></div>
+          <div class="hq-card" style="text-align:center"><h2 style="margin:0 0 6px">${won ? "You're in the 1% Club!" : walked ? 'You walked away with £1,000' : R.winnersN ? (R.winnersN === 1 ? 'One player joined the 1% Club' : R.winnersN + ' players joined the 1% Club') : 'Nobody made the 1% Club tonight'}</h2>
+          ${won ? `<div style="font-size:2rem;font-weight:900;color:var(--neon)">${HQ.money(R.share)}</div><div class="hq-muted">your share of the ${HQ.money(R.pot)} pot</div>` : R.winnersN ? `<div class="hq-muted">They share ${HQ.money(R.pot)}: ${HQ.money(R.share)} each.</div>` : ''}
+          ${R.walkersN ? `<div class="hq-muted hq-small" style="margin-top:6px">${R.walkersN} walked away with £1,000 before the last question.</div>` : ''}</div>
+          ${V.answer ? `<div class="ansbox"><div class="hq-muted hq-small">The 1% answer</div><div class="a">${esc(V.answer)}</div>${V.why ? `<div class="why">${esc(V.why)}</div>` : ''}</div>` : ''}
+          ${gridHtml(V, me)}${humansHtml(V)}`,
+        `<div style="display:grid;gap:10px"><button class="hq-btn hq-btn-main" id="again">Play the next game</button><div class="hq-row"><button class="hq-btn hq-btn-ghost" id="share">Share</button><a class="hq-btn hq-btn-ghost" href="home">All games</a></div></div>`,
+        () => { $('#again').onclick = () => { LQ.unstore('lq_home_live_club'); location.href = 'club'; }; $('#share').onclick = () => HQ.share(won ? `I made the 1% Club (Game ${V.set}) at Let's Quiz! Can you?` : `I got to the ${V.ladder[Math.max(0, lastQ(V))]}% question on The 1% Club (Game ${V.set}) at Let's Quiz!`); })) {
+        if (won) { HQ.sound('win'); HQ.confetti(200); HQ.best('club', R.share); } else HQ.sound(walked ? 'bank' : 'lose');
+      }
+      break;
+    }
+  }
+}
+const firstHuman0 = (V) => (V.humans[0] || {}).id;
+const lastQ = (V) => V.qi;
+
+window.HQS = HQ.session({ // (window.HQS: handy for testing in the console)
+  game: 'club', main, dock, engine, render,
+  maxPlayers: 100, minPlayers: 1, defaults: {},
+  intro(pick) {
+    return `<div class="mark hq-pop"><div class="big">1%</div><div class="sub">CLUB</div></div>
+      <div class="hq-card" style="text-align:center"><div style="font-weight:900;font-size:1.2rem">Game ${pick.n} of ${pick.total}</div>
+      ${pick.replay ? `<p class="hq-banner" style="margin-top:8px">You've played every game we have. New ones are on the way. This one is a replay.</p>` : ''}
+      <p class="hq-muted hq-small" style="margin:6px 0 0">You and 99 others, from the 90% question down to the 1%. Logic, spotting and common sense: no specialist knowledge needed. Play with friends on their own phones, and bots make up the hundred.</p></div>`;
+  },
+  lobbyHtml(opts, players) { return `<div class="hq-card hq-small">${players.length} of you, and ${TOTAL - players.length} bots make up the hundred.</div>`; },
+});
+</script>
+</body>
+</html>

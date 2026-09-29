@@ -1,0 +1,131 @@
+{
+ "game": "club",
+ "set": 2,
+ "made": "2026-09-29",
+ "lists": {
+  "questions": [
+   {
+    "id": "q_af823a0f",
+    "pct": 90,
+    "text": "Change one letter of ROME to make the place where you live.",
+    "answers": [
+     "Home"
+    ],
+    "why": "Change the R of ROME to H and you get HOME.",
+    "category": "Capital cities"
+   },
+   {
+    "id": "q_e330ffc7",
+    "pct": 80,
+    "text": "The first powered flight was in 1903 and the first Moon landing in 1969. How many years apart?",
+    "answers": [
+     "66",
+     "Sixty-six"
+    ],
+    "why": "1969 − 1903 = 66.",
+    "category": "Famous firsts and records"
+   },
+   {
+    "id": "q_12b21168",
+    "pct": 70,
+    "text": "Tom's mother has three children. The first is called April, the second is called May. What is the third called?",
+    "answers": [
+     "Tom"
+    ],
+    "why": "It's Tom's mother, so Tom is her third child.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_de58f4e4",
+    "pct": 60,
+    "text": "I have cities but no houses, forests but no trees, and water but no fish. What am I?",
+    "answers": [
+     "A map",
+     "Map"
+    ],
+    "why": "A map shows cities, forests and water without any of the real houses, trees or fish.",
+    "category": "Riddle"
+   },
+   {
+    "id": "q_2e161e8b",
+    "pct": 50,
+    "text": "What is the next number: 1, 3, 6, 10, 15, ___?",
+    "answers": [
+     "21",
+     "Twenty-one"
+    ],
+    "why": "The gaps go up by one each time (2, 3, 4, 5), so the next gap is 6: 15 + 6 = 21.",
+    "category": "Maths"
+   },
+   {
+    "id": "q_f4c38d5f",
+    "pct": 40,
+    "text": "A woman has two coins that add up to 30p. One of them is not a 20p. What are the coins?",
+    "answers": [
+     "A 20p and a 10p",
+     "20p and 10p",
+     "10p and 20p",
+     "~20p 10p",
+     "~20 10"
+    ],
+    "why": "Only one of the coins is not a 20p; the other one is, so the pair is 20p + 10p.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_e15e3e24",
+    "pct": 30,
+    "text": "What is the smallest number that is divisible by 1, 2, 3, 4, 5 and 6?",
+    "answers": [
+     "60",
+     "Sixty"
+    ],
+    "why": "60 = 4 × 3 × 5, which covers 1, 2, 3, 4, 5 and 6 (6 = 2 × 3), and nothing smaller does.",
+    "category": "Maths"
+   },
+   {
+    "id": "q_e341321c",
+    "pct": 20,
+    "text": "A lily pad doubles in size every day and covers a pond in 30 days. On which day did it cover half the pond?",
+    "answers": [
+     "Day 29",
+     "29",
+     "The 29th day"
+    ],
+    "why": "It doubles every day, so it covered half the pond the day before it covered all of it: day 29.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_f8ef0778",
+    "pct": 10,
+    "text": "'Divorced, beheaded, died, divorced, beheaded, survived.' How many of Henry's wives outlived him?",
+    "answers": [
+     "2",
+     "Two"
+    ],
+    "why": "Catherine Parr 'survived', but divorced Anne of Cleves also outlived Henry, dying in 1557, so that makes two.",
+    "category": "The Tudors"
+   },
+   {
+    "id": "q_e20fe6ae",
+    "pct": 5,
+    "text": "The Great Pyramid was finished around 2560 BC and the Colosseum in AD 80. With no year zero, how many years apart were they finished?",
+    "answers": [
+     "2639",
+     "2,639"
+    ],
+    "why": "2560 + 80 = 2640, minus 1 because there was no year zero, gives 2,639.",
+    "category": "Famous landmarks"
+   },
+   {
+    "id": "q_3d0879fc",
+    "pct": 1,
+    "text": "How many squares are there on a chessboard? Not just the small ones.",
+    "answers": [
+     "204"
+    ],
+    "why": "Count the squares of each size from 1×1 to 8×8: 64 + 49 + 36 + 25 + 16 + 9 + 4 + 1 = 204.",
+    "category": "Maths"
+   }
+  ]
+ }
+}

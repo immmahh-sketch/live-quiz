@@ -109,9 +109,14 @@ window.LQW = (() => {
   async function afterConfirm(quizId, onStep = () => {}) {
     const out = [];
     const r = await api("warmup_board");
-    for (const w of (r.warmups || []).filter((x) => x.forQuiz === quizId)) { onStep("Checking the warm-up “" + w.title + "”…"); const f = await fix(w.id, onStep); out.push({ title: w.title, fixed: f.fixed, left: f.left.length }); }
+    for (const w of (r.warmups || []).filter((x) => x.forQuiz === quizId)) {
+      onStep("Checking the warm-up “" + w.title + "”…"); const f = await fix(w.id, onStep);
+      // the warm-up is hosted too, so it must not repeat the play-at-home games either
+      const h = window.LQH ? await LQH.fix(w.id, onStep).catch(() => ({ fixed: 0, left: [] })) : { fixed: 0, left: [] };
+      out.push({ title: w.title, fixed: f.fixed + h.fixed, left: f.left.length + h.left.length });
+    }
     return out;
   }
 
-  return { nextFriday5pm, toLocalInput, fmtEnd, clashes, fix, refresh, afterConfirm };
+  return { nextFriday5pm, toLocalInput, fmtEnd, clashes, fix, refresh, afterConfirm, fresh };
 })();

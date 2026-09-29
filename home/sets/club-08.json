@@ -1,0 +1,139 @@
+{
+ "game": "club",
+ "set": 8,
+ "made": "2026-09-29",
+ "lists": {
+  "questions": [
+   {
+    "id": "q_87329109",
+    "pct": 90,
+    "text": "Tom is taller than Sam, and Sam is taller than Ali. Who is the shortest?",
+    "answers": [
+     "Ali"
+    ],
+    "why": "Tom is taller than Sam and Sam is taller than Ali, so Ali is shorter than both.",
+    "category": "General knowledge"
+   },
+   {
+    "id": "q_b37f3a44",
+    "pct": 80,
+    "text": "I'm tall when I'm young and short when I'm old. What am I?",
+    "answers": [
+     "A candle",
+     "Candle"
+    ],
+    "why": "A candle starts tall and gets shorter as it burns down.",
+    "category": "Riddle"
+   },
+   {
+    "id": "q_4c625e6c",
+    "pct": 70,
+    "text": "Joey has seven sisters. How many children do his parents have?",
+    "answers": [
+     "8",
+     "Eight"
+    ],
+    "why": "Seven sisters plus Joey himself makes eight.",
+    "category": "Friends"
+   },
+   {
+    "id": "q_471a19ac",
+    "pct": 60,
+    "text": "What is the next number: 81, 27, 9, 3, ___?",
+    "answers": [
+     "1",
+     "One"
+    ],
+    "why": "Each number is a third of the one before: 3 ÷ 3 = 1.",
+    "category": "Maths"
+   },
+   {
+    "id": "q_4db5ef69",
+    "pct": 50,
+    "text": "In Morse code, S is three dots and O three dashes. How many dots and dashes spell SOS?",
+    "answers": [
+     "9",
+     "Nine"
+    ],
+    "why": "S, O and S: 3 + 3 + 3 = 9 symbols.",
+    "category": "Crime dramas"
+   },
+   {
+    "id": "q_da36a358",
+    "pct": 40,
+    "text": "A cowboy rides into town on Friday, stays three days and leaves on Friday. How?",
+    "answers": [
+     "His horse is called Friday",
+     "The horse is called Friday",
+     "Friday is his horse",
+     "~horse"
+    ],
+    "why": "The day doesn't change at all: his horse is called Friday.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_97129bfb",
+    "pct": 30,
+    "text": "How many 4-digit numbers can be made using the digits 1, 2, 3 and 4 once each?",
+    "answers": [
+     "24",
+     "Twenty-four"
+    ],
+    "why": "There are 4 choices for the first digit, then 3, 2 and 1: 4 × 3 × 2 × 1 = 24.",
+    "category": "Maths"
+   },
+   {
+    "id": "q_b7719b60",
+    "pct": 20,
+    "text": "Which common word has three consecutive double letters?",
+    "answers": [
+     "Bookkeeper",
+     "Bookkeeping"
+    ],
+    "why": "BOOKKEEPER has three double letters in a row: bOOKKEEper.",
+    "category": "Wordplay"
+   },
+   {
+    "id": "q_fe867061",
+    "pct": 10,
+    "text": "Which three different whole numbers give the same answer whether you add them together or multiply them together?",
+    "answers": [
+     "1, 2 and 3",
+     "1 2 3",
+     "1,2,3",
+     "1, 2, 3",
+     "123",
+     "One, two and three"
+    ],
+    "why": "1 + 2 + 3 = 6 and 1 × 2 × 3 = 6.",
+    "category": "Maths"
+   },
+   {
+    "id": "q_0cefe206",
+    "pct": 5,
+    "text": "A man pushes his car up to a hotel and tells the owner he is bankrupt. What is he doing?",
+    "answers": [
+     "Playing Monopoly",
+     "Monopoly",
+     "He's playing Monopoly",
+     "He is playing Monopoly",
+     "A game of Monopoly",
+     "~monopoly"
+    ],
+    "why": "He's playing Monopoly: his token is the car, and he has landed on a hotel he can't afford.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_00b917be",
+    "pct": 1,
+    "text": "Writing numbers out in British English, what is the smallest whole number whose name contains the letter A?",
+    "answers": [
+     "101",
+     "One hundred and one"
+    ],
+    "why": "Nothing from one to ninety-nine has an A, and neither does 'one hundred'. The first A is the 'and' in 'one hundred AND one'.",
+    "category": "Logic"
+   }
+  ]
+ }
+}

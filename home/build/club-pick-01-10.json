@@ -1,0 +1,198 @@
+{
+ "1": [
+  "q_684902bd",
+  "q_3d0879fc",
+  "q_09e6c4d6",
+  "q_9c5faa6f",
+  "q_b901c5e6",
+  "q_fc8aea79",
+  "q_b374de15",
+  "q_00b917be",
+  "q_52f789b7",
+  "q_926ad75c"
+ ],
+ "5": [
+  "q_9594d2cd",
+  "q_e20fe6ae",
+  "q_f044a9dd",
+  "q_b686d44e",
+  "q_35b4795d",
+  "q_f3674ed4",
+  "q_dc6bc7b0",
+  "q_0cefe206",
+  "q_0f82c0ec",
+  "q_f9b0d195"
+ ],
+ "10": [
+  "q_2d150eeb",
+  "q_f8ef0778",
+  "q_f3f9d8b7",
+  "q_6b3bd427",
+  "q_33dc82d1",
+  "q_301210bb",
+  "q_7b59b0cd",
+  "q_fe867061",
+  "q_1aadaea8",
+  "q_d0e773fa"
+ ],
+ "20": [
+  "q_af849e0b",
+  "q_e341321c",
+  "q_f474206d",
+  "q_9d8b3c5c",
+  "q_4d0819cf",
+  "q_f00c1cb2",
+  "q_1c9046b8",
+  "q_b7719b60",
+  "q_58c9385d",
+  "q_64223380"
+ ],
+ "30": [
+  "q_62e3852d",
+  "q_e15e3e24",
+  "q_3b1c5fd9",
+  "q_6e2dd137",
+  "q_6d8a2d27",
+  "q_85df5031",
+  "q_1ee834df",
+  "q_97129bfb",
+  "q_bcf755ea",
+  "q_aafe98e5"
+ ],
+ "40": [
+  "q_e604b87d",
+  "q_f4c38d5f",
+  "q_07aae40e",
+  "q_cf01c4b9",
+  "q_d1ed45d4",
+  "q_54c8b9ae",
+  "q_e399428b",
+  "q_da36a358",
+  "q_d1cab6c1",
+  "q_c1cf5418"
+ ],
+ "50": [
+  "q_bb336e59",
+  "q_2e161e8b",
+  "q_402b806c",
+  "q_88abc845",
+  "q_734034c1",
+  "q_4d3bd254",
+  "q_da2211bd",
+  "q_4db5ef69",
+  "q_67926192",
+  "q_f42b02dd"
+ ],
+ "60": [
+  "q_ca90b173",
+  "q_de58f4e4",
+  "q_0d4c4bae",
+  "q_4d278e7c",
+  "q_ffeb642f",
+  "q_489fd869",
+  "q_a5c301cd",
+  "q_471a19ac",
+  "q_a245c619",
+  "q_02c93bce"
+ ],
+ "70": [
+  "q_6d441562",
+  "q_12b21168",
+  "q_90d840f6",
+  "q_d875e937",
+  "q_df4d9e59",
+  "q_abbc916a",
+  "q_0c3edf17",
+  "q_4c625e6c",
+  "q_34fe034e",
+  "q_41be711e"
+ ],
+ "80": [
+  "q_9b73f4f4",
+  "q_e330ffc7",
+  "q_10639f85",
+  "q_06f41539",
+  "q_aea52e2b",
+  "q_d413ae74",
+  "q_c8e61210",
+  "q_b37f3a44",
+  "q_a6e63a22",
+  "q_ea8b57b3"
+ ],
+ "90": [
+  "q_6dfe281b",
+  "q_af823a0f",
+  "q_a4420f3a",
+  "q_c639abdb",
+  "q_8b1a42d2",
+  "q_c14999d9",
+  "q_ae368f65",
+  "q_87329109",
+  "q_d3ab8740",
+  "q_59c08ab8"
+ ],
+ "_note": "One list per rung of the ladder, in set order: the Nth id goes into set N. Rated by hand (the bank's own percentages were often far out).",
+ "addAnswers": {
+  "q_bcf755ea": [
+   "2",
+   "2nd",
+   "Glass 2",
+   "The second glass",
+   "~second",
+   "~2nd"
+  ],
+  "q_df4d9e59": [
+   "12",
+   "12:00",
+   "Midday",
+   "12 pm"
+  ],
+  "q_0c3edf17": [
+   "All",
+   "Every month"
+  ],
+  "q_e399428b": [
+   "Wrong"
+  ],
+  "q_da36a358": [
+   "~horse"
+  ],
+  "q_64223380": [
+   "~son"
+  ],
+  "q_0cefe206": [
+   "~monopoly"
+  ],
+  "q_f4c38d5f": [
+   "~20p 10p",
+   "~20 10"
+  ],
+  "q_02c93bce": [
+   "25th Dec",
+   "25 Dec",
+   "Dec 25",
+   "December 25",
+   "December 25th",
+   "Christmas"
+  ],
+  "q_684902bd": [
+   "31st December",
+   "31 Dec",
+   "31st Dec",
+   "December 31",
+   "December 31st",
+   "New Year's Eve"
+  ],
+  "q_af849e0b": [
+   "No rungs",
+   "Nothing",
+   "Not any"
+  ]
+ },
+ "retire": [
+  "q_a71fdd22"
+ ],
+ "fixWhy": {
+  "q_684902bd": "Today must be 1 January and your birthday 31 December: you were 25 on 30 December, turned 26 yesterday, turn 27 this December and 28 next year."
+ }
+}

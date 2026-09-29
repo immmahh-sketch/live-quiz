@@ -1,0 +1,137 @@
+{
+ "game": "club",
+ "set": 5,
+ "made": "2026-09-29",
+ "lists": {
+  "questions": [
+   {
+    "id": "q_8b1a42d2",
+    "pct": 90,
+    "text": "A race is 50 laps long. A driver has completed 38. How many laps are left?",
+    "answers": [
+     "12",
+     "Twelve"
+    ],
+    "why": "50 − 38 = 12.",
+    "category": "Motorsport"
+   },
+   {
+    "id": "q_aea52e2b",
+    "pct": 80,
+    "text": "Three points for a win, one for a draw. A team wins 5 and draws 2. How many points?",
+    "answers": [
+     "17",
+     "Seventeen"
+    ],
+    "why": "5 × 3 + 2 × 1 = 17.",
+    "category": "Football"
+   },
+   {
+    "id": "q_df4d9e59",
+    "pct": 70,
+    "text": "New York is 3 hours ahead of Los Angeles. When it is 9am in Los Angeles, what time is it in New York?",
+    "answers": [
+     "12pm",
+     "Noon",
+     "12 noon",
+     "Midday",
+     "12:00",
+     "12",
+     "12 pm"
+    ],
+    "why": "9am + 3 hours = 12pm.",
+    "category": "The United States"
+   },
+   {
+    "id": "q_ffeb642f",
+    "pct": 60,
+    "text": "What is the next number: 1, 1, 2, 3, 5, 8, 13, ___?",
+    "answers": [
+     "21",
+     "Twenty-one"
+    ],
+    "why": "This is the Fibonacci sequence, where each number is the sum of the two before it: 8 + 13 = 21.",
+    "category": "Maths"
+   },
+   {
+    "id": "q_734034c1",
+    "pct": 50,
+    "text": "If two's company and three's a crowd, what are four and five?",
+    "answers": [
+     "Nine",
+     "9"
+    ],
+    "why": "Four and five make nine: 4 + 5 = 9.",
+    "category": "Maths"
+   },
+   {
+    "id": "q_d1ed45d4",
+    "pct": 40,
+    "text": "Forward I am heavy, backward I am not. What am I?",
+    "answers": [
+     "Ton",
+     "A ton",
+     "TON (not)"
+    ],
+    "why": "TON is a heavy weight, and TON written backwards is NOT.",
+    "category": "Wordplay"
+   },
+   {
+    "id": "q_6d8a2d27",
+    "pct": 30,
+    "text": "A snail climbs a 10-metre wall: 3 metres up each day, sliding 2 metres back each night. On which day does it reach the top?",
+    "answers": [
+     "Day 8",
+     "8",
+     "Eighth",
+     "The eighth day"
+    ],
+    "why": "The snail gains 1 m a day, so after 7 nights it's at 7 m and climbs the last 3 m on day 8.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_4d0819cf",
+    "pct": 20,
+    "text": "A bag has 5 red and 5 blue socks. In the dark, how many must you take to be sure of a matching pair?",
+    "answers": [
+     "3",
+     "Three"
+    ],
+    "why": "There are only two colours, so any 3 socks must include two of the same colour.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_33dc82d1",
+    "pct": 10,
+    "text": "What is the next number: 0, 1, 1, 2, 4, 7, 13, ___?",
+    "answers": [
+     "24",
+     "Twenty-four"
+    ],
+    "why": "Each number is the sum of the three before it: 4 + 7 + 13 = 24.",
+    "category": "Maths"
+   },
+   {
+    "id": "q_35b4795d",
+    "pct": 5,
+    "text": "Starting at 12:00, how many times do a clock's hour and minute hands meet in 12 hours, counting 12:00 once?",
+    "answers": [
+     "11",
+     "Eleven"
+    ],
+    "why": "The minute hand laps the hour hand every 12/11 hours, so they meet 11 times in 12 hours.",
+    "category": "Maths and numbers"
+   },
+   {
+    "id": "q_b901c5e6",
+    "pct": 1,
+    "text": "What English word retains the same pronunciation even after you take away four of its five letters?",
+    "answers": [
+     "Queue"
+    ],
+    "why": "Take U, E, U and E away from QUEUE and the Q that's left is still pronounced \"queue\".",
+    "category": "Wordplay"
+   }
+  ]
+ }
+}

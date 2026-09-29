@@ -1,0 +1,129 @@
+{
+ "game": "club",
+ "set": 4,
+ "made": "2026-09-29",
+ "lists": {
+  "questions": [
+   {
+    "id": "q_c639abdb",
+    "pct": 90,
+    "text": "Thanos's snap wipes out half of all life. If a town had 3,000 people, how many are left?",
+    "answers": [
+     "1,500",
+     "1500"
+    ],
+    "why": "Half of 3,000 is 1,500.",
+    "category": "The Marvel universe"
+   },
+   {
+    "id": "q_06f41539",
+    "pct": 80,
+    "text": "Four 'Strictly' judges each score out of 10. What is the highest possible total?",
+    "answers": [
+     "40",
+     "Forty"
+    ],
+    "why": "4 × 10 = 40.",
+    "category": "Reality TV"
+   },
+   {
+    "id": "q_d875e937",
+    "pct": 70,
+    "text": "What is the next letter: M, T, W, T, F, S, ___?",
+    "answers": [
+     "S",
+     "Sunday"
+    ],
+    "why": "These are the initials of the days Monday to Saturday, so next is S for Sunday.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_4d278e7c",
+    "pct": 60,
+    "text": "How many months have 31 days?",
+    "answers": [
+     "7",
+     "Seven"
+    ],
+    "why": "January, March, May, July, August, October and December have 31 days: that's 7.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_88abc845",
+    "pct": 50,
+    "text": "What is the next number: 4, 6, 9, 13, 18, ___?",
+    "answers": [
+     "24",
+     "Twenty-four"
+    ],
+    "why": "The gaps go up by one each time (2, 3, 4, 5), so the next gap is 6: 18 + 6 = 24.",
+    "category": "Maths"
+   },
+   {
+    "id": "q_cf01c4b9",
+    "pct": 40,
+    "text": "How many letters are in THE ALPHABET?",
+    "answers": [
+     "11",
+     "Eleven"
+    ],
+    "why": "THE has 3 letters and ALPHABET has 8, so THE ALPHABET has 11.",
+    "category": "Wordplay"
+   },
+   {
+    "id": "q_6e2dd137",
+    "pct": 30,
+    "text": "What is the missing letter: A, E, F, H, I, K, L, M, N, ___? (Think about how they are written.)",
+    "answers": [
+     "T",
+     "T - letters made of straight lines only"
+    ],
+    "why": "A, E, F, H, I, K, L, M and N are made only of straight lines; O, P, Q, R and S are curved, so next is T.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_9d8b3c5c",
+    "pct": 20,
+    "text": "A farmyard has only chickens and cows. There are 10 heads and 28 legs. How many cows are there?",
+    "answers": [
+     "4",
+     "Four"
+    ],
+    "why": "If all 10 were chickens there'd be 20 legs; each cow adds 2, and 8 extra legs means 4 cows (16 + 12 = 28).",
+    "category": "Animals"
+   },
+   {
+    "id": "q_6b3bd427",
+    "pct": 10,
+    "text": "How many people must be in a room for it to be more likely than not that two share a birthday?",
+    "answers": [
+     "23",
+     "Twenty-three"
+    ],
+    "why": "With 23 people there are 253 possible pairs, which pushes the chance of a shared birthday just past 50% (50.7%).",
+    "category": "Maths"
+   },
+   {
+    "id": "q_b686d44e",
+    "pct": 5,
+    "text": "What is the only English word in everyday use that ends in the letters -MT?",
+    "answers": [
+     "Dreamt"
+    ],
+    "why": "DREAMT (the past tense of dream) is the only common word that ends in -MT.",
+    "category": "Wordplay"
+   },
+   {
+    "id": "q_9c5faa6f",
+    "pct": 1,
+    "text": "How many different ways can you arrange the letters of the word LEVEL?",
+    "answers": [
+     "30",
+     "Thirty"
+    ],
+    "why": "LEVEL has 5 letters with L and E each appearing twice: 5! ÷ (2! × 2!) = 120 ÷ 4 = 30.",
+    "category": "Maths"
+   }
+  ]
+ }
+}

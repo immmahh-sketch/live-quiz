@@ -62,6 +62,7 @@
 <div class="toast" id="toast"></div>
 <script src="assets/common.js"></script>
 <script src="assets/warmup-tools.js"></script>
+<script src="assets/home-guard.js"></script>
 <script src="assets/formats.js"></script>
 <script>
 // The one-click quiz builder. Pick (or accept) this week's format, tweak the rounds, press Make the quiz: every round
@@ -479,6 +480,8 @@ function renderReport() {
   $('#recheck').onclick = () => recheck();
   if ($('#confirm')) $('#confirm').onclick = async () => {
     const left = o.review; if (left && !confirm(`${left} question${left === 1 ? '' : 's'} still flagged for your look. Confirm anyway?`)) return;
+    // Nothing in a hosted quiz may turn up in the play-at-home games: swap out anything they share first.
+    try { const h = await LQH.fixInPlace(qz, (t) => toast(t)); if (h.fixed) toast(`Swapped ${h.fixed} question${h.fixed === 1 ? '' : 's'} that ${h.fixed === 1 ? 'is' : 'are'} in the play-at-home games.`); if (h.left.length) toast(`${h.left.length} question${h.left.length === 1 ? '' : 's'} still in the play-at-home games: have a look before the night.`, true); } catch (e) { toast('Could not check against the play-at-home games: ' + e.message, true); }
     qz.settings.confirmed = { at: new Date().toISOString() }; await save(); toast('Confirmed. It is in your quiz list, ready to host.'); renderReport();
     // A warm-up leading up to this quiz must share nothing with it: anything shared comes out of the warm-up.
     try { const res = await LQW.afterConfirm(qz.id, (t) => toast(t)); for (const w of res) toast(w.left ? `Warm-up “${w.title}”: swapped ${w.fixed}, ${w.left} overlap${w.left === 1 ? '' : 's'} left to look at on the quiz list.` : w.fixed ? `Warm-up “${w.title}”: swapped ${w.fixed} question${w.fixed === 1 ? '' : 's'} it shared with this quiz. Nothing in common now.` : `Warm-up “${w.title}” checked: nothing in common with this quiz.`, !!w.left); } catch (e) { toast('Could not check the warm-up: ' + e.message, true); }

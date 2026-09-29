@@ -1,0 +1,132 @@
+{
+ "game": "club",
+ "set": 7,
+ "made": "2026-09-29",
+ "lists": {
+  "questions": [
+   {
+    "id": "q_ae368f65",
+    "pct": 90,
+    "text": "Each of the four Hogwarts houses has a Quidditch team of seven. How many players is that altogether?",
+    "answers": [
+     "28",
+     "Twenty-eight"
+    ],
+    "why": "4 × 7 = 28.",
+    "category": "Harry Potter"
+   },
+   {
+    "id": "q_c8e61210",
+    "pct": 80,
+    "text": "The armistice began at the 11th hour of the 11th day of the 11th month. Add those three numbers together.",
+    "answers": [
+     "33",
+     "Thirty-three"
+    ],
+    "why": "11 + 11 + 11 = 33.",
+    "category": "The World Wars"
+   },
+   {
+    "id": "q_0c3edf17",
+    "pct": 70,
+    "text": "How many months of the year have 28 days?",
+    "answers": [
+     "12",
+     "Twelve",
+     "All of them",
+     "All",
+     "Every month"
+    ],
+    "why": "Every month has at least 28 days; February is simply the only one that stops there.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_a5c301cd",
+    "pct": 60,
+    "text": "Which word can follow SEMI, GRAND and CUP?",
+    "answers": [
+     "Final"
+    ],
+    "why": "Semi-final, grand final and cup final.",
+    "category": "Eurovision"
+   },
+   {
+    "id": "q_da2211bd",
+    "pct": 50,
+    "text": "What is the missing number: 2, 6, 12, 20, 30, ___?",
+    "answers": [
+     "42",
+     "Forty-two"
+    ],
+    "why": "Each number is n × (n + 1): 1×2, 2×3, 3×4, 4×5, 5×6, so next is 6×7 = 42.",
+    "category": "Maths"
+   },
+   {
+    "id": "q_e399428b",
+    "pct": 40,
+    "text": "Which word is spelt wrongly in every dictionary?",
+    "answers": [
+     "Wrongly",
+     "Wrong",
+     "Incorrectly"
+    ],
+    "why": "WRONGLY is always spelt W-R-O-N-G-L-Y, so every dictionary really does spell \"wrongly\".",
+    "category": "Wordplay"
+   },
+   {
+    "id": "q_1ee834df",
+    "pct": 30,
+    "text": "If 3 cats catch 3 mice in 3 minutes, how many cats catch 100 mice in 100 minutes?",
+    "answers": [
+     "3",
+     "Three"
+    ],
+    "why": "3 cats together catch 1 mouse a minute, so the same 3 cats catch 100 mice in 100 minutes.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_1c9046b8",
+    "pct": 20,
+    "text": "If yesterday was two days before Saturday, what is tomorrow?",
+    "answers": [
+     "Saturday"
+    ],
+    "why": "Two days before Saturday is Thursday, so yesterday was Thursday, today is Friday and tomorrow is Saturday.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_7b59b0cd",
+    "pct": 10,
+    "text": "What comes next: 3, 3, 5, 4, 4, 3, 5, 5, 4, ___?",
+    "answers": [
+     "3",
+     "Three (letters in TEN)"
+    ],
+    "why": "These are the letter counts of ONE (3) to NINE (4), so next is TEN with 3 letters.",
+    "category": "Wordplay"
+   },
+   {
+    "id": "q_dc6bc7b0",
+    "pct": 5,
+    "text": "A plane leaves London and flies 1,000 miles due north, then 1,000 due east, then 1,000 due south, then 1,000 due west. Does it land east of London, west of London, or back at London?",
+    "answers": [
+     "East",
+     "East of London"
+    ],
+    "why": "The 1,000 miles east is further north, where longitude lines are closer together, so it covers more longitude than the 1,000 miles west.",
+    "category": "World geography"
+   },
+   {
+    "id": "q_b374de15",
+    "pct": 1,
+    "text": "Find a four-digit number whose first digit is how many 0s it contains, its second digit how many 1s, its third how many 2s and its fourth how many 3s.",
+    "answers": [
+     "1210",
+     "2020"
+    ],
+    "why": "1210 has one 0, two 1s, one 2 and no 3s. (2020 works too: two 0s, no 1s, two 2s, no 3s.)",
+    "category": "Logic"
+   }
+  ]
+ }
+}

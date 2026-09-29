@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#041433">
+<title>The Chase · Let's Quiz!</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/brand/icon-64.png">
+<link rel="apple-touch-icon" href="assets/brand/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/home.css">
+<style>
+  body.ch { --hq-bg: #020b1f; --hq-bg2: #0b3d91; --blue: #1f7cff; --blue2: #0a4bb8; --red: #e0243a; --red2: #8e0f1f; --hq-accent: #35a7ff; }
+  body.ch { background: radial-gradient(800px 600px at 50% 0%, #0d4bb0 0%, #06224f 45%, #020b1f 85%) fixed; }
+  body.ch.hunted { background: radial-gradient(800px 600px at 50% 0%, #7a0f1d 0%, #3a0710 45%, #12030a 85%) fixed; }
+  .hq-go { background: var(--blue); color: #fff; }
+  .hq-btn-main { background: var(--blue); color: #fff; }
+  .hq-answer input:focus { border-color: var(--blue); }
+
+  .cbadge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 99px; background: rgba(224,36,58,.18); border: 1px solid rgba(224,36,58,.5); font-weight: 900; }
+  .chaserCard { text-align: center; }
+  .chaserCard .face { font-size: 4.4rem; width: 130px; height: 130px; margin: 0 auto 8px; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle, #e0243a 0%, #5a0612 70%); box-shadow: 0 0 40px rgba(224,36,58,.6); }
+  .chaserCard h2 { margin: 0; font-size: 1.8rem; color: #ff6b7d; letter-spacing: .02em; }
+  .chaserCard .quote { font-style: italic; color: var(--hq-dim); margin-top: 6px; }
+  .form { display: flex; justify-content: center; gap: 4px; margin-top: 8px; }
+  .form i { width: 26px; height: 8px; border-radius: 4px; background: rgba(255,255,255,.15); }
+  .form i.on { background: #ff6b7d; }
+
+  /* big numbers */
+  .pot { text-align: center; }
+  .pot .n { font-size: 2.6rem; font-weight: 900; line-height: 1; }
+  .pot .l { color: var(--hq-dim); font-weight: 800; font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; }
+  .ring { width: 86px; height: 86px; border-radius: 50%; display: grid; place-items: center; font-size: 2rem; font-weight: 900; margin: 0 auto; background: conic-gradient(var(--blue) var(--p, 100%), rgba(255,255,255,.1) 0); position: relative; }
+  .ring::before { content: ''; position: absolute; inset: 7px; border-radius: 50%; background: #041433; }
+  .ring span { position: relative; }
+  .hdr { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .qcard { background: linear-gradient(180deg, #0f4fc4, #0a3791); border: 2px solid #5fa8ff; border-radius: 18px; padding: 16px; font-size: 1.15rem; font-weight: 800; min-height: 96px; display: flex; align-items: center; justify-content: center; text-align: center; box-shadow: 0 8px 30px rgba(31,124,255,.3); }
+  .qcard.red { background: linear-gradient(180deg, #b8182c, #6d0a17); border-color: #ff7a8a; box-shadow: 0 8px 30px rgba(224,36,58,.3); }
+  .feed { min-height: 28px; text-align: center; font-weight: 900; }
+  .feed .ok { color: #3ee08a; } .feed .no { color: #ff6b7d; }
+  .who { text-align: center; color: var(--hq-dim); font-weight: 800; }
+  .who b { color: #fff; }
+  .watch { text-align: center; padding: 10px; border-radius: 12px; background: rgba(255,255,255,.06); color: var(--hq-dim); font-weight: 800; }
+
+  /* the board */
+  .h2h { display: grid; grid-template-columns: 118px 1fr; gap: 12px; align-items: start; }
+  .board { display: flex; flex-direction: column; gap: 4px; }
+  .row { height: 34px; border-radius: 8px; background: rgba(9,40,100,.8); border: 1px solid rgba(95,168,255,.25); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: .8rem; transition: background .5s, box-shadow .5s; overflow: hidden; white-space: nowrap; }
+  .row.chaser { background: linear-gradient(180deg, #ff3b52, #b3122a); border-color: #ff9aa6; box-shadow: 0 0 14px rgba(224,36,58,.5); }
+  .row.me { background: linear-gradient(180deg, #3d95ff, #0b56d6); border-color: #b8d8ff; box-shadow: 0 0 14px rgba(31,124,255,.6); }
+  .row.caught { background: linear-gradient(180deg, #ff3b52, #3d95ff); }
+  .row.home { background: rgba(38,194,129,.25); border-color: rgba(38,194,129,.6); color: #3ee08a; letter-spacing: .12em; }
+  .row.home.won { background: linear-gradient(180deg, #33d17a, #138a4a); color: #fff; }
+  .opts { display: grid; gap: 8px; }
+  .opt { all: unset; box-sizing: border-box; cursor: pointer; padding: 12px 14px; border-radius: 14px; background: rgba(255,255,255,.08); border: 2px solid rgba(255,255,255,.18); font-weight: 800; display: flex; gap: 8px; align-items: center; min-height: 50px; }
+  .opt .l { font-weight: 900; color: #7fb8ff; }
+  .opt.mine { border-color: var(--blue); background: rgba(31,124,255,.3); }
+  .opt.chaser { box-shadow: inset -6px 0 0 var(--red); }
+  .opt.right { background: rgba(38,194,129,.35); border-color: #3ee08a; }
+  .opt.wrongpick { background: rgba(224,36,58,.28); border-color: #ff6b7d; }
+  .opt .tags { margin-left: auto; display: flex; gap: 4px; }
+  .opt .tags span { font-size: .7rem; padding: 2px 6px; border-radius: 6px; background: rgba(0,0,0,.3); }
+  .opt:disabled { cursor: default; }
+  .h2hq { font-weight: 800; font-size: 1.02rem; margin-bottom: 10px; }
+
+  /* offers */
+  .offers { display: grid; gap: 10px; }
+  .offer { all: unset; box-sizing: border-box; cursor: pointer; border-radius: 16px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; font-weight: 900; border: 2px solid transparent; }
+  .offer.high { background: linear-gradient(90deg, #b8182c, #6d0a17); }
+  .offer.mid { background: linear-gradient(90deg, #0f4fc4, #0a3791); }
+  .offer.low { background: linear-gradient(90deg, #1f5f9e, #123c66); }
+  .offer .amt { font-size: 1.5rem; }
+  .offer small { display: block; color: rgba(255,255,255,.7); font-weight: 800; }
+  .offer.on { border-color: #fff; }
+  .chips { display: flex; gap: 8px; }
+  .chips button { flex: 1; border: 2px solid var(--hq-line); background: rgba(255,255,255,.06); border-radius: 12px; padding: 10px 4px; font-weight: 900; cursor: pointer; }
+  .chips button.on { border-color: #fff; background: rgba(224,36,58,.4); }
+
+  /* final chase */
+  .versus { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; text-align: center; }
+  .versus .n { font-size: 3rem; font-weight: 900; line-height: 1; }
+  .versus .blue .n { color: #7fb8ff; } .versus .red .n { color: #ff6b7d; }
+  .versus .l { font-size: .75rem; font-weight: 900; letter-spacing: .08em; color: var(--hq-dim); text-transform: uppercase; }
+  .track { position: relative; height: 22px; border-radius: 99px; background: rgba(255,255,255,.1); overflow: hidden; }
+  .track .t { position: absolute; top: 0; bottom: 0; left: 0; background: linear-gradient(90deg, #1f7cff, #7fb8ff); transition: width .4s; }
+  .track .c { position: absolute; top: 0; bottom: 0; left: 0; background: linear-gradient(90deg, #8e0f1f, #ff3b52); transition: width .4s; }
+  .log { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; }
+  .log i { width: 14px; height: 14px; border-radius: 4px; background: #3ee08a; }
+  .log i.x { background: #ff6b7d; }
+  .log i.p { background: #ffd60a; }
+  .push { position: fixed; inset: 0; z-index: 25; display: grid; place-items: center; padding: 16px; background: rgba(2,11,31,.85); }
+  .push .hq-card { width: min(480px, 100%); background: #0a2c6e; border-color: #5fa8ff; }
+  .review li { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--hq-line); font-size: .9rem; }
+  .review li span { flex: 1; }
+  .review button { border: 0; border-radius: 10px; padding: 6px 10px; font-weight: 900; background: #3ee08a; color: #06220f; cursor: pointer; }
+  .review ul { list-style: none; margin: 0; padding: 0; max-height: 40vh; overflow: auto; }
+  .team { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+  .team span { padding: 4px 10px; border-radius: 99px; background: rgba(31,124,255,.25); font-weight: 800; font-size: .88rem; }
+  .team span.out { background: rgba(255,255,255,.06); color: var(--hq-dim); text-decoration: line-through; }
+  .scores { width: 100%; border-collapse: collapse; font-weight: 800; }
+  .scores td { padding: 8px 4px; border-bottom: 1px solid var(--hq-line); }
+  .scores td:last-child { text-align: right; }
+</style>
+</head>
+<body class="hq ch">
+<div class="hq-app">
+  <div class="hq-top" id="top"></div>
+  <main class="hq-main" id="main"></main>
+  <div class="hq-dock" id="dock"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="assets/common.js"></script>
+<script src="assets/home.js"></script>
+<script>
+'use strict';
+const { esc } = LQ;
+const $ = (s) => document.querySelector(s);
+const main = $('#main'), dock = $('#dock');
+HQ.topBar($('#top'), 'The Chase');
+
+const HOME = 8;            // the board: the Chaser starts on row 0, home is row 8
+const CASH_MS = 60000, FINAL_MS = 120000, H2H_MS = 20000, PUSH_MS = 12000, OFFER_MS = 30000, REVIEW_MS = 25000;
+const PERSONAS = [
+  { name: 'The Headmistress', emoji: '🧑‍🏫', line: 'Sit up straight. Class is in session.' },
+  { name: 'The Bulldozer', emoji: '🚜', line: "I don't go round things. I go through them." },
+  { name: 'The Night Owl', emoji: '🦉', line: "Whoo's going home tonight? Not you." },
+  { name: 'The Professor', emoji: '🎓', line: "I haven't just read the book. I wrote it." },
+  { name: 'The Silver Fox', emoji: '🦊', line: "Charm won't save you, pet." },
+  { name: 'The Tax Man', emoji: '💼', line: "Everything you've earned? I'll be taking that." },
+];
+const L = 'ABC';
+
+// ================================================================== the game (runs on the lead phone)
+const engine = {
+  create({ players, opts, set }) {
+    const human = !opts.solo && opts.chaser === 'human' && opts.chaserId && players.some((p) => p.id === opts.chaserId);
+    const persona = HQ.pick(PERSONAS);
+    const acc = HQ.rand(0.70, 0.95); // always knows at least 70%
+    const chaser = human ? { ...players.find((p) => p.id === opts.chaserId), bot: false, persona: 'The Chaser', line: 'Ready when you are.' }
+      : { id: 'bot', name: persona.name, emoji: persona.emoji, bot: true, line: persona.line, acc, pace: 0 };
+    const contestants = players.filter((p) => p.id !== chaser.id).slice(0, 4);
+    const S = { typed: set.lists.typed, mc: set.lists.mc, tp: 0, mp: 0, players, chaser, cs: contestants.map((p) => p.id), ci: 0,
+      res: Object.fromEntries(contestants.map((p) => [p.id, { cash: 0, money: 0, start: 3, home: null, log: [] }])), phase: 'intro', until: Date.now() + 6500, n: 0 };
+    return S;
+  },
+  act(S, pid, kind, d, now) {
+    const cur = S.cs[S.ci], r = S.res[cur];
+    if (kind === 'skip' && ((S.phase === 'intro' && pid === S.cs[0]) || (S.phase === 'cashIntro' && pid === cur) || (S.phase === 'finalIntro' && S.team && S.team[0] === pid))) { S.until = now; return; }
+    if (S.phase === 'cash' && pid === cur) {
+      if (kind === 'answer') { const ok = HQ.isRight(d.text, S.cq.answers); r.log.push({ q: S.cq.text, a: String(d.text).slice(0, 40), ans: S.cq.answers[0], ok }); if (ok) r.cash += 1000; S.fb = { n: ++S.n, ok, a: String(d.text).slice(0, 40), ans: S.cq.answers[0] }; S.cq = nextTyped(S); }
+      if (kind === 'pass') { r.log.push({ q: S.cq.text, a: '', ans: S.cq.answers[0], ok: false, pass: true }); S.fb = { n: ++S.n, pass: true, ans: S.cq.answers[0] }; S.cq = nextTyped(S); }
+    }
+    if (S.phase === 'cashDone' && pid === cur) {
+      if (kind === 'claim' && r.log[d.i] && !r.log[d.i].ok && !r.log[d.i].pass) { r.log[d.i].ok = true; r.log[d.i].claimed = true; r.cash += 1000; }
+      if (kind === 'continue') S.until = now;
+    }
+    if (S.phase === 'offerSet' && pid === S.chaser.id) {
+      if (kind === 'setOffer') { if (d.high) S.offers.high = d.high; if (d.low !== undefined) S.offers.low = d.low; }
+      if (kind === 'offersReady') { S.phase = 'offer'; S.until = now + OFFER_MS; }
+    }
+    if (S.phase === 'offer' && pid === cur && kind === 'offer' && ['high', 'mid', 'low'].includes(d.pick)) { chooseOffer(S, d.pick, now); }
+    if (S.phase === 'h2h' && S.hh && !S.hh.stage) {
+      const k = +d.k; if (kind !== 'pick' || !(k >= 0 && k < 3)) return;
+      if (pid === cur && S.hh.pick === undefined) S.hh.pick = k;
+      if (pid === S.chaser.id && !S.chaser.bot && S.hh.cpick === undefined) S.hh.cpick = k;
+      if (S.hh.pick !== undefined && S.hh.cpick !== undefined) { S.hh.stage = 1; S.until = now + 1300; }
+    }
+    if (S.phase === 'final' && S.team.includes(pid)) {
+      if (kind === 'answer') {
+        const ok = HQ.isRight(d.text, S.fq.answers);
+        S.fin.push({ q: S.fq.text, a: String(d.text).slice(0, 40), ans: S.fq.answers[0], ok, by: pid });
+        if (ok) { S.steps++; S.fb = { n: ++S.n, ok, a: String(d.text).slice(0, 40), ans: S.fq.answers[0], by: pid }; S.fq = nextTyped(S); S.tried = {}; }
+        else { S.tried[pid] = 1; S.fb = { n: ++S.n, ok, a: String(d.text).slice(0, 40), by: pid }; if (S.team.every((t) => S.tried[t])) { S.fb.ans = S.fq.answers[0]; S.fq = nextTyped(S); S.tried = {}; } }
+      }
+      if (kind === 'pass') { S.tried[pid] = 1; if (S.team.every((t) => S.tried[t])) { S.fin.push({ q: S.fq.text, a: '', ans: S.fq.answers[0], ok: false, pass: true }); S.fb = { n: ++S.n, pass: true, ans: S.fq.answers[0] }; S.fq = nextTyped(S); S.tried = {}; } }
+    }
+    if (S.phase === 'finalDone' && S.team.includes(pid)) {
+      if (kind === 'claim' && S.fin[d.i] && !S.fin[d.i].ok && !S.fin[d.i].pass && !S.fin.some((x, j) => j !== d.i && x.q === S.fin[d.i].q && x.ok)) { S.fin[d.i].ok = true; S.fin[d.i].claimed = true; S.steps++; }
+      if (kind === 'continue') S.until = now;
+    }
+    if (S.phase === 'chaserRun' && pid === S.chaser.id && !S.chaser.bot) {
+      if (kind === 'answer') { const ok = HQ.isRight(d.text, S.xq.answers); chaserResult(S, ok, now, String(d.text).slice(0, 40)); }
+      if (kind === 'pass') chaserResult(S, false, now, '');
+    }
+    if (S.phase === 'push' && S.team.includes(pid) && !S.push.done) {
+      if (kind === 'answer') { const ok = HQ.isRight(d.text, S.push.q.answers); if (ok) { pushBack(S, pid, now); } else { S.push.tried[pid] = String(d.text).slice(0, 40); if (S.team.every((t) => S.push.tried[t] !== undefined)) { S.push.done = 'miss'; S.until = now + 2200; } } }
+      if (kind === 'pass') { S.push.tried[pid] = ''; if (S.team.every((t) => S.push.tried[t] !== undefined)) { S.push.done = 'miss'; S.until = now + 2200; } }
+    }
+  },
+  tick(S, now) {
+    let changed = false;
+    // the bot Chaser answering in the head-to-head
+    if (S.phase === 'h2h' && S.hh && !S.hh.stage && S.chaser.bot && S.hh.cpick === undefined && now >= S.hh.botAt) {
+      S.hh.cpick = HQ.chance(Math.min(0.97, S.chaser.acc + 0.06)) ? S.hh.q.correct : HQ.pick([0, 1, 2].filter((k) => k !== S.hh.q.correct));
+      if (S.hh.pick !== undefined) { S.hh.stage = 1; S.until = now + 1300; }
+      changed = true;
+    }
+    // the bot Chaser in the Final Chase
+    if (S.phase === 'chaserRun' && S.chaser.bot && now >= S.xDue) { chaserResult(S, HQ.chance(S.chaser.acc), now, ''); changed = true; }
+    if (now < S.until) return changed;
+    step(S, now); return true;
+  },
+  view(S, now) {
+    const P = Object.fromEntries(S.players.map((p) => [p.id, { id: p.id, name: p.name, emoji: p.emoji }]));
+    const V = { phase: S.phase, ms: Math.max(0, S.until - now), chaser: { id: S.chaser.id, name: S.chaser.name, emoji: S.chaser.emoji, bot: S.chaser.bot, line: S.chaser.line, form: S.chaser.bot ? Math.round((S.chaser.acc - 0.7) / 0.25 * 4) + 1 : 0 },
+      players: S.players.map((p) => P[p.id]), cs: S.cs, ci: S.ci, cur: S.cs[S.ci], fb: S.fb || null,
+      res: Object.fromEntries(Object.entries(S.res).map(([k, r]) => [k, { cash: r.cash, money: r.money, start: r.start, home: r.home, offer: r.offer }])) };
+    if (S.phase === 'cash') { V.q = S.cq.text; V.total = CASH_MS; }
+    if (S.phase === 'cashDone') V.log = S.res[V.cur].log;
+    if (['offerSet', 'offer'].includes(S.phase)) V.offers = S.offers;
+    if (['h2h', 'h2hEnd'].includes(S.phase) && S.hh) {
+      const h = S.hh; V.hh = { q: h.q.text, options: h.q.options, pos: h.pos, cpos: h.cpos, stage: h.stage || 0, n: h.n,
+        pick: h.stage >= 1 ? h.pick : (h.pick !== undefined ? -1 : undefined), cpick: h.stage >= 2 ? h.cpick : (h.cpick !== undefined ? -1 : undefined), correct: h.stage >= 2 ? h.q.correct : undefined, result: h.result, total: H2H_MS };
+    }
+    if (['finalIntro', 'final', 'finalDone', 'chaserIntro', 'chaserRun', 'push', 'over'].includes(S.phase)) {
+      V.team = S.team; V.head = S.head; V.steps = S.steps; V.prize = S.prize; V.consolation = S.consolation;
+    }
+    if (S.phase === 'final') { V.q = S.fq.text; V.total = FINAL_MS; V.tried = S.tried; }
+    if (S.phase === 'finalDone') V.log = S.fin;
+    if (['chaserIntro', 'chaserRun', 'push', 'over'].includes(S.phase)) { V.target = S.head + S.steps; V.csteps = S.csteps; V.xlog = S.xlog; V.xleft = S.phase === 'push' ? S.xleft : Math.max(0, S.xUntil - now); V.xq = S.phase === 'chaserRun' ? S.xq.text : undefined; }
+    if (S.phase === 'push') V.push = { q: S.push.q.text, tried: S.push.tried, done: S.push.done, by: S.push.by, ans: S.push.done ? S.push.q.answers[0] : undefined, total: PUSH_MS };
+    if (S.phase === 'over') V.result = S.result;
+    return V;
+  },
+};
+function nextTyped(S) { const q = S.typed[S.tp++]; return q || { text: 'Out of questions!', answers: ['—'] }; }
+function nextMc(S) { return S.mc[S.mp++] || S.mc[0]; }
+function offersFor(cash) {
+  const nice = (n) => Math.round(n / 500) * 500;
+  const high = Math.max(nice(cash * HQ.rand(3, 7)), cash + 5000, 8000);
+  const low = cash <= 1000 ? HQ.pick([-2000, -1000, 0, 500]) : Math.min(cash - 1000, HQ.pick([-3000, -1000, 500, 1000, 2000, nice(cash * 0.3)]));
+  return { high: nice(high), mid: cash, low: Math.min(low, cash - 500) };
+}
+function chooseOffer(S, pick, now) {
+  const r = S.res[S.cs[S.ci]];
+  r.offer = pick; r.money = S.offers[pick]; r.start = pick === 'high' ? 2 : pick === 'low' ? 4 : 3;
+  S.phase = 'h2hIntro'; S.until = now + 3200;
+}
+function newH2hQuestion(S, now) {
+  const r = S.res[S.cs[S.ci]], prev = S.hh || { pos: r.start, cpos: 0, n: 0 };
+  S.hh = { q: nextMc(S), pos: prev.pos, cpos: prev.cpos, n: prev.n + 1, botAt: now + HQ.rand(2200, 7000) };
+  S.phase = 'h2h'; S.until = now + H2H_MS;
+}
+function chaserResult(S, ok, now, said) {
+  if (ok) {
+    S.csteps++; S.xlog.push('ok');
+    if (S.csteps >= S.head + S.steps) return finish(S, now, 'caught');
+    S.xq = nextTyped(S); S.xDue = now + S.chaser.pace * HQ.rand(0.8, 1.25);
+  } else {
+    S.xlog.push('x');
+    // a wrong answer (or a pass): the team gets the chance to push the Chaser back
+    S.xleft = Math.max(0, S.xUntil - now); S.phase = 'push'; S.push = { q: S.xq, tried: {}, said }; S.until = now + PUSH_MS;
+  }
+}
+function pushBack(S, pid, now) {
+  if (S.csteps > 0) S.csteps--; else S.head++;
+  S.push.done = 'pushed'; S.push.by = pid; S.xlog[S.xlog.length - 1] = 'p'; S.until = now + 2200;
+}
+function finish(S, now, how) {
+  const each = S.team.length ? Math.round(S.prize / S.team.length) : 0;
+  S.result = { how, prize: S.prize, each, target: S.head + S.steps, csteps: S.csteps, consolation: S.consolation };
+  S.phase = 'over'; S.until = now + 36e5;
+}
+/** The clock ran out on a phase: on to the next. */
+function step(S, now) {
+  const cur = S.cs[S.ci], r = S.res[cur];
+  switch (S.phase) {
+    case 'intro': S.phase = 'cashIntro'; S.until = now + 4000; break;
+    case 'cashIntro': S.phase = 'cash'; S.until = now + CASH_MS; S.cq = nextTyped(S); S.fb = null; break;
+    case 'cash': S.phase = 'cashDone'; S.until = now + REVIEW_MS; S.fb = null; break;
+    case 'cashDone':
+      S.offers = offersFor(r.cash);
+      if (S.chaser.bot) { S.phase = 'offer'; S.until = now + OFFER_MS; } else { S.phase = 'offerSet'; S.until = now + OFFER_MS; }
+      break;
+    case 'offerSet': S.phase = 'offer'; S.until = now + OFFER_MS; break;
+    case 'offer': chooseOffer(S, 'mid', now); break;
+    case 'h2hIntro': S.hh = null; newH2hQuestion(S, now); break;
+    case 'h2h': {
+      const h = S.hh;
+      if (!h.stage) { if (h.pick === undefined) h.pick = -1; if (h.cpick === undefined) h.cpick = -1; h.stage = 1; S.until = now + 1300; break; } // time up: no answer is a wrong one
+      if (h.stage === 1) { h.stage = 2; S.until = now + 1600; break; }
+      if (h.stage === 2) {
+        h.stage = 3;
+        if (h.pick === h.q.correct) h.pos++;
+        if (h.pos >= HOME) { h.result = 'home'; r.home = true; S.phase = 'h2hEnd'; S.until = now + 5000; break; }
+        if (h.cpick === h.q.correct) h.cpos++;
+        if (h.cpos >= h.pos) { h.result = 'caught'; r.home = false; S.phase = 'h2hEnd'; S.until = now + 5000; break; }
+        S.until = now + 1400; break;
+      }
+      newH2hQuestion(S, now); break;
+    }
+    case 'h2hEnd':
+      S.ci++; S.hh = null;
+      if (S.ci < S.cs.length) { S.phase = 'cashIntro'; S.until = now + 4000; break; }
+      S.ci = 0;
+      S.team = S.cs.filter((id) => S.res[id].home);
+      S.consolation = !S.team.length;
+      if (S.consolation) { S.team = S.cs.slice(); S.head = 0; S.prize = 4000; }
+      else { S.head = S.team.length; S.prize = Math.max(0, S.team.reduce((a, id) => a + S.res[id].money, 0)); }
+      S.steps = 0; S.fin = []; S.tried = {};
+      S.phase = 'finalIntro'; S.until = now + 7000; break;
+    case 'finalIntro': S.phase = 'final'; S.until = now + FINAL_MS; S.fq = nextTyped(S); S.fb = null; break;
+    case 'final': S.phase = 'finalDone'; S.until = now + REVIEW_MS; S.fb = null; break;
+    case 'finalDone':
+      S.phase = 'chaserIntro'; S.until = now + 6000; S.csteps = 0; S.xlog = [];
+      // Typing is slower than talking: on your own the bot takes 6.8–8.6 s a question, and speeds up for a bigger team
+      // (more thumbs, more answers). With 70–95% right, that's roughly 11–19 steps for one player.
+      if (S.chaser.bot) S.chaser.pace = HQ.rand(6800, 8600) * [1, 1, 0.85, 0.75, 0.68][Math.min(4, S.team.length)];
+      break;
+    case 'chaserIntro': S.phase = 'chaserRun'; S.xUntil = now + FINAL_MS; S.until = S.xUntil; S.xq = nextTyped(S); S.xDue = now + (S.chaser.pace || 0) * HQ.rand(0.8, 1.25); break;
+    case 'chaserRun': finish(S, now, S.csteps >= S.head + S.steps ? 'caught' : 'escaped'); break;
+    case 'push':
+      if (!S.push.done) { S.push.done = 'miss'; S.until = now + 2200; break; }
+      S.phase = 'chaserRun'; S.xUntil = now + S.xleft; S.until = S.xUntil; S.xq = nextTyped(S); S.xDue = now + (S.chaser.pace || 0) * HQ.rand(0.8, 1.25); S.push = null;
+      if (S.xleft <= 0) finish(S, now, 'escaped');
+      break;
+  }
+}
+
+// ================================================================== the screens (every phone)
+let lastKey = '', lastFb = 0, bar = null, lastSound = '';
+const nameOf = (V, id) => (V.players.find((p) => p.id === id) || {}).name || (id === V.chaser.id ? V.chaser.name : 'Someone');
+const emojiOf = (V, id) => (V.players.find((p) => p.id === id) || {}).emoji || '';
+function once(key, fn) { if (lastSound !== key) { lastSound = key; fn(); } }
+function screen(key, html, dockHtml, bind) {
+  if (key === lastKey) return false;
+  lastKey = key; main.innerHTML = html; dock.innerHTML = dockHtml || ''; bar = null; if (bind) bind(); return true;
+}
+function typedDock(onSubmit, onPass, placeholder) {
+  bar = HQ.answerBar(dock, { placeholder: placeholder || 'Type your answer', onSubmit, onPass });
+  setTimeout(() => bar && bar.focus(), 60);
+}
+function feedHtml(V, showWho) {
+  const f = V.fb; if (!f) return '';
+  const who = showWho && f.by ? esc(nameOf(V, f.by)) + ': ' : '';
+  if (f.pass) return `<span class="no">Pass. It was ${esc(f.ans)}</span>`;
+  return f.ok ? `<span class="ok">✓ ${who}${esc(f.a)}</span>` : `<span class="no">✗ ${who}${esc(f.a)}${f.ans ? ` (it was ${esc(f.ans)})` : ''}</span>`;
+}
+function boardHtml(pos, cpos, name, money, result) {
+  let rows = '';
+  for (let i = 0; i <= HOME; i++) {
+    if (i === HOME) { rows += `<div class="row home ${result === 'home' ? 'won' : ''}">HOME</div>`; continue; }
+    const isC = i <= cpos && cpos > 0 ? true : i === 0, isMe = i === pos;
+    const cls = isMe && i <= cpos ? 'caught' : isMe ? 'me' : isC ? 'chaser' : '';
+    rows += `<div class="row ${cls}">${isMe ? esc(HQ.money(money)) : i === 0 && !isMe ? '😈' : ''}</div>`;
+  }
+  return `<div class="board">${rows}</div>`;
+}
+
+function render(V, ctx) {
+  const me = ctx.me, cur = V.cur, isCur = me === cur, isChaser = me === V.chaser.id, inTeam = (V.team || []).includes(me);
+  document.body.classList.toggle('hunted', ['chaserRun', 'push', 'chaserIntro'].includes(V.phase) || (V.phase === 'over' && V.result?.how === 'caught'));
+  const r = V.res[cur] || {};
+  const act = ctx.act;
+  switch (V.phase) {
+    case 'intro': {
+      once('intro' + V.set, () => HQ.sound('chaser'));
+      screen('intro', `<div class="hq-card chaserCard hq-pop" style="margin-top:6vh"><div class="hq-muted">Tonight's Chaser is…</div><div class="face">${esc(V.chaser.emoji)}</div><h2>${esc(V.chaser.name)}</h2>
+        <div class="quote">“${esc(V.chaser.line)}”</div>${V.chaser.bot ? `<div class="form">${[1, 2, 3, 4, 5].map((i) => `<i class="${i <= V.chaser.form ? 'on' : ''}"></i>`).join('')}</div><div class="hq-muted hq-small" style="margin-top:4px">Form tonight</div>` : ''}</div>
+        <div class="hq-card hq-small hq-muted">${V.cs.length > 1 ? 'Each of you builds your cash in 60 seconds and takes it on against the Chaser. Everyone who gets home plays the Final Chase together.' : 'Build your cash in 60 seconds, take on the Chaser and get it home, then beat the clock in the Final Chase.'}</div>`,
+        V.cs[0] === me ? `<button class="hq-btn hq-btn-main" id="go">Let's go</button>` : '', () => { const g = $('#go'); if (g) g.onclick = () => act('skip'); });
+      break;
+    }
+    case 'cashIntro':
+      screen('ci' + cur, `<div class="hq-card hq-pop" style="text-align:center;margin-top:10vh"><div style="font-size:3rem">${esc(emojiOf(V, cur))}</div><h2 style="margin:6px 0">${isCur ? "You're up!" : esc(nameOf(V, cur)) + ' is up'}</h2><div class="hq-muted">Cash Builder: 60 seconds, £1,000 for every right answer.${isCur ? ' Type fast, and pass if you don\'t know.' : ''}</div></div>`,
+        isCur ? `<button class="hq-btn hq-btn-main" id="go">I'm ready</button>` : '', () => { const g = $('#go'); if (g) g.onclick = () => act('skip'); HQ.sound('whoosh'); });
+      break;
+    case 'cash': {
+      const fresh = screen('cash' + cur, `<div class="hdr"><div class="pot"><div class="l">Cash</div><div class="n" id="pot"></div></div><div class="ring" id="ring"><span ${HQ.clock(V, V.ms, CASH_MS, 'data-tick="5"')}></span></div></div>
+        <div class="qcard hq-rise" id="q"></div><div class="feed" id="fb"></div>${isCur ? '' : `<div class="watch">${esc(nameOf(V, cur))} is answering</div>`}`,
+        '', () => { if (isCur) typedDock((t) => act('answer', { text: t }), () => act('pass')); });
+      $('#pot').textContent = HQ.money(r.cash);
+      if ($('#q').textContent !== V.q) { $('#q').textContent = V.q; $('#q').classList.remove('hq-rise'); void $('#q').offsetWidth; $('#q').classList.add('hq-rise'); }
+      ringLoop(V, CASH_MS);
+      if (V.fb && V.fb.n !== lastFb) { lastFb = V.fb.n; $('#fb').innerHTML = feedHtml(V); HQ.sound(V.fb.ok ? 'right' : 'buzz'); }
+      break;
+    }
+    case 'cashDone': {
+      const log = V.log || [];
+      screen('cd' + cur + ':' + log.filter((x) => x.ok).length, `<div class="pot hq-pop" style="margin-top:4vh"><div class="l">${isCur ? 'You built' : esc(nameOf(V, cur)) + ' built'}</div><div class="n">${HQ.money(r.cash)}</div></div>
+        <div class="hq-card review"><b>The answers</b><ul>${log.map((x, i) => `<li><span>${esc(x.q)}<br><b style="color:${x.ok ? '#3ee08a' : '#ff6b7d'}">${x.pass ? 'Pass' : esc(x.a)}</b>${x.ok ? '' : ` <span class="hq-muted">· ${esc(x.ans)}</span>`}</span>${isCur && !x.ok && !x.pass ? `<button data-claim="${i}">I was right</button>` : x.claimed ? '<span class="hq-muted hq-small">counted</span>' : ''}</li>`).join('') || '<li class="hq-muted">No answers</li>'}</ul>
+        ${isCur ? '<div class="hq-muted hq-small" style="margin-top:8px">Typo, or said it another way? Tap “I was right” to count it. Honour system!</div>' : ''}</div>`,
+        isCur ? `<button class="hq-btn hq-btn-main" id="go">On to the Chaser</button>` : `<div class="watch">Next: ${esc(nameOf(V, cur))} v ${esc(V.chaser.name)}</div>`,
+        () => { $$('[data-claim]').forEach((b) => b.onclick = () => act('claim', { i: +b.dataset.claim })); const g = $('#go'); if (g) g.onclick = () => act('continue'); });
+      once('cd' + cur, () => HQ.sound('reveal'));
+      break;
+    }
+    case 'offerSet': {
+      const o = V.offers;
+      if (isChaser) {
+        const base = Math.max(o.mid, 1000), highs = [3, 5, 8].map((m, i) => Math.max([5000, 10000, 20000][i], Math.round(base * m / 1000) * 1000)), lows = [-2000, 0, Math.max(500, Math.round(o.mid * 0.3 / 500) * 500)];
+        screen('os' + cur + o.high + ':' + o.low, `<div class="hq-card"><b>Tempt ${esc(nameOf(V, cur))}</b><div class="hq-muted hq-small">They built ${HQ.money(o.mid)}. Set your offers.</div>
+          <label class="hq-label">Higher offer (one step closer to you)</label><div class="chips">${highs.map((h) => `<button data-h="${h}" class="${o.high === h ? 'on' : ''}">${HQ.money(h)}</button>`).join('')}</div>
+          <label class="hq-label">Lower offer (one step further away)</label><div class="chips">${lows.map((l) => `<button data-lo="${l}" class="${o.low === l ? 'on' : ''}">${HQ.money(l)}</button>`).join('')}</div></div>`,
+          `<button class="hq-btn hq-btn-main" id="ready">Make the offers</button>`,
+          () => { $$('[data-h]').forEach((b) => b.onclick = () => act('setOffer', { high: +b.dataset.h })); $$('[data-lo]').forEach((b) => b.onclick = () => act('setOffer', { low: +b.dataset.lo })); $('#ready').onclick = () => act('offersReady'); });
+      } else screen('osw' + cur, `<div class="hq-card" style="text-align:center;margin-top:10vh"><div style="font-size:3rem">${esc(V.chaser.emoji)}</div><b>${esc(V.chaser.name)} is deciding the offers…</b></div>`);
+      break;
+    }
+    case 'offer': {
+      const o = V.offers;
+      screen('of' + cur, `<div class="hq-card hq-pop" style="text-align:center"><div class="hq-muted">${esc(V.chaser.name)} makes ${isCur ? 'you' : esc(nameOf(V, cur))} an offer</div><div class="hq-small hq-muted" style="margin-top:4px">Decide within <b ${HQ.clock(V, V.ms, OFFER_MS)}></b> seconds, or it's the middle one</div></div>
+        <div class="offers">
+          <button class="offer high hq-rise" data-o="high" ${isCur ? '' : 'disabled'}><span><small>Higher · one step closer to the Chaser</small>Go for it</span><span class="amt">${HQ.money(o.high)}</span></button>
+          <button class="offer mid hq-rise" data-o="mid" style="animation-delay:.1s" ${isCur ? '' : 'disabled'}><span><small>What you built · 5 to get home</small>Play it straight</span><span class="amt">${HQ.money(o.mid)}</span></button>
+          <button class="offer low hq-rise" data-o="low" style="animation-delay:.2s" ${isCur ? '' : 'disabled'}><span><small>Lower · one step head start</small>Play it safe</span><span class="amt">${HQ.money(o.low)}</span></button>
+        </div>${isCur ? '' : `<div class="watch">${esc(nameOf(V, cur))} is choosing…</div>`}`,
+        '', () => { $$('[data-o]').forEach((b) => b.onclick = () => { HQ.sound('tap'); act('offer', { pick: b.dataset.o }); }); });
+      once('of' + cur, () => HQ.sound('chaser'));
+      break;
+    }
+    case 'h2hIntro':
+      screen('hi' + cur, `<div class="hq-card hq-pop" style="text-align:center;margin-top:8vh"><div style="font-size:2.4rem">${esc(emojiOf(V, cur))} 🆚 ${esc(V.chaser.emoji)}</div><h2 style="margin:8px 0 4px">${isCur ? 'You' : esc(nameOf(V, cur))} v ${esc(V.chaser.name)}</h2>
+        <div class="hq-muted">Playing for <b style="color:#fff">${HQ.money(r.money)}</b> · ${HOME - r.start} to get home</div></div>`, '');
+      once('hi' + cur, () => HQ.sound('chaser'));
+      break;
+    case 'h2h': case 'h2hEnd': h2hScreen(V, ctx, r); break;
+    case 'finalIntro': {
+      const team = V.team.map((id) => `<span>${esc(emojiOf(V, id))} ${esc(nameOf(V, id))}</span>`).join('');
+      screen('fi', `<div class="hq-card hq-pop" style="text-align:center;margin-top:4vh"><div class="hq-muted">The Final Chase</div><h2 style="margin:6px 0">${V.consolation ? 'Nobody made it home…' : 'Playing for ' + HQ.money(V.prize)}</h2>
+        ${V.consolation ? `<div class="hq-muted">…so ${V.team.length > 1 ? 'you all play' : 'you play'} for a consolation ${HQ.money(V.prize)}.</div>` : ''}
+        <div class="team" style="margin:12px 0">${team}</div><div class="hq-muted">Two minutes. A step for every right answer${V.head ? `, plus a ${V.head}-step head start` : ''}.${V.team.length > 1 ? ' Anyone can answer: the first right answer counts.' : ''}</div></div>`,
+        inTeam && V.team[0] === me ? `<button class="hq-btn hq-btn-main" id="go">Start the clock</button>` : '', () => { const g = $('#go'); if (g) g.onclick = () => act('skip'); });
+      once('fi', () => HQ.sound('reveal'));
+      break;
+    }
+    case 'final': {
+      screen('final', `<div class="hdr"><div class="pot"><div class="l">Steps</div><div class="n" id="st"></div></div><div class="ring" id="ring"><span ${HQ.clock(V, V.ms, FINAL_MS, 'data-fmt="mmss" data-tick="10"')}></span></div></div>
+        <div class="qcard" id="q"></div><div class="feed" id="fb"></div>${inTeam ? '' : `<div class="watch">${isChaser ? "Watch closely: you're next" : 'The team are answering'}</div>`}`,
+        '', () => { if (inTeam) typedDock((t) => act('answer', { text: t }), () => act('pass')); });
+      $('#st').textContent = V.head + V.steps;
+      if ($('#q').textContent !== V.q) { $('#q').textContent = V.q; }
+      ringLoop(V, FINAL_MS);
+      if (inTeam && bar) { const done = V.tried && V.tried[me]; bar.disable(!!done); if (!done) { /* keep focus */ } }
+      if (V.fb && V.fb.n !== lastFb) { lastFb = V.fb.n; $('#fb').innerHTML = feedHtml(V, V.team.length > 1); HQ.sound(V.fb.ok ? 'right' : 'buzz'); if (inTeam && bar && !(V.tried && V.tried[me])) bar.focus(); }
+      break;
+    }
+    case 'finalDone': {
+      const log = V.log || [];
+      screen('fd:' + V.steps, `<div class="pot hq-pop" style="margin-top:4vh"><div class="l">The target</div><div class="n">${V.head + V.steps}</div><div class="hq-muted hq-small">${V.steps} right${V.head ? ` + ${V.head} head start` : ''}</div></div>
+        <div class="hq-card review"><b>Your answers</b><ul>${log.map((x, i) => `<li><span>${esc(x.q)}<br><b style="color:${x.ok ? '#3ee08a' : '#ff6b7d'}">${x.pass ? 'Pass' : esc(x.a)}</b>${x.ok ? '' : ` <span class="hq-muted">· ${esc(x.ans)}</span>`}</span>${inTeam && !x.ok && !x.pass ? `<button data-claim="${i}">I was right</button>` : x.claimed ? '<span class="hq-muted hq-small">counted</span>' : ''}</li>`).join('')}</ul></div>`,
+        inTeam ? `<button class="hq-btn hq-btn-main" id="go">Bring on the Chaser</button>` : '', () => { $$('[data-claim]').forEach((b) => b.onclick = () => act('claim', { i: +b.dataset.claim })); const g = $('#go'); if (g) g.onclick = () => act('continue'); });
+      break;
+    }
+    case 'chaserIntro':
+      screen('xi', `<div class="hq-card chaserCard hq-pop" style="margin-top:6vh"><div class="face">${esc(V.chaser.emoji)}</div><h2>${esc(V.chaser.name)}</h2><div class="quote">needs <b style="color:#fff;font-style:normal">${V.target}</b> in two minutes</div>
+        <div class="hq-muted hq-small" style="margin-top:10px">Every time the Chaser gets one wrong, you get the chance to push them back a step.</div></div>`, '');
+      once('xi', () => HQ.sound('chaser'));
+      break;
+    case 'chaserRun': case 'push': chaserScreen(V, ctx, isChaser, inTeam); break;
+    case 'over': overScreen(V, me, inTeam); break;
+  }
+}
+const $$ = (s) => Array.from(document.querySelectorAll(s));
+function ringLoop(V, total) {
+  const ring = $('#ring'); if (!ring) return;
+  const dl = (V.recv || performance.now()) + V.ms;
+  cancelAnimationFrame(ringLoop.raf);
+  const f = () => { const left = Math.max(0, dl - performance.now()); ring.style.setProperty('--p', (left / total * 100) + '%'); if (left > 0 && document.body.contains(ring)) ringLoop.raf = requestAnimationFrame(f); };
+  f();
+}
+function h2hScreen(V, ctx, r) {
+  const h = V.hh, me = ctx.me, isCur = me === V.cur, isChaser = me === V.chaser.id && !V.chaser.bot, canPick = !h.stage && ((isCur && h.pick === undefined) || (isChaser && h.cpick === undefined));
+  const key = 'hh' + V.cur + ':' + h.n + ':' + h.stage + ':' + (h.pick !== undefined) + (h.cpick !== undefined) + V.phase;
+  if (key === lastKey) return;
+  lastKey = key;
+  const opt = (o, k) => {
+    const tags = []; if (h.stage >= 1 && h.pick === k) tags.push(esc(emojiOf(V, V.cur))); if (h.stage >= 2 && h.cpick === k) tags.push('😈');
+    const cls = [h.stage >= 2 && k === h.correct ? 'right' : '', h.stage >= 2 && k !== h.correct && (h.pick === k || h.cpick === k) ? 'wrongpick' : '', h.stage >= 1 && h.pick === k ? 'mine' : '', h.stage >= 2 && h.cpick === k ? 'chaser' : ''].join(' ');
+    return `<button class="opt ${cls}" data-k="${k}" ${canPick ? '' : 'disabled'}><span class="l">${L[k]}</span><span>${esc(o)}</span><span class="tags">${tags.map((t) => `<span>${t}</span>`).join('')}</span></button>`;
+  };
+  const status = V.phase === 'h2hEnd' ? (h.result === 'home' ? `<div class="hq-banner" style="background:rgba(38,194,129,.2);color:#3ee08a">${isCur ? "You're" : esc(nameOf(V, V.cur)) + ' is'} home with ${HQ.money(r.money)}!</div>` : `<div class="hq-banner" style="background:rgba(224,36,58,.25);color:#ff8a98">Caught! ${esc(V.chaser.name)} takes ${HQ.money(r.money)}</div>`)
+    : !h.stage ? `<div class="hq-clockbar" ${HQ.clock(V, V.ms, h.total)}><i></i></div><div class="hq-muted hq-small" style="text-align:center">${canPick ? 'Tap your answer' : isCur || isChaser ? 'Locked in. Waiting…' : `${esc(nameOf(V, V.cur))} and ${esc(V.chaser.name)} are answering`}${h.pick !== undefined && !isCur ? ' · ✔ ' + esc(nameOf(V, V.cur)) : ''}${h.cpick !== undefined ? ' · ✔ Chaser' : ''}</div>` : '';
+  main.innerHTML = `<div class="h2h"><div>${boardHtml(h.pos, h.cpos, nameOf(V, V.cur), r.money, h.result)}</div>
+    <div><div class="h2hq">${esc(h.q)}</div><div class="opts">${h.options.map(opt).join('')}</div></div></div>${status}`;
+  dock.innerHTML = '';
+  $$('.opt').forEach((b) => b.onclick = () => { if (!canPick) return; HQ.sound('tap'); b.classList.add('mine'); $$('.opt').forEach((x) => x.disabled = true); ctx.act('pick', { k: +b.dataset.k }); });
+  if (h.stage === 2) HQ.sound(h.pick === h.correct ? 'right' : 'wrong');
+  if (h.stage === 3) HQ.sound(h.cpick === h.correct ? 'step' : 'tap');
+  if (V.phase === 'h2hEnd') { HQ.sound(h.result === 'home' ? 'home' : 'caught'); if (h.result === 'home' && isCur) HQ.confetti(60); HQ.buzzPhone(h.result === 'home' ? 50 : [80, 60, 200]); }
+}
+function chaserScreen(V, ctx, isChaser, inTeam) {
+  const target = V.target, c = V.csteps, pct = (n) => Math.min(100, n / Math.max(1, target) * 100);
+  const xlog = (V.xlog || []).map((x) => `<i class="${x === 'x' ? 'x' : x === 'p' ? 'p' : ''}"></i>`).join('');
+  const fresh = screen('xr', `<div class="versus"><div class="blue"><div class="n" id="tg"></div><div class="l">Target</div></div><div class="ring" id="ring" style="--p:100%"><span id="xclk"></span></div><div class="red"><div class="n" id="cs"></div><div class="l">${esc(V.chaser.name)}</div></div></div>
+    <div class="track"><div class="c" id="cbar"></div></div>
+    <div class="qcard red" id="xq"></div><div class="log" id="xlog"></div>
+    ${isChaser ? '' : `<div class="watch" id="xw">${esc(V.chaser.name)} is answering…</div>`}`,
+    '', () => { if (isChaser) typedDock((t) => ctx.act('answer', { text: t }), () => ctx.act('pass'), 'Your answer, Chaser'); });
+  $('#tg').textContent = target; $('#cs').textContent = c; $('#cbar').style.width = pct(c) + '%'; $('#xlog').innerHTML = xlog;
+  if (V.phase === 'chaserRun') {
+    $('#xq').textContent = isChaser || !V.chaser.bot ? (V.xq || '') : (V.xq || '');
+    const clk = $('#xclk'); clk.setAttribute('data-dl', (V.recv || performance.now()) + V.xleft); clk.setAttribute('data-total', FINAL_MS); clk.setAttribute('data-fmt', 'mmss'); clk.setAttribute('data-tick', '10');
+    ringLoop({ ...V, ms: V.xleft }, FINAL_MS);
+    const n = (V.xlog || []).length; if (n && n !== chaserScreen.n) { chaserScreen.n = n; const last = V.xlog[n - 1]; if (last === 'ok') HQ.sound('chaser'); }
+    const p = $('.push'); if (p) p.remove(); if (isChaser && bar) bar.disable(false);
+  } else {
+    // a pushback chance
+    const clk = $('#xclk'); clk.removeAttribute('data-dl'); cancelAnimationFrame(ringLoop.raf);
+    const P = V.push; let box = $('.push');
+    const pkey = 'push:' + (V.xlog || []).length + ':' + (P.done || '') + ':' + Object.keys(P.tried || {}).length;
+    if (!box || box.dataset.k !== pkey) {
+      if (!box) { box = document.createElement('div'); box.className = 'push'; document.body.appendChild(box); }
+      box.dataset.k = pkey;
+      const mine = inTeam && !P.done && P.tried[ctx.me] === undefined;
+      box.innerHTML = `<div class="hq-card hq-pop" style="text-align:center"><div style="font-weight:900;font-size:1.3rem;color:#ffd60a">${P.done === 'pushed' ? 'PUSHED BACK!' : P.done === 'miss' ? 'No pushback' : 'PUSHBACK CHANCE'}</div>
+        <div class="hq-muted hq-small" style="margin:4px 0 10px">${P.done === 'pushed' ? esc(nameOf(V, P.by)) + ' got it: the Chaser drops a step' : P.done === 'miss' ? 'The answer was ' + esc(P.ans || '') : esc(V.chaser.name) + (isChaser ? ": you got it wrong. Can they?" : ' got it wrong. Do you know it?')}</div>
+        <div class="qcard" style="min-height:70px;font-size:1.05rem">${esc(P.q)}</div>
+        ${!P.done ? `<div class="hq-clockbar" style="margin-top:10px" ${HQ.clock(V, V.ms, P.total)}><i></i></div>` : ''}
+        ${Object.entries(P.tried || {}).map(([id, a]) => `<div class="hq-small" style="margin-top:6px;color:#ff8a98">✗ ${esc(nameOf(V, id))}: ${esc(a || 'pass')}</div>`).join('')}
+        <div id="pushBar" style="margin-top:12px"></div></div>`;
+      if (mine) { const pb = HQ.answerBar(box.querySelector('#pushBar'), { placeholder: 'Your answer', onSubmit: (t) => ctx.act('answer', { text: t }), onPass: () => ctx.act('pass') }); setTimeout(() => pb.focus(), 60); }
+      if (P.done === 'pushed') { HQ.sound('home'); HQ.buzzPhone(40); } else if (P.done === 'miss') HQ.sound('buzz'); else HQ.sound('whoosh');
+    }
+    if (isChaser && bar) bar.disable(true);
+  }
+}
+function overScreen(V, me, inTeam) {
+  const R = V.result; if (!R) return;
+  const won = R.how === 'escaped';
+  document.querySelectorAll('.push').forEach((p) => p.remove());
+  const isChaser = me === V.chaser.id;
+  const mine = won && inTeam ? R.each : 0;
+  const head = isChaser && !V.chaser.bot ? (won ? 'They got away!' : 'You caught them!') : won ? (V.team.length > 1 ? 'You beat the Chaser!' : 'You beat the Chaser!') : 'Caught!';
+  const rows = V.cs.map((id) => { const r = V.res[id]; return `<tr><td>${esc(emojiOf(V, id))} ${esc(nameOf(V, id))}</td><td>${HQ.money(r.cash)} built · ${r.home ? 'home with ' + HQ.money(r.money) : 'caught'}</td></tr>`; }).join('');
+  if (screen('over', `<div class="big hq-pop" style="text-align:center;margin-top:3vh"><div style="font-size:3.4rem">${won ? '🏆' : esc(V.chaser.emoji)}</div><h2 style="margin:4px 0;font-size:2rem">${esc(head)}</h2>
+      <div class="hq-muted">${won ? `${V.team.length > 1 ? 'The team' : 'You'} set ${R.target}; ${esc(V.chaser.name)} got ${R.csteps}.` : `${esc(V.chaser.name)} needed ${R.target} and got there${R.csteps >= R.target ? '' : ''}.`}</div>
+      ${won ? `<div class="pot" style="margin-top:12px"><div class="l">${V.team.length > 1 ? 'Each of you takes home' : 'You take home'}</div><div class="n" style="color:#3ee08a">${HQ.money(R.each)}</div><div class="hq-muted hq-small">of a ${HQ.money(R.prize)} prize fund</div></div>` : ''}</div>
+      <div class="hq-card"><table class="scores">${rows}</table></div>`,
+    `<div style="display:grid;gap:10px"><button class="hq-btn hq-btn-main" id="again">Play the next game</button><div class="hq-row"><button class="hq-btn hq-btn-ghost" id="share">Share</button><a class="hq-btn hq-btn-ghost" href="home">All games</a></div></div>`,
+    () => { $('#again').onclick = () => { LQ.unstore('lq_home_live_chase'); location.href = 'chase'; }; $('#share').onclick = () => HQ.share(won ? `We beat ${V.chaser.name} on The Chase (Game ${V.set}) at Let's Quiz!` : `${V.chaser.name} caught me on The Chase (Game ${V.set}) at Let's Quiz! Can you get home?`); })) {
+    if (won) { HQ.sound('win'); HQ.confetti(160); } else HQ.sound('caught');
+    if (won && mine) HQ.best('chase', mine);
+  }
+}
+
+window.HQS = HQ.session({ // (window.HQS: handy for testing in the console)
+  game: 'chase', main, dock, engine, render,
+  maxPlayers: 5, minPlayers: 1,
+  defaults: { chaser: 'bot', chaserId: null },
+  intro(pick) {
+    return `<div class="hq-card chaserCard hq-pop" style="margin-top:2vh"><div class="face">🏃</div><h2 style="color:#fff">The Chase</h2><div class="hq-muted">Game ${pick.n} of ${pick.total}</div></div>
+      ${pick.replay ? `<div class="hq-banner">You've played every game we have. New ones are on the way. This one is a replay.</div>` : ''}
+      <div class="hq-card hq-small"><b>How it works</b><div class="hq-muted" style="margin-top:4px">60 seconds of Cash Builder. Then take your money on against the Chaser: go for a bigger offer, a smaller one, or what you built. Get it home, then beat the clock in the Final Chase.<br><br>On your own you play a bot Chaser, and no two nights are the same. With friends (up to four), you each have a go, then share the Final Chase. Or one of you can be the Chaser.</div></div>`;
+  },
+  lobbyHtml(opts, players, isLead) {
+    const chaserName = (players.find((p) => p.id === opts.chaserId) || {}).name;
+    if (!isLead) return `<div class="hq-card hq-small">${opts.chaser === 'human' && chaserName ? `<b>${esc(chaserName)}</b> is the Chaser. Everyone else is a contestant.` : 'You\'re all contestants against a bot Chaser.'}</div>`;
+    return `<div class="hq-card"><b>Who's the Chaser?</b><div class="hq-seg" style="margin-top:10px"><button data-m="bot" class="${opts.chaser !== 'human' ? 'on' : ''}">A bot</button><button data-m="human" class="${opts.chaser === 'human' ? 'on' : ''}">One of us</button></div>
+      ${opts.chaser === 'human' ? `<div class="hq-people" style="margin-top:10px">${players.map((p) => `<button class="hq-person" data-c="${esc(p.id)}" style="cursor:pointer;${opts.chaserId === p.id ? 'background:#e0243a;border-color:#fff' : ''}">${esc(p.emoji)} ${esc(p.name)}</button>`).join('')}</div><div class="hq-muted hq-small" style="margin-top:6px">Tap who plays the Chaser.</div>` : ''}</div>`;
+  },
+  lobbyBind(root, opts, redo) {
+    root.querySelectorAll('[data-m]').forEach((b) => b.onclick = () => { opts.chaser = b.dataset.m; redo(); });
+    root.querySelectorAll('[data-c]').forEach((b) => b.onclick = () => { opts.chaserId = b.dataset.c; redo(); });
+  },
+  lobbyCheck(opts, players) {
+    if (opts.chaser === 'human') { if (!opts.chaserId || !players.some((p) => p.id === opts.chaserId)) return 'Pick who plays the Chaser'; if (players.length < 2) return 'You need at least one contestant as well as the Chaser'; if (players.length > 5) return 'Four contestants at most'; }
+    else if (players.length > 4) return 'Four contestants at most against the bot';
+    return '';
+  },
+});
+</script>
+</body>
+</html>

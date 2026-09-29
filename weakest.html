@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>The Weakest Link · Let's Quiz!</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/brand/icon-64.png">
+<link rel="apple-touch-icon" href="assets/brand/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/home.css">
+<style>
+  body.wl { --hq-bg: #000; --hq-bg2: #0b2340; --ice: #7fd3ff; --red: #e5202e; --hq-accent: #7fd3ff; }
+  body.wl { background: radial-gradient(700px 500px at 50% -5%, #123a66 0%, #04101f 55%, #000 90%) fixed; }
+  body.wl::before { content: ''; position: fixed; inset: 0; pointer-events: none; background: repeating-linear-gradient(90deg, transparent 0 46px, rgba(127,211,255,.04) 46px 47px); }
+  .hq-go, .hq-btn-main { background: var(--ice); color: #031424; }
+  .hq-answer input:focus { border-color: var(--ice); }
+
+  .logo { text-align: center; margin-top: 3vh; }
+  .logo .ring { width: 170px; height: 170px; margin: 0 auto; border-radius: 50%; border: 3px solid var(--ice); display: grid; place-items: center; box-shadow: 0 0 40px rgba(127,211,255,.35), inset 0 0 30px rgba(127,211,255,.2); }
+  .logo b { font-size: 1.2rem; letter-spacing: .14em; line-height: 1.2; text-align: center; font-weight: 900; }
+  .logo b span { display: block; font-size: 1.9rem; color: var(--ice); letter-spacing: .06em; }
+
+  .lay { display: grid; grid-template-columns: 66px 1fr; gap: 12px; }
+  .chain { display: flex; flex-direction: column-reverse; gap: 4px; }
+  .chain div { height: 30px; border-radius: 15px; display: grid; place-items: center; font-weight: 900; font-size: .72rem; background: rgba(11,35,64,.9); border: 1px solid rgba(127,211,255,.25); color: rgba(255,255,255,.55); transition: .3s; }
+  .chain div.lit { background: linear-gradient(180deg, #ff4b57, #b3121e); border-color: #ffb3b9; color: #fff; box-shadow: 0 0 14px rgba(229,32,46,.6); }
+  .chain div.done { color: #fff; border-color: rgba(127,211,255,.6); }
+  .chain .bank { margin-bottom: 8px; height: auto; padding: 6px 2px; border-radius: 12px; background: rgba(127,211,255,.12); color: var(--ice); line-height: 1.1; }
+  .clockrow { display: flex; align-items: center; justify-content: space-between; }
+  .clk { font-size: 2.1rem; font-weight: 900; font-variant-numeric: tabular-nums; }
+  .rnd { font-weight: 900; color: var(--hq-dim); letter-spacing: .08em; text-transform: uppercase; font-size: .78rem; }
+  .people { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pp { display: flex; align-items: center; gap: 4px; padding: 4px 9px 4px 6px; border-radius: 99px; background: rgba(255,255,255,.06); border: 1px solid transparent; font-weight: 800; font-size: .8rem; transition: .2s; }
+  .pp.turn { border-color: var(--ice); background: rgba(127,211,255,.2); transform: scale(1.06); }
+  .pp.out { opacity: .3; text-decoration: line-through; }
+  .pp.me { color: var(--ice); }
+  .qbox { border: 2px solid rgba(127,211,255,.5); border-radius: 16px; padding: 14px; min-height: 100px; background: linear-gradient(180deg, rgba(18,58,102,.8), rgba(4,16,31,.9)); }
+  .qbox .to { font-size: .78rem; font-weight: 900; color: var(--ice); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 6px; }
+  .qbox .t { font-size: 1.1rem; font-weight: 800; }
+  .said { min-height: 26px; font-weight: 900; text-align: center; }
+  .said .ok { color: #45e08f; } .said .no { color: #ff6b75; }
+  .bankbtn { width: 100%; padding: 16px; border-radius: 16px; border: 0; font-weight: 900; font-size: 1.3rem; letter-spacing: .12em; background: linear-gradient(180deg, #ff4b57, #b3121e); color: #fff; cursor: pointer; margin-bottom: 8px; box-shadow: 0 6px 20px rgba(229,32,46,.4); }
+  .bankbtn:disabled { opacity: .3; box-shadow: none; }
+  .flash { position: fixed; inset: 0; pointer-events: none; z-index: 20; display: grid; place-items: center; font-size: 3rem; font-weight: 900; letter-spacing: .14em; color: #fff; text-shadow: 0 0 30px rgba(229,32,46,.9); animation: fl 1s ease-out forwards; }
+  @keyframes fl { 0% { opacity: 0; transform: scale(.6); } 20% { opacity: 1; transform: scale(1.05); } 100% { opacity: 0; transform: scale(1.2); } }
+
+  .votes { display: grid; gap: 8px; }
+  .vote { all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 14px; background: rgba(255,255,255,.06); border: 2px solid rgba(255,255,255,.12); }
+  .vote .e { font-size: 1.6rem; }
+  .vote .n { font-weight: 900; }
+  .vote .s { margin-left: auto; font-size: .8rem; font-weight: 800; color: var(--hq-dim); text-align: right; }
+  .vote.on { border-color: var(--red); background: rgba(229,32,46,.2); }
+  .vote:disabled { cursor: default; }
+  .board { display: grid; gap: 6px; }
+  .vline { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 12px; background: rgba(255,255,255,.05); font-weight: 800; animation: hqRise .35s ease-out both; }
+  .vline .arrow { color: var(--hq-dim); }
+  .vline .t { color: #ff8a92; font-weight: 900; }
+  .vline .why { display: block; font-size: .78rem; color: var(--hq-dim); font-weight: 700; }
+  .goodbye { text-align: center; margin-top: 10vh; }
+  .goodbye .e { font-size: 4rem; }
+  .goodbye h2 { font-size: 1.5rem; margin: 10px 0 4px; }
+  .goodbye .line { font-size: 1.6rem; font-weight: 900; color: var(--red); letter-spacing: .04em; }
+  .stat { width: 100%; border-collapse: collapse; font-weight: 800; font-size: .9rem; }
+  .stat td { padding: 6px 4px; border-bottom: 1px solid var(--hq-line); }
+  .stat td.r { text-align: right; }
+  .tag { font-size: .7rem; font-weight: 900; padding: 2px 7px; border-radius: 6px; margin-left: 6px; }
+  .tag.s { background: rgba(69,224,143,.2); color: #45e08f; } .tag.w { background: rgba(229,32,46,.25); color: #ff8a92; }
+  .duel { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .duel > div { text-align: center; padding: 10px; border-radius: 14px; background: rgba(255,255,255,.05); border: 2px solid transparent; }
+  .duel > div.turn { border-color: var(--ice); }
+  .dots { display: flex; justify-content: center; gap: 5px; margin-top: 6px; flex-wrap: wrap; }
+  .dots i { width: 16px; height: 16px; border-radius: 50%; border: 2px solid rgba(255,255,255,.35); }
+  .dots i.ok { background: #45e08f; border-color: #45e08f; } .dots i.x { background: var(--red); border-color: var(--red); }
+</style>
+</head>
+<body class="hq wl">
+<div class="hq-app">
+  <div class="hq-top" id="top"></div>
+  <main class="hq-main" id="main"></main>
+  <div class="hq-dock" id="dock"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="assets/common.js"></script>
+<script src="assets/home.js"></script>
+<script>
+'use strict';
+const { esc } = LQ;
+const $ = (s) => document.querySelector(s), $$ = (s) => Array.from(document.querySelectorAll(s));
+const main = $('#main'), dock = $('#dock');
+HQ.topBar($('#top'), 'The Weakest Link');
+
+const CHAIN = [20, 50, 100, 200, 300, 450, 600, 800, 1000];
+const HUMAN_MS = 15000, REVEAL_MS = 1100, VOTE_MS = 35000, TIE_MS = 20000, H2H_EACH = 5;
+const roundMs = (alive) => (alive <= 2 ? 90 : 30 + 15 * alive) * 1000;
+const chainVal = (k) => (k > 0 ? CHAIN[k - 1] : 0);
+const BOT_WHY = {
+  weak: ['Got the most wrong this round.', 'The numbers don\'t lie.', 'Too many passes.', 'Didn\'t bank a penny.'],
+  strong: ['Tactical. They\'re too good.', 'I\'m not facing them in the final.', 'Strongest player, biggest threat.'],
+  grudge: ['They voted for me last time.', 'Nothing personal.', 'Just a feeling.', 'Didn\'t like the look of their answer.'],
+};
+
+// ================================================================== the game (runs on the lead phone)
+const engine = {
+  create({ players, opts, set }) {
+    const size = opts.solo ? 8 : Math.max(players.length, Math.min(9, Math.max(3, +opts.size || 8)));
+    const bots = HQ.bots(size - players.length, players.map((p) => p.name)).map((b) => ({ ...b, skill: HQ.rand(0.42, 0.86), speed: HQ.rand(2200, 4200), risk: Math.random() }));
+    const all = [...players.map((p) => ({ ...p, bot: false })), ...bots];
+    all.sort((a, b) => a.name.localeCompare(b.name)); // the first round starts alphabetically, as on the telly
+    const S = { typed: set.lists.typed, tp: 0, P: Object.fromEntries(all.map((p) => [p.id, { ...p, alive: true, tot: { r: 0, w: 0, b: 0 } }])), order: all.map((p) => p.id),
+      round: 0, pot: 0, phase: 'intro', until: Date.now() + 7000, n: 0, history: [] };
+    return S;
+  },
+  act(S, pid, kind, d, now) {
+    const p = S.P[pid]; if (!p) return;
+    if (kind === 'skip' && pid === humans(S)[0] && ['intro', 'roundIntro', 'roundEnd'].includes(S.phase)) { S.until = now; return; }
+    if (S.phase === 'round' && S.turn === pid && !S.said && !p.bot) {
+      if (kind === 'bank') bank(S, pid, now);
+      if (kind === 'answer') answer(S, pid, HQ.isRight(d.text, S.q.answers), String(d.text).slice(0, 40), now);
+      if (kind === 'pass') answer(S, pid, false, 'Pass', now);
+    }
+    if (S.phase === 'vote' && p.alive && !p.bot && kind === 'vote' && S.P[d.who]?.alive && d.who !== pid) { S.votes[pid] = d.who; if (aliveIds(S).filter((id) => !S.P[id].bot).every((id) => S.votes[id])) S.until = now; }
+    if (S.phase === 'tiebreak' && pid === S.tie.by && kind === 'vote' && S.tie.ids.includes(d.who)) { S.tie.pick = d.who; S.until = now; }
+    if (S.phase === 'h2h' && S.duel.turn === pid && S.turn === pid && !S.said && !p.bot) {
+      if (kind === 'answer') duelAnswer(S, pid, HQ.isRight(d.text, S.q.answers), String(d.text).slice(0, 40), now);
+      if (kind === 'pass') duelAnswer(S, pid, false, 'Pass', now);
+    }
+    if (kind === 'fastForward' && !humans(S).some((id) => S.P[id].alive) && !['over'].includes(S.phase)) simulateRest(S, now);
+  },
+  tick(S, now) {
+    let changed = false;
+    // bots taking their turn
+    if ((S.phase === 'round' || S.phase === 'h2h') && S.turn && S.P[S.turn].bot && !S.said && now >= S.botAt) {
+      const b = S.P[S.turn], lvl = { easy: 0.14, medium: 0, hard: -0.2 }[S.q.difficulty] || 0;
+      const ok = HQ.chance(Math.max(0.1, Math.min(0.97, b.skill + lvl)));
+      if (S.phase === 'round') answer(S, b.id, ok, ok ? S.q.answers[0] : HQ.pick(['Pass', 'Pass', 'No idea', 'Er… pass']), now);
+      else duelAnswer(S, b.id, ok, ok ? S.q.answers[0] : 'Pass', now);
+      changed = true;
+    }
+    // bots banking at the start of their turn
+    if (S.phase === 'round' && S.turn && S.P[S.turn].bot && !S.said && !S.bankDecided && now >= S.turnAt + 500) {
+      S.bankDecided = true;
+      const b = S.P[S.turn], v = chainVal(S.k), limit = [50, 100, 200, 300, 450][Math.min(4, Math.floor(b.risk * 5))];
+      const late = S.until - now < 9000;
+      if (v > 0 && ((v >= limit && HQ.chance(0.8)) || (late && HQ.chance(0.9)) || v + S.banked >= 1000)) { bank(S, b.id, now); changed = true; }
+    }
+    // a human's turn runs out
+    if ((S.phase === 'round' || S.phase === 'h2h') && S.turn && !S.P[S.turn].bot && !S.said && now >= S.turnUntil) {
+      if (S.phase === 'round') answer(S, S.turn, false, 'Out of time', now); else duelAnswer(S, S.turn, false, 'Out of time', now);
+      changed = true;
+    }
+    // after an answer, the next turn
+    if ((S.phase === 'round' || S.phase === 'h2h') && S.said && now >= S.saidUntil) {
+      if (S.phase === 'round') { if (now < S.until) nextTurn(S, now); }
+      else nextDuelTurn(S, now);
+      changed = true;
+    }
+    // the votes are read out one by one
+    if (S.phase === 'votes' && S.shown < S.voteList.length && now >= S.nextShow) { S.shown++; S.nextShow = now + 1300; changed = true; }
+    if (now < S.until) return changed;
+    step(S, now); return true;
+  },
+  view(S, now) {
+    const V = { phase: S.phase, ms: Math.max(0, S.until - now), round: S.round, pot: S.pot, k: S.k || 0, banked: S.banked || 0, turn: S.turn, n: S.n,
+      people: S.order.map((id) => { const p = S.P[id]; return { id, name: p.name, emoji: p.emoji, bot: !!p.bot, alive: p.alive, st: p.st || { r: 0, w: 0, b: 0 } }; }),
+      said: S.said || null, strongest: S.strongest, weakest: S.weakest, final2: S.final2, tripled: S.tripled };
+    if ((S.phase === 'round' || S.phase === 'h2h') && S.q) { V.q = S.q.text; V.qn = S.qn; V.turnMs = S.P[S.turn]?.bot ? 0 : Math.max(0, S.turnUntil - now); V.roundTotal = S.roundTotal; }
+    if (S.phase === 'vote') V.voted = Object.keys(S.votes);
+    if (S.phase === 'votes' || S.phase === 'tiebreak' || S.phase === 'elim') { V.voteList = S.voteList.slice(0, S.phase === 'votes' ? S.shown : S.voteList.length); V.voteTotal = S.voteList.length; }
+    if (S.phase === 'tiebreak') V.tie = { by: S.tie.by, ids: S.tie.ids };
+    if (S.phase === 'elim') V.out = S.out;
+    if (S.phase === 'h2h' || S.phase === 'over') V.duel = S.duel && { a: S.duel.a, b: S.duel.b, res: S.duel.res, turn: S.duel.turn, sudden: S.duel.sudden };
+    if (S.phase === 'over') V.result = S.result;
+    return V;
+  },
+};
+const aliveIds = (S) => S.order.filter((id) => S.P[id].alive);
+const humans = (S) => S.order.filter((id) => !S.P[id].bot);
+function nextQ(S) { const q = S.typed[S.tp++]; if (!q) return null; S.qn = ++S.n; return q; }
+function startRound(S, now) {
+  S.round++; const alive = aliveIds(S);
+  S.final2 = alive.length <= 2; S.tripled = S.final2;
+  S.k = 0; S.banked = 0; S.roundTotal = roundMs(alive.length); S.until = now + S.roundTotal; S.phase = 'round';
+  for (const id of alive) S.P[id].st = { r: 0, w: 0, b: 0 };
+  // who starts: alphabetical in round one, then the last round's strongest link (if still in)
+  const first = S.round === 1 ? alive[0] : (alive.includes(S.strongest) ? S.strongest : alive[0]);
+  S.turn = null; nextTurn(S, now, first);
+}
+function nextTurn(S, now, forced) {
+  const alive = aliveIds(S);
+  const i = forced ? alive.indexOf(forced) : (alive.indexOf(S.turn) + 1) % alive.length;
+  S.turn = alive[i < 0 ? 0 : i]; S.said = null; S.bankDecided = false; S.turnAt = now;
+  S.q = nextQ(S); if (!S.q) { S.until = now; return; } // out of questions: the round ends
+  const p = S.P[S.turn]; S.botAt = now + (p.bot ? p.speed * HQ.rand(0.8, 1.2) : 0); S.turnUntil = now + HUMAN_MS;
+}
+function bank(S, pid, now) {
+  const v = chainVal(S.k); if (!v) return;
+  const add = Math.min(v, 1000 - S.banked); S.banked += add; S.P[pid].st.b += add; S.P[pid].tot.b += add; S.k = 0; S.flash = { n: ++S.n, what: 'BANK' };
+  S.bankedFlash = S.n;
+  if (S.banked >= 1000) S.until = now + 1200; // £1,000 banked: the round is over
+}
+function answer(S, pid, ok, said, now) {
+  const p = S.P[pid];
+  if (ok) { p.st.r++; p.tot.r++; S.k = Math.min(CHAIN.length, S.k + 1); } else { p.st.w++; p.tot.w++; S.k = 0; }
+  S.said = { pid, ok, text: said, ans: S.q.answers[0], n: ++S.n };
+  S.saidUntil = now + REVEAL_MS;
+  if (S.k >= CHAIN.length && S.phase === 'round') { bank(S, pid, now); }
+}
+/** Strongest and weakest link of the round, by the numbers. */
+function rankRound(S) {
+  const alive = aliveIds(S), score = (id) => { const s = S.P[id].st; return s.r * 10 - s.w * 6 + s.b / 100 + Math.random() * 0.01; };
+  const sorted = alive.slice().sort((a, b) => score(b) - score(a));
+  S.strongest = sorted[0]; S.weakest = sorted[sorted.length - 1];
+  return sorted;
+}
+function botVote(S, id) {
+  const others = aliveIds(S).filter((x) => x !== id);
+  const sorted = rankRound(S).filter((x) => x !== id);
+  const lastVote = (S.history[S.history.length - 1] || {}).votes || {};
+  const grudge = others.find((x) => lastVote[x] === id);
+  const r = Math.random();
+  if (r < 0.58) return { who: sorted[sorted.length - 1], why: HQ.pick(BOT_WHY.weak) };
+  if (r < 0.78 && others.length > 2) return { who: sorted[0], why: HQ.pick(BOT_WHY.strong) };
+  if (grudge && r < 0.9) return { who: grudge, why: BOT_WHY.grudge[0] };
+  return { who: HQ.pick(others), why: HQ.pick(BOT_WHY.grudge.slice(1)) };
+}
+function tally(S, now) {
+  const count = {}; for (const v of S.voteList) count[v.who] = (count[v.who] || 0) + 1;
+  const max = Math.max(0, ...Object.values(count));
+  const top = Object.keys(count).filter((id) => count[id] === max);
+  if (!top.length) { const r = rankRound(S); return eliminate(S, r[r.length - 1], now); } // nobody voted: the numbers decide
+  if (top.length === 1) return eliminate(S, top[0], now);
+  // a tie: the strongest link has the casting vote
+  S.tie = { by: S.strongest, ids: top };
+  if (S.P[S.strongest].bot) { const ranked = rankRound(S); S.tie.pick = top.sort((a, b) => ranked.indexOf(b) - ranked.indexOf(a))[0]; S.phase = 'tiebreak'; S.until = now + 3500; }
+  else { S.phase = 'tiebreak'; S.until = now + TIE_MS; }
+}
+function eliminate(S, id, now) {
+  S.P[id].alive = false; S.out = id; S.history.push({ round: S.round, out: id, votes: Object.fromEntries(S.voteList.map((v) => [v.by, v.who])) });
+  S.phase = 'elim'; S.until = now + 6000;
+}
+function startDuel(S, now) {
+  const [a, b] = aliveIds(S);
+  const first = S.strongest && [a, b].includes(S.strongest) ? S.strongest : a;
+  S.duel = { a: first, b: first === a ? b : a, res: { [a]: [], [b]: [] }, turn: first, sudden: false }; S.turn = first;
+  S.phase = 'h2h'; S.until = now + 36e5; S.said = null; S.q = nextQ(S); S.turnAt = now; const p = S.P[first]; S.botAt = now + (p.bot ? p.speed * HQ.rand(0.9, 1.3) : 0); S.turnUntil = now + HUMAN_MS;
+}
+function duelAnswer(S, pid, ok, said, now) {
+  S.duel.res[pid].push(ok ? 1 : 0);
+  S.said = { pid, ok, text: said, ans: S.q.answers[0], n: ++S.n }; S.saidUntil = now + REVEAL_MS + 300;
+}
+function nextDuelTurn(S, now) {
+  const D = S.duel, A = D.res[D.a], B = D.res[D.b], sa = A.reduce((x, y) => x + y, 0), sb = B.reduce((x, y) => x + y, 0);
+  // decided? after five each (or when one can't catch up), then sudden death in pairs
+  const left = (arr) => Math.max(0, H2H_EACH - arr.length);
+  let winner = null;
+  if (!D.sudden) {
+    if (sa > sb + left(B)) winner = D.a; else if (sb > sa + left(A)) winner = D.b;
+    else if (A.length >= H2H_EACH && B.length >= H2H_EACH) { if (sa === sb) D.sudden = true; else winner = sa > sb ? D.a : D.b; }
+  } else if (A.length === B.length) { const la = A[A.length - 1], lb = B[B.length - 1]; if (la !== lb) winner = la > lb ? D.a : D.b; }
+  if (winner) return finishGame(S, winner, now);
+  D.turn = A.length > B.length ? D.b : D.a; S.turn = D.turn;
+  S.said = null; S.q = nextQ(S); if (!S.q) return finishGame(S, sa >= sb ? D.a : D.b, now);
+  S.turnAt = now; const p = S.P[D.turn]; S.botAt = now + (p.bot ? p.speed * HQ.rand(0.9, 1.3) : 0); S.turnUntil = now + HUMAN_MS;
+}
+function finishGame(S, winner, now) {
+  S.result = { winner, pot: S.pot, runner: aliveIds(S).find((x) => x !== winner) };
+  S.phase = 'over'; S.until = now + 36e5; S.turn = null;
+}
+/** Everyone real is out: play out the rest quickly, by the numbers, and show how it ended. */
+function simulateRest(S, now) {
+  while (aliveIds(S).length > 2) {
+    const alive = aliveIds(S);
+    let banked = 0; for (const id of alive) { const b = S.P[id]; const r = Math.round(HQ.rand(0.5, 1.5) * 4 * b.skill); b.st = { r, w: Math.round(4 - r * 0.7), b: 0 }; }
+    banked = Math.min(1000, Math.round(HQ.rand(150, 950) / 10) * 10); S.pot += banked;
+    const ranked = rankRound(S); S.P[ranked[ranked.length - 1]].alive = false;
+  }
+  S.pot += Math.min(3000, Math.round(HQ.rand(300, 1600) / 10) * 10 * 3);
+  const [a, b] = aliveIds(S), win = HQ.chance(S.P[a].skill / (S.P[a].skill + S.P[b].skill)) ? a : b;
+  S.duel = null; S.result = { winner: win, pot: S.pot, runner: win === a ? b : a, simulated: true };
+  S.phase = 'over'; S.until = now + 36e5;
+}
+function step(S, now) {
+  switch (S.phase) {
+    case 'intro': S.phase = 'roundIntro'; S.until = now + 4500; break;
+    case 'roundIntro': startRound(S, now); break;
+    case 'round': {
+      const add = S.tripled ? S.banked * 3 : S.banked; S.pot += add; S.lastBank = add;
+      rankRound(S); S.turn = null; S.q = null; S.said = null;
+      S.phase = 'roundEnd'; S.until = now + 7000; break;
+    }
+    case 'roundEnd':
+      if (S.final2) { startDuel(S, now); break; }
+      S.votes = {}; S.phase = 'vote'; S.until = now + VOTE_MS; break;
+    case 'vote': {
+      // bots vote now; people who didn't vote in time don't count
+      S.voteList = [];
+      for (const id of aliveIds(S)) {
+        const p = S.P[id];
+        if (p.bot) { const v = botVote(S, id); S.voteList.push({ by: id, who: v.who, why: v.why }); }
+        else if (S.votes[id]) S.voteList.push({ by: id, who: S.votes[id] });
+      }
+      S.voteList = LQ.shuffle(S.voteList); S.shown = 0; S.nextShow = now + 600;
+      S.phase = 'votes'; S.until = now + 900 + S.voteList.length * 1300 + 1800; break;
+    }
+    case 'votes': tally(S, now); break;
+    case 'tiebreak': eliminate(S, S.tie.pick || S.tie.ids[0], now); break;
+    case 'elim':
+      if (!humans(S).some((id) => S.P[id].alive) && !S.watching) { S.phase = 'out'; S.until = now + 36e5; break; }
+      S.phase = 'roundIntro'; S.until = now + 5000; break;
+  }
+}
+
+// ================================================================== the screens
+let lastKey = '', bar = null, lastSaid = 0, lastFlash = 0, lastSoundKey = '';
+const P = (V, id) => V.people.find((p) => p.id === id) || { name: '?', emoji: '' };
+function screen(key, html, dockHtml, bind) { if (key === lastKey) return false; lastKey = key; main.innerHTML = html; dock.innerHTML = dockHtml || ''; bar = null; bind && bind(); return true; }
+function once(key, fn) { if (lastSoundKey !== key) { lastSoundKey = key; fn(); } }
+function chainHtml(V) {
+  return `<div class="chain">${CHAIN.map((v, i) => `<div class="${V.k === i + 1 ? 'lit' : i < V.k ? 'done' : ''}">£${v.toLocaleString('en-GB')}</div>`).join('')}<div class="bank">BANK<br>£${(V.banked || 0).toLocaleString('en-GB')}</div></div>`;
+}
+function peopleHtml(V, me) { return `<div class="people">${V.people.map((p) => `<span class="pp ${p.alive ? '' : 'out'} ${p.id === V.turn ? 'turn' : ''} ${p.id === me ? 'me' : ''}">${esc(p.emoji)} ${esc(p.name)}</span>`).join('')}</div>`; }
+function mmss(ms) { const s = Math.ceil(ms / 1000); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; }
+
+function render(V, ctx) {
+  const me = ctx.me, act = ctx.act, mine = V.people.find((p) => p.id === me), alive = mine && mine.alive;
+  switch (V.phase) {
+    case 'intro':
+      screen('intro', `<div class="logo hq-pop"><div class="ring"><b>THE<span>WEAKEST</span>LINK</b></div></div>
+        <div class="hq-card"><b>Tonight's team</b><div style="margin-top:8px">${peopleHtml(V, me)}</div></div>
+        <div class="hq-card hq-small hq-muted">Answer in turn. Each right answer climbs the chain; a wrong one loses everything unbanked. Say BANK before your question to keep it. At the end of each round, vote off the weakest link. The last two go head to head for the lot.</div>`,
+        V.people.find((p) => !p.bot)?.id === me ? `<button class="hq-btn hq-btn-main" id="go">Let's play</button>` : '', () => { const g = $('#go'); if (g) g.onclick = () => act('skip'); });
+      once('intro', () => HQ.sound('reveal'));
+      break;
+    case 'roundIntro': {
+      const n = V.people.filter((p) => p.alive).length;
+      screen('ri' + V.round, `<div class="hq-card hq-pop" style="text-align:center;margin-top:12vh"><div class="rnd">${n <= 2 ? 'The final round' : 'Round ' + (V.round + 1)}</div><div class="clk" style="font-size:3rem;margin:8px 0">${mmss(roundMs(n))}</div>
+        <div class="hq-muted">${n <= 2 ? 'Everything you bank in this round is trebled.' : `${n} players left. The pot so far: <b style="color:#fff">${HQ.money(V.pot)}</b>`}</div></div>`, '');
+      once('ri' + V.round, () => HQ.sound('whoosh'));
+      break;
+    }
+    case 'round': roundScreen(V, ctx); break;
+    case 'roundEnd': {
+      const rows = V.people.filter((p) => p.alive).sort((a, b) => (b.st.r * 10 - b.st.w * 6) - (a.st.r * 10 - a.st.w * 6));
+      screen('re' + V.round, `<div class="hq-card hq-pop" style="text-align:center"><div class="rnd">Time's up</div><div style="font-size:1.1rem;font-weight:900;margin-top:6px">You banked ${HQ.money(V.banked)}${V.tripled ? ` ×3 = ${HQ.money(V.banked * 3)}` : ''}</div><div class="hq-muted">Pot: ${HQ.money(V.pot)}</div></div>
+        <div class="hq-card"><table class="stat">${rows.map((p) => `<tr><td>${esc(p.emoji)} ${esc(p.name)}${p.id === V.strongest ? '<span class="tag s">Strongest</span>' : ''}${p.id === V.weakest ? '<span class="tag w">Weakest</span>' : ''}</td><td class="r">✓${p.st.r} ✗${p.st.w} · £${p.st.b}</td></tr>`).join('')}</table>
+        <div class="hq-muted hq-small" style="margin-top:8px">${V.final2 ? 'On to the head-to-head.' : 'Statistically… but it\'s your vote.'}</div></div>`, '');
+      once('re' + V.round, () => HQ.sound('buzz'));
+      break;
+    }
+    case 'vote': {
+      const voted = (V.voted || []).includes(me);
+      const others = V.people.filter((p) => p.alive && p.id !== me);
+      screen('vote' + V.round + voted, `<div class="hq-card" style="text-align:center"><div class="rnd">It's time to vote off</div><div style="font-size:1.4rem;font-weight:900">the weakest link</div><div class="hq-muted hq-small" style="margin-top:4px"><span ${HQ.clock(V, V.ms, VOTE_MS)}></span>s</div></div>
+        ${alive ? `<div class="votes">${others.map((p) => `<button class="vote" data-v="${esc(p.id)}" ${voted ? 'disabled' : ''}><span class="e">${esc(p.emoji)}</span><span class="n">${esc(p.name)}</span><span class="s">✓${p.st.r} ✗${p.st.w}<br>£${p.st.b} banked</span></button>`).join('')}</div>` : `<div class="hq-card" style="text-align:center">You're out, so you can't vote. Watch who goes…</div>`}
+        ${voted ? `<div class="hq-banner">Vote cast. Waiting for the others…</div>` : ''}`, '',
+        () => $$('[data-v]').forEach((b) => b.onclick = () => { HQ.sound('tap'); b.classList.add('on'); $$('[data-v]').forEach((x) => x.disabled = true); act('vote', { who: b.dataset.v }); }));
+      break;
+    }
+    case 'votes': case 'tiebreak': {
+      const list = V.voteList || [];
+      const key = 'votes' + V.round + ':' + list.length + ':' + V.phase;
+      const tieHtml = V.phase === 'tiebreak' ? `<div class="hq-card" style="text-align:center;border-color:#e5202e"><b>A tie!</b><div class="hq-muted hq-small">${esc(P(V, V.tie.by).name)}, the strongest link, has the casting vote.</div>
+          ${V.tie.by === me ? `<div class="votes" style="margin-top:10px">${V.tie.ids.map((id) => `<button class="vote" data-t="${esc(id)}"><span class="e">${esc(P(V, id).emoji)}</span><span class="n">${esc(P(V, id).name)}</span></button>`).join('')}</div>` : ''}</div>` : '';
+      if (screen(key, `<div class="rnd" style="text-align:center">The votes</div><div class="board">${list.map((v) => `<div class="vline">${esc(P(V, v.by).emoji)} <b>${esc(P(V, v.by).name)}</b> <span class="arrow">→</span> <span class="t">${esc(P(V, v.who).name)}</span>${v.why ? `<span class="why" style="margin-left:auto">“${esc(v.why)}”</span>` : ''}</div>`).join('')}</div>${tieHtml}`, '',
+        () => $$('[data-t]').forEach((b) => b.onclick = () => { $$('[data-t]').forEach((x) => x.disabled = true); act('vote', { who: b.dataset.t }); }))) {
+        if (list.length) HQ.sound('tap');
+      }
+      break;
+    }
+    case 'elim': {
+      const o = P(V, V.out), isMe = V.out === me;
+      if (screen('elim' + V.round, `<div class="goodbye hq-pop"><div class="e">${esc(o.emoji)}</div><h2>${isMe ? 'You are' : esc(o.name) + ', you are'}</h2><div class="line">the weakest link.</div><div style="font-size:1.4rem;font-weight:900;margin-top:10px">Goodbye.</div></div>`, '')) { HQ.sound('elim'); if (isMe) HQ.buzzPhone([100, 80, 300]); }
+      break;
+    }
+    case 'out':
+      screen('out', `<div class="goodbye hq-pop"><div class="e">🚶</div><h2>That's you out</h2><div class="hq-muted">The pot stands at ${HQ.money(V.pot)} with ${V.people.filter((p) => p.alive).length} left.</div></div>`,
+        ctx.lead ? `<button class="hq-btn hq-btn-main" id="ff">See who wins</button>` : '', () => { const f = $('#ff'); if (f) f.onclick = () => act('fastForward'); });
+      break;
+    case 'h2h': duelScreen(V, ctx); break;
+    case 'over': overScreen(V, me); break;
+  }
+}
+function roundScreen(V, ctx) {
+  const me = ctx.me, myTurn = V.turn === me, t = P(V, V.turn);
+  const fresh = screen('round' + V.round, `<div class="clockrow"><div><div class="rnd">${V.final2 ? 'Final round · ×3' : 'Round ' + V.round}</div><div class="clk" ${HQ.clock(V, V.ms, V.roundTotal, 'data-fmt="mmss" data-tick="5"')}></div></div><div style="text-align:right"><div class="rnd">Pot</div><div style="font-weight:900;font-size:1.2rem">${HQ.money(V.pot)}</div></div></div>
+    <div class="lay"><div id="chain"></div><div style="display:grid;gap:10px;align-content:start"><div id="ppl"></div><div class="qbox"><div class="to" id="to"></div><div class="t" id="qt"></div></div><div class="said" id="said"></div><div id="myclock"></div></div></div>`, '');
+  $('#chain').innerHTML = chainHtml(V);
+  $('#ppl').innerHTML = peopleHtml(V, me);
+  $('#to').textContent = myTurn ? 'Your question' : 'To ' + t.name;
+  $('#qt').textContent = V.q || '';
+  if (V.said && V.said.n !== lastSaid) { lastSaid = V.said.n; const s = V.said; $('#said').innerHTML = s.ok ? `<span class="ok">✓ ${esc(P(V, s.pid).name)}: ${esc(s.text)}</span>` : `<span class="no">✗ ${esc(P(V, s.pid).name)}: ${esc(s.text)} · it was ${esc(s.ans)}</span>`; HQ.sound(s.ok ? 'right' : 'buzz'); }
+  if (!V.said && $('#said').dataset.q !== String(V.qn)) { $('#said').dataset.q = String(V.qn); if (!lastSaid || true) $('#said').innerHTML = ''; }
+  if (V.banked && V.banked !== roundScreen.banked) { roundScreen.banked = V.banked; const f = document.createElement('div'); f.className = 'flash'; f.textContent = 'BANK'; document.body.appendChild(f); setTimeout(() => f.remove(), 1000); HQ.sound('bank'); }
+  if (!V.banked) roundScreen.banked = 0;
+  // the answer box, only on your turn
+  const want = myTurn && !V.said ? 'turn' + V.qn : '';
+  if (dock.dataset.k !== want) {
+    dock.dataset.k = want;
+    if (want) {
+      dock.innerHTML = `<button class="bankbtn" id="bank" ${V.k ? '' : 'disabled'}>BANK ${V.k ? '£' + CHAIN[V.k - 1] : ''}</button><div id="ab"></div><div class="hq-clockbar" style="margin-top:8px" ${HQ.clock(V, V.turnMs, HUMAN_MS)}><i></i></div>`;
+      $('#bank').onclick = () => { $('#bank').disabled = true; ctx.act('bank'); };
+      bar = HQ.answerBar($('#ab'), { onSubmit: (x) => ctx.act('answer', { text: x }), onPass: () => ctx.act('pass') });
+      setTimeout(() => bar && bar.focus(), 50);
+      HQ.buzzPhone(20);
+    } else dock.innerHTML = V.people.find((p) => p.id === me)?.alive ? `<div class="hq-muted hq-small" style="text-align:center">Your turn is coming. Get ready to bank…</div>` : '';
+  } else if (want) { const b = $('#bank'); if (b) { b.disabled = !V.k; b.textContent = 'BANK' + (V.k ? ' £' + CHAIN[V.k - 1] : ''); } }
+}
+function duelScreen(V, ctx) {
+  const me = ctx.me, D = V.duel, myTurn = D.turn === me;
+  screen('duel', `<div class="hq-card" style="text-align:center"><div class="rnd">Head to head${D.sudden ? ' · sudden death' : ''}</div><div style="font-weight:900">Playing for ${HQ.money(V.pot)}</div></div>
+    <div class="duel" id="duel"></div><div class="qbox"><div class="to" id="to"></div><div class="t" id="qt"></div></div><div class="said" id="said"></div>`, '');
+  $('#duel').innerHTML = [D.a, D.b].map((id) => { const res = D.res[id] || [], n = Math.max(H2H_EACH, res.length); return `<div class="${D.turn === id ? 'turn' : ''}"><div style="font-size:1.8rem">${esc(P(V, id).emoji)}</div><b>${esc(P(V, id).name)}</b><div class="dots">${Array.from({ length: n }, (_, i) => `<i class="${res[i] === 1 ? 'ok' : res[i] === 0 ? 'x' : ''}"></i>`).join('')}</div></div>`; }).join('');
+  $('#to').textContent = myTurn ? 'Your question' : 'To ' + P(V, D.turn).name; $('#qt').textContent = V.q || '';
+  if (V.said && V.said.n !== lastSaid) { lastSaid = V.said.n; const s = V.said; $('#said').innerHTML = s.ok ? `<span class="ok">✓ ${esc(s.text)}</span>` : `<span class="no">✗ ${esc(s.text)} · it was ${esc(s.ans)}</span>`; HQ.sound(s.ok ? 'right' : 'buzz'); }
+  if (!V.said) $('#said').innerHTML = '';
+  const want = myTurn && !V.said ? 'duel' + V.qn : '';
+  if (dock.dataset.k !== want) { dock.dataset.k = want; if (want) { dock.innerHTML = `<div id="ab"></div><div class="hq-clockbar" style="margin-top:8px" ${HQ.clock(V, V.turnMs, HUMAN_MS)}><i></i></div>`; bar = HQ.answerBar($('#ab'), { onSubmit: (x) => ctx.act('answer', { text: x }), onPass: () => ctx.act('pass') }); setTimeout(() => bar && bar.focus(), 50); } else dock.innerHTML = ''; }
+}
+function overScreen(V, me) {
+  const R = V.result, w = P(V, R.winner), iWon = R.winner === me;
+  if (screen('over', `<div class="goodbye hq-pop" style="margin-top:5vh"><div class="e">${iWon ? '🏆' : esc(w.emoji)}</div><h2>${iWon ? 'You are the strongest link!' : esc(w.name) + ' wins'}</h2>
+      <div class="hq-muted">${iWon ? 'You' : esc(w.name)} ${iWon ? 'take' : 'takes'} home <b style="color:#fff">${HQ.money(R.pot)}</b>${R.simulated ? ' (played out after you left)' : ''}</div></div>
+      <div class="hq-card"><table class="stat">${V.people.slice().sort((a, b) => (b.alive - a.alive)).map((p) => `<tr><td>${esc(p.emoji)} ${esc(p.name)}${p.id === R.winner ? '<span class="tag s">Winner</span>' : ''}</td><td class="r">${p.id === R.winner ? HQ.money(R.pot) : p.alive ? 'Runner-up' : 'Voted off'}</td></tr>`).join('')}</table></div>`,
+    `<div style="display:grid;gap:10px"><button class="hq-btn hq-btn-main" id="again">Play the next game</button><div class="hq-row"><button class="hq-btn hq-btn-ghost" id="share">Share</button><a class="hq-btn hq-btn-ghost" href="home">All games</a></div></div>`,
+    () => { $('#again').onclick = () => { LQ.unstore('lq_home_live_weakest'); location.href = 'weakest'; }; $('#share').onclick = () => HQ.share(iWon ? `I was the strongest link and won ${HQ.money(R.pot)} on The Weakest Link (Game ${V.set}) at Let's Quiz!` : `${w.name} won ${HQ.money(R.pot)} on The Weakest Link (Game ${V.set}) at Let's Quiz!`); })) {
+    if (iWon) { HQ.sound('win'); HQ.confetti(160); HQ.best('weakest', R.pot); } else HQ.sound('lose');
+  }
+}
+
+window.HQS = HQ.session({ // (window.HQS: handy for testing in the console)
+  game: 'weakest', main, dock, engine, render,
+  maxPlayers: 9, minPlayers: 1,
+  defaults: { size: 8 },
+  intro(pick) {
+    return `<div class="logo hq-pop"><div class="ring"><b>THE<span>WEAKEST</span>LINK</b></div></div>
+      <div class="hq-card" style="text-align:center"><div style="font-weight:900;font-size:1.2rem">Game ${pick.n} of ${pick.total}</div>
+      ${pick.replay ? `<p class="hq-banner" style="margin-top:8px">You've played every game we have. New ones are on the way. This one is a replay.</p>` : ''}
+      <p class="hq-muted hq-small" style="margin:6px 0 0">A team of eight: you and seven bots with minds (and grudges) of their own. Bank often, answer fast, and try not to be the one they vote off. With friends, everyone plays on their own phone and bots fill the empty seats.</p></div>`;
+  },
+  lobbyHtml(opts, players, isLead) {
+    const size = Math.max(players.length, +opts.size || 8);
+    if (!isLead) return `<div class="hq-card hq-small">A team of ${size}: ${players.length} of you and ${size - players.length} bot${size - players.length === 1 ? '' : 's'}.</div>`;
+    return `<div class="hq-card"><b>Team size</b><div class="hq-seg" style="margin-top:10px">${[6, 7, 8, 9].map((n) => `<button data-s="${n}" class="${size === n ? 'on' : ''}" ${n < players.length ? 'disabled' : ''}>${n}</button>`).join('')}</div>
+      <div class="hq-muted hq-small" style="margin-top:6px">${players.length} of you, so ${Math.max(0, size - players.length)} bot${size - players.length === 1 ? '' : 's'} join the team.</div></div>`;
+  },
+  lobbyBind(root, opts, redo) { root.querySelectorAll('[data-s]').forEach((b) => b.onclick = () => { opts.size = +b.dataset.s; redo(); }); },
+  lobbyCheck(opts, players) { return players.length > 9 ? 'Nine players at most' : ''; },
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+{
+ "game": "club",
+ "set": 9,
+ "made": "2026-09-29",
+ "lists": {
+  "questions": [
+   {
+    "id": "q_d3ab8740",
+    "pct": 90,
+    "text": "What comes next: January, March, May, ___?",
+    "answers": [
+     "July"
+    ],
+    "why": "The pattern skips every other month: January, March, May, then July.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_a6e63a22",
+    "pct": 80,
+    "text": "A World Cup group has four teams, each playing the others once. How many games does each team play?",
+    "answers": [
+     "3",
+     "Three"
+    ],
+    "why": "Each team plays the other three once.",
+    "category": "The football World Cup"
+   },
+   {
+    "id": "q_34fe034e",
+    "pct": 70,
+    "text": "Which word becomes shorter when you add two letters to it?",
+    "answers": [
+     "Short"
+    ],
+    "why": "Add the two letters E and R to SHORT and you get SHORTER.",
+    "category": "Wordplay"
+   },
+   {
+    "id": "q_a245c619",
+    "pct": 60,
+    "text": "What is the next letter in this sequence: O, T, T, F, F, S, S, E, ___?",
+    "answers": [
+     "N",
+     "Nine"
+    ],
+    "why": "These are the initials of One, Two, Three, Four, Five, Six, Seven, Eight, so next is N for Nine.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_67926192",
+    "pct": 50,
+    "text": "The server leads 40-15. How many points have been played in the game?",
+    "answers": [
+     "4",
+     "Four"
+    ],
+    "why": "40 means three points won and 15 means one: 3 + 1 = 4.",
+    "category": "Tennis and golf"
+   },
+   {
+    "id": "q_d1cab6c1",
+    "pct": 40,
+    "text": "If today is Wednesday, what day will it be 100 days from now?",
+    "answers": [
+     "Friday"
+    ],
+    "why": "100 days is 14 weeks and 2 days, and two days after Wednesday is Friday.",
+    "category": "Maths"
+   },
+   {
+    "id": "q_bcf755ea",
+    "pct": 30,
+    "text": "Six glasses in a row: the first three are full, the next three empty. Moving only ONE glass, make them alternate full and empty. Which glass do you move?",
+    "answers": [
+     "The second",
+     "Pour the second into the fifth",
+     "Second",
+     "2",
+     "2nd",
+     "Glass 2",
+     "The second glass",
+     "~second",
+     "~2nd"
+    ],
+    "why": "Pour glass 2 into glass 5 and put it back: the glasses then go full, empty, full, empty, full, empty.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_58c9385d",
+    "pct": 20,
+    "text": "How many different letters in EDINBURGH do not appear anywhere in GLASGOW?",
+    "answers": [
+     "8",
+     "Eight"
+    ],
+    "why": "EDINBURGH has nine different letters (E, D, I, N, B, U, R, G, H), and only G is in GLASGOW, leaving 8.",
+    "category": "Scotland"
+   },
+   {
+    "id": "q_1aadaea8",
+    "pct": 10,
+    "text": "Using only 3s (penalties) and 5s (tries), what is the largest total you can't make?",
+    "answers": [
+     "7",
+     "Seven"
+    ],
+    "why": "8 = 5 + 3, 9 = 3 + 3 + 3 and 10 = 5 + 5; adding 3s then covers everything higher, but 7 can't be made.",
+    "category": "Rugby"
+   },
+   {
+    "id": "q_0f82c0ec",
+    "pct": 5,
+    "text": "Which planet in our Solar System is the only one not named after a god from Greek or Roman mythology?",
+    "answers": [
+     "Earth",
+     "The Earth"
+    ],
+    "why": "Mercury, Venus, Mars, Jupiter, Saturn, Uranus and Neptune are all gods. Earth comes from an Old English word for the ground.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_52f789b7",
+    "pct": 1,
+    "text": "In a family, each girl has as many brothers as sisters, but each boy has twice as many sisters as brothers. How many children are in the family?",
+    "answers": [
+     "7",
+     "Seven"
+    ],
+    "why": "Four girls and three boys: a girl has 3 sisters and 3 brothers; a boy has 2 brothers and 4 sisters.",
+    "category": "Logic"
+   }
+  ]
+ }
+}

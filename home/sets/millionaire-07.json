@@ -1,0 +1,205 @@
+{
+ "game": "millionaire",
+ "set": 7,
+ "made": "2026-09-29",
+ "lists": {
+  "questions": [
+   {
+    "id": "q_a5c22c39",
+    "text": "Which drawing toy has a grey screen and two white knobs?",
+    "category": "Games and toys",
+    "difficulty": "easy",
+    "options": [
+     "Fuzzy-Felt",
+     "Spirograph",
+     "Etch A Sketch",
+     "Magna Doodle"
+    ],
+    "correct": 2
+   },
+   {
+    "id": "q_71417563",
+    "text": "Which BBC weatherman is remembered for playing down a hurricane the night before the Great Storm of 1987?",
+    "category": "Nature and the environment",
+    "difficulty": "easy",
+    "options": [
+     "Bill Giles",
+     "Michael Fish",
+     "John Kettley",
+     "Ian McCaskill"
+    ],
+    "correct": 1
+   },
+   {
+    "id": "q_fba22f44",
+    "text": "What does Ariel give Ursula in exchange for legs?",
+    "category": "Disney films",
+    "difficulty": "easy",
+    "options": [
+     "Her tail",
+     "Her voice",
+     "Her shell",
+     "Her memory"
+    ],
+    "correct": 1
+   },
+   {
+    "id": "q_5b0d4484",
+    "text": "Which comedy sees Sandra Bullock's FBI agent go undercover at a beauty pageant?",
+    "category": "Romantic comedies",
+    "difficulty": "easy",
+    "options": [
+     "The Proposal",
+     "While You Were Sleeping",
+     "Two Weeks Notice",
+     "Miss Congeniality"
+    ],
+    "correct": 3
+   },
+   {
+    "id": "q_27c1ee35",
+    "text": "Which wife, according to legend, did Henry call 'the Flanders Mare'?",
+    "category": "The Tudors",
+    "difficulty": "easy",
+    "options": [
+     "Catherine Howard",
+     "Anne of Cleves",
+     "Catherine Parr",
+     "Jane Seymour"
+    ],
+    "correct": 1
+   },
+   {
+    "id": "q_f7c12cb9",
+    "text": "Which condition, caused by an unevenly curved cornea, blurs vision at all distances?",
+    "category": "The human body",
+    "difficulty": "medium",
+    "options": [
+     "Glaucoma",
+     "Astigmatism",
+     "Strabismus",
+     "Presbyopia"
+    ],
+    "correct": 1
+   },
+   {
+    "id": "q_b08a23ef",
+    "text": "Which spin-off featured a vegetarian vampire duck?",
+    "category": "Children's TV",
+    "difficulty": "medium",
+    "options": [
+     "Duck Dodgers",
+     "Count Duckula",
+     "DuckTales",
+     "Darkwing Duck"
+    ],
+    "correct": 1
+   },
+   {
+    "id": "q_62354663",
+    "text": "Which Irish girl group wore double denim for 'C'est la Vie'?",
+    "category": "The 1990s",
+    "difficulty": "medium",
+    "options": [
+     "Girls Aloud",
+     "Atomic Kitten",
+     "B*Witched",
+     "All Saints"
+    ],
+    "correct": 2
+   },
+   {
+    "id": "q_7aee184b",
+    "text": "In which village does Miss Marple live?",
+    "category": "Crime dramas",
+    "difficulty": "medium",
+    "options": [
+     "St Mary Mead",
+     "Midsomer Norton",
+     "Kingsmarkham",
+     "Causton"
+    ],
+    "correct": 0
+   },
+   {
+    "id": "q_1c363cf9",
+    "text": "Which financier's vast Ponzi scheme was exposed in December 2008?",
+    "category": "The 2000s",
+    "difficulty": "medium",
+    "options": [
+     "Jordan Belfort",
+     "Nick Leeson",
+     "Allen Stanford",
+     "Bernie Madoff"
+    ],
+    "correct": 3
+   },
+   {
+    "id": "q_dbf677b6",
+    "text": "Which Oxford chair did Tolkien take up in 1925?",
+    "category": "The Lord of the Rings and fantasy",
+    "difficulty": "hard",
+    "options": [
+     "Professor of Poetry",
+     "Professor of Anglo-Saxon",
+     "Professor of Astronomy",
+     "Regius Professor of History"
+    ],
+    "correct": 1
+   },
+   {
+    "id": "q_90ffac2d",
+    "text": "Which US president was in office during the Bay of Pigs invasion?",
+    "category": "The 20th century",
+    "difficulty": "hard",
+    "options": [
+     "Harry Truman",
+     "Dwight D. Eisenhower",
+     "Lyndon B. Johnson",
+     "John F. Kennedy"
+    ],
+    "correct": 3
+   },
+   {
+    "id": "q_7250aa95",
+    "text": "Where is the lowest point in North America?",
+    "category": "The United States",
+    "difficulty": "hard",
+    "options": [
+     "Badwater Basin, Death Valley",
+     "The Great Salt Lake",
+     "The Mississippi Delta",
+     "The Salton Sea"
+    ],
+    "correct": 0
+   },
+   {
+    "id": "q_e6d50494",
+    "text": "How did Fred Lorz 'win' the 1904 Olympic marathon before being disqualified?",
+    "category": "No Such Thing As a Fish facts",
+    "difficulty": "hard",
+    "options": [
+     "He took a train",
+     "He swapped with his twin",
+     "He rode part of the way in a car",
+     "He started an hour early"
+    ],
+    "correct": 2,
+    "wow": true
+   },
+   {
+    "id": "q_67f875e3",
+    "text": "Which African country took part in Eurovision only once, in 1980?",
+    "category": "Eurovision",
+    "difficulty": "hard",
+    "options": [
+     "Egypt",
+     "Morocco",
+     "Tunisia",
+     "Algeria"
+    ],
+    "correct": 1
+   }
+  ]
+ }
+}

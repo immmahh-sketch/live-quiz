@@ -1,0 +1,130 @@
+{
+ "game": "club",
+ "set": 6,
+ "made": "2026-09-29",
+ "lists": {
+  "questions": [
+   {
+    "id": "q_c14999d9",
+    "pct": 90,
+    "text": "A cheetah covers 30 metres every second. How many seconds does it take to cover 90 metres?",
+    "answers": [
+     "3",
+     "Three"
+    ],
+    "why": "90 ÷ 30 = 3.",
+    "category": "Record breakers"
+   },
+   {
+    "id": "q_d413ae74",
+    "pct": 80,
+    "text": "A tennis set finishes 6-4. How many games were played in it?",
+    "answers": [
+     "10",
+     "Ten"
+    ],
+    "why": "6 + 4 = 10.",
+    "category": "Tennis and golf"
+   },
+   {
+    "id": "q_abbc916a",
+    "pct": 70,
+    "text": "What comes once in a minute, twice in a moment, but never in a thousand years?",
+    "answers": [
+     "The letter M",
+     "M",
+     "Letter M"
+    ],
+    "why": "MINUTE has one M, MOMENT has two and A THOUSAND YEARS has none.",
+    "category": "Riddle"
+   },
+   {
+    "id": "q_489fd869",
+    "pct": 60,
+    "text": "Mary's father has five daughters: Nana, Nene, Nini, Nono and ___?",
+    "answers": [
+     "Mary"
+    ],
+    "why": "The question starts \"Mary's father\", so Mary herself is the fifth daughter.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_4d3bd254",
+    "pct": 50,
+    "text": "Which number is the odd one out: 3, 5, 9, 11, 13, 17?",
+    "answers": [
+     "9",
+     "Nine"
+    ],
+    "why": "All the others are prime; 9 is 3 × 3.",
+    "category": "Maths"
+   },
+   {
+    "id": "q_54c8b9ae",
+    "pct": 40,
+    "text": "What is half of two plus two?",
+    "answers": [
+     "3",
+     "Three"
+    ],
+    "why": "You halve two first and then add two: 1 + 2 = 3.",
+    "category": "Maths"
+   },
+   {
+    "id": "q_85df5031",
+    "pct": 30,
+    "text": "What is the sum of all the numbers on a standard dartboard, 1 to 20?",
+    "answers": [
+     "210"
+    ],
+    "why": "Pair the numbers as 1+20, 2+19 and so on: that's 10 pairs of 21, which is 210.",
+    "category": "Maths"
+   },
+   {
+    "id": "q_f00c1cb2",
+    "pct": 20,
+    "text": "How many letters appear exactly once in SHERLOCK HOLMES?",
+    "answers": [
+     "4",
+     "Four"
+    ],
+    "why": "S, H, E, L and O each appear twice; R, C, K and M appear once.",
+    "category": "Crime dramas"
+   },
+   {
+    "id": "q_301210bb",
+    "pct": 10,
+    "text": "Which two-digit number has digits that add up to 11, and gets 9 bigger when you swap its digits round?",
+    "answers": [
+     "56",
+     "Fifty-six"
+    ],
+    "why": "5 + 6 = 11, and 65 − 56 = 9.",
+    "category": "Maths"
+   },
+   {
+    "id": "q_f3674ed4",
+    "pct": 5,
+    "text": "If 5 + 3 = 28, 9 + 1 = 810, and 8 + 6 = 214, what is 5 + 4?",
+    "answers": [
+     "19",
+     "1 9",
+     "19 (5-4=1, 5+4=9)"
+    ],
+    "why": "Write the difference then the sum: 5 − 3 = 2 and 5 + 3 = 8 give 28, so 5 − 4 = 1 and 5 + 4 = 9 give 19.",
+    "category": "Logic"
+   },
+   {
+    "id": "q_fc8aea79",
+    "pct": 1,
+    "text": "What is the smallest number that, when written in words, has its letters in alphabetical order?",
+    "answers": [
+     "Forty",
+     "40"
+    ],
+    "why": "The letters of FORTY run F, O, R, T, Y in alphabetical order, and no number word from one to thirty-nine does.",
+    "category": "Wordplay"
+   }
+  ]
+ }
+}

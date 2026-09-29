@@ -41,7 +41,8 @@ function renderJoin(msg) {
       <button type="button" class="btn btn-ghost btn-block" id="scanBtn" style="margin-top:8px">📷 Scan the QR code on the screen</button></div>
     <div class="field"><label>Your name</label><input type="text" id="name" value="${esc(P.name)}" maxlength="20" autocomplete="nickname" placeholder="What should we call you?" ${code ? 'autofocus' : ''}></div>
     <div class="field"><label>Your emoji</label><div class="emopick">${LQ.EMOJIS.map((e) => `<button type="button" data-em="${e}" class="${e === P.emoji ? 'on' : ''}">${e}</button>`).join('')}</div></div>
-    <button class="btn btn-primary btn-lg btn-block">Let's go</button></form></div>`;
+    <button class="btn btn-primary btn-lg btn-block">Let's go</button></form>
+    <p class="center muted small" style="margin:14px 0 0">No game on? <a href="home"><b>Play at home</b></a>: Millionaire, The Chase, The Weakest Link and The 1% Club, on your own or with friends.</p></div>`;
   $$('[data-em]').forEach((b) => b.onclick = () => { P.emoji = b.dataset.em; $$('[data-em]').forEach((x) => x.classList.toggle('on', x === b)); });
   $('#scanBtn').onclick = () => scanQr((found) => { $('#code').value = found; if ($('#name').value.trim()) $('#join').requestSubmit(); else $('#name').focus(); });
   $('#join').onsubmit = (e) => {

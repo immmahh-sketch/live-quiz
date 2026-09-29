@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d0b2e">
+<title>Play at home · Let's Quiz!</title>
+<meta name="description" content="Quiz games to play on your own phone or with friends round the table: Millionaire, The Chase, The Weakest Link and The 1% Club.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/brand/icon-64.png">
+<link rel="apple-touch-icon" href="assets/brand/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/home.css">
+</head>
+<body class="hq">
+<div class="hq-app">
+  <div class="hq-top"><a class="hq-back" href="play" aria-label="Join a live quiz">‹</a><div class="hq-title">Let's Quiz!</div><span style="width:38px"></span></div>
+  <main class="hq-main">
+    <div class="hq-hero"><h1>Play at home</h1><p>On your own against the bots, or with friends round the table. Every game is new: you never get the same question twice.</p></div>
+    <div class="hq-games" id="games"></div>
+    <p class="hq-muted hq-small" style="text-align:center;margin-top:8px">Your progress is kept on this phone. Clearing your browser's data starts you from Game 1 again.<br>Got a game code? <a href="play" style="color:#ffd60a">Join a live quiz</a></p>
+  </main>
+</div>
+<script src="assets/common.js"></script>
+<script src="assets/home.js"></script>
+<script>
+const CARDS = [
+  { g: 'millionaire', cls: 'mil', blurb: 'Fifteen questions to a million. Three lifelines, two safety nets, and one very long pause.', who: '1 player' },
+  { g: 'chase', cls: 'chase', blurb: 'Build your cash, outrun the Chaser, then beat the clock in the Final Chase.', who: '1–4 players · or one of you is the Chaser' },
+  { g: 'weakest', cls: 'wl', blurb: 'Answer fast, bank often, and vote off the weakest link, round by round.', who: 'You and bots · or a team of phones' },
+  { g: 'club', cls: 'club', blurb: 'A hundred players, eleven questions, from 90% down to the 1% question. Logic, not trivia.', who: '100 players: you, friends and bots' },
+];
+(async () => {
+  const box = document.getElementById('games');
+  let idx = {}; try { idx = await HQ.index(); } catch {}
+  box.innerHTML = CARDS.map((c) => {
+    const G = HQ.GAMES[c.g], total = (idx[c.g] || {}).sets || 0, done = HQ.played(c.g).length, best = HQ.best(c.g);
+    const next = total ? (done >= total ? 'All ' + total + ' played' : 'Game ' + (Math.min(...[...Array(total).keys()].map((i) => i + 1).filter((i) => !HQ.played(c.g).includes(i))) || 1) + ' of ' + total + ' next') : '';
+    return `<a class="hq-game ${c.cls}" href="${G.url}"><span class="big">${G.icon}</span><h3>${LQ.esc(G.title)}</h3><p>${LQ.esc(c.blurb)}</p>
+      <div class="meta"><span>${LQ.esc(c.who)}</span>${next ? `<span>${next}</span>` : ''}${best !== undefined && c.g === 'millionaire' ? `<span>Best ${HQ.money(best)}</span>` : ''}</div></a>`;
+  }).join('');
+})();
+</script>
+</body>
+</html>
