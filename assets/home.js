@@ -239,6 +239,24 @@ window.HQ = (() => {
   // the first tap anywhere wakes the audio (browsers insist)
   document.addEventListener('pointerdown', () => ac(), { once: true });
 
+  // ------------------------------------------------------------------ the keyboard
+  // An iPhone's keyboard slides up over the page without making it shorter, so a bar pinned to the bottom (the
+  // answer box, Pass) ends up behind it. While the keyboard is up, the dock sits just above it instead: the gap
+  // between the bottom of the page and the bottom of what can still be seen (the visual viewport).
+  if (window.visualViewport) {
+    const vv = window.visualViewport, root = document.documentElement;
+    const fitKeyboard = () => {
+      const kb = Math.max(0, Math.round(root.clientHeight - (vv.height + vv.offsetTop)));
+      const up = kb > 80; // a real keyboard, not the browser's toolbar shuffling
+      document.body.classList.toggle('hq-kb', up);
+      root.style.setProperty('--hq-kb', (up ? kb : 0) + 'px');
+      const dock = document.querySelector('.hq-dock'); if (dock) root.style.setProperty('--hq-dockh', dock.offsetHeight + 'px');
+    };
+    vv.addEventListener('resize', fitKeyboard); vv.addEventListener('scroll', fitKeyboard);
+    document.addEventListener('focusin', () => setTimeout(fitKeyboard, 300));
+    document.addEventListener('focusout', () => setTimeout(fitKeyboard, 300));
+  }
+
   // ------------------------------------------------------------------ clocks
   // Any element with data-dl (a performance.now() deadline) and data-total (ms) counts down by itself: its text shows
   // the seconds left (data-fmt="mmss" for 1:59), and a .hq-clockbar's bar shrinks. data-tick="5" ticks the last 5 seconds.
