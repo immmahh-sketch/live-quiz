@@ -194,8 +194,13 @@ async function bootWarmup() {
   // A game already under way on this device carries on where it was (a reload, a dropped connection).
   const saved = store(SAVE_KEY);
   if (saved?.warmup === WARMUP && saved.phase !== 'lobby') {
-    if (saved.phase === 'final') { G = saved; if (!G.warmSaved?.ok) await warmupSave(); if (G.warmSaved?.ok) return back(); connect(); return; }
-    G = saved; connect(); return;
+    if (saved.phase === 'final') {
+      G = saved; if (!G.warmSaved?.ok) await warmupSave();
+      if (!G.warmSaved?.ok) { connect(); return; }
+      // Saved. What the server says decides from here: if that score has since been taken off the board (a test go,
+      // or a new run of the warm-up) this device gets a fresh game rather than bouncing back to the start page.
+      unstore(SAVE_KEY); G = null;
+    } else { G = saved; connect(); return; }
   }
   stage.innerHTML = '<div class="stage-main"><div class="waiting">Getting the questions ready…</div></div>';
   let r;
