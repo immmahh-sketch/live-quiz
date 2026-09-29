@@ -68,6 +68,11 @@ Each session:
    - Retire (`"retire": true`, reversible with bank_restore) anything that can't reach 8 good right
      answers, or whose answers are too niche.
    Run `LQ_PASSWORD=… node tools/wipe-topup.mjs bank/wipe-topups/<file>.json` and commit the file with the rest.
+   After adding new boards, run `tools/wipe-dupes.sql` too: it lists unused boards whose right answers
+   mostly repeat another board's. Retire the weaker copy of any true repeat (same subject); keep pairs
+   that merely share answers (e.g. 'EU members' and 'Countries that use the euro'). A keyword search of
+   board titles is not enough: 'Things that are botanically berries' and 'Fruits that botanists class
+   as true berries' slipped past one.
 5. Commit and push the new files.
 6. Schedule the next session one minute later (ScheduleWakeup delaySeconds 60) with the same instructions.
 
