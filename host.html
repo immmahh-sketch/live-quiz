@@ -36,10 +36,10 @@ if (WARMUP) document.body.classList.add('warmup');
 const TV = new URLSearchParams(location.search).get('tv') === '1' || /LetsQuizTV/.test(navigator.userAgent);
 if (TV) document.body.classList.add('tv');
 const quizId = new URLSearchParams(location.search).get('quiz');
-// TEST in front of a warm-up's code (TESTWARMUP): the host trying it, with ten bots, nothing saved. It saves apart from a
+// TEST in front of a warm-up's code (TESTWARMUP): the host trying it, three bots as usual, nothing saved. It saves apart from a
 // real warm-up, so testing can never clobber a real game on the same phone.
 const WARM_TEST = /^TEST[A-Z0-9]+$/.test(WARMUP);
-const TEST_BOTS = 10; // a test game (TEST in front of the code) plays against this many bots
+const TEST_BOTS = 10; // a test live game (TEST in front of the code) plays against this many bots; a test warm-up keeps its three
 const SAVE_KEY = 'lq_live_' + quizId + (WARM_TEST ? '_test' : '');
 const stage = $('#stage');
 // Fit: a screen whose contents are taller than the space left for them has them gently shrunk
@@ -218,7 +218,7 @@ async function bootWarmup() {
   quiz.rounds = quiz.rounds.filter((x) => quiz.questions.some((q) => q.round === x.id));
   G = { code: newCode(), quizId: r.quiz.id, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: true, warmup: WARMUP, warmTop: r.top || [], warmCount: r.count || 0, warmUntil: r.until || null };
   persist(); connect();
-  setTimeout(() => addBots(WARM_TEST ? TEST_BOTS : 3), 0);
+  setTimeout(() => addBots(3), 0); // a test warm-up too: the host sees it exactly as players do
   setTimeout(() => { if (musicOn()) loadYT().catch(() => {}); }, 0);
 }
 /** Someone joining from another phone who has had their go already is turned away, kindly. */
