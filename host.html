@@ -36,8 +36,11 @@ if (WARMUP) document.body.classList.add('warmup');
 const TV = new URLSearchParams(location.search).get('tv') === '1' || /LetsQuizTV/.test(navigator.userAgent);
 if (TV) document.body.classList.add('tv');
 const quizId = new URLSearchParams(location.search).get('quiz');
-// a TESTWARMUP game saves apart from a real warm-up, so testing can never clobber a real game on the same phone
-const SAVE_KEY = 'lq_live_' + quizId + (WARMUP === 'TESTWARMUP' ? '_test' : '');
+// TEST in front of a warm-up's code (TESTWARMUP): the host trying it, with ten bots, nothing saved. It saves apart from a
+// real warm-up, so testing can never clobber a real game on the same phone.
+const WARM_TEST = /^TEST[A-Z0-9]+$/.test(WARMUP);
+const TEST_BOTS = 10; // a test game (TEST in front of the code) plays against this many bots
+const SAVE_KEY = 'lq_live_' + quizId + (WARM_TEST ? '_test' : '');
 const stage = $('#stage');
 // Fit: a screen whose contents are taller than the space left for them has them gently shrunk
 // (to 70% at most) rather than cut off at the bottom. The camera corner takes some height, so it
@@ -192,8 +195,8 @@ function myPid() { const p = store('lq_player'); return p && /^p_[a-z0-9]{6,12}$
 async function bootWarmup() {
   const back = () => { (window.top || window).location.href = 'warmup?c=' + encodeURIComponent(WARMUP); };
   if (!myPid()) return back(); // no name yet: warmup.html asks for one
-  // A test game (TESTWARMUP) never carries on: every visit starts afresh.
-  if (WARMUP === 'TESTWARMUP') unstore(SAVE_KEY);
+  // A test game (TEST in front of the code) never carries on: every visit starts afresh.
+  if (WARM_TEST) unstore(SAVE_KEY);
   // A game already under way on this device carries on where it was (a reload, a dropped connection).
   const saved = store(SAVE_KEY);
   if (saved?.warmup === WARMUP && saved.phase !== 'lobby') {
@@ -215,7 +218,7 @@ async function bootWarmup() {
   quiz.rounds = quiz.rounds.filter((x) => quiz.questions.some((q) => q.round === x.id));
   G = { code: newCode(), quizId: r.quiz.id, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: true, warmup: WARMUP, warmTop: r.top || [], warmCount: r.count || 0, warmUntil: r.until || null };
   persist(); connect();
-  setTimeout(() => addBots(3), 0);
+  setTimeout(() => addBots(WARM_TEST ? TEST_BOTS : 3), 0);
   setTimeout(() => { if (musicOn()) loadYT().catch(() => {}); }, 0);
 }
 /** Someone joining from another phone who has had their go already is turned away, kindly. */
@@ -385,7 +388,7 @@ function startHeartbeat() { clearInterval(hbT); hbT = setInterval(broadcastState
 
 /** Everything a phone needs to draw its screen. Never the right answers. */
 function stateForPlayers() {
-  const s = { phase: G.phase, code: G.code, qIndex: G.qIndex, num: qNum(G.qIndex), practice: G.qIndex >= 0 && practiceQ(), total: total(), more: G.qIndex + 1 < G.quiz.questions.length, title: G.quiz.title, now: Date.now(), auto: !!G.auto, paused: !!G.paused, ...(PREVIEW ? { preview: true } : {}) };
+  const s = { phase: G.phase, code: G.code, qIndex: G.qIndex, num: qNum(G.qIndex), practice: G.qIndex >= 0 && practiceQ(), total: total(), more: G.qIndex + 1 < G.quiz.questions.length, title: G.quiz.title, now: Date.now(), auto: !!G.auto, paused: !!G.paused, ...(PREVIEW ? { preview: true } : {}), ...(G.test ? { test: true } : {}) };
   const nowT = G.paused ? G.pausedAt : Date.now(); // a paused clock reads the same until it is picked up again
   if (G.phase === 'slide') { const q = question(); s.slide = { title: q.text || '', body: q.body || '', image: q.media?.kind === 'image' ? q.media.url || '' : '' }; if (G.brk) s.brk = { remainingMs: Math.max(0, G.brk.endsAt - nowT), totalMs: G.brk.totalMs }; }
   if (G.phase === 'question' && G.q) {
@@ -473,13 +476,25 @@ function answerText(q) {
   return '';
 }
 
-function onHello({ pid, name, emoji }) {
+function onHello({ pid, name, emoji, test }) {
   if (typeof pid !== 'string' || !/^p_[a-z0-9]{6,12}$/.test(pid)) return;
   name = String(name || '').replace(/\s+/g, ' ').trim().slice(0, 20) || 'Player';
   emoji = LQ.EMOJIS.includes(emoji) ? emoji : '';
   if (!G.players[pid]) { G.players[pid] = { id: pid, name, emoji, score: 0, joinedAt: Date.now() }; persist(); if (G.phase === 'lobby') renderLobbyPlayers(); warmupGate(pid); }
   else if ((G.players[pid].name !== name || G.players[pid].emoji !== emoji) && G.phase === 'lobby') { G.players[pid].name = name; G.players[pid].emoji = emoji; persist(); renderLobbyPlayers(); }
+  if (test === true && !G.test) makeTest();
   clearTimeout(helloT); helloT = setTimeout(broadcastState, 150);
+}
+/** A phone joined with TEST in front of the code: this becomes a test game. Ten bots join, and at the end nothing is
+ *  saved (no report, no entry in Recent games), so the quiz still counts as unplayed. Only before the first question,
+ *  so a stray TEST code can never throw away a real game already being played. */
+function makeTest() {
+  if (WARMUP || DEMO || PREVIEW) return;
+  if (G.phase !== 'lobby') { toast('Someone joined with a TEST code after the start. This game is still being saved.', true); return; }
+  G.test = true;
+  addBots(Math.max(0, TEST_BOTS - (G.bots?.length || 0)));
+  persist(); renderLobby(); broadcastState();
+  toast(`🧪 Test game: ${G.bots.length} bots are in, and nothing will be saved.`);
 }
 /** Highbrow Lowbrow: a phone asked for the easy clue. Noted, so a right answer scores the lower points. */
 function onHint({ pid, qId }) {
@@ -1891,7 +1906,7 @@ async function finish() {
   G.phase = 'final'; persist(); render(); broadcastState(); confetti();
   const rk = ranked();
   if (WARMUP) { if (!G.warmSaved) warmupSave(); return; }
-  if (DEMO || PREVIEW || G.reportId) return;
+  if (DEMO || PREVIEW || G.reportId || G.test) return; // a test game (TEST in front of the code) is never saved
   try {
     const r = await api('save_game', { game: { code: G.code, quiz_id: G.quizId, title: G.quiz.title, questions: total(), started_at: G.startedAt,
       players: rk.map((p, i) => ({ name: p.name, emoji: p.emoji || '', score: p.score, rank: i + 1 })), report: buildReport() } });
@@ -2349,7 +2364,7 @@ function syncPause() {
 function hostBar(buttons) {
   const d = autoDelay();
   const hint = G.auto ? `runs itself · players can press Start and Next on their phones${TV ? ' · centre button for next' : ''}` : TV ? 'press the centre button for next' : 'press Space for next';
-  return `<div class="stage-bottom"><span class="muted small" style="opacity:.6">Game ${G.code} · ${players().length} players${G.bots?.length ? (WARMUP ? ` + ${G.bots.length} bots` : ` · test mode, ${G.bots.length} bots`) : ''} · ${hint}</span>${d ? `<div class="autobar" title="Moving on by itself"><i style="animation-duration:${d}ms"></i></div>` : ''}<div class="hostbar">${callBtn()}${G.auto && !['lobby', 'final'].includes(G.phase) ? `<button class="btn btn-ghost" data-act="pause" title="Stop the clock and hold this screen (P)">${G.paused ? '▶ Resume' : '⏸ Pause'}</button>` : ''}${buttons}</div></div>`;
+  return `<div class="stage-bottom"><span class="muted small" style="opacity:.6">Game ${G.code} · ${players().length} players${G.test ? ` · 🧪 TEST GAME, ${G.bots.length} bots, nothing is saved` : G.bots?.length ? (WARMUP ? ` + ${G.bots.length} bots` : ` · test mode, ${G.bots.length} bots`) : ''} · ${hint}</span>${d ? `<div class="autobar" title="Moving on by itself"><i style="animation-duration:${d}ms"></i></div>` : ''}<div class="hostbar">${callBtn()}${G.auto && !['lobby', 'final'].includes(G.phase) ? `<button class="btn btn-ghost" data-act="pause" title="Stop the clock and hold this screen (P)">${G.paused ? '▶ Resume' : '⏸ Pause'}</button>` : ''}${buttons}</div></div>`;
 }
 /* ---------- the quiz night video call (Gather) ---------- */
 function callLabel() {
@@ -2418,7 +2433,7 @@ function bind() {
 function renderLobby() {
   if (G.warmup) return renderWarmLobby();
   const url = playUrl(G.code);
-  stage.innerHTML = `<div class="stage-top"><div class="lobbylogo"><img src="assets/brand/mark.png" alt="">Let's Quiz!</div><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">${total()} questions</span></div></div>
+  stage.innerHTML = `<div class="stage-top"><div class="lobbylogo"><img src="assets/brand/mark.png" alt="">Let's Quiz!</div><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">${total()} questions</span>${G.test ? '<span class="hpill" style="background:#ffd60a;color:#1b1640">🧪 Test game · nothing is saved</span>' : ''}</div></div>
     <div class="stage-main"><div class="lobby">
       <div class="center"><div class="qr" id="qr"></div><p class="joinurl mt">Scan, or go to <b>${esc(shortPlayUrl())}</b></p></div>
       <div class="center"><div style="opacity:.8;font-weight:800;font-size:1.3rem">and enter the code</div><div class="code">${G.code}</div>

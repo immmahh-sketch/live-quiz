@@ -824,6 +824,7 @@ body.solo .stage { padding-right: calc(min(390px, 100vw) + 20px); }
 .pauseveil { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px; background: rgba(14,10,48,.86); color: #fff; }
 .pauseveil h1, .pauseveil h2 { color: #fff; margin: 6px 0; } .pauseveil .em { font-size: 4rem; } .pauseveil p { opacity: .85; font-weight: 700; }
 .pausebtn { position: fixed; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); width: 48px; height: 48px; border-radius: 50%; border: 0; background: var(--brand); color: #fff; font-size: 1.25rem; z-index: 40; box-shadow: 0 6px 20px rgba(0,0,0,.25); cursor: pointer; }
+.testtag { display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 99px; background: #ffd60a; color: #1b1640; font-size: .7rem; font-weight: 800; vertical-align: middle; }
 .typecard .tc-icon { font-size: clamp(4rem, 12vw, 9rem); line-height: 1; }
 .typecard .tc-next { opacity: .8; font-weight: 800; font-size: clamp(1.1rem, 2vw, 1.6rem); }
 .typecard .tc-how { font-size: clamp(1.1rem, 2.2vw, 1.8rem); font-weight: 800; max-width: 1000px; text-wrap: balance; opacity: .92; margin: 0; }

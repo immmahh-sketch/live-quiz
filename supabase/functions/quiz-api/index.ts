@@ -910,9 +910,11 @@ Deno.serve(async (req) => {
     if (action === "warmup_open" || action === "warmup_check" || action === "warmup_save") {
       const code = String(body.code || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 12);
       if (code.length < 4) return json({ error: "That's not a warm-up code." }, 400);
-      // TESTWARMUP: the host trying the latest warm-up. Play as often as you like, nothing is saved, it never closes.
-      const TEST = code === "TESTWARMUP";
-      const found = await rest(TEST ? `quiz_quizzes?settings->warmup=not.is.null&select=id,title,settings,questions&order=updated_at.desc&limit=1` : `quiz_quizzes?settings->warmup->>code=eq.${code}&select=id,title,settings,questions&order=updated_at.desc&limit=1`);
+      // TEST in front of a warm-up's code (TESTWARMUP): the host trying it. Play as often as you like, nothing is saved,
+      // it never closes. TESTWARMUP with no warm-up coded WARMUP tries the latest warm-up.
+      const TEST = code.startsWith("TEST") && code.length > 4, real = TEST ? code.slice(4) : code;
+      let found = await rest(`quiz_quizzes?settings->warmup->>code=eq.${real}&select=id,title,settings,questions&order=updated_at.desc&limit=1`);
+      if (!found?.[0] && TEST && real === "WARMUP") found = await rest(`quiz_quizzes?settings->warmup=not.is.null&select=id,title,settings,questions&order=updated_at.desc&limit=1`);
       const quiz = found?.[0];
       if (!quiz?.settings?.warmup) return json({ error: "No warm-up game has that code." }, 404);
       const wu = quiz.settings.warmup, until = wu.until && !isNaN(Date.parse(wu.until)) ? Date.parse(wu.until) : null;

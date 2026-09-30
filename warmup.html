@@ -79,7 +79,7 @@ const app = $('#app');
 const CODE = (new URLSearchParams(location.search).get('c') || new URLSearchParams(location.search).get('code') || 'WARMUP').toUpperCase().replace(/[^A-Z0-9]/g, '');
 const me = () => { const p = store('lq_player') || {}; return { pid: /^p_[a-z0-9]{6,12}$/.test(p.pid || '') ? p.pid : '', name: p.name || '', emoji: LQ.EMOJIS.includes(p.emoji) ? p.emoji : '' }; };
 const SAVE_KEY = 'lq_live_warmup';
-const TEST = CODE === 'TESTWARMUP'; // the host trying the warm-up: play as often as you like, nothing saved
+const TEST = /^TEST[A-Z0-9]+$/.test(CODE); // TEST in front of the code: the host trying the warm-up, as often as you like, nothing saved
 const brand = `<div class="brand"><img src="assets/brand/mark.png" alt="">Let's Quiz!</div>`;
 // Everyone who has played, best first; equal scores share a place. `mine` is picked out (and scrolled to).
 const boardHtml = (rows, mine) => { let hit = false; const place = (p) => rows.filter((x) => x.score > p.score).length + 1;
