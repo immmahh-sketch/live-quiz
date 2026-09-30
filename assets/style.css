@@ -1358,3 +1358,5 @@ body.warmup [data-act="stopgame"], body.warmup [data-act="end"] { display: none 
 .parea { position: absolute; border: 3px solid #26890c; background: rgba(38,137,12,.2); border-radius: 6px; }
 .pinverdict { text-align: center; font-weight: 900; margin-top: 8px; }
 .wt.lit.old { animation: none; }
+/* host screen on the quiz call: no pointer for the people watching once it stops moving (host.html) */
+body.oncall.ptr-idle, body.oncall.ptr-idle * { cursor: none !important; }

@@ -1038,7 +1038,7 @@ let gameTickAt = 0;
 function gameTick() {
   const k = gameKind(); if (!k) return;
   const g = G.q[k], now = Date.now();
-  const t = $('#timer'); if (t) { const tot = k === 'potato' ? 0 : g.total, rem = g.until - now; if (tot && g.until) { t.style.setProperty('--p', Math.max(0, rem / tot) * 100 + '%'); t.dataset.s = Math.max(0, Math.ceil(rem / 1000)); t.classList.remove('hidden'); } else t.classList.add('hidden'); }
+  paintClock();
   if (k === 'potato') return potatoTick(now);
   if (k === 'draw') drawTick(now);
   if (g.until && now >= g.until) { g.until = 0; if (k === 'koth') kothStepDone(); else if (k === 'chase') chaseStepDone(); else if (k === 'draw') drawStepDone(); else if (k === 'uq') uqStepDone(); else bbStepDone(); }
@@ -1824,18 +1824,30 @@ function startTick() {
     if (Date.now() - musicSyncAt > 2000) { musicSyncAt = Date.now(); musicSync(); }
     if (gameKind()) return gameTick();
     const wipe = G.q.wipe;
+    paintClock();
     if (wipe?.studyUntil) {
-      const left = wipe.studyUntil - Date.now(); const t = $('#timer'); if (t) { t.style.setProperty('--p', Math.max(0, left / ((question().study || 20) * 1000)) * 100 + '%'); t.dataset.s = Math.max(0, Math.ceil(left / 1000)); }
+      const left = wipe.studyUntil - Date.now();
       const sc = $('#studyCount'); if (sc) sc.textContent = Math.max(0, Math.ceil(left / 1000));
       if (left <= 0) wipeStudyDone();
       return;
     }
-    const total = (question().time * 1000), rem = wipe ? wipe.turnDeadline - Date.now() : G.q.deadline - Date.now();
-    const t = $('#timer'); if (t) { const p = Math.max(0, rem / total) * 100; t.style.setProperty('--p', p + '%'); t.dataset.s = Math.max(0, Math.ceil(rem / 1000)); t.classList.toggle('low', rem < 5000 && !wipe); }
+    const rem = wipe ? wipe.turnDeadline - Date.now() : G.q.deadline - Date.now();
     if (G.q.wheelRevealed !== undefined && Date.now() >= G.q.nextReveal) wheelReveal();
     if (G.q.reveal) revealTick();
     if (rem <= 0) { if (wipe) { if (!wipe.over) wipeTimeout(); } else endQuestion(); }
   }, 100);
+}
+/** Draws the question clock (#timer) at the time actually left. The tick calls it, and so does every redraw of the
+ *  screen (bind), so a screen redrawn mid-question (every pick in the race, say) never flashes the full time first. */
+function paintClock() {
+  const t = $('#timer'); if (!t || G.phase !== 'question' || !G.q) return;
+  const now = G.paused ? G.pausedAt : Date.now(), set = (rem, tot, low) => { t.style.setProperty('--p', Math.max(0, rem / tot) * 100 + '%'); t.dataset.s = Math.max(0, Math.ceil(rem / 1000)); t.classList.toggle('low', !!low && rem < 5000); };
+  const k = gameKind();
+  if (k) { const g = G.q[k], tot = k === 'potato' ? 0 : g.total; if (tot && g.until) { set(g.until - now, tot); t.classList.remove('hidden'); } else t.classList.add('hidden'); return; }
+  const wipe = G.q.wipe;
+  if (wipe?.studyUntil) return set(wipe.studyUntil - now, (question().study || 20) * 1000);
+  const rem = wipe ? wipe.turnDeadline - now : G.q.deadline - now;
+  if (Number.isFinite(rem)) set(rem, question().time * 1000, !wipe);
 }
 /** Wheel of Fortune: turns over one more letter, everywhere it appears. Stops when the board is full. */
 function wheelReveal() {
@@ -2424,11 +2436,22 @@ if (window.QuizCall) {
     if (QuizCall.state === 'live' && wantCallWindow) { wantCallWindow = false; if (!TV) openCallWindow(); }
     if (QuizCall.state === 'off' || QuizCall.state === 'error') wantCallWindow = false;
     lastErr = QuizCall.state === 'error' ? QuizCall.error : QuizCall.state;
+    document.body.classList.toggle('oncall', QuizCall.state === 'live' || QuizCall.state === 'reconnecting');
   });
 }
+// On the call, the pointer disappears as soon as it stops moving (the way a video player hides it), so the people
+// watching aren't looking at the quizmaster's arrow. Move the mouse and it's back to click with.
+(() => {
+  let idleT = 0;
+  const idle = () => document.body.classList.add('ptr-idle');
+  document.addEventListener('mousemove', () => { document.body.classList.remove('ptr-idle'); clearTimeout(idleT); idleT = setTimeout(idle, 1200); }, { passive: true });
+  document.addEventListener('mouseleave', idle);
+  idle();
+})();
 function bind() {
   $$('[data-act]').forEach((b) => b.onclick = () => ({ call: callClick, cam: camToggle, fs: fsToggle, bonus: bonusModal, camlinks: camLinksModal, wusave: () => { G.warmSaved = null; render(); warmupSave(); }, wuboard: () => { (window.top || window).location.href = 'warmup?c=' + encodeURIComponent(G.warmup); }, primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(G.bots?.length ? 5 : 3), bots20: () => addBots(MAX_BOTS), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, pause: () => togglePause(), music: toggleMusic, stopgame: gameStop, builder: () => PREVIEW ? window.close() : location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
   $$('[data-kick]').forEach((el) => { el.style.cursor = 'pointer'; el.title = 'Click to remove this player from the game'; el.onclick = () => kickPlayer(el.dataset.kick); });
+  paintClock(); // a redrawn screen shows the time left, not the full time
 }
 function renderLobby() {
   if (G.warmup) return renderWarmLobby();
