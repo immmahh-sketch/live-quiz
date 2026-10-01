@@ -924,27 +924,30 @@ Deno.serve(async (req) => {
       const open = TEST || (wu.open !== false && !ended);
       const boardCode = TEST ? String(wu.code || "").toUpperCase().replace(/[^A-Z0-9]/g, "") : code; // a test game reads the real scoreboard
       const pidOk = (p: unknown) => typeof p === "string" && /^p_[a-z0-9]{6,12}$/.test(p) && !p.startsWith("p_bot");
-      const board = `quiz_warmup_plays?code=eq.${boardCode}&season=eq.${season}&select=pid,name,emoji,score,played_at,test_go&order=score.desc,played_at.asc&limit=5000`;
+      const board = `quiz_warmup_plays?code=eq.${boardCode}&season=eq.${season}&select=pid,name,emoji,score,played_at,test_go,goes&order=score.desc,played_at.asc&limit=5000`;
       const all: any[] = (await rest(board)) || [];
       const placeOf = (score: number) => all.filter((r) => r.score > score).length + 1;
       const top = all.slice(0, 10).map((r) => ({ name: r.name, emoji: r.emoji, score: r.score }));
       // Everyone who has played this run, best first (names and scores only), so a player sees where they rank.
       const boardOf = (rows: any[]) => rows.slice(0, 500).map((r) => ({ name: r.name, emoji: r.emoji, score: r.score }));
+      // settings.warmup.replay: play as often as you like; the board keeps each phone's best go
+      const REPLAY = !!wu.replay;
       if (action === "warmup_check") {
-        if (TEST) return json({ played: [] });
+        if (TEST || REPLAY) return json({ played: [] });
         const pids = new Set((Array.isArray(body.pids) ? body.pids : []).filter(pidOk).slice(0, 50));
         // a device the host has allowed a practice go (test_go) may join again
         return json({ played: all.filter((r) => pids.has(r.pid) && !r.test_go).map((r) => r.pid) });
       }
       if (action === "warmup_open") {
         const mine = pidOk(body.pid) ? all.find((r) => r.pid === body.pid) : null;
-        const played = !TEST && mine && !mine.test_go ? { name: mine.name, emoji: mine.emoji, score: mine.score, played_at: mine.played_at, place: placeOf(mine.score) } : null;
+        const played = !TEST && !REPLAY && mine && !mine.test_go ? { name: mine.name, emoji: mine.emoji, score: mine.score, played_at: mine.played_at, place: placeOf(mine.score) } : null;
         // a practice go: the device plays again, its score on the board stays as it is
-        const practice = !TEST && mine?.test_go ? { score: mine.score, place: placeOf(mine.score) } : null;
+        const practice = !TEST && !REPLAY && mine?.test_go ? { score: mine.score, place: placeOf(mine.score) } : null;
         const s = { ...quiz.settings }; delete s.report; delete s.buildLog; delete s.aiUsage; delete s.planRounds;
         // standalone (settings.warmup.fun): a game just for fun, played warm-up style, with no quiz night and no bonus points
         const qs = (Array.isArray(quiz.questions) ? quiz.questions : []).filter((q: any) => q?.type !== "slide");
         return json({ code, open, ended, until: until ? new Date(until).toISOString() : null, title: quiz.title, count: all.length, top, board: boardOf(all), played, practice, test: TEST,
+          replay: REPLAY, best: REPLAY && !TEST && mine ? { score: mine.score, place: placeOf(mine.score), goes: mine.goes || 1 } : null,
           standalone: !!wu.fun, questions: qs.length, bots: Math.max(0, Math.min(20, Math.round(+wu.bots || 3))), types: Array.from(new Set(qs.map((q: any) => q.type === "text" && q.kind ? q.kind : q.type))),
           ...(body.peek ? {} : { quiz: { id: quiz.id, title: quiz.title, settings: s, questions: quiz.questions } }) });
       }
@@ -971,15 +974,25 @@ Deno.serve(async (req) => {
         // what they answered, question by question, for the host to look through (warmup_answers)
         answers: Array.isArray(p.answers) ? p.answers.slice(0, 80).map((a: any) => ({ n: +a?.n || 0, type: String(a?.type || "").slice(0, 20), text: String(a?.text || "").slice(0, 240), right: String(a?.right ?? "").slice(0, 240), given: String(a?.given ?? "").slice(0, 240), correct: !!a?.correct, points: Math.round(+a?.points || 0) })) : null,
       }));
+      if (REPLAY) {
+        // Another go: the row keeps this phone's best go (score, answers and when), and counts the goes.
+        for (const row of rows) {
+          const had = all.find((r) => r.pid === row.pid);
+          if (!had) { await rest(`quiz_warmup_plays`, { method: "POST", headers: { Prefer: "return=minimal" }, body: JSON.stringify(row) }); continue; }
+          const better = row.score > had.score;
+          await rest(`quiz_warmup_plays?code=eq.${code}&season=eq.${season}&pid=eq.${row.pid}`, { method: "PATCH", headers: { Prefer: "return=minimal" },
+            body: JSON.stringify(better ? { ...row, goes: (had.goes || 1) + 1, played_at: new Date().toISOString() } : { goes: (had.goes || 1) + 1, name: row.name, emoji: row.emoji }) });
+        }
+      }
       // A device that has played already keeps its first score (on conflict: ignore).
-      if (rows.length) await rest(`quiz_warmup_plays?on_conflict=code,season,pid`, { method: "POST", headers: { Prefer: "resolution=ignore-duplicates,return=minimal" }, body: JSON.stringify(rows) });
+      else if (rows.length) await rest(`quiz_warmup_plays?on_conflict=code,season,pid`, { method: "POST", headers: { Prefer: "resolution=ignore-duplicates,return=minimal" }, body: JSON.stringify(rows) });
       // a practice go is used up: the first score stood (above), and next time that device has had its go again
       const practiced = ps.filter((p: any) => all.some((r) => r.pid === p.pid && r.test_go)).map((p: any) => p.pid);
       if (practiced.length) await rest(`quiz_warmup_plays?code=eq.${code}&season=eq.${season}&pid=in.(${practiced.join(",")})`, { method: "PATCH", headers: { Prefer: "return=minimal" }, body: JSON.stringify({ test_go: false }) });
       const after: any[] = (await rest(board)) || [];
       const places: Record<string, any> = {};
       for (const p of ps) { const r = after.find((x) => x.pid === p.pid); if (r) places[p.pid] = { score: r.score, place: after.filter((x) => x.score > r.score).length + 1, kept: r.score !== Math.round(+p.score || 0) }; }
-      return json({ ok: true, places, count: after.length, top: after.slice(0, 10).map((r) => ({ name: r.name, emoji: r.emoji, score: r.score })), board: boardOf(after) });
+      return json({ ok: true, replay: REPLAY, places, count: after.length, top: after.slice(0, 10).map((r) => ({ name: r.name, emoji: r.emoji, score: r.score })), board: boardOf(after) });
     }
 
     if (!HOST_PW) return json({ error: "The server has no QUIZ_HOST_PASSWORD set." }, 500);
@@ -1485,9 +1498,9 @@ Deno.serve(async (req) => {
     if (action === "warmup_board") {
       // Every warm-up and every device's score, best first, with when each game was played.
       const quizzes: any[] = (await rest(`quiz_quizzes?settings->warmup=not.is.null&select=id,title,warmup:settings->warmup,updated_at&order=updated_at.desc`)) || [];
-      const rows: any[] = (await rest(`quiz_warmup_plays?select=code,season,quiz_id,game_code,pid,name,emoji,score,rank,players,bots,started_at,played_at,test_go,has_answers:answers->0->>n&order=score.desc,played_at.asc&limit=5000`)) || [];
+      const rows: any[] = (await rest(`quiz_warmup_plays?select=code,season,quiz_id,game_code,pid,name,emoji,score,rank,players,bots,started_at,played_at,test_go,goes,has_answers:answers->0->>n&order=score.desc,played_at.asc&limit=5000`)) || [];
       return json({ warmups: quizzes.map((q) => { const w = q.warmup || {}, until = w.until && !isNaN(Date.parse(w.until)) ? Date.parse(w.until) : null;
-        return { id: q.id, title: q.title, code: w.code || "", season: w.season || "", until: until ? new Date(until).toISOString() : null, forQuiz: w.forQuiz || null, fun: !!w.fun, bots: Math.round(+w.bots || 3), open: w.open !== false && !(until && Date.now() >= until), switchedOff: w.open === false }; }), plays: rows });
+        return { id: q.id, title: q.title, code: w.code || "", season: w.season || "", until: until ? new Date(until).toISOString() : null, forQuiz: w.forQuiz || null, fun: !!w.fun, replay: !!w.replay, bots: Math.round(+w.bots || 3), open: w.open !== false && !(until && Date.now() >= until), switchedOff: w.open === false }; }), plays: rows });
     }
 
     if (action === "warmup_answers") {

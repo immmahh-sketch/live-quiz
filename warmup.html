@@ -117,7 +117,8 @@ function intro(r) {
   app.innerHTML = `<div class="land">${brand}
     <h1>${esc(r.title)}</h1>
     ${solo(r) ? `<p class="lead">${r.questions || 'Ten'} questions and games on your phone, against ${r.bots === 3 || r.bots == null ? 'three' : r.bots} bots.</p>
-    <div class="prize"><span class="big">🏆</span><span>Top the scoreboard<small>One go per phone, so make it count!</small></span></div>` : `<p class="lead">Twenty questions and games on your phone, against three bots, before quiz night.</p>
+    <div class="prize"><span class="big">🏆</span><span>Top the scoreboard<small>${r.replay ? 'Play as often as you like: your best score counts.' : 'One go per phone, so make it count!'}</small></span></div>
+    ${r.best ? `<div class="chip" style="align-self:flex-start;background:#ffd54a;color:#1b1544">🔁 Your best so far: ${r.best.score} (${ordinal(r.best.place)} of ${r.count}) after ${r.best.goes} go${r.best.goes === 1 ? '' : 'es'}. Beat it!</div>` : ''}` : `<p class="lead">Twenty questions and games on your phone, against three bots, before quiz night.</p>
     <div class="prize"><span class="big">🏆</span><span>The top score starts the quiz <u>1,000 points</u> ahead<small>One go per phone, so make it count!</small></span></div>`}
     ${r.test ? `<div class="chip" style="align-self:flex-start;background:#7ee0a8;color:#1b1544">🧪 Test game: nothing is saved and you can play as often as you like</div>` : ''}
     ${r.practice ? `<div class="chip" style="align-self:flex-start;background:#ffd54a;color:#1b1544">🧪 Practice go: your score of ${r.practice.score} stays on the scoreboard, whatever you get this time</div>` : ''}
