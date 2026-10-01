@@ -48,7 +48,7 @@ function renderJoin(msg) {
   $('#join').onsubmit = (e) => {
     e.preventDefault();
     const c = $('#code').value.trim().toUpperCase().replace(/[^A-Z0-9]/g, ''), n = $('#name').value.replace(/\s+/g, ' ').trim();
-    if (c.length < 4) return renderJoin('The game code is six letters and numbers — it\'s on the shared screen.');
+    if (c.length < 3) return renderJoin('The game code is six letters and numbers — it\'s on the shared screen.');
     if (!n) return renderJoin('Tell us your name so it shows on the scoreboard.');
     P.code = c; P.name = n; P.test = false; store('lq_player', { pid: P.pid, name: n, emoji: P.emoji });
     // TEST in front of a live game's code: join that game and make it a test game (ten bots, nothing saved).
@@ -793,9 +793,9 @@ function warmBoardHtml(s) {
   const w = s.warm, mine = w.places?.[P.pid]; let hit = false;
   const place = (t) => w.board.filter((x) => x.score > t.score).length + 1;
   const test = w.test ? `<p class="small" style="font-weight:800;margin:10px 0 0">🧪 Test game: this score isn't saved.${mine ? ` It would have come ${ordinal(mine.place)} of ${w.count + 1}.` : ''}</p>` : '';
-  return `${test}<h3 style="margin:18px 0 4px">🏆 Warm-up scoreboard</h3><p class="muted small" style="margin:0 0 6px">${mine && !w.test ? `You're ${ordinal(mine.place)} of ${w.count} so far` : `${w.count} played so far`}</p>
+  return `${test}<h3 style="margin:18px 0 4px">🏆 ${w.solo ? 'Scoreboard' : 'Warm-up scoreboard'}</h3><p class="muted small" style="margin:0 0 6px">${mine && !w.test ? `You're ${ordinal(mine.place)} of ${w.count} so far` : `${w.count} played so far`}</p>
     <div class="board warmboard" id="warmBoard">${w.board.map((t) => { const me = !hit && mine && t.score === mine.score && t.name === P.name; if (me) hit = true; return `<div class="brow ${me ? 'me' : ''}"><div class="rank">${place(t)}</div><div>${esc(t.emoji || '')} ${esc(t.name)}</div><div>${t.score}</div></div>`; }).join('')}</div>
-    <p class="muted small" style="margin-top:8px">The top score when the warm-up closes gets 1,000 bonus points at the start of the quiz.</p>`;
+    ${w.solo ? '' : '<p class="muted small" style="margin-top:8px">The top score when the warm-up closes gets 1,000 bonus points at the start of the quiz.</p>'}`;
 }
 document.addEventListener('click', (e) => {
   if (e.target.id === 'another') { leave(); P.code = ''; history.replaceState(null, '', location.pathname); renderJoin(); }

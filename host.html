@@ -212,13 +212,13 @@ async function bootWarmup() {
   let r;
   try { r = await api('warmup_open', { code: WARMUP, pid: myPid() }, { timeout: 20000 }); } catch (e) { return fail(e.message); }
   if (r.played) return back();
-  if (!r.open) return fail('This warm-up has closed. See you at the quiz!');
+  if (!r.open) return fail(r.standalone ? 'This game has closed. Thanks for playing!' : 'This warm-up has closed. See you at the quiz!');
   let quiz = LQ.normalizeQuiz(r.quiz);
   quiz.questions = quiz.questions.filter((q) => LQ.validate(q).length === 0);
   quiz.rounds = quiz.rounds.filter((x) => quiz.questions.some((q) => q.round === x.id));
-  G = { code: newCode(), quizId: r.quiz.id, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: true, warmup: WARMUP, warmTop: r.top || [], warmCount: r.count || 0, warmUntil: r.until || null };
+  G = { code: newCode(), quizId: r.quiz.id, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: true, warmup: WARMUP, warmTop: r.top || [], warmCount: r.count || 0, warmUntil: r.until || null, warmSolo: !!r.standalone, warmBots: r.bots ?? 3 };
   persist(); connect();
-  setTimeout(() => addBots(3), 0); // a test warm-up too: the host sees it exactly as players do
+  setTimeout(() => addBots(G.warmBots), 0); // settings.warmup.bots (3 unless set); a test go too, so the host sees it as players do
   setTimeout(() => { if (musicOn()) loadYT().catch(() => {}); }, 0);
 }
 /** Someone joining from another phone who has had their go already is turned away, kindly. */
@@ -230,7 +230,7 @@ async function warmupGate(pid) {
     const r = await api('warmup_check', { code: WARMUP, pids: [pid] });
     if (r.played?.includes(pid) && G.players[pid]) {
       delete G.players[pid]; present.delete(pid); persist();
-      send('kick', { pid, why: "You've already played the warm-up on this phone. See you at the quiz!" });
+      send('kick', { pid, why: G.warmSolo ? "You've already played this game on this phone." : "You've already played the warm-up on this phone. See you at the quiz!" });
       if (G.phase === 'lobby') renderLobbyPlayers();
     }
   } catch {}
@@ -238,7 +238,10 @@ async function warmupGate(pid) {
 /** The end of a warm-up: every real player's score goes on the scoreboard (bots never do). */
 async function warmupSave() {
   const rk = ranked();
-  const real = rk.map((p, i) => ({ pid: p.id, name: p.name, emoji: p.emoji || '', score: p.score, rank: i + 1 })).filter((p) => !p.pid.startsWith('p_bot'));
+  const log = (G.log || []).slice().sort((a, b) => a.index - b.index);
+  // what each player answered, question by question, so the host can look through their go afterwards
+  const answersOf = (pid) => log.map((e) => { const a = e.players[pid] || {}; return { n: e.n, type: e.type, text: e.text || '', right: e.answer || '', given: a.answered ? a.answer || '' : '', correct: !!a.correct, points: a.points || 0 }; });
+  const real = rk.map((p, i) => ({ pid: p.id, name: p.name, emoji: p.emoji || '', score: p.score, rank: i + 1, answers: answersOf(p.id) })).filter((p) => !p.pid.startsWith('p_bot'));
   G.warmSaved = 'saving'; persist();
   try {
     const r = await api('warmup_save', { code: WARMUP, game: { code: G.code, started_at: G.startedAt, bots: (G.bots || []).length }, players: real }, { timeout: 20000 });
@@ -445,7 +448,7 @@ function stateForPlayers() {
   // A warm-up has no shared screen: everything plays on the phone, so a Picture Reveal's picture and tiles go there too.
   if (G.warmup && G.phase === 'question' && G.q?.reveal && question()?.media?.url) { const r = G.q.reveal; s.reveal = { url: question().media.url, cols: r.cols, rows: r.rows, off: r.order.slice(0, r.shown), blur: r.blur ? blurPx(r) : null }; }
   // a warm-up: the whole scoreboard so far, for every phone in the game to see where it ranks
-  if (G.phase === 'final' && G.warmup && G.warmSaved?.board) s.warm = { board: G.warmSaved.board.slice(0, 150), count: G.warmSaved.count, places: G.warmSaved.places || {}, test: !!G.warmSaved.test };
+  if (G.phase === 'final' && G.warmup && G.warmSaved?.board) s.warm = { board: G.warmSaved.board.slice(0, 150), count: G.warmSaved.count, places: G.warmSaved.places || {}, test: !!G.warmSaved.test, solo: !!G.warmSolo };
   return s;
 }
 function broadcastState() { send('state', stateForPlayers()); }
@@ -2478,7 +2481,7 @@ async function bonusModal() {
   try {
     const r = await api('warmup_board');
     // the warm-up that leads up to this quiz (else the latest), and only its current run's scores
-    const wu = (r.warmups || []).find((w) => w.forQuiz === G.quizId) || (r.warmups || [])[0];
+    const wu = (r.warmups || []).find((w) => w.forQuiz === G.quizId) || (r.warmups || []).find((w) => w.forQuiz); // never a game of its own (no bonus)
     leaders = wu ? (r.plays || []).filter((p) => p.code === wu.code && (p.season || '') === (wu.season || '')).slice(0, 5) : [];
   } catch {}
   const norm = (x) => String(x || '').toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -2537,10 +2540,10 @@ function bonusFlash(p, pts, why) {
 /** The warm-up's lobby: what it is, the prize, a code for friends, and Start. */
 function renderWarmLobby() {
   const top = (G.warmTop || []).slice(0, 3);
-  stage.innerHTML = `<div class="stage-top"><div class="lobbylogo"><img src="assets/brand/mark.png" alt="">Let's Quiz!</div><div class="pillbox"><span class="hpill">🔥 Warm-up</span><span class="hpill">${total()} questions and games</span>${G.warmUntil ? `<span class="hpill">⏰ Ends ${esc(endsText(G.warmUntil))}</span>` : ''}</div></div>
+  stage.innerHTML = `<div class="stage-top"><div class="lobbylogo"><img src="assets/brand/mark.png" alt="">Let's Quiz!</div><div class="pillbox"><span class="hpill">${G.warmSolo ? '🎮 Just for fun' : '🔥 Warm-up'}</span><span class="hpill">${total()} questions and games</span>${G.warmUntil ? `<span class="hpill">⏰ Ends ${esc(endsText(G.warmUntil))}</span>` : ''}</div></div>
     <div class="stage-main"><div class="wulobby">
       <h1 class="big wutitle">${esc(G.quiz.title)}</h1>
-      <p class="wusub">You against three bots, and anyone you invite. <b>The top score when it closes${G.warmUntil ? ' on ' + esc(endsText(G.warmUntil)) : ''} gets 1,000 bonus points</b> in the quiz!</p>
+      <p class="wusub">You against ${G.warmBots === 3 ? 'three' : G.warmBots} bots, and anyone you invite. ${G.warmSolo ? '<b>One go per phone</b>, and every score goes on the scoreboard.' : `<b>The top score when it closes${G.warmUntil ? ' on ' + esc(endsText(G.warmUntil)) : ''} gets 1,000 bonus points</b> in the quiz!`}</p>
       <div class="wugrid">
         <div class="wujoin"><div class="qr" id="qr"></div><div><div class="wusmall">Friends can join this game</div><div class="code">${G.code}</div><div class="wusmall">at <b>${esc(shortPlayUrl())}</b></div></div></div>
         <div class="wuside"><div class="wusmall">In this game</div><div class="players" id="players"></div>
@@ -2569,15 +2572,15 @@ function renderWarmFinal() {
   const medal = (n) => n === 1 ? '🥇' : n === 2 ? '🥈' : n === 3 ? '🥉' : n;
   const status = !sv || sv === 'saving' ? '<div class="wusave">Saving your score…</div>'
     : sv.error ? `<div class="wusave bad">Your score didn't save: ${esc(sv.error)} <button class="btn btn-sm" data-act="wusave">Try again</button></div>`
-    : mine ? `<div class="wusave ok">✅ Saved! ${mine.kept ? `This phone had played already, so its first score stays: <b>${mine.score}</b>. ` : ''}You're <b>${ordinal(mine.place)}</b> of ${sv.count} on the warm-up scoreboard.${mine.place === 1 ? ' 🥇 Top of the table!' : ''}</div>`
+    : mine ? `<div class="wusave ok">✅ Saved! ${mine.kept ? `This phone had played already, so its first score stays: <b>${mine.score}</b>. ` : ''}You're <b>${ordinal(mine.place)}</b> of ${sv.count} on the ${G.warmSolo ? '' : 'warm-up '}scoreboard.${mine.place === 1 ? ' 🥇 Top of the table!' : ''}</div>`
     : '<div class="wusave ok">✅ Scores saved.</div>';
   stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">🏁 Finished</span></div></div>
     <div class="stage-main"><div class="wufinal">
       <div class="wuleft"><h1 class="big wutitle">${me ? `You scored ${me.score}!` : 'Game over'}</h1>${status}
         <div class="wusmall" style="margin-top:14px">This game</div>
         <ol class="wulist">${rk.map((p, i) => `<li class="${p.id === myPid() ? 'me' : ''}"><span class="n">${i + 1}</span><span class="nm">${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}</span><b>${p.score}</b></li>`).join('')}</ol>
-        <p class="wusmall" style="margin-top:auto">The top score when the warm-up closes${G.warmUntil ? ' on ' + esc(endsText(G.warmUntil)) : ''} gets 1,000 bonus points at the start of the quiz.</p></div>
-      <div class="wuright"><div class="wusmall">🏆 Warm-up scoreboard${sv?.count ? ` · ${sv.count} played so far` : ''}</div>
+        ${G.warmSolo ? '' : `<p class="wusmall" style="margin-top:auto">The top score when the warm-up closes${G.warmUntil ? ' on ' + esc(endsText(G.warmUntil)) : ''} gets 1,000 bonus points at the start of the quiz.</p>`}</div>
+      <div class="wuright"><div class="wusmall">🏆 ${G.warmSolo ? 'Scoreboard' : 'Warm-up scoreboard'}${sv?.count ? ` · ${sv.count} played so far` : ''}</div>
         ${board.length ? `<ol class="wulist" id="wuBoard">${board.map((p, i) => `<li class="${i === meAt ? 'me' : ''}"><span class="n">${medal(place(p))}</span><span class="nm">${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}${i === meAt ? ' (you)' : ''}</span><b>${p.score}</b></li>`).join('')}</ol>`
           : `<p class="wusmall" style="margin-top:12px">${!sv || sv === 'saving' ? 'Loading the scoreboard…' : 'The scoreboard shows here once your score is saved.'}</p>`}</div>
     </div></div>

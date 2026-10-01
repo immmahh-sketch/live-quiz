@@ -108,21 +108,26 @@ function landError(msg) {
     <form id="cf"><label>Warm-up code</label><input type="text" id="cc" value="${esc(CODE)}" maxlength="12" autocapitalize="characters"><button class="go">Try again</button></form></div></div>`;
   $('#cf').onsubmit = (e) => { e.preventDefault(); location.href = 'warmup?c=' + encodeURIComponent($('#cc').value.trim()); };
 }
+// A game of its own (no quiz night it leads up to: r.standalone) is just for fun: no bonus, no Friday.
+const solo = (r) => !!r.standalone;
+const typeChips = (r) => (r.types || []).map((t) => LQ.TYPES[t]).filter(Boolean).map((T) => `<span class="chip">${T.icon} ${esc(T.label)}</span>`).join('');
 function intro(r) {
   const m = me(); let emoji = m.emoji || LQ.EMOJIS[Math.floor(Math.random() * LQ.EMOJIS.length)];
+  if (solo(r)) document.title = r.title + " · Let's Quiz!";
   app.innerHTML = `<div class="land">${brand}
     <h1>${esc(r.title)}</h1>
-    <p class="lead">Twenty questions and games on your phone, against three bots, before quiz night.</p>
-    <div class="prize"><span class="big">🏆</span><span>The top score starts the quiz <u>1,000 points</u> ahead<small>One go per phone, so make it count!</small></span></div>
+    ${solo(r) ? `<p class="lead">${r.questions || 'Ten'} questions and games on your phone, against ${r.bots === 3 || r.bots == null ? 'three' : r.bots} bots.</p>
+    <div class="prize"><span class="big">🏆</span><span>Top the scoreboard<small>One go per phone, so make it count!</small></span></div>` : `<p class="lead">Twenty questions and games on your phone, against three bots, before quiz night.</p>
+    <div class="prize"><span class="big">🏆</span><span>The top score starts the quiz <u>1,000 points</u> ahead<small>One go per phone, so make it count!</small></span></div>`}
     ${r.test ? `<div class="chip" style="align-self:flex-start;background:#7ee0a8;color:#1b1544">🧪 Test game: nothing is saved and you can play as often as you like</div>` : ''}
     ${r.practice ? `<div class="chip" style="align-self:flex-start;background:#ffd54a;color:#1b1544">🧪 Practice go: your score of ${r.practice.score} stays on the scoreboard, whatever you get this time</div>` : ''}
     ${r.until ? `<div class="chip" style="align-self:flex-start;background:rgba(255,255,255,.16)">⏰ Closes ${esc(endsText(r.until))} · ${leftText(r.until)}</div>` : ''}
-    <div class="chips"><span class="chip">💥 Wipeout</span><span class="chip">💣 Hot Potato</span><span class="chip">🏁 The Race</span><span class="chip">🕵️ 20 Questions</span><span class="chip">🎡 Wheel of Fortune</span><span class="chip">🧠 The 1% Club</span><span class="chip">🖼️ Picture Reveal</span><span class="chip">🔀 Answer Smash</span><span class="chip">📍 Drop the Pin</span><span class="chip">…and more</span></div>
+    ${solo(r) ? `<div class="chips">${typeChips(r)}</div>` : `<div class="chips"><span class="chip">💥 Wipeout</span><span class="chip">💣 Hot Potato</span><span class="chip">🏁 The Race</span><span class="chip">🕵️ 20 Questions</span><span class="chip">🎡 Wheel of Fortune</span><span class="chip">🧠 The 1% Club</span><span class="chip">🖼️ Picture Reveal</span><span class="chip">🔀 Answer Smash</span><span class="chip">📍 Drop the Pin</span><span class="chip">…and more</span></div>`}
     <div class="card"><h2>Who's playing?</h2>
       <form id="nf"><label for="nm">Your name (as it'll show on the scoreboard)</label><input type="text" id="nm" value="${esc(m.name)}" maxlength="20" autocomplete="nickname" placeholder="Your name">
       <label>Your emoji</label><div class="emopick">${LQ.EMOJIS.map((e) => `<button type="button" data-em="${e}" class="${e === emoji ? 'on' : ''}">${e}</button>`).join('')}</div>
       <div id="nerr"></div><button class="go">Let's play ▶</button></form>
-      <p class="muted small" style="margin:10px 0 0">It all plays on your phone. Use the same name you'll use on Friday, so the bonus finds you.</p></div>
+      <p class="muted small" style="margin:10px 0 0">It all plays on your phone.${solo(r) ? '' : " Use the same name you'll use on Friday, so the bonus finds you."}</p></div>
     <div class="card"><h2>🏆 Top scores so far</h2>${boardHtml(r.top || [])}${r.count > 10 ? `<p class="muted small" style="margin:8px 0 0">${r.count} people have played.</p>` : ''}</div>
     <p class="note">Friends can join your game too: the code is on your screen once it starts.</p></div>`;
   $$('[data-em]').forEach((b) => b.onclick = () => { emoji = b.dataset.em; $$('[data-em]').forEach((x) => x.classList.toggle('on', x === b)); });
@@ -140,17 +145,17 @@ const leftText = (iso) => { const ms = new Date(iso) - Date.now(); const h = Mat
 function closed(r) {
   const w = (r.top || [])[0];
   app.innerHTML = `<div class="land">${brand}<h1>${esc(r.title)}</h1>
-    <div class="card played"><div class="em">⏰</div><h2 style="margin:4px 0 0">The warm-up has closed</h2>
-      ${w ? `<p class="muted" style="margin:8px 0 0">Top of the table: <b>${esc(w.emoji || '')} ${esc(w.name)}</b> with ${w.score} points, who starts the quiz 1,000 points ahead.</p>` : '<p class="muted">See you at the quiz!</p>'}</div>
-    <div class="card"><h2>🏆 Final warm-up scoreboard</h2>${boardHtml(r.board || r.top || [])}</div></div>`;
+    <div class="card played"><div class="em">⏰</div><h2 style="margin:4px 0 0">${solo(r) ? 'This game has closed' : 'The warm-up has closed'}</h2>
+      ${w ? `<p class="muted" style="margin:8px 0 0">Top of the table: <b>${esc(w.emoji || '')} ${esc(w.name)}</b> with ${w.score} points${solo(r) ? '.' : ', who starts the quiz 1,000 points ahead.'}</p>` : `<p class="muted">${solo(r) ? 'Thanks for playing!' : 'See you at the quiz!'}</p>`}</div>
+    <div class="card"><h2>🏆 Final ${solo(r) ? '' : 'warm-up '}scoreboard</h2>${boardHtml(r.board || r.top || [])}</div></div>`;
 }
 function played(r) {
   const p = r.played;
   app.innerHTML = `<div class="land">${brand}
     <div class="card played"><div class="em">${esc(p.emoji || '🎉')}</div><h2 style="margin:4px 0 0">You've had your go, ${esc(p.name)}!</h2>
-      <div class="score">${p.score} points</div><p class="muted" style="margin:0">${ordinal(p.place)} of ${r.count} on the warm-up scoreboard${p.place === 1 ? ' · 🥇 top of the table!' : ''}</p>
-      <p class="muted small" style="margin:10px 0 0">It's one go per phone. The top score${r.until ? ' when it closes on ' + esc(endsText(r.until)) : ''} gets 1,000 bonus points at the start of the quiz.</p></div>
-    <div class="card"><h2>🏆 Warm-up scoreboard${r.count ? ` · ${r.count} played` : ''}</h2>${boardHtml(r.board || r.top || [], p)}</div>
+      <div class="score">${p.score} points</div><p class="muted" style="margin:0">${ordinal(p.place)} of ${r.count} on the ${solo(r) ? '' : 'warm-up '}scoreboard${p.place === 1 ? ' · 🥇 top of the table!' : ''}</p>
+      <p class="muted small" style="margin:10px 0 0">It's one go per phone.${solo(r) ? '' : ` The top score${r.until ? ' when it closes on ' + esc(endsText(r.until)) : ''} gets 1,000 bonus points at the start of the quiz.`}</p></div>
+    <div class="card"><h2>🏆 ${solo(r) ? 'Scoreboard' : 'Warm-up scoreboard'}${r.count ? ` · ${r.count} played` : ''}</h2>${boardHtml(r.board || r.top || [], p)}</div>
     <p class="note">Played on ${new Date(p.played_at).toLocaleString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit' })}.</p></div>`;
   scrollToMe();
 }
@@ -161,7 +166,7 @@ function played(r) {
 function game() {
   document.body.style.overflow = 'hidden';
   app.innerHTML = `<div class="game">
-      <div class="playhead"><span id="who">🎮 Warm-up</span><span><button id="fs" type="button" title="Full screen">⛶</button></span></div>
+      <div class="playhead"><span id="who">🎮 Let's play</span><span><button id="fs" type="button" title="Full screen">⛶</button></span></div>
       <div class="playwrap"><div class="waiting" id="waiting">Setting up your game…</div><iframe id="playFrame" title="Your game" hidden></iframe></div>
     </div>
     <iframe class="engine" id="hostFrame" title="" aria-hidden="true" tabindex="-1" allow="autoplay"></iframe>`;

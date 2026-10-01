@@ -910,7 +910,7 @@ Deno.serve(async (req) => {
     // refreshing the warm-up for a later quiz starts a new season (a fresh scoreboard). Bots are never written.
     if (action === "warmup_open" || action === "warmup_check" || action === "warmup_save") {
       const code = String(body.code || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 12);
-      if (code.length < 4) return json({ error: "That's not a warm-up code." }, 400);
+      if (code.length < 3) return json({ error: "That's not a warm-up code." }, 400);
       // TEST in front of a warm-up's code (TESTWARMUP): the host trying it. Play as often as you like, nothing is saved,
       // it never closes. TESTWARMUP with no warm-up coded WARMUP tries the latest warm-up.
       const TEST = code.startsWith("TEST") && code.length > 4, real = TEST ? code.slice(4) : code;
@@ -942,7 +942,10 @@ Deno.serve(async (req) => {
         // a practice go: the device plays again, its score on the board stays as it is
         const practice = !TEST && mine?.test_go ? { score: mine.score, place: placeOf(mine.score) } : null;
         const s = { ...quiz.settings }; delete s.report; delete s.buildLog; delete s.aiUsage; delete s.planRounds;
+        // standalone (settings.warmup.fun): a game just for fun, played warm-up style, with no quiz night and no bonus points
+        const qs = (Array.isArray(quiz.questions) ? quiz.questions : []).filter((q: any) => q?.type !== "slide");
         return json({ code, open, ended, until: until ? new Date(until).toISOString() : null, title: quiz.title, count: all.length, top, board: boardOf(all), played, practice, test: TEST,
+          standalone: !!wu.fun, questions: qs.length, bots: Math.max(0, Math.min(20, Math.round(+wu.bots || 3))), types: Array.from(new Set(qs.map((q: any) => q.type === "text" && q.kind ? q.kind : q.type))),
           ...(body.peek ? {} : { quiz: { id: quiz.id, title: quiz.title, settings: s, questions: quiz.questions } }) });
       }
       // warmup_save: the end of a game
@@ -965,6 +968,8 @@ Deno.serve(async (req) => {
         name: String(p.name || "Player").replace(/\s+/g, " ").trim().slice(0, 20) || "Player", emoji: String(p.emoji || "").slice(0, 8),
         score: Math.max(-20000, Math.min(200000, Math.round(+p.score || 0))), rank: Math.max(0, Math.min(99, Math.round(+p.rank || 0))),
         players: ps.length, bots: Math.max(0, Math.min(40, Math.round(+g.bots || 0))), started_at: started, season,
+        // what they answered, question by question, for the host to look through (warmup_answers)
+        answers: Array.isArray(p.answers) ? p.answers.slice(0, 80).map((a: any) => ({ n: +a?.n || 0, type: String(a?.type || "").slice(0, 20), text: String(a?.text || "").slice(0, 240), right: String(a?.right ?? "").slice(0, 240), given: String(a?.given ?? "").slice(0, 240), correct: !!a?.correct, points: Math.round(+a?.points || 0) })) : null,
       }));
       // A device that has played already keeps its first score (on conflict: ignore).
       if (rows.length) await rest(`quiz_warmup_plays?on_conflict=code,season,pid`, { method: "POST", headers: { Prefer: "resolution=ignore-duplicates,return=minimal" }, body: JSON.stringify(rows) });
@@ -1480,9 +1485,18 @@ Deno.serve(async (req) => {
     if (action === "warmup_board") {
       // Every warm-up and every device's score, best first, with when each game was played.
       const quizzes: any[] = (await rest(`quiz_quizzes?settings->warmup=not.is.null&select=id,title,warmup:settings->warmup,updated_at&order=updated_at.desc`)) || [];
-      const rows: any[] = (await rest(`quiz_warmup_plays?select=code,season,quiz_id,game_code,pid,name,emoji,score,rank,players,bots,started_at,played_at,test_go&order=score.desc,played_at.asc&limit=5000`)) || [];
+      const rows: any[] = (await rest(`quiz_warmup_plays?select=code,season,quiz_id,game_code,pid,name,emoji,score,rank,players,bots,started_at,played_at,test_go,has_answers:answers->0->>n&order=score.desc,played_at.asc&limit=5000`)) || [];
       return json({ warmups: quizzes.map((q) => { const w = q.warmup || {}, until = w.until && !isNaN(Date.parse(w.until)) ? Date.parse(w.until) : null;
-        return { id: q.id, title: q.title, code: w.code || "", season: w.season || "", until: until ? new Date(until).toISOString() : null, forQuiz: w.forQuiz || null, open: w.open !== false && !(until && Date.now() >= until), switchedOff: w.open === false }; }), plays: rows });
+        return { id: q.id, title: q.title, code: w.code || "", season: w.season || "", until: until ? new Date(until).toISOString() : null, forQuiz: w.forQuiz || null, fun: !!w.fun, bots: Math.round(+w.bots || 3), open: w.open !== false && !(until && Date.now() >= until), switchedOff: w.open === false }; }), plays: rows });
+    }
+
+    if (action === "warmup_answers") {
+      // One player's go, question by question: what they answered, the right answer and the points.
+      const code = String(body.code || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+      if (!code || !/^p_[a-z0-9]{6,12}$/.test(String(body.pid))) return json({ error: "Bad request." }, 400);
+      const season = String(body.season || "").replace(/[^A-Za-z0-9_-]/g, "");
+      const rows: any[] = (await rest(`quiz_warmup_plays?code=eq.${code}&season=eq.${season}&pid=eq.${body.pid}&select=name,emoji,score,played_at,answers`)) || [];
+      return json({ play: rows[0] || null });
     }
 
     if (action === "warmup_forget") {

@@ -612,15 +612,16 @@ function renderWarmups(r) {
   el.innerHTML = r.warmups.map((w) => {
     const plays = r.plays.filter((p) => p.code === w.code && (p.season || '') === (w.season || '')), games = new Set(plays.map((p) => p.game_code)).size;
     const state = w.switchedOff ? 'Switched off' : w.open ? 'Open' : 'Ended';
-    return `<h2 style="font-size:1.2rem">🔥 Warm-up scoreboard · ${esc(w.title)}</h2><div class="card">
+    const solo = !!w.fun; // a game just for fun, played warm-up style (no quiz night, no bonus)
+    return `<h2 style="font-size:1.2rem">${solo ? '🎮 Scoreboard' : '🔥 Warm-up scoreboard'} · ${esc(w.title)}</h2><div class="card">
       <div class="row" style="margin-bottom:6px;flex-wrap:wrap"><span class="tag" style="${w.open ? '' : 'background:var(--paper);color:var(--ink-3)'}">${state}</span><b>Code ${esc(w.code)}</b>
         <span class="muted small">${w.until ? `ends ${esc(LQW.fmtEnd(w.until))} · ${left(w.until)}` : 'no end time set'} · ${plays.length} player${plays.length === 1 ? '' : 's'} · ${games} game${games === 1 ? '' : 's'}</span></div>
-      <div class="row" style="margin-bottom:8px;flex-wrap:wrap"><span class="muted small">${w.forQuiz ? `Leads up to <b>${esc(titleOf(w.forQuiz))}</b>` : 'Not linked to a quiz yet (Settings on the warm-up)'}</span><div class="grow"></div>
+      <div class="row" style="margin-bottom:8px;flex-wrap:wrap"><span class="muted small">${w.forQuiz ? `Leads up to <b>${esc(titleOf(w.forQuiz))}</b>` : solo ? `Just for fun · ${w.bots} bots` : 'Not linked to a quiz yet (Settings on the warm-up)'}</span><div class="grow"></div>
         <code class="small">${esc(warmupLink(w.code))}</code><button class="btn btn-ghost btn-sm" data-wucopy="${esc(w.code)}">Copy link</button>
         ${w.forQuiz ? `<button class="btn btn-ghost btn-sm" data-wucheck="${w.id}" title="Look for any question the warm-up shares with its quiz, game rows included">🔍 Check for overlap</button>` : ''}
-        <button class="btn btn-ghost btn-sm" data-wurefresh="${w.id}" title="New questions from the bank for a later quiz, a new end time and a fresh scoreboard">🔄 Refresh for a new quiz</button><button class="btn btn-ghost btn-sm" data-open="${w.id}">Edit</button></div>
-      ${plays.length ? `<table class="wutable"><thead><tr><th>#</th><th>Player</th><th>Score</th><th>Played</th><th>In that game</th><th></th></tr></thead><tbody>${plays.map((p, i) => `<tr><td>${i === 0 ? '🥇' : i + 1}</td><td>${esc(p.emoji || '')} ${esc(p.name)}</td><td><b>${p.score}</b></td><td>${when(p.played_at)}</td><td class="muted small">${p.players} player${p.players === 1 ? '' : 's'} + ${p.bots} bots · game ${esc(p.game_code)} · came ${LQ.ordinal(p.rank)}</td><td><button class="btn btn-ghost btn-sm" data-wuforget="${esc(p.code)}|${esc(p.season || '')}|${esc(p.pid)}|${esc(p.name)}" title="Let that phone play again: a practice go that keeps their score, or reset their score">Let them replay</button>${p.test_go ? '<div class="muted small" style="margin-top:4px">🧪 Practice go allowed</div>' : ''}</td></tr>`).join('')}</tbody></table>` : '<p class="muted" style="margin:0">Nobody has played yet. Send the link!</p>'}
-      <p class="muted small" style="margin:8px 0 0">One go per phone; bots are never counted. At the quiz, the 🎁 Bonus points button in the lobby picks out the top scorer.</p></div>`;
+        ${solo ? '' : `<button class="btn btn-ghost btn-sm" data-wurefresh="${w.id}" title="New questions from the bank for a later quiz, a new end time and a fresh scoreboard">🔄 Refresh for a new quiz</button>`}<button class="btn btn-ghost btn-sm" data-open="${w.id}">Edit</button></div>
+      ${plays.length ? `<table class="wutable"><thead><tr><th>#</th><th>Player</th><th>Score</th><th>Played</th><th>In that game</th><th></th></tr></thead><tbody>${plays.map((p, i) => `<tr><td>${i === 0 ? '🥇' : i + 1}</td><td>${esc(p.emoji || '')} ${esc(p.name)}</td><td><b>${p.score}</b></td><td>${when(p.played_at)}</td><td class="muted small">${p.players} player${p.players === 1 ? '' : 's'} + ${p.bots} bots · game ${esc(p.game_code)} · came ${LQ.ordinal(p.rank)}</td><td>${p.has_answers ? `<button class="btn btn-ghost btn-sm" data-wuanswers="${esc(p.code)}|${esc(p.season || '')}|${esc(p.pid)}" title="What they answered, question by question">👀 Answers</button> ` : ''}<button class="btn btn-ghost btn-sm" data-wuforget="${esc(p.code)}|${esc(p.season || '')}|${esc(p.pid)}|${esc(p.name)}" title="Let that phone play again: a practice go that keeps their score, or reset their score">Let them replay</button>${p.test_go ? '<div class="muted small" style="margin-top:4px">🧪 Practice go allowed</div>' : ''}</td></tr>`).join('')}</tbody></table>` : '<p class="muted" style="margin:0">Nobody has played yet. Send the link!</p>'}
+      ${solo ? '<p class="muted small" style="margin:8px 0 0">One go per phone; bots are never counted.</p>' : '<p class="muted small" style="margin:8px 0 0">One go per phone; bots are never counted. At the quiz, the 🎁 Bonus points button in the lobby picks out the top scorer.</p>'}</div>`;
   }).join('');
   const reload = () => api('warmup_board').then(renderWarmups);
   $$('[data-wucopy]', el).forEach((b) => b.onclick = async () => { try { await navigator.clipboard.writeText(warmupLink(b.dataset.wucopy)); toast('Link copied'); } catch { toast(warmupLink(b.dataset.wucopy)); } });
@@ -643,7 +644,20 @@ function renderWarmups(r) {
     } catch (e) { toast(e.message, true); }
   });
   $$('[data-wucheck]', el).forEach((b) => b.onclick = () => warmupCheckModal(b.dataset.wucheck, reload));
+  $$('[data-wuanswers]', el).forEach((b) => b.onclick = () => { const [code, season, pid] = b.dataset.wuanswers.split('|'); warmupAnswersModal(code, season, pid); });
   $$('[data-wurefresh]', el).forEach((b) => b.onclick = () => warmupRefreshModal(r.warmups.find((w) => w.id === b.dataset.wurefresh), reload));
+}
+/** One player's go: every question, what they answered, the right answer and what it scored. */
+async function warmupAnswersModal(code, season, pid) {
+  const m = modal('<p class="muted">Loading their answers…</p>');
+  let r; try { r = await api('warmup_answers', { code, season, pid }); } catch (e) { m.innerHTML = `<div class="err">${esc(e.message)}</div>`; return; }
+  const p = r.play; if (!p?.answers) { m.innerHTML = '<p>No answers were kept for this go.</p><div class="row" style="justify-content:flex-end"><button class="btn" data-x>Close</button></div>'; $('[data-x]', m).onclick = () => m.remove(); return; }
+  const T = (t) => LQ.TYPES[t] ? LQ.TYPES[t].icon + ' ' : '';
+  m.innerHTML = `<h3 style="margin-top:0">${esc(p.emoji || '')} ${esc(p.name)} · ${p.score} points</h3>
+    <div style="max-height:65vh;overflow:auto"><table class="wutable"><thead><tr><th>#</th><th>Question</th><th>They said</th><th>Answer</th><th>Points</th></tr></thead><tbody>
+    ${p.answers.map((a) => `<tr><td>${a.n}</td><td class="small">${T(a.type)}${esc(a.text)}</td><td>${a.given ? `${a.correct ? '✅' : '❌'} ${esc(a.given)}` : '<span class="muted">—</span>'}</td><td class="small">${esc(a.right)}</td><td><b>${a.points}</b></td></tr>`).join('')}
+    </tbody></table></div><div class="row mt" style="justify-content:flex-end"><button class="btn" data-x>Close</button></div>`;
+  $('[data-x]', m).onclick = () => m.remove();
 }
 /** What the warm-up shares with its quiz, and a button to swap those out of the warm-up. */
 async function warmupCheckModal(id, after) {
@@ -1770,9 +1784,10 @@ function settingsModal() {
     <label class="check"><input type="checkbox" id="s_show" ${s.showAnswersOnPhones !== false ? 'checked' : ''}> Show the right answer on players' phones after each question</label>
     <div class="field mt"><label>🔥 Warm-up game</label>
       <label class="check"><input type="checkbox" id="s_wu" ${s.warmup ? 'checked' : ''}> Open this quiz as a warm-up: anyone with the code plays it on their own phone against three bots, one go per phone, and every score goes on the warm-up scoreboard</label>
-      <div class="row" id="s_wurow" style="${s.warmup ? '' : 'display:none'}"><div class="field grow" style="margin:0"><label>Code (4 to 12 letters or numbers)</label><input type="text" id="s_wucode" value="${esc(s.warmup?.code || 'WARMUP')}" maxlength="12" style="text-transform:uppercase"></div>
+      <div class="row" id="s_wurow" style="${s.warmup ? '' : 'display:none'}"><div class="field grow" style="margin:0"><label>Code (3 to 12 letters or numbers)</label><input type="text" id="s_wucode" value="${esc(s.warmup?.code || 'WARMUP')}" maxlength="12" style="text-transform:uppercase"></div>
         <label class="check" style="margin-top:22px"><input type="checkbox" id="s_wuopen" ${s.warmup?.open !== false ? 'checked' : ''}> Open to play</label></div>
-      <div class="row" id="s_wurow2" style="${s.warmup ? '' : 'display:none'}"><div class="field grow" style="margin:0"><label>Ends (it closes by itself)</label><input type="datetime-local" id="s_wuuntil" value="${LQW.toLocalInput(s.warmup?.until ? new Date(s.warmup.until) : LQW.nextFriday5pm())}"></div>
+      <div class="row" id="s_wurow2" style="${s.warmup ? '' : 'display:none'}"><div class="field grow" style="margin:0"><label>Ends (it closes by itself; leave empty for never)</label><input type="datetime-local" id="s_wuuntil" value="${s.warmup && !s.warmup.until ? '' : LQW.toLocalInput(s.warmup?.until ? new Date(s.warmup.until) : LQW.nextFriday5pm())}"></div>
+        <div class="field" style="margin:0;width:90px"><label>Bots</label><input type="number" id="s_wubots" min="0" max="20" value="${s.warmup?.bots ?? 3}"></div>
         <div class="field grow" style="margin:0"><label>Leads up to (never shares a question with it)</label><select id="s_wufor"><option value="">Loading…</option></select></div></div>
       <div class="help" id="s_wuhelp">${s.warmup ? `Send people <b>${esc(warmupLink(s.warmup.code))}</b>, or they type the code at letsquiz.uk/play. Moving the end time keeps the scores; <b>🔄 Refresh for a new quiz</b> on the quiz list writes new questions and starts a fresh scoreboard. Save the quiz for changes to reach the link.` : 'Players see the quiz as it is saved, so edit it here as normal.'}</div></div>
     <div class="field mt"><label>AI models</label>
@@ -1792,11 +1807,11 @@ function settingsModal() {
     s.showAnswersOnPhones = $('#s_show', m).checked;
     const wcode = $('#s_wucode', m).value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12);
     if ($('#s_wu', m).checked) {
-      if (wcode.length < 4) { toast('The warm-up code needs at least 4 letters or numbers.', true); return; }
-      const until = $('#s_wuuntil', m).value ? new Date($('#s_wuuntil', m).value) : null;
-      if (!until || isNaN(until)) { toast('Set when the warm-up ends.', true); return; }
+      if (wcode.length < 3) { toast('The code needs at least 3 letters or numbers.', true); return; }
+      const until = $('#s_wuuntil', m).value ? new Date($('#s_wuuntil', m).value) : null; // empty: it never closes by itself
+      if (until && isNaN(until)) { toast('That end time is not a date.', true); return; }
       const forQuiz = $('#s_wufor', m).value || s.warmup?.forQuiz || null;
-      s.warmup = { ...(s.warmup || {}), code: wcode, open: $('#s_wuopen', m).checked, until: until.toISOString(), forQuiz };
+      s.warmup = { ...(s.warmup || {}), code: wcode, open: $('#s_wuopen', m).checked, until: until ? until.toISOString() : null, forQuiz, bots: LQ.clamp(Math.round(+$('#s_wubots', m).value || 3), 0, 20) };
     }
     else delete s.warmup;
     s.aiPremium = $('#s_premium', m).checked;
