@@ -280,7 +280,7 @@ async function bankView(type, id, summary, after) {
   else if (q.type === 'sort') body = kv('Categories', (q.categories || []).map((c) => `<div><b>${esc(c.name)}</b>: ${esc((q.items || []).filter((i) => i.category === c.id).map((i) => i.text).join(', '))}</div>`).join(''));
   else if (q.type === 'match') body = kv('Pairs', li((q.pairs || []).map((p) => `${p.left} → ${p.right?.value || p.right?.text || p.right || ''}`)));
   else if (q.type === 'wheel') body = kv('Phrase', `<b>${esc(q.phrase)}</b>`) + kv('Clue', esc(q.clue || q.category || ''));
-  else if (q.type === 'pin') body = kv('Place', `<b>${esc(q.place)}</b>`) + kv('Map', esc(q.map || q.region || ''));
+  else if (q.type === 'pin') body = kv('Place', `<b>${esc(q.place)}</b>`) + (q.info ? kv('At the reveal', esc(q.info)) : '') + kv('Map', esc(q.map || q.region || ''));
   else if (q.type === 'tune') body = kv('Track', `<b>${esc(q.track)}</b> — ${esc(q.artist)}${q.year ? ' (' + esc(String(q.year)) + ')' : ''}`) + kv('Ask', esc(q.ask || '')) + (q.previewUrl ? `<audio controls src="${esc(q.previewUrl)}" style="margin-top:8px;width:100%"></audio>` : '');
   else if (q.type === 'smash') body = kv('Picture answer', esc(q.pictureAnswer)) + kv('Clue answer', esc(q.clueAnswer)) + kv('Smash', `<b>${esc(q.smash || (q.answers || [])[0] || '')}</b>`);
   else if (q.type === 'rhyme') body = kv('First answer', `<b>${esc(q.answer1 || '')}</b>`) + kv('Second clue', esc(q.text2 || '')) + kv('Second answer', `<b>${esc(q.answer2 || '')}</b>`);
@@ -327,7 +327,7 @@ function bankEdit(m, type, q, summary, after) {
   else if (t === 'sort') f = qtext + (q.categories || []).map((c, n) => inp('cat' + n, `Group ${n + 1}`, c.name) + area('catitems' + n, `Goes in ${c.name || 'group ' + (n + 1)}, one per line`, lines((q.items || []).filter((i) => i.category === c.id).map((i) => i.text)), 3)).join('');
   else if (t === 'match') f = qtext + area('pairs', 'Pairs, one per line: left | right (a picture on the right stays as it is)', lines((q.pairs || []).map((p) => p.right?.kind === 'image' ? p.left : `${p.left} | ${p.right?.value ?? p.right?.text ?? p.right ?? ''}`)), 5);
   else if (t === 'wheel') f = inp('phrase', 'Phrase', q.phrase);
-  else if (t === 'pin') f = qtext + inp('place', 'Answer (the place)', q.place) + note('The spot on the map stays where it is, so keep the same place and change the clue.');
+  else if (t === 'pin') f = qtext + inp('place', 'Answer (the place)', q.place) + inp('info', 'Shown with the answer', q.info, 'e.g. Home of Newcastle United since 1892') + note('The spot on the map stays where it is, so keep the same place and change the clue.');
   else if (t === 'highlow') f = qtext + area('lowText', 'Lowbrow question', q.lowText || q.low, 2) + answers;
   else if (t === 'smash') f = inp('pictureAnswer', 'Picture answer (who or what is in the picture)', q.pictureAnswer) + qtext + inp('clueAnswer', 'Clue answer', q.clueAnswer) + note('The smash is worked out when you save. A new picture is found if the picture answer changes.');
   else if (t === 'rhyme') f = qtext + inp('answer1', 'First answer', q.answer1) + area('text2', 'Second clue', q.text2, 2) + inp('answer2', 'Second answer (rhymes with the first)', q.answer2);
@@ -364,7 +364,7 @@ function bankEdit(m, type, q, summary, after) {
         const pl = ls('pairs'); if (pl.length !== (q.pairs || []).length) throw new Error(`Keep one line for each of the ${(q.pairs || []).length} pairs.`);
         nq.pairs = q.pairs.map((p, n) => { const [l, r] = pl[n].split('|').map((s) => s.trim()); const np = { ...p, left: l || p.left }; if (r && p.right?.kind !== 'image') np.right = typeof p.right === 'object' && p.right ? { ...p.right, value: r } : { kind: 'text', value: r }; return np; });
       } else if (t === 'wheel') { nq.phrase = val('phrase').toUpperCase(); nq.text = nq.phrase; if (!nq.phrase) throw new Error('Give the phrase.'); }
-      else if (t === 'pin') { nq.place = val('place'); if (!nq.place) throw new Error('Give the place.'); }
+      else if (t === 'pin') { nq.place = val('place'); nq.info = val('info'); if (!nq.place) throw new Error('Give the place.'); }
       else if (t === 'highlow') nq.lowText = val('lowText');
       else if (t === 'smash') { nq.pictureAnswer = val('pictureAnswer'); nq.clueAnswer = val('clueAnswer'); }
       else if (t === 'rhyme') { nq.answer1 = val('answer1'); nq.text2 = val('text2'); nq.answer2 = val('answer2'); if (!nq.answer1 || !nq.answer2 || !nq.text2) throw new Error('Fill in both clues and both answers.'); }
@@ -1489,13 +1489,17 @@ function renderTypeBox() {
   if (q.type === 'pin') {
     q.mode = q.mode || 'point';
     const area = q.mode === 'area';
-    box.innerHTML = `<div class="field"><label>How it scores</label><div class="media-tabs"><button data-pm="point" class="${area ? '' : 'on'}">📍 Closest to a spot</button><button data-pm="area" class="${area ? 'on' : ''}">🎯 Anywhere on the right thing</button></div>
+    box.innerHTML = `<div class="row"><div class="field grow"><label>The answer <span class="muted">— shown at the reveal</span></label><input type="text" id="pinPlace" value="${esc(q.place || '')}" placeholder="e.g. St James' Park"></div></div>
+      <div class="field"><label>A line about it <span class="muted">— shown with the answer, on the screen and on phones</span></label><input type="text" id="pinInfo" value="${esc(q.info || '')}" placeholder="e.g. Home of Newcastle United since 1892, on Gallowgate in the city centre"></div>
+      <div class="field"><label>How it scores</label><div class="media-tabs"><button data-pm="point" class="${area ? '' : 'on'}">📍 Closest to a spot</button><button data-pm="area" class="${area ? 'on' : ''}">🎯 Anywhere on the right thing</button></div>
       <div class="help">${area ? 'A pin anywhere inside the box scores full speed points; outside scores nothing. Good for “drop the pin on the sirloin” or a collage of pictures.' : 'Full points inside the bullseye, falling to nothing at the outer ring. Good for maps.'}</div></div>
       <div class="field"><label>${area ? 'The right thing' : 'Where the pin goes'} <span class="muted">— ${area ? (q.collage ? 'click the tile that is the answer, or drag a box' : 'drag a box around it on the picture') : 'click the picture to move it'}</span></label><div id="pinpick"></div>
       ${area ? `<div class="row mt"><button class="btn btn-sm" id="collageBtn">🖼 ${q.collage ? 'Change the collage…' : 'Make a collage of pictures…'}</button><span class="help">Several pictures tiled into one; the answer is one of the tiles.</span></div>` : `<div class="row mt"><div class="field grow"><label>Bullseye — full points within</label><input type="range" id="rFull" min="1" max="15" step="0.5" value="${(q.radiusFull * 100).toFixed(1)}"><div class="help"><span id="rFullV">${(q.radiusFull * 100).toFixed(1)}</span>% of the picture width</div></div>
       <div class="field grow"><label>No points beyond</label><input type="range" id="rZero" min="5" max="45" step="0.5" value="${(q.radiusZero * 100).toFixed(1)}"><div class="help"><span id="rZeroV">${(q.radiusZero * 100).toFixed(1)}</span>% of the picture width</div></div></div>
       <div class="help">Between the two, points fall off in a straight line. The closest player is always marked as such on the results.</div>`}</div>`;
     renderPinPick();
+    $('#pinPlace').oninput = (e) => { q.place = e.target.value; touch(); };
+    $('#pinInfo').oninput = (e) => { q.info = e.target.value; touch(); };
     $$('[data-pm]').forEach((b) => b.onclick = () => { q.mode = b.dataset.pm; touch(); renderTypeBox(); showProblems(); });
     if ($('#collageBtn')) $('#collageBtn').onclick = () => collageModal(q);
     if ($('#rFull')) $('#rFull').oninput = (e) => { q.radiusFull = +e.target.value / 100; if (q.radiusZero < q.radiusFull) { q.radiusZero = q.radiusFull; $('#rZero').value = e.target.value; $('#rZeroV').textContent = e.target.value; } $('#rFullV').textContent = e.target.value; touch(); renderPinPick(); };

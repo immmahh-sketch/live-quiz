@@ -433,7 +433,7 @@ function stateForPlayers() {
     s.results = {}; s.qType = question()?.type;
     const rk = ranked();
     for (const p of rk) { const r = G.q.results.byPlayer[p.id]; s.results[p.id] = { note: r?.note || '', practice: !!r?.practice, would: r?.would || 0, correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, skipped: !!r?.skipped, wiped: !!r?.wiped, raced: !!r?.raced, lost: !!r?.lost, place: r?.place || 0, base: r?.base || 0, bonus: r?.bonus || 0, got: r?.got, out: !!r?.out, score: p.score, rank: rk.indexOf(p) + 1, of: rk.length }; }
-    if (G.quiz.settings.showAnswersOnPhones !== false) { s.answer = answerText(question()); if (question()?.type === 'club' && question().why) s.why = question().why; }
+    if (G.quiz.settings.showAnswersOnPhones !== false) { s.answer = answerText(question()); if (question()?.type === 'club' && question().why) s.why = question().why; if (question()?.type === 'pin' && question().info) s.why = question().info; }
   }
   // Drop the Pin in a warm-up: the map, the right spot and everyone's pins, so each phone can see how far off it was
   if (G.warmup && (G.phase === 'reveal' || G.phase === 'scoreboard') && G.q?.results?.stats?.pins && question()?.type === 'pin' && question().media?.url) {
@@ -2858,11 +2858,11 @@ function renderReveal() {
   if (q.type === 'pin' && q.mode === 'area') {
     const hits = R.stats.pins.filter((p) => p.hit).length;
     body = `<div class="center"><div class="pinboard" id="pinboard"><img src="${esc(q.media.url)}"></div>
-      <div class="mt"><span class="badge-closest">🎯 ${hits} of ${R.stats.pins.length} hit it</span>${q.place ? ` &nbsp; <span style="font-weight:800">${esc(q.place)}</span>` : q.collage?.[q.answerIndex]?.title ? ` &nbsp; <span style="font-weight:800">${esc(q.collage[q.answerIndex].title)}</span>` : ''}</div></div>`;
+      ${pinAnswerHtml(q)}<div class="mt"><span class="badge-closest">🎯 ${hits} of ${R.stats.pins.length} hit it</span></div></div>`;
   } else if (q.type === 'pin') {
     const best = R.stats.pins[0];
     body = `<div class="center"><div class="pinboard" id="pinboard"><img src="${esc(q.media.url)}"></div>
-      <div class="mt">${best ? `<span class="badge-closest">🎯 Closest: ${esc(best.name)}</span>` : '<span class="muted">Nobody dropped a pin.</span>'}${q.place ? ` &nbsp; <span style="font-weight:800">It was ${esc(q.place)}</span>` : ''}</div></div>`;
+      ${pinAnswerHtml(q)}<div class="mt">${best ? `<span class="badge-closest">🎯 Closest: ${esc(best.name)}</span>` : '<span class="muted">Nobody dropped a pin.</span>'}</div></div>`;
   }
   if (q.type === 'highlow' || q.type === 'rhyme') {
     const ans = q.type === 'rhyme' ? `${esc(q.answer1)} <span style="opacity:.6">&</span> ${esc(q.answer2)}` : esc(q.answers[0]);
@@ -2896,6 +2896,14 @@ function renderReveal() {
   // The winner's moment: fanfare and confetti as the crown lands, once per race.
   if (q.type === 'twenty' && (R.stats.solved || []).length && !G.q.podiumDone) { G.q.podiumDone = true; persist(); setTimeout(() => { if (G.phase === 'reveal') { sound('fanfare'); confetti(); } }, 900); }
   if (q.type === 'race' && R.stats.winner && !G.q.podiumDone) { G.q.podiumDone = true; persist(); setTimeout(() => { if (G.phase === 'reveal') { sound('fanfare'); confetti(); } }, 2300); }
+}
+/** Drop the Pin's answer at the reveal: the place, where it is (the map's country or continent) and a line about it. */
+function pinAnswerHtml(q) {
+  const place = q.place || q.collage?.[q.answerIndex]?.title || '';
+  if (!place && !q.info) return '';
+  const where = q.mode === 'area' ? '' : String(q.mapRegion || q.map || q.region || '').trim().replace(/^the /i, '');
+  const showWhere = where && where.toLowerCase() !== 'world' && !place.toLowerCase().includes(where.toLowerCase());
+  return `<div class="pinanswer">${place ? `<div class="pa-place">📍 ${esc(place)}${showWhere ? `<span class="pa-where">${esc(where)}</span>` : ''}</div>` : ''}${q.info ? `<div class="pa-info">${esc(q.info)}</div>` : ''}</div>`;
 }
 /** The race's podium: third, then second, then the winner rise up; the crown drops on the champion. */
 function podiumHtml(st, v) {
