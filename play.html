@@ -118,7 +118,7 @@ function connect() {
   clearInterval(watchdogT); watchdogT = setInterval(watchdog, 1500);
 }
 function hello() { send('hello', { pid: P.pid, name: P.name, emoji: P.emoji, ...(P.test ? { test: true } : {}) }); }
-function leave() { if (window.PhoneCam && PhoneCam.state !== 'off') PhoneCam.stop(); try { sb.removeChannel(ch); } catch {} ch = null; P.joined = false; P.state = null; P.viewKey = ''; }
+function leave() { if (window.PhoneCam && PhoneCam.state !== 'off') PhoneCam.stop('left the game'); try { localStorage.removeItem('lq_call_on'); } catch {} try { sb.removeChannel(ch); } catch {} ch = null; P.joined = false; P.state = null; P.viewKey = ''; }
 function onState(s) {
   if (!s || typeof s.phase !== 'string') return;
   P.state = s; P.receivedAt = Date.now(); P.hostSeen = Date.now();
@@ -238,8 +238,11 @@ function syncCallBar(s) {
   else if (PhoneCam.state !== 'off') {
     // the host screen has left the call (allow a few seconds for a blip): stop sending
     if (!callGoneAt) callGoneAt = Date.now();
-    else if (Date.now() - callGoneAt > 10000) { PhoneCam.stop(); toast('The quiz screen has left the call, so your camera and mic are off.'); }
+    else if (Date.now() - callGoneAt > 10000) { PhoneCam.stop('quiz screen left the call'); try { localStorage.removeItem('lq_call_on'); } catch {} toast('The quiz screen has left the call, so your camera and mic are off.'); }
   }
+  // Back after the page was closed or reloaded mid-call (an iPhone does that now and then): straight back on, no tap.
+  let wasOn = ''; try { wasOn = localStorage.getItem('lq_call_on') || ''; } catch {}
+  if (s?.call && PhoneCam.state === 'off' && wasOn && wasOn === P.code && !P.callAuto) { P.callAuto = true; PhoneCam.start({ room: s.call.room, pass: s.call.pass, name: P.name, pid: P.pid, client: sb }); }
   const want = !!s?.call || PhoneCam.state !== 'off';
   if (!want || !PhoneCam.supported()) { if (bar) bar.remove(); document.body.classList.remove('hascallbar'); return; }
   if (!bar) { bar = document.createElement('div'); bar.id = 'callBar'; bar.className = 'callbar'; document.body.appendChild(bar); }
@@ -251,11 +254,15 @@ function syncCallBar(s) {
   if (ptt) { ptt.classList.toggle('talking', PhoneCam.micOn); ptt.textContent = PhoneCam.micOn ? '🎙️ Talking…' : '🎤 Hold to talk'; }
   document.body.classList.add('hascallbar');
 }
-if (window.PhoneCam) PhoneCam.onChange(() => syncCallBar(P.state));
+if (window.PhoneCam) PhoneCam.onChange(() => {
+  // remembered while it is on, so a reload puts this phone back on the call by itself
+  if (PhoneCam.state === 'live') { try { localStorage.setItem('lq_call_on', P.code || ''); } catch {} }
+  syncCallBar(P.state);
+});
 document.addEventListener('click', (e) => {
   const b = e.target.closest('[data-callact]'); if (!b || !window.PhoneCam) return;
   const act = b.dataset.callact, c = P.state?.call;
-  if (act === 'start' && c) PhoneCam.start({ room: c.room, pass: c.pass, name: P.name, pid: P.pid });
+  if (act === 'start' && c) PhoneCam.start({ room: c.room, pass: c.pass, name: P.name, pid: P.pid, client: sb });
   if (act === 'cam') PhoneCam.setCam(!PhoneCam.camOn);
 });
 // push to talk: press opens the mic, letting go (or the finger sliding off the screen, or the phone switching away) shuts it

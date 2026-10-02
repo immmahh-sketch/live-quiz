@@ -15,7 +15,7 @@ window.PhoneCam = (() => {
   'use strict';
   const RTC = LQ.SUPABASE_URL + '/functions/v1/gather-rtc';
   const STUN = [{ urls: 'stun:stun.cloudflare.com:3478' }, { urls: ['stun:stun.l.google.com:19302'] }];
-  const S = { state: 'off', error: '', room: '', pass: '', name: '', key: '', stream: null, pc: null, sessionId: null, published: [], supa: null, channel: null, micOn: false, camOn: true, retry: 0, audioSender: null, videoSender: null, fixFails: 0, pressedAt: 0, micWatch: null, micState: 'live', micFixes: 0, fixing: false };
+  const S = { state: 'off', error: '', room: '', pass: '', name: '', key: '', stream: null, pc: null, sessionId: null, published: [], supa: null, channel: null, micOn: false, camOn: true, retry: 0, audioSender: null, videoSender: null, fixFails: 0, pressedAt: 0, micWatch: null, presT: null, drops: 0, lastStop: null, micState: 'live', micFixes: 0, fixing: false };
   const listeners = new Set();
   const emit = () => listeners.forEach((fn) => { try { fn(S); } catch {} });
   const set = (state, error = '') => { S.state = state; S.error = error; emit(); };
@@ -80,13 +80,34 @@ window.PhoneCam = (() => {
   }
 
   // The same presence entry a Gather caller has, so Gather pages and the host's camera corner treat it as one.
-  const presence = () => ({ name: S.name, mic: S.micOn, cam: S.camOn, sessionId: S.state === 'live' ? S.sessionId : null, tracks: S.state === 'live' ? S.published.slice() : [], screen: null, shareKind: 'screen', hand: null, tv: false, tvFull: false, phone: true, micState: S.micState, micFixes: S.micFixes });
+  // mic: always true while on the call. Push to talk is not posted here: re-posting the entry on every press and
+  // release got this phone dropped from the call's member list after a few goes (2 Oct 2026). Whether the player is
+  // talking shows in the sound itself (silence while 🎤 is up), which is what the camera corner listens to anyway.
+  const presence = () => ({ name: S.name, mic: true, cam: S.camOn, sessionId: S.state === 'live' ? S.sessionId : null, tracks: S.state === 'live' ? S.published.slice() : [], screen: null, shareKind: 'screen', hand: null, tv: false, tvFull: false, phone: true, micState: S.micState, micFixes: S.micFixes, drops: S.drops, lastStop: S.lastStop });
   const track = () => { if (S.channel) S.channel.track(presence()).catch(() => {}); };
+  // On the call's member list, and kept there: if the link to it drops (a phone's network, the page asleep for a
+  // moment) the entry is put back, so the call never loses this phone while its camera is still going.
   function announce() {
     S.supa = S.supa || LQ.client();
-    S.channel = S.supa.channel('call-' + S.room, { config: { presence: { key: S.key } } });
-    S.channel.subscribe((status) => { if (status === 'SUBSCRIBED') track(); });
+    if (S.channel) { try { S.supa.removeChannel(S.channel); } catch {} }
+    const ch = S.channel = S.supa.channel('call-' + S.room, { config: { presence: { key: S.key } } });
+    ch.subscribe((status) => {
+      if (ch !== S.channel) return;
+      if (status === 'SUBSCRIBED') track();
+      else if ((status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || status === 'CLOSED') && S.state === 'live') { S.drops++; setTimeout(() => { if (ch === S.channel && S.state === 'live') announce(); }, 2000); }
+    });
+    clearInterval(S.presT);
+    S.presT = setInterval(() => {
+      if (S.state !== 'live' || !S.channel) return;
+      const listed = !!S.channel.presenceState()[S.key];
+      if (S.channel.state !== 'joined') { S.drops++; announce(); } else if (!listed) { S.drops++; track(); }
+    }, 8000);
   }
+  // Why the call stopped last time, kept on the phone and reported on the next join (a page the phone reloaded
+  // leaves 'page closed'), so a drop can be diagnosed from the call.
+  const LAST = 'lq_call_last';
+  const noteStop = (why) => { try { localStorage.setItem(LAST, JSON.stringify({ why, at: new Date().toISOString() })); } catch {} };
+  window.addEventListener('pagehide', () => { if (S.state === 'live') noteStop('page closed'); });
 
   // ---- push to talk, and keeping the camera and mic alive ----
   // Push to talk switches the mic track on while 🎤 is held and off when it is let go. That is what an iPhone expects:
@@ -111,15 +132,16 @@ window.PhoneCam = (() => {
       if (a) { a.enabled = S.micOn; S.stream.addTrack(a); watchTrack(a); if (S.audioSender) await S.audioSender.replaceTrack(a); if (oldA) { S.stream.removeTrack(oldA); try { oldA.stop(); } catch {} } }
       if (v) { v.enabled = S.camOn; S.stream.addTrack(v); watchTrack(v); if (S.videoSender) await S.videoSender.replaceTrack(v); if (oldV) { S.stream.removeTrack(oldV); try { oldV.stop(); } catch {} } }
       S.micFixes++; S.micState = micStateNow(); track(); emit();
-    } catch (e) { S.fixFails = (S.fixFails || 0) + 1; if (S.fixFails >= 3) { stop(); set('error', 'The phone took the camera back. Tap Try again to start it again.'); } }
+    } catch (e) { S.fixFails = (S.fixFails || 0) + 1; if (S.fixFails >= 3) { stop('camera taken back'); set('error', 'The phone took the camera back. Tap Try again to start it again.'); } }
     finally { S.fixing = false; }
   }
-  function watchTrack(t) { const note = () => { S.micState = micStateNow(); track(); }; t.addEventListener('mute', note); t.addEventListener('unmute', note); t.addEventListener('ended', note); }
+  // noted, not posted: the mic is muted and unmuted by the phone on every release and press (see presence)
+  function watchTrack(t) { const note = () => { S.micState = micStateNow(); }; t.addEventListener('mute', note); t.addEventListener('unmute', note); t.addEventListener('ended', note); }
   function watchMedia() {
     clearInterval(S.micWatch); let badSince = 0;
     S.micWatch = setInterval(() => {
       if (S.state !== 'live' || S.fixing) return;
-      const st = micStateNow(); if (st !== S.micState) { S.micState = st; track(); }
+      S.micState = micStateNow();
       const m = micTrack(), c = camTrack();
       const broken = !m || m.readyState === 'ended' || (S.micOn && m.muted && Date.now() - S.pressedAt > 2000) || (S.camOn && dead(c));
       if (!broken) { badSince = 0; S.fixFails = 0; return; }
@@ -137,9 +159,11 @@ window.PhoneCam = (() => {
   }
 
   /** Puts this phone on the call: { room, pass } from the host screen, the player's name and id. */
-  async function start({ room, pass, name, pid }) {
+  async function start({ room, pass, name, pid, client }) {
     if (S.state === 'joining' || S.state === 'live') return;
-    Object.assign(S, { room, pass, name: String(name || 'Player').slice(0, 30), key: 'lqp-' + pid, retry: 0, micOn: false, camOn: true });
+    let last = null; try { last = JSON.parse(localStorage.getItem(LAST) || 'null'); } catch {}
+    // the game's own connection when given (one link to the server rather than two)
+    Object.assign(S, { room, pass, name: String(name || 'Player').slice(0, 30), key: 'lqp-' + pid, retry: 0, micOn: false, camOn: true, drops: 0, lastStop: last, supa: client || S.supa });
     set('joining');
     try {
       // Tell an iPhone this page records and plays at once, so playing a sound never takes the mic away (Safari 16.4+).
@@ -149,17 +173,19 @@ window.PhoneCam = (() => {
       await publish(); // (publish leaves the mic unsent until 🎤 is held: no echo from the TV)
       S.state = 'live'; S.micState = micStateNow(); S.fixFails = 0; emit();
       announce(); watchMedia();
-    } catch (e) { stop(); set('error', e.message); }
+    } catch (e) { stop('could not start: ' + e.message); set('error', e.message); }
   }
-  function stop() {
-    clearInterval(S.micWatch); S.micWatch = null; S.audioSender = null; S.videoSender = null;
+  function stop(why = 'stopped') {
+    if (S.state === 'live' || S.state === 'joining') noteStop(why);
+    clearInterval(S.micWatch); S.micWatch = null; clearInterval(S.presT); S.presT = null; S.audioSender = null; S.videoSender = null;
     closePc();
     if (S.stream) S.stream.getTracks().forEach((t) => t.stop());
     S.stream = null;
-    if (S.channel) { try { S.channel.untrack(); S.supa.removeChannel(S.channel); } catch {} S.channel = null; }
+    const ch = S.channel; S.channel = null;
+    if (ch) { try { ch.untrack(); S.supa.removeChannel(ch); } catch {} }
     set('off');
   }
-  function setMic(on) { S.micOn = !!on; if (S.micOn) S.pressedAt = Date.now(); sendMic(); track(); emit(); }
+  function setMic(on) { S.micOn = !!on; if (S.micOn) S.pressedAt = Date.now(); sendMic(); emit(); } // no presence post (see presence)
   function setCam(on) { S.camOn = !!on; if (S.stream) S.stream.getVideoTracks().forEach((t) => { t.enabled = S.camOn; }); track(); emit(); }
   /** A fresh pass from the host (they are good for 12 hours; the host sends a new one before then). */
   function refreshPass(pass) { if (pass) S.pass = pass; }
