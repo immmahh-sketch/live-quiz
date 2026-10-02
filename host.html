@@ -394,7 +394,7 @@ function startHeartbeat() { clearInterval(hbT); hbT = setInterval(broadcastState
 // While this screen is on the quiz call, players can put their own phone's camera and mic on the call too
 // (play.html + assets/phonecam.js): someone watching on a TV is then still seen and heard. They join Gather's server with
 // a pass signed here with the host password (gather-rtc quizPassOk): call routes only, for 12 hours.
-let callPass = '', callPassExp = 0, callPassP = null;
+var callPass = '', callPassExp = 0, callPassP = null; // var: stateForPlayers can run before this line (see callWin)
 async function makeCallPass() {
   const pw = LQ.hostPassword(); if (!pw || !window.crypto?.subtle || WARMUP || DEMO) return;
   const exp = String(Date.now() + 12 * 3600e3), te = new TextEncoder();
@@ -402,7 +402,7 @@ async function makeCallPass() {
   const sig = [...new Uint8Array(await crypto.subtle.sign('HMAC', k, te.encode('quizcall:' + exp)))].map((b) => b.toString(16).padStart(2, '0')).join('');
   callPass = 'qt.' + exp + '.' + sig; callPassExp = +exp;
 }
-const onCall = () => !!window.QuizCall && (QuizCall.state === 'live' || QuizCall.state === 'reconnecting');
+function onCall() { return !!window.QuizCall && (QuizCall.state === 'live' || QuizCall.state === 'reconnecting'); } // hoisted: the buttons can be drawn before this line runs
 function stateForPlayers() {
   const s = { phase: G.phase, code: G.code, qIndex: G.qIndex, num: qNum(G.qIndex), practice: G.qIndex >= 0 && practiceQ(), total: total(), more: G.qIndex + 1 < G.quiz.questions.length, title: G.quiz.title, now: Date.now(), auto: !!G.auto, paused: !!G.paused, ...(PREVIEW ? { preview: true } : {}), ...(G.test ? { test: true } : {}) };
   // the call phones can join, while this screen is on it (a fresh pass well before the old one runs out)
@@ -2447,7 +2447,7 @@ function callBtns() {
   if (WARMUP) return '';
   if (!window.QuizCall || !QuizCall.supported()) return fsBtn();
   const s = QuizCall.state;
-  return `<button class="btn btn-ghost ${s === 'live' || s === 'reconnecting' ? 'on' : ''}" data-act="call" title="Put this screen and its sound into the quiz night video call (gathercall.uk/quiz), and open the call window with everyone's cameras. Press again to leave.">${callLabel()}</button>${onCall() && !TV ? '<button class="btn btn-ghost hostptt" data-hostptt title="Hold to talk to the call (or hold T). Your mic is off the rest of the time, so the quiz music playing here doesn\'t go round again.">🎤 Hold to talk</button>' : ''}${camBtn()}${fsBtn()}`;
+  return `<button class="btn btn-ghost ${s === 'live' || s === 'reconnecting' ? 'on' : ''}" data-act="call" title="Put this screen and its sound into the quiz night video call (gathercall.uk/quiz), and open the call window with everyone's cameras. Press again to leave.">${callLabel()}</button>${onCall() && !TV ? `<button class="btn btn-ghost hostptt ${hostTalking ? 'on' : ''}" data-hostptt title="Hold to talk, or click to leave the mic on (click again to stop). T does the same. Your mic is off otherwise, so the quiz music playing here doesn't go round again.">${pttLabel()}</button>` : ''}${camBtn()}${fsBtn()}`;
 }
 // The camera in the corner (assets/quizcam.js): on while the screen is on the call. C hides or shows it.
 function camBtn() { return window.QuizCam && QuizCam.on ? `<button class="btn btn-ghost ${QuizCam.enabled ? 'on' : ''}" data-act="cam" title="Show whoever is talking in the top right corner (C)">${QuizCam.enabled ? '🎥 Camera on' : '🎥 Camera off'}</button>` : ''; }
@@ -2465,20 +2465,32 @@ let wantCallWindow = false;
 // The quizmaster's microphone is in the call window (Gather, quizhost=1), which keeps it off until told: this screen's
 // "Hold to talk" button, or holding T, opens it (postMessage {lq: 'ptt', on}). The quiz's music plays out loud here, so
 // an open mic would send it round again.
-let callWin = null, hostTalking = false;
-function hostTalk(on) {
-  on = !!on; if (on === hostTalking) return; hostTalking = on;
-  try { if (callWin && !callWin.closed) callWin.postMessage({ lq: 'ptt', on }, 'https://gathercall.uk'); } catch {}
-  $$('[data-hostptt]').forEach((b) => { b.classList.toggle('on', on); b.textContent = on ? '🎙️ Talking…' : '🎤 Hold to talk'; });
-  if (on && (!callWin || callWin.closed)) toast('Open the call window first (📞), then hold to talk', true);
+var callWin = null, hostTalking = false, hostLatched = false; // var: read by callBtns, which can run before this line (a preview draws at once)
+// Tap to toggle, hold to talk (user, 2 Oct 2026): a quick press (or tap of T) leaves the mic on until pressed again;
+// a press held longer than TAP_MS is push to talk and lets go with the button.
+const TAP_MS = 300;
+function pttLabel() { return hostLatched ? '🎙️ Mic on · click to stop' : hostTalking ? '🎙️ Talking…' : '🎤 Hold or click to talk'; }
+function hostTalk(on, latched = false) {
+  on = !!on; hostLatched = on && latched;
+  if (on !== hostTalking) {
+    hostTalking = on;
+    try { if (callWin && !callWin.closed) callWin.postMessage({ lq: 'ptt', on }, 'https://gathercall.uk'); } catch {}
+    if (on && (!callWin || callWin.closed)) toast('Open the call window first (📞), then hold to talk', true);
+  }
+  $$('[data-hostptt]').forEach((b) => { b.classList.toggle('on', on); b.textContent = pttLabel(); });
 }
+// one press: down opens the mic (or, if it was left on, closes it); up closes it again unless it was a quick tap
+let pttDownAt = 0, pttWasLatched = false;
+function pttDown() { pttWasLatched = hostLatched; pttDownAt = Date.now(); if (pttWasLatched) hostTalk(false); else hostTalk(true); }
+function pttUp() { if (pttWasLatched) return; if (Date.now() - pttDownAt < TAP_MS) hostTalk(true, true); else hostTalk(false); }
 let hostPttPointer = null;
-document.addEventListener('pointerdown', (e) => { const b = e.target.closest('[data-hostptt]'); if (!b) return; e.preventDefault(); hostPttPointer = e.pointerId; try { b.setPointerCapture(e.pointerId); } catch {} hostTalk(true); });
-document.addEventListener('pointerup', (e) => { if (e.pointerId === hostPttPointer) { hostPttPointer = null; hostTalk(false); } });
-document.addEventListener('pointercancel', (e) => { if (e.pointerId === hostPttPointer) { hostPttPointer = null; hostTalk(false); } });
-document.addEventListener('keydown', (e) => { if ((e.key === 't' || e.key === 'T') && !e.repeat && !e.ctrlKey && !e.metaKey && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName || '') && onCall()) { e.preventDefault(); hostTalk(true); } });
-document.addEventListener('keyup', (e) => { if (e.key === 't' || e.key === 'T') hostTalk(false); });
-window.addEventListener('blur', () => { if (hostPttPointer === null) hostTalk(false); }); // a key let go elsewhere
+document.addEventListener('pointerdown', (e) => { const b = e.target.closest('[data-hostptt]'); if (!b) return; e.preventDefault(); hostPttPointer = e.pointerId; try { b.setPointerCapture(e.pointerId); } catch {} pttDown(); });
+document.addEventListener('pointerup', (e) => { if (e.pointerId === hostPttPointer) { hostPttPointer = null; pttUp(); } });
+document.addEventListener('pointercancel', (e) => { if (e.pointerId === hostPttPointer) { hostPttPointer = null; if (!hostLatched) hostTalk(false); } });
+let tHeld = false;
+document.addEventListener('keydown', (e) => { if ((e.key === 't' || e.key === 'T') && !e.repeat && !tHeld && !e.ctrlKey && !e.metaKey && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName || '') && onCall()) { e.preventDefault(); tHeld = true; pttDown(); } });
+document.addEventListener('keyup', (e) => { if ((e.key === 't' || e.key === 'T') && tHeld) { tHeld = false; pttUp(); } });
+window.addEventListener('blur', () => { if (tHeld) { tHeld = false; if (!hostLatched) hostTalk(false); } }); // T let go while in another window
 function openCallWindow() {
   // Opened by name with no address first: if the call window is already open (say this page was
   // reloaded) it comes back as it is, rather than reloading and dropping the quizmaster off the call.
