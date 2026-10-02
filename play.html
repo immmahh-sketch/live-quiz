@@ -477,9 +477,11 @@ function kothHtml(s) {
   if (g.step === 'timeup') return `${pts}<div class="state"><div class="em">⏱️</div><h2>Out of head-to-heads!</h2><p class="muted">Nobody reached ${g.target}, so no bonus this time. Your hill points still count.</p></div>`;
   if (g.step === 'won') return `<div class="state"><div class="em">👑</div><h2>${g.winner === me ? 'You are King of the Hill!' : esc(nm(s, g.winner)) + ' is King of the Hill'}</h2><p class="muted">+${g.prize} points${g.winner === me ? ' for you' : ''}</p></div>`;
   const h = g.h2h; if (!h) return pts;
+  // the options, to read (not to tap): buzz, then say the answer out loud
+  const kopts = (h.opts || []).length ? `<div class="kopts">${h.opts.map((o) => `<span style="background:${COLORS[o.c].hex}">${COLORS[o.c].shape} ${esc(o.t)}</span>`).join('')}</div>` : '';
   if (g.step === 'h2h') {
-    if (inPair) { app.className = 'app turn-buzz'; return `${vs()}<div class="pq">${esc(h.text)}</div><button class="buzzer" id="buzzBtn">BUZZ</button><p class="center small muted">Buzz first, then say your answer out loud</p>`; }
-    return `${pts}${vs()}<div class="pq">${esc(h.text)}</div><p class="center muted">Who will buzz first?</p>`;
+    if (inPair) { app.className = 'app turn-buzz'; return `${vs()}<div class="pq">${esc(h.text)}</div>${kopts}<button class="buzzer" id="buzzBtn">BUZZ</button><p class="center small muted">Buzz first, then say your answer out loud</p>`; }
+    return `${pts}${vs()}<div class="pq">${esc(h.text)}</div>${kopts}<p class="center muted">Who will buzz first?</p>`;
   }
   if (g.step === 'answer' || g.step === 'claxon') {
     if (h.buzz === me) { app.className = 'app turn-mine'; return `${vs()}<div class="state"><div class="em">🗣️</div><h2>${g.step === 'claxon' ? "TIME'S UP!" : 'Say your answer out loud NOW!'}</h2>${g.step === 'answer' ? '<div class="kcountp" id="gcount"></div>' : ''}</div>`; }

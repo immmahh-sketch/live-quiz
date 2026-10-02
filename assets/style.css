@@ -1384,4 +1384,8 @@ body.hascallbar .app { padding-top: calc(48px + env(safe-area-inset-top)); }
 /* push to talk (play.html): held, never tapped, so no selection, magnifier or long-press menu */
 .callbar .ptt { touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; padding: 6px 12px; background: rgba(255,255,255,.2); }
 .callbar .ptt.talking { background: #e21b3c; transform: scale(1.06); }
+/* King of the Hill head to head: the options, to read (host.html kothOpts, play.html kopts) */
+.khopts { margin-top: 10px; pointer-events: none; }
+.kopts { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 8px 0; }
+.kopts span { color: #fff; font-weight: 800; font-size: .9rem; padding: 8px 10px; border-radius: 10px; text-align: center; }
 

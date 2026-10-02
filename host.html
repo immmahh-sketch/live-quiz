@@ -417,7 +417,7 @@ function stateForPlayers() {
       const g = G.q.koth, q = question(), frow = g.fff ? kothRow(g.fff.row) : null, hrow = g.h2h ? kothRow(g.h2h.row) : null;
       s.koth = { n: g.n, step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, target: q.target || 3, prize: q.prize ?? 1000, pts: g.pts, king: g.king, pair: g.pair, judges: kothJudges(), result: g.result, winner: g.winner,
         fff: frow && (g.step === 'fff' || g.step === 'fffShow') ? { row: rowForPhone(frow, g.next), eligible: g.fff.eligible, answered: Object.keys(g.fff.answered), through: g.fff.through, need: g.fff.need, right: g.step === 'fffShow' ? frow.right : null } : null,
-        h2h: hrow && ['h2h', 'noBuzz', 'answer', 'claxon', 'judge', 'result'].includes(g.step) ? { text: hrow.text, buzz: g.h2h.buzz, answer: ['noBuzz', 'judge', 'result'].includes(g.step) ? hrow.right : null } : null };
+        h2h: hrow && ['h2h', 'noBuzz', 'answer', 'claxon', 'judge', 'result'].includes(g.step) ? { text: hrow.text, opts: (hrow.options || []).map((o) => ({ t: o.text, c: o.c })), buzz: g.h2h.buzz, answer: ['noBuzz', 'judge', 'result'].includes(g.step) ? hrow.right : null } : null };
     }
     if (G.q.bb) {
       const g = G.q.bb, q = question();
@@ -1604,6 +1604,9 @@ function botKothBuzz() {
     kothAnswer(b.pid, { buzz: true });
   }, 1200 + b.pace * rnd(1500, 6000));
 }
+/** King of the Hill head to head: the question's options on screen (user, 2 Oct 2026: the questions were too hard
+ *  without them). Still buzz first and say the answer out loud for the host to judge; the right one lights at the end. */
+function kothOpts(row, reveal) { return (row.options || []).length ? `<div class="answers khopts">${row.options.map((o) => `<div class="ans ${reveal && !isRight(row, o.k) ? 'dim' : ''}" style="background:${COLORS[o.c].hex}"><span class="shape">${COLORS[o.c].shape}</span>${esc(o.text)}</div>`).join('')}</div>` : ''; }
 function renderKoth() {
   const q = question(), g = G.q.koth; if (!g) return;
   const target = q.target || 3;
@@ -1626,13 +1629,13 @@ function renderKoth() {
     main = `${vs()}<div class="ri-num kcountbig" data-n="${g.n}">${g.n}</div>`;
   } else if (g.step === 'h2h' || g.step === 'noBuzz') {
     const row = kothRow(g.h2h.row);
-    main = `${vs()}<h1 class="qtext khq">${esc(row.text)}</h1>${g.step === 'noBuzz' ? `<div class="kanswer">Nobody buzzed. It was <b>${esc(row.right)}</b></div>` : '<div class="kbuzzcall">🔴 BUZZ on your phone!</div>'}`;
+    main = `${vs()}<h1 class="qtext khq">${esc(row.text)}</h1>${kothOpts(row, g.step === 'noBuzz')}${g.step === 'noBuzz' ? `<div class="kanswer">Nobody buzzed. It was <b>${esc(row.right)}</b></div>` : '<div class="kbuzzcall">🔴 BUZZ on your phone!</div>'}`;
   } else if (g.step === 'answer' || g.step === 'claxon') {
     const row = kothRow(g.h2h.row);
-    main = `${vs()}<h1 class="qtext khq">${esc(row.text)}</h1>${g.step === 'answer' ? `<div class="kbuzzed">${pem(g.h2h.buzz)} <b>${esc(pname(g.h2h.buzz))}</b> buzzed! Answer out loud… <span class="kcount" id="kothCount">${Math.max(0, Math.ceil((g.until - Date.now()) / 1000))}</span></div>` : '<div class="kclaxon">⏰ TIME!</div>'}`;
+    main = `${vs()}<h1 class="qtext khq">${esc(row.text)}</h1>${kothOpts(row, false)}${g.step === 'answer' ? `<div class="kbuzzed">${pem(g.h2h.buzz)} <b>${esc(pname(g.h2h.buzz))}</b> buzzed! Answer out loud… <span class="kcount" id="kothCount">${Math.max(0, Math.ceil((g.until - Date.now()) / 1000))}</span></div>` : '<div class="kclaxon">⏰ TIME!</div>'}`;
   } else if (g.step === 'judge') {
     const row = kothRow(g.h2h.row);
-    main = `${vs()}<h1 class="qtext khq">${esc(row.text)}</h1><div class="kanswer">✔ ${esc(row.right)}</div>${g.h2h.says ? `<div class="kbot">🤖 ${esc(pname(g.h2h.buzz))} said: <b>${esc(g.h2h.says)}</b></div>` : ''}<div class="kjudge"><span>Did <b>${esc(pname(g.h2h.buzz))}</b> get it?</span><button class="btn kyes" id="kYes">✅ Correct</button><button class="btn kno" id="kNo">❌ Incorrect</button></div>`;
+    main = `${vs()}<h1 class="qtext khq">${esc(row.text)}</h1>${kothOpts(row, true)}<div class="kanswer">✔ ${esc(row.right)}</div>${g.h2h.says ? `<div class="kbot">🤖 ${esc(pname(g.h2h.buzz))} said: <b>${esc(g.h2h.says)}</b></div>` : ''}<div class="kjudge"><span>Did <b>${esc(pname(g.h2h.buzz))}</b> get it?</span><button class="btn kyes" id="kYes">✅ Correct</button><button class="btn kno" id="kNo">❌ Incorrect</button></div>`;
   } else if (g.step === 'result') {
     const r = g.result;
     main = `${vs()}<div class="kresult ${r.ok ? 'ok' : 'no'}">${r.ok ? `✅ ${esc(pname(r.pid))} is right! <b>${g.pts[r.pid]} / ${target}</b>` : `❌ ${esc(pname(r.pid))} is wrong and leaves the hill`}</div><div class="kthrough">${esc(pname(g.king))} stays on 👑 · ${esc(pname(r.out))} is off. Next: fastest finger for a new challenger…</div>`;
@@ -3026,7 +3029,7 @@ function renderFinal() {
       <div class="podium">${pod(1, 'p2')}${pod(0, 'p1')}${pod(2, 'p3')}</div>
       ${rk.length > 3 ? `<div class="textlist">${rk.slice(3, 15).map((p, i) => `<span class="tl">${i + 4}. ${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)} · ${p.score}</span>`).join('')}</div>` : ''}
       <p class="small clicktip" style="opacity:.5;margin-top:10px">Players can be removed from the scoreboard during the game by clicking their name.</p></div>
-    ${hostBar(`<a class="btn btn-ghost ${G.reportId ? '' : 'hidden'}" id="reportBtn" href="index.html?game=${G.reportId || ''}" target="_blank">📊 Report</a><button class="btn btn-ghost" data-act="builder">${TV ? '🏠 Home' : PREVIEW ? 'Close preview' : 'Back to builder'}</button>${G.quizId && !PREVIEW ? '<button class="btn btn-ghost" data-act="restock" title="Just testing? Put every question back into the bank as unused and delete this quiz">↩ Return questions to the bank</button>' : ''}<button class="btn btn-primary" data-act="again">Play again ↻</button>`)}`;
+    ${hostBar(`<a class="btn btn-ghost ${G.reportId ? '' : 'hidden'}" id="reportBtn" href="index.html?game=${G.reportId || ''}" target="_blank">📊 Report</a><button class="btn btn-ghost" data-act="builder">${TV ? '🏠 Home' : PREVIEW ? 'Close preview' : 'Back to builder'}</button>${G.quizId && !PREVIEW && (G.test || players().every((p) => p.id.startsWith('p_bot'))) ? '<button class="btn btn-ghost" data-act="restock" title="Just testing? Put every question back into the bank as unused and delete this quiz">↩ Return questions to the bank</button>' : ''}<button class="btn btn-primary" data-act="again">Play again ↻</button>`)}`;
   bind();
 }
 function confetti() {
