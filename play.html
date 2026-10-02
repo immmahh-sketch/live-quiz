@@ -118,7 +118,21 @@ function connect() {
   clearInterval(watchdogT); watchdogT = setInterval(watchdog, 1500);
 }
 function hello() { send('hello', { pid: P.pid, name: P.name, emoji: P.emoji, ...(P.test ? { test: true } : {}) }); }
-function leave() { if (window.PhoneCam && PhoneCam.state !== 'off') PhoneCam.stop('left the game'); try { localStorage.removeItem('lq_call_on'); } catch {} try { sb.removeChannel(ch); } catch {} ch = null; P.joined = false; P.state = null; P.viewKey = ''; }
+// ---- the phone stays awake while it is in a game ----
+// A phone that locks itself mid-game drops off the quiz call (and its camera stops). The Screen Wake Lock (Safari 16.4+,
+// iPhone home-screen apps from iOS 18.4) keeps it on while it is in a game; asked for again whenever the page comes
+// back into view, and on any tap (some phones want one).
+let wakeLock = null, wakeAsking = false;
+async function keepAwake() {
+  if (!P.joined || document.hidden || wakeLock || wakeAsking || !('wakeLock' in navigator)) return;
+  wakeAsking = true;
+  try { wakeLock = await navigator.wakeLock.request('screen'); wakeLock.addEventListener('release', () => { wakeLock = null; }); } catch {}
+  wakeAsking = false;
+}
+function letSleep() { if (wakeLock) { wakeLock.release().catch(() => {}); wakeLock = null; } }
+document.addEventListener('visibilitychange', () => { if (!document.hidden) keepAwake(); });
+document.addEventListener('pointerdown', () => keepAwake(), { passive: true });
+function leave() { letSleep(); if (window.PhoneCam && PhoneCam.state !== 'off') PhoneCam.stop('left the game'); try { localStorage.removeItem('lq_call_on'); } catch {} try { sb.removeChannel(ch); } catch {} ch = null; P.joined = false; P.state = null; P.viewKey = ''; }
 function onState(s) {
   if (!s || typeof s.phase !== 'string') return;
   P.state = s; P.receivedAt = Date.now(); P.hostSeen = Date.now();
@@ -126,6 +140,7 @@ function onState(s) {
   syncPauseUi(s);
   syncCallBar(s);
   if (!P.joined) { P.joined = true; clearInterval(helloT); }
+  keepAwake();
   if (s.phase === 'question' && typeof s.remainingMs === 'number') P.deadline = Date.now() + (s.wipe ? s.wipe.remainingMs : s.remainingMs);
   if (Array.isArray(s.answered) && s.answered.includes(P.pid)) P.answered[s.q?.id] = true;
   render();
