@@ -15,7 +15,7 @@ window.PhoneCam = (() => {
   'use strict';
   const RTC = LQ.SUPABASE_URL + '/functions/v1/gather-rtc';
   const STUN = [{ urls: 'stun:stun.cloudflare.com:3478' }, { urls: ['stun:stun.l.google.com:19302'] }];
-  const S = { state: 'off', error: '', room: '', pass: '', name: '', key: '', stream: null, pc: null, sessionId: null, published: [], supa: null, channel: null, micOn: false, camOn: true, retry: 0, audioSender: null, micWatch: null, micState: 'live', micFixes: 0, fixing: false };
+  const S = { state: 'off', error: '', room: '', pass: '', name: '', key: '', stream: null, pc: null, sessionId: null, published: [], supa: null, channel: null, micOn: false, camOn: true, retry: 0, audioSender: null, videoSender: null, fixFails: 0, micWatch: null, micState: 'live', micFixes: 0, fixing: false };
   const listeners = new Set();
   const emit = () => listeners.forEach((fn) => { try { fn(S); } catch {} });
   const set = (state, error = '') => { S.state = state; S.error = error; emit(); };
@@ -65,7 +65,7 @@ window.PhoneCam = (() => {
     const out = [];
     const a = S.stream.getAudioTracks()[0], v = S.stream.getVideoTracks()[0];
     if (a) { const tr = pc.addTransceiver(a, { direction: 'sendonly' }); S.audioSender = tr.sender; out.push({ tr, name: 'mic' }); }
-    if (v) out.push({ tr: pc.addTransceiver(v, { direction: 'sendonly', sendEncodings: [{ rid: 'h', maxBitrate: 500000 }, { rid: 'q', scaleResolutionDownBy: 2, maxBitrate: 150000 }] }), name: 'cam' });
+    if (v) { const tr = pc.addTransceiver(v, { direction: 'sendonly', sendEncodings: [{ rid: 'h', maxBitrate: 500000 }, { rid: 'q', scaleResolutionDownBy: 2, maxBitrate: 150000 }] }); S.videoSender = tr.sender; out.push({ tr, name: 'cam' }); }
     const offer = await pc.createOffer();
     await pc.setLocalDescription(offer);
     const res = await api('/sessions/' + S.sessionId + '/tracks/new', 'POST', { sessionDescription: { type: 'offer', sdp: offer.sdp }, tracks: out.map((o) => ({ location: 'local', mid: o.tr.mid, trackName: o.name })) });
@@ -86,33 +86,41 @@ window.PhoneCam = (() => {
     S.channel.subscribe((status) => { if (status === 'SUBSCRIBED') track(); });
   }
 
-  // ---- keeping the mic alive ----
-  // A phone can take its microphone back from the page without saying so: an iPhone does when something else claims the
-  // sound (the camera goes on, the mic quietly sends silence). The track then reads muted (or ended), so it is watched:
-  // after a couple of seconds like that a fresh mic is asked for and slotted into the call, with no new connection.
+  // ---- push to talk, and keeping the camera and mic alive ----
+  // Push to talk never switches the microphone track off. An iPhone answers a disabled mic by quietly closing it (to
+  // clear its orange dot), and asking for it again then ends the camera too. So the mic keeps running and is simply
+  // not sent while 🎤 is up: the sender carries no track (replaceTrack(null)), then the mic again while it is held.
+  // A phone can still take its camera or mic back for its own reasons (a phone call, another app): the tracks are
+  // watched, and after a couple of seconds like that both are asked for afresh together and slotted into the call,
+  // with no new connection and no dropping the player.
   const micTrack = () => S.stream?.getAudioTracks()[0] || null;
+  const camTrack = () => S.stream?.getVideoTracks()[0] || null;
+  const bad = (t) => !t || t.readyState === 'ended' || t.muted;
   function micStateNow() { const t = micTrack(); return !t ? 'none' : t.readyState === 'ended' ? 'ended' : t.muted ? 'muted' : 'live'; }
-  async function fixMic() {
-    if (S.fixing || S.state !== 'live' || !S.audioSender) return;
+  async function sendMic() { try { if (S.audioSender) await S.audioSender.replaceTrack(S.micOn ? micTrack() : null); } catch {} }
+  async function fixMedia() {
+    if (S.fixing || S.state !== 'live') return;
     S.fixing = true;
     try {
-      const fresh = (await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } })).getAudioTracks()[0];
-      if (!fresh) return;
-      fresh.enabled = S.micOn;
-      await S.audioSender.replaceTrack(fresh);
-      const old = micTrack(); if (old) { S.stream.removeTrack(old); try { old.stop(); } catch {} }
-      S.stream.addTrack(fresh); watchTrack(fresh);
+      const fresh = await media();
+      const a = fresh.getAudioTracks()[0], v = fresh.getVideoTracks()[0];
+      const oldA = micTrack(), oldV = camTrack();
+      if (a) { S.stream.addTrack(a); watchTrack(a); if (oldA) { S.stream.removeTrack(oldA); try { oldA.stop(); } catch {} } }
+      if (v) { v.enabled = S.camOn; S.stream.addTrack(v); watchTrack(v); if (oldV) { S.stream.removeTrack(oldV); try { oldV.stop(); } catch {} } if (S.videoSender) await S.videoSender.replaceTrack(v); }
+      await sendMic();
       S.micFixes++; S.micState = micStateNow(); track(); emit();
-    } catch {} finally { S.fixing = false; }
+    } catch (e) { S.fixFails = (S.fixFails || 0) + 1; if (S.fixFails >= 3) { stop(); set('error', 'The phone took the camera back. Tap Try again to start it again.'); } }
+    finally { S.fixing = false; }
   }
   function watchTrack(t) { const note = () => { S.micState = micStateNow(); track(); }; t.addEventListener('mute', note); t.addEventListener('unmute', note); t.addEventListener('ended', note); }
-  function watchMic() {
+  function watchMedia() {
     clearInterval(S.micWatch); let badSince = 0;
     S.micWatch = setInterval(() => {
-      if (S.state !== 'live') return;
+      if (S.state !== 'live' || S.fixing) return;
       const st = micStateNow(); if (st !== S.micState) { S.micState = st; track(); }
-      if (st === 'live') { badSince = 0; return; }
-      if (!badSince) badSince = Date.now(); else if (Date.now() - badSince > 2000) { badSince = Date.now(); fixMic(); }
+      // the camera only counts while it is meant to be on (a camera switched off by the player is not broken)
+      if (!bad(micTrack()) && !(S.camOn && bad(camTrack()))) { badSince = 0; S.fixFails = 0; return; }
+      if (!badSince) badSince = Date.now(); else if (Date.now() - badSince > 2000) { badSince = Date.now(); fixMedia(); }
     }, 1000);
   }
 
@@ -134,24 +142,22 @@ window.PhoneCam = (() => {
       // Tell an iPhone this page records and plays at once, so playing a sound never takes the mic away (Safari 16.4+).
       try { if (navigator.audioSession) navigator.audioSession.type = 'play-and-record'; } catch {}
       S.stream = await media();
-      S.stream.getAudioTracks().forEach(watchTrack);
-      S.stream.getAudioTracks().forEach((t) => { t.enabled = false; }); // muted until they tap 🎤 (no echo from the TV)
-      // If the phone takes the camera back (a call, the app sent to the background), say so and offer to restart.
-      S.stream.getVideoTracks().forEach((t) => t.addEventListener('ended', () => { if (S.state === 'live') { stop(); set('error', 'The camera stopped. Tap the camera to start it again.'); } }));
+      S.stream.getTracks().forEach(watchTrack);
       await publish();
-      S.state = 'live'; S.micState = micStateNow(); emit();
-      announce(); watchMic();
+      await sendMic(); // nothing goes out until 🎤 is held (no echo from the TV)
+      S.state = 'live'; S.micState = micStateNow(); S.fixFails = 0; emit();
+      announce(); watchMedia();
     } catch (e) { stop(); set('error', e.message); }
   }
   function stop() {
-    clearInterval(S.micWatch); S.micWatch = null; S.audioSender = null;
+    clearInterval(S.micWatch); S.micWatch = null; S.audioSender = null; S.videoSender = null;
     closePc();
     if (S.stream) S.stream.getTracks().forEach((t) => t.stop());
     S.stream = null;
     if (S.channel) { try { S.channel.untrack(); S.supa.removeChannel(S.channel); } catch {} S.channel = null; }
     set('off');
   }
-  function setMic(on) { S.micOn = !!on; if (S.stream) S.stream.getAudioTracks().forEach((t) => { t.enabled = S.micOn; }); track(); emit(); }
+  function setMic(on) { S.micOn = !!on; sendMic(); track(); emit(); }
   function setCam(on) { S.camOn = !!on; if (S.stream) S.stream.getVideoTracks().forEach((t) => { t.enabled = S.camOn; }); track(); emit(); }
   /** A fresh pass from the host (they are good for 12 hours; the host sends a new one before then). */
   function refreshPass(pass) { if (pass) S.pass = pass; }
