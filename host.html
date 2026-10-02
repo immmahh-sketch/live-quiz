@@ -2565,13 +2565,15 @@ async function bonusModal() {
   } catch {}
   const norm = (x) => String(x || '').toLowerCase().replace(/[^a-z0-9]/g, '');
   const real = () => players().filter((p) => !p.id.startsWith('p_bot')).sort((a, b) => a.name.localeCompare(b.name));
-  const lead = leaders[0], leadPid = lead ? real().find((p) => norm(p.name) === norm(lead.name))?.id : null;
+  // Shown, never chosen for the host (user's rule, 2 Oct 2026): two players can share a name, and if the winner
+  // doesn't join the bonus goes to the next highest. So each of the warm-up's top five says whether they are here.
+  const here = (w) => real().filter((p) => norm(p.name) === norm(w.name)).length;
   const draw = () => {
     const m = $('.modal', bg), ps = real();
     m.innerHTML = `<h3>🎁 Bonus points</h3>
-      ${lead ? `<div class="notice">🥇 Warm-up winner: <b>${esc(lead.emoji || '')} ${esc(lead.name)}</b> with ${lead.score} points${leadPid ? ' · in this game' : ' · <b>not in this game yet</b> (or joined under another name)'}${leaders.length > 1 ? `<br><span class="small">Then ${leaders.slice(1, 4).map((p) => `${esc(p.name)} ${p.score}`).join(' · ')}</span>` : ''}</div>` : '<p class="muted small">No warm-up scores yet.</p>'}
-      ${ps.length ? `<div class="field"><label>Who</label><select id="bn_who">${ps.map((p) => `<option value="${p.id}" ${p.id === leadPid ? 'selected' : ''}>${esc(p.emoji || '')} ${esc(p.name)}${p.bonus ? ` (has ${p.bonus > 0 ? '+' : ''}${p.bonus})` : ''}</option>`).join('')}</select></div>
-      <div class="row"><div class="field grow"><label>Points</label><input type="number" id="bn_pts" value="1000" step="100" min="-5000" max="10000"></div><div class="field grow"><label>Why (shown on the screen)</label><input type="text" id="bn_why" value="${leadPid ? 'Warm-up winner' : 'Bonus'}" maxlength="40"></div></div>` : '<p class="muted">Nobody has joined yet. Players need to be in the game first.</p>'}
+      ${leaders.length ? `<div class="notice"><b>🏆 Warm-up top scores</b> <span class="small">(give the bonus to the highest one here)</span>${leaders.map((w, k) => { const n = here(w); return `<div class="small" style="margin-top:4px">${['🥇', '🥈', '🥉', '4.', '5.'][k]} <b>${esc(w.emoji || '')} ${esc(w.name)}</b> ${w.score} · ${n === 1 ? '<span style="color:#1a7f37;font-weight:800">in this game</span>' : n > 1 ? `<span style="color:#b3261e;font-weight:800">⚠ ${n} players with this name: check which</span>` : '<span class="muted">not here</span>'}</div>`; }).join('')}</div>` : '<p class="muted small">No warm-up scores yet.</p>'}
+      ${ps.length ? `<div class="field"><label>Who</label><select id="bn_who"><option value="" selected disabled>Choose who gets it…</option>${ps.map((p) => `<option value="${p.id}">${esc(p.emoji || '')} ${esc(p.name)}${p.bonus ? ` (has ${p.bonus > 0 ? '+' : ''}${p.bonus})` : ''}</option>`).join('')}</select></div>
+      <div class="row"><div class="field grow"><label>Points</label><input type="number" id="bn_pts" value="1000" step="100" min="-5000" max="10000"></div><div class="field grow"><label>Why (shown on the screen)</label><input type="text" id="bn_why" value="Warm-up bonus" maxlength="40"></div></div>` : '<p class="muted">Nobody has joined yet. Players need to be in the game first.</p>'}
       ${(G.bonuses || []).length ? `<div class="field"><label>Given so far</label>${G.bonuses.map((b, i) => `<div class="row" style="padding:4px 0"><span>${esc(b.name)} <b>${b.pts > 0 ? '+' : ''}${b.pts}</b> <span class="muted small">${esc(b.why)}</span></span><div class="grow"></div><button class="btn btn-ghost btn-sm" data-undo="${i}" style="color:var(--ink)">Take back</button></div>`).join('')}</div>` : ''}
       <div class="row" style="justify-content:flex-end"><button class="btn btn-ghost" data-x style="color:var(--ink)">Done</button>${ps.length ? '<button class="btn btn-primary" data-give style="background:var(--brand);color:#fff">Give the points</button>' : ''}</div>`;
     $('[data-x]', m).onclick = () => { bg.remove(); if (G.phase === 'lobby') renderLobby(); };
@@ -2583,7 +2585,8 @@ async function bonusModal() {
     const give = $('[data-give]', m);
     if (give) give.onclick = () => {
       const p = G.players[$('#bn_who', m).value], pts = Math.round(+$('#bn_pts', m).value || 0), why = $('#bn_why', m).value.trim() || 'Bonus';
-      if (!p || !pts) return;
+      if (!p) { toast('Choose who gets it first', true); return; }
+      if (!pts) return;
       p.score += pts; p.bonus = (p.bonus || 0) + pts;
       (G.bonuses = G.bonuses || []).push({ pid: p.id, name: p.name, pts, why, at: Date.now() });
       persist(); broadcastState(); if (G.phase === 'lobby') renderLobbyPlayers();
