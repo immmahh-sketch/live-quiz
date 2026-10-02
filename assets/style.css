@@ -1210,9 +1210,9 @@ body.camlayer .stage-top { padding-right: var(--cam-w); min-height: calc(var(--c
 body.camlayer .stage-top .pillbox { flex-wrap: wrap; row-gap: 8px; }
 .camtile { position: fixed; top: 12px; right: 12px; width: var(--cam-w, 14vw); aspect-ratio: 1; border-radius: 50%; overflow: hidden; background: #0b0820; z-index: 62; pointer-events: none;
   box-shadow: 0 10px 30px rgba(0,0,0,.45), 0 0 0 3px rgba(255,255,255,.14); opacity: 0; transform: scale(.94); transition: opacity .6s ease, transform .6s ease; }
-.camtile.show { opacity: 1; transform: none; transition-duration: .25s; }
+.camtile.show { opacity: 1; transform: none; transition-duration: .12s; } /* quick in: the voice is already heard */
 .camtile.host { box-shadow: 0 10px 30px rgba(0,0,0,.45), 0 0 0 3px var(--sun); }
-.camlayer-v { position: absolute; inset: 0; opacity: 0; transition: opacity .3s ease; }
+.camlayer-v { position: absolute; inset: 0; opacity: 0; transition: opacity .15s ease; }
 .camlayer-v.front { opacity: 1; }
 .camlayer-v canvas { width: 100%; height: 100%; display: block; background: #000; }
 .camcard { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; }
