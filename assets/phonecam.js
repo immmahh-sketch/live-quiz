@@ -8,8 +8,9 @@
 // screen in the game state (s.call), signed with the host password; gather-rtc accepts it for the call routes only.
 //
 // Nothing shows on the phone but a slim bar (play.html syncCallBar): the game screen stays as it is. Camera and mic
-// both start on; each has its own on/off button. (A phone next to a TV playing the call can send the TV's sound back,
-// since its echo cancelling only knows what the phone itself plays: the mic button is the cure.)
+// The camera starts on and the mic starts muted (user's choice, 2 Oct 2026): a phone next to a TV playing the call
+// would send the TV's sound back to everyone, since its echo cancelling only knows what the phone itself plays. Each
+// has its own on/off button, so a player taps 🎤 to talk.
 window.PhoneCam = (() => {
   'use strict';
   const RTC = LQ.SUPABASE_URL + '/functions/v1/gather-rtc';
@@ -97,10 +98,11 @@ window.PhoneCam = (() => {
   /** Puts this phone on the call: { room, pass } from the host screen, the player's name and id. */
   async function start({ room, pass, name, pid }) {
     if (S.state === 'joining' || S.state === 'live') return;
-    Object.assign(S, { room, pass, name: String(name || 'Player').slice(0, 30), key: 'lqp-' + pid, retry: 0, micOn: true, camOn: true });
+    Object.assign(S, { room, pass, name: String(name || 'Player').slice(0, 30), key: 'lqp-' + pid, retry: 0, micOn: false, camOn: true });
     set('joining');
     try {
       S.stream = await media();
+      S.stream.getAudioTracks().forEach((t) => { t.enabled = false; }); // muted until they tap 🎤 (no echo from the TV)
       // If the phone takes the camera back (a call, the app sent to the background), say so and offer to restart.
       S.stream.getVideoTracks().forEach((t) => t.addEventListener('ended', () => { if (S.state === 'live') { stop(); set('error', 'The camera stopped. Tap the camera to start it again.'); } }));
       await publish();
