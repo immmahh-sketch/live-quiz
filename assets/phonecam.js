@@ -15,7 +15,7 @@ window.PhoneCam = (() => {
   'use strict';
   const RTC = LQ.SUPABASE_URL + '/functions/v1/gather-rtc';
   const STUN = [{ urls: 'stun:stun.cloudflare.com:3478' }, { urls: ['stun:stun.l.google.com:19302'] }];
-  const S = { state: 'off', error: '', room: '', pass: '', name: '', key: '', stream: null, pc: null, sessionId: null, published: [], supa: null, channel: null, micOn: false, camOn: true, retry: 0, audioSender: null, videoSender: null, fixFails: 0, micWatch: null, micState: 'live', micFixes: 0, fixing: false };
+  const S = { state: 'off', error: '', room: '', pass: '', name: '', key: '', stream: null, pc: null, sessionId: null, published: [], supa: null, channel: null, micOn: false, camOn: true, retry: 0, audioSender: null, videoSender: null, fixFails: 0, pressedAt: 0, micWatch: null, micState: 'live', micFixes: 0, fixing: false };
   const listeners = new Set();
   const emit = () => listeners.forEach((fn) => { try { fn(S); } catch {} });
   const set = (state, error = '') => { S.state = state; S.error = error; emit(); };
@@ -75,7 +75,7 @@ window.PhoneCam = (() => {
     if (!S.published.length) throw new Error('The call would not take the camera');
     pc.onconnectionstatechange = () => { if (pc === S.pc && pc.connectionState === 'failed' && S.state === 'live') reconnect(); };
     // Push to talk holds on every connection, a reconnect's too: nothing goes out until 🎤 is held.
-    await sendMic();
+    sendMic();
     await waitConnected(pc, 15000);
   }
 
@@ -89,17 +89,18 @@ window.PhoneCam = (() => {
   }
 
   // ---- push to talk, and keeping the camera and mic alive ----
-  // Push to talk never switches the microphone track off. An iPhone answers a disabled mic by quietly closing it (to
-  // clear its orange dot), and asking for it again then ends the camera too. So the mic keeps running and is simply
-  // not sent while 🎤 is up: the sender carries no track (replaceTrack(null)), then the mic again while it is held.
-  // A phone can still take its camera or mic back for its own reasons (a phone call, another app): the tracks are
-  // watched, and after a couple of seconds like that both are asked for afresh together and slotted into the call,
-  // with no new connection and no dropping the player.
+  // Push to talk switches the mic track on while 🎤 is held and off when it is let go. That is what an iPhone expects:
+  // a switched-off mic is closed by the phone (its orange dot goes) and comes back by itself when switched on again.
+  // So a muted mic while 🎤 is up is normal and left alone. (Two things that did not work on an iPhone: treating that
+  // mute as broken and asking for the mic again, which killed the camera; and leaving the mic on but unsent, which the
+  // phone took for unused and shut down every minute or so, dropping the call.)
+  // What is healed: the camera dying while it is meant to be on, or the mic still dead 2 s into a press. Both are then
+  // asked for afresh together and swapped into the call, with no new connection and no dropping the player.
   const micTrack = () => S.stream?.getAudioTracks()[0] || null;
   const camTrack = () => S.stream?.getVideoTracks()[0] || null;
-  const bad = (t) => !t || t.readyState === 'ended' || t.muted;
+  const dead = (t) => !t || t.readyState === 'ended' || t.muted;
   function micStateNow() { const t = micTrack(); return !t ? 'none' : t.readyState === 'ended' ? 'ended' : t.muted ? 'muted' : 'live'; }
-  async function sendMic() { try { if (S.audioSender) await S.audioSender.replaceTrack(S.micOn ? micTrack() : null); } catch {} }
+  function sendMic() { const t = micTrack(); if (t) t.enabled = S.micOn; }
   async function fixMedia() {
     if (S.fixing || S.state !== 'live') return;
     S.fixing = true;
@@ -107,9 +108,8 @@ window.PhoneCam = (() => {
       const fresh = await media();
       const a = fresh.getAudioTracks()[0], v = fresh.getVideoTracks()[0];
       const oldA = micTrack(), oldV = camTrack();
-      if (a) { S.stream.addTrack(a); watchTrack(a); if (oldA) { S.stream.removeTrack(oldA); try { oldA.stop(); } catch {} } }
-      if (v) { v.enabled = S.camOn; S.stream.addTrack(v); watchTrack(v); if (oldV) { S.stream.removeTrack(oldV); try { oldV.stop(); } catch {} } if (S.videoSender) await S.videoSender.replaceTrack(v); }
-      await sendMic();
+      if (a) { a.enabled = S.micOn; S.stream.addTrack(a); watchTrack(a); if (S.audioSender) await S.audioSender.replaceTrack(a); if (oldA) { S.stream.removeTrack(oldA); try { oldA.stop(); } catch {} } }
+      if (v) { v.enabled = S.camOn; S.stream.addTrack(v); watchTrack(v); if (S.videoSender) await S.videoSender.replaceTrack(v); if (oldV) { S.stream.removeTrack(oldV); try { oldV.stop(); } catch {} } }
       S.micFixes++; S.micState = micStateNow(); track(); emit();
     } catch (e) { S.fixFails = (S.fixFails || 0) + 1; if (S.fixFails >= 3) { stop(); set('error', 'The phone took the camera back. Tap Try again to start it again.'); } }
     finally { S.fixing = false; }
@@ -120,8 +120,9 @@ window.PhoneCam = (() => {
     S.micWatch = setInterval(() => {
       if (S.state !== 'live' || S.fixing) return;
       const st = micStateNow(); if (st !== S.micState) { S.micState = st; track(); }
-      // the camera only counts while it is meant to be on (a camera switched off by the player is not broken)
-      if (!bad(micTrack()) && !(S.camOn && bad(camTrack()))) { badSince = 0; S.fixFails = 0; return; }
+      const m = micTrack(), c = camTrack();
+      const broken = !m || m.readyState === 'ended' || (S.micOn && m.muted && Date.now() - S.pressedAt > 2000) || (S.camOn && dead(c));
+      if (!broken) { badSince = 0; S.fixFails = 0; return; }
       if (!badSince) badSince = Date.now(); else if (Date.now() - badSince > 2000) { badSince = Date.now(); fixMedia(); }
     }, 1000);
   }
@@ -158,7 +159,7 @@ window.PhoneCam = (() => {
     if (S.channel) { try { S.channel.untrack(); S.supa.removeChannel(S.channel); } catch {} S.channel = null; }
     set('off');
   }
-  function setMic(on) { S.micOn = !!on; sendMic(); track(); emit(); }
+  function setMic(on) { S.micOn = !!on; if (S.micOn) S.pressedAt = Date.now(); sendMic(); track(); emit(); }
   function setCam(on) { S.camOn = !!on; if (S.stream) S.stream.getVideoTracks().forEach((t) => { t.enabled = S.camOn; }); track(); emit(); }
   /** A fresh pass from the host (they are good for 12 hours; the host sends a new one before then). */
   function refreshPass(pass) { if (pass) S.pass = pass; }
