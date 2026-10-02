@@ -19,6 +19,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="assets/common.js"></script>
+<script src="assets/phonecam.js"></script>
 <script>
 const { $, $$, esc, uid, TYPES, COLORS, store, ordinal } = LQ;
 const app = $('#app');
@@ -117,12 +118,13 @@ function connect() {
   clearInterval(watchdogT); watchdogT = setInterval(watchdog, 1500);
 }
 function hello() { send('hello', { pid: P.pid, name: P.name, emoji: P.emoji, ...(P.test ? { test: true } : {}) }); }
-function leave() { try { sb.removeChannel(ch); } catch {} ch = null; P.joined = false; P.state = null; P.viewKey = ''; }
+function leave() { if (window.PhoneCam && PhoneCam.state !== 'off') PhoneCam.stop(); try { sb.removeChannel(ch); } catch {} ch = null; P.joined = false; P.state = null; P.viewKey = ''; }
 function onState(s) {
   if (!s || typeof s.phase !== 'string') return;
   P.state = s; P.receivedAt = Date.now(); P.hostSeen = Date.now();
   P.pausedRem = s.paused && s.phase === 'question' ? (s.wipe ? s.wipe.remainingMs : s.remainingMs) : null;
   syncPauseUi(s);
+  syncCallBar(s);
   if (!P.joined) { P.joined = true; clearInterval(helloT); }
   if (s.phase === 'question' && typeof s.remainingMs === 'number') P.deadline = Date.now() + (s.wipe ? s.wipe.remainingMs : s.remainingMs);
   if (Array.isArray(s.answered) && s.answered.includes(P.pid)) P.answered[s.q?.id] = true;
@@ -215,6 +217,41 @@ function syncReveal(s) {
   const off = new Set(r.off); box.querySelectorAll('.prvt i').forEach((t) => t.classList.toggle('off', off.has(+t.dataset.t)));
 }
 /** The pause veil over the phone, and in run-itself mode a small pause button in the corner. */
+// ---- the quiz call: while the host screen is on it (s.call), this phone can send its camera and mic to the room ----
+// Nothing of the call shows here but a slim bar at the top; the game screen stays as it is (assets/phonecam.js).
+let callGoneAt = 0;
+function callBarHtml() {
+  const st = PhoneCam.state;
+  if (st === 'live') return `<span class="cb-live">${PhoneCam.camOn || PhoneCam.micOn ? '🔴' : '⚪'}</span><span class="cb-text">${PhoneCam.camOn || PhoneCam.micOn ? 'Sending to the room' : 'Camera and mic off'}</span>
+    <button data-callact="cam" class="${PhoneCam.camOn ? 'on' : ''}" aria-pressed="${PhoneCam.camOn}">📹 ${PhoneCam.camOn ? 'On' : 'Off'}</button><button data-callact="mic" class="${PhoneCam.micOn ? 'on' : ''}" aria-pressed="${PhoneCam.micOn}">🎤 ${PhoneCam.micOn ? 'On' : 'Off'}</button>`;
+  if (st === 'joining') return '<span class="cb-text">Joining the call…</span>';
+  if (st === 'error') return `<span class="cb-text">⚠️ ${esc(PhoneCam.error)}</span><button data-callact="start">Try again</button>`;
+  return '<span class="cb-text">📹 Be seen and heard in the room</span><button data-callact="start" class="go">Turn on</button>';
+}
+function syncCallBar(s) {
+  if (!window.PhoneCam) return;
+  let bar = $('#callBar');
+  if (s?.call) { callGoneAt = 0; PhoneCam.refreshPass(s.call.pass); if (P.name) PhoneCam.rename(P.name); }
+  else if (PhoneCam.state !== 'off') {
+    // the host screen has left the call (allow a few seconds for a blip): stop sending
+    if (!callGoneAt) callGoneAt = Date.now();
+    else if (Date.now() - callGoneAt > 10000) { PhoneCam.stop(); toast('The quiz screen has left the call, so your camera and mic are off.'); }
+  }
+  const want = !!s?.call || PhoneCam.state !== 'off';
+  if (!want || !PhoneCam.supported()) { if (bar) bar.remove(); document.body.classList.remove('hascallbar'); return; }
+  if (!bar) { bar = document.createElement('div'); bar.id = 'callBar'; bar.className = 'callbar'; document.body.appendChild(bar); }
+  bar.classList.toggle('live', PhoneCam.state === 'live');
+  bar.innerHTML = callBarHtml();
+  document.body.classList.add('hascallbar');
+}
+if (window.PhoneCam) PhoneCam.onChange(() => syncCallBar(P.state));
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('[data-callact]'); if (!b || !window.PhoneCam) return;
+  const act = b.dataset.callact, c = P.state?.call;
+  if (act === 'start' && c) PhoneCam.start({ room: c.room, pass: c.pass, name: P.name, pid: P.pid });
+  if (act === 'cam') PhoneCam.setCam(!PhoneCam.camOn);
+  if (act === 'mic') PhoneCam.setMic(!PhoneCam.micOn);
+});
 function syncPauseUi(s) {
   let v = $('#pauseVeil');
   if (s.paused) {

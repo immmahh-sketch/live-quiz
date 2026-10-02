@@ -1365,3 +1365,14 @@ body.oncall.ptr-idle, body.oncall.ptr-idle * { cursor: none !important; }
 .pa-place { font-weight: 900; font-size: clamp(1.4rem, 2.6vw, 2.2rem); }
 .pa-where { margin-left: 12px; font-size: .6em; font-weight: 800; opacity: .75; padding: 2px 10px; border-radius: 99px; background: rgba(255,255,255,.12); vertical-align: middle; }
 .pa-info { margin-top: 6px; font-weight: 700; font-size: clamp(1rem, 1.7vw, 1.35rem); opacity: .9; line-height: 1.35; }
+/* the quiz call bar on a player's phone (play.html syncCallBar): slim, at the top, the game screen below it unchanged */
+.callbar { position: fixed; left: 0; right: 0; top: 0; z-index: 60; display: flex; align-items: center; gap: 6px; padding: calc(4px + env(safe-area-inset-top)) 10px 4px; min-height: 34px; background: #1b1544; color: #fff; font-size: .78rem; font-weight: 800; box-shadow: 0 2px 8px rgba(0,0,0,.2); }
+.callbar.live { background: #2a1f6e; }
+.callbar .cb-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.callbar .cb-live { animation: cbPulse 1.6s ease-in-out infinite; }
+@keyframes cbPulse { 50% { opacity: .35; } }
+.callbar button { flex: none; border: 0; border-radius: 99px; padding: 4px 10px; font: inherit; font-weight: 800; background: rgba(255,255,255,.14); color: #fff; cursor: pointer; }
+.callbar button.on { background: #26c281; }
+.callbar button.go { background: #ffd60a; color: #1b1544; }
+body.hascallbar .app { padding-top: calc(48px + env(safe-area-inset-top)); }
+

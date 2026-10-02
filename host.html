@@ -390,8 +390,23 @@ function send(event, payload) { if (ch && ch.state === 'joined') ch.send({ type:
 function startHeartbeat() { clearInterval(hbT); hbT = setInterval(broadcastState, 2000); }
 
 /** Everything a phone needs to draw its screen. Never the right answers. */
+// ------------------------------------------------------------------ phones on the call
+// While this screen is on the quiz call, players can put their own phone's camera and mic on the call too
+// (play.html + assets/phonecam.js): someone watching on a TV is then still seen and heard. They join Gather's server with
+// a pass signed here with the host password (gather-rtc quizPassOk): call routes only, for 12 hours.
+let callPass = '', callPassExp = 0, callPassP = null;
+async function makeCallPass() {
+  const pw = LQ.hostPassword(); if (!pw || !window.crypto?.subtle || WARMUP || DEMO) return;
+  const exp = String(Date.now() + 12 * 3600e3), te = new TextEncoder();
+  const k = await crypto.subtle.importKey('raw', te.encode(pw), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const sig = [...new Uint8Array(await crypto.subtle.sign('HMAC', k, te.encode('quizcall:' + exp)))].map((b) => b.toString(16).padStart(2, '0')).join('');
+  callPass = 'qt.' + exp + '.' + sig; callPassExp = +exp;
+}
+const onCall = () => !!window.QuizCall && (QuizCall.state === 'live' || QuizCall.state === 'reconnecting');
 function stateForPlayers() {
   const s = { phase: G.phase, code: G.code, qIndex: G.qIndex, num: qNum(G.qIndex), practice: G.qIndex >= 0 && practiceQ(), total: total(), more: G.qIndex + 1 < G.quiz.questions.length, title: G.quiz.title, now: Date.now(), auto: !!G.auto, paused: !!G.paused, ...(PREVIEW ? { preview: true } : {}), ...(G.test ? { test: true } : {}) };
+  // the call phones can join, while this screen is on it (a fresh pass well before the old one runs out)
+  if (onCall()) { if (callPassExp - Date.now() < 2 * 3600e3 && !callPassP) callPassP = makeCallPass().then(() => { if (callPass) broadcastState(); }).catch(() => {}).finally(() => { callPassP = null; }); if (callPass) s.call = { room: QuizCall.room, pass: callPass }; }
   const nowT = G.paused ? G.pausedAt : Date.now(); // a paused clock reads the same until it is picked up again
   if (G.phase === 'slide') { const q = question(); s.slide = { title: q.text || '', body: q.body || '', image: q.media?.kind === 'image' ? q.media.url || '' : '' }; if (G.brk) s.brk = { remainingMs: Math.max(0, G.brk.endsAt - nowT), totalMs: G.brk.totalMs }; }
   if (G.phase === 'question' && G.q) {
@@ -2440,6 +2455,7 @@ if (window.QuizCall) {
     if (QuizCall.state === 'off' || QuizCall.state === 'error') wantCallWindow = false;
     lastErr = QuizCall.state === 'error' ? QuizCall.error : QuizCall.state;
     document.body.classList.toggle('oncall', QuizCall.state === 'live' || QuizCall.state === 'reconnecting');
+    if (G) broadcastState(); // phones learn the call is on (or off), for their camera button
   });
 }
 // On the call, the pointer disappears as soon as it stops moving (the way a video player hides it), so the people
