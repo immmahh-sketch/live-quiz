@@ -54,7 +54,10 @@ function renderJoin(msg) {
     P.code = c; P.name = n; P.test = false; store('lq_player', { pid: P.pid, name: n, emoji: P.emoji });
     // TEST in front of a live game's code: join that game and make it a test game (ten bots, nothing saved).
     // TEST in front of a warm-up's code (TESTWARMUP) goes to the warm-up instead, found by the check below.
-    if (/^TEST[A-Z0-9]{6}$/.test(c)) { P.code = c.slice(4); P.test = true; }
+    // VIEW in front of a live game's code: play along as the players see it and get a score, but never be a player
+    // (no lobby, no leaderboard, no name anywhere for anyone else). A viewer id of its own, so it can't be a player too.
+    if (/^VIEW[A-Z0-9]{6}$/.test(c)) { P.code = c.slice(4); P.view = true; P.pid = 'p_vw' + P.pid.replace(/^p_/, '').slice(0, 8); }
+    else if (/^TEST[A-Z0-9]{6}$/.test(c)) { P.code = c.slice(4); P.test = true; }
     // A live game's code is always six characters; anything else can only be a warm-up (TESTWARMUP, say)
     else if (c.length !== 6) {
       LQ.api('warmup_open', { code: c, peek: true }, { timeout: 8000 }).then(() => { location.href = 'warmup?c=' + encodeURIComponent(c); })
@@ -110,14 +113,14 @@ function connect() {
   ch.on('broadcast', { event: 'kick' }, ({ payload }) => { if (payload.pid === P.pid) { clearInterval(watchdogT); leave(); P.code = ''; renderJoin(payload.why ? String(payload.why).slice(0, 160) : 'The host has removed you from the game. You can join again if that was a mistake.'); } });
   ch.subscribe(async (status) => {
     if (status === 'SUBSCRIBED') {
-      await ch.track({ role: 'player', pid: P.pid, name: P.name, emoji: P.emoji });
+      await ch.track({ role: P.view ? 'viewer' : 'player', pid: P.pid, name: P.name, emoji: P.emoji });
       hello(); clearInterval(helloT); helloT = setInterval(() => { if (!P.joined) hello(); }, 2000);
       setTimeout(() => { if (!P.joined) { clearInterval(helloT); leave(); renderJoin('No game found with that code. Check the screen — the host needs to have the game open.'); } }, 9000);
     } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') { toast('Connection trouble — retrying…', true); }
   });
   clearInterval(watchdogT); watchdogT = setInterval(watchdog, 1500);
 }
-function hello() { send('hello', { pid: P.pid, name: P.name, emoji: P.emoji, ...(P.test ? { test: true } : {}) }); }
+function hello() { send('hello', { pid: P.pid, name: P.name, emoji: P.emoji, ...(P.test ? { test: true } : {}), ...(P.view ? { view: true } : {}) }); }
 // ---- the phone stays awake while it is in a game ----
 // A phone that locks itself mid-game drops off the quiz call (and its camera stops). The Screen Wake Lock (Safari 16.4+,
 // iPhone home-screen apps from iOS 18.4) keeps it on while it is in a game; asked for again whenever the page comes
@@ -192,10 +195,12 @@ function render() {
   if (!(s.phase === 'question' && s.wipe)) app.className = 'app';
   const r = myResult();
   const score = r ? r.score : (s.top ? (s.top.find((t) => t.name === P.name)?.score ?? '') : '');
-  const top = `<div class="app-top"><span>${esc(P.name)}${s.test ? '<span class="testtag" title="A test game: nothing is saved">🧪 Test</span>' : ''}</span><span>${s.phase !== 'lobby' && s.phase !== 'slide' && s.qIndex >= 0 ? `Q${s.num ?? s.qIndex + 1}/${s.total}` : esc(s.title || '')}</span>${score !== '' && score !== undefined ? `<span class="score">${score}</span>` : '<span></span>'}</div>`;
+  const top = `<div class="app-top"><span>${esc(P.name)}${s.test ? '<span class="testtag" title="A test game: nothing is saved">🧪 Test</span>' : ''}${P.view ? '<span class="testtag" title="Viewing: you play along, but you are not a player and not on any leaderboard">👀 Viewing</span>' : ''}</span><span>${s.phase !== 'lobby' && s.phase !== 'slide' && s.qIndex >= 0 ? `Q${s.num ?? s.qIndex + 1}/${s.total}` : esc(s.title || '')}</span>${score !== '' && score !== undefined ? `<span class="score">${score}</span>` : '<span></span>'}</div>`;
   const top2 = s.practice && ['typecard', 'countdown', 'question', 'grading', 'reveal'].includes(s.phase) ? '<div class="practicebar">🧪 Practice · no points</div>' : '';
-  const ctrl = (cmd, label) => s.auto ? `<button class="btn btn-primary btn-lg btn-block ctrlbtn" data-ctrl="${cmd}">${label}</button>` : '';
-  if (s.phase === 'lobby') app.innerHTML = top + top2 + `<div class="state"><div class="em">🎉</div><h2>You're in, ${esc(P.name)}!</h2><p class="muted">${s.auto ? 'The game runs itself. When everyone is in, start it from here.' : 'Watch the shared screen. The quiz starts when the host presses go.'}</p>${ctrl('start', 'Start the quiz ▶')}</div>`;
+  const ctrl = (cmd, label) => s.auto && !P.view ? `<button class="btn btn-primary btn-lg btn-block ctrlbtn" data-ctrl="${cmd}">${label}</button>` : '';
+  if (P.view && s.phase === 'question' && (s.race || s.wipe || s.potato || s.koth || s.bb || s.chase || s.draw || s.tq || s.uq)) app.innerHTML = top + top2 + `<div class="state"><div class="em">👀</div><h2>You're watching this one</h2><p class="muted">It's a game for the players. Watch the shared screen; you're back in for the next question.</p></div>`;
+  else if (s.phase === 'lobby' && P.view) app.innerHTML = top + top2 + `<div class="state"><div class="em">👀</div><h2>You're viewing, ${esc(P.name)}</h2><p class="muted">Play along with every question and keep your own score. You're not a player: you won't show in the game or on any leaderboard.</p></div>`;
+  else if (s.phase === 'lobby') app.innerHTML = top + top2 + `<div class="state"><div class="em">🎉</div><h2>You're in, ${esc(P.name)}!</h2><p class="muted">${s.auto ? 'The game runs itself. When everyone is in, start it from here.' : 'Watch the shared screen. The quiz starts when the host presses go.'}</p>${ctrl('start', 'Start the quiz ▶')}</div>`;
   else if (s.phase === 'round') app.innerHTML = top + top2 + `<div class="state"><div class="em">🎯</div><p class="muted" style="margin:0">Round ${s.round?.n || ''}</p><h2>${esc(s.round?.title || '')}</h2>${s.round?.intro ? `<p style="font-weight:700">${esc(s.round.intro)}</p>` : ''}<p class="muted">${s.round?.count || ''} question${s.round?.count === 1 ? '' : 's'} coming up</p>${s.round?.practice ? '<div class="practicebar">🧪 Practice round · no points</div>' : ''}${ctrl('next', 'Start round ▶')}</div>`;
   else if (s.phase === 'slide' && s.brk) { app.innerHTML = top + top2 + `<div class="state slide brk">${s.slide?.title ? `<h2>${esc(s.slide.title)}</h2>` : ''}${LQ.breakClockHtml('pbrk')}${s.slide?.body ? `<div class="slidebody">${LQ.slideHtml(s.slide.body)}</div>` : ''}</div>`; tickBreak(); timerT = setInterval(tickBreak, 250); }
   else if (s.phase === 'slide') app.innerHTML = top + top2 + `<div class="state slide">${s.slide?.image ? `<img class="slideimg" src="${esc(s.slide.image)}" alt="">` : '<div class="em">🪧</div>'}${s.slide?.title ? `<h2>${esc(s.slide.title)}</h2>` : ''}<div class="slidebody">${LQ.slideHtml(s.slide?.body || '')}</div>${ctrl('next', s.more === false ? 'Final results 🏆' : 'Next ▶')}</div>`;
@@ -216,7 +221,7 @@ function render() {
   else if (s.phase === 'question') { app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + rosterHtml(s) + (P.answered[qId] ? (P.skipped[qId] ? `<div class="state"><div class="em">⏭</div><h2>Skipped</h2><p class="muted">No points this time. Waiting for the others…</p></div>` : sentHtml()) : questionHtml(s.q)); bindQuestion(s.q); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'grading') app.innerHTML = top + top2 + `<div class="state"><div class="em">⏱</div><h2>Time's up!</h2><p class="muted">Checking the answers…</p></div>`;
   else if (s.phase === 'reveal') app.innerHTML = top + top2 + (s.pin ? pinRevealHtml(s) : '') + resultHtml(s, r) + (s.preview ? '' : ctrl('next', s.practice ? 'Next ▶' : 'Scores ▶'));
-  else if (s.phase === 'scoreboard') app.innerHTML = top + top2 + `<div class="state"><div class="em">${r?.rank === 1 ? '🥇' : r?.rank === 2 ? '🥈' : r?.rank === 3 ? '🥉' : '📊'}</div><h2>${r ? `You're ${ordinal(r.rank)} of ${r.of}` : 'Scoreboard'}</h2><p class="muted">${r ? r.score + ' points so far' : ''}</p>${s.top ? `<div class="board" style="width:100%;margin-bottom:12px">${s.top.slice(0, 8).map((t) => `<div class="brow ${t.name === P.name ? 'me' : ''}"><div class="rank">${t.rank}</div><div>${esc(t.name)}</div><div>${t.score}</div></div>`).join('')}</div>` : ''}${ctrl('next', (s.more ?? s.qIndex + 1 < s.total) ? 'Next ▶' : 'Final results 🏆')}</div>`;
+  else if (s.phase === 'scoreboard') app.innerHTML = top + top2 + `<div class="state"><div class="em">${r?.rank === 1 ? '🥇' : r?.rank === 2 ? '🥈' : r?.rank === 3 ? '🥉' : '📊'}</div><h2>${r?.viewer ? '👀 Viewing' : r ? `You're ${ordinal(r.rank)} of ${r.of}` : 'Scoreboard'}</h2><p class="muted">${r ? r.score + ' points so far' : ''}</p>${s.top ? `<div class="board" style="width:100%;margin-bottom:12px">${s.top.slice(0, 8).map((t) => `<div class="brow ${t.name === P.name ? 'me' : ''}"><div class="rank">${t.rank}</div><div>${esc(t.name)}</div><div>${t.score}</div></div>`).join('')}</div>` : ''}${ctrl('next', (s.more ?? s.qIndex + 1 < s.total) ? 'Next ▶' : 'Final results 🏆')}</div>`;
   else if (s.phase === 'final') { app.innerHTML = top + top2 + finalHtml(s, r); const b = $('#warmBoard'), me = b?.querySelector('.me'); if (b && me) b.scrollTop = Math.max(0, me.offsetTop - b.offsetTop - b.clientHeight / 2); }
   if (s.reveal) syncReveal(s);
   if (s.roster && s.potato) syncPotRing(s);
@@ -248,6 +253,7 @@ function callBarHtml() {
 }
 function syncCallBar(s) {
   if (!window.PhoneCam) return;
+  if (P.view) { const b = $('#callBar'); if (b) b.remove(); document.body.classList.remove('hascallbar'); return; } // viewers stay off the call
   let bar = $('#callBar');
   if (s?.call) { callGoneAt = 0; PhoneCam.refreshPass(s.call.pass); if (P.name) PhoneCam.rename(P.name); }
   else if (PhoneCam.state !== 'off') {
@@ -299,7 +305,7 @@ function syncPauseUi(s) {
     if (!v) { v = document.createElement('div'); v.id = 'pauseVeil'; v.className = 'pauseveil'; document.body.appendChild(v); }
     v.innerHTML = `<div><div class="em">⏸</div><h2>Paused</h2><p>The clock has stopped.</p>${s.auto ? '<button class="btn btn-primary btn-lg" data-ctrl="resume">Resume ▶</button>' : ''}</div>`;
   } else if (v) v.remove();
-  let b = $('#pauseBtn'); const want = s.auto && !s.roster && !s.paused && !['lobby', 'final'].includes(s.phase); // no pausing to think in a warm-up (s.roster)
+  let b = $('#pauseBtn'); const want = s.auto && !P.view && !s.roster && !s.paused && !['lobby', 'final'].includes(s.phase); // no pausing to think in a warm-up (s.roster)
   if (want && !b) { b = document.createElement('button'); b.id = 'pauseBtn'; b.className = 'pausebtn'; b.dataset.ctrl = 'pause'; b.title = 'Pause the game'; b.textContent = '⏸'; document.body.appendChild(b); }
   if (!want && b) b.remove();
 }
@@ -848,6 +854,7 @@ function bindQuestion(q) {
   }
 }
 function resultHtml(s, r) {
+  if (r?.viewer && r.watched) return `<div class="result part"><div style="font-size:1.5rem;font-weight:900">👀 You watched this one</div>${s.answer ? `<div style="font-weight:800;opacity:.95">Answer: ${esc(s.answer)}</div>` : ''}<div class="rk">👀 Viewing · ${r.score} points</div></div>`;
   if (!r) return `<div class="state"><h2>Results are on the screen</h2></div>`;
   const wipeQ = s.qType === 'wipeout' || r.wiped || r.points < 0, raceQ = s.qType === 'race' || r.raced;
   const cls = r.points < 0 ? 'neg' : r.correct || r.place ? 'ok' : raceQ ? 'part' : r.partial > 0 ? 'part' : 'no';
@@ -857,12 +864,12 @@ function resultHtml(s, r) {
   return `<div class="result ${cls}">${medal ? `<div class="rpmedal">${medal}</div>` : ''}<div style="font-size:1.6rem;font-weight:900">${head}</div>${r.practice ? `<div class="pts" style="opacity:.55">${r.would > 0 ? '+' : ''}${r.would}</div><div style="font-weight:900">🧪 Practice: that would have been your score. It doesn't count.</div>` : `<div class="pts">${r.points > 0 ? '+' : ''}${r.points}</div>`}
     ${raceQ && (r.base || r.bonus) ? `<div style="font-weight:800;opacity:.95">${r.got ?? 0} right = +${r.base}${r.bonus ? ` · ${r.bonus > 0 ? '+' : '−'}${Math.abs(r.bonus)} ${r.bonus > 0 ? 'bonus' : 'for last place'}` : ''}</div>` : ''}
     ${s.answer ? `<div style="font-weight:800;opacity:.95">${r.correct ? '' : 'Answer: '}${esc(s.answer)}</div>` : ''}${s.why ? `<div style="opacity:.85;font-size:.9rem;margin-top:6px">💡 ${esc(s.why)}</div>` : ''}
-    <div class="rk">${ordinal(r.rank)} of ${r.of} · ${r.score} points</div></div>`;
+    <div class="rk">${r.viewer ? `👀 Viewing · ${r.score} points (not on the leaderboard)` : `${ordinal(r.rank)} of ${r.of} · ${r.score} points`}</div></div>`;
 }
 function finalHtml(s, r) {
   const me = r?.rank;
   return `<div class="state" style="justify-content:flex-start"><div class="em">${me === 1 ? '🏆' : me === 2 ? '🥈' : me === 3 ? '🥉' : '🎉'}</div>
-    <h2>${me === 1 ? 'You won!' : me ? `You came ${ordinal(me)}` : 'Game over'}</h2>${r ? `<p class="muted">${r.score} points</p>` : ''}
+    <h2>${me === 1 ? 'You won!' : me ? `You came ${ordinal(me)}` : 'Game over'}</h2>${r?.viewer ? `<p class="muted">👀 You viewed and scored <b>${r.score}</b> points (not on the leaderboard)</p>` : r ? `<p class="muted">${r.score} points</p>` : ''}
     <div class="board">${(s.top || []).map((t) => `<div class="brow ${t.name === P.name ? 'me' : ''}"><div class="rank">${t.rank}</div><div>${esc(t.name)}</div><div>${t.score}</div></div>`).join('')}</div>
     ${s.warm ? warmBoardHtml(s) : '<button class="btn btn-ghost mt" id="another">Join another game</button>'}</div>`;
 }

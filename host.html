@@ -451,6 +451,8 @@ function stateForPlayers() {
     s.results = {}; s.qType = question()?.type;
     const rk = ranked();
     for (const p of rk) { const r = G.q.results.byPlayer[p.id]; s.results[p.id] = { note: r?.note || '', practice: !!r?.practice, would: r?.would || 0, correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, skipped: !!r?.skipped, wiped: !!r?.wiped, raced: !!r?.raced, lost: !!r?.lost, place: r?.place || 0, base: r?.base || 0, bonus: r?.bonus || 0, got: r?.got, out: !!r?.out, score: p.score, rank: rk.indexOf(p) + 1, of: rk.length }; }
+    // VIEW phones: each its own result, marked as viewing and never ranked (watched: a group game they sat out)
+    for (const [vid, v] of Object.entries(G.viewers || {})) { const r = G.q.vResults?.[vid]; s.results[vid] = { note: r?.note || '', practice: !!r?.practice, would: r?.would || 0, correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, skipped: !!r?.skipped, score: v.score, rank: 0, of: rk.length, viewer: true, watched: groupGame() }; }
     if (G.quiz.settings.showAnswersOnPhones !== false) { s.answer = answerText(question()); if (question()?.type === 'club' && question().why) s.why = question().why; if (question()?.type === 'pin' && question().info) s.why = question().info; }
   }
   // Drop the Pin in a warm-up: the map, the right spot and everyone's pins, so each phone can see how far off it was
@@ -494,14 +496,49 @@ function answerText(q) {
   return '';
 }
 
-function onHello({ pid, name, emoji, test }) {
+function onHello({ pid, name, emoji, test, view }) {
   if (typeof pid !== 'string' || !/^p_[a-z0-9]{6,12}$/.test(pid)) return;
+  if (view === true || G.viewers?.[pid]) return addViewer(pid, name, emoji);
   name = String(name || '').replace(/\s+/g, ' ').trim().slice(0, 20) || 'Player';
   emoji = LQ.EMOJIS.includes(emoji) ? emoji : '';
   if (!G.players[pid]) { G.players[pid] = { id: pid, name, emoji, score: 0, joinedAt: Date.now() }; persist(); if (G.phase === 'lobby') renderLobbyPlayers(); warmupGate(pid); }
   else if ((G.players[pid].name !== name || G.players[pid].emoji !== emoji) && G.phase === 'lobby') { G.players[pid].name = name; G.players[pid].emoji = emoji; persist(); renderLobbyPlayers(); }
   if (test === true && !G.test) makeTest();
   clearTimeout(helloT); helloT = setTimeout(broadcastState, 150);
+}
+// ------------------------------------------------------------------ VIEW phones
+// VIEW in front of the code (play.html): the quizmaster (or anyone) plays along on a phone exactly as the players see
+// it and gets a score, but is never a player. Viewers live in G.viewers, never G.players, so they appear nowhere: not
+// in the lobby, the answered count, the scoreboards, the results, the saved report, nor any game's turns. Nothing on
+// this screen mentions them (it is shared on the call). They answer the everyone-answers questions; the group games
+// (race, wipeout, potato, king of the hill, blockbusters, chase, draw, twenty, only one) they watch.
+function addViewer(pid, name, emoji) {
+  if (WARMUP) return;
+  G.viewers = G.viewers || {};
+  name = String(name || '').replace(/\s+/g, ' ').trim().slice(0, 20) || 'Viewer';
+  if (!G.viewers[pid]) { G.viewers[pid] = { id: pid, name, emoji: LQ.EMOJIS.includes(emoji) ? emoji : '', score: 0 }; persist(); }
+  clearTimeout(helloT); helloT = setTimeout(broadcastState, 150);
+}
+const groupGame = () => !!(G.q && (G.q.wipe || G.q.race || G.q.tq || G.q.potato || G.q.koth || G.q.bb || G.q.chase || G.q.draw || G.q.uq));
+function viewerAnswer(pid, qId, answer) {
+  if (groupGame()) return; // watched, not played
+  G.q.vAnswers = G.q.vAnswers || {};
+  if (G.q.vAnswers[pid]) return;
+  G.q.vAnswers[pid] = { answer, elapsed: Date.now() - G.q.startedAt };
+  persist(); send('ack', { pid, qId });
+}
+/** The viewers' scores for the question just played: the same scoring as the players, with everyone's answers in the
+ *  pass (so "closest" and the like are judged against the real answers), keeping only the viewers' results. */
+async function scoreViewers() {
+  const va = G.q?.vAnswers; if (!va || !Object.keys(va).length || !G.viewers) return;
+  let res; try { res = await grade(true, { answers: { ...G.q.answers, ...va }, players: { ...G.players, ...G.viewers } }); } catch { return; }
+  G.q.vResults = {};
+  for (const pid of Object.keys(va)) {
+    const r = res.byPlayer[pid]; if (!r || !G.viewers[pid]) continue;
+    if (roundOf(G.qIndex)?.double && r.points > 0) { r.points *= 2; r.note = (r.note ? r.note + ' · ' : '') + '✨ Double points!'; }
+    if (practiceQ()) { r.practice = true; r.would = r.points; r.points = 0; }
+    G.viewers[pid].score += r.points; G.q.vResults[pid] = r;
+  }
 }
 /** A phone joined with TEST in front of the code: this becomes a test game. Ten bots join, and at the end nothing is
  *  saved (no report, no entry in Recent games), so the quiz still counts as unplayed. Only before the first question,
@@ -523,6 +560,7 @@ function onHint({ pid, qId }) {
 function hlAskedText() { const n = Object.keys(G.q?.low || {}).length; return n ? `📺 ${n} ${n === 1 ? 'player has' : 'players have'} asked for the lowbrow clue` : '📺 Nobody has asked for the lowbrow clue yet'; }
 function onAnswer({ pid, qId, answer, low }) {
   if (G.phase !== 'question' || !G.q || qId !== G.q.view.id) return;
+  if (G.viewers?.[pid]) return viewerAnswer(pid, qId, answer);
   if (!G.players[pid]) { onHello({ pid, name: present.get(pid) || 'Player' }); }
   if (G.q.wipe) return wipePick(pid, String(answer));
   if (G.q.race) return racePick(pid, answer);
@@ -1889,6 +1927,7 @@ async function endQuestion() {
   if (roundOf(G.qIndex)?.double) for (const r of Object.values(G.q.results.byPlayer)) if (r.points > 0) { r.points *= 2; r.doubled = true; r.note = (r.note ? r.note + ' · ' : '') + '✨ Double points!'; }
   if (practiceQ()) for (const r of Object.values(G.q.results.byPlayer)) { r.practice = true; r.would = r.points; r.points = 0; } // shown, never counted
   for (const [pid, r] of Object.entries(G.q.results.byPlayer)) if (G.players[pid]) G.players[pid].score += r.points;
+  await scoreViewers();
   logQuestion();
   G.phase = 'reveal'; persist(); render(); broadcastState();
 }
@@ -1967,14 +2006,16 @@ function endEarly() { ask('End the game now?', 'The scores so far will be shown 
 function playAgain() { unstore(SAVE_KEY); location.reload(); }
 
 // ------------------------------------------------------------------ grading
-async function grade(noAi) {
+async function grade(noAi, ctx) {
+  // ctx: score these answers and players instead (VIEW phones: their own pass, see scoreViewers). Default: the game.
+  const A = ctx?.answers || G.q.answers, PL = ctx?.players || G.players;
   const q = question(), v = G.q.view, keys = G.q.keys, set = G.quiz.settings, timeMs = q.time * 1000;
   const byPlayer = {}; const stats = { counts: {}, right: 0, answered: 0, pins: [], texts: [] };
-  const all = Object.entries(G.q.answers).filter(([pid]) => G.players[pid]);
+  const all = Object.entries(A).filter(([pid]) => PL[pid]);
   // A skip counts as an answer (so the question can close) but scores nothing and takes no part in the type's scoring.
   const entries = all.filter(([pid, a]) => { if (a.answer === 'skip') { byPlayer[pid] = { answered: true, skipped: true, correct: false, partial: 0, points: 0 }; return false; } return true; });
   stats.answered = all.length; stats.skipped = all.length - entries.length;
-  if (q.type === 'text') stats.texts = all.filter(([, a]) => a.answer === 'skip').map(([pid]) => ({ name: G.players[pid].name, text: 'skipped', ok: null }));
+  if (q.type === 'text') stats.texts = all.filter(([, a]) => a.answer === 'skip').map(([pid]) => ({ name: PL[pid].name, text: 'skipped', ok: null }));
   const sp = (elapsed) => speedPoints(elapsed, timeMs, set);
   const res = (pid, correct, partial, elapsed, extra = {}) => {
     const frac = correct ? 1 : (q.partial ? partial : 0);
@@ -1997,14 +2038,14 @@ async function grade(noAi) {
   if (q.type === 'twenty') {
     const tq = G.q.tq || { players: {}, solved: [] }, prizes = [q.prize ?? 1000, q.prize2 ?? 500, q.prize3 ?? 100], pen = q.penalty ?? 200, medal = ['🥇', '🥈', '🥉'];
     for (const [pid, r] of Object.entries(tq.players)) {
-      if (!G.players[pid]) continue;
+      if (!PL[pid]) continue;
       const pts = r.done ? (prizes[r.place - 1] || 0) : -pen;
       byPlayer[pid] = { answered: true, correct: r.done, partial: r.done ? 1 : 0, points: pts, place: r.done ? r.place : 0, got: r.done ? r.used : r.n, lost: !r.done,
         note: r.done ? `${medal[r.place - 1] || '✅'} You cracked it in ${r.used} question${r.used === 1 ? '' : 's'}${pts ? '' : ' (only the first three score)'}` : r.out ? '💀 Out of questions' : '⏱ Time up, still stuck' };
       if (r.done) stats.right++;
     }
-    stats.solved = (tq.solved || []).filter((pid) => G.players[pid]).map((pid, i) => ({ pid, name: pname(pid), emoji: pem(pid), n: tq.players[pid]?.used, points: prizes[i] || 0 }));
-    stats.stuck = Object.entries(tq.players).filter(([pid, r]) => G.players[pid] && !r.done).map(([pid, r]) => ({ pid, name: pname(pid), emoji: pem(pid), out: r.out }));
+    stats.solved = (tq.solved || []).filter((pid) => PL[pid]).map((pid, i) => ({ pid, name: pname(pid), emoji: pem(pid), n: tq.players[pid]?.used, points: prizes[i] || 0 }));
+    stats.stuck = Object.entries(tq.players).filter(([pid, r]) => PL[pid] && !r.done).map(([pid, r]) => ({ pid, name: pname(pid), emoji: pem(pid), out: r.out }));
   }
   if (q.type === 'race') {
     const race = G.q.race || { players: {}, winner: null };
@@ -2035,14 +2076,14 @@ async function grade(noAi) {
       byPlayer[s.pid] = { answered: true, correct: won, partial: won ? 1 : 0, points: base + bonus, base, bonus, raced: true, lost, place, got: s.correct, out: s.out, done: s.done }; if (won) stats.right++;
     }
     stats.answered = standings.length;
-    stats.standings = standings; stats.winner = winner ? { pid: winner, name: G.players[winner]?.name || 'Player', emoji: G.players[winner]?.emoji || '' } : null;
-    stats.loser = loser ? { pid: loser, name: G.players[loser]?.name || 'Player', emoji: G.players[loser]?.emoji || '' } : null;
-    stats.places = [second, third].map((pid, i) => pid ? { pid, name: G.players[pid]?.name || 'Player', emoji: G.players[pid]?.emoji || '', place: i + 2, points: i === 0 ? (v.prize2 ?? 200) : (v.prize3 ?? 100) } : null).filter(Boolean);
+    stats.standings = standings; stats.winner = winner ? { pid: winner, name: PL[winner]?.name || 'Player', emoji: PL[winner]?.emoji || '' } : null;
+    stats.loser = loser ? { pid: loser, name: PL[loser]?.name || 'Player', emoji: PL[loser]?.emoji || '' } : null;
+    stats.places = [second, third].map((pid, i) => pid ? { pid, name: PL[pid]?.name || 'Player', emoji: PL[pid]?.emoji || '', place: i + 2, points: i === 0 ? (v.prize2 ?? 200) : (v.prize3 ?? 100) } : null).filter(Boolean);
   }
   if (q.type === 'potato') {
     const p = G.q.potato || { scores: {}, rights: {}, passes: 0, bombs: [] }, booms = p.bombs.map((b) => b.exploded).filter(Boolean);
     for (const pid of new Set([...livePids(), ...Object.keys(p.scores)])) {
-      if (!G.players[pid]) continue;
+      if (!PL[pid]) continue;
       const pts = p.scores[pid] || 0, boom = booms.includes(pid), n = p.rights[pid] || 0;
       byPlayer[pid] = { answered: true, correct: pts > 0, partial: pts > 0 ? 1 : 0, points: pts, got: n, exploded: boom, note: boom ? '💥 BOOM! You were holding the bomb' : n ? `💣 ${n} right with the bomb in your hands` : '💣 You survived the bomb' };
       if (pts > 0) stats.right++;
@@ -2052,7 +2093,7 @@ async function grade(noAi) {
   if (q.type === 'koth') {
     const g = G.q.koth || { pts: {} };
     for (const pid of new Set([...livePids(), ...Object.keys(g.pts)])) {
-      if (!G.players[pid]) continue;
+      if (!PL[pid]) continue;
       const won = pid === g.winner, n = g.pts[pid] || 0;
       const base = n * (q.perPoint ?? 100), bonus = won ? (q.prize ?? 1000) : 0;
       byPlayer[pid] = { answered: true, correct: won, partial: won ? 1 : n ? 0.5 : 0, points: base + bonus, base, bonus, got: n, note: won ? `👑 King of the Hill! ${n} hill points + the bonus` : n ? `${n} hill point${n === 1 ? '' : 's'}: ${base} points` : 'No hill points this time' };
@@ -2063,7 +2104,7 @@ async function grade(noAi) {
   if (q.type === 'chase') {
     const g = G.q.chase || { team: [], result: null };
     for (const pid of new Set([...livePids(), ...(g.team || []), g.chaser].filter(Boolean))) {
-      if (!G.players[pid]) continue;
+      if (!PL[pid]) continue;
       const isChaser = pid === g.chaser, won = isChaser ? g.result === 'caught' : g.result === 'home';
       const steps = (g.log || []).filter((l) => l.pid === pid).length;
       byPlayer[pid] = { answered: true, correct: won, partial: won ? 1 : 0, points: won ? (isChaser ? (q.chaserPrize ?? 200) : (q.teamPrize ?? 1000)) : 0, note: isChaser ? (won ? '😈 You caught them!' : g.result === 'home' ? 'They got away from you' : 'You were the Chaser') : (won ? `🏠 Home and dry!${steps ? ` You won ${steps} step${steps === 1 ? '' : 's'} for the team` : ''}` : g.result === 'caught' ? 'Caught by the Chaser!' : 'The chase was stopped') };
@@ -2074,7 +2115,7 @@ async function grade(noAi) {
   if (q.type === 'blockbusters') {
     const g = G.q.bb || { teams: {}, scores: {}, winner: -1, owner: [] }, hp = q.hexPoints ?? 50;
     for (const pid of new Set([...livePids(), ...Object.keys(g.teams)])) {
-      if (!G.players[pid]) continue;
+      if (!PL[pid]) continue;
       const t = g.teams[pid], won = t !== undefined && t === g.winner, base = g.scores[pid] || 0, bonus = won ? (q.prize ?? 500) : 0, hexes = Math.round(base / (hp || 1));
       byPlayer[pid] = { answered: t !== undefined, correct: won, partial: won ? 1 : 0, points: base + bonus, base, bonus, note: t === undefined ? 'You were not on a side' : `${won ? '🏆 ' : ''}${q.teams[t].name} ${won ? 'won the board!' : 'lost this one'}${hexes ? ` · you won ${hexes} hexagon${hexes === 1 ? '' : 's'}` : ''}` };
       if (won) stats.right++;
@@ -2084,7 +2125,7 @@ async function grade(noAi) {
   if (q.type === 'unique') {
     const g = G.q.uq || { scores: {}, outAt: {}, winners: [], history: [] };
     for (const pid of new Set([...livePids(), ...Object.keys(g.scores)])) {
-      if (!G.players[pid]) continue;
+      if (!PL[pid]) continue;
       const pts = g.scores[pid] || 0, won = g.winners.includes(pid);
       byPlayer[pid] = { answered: true, correct: won, partial: won ? 1 : 0, points: pts, note: won ? '☝️ The only one left!' : g.outAt[pid] ? `☝️ Out in round ${g.outAt[pid]}` : '☝️ Still in when the game stopped' };
       if (won) stats.right++;
@@ -2094,7 +2135,7 @@ async function grade(noAi) {
   if (q.type === 'draw') {
     const g = G.q.draw || { scores: {}, hits: {}, drew: {}, order: [] };
     for (const pid of new Set([...livePids(), ...Object.keys(g.scores)])) {
-      if (!G.players[pid]) continue;
+      if (!PL[pid]) continue;
       const pts = g.scores[pid] || 0, h = g.hits[pid] || 0, drew = g.order.slice(0, g.turn + 1).includes(pid), k = g.drew[pid] || 0;
       byPlayer[pid] = { answered: true, correct: pts > 0, partial: pts > 0 ? 1 : 0, points: pts, note: `🎨 You guessed ${h} drawing${h === 1 ? '' : 's'}${drew ? ` · ${k} guessed yours` : ''}` };
       if (pts > 0) stats.right++;
@@ -2136,10 +2177,10 @@ async function grade(noAi) {
     for (const g of groups) {
       const n = g.pids.length, pts = n >= 2 ? Math.round(1000 * n / top) : 0;
       g.label = Object.entries(g.labels).sort((a, b) => b[1] - a[1])[0][0]; g.points = pts;
-      for (const pid of g.pids) { byPlayer[pid] = { answered: true, correct: pts > 0, partial: top ? n / top : 0, points: pts, text: G.q.answers[pid].answer, note: n >= 2 ? `👪 ${n - 1} other${n === 2 ? '' : 's'} said “${g.label}” too${g === groups[0] ? ': the top answer!' : ''}` : '👪 Nobody else said that one' }; if (pts) stats.right++; }
+      for (const pid of g.pids) { byPlayer[pid] = { answered: true, correct: pts > 0, partial: top ? n / top : 0, points: pts, text: A[pid].answer, note: n >= 2 ? `👪 ${n - 1} other${n === 2 ? '' : 's'} said “${g.label}” too${g === groups[0] ? ': the top answer!' : ''}` : '👪 Nobody else said that one' }; if (pts) stats.right++; }
     }
     stats.survey = groups.slice(0, 8).map((g) => ({ label: g.label, n: g.pids.length, points: g.points }));
-    stats.texts = entries.map(([pid, a]) => ({ name: G.players[pid].name, text: String(a.answer ?? ''), ok: !!byPlayer[pid]?.correct }));
+    stats.texts = entries.map(([pid, a]) => ({ name: PL[pid].name, text: String(a.answer ?? ''), ok: !!byPlayer[pid]?.correct }));
   }
   if ((q.type === 'text' && q.kind !== 'survey') || q.type === 'smash' || q.type === 'wheel' || q.type === 'highlow' || q.type === 'rhyme' || q.type === 'club' || q.type === 'dingbat' || q.type === 'tune') {
     const accepted = q.type === 'smash' ? [q.smash, `${q.pictureAnswer} ${q.clueAnswer}`, `${q.pictureAnswer}${q.clueAnswer}`].filter((s) => s && s.trim()) : q.type === 'wheel' ? [q.phrase] : q.type === 'rhyme' ? [`${q.answer1} ${q.answer2}`, `${q.answer2} ${q.answer1}`] : q.answers.filter((s) => s.trim());
@@ -2156,12 +2197,12 @@ async function grade(noAi) {
       let verdicts = null;
       if (q.ai !== false && !noAi && !WARMUP) { try { verdicts = (await api('check_text', { question: judgeQ, accepted, answers: unsure }, { timeout: 45000 })).results; } catch (e) { toast('AI check unavailable — using closest match.', true); } }
       for (const u of unsure) {
-        const a = G.q.answers[u.id];
+        const a = A[u.id];
         const ok = verdicts?.[u.id] ? verdicts[u.id].correct : accepted.some((acc) => similarity(LQ.normText(u.text), LQ.normText(acc)) >= 0.72);
         res(u.id, ok, 0, a.elapsed, { text: u.text, how: verdicts?.[u.id]?.how || 'fuzzy' });
       }
     }
-    stats.texts = entries.map(([pid]) => ({ name: G.players[pid].name, text: byPlayer[pid].text, ok: byPlayer[pid].correct, low: q.type === 'highlow' ? !!(G.q.low || {})[pid] : undefined })).concat(stats.texts || []);
+    stats.texts = entries.map(([pid]) => ({ name: PL[pid].name, text: byPlayer[pid].text, ok: byPlayer[pid].correct, low: q.type === 'highlow' ? !!(G.q.low || {})[pid] : undefined })).concat(stats.texts || []);
     if (q.type === 'highlow') {
       // Flat scores, not the speed curve: full for the highbrow clue alone, the lower figure if the phone asked for the lowbrow clue.
       for (const [pid] of entries) { const r = byPlayer[pid]; if (!r) continue; r.low = !!(G.q.low || {})[pid]; r.points = r.correct ? (r.low ? (q.lowPoints ?? 500) : (q.highPoints ?? 1000)) : 0; }
@@ -2203,7 +2244,7 @@ async function grade(noAi) {
       const hit = p.x >= t.x && p.x <= t.x + t.w && p.y >= t.y && p.y <= t.y + t.h;
       byPlayer[pid] = { answered: true, correct: hit, partial: hit ? 1 : 0, points: hit ? sp(a.elapsed) : 0, pin: p, hit };
       if (hit) stats.right++;
-      list.push({ pid, name: G.players[pid].name, hit, ...p });
+      list.push({ pid, name: PL[pid].name, hit, ...p });
     }
     stats.pins = list;
   } else if (q.type === 'pin') {
@@ -2217,7 +2258,7 @@ async function grade(noAi) {
       const acc = d <= q.radiusFull ? 1 : d >= q.radiusZero ? 0 : 1 - (d - q.radiusFull) / (q.radiusZero - q.radiusFull);
       byPlayer[pid] = { answered: true, correct: d <= q.radiusFull, partial: +acc.toFixed(3), points: Math.round(sp(a.elapsed) * acc), pin: p, d };
       if (byPlayer[pid].correct) stats.right++;
-      list.push({ pid, name: G.players[pid].name, d, ...p });
+      list.push({ pid, name: PL[pid].name, d, ...p });
     }
     list.sort((a, b) => a.d - b.d);
     if (list.length) { byPlayer[list[0].pid].closest = true; }
