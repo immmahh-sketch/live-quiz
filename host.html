@@ -2447,7 +2447,7 @@ function callBtns() {
   if (WARMUP) return '';
   if (!window.QuizCall || !QuizCall.supported()) return fsBtn();
   const s = QuizCall.state;
-  return `<button class="btn btn-ghost ${s === 'live' || s === 'reconnecting' ? 'on' : ''}" data-act="call" title="Put this screen and its sound into the quiz night video call (gathercall.uk/quiz), and open the call window with everyone's cameras. Press again to leave.">${callLabel()}</button>${camBtn()}${fsBtn()}`;
+  return `<button class="btn btn-ghost ${s === 'live' || s === 'reconnecting' ? 'on' : ''}" data-act="call" title="Put this screen and its sound into the quiz night video call (gathercall.uk/quiz), and open the call window with everyone's cameras. Press again to leave.">${callLabel()}</button>${onCall() && !TV ? '<button class="btn btn-ghost hostptt" data-hostptt title="Hold to talk to the call (or hold T). Your mic is off the rest of the time, so the quiz music playing here doesn\'t go round again.">🎤 Hold to talk</button>' : ''}${camBtn()}${fsBtn()}`;
 }
 // The camera in the corner (assets/quizcam.js): on while the screen is on the call. C hides or shows it.
 function camBtn() { return window.QuizCam && QuizCam.on ? `<button class="btn btn-ghost ${QuizCam.enabled ? 'on' : ''}" data-act="cam" title="Show whoever is talking in the top right corner (C)">${QuizCam.enabled ? '🎥 Camera on' : '🎥 Camera off'}</button>` : ''; }
@@ -2461,11 +2461,30 @@ document.addEventListener('fullscreenchange', refreshCallBtns);
 // out of the address at once), so it opens with no password: the pass opens calls only (gather-rtc quizPassOk).
 const GATHER_HOST = () => 'https://gathercall.uk/call.html?room=' + encodeURIComponent(QuizCall.room) + '&quizhost=1' + (callPass && callPassExp > Date.now() ? '#pass=' + callPass : '');
 let wantCallWindow = false;
+// ---- push to talk for the quizmaster ----
+// The quizmaster's microphone is in the call window (Gather, quizhost=1), which keeps it off until told: this screen's
+// "Hold to talk" button, or holding T, opens it (postMessage {lq: 'ptt', on}). The quiz's music plays out loud here, so
+// an open mic would send it round again.
+let callWin = null, hostTalking = false;
+function hostTalk(on) {
+  on = !!on; if (on === hostTalking) return; hostTalking = on;
+  try { if (callWin && !callWin.closed) callWin.postMessage({ lq: 'ptt', on }, 'https://gathercall.uk'); } catch {}
+  $$('[data-hostptt]').forEach((b) => { b.classList.toggle('on', on); b.textContent = on ? '🎙️ Talking…' : '🎤 Hold to talk'; });
+  if (on && (!callWin || callWin.closed)) toast('Open the call window first (📞), then hold to talk', true);
+}
+let hostPttPointer = null;
+document.addEventListener('pointerdown', (e) => { const b = e.target.closest('[data-hostptt]'); if (!b) return; e.preventDefault(); hostPttPointer = e.pointerId; try { b.setPointerCapture(e.pointerId); } catch {} hostTalk(true); });
+document.addEventListener('pointerup', (e) => { if (e.pointerId === hostPttPointer) { hostPttPointer = null; hostTalk(false); } });
+document.addEventListener('pointercancel', (e) => { if (e.pointerId === hostPttPointer) { hostPttPointer = null; hostTalk(false); } });
+document.addEventListener('keydown', (e) => { if ((e.key === 't' || e.key === 'T') && !e.repeat && !e.ctrlKey && !e.metaKey && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName || '') && onCall()) { e.preventDefault(); hostTalk(true); } });
+document.addEventListener('keyup', (e) => { if (e.key === 't' || e.key === 'T') hostTalk(false); });
+window.addEventListener('blur', () => { if (hostPttPointer === null) hostTalk(false); }); // a key let go elsewhere
 function openCallWindow() {
   // Opened by name with no address first: if the call window is already open (say this page was
   // reloaded) it comes back as it is, rather than reloading and dropping the quizmaster off the call.
   let w = null;
   try { w = window.open('', 'lqQuizCall'); } catch {}
+  if (w) callWin = w;
   if (w) {
     let blank = false;
     try { blank = !w.location.href || w.location.href === 'about:blank'; } catch {} // a Gather window is another site: unreadable
@@ -2474,7 +2493,7 @@ function openCallWindow() {
     return true;
   }
   // The browser held it back (the share took more than a few seconds): one more click opens it.
-  ask('Open the call window?', 'It shows everyone on the call and sends your camera and microphone to the room. Your browser needs one more click to open it.', 'Open it', 'Not now').then((ok) => { if (ok && !window.open(GATHER_HOST(), 'lqQuizCall')) toast('Allow pop-ups for letsquiz.uk, then press the call button again', true); });
+  ask('Open the call window?', 'It shows everyone on the call and sends your camera and microphone to the room. Your browser needs one more click to open it.', 'Open it', 'Not now').then((ok) => { if (ok && !(callWin = window.open(GATHER_HOST(), 'lqQuizCall'))) toast('Allow pop-ups for letsquiz.uk, then press the call button again', true); });
   return false;
 }
 function callClick() {
@@ -2485,7 +2504,7 @@ function callClick() {
   QuizCall.start();
 }
 if (window.QuizCall) {
-  let lastErr = '';
+  let lastErr = '', lastCallState = '';
   QuizCall.onChange(() => {
     const b = $('[data-act="call"]');
     if (b) { b.textContent = callLabel(); b.classList.toggle('on', QuizCall.state === 'live' || QuizCall.state === 'reconnecting'); }
@@ -2499,6 +2518,7 @@ if (window.QuizCall) {
     lastErr = QuizCall.state === 'error' ? QuizCall.error : QuizCall.state;
     document.body.classList.toggle('oncall', QuizCall.state === 'live' || QuizCall.state === 'reconnecting');
     if (G) broadcastState(); // phones learn the call is on (or off), for their camera button
+    if (QuizCall.state !== lastCallState) { lastCallState = QuizCall.state; refreshCallBtns(); } // the Hold to talk button comes and goes with the call
   });
 }
 // On the call, the pointer disappears as soon as it stops moving (the way a video player hides it), so the people
