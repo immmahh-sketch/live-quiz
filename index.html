@@ -199,11 +199,14 @@ function renderBankPanel(r) {
   const types = Object.keys(TYPES).filter((t) => S.bank[t]);
   const low = types.filter((t) => S.bank[t].low);
   const sum = (k) => types.reduce((n, t) => n + (S.bank[t][k] || 0), 0);
-  el.innerHTML = `<div class="banksec"><div class="row" style="margin-bottom:6px"><h2 style="margin:0">🏦 Question bank</h2><span class="muted small">Pre-written questions the AI writer uses first, free. Each is marked off once it goes into a quiz and never comes round again.</span></div>
-    ${types.length ? `<div class="banktotal">Total question count: <b>${sum('total').toLocaleString('en-GB')}</b> <span>· ${sum('unused').toLocaleString('en-GB')} unused</span></div>` : ''}
+  // Folded to one line unless opened (the user's choice, remembered): the quizzes and games below are a short scroll away.
+  let open = false; try { open = localStorage.getItem('lq_bankpanel') === 'open'; } catch {}
+  el.innerHTML = `<details class="banksec" ${open ? 'open' : ''}><summary class="banksum"><span class="bankarrow">▸</span><b>🏦 Question bank</b>${types.length ? `<span class="muted small">· ${sum('total').toLocaleString('en-GB')} questions · ${sum('unused').toLocaleString('en-GB')} unused</span>` : ''}${low.length ? `<span class="banklow">⚠ ${low.length} running low</span>` : ''}</summary>
+    <p class="muted small" style="margin:8px 0">Pre-written questions the AI writer uses first, free. Each is marked off once it goes into a quiz and never comes round again.</p>
     ${low.length ? `<div class="error" style="margin-bottom:10px">⚠ Running low: ${low.map((t) => `${TYPES[t].label} (${S.bank[t].unused} left)`).join(', ')}. Time to top the bank up.</div>` : ''}
     <div class="bankgrid">${types.map((t) => `<button class="bankcell ${S.bank[t].low ? 'low' : ''}" data-bank="${t}"><span>${TYPES[t].icon} ${esc(TYPES[t].label)}</span><b>${S.bank[t].unused}</b><small>of ${S.bank[t].total} unused</small>${mixLine(S.bank[t].mix)}</button>`).join('')}${types.length ? '' : '<p class="muted small">Empty. Import a bank to get started.</p>'}</div>
-    <div id="bankcats"></div></div>`;
+    <div id="bankcats"></div></details>`;
+  $('details.banksec', el).ontoggle = (e) => { try { localStorage.setItem('lq_bankpanel', e.target.open ? 'open' : 'closed'); } catch {} };
   $$('[data-bank]').forEach((b) => b.onclick = () => bankBrowse(b.dataset.bank));
   if (low.length && !S.bankWarned) { S.bankWarned = true; toast(`Question bank running low: ${low.map((t) => TYPES[t].label).join(', ')}`, true); }
   renderBankCats(r.categories || {});

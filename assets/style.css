@@ -773,7 +773,13 @@ body.mobilewiz { padding-bottom: 24px; }
 .tuneres img.thumb { width: 44px; height: 44px; border-radius: 6px; object-fit: cover; }
 
 /* question bank */
-.banksec { background: rgba(255,214,10,.12); border: 1px dashed rgba(200,160,0,.5); border-radius: 18px; padding: 14px 16px 10px; margin-bottom: 18px; }
+.banksec { background: rgba(255,214,10,.12); border: 1px dashed rgba(200,160,0,.5); border-radius: 18px; padding: 10px 16px; margin-bottom: 18px; }
+.banksec[open] { padding-bottom: 12px; }
+.banksum { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; cursor: pointer; list-style: none; font-size: 1.05rem; }
+.banksum::-webkit-details-marker { display: none; }
+.bankarrow { display: inline-block; transition: transform .15s; font-size: .9rem; opacity: .7; }
+.banksec[open] .bankarrow { transform: rotate(90deg); }
+.banklow { font-size: .8rem; font-weight: 800; color: #b3261e; background: rgba(226,27,60,.1); padding: 2px 8px; border-radius: 99px; }
 .banktotal { font-weight: 800; font-size: 1.05rem; color: var(--ink-2); margin: 2px 0 10px; } .banktotal b { font-size: 1.5rem; color: var(--ink); } .banktotal span { color: var(--ink-3); font-size: .9rem; }
 .bankgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
 .bankcell { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; background: #fff; border: 2px solid var(--line); border-radius: 12px; padding: 10px 12px; cursor: pointer; font: inherit; text-align: left; }
