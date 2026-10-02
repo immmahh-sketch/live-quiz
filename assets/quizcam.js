@@ -29,11 +29,11 @@ window.QuizCam = (() => {
   const MIN_DB = -50;          // never speech below this (dBFS)
   const OVER_FLOOR = 12;       // dB above a person's own background noise
   const FLOOR_FRAMES = 80;     // background = quietest reading of the last 8 s
-  const START = [3, 4];        // speech starts after 3 of the last 4 readings
-  const HANG = 1200;           // still talking through pauses this long
+  const START = [2, 3];        // speech starts after 2 of the last 3 readings (about 0.2 s; was 3 of 4)
+  const HANG = 700;            // still talking through pauses this long (was 1.2 s: the next speaker waited)
   const HOST_TAKE = 400;       // the host takes the tile after this much talking
-  const HOST_HOLD = 1500;      // and keeps it until quiet this long
-  const MIN_SHOW = 2500;       // each person stays up at least this long
+  const HOST_HOLD = 600;       // and keeps it until quiet this long (was 1.5 s: a player answering the host waited)
+  const MIN_SHOW = 1500;       // each person stays up at least this long (was 2.5 s)
   const LOUDER_DB = 6;         // a player takes over a talking player only this much louder…
   const LOUDER_FOR = 1500;     // …for this long
   const FADE_AFTER = 4000;     // tile fades after everyone has been quiet this long
