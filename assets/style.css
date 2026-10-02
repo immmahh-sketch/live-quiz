@@ -1375,4 +1375,7 @@ body.oncall.ptr-idle, body.oncall.ptr-idle * { cursor: none !important; }
 .callbar button.on { background: #26c281; }
 .callbar button.go { background: #ffd60a; color: #1b1544; }
 body.hascallbar .app { padding-top: calc(48px + env(safe-area-inset-top)); }
+/* push to talk (play.html): held, never tapped, so no selection, magnifier or long-press menu */
+.callbar .ptt { touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; padding: 6px 12px; background: rgba(255,255,255,.2); }
+.callbar .ptt.talking { background: #e21b3c; transform: scale(1.06); }
 

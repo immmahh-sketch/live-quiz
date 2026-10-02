@@ -219,11 +219,14 @@ function syncReveal(s) {
 /** The pause veil over the phone, and in run-itself mode a small pause button in the corner. */
 // ---- the quiz call: while the host screen is on it (s.call), this phone can send its camera and mic to the room ----
 // Nothing of the call shows here but a slim bar at the top; the game screen stays as it is (assets/phonecam.js).
-let callGoneAt = 0;
+// The mic is push to talk (user's rule, 2 Oct 2026): it is open only while 🎤 is held, so a phone next to the TV never
+// sends the TV's sound back (everyone hearing themselves). The button sits in the bar, apart from the answers, and
+// holding it never touches the game: a second finger can answer meanwhile.
+let callGoneAt = 0, talkPointer = null;
 function callBarHtml() {
   const st = PhoneCam.state;
-  if (st === 'live') return `<span class="cb-live">${PhoneCam.camOn || PhoneCam.micOn ? '🔴' : '⚪'}</span><span class="cb-text">${PhoneCam.camOn || PhoneCam.micOn ? 'Sending to the room' : 'Camera and mic off'}</span>
-    <button data-callact="cam" class="${PhoneCam.camOn ? 'on' : ''}" aria-pressed="${PhoneCam.camOn}">📹 ${PhoneCam.camOn ? 'On' : 'Off'}</button><button data-callact="mic" class="${PhoneCam.micOn ? 'on' : ''}" aria-pressed="${PhoneCam.micOn}">🎤 ${PhoneCam.micOn ? 'On' : 'Off'}</button>`;
+  if (st === 'live') return `<span class="cb-live">${PhoneCam.camOn ? '🔴' : '⚪'}</span><span class="cb-text">${PhoneCam.camOn ? 'Camera on in the room' : 'Camera off'}</span>
+    <button data-callact="cam" class="${PhoneCam.camOn ? 'on' : ''}" aria-pressed="${PhoneCam.camOn}">📹 ${PhoneCam.camOn ? 'On' : 'Off'}</button><button type="button" class="ptt" data-ptt aria-label="Hold to talk">🎤 Hold to talk</button>`;
   if (st === 'joining') return '<span class="cb-text">Joining the call…</span>';
   if (st === 'error') return `<span class="cb-text">⚠️ ${esc(PhoneCam.error)}</span><button data-callact="start">Try again</button>`;
   return '<span class="cb-text">📹 Be seen and heard in the room</span><button data-callact="start" class="go">Turn on</button>';
@@ -241,7 +244,11 @@ function syncCallBar(s) {
   if (!want || !PhoneCam.supported()) { if (bar) bar.remove(); document.body.classList.remove('hascallbar'); return; }
   if (!bar) { bar = document.createElement('div'); bar.id = 'callBar'; bar.className = 'callbar'; document.body.appendChild(bar); }
   bar.classList.toggle('live', PhoneCam.state === 'live');
-  bar.innerHTML = callBarHtml();
+  // Redrawn only when what it shows changes shape: never mid-press, or the held button would vanish under the finger.
+  const key = [PhoneCam.state, PhoneCam.camOn, PhoneCam.error].join('|');
+  if (bar.dataset.k !== key) { bar.dataset.k = key; bar.innerHTML = callBarHtml(); }
+  const ptt = $('[data-ptt]', bar);
+  if (ptt) { ptt.classList.toggle('talking', PhoneCam.micOn); ptt.textContent = PhoneCam.micOn ? '🎙️ Talking…' : '🎤 Hold to talk'; }
   document.body.classList.add('hascallbar');
 }
 if (window.PhoneCam) PhoneCam.onChange(() => syncCallBar(P.state));
@@ -250,8 +257,20 @@ document.addEventListener('click', (e) => {
   const act = b.dataset.callact, c = P.state?.call;
   if (act === 'start' && c) PhoneCam.start({ room: c.room, pass: c.pass, name: P.name, pid: P.pid });
   if (act === 'cam') PhoneCam.setCam(!PhoneCam.camOn);
-  if (act === 'mic') PhoneCam.setMic(!PhoneCam.micOn);
 });
+// push to talk: press opens the mic, letting go (or the finger sliding off the screen, or the phone switching away) shuts it
+const talkStop = () => { if (talkPointer === null) return; talkPointer = null; if (window.PhoneCam && PhoneCam.micOn) PhoneCam.setMic(false); };
+document.addEventListener('pointerdown', (e) => {
+  const b = e.target.closest('[data-ptt]'); if (!b || !window.PhoneCam || PhoneCam.state !== 'live') return;
+  e.preventDefault(); talkPointer = e.pointerId;
+  try { b.setPointerCapture(e.pointerId); } catch {}
+  PhoneCam.setMic(true);
+});
+document.addEventListener('pointerup', (e) => { if (e.pointerId === talkPointer) talkStop(); });
+document.addEventListener('pointercancel', (e) => { if (e.pointerId === talkPointer) talkStop(); });
+document.addEventListener('contextmenu', (e) => { if (e.target.closest('[data-ptt]')) e.preventDefault(); });
+document.addEventListener('visibilitychange', () => { if (document.hidden) talkStop(); });
+window.addEventListener('blur', talkStop);
 function syncPauseUi(s) {
   let v = $('#pauseVeil');
   if (s.paused) {
