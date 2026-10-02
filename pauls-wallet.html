@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1b1544">
+<title>Dan Ward: Man Down · Paul's Wallet presents</title>
+<meta name="description" content="The man who keeps winning Paul's quiz is doing stand-up. Dan Ward: Man Down, The Stand Newcastle, Sunday 29 November 2026.">
+<meta property="og:title" content="Dan Ward: Man Down · Paul's Wallet presents">
+<meta property="og:description" content="He's emptied Paul's wallet every Friday since lockdown. Now he wants yours. The Stand Newcastle, Sun 29 Nov, 8pm.">
+<meta property="og:image" content="https://standcdn.thestand.co.uk/website-files-public/new-directions--dan-ward-man-down.jpg?_id=62ce1b48-3527-44ce-97cc-95eb33be5707">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/brand/icon-64.png">
+<link rel="apple-touch-icon" href="assets/brand/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  /* Paul's Wallet: a fan page for Dan Ward's show, in Let's Quiz colours. Every ticket link goes to The Stand. */
+  :root { --stage: #1b1544; --stage-2: #2a1f6e; --card: rgba(255,255,255,.06); --line: rgba(255,255,255,.12); --sun: #ffd54a; --amber: #ffb020; --ink: #1b1544; --mute: rgba(255,255,255,.72); --red: #e2363b; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { background: radial-gradient(1200px 700px at 50% -10%, var(--stage-2), var(--stage) 70%) fixed, var(--stage); color: #fff; font-family: Nunito, system-ui, sans-serif; line-height: 1.5; padding-bottom: calc(84px + env(safe-area-inset-bottom)); overflow-x: hidden; }
+  a { color: var(--sun); }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+  /* ---- top ---- */
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: calc(14px + env(safe-area-inset-top)) 0 10px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 900; color: #fff; text-decoration: none; }
+  .brand img { width: 34px; height: 34px; }
+  .wallet { font-weight: 800; font-size: .85rem; color: var(--mute); text-align: right; }
+  .wallet b { color: var(--sun); }
+  /* ---- hero ---- */
+  .kicker { display: inline-block; margin-top: 18px; background: var(--sun); color: var(--ink); font-weight: 900; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; transform: rotate(-2deg); }
+  h1 { margin: 12px 0 6px; font-size: clamp(2.4rem, 10vw, 4.2rem); line-height: .98; font-weight: 900; text-wrap: balance; }
+  h1 span { color: var(--sun); }
+  .lead { margin: 0 0 18px; font-size: clamp(1.08rem, 3.6vw, 1.3rem); font-weight: 700; color: var(--mute); text-wrap: pretty; }
+  .photo { position: relative; border-radius: 22px; overflow: hidden; background: #a9b3b5; box-shadow: 0 24px 60px rgba(0,0,0,.4); aspect-ratio: 736 / 414; }
+  .photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .sticker { position: absolute; font-weight: 900; color: var(--ink); background: var(--sun); border-radius: 14px; padding: 8px 12px; line-height: 1.1; box-shadow: 0 8px 20px rgba(0,0,0,.3); font-size: clamp(.78rem, 2.6vw, 1rem); }
+  .sticker.one { top: 6%; left: 4%; transform: rotate(-6deg); }
+  .sticker.two { bottom: 7%; right: 4%; transform: rotate(4deg); background: #fff; }
+  .sticker small { display: block; font-weight: 800; opacity: .7; font-size: .78em; }
+  .credit { font-size: .75rem; color: var(--mute); margin: 6px 2px 0; }
+  /* ---- facts and buttons ---- */
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin: 18px 0; }
+  .fact { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; }
+  .fact small { display: block; color: var(--mute); font-weight: 800; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; }
+  .fact b { font-size: 1.05rem; }
+  .buy { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 16px 20px; border-radius: 16px; background: linear-gradient(135deg, var(--sun), var(--amber)); color: var(--ink); font-weight: 900; font-size: 1.2rem; text-decoration: none; box-shadow: 0 12px 30px rgba(255,176,32,.3); transition: transform .12s; }
+  .buy:hover { transform: translateY(-2px); }
+  .buy:active { transform: translateY(1px); }
+  .buy small { font-weight: 800; font-size: .8rem; opacity: .75; }
+  .note { text-align: center; color: var(--mute); font-size: .85rem; margin: 8px 0 0; }
+  /* ---- sections ---- */
+  section { margin: 40px 0; }
+  h2 { font-size: clamp(1.5rem, 5.5vw, 2rem); line-height: 1.1; margin: 0 0 12px; font-weight: 900; text-wrap: balance; }
+  h2 em { font-style: normal; color: var(--sun); }
+  p { margin: 0 0 14px; font-size: 1.05rem; text-wrap: pretty; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 18px; }
+  blockquote { margin: 0 0 14px; padding: 2px 0 2px 14px; border-left: 4px solid var(--sun); font-weight: 700; }
+  blockquote cite { display: block; font-style: normal; font-weight: 800; color: var(--mute); font-size: .88rem; margin-top: 2px; }
+  /* Dan v the Sinnerman */
+  .vs { width: 100%; border-collapse: separate; border-spacing: 0; font-size: .98rem; }
+  .vs th, .vs td { padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: top; text-align: left; }
+  .vs thead th { font-weight: 900; font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; color: var(--mute); }
+  .vs thead th:last-child { color: var(--sun); }
+  .vs tbody th { font-weight: 800; color: var(--mute); width: 28%; }
+  .vs tr:last-child th, .vs tr:last-child td { border-bottom: 0; }
+  /* won't hear */
+  .nope { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .nope li { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px 10px 44px; position: relative; font-weight: 700; }
+  .nope li::before { content: '✕'; position: absolute; left: 14px; top: 9px; color: var(--red); font-weight: 900; font-size: 1.1rem; }
+  /* the leaderboard */
+  .board { display: grid; gap: 6px; }
+  .row { display: grid; grid-template-columns: 34px 1fr auto; gap: 10px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 9px 12px; font-weight: 800; }
+  .row .n { color: var(--mute); font-weight: 900; }
+  .row.top { background: linear-gradient(135deg, var(--sun), var(--amber)); color: var(--ink); border: 0; }
+  .row.top .n { color: var(--ink); }
+  .row .s { font-variant-numeric: tabular-nums; }
+  /* stripes, for the Sunderland bit */
+  .stripes { background: repeating-linear-gradient(90deg, #d21f26 0 22px, #fff 22px 44px); border-radius: 20px; padding: 6px; }
+  .stripes .card { background: var(--stage); border: 0; }
+  footer { margin: 50px 0 20px; color: var(--mute); font-size: .82rem; text-align: center; }
+  footer p { font-size: .82rem; margin: 0 0 6px; }
+  /* sticky ticket bar */
+  .dock { position: fixed; left: 0; right: 0; bottom: 0; padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); background: rgba(27,21,68,.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-top: 1px solid var(--line); z-index: 5; }
+  .dock .in { max-width: 760px; margin: 0 auto; display: flex; gap: 12px; align-items: center; }
+  .dock .what { flex: 1; min-width: 0; font-weight: 800; font-size: .9rem; line-height: 1.25; }
+  .dock .what small { display: block; color: var(--mute); font-weight: 700; }
+  .dock .buy { width: auto; padding: 11px 18px; font-size: 1rem; border-radius: 12px; white-space: nowrap; box-shadow: none; }
+  @media (max-width: 380px) { .dock .what small { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .buy { transition: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="bar">
+    <a class="brand" href="/"><img src="assets/brand/icon-64.png" alt="">Let's Quiz!</a>
+    <div class="wallet">Paul's wallet:<br><b>£0.00</b> and falling</div>
+  </header>
+
+  <span class="kicker">Paul's Wallet presents</span>
+  <h1>Dan Ward: <span>Man Down</span></h1>
+  <p class="lead">He's won Paul's quiz so many times the prize fund has been declared a disaster zone. Now he's doing stand-up. Finally, a room where somebody else gets the last word.</p>
+
+  <div class="photo">
+    <img src="https://standcdn.thestand.co.uk/website-files-public/new-directions--dan-ward-man-down.jpg?_id=62ce1b48-3527-44ce-97cc-95eb33be5707" alt="Dan Ward, arms folded, in a beige coat" width="736" height="414" onerror="this.remove()">
+    <div class="sticker one">QUIZ CHAMPION<small>(again)</small></div>
+    <div class="sticker two">Arms folded because<small>he knew the answer</small></div>
+  </div>
+  <p class="credit">Photo: The Stand Comedy Club</p>
+
+  <div class="facts">
+    <div class="fact"><small>When</small><b>Sun 29 Nov 2026</b></div>
+    <div class="fact"><small>Doors · Show</small><b>7pm · 8pm</b></div>
+    <div class="fact"><small>Where</small><b>The Stand, Newcastle</b></div>
+    <div class="fact"><small>Tickets</small><b>£10 to £12</b></div>
+    <div class="fact"><small>Length</small><b>About 100 mins</b></div>
+    <div class="fact"><small>Age</small><b>18+</b></div>
+  </div>
+  <a class="buy" href="https://www.thestand.co.uk/performance/20708/new-directions--dan-ward-man-down/20261129/newcastle" target="_blank" rel="noopener">🎟️ Buy tickets</a>
+  <p class="note">Sold by The Stand. Unlike the quiz, you get something back for your money.</p>
+
+  <section>
+    <h2>The story so far <em>(as told by the people he keeps beating)</em></h2>
+    <p>Dan Ward grew up in a time and place where vulnerability was a dirty word, with too many syllables to be one of the cool ones. Thankfully, so was "quizzing", so he kept that quiet as well.</p>
+    <p>Every great comedian needs a hero. Dan's is Paul Sinha: The Sinnerman, Chaser on <i>The Chase</i>, stand-up comedian, and proof that knowing an absurd amount of facts and making a room laugh can be done by the same person. Paul Sinha got there through years on the circuit and a seat on the Chasers' bench.</p>
+    <p>Dan took a different route: Paul's Lockdown Quiz, the world-renowned online quiz, beamed live to a global audience of almost a dozen households. He won it. Then he won it again. Then he kept on winning it, Friday after Friday, until Paul's wallet had to be put on a drip.</p>
+    <p>Which brings us to the drip. When serious illness left Dan "fighting somewhat feebly for his life" (the show's own words), he was fighting anything but feebly for top spot on the leaderboard. Hospital bed, wires everywhere, a heart transplant on the way, and his answers were still in before the clock hit ten. The nurses thought the beeping was his monitors. It was the buzzer.</p>
+    <p>He got a brand new heart. Paul got a brand new overdraft.</p>
+    <p>Now Dan has written a show about manhood, mortality and rebirth. "Man Down", says the official blurb, is "basically Rudyard Kipling's poem 'If', if it was an hour long, more working class &amp; arguably better." We've heard the running order. There's a lot about strength. There's a lot about masculinity. There is not one single mention of the life-saving power of a Friday night quiz. Kipling would have put it in. <i>If you can keep your head when all about you are losing theirs, and still know the capital of Burkina Faso…</i></p>
+    <a class="buy" href="https://www.thestand.co.uk/performance/20708/new-directions--dan-ward-man-down/20261129/newcastle" target="_blank" rel="noopener">🎟️ Buy tickets <small>before he wins those too</small></a>
+  </section>
+
+  <section>
+    <h2>Dan v <em>the Sinnerman</em></h2>
+    <div class="card">
+      <table class="vs">
+        <thead><tr><th></th><th>Paul Sinha</th><th>Dan Ward</th></tr></thead>
+        <tbody>
+          <tr><th>Day job</th><td>Chaser on <i>The Chase</i></td><td>Chaser of Paul's prize money</td></tr>
+          <tr><th>Stand-up</th><td>Years of it, Edinburgh and all</td><td>Debut solo show, 29 Nov</td></tr>
+          <tr><th>Nickname</th><td>The Sinnerman</td><td>The Sunderman</td></tr>
+          <tr><th>Medical bit</th><td>Used to be a doctor</td><td>Kept a whole ward of them busy</td></tr>
+          <tr><th>Hearts</th><td>One, original</td><td>Two (the second one's much better)</td></tr>
+          <tr><th>Beats quiz contestants for</th><td>Television</td><td>Fun. Mostly fun. Some cash.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Things you will <em>not</em> hear in Man Down</h2>
+    <ul class="nope">
+      <li>"Huge thanks to Paul's quiz for getting me through it."</li>
+      <li>Any mention of answering a picture round with a cannula in.</li>
+      <li>The final leaderboards. Any of them. (We have them. See below.)</li>
+      <li>"Howay the lads."</li>
+      <li>The capital of Burkina Faso. He knows it. He's just not saying.</li>
+      <li>An apology to Paul's wallet.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>A typical <em>Friday night</em></h2>
+    <div class="board" aria-label="A quiz leaderboard">
+      <div class="row top"><span class="n">1</span><span>🏆 Dan</span><span class="s">14,200</span></div>
+      <div class="row"><span class="n">2</span><span>Everyone else</span><span class="s">a lot less</span></div>
+      <div class="row"><span class="n">3</span><span>Paul's wallet</span><span class="s">−£∞</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>His real <em>disability</em></h2>
+    <div class="stripes"><div class="card">
+      <p>Some comedians overcome the odds. Dan supports Sunderland and is trying to make it on the Newcastle comedy scene.</p>
+      <p>The Stand is on High Bridge, about a ten-minute walk from St James' Park. He's chosen to do his debut solo show in the heart of enemy territory, in front of a Toon crowd, on purpose. Medically, he's been through worse. Emotionally, this might be the bravest thing he's ever done.</p>
+      <p>Reasonable adjustments have been made. Nobody will mention the derby. Probably.</p>
+    </div></div>
+  </section>
+
+  <section>
+    <h2>What <em>they</em> said</h2>
+    <div class="card">
+      <blockquote>"An inspiration… the laughs were genuine"<cite>Wales Online</cite></blockquote>
+      <blockquote>"A great laugh!"<cite>The Shields Gazette</cite></blockquote>
+      <blockquote>"He's won again."<cite>Paul, every Friday since 2020</cite></blockquote>
+      <blockquote>"I've bought a ticket. With what's left."<cite>Paul's wallet</cite></blockquote>
+      <blockquote>"We checked. He wasn't Googling. That's somehow worse."<cite>The rest of the quiz</cite></blockquote>
+    </div>
+  </section>
+
+  <section>
+    <h2>The <em>serious</em> bit</h2>
+    <p>Man Down is Dan's debut solo show: a coming-of-middle-age story about manhood, mortality and rebirth. It's directed by stand-up and comedy director Lee Kyle as part of The Stand's New Directions, which backs promising comedy talent in the North East.</p>
+    <p>He's been to the edge and come back with an hour of stand-up. Go and give him the biggest laugh of his life. He's earned it, and he's certainly earned enough off Paul to buy you a drink afterwards.</p>
+    <a class="buy" href="https://www.thestand.co.uk/performance/20708/new-directions--dan-ward-man-down/20261129/newcastle" target="_blank" rel="noopener">🎟️ Buy tickets</a>
+    <p class="note">The Stand Comedy Club, 31 High Bridge, Newcastle NE1 1EW · £1 booking fee per ticket (max £6) · Over 18s only</p>
+  </section>
+
+  <footer>
+    <p>A fan page from Paul's Lockdown Quiz, made with love and a very light wallet.</p>
+    <p>Not run by The Stand, who sell the tickets. Paul Sinha has nothing to do with this; he's simply admired from afar. Dan was not consulted. He was busy winning.</p>
+  </footer>
+</div>
+
+<div class="dock"><div class="in">
+  <div class="what">Dan Ward: Man Down<small>The Stand Newcastle · Sun 29 Nov · 8pm</small></div>
+  <a class="buy" href="https://www.thestand.co.uk/performance/20708/new-directions--dan-ward-man-down/20261129/newcastle" target="_blank" rel="noopener">Buy tickets</a>
+</div></div>
+</body>
+</html>
