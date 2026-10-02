@@ -74,6 +74,8 @@ window.PhoneCam = (() => {
     S.published = out.map((o) => o.name).filter((n) => !failed.has(n));
     if (!S.published.length) throw new Error('The call would not take the camera');
     pc.onconnectionstatechange = () => { if (pc === S.pc && pc.connectionState === 'failed' && S.state === 'live') reconnect(); };
+    // Push to talk holds on every connection, a reconnect's too: nothing goes out until 🎤 is held.
+    await sendMic();
     await waitConnected(pc, 15000);
   }
 
@@ -143,8 +145,7 @@ window.PhoneCam = (() => {
       try { if (navigator.audioSession) navigator.audioSession.type = 'play-and-record'; } catch {}
       S.stream = await media();
       S.stream.getTracks().forEach(watchTrack);
-      await publish();
-      await sendMic(); // nothing goes out until 🎤 is held (no echo from the TV)
+      await publish(); // (publish leaves the mic unsent until 🎤 is held: no echo from the TV)
       S.state = 'live'; S.micState = micStateNow(); S.fixFails = 0; emit();
       announce(); watchMedia();
     } catch (e) { stop(); set('error', e.message); }
