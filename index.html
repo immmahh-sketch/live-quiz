@@ -595,8 +595,16 @@ async function saveAsTemplate() {
   setTimeout(() => $('#tpl_name', m).select(), 50);
 }
 const roundExtras = (r) => Object.fromEntries(ROUND_EXTRAS.filter((k) => r[k] != null && r[k] !== '').map((k) => [k, r[k]]));
+/** The on/off switch for a game people open by code (a warm-up or a just-for-fun game). */
+const playSwitch = (id, p) => p ? `<button class="playsw ${p.on ? 'on' : ''}" data-play="${id}" data-on="${p.on ? 1 : 0}" title="${p.on ? 'On: anyone with the code can play. Click to switch it off.' : 'Off: the code shows a switched-off page. Click to switch it on.'}"><i></i>${p.on ? 'On' : 'Off'}${p.on && p.ended ? ' (ended)' : ''}</button>` : '';
+document.addEventListener('click', (e) => { const b = e.target.closest?.('[data-play]'); if (!b) return; e.preventDefault(); e.stopPropagation(); b.disabled = true; togglePlay(b.dataset.play, b.dataset.on !== '1'); });
+async function togglePlay(id, on) {
+  try { await api('quiz_toggle', { id, on }); toast(on ? '🟢 Switched on: people can play it again' : '⚪ Switched off: nobody can play it until you switch it back on'); }
+  catch (e) { toast(e.message, true); }
+  loadList();
+}
 function quizCard(q) {
-  return `<div class="card quizcard"><h3>${esc(q.title)}</h3>
+  return `<div class="card quizcard"><h3>${esc(q.title)}</h3>${q.play ? `<div class="row" style="gap:8px;margin:2px 0 6px">${playSwitch(q.id, q.play)}<span class="muted small">${q.play.fun ? 'Game' : 'Warm-up'} code <b>${esc(q.play.code)}</b></span></div>` : ''}
     <div class="muted small">${q.count} question${q.count === 1 ? '' : 's'} · updated ${fmtDate(q.updated_at)}</div>
     <div class="types">${(q.types = q.types.filter((t) => t !== 'slide')).slice(0, 4).map((t) => `<span class="tag">${esc(TYPES[t]?.label || t)}</span>`).join('')}${q.types.length > 4 ? `<span class="tag" style="background:var(--paper);color:var(--ink-3)">+${q.types.length - 4} more</span>` : ''}</div>
     <div class="actions"><button class="btn btn-primary btn-sm" data-host="${q.id}" ${q.count ? '' : 'disabled'}>▶ Host</button>
@@ -617,7 +625,7 @@ function renderWarmups(r) {
     const state = w.switchedOff ? 'Switched off' : w.open ? 'Open' : 'Ended';
     const solo = !!w.fun; // a game just for fun, played warm-up style (no quiz night, no bonus)
     return `<h2 style="font-size:1.2rem">${solo ? '🎮 Scoreboard' : '🔥 Warm-up scoreboard'} · ${esc(w.title)}</h2><div class="card">
-      <div class="row" style="margin-bottom:6px;flex-wrap:wrap"><span class="tag" style="${w.open ? '' : 'background:var(--paper);color:var(--ink-3)'}">${state}</span><b>Code ${esc(w.code)}</b>
+      <div class="row" style="margin-bottom:6px;flex-wrap:wrap">${playSwitch(w.id, { on: !w.switchedOff, ended: !!w.until && new Date(w.until) <= Date.now() })}<span class="tag" style="${w.open ? '' : 'background:var(--paper);color:var(--ink-3)'}">${state}</span><b>Code ${esc(w.code)}</b>
         <span class="muted small">${w.until ? `ends ${esc(LQW.fmtEnd(w.until))} · ${left(w.until)}` : 'no end time set'} · ${plays.length} player${plays.length === 1 ? '' : 's'} · ${games} game${games === 1 ? '' : 's'}</span></div>
       <div class="row" style="margin-bottom:8px;flex-wrap:wrap"><span class="muted small">${w.forQuiz ? `Leads up to <b>${esc(titleOf(w.forQuiz))}</b>` : solo ? `Just for fun · ${w.bots} bots · ${w.replay ? 'play as often as you like (best score counts)' : 'one go per phone'}` : 'Not linked to a quiz yet (Settings on the warm-up)'}</span><div class="grow"></div>
         <code class="small">${esc(warmupLink(w.code))}</code><button class="btn btn-ghost btn-sm" data-wucopy="${esc(w.code)}">Copy link</button>

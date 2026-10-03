@@ -146,9 +146,10 @@ const leftText = (iso) => { const ms = new Date(iso) - Date.now(); const h = Mat
 function closed(r) {
   const w = (r.top || [])[0];
   app.innerHTML = `<div class="land">${brand}<h1>${esc(r.title)}</h1>
-    <div class="card played"><div class="em">⏰</div><h2 style="margin:4px 0 0">${solo(r) ? 'This game has closed' : 'The warm-up has closed'}</h2>
-      ${w ? `<p class="muted" style="margin:8px 0 0">Top of the table: <b>${esc(w.emoji || '')} ${esc(w.name)}</b> with ${w.score} points${solo(r) ? '.' : ', who starts the quiz 1,000 points ahead.'}</p>` : `<p class="muted">${solo(r) ? 'Thanks for playing!' : 'See you at the quiz!'}</p>`}</div>
-    <div class="card"><h2>🏆 Final ${solo(r) ? '' : 'warm-up '}scoreboard</h2>${boardHtml(r.board || r.top || [])}</div></div>`;
+    ${!r.ended ? `<div class="card played"><div class="em">⏸️</div><h2 style="margin:4px 0 0">${solo(r) ? 'This game is switched off for now' : 'The warm-up is switched off for now'}</h2><p class="muted" style="margin:8px 0 0">Check back soon!</p></div>` : ''}
+    ${!r.ended ? '' : `<div class="card played"><div class="em">⏰</div><h2 style="margin:4px 0 0">${solo(r) ? 'This game has closed' : 'The warm-up has closed'}</h2>
+      ${w ? `<p class="muted" style="margin:8px 0 0">Top of the table: <b>${esc(w.emoji || '')} ${esc(w.name)}</b> with ${w.score} points${solo(r) ? '.' : ', who starts the quiz 1,000 points ahead.'}</p>` : `<p class="muted">${solo(r) ? 'Thanks for playing!' : 'See you at the quiz!'}</p>`}</div>`}
+    <div class="card"><h2>🏆 ${r.ended ? 'Final ' : ''}${solo(r) ? (r.ended ? 'scoreboard' : 'Scoreboard so far') : (r.ended ? 'warm-up scoreboard' : 'Warm-up scoreboard so far')}</h2>${boardHtml(r.board || r.top || [])}</div></div>`;
 }
 function played(r) {
   const p = r.played;

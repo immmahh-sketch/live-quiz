@@ -1036,6 +1036,8 @@ Deno.serve(async (req) => {
         id: r.id, title: r.title, updated_at: r.updated_at, created_at: r.created_at,
         template: !!(r.settings && r.settings.template),
         bank: !!(r.settings && r.settings.bank),
+        // a warm-up or a just-for-fun game: people open it by its code, so it has an on/off switch in the builder
+        play: r.settings?.warmup ? { code: String(r.settings.warmup.code || ""), on: r.settings.warmup.open !== false, fun: !!r.settings.warmup.fun, ended: !!(r.settings.warmup.until && Date.parse(r.settings.warmup.until) <= Date.now()) } : null,
         rounds: Array.isArray(r.settings?.rounds) ? r.settings.rounds.map((x: any) => ({ title: x?.title || "", count: Object.values(x?.mix || {}).reduce((a: number, b: any) => a + (+b || 0), 0) || +x?.count || 0, types: Object.keys(x?.mix || {}) })) : [],
         count: Array.isArray(r.questions) ? r.questions.filter((q: any) => q?.type !== "slide").length : 0,
         types: Array.isArray(r.questions) ? Array.from(new Set(r.questions.filter((q: any) => q?.type !== "slide").map((q: any) => q.type))) : [],
@@ -1585,6 +1587,17 @@ Deno.serve(async (req) => {
       awards[key] = { picks, d: fresh };
       await rest(`quiz_quizzes?id=eq.${quiz.id}`, { method: "PATCH", headers: { Prefer: "return=minimal" }, body: JSON.stringify({ settings: { ...quiz.settings, warmup: { ...w, taskAwards: awards } } }) });
       return json({ ok: true, moved, awards: fresh });
+    }
+
+    if (action === "quiz_toggle") {
+      // The builder's on/off switch for a game people open by code (a warm-up, or a just-for-fun game): off, the code
+      // still finds it but nobody can play; on again, it carries on with the same scoreboard.
+      if (!UUID_RE.test(String(body.id))) return json({ error: "Bad quiz id." }, 400);
+      const q = (await rest(`quiz_quizzes?id=eq.${body.id}&select=id,settings`))?.[0];
+      if (!q?.settings?.warmup) return json({ error: "Only warm-ups and games played by code can be switched on and off." }, 400);
+      const settings = { ...q.settings, warmup: { ...q.settings.warmup, open: !!body.on } };
+      await rest(`quiz_quizzes?id=eq.${q.id}`, { method: "PATCH", headers: { Prefer: "return=minimal" }, body: JSON.stringify({ settings }) });
+      return json({ ok: true, on: !!body.on });
     }
 
     if (action === "warmup_answers") {
