@@ -20,6 +20,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="assets/common.js"></script>
 <script src="assets/phonecam.js"></script>
+<script src="assets/party-phone.js"></script>
 <script>
 const { $, $$, esc, uid, TYPES, COLORS, store, ordinal } = LQ;
 const app = $('#app');
@@ -110,6 +111,7 @@ function connect() {
   ch.on('broadcast', { event: 'ack' }, ({ payload }) => { if (payload.pid === P.pid) { P.answered[payload.qId] = true; render(); } });
   ch.on('broadcast', { event: 'race' }, ({ payload }) => onRaceEvent(payload));
   ch.on('broadcast', { event: 'tq' }, ({ payload }) => onTwentyEvent(payload));
+  ch.on('broadcast', { event: 'cardno' }, ({ payload }) => { if (payload?.pid === P.pid) toast(payload.why || "That card can't be played right now", true); });
   ch.on('broadcast', { event: 'kick' }, ({ payload }) => { if (payload.pid === P.pid) { clearInterval(watchdogT); leave(); P.code = ''; renderJoin(payload.why ? String(payload.why).slice(0, 160) : 'The host has removed you from the game. You can join again if that was a mistake.'); } });
   ch.subscribe(async (status) => {
     if (status === 'SUBSCRIBED') {
@@ -144,7 +146,7 @@ function onState(s) {
   syncCallBar(s);
   if (!P.joined) { P.joined = true; clearInterval(helloT); }
   keepAwake();
-  if (s.phase === 'question' && typeof s.remainingMs === 'number') P.deadline = Date.now() + (s.wipe ? s.wipe.remainingMs : s.remainingMs);
+  if (s.phase === 'question' && typeof s.remainingMs === 'number') { P.deadline = Date.now() + (s.wipe ? s.wipe.remainingMs : s.remainingMs); partyDeadline(s); }
   if (Array.isArray(s.answered) && s.answered.includes(P.pid)) P.answered[s.q?.id] = true;
   render();
 }
@@ -170,6 +172,7 @@ function watchdog() {
 function myResult() { return P.state?.results?.[P.pid]; }
 function render() {
   const s = P.state; if (!s) return;
+  partyPhoneAfter(s); // the power cards button and the banner when a card is played (assets/party-phone.js)
   const qId = s.q?.id || '';
   if (s.race && s.q) { syncRace(s); const el = $('#racePos'); if (el) el.outerHTML = racePlaceHtml(s); }
   const rc = P.race && P.race.qId === qId ? P.race : null;
@@ -196,9 +199,9 @@ function render() {
   const r = myResult();
   const score = r ? r.score : (s.top ? (s.top.find((t) => t.name === P.name)?.score ?? '') : '');
   const top = `<div class="app-top"><span>${esc(P.name)}${s.test ? '<span class="testtag" title="A test game: nothing is saved">🧪 Test</span>' : ''}${P.view ? '<span class="testtag" title="Viewing: you play along, but you are not a player and not on any leaderboard">👀 Viewing</span>' : ''}</span><span>${s.phase !== 'lobby' && s.phase !== 'slide' && s.qIndex >= 0 ? `Q${s.num ?? s.qIndex + 1}/${s.total}` : esc(s.title || '')}</span>${score !== '' && score !== undefined ? `<span class="score">${score}</span>` : '<span></span>'}</div>`;
-  const top2 = s.practice && ['typecard', 'countdown', 'question', 'grading', 'reveal'].includes(s.phase) ? '<div class="practicebar">🧪 Practice · no points</div>' : '';
+  const top2 = (s.practice && ['typecard', 'countdown', 'question', 'grading', 'reveal'].includes(s.phase) ? '<div class="practicebar">🧪 Practice · no points</div>' : '') + partyBadges(s);
   const ctrl = (cmd, label) => s.auto && !P.view ? `<button class="btn btn-primary btn-lg btn-block ctrlbtn" data-ctrl="${cmd}">${label}</button>` : '';
-  if (P.view && s.phase === 'question' && (s.race || s.wipe || s.potato || s.koth || s.bb || s.chase || s.draw || s.tq || s.uq)) app.innerHTML = top + top2 + `<div class="state"><div class="em">👀</div><h2>You're watching this one</h2><p class="muted">It's a game for the players. Watch the shared screen; you're back in for the next question.</p></div>`;
+  if (P.view && s.phase === 'question' && (s.race || s.wipe || s.potato || s.koth || s.bb || s.chase || s.draw || s.tq || s.uq || s.pc || s.task)) app.innerHTML = top + top2 + `<div class="state"><div class="em">👀</div><h2>You're watching this one</h2><p class="muted">It's a game for the players. Watch the shared screen; you're back in for the next question.</p></div>`;
   else if (s.phase === 'lobby' && P.view) app.innerHTML = top + top2 + `<div class="state"><div class="em">👀</div><h2>You're viewing, ${esc(P.name)}</h2><p class="muted">Play along with every question and keep your own score. You're not a player: you won't show in the game or on any leaderboard.</p></div>`;
   else if (s.phase === 'lobby') app.innerHTML = top + top2 + `<div class="state"><div class="em">🎉</div><h2>You're in, ${esc(P.name)}!</h2><p class="muted">${s.auto ? 'The game runs itself. When everyone is in, start it from here.' : 'Watch the shared screen. The quiz starts when the host presses go.'}</p>${ctrl('start', 'Start the quiz ▶')}</div>`;
   else if (s.phase === 'round') app.innerHTML = top + top2 + `<div class="state"><div class="em">🎯</div><p class="muted" style="margin:0">Round ${s.round?.n || ''}</p><h2>${esc(s.round?.title || '')}</h2>${s.round?.intro ? `<p style="font-weight:700">${esc(s.round.intro)}</p>` : ''}<p class="muted">${s.round?.count || ''} question${s.round?.count === 1 ? '' : 's'} coming up</p>${s.round?.practice ? '<div class="practicebar">🧪 Practice round · no points</div>' : ''}${ctrl('next', 'Start round ▶')}</div>`;
@@ -214,11 +217,12 @@ function render() {
     if (ri.step !== 'splash' && navigator.vibrate) try { navigator.vibrate(ri.step === 'bang' ? 200 : 40); } catch {}
   }
   else if (s.phase === 'countdown') app.innerHTML = top + top2 + `<div class="state"><div class="em">${TYPES[s.next?.type]?.icon || '⏳'}</div><h2>Get ready…</h2><p class="muted">Question ${s.next?.n || s.qIndex + 1}: ${esc(TYPES[s.next?.type]?.label || '')}</p></div>`;
+  else if (s.phase === 'question' && (s.pc || s.task) && !P.view) { const gs = s.pc || s.task; P.game = { at: Date.now(), rem: gs.remainingMs || 0, total: gs.totalMs || 0, frozen: s.paused }; app.innerHTML = top + top2 + '<div class="ptimer" id="gtimer"><i></i></div>' + (s.pc ? pcPhoneHtml(s) : taskPhoneHtml(s)); partyBindGame(s); timerT = setInterval(tickGame, 200); tickGame(); }
   else if (s.phase === 'question' && (s.potato || s.koth || s.bb || s.chase || s.draw || s.uq)) { const gs = s.koth || s.bb || s.chase || s.draw || s.uq; P.game = { at: Date.now(), rem: gs?.remainingMs || 0, total: gs?.totalMs || 0, frozen: s.paused }; app.innerHTML = top + top2 + (s.potato ? '' : '<div class="ptimer" id="gtimer"><i></i></div>') + (s.potato ? potatoHtml(s) : s.koth ? kothHtml(s) : s.chase ? chaseHtml(s) : s.draw ? drawHtml(s) : s.uq ? uqHtml(s) : bbHtml(s)); if (s.draw) bindDraw(s); else if (s.uq) bindUq(s); else bindGame(s); timerT = setInterval(tickGame, 200); tickGame(); }
   else if (s.phase === 'question' && s.tq) { const draft = $('#tqIn')?.value || P.tqDraft || ''; app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + twentyHtml(s); bindTwenty(s, draft); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'question' && s.race) { app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + raceHtml(s); bindRace(s); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'question' && s.wipe) { P.deadline = Date.now() + (s.wipe.remainingMs || 0); app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + wipeHtml(s); bindWipe(s); timerT = setInterval(tickTimer, 250); tickTimer(); }
-  else if (s.phase === 'question') { app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + rosterHtml(s) + (P.answered[qId] ? (P.skipped[qId] ? `<div class="state"><div class="em">⏭</div><h2>Skipped</h2><p class="muted">No points this time. Waiting for the others…</p></div>` : sentHtml()) : questionHtml(s.q)); bindQuestion(s.q); timerT = setInterval(tickTimer, 250); tickTimer(); }
+  else if (s.phase === 'question') { app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + rosterHtml(s) + (partyBlockHtml(s) || (P.answered[qId] ? (P.skipped[qId] ? `<div class="state"><div class="em">⏭</div><h2>Skipped</h2><p class="muted">No points this time. Waiting for the others…</p></div>` : sentHtml()) : questionHtml(s.q))); if (!partyBlockHtml(s)) bindQuestion(s.q); timerT = setInterval(tickTimer, 250); tickTimer(); }
   else if (s.phase === 'grading') app.innerHTML = top + top2 + `<div class="state"><div class="em">⏱</div><h2>Time's up!</h2><p class="muted">Checking the answers…</p></div>`;
   else if (s.phase === 'reveal') app.innerHTML = top + top2 + (s.pin ? pinRevealHtml(s) : '') + resultHtml(s, r) + (s.preview ? '' : ctrl('next', s.practice ? 'Next ▶' : 'Scores ▶'));
   else if (s.phase === 'scoreboard') app.innerHTML = top + top2 + `<div class="state"><div class="em">${r?.rank === 1 ? '🥇' : r?.rank === 2 ? '🥈' : r?.rank === 3 ? '🥉' : '📊'}</div><h2>${r?.viewer ? '👀 Viewing' : r ? `You're ${ordinal(r.rank)} of ${r.of}` : 'Scoreboard'}</h2><p class="muted">${r ? r.score + ' points so far' : ''}</p>${s.top ? `<div class="board" style="width:100%;margin-bottom:12px">${s.top.slice(0, 8).map((t) => `<div class="brow ${t.name === P.name ? 'me' : ''}"><div class="rank">${t.rank}</div><div>${esc(t.name)}</div><div>${t.score}</div></div>`).join('')}</div>` : ''}${ctrl('next', (s.more ?? s.qIndex + 1 < s.total) ? 'Next ▶' : 'Final results 🏆')}</div>`;
@@ -425,6 +429,7 @@ const nm = (s, pid) => s.names?.[pid]?.name || 'Player', em = (s, pid) => s.name
 /** What changes a game's screen: when it differs, the phone redraws. */
 function gameKey(s) {
   if (s.phase !== 'question') return '';
+  if (s.pc || s.task) return partyGameKey(s);
   if (s.potato) { const p = s.potato; return ['pot', (p.bombs || []).map((b) => [b.holder, b.stage, b.row?.i, b.exploded].join(',')).join(';'), p.players.length, P.work.potSent].join('|'); }
   if (s.koth) { const g = s.koth; return ['koth', g.n, g.step, g.fff?.row?.i, (g.fff?.answered || []).includes(P.pid), g.fff?.through?.length, g.h2h?.buzz, g.judges.includes(P.pid), g.result?.pid, g.winner, g.pair.join(), g.king].join('|'); }
   if (s.uq) { const g = s.uq; return ['uq', g.step, g.round, g.alive.includes(P.pid), g.answered.includes(P.pid), (g.results || []).map((r) => r.out ? 1 : 0).join(''), g.winners.join()].join('|'); }
@@ -648,6 +653,7 @@ function bindWipe(s) {
   $$('[data-w]').forEach((b) => b.onclick = () => { send('answer', { pid: P.pid, qId: s.q.id, answer: b.dataset.w }); $$('[data-w]').forEach((x) => x.disabled = true); b.style.borderColor = 'var(--brand)'; });
 }
 function questionHtml(q) {
+  const party = partyQuestionHtml(q); if (party) return party;
   let body = '';
   if (q.type === 'choice' || q.type === 'tf') body = `<div class="ans-grid">${q.options.map((o) => `<button class="abtn" data-k="${o.k}" style="background:${COLORS[o.c].hex}"><span class="shape">${COLORS[o.c].shape}</span>${esc(o.text)}</button>`).join('')}</div>`;
   if (q.type === 'sort') {
@@ -807,6 +813,7 @@ function pinRevealHtml(s) {
 }
 function bindQuestion(q) {
   if (!q || P.answered[q.id]) return;
+  if (partyBindQuestion(q)) return;
   if (q.tune) { if (P.tuneFor !== q.id) playPhoneTune(q.tune, q.id); const b = $('#ptuneAgain'); if (b) b.onclick = () => playPhoneTune(q.tune, q.id); }
   if (q.yt) mountPhoneYt(q.yt);
   if ($('#skipQ')) $('#skipQ').onclick = () => { P.skipped[q.id] = true; submit(q, 'skip'); };
@@ -860,13 +867,13 @@ function resultHtml(s, r) {
   if (!r) return `<div class="state"><h2>Results are on the screen</h2></div>`;
   const wipeQ = s.qType === 'wipeout' || r.wiped || r.points < 0, raceQ = s.qType === 'race' || r.raced;
   const cls = r.points < 0 ? 'neg' : r.correct || r.place ? 'ok' : raceQ ? 'part' : r.partial > 0 ? 'part' : 'no';
-  const head = r.note && (['potato', 'koth', 'blockbusters', 'chase', 'nearest', 'draw', 'twenty', 'unique'].includes(s.qType) || r.note.startsWith('👪')) ? esc(r.note) : r.skipped ? '⏭ Skipped' : r.wiped ? '💥 Wiped out!' : r.lost ? `💨 Last place · ${r.got ?? 0} right` : r.place === 2 ? `🥈 Second place · ${r.got ?? 0} right` : r.place === 3 ? `🥉 Third place · ${r.got ?? 0} right` : wipeQ ? (r.points > 0 ? '✓ Nice picking!' : 'No points this round') : raceQ ? (r.correct ? `🏆 You won the race! · ${r.got ?? 0} right` : r.out ? `Out of the race · ${r.got ?? 0} right` : `${r.got ?? 0} right`) : r.correct ? '✓ Correct!' : !r.answered ? 'Too slow!' : r.partial > 0 ? 'Partly right' : '✗ Not this time';
+  const head = r.note && (['potato', 'koth', 'blockbusters', 'chase', 'nearest', 'draw', 'twenty', 'unique', 'about', 'cards', 'task'].includes(s.qType) || r.note.startsWith('👪')) ? esc(r.note) : r.skipped ? '⏭ Skipped' : r.wiped ? '💥 Wiped out!' : r.lost ? `💨 Last place · ${r.got ?? 0} right` : r.place === 2 ? `🥈 Second place · ${r.got ?? 0} right` : r.place === 3 ? `🥉 Third place · ${r.got ?? 0} right` : wipeQ ? (r.points > 0 ? '✓ Nice picking!' : 'No points this round') : raceQ ? (r.correct ? `🏆 You won the race! · ${r.got ?? 0} right` : r.out ? `Out of the race · ${r.got ?? 0} right` : `${r.got ?? 0} right`) : r.correct ? '✓ Correct!' : !r.answered ? 'Too slow!' : r.partial > 0 ? 'Partly right' : '✗ Not this time';
   const medal = raceQ && !r.lost ? (r.correct ? '🏆' : r.place === 2 ? '🥈' : r.place === 3 ? '🥉' : '') : '';
   if (medal && navigator.vibrate) try { navigator.vibrate(r.correct ? [120, 60, 120, 60, 300] : 150); } catch {}
   return `<div class="result ${cls}">${medal ? `<div class="rpmedal">${medal}</div>` : ''}<div style="font-size:1.6rem;font-weight:900">${head}</div>${r.practice ? `<div class="pts" style="opacity:.55">${r.would > 0 ? '+' : ''}${r.would}</div><div style="font-weight:900">🧪 Practice: that would have been your score. It doesn't count.</div>` : `<div class="pts">${r.points > 0 ? '+' : ''}${r.points}</div>`}
     ${raceQ && (r.base || r.bonus) ? `<div style="font-weight:800;opacity:.95">${r.got ?? 0} right = +${r.base}${r.bonus ? ` · ${r.bonus > 0 ? '+' : '−'}${Math.abs(r.bonus)} ${r.bonus > 0 ? 'bonus' : 'for last place'}` : ''}</div>` : ''}
     ${s.answer ? `<div style="font-weight:800;opacity:.95">${r.correct ? '' : 'Answer: '}${esc(s.answer)}</div>` : ''}${s.why ? `<div style="opacity:.85;font-size:.9rem;margin-top:6px">💡 ${esc(s.why)}</div>` : ''}
-    <div class="rk">${r.viewer ? `👀 Viewing · ${r.score} points (not on the leaderboard)` : `${ordinal(r.rank)} of ${r.of} · ${r.score} points`}</div></div>`;
+    ${partyResultLines(r)}<div class="rk">${r.viewer ? `👀 Viewing · ${r.score} points (not on the leaderboard)` : `${ordinal(r.rank)} of ${r.of} · ${r.score} points`}</div></div>`;
 }
 function finalHtml(s, r) {
   const me = r?.rank;

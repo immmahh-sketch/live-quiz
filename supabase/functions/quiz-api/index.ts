@@ -90,6 +90,21 @@ async function storageExists(path: string): Promise<string | null> {
   const r = await fetch(url, { method: "HEAD" });
   return r.ok ? url : null;
 }
+// Taskmaster photos: a private bucket. Phones upload through task_photo (no sign-in, size-capped, JPEG only, one per
+// player per task, a retake replaces it); only the host (password) gets them back, as signed links that expire.
+const TASK_BUCKET = "quiz-tasks";
+const TASK_CODE = /^[A-Z0-9]{3,16}$/, TASK_KEY = /^[A-Za-z0-9_-]{3,40}$/;
+async function taskList(code: string, key: string): Promise<{ pid: string; url: string; at: string }[]> {
+  const prefix = `${code}/${key}/`;
+  const r = await fetch(`${SUPA_URL}/storage/v1/object/list/${TASK_BUCKET}`, { method: "POST", headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}`, "Content-Type": "application/json" }, body: JSON.stringify({ prefix, limit: 200, offset: 0, sortBy: { column: "created_at", order: "asc" } }) });
+  if (!r.ok) throw new Error(`storage list -> ${r.status} ${await r.text()}`);
+  const items = ((await r.json()) || []).filter((x: any) => /^p_[a-z0-9]{6,12}\.jpg$/.test(String(x.name || "")));
+  if (!items.length) return [];
+  const sr = await fetch(`${SUPA_URL}/storage/v1/object/sign/${TASK_BUCKET}`, { method: "POST", headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}`, "Content-Type": "application/json" }, body: JSON.stringify({ expiresIn: 86400, paths: items.map((x: any) => prefix + x.name) }) });
+  if (!sr.ok) throw new Error(`storage sign -> ${sr.status} ${await sr.text()}`);
+  const signed: any[] = (await sr.json()) || [];
+  return items.map((x: any, i: number) => ({ pid: String(x.name).replace(/\.jpg$/, ""), url: signed[i]?.signedURL ? `${SUPA_URL}/storage/v1${signed[i].signedURL}` : "", at: String(x.updated_at || x.created_at || "") })).filter((x: any) => x.url);
+}
 /** Copies a picture from the web into our bucket, so a game never depends on someone else's hosting. */
 async function copyImage(src: string, key: string): Promise<string | null> {
   try {
@@ -904,6 +919,21 @@ Deno.serve(async (req) => {
       return json({ questions: out });
     }
 
+    // Taskmaster: a phone sends its photo for a task (no sign-in). code is the game's code (or a warm-up's), key the
+    // task's question id. A JPEG of at most 1.2 MB; the phone shrinks it first. A retake replaces the earlier one.
+    if (action === "task_photo") {
+      const code = String(body.code || "").toUpperCase(), key = String(body.key || ""), pid = String(body.pid || "");
+      if (!TASK_CODE.test(code) || !TASK_KEY.test(key) || !/^p_[a-z0-9]{6,12}$/.test(pid)) return json({ error: "Bad photo." }, 400);
+      const m = String(body.image || "").match(/^data:image\/jpeg;base64,([A-Za-z0-9+/=]+)$/);
+      if (!m) return json({ error: "The photo needs to be a JPEG." }, 400);
+      const bin = atob(m[1]); if (bin.length > 1_200_000) return json({ error: "That photo is too big." }, 413);
+      const bytes = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      if (bytes[0] !== 0xff || bytes[1] !== 0xd8) return json({ error: "That isn't a JPEG photo." }, 400);
+      const r = await fetch(`${SUPA_URL}/storage/v1/object/${TASK_BUCKET}/${code}/${key}/${pid}.jpg`, { method: "POST", headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}`, "Content-Type": "image/jpeg", "x-upsert": "true", "cache-control": "no-cache" }, body: bytes });
+      if (!r.ok) return json({ error: "The photo could not be saved: " + (await r.text()).slice(0, 200) }, 500);
+      return json({ ok: true });
+    }
+
     // Warm-up games (no sign-in): a quiz with settings.warmup = { code, open, until, season, forQuiz } is played by
     // anyone with the code, on their own device, against three bots, until the `until` time. One row per device
     // (its player id) per season goes into quiz_warmup_plays when the game ends, so each device plays once a season;
@@ -1501,6 +1531,60 @@ Deno.serve(async (req) => {
       const rows: any[] = (await rest(`quiz_warmup_plays?select=code,season,quiz_id,game_code,pid,name,emoji,score,rank,players,bots,started_at,played_at,test_go,goes,has_answers:answers->0->>n&order=score.desc,played_at.asc&limit=5000`)) || [];
       return json({ warmups: quizzes.map((q) => { const w = q.warmup || {}, until = w.until && !isNaN(Date.parse(w.until)) ? Date.parse(w.until) : null;
         return { id: q.id, title: q.title, code: w.code || "", season: w.season || "", until: until ? new Date(until).toISOString() : null, forQuiz: w.forQuiz || null, fun: !!w.fun, replay: !!w.replay, bots: Math.round(+w.bots || 3), open: w.open !== false && !(until && Date.now() >= until), switchedOff: w.open === false }; }), plays: rows });
+    }
+
+    if (action === "task_photos") {
+      // The host's view of a task: every photo sent so far, as links that work for a day.
+      const code = String(body.code || "").toUpperCase(), key = String(body.key || "");
+      if (!TASK_CODE.test(code) || !TASK_KEY.test(key)) return json({ error: "Bad task." }, 400);
+      return json({ photos: await taskList(code, key) });
+    }
+
+    if (action === "warmup_about") {
+      // Who Said That?: the About You answers from the warm-up that leads up to this quiz (its newest one), for the
+      // host to play back on the night. Names, the question and the answer; skips and blanks left out.
+      if (!UUID_RE.test(String(body.quizId))) return json({ error: "Bad quiz id." }, 400);
+      const wus: any[] = (await rest(`quiz_quizzes?settings->warmup->>forQuiz=eq.${body.quizId}&select=id,title,settings&order=updated_at.desc&limit=1`)) || [];
+      const w = wus[0]?.settings?.warmup; if (!w) return json({ about: [], warmup: null });
+      const code = String(w.code || "").toUpperCase().replace(/[^A-Z0-9]/g, ""), season = String(w.season || "").replace(/[^A-Za-z0-9_-]/g, "");
+      const rows: any[] = (await rest(`quiz_warmup_plays?code=eq.${code}&season=eq.${season}&select=pid,name,emoji,answers&limit=5000`)) || [];
+      const about: any[] = [];
+      for (const r of rows) for (const a of (Array.isArray(r.answers) ? r.answers : [])) {
+        const given = String(a?.given ?? "").trim();
+        if (a?.type === "about" && given && !/^(skipped|—|-)$/i.test(given)) about.push({ pid: r.pid, name: r.name, emoji: r.emoji || "", prompt: String(a.text || "").slice(0, 240), answer: given.slice(0, 200) });
+      }
+      return json({ about, warmup: { id: wus[0].id, title: wus[0].title, code, season } });
+    }
+
+    if (action === "warmup_task_award") {
+      // The host judges a warm-up's Taskmaster photos: picks = { pid: "1" | "2" | "3" | "w" }. The points go on (or come
+      // off) those players' warm-up scores; judging again only moves the difference, so it can be changed freely.
+      if (!UUID_RE.test(String(body.id))) return json({ error: "Bad warm-up id." }, 400);
+      const quiz = (await rest(`quiz_quizzes?id=eq.${body.id}&select=id,settings,questions`))?.[0];
+      const w = quiz?.settings?.warmup; if (!w) return json({ error: "That is not a warm-up." }, 404);
+      const key = String(body.key || ""), q = (quiz.questions || []).find((x: any) => x?.id === key && x?.type === "task");
+      if (!q) return json({ error: "That task is not in the warm-up." }, 404);
+      const prizes = Array.isArray(q.prizes) ? q.prizes.map((x: any) => Math.round(+x || 0)) : [1000, 600, 300], worst = Math.round(+(q.worst ?? 300));
+      const fresh: Record<string, number> = {}, picks: Record<string, string> = {};
+      for (const [pid, v] of Object.entries(body.picks && typeof body.picks === "object" ? body.picks : {})) {
+        if (!/^p_[a-z0-9]{6,12}$/.test(pid) || !["1", "2", "3", "w"].includes(String(v))) continue;
+        picks[pid] = String(v);
+        const d = v === "w" ? -worst : (prizes[+String(v) - 1] || 0);
+        if (d) fresh[pid] = d;
+      }
+      const awards = { ...(w.taskAwards || {}) }, before: Record<string, number> = awards[key]?.d || {};
+      const code = String(w.code || "").toUpperCase().replace(/[^A-Z0-9]/g, ""), season = String(w.season || "").replace(/[^A-Za-z0-9_-]/g, "");
+      const moved: Record<string, number> = {};
+      for (const pid of new Set([...Object.keys(before), ...Object.keys(fresh)])) {
+        const diff = (fresh[pid] || 0) - (before[pid] || 0); if (!diff) continue;
+        const row = (await rest(`quiz_warmup_plays?code=eq.${code}&season=eq.${season}&pid=eq.${pid}&select=score`))?.[0];
+        if (!row) continue;
+        await rest(`quiz_warmup_plays?code=eq.${code}&season=eq.${season}&pid=eq.${pid}`, { method: "PATCH", headers: { Prefer: "return=minimal" }, body: JSON.stringify({ score: Math.round(+row.score || 0) + diff }) });
+        moved[pid] = diff;
+      }
+      awards[key] = { picks, d: fresh };
+      await rest(`quiz_quizzes?id=eq.${quiz.id}`, { method: "PATCH", headers: { Prefer: "return=minimal" }, body: JSON.stringify({ settings: { ...quiz.settings, warmup: { ...w, taskAwards: awards } } }) });
+      return json({ ok: true, moved, awards: fresh });
     }
 
     if (action === "warmup_answers") {

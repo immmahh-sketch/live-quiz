@@ -23,6 +23,7 @@
 <script src="assets/quizcam.js"></script>
 <script src="assets/dpad.js"></script>
 <script src="assets/demo-quiz.js"></script>
+<script src="assets/party.js"></script>
 <script>
 const { $, $$, esc, uid, api, TYPES, COLORS, speedPoints, textMatch, similarity, shuffle, newCode, playUrl, shortPlayUrl, store, unstore, ordinal } = LQ;
 const DEMO = new URLSearchParams(location.search).get('quiz') === 'demo';
@@ -290,6 +291,7 @@ function botsOnQuestion() {
   }
 }
 function botAnswer(b, q, v) {
+  const pb = partyBotAnswer(b, q, v); if (pb !== undefined) return pb;
   const keys = G.q.keys, inv = {}; for (const [t, id] of Object.entries(keys)) inv[id] = t;
   const ok = chance(b.skill);
   if (q.type === 'choice' || q.type === 'tf') {
@@ -374,6 +376,7 @@ function connect() {
   ch.on('broadcast', { event: 'answer' }, ({ payload }) => onAnswer(payload));
   ch.on('broadcast', { event: 'ctrl' }, ({ payload }) => onCtrl(payload || {}));
   ch.on('broadcast', { event: 'hint' }, ({ payload }) => onHint(payload || {}));
+  ch.on('broadcast', { event: 'card' }, ({ payload }) => onCard(payload || {})); // a power card (assets/party.js)
   ch.on('presence', { event: 'sync' }, () => {
     present.clear();
     for (const entries of Object.values(ch.presenceState())) for (const e of entries) if (e.role === 'player' && e.pid) present.set(e.pid, e.name);
@@ -450,7 +453,7 @@ function stateForPlayers() {
   if ((G.phase === 'reveal' || G.phase === 'scoreboard' || G.phase === 'final') && G.q?.results) {
     s.results = {}; s.qType = question()?.type;
     const rk = ranked();
-    for (const p of rk) { const r = G.q.results.byPlayer[p.id]; s.results[p.id] = { note: r?.note || '', practice: !!r?.practice, would: r?.would || 0, correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, skipped: !!r?.skipped, wiped: !!r?.wiped, raced: !!r?.raced, lost: !!r?.lost, place: r?.place || 0, base: r?.base || 0, bonus: r?.bonus || 0, got: r?.got, out: !!r?.out, score: p.score, rank: rk.indexOf(p) + 1, of: rk.length }; }
+    for (const p of rk) { const r = G.q.results.byPlayer[p.id]; s.results[p.id] = { party: r?.party || null, note: r?.note || '', practice: !!r?.practice, would: r?.would || 0, correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, skipped: !!r?.skipped, wiped: !!r?.wiped, raced: !!r?.raced, lost: !!r?.lost, place: r?.place || 0, base: r?.base || 0, bonus: r?.bonus || 0, got: r?.got, out: !!r?.out, score: p.score, rank: rk.indexOf(p) + 1, of: rk.length }; }
     // VIEW phones: each its own result, marked as viewing and never ranked (watched: a group game they sat out)
     for (const [vid, v] of Object.entries(G.viewers || {})) { const r = G.q.vResults?.[vid]; s.results[vid] = { note: r?.note || '', practice: !!r?.practice, would: r?.would || 0, correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, skipped: !!r?.skipped, score: v.score, rank: 0, of: rk.length, viewer: true, watched: groupGame() }; }
     if (G.quiz.settings.showAnswersOnPhones !== false) { s.answer = answerText(question()); if (question()?.type === 'club' && question().why) s.why = question().why; if (question()?.type === 'pin' && question().info) s.why = question().info; }
@@ -466,10 +469,12 @@ function stateForPlayers() {
   if (G.warmup && G.phase === 'question' && G.q?.reveal && question()?.media?.url) { const r = G.q.reveal; s.reveal = { url: question().media.url, cols: r.cols, rows: r.rows, off: r.order.slice(0, r.shown), blur: r.blur ? blurPx(r) : null }; }
   // a warm-up: the whole scoreboard so far, for every phone in the game to see where it ranks
   if (G.phase === 'final' && G.warmup && G.warmSaved?.board) s.warm = { board: G.warmSaved.board.slice(0, 150), count: G.warmSaved.count, places: G.warmSaved.places || {}, test: !!G.warmSaved.test, solo: !!G.warmSolo };
+  partyState(s); // power cards, Play Your Cards Right, the task
   return s;
 }
 function broadcastState() { send('state', stateForPlayers()); }
 function answerText(q) {
+  const pa = partyAnswerText(q); if (pa !== null) return pa;
   if (q.type === 'choice') return q.options.find((o) => o.id === q.correct)?.text || '';
   if (q.kind === 'survey') { const top = G.q?.results?.stats?.survey?.[0]; return top ? `Top answer: ${top.label} (${top.n})` : ''; }
   if (q.type === 'text') return q.answers[0];
@@ -501,7 +506,7 @@ function onHello({ pid, name, emoji, test, view }) {
   if (view === true || G.viewers?.[pid]) return addViewer(pid, name, emoji);
   name = String(name || '').replace(/\s+/g, ' ').trim().slice(0, 20) || 'Player';
   emoji = LQ.EMOJIS.includes(emoji) ? emoji : '';
-  if (!G.players[pid]) { G.players[pid] = { id: pid, name, emoji, score: 0, joinedAt: Date.now() }; persist(); if (G.phase === 'lobby') renderLobbyPlayers(); warmupGate(pid); }
+  if (!G.players[pid]) { G.players[pid] = { id: pid, name, emoji, score: 0, joinedAt: Date.now() }; if (G.phase !== 'lobby') powerDeal(pid); persist(); if (G.phase === 'lobby') renderLobbyPlayers(); warmupGate(pid); }
   else if ((G.players[pid].name !== name || G.players[pid].emoji !== emoji) && G.phase === 'lobby') { G.players[pid].name = name; G.players[pid].emoji = emoji; persist(); renderLobbyPlayers(); }
   if (test === true && !G.test) makeTest();
   clearTimeout(helloT); helloT = setTimeout(broadcastState, 150);
@@ -519,7 +524,7 @@ function addViewer(pid, name, emoji) {
   if (!G.viewers[pid]) { G.viewers[pid] = { id: pid, name, emoji: LQ.EMOJIS.includes(emoji) ? emoji : '', score: 0 }; persist(); }
   clearTimeout(helloT); helloT = setTimeout(broadcastState, 150);
 }
-const groupGame = () => !!(G.q && (G.q.wipe || G.q.race || G.q.tq || G.q.potato || G.q.koth || G.q.bb || G.q.chase || G.q.draw || G.q.uq));
+const groupGame = () => !!(G.q && (G.q.wipe || G.q.race || G.q.tq || G.q.potato || G.q.koth || G.q.bb || G.q.chase || G.q.draw || G.q.uq || G.q.pc || G.q.task));
 function viewerAnswer(pid, qId, answer) {
   if (groupGame()) return; // watched, not played
   G.q.vAnswers = G.q.vAnswers || {};
@@ -571,6 +576,9 @@ function onAnswer({ pid, qId, answer, low }) {
   if (G.q.chase) return chaseAnswer(pid, answer);
   if (G.q.draw) return drawAnswer(pid, answer);
   if (G.q.uq) return uqAnswer(pid, answer);
+  if (G.q.pc) return pcAnswer(pid, answer);
+  if (G.q.task) return taskAnswer(pid, answer);
+  if (partyBlocks(pid)) return; // frozen, copying, out of (cut) time, or their own Who Said That
   if (G.q.answers[pid]) return;
   if (low) onHint({ pid, qId });
   G.q.answers[pid] = { answer, elapsed: Date.now() - G.q.startedAt };
@@ -584,7 +592,7 @@ function maybeAllAnswered() {
   if (G.phase !== 'question' || G.q?.wipe || G.q?.race || G.q?.tq || gameKind()) return;
   const live = [...present.keys()].filter((pid) => G.players[pid]);
   const pool = live.length ? live : Object.keys(G.players);
-  if (pool.length && pool.every((pid) => G.q.answers[pid])) setTimeout(() => { if (G.phase === 'question') endQuestion(); }, 600);
+  if (pool.length && pool.every((pid) => G.q.answers[pid] || partyExempt(pid))) setTimeout(() => { if (G.phase === 'question') endQuestion(); }, 600);
 }
 
 // ------------------------------------------------------------------ self-play ("runs itself")
@@ -602,7 +610,7 @@ function autoDelay() {
   if (G.phase === 'slide') return G.brk ? 0 : LQ.clamp(+question()?.time || 20, 5, 120) * 1000; // a break moves on when its clock runs out
   if (G.phase === 'typecard') return 8000;
   if (G.phase === 'scoreboard') return 6000;
-  if (G.phase === 'reveal') return ['choice', 'tf', 'highlow', 'rhyme', 'smash', 'wheel', 'club', 'dingbat', 'tune'].includes(question()?.type) ? 8000 : 11000;
+  if (G.phase === 'reveal') return ['choice', 'tf', 'highlow', 'rhyme', 'smash', 'wheel', 'club', 'dingbat', 'tune', 'whosaid', 'about'].includes(question()?.type) ? 8000 : 11000;
   return 0;
 }
 function scheduleAuto() {
@@ -629,7 +637,7 @@ function onCtrl({ pid, cmd }) {
 function primaryAction() {
   clearTimeout(autoT);
   if (G.paused) togglePause(false, true);
-  if (G.phase === 'lobby') return players().length ? goTo(0) : toast('Waiting for at least one player.');
+  if (G.phase === 'lobby') return players().length ? (partyGameStart(), goTo(0)) : toast('Waiting for at least one player.');
   if (G.phase === 'round') return toTypeCard(G.qIndex);
   if (G.phase === 'slide') return nextFrom(G.qIndex);
   if (G.phase === 'typecard') return startCountdown(G.qIndex);
@@ -697,7 +705,7 @@ function toTypeCard(i) {
 }
 // ------------------------------------------------------------------ the race's start: splash, 3-2-1, starting pistol
 /** The race's topic, without the "The Race:" it usually starts with. */
-function raceTopic(q) { const t = String(q.text || '').replace(/^(the race|hot potato|king of the hill|blockbusters|the chase|draw it|20 questions|twenty questions)\s*[:\-–—]\s*/i, '').trim(); return t ? t[0].toUpperCase() + t.slice(1) : 'Quick-fire questions'; }
+function raceTopic(q) { const t = String(q.text || '').replace(/^(the race|hot potato|king of the hill|blockbusters|the chase|draw it|20 questions|twenty questions|play your cards right|taskmaster)\s*[:\-–—]\s*/i, '').trim(); return t ? t[0].toUpperCase() + t.slice(1) : 'Quick-fire questions'; }
 /** Beeps for the countdown and a crack for the pistol, made in the browser. Quiet when the music is off. */
 let sfx = null, sfxMaster = null, sfxTap = null;
 // Every sound goes through one gain node, so the quiz call can take a copy of it.
@@ -821,7 +829,7 @@ function startRaceIntro(i) {
   }, 1000);
 }
 function startCountdown(i) {
-  if (LQ.BANK_GAMES.includes(G.quiz.questions[i]?.type) || ['draw', 'twenty', 'unique'].includes(G.quiz.questions[i]?.type)) return startRaceIntro(i); // a splash first; the race adds 3-2-1 and the pistol
+  if (LQ.BANK_GAMES.includes(G.quiz.questions[i]?.type) || ['draw', 'twenty', 'unique', 'cards'].includes(G.quiz.questions[i]?.type) || (G.quiz.questions[i]?.type === 'task' && !WARMUP)) return startRaceIntro(i); // a splash first; the race adds 3-2-1 and the pistol
   clearInterval(tickT); clearInterval(countT); if (typeof stopTune === 'function') stopTune(); G.raceIntro = null;
   G.qIndex = i; G.phase = 'countdown'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString();
   persist(); render(); broadcastState();
@@ -844,6 +852,7 @@ function startCountdown(i) {
 function buildView(q) {
   const keys = {}; const tok = (id) => { const t = uid('k'); keys[t] = id; return t; };
   const v = { id: q.id, type: q.type, text: q.text, time: q.time, hint: q.hint || '', media: q.media?.kind === 'image' && q.media.url && q.kind !== 'reveal' ? { kind: 'image', url: q.media.url } : null, video: q.media?.kind === 'youtube' };
+  partyView(q, v, tok); // Who Said That's quote and names; a warm-up task's upload target
   if (q.type === 'choice') v.options = q.options.filter((o) => o.text.trim()).map((o, i) => ({ k: tok(o.id), text: o.text, c: q.options.indexOf(o) }));
   if (q.type === 'order') v.items = shuffle(q.items.filter((i) => i.text.trim())).map((i) => ({ k: tok(i.id), text: i.text }));
   if (q.type === 'match') {
@@ -1075,7 +1084,7 @@ const pname = (pid) => G.players[pid]?.name || 'Player', pem = (pid) => G.player
  *  camera (assets/quizcam.js fills it in and sizes it up); otherwise their emoji, as before. */
 const face = (pid, emoji) => `<span class="pface" data-pcam="${esc(pid || '')}"><span class="pface-em">${emoji || pem(pid)}</span></span>`;
 function livePids() { const live = Object.keys(G.players).filter((pid) => present.has(pid)); return live.length ? live : Object.keys(G.players); }
-const gameKind = () => G.q?.potato ? 'potato' : G.q?.koth ? 'koth' : G.q?.bb ? 'bb' : G.q?.chase ? 'chase' : G.q?.draw ? 'draw' : G.q?.uq ? 'uq' : '';
+const gameKind = () => G.q?.pc ? 'pc' : G.q?.task ? 'task' : G.q?.potato ? 'potato' : G.q?.koth ? 'koth' : G.q?.bb ? 'bb' : G.q?.chase ? 'chase' : G.q?.draw ? 'draw' : G.q?.uq ? 'uq' : '';
 /** The question's bank as playable rows, shuffled once: the right answer, and option tokens for the phones (right answer's token maps to R:). */
 function gameRows(q, tok) {
   return shuffle(LQ.goodRows(q)).map((b) => ({ id: b.id, text: b.text, right: b.options[0].trim(), options: shuffle(b.options.map((o, oi) => ({ o: o.trim(), oi })).filter((x) => x.o)).map((x, i) => ({ k: tok((x.oi === 0 ? 'R:' : 'W:') + b.id), text: x.o, c: i })) }));
@@ -1086,7 +1095,7 @@ const isRight = (row, k) => !!row && G.q.keys[k] === 'R:' + row.id;
 /** Moves every game deadline on by d ms (after a pause). */
 function shiftGame(d) {
   const p = G.q?.potato; if (p) for (const b of p.bombs) { b.fuseEnd += d; b.startedAt += d; if (b.passBy) b.passBy += d; }
-  for (const g of [G.q?.koth, G.q?.bb, G.q?.chase, G.q?.draw, G.q?.uq]) if (g?.until) g.until += d;
+  for (const g of [G.q?.koth, G.q?.bb, G.q?.chase, G.q?.draw, G.q?.uq, G.q?.pc, G.q?.task]) if (g?.until) g.until += d;
 }
 function stepTo(g, step, ms) { g.step = step; g.until = ms ? Date.now() + ms : 0; g.total = ms || 0; }
 let gameTickAt = 0;
@@ -1097,7 +1106,7 @@ function gameTick() {
   paintClock();
   if (k === 'potato') return potatoTick(now);
   if (k === 'draw') drawTick(now);
-  if (g.until && now >= g.until) { g.until = 0; if (k === 'koth') kothStepDone(); else if (k === 'chase') chaseStepDone(); else if (k === 'draw') drawStepDone(); else if (k === 'uq') uqStepDone(); else bbStepDone(); }
+  if (g.until && now >= g.until) { g.until = 0; if (k === 'koth') kothStepDone(); else if (k === 'chase') chaseStepDone(); else if (k === 'draw') drawStepDone(); else if (k === 'uq') uqStepDone(); else if (k === 'pc') pcStepDone(); else if (k === 'task') taskStepDone(); else bbStepDone(); }
   else if (k === 'koth' && g.step === 'answer') { const c = $('#kothCount'); if (c) c.textContent = Math.max(0, Math.ceil((g.until - now) / 1000)); }
 }
 function gameStop() { ask('Stop this game now?', 'Points scored so far are kept; nobody gets the winner\'s bonus unless they have already won.', 'Stop the game', 'Keep playing').then((ok) => { if (ok && G.phase === 'question') endQuestion(); }); }
@@ -1863,11 +1872,13 @@ function startQuestion() {
   clearInterval(countT); G.raceIntro = null;
   const q = question();
   const { view, keys, rows } = buildView(q);
-  const now = Date.now(), own = ['wipeout', 'potato', 'koth', 'blockbusters', 'chase', 'draw', 'unique'].includes(q.type); // these run their own clocks
+  const now = Date.now(), own = ['wipeout', 'potato', 'koth', 'blockbusters', 'chase', 'draw', 'unique', 'cards'].includes(q.type) || (q.type === 'task' && !WARMUP); // these run their own clocks
   G.q = { view, keys, rows, startedAt: now, deadline: own ? null : now + q.time * 1000, answers: {}, results: null };
   if (q.kind === 'reveal') G.q.reveal = revealPlan(q, now);
   if (q.type === 'wheel') { G.q.wheelRevealed = (q.startLetters || '').toUpperCase().replace(/[^A-Z]/g, ''); G.q.nextReveal = now + (q.revealEvery || 4) * 1000; }
+  partyStartQuestion(q); // power cards land; Who Said That's author
   G.phase = 'question'; persist();
+  if (q.type === 'cards' || (q.type === 'task' && !WARMUP)) { botClear(); if (q.type === 'cards') pcStart(); else taskStart(); startTick(); musicStart(q); return; }
   if (q.type === 'unique') { botClear(); uqStart(); startTick(); musicStart(q); return; }
   if (q.type === 'potato' || q.type === 'koth' || q.type === 'blockbusters' || q.type === 'chase' || q.type === 'draw') { botClear(); if (q.type === 'potato') potatoStart(); else if (q.type === 'koth') kothStart(); else if (q.type === 'chase') chaseStart(); else if (q.type === 'draw') drawStart(); else bbStart(); startTick(); musicStart(q); return; }
   render();
@@ -1922,13 +1933,15 @@ function wheelReveal() {
 async function endQuestion() {
   musicStop();
   if (G.phase !== 'question') return;
-  if (!['wipeout', 'race', 'potato', 'koth', 'blockbusters', 'chase', 'draw', 'unique'].includes(question()?.type)) sound('gong');
+  if (!['wipeout', 'race', 'potato', 'koth', 'blockbusters', 'chase', 'draw', 'unique', 'cards', 'task'].includes(question()?.type)) sound('gong');
   clearInterval(tickT); botClear(); stopTune();
   G.phase = 'grading'; persist(); render(); broadcastState();
+  partyBeforeGrade(); // a Copycat takes on their target's answer
   try { G.q.results = await grade(); }
   catch (e) { console.error(e); toast('Scoring hit a snag: ' + e.message, true); G.q.results = await grade(true); }
   if (roundOf(G.qIndex)?.double) for (const r of Object.values(G.q.results.byPlayer)) if (r.points > 0) { r.points *= 2; r.doubled = true; r.note = (r.note ? r.note + ' · ' : '') + '✨ Double points!'; }
   if (practiceQ()) for (const r of Object.values(G.q.results.byPlayer)) { r.practice = true; r.would = r.points; r.points = 0; } // shown, never counted
+  partyAfterGrade(G.q.results.byPlayer); // 5×, frozen, copied, slowed; Bounty on the leader
   for (const [pid, r] of Object.entries(G.q.results.byPlayer)) if (G.players[pid]) G.players[pid].score += r.points;
   await scoreViewers();
   logQuestion();
@@ -1937,6 +1950,7 @@ async function endQuestion() {
 // ------------------------------------------------------------------ the game report
 /** What a player's answer looked like, in words, for the report. */
 function answerDisplay(q, pid) {
+  const pd = partyAnswerDisplay(q, pid); if (pd !== null) return pd;
   const a = G.q.answers[pid], r = G.q.results.byPlayer[pid] || {}, keys = G.q.keys, v = G.q.view;
   if (q.type === 'wipeout') { const picks = (G.q.wipe?.picks || []).filter((p) => p.pid === pid); return picks.length ? picks.map((p) => p.text + (p.ok === false ? ' ✗' : p.ok ? ' ✓' : '')).join(', ') : '—'; }
   if (q.type === 'potato') { const p = G.q.potato; return p ? `${p.rights[pid] || 0} right${p.bombs.some((b) => b.exploded === pid) ? ', holding a bomb 💥' : ''}` : '—'; }
@@ -1995,6 +2009,7 @@ function kickPlayer(pid) {
     present.delete(pid);
     if (G.q?.wipe) { const w = G.q.wipe; w.order = w.order.filter((x) => x !== pid); if (w.turnPid === pid && !w.over) { w.turnPid = null; wipeNextTurn(); } }
     if (G.q?.race) delete G.q.race.players[pid];
+    if (G.q?.pc) G.q.pc.alive = G.q.pc.alive.filter((x) => x !== pid);
     if (G.q?.potato) for (const b of liveBombs()) if (b.holder === pid) { const t = passTargets(b); if (t.length) potatoPass(b, t[0]); }
     if (G.q?.koth) { const g = G.q.koth; if (g.fff) g.fff.eligible = g.fff.eligible.filter((x) => x !== pid); if (g.carry) g.carry = g.carry.filter((x) => x !== pid); if (g.king === pid) g.king = null; if (g.pair.includes(pid) && !g.winner) { g.king = g.pair.find((x) => x !== pid) || null; g.pair = []; kothFff(); } }
     if (G.q?.bb) delete G.q.bb.teams[pid];
@@ -2267,12 +2282,13 @@ async function grade(noAi, ctx) {
     if (list.length) { byPlayer[list[0].pid].closest = true; }
     stats.pins = list;
   }
+  partyGrade(q, byPlayer, PL, stats, entries, res, keys); // Play Your Cards Right, Taskmaster, About You, Who Said That
   for (const p of players()) if (!byPlayer[p.id]) byPlayer[p.id] = { answered: false, correct: false, partial: 0, points: 0 };
   return { byPlayer, stats };
 }
 
 // ------------------------------------------------------------------ rendering
-function render() { renderPhase(); if (PREVIEW && G.phase === 'reveal') previewEnd(); mountClip(); scheduleAuto(); syncPause(); if (G.phase !== 'question') musicStop(); }
+function render() { renderPhase(); if (PREVIEW && G.phase === 'reveal') previewEnd(); mountClip(); scheduleAuto(); syncPause(); if (G.phase !== 'question') musicStop(); partyDecorate(); }
 /** The reveal is the end of a preview: its buttons become Play it again and Close. */
 function previewEnd() {
   const p = $('[data-act="primary"]'); if (p) { p.dataset.act = 'again'; p.textContent = '↻ Play it again'; }
@@ -2683,6 +2699,7 @@ const PISTOL_SVG = `<svg class="ri-gun" viewBox="0 0 300 220" aria-hidden="true"
   <g class="ri-smoke"><circle cx="236" cy="60" r="13"/><circle cx="254" cy="44" r="18"/><circle cx="232" cy="32" r="14"/></g></g></svg>`;
 /** The one-line rules under a game's splash title. */
 function introSub(q) {
+  const ps = partyIntroSub(q); if (ps) return ps;
   if (q.type === 'twenty') return `Ask yes/no questions on your phone and guess whenever you like · a wrong guess uses a question · ${+q.maxQ || 20} questions each · 1st ${q.prize ?? 1000}, 2nd ${q.prize2 ?? 500}, 3rd ${q.prize3 ?? 100} · still stuck at the end: −${q.penalty ?? 200}`;
   if (q.type === 'unique') return `Everyone answers the same prompt · a unique answer goes through · match anyone and you're both out · ${q.perRound ?? 100} for each round you survive · the last one standing wins ${q.prize ?? 1000}`;
   if (q.type === 'potato') return `The bomb is lit · answer right to pass it on · holding it when it blows costs ${q.penalty ?? 300} points`;
@@ -2695,7 +2712,7 @@ function introSub(q) {
 function renderRaceIntro() {
   const q = question(), ri = G.raceIntro, target = +q.target || 10;
   let main;
-  if (ri.kind && ri.kind !== 'race') { const T = TYPES[q.type]; main = `<div class="stage-main raceintro gamesplash ${q.type}"><div class="ri-flag">${T.icon}</div><div class="ri-kicker">${esc(T.label)}</div><h1 class="big ri-topic">${esc(raceTopic(q))}</h1><p class="ri-sub">${esc(introSub(q))}</p><p class="ri-ready">${q.type === 'chase' ? 'Who will the Chaser be…?' : q.type === 'blockbusters' ? 'Get ready to pick a side…' : q.type === 'koth' ? 'Fingers on your phones for fastest finger first…' : q.type === 'draw' ? 'Warm up your drawing finger…' : q.type === 'twenty' ? 'Phones at the ready… who or what is it?' : 'Nobody knows how long the fuse is…'}</p></div>`; }
+  if (ri.kind && ri.kind !== 'race') { const T = TYPES[q.type]; main = `<div class="stage-main raceintro gamesplash ${q.type}"><div class="ri-flag">${T.icon}</div><div class="ri-kicker">${esc(T.label)}</div><h1 class="big ri-topic">${esc(raceTopic(q))}</h1><p class="ri-sub">${esc(introSub(q))}</p><p class="ri-ready">${q.type === 'chase' ? 'Who will the Chaser be…?' : q.type === 'blockbusters' ? 'Get ready to pick a side…' : q.type === 'koth' ? 'Fingers on your phones for fastest finger first…' : q.type === 'draw' ? 'Warm up your drawing finger…' : q.type === 'twenty' ? 'Phones at the ready… who or what is it?' : q.type === 'cards' ? 'Higher or lower? Get ready to shout at the telly…' : q.type === 'task' ? 'Phones out, cameras ready…' : 'Nobody knows how long the fuse is…'}</p></div>`; }
   else if (ri.step === 'splash') main = `<div class="stage-main raceintro"><div class="ri-flag">🏁</div><div class="ri-kicker">The Race</div><h1 class="big ri-topic">${esc(raceTopic(q))}</h1><p class="ri-sub">Quick-fire questions on your phone · first to ${target} right wins the prize · ${(q.maxWrong ?? 10) + 1} wrong and you're out</p><p class="ri-ready">Fingers on your phones…</p></div>`;
   else if (ri.step === 'count') main = `<div class="stage-main raceintro"><div class="ri-kicker">${esc(raceTopic(q))}</div><div class="ri-num" data-n="${ri.n}">${ri.n}</div><div class="ri-lights">${[3, 2, 1].map((k) => `<i class="${ri.n <= k ? 'on' : ''}"></i>`).join('')}</div></div>`;
   else main = `<div class="stage-main raceintro bang">${PISTOL_SVG}<div class="ri-bang">BANG!</div><div class="ri-go">GO!</div></div>`;
@@ -2760,6 +2777,7 @@ function mountClip() {
 function renderQuestion() {
   const q = question(), v = G.q.view;
   let body = '';
+  if (partyRenderQuestion()) return;
   if (q.type === 'wipeout') return renderWipe();
   if (q.type === 'race') return renderRace();
   if (q.type === 'twenty') return renderTwenty();
@@ -2909,6 +2927,7 @@ function renderRaceLoss() {
 }
 function renderReveal() {
   if (G.q?.lossShown) return renderRaceLoss();
+  if (partyReveal()) return;
   const q = question(), v = G.q.view, R = G.q.results, n = players().length;
   let body = '';
   if (q.type === 'sort') body = `<div class="cats">${q.categories.filter((c) => c.name.trim()).map((c) => `<div class="cat"><h3>${esc(c.name)}</h3>${q.items.filter((i) => i.category === c.id && i.text.trim()).map((i) => `<div class="item ok">${esc(i.text)}</div>`).join('')}</div>`).join('')}</div>`;

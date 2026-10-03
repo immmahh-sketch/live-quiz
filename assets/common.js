@@ -84,6 +84,10 @@ window.LQ = (() => {
     nearest:{ label: 'Nearest Wins',    icon: '🎯', blurb: 'A number question. Everyone guesses, the guesses go up on a number line, then the answer drops in. The closer you are, the more you score.' },
     draw:   { label: 'Draw It',         icon: '🎨', blurb: 'One player draws a secret word on their phone and it appears live on the screen. Everyone else races to guess it. Quick guessers score, and so does the artist.' },
     twenty: { label: '20 Questions',    icon: '🕵️', blurb: 'Everyone has the same mystery person or thing to find. Players tap yes/no questions on their phones and guess whenever they like. The first three to crack it score; running out of questions or time costs points.' },
+    cards:  { label: 'Play Your Cards Right', icon: '🃏', blurb: 'A row of cards, each hiding a number (a price, a year, a height). The first is face up; for every next card the room calls Higher or Lower on their phones. Right and you stay in; wrong and you are out. Reach the end for the bonus.' },
+    task:   { label: 'Taskmaster',      icon: '📸', blurb: 'A silly photo task ("the creepiest thing in your house"). Players snap it on their phones, the pictures pop up on the screen, and the host picks the best three (points) and the worst (loses points).' },
+    about:  { label: 'About You',       icon: '🙋', blurb: 'For the warm-up: players answer a question about themselves. Their answers come back on quiz night in Who Said That?' },
+    whosaid:{ label: 'Who Said That?',  icon: '🗣️', blurb: 'An answer someone gave in the warm-up goes up on the screen. Whose was it? Everyone picks the player on their phone (except the one who said it).' },
   };
   // ---------------------------------------------------------------- 20 Questions
   // One tree of yes/no questions that works for any answer. The openers say what kind of thing it is; a yes to
@@ -568,6 +572,10 @@ window.LQ = (() => {
     nearest: 'Type your best guess at the number. The closer you are, the more you score, and the closest of all gets a bonus.',
     twenty: 'Everyone has the same mystery person or thing. Tap a question and your phone says yes or no; new questions open up as you go. Guess whenever you like in the box, but a wrong guess uses up a question. You have 20 questions and a three-minute clock. First to crack it scores most, then second and third; still stuck at the end and it costs you.',
     draw: 'When it is your turn, pick a word and draw it on your phone: no letters or numbers! Everyone else types guesses as fast as they can. Quick guessers score most, and the artist scores for every right guess.',
+    cards: 'Play Your Cards Right! The first card is face up. Is the next one higher or lower? Call it on your phone before the clock runs out. Right and you stay in for the next card; wrong and you are out. Get to the end of the row for the bonus.',
+    task: 'A Taskmaster task! Take a photo on your phone and send it in before the time runs out. The Taskmaster picks the best three for points, and the worst one loses points. Be quick, be creative, be ridiculous.',
+    about: 'A question about YOU. Answer honestly (or at least entertainingly): your answer might turn up on quiz night, and everyone will have to guess it was you.',
+    whosaid: 'Someone in this room said this in the warm-up. Who was it? Pick them on your phone. If it was you, keep a straight face!',
   };
   /** The build log: every writer call for a quiz, with what was asked and what came back, kept in its settings. */
   function genLog(settings, how, res, extra = {}) {
@@ -591,7 +599,7 @@ window.LQ = (() => {
     { name: 'yellow', hex: '#d89e00', shape: '●' },
     { name: 'green',  hex: '#26890c', shape: '■' },
   ];
-  const DEFAULT_TIMES = { nearest: 25, draw: 60, catchphrase: 50, reveal: 40, survey: 30, unique: 25, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30, potato: 90, koth: 15, blockbusters: 20, chase: 15, twenty: 180 };
+  const DEFAULT_TIMES = { nearest: 25, draw: 60, catchphrase: 50, reveal: 40, survey: 30, unique: 25, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30, potato: 90, koth: 15, blockbusters: 20, chase: 15, twenty: 180, cards: 12, task: 120, about: 45, whosaid: 20 };
   const DEFAULT_SETTINGS = { maxPoints: 1000, minPoints: 500, defaultTime: 30, showAnswersOnPhones: true, timeByType: { ...DEFAULT_TIMES } };
 
   /** The time limit a question of this type gets by default in this quiz. */
@@ -652,6 +660,10 @@ window.LQ = (() => {
 
   function newQuestion(type = 'choice', settings = DEFAULT_SETTINGS) {
     if (type === 'slide') return { id: uid('q'), type: 'slide', text: '', body: '', time: 20, media: { kind: 'none' } };
+    if (type === 'cards') return { id: uid('q'), type: 'cards', text: 'Play Your Cards Right: ', time: timeFor('cards', settings), media: { kind: 'none' }, partial: false, cards: Array.from({ length: 5 }, () => ({ label: '', value: '', n: null })), perCard: 200, prize: 500 };
+    if (type === 'task') return { id: uid('q'), type: 'task', text: 'Taskmaster: take a picture of ', time: timeFor('task', settings), media: { kind: 'none' }, partial: false, prizes: [1000, 600, 300], worst: 300 };
+    if (type === 'about') return { id: uid('q'), type: 'about', text: 'Tell us: ', time: timeFor('about', settings), media: { kind: 'none' }, partial: false, points: 200 };
+    if (type === 'whosaid') return { id: uid('q'), type: 'whosaid', text: 'Who said that?', time: timeFor('whosaid', settings), media: { kind: 'none' }, partial: false };
     if (type === 'unique') return { id: uid('q'), type: 'unique', text: 'Only One', prompts: [{ p: 'Name a sign of the zodiac', a: ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'] }, { p: 'Name a planet or dwarf planet in our Solar System', a: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'Ceres', 'Eris', 'Haumea', 'Makemake'] }, { p: 'Name a London Underground line', a: ['Bakerloo', 'Central', 'Circle', 'District', 'Hammersmith & City/Hammersmith and City', 'Jubilee', 'Metropolitan', 'Northern', 'Piccadilly', 'Victoria', 'Waterloo & City/Waterloo and City', 'Elizabeth'] }], perRound: 100, prize: 1000, time: timeFor('unique', settings), media: { kind: 'none' }, partial: false };
     if (type === 'survey') { const c = newQuestion('text', settings); c.kind = 'survey'; c.text = 'We asked the room: name something…'; c.answers = ['']; c.ai = false; c.time = timeFor('survey', settings); return c; }
     if (type === 'reveal') { const c = newQuestion('text', settings); c.kind = 'reveal'; c.text = 'Picture Reveal: who is this?'; c.media = { kind: 'image', url: '' }; c.tiles = 16; c.time = timeFor('reveal', settings); return c; }
@@ -725,6 +737,12 @@ window.LQ = (() => {
   function validate(q) {
     const problems = [];
     if (q.type === 'unique' && (q.prompts || []).filter((p) => String(p).trim()).length < 3) problems.push('Needs at least three prompts.');
+    if (q.type === 'cards') {
+      const cs = cardsOf(q);
+      if (cs.length < 3) problems.push('Needs at least three cards, each with a label and a number.');
+      else if (cs.some((c, i) => i && c.n === cs[i - 1].n)) problems.push('Two cards next to each other have the same number: higher or lower would have no answer.');
+      if ((q.cards || []).some((c) => (String(c.label || '').trim() || String(c.value || '').trim()) && !Number.isFinite(cardNum(c)))) problems.push('Every card needs a number (a price, a year, a count…).');
+    }
     if (q.type === 'slide') {
       if (!(q.text || '').trim() && !(q.body || '').trim() && !q.break) problems.push('Needs a title or some text.');
       if (q.break && !(+q.breakMins >= 1 && +q.breakMins <= 120)) problems.push('A break lasts between 1 and 120 minutes.');
@@ -1029,6 +1047,10 @@ window.LQ = (() => {
 
   // ---------------------------------------------------------------- Nearest Wins
   /** A number typed by a person: "1,250", "£3.5m", "12 000", "-4" all read as numbers. */
+  /** Play Your Cards Right: a card's number (typed in, or read from what it shows: "35p" is 35, "£1.20" is 1.2). */
+  function cardNum(c) { const n = c?.n; return n !== null && n !== undefined && n !== '' && Number.isFinite(+n) ? +n : parseNum(c?.value); }
+  /** The cards that can be played: a label and a number each, in order. */
+  function cardsOf(q) { return (q.cards || []).filter((c) => String(c.label || '').trim() && Number.isFinite(cardNum(c))).map((c) => ({ label: String(c.label).trim(), show: String(c.value ?? '').trim() || String(cardNum(c)), n: cardNum(c) })); }
   function parseNum(v) {
     if (typeof v === 'number') return v;
     const raw = String(v ?? '').trim().toLowerCase(), money = /[£$€]/.test(raw);
@@ -1071,6 +1093,6 @@ window.LQ = (() => {
   function ordinal(n) { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
   return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
-    TYPES, BANK_GAMES, NEW_GAME_DEFAULTS, TWENTY_KINDS, TWENTY_QS, twentyQ, twentyBranch, twentyYes, twentyOpen, parseNum, nearestSpread, fmtNum, DRAW_WORDS, drawWords, drawHint, goodRows, BB_COLS, BB_ROWS, bbNeighbours, bbPath, bbBoardHtml, inkOn, SLIDE, BREAK, isPractice, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, pickContext, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
+    TYPES, BANK_GAMES, NEW_GAME_DEFAULTS, cardNum, cardsOf, TWENTY_KINDS, TWENTY_QS, twentyQ, twentyBranch, twentyYes, twentyOpen, parseNum, nearestSpread, fmtNum, DRAW_WORDS, drawWords, drawHint, goodRows, BB_COLS, BB_ROWS, bbNeighbours, bbPath, bbBoardHtml, inkOn, SLIDE, BREAK, isPractice, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, pickContext, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
     newCode, playUrl, shortPlayUrl, bbTeams, BB_TEAM_PAIRS, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml, addUsage, usageCost, usageSummary, AI_PRICES, TUNE_ASKS, tunePrompt, bigArt, cleanTitle };
 })();

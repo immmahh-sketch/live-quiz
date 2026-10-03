@@ -1389,3 +1389,117 @@ body.hascallbar .app { padding-top: calc(48px + env(safe-area-inset-top)); }
 .kopts { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 8px 0; }
 .kopts span { color: #fff; font-weight: 800; font-size: .9rem; padding: 8px 10px; border-radius: 10px; text-align: center; }
 
+/* ===================== Party pieces (assets/party.js, assets/party-phone.js) ===================== */
+/* power cards: the banner when one is played (host), and the strip of what's in play */
+.cardflash { position: fixed; inset: 0; z-index: 60; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; background: rgba(10, 6, 40, .72); pointer-events: none; animation: cfIn .45s cubic-bezier(.2, 1.4, .4, 1); }
+.cardflash.out { opacity: 0; transition: opacity .7s; }
+.cf-card { width: min(260px, 30vw); aspect-ratio: 5 / 7; border-radius: 22px; background: linear-gradient(160deg, #ffd60a, #ff8a00); color: #1b1650; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 20px 60px rgba(0,0,0,.5), inset 0 0 0 6px rgba(255,255,255,.6); animation: cfSpin .8s ease-out; }
+.cf-icon { font-size: min(110px, 12vw); line-height: 1; }
+.cf-name { font-weight: 900; font-size: min(1.8rem, 3vw); margin-top: 8px; }
+.cf-text { color: #fff; font-weight: 900; font-size: clamp(1.4rem, 3vw, 2.6rem); text-align: center; max-width: 80vw; text-shadow: 0 3px 12px rgba(0,0,0,.5); }
+@keyframes cfIn { from { opacity: 0; transform: scale(.7); } to { opacity: 1; transform: none; } }
+@keyframes cfSpin { from { transform: rotateY(180deg) scale(.4); } to { transform: none; } }
+.fxstrip { position: fixed; top: 64px; left: 50%; transform: translateX(-50%); z-index: 40; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; max-width: 90vw; pointer-events: none; }
+.fxstrip span { background: rgba(255, 214, 10, .95); color: #1b1650; font-weight: 900; border-radius: 999px; padding: 6px 14px; font-size: clamp(.85rem, 1.3vw, 1.1rem); box-shadow: 0 4px 14px rgba(0,0,0,.3); }
+
+/* Play Your Cards Right (host) */
+.pcstage { gap: 14px; }
+.pcrow { display: flex; gap: clamp(8px, 1.2vw, 18px); justify-content: center; flex-wrap: wrap; perspective: 1200px; }
+.pccard { width: clamp(110px, 12vw, 190px); aspect-ratio: 5 / 7; }
+.pcin { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .6s; }
+.pccard.down .pcin { transform: rotateY(180deg); }
+.pccard.flipped .pcin { animation: pcFlip .8s ease-out; }
+@keyframes pcFlip { from { transform: rotateY(180deg); } to { transform: rotateY(0); } }
+.pcface, .pcbackf { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; gap: 6px; box-shadow: 0 8px 24px rgba(0,0,0,.35); }
+.pcface { background: #fff; color: #1b1650; border: 4px solid #e21b3c; }
+.pcbackf { transform: rotateY(180deg); background: repeating-linear-gradient(45deg, #e21b3c 0 12px, #b5102b 12px 24px); color: #fff; border: 4px solid #fff; }
+.pclabel { font-weight: 800; font-size: clamp(.8rem, 1.1vw, 1.05rem); line-height: 1.15; }
+.pcval { font-weight: 900; font-size: clamp(1.4rem, 2.8vw, 2.6rem); }
+.pcq { font-weight: 900; font-size: clamp(2rem, 4vw, 3.6rem); }
+.pccard.next .pcbackf { box-shadow: 0 0 0 6px #ffd60a, 0 8px 24px rgba(0,0,0,.35); animation: pcPulse 1.2s infinite; }
+@keyframes pcPulse { 50% { box-shadow: 0 0 0 12px rgba(255,214,10,.35), 0 8px 24px rgba(0,0,0,.35); } }
+.pcask { font-weight: 900; font-size: clamp(1.2rem, 2.4vw, 2.1rem); }
+.pcbanter { font-style: italic; font-weight: 800; opacity: .85; font-size: clamp(1rem, 1.6vw, 1.4rem); }
+.pcstat { font-weight: 800; opacity: .75; }
+.pcbig { font-weight: 900; font-size: clamp(2rem, 5vw, 4rem); letter-spacing: .02em; }
+.pcbig.up { color: #7dff8a; }
+.pcbig.down { color: #ff8a9b; }
+
+/* Taskmaster (host) */
+.taskstage { justify-content: flex-start; gap: 12px; }
+.taskhead { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.taskchips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.taskgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(220px, 28vw), 1fr)); gap: 12px; width: 100%; overflow: auto; padding: 4px; }
+.taskph { position: relative; border-radius: 14px; overflow: hidden; background: #000; cursor: pointer; aspect-ratio: 4 / 3; border: 4px solid transparent; transition: transform .15s; }
+.taskph:hover { transform: scale(1.02); }
+.taskph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.taskph.pick1 { border-color: #ffd60a; }
+.taskph.pick2 { border-color: #d7dde8; }
+.taskph.pick3 { border-color: #d08a4b; }
+.taskph.pickw { border-color: #8b5a2b; filter: saturate(.6); }
+.tpname { position: absolute; left: 0; right: 0; bottom: 0; padding: 6px 10px; background: linear-gradient(transparent, rgba(0,0,0,.75)); color: #fff; font-weight: 900; text-align: left; }
+.tpmedal { position: absolute; top: 6px; left: 8px; font-size: 2.4rem; line-height: 1; display: flex; flex-direction: column; align-items: center; filter: drop-shadow(0 2px 6px rgba(0,0,0,.6)); }
+.tpmedal small { font-size: .9rem; font-weight: 900; background: rgba(0,0,0,.6); color: #fff; border-radius: 8px; padding: 1px 6px; }
+.tpmedal.big { position: static; font-size: 3.4rem; }
+.tpzoom { position: absolute; top: 6px; right: 6px; border: 0; border-radius: 10px; background: rgba(0,0,0,.55); color: #fff; font-size: 1.1rem; padding: 4px 8px; cursor: zoom-in; }
+.taskpodium { display: flex; gap: 16px; align-items: flex-end; justify-content: center; flex-wrap: wrap; }
+.taskpod { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; width: min(280px, 22vw); }
+.taskpod img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 14px; border: 5px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,.4); }
+.taskpod.p1 { width: min(360px, 28vw); }
+.taskpod.p1 img { border-color: #ffd60a; }
+.taskpod.pw img { border-color: #8b5a2b; filter: saturate(.5) sepia(.3); }
+.taskpod .tpname { position: static; background: none; text-align: center; padding: 0; }
+.taskzoom { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; cursor: zoom-out; }
+.taskzoom img { max-width: 92vw; max-height: 82vh; border-radius: 14px; }
+.taskzoom .tpname { position: static; background: none; font-size: 1.4rem; }
+
+/* Who Said That? */
+.wsquote { font-weight: 900; font-size: clamp(1.6rem, 3.6vw, 3.2rem); line-height: 1.15; max-width: 85%; background: #fff; color: #1b1650; border-radius: 26px; padding: 18px 28px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,.3); }
+.wsquote::after { content: ""; position: absolute; bottom: -18px; left: 18%; border: 12px solid transparent; border-top: 18px solid #fff; }
+.wsprompt { font-weight: 800; opacity: .75; font-size: clamp(1rem, 1.6vw, 1.3rem); margin-top: 8px; }
+.wsit { font-weight: 900; font-size: clamp(1.6rem, 3.4vw, 3rem); display: flex; align-items: center; gap: 12px; }
+
+/* phones: the power cards button, the banner, the hand */
+.pcardsbtn { position: fixed; right: 12px; bottom: calc(14px + env(safe-area-inset-bottom)); z-index: 45; border: 0; border-radius: 18px; padding: 8px 14px; background: #ccc8e6; color: #4b4b6b; font: inherit; font-weight: 900; font-size: 1.1rem; display: flex; flex-direction: column; align-items: center; line-height: 1.1; box-shadow: 0 6px 18px rgba(20,16,80,.25); }
+.pcardsbtn small { font-size: .65rem; font-weight: 800; }
+.pcardsbtn.live { background: linear-gradient(160deg, #ffd60a, #ff8a00); color: #1b1650; animation: pcbBob 2s infinite; }
+@keyframes pcbBob { 50% { transform: translateY(-3px); } }
+.pcflash { position: fixed; left: 12px; right: 12px; top: calc(12px + env(safe-area-inset-top)); z-index: 70; background: #1b1650; color: #fff; border-radius: 18px; padding: 12px 14px; display: flex; gap: 12px; align-items: center; box-shadow: 0 12px 30px rgba(0,0,0,.35); animation: pfIn .35s ease-out; }
+.pcflash.out { opacity: 0; transform: translateY(-20px); transition: all .6s; }
+.pf-icon { font-size: 2.2rem; }
+.pf-text { font-weight: 900; }
+@keyframes pfIn { from { transform: translateY(-40px); opacity: 0; } to { transform: none; opacity: 1; } }
+.pcsheet { position: fixed; inset: 0; z-index: 55; background: rgba(20,16,80,.45); display: flex; align-items: flex-end; }
+.pcs-in { width: 100%; max-height: 85dvh; overflow: auto; background: #fff; border-radius: 22px 22px 0 0; padding: 14px 14px calc(18px + env(safe-area-inset-bottom)); }
+.pcs-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.pcs-cards { display: grid; gap: 8px; }
+.pcs-card { display: flex; gap: 12px; align-items: center; text-align: left; border: 2px solid var(--line); border-radius: 14px; background: #fffbea; padding: 10px 12px; font: inherit; color: var(--ink); }
+.pcs-card.sel { border-color: var(--brand); background: var(--brand-soft); }
+.pcs-card:disabled { opacity: .55; }
+.pcs-card small { display: block; color: var(--ink-2); font-weight: 600; }
+.pcs-ic { font-size: 2rem; }
+.pcs-who { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.pcs-who .btn { justify-content: flex-start; }
+.partybar { background: #ffe9a8; }
+.partynotes { margin: 8px 0 4px; font-weight: 800; display: grid; gap: 2px; }
+/* phones: Play Your Cards Right */
+.pcpair { display: flex; gap: 12px; justify-content: center; margin: 6px 0 10px; }
+.pcmini { width: 42%; max-width: 170px; aspect-ratio: 5 / 7; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px; text-align: center; gap: 4px; box-shadow: var(--shadow); }
+.pcmini.up { background: #fff; border: 3px solid #e21b3c; color: var(--ink); }
+.pcmini.down { background: repeating-linear-gradient(45deg, #e21b3c 0 10px, #b5102b 10px 20px); color: #fff; border: 3px solid #fff; }
+.pcmini .pcval { font-size: 1.8rem; }
+.pchl { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pchl .btn { min-height: 92px; font-size: 1.3rem; font-weight: 900; color: #fff; border: 0; justify-content: center; }
+.pch { background: #26890c; }
+.pcl { background: #e21b3c; }
+.pchl .btn.on { outline: 4px solid var(--ink); }
+/* phones: Taskmaster and Who Said That */
+.taskprev { margin: 4px 0 10px; text-align: center; }
+.taskprev img { max-height: 42dvh; border-radius: 14px; box-shadow: var(--shadow); }
+.wsq { background: #fff; border: 3px solid var(--brand); border-radius: 18px; padding: 12px 14px; font-weight: 900; font-size: 1.25rem; text-align: center; margin: 4px 0 8px; }
+/* the builder: judging a warm-up's Taskmaster photos */
+.wutaskgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; max-height: 60vh; overflow: auto; }
+.wutaskph { position: relative; border-radius: 12px; overflow: hidden; cursor: pointer; border: 3px solid transparent; background: #000; aspect-ratio: 4 / 3; }
+.wutaskph.on { border-color: var(--brand); }
+.wutaskph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.wtname { position: absolute; left: 0; right: 0; bottom: 0; padding: 4px 8px; background: linear-gradient(transparent, rgba(0,0,0,.8)); color: #fff; font-weight: 800; font-size: .85rem; }
