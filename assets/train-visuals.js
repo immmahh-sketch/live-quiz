@@ -61,7 +61,7 @@
     // Big numbers or short words with a label under each.
     stats: (v) => `<div class="v-stats c${(v.items || []).length}">${(v.items || []).map((it) => `<div class="v-stat t-${tone(it.tone)}"><strong>${esc(it.big)}</strong><span>${inl(it.label || '')}</span></div>`).join('')}</div>`,
     // The teams: each a coloured card with its members and their roles. They appear once the phones' wheels have landed.
-    groups: (v) => `<div class="v-teams n${Math.min(6, (v.list || []).length)}"><div class="v-spin">Spin your phone's wheel…</div>${(v.list || []).map((g, i) => `<div class="v-team" style="--tc:${esc(g.color)};--d:${4800 + i * 160}ms"><h4>${esc(g.name)}<small>${(g.members || []).length}</small></h4><ul>${(g.members || []).map((m) => `<li><span>${esc(m.emoji || '')} ${esc(m.name)}</span>${m.role ? `<em>${esc(m.role)}</em>` : ''}</li>`).join('')}</ul></div>`).join('')}</div>`,
+    groups: (v) => `<div class="v-teams n${Math.min(6, (v.list || []).length)}${v.compact ? ' compact' : ''}">${v.compact ? '' : '<div class="v-spin">Spin your phone\'s wheel…</div>'}${(v.list || []).map((g, i) => `<div class="v-team" style="--tc:${esc(g.color)};--d:${4800 + i * 160}ms"><h4>${esc(g.name)}<small>${(g.members || []).length}</small></h4><ul>${(g.members || []).map((m) => `<li><span>${esc(m.emoji || '')} ${esc(m.name)}</span>${m.role ? `<em>${esc(m.role)}</em>` : ''}</li>`).join('')}</ul></div>`).join('')}</div>`,
     // A row of short phrases, like tags.
     pills: (v) => `<div class="v-pills">${(v.items || []).map((x, i) => `<span class="t-${tone((v.tones || ['sage', 'slate', 'gold', 'clay'])[i % (v.tones || [1, 2, 3, 4]).length])}">${inl(x)}</span>`).join('')}</div>`,
   };
@@ -81,7 +81,7 @@
     const clock = o.brk ? `<div class="ts-clock">${LQ.breakClockHtml(o.brk.prefix, o.brk.what)}<div class="brkback" id="${o.brk.prefix === 'brk' ? 'brkBack' : 'pbrkBack'}"></div></div>` : '';
     if (layout === 'hero') return `<div class="ts ts-hero" style="${sl.image ? `background-image:linear-gradient(90deg,rgba(20,28,22,.92) 0%,rgba(20,28,22,.62) 48%,rgba(20,28,22,.1) 100%),url('${esc(sl.image)}')` : ''}"><div class="ts-in">${kicker}${title}${body}${vis}</div>${credit}</div>`;
     if (layout === 'photo' || layout === 'photoright') return `<div class="ts ts-photo${layout === 'photoright' ? ' right' : ''}">${img}<div class="ts-txt">${kicker}${title}${body}${vis}</div>${credit}</div>`;
-    if (layout === 'exercise' || o.brk) return `<div class="ts ts-ex"><div class="ts-main">${kicker}${title}${body}${vis}</div>${clock}</div>`;
+    if (layout === 'exercise' || o.brk) return `<div class="ts ts-ex"><div class="ts-main">${kicker}${title}${body}${vis}${o.teams ? `<div class="ts-teams">${o.teams}</div>` : ''}</div>${clock}</div>`;
     return layout === 'visual' ? `<div class="ts ts-vis"><div class="ts-head">${kicker}${title}</div>${vis}${body}${img}${credit}</div>` : `<div class="ts ts-plain"><div class="ts-head">${kicker}${title}</div>${body}${vis}${img}${credit}</div>`;
   }
   Object.assign(LQ, { visualHtml, trainSlideHtml });

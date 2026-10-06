@@ -282,3 +282,11 @@ body.noscores .app-top .score, body.noscores .result .pts, body.noscores .result
 .gw-res h2 { margin: 0; font-size: 2rem; } .gw-res .gw-role { display: inline-block; margin: .5rem 0 .2rem; background: #262626; color: #fff; border-radius: 999px; padding: .3rem 1rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; font-size: .85rem; }
 .gw-res p { margin: .3rem 0; } .gw-with { font-weight: 700; } .gw-with em { font-style: normal; opacity: .65; font-size: .85em; }
 @media (prefers-reduced-motion: reduce) { .gw-wheel { animation-duration: .01s; } }
+
+/* the teams kept on an exercise slide: small, with no spinning */
+.ts-teams { margin-top: .9em; }
+.v-teams.compact { gap: .5em; font-size: .72em; grid-template-columns: repeat(auto-fit, minmax(11em, 1fr)); }
+.v-teams.compact .v-team { opacity: 1; animation: none; }
+.v-teams.compact .v-team h4 { padding: .3em .7em; font-size: 1em; } .v-teams.compact .v-team ul { padding: .2em .7em .35em; } .v-teams.compact .v-team li { padding: .15em 0; }
+.player .gw-mini { background: #fff; border: 1px solid var(--line); border-left: .4rem solid var(--tc, #4e5f4f); border-radius: .6rem; padding: .6rem .8rem; margin: .6rem 0; text-align: left; }
+.player .gw-mini b { color: var(--tc); } .player .gw-mini em { font-style: normal; opacity: .65; font-size: .85em; }
