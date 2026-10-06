@@ -241,3 +241,13 @@ body.noscores .app-top .score, body.noscores .result .pts, body.noscores .result
 .pollchip:nth-child(4n+3) { border-left: .35em solid #2f5d6b; } .pollchip:nth-child(4n) { border-left: .35em solid #8c4a3f; }
 .pollempty { opacity: .6; font-weight: 600; font-size: clamp(1rem, 1.8vw, 1.6rem); }
 @keyframes pollin { from { transform: scale(.6); opacity: 0; } }
+
+/* the form's header carries the logo, as the paper one does */
+.v-fhead { position: relative; align-items: center; }
+.v-flogo { height: 2.6em; width: auto; order: 2; }
+.v-fsign2 { margin-top: .9em; display: grid; gap: .7em; }
+.v-fsign2 > div { display: flex; gap: 1.2em; }
+.v-fsign2 span { flex: 1; display: flex; gap: .5em; align-items: baseline; border-bottom: 1px solid #aaa; }
+.v-fsign2 i { font-style: normal; font-weight: 700; font-size: .82em; color: #4a4f4a; white-space: nowrap; }
+.v-fsign2 u { text-decoration: none; min-height: 1.2em; flex: 1; }
+.v-flabel b { white-space: nowrap; }

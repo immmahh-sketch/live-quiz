@@ -56,7 +56,7 @@ Every part follows the same pattern: **title slide with what they will be able t
 
 ## What to check with the GM before the first session
 - Warning lengths (how long a first and final written warning last) and the handbook's list of gross misconduct. The deck refers to "the outcome letter and our policy" and "the handbook".
-- Where the Coaching & Advice template lives, and who holds the Ward Hadaway details.
+- Where the Coaching & Advice template lives (a blank copy is in assets/train/Coaching-and-Advice-Blank.docx), and who holds the Ward Hadaway details.
 - Whether to add your own case studies in place of the made-up ones.
 
 ## Editing the deck

@@ -240,10 +240,10 @@ slide('informal', { layout: 'visual', kicker: 'The ladder', title: 'You can step
   { title: 'Final written warning', tone: 'clay', band: 'Formal' },
   { title: 'Dismissal', tone: 'ink', band: 'Formal' }],
   side: { title: 'Any step, any time', text: 'The ladder is not a queue. Serious misconduct can start at the written-warning steps. **Gross misconduct** can go straight to a dismissal hearing. The seriousness decides, and it is always investigated first.', tone: 'clay' } } });
-slide('informal', { layout: 'visual', kicker: 'Our form', title: 'The Coaching & Advice record', visual: { type: 'form', title: 'COACHING & ADVICE RECORD', top: [{ k: 'Team member name' }, { k: 'Date' }], fields: [
+slide('informal', { layout: 'visual', kicker: 'Our form', title: 'The Coaching & Advice record', visual: { type: 'form', title: 'COACHING & ADVICE RECORD', top: [{ k: 'Team Member Name' }, { k: 'Date' }], fields: [
   { n: 1, label: 'What has been discussed?', tip: 'Facts: what happened, when, how often, and the impact.', hi: true },
   { n: 2, label: 'Colleague response / explanation', tip: 'Their words, not yours.' },
-  { n: 3, label: 'Action plan', hint: 'Agree SMART actions and a suitable review date where appropriate. Identify what implications there could be if the actions are not met.', tip: 'Specific actions, a date to review, and what happens if nothing changes.' }], sign: true },
+  { n: 3, label: 'Action Plan', hint: 'Agree SMART actions and a suitable review date where appropriate. Identify what implications there could be if the actions are not met.', tip: 'Specific actions, a date to review, and what happens if nothing changes.' }], sign: true },
   body: 'It is a documented informal conversation, **not** a disciplinary warning. It shows the issue was raised, what support was offered and what was agreed.' });
 slide('informal', { layout: 'plain', kicker: 'Filling it in', title: 'Five rules for the record', body: `✔ **Facts**: dates, times, examples and the impact
 ✔ Their response, **in their words**
@@ -255,10 +255,10 @@ slide('informal', { layout: 'plain', kicker: 'Filling it in', title: 'Five rules
 ✘ Writing it up days later from memory
 
 > Write it the same day, while it is fresh and accurate.` });
-slide('informal', { layout: 'visual', kicker: 'A good one', title: 'Example: a record that does its job', visual: { type: 'form', title: 'COACHING & ADVICE RECORD', top: [{ k: 'Team member name', v: 'Charlie (bar)' }, { k: 'Date', v: '12 October' }], fields: [
+slide('informal', { layout: 'visual', kicker: 'A good one', title: 'Example: a record that does its job', visual: { type: 'form', title: 'COACHING & ADVICE RECORD', top: [{ k: 'Team Member Name', v: 'Charlie (bar)' }, { k: 'Date', v: '12 October' }], fields: [
   { n: 1, label: 'What has been discussed?', text: 'Phone use behind the bar during service on 3 Oct, 14 Oct and 19 Oct. Two guests waited over five minutes on the 19th while the phone was in use.' },
   { n: 2, label: 'Colleague response / explanation', text: 'Said they were checking a message from childcare and did not realise guests were waiting. Agreed it should not happen during service.' },
-  { n: 3, label: 'Action plan', text: 'Phone stays in the staff room during shifts; family can ring the main line. Review in four weeks (9 Nov). If it continues, this may move to the formal disciplinary procedure.' }], sign: true } });
+  { n: 3, label: 'Action Plan', text: 'Phone stays in the staff room during shifts; family can ring the main line. Review in four weeks (9 Nov). If it continues, this may move to the formal disciplinary procedure.' }], sign: true } });
 slide('informal', { layout: 'visual', kicker: 'The actions', title: 'Make the actions SMART', visual: { type: 'cards', cols: 5, items: [
   { icon: 'S', title: 'Specific', text: 'Exactly what, in plain words.', tone: 'sage' },
   { icon: 'M', title: 'Measurable', text: 'How will we both know?', tone: 'slate' },
