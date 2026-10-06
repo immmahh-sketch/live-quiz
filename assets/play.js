@@ -1,0 +1,928 @@
+/* The phone player, shared by Let's Quiz (play.html) and BHB Training (train.html). Which one is decided by the page's
+ * data-brand (LQ.brand()); the join page, the install steps and the home-screen name follow it. */
+const { $, $$, esc, uid, TYPES, COLORS, store, ordinal } = LQ;
+const BRAND = LQ.brand(), BHB = BRAND.id === 'bhb';
+const PENDING = BHB ? 'lq_pending_bhb' : 'lq_pending'; // each app keeps its own waiting game code
+/** The mark at the top of the join and install pages. */
+const joinLogo = () => BHB ? `<div class="joinlogo"><img src="${BRAND.logo}" alt="Black Horse Beamish"><h2>Training</h2></div>` : `<div class="joinlogo"><img src="assets/brand/mark.png" alt=""><h2>${esc(BRAND.name)}</h2></div>`;
+const app = $('#app');
+const saved = store('lq_player') || {};
+const P = { pid: /^p_[a-z0-9]{6,12}$/.test(saved.pid || '') ? saved.pid : uid('p'), name: saved.name || '', emoji: LQ.EMOJIS.includes(saved.emoji) ? saved.emoji : LQ.EMOJIS[Math.floor(Math.random() * LQ.EMOJIS.length)], code: '', race: null,
+  state: null, receivedAt: 0, deadline: 0, viewKey: '', answered: {}, skipped: {}, sent: {}, low: {}, joined: false, hostSeen: 0, work: {} };
+let ch = null, sb = null, timerT = null, helloT = null, watchdogT = null;
+
+let toastT;
+function toast(msg, bad) { const t = $('#toast'); t.textContent = msg; t.className = 'toast show' + (bad ? ' bad' : ''); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 3000); }
+function send(event, payload) { if (ch) ch.send({ type: 'broadcast', event, payload }); }
+
+// ------------------------------------------------------------------ join
+function renderJoin(msg) {
+  const pend = store(PENDING); const pending = pend && Date.now() - pend.at < 3 * 3600000 ? pend.code : '';
+  const code = (new URLSearchParams(location.search).get('g') || P.code || pending || '').toUpperCase();
+  app.innerHTML = `<div class="joinbox card">${joinLogo()}<p class="center muted" style="margin-top:-6px">${BHB ? 'Join the session on the screen' : 'Join the game on the screen'}</p>
+    ${msg ? `<div class="error" style="margin-bottom:12px">${esc(msg)}</div>` : ''}
+    <form id="join"><div class="field"><label>Game code</label><input type="text" id="code" class="codein" value="${esc(code)}" maxlength="12" oninput="this.style.letterSpacing = this.value.length > 6 ? '.06em' : ''" autocomplete="off" autocapitalize="characters" placeholder="ABC123" ${code ? '' : 'autofocus'}>
+      <button type="button" class="btn btn-ghost btn-block" id="scanBtn" style="margin-top:8px">📷 Scan the QR code on the screen</button></div>
+    <div class="field"><label>Your name</label><input type="text" id="name" value="${esc(P.name)}" maxlength="20" autocomplete="nickname" placeholder="What should we call you?" ${code ? 'autofocus' : ''}></div>
+    <div class="field"><label>Your emoji</label><div class="emopick">${LQ.EMOJIS.map((e) => `<button type="button" data-em="${e}" class="${e === P.emoji ? 'on' : ''}">${e}</button>`).join('')}</div></div>
+    <button class="btn btn-primary btn-lg btn-block">Let's go</button></form>
+    ${BHB ? '' : `<p class="center muted small" style="margin:14px 0 0">No game on? <a href="home"><b>Play at home</b></a>: Millionaire, The Chase, The Weakest Link and The 1% Club, on your own or with friends.</p>`}</div>`;
+  $$('[data-em]').forEach((b) => b.onclick = () => { P.emoji = b.dataset.em; $$('[data-em]').forEach((x) => x.classList.toggle('on', x === b)); });
+  $('#scanBtn').onclick = () => scanQr((found) => { $('#code').value = found; if ($('#name').value.trim()) $('#join').requestSubmit(); else $('#name').focus(); });
+  $('#join').onsubmit = (e) => {
+    e.preventDefault();
+    const c = $('#code').value.trim().toUpperCase().replace(/[^A-Z0-9]/g, ''), n = $('#name').value.replace(/\s+/g, ' ').trim();
+    if (c.length < 3) return renderJoin('The game code is six letters and numbers — it\'s on the shared screen.');
+    if (!n) return renderJoin('Tell us your name so it shows on the scoreboard.');
+    P.code = c; P.name = n; P.test = false; store('lq_player', { pid: P.pid, name: n, emoji: P.emoji });
+    // TEST in front of a live game's code: join that game and make it a test game (ten bots, nothing saved).
+    // TEST in front of a warm-up's code (TESTWARMUP) goes to the warm-up instead, found by the check below.
+    // VIEW in front of a live game's code: play along as the players see it and get a score, but never be a player
+    // (no lobby, no leaderboard, no name anywhere for anyone else). A viewer id of its own, so it can't be a player too.
+    if (/^VIEW[A-Z0-9]{6}$/.test(c)) { P.code = c.slice(4); P.view = true; P.pid = 'p_vw' + P.pid.replace(/^p_/, '').slice(0, 8); }
+    else if (/^TEST[A-Z0-9]{6}$/.test(c)) { P.code = c.slice(4); P.test = true; }
+    // A live game's code is always six characters; anything else can only be a warm-up (TESTWARMUP, say)
+    else if (c.length !== 6) {
+      LQ.api('warmup_open', { code: c, peek: true }, { timeout: 8000 }).then(() => { location.href = 'warmup?c=' + encodeURIComponent(c); })
+        .catch(() => renderJoin('No game or warm-up has that code. Check it and try again.'));
+      return;
+    }
+    connect();
+    LQ.api('warmup_open', { code: c, peek: true }, { timeout: 8000 }).then(() => { if (P.joined) return; clearInterval(watchdogT); leave(); location.href = 'warmup?c=' + encodeURIComponent(c); }).catch(() => {});
+  };
+}
+// ---- QR scanner: the rear camera, decoded in the page; the code is the ?g= of the join link ----
+function loadScript(src) { return new Promise((res, rej) => { if (document.querySelector(`script[src="${src}"]`)) return res(); const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = () => rej(new Error('Could not load the scanner.')); document.head.appendChild(s); }); }
+async function scanQr(onFound) {
+  if (!navigator.mediaDevices?.getUserMedia) return toast('This browser cannot use the camera here. Type the code instead.', true);
+  const overlay = document.createElement('div'); overlay.className = 'scan';
+  overlay.innerHTML = `<video playsinline autoplay muted></video><div class="scan-frame"></div><p class="scan-hint">Point the camera at the QR code on the shared screen</p><button class="btn btn-ghost" id="scanClose" style="color:#fff;border-color:rgba(255,255,255,.5)">Cancel</button>`;
+  document.body.appendChild(overlay);
+  const video = overlay.querySelector('video'); let stream = null, stop = false;
+  const close = () => { stop = true; if (stream) stream.getTracks().forEach((t) => t.stop()); overlay.remove(); };
+  overlay.querySelector('#scanClose').onclick = close;
+  try {
+    await loadScript('https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js');
+    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false });
+    video.srcObject = stream; await video.play();
+  } catch (e) { close(); return toast(e.name === 'NotAllowedError' ? 'Camera permission was refused. Type the code instead.' : e.message, true); }
+  const canvas = document.createElement('canvas'), ctx = canvas.getContext('2d', { willReadFrequently: true });
+  const tick = () => {
+    if (stop) return;
+    if (video.readyState >= 2) {
+      const w = Math.min(640, video.videoWidth || 640), h = Math.round(w * (video.videoHeight || 480) / (video.videoWidth || 640));
+      canvas.width = w; canvas.height = h; ctx.drawImage(video, 0, 0, w, h);
+      const img = ctx.getImageData(0, 0, w, h);
+      const hit = window.jsQR && jsQR(img.data, w, h, { inversionAttempts: 'dontInvert' });
+      if (hit?.data) {
+        const m = hit.data.match(/[?&]g=([A-Za-z0-9]{6})/) || hit.data.match(/^\s*([A-Za-z0-9]{6})\s*$/);
+        if (m) { close(); if (navigator.vibrate) navigator.vibrate(60); onFound(m[1].toUpperCase()); return; }
+      }
+    }
+    setTimeout(tick, 120);
+  };
+  tick();
+}
+
+function connect() {
+  app.innerHTML = `<div class="state"><span class="spinner"></span><h2>Joining game ${esc(P.code)}…</h2></div>`;
+  if (ch) { try { sb.removeChannel(ch); } catch {} }
+  sb = sb || LQ.client();
+  ch = sb.channel('quiz-' + P.code, { config: { broadcast: { self: false }, presence: { key: P.pid } } });
+  ch.on('broadcast', { event: 'state' }, ({ payload }) => onState(payload));
+  ch.on('broadcast', { event: 'ack' }, ({ payload }) => { if (payload.pid === P.pid) { P.answered[payload.qId] = true; render(); } });
+  ch.on('broadcast', { event: 'race' }, ({ payload }) => onRaceEvent(payload));
+  ch.on('broadcast', { event: 'tq' }, ({ payload }) => onTwentyEvent(payload));
+  ch.on('broadcast', { event: 'cardno' }, ({ payload }) => { if (payload?.pid === P.pid) toast(payload.why || "That card can't be played right now", true); });
+  ch.on('broadcast', { event: 'kick' }, ({ payload }) => { if (payload.pid === P.pid) { clearInterval(watchdogT); leave(); P.code = ''; renderJoin(payload.why ? String(payload.why).slice(0, 160) : 'The host has removed you from the game. You can join again if that was a mistake.'); } });
+  ch.subscribe(async (status) => {
+    if (status === 'SUBSCRIBED') {
+      await ch.track({ role: P.view ? 'viewer' : 'player', pid: P.pid, name: P.name, emoji: P.emoji });
+      hello(); clearInterval(helloT); helloT = setInterval(() => { if (!P.joined) hello(); }, 2000);
+      setTimeout(() => { if (!P.joined) { clearInterval(helloT); leave(); renderJoin('No game found with that code. Check the screen — the host needs to have the game open.'); } }, 9000);
+    } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') { toast('Connection trouble — retrying…', true); }
+  });
+  clearInterval(watchdogT); watchdogT = setInterval(watchdog, 1500);
+}
+function hello() { send('hello', { pid: P.pid, name: P.name, emoji: P.emoji, ...(P.test ? { test: true } : {}), ...(P.view ? { view: true } : {}) }); }
+// ---- the phone stays awake while it is in a game ----
+// A phone that locks itself mid-game drops off the quiz call (and its camera stops). The Screen Wake Lock (Safari 16.4+,
+// iPhone home-screen apps from iOS 18.4) keeps it on while it is in a game; asked for again whenever the page comes
+// back into view, and on any tap (some phones want one).
+let wakeLock = null, wakeAsking = false;
+async function keepAwake() {
+  if (!P.joined || document.hidden || wakeLock || wakeAsking || !('wakeLock' in navigator)) return;
+  wakeAsking = true;
+  try { wakeLock = await navigator.wakeLock.request('screen'); wakeLock.addEventListener('release', () => { wakeLock = null; }); } catch {}
+  wakeAsking = false;
+}
+function letSleep() { if (wakeLock) { wakeLock.release().catch(() => {}); wakeLock = null; } }
+document.addEventListener('visibilitychange', () => { if (!document.hidden) keepAwake(); });
+document.addEventListener('pointerdown', () => keepAwake(), { passive: true });
+function leave() { letSleep(); if (window.PhoneCam && PhoneCam.state !== 'off') PhoneCam.stop('left the game'); try { localStorage.removeItem('lq_call_on'); } catch {} try { sb.removeChannel(ch); } catch {} ch = null; P.joined = false; P.state = null; P.viewKey = ''; }
+function onState(s) {
+  if (!s || typeof s.phase !== 'string') return;
+  P.state = s; P.receivedAt = Date.now(); P.hostSeen = Date.now();
+  P.pausedRem = s.paused && s.phase === 'question' ? (s.wipe ? s.wipe.remainingMs : s.remainingMs) : null;
+  syncPauseUi(s);
+  syncCallBar(s);
+  if (!P.joined) { P.joined = true; clearInterval(helloT); }
+  keepAwake();
+  if (s.phase === 'question' && typeof s.remainingMs === 'number') { P.deadline = Date.now() + (s.wipe ? s.wipe.remainingMs : s.remainingMs); partyDeadline(s); }
+  if (Array.isArray(s.answered) && s.answered.includes(P.pid)) P.answered[s.q?.id] = true;
+  render();
+}
+function watchdog() {
+  // Re-send an answer the host has not acknowledged, and warn if the host has gone quiet.
+  const s = P.state; if (!s) return;
+  if (s.phase === 'question' && s.race && P.race?.pending && Date.now() - P.race.sentAt > 2000) {
+    // The host never confirmed the pick: send it again (it ignores duplicates).
+    P.race.sentAt = Date.now(); send('answer', { pid: P.pid, qId: s.q.id, answer: { idx: P.race.idx, k: P.race.pending } });
+  }
+  if (s.phase === 'question' && s.tq && P.tq?.pending && Date.now() - P.tq.sentAt > 2000) { P.tq.sentAt = Date.now(); send('answer', { pid: P.pid, qId: s.q.id, answer: P.tq.pending }); }
+  if (s.phase === 'question' && s.q && !s.race && !s.tq) {
+    const st = P.sent[s.q.id];
+    if (st && !P.answered[s.q.id] && Date.now() - st.at > 1800 && st.tries < 5) { st.tries++; st.at = Date.now(); send('answer', { pid: P.pid, qId: s.q.id, answer: st.answer }); }
+  }
+  const quiet = Date.now() - P.hostSeen;
+  const b = $('#offline');
+  if (quiet > 7000 && !b) { app.insertAdjacentHTML('afterbegin', '<div class="error" id="offline">Lost the host for a moment — hang on…</div>'); hello(); }
+  else if (quiet <= 7000 && b) b.remove();
+}
+
+// ------------------------------------------------------------------ render
+function myResult() { return P.state?.results?.[P.pid]; }
+function render() {
+  const s = P.state; if (!s) return;
+  partyPhoneAfter(s); // the power cards button and the banner when a card is played (assets/party-phone.js)
+  const qId = s.q?.id || '';
+  if (s.race && s.q) { syncRace(s); const el = $('#racePos'); if (el) el.outerHTML = racePlaceHtml(s); }
+  const rc = P.race && P.race.qId === qId ? P.race : null;
+  if (s.wheel && P.viewKey.startsWith(`${s.phase}:${qId}:`)) {
+    // redraw only when a letter has turned, and flip only the new one (the rest stay put)
+    const b = $('#pwof');
+    if (b && b.dataset.rev !== s.wheel.revealed) {
+      const old = new Set(b.dataset.rev || ''); b.innerHTML = LQ.wheelBoardHtml(s.wheel.layout, s.wheel.revealed); b.dataset.rev = s.wheel.revealed;
+      if (old.size) b.querySelectorAll('.wt.lit').forEach((t) => { if (old.has(t.textContent)) t.classList.add('old'); });
+    }
+  }
+  if (s.reveal) syncReveal(s);
+  if (s.roster) syncRoster(s);
+  if (s.roster && s.potato) syncPotRing(s);
+  if (P.tuneFor && (s.phase !== 'question' || qId !== P.tuneFor)) { stopPhoneTune(); P.tuneFor = null; }
+  if (s.wipe?.studyMs) { const el = $('#studyLeft'); if (el) el.textContent = Math.ceil(s.wipe.studyMs / 1000); }
+  const key = [s.phase, qId, s.qIndex, s.round?.n || '', s.raceIntro ? s.raceIntro.step + s.raceIntro.n : '', P.answered[qId] ? 'a' : '', s.wipe ? `${s.wipe.turnPid}:${s.wipe.gone.length}:${s.wipe.out.length}:${s.wipe.over}:${s.wipe.studyMs ? 'study' : ''}:${(s.wipe.order || []).length}` : '', rc ? `${rc.idx}:${rc.pending}:${rc.out}:${rc.done}:${s.race?.winner || ''}` : '', gameKey(s), twentyKey(s), s.warm ? 'w' + s.warm.count : ''].join(':');
+  // A break clock: keep the phone's countdown in step with the host's, which the host can stretch or shorten.
+  if (s.phase === 'slide' && s.brk) { P.brk = { end: Date.now() + s.brk.remainingMs, total: s.brk.totalMs, frozen: s.paused ? s.brk.remainingMs : null }; }
+  if (key === P.viewKey) { tickTimer(); tickBreak(); if (s.draw) drawUpdate(s); return; }
+  P.viewKey = key;
+  clearInterval(timerT);
+  if (!(s.phase === 'question' && s.wipe)) app.className = 'app';
+  const r = myResult();
+  const score = r ? r.score : (s.top ? (s.top.find((t) => t.name === P.name)?.score ?? '') : '');
+  const top = `<div class="app-top"><span>${esc(P.name)}${s.test ? '<span class="testtag" title="A test game: nothing is saved">🧪 Test</span>' : ''}${P.view ? '<span class="testtag" title="Viewing: you play along, but you are not a player and not on any leaderboard">👀 Viewing</span>' : ''}</span><span>${s.phase !== 'lobby' && s.phase !== 'slide' && s.qIndex >= 0 ? `Q${s.num ?? s.qIndex + 1}/${s.total}` : esc(s.title || '')}</span>${score !== '' && score !== undefined ? `<span class="score">${score}</span>` : '<span></span>'}</div>`;
+  const top2 = (s.practice && ['typecard', 'countdown', 'question', 'grading', 'reveal'].includes(s.phase) ? '<div class="practicebar">🧪 Practice · no points</div>' : '') + partyBadges(s);
+  const ctrl = (cmd, label) => s.auto && !P.view ? `<button class="btn btn-primary btn-lg btn-block ctrlbtn" data-ctrl="${cmd}">${label}</button>` : '';
+  if (P.view && s.phase === 'question' && (s.race || s.wipe || s.potato || s.koth || s.bb || s.chase || s.draw || s.tq || s.uq || s.pc || s.task || s.tm)) app.innerHTML = top + top2 + `<div class="state"><div class="em">👀</div><h2>You're watching this one</h2><p class="muted">It's a game for the players. Watch the shared screen; you're back in for the next question.</p></div>`;
+  else if (s.phase === 'lobby' && P.view) app.innerHTML = top + top2 + `<div class="state"><div class="em">👀</div><h2>You're viewing, ${esc(P.name)}</h2><p class="muted">Play along with every question and keep your own score. You're not a player: you won't show in the game or on any leaderboard.</p></div>`;
+  else if (s.phase === 'lobby') app.innerHTML = top + top2 + `<div class="state"><div class="em">🎉</div><h2>You're in, ${esc(P.name)}!</h2><p class="muted">${s.auto ? 'The game runs itself. When everyone is in, start it from here.' : BHB ? 'Watch the screen. The session starts when your trainer presses go.' : 'Watch the shared screen. The quiz starts when the host presses go.'}</p>${ctrl('start', BHB ? 'Start the session ▶' : 'Start the quiz ▶')}</div>`;
+  else if (s.phase === 'round') app.innerHTML = top + top2 + `<div class="state"><div class="em">🎯</div><p class="muted" style="margin:0">${BRAND.round} ${s.round?.n || ''}</p><h2>${esc(s.round?.title || '')}</h2>${s.round?.intro ? `<p style="font-weight:700">${esc(s.round.intro)}</p>` : ''}<p class="muted">${s.round?.count || ''} question${s.round?.count === 1 ? '' : 's'} coming up</p>${s.round?.practice ? '<div class="practicebar">🧪 Practice round · no points</div>' : ''}${ctrl('next', 'Start round ▶')}</div>`;
+  else if (s.phase === 'slide' && s.brk && (s.slide?.layout || s.slide?.visual || s.slide?.kicker)) { app.innerHTML = top + top2 + `<div class="state slide brk">${LQ.trainSlideHtml({ ...s.slide, layout: s.slide.layout || 'exercise' }, { brk: { prefix: 'pbrk', what: s.brk.what || 'exercise' } })}</div>`; tickBreak(); timerT = setInterval(tickBreak, 250); }
+  else if (s.phase === 'slide' && s.brk) { app.innerHTML = top + top2 + `<div class="state slide brk">${s.slide?.title ? `<h2>${esc(s.slide.title)}</h2>` : ''}${LQ.breakClockHtml('pbrk', s.brk.what)}${s.slide?.body ? `<div class="slidebody">${LQ.slideHtml(s.slide.body)}</div>` : ''}</div>`; tickBreak(); timerT = setInterval(tickBreak, 250); }
+  else if (s.phase === 'slide' && (s.slide?.layout || s.slide?.visual || s.slide?.kicker)) app.innerHTML = top + top2 + `<div class="state slide">${LQ.trainSlideHtml(s.slide)}${ctrl('next', s.more === false ? 'Final results 🏆' : 'Next ▶')}</div>`;
+  else if (s.phase === 'slide') app.innerHTML = top + top2 + `<div class="state slide">${s.slide?.image ? `<img class="slideimg" src="${esc(s.slide.image)}" alt="">` : '<div class="em">🪧</div>'}${s.slide?.title ? `<h2>${esc(s.slide.title)}</h2>` : ''}<div class="slidebody">${LQ.slideHtml(s.slide?.body || '')}</div>${ctrl('next', s.more === false ? 'Final results 🏆' : 'Next ▶')}</div>`;
+  else if (s.phase === 'typecard') { const t = s.typecard?.type; app.innerHTML = top + top2 + `<div class="state typecard"><div class="em">${TYPES[t]?.icon || '❓'}</div><p class="muted" style="margin:0">Next up${s.typecard?.run > 1 ? ` · ${s.typecard.run} questions` : ''}</p><h2>${esc(TYPES[t]?.label || '')}</h2><p style="font-weight:700">${esc(LQ.HOWTO[t] || '')}</p>${ctrl('next', "Let's go ▶")}</div>`; }
+  else if (s.phase === 'countdown' && s.raceIntro && s.raceIntro.kind && s.raceIntro.kind !== 'race') { const ri = s.raceIntro; app.innerHTML = top + top2 + `<div class="state raceintro"><div class="em">${ri.icon || '🎮'}</div><p class="muted" style="margin:0;font-weight:800;letter-spacing:.08em;text-transform:uppercase">${esc(ri.title || '')}</p><h2>${esc(ri.topic)}</h2><p style="font-weight:700">${esc(ri.sub || '')}</p></div>`; }
+  else if (s.phase === 'countdown' && s.raceIntro) {
+    const ri = s.raceIntro;
+    app.innerHTML = top + top2 + (ri.step === 'splash' ? `<div class="state raceintro"><div class="em">🏁</div><p class="muted" style="margin:0;font-weight:800;letter-spacing:.08em;text-transform:uppercase">The Race</p><h2>${esc(ri.topic)}</h2><p style="font-weight:700">First to ${ri.target} right wins the prize. ${(ri.maxWrong ?? 10) + 1} wrong and you're out. Get your fingers ready!</p></div>`
+      : ri.step === 'count' ? `<div class="state raceintro"><p class="muted" style="margin:0">${esc(ri.topic)}</p><div class="ri-num" data-n="${ri.n}">${ri.n}</div></div>`
+      : `<div class="state raceintro bang"><div class="ri-bang">BANG!</div><div class="ri-go">GO!</div></div>`);
+    if (ri.step !== 'splash' && navigator.vibrate) try { navigator.vibrate(ri.step === 'bang' ? 200 : 40); } catch {}
+  }
+  else if (s.phase === 'countdown') app.innerHTML = top + top2 + `<div class="state"><div class="em">${TYPES[s.next?.type]?.icon || '⏳'}</div><h2>Get ready…</h2><p class="muted">Question ${s.next?.n || s.qIndex + 1}: ${esc(TYPES[s.next?.type]?.label || '')}</p></div>`;
+  else if (s.phase === 'question' && s.tm && !P.view) { const gs = s.tm; P.game = { at: Date.now(), rem: gs.remainingMs || 0, total: gs.totalMs || 0, frozen: s.paused }; app.innerHTML = top + top2 + '<div class="ptimer" id="gtimer"><i></i></div>' + tmPhoneHtml(s); timerT = setInterval(tickGame, 200); tickGame(); }
+  else if (s.phase === 'question' && (s.pc || s.task) && !P.view) { const gs = s.pc || s.task; P.game = { at: Date.now(), rem: gs.remainingMs || 0, total: gs.totalMs || 0, frozen: s.paused }; app.innerHTML = top + top2 + '<div class="ptimer" id="gtimer"><i></i></div>' + (s.pc ? pcPhoneHtml(s) : taskPhoneHtml(s)); partyBindGame(s); timerT = setInterval(tickGame, 200); tickGame(); }
+  else if (s.phase === 'question' && (s.potato || s.koth || s.bb || s.chase || s.draw || s.uq)) { const gs = s.koth || s.bb || s.chase || s.draw || s.uq; P.game = { at: Date.now(), rem: gs?.remainingMs || 0, total: gs?.totalMs || 0, frozen: s.paused }; app.innerHTML = top + top2 + (s.potato ? '' : '<div class="ptimer" id="gtimer"><i></i></div>') + (s.potato ? potatoHtml(s) : s.koth ? kothHtml(s) : s.chase ? chaseHtml(s) : s.draw ? drawHtml(s) : s.uq ? uqHtml(s) : bbHtml(s)); if (s.draw) bindDraw(s); else if (s.uq) bindUq(s); else bindGame(s); timerT = setInterval(tickGame, 200); tickGame(); }
+  else if (s.phase === 'question' && s.tq) { const draft = $('#tqIn')?.value || P.tqDraft || ''; app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + twentyHtml(s); bindTwenty(s, draft); timerT = setInterval(tickTimer, 250); tickTimer(); }
+  else if (s.phase === 'question' && s.race) { app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + raceHtml(s); bindRace(s); timerT = setInterval(tickTimer, 250); tickTimer(); }
+  else if (s.phase === 'question' && s.wipe) { P.deadline = Date.now() + (s.wipe.remainingMs || 0); app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + wipeHtml(s); bindWipe(s); timerT = setInterval(tickTimer, 250); tickTimer(); }
+  else if (s.phase === 'question') { app.innerHTML = top + top2 + `<div class="ptimer" id="ptimer"><i></i></div>` + rosterHtml(s) + (partyBlockHtml(s) || (P.answered[qId] ? (P.skipped[qId] ? `<div class="state"><div class="em">⏭</div><h2>Skipped</h2><p class="muted">No points this time. Waiting for the others…</p></div>` : sentHtml()) : questionHtml(s.q))); if (!partyBlockHtml(s)) bindQuestion(s.q); timerT = setInterval(tickTimer, 250); tickTimer(); }
+  else if (s.phase === 'grading') app.innerHTML = top + top2 + `<div class="state"><div class="em">⏱</div><h2>Time's up!</h2><p class="muted">Checking the answers…</p></div>`;
+  else if (s.phase === 'reveal') app.innerHTML = top + top2 + (s.pin ? pinRevealHtml(s) : '') + resultHtml(s, r) + (s.preview ? '' : ctrl('next', s.practice ? 'Next ▶' : 'Scores ▶'));
+  else if (s.phase === 'scoreboard') app.innerHTML = top + top2 + `<div class="state"><div class="em">${r?.rank === 1 ? '🥇' : r?.rank === 2 ? '🥈' : r?.rank === 3 ? '🥉' : '📊'}</div><h2>${r?.viewer ? '👀 Viewing' : r ? `You're ${ordinal(r.rank)} of ${r.of}` : 'Scoreboard'}</h2><p class="muted">${r ? r.score + ' points so far' : ''}</p>${s.top ? `<div class="board" style="width:100%;margin-bottom:12px">${s.top.slice(0, 8).map((t) => `<div class="brow ${t.name === P.name ? 'me' : ''}"><div class="rank">${t.rank}</div><div>${esc(t.name)}</div><div>${t.score}</div></div>`).join('')}</div>` : ''}${ctrl('next', (s.more ?? s.qIndex + 1 < s.total) ? 'Next ▶' : 'Final results 🏆')}</div>`;
+  else if (s.phase === 'final') { app.innerHTML = top + top2 + finalHtml(s, r); const b = $('#warmBoard'), me = b?.querySelector('.me'); if (b && me) b.scrollTop = Math.max(0, me.offsetTop - b.offsetTop - b.clientHeight / 2); }
+  if (s.reveal) syncReveal(s);
+  if (s.roster && s.potato) syncPotRing(s);
+}
+/** A Picture Reveal drawn on the phone (a warm-up has no shared screen): the picture under tiles that flip away, or a blur that clears. */
+function syncReveal(s) {
+  const box = $('#prv'), r = s.reveal; if (!box || !r) return;
+  if (box.dataset.url !== r.url) {
+    box.dataset.url = r.url;
+    box.innerHTML = `<img src="${esc(r.url)}" alt="">` + (r.blur === null ? `<div class="prvt" style="grid-template-columns:repeat(${r.cols},1fr);grid-template-rows:repeat(${r.rows},1fr)">${Array.from({ length: r.cols * r.rows }, (_, i) => `<i data-t="${i}"></i>`).join('')}</div>` : '');
+  }
+  if (r.blur !== null) { const im = box.querySelector('img'); if (im) im.style.filter = `blur(${r.blur}px)`; return; }
+  const off = new Set(r.off); box.querySelectorAll('.prvt i').forEach((t) => t.classList.toggle('off', off.has(+t.dataset.t)));
+}
+/** The pause veil over the phone, and in run-itself mode a small pause button in the corner. */
+// ---- the quiz call: while the host screen is on it (s.call), this phone can send its camera and mic to the room ----
+// Nothing of the call shows here but a slim bar at the top; the game screen stays as it is (assets/phonecam.js).
+// The mic is push to talk (user's rule, 2 Oct 2026): it is open only while 🎤 is held, so a phone next to the TV never
+// sends the TV's sound back (everyone hearing themselves). The button sits in the bar, apart from the answers, and
+// holding it never touches the game: a second finger can answer meanwhile.
+let callGoneAt = 0, talkPointer = null;
+function callBarHtml() {
+  const st = PhoneCam.state;
+  if (st === 'live') return `<span class="cb-live">${PhoneCam.camOn ? '🔴' : '⚪'}</span><span class="cb-text">${PhoneCam.camOn ? 'Camera on in the room' : 'Camera off'}</span>
+    <button data-callact="cam" class="${PhoneCam.camOn ? 'on' : ''}" aria-pressed="${PhoneCam.camOn}">📹 ${PhoneCam.camOn ? 'On' : 'Off'}</button><button type="button" class="ptt" data-ptt aria-label="Hold to talk">🎤 Hold to talk</button>`;
+  if (st === 'joining') return '<span class="cb-text">Joining the call…</span>';
+  if (st === 'error') return `<span class="cb-text">⚠️ ${esc(PhoneCam.error)}</span><button data-callact="start">Try again</button>`;
+  return '<span class="cb-text">📹 Be seen and heard in the room</span><button data-callact="start" class="go">Turn on</button>';
+}
+function syncCallBar(s) {
+  if (!window.PhoneCam) return;
+  if (P.view) { const b = $('#callBar'); if (b) b.remove(); document.body.classList.remove('hascallbar'); return; } // viewers stay off the call
+  let bar = $('#callBar');
+  if (s?.call) { callGoneAt = 0; PhoneCam.refreshPass(s.call.pass); if (P.name) PhoneCam.rename(P.name); }
+  else if (PhoneCam.state !== 'off') {
+    // the host screen has left the call (allow a few seconds for a blip): stop sending
+    if (!callGoneAt) callGoneAt = Date.now();
+    else if (Date.now() - callGoneAt > 10000) { PhoneCam.stop('quiz screen left the call'); try { localStorage.removeItem('lq_call_on'); } catch {} toast('The quiz screen has left the call, so your camera and mic are off.'); }
+  }
+  // Back after the page was closed or reloaded mid-call (an iPhone does that now and then): straight back on, no tap.
+  let wasOn = ''; try { wasOn = localStorage.getItem('lq_call_on') || ''; } catch {}
+  if (s?.call && PhoneCam.state === 'off' && wasOn && wasOn === P.code && !P.callAuto) { P.callAuto = true; PhoneCam.start({ room: s.call.room, pass: s.call.pass, name: P.name, pid: P.pid, client: sb }); }
+  const want = !!s?.call || PhoneCam.state !== 'off';
+  if (!want || !PhoneCam.supported()) { if (bar) bar.remove(); document.body.classList.remove('hascallbar'); return; }
+  if (!bar) { bar = document.createElement('div'); bar.id = 'callBar'; bar.className = 'callbar'; document.body.appendChild(bar); }
+  bar.classList.toggle('live', PhoneCam.state === 'live');
+  // Redrawn only when what it shows changes shape: never mid-press, or the held button would vanish under the finger.
+  const key = [PhoneCam.state, PhoneCam.camOn, PhoneCam.error].join('|');
+  if (bar.dataset.k !== key) { bar.dataset.k = key; bar.innerHTML = callBarHtml(); }
+  const ptt = $('[data-ptt]', bar);
+  if (ptt) { ptt.classList.toggle('talking', PhoneCam.micOn); ptt.textContent = PhoneCam.micOn ? '🎙️ Talking…' : '🎤 Hold to talk'; }
+  document.body.classList.add('hascallbar');
+}
+if (window.PhoneCam) PhoneCam.onChange(() => {
+  // remembered while it is on, so a reload puts this phone back on the call by itself
+  if (PhoneCam.state === 'live') { try { localStorage.setItem('lq_call_on', P.code || ''); } catch {} }
+  syncCallBar(P.state);
+});
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('[data-callact]'); if (!b || !window.PhoneCam) return;
+  const act = b.dataset.callact, c = P.state?.call;
+  if (act === 'start' && c) PhoneCam.start({ room: c.room, pass: c.pass, name: P.name, pid: P.pid, client: sb });
+  if (act === 'cam') PhoneCam.setCam(!PhoneCam.camOn);
+});
+// push to talk: press opens the mic, letting go (or the finger sliding off the screen, or the phone switching away) shuts it
+const talkStop = () => { if (talkPointer === null) return; talkPointer = null; if (window.PhoneCam && PhoneCam.micOn) PhoneCam.setMic(false); };
+document.addEventListener('pointerdown', (e) => {
+  const b = e.target.closest('[data-ptt]'); if (!b || !window.PhoneCam || PhoneCam.state !== 'live') return;
+  e.preventDefault(); talkPointer = e.pointerId;
+  try { b.setPointerCapture(e.pointerId); } catch {}
+  PhoneCam.setMic(true);
+});
+document.addEventListener('pointerup', (e) => { if (e.pointerId === talkPointer) talkStop(); });
+document.addEventListener('pointercancel', (e) => { if (e.pointerId === talkPointer) talkStop(); });
+document.addEventListener('contextmenu', (e) => { if (e.target.closest('[data-ptt]')) e.preventDefault(); });
+document.addEventListener('visibilitychange', () => { if (document.hidden) talkStop(); });
+window.addEventListener('blur', talkStop);
+function syncPauseUi(s) {
+  let v = $('#pauseVeil');
+  if (s.paused) {
+    if (!v) { v = document.createElement('div'); v.id = 'pauseVeil'; v.className = 'pauseveil'; document.body.appendChild(v); }
+    v.innerHTML = `<div><div class="em">⏸</div><h2>Paused</h2><p>The clock has stopped.</p>${s.auto ? '<button class="btn btn-primary btn-lg" data-ctrl="resume">Resume ▶</button>' : ''}</div>`;
+  } else if (v) v.remove();
+  let b = $('#pauseBtn'); const want = s.auto && !P.view && !s.roster && !s.paused && !['lobby', 'final'].includes(s.phase); // no pausing to think in a warm-up (s.roster)
+  if (want && !b) { b = document.createElement('button'); b.id = 'pauseBtn'; b.className = 'pausebtn'; b.dataset.ctrl = 'pause'; b.title = 'Pause the game'; b.textContent = '⏸'; document.body.appendChild(b); }
+  if (!want && b) b.remove();
+}
+function tickBreak() {
+  if (!P.brk || !$('#pbrkClock')) return;
+  LQ.setBreakClock('pbrk', P.brk.frozen != null ? P.brk.frozen : P.brk.end - Date.now(), P.brk.total);
+}
+function tickTimer() {
+  const el = $('#ptimer'); if (!el || !P.state?.q) return;
+  const rem = P.pausedRem != null ? P.pausedRem : Math.max(0, P.deadline - Date.now()), pct = Math.min(100, (rem / (P.state.q.time * 1000)) * 100);
+  $('i', el).style.width = pct + '%'; el.classList.toggle('low', rem < 5000);
+}
+function sentHtml() { return `<div class="state"><div class="em">✅</div><h2>Answer sent!</h2><p class="muted">Waiting for the others…</p></div>`; }
+function mediaHtml(q) { return q.media?.url ? `<div class="pmedia"><img src="${esc(q.media.url)}"></div>` : ''; }
+// ---- 20 Questions: the host holds the answer and replies to every question; the list of what I've asked comes back in its state ----
+function twentyMine(s) { return s.tq?.players?.[P.pid] || { n: 0, asked: [], guesses: [], done: false, out: false, place: 0 }; }
+function twentyKey(s) {
+  if (s.phase !== 'question' || !s.tq) return '';
+  if (!P.tq || P.tq.qId !== s.q.id) P.tq = { qId: s.q.id, pending: null, sentAt: 0, last: null };
+  const me = twentyMine(s);
+  if (P.tq.pending && me.n !== P.tq.pending.n) P.tq.pending = null; // the host has moved on past what I sent
+  const fl = twentyFlash();
+  return ['tq', me.n, me.done, me.out, me.place, P.tq.pending ? 'p' : '', s.tq.over, fl ? 'f' + (fl.id || 'g') : ''].join('|');
+}
+/** The answer just in, while it's still being shown: { id (a question) or guess: true, yes, until }. */
+function twentyFlash() { const f = P.tq?.flash; return f && Date.now() < f.until ? f : null; }
+function onTwentyEvent(e) {
+  if (e.pid !== P.pid || !P.tq || !P.state?.q || P.state.q.id !== P.tq.qId) return;
+  P.tq.pending = null; P.tq.last = e.last;
+  const yes = e.last?.id ? !!e.last.yes : !!e.last?.ok;
+  if (e.last) {
+    P.tq.flash = { id: e.last.id || null, guess: !e.last.id, yes, until: Date.now() + 1000 };
+    const fx = document.createElement('div'); fx.className = 'tqflash ' + (yes ? 'yes' : 'no'); document.body.appendChild(fx);
+    setTimeout(() => fx.remove(), 1000); setTimeout(render, 1050);
+  }
+  const mine = P.state.tq?.players?.[P.pid]; if (mine) Object.assign(mine, { n: e.n, done: e.done, out: e.out, place: e.place }, e.last?.id ? { asked: [...(mine.asked || []).filter((a) => a.id !== e.last.id), { id: e.last.id, yes: e.last.yes }] } : {}, e.last?.guess ? { guesses: [...(mine.guesses || []), { t: e.last.guess, ok: e.last.ok }] } : {});
+  if (navigator.vibrate) try { navigator.vibrate(e.done ? [100, 50, 100, 50, 250] : 30); } catch {}
+  render();
+}
+function twentyHtml(s) {
+  const q = s.q, t = s.tq, me = twentyMine(s), maxQ = t.maxQ || 20, left = Math.max(0, maxQ - me.n), last = P.tq?.last, medal = ['🥇', '🥈', '🥉'];
+  const qt = (id) => LQ.twentyQ(id)?.text || id;
+  const lastHtml = !last ? '' : last.id ? `<div class="tqans ${last.yes ? 'yes' : 'no'}"><span>${esc(qt(last.id))}</span><b>${last.yes ? 'Yes!' : 'No'}</b></div>` : last.ok ? '' : `<div class="tqans no"><span>Is it ${esc(last.guess)}?</span><b>No</b></div>`;
+  const hist = me.asked.length || me.guesses.length ? `<details class="tqhist"><summary>What you know so far (${me.asked.length})</summary><ul>${me.asked.map((a) => `<li class="${a.yes ? 'yes' : 'no'}">${a.yes ? '✔' : '✘'} ${esc(qt(a.id))}</li>`).join('')}${me.guesses.filter((g) => !g.ok).map((g) => `<li class="no">✘ Not ${esc(g.t)}</li>`).join('')}</ul></details>` : '';
+  const head = `<div class="pq">${esc(q.text)}</div><div class="tqcount"><span><b>${me.n}</b> of ${maxQ} questions used</span><span>${left} left</span></div>`;
+  if (me.done) return head + `<div class="state"><div class="em">${medal[me.place - 1] || '🎉'}</div><h2>You got it!</h2><p class="muted">${me.place <= 3 ? `${ordinal(me.place)} to crack it` : 'Cracked it, but the first three take the points'} · watch the screen for the others</p></div>${hist}`;
+  if (me.out) return head + `<div class="state"><div class="em">💀</div><h2>Out of questions</h2><p class="muted">Wait for the answer on the screen.</p></div>${hist}`;
+  // while an answer is being shown, keep the list as it was, with the tapped question coloured in
+  const fl = twentyFlash(), pend = P.tq?.pending;
+  const open = LQ.twentyOpen(fl?.id ? me.asked.filter((a) => a.id !== fl.id) : me.asked), busy = !!pend || !!fl;
+  const tone = (id) => fl?.id === id ? (fl.yes ? ' yes' : ' no') : pend?.ask === id ? ' pending' : '';
+  const gtone = fl?.guess ? (fl.yes ? ' yes' : ' no') : pend?.guess ? ' pending' : '';
+  const kinds = !me.asked.some((a) => a.yes && LQ.TWENTY_KINDS.some((k) => k.id === a.id));
+  return head + lastHtml + `<p class="tqhint">${kinds ? 'Start by finding out what kind of thing it is:' : 'Tap a question to ask it:'}</p>
+    <div class="tqlist">${open.map((x, i) => `${x.sec && x.sec !== open[i - 1]?.sec ? `<div class="tqsec">${esc(x.sec)}</div>` : ''}<button class="tqq${tone(x.id)}" data-tq="${x.id}" ${busy ? 'disabled' : ''}>${esc(x.text)}</button>`).join('') || '<p class="muted center">No questions left to ask. Time to guess!</p>'}</div>${hist}
+    <form class="tqguess" id="tqForm"><input id="tqIn" placeholder="Who or what is it?" autocomplete="off" maxlength="60" ${busy ? 'disabled' : ''}><button class="btn btn-primary${gtone}" ${busy ? 'disabled' : ''}>Guess</button></form>
+    <p class="tqnote">A wrong guess uses up a question.</p>`;
+}
+function bindTwenty(s, draft) {
+  const me = twentyMine(s), qId = s.q.id; if (me.done || me.out) return;
+  const go = (answer) => { P.tq.pending = { n: me.n, ...answer }; P.tq.sentAt = Date.now(); send('answer', { pid: P.pid, qId, answer: P.tq.pending }); render(); };
+  $$('[data-tq]').forEach((b) => b.onclick = () => go({ ask: b.dataset.tq }));
+  const inp = $('#tqIn'); if (inp) { inp.value = draft; inp.oninput = () => { P.tqDraft = inp.value; }; }
+  if ($('#tqForm')) $('#tqForm').onsubmit = (e) => { e.preventDefault(); const t = (inp?.value || '').trim(); if (!t) return; P.tqDraft = ''; go({ guess: t }); };
+}
+// ---- the race: my own progress lives here; the host confirms every pick ----
+function syncRace(s) {
+  const qId = s.q.id;
+  if (!P.race || P.race.qId !== qId) P.race = { qId, idx: 0, correct: 0, wrong: 0, skipped: 0, out: false, done: false, pending: null, sentAt: 0 };
+  const mine = s.race.players?.[P.pid];
+  if (mine && !P.race.pending && mine.idx > P.race.idx) { Object.assign(P.race, { idx: mine.idx, correct: mine.correct, out: mine.out, done: mine.done }); }
+  if (mine && (mine.out || mine.done)) { P.race.out = mine.out; P.race.done = mine.done; }
+}
+function onRaceEvent(e) {
+  if (e.pid !== P.pid || !P.race || !P.state?.q || P.state.q.id !== P.race.qId) return;
+  if (e.idx !== P.race.idx) return;
+  Object.assign(P.race, { idx: e.idxNext, correct: e.correct, wrong: e.wrong, skipped: e.skipped, out: e.out, why: e.why, done: e.done, pending: null });
+  const f = document.createElement('div'); f.className = 'rflash'; f.textContent = e.ok === null ? '⏭' : e.ok ? '✅' : '❌'; document.body.appendChild(f); setTimeout(() => f.remove(), 550);
+  render();
+}
+/** My place in the race right now: finishers first, then by right answers. Ties share the higher place. */
+function racePlace(s) {
+  const ps = Object.entries(s.race.players || {}).map(([pid, p]) => ({ pid, ...p }));
+  const mine = ps.find((p) => p.pid === P.pid); if (!mine) return null;
+  const better = ps.filter((p) => (p.done && !mine.done) || (p.done === mine.done && p.correct > mine.correct)).length;
+  return { place: better + 1, of: ps.length };
+}
+function racePlaceHtml(s) {
+  const pl = racePlace(s); if (!pl) return '';
+  const medal = pl.place === 1 ? '🥇' : pl.place === 2 ? '🥈' : pl.place === 3 ? '🥉' : '🏃';
+  const pts = (P.race?.correct || 0) * (s.q?.perCorrect ?? 100);
+  return `<div class="raceplace ${pl.place === 1 ? 'first' : ''}" id="racePos">${medal} You're in <b>${LQ.ordinal(pl.place)}</b> place <span class="small">of ${pl.of}</span><div class="racepts">+${pts} so far${pl.place <= 3 ? ` · ${pl.place === 1 ? '+' + (s.q?.prize ?? 500) : pl.place === 2 ? '+' + (s.q?.prize2 ?? 200) : '+' + (s.q?.prize3 ?? 100)} bonus if you stay ${LQ.ordinal(pl.place)}` : pl.place === pl.of && pl.of >= 4 ? ` · −${s.q?.forfeit ?? 200} if you finish last` : ''}</div></div>`;
+}
+function raceHtml(s) {
+  const q = s.q, r = P.race, left = q.bank.length - r.idx, need = s.race.target - r.correct;
+  const standing = Object.values(s.race.players || {});
+  const prog = `${racePlaceHtml(s)}<div class="rprog"><span><b>${r.correct}</b> of ${s.race.target} right</span><span>❌ ${r.wrong} of ${s.race.maxWrong ?? 10} wrong allowed · ${left} left</span></div>`;
+  if (s.race.winner) return `<div class="pq">${esc(q.text)}</div>${prog}<div class="state"><div class="em">${s.race.winner === P.pid ? '🏆' : '🏁'}</div><h2>${s.race.winner === P.pid ? 'You won the race!' : esc(s.race.winnerName || 'Someone') + ' won the race'}</h2></div>`;
+  if (r.done) return `<div class="pq">${esc(q.text)}</div>${prog}<div class="state"><div class="em">🏁</div><h2>Finished!</h2><p class="muted">Waiting to see if anyone beat you to it…</p></div>`;
+  if (r.out) return `<div class="pq">${esc(q.text)}</div>${prog}<div class="state"><div class="em">💨</div><h2>Out of the race</h2><p class="muted">${r.why === 'wrong' ? `That's more than ${s.race.maxWrong ?? 10} wrong.` : `Not enough questions left to reach ${s.race.target}.`} Watch the screen.</p></div>`;
+  const item = q.bank[r.idx];
+  if (!item) return `<div class="pq">${esc(q.text)}</div>${prog}<div class="state"><h2>No questions left</h2></div>`;
+  return `<div class="pq" style="font-size:.95rem;color:var(--ink-3)">${esc(q.text)}</div>${prog}
+    <div class="pq">${r.idx + 1}. ${esc(item.text)}</div>
+    <div class="ans-grid" style="flex:0 1 auto">${item.options.map((o) => `<button class="abtn" data-rk="${o.k}" style="background:${COLORS[o.c].hex};min-height:84px" ${r.pending ? 'disabled' : ''}><span class="shape">${COLORS[o.c].shape}</span>${esc(o.text)}</button>`).join('')}</div>
+    <button class="btn btn-ghost btn-block mt" id="raceSkip" ${r.pending ? 'disabled' : ''}>Skip this one ⏭</button>
+    ${need > left - 2 && left > 0 ? `<p class="center small muted">Careful — only ${left} left and you need ${need}.</p>` : ''}`;
+}
+function bindRace(s) {
+  const r = P.race; if (!r || r.pending || r.out || r.done || s.race.winner) return;
+  const pick = (k) => { r.pending = k; r.sentAt = Date.now(); send('answer', { pid: P.pid, qId: s.q.id, answer: { idx: r.idx, k } }); render(); };
+  $$('[data-rk]').forEach((b) => b.onclick = () => pick(b.dataset.rk));
+  if ($('#raceSkip')) $('#raceSkip').onclick = () => pick('skip');
+}
+// ---- Hot Potato, King of the Hill, Blockbusters ----
+const nm = (s, pid) => s.names?.[pid]?.name || 'Player', em = (s, pid) => s.names?.[pid]?.emoji || '🙂';
+/** What changes a game's screen: when it differs, the phone redraws. */
+function gameKey(s) {
+  if (s.phase !== 'question') return '';
+  if (s.pc || s.task || s.tm) return partyGameKey(s);
+  if (s.potato) { const p = s.potato; return ['pot', (p.bombs || []).map((b) => [b.holder, b.stage, b.row?.i, b.exploded].join(',')).join(';'), p.players.length, P.work.potSent].join('|'); }
+  if (s.koth) { const g = s.koth; return ['koth', g.n, g.step, g.fff?.row?.i, (g.fff?.answered || []).includes(P.pid), g.fff?.through?.length, g.h2h?.buzz, g.judges.includes(P.pid), g.result?.pid, g.winner, g.pair.join(), g.king].join('|'); }
+  if (s.uq) { const g = s.uq; return ['uq', g.step, g.round, g.alive.includes(P.pid), g.answered.includes(P.pid), (g.results || []).map((r) => r.out ? 1 : 0).join(''), g.winners.join()].join('|'); }
+  if (s.draw) { const g = s.draw; return ['draw', g.step, g.turn, g.drawer, g.got.includes(P.pid), g.drawer === P.pid && g.secret ? 's' : ''].join('|'); }
+  if (s.chase) { const g = s.chase; return ['chase', g.step, g.row?.i, g.answered.includes(P.pid), g.teamSteps, g.chaserSteps, g.result].join('|'); }
+  if (s.bb) { const g = s.bb; return ['bb', g.step, g.teamOf[P.pid], g.picker, g.hot, g.answered.includes(P.pid), g.hexes.map((h) => h.owner).join(''), Object.keys(g.teamOf).length, g.cap, [0, 1].map((i) => Object.values(g.teamOf).filter((v) => v === i).length).join('-')].join('|'); }
+  return '';
+}
+function tickGame() {
+  const el = $('#gtimer'); if (!el || !P.game?.total) { if (el) el.style.visibility = 'hidden'; return; }
+  const rem = P.game.frozen ? P.game.rem : Math.max(0, P.game.rem - (Date.now() - P.game.at));
+  el.style.visibility = ''; $('i', el).style.width = Math.min(100, rem / P.game.total * 100) + '%'; el.classList.toggle('low', rem < 4000);
+  const c = $('#gcount'); if (c) c.textContent = Math.ceil(rem / 1000);
+}
+const optsHtml = (row, attr) => `<div class="ans-grid" style="flex:0 1 auto">${row.options.map((o) => `<button class="abtn" ${attr}="${o.k}" style="background:${COLORS[o.c].hex};min-height:84px"><span class="shape">${COLORS[o.c].shape}</span>${esc(o.text)}</button>`).join('')}</div>`;
+function potatoHtml(s) { return (s.roster ? potRingHtml(s) : '') + potatoView(s); }
+function potatoView(s) {
+  const p = s.potato, bombs = p.bombs || [], mine = bombs.find((b) => b.holder === P.pid && !b.exploded), live = bombs.filter((b) => !b.exploded);
+  if (!!mine !== !!P.hadBomb) { if (mine && P.hadBomb !== undefined && navigator.vibrate) try { navigator.vibrate([80, 40, 80]); } catch {} P.hadBomb = !!mine; P.work.potSent = ''; }
+  const myPts = p.scores?.[P.pid] || 0, foot = myPts ? `<p class="center small muted mt">You've scored ${myPts > 0 ? '+' : ''}${myPts} this round</p>` : '';
+  const boomed = bombs.filter((b) => b.exploded), meBoom = boomed.some((b) => b.exploded === P.pid);
+  const boomNote = boomed.length ? `<p class="center small" style="font-weight:800">💥 ${boomed.map((b) => esc(nm(s, b.exploded))).join(' and ')} ${boomed.length > 1 ? 'were' : 'was'} blown up${live.length ? ` · ${live.length} bomb still going!` : ''}</p>` : '';
+  if (!live.length || (meBoom && !mine)) { app.className = 'app ' + (meBoom ? 'turn-boom' : ''); if (!live.length || meBoom) return `<div class="state potboom"><div class="em">💥</div><h2>${meBoom ? 'BOOM! You were holding it!' : 'BOOM!'}</h2>${meBoom ? `<p style="font-weight:800">−${p.penalty} points</p>` : `<p class="muted">${boomed.map((b) => esc(nm(s, b.exploded))).join(' and ')} ${boomed.length > 1 ? 'were' : 'was'} holding it. Phew!</p>`}${live.length ? '<p class="muted">The other bomb is still ticking…</p>' : ''}</div>${foot}`; }
+  app.className = 'app ' + (mine ? 'turn-bomb' : 'turn-wait');
+  if (!mine) {
+    const holders = live.map((b) => `${em(s, b.holder)} ${esc(nm(s, b.holder))}`).join(' and ');
+    return `<div class="state"><div class="em potbob">${live.map(() => '💣').join('')}</div><h2>${holders} ${live.length > 1 ? 'have the bombs' : 'has the bomb'}</h2><p class="muted">Fingers crossed it doesn't come to you…</p><p class="small muted">${p.passes} pass${p.passes === 1 ? '' : 'es'} so far</p></div>${boomNote}${foot}`;
+  }
+  const busy = live.map((b) => b.holder);
+  if (mine.stage === 'pass') return `<div class="pq">✅ Right! Get rid of it: who gets the bomb?</div><div class="potpass">${p.players.filter((x) => !busy.includes(x.pid)).map((x) => `<button class="btn" data-pass="${x.pid}" data-bomb="${mine.i}"><span class="em">${x.emoji || '🙂'}</span>${esc(x.name)}</button>`).join('')}</div>`;
+  if (!mine.row) return `<div class="state"><div class="em">💣</div><h2>You've got the bomb!</h2></div>`;
+  const wrong = mine.last?.ok === false && mine.last.pid === P.pid ? `<p class="center small" style="color:var(--bad);font-weight:800;margin:4px 0">✗ Wrong, it was ${esc(mine.last.answer)}. Try this one, quick!</p>` : '';
+  return `<div class="potalert">💣 You've got the bomb! Answer to pass it on</div>${wrong}<div class="pq">${esc(mine.row.text)}</div>${optsHtml(mine.row, 'data-pk')}${boomNote}${foot}`;
+}
+function kothHtml(s) {
+  const g = s.koth, me = P.pid, inPair = g.pair.includes(me), mePts = g.pts[me] || 0;
+  const pts = `<div class="rprog"><span>👑 ${g.king ? esc(nm(s, g.king)) + ' is on the hill' : 'Nobody on the hill yet'}</span><span>You: <b>${mePts}</b> / ${g.target}</span></div>`;
+  const vs = () => `<div class="kvsp">${em(s, g.pair[0])} <b>${esc(nm(s, g.pair[0]))}</b> <span>VS</span> ${em(s, g.pair[1])} <b>${esc(nm(s, g.pair[1]))}</b></div>`;
+  app.className = 'app';
+  if (g.step === 'fff' || g.step === 'fffShow') {
+    const f = g.fff; if (!f) return pts;
+    if (g.step === 'fffShow') return `${pts}<div class="state"><div class="em">${f.through.includes(me) ? '⚡' : '✔'}</div><h2>${f.through.includes(me) ? "You're through to the head-to-head!" : f.right ? 'It was ' + esc(f.right) : ''}</h2>${f.through.length ? `<p class="muted">${f.through.map((x) => esc(nm(s, x))).join(' and ')} ${f.through.length === 1 ? 'is' : 'are'} through</p>` : '<p class="muted">Nobody got it: another one…</p>'}</div>`;
+    if (me === g.king) return `${pts}<div class="state"><div class="em">👑</div><h2>You're on the hill</h2><p class="muted">Everyone else is racing to be your next challenger…</p></div>`;
+    if (!f.eligible.includes(me)) return `${pts}<div class="state"><div class="em">⚡</div><h2>You're through!</h2><p class="muted">Waiting for your opponent…</p></div>`;
+    if (f.answered.includes(me)) return `${pts}<div class="state"><div class="em">🔒</div><h2>Locked in</h2><p class="muted">Fastest right answer${f.need > 1 ? 's go' : ' goes'} through…</p></div>`;
+    return `${pts}<div class="potalert" style="background:var(--brand)">⚡ Fastest finger first!</div><div class="pq">${esc(f.row.text)}</div>${optsHtml(f.row, 'data-fk')}`;
+  }
+  if (g.step === 'ready') { const me2 = g.pair.includes(me), other = g.pair.find((x) => x !== me); if (me2) app.className = 'app turn-buzz'; return `${vs()}<div class="state"><div class="em">${me2 ? '⚔️' : '👀'}</div><h2>${me2 ? `You're up against ${esc(nm(s, other))}!` : 'Head to head!'}</h2><p class="muted">${me2 ? 'Get your buzzer finger ready. The question comes after a 3-2-1.' : 'Watch the screen: the question comes after a 3-2-1.'}</p>${me2 && s.auto ? '<button class="btn btn-primary btn-lg btn-block" data-ready="1">Ready ▶</button>' : ''}</div>`; }
+  if (g.step === 'count') return `${vs()}<div class="state"><div class="ri-num" data-n="${g.n}">${g.n}</div></div>`;
+  if (g.step === 'timeup') return `${pts}<div class="state"><div class="em">⏱️</div><h2>Out of head-to-heads!</h2><p class="muted">Nobody reached ${g.target}, so no bonus this time. Your hill points still count.</p></div>`;
+  if (g.step === 'won') return `<div class="state"><div class="em">👑</div><h2>${g.winner === me ? 'You are King of the Hill!' : esc(nm(s, g.winner)) + ' is King of the Hill'}</h2><p class="muted">+${g.prize} points${g.winner === me ? ' for you' : ''}</p></div>`;
+  const h = g.h2h; if (!h) return pts;
+  // the options, to read (not to tap): buzz, then say the answer out loud
+  const kopts = (h.opts || []).length ? `<div class="kopts">${h.opts.map((o) => `<span style="background:${COLORS[o.c].hex}">${COLORS[o.c].shape} ${esc(o.t)}</span>`).join('')}</div>` : '';
+  if (g.step === 'h2h') {
+    if (inPair) { app.className = 'app turn-buzz'; return `${vs()}<div class="pq">${esc(h.text)}</div>${kopts}<button class="buzzer" id="buzzBtn">BUZZ</button><p class="center small muted">Buzz first, then say your answer out loud</p>`; }
+    return `${pts}${vs()}<div class="pq">${esc(h.text)}</div>${kopts}<p class="center muted">Who will buzz first?</p>`;
+  }
+  if (g.step === 'answer' || g.step === 'claxon') {
+    if (h.buzz === me) { app.className = 'app turn-mine'; return `${vs()}<div class="state"><div class="em">🗣️</div><h2>${g.step === 'claxon' ? "TIME'S UP!" : 'Say your answer out loud NOW!'}</h2>${g.step === 'answer' ? '<div class="kcountp" id="gcount"></div>' : ''}</div>`; }
+    return `${vs()}<div class="state"><div class="em">🔴</div><h2>${esc(nm(s, h.buzz))} buzzed first</h2><p class="muted">${esc(h.text)}</p></div>`;
+  }
+  if (g.step === 'noBuzz') return `${vs()}<div class="state"><h2>Nobody buzzed</h2><p class="muted">It was <b>${esc(h.answer || '')}</b>. Same two again…</p></div>`;
+  if (g.step === 'judge') {
+    const judge = g.judges.includes(me);
+    return `${vs()}<div class="state"><h2>${esc(nm(s, h.buzz))} answered…</h2><p style="font-weight:800">The answer: ${esc(h.answer || '')}</p>${judge ? `<p class="muted">Did they get it right?</p><div class="kjudgep"><button class="btn kyes" data-judge="1">✅ Correct</button><button class="btn kno" data-judge="0">❌ Incorrect</button></div>` : '<p class="muted">Waiting for the verdict…</p>'}</div>`;
+  }
+  if (g.step === 'result') { const r = g.result; return `${pts}<div class="state"><div class="em">${r.ok ? '✅' : '❌'}</div><h2>${r.ok ? `${esc(nm(s, r.pid))} got it: ${g.pts[r.pid]} / ${g.target}` : `${esc(nm(s, r.pid))} got it wrong`}</h2><p class="muted">${esc(nm(s, g.king))} stays on the hill 👑</p></div>`; }
+  return pts;
+}
+function chaseHtml(s) {
+  const g = s.chase, me = P.pid, isChaser = g.chaser === me, gap = g.headStart + g.teamSteps - g.chaserSteps;
+  const band = `<div class="chband ${isChaser ? 'chaser' : 'team'}">${isChaser ? '😈 You are the Chaser' : `👥 Team everyone else · chased by ${esc(nm(s, g.chaser))}`}</div>`;
+  const prog = `<div class="rprog"><span>🏠 Team: <b>${g.teamSteps}</b> of ${g.target}</span><span>🏃 Chaser ${gap} step${gap === 1 ? '' : 's'} behind</span></div>`;
+  app.className = 'app ' + (isChaser ? 'turn-chaser' : '');
+  if (g.step === 'reveal') return `<div class="state"><div class="em chwhop">${isChaser ? '😈' : em(s, g.chaser)}</div><p class="muted" style="margin:0">And the Chaser is…</p><h2 class="chwhop">${isChaser ? 'YOU! You are the Chaser' : esc(nm(s, g.chaser))}</h2><p class="chwhop" style="font-weight:700">${isChaser ? `Answer first and right to catch them. Catch them and you win ${g.chaserPrize}.` : `Everyone else is one team, ${g.headStart} steps ahead. Get ${g.target} right before you're caught and you each win ${g.teamPrize}.`}</p></div>`;
+  if (g.step === 'over') return `${band}<div class="state"><div class="em">${g.result === 'home' ? '🏠' : '😈'}</div><h2>${g.result === 'home' ? 'The team got home!' : 'Caught!'}</h2><p class="muted">${g.result === 'home' ? (isChaser ? 'They got away from you' : `+${g.teamPrize} for you!`) : (isChaser ? `You caught them: +${g.chaserPrize}` : 'The Chaser caught the team')}</p></div>`;
+  if (g.step === 'show') return `${band}${prog}<div class="state"><div class="em">${g.first === g.chaser ? '🏃' : g.first ? '✅' : '🤷'}</div><h2>${g.wrongBy ? (g.wrongBy === me ? 'Wrong! The Chaser moves a step closer…' : `${esc(nm(s, g.wrongBy))} answered wrong: the Chaser moves closer…`) : g.first === g.chaser ? (isChaser ? 'You were first: a step closer!' : 'The Chaser was first: a step closer…') : g.first ? `${esc(nm(s, g.first))} was first: a step towards home!` : 'Nobody got it'}</h2><p class="muted">It was ${esc(g.right || '')}</p></div>`;
+  if (!g.row) return band + prog;
+  if (g.answered.includes(me)) return `${band}${prog}<div class="state"><div class="em">🔒</div><h2>Locked in</h2><p class="muted">The first right answer wins the step…</p></div>`;
+  return `${band}${prog}<div class="pq">${esc(g.row.text)}</div>${optsHtml(g.row, 'data-fk')}<p class="center small muted">${isChaser ? 'Be first and right to close in' : 'Be quick, and be sure: the team\'s first answer counts, and a wrong one lets the Chaser closer'}</p>`;
+}
+function bbHtml(s) {
+  const g = s.bb, t = g.teamOf[P.pid], teams = g.teams;
+  const band = t === undefined ? '' : `<div class="bbband" style="background:${teams[t].color};color:${LQ.inkOn(teams[t].color)}">You're on ${esc(teams[t].name)} · join opposite sides ⟷ or ↕</div>`;
+  const board = (pick) => LQ.bbBoardHtml(g.hexes, { teams, hot: g.hot, win: g.path, pick, cls: 'phone' });
+  app.className = 'app';
+  if (g.step === 'teams') {
+    // Each side takes up to g.cap players (half, rounded up), so the sides stay even.
+    const cap = g.cap || 99, on = (i) => Object.values(g.teamOf).filter((v) => v === i).length, full = (i) => on(i) >= cap;
+    if (t === undefined) return `<div class="pq">Pick your side!</div><p class="center small muted" style="margin-top:-6px">Up to ${cap} on each side, first come first served</p><div class="bbpick">${teams.map((x, i) => full(i)
+      ? `<button class="bbteam full" disabled style="background:${x.color};color:${LQ.inkOn(x.color)}">${esc(x.name)} is full<small>${on(i)}/${cap} · join ${esc(teams[1 - i].name)}</small></button>`
+      : `<button class="bbteam" data-team="${i}" style="background:${x.color};color:${LQ.inkOn(x.color)}">${esc(x.name)}<small>${on(i)}/${cap} players</small></button>`).join('')}</div>`;
+    const o = 1 - t;
+    return `${band}<div class="state"><div class="em">⬢</div><h2>You're on ${esc(teams[t].name)}!</h2><p class="muted">${esc(teams[0].name)} ${on(0)}/${cap} · ${esc(teams[1].name)} ${on(1)}/${cap}. Waiting for everyone to pick…</p>${full(o) ? '' : `<button class="btn btn-ghost" data-team="${o}" style="margin-top:10px">Switch to ${esc(teams[o].name)}</button>`}</div>`;
+  }
+  if (g.step === 'pick') return `${band}${g.picker === t ? '<div class="pq">Your side picks! Tap a letter</div>' : `<div class="pq">${esc(teams[g.picker].name)} are picking a letter…</div>`}${board(g.picker === t)}`;
+  if (g.step === 'ask') {
+    if (g.answered.includes(P.pid)) return `${band}<div class="state"><div class="bbl">${esc(g.letter)}</div><h2>Answer sent</h2><p class="muted">If you were first and right, the hexagon is yours…</p></div>`;
+    return `${band}<div class="bbaskp"><span class="bbl">${esc(g.letter)}</span><div class="pq" style="margin:0">${esc(g.text)}</div></div><p class="center small muted">The answer starts with <b>${esc(g.letter)}</b>. One go each, first right answer wins it.</p><form id="bbForm" class="state" style="justify-content:flex-start;padding-top:0"><input type="text" id="bbIn" placeholder="${esc(g.letter)}…" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.2rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
+  }
+  if (g.step === 'claim') return `${band}<div class="state"><div class="em">${g.claim.team === t ? '🎉' : '😬'}</div><h2>${esc(nm(s, g.claim.pid))} won it for ${esc(teams[g.claim.team].name)}</h2><p class="muted">It was ${esc(g.claim.answer)}</p></div>${board(false)}`;
+  if (g.step === 'miss') return `${band}<div class="state"><h2>Nobody got it</h2><p class="muted">It was ${esc(g.claim?.answer || '')}</p></div>${board(false)}`;
+  if (g.step === 'won') return `${band}<div class="state"><div class="em">${g.winner === t ? '🏆' : '😞'}</div><h2>${esc(teams[g.winner].name)} win the board!</h2><p class="muted">${g.winner === t ? `+${g.prize} for everyone on your side` : 'Better luck next time'}</p></div>${board(false)}`;
+  return band;
+}
+// ---- Only One ----
+function uqHtml(s) {
+  const g = s.uq, me = P.pid, inGame = g.alive.includes(me);
+  app.className = 'app';
+  if (g.step === 'over') { const won = g.winners.includes(me); return `<div class="state"><div class="em">${won ? '🏆' : '☝️'}</div><h2>${won ? (g.winners.length > 1 ? 'You share the win!' : "You're the only one left!") : `${esc(g.winners.map((p) => nm(s, p)).join(' & '))} ${g.winners.length > 1 ? 'share it' : 'wins it'}`}</h2></div>`; }
+  if (g.step === 'judge') {
+    const mine = (g.results || []).find((r) => r.pid === me);
+    const list = (g.results || []).map((r) => `<div class="uqp ${r.out ? 'out' : 'in'} ${r.pid === me ? 'me' : ''}"><b>${esc(nm(s, r.pid))}</b><span>${esc(r.a || '—')}</span></div>`).join('');
+    const head = !mine ? `<div class="pq">${esc(g.prompt)}</div><p class="center muted">You're out. Here's what everyone said:</p>`
+      : mine.out ? `<div class="state"><div class="em">😬</div><h2>${!mine.a ? 'No answer!' : mine.host ? 'The host kicked that one' : mine.why ? (mine.why.startsWith('which') ? `“${esc(mine.a)}”: which one? Be more specific!` : `“${esc(mine.a)}” isn't on the list!`) : mine.mates.length ? `Same as ${esc(mine.mates.map((p) => nm(s, p)).join(', '))}!` : 'Out!'}</h2><p class="muted">You're out, unless the host lets you back in</p></div>`
+      : `<div class="state"><div class="em">🟢</div><h2>Only you said it!</h2><p class="muted">You're through to the next round</p></div>`;
+    return head + `<div class="uqlist">${list}</div>`;
+  }
+  if (!inGame) return `<div class="pq">${esc(g.prompt)}</div><div class="state"><div class="em">👀</div><h2>You're out</h2><p class="muted">Watch who survives this one…</p></div>`;
+  if (g.answered.includes(me)) return `<div class="pq">${esc(g.prompt)}</div><div class="state"><div class="em">🔒</div><h2>Locked in</h2><p class="muted">Let's hope nobody else said it…</p></div>`;
+  return `<div class="pq">${esc(g.prompt)}</div><p class="center small muted">Round ${g.round} · ${g.alive.length} left · be the <b>only one</b> to say it</p>
+    <form id="uqForm" class="state" style="justify-content:flex-start;padding-top:0"><input type="text" id="uqIn" maxlength="60" placeholder="Your answer" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.2rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Lock it in</button></form>`;
+}
+function bindUq(s) {
+  const f = $('#uqForm'); if (!f) return;
+  f.onsubmit = (e) => { e.preventDefault(); const t = $('#uqIn').value.trim(); if (!t) return; send('answer', { pid: P.pid, qId: s.q.id, answer: { t } }); f.querySelector('button').disabled = true; };
+  setTimeout(() => $('#uqIn')?.focus(), 50);
+}
+// ---- Draw It ----
+const DRAW_COLORS = ['#111111', '#e21b3c', '#1368ce', '#26890c', '#d89e00', '#8e44ad', '#ffffff'];
+/** The artist's word choices, unscrambled with this phone's id (the host scrambles them so other phones never show them). */
+function drawSecret(sec) { try { const s = atob(sec), pid = P.pid; let out = ''; for (let i = 0; i < s.length; i++) out += String.fromCharCode(s.charCodeAt(i) ^ pid.charCodeAt(i % pid.length)); return JSON.parse(decodeURIComponent(escape(out))); } catch { return null; } }
+function drawHtml(s) {
+  const g = s.draw, me = P.pid, mine = g.drawer === me, sec = mine && g.secret ? drawSecret(g.secret) : null;
+  app.className = 'app';
+  if (g.step === 'choose') return mine
+    ? `<div class="pq">🎨 Your turn to draw! Pick a word</div><div class="drawpick">${(sec?.choices || []).map((w, i) => `<button class="btn btn-primary btn-lg btn-block" data-dpick="${i}">${esc(w)}</button>`).join('')}</div><p class="center small muted mt">Draw it on your phone: no letters or numbers!</p>`
+    : `<div class="state"><div class="em">${em(s, g.drawer)}</div><h2>${esc(nm(s, g.drawer))} is choosing a word</h2><p class="muted">Get ready to guess! Drawing ${g.turn + 1} of ${g.turns}</p></div>`;
+  if (g.step === 'draw') {
+    if (mine) return `<div class="drawtop"><span>Draw: <b>${esc(sec?.word || '')}</b></span><span id="drawGot">${g.got.length} got it</span></div><div class="drawpad"><canvas id="padCv"></canvas></div>
+      <div class="drawtools">${DRAW_COLORS.map((c) => `<button class="dcol ${(P.work.dcol || '#111111') === c ? 'on' : ''}" data-dcol="${c}" style="background:${c}" aria-label="colour"></button>`).join('')}</div>
+      <div class="drawtools"><button class="btn btn-ghost btn-sm" data-dsize>${(P.work.dw || 5) > 8 ? '🖌 Thick' : '✏️ Thin'}</button><button class="btn btn-ghost btn-sm" data-dundo>↶ Undo</button><button class="btn btn-ghost btn-sm" data-dclear>🗑 Clear</button></div>`;
+    if (g.got.includes(me)) return `<div class="state"><div class="em">✅</div><h2>You got it!</h2><p class="muted">+${g.gotPts?.[me] || 0} · waiting for the others</p></div>`;
+    return `<div class="pq">Guess ${esc(nm(s, g.drawer))}'s drawing!</div><div class="drawhint p" id="pHint">${esc(g.hint)}</div><p class="center small muted">Watch the screen · guess as often as you like</p>
+      <form id="drawForm" class="state" style="justify-content:flex-start;padding-top:0"><input type="text" id="drawIn" placeholder="Your guess" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.2rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Guess</button></form><div id="drawFb" class="center drawfb">${drawFbHtml(g)}</div>`;
+  }
+  const got = g.got.includes(me);
+  return `<div class="state"><div class="em">${mine ? '🎨' : got ? '🎉' : '🙈'}</div><h2>It was ${esc(g.word)}</h2><p class="muted">${mine ? `${g.got.length} guessed your drawing` : got ? 'You got it!' : 'Not this time'}</p></div>`;
+}
+function drawFbHtml(g) { const l = g.last?.[P.pid]; return l ? (l.close ? `🔥 <b>${esc(l.t)}</b> is close!` : `✗ Not ${esc(l.t)}`) : ''; }
+/** Between redraws: the hint letters, your last guess and the artist's count change in place, so typing isn't interrupted. */
+function drawUpdate(s) {
+  const g = s.draw; if (!g) return;
+  const h = $('#pHint'); if (h) h.textContent = g.hint;
+  const f = $('#drawFb'); if (f) f.innerHTML = drawFbHtml(g);
+  const c = $('#drawGot'); if (c) c.textContent = `${g.got.length} got it`;
+}
+function bindDraw(s) {
+  const g = s.draw, go = (answer) => send('answer', { pid: P.pid, qId: s.q.id, answer });
+  $$('[data-dpick]').forEach((b) => b.onclick = () => { go({ pick: +b.dataset.dpick }); $$('[data-dpick]').forEach((x) => x.disabled = true); b.textContent = '✓ ' + b.textContent; });
+  if ($('#drawForm')) { $('#drawForm').onsubmit = (e) => { e.preventDefault(); const i = $('#drawIn'), t = i.value.trim(); if (!t) return; go({ guess: t }); i.value = ''; i.focus(); }; setTimeout(() => $('#drawIn')?.focus(), 50); }
+  const cv = $('#padCv'); if (!cv) return;
+  const turnKey = s.q.id + ':' + g.turn;
+  if (P.work.drawTurn !== turnKey) { P.work.drawTurn = turnKey; P.work.strokes = []; }
+  const ctx = cv.getContext('2d');
+  const fit = () => { const r = cv.getBoundingClientRect(), dpr = window.devicePixelRatio || 1; cv.width = Math.max(1, Math.round(r.width * dpr)); cv.height = Math.max(1, Math.round(r.height * dpr)); redraw(); };
+  const seg = (st, from) => {
+    const W = cv.width, H = cv.height, p = st.p; if (p.length < 2) return;
+    ctx.strokeStyle = st.c; ctx.fillStyle = st.c; ctx.lineWidth = Math.max(1, st.w * W / 600); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    if (p.length === 2) { ctx.beginPath(); ctx.arc(p[0] * W, p[1] * H, ctx.lineWidth / 2, 0, Math.PI * 2); ctx.fill(); return; }
+    const a = Math.max(0, from - 2); ctx.beginPath(); ctx.moveTo(p[a] * W, p[a + 1] * H); for (let i = a + 2; i < p.length; i += 2) ctx.lineTo(p[i] * W, p[i + 1] * H); ctx.stroke();
+  };
+  const redraw = () => { ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cv.width, cv.height); for (const st of P.work.strokes) seg(st, 0); };
+  let cur = null, pending = [], flushT = null;
+  const flush = () => { flushT = null; if (!cur || !pending.length) return; go({ st: { id: cur.id, c: cur.c, w: cur.w, p: pending } }); pending = []; };
+  const pt = (e) => { const r = cv.getBoundingClientRect(); return [+LQ.clamp((e.clientX - r.left) / r.width, 0, 1).toFixed(4), +LQ.clamp((e.clientY - r.top) / r.height, 0, 1).toFixed(4)]; };
+  cv.onpointerdown = (e) => { e.preventDefault(); cv.setPointerCapture?.(e.pointerId); cur = { id: 's' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), c: P.work.dcol || '#111111', w: (P.work.dcol === '#ffffff' ? 3 : 1) * (P.work.dw || 5), p: pt(e) }; P.work.strokes.push(cur); pending = cur.p.slice(); seg(cur, 0); flushT = flushT || setTimeout(flush, 70); };
+  cv.onpointermove = (e) => { if (!cur) return; e.preventDefault(); const from = cur.p.length, q = pt(e); cur.p.push(...q); pending.push(...q); seg(cur, from); flushT = flushT || setTimeout(flush, 70); };
+  cv.onpointerup = cv.onpointercancel = () => { if (!cur) return; clearTimeout(flushT); flush(); cur = null; };
+  $$('[data-dcol]').forEach((b) => b.onclick = () => { P.work.dcol = b.dataset.dcol; $$('[data-dcol]').forEach((x) => x.classList.toggle('on', x === b)); });
+  const sz = $('[data-dsize]'); if (sz) sz.onclick = () => { P.work.dw = (P.work.dw || 5) > 8 ? 5 : 12; sz.textContent = P.work.dw > 8 ? '🖌 Thick' : '✏️ Thin'; };
+  const un = $('[data-dundo]'); if (un) un.onclick = () => { const st = P.work.strokes.pop(); if (!st) return; redraw(); go({ undo: st.id }); };
+  const cl = $('[data-dclear]'); if (cl) cl.onclick = () => { P.work.strokes = []; redraw(); go({ clear: true }); };
+  fit(); window.onresize = fit;
+}
+function bindGame(s) {
+  const qId = s.q.id, go = (answer) => send('answer', { pid: P.pid, qId, answer });
+  $$('[data-pk]').forEach((b) => b.onclick = () => { const mine = s.potato.bombs.find((x) => x.holder === P.pid && !x.exploded); if (!mine?.row) return; P.work.potSent = 'x' + mine.row.i; go({ b: mine.i, i: mine.row.i, k: b.dataset.pk }); $$('[data-pk]').forEach((x) => x.disabled = true); });
+  $$('[data-pass]').forEach((b) => b.onclick = () => { go({ b: +b.dataset.bomb, pass: b.dataset.pass }); $$('[data-pass]').forEach((x) => x.disabled = true); });
+  $$('[data-fk]').forEach((b) => b.onclick = () => { go({ k: b.dataset.fk }); $$('[data-fk]').forEach((x) => x.disabled = true); b.style.outline = '4px solid #fff'; });
+  if ($('#buzzBtn')) $('#buzzBtn').onclick = () => { go({ buzz: true }); $('#buzzBtn').disabled = true; $('#buzzBtn').textContent = '…'; if (navigator.vibrate) try { navigator.vibrate(120); } catch {} };
+  $$('[data-ready]').forEach((b) => b.onclick = () => { go({ ready: true }); b.disabled = true; b.textContent = 'Starting…'; });
+  $$('[data-judge]').forEach((b) => b.onclick = () => { go({ judge: b.dataset.judge === '1' }); $$('[data-judge]').forEach((x) => x.disabled = true); });
+  $$('[data-team]').forEach((b) => b.onclick = () => { go({ team: +b.dataset.team }); $$('[data-team]').forEach((x) => x.disabled = true); });
+  $$('[data-hex]').forEach((b) => b.onclick = () => { go({ hex: +b.dataset.hex }); $$('[data-hex]').forEach((x) => x.disabled = true); });
+  if ($('#bbForm')) { $('#bbForm').onsubmit = (e) => { e.preventDefault(); const t = $('#bbIn').value.trim(); if (!t) return; go({ text: t }); $('#bbIn').disabled = true; }; setTimeout(() => $('#bbIn')?.focus(), 50); }
+}
+/** How many turns until mine: 0 when it's mine now, 1 when I'm next. */
+function turnsUntilMe(w) {
+  const order = w.order || []; const me = order.indexOf(P.pid), cur = order.indexOf(w.turnPid);
+  if (me < 0) return null; if (cur < 0) return me; // before the first turn: my place in the order
+  return ((me - cur) % order.length + order.length) % order.length;
+}
+function wipeHtml(s) {
+  const q = s.q, w = s.wipe, mine = w.turnPid === P.pid && !w.over && !w.studyMs, out = w.out.includes(P.pid);
+  const until = turnsUntilMe(w);
+  const last = w.last ? `<span class="small">${esc((w.last.name ? w.last.name + ': ' : '') + w.last.text)}${w.last.ok === false ? ' ✘' : w.last.ok ? ' ✔' : ''}</span>` : '';
+  const countdown = until === null || out || w.over || mine ? '' : `<div class="turncount">${until === 1 ? '<span class="big">1</span> — you\'re next!' : `<span class="big">${until}</span> turns until you`}</div>`;
+  const note = w.studyMs ? `<div class="turnnote">👀 Take a look — turns start in <span id="studyLeft">${Math.ceil(w.studyMs / 1000)}</span>s${until !== null && !out ? `<br><span class="small">You go ${LQ.ordinal(until + 1)}</span>` : ''}</div>`
+    : w.over ? `<div class="turnnote">${w.last ? esc((w.last.name ? w.last.name + ': ' : '') + w.last.text) + (w.last.ok === false ? ' ✘' : w.last.ok ? ' ✔' : '') : 'Round over'}</div>`
+    : mine ? `<div class="turnnote mine">🟢 Your pick! Tap a right answer</div>`
+    : out ? `<div class="turnnote">💥 You're out of this one.${w.turnName ? ` ${esc(w.turnName)} is picking…` : ''}${last ? '<br>' + last : ''}</div>`
+    : `<div class="turnnote">${w.turnName ? `${esc(w.turnName)} is picking…` : 'Next pick coming up…'}${last ? '<br>' + last : ''}</div>${countdown}`;
+  const mineScore = w.scores?.[P.pid];
+  app.className = 'app ' + (w.over || out || w.studyMs ? '' : mine ? 'turn-mine' : 'turn-wait');
+  return `<div class="pq">${esc(q.text)}</div>${note}<div class="wgrid ${mine ? 'mine' : 'wait'}">${q.board.map((t) => `<button data-w="${t.k}" class="${w.gone.includes(t.k) ? 'gone' : ''}" ${mine && !w.gone.includes(t.k) ? '' : 'disabled'}>${esc(t.text)}</button>`).join('')}</div>${mineScore ? `<p class="center small muted mt">You've scored ${mineScore > 0 ? '+' : ''}${mineScore} so far this round</p>` : ''}`;
+}
+function bindWipe(s) {
+  if (s.wipe.turnPid !== P.pid || s.wipe.over || s.wipe.studyMs) return;
+  $$('[data-w]').forEach((b) => b.onclick = () => { send('answer', { pid: P.pid, qId: s.q.id, answer: b.dataset.w }); $$('[data-w]').forEach((x) => x.disabled = true); b.style.borderColor = 'var(--brand)'; });
+}
+function questionHtml(q) {
+  const party = partyQuestionHtml(q); if (party) return party;
+  let body = '';
+  if (q.type === 'choice' || q.type === 'tf') body = `<div class="ans-grid">${q.options.map((o) => `<button class="abtn" data-k="${o.k}" style="background:${COLORS[o.c].hex}"><span class="shape">${COLORS[o.c].shape}</span>${esc(o.text)}</button>`).join('')}</div>`;
+  if (q.type === 'sort') {
+    P.work.sort = P.work.sortQ === q.id ? P.work.sort : {}; P.work.sortQ = q.id;
+    body = `<p class="muted center small">Put each answer in its category</p><div id="slist"></div><button class="btn btn-primary btn-lg btn-block mt" id="lockSort" disabled>Lock it in</button>`;
+  }
+  if (q.type === 'wheel') { const w = P.state.wheel || {}; body = `<div class="center" id="pwof">${LQ.wheelBoardHtml(w.layout || q.layout, w.revealed || '')}</div><div class="center"><span class="wof-cat">${esc(q.category || '')}</span></div><form id="textForm" class="state" style="justify-content:flex-start;padding-top:8px"><input type="text" id="textIn" placeholder="Solve the puzzle" autocomplete="off" autocorrect="off" autocapitalize="characters" style="font-size:1.1rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Solve</button></form>`; }
+  if (q.type === 'highlow') { body = `<div id="hlbox">${hlHtml(q)}</div><form id="textForm" class="state" style="justify-content:flex-start;padding-top:8px"><input type="text" id="textIn" placeholder="Type your answer" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.2rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Send</button></form>`; }
+  if (q.type === 'club') body = `<div class="clubrow"><span class="clubpct">${q.pct}%</span><span class="clubnote">of people get this · <b>${q.points}</b> points · no knowledge needed, work it out</span></div><form id="textForm" class="state" style="justify-content:flex-start"><input type="text" id="textIn" placeholder="Your answer" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.2rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
+  if (q.type === 'tune') body = `${q.tune ? tuneBody(q) : '<div class="tunephone"><span class="note">🎵</span><p class="muted center small">Listen to the clip on the screen</p></div>'}<form id="textForm" class="state" style="justify-content:flex-start;padding-top:0"><input type="text" id="textIn" placeholder="${q.ask === 'year' ? 'The year, e.g. 1984' : q.ask === 'artist' ? 'The artist' : q.ask === 'film' ? 'The film' : q.ask === 'lyric' ? 'The next line' : 'The song'}" ${q.ask === 'year' ? 'inputmode="numeric"' : ''} autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.15rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
+  if (q.type === 'dingbat') body = `${q.media?.url ? '' : LQ.dingbatHtml(q.elements)}<p class="muted center small">Say what you see: type the phrase</p><form id="textForm" class="state" style="justify-content:flex-start;padding-top:0"><input type="text" id="textIn" placeholder="The phrase" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.15rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
+  if (q.type === 'rhyme') body = `<div class="sitem"><div class="txt">🎤 ${esc(q.text2)}</div></div><p class="muted center small">The two answers rhyme. Type both, first then second.</p><form id="textForm" class="state" style="justify-content:flex-start;padding-top:0"><input type="text" id="textIn" placeholder="First answer, second answer" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.15rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
+  if (q.type === 'nearest') body = `<p class="muted center small">🎯 Closest wins · type a number${q.unit ? ` in <b>${esc(q.unit)}</b>` : ''}</p><form id="textForm" class="state" style="justify-content:flex-start"><input type="text" id="textIn" inputmode="decimal" placeholder="Your guess${q.unit ? ' (' + esc(q.unit) + ')' : ''}" autocomplete="off" style="font-size:1.4rem;text-align:center"><div id="numErr" class="small center" style="color:var(--bad);min-height:1.2em"></div><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
+  if (q.type === 'text' || q.type === 'smash') body = `${q.type === 'smash' ? '<p class="muted center small">Answer Smash: type the picture and the clue smashed together</p>' : ''}<form id="textForm" class="state" style="justify-content:flex-start"><input type="text" id="textIn" placeholder="Type your answer" autocomplete="off" autocorrect="off" autocapitalize="off" style="font-size:1.2rem;text-align:center" autofocus><button class="btn btn-primary btn-lg btn-block">Send</button></form>`;
+  if (q.type === 'order') {
+    P.work.order = P.work.order && P.work.orderQ === q.id ? P.work.order : q.items.map((i) => i.k); P.work.orderQ = q.id;
+    body = `<p class="muted center small">${esc(q.hint || 'Put these in the right order')} — use the arrows</p><div class="olist" id="olist"></div><button class="btn btn-primary btn-lg btn-block mt" id="lockOrder">Lock it in</button>`;
+  }
+  if (q.type === 'match') {
+    P.work.match = P.work.matchQ === q.id ? P.work.match : {}; P.work.matchQ = q.id; P.work.sel = null;
+    body = `<p class="muted center small">Tap a word, then tap its match</p><div class="mleft" id="mleft"></div><div class="mchoices" id="mchoices"></div><button class="btn btn-primary btn-lg btn-block mt" id="lockMatch" disabled>Lock it in</button>`;
+  }
+  if (q.type === 'pin') { P.work.pin = P.work.pinQ === q.id ? P.work.pin : null; P.work.pinQ = q.id; body = `<div class="pinboard tap" id="pinboard"><img src="${esc(q.media?.url || '')}" draggable="false"></div><button class="btn btn-primary btn-lg btn-block mt" id="dropPin" disabled>Drop the pin here</button>`; }
+  if (q.type === 'smash') return `${mediaHtml(q)}<div class="pq smashclue"><span>+</span> ${esc(q.text)}</div>${body}<button type="button" class="btn btn-ghost btn-block mt" id="skipQ" style="color:var(--ink-3)">Skip — I don't know ⏭</button>`;
+  return `${q.type === 'wheel' || q.type === 'highlow' ? '' : `<div class="pq">${q.type === 'rhyme' ? '🎤 ' : ''}${esc(q.text)}</div>`}${P.state?.reveal ? '<div class="prv" id="prv"></div>' : ''}${q.yt ? '<div class="pyt" id="pyt"></div>' : ''}${q.type === 'pin' ? '' : mediaHtml(q)}${body}<button type="button" class="btn btn-ghost btn-block mt" id="skipQ" style="color:var(--ink-3)">Skip — I don't know ⏭</button>`;
+}
+/** Highbrow Lowbrow on the phone: the hard clue, and a button that swaps in the easy one for the lower points. Only this phone sees it. */
+function hlHtml(q) {
+  const low = !!P.low[q.id];
+  return `<div class="sitem" style="border-color:var(--brand)"><div class="small muted">🎓 Highbrow · ${q.highPoints} points${low ? ' <s>(not now)</s>' : ''}</div><div class="txt">${esc(q.text)}</div></div>` +
+    (low ? `<div class="sitem" style="border-color:var(--warn)"><div class="small muted">📺 Lowbrow · ${q.lowPoints} points</div><div class="txt">${esc(q.lowText)}</div></div>`
+         : `<button type="button" class="btn btn-block" id="askLow" style="border-color:var(--warn);color:var(--ink)">📺 Show me the lowbrow clue <span class="muted small">· plays for ${q.lowPoints} instead of ${q.highPoints}</span></button>`);
+}
+function submit(q, answer) {
+  P.sent[q.id] = { answer, at: Date.now(), tries: 1 };
+  send('answer', { pid: P.pid, qId: q.id, answer, low: !!P.low[q.id] });
+  P.answered[q.id] = 'pending'; // optimistic; the watchdog re-sends until the host acks
+  app.querySelectorAll('.abtn, button').forEach((b) => b.disabled = true);
+  setTimeout(() => { if (P.state?.q?.id === q.id) { P.viewKey = ''; render(); } }, 250);
+}
+// ---- Warm-up only: there is no shared screen, so the phone shows who's still answering, plays the tune and shows
+// the clip. (A hosted quiz night never sends s.roster, q.tune or q.yt, so none of this runs there.)
+/** Everyone else in the game, ticked off as they answer: nobody wonders why the game hasn't moved on. */
+function rosterInner(s) {
+  const done = new Set(s.answered || []);
+  const others = (s.roster || []).filter((p) => p.id !== P.pid);
+  const left = others.filter((p) => !done.has(p.id)).length;
+  const mine = !!P.answered[s.q?.id];
+  return `<div class="rhead">${left ? `Waiting for ${left} more…` : mine ? 'Everyone has answered' : 'The others have all answered: over to you!'}</div>` + others.map((p) => `<span class="rp ${done.has(p.id) ? 'done' : ''}">${esc(p.emoji)} ${esc(p.name)} ${done.has(p.id) ? '✓' : '<i class="rdots">…</i>'}</span>`).join('');
+}
+function rosterHtml(s) { return s.roster && s.phase === 'question' && s.q && !(s.wipe || s.race || s.tq || s.potato || s.koth || s.bb || s.chase || s.draw || s.uq) ? `<div class="roster" id="roster">${rosterInner(s)}</div>` : ''; }
+function syncRoster(s) { const el = $('#roster'); if (el && s.roster) el.innerHTML = rosterInner(s); }
+
+/** Name That Tune on the phone: the clip decoded and played through Web Audio (backwards when asked), with a record
+ *  that spins and a bar that fills; a "Play it again" button for when the phone wants a tap first. */
+function tuneBody(q) {
+  return `<div class="ptune"><div class="pvinyl" id="pvinyl"><span>🎵</span></div><div class="pbar"><i id="pbar"></i></div>
+    <button type="button" class="btn btn-ghost btn-block" id="ptuneAgain">▶ Play it again</button></div>`;
+}
+function stopPhoneTune() {
+  clearInterval(P.tuneT);
+  try { P.tuneNode?.stop(); } catch {} try { P.tuneEl?.pause(); } catch {}
+  P.tuneNode = null; P.tuneEl = null; $('#pvinyl')?.classList.remove('spin');
+}
+async function playPhoneTune(t, qId) {
+  stopPhoneTune(); P.tuneFor = qId;
+  const bar = () => $('#pbar'), btn = $('#ptuneAgain');
+  const spin = (on) => $('#pvinyl')?.classList.toggle('spin', on);
+  const track = (dur, now) => { const t0 = now(); clearInterval(P.tuneT); P.tuneT = setInterval(() => { const f = Math.min(1, (now() - t0) / dur); if (bar()) bar().style.width = f * 100 + '%'; if (f >= 1) { clearInterval(P.tuneT); spin(false); } }, 100); };
+  try {
+    const ctx = P.actx || (P.actx = new (window.AudioContext || window.webkitAudioContext)());
+    if (ctx.state === 'suspended') await ctx.resume().catch(() => {});
+    if (ctx.state !== 'running') throw new Error('locked');
+    let buf = P.tuneBuf?.url === t.url ? P.tuneBuf.buf : null;
+    if (!buf) { const data = await (await fetch(t.url)).arrayBuffer(); buf = await ctx.decodeAudioData(data); P.tuneBuf = { url: t.url, buf }; }
+    if (P.tuneFor !== qId) return;
+    const from = Math.min(Math.floor(t.start * buf.sampleRate), buf.length - 1), n = Math.max(1, Math.min(Math.floor(t.len * buf.sampleRate), buf.length - from));
+    const seg = ctx.createBuffer(buf.numberOfChannels, n, buf.sampleRate);
+    for (let c = 0; c < buf.numberOfChannels; c++) { const a = buf.getChannelData(c).subarray(from, from + n), b = seg.getChannelData(c); if (t.backwards) { for (let i = 0; i < n; i++) b[i] = a[n - 1 - i]; } else b.set(a); }
+    const src = ctx.createBufferSource(); src.buffer = seg; src.connect(ctx.destination); src.start(); P.tuneNode = src;
+    spin(true); track(n / buf.sampleRate, () => ctx.currentTime);
+    if (btn) btn.textContent = '▶ Play it again';
+  } catch (e) {
+    // no Web Audio yet (the phone wants a tap), or the clip can't be decoded here: a plain audio element, forwards
+    if (P.tuneFor !== qId) return;
+    try {
+      const a = new Audio(t.url); P.tuneEl = a; a.currentTime = t.start;
+      a.addEventListener('loadedmetadata', () => { try { a.currentTime = t.start; } catch {} });
+      await a.play(); spin(true); track(t.len, () => a.currentTime - t.start);
+      setTimeout(() => { if (P.tuneEl === a) { a.pause(); spin(false); } }, t.len * 1000);
+    } catch { if (btn) { btn.textContent = '▶ Tap to play the clip'; btn.classList.add('btn-primary'); } }
+  }
+}
+
+/** Catchphrase on the phone: the clip plays here (muted and looping, as it does on the big screen). */
+function ytApi() {
+  if (window.YT?.Player) return Promise.resolve();
+  return new Promise((res, rej) => { const prev = window.onYouTubeIframeAPIReady; window.onYouTubeIframeAPIReady = () => { try { prev?.(); } catch {} res(); }; loadScript('https://www.youtube.com/iframe_api').catch(rej); });
+}
+function mountPhoneYt(y) {
+  const box = $('#pyt'); if (!box) return;
+  box.innerHTML = '<div></div><div class="pytcover">Loading the clip…</div>';
+  ytApi().then(() => {
+    if (!document.body.contains(box)) return;
+    // if it hasn't started in a few seconds (Low Power Mode, a strict browser), a tap starts it
+    setTimeout(() => { const c = box.querySelector('.pytcover'); if (c && document.body.contains(box)) { c.innerHTML = '▶ Tap to play the clip'; c.classList.add('tap'); c.onclick = () => { try { ytp.playVideo(); } catch {} }; } }, 4000);
+    const ytp = new YT.Player(box.firstChild, {
+      videoId: y.id, host: 'https://www.youtube-nocookie.com', width: '100%', height: '100%',
+      playerVars: { autoplay: 1, mute: 1, controls: 0, disablekb: 1, fs: 0, iv_load_policy: 3, modestbranding: 1, playsinline: 1, rel: 0, start: y.start, ...(y.end ? { end: y.end } : {}) },
+      events: {
+        onReady: (e) => { e.target.mute(); e.target.playVideo(); },
+        onStateChange: (e) => { if (e.data === 1) box.querySelector('.pytcover')?.remove(); if (e.data === 0 && y.loop) { e.target.seekTo(y.start, true); e.target.playVideo(); } },
+        onError: () => { const c = box.querySelector('.pytcover'); if (c) c.textContent = "The clip won't play here. Have a guess anyway!"; },
+      },
+    });
+  }).catch(() => { const c = box.querySelector('.pytcover'); if (c) c.textContent = 'The clip would not load'; });
+}
+// ---- Warm-up only (a hosted quiz night never sends s.roster or s.pin): the Hot Potato ring and the pin answer map
+/** Hot Potato as a picture: everyone round a ring, the bomb sliding to whoever has it. */
+function potRingHtml(s) {
+  const ps = s.potato?.players || [], n = Math.max(1, ps.length);
+  const seats = ps.map((x, i) => { const a = -Math.PI / 2 + (i / n) * Math.PI * 2; return `<div class="pseat" data-seat="${esc(x.pid)}" style="left:${50 + Math.cos(a) * 40}%;top:${50 + Math.sin(a) * 36}%"><span class="em">${esc(x.emoji || '🙂')}</span><span class="nm">${x.pid === P.pid ? 'You' : esc(x.name)}</span></div>`; }).join('');
+  return `<div class="pring" id="pring">${seats}${(s.potato?.bombs || []).map((b) => `<div class="pbomb" id="pbomb${b.i}">💣</div>`).join('')}</div>`;
+}
+function syncPotRing(s) {
+  const ring = $('#pring'), pot = s.potato; if (!ring || !pot) return;
+  const ps = pot.players || [], n = Math.max(1, ps.length), at = (pid) => { const i = Math.max(0, ps.findIndex((x) => x.pid === pid)); const a = -Math.PI / 2 + (i / n) * Math.PI * 2; return { x: 50 + Math.cos(a) * 40, y: 50 + Math.sin(a) * 36 }; };
+  P.bombPos = P.bombPos || {};
+  const holders = [], dead = [];
+  for (const b of pot.bombs || []) {
+    const el = $('#pbomb' + b.i); if (!el) continue;
+    const who = b.exploded || b.holder, o = at(who), prev = P.bombPos[b.i];
+    (b.exploded ? dead : holders).push(who);
+    el.classList.toggle('boom', !!b.exploded); el.textContent = b.exploded ? '💥' : '💣';
+    // a fresh element starts where the bomb was, then slides to where it is now: you see it passed
+    if (prev && !el.dataset.placed) { el.style.transition = 'none'; el.style.left = prev.x + '%'; el.style.top = prev.y + '%'; void el.offsetWidth; el.style.transition = ''; }
+    el.dataset.placed = '1'; el.style.left = o.x + '%'; el.style.top = o.y + '%';
+    P.bombPos[b.i] = o;
+  }
+  ring.querySelectorAll('.pseat').forEach((el) => { el.classList.toggle('hold', holders.includes(el.dataset.seat)); el.classList.toggle('dead', dead.includes(el.dataset.seat)); });
+}
+
+/** Drop the Pin, after the question: the map with the right spot, your pin (a line between them) and everyone else's. */
+function pinRevealHtml(s) {
+  const pn = s.pin; if (!pn) return '';
+  const mine = pn.pins.find((p) => p.pid === P.pid);
+  const place = pn.area ? null : pn.pins.findIndex((p) => p.pid === P.pid);
+  const t = pn.spot || (pn.area ? { x: pn.area.x + pn.area.w / 2, y: pn.area.y + pn.area.h / 2 } : null);
+  const acc = s.results?.[P.pid]?.partial ?? 0;
+  const verdict = !mine ? "You didn't drop a pin" : pn.area ? (mine.hit ? '🎯 Right on it!' : '✗ Just outside the area') : acc >= 1 ? '🎯 Spot on!' : acc >= 0.6 ? 'Close!' : acc >= 0.25 ? 'Not bad' : acc > 0 ? 'A fair way off' : 'Miles away!';
+  const others = pn.pins.filter((p) => p.pid !== P.pid).map((p) => `<div class="ppin other" style="left:${p.x * 100}%;top:${p.y * 100}%" title="${esc(p.name)}">${esc(p.name.replace(/^Bot /, '').slice(0, 2))}</div>`).join('');
+  return `<div class="pinres"><div class="pinwrap"><img src="${esc(pn.url)}" alt="">
+      ${pn.area ? `<div class="parea" style="left:${pn.area.x * 100}%;top:${pn.area.y * 100}%;width:${pn.area.w * 100}%;height:${pn.area.h * 100}%"></div>` : ''}
+      ${mine && t ? `<svg class="pline" viewBox="0 0 100 100" preserveAspectRatio="none"><line x1="${mine.x * 100}" y1="${mine.y * 100}" x2="${t.x * 100}" y2="${t.y * 100}" vector-effect="non-scaling-stroke"/></svg>` : ''}
+      ${others}${t && !pn.area ? `<div class="ptarget" style="left:${t.x * 100}%;top:${t.y * 100}%">📍</div>` : ''}${mine ? `<div class="ppin mine" style="left:${mine.x * 100}%;top:${mine.y * 100}%">You</div>` : ''}</div>
+    <div class="pinverdict">${verdict}${place >= 0 && pn.pins.length > 1 ? ` · ${ordinal(place + 1)} closest of ${pn.pins.length}` : ''}</div></div>`;
+}
+function bindQuestion(q) {
+  if (!q || P.answered[q.id]) return;
+  if (partyBindQuestion(q)) return;
+  if (q.tune) { if (P.tuneFor !== q.id) playPhoneTune(q.tune, q.id); const b = $('#ptuneAgain'); if (b) b.onclick = () => playPhoneTune(q.tune, q.id); }
+  if (q.yt) mountPhoneYt(q.yt);
+  if ($('#skipQ')) $('#skipQ').onclick = () => { P.skipped[q.id] = true; submit(q, 'skip'); };
+  if (q.type === 'choice' || q.type === 'tf') $$('.abtn').forEach((b) => b.onclick = () => submit(q, b.dataset.k));
+  if (q.type === 'sort') {
+    const draw = () => {
+      $('#slist').innerHTML = q.items.map((it) => `<div class="sitem"><div class="txt">${esc(it.text)}</div><div class="seg">${q.categories.map((c) => `<button data-si="${it.k}" data-sc="${c.k}" class="${P.work.sort[it.k] === c.k ? 'on' : ''}">${esc(c.name)}</button>`).join('')}</div></div>`).join('');
+      $('#lockSort').disabled = Object.keys(P.work.sort).length < q.items.length;
+      $$('[data-si]').forEach((b) => b.onclick = () => { P.work.sort[b.dataset.si] = b.dataset.sc; draw(); });
+    };
+    draw(); $('#lockSort').onclick = () => submit(q, { ...P.work.sort });
+  }
+  if (q.type === 'text' || q.type === 'smash' || q.type === 'wheel' || q.type === 'highlow' || q.type === 'rhyme' || q.type === 'club' || q.type === 'dingbat' || q.type === 'tune' || q.type === 'nearest') { $('#textForm').onsubmit = (e) => { e.preventDefault(); const t = $('#textIn').value.trim(); if (!t) return; if (q.type === 'nearest' && !Number.isFinite(LQ.parseNum(t))) { $('#numErr').textContent = 'Type a number, like 1250'; return; } submit(q, t); }; setTimeout(() => $('#textIn')?.focus(), 50); }
+  if (q.type === 'highlow' && $('#askLow')) $('#askLow').onclick = () => { P.low[q.id] = true; send('hint', { pid: P.pid, qId: q.id }); $('#hlbox').innerHTML = hlHtml(q); };
+  if (q.type === 'order') {
+    const draw = () => {
+      $('#olist').innerHTML = P.work.order.map((k, i) => { const it = q.items.find((x) => x.k === k); return `<div class="oitem"><div class="n">${i + 1}</div><div>${esc(it.text)}</div><div class="mv"><button data-up="${i}" ${i === 0 ? 'disabled' : ''}>▲</button><button data-dn="${i}" ${i === P.work.order.length - 1 ? 'disabled' : ''}>▼</button></div></div>`; }).join('');
+      $$('[data-up]').forEach((b) => b.onclick = () => { const i = +b.dataset.up; [P.work.order[i - 1], P.work.order[i]] = [P.work.order[i], P.work.order[i - 1]]; draw(); });
+      $$('[data-dn]').forEach((b) => b.onclick = () => { const i = +b.dataset.dn; [P.work.order[i + 1], P.work.order[i]] = [P.work.order[i], P.work.order[i + 1]]; draw(); });
+    };
+    draw(); $('#lockOrder').onclick = () => submit(q, P.work.order.slice());
+  }
+  if (q.type === 'match') {
+    const draw = () => {
+      const used = new Set(Object.values(P.work.match));
+      $('#mleft').innerHTML = q.left.map((l) => { const rk = P.work.match[l.k]; const r = q.right.find((x) => x.k === rk); const idx = r ? q.right.indexOf(r) + 1 : ''; return `<div class="mrow"><div class="mword ${P.work.sel === l.k ? 'sel' : ''}" data-l="${l.k}">${esc(l.text)}</div><div class="mslot ${r ? 'filled' : ''}" data-slot="${l.k}">${r ? (r.kind === 'image' ? `<img src="${esc(r.value)}" alt="${idx}">` : `${idx}. ${esc(r.value)}`) : 'tap to match'}</div></div>`; }).join('');
+      $('#mchoices').innerHTML = q.right.map((r, i) => `<div class="mc ${used.has(r.k) ? 'used' : ''}" data-r="${r.k}">${r.kind === 'image' ? `<img src="${esc(r.value)}">` : ''}<div class="cap">${i + 1}${r.kind === 'text' ? '. ' + esc(r.value) : ''}</div></div>`).join('');
+      $('#lockMatch').disabled = Object.keys(P.work.match).length < q.left.length;
+      $$('[data-l]').forEach((el) => el.onclick = () => { P.work.sel = P.work.sel === el.dataset.l ? null : el.dataset.l; draw(); });
+      $$('[data-slot]').forEach((el) => el.onclick = () => { if (P.work.match[el.dataset.slot]) { delete P.work.match[el.dataset.slot]; P.work.sel = el.dataset.slot; } else P.work.sel = el.dataset.slot; draw(); });
+      $$('[data-r]').forEach((el) => el.onclick = () => {
+        let l = P.work.sel;
+        if (!l) l = q.left.find((x) => !P.work.match[x.k])?.k; // no word picked: fill the next empty slot
+        if (!l) return;
+        for (const k of Object.keys(P.work.match)) if (P.work.match[k] === el.dataset.r) delete P.work.match[k];
+        P.work.match[l] = el.dataset.r; P.work.sel = q.left.find((x) => !P.work.match[x.k])?.k || null; draw();
+      });
+    };
+    draw(); $('#lockMatch').onclick = () => submit(q, { ...P.work.match });
+  }
+  if (q.type === 'pin') {
+    const board = $('#pinboard'), img = $('img', board);
+    const draw = () => { $$('.pin', board).forEach((e) => e.remove()); if (!P.work.pin) return; const w = img.clientWidth, h = img.clientHeight; board.insertAdjacentHTML('beforeend', `<svg class="pin" viewBox="0 0 24 24" style="left:${P.work.pin.x * w}px;top:${P.work.pin.y * h}px"><path fill="#e21b3c" stroke="#fff" stroke-width="1.5" d="M12 1.5a7.5 7.5 0 0 0-7.5 7.5c0 5.6 7.5 13.5 7.5 13.5S19.5 14.6 19.5 9A7.5 7.5 0 0 0 12 1.5z"/><circle cx="12" cy="9" r="3" fill="#fff"/></svg>`); $('#dropPin').disabled = false; };
+    board.onclick = (e) => { const r = img.getBoundingClientRect(); if (!r.width) return; P.work.pin = { x: LQ.clamp((e.clientX - r.left) / r.width, 0, 1), y: LQ.clamp((e.clientY - r.top) / r.height, 0, 1) }; draw(); };
+    img.onload = draw; if (img.complete) draw();
+    $('#dropPin').onclick = () => { if (P.work.pin) submit(q, P.work.pin); };
+  }
+}
+function resultHtml(s, r) {
+  if (r?.viewer && r.watched) return `<div class="result part"><div style="font-size:1.5rem;font-weight:900">👀 You watched this one</div>${s.answer ? `<div style="font-weight:800;opacity:.95">Answer: ${esc(s.answer)}</div>` : ''}<div class="rk">👀 Viewing · ${r.score} points</div></div>`;
+  if (!r) return `<div class="state"><h2>Results are on the screen</h2></div>`;
+  const wipeQ = s.qType === 'wipeout' || r.wiped || r.points < 0, raceQ = s.qType === 'race' || r.raced;
+  const cls = r.points < 0 ? 'neg' : r.correct || r.place ? 'ok' : raceQ ? 'part' : r.partial > 0 ? 'part' : 'no';
+  const head = r.note && (['potato', 'koth', 'blockbusters', 'chase', 'nearest', 'draw', 'twenty', 'unique', 'about', 'cards', 'task'].includes(s.qType) || r.note.startsWith('👪')) ? esc(r.note) : r.skipped ? '⏭ Skipped' : r.wiped ? '💥 Wiped out!' : r.lost ? `💨 Last place · ${r.got ?? 0} right` : r.place === 2 ? `🥈 Second place · ${r.got ?? 0} right` : r.place === 3 ? `🥉 Third place · ${r.got ?? 0} right` : wipeQ ? (r.points > 0 ? '✓ Nice picking!' : 'No points this round') : raceQ ? (r.correct ? `🏆 You won the race! · ${r.got ?? 0} right` : r.out ? `Out of the race · ${r.got ?? 0} right` : `${r.got ?? 0} right`) : r.correct ? '✓ Correct!' : !r.answered ? 'Too slow!' : r.partial > 0 ? 'Partly right' : '✗ Not this time';
+  const medal = raceQ && !r.lost ? (r.correct ? '🏆' : r.place === 2 ? '🥈' : r.place === 3 ? '🥉' : '') : '';
+  if (medal && navigator.vibrate) try { navigator.vibrate(r.correct ? [120, 60, 120, 60, 300] : 150); } catch {}
+  return `<div class="result ${cls}">${medal ? `<div class="rpmedal">${medal}</div>` : ''}<div style="font-size:1.6rem;font-weight:900">${head}</div>${r.practice ? `<div class="pts" style="opacity:.55">${r.would > 0 ? '+' : ''}${r.would}</div><div style="font-weight:900">🧪 Practice: that would have been your score. It doesn't count.</div>` : `<div class="pts">${r.points > 0 ? '+' : ''}${r.points}</div>`}
+    ${raceQ && (r.base || r.bonus) ? `<div style="font-weight:800;opacity:.95">${r.got ?? 0} right = +${r.base}${r.bonus ? ` · ${r.bonus > 0 ? '+' : '−'}${Math.abs(r.bonus)} ${r.bonus > 0 ? 'bonus' : 'for last place'}` : ''}</div>` : ''}
+    ${s.answer ? `<div style="font-weight:800;opacity:.95">${r.correct ? '' : 'Answer: '}${esc(s.answer)}</div>` : ''}${s.why ? `<div style="opacity:.85;font-size:.9rem;margin-top:6px">💡 ${esc(s.why)}</div>` : ''}
+    ${partyResultLines(r)}<div class="rk">${r.viewer ? `👀 Viewing · ${r.score} points (not on the leaderboard)` : `${ordinal(r.rank)} of ${r.of} · ${r.score} points`}</div></div>`;
+}
+function finalHtml(s, r) {
+  const me = r?.rank;
+  return `<div class="state" style="justify-content:flex-start"><div class="em">${me === 1 ? '🏆' : me === 2 ? '🥈' : me === 3 ? '🥉' : '🎉'}</div>
+    <h2>${me === 1 ? 'You won!' : me ? `You came ${ordinal(me)}` : 'Game over'}</h2>${r?.viewer ? `<p class="muted">👀 You viewed and scored <b>${r.score}</b> points (not on the leaderboard)</p>` : r ? `<p class="muted">${r.score} points</p>` : ''}
+    <div class="board">${(s.top || []).map((t) => `<div class="brow ${t.name === P.name ? 'me' : ''}"><div class="rank">${t.rank}</div><div>${esc(t.name)}</div><div>${t.score}</div></div>`).join('')}</div>
+    ${s.warm ? warmBoardHtml(s) : '<button class="btn btn-ghost mt" id="another">Join another game</button>'}</div>`;
+}
+/** The end of a warm-up: everyone who has played so far, best first, with this phone's row picked out. */
+function warmBoardHtml(s) {
+  const w = s.warm, mine = w.places?.[P.pid]; let hit = false;
+  const place = (t) => w.board.filter((x) => x.score > t.score).length + 1;
+  const test = w.test ? `<p class="small" style="font-weight:800;margin:10px 0 0">🧪 Test game: this score isn't saved.${mine ? ` It would have come ${ordinal(mine.place)} of ${w.count + 1}.` : ''}</p>` : '';
+  return `${test}<h3 style="margin:18px 0 4px">🏆 ${w.solo ? 'Scoreboard' : 'Warm-up scoreboard'}</h3><p class="muted small" style="margin:0 0 6px">${mine && !w.test ? `You're ${ordinal(mine.place)} of ${w.count} so far` : `${w.count} played so far`}</p>
+    <div class="board warmboard" id="warmBoard">${w.board.map((t) => { const me = !hit && mine && t.score === mine.score && t.name === P.name; if (me) hit = true; return `<div class="brow ${me ? 'me' : ''}"><div class="rank">${place(t)}</div><div>${esc(t.emoji || '')} ${esc(t.name)}</div><div>${t.score}</div></div>`; }).join('')}</div>
+    ${w.solo ? '' : '<p class="muted small" style="margin-top:8px">The top score when the warm-up closes gets 1,000 bonus points at the start of the quiz.</p>'}`;
+}
+document.addEventListener('click', (e) => {
+  if (e.target.id === 'another') { leave(); P.code = ''; history.replaceState(null, '', location.pathname); renderJoin(); }
+  const c = e.target.closest?.('[data-ctrl]'); if (c) { send('ctrl', { pid: P.pid, cmd: c.dataset.ctrl }); c.disabled = true; if (!['pause', 'resume'].includes(c.dataset.ctrl)) c.textContent = 'Moving on…'; }
+});
+
+// ------------------------------------------------------------------ phones play from the home-screen app
+//
+// A camera scan of the TV's QR code opens a browser tab; the app on the home screen opens full screen (standalone).
+// A phone in a browser tab gets the steps to add the app instead of the game. The game code is kept for Android,
+// where the app shares the browser's storage; on an iPhone the app has its own storage, so it scans the code itself.
+const STANDALONE = matchMedia('(display-mode: standalone)').matches || matchMedia('(display-mode: fullscreen)').matches || navigator.standalone === true;
+const UA = navigator.userAgent;
+const IOS = /iPhone|iPad|iPod/.test(UA) || (/Macintosh/.test(UA) && navigator.maxTouchPoints > 1); // iPadOS says it is a Mac
+const PHONE = IOS || /Android/.test(UA);
+const IN_APP = /FBAN|FBAV|Instagram|Snapchat|TikTok|LinkedInApp|Line\/|GSA\//.test(UA); // a browser inside another app cannot add to the home screen
+let installEvt = null;
+addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); installEvt = e; $('#installBtn')?.classList.remove('hidden'); });
+addEventListener('appinstalled', () => { const n = $('#installDone'); if (n) n.classList.remove('hidden'); });
+function renderInstall(code) {
+  const steps = IN_APP
+    ? `<li>This opened inside another app. Tap <b>•••</b> (or the share icon) and choose <b>Open in ${IOS ? 'Safari' : 'Chrome'}</b>.</li><li>Then follow the steps shown there.</li>`
+    : IOS
+    ? `<li>Tap the <b>Share</b> button <span class="shareic">⬆︎</span> ${/iPad|Macintosh/.test(UA) ? 'at the top of the screen' : 'at the bottom of the screen'}${/CriOS/.test(UA) ? ' (in Chrome it is at the top right)' : ''}.</li><li>Scroll down and tap <b>Add to Home Screen</b>, then <b>Add</b>.</li><li>Open <b>${esc(BRAND.name)}</b> from your home screen and tap <b>Scan the QR code</b>${code ? `, or type the code <b>${esc(code)}</b>` : ''}.</li>`
+    : `<li>Tap <b>Install</b> below, or open the <b>⋮</b> menu at the top right and choose <b>Add to Home screen</b> (or <b>Install app</b>).</li><li>Open <b>${esc(BRAND.name)}</b> from your home screen.${code ? ` Your game code <b>${esc(code)}</b> will be ready.` : ''}</li>`;
+  app.innerHTML = `<div class="joinbox card installbox">${joinLogo()}
+    <h3 class="center" style="margin:4px 0 6px">📲 Add the app to your home screen${BHB ? ' to join in' : ' to play'}</h3>
+    <p class="center muted" style="margin-top:0">${BHB ? 'It takes ten seconds and the session runs full screen like a proper app. Next time, just tap the BHB Training icon.' : "It's free, takes ten seconds, and the quiz runs full screen like a proper app. Next time, just tap the icon."}</p>
+    <ol class="installsteps">${steps}</ol>
+    ${IOS || IN_APP ? '' : `<button class="btn btn-primary btn-lg btn-block ${installEvt ? '' : 'hidden'}" id="installBtn">Install ${esc(BRAND.name)}</button>`}
+    <div class="notice hidden" id="installDone" style="margin-top:10px">Installed! Now open <b>${esc(BRAND.name)}</b> from your home screen.</div>
+    ${code ? `<div class="installcode">Game code <b>${esc(code)}</b></div>` : ''}</div>`;
+  const b = $('#installBtn'); if (b) b.onclick = async () => { if (!installEvt) return; installEvt.prompt(); try { await installEvt.userChoice; } catch {} installEvt = null; b.classList.add('hidden'); };
+}
+
+// ------------------------------------------------------------------ boot
+const bootQ = new URLSearchParams(location.search);
+// A warm-up (solo) plays tunes on this phone: the first tap unlocks the sound, as phones insist.
+if (bootQ.get('solo') === '1') document.addEventListener('pointerdown', () => { try { const c = P.actx || (P.actx = new (window.AudioContext || window.webkitAudioContext)()); if (c.state === 'suspended') c.resume(); } catch {} });
+const bootCode = (bootQ.get('g') || '').toUpperCase();
+if (bootQ.get('solo') === '1' && /^[A-Z0-9]{6}$/.test(bootCode)) {
+  // the host testing alone: this panel sits inside the host page, so join without the form
+  P.code = bootCode; P.name = P.name || 'Me'; store('lq_player', { pid: P.pid, name: P.name, emoji: P.emoji });
+  connect();
+} else if (PHONE && !STANDALONE) {
+  if (/^[A-Z0-9]{6}$/.test(bootCode)) store(PENDING, { code: bootCode, at: Date.now() });
+  // The code is kept above for the installed app; take it off the address so 'Add to Home Screen' (which on iPhone
+  // saves the current address) never bakes an old game code into the icon.
+  if (bootCode) history.replaceState(null, '', location.pathname);
+  renderInstall(/^[A-Z0-9]{6}$/.test(bootCode) ? bootCode : '');
+} else renderJoin();

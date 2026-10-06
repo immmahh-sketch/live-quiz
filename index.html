@@ -23,6 +23,7 @@
 <div class="toast" id="toast"></div>
 
 <script src="assets/common.js"></script>
+<script src="assets/train-visuals.js"></script>
 <script src="assets/warmup-tools.js"></script>
 <script>
 const { $, $$, esc, uid, api, TYPES, COLORS, DEFAULT_SETTINGS, newQuestion, validate, youtubeId, resizeImage, orderQuestions, quizForSave, timeFor, composeCollage, buildCollageFor } = LQ;
@@ -1264,6 +1265,7 @@ function renderQForm() {
       ${q.type === 'text' || q.type === 'highlow' || q.type === 'rhyme' || q.type === 'club' || q.type === 'dingbat' || q.type === 'tune' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_ai" ${q.ai !== false ? 'checked' : ''}> Let AI judge spelling and wording</label>` : ''}
       ${S.quiz.rounds.find((r) => r.id === q.round)?.practice ? '<span class="muted small" style="margin-bottom:14px">🧪 Practice: the whole round scores nothing</span>' : `<label class="check" style="margin-bottom:14px" title="Played in full, but the points don&#39;t count: good for showing people how a game works"><input type="checkbox" id="f_practice" ${q.practice ? 'checked' : ''}> 🧪 Practice: no points</label>`}
     </div>
+    ${['club', 'wheel', 'tune', 'cards', 'task', 'about', 'whosaid', 'draw', 'twenty', 'race', 'potato', 'koth', 'chase', 'blockbusters', 'wipeout', 'unique'].includes(q.type) ? '' : `<div class="field"><label>Why <span class="muted">— optional: a line shown under the right answer on the screen and the phones (a training note)</span></label><textarea id="f_why" rows="2" placeholder="e.g. A third time goes on paper: the form shows what was agreed.">${esc(q.why || '')}</textarea></div>`}
     ${q.kind === 'reveal' ? `<div class="row"><div class="field" style="max-width:240px"><label>How the picture is revealed</label><select id="f_rstyle"><option value="tiles" ${q.revealStyle !== 'blur' ? 'selected' : ''}>Tiles flip over one by one</option><option value="blur" ${q.revealStyle === 'blur' ? 'selected' : ''}>A blur slowly clears</option></select></div>${q.revealStyle === 'blur' ? '' : `<div class="field" style="max-width:140px"><label>Tiles (12–20)</label><input type="number" id="f_tiles" min="12" max="20" value="${q.tiles || 16}"></div>`}</div>` : ''}
     <div id="problems"></div>`;
   if ($('#f_rstyle')) $('#f_rstyle').onchange = (e) => { q.revealStyle = e.target.value; touch(); renderQForm(); };
@@ -1276,6 +1278,7 @@ function renderQForm() {
   if ($('#f_round')) $('#f_round').onchange = (e) => toRound(q, e.target.value);
   if ($('#f_partial')) $('#f_partial').onchange = (e) => { q.partial = e.target.checked; touch(); };
   if ($('#f_ai')) $('#f_ai').onchange = (e) => { q.ai = e.target.checked; touch(); };
+  if ($('#f_why')) $('#f_why').oninput = (e) => { if (e.target.value.trim()) q.why = e.target.value; else delete q.why; touch(); };
   if ($('#f_practice')) $('#f_practice').onchange = (e) => { q.practice = e.target.checked; if (!q.practice) delete q.practice; touch(); renderQList(); };
   if ($('#recheck')) $('#recheck').onclick = () => checkQuestions([q]);
   if ($('#clearCheck')) $('#clearCheck').onclick = () => { delete q.check; touch(); renderQList(); renderQForm(); };
@@ -1304,7 +1307,13 @@ function renderSlideForm(q) {
       <div class="row"><button class="btn btn-ghost btn-sm" id="prevQ" title="See it as the players will, on the big screen and a phone, without starting a game">👁 Preview</button><button class="btn btn-ghost btn-sm" id="likeQ" title="A new blank one of the same type in this round, straight after this one (Ctrl+Enter)">+ Another like this</button><button class="btn btn-ghost btn-sm" id="dupQ" title="Ctrl+D">Duplicate</button><button class="btn btn-ghost btn-sm" id="delQ" style="color:var(--bad)">Delete</button></div></div>
     <div class="field"><label>Title</label><input type="text" id="f_text" value="${esc(q.text)}" placeholder="e.g. Welcome to Quiz Night!  ·  How to play  ·  Half-time"></div>
     <div class="field"><label>Text <span class="muted">— start lines with "-" to make a list</span></label><textarea id="f_body" rows="7" placeholder="e.g.&#10;- Phones out, join with the code on the screen&#10;- The faster you answer, the more you score&#10;- No googling!">${esc(q.body || '')}</textarea></div>
-    <div class="field"><label class="check"><input type="checkbox" id="f_break" ${q.break ? 'checked' : ''}> ☕ Break, with a big countdown clock on the screen and the phones</label></div>
+    <div class="field"><label class="check"><input type="checkbox" id="f_break" ${q.break ? 'checked' : ''}> ☕ Break, with a big countdown clock on the screen and the phones</label>
+      ${q.break ? `<label class="check" style="margin-top:4px"><input type="checkbox" id="f_ex" ${q.exercise ? 'checked' : ''}> 🎭 It is an exercise: the clock says "left of the exercise" and the button says End exercise</label>` : ''}</div>
+    <details class="field" ${q.layout || q.visual || q.kicker ? 'open' : ''}><summary style="cursor:pointer;font-weight:800">🎨 Training layout <span class="muted small">— BHB Training slides: a label, a layout and a diagram</span></summary>
+      <div class="row" style="margin-top:8px"><div class="field grow"><label>Label above the title</label><input type="text" id="f_kicker" value="${esc(q.kicker || '')}" placeholder="e.g. Part 3 · Prevention"></div>
+        <div class="field grow"><label>Layout</label><select id="f_layout">${[['', 'Plain (title, picture, text)'], ['hero', 'Big photo behind the words'], ['photo', 'Photo left, words right'], ['photoright', 'Words left, photo right'], ['visual', 'Title, then the diagram'], ['exercise', 'Exercise: brief and clock']].map(([v, l]) => `<option value="${v}" ${(q.layout || '') === v ? 'selected' : ''}>${l}</option>`).join('')}</select></div></div>
+      <div class="field"><label>Photo credit <span class="muted">— small print in the corner of the photo</span></label><input type="text" id="f_credit" value="${esc(q.media?.credit || '')}" placeholder="e.g. Photo: name / CC BY 2.0"></div>
+      <div class="field"><label>Diagram <span class="muted">— data for cards, steps, ladder, matrix, two, bars, form, seating, agenda, stats or pills (JSON; see assets/train-visuals.js)</span></label><textarea id="f_visual" rows="6" spellcheck="false" style="font-family:monospace;font-size:.82rem" placeholder='{"type":"cards","items":[{"icon":"💬","title":"Talk","text":"Have a quiet word"}]}'>${esc(q.visual ? JSON.stringify(q.visual, null, 1) : '')}</textarea><div id="f_visualmsg" class="help"></div></div></details>
     ${q.break ? '' : `<div class="field"><label>On the screen <span class="muted">— optional</span></label><div id="mediaBox"></div></div>`}
     <div class="row" style="align-items:flex-end">
       ${q.break ? `<div class="field" style="max-width:260px"><label>Break length (minutes) <span class="muted">— add or take off minutes on the screen while it runs</span></label><div class="row" style="gap:6px"><button class="btn btn-ghost btn-sm" data-bm="-5">−5</button><button class="btn btn-ghost btn-sm" data-bm="-1">−1</button><input type="number" id="f_mins" min="1" max="120" value="${LQ.breakMs(q) / 60000}" style="max-width:80px;text-align:center"><button class="btn btn-ghost btn-sm" data-bm="1">+1</button><button class="btn btn-ghost btn-sm" data-bm="5">+5</button></div></div>`
@@ -1315,6 +1324,16 @@ function renderSlideForm(q) {
     <div id="problems"></div>`;
   $('#f_text').oninput = (e) => { q.text = e.target.value; touch(); refreshTile(); showProblems(); };
   $('#f_body').oninput = (e) => { q.body = e.target.value; touch(); showProblems(); };
+  $('#f_kicker').oninput = (e) => { if (e.target.value.trim()) q.kicker = e.target.value; else delete q.kicker; touch(); };
+  $('#f_layout').onchange = (e) => { if (e.target.value) q.layout = e.target.value; else delete q.layout; touch(); };
+  if ($('#f_ex')) $('#f_ex').onchange = (e) => { if (e.target.checked) q.exercise = true; else delete q.exercise; touch(); };
+  $('#f_credit').oninput = (e) => { q.media = q.media || { kind: 'none' }; if (e.target.value.trim()) q.media.credit = e.target.value; else delete q.media.credit; touch(); };
+  $('#f_visual').oninput = (e) => {
+    const t = e.target.value.trim(), msg = $('#f_visualmsg');
+    if (!t) { delete q.visual; msg.textContent = ''; touch(); return; }
+    try { const v = JSON.parse(t); if (!v || typeof v !== 'object' || !LQ.visualHtml(v)) throw new Error('Needs a "type" it knows.'); q.visual = v; msg.textContent = 'Saved with the slide.'; touch(); }
+    catch (err) { msg.textContent = 'Not saved yet: ' + err.message; }
+  };
   $('#f_break').onchange = (e) => { q.break = e.target.checked; if (q.break) { q.breakMins = q.breakMins || 10; q.media = { kind: 'none' }; } touch(); renderQList(); renderSlideForm(q); };
   const setMins = (n) => { q.breakMins = LQ.clamp(Math.round(+n) || 10, 1, 120); const i = $('#f_mins'); if (i) i.value = q.breakMins; touch(); renderQList(); showProblems(); };
   if ($('#f_mins')) $('#f_mins').onchange = (e) => setMins(e.target.value);
@@ -1882,6 +1901,11 @@ function settingsModal() {
       <div class="help">New questions and AI-written ones get their type's time. Each question can still be changed on its own.</div>
       <label class="check" style="margin-top:8px"><input type="checkbox" id="s_apply"> Apply these to every question already in the quiz</label></div>
     <label class="check"><input type="checkbox" id="s_show" ${s.showAnswersOnPhones !== false ? 'checked' : ''}> Show the right answer on players' phones after each question</label>
+    <div class="field mt"><label>🎓 Brand</label>
+      <select id="s_brand"><option value="">Let's Quiz!</option><option value="bhb" ${s.brand === 'bhb' ? 'selected' : ''}>BHB Training: Black Horse Beamish colours and logo, a "Part" for each round, phones join with the BHB Training app (letsquiz.uk/train)</option></select>
+      <label class="check" style="margin-top:6px"><input type="checkbox" id="s_notc" ${s.noTypeCards ? 'checked' : ''}> No "how this question type works" cards between questions</label>
+      <label class="check" style="margin-top:6px"><input type="checkbox" id="s_sbr" ${s.scoreEvery === 'round' ? 'checked' : ''}> Show the scoreboard only after the last question of each round, not after every question</label>
+      <div class="help">With BHB Training the host screen never shows the Let's Quiz name, music is off, and the QR code opens the BHB Training app.</div></div>
     <div class="field mt"><label>🃏 Power cards and Bounty</label>
       <div class="row"><label class="check"><input type="checkbox" id="s_power" ${s.power?.on ? 'checked' : ''}> Power cards: everyone is dealt a hand to play from their phone between questions</label><div class="field" style="margin:0;width:110px"><label>Cards each</label><input type="number" id="s_hand" min="1" max="5" value="${s.power?.hand ?? 3}"></div></div>
       <div class="help">💰 Steal 1000 points · 🪞 Copycat someone's answer · 🔥 5× points (played blind) · 🐌 Cut someone's time by 30% · 🥶 Freeze someone out of the next question. One card per break; they act on the next everyone-answers question.</div>
@@ -1910,6 +1934,9 @@ function settingsModal() {
     s.minPoints = LQ.clamp(+$('#s_min', m).value || 0, 0, s.maxPoints);
     s.timeByType = {}; $$('[data-tt]', m).forEach((inp) => { s.timeByType[inp.dataset.tt] = LQ.clamp(+inp.value || LQ.DEFAULT_TIMES[inp.dataset.tt], 5, 180); });
     s.showAnswersOnPhones = $('#s_show', m).checked;
+    if ($('#s_brand', m).value) s.brand = $('#s_brand', m).value; else delete s.brand;
+    if ($('#s_notc', m).checked) s.noTypeCards = true; else delete s.noTypeCards;
+    if ($('#s_sbr', m).checked) s.scoreEvery = 'round'; else delete s.scoreEvery;
     if ($('#s_power', m).checked) s.power = { on: true, hand: LQ.clamp(Math.round(+$('#s_hand', m).value || 3), 1, 5) }; else delete s.power;
     if ($('#s_bounty', m).checked) s.bounty = true; else delete s.bounty;
     const wcode = $('#s_wucode', m).value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12);

@@ -1,0 +1,37 @@
+{
+  "id": "/train.html",
+  "name": "BHB Training",
+  "short_name": "BHB Training",
+  "description": "Black Horse Beamish management training: join the session on your phone.",
+  "start_url": "train.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "lang": "en-GB",
+  "background_color": "#f7f7f7",
+  "theme_color": "#4e5f4f",
+  "categories": [
+    "education",
+    "business"
+  ],
+  "icons": [
+    {
+      "src": "assets/brand/bhb-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/brand/bhb-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/brand/bhb-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

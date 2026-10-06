@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/train.css">
 </head>
 <body class="host">
 <div class="stage" id="stage"><div class="stage-main"><span class="spinner"></span></div></div>
@@ -19,6 +20,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="assets/common.js"></script>
+<script src="assets/train-visuals.js"></script>
 <script src="assets/quizcall.js"></script>
 <script src="assets/facecam.js"></script>
 <script src="assets/quizcam.js"></script>
@@ -413,7 +415,7 @@ function stateForPlayers() {
   // the call phones can join, while this screen is on it (a fresh pass well before the old one runs out)
   if (onCall()) { if (callPassExp - Date.now() < 2 * 3600e3 && !callPassP) callPassP = makeCallPass().then(() => { if (callPass) broadcastState(); }).catch(() => {}).finally(() => { callPassP = null; }); if (callPass) s.call = { room: QuizCall.room, pass: callPass }; }
   const nowT = G.paused ? G.pausedAt : Date.now(); // a paused clock reads the same until it is picked up again
-  if (G.phase === 'slide') { const q = question(); s.slide = { title: q.text || '', body: q.body || '', image: q.media?.kind === 'image' ? q.media.url || '' : '' }; if (G.brk) s.brk = { remainingMs: Math.max(0, G.brk.endsAt - nowT), totalMs: G.brk.totalMs }; }
+  if (G.phase === 'slide') { const q = question(); s.slide = { title: q.text || '', body: q.body || '', image: q.media?.kind === 'image' ? q.media.url || '' : '', ...(q.layout ? { layout: q.layout } : {}), ...(q.kicker ? { kicker: q.kicker } : {}), ...(q.visual ? { visual: q.visual } : {}), ...(q.media?.credit ? { credit: q.media.credit } : {}) }; if (G.brk) s.brk = { remainingMs: Math.max(0, G.brk.endsAt - nowT), totalMs: G.brk.totalMs, what: q.exercise ? 'exercise' : 'break' }; }
   if (G.phase === 'question' && G.q) {
     s.q = G.q.view; s.remainingMs = Math.max(0, (G.q.deadline || 0) - nowT); s.answered = Object.keys(G.q.answers);
     if (G.q.wipe) { const w = G.q.wipe; s.wipe = { turnPid: w.turnPid, turnName: G.players[w.turnPid]?.name || '', remainingMs: Math.max(0, (w.studyUntil || w.turnDeadline) - nowT), studyMs: w.studyUntil ? Math.max(0, w.studyUntil - nowT) : 0, gone: w.gone, out: w.out, over: w.over, last: w.last, scores: w.scores, order: w.order.filter((p) => !w.out.includes(p)) }; }
@@ -458,7 +460,7 @@ function stateForPlayers() {
     for (const p of rk) { const r = G.q.results.byPlayer[p.id]; s.results[p.id] = { party: r?.party || null, note: r?.note || '', practice: !!r?.practice, would: r?.would || 0, correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, skipped: !!r?.skipped, wiped: !!r?.wiped, raced: !!r?.raced, lost: !!r?.lost, place: r?.place || 0, base: r?.base || 0, bonus: r?.bonus || 0, got: r?.got, out: !!r?.out, score: p.score, rank: rk.indexOf(p) + 1, of: rk.length }; }
     // VIEW phones: each its own result, marked as viewing and never ranked (watched: a group game they sat out)
     for (const [vid, v] of Object.entries(G.viewers || {})) { const r = G.q.vResults?.[vid]; s.results[vid] = { note: r?.note || '', practice: !!r?.practice, would: r?.would || 0, correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, skipped: !!r?.skipped, score: v.score, rank: 0, of: rk.length, viewer: true, watched: groupGame() }; }
-    if (G.quiz.settings.showAnswersOnPhones !== false) { s.answer = answerText(question()); if (question()?.type === 'club' && question().why) s.why = question().why; if (question()?.type === 'pin' && question().info) s.why = question().info; }
+    if (G.quiz.settings.showAnswersOnPhones !== false) { s.answer = answerText(question()); if (question()?.why) s.why = question().why; else if (question()?.type === 'pin' && question().info) s.why = question().info; }
   }
   // Drop the Pin in a warm-up: the map, the right spot and everyone's pins, so each phone can see how far off it was
   if (G.warmup && (G.phase === 'reveal' || G.phase === 'scoreboard') && G.q?.results?.stats?.pins && question()?.type === 'pin' && question().media?.url) {
@@ -648,10 +650,16 @@ function primaryAction() {
   if (G.phase === 'question') return endQuestion();
   if (G.phase === 'reveal' && lossList().length && !G.q.lossShown) { G.q.lossShown = true; persist(); render(); broadcastState(); return; } // after the podium: who lost points
   if (G.phase === 'reveal' && PREVIEW) return; // nothing after the answer in a preview: play it again or close
-  if (G.phase === 'reveal') return practiceQ() ? nextFrom(G.qIndex) : showScoreboard(); // scores cannot have moved after practice
+  if (G.phase === 'reveal') return practiceQ() || skipScoreboard() ? nextFrom(G.qIndex) : showScoreboard(); // scores cannot have moved after practice
   if (G.phase === 'scoreboard') return nextFrom(G.qIndex);
 }
 /** On to whatever follows item i, or the final results after the last. */
+/** A quiz can show the scoreboard only after the last question of each part (settings.scoreEvery = 'round'), so a training session keeps moving. */
+function skipScoreboard() {
+  if (G.quiz.settings?.scoreEvery !== 'round') return false;
+  const cur = G.quiz.questions[G.qIndex];
+  return G.quiz.questions.slice(G.qIndex + 1).some((x) => x.round === cur.round && !isSlide(x));
+}
 function nextFrom(i) { return i + 1 < G.quiz.questions.length ? goTo(i + 1) : finish(); }
 /** A slide: up on the screen and the phones until someone moves on. A break slide starts its countdown clock. */
 function showSlide(i) {
@@ -680,7 +688,7 @@ function tickBreak() {
   const rem = breakLeft();
   LQ.setBreakClock('brk', rem, G.brk.totalMs);
   const back = $('#brkBack');
-  if (back) back.textContent = rem > 0 ? `Back at ${new Date(Date.now() + rem).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : 'Back to the quiz!';
+  if (back) back.textContent = rem > 0 ? `${question()?.exercise ? 'Time up at' : 'Back at'} ${new Date(Date.now() + rem).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : question()?.exercise ? "Time's up: back to the room" : BHB() ? 'Back to the session!' : 'Back to the quiz!';
   if (rem <= 0 && !G.brk.done) {
     G.brk.done = true; persist(); broadcastState();
     if (G.auto) { const qi = G.qIndex; setTimeout(() => { if (G.phase === 'slide' && G.qIndex === qi && !G.paused) primaryAction(); }, 4000); }
@@ -701,7 +709,7 @@ function typeRun(i) { const qs = G.quiz.questions, k = (q) => q && (q.kind || q.
 function toTypeCard(i) {
   const qs = G.quiz.questions;
   if (isSlide(qs[i])) return showSlide(i);
-  if (i > 0 && (qs[i - 1]?.kind || qs[i - 1]?.type) === (qs[i]?.kind || qs[i]?.type)) return startCountdown(i);
+  if ((i > 0 && (qs[i - 1]?.kind || qs[i - 1]?.type) === (qs[i]?.kind || qs[i]?.type)) || G.quiz.settings?.noTypeCards) return startCountdown(i);
   clearInterval(tickT); clearInterval(countT);
   G.qIndex = i; G.phase = 'typecard'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString();
   persist(); render(); broadcastState();
@@ -2293,12 +2301,20 @@ async function grade(noAi, ctx) {
 }
 
 // ------------------------------------------------------------------ rendering
-function render() { renderPhase(); if (PREVIEW && G.phase === 'reveal') previewEnd(); mountClip(); scheduleAuto(); syncPause(); if (G.phase !== 'question') musicStop(); partyDecorate(); }
+function render() { applyBrand(); renderPhase(); if (PREVIEW && G.phase === 'reveal') previewEnd(); mountClip(); scheduleAuto(); syncPause(); if (G.phase !== 'question') musicStop(); partyDecorate(); }
 /** The reveal is the end of a preview: its buttons become Play it again and Close. */
 function previewEnd() {
   const p = $('[data-act="primary"]'); if (p) { p.dataset.act = 'again'; p.textContent = '↻ Play it again'; }
   const e = $('[data-act="end"]'); if (e) { e.dataset.act = 'builder'; e.textContent = 'Close preview'; }
 }
+/** A quiz can be set to a brand (BHB Training): the host screen then wears it, and nothing of Let's Quiz shows. */
+function applyBrand() {
+  const b = LQ.setBrand(G?.quiz?.settings?.brand);
+  const t = b.id === 'bhb' ? b.name : "Let's Quiz! — Host";
+  if (document.title !== t) document.title = t;
+  const ic = document.querySelector('link[rel="icon"]'); if (ic) ic.href = b.id === 'bhb' ? 'assets/brand/bhb-64.png' : 'assets/brand/icon-64.png';
+}
+const BHB = () => LQ.brand().id === 'bhb';
 function renderPhase() {
   const ph = G.phase;
   if (ph === 'lobby') return renderLobby();
@@ -2314,20 +2330,27 @@ function renderPhase() {
 }
 function topBar(extra = '') {
   const q = question(), r = roundOf(G.qIndex);
-  const roundPill = G.quiz.rounds.length > 1 && r ? `<span class="hpill">Round ${r.n}${r.title ? ' · ' + esc(r.title) : ''}</span>` : `<span class="hpill">${esc(G.quiz.title)}</span>`;
+  const roundPill = G.quiz.rounds.length > 1 && r ? `<span class="hpill">${LQ.brand().round} ${r.n}${r.title ? ' · ' + esc(r.title) : ''}</span>` : `<span class="hpill">${esc(G.quiz.title)}</span>`;
   return `<div class="stage-top"><div class="pillbox">${roundPill}<span class="hpill">Question ${qNum(G.qIndex)} of ${total()}</span>${practiceQ() ? '<span class="hpill practicepill">🧪 Practice · no points</span>' : ''}<span class="hpill">${TYPES[q.kind || q.type].icon} ${esc(TYPES[q.kind || q.type].label)}</span></div>${extra}</div>`;
 }
 function renderSlide() {
   const q = question(), r = roundOf(G.qIndex), body = LQ.slideHtml(q.body), more = G.qIndex + 1 < G.quiz.questions.length;
-  const pill = G.quiz.rounds.length > 1 && r ? `Round ${r.n}${r.title ? ' · ' + esc(r.title) : ''}` : esc(G.quiz.title);
+  const pill = G.quiz.rounds.length > 1 && r ? `${LQ.brand().round} ${r.n}${r.title ? ' · ' + esc(r.title) : ''}` : esc(G.quiz.title);
+  const sl = { title: q.text || '', body: q.body || '', image: q.media?.kind === 'image' ? q.media.url || '' : '', layout: q.layout, kicker: q.kicker, visual: q.visual, credit: q.media?.credit };
+  const rich = !!(q.layout || q.visual || q.kicker); // a training-style slide: drawn by assets/train-visuals.js
   if (G.brk) {
-    stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${pill}</span><span class="hpill">☕ Break</span></div></div>
+    const ex = !!q.exercise, what = ex ? 'exercise' : 'break';
+    const bar = hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-ghost" data-brk="-1" title="Take a minute off (−)">−1 min</button><button class="btn btn-ghost" data-brk="1" title="Add a minute (+)">+1 min</button><button class="btn btn-ghost" data-brk="5">+5 min</button><button class="btn btn-primary btn-lg" data-act="primary">${!more ? 'Final results 🏆' : ex ? 'End exercise ▶' : 'End break ▶'}</button>`);
+    if (rich) stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${pill}</span><span class="hpill">${ex ? '🎭 Exercise' : '☕ Break'}</span></div></div><div class="stage-main slide brk">${LQ.trainSlideHtml({ ...sl, layout: sl.layout || 'exercise' }, { brk: { prefix: 'brk', what } })}</div>${bar}`;
+    else stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${pill}</span><span class="hpill">☕ Break</span></div></div>
       <div class="stage-main slide brk">${q.text ? `<h1 class="big">${esc(q.text)}</h1>` : ''}${LQ.breakClockHtml('brk')}<div class="brkback" id="brkBack"></div>${body ? `<div class="slidebody">${body}</div>` : ''}</div>
-      ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-ghost" data-brk="-1" title="Take a minute off (−)">−1 min</button><button class="btn btn-ghost" data-brk="1" title="Add a minute (+)">+1 min</button><button class="btn btn-ghost" data-brk="5">+5 min</button><button class="btn btn-primary btn-lg" data-act="primary">${more ? 'End break ▶' : 'Final results 🏆'}</button>`)}`;
+      ${bar}`;
     bind(); $$('[data-brk]').forEach((b) => b.onclick = () => adjustBreak(+b.dataset.brk));
     clearInterval(brkT); tickBreak(); brkT = setInterval(tickBreak, 250);
     return;
   }
+  if (rich) { stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${pill}</span></div></div><div class="stage-main slide rich">${LQ.trainSlideHtml(sl)}</div>
+    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary btn-lg" data-act="primary">${more ? 'Next ▶' : 'Final results 🏆'}</button>`)}`; bind(); return; }
   stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${pill}</span></div></div>
     <div class="stage-main slide">${q.text ? `<h1 class="big">${esc(q.text)}</h1>` : ''}${mediaHtml(q, true)}${body ? `<div class="slidebody">${body}</div>` : ''}</div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary btn-lg" data-act="primary">${more ? 'Next ▶' : 'Final results 🏆'}</button>`)}`;
@@ -2336,7 +2359,7 @@ function renderSlide() {
 function renderRound() {
   const r = roundOf(G.qIndex);
   stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span></div></div>
-    <div class="stage-main"><div style="opacity:.8;font-weight:800;font-size:1.6rem">Round ${r.n} of ${G.quiz.rounds.length}</div><h1 class="big">${esc(r.title) || 'Round ' + r.n}</h1>${r.double ? '<div class="dblbadge">✨ Double points! ✨</div>' : ''}${r.intro ? `<p style="font-size:clamp(1.1rem,2.2vw,1.8rem);font-weight:800;max-width:1000px;text-wrap:balance">${esc(r.intro)}</p>` : ''}<div style="opacity:.75;font-weight:800;font-size:1.3rem">${r.count} question${r.count === 1 ? '' : 's'}</div>${r.practice ? '<div class="practicepill big">🧪 Practice round · no points, just a go at each game</div>' : ''}</div>
+    <div class="stage-main"><div style="opacity:.8;font-weight:800;font-size:1.6rem">${LQ.brand().round} ${r.n} of ${G.quiz.rounds.length}</div><h1 class="big">${esc(r.title) || LQ.brand().round + ' ' + r.n}</h1>${r.double ? '<div class="dblbadge">✨ Double points! ✨</div>' : ''}${r.intro ? `<p style="font-size:clamp(1.1rem,2.2vw,1.8rem);font-weight:800;max-width:1000px;text-wrap:balance">${esc(r.intro)}</p>` : ''}<div style="opacity:.75;font-weight:800;font-size:1.3rem">${r.count} question${r.count === 1 ? '' : 's'}</div>${r.practice ? '<div class="practicepill big">🧪 Practice round · no points, just a go at each game</div>' : ''}</div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary btn-lg" data-act="primary">Start round ▶</button>`)}`;
   bind();
 }
@@ -2358,7 +2381,7 @@ const MUSIC = {
   loop: ['-O3z9xRM5Rc', '6mCLPHv-BOs', '5e6SxEPO9X0', 'cLUJ_NPG9WE', 'uXt3JmbsDik', 'jk0XGWS5uIQ', '7E1YQawqMOo', 'mxf51t72NQY', 'ZLQopVmXMx4', '5GGL1Qc2gWw', '2FgO-oA94D0', 'V1QKMTsf45w', 'VH6jlzgBNmQ', 'RCwWaeWGO9o', 'OG5Cq8B5GaM', 'cDsEhy_01sY'],
 };
 let ytP = null, ytReady = null, musicMode = null, lastTrack = '';
-function musicOn() { try { return localStorage.getItem('lq_music') !== 'off'; } catch { return true; } }
+function musicOn() { if (BHB()) return false; try { return localStorage.getItem('lq_music') !== 'off'; } catch { return true; } }
 function toggleMusic() {
   const on = !musicOn(); try { localStorage.setItem('lq_music', on ? 'on' : 'off'); } catch {}
   if (!on) { musicMode = musicMode || 'off'; musicStop(); } else if (G?.phase === 'question' && !G.paused) musicStart(question());
@@ -2553,12 +2576,14 @@ function bind() {
   $$('[data-kick]').forEach((el) => { el.style.cursor = 'pointer'; el.title = 'Click to remove this player from the game'; el.onclick = () => kickPlayer(el.dataset.kick); });
   paintClock(); // a redrawn screen shows the time left, not the full time
 }
+/** The corner mark of the lobby: Let's Quiz's face, or the Black Horse wordmark with TRAINING beside it. */
+function lobbyLogo() { const b = LQ.brand(); return b.id === 'bhb' ? `<div class="lobbylogo"><img src="${b.logoLight}" alt="Black Horse Beamish"><span>Training</span></div>` : `<div class="lobbylogo"><img src="assets/brand/mark.png" alt="">Let's Quiz!</div>`; }
 function renderLobby() {
   if (G.warmup) return renderWarmLobby();
   const url = playUrl(G.code);
-  stage.innerHTML = `<div class="stage-top"><div class="lobbylogo"><img src="assets/brand/mark.png" alt="">Let's Quiz!</div><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">${total()} questions</span>${G.test ? '<span class="hpill" style="background:#ffd60a;color:#1b1640">🧪 Test game · nothing is saved</span>' : ''}</div></div>
+  stage.innerHTML = `<div class="stage-top">${lobbyLogo()}<div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">${total()} questions</span>${G.test ? '<span class="hpill" style="background:#ffd60a;color:#1b1640">🧪 Test game · nothing is saved</span>' : ''}</div></div>
     <div class="stage-main"><div class="lobby">
-      <div class="center"><div class="qr" id="qr"></div><p class="joinurl mt">Scan, or go to <b>${esc(shortPlayUrl())}</b></p></div>
+      <div class="center"><div class="qr" id="qr"></div><p class="joinurl mt">${BHB() ? 'Scan with your phone camera, or open <b>BHB Training</b> on your phone' : `Scan, or go to <b>${esc(shortPlayUrl())}</b>`}</p></div>
       <div class="center"><div style="opacity:.8;font-weight:800;font-size:1.3rem">and enter the code</div><div class="code">${G.code}</div>
         <div class="players" id="players"></div>
         </div>
@@ -2990,11 +3015,12 @@ function renderReveal() {
   if (q.type === 'unique') { const st = R.stats; body = `<div class="kwin"><div class="kcrown big">☝️</div>${st.winners?.length ? `<h1 class="big">${st.winners.map((w) => `${w.emoji} ${esc(w.name)}`).join(' & ')}</h1><div class="kwinsub">${st.winners.length === 1 ? 'The only one left!' : 'Still standing together'}</div>` : '<h1 class="big">The game was stopped</h1>'}</div><div class="textlist mt">${(st.history || []).map((h, i) => `<span class="tl">${i + 1}. ${esc(h.prompt)}: ${h.allOut ? 'everyone matched, nobody out' : h.out.length ? esc(h.out.map(pname).join(', ')) + ' out' : 'nobody out'}</span>`).join('')}</div>`; }
   if (q.type === 'draw') body = `<div class="drawsum"><div class="ri-kicker">The words</div>${(R.stats.used || []).map((w) => `<span class="tl ok">🎨 ${esc(w)}</span>`).join('') || '<span class="muted">Nothing was drawn.</span>'}</div>`;
   const media = q.type === 'pin' ? '' : (q.media?.kind === 'image' ? mediaHtml(q, false) : '');
+  const why = q.why && q.type !== 'club' ? `<div class="whybox"><b>Why</b>${esc(q.why)}</div>` : ''; // a line that teaches, under the right answer
   if (q.type === 'twenty') body = twentyRevealHtml(q, R.stats);
   const inMain = q.type === 'twenty' || q.type === 'nearest' || q.type === 'draw' || q.type === 'unique' || q.type === 'pin' || q.type === 'wipeout' || q.type === 'race' || q.type === 'wheel' || q.type === 'potato' || q.type === 'koth' || q.type === 'blockbusters' || q.type === 'chase';
   stage.innerHTML = `${topBar(`<span class="hpill">${q.type === 'nearest' ? `🎯 ${(R.stats.guesses || []).length} guesses` : q.type === 'draw' ? `🎨 ${(R.stats.used || []).length} drawings` : q.type === 'chase' ? `🏃 ${esc(R.stats.chaser?.name || '')} was the Chaser` : q.type === 'potato' ? `💣 ${R.stats.passes} passes` : q.type === 'koth' ? `First to ${q.target || 3} on the hill` : q.type === 'blockbusters' ? `${esc(q.teams[0].name)} ${R.stats.counts[0]} · ${esc(q.teams[1].name)} ${R.stats.counts[1]}` : q.type === 'wipeout' ? `${R.stats.right} scored` : q.type === 'race' ? `${(R.stats.standings || []).filter((s) => s.done).length} finished` : q.type === 'twenty' ? `🕵️ ${(R.stats.solved || []).length} of ${n} cracked it` : `${R.stats.right} of ${n} got it right${R.stats.skipped ? ` · ${R.stats.skipped} skipped` : ''}`}</span>`)}
-    <div class="stage-main"><h1 class="qtext"${inMain && q.type !== 'pin' ? ' style="font-size:clamp(1.3rem,2.6vw,2.2rem)"' : ''}>${esc(q.type === 'wheel' ? q.phrase : q.type === 'highlow' || q.type === 'rhyme' || q.type === 'dingbat' ? '' : q.text)}</h1>${inMain ? body : media}</div>
-    ${inMain ? '' : `<div>${body}</div>`}
+    <div class="stage-main"><h1 class="qtext"${(inMain || why) && q.type !== 'pin' ? ' style="font-size:clamp(1.3rem,2.6vw,2.2rem)"' : ''}>${esc(q.type === 'wheel' ? q.phrase : q.type === 'highlow' || q.type === 'rhyme' || q.type === 'dingbat' ? '' : q.text)}</h1>${inMain ? body : media}${inMain ? why : ''}</div>
+    ${inMain ? '' : `<div>${body}</div>${why}`}
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">${practiceQ() ? (G.qIndex + 1 < G.quiz.questions.length ? 'Next ▶' : 'Final results 🏆') : 'Scores ▶'}</button>`)}`;
   if (q.type === 'pin') drawPins();
   bind();

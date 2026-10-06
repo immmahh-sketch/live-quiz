@@ -470,14 +470,20 @@ window.LQ = (() => {
   const SLIDE = { label: 'Slide', icon: '🪧', blurb: 'Not a question: a welcome, the rules, a break or a message, on the screen and the phones. No points.' };
   /** Label and icon for any item in a quiz, slides included. */
   function typeInfo(t, q) { return TYPES[t] || (t === 'slide' ? (q?.break ? BREAK : SLIDE) : { icon: '❓', label: String(t || ''), blurb: '' }); }
-  /** A slide's text as HTML: lines starting "-", "•" or "1." become a list, the rest paragraphs. */
+  /** A slide's text as HTML. Lines starting "-", "•" or "1." become a list; "✔" and "✘" make a tick or cross list;
+   *  "## " is a small heading and "> " a boxed callout; **bold** works anywhere; the rest are paragraphs. */
   function slideHtml(body) {
-    let html = '', list = [];
-    const flush = () => { if (list.length) { html += `<ul>${list.map((l) => `<li>${esc(l)}</li>`).join('')}</ul>`; list = []; } };
+    let html = '', list = [], kind = '';
+    const inline = (t) => esc(t).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+    const flush = () => { if (list.length) { html += `<ul${kind ? ` class="${kind}"` : ''}>${list.map((l) => `<li>${inline(l)}</li>`).join('')}</ul>`; list = []; kind = ''; } };
     for (const raw of String(body || '').split(/\r?\n/)) {
       const l = raw.trim(); if (!l) { flush(); continue; }
-      const m = l.match(/^(?:[-•*]|\d+[.)])\s+(.*)$/);
-      if (m) list.push(m[1]); else { flush(); html += `<p>${esc(l)}</p>`; }
+      const m = l.match(/^(?:([✔✘])|[-•*]|\d+[.)])\s+(.*)$/);
+      if (m) { const k = m[1] === '✔' ? 'tick' : m[1] === '✘' ? 'cross' : ''; if (list.length && k !== kind) flush(); kind = k; list.push(m[2]); continue; }
+      flush();
+      if (/^##\s+/.test(l)) html += `<h3>${inline(l.replace(/^##\s+/, ''))}</h3>`;
+      else if (/^>\s?/.test(l)) html += `<div class="callout">${inline(l.replace(/^>\s?/, ''))}</div>`;
+      else html += `<p>${inline(l)}</p>`;
     }
     flush(); return html;
   }
@@ -487,8 +493,8 @@ window.LQ = (() => {
   /** 9:05, or 1:02:05 for an hour or more. */
   function clockText(ms) { const t = Math.max(0, Math.ceil(ms / 1000)), h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), s = t % 60; return h ? `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}` : `${m}:${String(s).padStart(2, '0')}`; }
   /** The countdown ring: minute ticks round the edge, an arc that drains, the time in the middle. Ids get a prefix so screen and phone can differ. */
-  function breakClockHtml(p = 'brk') {
-    return `<div class="brkclock" id="${p}Clock"><svg viewBox="0 0 200 200" aria-hidden="true"><circle class="ticks" cx="100" cy="100" r="95" pathLength="120"/><circle class="trk" cx="100" cy="100" r="82"/><circle class="arc" id="${p}Arc" cx="100" cy="100" r="82" pathLength="1000" transform="rotate(-90 100 100)"/></svg><div class="brktime"><span id="${p}Time">0:00</span><small id="${p}Note">left of the break</small></div></div>`;
+  function breakClockHtml(p = 'brk', what = 'break') {
+    return `<div class="brkclock" id="${p}Clock" data-what="${esc(what)}"><svg viewBox="0 0 200 200" aria-hidden="true"><circle class="ticks" cx="100" cy="100" r="95" pathLength="120"/><circle class="trk" cx="100" cy="100" r="82"/><circle class="arc" id="${p}Arc" cx="100" cy="100" r="82" pathLength="1000" transform="rotate(-90 100 100)"/></svg><div class="brktime"><span id="${p}Time">0:00</span><small id="${p}Note">left of the break</small></div></div>`;
   }
   /** Moves a clock drawn by breakClockHtml on to `rem` of `total` ms. */
   function setBreakClock(p, rem, total) {
@@ -496,7 +502,7 @@ window.LQ = (() => {
     const f = total > 0 ? clamp(rem / total, 0, 1) : 0;
     document.getElementById(p + 'Arc').style.strokeDashoffset = String(1000 * (1 - f));
     document.getElementById(p + 'Time').textContent = rem > 0 ? clockText(rem) : '0:00';
-    document.getElementById(p + 'Note').textContent = rem > 0 ? 'left of the break' : "time's up!";
+    document.getElementById(p + 'Note').textContent = rem > 0 ? 'left of the ' + (c.dataset.what || 'break') : "time's up!";
     c.classList.toggle('warn', rem > 0 && rem <= 120000); c.classList.toggle('end', rem > 0 && rem <= 30000); c.classList.toggle('over', rem <= 0);
   }
   // ---- Wheel of Fortune board: the show's four rows of 12/14/14/12 tiles ----
@@ -599,6 +605,34 @@ window.LQ = (() => {
     { name: 'yellow', hex: '#d89e00', shape: '●' },
     { name: 'green',  hex: '#26890c', shape: '■' },
   ];
+  // ---------------------------------------------------------------- brands
+  // The same engine runs more than one product. 'bhb' is BHB Training (Black Horse Beamish's management training): its
+  // own name, colours, logo, join address and phone app, with nothing of Let's Quiz showing on the screen or the phones.
+  // A quiz picks its brand in settings.brand; the phone app picks its own with <html data-brand="bhb"> (train.html).
+  const BRANDS = {
+    lq: { id: 'lq', name: "Let's Quiz!", join: 'play', round: 'Round', logo: 'assets/brand/mark.png', colors: COLORS.map((c) => c.hex) },
+    bhb: { id: 'bhb', name: 'BHB Training', join: 'train', round: 'Part', logo: 'assets/brand/bhb-logo-dark.png', logoLight: 'assets/brand/bhb-logo-light.png',
+      colors: ['#9b4a3c', '#2f5d6b', '#9a7a38', '#4e5f4f'], // clay, slate, gold, sage: white text reads on all four
+      fonts: 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Raleway:wght@500;600;700;800&display=swap',
+      types: { survey: { label: 'Room poll', icon: '🗣️' } } }, // no other show's name on a training screen
+  };
+  const TYPES0 = {};
+  let brandId = 'lq';
+  const brand = () => BRANDS[brandId];
+  /** Switches brand: the page's data-brand (the stylesheet re-colours from it), the answer colours, and the fonts it needs. */
+  function setBrand(id) {
+    brandId = BRANDS[id] ? id : 'lq';
+    const b = BRANDS[brandId];
+    try {
+      document.documentElement.dataset.brand = brandId;
+      if (b.fonts && !document.getElementById('brandfonts')) { const l = document.createElement('link'); l.id = 'brandfonts'; l.rel = 'stylesheet'; l.href = b.fonts; document.head.appendChild(l); }
+    } catch {}
+    COLORS.forEach((c, i) => { c.hex = b.colors[i]; });
+    for (const k of Object.keys(TYPES0)) Object.assign(TYPES[k], TYPES0[k]); // put back what a previous brand changed
+    for (const [k, o] of Object.entries(b.types || {})) if (TYPES[k]) { TYPES0[k] = TYPES0[k] || { label: TYPES[k].label, icon: TYPES[k].icon }; Object.assign(TYPES[k], o); }
+    return b;
+  }
+  try { setBrand(document.documentElement.dataset.brand || 'lq'); } catch {}
   const DEFAULT_TIMES = { nearest: 25, draw: 60, catchphrase: 50, reveal: 40, survey: 30, unique: 25, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30, potato: 90, koth: 15, blockbusters: 20, chase: 15, twenty: 180, cards: 12, task: 120, about: 45, whosaid: 20 };
   const DEFAULT_SETTINGS = { maxPoints: 1000, minPoints: 500, defaultTime: 30, showAnswersOnPhones: true, timeByType: { ...DEFAULT_TIMES } };
 
@@ -942,11 +976,11 @@ window.LQ = (() => {
   const CODE_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   function newCode() { let c = ''; for (let i = 0; i < 6; i++) c += CODE_CHARS[Math.floor(Math.random() * CODE_CHARS.length)]; return c; }
   function playUrl(code) {
-    const u = new URL('play.html', location.href);
+    const u = new URL(brand().join + '.html', location.href);
     u.search = '?g=' + encodeURIComponent(code);
     return u.toString();
   }
-  function shortPlayUrl() { return new URL('play', location.href).toString().replace(/^https?:\/\//, ''); }
+  function shortPlayUrl() { return new URL(brand().join, location.href).toString().replace(/^https?:\/\//, ''); }
 
   // ---------------------------------------------------------------- images
   /** Shrinks a picked image file in the browser before upload. Returns {data (base64), contentType}. */
@@ -1096,6 +1130,6 @@ window.LQ = (() => {
   function ordinal(n) { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
   return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
-    TYPES, BANK_GAMES, NEW_GAME_DEFAULTS, cardNum, cardsOf, TWENTY_KINDS, TWENTY_QS, twentyQ, twentyBranch, twentyYes, twentyOpen, parseNum, nearestSpread, fmtNum, DRAW_WORDS, drawWords, drawHint, goodRows, BB_COLS, BB_ROWS, bbNeighbours, bbPath, bbBoardHtml, inkOn, SLIDE, BREAK, isPractice, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, pickContext, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
+    BRANDS, brand, setBrand, TYPES, BANK_GAMES, NEW_GAME_DEFAULTS, cardNum, cardsOf, TWENTY_KINDS, TWENTY_QS, twentyQ, twentyBranch, twentyYes, twentyOpen, parseNum, nearestSpread, fmtNum, DRAW_WORDS, drawWords, drawHint, goodRows, BB_COLS, BB_ROWS, bbNeighbours, bbPath, bbBoardHtml, inkOn, SLIDE, BREAK, isPractice, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, pickContext, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
     newCode, playUrl, shortPlayUrl, bbTeams, BB_TEAM_PAIRS, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml, addUsage, usageCost, usageSummary, AI_PRICES, TUNE_ASKS, tunePrompt, bigArt, cleanTitle };
 })();
