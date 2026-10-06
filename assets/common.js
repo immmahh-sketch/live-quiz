@@ -85,7 +85,7 @@ window.LQ = (() => {
     draw:   { label: 'Draw It',         icon: '🎨', blurb: 'One player draws a secret word on their phone and it appears live on the screen. Everyone else races to guess it. Quick guessers score, and so does the artist.' },
     twenty: { label: '20 Questions',    icon: '🕵️', blurb: 'Everyone has the same mystery person or thing to find. Players tap yes/no questions on their phones and guess whenever they like. The first three to crack it score; running out of questions or time costs points.' },
     cards:  { label: 'Play Your Cards Right', icon: '🃏', blurb: 'A row of cards, each hiding a number (a price, a year, a height). The first is face up; for every next card the room calls Higher or Lower on their phones. Right and you stay in; wrong and you are out. Reach the end for the bonus.' },
-    task:   { label: 'Taskmaster',      icon: '📸', blurb: 'A silly photo task ("the creepiest thing in your house"). Players snap it on their phones, the pictures pop up on the screen, and the host picks the best three (points) and the worst (loses points).' },
+    task:   { label: 'Taskmaster',      icon: '📞', blurb: 'Silly tasks done on camera. The wheel spins to pick three players, an envelope opens with the task ("bring me six AA batteries"), and 90 seconds later the host picks 1st, 2nd and 3rd; not trying costs points. Or everyone at once, or a photo from every phone (the warm-up).' },
     about:  { label: 'About You',       icon: '🙋', blurb: 'For the warm-up: players answer a question about themselves. Their answers come back on quiz night in Who Said That?' },
     whosaid:{ label: 'Who Said That?',  icon: '🗣️', blurb: 'An answer someone gave in the warm-up goes up on the screen. Whose was it? Everyone picks the player on their phone (except the one who said it).' },
   };
@@ -573,7 +573,7 @@ window.LQ = (() => {
     twenty: 'Everyone has the same mystery person or thing. Tap a question and your phone says yes or no; new questions open up as you go. Guess whenever you like in the box, but a wrong guess uses up a question. You have 20 questions and a three-minute clock. First to crack it scores most, then second and third; still stuck at the end and it costs you.',
     draw: 'When it is your turn, pick a word and draw it on your phone: no letters or numbers! Everyone else types guesses as fast as they can. Quick guessers score most, and the artist scores for every right guess.',
     cards: 'Play Your Cards Right! The first card is face up. Is the next one higher or lower? Call it on your phone before the clock runs out. Right and you stay in for the next card; wrong and you are out. Get to the end of the row for the bonus.',
-    task: 'A Taskmaster task! Take a photo on your phone and send it in before the time runs out. The Taskmaster picks the best three for points, and the worst one loses points. Be quick, be creative, be ridiculous.',
+    task: 'A Taskmaster task! The wheel picks who does it (or it is everyone at once, or a photo on your phone). Do it on camera before the time runs out. The Taskmaster picks the winners, and not even trying costs you. Be quick, be creative, be ridiculous.',
     about: 'A question about YOU. Answer honestly (or at least entertainingly): your answer might turn up on quiz night, and everyone will have to guess it was you.',
     whosaid: 'Someone in this room said this in the warm-up. Who was it? Pick them on your phone. If it was you, keep a straight face!',
   };
@@ -661,7 +661,9 @@ window.LQ = (() => {
   function newQuestion(type = 'choice', settings = DEFAULT_SETTINGS) {
     if (type === 'slide') return { id: uid('q'), type: 'slide', text: '', body: '', time: 20, media: { kind: 'none' } };
     if (type === 'cards') return { id: uid('q'), type: 'cards', text: 'Play Your Cards Right: ', time: timeFor('cards', settings), media: { kind: 'none' }, partial: false, cards: Array.from({ length: 5 }, () => ({ label: '', value: '', n: null })), perCard: 200, prize: 500 };
-    if (type === 'task') return { id: uid('q'), type: 'task', text: 'Taskmaster: take a picture of ', time: timeFor('task', settings), media: { kind: 'none' }, partial: false, prizes: [1000, 600, 300], worst: 300 };
+    // Taskmaster: 'spin' (the wheel picks who does each task, on camera), 'all' (everyone at once, on camera) or 'photo'
+    // (a photo from every phone; a warm-up's task is always a photo)
+    if (type === 'task') return { id: uid('q'), type: 'task', mode: 'spin', text: 'Taskmaster', tasks: [], time: 90, media: { kind: 'none' }, partial: false, prizes: [1000, 200, 0], fail: 1000, worst: 300 };
     if (type === 'about') return { id: uid('q'), type: 'about', text: 'Tell us: ', time: timeFor('about', settings), media: { kind: 'none' }, partial: false, points: 200 };
     if (type === 'whosaid') return { id: uid('q'), type: 'whosaid', text: 'Who said that?', time: timeFor('whosaid', settings), media: { kind: 'none' }, partial: false };
     if (type === 'unique') return { id: uid('q'), type: 'unique', text: 'Only One', prompts: [{ p: 'Name a sign of the zodiac', a: ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'] }, { p: 'Name a planet or dwarf planet in our Solar System', a: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'Ceres', 'Eris', 'Haumea', 'Makemake'] }, { p: 'Name a London Underground line', a: ['Bakerloo', 'Central', 'Circle', 'District', 'Hammersmith & City/Hammersmith and City', 'Jubilee', 'Metropolitan', 'Northern', 'Piccadilly', 'Victoria', 'Waterloo & City/Waterloo and City', 'Elizabeth'] }], perRound: 100, prize: 1000, time: timeFor('unique', settings), media: { kind: 'none' }, partial: false };
@@ -737,6 +739,7 @@ window.LQ = (() => {
   function validate(q) {
     const problems = [];
     if (q.type === 'unique' && (q.prompts || []).filter((p) => String(p).trim()).length < 3) problems.push('Needs at least three prompts.');
+    if (q.type === 'task' && q.mode === 'spin' && !(q.tasks || []).some((t) => String(t).trim())) problems.push('Add at least one task (one per line).');
     if (q.type === 'cards') {
       const cs = cardsOf(q);
       if (cs.length < 3) problems.push('Needs at least three cards, each with a label and a number.');

@@ -8,6 +8,7 @@
 <link rel="icon" type="image/png" sizes="64x64" href="assets/brand/icon-64.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body class="host">
@@ -24,6 +25,7 @@
 <script src="assets/dpad.js"></script>
 <script src="assets/demo-quiz.js"></script>
 <script src="assets/party.js"></script>
+<script src="assets/taskmaster.js"></script>
 <script>
 const { $, $$, esc, uid, api, TYPES, COLORS, speedPoints, textMatch, similarity, shuffle, newCode, playUrl, shortPlayUrl, store, unstore, ordinal } = LQ;
 const DEMO = new URLSearchParams(location.search).get('quiz') === 'demo';
@@ -524,7 +526,7 @@ function addViewer(pid, name, emoji) {
   if (!G.viewers[pid]) { G.viewers[pid] = { id: pid, name, emoji: LQ.EMOJIS.includes(emoji) ? emoji : '', score: 0 }; persist(); }
   clearTimeout(helloT); helloT = setTimeout(broadcastState, 150);
 }
-const groupGame = () => !!(G.q && (G.q.wipe || G.q.race || G.q.tq || G.q.potato || G.q.koth || G.q.bb || G.q.chase || G.q.draw || G.q.uq || G.q.pc || G.q.task));
+const groupGame = () => !!(G.q && (G.q.wipe || G.q.race || G.q.tq || G.q.potato || G.q.koth || G.q.bb || G.q.chase || G.q.draw || G.q.uq || G.q.pc || G.q.task || G.q.tm));
 function viewerAnswer(pid, qId, answer) {
   if (groupGame()) return; // watched, not played
   G.q.vAnswers = G.q.vAnswers || {};
@@ -578,6 +580,7 @@ function onAnswer({ pid, qId, answer, low }) {
   if (G.q.uq) return uqAnswer(pid, answer);
   if (G.q.pc) return pcAnswer(pid, answer);
   if (G.q.task) return taskAnswer(pid, answer);
+  if (G.q.tm) return; // Taskmaster on camera: nothing to send from the phones
   if (partyBlocks(pid)) return; // frozen, copying, out of (cut) time, or their own Who Said That
   if (G.q.answers[pid]) return;
   if (low) onHint({ pid, qId });
@@ -1084,7 +1087,7 @@ const pname = (pid) => G.players[pid]?.name || 'Player', pem = (pid) => G.player
  *  camera (assets/quizcam.js fills it in and sizes it up); otherwise their emoji, as before. */
 const face = (pid, emoji) => `<span class="pface" data-pcam="${esc(pid || '')}"><span class="pface-em">${emoji || pem(pid)}</span></span>`;
 function livePids() { const live = Object.keys(G.players).filter((pid) => present.has(pid)); return live.length ? live : Object.keys(G.players); }
-const gameKind = () => G.q?.pc ? 'pc' : G.q?.task ? 'task' : G.q?.potato ? 'potato' : G.q?.koth ? 'koth' : G.q?.bb ? 'bb' : G.q?.chase ? 'chase' : G.q?.draw ? 'draw' : G.q?.uq ? 'uq' : '';
+const gameKind = () => G.q?.tm ? 'tm' : G.q?.pc ? 'pc' : G.q?.task ? 'task' : G.q?.potato ? 'potato' : G.q?.koth ? 'koth' : G.q?.bb ? 'bb' : G.q?.chase ? 'chase' : G.q?.draw ? 'draw' : G.q?.uq ? 'uq' : '';
 /** The question's bank as playable rows, shuffled once: the right answer, and option tokens for the phones (right answer's token maps to R:). */
 function gameRows(q, tok) {
   return shuffle(LQ.goodRows(q)).map((b) => ({ id: b.id, text: b.text, right: b.options[0].trim(), options: shuffle(b.options.map((o, oi) => ({ o: o.trim(), oi })).filter((x) => x.o)).map((x, i) => ({ k: tok((x.oi === 0 ? 'R:' : 'W:') + b.id), text: x.o, c: i })) }));
@@ -1095,7 +1098,8 @@ const isRight = (row, k) => !!row && G.q.keys[k] === 'R:' + row.id;
 /** Moves every game deadline on by d ms (after a pause). */
 function shiftGame(d) {
   const p = G.q?.potato; if (p) for (const b of p.bombs) { b.fuseEnd += d; b.startedAt += d; if (b.passBy) b.passBy += d; }
-  for (const g of [G.q?.koth, G.q?.bb, G.q?.chase, G.q?.draw, G.q?.uq, G.q?.pc, G.q?.task]) if (g?.until) g.until += d;
+  for (const g of [G.q?.koth, G.q?.bb, G.q?.chase, G.q?.draw, G.q?.uq, G.q?.pc, G.q?.task, G.q?.tm]) if (g?.until) g.until += d;
+  if (G.q?.tm?.openAt) G.q.tm.openAt += d; if (G.q?.tm?.spin) G.q.tm.spin.at += d;
 }
 function stepTo(g, step, ms) { g.step = step; g.until = ms ? Date.now() + ms : 0; g.total = ms || 0; }
 let gameTickAt = 0;
@@ -1106,7 +1110,8 @@ function gameTick() {
   paintClock();
   if (k === 'potato') return potatoTick(now);
   if (k === 'draw') drawTick(now);
-  if (g.until && now >= g.until) { g.until = 0; if (k === 'koth') kothStepDone(); else if (k === 'chase') chaseStepDone(); else if (k === 'draw') drawStepDone(); else if (k === 'uq') uqStepDone(); else if (k === 'pc') pcStepDone(); else if (k === 'task') taskStepDone(); else bbStepDone(); }
+  if (k === 'tm') tmTick(now);
+  if (g.until && now >= g.until) { g.until = 0; if (k === 'koth') kothStepDone(); else if (k === 'chase') chaseStepDone(); else if (k === 'draw') drawStepDone(); else if (k === 'uq') uqStepDone(); else if (k === 'pc') pcStepDone(); else if (k === 'tm') tmStepDone(); else if (k === 'task') taskStepDone(); else bbStepDone(); }
   else if (k === 'koth' && g.step === 'answer') { const c = $('#kothCount'); if (c) c.textContent = Math.max(0, Math.ceil((g.until - now) / 1000)); }
 }
 function gameStop() { ask('Stop this game now?', 'Points scored so far are kept; nobody gets the winner\'s bonus unless they have already won.', 'Stop the game', 'Keep playing').then((ok) => { if (ok && G.phase === 'question') endQuestion(); }); }

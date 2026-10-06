@@ -130,6 +130,7 @@ function partyState(s) {
     s.pc = { step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, i: g.i, cards: g.cards.map((c, i) => i <= g.i ? c : { label: c.label }), alive: g.alive, called: Object.keys(g.calls),
       last: g.step === 'flip' ? { up: g.last.up, right: g.last.right, wrong: g.last.wrong } : null, winners: g.winners || [], perCard: q.perCard ?? 200, prize: q.prize ?? 500, pts: g.pts, banter: g.banter };
   }
+  tmState(s); // Taskmaster on camera
   if (G.phase === 'question' && G.q?.task) {
     const g = G.q.task;
     s.task = { step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, code: G.code, key: question().id, got: Object.keys(g.photos), picks: g.step === 'show' ? g.picks : null };
@@ -229,6 +230,7 @@ function pcRender() {
 // ---------------------------------------------------------------- Taskmaster
 let taskPollT = null;
 function taskStart() {
+  if (tmMode(question())) return tmStart(); // on camera: the wheel picks who does it (assets/taskmaster.js)
   G.q.task = { step: 'snap', until: 0, total: 0, photos: {}, picks: {}, sent: {} };
   stepTo(G.q.task, 'snap', LQ.clamp(+question().time || 120, 20, 600) * 1000); sound('go');
   persist(); taskRender(); broadcastState(); taskPoll(); taskBots();
@@ -332,6 +334,8 @@ function partyView(q, v, tok) {
 }
 function partyIntroSub(q) {
   if (q.type === 'cards') return `${LQ.cardsOf(q).length} cards · call higher or lower on your phone · ${q.perCard ?? 200} for each right call · one wrong call and you're out · reach the end for ${q.prize ?? 500} more`;
+  if (tmMode(q) && q.mode === 'all') { const p = tmPrizes(q); return `Everybody does it, all at once, on camera · ${q.time || 90} seconds · best three win ${p.join(', ')}`; }
+  if (tmMode(q)) { const p = tmPrizes(q); return `The wheel picks who does each task · bring it to the camera · ${q.time || 90} seconds · 1st ${p[0]}, 2nd ${p[1]}, 3rd ${p[2]} · don't even try: −${tmFail(q)}`; }
   if (q.type === 'task') { const p = q.prizes || [1000, 600, 300]; return `Take the photo on your phone and send it in · best three win ${p.join(', ')} · the worst loses ${q.worst ?? 300}`; }
   return '';
 }
@@ -340,6 +344,7 @@ function partyIntroSub(q) {
 function partyRenderQuestion() {
   const q = question();
   if (q.type === 'cards') { if (G.q.pc) pcRender(); return true; }
+  if (q.type === 'task' && G.q.tm) { tmRender(); return true; }
   if (q.type === 'task' && G.q.task) { taskRender(); return true; }
   if (q.type === 'whosaid') {
     const v = G.q.view;
@@ -368,7 +373,8 @@ function partyReveal() {
       <div class="textlist mt">${Object.entries(g.pts).sort((a, b) => b[1] - a[1]).map(([pid, v]) => `<span class="tl ok">${pem(pid)} ${esc(pname(pid))} +${v}</span>`).join('')}</div>`;
     pill = `🃏 ${g.winners.length} made it`;
   }
-  if (q.type === 'task') {
+  if (q.type === 'task' && G.q.tm) { body = tmRevealHtml(q); pill = `📞 ${G.q.tm.done.length} task${G.q.tm.done.length === 1 ? '' : 's'}`; }
+  else if (q.type === 'task') {
     const g = G.q.task || { photos: {}, picks: {} }, at = (v) => Object.keys(g.picks).find((p) => g.picks[p] === v);
     const slot = (v) => { const pid = at(v); return pid ? `<div class="taskpod p${v}"><div class="tpmedal big">${TASK_MEDAL[v]}</div><img src="${esc(g.photos[pid]?.url || '')}" alt=""><div class="tpname">${pem(pid)} ${esc(pname(pid))} · ${taskPrize(q, v) > 0 ? '+' : ''}${taskPrize(q, v)}</div></div>` : ''; };
     body = WARMUP ? '<div class="item" style="justify-content:center">📸 Photos in! The Taskmaster judges them before quiz night.</div>' : `<div class="taskpodium">${slot('2')}${slot('1')}${slot('3')}${slot('w')}</div>`;
@@ -403,7 +409,8 @@ function partyGrade(q, byPlayer, PL, stats, entries, res, keys) {
     }
     stats.answered = Object.keys(byPlayer).length;
   }
-  if (q.type === 'task' && !WARMUP) {
+  if (q.type === 'task' && G.q.tm) tmGrade(q, byPlayer, PL, stats);
+  else if (q.type === 'task' && !WARMUP) {
     const g = G.q.task || { photos: {}, picks: {} };
     for (const pid of new Set([...livePids(), ...Object.keys(g.photos)])) {
       if (!PL[pid]) continue;
@@ -429,6 +436,7 @@ function partyGrade(q, byPlayer, PL, stats, entries, res, keys) {
 }
 function partyAnswerText(q) {
   if (q.type === 'cards') { const w = G.q?.pc?.winners || []; return w.length ? `🏆 ${w.map(pname).join(', ')} made it to the end` : 'Nobody made it to the end'; }
+  if (q.type === 'task' && G.q?.tm) { const w = Object.entries(G.q.tm.pts).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]).map(([p]) => pname(p)); return w.length ? `📞 Top of the tasks: ${w.slice(0, 3).join(', ')}` : ''; }
   if (q.type === 'task') { const g = G.q?.task, w = g ? Object.keys(g.picks).find((p) => g.picks[p] === '1') : null; return WARMUP ? '' : w ? `🥇 ${pname(w)}'s photo won` : ''; }
   if (q.type === 'whosaid') return G.q?.ws ? `It was ${pname(G.q.ws.author)}` : '';
   if (q.type === 'about') return '';
@@ -436,6 +444,7 @@ function partyAnswerText(q) {
 }
 function partyAnswerDisplay(q, pid) {
   if (q.type === 'cards') { const g = G.q.pc; return !g ? '—' : g.winners.includes(pid) ? 'made it to the end 🏆' : g.outAt[pid] ? `out on card ${g.outAt[pid] + 1}` : '—'; }
+  if (q.type === 'task' && G.q.tm) { const d = G.q.tm.done.filter((x) => x.picks.includes(pid)); return d.length ? d.map((x) => `${x.places[pid] ? TM_PLACES[x.places[pid]] : '·'} ${x.got[pid] > 0 ? '+' : ''}${x.got[pid]}`).join(', ') : 'not picked'; }
   if (q.type === 'task') { const g = G.q.task; if (WARMUP) return G.q.answers[pid] ? '📸 photo sent' : '—'; return !g ? '—' : g.picks[pid] ? `${TASK_MEDAL[g.picks[pid]]} photo` : g.photos[pid] ? '📸 photo sent' : '—'; }
   if (q.type === 'whosaid') { const a = G.q.answers[pid]; if (pid === G.q.author) return 'it was theirs'; if (!a) return '—'; if (a.answer === 'skip') return 'skipped'; const id = G.q.keys[a.answer]; return id ? pname(id.slice(2)) : '—'; }
   return null;

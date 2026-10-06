@@ -81,6 +81,7 @@ function partyDeadline(s) { if (s.phase === 'question' && s.q && s.power?.fx?.sl
 // ---------------------------------------------------------------- the games: Play Your Cards Right, the quiz-night task
 function partyGameKey(s) {
   if (s.pc) { const g = s.pc; return ['pc', g.step, g.i, g.alive.includes(P.pid), g.called.includes(P.pid)].join('|'); }
+  if (s.tm) { const g = s.tm; return ['tm', g.step, g.round, g.picks.join(), g.spinning ? 's' : '', g.totalMs ? 'c' : ''].join('|'); }
   if (s.task) { const g = s.task; return ['task', g.step, g.got.includes(P.pid), P.work.taskBusy || '', P.work.taskPrev ? 'p' : '', P.work.taskErr || ''].join('|'); }
   return '';
 }
@@ -113,6 +114,22 @@ function taskPhoneHtml(s) {
   if (g.step === 'snap') return g.got.includes(me) && !P.work.taskPrev ? `<div class="state"><div class="em">✅</div><h2>Photo in!</h2><p class="muted">It's on its way to the Taskmaster. Changed your mind? You can send another until the time's up.</p><label class="btn btn-ghost btn-block mt">↺ Send a different one<input type="file" accept="image/*" capture="environment" hidden data-tfile></label></div>` : taskCapHtml(s.q.text);
   if (g.step === 'show') { const v = g.picks?.[me], m = { 1: '🥇', 2: '🥈', 3: '🥉', w: '💩' }[v]; return `<div class="state"><div class="em">${m || '📸'}</div><h2>${v === 'w' ? 'The worst photo… yours!' : v ? `The Taskmaster put yours ${v === '1' ? 'FIRST' : v === '2' ? 'second' : 'third'}!` : g.got.includes(me) ? 'Not in the top three this time' : 'No photo from you this time'}</h2></div>`; }
   return `<div class="state"><div class="em">⚖️</div><h2>The Taskmaster is judging…</h2><p class="muted">${g.got.length} photo${g.got.length === 1 ? '' : 's'} in. Watch the screen!</p></div>`;
+}
+/** Taskmaster on camera: the wheel picks who does it; whoever's picked gets the task on their phone too. */
+function tmPhoneHtml(s) {
+  const g = s.tm, me = P.pid, mine = g.all || g.picks.includes(me), who = g.picks.map((p) => esc(nm(s, p))).join(', ');
+  app.className = 'app';
+  const tot = g.pts?.[me] || 0, foot = tot ? `<p class="center small muted mt">Taskmaster points so far: ${tot > 0 ? '+' : ''}${tot}</p>` : '';
+  if (g.step === 'spin' || g.step === 'ready') {
+    if (g.picks.includes(me)) { if (navigator.vibrate) try { navigator.vibrate([100, 50, 100]); } catch {} return `<div class="state"><div class="em">🎯</div><h2>You've been picked!</h2><p class="muted">Get near your camera. The task is coming…</p>${g.picks.length > 1 ? `<p class="small muted">With: ${g.picks.filter((p) => p !== me).map((p) => esc(nm(s, p))).join(', ')}</p>` : ''}</div>${foot}`; }
+    return `<div class="state"><div class="em">🎡</div><h2>${g.spinning ? 'The wheel is spinning…' : 'Picked!'}</h2><p class="muted">${g.picks.length ? `So far: <b>${who}</b>` : 'Who will it be?'}</p><p class="small muted">Task ${g.round} of ${g.count}</p></div>${foot}`;
+  }
+  if (g.step === 'envelope') return mine
+    ? `<div class="tmphone"><div class="tmphone-k">✉️ YOUR TASK</div><div class="tmphone-t">${esc(g.task)}</div><div class="tmphone-f">Do it on camera! Your time started when you opened this task.</div></div>${foot}`
+    : `<div class="state"><div class="em">📺</div><h2>Watch the screen!</h2><p class="muted"><b>${who}</b> ${g.picks.length === 1 ? 'is' : 'are'} on a task:</p><p style="font-weight:800">${esc(g.task)}</p></div>${foot}`;
+  if (g.step === 'judge') return `<div class="state"><div class="em">⚖️</div><h2>The Taskmaster is deciding…</h2><p class="muted">${esc(g.task)}</p></div>${foot}`;
+  if (g.step === 'show') { const got = g.got?.[me]; return `<div class="state"><div class="em">${got > 0 ? '🏆' : got < 0 ? '❌' : mine ? '😬' : '📞'}</div><h2>${got === undefined ? 'Results are on the screen' : got > 0 ? `+${got}!` : got < 0 ? `${got}: you didn't even try!` : 'No points this time'}</h2></div>${foot}`; }
+  return `<div class="state"><div class="em">📞</div><h2>Taskmaster</h2></div>${foot}`;
 }
 /** A photo, shrunk to at most 1280 px and under about 1 MB, as a JPEG data URL (the server takes JPEGs only). */
 async function partyShrink(file) {
