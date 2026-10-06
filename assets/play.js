@@ -190,6 +190,7 @@ function render() {
   else if (s.phase === 'round') app.innerHTML = top + top2 + `<div class="state"><div class="em">🎯</div><p class="muted" style="margin:0">${BRAND.round} ${s.round?.n || ''}</p><h2>${esc(s.round?.title || '')}</h2>${s.round?.intro ? `<p style="font-weight:700">${esc(s.round.intro)}</p>` : ''}<p class="muted">${s.round?.count || ''} question${s.round?.count === 1 ? '' : 's'} coming up</p>${s.round?.practice ? '<div class="practicebar">🧪 Practice round · no points</div>' : ''}${ctrl('next', 'Start round ▶')}</div>`;
   else if (s.phase === 'slide' && s.brk && (s.slide?.layout || s.slide?.visual || s.slide?.kicker)) { app.innerHTML = top + top2 + `<div class="state slide brk">${LQ.trainSlideHtml({ ...s.slide, layout: s.slide.layout || 'exercise' }, { brk: { prefix: 'pbrk', what: s.brk.what || 'exercise' } })}</div>`; tickBreak(); timerT = setInterval(tickBreak, 250); }
   else if (s.phase === 'slide' && s.brk) { app.innerHTML = top + top2 + `<div class="state slide brk">${s.slide?.title ? `<h2>${esc(s.slide.title)}</h2>` : ''}${LQ.breakClockHtml('pbrk', s.brk.what)}${s.slide?.body ? `<div class="slidebody">${LQ.slideHtml(s.slide.body)}</div>` : ''}</div>`; tickBreak(); timerT = setInterval(tickBreak, 250); }
+  else if (s.phase === 'slide' && s.slide?.groups) app.innerHTML = top + top2 + `<div class="state slide">${groupWheelHtml(s.slide)}${ctrl('next', s.more === false ? 'Final results 🏆' : 'Next ▶')}</div>`;
   else if (s.phase === 'slide' && (s.slide?.layout || s.slide?.visual || s.slide?.kicker)) app.innerHTML = top + top2 + `<div class="state slide">${LQ.trainSlideHtml(s.slide)}${ctrl('next', s.more === false ? 'Final results 🏆' : 'Next ▶')}</div>`;
   else if (s.phase === 'slide') app.innerHTML = top + top2 + `<div class="state slide">${s.slide?.image ? `<img class="slideimg" src="${esc(s.slide.image)}" alt="">` : '<div class="em">🪧</div>'}${s.slide?.title ? `<h2>${esc(s.slide.title)}</h2>` : ''}<div class="slidebody">${LQ.slideHtml(s.slide?.body || '')}</div>${ctrl('next', s.more === false ? 'Final results 🏆' : 'Next ▶')}</div>`;
   else if (s.phase === 'typecard') { const t = s.typecard?.type; app.innerHTML = top + top2 + `<div class="state typecard"><div class="em">${TYPES[t]?.icon || '❓'}</div><p class="muted" style="margin:0">Next up${s.typecard?.run > 1 ? ` · ${s.typecard.run} questions` : ''}</p><h2>${esc(TYPES[t]?.label || '')}</h2><p style="font-weight:700">${esc(LQ.HOWTO[t] || '')}</p>${ctrl('next', "Let's go ▶")}</div>`; }
@@ -860,6 +861,30 @@ function resultHtml(s, r) {
     ${raceQ && (r.base || r.bonus) ? `<div style="font-weight:800;opacity:.95">${r.got ?? 0} right = +${r.base}${r.bonus ? ` · ${r.bonus > 0 ? '+' : '−'}${Math.abs(r.bonus)} ${r.bonus > 0 ? 'bonus' : 'for last place'}` : ''}</div>` : ''}
     ${s.answer ? `<div style="font-weight:800;opacity:.95">${r.correct ? '' : 'Answer: '}${esc(s.answer)}</div>` : ''}${s.why ? `<div style="opacity:.85;font-size:.9rem;margin-top:6px">💡 ${esc(s.why)}</div>` : ''}
     ${partyResultLines(r)}<div class="rk">${r.viewer ? `👀 Viewing · ${r.score} points (not on the leaderboard)` : `${ordinal(r.rank)} of ${r.of} · ${r.score} points`}</div></div>`;
+}
+/** The group wheel: spins once on this phone and lands on this player's team, then says who they are with and what their role is.
+ *  Time is kept from the first draw, so a redraw (every state update draws again) carries on rather than restarting. */
+function groupWheelHtml(sl) {
+  const g = sl.groups, list = g.list || [], k = list.length;
+  const j = list.findIndex((x) => x.members.some((m) => m.pid === P.pid));
+  P.groupStart = P.groupStart || {}; if (!P.groupStart[g.id]) P.groupStart[g.id] = Date.now();
+  const el = Math.min(9000, Date.now() - P.groupStart[g.id]);
+  const head = `<div class="ts-kicker" style="text-align:center">${esc(sl.kicker || '')}</div><h2 style="margin:.2rem 0 0;text-align:center">${esc(sl.title || 'Your team')}</h2>`;
+  if (j < 0) return `<div class="gw">${head}<p class="muted">Waiting to be put in a team…</p></div>`;
+  const seg = 360 / k, end = 360 * 5 - (j + 0.5) * seg;
+  const pt = (a, r) => [110 + r * Math.sin(a * Math.PI / 180), 110 - r * Math.cos(a * Math.PI / 180)];
+  const slice = (x, i) => {
+    if (k === 1) return `<circle cx="110" cy="110" r="106" fill="${x.color}"/><text x="110" y="64" text-anchor="middle" fill="#fff" font-weight="800" font-size="20">${esc(x.name)}</text>`;
+    const [x1, y1] = pt(i * seg, 106), [x2, y2] = pt((i + 1) * seg, 106), [tx, ty] = pt((i + 0.5) * seg, 70);
+    return `<path d="M110 110 L${x1.toFixed(2)} ${y1.toFixed(2)} A106 106 0 ${seg > 180 ? 1 : 0} 1 ${x2.toFixed(2)} ${y2.toFixed(2)} Z" fill="${x.color}" stroke="#f7f7f7" stroke-width="2"/><text x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-weight="800" font-size="${k > 8 ? 12 : 16}" transform="rotate(${((i + 0.5) * seg).toFixed(1)} ${tx.toFixed(1)} ${ty.toFixed(1)})">${esc(x.name)}</text>`;
+  };
+  const mine = list[j], me = mine.members.find((m) => m.pid === P.pid) || {}, others = mine.members.filter((m) => m.pid !== P.pid);
+  const roleText = (g.roles || []).find((r) => r.r === me.role)?.t || '';
+  return `<div class="gw">${head}
+    <div class="gw-stage"><div class="gw-ptr"></div><svg class="gw-wheel" viewBox="0 0 220 220" style="--end:${end.toFixed(1)}deg;--gd:${-el}ms">${list.map(slice).join('')}</svg><div class="gw-hub">${k > 1 ? 'SPIN' : ''}</div></div>
+    <div class="gw-res" style="--rd:${4500 - el}ms"><h2 style="color:${mine.color}">You are in ${esc(mine.name)}</h2>
+      ${me.role ? `<div class="gw-role">${esc(me.role)}</div>${roleText ? `<p>${esc(roleText)}</p>` : ''}` : ''}
+      <p class="gw-with">${others.length ? `With ${others.map((m) => `${esc(m.name)}${m.role ? ` <em>(${esc(m.role)})</em>` : ''}`).join(', ')}` : 'On your own for now: the screen will show who to join.'}</p><p class="muted small">The teams are on the big screen.</p></div></div>`;
 }
 function finalHtml(s, r) {
   if (s.noScores) return `<div class="state"><div class="em">🙏</div><h2>Thank you, ${esc(P.name)}</h2><p class="muted">Book your next 121s this week, and ring Ward Hadaway before you act, not after.</p></div>`;

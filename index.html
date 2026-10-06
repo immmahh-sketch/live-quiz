@@ -1312,6 +1312,11 @@ function renderSlideForm(q) {
     <details class="field" ${q.layout || q.visual || q.kicker ? 'open' : ''}><summary style="cursor:pointer;font-weight:800">🎨 Training layout <span class="muted small">— BHB Training slides: a label, a layout and a diagram</span></summary>
       <div class="row" style="margin-top:8px"><div class="field grow"><label>Label above the title</label><input type="text" id="f_kicker" value="${esc(q.kicker || '')}" placeholder="e.g. Part 3 · Prevention"></div>
         <div class="field grow"><label>Layout</label><select id="f_layout">${[['', 'Plain (title, picture, text)'], ['hero', 'Big photo behind the words'], ['photo', 'Photo left, words right'], ['photoright', 'Words left, photo right'], ['visual', 'Title, then the diagram'], ['exercise', 'Exercise: brief and clock']].map(([v, l]) => `<option value="${v}" ${(q.layout || '') === v ? 'selected' : ''}>${l}</option>`).join('')}</select></div></div>
+      <div class="field"><label class="check"><input type="checkbox" id="f_grp" ${q.groups ? 'checked' : ''}> 🎡 Deal everyone into teams: each phone spins a wheel that lands on their team and role, then the teams show on the screen</label>
+        <div class="row" id="f_grprow" style="${q.groups ? '' : 'display:none'}"><div class="field" style="margin:0;width:110px"><label>Team size</label><input type="number" id="f_gsize" min="2" max="8" value="${q.groups?.size || 3}"></div>
+          <div class="field" style="margin:0;width:150px"><label>Smallest team</label><input type="number" id="f_gmin" min="1" max="8" value="${q.groups?.min || q.groups?.size || 3}"></div>
+          <div class="field grow" style="margin:0"><label>Roles <span class="muted">— one per line, "Name: what they do". Extra people get the last role</span></label><textarea id="f_groles" rows="3" placeholder="Manager: hold the conversation&#10;Charlie: be defensive&#10;Observer: watch and note">${esc((q.groups?.roles || []).map((r) => r.r + (r.t ? ': ' + r.t : '')).join('\n'))}</textarea></div></div>
+        <div class="help">Leftover people make some teams one bigger rather than leaving a tiny one: ten people in threes is 4 + 3 + 3, eight is 4 + 4.</div></div>
       <div class="field"><label>Photo credit <span class="muted">— small print in the corner of the photo</span></label><input type="text" id="f_credit" value="${esc(q.media?.credit || '')}" placeholder="e.g. Photo: name / CC BY 2.0"></div>
       <div class="field"><label>Diagram <span class="muted">— data for cards, steps, ladder, matrix, two, bars, form, seating, agenda, stats or pills (JSON; see assets/train-visuals.js)</span></label><textarea id="f_visual" rows="6" spellcheck="false" style="font-family:monospace;font-size:.82rem" placeholder='{"type":"cards","items":[{"icon":"💬","title":"Talk","text":"Have a quiet word"}]}'>${esc(q.visual ? JSON.stringify(q.visual, null, 1) : '')}</textarea><div id="f_visualmsg" class="help"></div></div></details>
     ${q.break ? '' : `<div class="field"><label>On the screen <span class="muted">— optional</span></label><div id="mediaBox"></div></div>`}
@@ -1327,6 +1332,14 @@ function renderSlideForm(q) {
   $('#f_kicker').oninput = (e) => { if (e.target.value.trim()) q.kicker = e.target.value; else delete q.kicker; touch(); };
   $('#f_layout').onchange = (e) => { if (e.target.value) q.layout = e.target.value; else delete q.layout; touch(); };
   if ($('#f_ex')) $('#f_ex').onchange = (e) => { if (e.target.checked) q.exercise = true; else delete q.exercise; touch(); };
+  const saveGroups = () => {
+    $('#f_grprow').style.display = $('#f_grp').checked ? '' : 'none';
+    if (!$('#f_grp').checked) { delete q.groups; touch(); return; }
+    const roles = $('#f_groles').value.split('\n').map((l) => l.trim()).filter(Boolean).map((l) => { const i = l.indexOf(':'); return i > 0 ? { r: l.slice(0, i).trim(), t: l.slice(i + 1).trim() } : { r: l, t: '' }; });
+    const size = LQ.clamp(+$('#f_gsize').value || 3, 2, 8);
+    q.groups = { size, min: LQ.clamp(+$('#f_gmin').value || size, 1, size), ...(roles.length ? { roles } : {}) }; touch();
+  };
+  ['f_grp', 'f_gsize', 'f_gmin', 'f_groles'].forEach((id) => { $('#' + id).onchange = saveGroups; });
   $('#f_credit').oninput = (e) => { q.media = q.media || { kind: 'none' }; if (e.target.value.trim()) q.media.credit = e.target.value; else delete q.media.credit; touch(); };
   $('#f_visual').oninput = (e) => {
     const t = e.target.value.trim(), msg = $('#f_visualmsg');

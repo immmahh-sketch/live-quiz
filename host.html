@@ -416,7 +416,7 @@ function stateForPlayers() {
   // the call phones can join, while this screen is on it (a fresh pass well before the old one runs out)
   if (onCall()) { if (callPassExp - Date.now() < 2 * 3600e3 && !callPassP) callPassP = makeCallPass().then(() => { if (callPass) broadcastState(); }).catch(() => {}).finally(() => { callPassP = null; }); if (callPass) s.call = { room: QuizCall.room, pass: callPass }; }
   const nowT = G.paused ? G.pausedAt : Date.now(); // a paused clock reads the same until it is picked up again
-  if (G.phase === 'slide') { const q = question(); s.slide = { title: q.text || '', body: q.body || '', image: q.media?.kind === 'image' ? q.media.url || '' : '', ...(q.layout ? { layout: q.layout } : {}), ...(q.kicker ? { kicker: q.kicker } : {}), ...(q.visual ? { visual: q.visual } : {}), ...(q.media?.credit ? { credit: q.media.credit } : {}) }; if (G.brk) s.brk = { remainingMs: Math.max(0, G.brk.endsAt - nowT), totalMs: G.brk.totalMs, what: q.exercise ? 'exercise' : 'break' }; }
+  if (G.phase === 'slide') { const q = question(); s.slide = { title: q.text || '', body: q.body || '', image: q.media?.kind === 'image' ? q.media.url || '' : '', ...(q.layout ? { layout: q.layout } : {}), ...(q.kicker ? { kicker: q.kicker } : {}), ...(q.visual ? { visual: q.visual } : {}), ...(q.media?.credit ? { credit: q.media.credit } : {}), ...(q.groups ? { groups: { id: q.id, list: groupsView(q), roles: (q.groups.roles || []).map((r) => ({ r: r.r, t: r.t || '' })) } } : {}) }; if (G.brk) s.brk = { remainingMs: Math.max(0, G.brk.endsAt - nowT), totalMs: G.brk.totalMs, what: q.exercise ? 'exercise' : 'break' }; }
   if (G.phase === 'question' && G.q) {
     s.q = G.q.view; s.remainingMs = Math.max(0, (G.q.deadline || 0) - nowT); s.answered = Object.keys(G.q.answers);
     if (G.q.wipe) { const w = G.q.wipe; s.wipe = { turnPid: w.turnPid, turnName: G.players[w.turnPid]?.name || '', remainingMs: Math.max(0, (w.studyUntil || w.turnDeadline) - nowT), studyMs: w.studyUntil ? Math.max(0, w.studyUntil - nowT) : 0, gone: w.gone, out: w.out, over: w.over, last: w.last, scores: w.scores, order: w.order.filter((p) => !w.out.includes(p)) }; }
@@ -664,6 +664,33 @@ function skipScoreboard() {
 }
 function nextFrom(i) { return i + 1 < G.quiz.questions.length ? goTo(i + 1) : finish(); }
 /** A slide: up on the screen and the phones until someone moves on. A break slide starts its countdown clock. */
+/** Group slides: everyone is dealt into a team (and a role in it), once per slide; late joiners go to the smallest team. */
+function ensureGroups(q) {
+  G.groups = G.groups || {};
+  const cfg = q.groups || {}, roles = (cfg.roles || []).filter((r) => r && r.r), pids = livePids();
+  let g = G.groups[q.id];
+  const roleFor = (idx) => roles.length ? roles[Math.min(idx, roles.length - 1)].r : '';
+  if (!g) {
+    const order = LQ.shuffle(pids), sizes = LQ.groupSizes(order.length, +cfg.size || 3, +cfg.min || 0);
+    g = G.groups[q.id] = { list: [], roles: {} };
+    let at = 0;
+    sizes.forEach((n, gi) => {
+      const [name, color] = LQ.GROUP_NAMES[gi % LQ.GROUP_NAMES.length], members = order.slice(at, at + n); at += n;
+      g.list.push({ name: gi >= LQ.GROUP_NAMES.length ? name + ' ' + (Math.floor(gi / LQ.GROUP_NAMES.length) + 1) : name, color, pids: members });
+      members.forEach((pid, idx) => { g.roles[pid] = roleFor(idx); });
+    });
+    persist();
+  }
+  const placed = new Set(g.list.flatMap((x) => x.pids));
+  const late = pids.filter((pid) => !placed.has(pid));
+  if (late.length && g.list.length) { for (const pid of late) { const small = g.list.slice().sort((a, b) => a.pids.length - b.pids.length)[0]; g.roles[pid] = roleFor(small.pids.length); small.pids.push(pid); } persist(); }
+  return g;
+}
+/** The teams as the screens show them: names, colours and roles. */
+function groupsView(q) {
+  const g = ensureGroups(q);
+  return g.list.map((x) => ({ name: x.name, color: x.color, members: x.pids.filter((pid) => G.players[pid]).map((pid) => ({ pid, name: G.players[pid].name, emoji: G.players[pid].emoji || '', role: g.roles[pid] || '' })) }));
+}
 function showSlide(i) {
   clearInterval(tickT); clearInterval(countT); if (typeof stopTune === 'function') stopTune();
   G.qIndex = i; G.phase = 'slide'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString();
@@ -2357,7 +2384,8 @@ function renderSlide() {
   const q = question(), r = roundOf(G.qIndex), body = LQ.slideHtml(q.body), more = G.qIndex + 1 < G.quiz.questions.length;
   const pill = G.quiz.rounds.length > 1 && r ? `${LQ.brand().round} ${r.n}${r.title ? ' · ' + esc(r.title) : ''}` : esc(G.quiz.title);
   const sl = { title: q.text || '', body: q.body || '', image: q.media?.kind === 'image' ? q.media.url || '' : '', layout: q.layout, kicker: q.kicker, visual: q.visual, credit: q.media?.credit };
-  const rich = !!(q.layout || q.visual || q.kicker); // a training-style slide: drawn by assets/train-visuals.js
+  if (q.groups) { sl.visual = { type: 'groups', list: groupsView(q), roles: q.groups.roles || [] }; sl.layout = 'visual'; }
+  const rich = !!(q.layout || q.visual || q.kicker || q.groups); // a training-style slide: drawn by assets/train-visuals.js
   if (G.brk) {
     const ex = !!q.exercise, what = ex ? 'exercise' : 'break';
     const bar = hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-ghost" data-brk="-1" title="Take a minute off (−)">−1 min</button><button class="btn btn-ghost" data-brk="1" title="Add a minute (+)">+1 min</button><button class="btn btn-ghost" data-brk="5">+5 min</button><button class="btn btn-primary btn-lg" data-act="primary">${!more ? 'Final results 🏆' : ex ? 'End exercise ▶' : 'End break ▶'}</button>`);

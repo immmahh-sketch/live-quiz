@@ -67,7 +67,8 @@ round('wrap', 'Wrap-up', 'What you will do on Monday.');
 
 const kc = (r, n = 3) => slide(r, { layout: 'plain', kicker: 'Knowledge check', title: `${n} questions on what we have just covered`, body: 'Phones out. No scores: these are here to keep us thinking, and to show what has stuck.', time: 8 });
 const takeaways = (r, items) => slide(r, { layout: 'visual', kicker: 'Key takeaways', title: 'Remember these three', visual: { type: 'cards', cols: 3, items: items.map(([t, x], i) => ({ n: i + 1, title: t, text: x, tone: ['sage', 'slate', 'gold'][i] })), numbered: true } });
-const cards3 = (...a) => a;
+// A group slide: every phone spins a wheel that lands on the player's team (and role), then the teams show on the screen.
+const teams = (r, o) => slide(r, { layout: 'visual', kicker: o.kicker, title: o.title || 'Find your team', body: o.body || 'Spin the wheel on your phone. Then find your team and sit together.', time: 15 }) && Object.assign(qs[qs.length - 1], { groups: { size: o.size, min: o.min, ...(o.roles ? { roles: o.roles } : {}) } });
 
 // ================================================================ OPENING (8 min)
 slide('open', { layout: 'hero', img: 'welcome', kicker: 'BHB Training · Managers', title: 'Disciplinary & Grievance', body: 'Getting it right, getting it fair, and getting it early.' });
@@ -100,6 +101,7 @@ slide('open', { layout: 'plain', kicker: 'House rules', title: 'How we will work
 - Challenge, question and disagree. It is how we get it right
 - Nothing is scored. The questions are there to keep us thinking
 - This is our way of working, not legal advice: **if in doubt, ring Ward Hadaway before you act, not after**` });
+teams('open', { kicker: 'Pairs', size: 2, min: 2, body: 'Spin the wheel on your phone and find your partner.' });
 slide('open', { layout: 'exercise', exercise: true, mins: 3, kicker: 'Discussion · pairs', title: 'Warm-up',
   body: `Think of a time **a problem at work was handled really well, or really badly**. It does not have to be here.
 
@@ -141,6 +143,7 @@ slide('prevent', { layout: 'visual', kicker: 'Early warning signs', title: 'Spot
   { icon: '⚡', title: 'Friction', text: 'Snapping at colleagues, cliques, short tempers.', tone: 'clay' },
   { icon: '🙈', title: 'Avoiding you', text: 'Swapping shifts, hiding in the back, off sick on busy days.', tone: 'slate' }] },
   body: '> Always ask before you judge. It may be health, family or stress.' });
+teams('prevent', { kicker: 'Pairs', size: 2, min: 2, body: 'Spin the wheel on your phone and find your partner.' });
 slide('prevent', { layout: 'exercise', exercise: true, mins: 3, kicker: 'Discussion · pairs', title: 'What gets in the way of 121s?',
   body: `Be honest. In pairs:
 - What stops us holding regular 121s in this business?
@@ -198,6 +201,7 @@ slide('cantwont', { layout: 'photoright', img: 'exit', kicker: 'Our philosophy',
 We do not carry people who will not. We **cannot afford dead wood**, and our good people notice when we do.
 
 > Either way, we act in good time and we act fairly.` });
+teams('cantwont', { kicker: 'Tables of four', size: 4, min: 3 });
 slide('cantwont', { layout: 'exercise', exercise: true, mins: 5, kicker: 'Group work · tables of four', title: 'Three people, one question',
   body: `For each person: **conduct, competency, or neither?** What would you ask, and what is your first step?`,
   visual: { type: 'cards', cols: 3, items: [
@@ -266,6 +270,10 @@ slide('informal', { layout: 'visual', kicker: 'The actions', title: 'Make the ac
   { icon: 'R', title: 'Relevant', text: 'Linked to the issue we discussed.', tone: 'clay' },
   { icon: 'T', title: 'Time-bound', text: 'By when? When do we review?', tone: 'ink' }] },
   body: '✘ "Try harder to be on time"   ✔ "Be at your station in full uniform at the start of every shift, reviewed on 9 November"' });
+teams('informal', { kicker: 'Role play 1 · groups of three', size: 3, min: 3, body: 'Spin the wheel on your phone: it tells you your team and your role. A team of four has two observers.', roles: [
+  { r: 'Manager', t: 'You hold the conversation. Facts first, then listen, then two SMART actions.' },
+  { r: 'Charlie', t: 'You are embarrassed and a bit defensive. Soften if you are listened to.' },
+  { r: 'Observer', t: 'You watch and note: facts or opinions, SMART actions, review date, consequence said.' }] });
 slide('informal', { layout: 'exercise', exercise: true, mins: 9, kicker: 'Role play 1 · groups of three', title: 'Hold the conversation',
   body: `**Charlie**, a bar team member, has been on their phone behind the bar three times this month. You had a quiet word on the 3rd and a reminder on the 14th. It happened again last night while two guests waited.
 
@@ -345,6 +353,7 @@ slide('invest', { layout: 'visual', kicker: 'Ring early', title: 'When to call W
   { icon: '🛡️', title: 'Anything protected', text: 'Discrimination, whistleblowing, pregnancy or maternity, health or disability.', tone: 'clay' },
   { icon: '❓', title: 'If you are unsure', text: 'An hour on the phone costs far less than a claim.', tone: 'sage' },
   { icon: '👔', title: 'Always tell the GM first', text: 'They hold the contact details and the history.', tone: 'slate' }] } });
+teams('invest', { kicker: 'Tables of four', size: 4, min: 3 });
 slide('invest', { layout: 'exercise', exercise: true, mins: 5, kicker: 'Group work · tables of four', title: 'The first hour',
   body: `**Saturday night.** The bar till is £60 short at close. A colleague tells you quietly, "It is always the new bar person, they have been giving drinks away."
 
@@ -400,6 +409,7 @@ slide('hearing', { layout: 'visual', kicker: 'Running order', title: 'How the he
   { title: 'Questions', text: 'Both ways, calmly and openly. Nobody interrupts.', tone: 'sage' },
   { title: 'Adjourn and decide', text: 'Take time to weigh all of it. Do not decide in the room.', tone: 'clay' },
   { title: 'Outcome and appeal', text: 'In writing, with reasons and the right to appeal.', tone: 'ink' }] } });
+teams('hearing', { kicker: 'Pairs', size: 2, min: 2, body: 'Spin the wheel on your phone and find your partner.' });
 slide('hearing', { layout: 'exercise', exercise: true, mins: 5, kicker: 'Discussion · pairs', title: 'Spot the mistakes',
   body: `Six lines from a hearing. In pairs, mark each as **fine** or **a problem**, and say what you would do instead.
 
@@ -485,6 +495,10 @@ slide('grievance', { layout: 'visual', kicker: 'The formal route', title: 'When 
   { title: 'Decide', text: 'Upheld, partly upheld or not upheld, in writing.', tone: 'clay' },
   { title: 'Appeal', text: 'Heard by someone not involved.', tone: 'ink' }] },
   body: '> If it shows the other person did something wrong, that becomes a **separate** disciplinary process. Nobody hears a grievance about themselves.' });
+teams('grievance', { kicker: 'Role play 2 · groups of three', size: 3, min: 3, body: 'Spin the wheel on your phone: it tells you your team and your role. A team of four has two observers.', roles: [
+  { r: 'Manager', t: 'You hear this for the first time. Listen, ask, explain the options. Promise no outcome.' },
+  { r: 'Sam', t: 'You are hurt and wary: "I do not want to cause trouble". Open up if you feel heard.' },
+  { r: 'Observer', t: 'You watch and note: did they listen first, promise anything, explain the options?' }] });
 slide('grievance', { layout: 'exercise', exercise: true, mins: 6, kicker: 'Role play 2 · groups of three', title: 'The first conversation',
   body: `**Sam** tells you that **Alex** keeps making jokes about their weight and gives them the worst jobs on the shift. Sam is upset and has not spoken to Alex.
 

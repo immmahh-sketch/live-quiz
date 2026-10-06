@@ -605,6 +605,19 @@ window.LQ = (() => {
     { name: 'yellow', hex: '#d89e00', shape: '●' },
     { name: 'green',  hex: '#26890c', shape: '■' },
   ];
+  // ---------------------------------------------------------------- groups
+  // A group slide splits the room into teams of about `size`, never smaller than `min`. Leftover people make some teams
+  // one bigger rather than leaving a tiny one: 10 people in threes is 4+3+3 (two observers in the four), 8 is 4+4, 5 is 3+2.
+  const GROUP_NAMES = [['Sage', '#4e5f4f'], ['Gold', '#b8934f'], ['Slate', '#2f5d6b'], ['Clay', '#9b4a3c'], ['Plum', '#6d4a6e'], ['Moss', '#6b7f3e'], ['Rust', '#b5651d'], ['Teal', '#2a8a8a'], ['Stone', '#6f6f6f'], ['Sand', '#a8916a'], ['Ink', '#33333a'], ['Rose', '#b5667a']];
+  function groupSizes(n, size = 3, min) {
+    n = Math.max(0, n | 0); size = Math.max(2, size | 0); min = Math.min(size, Math.max(1, min | 0 || size - 1));
+    if (!n) return [];
+    const mk = (k) => Array.from({ length: k }, (_, i) => Math.floor(n / k) + (i < n % k ? 1 : 0));
+    let k = Math.ceil(n / size);
+    while (k > 1 && Math.min(...mk(k)) < min) k--;
+    if (k === 1 && n > size + 1) k = Math.ceil(n / (size + 1)); // too few for teams of `min`: the fewest teams that are not oversized
+    return mk(k);
+  }
   // ---------------------------------------------------------------- brands
   // The same engine runs more than one product. 'bhb' is BHB Training (Black Horse Beamish's management training): its
   // own name, colours, logo, join address and phone app, with nothing of Let's Quiz showing on the screen or the phones.
@@ -1130,6 +1143,6 @@ window.LQ = (() => {
   function ordinal(n) { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
   return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
-    BRANDS, brand, setBrand, TYPES, BANK_GAMES, NEW_GAME_DEFAULTS, cardNum, cardsOf, TWENTY_KINDS, TWENTY_QS, twentyQ, twentyBranch, twentyYes, twentyOpen, parseNum, nearestSpread, fmtNum, DRAW_WORDS, drawWords, drawHint, goodRows, BB_COLS, BB_ROWS, bbNeighbours, bbPath, bbBoardHtml, inkOn, SLIDE, BREAK, isPractice, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, pickContext, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
+    GROUP_NAMES, groupSizes, BRANDS, brand, setBrand, TYPES, BANK_GAMES, NEW_GAME_DEFAULTS, cardNum, cardsOf, TWENTY_KINDS, TWENTY_QS, twentyQ, twentyBranch, twentyYes, twentyOpen, parseNum, nearestSpread, fmtNum, DRAW_WORDS, drawWords, drawHint, goodRows, BB_COLS, BB_ROWS, bbNeighbours, bbPath, bbBoardHtml, inkOn, SLIDE, BREAK, isPractice, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, pickContext, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
     newCode, playUrl, shortPlayUrl, bbTeams, BB_TEAM_PAIRS, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml, addUsage, usageCost, usageSummary, AI_PRICES, TUNE_ASKS, tunePrompt, bigArt, cleanTitle };
 })();
