@@ -65,7 +65,7 @@ round('hearing', 'Hearings and warnings', 'The chair, the note-taker and the com
 round('grievance', 'Grievances', 'The lowest level that works: talk, mediate, then formal.');
 round('wrap', 'Wrap-up', 'What you will do on Monday.');
 
-const kc = (r, n = 3) => slide(r, { layout: 'plain', kicker: 'Knowledge check', title: `${n} questions on what we have just covered`, body: 'Phones out. Answer on your phone: faster right answers score more.', time: 8 });
+const kc = (r, n = 3) => slide(r, { layout: 'plain', kicker: 'Knowledge check', title: `${n} questions on what we have just covered`, body: 'Phones out. No scores: these are here to keep us thinking, and to show what has stuck.', time: 8 });
 const takeaways = (r, items) => slide(r, { layout: 'visual', kicker: 'Key takeaways', title: 'Remember these three', visual: { type: 'cards', cols: 3, items: items.map(([t, x], i) => ({ n: i + 1, title: t, text: x, tone: ['sage', 'slate', 'gold'][i] })), numbered: true } });
 const cards3 = (...a) => a;
 
@@ -93,12 +93,12 @@ slide('open', { layout: 'visual', kicker: 'Running order', title: 'Today', visua
   { at: '1:17', title: 'Hearings and warnings', mins: 20 },
   { at: '1:37', title: 'Grievances', text: 'incl. role play', mins: 16 },
   { at: '1:53', title: 'Wrap-up', mins: 7 }] },
-  body: 'Each section: learn it, discuss it, then a three-question check on your phone.' });
+  body: 'Each section: learn it, discuss it, then a quick three-question check on your phone. Nothing is scored.' });
 slide('open', { layout: 'plain', kicker: 'House rules', title: 'How we will work today', body: `- Slides on the big screen, quick quizzes on your phone, and plenty of discussion
 - Every scenario is made up. Keep real names and real cases out of the room
 - Nothing personal said here goes outside it
 - Challenge, question and disagree. It is how we get it right
-- Points are for banter; the learning is the prize
+- Nothing is scored. The questions are there to keep us thinking
 - This is our way of working, not legal advice: **if in doubt, ring Ward Hadaway before you act, not after**` });
 slide('open', { layout: 'exercise', exercise: true, mins: 3, kicker: 'Discussion · pairs', title: 'Warm-up',
   body: `Think of a time **a problem at work was handled really well, or really badly**. It does not have to be here.
@@ -536,7 +536,7 @@ survey('wrap', 'In a few words: one thing you will do differently on Monday.', 4
 slide('wrap', { layout: 'hero', img: 'handshake', kicker: 'Thank you', title: 'Hold the 121. Have the quiet word.', body: 'Book your next 121s this week, and ring Ward Hadaway before you act, not after.' });
 
 // ------------------------------------------------------------------ save
-const quiz = LQ.normalizeQuiz({ title: 'Disciplinary & Grievance: Managers Training', settings: { brand: 'bhb', noTypeCards: true, scoreEvery: 'round', showAnswersOnPhones: true, maxPoints: 1000, minPoints: 500, rounds }, questions: qs });
+const quiz = LQ.normalizeQuiz({ title: 'Disciplinary & Grievance: Managers Training', settings: { brand: 'bhb', noTypeCards: true, noRoundCards: true, noScores: true, showAnswersOnPhones: true, maxPoints: 1000, minPoints: 500, rounds }, questions: qs });
 const idFile = path.join(HERE, 'train-deck.id');
 if (fs.existsSync(idFile)) quiz.id = fs.readFileSync(idFile, 'utf8').trim();
 

@@ -1904,6 +1904,8 @@ function settingsModal() {
     <div class="field mt"><label>🎓 Brand</label>
       <select id="s_brand"><option value="">Let's Quiz!</option><option value="bhb" ${s.brand === 'bhb' ? 'selected' : ''}>BHB Training: Black Horse Beamish colours and logo, a "Part" for each round, phones join with the BHB Training app (letsquiz.uk/train)</option></select>
       <label class="check" style="margin-top:6px"><input type="checkbox" id="s_notc" ${s.noTypeCards ? 'checked' : ''}> No "how this question type works" cards between questions</label>
+      <label class="check" style="margin-top:6px"><input type="checkbox" id="s_nosc" ${s.noScores ? 'checked' : ''}> Not scored: no points, scoreboards or winner. Questions are only there to keep people thinking</label>
+      <label class="check" style="margin-top:6px"><input type="checkbox" id="s_norc" ${s.noRoundCards ? 'checked' : ''}> No title card before each round (the first slide of a round is the title)</label>
       <label class="check" style="margin-top:6px"><input type="checkbox" id="s_sbr" ${s.scoreEvery === 'round' ? 'checked' : ''}> Show the scoreboard only after the last question of each round, not after every question</label>
       <div class="help">With BHB Training the host screen never shows the Let's Quiz name, music is off, and the QR code opens the BHB Training app.</div></div>
     <div class="field mt"><label>🃏 Power cards and Bounty</label>
@@ -1936,6 +1938,8 @@ function settingsModal() {
     s.showAnswersOnPhones = $('#s_show', m).checked;
     if ($('#s_brand', m).value) s.brand = $('#s_brand', m).value; else delete s.brand;
     if ($('#s_notc', m).checked) s.noTypeCards = true; else delete s.noTypeCards;
+    if ($('#s_nosc', m).checked) s.noScores = true; else delete s.noScores;
+    if ($('#s_norc', m).checked) s.noRoundCards = true; else delete s.noRoundCards;
     if ($('#s_sbr', m).checked) s.scoreEvery = 'round'; else delete s.scoreEvery;
     if ($('#s_power', m).checked) s.power = { on: true, hand: LQ.clamp(Math.round(+$('#s_hand', m).value || 3), 1, 5) }; else delete s.power;
     if ($('#s_bounty', m).checked) s.bounty = true; else delete s.bounty;

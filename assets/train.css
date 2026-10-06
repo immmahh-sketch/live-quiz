@@ -230,3 +230,14 @@
 [data-brand="bhb"] .brkclock.end, [data-brand="bhb"] .brkclock.over { --c: #c4604f; }
 [data-brand="bhb"] .brkclock .arc { filter: none; }
 [data-brand="bhb"] .brktime small { font-size: .6em; letter-spacing: .12em; }
+
+/* an unscored session: nothing about points or places on the phones */
+body.noscores .app-top .score, body.noscores .result .pts, body.noscores .result .rk { display: none; }
+
+/* the room poll: everyone's words on one wall, no names */
+.pollwall { display: flex; flex-wrap: wrap; justify-content: center; gap: .6em .7em; max-width: 1300px; margin: 0 auto; min-height: 6em; align-content: flex-start; }
+.pollchip { background: rgba(247,247,247,.96); color: #262626; border-radius: 999px; padding: .35em 1.1em; font-weight: 700; font-size: clamp(1rem, 2.1vw, 2rem); box-shadow: 0 .15em .6em rgba(0,0,0,.3); animation: pollin .45s cubic-bezier(.2, 1.4, .4, 1) both; animation-delay: var(--d, 0ms); }
+.pollchip:nth-child(4n+1) { border-left: .35em solid #4e5f4f; } .pollchip:nth-child(4n+2) { border-left: .35em solid #c9a56b; }
+.pollchip:nth-child(4n+3) { border-left: .35em solid #2f5d6b; } .pollchip:nth-child(4n) { border-left: .35em solid #8c4a3f; }
+.pollempty { opacity: .6; font-weight: 600; font-size: clamp(1rem, 1.8vw, 1.6rem); }
+@keyframes pollin { from { transform: scale(.6); opacity: 0; } }

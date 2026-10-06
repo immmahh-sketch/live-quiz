@@ -179,6 +179,7 @@ function render() {
   clearInterval(timerT);
   if (!(s.phase === 'question' && s.wipe)) app.className = 'app';
   const r = myResult();
+  document.body.classList.toggle('noscores', !!s.noScores);
   const score = r ? r.score : (s.top ? (s.top.find((t) => t.name === P.name)?.score ?? '') : '');
   const top = `<div class="app-top"><span>${esc(P.name)}${s.test ? '<span class="testtag" title="A test game: nothing is saved">🧪 Test</span>' : ''}${P.view ? '<span class="testtag" title="Viewing: you play along, but you are not a player and not on any leaderboard">👀 Viewing</span>' : ''}</span><span>${s.phase !== 'lobby' && s.phase !== 'slide' && s.qIndex >= 0 ? `Q${s.num ?? s.qIndex + 1}/${s.total}` : esc(s.title || '')}</span>${score !== '' && score !== undefined ? `<span class="score">${score}</span>` : '<span></span>'}</div>`;
   const top2 = (s.practice && ['typecard', 'countdown', 'question', 'grading', 'reveal'].includes(s.phase) ? '<div class="practicebar">🧪 Practice · no points</div>' : '') + partyBadges(s);
@@ -861,6 +862,7 @@ function resultHtml(s, r) {
     ${partyResultLines(r)}<div class="rk">${r.viewer ? `👀 Viewing · ${r.score} points (not on the leaderboard)` : `${ordinal(r.rank)} of ${r.of} · ${r.score} points`}</div></div>`;
 }
 function finalHtml(s, r) {
+  if (s.noScores) return `<div class="state"><div class="em">🙏</div><h2>Thank you, ${esc(P.name)}</h2><p class="muted">Book your next 121s this week, and ring Ward Hadaway before you act, not after.</p></div>`;
   const me = r?.rank;
   return `<div class="state" style="justify-content:flex-start"><div class="em">${me === 1 ? '🏆' : me === 2 ? '🥈' : me === 3 ? '🥉' : '🎉'}</div>
     <h2>${me === 1 ? 'You won!' : me ? `You came ${ordinal(me)}` : 'Game over'}</h2>${r?.viewer ? `<p class="muted">👀 You viewed and scored <b>${r.score}</b> points (not on the leaderboard)</p>` : r ? `<p class="muted">${r.score} points</p>` : ''}

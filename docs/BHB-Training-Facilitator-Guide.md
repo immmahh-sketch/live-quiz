@@ -1,13 +1,12 @@
 # BHB Training: Disciplinary & Grievance for Managers
 
-Facilitator guide for the two-hour session. The deck is the quiz **"Disciplinary & Grievance: Managers Training"** in the quiz builder (brand: BHB Training). Slides carry the teaching; questions are three-at-a-time knowledge checks at the end of each part.
+Facilitator guide for the two-hour session. The deck is the quiz **"Disciplinary & Grievance: Managers Training"** in the quiz builder (brand: BHB Training). Slides carry the teaching; questions are three-at-a-time knowledge checks at the end of each part. **Nothing is scored**: no points, scoreboards or winner. The questions keep people thinking.
 
 ## Before the day
 - Open the quiz in the builder and press **Host live** on the room screen. The lobby shows the BHB Training QR code and game code.
 - Managers add **BHB Training** to their phone's home screen once (the QR code opens the steps). After that they open the app and scan or type the code.
 - Book a room for 2 hours with tables of four, a screen, and paper for the role plays. Bring printed copies of the Coaching & Advice record.
 - Agree the Ward Hadaway contact route with the GM, so you can say who to ring.
-- Press **Add test bots** in the lobby on the day if fewer than three people have joined, so the scoreboards work.
 
 ## Running order (120 minutes)
 | Time | Part | Format |
@@ -22,13 +21,13 @@ Facilitator guide for the two-hour session. The deck is the quiz **"Disciplinary
 | 1:37 | 6 Grievances | Teach; **Role play 2** in threes (6 min) with debrief; 3-question check |
 | 1:53 | Wrap-up | Ten rules; three personal commitments (2 min); room poll; close |
 
-Every part follows the same pattern: **title slide with what they will be able to do → teaching slides → discussion or exercise with a clock → debrief → three key takeaways → knowledge check → scoreboard.**
+Every part follows the same pattern: **title slide with what they will be able to do → teaching slides → discussion or exercise with a clock → debrief → three key takeaways → knowledge check.**
 
 ## Pacing tips
 - Teaching slides are prompts, not scripts. Ask the room first ("what would you do?"), then reveal.
 - The exercise clock has **−1 / +1 / +5 min** buttons. End an exercise early with **End exercise**.
 - If you are running late, drop the pairs discussions first, never the role plays or the knowledge checks.
-- The scoreboard appears after each knowledge check. Points are for banter.
+- After each answer the screen shows the right answer and a line on why. Ask someone who chose a different answer to explain their thinking.
 
 ## Group work and model answers
 **Part 1, pairs: what gets in the way of 121s?** Typical answers: busy service, no private space, no time on the rota, nobody models it. Ask for one change each.
