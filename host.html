@@ -671,13 +671,24 @@ function ensureGroups(q) {
   let g = G.groups[q.id];
   const roleFor = (idx) => roles.length ? roles[Math.min(idx, roles.length - 1)].r : '';
   if (!g) {
-    const order = LQ.shuffle(pids), sizes = LQ.groupSizes(order.length, +cfg.size || 3, +cfg.min || 0);
+    // Mixed from the last time: try many random deals and keep the one that puts together the fewest people who have already
+    // shared a team (G.met counts every pairing so far), and give each person the roles they have had least.
+    G.met = G.met || {}; G.roleHist = G.roleHist || {};
+    const sizes = LQ.groupSizes(pids.length, +cfg.size || 3, +cfg.min || 0), key = (a, b) => (a < b ? a + '|' + b : b + '|' + a);
+    const cost = (order) => { let c = 0, at = 0; for (const n of sizes) { const m = order.slice(at, at + n); at += n; for (let i = 0; i < m.length; i++) for (let j = i + 1; j < m.length; j++) c += (G.met[key(m[i], m[j])] || 0) ** 2; } return c; };
+    let order = LQ.shuffle(pids), best = cost(order);
+    for (let t = 0; t < 2000 && best > 0; t++) { const o = LQ.shuffle(pids), c = cost(o); if (c < best) { best = c; order = o; } }
     g = G.groups[q.id] = { list: [], roles: {} };
     let at = 0;
     sizes.forEach((n, gi) => {
       const [name, color] = LQ.GROUP_NAMES[gi % LQ.GROUP_NAMES.length], members = order.slice(at, at + n); at += n;
       g.list.push({ name: gi >= LQ.GROUP_NAMES.length ? name + ' ' + (Math.floor(gi / LQ.GROUP_NAMES.length) + 1) : name, color, pids: members });
-      members.forEach((pid, idx) => { g.roles[pid] = roleFor(idx); });
+      for (let i = 0; i < members.length; i++) for (let j = i + 1; j < members.length; j++) G.met[key(members[i], members[j])] = (G.met[key(members[i], members[j])] || 0) + 1;
+      const left = members.slice();
+      for (let idx = 0; idx < members.length; idx++) { // the first role goes to whoever has had it least, and so on down the list
+        const role = roleFor(idx); left.sort((x, y) => ((G.roleHist[x] || {})[role] || 0) - ((G.roleHist[y] || {})[role] || 0) || Math.random() - .5);
+        const pid = left.shift(); g.roles[pid] = role; if (role) { G.roleHist[pid] = G.roleHist[pid] || {}; G.roleHist[pid][role] = (G.roleHist[pid][role] || 0) + 1; }
+      }
     });
     persist();
   }
