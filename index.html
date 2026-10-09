@@ -1359,7 +1359,7 @@ function renderSlideForm(q) {
   if ($('#mediaBox')) renderMediaBox(); showProblems();
 }
 /** Party games filled in by hand: the bank and the AI writer don't make them, so Swap and Bad question don't apply. */
-const HAND_MADE = ['cards', 'task', 'about', 'whosaid'];
+const HAND_MADE = ['task', 'about', 'whosaid'];
 /** 🔄 Swap (how 'swap': nothing wrong with it, it goes back into the bank unused) or 👎 Bad question (how 'reject': stamped
  *  rejected in the bank). The question stays where it is, marked "swapping…", until its replacement has arrived; then the bank
  *  is told and the new one takes its place. If nothing comes back, the old one simply stays. */

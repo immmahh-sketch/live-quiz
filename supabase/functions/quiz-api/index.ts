@@ -494,6 +494,8 @@ Question types and their JSON shapes (use only the types you are asked for, and 
 - "tf": {"type":"tf","text":"<a statement>","answer":true}
 - "nearest": {"type":"nearest","text":"How many steps are there to the top of Grey's Monument?","answer":164,"unit":"steps","spread":80}
   Nearest Wins, like House of Games' Distinctly Average: a question whose answer is ONE certain number, and players guess how close they can get (closest wins). Pick numbers people misjudge, never ones everybody knows: heights, lengths, years, counts, distances, records, ages, populations, prices at the time. "answer" is a plain number (no commas or units); "unit" is a short word for what it counts, or "" for a year; "spread" is how far off a guess can be and still score a little: about 25 for a year, about half the answer for most other numbers. The number must be stable and verifiable: say "at the 2021 census", "when it opened" and so on where it could change.
+- "cards": {"type":"cards","text":"Play Your Cards Right: how tall, in metres?","cards":[{"label":"The Angel of the North","value":"20 m","n":20},{"label":"The Shard","value":"310 m","n":310},{"label":"Big Ben's tower","value":"96 m","n":96},{"label":"Burj Khalifa","value":"828 m","n":828},{"label":"Blackpool Tower","value":"158 m","n":158},{"label":"Eiffel Tower","value":"330 m","n":330}]}
+  Play Your Cards Right: a row of 5 to 7 cards on one theme, each hiding a number of the same kind (a height, a year, a price, an age, a count). The first card is shown; for each next card the room calls Higher or Lower. "label" is what is on the card, "value" is what it shows when it flips (with its unit), "n" is the plain number compared. Every number must be certain and checkable, no two neighbouring cards may be equal, and order the cards so the answers zig-zag (higher, lower, higher…) rather than always going one way. Say in "text" what the number is.
 - "draw": {"type":"draw","text":"Draw It: at the seaside","words":["Sandcastle","Deckchair","Seagull","Ice cream","Lighthouse","Crab","Bucket and spade","Pier","Donkey","Beach hut","Surfboard","Sunglasses"]}
   Draw It (Pictionary on phones): players take turns to draw a word for the others to guess. Give 12 to 20 words on the round's theme that can be DRAWN without writing letters: concrete, picturable things and places, one to three words each, known to everyone in the room. No abstract ideas, no brand names that only work as a logo.
   A crisp statement that is definitely true or definitely false. Mix true and false across the set.
@@ -596,6 +598,18 @@ async function finishRaw(raw: any[], count: number, usedPictures: string[], want
       if (!Number.isFinite(n)) return null;
       base.answer = String(n); base.unit = String(r.unit ?? "").trim().slice(0, 20);
       const sp = +r.spread; base.spread = Number.isFinite(sp) && sp > 0 ? sp : null; base.time = 25; base.media = { kind: "none" };
+      return base;
+    }
+    if (r.type === "cards") {
+      // Play Your Cards Right: a row of cards, each a label, what it shows when it flips, and the number compared.
+      const cards = (Array.isArray(r.cards) ? r.cards : []).map((c: any) => {
+        const label = String(c?.label ?? "").trim(), value = String(c?.value ?? c?.show ?? "").trim();
+        const n = typeof c?.n === "number" ? c.n : parseFloat(String(c?.n ?? value).replace(/[^0-9.\-]/g, ""));
+        return label && Number.isFinite(n) ? { label: label.slice(0, 80), value: (value || String(n)).slice(0, 40), n } : null;
+      }).filter(Boolean).slice(0, 10) as any[];
+      if (cards.length < 4 || cards.some((c, i) => i && c.n === cards[i - 1].n)) return null;
+      if (!/^play your cards right/i.test(base.text)) base.text = "Play Your Cards Right: " + base.text;
+      Object.assign(base, { cards, perCard: 200, prize: 500, time: 12, media: { kind: "none" } });
       return base;
     }
     if (r.type === "twenty") {
@@ -1115,7 +1129,7 @@ Deno.serve(async (req) => {
 
     if (action === "generate") {
       if (!ANTHROPIC_KEY) return json({ error: "AI is not set up on the server yet — add ANTHROPIC_API_KEY as a Supabase secret." }, 503);
-      const KNOWN = ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel", "highlow", "rhyme", "club", "dingbat", "tune", "catchphrase", "reveal", "survey", "unique", "nearest", "draw", "twenty", ...Object.keys(RACE_GAMES)];
+      const KNOWN = ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel", "highlow", "rhyme", "club", "dingbat", "tune", "catchphrase", "reveal", "survey", "unique", "nearest", "draw", "twenty", "cards", ...Object.keys(RACE_GAMES)];
       const asked = (Array.isArray(body.types) ? body.types : []).map(String);
       let types = asked.filter((t) => KNOWN.includes(t));
       // Hot Potato, King of the Hill and Blockbusters play on a race's bank of quick questions: take or write a race, then reshape it.
@@ -1784,7 +1798,7 @@ async function kahootFromRead(read: any): Promise<{ title: string; description: 
 // Pre-written questions, one quiz_bank row each (see bankRow below). Each item carries category/tags for matching
 // a themed round and a "used" stamp once it has gone into a quiz, so it never comes round again.
 const BANK_LOW = 25;
-const EVERGREEN = ["club", "dingbat", "wheel", "pin", "tune", "catchphrase", "reveal", "survey", "unique", "twenty"]; // theme-free types: any unused item will do when the round has no matching one
+const EVERGREEN = ["club", "dingbat", "wheel", "pin", "tune", "catchphrase", "reveal", "survey", "unique", "twenty", "cards"]; // theme-free types: any unused item will do when the round has no matching one
 /** What makes two items "the same": the phrase for dingbats and wheels, the place for pins, the track for tunes, the wording otherwise. */
 function bankKey(q: any): string { if (q?.type === "unique") return "uq:" + norm((q.prompts || []).slice(0, 4).map((p: any) => typeof p === "string" ? p : p?.p || "").join(" ")); if (q?.kind === "reveal") return "rv:" + norm((q.answers || [])[0] || ""); if (q?.media?.kind === "youtube" && q.media.videoId) return "yt:" + q.media.videoId; if (q?.media?.kind === "image" && q.media.source && /which .*(flag|picture|this)/i.test(q.text || "")) return "img:" + q.media.source; return norm(q?.type === "dingbat" || q?.type === "twenty" ? (q.answers || [])[0] || "" : q?.type === "tune" ? `${q.track} ${q.artist}` : q?.type === "pin" ? q.place || q.text : q?.phrase || q?.text || ""); }
 /** The right answer of a finished question, as plain text, for near-duplicate checks. */
@@ -1799,6 +1813,7 @@ function bankAnswer(q: any): string {
   if (q.type === "order" || q.type === "sort" || q.type === "match") return (q.items || q.pairs || []).map((i: any) => i.text || i.left || "").join(" ");
   if (q.type === "wipeout") return (q.right || []).map((i: any) => i.text || "").join(" ");
   if (q.type === "race") return (q.bank || []).map((b: any) => b.text || "").join(" ");
+  if (q.type === "cards") return (q.cards || []).map((c: any) => c.label || "").join(" ");
   return String((q.answers || [])[0] || "");
 }
 const DUP_STOP = new Set(["which", "what", "who", "where", "when", "this", "that", "these", "those", "from", "with", "does", "were", "was", "the", "and", "for", "has", "have", "had", "his", "her", "their", "its", "into", "name", "called", "many", "much", "following"]);
@@ -1811,7 +1826,7 @@ function nearDuplicate(a: any, b: any): boolean {
   if (ka && ka === kb) return true;
   // Rounds made of lists all read alike ("Put these in order, earliest first"): what makes them the same is their items.
   if (a.type === "twenty" || a.type === "unique" || a.type === "dingbat") return false; // one answer each: the same answer already has the same key ("Big Bang" is not "Big")
-  if (["order", "sort", "match", "wipeout", "race"].includes(a.type)) { const x = norm(bankAnswer(a)), y = norm(bankAnswer(b)); return !!x && x === y; }
+  if (["order", "sort", "match", "wipeout", "race", "cards"].includes(a.type)) { const x = norm(bankAnswer(a)), y = norm(bankAnswer(b)); return !!x && x === y; }
   if (a.type === "pin") return false; // a pin is its place: Brighton Palace Pier is not Brighton, Washington Old Hall is not Washington, D.C.
   if (ka.startsWith("img:") || kb.startsWith("img:") || ka.startsWith("yt:") || kb.startsWith("yt:")) return false; // different picture or clip = different question
   // Family Fortunes prompts all share their wording ("We asked the room: name something people…"), so only the
@@ -1830,7 +1845,7 @@ function nearDuplicate(a: any, b: any): boolean {
 // questions in order, as the rest of the code expects, and remembers each item as it was loaded; bankSave() then
 // writes only what changed: new or edited items are upserted, removed ones deleted. (It used to be a few
 // quiz_quizzes rows of several MB each, so every small change rewrote megabytes and reads hit the statement timeout.)
-const BANK_LABEL: Record<string, string> = { choice: "Multiple choice", text: "Type the answer", order: "Put in order", pin: "Drop the pin", match: "Match up", tf: "True or false", sort: "Categorise", wipeout: "Wipeout", race: "The Race", smash: "Answer Smash", wheel: "Wheel of Fortune", highlow: "Highbrow Lowbrow", rhyme: "Rhyme Time", club: "The 1% Club", catchphrase: "Catchphrase", reveal: "Picture Reveal", survey: "Family Fortunes", unique: "Only One", dingbat: "Dingbats", tune: "Name That Tune", nearest: "Nearest Wins", draw: "Draw It", twenty: "20 Questions" };
+const BANK_LABEL: Record<string, string> = { choice: "Multiple choice", text: "Type the answer", order: "Put in order", pin: "Drop the pin", match: "Match up", tf: "True or false", sort: "Categorise", wipeout: "Wipeout", race: "The Race", smash: "Answer Smash", wheel: "Wheel of Fortune", highlow: "Highbrow Lowbrow", rhyme: "Rhyme Time", club: "The 1% Club", catchphrase: "Catchphrase", reveal: "Picture Reveal", survey: "Family Fortunes", unique: "Only One", dingbat: "Dingbats", tune: "Name That Tune", nearest: "Nearest Wins", draw: "Draw It", twenty: "20 Questions", cards: "Play Your Cards Right" };
 const BANK_PAGE = 1000; // PostgREST hands back at most this many rows a request
 async function restAll(path: string): Promise<any[]> {
   const out: any[] = [];
