@@ -1,0 +1,1932 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's the main language spoken here?",
+  "target": 10,
+  "category": "Geography",
+  "tags": [
+   "languages",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Brazil",
+    "right": "Portuguese",
+    "wrong": [
+     "Italian",
+     "Catalan",
+     "Basque"
+    ]
+   },
+   {
+    "q": "Austria",
+    "right": "German",
+    "wrong": [
+     "Czech",
+     "Polish",
+     "Danish"
+    ]
+   },
+   {
+    "q": "Egypt",
+    "right": "Arabic",
+    "wrong": [
+     "Kurdish",
+     "Somali",
+     "Hausa"
+    ]
+   },
+   {
+    "q": "Iran",
+    "right": "Persian",
+    "wrong": [
+     "Kurdish",
+     "Hindi",
+     "Armenian"
+    ]
+   },
+   {
+    "q": "The Netherlands",
+    "right": "Dutch",
+    "wrong": [
+     "Flemish",
+     "Danish",
+     "Afrikaans"
+    ]
+   },
+   {
+    "q": "Argentina",
+    "right": "Spanish",
+    "wrong": [
+     "Italian",
+     "Catalan",
+     "Basque"
+    ]
+   },
+   {
+    "q": "Pakistan",
+    "right": "Urdu",
+    "wrong": [
+     "Hindi",
+     "Punjabi",
+     "Tamil"
+    ]
+   },
+   {
+    "q": "Israel",
+    "right": "Hebrew",
+    "wrong": [
+     "Yiddish",
+     "Armenian",
+     "Kurdish"
+    ]
+   },
+   {
+    "q": "Kenya",
+    "right": "Swahili",
+    "wrong": [
+     "Zulu",
+     "Hausa",
+     "Somali"
+    ]
+   },
+   {
+    "q": "Ethiopia",
+    "right": "Amharic",
+    "wrong": [
+     "Somali",
+     "Zulu",
+     "Hausa"
+    ]
+   },
+   {
+    "q": "Quebec, in Canada",
+    "right": "French",
+    "wrong": [
+     "Latin",
+     "Catalan",
+     "Italian"
+    ]
+   },
+   {
+    "q": "Indonesia",
+    "right": "Indonesian",
+    "wrong": [
+     "Malay",
+     "Vietnamese",
+     "Khmer"
+    ]
+   },
+   {
+    "q": "The Philippines",
+    "right": "Filipino",
+    "wrong": [
+     "Malay",
+     "Khmer",
+     "Burmese"
+    ]
+   },
+   {
+    "q": "Bangladesh",
+    "right": "Bengali",
+    "wrong": [
+     "Hindi",
+     "Punjabi",
+     "Tamil"
+    ]
+   },
+   {
+    "q": "Hungary",
+    "right": "Hungarian",
+    "wrong": [
+     "Slovak",
+     "Czech",
+     "Polish"
+    ]
+   },
+   {
+    "q": "Malta",
+    "right": "Maltese",
+    "wrong": [
+     "Italian",
+     "Greek",
+     "Latin"
+    ]
+   },
+   {
+    "q": "Thailand",
+    "right": "Thai",
+    "wrong": [
+     "Lao",
+     "Khmer",
+     "Burmese"
+    ]
+   },
+   {
+    "q": "Turkey",
+    "right": "Turkish",
+    "wrong": [
+     "Greek",
+     "Armenian",
+     "Kurdish"
+    ]
+   },
+   {
+    "q": "Finland",
+    "right": "Finnish",
+    "wrong": [
+     "Russian",
+     "Estonian",
+     "Danish"
+    ]
+   },
+   {
+    "q": "Romania",
+    "right": "Romanian",
+    "wrong": [
+     "Bulgarian",
+     "Serbian",
+     "Albanian"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's the everyday name for this part of the body?",
+  "target": 10,
+  "category": "The human body",
+  "tags": [
+   "body",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Patella",
+    "right": "Kneecap",
+    "wrong": [
+     "Shin bone",
+     "Elbow",
+     "Heel"
+    ]
+   },
+   {
+    "q": "Clavicle",
+    "right": "Collarbone",
+    "wrong": [
+     "Backbone",
+     "Rib",
+     "Cheekbone"
+    ]
+   },
+   {
+    "q": "Scapula",
+    "right": "Shoulder blade",
+    "wrong": [
+     "Hip bone",
+     "Rib",
+     "Backbone"
+    ]
+   },
+   {
+    "q": "Sternum",
+    "right": "Breastbone",
+    "wrong": [
+     "Backbone",
+     "Hip bone",
+     "Rib"
+    ]
+   },
+   {
+    "q": "Cranium",
+    "right": "Skull",
+    "wrong": [
+     "Cheekbone",
+     "Temple",
+     "Backbone"
+    ]
+   },
+   {
+    "q": "Femur",
+    "right": "Thigh bone",
+    "wrong": [
+     "Shin bone",
+     "Funny bone",
+     "Hip bone"
+    ]
+   },
+   {
+    "q": "Mandible",
+    "right": "Jawbone",
+    "wrong": [
+     "Cheekbone",
+     "Temple",
+     "Adam's apple"
+    ]
+   },
+   {
+    "q": "Larynx",
+    "right": "Voice box",
+    "wrong": [
+     "Tonsils",
+     "Spleen",
+     "Earlobe"
+    ]
+   },
+   {
+    "q": "Trachea",
+    "right": "Windpipe",
+    "wrong": [
+     "Tonsils",
+     "Spleen",
+     "Appendix"
+    ]
+   },
+   {
+    "q": "Oesophagus",
+    "right": "Gullet",
+    "wrong": [
+     "Appendix",
+     "Spleen",
+     "Tonsils"
+    ]
+   },
+   {
+    "q": "Hallux",
+    "right": "Big toe",
+    "wrong": [
+     "Little toe",
+     "Heel",
+     "Instep"
+    ]
+   },
+   {
+    "q": "Pollex",
+    "right": "Thumb",
+    "wrong": [
+     "Little finger",
+     "Knuckle",
+     "Palm"
+    ]
+   },
+   {
+    "q": "Tympanic membrane",
+    "right": "Eardrum",
+    "wrong": [
+     "Earlobe",
+     "Eyelid",
+     "Temple"
+    ]
+   },
+   {
+    "q": "Coccyx",
+    "right": "Tailbone",
+    "wrong": [
+     "Hip bone",
+     "Funny bone",
+     "Backbone"
+    ]
+   },
+   {
+    "q": "Umbilicus",
+    "right": "Belly button",
+    "wrong": [
+     "Earlobe",
+     "Instep",
+     "Knuckle"
+    ]
+   },
+   {
+    "q": "Axilla",
+    "right": "Armpit",
+    "wrong": [
+     "Elbow",
+     "Instep",
+     "Knuckle"
+    ]
+   },
+   {
+    "q": "Carpus",
+    "right": "Wrist",
+    "wrong": [
+     "Elbow",
+     "Knuckle",
+     "Heel"
+    ]
+   },
+   {
+    "q": "Tarsus",
+    "right": "Ankle",
+    "wrong": [
+     "Heel",
+     "Instep",
+     "Shin"
+    ]
+   },
+   {
+    "q": "Gluteus maximus",
+    "right": "Buttock",
+    "wrong": [
+     "Calf",
+     "Hamstring",
+     "Thigh"
+    ]
+   },
+   {
+    "q": "Nares",
+    "right": "Nostrils",
+    "wrong": [
+     "Earlobes",
+     "Eyelids",
+     "Tonsils"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: where is this TV detective based?",
+  "target": 10,
+  "category": "Film and TV",
+  "tags": [
+   "TV",
+   "crime dramas"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Inspector Morse",
+    "right": "Oxford",
+    "wrong": [
+     "Cambridge",
+     "Bath",
+     "Brighton"
+    ]
+   },
+   {
+    "q": "Inspector Rebus",
+    "right": "Edinburgh",
+    "wrong": [
+     "Aberdeen",
+     "Dundee",
+     "Inverness"
+    ]
+   },
+   {
+    "q": "Taggart",
+    "right": "Glasgow",
+    "wrong": [
+     "Aberdeen",
+     "Dundee",
+     "Inverness"
+    ]
+   },
+   {
+    "q": "John Luther",
+    "right": "London",
+    "wrong": [
+     "Liverpool",
+     "Birmingham",
+     "Leeds"
+    ]
+   },
+   {
+    "q": "Jim Bergerac",
+    "right": "Jersey",
+    "wrong": [
+     "Guernsey",
+     "Isle of Man",
+     "Isle of Wight"
+    ]
+   },
+   {
+    "q": "Eddie Shoestring",
+    "right": "Bristol",
+    "wrong": [
+     "Bath",
+     "Cardiff",
+     "Plymouth"
+    ]
+   },
+   {
+    "q": "Kurt Wallander",
+    "right": "Ystad",
+    "wrong": [
+     "Malmö",
+     "Stockholm",
+     "Gothenburg"
+    ]
+   },
+   {
+    "q": "Jules Maigret",
+    "right": "Paris",
+    "wrong": [
+     "Lyon",
+     "Marseille",
+     "Brussels"
+    ]
+   },
+   {
+    "q": "Columbo",
+    "right": "Los Angeles",
+    "wrong": [
+     "San Francisco",
+     "Chicago",
+     "Miami"
+    ]
+   },
+   {
+    "q": "Kojak",
+    "right": "New York",
+    "wrong": [
+     "Chicago",
+     "Boston",
+     "Philadelphia"
+    ]
+   },
+   {
+    "q": "Thomas Magnum",
+    "right": "Hawaii",
+    "wrong": [
+     "Florida",
+     "California",
+     "Puerto Rico"
+    ]
+   },
+   {
+    "q": "Fitz, in Cracker",
+    "right": "Manchester",
+    "wrong": [
+     "Liverpool",
+     "Leeds",
+     "Sheffield"
+    ]
+   },
+   {
+    "q": "Tom Mathias, in Hinterland",
+    "right": "Aberystwyth",
+    "wrong": [
+     "Swansea",
+     "Cardiff",
+     "Bangor"
+    ]
+   },
+   {
+    "q": "Van der Valk",
+    "right": "Amsterdam",
+    "wrong": [
+     "Rotterdam",
+     "The Hague",
+     "Antwerp"
+    ]
+   },
+   {
+    "q": "Sarah Lund, in The Killing",
+    "right": "Copenhagen",
+    "wrong": [
+     "Stockholm",
+     "Oslo",
+     "Malmö"
+    ]
+   },
+   {
+    "q": "Inspector Montalbano",
+    "right": "Sicily",
+    "wrong": [
+     "Sardinia",
+     "Naples",
+     "Corsica"
+    ]
+   },
+   {
+    "q": "Inspector Rex",
+    "right": "Vienna",
+    "wrong": [
+     "Munich",
+     "Berlin",
+     "Zurich"
+    ]
+   },
+   {
+    "q": "Jimmy Perez",
+    "right": "Shetland",
+    "wrong": [
+     "Orkney",
+     "Isle of Skye",
+     "Isle of Lewis"
+    ]
+   },
+   {
+    "q": "Dalziel and Pascoe",
+    "right": "Yorkshire",
+    "wrong": [
+     "Lancashire",
+     "Derbyshire",
+     "Cumbria"
+    ]
+   },
+   {
+    "q": "Jessica Fletcher, in Murder, She Wrote",
+    "right": "Cabot Cove",
+    "wrong": [
+     "Twin Peaks",
+     "Stars Hollow",
+     "Sunnydale"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which Shakespeare play is this character from?",
+  "target": 10,
+  "category": "Books and literature",
+  "tags": [
+   "Shakespeare",
+   "plays"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Shylock",
+    "right": "The Merchant of Venice",
+    "wrong": [
+     "Measure for Measure",
+     "The Two Gentlemen of Verona",
+     "Timon of Athens"
+    ]
+   },
+   {
+    "q": "Puck",
+    "right": "A Midsummer Night's Dream",
+    "wrong": [
+     "Love's Labour's Lost",
+     "The Merry Wives of Windsor",
+     "Pericles"
+    ]
+   },
+   {
+    "q": "Prospero",
+    "right": "The Tempest",
+    "wrong": [
+     "Pericles",
+     "Measure for Measure",
+     "King John"
+    ]
+   },
+   {
+    "q": "Iago",
+    "right": "Othello",
+    "wrong": [
+     "Coriolanus",
+     "Henry V",
+     "Timon of Athens"
+    ]
+   },
+   {
+    "q": "Ophelia",
+    "right": "Hamlet",
+    "wrong": [
+     "Coriolanus",
+     "King John",
+     "Henry V"
+    ]
+   },
+   {
+    "q": "Banquo",
+    "right": "Macbeth",
+    "wrong": [
+     "Henry V",
+     "King John",
+     "Coriolanus"
+    ]
+   },
+   {
+    "q": "Mercutio",
+    "right": "Romeo and Juliet",
+    "wrong": [
+     "The Two Gentlemen of Verona",
+     "Love's Labour's Lost",
+     "Measure for Measure"
+    ]
+   },
+   {
+    "q": "Cordelia",
+    "right": "King Lear",
+    "wrong": [
+     "King John",
+     "Coriolanus",
+     "Timon of Athens"
+    ]
+   },
+   {
+    "q": "Malvolio",
+    "right": "Twelfth Night",
+    "wrong": [
+     "Love's Labour's Lost",
+     "All's Well That Ends Well",
+     "The Merry Wives of Windsor"
+    ]
+   },
+   {
+    "q": "Petruchio",
+    "right": "The Taming of the Shrew",
+    "wrong": [
+     "The Two Gentlemen of Verona",
+     "All's Well That Ends Well",
+     "Measure for Measure"
+    ]
+   },
+   {
+    "q": "Brutus",
+    "right": "Julius Caesar",
+    "wrong": [
+     "Coriolanus",
+     "Timon of Athens",
+     "Troilus and Cressida"
+    ]
+   },
+   {
+    "q": "Benedick",
+    "right": "Much Ado About Nothing",
+    "wrong": [
+     "All's Well That Ends Well",
+     "Love's Labour's Lost",
+     "Measure for Measure"
+    ]
+   },
+   {
+    "q": "Rosalind",
+    "right": "As You Like It",
+    "wrong": [
+     "Love's Labour's Lost",
+     "All's Well That Ends Well",
+     "The Merry Wives of Windsor"
+    ]
+   },
+   {
+    "q": "Leontes",
+    "right": "The Winter's Tale",
+    "wrong": [
+     "Pericles",
+     "Measure for Measure",
+     "Timon of Athens"
+    ]
+   },
+   {
+    "q": "Imogen",
+    "right": "Cymbeline",
+    "wrong": [
+     "Pericles",
+     "Troilus and Cressida",
+     "King John"
+    ]
+   },
+   {
+    "q": "Aaron the Moor",
+    "right": "Titus Andronicus",
+    "wrong": [
+     "Coriolanus",
+     "Timon of Athens",
+     "Henry V"
+    ]
+   },
+   {
+    "q": "Lady Anne",
+    "right": "Richard III",
+    "wrong": [
+     "Henry VIII",
+     "King John",
+     "Henry V"
+    ]
+   },
+   {
+    "q": "Bolingbroke",
+    "right": "Richard II",
+    "wrong": [
+     "King John",
+     "Henry VIII",
+     "Coriolanus"
+    ]
+   },
+   {
+    "q": "Enobarbus",
+    "right": "Antony and Cleopatra",
+    "wrong": [
+     "Coriolanus",
+     "Troilus and Cressida",
+     "Timon of Athens"
+    ]
+   },
+   {
+    "q": "Dromio",
+    "right": "The Comedy of Errors",
+    "wrong": [
+     "The Two Gentlemen of Verona",
+     "Measure for Measure",
+     "Love's Labour's Lost"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which car maker makes this model?",
+  "target": 10,
+  "category": "Cars and motoring",
+  "tags": [
+   "cars",
+   "brands"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Fiesta",
+    "right": "Ford",
+    "wrong": [
+     "Mazda",
+     "Suzuki",
+     "Chevrolet"
+    ]
+   },
+   {
+    "q": "Golf",
+    "right": "Volkswagen",
+    "wrong": [
+     "Mazda",
+     "Saab",
+     "Subaru"
+    ]
+   },
+   {
+    "q": "Corsa",
+    "right": "Vauxhall",
+    "wrong": [
+     "Mazda",
+     "Suzuki",
+     "Dacia"
+    ]
+   },
+   {
+    "q": "Clio",
+    "right": "Renault",
+    "wrong": [
+     "Dacia",
+     "Lancia",
+     "Smart"
+    ]
+   },
+   {
+    "q": "Qashqai",
+    "right": "Nissan",
+    "wrong": [
+     "Mitsubishi",
+     "Subaru",
+     "Suzuki"
+    ]
+   },
+   {
+    "q": "Yaris",
+    "right": "Toyota",
+    "wrong": [
+     "Mazda",
+     "Daihatsu",
+     "Lexus"
+    ]
+   },
+   {
+    "q": "Civic",
+    "right": "Honda",
+    "wrong": [
+     "Mitsubishi",
+     "Mazda",
+     "Subaru"
+    ]
+   },
+   {
+    "q": "911",
+    "right": "Porsche",
+    "wrong": [
+     "Ferrari",
+     "Lotus",
+     "Maserati"
+    ]
+   },
+   {
+    "q": "Punto",
+    "right": "Fiat",
+    "wrong": [
+     "Lancia",
+     "Alfa Romeo",
+     "Smart"
+    ]
+   },
+   {
+    "q": "Octavia",
+    "right": "Skoda",
+    "wrong": [
+     "Lada",
+     "Dacia",
+     "Saab"
+    ]
+   },
+   {
+    "q": "Ibiza",
+    "right": "SEAT",
+    "wrong": [
+     "Lancia",
+     "Alfa Romeo",
+     "Dacia"
+    ]
+   },
+   {
+    "q": "3 Series",
+    "right": "BMW",
+    "wrong": [
+     "Mercedes-Benz",
+     "Lexus",
+     "Saab"
+    ]
+   },
+   {
+    "q": "A4",
+    "right": "Audi",
+    "wrong": [
+     "Mercedes-Benz",
+     "Lexus",
+     "Infiniti"
+    ]
+   },
+   {
+    "q": "Defender",
+    "right": "Land Rover",
+    "wrong": [
+     "Jeep",
+     "Rover",
+     "Suzuki"
+    ]
+   },
+   {
+    "q": "Model S",
+    "right": "Tesla",
+    "wrong": [
+     "Chevrolet",
+     "Polestar",
+     "Genesis"
+    ]
+   },
+   {
+    "q": "208",
+    "right": "Peugeot",
+    "wrong": [
+     "Dacia",
+     "Smart",
+     "Lancia"
+    ]
+   },
+   {
+    "q": "C3",
+    "right": "Citroën",
+    "wrong": [
+     "Dacia",
+     "Lancia",
+     "Smart"
+    ]
+   },
+   {
+    "q": "Sportage",
+    "right": "Kia",
+    "wrong": [
+     "Mitsubishi",
+     "Suzuki",
+     "SsangYong"
+    ]
+   },
+   {
+    "q": "Tucson",
+    "right": "Hyundai",
+    "wrong": [
+     "Mitsubishi",
+     "SsangYong",
+     "Suzuki"
+    ]
+   },
+   {
+    "q": "XC90",
+    "right": "Volvo",
+    "wrong": [
+     "Saab",
+     "Lexus",
+     "Infiniti"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which instrument is this musician famous for?",
+  "target": 10,
+  "category": "Music",
+  "tags": [
+   "instruments",
+   "musicians"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Jimi Hendrix",
+    "right": "Guitar",
+    "wrong": [
+     "Mandolin",
+     "Synthesiser",
+     "Double bass"
+    ]
+   },
+   {
+    "q": "Ringo Starr",
+    "right": "Drums",
+    "wrong": [
+     "Xylophone",
+     "Glockenspiel",
+     "Tuba"
+    ]
+   },
+   {
+    "q": "Yo-Yo Ma",
+    "right": "Cello",
+    "wrong": [
+     "Viola",
+     "Double bass",
+     "Oboe"
+    ]
+   },
+   {
+    "q": "Louis Armstrong",
+    "right": "Trumpet",
+    "wrong": [
+     "French horn",
+     "Tuba",
+     "Euphonium"
+    ]
+   },
+   {
+    "q": "Charlie Parker",
+    "right": "Saxophone",
+    "wrong": [
+     "Oboe",
+     "Bassoon",
+     "Euphonium"
+    ]
+   },
+   {
+    "q": "Larry Adler",
+    "right": "Harmonica",
+    "wrong": [
+     "Recorder",
+     "Piccolo",
+     "Zither"
+    ]
+   },
+   {
+    "q": "Evelyn Glennie",
+    "right": "Percussion",
+    "wrong": [
+     "Harpsichord",
+     "Viola",
+     "Oboe"
+    ]
+   },
+   {
+    "q": "Nicola Benedetti",
+    "right": "Violin",
+    "wrong": [
+     "Viola",
+     "Oboe",
+     "Harpsichord"
+    ]
+   },
+   {
+    "q": "Paul McCartney",
+    "right": "Bass guitar",
+    "wrong": [
+     "Mandolin",
+     "Synthesiser",
+     "Lute"
+    ]
+   },
+   {
+    "q": "Elton John",
+    "right": "Piano",
+    "wrong": [
+     "Harpsichord",
+     "Synthesiser",
+     "Glockenspiel"
+    ]
+   },
+   {
+    "q": "Acker Bilk",
+    "right": "Clarinet",
+    "wrong": [
+     "Oboe",
+     "Bassoon",
+     "Recorder"
+    ]
+   },
+   {
+    "q": "James Galway",
+    "right": "Flute",
+    "wrong": [
+     "Recorder",
+     "Oboe",
+     "Bassoon"
+    ]
+   },
+   {
+    "q": "Glenn Miller",
+    "right": "Trombone",
+    "wrong": [
+     "Tuba",
+     "Euphonium",
+     "French horn"
+    ]
+   },
+   {
+    "q": "Ravi Shankar",
+    "right": "Sitar",
+    "wrong": [
+     "Lute",
+     "Zither",
+     "Mandolin"
+    ]
+   },
+   {
+    "q": "Bez, of the Happy Mondays",
+    "right": "Maracas",
+    "wrong": [
+     "Tambourine",
+     "Triangle",
+     "Bongos"
+    ]
+   },
+   {
+    "q": "Harpo Marx",
+    "right": "Harp",
+    "wrong": [
+     "Lyre",
+     "Zither",
+     "Harpsichord"
+    ]
+   },
+   {
+    "q": "Jimmy Shand",
+    "right": "Accordion",
+    "wrong": [
+     "Bagpipes",
+     "Mandolin",
+     "Xylophone"
+    ]
+   },
+   {
+    "q": "Earl Scruggs",
+    "right": "Banjo",
+    "wrong": [
+     "Mandolin",
+     "Lute",
+     "Zither"
+    ]
+   },
+   {
+    "q": "George Formby",
+    "right": "Ukulele",
+    "wrong": [
+     "Mandolin",
+     "Lute",
+     "Zither"
+    ]
+   },
+   {
+    "q": "Reginald Dixon, at Blackpool Tower",
+    "right": "Organ",
+    "wrong": [
+     "Harpsichord",
+     "Synthesiser",
+     "Glockenspiel"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country has this capital?",
+  "target": 10,
+  "category": "Geography",
+  "tags": [
+   "capitals",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Canberra",
+    "right": "Australia",
+    "wrong": [
+     "South Africa",
+     "Fiji",
+     "Papua New Guinea"
+    ]
+   },
+   {
+    "q": "Ottawa",
+    "right": "Canada",
+    "wrong": [
+     "Finland",
+     "Sweden",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "Wellington",
+    "right": "New Zealand",
+    "wrong": [
+     "Fiji",
+     "Papua New Guinea",
+     "South Africa"
+    ]
+   },
+   {
+    "q": "Brasília",
+    "right": "Brazil",
+    "wrong": [
+     "Argentina",
+     "Colombia",
+     "Venezuela"
+    ]
+   },
+   {
+    "q": "Ankara",
+    "right": "Turkey",
+    "wrong": [
+     "Greece",
+     "Cyprus",
+     "Azerbaijan"
+    ]
+   },
+   {
+    "q": "Bern",
+    "right": "Switzerland",
+    "wrong": [
+     "Austria",
+     "Belgium",
+     "Slovenia"
+    ]
+   },
+   {
+    "q": "Nairobi",
+    "right": "Kenya",
+    "wrong": [
+     "Uganda",
+     "Tanzania",
+     "Ethiopia"
+    ]
+   },
+   {
+    "q": "Hanoi",
+    "right": "Vietnam",
+    "wrong": [
+     "Cambodia",
+     "Laos",
+     "Thailand"
+    ]
+   },
+   {
+    "q": "Lima",
+    "right": "Peru",
+    "wrong": [
+     "Chile",
+     "Bolivia",
+     "Colombia"
+    ]
+   },
+   {
+    "q": "Oslo",
+    "right": "Norway",
+    "wrong": [
+     "Sweden",
+     "Denmark",
+     "Finland"
+    ]
+   },
+   {
+    "q": "Rabat",
+    "right": "Morocco",
+    "wrong": [
+     "Algeria",
+     "Tunisia",
+     "Egypt"
+    ]
+   },
+   {
+    "q": "Kathmandu",
+    "right": "Nepal",
+    "wrong": [
+     "Bhutan",
+     "Bangladesh",
+     "Laos"
+    ]
+   },
+   {
+    "q": "Reykjavík",
+    "right": "Iceland",
+    "wrong": [
+     "Denmark",
+     "Finland",
+     "Sweden"
+    ]
+   },
+   {
+    "q": "Tallinn",
+    "right": "Estonia",
+    "wrong": [
+     "Latvia",
+     "Lithuania",
+     "Finland"
+    ]
+   },
+   {
+    "q": "Bratislava",
+    "right": "Slovakia",
+    "wrong": [
+     "Czechia",
+     "Slovenia",
+     "Hungary"
+    ]
+   },
+   {
+    "q": "Valletta",
+    "right": "Malta",
+    "wrong": [
+     "Cyprus",
+     "Greece",
+     "Slovenia"
+    ]
+   },
+   {
+    "q": "Quito",
+    "right": "Ecuador",
+    "wrong": [
+     "Bolivia",
+     "Paraguay",
+     "Uruguay"
+    ]
+   },
+   {
+    "q": "Accra",
+    "right": "Ghana",
+    "wrong": [
+     "Nigeria",
+     "Senegal",
+     "Ivory Coast"
+    ]
+   },
+   {
+    "q": "Tbilisi",
+    "right": "Georgia",
+    "wrong": [
+     "Armenia",
+     "Azerbaijan",
+     "Kazakhstan"
+    ]
+   },
+   {
+    "q": "Ulaanbaatar",
+    "right": "Mongolia",
+    "wrong": [
+     "Kazakhstan",
+     "Uzbekistan",
+     "Bhutan"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which cheese is this?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "cheese",
+   "food"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Blue cheese that can only be made in Nottinghamshire, Derbyshire or Leicestershire",
+    "right": "Stilton",
+    "wrong": [
+     "Shropshire Blue",
+     "Danish Blue",
+     "Cambozola"
+    ]
+   },
+   {
+    "q": "Hard Italian cheese from around Parma, grated over pasta",
+    "right": "Parmesan",
+    "wrong": [
+     "Asiago",
+     "Provolone",
+     "Fontina"
+    ]
+   },
+   {
+    "q": "Soft white Italian cheese on a classic margherita pizza",
+    "right": "Mozzarella",
+    "wrong": [
+     "Burrata",
+     "Provolone",
+     "Fontina"
+    ]
+   },
+   {
+    "q": "Crumbly salty cheese in a Greek salad",
+    "right": "Feta",
+    "wrong": [
+     "Labneh",
+     "Cottage cheese",
+     "Cotija"
+    ]
+   },
+   {
+    "q": "Dutch cheese in a red wax coat",
+    "right": "Edam",
+    "wrong": [
+     "Leerdammer",
+     "Jarlsberg",
+     "Raclette"
+    ]
+   },
+   {
+    "q": "Soft cheese from Normandy, sold in a little round wooden box",
+    "right": "Camembert",
+    "wrong": [
+     "Port Salut",
+     "Reblochon",
+     "Boursin"
+    ]
+   },
+   {
+    "q": "Squeaky cheese from Cyprus that's often grilled",
+    "right": "Halloumi",
+    "wrong": [
+     "Labneh",
+     "Cotija",
+     "Provolone"
+    ]
+   },
+   {
+    "q": "Swiss cheese famous for the holes in it",
+    "right": "Emmental",
+    "wrong": [
+     "Gruyère",
+     "Jarlsberg",
+     "Raclette"
+    ]
+   },
+   {
+    "q": "Britain's favourite cheese, named after a village in Somerset",
+    "right": "Cheddar",
+    "wrong": [
+     "Cheshire",
+     "Caerphilly",
+     "Double Gloucester"
+    ]
+   },
+   {
+    "q": "French blue cheese made from sheep's milk and aged in caves",
+    "right": "Roquefort",
+    "wrong": [
+     "Danish Blue",
+     "Cambozola",
+     "Dolcelatte"
+    ]
+   },
+   {
+    "q": "Italian blue cheese, named after a town near Milan",
+    "right": "Gorgonzola",
+    "wrong": [
+     "Taleggio",
+     "Fontina",
+     "Danish Blue"
+    ]
+   },
+   {
+    "q": "Creamy Italian cheese that goes into tiramisu",
+    "right": "Mascarpone",
+    "wrong": [
+     "Burrata",
+     "Boursin",
+     "Cottage cheese"
+    ]
+   },
+   {
+    "q": "Soft French cheese from near Paris, once crowned 'the king of cheeses'",
+    "right": "Brie",
+    "wrong": [
+     "Port Salut",
+     "Reblochon",
+     "Munster"
+    ]
+   },
+   {
+    "q": "Crumbly orange cheese from the East Midlands",
+    "right": "Red Leicester",
+    "wrong": [
+     "Double Gloucester",
+     "Cheshire",
+     "Cornish Yarg"
+    ]
+   },
+   {
+    "q": "Crumbly Yorkshire cheese that Wallace loves, eaten with Christmas cake",
+    "right": "Wensleydale",
+    "wrong": [
+     "Cheshire",
+     "Caerphilly",
+     "Lancashire"
+    ]
+   },
+   {
+    "q": "Spanish sheep's milk cheese from La Mancha",
+    "right": "Manchego",
+    "wrong": [
+     "Asiago",
+     "Comté",
+     "Gruyère"
+    ]
+   },
+   {
+    "q": "Dutch cheese named after a town near Rotterdam",
+    "right": "Gouda",
+    "wrong": [
+     "Leerdammer",
+     "Jarlsberg",
+     "Munster"
+    ]
+   },
+   {
+    "q": "Fresh Indian cheese cubed into curries like palak and mattar",
+    "right": "Paneer",
+    "wrong": [
+     "Labneh",
+     "Cotija",
+     "Cottage cheese"
+    ]
+   },
+   {
+    "q": "Soft Italian cheese inside cannoli",
+    "right": "Ricotta",
+    "wrong": [
+     "Burrata",
+     "Taleggio",
+     "Boursin"
+    ]
+   },
+   {
+    "q": "Hard sheep's milk cheese from Rome, used in a proper carbonara",
+    "right": "Pecorino",
+    "wrong": [
+     "Asiago",
+     "Provolone",
+     "Comté"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this Roman numeral?",
+  "target": 10,
+  "category": "Maths",
+  "tags": [
+   "numbers",
+   "Roman numerals"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "XIV",
+    "right": "14",
+    "wrong": [
+     "16",
+     "6",
+     "114"
+    ]
+   },
+   {
+    "q": "XL",
+    "right": "40",
+    "wrong": [
+     "60",
+     "10",
+     "50"
+    ]
+   },
+   {
+    "q": "XC",
+    "right": "90",
+    "wrong": [
+     "110",
+     "190",
+     "10"
+    ]
+   },
+   {
+    "q": "CD",
+    "right": "400",
+    "wrong": [
+     "600",
+     "1400",
+     "500"
+    ]
+   },
+   {
+    "q": "MCMLXVI",
+    "right": "1966",
+    "wrong": [
+     "1946",
+     "1961",
+     "1964"
+    ]
+   },
+   {
+    "q": "IX",
+    "right": "9",
+    "wrong": [
+     "11",
+     "8",
+     "6"
+    ]
+   },
+   {
+    "q": "LXX",
+    "right": "70",
+    "wrong": [
+     "20",
+     "75",
+     "60"
+    ]
+   },
+   {
+    "q": "XLII",
+    "right": "42",
+    "wrong": [
+     "62",
+     "38",
+     "52"
+    ]
+   },
+   {
+    "q": "MM",
+    "right": "2000",
+    "wrong": [
+     "1000",
+     "200",
+     "1100"
+    ]
+   },
+   {
+    "q": "DCC",
+    "right": "700",
+    "wrong": [
+     "300",
+     "600",
+     "800"
+    ]
+   },
+   {
+    "q": "XIX",
+    "right": "19",
+    "wrong": [
+     "21",
+     "11",
+     "29"
+    ]
+   },
+   {
+    "q": "CM",
+    "right": "900",
+    "wrong": [
+     "1100",
+     "800",
+     "1500"
+    ]
+   },
+   {
+    "q": "LV",
+    "right": "55",
+    "wrong": [
+     "45",
+     "65",
+     "56"
+    ]
+   },
+   {
+    "q": "XXIV",
+    "right": "24",
+    "wrong": [
+     "26",
+     "34",
+     "22"
+    ]
+   },
+   {
+    "q": "MMXXVI",
+    "right": "2026",
+    "wrong": [
+     "2024",
+     "2016",
+     "2046"
+    ]
+   },
+   {
+    "q": "XCIX",
+    "right": "99",
+    "wrong": [
+     "109",
+     "89",
+     "101"
+    ]
+   },
+   {
+    "q": "CCL",
+    "right": "250",
+    "wrong": [
+     "150",
+     "350",
+     "1250"
+    ]
+   },
+   {
+    "q": "LXXX",
+    "right": "80",
+    "wrong": [
+     "30",
+     "85",
+     "130"
+    ]
+   },
+   {
+    "q": "MCM",
+    "right": "1900",
+    "wrong": [
+     "2100",
+     "1100",
+     "1800"
+    ]
+   },
+   {
+    "q": "XXXIX",
+    "right": "39",
+    "wrong": [
+     "41",
+     "31",
+     "49"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which spelling is right?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "spelling",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Somewhere to stay",
+    "right": "Accommodation",
+    "wrong": [
+     "Accomodation",
+     "Acommodation",
+     "Accommadation"
+    ]
+   },
+   {
+    "q": "Needed",
+    "right": "Necessary",
+    "wrong": [
+     "Neccessary",
+     "Necesary",
+     "Neccesary"
+    ]
+   },
+   {
+    "q": "Strange, not normal",
+    "right": "Weird",
+    "wrong": [
+     "Wierd",
+     "Weerd",
+     "Wiered"
+    ]
+   },
+   {
+    "q": "The day after today",
+    "right": "Tomorrow",
+    "wrong": [
+     "Tommorow",
+     "Tommorrow",
+     "Tomorow"
+    ]
+   },
+   {
+    "q": "Apart, not together",
+    "right": "Separate",
+    "wrong": [
+     "Seperate",
+     "Seperete",
+     "Separete"
+    ]
+   },
+   {
+    "q": "Without any doubt",
+    "right": "Definitely",
+    "wrong": [
+     "Definately",
+     "Definitly",
+     "Defenitely"
+    ]
+   },
+   {
+    "q": "Make someone go red in the face",
+    "right": "Embarrass",
+    "wrong": [
+     "Embarass",
+     "Embaras",
+     "Embarras"
+    ]
+   },
+   {
+    "q": "Happened",
+    "right": "Occurred",
+    "wrong": [
+     "Occured",
+     "Ocurred",
+     "Ocured"
+    ]
+   },
+   {
+    "q": "The beat of a song",
+    "right": "Rhythm",
+    "wrong": [
+     "Rythm",
+     "Rhythym",
+     "Rhytm"
+    ]
+   },
+   {
+    "q": "Be given something",
+    "right": "Receive",
+    "wrong": [
+     "Recieve",
+     "Receeve",
+     "Recive"
+    ]
+   },
+   {
+    "q": "A thousand years",
+    "right": "Millennium",
+    "wrong": [
+     "Millenium",
+     "Milennium",
+     "Milenium"
+    ]
+   },
+   {
+    "q": "The inner voice telling right from wrong",
+    "right": "Conscience",
+    "wrong": [
+     "Concience",
+     "Consience",
+     "Conscence"
+    ]
+   },
+   {
+    "q": "A list of questions for a survey",
+    "right": "Questionnaire",
+    "wrong": [
+     "Questionaire",
+     "Questionairre",
+     "Questionnair"
+    ]
+   },
+   {
+    "q": "Work with others and pass on messages",
+    "right": "Liaise",
+    "wrong": [
+     "Liase",
+     "Liaze",
+     "Laise"
+    ]
+   },
+   {
+    "q": "Naughty in a playful way",
+    "right": "Mischievous",
+    "wrong": [
+     "Mischievious",
+     "Mischevious",
+     "Mischivous"
+    ]
+   },
+   {
+    "q": "Red tape",
+    "right": "Bureaucracy",
+    "wrong": [
+     "Beaurocracy",
+     "Bureaucrasy",
+     "Burocracy"
+    ]
+   },
+   {
+    "q": "An ancient Egyptian king",
+    "right": "Pharaoh",
+    "wrong": [
+     "Pharoah",
+     "Pharoh",
+     "Faraoh"
+    ]
+   },
+   {
+    "q": "A promise that something will work",
+    "right": "Guarantee",
+    "wrong": [
+     "Garantee",
+     "Guarentee",
+     "Gaurantee"
+    ]
+   },
+   {
+    "q": "Where you go to eat out",
+    "right": "Restaurant",
+    "wrong": [
+     "Restraunt",
+     "Resturant",
+     "Restaurent"
+    ]
+   },
+   {
+    "q": "A careful move, like parking",
+    "right": "Manoeuvre",
+    "wrong": [
+     "Manouvre",
+     "Manoeuver",
+     "Manuever"
+    ]
+   }
+  ]
+ }
+]
