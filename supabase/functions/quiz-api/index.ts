@@ -1802,6 +1802,7 @@ function bankAnswer(q: any): string {
   return String((q.answers || [])[0] || "");
 }
 const DUP_STOP = new Set(["which", "what", "who", "where", "when", "this", "that", "these", "those", "from", "with", "does", "were", "was", "the", "and", "for", "has", "have", "had", "his", "her", "their", "its", "into", "name", "called", "many", "much", "following"]);
+const SURVEY_STOP = new Set(["asked", "room", "something", "someone", "people", "you", "youd", "your", "would", "might", "could", "find", "see", "take", "famous", "person", "thing", "things"]);
 const tokens = (s: string) => new Set(norm(s).split(" ").filter((w) => w.length >= 3 && !DUP_STOP.has(w)));
 /** True when two items ask the same thing another way: same answer and most of the same words, or nearly identical wording. */
 function nearDuplicate(a: any, b: any): boolean {
@@ -1813,7 +1814,11 @@ function nearDuplicate(a: any, b: any): boolean {
   if (["order", "sort", "match", "wipeout", "race"].includes(a.type)) { const x = norm(bankAnswer(a)), y = norm(bankAnswer(b)); return !!x && x === y; }
   if (a.type === "pin") return false; // a pin is its place: Brighton Palace Pier is not Brighton, Washington Old Hall is not Washington, D.C.
   if (ka.startsWith("img:") || kb.startsWith("img:") || ka.startsWith("yt:") || kb.startsWith("yt:")) return false; // different picture or clip = different question
-  const ta = tokens(ka), tb = tokens(kb);
+  // Family Fortunes prompts all share their wording ("We asked the room: name something people…"), so only the
+  // words that say what is being asked count: "in a garden shed" is not "in a handbag".
+  const survey = a.kind === "survey" || b.kind === "survey";
+  const words = (s: string) => survey ? new Set([...tokens(s)].filter((w) => !SURVEY_STOP.has(w))) : tokens(s);
+  const ta = words(ka), tb = words(kb);
   if (!ta.size || !tb.size) return false;
   let shared = 0; for (const w of ta) if (tb.has(w)) shared++;
   const overlap = shared / Math.min(ta.size, tb.size);
