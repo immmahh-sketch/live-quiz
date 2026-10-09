@@ -1252,7 +1252,7 @@ function renderQForm() {
   const n = S.sel + 1, ck = checkState(q), swapping = S.swapping.has(q.id);
   box.innerHTML = `
     <div class="row" style="justify-content:space-between;margin-bottom:10px"><h3 style="margin:0">Question ${n} <span class="muted">· ${TYPES[q.kind || q.type].icon} ${esc(TYPES[q.kind || q.type].label)}</span> <span id="qchips">${srcChips(q)}</span></h3>
-      <div class="row"><button class="btn btn-ghost btn-sm" id="prevQ" title="See it as the players will, on the big screen and a phone, without starting a game">👁 Preview</button><span class="splitbtn"><button class="btn btn-ghost btn-sm" id="swapQ" ${swapping ? 'disabled' : ''} title="Nothing wrong with it, just not wanted here: it goes back into the bank unused and a different question of the same type takes its place">${swapping ? '🔄 Swapping…' : '🔄 Swap'}</button><button class="btn btn-ghost btn-sm" id="swapMore" ${swapping ? 'disabled' : ''} title="Other ways to replace it">▾</button></span><button class="btn btn-ghost btn-sm" id="likeQ" title="A new blank one of the same type in this round, straight after this one (Ctrl+Enter)">+ Another like this</button><button class="btn btn-ghost btn-sm" id="dupQ" title="Ctrl+D">Duplicate</button><button class="btn btn-ghost btn-sm" id="moreQ" title="Use as an example for the round, keep it, shortcuts">⋯</button><button class="btn btn-ghost btn-sm" id="delQ" style="color:var(--bad)">Delete</button></div></div>
+      <div class="row"><button class="btn btn-ghost btn-sm" id="prevQ" title="See it as the players will, on the big screen and a phone, without starting a game">👁 Preview</button>${HAND_MADE.includes(q.kind || q.type) ? '' : `<span class="splitbtn"><button class="btn btn-ghost btn-sm" id="swapQ" ${swapping ? 'disabled' : ''} title="Nothing wrong with it, just not wanted here: it goes back into the bank unused and a different question of the same type takes its place">${swapping ? '🔄 Swapping…' : '🔄 Swap'}</button><button class="btn btn-ghost btn-sm" id="swapMore" ${swapping ? 'disabled' : ''} title="Other ways to replace it">▾</button></span>`}<button class="btn btn-ghost btn-sm" id="likeQ" title="A new blank one of the same type in this round, straight after this one (Ctrl+Enter)">+ Another like this</button><button class="btn btn-ghost btn-sm" id="dupQ" title="Ctrl+D">Duplicate</button><button class="btn btn-ghost btn-sm" id="moreQ" title="Use as an example for the round, keep it, shortcuts">⋯</button><button class="btn btn-ghost btn-sm" id="delQ" style="color:var(--bad)">Delete</button></div></div>
     ${ck ? `<div class="checknote ${ck}"><b>${{ ok: '✓ Checked: looks right.', doubt: '? Worth a look.', wrong: '✗ Looks wrong.', stale: '~ Changed since it was checked.' }[ck]}</b> ${esc(q.check.note || '')}${q.check.fix && ck !== 'ok' ? `<div class="mt" style="margin-top:6px"><b>Suggested answer:</b> ${esc(q.check.fix)}</div>` : ''}<div class="row" style="margin-top:8px;gap:6px"><button class="btn btn-ghost btn-sm" id="recheck">Check again</button><button class="btn btn-ghost btn-sm" id="clearCheck">Dismiss</button></div></div>` : ''}
     ${q.type === 'wheel' ? '' : `<div class="field"><label>${q.type === 'smash' ? 'The clue' : q.type === 'highlow' ? 'The highbrow clue' : q.type === 'rhyme' ? 'The first clue' : q.type === 'dingbat' ? 'Instruction on the screen (optional)' : q.type === 'tune' ? 'Wording on the screen (optional — the ask below sets a default)' : 'Question'}</label><textarea id="f_text" placeholder="${esc(placeholderFor(q.type))}">${esc(q.text)}</textarea></div>`}
     <div id="typeBox"></div>
@@ -1285,14 +1285,14 @@ function renderQForm() {
   $('#prevQ').onclick = () => previewItem(q);
   $('#dupQ').onclick = dupQ; $('#likeQ').onclick = anotherLike;
   $('#delQ').onclick = delQ;
-  $('#swapQ').onclick = () => rejectQuestion(q, 'swap');
+  if ($('#swapQ')) $('#swapQ').onclick = () => rejectQuestion(q, 'swap');
   $('#moreQ').onclick = (e) => popMenu(e.currentTarget, [
     { label: '⭐ Use as example', title: 'Add it to the round\'s example questions, so the AI writes more like it', fn: () => useAsExample(q) },
     { label: q.keep ? '📌 Stop keeping it' : '📌 Keep it', title: 'A kept question is left alone by ↻ Redo the rest', fn: () => toggleKeep(q) },
     '-',
     { label: '⌨ Keyboard shortcuts', fn: shortcutsModal },
   ]);
-  $('#swapMore').onclick = (e) => popMenu(e.currentTarget, [
+  if ($('#swapMore')) $('#swapMore').onclick = (e) => popMenu(e.currentTarget, [
     { label: '🔄 Swap it for another', title: 'Nothing wrong with it: back into the bank unused, and a different one takes its place', fn: () => rejectQuestion(q, 'swap') },
     { label: '👎 Bad question', title: 'Marked rejected in the bank so it never comes round again (fix it later from the bank panel), and a replacement is written', fn: () => rejectQuestion(q, 'reject') },
   ]);
@@ -1358,11 +1358,14 @@ function renderSlideForm(q) {
   $('#delQ').onclick = delQ;
   if ($('#mediaBox')) renderMediaBox(); showProblems();
 }
+/** Party games filled in by hand: the bank and the AI writer don't make them, so Swap and Bad question don't apply. */
+const HAND_MADE = ['cards', 'task', 'about', 'whosaid'];
 /** 🔄 Swap (how 'swap': nothing wrong with it, it goes back into the bank unused) or 👎 Bad question (how 'reject': stamped
  *  rejected in the bank). The question stays where it is, marked "swapping…", until its replacement has arrived; then the bank
  *  is told and the new one takes its place. If nothing comes back, the old one simply stays. */
 async function rejectQuestion(q, how = 'swap') {
   const swap = how === 'swap', quiz = S.quiz, type = q.kind || q.type;
+  if (HAND_MADE.includes(type)) return toast(`${TYPES[type]?.label || 'This game'} is filled in by hand, so there's nothing to swap it for. Edit it, or delete it and add a new one.`, true);
   if (S.swapping.has(q.id)) return;
   const r = roundOf(q);
   const redraw = () => { if (S.quiz !== quiz) return; renderQList(); if (cur()?.id === q.id) renderQForm(); };
