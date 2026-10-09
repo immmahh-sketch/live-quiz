@@ -290,6 +290,7 @@ function botsOnQuestion() {
   if (q.type === 'wipeout') return botWipeTurn(); // and again on every later turn (wipeNextTurn / wipeTimeout)
   if (q.type === 'race') { for (const b of G.bots) botRaceStep(b); return; }
   if (q.type === 'twenty') { for (const b of G.bots) botTwentyStep(b); return; }
+  if (q.type === 'task' && q.mode === 'live') { for (const b of G.bots) botLater(() => { if (G.phase === 'question' && G.q?.view.id === v.id) onAnswer({ pid: b.pid, qId: v.id, answer: { live: true } }); }, rnd(1500, 6000)); return; } // homework: nothing to wait for
   for (const b of G.bots) {
     const delay = 1200 + b.pace * q.time * 1000 * rnd(0.25, 0.8);
     if (q.type === 'highlow' && chance(0.5)) botLater(() => { if (G.phase === 'question' && G.q?.view.id === v.id) onHint({ pid: b.pid, qId: v.id }); }, Math.max(800, delay * 0.5));
@@ -450,7 +451,7 @@ function stateForPlayers() {
   }
   if (G.phase === 'countdown') s.next = { type: question().kind || question().type, n: qNum(G.qIndex) };
   if (G.phase === 'countdown' && G.raceIntro) s.raceIntro = { kind: G.raceIntro.kind || 'race', title: TYPES[question().type]?.label, icon: TYPES[question().type]?.icon, sub: introSub(question()), step: G.raceIntro.step, n: G.raceIntro.n, topic: raceTopic(question()), target: +question().target || 10, maxWrong: question().maxWrong ?? 10 };
-  if (G.phase === 'typecard') s.typecard = { type: question().kind || question().type, n: qNum(G.qIndex), run: typeRun(G.qIndex) };
+  if (G.phase === 'typecard') s.typecard = { type: question().kind || question().type, n: qNum(G.qIndex), run: typeRun(G.qIndex), how: question().mode === 'live' ? 'task-live' : undefined };
   if (G.phase === 'round') { const r = roundOf(G.qIndex); s.round = { n: r.n, title: r.title, practice: !!r.practice, intro: r.intro || '', count: r.count }; }
   if (G.phase === 'question' && G.q?.wheelRevealed !== undefined) s.wheel = { revealed: G.q.wheelRevealed, category: question().category, layout: G.q.view.layout };
   // A warm-up has no shared screen, so the phone's board turns the letters: it gets the ones already turned, never the rest
@@ -2512,7 +2513,7 @@ function musicPause(on) { try { if (on) ytP?.pauseVideo(); else if (musicMode) y
 function renderTypeCard() {
   const q = question(), k = q.kind || q.type, T = TYPES[k] || { icon: '❓', label: k }, run = typeRun(G.qIndex);
   stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">Question ${qNum(G.qIndex)} of ${total()}</span>${practiceQ() ? '<span class="hpill practicepill">🧪 Practice · no points</span>' : ''}</div></div>
-    <div class="stage-main typecard"><div class="tc-icon">${T.icon}</div><div class="tc-next">Next up${run > 1 ? ` · ${run} questions` : ''}</div><h1 class="big">${esc(T.label)}</h1><p class="tc-how">${esc(LQ.HOWTO[k] || T.blurb || '')}</p></div>
+    <div class="stage-main typecard"><div class="tc-icon">${T.icon}</div><div class="tc-next">Next up${run > 1 ? ` · ${run} questions` : ''}</div><h1 class="big">${esc(T.label)}</h1><p class="tc-how">${esc(LQ.HOWTO[q.mode === 'live' ? 'task-live' : k] || T.blurb || '')}</p></div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary btn-lg" data-act="primary">Let's go ▶</button>`)}`;
   bind();
 }
