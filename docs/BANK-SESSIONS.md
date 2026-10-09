@@ -7,7 +7,8 @@ Per topic the targets are: 50 multiple choice, 50 typed, 50 true/false, 5 put-in
 5 categorise, 10 highbrow/lowbrow, 10 answer smash, 10 name that tune, 10 rhyme time, 5 wipeout boards,
 3 races, 5 drop the pin (10 for Geography topics), 5 match, 5 wheel of fortune, 5 1% Club and 3 dingbats.
 Signature topics (group "Signature": Alan Shearer, Roger) only need choice and text. Catchphrase is not written
-per topic: its questions are clips from the host's YouTube channel.
+per topic: its questions are clips from the host's YouTube channel. Family Fortunes (survey) is not written at
+all any more: the format doesn't work for a small gathering, so leave its stock as it is.
 
 Good mix per topic: every topic carries every writable type, so a themed quiz can have any round.
 Spread the topic's sub-subjects across the types too. Wales music should turn up in choice, text, tf,
