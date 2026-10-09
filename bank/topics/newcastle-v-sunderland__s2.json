@@ -1,0 +1,80 @@
+[
+ {
+  "type": "sort",
+  "text": "In Newcastle or in Sunderland?",
+  "categories": [
+   "Newcastle",
+   "Sunderland"
+  ],
+  "items": [
+   {
+    "text": "Grey's Monument",
+    "category": "Newcastle"
+   },
+   {
+    "text": "Bigg Market",
+    "category": "Newcastle"
+   },
+   {
+    "text": "Jesmond Dene",
+    "category": "Newcastle"
+   },
+   {
+    "text": "Grainger Market",
+    "category": "Newcastle"
+   },
+   {
+    "text": "Penshaw Monument",
+    "category": "Sunderland"
+   },
+   {
+    "text": "Roker Pier",
+    "category": "Sunderland"
+   },
+   {
+    "text": "Seaburn",
+    "category": "Sunderland"
+   },
+   {
+    "text": "Hylton Castle",
+    "category": "Sunderland"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "An FA Cup won by Newcastle or by Sunderland?",
+  "categories": [
+   "Newcastle",
+   "Sunderland"
+  ],
+  "items": [
+   {
+    "text": "1910",
+    "category": "Newcastle"
+   },
+   {
+    "text": "1924",
+    "category": "Newcastle"
+   },
+   {
+    "text": "1951",
+    "category": "Newcastle"
+   },
+   {
+    "text": "1955",
+    "category": "Newcastle"
+   },
+   {
+    "text": "1937",
+    "category": "Sunderland"
+   },
+   {
+    "text": "1973",
+    "category": "Sunderland"
+   }
+  ],
+  "difficulty": "hard"
+ }
+]

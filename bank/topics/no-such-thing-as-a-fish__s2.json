@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "Botanically a true nut, or not?",
+  "categories": [
+   "True nut",
+   "Not a true nut"
+  ],
+  "items": [
+   {
+    "text": "Hazelnut",
+    "category": "True nut"
+   },
+   {
+    "text": "Chestnut",
+    "category": "True nut"
+   },
+   {
+    "text": "Acorn",
+    "category": "True nut"
+   },
+   {
+    "text": "Beech nut",
+    "category": "True nut"
+   },
+   {
+    "text": "Peanut",
+    "category": "Not a true nut"
+   },
+   {
+    "text": "Almond",
+    "category": "Not a true nut"
+   },
+   {
+    "text": "Cashew",
+    "category": "Not a true nut"
+   },
+   {
+    "text": "Brazil nut",
+    "category": "Not a true nut"
+   }
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "Everyday thing named after a real person, or not?",
+  "categories": [
+   "Named after someone",
+   "Not named after anyone"
+  ],
+  "items": [
+   {
+    "text": "Sandwich",
+    "category": "Named after someone"
+   },
+   {
+    "text": "Cardigan",
+    "category": "Named after someone"
+   },
+   {
+    "text": "Wellington boot",
+    "category": "Named after someone"
+   },
+   {
+    "text": "Leotard",
+    "category": "Named after someone"
+   },
+   {
+    "text": "Biscuit",
+    "category": "Not named after anyone"
+   },
+   {
+    "text": "Umbrella",
+    "category": "Not named after anyone"
+   },
+   {
+    "text": "Jumper",
+    "category": "Not named after anyone"
+   },
+   {
+    "text": "Trousers",
+    "category": "Not named after anyone"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

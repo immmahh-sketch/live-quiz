@@ -1,0 +1,123 @@
+[
+ {
+  "type": "sort",
+  "text": "Hero or villain in the Marvel films?",
+  "categories": [
+   "Hero",
+   "Villain"
+  ],
+  "items": [
+   {
+    "text": "Black Panther",
+    "category": "Hero"
+   },
+   {
+    "text": "Doctor Strange",
+    "category": "Hero"
+   },
+   {
+    "text": "Ant-Man",
+    "category": "Hero"
+   },
+   {
+    "text": "Captain Marvel",
+    "category": "Hero"
+   },
+   {
+    "text": "Thanos",
+    "category": "Villain"
+   },
+   {
+    "text": "Ultron",
+    "category": "Villain"
+   },
+   {
+    "text": "Red Skull",
+    "category": "Villain"
+   },
+   {
+    "text": "Killmonger",
+    "category": "Villain"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "In the Marvel films, played by a Chris or not?",
+  "categories": [
+   "Played by a Chris",
+   "Not a Chris"
+  ],
+  "items": [
+   {
+    "text": "Captain America",
+    "category": "Played by a Chris"
+   },
+   {
+    "text": "Thor",
+    "category": "Played by a Chris"
+   },
+   {
+    "text": "Star-Lord",
+    "category": "Played by a Chris"
+   },
+   {
+    "text": "Iron Man",
+    "category": "Not a Chris"
+   },
+   {
+    "text": "Hulk",
+    "category": "Not a Chris"
+   },
+   {
+    "text": "Black Widow",
+    "category": "Not a Chris"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Guardians of the Galaxy or Fantastic Four?",
+  "categories": [
+   "Guardians of the Galaxy",
+   "Fantastic Four"
+  ],
+  "items": [
+   {
+    "text": "Groot",
+    "category": "Guardians of the Galaxy"
+   },
+   {
+    "text": "Rocket",
+    "category": "Guardians of the Galaxy"
+   },
+   {
+    "text": "Gamora",
+    "category": "Guardians of the Galaxy"
+   },
+   {
+    "text": "Drax",
+    "category": "Guardians of the Galaxy"
+   },
+   {
+    "text": "Mister Fantastic",
+    "category": "Fantastic Four"
+   },
+   {
+    "text": "The Thing",
+    "category": "Fantastic Four"
+   },
+   {
+    "text": "Human Torch",
+    "category": "Fantastic Four"
+   },
+   {
+    "text": "Invisible Woman",
+    "category": "Fantastic Four"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

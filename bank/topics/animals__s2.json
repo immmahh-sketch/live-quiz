@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "Mammal or not a mammal?",
+  "categories": [
+   "Mammal",
+   "Not a mammal"
+  ],
+  "items": [
+   {
+    "text": "Whale",
+    "category": "Mammal"
+   },
+   {
+    "text": "Bat",
+    "category": "Mammal"
+   },
+   {
+    "text": "Platypus",
+    "category": "Mammal"
+   },
+   {
+    "text": "Dolphin",
+    "category": "Mammal"
+   },
+   {
+    "text": "Penguin",
+    "category": "Not a mammal"
+   },
+   {
+    "text": "Shark",
+    "category": "Not a mammal"
+   },
+   {
+    "text": "Crocodile",
+    "category": "Not a mammal"
+   },
+   {
+    "text": "Ostrich",
+    "category": "Not a mammal"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Lays eggs or gives birth to live young?",
+  "categories": [
+   "Lays eggs",
+   "Live young"
+  ],
+  "items": [
+   {
+    "text": "Chicken",
+    "category": "Lays eggs"
+   },
+   {
+    "text": "Turtle",
+    "category": "Lays eggs"
+   },
+   {
+    "text": "Salmon",
+    "category": "Lays eggs"
+   },
+   {
+    "text": "Echidna",
+    "category": "Lays eggs"
+   },
+   {
+    "text": "Horse",
+    "category": "Live young"
+   },
+   {
+    "text": "Kangaroo",
+    "category": "Live young"
+   },
+   {
+    "text": "Rabbit",
+    "category": "Live young"
+   },
+   {
+    "text": "Whale",
+    "category": "Live young"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

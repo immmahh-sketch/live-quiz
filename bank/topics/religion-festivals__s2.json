@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "Christian festival or Jewish festival?",
+  "categories": [
+   "Christian",
+   "Jewish"
+  ],
+  "items": [
+   {
+    "text": "Easter",
+    "category": "Christian"
+   },
+   {
+    "text": "Advent",
+    "category": "Christian"
+   },
+   {
+    "text": "Pentecost",
+    "category": "Christian"
+   },
+   {
+    "text": "Lent",
+    "category": "Christian"
+   },
+   {
+    "text": "Passover",
+    "category": "Jewish"
+   },
+   {
+    "text": "Hanukkah",
+    "category": "Jewish"
+   },
+   {
+    "text": "Yom Kippur",
+    "category": "Jewish"
+   },
+   {
+    "text": "Rosh Hashanah",
+    "category": "Jewish"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A book of the Old Testament or the New Testament?",
+  "categories": [
+   "Old Testament",
+   "New Testament"
+  ],
+  "items": [
+   {
+    "text": "Genesis",
+    "category": "Old Testament"
+   },
+   {
+    "text": "Exodus",
+    "category": "Old Testament"
+   },
+   {
+    "text": "Psalms",
+    "category": "Old Testament"
+   },
+   {
+    "text": "Isaiah",
+    "category": "Old Testament"
+   },
+   {
+    "text": "Matthew",
+    "category": "New Testament"
+   },
+   {
+    "text": "Acts",
+    "category": "New Testament"
+   },
+   {
+    "text": "Romans",
+    "category": "New Testament"
+   },
+   {
+    "text": "Revelation",
+    "category": "New Testament"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "Found wild in Britain, or only abroad?",
+  "categories": [
+   "Wild in Britain",
+   "Only abroad"
+  ],
+  "items": [
+   {
+    "text": "Red squirrel",
+    "category": "Wild in Britain"
+   },
+   {
+    "text": "Otter",
+    "category": "Wild in Britain"
+   },
+   {
+    "text": "Badger",
+    "category": "Wild in Britain"
+   },
+   {
+    "text": "Hedgehog",
+    "category": "Wild in Britain"
+   },
+   {
+    "text": "Raccoon",
+    "category": "Only abroad"
+   },
+   {
+    "text": "Skunk",
+    "category": "Only abroad"
+   },
+   {
+    "text": "Chipmunk",
+    "category": "Only abroad"
+   },
+   {
+    "text": "Porcupine",
+    "category": "Only abroad"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "Native British tree or brought in from abroad?",
+  "categories": [
+   "Native",
+   "Introduced"
+  ],
+  "items": [
+   {
+    "text": "Oak",
+    "category": "Native"
+   },
+   {
+    "text": "Ash",
+    "category": "Native"
+   },
+   {
+    "text": "Silver birch",
+    "category": "Native"
+   },
+   {
+    "text": "Rowan",
+    "category": "Native"
+   },
+   {
+    "text": "Sycamore",
+    "category": "Introduced"
+   },
+   {
+    "text": "Horse chestnut",
+    "category": "Introduced"
+   },
+   {
+    "text": "Eucalyptus",
+    "category": "Introduced"
+   },
+   {
+    "text": "Monkey puzzle",
+    "category": "Introduced"
+   }
+  ],
+  "difficulty": "hard"
+ }
+]

@@ -1,0 +1,131 @@
+[
+ {
+  "type": "sort",
+  "text": "Secret identity: DC hero or Marvel hero?",
+  "categories": [
+   "DC",
+   "Marvel"
+  ],
+  "items": [
+   {
+    "text": "Bruce Wayne",
+    "category": "DC"
+   },
+   {
+    "text": "Clark Kent",
+    "category": "DC"
+   },
+   {
+    "text": "Diana Prince",
+    "category": "DC"
+   },
+   {
+    "text": "Barry Allen",
+    "category": "DC"
+   },
+   {
+    "text": "Peter Parker",
+    "category": "Marvel"
+   },
+   {
+    "text": "Tony Stark",
+    "category": "Marvel"
+   },
+   {
+    "text": "Steve Rogers",
+    "category": "Marvel"
+   },
+   {
+    "text": "Bruce Banner",
+    "category": "Marvel"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Played Batman or played Superman on film?",
+  "categories": [
+   "Batman",
+   "Superman"
+  ],
+  "items": [
+   {
+    "text": "Michael Keaton",
+    "category": "Batman"
+   },
+   {
+    "text": "Christian Bale",
+    "category": "Batman"
+   },
+   {
+    "text": "Robert Pattinson",
+    "category": "Batman"
+   },
+   {
+    "text": "George Clooney",
+    "category": "Batman"
+   },
+   {
+    "text": "Christopher Reeve",
+    "category": "Superman"
+   },
+   {
+    "text": "Henry Cavill",
+    "category": "Superman"
+   },
+   {
+    "text": "Brandon Routh",
+    "category": "Superman"
+   },
+   {
+    "text": "David Corenswet",
+    "category": "Superman"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Batman's ally or Batman's enemy?",
+  "categories": [
+   "Ally",
+   "Enemy"
+  ],
+  "items": [
+   {
+    "text": "Robin",
+    "category": "Ally"
+   },
+   {
+    "text": "Alfred",
+    "category": "Ally"
+   },
+   {
+    "text": "Commissioner Gordon",
+    "category": "Ally"
+   },
+   {
+    "text": "Batgirl",
+    "category": "Ally"
+   },
+   {
+    "text": "The Joker",
+    "category": "Enemy"
+   },
+   {
+    "text": "The Penguin",
+    "category": "Enemy"
+   },
+   {
+    "text": "The Riddler",
+    "category": "Enemy"
+   },
+   {
+    "text": "Bane",
+    "category": "Enemy"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

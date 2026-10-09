@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "Michael Jackson or Ozzy Osbourne?",
+  "categories": [
+   "Michael Jackson",
+   "Ozzy Osbourne"
+  ],
+  "items": [
+   {
+    "text": "Thriller",
+    "category": "Michael Jackson"
+   },
+   {
+    "text": "Billie Jean",
+    "category": "Michael Jackson"
+   },
+   {
+    "text": "Bad",
+    "category": "Michael Jackson"
+   },
+   {
+    "text": "Beat It",
+    "category": "Michael Jackson"
+   },
+   {
+    "text": "Crazy Train",
+    "category": "Ozzy Osbourne"
+   },
+   {
+    "text": "Mr Crowley",
+    "category": "Ozzy Osbourne"
+   },
+   {
+    "text": "Bark at the Moon",
+    "category": "Ozzy Osbourne"
+   },
+   {
+    "text": "No More Tears",
+    "category": "Ozzy Osbourne"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Spooky song from the 1980s or the 1990s?",
+  "categories": [
+   "1980s",
+   "1990s"
+  ],
+  "items": [
+   {
+    "text": "Thriller",
+    "category": "1980s"
+   },
+   {
+    "text": "Ghostbusters",
+    "category": "1980s"
+   },
+   {
+    "text": "Somebody's Watching Me",
+    "category": "1980s"
+   },
+   {
+    "text": "Dead Man's Party",
+    "category": "1980s"
+   },
+   {
+    "text": "Zombie",
+    "category": "1990s"
+   },
+   {
+    "text": "Dragula",
+    "category": "1990s"
+   },
+   {
+    "text": "Everybody (Backstreet's Back)",
+    "category": "1990s"
+   },
+   {
+    "text": "This Is Halloween",
+    "category": "1990s"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

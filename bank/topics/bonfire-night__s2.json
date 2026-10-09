@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "An autumn date or a winter date?",
+  "categories": [
+   "Autumn",
+   "Winter"
+  ],
+  "items": [
+   {
+    "text": "Halloween",
+    "category": "Autumn"
+   },
+   {
+    "text": "Bonfire Night",
+    "category": "Autumn"
+   },
+   {
+    "text": "Harvest festival",
+    "category": "Autumn"
+   },
+   {
+    "text": "Remembrance Sunday",
+    "category": "Autumn"
+   },
+   {
+    "text": "Christmas Day",
+    "category": "Winter"
+   },
+   {
+    "text": "Burns Night",
+    "category": "Winter"
+   },
+   {
+    "text": "Hogmanay",
+    "category": "Winter"
+   },
+   {
+    "text": "Valentine's Day",
+    "category": "Winter"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A firework, or something else from Bonfire Night?",
+  "categories": [
+   "Firework",
+   "Something else"
+  ],
+  "items": [
+   {
+    "text": "Catherine wheel",
+    "category": "Firework"
+   },
+   {
+    "text": "Rocket",
+    "category": "Firework"
+   },
+   {
+    "text": "Roman candle",
+    "category": "Firework"
+   },
+   {
+    "text": "Sparkler",
+    "category": "Firework"
+   },
+   {
+    "text": "Toffee apple",
+    "category": "Something else"
+   },
+   {
+    "text": "Parkin",
+    "category": "Something else"
+   },
+   {
+    "text": "The guy",
+    "category": "Something else"
+   },
+   {
+    "text": "Bonfire",
+    "category": "Something else"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

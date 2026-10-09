@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "A BBC Christmas favourite or an ITV one?",
+  "categories": [
+   "BBC",
+   "ITV"
+  ],
+  "items": [
+   {
+    "text": "Strictly Come Dancing",
+    "category": "BBC"
+   },
+   {
+    "text": "Call the Midwife",
+    "category": "BBC"
+   },
+   {
+    "text": "Gavin & Stacey",
+    "category": "BBC"
+   },
+   {
+    "text": "The Royle Family",
+    "category": "BBC"
+   },
+   {
+    "text": "I'm a Celebrity... Get Me Out of Here!",
+    "category": "ITV"
+   },
+   {
+    "text": "Coronation Street",
+    "category": "ITV"
+   },
+   {
+    "text": "Emmerdale",
+    "category": "ITV"
+   },
+   {
+    "text": "Downton Abbey",
+    "category": "ITV"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Christmas telly: animated or live action?",
+  "categories": [
+   "Animated",
+   "Live action"
+  ],
+  "items": [
+   {
+    "text": "The Snowman",
+    "category": "Animated"
+   },
+   {
+    "text": "The Gruffalo",
+    "category": "Animated"
+   },
+   {
+    "text": "Stick Man",
+    "category": "Animated"
+   },
+   {
+    "text": "Shrek the Halls",
+    "category": "Animated"
+   },
+   {
+    "text": "Elf",
+    "category": "Live action"
+   },
+   {
+    "text": "Love Actually",
+    "category": "Live action"
+   },
+   {
+    "text": "Home Alone",
+    "category": "Live action"
+   },
+   {
+    "text": "The Holiday",
+    "category": "Live action"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

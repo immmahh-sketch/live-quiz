@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "A Beatles song or a Rolling Stones song?",
+  "categories": [
+   "Beatles",
+   "Rolling Stones"
+  ],
+  "items": [
+   {
+    "text": "Let It Be",
+    "category": "Beatles"
+   },
+   {
+    "text": "Yesterday",
+    "category": "Beatles"
+   },
+   {
+    "text": "Come Together",
+    "category": "Beatles"
+   },
+   {
+    "text": "Help!",
+    "category": "Beatles"
+   },
+   {
+    "text": "Satisfaction",
+    "category": "Rolling Stones"
+   },
+   {
+    "text": "Paint It Black",
+    "category": "Rolling Stones"
+   },
+   {
+    "text": "Angie",
+    "category": "Rolling Stones"
+   },
+   {
+    "text": "Brown Sugar",
+    "category": "Rolling Stones"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "On Sgt. Pepper or on Abbey Road?",
+  "categories": [
+   "Sgt. Pepper",
+   "Abbey Road"
+  ],
+  "items": [
+   {
+    "text": "Lucy in the Sky with Diamonds",
+    "category": "Sgt. Pepper"
+   },
+   {
+    "text": "With a Little Help from My Friends",
+    "category": "Sgt. Pepper"
+   },
+   {
+    "text": "When I'm Sixty-Four",
+    "category": "Sgt. Pepper"
+   },
+   {
+    "text": "A Day in the Life",
+    "category": "Sgt. Pepper"
+   },
+   {
+    "text": "Something",
+    "category": "Abbey Road"
+   },
+   {
+    "text": "Here Comes the Sun",
+    "category": "Abbey Road"
+   },
+   {
+    "text": "Octopus's Garden",
+    "category": "Abbey Road"
+   },
+   {
+    "text": "Golden Slumbers",
+    "category": "Abbey Road"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

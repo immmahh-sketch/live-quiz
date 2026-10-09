@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "One of the Seven Wonders of the Ancient World, or not?",
+  "categories": [
+   "Ancient Wonder",
+   "Not one"
+  ],
+  "items": [
+   {
+    "text": "Great Pyramid of Giza",
+    "category": "Ancient Wonder"
+   },
+   {
+    "text": "Hanging Gardens of Babylon",
+    "category": "Ancient Wonder"
+   },
+   {
+    "text": "Colossus of Rhodes",
+    "category": "Ancient Wonder"
+   },
+   {
+    "text": "Lighthouse of Alexandria",
+    "category": "Ancient Wonder"
+   },
+   {
+    "text": "Stonehenge",
+    "category": "Not one"
+   },
+   {
+    "text": "Taj Mahal",
+    "category": "Not one"
+   },
+   {
+    "text": "Great Wall of China",
+    "category": "Not one"
+   },
+   {
+    "text": "Colosseum",
+    "category": "Not one"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Monopoly square or Cluedo room?",
+  "categories": [
+   "Monopoly",
+   "Cluedo"
+  ],
+  "items": [
+   {
+    "text": "Mayfair",
+    "category": "Monopoly"
+   },
+   {
+    "text": "Park Lane",
+    "category": "Monopoly"
+   },
+   {
+    "text": "Old Kent Road",
+    "category": "Monopoly"
+   },
+   {
+    "text": "Pall Mall",
+    "category": "Monopoly"
+   },
+   {
+    "text": "Ballroom",
+    "category": "Cluedo"
+   },
+   {
+    "text": "Conservatory",
+    "category": "Cluedo"
+   },
+   {
+    "text": "Library",
+    "category": "Cluedo"
+   },
+   {
+    "text": "Kitchen",
+    "category": "Cluedo"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

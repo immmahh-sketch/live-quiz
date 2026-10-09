@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "An anagram of LISTEN, or not?",
+  "categories": [
+   "Anagram of LISTEN",
+   "Not an anagram"
+  ],
+  "items": [
+   {
+    "text": "Silent",
+    "category": "Anagram of LISTEN"
+   },
+   {
+    "text": "Enlist",
+    "category": "Anagram of LISTEN"
+   },
+   {
+    "text": "Tinsel",
+    "category": "Anagram of LISTEN"
+   },
+   {
+    "text": "Inlets",
+    "category": "Anagram of LISTEN"
+   },
+   {
+    "text": "Lentils",
+    "category": "Not an anagram"
+   },
+   {
+    "text": "Listed",
+    "category": "Not an anagram"
+   },
+   {
+    "text": "Tonsil",
+    "category": "Not an anagram"
+   },
+   {
+    "text": "Stolen",
+    "category": "Not an anagram"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Reads the same backwards, or not?",
+  "categories": [
+   "Palindrome",
+   "Not a palindrome"
+  ],
+  "items": [
+   {
+    "text": "Kayak",
+    "category": "Palindrome"
+   },
+   {
+    "text": "Refer",
+    "category": "Palindrome"
+   },
+   {
+    "text": "Madam",
+    "category": "Palindrome"
+   },
+   {
+    "text": "Rotor",
+    "category": "Palindrome"
+   },
+   {
+    "text": "Radio",
+    "category": "Not a palindrome"
+   },
+   {
+    "text": "Kebab",
+    "category": "Not a palindrome"
+   },
+   {
+    "text": "Llama",
+    "category": "Not a palindrome"
+   },
+   {
+    "text": "Rotten",
+    "category": "Not a palindrome"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]
