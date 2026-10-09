@@ -1810,7 +1810,7 @@ function nearDuplicate(a: any, b: any): boolean {
   const ka = bankKey(a), kb = bankKey(b);
   if (ka && ka === kb) return true;
   // Rounds made of lists all read alike ("Put these in order, earliest first"): what makes them the same is their items.
-  if (a.type === "twenty" || a.type === "unique") return false; // one answer each: the same answer already has the same key
+  if (a.type === "twenty" || a.type === "unique" || a.type === "dingbat") return false; // one answer each: the same answer already has the same key ("Big Bang" is not "Big")
   if (["order", "sort", "match", "wipeout", "race"].includes(a.type)) { const x = norm(bankAnswer(a)), y = norm(bankAnswer(b)); return !!x && x === y; }
   if (a.type === "pin") return false; // a pin is its place: Brighton Palace Pier is not Brighton, Washington Old Hall is not Washington, D.C.
   if (ka.startsWith("img:") || kb.startsWith("img:") || ka.startsWith("yt:") || kb.startsWith("yt:")) return false; // different picture or clip = different question
