@@ -1,0 +1,774 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: finish the Christmas song title",
+  "target": 10,
+  "category": "Christmas songs",
+  "tags": [
+   "Christmas",
+   "songs"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "All I Want for Christmas Is …",
+    "right": "You",
+    "wrong": [
+     "Me",
+     "Mine",
+     "Here"
+    ]
+   },
+   {
+    "q": "Rockin' Around the Christmas …",
+    "right": "Tree",
+    "wrong": [
+     "Fire",
+     "Square",
+     "Table"
+    ]
+   },
+   {
+    "q": "Fairytale of New …",
+    "right": "York",
+    "wrong": [
+     "Jersey",
+     "Orleans",
+     "Mexico"
+    ]
+   },
+   {
+    "q": "Merry Xmas …",
+    "right": "Everybody",
+    "wrong": [
+     "Everyone",
+     "Anyone",
+     "Somebody"
+    ]
+   },
+   {
+    "q": "Stop the …",
+    "right": "Cavalry",
+    "wrong": [
+     "Calvary",
+     "Cavaliers",
+     "Carnival"
+    ]
+   },
+   {
+    "q": "Mistletoe and …",
+    "right": "Wine",
+    "wrong": [
+     "Mince",
+     "Wishes",
+     "Whisky"
+    ]
+   },
+   {
+    "q": "Last …",
+    "right": "Christmas",
+    "wrong": [
+     "Summer",
+     "Chance",
+     "Dance"
+    ]
+   },
+   {
+    "q": "Walking in the …",
+    "right": "Air",
+    "wrong": [
+     "Rain",
+     "Park",
+     "Clouds"
+    ]
+   },
+   {
+    "q": "Wonderful …",
+    "right": "Christmastime",
+    "wrong": [
+     "Wintertime",
+     "Snowtime",
+     "Holiday"
+    ]
+   },
+   {
+    "q": "Jingle Bell …",
+    "right": "Rock",
+    "wrong": [
+     "Roll",
+     "Ring",
+     "Rhythm"
+    ]
+   },
+   {
+    "q": "Santa Claus Is Comin' to …",
+    "right": "Town",
+    "wrong": [
+     "Tea",
+     "Dinner",
+     "Bed"
+    ]
+   },
+   {
+    "q": "I Wish It Could Be Christmas …",
+    "right": "Everyday",
+    "wrong": [
+     "Forever",
+     "Every Year",
+     "Today"
+    ]
+   },
+   {
+    "q": "Frosty the …",
+    "right": "Snowman",
+    "wrong": [
+     "Snowflake",
+     "Snowball",
+     "Iceman"
+    ]
+   },
+   {
+    "q": "Rudolph the Red-Nosed …",
+    "right": "Reindeer",
+    "wrong": [
+     "Nose",
+     "Sleigh",
+     "Elf"
+    ]
+   },
+   {
+    "q": "Let It …",
+    "right": "Snow",
+    "wrong": [
+     "Go",
+     "Be",
+     "Shine"
+    ]
+   },
+   {
+    "q": "Feliz …",
+    "right": "Navidad",
+    "wrong": [
+     "Noël",
+     "Natale",
+     "Navidades"
+    ]
+   },
+   {
+    "q": "Deck the …",
+    "right": "Halls",
+    "wrong": [
+     "Hall",
+     "Walls",
+     "Hearth"
+    ]
+   },
+   {
+    "q": "Silent …",
+    "right": "Night",
+    "wrong": [
+     "Morning",
+     "Evening",
+     "Knight"
+    ]
+   },
+   {
+    "q": "Baby, It's Cold …",
+    "right": "Outside",
+    "wrong": [
+     "Inside",
+     "Tonight",
+     "Out There"
+    ]
+   },
+   {
+    "q": "Little Drummer …",
+    "right": "Boy",
+    "wrong": [
+     "Girl",
+     "Man",
+     "Band"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's the German word?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "German",
+   "languages"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Dog",
+    "right": "Hund",
+    "wrong": [
+     "Hand",
+     "Huhn",
+     "Hut"
+    ]
+   },
+   {
+    "q": "Cat",
+    "right": "Katze",
+    "wrong": [
+     "Kuchen",
+     "Kerze",
+     "Kasse"
+    ]
+   },
+   {
+    "q": "House",
+    "right": "Haus",
+    "wrong": [
+     "Hose",
+     "Hals",
+     "Heu"
+    ]
+   },
+   {
+    "q": "Water",
+    "right": "Wasser",
+    "wrong": [
+     "Wetter",
+     "Wagen",
+     "Wurst"
+    ]
+   },
+   {
+    "q": "Bread",
+    "right": "Brot",
+    "wrong": [
+     "Brief",
+     "Brücke",
+     "Bruder"
+    ]
+   },
+   {
+    "q": "Beer",
+    "right": "Bier",
+    "wrong": [
+     "Biene",
+     "Birne",
+     "Bild"
+    ]
+   },
+   {
+    "q": "Car",
+    "right": "Auto",
+    "wrong": [
+     "Ampel",
+     "Arm",
+     "Abend"
+    ]
+   },
+   {
+    "q": "Book",
+    "right": "Buch",
+    "wrong": [
+     "Bauch",
+     "Baum",
+     "Berg"
+    ]
+   },
+   {
+    "q": "Friend",
+    "right": "Freund",
+    "wrong": [
+     "Frage",
+     "Feuer",
+     "Fenster"
+    ]
+   },
+   {
+    "q": "Night",
+    "right": "Nacht",
+    "wrong": [
+     "Nase",
+     "Nadel",
+     "Nebel"
+    ]
+   },
+   {
+    "q": "Day",
+    "right": "Tag",
+    "wrong": [
+     "Tisch",
+     "Tor",
+     "Tee"
+    ]
+   },
+   {
+    "q": "Red",
+    "right": "Rot",
+    "wrong": [
+     "Rad",
+     "Rose",
+     "Rock"
+    ]
+   },
+   {
+    "q": "Black",
+    "right": "Schwarz",
+    "wrong": [
+     "Schnee",
+     "Schloss",
+     "Schiff"
+    ]
+   },
+   {
+    "q": "White",
+    "right": "Weiß",
+    "wrong": [
+     "Wein",
+     "Wald",
+     "Wolke"
+    ]
+   },
+   {
+    "q": "Apple",
+    "right": "Apfel",
+    "wrong": [
+     "Affe",
+     "Ast",
+     "Anfang"
+    ]
+   },
+   {
+    "q": "Milk",
+    "right": "Milch",
+    "wrong": [
+     "Mond",
+     "Maus",
+     "Mutter"
+    ]
+   },
+   {
+    "q": "Child",
+    "right": "Kind",
+    "wrong": [
+     "König",
+     "Kopf",
+     "Kuh"
+    ]
+   },
+   {
+    "q": "Woman",
+    "right": "Frau",
+    "wrong": [
+     "Fisch",
+     "Fuß",
+     "Flasche"
+    ]
+   },
+   {
+    "q": "Man",
+    "right": "Mann",
+    "wrong": [
+     "Messer",
+     "Mantel",
+     "Markt"
+    ]
+   },
+   {
+    "q": "Thank you",
+    "right": "Danke",
+    "wrong": [
+     "Bitte",
+     "Hallo",
+     "Tschüss"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which city is this airport in?",
+  "target": 10,
+  "category": "Travel",
+  "tags": [
+   "airports",
+   "cities"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "JFK",
+    "right": "New York",
+    "wrong": [
+     "Philadelphia",
+     "Atlanta",
+     "Detroit"
+    ]
+   },
+   {
+    "q": "Charles de Gaulle",
+    "right": "Paris",
+    "wrong": [
+     "Lyon",
+     "Brussels",
+     "Geneva"
+    ]
+   },
+   {
+    "q": "Schiphol",
+    "right": "Amsterdam",
+    "wrong": [
+     "Rotterdam",
+     "Brussels",
+     "Hamburg"
+    ]
+   },
+   {
+    "q": "Changi",
+    "right": "Singapore",
+    "wrong": [
+     "Hong Kong",
+     "Kuala Lumpur",
+     "Bangkok"
+    ]
+   },
+   {
+    "q": "Narita",
+    "right": "Tokyo",
+    "wrong": [
+     "Osaka",
+     "Seoul",
+     "Beijing"
+    ]
+   },
+   {
+    "q": "O'Hare",
+    "right": "Chicago",
+    "wrong": [
+     "Dallas",
+     "Atlanta",
+     "Detroit"
+    ]
+   },
+   {
+    "q": "LAX",
+    "right": "Los Angeles",
+    "wrong": [
+     "San Francisco",
+     "Las Vegas",
+     "San Diego"
+    ]
+   },
+   {
+    "q": "Dulles",
+    "right": "Washington, D.C.",
+    "wrong": [
+     "Philadelphia",
+     "Baltimore",
+     "Atlanta"
+    ]
+   },
+   {
+    "q": "Barajas",
+    "right": "Madrid",
+    "wrong": [
+     "Valencia",
+     "Seville",
+     "Lisbon"
+    ]
+   },
+   {
+    "q": "Fiumicino",
+    "right": "Rome",
+    "wrong": [
+     "Naples",
+     "Florence",
+     "Venice"
+    ]
+   },
+   {
+    "q": "Kastrup",
+    "right": "Copenhagen",
+    "wrong": [
+     "Aarhus",
+     "Helsinki",
+     "Hamburg"
+    ]
+   },
+   {
+    "q": "Arlanda",
+    "right": "Stockholm",
+    "wrong": [
+     "Gothenburg",
+     "Helsinki",
+     "Malmö"
+    ]
+   },
+   {
+    "q": "Gardermoen",
+    "right": "Oslo",
+    "wrong": [
+     "Bergen",
+     "Helsinki",
+     "Gothenburg"
+    ]
+   },
+   {
+    "q": "Malpensa",
+    "right": "Milan",
+    "wrong": [
+     "Turin",
+     "Venice",
+     "Naples"
+    ]
+   },
+   {
+    "q": "El Prat",
+    "right": "Barcelona",
+    "wrong": [
+     "Valencia",
+     "Seville",
+     "Bilbao"
+    ]
+   },
+   {
+    "q": "Pearson",
+    "right": "Toronto",
+    "wrong": [
+     "Montreal",
+     "Vancouver",
+     "Ottawa"
+    ]
+   },
+   {
+    "q": "Logan",
+    "right": "Boston",
+    "wrong": [
+     "Seattle",
+     "Denver",
+     "Miami"
+    ]
+   },
+   {
+    "q": "Kingsford Smith",
+    "right": "Sydney",
+    "wrong": [
+     "Melbourne",
+     "Perth",
+     "Brisbane"
+    ]
+   },
+   {
+    "q": "John Lennon",
+    "right": "Liverpool",
+    "wrong": [
+     "Manchester",
+     "Leeds",
+     "Glasgow"
+    ]
+   },
+   {
+    "q": "George Best",
+    "right": "Belfast",
+    "wrong": [
+     "Dublin",
+     "Cork",
+     "Derry"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's the past tense?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "grammar",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Go",
+    "right": "Went",
+    "wrong": [
+     "Goed",
+     "Gone",
+     "Wended"
+    ]
+   },
+   {
+    "q": "Swim",
+    "right": "Swam",
+    "wrong": [
+     "Swum",
+     "Swimmed",
+     "Swimmen"
+    ]
+   },
+   {
+    "q": "Run",
+    "right": "Ran",
+    "wrong": [
+     "Runned",
+     "Rung",
+     "Ranned"
+    ]
+   },
+   {
+    "q": "Bring",
+    "right": "Brought",
+    "wrong": [
+     "Brang",
+     "Brung",
+     "Bringed"
+    ]
+   },
+   {
+    "q": "Think",
+    "right": "Thought",
+    "wrong": [
+     "Thunk",
+     "Thinked",
+     "Thaught"
+    ]
+   },
+   {
+    "q": "Catch",
+    "right": "Caught",
+    "wrong": [
+     "Catched",
+     "Cotch",
+     "Caughten"
+    ]
+   },
+   {
+    "q": "Teach",
+    "right": "Taught",
+    "wrong": [
+     "Teached",
+     "Tought",
+     "Teachen"
+    ]
+   },
+   {
+    "q": "Buy",
+    "right": "Bought",
+    "wrong": [
+     "Buyed",
+     "Boughten",
+     "Bayed"
+    ]
+   },
+   {
+    "q": "Fly",
+    "right": "Flew",
+    "wrong": [
+     "Flied",
+     "Flown",
+     "Flyed"
+    ]
+   },
+   {
+    "q": "Draw",
+    "right": "Drew",
+    "wrong": [
+     "Drawed",
+     "Drawn",
+     "Druw"
+    ]
+   },
+   {
+    "q": "Throw",
+    "right": "Threw",
+    "wrong": [
+     "Throwed",
+     "Thrown",
+     "Thrue"
+    ]
+   },
+   {
+    "q": "Sing",
+    "right": "Sang",
+    "wrong": [
+     "Sung",
+     "Singed",
+     "Sanged"
+    ]
+   },
+   {
+    "q": "Drink",
+    "right": "Drank",
+    "wrong": [
+     "Drunk",
+     "Drinked",
+     "Drunked"
+    ]
+   },
+   {
+    "q": "Begin",
+    "right": "Began",
+    "wrong": [
+     "Begun",
+     "Beginned",
+     "Begon"
+    ]
+   },
+   {
+    "q": "Freeze",
+    "right": "Froze",
+    "wrong": [
+     "Frozen",
+     "Freezed",
+     "Frizz"
+    ]
+   },
+   {
+    "q": "Choose",
+    "right": "Chose",
+    "wrong": [
+     "Chosen",
+     "Choosed",
+     "Chuse"
+    ]
+   },
+   {
+    "q": "Speak",
+    "right": "Spoke",
+    "wrong": [
+     "Spoken",
+     "Speaked",
+     "Spoked"
+    ]
+   },
+   {
+    "q": "Write",
+    "right": "Wrote",
+    "wrong": [
+     "Written",
+     "Writed",
+     "Wrate"
+    ]
+   },
+   {
+    "q": "Ride",
+    "right": "Rode",
+    "wrong": [
+     "Ridden",
+     "Rided",
+     "Rade"
+    ]
+   },
+   {
+    "q": "Eat",
+    "right": "Ate",
+    "wrong": [
+     "Eaten",
+     "Eated",
+     "Ated"
+    ]
+   }
+  ]
+ }
+]
