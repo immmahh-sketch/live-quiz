@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#1b1544">
 <title>Earn points before the quiz begins! · Let's Quiz!</title>
-<meta name="description" content="A warm-up game on your phone before quiz night. The top score gets 1,000 bonus points in the quiz.">
+<meta name="description" content="A warm-up game on your phone before quiz night: earn bonus points for the quiz.">
 <meta property="og:title" content="Earn points before the quiz begins!">
-<meta property="og:description" content="Twenty questions and games on your phone. The top score starts the quiz 1,000 points ahead.">
+<meta property="og:description" content="Questions and games on your phone. Finish it for bonus points on quiz night; the top score gets even more.">
 <meta property="og:image" content="https://letsquiz.uk/assets/brand/icon-1024.png">
 <link rel="icon" type="image/png" sizes="64x64" href="assets/brand/icon-64.png">
 <link rel="apple-touch-icon" href="assets/brand/icon-180.png">
@@ -119,7 +119,8 @@ function intro(r) {
     ${solo(r) ? `<p class="lead">${r.questions || 'Ten'} questions and games on your phone, against ${r.bots === 3 || r.bots == null ? 'three' : r.bots} bots.</p>
     <div class="prize"><span class="big">🏆</span><span>Top the scoreboard<small>${r.replay ? 'Play as often as you like: your best score counts.' : 'One go per phone, so make it count!'}</small></span></div>
     ${r.best ? `<div class="chip" style="align-self:flex-start;background:#ffd54a;color:#1b1544">🔁 Your best so far: ${r.best.score} (${ordinal(r.best.place)} of ${r.count}) after ${r.best.goes} go${r.best.goes === 1 ? '' : 'es'}. Beat it!</div>` : ''}` : `<p class="lead">${r.questions ? r.questions : 'Twenty'} questions and games on your phone, against three bots, before quiz night.${(r.types || []).includes('about') ? ' Some are about YOU: watch out, your answers might come back on quiz night!' : ''}</p>
-    <div class="prize"><span class="big">🏆</span><span>The top score starts the quiz <u>1,000 points</u> ahead<small>One go per phone, so make it count!</small></span></div>`}
+    <div class="prize"><span class="big">🏆</span><span>${r.bonus ? `Finish it for <u>${fmtPts(r.bonus.play)} bonus points</u> on quiz night, and the week's top score gets <u>${fmtPts(r.bonus.top)}</u>` : 'The top score starts the quiz <u>1,000 points</u> ahead'}<small>One go per phone, so make it count!</small></span></div>`}
+    ${r.week && !solo(r) ? `<div class="chip" style="align-self:flex-start;background:#ffd54a;color:#1b1544">📅 Warm-up week ${r.week}${r.weeks ? ' of ' + r.weeks : ''}: a new one every Saturday at 5am, and the bonus points from every week add up</div>` : ''}
     ${r.test ? `<div class="chip" style="align-self:flex-start;background:#7ee0a8;color:#1b1544">🧪 Test game: nothing is saved and you can play as often as you like</div>` : ''}
     ${r.practice ? `<div class="chip" style="align-self:flex-start;background:#ffd54a;color:#1b1544">🧪 Practice go: your score of ${r.practice.score} stays on the scoreboard, whatever you get this time</div>` : ''}
     ${r.until ? `<div class="chip" style="align-self:flex-start;background:rgba(255,255,255,.16)">⏰ Closes ${esc(endsText(r.until))} · ${leftText(r.until)}</div>` : ''}
@@ -140,15 +141,18 @@ function intro(r) {
     game();
   };
 }
+const fmtPts = (n) => Number(n || 0).toLocaleString('en-GB');
 /** When it closes: "Friday 2 October at 5pm" (the day and time players need). */
 const endsText = (iso) => new Date(iso).toLocaleString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit', hour12: true }).replace(':00', '').replace(/ (am|pm)/, '$1').replace(' at ', ' at ');
 const leftText = (iso) => { const ms = new Date(iso) - Date.now(); const h = Math.floor(ms / 3600e3); return h >= 48 ? Math.floor(h / 24) + ' days to go' : h >= 1 ? h + ' hour' + (h === 1 ? '' : 's') + ' to go' : Math.max(1, Math.ceil(ms / 60e3)) + ' minutes to go'; };
 function closed(r) {
   const w = (r.top || [])[0];
   app.innerHTML = `<div class="land">${brand}<h1>${esc(r.title)}</h1>
-    ${!r.ended ? `<div class="card played"><div class="em">⏸️</div><h2 style="margin:4px 0 0">${solo(r) ? 'This game is switched off for now' : 'The warm-up is switched off for now'}</h2><p class="muted" style="margin:8px 0 0">Check back soon!</p></div>` : ''}
+    ${r.notYet ? `<div class="card played"><div class="em">⏳</div><h2 style="margin:4px 0 0">${r.week ? 'Week ' + r.week + ' of the warm-up' : 'The warm-up'} opens ${esc(endsText(r.opens))}</h2><p class="muted" style="margin:8px 0 0">Come back then for a fresh set of questions and games.</p></div>` : ''}
+    ${!r.ended && !r.notYet ? `<div class="card played"><div class="em">⏸️</div><h2 style="margin:4px 0 0">${solo(r) ? 'This game is switched off for now' : 'The warm-up is switched off for now'}</h2><p class="muted" style="margin:8px 0 0">Check back soon!</p></div>` : ''}
     ${!r.ended ? '' : `<div class="card played"><div class="em">⏰</div><h2 style="margin:4px 0 0">${solo(r) ? 'This game has closed' : 'The warm-up has closed'}</h2>
-      ${w ? `<p class="muted" style="margin:8px 0 0">Top of the table: <b>${esc(w.emoji || '')} ${esc(w.name)}</b> with ${w.score} points${solo(r) ? '.' : ', who starts the quiz 1,000 points ahead.'}</p>` : `<p class="muted">${solo(r) ? 'Thanks for playing!' : 'See you at the quiz!'}</p>`}</div>`}
+      ${w ? `<p class="muted" style="margin:8px 0 0">Top of the table: <b>${esc(w.emoji || '')} ${esc(w.name)}</b> with ${w.score} points${solo(r) ? '.' : r.bonus ? `, who gets ${fmtPts(r.bonus.top)} bonus points on quiz night.` : ', who starts the quiz 1,000 points ahead.'}</p>` : `<p class="muted">${solo(r) ? 'Thanks for playing!' : 'See you at the quiz!'}</p>`}
+      ${r.nextOpens ? `<p class="muted" style="margin:8px 0 0">⏳ The next warm-up opens <b>${esc(endsText(r.nextOpens))}</b>.</p>` : ''}</div>`}
     <div class="card"><h2>🏆 ${r.ended ? 'Final ' : ''}${solo(r) ? (r.ended ? 'scoreboard' : 'Scoreboard so far') : (r.ended ? 'warm-up scoreboard' : 'Warm-up scoreboard so far')}</h2>${boardHtml(r.board || r.top || [])}</div></div>`;
 }
 function played(r) {
@@ -156,7 +160,7 @@ function played(r) {
   app.innerHTML = `<div class="land">${brand}
     <div class="card played"><div class="em">${esc(p.emoji || '🎉')}</div><h2 style="margin:4px 0 0">You've had your go, ${esc(p.name)}!</h2>
       <div class="score">${p.score} points</div><p class="muted" style="margin:0">${ordinal(p.place)} of ${r.count} on the ${solo(r) ? '' : 'warm-up '}scoreboard${p.place === 1 ? ' · 🥇 top of the table!' : ''}</p>
-      <p class="muted small" style="margin:10px 0 0">It's one go per phone.${solo(r) ? '' : ` The top score${r.until ? ' when it closes on ' + esc(endsText(r.until)) : ''} gets 1,000 bonus points at the start of the quiz.`}</p></div>
+      <p class="muted small" style="margin:10px 0 0">It's one go per phone.${solo(r) ? '' : r.bonus ? ` You've earned ${fmtPts(r.bonus.play)} bonus points for quiz night (use the same phone on the night and they're added for you). The top score${r.until ? ' when it closes on ' + esc(endsText(r.until)) : ''} gets ${fmtPts(r.bonus.top)} more.` : ` The top score${r.until ? ' when it closes on ' + esc(endsText(r.until)) : ''} gets 1,000 bonus points at the start of the quiz.`}</p></div>
     <div class="card"><h2>🏆 ${solo(r) ? 'Scoreboard' : 'Warm-up scoreboard'}${r.count ? ` · ${r.count} played` : ''}</h2>${boardHtml(r.board || r.top || [], p)}</div>
     <p class="note">Played on ${new Date(p.played_at).toLocaleString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit' })}.</p></div>`;
   scrollToMe();

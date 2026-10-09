@@ -1432,9 +1432,10 @@ function renderTypeBox() {
   }
   if (q.type === 'task') {
     const mode = q.mode || 'photo', p = Array.isArray(q.prizes) ? q.prizes : (q.prizes = mode === 'photo' ? [1000, 600, 300] : [1000, 200, 0]);
-    const modes = [['spin', '🎡 The wheel picks who does it (on camera)'], ['all', '🎭 Everyone at once (on camera)'], ['photo', '📸 A photo from every phone']];
+    const modes = [['spin', '🎡 The wheel picks who does it (on camera)'], ['all', '🎭 Everyone at once (on camera)'], ['photo', '📸 A photo from every phone'], ['live', '🎬 Warm-up: do it before quiz night, show it live']];
     const note = mode === 'spin' ? `The wheel spins to pick three players, then an envelope opens on the screen with the task, and the clock appears 5 seconds later. When time's up you mark 1st, 2nd, 3rd or "didn't try", and the wheel spins again for the next task. It runs <b>2 tasks under 9 players, 3 from 9 up</b> (more if that's what it takes for everyone to be picked across the night's wheel questions). The wheel picks people who haven't been picked yet first, and <b>no task is used twice in a night</b>: if this list runs out it borrows from the other wheel questions' lists. Put the heading in the box above (e.g. "Taskmaster") and the tasks below.`
       : mode === 'all' ? 'One task for everybody, all at once, on camera (e.g. "Disguise yourself. Best disguise wins."). Write it in the box above. When time\'s up you click 1st, 2nd and 3rd from everyone.'
+      : mode === 'live' ? 'For a warm-up: phones show the task with no clock and an "I\'m in" button, nothing is uploaded. Players get it ready and show it on camera on quiz night, so put an "Everyone at once" task with the same words in the quiz itself and score it live there.'
       : 'Players snap a photo on their phones (or pick one they have) and send it in. On quiz night the photos fill the screen and you click 🥇 🥈 🥉 and 💩 worst. In a warm-up you judge them afterwards from the warm-up panel. A warm-up task is always a photo.';
     box.innerHTML = `<div class="field"><label>How it's played</label><select id="t_mode">${modes.map(([v, l]) => `<option value="${v}" ${mode === v ? 'selected' : ''}>${l}</option>`).join('')}</select></div>
       <div class="notice" style="margin-bottom:12px">${note}</div>

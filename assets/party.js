@@ -322,7 +322,8 @@ function wsPick() {
 }
 /** The question as the phones get it (buildView): the quote and four names, never which is right. */
 function partyView(q, v, tok) {
-  if (q.type === 'task' && WARMUP) v.upload = { code: String(WARMUP).toUpperCase(), key: q.id }; // a warm-up has no host to judge live: the photo is kept for later
+  if (q.type === 'task' && WARMUP && q.mode === 'live') v.live = { by: q.liveBy || 'quiz night' }; // a live task: done before quiz night, shown on camera, scored by the host there
+  else if (q.type === 'task' && WARMUP) v.upload = { code: String(WARMUP).toUpperCase(), key: q.id }; // a warm-up has no host to judge live: the photo is kept for later
   if (q.type !== 'whosaid') return;
   wsNow = wsPick();
   if (!wsNow) { v.empty = true; v.options = []; return; }
@@ -377,7 +378,7 @@ function partyReveal() {
   else if (q.type === 'task') {
     const g = G.q.task || { photos: {}, picks: {} }, at = (v) => Object.keys(g.picks).find((p) => g.picks[p] === v);
     const slot = (v) => { const pid = at(v); return pid ? `<div class="taskpod p${v}"><div class="tpmedal big">${TASK_MEDAL[v]}</div><img src="${esc(g.photos[pid]?.url || '')}" alt=""><div class="tpname">${pem(pid)} ${esc(pname(pid))} · ${taskPrize(q, v) > 0 ? '+' : ''}${taskPrize(q, v)}</div></div>` : ''; };
-    body = WARMUP ? '<div class="item" style="justify-content:center">📸 Photos in! The Taskmaster judges them before quiz night.</div>' : `<div class="taskpodium">${slot('2')}${slot('1')}${slot('3')}${slot('w')}</div>`;
+    body = WARMUP && q.mode === 'live' ? `<div class="item" style="justify-content:center">🎬 Challenge accepted! Show it on camera on ${esc(q.liveBy || 'quiz night')}: scored live.</div>` : WARMUP ? '<div class="item" style="justify-content:center">📸 Photos in! The Taskmaster judges them before quiz night.</div>' : `<div class="taskpodium">${slot('2')}${slot('1')}${slot('3')}${slot('w')}</div>`;
     pill = `📸 ${Object.keys(g.photos).length} photos`;
   }
   if (q.type === 'whosaid') {
@@ -419,7 +420,7 @@ function partyGrade(q, byPlayer, PL, stats, entries, res, keys) {
       if (pts > 0) stats.right++;
     }
   }
-  if (q.type === 'task' && WARMUP) for (const [pid] of entries) byPlayer[pid] = { answered: true, correct: true, partial: 1, points: 0, note: '📸 Photo in! The Taskmaster judges them before quiz night: the best three win points.' };
+  if (q.type === 'task' && WARMUP) for (const [pid] of entries) byPlayer[pid] = { answered: true, correct: true, partial: 1, points: 0, note: q.mode === 'live' ? `🎬 You're in! Get it ready and show it on camera on ${q.liveBy || 'quiz night'}: the best ones win points live.` : '📸 Photo in! The Taskmaster judges them before quiz night: the best three win points.' };
   if (q.type === 'about') {
     stats.texts = [];
     for (const [pid, a] of entries) { const t = String(a.answer ?? '').trim().slice(0, 200); if (!t) continue; byPlayer[pid] = { answered: true, correct: true, partial: 1, points: q.points ?? 200, note: '🙋 Thanks! Watch out: it might come up on quiz night…' }; stats.right++; stats.texts.push({ name: PL[pid].name, text: t, ok: true }); }
@@ -445,7 +446,7 @@ function partyAnswerText(q) {
 function partyAnswerDisplay(q, pid) {
   if (q.type === 'cards') { const g = G.q.pc; return !g ? '—' : g.winners.includes(pid) ? 'made it to the end 🏆' : g.outAt[pid] ? `out on card ${g.outAt[pid] + 1}` : '—'; }
   if (q.type === 'task' && G.q.tm) { const d = G.q.tm.done.filter((x) => x.picks.includes(pid)); return d.length ? d.map((x) => `${x.places[pid] ? TM_PLACES[x.places[pid]] : '·'} ${x.got[pid] > 0 ? '+' : ''}${x.got[pid]}`).join(', ') : 'not picked'; }
-  if (q.type === 'task') { const g = G.q.task; if (WARMUP) return G.q.answers[pid] ? '📸 photo sent' : '—'; return !g ? '—' : g.picks[pid] ? `${TASK_MEDAL[g.picks[pid]]} photo` : g.photos[pid] ? '📸 photo sent' : '—'; }
+  if (q.type === 'task') { const g = G.q.task; if (WARMUP) return G.q.answers[pid] ? (q.mode === 'live' ? '🎬 in' : '📸 photo sent') : '—'; return !g ? '—' : g.picks[pid] ? `${TASK_MEDAL[g.picks[pid]]} photo` : g.photos[pid] ? '📸 photo sent' : '—'; }
   if (q.type === 'whosaid') { const a = G.q.answers[pid]; if (pid === G.q.author) return 'it was theirs'; if (!a) return '—'; if (a.answer === 'skip') return 'skipped'; const id = G.q.keys[a.answer]; return id ? pname(id.slice(2)) : '—'; }
   return null;
 }

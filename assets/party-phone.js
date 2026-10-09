@@ -174,6 +174,7 @@ function partyQuestionHtml(q) {
     return `<div class="wsq">“${esc(q.quote)}”</div><p class="center small muted" style="margin:0 0 8px">${esc(q.prompt || '')}</p><div class="ans-grid">${q.options.map((o) => `<button class="abtn" data-k="${o.k}" style="background:${COLORS[o.c].hex}"><span class="shape">${esc(o.emoji || COLORS[o.c].shape)}</span>${esc(o.text)}</button>`).join('')}</div><button type="button" class="btn btn-ghost btn-block mt" id="skipQ" style="color:var(--ink-3)">Skip — no idea ⏭</button>`;
   }
   if (q.type === 'about') return `<div class="pq">🙋 ${esc(q.text)}</div><p class="center small muted">Be honest, or at least funny. It might come up on quiz night!</p><form id="textForm" class="state" style="justify-content:flex-start;padding-top:0"><input type="text" id="textIn" maxlength="140" placeholder="Your answer" autocomplete="off" autocorrect="on" autocapitalize="sentences" style="font-size:1.15rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Send</button></form><button type="button" class="btn btn-ghost btn-block mt" id="skipQ" style="color:var(--ink-3)">Skip ⏭</button>`;
+  if (q.type === 'task' && q.live) return `<div class="pq">🎬 ${esc(q.text)}</div><div class="state" style="padding-top:0"><p class="muted">No clock on this one: you have until <b>${esc(q.live.by)}</b>. Get it ready, then show it on camera on the night. The Taskmaster scores it live.</p><button type="button" class="btn btn-primary btn-lg btn-block" id="liveIn">I'm in 🙌</button></div><button type="button" class="btn btn-ghost btn-block mt" id="skipQ" style="color:var(--ink-3)">Not for me ⏭</button>`;
   if (q.type === 'task') return taskCapHtml(q.text) + `<button type="button" class="btn btn-ghost btn-block mt" id="skipQ" style="color:var(--ink-3)">Skip this task ⏭</button>`;
   return '';
 }
@@ -182,6 +183,7 @@ function partyBindQuestion(q) {
   if ($('#skipQ')) $('#skipQ').onclick = () => { P.skipped[q.id] = true; submit(q, 'skip'); };
   if (q.type === 'whosaid') $$('.abtn').forEach((b) => b.onclick = () => submit(q, b.dataset.k));
   if (q.type === 'about' && $('#textForm')) { $('#textForm').onsubmit = (e) => { e.preventDefault(); const t = $('#textIn').value.trim(); if (t) submit(q, t); }; setTimeout(() => $('#textIn')?.focus(), 50); }
+  if (q.type === 'task' && q.live && $('#liveIn')) $('#liveIn').onclick = () => submit(q, { live: true });
   if (q.type === 'task' && q.upload) { if (P.work.taskFor !== q.id) { P.work.taskFor = q.id; P.work.taskPrev = null; P.work.taskErr = ''; } taskBind(q.upload.code, q.upload.key, () => submit(q, { photo: true })); }
   return true;
 }

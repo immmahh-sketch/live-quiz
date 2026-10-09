@@ -189,6 +189,7 @@ const startsRound = (i) => {
   G = { code: newCode(), quizId, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: autoWanted() };
   persist();
   connect();
+  if (!PREVIEW) setTimeout(warmBonusLoad, 0); // warm-up bonuses, given as each player joins
   if (PREVIEW) setTimeout(startPreview, 0); // once the whole script has run (no server call to wait for here)
   setTimeout(() => { if (musicOn()) loadYT().catch(() => {}); }, 0); // once the whole script has run, so the player code is ready
   const nb = +new URLSearchParams(location.search).get('bots');
@@ -222,7 +223,7 @@ async function bootWarmup() {
   let quiz = LQ.normalizeQuiz(r.quiz);
   quiz.questions = quiz.questions.filter((q) => LQ.validate(q).length === 0);
   quiz.rounds = quiz.rounds.filter((x) => quiz.questions.some((q) => q.round === x.id));
-  G = { code: newCode(), quizId: r.quiz.id, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: true, warmup: WARMUP, warmTop: r.top || [], warmCount: r.count || 0, warmUntil: r.until || null, warmSolo: !!r.standalone, warmBots: r.bots ?? 3, warmReplay: !!r.replay };
+  G = { code: newCode(), quizId: r.quiz.id, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: true, warmup: WARMUP, warmTop: r.top || [], warmCount: r.count || 0, warmBonus: r.bonus || null, warmUntil: r.until || null, warmSolo: !!r.standalone, warmBots: r.bots ?? 3, warmReplay: !!r.replay };
   persist(); connect();
   setTimeout(() => addBots(G.warmBots), 0); // settings.warmup.bots (3 unless set); a test go too, so the host sees it as players do
   setTimeout(() => { if (musicOn()) loadYT().catch(() => {}); }, 0);
@@ -250,7 +251,7 @@ async function warmupSave() {
   const real = rk.map((p, i) => ({ pid: p.id, name: p.name, emoji: p.emoji || '', score: p.score, rank: i + 1, answers: answersOf(p.id) })).filter((p) => !p.pid.startsWith('p_bot'));
   G.warmSaved = 'saving'; persist();
   try {
-    const r = await api('warmup_save', { code: WARMUP, game: { code: G.code, started_at: G.startedAt, bots: (G.bots || []).length }, players: real }, { timeout: 20000 });
+    const r = await api('warmup_save', { code: WARMUP, quizId: G.quizId, game: { code: G.code, started_at: G.startedAt, bots: (G.bots || []).length }, players: real }, { timeout: 20000 });
     G.warmSaved = r; persist();
   } catch (e) { G.warmSaved = { error: e.message }; persist(); }
   if (G.phase === 'final') render();
@@ -511,7 +512,7 @@ function onHello({ pid, name, emoji, test, view }) {
   if (view === true || G.viewers?.[pid]) return addViewer(pid, name, emoji);
   name = String(name || '').replace(/\s+/g, ' ').trim().slice(0, 20) || 'Player';
   emoji = LQ.EMOJIS.includes(emoji) ? emoji : '';
-  if (!G.players[pid]) { G.players[pid] = { id: pid, name, emoji, score: 0, joinedAt: Date.now() }; if (G.phase !== 'lobby') powerDeal(pid); persist(); if (G.phase === 'lobby') renderLobbyPlayers(); warmupGate(pid); }
+  if (!G.players[pid]) { G.players[pid] = { id: pid, name, emoji, score: 0, joinedAt: Date.now() }; if (G.phase !== 'lobby') powerDeal(pid); persist(); if (G.phase === 'lobby') renderLobbyPlayers(); warmupGate(pid); if (G.wbonus) warmBonusGive(G.players[pid]); else warmBonusLoad(); }
   else if ((G.players[pid].name !== name || G.players[pid].emoji !== emoji) && G.phase === 'lobby') { G.players[pid].name = name; G.players[pid].emoji = emoji; persist(); renderLobbyPlayers(); }
   if (test === true && !G.test) makeTest();
   clearTimeout(helloT); helloT = setTimeout(broadcastState, 150);
@@ -2717,6 +2718,42 @@ function camLinksModal() {
   draw();
 }
 /** The bonus, big on the screen for a moment, so everyone on the call sees it. */
+/** Warm-up bonuses, given automatically on quiz night (user's rule, 9 Oct 2026): for every warm-up leading up to this
+ *  quiz, each device that finished it gets that warm-up's bonus.play points, and the week's top score its bonus.top.
+ *  Matched by device (pid), so it finds a player who uses the same phone; anyone else can be given points by hand
+ *  with 🎁 Bonus points. Each player gets it once, when they join (or straight away for players already here). */
+let warmBonusBusy = false;
+async function warmBonusLoad() {
+  if (WARMUP || PREVIEW || !G || G.wbonus || warmBonusBusy || !G.quizId) return;
+  warmBonusBusy = true;
+  try {
+    const r = await api('warmup_board');
+    const wus = (r.warmups || []).filter((w) => w.forQuiz === G.quizId && !w.fun && w.bonus && (+w.bonus.play || +w.bonus.top));
+    const byPid = {};
+    for (const w of wus) {
+      const rows = (r.plays || []).filter((p) => p.code === w.code && (p.season || '') === (w.season || '') && !String(p.pid).startsWith('p_bot'));
+      const best = Math.max(...rows.map((p) => p.score));
+      const label = w.week ? 'week ' + w.week : 'the warm-up';
+      for (const p of rows) {
+        const b = byPid[p.pid] = byPid[p.pid] || { pts: 0, played: 0, topped: [] };
+        if (+w.bonus.play) { b.pts += +w.bonus.play; b.played++; }
+        if (+w.bonus.top && p.score === best) { b.pts += +w.bonus.top; b.topped.push(label); }
+      }
+    }
+    for (const b of Object.values(byPid)) b.why = ['Warm-up bonus', b.played ? `${b.played} played` : '', b.topped.length ? `top in ${b.topped.join(' & ')}` : ''].filter(Boolean).join(' · ');
+    G.wbonus = { byPid, given: {} }; persist();
+    Object.values(G.players).forEach(warmBonusGive);
+  } catch (e) { console.warn('warm-up bonuses', e); } finally { warmBonusBusy = false; }
+}
+function warmBonusGive(p) {
+  const w = G.wbonus; if (!w || !p || p.id.startsWith('p_bot') || w.given[p.id]) return;
+  const b = w.byPid[p.id]; if (!b?.pts) return;
+  w.given[p.id] = true;
+  p.score += b.pts; p.bonus = (p.bonus || 0) + b.pts;
+  (G.bonuses = G.bonuses || []).push({ pid: p.id, name: p.name, pts: b.pts, why: b.why, at: Date.now() });
+  persist(); broadcastState(); if (G.phase === 'lobby') renderLobbyPlayers();
+  bonusFlash(p, b.pts, b.why);
+}
 function bonusFlash(p, pts, why) {
   const d = document.createElement('div'); d.className = 'bonusflash';
   d.innerHTML = `<div><div class="bf-em">🎁</div><div class="bf-name">${esc(p.emoji || '')} ${esc(p.name)}</div><div class="bf-pts">${pts > 0 ? '+' : ''}${pts} points</div><div class="bf-why">${esc(why)}</div></div>`;
@@ -2765,7 +2802,7 @@ function renderWarmFinal() {
       <div class="wuleft"><h1 class="big wutitle">${me ? `You scored ${me.score}!` : 'Game over'}</h1>${status}
         <div class="wusmall" style="margin-top:14px">This game</div>
         <ol class="wulist">${rk.map((p, i) => `<li class="${p.id === myPid() ? 'me' : ''}"><span class="n">${i + 1}</span><span class="nm">${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}</span><b>${p.score}</b></li>`).join('')}</ol>
-        ${G.warmSolo ? '' : `<p class="wusmall" style="margin-top:auto">The top score when the warm-up closes${G.warmUntil ? ' on ' + esc(endsText(G.warmUntil)) : ''} gets 1,000 bonus points at the start of the quiz.</p>`}</div>
+        ${G.warmSolo ? '' : `<p class="wusmall" style="margin-top:auto">${G.warmBonus ? `Finish it for ${Number(G.warmBonus.play).toLocaleString('en-GB')} bonus points on quiz night; the top score when it closes${G.warmUntil ? ' on ' + esc(endsText(G.warmUntil)) : ''} gets ${Number(G.warmBonus.top).toLocaleString('en-GB')} more.` : `The top score when the warm-up closes${G.warmUntil ? ' on ' + esc(endsText(G.warmUntil)) : ''} gets 1,000 bonus points at the start of the quiz.`}</p>`}</div>
       <div class="wuright"><div class="wusmall">🏆 ${G.warmSolo ? 'Scoreboard' : 'Warm-up scoreboard'}${sv?.count ? ` · ${sv.count} played so far` : ''}</div>
         ${board.length ? `<ol class="wulist" id="wuBoard">${board.map((p, i) => `<li class="${i === meAt ? 'me' : ''}"><span class="n">${medal(place(p))}</span><span class="nm">${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}${i === meAt ? ' (you)' : ''}</span><b>${p.score}</b></li>`).join('')}</ol>`
           : `<p class="wusmall" style="margin-top:12px">${!sv || sv === 'saving' ? 'Loading the scoreboard…' : 'The scoreboard shows here once your score is saved.'}</p>`}</div>
