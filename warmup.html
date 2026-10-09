@@ -76,6 +76,7 @@
 <script>
 const { $, $$, esc, store, uid, ordinal } = LQ;
 const app = $('#app');
+const WEEK = +(new URLSearchParams(location.search).get('wk') || 0) || 0; // TEST codes only: try one week of a weekly series
 const CODE = (new URLSearchParams(location.search).get('c') || new URLSearchParams(location.search).get('code') || 'WARMUP').toUpperCase().replace(/[^A-Z0-9]/g, '');
 const me = () => { const p = store('lq_player') || {}; return { pid: /^p_[a-z0-9]{6,12}$/.test(p.pid || '') ? p.pid : '', name: p.name || '', emoji: LQ.EMOJIS.includes(p.emoji) ? p.emoji : '' }; };
 const SAVE_KEY = 'lq_live_warmup';
@@ -97,7 +98,7 @@ async function start() {
   if (g?.warmup === CODE && g.phase && g.phase !== 'lobby' && g.phase !== 'final' && me().pid) return game();
   app.innerHTML = `<div class="land">${brand}<p class="muted" style="color:#fff;opacity:.7">Loading…</p></div>`;
   let r;
-  try { r = await LQ.api('warmup_open', { code: CODE, pid: me().pid, peek: true }, { timeout: 20000 }); }
+  try { r = await LQ.api('warmup_open', { code: CODE, pid: me().pid, peek: true, week: WEEK }, { timeout: 20000 }); }
   catch (e) { return landError(e.message); }
   if (r.played) return played(r);
   if (!r.open) return closed(r);
@@ -177,7 +178,7 @@ function game() {
     </div>
     <iframe class="engine" id="hostFrame" title="" aria-hidden="true" tabindex="-1" allow="autoplay"></iframe>`;
   const hostFrame = $('#hostFrame');
-  hostFrame.src = 'host?quiz=warmup&w=' + encodeURIComponent(CODE) + '&x=' + Date.now().toString(36);
+  hostFrame.src = 'host?quiz=warmup&w=' + encodeURIComponent(CODE) + (WEEK ? '&wk=' + WEEK : '') + '&x=' + Date.now().toString(36);
   // Sound comes from the hidden quiz frame, and phones only let it play after a tap: any tap in the game switches it on.
   const soundOn = () => { try { hostFrame.contentWindow.eval("sfx = sfx || new (window.AudioContext || window.webkitAudioContext)(); if (sfx.state === 'suspended') sfx.resume();"); } catch {} };
   document.addEventListener('pointerdown', soundOn);

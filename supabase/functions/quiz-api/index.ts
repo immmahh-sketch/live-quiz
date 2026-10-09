@@ -958,14 +958,26 @@ Deno.serve(async (req) => {
       // TEST in front of a warm-up's code (TESTWARMUP): the host trying it. Play as often as you like, nothing is saved,
       // it never closes. TESTWARMUP with no warm-up coded WARMUP tries the latest warm-up.
       const TEST = code.startsWith("TEST") && code.length > 4, real = TEST ? code.slice(4) : code;
-      let found = await rest(`quiz_quizzes?settings->warmup->>code=eq.${real}&select=id,title,settings,questions&order=updated_at.desc&limit=1`);
-      if (!found?.[0] && TEST && real === "WARMUP") found = await rest(`quiz_quizzes?settings->warmup=not.is.null&select=id,title,settings,questions&order=updated_at.desc&limit=1`);
-      const quiz = found?.[0];
+      let found: any[] = (await rest(`quiz_quizzes?settings->warmup->>code=eq.${real}&select=id,title,settings,questions&order=updated_at.desc&limit=12`)) || [];
+      if (!found[0] && TEST && real === "WARMUP") found = (await rest(`quiz_quizzes?settings->warmup=not.is.null&select=id,title,settings,questions&order=updated_at.desc&limit=1`)) || [];
+      // Several warm-ups can share a code, one a week (settings.warmup.from … until). Take the one whose window holds now;
+      // for a late save, the one the game was played in; between weeks, the one that has just closed; else the next to open.
+      const msOf = (s: unknown) => typeof s === "string" && !isNaN(Date.parse(s)) ? Date.parse(s) : null;
+      const fromOf = (q: any) => msOf(q?.settings?.warmup?.from), untilOf = (q: any) => msOf(q?.settings?.warmup?.until), nowMs = Date.now();
+      const inWindow = found.filter((q) => (fromOf(q) ?? -Infinity) <= nowMs && nowMs < (untilOf(q) ?? Infinity));
+      const closedOnes = found.filter((q) => untilOf(q) != null && untilOf(q)! <= nowMs).sort((x, y) => untilOf(y)! - untilOf(x)!);
+      const toCome = found.filter((q) => (fromOf(q) ?? -Infinity) > nowMs).sort((x, y) => fromOf(x)! - fromOf(y)!);
+      const byId = action === "warmup_save" && UUID_RE.test(String(body.quizId || "")) ? found.find((q) => q.id === body.quizId) : null;
+      // a TEST code can ask for one week of a weekly series (?wk=4 on the warm-up link), to try it before it opens
+      const wantWeek = TEST && +body.week ? found.find((q: any) => +q?.settings?.warmup?.week === +body.week) : null;
+      const quiz = byId || wantWeek || inWindow[0] || (TEST ? toCome[0] : null) || closedOnes[0] || toCome[0] || found[0];
       if (!quiz?.settings?.warmup) return json({ error: "No warm-up game has that code." }, 404);
       const wu = quiz.settings.warmup, until = wu.until && !isNaN(Date.parse(wu.until)) ? Date.parse(wu.until) : null;
       const season = String(wu.season || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 40);
+      const opensAt = fromOf(quiz), notYet = !!opensAt && nowMs < opensAt;
       const ended = !!until && Date.now() >= until;
-      const open = TEST || (wu.open !== false && !ended);
+      const nextOpens = ended && toCome[0] ? new Date(fromOf(toCome[0])!).toISOString() : null; // between weeks: when the next one opens
+      const open = TEST || (wu.open !== false && !ended && !notYet);
       const boardCode = TEST ? String(wu.code || "").toUpperCase().replace(/[^A-Z0-9]/g, "") : code; // a test game reads the real scoreboard
       const pidOk = (p: unknown) => typeof p === "string" && /^p_[a-z0-9]{6,12}$/.test(p) && !p.startsWith("p_bot");
       const board = `quiz_warmup_plays?code=eq.${boardCode}&season=eq.${season}&select=pid,name,emoji,score,played_at,test_go,goes&order=score.desc,played_at.asc&limit=5000`;
@@ -991,6 +1003,7 @@ Deno.serve(async (req) => {
         // standalone (settings.warmup.fun): a game just for fun, played warm-up style, with no quiz night and no bonus points
         const qs = (Array.isArray(quiz.questions) ? quiz.questions : []).filter((q: any) => q?.type !== "slide");
         return json({ code, open, ended, until: until ? new Date(until).toISOString() : null, title: quiz.title, count: all.length, top, board: boardOf(all), played, practice, test: TEST,
+          notYet, opens: notYet ? new Date(opensAt!).toISOString() : null, nextOpens, bonus: wu.bonus && typeof wu.bonus === "object" ? { play: Math.round(+wu.bonus.play || 0), top: Math.round(+wu.bonus.top || 0) } : null, week: +wu.week || null, weeks: +wu.weeks || null,
           replay: REPLAY, best: REPLAY && !TEST && mine ? { score: mine.score, place: placeOf(mine.score), goes: mine.goes || 1 } : null,
           standalone: !!wu.fun, questions: qs.length, bots: Math.max(0, Math.min(20, Math.round(+wu.bots || 3))), types: Array.from(new Set(qs.map((q: any) => q.type === "text" && q.kind ? q.kind : q.type))),
           ...(body.peek ? {} : { quiz: { id: quiz.id, title: quiz.title, settings: s, questions: quiz.questions } }) });
@@ -1006,7 +1019,7 @@ Deno.serve(async (req) => {
       // A game that started before the end time still counts if it finishes within two hours of it.
       const startedMs = g.started_at && !isNaN(Date.parse(g.started_at)) ? Date.parse(g.started_at) : 0;
       const late = ended && !!startedMs && startedMs < until! && Date.now() < until! + 2 * 3600e3;
-      if (wu.open === false || (ended && !late)) return json({ error: "This warm-up has closed, so the score can't go on the scoreboard." }, 403);
+      if (wu.open === false || notYet || (ended && !late)) return json({ error: "This warm-up has closed, so the score can't go on the scoreboard." }, 403);
       const seen = new Set<string>();
       const ps = (Array.isArray(body.players) ? body.players : []).filter((p: any) => pidOk(p?.pid) && !seen.has(p.pid) && seen.add(p.pid)).slice(0, 40);
       const started = g.started_at && !isNaN(Date.parse(g.started_at)) ? new Date(g.started_at).toISOString() : null;
@@ -1377,6 +1390,10 @@ Deno.serve(async (req) => {
       let item = row.questions.find((x: any) => x.id === q.bankId) || row.questions.find((x: any) => nearDuplicate(x, q));
       let added = false;
       if (!item) {
+        // an unfinished question (a blank Cards row, nothing typed yet) is not stock
+        const words = String(q.text || q.phrase || q.smash || "").replace(/^[^:]{0,40}:\s*/, "").trim();
+        const badCards = q.type === "cards" && !(Array.isArray(q.cards) && q.cards.filter((c: any) => String(c?.label ?? "").trim() && c?.n !== null && c?.n !== "" && Number.isFinite(+c?.n)).length >= 4);
+        if ((!words && !q.media?.url) || badCards) return json({ ok: true, skipped: true });
         const cat0 = String(body.category || q.category || "").trim();
         item = { ...q, id: "q_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8), category: (junkCategory(cat0) ? "" : cat0).slice(0, 60), tags: (q.tags || []).slice(0, 12) };
         delete item.fromBank; delete item.round; delete item.bankId; delete item.check;
@@ -1546,7 +1563,7 @@ Deno.serve(async (req) => {
       const quizzes: any[] = (await rest(`quiz_quizzes?settings->warmup=not.is.null&select=id,title,warmup:settings->warmup,updated_at&order=updated_at.desc`)) || [];
       const rows: any[] = (await rest(`quiz_warmup_plays?select=code,season,quiz_id,game_code,pid,name,emoji,score,rank,players,bots,started_at,played_at,test_go,goes,has_answers:answers->0->>n&order=score.desc,played_at.asc&limit=5000`)) || [];
       return json({ warmups: quizzes.map((q) => { const w = q.warmup || {}, until = w.until && !isNaN(Date.parse(w.until)) ? Date.parse(w.until) : null;
-        return { id: q.id, title: q.title, code: w.code || "", season: w.season || "", until: until ? new Date(until).toISOString() : null, forQuiz: w.forQuiz || null, fun: !!w.fun, replay: !!w.replay, bots: Math.round(+w.bots || 3), open: w.open !== false && !(until && Date.now() >= until), switchedOff: w.open === false }; }), plays: rows });
+        return { id: q.id, title: q.title, code: w.code || "", season: w.season || "", until: until ? new Date(until).toISOString() : null, from: w.from || null, week: +w.week || null, bonus: w.bonus || null, forQuiz: w.forQuiz || null, fun: !!w.fun, replay: !!w.replay, bots: Math.round(+w.bots || 3), open: w.open !== false && !(until && Date.now() >= until), switchedOff: w.open === false }; }), plays: rows });
     }
 
     if (action === "task_photos") {
@@ -1560,10 +1577,15 @@ Deno.serve(async (req) => {
       // Who Said That?: the About You answers from the warm-up that leads up to this quiz (its newest one), for the
       // host to play back on the night. Names, the question and the answer; skips and blanks left out.
       if (!UUID_RE.test(String(body.quizId))) return json({ error: "Bad quiz id." }, 400);
-      const wus: any[] = (await rest(`quiz_quizzes?settings->warmup->>forQuiz=eq.${body.quizId}&select=id,title,settings&order=updated_at.desc&limit=1`)) || [];
+      // Every warm-up that leads up to this quiz (one a week, say), so About You answers from any of them come back.
+      const wus: any[] = (await rest(`quiz_quizzes?settings->warmup->>forQuiz=eq.${body.quizId}&select=id,title,settings&order=updated_at.desc&limit=12`)) || [];
       const w = wus[0]?.settings?.warmup; if (!w) return json({ about: [], warmup: null });
       const code = String(w.code || "").toUpperCase().replace(/[^A-Z0-9]/g, ""), season = String(w.season || "").replace(/[^A-Za-z0-9_-]/g, "");
-      const rows: any[] = (await rest(`quiz_warmup_plays?code=eq.${code}&season=eq.${season}&select=pid,name,emoji,answers&limit=5000`)) || [];
+      const rows: any[] = [];
+      for (const x of wus) {
+        const ww = x.settings?.warmup || {}, c = String(ww.code || "").toUpperCase().replace(/[^A-Z0-9]/g, ""), s = String(ww.season || "").replace(/[^A-Za-z0-9_-]/g, "");
+        if (c && s) rows.push(...(((await rest(`quiz_warmup_plays?code=eq.${c}&season=eq.${s}&select=pid,name,emoji,answers&limit=5000`)) || []) as any[]));
+      }
       const about: any[] = [];
       for (const r of rows) for (const a of (Array.isArray(r.answers) ? r.answers : [])) {
         const given = String(a?.given ?? "").trim();
@@ -1693,7 +1715,7 @@ const BB_TEAM_PAIRS: [string, string, string, string][] = [
 function bbTeams() { const p = BB_TEAM_PAIRS[Math.floor(Math.random() * BB_TEAM_PAIRS.length)]; return [{ name: p[0], color: p[1] }, { name: p[2], color: p[3] }]; }
 
 // ---------------------------------------------------------------- warm-up v quiz
-const CLASH_STOP = new Set("which what where when whose does were that this with from have into about their there these those they them than then name named first most many much only also over under after before your called known".split(" "));
+const CLASH_STOP = new Set("which what where when whose does were that this with from have into about their there these those they them than then name named first most many much only also over under after before your called known order release earliest latest shortest longest smallest biggest".split(" "));
 /** Every question and game row in a quiz, with its answer, for comparing two quizzes. */
 function clashItems(qs: any[]) {
   const out: any[] = [];
@@ -1715,7 +1737,7 @@ function quizClashes(a: any[], b: any[]) {
     const wa = clashWords(x.text), wb = clashWords(y.text), common = [...wa].filter((t) => wb.has(t)).length;
     const ax = norm(x.answer), ay = norm(y.answer), sameAns = ax.length > 3 && ax === ay && !/^(true|false|yes|no)$/.test(ax);
     const textSame = common >= 3 && common / Math.max(1, Math.min(wa.size, wb.size)) >= 0.5;
-    const generic = /^(picture reveal|20 questions|say what you see|catchphrase|draw it|only one|hot potato|king of the hill|the chase|blockbusters)/i.test(x.text);
+    const generic = /^(picture reveal|20 questions|say what you see|catchphrase|draw it|only one|hot potato|king of the hill|the chase|blockbusters|play your cards right)/i.test(x.text);
     if ((textSame && !generic) || (sameAns && (common >= 1 || x.type === "reveal" || x.type === "twenty" || y.type === "reveal" || y.type === "twenty"))) {
       out.push({ warmup: x, quiz: y, why: textSame ? "same question" : "same answer" });
     }

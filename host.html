@@ -217,7 +217,7 @@ async function bootWarmup() {
   }
   stage.innerHTML = '<div class="stage-main"><div class="waiting">Getting the questions ready…</div></div>';
   let r;
-  try { r = await api('warmup_open', { code: WARMUP, pid: myPid() }, { timeout: 20000 }); } catch (e) { return fail(e.message); }
+  try { r = await api('warmup_open', { code: WARMUP, pid: myPid(), week: +(new URLSearchParams(location.search).get('wk') || 0) || 0 }, { timeout: 20000 }); } catch (e) { return fail(e.message); }
   if (r.played) return back();
   if (!r.open) return fail(r.standalone ? 'This game has closed. Thanks for playing!' : 'This warm-up has closed. See you at the quiz!');
   let quiz = LQ.normalizeQuiz(r.quiz);
