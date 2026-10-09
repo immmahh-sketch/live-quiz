@@ -22,7 +22,7 @@ game("the year each Christmas tradition began", "Christmas", "hard", ["Christmas
 game("the year each superhero first appeared", "Film and comics", "hard", ["superheroes", "years"], [
  ("Superman", "1938", 1938), ("Deadpool", "1991", 1991), ("Batman", "1939", 1939),
  ("Black Panther", "1966", 1966), ("Wonder Woman", "1941", 1941), ("Spider-Man", "1962", 1962)])
-game("the year it happened", "World history", "medium", ["world events", "years"], [
+game("the year each world event happened", "World history", "medium", ["world events", "years"], [
  ("The Russian Revolution", "1917", 1917), ("The 9/11 attacks", "2001", 2001), ("The Wall Street Crash", "1929", 1929),
  ("Nelson Mandela is freed", "1990", 1990), ("JFK is shot", "1963", 1963), ("Euro notes and coins arrive", "2002", 2002)])
 game("the number in each TV title", "Film and TV", "medium", ["TV", "numbers"], [
