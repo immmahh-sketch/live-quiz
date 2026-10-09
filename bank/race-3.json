@@ -1,0 +1,774 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which animal makes this sound?",
+  "target": 10,
+  "category": "Animals",
+  "tags": [
+   "animals",
+   "sounds"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Brays",
+    "right": "Donkey",
+    "wrong": [
+     "Camel",
+     "Llama",
+     "Deer"
+    ]
+   },
+   {
+    "q": "Neighs",
+    "right": "Horse",
+    "wrong": [
+     "Camel",
+     "Llama",
+     "Goat"
+    ]
+   },
+   {
+    "q": "Hoots",
+    "right": "Owl",
+    "wrong": [
+     "Robin",
+     "Magpie",
+     "Swan"
+    ]
+   },
+   {
+    "q": "Croaks",
+    "right": "Frog",
+    "wrong": [
+     "Lizard",
+     "Newt",
+     "Hamster"
+    ]
+   },
+   {
+    "q": "Hisses",
+    "right": "Snake",
+    "wrong": [
+     "Robin",
+     "Sheep",
+     "Deer"
+    ]
+   },
+   {
+    "q": "Roars",
+    "right": "Lion",
+    "wrong": [
+     "Hyena",
+     "Fox",
+     "Badger"
+    ]
+   },
+   {
+    "q": "Trumpets",
+    "right": "Elephant",
+    "wrong": [
+     "Giraffe",
+     "Hippo",
+     "Rhino"
+    ]
+   },
+   {
+    "q": "Howls",
+    "right": "Wolf",
+    "wrong": [
+     "Bear",
+     "Badger",
+     "Deer"
+    ]
+   },
+   {
+    "q": "Gobbles",
+    "right": "Turkey",
+    "wrong": [
+     "Swan",
+     "Pheasant",
+     "Peacock"
+    ]
+   },
+   {
+    "q": "Quacks",
+    "right": "Duck",
+    "wrong": [
+     "Swan",
+     "Gull",
+     "Pheasant"
+    ]
+   },
+   {
+    "q": "Clucks",
+    "right": "Hen",
+    "wrong": [
+     "Parrot",
+     "Swan",
+     "Gull"
+    ]
+   },
+   {
+    "q": "Purrs",
+    "right": "Cat",
+    "wrong": [
+     "Fox",
+     "Badger",
+     "Monkey"
+    ]
+   },
+   {
+    "q": "Squeaks",
+    "right": "Mouse",
+    "wrong": [
+     "Badger",
+     "Fox",
+     "Sheep"
+    ]
+   },
+   {
+    "q": "Grunts and oinks",
+    "right": "Pig",
+    "wrong": [
+     "Sheep",
+     "Goat",
+     "Swan"
+    ]
+   },
+   {
+    "q": "Moos",
+    "right": "Cow",
+    "wrong": [
+     "Sheep",
+     "Goat",
+     "Llama"
+    ]
+   },
+   {
+    "q": "Barks",
+    "right": "Dog",
+    "wrong": [
+     "Sheep",
+     "Rabbit",
+     "Goat"
+    ]
+   },
+   {
+    "q": "Caws",
+    "right": "Crow",
+    "wrong": [
+     "Robin",
+     "Swan",
+     "Pheasant"
+    ]
+   },
+   {
+    "q": "Coos",
+    "right": "Pigeon",
+    "wrong": [
+     "Magpie",
+     "Gull",
+     "Robin"
+    ]
+   },
+   {
+    "q": "Honks",
+    "right": "Goose",
+    "wrong": [
+     "Robin",
+     "Pheasant",
+     "Parrot"
+    ]
+   },
+   {
+    "q": "Buzzes",
+    "right": "Bee",
+    "wrong": [
+     "Butterfly",
+     "Ladybird",
+     "Spider"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: complete the famous pair",
+  "target": 10,
+  "category": "Entertainment",
+  "tags": [
+   "double acts",
+   "pairs"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Ant and …",
+    "right": "Dec",
+    "wrong": [
+     "Dan",
+     "Del",
+     "Den"
+    ]
+   },
+   {
+    "q": "Morecambe and …",
+    "right": "Wise",
+    "wrong": [
+     "Wilson",
+     "Wood",
+     "West"
+    ]
+   },
+   {
+    "q": "Laurel and …",
+    "right": "Hardy",
+    "wrong": [
+     "Harvey",
+     "Hart",
+     "Hall"
+    ]
+   },
+   {
+    "q": "French and …",
+    "right": "Saunders",
+    "wrong": [
+     "Sanders",
+     "Simmons",
+     "Stevens"
+    ]
+   },
+   {
+    "q": "Cannon and …",
+    "right": "Ball",
+    "wrong": [
+     "Bell",
+     "Bull",
+     "Bowl"
+    ]
+   },
+   {
+    "q": "Little and …",
+    "right": "Large",
+    "wrong": [
+     "Long",
+     "Lord",
+     "Lane"
+    ]
+   },
+   {
+    "q": "Mel and …",
+    "right": "Sue",
+    "wrong": [
+     "Sal",
+     "Sam",
+     "Sid"
+    ]
+   },
+   {
+    "q": "Hale and …",
+    "right": "Pace",
+    "wrong": [
+     "Price",
+     "Parker",
+     "Page"
+    ]
+   },
+   {
+    "q": "Smith and …",
+    "right": "Jones",
+    "wrong": [
+     "James",
+     "Johns",
+     "Jenkins"
+    ]
+   },
+   {
+    "q": "Torvill and …",
+    "right": "Dean",
+    "wrong": [
+     "Dawson",
+     "Dale",
+     "Dunn"
+    ]
+   },
+   {
+    "q": "Simon and …",
+    "right": "Garfunkel",
+    "wrong": [
+     "Goldberg",
+     "Grossman",
+     "Gershwin"
+    ]
+   },
+   {
+    "q": "Sonny and …",
+    "right": "Cher",
+    "wrong": [
+     "Cheryl",
+     "Chaka",
+     "Celine"
+    ]
+   },
+   {
+    "q": "Bill and …",
+    "right": "Ben",
+    "wrong": [
+     "Bob",
+     "Bert",
+     "Bud"
+    ]
+   },
+   {
+    "q": "Tom and …",
+    "right": "Jerry",
+    "wrong": [
+     "Jimmy",
+     "Jack",
+     "Joey"
+    ]
+   },
+   {
+    "q": "Wallace and …",
+    "right": "Gromit",
+    "wrong": [
+     "Gnasher",
+     "Gizmo",
+     "Goofy"
+    ]
+   },
+   {
+    "q": "Chas and …",
+    "right": "Dave",
+    "wrong": [
+     "Don",
+     "Dick",
+     "Doug"
+    ]
+   },
+   {
+    "q": "Pinky and …",
+    "right": "Perky",
+    "wrong": [
+     "Porky",
+     "Parky",
+     "Pinkie"
+    ]
+   },
+   {
+    "q": "Zig and …",
+    "right": "Zag",
+    "wrong": [
+     "Zog",
+     "Zak",
+     "Zip"
+    ]
+   },
+   {
+    "q": "Romeo and …",
+    "right": "Juliet",
+    "wrong": [
+     "Julia",
+     "Juliana",
+     "Josephine"
+    ]
+   },
+   {
+    "q": "Rosencrantz and …",
+    "right": "Guildenstern",
+    "wrong": [
+     "Goldstein",
+     "Gildersleeve",
+     "Guinevere"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: finish the TV show title",
+  "target": 10,
+  "category": "Film and TV",
+  "tags": [
+   "TV",
+   "titles"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Only Fools and …",
+    "right": "Horses",
+    "wrong": [
+     "Donkeys",
+     "Ponies",
+     "Mules"
+    ]
+   },
+   {
+    "q": "Who Wants to Be a …?",
+    "right": "Millionaire",
+    "wrong": [
+     "Billionaire",
+     "Winner",
+     "Champion"
+    ]
+   },
+   {
+    "q": "Keeping Up …",
+    "right": "Appearances",
+    "wrong": [
+     "Standards",
+     "Pretences",
+     "Traditions"
+    ]
+   },
+   {
+    "q": "One Foot in the …",
+    "right": "Grave",
+    "wrong": [
+     "Door",
+     "Past",
+     "Gutter"
+    ]
+   },
+   {
+    "q": "Men Behaving …",
+    "right": "Badly",
+    "wrong": [
+     "Madly",
+     "Sadly",
+     "Oddly"
+    ]
+   },
+   {
+    "q": "Last of the Summer …",
+    "right": "Wine",
+    "wrong": [
+     "Sun",
+     "Holidays",
+     "Rain"
+    ]
+   },
+   {
+    "q": "Are You Being …?",
+    "right": "Served",
+    "wrong": [
+     "Seen",
+     "Heard",
+     "Seated"
+    ]
+   },
+   {
+    "q": "Strictly Come …",
+    "right": "Dancing",
+    "wrong": [
+     "Singing",
+     "Skating",
+     "Baking"
+    ]
+   },
+   {
+    "q": "Ready Steady …",
+    "right": "Cook",
+    "wrong": [
+     "Bake",
+     "Go",
+     "Eat"
+    ]
+   },
+   {
+    "q": "Have I Got … for You",
+    "right": "News",
+    "wrong": [
+     "Gossip",
+     "Questions",
+     "Jokes"
+    ]
+   },
+   {
+    "q": "Never Mind the …",
+    "right": "Buzzcocks",
+    "wrong": [
+     "Bluebells",
+     "Basslines",
+     "Beatles"
+    ]
+   },
+   {
+    "q": "Bargain …",
+    "right": "Hunt",
+    "wrong": [
+     "Trail",
+     "Basement",
+     "Bin"
+    ]
+   },
+   {
+    "q": "A Question of …",
+    "right": "Sport",
+    "wrong": [
+     "Taste",
+     "Science",
+     "Fame"
+    ]
+   },
+   {
+    "q": "Gavin & …",
+    "right": "Stacey",
+    "wrong": [
+     "Tracey",
+     "Stephanie",
+     "Sharon"
+    ]
+   },
+   {
+    "q": "Peep …",
+    "right": "Show",
+    "wrong": [
+     "Hole",
+     "Toad",
+     "Shop"
+    ]
+   },
+   {
+    "q": "Sex and the …",
+    "right": "City",
+    "wrong": [
+     "Single Girl",
+     "Suburbs",
+     "Village"
+    ]
+   },
+   {
+    "q": "Desperate …",
+    "right": "Housewives",
+    "wrong": [
+     "Housemates",
+     "Husbands",
+     "Measures"
+    ]
+   },
+   {
+    "q": "The Great British Bake …",
+    "right": "Off",
+    "wrong": [
+     "Out",
+     "Up",
+     "On"
+    ]
+   },
+   {
+    "q": "Location, Location, …",
+    "right": "Location",
+    "wrong": [
+     "Relocation",
+     "Renovation",
+     "Destination"
+    ]
+   },
+   {
+    "q": "Dad's …",
+    "right": "Army",
+    "wrong": [
+     "Navy",
+     "Garage",
+     "Allotment"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which word goes in front of all three?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "wordplay",
+   "compound words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "___ball, ___man, ___flake",
+    "right": "Snow",
+    "wrong": [
+     "Corn",
+     "Hail",
+     "Ice"
+    ]
+   },
+   {
+    "q": "___work, ___place, ___man",
+    "right": "Fire",
+    "wrong": [
+     "Home",
+     "Life",
+     "Gentle"
+    ]
+   },
+   {
+    "q": "___flower, ___glasses, ___shine",
+    "right": "Sun",
+    "wrong": [
+     "Wall",
+     "May",
+     "Shoe"
+    ]
+   },
+   {
+    "q": "___bow, ___coat, ___drop",
+    "right": "Rain",
+    "wrong": [
+     "Over",
+     "Tear",
+     "Cross"
+    ]
+   },
+   {
+    "q": "___ball, ___print, ___step",
+    "right": "Foot",
+    "wrong": [
+     "Finger",
+     "Base",
+     "Side"
+    ]
+   },
+   {
+    "q": "___bag, ___shake, ___writing",
+    "right": "Hand",
+    "wrong": [
+     "Milk",
+     "Sand",
+     "Tea"
+    ]
+   },
+   {
+    "q": "___case, ___mark, ___worm",
+    "right": "Book",
+    "wrong": [
+     "Brief",
+     "Glow",
+     "Land"
+    ]
+   },
+   {
+    "q": "___fly, ___cup, ___milk",
+    "right": "Butter",
+    "wrong": [
+     "Dragon",
+     "Tea",
+     "Coconut"
+    ]
+   },
+   {
+    "q": "___bird, ___board, ___mail",
+    "right": "Black",
+    "wrong": [
+     "Song",
+     "Card",
+     "Key"
+    ]
+   },
+   {
+    "q": "___fall, ___melon, ___proof",
+    "right": "Water",
+    "wrong": [
+     "Land",
+     "Sound",
+     "Fool"
+    ]
+   },
+   {
+    "q": "___brush, ___paste, ___ache",
+    "right": "Tooth",
+    "wrong": [
+     "Hair",
+     "Belly",
+     "Paint"
+    ]
+   },
+   {
+    "q": "___ache, ___line, ___phone",
+    "right": "Head",
+    "wrong": [
+     "Ear",
+     "Dead",
+     "Hair"
+    ]
+   },
+   {
+    "q": "___light, ___beam, ___walk",
+    "right": "Moon",
+    "wrong": [
+     "Cat",
+     "Search",
+     "Laser"
+    ]
+   },
+   {
+    "q": "___fish, ___light, ___dust",
+    "right": "Star",
+    "wrong": [
+     "Gold",
+     "Jelly",
+     "Sword"
+    ]
+   },
+   {
+    "q": "___shell, ___side, ___horse",
+    "right": "Sea",
+    "wrong": [
+     "Egg",
+     "Hobby",
+     "Country"
+    ]
+   },
+   {
+    "q": "___pack, ___fire, ___bone",
+    "right": "Back",
+    "wrong": [
+     "Wolf",
+     "Wish",
+     "Camp"
+    ]
+   },
+   {
+    "q": "___light, ___dream, ___break",
+    "right": "Day",
+    "wrong": [
+     "Lime",
+     "Night",
+     "Jail"
+    ]
+   },
+   {
+    "q": "___bell, ___mat, ___step",
+    "right": "Door",
+    "wrong": [
+     "Blue",
+     "Bath",
+     "Goose"
+    ]
+   },
+   {
+    "q": "___port, ___plane, ___line",
+    "right": "Air",
+    "wrong": [
+     "Sky",
+     "Pass",
+     "Out"
+    ]
+   },
+   {
+    "q": "___brow, ___lash, ___sight",
+    "right": "Eye",
+    "wrong": [
+     "High",
+     "Whip",
+     "Fore"
+    ]
+   }
+  ]
+ }
+]
