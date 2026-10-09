@@ -40,5 +40,5 @@ path = os.path.join(here, '..', 'unique-prompts.json')
 cur = json.load(open(path, encoding='utf-8'))
 have = {x['p'].lower() for x in cur}
 added = [{"p": p, "a": a} for p, a in NEW if p.lower() not in have]
-json.dump(cur + added, open(path, 'w', encoding='utf-8'), ensure_ascii=False)
+json.dump(cur + added, open(path, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 print(len(added), 'prompts added; now', len(cur) + len(added))
