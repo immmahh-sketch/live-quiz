@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each wartime operation to what it was",
+  "pairs": [
+   {
+    "left": "Operation Overlord",
+    "right": "The D-Day landings"
+   },
+   {
+    "left": "Operation Dynamo",
+    "right": "The Dunkirk evacuation"
+   },
+   {
+    "left": "Operation Barbarossa",
+    "right": "Germany's invasion of the USSR"
+   },
+   {
+    "left": "Operation Market Garden",
+    "right": "The airborne attack on Arnhem"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each First World War battle to its year",
+  "pairs": [
+   {
+    "left": "Mons",
+    "right": "1914"
+   },
+   {
+    "left": "The Somme",
+    "right": "1916"
+   },
+   {
+    "left": "Passchendaele",
+    "right": "1917"
+   },
+   {
+    "left": "Amiens",
+    "right": "1918"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

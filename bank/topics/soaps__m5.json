@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each soap to where it's set",
+  "pairs": [
+   {
+    "left": "Emmerdale",
+    "right": "The Yorkshire Dales"
+   },
+   {
+    "left": "Hollyoaks",
+    "right": "Chester"
+   },
+   {
+    "left": "Brookside",
+    "right": "Liverpool"
+   },
+   {
+    "left": "Doctors",
+    "right": "The Midlands"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each actor to their EastEnders character",
+  "pairs": [
+   {
+    "left": "Barbara Windsor",
+    "right": "Peggy Mitchell"
+   },
+   {
+    "left": "June Brown",
+    "right": "Dot Cotton"
+   },
+   {
+    "left": "Ross Kemp",
+    "right": "Grant Mitchell"
+   },
+   {
+    "left": "Danny Dyer",
+    "right": "Mick Carter"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

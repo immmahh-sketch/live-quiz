@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Tudor to their nickname",
+  "pairs": [
+   {
+    "left": "Mary I",
+    "right": "Bloody Mary"
+   },
+   {
+    "left": "Elizabeth I",
+    "right": "The Virgin Queen"
+   },
+   {
+    "left": "Edward VI",
+    "right": "The Boy King"
+   },
+   {
+    "left": "Lady Jane Grey",
+    "right": "The Nine Days' Queen"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each Tudor to the place they died",
+  "pairs": [
+   {
+    "left": "Anne Boleyn",
+    "right": "The Tower of London"
+   },
+   {
+    "left": "Henry VIII",
+    "right": "Whitehall Palace"
+   },
+   {
+    "left": "Elizabeth I",
+    "right": "Richmond Palace"
+   },
+   {
+    "left": "Jane Seymour",
+    "right": "Hampton Court"
+   }
+  ],
+  "difficulty": "hard"
+ }
+]

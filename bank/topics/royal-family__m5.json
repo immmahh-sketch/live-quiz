@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each royal to their title",
+  "pairs": [
+   {
+    "left": "Prince Edward",
+    "right": "Duke of Edinburgh"
+   },
+   {
+    "left": "Princess Anne",
+    "right": "Princess Royal"
+   },
+   {
+    "left": "Catherine",
+    "right": "Princess of Wales"
+   },
+   {
+    "left": "Prince Harry",
+    "right": "Duke of Sussex"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each royal residence to where it is",
+  "pairs": [
+   {
+    "left": "Balmoral",
+    "right": "Aberdeenshire"
+   },
+   {
+    "left": "Sandringham",
+    "right": "Norfolk"
+   },
+   {
+    "left": "Windsor Castle",
+    "right": "Berkshire"
+   },
+   {
+    "left": "Holyroodhouse",
+    "right": "Edinburgh"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

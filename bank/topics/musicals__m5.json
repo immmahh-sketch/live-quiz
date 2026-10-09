@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each song to its musical",
+  "pairs": [
+   {
+    "left": "Memory",
+    "right": "Cats"
+   },
+   {
+    "left": "Don't Cry for Me Argentina",
+    "right": "Evita"
+   },
+   {
+    "left": "I Dreamed a Dream",
+    "right": "Les Misérables"
+   },
+   {
+    "left": "Defying Gravity",
+    "right": "Wicked"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each musical to the person who wrote its songs",
+  "pairs": [
+   {
+    "left": "Hamilton",
+    "right": "Lin-Manuel Miranda"
+   },
+   {
+    "left": "Mamma Mia!",
+    "right": "Benny Andersson and Björn Ulvaeus"
+   },
+   {
+    "left": "Billy Elliot",
+    "right": "Elton John"
+   },
+   {
+    "left": "Matilda",
+    "right": "Tim Minchin"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

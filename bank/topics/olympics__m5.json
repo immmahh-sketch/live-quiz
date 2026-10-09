@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each British Olympian to their sport",
+  "pairs": [
+   {
+    "left": "Chris Hoy",
+    "right": "Cycling"
+   },
+   {
+    "left": "Ben Ainslie",
+    "right": "Sailing"
+   },
+   {
+    "left": "Tom Daley",
+    "right": "Diving"
+   },
+   {
+    "left": "Adam Peaty",
+    "right": "Swimming"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each Summer Olympics to its year",
+  "pairs": [
+   {
+    "left": "Barcelona",
+    "right": "1992"
+   },
+   {
+    "left": "Atlanta",
+    "right": "1996"
+   },
+   {
+    "left": "Sydney",
+    "right": "2000"
+   },
+   {
+    "left": "Athens",
+    "right": "2004"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

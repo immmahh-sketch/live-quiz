@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Friend to their surname",
+  "pairs": [
+   {
+    "left": "Monica",
+    "right": "Geller"
+   },
+   {
+    "left": "Chandler",
+    "right": "Bing"
+   },
+   {
+    "left": "Joey",
+    "right": "Tribbiani"
+   },
+   {
+    "left": "Phoebe",
+    "right": "Buffay"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each line to the Friend who says it",
+  "pairs": [
+   {
+    "left": "'How you doin'?'",
+    "right": "Joey"
+   },
+   {
+    "left": "'We were on a break!'",
+    "right": "Ross"
+   },
+   {
+    "left": "'Could I BE wearing any more clothes?'",
+    "right": "Chandler"
+   },
+   {
+    "left": "'Smelly cat, smelly cat…'",
+    "right": "Phoebe"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

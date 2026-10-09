@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Doctor to the actor who played them",
+  "pairs": [
+   {
+    "left": "The Ninth Doctor",
+    "right": "Christopher Eccleston"
+   },
+   {
+    "left": "The Tenth Doctor",
+    "right": "David Tennant"
+   },
+   {
+    "left": "The Twelfth Doctor",
+    "right": "Peter Capaldi"
+   },
+   {
+    "left": "The Thirteenth Doctor",
+    "right": "Jodie Whittaker"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each companion to their Doctor",
+  "pairs": [
+   {
+    "left": "Donna Noble",
+    "right": "The Tenth Doctor"
+   },
+   {
+    "left": "Amy Pond",
+    "right": "The Eleventh Doctor"
+   },
+   {
+    "left": "Bill Potts",
+    "right": "The Twelfth Doctor"
+   },
+   {
+    "left": "Yasmin Khan",
+    "right": "The Thirteenth Doctor"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

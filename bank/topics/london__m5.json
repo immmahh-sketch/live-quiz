@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each London terminus to a city its trains go to",
+  "pairs": [
+   {
+    "left": "King's Cross",
+    "right": "Newcastle"
+   },
+   {
+    "left": "Paddington",
+    "right": "Bristol"
+   },
+   {
+    "left": "Euston",
+    "right": "Manchester"
+   },
+   {
+    "left": "St Pancras",
+    "right": "Paris"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each London museum or gallery to something it's famous for",
+  "pairs": [
+   {
+    "left": "The British Museum",
+    "right": "The Rosetta Stone"
+   },
+   {
+    "left": "The National Gallery",
+    "right": "The Hay Wain"
+   },
+   {
+    "left": "Tate Modern",
+    "right": "The Turbine Hall"
+   },
+   {
+    "left": "The Natural History Museum",
+    "right": "Hope the blue whale skeleton"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

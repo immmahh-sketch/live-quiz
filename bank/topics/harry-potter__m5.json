@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each actor to the Hogwarts teacher they played",
+  "pairs": [
+   {
+    "left": "Emma Thompson",
+    "right": "Sybill Trelawney"
+   },
+   {
+    "left": "Kenneth Branagh",
+    "right": "Gilderoy Lockhart"
+   },
+   {
+    "left": "David Thewlis",
+    "right": "Remus Lupin"
+   },
+   {
+    "left": "Imelda Staunton",
+    "right": "Dolores Umbridge"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each spell to what it does",
+  "pairs": [
+   {
+    "left": "Expelliarmus",
+    "right": "Knocks the wand out of an enemy's hand"
+   },
+   {
+    "left": "Lumos",
+    "right": "Lights up the tip of your wand"
+   },
+   {
+    "left": "Wingardium Leviosa",
+    "right": "Makes things float"
+   },
+   {
+    "left": "Expecto Patronum",
+    "right": "Conjures a Patronus"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

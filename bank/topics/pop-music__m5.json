@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each act to their first UK number one",
+  "pairs": [
+   {
+    "left": "Spice Girls",
+    "right": "Wannabe"
+   },
+   {
+    "left": "Westlife",
+    "right": "Swear It Again"
+   },
+   {
+    "left": "Girls Aloud",
+    "right": "Sound of the Underground"
+   },
+   {
+    "left": "Little Mix",
+    "right": "Cannonball"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each star to their real name",
+  "pairs": [
+   {
+    "left": "Lady Gaga",
+    "right": "Stefani Germanotta"
+   },
+   {
+    "left": "Elton John",
+    "right": "Reginald Dwight"
+   },
+   {
+    "left": "Freddie Mercury",
+    "right": "Farrokh Bulsara"
+   },
+   {
+    "left": "Sting",
+    "right": "Gordon Sumner"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]
