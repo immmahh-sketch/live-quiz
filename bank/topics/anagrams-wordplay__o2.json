@@ -1,0 +1,37 @@
+[
+ {
+  "type": "order",
+  "text": "Put this word ladder in order, from COLD to WARM",
+  "items": [
+   "COLD",
+   "CORD",
+   "CARD",
+   "WARD",
+   "WARM"
+  ],
+  "difficulty": "medium",
+  "hint": "One letter changes at each step"
+ },
+ {
+  "type": "order",
+  "text": "Put these Q words in alphabetical order",
+  "items": [
+   "Quay",
+   "Queue",
+   "Quick",
+   "Quiz"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these palindromes in order of length, shortest first",
+  "items": [
+   "Eye",
+   "Level",
+   "Racecar",
+   "Rotavator"
+  ],
+  "difficulty": "easy"
+ }
+]

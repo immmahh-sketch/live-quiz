@@ -1,0 +1,38 @@
+[
+ {
+  "type": "order",
+  "text": "Put these mountains in order of height, highest first",
+  "items": [
+   "Everest",
+   "K2",
+   "Kilimanjaro",
+   "Mont Blanc",
+   "Ben Nevis"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "order",
+  "text": "Put the five oceans in order of size, largest first",
+  "items": [
+   "Pacific",
+   "Atlantic",
+   "Indian",
+   "Southern",
+   "Arctic"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put the world's most populous countries in order, largest first",
+  "items": [
+   "India",
+   "China",
+   "USA",
+   "Indonesia",
+   "Pakistan"
+  ],
+  "difficulty": "medium"
+ }
+]

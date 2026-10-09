@@ -1,0 +1,36 @@
+[
+ {
+  "type": "order",
+  "text": "Put these queens in order of their reigns, earliest first",
+  "items": [
+   "Elizabeth I",
+   "Queen Anne",
+   "Queen Victoria",
+   "Elizabeth II"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "order",
+  "text": "Put these artists in order of birth, earliest first",
+  "items": [
+   "Leonardo da Vinci",
+   "Rembrandt",
+   "Vincent van Gogh",
+   "Pablo Picasso",
+   "Andy Warhol"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these great composers in order of birth, earliest first",
+  "items": [
+   "Bach",
+   "Mozart",
+   "Beethoven",
+   "Tchaikovsky"
+  ],
+  "difficulty": "medium"
+ }
+]

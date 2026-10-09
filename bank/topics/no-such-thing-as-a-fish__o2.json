@@ -1,0 +1,36 @@
+[
+ {
+  "type": "order",
+  "text": "Put these animals in order of how long they usually live, shortest first",
+  "items": [
+   "Adult mayfly",
+   "Mouse",
+   "Dog",
+   "Elephant",
+   "Greenland shark"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these in order of how many bones they have, fewest first",
+  "items": [
+   "Shark",
+   "Adult human",
+   "Newborn baby",
+   "Python"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "order",
+  "text": "Put these in order of top speed, slowest first",
+  "items": [
+   "Garden snail",
+   "Usain Bolt",
+   "Cheetah",
+   "Diving peregrine falcon"
+  ],
+  "difficulty": "easy"
+ }
+]

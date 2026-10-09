@@ -1,0 +1,38 @@
+[
+ {
+  "type": "order",
+  "text": "Put these Doctors in the order they took over the TARDIS",
+  "items": [
+   "Tom Baker",
+   "Peter Davison",
+   "David Tennant",
+   "Matt Smith",
+   "Jodie Whittaker"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these colours in rainbow order, starting nearest red",
+  "items": [
+   "Yellow",
+   "Green",
+   "Blue",
+   "Indigo",
+   "Violet"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "order",
+  "text": "Put these Monopoly squares in order round the board, starting from GO",
+  "items": [
+   "Old Kent Road",
+   "The Angel Islington",
+   "Pall Mall",
+   "Trafalgar Square",
+   "Mayfair"
+  ],
+  "difficulty": "medium"
+ }
+]

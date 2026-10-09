@@ -1,0 +1,38 @@
+[
+ {
+  "type": "order",
+  "text": "Put these dates in order, earliest first",
+  "items": [
+   "The autumn equinox",
+   "The clocks go back",
+   "Bonfire Night",
+   "St Andrew's Day",
+   "The winter solstice"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "order",
+  "text": "Put these Tudor and Stuart monarchs in order, earliest first",
+  "items": [
+   "Henry VIII",
+   "Elizabeth I",
+   "James I",
+   "Charles I"
+  ],
+  "difficulty": "medium",
+  "hint": "James I was the king the plotters tried to blow up"
+ },
+ {
+  "type": "order",
+  "text": "Put these star signs in calendar order, earliest first",
+  "items": [
+   "Virgo",
+   "Libra",
+   "Scorpio",
+   "Sagittarius",
+   "Capricorn"
+  ],
+  "difficulty": "medium"
+ }
+]
