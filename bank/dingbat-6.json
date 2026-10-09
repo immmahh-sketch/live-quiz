@@ -1,0 +1,480 @@
+[
+ {
+  "answers": [
+   "Blue Christmas"
+  ],
+  "elements": [
+   {
+    "t": "CHRISTMAS",
+    "x": 50,
+    "y": 50,
+    "s": 4,
+    "color": "#1f5fd4"
+   }
+  ],
+  "category": "Christmas",
+  "tags": [
+   "Elvis"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "We Three Kings",
+   "Three kings"
+  ],
+  "elements": [
+   {
+    "t": "KING",
+    "x": 50,
+    "y": 24,
+    "s": 4
+   },
+   {
+    "t": "KING",
+    "x": 50,
+    "y": 50,
+    "s": 4
+   },
+   {
+    "t": "KING",
+    "x": 50,
+    "y": 76,
+    "s": 4
+   }
+  ],
+  "category": "Christmas",
+  "tags": [
+   "carols"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Snowdrop"
+  ],
+  "elements": [
+   {
+    "t": "SNOW",
+    "x": 50,
+    "y": 90,
+    "s": 4
+   }
+  ],
+  "category": "Nature",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Santa's little helper"
+  ],
+  "elements": [
+   {
+    "t": "SANTA'S",
+    "x": 50,
+    "y": 40,
+    "s": 5
+   },
+   {
+    "t": "helper",
+    "x": 50,
+    "y": 72,
+    "s": 1
+   }
+  ],
+  "category": "Christmas",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Ice Ice Baby"
+  ],
+  "elements": [
+   {
+    "t": "ICE  ICE",
+    "x": 50,
+    "y": 40,
+    "s": 5,
+    "color": "#7fc8f0"
+   },
+   {
+    "t": "baby",
+    "x": 50,
+    "y": 72,
+    "s": 2
+   }
+  ],
+  "category": "Music",
+  "tags": [
+   "Vanilla Ice"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Ice cold"
+  ],
+  "elements": [
+   {
+    "t": "COLD",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#7fc8f0"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Green fingers"
+  ],
+  "elements": [
+   {
+    "t": "FINGERS",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "color": "#1f9a3a"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Red alert"
+  ],
+  "elements": [
+   {
+    "t": "ALERT",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#d42020"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Grey matter"
+  ],
+  "elements": [
+   {
+    "t": "MATTER",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "color": "#8a8f94"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Purple patch"
+  ],
+  "elements": [
+   {
+    "t": "PATCH",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#7b2fbe"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Red-handed",
+   "Caught red-handed"
+  ],
+  "elements": [
+   {
+    "t": "HANDED",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "color": "#d42020"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Golden Boot"
+  ],
+  "elements": [
+   {
+    "t": "BOOT",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#c9a227"
+   }
+  ],
+  "category": "Football",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Silver screen"
+  ],
+  "elements": [
+   {
+    "t": "SCREEN",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "color": "#9aa0a6"
+   }
+  ],
+  "category": "Film",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Backwards and forwards"
+  ],
+  "elements": [
+   {
+    "t": "SDRAWKCAB",
+    "x": 50,
+    "y": 36,
+    "s": 4
+   },
+   {
+    "t": "FORWARDS",
+    "x": 50,
+    "y": 66,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Two-timing",
+   "Two timing"
+  ],
+  "elements": [
+   {
+    "t": "TIMING",
+    "x": 50,
+    "y": 36,
+    "s": 4
+   },
+   {
+    "t": "TIMING",
+    "x": 50,
+    "y": 66,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Double-decker",
+   "Double decker"
+  ],
+  "elements": [
+   {
+    "t": "DECKER",
+    "x": 50,
+    "y": 36,
+    "s": 4
+   },
+   {
+    "t": "DECKER",
+    "x": 50,
+    "y": 66,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Cut short"
+  ],
+  "elements": [
+   {
+    "t": "SHOR",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Raining cats and dogs"
+  ],
+  "elements": [
+   {
+    "t": "CATS",
+    "x": 20,
+    "y": 15,
+    "s": 3
+   },
+   {
+    "t": "DOGS",
+    "x": 48,
+    "y": 34,
+    "s": 3
+   },
+   {
+    "t": "CATS",
+    "x": 76,
+    "y": 18,
+    "s": 3
+   },
+   {
+    "t": "DOGS",
+    "x": 28,
+    "y": 64,
+    "s": 3
+   },
+   {
+    "t": "CATS",
+    "x": 60,
+    "y": 82,
+    "s": 3
+   },
+   {
+    "t": "DOGS",
+    "x": 82,
+    "y": 56,
+    "s": 3
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "On cloud nine",
+   "Cloud nine"
+  ],
+  "elements": [
+   {
+    "t": "9",
+    "x": 50,
+    "y": 28,
+    "s": 4
+   },
+   {
+    "t": "CLOUD",
+    "x": 50,
+    "y": 62,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "A drop in the ocean",
+   "Drop in the ocean"
+  ],
+  "elements": [
+   {
+    "t": "OCEdropAN",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Crack of dawn"
+  ],
+  "elements": [
+   {
+    "t": "DA",
+    "x": 34,
+    "y": 44,
+    "s": 6,
+    "rot": -10
+   },
+   {
+    "t": "WN",
+    "x": 68,
+    "y": 58,
+    "s": 6,
+    "rot": 10
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Inside job"
+  ],
+  "elements": [
+   {
+    "t": "JinsideOB",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Back to square one",
+   "Square one"
+  ],
+  "elements": [
+   {
+    "t": "1",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "style": "box"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ }
+]
