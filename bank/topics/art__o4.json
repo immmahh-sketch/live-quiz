@@ -1,0 +1,26 @@
+[
+ {
+  "type": "order",
+  "text": "Put these masterpieces, from the Mona Lisa to Guernica, in the order they were painted",
+  "items": [
+   "Mona Lisa",
+   "The Night Watch",
+   "The Hay Wain",
+   "The Starry Night",
+   "Guernica"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these London art institutions in the order they opened, earliest first",
+  "items": [
+   "The Royal Academy",
+   "The National Gallery",
+   "Tate Britain",
+   "The Hayward Gallery",
+   "Tate Modern"
+  ],
+  "difficulty": "hard"
+ }
+]

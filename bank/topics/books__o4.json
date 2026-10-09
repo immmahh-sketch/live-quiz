@@ -1,0 +1,26 @@
+[
+ {
+  "type": "order",
+  "text": "Put these Narnia books in the order they were published, earliest first",
+  "items": [
+   "The Lion, the Witch and the Wardrobe",
+   "Prince Caspian",
+   "The Voyage of the Dawn Treader",
+   "The Silver Chair",
+   "The Last Battle"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "order",
+  "text": "Put these Roald Dahl books from the 1980s in the order they were published",
+  "items": [
+   "The Twits",
+   "George's Marvellous Medicine",
+   "The BFG",
+   "The Witches",
+   "Matilda"
+  ],
+  "difficulty": "medium"
+ }
+]
