@@ -1,0 +1,26 @@
+[
+ {
+  "type": "order",
+  "text": "Put these planets in order going outward from the Sun, starting with Mars",
+  "items": [
+   "Mars",
+   "Jupiter",
+   "Saturn",
+   "Uranus",
+   "Neptune"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "order",
+  "text": "Put these space milestones in order, earliest first",
+  "items": [
+   "Gagarin orbits the Earth",
+   "Leonov makes the first spacewalk",
+   "Apollo 8 orbits the Moon",
+   "Apollo 11 lands on the Moon",
+   "Apollo 17, the last Moon landing"
+  ],
+  "difficulty": "medium"
+ }
+]
