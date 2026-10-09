@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each country to the word its letters make",
+  "pairs": [
+   {
+    "left": "Spain",
+    "right": "Pains"
+   },
+   {
+    "left": "Peru",
+    "right": "Pure"
+   },
+   {
+    "left": "Mali",
+    "right": "Mail"
+   },
+   {
+    "left": "Nepal",
+    "right": "Panel"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each clue to its palindrome",
+  "pairs": [
+   {
+    "left": "Small Inuit boat",
+    "right": "Kayak"
+   },
+   {
+    "left": "Female sheep",
+    "right": "Ewe"
+   },
+   {
+    "left": "Mother",
+    "right": "Mum"
+   },
+   {
+    "left": "Look quickly",
+    "right": "Peep"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

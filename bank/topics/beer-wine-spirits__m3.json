@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each spirit to what it's made from",
+  "pairs": [
+   {
+    "left": "Rum",
+    "right": "Sugar cane"
+   },
+   {
+    "left": "Tequila",
+    "right": "Agave"
+   },
+   {
+    "left": "Brandy",
+    "right": "Grapes"
+   },
+   {
+    "left": "Malt whisky",
+    "right": "Malted barley"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each cocktail to its base spirit",
+  "pairs": [
+   {
+    "left": "Mojito",
+    "right": "Rum"
+   },
+   {
+    "left": "Margarita",
+    "right": "Tequila"
+   },
+   {
+    "left": "Negroni",
+    "right": "Gin"
+   },
+   {
+    "left": "Cosmopolitan",
+    "right": "Vodka"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

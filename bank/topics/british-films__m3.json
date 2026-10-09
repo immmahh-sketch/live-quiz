@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each British film to its leading man",
+  "pairs": [
+   {
+    "left": "Billy Elliot",
+    "right": "Jamie Bell"
+   },
+   {
+    "left": "Trainspotting",
+    "right": "Ewan McGregor"
+   },
+   {
+    "left": "The Full Monty",
+    "right": "Robert Carlyle"
+   },
+   {
+    "left": "Notting Hill",
+    "right": "Hugh Grant"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each actor to their Harry Potter role",
+  "pairs": [
+   {
+    "left": "Alan Rickman",
+    "right": "Severus Snape"
+   },
+   {
+    "left": "Maggie Smith",
+    "right": "Minerva McGonagall"
+   },
+   {
+    "left": "Robbie Coltrane",
+    "right": "Rubeus Hagrid"
+   },
+   {
+    "left": "Michael Gambon",
+    "right": "Albus Dumbledore"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

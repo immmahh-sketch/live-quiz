@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each children's book to its author",
+  "pairs": [
+   {
+    "left": "The Very Hungry Caterpillar",
+    "right": "Eric Carle"
+   },
+   {
+    "left": "Where the Wild Things Are",
+    "right": "Maurice Sendak"
+   },
+   {
+    "left": "Matilda",
+    "right": "Roald Dahl"
+   },
+   {
+    "left": "The Tiger Who Came to Tea",
+    "right": "Judith Kerr"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each novel to the city it's set in",
+  "pairs": [
+   {
+    "left": "Ulysses",
+    "right": "Dublin"
+   },
+   {
+    "left": "Trainspotting",
+    "right": "Edinburgh"
+   },
+   {
+    "left": "The Great Gatsby",
+    "right": "New York"
+   },
+   {
+    "left": "Les Misérables",
+    "right": "Paris"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

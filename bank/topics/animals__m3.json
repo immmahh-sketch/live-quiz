@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each animal to its home",
+  "pairs": [
+   {
+    "left": "Badger",
+    "right": "Sett"
+   },
+   {
+    "left": "Rabbit",
+    "right": "Warren"
+   },
+   {
+    "left": "Eagle",
+    "right": "Eyrie"
+   },
+   {
+    "left": "Beaver",
+    "right": "Lodge"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each group name to its animals",
+  "pairs": [
+   {
+    "left": "A tower",
+    "right": "Giraffes"
+   },
+   {
+    "left": "A dazzle",
+    "right": "Zebras"
+   },
+   {
+    "left": "A crash",
+    "right": "Rhinos"
+   },
+   {
+    "left": "A pod",
+    "right": "Dolphins"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

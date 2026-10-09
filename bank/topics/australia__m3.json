@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each bit of Aussie slang to its meaning",
+  "pairs": [
+   {
+    "left": "Arvo",
+    "right": "Afternoon"
+   },
+   {
+    "left": "Brekkie",
+    "right": "Breakfast"
+   },
+   {
+    "left": "Thongs",
+    "right": "Flip-flops"
+   },
+   {
+    "left": "Ute",
+    "right": "Pick-up truck"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each Australian town or city to its state or territory",
+  "pairs": [
+   {
+    "left": "Alice Springs",
+    "right": "Northern Territory"
+   },
+   {
+    "left": "Geelong",
+    "right": "Victoria"
+   },
+   {
+    "left": "Newcastle",
+    "right": "New South Wales"
+   },
+   {
+    "left": "Fremantle",
+    "right": "Western Australia"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

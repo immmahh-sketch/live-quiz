@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each painting to the gallery where it hangs",
+  "pairs": [
+   {
+    "left": "Mona Lisa",
+    "right": "The Louvre, Paris"
+   },
+   {
+    "left": "The Starry Night",
+    "right": "MoMA, New York"
+   },
+   {
+    "left": "The Night Watch",
+    "right": "Rijksmuseum, Amsterdam"
+   },
+   {
+    "left": "The Birth of Venus",
+    "right": "Uffizi, Florence"
+   }
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "match",
+  "text": "Match each British artist to a famous work",
+  "pairs": [
+   {
+    "left": "L. S. Lowry",
+    "right": "Going to the Match"
+   },
+   {
+    "left": "Damien Hirst",
+    "right": "A shark in formaldehyde"
+   },
+   {
+    "left": "Tracey Emin",
+    "right": "My Bed"
+   },
+   {
+    "left": "Banksy",
+    "right": "Girl with Balloon"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

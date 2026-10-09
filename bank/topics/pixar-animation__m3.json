@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Pixar film to its main character",
+  "pairs": [
+   {
+    "left": "Ratatouille",
+    "right": "Remy"
+   },
+   {
+    "left": "Up",
+    "right": "Carl"
+   },
+   {
+    "left": "Coco",
+    "right": "Miguel"
+   },
+   {
+    "left": "Brave",
+    "right": "Merida"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each Disney film to its villain",
+  "pairs": [
+   {
+    "left": "Snow White and the Seven Dwarfs",
+    "right": "The Evil Queen"
+   },
+   {
+    "left": "The Little Mermaid",
+    "right": "Ursula"
+   },
+   {
+    "left": "Aladdin",
+    "right": "Jafar"
+   },
+   {
+    "left": "Tangled",
+    "right": "Mother Gothel"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

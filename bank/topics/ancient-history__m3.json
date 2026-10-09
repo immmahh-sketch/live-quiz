@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Wonder of the Ancient World to its city",
+  "pairs": [
+   {
+    "left": "The Colossus",
+    "right": "Rhodes"
+   },
+   {
+    "left": "The Lighthouse",
+    "right": "Alexandria"
+   },
+   {
+    "left": "The Hanging Gardens",
+    "right": "Babylon"
+   },
+   {
+    "left": "The Mausoleum",
+    "right": "Halicarnassus"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each Roman name to the British city",
+  "pairs": [
+   {
+    "left": "Eboracum",
+    "right": "York"
+   },
+   {
+    "left": "Londinium",
+    "right": "London"
+   },
+   {
+    "left": "Deva",
+    "right": "Chester"
+   },
+   {
+    "left": "Aquae Sulis",
+    "right": "Bath"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

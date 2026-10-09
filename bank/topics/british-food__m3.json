@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each dish to where it comes from",
+  "pairs": [
+   {
+    "left": "Stottie cake",
+    "right": "Tyneside"
+   },
+   {
+    "left": "Scouse",
+    "right": "Liverpool"
+   },
+   {
+    "left": "Cullen skink",
+    "right": "Scotland"
+   },
+   {
+    "left": "Laverbread",
+    "right": "Wales"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each pudding to its key ingredient",
+  "pairs": [
+   {
+    "left": "Spotted dick",
+    "right": "Suet and currants"
+   },
+   {
+    "left": "Eton mess",
+    "right": "Meringue"
+   },
+   {
+    "left": "Bakewell tart",
+    "right": "Almonds and jam"
+   },
+   {
+    "left": "Sticky toffee pudding",
+    "right": "Dates"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

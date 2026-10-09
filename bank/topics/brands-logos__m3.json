@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each brand to the animal in its logo",
+  "pairs": [
+   {
+    "left": "Ferrari",
+    "right": "Prancing horse"
+   },
+   {
+    "left": "Peugeot",
+    "right": "Lion"
+   },
+   {
+    "left": "Lamborghini",
+    "right": "Bull"
+   },
+   {
+    "left": "Twitter",
+    "right": "Bird"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each company to the country it began in",
+  "pairs": [
+   {
+    "left": "IKEA",
+    "right": "Sweden"
+   },
+   {
+    "left": "LEGO",
+    "right": "Denmark"
+   },
+   {
+    "left": "Nokia",
+    "right": "Finland"
+   },
+   {
+    "left": "Samsung",
+    "right": "South Korea"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each US sitcom to its regular hangout",
+  "pairs": [
+   {
+    "left": "Friends",
+    "right": "Central Perk"
+   },
+   {
+    "left": "How I Met Your Mother",
+    "right": "MacLaren's"
+   },
+   {
+    "left": "Seinfeld",
+    "right": "Monk's Café"
+   },
+   {
+    "left": "Happy Days",
+    "right": "Arnold's"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each US drama to where it's set",
+  "pairs": [
+   {
+    "left": "Breaking Bad",
+    "right": "Albuquerque"
+   },
+   {
+    "left": "Grey's Anatomy",
+    "right": "Seattle"
+   },
+   {
+    "left": "The Sopranos",
+    "right": "New Jersey"
+   },
+   {
+    "left": "Dexter",
+    "right": "Miami"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]
