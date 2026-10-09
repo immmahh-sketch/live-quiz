@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "Tudor or Victorian?",
+  "categories": [
+   "Tudor",
+   "Victorian"
+  ],
+  "items": [
+   {
+    "text": "Henry VIII",
+    "category": "Tudor"
+   },
+   {
+    "text": "Elizabeth I",
+    "category": "Tudor"
+   },
+   {
+    "text": "Thomas Cromwell",
+    "category": "Tudor"
+   },
+   {
+    "text": "The Spanish Armada",
+    "category": "Tudor"
+   },
+   {
+    "text": "Charles Dickens",
+    "category": "Victorian"
+   },
+   {
+    "text": "Florence Nightingale",
+    "category": "Victorian"
+   },
+   {
+    "text": "Isambard Kingdom Brunel",
+    "category": "Victorian"
+   },
+   {
+    "text": "The Great Exhibition",
+    "category": "Victorian"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A battle fought in England or in Scotland?",
+  "categories": [
+   "England",
+   "Scotland"
+  ],
+  "items": [
+   {
+    "text": "Hastings",
+    "category": "England"
+   },
+   {
+    "text": "Bosworth",
+    "category": "England"
+   },
+   {
+    "text": "Naseby",
+    "category": "England"
+   },
+   {
+    "text": "Marston Moor",
+    "category": "England"
+   },
+   {
+    "text": "Bannockburn",
+    "category": "Scotland"
+   },
+   {
+    "text": "Culloden",
+    "category": "Scotland"
+   },
+   {
+    "text": "Prestonpans",
+    "category": "Scotland"
+   },
+   {
+    "text": "Stirling Bridge",
+    "category": "Scotland"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

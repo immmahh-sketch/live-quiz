@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "Painted by Monet or by Van Gogh?",
+  "categories": [
+   "Monet",
+   "Van Gogh"
+  ],
+  "items": [
+   {
+    "text": "Water Lilies",
+    "category": "Monet"
+   },
+   {
+    "text": "Impression, Sunrise",
+    "category": "Monet"
+   },
+   {
+    "text": "Rouen Cathedral",
+    "category": "Monet"
+   },
+   {
+    "text": "Poppy Field",
+    "category": "Monet"
+   },
+   {
+    "text": "Sunflowers",
+    "category": "Van Gogh"
+   },
+   {
+    "text": "The Starry Night",
+    "category": "Van Gogh"
+   },
+   {
+    "text": "Café Terrace at Night",
+    "category": "Van Gogh"
+   },
+   {
+    "text": "The Potato Eaters",
+    "category": "Van Gogh"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A famous painting or a famous sculpture?",
+  "categories": [
+   "Painting",
+   "Sculpture"
+  ],
+  "items": [
+   {
+    "text": "Mona Lisa",
+    "category": "Painting"
+   },
+   {
+    "text": "The Scream",
+    "category": "Painting"
+   },
+   {
+    "text": "Guernica",
+    "category": "Painting"
+   },
+   {
+    "text": "The Hay Wain",
+    "category": "Painting"
+   },
+   {
+    "text": "Michelangelo's David",
+    "category": "Sculpture"
+   },
+   {
+    "text": "The Thinker",
+    "category": "Sculpture"
+   },
+   {
+    "text": "Venus de Milo",
+    "category": "Sculpture"
+   },
+   {
+    "text": "Angel of the North",
+    "category": "Sculpture"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

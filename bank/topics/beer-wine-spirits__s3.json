@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "A whisky or a gin?",
+  "categories": [
+   "Whisky",
+   "Gin"
+  ],
+  "items": [
+   {
+    "text": "Glenfiddich",
+    "category": "Whisky"
+   },
+   {
+    "text": "Johnnie Walker",
+    "category": "Whisky"
+   },
+   {
+    "text": "Jameson",
+    "category": "Whisky"
+   },
+   {
+    "text": "Famous Grouse",
+    "category": "Whisky"
+   },
+   {
+    "text": "Gordon's",
+    "category": "Gin"
+   },
+   {
+    "text": "Tanqueray",
+    "category": "Gin"
+   },
+   {
+    "text": "Hendrick's",
+    "category": "Gin"
+   },
+   {
+    "text": "Bombay Sapphire",
+    "category": "Gin"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A red wine grape or a white wine grape?",
+  "categories": [
+   "Red",
+   "White"
+  ],
+  "items": [
+   {
+    "text": "Merlot",
+    "category": "Red"
+   },
+   {
+    "text": "Pinot Noir",
+    "category": "Red"
+   },
+   {
+    "text": "Shiraz",
+    "category": "Red"
+   },
+   {
+    "text": "Cabernet Sauvignon",
+    "category": "Red"
+   },
+   {
+    "text": "Chardonnay",
+    "category": "White"
+   },
+   {
+    "text": "Sauvignon Blanc",
+    "category": "White"
+   },
+   {
+    "text": "Riesling",
+    "category": "White"
+   },
+   {
+    "text": "Pinot Grigio",
+    "category": "White"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

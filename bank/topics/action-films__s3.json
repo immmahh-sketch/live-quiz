@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "A Bruce Willis film or a Mel Gibson film?",
+  "categories": [
+   "Bruce Willis",
+   "Mel Gibson"
+  ],
+  "items": [
+   {
+    "text": "Die Hard",
+    "category": "Bruce Willis"
+   },
+   {
+    "text": "Armageddon",
+    "category": "Bruce Willis"
+   },
+   {
+    "text": "The Sixth Sense",
+    "category": "Bruce Willis"
+   },
+   {
+    "text": "Pulp Fiction",
+    "category": "Bruce Willis"
+   },
+   {
+    "text": "Braveheart",
+    "category": "Mel Gibson"
+   },
+   {
+    "text": "Mad Max",
+    "category": "Mel Gibson"
+   },
+   {
+    "text": "Lethal Weapon",
+    "category": "Mel Gibson"
+   },
+   {
+    "text": "Ransom",
+    "category": "Mel Gibson"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A submarine film or a spaceship film?",
+  "categories": [
+   "Submarine",
+   "Spaceship"
+  ],
+  "items": [
+   {
+    "text": "Das Boot",
+    "category": "Submarine"
+   },
+   {
+    "text": "The Hunt for Red October",
+    "category": "Submarine"
+   },
+   {
+    "text": "Crimson Tide",
+    "category": "Submarine"
+   },
+   {
+    "text": "U-571",
+    "category": "Submarine"
+   },
+   {
+    "text": "Alien",
+    "category": "Spaceship"
+   },
+   {
+    "text": "Gravity",
+    "category": "Spaceship"
+   },
+   {
+    "text": "Apollo 13",
+    "category": "Spaceship"
+   },
+   {
+    "text": "Interstellar",
+    "category": "Spaceship"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

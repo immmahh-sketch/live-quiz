@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "Written by a Brontë sister or by Jane Austen?",
+  "categories": [
+   "A Brontë",
+   "Jane Austen"
+  ],
+  "items": [
+   {
+    "text": "Jane Eyre",
+    "category": "A Brontë"
+   },
+   {
+    "text": "Wuthering Heights",
+    "category": "A Brontë"
+   },
+   {
+    "text": "Villette",
+    "category": "A Brontë"
+   },
+   {
+    "text": "The Tenant of Wildfell Hall",
+    "category": "A Brontë"
+   },
+   {
+    "text": "Emma",
+    "category": "Jane Austen"
+   },
+   {
+    "text": "Persuasion",
+    "category": "Jane Austen"
+   },
+   {
+    "text": "Sense and Sensibility",
+    "category": "Jane Austen"
+   },
+   {
+    "text": "Mansfield Park",
+    "category": "Jane Austen"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Written by J. R. R. Tolkien or by C. S. Lewis?",
+  "categories": [
+   "Tolkien",
+   "C. S. Lewis"
+  ],
+  "items": [
+   {
+    "text": "The Hobbit",
+    "category": "Tolkien"
+   },
+   {
+    "text": "The Silmarillion",
+    "category": "Tolkien"
+   },
+   {
+    "text": "The Two Towers",
+    "category": "Tolkien"
+   },
+   {
+    "text": "The Fellowship of the Ring",
+    "category": "Tolkien"
+   },
+   {
+    "text": "The Lion, the Witch and the Wardrobe",
+    "category": "C. S. Lewis"
+   },
+   {
+    "text": "Prince Caspian",
+    "category": "C. S. Lewis"
+   },
+   {
+    "text": "The Screwtape Letters",
+    "category": "C. S. Lewis"
+   },
+   {
+    "text": "The Magician's Nephew",
+    "category": "C. S. Lewis"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

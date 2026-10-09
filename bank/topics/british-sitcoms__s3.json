@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "First shown on the BBC or on ITV?",
+  "categories": [
+   "BBC",
+   "ITV"
+  ],
+  "items": [
+   {
+    "text": "Only Fools and Horses",
+    "category": "BBC"
+   },
+   {
+    "text": "Fawlty Towers",
+    "category": "BBC"
+   },
+   {
+    "text": "The Office",
+    "category": "BBC"
+   },
+   {
+    "text": "Gavin & Stacey",
+    "category": "BBC"
+   },
+   {
+    "text": "Rising Damp",
+    "category": "ITV"
+   },
+   {
+    "text": "Benidorm",
+    "category": "ITV"
+   },
+   {
+    "text": "Man About the House",
+    "category": "ITV"
+   },
+   {
+    "text": "Bless This House",
+    "category": "ITV"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Set in the north of England or the south?",
+  "categories": [
+   "North",
+   "South"
+  ],
+  "items": [
+   {
+    "text": "The Royle Family",
+    "category": "North"
+   },
+   {
+    "text": "Last of the Summer Wine",
+    "category": "North"
+   },
+   {
+    "text": "Early Doors",
+    "category": "North"
+   },
+   {
+    "text": "Phoenix Nights",
+    "category": "North"
+   },
+   {
+    "text": "Only Fools and Horses",
+    "category": "South"
+   },
+   {
+    "text": "Fawlty Towers",
+    "category": "South"
+   },
+   {
+    "text": "Men Behaving Badly",
+    "category": "South"
+   },
+   {
+    "text": "The Good Life",
+    "category": "South"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

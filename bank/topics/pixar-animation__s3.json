@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "A Disney Animation film or a Pixar film?",
+  "categories": [
+   "Disney Animation",
+   "Pixar"
+  ],
+  "items": [
+   {
+    "text": "Frozen",
+    "category": "Disney Animation"
+   },
+   {
+    "text": "Moana",
+    "category": "Disney Animation"
+   },
+   {
+    "text": "Tangled",
+    "category": "Disney Animation"
+   },
+   {
+    "text": "Encanto",
+    "category": "Disney Animation"
+   },
+   {
+    "text": "Up",
+    "category": "Pixar"
+   },
+   {
+    "text": "Coco",
+    "category": "Pixar"
+   },
+   {
+    "text": "Ratatouille",
+    "category": "Pixar"
+   },
+   {
+    "text": "Inside Out",
+    "category": "Pixar"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Shrek character or Toy Story character?",
+  "categories": [
+   "Shrek",
+   "Toy Story"
+  ],
+  "items": [
+   {
+    "text": "Donkey",
+    "category": "Shrek"
+   },
+   {
+    "text": "Lord Farquaad",
+    "category": "Shrek"
+   },
+   {
+    "text": "Fiona",
+    "category": "Shrek"
+   },
+   {
+    "text": "Puss in Boots",
+    "category": "Shrek"
+   },
+   {
+    "text": "Woody",
+    "category": "Toy Story"
+   },
+   {
+    "text": "Rex",
+    "category": "Toy Story"
+   },
+   {
+    "text": "Hamm",
+    "category": "Toy Story"
+   },
+   {
+    "text": "Jessie",
+    "category": "Toy Story"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "Built by the Romans or by the ancient Greeks?",
+  "categories": [
+   "Romans",
+   "Greeks"
+  ],
+  "items": [
+   {
+    "text": "Colosseum",
+    "category": "Romans"
+   },
+   {
+    "text": "Pantheon",
+    "category": "Romans"
+   },
+   {
+    "text": "Hadrian's Wall",
+    "category": "Romans"
+   },
+   {
+    "text": "Pont du Gard",
+    "category": "Romans"
+   },
+   {
+    "text": "Parthenon",
+    "category": "Greeks"
+   },
+   {
+    "text": "Theatre of Epidaurus",
+    "category": "Greeks"
+   },
+   {
+    "text": "Temple of Apollo at Delphi",
+    "category": "Greeks"
+   },
+   {
+    "text": "Erechtheion",
+    "category": "Greeks"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Egyptian pharaoh or Roman emperor?",
+  "categories": [
+   "Pharaoh",
+   "Roman emperor"
+  ],
+  "items": [
+   {
+    "text": "Tutankhamun",
+    "category": "Pharaoh"
+   },
+   {
+    "text": "Ramesses II",
+    "category": "Pharaoh"
+   },
+   {
+    "text": "Cleopatra",
+    "category": "Pharaoh"
+   },
+   {
+    "text": "Akhenaten",
+    "category": "Pharaoh"
+   },
+   {
+    "text": "Nero",
+    "category": "Roman emperor"
+   },
+   {
+    "text": "Hadrian",
+    "category": "Roman emperor"
+   },
+   {
+    "text": "Trajan",
+    "category": "Roman emperor"
+   },
+   {
+    "text": "Caligula",
+    "category": "Roman emperor"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

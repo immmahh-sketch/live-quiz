@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "Set in a hospital, or in a police station?",
+  "categories": [
+   "Hospital",
+   "Police station"
+  ],
+  "items": [
+   {
+    "text": "Grey's Anatomy",
+    "category": "Hospital"
+   },
+   {
+    "text": "ER",
+    "category": "Hospital"
+   },
+   {
+    "text": "Scrubs",
+    "category": "Hospital"
+   },
+   {
+    "text": "House",
+    "category": "Hospital"
+   },
+   {
+    "text": "Brooklyn Nine-Nine",
+    "category": "Police station"
+   },
+   {
+    "text": "NYPD Blue",
+    "category": "Police station"
+   },
+   {
+    "text": "Hill Street Blues",
+    "category": "Police station"
+   },
+   {
+    "text": "The Shield",
+    "category": "Police station"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "Animated US comedy or live-action US comedy?",
+  "categories": [
+   "Animated",
+   "Live action"
+  ],
+  "items": [
+   {
+    "text": "Family Guy",
+    "category": "Animated"
+   },
+   {
+    "text": "South Park",
+    "category": "Animated"
+   },
+   {
+    "text": "Futurama",
+    "category": "Animated"
+   },
+   {
+    "text": "King of the Hill",
+    "category": "Animated"
+   },
+   {
+    "text": "Seinfeld",
+    "category": "Live action"
+   },
+   {
+    "text": "Frasier",
+    "category": "Live action"
+   },
+   {
+    "text": "Cheers",
+    "category": "Live action"
+   },
+   {
+    "text": "Friends",
+    "category": "Live action"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

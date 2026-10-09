@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "A car brand or a watch brand?",
+  "categories": [
+   "Cars",
+   "Watches"
+  ],
+  "items": [
+   {
+    "text": "Bentley",
+    "category": "Cars"
+   },
+   {
+    "text": "Lotus",
+    "category": "Cars"
+   },
+   {
+    "text": "Bugatti",
+    "category": "Cars"
+   },
+   {
+    "text": "Maserati",
+    "category": "Cars"
+   },
+   {
+    "text": "Rolex",
+    "category": "Watches"
+   },
+   {
+    "text": "Omega",
+    "category": "Watches"
+   },
+   {
+    "text": "TAG Heuer",
+    "category": "Watches"
+   },
+   {
+    "text": "Breitling",
+    "category": "Watches"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Founded in the UK or in the USA?",
+  "categories": [
+   "UK",
+   "USA"
+  ],
+  "items": [
+   {
+    "text": "Tesco",
+    "category": "UK"
+   },
+   {
+    "text": "Greggs",
+    "category": "UK"
+   },
+   {
+    "text": "Burberry",
+    "category": "UK"
+   },
+   {
+    "text": "Cadbury",
+    "category": "UK"
+   },
+   {
+    "text": "Nike",
+    "category": "USA"
+   },
+   {
+    "text": "Starbucks",
+    "category": "USA"
+   },
+   {
+    "text": "Walmart",
+    "category": "USA"
+   },
+   {
+    "text": "Gap",
+    "category": "USA"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

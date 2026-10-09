@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "A pie or a pudding?",
+  "categories": [
+   "Pie",
+   "Pudding"
+  ],
+  "items": [
+   {
+    "text": "Cottage pie",
+    "category": "Pie"
+   },
+   {
+    "text": "Steak and kidney pie",
+    "category": "Pie"
+   },
+   {
+    "text": "Pork pie",
+    "category": "Pie"
+   },
+   {
+    "text": "Shepherd's pie",
+    "category": "Pie"
+   },
+   {
+    "text": "Yorkshire pudding",
+    "category": "Pudding"
+   },
+   {
+    "text": "Black pudding",
+    "category": "Pudding"
+   },
+   {
+    "text": "Bread and butter pudding",
+    "category": "Pudding"
+   },
+   {
+    "text": "Christmas pudding",
+    "category": "Pudding"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A British sausage or a British cheese?",
+  "categories": [
+   "Sausage",
+   "Cheese"
+  ],
+  "items": [
+   {
+    "text": "Cumberland",
+    "category": "Sausage"
+   },
+   {
+    "text": "Lincolnshire",
+    "category": "Sausage"
+   },
+   {
+    "text": "Glamorgan",
+    "category": "Sausage"
+   },
+   {
+    "text": "Oxford",
+    "category": "Sausage"
+   },
+   {
+    "text": "Cheddar",
+    "category": "Cheese"
+   },
+   {
+    "text": "Stilton",
+    "category": "Cheese"
+   },
+   {
+    "text": "Lancashire",
+    "category": "Cheese"
+   },
+   {
+    "text": "Red Leicester",
+    "category": "Cheese"
+   }
+  ],
+  "difficulty": "hard"
+ }
+]
