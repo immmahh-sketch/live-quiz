@@ -1,0 +1,24 @@
+[
+ {
+  "type": "club",
+  "text": "Bob is a builder, Sam is a fireman and Pat is a postman. How many letters are there in those three jobs altogether?",
+  "answers": [
+   "21",
+   "Twenty-one"
+  ],
+  "pct": 50,
+  "why": "BUILDER, FIREMAN and POSTMAN have 7 letters each: 3 × 7 = 21.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "A pack of 52 cards is dealt out equally between 4 players. How many cards does each player get?",
+  "answers": [
+   "13",
+   "Thirteen"
+  ],
+  "pct": 80,
+  "why": "52 ÷ 4 = 13.",
+  "difficulty": "easy"
+ }
+]

@@ -1,0 +1,23 @@
+[
+ {
+  "type": "club",
+  "text": "Which 2000s gadget is hidden in this sentence: 'Hip odes are fun to write'?",
+  "answers": [
+   "iPod"
+  ],
+  "pct": 40,
+  "why": "hIP ODes hides IPOD.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "England beat Australia 20–17 in the 2003 Rugby World Cup final. How many points were scored in the match?",
+  "answers": [
+   "37",
+   "Thirty-seven"
+  ],
+  "pct": 80,
+  "why": "20 + 17 = 37.",
+  "difficulty": "easy"
+ }
+]

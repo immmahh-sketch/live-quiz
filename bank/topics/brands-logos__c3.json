@@ -1,0 +1,23 @@
+[
+ {
+  "type": "club",
+  "text": "Which supermarket is hidden in this sentence: 'Has dad got the car keys?'",
+  "answers": [
+   "Asda"
+  ],
+  "pct": 50,
+  "why": "hAS DAd hides ASDA.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "The Audi logo has four rings and the Olympic logo has five. How many rings are there in two Audi logos and one Olympic logo?",
+  "answers": [
+   "13",
+   "Thirteen"
+  ],
+  "pct": 70,
+  "why": "2 × 4 = 8, plus 5 = 13.",
+  "difficulty": "easy"
+ }
+]

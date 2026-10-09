@@ -1,0 +1,24 @@
+[
+ {
+  "type": "club",
+  "text": "What is 15% of 80?",
+  "answers": [
+   "12",
+   "Twelve"
+  ],
+  "pct": 70,
+  "why": "10% is 8 and 5% is 4: 8 + 4 = 12.",
+  "difficulty": "easy"
+ },
+ {
+  "type": "club",
+  "text": "Which is the first prime bigger than 89?",
+  "answers": [
+   "97",
+   "Ninety-seven"
+  ],
+  "pct": 30,
+  "why": "90 to 96 all divide by 2, 3 or 5, and 91 is 7 × 13; 97 has no factors.",
+  "difficulty": "hard"
+ }
+]

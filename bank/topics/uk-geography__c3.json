@@ -1,0 +1,25 @@
+[
+ {
+  "type": "club",
+  "text": "Which English city is hidden in this sentence: 'The cut bleeds a lot'?",
+  "answers": [
+   "Leeds"
+  ],
+  "pct": 50,
+  "why": "bLEEDS hides LEEDS.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "The 280-mile run from Newcastle to London is done at a steady hundred mph. How long does that take, in hours and minutes?",
+  "answers": [
+   "2 hours 48 minutes",
+   "2h 48m",
+   "2:48",
+   "168 minutes"
+  ],
+  "pct": 30,
+  "why": "280 ÷ 100 = 2.8 hours, and 0.8 of an hour is 48 minutes.",
+  "difficulty": "hard"
+ }
+]

@@ -1,0 +1,23 @@
+[
+ {
+  "type": "club",
+  "text": "Julius Caesar was killed in 44 BC and Augustus died in AD 14. How many years apart were those events?",
+  "answers": [
+   "57",
+   "Fifty-seven"
+  ],
+  "pct": 10,
+  "why": "There was no year 0, so 44 + 14 − 1 = 57.",
+  "difficulty": "hard"
+ },
+ {
+  "type": "club",
+  "text": "Which Greek letter is hidden in this sentence: 'His model tank won a prize'?",
+  "answers": [
+   "Delta"
+  ],
+  "pct": 40,
+  "why": "moDEL TAnk hides DELTA.",
+  "difficulty": "medium"
+ }
+]

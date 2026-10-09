@@ -1,0 +1,23 @@
+[
+ {
+  "type": "club",
+  "text": "Which Dexter character is hidden in this sentence: 'Team spirit and luck won the day'?",
+  "answers": [
+   "Rita"
+  ],
+  "pct": 40,
+  "why": "spiRIT And hides RITA.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "Dexter keeps one blood slide per victim. At 3 victims a season for 8 seasons, how many slides does he collect?",
+  "answers": [
+   "24",
+   "Twenty-four"
+  ],
+  "pct": 70,
+  "why": "3 × 8 = 24.",
+  "difficulty": "easy"
+ }
+]

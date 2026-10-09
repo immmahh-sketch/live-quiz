@@ -1,0 +1,23 @@
+[
+ {
+  "type": "club",
+  "text": "The Berlin Wall stood from 1961 to 1989. In how many different calendar years was it standing?",
+  "answers": [
+   "29",
+   "Twenty-nine"
+  ],
+  "pct": 30,
+  "why": "Count both ends: 1989 − 1961 + 1 = 29.",
+  "difficulty": "hard"
+ },
+ {
+  "type": "club",
+  "text": "Neil Armstrong walked on the Moon in 1969. In what year was the 50th anniversary?",
+  "answers": [
+   "2019"
+  ],
+  "pct": 80,
+  "why": "1969 + 50 = 2019.",
+  "difficulty": "easy"
+ }
+]

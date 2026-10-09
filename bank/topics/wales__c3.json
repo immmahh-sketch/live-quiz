@@ -1,0 +1,23 @@
+[
+ {
+  "type": "club",
+  "text": "Which Welsh city is hidden in this sentence: 'I saw a swan sea-bound'?",
+  "answers": [
+   "Swansea"
+  ],
+  "pct": 60,
+  "why": "SWAN SEA-bound hides SWANSEA.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "Wales has 22 council areas. If each sends 3 choirs to an eisteddfod, how many choirs is that?",
+  "answers": [
+   "66",
+   "Sixty-six"
+  ],
+  "pct": 80,
+  "why": "22 × 3 = 66.",
+  "difficulty": "easy"
+ }
+]

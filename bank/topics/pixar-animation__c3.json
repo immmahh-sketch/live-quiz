@@ -1,0 +1,22 @@
+[
+ {
+  "type": "club",
+  "text": "Which Pixar film is hidden in this sentence: 'The cobra very nearly bit me'?",
+  "answers": [
+   "Brave"
+  ],
+  "pct": 40,
+  "why": "coBRA VEry hides BRAVE.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "Which Pixar fish is hidden in this sentence: 'She sent a kitten emoji'?",
+  "answers": [
+   "Nemo"
+  ],
+  "pct": 40,
+  "why": "kitteN EMOji hides NEMO.",
+  "difficulty": "medium"
+ }
+]

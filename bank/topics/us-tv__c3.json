@@ -1,0 +1,23 @@
+[
+ {
+  "type": "club",
+  "text": "Which US sitcom is hidden in this sentence: 'The coach praised the cheer squad'?",
+  "answers": [
+   "Cheers"
+  ],
+  "pct": 40,
+  "why": "cheER Squad hides CHEERS.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "The six Friends each send a Christmas card to every other Friend. How many cards are sent?",
+  "answers": [
+   "30",
+   "Thirty"
+  ],
+  "pct": 40,
+  "why": "Each of the 6 sends 5 cards: 6 × 5 = 30. (A card goes one way, unlike a hug.)",
+  "difficulty": "medium"
+ }
+]
