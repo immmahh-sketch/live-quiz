@@ -1,0 +1,71 @@
+[
+ {
+  "type": "match",
+  "text": "Match each 1990s number one to its act",
+  "pairs": [
+   {
+    "left": "Gangsta's Paradise",
+    "right": "Coolio"
+   },
+   {
+    "left": "Barbie Girl",
+    "right": "Aqua"
+   },
+   {
+    "left": "Believe",
+    "right": "Cher"
+   },
+   {
+    "left": "...Baby One More Time",
+    "right": "Britney Spears"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each 1990s TV show to its presenter",
+  "pairs": [
+   {
+    "left": "Noel's House Party",
+    "right": "Noel Edmonds"
+   },
+   {
+    "left": "TFI Friday",
+    "right": "Chris Evans"
+   },
+   {
+    "left": "Blind Date",
+    "right": "Cilla Black"
+   },
+   {
+    "left": "Gladiators",
+    "right": "Ulrika Jonsson"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each 1990s event to its year",
+  "pairs": [
+   {
+    "left": "Nelson Mandela walks free",
+    "right": "1990"
+   },
+   {
+    "left": "The Channel Tunnel opens",
+    "right": "1994"
+   },
+   {
+    "left": "Diana, Princess of Wales dies",
+    "right": "1997"
+   },
+   {
+    "left": "The Good Friday Agreement",
+    "right": "1998"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

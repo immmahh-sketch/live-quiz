@@ -1,0 +1,71 @@
+[
+ {
+  "type": "match",
+  "text": "Match each North East club to its old ground",
+  "pairs": [
+   {
+    "left": "Sunderland",
+    "right": "Roker Park"
+   },
+   {
+    "left": "Middlesbrough",
+    "right": "Ayresome Park"
+   },
+   {
+    "left": "Darlington",
+    "right": "Feethams"
+   },
+   {
+    "left": "Gateshead",
+    "right": "Redheugh Park"
+   }
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "match",
+  "text": "Match each Newcastle hero to his nickname",
+  "pairs": [
+   {
+    "left": "Jackie Milburn",
+    "right": "Wor Jackie"
+   },
+   {
+    "left": "Malcolm Macdonald",
+    "right": "Supermac"
+   },
+   {
+    "left": "Paul Gascoigne",
+    "right": "Gazza"
+   },
+   {
+    "left": "Kevin Keegan",
+    "right": "King Kev"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each home kit to its North East club",
+  "pairs": [
+   {
+    "left": "Black and white stripes",
+    "right": "Newcastle United"
+   },
+   {
+    "left": "Red and white stripes",
+    "right": "Sunderland"
+   },
+   {
+    "left": "All red",
+    "right": "Middlesbrough"
+   },
+   {
+    "left": "Blue and white",
+    "right": "Hartlepool United"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

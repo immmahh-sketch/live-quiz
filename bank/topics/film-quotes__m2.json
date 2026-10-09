@@ -1,0 +1,71 @@
+[
+ {
+  "type": "match",
+  "text": "Match each famous movie line to the film it comes from",
+  "pairs": [
+   {
+    "left": "'Here's looking at you, kid'",
+    "right": "Casablanca"
+   },
+   {
+    "left": "'May the Force be with you'",
+    "right": "Star Wars"
+   },
+   {
+    "left": "'There's no place like home'",
+    "right": "The Wizard of Oz"
+   },
+   {
+    "left": "'Houston, we have a problem'",
+    "right": "Apollo 13"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each catchphrase to the film character who says it",
+  "pairs": [
+   {
+    "left": "'Hasta la vista, baby'",
+    "right": "The Terminator"
+   },
+   {
+    "left": "'Bond. James Bond.'",
+    "right": "James Bond"
+   },
+   {
+    "left": "'My precious'",
+    "right": "Gollum"
+   },
+   {
+    "left": "'Life is like a box of chocolates'",
+    "right": "Forrest Gump"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each famous line to its film",
+  "pairs": [
+   {
+    "left": "'Nobody puts Baby in a corner'",
+    "right": "Dirty Dancing"
+   },
+   {
+    "left": "'You're gonna need a bigger boat'",
+    "right": "Jaws"
+   },
+   {
+    "left": "'Keep the change, ya filthy animal'",
+    "right": "Home Alone"
+   },
+   {
+    "left": "'I see dead people'",
+    "right": "The Sixth Sense"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

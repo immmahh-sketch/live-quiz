@@ -1,0 +1,71 @@
+[
+ {
+  "type": "match",
+  "text": "Match each singer to his band",
+  "pairs": [
+   {
+    "left": "Freddie Mercury",
+    "right": "Queen"
+   },
+   {
+    "left": "Robert Plant",
+    "right": "Led Zeppelin"
+   },
+   {
+    "left": "Brian Johnson",
+    "right": "AC/DC"
+   },
+   {
+    "left": "Ozzy Osbourne",
+    "right": "Black Sabbath"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each song to its band",
+  "pairs": [
+   {
+    "left": "Smoke on the Water",
+    "right": "Deep Purple"
+   },
+   {
+    "left": "Stairway to Heaven",
+    "right": "Led Zeppelin"
+   },
+   {
+    "left": "Paranoid",
+    "right": "Black Sabbath"
+   },
+   {
+    "left": "Back in Black",
+    "right": "AC/DC"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each drummer to his band",
+  "pairs": [
+   {
+    "left": "Keith Moon",
+    "right": "The Who"
+   },
+   {
+    "left": "John Bonham",
+    "right": "Led Zeppelin"
+   },
+   {
+    "left": "Dave Grohl",
+    "right": "Nirvana"
+   },
+   {
+    "left": "Lars Ulrich",
+    "right": "Metallica"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

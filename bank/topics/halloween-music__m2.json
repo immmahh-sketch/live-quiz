@@ -1,0 +1,71 @@
+[
+ {
+  "type": "match",
+  "text": "Match each spooky song to its act",
+  "pairs": [
+   {
+    "left": "Somebody's Watching Me",
+    "right": "Rockwell"
+   },
+   {
+    "left": "Bark at the Moon",
+    "right": "Ozzy Osbourne"
+   },
+   {
+    "left": "Werewolves of London",
+    "right": "Warren Zevon"
+   },
+   {
+    "left": "Bat Out of Hell",
+    "right": "Meat Loaf"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each film to the song or tune it is known for",
+  "pairs": [
+   {
+    "left": "The Exorcist",
+    "right": "Tubular Bells"
+   },
+   {
+    "left": "Hocus Pocus",
+    "right": "I Put a Spell on You"
+   },
+   {
+    "left": "Beetlejuice",
+    "right": "Day-O (The Banana Boat Song)"
+   },
+   {
+    "left": "The Lost Boys",
+    "right": "Cry Little Sister"
+   }
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "match",
+  "text": "Match each song to its act",
+  "pairs": [
+   {
+    "left": "Highway to Hell",
+    "right": "AC/DC"
+   },
+   {
+    "left": "Superstition",
+    "right": "Stevie Wonder"
+   },
+   {
+    "left": "Zombie",
+    "right": "The Cranberries"
+   },
+   {
+    "left": "Witchy Woman",
+    "right": "Eagles"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

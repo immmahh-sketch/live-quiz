@@ -1,0 +1,71 @@
+[
+ {
+  "type": "match",
+  "text": "Match each song to its group",
+  "pairs": [
+   {
+    "left": "Back for Good",
+    "right": "Take That"
+   },
+   {
+    "left": "Flying Without Wings",
+    "right": "Westlife"
+   },
+   {
+    "left": "Wannabe",
+    "right": "Spice Girls"
+   },
+   {
+    "left": "The Promise",
+    "right": "Girls Aloud"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each singer to their group",
+  "pairs": [
+   {
+    "left": "Ronan Keating",
+    "right": "Boyzone"
+   },
+   {
+    "left": "Beyoncé",
+    "right": "Destiny's Child"
+   },
+   {
+    "left": "Nicole Scherzinger",
+    "right": "The Pussycat Dolls"
+   },
+   {
+    "left": "Cheryl",
+    "right": "Girls Aloud"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each group to its Christmas number one",
+  "pairs": [
+   {
+    "left": "East 17",
+    "right": "Stay Another Day"
+   },
+   {
+    "left": "Spice Girls",
+    "right": "2 Become 1"
+   },
+   {
+    "left": "Westlife",
+    "right": "I Have a Dream"
+   },
+   {
+    "left": "Girls Aloud",
+    "right": "Sound of the Underground"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

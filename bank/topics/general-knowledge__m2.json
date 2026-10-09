@@ -1,0 +1,71 @@
+[
+ {
+  "type": "match",
+  "text": "Match each phobia to what it is a fear of",
+  "pairs": [
+   {
+    "left": "Arachnophobia",
+    "right": "Spiders"
+   },
+   {
+    "left": "Claustrophobia",
+    "right": "Enclosed spaces"
+   },
+   {
+    "left": "Acrophobia",
+    "right": "Heights"
+   },
+   {
+    "left": "Agoraphobia",
+    "right": "Open or crowded places"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each group name to its animal",
+  "pairs": [
+   {
+    "left": "A pride",
+    "right": "Lions"
+   },
+   {
+    "left": "A murder",
+    "right": "Crows"
+   },
+   {
+    "left": "A parliament",
+    "right": "Owls"
+   },
+   {
+    "left": "A gaggle",
+    "right": "Geese"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each Roman god to his or her Greek equivalent",
+  "pairs": [
+   {
+    "left": "Jupiter",
+    "right": "Zeus"
+   },
+   {
+    "left": "Mars",
+    "right": "Ares"
+   },
+   {
+    "left": "Venus",
+    "right": "Aphrodite"
+   },
+   {
+    "left": "Neptune",
+    "right": "Poseidon"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

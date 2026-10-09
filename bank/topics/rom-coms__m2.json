@@ -1,0 +1,71 @@
+[
+ {
+  "type": "match",
+  "text": "Match each rom-com to its stars",
+  "pairs": [
+   {
+    "left": "Notting Hill",
+    "right": "Julia Roberts and Hugh Grant"
+   },
+   {
+    "left": "Pretty Woman",
+    "right": "Julia Roberts and Richard Gere"
+   },
+   {
+    "left": "When Harry Met Sally",
+    "right": "Billy Crystal and Meg Ryan"
+   },
+   {
+    "left": "Sleepless in Seattle",
+    "right": "Tom Hanks and Meg Ryan"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each rom-com to its writer",
+  "pairs": [
+   {
+    "left": "Four Weddings and a Funeral",
+    "right": "Richard Curtis"
+   },
+   {
+    "left": "When Harry Met Sally",
+    "right": "Nora Ephron"
+   },
+   {
+    "left": "Clueless",
+    "right": "Amy Heckerling"
+   },
+   {
+    "left": "The Holiday",
+    "right": "Nancy Meyers"
+   }
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "match",
+  "text": "Match each actor to his rom-com character",
+  "pairs": [
+   {
+    "left": "Hugh Grant",
+    "right": "William Thacker (Notting Hill)"
+   },
+   {
+    "left": "Richard Gere",
+    "right": "Edward Lewis (Pretty Woman)"
+   },
+   {
+    "left": "Colin Firth",
+    "right": "Mark Darcy (Bridget Jones's Diary)"
+   },
+   {
+    "left": "Matthew McConaughey",
+    "right": "Benjamin Barry (How to Lose a Guy in 10 Days)"
+   }
+  ],
+  "difficulty": "hard"
+ }
+]

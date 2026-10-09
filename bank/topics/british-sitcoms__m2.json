@@ -1,0 +1,71 @@
+[
+ {
+  "type": "match",
+  "text": "Match each catchphrase to its sitcom",
+  "pairs": [
+   {
+    "left": "'Lovely jubbly!'",
+    "right": "Only Fools and Horses"
+   },
+   {
+    "left": "'I don't believe it!'",
+    "right": "One Foot in the Grave"
+   },
+   {
+    "left": "'Don't panic!'",
+    "right": "Dad's Army"
+   },
+   {
+    "left": "'I have a cunning plan'",
+    "right": "Blackadder"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each sitcom family to its show",
+  "pairs": [
+   {
+    "left": "The Trotters",
+    "right": "Only Fools and Horses"
+   },
+   {
+    "left": "The Royles",
+    "right": "The Royle Family"
+   },
+   {
+    "left": "The Boswells",
+    "right": "Bread"
+   },
+   {
+    "left": "The Goods",
+    "right": "The Good Life"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each sitcom to the company its characters work for",
+  "pairs": [
+   {
+    "left": "The Office",
+    "right": "Wernham Hogg"
+   },
+   {
+    "left": "The IT Crowd",
+    "right": "Reynholm Industries"
+   },
+   {
+    "left": "Are You Being Served?",
+    "right": "Grace Brothers"
+   },
+   {
+    "left": "Drop the Dead Donkey",
+    "right": "Globelink News"
+   }
+  ],
+  "difficulty": "hard"
+ }
+]

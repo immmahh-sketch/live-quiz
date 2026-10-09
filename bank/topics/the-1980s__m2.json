@@ -1,0 +1,71 @@
+[
+ {
+  "type": "match",
+  "text": "Match each classic gadget to the company that made it",
+  "pairs": [
+   {
+    "left": "Walkman",
+    "right": "Sony"
+   },
+   {
+    "left": "ZX Spectrum",
+    "right": "Sinclair"
+   },
+   {
+    "left": "BBC Micro",
+    "right": "Acorn"
+   },
+   {
+    "left": "Game Boy",
+    "right": "Nintendo"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each 1980s soap to where it is set",
+  "pairs": [
+   {
+    "left": "EastEnders",
+    "right": "Albert Square"
+   },
+   {
+    "left": "Brookside",
+    "right": "A Liverpool cul-de-sac"
+   },
+   {
+    "left": "Dallas",
+    "right": "Southfork Ranch"
+   },
+   {
+    "left": "Neighbours",
+    "right": "Ramsay Street"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each 1980s number one to its act",
+  "pairs": [
+   {
+    "left": "Come On Eileen",
+    "right": "Dexys Midnight Runners"
+   },
+   {
+    "left": "Relax",
+    "right": "Frankie Goes to Hollywood"
+   },
+   {
+    "left": "Do They Know It's Christmas?",
+    "right": "Band Aid"
+   },
+   {
+    "left": "Never Gonna Give You Up",
+    "right": "Rick Astley"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

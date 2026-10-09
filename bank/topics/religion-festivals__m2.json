@@ -1,0 +1,71 @@
+[
+ {
+  "type": "match",
+  "text": "Match each festival to what it marks",
+  "pairs": [
+   {
+    "left": "Christmas",
+    "right": "The birth of Jesus"
+   },
+   {
+    "left": "Easter",
+    "right": "The resurrection of Jesus"
+   },
+   {
+    "left": "Hanukkah",
+    "right": "The rededication of the Temple in Jerusalem"
+   },
+   {
+    "left": "Eid al-Fitr",
+    "right": "The end of Ramadan"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each patron saint to his country",
+  "pairs": [
+   {
+    "left": "St George",
+    "right": "England"
+   },
+   {
+    "left": "St Andrew",
+    "right": "Scotland"
+   },
+   {
+    "left": "St David",
+    "right": "Wales"
+   },
+   {
+    "left": "St Patrick",
+    "right": "Ireland"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each title to its faith",
+  "pairs": [
+   {
+    "left": "The Pope",
+    "right": "Catholic Church"
+   },
+   {
+    "left": "The Dalai Lama",
+    "right": "Tibetan Buddhism"
+   },
+   {
+    "left": "Rabbi",
+    "right": "Judaism"
+   },
+   {
+    "left": "Imam",
+    "right": "Islam"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

@@ -1,0 +1,71 @@
+[
+ {
+  "type": "match",
+  "text": "Match each killer to his nickname",
+  "pairs": [
+   {
+    "left": "Brian Moser",
+    "right": "The Ice Truck Killer"
+   },
+   {
+    "left": "Arthur Mitchell",
+    "right": "The Trinity Killer"
+   },
+   {
+    "left": "Travis Marshall",
+    "right": "The Doomsday Killer"
+   },
+   {
+    "left": "Dexter Morgan",
+    "right": "The Bay Harbor Butcher"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each character to who they are to Dexter",
+  "pairs": [
+   {
+    "left": "Harry",
+    "right": "Adoptive father"
+   },
+   {
+    "left": "Debra",
+    "right": "Sister"
+   },
+   {
+    "left": "Rita",
+    "right": "Wife"
+   },
+   {
+    "left": "Harrison",
+    "right": "Son"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each character to the season of Dexter they first appear in",
+  "pairs": [
+   {
+    "left": "Lila Tournay",
+    "right": "Season 2"
+   },
+   {
+    "left": "Jordan Chase",
+    "right": "Season 5"
+   },
+   {
+    "left": "Isaak Sirko",
+    "right": "Season 7"
+   },
+   {
+    "left": "Oliver Saxon, the Brain Surgeon",
+    "right": "Season 8"
+   }
+  ],
+  "difficulty": "hard"
+ }
+]

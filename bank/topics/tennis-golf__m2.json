@@ -1,0 +1,71 @@
+[
+ {
+  "type": "match",
+  "text": "Match each golfer to his country",
+  "pairs": [
+   {
+    "left": "Rory McIlroy",
+    "right": "Northern Ireland"
+   },
+   {
+    "left": "Seve Ballesteros",
+    "right": "Spain"
+   },
+   {
+    "left": "Tiger Woods",
+    "right": "USA"
+   },
+   {
+    "left": "Colin Montgomerie",
+    "right": "Scotland"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each tennis term to its meaning",
+  "pairs": [
+   {
+    "left": "Love",
+    "right": "Zero"
+   },
+   {
+    "left": "Deuce",
+    "right": "40–40"
+   },
+   {
+    "left": "Ace",
+    "right": "A serve the opponent can't touch"
+   },
+   {
+    "left": "Let",
+    "right": "A serve that clips the net and is replayed"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each famous golf course to its country",
+  "pairs": [
+   {
+    "left": "St Andrews",
+    "right": "Scotland"
+   },
+   {
+    "left": "Augusta National",
+    "right": "USA"
+   },
+   {
+    "left": "Royal Birkdale",
+    "right": "England"
+   },
+   {
+    "left": "Valderrama",
+    "right": "Spain"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

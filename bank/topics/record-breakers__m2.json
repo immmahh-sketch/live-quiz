@@ -1,0 +1,71 @@
+[
+ {
+  "type": "match",
+  "text": "Match each first to the person who did it",
+  "pairs": [
+   {
+    "left": "First mile run in under four minutes",
+    "right": "Roger Bannister"
+   },
+   {
+    "left": "First to the top of Everest (with Tenzing Norgay)",
+    "right": "Edmund Hillary"
+   },
+   {
+    "left": "First woman to fly solo across the Atlantic",
+    "right": "Amelia Earhart"
+   },
+   {
+    "left": "First person in space",
+    "right": "Yuri Gagarin"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each record to the country that holds it",
+  "pairs": [
+   {
+    "left": "Largest country by area",
+    "right": "Russia"
+   },
+   {
+    "left": "Most people",
+    "right": "India"
+   },
+   {
+    "left": "Smallest country",
+    "right": "Vatican City"
+   },
+   {
+    "left": "Most Summer Olympic medals",
+    "right": "USA"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each record to the planet that holds it",
+  "pairs": [
+   {
+    "left": "Largest planet",
+    "right": "Jupiter"
+   },
+   {
+    "left": "Hottest planet",
+    "right": "Venus"
+   },
+   {
+    "left": "Smallest planet",
+    "right": "Mercury"
+   },
+   {
+    "left": "Most moons",
+    "right": "Saturn"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

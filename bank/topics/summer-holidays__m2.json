@@ -1,0 +1,71 @@
+[
+ {
+  "type": "match",
+  "text": "Match each seaside town to its county",
+  "pairs": [
+   {
+    "left": "Blackpool",
+    "right": "Lancashire"
+   },
+   {
+    "left": "Whitby",
+    "right": "North Yorkshire"
+   },
+   {
+    "left": "Newquay",
+    "right": "Cornwall"
+   },
+   {
+    "left": "Skegness",
+    "right": "Lincolnshire"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each airport code to its airport",
+  "pairs": [
+   {
+    "left": "LHR",
+    "right": "Heathrow"
+   },
+   {
+    "left": "NCL",
+    "right": "Newcastle"
+   },
+   {
+    "left": "LGW",
+    "right": "Gatwick"
+   },
+   {
+    "left": "MAN",
+    "right": "Manchester"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each holiday country to its main language",
+  "pairs": [
+   {
+    "left": "Portugal",
+    "right": "Portuguese"
+   },
+   {
+    "left": "Croatia",
+    "right": "Croatian"
+   },
+   {
+    "left": "Cyprus",
+    "right": "Greek"
+   },
+   {
+    "left": "Malta",
+    "right": "Maltese"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]
