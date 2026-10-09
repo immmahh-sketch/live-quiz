@@ -13,7 +13,7 @@ board("Countries whose capital city begins with B", "Geography", "medium", ["cap
  ["Belarus", "Bulgaria", "Bolivia", "Bangladesh", "Botswana"])
 board("Things you'd find in a first aid kit", "General knowledge", "easy", ["first aid", "household"],
  ["Plasters", "Bandages", "Antiseptic wipes", "Gauze pads", "Safety pins", "Tweezers", "Scissors", "Disposable gloves", "Eye wash", "Triangular bandage", "Burn gel", "Instant cold pack", "Medical tape", "Thermometer", "Foil blanket"],
- ["Hammer", "Corkscrew", "Teaspoon", "Paperclips", "Stapler"])
+ ["Defibrillator", "Stethoscope", "Syringe", "Oxygen mask", "Blood pressure cuff"])
 board("Things you'd find around a snooker or pool table", "Sport", "easy", ["snooker", "pool"],
  ["Cue", "Chalk", "Rest", "Spider", "Cushion", "Pocket", "Baize", "Triangle", "Cue ball", "Black ball", "Red ball", "The D", "Baulk line", "Spot", "Extension"],
  ["Putter", "Shuttlecock", "Wicket", "Puck", "Tee"])
@@ -34,13 +34,13 @@ board("Desserts and cakes from France", "Food and drink", "medium", ["French foo
  ["Tiramisu", "Baklava", "Pavlova", "Panna cotta", "Strudel"])
 board("Dishes you'd find on a British Indian restaurant menu", "Food and drink", "easy", ["curry", "Indian food"],
  ["Korma", "Tikka masala", "Biryani", "Dhal", "Vindaloo", "Jalfrezi", "Onion bhaji", "Samosa", "Dopiaza", "Madras", "Rogan josh", "Pakora", "Naan", "Tandoori chicken", "Saag aloo"],
- ["Paella", "Risotto", "Moussaka", "Pad thai", "Goulash"])
+ ["Massaman curry", "Beef rendang", "Laksa", "Katsu curry", "Thai green curry"])
 board("Dishes from a British Chinese takeaway", "Food and drink", "easy", ["takeaway", "Chinese food"],
  ["Chow mein", "Sweet and sour chicken", "Crispy aromatic duck", "Spring rolls", "Egg fried rice", "Prawn crackers", "Kung pao chicken", "Char siu pork", "Wonton soup", "Dim sum", "Chop suey", "Crispy chilli beef", "Salt and pepper chips", "Beef in black bean sauce", "Lemon chicken"],
- ["Pad thai", "Sushi", "Chicken tikka", "Nachos", "Doner kebab"])
+ ["Pad thai", "Pho", "Bibimbap", "Nasi goreng", "Teriyaki chicken"])
 board("Jobs on a film set", "Film", "medium", ["film", "jobs"],
  ["Director", "Producer", "Gaffer", "Best boy", "Grip", "Clapper loader", "Boom operator", "Stunt double", "Make-up artist", "Costume designer", "Cinematographer", "Script supervisor", "Runner", "Focus puller", "Extra"],
- ["Anaesthetist", "Barrister", "Plasterer", "Chiropodist", "Sommelier"])
+ ["Prompter", "Usher", "Projectionist", "Stage manager", "Box office manager"])
 board("Horse racing courses in England", "Sport", "medium", ["horse racing", "places"],
  ["Aintree", "Ascot", "Epsom", "Cheltenham", "Newmarket", "York", "Doncaster", "Goodwood", "Haydock Park", "Sandown Park", "Kempton Park", "Newbury", "Chester", "Uttoxeter", "Wetherby"],
  ["Silverstone", "Wembley", "Twickenham", "Lord's", "Brands Hatch"])
@@ -64,7 +64,7 @@ board("Words that make a new word when you add 'man' to the end", "Words and lan
  ["Cat", "Tree", "Blue", "Lamp", "Cup"])
 board("Things you'd have with a traditional Sunday roast", "Food and drink", "easy", ["British food"],
  ["Roast potatoes", "Yorkshire pudding", "Gravy", "Stuffing", "Roast parsnips", "Carrots", "Peas", "Cauliflower cheese", "Horseradish", "Mint sauce", "Apple sauce", "Roast beef", "Roast chicken", "Broccoli", "Cabbage"],
- ["Chips", "Baked beans", "Rice", "Naan bread", "Coleslaw"])
+ ["Mushy peas", "Black pudding", "Hash browns", "Pease pudding", "Piccalilli"])
 board("Bands and acts from Greater Manchester", "Music", "medium", ["bands", "Manchester"],
  ["Oasis", "The Smiths", "Joy Division", "New Order", "The Stone Roses", "Happy Mondays", "Inspiral Carpets", "Take That", "Simply Red", "The Hollies", "Herman's Hermits", "Elbow", "The Courteeners", "James", "Buzzcocks"],
  ["The Beatles", "Arctic Monkeys", "Blur", "The Kinks", "Duran Duran"])
