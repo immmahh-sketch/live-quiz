@@ -1,0 +1,575 @@
+[
+ {
+  "type": "nearest",
+  "text": "How many countries are full member states of the United Nations?",
+  "answer": 193,
+  "unit": "countries",
+  "spread": 30,
+  "difficulty": "medium",
+  "category": "Geography"
+ },
+ {
+  "type": "nearest",
+  "text": "How high is Snowdon, or Yr Wyddfa, the highest mountain in Wales, to the nearest metre?",
+  "answer": 1085,
+  "unit": "metres",
+  "spread": 300,
+  "difficulty": "medium",
+  "category": "Geography"
+ },
+ {
+  "type": "nearest",
+  "text": "According to the 2021 census, how many million people live in the UK, to the nearest million?",
+  "answer": 67,
+  "unit": "million",
+  "spread": 15,
+  "difficulty": "medium",
+  "category": "Geography"
+ },
+ {
+  "type": "nearest",
+  "text": "How far is it round the Earth at the equator, to the nearest 1,000 miles?",
+  "answer": 25000,
+  "unit": "miles",
+  "spread": 10000,
+  "difficulty": "medium",
+  "category": "Geography"
+ },
+ {
+  "type": "nearest",
+  "text": "Russia is so wide that it spans more time zones than any other single country's mainland. How many time zones does it cover?",
+  "answer": 11,
+  "unit": "time zones",
+  "spread": 6,
+  "difficulty": "hard",
+  "category": "Geography",
+  "wow": true
+ },
+ {
+  "type": "nearest",
+  "text": "The Amazon rainforest spreads across how many countries and territories?",
+  "answer": 9,
+  "unit": "countries",
+  "spread": 5,
+  "difficulty": "hard",
+  "category": "Geography"
+ },
+ {
+  "type": "nearest",
+  "text": "Windermere is the largest natural lake in England. Roughly how many miles long is it?",
+  "answer": 10.5,
+  "unit": "miles",
+  "spread": 6,
+  "difficulty": "hard",
+  "category": "Geography"
+ },
+ {
+  "type": "nearest",
+  "text": "Mont Blanc is the highest mountain in the Alps. How high is it, to the nearest 100 metres?",
+  "answer": 4800,
+  "unit": "metres",
+  "spread": 1500,
+  "difficulty": "hard",
+  "category": "Geography"
+ },
+ {
+  "type": "nearest",
+  "text": "In what year did the Titanic sink?",
+  "answer": 1912,
+  "unit": "",
+  "spread": 25,
+  "difficulty": "easy",
+  "category": "History"
+ },
+ {
+  "type": "nearest",
+  "text": "In what year was Guy Fawkes caught under the Houses of Parliament in the Gunpowder Plot?",
+  "answer": 1605,
+  "unit": "",
+  "spread": 50,
+  "difficulty": "medium",
+  "category": "History"
+ },
+ {
+  "type": "nearest",
+  "text": "In what year did some women in the UK first get the right to vote in general elections?",
+  "answer": 1918,
+  "unit": "",
+  "spread": 30,
+  "difficulty": "medium",
+  "category": "History"
+ },
+ {
+  "type": "nearest",
+  "text": "How old was Henry VIII when he became king in 1509?",
+  "answer": 17,
+  "unit": "years old",
+  "spread": 15,
+  "difficulty": "hard",
+  "category": "History"
+ },
+ {
+  "type": "nearest",
+  "text": "In what year was the first Harry Potter book, the Philosopher's Stone, published?",
+  "answer": 1997,
+  "unit": "",
+  "spread": 15,
+  "difficulty": "medium",
+  "category": "Film and TV"
+ },
+ {
+  "type": "nearest",
+  "text": "In what year did the nuclear disaster at Chernobyl happen?",
+  "answer": 1986,
+  "unit": "",
+  "spread": 20,
+  "difficulty": "medium",
+  "category": "History"
+ },
+ {
+  "type": "nearest",
+  "text": "The Falklands War began with Argentina's invasion in April 1982. How many days did it last?",
+  "answer": 74,
+  "unit": "days",
+  "spread": 40,
+  "difficulty": "hard",
+  "category": "History",
+  "wow": true
+ },
+ {
+  "type": "nearest",
+  "text": "In what year did the Great Plague kill around a fifth of London's population?",
+  "answer": 1665,
+  "unit": "",
+  "spread": 50,
+  "difficulty": "medium",
+  "category": "History"
+ },
+ {
+  "type": "nearest",
+  "text": "The blue whale is the biggest animal that has ever lived. Roughly how long can it grow, in metres?",
+  "answer": 30,
+  "unit": "metres",
+  "spread": 15,
+  "difficulty": "medium",
+  "category": "Science and nature"
+ },
+ {
+  "type": "nearest",
+  "text": "A peregrine falcon diving after its prey is the fastest animal on Earth. Roughly how fast can it go, in miles per hour?",
+  "answer": 240,
+  "unit": "mph",
+  "spread": 120,
+  "difficulty": "hard",
+  "category": "Science and nature",
+  "wow": true
+ },
+ {
+  "type": "nearest",
+  "text": "A day on Mars is a little longer than a day on Earth. Roughly how many minutes longer?",
+  "answer": 40,
+  "unit": "minutes",
+  "spread": 30,
+  "difficulty": "medium",
+  "category": "Space",
+  "wow": true
+ },
+ {
+  "type": "nearest",
+  "text": "A queen honeybee lays eggs all summer long. Up to roughly how many can she lay in a single day?",
+  "answer": 2000,
+  "unit": "eggs",
+  "spread": 1500,
+  "difficulty": "hard",
+  "category": "Science and nature",
+  "wow": true
+ },
+ {
+  "type": "nearest",
+  "text": "How long is an Olympic swimming pool, in metres?",
+  "answer": 50,
+  "unit": "metres",
+  "spread": 25,
+  "difficulty": "easy",
+  "category": "Sport"
+ },
+ {
+  "type": "nearest",
+  "text": "How many Grand Slam singles titles did Andy Murray win?",
+  "answer": 3,
+  "unit": "titles",
+  "spread": 3,
+  "difficulty": "medium",
+  "category": "Sport"
+ },
+ {
+  "type": "nearest",
+  "text": "How many minutes does a rugby union match last, not counting stoppages?",
+  "answer": 80,
+  "unit": "minutes",
+  "spread": 40,
+  "difficulty": "easy",
+  "category": "Sport"
+ },
+ {
+  "type": "nearest",
+  "text": "At the start of a frame of snooker, how many balls are on the table, counting the cue ball?",
+  "answer": 22,
+  "unit": "balls",
+  "spread": 10,
+  "difficulty": "medium",
+  "category": "Sport",
+  "wow": true
+ },
+ {
+  "type": "nearest",
+  "text": "How heavy is the shot used in men's shot put, in kilograms, to one decimal place?",
+  "answer": 7.3,
+  "unit": "kg",
+  "spread": 4,
+  "difficulty": "hard",
+  "category": "Sport"
+ },
+ {
+  "type": "nearest",
+  "text": "How many players does each netball team have on the court?",
+  "answer": 7,
+  "unit": "players",
+  "spread": 4,
+  "difficulty": "easy",
+  "category": "Sport"
+ },
+ {
+  "type": "nearest",
+  "text": "How high is a tennis net at the centre of the court, in inches?",
+  "answer": 36,
+  "unit": "inches",
+  "spread": 18,
+  "difficulty": "hard",
+  "category": "Sport"
+ },
+ {
+  "type": "nearest",
+  "text": "What is the highest score you can get with a single dart?",
+  "answer": 60,
+  "unit": "points",
+  "spread": 30,
+  "difficulty": "easy",
+  "category": "Sport"
+ },
+ {
+  "type": "nearest",
+  "text": "How many Premier League titles did Manchester United win under Sir Alex Ferguson and since, up to 2025?",
+  "answer": 13,
+  "unit": "titles",
+  "spread": 8,
+  "difficulty": "medium",
+  "category": "Sport"
+ },
+ {
+  "type": "nearest",
+  "text": "In cricket, a 'Nelson' is supposed to be an unlucky score. What score is it?",
+  "answer": 111,
+  "unit": "runs",
+  "spread": 60,
+  "difficulty": "hard",
+  "category": "Sport",
+  "wow": true
+ },
+ {
+  "type": "nearest",
+  "text": "How many Oscars did Ben-Hur win in 1960, a record it held alone for nearly 40 years?",
+  "answer": 11,
+  "unit": "Oscars",
+  "spread": 6,
+  "difficulty": "hard",
+  "category": "Film and TV"
+ },
+ {
+  "type": "nearest",
+  "text": "How old was Daniel Radcliffe when Harry Potter and the Philosopher's Stone came out in cinemas in 2001?",
+  "answer": 12,
+  "unit": "years old",
+  "spread": 6,
+  "difficulty": "medium",
+  "category": "Film and TV"
+ },
+ {
+  "type": "nearest",
+  "text": "In what year did Jurassic Park come out in cinemas?",
+  "answer": 1993,
+  "unit": "",
+  "spread": 15,
+  "difficulty": "medium",
+  "category": "Film and TV"
+ },
+ {
+  "type": "nearest",
+  "text": "In what year did Wham! release 'Last Christmas'?",
+  "answer": 1984,
+  "unit": "",
+  "spread": 15,
+  "difficulty": "medium",
+  "category": "Music"
+ },
+ {
+  "type": "nearest",
+  "text": "How many weeks did Queen's 'Bohemian Rhapsody' spend at number one when it first came out in 1975?",
+  "answer": 9,
+  "unit": "weeks",
+  "spread": 6,
+  "difficulty": "hard",
+  "category": "Music"
+ },
+ {
+  "type": "nearest",
+  "text": "In what year did Oasis release (What's the Story) Morning Glory?",
+  "answer": 1995,
+  "unit": "",
+  "spread": 15,
+  "difficulty": "medium",
+  "category": "Music"
+ },
+ {
+  "type": "nearest",
+  "text": "In what year did ABBA win the Eurovision Song Contest with 'Waterloo'?",
+  "answer": 1974,
+  "unit": "",
+  "spread": 20,
+  "difficulty": "medium",
+  "category": "Music"
+ },
+ {
+  "type": "nearest",
+  "text": "Roughly what percentage of a cucumber is water?",
+  "answer": 96,
+  "unit": "%",
+  "spread": 30,
+  "difficulty": "medium",
+  "category": "Food and drink",
+  "wow": true
+ },
+ {
+  "type": "nearest",
+  "text": "How many sides does a 20p coin have?",
+  "answer": 7,
+  "unit": "sides",
+  "spread": 4,
+  "difficulty": "medium",
+  "category": "Money and prices"
+ },
+ {
+  "type": "nearest",
+  "text": "In what year did the £1 coin first go into circulation in the UK?",
+  "answer": 1983,
+  "unit": "",
+  "spread": 15,
+  "difficulty": "medium",
+  "category": "Money and prices"
+ },
+ {
+  "type": "nearest",
+  "text": "In what year did the Bank of England bring in its first plastic (polymer) banknote, the £5 note?",
+  "answer": 2016,
+  "unit": "",
+  "spread": 10,
+  "difficulty": "medium",
+  "category": "Money and prices"
+ },
+ {
+  "type": "nearest",
+  "text": "How many lines are there in a sonnet?",
+  "answer": 14,
+  "unit": "lines",
+  "spread": 8,
+  "difficulty": "medium",
+  "category": "Record breakers"
+ },
+ {
+  "type": "nearest",
+  "text": "A chessboard has 64 small squares, but how many squares of every size can you find on it altogether?",
+  "answer": 204,
+  "unit": "squares",
+  "spread": 150,
+  "difficulty": "hard",
+  "category": "Record breakers",
+  "wow": true
+ },
+ {
+  "type": "nearest",
+  "text": "How many spots are there in total on a standard six-sided dice?",
+  "answer": 21,
+  "unit": "spots",
+  "spread": 10,
+  "difficulty": "medium",
+  "category": "Record breakers",
+  "wow": true
+ },
+ {
+  "type": "nearest",
+  "text": "If ace counts as 1, jack 11, queen 12 and king 13, what do all the cards in a standard pack add up to?",
+  "answer": 364,
+  "unit": "",
+  "spread": 200,
+  "difficulty": "hard",
+  "category": "Record breakers",
+  "wow": true
+ },
+ {
+  "type": "nearest",
+  "text": "How many coloured stickers are there on a standard Rubik's Cube?",
+  "answer": 54,
+  "unit": "stickers",
+  "spread": 30,
+  "difficulty": "medium",
+  "category": "Record breakers"
+ },
+ {
+  "type": "nearest",
+  "text": "How many tiles are there in a standard double-six set of dominoes?",
+  "answer": 28,
+  "unit": "tiles",
+  "spread": 15,
+  "difficulty": "medium",
+  "category": "Record breakers"
+ },
+ {
+  "type": "nearest",
+  "text": "How many numbered balls have been in the UK Lotto draw since 2015?",
+  "answer": 59,
+  "unit": "balls",
+  "spread": 25,
+  "difficulty": "medium",
+  "category": "Money and prices"
+ },
+ {
+  "type": "nearest",
+  "text": "How many letter tiles are there in a standard English Scrabble set, including the blanks?",
+  "answer": 100,
+  "unit": "tiles",
+  "spread": 50,
+  "difficulty": "medium",
+  "category": "Record breakers"
+ },
+ {
+  "type": "nearest",
+  "text": "On the UK Monopoly board, how many coloured streets can you buy?",
+  "answer": 22,
+  "unit": "streets",
+  "spread": 10,
+  "difficulty": "medium",
+  "category": "Money and prices"
+ },
+ {
+  "type": "nearest",
+  "text": "How many spaces are there round a Monopoly board, including the corners?",
+  "answer": 40,
+  "unit": "spaces",
+  "spread": 20,
+  "difficulty": "medium",
+  "category": "Money and prices"
+ },
+ {
+  "type": "nearest",
+  "text": "Jupiter is the biggest planet. How many Earths would fit side by side across it, to the nearest whole number?",
+  "answer": 11,
+  "unit": "Earths",
+  "spread": 8,
+  "difficulty": "hard",
+  "category": "Space"
+ },
+ {
+  "type": "nearest",
+  "text": "How long does light from the Moon take to reach us, in seconds, to one decimal place?",
+  "answer": 1.3,
+  "unit": "seconds",
+  "spread": 2,
+  "difficulty": "hard",
+  "category": "Space",
+  "wow": true
+ },
+ {
+  "type": "nearest",
+  "text": "The brain is only about 2% of the body's weight. Roughly what percentage of the body's oxygen does it use?",
+  "answer": 20,
+  "unit": "%",
+  "spread": 20,
+  "difficulty": "medium",
+  "category": "The human body",
+  "wow": true
+ },
+ {
+  "type": "nearest",
+  "text": "In what year did the Humber Bridge open?",
+  "answer": 1981,
+  "unit": "",
+  "spread": 20,
+  "difficulty": "medium",
+  "category": "Geography"
+ },
+ {
+  "type": "nearest",
+  "text": "In what year was the first series of Blackadder shown on the BBC?",
+  "answer": 1983,
+  "unit": "",
+  "spread": 15,
+  "difficulty": "medium",
+  "category": "Film and TV"
+ },
+ {
+  "type": "nearest",
+  "text": "A giant panda spends most of its day eating bamboo. Up to roughly how many hours a day?",
+  "answer": 14,
+  "unit": "hours",
+  "spread": 8,
+  "difficulty": "hard",
+  "category": "Science and nature",
+  "wow": true
+ },
+ {
+  "type": "nearest",
+  "text": "For how many full years did Henry VIII reign?",
+  "answer": 37,
+  "unit": "years",
+  "spread": 15,
+  "difficulty": "hard",
+  "category": "History"
+ },
+ {
+  "type": "nearest",
+  "text": "How many centilitres are there in a standard bottle of wine?",
+  "answer": 75,
+  "unit": "cl",
+  "spread": 30,
+  "difficulty": "medium",
+  "category": "Food and drink"
+ },
+ {
+  "type": "nearest",
+  "text": "Roughly how many grams of sugar are there in a level teaspoon?",
+  "answer": 4,
+  "unit": "grams",
+  "spread": 4,
+  "difficulty": "medium",
+  "category": "Food and drink"
+ },
+ {
+  "type": "nearest",
+  "text": "Roughly how high above the Earth does the International Space Station orbit, to the nearest 100 kilometres?",
+  "answer": 400,
+  "unit": "km",
+  "spread": 200,
+  "difficulty": "medium",
+  "category": "Space"
+ },
+ {
+  "type": "nearest",
+  "text": "Skin is the body's biggest organ. Roughly how many square metres of it does an adult have?",
+  "answer": 2,
+  "unit": "square metres",
+  "spread": 1.5,
+  "difficulty": "medium",
+  "category": "The human body",
+  "wow": true
+ }
+]
