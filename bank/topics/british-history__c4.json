@@ -1,0 +1,23 @@
+[
+ {
+  "type": "club",
+  "text": "Which Tudor queen's name is hidden in this sentence: 'Don't harm a rye field'?",
+  "answers": [
+   "Mary"
+  ],
+  "pct": 40,
+  "why": "harM A RYe hides MARY.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "The Battle of Hastings was in 1066 and the Battle of Waterloo in 1815. How many years apart were they?",
+  "answers": [
+   "749",
+   "Seven hundred and forty-nine"
+  ],
+  "pct": 60,
+  "why": "1815 − 1066 = 749.",
+  "difficulty": "medium"
+ }
+]

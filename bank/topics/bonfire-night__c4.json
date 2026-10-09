@@ -1,0 +1,25 @@
+[
+ {
+  "type": "club",
+  "text": "If Bonfire Night, 5 November, falls on a Saturday, what day of the week is Halloween?",
+  "answers": [
+   "Monday"
+  ],
+  "pct": 40,
+  "why": "Halloween, 31 October, is five days earlier: Saturday back five days is Monday.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "A bonfire is lit at 6:45pm and burns for 2 hours 40 minutes. What time does it go out?",
+  "answers": [
+   "9:25pm",
+   "9:25",
+   "21:25",
+   "Twenty-five past nine"
+  ],
+  "pct": 70,
+  "why": "6:45 plus 2 hours is 8:45, plus 40 minutes is 9:25.",
+  "difficulty": "easy"
+ }
+]

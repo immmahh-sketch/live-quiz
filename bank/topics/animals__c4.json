@@ -1,0 +1,23 @@
+[
+ {
+  "type": "club",
+  "text": "Which bird is hidden in this sentence: 'The show led to a standing ovation'?",
+  "answers": [
+   "Owl"
+  ],
+  "pct": 40,
+  "why": "shOW Led hides OWL.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "An octopus has 8 arms and a starfish has 5. How many arms do 3 octopuses and 4 starfish have altogether?",
+  "answers": [
+   "44",
+   "Forty-four"
+  ],
+  "pct": 70,
+  "why": "3 × 8 = 24 and 4 × 5 = 20: 24 + 20 = 44.",
+  "difficulty": "easy"
+ }
+]

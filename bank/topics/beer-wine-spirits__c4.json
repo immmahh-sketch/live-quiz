@@ -1,0 +1,24 @@
+[
+ {
+  "type": "club",
+  "text": "Which spirit is hidden in this sentence: 'He beat the drum all night'?",
+  "answers": [
+   "Rum"
+  ],
+  "pct": 50,
+  "why": "dRUM hides RUM.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "A pint is 568 millilitres. How many millilitres are there in half a pint?",
+  "answers": [
+   "284",
+   "284ml",
+   "284 ml"
+  ],
+  "pct": 70,
+  "why": "568 ÷ 2 = 284.",
+  "difficulty": "easy"
+ }
+]

@@ -1,0 +1,23 @@
+[
+ {
+  "type": "club",
+  "text": "A recipe uses 3 eggs to make 12 Yorkshire puddings. How many eggs do you need for 20?",
+  "answers": [
+   "5",
+   "Five"
+  ],
+  "pct": 60,
+  "why": "That's one egg for every 4 puddings, and 20 ÷ 4 = 5.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "Which fish is hidden in this sentence: 'Their music odyssey began in Leeds'?",
+  "answers": [
+   "Cod"
+  ],
+  "pct": 50,
+  "why": "musiC ODyssey hides COD.",
+  "difficulty": "medium"
+ }
+]

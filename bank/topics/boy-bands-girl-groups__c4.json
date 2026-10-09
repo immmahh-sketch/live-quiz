@@ -1,0 +1,23 @@
+[
+ {
+  "type": "club",
+  "text": "Which boy band is hidden in this sentence: 'The bus tediously crawled along'?",
+  "answers": [
+   "Busted"
+  ],
+  "pct": 40,
+  "why": "BUS TEDiously hides BUSTED.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "One Direction started with five members and one left. If each who stayed made two solo albums, how many solo albums is that?",
+  "answers": [
+   "8",
+   "Eight"
+  ],
+  "pct": 60,
+  "why": "Four stayed, and 4 × 2 = 8.",
+  "difficulty": "medium"
+ }
+]

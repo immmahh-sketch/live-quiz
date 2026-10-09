@@ -1,0 +1,23 @@
+[
+ {
+  "type": "club",
+  "text": "Which action film is hidden in this sentence: 'The courier rushed past speedily'?",
+  "answers": [
+   "Speed"
+  ],
+  "pct": 60,
+  "why": "SPEEDily hides SPEED.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "Bond is agent 007. Counting only the numbers between 001 and 007, not including either, how many agent numbers are there?",
+  "answers": [
+   "5",
+   "Five"
+  ],
+  "pct": 40,
+  "why": "002, 003, 004, 005 and 006.",
+  "difficulty": "medium"
+ }
+]

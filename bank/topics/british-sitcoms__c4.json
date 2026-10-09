@@ -1,0 +1,24 @@
+[
+ {
+  "type": "club",
+  "text": "Which sitcom character is hidden in this sentence: 'He sold elbow grease door to door'?",
+  "answers": [
+   "Del",
+   "Del Boy"
+  ],
+  "pct": 40,
+  "why": "solD ELbow hides DEL.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "Fawlty Towers ran for two series of six episodes. How many episodes would three series have made?",
+  "answers": [
+   "18",
+   "Eighteen"
+  ],
+  "pct": 70,
+  "why": "3 × 6 = 18.",
+  "difficulty": "easy"
+ }
+]

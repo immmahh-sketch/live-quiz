@@ -1,0 +1,24 @@
+[
+ {
+  "type": "club",
+  "text": "Which boxing punch is hidden in this sentence: 'Raj aboard the ship waved'?",
+  "answers": [
+   "Jab"
+  ],
+  "pct": 40,
+  "why": "raJ ABoard hides JAB.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "A boxer weighs 70 kg and has to make 66.7 kg. How much weight must he lose?",
+  "answers": [
+   "3.3 kg",
+   "3.3",
+   "3.3kg"
+  ],
+  "pct": 70,
+  "why": "70 − 66.7 = 3.3 kg.",
+  "difficulty": "easy"
+ }
+]

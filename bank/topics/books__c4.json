@@ -1,0 +1,22 @@
+[
+ {
+  "type": "club",
+  "text": "Which Jane Austen novel is hidden in this sentence: 'It was quite a dilemma'?",
+  "answers": [
+   "Emma"
+  ],
+  "pct": 50,
+  "why": "dilEMMA hides EMMA.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "Which Dickens hero is hidden in this sentence: 'The chimp I promised you is tame'?",
+  "answers": [
+   "Pip"
+  ],
+  "pct": 40,
+  "why": "chimP I Promised hides PIP.",
+  "difficulty": "medium"
+ }
+]

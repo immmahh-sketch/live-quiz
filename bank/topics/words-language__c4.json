@@ -1,0 +1,24 @@
+[
+ {
+  "type": "club",
+  "text": "Take one letter at a time from STARTLING so that a real word is always left, until one letter remains. Which letter is it?",
+  "answers": [
+   "I"
+  ],
+  "pct": 10,
+  "why": "STARTLING, STARTING, STARING, STRING, STING, SING, SIN, IN, I.",
+  "difficulty": "hard"
+ },
+ {
+  "type": "club",
+  "text": "Which word of seven letters is full of letters?",
+  "answers": [
+   "Postbox",
+   "Mailbox",
+   "Letterbox"
+  ],
+  "pct": 20,
+  "why": "A postbox holds the post: letters.",
+  "difficulty": "hard"
+ }
+]
