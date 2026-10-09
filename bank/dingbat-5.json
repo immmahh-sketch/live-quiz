@@ -1,0 +1,531 @@
+[
+ {
+  "answers": [
+   "Greenland"
+  ],
+  "elements": [
+   {
+    "t": "LAND",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#1f9a3a"
+   }
+  ],
+  "category": "Geography",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Red Sea",
+   "The Red Sea"
+  ],
+  "elements": [
+   {
+    "t": "SEA",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#d42020"
+   }
+  ],
+  "category": "Geography",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Yellowstone"
+  ],
+  "elements": [
+   {
+    "t": "STONE",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#e8c400"
+   }
+  ],
+  "category": "Geography",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Pink Lady"
+  ],
+  "elements": [
+   {
+    "t": "LADY",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#ff5fa8"
+   }
+  ],
+  "category": "Food",
+  "tags": [
+   "apples",
+   "cocktails"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Orange juice"
+  ],
+  "elements": [
+   {
+    "t": "JUICE",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#f28c18"
+   }
+  ],
+  "category": "Food",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Redcar"
+  ],
+  "elements": [
+   {
+    "t": "CAR",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#d42020"
+   }
+  ],
+  "category": "The North East of England",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Red card"
+  ],
+  "elements": [
+   {
+    "t": "CARD",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#d42020"
+   }
+  ],
+  "category": "Football",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Blue whale"
+  ],
+  "elements": [
+   {
+    "t": "WHALE",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#1f5fd4"
+   }
+  ],
+  "category": "Animals",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Silver lining",
+   "Every cloud has a silver lining"
+  ],
+  "elements": [
+   {
+    "t": "LINING",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "color": "#9aa0a6"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Golden Gate",
+   "Golden Gate Bridge"
+  ],
+  "elements": [
+   {
+    "t": "GATE",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#c9a227"
+   }
+  ],
+  "category": "Places",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Light sleeper"
+  ],
+  "elements": [
+   {
+    "t": "SLEEPER",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "color": "#cfd3d6"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Bright idea"
+  ],
+  "elements": [
+   {
+    "t": "IDEA",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#e8c400"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Blank cheque"
+  ],
+  "elements": [
+   {
+    "t": "CHEQUE",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "style": "outline"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "High five"
+  ],
+  "elements": [
+   {
+    "t": "5",
+    "x": 50,
+    "y": 8,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Top of the morning"
+  ],
+  "elements": [
+   {
+    "t": "MORNING",
+    "x": 50,
+    "y": 8,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Big wheel"
+  ],
+  "elements": [
+   {
+    "t": "WHEEL",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Small fry"
+  ],
+  "elements": [
+   {
+    "t": "fry",
+    "x": 50,
+    "y": 50,
+    "s": 1
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Spaced out"
+  ],
+  "elements": [
+   {
+    "t": "S   P   A   C   E   D",
+    "x": 50,
+    "y": 50,
+    "s": 3
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Square eyes"
+  ],
+  "elements": [
+   {
+    "t": "EYES",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "style": "box"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Falling apart"
+  ],
+  "elements": [
+   {
+    "t": "A",
+    "x": 30,
+    "y": 18,
+    "s": 5
+   },
+   {
+    "t": "P",
+    "x": 40,
+    "y": 34,
+    "s": 5
+   },
+   {
+    "t": "A",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   },
+   {
+    "t": "R",
+    "x": 60,
+    "y": 66,
+    "s": 5
+   },
+   {
+    "t": "T",
+    "x": 70,
+    "y": 82,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Long overdue"
+  ],
+  "elements": [
+   {
+    "t": "OVERDUUUUUUE",
+    "x": 50,
+    "y": 50,
+    "s": 3
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Broken home"
+  ],
+  "elements": [
+   {
+    "t": "HO     ME",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Paradise lost",
+   "Paradise Lost"
+  ],
+  "elements": [
+   {
+    "t": "PARADI_E",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   }
+  ],
+  "category": "Books and literature",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Cross-section",
+   "Cross section"
+  ],
+  "elements": [
+   {
+    "t": "SECTION",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   },
+   {
+    "t": "X",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#d42020"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Backtrack"
+  ],
+  "elements": [
+   {
+    "t": "KCART",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Word",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Head in the sand"
+  ],
+  "elements": [
+   {
+    "t": "SAheadND",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Fly in the ointment"
+  ],
+  "elements": [
+   {
+    "t": "OINTflyMENT",
+    "x": 50,
+    "y": 50,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Once in a while"
+  ],
+  "elements": [
+   {
+    "t": "WHonceILE",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Little by little"
+  ],
+  "elements": [
+   {
+    "t": "little",
+    "x": 32,
+    "y": 50,
+    "s": 1
+   },
+   {
+    "t": "by",
+    "x": 50,
+    "y": 50,
+    "s": 2
+   },
+   {
+    "t": "little",
+    "x": 68,
+    "y": 50,
+    "s": 1
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ }
+]
