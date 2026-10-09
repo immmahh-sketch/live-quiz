@@ -1,0 +1,35 @@
+[
+ {
+  "type": "club",
+  "text": "What is half of a quarter of 400?",
+  "answers": [
+   "50",
+   "Fifty"
+  ],
+  "pct": 80,
+  "why": "A quarter of 400 is 100, and half of that is 50.",
+  "difficulty": "easy"
+ },
+ {
+  "type": "club",
+  "text": "I think of a number, double it and add 6. The answer is 20. What was my number?",
+  "answers": [
+   "7",
+   "Seven"
+  ],
+  "pct": 70,
+  "why": "20 − 6 = 14, and half of 14 is 7.",
+  "difficulty": "easy"
+ },
+ {
+  "type": "club",
+  "text": "What is the smallest number that both 6 and 8 divide into exactly?",
+  "answers": [
+   "24",
+   "Twenty-four"
+  ],
+  "pct": 50,
+  "why": "Multiples of 8 are 8, 16, 24 …, and 24 is the first that 6 also divides.",
+  "difficulty": "medium"
+ }
+]

@@ -1,0 +1,24 @@
+[
+ {
+  "type": "club",
+  "text": "A team gets 3 points for a win and 1 for a draw. After 10 games they're unbeaten on 22 points. How many have they won?",
+  "answers": [
+   "6",
+   "Six"
+  ],
+  "pct": 40,
+  "why": "Every game is a win or a draw; 10 draws would be 10 points, and each win adds 2 more: (22 − 10) ÷ 2 = 6.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "A knockout cup starts with 64 teams and has no replays. How many matches does it take to find the winner?",
+  "answers": [
+   "63",
+   "Sixty-three"
+  ],
+  "pct": 20,
+  "why": "Every match knocks out exactly one team, and 63 teams have to go.",
+  "difficulty": "hard"
+ }
+]

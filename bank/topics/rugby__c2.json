@@ -1,0 +1,24 @@
+[
+ {
+  "type": "club",
+  "text": "In union, a team scores three converted tries and a drop goal. How many points is that?",
+  "answers": [
+   "24",
+   "Twenty-four"
+  ],
+  "pct": 60,
+  "why": "A converted try is 5 + 2 = 7, so 3 × 7 = 21, plus 3 for the drop goal.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "Counting both teams, how many more players are on the pitch for a 15-a-side union match than for a sevens match?",
+  "answers": [
+   "16",
+   "Sixteen"
+  ],
+  "pct": 50,
+  "why": "30 players in union against 14 in sevens: 30 − 14 = 16.",
+  "difficulty": "medium"
+ }
+]

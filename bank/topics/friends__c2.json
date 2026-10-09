@@ -1,0 +1,23 @@
+[
+ {
+  "type": "club",
+  "text": "Joey, Chandler and Ross squeeze onto a three-seat sofa. In how many different orders can they sit?",
+  "answers": [
+   "6",
+   "Six"
+  ],
+  "pct": 40,
+  "why": "3 choices for the first seat, 2 for the next, 1 for the last: 3 × 2 × 1 = 6.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "Which friend is hidden in this sentence: 'I'm off out for a Chelsea bun'?",
+  "answers": [
+   "Rachel"
+  ],
+  "pct": 40,
+  "why": "foR A CHELsea hides RACHEL.",
+  "difficulty": "medium"
+ }
+]

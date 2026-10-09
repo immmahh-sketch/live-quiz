@@ -1,0 +1,24 @@
+[
+ {
+  "type": "club",
+  "text": "You roll two dice. In how many ways can they add up to 7, counting a 3 then a 4 as different from a 4 then a 3?",
+  "answers": [
+   "6",
+   "Six"
+  ],
+  "pct": 30,
+  "why": "1+6, 2+5, 3+4, 4+3, 5+2 and 6+1.",
+  "difficulty": "hard"
+ },
+ {
+  "type": "club",
+  "text": "On a chessboard, how many squares are the same colour as the bottom-left corner?",
+  "answers": [
+   "32",
+   "Thirty-two"
+  ],
+  "pct": 60,
+  "why": "The colours alternate, so exactly half of the 64 squares match it.",
+  "difficulty": "medium"
+ }
+]

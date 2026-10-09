@@ -1,0 +1,24 @@
+[
+ {
+  "type": "club",
+  "text": "A Wimbledon singles draw starts with 128 players. How many matches must the champion win?",
+  "answers": [
+   "7",
+   "Seven"
+  ],
+  "pct": 40,
+  "why": "Each round halves the field: 128, 64, 32, 16, 8, 4, 2, then one champion — 7 rounds.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "On a par-72 course, a golfer makes 4 birdies, 2 bogeys and pars every other hole. What is their score?",
+  "answers": [
+   "70",
+   "Seventy"
+  ],
+  "pct": 50,
+  "why": "Four birdies take off 4 and two bogeys add 2: 72 − 4 + 2 = 70.",
+  "difficulty": "medium"
+ }
+]

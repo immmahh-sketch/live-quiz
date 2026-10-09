@@ -1,0 +1,28 @@
+[
+ {
+  "type": "club",
+  "text": "When Sydney is 11 hours ahead of London, a match kicks off at 7pm in Sydney. What time is it in London?",
+  "answers": [
+   "8am",
+   "8 am",
+   "8:00am",
+   "0800",
+   "08:00",
+   "8 in the morning"
+  ],
+  "pct": 60,
+  "why": "Take 11 hours off 7pm and you get 8am the same day.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "Australia's flag has 6 stars and New Zealand's has 4. If you lay one of each flag side by side, how many stars can you see?",
+  "answers": [
+   "10",
+   "Ten"
+  ],
+  "pct": 80,
+  "why": "6 + 4 = 10: the two flags share none.",
+  "difficulty": "easy"
+ }
+]

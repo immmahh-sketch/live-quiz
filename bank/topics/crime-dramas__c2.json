@@ -1,0 +1,23 @@
+[
+ {
+  "type": "club",
+  "text": "Which TV detective is hidden in this sentence: 'I saw a worm or seaweed'?",
+  "answers": [
+   "Morse",
+   "Inspector Morse"
+  ],
+  "pct": 40,
+  "why": "worM OR SEaweed hides MORSE.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "Exactly one of three suspects is guilty, and only the guilty one lies. Ann says 'Bob is innocent.' Bob says 'Carl is guilty.' Carl says 'I'm innocent.' Who is guilty?",
+  "answers": [
+   "Carl"
+  ],
+  "pct": 40,
+  "why": "If Carl is guilty, his is the only false statement. Ann or Bob being guilty makes an innocent person lie.",
+  "difficulty": "medium"
+ }
+]

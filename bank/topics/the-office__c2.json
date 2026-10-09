@@ -1,0 +1,24 @@
+[
+ {
+  "type": "club",
+  "text": "An office has 12 staff. Half are made redundant, then 2 new people are hired. How many staff are there now?",
+  "answers": [
+   "8",
+   "Eight"
+  ],
+  "pct": 80,
+  "why": "12 ÷ 2 = 6, and 6 + 2 = 8.",
+  "difficulty": "easy"
+ },
+ {
+  "type": "club",
+  "text": "A salesman sells 30 reams of paper on Monday and 5 more each day than the day before. How many does he sell on Friday?",
+  "answers": [
+   "50",
+   "Fifty"
+  ],
+  "pct": 60,
+  "why": "Monday 30, Tuesday 35, Wednesday 40, Thursday 45, Friday 50.",
+  "difficulty": "medium"
+ }
+]

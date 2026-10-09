@@ -1,0 +1,25 @@
+[
+ {
+  "type": "club",
+  "text": "A box holds 5 spiders and some beetles, with 58 legs in all. Beetles have 6 legs. How many beetles are there?",
+  "answers": [
+   "3",
+   "Three"
+  ],
+  "pct": 50,
+  "why": "The spiders have 5 × 8 = 40 legs, leaving 18, and 18 ÷ 6 = 3.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "A patch of lilies doubles in size every day and covers the whole pond on day 30. On which day did it cover half the pond?",
+  "answers": [
+   "29",
+   "Day 29",
+   "Twenty-nine"
+  ],
+  "pct": 40,
+  "why": "It doubles overnight, so the day before it was full it covered half.",
+  "difficulty": "medium"
+ }
+]

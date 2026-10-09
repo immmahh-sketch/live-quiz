@@ -1,0 +1,22 @@
+[
+ {
+  "type": "club",
+  "text": "Which country is hidden in this sentence: 'Can a dad cook dinner?'",
+  "answers": [
+   "Canada"
+  ],
+  "pct": 50,
+  "why": "CAN A DAd hides CANADA.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "Which country is hidden in this sentence: 'Hope runs deep in this family'?",
+  "answers": [
+   "Peru"
+  ],
+  "pct": 50,
+  "why": "hoPE RUns hides PERU.",
+  "difficulty": "medium"
+ }
+]

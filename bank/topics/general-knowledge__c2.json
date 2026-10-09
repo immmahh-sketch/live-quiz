@@ -1,0 +1,36 @@
+[
+ {
+  "type": "club",
+  "text": "Sam is Ann's brother. Ann has two sisters and no other brothers. How many children are in the family?",
+  "answers": [
+   "4",
+   "Four"
+  ],
+  "pct": 50,
+  "why": "Ann, her two sisters and Sam: Ann's sisters are girls, so Sam is the only boy.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "A shop sells 3 pens for £2. How much do 12 pens cost?",
+  "answers": [
+   "£8",
+   "8",
+   "8 pounds",
+   "Eight pounds"
+  ],
+  "pct": 80,
+  "why": "12 pens is 4 lots of 3, and 4 × £2 = £8.",
+  "difficulty": "easy"
+ },
+ {
+  "type": "club",
+  "text": "If yesterday was Monday, what day is the day after tomorrow?",
+  "answers": [
+   "Thursday"
+  ],
+  "pct": 70,
+  "why": "Today is Tuesday, tomorrow Wednesday, so the day after tomorrow is Thursday.",
+  "difficulty": "easy"
+ }
+]

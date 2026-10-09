@@ -1,0 +1,25 @@
+[
+ {
+  "type": "club",
+  "text": "The Mona Lisa was started in about 1503. To the nearest whole number, how many centuries ago is that?",
+  "answers": [
+   "5",
+   "Five"
+  ],
+  "pct": 60,
+  "why": "2026 − 1503 = 523 years, which is about 5 centuries.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "Which painter is hidden in this sentence: 'Her sandal is broken'?",
+  "answers": [
+   "Dali",
+   "Dalí",
+   "Salvador Dali"
+  ],
+  "pct": 40,
+  "why": "sanDAL IS hides DALI.",
+  "difficulty": "medium"
+ }
+]

@@ -1,0 +1,23 @@
+[
+ {
+  "type": "club",
+  "text": "A batter is out for a duck in the first innings and makes 50 in the second. What is their batting average for the match?",
+  "answers": [
+   "25",
+   "Twenty-five"
+  ],
+  "pct": 70,
+  "why": "50 runs over two dismissals: 50 ÷ 2 = 25.",
+  "difficulty": "easy"
+ },
+ {
+  "type": "club",
+  "text": "A bowler takes a wicket with the last ball of one over and the first two balls of his next over. Is that a hat-trick?",
+  "answers": [
+   "Yes"
+  ],
+  "pct": 40,
+  "why": "A hat-trick is three wickets with consecutive balls by the same bowler, and that can span two overs.",
+  "difficulty": "medium"
+ }
+]

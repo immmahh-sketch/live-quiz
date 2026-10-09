@@ -1,0 +1,24 @@
+[
+ {
+  "type": "club",
+  "text": "A squad of 22 players each shake hands with every other player once. How many handshakes is that?",
+  "answers": [
+   "231",
+   "Two hundred and thirty-one"
+  ],
+  "pct": 10,
+  "why": "Each of the 22 shakes 21 hands, and every handshake involves two people: 22 × 21 ÷ 2 = 231.",
+  "difficulty": "hard"
+ },
+ {
+  "type": "club",
+  "text": "World Cups run every four years and none were missed after 1966. Counting from 1970 to 2026, how many tournaments is that?",
+  "answers": [
+   "15",
+   "Fifteen"
+  ],
+  "pct": 30,
+  "why": "(2026 − 1970) ÷ 4 = 14 gaps, so 15 tournaments.",
+  "difficulty": "hard"
+ }
+]

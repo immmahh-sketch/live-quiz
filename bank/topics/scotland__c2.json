@@ -1,0 +1,25 @@
+[
+ {
+  "type": "club",
+  "text": "Which Scottish town is hidden in this sentence: 'Let's play rugby on Saturday'?",
+  "answers": [
+   "Ayr"
+  ],
+  "pct": 50,
+  "why": "plAY Rugby hides AYR.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "Edinburgh to Glasgow is about 47 miles. A train averages 47 miles an hour. How many minutes does the journey take?",
+  "answers": [
+   "60",
+   "Sixty",
+   "1 hour",
+   "One hour"
+  ],
+  "pct": 70,
+  "why": "47 miles at 47 miles an hour is one hour.",
+  "difficulty": "easy"
+ }
+]

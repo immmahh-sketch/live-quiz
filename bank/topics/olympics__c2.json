@@ -1,0 +1,23 @@
+[
+ {
+  "type": "club",
+  "text": "The Olympic rings are blue, black and red on top, yellow and green below. How many of the five rings link with exactly two others?",
+  "answers": [
+   "3",
+   "Three"
+  ],
+  "pct": 20,
+  "why": "Yellow links blue and black, green links black and red, and black links yellow and green. Blue and red link with only one ring each.",
+  "difficulty": "hard"
+ },
+ {
+  "type": "club",
+  "text": "The Summer Olympics are held every four years, and there was one in 2024. Will there be one in 2050?",
+  "answers": [
+   "No"
+  ],
+  "pct": 70,
+  "why": "2024, 2028 … 2044, 2048, 2052: 2050 isn't a multiple of four years on.",
+  "difficulty": "easy"
+ }
+]

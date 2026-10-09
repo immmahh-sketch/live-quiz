@@ -1,0 +1,24 @@
+[
+ {
+  "type": "club",
+  "text": "A dating show has 6 boys and 6 girls, and every boy goes on one date with every girl. How many dates is that?",
+  "answers": [
+   "36",
+   "Thirty-six"
+  ],
+  "pct": 60,
+  "why": "Each of the 6 boys has 6 dates: 6 × 6 = 36.",
+  "difficulty": "medium"
+ },
+ {
+  "type": "club",
+  "text": "A Big Brother series starts with 16 housemates. One is evicted each week and nobody new arrives. After how many weeks are only 2 left?",
+  "answers": [
+   "14",
+   "Fourteen"
+  ],
+  "pct": 70,
+  "why": "14 have to go, at one a week.",
+  "difficulty": "easy"
+ }
+]

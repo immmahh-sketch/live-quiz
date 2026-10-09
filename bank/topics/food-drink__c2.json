@@ -1,0 +1,24 @@
+[
+ {
+  "type": "club",
+  "text": "A recipe for 4 people uses 300g of flour. How much flour do you need for 6 people?",
+  "answers": [
+   "450g",
+   "450",
+   "450 grams"
+  ],
+  "pct": 70,
+  "why": "That's 75g a person, and 6 × 75 = 450g.",
+  "difficulty": "easy"
+ },
+ {
+  "type": "club",
+  "text": "Which fruit is hidden in this sentence: 'I can't keep earrings safe'?",
+  "answers": [
+   "Pear"
+  ],
+  "pct": 50,
+  "why": "keeP EARrings hides PEAR.",
+  "difficulty": "medium"
+ }
+]

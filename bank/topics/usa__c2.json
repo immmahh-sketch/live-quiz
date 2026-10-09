@@ -1,0 +1,23 @@
+[
+ {
+  "type": "club",
+  "text": "The US flag has 13 stripes and 50 stars. How many more stars than stripes is that?",
+  "answers": [
+   "37",
+   "Thirty-seven"
+  ],
+  "pct": 80,
+  "why": "50 − 13 = 37.",
+  "difficulty": "easy"
+ },
+ {
+  "type": "club",
+  "text": "Which US state is hidden in this sentence: 'Put a hat on before you go out'?",
+  "answers": [
+   "Utah"
+  ],
+  "pct": 40,
+  "why": "pUT A Hat hides UTAH.",
+  "difficulty": "medium"
+ }
+]

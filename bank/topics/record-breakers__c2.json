@@ -1,0 +1,26 @@
+[
+ {
+  "type": "club",
+  "text": "Robert Wadlow, the tallest man ever recorded, was 2.72 m tall. How many centimetres taller was he than a 1.80 m man?",
+  "answers": [
+   "92",
+   "92cm",
+   "92 cm",
+   "Ninety-two"
+  ],
+  "pct": 70,
+  "why": "272 cm − 180 cm = 92 cm.",
+  "difficulty": "easy"
+ },
+ {
+  "type": "club",
+  "text": "The tallest sunflower on record was 9.17 m. To the nearest whole number, how many 1.83 m men would you stack up to match it?",
+  "answers": [
+   "5",
+   "Five"
+  ],
+  "pct": 50,
+  "why": "9.17 ÷ 1.83 is just over 5.",
+  "difficulty": "medium"
+ }
+]
