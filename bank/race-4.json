@@ -1,0 +1,775 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which English county is this town in?",
+  "target": 10,
+  "category": "UK geography",
+  "tags": [
+   "counties",
+   "towns"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Blackpool",
+    "right": "Lancashire",
+    "wrong": [
+     "Merseyside",
+     "Greater Manchester",
+     "West Yorkshire"
+    ]
+   },
+   {
+    "q": "Whitby",
+    "right": "North Yorkshire",
+    "wrong": [
+     "East Riding of Yorkshire",
+     "Tyne and Wear",
+     "West Yorkshire"
+    ]
+   },
+   {
+    "q": "Bournemouth",
+    "right": "Dorset",
+    "wrong": [
+     "Hampshire",
+     "Isle of Wight",
+     "West Sussex"
+    ]
+   },
+   {
+    "q": "Torquay",
+    "right": "Devon",
+    "wrong": [
+     "Hampshire",
+     "Bristol",
+     "Isle of Wight"
+    ]
+   },
+   {
+    "q": "Newquay",
+    "right": "Cornwall",
+    "wrong": [
+     "Hampshire",
+     "Bristol",
+     "Isle of Wight"
+    ]
+   },
+   {
+    "q": "Skegness",
+    "right": "Lincolnshire",
+    "wrong": [
+     "Nottinghamshire",
+     "East Riding of Yorkshire",
+     "Rutland"
+    ]
+   },
+   {
+    "q": "Margate",
+    "right": "Kent",
+    "wrong": [
+     "East Sussex",
+     "Surrey",
+     "West Sussex"
+    ]
+   },
+   {
+    "q": "Hexham",
+    "right": "Northumberland",
+    "wrong": [
+     "Tyne and Wear",
+     "South Yorkshire",
+     "East Riding of Yorkshire"
+    ]
+   },
+   {
+    "q": "Darlington",
+    "right": "County Durham",
+    "wrong": [
+     "Tyne and Wear",
+     "East Riding of Yorkshire",
+     "South Yorkshire"
+    ]
+   },
+   {
+    "q": "Stratford-upon-Avon",
+    "right": "Warwickshire",
+    "wrong": [
+     "Worcestershire",
+     "Oxfordshire",
+     "Staffordshire"
+    ]
+   },
+   {
+    "q": "Windsor",
+    "right": "Berkshire",
+    "wrong": [
+     "Surrey",
+     "Buckinghamshire",
+     "Middlesex"
+    ]
+   },
+   {
+    "q": "Cheltenham",
+    "right": "Gloucestershire",
+    "wrong": [
+     "Worcestershire",
+     "Herefordshire",
+     "Oxfordshire"
+    ]
+   },
+   {
+    "q": "Bath",
+    "right": "Somerset",
+    "wrong": [
+     "Bristol",
+     "Herefordshire",
+     "Oxfordshire"
+    ]
+   },
+   {
+    "q": "Salisbury",
+    "right": "Wiltshire",
+    "wrong": [
+     "Hampshire",
+     "Surrey",
+     "Oxfordshire"
+    ]
+   },
+   {
+    "q": "Ipswich",
+    "right": "Suffolk",
+    "wrong": [
+     "Cambridgeshire",
+     "Hertfordshire",
+     "Bedfordshire"
+    ]
+   },
+   {
+    "q": "Norwich",
+    "right": "Norfolk",
+    "wrong": [
+     "Cambridgeshire",
+     "Bedfordshire",
+     "Hertfordshire"
+    ]
+   },
+   {
+    "q": "Kendal",
+    "right": "Cumbria",
+    "wrong": [
+     "Merseyside",
+     "Tyne and Wear",
+     "Derbyshire"
+    ]
+   },
+   {
+    "q": "Chester",
+    "right": "Cheshire",
+    "wrong": [
+     "Merseyside",
+     "Staffordshire",
+     "Derbyshire"
+    ]
+   },
+   {
+    "q": "Shrewsbury",
+    "right": "Shropshire",
+    "wrong": [
+     "Herefordshire",
+     "Staffordshire",
+     "Worcestershire"
+    ]
+   },
+   {
+    "q": "Colchester",
+    "right": "Essex",
+    "wrong": [
+     "Hertfordshire",
+     "Cambridgeshire",
+     "Bedfordshire"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's the French word?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "French",
+   "languages"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Cat",
+    "right": "Chat",
+    "wrong": [
+     "Chapeau",
+     "Château",
+     "Chaise"
+    ]
+   },
+   {
+    "q": "Dog",
+    "right": "Chien",
+    "wrong": [
+     "Cheval",
+     "Chèvre",
+     "Chou"
+    ]
+   },
+   {
+    "q": "House",
+    "right": "Maison",
+    "wrong": [
+     "Mairie",
+     "Magasin",
+     "Matin"
+    ]
+   },
+   {
+    "q": "Bread",
+    "right": "Pain",
+    "wrong": [
+     "Pomme de terre",
+     "Poisson",
+     "Poulet"
+    ]
+   },
+   {
+    "q": "Cheese",
+    "right": "Fromage",
+    "wrong": [
+     "Farine",
+     "Framboise",
+     "Frites"
+    ]
+   },
+   {
+    "q": "Apple",
+    "right": "Pomme",
+    "wrong": [
+     "Poire",
+     "Prune",
+     "Pêche"
+    ]
+   },
+   {
+    "q": "Water",
+    "right": "Eau",
+    "wrong": [
+     "Vin",
+     "Lait",
+     "Bière"
+    ]
+   },
+   {
+    "q": "Red",
+    "right": "Rouge",
+    "wrong": [
+     "Rose",
+     "Jaune",
+     "Bleu"
+    ]
+   },
+   {
+    "q": "Green",
+    "right": "Vert",
+    "wrong": [
+     "Violet",
+     "Gris",
+     "Blanc"
+    ]
+   },
+   {
+    "q": "Friend",
+    "right": "Ami",
+    "wrong": [
+     "Amour",
+     "Âme",
+     "Avion"
+    ]
+   },
+   {
+    "q": "Book",
+    "right": "Livre",
+    "wrong": [
+     "Lit",
+     "Lettre",
+     "Lampe"
+    ]
+   },
+   {
+    "q": "Car",
+    "right": "Voiture",
+    "wrong": [
+     "Vélo",
+     "Voyage",
+     "Ville"
+    ]
+   },
+   {
+    "q": "Sea",
+    "right": "Mer",
+    "wrong": [
+     "Mère",
+     "Montagne",
+     "Maire"
+    ]
+   },
+   {
+    "q": "Sun",
+    "right": "Soleil",
+    "wrong": [
+     "Sol",
+     "Sel",
+     "Ciel"
+    ]
+   },
+   {
+    "q": "Moon",
+    "right": "Lune",
+    "wrong": [
+     "Lumière",
+     "Lundi",
+     "Loup"
+    ]
+   },
+   {
+    "q": "Black",
+    "right": "Noir",
+    "wrong": [
+     "Nuit",
+     "Neige",
+     "Nez"
+    ]
+   },
+   {
+    "q": "Window",
+    "right": "Fenêtre",
+    "wrong": [
+     "Feuille",
+     "Fleur",
+     "Forêt"
+    ]
+   },
+   {
+    "q": "Beach",
+    "right": "Plage",
+    "wrong": [
+     "Place",
+     "Plume",
+     "Pluie"
+    ]
+   },
+   {
+    "q": "Butterfly",
+    "right": "Papillon",
+    "wrong": [
+     "Pigeon",
+     "Poussin",
+     "Pingouin"
+    ]
+   },
+   {
+    "q": "Strawberry",
+    "right": "Fraise",
+    "wrong": [
+     "Cerise",
+     "Citron",
+     "Groseille"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country does this dish come from?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "food",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Paella",
+    "right": "Spain",
+    "wrong": [
+     "Portugal",
+     "Italy",
+     "Argentina"
+    ]
+   },
+   {
+    "q": "Moussaka",
+    "right": "Greece",
+    "wrong": [
+     "Turkey",
+     "Lebanon",
+     "Italy"
+    ]
+   },
+   {
+    "q": "Goulash",
+    "right": "Hungary",
+    "wrong": [
+     "Czech Republic",
+     "Romania",
+     "Germany"
+    ]
+   },
+   {
+    "q": "Sushi",
+    "right": "Japan",
+    "wrong": [
+     "China",
+     "Indonesia",
+     "Malaysia"
+    ]
+   },
+   {
+    "q": "Kimchi",
+    "right": "South Korea",
+    "wrong": [
+     "China",
+     "Philippines",
+     "Indonesia"
+    ]
+   },
+   {
+    "q": "Pad thai",
+    "right": "Thailand",
+    "wrong": [
+     "Malaysia",
+     "Indonesia",
+     "China"
+    ]
+   },
+   {
+    "q": "Pho",
+    "right": "Vietnam",
+    "wrong": [
+     "China",
+     "Malaysia",
+     "Philippines"
+    ]
+   },
+   {
+    "q": "Tacos",
+    "right": "Mexico",
+    "wrong": [
+     "Argentina",
+     "Cuba",
+     "Chile"
+    ]
+   },
+   {
+    "q": "Borscht",
+    "right": "Ukraine",
+    "wrong": [
+     "Russia",
+     "Belarus",
+     "Lithuania"
+    ]
+   },
+   {
+    "q": "Haggis",
+    "right": "Scotland",
+    "wrong": [
+     "Ireland",
+     "Wales",
+     "Norway"
+    ]
+   },
+   {
+    "q": "Poutine",
+    "right": "Canada",
+    "wrong": [
+     "Belgium",
+     "USA",
+     "Ireland"
+    ]
+   },
+   {
+    "q": "Pierogi",
+    "right": "Poland",
+    "wrong": [
+     "Russia",
+     "Czech Republic",
+     "Germany"
+    ]
+   },
+   {
+    "q": "Feijoada",
+    "right": "Brazil",
+    "wrong": [
+     "Portugal",
+     "Argentina",
+     "Cuba"
+    ]
+   },
+   {
+    "q": "Bobotie",
+    "right": "South Africa",
+    "wrong": [
+     "Kenya",
+     "Nigeria",
+     "Egypt"
+    ]
+   },
+   {
+    "q": "Wiener schnitzel",
+    "right": "Austria",
+    "wrong": [
+     "Germany",
+     "Czech Republic",
+     "Belgium"
+    ]
+   },
+   {
+    "q": "Cheese fondue",
+    "right": "Switzerland",
+    "wrong": [
+     "Belgium",
+     "Netherlands",
+     "Germany"
+    ]
+   },
+   {
+    "q": "Ceviche",
+    "right": "Peru",
+    "wrong": [
+     "Chile",
+     "Argentina",
+     "Cuba"
+    ]
+   },
+   {
+    "q": "Smørrebrød",
+    "right": "Denmark",
+    "wrong": [
+     "Norway",
+     "Sweden",
+     "Netherlands"
+    ]
+   },
+   {
+    "q": "Tagine",
+    "right": "Morocco",
+    "wrong": [
+     "Egypt",
+     "Lebanon",
+     "Turkey"
+    ]
+   },
+   {
+    "q": "Coq au vin",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Italy",
+     "Portugal"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which city or town is this football club from?",
+  "target": 10,
+  "category": "Football",
+  "tags": [
+   "football",
+   "clubs",
+   "places"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Everton",
+    "right": "Liverpool",
+    "wrong": [
+     "Manchester",
+     "Chester",
+     "Wallasey"
+    ]
+   },
+   {
+    "q": "Aston Villa",
+    "right": "Birmingham",
+    "wrong": [
+     "Wolverhampton",
+     "Coventry",
+     "Nottingham"
+    ]
+   },
+   {
+    "q": "Port Vale",
+    "right": "Stoke-on-Trent",
+    "wrong": [
+     "Crewe",
+     "Derby",
+     "Chester"
+    ]
+   },
+   {
+    "q": "Hearts",
+    "right": "Edinburgh",
+    "wrong": [
+     "Aberdeen",
+     "Dundee",
+     "Inverness"
+    ]
+   },
+   {
+    "q": "Celtic",
+    "right": "Glasgow",
+    "wrong": [
+     "Aberdeen",
+     "Kilmarnock",
+     "Ayr"
+    ]
+   },
+   {
+    "q": "Juventus",
+    "right": "Turin",
+    "wrong": [
+     "Milan",
+     "Naples",
+     "Genoa"
+    ]
+   },
+   {
+    "q": "Ajax",
+    "right": "Amsterdam",
+    "wrong": [
+     "Utrecht",
+     "The Hague",
+     "Antwerp"
+    ]
+   },
+   {
+    "q": "Benfica",
+    "right": "Lisbon",
+    "wrong": [
+     "Porto",
+     "Madrid",
+     "Seville"
+    ]
+   },
+   {
+    "q": "Galatasaray",
+    "right": "Istanbul",
+    "wrong": [
+     "Ankara",
+     "Izmir",
+     "Athens"
+    ]
+   },
+   {
+    "q": "Boca Juniors",
+    "right": "Buenos Aires",
+    "wrong": [
+     "Montevideo",
+     "Rosario",
+     "Santiago"
+    ]
+   },
+   {
+    "q": "Feyenoord",
+    "right": "Rotterdam",
+    "wrong": [
+     "Utrecht",
+     "The Hague",
+     "Antwerp"
+    ]
+   },
+   {
+    "q": "PSV",
+    "right": "Eindhoven",
+    "wrong": [
+     "Utrecht",
+     "Groningen",
+     "Antwerp"
+    ]
+   },
+   {
+    "q": "Anderlecht",
+    "right": "Brussels",
+    "wrong": [
+     "Antwerp",
+     "Ghent",
+     "Bruges"
+    ]
+   },
+   {
+    "q": "Zenit",
+    "right": "Saint Petersburg",
+    "wrong": [
+     "Moscow",
+     "Kyiv",
+     "Minsk"
+    ]
+   },
+   {
+    "q": "Olympiacos",
+    "right": "Piraeus",
+    "wrong": [
+     "Athens",
+     "Thessaloniki",
+     "Patras"
+    ]
+   },
+   {
+    "q": "Real Sociedad",
+    "right": "San Sebastián",
+    "wrong": [
+     "Bilbao",
+     "Seville",
+     "Valencia"
+    ]
+   },
+   {
+    "q": "Tranmere Rovers",
+    "right": "Birkenhead",
+    "wrong": [
+     "Wallasey",
+     "Chester",
+     "Southport"
+    ]
+   },
+   {
+    "q": "Queen of the South",
+    "right": "Dumfries",
+    "wrong": [
+     "Ayr",
+     "Stirling",
+     "Perth"
+    ]
+   },
+   {
+    "q": "Arsenal",
+    "right": "London",
+    "wrong": [
+     "Manchester",
+     "Leeds",
+     "Sheffield"
+    ]
+   },
+   {
+    "q": "Lazio",
+    "right": "Rome",
+    "wrong": [
+     "Milan",
+     "Naples",
+     "Florence"
+    ]
+   }
+  ]
+ }
+]
