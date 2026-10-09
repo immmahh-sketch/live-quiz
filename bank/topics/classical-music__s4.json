@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "Written by Beethoven or by Mozart?",
+  "categories": [
+   "Beethoven",
+   "Mozart"
+  ],
+  "items": [
+   {
+    "text": "Moonlight Sonata",
+    "category": "Beethoven"
+   },
+   {
+    "text": "Für Elise",
+    "category": "Beethoven"
+   },
+   {
+    "text": "Ode to Joy",
+    "category": "Beethoven"
+   },
+   {
+    "text": "Fidelio",
+    "category": "Beethoven"
+   },
+   {
+    "text": "The Magic Flute",
+    "category": "Mozart"
+   },
+   {
+    "text": "Eine kleine Nachtmusik",
+    "category": "Mozart"
+   },
+   {
+    "text": "Don Giovanni",
+    "category": "Mozart"
+   },
+   {
+    "text": "The Marriage of Figaro",
+    "category": "Mozart"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Baroque composer or a Romantic composer?",
+  "categories": [
+   "Baroque",
+   "Romantic"
+  ],
+  "items": [
+   {
+    "text": "Bach",
+    "category": "Baroque"
+   },
+   {
+    "text": "Handel",
+    "category": "Baroque"
+   },
+   {
+    "text": "Vivaldi",
+    "category": "Baroque"
+   },
+   {
+    "text": "Purcell",
+    "category": "Baroque"
+   },
+   {
+    "text": "Chopin",
+    "category": "Romantic"
+   },
+   {
+    "text": "Schumann",
+    "category": "Romantic"
+   },
+   {
+    "text": "Liszt",
+    "category": "Romantic"
+   },
+   {
+    "text": "Brahms",
+    "category": "Romantic"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

@@ -1,0 +1,84 @@
+[
+ {
+  "type": "sort",
+  "text": "Set in Oxford or in London?",
+  "categories": [
+   "Oxford",
+   "London"
+  ],
+  "items": [
+   {
+    "text": "Inspector Morse",
+    "category": "Oxford"
+   },
+   {
+    "text": "Lewis",
+    "category": "Oxford"
+   },
+   {
+    "text": "Endeavour",
+    "category": "Oxford"
+   },
+   {
+    "text": "Luther",
+    "category": "London"
+   },
+   {
+    "text": "The Bill",
+    "category": "London"
+   },
+   {
+    "text": "Prime Suspect",
+    "category": "London"
+   },
+   {
+    "text": "Sherlock",
+    "category": "London"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A BBC crime drama or an ITV crime drama?",
+  "categories": [
+   "BBC",
+   "ITV"
+  ],
+  "items": [
+   {
+    "text": "Line of Duty",
+    "category": "BBC"
+   },
+   {
+    "text": "Luther",
+    "category": "BBC"
+   },
+   {
+    "text": "Happy Valley",
+    "category": "BBC"
+   },
+   {
+    "text": "Shetland",
+    "category": "BBC"
+   },
+   {
+    "text": "Vera",
+    "category": "ITV"
+   },
+   {
+    "text": "Broadchurch",
+    "category": "ITV"
+   },
+   {
+    "text": "Midsomer Murders",
+    "category": "ITV"
+   },
+   {
+    "text": "Endeavour",
+    "category": "ITV"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

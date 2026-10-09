@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "Made by Apple or by Microsoft?",
+  "categories": [
+   "Apple",
+   "Microsoft"
+  ],
+  "items": [
+   {
+    "text": "iTunes",
+    "category": "Apple"
+   },
+   {
+    "text": "Safari",
+    "category": "Apple"
+   },
+   {
+    "text": "Keynote",
+    "category": "Apple"
+   },
+   {
+    "text": "FaceTime",
+    "category": "Apple"
+   },
+   {
+    "text": "Excel",
+    "category": "Microsoft"
+   },
+   {
+    "text": "Outlook",
+    "category": "Microsoft"
+   },
+   {
+    "text": "Teams",
+    "category": "Microsoft"
+   },
+   {
+    "text": "Xbox",
+    "category": "Microsoft"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A programming language or a social media app?",
+  "categories": [
+   "Programming language",
+   "Social media app"
+  ],
+  "items": [
+   {
+    "text": "Python",
+    "category": "Programming language"
+   },
+   {
+    "text": "Java",
+    "category": "Programming language"
+   },
+   {
+    "text": "Ruby",
+    "category": "Programming language"
+   },
+   {
+    "text": "Swift",
+    "category": "Programming language"
+   },
+   {
+    "text": "TikTok",
+    "category": "Social media app"
+   },
+   {
+    "text": "Snapchat",
+    "category": "Social media app"
+   },
+   {
+    "text": "Pinterest",
+    "category": "Social media app"
+   },
+   {
+    "text": "Reddit",
+    "category": "Social media app"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

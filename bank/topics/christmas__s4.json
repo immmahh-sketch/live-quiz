@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "From 'A Christmas Carol' or from the Nativity story?",
+  "categories": [
+   "A Christmas Carol",
+   "The Nativity"
+  ],
+  "items": [
+   {
+    "text": "Scrooge",
+    "category": "A Christmas Carol"
+   },
+   {
+    "text": "Jacob Marley",
+    "category": "A Christmas Carol"
+   },
+   {
+    "text": "Tiny Tim",
+    "category": "A Christmas Carol"
+   },
+   {
+    "text": "Bob Cratchit",
+    "category": "A Christmas Carol"
+   },
+   {
+    "text": "Joseph",
+    "category": "The Nativity"
+   },
+   {
+    "text": "The angel Gabriel",
+    "category": "The Nativity"
+   },
+   {
+    "text": "King Herod",
+    "category": "The Nativity"
+   },
+   {
+    "text": "The shepherds",
+    "category": "The Nativity"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A Christmas treat or an Easter treat?",
+  "categories": [
+   "Christmas",
+   "Easter"
+  ],
+  "items": [
+   {
+    "text": "Mince pie",
+    "category": "Christmas"
+   },
+   {
+    "text": "Christmas pudding",
+    "category": "Christmas"
+   },
+   {
+    "text": "Stollen",
+    "category": "Christmas"
+   },
+   {
+    "text": "Panettone",
+    "category": "Christmas"
+   },
+   {
+    "text": "Hot cross bun",
+    "category": "Easter"
+   },
+   {
+    "text": "Simnel cake",
+    "category": "Easter"
+   },
+   {
+    "text": "Creme Egg",
+    "category": "Easter"
+   },
+   {
+    "text": "Easter biscuits",
+    "category": "Easter"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "A Christmas film released before 1990, or from 1990 on?",
+  "categories": [
+   "Before 1990",
+   "1990 on"
+  ],
+  "items": [
+   {
+    "text": "It's a Wonderful Life",
+    "category": "Before 1990"
+   },
+   {
+    "text": "White Christmas",
+    "category": "Before 1990"
+   },
+   {
+    "text": "Scrooged",
+    "category": "Before 1990"
+   },
+   {
+    "text": "Gremlins",
+    "category": "Before 1990"
+   },
+   {
+    "text": "Home Alone",
+    "category": "1990 on"
+   },
+   {
+    "text": "Elf",
+    "category": "1990 on"
+   },
+   {
+    "text": "Love Actually",
+    "category": "1990 on"
+   },
+   {
+    "text": "Klaus",
+    "category": "1990 on"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Is Father Christmas a main character, or not?",
+  "categories": [
+   "Santa's a main character",
+   "Not a main character"
+  ],
+  "items": [
+   {
+    "text": "Elf",
+    "category": "Santa's a main character"
+   },
+   {
+    "text": "The Santa Clause",
+    "category": "Santa's a main character"
+   },
+   {
+    "text": "Miracle on 34th Street",
+    "category": "Santa's a main character"
+   },
+   {
+    "text": "Arthur Christmas",
+    "category": "Santa's a main character"
+   },
+   {
+    "text": "Home Alone",
+    "category": "Not a main character"
+   },
+   {
+    "text": "Die Hard",
+    "category": "Not a main character"
+   },
+   {
+    "text": "It's a Wonderful Life",
+    "category": "Not a main character"
+   },
+   {
+    "text": "Love Actually",
+    "category": "Not a main character"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "A brand that only makes electric cars, or not?",
+  "categories": [
+   "Electric only",
+   "Not electric only"
+  ],
+  "items": [
+   {
+    "text": "Tesla",
+    "category": "Electric only"
+   },
+   {
+    "text": "Polestar",
+    "category": "Electric only"
+   },
+   {
+    "text": "Rivian",
+    "category": "Electric only"
+   },
+   {
+    "text": "Lucid",
+    "category": "Electric only"
+   },
+   {
+    "text": "Ford",
+    "category": "Not electric only"
+   },
+   {
+    "text": "Vauxhall",
+    "category": "Not electric only"
+   },
+   {
+    "text": "Peugeot",
+    "category": "Not electric only"
+   },
+   {
+    "text": "Kia",
+    "category": "Not electric only"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Formula One world champion or a World Rally champion?",
+  "categories": [
+   "Formula One",
+   "World Rally"
+  ],
+  "items": [
+   {
+    "text": "Lewis Hamilton",
+    "category": "Formula One"
+   },
+   {
+    "text": "Nigel Mansell",
+    "category": "Formula One"
+   },
+   {
+    "text": "Jenson Button",
+    "category": "Formula One"
+   },
+   {
+    "text": "Damon Hill",
+    "category": "Formula One"
+   },
+   {
+    "text": "Colin McRae",
+    "category": "World Rally"
+   },
+   {
+    "text": "Sébastien Loeb",
+    "category": "World Rally"
+   },
+   {
+    "text": "Richard Burns",
+    "category": "World Rally"
+   },
+   {
+    "text": "Walter Röhrl",
+    "category": "World Rally"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

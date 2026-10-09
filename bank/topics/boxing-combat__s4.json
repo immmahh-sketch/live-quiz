@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "World heavyweight champion, or champion at a lighter weight?",
+  "categories": [
+   "Heavyweight",
+   "Lighter weight"
+  ],
+  "items": [
+   {
+    "text": "Muhammad Ali",
+    "category": "Heavyweight"
+   },
+   {
+    "text": "Lennox Lewis",
+    "category": "Heavyweight"
+   },
+   {
+    "text": "Tyson Fury",
+    "category": "Heavyweight"
+   },
+   {
+    "text": "Mike Tyson",
+    "category": "Heavyweight"
+   },
+   {
+    "text": "Naseem Hamed",
+    "category": "Lighter weight"
+   },
+   {
+    "text": "Floyd Mayweather",
+    "category": "Lighter weight"
+   },
+   {
+    "text": "Ricky Hatton",
+    "category": "Lighter weight"
+   },
+   {
+    "text": "Amir Khan",
+    "category": "Lighter weight"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A boxing term or a wrestling term?",
+  "categories": [
+   "Boxing",
+   "Wrestling"
+  ],
+  "items": [
+   {
+    "text": "Uppercut",
+    "category": "Boxing"
+   },
+   {
+    "text": "Jab",
+    "category": "Boxing"
+   },
+   {
+    "text": "Southpaw",
+    "category": "Boxing"
+   },
+   {
+    "text": "Haymaker",
+    "category": "Boxing"
+   },
+   {
+    "text": "Body slam",
+    "category": "Wrestling"
+   },
+   {
+    "text": "Suplex",
+    "category": "Wrestling"
+   },
+   {
+    "text": "Pinfall",
+    "category": "Wrestling"
+   },
+   {
+    "text": "Half nelson",
+    "category": "Wrestling"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

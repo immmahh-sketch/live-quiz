@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "A way for a batter to be out, or not?",
+  "categories": [
+   "Out",
+   "Not out"
+  ],
+  "items": [
+   {
+    "text": "Bowled",
+    "category": "Out"
+   },
+   {
+    "text": "Caught",
+    "category": "Out"
+   },
+   {
+    "text": "LBW",
+    "category": "Out"
+   },
+   {
+    "text": "Stumped",
+    "category": "Out"
+   },
+   {
+    "text": "Wide",
+    "category": "Not out"
+   },
+   {
+    "text": "Maiden",
+    "category": "Not out"
+   },
+   {
+    "text": "No-ball",
+    "category": "Not out"
+   },
+   {
+    "text": "Bye",
+    "category": "Not out"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Captained England or captained Australia?",
+  "categories": [
+   "England",
+   "Australia"
+  ],
+  "items": [
+   {
+    "text": "Michael Vaughan",
+    "category": "England"
+   },
+   {
+    "text": "Alastair Cook",
+    "category": "England"
+   },
+   {
+    "text": "Joe Root",
+    "category": "England"
+   },
+   {
+    "text": "Ben Stokes",
+    "category": "England"
+   },
+   {
+    "text": "Ricky Ponting",
+    "category": "Australia"
+   },
+   {
+    "text": "Steve Waugh",
+    "category": "Australia"
+   },
+   {
+    "text": "Michael Clarke",
+    "category": "Australia"
+   },
+   {
+    "text": "Pat Cummins",
+    "category": "Australia"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

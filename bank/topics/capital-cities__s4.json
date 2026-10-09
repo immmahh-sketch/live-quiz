@@ -1,0 +1,88 @@
+[
+ {
+  "type": "sort",
+  "text": "A capital in the Northern or the Southern Hemisphere?",
+  "categories": [
+   "Northern",
+   "Southern"
+  ],
+  "items": [
+   {
+    "text": "Ottawa",
+    "category": "Northern"
+   },
+   {
+    "text": "Oslo",
+    "category": "Northern"
+   },
+   {
+    "text": "Cairo",
+    "category": "Northern"
+   },
+   {
+    "text": "Tokyo",
+    "category": "Northern"
+   },
+   {
+    "text": "Canberra",
+    "category": "Southern"
+   },
+   {
+    "text": "Wellington",
+    "category": "Southern"
+   },
+   {
+    "text": "Buenos Aires",
+    "category": "Southern"
+   },
+   {
+    "text": "Pretoria",
+    "category": "Southern"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "The capital of an island nation, or not?",
+  "categories": [
+   "Island nation",
+   "Not an island nation"
+  ],
+  "items": [
+   {
+    "text": "Reykjavík",
+    "category": "Island nation"
+   },
+   {
+    "text": "Dublin",
+    "category": "Island nation"
+   },
+   {
+    "text": "Valletta",
+    "category": "Island nation"
+   },
+   {
+    "text": "Manila",
+    "category": "Island nation"
+   },
+   {
+    "text": "Vienna",
+    "category": "Not an island nation"
+   },
+   {
+    "text": "Madrid",
+    "category": "Not an island nation"
+   },
+   {
+    "text": "Prague",
+    "category": "Not an island nation"
+   },
+   {
+    "text": "Lima",
+    "category": "Not an island nation"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]
