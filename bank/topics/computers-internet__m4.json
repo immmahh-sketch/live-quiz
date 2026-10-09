@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each tech company to the person who founded it",
+  "pairs": [
+   {
+    "left": "Microsoft",
+    "right": "Bill Gates"
+   },
+   {
+    "left": "Amazon",
+    "right": "Jeff Bezos"
+   },
+   {
+    "left": "Facebook",
+    "right": "Mark Zuckerberg"
+   },
+   {
+    "left": "SpaceX",
+    "right": "Elon Musk"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each file ending to what the file holds",
+  "pairs": [
+   {
+    "left": ".jpg",
+    "right": "A picture"
+   },
+   {
+    "left": ".mp3",
+    "right": "Music"
+   },
+   {
+    "left": ".pdf",
+    "right": "A document"
+   },
+   {
+    "left": ".zip",
+    "right": "A compressed folder"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

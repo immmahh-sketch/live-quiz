@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Roald Dahl character to their book",
+  "pairs": [
+   {
+    "left": "Augustus Gloop",
+    "right": "Charlie and the Chocolate Factory"
+   },
+   {
+    "left": "Miss Trunchbull",
+    "right": "Matilda"
+   },
+   {
+    "left": "The Grand High Witch",
+    "right": "The Witches"
+   },
+   {
+    "left": "Boggis, Bunce and Bean",
+    "right": "Fantastic Mr Fox"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each Beatrix Potter character to its animal",
+  "pairs": [
+   {
+    "left": "Mrs Tiggy-Winkle",
+    "right": "Hedgehog"
+   },
+   {
+    "left": "Jeremy Fisher",
+    "right": "Frog"
+   },
+   {
+    "left": "Mr Tod",
+    "right": "Fox"
+   },
+   {
+    "left": "Samuel Whiskers",
+    "right": "Rat"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

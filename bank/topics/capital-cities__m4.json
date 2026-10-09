@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each South American country to its capital",
+  "pairs": [
+   {
+    "left": "Argentina",
+    "right": "Buenos Aires"
+   },
+   {
+    "left": "Chile",
+    "right": "Santiago"
+   },
+   {
+    "left": "Peru",
+    "right": "Lima"
+   },
+   {
+    "left": "Colombia",
+    "right": "Bogotá"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each capital to its nickname",
+  "pairs": [
+   {
+    "left": "Paris",
+    "right": "The City of Light"
+   },
+   {
+    "left": "Rome",
+    "right": "The Eternal City"
+   },
+   {
+    "left": "Edinburgh",
+    "right": "Auld Reekie"
+   },
+   {
+    "left": "Vienna",
+    "right": "The City of Music"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

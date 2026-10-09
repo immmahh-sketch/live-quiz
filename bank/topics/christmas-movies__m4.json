@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Christmas film to its star",
+  "pairs": [
+   {
+    "left": "Elf",
+    "right": "Will Ferrell"
+   },
+   {
+    "left": "The Santa Clause",
+    "right": "Tim Allen"
+   },
+   {
+    "left": "Jingle All the Way",
+    "right": "Arnold Schwarzenegger"
+   },
+   {
+    "left": "Bad Santa",
+    "right": "Billy Bob Thornton"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each Christmas film to where it's set",
+  "pairs": [
+   {
+    "left": "Home Alone 2: Lost in New York",
+    "right": "New York"
+   },
+   {
+    "left": "Love Actually",
+    "right": "London"
+   },
+   {
+    "left": "Die Hard",
+    "right": "Los Angeles"
+   },
+   {
+    "left": "The Holiday",
+    "right": "Surrey"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

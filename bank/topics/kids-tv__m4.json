@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Teletubby to its colour",
+  "pairs": [
+   {
+    "left": "Tinky Winky",
+    "right": "Purple"
+   },
+   {
+    "left": "Dipsy",
+    "right": "Green"
+   },
+   {
+    "left": "Laa-Laa",
+    "right": "Yellow"
+   },
+   {
+    "left": "Po",
+    "right": "Red"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each Thunderbird to its job",
+  "pairs": [
+   {
+    "left": "Thunderbird 1",
+    "right": "Fast rescue rocket, first on the scene"
+   },
+   {
+    "left": "Thunderbird 2",
+    "right": "Heavy carrier for the rescue gear"
+   },
+   {
+    "left": "Thunderbird 3",
+    "right": "Space rocket"
+   },
+   {
+    "left": "Thunderbird 4",
+    "right": "Submarine"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

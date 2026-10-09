@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each autumn star sign to its symbol",
+  "pairs": [
+   {
+    "left": "Virgo",
+    "right": "The maiden"
+   },
+   {
+    "left": "Libra",
+    "right": "The scales"
+   },
+   {
+    "left": "Scorpio",
+    "right": "The scorpion"
+   },
+   {
+    "left": "Sagittarius",
+    "right": "The archer"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each firework to what it does",
+  "pairs": [
+   {
+    "left": "Catherine wheel",
+    "right": "Spins round on a pin"
+   },
+   {
+    "left": "Rocket",
+    "right": "Shoots up into the sky"
+   },
+   {
+    "left": "Roman candle",
+    "right": "Fires balls of colour one after another"
+   },
+   {
+    "left": "Sparkler",
+    "right": "Fizzes in your hand"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

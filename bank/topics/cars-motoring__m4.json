@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each road sign shape to what it usually means",
+  "pairs": [
+   {
+    "left": "Circle",
+    "right": "An order"
+   },
+   {
+    "left": "Triangle",
+    "right": "A warning"
+   },
+   {
+    "left": "Rectangle",
+    "right": "Information"
+   },
+   {
+    "left": "Octagon",
+    "right": "Stop"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each car to its maker",
+  "pairs": [
+   {
+    "left": "Golf",
+    "right": "Volkswagen"
+   },
+   {
+    "left": "Fiesta",
+    "right": "Ford"
+   },
+   {
+    "left": "Corsa",
+    "right": "Vauxhall"
+   },
+   {
+    "left": "Qashqai",
+    "right": "Nissan"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

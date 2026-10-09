@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Christmas hit to the band that recorded it",
+  "pairs": [
+   {
+    "left": "Merry Xmas Everybody",
+    "right": "Slade"
+   },
+   {
+    "left": "I Wish It Could Be Christmas Everyday",
+    "right": "Wizzard"
+   },
+   {
+    "left": "Fairytale of New York",
+    "right": "The Pogues"
+   },
+   {
+    "left": "Last Christmas",
+    "right": "Wham!"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each Christmas number one to its year",
+  "pairs": [
+   {
+    "left": "Merry Xmas Everybody",
+    "right": "1973"
+   },
+   {
+    "left": "Mistletoe and Wine",
+    "right": "1988"
+   },
+   {
+    "left": "Stay Another Day",
+    "right": "1994"
+   },
+   {
+    "left": "Mad World",
+    "right": "2003"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

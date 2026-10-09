@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each composer to a famous work",
+  "pairs": [
+   {
+    "left": "Holst",
+    "right": "The Planets"
+   },
+   {
+    "left": "Vivaldi",
+    "right": "The Four Seasons"
+   },
+   {
+    "left": "Handel",
+    "right": "Messiah"
+   },
+   {
+    "left": "Tchaikovsky",
+    "right": "The Nutcracker"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each instrument to its section of the orchestra",
+  "pairs": [
+   {
+    "left": "Oboe",
+    "right": "Woodwind"
+   },
+   {
+    "left": "Trombone",
+    "right": "Brass"
+   },
+   {
+    "left": "Viola",
+    "right": "Strings"
+   },
+   {
+    "left": "Timpani",
+    "right": "Percussion"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

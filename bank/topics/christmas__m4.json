@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Christmas tradition to the country it began in",
+  "pairs": [
+   {
+    "left": "The Christmas tree",
+    "right": "Germany"
+   },
+   {
+    "left": "Christmas crackers",
+    "right": "England"
+   },
+   {
+    "left": "The poinsettia",
+    "right": "Mexico"
+   },
+   {
+    "left": "Twelve grapes at midnight",
+    "right": "Spain"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each Christmas song to the year it came out",
+  "pairs": [
+   {
+    "left": "White Christmas",
+    "right": "1942"
+   },
+   {
+    "left": "Jingle Bell Rock",
+    "right": "1957"
+   },
+   {
+    "left": "Last Christmas",
+    "right": "1984"
+   },
+   {
+    "left": "All I Want for Christmas Is You",
+    "right": "1994"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

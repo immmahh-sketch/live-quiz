@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each queen to her husband",
+  "pairs": [
+   {
+    "left": "Queen Victoria",
+    "right": "Prince Albert"
+   },
+   {
+    "left": "Elizabeth II",
+    "right": "Prince Philip"
+   },
+   {
+    "left": "Mary I",
+    "right": "Philip II of Spain"
+   },
+   {
+    "left": "Queen Anne",
+    "right": "Prince George of Denmark"
+   }
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "match",
+  "text": "Match each event to its century",
+  "pairs": [
+   {
+    "left": "Magna Carta is sealed",
+    "right": "13th century"
+   },
+   {
+    "left": "The Battle of Agincourt",
+    "right": "15th century"
+   },
+   {
+    "left": "The Great Fire of London",
+    "right": "17th century"
+   },
+   {
+    "left": "The Battle of Waterloo",
+    "right": "19th century"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

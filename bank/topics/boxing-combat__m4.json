@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each boxer to his nickname",
+  "pairs": [
+   {
+    "left": "Muhammad Ali",
+    "right": "The Greatest"
+   },
+   {
+    "left": "Mike Tyson",
+    "right": "Iron Mike"
+   },
+   {
+    "left": "Tyson Fury",
+    "right": "The Gypsy King"
+   },
+   {
+    "left": "Joe Frazier",
+    "right": "Smokin' Joe"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each combat sport to where it's fought",
+  "pairs": [
+   {
+    "left": "Boxing",
+    "right": "A ring"
+   },
+   {
+    "left": "Sumo",
+    "right": "A dohyō"
+   },
+   {
+    "left": "UFC",
+    "right": "The Octagon"
+   },
+   {
+    "left": "Fencing",
+    "right": "A piste"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]
