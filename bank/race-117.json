@@ -1,0 +1,390 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: where can you go aboard this famous ship?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "ships",
+   "museums",
+   "travel"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "HMS Victory, Nelson's flagship",
+    "right": "Portsmouth",
+    "wrong": [
+     "Southampton",
+     "Chatham",
+     "Plymouth"
+    ]
+   },
+   {
+    "q": "The Cutty Sark tea clipper",
+    "right": "Greenwich",
+    "wrong": [
+     "Chatham",
+     "Southampton",
+     "Liverpool"
+    ]
+   },
+   {
+    "q": "Brunel's SS Great Britain",
+    "right": "Bristol",
+    "wrong": [
+     "Liverpool",
+     "Southampton",
+     "Cardiff"
+    ]
+   },
+   {
+    "q": "Scott's RRS Discovery",
+    "right": "Dundee",
+    "wrong": [
+     "Aberdeen",
+     "Inverness",
+     "Edinburgh"
+    ]
+   },
+   {
+    "q": "The Royal Yacht Britannia",
+    "right": "Leith",
+    "wrong": [
+     "Rosyth",
+     "Greenock",
+     "Aberdeen"
+    ]
+   },
+   {
+    "q": "The Glenlee tall ship",
+    "right": "Glasgow",
+    "wrong": [
+     "Greenock",
+     "Aberdeen",
+     "Liverpool"
+    ]
+   },
+   {
+    "q": "The Vasa, raised from the seabed in 1961",
+    "right": "Stockholm",
+    "wrong": [
+     "Copenhagen",
+     "Gothenburg",
+     "Helsinki"
+    ]
+   },
+   {
+    "q": "The Kon-Tiki raft",
+    "right": "Oslo",
+    "wrong": [
+     "Bergen",
+     "Copenhagen",
+     "Reykjavik"
+    ]
+   },
+   {
+    "q": "USS Constitution, 'Old Ironsides'",
+    "right": "Boston",
+    "wrong": [
+     "Baltimore",
+     "Philadelphia",
+     "San Diego"
+    ]
+   },
+   {
+    "q": "The RMS Queen Mary, now a hotel",
+    "right": "Long Beach",
+    "wrong": [
+     "San Diego",
+     "Miami",
+     "Baltimore"
+    ]
+   },
+   {
+    "q": "SS Nomadic, the Titanic's little tender",
+    "right": "Belfast",
+    "wrong": [
+     "Southampton",
+     "Liverpool",
+     "Cobh"
+    ]
+   },
+   {
+    "q": "The aircraft carrier USS Intrepid",
+    "right": "New York",
+    "wrong": [
+     "San Diego",
+     "Baltimore",
+     "Norfolk"
+    ]
+   },
+   {
+    "q": "A full-size replica of Captain Cook's Endeavour",
+    "right": "Whitby",
+    "wrong": [
+     "Scarborough",
+     "Sunderland",
+     "Liverpool"
+    ]
+   },
+   {
+    "q": "The Mayflower II",
+    "right": "Plymouth, Massachusetts",
+    "wrong": [
+     "Cape Cod",
+     "Baltimore",
+     "Southampton"
+    ]
+   },
+   {
+    "q": "The Golden Hinde, Drake's ship rebuilt",
+    "right": "London",
+    "wrong": [
+     "Chatham",
+     "Plymouth",
+     "Falmouth"
+    ]
+   },
+   {
+    "q": "The battleship USS Missouri",
+    "right": "Pearl Harbor",
+    "wrong": [
+     "San Diego",
+     "Norfolk",
+     "Baltimore"
+    ]
+   },
+   {
+    "q": "The submarine HMS Alliance",
+    "right": "Gosport",
+    "wrong": [
+     "Chatham",
+     "Plymouth",
+     "Barrow-in-Furness"
+    ]
+   },
+   {
+    "q": "The QE2, now a floating hotel",
+    "right": "Dubai",
+    "wrong": [
+     "Singapore",
+     "Hong Kong",
+     "Abu Dhabi"
+    ]
+   },
+   {
+    "q": "The SS Rotterdam, now a hotel",
+    "right": "Rotterdam",
+    "wrong": [
+     "Amsterdam",
+     "Antwerp",
+     "Hamburg"
+    ]
+   },
+   {
+    "q": "The Arctic Corsair trawler",
+    "right": "Hull",
+    "wrong": [
+     "Grimsby",
+     "Fleetwood",
+     "Aberdeen"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which festival or occasion is this food eaten at?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "festivals",
+   "food",
+   "traditions"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Hot cross buns",
+    "right": "Good Friday",
+    "wrong": [
+     "Maundy Thursday",
+     "Ash Wednesday",
+     "Palm Sunday"
+    ]
+   },
+   {
+    "q": "Simnel cake",
+    "right": "Easter",
+    "wrong": [
+     "Maundy Thursday",
+     "Ash Wednesday",
+     "Whit Sunday"
+    ]
+   },
+   {
+    "q": "Pancakes",
+    "right": "Shrove Tuesday",
+    "wrong": [
+     "Ash Wednesday",
+     "Palm Sunday",
+     "Whit Sunday"
+    ]
+   },
+   {
+    "q": "Mince pies",
+    "right": "Christmas",
+    "wrong": [
+     "Harvest Festival",
+     "Candlemas",
+     "Whit Sunday"
+    ]
+   },
+   {
+    "q": "Haggis, neeps and tatties",
+    "right": "Burns Night",
+    "wrong": [
+     "St Andrew's Day",
+     "Up Helly Aa",
+     "Candlemas"
+    ]
+   },
+   {
+    "q": "Parkin",
+    "right": "Bonfire Night",
+    "wrong": [
+     "Harvest Festival",
+     "Candlemas",
+     "Up Helly Aa"
+    ]
+   },
+   {
+    "q": "Latkes and doughnuts",
+    "right": "Hanukkah",
+    "wrong": [
+     "Yom Kippur",
+     "Sukkot",
+     "Rosh Hashanah"
+    ]
+   },
+   {
+    "q": "Mooncakes",
+    "right": "The Mid-Autumn Festival",
+    "wrong": [
+     "Lantern Festival",
+     "Dragon Boat Festival",
+     "Qingming"
+    ]
+   },
+   {
+    "q": "Colcannon, with a ring hidden inside",
+    "right": "Halloween",
+    "wrong": [
+     "St Patrick's Day",
+     "Candlemas",
+     "St Brigid's Day"
+    ]
+   },
+   {
+    "q": "Galette des rois, the king cake",
+    "right": "Epiphany",
+    "wrong": [
+     "Candlemas",
+     "Ash Wednesday",
+     "All Saints' Day"
+    ]
+   },
+   {
+    "q": "Pączki doughnuts in Poland",
+    "right": "Fat Thursday",
+    "wrong": [
+     "Ash Wednesday",
+     "Candlemas",
+     "All Saints' Day"
+    ]
+   },
+   {
+    "q": "Hamantaschen pastries",
+    "right": "Purim",
+    "wrong": [
+     "Yom Kippur",
+     "Sukkot",
+     "Rosh Hashanah"
+    ]
+   },
+   {
+    "q": "Matzo, unleavened bread",
+    "right": "Passover",
+    "wrong": [
+     "Yom Kippur",
+     "Sukkot",
+     "Rosh Hashanah"
+    ]
+   },
+   {
+    "q": "Dates to break the fast at sunset",
+    "right": "Ramadan",
+    "wrong": [
+     "Lent",
+     "Yom Kippur",
+     "Vaisakhi"
+    ]
+   },
+   {
+    "q": "Boxes of sweets called mithai",
+    "right": "Diwali",
+    "wrong": [
+     "Holi",
+     "Vaisakhi",
+     "Navratri"
+    ]
+   },
+   {
+    "q": "Pumpkin pie and roast turkey, in America",
+    "right": "Thanksgiving",
+    "wrong": [
+     "Independence Day",
+     "Labor Day",
+     "Memorial Day"
+    ]
+   },
+   {
+    "q": "Black bun, a rich fruit cake in pastry",
+    "right": "Hogmanay",
+    "wrong": [
+     "St Andrew's Day",
+     "Up Helly Aa",
+     "Candlemas"
+    ]
+   },
+   {
+    "q": "Dumplings shaped like gold ingots",
+    "right": "Chinese New Year",
+    "wrong": [
+     "Lantern Festival",
+     "Dragon Boat Festival",
+     "Qingming"
+    ]
+   },
+   {
+    "q": "Pan de muerto, the 'bread of the dead'",
+    "right": "The Day of the Dead",
+    "wrong": [
+     "Cinco de Mayo",
+     "Candlemas",
+     "All Saints' Day"
+    ]
+   },
+   {
+    "q": "Saffron buns called lussekatter, in Sweden",
+    "right": "St Lucia's Day",
+    "wrong": [
+     "Midsummer",
+     "Walpurgis Night",
+     "Candlemas"
+    ]
+   }
+  ]
+ }
+]
