@@ -1,0 +1,390 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which cat breed is this?",
+  "target": 10,
+  "category": "Animals",
+  "tags": [
+   "cats",
+   "cat breeds",
+   "pets"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Hairless and wrinkly, it needs a jumper in winter",
+    "right": "Sphynx",
+    "wrong": [
+     "Cornish Rex",
+     "LaPerm",
+     "Toyger"
+    ]
+   },
+   {
+    "q": "The tailless cat of the Isle of Man",
+    "right": "Manx",
+    "wrong": [
+     "Korat",
+     "Chartreux",
+     "Somali"
+    ]
+   },
+   {
+    "q": "A short-haired cat from Thailand with a cream body, dark 'points' and bright blue eyes",
+    "right": "Siamese",
+    "wrong": [
+     "Korat",
+     "Tonkinese",
+     "Balinese"
+    ]
+   },
+   {
+    "q": "Long thick coat and a flat, squashed face, like the white cat Blofeld strokes",
+    "right": "Persian",
+    "wrong": [
+     "Turkish Angora",
+     "Ragamuffin",
+     "Nebelung"
+    ]
+   },
+   {
+    "q": "The biggest domestic breed, a shaggy cat named after a US state",
+    "right": "Maine Coon",
+    "wrong": [
+     "Siberian",
+     "Ragamuffin",
+     "Chartreux"
+    ]
+   },
+   {
+    "q": "Bred from the Asian leopard cat, with a spotted, wild-looking coat",
+    "right": "Bengal",
+    "wrong": [
+     "Ocicat",
+     "Toyger",
+     "Pixie-bob"
+    ]
+   },
+   {
+    "q": "Famous for going limp and floppy when you pick it up",
+    "right": "Ragdoll",
+    "wrong": [
+     "Snowshoe",
+     "Burmilla",
+     "Havana Brown"
+    ]
+   },
+   {
+    "q": "Silvery-grey coat and green eyes, said to come from the port of Archangel",
+    "right": "Russian Blue",
+    "wrong": [
+     "Chartreux",
+     "Nebelung",
+     "Korat"
+    ]
+   },
+   {
+    "q": "Its ears fold forward and down, giving it an owl-like face",
+    "right": "Scottish Fold",
+    "wrong": [
+     "American Curl",
+     "Selkirk Rex",
+     "Cornish Rex"
+    ]
+   },
+   {
+    "q": "A golden 'ticked' coat, named after an old name for Ethiopia",
+    "right": "Abyssinian",
+    "wrong": [
+     "Somali",
+     "Singapura",
+     "Oriental"
+    ]
+   },
+   {
+    "q": "A sleek sable-brown cat named after an old name for Myanmar",
+    "right": "Burmese",
+    "wrong": [
+     "Tonkinese",
+     "Havana Brown",
+     "Singapura"
+    ]
+   },
+   {
+    "q": "A round-faced 'blue' cat said to have inspired the Cheshire Cat",
+    "right": "British Shorthair",
+    "wrong": [
+     "Chartreux",
+     "Exotic Shorthair",
+     "Korat"
+    ]
+   },
+   {
+    "q": "A big long-haired Scandinavian climber, the 'skogkatt' of fairy tales",
+    "right": "Norwegian Forest Cat",
+    "wrong": [
+     "Siberian",
+     "Nebelung",
+     "Turkish Angora"
+    ]
+   },
+   {
+    "q": "A white cat with a coloured head and tail, famous for loving a swim",
+    "right": "Turkish Van",
+    "wrong": [
+     "Turkish Angora",
+     "Khao Manee",
+     "Snowshoe"
+    ]
+   },
+   {
+    "q": "The long-haired 'sacred cat of Burma', with pure white gloves on all four paws",
+    "right": "Birman",
+    "wrong": [
+     "Balinese",
+     "Snowshoe",
+     "Ragamuffin"
+    ]
+   },
+   {
+    "q": "Pixie face, huge ears and a short curly coat, first found in Buckfastleigh",
+    "right": "Devon Rex",
+    "wrong": [
+     "Selkirk Rex",
+     "LaPerm",
+     "Peterbald"
+    ]
+   },
+   {
+    "q": "The only naturally spotted domestic breed, from the land of the pharaohs",
+    "right": "Egyptian Mau",
+    "wrong": [
+     "Ocicat",
+     "Toyger",
+     "Pixie-bob"
+    ]
+   },
+   {
+    "q": "A tall, leggy cross between a house cat and an African serval",
+    "right": "Savannah",
+    "wrong": [
+     "Chausie",
+     "Ocicat",
+     "Toyger"
+    ]
+   },
+   {
+    "q": "A Persian with Siamese colouring and blue eyes",
+    "right": "Himalayan",
+    "wrong": [
+     "Balinese",
+     "Ragamuffin",
+     "Tonkinese"
+    ]
+   },
+   {
+    "q": "A sleek, jet-black cat with copper eyes, bred to look like a mini panther",
+    "right": "Bombay",
+    "wrong": [
+     "Havana Brown",
+     "Oriental",
+     "Chartreux"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: name the crime or legal word",
+  "target": 10,
+  "category": "General knowledge",
+  "tags": [
+   "law",
+   "crime",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Setting fire to property on purpose",
+    "right": "Arson",
+    "wrong": [
+     "Affray",
+     "Larceny",
+     "Sedition"
+    ]
+   },
+   {
+    "q": "Lying in court after swearing to tell the truth",
+    "right": "Perjury",
+    "wrong": [
+     "Contempt",
+     "Perversion",
+     "Forgery"
+    ]
+   },
+   {
+    "q": "Damaging someone's good name with spoken words",
+    "right": "Slander",
+    "wrong": [
+     "Sedition",
+     "Affray",
+     "Battery"
+    ]
+   },
+   {
+    "q": "Damaging someone's good name in print or writing",
+    "right": "Libel",
+    "wrong": [
+     "Forgery",
+     "Sedition",
+     "Fraud"
+    ]
+   },
+   {
+    "q": "Killing someone unlawfully, but without meaning to kill or seriously harm them",
+    "right": "Manslaughter",
+    "wrong": [
+     "Murder",
+     "Assault",
+     "Infanticide"
+    ]
+   },
+   {
+    "q": "Marrying someone while still married to someone else",
+    "right": "Bigamy",
+    "wrong": [
+     "Adultery",
+     "Monogamy",
+     "Trespass"
+    ]
+   },
+   {
+    "q": "Betraying your own country, for example by helping its enemies in war",
+    "right": "Treason",
+    "wrong": [
+     "Sedition",
+     "Mutiny",
+     "Sacrilege"
+    ]
+   },
+   {
+    "q": "Entering a building as a trespasser in order to steal",
+    "right": "Burglary",
+    "wrong": [
+     "Larceny",
+     "Extortion",
+     "Affray"
+    ]
+   },
+   {
+    "q": "Stealing from a person using force or the threat of it",
+    "right": "Robbery",
+    "wrong": [
+     "Larceny",
+     "Fraud",
+     "Forgery"
+    ]
+   },
+   {
+    "q": "Secretly taking money you were trusted to look after",
+    "right": "Embezzlement",
+    "wrong": [
+     "Forgery",
+     "Extortion",
+     "Bribery"
+    ]
+   },
+   {
+    "q": "Demanding money by threatening to reveal someone's secrets",
+    "right": "Blackmail",
+    "wrong": [
+     "Bribery",
+     "Fraud",
+     "Forgery"
+    ]
+   },
+   {
+    "q": "Proof that you were somewhere else when the crime happened",
+    "right": "Alibi",
+    "wrong": [
+     "Caution",
+     "Deposition",
+     "Plea"
+    ]
+   },
+   {
+    "q": "A written statement sworn to be true, for use as evidence",
+    "right": "Affidavit",
+    "wrong": [
+     "Codicil",
+     "Injunction",
+     "Indictment"
+    ]
+   },
+   {
+    "q": "A court order forcing a witness to turn up and give evidence",
+    "right": "Subpoena",
+    "wrong": [
+     "Injunction",
+     "Codicil",
+     "Caveat"
+    ]
+   },
+   {
+    "q": "Being let out of custody before trial, sometimes against a sum of money",
+    "right": "Bail",
+    "wrong": [
+     "Parole",
+     "Probation",
+     "Remand"
+    ]
+   },
+   {
+    "q": "The jury's decision: guilty or not guilty",
+    "right": "Verdict",
+    "wrong": [
+     "Sentence",
+     "Plea",
+     "Mistrial"
+    ]
+   },
+   {
+    "q": "Being formally cleared of a criminal charge",
+    "right": "Acquittal",
+    "wrong": [
+     "Conviction",
+     "Appeal",
+     "Caution"
+    ]
+   },
+   {
+    "q": "The person who brings a civil case, now usually called the claimant",
+    "right": "Plaintiff",
+    "wrong": [
+     "Defendant",
+     "Appellant",
+     "Respondent"
+    ]
+   },
+   {
+    "q": "The legal process of proving a dead person's will",
+    "right": "Probate",
+    "wrong": [
+     "Codicil",
+     "Escrow",
+     "Tort"
+    ]
+   },
+   {
+    "q": "Latin for 'you may have the body', a guard against unlawful detention",
+    "right": "Habeas corpus",
+    "wrong": [
+     "Sub judice",
+     "Pro bono",
+     "Ultra vires"
+    ]
+   }
+  ]
+ }
+]
