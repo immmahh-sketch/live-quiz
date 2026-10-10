@@ -1,0 +1,390 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which film or show used this music as its theme?",
+  "target": 10,
+  "category": "TV",
+  "tags": [
+   "theme tunes",
+   "music",
+   "TV"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "'Barwick Green'",
+    "right": "The Archers",
+    "wrong": [
+     "Emmerdale Farm",
+     "Woman's Hour",
+     "All Creatures Great and Small"
+    ]
+   },
+   {
+    "q": "'Johnny Todd', a Liverpool folk song",
+    "right": "Z-Cars",
+    "wrong": [
+     "Softly, Softly",
+     "Dixon of Dock Green",
+     "Brookside"
+    ]
+   },
+   {
+    "q": "'Soul Limbo' by Booker T. & the M.G.'s",
+    "right": "Test Match Special",
+    "wrong": [
+     "Grandstand",
+     "Ski Sunday",
+     "Question of Sport"
+    ]
+   },
+   {
+    "q": "'Approaching Menace'",
+    "right": "Mastermind",
+    "wrong": [
+     "University Challenge",
+     "Countdown",
+     "The Krypton Factor"
+    ]
+   },
+   {
+    "q": "'Sailing By', just before midnight on Radio 4",
+    "right": "The Shipping Forecast",
+    "wrong": [
+     "The Today Programme",
+     "Desert Island Discs",
+     "The News at Ten"
+    ]
+   },
+   {
+    "q": "'Devil's Galop'",
+    "right": "Dick Barton",
+    "wrong": [
+     "Doctor Who",
+     "The Saint",
+     "Thunderbirds"
+    ]
+   },
+   {
+    "q": "'Gonna Fly Now'",
+    "right": "Rocky",
+    "wrong": [
+     "Chariots of Fire",
+     "Raging Bull",
+     "The Karate Kid"
+    ]
+   },
+   {
+    "q": "Sousa's 'The Liberty Bell' march",
+    "right": "Monty Python's Flying Circus",
+    "wrong": [
+     "Dad's Army",
+     "The Goodies",
+     "Fawlty Towers"
+    ]
+   },
+   {
+    "q": "'Galloping Home'",
+    "right": "Black Beauty",
+    "wrong": [
+     "Follyfoot",
+     "Champion the Wonder Horse",
+     "Heartbeat"
+    ]
+   },
+   {
+    "q": "Fleetwood Mac's 'The Chain'",
+    "right": "Formula One on the BBC",
+    "wrong": [
+     "Top Gear",
+     "Match of the Day",
+     "Grandstand"
+    ]
+   },
+   {
+    "q": "Gounod's 'Funeral March of a Marionette'",
+    "right": "Alfred Hitchcock Presents",
+    "wrong": [
+     "The Twilight Zone",
+     "The Addams Family",
+     "Tales of the Unexpected"
+    ]
+   },
+   {
+    "q": "Strauss's 'Also sprach Zarathustra'",
+    "right": "2001: A Space Odyssey",
+    "wrong": [
+     "Star Wars",
+     "Close Encounters of the Third Kind",
+     "Alien"
+    ]
+   },
+   {
+    "q": "Wagner's 'Ride of the Valkyries'",
+    "right": "Apocalypse Now",
+    "wrong": [
+     "Platoon",
+     "Full Metal Jacket",
+     "The Deer Hunter"
+    ]
+   },
+   {
+    "q": "An anthem based on Handel's 'Zadok the Priest'",
+    "right": "The Champions League",
+    "wrong": [
+     "The FA Cup",
+     "The Europa League",
+     "The World Cup"
+    ]
+   },
+   {
+    "q": "Pavarotti's 'Nessun Dorma'",
+    "right": "The BBC's Italia 90 coverage",
+    "wrong": [
+     "Euro 96 coverage",
+     "The 1966 World Cup film",
+     "Match of the Day"
+    ]
+   },
+   {
+    "q": "Holst's 'Jupiter', reworked as 'World in Union'",
+    "right": "The Rugby World Cup",
+    "wrong": [
+     "The Six Nations",
+     "The Commonwealth Games",
+     "The Olympics"
+    ]
+   },
+   {
+    "q": "Scott Joplin's 'The Entertainer'",
+    "right": "The Sting",
+    "wrong": [
+     "Bonnie and Clyde",
+     "Butch Cassidy and the Sundance Kid",
+     "The Godfather"
+    ]
+   },
+   {
+    "q": "'Duelling Banjos'",
+    "right": "Deliverance",
+    "wrong": [
+     "Easy Rider",
+     "Bonnie and Clyde",
+     "O Brother, Where Art Thou?"
+    ]
+   },
+   {
+    "q": "'Lara's Theme'",
+    "right": "Doctor Zhivago",
+    "wrong": [
+     "Lawrence of Arabia",
+     "Casablanca",
+     "Ryan's Daughter"
+    ]
+   },
+   {
+    "q": "Survivor's 'Eye of the Tiger'",
+    "right": "Rocky III",
+    "wrong": [
+     "Rocky IV",
+     "Top Gun",
+     "The Karate Kid"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what breed is this famous dog?",
+  "target": 10,
+  "category": "Nature",
+  "tags": [
+   "dogs",
+   "breeds",
+   "films"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Lassie",
+    "right": "Rough Collie",
+    "wrong": [
+     "Bearded Collie",
+     "Shetland Sheepdog",
+     "Afghan Hound"
+    ]
+   },
+   {
+    "q": "Scooby-Doo",
+    "right": "Great Dane",
+    "wrong": [
+     "Mastiff",
+     "Irish Wolfhound",
+     "Weimaraner"
+    ]
+   },
+   {
+    "q": "Snoopy",
+    "right": "Beagle",
+    "wrong": [
+     "Basset Hound",
+     "Bloodhound",
+     "Springer Spaniel"
+    ]
+   },
+   {
+    "q": "Hooch, in 'Turner & Hooch'",
+    "right": "Dogue de Bordeaux",
+    "wrong": [
+     "Mastiff",
+     "Bulldog",
+     "Boxer"
+    ]
+   },
+   {
+    "q": "Beethoven, the film dog",
+    "right": "St Bernard",
+    "wrong": [
+     "Newfoundland",
+     "Bernese Mountain Dog",
+     "Old English Sheepdog"
+    ]
+   },
+   {
+    "q": "Pongo, in '101 Dalmatians'",
+    "right": "Dalmatian",
+    "wrong": [
+     "Pointer",
+     "English Setter",
+     "Weimaraner"
+    ]
+   },
+   {
+    "q": "Toto, in 'The Wizard of Oz'",
+    "right": "Cairn Terrier",
+    "wrong": [
+     "Yorkshire Terrier",
+     "Westie",
+     "Scottie"
+    ]
+   },
+   {
+    "q": "Brian, in 'Family Guy'",
+    "right": "Labrador",
+    "wrong": [
+     "Poodle",
+     "Flat-coated Retriever",
+     "Whippet"
+    ]
+   },
+   {
+    "q": "Hachiko, the faithful dog of Tokyo",
+    "right": "Akita",
+    "wrong": [
+     "Shiba Inu",
+     "Husky",
+     "Samoyed"
+    ]
+   },
+   {
+    "q": "Eddie, in 'Frasier'",
+    "right": "Jack Russell",
+    "wrong": [
+     "Yorkshire Terrier",
+     "Westie",
+     "Chihuahua"
+    ]
+   },
+   {
+    "q": "Bull's-eye, in 'Oliver Twist'",
+    "right": "Bull Terrier",
+    "wrong": [
+     "Staffordshire Bull Terrier",
+     "Bulldog",
+     "Boxer"
+    ]
+   },
+   {
+    "q": "Lady, in 'Lady and the Tramp'",
+    "right": "Cocker Spaniel",
+    "wrong": [
+     "Springer Spaniel",
+     "King Charles Spaniel",
+     "Setter"
+    ]
+   },
+   {
+    "q": "Greyfriars Bobby",
+    "right": "Skye Terrier",
+    "wrong": [
+     "Scottie",
+     "Westie",
+     "Yorkshire Terrier"
+    ]
+   },
+   {
+    "q": "Rin Tin Tin",
+    "right": "German Shepherd",
+    "wrong": [
+     "Doberman",
+     "Husky",
+     "Rottweiler"
+    ]
+   },
+   {
+    "q": "Snowy, Tintin's dog",
+    "right": "Wire Fox Terrier",
+    "wrong": [
+     "Westie",
+     "Bichon Frise",
+     "Scottie"
+    ]
+   },
+   {
+    "q": "Dug, in Pixar's 'Up'",
+    "right": "Golden Retriever",
+    "wrong": [
+     "Labradoodle",
+     "Setter",
+     "Afghan Hound"
+    ]
+   },
+   {
+    "q": "Slinky Dog, in 'Toy Story'",
+    "right": "Dachshund",
+    "wrong": [
+     "Basset Hound",
+     "Corgi",
+     "Whippet"
+    ]
+   },
+   {
+    "q": "Bluey",
+    "right": "Blue Heeler",
+    "wrong": [
+     "Kelpie",
+     "Husky",
+     "Corgi"
+    ]
+   },
+   {
+    "q": "Fly, the sheepdog in 'Babe'",
+    "right": "Border Collie",
+    "wrong": [
+     "Shetland Sheepdog",
+     "Kelpie",
+     "Old English Sheepdog"
+    ]
+   },
+   {
+    "q": "Bolt, the Disney superdog",
+    "right": "White Shepherd",
+    "wrong": [
+     "Husky",
+     "Samoyed",
+     "Labradoodle"
+    ]
+   }
+  ]
+ }
+]
