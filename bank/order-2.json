@@ -1,0 +1,359 @@
+[
+ {
+  "type": "order",
+  "text": "Put these British Army ranks in order, most junior first",
+  "items": [
+   "Private",
+   "Lance Corporal",
+   "Corporal",
+   "Sergeant",
+   "Lieutenant",
+   "Captain",
+   "Major"
+  ],
+  "hint": "most junior first",
+  "category": "History",
+  "tags": [
+   "army",
+   "ranks"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these Royal Navy ranks in order, most junior first",
+  "items": [
+   "Able Seaman",
+   "Petty Officer",
+   "Lieutenant",
+   "Commander",
+   "Captain",
+   "Admiral"
+  ],
+  "hint": "most junior first",
+  "category": "History",
+  "tags": [
+   "navy",
+   "ranks"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "order",
+  "text": "Put these ranks of the peerage in order, highest first",
+  "items": [
+   "Duke",
+   "Marquess",
+   "Earl",
+   "Viscount",
+   "Baron"
+  ],
+  "hint": "highest first",
+  "category": "Royals",
+  "tags": [
+   "peerage"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these British structures in order of height, shortest first",
+  "items": [
+   "Nelson's Column",
+   "Big Ben's tower",
+   "Blackpool Tower",
+   "BT Tower",
+   "One Canada Square",
+   "The Shard"
+  ],
+  "hint": "shortest first",
+  "category": "Britain",
+  "tags": [
+   "landmarks",
+   "height"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these bed sizes in order, smallest first",
+  "items": [
+   "Single",
+   "Small double",
+   "Double",
+   "King",
+   "Super king"
+  ],
+  "hint": "smallest first",
+  "category": "Everyday life",
+  "tags": [
+   "beds"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "order",
+  "text": "Put these code words in the order they come in the NATO phonetic alphabet",
+  "items": [
+   "Bravo",
+   "Echo",
+   "Juliett",
+   "Oscar",
+   "Tango",
+   "Yankee"
+  ],
+  "hint": "A to Z",
+  "category": "Words and language",
+  "tags": [
+   "NATO alphabet"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "order",
+  "text": "Put these Shipping Forecast areas in the order they are read out, starting from Viking",
+  "items": [
+   "Viking",
+   "Forties",
+   "Cromarty",
+   "Forth",
+   "Tyne",
+   "Dogger"
+  ],
+  "hint": "as read on the radio",
+  "category": "Britain",
+  "tags": [
+   "Shipping Forecast"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "order",
+  "text": "Put these phases of the Moon in order, starting from new moon",
+  "items": [
+   "New moon",
+   "Waxing crescent",
+   "First quarter",
+   "Waxing gibbous",
+   "Full moon",
+   "Waning gibbous"
+  ],
+  "hint": "from new moon",
+  "category": "Science",
+  "tags": [
+   "Moon"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these periods of Earth's history in order, oldest first",
+  "items": [
+   "Cambrian",
+   "Devonian",
+   "Carboniferous",
+   "Triassic",
+   "Jurassic",
+   "Cretaceous"
+  ],
+  "hint": "oldest first",
+  "category": "Science",
+  "tags": [
+   "dinosaurs",
+   "geology"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "order",
+  "text": "Put these paper sizes in order, smallest first",
+  "items": [
+   "A6",
+   "A5",
+   "A4",
+   "A3",
+   "A2"
+  ],
+  "hint": "smallest first",
+  "category": "Everyday life",
+  "tags": [
+   "paper"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "order",
+  "text": "Put these amounts of computer memory in order, smallest first",
+  "items": [
+   "Bit",
+   "Byte",
+   "Kilobyte",
+   "Megabyte",
+   "Gigabyte",
+   "Terabyte"
+  ],
+  "hint": "smallest first",
+  "category": "Science and tech",
+  "tags": [
+   "computers"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "order",
+  "text": "Put these steps of making a loaf of bread in order",
+  "items": [
+   "Mix the dough",
+   "Knead",
+   "Leave to rise",
+   "Knock back and shape",
+   "Bake"
+  ],
+  "hint": "first step first",
+  "category": "Food and drink",
+  "tags": [
+   "baking"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "order",
+  "text": "Put these layers of the Earth in order, from the surface down",
+  "items": [
+   "Crust",
+   "Mantle",
+   "Outer core",
+   "Inner core"
+  ],
+  "hint": "from the surface down",
+  "category": "Science",
+  "tags": [
+   "Earth"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "order",
+  "text": "Put these layers of the atmosphere in order, lowest first",
+  "items": [
+   "Troposphere",
+   "Stratosphere",
+   "Mesosphere",
+   "Thermosphere",
+   "Exosphere"
+  ],
+  "hint": "lowest first",
+  "category": "Science",
+  "tags": [
+   "atmosphere"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "order",
+  "text": "Put these kinds of radiation in order of wavelength, longest first",
+  "items": [
+   "Radio waves",
+   "Microwaves",
+   "Infrared",
+   "Visible light",
+   "Ultraviolet",
+   "X-rays",
+   "Gamma rays"
+  ],
+  "hint": "longest wavelength first",
+  "category": "Science",
+  "tags": [
+   "light"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "order",
+  "text": "Put these stages of the water cycle in order, starting from the sea",
+  "items": [
+   "Evaporation",
+   "Condensation",
+   "Precipitation",
+   "Collection"
+  ],
+  "hint": "starting from the sea",
+  "category": "Science",
+  "tags": [
+   "weather"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "order",
+  "text": "Put these periods of British history in order, earliest first",
+  "items": [
+   "Stone Age",
+   "Bronze Age",
+   "Iron Age",
+   "Roman Britain",
+   "Anglo-Saxon England",
+   "Norman Conquest"
+  ],
+  "hint": "earliest first",
+  "category": "History",
+  "tags": [
+   "Britain"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these royal houses of England and Britain in order, earliest first",
+  "items": [
+   "Normans",
+   "Plantagenets",
+   "Tudors",
+   "Stuarts",
+   "Hanoverians",
+   "Windsors"
+  ],
+  "hint": "earliest first",
+  "category": "History",
+  "tags": [
+   "royals",
+   "dynasties"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these in the order your food passes through them",
+  "items": [
+   "Mouth",
+   "Oesophagus",
+   "Stomach",
+   "Small intestine",
+   "Large intestine"
+  ],
+  "hint": "first stop first",
+  "category": "Science",
+  "tags": [
+   "human body"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "order",
+  "text": "Put these Greek letters in alphabetical order",
+  "items": [
+   "Alpha",
+   "Beta",
+   "Gamma",
+   "Delta",
+   "Epsilon",
+   "Zeta"
+  ],
+  "hint": "alpha first",
+  "category": "Words and language",
+  "tags": [
+   "Greek alphabet"
+  ],
+  "difficulty": "medium"
+ }
+]
