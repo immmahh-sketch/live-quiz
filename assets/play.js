@@ -462,7 +462,7 @@ function potatoView(s) {
   const busy = live.map((b) => b.holder);
   if (mine.stage === 'pass') return `<div class="pq">✅ Right! Get rid of it: who gets the bomb?</div><div class="potpass">${p.players.filter((x) => !busy.includes(x.pid)).map((x) => `<button class="btn" data-pass="${x.pid}" data-bomb="${mine.i}"><span class="em">${x.emoji || '🙂'}</span>${esc(x.name)}</button>`).join('')}</div>`;
   if (!mine.row) return `<div class="state"><div class="em">💣</div><h2>You've got the bomb!</h2></div>`;
-  const wrong = mine.last?.ok === false && mine.last.pid === P.pid ? `<p class="center small" style="color:var(--bad);font-weight:800;margin:4px 0">✗ Wrong, it was ${esc(mine.last.answer)}. Try this one, quick!</p>` : '';
+  const wrong = mine.last?.ok === false && mine.last.pid === P.pid ? `<p class="center small" style="color:var(--bad);font-weight:800;margin:4px 0">✗ Wrong, it was ${esc(mine.last.answer)} (−${mine.last.lose ?? p.perWrong ?? 100}). Try this one, quick!</p>` : '';
   return `<div class="potalert">💣 You've got the bomb! Answer to pass it on</div>${wrong}<div class="pq">${esc(mine.row.text)}</div>${optsHtml(mine.row, 'data-pk')}${boomNote}${foot}`;
 }
 function kothHtml(s) {

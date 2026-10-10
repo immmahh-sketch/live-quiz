@@ -78,7 +78,7 @@ window.LQ = (() => {
     survey: { label: 'Family Fortunes', icon: '👪', blurb: '"We asked the room…": everyone types an answer, and you score by matching everyone else. The more players who said what you said, the more you score.' },
     reveal: { label: 'Picture Reveal', icon: '🧩', blurb: 'A picture hidden behind tiles that flip over one by one. Players type who or what it is: the fewer tiles it takes, the more they score.' },
     tune:   { label: 'Name That Tune',  icon: '🎵', blurb: 'A clip plays on the screen. Name the song, the artist, the film it is from, the year, or the next line.' },
-    potato: { label: 'Hot Potato',      icon: '💣', blurb: 'A lit bomb passes round the room. Whoever holds it answers on their phone; get it right and pass it on. Holding it when it blows costs you points.' },
+    potato: { label: 'Hot Potato',      icon: '💣', blurb: 'A lit bomb passes round the room. Whoever holds it answers on their phone; get it right and pass it on. Every wrong answer costs 100, and holding it when it blows costs you more.' },
     koth:   { label: 'King of the Hill', icon: '👑', blurb: 'Fastest finger picks two players for a head-to-head buzzer battle, answered out loud. Right keeps you on the hill. First to the target wins the prize.' },
     chase:  { label: 'The Chase',       icon: '🏃', blurb: 'The leader becomes the Chaser and takes on everyone else as one team, who start a few steps ahead. First right answer on each question moves that side a step. Get home before you are caught.' },
     blockbusters: { label: 'Blockbusters', icon: '⬢', blurb: 'Two teams battle across a board of letter hexagons. First to type the answer claims the hex; the first team to join two opposite sides of the board wins.' },
@@ -573,7 +573,7 @@ window.LQ = (() => {
     survey: 'We asked the room! Type the first answer that comes to mind. The more people who say the same as you, the more you score. A lonely answer scores nothing.',
     reveal: 'A picture is hidden behind tiles that flip over one by one. Type who or what it is on your phone: the sooner you get it, the more you score.',
     tune: 'Listen to the clip and answer on your phone.',
-    potato: 'The bomb is lit and nobody knows how long the fuse is. If it lands on you, answer the question on your phone. Get it right and you choose who gets it next. Holding it when it goes bang costs you points.',
+    potato: 'The bomb is lit and nobody knows how long the fuse is. If it lands on you, answer the question on your phone. Get it right and you choose who gets it next; every wrong answer costs 100 points. Holding it when it goes bang costs you more.',
     koth: 'Fastest finger first picks two players to go head to head. Buzz on your phone, then say your answer out loud. Get it right and you stay on the hill and win a hill point: every one is worth points. First to the target wins the bonus too, but there are only so many head-to-heads.',
     chase: 'Whoever is in the lead is the Chaser. Everyone else plays as one team with a head start. The first right answer on each question moves that side one step: the team towards home, the Chaser towards the team. Get home before you are caught!',
     blockbusters: 'Pick a side, quick: each side holds half the players, so once one is full you join the other. Your side chooses a letter, and the answer starts with it. First to type the right answer wins the hexagon for their side. Join any two opposite sides of the board, left to right or top to bottom, to win.',
@@ -778,7 +778,7 @@ window.LQ = (() => {
   }
   /** Settings for the three newer bank games: filled in on new questions, and on older saves that lack them. */
   const NEW_GAME_DEFAULTS = {
-    potato: () => ({ fuseMin: 40, fuseMax: 90, perCorrect: 50, penalty: 300 }),
+    potato: () => ({ fuseMin: 40, fuseMax: 90, perCorrect: 50, perWrong: 100, penalty: 300 }),
     koth: () => ({ target: 3, prize: 1000, answerSecs: 3, perPoint: 100, maxRounds: 12 }),
     chase: () => ({ headStart: 2, target: 5, teamPrize: 1000, chaserPrize: 200 }),
     blockbusters: () => ({ teams: bbTeams(), hexPoints: 50, prize: 500 }),
