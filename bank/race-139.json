@@ -1,0 +1,582 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this baby word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "babies",
+   "parenting",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "What a baby wears to catch the wee and poo",
+    "right": "Nappy",
+    "wrong": [
+     "Romper suit",
+     "Layette",
+     "Bouncer"
+    ]
+   },
+   {
+    "q": "A rubber teat for a baby to suck on; Americans call it a pacifier",
+    "right": "Dummy",
+    "wrong": [
+     "Sippy cup",
+     "Night light",
+     "Mobile"
+    ]
+   },
+   {
+    "q": "A stretchy all-in-one suit with feet",
+    "right": "Babygro",
+    "wrong": [
+     "Layette",
+     "Mobile",
+     "Bouncer"
+    ]
+   },
+   {
+    "q": "A small carry-cot of woven wicker for a newborn",
+    "right": "Moses basket",
+    "wrong": [
+     "Bouncer",
+     "Walker",
+     "Jumperoo"
+    ]
+   },
+   {
+    "q": "A big hooded carriage for a baby to lie flat in",
+    "right": "Pram",
+    "wrong": [
+     "Bouncer",
+     "Walker",
+     "Jumperoo"
+    ]
+   },
+   {
+    "q": "A baby's bed with bars round the sides",
+    "right": "Cot",
+    "wrong": [
+     "Bouncer",
+     "Walker",
+     "Stair gate"
+    ]
+   },
+   {
+    "q": "Tied round a baby's neck to catch the mess at mealtimes",
+    "right": "Bib",
+    "wrong": [
+     "Layette",
+     "Mobile",
+     "Night light"
+    ]
+   },
+   {
+    "q": "Something cool and chewy for sore gums",
+    "right": "Teething ring",
+    "wrong": [
+     "Sippy cup",
+     "Night light",
+     "Mobile"
+    ]
+   },
+   {
+    "q": "A thin cotton cloth kept handy for mopping up sick",
+    "right": "Muslin",
+    "wrong": [
+     "Layette",
+     "Mobile",
+     "Romper suit"
+    ]
+   },
+   {
+    "q": "Wrapping a newborn up snugly in a blanket",
+    "right": "Swaddling",
+    "wrong": [
+     "Tummy time",
+     "Layette",
+     "Stair gate"
+    ]
+   },
+   {
+    "q": "Long bouts of crying, often in the evening, with no obvious cause",
+    "right": "Colic",
+    "wrong": [
+     "Cradle cap",
+     "Milk spots",
+     "Tummy time"
+    ]
+   },
+   {
+    "q": "Moving a baby on to solid food",
+    "right": "Weaning",
+    "wrong": [
+     "Tummy time",
+     "Cradle cap",
+     "Formula"
+    ]
+   },
+   {
+    "q": "Patting a baby's back to bring up wind after a feed",
+    "right": "Burping",
+    "wrong": [
+     "Tummy time",
+     "Gripe water",
+     "Cradle cap"
+    ]
+   },
+   {
+    "q": "Lets you listen in on a sleeping baby from another room",
+    "right": "Baby monitor",
+    "wrong": [
+     "Night light",
+     "Mobile",
+     "Stair gate"
+    ]
+   },
+   {
+    "q": "A little fenced area where a baby can play safely",
+    "right": "Playpen",
+    "wrong": [
+     "Stair gate",
+     "Bouncer",
+     "Walker"
+    ]
+   },
+   {
+    "q": "Keeps a baby safe on a journey, strapped into the back seat",
+    "right": "Car seat",
+    "wrong": [
+     "Bouncer",
+     "Walker",
+     "Jumperoo"
+    ]
+   },
+   {
+    "q": "A hard, dry biscuit for babies to gnaw on",
+    "right": "Rusk",
+    "wrong": [
+     "Formula",
+     "Gripe water",
+     "Sippy cup"
+    ]
+   },
+   {
+    "q": "Carries the nappies, wipes and spare clothes on a day out",
+    "right": "Changing bag",
+    "wrong": [
+     "Layette",
+     "Night light",
+     "Mobile"
+    ]
+   },
+   {
+    "q": "Carries a baby strapped against your chest",
+    "right": "Sling",
+    "wrong": [
+     "Bouncer",
+     "Walker",
+     "Jumperoo"
+    ]
+   },
+   {
+    "q": "A church ceremony to name a baby and welcome them in",
+    "right": "Christening",
+    "wrong": [
+     "Tummy time",
+     "Layette",
+     "Baby shower"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which computer key is this?",
+  "target": 10,
+  "category": "Computers and the internet",
+  "tags": [
+   "computers",
+   "keyboards"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The top-left key that cancels or closes things",
+    "right": "Escape",
+    "wrong": [
+     "Scroll Lock",
+     "Pause/Break",
+     "SysRq"
+    ]
+   },
+   {
+    "q": "Jumps you to the next box on a form",
+    "right": "Tab",
+    "wrong": [
+     "Fn",
+     "Alt Gr",
+     "Scroll Lock"
+    ]
+   },
+   {
+    "q": "Makes everything you type come out in capitals",
+    "right": "Caps Lock",
+    "wrong": [
+     "Scroll Lock",
+     "Fn",
+     "Alt Gr"
+    ]
+   },
+   {
+    "q": "Hold it down for a single capital letter",
+    "right": "Shift",
+    "wrong": [
+     "Fn",
+     "Alt Gr",
+     "Scroll Lock"
+    ]
+   },
+   {
+    "q": "Hold it with C to copy and V to paste on a PC",
+    "right": "Control",
+    "wrong": [
+     "Fn",
+     "Alt Gr",
+     "Menu key"
+    ]
+   },
+   {
+    "q": "The longest key, right at the bottom",
+    "right": "Space bar",
+    "wrong": [
+     "Fn",
+     "Menu key",
+     "Scroll Lock"
+    ]
+   },
+   {
+    "q": "Rubs out the letter to the left of the cursor",
+    "right": "Backspace",
+    "wrong": [
+     "Pause/Break",
+     "SysRq",
+     "Clear"
+    ]
+   },
+   {
+    "q": "Rubs out the letter to the right of the cursor",
+    "right": "Delete",
+    "wrong": [
+     "Pause/Break",
+     "SysRq",
+     "Scroll Lock"
+    ]
+   },
+   {
+    "q": "Sends a message or starts a new line; also called Return",
+    "right": "Enter",
+    "wrong": [
+     "Fn",
+     "Menu key",
+     "Pause/Break"
+    ]
+   },
+   {
+    "q": "Jumps to the start of the line",
+    "right": "Home",
+    "wrong": [
+     "Pause/Break",
+     "Scroll Lock",
+     "SysRq"
+    ]
+   },
+   {
+    "q": "Jumps to the end of the line",
+    "right": "End",
+    "wrong": [
+     "Pause/Break",
+     "Scroll Lock",
+     "SysRq"
+    ]
+   },
+   {
+    "q": "Scrolls a whole screen further down",
+    "right": "Page Down",
+    "wrong": [
+     "Pause/Break",
+     "Fn",
+     "Menu key"
+    ]
+   },
+   {
+    "q": "Switches between typing over letters and pushing them along",
+    "right": "Insert",
+    "wrong": [
+     "Pause/Break",
+     "SysRq",
+     "Clear"
+    ]
+   },
+   {
+    "q": "Takes a picture of everything on the screen",
+    "right": "Print Screen",
+    "wrong": [
+     "Pause/Break",
+     "Scroll Lock",
+     "Fn"
+    ]
+   },
+   {
+    "q": "The function key that usually opens Help",
+    "right": "F1",
+    "wrong": [
+     "F12",
+     "F5",
+     "F11"
+    ]
+   },
+   {
+    "q": "Turns the number pad on the right on and off",
+    "right": "Num Lock",
+    "wrong": [
+     "Scroll Lock",
+     "Fn",
+     "Alt Gr"
+    ]
+   },
+   {
+    "q": "Opens the Start menu on a PC",
+    "right": "Windows key",
+    "wrong": [
+     "Menu key",
+     "Fn",
+     "Alt Gr"
+    ]
+   },
+   {
+    "q": "Four keys that move the cursor up, down, left and right",
+    "right": "Arrow keys",
+    "wrong": [
+     "Function keys",
+     "Media keys",
+     "Modifier keys"
+    ]
+   },
+   {
+    "q": "The Mac key marked ⌘, used for copy and paste",
+    "right": "Command",
+    "wrong": [
+     "Option",
+     "Fn",
+     "Alt Gr"
+    ]
+   },
+   {
+    "q": "Held with F4 to close a window on a PC",
+    "right": "Alt",
+    "wrong": [
+     "Fn",
+     "Alt Gr",
+     "Menu key"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this tea word?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "tea",
+   "drinks"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Strong, with milk and two sugars, the way a tradesman likes it",
+    "right": "Builder's tea",
+    "wrong": [
+     "Pu-erh",
+     "Yerba mate",
+     "Kombucha"
+    ]
+   },
+   {
+    "q": "Black tea flavoured with oil of bergamot",
+    "right": "Earl Grey",
+    "wrong": [
+     "Keemun",
+     "Ceylon",
+     "Pu-erh"
+    ]
+   },
+   {
+    "q": "A light black tea from the foothills of the Himalayas, the 'champagne of teas'",
+    "right": "Darjeeling",
+    "wrong": [
+     "Keemun",
+     "Ceylon",
+     "Pu-erh"
+    ]
+   },
+   {
+    "q": "A strong, malty black tea from north-east India",
+    "right": "Assam",
+    "wrong": [
+     "Keemun",
+     "Ceylon",
+     "Pu-erh"
+    ]
+   },
+   {
+    "q": "A Chinese black tea dried over pine fires, so it tastes smoky",
+    "right": "Lapsang souchong",
+    "wrong": [
+     "Keemun",
+     "Gunpowder",
+     "Pu-erh"
+    ]
+   },
+   {
+    "q": "Indian tea brewed with milk and spices like cardamom and cinnamon",
+    "right": "Chai",
+    "wrong": [
+     "Yerba mate",
+     "Kombucha",
+     "Hibiscus"
+    ]
+   },
+   {
+    "q": "Bright green powdered tea whisked into hot water, from Japan",
+    "right": "Matcha",
+    "wrong": [
+     "Gunpowder",
+     "Pu-erh",
+     "Yerba mate"
+    ]
+   },
+   {
+    "q": "A caffeine-free red 'bush tea' from South Africa",
+    "right": "Rooibos",
+    "wrong": [
+     "Hibiscus",
+     "Yerba mate",
+     "Nettle"
+    ]
+   },
+   {
+    "q": "A calming herbal tea made from daisy-like flowers, drunk at bedtime",
+    "right": "Camomile",
+    "wrong": [
+     "Nettle",
+     "Hibiscus",
+     "Lemon and ginger"
+    ]
+   },
+   {
+    "q": "A fresh-tasting herbal tea said to settle the stomach",
+    "right": "Peppermint",
+    "wrong": [
+     "Nettle",
+     "Hibiscus",
+     "Kombucha"
+    ]
+   },
+   {
+    "q": "A Chinese tea halfway between green and black",
+    "right": "Oolong",
+    "wrong": [
+     "Keemun",
+     "Pu-erh",
+     "Gunpowder"
+    ]
+   },
+   {
+    "q": "A strong morning blend, often of Assam, Ceylon and Kenyan teas",
+    "right": "English Breakfast",
+    "wrong": [
+     "Pu-erh",
+     "Gunpowder",
+     "Yerba mate"
+    ]
+   },
+   {
+    "q": "Sandwiches, scones and cakes on a tiered stand, said to be the Duchess of Bedford's idea",
+    "right": "Afternoon tea",
+    "wrong": [
+     "Kombucha",
+     "Tea caddy",
+     "Samovar"
+    ]
+   },
+   {
+    "q": "A pot of tea with scones, jam and clotted cream",
+    "right": "Cream tea",
+    "wrong": [
+     "Tea caddy",
+     "Samovar",
+     "Kombucha"
+    ]
+   },
+   {
+    "q": "A knitted cover that keeps the teapot warm",
+    "right": "Tea cosy",
+    "wrong": [
+     "Tea caddy",
+     "Samovar",
+     "Saucer"
+    ]
+   },
+   {
+    "q": "A little mesh ball or basket for brewing loose leaves",
+    "right": "Infuser",
+    "wrong": [
+     "Tea caddy",
+     "Samovar",
+     "Saucer"
+    ]
+   },
+   {
+    "q": "Invented by accident when Americans dunked little silk pouches of samples",
+    "right": "Tea bag",
+    "wrong": [
+     "Tea caddy",
+     "Samovar",
+     "Saucer"
+    ]
+   },
+   {
+    "q": "Telling fortunes from the leaves left in the bottom of a cup",
+    "right": "Tasseography",
+    "wrong": [
+     "Kombucha",
+     "Samovar",
+     "Pu-erh"
+    ]
+   },
+   {
+    "q": "Dip a biscuit into your tea",
+    "right": "Dunk",
+    "wrong": [
+     "Stir",
+     "Steep",
+     "Sip"
+    ]
+   },
+   {
+    "q": "Unoxidised tea, drunk without milk, much loved in China and Japan",
+    "right": "Green tea",
+    "wrong": [
+     "Pu-erh",
+     "Keemun",
+     "Yerba mate"
+    ]
+   }
+  ]
+ }
+]
