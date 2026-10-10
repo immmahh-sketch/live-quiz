@@ -1,0 +1,389 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which country used to be called this?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "countries",
+   "old names",
+   "history"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Rhodesia",
+    "right": "Zimbabwe",
+    "wrong": [
+     "Mozambique",
+     "South Africa",
+     "Angola"
+    ]
+   },
+   {
+    "q": "Zaire",
+    "right": "DR Congo",
+    "wrong": [
+     "Republic of the Congo",
+     "Angola",
+     "Gabon"
+    ]
+   },
+   {
+    "q": "Abyssinia",
+    "right": "Ethiopia",
+    "wrong": [
+     "Eritrea",
+     "Somalia",
+     "Sudan"
+    ]
+   },
+   {
+    "q": "The Gold Coast",
+    "right": "Ghana",
+    "wrong": [
+     "Togo",
+     "Nigeria",
+     "Ivory Coast"
+    ]
+   },
+   {
+    "q": "Dahomey",
+    "right": "Benin",
+    "wrong": [
+     "Togo",
+     "Niger",
+     "Mali"
+    ]
+   },
+   {
+    "q": "Upper Volta",
+    "right": "Burkina Faso",
+    "wrong": [
+     "Mali",
+     "Niger",
+     "Senegal"
+    ]
+   },
+   {
+    "q": "Kampuchea",
+    "right": "Cambodia",
+    "wrong": [
+     "Laos",
+     "Vietnam",
+     "Thailand"
+    ]
+   },
+   {
+    "q": "East Pakistan",
+    "right": "Bangladesh",
+    "wrong": [
+     "Pakistan",
+     "Nepal",
+     "Sri Lanka"
+    ]
+   },
+   {
+    "q": "Formosa",
+    "right": "Taiwan",
+    "wrong": [
+     "Hong Kong",
+     "Japan",
+     "The Philippines"
+    ]
+   },
+   {
+    "q": "Swaziland",
+    "right": "Eswatini",
+    "wrong": [
+     "South Africa",
+     "Mozambique",
+     "Zambia"
+    ]
+   },
+   {
+    "q": "Bechuanaland",
+    "right": "Botswana",
+    "wrong": [
+     "Zambia",
+     "Angola",
+     "Mozambique"
+    ]
+   },
+   {
+    "q": "Basutoland",
+    "right": "Lesotho",
+    "wrong": [
+     "Zambia",
+     "Angola",
+     "Kenya"
+    ]
+   },
+   {
+    "q": "Nyasaland",
+    "right": "Malawi",
+    "wrong": [
+     "Zambia",
+     "Tanzania",
+     "Mozambique"
+    ]
+   },
+   {
+    "q": "British Honduras",
+    "right": "Belize",
+    "wrong": [
+     "Honduras",
+     "Guatemala",
+     "Nicaragua"
+    ]
+   },
+   {
+    "q": "Dutch Guiana",
+    "right": "Suriname",
+    "wrong": [
+     "Guyana",
+     "French Guiana",
+     "Venezuela"
+    ]
+   },
+   {
+    "q": "The New Hebrides",
+    "right": "Vanuatu",
+    "wrong": [
+     "Fiji",
+     "Solomon Islands",
+     "Samoa"
+    ]
+   },
+   {
+    "q": "The Ellice Islands",
+    "right": "Tuvalu",
+    "wrong": [
+     "Fiji",
+     "Nauru",
+     "Samoa"
+    ]
+   },
+   {
+    "q": "The Gilbert Islands",
+    "right": "Kiribati",
+    "wrong": [
+     "Nauru",
+     "Tonga",
+     "Fiji"
+    ]
+   },
+   {
+    "q": "Mesopotamia, more or less",
+    "right": "Iraq",
+    "wrong": [
+     "Syria",
+     "Iran",
+     "Jordan"
+    ]
+   },
+   {
+    "q": "South West Africa",
+    "right": "Namibia",
+    "wrong": [
+     "Angola",
+     "South Africa",
+     "Zambia"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which chain sells this?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "fast food",
+   "brands"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The Whopper",
+    "right": "Burger King",
+    "wrong": [
+     "Shake Shack",
+     "Five Guys",
+     "Byron"
+    ]
+   },
+   {
+    "q": "The Big Mac",
+    "right": "McDonald's",
+    "wrong": [
+     "Five Guys",
+     "Byron",
+     "Carl's Jr."
+    ]
+   },
+   {
+    "q": "The Zinger burger",
+    "right": "KFC",
+    "wrong": [
+     "Popeyes",
+     "Chick-fil-A",
+     "Chicken Cottage"
+    ]
+   },
+   {
+    "q": "The Footlong",
+    "right": "Subway",
+    "wrong": [
+     "Pret A Manger",
+     "Jimmy John's",
+     "Quiznos"
+    ]
+   },
+   {
+    "q": "Butterfly chicken with peri-peri sauce",
+    "right": "Nando's",
+    "wrong": [
+     "Chicken Cottage",
+     "Popeyes",
+     "Chick-fil-A"
+    ]
+   },
+   {
+    "q": "The steak bake",
+    "right": "Greggs",
+    "wrong": [
+     "Pret A Manger",
+     "Cooplands",
+     "Warrens"
+    ]
+   },
+   {
+    "q": "The Frappuccino",
+    "right": "Starbucks",
+    "wrong": [
+     "Costa",
+     "Caffè Nero",
+     "Pret A Manger"
+    ]
+   },
+   {
+    "q": "The Stuffed Crust pizza",
+    "right": "Pizza Hut",
+    "wrong": [
+     "Papa John's",
+     "Franco Manca",
+     "Papa Murphy's"
+    ]
+   },
+   {
+    "q": "The Original Glazed doughnut",
+    "right": "Krispy Kreme",
+    "wrong": [
+     "Doughnut Time",
+     "Crosstown",
+     "Dum Dum Donutterie"
+    ]
+   },
+   {
+    "q": "The Blizzard",
+    "right": "Dairy Queen",
+    "wrong": [
+     "Baskin-Robbins",
+     "Ben & Jerry's",
+     "Häagen-Dazs"
+    ]
+   },
+   {
+    "q": "The Frosty",
+    "right": "Wendy's",
+    "wrong": [
+     "Five Guys",
+     "Shake Shack",
+     "Byron"
+    ]
+   },
+   {
+    "q": "The Chalupa",
+    "right": "Taco Bell",
+    "wrong": [
+     "Chipotle",
+     "Tortilla",
+     "Barburrito"
+    ]
+   },
+   {
+    "q": "Chicken katsu curry, served in a canteen",
+    "right": "Wagamama",
+    "wrong": [
+     "Itsu",
+     "Yo! Sushi",
+     "Wasabi"
+    ]
+   },
+   {
+    "q": "The Bender in a bun",
+    "right": "Wimpy",
+    "wrong": [
+     "Happy Eater",
+     "Berni Inn",
+     "Harvester"
+    ]
+   },
+   {
+    "q": "The Olympic Breakfast, by the roadside",
+    "right": "Little Chef",
+    "wrong": [
+     "Happy Eater",
+     "Harvester",
+     "Beefeater"
+    ]
+   },
+   {
+    "q": "The Mighty Meaty pizza",
+    "right": "Domino's",
+    "wrong": [
+     "Papa John's",
+     "Franco Manca",
+     "Papa Murphy's"
+    ]
+   },
+   {
+    "q": "Dough Balls with garlic butter",
+    "right": "Pizza Express",
+    "wrong": [
+     "Prezzo",
+     "Zizzi",
+     "Ask Italian"
+    ]
+   },
+   {
+    "q": "Timbits",
+    "right": "Tim Hortons",
+    "wrong": [
+     "Baskin-Robbins",
+     "Doughnut Time",
+     "Costa"
+    ]
+   },
+   {
+    "q": "Munchkins",
+    "right": "Dunkin'",
+    "wrong": [
+     "Baskin-Robbins",
+     "Doughnut Time",
+     "Costa"
+    ]
+   },
+   {
+    "q": "The Double-Double",
+    "right": "In-N-Out",
+    "wrong": [
+     "Shake Shack",
+     "Five Guys",
+     "Whataburger"
+    ]
+   }
+  ]
+ }
+]
