@@ -1968,7 +1968,7 @@ function startQuestion() {
   const now = Date.now(), own = ['wipeout', 'potato', 'koth', 'blockbusters', 'chase', 'draw', 'unique', 'cards'].includes(q.type) || (q.type === 'task' && !WARMUP); // these run their own clocks
   G.q = { view, keys, rows, startedAt: now, deadline: own ? null : now + q.time * 1000, answers: {}, results: null };
   if (q.kind === 'reveal') G.q.reveal = revealPlan(q, now);
-  if (q.type === 'wheel') { G.q.wheelRevealed = (q.startLetters || '').toUpperCase().replace(/[^A-Z]/g, ''); G.q.nextReveal = now + (q.revealEvery || 4) * 1000; }
+  if (q.type === 'wheel') { G.q.wheelRevealed = (q.startLetters || '').toUpperCase().replace(/[^A-Z]/g, '').replace(/[AEIOU]/g, ''); /* no vowels, even to start */ G.q.nextReveal = now + (q.revealEvery || 4) * 1000; }
   partyStartQuestion(q); // power cards land; Who Said That's author
   G.phase = 'question'; persist();
   if (q.type === 'cards' || (q.type === 'task' && !WARMUP)) { botClear(); if (q.type === 'cards') pcStart(); else taskStart(); startTick(); musicStart(q); return; }
@@ -2016,11 +2016,10 @@ function paintClock() {
 function wheelReveal() {
   const q = question(); const letters = [...new Set(q.phrase.toUpperCase().replace(/[^A-Z]/g, ''))].filter((c) => !G.q.wheelRevealed.includes(c));
   G.q.nextReveal = Date.now() + (q.revealEvery || 4) * 1000;
-  if (!letters.length) return;
-  // Vowels tend to come late on the show; here, a random consonant first while any remain.
+  // Like the show: only consonants are ever turned over. Once they are all showing, the vowels stay hidden to the end.
   const cons = letters.filter((c) => !'AEIOU'.includes(c));
-  const pool = cons.length && Math.random() < 0.8 ? cons : letters;
-  G.q.wheelRevealed += pool[Math.floor(Math.random() * pool.length)];
+  if (!cons.length) return;
+  G.q.wheelRevealed += cons[Math.floor(Math.random() * cons.length)];
   persist(); const b = $('#wofboard'); if (b) b.innerHTML = LQ.wheelBoardHtml(G.q.view.layout ? LQ.wheelLayout(q.phrase) : null, G.q.wheelRevealed); broadcastState();
 }
 async function endQuestion() {
