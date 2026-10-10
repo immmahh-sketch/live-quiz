@@ -1,0 +1,312 @@
+[
+ {
+  "type": "wipeout",
+  "text": "Breeds of horse or pony",
+  "right": [
+   "Shetland",
+   "Clydesdale",
+   "Shire",
+   "Arabian",
+   "Thoroughbred",
+   "Appaloosa",
+   "Mustang",
+   "Welsh Cob",
+   "Exmoor",
+   "Dartmoor",
+   "Connemara",
+   "Percheron",
+   "Lipizzaner",
+   "Andalusian",
+   "Fell"
+  ],
+  "wrong": [
+   "Palomino",
+   "Piebald",
+   "Skewbald",
+   "Dapple grey",
+   "Chestnut"
+  ],
+  "difficulty": "medium",
+  "category": "Animals",
+  "tags": [
+   "horses",
+   "ponies",
+   "breeds"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Fictional pubs and bars from TV, film and books",
+  "right": [
+   "The Queen Vic",
+   "The Rovers Return",
+   "The Woolpack",
+   "The Nag's Head",
+   "The Winchester",
+   "The Slaughtered Lamb",
+   "The Leaky Cauldron",
+   "The Prancing Pony",
+   "The Green Dragon",
+   "The Bull (Ambridge)",
+   "The Three Broomsticks",
+   "The Hog's Head",
+   "The Dog in the Pond",
+   "Moe's Tavern",
+   "Cheers"
+  ],
+  "wrong": [
+   "The Eagle and Child",
+   "Ye Olde Trip to Jerusalem",
+   "The Lamb and Flag",
+   "The Prospect of Whitby",
+   "The Grenadier"
+  ],
+  "difficulty": "medium",
+  "category": "Film and TV",
+  "tags": [
+   "pubs",
+   "fictional places"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Birds whose name is also a verb",
+  "right": [
+   "Duck",
+   "Swallow",
+   "Crane",
+   "Rook",
+   "Grouse",
+   "Lark",
+   "Hawk",
+   "Quail",
+   "Snipe",
+   "Gull",
+   "Crow",
+   "Parrot",
+   "Kite",
+   "Swan",
+   "Cock"
+  ],
+  "wrong": [
+   "Robin",
+   "Wren",
+   "Finch",
+   "Heron",
+   "Thrush"
+  ],
+  "difficulty": "medium",
+  "category": "Words and language",
+  "tags": [
+   "birds",
+   "words",
+   "verbs"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Countries whose capital is NOT their biggest city",
+  "right": [
+   "Australia",
+   "Canada",
+   "USA",
+   "Brazil",
+   "Turkey",
+   "Switzerland",
+   "New Zealand",
+   "Nigeria",
+   "Pakistan",
+   "South Africa",
+   "Morocco",
+   "Vietnam",
+   "Tanzania",
+   "Kazakhstan",
+   "Malta"
+  ],
+  "wrong": [
+   "United Kingdom",
+   "France",
+   "Japan",
+   "Argentina",
+   "Egypt"
+  ],
+  "difficulty": "hard",
+  "category": "World geography",
+  "tags": [
+   "capitals",
+   "cities",
+   "countries"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Shades of green",
+  "right": [
+   "Emerald",
+   "Olive",
+   "Lime",
+   "Jade",
+   "Sage",
+   "Mint",
+   "Bottle green",
+   "Forest green",
+   "Pea green",
+   "Racing green",
+   "Sea green",
+   "Chartreuse",
+   "Avocado",
+   "Viridian",
+   "Pistachio"
+  ],
+  "wrong": [
+   "Ochre",
+   "Magenta",
+   "Cerise",
+   "Burgundy",
+   "Mauve"
+  ],
+  "difficulty": "medium",
+  "category": "Art and design",
+  "tags": [
+   "colours",
+   "green"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Fish whose name is also an everyday English word",
+  "right": [
+   "Sole",
+   "Skate",
+   "Ray",
+   "Pike",
+   "Perch",
+   "Carp",
+   "Bass",
+   "Dab",
+   "Flounder",
+   "Brill",
+   "Char",
+   "Mullet",
+   "Tang",
+   "Ling",
+   "Grunt"
+  ],
+  "wrong": [
+   "Haddock",
+   "Halibut",
+   "Mackerel",
+   "Turbot",
+   "Anchovy"
+  ],
+  "difficulty": "hard",
+  "category": "Words and language",
+  "tags": [
+   "fish",
+   "words"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Countries whose currency is a dollar (their own or the US one)",
+  "right": [
+   "USA",
+   "Canada",
+   "Australia",
+   "New Zealand",
+   "Singapore",
+   "Jamaica",
+   "Bahamas",
+   "Barbados",
+   "Fiji",
+   "Ecuador",
+   "El Salvador",
+   "Taiwan",
+   "Namibia",
+   "Belize",
+   "Brunei"
+  ],
+  "wrong": [
+   "Mexico",
+   "Philippines",
+   "South Africa",
+   "India",
+   "Malaysia"
+  ],
+  "difficulty": "hard",
+  "category": "World geography",
+  "tags": [
+   "currencies",
+   "dollars",
+   "countries"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Words that make a new word when you add 'cake' to the end",
+  "right": [
+   "Cup",
+   "Pan",
+   "Cheese",
+   "Fruit",
+   "Short",
+   "Fish",
+   "Tea",
+   "Oat",
+   "Beef",
+   "Hot",
+   "Griddle",
+   "Moon",
+   "Johnny",
+   "Seed",
+   "Oil"
+  ],
+  "wrong": [
+   "Plate",
+   "Pie",
+   "Bowl",
+   "Bread",
+   "Milk"
+  ],
+  "difficulty": "medium",
+  "category": "Words and language",
+  "tags": [
+   "wordplay",
+   "compound words"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Words that make a new word when you add 'book' to the end",
+  "right": [
+   "Note",
+   "Text",
+   "Hand",
+   "Guide",
+   "Scrap",
+   "Cook",
+   "Pass",
+   "Log",
+   "Story",
+   "Year",
+   "Phrase",
+   "Face",
+   "Pocket",
+   "Sketch",
+   "Hymn"
+  ],
+  "wrong": [
+   "Pen",
+   "Desk",
+   "Shelf",
+   "Page",
+   "Ink"
+  ],
+  "difficulty": "easy",
+  "category": "Words and language",
+  "tags": [
+   "wordplay",
+   "compound words"
+  ]
+ }
+]
