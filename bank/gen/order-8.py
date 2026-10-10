@@ -1,6 +1,6 @@
 # Bank session 10 Oct 2026: 20 more Put in order questions -> bank/order-5.json (albums, books, the North East, sport and TV). A criminal-case
 # question was dropped: order-3 already had it.
-# the live bank (the server also skips any whose items match one already there).
+# Checked against every order question in the live bank (the server also skips any whose items match one already there).
 import json, os
 OUT = []
 def o(cat, tags, diff, text, items, hint):
