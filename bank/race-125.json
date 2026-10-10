@@ -1,0 +1,389 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which DIY tool is this?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "DIY",
+   "tools"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Drives nails in, and its split back end pulls them out",
+    "right": "Claw hammer",
+    "wrong": [
+     "Nail punch",
+     "Scraper",
+     "Rasp"
+    ]
+   },
+   {
+    "q": "A wooden or rubber-headed hammer for tapping a chisel or tent pegs",
+    "right": "Mallet",
+    "wrong": [
+     "Nail punch",
+     "Bolster",
+     "Rasp"
+    ]
+   },
+   {
+    "q": "Comes in flat-head and Phillips varieties",
+    "right": "Screwdriver",
+    "wrong": [
+     "Countersink",
+     "Torque wrench",
+     "Socket set"
+    ]
+   },
+   {
+    "q": "A bubble in a tube tells you if a shelf is straight",
+    "right": "Spirit level",
+    "wrong": [
+     "Set square",
+     "Chalk line",
+     "Plumb bob"
+    ]
+   },
+   {
+    "q": "Grips the flats of a nut to turn it",
+    "right": "Spanner",
+    "wrong": [
+     "Pipe cutter",
+     "Wire strippers",
+     "Countersink"
+    ]
+   },
+   {
+    "q": "Two pivoting jaws for gripping, bending and snipping wire",
+    "right": "Pliers",
+    "wrong": [
+     "Pipe cutter",
+     "Tile cutter",
+     "Hole saw"
+    ]
+   },
+   {
+    "q": "A fine-toothed saw held taut in a frame, made for cutting metal",
+    "right": "Hacksaw",
+    "wrong": [
+     "Coping saw",
+     "Tenon saw",
+     "Pipe cutter"
+    ]
+   },
+   {
+    "q": "A sharp-edged blade you tap with a mallet to carve or shape wood",
+    "right": "Chisel",
+    "wrong": [
+     "Rasp",
+     "Spokeshave",
+     "File"
+    ]
+   },
+   {
+    "q": "Pushed along a plank to shave off thin curls and leave it smooth and flat",
+    "right": "Plane",
+    "wrong": [
+     "Rasp",
+     "File",
+     "Belt sander"
+    ]
+   },
+   {
+    "q": "A sheet with a gritty surface, graded by numbers like 80 or 240",
+    "right": "Sandpaper",
+    "wrong": [
+     "Wire brush",
+     "Scraper",
+     "Grout float"
+    ]
+   },
+   {
+    "q": "A coiled metal strip that springs back into its case",
+    "right": "Tape measure",
+    "wrong": [
+     "Stud finder",
+     "Set square",
+     "Plumb bob"
+    ]
+   },
+   {
+    "q": "An L-shaped hexagonal bar that comes free with flat-pack furniture",
+    "right": "Allen key",
+    "wrong": [
+     "Socket set",
+     "Torque wrench",
+     "Countersink"
+    ]
+   },
+   {
+    "q": "Bolted to a workbench, its jaws hold your work tight while you saw",
+    "right": "Vice",
+    "wrong": [
+     "Mitre box",
+     "Lathe",
+     "Router"
+    ]
+   },
+   {
+    "q": "A long iron bar with a flattened end for prising things open",
+    "right": "Crowbar",
+    "wrong": [
+     "Scraper",
+     "Nail punch",
+     "Torque wrench"
+    ]
+   },
+   {
+    "q": "A small pointed tool for making a starter hole for a screw",
+    "right": "Bradawl",
+    "wrong": [
+     "Nail punch",
+     "Hole saw",
+     "Countersink"
+    ]
+   },
+   {
+    "q": "Heats up to melt metal and join electrical wires",
+    "right": "Soldering iron",
+    "wrong": [
+     "Heat gun",
+     "Glue gun",
+     "Angle grinder"
+    ]
+   },
+   {
+    "q": "Fires metal staples into wood to fix fabric or cables",
+    "right": "Staple gun",
+    "wrong": [
+     "Glue gun",
+     "Caulking gun",
+     "Nail punch"
+    ]
+   },
+   {
+    "q": "A power saw with a thin up-and-down blade for cutting curves",
+    "right": "Jigsaw",
+    "wrong": [
+     "Angle grinder",
+     "Router",
+     "Belt sander"
+    ]
+   },
+   {
+    "q": "A fluffy cylinder on a handle for covering walls quickly",
+    "right": "Paint roller",
+    "wrong": [
+     "Scraper",
+     "Grout float",
+     "Wire brush"
+    ]
+   },
+   {
+    "q": "A flat pointed blade for spreading mortar when laying bricks",
+    "right": "Trowel",
+    "wrong": [
+     "Grout float",
+     "Scraper",
+     "Tile cutter"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which part of a castle is this?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "castles",
+   "medieval",
+   "architecture"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A water-filled ditch dug around the walls",
+    "right": "Moat",
+    "wrong": [
+     "Glacis",
+     "Ravelin",
+     "Bastion"
+    ]
+   },
+   {
+    "q": "Raised on chains so nobody can cross the ditch",
+    "right": "Drawbridge",
+    "wrong": [
+     "Lych gate",
+     "Sally port",
+     "Casemate"
+    ]
+   },
+   {
+    "q": "A heavy iron-tipped grille that drops down to seal the gateway",
+    "right": "Portcullis",
+    "wrong": [
+     "Lych gate",
+     "Casemate",
+     "Bastion"
+    ]
+   },
+   {
+    "q": "The strongest tower at the heart of the castle, the last place to hold out",
+    "right": "Keep",
+    "wrong": [
+     "Belfry",
+     "Bastion",
+     "Casemate"
+    ]
+   },
+   {
+    "q": "Notched walls along the top that defenders shoot through",
+    "right": "Battlements",
+    "wrong": [
+     "Buttress",
+     "Pinnacle",
+     "Belfry"
+    ]
+   },
+   {
+    "q": "A narrow gap in the wall for archers to fire from",
+    "right": "Arrow slit",
+    "wrong": [
+     "Lancet window",
+     "Rose window",
+     "Squint"
+    ]
+   },
+   {
+    "q": "Openings in the gatehouse ceiling for dropping stones on attackers",
+    "right": "Murder holes",
+    "wrong": [
+     "Squint",
+     "Rose window",
+     "Undercroft"
+    ]
+   },
+   {
+    "q": "The open courtyard inside the castle walls",
+    "right": "Bailey",
+    "wrong": [
+     "Cloister",
+     "Nave",
+     "Undercroft"
+    ]
+   },
+   {
+    "q": "The man-made earth mound a Norman wooden tower stood on",
+    "right": "Motte",
+    "wrong": [
+     "Glacis",
+     "Barrow",
+     "Ravelin"
+    ]
+   },
+   {
+    "q": "The fortified entrance building guarding the castle gate",
+    "right": "Gatehouse",
+    "wrong": [
+     "Lych gate",
+     "Belfry",
+     "Vestry"
+    ]
+   },
+   {
+    "q": "An underground prison cell",
+    "right": "Dungeon",
+    "wrong": [
+     "Crypt",
+     "Undercroft",
+     "Larder"
+    ]
+   },
+   {
+    "q": "The main room where the lord ate, entertained and held court",
+    "right": "Great hall",
+    "wrong": [
+     "Nave",
+     "Chancel",
+     "Buttery"
+    ]
+   },
+   {
+    "q": "The outer defensive wall linking the towers",
+    "right": "Curtain wall",
+    "wrong": [
+     "Buttress",
+     "Ha-ha",
+     "Glacis"
+    ]
+   },
+   {
+    "q": "An extra fortified gateway built out in front of the main gate",
+    "right": "Barbican",
+    "wrong": [
+     "Lych gate",
+     "Casemate",
+     "Belfry"
+    ]
+   },
+   {
+    "q": "A medieval toilet that emptied down the outside wall",
+    "right": "Garderobe",
+    "wrong": [
+     "Buttery",
+     "Scullery",
+     "Vestry"
+    ]
+   },
+   {
+    "q": "A small back gate for slipping in and out unseen",
+    "right": "Postern",
+    "wrong": [
+     "Lych gate",
+     "Squint",
+     "Casemate"
+    ]
+   },
+   {
+    "q": "Stonework jutting out at the top of the wall, with holes for dropping things on attackers",
+    "right": "Machicolations",
+    "wrong": [
+     "Gargoyle",
+     "Buttress",
+     "Pinnacle"
+    ]
+   },
+   {
+    "q": "A small tower sticking out from the corner of a bigger tower or wall",
+    "right": "Turret",
+    "wrong": [
+     "Spire",
+     "Belfry",
+     "Pinnacle"
+    ]
+   },
+   {
+    "q": "The lord and lady's private upstairs room, away from the noise of the hall",
+    "right": "Solar",
+    "wrong": [
+     "Buttery",
+     "Vestry",
+     "Scullery"
+    ]
+   },
+   {
+    "q": "A balcony above the hall where musicians played during feasts",
+    "right": "Minstrels' gallery",
+    "wrong": [
+     "Belfry",
+     "Squint",
+     "Chancel"
+    ]
+   }
+  ]
+ }
+]
