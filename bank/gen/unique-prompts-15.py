@@ -1,0 +1,32 @@
+# Bank session 10 Oct 2026: 20 more Only One prompts (borders, bands, albums, sport, royals, books) appended to bank/unique-prompts.json. Each is a closed list with
+# every correct answer (other accepted forms after a slash), so a fair answer is never knocked out.
+import json, os
+NEW = [
+ ("Name a country that shares a land border with Eritrea, Djibouti or Somalia", ["Sudan", "Ethiopia", "Djibouti", "Kenya", "Eritrea", "Somalia"]),
+ ("Name a country that shares a land border with Uzbekistan", ["Kazakhstan", "Kyrgyzstan", "Tajikistan", "Afghanistan", "Turkmenistan"]),
+ ("Name a country that shares a land border with Belgium or the Netherlands", ["France", "Germany", "Luxembourg", "Netherlands/Holland", "Belgium"]),
+ ("Name a member of R.E.M. or Nirvana, any line-up", ["Michael Stipe", "Peter Buck", "Mike Mills", "Bill Berry", "Kurt Cobain", "Krist Novoselic", "Dave Grohl", "Chad Channing", "Pat Smear", "Aaron Burckhard", "Dale Crover", "Dave Foster", "Jason Everman"]),
+ ("Name a member of Arctic Monkeys or the Kaiser Chiefs, any line-up", ["Alex Turner", "Jamie Cook", "Matt Helders", "Nick O'Malley", "Andy Nicholson", "Ricky Wilson", "Andrew White", "Simon Rix", "Nick Hodgson", "Nick Baines/Peanut", "Vijay Mistry"]),
+ ("Name a British monarch who has reigned at any time since 1714", ["George I", "George II", "George III", "George IV", "William IV", "Victoria/Queen Victoria", "Edward VII", "George V", "Edward VIII", "George VI", "Elizabeth II/Queen Elizabeth II", "Charles III/King Charles"]),
+ ("Name a US First Lady since 1961", ["Jacqueline Kennedy/Jackie Kennedy/Jackie Onassis", "Lady Bird Johnson", "Pat Nixon", "Betty Ford", "Rosalynn Carter", "Nancy Reagan", "Barbara Bush", "Hillary Clinton", "Laura Bush", "Michelle Obama", "Melania Trump", "Jill Biden"]),
+ ("Name a horse that won the Grand National from 2000 to 2025", ["Papillon", "Red Marauder", "Bindaree", "Monty's Pass", "Amberleigh House", "Hedgehunter", "Numbersixvalverde", "Silver Birch", "Comply or Die", "Mon Mome", "Don't Push It", "Ballabriggs", "Neptune Collonges", "Auroras Encore", "Pineau de Re", "Many Clouds", "Rule the World", "One For Arthur", "Tiger Roll", "Minella Times", "Noble Yeats", "Corach Rambler", "I Am Maximus", "Nick Rockett"]),
+ ("Name a golfer who won the Open Championship from 2000 to 2025", ["Tiger Woods/Woods", "David Duval/Duval", "Ernie Els/Els", "Ben Curtis/Curtis", "Todd Hamilton/Hamilton", "Pádraig Harrington/Padraig Harrington/Harrington", "Stewart Cink/Cink", "Louis Oosthuizen/Oosthuizen", "Darren Clarke/Clarke", "Phil Mickelson/Mickelson", "Rory McIlroy/McIlroy", "Zach Johnson", "Henrik Stenson/Stenson", "Jordan Spieth/Spieth", "Francesco Molinari/Molinari", "Shane Lowry/Lowry", "Collin Morikawa/Morikawa", "Cameron Smith", "Brian Harman/Harman", "Xander Schauffele/Schauffele", "Scottie Scheffler/Scheffler"]),
+ ("Name an official winner of the Tour de France from 2006 to 2025", ["Óscar Pereiro/Oscar Pereiro/Pereiro", "Alberto Contador/Contador", "Carlos Sastre/Sastre", "Andy Schleck/Schleck", "Cadel Evans/Evans", "Bradley Wiggins/Wiggins", "Chris Froome/Froome", "Vincenzo Nibali/Nibali", "Geraint Thomas", "Egan Bernal/Bernal", "Tadej Pogačar/Tadej Pogacar/Pogačar/Pogacar", "Jonas Vingegaard/Vingegaard"]),
+ ("Name a country that has hosted the Winter Olympics, up to 2026", ["France", "Switzerland", "USA/United States", "Germany", "Norway", "Italy", "Austria", "Japan", "Yugoslavia/Bosnia and Herzegovina/Bosnia", "Canada", "Russia", "South Korea", "China"]),
+ ("Name a studio album by Queen", ["Queen", "Queen II", "Sheer Heart Attack", "A Night at the Opera", "A Day at the Races", "News of the World", "Jazz", "The Game", "Flash Gordon", "Hot Space", "The Works", "A Kind of Magic", "The Miracle", "Innuendo", "Made in Heaven"]),
+ ("Name a studio album by Oasis", ["Definitely Maybe", "(What's the Story) Morning Glory?/What's the Story Morning Glory", "Be Here Now", "Standing on the Shoulder of Giants", "Heathen Chemistry", "Don't Believe the Truth", "Dig Out Your Soul"]),
+ ("Name a studio album by Coldplay", ["Parachutes", "A Rush of Blood to the Head", "X&Y", "Viva la Vida/Viva la Vida or Death and All His Friends", "Mylo Xyloto", "Ghost Stories", "A Head Full of Dreams", "Everyday Life", "Music of the Spheres", "Moon Music"]),
+ ("Name a studio album by Adele or by Ed Sheeran", ["19", "21", "25", "30", "+/Plus", "×/x/Multiply", "÷/Divide", "=/Equals", "−/-/Subtract", "Autumn Variations", "Play"]),
+ ("Name one of the 18 first-class county cricket clubs", ["Derbyshire", "Durham", "Essex", "Glamorgan", "Gloucestershire", "Hampshire", "Kent", "Lancashire", "Leicestershire", "Middlesex", "Northamptonshire", "Nottinghamshire", "Somerset", "Surrey", "Sussex", "Warwickshire", "Worcestershire", "Yorkshire"]),
+ ("Name a full-length film made by Aardman Animations, up to 2025", ["Chicken Run", "The Curse of the Were-Rabbit/Wallace & Gromit: The Curse of the Were-Rabbit", "Flushed Away", "Arthur Christmas", "The Pirates! In an Adventure with Scientists!/The Pirates!", "Shaun the Sheep Movie", "Early Man", "Farmageddon/A Shaun the Sheep Movie: Farmageddon", "Chicken Run: Dawn of the Nugget/Dawn of the Nugget", "Vengeance Most Fowl/Wallace & Gromit: Vengeance Most Fowl"]),
+ ("Name an official James Bond film whose title is a single word", ["Goldfinger", "Thunderball", "Moonraker", "Octopussy", "GoldenEye", "Skyfall", "Spectre"]),
+ ("Name a club that has been champions of Scotland's top league", ["Celtic", "Rangers", "Aberdeen", "Heart of Midlothian/Hearts", "Hibernian/Hibs", "Dundee", "Dundee United", "Kilmarnock", "Motherwell", "Third Lanark", "Dumbarton"]),
+ ("Name an Agatha Christie novel starring Miss Marple", ["The Murder at the Vicarage", "The Body in the Library", "The Moving Finger", "A Murder Is Announced", "They Do It with Mirrors", "A Pocket Full of Rye", "4.50 from Paddington", "The Mirror Crack'd from Side to Side/The Mirror Crack'd", "A Caribbean Mystery", "At Bertram's Hotel", "Nemesis", "Sleeping Murder"]),
+]
+here = os.path.dirname(os.path.abspath(__file__))
+path = os.path.join(here, '..', 'unique-prompts.json')
+cur = json.load(open(path, encoding='utf-8'))
+have = {x['p'].lower() for x in cur}
+added = [{"p": p, "a": a} for p, a in NEW if p.lower() not in have]
+json.dump(cur + added, open(path, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+print(len(added), 'prompts added; now', len(cur) + len(added))
