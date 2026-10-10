@@ -1,0 +1,774 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: name the famous elephant (or mammoth)",
+  "target": 10,
+  "category": "Film, TV and books",
+  "tags": [
+   "elephants",
+   "characters"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Disney's flying elephant",
+    "right": "Dumbo",
+    "wrong": [
+     "Casey Junior",
+     "Timothy",
+     "Mr. Stork"
+    ]
+   },
+   {
+    "q": "The elephant king in a green suit",
+    "right": "Babar",
+    "wrong": [
+     "Arthur",
+     "Zephir",
+     "Cornelius"
+    ]
+   },
+   {
+    "q": "Babar's queen",
+    "right": "Celeste",
+    "wrong": [
+     "Arthur",
+     "Cornelius",
+     "Isabelle"
+    ]
+   },
+   {
+    "q": "Dumbo's mum",
+    "right": "Mrs. Jumbo",
+    "wrong": [
+     "Prissy",
+     "Giddy",
+     "Catty"
+    ]
+   },
+   {
+    "q": "The London Zoo elephant sold to Barnum's circus",
+    "right": "Jumbo",
+    "wrong": [
+     "Alice",
+     "Tom Thumb",
+     "Toby"
+    ]
+   },
+   {
+    "q": "The Seuss elephant who hears a Who",
+    "right": "Horton",
+    "wrong": [
+     "Mayzie",
+     "Vlad",
+     "Sour Kangaroo"
+    ]
+   },
+   {
+    "q": "The patchwork elephant",
+    "right": "Elmer",
+    "wrong": [
+     "Wilbur",
+     "Eglantine",
+     "Rose"
+    ]
+   },
+   {
+    "q": "The Jungle Book's marching elephant",
+    "right": "Colonel Hathi",
+    "wrong": [
+     "Baloo",
+     "Bagheera",
+     "Kaa"
+    ]
+   },
+   {
+    "q": "Tarzan's nervous elephant friend",
+    "right": "Tantor",
+    "wrong": [
+     "Terk",
+     "Kerchak",
+     "Kala"
+    ]
+   },
+   {
+    "q": "Bart Simpson's elephant",
+    "right": "Stampy",
+    "wrong": [
+     "Santa's Little Helper",
+     "Snowball II",
+     "Mojo"
+    ]
+   },
+   {
+    "q": "Piggie's best friend in the Mo Willems books",
+    "right": "Gerald",
+    "wrong": [
+     "Pigeon",
+     "Knuffle Bunny",
+     "Trixie"
+    ]
+   },
+   {
+    "q": "The baby elephant Pokémon",
+    "right": "Phanpy",
+    "wrong": [
+     "Donphan",
+     "Snorlax",
+     "Teddiursa"
+    ]
+   },
+   {
+    "q": "The elephant-headed Hindu god",
+    "right": "Ganesh",
+    "wrong": [
+     "Hanuman",
+     "Shiva",
+     "Vishnu"
+    ]
+   },
+   {
+    "q": "Hannibal's bravest war elephant",
+    "right": "Surus",
+    "wrong": [
+     "Bucephalus",
+     "Hasdrubal",
+     "Barca"
+    ]
+   },
+   {
+    "q": "Ice Age's woolly mammoth",
+    "right": "Manny",
+    "wrong": [
+     "Diego",
+     "Sid",
+     "Scrat"
+    ]
+   },
+   {
+    "q": "She packed her trunk and said goodbye to the circus",
+    "right": "Nellie",
+    "wrong": [
+     "Ella",
+     "Rosie",
+     "Daisy"
+    ]
+   },
+   {
+    "q": "Manny's mate in Ice Age 2",
+    "right": "Ellie",
+    "wrong": [
+     "Peaches",
+     "Shira",
+     "Granny"
+    ]
+   },
+   {
+    "q": "Big Bird's woolly friend on Sesame Street",
+    "right": "Mr. Snuffleupagus",
+    "wrong": [
+     "Oscar",
+     "Grover",
+     "Elmo"
+    ]
+   },
+   {
+    "q": "The elephant-like creature Pooh is scared of",
+    "right": "Heffalump",
+    "wrong": [
+     "Woozle",
+     "Jagular",
+     "Backson"
+    ]
+   },
+   {
+    "q": "Kipling's curious young elephant who gets a long trunk",
+    "right": "The Elephant's Child",
+    "wrong": [
+     "The Cat That Walked by Himself",
+     "Rikki-Tikki-Tavi",
+     "The Kolokolo Bird"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: in which country is this festival held?",
+  "target": 10,
+  "category": "Faiths and festivals",
+  "tags": [
+   "festivals",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Oktoberfest",
+    "right": "Germany",
+    "wrong": [
+     "Austria",
+     "Switzerland",
+     "Belgium"
+    ]
+   },
+   {
+    "q": "The Rio Carnival",
+    "right": "Brazil",
+    "wrong": [
+     "Argentina",
+     "Colombia",
+     "Portugal"
+    ]
+   },
+   {
+    "q": "La Tomatina",
+    "right": "Spain",
+    "wrong": [
+     "Portugal",
+     "Argentina",
+     "Greece"
+    ]
+   },
+   {
+    "q": "Holi, the festival of colours",
+    "right": "India",
+    "wrong": [
+     "Sri Lanka",
+     "Malaysia",
+     "Indonesia"
+    ]
+   },
+   {
+    "q": "Songkran, the water festival",
+    "right": "Thailand",
+    "wrong": [
+     "Vietnam",
+     "Malaysia",
+     "Indonesia"
+    ]
+   },
+   {
+    "q": "The Day of the Dead",
+    "right": "Mexico",
+    "wrong": [
+     "Colombia",
+     "Cuba",
+     "Argentina"
+    ]
+   },
+   {
+    "q": "Hogmanay",
+    "right": "Scotland",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Norway"
+    ]
+   },
+   {
+    "q": "The National Eisteddfod",
+    "right": "Wales",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Mardi Gras in New Orleans",
+    "right": "the USA",
+    "wrong": [
+     "Canada",
+     "Cuba",
+     "Jamaica"
+    ]
+   },
+   {
+    "q": "The Sapporo Snow Festival",
+    "right": "Japan",
+    "wrong": [
+     "South Korea",
+     "China",
+     "Taiwan"
+    ]
+   },
+   {
+    "q": "The Venice Carnival",
+    "right": "Italy",
+    "wrong": [
+     "Croatia",
+     "Greece",
+     "Austria"
+    ]
+   },
+   {
+    "q": "Glastonbury",
+    "right": "England",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Belgium"
+    ]
+   },
+   {
+    "q": "Roskilde",
+    "right": "Denmark",
+    "wrong": [
+     "Norway",
+     "Finland",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Sziget",
+    "right": "Hungary",
+    "wrong": [
+     "Czechia",
+     "Romania",
+     "Croatia"
+    ]
+   },
+   {
+    "q": "Bastille Day",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Switzerland",
+     "Canada"
+    ]
+   },
+   {
+    "q": "King's Day, when everyone wears orange",
+    "right": "the Netherlands",
+    "wrong": [
+     "Belgium",
+     "Norway",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "Puck Fair, where a goat is crowned king",
+    "right": "Ireland",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Inti Raymi, the Inca festival of the sun",
+    "right": "Peru",
+    "wrong": [
+     "Bolivia",
+     "Ecuador",
+     "Chile"
+    ]
+   },
+   {
+    "q": "Midsommar, with dancing round the maypole",
+    "right": "Sweden",
+    "wrong": [
+     "Norway",
+     "Finland",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Junkanoo",
+    "right": "the Bahamas",
+    "wrong": [
+     "Jamaica",
+     "Cuba",
+     "Trinidad and Tobago"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: finish the band's name",
+  "target": 10,
+  "category": "Music",
+  "tags": [
+   "bands",
+   "names"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Arctic …",
+    "right": "Monkeys",
+    "wrong": [
+     "Foxes",
+     "Lions",
+     "Penguins"
+    ]
+   },
+   {
+    "q": "Duran …",
+    "right": "Duran",
+    "wrong": [
+     "Durango",
+     "Duo",
+     "Duncan"
+    ]
+   },
+   {
+    "q": "Simply …",
+    "right": "Red",
+    "wrong": [
+     "Blue",
+     "Green",
+     "Pink"
+    ]
+   },
+   {
+    "q": "Spandau …",
+    "right": "Ballet",
+    "wrong": [
+     "Opera",
+     "Waltz",
+     "Theatre"
+    ]
+   },
+   {
+    "q": "Fleetwood …",
+    "right": "Mac",
+    "wrong": [
+     "Mick",
+     "Max",
+     "Mag"
+    ]
+   },
+   {
+    "q": "Pet Shop …",
+    "right": "Boys",
+    "wrong": [
+     "Girls",
+     "Dogs",
+     "Lads"
+    ]
+   },
+   {
+    "q": "Dire …",
+    "right": "Straits",
+    "wrong": [
+     "Streets",
+     "Waters",
+     "Strikes"
+    ]
+   },
+   {
+    "q": "Kings of …",
+    "right": "Leon",
+    "wrong": [
+     "Lyon",
+     "Leeds",
+     "Leo"
+    ]
+   },
+   {
+    "q": "Florence + the …",
+    "right": "Machine",
+    "wrong": [
+     "Machines",
+     "Engine",
+     "Mechanics"
+    ]
+   },
+   {
+    "q": "Red Hot Chili …",
+    "right": "Peppers",
+    "wrong": [
+     "Pickles",
+     "Beans",
+     "Poppers"
+    ]
+   },
+   {
+    "q": "Guns N' …",
+    "right": "Roses",
+    "wrong": [
+     "Rosie",
+     "Rockets",
+     "Riots"
+    ]
+   },
+   {
+    "q": "Iron …",
+    "right": "Maiden",
+    "wrong": [
+     "Maidens",
+     "Lady",
+     "Man"
+    ]
+   },
+   {
+    "q": "Def …",
+    "right": "Leppard",
+    "wrong": [
+     "Leopard",
+     "Lepper",
+     "Lizard"
+    ]
+   },
+   {
+    "q": "Pink …",
+    "right": "Floyd",
+    "wrong": [
+     "Lloyd",
+     "Flamingo",
+     "Fluid"
+    ]
+   },
+   {
+    "q": "Tears for …",
+    "right": "Fears",
+    "wrong": [
+     "Years",
+     "Fools",
+     "Feelings"
+    ]
+   },
+   {
+    "q": "Culture …",
+    "right": "Club",
+    "wrong": [
+     "Shock",
+     "Clash",
+     "Vulture"
+    ]
+   },
+   {
+    "q": "Depeche …",
+    "right": "Mode",
+    "wrong": [
+     "Mood",
+     "Code",
+     "Model"
+    ]
+   },
+   {
+    "q": "Led …",
+    "right": "Zeppelin",
+    "wrong": [
+     "Balloon",
+     "Zebra",
+     "Zipper"
+    ]
+   },
+   {
+    "q": "Manic Street …",
+    "right": "Preachers",
+    "wrong": [
+     "Teachers",
+     "Prophets",
+     "Sweepers"
+    ]
+   },
+   {
+    "q": "Frankie Goes to …",
+    "right": "Hollywood",
+    "wrong": [
+     "Hollyoaks",
+     "Holloway",
+     "Holland"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which animal does this word describe?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "animals",
+   "adjectives"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Feline",
+    "right": "Cat",
+    "wrong": [
+     "Rabbit",
+     "Ferret",
+     "Otter"
+    ]
+   },
+   {
+    "q": "Canine",
+    "right": "Dog",
+    "wrong": [
+     "Badger",
+     "Otter",
+     "Weasel"
+    ]
+   },
+   {
+    "q": "Bovine",
+    "right": "Cow",
+    "wrong": [
+     "Camel",
+     "Llama",
+     "Hippo"
+    ]
+   },
+   {
+    "q": "Equine",
+    "right": "Horse",
+    "wrong": [
+     "Camel",
+     "Llama",
+     "Giraffe"
+    ]
+   },
+   {
+    "q": "Ovine",
+    "right": "Sheep",
+    "wrong": [
+     "Alpaca",
+     "Llama",
+     "Rabbit"
+    ]
+   },
+   {
+    "q": "Porcine",
+    "right": "Pig",
+    "wrong": [
+     "Badger",
+     "Hippo",
+     "Hedgehog"
+    ]
+   },
+   {
+    "q": "Lupine",
+    "right": "Wolf",
+    "wrong": [
+     "Hare",
+     "Lynx",
+     "Badger"
+    ]
+   },
+   {
+    "q": "Vulpine",
+    "right": "Fox",
+    "wrong": [
+     "Weasel",
+     "Badger",
+     "Lynx"
+    ]
+   },
+   {
+    "q": "Ursine",
+    "right": "Bear",
+    "wrong": [
+     "Badger",
+     "Otter",
+     "Beaver"
+    ]
+   },
+   {
+    "q": "Leonine",
+    "right": "Lion",
+    "wrong": [
+     "Tiger",
+     "Leopard",
+     "Panther"
+    ]
+   },
+   {
+    "q": "Aquiline",
+    "right": "Eagle",
+    "wrong": [
+     "Owl",
+     "Hawk",
+     "Vulture"
+    ]
+   },
+   {
+    "q": "Corvine",
+    "right": "Crow",
+    "wrong": [
+     "Pigeon",
+     "Sparrow",
+     "Owl"
+    ]
+   },
+   {
+    "q": "Anserine",
+    "right": "Goose",
+    "wrong": [
+     "Swan",
+     "Duck",
+     "Hen"
+    ]
+   },
+   {
+    "q": "Piscine",
+    "right": "Fish",
+    "wrong": [
+     "Whale",
+     "Dolphin",
+     "Seal"
+    ]
+   },
+   {
+    "q": "Serpentine",
+    "right": "Snake",
+    "wrong": [
+     "Lizard",
+     "Worm",
+     "Eel"
+    ]
+   },
+   {
+    "q": "Simian",
+    "right": "Ape or monkey",
+    "wrong": [
+     "Lemur",
+     "Sloth",
+     "Bat"
+    ]
+   },
+   {
+    "q": "Cervine",
+    "right": "Deer",
+    "wrong": [
+     "Antelope",
+     "Gazelle",
+     "Llama"
+    ]
+   },
+   {
+    "q": "Murine",
+    "right": "Mouse",
+    "wrong": [
+     "Mole",
+     "Shrew",
+     "Hamster"
+    ]
+   },
+   {
+    "q": "Caprine",
+    "right": "Goat",
+    "wrong": [
+     "Antelope",
+     "Alpaca",
+     "Llama"
+    ]
+   },
+   {
+    "q": "Apian",
+    "right": "Bee",
+    "wrong": [
+     "Wasp",
+     "Ant",
+     "Hornet"
+    ]
+   }
+  ]
+ }
+]
