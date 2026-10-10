@@ -1,0 +1,673 @@
+[
+ {
+  "type": "sort",
+  "text": "John Lennon solo or Paul McCartney (with or without Wings)?",
+  "categories": [
+   "Lennon",
+   "McCartney"
+  ],
+  "items": [
+   {
+    "text": "Imagine",
+    "category": "Lennon"
+   },
+   {
+    "text": "Instant Karma!",
+    "category": "Lennon"
+   },
+   {
+    "text": "Jealous Guy",
+    "category": "Lennon"
+   },
+   {
+    "text": "Woman",
+    "category": "Lennon"
+   },
+   {
+    "text": "Band on the Run",
+    "category": "McCartney"
+   },
+   {
+    "text": "Mull of Kintyre",
+    "category": "McCartney"
+   },
+   {
+    "text": "Jet",
+    "category": "McCartney"
+   },
+   {
+    "text": "Silly Love Songs",
+    "category": "McCartney"
+   }
+  ],
+  "category": "Music",
+  "tags": [
+   "Beatles",
+   "solo"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Paralympic-only sport or Olympic sport?",
+  "categories": [
+   "Paralympic only",
+   "Olympic"
+  ],
+  "items": [
+   {
+    "text": "Goalball",
+    "category": "Paralympic only"
+   },
+   {
+    "text": "Boccia",
+    "category": "Paralympic only"
+   },
+   {
+    "text": "Wheelchair rugby",
+    "category": "Paralympic only"
+   },
+   {
+    "text": "Sitting volleyball",
+    "category": "Paralympic only"
+   },
+   {
+    "text": "Fencing",
+    "category": "Olympic"
+   },
+   {
+    "text": "Handball",
+    "category": "Olympic"
+   },
+   {
+    "text": "Water polo",
+    "category": "Olympic"
+   },
+   {
+    "text": "Modern pentathlon",
+    "category": "Olympic"
+   }
+  ],
+  "category": "Sport",
+  "tags": [
+   "Paralympics",
+   "Olympics"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Lived in the Jurassic or the Cretaceous?",
+  "categories": [
+   "Jurassic",
+   "Cretaceous"
+  ],
+  "items": [
+   {
+    "text": "Stegosaurus",
+    "category": "Jurassic"
+   },
+   {
+    "text": "Brachiosaurus",
+    "category": "Jurassic"
+   },
+   {
+    "text": "Diplodocus",
+    "category": "Jurassic"
+   },
+   {
+    "text": "Allosaurus",
+    "category": "Jurassic"
+   },
+   {
+    "text": "Tyrannosaurus rex",
+    "category": "Cretaceous"
+   },
+   {
+    "text": "Triceratops",
+    "category": "Cretaceous"
+   },
+   {
+    "text": "Velociraptor",
+    "category": "Cretaceous"
+   },
+   {
+    "text": "Spinosaurus",
+    "category": "Cretaceous"
+   }
+  ],
+  "category": "Science",
+  "tags": [
+   "dinosaurs",
+   "wow"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "Mostly out at night, or mostly out by day?",
+  "categories": [
+   "Night",
+   "Day"
+  ],
+  "items": [
+   {
+    "text": "Tawny owl",
+    "category": "Night"
+   },
+   {
+    "text": "Badger",
+    "category": "Night"
+   },
+   {
+    "text": "Hedgehog",
+    "category": "Night"
+   },
+   {
+    "text": "Bat",
+    "category": "Night"
+   },
+   {
+    "text": "Red squirrel",
+    "category": "Day"
+   },
+   {
+    "text": "Robin",
+    "category": "Day"
+   },
+   {
+    "text": "Butterfly",
+    "category": "Day"
+   },
+   {
+    "text": "Swan",
+    "category": "Day"
+   }
+  ],
+  "category": "Nature",
+  "tags": [
+   "British wildlife"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "Pulp song or Suede song?",
+  "categories": [
+   "Pulp",
+   "Suede"
+  ],
+  "items": [
+   {
+    "text": "Common People",
+    "category": "Pulp"
+   },
+   {
+    "text": "Disco 2000",
+    "category": "Pulp"
+   },
+   {
+    "text": "Babies",
+    "category": "Pulp"
+   },
+   {
+    "text": "Sorted for E's & Wizz",
+    "category": "Pulp"
+   },
+   {
+    "text": "Animal Nitrate",
+    "category": "Suede"
+   },
+   {
+    "text": "Trash",
+    "category": "Suede"
+   },
+   {
+    "text": "The Drowners",
+    "category": "Suede"
+   },
+   {
+    "text": "Beautiful Ones",
+    "category": "Suede"
+   }
+  ],
+  "category": "Music",
+  "tags": [
+   "Britpop",
+   "Pulp",
+   "Suede"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Bigger than our Moon, or smaller?",
+  "categories": [
+   "Bigger",
+   "Smaller"
+  ],
+  "items": [
+   {
+    "text": "Ganymede",
+    "category": "Bigger"
+   },
+   {
+    "text": "Titan",
+    "category": "Bigger"
+   },
+   {
+    "text": "Callisto",
+    "category": "Bigger"
+   },
+   {
+    "text": "Io",
+    "category": "Bigger"
+   },
+   {
+    "text": "Europa",
+    "category": "Smaller"
+   },
+   {
+    "text": "Triton",
+    "category": "Smaller"
+   },
+   {
+    "text": "Enceladus",
+    "category": "Smaller"
+   },
+   {
+    "text": "Phobos",
+    "category": "Smaller"
+   }
+  ],
+  "category": "Space",
+  "tags": [
+   "moons",
+   "wow"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "British spelling or American spelling?",
+  "categories": [
+   "British",
+   "American"
+  ],
+  "items": [
+   {
+    "text": "Aluminium",
+    "category": "British"
+   },
+   {
+    "text": "Cheque",
+    "category": "British"
+   },
+   {
+    "text": "Tyre",
+    "category": "British"
+   },
+   {
+    "text": "Programme",
+    "category": "British"
+   },
+   {
+    "text": "Center",
+    "category": "American"
+   },
+   {
+    "text": "Defense",
+    "category": "American"
+   },
+   {
+    "text": "Gray",
+    "category": "American"
+   },
+   {
+    "text": "Pajamas",
+    "category": "American"
+   }
+  ],
+  "category": "Words and language",
+  "tags": [
+   "spelling"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "In the Lake District or the Yorkshire Dales?",
+  "categories": [
+   "Lake District",
+   "Yorkshire Dales"
+  ],
+  "items": [
+   {
+    "text": "Ullswater",
+    "category": "Lake District"
+   },
+   {
+    "text": "Keswick",
+    "category": "Lake District"
+   },
+   {
+    "text": "Grasmere",
+    "category": "Lake District"
+   },
+   {
+    "text": "Helvellyn",
+    "category": "Lake District"
+   },
+   {
+    "text": "Malham Cove",
+    "category": "Yorkshire Dales"
+   },
+   {
+    "text": "Aysgarth Falls",
+    "category": "Yorkshire Dales"
+   },
+   {
+    "text": "Hawes",
+    "category": "Yorkshire Dales"
+   },
+   {
+    "text": "Pen-y-ghent",
+    "category": "Yorkshire Dales"
+   }
+  ],
+  "category": "UK geography",
+  "tags": [
+   "national parks",
+   "Lake District",
+   "Yorkshire Dales"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Queen song or a Freddie Mercury solo song?",
+  "categories": [
+   "Queen",
+   "Freddie solo"
+  ],
+  "items": [
+   {
+    "text": "Bohemian Rhapsody",
+    "category": "Queen"
+   },
+   {
+    "text": "Radio Ga Ga",
+    "category": "Queen"
+   },
+   {
+    "text": "Somebody to Love",
+    "category": "Queen"
+   },
+   {
+    "text": "Killer Queen",
+    "category": "Queen"
+   },
+   {
+    "text": "Living on My Own",
+    "category": "Freddie solo"
+   },
+   {
+    "text": "The Great Pretender",
+    "category": "Freddie solo"
+   },
+   {
+    "text": "Barcelona",
+    "category": "Freddie solo"
+   },
+   {
+    "text": "Love Kills",
+    "category": "Freddie solo"
+   }
+  ],
+  "category": "Music",
+  "tags": [
+   "Queen",
+   "Freddie Mercury"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Shakespeare comedy or history play?",
+  "categories": [
+   "Comedy",
+   "History"
+  ],
+  "items": [
+   {
+    "text": "Twelfth Night",
+    "category": "Comedy"
+   },
+   {
+    "text": "As You Like It",
+    "category": "Comedy"
+   },
+   {
+    "text": "Much Ado About Nothing",
+    "category": "Comedy"
+   },
+   {
+    "text": "The Merry Wives of Windsor",
+    "category": "Comedy"
+   },
+   {
+    "text": "Henry V",
+    "category": "History"
+   },
+   {
+    "text": "Richard III",
+    "category": "History"
+   },
+   {
+    "text": "King John",
+    "category": "History"
+   },
+   {
+    "text": "Henry VIII",
+    "category": "History"
+   }
+  ],
+  "category": "Shakespeare",
+  "tags": [
+   "plays"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A cheese or a wine?",
+  "categories": [
+   "Cheese",
+   "Wine"
+  ],
+  "items": [
+   {
+    "text": "Brie",
+    "category": "Cheese"
+   },
+   {
+    "text": "Stilton",
+    "category": "Cheese"
+   },
+   {
+    "text": "Gouda",
+    "category": "Cheese"
+   },
+   {
+    "text": "Manchego",
+    "category": "Cheese"
+   },
+   {
+    "text": "Rioja",
+    "category": "Wine"
+   },
+   {
+    "text": "Merlot",
+    "category": "Wine"
+   },
+   {
+    "text": "Chablis",
+    "category": "Wine"
+   },
+   {
+    "text": "Prosecco",
+    "category": "Wine"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [
+   "cheese",
+   "wine"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "Despite its name, really a lake? Or a true sea?",
+  "categories": [
+   "A lake",
+   "A sea"
+  ],
+  "items": [
+   {
+    "text": "Caspian Sea",
+    "category": "A lake"
+   },
+   {
+    "text": "Dead Sea",
+    "category": "A lake"
+   },
+   {
+    "text": "Sea of Galilee",
+    "category": "A lake"
+   },
+   {
+    "text": "Aral Sea",
+    "category": "A lake"
+   },
+   {
+    "text": "Sargasso Sea",
+    "category": "A sea"
+   },
+   {
+    "text": "Red Sea",
+    "category": "A sea"
+   },
+   {
+    "text": "Black Sea",
+    "category": "A sea"
+   },
+   {
+    "text": "Coral Sea",
+    "category": "A sea"
+   }
+  ],
+  "category": "World geography",
+  "tags": [
+   "lakes",
+   "seas",
+   "wow"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "Bond theme sung by a man (or men) or by a woman?",
+  "categories": [
+   "A man",
+   "A woman"
+  ],
+  "items": [
+   {
+    "text": "Thunderball",
+    "category": "A man"
+   },
+   {
+    "text": "A View to a Kill",
+    "category": "A man"
+   },
+   {
+    "text": "Writing's on the Wall",
+    "category": "A man"
+   },
+   {
+    "text": "You Know My Name",
+    "category": "A man"
+   },
+   {
+    "text": "Goldfinger",
+    "category": "A woman"
+   },
+   {
+    "text": "Skyfall",
+    "category": "A woman"
+   },
+   {
+    "text": "No Time to Die",
+    "category": "A woman"
+   },
+   {
+    "text": "Nobody Does It Better",
+    "category": "A woman"
+   }
+  ],
+  "category": "James Bond",
+  "tags": [
+   "Bond themes"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Inside the M25 or outside it?",
+  "categories": [
+   "Inside",
+   "Outside"
+  ],
+  "items": [
+   {
+    "text": "Croydon",
+    "category": "Inside"
+   },
+   {
+    "text": "Romford",
+    "category": "Inside"
+   },
+   {
+    "text": "Kingston upon Thames",
+    "category": "Inside"
+   },
+   {
+    "text": "Enfield",
+    "category": "Inside"
+   },
+   {
+    "text": "Slough",
+    "category": "Outside"
+   },
+   {
+    "text": "Guildford",
+    "category": "Outside"
+   },
+   {
+    "text": "St Albans",
+    "category": "Outside"
+   },
+   {
+    "text": "Sevenoaks",
+    "category": "Outside"
+   }
+  ],
+  "category": "UK geography",
+  "tags": [
+   "London",
+   "M25"
+  ],
+  "difficulty": "medium"
+ }
+]
