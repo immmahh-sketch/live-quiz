@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each 1970s TV show to its catchphrase",
+  "pairs": [
+   {
+    "left": "Some Mothers Do 'Ave 'Em",
+    "right": "Ooh, Betty!"
+   },
+   {
+    "left": "Are You Being Served?",
+    "right": "I'm free!"
+   },
+   {
+    "left": "The Generation Game",
+    "right": "Nice to see you, to see you nice!"
+   },
+   {
+    "left": "Fawlty Towers",
+    "right": "Don't mention the war!"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each 1970s moment to its year",
+  "pairs": [
+   {
+    "left": "Decimal Day",
+    "right": "1971"
+   },
+   {
+    "left": "The three-day week",
+    "right": "1974"
+   },
+   {
+    "left": "The Queen's Silver Jubilee",
+    "right": "1977"
+   },
+   {
+    "left": "Margaret Thatcher becomes Prime Minister",
+    "right": "1979"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each country to the creature on its flag",
+  "pairs": [
+   {
+    "left": "Wales",
+    "right": "A dragon"
+   },
+   {
+    "left": "Sri Lanka",
+    "right": "A lion holding a sword"
+   },
+   {
+    "left": "Uganda",
+    "right": "A crane"
+   },
+   {
+    "left": "Papua New Guinea",
+    "right": "A bird of paradise"
+   }
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "match",
+  "text": "Match each country to the shape on its flag",
+  "pairs": [
+   {
+    "left": "Japan",
+    "right": "A red circle"
+   },
+   {
+    "left": "Nepal",
+    "right": "Two stacked triangles"
+   },
+   {
+    "left": "Israel",
+    "right": "A Star of David"
+   },
+   {
+    "left": "Switzerland",
+    "right": "A white cross"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

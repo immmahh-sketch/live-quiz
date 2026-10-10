@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each state to its capital",
+  "pairs": [
+   {
+    "left": "California",
+    "right": "Sacramento"
+   },
+   {
+    "left": "New York",
+    "right": "Albany"
+   },
+   {
+    "left": "Texas",
+    "right": "Austin"
+   },
+   {
+    "left": "Florida",
+    "right": "Tallahassee"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each landmark to its state",
+  "pairs": [
+   {
+    "left": "Mount Rushmore",
+    "right": "South Dakota"
+   },
+   {
+    "left": "The Grand Canyon",
+    "right": "Arizona"
+   },
+   {
+    "left": "The Golden Gate Bridge",
+    "right": "California"
+   },
+   {
+    "left": "Graceland",
+    "right": "Tennessee"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

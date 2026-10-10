@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each board game to how you win it",
+  "pairs": [
+   {
+    "left": "Cluedo",
+    "right": "Solve the murder"
+   },
+   {
+    "left": "Risk",
+    "right": "Conquer the world"
+   },
+   {
+    "left": "Monopoly",
+    "right": "Bankrupt everyone else"
+   },
+   {
+    "left": "Scrabble",
+    "right": "Score the most with your words"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each toy to the country it comes from",
+  "pairs": [
+   {
+    "left": "LEGO",
+    "right": "Denmark"
+   },
+   {
+    "left": "Rubik's Cube",
+    "right": "Hungary"
+   },
+   {
+    "left": "Barbie",
+    "right": "USA"
+   },
+   {
+    "left": "Tamagotchi",
+    "right": "Japan"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each killer to their weapon",
+  "pairs": [
+   {
+    "left": "Freddy Krueger",
+    "right": "A bladed glove"
+   },
+   {
+    "left": "Leatherface",
+    "right": "A chainsaw"
+   },
+   {
+    "left": "Michael Myers",
+    "right": "A kitchen knife"
+   },
+   {
+    "left": "Jason Voorhees",
+    "right": "A machete"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each horror film to its director",
+  "pairs": [
+   {
+    "left": "Psycho",
+    "right": "Alfred Hitchcock"
+   },
+   {
+    "left": "The Shining",
+    "right": "Stanley Kubrick"
+   },
+   {
+    "left": "Halloween",
+    "right": "John Carpenter"
+   },
+   {
+    "left": "Get Out",
+    "right": "Jordan Peele"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

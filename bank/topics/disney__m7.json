@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each villain to their film",
+  "pairs": [
+   {
+    "left": "Jafar",
+    "right": "Aladdin"
+   },
+   {
+    "left": "Ursula",
+    "right": "The Little Mermaid"
+   },
+   {
+    "left": "Scar",
+    "right": "The Lion King"
+   },
+   {
+    "left": "Mother Gothel",
+    "right": "Tangled"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each song to its film",
+  "pairs": [
+   {
+    "left": "Let It Go",
+    "right": "Frozen"
+   },
+   {
+    "left": "How Far I'll Go",
+    "right": "Moana"
+   },
+   {
+    "left": "Be Our Guest",
+    "right": "Beauty and the Beast"
+   },
+   {
+    "left": "I Just Can't Wait to Be King",
+    "right": "The Lion King"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

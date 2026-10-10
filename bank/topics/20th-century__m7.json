@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Prime Minister to something from their time in office",
+  "pairs": [
+   {
+    "left": "Clement Attlee",
+    "right": "The NHS is founded"
+   },
+   {
+    "left": "Margaret Thatcher",
+    "right": "The Falklands War"
+   },
+   {
+    "left": "Neville Chamberlain",
+    "right": "'Peace for our time' at Munich"
+   },
+   {
+    "left": "Harold Wilson",
+    "right": "England win the World Cup"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each invention to the decade it arrived",
+  "pairs": [
+   {
+    "left": "Television",
+    "right": "1920s"
+   },
+   {
+    "left": "Jet engine",
+    "right": "1930s"
+   },
+   {
+    "left": "Microwave oven",
+    "right": "1940s"
+   },
+   {
+    "left": "World Wide Web",
+    "right": "1980s"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

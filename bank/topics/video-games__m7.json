@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each console to its maker",
+  "pairs": [
+   {
+    "left": "PlayStation",
+    "right": "Sony"
+   },
+   {
+    "left": "Xbox",
+    "right": "Microsoft"
+   },
+   {
+    "left": "Switch",
+    "right": "Nintendo"
+   },
+   {
+    "left": "Mega Drive",
+    "right": "Sega"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each game to the year it came out",
+  "pairs": [
+   {
+    "left": "Pong",
+    "right": "1972"
+   },
+   {
+    "left": "Pac-Man",
+    "right": "1980"
+   },
+   {
+    "left": "Tetris",
+    "right": "1984"
+   },
+   {
+    "left": "Minecraft",
+    "right": "2011"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

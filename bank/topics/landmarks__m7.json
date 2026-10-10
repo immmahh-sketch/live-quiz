@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each landmark to its architect",
+  "pairs": [
+   {
+    "left": "St Paul's Cathedral",
+    "right": "Christopher Wren"
+   },
+   {
+    "left": "Sagrada Família",
+    "right": "Antoni Gaudí"
+   },
+   {
+    "left": "Sydney Opera House",
+    "right": "Jørn Utzon"
+   },
+   {
+    "left": "The Shard",
+    "right": "Renzo Piano"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each statue to its city",
+  "pairs": [
+   {
+    "left": "Christ the Redeemer",
+    "right": "Rio de Janeiro"
+   },
+   {
+    "left": "The Little Mermaid",
+    "right": "Copenhagen"
+   },
+   {
+    "left": "Manneken Pis",
+    "right": "Brussels"
+   },
+   {
+    "left": "The Motherland Calls",
+    "right": "Volgograd"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

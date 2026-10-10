@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each race to what races in it",
+  "pairs": [
+   {
+    "left": "Isle of Man TT",
+    "right": "Motorbikes"
+   },
+   {
+    "left": "NASCAR",
+    "right": "Stock cars"
+   },
+   {
+    "left": "Le Mans 24 Hours",
+    "right": "Sports cars"
+   },
+   {
+    "left": "Dakar Rally",
+    "right": "Off-road trucks, cars and bikes"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each British F1 champion to the year of his first title",
+  "pairs": [
+   {
+    "left": "Nigel Mansell",
+    "right": "1992"
+   },
+   {
+    "left": "Damon Hill",
+    "right": "1996"
+   },
+   {
+    "left": "Lewis Hamilton",
+    "right": "2008"
+   },
+   {
+    "left": "Jenson Button",
+    "right": "2009"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

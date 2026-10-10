@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each hero to the actor who played them in the Marvel films",
+  "pairs": [
+   {
+    "left": "Black Widow",
+    "right": "Scarlett Johansson"
+   },
+   {
+    "left": "Hawkeye",
+    "right": "Jeremy Renner"
+   },
+   {
+    "left": "Doctor Strange",
+    "right": "Benedict Cumberbatch"
+   },
+   {
+    "left": "Ant-Man",
+    "right": "Paul Rudd"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each hero to their real name",
+  "pairs": [
+   {
+    "left": "Iron Man",
+    "right": "Tony Stark"
+   },
+   {
+    "left": "Captain America",
+    "right": "Steve Rogers"
+   },
+   {
+    "left": "Black Panther",
+    "right": "T'Challa"
+   },
+   {
+    "left": "The Hulk",
+    "right": "Bruce Banner"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

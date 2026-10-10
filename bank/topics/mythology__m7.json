@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Norse god to their role",
+  "pairs": [
+   {
+    "left": "Odin",
+    "right": "King of the gods"
+   },
+   {
+    "left": "Loki",
+    "right": "The trickster"
+   },
+   {
+    "left": "Freya",
+    "right": "Goddess of love and beauty"
+   },
+   {
+    "left": "Heimdall",
+    "right": "Guard of the rainbow bridge"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each Egyptian god to the head they're shown with",
+  "pairs": [
+   {
+    "left": "Anubis",
+    "right": "A jackal"
+   },
+   {
+    "left": "Horus",
+    "right": "A falcon"
+   },
+   {
+    "left": "Thoth",
+    "right": "An ibis"
+   },
+   {
+    "left": "Sobek",
+    "right": "A crocodile"
+   }
+  ],
+  "difficulty": "hard"
+ }
+]

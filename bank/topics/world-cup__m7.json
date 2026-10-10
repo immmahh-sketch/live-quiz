@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each host to the year of its World Cup",
+  "pairs": [
+   {
+    "left": "South Africa",
+    "right": "2010"
+   },
+   {
+    "left": "Qatar",
+    "right": "2022"
+   },
+   {
+    "left": "Japan and South Korea",
+    "right": "2002"
+   },
+   {
+    "left": "Russia",
+    "right": "2018"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each player to his famous World Cup moment",
+  "pairs": [
+   {
+    "left": "Diego Maradona",
+    "right": "The Hand of God"
+   },
+   {
+    "left": "Geoff Hurst",
+    "right": "A hat-trick in the final"
+   },
+   {
+    "left": "Zinedine Zidane",
+    "right": "A headbutt in the 2006 final"
+   },
+   {
+    "left": "Paul Gascoigne",
+    "right": "Tears in the 1990 semi-final"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]
