@@ -1,0 +1,390 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which brand's mascot is this?",
+  "target": 10,
+  "category": "Brands",
+  "tags": [
+   "brands",
+   "adverts",
+   "mascots"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Tony the Tiger",
+    "right": "Frosties",
+    "wrong": [
+     "Corn Flakes",
+     "Shreddies",
+     "Weetabix"
+    ]
+   },
+   {
+    "q": "Snap, Crackle and Pop",
+    "right": "Rice Krispies",
+    "wrong": [
+     "Cheerios",
+     "Ready Brek",
+     "Golden Nuggets"
+    ]
+   },
+   {
+    "q": "The Honey Monster",
+    "right": "Sugar Puffs",
+    "wrong": [
+     "Golden Nuggets",
+     "Cheerios",
+     "Crunchy Nut"
+    ]
+   },
+   {
+    "q": "Coco the Monkey",
+    "right": "Coco Pops",
+    "wrong": [
+     "Weetabix",
+     "Cheerios",
+     "Ready Brek"
+    ]
+   },
+   {
+    "q": "Bibendum, the man made of tyres",
+    "right": "Michelin",
+    "wrong": [
+     "Goodyear",
+     "Dunlop",
+     "Pirelli"
+    ]
+   },
+   {
+    "q": "The Colonel",
+    "right": "KFC",
+    "wrong": [
+     "Burger King",
+     "Wimpy",
+     "Pizza Hut"
+    ]
+   },
+   {
+    "q": "Ronald, a clown",
+    "right": "McDonald's",
+    "wrong": [
+     "Burger King",
+     "Wimpy",
+     "Domino's"
+    ]
+   },
+   {
+    "q": "A nodding bulldog who says 'Oh yes!'",
+    "right": "Churchill",
+    "wrong": [
+     "Direct Line",
+     "Aviva",
+     "Admiral"
+    ]
+   },
+   {
+    "q": "Aleksandr Orlov the meerkat",
+    "right": "Compare the Market",
+    "wrong": [
+     "GoCompare",
+     "MoneySupermarket",
+     "Confused.com"
+    ]
+   },
+   {
+    "q": "A Labrador puppy running off with the loo roll",
+    "right": "Andrex",
+    "wrong": [
+     "Cushelle",
+     "Charmin",
+     "Velvet"
+    ]
+   },
+   {
+    "q": "A jolly green giant going 'Ho ho ho'",
+    "right": "Green Giant",
+    "wrong": [
+     "Del Monte",
+     "Princes",
+     "Heinz"
+    ]
+   },
+   {
+    "q": "A bearded sea captain",
+    "right": "Birds Eye",
+    "wrong": [
+     "Young's",
+     "Findus",
+     "Ross"
+    ]
+   },
+   {
+    "q": "Chimps having a tea party",
+    "right": "PG Tips",
+    "wrong": [
+     "Typhoo",
+     "Yorkshire Tea",
+     "Twinings"
+    ]
+   },
+   {
+    "q": "The Tea Folk",
+    "right": "Tetley",
+    "wrong": [
+     "Typhoo",
+     "Yorkshire Tea",
+     "Twinings"
+    ]
+   },
+   {
+    "q": "Laughing tin robots from Mars",
+    "right": "Smash",
+    "wrong": [
+     "Bisto",
+     "Oxo",
+     "Pot Noodle"
+    ]
+   },
+   {
+    "q": "Bertie, a man made of sweets",
+    "right": "Bassett's Liquorice Allsorts",
+    "wrong": [
+     "Haribo",
+     "Rowntree's",
+     "Trebor"
+    ]
+   },
+   {
+    "q": "A cowboy kid in round glasses",
+    "right": "Milkybar",
+    "wrong": [
+     "Yorkie",
+     "Milky Way",
+     "Galaxy"
+    ]
+   },
+   {
+    "q": "A giggling doughboy",
+    "right": "Pillsbury",
+    "wrong": [
+     "Jus-Rol",
+     "Greggs",
+     "Warburtons"
+    ]
+   },
+   {
+    "q": "A pink drumming bunny in the UK ads",
+    "right": "Duracell",
+    "wrong": [
+     "Ever Ready",
+     "Panasonic",
+     "Varta"
+    ]
+   },
+   {
+    "q": "An Old English Sheepdog",
+    "right": "Dulux",
+    "wrong": [
+     "Crown",
+     "Johnstone's",
+     "Farrow & Ball"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which film or show features this fictional company?",
+  "target": 10,
+  "category": "Film",
+  "tags": [
+   "films",
+   "TV",
+   "fictional companies"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Acme Corporation",
+    "right": "Looney Tunes",
+    "wrong": [
+     "Tom and Jerry",
+     "The Pink Panther",
+     "Wacky Races"
+    ]
+   },
+   {
+    "q": "Cyberdyne Systems",
+    "right": "The Terminator",
+    "wrong": [
+     "The Matrix",
+     "Total Recall",
+     "Predator"
+    ]
+   },
+   {
+    "q": "Weyland-Yutani",
+    "right": "Alien",
+    "wrong": [
+     "Predator",
+     "Event Horizon",
+     "The Thing"
+    ]
+   },
+   {
+    "q": "The Umbrella Corporation",
+    "right": "Resident Evil",
+    "wrong": [
+     "Silent Hill",
+     "28 Days Later",
+     "The Walking Dead"
+    ]
+   },
+   {
+    "q": "Wernham Hogg paper merchants",
+    "right": "The Office",
+    "wrong": [
+     "Peep Show",
+     "The IT Crowd",
+     "W1A"
+    ]
+   },
+   {
+    "q": "Initech",
+    "right": "Office Space",
+    "wrong": [
+     "Horrible Bosses",
+     "The Internship",
+     "9 to 5"
+    ]
+   },
+   {
+    "q": "Los Pollos Hermanos",
+    "right": "Breaking Bad",
+    "wrong": [
+     "Ozark",
+     "Narcos",
+     "Weeds"
+    ]
+   },
+   {
+    "q": "Sterling Cooper",
+    "right": "Mad Men",
+    "wrong": [
+     "Suits",
+     "Billions",
+     "The West Wing"
+    ]
+   },
+   {
+    "q": "Wayne Enterprises",
+    "right": "Batman",
+    "wrong": [
+     "Superman",
+     "The Flash",
+     "Green Lantern"
+    ]
+   },
+   {
+    "q": "Stark Industries",
+    "right": "Iron Man",
+    "wrong": [
+     "Captain America",
+     "Thor",
+     "Ant-Man"
+    ]
+   },
+   {
+    "q": "Oscorp",
+    "right": "Spider-Man",
+    "wrong": [
+     "Daredevil",
+     "Fantastic Four",
+     "Hulk"
+    ]
+   },
+   {
+    "q": "Buy n Large",
+    "right": "WALL-E",
+    "wrong": [
+     "Up",
+     "Toy Story",
+     "Ratatouille"
+    ]
+   },
+   {
+    "q": "The Slate Rock and Gravel Company",
+    "right": "The Flintstones",
+    "wrong": [
+     "The Jetsons",
+     "Yogi Bear",
+     "Top Cat"
+    ]
+   },
+   {
+    "q": "The Krusty Krab",
+    "right": "SpongeBob SquarePants",
+    "wrong": [
+     "Rugrats",
+     "Hey Arnold!",
+     "The Fairly OddParents"
+    ]
+   },
+   {
+    "q": "Grace Brothers department store",
+    "right": "Are You Being Served?",
+    "wrong": [
+     "Open All Hours",
+     "The Brittas Empire",
+     "Dad's Army"
+    ]
+   },
+   {
+    "q": "The Bluth Company",
+    "right": "Arrested Development",
+    "wrong": [
+     "Schitt's Creek",
+     "Veep",
+     "Parks and Recreation"
+    ]
+   },
+   {
+    "q": "The Tyrell Corporation",
+    "right": "Blade Runner",
+    "wrong": [
+     "Total Recall",
+     "The Matrix",
+     "Minority Report"
+    ]
+   },
+   {
+    "q": "OCP (Omni Consumer Products)",
+    "right": "RoboCop",
+    "wrong": [
+     "Total Recall",
+     "Judge Dredd",
+     "Demolition Man"
+    ]
+   },
+   {
+    "q": "InGen",
+    "right": "Jurassic Park",
+    "wrong": [
+     "King Kong",
+     "Godzilla",
+     "Westworld"
+    ]
+   },
+   {
+    "q": "Waystar Royco",
+    "right": "Succession",
+    "wrong": [
+     "Billions",
+     "Industry",
+     "Dallas"
+    ]
+   }
+  ]
+ }
+]
