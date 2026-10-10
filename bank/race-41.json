@@ -1,0 +1,775 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's on this club's badge?",
+  "target": 10,
+  "category": "Football",
+  "tags": [
+   "football",
+   "club badges"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Arsenal",
+    "right": "Cannon",
+    "wrong": [
+     "Anchor",
+     "Crown",
+     "Sword"
+    ]
+   },
+   {
+    "q": "Tottenham Hotspur",
+    "right": "Cockerel",
+    "wrong": [
+     "Peacock",
+     "Magpie",
+     "Pheasant"
+    ]
+   },
+   {
+    "q": "Liverpool",
+    "right": "Liver bird",
+    "wrong": [
+     "Seahorse",
+     "Hawk",
+     "Falcon"
+    ]
+   },
+   {
+    "q": "Leicester City",
+    "right": "Fox",
+    "wrong": [
+     "Badger",
+     "Wolf",
+     "Rabbit"
+    ]
+   },
+   {
+    "q": "Norwich City",
+    "right": "Canary",
+    "wrong": [
+     "Kestrel",
+     "Magpie",
+     "Peacock"
+    ]
+   },
+   {
+    "q": "Crystal Palace",
+    "right": "Eagle",
+    "wrong": [
+     "Hawk",
+     "Falcon",
+     "Kestrel"
+    ]
+   },
+   {
+    "q": "Brentford",
+    "right": "Bee",
+    "wrong": [
+     "Hornet",
+     "Wasp",
+     "Butterfly"
+    ]
+   },
+   {
+    "q": "Ipswich Town",
+    "right": "Horse",
+    "wrong": [
+     "Unicorn",
+     "Stag",
+     "Bull"
+    ]
+   },
+   {
+    "q": "Derby County",
+    "right": "Ram",
+    "wrong": [
+     "Bull",
+     "Stag",
+     "Goat"
+    ]
+   },
+   {
+    "q": "Sheffield Wednesday",
+    "right": "Owl",
+    "wrong": [
+     "Hawk",
+     "Magpie",
+     "Kestrel"
+    ]
+   },
+   {
+    "q": "Huddersfield Town",
+    "right": "Terrier",
+    "wrong": [
+     "Badger",
+     "Wolf",
+     "Bulldog"
+    ]
+   },
+   {
+    "q": "Bristol City",
+    "right": "Robin",
+    "wrong": [
+     "Magpie",
+     "Wren",
+     "Kestrel"
+    ]
+   },
+   {
+    "q": "West Bromwich Albion",
+    "right": "Thrush",
+    "wrong": [
+     "Magpie",
+     "Wren",
+     "Blackbird"
+    ]
+   },
+   {
+    "q": "Hull City",
+    "right": "Tiger",
+    "wrong": [
+     "Leopard",
+     "Panther",
+     "Wolf"
+    ]
+   },
+   {
+    "q": "Coventry City",
+    "right": "Elephant",
+    "wrong": [
+     "Rhino",
+     "Bull",
+     "Bear"
+    ]
+   },
+   {
+    "q": "Brighton & Hove Albion",
+    "right": "Seagull",
+    "wrong": [
+     "Albatross",
+     "Gannet",
+     "Puffin"
+    ]
+   },
+   {
+    "q": "Swansea City",
+    "right": "Swan",
+    "wrong": [
+     "Dragon",
+     "Goose",
+     "Heron"
+    ]
+   },
+   {
+    "q": "Cardiff City",
+    "right": "Bluebird",
+    "wrong": [
+     "Dragon",
+     "Kingfisher",
+     "Magpie"
+    ]
+   },
+   {
+    "q": "Chelsea",
+    "right": "Lion",
+    "wrong": [
+     "Unicorn",
+     "Dragon",
+     "Bear"
+    ]
+   },
+   {
+    "q": "Everton",
+    "right": "Tower",
+    "wrong": [
+     "Castle",
+     "Lighthouse",
+     "Bridge"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this national park in?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "national parks",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Kruger",
+    "right": "South Africa",
+    "wrong": [
+     "Botswana",
+     "Zimbabwe",
+     "Mozambique"
+    ]
+   },
+   {
+    "q": "The Serengeti",
+    "right": "Tanzania",
+    "wrong": [
+     "Rwanda",
+     "Ethiopia",
+     "Zambia"
+    ]
+   },
+   {
+    "q": "Banff",
+    "right": "Canada",
+    "wrong": [
+     "Greenland",
+     "Mexico",
+     "Norway"
+    ]
+   },
+   {
+    "q": "Yellowstone",
+    "right": "the USA",
+    "wrong": [
+     "Mexico",
+     "Greenland",
+     "Norway"
+    ]
+   },
+   {
+    "q": "Kakadu",
+    "right": "Australia",
+    "wrong": [
+     "Papua New Guinea",
+     "Fiji",
+     "Malaysia"
+    ]
+   },
+   {
+    "q": "Fiordland",
+    "right": "New Zealand",
+    "wrong": [
+     "Norway",
+     "Chile",
+     "Fiji"
+    ]
+   },
+   {
+    "q": "The Galápagos",
+    "right": "Ecuador",
+    "wrong": [
+     "Peru",
+     "Colombia",
+     "Chile"
+    ]
+   },
+   {
+    "q": "Etosha",
+    "right": "Namibia",
+    "wrong": [
+     "Botswana",
+     "Angola",
+     "Zambia"
+    ]
+   },
+   {
+    "q": "The Masai Mara",
+    "right": "Kenya",
+    "wrong": [
+     "Ethiopia",
+     "Rwanda",
+     "Zambia"
+    ]
+   },
+   {
+    "q": "Chitwan",
+    "right": "Nepal",
+    "wrong": [
+     "Bhutan",
+     "Bangladesh",
+     "Sri Lanka"
+    ]
+   },
+   {
+    "q": "Komodo",
+    "right": "Indonesia",
+    "wrong": [
+     "the Philippines",
+     "Malaysia",
+     "Papua New Guinea"
+    ]
+   },
+   {
+    "q": "Jim Corbett",
+    "right": "India",
+    "wrong": [
+     "Bhutan",
+     "Pakistan",
+     "Sri Lanka"
+    ]
+   },
+   {
+    "q": "Bwindi Impenetrable",
+    "right": "Uganda",
+    "wrong": [
+     "Rwanda",
+     "Burundi",
+     "Ethiopia"
+    ]
+   },
+   {
+    "q": "Virunga",
+    "right": "DR Congo",
+    "wrong": [
+     "Rwanda",
+     "Burundi",
+     "Gabon"
+    ]
+   },
+   {
+    "q": "The Cairngorms",
+    "right": "Scotland",
+    "wrong": [
+     "Wales",
+     "England",
+     "Norway"
+    ]
+   },
+   {
+    "q": "Killarney",
+    "right": "Ireland",
+    "wrong": [
+     "Wales",
+     "England",
+     "the Faroe Islands"
+    ]
+   },
+   {
+    "q": "Abisko",
+    "right": "Sweden",
+    "wrong": [
+     "Norway",
+     "Finland",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "Gran Paradiso",
+    "right": "Italy",
+    "wrong": [
+     "Switzerland",
+     "Austria",
+     "France"
+    ]
+   },
+   {
+    "q": "Vatnajökull",
+    "right": "Iceland",
+    "wrong": [
+     "Greenland",
+     "Norway",
+     "the Faroe Islands"
+    ]
+   },
+   {
+    "q": "Triglav",
+    "right": "Slovenia",
+    "wrong": [
+     "Croatia",
+     "Austria",
+     "Switzerland"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which Scottish place has this Gaelic name?",
+  "target": 10,
+  "category": "Scotland",
+  "tags": [
+   "Gaelic",
+   "place names",
+   "Scotland"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Dùn Èideann",
+    "right": "Edinburgh",
+    "wrong": [
+     "Dunfermline",
+     "Dumfries",
+     "Dunoon"
+    ]
+   },
+   {
+    "q": "Glaschu",
+    "right": "Glasgow",
+    "wrong": [
+     "Paisley",
+     "Falkirk",
+     "Greenock"
+    ]
+   },
+   {
+    "q": "Obar Dheathain",
+    "right": "Aberdeen",
+    "wrong": [
+     "Elgin",
+     "Arbroath",
+     "Montrose"
+    ]
+   },
+   {
+    "q": "Inbhir Nis",
+    "right": "Inverness",
+    "wrong": [
+     "Inveraray",
+     "Invergordon",
+     "Nairn"
+    ]
+   },
+   {
+    "q": "Dùn Dè",
+    "right": "Dundee",
+    "wrong": [
+     "Dumfries",
+     "Dunoon",
+     "Dunfermline"
+    ]
+   },
+   {
+    "q": "Peairt",
+    "right": "Perth",
+    "wrong": [
+     "Paisley",
+     "Peebles",
+     "Peterhead"
+    ]
+   },
+   {
+    "q": "Sruighlea",
+    "right": "Stirling",
+    "wrong": [
+     "Falkirk",
+     "St Andrews",
+     "Kirkcaldy"
+    ]
+   },
+   {
+    "q": "An t-Òban",
+    "right": "Oban",
+    "wrong": [
+     "Ayr",
+     "Mallaig",
+     "Tobermory"
+    ]
+   },
+   {
+    "q": "An Gearasdan",
+    "right": "Fort William",
+    "wrong": [
+     "Fort Augustus",
+     "Fort George",
+     "Mallaig"
+    ]
+   },
+   {
+    "q": "Port Rìgh",
+    "right": "Portree",
+    "wrong": [
+     "Port Ellen",
+     "Portpatrick",
+     "Tobermory"
+    ]
+   },
+   {
+    "q": "Steòrnabhagh",
+    "right": "Stornoway",
+    "wrong": [
+     "Tarbert",
+     "Castlebay",
+     "Lochmaddy"
+    ]
+   },
+   {
+    "q": "An t-Eilean Sgitheanach",
+    "right": "Skye",
+    "wrong": [
+     "Arran",
+     "Tiree",
+     "Barra"
+    ]
+   },
+   {
+    "q": "Muile",
+    "right": "Mull",
+    "wrong": [
+     "Arran",
+     "Tiree",
+     "Coll"
+    ]
+   },
+   {
+    "q": "Ìle",
+    "right": "Islay",
+    "wrong": [
+     "Jura",
+     "Arran",
+     "Barra"
+    ]
+   },
+   {
+    "q": "Alba",
+    "right": "Scotland",
+    "wrong": [
+     "Ireland",
+     "Wales",
+     "the Isle of Man"
+    ]
+   },
+   {
+    "q": "Leòdhas",
+    "right": "Lewis",
+    "wrong": [
+     "Barra",
+     "Tiree",
+     "Uist"
+    ]
+   },
+   {
+    "q": "Na Hearadh",
+    "right": "Harris",
+    "wrong": [
+     "Uist",
+     "Barra",
+     "Coll"
+    ]
+   },
+   {
+    "q": "Ullapul",
+    "right": "Ullapool",
+    "wrong": [
+     "Mallaig",
+     "Kyle of Lochalsh",
+     "Thurso"
+    ]
+   },
+   {
+    "q": "Baile Chloichridh",
+    "right": "Pitlochry",
+    "wrong": [
+     "Aberfeldy",
+     "Crieff",
+     "Braemar"
+    ]
+   },
+   {
+    "q": "An Aghaidh Mhòr",
+    "right": "Aviemore",
+    "wrong": [
+     "Braemar",
+     "Ballater",
+     "Kingussie"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: whose national day falls on this date?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "national days",
+   "countries"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "4 July",
+    "right": "the USA",
+    "wrong": [
+     "Australia",
+     "Argentina",
+     "Chile"
+    ]
+   },
+   {
+    "q": "14 July",
+    "right": "France",
+    "wrong": [
+     "Luxembourg",
+     "Austria",
+     "Poland"
+    ]
+   },
+   {
+    "q": "25 March",
+    "right": "Greece",
+    "wrong": [
+     "Bulgaria",
+     "Croatia",
+     "Romania"
+    ]
+   },
+   {
+    "q": "1 October",
+    "right": "China",
+    "wrong": [
+     "Taiwan",
+     "Vietnam",
+     "Mongolia"
+    ]
+   },
+   {
+    "q": "6 February",
+    "right": "New Zealand",
+    "wrong": [
+     "Australia",
+     "Fiji",
+     "Samoa"
+    ]
+   },
+   {
+    "q": "5 June",
+    "right": "Denmark",
+    "wrong": [
+     "Iceland",
+     "Poland",
+     "Austria"
+    ]
+   },
+   {
+    "q": "3 October",
+    "right": "Germany",
+    "wrong": [
+     "Austria",
+     "Hungary",
+     "Czechia"
+    ]
+   },
+   {
+    "q": "17 May",
+    "right": "Norway",
+    "wrong": [
+     "Iceland",
+     "Poland",
+     "Estonia"
+    ]
+   },
+   {
+    "q": "6 June",
+    "right": "Sweden",
+    "wrong": [
+     "Iceland",
+     "Poland",
+     "Estonia"
+    ]
+   },
+   {
+    "q": "6 December",
+    "right": "Finland",
+    "wrong": [
+     "Estonia",
+     "Iceland",
+     "Russia"
+    ]
+   },
+   {
+    "q": "15 August",
+    "right": "India",
+    "wrong": [
+     "Pakistan",
+     "Bangladesh",
+     "Sri Lanka"
+    ]
+   },
+   {
+    "q": "1 July",
+    "right": "Canada",
+    "wrong": [
+     "Australia",
+     "Iceland",
+     "Ireland"
+    ]
+   },
+   {
+    "q": "16 September",
+    "right": "Mexico",
+    "wrong": [
+     "Argentina",
+     "Chile",
+     "Colombia"
+    ]
+   },
+   {
+    "q": "7 September",
+    "right": "Brazil",
+    "wrong": [
+     "Argentina",
+     "Peru",
+     "Colombia"
+    ]
+   },
+   {
+    "q": "27 April (King's Day)",
+    "right": "the Netherlands",
+    "wrong": [
+     "Luxembourg",
+     "Austria",
+     "Poland"
+    ]
+   },
+   {
+    "q": "2 June",
+    "right": "Italy",
+    "wrong": [
+     "Austria",
+     "Croatia",
+     "Malta"
+    ]
+   },
+   {
+    "q": "12 October",
+    "right": "Spain",
+    "wrong": [
+     "Argentina",
+     "Chile",
+     "Malta"
+    ]
+   },
+   {
+    "q": "10 June",
+    "right": "Portugal",
+    "wrong": [
+     "Croatia",
+     "Luxembourg",
+     "Malta"
+    ]
+   },
+   {
+    "q": "21 July",
+    "right": "Belgium",
+    "wrong": [
+     "Luxembourg",
+     "Austria",
+     "Poland"
+    ]
+   },
+   {
+    "q": "1 August",
+    "right": "Switzerland",
+    "wrong": [
+     "Austria",
+     "Liechtenstein",
+     "Luxembourg"
+    ]
+   }
+  ]
+ }
+]
