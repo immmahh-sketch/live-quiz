@@ -1,0 +1,389 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which cake or biscuit is this?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "cakes",
+   "biscuits",
+   "baking"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Pink and yellow chequered sponge wrapped in marzipan",
+    "right": "Battenberg",
+    "wrong": [
+     "Madeira cake",
+     "Angel cake",
+     "Genoa cake"
+    ]
+   },
+   {
+    "q": "Two sponges sandwiched with jam, named after a queen",
+    "right": "Victoria sponge",
+    "wrong": [
+     "Madeira cake",
+     "Genoa cake",
+     "Angel cake"
+    ]
+   },
+   {
+    "q": "Almond tart with jam, iced and topped with a cherry, from Derbyshire",
+    "right": "Bakewell tart",
+    "wrong": [
+     "Treacle tart",
+     "Custard tart",
+     "Manchester tart"
+    ]
+   },
+   {
+    "q": "Flaky pastry round packed with currants, from near Manchester",
+    "right": "Eccles cake",
+    "wrong": [
+     "Chorley cake",
+     "Banbury cake",
+     "Welsh cake"
+    ]
+   },
+   {
+    "q": "Orange jelly on sponge under chocolate, legally a cake",
+    "right": "Jaffa Cake",
+    "wrong": [
+     "Wagon Wheel",
+     "Penguin",
+     "Club"
+    ]
+   },
+   {
+    "q": "Oblong chocolate biscuits sandwiching chocolate cream",
+    "right": "Bourbon",
+    "wrong": [
+     "Party Ring",
+     "Malted milk",
+     "Fig roll"
+    ]
+   },
+   {
+    "q": "The 'squashed fly' biscuit, full of currants",
+    "right": "Garibaldi",
+    "wrong": [
+     "Fig roll",
+     "Malted milk",
+     "Lincoln"
+    ]
+   },
+   {
+    "q": "Two shortbreads with a jam heart showing through",
+    "right": "Jammie Dodger",
+    "wrong": [
+     "Viennese whirl",
+     "Party Ring",
+     "Lincoln"
+    ]
+   },
+   {
+    "q": "Oaty biscuit: 'one nibble and you're nobbled'",
+    "right": "Hobnob",
+    "wrong": [
+     "Flapjack",
+     "Ginger nut",
+     "Lincoln"
+    ]
+   },
+   {
+    "q": "Semi-sweet wholemeal biscuit, often coated in chocolate",
+    "right": "Digestive",
+    "wrong": [
+     "Rich Tea",
+     "Malted milk",
+     "Ginger nut"
+    ]
+   },
+   {
+    "q": "Sticky Yorkshire gingerbread with oatmeal and treacle, eaten on Bonfire Night",
+    "right": "Parkin",
+    "wrong": [
+     "Flapjack",
+     "Lardy cake",
+     "Gingerbread"
+    ]
+   },
+   {
+    "q": "Thin sponge rolled into a spiral round jam",
+    "right": "Swiss roll",
+    "wrong": [
+     "Jam roly-poly",
+     "Arctic roll",
+     "Yule log"
+    ]
+   },
+   {
+    "q": "Fruit cake topped with rings of whole almonds",
+    "right": "Dundee cake",
+    "wrong": [
+     "Madeira cake",
+     "Christmas cake",
+     "Lardy cake"
+    ]
+   },
+   {
+    "q": "Easter fruit cake with eleven marzipan balls on top",
+    "right": "Simnel cake",
+    "wrong": [
+     "Christmas cake",
+     "Genoa cake",
+     "Madeira cake"
+    ]
+   },
+   {
+    "q": "Sticky square spiral bun with currants, named after a part of London",
+    "right": "Chelsea bun",
+    "wrong": [
+     "Bath bun",
+     "Belgian bun",
+     "Hot cross bun"
+    ]
+   },
+   {
+    "q": "Banana, toffee and cream on a biscuit base, invented in Sussex",
+    "right": "Banoffee pie",
+    "wrong": [
+     "Key lime pie",
+     "Cheesecake",
+     "Mississippi mud pie"
+    ]
+   },
+   {
+    "q": "Marshmallow dome in chocolate on a biscuit, made in Scotland",
+    "right": "Tunnock's teacake",
+    "wrong": [
+     "Wagon Wheel",
+     "Snowball",
+     "Penguin"
+    ]
+   },
+   {
+    "q": "Vanilla cream between two patterned biscuits",
+    "right": "Custard cream",
+    "wrong": [
+     "Malted milk",
+     "Lincoln",
+     "Party Ring"
+    ]
+   },
+   {
+    "q": "Scottish butter biscuit, often cut into fingers or petticoat tails",
+    "right": "Shortbread",
+    "wrong": [
+     "Oatcake",
+     "Flapjack",
+     "Ginger nut"
+    ]
+   },
+   {
+    "q": "Chewy dark loaf you slice and butter, made famous by Soreen",
+    "right": "Malt loaf",
+    "wrong": [
+     "Tea loaf",
+     "Banana bread",
+     "Lardy cake"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which dance is this?",
+  "target": 10,
+  "category": "Music",
+  "tags": [
+   "dancing",
+   "Strictly"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Ballroom dance named after the music-hall star Harry Fox",
+    "right": "Foxtrot",
+    "wrong": [
+     "Viennese waltz",
+     "Tango",
+     "Mambo"
+    ]
+   },
+   {
+    "q": "1920s flapper dance named after a South Carolina city",
+    "right": "Charleston",
+    "wrong": [
+     "Shimmy",
+     "Black Bottom",
+     "Mambo"
+    ]
+   },
+   {
+    "q": "Dramatic ballroom dance acting out a bullfight",
+    "right": "Paso doble",
+    "wrong": [
+     "Tango",
+     "Samba",
+     "Mambo"
+    ]
+   },
+   {
+    "q": "Cuban 'dance of love', the slowest Latin dance on Strictly",
+    "right": "Rumba",
+    "wrong": [
+     "Samba",
+     "Salsa",
+     "Bossa nova"
+    ]
+   },
+   {
+    "q": "Latin dance named after the shuffling sound of its steps",
+    "right": "Cha-cha-cha",
+    "wrong": [
+     "Mambo",
+     "Samba",
+     "Bossa nova"
+    ]
+   },
+   {
+    "q": "Fast ballroom dance full of hops and runs, done in hold",
+    "right": "Quickstep",
+    "wrong": [
+     "Viennese waltz",
+     "Polka",
+     "Tango"
+    ]
+   },
+   {
+    "q": "Rock 'n' roll Latin dance with lots of kicks and flicks",
+    "right": "Jive",
+    "wrong": [
+     "Shimmy",
+     "Bop",
+     "Hustle"
+    ]
+   },
+   {
+    "q": "1996 line dance with hands on hips, head and bum",
+    "right": "Macarena",
+    "wrong": [
+     "The Ketchup Song",
+     "Saturday Night",
+     "Mambo No. 5"
+    ]
+   },
+   {
+    "q": "A long party line, each holding the hips of the person in front",
+    "right": "Conga",
+    "wrong": [
+     "Hustle",
+     "Mambo",
+     "Shimmy"
+    ]
+   },
+   {
+    "q": "How low can you go? Bending back under a pole",
+    "right": "Limbo",
+    "wrong": [
+     "Shimmy",
+     "Bop",
+     "Worm"
+    ]
+   },
+   {
+    "q": "Michael Jackson's backwards glide",
+    "right": "Moonwalk",
+    "wrong": [
+     "Running man",
+     "Robot",
+     "Worm"
+    ]
+   },
+   {
+    "q": "The 1989 'forbidden dance' hit by Kaoma",
+    "right": "Lambada",
+    "wrong": [
+     "Bossa nova",
+     "Mambo",
+     "Salsa"
+    ]
+   },
+   {
+    "q": "Chubby Checker's 1960 craze: swivel your hips like drying off with a towel",
+    "right": "The Twist",
+    "wrong": [
+     "Mashed Potato",
+     "Hustle",
+     "Shimmy"
+    ]
+   },
+   {
+    "q": "Madonna's 1990 dance of striking magazine-cover poses",
+    "right": "Vogue",
+    "wrong": [
+     "Robot",
+     "Dab",
+     "Running man"
+    ]
+   },
+   {
+    "q": "Swinging your arms behind and in front of your hips, made famous by Fortnite",
+    "right": "The Floss",
+    "wrong": [
+     "Dab",
+     "Running man",
+     "Worm"
+    ]
+   },
+   {
+    "q": "'You put your left leg in, your left leg out'",
+    "right": "Hokey cokey",
+    "wrong": [
+     "Bunny hop",
+     "Locomotion",
+     "Hustle"
+    ]
+   },
+   {
+    "q": "Swing dance born in 1920s Harlem, named after Charles Lindbergh's flight",
+    "right": "Lindy hop",
+    "wrong": [
+     "Shimmy",
+     "Black Bottom",
+     "Bop"
+    ]
+   },
+   {
+    "q": "Psy's horse-riding dance from 2012",
+    "right": "Gangnam Style",
+    "wrong": [
+     "Dab",
+     "Running man",
+     "Robot"
+    ]
+   },
+   {
+    "q": "Arms spelling out four letters, from the Village People",
+    "right": "YMCA",
+    "wrong": [
+     "Locomotion",
+     "Bunny hop",
+     "Hustle"
+    ]
+   },
+   {
+    "q": "'It's just a jump to the left, and then a step to the right'",
+    "right": "Time Warp",
+    "wrong": [
+     "Locomotion",
+     "Bunny hop",
+     "Hustle"
+    ]
+   }
+  ]
+ }
+]
