@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Pixar film to the year it came out",
+  "pairs": [
+   {
+    "left": "Toy Story",
+    "right": "1995"
+   },
+   {
+    "left": "Finding Nemo",
+    "right": "2003"
+   },
+   {
+    "left": "Up",
+    "right": "2009"
+   },
+   {
+    "left": "Inside Out",
+    "right": "2015"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

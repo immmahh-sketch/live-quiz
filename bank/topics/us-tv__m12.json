@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each TV family to its show",
+  "pairs": [
+   {
+    "left": "The Bluths",
+    "right": "Arrested Development"
+   },
+   {
+    "left": "The Dunphys",
+    "right": "Modern Family"
+   },
+   {
+    "left": "The Bundys",
+    "right": "Married... with Children"
+   },
+   {
+    "left": "The Bankses",
+    "right": "The Fresh Prince of Bel-Air"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

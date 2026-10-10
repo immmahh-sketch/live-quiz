@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each novel to the character who tells the story",
+  "pairs": [
+   {
+    "left": "Moby-Dick",
+    "right": "Ishmael"
+   },
+   {
+    "left": "The Great Gatsby",
+    "right": "Nick Carraway"
+   },
+   {
+    "left": "Treasure Island",
+    "right": "Jim Hawkins"
+   },
+   {
+    "left": "To Kill a Mockingbird",
+    "right": "Scout Finch"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each artist to what they loved to paint",
+  "pairs": [
+   {
+    "left": "Claude Monet",
+    "right": "Water lilies"
+   },
+   {
+    "left": "Edgar Degas",
+    "right": "Ballet dancers"
+   },
+   {
+    "left": "George Stubbs",
+    "right": "Horses"
+   },
+   {
+    "left": "L. S. Lowry",
+    "right": "Matchstick figures in mill towns"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

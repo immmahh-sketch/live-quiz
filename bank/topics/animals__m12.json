@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each creature to how many legs or arms it has",
+  "pairs": [
+   {
+    "left": "Spider",
+    "right": "8"
+   },
+   {
+    "left": "Ant",
+    "right": "6"
+   },
+   {
+    "left": "Lobster",
+    "right": "10"
+   },
+   {
+    "left": "Starfish",
+    "right": "5"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

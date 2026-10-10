@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Australian landmark to its state or territory",
+  "pairs": [
+   {
+    "left": "Uluru",
+    "right": "Northern Territory"
+   },
+   {
+    "left": "Great Barrier Reef",
+    "right": "Queensland"
+   },
+   {
+    "left": "Sydney Opera House",
+    "right": "New South Wales"
+   },
+   {
+    "left": "The Twelve Apostles",
+    "right": "Victoria"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]
