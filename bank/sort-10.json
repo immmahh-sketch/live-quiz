@@ -1,0 +1,683 @@
+[
+ {
+  "type": "sort",
+  "text": "A Scottish football club or a Welsh one?",
+  "categories": [
+   "Scottish",
+   "Welsh"
+  ],
+  "items": [
+   {
+    "text": "Hearts",
+    "category": "Scottish"
+   },
+   {
+    "text": "Hibernian",
+    "category": "Scottish"
+   },
+   {
+    "text": "Motherwell",
+    "category": "Scottish"
+   },
+   {
+    "text": "Kilmarnock",
+    "category": "Scottish"
+   },
+   {
+    "text": "Wrexham",
+    "category": "Welsh"
+   },
+   {
+    "text": "Swansea City",
+    "category": "Welsh"
+   },
+   {
+    "text": "Cardiff City",
+    "category": "Welsh"
+   },
+   {
+    "text": "Newport County",
+    "category": "Welsh"
+   }
+  ],
+  "category": "Football",
+  "tags": [
+   "Scotland",
+   "Wales",
+   "clubs"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A dog breed from Germany or from France?",
+  "categories": [
+   "Germany",
+   "France"
+  ],
+  "items": [
+   {
+    "text": "Dachshund",
+    "category": "Germany"
+   },
+   {
+    "text": "Rottweiler",
+    "category": "Germany"
+   },
+   {
+    "text": "Dobermann",
+    "category": "Germany"
+   },
+   {
+    "text": "Schnauzer",
+    "category": "Germany"
+   },
+   {
+    "text": "Bichon Frisé",
+    "category": "France"
+   },
+   {
+    "text": "Basset Hound",
+    "category": "France"
+   },
+   {
+    "text": "Dogue de Bordeaux",
+    "category": "France"
+   },
+   {
+    "text": "Papillon",
+    "category": "France"
+   }
+  ],
+  "category": "Animals",
+  "tags": [
+   "dog breeds",
+   "Germany",
+   "France"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "A Bond villain or a Batman villain?",
+  "categories": [
+   "Bond",
+   "Batman"
+  ],
+  "items": [
+   {
+    "text": "Blofeld",
+    "category": "Bond"
+   },
+   {
+    "text": "Goldfinger",
+    "category": "Bond"
+   },
+   {
+    "text": "Oddjob",
+    "category": "Bond"
+   },
+   {
+    "text": "Le Chiffre",
+    "category": "Bond"
+   },
+   {
+    "text": "The Joker",
+    "category": "Batman"
+   },
+   {
+    "text": "The Penguin",
+    "category": "Batman"
+   },
+   {
+    "text": "The Riddler",
+    "category": "Batman"
+   },
+   {
+    "text": "Bane",
+    "category": "Batman"
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "villains",
+   "James Bond",
+   "Batman"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "An English word from ancient Greek or from Latin?",
+  "categories": [
+   "Greek",
+   "Latin"
+  ],
+  "items": [
+   {
+    "text": "Telephone",
+    "category": "Greek"
+   },
+   {
+    "text": "Democracy",
+    "category": "Greek"
+   },
+   {
+    "text": "Biology",
+    "category": "Greek"
+   },
+   {
+    "text": "Photograph",
+    "category": "Greek"
+   },
+   {
+    "text": "Agenda",
+    "category": "Latin"
+   },
+   {
+    "text": "Video",
+    "category": "Latin"
+   },
+   {
+    "text": "Data",
+    "category": "Latin"
+   },
+   {
+    "text": "Status",
+    "category": "Latin"
+   }
+  ],
+  "category": "Words and language",
+  "tags": [
+   "Greek",
+   "Latin",
+   "word origins"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "A cake or a bread?",
+  "categories": [
+   "Cake",
+   "Bread"
+  ],
+  "items": [
+   {
+    "text": "Victoria sponge",
+    "category": "Cake"
+   },
+   {
+    "text": "Battenberg",
+    "category": "Cake"
+   },
+   {
+    "text": "Madeira",
+    "category": "Cake"
+   },
+   {
+    "text": "Black Forest gateau",
+    "category": "Cake"
+   },
+   {
+    "text": "Focaccia",
+    "category": "Bread"
+   },
+   {
+    "text": "Ciabatta",
+    "category": "Bread"
+   },
+   {
+    "text": "Sourdough",
+    "category": "Bread"
+   },
+   {
+    "text": "Soda bread",
+    "category": "Bread"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [
+   "baking",
+   "cakes",
+   "bread"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "An NFL team or an NBA team?",
+  "categories": [
+   "NFL",
+   "NBA"
+  ],
+  "items": [
+   {
+    "text": "Dallas Cowboys",
+    "category": "NFL"
+   },
+   {
+    "text": "Green Bay Packers",
+    "category": "NFL"
+   },
+   {
+    "text": "New England Patriots",
+    "category": "NFL"
+   },
+   {
+    "text": "Kansas City Chiefs",
+    "category": "NFL"
+   },
+   {
+    "text": "Los Angeles Lakers",
+    "category": "NBA"
+   },
+   {
+    "text": "Chicago Bulls",
+    "category": "NBA"
+   },
+   {
+    "text": "Boston Celtics",
+    "category": "NBA"
+   },
+   {
+    "text": "Golden State Warriors",
+    "category": "NBA"
+   }
+  ],
+  "category": "Sport",
+  "tags": [
+   "American sport",
+   "NFL",
+   "NBA"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Formula One circuit in Europe or elsewhere?",
+  "categories": [
+   "Europe",
+   "Elsewhere"
+  ],
+  "items": [
+   {
+    "text": "Silverstone",
+    "category": "Europe"
+   },
+   {
+    "text": "Monza",
+    "category": "Europe"
+   },
+   {
+    "text": "Spa-Francorchamps",
+    "category": "Europe"
+   },
+   {
+    "text": "Monaco",
+    "category": "Europe"
+   },
+   {
+    "text": "Suzuka",
+    "category": "Elsewhere"
+   },
+   {
+    "text": "Interlagos",
+    "category": "Elsewhere"
+   },
+   {
+    "text": "Albert Park",
+    "category": "Elsewhere"
+   },
+   {
+    "text": "Marina Bay",
+    "category": "Elsewhere"
+   }
+  ],
+  "category": "Sport",
+  "tags": [
+   "Formula One",
+   "circuits"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Mars bar brand or a Nestlé one?",
+  "categories": [
+   "Mars",
+   "Nestlé"
+  ],
+  "items": [
+   {
+    "text": "Snickers",
+    "category": "Mars"
+   },
+   {
+    "text": "Twix",
+    "category": "Mars"
+   },
+   {
+    "text": "Bounty",
+    "category": "Mars"
+   },
+   {
+    "text": "Milky Way",
+    "category": "Mars"
+   },
+   {
+    "text": "KitKat",
+    "category": "Nestlé"
+   },
+   {
+    "text": "Aero",
+    "category": "Nestlé"
+   },
+   {
+    "text": "Yorkie",
+    "category": "Nestlé"
+   },
+   {
+    "text": "Milkybar",
+    "category": "Nestlé"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [
+   "chocolate",
+   "Mars",
+   "Nestlé"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "An Elvis song or a Cliff Richard song?",
+  "categories": [
+   "Elvis",
+   "Cliff Richard"
+  ],
+  "items": [
+   {
+    "text": "Hound Dog",
+    "category": "Elvis"
+   },
+   {
+    "text": "Jailhouse Rock",
+    "category": "Elvis"
+   },
+   {
+    "text": "Suspicious Minds",
+    "category": "Elvis"
+   },
+   {
+    "text": "Return to Sender",
+    "category": "Elvis"
+   },
+   {
+    "text": "Living Doll",
+    "category": "Cliff Richard"
+   },
+   {
+    "text": "Summer Holiday",
+    "category": "Cliff Richard"
+   },
+   {
+    "text": "Congratulations",
+    "category": "Cliff Richard"
+   },
+   {
+    "text": "Mistletoe and Wine",
+    "category": "Cliff Richard"
+   }
+  ],
+  "category": "Music",
+  "tags": [
+   "Elvis Presley",
+   "Cliff Richard"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "Gilbert and Sullivan or Andrew Lloyd Webber?",
+  "categories": [
+   "Gilbert and Sullivan",
+   "Lloyd Webber"
+  ],
+  "items": [
+   {
+    "text": "The Mikado",
+    "category": "Gilbert and Sullivan"
+   },
+   {
+    "text": "HMS Pinafore",
+    "category": "Gilbert and Sullivan"
+   },
+   {
+    "text": "The Pirates of Penzance",
+    "category": "Gilbert and Sullivan"
+   },
+   {
+    "text": "The Gondoliers",
+    "category": "Gilbert and Sullivan"
+   },
+   {
+    "text": "Cats",
+    "category": "Lloyd Webber"
+   },
+   {
+    "text": "Evita",
+    "category": "Lloyd Webber"
+   },
+   {
+    "text": "Starlight Express",
+    "category": "Lloyd Webber"
+   },
+   {
+    "text": "Sunset Boulevard",
+    "category": "Lloyd Webber"
+   }
+  ],
+  "category": "Theatre",
+  "tags": [
+   "Gilbert and Sullivan",
+   "Andrew Lloyd Webber",
+   "musicals"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Doctor Who companion or a Blue Peter presenter?",
+  "categories": [
+   "Doctor Who companion",
+   "Blue Peter presenter"
+  ],
+  "items": [
+   {
+    "text": "Rose Tyler",
+    "category": "Doctor Who companion"
+   },
+   {
+    "text": "Donna Noble",
+    "category": "Doctor Who companion"
+   },
+   {
+    "text": "Amy Pond",
+    "category": "Doctor Who companion"
+   },
+   {
+    "text": "Clara Oswald",
+    "category": "Doctor Who companion"
+   },
+   {
+    "text": "Valerie Singleton",
+    "category": "Blue Peter presenter"
+   },
+   {
+    "text": "John Noakes",
+    "category": "Blue Peter presenter"
+   },
+   {
+    "text": "Konnie Huq",
+    "category": "Blue Peter presenter"
+   },
+   {
+    "text": "Matt Baker",
+    "category": "Blue Peter presenter"
+   }
+  ],
+  "category": "TV",
+  "tags": [
+   "Doctor Who",
+   "Blue Peter"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "An island in the Mediterranean or the Caribbean?",
+  "categories": [
+   "Mediterranean",
+   "Caribbean"
+  ],
+  "items": [
+   {
+    "text": "Malta",
+    "category": "Mediterranean"
+   },
+   {
+    "text": "Crete",
+    "category": "Mediterranean"
+   },
+   {
+    "text": "Sardinia",
+    "category": "Mediterranean"
+   },
+   {
+    "text": "Corsica",
+    "category": "Mediterranean"
+   },
+   {
+    "text": "Barbados",
+    "category": "Caribbean"
+   },
+   {
+    "text": "Jamaica",
+    "category": "Caribbean"
+   },
+   {
+    "text": "Antigua",
+    "category": "Caribbean"
+   },
+   {
+    "text": "St Lucia",
+    "category": "Caribbean"
+   }
+  ],
+  "category": "World geography",
+  "tags": [
+   "islands",
+   "Mediterranean",
+   "Caribbean"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A Pokémon or a Digimon?",
+  "categories": [
+   "Pokémon",
+   "Digimon"
+  ],
+  "items": [
+   {
+    "text": "Pikachu",
+    "category": "Pokémon"
+   },
+   {
+    "text": "Charizard",
+    "category": "Pokémon"
+   },
+   {
+    "text": "Jigglypuff",
+    "category": "Pokémon"
+   },
+   {
+    "text": "Snorlax",
+    "category": "Pokémon"
+   },
+   {
+    "text": "Agumon",
+    "category": "Digimon"
+   },
+   {
+    "text": "Gabumon",
+    "category": "Digimon"
+   },
+   {
+    "text": "Patamon",
+    "category": "Digimon"
+   },
+   {
+    "text": "Tentomon",
+    "category": "Digimon"
+   }
+  ],
+  "category": "Games and toys",
+  "tags": [
+   "Pokémon",
+   "Digimon"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "A 1990s 'Gladiator' or a WWE wrestler?",
+  "categories": [
+   "Gladiator",
+   "WWE wrestler"
+  ],
+  "items": [
+   {
+    "text": "Wolf",
+    "category": "Gladiator"
+   },
+   {
+    "text": "Jet",
+    "category": "Gladiator"
+   },
+   {
+    "text": "Lightning",
+    "category": "Gladiator"
+   },
+   {
+    "text": "Shadow",
+    "category": "Gladiator"
+   },
+   {
+    "text": "The Undertaker",
+    "category": "WWE wrestler"
+   },
+   {
+    "text": "Hulk Hogan",
+    "category": "WWE wrestler"
+   },
+   {
+    "text": "The Rock",
+    "category": "WWE wrestler"
+   },
+   {
+    "text": "Stone Cold Steve Austin",
+    "category": "WWE wrestler"
+   }
+  ],
+  "category": "TV",
+  "tags": [
+   "Gladiators",
+   "wrestling"
+  ],
+  "difficulty": "medium"
+ }
+]
