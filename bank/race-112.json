@@ -1,0 +1,388 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which gemstone is this?",
+  "target": 10,
+  "category": "Nature",
+  "tags": [
+   "gemstones",
+   "birthstones"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "January's birthstone, deep red",
+    "right": "Garnet",
+    "wrong": [
+     "Spinel",
+     "Carnelian",
+     "Tourmaline"
+    ]
+   },
+   {
+    "q": "February's birthstone, purple",
+    "right": "Amethyst",
+    "wrong": [
+     "Tourmaline",
+     "Spinel",
+     "Fluorite"
+    ]
+   },
+   {
+    "q": "March's birthstone, the blue of the sea",
+    "right": "Aquamarine",
+    "wrong": [
+     "Zircon",
+     "Apatite",
+     "Fluorite"
+    ]
+   },
+   {
+    "q": "April's birthstone, the hardest natural material",
+    "right": "Diamond",
+    "wrong": [
+     "Zircon",
+     "Quartz",
+     "Moissanite"
+    ]
+   },
+   {
+    "q": "May's birthstone, rich green",
+    "right": "Emerald",
+    "wrong": [
+     "Malachite",
+     "Tourmaline",
+     "Agate"
+    ]
+   },
+   {
+    "q": "June's birthstone, made inside an oyster",
+    "right": "Pearl",
+    "wrong": [
+     "Mother-of-pearl",
+     "Coral",
+     "Nacre"
+    ]
+   },
+   {
+    "q": "July's birthstone, red",
+    "right": "Ruby",
+    "wrong": [
+     "Spinel",
+     "Carnelian",
+     "Red jasper"
+    ]
+   },
+   {
+    "q": "August's birthstone, olive green",
+    "right": "Peridot",
+    "wrong": [
+     "Tourmaline",
+     "Malachite",
+     "Chrysoprase"
+    ]
+   },
+   {
+    "q": "September's birthstone, blue",
+    "right": "Sapphire",
+    "wrong": [
+     "Zircon",
+     "Spinel",
+     "Iolite"
+    ]
+   },
+   {
+    "q": "October's birthstone, with flashes of rainbow colour",
+    "right": "Opal",
+    "wrong": [
+     "Labradorite",
+     "Quartz",
+     "Fluorite"
+    ]
+   },
+   {
+    "q": "November's birthstone, golden-yellow",
+    "right": "Topaz",
+    "wrong": [
+     "Citrine",
+     "Tiger's eye",
+     "Agate"
+    ]
+   },
+   {
+    "q": "December's birthstone, sky blue and loved by the Navajo",
+    "right": "Turquoise",
+    "wrong": [
+     "Chrysocolla",
+     "Larimar",
+     "Malachite"
+    ]
+   },
+   {
+    "q": "Green stone prized above gold in ancient China",
+    "right": "Jade",
+    "wrong": [
+     "Malachite",
+     "Serpentine",
+     "Aventurine"
+    ]
+   },
+   {
+    "q": "Deep blue stone ground into ultramarine paint",
+    "right": "Lapis lazuli",
+    "wrong": [
+     "Sodalite",
+     "Azurite",
+     "Chrysocolla"
+    ]
+   },
+   {
+    "q": "Fossilised tree resin, sometimes with insects trapped inside",
+    "right": "Amber",
+    "wrong": [
+     "Copal",
+     "Citrine",
+     "Tiger's eye"
+    ]
+   },
+   {
+    "q": "Black gem from Whitby, loved by Victorian mourners",
+    "right": "Jet",
+    "wrong": [
+     "Black coral",
+     "Hematite",
+     "Black tourmaline"
+    ]
+   },
+   {
+    "q": "Black-and-white banded stone, carved into cameos",
+    "right": "Onyx",
+    "wrong": [
+     "Agate",
+     "Jasper",
+     "Marble"
+    ]
+   },
+   {
+    "q": "Black glass made naturally by volcanoes",
+    "right": "Obsidian",
+    "wrong": [
+     "Pumice",
+     "Basalt",
+     "Hematite"
+    ]
+   },
+   {
+    "q": "Blue-violet gem found only near Mount Kilimanjaro",
+    "right": "Tanzanite",
+    "wrong": [
+     "Iolite",
+     "Spinel",
+     "Kunzite"
+    ]
+   },
+   {
+    "q": "Milky stone with a blue sheen, June's other birthstone",
+    "right": "Moonstone",
+    "wrong": [
+     "Labradorite",
+     "Selenite",
+     "Quartz"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which instrument is this?",
+  "target": 10,
+  "category": "Music",
+  "tags": [
+   "instruments",
+   "music"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Played without touching it, by waving your hands near two aerials",
+    "right": "Theremin",
+    "wrong": [
+     "Synthesiser",
+     "Melodica",
+     "Celesta"
+    ]
+   },
+   {
+    "q": "A long wooden drone pipe from Aboriginal Australia",
+    "right": "Didgeridoo",
+    "wrong": [
+     "Alphorn",
+     "Pan pipes",
+     "Bugle"
+    ]
+   },
+   {
+    "q": "A bag of air, a chanter and three drones",
+    "right": "Bagpipes",
+    "wrong": [
+     "Concertina",
+     "Melodica",
+     "Harmonica"
+    ]
+   },
+   {
+    "q": "The biggest, lowest brass instrument in the orchestra",
+    "right": "Tuba",
+    "wrong": [
+     "Euphonium",
+     "French horn",
+     "Trombone"
+    ]
+   },
+   {
+    "q": "A half-size flute, the highest instrument in the orchestra",
+    "right": "Piccolo",
+    "wrong": [
+     "Recorder",
+     "Clarinet",
+     "Fife"
+    ]
+   },
+   {
+    "q": "The double-reed woodwind that gives the orchestra its tuning note",
+    "right": "Oboe",
+    "wrong": [
+     "Clarinet",
+     "Cor anglais",
+     "Recorder"
+    ]
+   },
+   {
+    "q": "Long, low double-reed woodwind, the 'clown of the orchestra'",
+    "right": "Bassoon",
+    "wrong": [
+     "Clarinet",
+     "Cor anglais",
+     "Saxophone"
+    ]
+   },
+   {
+    "q": "Keyboard whose strings are plucked, not hit",
+    "right": "Harpsichord",
+    "wrong": [
+     "Piano",
+     "Organ",
+     "Celesta"
+    ]
+   },
+   {
+    "q": "You hum into it and it buzzes",
+    "right": "Kazoo",
+    "wrong": [
+     "Harmonica",
+     "Recorder",
+     "Swanee whistle"
+    ]
+   },
+   {
+    "q": "A tuned oil drum from Trinidad",
+    "right": "Steelpan",
+    "wrong": [
+     "Marimba",
+     "Bongos",
+     "Djembe"
+    ]
+   },
+   {
+    "q": "Small eight-stringed instrument played with a pick in Italian folk music",
+    "right": "Mandolin",
+    "wrong": [
+     "Lute",
+     "Banjo",
+     "Ukulele"
+    ]
+   },
+   {
+    "q": "Russian stringed instrument with a triangular body",
+    "right": "Balalaika",
+    "wrong": [
+     "Lute",
+     "Banjo",
+     "Sitar"
+    ]
+   },
+   {
+    "q": "A pair of Indian hand drums",
+    "right": "Tabla",
+    "wrong": [
+     "Bongos",
+     "Djembe",
+     "Timpani"
+    ]
+   },
+   {
+    "q": "Irish frame drum played with a short stick",
+    "right": "Bodhrán",
+    "wrong": [
+     "Tambourine",
+     "Snare drum",
+     "Djembe"
+    ]
+   },
+   {
+    "q": "Pair of shells clicked together in flamenco",
+    "right": "Castanets",
+    "wrong": [
+     "Maracas",
+     "Tambourine",
+     "Claves"
+    ]
+   },
+   {
+    "q": "Small egg-shaped clay flute, made famous by a Zelda game",
+    "right": "Ocarina",
+    "wrong": [
+     "Recorder",
+     "Pan pipes",
+     "Tin whistle"
+    ]
+   },
+   {
+    "q": "A bent steel bar struck with a beater",
+    "right": "Triangle",
+    "wrong": [
+     "Cowbell",
+     "Tubular bells",
+     "Gong"
+    ]
+   },
+   {
+    "q": "Strings bowed by a wheel you turn with a handle",
+    "right": "Hurdy-gurdy",
+    "wrong": [
+     "Barrel organ",
+     "Lute",
+     "Dulcimer"
+    ]
+   },
+   {
+    "q": "A flat box of strings plucked on the lap, heard in 'The Third Man'",
+    "right": "Zither",
+    "wrong": [
+     "Dulcimer",
+     "Lute",
+     "Lyre"
+    ]
+   },
+   {
+    "q": "A tuba that wraps round the player, for marching bands",
+    "right": "Sousaphone",
+    "wrong": [
+     "Euphonium",
+     "Flugelhorn",
+     "French horn"
+    ]
+   }
+  ]
+ }
+]
