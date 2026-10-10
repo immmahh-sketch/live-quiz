@@ -1,0 +1,581 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which people built this?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "ancient civilisations",
+   "archaeology"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Machu Picchu",
+    "right": "The Inca",
+    "wrong": [
+     "The Olmecs",
+     "The Toltecs",
+     "The Zapotecs"
+    ]
+   },
+   {
+    "q": "Chichén Itzá",
+    "right": "The Maya",
+    "wrong": [
+     "The Olmecs",
+     "The Zapotecs",
+     "The Moche"
+    ]
+   },
+   {
+    "q": "Tenochtitlan",
+    "right": "The Aztecs",
+    "wrong": [
+     "The Olmecs",
+     "The Toltecs",
+     "The Zapotecs"
+    ]
+   },
+   {
+    "q": "The temples of Karnak",
+    "right": "The ancient Egyptians",
+    "wrong": [
+     "The Assyrians",
+     "The Sumerians",
+     "The Byzantines"
+    ]
+   },
+   {
+    "q": "The Parthenon",
+    "right": "The ancient Greeks",
+    "wrong": [
+     "The Etruscans",
+     "The Byzantines",
+     "The Ottomans"
+    ]
+   },
+   {
+    "q": "The Colosseum",
+    "right": "The Romans",
+    "wrong": [
+     "The Etruscans",
+     "The Byzantines",
+     "The Ottomans"
+    ]
+   },
+   {
+    "q": "Petra",
+    "right": "The Nabataeans",
+    "wrong": [
+     "The Assyrians",
+     "The Sumerians",
+     "The Byzantines"
+    ]
+   },
+   {
+    "q": "Persepolis",
+    "right": "The Persians",
+    "wrong": [
+     "The Assyrians",
+     "The Sumerians",
+     "The Ottomans"
+    ]
+   },
+   {
+    "q": "Angkor Wat",
+    "right": "The Khmer",
+    "wrong": [
+     "The Mongols",
+     "The Siamese",
+     "The Ottomans"
+    ]
+   },
+   {
+    "q": "Great Zimbabwe",
+    "right": "The Shona",
+    "wrong": [
+     "The Zulu",
+     "The Ashanti",
+     "The Moors"
+    ]
+   },
+   {
+    "q": "The palace of Knossos",
+    "right": "The Minoans",
+    "wrong": [
+     "The Etruscans",
+     "The Byzantines",
+     "The Ottomans"
+    ]
+   },
+   {
+    "q": "The Lion Gate at Mycenae",
+    "right": "The Mycenaeans",
+    "wrong": [
+     "The Etruscans",
+     "The Byzantines",
+     "The Ottomans"
+    ]
+   },
+   {
+    "q": "The first city of Carthage",
+    "right": "The Phoenicians",
+    "wrong": [
+     "The Etruscans",
+     "The Assyrians",
+     "The Moors"
+    ]
+   },
+   {
+    "q": "The Ishtar Gate",
+    "right": "The Babylonians",
+    "wrong": [
+     "The Assyrians",
+     "The Sumerians",
+     "The Ottomans"
+    ]
+   },
+   {
+    "q": "Hattusa",
+    "right": "The Hittites",
+    "wrong": [
+     "The Assyrians",
+     "The Sumerians",
+     "The Byzantines"
+    ]
+   },
+   {
+    "q": "Mohenjo-daro",
+    "right": "The Indus Valley civilisation",
+    "wrong": [
+     "The Sumerians",
+     "The Mughals",
+     "The Mongols"
+    ]
+   },
+   {
+    "q": "The Nazca Lines",
+    "right": "The Nazca",
+    "wrong": [
+     "The Olmecs",
+     "The Moche",
+     "The Toltecs"
+    ]
+   },
+   {
+    "q": "The moai of Easter Island",
+    "right": "The Rapa Nui",
+    "wrong": [
+     "The Maori",
+     "The Olmecs",
+     "The Moche"
+    ]
+   },
+   {
+    "q": "The cliff dwellings of Mesa Verde",
+    "right": "The Ancestral Puebloans",
+    "wrong": [
+     "The Olmecs",
+     "The Toltecs",
+     "The Mississippians"
+    ]
+   },
+   {
+    "q": "The Sutton Hoo ship burial",
+    "right": "The Anglo-Saxons",
+    "wrong": [
+     "The Vikings",
+     "The Normans",
+     "The Celts"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which language is this word or phrase from?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "languages",
+   "phrases"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Hakuna matata",
+    "right": "Swahili",
+    "wrong": [
+     "Zulu",
+     "Amharic",
+     "Yoruba"
+    ]
+   },
+   {
+    "q": "C'est la vie",
+    "right": "French",
+    "wrong": [
+     "Catalan",
+     "Romanian",
+     "Breton"
+    ]
+   },
+   {
+    "q": "Carpe diem",
+    "right": "Latin",
+    "wrong": [
+     "Greek",
+     "Romanian",
+     "Catalan"
+    ]
+   },
+   {
+    "q": "Mañana",
+    "right": "Spanish",
+    "wrong": [
+     "Catalan",
+     "Romanian",
+     "Basque"
+    ]
+   },
+   {
+    "q": "La dolce vita",
+    "right": "Italian",
+    "wrong": [
+     "Romanian",
+     "Catalan",
+     "Greek"
+    ]
+   },
+   {
+    "q": "Hygge",
+    "right": "Danish",
+    "wrong": [
+     "Icelandic",
+     "Polish",
+     "Estonian"
+    ]
+   },
+   {
+    "q": "Schadenfreude",
+    "right": "German",
+    "wrong": [
+     "Afrikaans",
+     "Polish",
+     "Czech"
+    ]
+   },
+   {
+    "q": "Aloha",
+    "right": "Hawaiian",
+    "wrong": [
+     "Samoan",
+     "Tongan",
+     "Tagalog"
+    ]
+   },
+   {
+    "q": "Feng shui",
+    "right": "Chinese",
+    "wrong": [
+     "Korean",
+     "Thai",
+     "Malay"
+    ]
+   },
+   {
+    "q": "Kia ora",
+    "right": "Maori",
+    "wrong": [
+     "Samoan",
+     "Tongan",
+     "Tagalog"
+    ]
+   },
+   {
+    "q": "Shalom",
+    "right": "Hebrew",
+    "wrong": [
+     "Amharic",
+     "Persian",
+     "Greek"
+    ]
+   },
+   {
+    "q": "Inshallah",
+    "right": "Arabic",
+    "wrong": [
+     "Amharic",
+     "Hungarian",
+     "Greek"
+    ]
+   },
+   {
+    "q": "Lagom",
+    "right": "Swedish",
+    "wrong": [
+     "Icelandic",
+     "Estonian",
+     "Polish"
+    ]
+   },
+   {
+    "q": "Sisu",
+    "right": "Finnish",
+    "wrong": [
+     "Hungarian",
+     "Icelandic",
+     "Polish"
+    ]
+   },
+   {
+    "q": "Saudade",
+    "right": "Portuguese",
+    "wrong": [
+     "Catalan",
+     "Romanian",
+     "Basque"
+    ]
+   },
+   {
+    "q": "Kawaii",
+    "right": "Japanese",
+    "wrong": [
+     "Korean",
+     "Thai",
+     "Malay"
+    ]
+   },
+   {
+    "q": "Chutzpah",
+    "right": "Yiddish",
+    "wrong": [
+     "Polish",
+     "Czech",
+     "Hungarian"
+    ]
+   },
+   {
+    "q": "Gezellig",
+    "right": "Dutch",
+    "wrong": [
+     "Hungarian",
+     "Czech",
+     "Polish"
+    ]
+   },
+   {
+    "q": "Hwyl",
+    "right": "Welsh",
+    "wrong": [
+     "Irish",
+     "Scottish Gaelic",
+     "Cornish"
+    ]
+   },
+   {
+    "q": "Babushka",
+    "right": "Russian",
+    "wrong": [
+     "Ukrainian",
+     "Polish",
+     "Czech"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which city did this band come from?",
+  "target": 10,
+  "category": "Music",
+  "tags": [
+   "bands",
+   "cities"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The Beatles",
+    "right": "Liverpool",
+    "wrong": [
+     "Hamburg",
+     "Bolton",
+     "Preston"
+    ]
+   },
+   {
+    "q": "Oasis",
+    "right": "Manchester",
+    "wrong": [
+     "Salford",
+     "Bolton",
+     "Stockport"
+    ]
+   },
+   {
+    "q": "Arctic Monkeys",
+    "right": "Sheffield",
+    "wrong": [
+     "Rotherham",
+     "Doncaster",
+     "Barnsley"
+    ]
+   },
+   {
+    "q": "Lindisfarne",
+    "right": "Newcastle",
+    "wrong": [
+     "Sunderland",
+     "Durham",
+     "Middlesbrough"
+    ]
+   },
+   {
+    "q": "Kaiser Chiefs",
+    "right": "Leeds",
+    "wrong": [
+     "Bradford",
+     "Wakefield",
+     "Huddersfield"
+    ]
+   },
+   {
+    "q": "Duran Duran",
+    "right": "Birmingham",
+    "wrong": [
+     "Wolverhampton",
+     "Walsall",
+     "Nottingham"
+    ]
+   },
+   {
+    "q": "Massive Attack",
+    "right": "Bristol",
+    "wrong": [
+     "Bath",
+     "Cardiff",
+     "Swindon"
+    ]
+   },
+   {
+    "q": "Simple Minds",
+    "right": "Glasgow",
+    "wrong": [
+     "Aberdeen",
+     "Dundee",
+     "Paisley"
+    ]
+   },
+   {
+    "q": "U2",
+    "right": "Dublin",
+    "wrong": [
+     "Cork",
+     "Belfast",
+     "Galway"
+    ]
+   },
+   {
+    "q": "Pearl Jam",
+    "right": "Seattle",
+    "wrong": [
+     "Portland",
+     "San Francisco",
+     "Vancouver"
+    ]
+   },
+   {
+    "q": "The Cranberries",
+    "right": "Limerick",
+    "wrong": [
+     "Cork",
+     "Galway",
+     "Waterford"
+    ]
+   },
+   {
+    "q": "The Housemartins",
+    "right": "Hull",
+    "wrong": [
+     "Grimsby",
+     "Scarborough",
+     "Doncaster"
+    ]
+   },
+   {
+    "q": "The Specials",
+    "right": "Coventry",
+    "wrong": [
+     "Wolverhampton",
+     "Leicester",
+     "Northampton"
+    ]
+   },
+   {
+    "q": "Madness",
+    "right": "London",
+    "wrong": [
+     "Brighton",
+     "Reading",
+     "Luton"
+    ]
+   },
+   {
+    "q": "Kings of Leon",
+    "right": "Nashville",
+    "wrong": [
+     "Memphis",
+     "Atlanta",
+     "Austin"
+    ]
+   },
+   {
+    "q": "ABBA",
+    "right": "Stockholm",
+    "wrong": [
+     "Gothenburg",
+     "Oslo",
+     "Copenhagen"
+    ]
+   },
+   {
+    "q": "The Killers",
+    "right": "Las Vegas",
+    "wrong": [
+     "Los Angeles",
+     "Phoenix",
+     "Reno"
+    ]
+   },
+   {
+    "q": "The Bay City Rollers",
+    "right": "Edinburgh",
+    "wrong": [
+     "Aberdeen",
+     "Dundee",
+     "Paisley"
+    ]
+   },
+   {
+    "q": "AC/DC",
+    "right": "Sydney",
+    "wrong": [
+     "Melbourne",
+     "Adelaide",
+     "Perth"
+    ]
+   },
+   {
+    "q": "The B-52's",
+    "right": "Athens, Georgia",
+    "wrong": [
+     "Atlanta",
+     "Memphis",
+     "Austin"
+    ]
+   }
+  ]
+ }
+]
