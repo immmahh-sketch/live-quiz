@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each monster to the author who created it",
+  "pairs": [
+   {
+    "left": "Dracula",
+    "right": "Bram Stoker"
+   },
+   {
+    "left": "Frankenstein's monster",
+    "right": "Mary Shelley"
+   },
+   {
+    "left": "Mr Hyde",
+    "right": "Robert Louis Stevenson"
+   },
+   {
+    "left": "The Invisible Man",
+    "right": "H. G. Wells"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each witch to her story",
+  "pairs": [
+   {
+    "left": "The Wicked Witch of the West",
+    "right": "The Wizard of Oz"
+   },
+   {
+    "left": "The White Witch",
+    "right": "The Lion, the Witch and the Wardrobe"
+   },
+   {
+    "left": "The Grand High Witch",
+    "right": "The Witches"
+   },
+   {
+    "left": "Sabrina Spellman",
+    "right": "Sabrina the Teenage Witch"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each tree to its fruit or seed",
+  "pairs": [
+   {
+    "left": "Oak",
+    "right": "Acorn"
+   },
+   {
+    "left": "Horse chestnut",
+    "right": "Conker"
+   },
+   {
+    "left": "Sycamore",
+    "right": "Spinning 'helicopter'"
+   },
+   {
+    "left": "Beech",
+    "right": "Beechnut"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each British animal to its home",
+  "pairs": [
+   {
+    "left": "Badger",
+    "right": "Sett"
+   },
+   {
+    "left": "Otter",
+    "right": "Holt"
+   },
+   {
+    "left": "Fox",
+    "right": "Earth"
+   },
+   {
+    "left": "Beaver",
+    "right": "Lodge"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

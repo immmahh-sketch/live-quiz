@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each explorer to what they're famous for",
+  "pairs": [
+   {
+    "left": "Marco Polo",
+    "right": "Travelling to China"
+   },
+   {
+    "left": "Vasco da Gama",
+    "right": "A sea route to India"
+   },
+   {
+    "left": "Ferdinand Magellan",
+    "right": "The first voyage round the world"
+   },
+   {
+    "left": "Roald Amundsen",
+    "right": "First to the South Pole"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each queen to the land she ruled",
+  "pairs": [
+   {
+    "left": "Cleopatra",
+    "right": "Egypt"
+   },
+   {
+    "left": "Boudica",
+    "right": "The Iceni of Britain"
+   },
+   {
+    "left": "Marie Antoinette",
+    "right": "France"
+   },
+   {
+    "left": "Catherine the Great",
+    "right": "Russia"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

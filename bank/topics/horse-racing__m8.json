@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each racecourse to its big race",
+  "pairs": [
+   {
+    "left": "Aintree",
+    "right": "The Grand National"
+   },
+   {
+    "left": "Epsom",
+    "right": "The Derby"
+   },
+   {
+    "left": "Cheltenham",
+    "right": "The Gold Cup"
+   },
+   {
+    "left": "Doncaster",
+    "right": "The St Leger"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each snooker player to his nickname",
+  "pairs": [
+   {
+    "left": "Ronnie O'Sullivan",
+    "right": "The Rocket"
+   },
+   {
+    "left": "Steve Davis",
+    "right": "The Nugget"
+   },
+   {
+    "left": "Jimmy White",
+    "right": "The Whirlwind"
+   },
+   {
+    "left": "Alex Higgins",
+    "right": "The Hurricane"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

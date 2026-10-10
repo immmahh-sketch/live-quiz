@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each famous line to its quiz show",
+  "pairs": [
+   {
+    "left": "I've started, so I'll finish",
+    "right": "Mastermind"
+   },
+   {
+    "left": "Is that your final answer?",
+    "right": "Who Wants to Be a Millionaire?"
+   },
+   {
+    "left": "You are the weakest link, goodbye",
+    "right": "The Weakest Link"
+   },
+   {
+    "left": "Your starter for ten",
+    "right": "University Challenge"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each game show to its original host",
+  "pairs": [
+   {
+    "left": "Countdown",
+    "right": "Richard Whiteley"
+   },
+   {
+    "left": "Blockbusters",
+    "right": "Bob Holness"
+   },
+   {
+    "left": "Bullseye",
+    "right": "Jim Bowen"
+   },
+   {
+    "left": "Catchphrase",
+    "right": "Roy Walker"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

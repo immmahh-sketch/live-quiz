@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each country to the name of its parliament",
+  "pairs": [
+   {
+    "left": "Iceland",
+    "right": "Althing"
+   },
+   {
+    "left": "Norway",
+    "right": "Storting"
+   },
+   {
+    "left": "Germany",
+    "right": "Bundestag"
+   },
+   {
+    "left": "Ireland",
+    "right": "Dáil"
+   }
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "match",
+  "text": "Match each river to the capital city it flows through",
+  "pairs": [
+   {
+    "left": "Danube",
+    "right": "Budapest"
+   },
+   {
+    "left": "Vltava",
+    "right": "Prague"
+   },
+   {
+    "left": "Tagus",
+    "right": "Lisbon"
+   },
+   {
+    "left": "Liffey",
+    "right": "Dublin"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

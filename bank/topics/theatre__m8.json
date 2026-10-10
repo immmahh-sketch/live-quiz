@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each musical to its composer",
+  "pairs": [
+   {
+    "left": "Cats",
+    "right": "Andrew Lloyd Webber"
+   },
+   {
+    "left": "Les Misérables",
+    "right": "Claude-Michel Schönberg"
+   },
+   {
+    "left": "Hamilton",
+    "right": "Lin-Manuel Miranda"
+   },
+   {
+    "left": "Matilda the Musical",
+    "right": "Tim Minchin"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each Shakespeare play to where it's set",
+  "pairs": [
+   {
+    "left": "Hamlet",
+    "right": "Denmark"
+   },
+   {
+    "left": "Othello",
+    "right": "Venice"
+   },
+   {
+    "left": "Romeo and Juliet",
+    "right": "Verona"
+   },
+   {
+    "left": "Macbeth",
+    "right": "Scotland"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

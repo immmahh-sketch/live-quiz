@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each number word to its value",
+  "pairs": [
+   {
+    "left": "Dozen",
+    "right": "12"
+   },
+   {
+    "left": "Score",
+    "right": "20"
+   },
+   {
+    "left": "Gross",
+    "right": "144"
+   },
+   {
+    "left": "Googol",
+    "right": "10 to the power of 100"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each Greek letter to what it usually stands for in maths and science",
+  "pairs": [
+   {
+    "left": "Pi",
+    "right": "Circumference divided by diameter"
+   },
+   {
+    "left": "Sigma",
+    "right": "Add them all up"
+   },
+   {
+    "left": "Delta",
+    "right": "A change in something"
+   },
+   {
+    "left": "Lambda",
+    "right": "Wavelength"
+   }
+  ],
+  "difficulty": "hard"
+ }
+]

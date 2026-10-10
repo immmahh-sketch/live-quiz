@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each unit to what it measures",
+  "pairs": [
+   {
+    "left": "Newton",
+    "right": "Force"
+   },
+   {
+    "left": "Joule",
+    "right": "Energy"
+   },
+   {
+    "left": "Watt",
+    "right": "Power"
+   },
+   {
+    "left": "Ohm",
+    "right": "Electrical resistance"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each discovery to the scientist behind it",
+  "pairs": [
+   {
+    "left": "Penicillin",
+    "right": "Alexander Fleming"
+   },
+   {
+    "left": "Radium",
+    "right": "Marie Curie"
+   },
+   {
+    "left": "The expanding universe",
+    "right": "Edwin Hubble"
+   },
+   {
+    "left": "The X-ray photo that revealed DNA's shape",
+    "right": "Rosalind Franklin"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

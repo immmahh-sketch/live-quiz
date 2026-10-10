@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each piece of clothing to the person it's named after",
+  "pairs": [
+   {
+    "left": "Cardigan",
+    "right": "The Earl of Cardigan"
+   },
+   {
+    "left": "Wellington boot",
+    "right": "The Duke of Wellington"
+   },
+   {
+    "left": "Leotard",
+    "right": "Jules Léotard, a French acrobat"
+   },
+   {
+    "left": "Bloomers",
+    "right": "Amelia Bloomer, an American campaigner"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each fabric to where it comes from",
+  "pairs": [
+   {
+    "left": "Silk",
+    "right": "Silkworms"
+   },
+   {
+    "left": "Wool",
+    "right": "Sheep"
+   },
+   {
+    "left": "Linen",
+    "right": "Flax"
+   },
+   {
+    "left": "Cashmere",
+    "right": "Goats"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

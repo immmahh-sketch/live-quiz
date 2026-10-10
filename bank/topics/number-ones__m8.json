@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each number one that a TV advert sent to the top to its act",
+  "pairs": [
+   {
+    "left": "Inside",
+    "right": "Stiltskin"
+   },
+   {
+    "left": "Flat Beat",
+    "right": "Mr Oizo"
+   },
+   {
+    "left": "I'd Like to Teach the World to Sing",
+    "right": "The New Seekers"
+   },
+   {
+    "left": "Stand by Me",
+    "right": "Ben E. King"
+   }
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "match",
+  "text": "Match each film to its number one theme song",
+  "pairs": [
+   {
+    "left": "Robin Hood: Prince of Thieves",
+    "right": "(Everything I Do) I Do It for You"
+   },
+   {
+    "left": "Four Weddings and a Funeral",
+    "right": "Love Is All Around"
+   },
+   {
+    "left": "Titanic",
+    "right": "My Heart Will Go On"
+   },
+   {
+    "left": "Ghost",
+    "right": "Unchained Melody"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]
