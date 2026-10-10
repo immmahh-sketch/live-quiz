@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this spy word?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "spies",
+   "espionage",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A spy planted deep inside an organisation",
+    "right": "Mole",
+    "wrong": [
+     "Badger",
+     "Vole",
+     "Stoat"
+    ]
+   },
+   {
+    "q": "Pretends to spy for one side while really working for the other",
+    "right": "Double agent",
+    "wrong": [
+     "Field agent",
+     "Handler",
+     "Courier"
+    ]
+   },
+   {
+    "q": "An agent who lives a normal life for years until called on",
+    "right": "Sleeper",
+    "wrong": [
+     "Runner",
+     "Tracker",
+     "Watcher"
+    ]
+   },
+   {
+    "q": "A hidden spot where messages are left for another spy to collect",
+    "right": "Dead drop",
+    "wrong": [
+     "Cold call",
+     "Blind date",
+     "Pigeonhole"
+    ]
+   },
+   {
+    "q": "A secret hideout where agents can lie low",
+    "right": "Safe house",
+    "wrong": [
+     "Halfway house",
+     "Lodge",
+     "Bothy"
+    ]
+   },
+   {
+    "q": "The fake life story a spy pretends is true",
+    "right": "Cover story",
+    "wrong": [
+     "Bedtime story",
+     "Ghost story",
+     "Shaggy-dog story"
+    ]
+   },
+   {
+    "q": "A secret name used on an operation instead of the real one",
+    "right": "Codename",
+    "wrong": [
+     "Surname",
+     "Maiden name",
+     "Place name"
+    ]
+   },
+   {
+    "q": "Britain's foreign intelligence service, where James Bond works",
+    "right": "MI6",
+    "wrong": [
+     "MI5",
+     "Special Branch",
+     "Scotland Yard"
+    ]
+   },
+   {
+    "q": "The Cheltenham listening and code-breaking centre",
+    "right": "GCHQ",
+    "wrong": [
+     "MI5",
+     "CIA",
+     "Interpol"
+    ]
+   },
+   {
+    "q": "The Soviet Union's security and spy agency",
+    "right": "KGB",
+    "wrong": [
+     "Stasi",
+     "CIA",
+     "Mossad"
+    ]
+   },
+   {
+    "q": "Where Alan Turing's team cracked German codes in the war",
+    "right": "Bletchley Park",
+    "wrong": [
+     "Porton Down",
+     "Greenham Common",
+     "Menwith Hill"
+    ]
+   },
+   {
+    "q": "The German cipher machine they cracked",
+    "right": "Enigma",
+    "wrong": [
+     "Colossus",
+     "Bombe",
+     "Babbage"
+    ]
+   },
+   {
+    "q": "A tiny hidden microphone",
+    "right": "Bug",
+    "wrong": [
+     "Mite",
+     "Tick",
+     "Flea"
+    ]
+   },
+   {
+    "q": "A spy who switches sides and flees to the enemy",
+    "right": "Defector",
+    "wrong": [
+     "Refugee",
+     "Exile",
+     "Emigrant"
+    ]
+   },
+   {
+    "q": "Philby, Burgess, Maclean, Blunt and Cairncross",
+    "right": "Cambridge Five",
+    "wrong": [
+     "Birmingham Six",
+     "Guildford Four",
+     "Famous Five"
+    ]
+   },
+   {
+    "q": "Bond's gadget-maker, by a single letter",
+    "right": "Q",
+    "wrong": [
+     "C",
+     "X",
+     "K"
+    ]
+   },
+   {
+    "q": "Writing that only shows when it's heated, made with lemon juice",
+    "right": "Invisible ink",
+    "wrong": [
+     "Shorthand",
+     "Morse code",
+     "Braille"
+    ]
+   },
+   {
+    "q": "A secret code for scrambling messages",
+    "right": "Cipher",
+    "wrong": [
+     "Sonnet",
+     "Haiku",
+     "Limerick"
+    ]
+   },
+   {
+    "q": "Using seduction to trap a target",
+    "right": "Honeytrap",
+    "wrong": [
+     "Mousetrap",
+     "Booby trap",
+     "Speed trap"
+    ]
+   },
+   {
+    "q": "A person passing secrets to a spy's handler",
+    "right": "Asset",
+    "wrong": [
+     "Liability",
+     "Debit",
+     "Overhead"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this gym word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "gym",
+   "fitness",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The running machine",
+    "right": "Treadmill",
+    "wrong": [
+     "Exercise bike",
+     "Stepper",
+     "Cross-trainer"
+    ]
+   },
+   {
+    "q": "A short bar with a weight at each end, held in one hand",
+    "right": "Dumbbell",
+    "wrong": [
+     "Baton",
+     "Truncheon",
+     "Rolling pin"
+    ]
+   },
+   {
+    "q": "A cannonball-shaped weight with a handle on top",
+    "right": "Kettlebell",
+    "wrong": [
+     "Medicine ball",
+     "Shot put",
+     "Bowling ball"
+    ]
+   },
+   {
+    "q": "The long bar loaded with plates and lifted with both hands",
+    "right": "Barbell",
+    "wrong": [
+     "Crowbar",
+     "Handlebar",
+     "Bar stool"
+    ]
+   },
+   {
+    "q": "How many times you lift in one go",
+    "right": "Reps",
+    "wrong": [
+     "Rounds",
+     "Heats",
+     "Innings"
+    ]
+   },
+   {
+    "q": "Groups of those lifts, with a rest in between",
+    "right": "Sets",
+    "wrong": [
+     "Matches",
+     "Frames",
+     "Legs"
+    ]
+   },
+   {
+    "q": "Lowering your hips as if sitting on an invisible chair",
+    "right": "Squat",
+    "wrong": [
+     "Curtsey",
+     "Plié",
+     "Bow"
+    ]
+   },
+   {
+    "q": "Stepping forward and dropping the back knee",
+    "right": "Lunge",
+    "wrong": [
+     "Leapfrog",
+     "Hopscotch",
+     "Skip"
+    ]
+   },
+   {
+    "q": "Holding your body straight on your forearms and toes",
+    "right": "Plank",
+    "wrong": [
+     "Beam",
+     "Joist",
+     "Rafter"
+    ]
+   },
+   {
+    "q": "Squat, jump back, press-up, jump up, repeat",
+    "right": "Burpee",
+    "wrong": [
+     "Hiccup",
+     "Hokey cokey",
+     "Twist"
+    ]
+   },
+   {
+    "q": "Pushing your body up off the floor with your arms",
+    "right": "Press-up",
+    "wrong": [
+     "Pull-out",
+     "Lift-off",
+     "Drop-kick"
+    ]
+   },
+   {
+    "q": "Lying back and curling up to work your stomach",
+    "right": "Sit-up",
+    "wrong": [
+     "Lie-in",
+     "Sit-in",
+     "Stand-off"
+    ]
+   },
+   {
+    "q": "A group workout on stationary bikes",
+    "right": "Spin class",
+    "wrong": [
+     "Spin bowling",
+     "Spin doctor",
+     "Spin cycle"
+    ]
+   },
+   {
+    "q": "Someone you pay to coach you one-to-one",
+    "right": "Personal trainer",
+    "wrong": [
+     "Personal shopper",
+     "Personal assistant",
+     "Valet"
+    ]
+   },
+   {
+    "q": "Slang for the stomach muscles",
+    "right": "Abs",
+    "wrong": [
+     "Lats",
+     "Glutes",
+     "Quads"
+    ]
+   },
+   {
+    "q": "Slang for the chest muscles",
+    "right": "Pecs",
+    "wrong": [
+     "Lats",
+     "Glutes",
+     "Quads"
+    ]
+   },
+   {
+    "q": "Gentle exercise at the end of a workout",
+    "right": "Cool-down",
+    "wrong": [
+     "Warm-up",
+     "Lie-down",
+     "Shut-down"
+    ]
+   },
+   {
+    "q": "The machine where you pull a handle while sliding back and forth",
+    "right": "Rowing machine",
+    "wrong": [
+     "Exercise bike",
+     "Stepper",
+     "Leg press"
+    ]
+   },
+   {
+    "q": "Short bursts of flat-out exercise, in four letters",
+    "right": "HIIT",
+    "wrong": [
+     "BMI",
+     "PB",
+     "VO2"
+    ]
+   },
+   {
+    "q": "The drink downed after lifting weights, to build muscle",
+    "right": "Protein shake",
+    "wrong": [
+     "Slush",
+     "Cordial",
+     "Squash"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this grammar word?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "grammar",
+   "punctuation",
+   "English"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The dot at the end of a sentence",
+    "right": "Full stop",
+    "wrong": [
+     "Asterisk",
+     "Tilde",
+     "Bullet point"
+    ]
+   },
+   {
+    "q": "Separates the items in a list",
+    "right": "Comma",
+    "wrong": [
+     "Slash",
+     "Ampersand",
+     "Dash"
+    ]
+   },
+   {
+    "q": "Shows something belongs, as in 'Tom's'",
+    "right": "Apostrophe",
+    "wrong": [
+     "Asterisk",
+     "Bracket",
+     "Tilde"
+    ]
+   },
+   {
+    "q": "Two dots, one above the other, often before a list",
+    "right": "Colon",
+    "wrong": [
+     "Umlaut",
+     "Ampersand",
+     "Asterisk"
+    ]
+   },
+   {
+    "q": "A dot above a comma, joining two closely linked sentences",
+    "right": "Semicolon",
+    "wrong": [
+     "Ampersand",
+     "Slash",
+     "Dash"
+    ]
+   },
+   {
+    "q": "The short line in 'well-known'",
+    "right": "Hyphen",
+    "wrong": [
+     "Underscore",
+     "Slash",
+     "Tilde"
+    ]
+   },
+   {
+    "q": "Ends a sentence that's shouted or surprising",
+    "right": "Exclamation mark",
+    "wrong": [
+     "Question mark",
+     "Asterisk",
+     "Ampersand"
+    ]
+   },
+   {
+    "q": "Three dots that trail off...",
+    "right": "Ellipsis",
+    "wrong": [
+     "Umlaut",
+     "Bullet points",
+     "Asterisk"
+    ]
+   },
+   {
+    "q": "A naming word, like 'table' or 'London'",
+    "right": "Noun",
+    "wrong": [
+     "Article",
+     "Prefix",
+     "Preposition"
+    ]
+   },
+   {
+    "q": "A doing word, like 'run' or 'think'",
+    "right": "Verb",
+    "wrong": [
+     "Article",
+     "Suffix",
+     "Preposition"
+    ]
+   },
+   {
+    "q": "Describes a noun, like 'big' or 'red'",
+    "right": "Adjective",
+    "wrong": [
+     "Preposition",
+     "Article",
+     "Prefix"
+    ]
+   },
+   {
+    "q": "Describes how something's done, often ending in -ly",
+    "right": "Adverb",
+    "wrong": [
+     "Suffix",
+     "Article",
+     "Preposition"
+    ]
+   },
+   {
+    "q": "Stands in for a noun, like 'she' or 'they'",
+    "right": "Pronoun",
+    "wrong": [
+     "Article",
+     "Prefix",
+     "Preposition"
+    ]
+   },
+   {
+    "q": "A joining word, like 'and', 'but' or 'because'",
+    "right": "Conjunction",
+    "wrong": [
+     "Preposition",
+     "Article",
+     "Interjection"
+    ]
+   },
+   {
+    "q": "A, E, I, O or U",
+    "right": "Vowel",
+    "wrong": [
+     "Consonant",
+     "Syllable",
+     "Digraph"
+    ]
+   },
+   {
+    "q": "A word meaning the same as another",
+    "right": "Synonym",
+    "wrong": [
+     "Homophone",
+     "Acronym",
+     "Anagram"
+    ]
+   },
+   {
+    "q": "A word meaning the opposite of another",
+    "right": "Antonym",
+    "wrong": [
+     "Homophone",
+     "Acronym",
+     "Oxymoron"
+    ]
+   },
+   {
+    "q": "A comparison using 'like' or 'as', as in 'as brave as a lion'",
+    "right": "Simile",
+    "wrong": [
+     "Hyperbole",
+     "Idiom",
+     "Alliteration"
+    ]
+   },
+   {
+    "q": "Saying one thing IS another, as in 'Life is a rollercoaster'",
+    "right": "Metaphor",
+    "wrong": [
+     "Hyperbole",
+     "Onomatopoeia",
+     "Idiom"
+    ]
+   },
+   {
+    "q": "A word that reads the same both ways, like 'level'",
+    "right": "Palindrome",
+    "wrong": [
+     "Anagram",
+     "Acronym",
+     "Homophone"
+    ]
+   }
+  ]
+ }
+]
