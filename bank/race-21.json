@@ -1,0 +1,774 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: name the heroine of this Disney film",
+  "target": 10,
+  "category": "Disney films",
+  "tags": [
+   "Disney",
+   "characters"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Sleeping Beauty",
+    "right": "Aurora",
+    "wrong": [
+     "Odette",
+     "Anastasia",
+     "Thumbelina"
+    ]
+   },
+   {
+    "q": "The Little Mermaid",
+    "right": "Ariel",
+    "wrong": [
+     "Melody",
+     "Vanessa",
+     "Attina"
+    ]
+   },
+   {
+    "q": "Beauty and the Beast",
+    "right": "Belle",
+    "wrong": [
+     "Babette",
+     "Bella",
+     "Rose"
+    ]
+   },
+   {
+    "q": "Aladdin",
+    "right": "Jasmine",
+    "wrong": [
+     "Scheherazade",
+     "Leila",
+     "Yasmin"
+    ]
+   },
+   {
+    "q": "Tangled",
+    "right": "Rapunzel",
+    "wrong": [
+     "Mother Gothel",
+     "Cassandra",
+     "Ruby"
+    ]
+   },
+   {
+    "q": "Brave",
+    "right": "Merida",
+    "wrong": [
+     "Elinor",
+     "Morag",
+     "Isla"
+    ]
+   },
+   {
+    "q": "The Princess and the Frog",
+    "right": "Tiana",
+    "wrong": [
+     "Charlotte",
+     "Mama Odie",
+     "Eudora"
+    ]
+   },
+   {
+    "q": "The Hunchback of Notre Dame",
+    "right": "Esmeralda",
+    "wrong": [
+     "Fleur-de-Lys",
+     "Clopin",
+     "Djali"
+    ]
+   },
+   {
+    "q": "Hercules",
+    "right": "Megara",
+    "wrong": [
+     "Calliope",
+     "Thalia",
+     "Persephone"
+    ]
+   },
+   {
+    "q": "Tarzan",
+    "right": "Jane",
+    "wrong": [
+     "Kala",
+     "Terk",
+     "Clayton"
+    ]
+   },
+   {
+    "q": "Atlantis: The Lost Empire",
+    "right": "Kida",
+    "wrong": [
+     "Audrey",
+     "Helga",
+     "Mrs. Packard"
+    ]
+   },
+   {
+    "q": "Enchanted",
+    "right": "Giselle",
+    "wrong": [
+     "Nancy",
+     "Narissa",
+     "Pip"
+    ]
+   },
+   {
+    "q": "Wish",
+    "right": "Asha",
+    "wrong": [
+     "Sakina",
+     "Dahlia",
+     "Amaya"
+    ]
+   },
+   {
+    "q": "Encanto",
+    "right": "Mirabel",
+    "wrong": [
+     "Isabela",
+     "Luisa",
+     "Dolores"
+    ]
+   },
+   {
+    "q": "The Aristocats",
+    "right": "Duchess",
+    "wrong": [
+     "Marie",
+     "Frou-Frou",
+     "Abigail"
+    ]
+   },
+   {
+    "q": "Peter Pan",
+    "right": "Wendy",
+    "wrong": [
+     "Tinker Bell",
+     "Tiger Lily",
+     "Mary Darling"
+    ]
+   },
+   {
+    "q": "Wreck-It Ralph",
+    "right": "Vanellope",
+    "wrong": [
+     "Taffyta",
+     "Calhoun",
+     "Shank"
+    ]
+   },
+   {
+    "q": "Robin Hood",
+    "right": "Maid Marian",
+    "wrong": [
+     "Lady Kluck",
+     "Skippy",
+     "Sis"
+    ]
+   },
+   {
+    "q": "101 Dalmatians",
+    "right": "Perdita",
+    "wrong": [
+     "Anita",
+     "Lucky",
+     "Rolly"
+    ]
+   },
+   {
+    "q": "The Rescuers",
+    "right": "Penny",
+    "wrong": [
+     "Bianca",
+     "Madame Medusa",
+     "Orville"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this bridge in?",
+  "target": 10,
+  "category": "Famous landmarks",
+  "tags": [
+   "bridges",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The Golden Gate Bridge",
+    "right": "the USA",
+    "wrong": [
+     "Mexico",
+     "Cuba",
+     "Brazil"
+    ]
+   },
+   {
+    "q": "The Charles Bridge",
+    "right": "Czechia",
+    "wrong": [
+     "Slovakia",
+     "Austria",
+     "Poland"
+    ]
+   },
+   {
+    "q": "The Ponte Vecchio",
+    "right": "Italy",
+    "wrong": [
+     "Croatia",
+     "Malta",
+     "Greece"
+    ]
+   },
+   {
+    "q": "Tower Bridge",
+    "right": "England",
+    "wrong": [
+     "Belgium",
+     "the Isle of Man",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "Sydney Harbour Bridge",
+    "right": "Australia",
+    "wrong": [
+     "New Zealand",
+     "South Africa",
+     "Fiji"
+    ]
+   },
+   {
+    "q": "The Pont du Gard",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Luxembourg",
+     "Monaco"
+    ]
+   },
+   {
+    "q": "Stari Most, Mostar",
+    "right": "Bosnia and Herzegovina",
+    "wrong": [
+     "Croatia",
+     "Serbia",
+     "Montenegro"
+    ]
+   },
+   {
+    "q": "The Chain Bridge",
+    "right": "Hungary",
+    "wrong": [
+     "Austria",
+     "Slovakia",
+     "Romania"
+    ]
+   },
+   {
+    "q": "The Akashi Kaikyō Bridge",
+    "right": "Japan",
+    "wrong": [
+     "South Korea",
+     "Taiwan",
+     "China"
+    ]
+   },
+   {
+    "q": "The Forth Bridge",
+    "right": "Scotland",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "The Menai Bridge",
+    "right": "Wales",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "The Ha'penny Bridge",
+    "right": "Ireland",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "The Puente Nuevo, Ronda",
+    "right": "Spain",
+    "wrong": [
+     "Mexico",
+     "Argentina",
+     "Andorra"
+    ]
+   },
+   {
+    "q": "The Vasco da Gama Bridge",
+    "right": "Portugal",
+    "wrong": [
+     "Brazil",
+     "Mozambique",
+     "Angola"
+    ]
+   },
+   {
+    "q": "The Erasmus Bridge",
+    "right": "the Netherlands",
+    "wrong": [
+     "Belgium",
+     "Germany",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "The Helix Bridge",
+    "right": "Singapore",
+    "wrong": [
+     "Malaysia",
+     "Thailand",
+     "Indonesia"
+    ]
+   },
+   {
+    "q": "The Confederation Bridge",
+    "right": "Canada",
+    "wrong": [
+     "Iceland",
+     "Greenland",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "Storseisundet, the 'road to nowhere'",
+    "right": "Norway",
+    "wrong": [
+     "Sweden",
+     "Finland",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "The Kapellbrücke",
+    "right": "Switzerland",
+    "wrong": [
+     "Austria",
+     "Germany",
+     "Liechtenstein"
+    ]
+   },
+   {
+    "q": "The Galata Bridge",
+    "right": "Turkey",
+    "wrong": [
+     "Greece",
+     "Cyprus",
+     "Bulgaria"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which Shakespeare play is set here?",
+  "target": 10,
+  "category": "Shakespeare",
+  "tags": [
+   "Shakespeare",
+   "settings"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Elsinore",
+    "right": "Hamlet",
+    "wrong": [
+     "King Lear",
+     "Richard III",
+     "Cymbeline"
+    ]
+   },
+   {
+    "q": "Verona",
+    "right": "Romeo and Juliet",
+    "wrong": [
+     "Titus Andronicus",
+     "Coriolanus",
+     "All's Well That Ends Well"
+    ]
+   },
+   {
+    "q": "Scotland, Dunsinane and Birnam Wood",
+    "right": "Macbeth",
+    "wrong": [
+     "King Lear",
+     "Richard III",
+     "Henry IV"
+    ]
+   },
+   {
+    "q": "Illyria",
+    "right": "Twelfth Night",
+    "wrong": [
+     "All's Well That Ends Well",
+     "Cymbeline",
+     "King John"
+    ]
+   },
+   {
+    "q": "The Forest of Arden",
+    "right": "As You Like It",
+    "wrong": [
+     "Cymbeline",
+     "Timon of Athens",
+     "King Lear"
+    ]
+   },
+   {
+    "q": "A fairy wood near Athens",
+    "right": "A Midsummer Night's Dream",
+    "wrong": [
+     "Cymbeline",
+     "Titus Andronicus",
+     "King John"
+    ]
+   },
+   {
+    "q": "Messina",
+    "right": "Much Ado About Nothing",
+    "wrong": [
+     "Cymbeline",
+     "King John",
+     "Richard II"
+    ]
+   },
+   {
+    "q": "Padua",
+    "right": "The Taming of the Shrew",
+    "wrong": [
+     "The Two Gentlemen of Verona",
+     "All's Well That Ends Well",
+     "Coriolanus"
+    ]
+   },
+   {
+    "q": "Alexandria",
+    "right": "Antony and Cleopatra",
+    "wrong": [
+     "Titus Andronicus",
+     "Coriolanus",
+     "Timon of Athens"
+    ]
+   },
+   {
+    "q": "Sicilia and Bohemia",
+    "right": "The Winter's Tale",
+    "wrong": [
+     "Cymbeline",
+     "All's Well That Ends Well",
+     "King Lear"
+    ]
+   },
+   {
+    "q": "Navarre",
+    "right": "Love's Labour's Lost",
+    "wrong": [
+     "All's Well That Ends Well",
+     "Henry VIII",
+     "Richard II"
+    ]
+   },
+   {
+    "q": "Vienna",
+    "right": "Measure for Measure",
+    "wrong": [
+     "The Two Gentlemen of Verona",
+     "King John",
+     "Cymbeline"
+    ]
+   },
+   {
+    "q": "Ephesus, with two sets of twins",
+    "right": "The Comedy of Errors",
+    "wrong": [
+     "Timon of Athens",
+     "Titus Andronicus",
+     "Coriolanus"
+    ]
+   },
+   {
+    "q": "Troy",
+    "right": "Troilus and Cressida",
+    "wrong": [
+     "Titus Andronicus",
+     "Coriolanus",
+     "Timon of Athens"
+    ]
+   },
+   {
+    "q": "Tyre",
+    "right": "Pericles",
+    "wrong": [
+     "Timon of Athens",
+     "Cymbeline",
+     "Titus Andronicus"
+    ]
+   },
+   {
+    "q": "Belmont, where Portia lives",
+    "right": "The Merchant of Venice",
+    "wrong": [
+     "The Two Gentlemen of Verona",
+     "All's Well That Ends Well",
+     "Cymbeline"
+    ]
+   },
+   {
+    "q": "Cyprus, where a general is fooled by Iago",
+    "right": "Othello",
+    "wrong": [
+     "Titus Andronicus",
+     "Cymbeline",
+     "King John"
+    ]
+   },
+   {
+    "q": "Prospero's remote island",
+    "right": "The Tempest",
+    "wrong": [
+     "Cymbeline",
+     "King Lear",
+     "All's Well That Ends Well"
+    ]
+   },
+   {
+    "q": "Rome, on the Ides of March",
+    "right": "Julius Caesar",
+    "wrong": [
+     "King Lear",
+     "Richard III",
+     "Henry IV"
+    ]
+   },
+   {
+    "q": "Agincourt",
+    "right": "Henry V",
+    "wrong": [
+     "Henry IV",
+     "Richard II",
+     "King John"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which city is home to this US team?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "US sport",
+   "cities"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The Lakers (basketball)",
+    "right": "Los Angeles",
+    "wrong": [
+     "Sacramento",
+     "Oakland",
+     "San Diego"
+    ]
+   },
+   {
+    "q": "The Celtics (basketball)",
+    "right": "Boston",
+    "wrong": [
+     "Philadelphia",
+     "Washington",
+     "Providence"
+    ]
+   },
+   {
+    "q": "The Yankees (baseball)",
+    "right": "New York",
+    "wrong": [
+     "Philadelphia",
+     "Washington",
+     "Newark"
+    ]
+   },
+   {
+    "q": "The Cowboys (American football)",
+    "right": "Dallas",
+    "wrong": [
+     "San Antonio",
+     "Austin",
+     "Oklahoma City"
+    ]
+   },
+   {
+    "q": "The Bulls (basketball)",
+    "right": "Chicago",
+    "wrong": [
+     "Milwaukee",
+     "Cleveland",
+     "Cincinnati"
+    ]
+   },
+   {
+    "q": "The 49ers (American football)",
+    "right": "San Francisco",
+    "wrong": [
+     "Oakland",
+     "San Diego",
+     "Sacramento"
+    ]
+   },
+   {
+    "q": "The Packers (American football)",
+    "right": "Green Bay",
+    "wrong": [
+     "Milwaukee",
+     "Madison",
+     "Cleveland"
+    ]
+   },
+   {
+    "q": "The Steelers (American football)",
+    "right": "Pittsburgh",
+    "wrong": [
+     "Philadelphia",
+     "Cleveland",
+     "Cincinnati"
+    ]
+   },
+   {
+    "q": "The Heat (basketball)",
+    "right": "Miami",
+    "wrong": [
+     "Orlando",
+     "Tampa",
+     "Jacksonville"
+    ]
+   },
+   {
+    "q": "The Rockets (basketball)",
+    "right": "Houston",
+    "wrong": [
+     "San Antonio",
+     "Austin",
+     "Oklahoma City"
+    ]
+   },
+   {
+    "q": "The Broncos (American football)",
+    "right": "Denver",
+    "wrong": [
+     "Salt Lake City",
+     "Kansas City",
+     "Las Vegas"
+    ]
+   },
+   {
+    "q": "The Seahawks (American football)",
+    "right": "Seattle",
+    "wrong": [
+     "Portland",
+     "Vancouver",
+     "Sacramento"
+    ]
+   },
+   {
+    "q": "The Saints (American football)",
+    "right": "New Orleans",
+    "wrong": [
+     "Memphis",
+     "Nashville",
+     "Jacksonville"
+    ]
+   },
+   {
+    "q": "The Raptors (basketball)",
+    "right": "Toronto",
+    "wrong": [
+     "Montreal",
+     "Vancouver",
+     "Ottawa"
+    ]
+   },
+   {
+    "q": "The Cardinals (baseball)",
+    "right": "St. Louis",
+    "wrong": [
+     "Kansas City",
+     "Cincinnati",
+     "Milwaukee"
+    ]
+   },
+   {
+    "q": "The Tigers (baseball)",
+    "right": "Detroit",
+    "wrong": [
+     "Cleveland",
+     "Cincinnati",
+     "Milwaukee"
+    ]
+   },
+   {
+    "q": "The Braves (baseball)",
+    "right": "Atlanta",
+    "wrong": [
+     "Charlotte",
+     "Nashville",
+     "Jacksonville"
+    ]
+   },
+   {
+    "q": "The Suns (basketball)",
+    "right": "Phoenix",
+    "wrong": [
+     "Las Vegas",
+     "Salt Lake City",
+     "Albuquerque"
+    ]
+   },
+   {
+    "q": "The Vikings (American football)",
+    "right": "Minneapolis",
+    "wrong": [
+     "Milwaukee",
+     "Kansas City",
+     "Omaha"
+    ]
+   },
+   {
+    "q": "The Colts (American football)",
+    "right": "Indianapolis",
+    "wrong": [
+     "Cincinnati",
+     "Louisville",
+     "Columbus"
+    ]
+   }
+  ]
+ }
+]
