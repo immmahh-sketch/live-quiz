@@ -1,0 +1,388 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this cricket word?",
+  "target": 10,
+  "category": "Cricket",
+  "tags": [
+   "cricket",
+   "words"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "A leg-spinner's trick ball that turns the 'wrong' way",
+    "right": "Googly",
+    "wrong": [
+     "Doosra",
+     "Flipper",
+     "Teesra"
+    ]
+   },
+   {
+    "q": "A short ball that rears up towards the batter's head",
+    "right": "Bouncer",
+    "wrong": [
+     "Beamer",
+     "Slower ball",
+     "Flipper"
+    ]
+   },
+   {
+    "q": "A close fielding spot between the slips and point",
+    "right": "Gully",
+    "wrong": [
+     "Third man",
+     "Fine leg",
+     "Square leg"
+    ]
+   },
+   {
+    "q": "A brave fielder crouched just off the bat on the off side",
+    "right": "Silly point",
+    "wrong": [
+     "Short leg",
+     "Mid-wicket",
+     "Cover"
+    ]
+   },
+   {
+    "q": "A lower-order batter sent in late in the day to protect a better one",
+    "right": "Nightwatchman",
+    "wrong": [
+     "Pinch hitter",
+     "Runner",
+     "Twelfth man"
+    ]
+   },
+   {
+    "q": "Made to bat again straight away after falling far behind",
+    "right": "Follow-on",
+    "wrong": [
+     "Super over",
+     "Retired hurt",
+     "Free hit"
+    ]
+   },
+   {
+    "q": "The captain ends his side's innings early, with wickets still in hand",
+    "right": "Declare",
+    "wrong": [
+     "Retired hurt",
+     "Timed out",
+     "Concede"
+    ]
+   },
+   {
+    "q": "Three wickets with three balls in a row",
+    "right": "Hat-trick",
+    "wrong": [
+     "Five-for",
+     "Maiden",
+     "Ton"
+    ]
+   },
+   {
+    "q": "Out because the keeper broke the wicket while you'd wandered out of your crease",
+    "right": "Stumped",
+    "wrong": [
+     "Caught behind",
+     "Timed out",
+     "Obstructing the field"
+    ]
+   },
+   {
+    "q": "Out because the stumps were broken before you made your ground going for a run",
+    "right": "Run out",
+    "wrong": [
+     "Caught behind",
+     "Timed out",
+     "Hit wicket"
+    ]
+   },
+   {
+    "q": "Out first ball, without scoring",
+    "right": "Golden duck",
+    "wrong": [
+     "Pair",
+     "Ton",
+     "Five-for"
+    ]
+   },
+   {
+    "q": "The 'unlucky' score of 111, when umpire David Shepherd would hop on one leg",
+    "right": "Nelson",
+    "wrong": [
+     "Ton",
+     "Pair",
+     "Five-for"
+    ]
+   },
+   {
+    "q": "A ball bowled too far from the batter to reach, giving away a run",
+    "right": "Wide",
+    "wrong": [
+     "Bye",
+     "Dead ball",
+     "Free hit"
+    ]
+   },
+   {
+    "q": "An illegal delivery, often for overstepping the crease",
+    "right": "No-ball",
+    "wrong": [
+     "Dead ball",
+     "Bye",
+     "Overthrow"
+    ]
+   },
+   {
+    "q": "A run scored after the ball hits the batter's body rather than the bat",
+    "right": "Leg bye",
+    "wrong": [
+     "Bye",
+     "Overthrow",
+     "Free hit"
+    ]
+   },
+   {
+    "q": "Trash talk from fielders to put the batter off",
+    "right": "Sledging",
+    "wrong": [
+     "Chin music",
+     "Corridor of uncertainty",
+     "Dibbly-dobbly"
+    ]
+   },
+   {
+    "q": "One of the weakest batters, coming in at the bottom of the order",
+    "right": "Tail-ender",
+    "wrong": [
+     "Pinch hitter",
+     "Runner",
+     "Twelfth man"
+    ]
+   },
+   {
+    "q": "The overs at the start of a one-day innings when fielders must stay inside the circle",
+    "right": "Powerplay",
+    "wrong": [
+     "Super over",
+     "Free hit",
+     "Dead ball"
+    ]
+   },
+   {
+    "q": "Six balls bowled from one end",
+    "right": "Over",
+    "wrong": [
+     "Spell",
+     "Session",
+     "Innings"
+    ]
+   },
+   {
+    "q": "A shot played down on one knee, swinging the ball round behind square",
+    "right": "Sweep",
+    "wrong": [
+     "Cover drive",
+     "Hook",
+     "Cut"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this golf word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "golf",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Three under par on a single hole",
+    "right": "Albatross",
+    "wrong": [
+     "Condor",
+     "Snowman",
+     "Bandit"
+    ]
+   },
+   {
+    "q": "Two under par on a single hole",
+    "right": "Eagle",
+    "wrong": [
+     "Condor",
+     "Snowman",
+     "Scramble"
+    ]
+   },
+   {
+    "q": "One over par on a single hole",
+    "right": "Bogey",
+    "wrong": [
+     "Snowman",
+     "Condor",
+     "Duff"
+    ]
+   },
+   {
+    "q": "An unofficial free do-over after a bad shot",
+    "right": "Mulligan",
+    "wrong": [
+     "Provisional",
+     "Scramble",
+     "Skins"
+    ]
+   },
+   {
+    "q": "The lump of turf you dig out with a shot",
+    "right": "Divot",
+    "wrong": [
+     "Fringe",
+     "Collar",
+     "Lip"
+    ]
+   },
+   {
+    "q": "The little peg you balance the ball on for your first shot",
+    "right": "Tee",
+    "wrong": [
+     "Ball marker",
+     "Flagstick",
+     "Lip"
+    ]
+   },
+   {
+    "q": "The neatly mown strip between the tee and the green",
+    "right": "Fairway",
+    "wrong": [
+     "Fringe",
+     "Apron",
+     "Collar"
+    ]
+   },
+   {
+    "q": "The longer grass either side of that neatly mown strip",
+    "right": "Rough",
+    "wrong": [
+     "Fringe",
+     "Apron",
+     "Collar"
+    ]
+   },
+   {
+    "q": "A hole that bends sharply to the left or right",
+    "right": "Dogleg",
+    "wrong": [
+     "Pin high",
+     "Out of bounds",
+     "Lip"
+    ]
+   },
+   {
+    "q": "The number of shots a weaker player gets to level things up",
+    "right": "Handicap",
+    "wrong": [
+     "Bandit",
+     "Medal",
+     "Nassau"
+    ]
+   },
+   {
+    "q": "A shot that curves badly away to the right, for a right-hander",
+    "right": "Slice",
+    "wrong": [
+     "Draw",
+     "Hook",
+     "Duff"
+    ]
+   },
+   {
+    "q": "A horror shot off the neck of the club that shoots off sideways",
+    "right": "Shank",
+    "wrong": [
+     "Skull",
+     "Thin",
+     "Duff"
+    ]
+   },
+   {
+    "q": "A short putt your opponent lets you skip",
+    "right": "Gimme",
+    "wrong": [
+     "Scramble",
+     "Skins",
+     "Nassau"
+    ]
+   },
+   {
+    "q": "A seaside course on sandy ground, like St Andrews",
+    "right": "Links",
+    "wrong": [
+     "Parkland",
+     "Heathland",
+     "Moorland"
+    ]
+   },
+   {
+    "q": "A scoring system giving points for each hole instead of counting total strokes",
+    "right": "Stableford",
+    "wrong": [
+     "Medal",
+     "Matchplay",
+     "Skins"
+    ]
+   },
+   {
+    "q": "The club with the biggest head, for the longest shots off the tee",
+    "right": "Driver",
+    "wrong": [
+     "Hybrid",
+     "Spoon",
+     "Mashie"
+    ]
+   },
+   {
+    "q": "A steep-faced club for short, high shots and getting out of sand",
+    "right": "Wedge",
+    "wrong": [
+     "Hybrid",
+     "Spoon",
+     "Mashie"
+    ]
+   },
+   {
+    "q": "Holes 10 to 18",
+    "right": "Back nine",
+    "wrong": [
+     "Front nine",
+     "Turn",
+     "Scramble"
+    ]
+   },
+   {
+    "q": "Nervy twitching that ruins short putts",
+    "right": "Yips",
+    "wrong": [
+     "Snowman",
+     "Lip",
+     "Duff"
+    ]
+   },
+   {
+    "q": "A very high, soft lob over a bunker that lands dead",
+    "right": "Flop shot",
+    "wrong": [
+     "Worm burner",
+     "Punch shot",
+     "Bump and run"
+    ]
+   }
+  ]
+ }
+]
