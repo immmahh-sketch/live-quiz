@@ -1,0 +1,581 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which country is this famous forest in?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "forests",
+   "countries"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The Black Forest",
+    "right": "Germany",
+    "wrong": [
+     "Austria",
+     "Switzerland",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "Sherwood Forest",
+    "right": "England",
+    "wrong": [
+     "Ireland",
+     "the Isle of Man",
+     "Jersey"
+    ]
+   },
+   {
+    "q": "The Daintree Rainforest",
+    "right": "Australia",
+    "wrong": [
+     "Papua New Guinea",
+     "Fiji",
+     "Indonesia"
+    ]
+   },
+   {
+    "q": "The Hoh Rainforest",
+    "right": "the USA",
+    "wrong": [
+     "Greenland",
+     "Iceland",
+     "Ireland"
+    ]
+   },
+   {
+    "q": "Monteverde Cloud Forest",
+    "right": "Costa Rica",
+    "wrong": [
+     "Panama",
+     "Nicaragua",
+     "Honduras"
+    ]
+   },
+   {
+    "q": "Hoia Baciu, the 'haunted' forest",
+    "right": "Romania",
+    "wrong": [
+     "Hungary",
+     "Bulgaria",
+     "Moldova"
+    ]
+   },
+   {
+    "q": "The Crooked Forest",
+    "right": "Poland",
+    "wrong": [
+     "Czechia",
+     "Slovakia",
+     "Lithuania"
+    ]
+   },
+   {
+    "q": "The Forest of Fontainebleau",
+    "right": "France",
+    "wrong": [
+     "Luxembourg",
+     "Switzerland",
+     "Monaco"
+    ]
+   },
+   {
+    "q": "Hallerbos, the bluebell wood",
+    "right": "Belgium",
+    "wrong": [
+     "Luxembourg",
+     "the Netherlands",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "The Arashiyama Bamboo Grove",
+    "right": "Japan",
+    "wrong": [
+     "China",
+     "Taiwan",
+     "South Korea"
+    ]
+   },
+   {
+    "q": "Sinharaja Forest",
+    "right": "Sri Lanka",
+    "wrong": [
+     "India",
+     "Bangladesh",
+     "the Maldives"
+    ]
+   },
+   {
+    "q": "The Tsingy de Bemaraha stone forest",
+    "right": "Madagascar",
+    "wrong": [
+     "Mozambique",
+     "Mauritius",
+     "the Comoros"
+    ]
+   },
+   {
+    "q": "The Great Bear Rainforest",
+    "right": "Canada",
+    "wrong": [
+     "Greenland",
+     "Iceland",
+     "Ireland"
+    ]
+   },
+   {
+    "q": "Chapultepec Forest",
+    "right": "Mexico",
+    "wrong": [
+     "Guatemala",
+     "Cuba",
+     "Belize"
+    ]
+   },
+   {
+    "q": "Waipoua Forest, home of the giant kauri",
+    "right": "New Zealand",
+    "wrong": [
+     "Fiji",
+     "Samoa",
+     "Papua New Guinea"
+    ]
+   },
+   {
+    "q": "Galloway Forest",
+    "right": "Scotland",
+    "wrong": [
+     "Ireland",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Tollymore Forest",
+    "right": "Northern Ireland",
+    "wrong": [
+     "Ireland",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Gwydir Forest",
+    "right": "Wales",
+    "wrong": [
+     "Ireland",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Pacaya-Samiria Reserve",
+    "right": "Peru",
+    "wrong": [
+     "Bolivia",
+     "Venezuela",
+     "Paraguay"
+    ]
+   },
+   {
+    "q": "Yasuní National Park",
+    "right": "Ecuador",
+    "wrong": [
+     "Bolivia",
+     "Venezuela",
+     "Paraguay"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which island is this famous sight on?",
+  "target": 10,
+  "category": "Travel",
+  "tags": [
+   "islands",
+   "landmarks"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The Statue of Liberty",
+    "right": "Liberty Island",
+    "wrong": [
+     "Ellis Island",
+     "Manhattan",
+     "Staten Island"
+    ]
+   },
+   {
+    "q": "The moai statues",
+    "right": "Easter Island",
+    "wrong": [
+     "Tahiti",
+     "Pitcairn",
+     "Galápagos"
+    ]
+   },
+   {
+    "q": "The Blue Grotto",
+    "right": "Capri",
+    "wrong": [
+     "Ischia",
+     "Elba",
+     "Malta"
+    ]
+   },
+   {
+    "q": "The Old Man of Hoy",
+    "right": "Hoy",
+    "wrong": [
+     "Lewis",
+     "Unst",
+     "Mull"
+    ]
+   },
+   {
+    "q": "The Old Man of Storr",
+    "right": "Skye",
+    "wrong": [
+     "Lewis",
+     "Mull",
+     "Arran"
+    ]
+   },
+   {
+    "q": "The Needles",
+    "right": "The Isle of Wight",
+    "wrong": [
+     "The Isle of Man",
+     "Anglesey",
+     "Jersey"
+    ]
+   },
+   {
+    "q": "Lindisfarne Castle",
+    "right": "Holy Island",
+    "wrong": [
+     "The Farne Islands",
+     "Anglesey",
+     "The Isle of Man"
+    ]
+   },
+   {
+    "q": "Fingal's Cave",
+    "right": "Staffa",
+    "wrong": [
+     "Iona",
+     "Mull",
+     "Arran"
+    ]
+   },
+   {
+    "q": "Tanah Lot temple",
+    "right": "Bali",
+    "wrong": [
+     "Java",
+     "Lombok",
+     "Sumatra"
+    ]
+   },
+   {
+    "q": "The Big Buddha (Tian Tan)",
+    "right": "Lantau",
+    "wrong": [
+     "Hong Kong Island",
+     "Macau",
+     "Taiwan"
+    ]
+   },
+   {
+    "q": "The floating torii of Itsukushima Shrine",
+    "right": "Miyajima",
+    "wrong": [
+     "Okinawa",
+     "Hokkaido",
+     "Shikoku"
+    ]
+   },
+   {
+    "q": "The palace of Knossos",
+    "right": "Crete",
+    "wrong": [
+     "Kos",
+     "Naxos",
+     "Cyprus"
+    ]
+   },
+   {
+    "q": "The Achilleion Palace",
+    "right": "Corfu",
+    "wrong": [
+     "Kos",
+     "Naxos",
+     "Zakynthos"
+    ]
+   },
+   {
+    "q": "The village of Oia",
+    "right": "Santorini",
+    "wrong": [
+     "Mykonos",
+     "Naxos",
+     "Paros"
+    ]
+   },
+   {
+    "q": "St Magnus Cathedral",
+    "right": "Orkney",
+    "wrong": [
+     "Shetland",
+     "Lewis",
+     "Arran"
+    ]
+   },
+   {
+    "q": "Tresco Abbey Garden",
+    "right": "Tresco",
+    "wrong": [
+     "St Mary's",
+     "Lundy",
+     "Jersey"
+    ]
+   },
+   {
+    "q": "Mount Etna",
+    "right": "Sicily",
+    "wrong": [
+     "Ischia",
+     "Malta",
+     "Elba"
+    ]
+   },
+   {
+    "q": "The nuraghe of Su Nuraxi",
+    "right": "Sardinia",
+    "wrong": [
+     "Malta",
+     "Elba",
+     "Ischia"
+    ]
+   },
+   {
+    "q": "Napoleon's birthplace",
+    "right": "Corsica",
+    "wrong": [
+     "Elba",
+     "Malta",
+     "Ischia"
+    ]
+   },
+   {
+    "q": "Brownsea Castle",
+    "right": "Brownsea Island",
+    "wrong": [
+     "Lundy",
+     "Hayling Island",
+     "Portland"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this famous valley in?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "valleys",
+   "countries"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The Valley of the Kings",
+    "right": "Egypt",
+    "wrong": [
+     "Sudan",
+     "Jordan",
+     "Libya"
+    ]
+   },
+   {
+    "q": "The Rhine Gorge's castles",
+    "right": "Germany",
+    "wrong": [
+     "Luxembourg",
+     "Belgium",
+     "the Netherlands"
+    ]
+   },
+   {
+    "q": "The Loire Valley's châteaux",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Luxembourg",
+     "Monaco"
+    ]
+   },
+   {
+    "q": "The Douro Valley's port vineyards",
+    "right": "Portugal",
+    "wrong": [
+     "Andorra",
+     "Malta",
+     "Greece"
+    ]
+   },
+   {
+    "q": "The Kathmandu Valley",
+    "right": "Nepal",
+    "wrong": [
+     "Bhutan",
+     "Bangladesh",
+     "Sri Lanka"
+    ]
+   },
+   {
+    "q": "The Barossa Valley",
+    "right": "Australia",
+    "wrong": [
+     "New Zealand",
+     "Fiji",
+     "South Africa"
+    ]
+   },
+   {
+    "q": "The Okanagan Valley",
+    "right": "Canada",
+    "wrong": [
+     "New Zealand",
+     "Iceland",
+     "Ireland"
+    ]
+   },
+   {
+    "q": "The Elqui Valley",
+    "right": "Chile",
+    "wrong": [
+     "Argentina",
+     "Bolivia",
+     "Uruguay"
+    ]
+   },
+   {
+    "q": "The Bekaa Valley",
+    "right": "Lebanon",
+    "wrong": [
+     "Syria",
+     "Jordan",
+     "Cyprus"
+    ]
+   },
+   {
+    "q": "The Hunza Valley",
+    "right": "Pakistan",
+    "wrong": [
+     "Afghanistan",
+     "Tajikistan",
+     "Bangladesh"
+    ]
+   },
+   {
+    "q": "The Wachau Valley",
+    "right": "Austria",
+    "wrong": [
+     "Czechia",
+     "Slovakia",
+     "Hungary"
+    ]
+   },
+   {
+    "q": "The Rhondda",
+    "right": "Wales",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Ireland"
+    ]
+   },
+   {
+    "q": "Glen Coe",
+    "right": "Scotland",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Ireland"
+    ]
+   },
+   {
+    "q": "Swaledale",
+    "right": "England",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Ireland"
+    ]
+   },
+   {
+    "q": "The Lauterbrunnen Valley",
+    "right": "Switzerland",
+    "wrong": [
+     "Liechtenstein",
+     "Slovenia",
+     "Czechia"
+    ]
+   },
+   {
+    "q": "The Valley of the Roses",
+    "right": "Bulgaria",
+    "wrong": [
+     "Romania",
+     "Greece",
+     "North Macedonia"
+    ]
+   },
+   {
+    "q": "The Val d'Orcia",
+    "right": "Italy",
+    "wrong": [
+     "Malta",
+     "San Marino",
+     "Greece"
+    ]
+   },
+   {
+    "q": "The Cocora Valley's wax palms",
+    "right": "Colombia",
+    "wrong": [
+     "Venezuela",
+     "Ecuador",
+     "Panama"
+    ]
+   },
+   {
+    "q": "The Sacred Valley of the Incas",
+    "right": "Peru",
+    "wrong": [
+     "Bolivia",
+     "Ecuador",
+     "Argentina"
+    ]
+   },
+   {
+    "q": "The Viñales Valley",
+    "right": "Cuba",
+    "wrong": [
+     "Jamaica",
+     "the Dominican Republic",
+     "Puerto Rico"
+    ]
+   }
+  ]
+ }
+]
