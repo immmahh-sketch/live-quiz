@@ -1,0 +1,775 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which country is this lake in?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "lakes",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Loch Ness",
+    "right": "Scotland",
+    "wrong": [
+     "the Isle of Man",
+     "Norway",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Lake Como",
+    "right": "Italy",
+    "wrong": [
+     "Switzerland",
+     "Croatia",
+     "Spain"
+    ]
+   },
+   {
+    "q": "Lake Bled",
+    "right": "Slovenia",
+    "wrong": [
+     "Croatia",
+     "Slovakia",
+     "Czechia"
+    ]
+   },
+   {
+    "q": "Lake Baikal",
+    "right": "Russia",
+    "wrong": [
+     "Mongolia",
+     "Kazakhstan",
+     "Belarus"
+    ]
+   },
+   {
+    "q": "Lough Neagh",
+    "right": "Northern Ireland",
+    "wrong": [
+     "the Isle of Man",
+     "Iceland",
+     "Norway"
+    ]
+   },
+   {
+    "q": "Lake Balaton",
+    "right": "Hungary",
+    "wrong": [
+     "Slovakia",
+     "Czechia",
+     "Croatia"
+    ]
+   },
+   {
+    "q": "Lake Taupō",
+    "right": "New Zealand",
+    "wrong": [
+     "Australia",
+     "Fiji",
+     "Samoa"
+    ]
+   },
+   {
+    "q": "Lake Louise",
+    "right": "Canada",
+    "wrong": [
+     "Iceland",
+     "Norway",
+     "Greenland"
+    ]
+   },
+   {
+    "q": "Lake Tahoe",
+    "right": "the USA",
+    "wrong": [
+     "Mexico",
+     "Iceland",
+     "Cuba"
+    ]
+   },
+   {
+    "q": "Lake Inari",
+    "right": "Finland",
+    "wrong": [
+     "Estonia",
+     "Norway",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Lake Vättern",
+    "right": "Sweden",
+    "wrong": [
+     "Norway",
+     "Estonia",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "Lake Annecy",
+    "right": "France",
+    "wrong": [
+     "Switzerland",
+     "Belgium",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "The Königssee",
+    "right": "Germany",
+    "wrong": [
+     "Switzerland",
+     "Czechia",
+     "Liechtenstein"
+    ]
+   },
+   {
+    "q": "Lake Hallstatt",
+    "right": "Austria",
+    "wrong": [
+     "Switzerland",
+     "Liechtenstein",
+     "Czechia"
+    ]
+   },
+   {
+    "q": "Bala Lake (Llyn Tegid)",
+    "right": "Wales",
+    "wrong": [
+     "the Isle of Man",
+     "Norway",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "Windermere",
+    "right": "England",
+    "wrong": [
+     "the Isle of Man",
+     "Norway",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "Lough Corrib",
+    "right": "Ireland",
+    "wrong": [
+     "the Isle of Man",
+     "Iceland",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "Lake Toba",
+    "right": "Indonesia",
+    "wrong": [
+     "Malaysia",
+     "the Philippines",
+     "Thailand"
+    ]
+   },
+   {
+    "q": "Lake Pichola, Udaipur",
+    "right": "India",
+    "wrong": [
+     "Pakistan",
+     "Nepal",
+     "Sri Lanka"
+    ]
+   },
+   {
+    "q": "Lake Kawaguchi, below Mount Fuji",
+    "right": "Japan",
+    "wrong": [
+     "South Korea",
+     "Taiwan",
+     "China"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country does this cheese come from?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "cheese",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Brie",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Luxembourg",
+     "Austria"
+    ]
+   },
+   {
+    "q": "Gouda",
+    "right": "the Netherlands",
+    "wrong": [
+     "Belgium",
+     "Luxembourg",
+     "Austria"
+    ]
+   },
+   {
+    "q": "Feta",
+    "right": "Greece",
+    "wrong": [
+     "Turkey",
+     "Bulgaria",
+     "Lebanon"
+    ]
+   },
+   {
+    "q": "Mozzarella",
+    "right": "Italy",
+    "wrong": [
+     "Austria",
+     "Croatia",
+     "Malta"
+    ]
+   },
+   {
+    "q": "Cheddar",
+    "right": "England",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Belgium"
+    ]
+   },
+   {
+    "q": "Emmental",
+    "right": "Switzerland",
+    "wrong": [
+     "Austria",
+     "Luxembourg",
+     "Belgium"
+    ]
+   },
+   {
+    "q": "Manchego",
+    "right": "Spain",
+    "wrong": [
+     "Argentina",
+     "Chile",
+     "Uruguay"
+    ]
+   },
+   {
+    "q": "Halloumi",
+    "right": "Cyprus",
+    "wrong": [
+     "Turkey",
+     "Lebanon",
+     "Malta"
+    ]
+   },
+   {
+    "q": "Havarti",
+    "right": "Denmark",
+    "wrong": [
+     "Iceland",
+     "Estonia",
+     "Belgium"
+    ]
+   },
+   {
+    "q": "Jarlsberg",
+    "right": "Norway",
+    "wrong": [
+     "Iceland",
+     "Estonia",
+     "Belgium"
+    ]
+   },
+   {
+    "q": "Caerphilly",
+    "right": "Wales",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Belgium"
+    ]
+   },
+   {
+    "q": "Dunlop",
+    "right": "Scotland",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Cashel Blue",
+    "right": "Ireland",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Bryndza",
+    "right": "Slovakia",
+    "wrong": [
+     "Czechia",
+     "Hungary",
+     "Austria"
+    ]
+   },
+   {
+    "q": "Queso Oaxaca",
+    "right": "Mexico",
+    "wrong": [
+     "Argentina",
+     "Colombia",
+     "Peru"
+    ]
+   },
+   {
+    "q": "Västerbottensost",
+    "right": "Sweden",
+    "wrong": [
+     "Iceland",
+     "Estonia",
+     "Latvia"
+    ]
+   },
+   {
+    "q": "Oscypek",
+    "right": "Poland",
+    "wrong": [
+     "Czechia",
+     "Hungary",
+     "Lithuania"
+    ]
+   },
+   {
+    "q": "Butterkäse",
+    "right": "Germany",
+    "wrong": [
+     "Austria",
+     "Luxembourg",
+     "Belgium"
+    ]
+   },
+   {
+    "q": "Queijo da Serra",
+    "right": "Portugal",
+    "wrong": [
+     "Brazil",
+     "Argentina",
+     "Uruguay"
+    ]
+   },
+   {
+    "q": "Leipäjuusto, the 'squeaky cheese'",
+    "right": "Finland",
+    "wrong": [
+     "Iceland",
+     "Estonia",
+     "Latvia"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what does this trade make or work with?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "trades",
+   "jobs"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Cartographer",
+    "right": "Maps",
+    "wrong": [
+     "Carts",
+     "Cards",
+     "Calendars"
+    ]
+   },
+   {
+    "q": "Lexicographer",
+    "right": "Dictionaries",
+    "wrong": [
+     "Lectures",
+     "Letters",
+     "Laws"
+    ]
+   },
+   {
+    "q": "Cooper",
+    "right": "Barrels",
+    "wrong": [
+     "Copper pots",
+     "Chicken coops",
+     "Baskets"
+    ]
+   },
+   {
+    "q": "Fletcher",
+    "right": "Arrows",
+    "wrong": [
+     "Flutes",
+     "Fences",
+     "Flags"
+    ]
+   },
+   {
+    "q": "Milliner",
+    "right": "Hats",
+    "wrong": [
+     "Mills",
+     "Gloves",
+     "Dresses"
+    ]
+   },
+   {
+    "q": "Cobbler",
+    "right": "Shoes",
+    "wrong": [
+     "Saddles",
+     "Belts",
+     "Gloves"
+    ]
+   },
+   {
+    "q": "Farrier",
+    "right": "Horseshoes",
+    "wrong": [
+     "Ferries",
+     "Fur coats",
+     "Fences"
+    ]
+   },
+   {
+    "q": "Chandler (originally)",
+    "right": "Candles",
+    "wrong": [
+     "Chandeliers",
+     "Soap",
+     "Lamps"
+    ]
+   },
+   {
+    "q": "Sommelier",
+    "right": "Wine",
+    "wrong": [
+     "Cheese",
+     "Bread",
+     "Coffee"
+    ]
+   },
+   {
+    "q": "Taxidermist",
+    "right": "Stuffed animals",
+    "wrong": [
+     "Taxes",
+     "Taxis",
+     "Tattoos"
+    ]
+   },
+   {
+    "q": "Horologist",
+    "right": "Clocks and watches",
+    "wrong": [
+     "Horoscopes",
+     "Horses",
+     "Horns"
+    ]
+   },
+   {
+    "q": "Luthier",
+    "right": "Guitars and violins",
+    "wrong": [
+     "Drums",
+     "Trumpets",
+     "Pianos"
+    ]
+   },
+   {
+    "q": "Apiarist",
+    "right": "Bees",
+    "wrong": [
+     "Apes",
+     "Wasps",
+     "Ants"
+    ]
+   },
+   {
+    "q": "Thatcher",
+    "right": "Straw roofs",
+    "wrong": [
+     "Hedges",
+     "Fences",
+     "Baskets"
+    ]
+   },
+   {
+    "q": "Wheelwright",
+    "right": "Wheels",
+    "wrong": [
+     "Wells",
+     "Whistles",
+     "Saddles"
+    ]
+   },
+   {
+    "q": "Glazier",
+    "right": "Windows",
+    "wrong": [
+     "Ice",
+     "Pottery",
+     "Bricks"
+    ]
+   },
+   {
+    "q": "Tanner",
+    "right": "Leather",
+    "wrong": [
+     "Sun tans",
+     "Tents",
+     "Cloth"
+    ]
+   },
+   {
+    "q": "Bowyer",
+    "right": "Bows",
+    "wrong": [
+     "Bowls",
+     "Bow ties",
+     "Boats"
+    ]
+   },
+   {
+    "q": "Cutler",
+    "right": "Knives",
+    "wrong": [
+     "Cutlets",
+     "Cups",
+     "Cloth"
+    ]
+   },
+   {
+    "q": "Mason",
+    "right": "Stone",
+    "wrong": [
+     "Jars",
+     "Bricks",
+     "Glass"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country did this sport come from?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "sports",
+   "origins",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Rugby",
+    "right": "England",
+    "wrong": [
+     "Wales",
+     "New Zealand",
+     "South Africa"
+    ]
+   },
+   {
+    "q": "Golf",
+    "right": "Scotland",
+    "wrong": [
+     "Wales",
+     "Northern Ireland",
+     "Belgium"
+    ]
+   },
+   {
+    "q": "Basketball",
+    "right": "the USA",
+    "wrong": [
+     "Cuba",
+     "Germany",
+     "Spain"
+    ]
+   },
+   {
+    "q": "Judo",
+    "right": "Japan",
+    "wrong": [
+     "Taiwan",
+     "Mongolia",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "Taekwondo",
+    "right": "South Korea",
+    "wrong": [
+     "Taiwan",
+     "Mongolia",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "Ice hockey",
+    "right": "Canada",
+    "wrong": [
+     "Russia",
+     "Norway",
+     "Czechia"
+    ]
+   },
+   {
+    "q": "Hurling",
+    "right": "Ireland",
+    "wrong": [
+     "Wales",
+     "Iceland",
+     "Norway"
+    ]
+   },
+   {
+    "q": "Kabaddi",
+    "right": "India",
+    "wrong": [
+     "Malaysia",
+     "Indonesia",
+     "Nepal"
+    ]
+   },
+   {
+    "q": "Capoeira",
+    "right": "Brazil",
+    "wrong": [
+     "Portugal",
+     "Argentina",
+     "Cuba"
+    ]
+   },
+   {
+    "q": "Pétanque",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Monaco",
+     "Spain"
+    ]
+   },
+   {
+    "q": "Australian rules football",
+    "right": "Australia",
+    "wrong": [
+     "New Zealand",
+     "South Africa",
+     "Fiji"
+    ]
+   },
+   {
+    "q": "Bobsleigh",
+    "right": "Switzerland",
+    "wrong": [
+     "Austria",
+     "Norway",
+     "Germany"
+    ]
+   },
+   {
+    "q": "Floorball",
+    "right": "Sweden",
+    "wrong": [
+     "Norway",
+     "Denmark",
+     "Estonia"
+    ]
+   },
+   {
+    "q": "Korfball",
+    "right": "the Netherlands",
+    "wrong": [
+     "Belgium",
+     "Denmark",
+     "Germany"
+    ]
+   },
+   {
+    "q": "Muay Thai",
+    "right": "Thailand",
+    "wrong": [
+     "Vietnam",
+     "Malaysia",
+     "the Philippines"
+    ]
+   },
+   {
+    "q": "Wushu",
+    "right": "China",
+    "wrong": [
+     "Taiwan",
+     "Mongolia",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "Padel",
+    "right": "Mexico",
+    "wrong": [
+     "Spain",
+     "Argentina",
+     "Colombia"
+    ]
+   },
+   {
+    "q": "Bocce",
+    "right": "Italy",
+    "wrong": [
+     "Spain",
+     "Malta",
+     "Greece"
+    ]
+   },
+   {
+    "q": "Pesäpallo (Finnish baseball)",
+    "right": "Finland",
+    "wrong": [
+     "Estonia",
+     "Norway",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Teqball",
+    "right": "Hungary",
+    "wrong": [
+     "Austria",
+     "Czechia",
+     "Slovakia"
+    ]
+   }
+  ]
+ }
+]
