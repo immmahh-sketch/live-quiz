@@ -1,0 +1,572 @@
+[
+ {
+  "answers": [
+   "Red wine"
+  ],
+  "elements": [
+   {
+    "t": "WINE",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#d42020"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Pink gin"
+  ],
+  "elements": [
+   {
+    "t": "GIN",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#e8579a"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Green beans"
+  ],
+  "elements": [
+   {
+    "t": "BEANS",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#1f9a3a"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Blue jeans"
+  ],
+  "elements": [
+   {
+    "t": "JEANS",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#1f5fd4"
+   }
+  ],
+  "category": "Fashion",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Orange squash"
+  ],
+  "elements": [
+   {
+    "t": "SQUASH",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "color": "#e07a00"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Golden syrup"
+  ],
+  "elements": [
+   {
+    "t": "SYRUP",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#c9a227"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Silver Jubilee",
+   "Silver jubilee"
+  ],
+  "elements": [
+   {
+    "t": "JUBILEE",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "color": "#9aa0a6"
+   }
+  ],
+  "category": "History",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Yellow jersey",
+   "The yellow jersey"
+  ],
+  "elements": [
+   {
+    "t": "JERSEY",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "color": "#e0b400"
+   }
+  ],
+  "category": "Sport",
+  "tags": [
+   "Tour de France"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Brown sugar"
+  ],
+  "elements": [
+   {
+    "t": "SUGAR",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#7a4a1e"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Big Fish"
+  ],
+  "elements": [
+   {
+    "t": "FISH",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "Tim Burton"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Big Dipper",
+   "The Big Dipper"
+  ],
+  "elements": [
+   {
+    "t": "DIPPER",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Everyday life",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Small wonder",
+   "Small wonders"
+  ],
+  "elements": [
+   {
+    "t": "wonder",
+    "x": 50,
+    "y": 50,
+    "s": 1
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Top Trumps"
+  ],
+  "elements": [
+   {
+    "t": "TRUMPS",
+    "x": 50,
+    "y": 8,
+    "s": 5
+   }
+  ],
+  "category": "Games and toys",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Topknot",
+   "Top knot"
+  ],
+  "elements": [
+   {
+    "t": "KNOT",
+    "x": 50,
+    "y": 8,
+    "s": 5
+   }
+  ],
+  "category": "Fashion",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Underline"
+  ],
+  "elements": [
+   {
+    "t": "LINE",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "style": "underline"
+   }
+  ],
+  "category": "Words and language",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Understudy"
+  ],
+  "elements": [
+   {
+    "t": "STUDY",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "style": "underline"
+   }
+  ],
+  "category": "Theatre",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Underwater"
+  ],
+  "elements": [
+   {
+    "t": "WATER",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "style": "underline"
+   }
+  ],
+  "category": "Nature",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Underarm"
+  ],
+  "elements": [
+   {
+    "t": "ARM",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "style": "underline"
+   }
+  ],
+  "category": "Sport",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Backpack"
+  ],
+  "elements": [
+   {
+    "t": "KCAP",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Everyday life",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Backdrop"
+  ],
+  "elements": [
+   {
+    "t": "PORD",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Theatre",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Backgammon"
+  ],
+  "elements": [
+   {
+    "t": "NOMMAG",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Games and toys",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Backwater"
+  ],
+  "elements": [
+   {
+    "t": "RETAW",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Double cream"
+  ],
+  "elements": [
+   {
+    "t": "CREAM CREAM",
+    "x": 50,
+    "y": 50,
+    "s": 4
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Double bass"
+  ],
+  "elements": [
+   {
+    "t": "BASS BASS",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   }
+  ],
+  "category": "Music",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Double yellow lines",
+   "Double yellows"
+  ],
+  "elements": [
+   {
+    "t": "LINES LINES",
+    "x": 50,
+    "y": 50,
+    "s": 4,
+    "color": "#e0b400"
+   }
+  ],
+  "category": "Everyday life",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Split hairs",
+   "Splitting hairs"
+  ],
+  "elements": [
+   {
+    "t": "HA",
+    "x": 38,
+    "y": 46,
+    "s": 6,
+    "rot": -10
+   },
+   {
+    "t": "IRS",
+    "x": 64,
+    "y": 56,
+    "s": 6,
+    "rot": 10
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Crossbar"
+  ],
+  "elements": [
+   {
+    "t": "BAR",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "style": "strike"
+   }
+  ],
+  "category": "Sport",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Crossfire",
+   "Caught in the crossfire"
+  ],
+  "elements": [
+   {
+    "t": "FIRE",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "style": "strike"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "The Cat in the Hat",
+   "Cat in the Hat"
+  ],
+  "elements": [
+   {
+    "t": "HAcatT",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Children's books",
+  "tags": [
+   "Dr. Seuss"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Ship in a bottle"
+  ],
+  "elements": [
+   {
+    "t": "BOTshipTLE",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   }
+  ],
+  "category": "Everyday life",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "The Four Tops",
+   "Four Tops"
+  ],
+  "elements": [
+   {
+    "t": "TOPS TOPS TOPS TOPS",
+    "x": 50,
+    "y": 50,
+    "s": 3
+   }
+  ],
+  "category": "Music",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "The Three Musketeers",
+   "Three Musketeers"
+  ],
+  "elements": [
+   {
+    "t": "MUSKETEER MUSKETEER MUSKETEER",
+    "x": 50,
+    "y": 50,
+    "s": 2
+   }
+  ],
+  "category": "Books",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Five a day",
+   "Five-a-day"
+  ],
+  "elements": [
+   {
+    "t": "DAY DAY DAY DAY DAY",
+    "x": 50,
+    "y": 50,
+    "s": 3
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [],
+  "difficulty": "medium"
+ }
+]
