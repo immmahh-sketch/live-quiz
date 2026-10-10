@@ -1,0 +1,389 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: whose memoir is this?",
+  "target": 10,
+  "category": "Books",
+  "tags": [
+   "memoirs",
+   "autobiographies",
+   "famous people"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Open",
+    "right": "Andre Agassi",
+    "wrong": [
+     "Pete Sampras",
+     "Boris Becker",
+     "John McEnroe"
+    ]
+   },
+   {
+    "q": "Born a Crime",
+    "right": "Trevor Noah",
+    "wrong": [
+     "Dave Chappelle",
+     "Chris Rock",
+     "Kevin Hart"
+    ]
+   },
+   {
+    "q": "Bossypants",
+    "right": "Tina Fey",
+    "wrong": [
+     "Mindy Kaling",
+     "Sarah Silverman",
+     "Ellen DeGeneres"
+    ]
+   },
+   {
+    "q": "Yes Please",
+    "right": "Amy Poehler",
+    "wrong": [
+     "Mindy Kaling",
+     "Sarah Silverman",
+     "Lena Dunham"
+    ]
+   },
+   {
+    "q": "Is It Just Me?",
+    "right": "Miranda Hart",
+    "wrong": [
+     "Sarah Millican",
+     "Jo Brand",
+     "Victoria Wood"
+    ]
+   },
+   {
+    "q": "Dear Fatty",
+    "right": "Dawn French",
+    "wrong": [
+     "Jennifer Saunders",
+     "Jo Brand",
+     "Victoria Wood"
+    ]
+   },
+   {
+    "q": "My Side",
+    "right": "David Beckham",
+    "wrong": [
+     "Gary Neville",
+     "Wayne Rooney",
+     "Steven Gerrard"
+    ]
+   },
+   {
+    "q": "Managing My Life",
+    "right": "Alex Ferguson",
+    "wrong": [
+     "Arsène Wenger",
+     "Kenny Dalglish",
+     "Bobby Robson"
+    ]
+   },
+   {
+    "q": "Life",
+    "right": "Keith Richards",
+    "wrong": [
+     "Mick Jagger",
+     "Ronnie Wood",
+     "Ozzy Osbourne"
+    ]
+   },
+   {
+    "q": "Chronicles: Volume One",
+    "right": "Bob Dylan",
+    "wrong": [
+     "Leonard Cohen",
+     "Neil Young",
+     "Paul Simon"
+    ]
+   },
+   {
+    "q": "Just Kids",
+    "right": "Patti Smith",
+    "wrong": [
+     "Joni Mitchell",
+     "Chrissie Hynde",
+     "Kim Gordon"
+    ]
+   },
+   {
+    "q": "Me",
+    "right": "Elton John",
+    "wrong": [
+     "Rod Stewart",
+     "George Michael",
+     "Freddie Mercury"
+    ]
+   },
+   {
+    "q": "Face It",
+    "right": "Debbie Harry",
+    "wrong": [
+     "Chrissie Hynde",
+     "Siouxsie Sioux",
+     "Kim Gordon"
+    ]
+   },
+   {
+    "q": "Born to Run",
+    "right": "Bruce Springsteen",
+    "wrong": [
+     "Jon Bon Jovi",
+     "Billy Joel",
+     "Tom Petty"
+    ]
+   },
+   {
+    "q": "This Is Going to Hurt",
+    "right": "Adam Kay",
+    "wrong": [
+     "Ben Goldacre",
+     "Michael Mosley",
+     "Henry Marsh"
+    ]
+   },
+   {
+    "q": "My Booky Wook",
+    "right": "Russell Brand",
+    "wrong": [
+     "Noel Fielding",
+     "Jimmy Carr",
+     "Frankie Boyle"
+    ]
+   },
+   {
+    "q": "Moab Is My Washpot",
+    "right": "Stephen Fry",
+    "wrong": [
+     "Hugh Laurie",
+     "Rowan Atkinson",
+     "Alan Davies"
+    ]
+   },
+   {
+    "q": "Scar Tissue",
+    "right": "Anthony Kiedis",
+    "wrong": [
+     "Flea",
+     "Eddie Vedder",
+     "Chris Cornell"
+    ]
+   },
+   {
+    "q": "The Storyteller",
+    "right": "Dave Grohl",
+    "wrong": [
+     "Taylor Hawkins",
+     "Eddie Vedder",
+     "Josh Homme"
+    ]
+   },
+   {
+    "q": "Total Recall, named after one of his own films",
+    "right": "Arnold Schwarzenegger",
+    "wrong": [
+     "Sylvester Stallone",
+     "Bruce Willis",
+     "Jean-Claude Van Damme"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which band did this drummer play in?",
+  "target": 10,
+  "category": "Music",
+  "tags": [
+   "drummers",
+   "bands"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Charlie Watts",
+    "right": "The Rolling Stones",
+    "wrong": [
+     "The Kinks",
+     "The Animals",
+     "The Yardbirds"
+    ]
+   },
+   {
+    "q": "Keith Moon",
+    "right": "The Who",
+    "wrong": [
+     "The Kinks",
+     "Small Faces",
+     "The Move"
+    ]
+   },
+   {
+    "q": "John Bonham",
+    "right": "Led Zeppelin",
+    "wrong": [
+     "Cream",
+     "Free",
+     "Bad Company"
+    ]
+   },
+   {
+    "q": "Roger Taylor, alongside Freddie Mercury",
+    "right": "Queen",
+    "wrong": [
+     "Thin Lizzy",
+     "Status Quo",
+     "ELO"
+    ]
+   },
+   {
+    "q": "Phil Collins, before his solo fame",
+    "right": "Genesis",
+    "wrong": [
+     "Yes",
+     "Emerson, Lake & Palmer",
+     "Roxy Music"
+    ]
+   },
+   {
+    "q": "Dave Grohl, before he fronted his own band",
+    "right": "Nirvana",
+    "wrong": [
+     "Pearl Jam",
+     "Soundgarden",
+     "Alice in Chains"
+    ]
+   },
+   {
+    "q": "Larry Mullen Jr.",
+    "right": "U2",
+    "wrong": [
+     "Simple Minds",
+     "INXS",
+     "R.E.M."
+    ]
+   },
+   {
+    "q": "Lars Ulrich",
+    "right": "Metallica",
+    "wrong": [
+     "Megadeth",
+     "Slayer",
+     "Anthrax"
+    ]
+   },
+   {
+    "q": "Nick Mason",
+    "right": "Pink Floyd",
+    "wrong": [
+     "Yes",
+     "Roxy Music",
+     "10cc"
+    ]
+   },
+   {
+    "q": "Ian Paice",
+    "right": "Deep Purple",
+    "wrong": [
+     "Rainbow",
+     "Whitesnake",
+     "Uriah Heep"
+    ]
+   },
+   {
+    "q": "Bill Ward",
+    "right": "Black Sabbath",
+    "wrong": [
+     "Judas Priest",
+     "Iron Maiden",
+     "Motörhead"
+    ]
+   },
+   {
+    "q": "Taylor Hawkins",
+    "right": "Foo Fighters",
+    "wrong": [
+     "Weezer",
+     "Queens of the Stone Age",
+     "Pearl Jam"
+    ]
+   },
+   {
+    "q": "Chad Smith",
+    "right": "Red Hot Chili Peppers",
+    "wrong": [
+     "Faith No More",
+     "Jane's Addiction",
+     "Rage Against the Machine"
+    ]
+   },
+   {
+    "q": "Tré Cool",
+    "right": "Green Day",
+    "wrong": [
+     "The Offspring",
+     "Blink-182",
+     "Sum 41"
+    ]
+   },
+   {
+    "q": "Dave Rowntree",
+    "right": "Blur",
+    "wrong": [
+     "Pulp",
+     "Oasis",
+     "Suede"
+    ]
+   },
+   {
+    "q": "Reni",
+    "right": "The Stone Roses",
+    "wrong": [
+     "Happy Mondays",
+     "Inspiral Carpets",
+     "The Charlatans"
+    ]
+   },
+   {
+    "q": "Matt Helders",
+    "right": "Arctic Monkeys",
+    "wrong": [
+     "Kaiser Chiefs",
+     "Kasabian",
+     "Franz Ferdinand"
+    ]
+   },
+   {
+    "q": "Topper Headon",
+    "right": "The Clash",
+    "wrong": [
+     "The Jam",
+     "The Damned",
+     "Buzzcocks"
+    ]
+   },
+   {
+    "q": "Rick Allen, who plays with one arm",
+    "right": "Def Leppard",
+    "wrong": [
+     "Iron Maiden",
+     "Whitesnake",
+     "Saxon"
+    ]
+   },
+   {
+    "q": "Mike Joyce",
+    "right": "The Smiths",
+    "wrong": [
+     "The Cure",
+     "Joy Division",
+     "Echo & the Bunnymen"
+    ]
+   }
+  ]
+ }
+]
