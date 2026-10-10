@@ -1,0 +1,390 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this cooking word?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "cooking",
+   "kitchen",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Cook gently in barely simmering liquid, like an egg in water",
+    "right": "Poach",
+    "wrong": [
+     "Render",
+     "Temper",
+     "Clarify"
+    ]
+   },
+   {
+    "q": "Brown meat, then cook it slowly in a little liquid in a covered pot",
+    "right": "Braise",
+    "wrong": [
+     "Render",
+     "Dredge",
+     "Bard"
+    ]
+   },
+   {
+    "q": "Plunge vegetables into boiling water briefly, then straight into ice water",
+    "right": "Blanch",
+    "wrong": [
+     "Temper",
+     "Clarify",
+     "Dredge"
+    ]
+   },
+   {
+    "q": "Fry quickly in a little fat, tossing the pan",
+    "right": "Sauté",
+    "wrong": [
+     "Render",
+     "Dredge",
+     "Emulsify"
+    ]
+   },
+   {
+    "q": "Pour on brandy and set it alight",
+    "right": "Flambé",
+    "wrong": [
+     "Temper",
+     "Clarify",
+     "Render"
+    ]
+   },
+   {
+    "q": "Spoon the cooking juices over meat while it roasts",
+    "right": "Baste",
+    "wrong": [
+     "Bard",
+     "Lard",
+     "Dredge"
+    ]
+   },
+   {
+    "q": "Cut vegetables into thin matchsticks",
+    "right": "Julienne",
+    "wrong": [
+     "Brunoise",
+     "Chiffonade",
+     "Mirepoix"
+    ]
+   },
+   {
+    "q": "Soak meat in a flavoured liquid before cooking it",
+    "right": "Marinate",
+    "wrong": [
+     "Macerate",
+     "Dredge",
+     "Lard"
+    ]
+   },
+   {
+    "q": "Pour wine or stock into a hot pan to lift the browned bits off the bottom",
+    "right": "Deglaze",
+    "wrong": [
+     "Clarify",
+     "Emulsify",
+     "Temper"
+    ]
+   },
+   {
+    "q": "Seal food in a bag and cook it in a precisely heated water bath",
+    "right": "Sous vide",
+    "wrong": [
+     "En papillote",
+     "Tempura",
+     "Dredge"
+    ]
+   },
+   {
+    "q": "Toss small pieces over a very high heat in a wok",
+    "right": "Stir-fry",
+    "wrong": [
+     "Tempura",
+     "Dredge",
+     "Render"
+    ]
+   },
+   {
+    "q": "Cook food in the vapour from boiling water",
+    "right": "Steam",
+    "wrong": [
+     "Tempura",
+     "Render",
+     "Dredge"
+    ]
+   },
+   {
+    "q": "Cure or flavour food over smouldering wood chips",
+    "right": "Smoke",
+    "wrong": [
+     "Render",
+     "Clarify",
+     "Temper"
+    ]
+   },
+   {
+    "q": "Cook duck legs slowly, submerged in their own fat",
+    "right": "Confit",
+    "wrong": [
+     "Render",
+     "Bard",
+     "Lard"
+    ]
+   },
+   {
+    "q": "Preserve vegetables in vinegar",
+    "right": "Pickle",
+    "wrong": [
+     "Macerate",
+     "Clarify",
+     "Emulsify"
+    ]
+   },
+   {
+    "q": "Boil a sauce down so it thickens and its flavour gets stronger",
+    "right": "Reduce",
+    "wrong": [
+     "Clarify",
+     "Emulsify",
+     "Temper"
+    ]
+   },
+   {
+    "q": "Brown the outside of meat quickly over a very high heat",
+    "right": "Sear",
+    "wrong": [
+     "Render",
+     "Dredge",
+     "Bard"
+    ]
+   },
+   {
+    "q": "Tie up a chicken with string so it keeps its shape while roasting",
+    "right": "Truss",
+    "wrong": [
+     "Spatchcock",
+     "Bard",
+     "Lard"
+    ]
+   },
+   {
+    "q": "Cut the bones out of a fish",
+    "right": "Fillet",
+    "wrong": [
+     "Spatchcock",
+     "Score",
+     "Dredge"
+    ]
+   },
+   {
+    "q": "Soak a turkey in salty water before roasting to keep it juicy",
+    "right": "Brine",
+    "wrong": [
+     "Macerate",
+     "Dredge",
+     "Lard"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which soup is this?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "soup",
+   "food",
+   "world food"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A cold Spanish tomato soup",
+    "right": "Gazpacho",
+    "wrong": [
+     "Caldo verde",
+     "Fabada",
+     "Sopa de ajo"
+    ]
+   },
+   {
+    "q": "A thick Italian vegetable soup, often with pasta or rice",
+    "right": "Minestrone",
+    "wrong": [
+     "Stracciatella",
+     "Consommé",
+     "Bouillon"
+    ]
+   },
+   {
+    "q": "A deep red Eastern European soup made with beetroot",
+    "right": "Borscht",
+    "wrong": [
+     "Shchi",
+     "Solyanka",
+     "Goulash"
+    ]
+   },
+   {
+    "q": "A fish soup from Marseille, served with garlicky rouille",
+    "right": "Bouillabaisse",
+    "wrong": [
+     "Velouté",
+     "Consommé",
+     "Cawl"
+    ]
+   },
+   {
+    "q": "A cold, creamy leek and potato soup",
+    "right": "Vichyssoise",
+    "wrong": [
+     "Velouté",
+     "Consommé",
+     "Stracciatella"
+    ]
+   },
+   {
+    "q": "Slow-cooked onions in beef broth, topped with bread and melted cheese",
+    "right": "French onion",
+    "wrong": [
+     "Velouté",
+     "Consommé",
+     "Shchi"
+    ]
+   },
+   {
+    "q": "A Scottish soup of chicken and leeks, sometimes with prunes",
+    "right": "Cock-a-leekie",
+    "wrong": [
+     "Partan bree",
+     "Cawl",
+     "Shchi"
+    ]
+   },
+   {
+    "q": "A creamy Scottish soup of smoked haddock, potato and onion",
+    "right": "Cullen skink",
+    "wrong": [
+     "Partan bree",
+     "Cawl",
+     "Solyanka"
+    ]
+   },
+   {
+    "q": "A spicy Anglo-Indian soup whose name means 'pepper water'",
+    "right": "Mulligatawny",
+    "wrong": [
+     "Laksa",
+     "Callaloo",
+     "Pozole"
+    ]
+   },
+   {
+    "q": "A hearty soup of mutton, barley and root vegetables",
+    "right": "Scotch broth",
+    "wrong": [
+     "Partan bree",
+     "Shchi",
+     "Solyanka"
+    ]
+   },
+   {
+    "q": "A Japanese soup of fermented soybean paste, tofu and seaweed",
+    "right": "Miso",
+    "wrong": [
+     "Laksa",
+     "Bird's nest soup",
+     "Pozole"
+    ]
+   },
+   {
+    "q": "A Vietnamese beef broth with rice noodles and fresh herbs",
+    "right": "Pho",
+    "wrong": [
+     "Laksa",
+     "Pozole",
+     "Callaloo"
+    ]
+   },
+   {
+    "q": "A hot and sour Thai soup, often with prawns and lemongrass",
+    "right": "Tom yum",
+    "wrong": [
+     "Callaloo",
+     "Bird's nest soup",
+     "Pozole"
+    ]
+   },
+   {
+    "q": "A thick Louisiana stew-soup with okra, sausage and seafood",
+    "right": "Gumbo",
+    "wrong": [
+     "Pozole",
+     "Fabada",
+     "Solyanka"
+    ]
+   },
+   {
+    "q": "A thick, creamy New England soup of shellfish and potatoes",
+    "right": "Clam chowder",
+    "wrong": [
+     "Partan bree",
+     "Velouté",
+     "Waterzooi"
+    ]
+   },
+   {
+    "q": "A smooth, rich French shellfish soup",
+    "right": "Lobster bisque",
+    "wrong": [
+     "Velouté",
+     "Consommé",
+     "Partan bree"
+    ]
+   },
+   {
+    "q": "Japanese wheat noodles in a rich broth, often with a soft-boiled egg",
+    "right": "Ramen",
+    "wrong": [
+     "Laksa",
+     "Pozole",
+     "Bird's nest soup"
+    ]
+   },
+   {
+    "q": "A thick green soup of split peas and a ham hock, once called a 'London particular'",
+    "right": "Pea and ham",
+    "wrong": [
+     "Cawl",
+     "Shchi",
+     "Partan bree"
+    ]
+   },
+   {
+    "q": "A Greek chicken soup thickened with egg and lemon",
+    "right": "Avgolemono",
+    "wrong": [
+     "Stracciatella",
+     "Consommé",
+     "Solyanka"
+    ]
+   },
+   {
+    "q": "A clear Chinese broth with filled dumplings",
+    "right": "Wonton soup",
+    "wrong": [
+     "Bird's nest soup",
+     "Laksa",
+     "Pozole"
+    ]
+   }
+  ]
+ }
+]
