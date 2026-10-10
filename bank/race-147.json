@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this fishing word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "fishing",
+   "angling",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The long, flexible pole you fish with",
+    "right": "Rod",
+    "wrong": [
+     "Harpoon",
+     "Trident",
+     "Gaff"
+    ]
+   },
+   {
+    "q": "The winding drum that holds the line",
+    "right": "Reel",
+    "wrong": [
+     "Swivel",
+     "Lobster pot",
+     "Buoy"
+    ]
+   },
+   {
+    "q": "The sharp, curved bit the fish bites on",
+    "right": "Hook",
+    "wrong": [
+     "Swivel",
+     "Harpoon",
+     "Trident"
+    ]
+   },
+   {
+    "q": "Food put on the hook to tempt the fish",
+    "right": "Bait",
+    "wrong": [
+     "Ballast",
+     "Swivel",
+     "Tippet"
+    ]
+   },
+   {
+    "q": "Bobs on the water and dips when a fish bites",
+    "right": "Float",
+    "wrong": [
+     "Swivel",
+     "Weir",
+     "Sluice"
+    ]
+   },
+   {
+    "q": "A small lead weight that takes the line down",
+    "right": "Sinker",
+    "wrong": [
+     "Swivel",
+     "Tippet",
+     "Buoy"
+    ]
+   },
+   {
+    "q": "A shiny fake fish or spoon that attracts a bite",
+    "right": "Lure",
+    "wrong": [
+     "Swivel",
+     "Tippet",
+     "Creel"
+    ]
+   },
+   {
+    "q": "Wriggly bait bought by the pint",
+    "right": "Maggots",
+    "wrong": [
+     "Lugworms",
+     "Mealworms",
+     "Waxworms"
+    ]
+   },
+   {
+    "q": "A long net in the water that holds your catch until you weigh it",
+    "right": "Keepnet",
+    "wrong": [
+     "Lobster pot",
+     "Trawl",
+     "Weir"
+    ]
+   },
+   {
+    "q": "Scoops up a fish as you reel it to the bank",
+    "right": "Landing net",
+    "wrong": [
+     "Trawl",
+     "Lobster pot",
+     "Creel"
+    ]
+   },
+   {
+    "q": "Casting a feathery imitation insect for trout and salmon",
+    "right": "Fly fishing",
+    "wrong": [
+     "Trawling",
+     "Spearfishing",
+     "Netting"
+    ]
+   },
+   {
+    "q": "Someone who fishes with a rod and line",
+    "right": "Angler",
+    "wrong": [
+     "Trawlerman",
+     "Fishmonger",
+     "Harpooner"
+    ]
+   },
+   {
+    "q": "Putting the fish straight back after landing it",
+    "right": "Catch and release",
+    "wrong": [
+     "Trawling",
+     "Netting",
+     "Spearfishing"
+    ]
+   },
+   {
+    "q": "Where the hooks, floats and weights are kept",
+    "right": "Tackle box",
+    "wrong": [
+     "Creel",
+     "Lobster pot",
+     "Buoy"
+    ]
+   },
+   {
+    "q": "Flicking the line out over the water",
+    "right": "Cast",
+    "wrong": [
+     "Trawl",
+     "Dredge",
+     "Troll"
+    ]
+   },
+   {
+    "q": "Waterproof trousers and boots in one, for standing in the river",
+    "right": "Waders",
+    "wrong": [
+     "Oilskins",
+     "Gaiters",
+     "Sou'wester"
+    ]
+   },
+   {
+    "q": "A Scottish guide who helps on a fishing or stalking trip",
+    "right": "Ghillie",
+    "wrong": [
+     "Trawlerman",
+     "Fishmonger",
+     "Harpooner"
+    ]
+   },
+   {
+    "q": "The thin nylon thread wound on the reel",
+    "right": "Line",
+    "wrong": [
+     "Swivel",
+     "Rowlock",
+     "Buoy"
+    ]
+   },
+   {
+    "q": "Thrown into the water to draw fish to your spot",
+    "right": "Groundbait",
+    "wrong": [
+     "Ballast",
+     "Swivel",
+     "Tippet"
+    ]
+   },
+   {
+    "q": "Beeps when a carp takes the bait",
+    "right": "Bite alarm",
+    "wrong": [
+     "Buoy",
+     "Swivel",
+     "Rowlock"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this furniture word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "furniture",
+   "home",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A sofa-like chair long enough to stretch your legs out on",
+    "right": "Chaise longue",
+    "wrong": [
+     "Settle",
+     "Love seat",
+     "Pew"
+    ]
+   },
+   {
+    "q": "A padded box seat with storage inside the lid",
+    "right": "Ottoman",
+    "wrong": [
+     "Settle",
+     "Pew",
+     "Kneeler"
+    ]
+   },
+   {
+    "q": "A buttoned leather sofa with arms as high as its back",
+    "right": "Chesterfield",
+    "wrong": [
+     "Settle",
+     "Love seat",
+     "Pew"
+    ]
+   },
+   {
+    "q": "A Japanese-style mattress on a low frame that folds up into a sofa",
+    "right": "Futon",
+    "wrong": [
+     "Trundle bed",
+     "Cot",
+     "Cradle"
+    ]
+   },
+   {
+    "q": "Curved runners underneath let you sway back and forth",
+    "right": "Rocking chair",
+    "wrong": [
+     "Wingback",
+     "Settle",
+     "Pew"
+    ]
+   },
+   {
+    "q": "An armchair whose back tips and whose footrest pops up",
+    "right": "Recliner",
+    "wrong": [
+     "Wingback",
+     "Settle",
+     "Pew"
+    ]
+   },
+   {
+    "q": "A floppy sack of polystyrene balls you sink into",
+    "right": "Bean bag",
+    "wrong": [
+     "Kneeler",
+     "Settle",
+     "Pew"
+    ]
+   },
+   {
+    "q": "A low padded cushion seat, often round",
+    "right": "Pouffe",
+    "wrong": [
+     "Kneeler",
+     "Settle",
+     "Pew"
+    ]
+   },
+   {
+    "q": "A sideboard topped with shelves for showing off plates",
+    "right": "Welsh dresser",
+    "wrong": [
+     "Commode",
+     "Lowboy",
+     "Escritoire"
+    ]
+   },
+   {
+    "q": "A low cabinet of drawers for clothes",
+    "right": "Chest of drawers",
+    "wrong": [
+     "Whatnot",
+     "Étagère",
+     "Dumbwaiter"
+    ]
+   },
+   {
+    "q": "A tall cupboard with a rail for hanging clothes",
+    "right": "Wardrobe",
+    "wrong": [
+     "Whatnot",
+     "Étagère",
+     "Commode"
+    ]
+   },
+   {
+    "q": "A tall chest of drawers, often one stacked on top of another",
+    "right": "Tallboy",
+    "wrong": [
+     "Lowboy",
+     "Whatnot",
+     "Étagère"
+    ]
+   },
+   {
+    "q": "A writing desk with a sloping lid that folds down",
+    "right": "Bureau",
+    "wrong": [
+     "Whatnot",
+     "Commode",
+     "Lowboy"
+    ]
+   },
+   {
+    "q": "A bed with a tall post at each corner holding up curtains",
+    "right": "Four-poster",
+    "wrong": [
+     "Trundle bed",
+     "Cot",
+     "Cradle"
+    ]
+   },
+   {
+    "q": "Two beds stacked one above the other",
+    "right": "Bunk beds",
+    "wrong": [
+     "Trundle bed",
+     "Cot",
+     "Cradle"
+    ]
+   },
+   {
+    "q": "A settee that unfolds into somewhere to sleep",
+    "right": "Sofa bed",
+    "wrong": [
+     "Trundle bed",
+     "Cot",
+     "Cradle"
+    ]
+   },
+   {
+    "q": "A tall pole with hooks, by the front door",
+    "right": "Hat stand",
+    "wrong": [
+     "Whatnot",
+     "Étagère",
+     "Dumbwaiter"
+    ]
+   },
+   {
+    "q": "A heated cart on wheels that keeps dinner warm at the table",
+    "right": "Hostess trolley",
+    "wrong": [
+     "Dumbwaiter",
+     "Lazy Susan",
+     "Whatnot"
+    ]
+   },
+   {
+    "q": "Three little tables that tuck under one another",
+    "right": "Nest of tables",
+    "wrong": [
+     "Whatnot",
+     "Étagère",
+     "Lazy Susan"
+    ]
+   },
+   {
+    "q": "A tall pendulum clock that stands in the hall",
+    "right": "Grandfather clock",
+    "wrong": [
+     "Carriage clock",
+     "Cuckoo clock",
+     "Mantel clock"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this poker word?",
+  "target": 10,
+  "category": "Games and toys",
+  "tags": [
+   "poker",
+   "card games",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Betting big on a weak hand to scare others off",
+    "right": "Bluff",
+    "wrong": [
+     "Slow play",
+     "Limp",
+     "Straddle"
+    ]
+   },
+   {
+    "q": "Five cards all of the same suit",
+    "right": "Flush",
+    "wrong": [
+     "Rainbow",
+     "Gutshot",
+     "Kicker"
+    ]
+   },
+   {
+    "q": "Five cards in a run, like 5-6-7-8-9",
+    "right": "Straight",
+    "wrong": [
+     "Rainbow",
+     "Kicker",
+     "Gutshot"
+    ]
+   },
+   {
+    "q": "Three of a kind plus a pair",
+    "right": "Full house",
+    "wrong": [
+     "Kicker",
+     "Rainbow",
+     "Bad beat"
+    ]
+   },
+   {
+    "q": "Ace, king, queen, jack and ten of one suit, the best hand of all",
+    "right": "Royal flush",
+    "wrong": [
+     "Bad beat",
+     "Rainbow",
+     "Kicker"
+    ]
+   },
+   {
+    "q": "A small forced bet everyone puts in before the deal",
+    "right": "Ante",
+    "wrong": [
+     "Rake",
+     "Bounty",
+     "Straddle"
+    ]
+   },
+   {
+    "q": "The two forced bets from the players to the dealer's left",
+    "right": "Blinds",
+    "wrong": [
+     "Rake",
+     "Bounty",
+     "Kicker"
+    ]
+   },
+   {
+    "q": "The first three shared cards, dealt face up together",
+    "right": "Flop",
+    "wrong": [
+     "Turn",
+     "Burn card",
+     "Hole cards"
+    ]
+   },
+   {
+    "q": "The fifth and final shared card",
+    "right": "River",
+    "wrong": [
+     "Turn",
+     "Burn card",
+     "Hole cards"
+    ]
+   },
+   {
+    "q": "Pushing every chip you have into the pot",
+    "right": "All in",
+    "wrong": [
+     "Limp",
+     "Slow play",
+     "Straddle"
+    ]
+   },
+   {
+    "q": "Throwing your cards away and dropping out of the hand",
+    "right": "Fold",
+    "wrong": [
+     "Limp",
+     "Straddle",
+     "Showdown"
+    ]
+   },
+   {
+    "q": "Upping the bet that's already been made",
+    "right": "Raise",
+    "wrong": [
+     "Limp",
+     "Showdown",
+     "Rake"
+    ]
+   },
+   {
+    "q": "Passing without betting when no one else has bet yet",
+    "right": "Check",
+    "wrong": [
+     "Straddle",
+     "Rake",
+     "Bounty"
+    ]
+   },
+   {
+    "q": "All the chips in the middle, waiting to be won",
+    "right": "Pot",
+    "wrong": [
+     "Rake",
+     "Bounty",
+     "Satellite"
+    ]
+   },
+   {
+    "q": "The plastic discs used as money at the table",
+    "right": "Chips",
+    "wrong": [
+     "Burn cards",
+     "Hole cards",
+     "Kickers"
+    ]
+   },
+   {
+    "q": "A blank expression that gives nothing away",
+    "right": "Poker face",
+    "wrong": [
+     "Bad beat",
+     "Rainbow",
+     "Showdown"
+    ]
+   },
+   {
+    "q": "Two cards of the same value",
+    "right": "Pair",
+    "wrong": [
+     "Kicker",
+     "Rainbow",
+     "Gutshot"
+    ]
+   },
+   {
+    "q": "Three cards of the same value",
+    "right": "Three of a kind",
+    "wrong": [
+     "Kicker",
+     "Rainbow",
+     "Gutshot"
+    ]
+   },
+   {
+    "q": "All four cards of one value, like four kings",
+    "right": "Four of a kind",
+    "wrong": [
+     "Kicker",
+     "Rainbow",
+     "Bad beat"
+    ]
+   },
+   {
+    "q": "A nervous habit that gives away what you're holding",
+    "right": "Tell",
+    "wrong": [
+     "Bad beat",
+     "Rainbow",
+     "Kicker"
+    ]
+   }
+  ]
+ }
+]
