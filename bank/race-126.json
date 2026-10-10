@@ -1,0 +1,389 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which part of a car is this?",
+  "target": 10,
+  "category": "Cars and motoring",
+  "tags": [
+   "cars",
+   "motoring"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Holds the cogs that let you go from first gear to fifth",
+    "right": "Gearbox",
+    "wrong": [
+     "Differential",
+     "Crankshaft",
+     "Drive shaft"
+    ]
+   },
+   {
+    "q": "The left-hand pedal you press to change gear",
+    "right": "Clutch",
+    "wrong": [
+     "Brake pad",
+     "Starter motor",
+     "Differential"
+    ]
+   },
+   {
+    "q": "Carries burnt gases away from the engine and out at the back",
+    "right": "Exhaust",
+    "wrong": [
+     "Fuel injector",
+     "Sump",
+     "Air filter"
+    ]
+   },
+   {
+    "q": "Keeps the engine cool by passing hot water through thin fins at the front",
+    "right": "Radiator",
+    "wrong": [
+     "Thermostat",
+     "Water pump",
+     "Oil filter"
+    ]
+   },
+   {
+    "q": "Driven by the engine, it charges the battery while you drive",
+    "right": "Alternator",
+    "wrong": [
+     "Starter motor",
+     "Distributor",
+     "Turbocharger"
+    ]
+   },
+   {
+    "q": "Makes the tiny flash that lights the petrol in each cylinder",
+    "right": "Spark plug",
+    "wrong": [
+     "Fuel injector",
+     "Piston",
+     "Gasket"
+    ]
+   },
+   {
+    "q": "Pull it out and wipe it to check the oil level",
+    "right": "Dipstick",
+    "wrong": [
+     "Fuel gauge",
+     "Oil filter",
+     "Sump"
+    ]
+   },
+   {
+    "q": "A lever you pull up to stop the parked car rolling away",
+    "right": "Handbrake",
+    "wrong": [
+     "Gear stick",
+     "Brake pad",
+     "Tie rod"
+    ]
+   },
+   {
+    "q": "Cleans up the exhaust fumes, and is often stolen for its precious metals",
+    "right": "Catalytic converter",
+    "wrong": [
+     "Turbocharger",
+     "Oil filter",
+     "Air filter"
+    ]
+   },
+   {
+    "q": "A rubber loop that drives the alternator; a pair of tights can stand in for it in an emergency",
+    "right": "Fan belt",
+    "wrong": [
+     "Drive shaft",
+     "Tie rod",
+     "Gasket"
+    ]
+   },
+   {
+    "q": "The lid over the engine at the front; Americans call it the hood",
+    "right": "Bonnet",
+    "wrong": [
+     "Tailgate",
+     "Grille",
+     "Wheel arch"
+    ]
+   },
+   {
+    "q": "Where the luggage goes; Americans call it the trunk",
+    "right": "Boot",
+    "wrong": [
+     "Glovebox",
+     "Footwell",
+     "Sump"
+    ]
+   },
+   {
+    "q": "The dial that shows how fast you're going",
+    "right": "Speedometer",
+    "wrong": [
+     "Odometer",
+     "Fuel gauge",
+     "Tachograph"
+    ]
+   },
+   {
+    "q": "The dial showing how fast the engine is turning, in thousands per minute",
+    "right": "Rev counter",
+    "wrong": [
+     "Odometer",
+     "Fuel gauge",
+     "Tachograph"
+    ]
+   },
+   {
+    "q": "Sticks out from the side so you can see what's behind and beside you",
+    "right": "Wing mirror",
+    "wrong": [
+     "Fog light",
+     "Mud flap",
+     "Wheel arch"
+    ]
+   },
+   {
+    "q": "A shiny cover over the middle of the wheel, easily lost on a kerb",
+    "right": "Hubcap",
+    "wrong": [
+     "Wheel arch",
+     "Mud flap",
+     "Brake disc"
+    ]
+   },
+   {
+    "q": "Sweeps the rain off the glass in front of you",
+    "right": "Windscreen wiper",
+    "wrong": [
+     "Sunroof",
+     "Fog light",
+     "Grille"
+    ]
+   },
+   {
+    "q": "Bursts out of the steering wheel in a crash",
+    "right": "Airbag",
+    "wrong": [
+     "Crumple zone",
+     "Roll cage",
+     "Bumper"
+    ]
+   },
+   {
+    "q": "Part of the suspension that stops the car bouncing after a bump",
+    "right": "Shock absorber",
+    "wrong": [
+     "Wishbone",
+     "Anti-roll bar",
+     "Tie rod"
+    ]
+   },
+   {
+    "q": "Blinks orange to show which way you're turning",
+    "right": "Indicator",
+    "wrong": [
+     "Fog light",
+     "Brake light",
+     "Reversing light"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this internet word?",
+  "target": 10,
+  "category": "Computers and the internet",
+  "tags": [
+   "internet",
+   "social media",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Junk email you never asked for, named after a tinned meat",
+    "right": "Spam",
+    "wrong": [
+     "Pop-up",
+     "Bot",
+     "Thread"
+    ]
+   },
+   {
+    "q": "A fake email pretending to be your bank, fishing for your password",
+    "right": "Phishing",
+    "wrong": [
+     "Doxxing",
+     "Lurking",
+     "Torrent"
+    ]
+   },
+   {
+    "q": "A small file a website leaves on your computer to remember you",
+    "right": "Cookie",
+    "wrong": [
+     "Pixel",
+     "Widget",
+     "Plug-in"
+    ]
+   },
+   {
+    "q": "A barrier that blocks unwanted traffic from reaching your computer",
+    "right": "Firewall",
+    "wrong": [
+     "Router",
+     "Encryption",
+     "Server"
+    ]
+   },
+   {
+    "q": "The program you look at websites with, like Chrome or Safari",
+    "right": "Browser",
+    "wrong": [
+     "Server",
+     "Domain",
+     "Router"
+    ]
+   },
+   {
+    "q": "Any software written to damage or spy on your computer",
+    "right": "Malware",
+    "wrong": [
+     "Firmware",
+     "Widget",
+     "Plug-in"
+    ]
+   },
+   {
+    "q": "The # symbol used to tag a topic on social media",
+    "right": "Hashtag",
+    "wrong": [
+     "Thread",
+     "Feed",
+     "Story"
+    ]
+   },
+   {
+    "q": "A little picture like a smiley face or a thumbs-up, sent in a message",
+    "right": "Emoji",
+    "wrong": [
+     "Pixel",
+     "Filter",
+     "Widget"
+    ]
+   },
+   {
+    "q": "A funny picture or idea copied and passed around online, often with new captions",
+    "right": "Meme",
+    "wrong": [
+     "Thread",
+     "Story",
+     "Screenshot"
+    ]
+   },
+   {
+    "q": "Someone who posts nasty things just to start arguments",
+    "right": "Troll",
+    "wrong": [
+     "Lurker",
+     "Newbie",
+     "Bot"
+    ]
+   },
+   {
+    "q": "The little picture or character that stands for you online",
+    "right": "Avatar",
+    "wrong": [
+     "Filter",
+     "Pixel",
+     "Widget"
+    ]
+   },
+   {
+    "q": "A test of wobbly letters or traffic lights to prove you're not a robot",
+    "right": "Captcha",
+    "wrong": [
+     "Encryption",
+     "Ping",
+     "Pop-up"
+    ]
+   },
+   {
+    "q": "An audio show you download or stream, often a chat about one topic",
+    "right": "Podcast",
+    "wrong": [
+     "Vlog",
+     "Webinar",
+     "Livestream"
+    ]
+   },
+   {
+    "q": "An online diary of written posts",
+    "right": "Blog",
+    "wrong": [
+     "Thread",
+     "Feed",
+     "Wiki"
+    ]
+   },
+   {
+    "q": "A photo you take of yourself, often at arm's length",
+    "right": "Selfie",
+    "wrong": [
+     "Screenshot",
+     "Filter",
+     "Story"
+    ]
+   },
+   {
+    "q": "Someone who uses a fake identity online to trick people into a relationship",
+    "right": "Catfish",
+    "wrong": [
+     "Lurker",
+     "Newbie",
+     "Doxxer"
+    ]
+   },
+   {
+    "q": "A tempting headline written just to make you click: 'You won't believe what happened next'",
+    "right": "Clickbait",
+    "wrong": [
+     "Pop-up",
+     "Hyperlink",
+     "Spoiler"
+    ]
+   },
+   {
+    "q": "Someone paid by brands to show products to their many followers",
+    "right": "Influencer",
+    "wrong": [
+     "Lurker",
+     "Newbie",
+     "Moderator"
+    ]
+   },
+   {
+    "q": "What a video has 'gone' when millions share it within days",
+    "right": "Viral",
+    "wrong": [
+     "Live",
+     "Offline",
+     "Encrypted"
+    ]
+   },
+   {
+    "q": "Suddenly cutting off all contact with someone, without a word",
+    "right": "Ghosting",
+    "wrong": [
+     "Benching",
+     "Breadcrumbing",
+     "Orbiting"
+    ]
+   }
+  ]
+ }
+]
