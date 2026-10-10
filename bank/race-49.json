@@ -1,0 +1,775 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which US state is this university in?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "USA",
+   "universities",
+   "states"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Harvard",
+    "right": "Massachusetts",
+    "wrong": [
+     "Vermont",
+     "Maine",
+     "Delaware"
+    ]
+   },
+   {
+    "q": "Yale",
+    "right": "Connecticut",
+    "wrong": [
+     "Vermont",
+     "Maine",
+     "Delaware"
+    ]
+   },
+   {
+    "q": "Princeton",
+    "right": "New Jersey",
+    "wrong": [
+     "Delaware",
+     "Ohio",
+     "Virginia"
+    ]
+   },
+   {
+    "q": "Stanford",
+    "right": "California",
+    "wrong": [
+     "Oregon",
+     "Arizona",
+     "Nevada"
+    ]
+   },
+   {
+    "q": "Duke",
+    "right": "North Carolina",
+    "wrong": [
+     "Virginia",
+     "Kentucky",
+     "West Virginia"
+    ]
+   },
+   {
+    "q": "Notre Dame",
+    "right": "Indiana",
+    "wrong": [
+     "Ohio",
+     "Michigan",
+     "Wisconsin"
+    ]
+   },
+   {
+    "q": "Johns Hopkins",
+    "right": "Maryland",
+    "wrong": [
+     "Delaware",
+     "Virginia",
+     "West Virginia"
+    ]
+   },
+   {
+    "q": "Cornell",
+    "right": "New York",
+    "wrong": [
+     "Vermont",
+     "Ohio",
+     "Delaware"
+    ]
+   },
+   {
+    "q": "The University of Pennsylvania",
+    "right": "Pennsylvania",
+    "wrong": [
+     "Ohio",
+     "Delaware",
+     "Virginia"
+    ]
+   },
+   {
+    "q": "Brown",
+    "right": "Rhode Island",
+    "wrong": [
+     "Vermont",
+     "Maine",
+     "Delaware"
+    ]
+   },
+   {
+    "q": "Dartmouth",
+    "right": "New Hampshire",
+    "wrong": [
+     "Vermont",
+     "Maine",
+     "Delaware"
+    ]
+   },
+   {
+    "q": "Vanderbilt",
+    "right": "Tennessee",
+    "wrong": [
+     "Kentucky",
+     "Mississippi",
+     "Arkansas"
+    ]
+   },
+   {
+    "q": "Rice",
+    "right": "Texas",
+    "wrong": [
+     "Oklahoma",
+     "Arizona",
+     "New Mexico"
+    ]
+   },
+   {
+    "q": "Emory",
+    "right": "Georgia",
+    "wrong": [
+     "Florida",
+     "Mississippi",
+     "Kentucky"
+    ]
+   },
+   {
+    "q": "Tulane",
+    "right": "Louisiana",
+    "wrong": [
+     "Mississippi",
+     "Arkansas",
+     "Florida"
+    ]
+   },
+   {
+    "q": "Northwestern",
+    "right": "Illinois",
+    "wrong": [
+     "Wisconsin",
+     "Michigan",
+     "Ohio"
+    ]
+   },
+   {
+    "q": "Washington University in St Louis",
+    "right": "Missouri",
+    "wrong": [
+     "Kansas",
+     "Iowa",
+     "Arkansas"
+    ]
+   },
+   {
+    "q": "Brigham Young (BYU)",
+    "right": "Utah",
+    "wrong": [
+     "Arizona",
+     "Nevada",
+     "Colorado"
+    ]
+   },
+   {
+    "q": "Clemson",
+    "right": "South Carolina",
+    "wrong": [
+     "Virginia",
+     "Florida",
+     "Kentucky"
+    ]
+   },
+   {
+    "q": "Auburn",
+    "right": "Alabama",
+    "wrong": [
+     "Mississippi",
+     "Florida",
+     "Arkansas"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which opera is this character from?",
+  "target": 10,
+  "category": "Music",
+  "tags": [
+   "opera",
+   "characters"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Violetta",
+    "right": "La traviata",
+    "wrong": [
+     "Manon",
+     "Norma",
+     "Lucia di Lammermoor"
+    ]
+   },
+   {
+    "q": "Mimì",
+    "right": "La bohème",
+    "wrong": [
+     "Manon",
+     "Rusalka",
+     "Werther"
+    ]
+   },
+   {
+    "q": "Cio-Cio-San",
+    "right": "Madama Butterfly",
+    "wrong": [
+     "The Mikado",
+     "The Pearl Fishers",
+     "Lakmé"
+    ]
+   },
+   {
+    "q": "Papageno",
+    "right": "The Magic Flute",
+    "wrong": [
+     "Fidelio",
+     "Die Fledermaus",
+     "Orpheus in the Underworld"
+    ]
+   },
+   {
+    "q": "Escamillo the toreador",
+    "right": "Carmen",
+    "wrong": [
+     "The Pearl Fishers",
+     "Manon",
+     "Faust"
+    ]
+   },
+   {
+    "q": "Radamès",
+    "right": "Aida",
+    "wrong": [
+     "Nabucco",
+     "Otello",
+     "Samson and Delilah"
+    ]
+   },
+   {
+    "q": "Prince Calaf",
+    "right": "Turandot",
+    "wrong": [
+     "Prince Igor",
+     "Nabucco",
+     "Lakmé"
+    ]
+   },
+   {
+    "q": "Leporello",
+    "right": "Don Giovanni",
+    "wrong": [
+     "Fidelio",
+     "Falstaff",
+     "Die Fledermaus"
+    ]
+   },
+   {
+    "q": "Cherubino",
+    "right": "The Marriage of Figaro",
+    "wrong": [
+     "Fidelio",
+     "Falstaff",
+     "Die Fledermaus"
+    ]
+   },
+   {
+    "q": "Rosina",
+    "right": "The Barber of Seville",
+    "wrong": [
+     "Falstaff",
+     "Lucia di Lammermoor",
+     "Norma"
+    ]
+   },
+   {
+    "q": "Tatyana",
+    "right": "Eugene Onegin",
+    "wrong": [
+     "Boris Godunov",
+     "Prince Igor",
+     "Rusalka"
+    ]
+   },
+   {
+    "q": "Gilda",
+    "right": "Rigoletto",
+    "wrong": [
+     "Falstaff",
+     "Otello",
+     "Nabucco"
+    ]
+   },
+   {
+    "q": "Ellen Orford",
+    "right": "Peter Grimes",
+    "wrong": [
+     "Billy Budd",
+     "The Turn of the Screw",
+     "The Rake's Progress"
+    ]
+   },
+   {
+    "q": "Despina",
+    "right": "Così fan tutte",
+    "wrong": [
+     "Fidelio",
+     "Die Fledermaus",
+     "Falstaff"
+    ]
+   },
+   {
+    "q": "Baron Scarpia",
+    "right": "Tosca",
+    "wrong": [
+     "Otello",
+     "Falstaff",
+     "Manon"
+    ]
+   },
+   {
+    "q": "Azucena",
+    "right": "Il trovatore",
+    "wrong": [
+     "Nabucco",
+     "Otello",
+     "Norma"
+    ]
+   },
+   {
+    "q": "Nedda",
+    "right": "Pagliacci",
+    "wrong": [
+     "Falstaff",
+     "Manon",
+     "Werther"
+    ]
+   },
+   {
+    "q": "Santuzza",
+    "right": "Cavalleria rusticana",
+    "wrong": [
+     "Norma",
+     "Manon",
+     "Lucia di Lammermoor"
+    ]
+   },
+   {
+    "q": "Belinda",
+    "right": "Dido and Aeneas",
+    "wrong": [
+     "The Fairy Queen",
+     "The Rake's Progress",
+     "Billy Budd"
+    ]
+   },
+   {
+    "q": "The Marschallin",
+    "right": "Der Rosenkavalier",
+    "wrong": [
+     "Salome",
+     "Die Fledermaus",
+     "Fidelio"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which chef is behind this restaurant?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "chefs",
+   "restaurants"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The Fat Duck, Bray",
+    "right": "Heston Blumenthal",
+    "wrong": [
+     "Gordon Ramsay",
+     "Marco Pierre White",
+     "Tom Kerridge"
+    ]
+   },
+   {
+    "q": "Noma, Copenhagen",
+    "right": "René Redzepi",
+    "wrong": [
+     "Magnus Nilsson",
+     "Joël Robuchon",
+     "Alain Ducasse"
+    ]
+   },
+   {
+    "q": "El Bulli, Catalonia",
+    "right": "Ferran Adrià",
+    "wrong": [
+     "Joan Roca",
+     "Alain Ducasse",
+     "Paul Bocuse"
+    ]
+   },
+   {
+    "q": "The French Laundry, California",
+    "right": "Thomas Keller",
+    "wrong": [
+     "Wolfgang Puck",
+     "Anthony Bourdain",
+     "Jean-Georges Vongerichten"
+    ]
+   },
+   {
+    "q": "Le Manoir aux Quat'Saisons",
+    "right": "Raymond Blanc",
+    "wrong": [
+     "Marco Pierre White",
+     "Gary Rhodes",
+     "Gordon Ramsay"
+    ]
+   },
+   {
+    "q": "The River Café, London",
+    "right": "Ruth Rogers & Rose Gray",
+    "wrong": [
+     "Nigella Lawson",
+     "Delia Smith",
+     "Antonio Carluccio"
+    ]
+   },
+   {
+    "q": "Fifteen, London",
+    "right": "Jamie Oliver",
+    "wrong": [
+     "Hugh Fearnley-Whittingstall",
+     "Gordon Ramsay",
+     "Ainsley Harriott"
+    ]
+   },
+   {
+    "q": "The Seafood Restaurant, Padstow",
+    "right": "Rick Stein",
+    "wrong": [
+     "Nathan Outlaw",
+     "Paul Ainsworth",
+     "Keith Floyd"
+    ]
+   },
+   {
+    "q": "The Waterside Inn, Bray",
+    "right": "Michel Roux",
+    "wrong": [
+     "Marco Pierre White",
+     "Gary Rhodes",
+     "Marcus Wareing"
+    ]
+   },
+   {
+    "q": "Le Gavroche, in its later years",
+    "right": "Michel Roux Jr",
+    "wrong": [
+     "Marcus Wareing",
+     "Angela Hartnett",
+     "Gordon Ramsay"
+    ]
+   },
+   {
+    "q": "L'Enclume, Cartmel",
+    "right": "Simon Rogan",
+    "wrong": [
+     "Tom Kerridge",
+     "Nathan Outlaw",
+     "Paul Ainsworth"
+    ]
+   },
+   {
+    "q": "Momofuku, New York",
+    "right": "David Chang",
+    "wrong": [
+     "Wolfgang Puck",
+     "Anthony Bourdain",
+     "Jean-Georges Vongerichten"
+    ]
+   },
+   {
+    "q": "Eleven Madison Park, New York",
+    "right": "Daniel Humm",
+    "wrong": [
+     "Wolfgang Puck",
+     "Jean-Georges Vongerichten",
+     "Anthony Bourdain"
+    ]
+   },
+   {
+    "q": "Osteria Francescana, Modena",
+    "right": "Massimo Bottura",
+    "wrong": [
+     "Antonio Carluccio",
+     "Gennaro Contaldo",
+     "Alain Ducasse"
+    ]
+   },
+   {
+    "q": "The Ledbury, London",
+    "right": "Brett Graham",
+    "wrong": [
+     "Marcus Wareing",
+     "Angela Hartnett",
+     "Tom Kerridge"
+    ]
+   },
+   {
+    "q": "Hibiscus, London",
+    "right": "Claude Bosi",
+    "wrong": [
+     "Joël Robuchon",
+     "Alain Ducasse",
+     "Marcus Wareing"
+    ]
+   },
+   {
+    "q": "Le Bernardin, New York",
+    "right": "Eric Ripert",
+    "wrong": [
+     "Jean-Georges Vongerichten",
+     "Wolfgang Puck",
+     "Joël Robuchon"
+    ]
+   },
+   {
+    "q": "Alinea, Chicago",
+    "right": "Grant Achatz",
+    "wrong": [
+     "Wolfgang Puck",
+     "Anthony Bourdain",
+     "Jean-Georges Vongerichten"
+    ]
+   },
+   {
+    "q": "Restaurant Story, London",
+    "right": "Tom Sellers",
+    "wrong": [
+     "Tom Kerridge",
+     "Marcus Wareing",
+     "Angela Hartnett"
+    ]
+   },
+   {
+    "q": "Midsummer House, Cambridge",
+    "right": "Daniel Clifford",
+    "wrong": [
+     "Gary Rhodes",
+     "Tom Kerridge",
+     "Marcus Wareing"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which city is this football stadium in?",
+  "target": 10,
+  "category": "Football",
+  "tags": [
+   "stadiums",
+   "cities"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "San Siro",
+    "right": "Milan",
+    "wrong": [
+     "Genoa",
+     "Bergamo",
+     "Bologna"
+    ]
+   },
+   {
+    "q": "The Camp Nou",
+    "right": "Barcelona",
+    "wrong": [
+     "Bilbao",
+     "Girona",
+     "Zaragoza"
+    ]
+   },
+   {
+    "q": "The Santiago Bernabéu",
+    "right": "Madrid",
+    "wrong": [
+     "Bilbao",
+     "Zaragoza",
+     "Málaga"
+    ]
+   },
+   {
+    "q": "Anfield",
+    "right": "Liverpool",
+    "wrong": [
+     "Leeds",
+     "Newcastle",
+     "Birmingham"
+    ]
+   },
+   {
+    "q": "Signal Iduna Park",
+    "right": "Dortmund",
+    "wrong": [
+     "Gelsenkirchen",
+     "Cologne",
+     "Düsseldorf"
+    ]
+   },
+   {
+    "q": "The Allianz Arena",
+    "right": "Munich",
+    "wrong": [
+     "Stuttgart",
+     "Nuremberg",
+     "Frankfurt"
+    ]
+   },
+   {
+    "q": "The Parc des Princes",
+    "right": "Paris",
+    "wrong": [
+     "Lyon",
+     "Lille",
+     "Nice"
+    ]
+   },
+   {
+    "q": "The Olympiastadion where the 2006 World Cup final was held",
+    "right": "Berlin",
+    "wrong": [
+     "Hamburg",
+     "Leipzig",
+     "Cologne"
+    ]
+   },
+   {
+    "q": "The Johan Cruyff Arena",
+    "right": "Amsterdam",
+    "wrong": [
+     "Utrecht",
+     "The Hague",
+     "Arnhem"
+    ]
+   },
+   {
+    "q": "The Estádio da Luz",
+    "right": "Lisbon",
+    "wrong": [
+     "Porto",
+     "Braga",
+     "Coimbra"
+    ]
+   },
+   {
+    "q": "Celtic Park",
+    "right": "Glasgow",
+    "wrong": [
+     "Edinburgh",
+     "Aberdeen",
+     "Dundee"
+    ]
+   },
+   {
+    "q": "Old Trafford",
+    "right": "Manchester",
+    "wrong": [
+     "Leeds",
+     "Newcastle",
+     "Birmingham"
+    ]
+   },
+   {
+    "q": "The Mestalla",
+    "right": "Valencia",
+    "wrong": [
+     "Bilbao",
+     "Málaga",
+     "Zaragoza"
+    ]
+   },
+   {
+    "q": "The Ramón Sánchez-Pizjuán",
+    "right": "Seville",
+    "wrong": [
+     "Málaga",
+     "Granada",
+     "Cádiz"
+    ]
+   },
+   {
+    "q": "The Stadio Olimpico",
+    "right": "Rome",
+    "wrong": [
+     "Naples",
+     "Florence",
+     "Bologna"
+    ]
+   },
+   {
+    "q": "Juventus's Allianz Stadium",
+    "right": "Turin",
+    "wrong": [
+     "Genoa",
+     "Bergamo",
+     "Florence"
+    ]
+   },
+   {
+    "q": "The Stade Vélodrome",
+    "right": "Marseille",
+    "wrong": [
+     "Lyon",
+     "Nice",
+     "Bordeaux"
+    ]
+   },
+   {
+    "q": "The Philips Stadion",
+    "right": "Eindhoven",
+    "wrong": [
+     "Utrecht",
+     "Arnhem",
+     "The Hague"
+    ]
+   },
+   {
+    "q": "De Kuip",
+    "right": "Rotterdam",
+    "wrong": [
+     "Utrecht",
+     "The Hague",
+     "Arnhem"
+    ]
+   },
+   {
+    "q": "The Ernst Happel Stadion",
+    "right": "Vienna",
+    "wrong": [
+     "Salzburg",
+     "Graz",
+     "Linz"
+    ]
+   }
+  ]
+ }
+]
