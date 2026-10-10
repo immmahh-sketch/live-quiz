@@ -1,0 +1,390 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which film or show is this famous car from?",
+  "target": 10,
+  "category": "Film",
+  "tags": [
+   "cars",
+   "films",
+   "TV"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A DeLorean with a flux capacitor",
+    "right": "Back to the Future",
+    "wrong": [
+     "Bill & Ted's Excellent Adventure",
+     "Terminator 2",
+     "The Fly"
+    ]
+   },
+   {
+    "q": "Ecto-1, a converted Cadillac ambulance",
+    "right": "Ghostbusters",
+    "wrong": [
+     "Men in Black",
+     "Gremlins",
+     "Beetlejuice"
+    ]
+   },
+   {
+    "q": "KITT, a talking black Pontiac Trans Am",
+    "right": "Knight Rider",
+    "wrong": [
+     "Airwolf",
+     "The A-Team",
+     "Street Hawk"
+    ]
+   },
+   {
+    "q": "The General Lee, an orange Dodge Charger with 01 on the doors",
+    "right": "The Dukes of Hazzard",
+    "wrong": [
+     "The A-Team",
+     "CHiPs",
+     "Magnum, P.I."
+    ]
+   },
+   {
+    "q": "Herbie, a Volkswagen Beetle numbered 53",
+    "right": "The Love Bug",
+    "wrong": [
+     "Christine",
+     "Speed Racer",
+     "Wacky Races"
+    ]
+   },
+   {
+    "q": "An Aston Martin DB5 with an ejector seat, first seen in 1964",
+    "right": "Goldfinger",
+    "wrong": [
+     "Thunderball",
+     "Moonraker",
+     "Live and Let Die"
+    ]
+   },
+   {
+    "q": "The Mystery Machine",
+    "right": "Scooby-Doo",
+    "wrong": [
+     "Wacky Races",
+     "The Partridge Family",
+     "Thunderbirds"
+    ]
+   },
+   {
+    "q": "A flying car named after the noise its engine makes",
+    "right": "Chitty Chitty Bang Bang",
+    "wrong": [
+     "Mary Poppins",
+     "Bedknobs and Broomsticks",
+     "The Absent-Minded Professor"
+    ]
+   },
+   {
+    "q": "Greased Lightnin'",
+    "right": "Grease",
+    "wrong": [
+     "Hairspray",
+     "Dirty Dancing",
+     "Footloose"
+    ]
+   },
+   {
+    "q": "Bumblebee, a yellow Camaro that's really a robot",
+    "right": "Transformers",
+    "wrong": [
+     "Real Steel",
+     "Pacific Rim",
+     "RoboCop"
+    ]
+   },
+   {
+    "q": "Lightning McQueen, red race car number 95",
+    "right": "Cars",
+    "wrong": [
+     "Turbo",
+     "Planes",
+     "Speed Racer"
+    ]
+   },
+   {
+    "q": "The Bluesmobile, an old police Dodge",
+    "right": "The Blues Brothers",
+    "wrong": [
+     "Animal House",
+     "Dumb and Dumber",
+     "Police Academy"
+    ]
+   },
+   {
+    "q": "A flying turquoise Ford Anglia",
+    "right": "Harry Potter and the Chamber of Secrets",
+    "wrong": [
+     "Harry Potter and the Prisoner of Azkaban",
+     "Harry Potter and the Goblet of Fire",
+     "Fantastic Beasts"
+    ]
+   },
+   {
+    "q": "Three Minis in red, white and blue",
+    "right": "The Italian Job",
+    "wrong": [
+     "Mr. Bean",
+     "The Persuaders!",
+     "Bullitt"
+    ]
+   },
+   {
+    "q": "A yellow three-wheeled Reliant Regal van",
+    "right": "Only Fools and Horses",
+    "wrong": [
+     "Heartbeat",
+     "Last of the Summer Wine",
+     "Steptoe and Son"
+    ]
+   },
+   {
+    "q": "A red Ford Gran Torino with a white stripe",
+    "right": "Starsky & Hutch",
+    "wrong": [
+     "Miami Vice",
+     "CHiPs",
+     "The Rockford Files"
+    ]
+   },
+   {
+    "q": "A red Ferrari 'borrowed' from Cameron's dad",
+    "right": "Ferris Bueller's Day Off",
+    "wrong": [
+     "Risky Business",
+     "Rain Man",
+     "Weird Science"
+    ]
+   },
+   {
+    "q": "The black V8 Interceptor",
+    "right": "Mad Max",
+    "wrong": [
+     "Death Race 2000",
+     "Drive",
+     "Gone in 60 Seconds"
+    ]
+   },
+   {
+    "q": "A black and gold Pontiac Trans Am outrunning the sheriff",
+    "right": "Smokey and the Bandit",
+    "wrong": [
+     "The Cannonball Run",
+     "Convoy",
+     "Bullitt"
+    ]
+   },
+   {
+    "q": "A white Lotus Esprit that turns into a submarine",
+    "right": "The Spy Who Loved Me",
+    "wrong": [
+     "Moonraker",
+     "For Your Eyes Only",
+     "A View to a Kill"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: whose weapon or gadget is this?",
+  "target": 10,
+  "category": "Film",
+  "tags": [
+   "superheroes",
+   "gadgets",
+   "films"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Mjölnir, the enchanted hammer",
+    "right": "Thor",
+    "wrong": [
+     "Loki",
+     "Odin",
+     "Hercules"
+    ]
+   },
+   {
+    "q": "A round red, white and blue shield with a star",
+    "right": "Captain America",
+    "wrong": [
+     "Falcon",
+     "Black Widow",
+     "The Winter Soldier"
+    ]
+   },
+   {
+    "q": "The golden Lasso of Truth",
+    "right": "Wonder Woman",
+    "wrong": [
+     "Supergirl",
+     "Catwoman",
+     "Black Widow"
+    ]
+   },
+   {
+    "q": "Batarangs and a utility belt",
+    "right": "Batman",
+    "wrong": [
+     "Green Arrow",
+     "Daredevil",
+     "The Flash"
+    ]
+   },
+   {
+    "q": "Wrist-mounted web-shooters",
+    "right": "Spider-Man",
+    "wrong": [
+     "Daredevil",
+     "The Wasp",
+     "Black Cat"
+    ]
+   },
+   {
+    "q": "Adamantium claws",
+    "right": "Wolverine",
+    "wrong": [
+     "Sabretooth",
+     "Beast",
+     "Colossus"
+    ]
+   },
+   {
+    "q": "A power ring fuelled by willpower",
+    "right": "Green Lantern",
+    "wrong": [
+     "Green Arrow",
+     "The Flash",
+     "Cyborg"
+    ]
+   },
+   {
+    "q": "An arc reactor powering a suit of armour",
+    "right": "Iron Man",
+    "wrong": [
+     "War Machine",
+     "Vision",
+     "Ultron"
+    ]
+   },
+   {
+    "q": "A golden trident",
+    "right": "Aquaman",
+    "wrong": [
+     "The Flash",
+     "Namor",
+     "Cyborg"
+    ]
+   },
+   {
+    "q": "A bow and trick arrows, in the Avengers",
+    "right": "Hawkeye",
+    "wrong": [
+     "Green Arrow",
+     "Black Widow",
+     "Falcon"
+    ]
+   },
+   {
+    "q": "The Infinity Gauntlet",
+    "right": "Thanos",
+    "wrong": [
+     "Loki",
+     "Ultron",
+     "Red Skull"
+    ]
+   },
+   {
+    "q": "A ruby-quartz visor that holds back his optic blasts",
+    "right": "Cyclops",
+    "wrong": [
+     "Storm",
+     "Jean Grey",
+     "Rogue"
+    ]
+   },
+   {
+    "q": "Cerebro, for tracking down mutants",
+    "right": "Professor X",
+    "wrong": [
+     "Magneto",
+     "Jean Grey",
+     "Beast"
+    ]
+   },
+   {
+    "q": "A suit that shrinks him to the size of an insect",
+    "right": "Ant-Man",
+    "wrong": [
+     "Falcon",
+     "Vision",
+     "Black Panther"
+    ]
+   },
+   {
+    "q": "The sonic screwdriver",
+    "right": "The Doctor",
+    "wrong": [
+     "Doctor Strange",
+     "Captain Jack Harkness",
+     "Mr Spock"
+    ]
+   },
+   {
+    "q": "A red lightsaber, and a mask he has to breathe through",
+    "right": "Darth Vader",
+    "wrong": [
+     "Luke Skywalker",
+     "Boba Fett",
+     "Han Solo"
+    ]
+   },
+   {
+    "q": "A cutlass and a compass that doesn't point north",
+    "right": "Captain Jack Sparrow",
+    "wrong": [
+     "Captain Hook",
+     "Long John Silver",
+     "Captain Barbossa"
+    ]
+   },
+   {
+    "q": "A holly wand with a phoenix-feather core",
+    "right": "Harry Potter",
+    "wrong": [
+     "Hermione Granger",
+     "Ron Weasley",
+     "Draco Malfoy"
+    ]
+   },
+   {
+    "q": "A golden gun, made from a pen, a lighter and a cigarette case",
+    "right": "Scaramanga",
+    "wrong": [
+     "Goldfinger",
+     "Jaws",
+     "Dr. No"
+    ]
+   },
+   {
+    "q": "Proton packs for catching ghosts",
+    "right": "The Ghostbusters",
+    "wrong": [
+     "The A-Team",
+     "Men in Black",
+     "The Goonies"
+    ]
+   }
+  ]
+ }
+]
