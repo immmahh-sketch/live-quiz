@@ -386,7 +386,7 @@ window.DEMO_SAMPLES = {
    "CHAMPAGNE"
   ],
   "ai": false,
-  "time": 30,
+  "time": 60,
   "media": {
    "kind": "none"
   },

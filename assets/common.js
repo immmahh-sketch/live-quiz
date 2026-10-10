@@ -73,7 +73,7 @@ window.LQ = (() => {
     club:   { label: 'The 1% Club',    icon: '🧠', blurb: 'Logic, wordplay and lateral thinking. No knowledge needed, just work it out. The fewer people who get it, the more it pays.' },
     dingbat:{ label: 'Dingbats',        icon: '🔤', blurb: 'Say what you see: a well-known phrase hidden in how the words are laid out.' },
     catchphrase: { label: 'Catchphrase', icon: '🗯️', blurb: 'A clip from the show plays on the screen. Players type the well-known phrase it shows.' },
-    conundrum: { label: 'Countdown Conundrum', icon: '🔠', blurb: 'Nine scrambled letters on the screen and 30 seconds on the clock. Players type the nine-letter word on their phones: spelt exactly right, and the quicker the better.' },
+    conundrum: { label: 'Countdown Conundrum', icon: '🔠', blurb: 'Nine scrambled letters on the screen and a minute on the clock. Players type the nine-letter word on their phones: spelt exactly right, and the quicker the better.' },
     unique: { label: 'Only One', icon: '☝️', blurb: 'Everyone answers the same prompt ("Name a pizza topping"). Be the only one to say it: match anyone and you are both out. The host can kick an answer that does not count. Last one standing wins.' },
     survey: { label: 'Family Fortunes', icon: '👪', blurb: '"We asked the room…": everyone types an answer, and you score by matching everyone else. The more players who said what you said, the more you score.' },
     reveal: { label: 'Picture Reveal', icon: '🧩', blurb: 'A picture hidden behind tiles that flip over one by one. Players type who or what it is: the fewer tiles it takes, the more they score.' },
@@ -568,7 +568,7 @@ window.LQ = (() => {
     club: 'No knowledge needed, just logic. The fewer people who get it, the more it is worth.',
     dingbat: 'Say what you see: a well-known phrase hidden in how the words are laid out.',
     catchphrase: 'Watch the clip and say what you see: type the well-known saying it shows.',
-    conundrum: 'Nine scrambled letters make one word. Unscramble them and type it on your phone before the 30 seconds run out. It must be spelt exactly right, and the quicker you are, the more you score.',
+    conundrum: 'Nine scrambled letters make one word. Unscramble them and type it on your phone before the minute runs out. It must be spelt exactly right, and the quicker you are, the more you score.',
     unique: 'Everyone answers the same prompt. Be the ONLY one to say it: if anyone else gives the same answer, you are both out. It has to be a real answer, or the host will kick you! Last one standing wins.',
     survey: 'We asked the room! Type the first answer that comes to mind. The more people who say the same as you, the more you score. A lonely answer scores nothing.',
     reveal: 'A picture is hidden behind tiles that flip over one by one. Type who or what it is on your phone: the sooner you get it, the more you score.',
@@ -649,7 +649,7 @@ window.LQ = (() => {
     return b;
   }
   try { setBrand(document.documentElement.dataset.brand || 'lq'); } catch {}
-  const DEFAULT_TIMES = { nearest: 25, draw: 60, catchphrase: 50, conundrum: 30, reveal: 40, survey: 30, unique: 25, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30, potato: 90, koth: 15, blockbusters: 20, chase: 15, twenty: 180, cards: 30, task: 120, about: 45, whosaid: 20 };
+  const DEFAULT_TIMES = { nearest: 25, draw: 60, catchphrase: 50, conundrum: 60, reveal: 40, survey: 30, unique: 25, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30, potato: 90, koth: 15, blockbusters: 20, chase: 15, twenty: 180, cards: 30, task: 120, about: 45, whosaid: 20 };
   const DEFAULT_SETTINGS = { maxPoints: 1000, minPoints: 500, defaultTime: 30, showAnswersOnPhones: true, timeByType: { ...DEFAULT_TIMES } };
 
   /** The time limit a question of this type gets by default in this quiz. */
@@ -676,6 +676,9 @@ window.LQ = (() => {
     // Races saved under the old scoring (5000 to the winner, nothing per right answer) move to today's: 100 per right answer, 500/200/100, −200 for last.
     for (const qu of questions) if (qu.type === 'race' && qu.perCorrect === undefined) Object.assign(qu, { perCorrect: 100, prize: 500, prize2: 200, prize3: 100, forfeit: 200 });
     for (const qu of questions) if (qu.type === 'race' && qu.maxWrong === undefined) qu.maxWrong = 10;
+    // A Countdown Conundrum always gets a full minute (user rule, 10 Oct 2026), whatever an older quiz saved.
+    settings.timeByType.conundrum = 60;
+    for (const qu of questions) if (qu.kind === 'conundrum') qu.time = 60;
     for (const qu of questions) if (NEW_GAME_DEFAULTS[qu.type]) for (const [k, v] of Object.entries(NEW_GAME_DEFAULTS[qu.type]())) if (qu[k] === undefined) qu[k] = v;
     delete settings.rounds;
     const quiz = { id: q.id || null, title: q.title || 'Untitled quiz', settings, rounds, questions };
