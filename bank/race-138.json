@@ -1,0 +1,390 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this make-up or skincare word?",
+  "target": 10,
+  "category": "Fashion",
+  "tags": [
+   "make-up",
+   "skincare",
+   "beauty"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Darkens and lengthens your eyelashes",
+    "right": "Mascara",
+    "wrong": [
+     "Kajal",
+     "Glitter",
+     "Cold cream"
+    ]
+   },
+   {
+    "q": "Draws a fine line along the edge of the eyelid",
+    "right": "Eyeliner",
+    "wrong": [
+     "Glitter",
+     "Dry shampoo",
+     "Cold cream"
+    ]
+   },
+   {
+    "q": "A rosy powder brushed onto the cheeks",
+    "right": "Blusher",
+    "wrong": [
+     "Glitter",
+     "Dry shampoo",
+     "Witch hazel"
+    ]
+   },
+   {
+    "q": "An all-over base that evens out your skin tone",
+    "right": "Foundation",
+    "wrong": [
+     "Cold cream",
+     "Witch hazel",
+     "SPF"
+    ]
+   },
+   {
+    "q": "Covers dark circles and spots",
+    "right": "Concealer",
+    "wrong": [
+     "Cold cream",
+     "Witch hazel",
+     "Glitter"
+    ]
+   },
+   {
+    "q": "Colour for your lips in a twist-up tube",
+    "right": "Lipstick",
+    "wrong": [
+     "Cold cream",
+     "Witch hazel",
+     "Dry shampoo"
+    ]
+   },
+   {
+    "q": "A powder for a sun-kissed glow without the sun",
+    "right": "Bronzer",
+    "wrong": [
+     "Glitter",
+     "Witch hazel",
+     "Cold cream"
+    ]
+   },
+   {
+    "q": "A shimmery product dabbed on the cheekbones to catch the light",
+    "right": "Highlighter",
+    "wrong": [
+     "Witch hazel",
+     "Cold cream",
+     "Dry shampoo"
+    ]
+   },
+   {
+    "q": "Goes on before your make-up so it lasts longer",
+    "right": "Primer",
+    "wrong": [
+     "Witch hazel",
+     "Cold cream",
+     "Dry shampoo"
+    ]
+   },
+   {
+    "q": "Darker shading to sculpt the cheekbones and jaw",
+    "right": "Contour",
+    "wrong": [
+     "Glitter",
+     "Witch hazel",
+     "Cold cream"
+    ]
+   },
+   {
+    "q": "A pencil that outlines the lips before the colour goes on",
+    "right": "Lip liner",
+    "wrong": [
+     "Cuticle oil",
+     "Glitter",
+     "Dry shampoo"
+    ]
+   },
+   {
+    "q": "Painted onto fingernails and toenails",
+    "right": "Nail varnish",
+    "wrong": [
+     "Cuticle oil",
+     "Nail file",
+     "Glitter"
+    ]
+   },
+   {
+    "q": "Colour brushed onto the eyelids",
+    "right": "Eyeshadow",
+    "wrong": [
+     "Cold cream",
+     "Witch hazel",
+     "Dry shampoo"
+    ]
+   },
+   {
+    "q": "Stuck on to make your lashes look longer and fuller",
+    "right": "False eyelashes",
+    "wrong": [
+     "Nail file",
+     "Cuticle oil",
+     "Glitter"
+    ]
+   },
+   {
+    "q": "A mist that locks your make-up in place at the end",
+    "right": "Setting spray",
+    "wrong": [
+     "Dry shampoo",
+     "Witch hazel",
+     "Micellar water"
+    ]
+   },
+   {
+    "q": "A liquid swiped on after cleansing to tighten the pores",
+    "right": "Toner",
+    "wrong": [
+     "Cold cream",
+     "Dry shampoo",
+     "Body butter"
+    ]
+   },
+   {
+    "q": "A daily cream that stops your face drying out",
+    "right": "Moisturiser",
+    "wrong": [
+     "Dry shampoo",
+     "Witch hazel",
+     "Micellar water"
+    ]
+   },
+   {
+    "q": "A gritty scrub that clears away dead skin",
+    "right": "Exfoliator",
+    "wrong": [
+     "Witch hazel",
+     "Micellar water",
+     "Dry shampoo"
+    ]
+   },
+   {
+    "q": "A light, concentrated liquid of active ingredients, used before moisturiser",
+    "right": "Serum",
+    "wrong": [
+     "Dry shampoo",
+     "Witch hazel",
+     "Cold cream"
+    ]
+   },
+   {
+    "q": "Fills in and shapes your brows",
+    "right": "Eyebrow pencil",
+    "wrong": [
+     "Nail file",
+     "Cuticle oil",
+     "Glitter"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this cycling or running word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "cycling",
+   "running",
+   "athletics"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The main pack of riders in a road race",
+    "right": "Peloton",
+    "wrong": [
+     "Echelon",
+     "Musette",
+     "Soigneur"
+    ]
+   },
+   {
+    "q": "A rider who works for the team leader, fetching drinks and shielding them from the wind",
+    "right": "Domestique",
+    "wrong": [
+     "Soigneur",
+     "Directeur sportif",
+     "Gruppetto"
+    ]
+   },
+   {
+    "q": "Worn by the King of the Mountains in the Tour de France",
+    "right": "Polka dot jersey",
+    "wrong": [
+     "White jersey",
+     "Rainbow jersey",
+     "Maillot jaune"
+    ]
+   },
+   {
+    "q": "Worn by the leader of the Tour de France points competition",
+    "right": "Green jersey",
+    "wrong": [
+     "White jersey",
+     "Rainbow jersey",
+     "Maillot jaune"
+    ]
+   },
+   {
+    "q": "A small group that escapes off the front of the race",
+    "right": "Breakaway",
+    "wrong": [
+     "Gruppetto",
+     "Echelon",
+     "Bidon"
+    ]
+   },
+   {
+    "q": "Riding close behind someone else to save energy",
+    "right": "Slipstreaming",
+    "wrong": [
+     "Cadence",
+     "Tempo run",
+     "Strides"
+    ]
+   },
+   {
+    "q": "Racing alone against the clock",
+    "right": "Time trial",
+    "wrong": [
+     "Points race",
+     "Scratch race",
+     "Omnium"
+    ]
+   },
+   {
+    "q": "The nickname for the rider lying last overall in the Tour de France",
+    "right": "Lanterne rouge",
+    "wrong": [
+     "Directeur sportif",
+     "Soigneur",
+     "Bidon"
+    ]
+   },
+   {
+    "q": "An indoor cycling track with steeply banked bends",
+    "right": "Velodrome",
+    "wrong": [
+     "Omnium",
+     "Musette",
+     "Soigneur"
+    ]
+   },
+   {
+    "q": "A track race where the riders follow a little motorbike before sprinting for the line",
+    "right": "Keirin",
+    "wrong": [
+     "Omnium",
+     "Scratch race",
+     "Team pursuit"
+    ]
+   },
+   {
+    "q": "The little motorbike that paces the riders in that race",
+    "right": "Derny",
+    "wrong": [
+     "Bidon",
+     "Musette",
+     "Echelon"
+    ]
+   },
+   {
+    "q": "When a marathon runner suddenly runs out of energy, often around mile 20",
+    "right": "Hitting the wall",
+    "wrong": [
+     "Runner's high",
+     "Shin splints",
+     "Taper"
+    ]
+   },
+   {
+    "q": "A runner who sets a fast early pace for others, then drops out",
+    "right": "Pacemaker",
+    "wrong": [
+     "Strides",
+     "Sweeper bus",
+     "Bib"
+    ]
+   },
+   {
+    "q": "A free, timed 5K held every Saturday morning in parks",
+    "right": "Parkrun",
+    "wrong": [
+     "Tempo run",
+     "Hill reps",
+     "Chip time"
+    ]
+   },
+   {
+    "q": "Your fastest ever time over a distance",
+    "right": "Personal best",
+    "wrong": [
+     "Chip time",
+     "Splits",
+     "Cadence"
+    ]
+   },
+   {
+    "q": "Swedish 'speed play': mixing fast and slow running as you feel like it",
+    "right": "Fartlek",
+    "wrong": [
+     "Tempo run",
+     "Hill reps",
+     "Strides"
+    ]
+   },
+   {
+    "q": "Running the second half of a race faster than the first",
+    "right": "Negative split",
+    "wrong": [
+     "Taper",
+     "Carb-loading",
+     "Chip time"
+    ]
+   },
+   {
+    "q": "Any race longer than a marathon",
+    "right": "Ultramarathon",
+    "wrong": [
+     "Taper",
+     "Tempo run",
+     "Hill reps"
+    ]
+   },
+   {
+    "q": "The NHS plan that takes beginners from the sofa to running 5K in nine weeks",
+    "right": "Couch to 5K",
+    "wrong": [
+     "Tempo run",
+     "Hill reps",
+     "Taper"
+    ]
+   },
+   {
+    "q": "What relay runners hand to each other",
+    "right": "Baton",
+    "wrong": [
+     "Bib",
+     "Bidon",
+     "Musette"
+    ]
+   }
+  ]
+ }
+]
