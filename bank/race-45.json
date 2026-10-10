@@ -1,0 +1,774 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: where was this famous person born?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "birthplaces",
+   "famous people"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Wolfgang Amadeus Mozart",
+    "right": "Salzburg",
+    "wrong": [
+     "Vienna",
+     "Innsbruck",
+     "Munich"
+    ]
+   },
+   {
+    "q": "William Shakespeare",
+    "right": "Stratford-upon-Avon",
+    "wrong": [
+     "Warwick",
+     "Coventry",
+     "Oxford"
+    ]
+   },
+   {
+    "q": "Pablo Picasso",
+    "right": "Málaga",
+    "wrong": [
+     "Barcelona",
+     "Seville",
+     "Madrid"
+    ]
+   },
+   {
+    "q": "Albert Einstein",
+    "right": "Ulm",
+    "wrong": [
+     "Munich",
+     "Berlin",
+     "Zurich"
+    ]
+   },
+   {
+    "q": "Ludwig van Beethoven",
+    "right": "Bonn",
+    "wrong": [
+     "Vienna",
+     "Cologne",
+     "Leipzig"
+    ]
+   },
+   {
+    "q": "Napoleon Bonaparte",
+    "right": "Ajaccio",
+    "wrong": [
+     "Bastia",
+     "Marseille",
+     "Nice"
+    ]
+   },
+   {
+    "q": "Christopher Columbus",
+    "right": "Genoa",
+    "wrong": [
+     "Venice",
+     "Lisbon",
+     "Seville"
+    ]
+   },
+   {
+    "q": "Karl Marx",
+    "right": "Trier",
+    "wrong": [
+     "Cologne",
+     "Berlin",
+     "London"
+    ]
+   },
+   {
+    "q": "Elvis Presley",
+    "right": "Tupelo",
+    "wrong": [
+     "Memphis",
+     "Nashville",
+     "Jackson"
+    ]
+   },
+   {
+    "q": "Charles Dickens",
+    "right": "Portsmouth",
+    "wrong": [
+     "Rochester",
+     "London",
+     "Chatham"
+    ]
+   },
+   {
+    "q": "Mahatma Gandhi",
+    "right": "Porbandar",
+    "wrong": [
+     "Ahmedabad",
+     "Delhi",
+     "Rajkot"
+    ]
+   },
+   {
+    "q": "Galileo Galilei",
+    "right": "Pisa",
+    "wrong": [
+     "Florence",
+     "Padua",
+     "Rome"
+    ]
+   },
+   {
+    "q": "Nicolaus Copernicus",
+    "right": "Toruń",
+    "wrong": [
+     "Kraków",
+     "Warsaw",
+     "Gdańsk"
+    ]
+   },
+   {
+    "q": "Salvador Dalí",
+    "right": "Figueres",
+    "wrong": [
+     "Cadaqués",
+     "Barcelona",
+     "Girona"
+    ]
+   },
+   {
+    "q": "Mother Teresa",
+    "right": "Skopje",
+    "wrong": [
+     "Kolkata",
+     "Tirana",
+     "Belgrade"
+    ]
+   },
+   {
+    "q": "Freddie Mercury",
+    "right": "Zanzibar",
+    "wrong": [
+     "Muscat",
+     "Dar es Salaam",
+     "Feltham"
+    ]
+   },
+   {
+    "q": "Audrey Hepburn",
+    "right": "Brussels",
+    "wrong": [
+     "Amsterdam",
+     "Arnhem",
+     "London"
+    ]
+   },
+   {
+    "q": "Rudyard Kipling",
+    "right": "Bombay (Mumbai)",
+    "wrong": [
+     "Calcutta",
+     "Lahore",
+     "Delhi"
+    ]
+   },
+   {
+    "q": "Winston Churchill",
+    "right": "Blenheim Palace",
+    "wrong": [
+     "Chartwell",
+     "Hatfield House",
+     "Chatsworth"
+    ]
+   },
+   {
+    "q": "Sting",
+    "right": "Wallsend",
+    "wrong": [
+     "Newcastle",
+     "Sunderland",
+     "North Shields"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which club has this mascot?",
+  "target": 10,
+  "category": "Football",
+  "tags": [
+   "mascots",
+   "football clubs"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Gunnersaurus",
+    "right": "Arsenal",
+    "wrong": [
+     "Fulham",
+     "Burnley",
+     "QPR"
+    ]
+   },
+   {
+    "q": "Mighty Red",
+    "right": "Liverpool",
+    "wrong": [
+     "Nottingham Forest",
+     "Bournemouth",
+     "Southampton"
+    ]
+   },
+   {
+    "q": "Fred the Red",
+    "right": "Manchester United",
+    "wrong": [
+     "Nottingham Forest",
+     "Bristol City",
+     "Bournemouth"
+    ]
+   },
+   {
+    "q": "Moonchester",
+    "right": "Manchester City",
+    "wrong": [
+     "Stoke City",
+     "Blackburn Rovers",
+     "Bolton Wanderers"
+    ]
+   },
+   {
+    "q": "Stamford the Lion",
+    "right": "Chelsea",
+    "wrong": [
+     "Millwall",
+     "Charlton Athletic",
+     "Fulham"
+    ]
+   },
+   {
+    "q": "Chirpy the Cockerel",
+    "right": "Tottenham Hotspur",
+    "wrong": [
+     "Bolton Wanderers",
+     "Ipswich Town",
+     "West Bromwich Albion"
+    ]
+   },
+   {
+    "q": "Hammerhead",
+    "right": "West Ham United",
+    "wrong": [
+     "Millwall",
+     "Charlton Athletic",
+     "Southampton"
+    ]
+   },
+   {
+    "q": "Monty Magpie",
+    "right": "Newcastle United",
+    "wrong": [
+     "Notts County",
+     "Bolton Wanderers",
+     "Hartlepool United"
+    ]
+   },
+   {
+    "q": "Samson the Cat",
+    "right": "Sunderland",
+    "wrong": [
+     "Hull City",
+     "Stoke City",
+     "Hartlepool United"
+    ]
+   },
+   {
+    "q": "Roary the Lion",
+    "right": "Middlesbrough",
+    "wrong": [
+     "Millwall",
+     "Hull City",
+     "Bolton Wanderers"
+    ]
+   },
+   {
+    "q": "Filbert Fox",
+    "right": "Leicester City",
+    "wrong": [
+     "Burnley",
+     "Ipswich Town",
+     "Bournemouth"
+    ]
+   },
+   {
+    "q": "Pete the Eagle",
+    "right": "Crystal Palace",
+    "wrong": [
+     "Fulham",
+     "QPR",
+     "Reading"
+    ]
+   },
+   {
+    "q": "Wolfie",
+    "right": "Wolverhampton Wanderers",
+    "wrong": [
+     "Burnley",
+     "Bolton Wanderers",
+     "Stoke City"
+    ]
+   },
+   {
+    "q": "Gully the Seagull",
+    "right": "Brighton & Hove Albion",
+    "wrong": [
+     "Southampton",
+     "Portsmouth",
+     "Reading"
+    ]
+   },
+   {
+    "q": "Captain Canary",
+    "right": "Norwich City",
+    "wrong": [
+     "Ipswich Town",
+     "Bournemouth",
+     "Southampton"
+    ]
+   },
+   {
+    "q": "Lucas the Kop Kat",
+    "right": "Leeds United",
+    "wrong": [
+     "Hull City",
+     "Bolton Wanderers",
+     "Stoke City"
+    ]
+   },
+   {
+    "q": "Hercules the Lion",
+    "right": "Aston Villa",
+    "wrong": [
+     "Millwall",
+     "West Bromwich Albion",
+     "Coventry City"
+    ]
+   },
+   {
+    "q": "Rammie",
+    "right": "Derby County",
+    "wrong": [
+     "Stoke City",
+     "Coventry City",
+     "Nottingham Forest"
+    ]
+   },
+   {
+    "q": "Ozzie the Owl",
+    "right": "Sheffield Wednesday",
+    "wrong": [
+     "Bolton Wanderers",
+     "Burnley",
+     "Blackburn Rovers"
+    ]
+   },
+   {
+    "q": "Changy the Elephant",
+    "right": "Everton",
+    "wrong": [
+     "Coventry City",
+     "Blackburn Rovers",
+     "Bolton Wanderers"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which gallery or building is home to this famous artwork?",
+  "target": 10,
+  "category": "Art and culture",
+  "tags": [
+   "paintings",
+   "galleries"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The Mona Lisa",
+    "right": "The Louvre",
+    "wrong": [
+     "The Centre Pompidou",
+     "The Musée Rodin",
+     "The Pinacoteca di Brera"
+    ]
+   },
+   {
+    "q": "The Night Watch",
+    "right": "The Rijksmuseum",
+    "wrong": [
+     "The Van Gogh Museum",
+     "The Kunsthistorisches Museum",
+     "The Alte Pinakothek"
+    ]
+   },
+   {
+    "q": "The Birth of Venus",
+    "right": "The Uffizi",
+    "wrong": [
+     "The Accademia Gallery",
+     "The Pinacoteca di Brera",
+     "The Vatican Museums"
+    ]
+   },
+   {
+    "q": "Guernica",
+    "right": "The Reina Sofía",
+    "wrong": [
+     "The Thyssen-Bornemisza",
+     "The Musée Picasso, Paris",
+     "The Museu Picasso, Barcelona"
+    ]
+   },
+   {
+    "q": "The Starry Night",
+    "right": "MoMA, New York",
+    "wrong": [
+     "The Met",
+     "The Guggenheim",
+     "The Van Gogh Museum"
+    ]
+   },
+   {
+    "q": "Girl with a Pearl Earring",
+    "right": "The Mauritshuis",
+    "wrong": [
+     "The Van Gogh Museum",
+     "The Kunsthistorisches Museum",
+     "The Alte Pinakothek"
+    ]
+   },
+   {
+    "q": "Las Meninas",
+    "right": "The Prado",
+    "wrong": [
+     "The Thyssen-Bornemisza",
+     "The Museu Picasso, Barcelona",
+     "El Escorial"
+    ]
+   },
+   {
+    "q": "The Hay Wain",
+    "right": "The National Gallery, London",
+    "wrong": [
+     "The V&A",
+     "The Courtauld",
+     "The National Portrait Gallery"
+    ]
+   },
+   {
+    "q": "Klimt's The Kiss",
+    "right": "The Belvedere, Vienna",
+    "wrong": [
+     "The Kunsthistorisches Museum",
+     "The Leopold Museum",
+     "The Albertina"
+    ]
+   },
+   {
+    "q": "The Last Supper",
+    "right": "Santa Maria delle Grazie, Milan",
+    "wrong": [
+     "The Pinacoteca di Brera",
+     "The Vatican Museums",
+     "Milan Cathedral"
+    ]
+   },
+   {
+    "q": "The Creation of Adam",
+    "right": "The Sistine Chapel",
+    "wrong": [
+     "St Peter's Basilica",
+     "The Pantheon",
+     "The Galleria Borghese"
+    ]
+   },
+   {
+    "q": "American Gothic",
+    "right": "The Art Institute of Chicago",
+    "wrong": [
+     "The Met",
+     "The Guggenheim",
+     "The Getty Center"
+    ]
+   },
+   {
+    "q": "Monet's giant Water Lilies panels",
+    "right": "The Musée de l'Orangerie",
+    "wrong": [
+     "The Centre Pompidou",
+     "The Musée Rodin",
+     "The Petit Palais"
+    ]
+   },
+   {
+    "q": "Millais's Ophelia",
+    "right": "Tate Britain",
+    "wrong": [
+     "Tate Modern",
+     "The Courtauld",
+     "The National Portrait Gallery"
+    ]
+   },
+   {
+    "q": "Wanderer above the Sea of Fog",
+    "right": "The Hamburger Kunsthalle",
+    "wrong": [
+     "The Alte Pinakothek",
+     "The Kunsthistorisches Museum",
+     "The Neue Nationalgalerie"
+    ]
+   },
+   {
+    "q": "Dalí's Christ of Saint John of the Cross",
+    "right": "Kelvingrove, Glasgow",
+    "wrong": [
+     "The Burrell Collection",
+     "The Walker Art Gallery",
+     "The Hunterian"
+    ]
+   },
+   {
+    "q": "The Laughing Cavalier",
+    "right": "The Wallace Collection",
+    "wrong": [
+     "The Courtauld",
+     "The National Portrait Gallery",
+     "Kenwood House"
+    ]
+   },
+   {
+    "q": "Renoir's Bal du moulin de la Galette",
+    "right": "The Musée d'Orsay",
+    "wrong": [
+     "The Centre Pompidou",
+     "The Petit Palais",
+     "The Musée Rodin"
+    ]
+   },
+   {
+    "q": "Monet's Impression, Sunrise",
+    "right": "The Musée Marmottan",
+    "wrong": [
+     "The Petit Palais",
+     "The Centre Pompidou",
+     "The Musée Rodin"
+    ]
+   },
+   {
+    "q": "Landseer's The Monarch of the Glen",
+    "right": "The Scottish National Gallery",
+    "wrong": [
+     "The Burrell Collection",
+     "The Hunterian",
+     "The Walker Art Gallery"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this famous prison in?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "prisons",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Alcatraz",
+    "right": "the USA",
+    "wrong": [
+     "Canada",
+     "Bermuda",
+     "the Bahamas"
+    ]
+   },
+   {
+    "q": "Robben Island",
+    "right": "South Africa",
+    "wrong": [
+     "Namibia",
+     "Zimbabwe",
+     "Mozambique"
+    ]
+   },
+   {
+    "q": "Spandau",
+    "right": "Germany",
+    "wrong": [
+     "Austria",
+     "Poland",
+     "Czechia"
+    ]
+   },
+   {
+    "q": "The Château d'If",
+    "right": "France",
+    "wrong": [
+     "Italy",
+     "Spain",
+     "Monaco"
+    ]
+   },
+   {
+    "q": "Kilmainham Gaol",
+    "right": "Ireland",
+    "wrong": [
+     "Wales",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Hỏa Lò, the 'Hanoi Hilton'",
+    "right": "Vietnam",
+    "wrong": [
+     "Laos",
+     "Cambodia",
+     "China"
+    ]
+   },
+   {
+    "q": "The Lubyanka",
+    "right": "Russia",
+    "wrong": [
+     "Ukraine",
+     "Belarus",
+     "Kazakhstan"
+    ]
+   },
+   {
+    "q": "HMP Maze",
+    "right": "Northern Ireland",
+    "wrong": [
+     "Wales",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Port Arthur",
+    "right": "Australia",
+    "wrong": [
+     "New Zealand",
+     "Fiji",
+     "Papua New Guinea"
+    ]
+   },
+   {
+    "q": "Bang Kwang",
+    "right": "Thailand",
+    "wrong": [
+     "Laos",
+     "Cambodia",
+     "Malaysia"
+    ]
+   },
+   {
+    "q": "Carandiru",
+    "right": "Brazil",
+    "wrong": [
+     "Argentina",
+     "Colombia",
+     "Peru"
+    ]
+   },
+   {
+    "q": "HMP Barlinnie",
+    "right": "Scotland",
+    "wrong": [
+     "Wales",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "HMP Wormwood Scrubs",
+    "right": "England",
+    "wrong": [
+     "Wales",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Bastøy, the island prison",
+    "right": "Norway",
+    "wrong": [
+     "Sweden",
+     "Denmark",
+     "Finland"
+    ]
+   },
+   {
+    "q": "Lecumberri, 'the Black Palace'",
+    "right": "Mexico",
+    "wrong": [
+     "Colombia",
+     "Peru",
+     "Guatemala"
+    ]
+   },
+   {
+    "q": "Insein Prison",
+    "right": "Myanmar",
+    "wrong": [
+     "Bangladesh",
+     "Laos",
+     "Cambodia"
+    ]
+   },
+   {
+    "q": "Kerobokan",
+    "right": "Indonesia",
+    "wrong": [
+     "Malaysia",
+     "the Philippines",
+     "Papua New Guinea"
+    ]
+   },
+   {
+    "q": "Changi",
+    "right": "Singapore",
+    "wrong": [
+     "Malaysia",
+     "the Philippines",
+     "Brunei"
+    ]
+   },
+   {
+    "q": "Fuchu Prison",
+    "right": "Japan",
+    "wrong": [
+     "South Korea",
+     "Taiwan",
+     "China"
+    ]
+   },
+   {
+    "q": "The Presidio Modelo",
+    "right": "Cuba",
+    "wrong": [
+     "Jamaica",
+     "Haiti",
+     "the Dominican Republic"
+    ]
+   }
+  ]
+ }
+]
