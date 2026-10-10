@@ -1577,3 +1577,8 @@ body.hascallbar .app { padding-top: calc(48px + env(safe-area-inset-top)); }
 .tmphone-k { font-family: 'Courier New', monospace; font-weight: 900; color: #a3101f; letter-spacing: .1em; }
 .tmphone-t { font-family: 'Courier New', monospace; font-weight: 900; font-size: 1.35rem; margin: 6px 0; color: var(--ink); }
 .tmphone-f { font-size: .85rem; color: var(--ink-2); font-weight: 700; }
+
+/* Games with bots: a corner button on the phone that makes them answer and finish their go straight away */
+.hurrybots { position: fixed; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 60; border: 0; border-radius: 999px; padding: 10px 14px; font: 800 .95rem 'Nunito', system-ui, sans-serif; background: #5b3df5; color: #fff; box-shadow: 0 6px 18px rgba(0,0,0,.25); cursor: pointer; }
+body.hurry-on .app { padding-bottom: 70px; }
+.hurrybots:active { transform: scale(.97); }

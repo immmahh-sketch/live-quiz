@@ -156,6 +156,7 @@ function render() {
   const s = P.state; if (!s) return;
   partyPhoneAfter(s); // the power cards button and the banner when a card is played (assets/party-phone.js)
   const qId = s.q?.id || '';
+  syncHurry(s, qId);
   if (s.race && s.q) { syncRace(s); const el = $('#racePos'); if (el) el.outerHTML = racePlaceHtml(s); }
   const rc = P.race && P.race.qId === qId ? P.race : null;
   if (s.wheel && P.viewKey.startsWith(`${s.phase}:${qId}:`)) {
@@ -216,6 +217,19 @@ function render() {
   else if (s.phase === 'final') { app.innerHTML = top + top2 + finalHtml(s, r); const b = $('#warmBoard'), me = b?.querySelector('.me'); if (b && me) b.scrollTop = Math.max(0, me.offsetTop - b.offsetTop - b.clientHeight / 2); }
   if (s.reveal) syncReveal(s);
   if (s.roster && s.potato) syncPotRing(s);
+}
+/** With bots in the game, a button in the corner asks the host to hurry them up: they answer, take their turns and
+ *  finish there and then, so nobody sits through their thinking time. One press per question is enough for everyone. */
+function syncHurry(s, qId) {
+  const want = s.phase === 'question' && s.bots > 0 && !s.hurried && !P.view && P.hurriedQ !== qId;
+  let b = $('#hurryBots');
+  document.body.classList.toggle('hurry-on', want);
+  if (!want) { if (b) b.remove(); return; }
+  if (!b) {
+    document.body.insertAdjacentHTML('beforeend', '<button type="button" class="hurrybots" id="hurryBots">🤖 Hurry the bots up</button>');
+    b = $('#hurryBots');
+  }
+  b.onclick = () => { P.hurriedQ = qId; b.remove(); document.body.classList.remove('hurry-on'); send('hurry', { pid: P.pid, qId }); };
 }
 /** A Picture Reveal drawn on the phone (a warm-up has no shared screen): the picture under tiles that flip away, or a blur that clears. */
 function syncReveal(s) {

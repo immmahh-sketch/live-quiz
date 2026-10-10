@@ -278,8 +278,26 @@ function addBots(n) {
   persist(); if (G.phase === 'lobby') renderLobby();
 }
 const botTimers = [];
-function botLater(fn, ms) { botTimers.push(setTimeout(fn, ms)); }
-function botClear() { while (botTimers.length) clearTimeout(botTimers.pop()); }
+/** True once a phone has pressed "Hurry the bots up" on this question: every bot move from then on comes almost at once. */
+const botsHurried = () => !!G.q && !!G.hurry && G.hurry === G.q.view?.id;
+const hurryMs = () => 150 + Math.random() * 450;
+function botLater(fn, ms) {
+  const t = { fn };
+  const fire = () => { const i = botTimers.indexOf(t); if (i >= 0) botTimers.splice(i, 1); fn(); };
+  t.fire = fire; t.id = setTimeout(fire, botsHurried() ? Math.min(ms, hurryMs()) : ms);
+  botTimers.push(t);
+}
+function botClear() { while (botTimers.length) clearTimeout(botTimers.pop().id); }
+/** A phone asked to hurry the bots up: everything they were waiting to do happens now, and every later move comes fast,
+ *  so the bots answer, take their turns and finish the race without the players sitting through their thinking time. */
+function onHurry({ pid }) {
+  if (!G.bots?.length || G.phase !== 'question' || !G.q || botsHurried()) return;
+  if (!G.players[pid] && !(G.viewers || {})[pid]) return;
+  G.hurry = G.q.view?.id;
+  for (const t of botTimers.slice()) { clearTimeout(t.id); t.id = setTimeout(t.fire, hurryMs()); }
+  toast('🤖 Hurrying the bots up');
+  broadcastState();
+}
 const rnd = (a, b) => a + Math.random() * (b - a);
 const chance = (p) => Math.random() < p;
 /** Called when a question goes live: every bot schedules its answer. */
@@ -383,6 +401,7 @@ function connect() {
   ch.on('broadcast', { event: 'answer' }, ({ payload }) => onAnswer(payload));
   ch.on('broadcast', { event: 'ctrl' }, ({ payload }) => onCtrl(payload || {}));
   ch.on('broadcast', { event: 'hint' }, ({ payload }) => onHint(payload || {}));
+  ch.on('broadcast', { event: 'hurry' }, ({ payload }) => onHurry(payload || {}));
   ch.on('broadcast', { event: 'card' }, ({ payload }) => onCard(payload || {})); // a power card (assets/party.js)
   ch.on('presence', { event: 'sync' }, () => {
     present.clear();
@@ -414,7 +433,7 @@ async function makeCallPass() {
 }
 function onCall() { return !!window.QuizCall && (QuizCall.state === 'live' || QuizCall.state === 'reconnecting'); } // hoisted: the buttons can be drawn before this line runs
 function stateForPlayers() {
-  const s = { ...(G.quiz.settings?.noScores ? { noScores: true } : {}), phase: G.phase, code: G.code, qIndex: G.qIndex, num: qNum(G.qIndex), practice: G.qIndex >= 0 && practiceQ(), total: total(), more: G.qIndex + 1 < G.quiz.questions.length, title: G.quiz.title, now: Date.now(), auto: !!G.auto, paused: !!G.paused, ...(PREVIEW ? { preview: true } : {}), ...(G.test ? { test: true } : {}) };
+  const s = { ...(G.quiz.settings?.noScores ? { noScores: true } : {}), phase: G.phase, code: G.code, qIndex: G.qIndex, num: qNum(G.qIndex), practice: G.qIndex >= 0 && practiceQ(), total: total(), more: G.qIndex + 1 < G.quiz.questions.length, title: G.quiz.title, now: Date.now(), auto: !!G.auto, paused: !!G.paused, ...(PREVIEW ? { preview: true } : {}), ...(G.test ? { test: true } : {}), ...(G.bots?.length && G.phase === 'question' ? { bots: G.bots.length, hurried: botsHurried() } : {}) };
   // the call phones can join, while this screen is on it (a fresh pass well before the old one runs out)
   if (onCall()) { if (callPassExp - Date.now() < 2 * 3600e3 && !callPassP) callPassP = makeCallPass().then(() => { if (callPass) broadcastState(); }).catch(() => {}).finally(() => { callPassP = null; }); if (callPass) s.call = { room: QuizCall.room, pass: callPass }; }
   const nowT = G.paused ? G.pausedAt : Date.now(); // a paused clock reads the same until it is picked up again
