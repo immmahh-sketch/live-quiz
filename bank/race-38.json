@@ -1,0 +1,775 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's the Portuguese word?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "Portuguese",
+   "languages"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Thank you",
+    "right": "Obrigado",
+    "wrong": [
+     "Gracias",
+     "Grazie",
+     "Merci"
+    ]
+   },
+   {
+    "q": "Hello",
+    "right": "Olá",
+    "wrong": [
+     "Hola",
+     "Ciao",
+     "Salut"
+    ]
+   },
+   {
+    "q": "Please",
+    "right": "Por favor",
+    "wrong": [
+     "Per favore",
+     "S'il vous plaît",
+     "Bitte"
+    ]
+   },
+   {
+    "q": "Good morning",
+    "right": "Bom dia",
+    "wrong": [
+     "Buenos días",
+     "Buongiorno",
+     "Bonjour"
+    ]
+   },
+   {
+    "q": "Water",
+    "right": "Água",
+    "wrong": [
+     "Acqua",
+     "Eau",
+     "Wasser"
+    ]
+   },
+   {
+    "q": "Beer",
+    "right": "Cerveja",
+    "wrong": [
+     "Cerveza",
+     "Birra",
+     "Bière"
+    ]
+   },
+   {
+    "q": "Bread",
+    "right": "Pão",
+    "wrong": [
+     "Pan",
+     "Pane",
+     "Pain"
+    ]
+   },
+   {
+    "q": "Cheese",
+    "right": "Queijo",
+    "wrong": [
+     "Queso",
+     "Formaggio",
+     "Fromage"
+    ]
+   },
+   {
+    "q": "Wine",
+    "right": "Vinho",
+    "wrong": [
+     "Vino",
+     "Vin",
+     "Wein"
+    ]
+   },
+   {
+    "q": "Beach",
+    "right": "Praia",
+    "wrong": [
+     "Playa",
+     "Spiaggia",
+     "Plage"
+    ]
+   },
+   {
+    "q": "Street",
+    "right": "Rua",
+    "wrong": [
+     "Calle",
+     "Strada",
+     "Rue"
+    ]
+   },
+   {
+    "q": "Church",
+    "right": "Igreja",
+    "wrong": [
+     "Iglesia",
+     "Chiesa",
+     "Église"
+    ]
+   },
+   {
+    "q": "Dog",
+    "right": "Cão",
+    "wrong": [
+     "Perro",
+     "Cane",
+     "Chien"
+    ]
+   },
+   {
+    "q": "Night",
+    "right": "Noite",
+    "wrong": [
+     "Noche",
+     "Notte",
+     "Nuit"
+    ]
+   },
+   {
+    "q": "Yes",
+    "right": "Sim",
+    "wrong": [
+     "Sí",
+     "Oui",
+     "Ja"
+    ]
+   },
+   {
+    "q": "No",
+    "right": "Não",
+    "wrong": [
+     "Nein",
+     "Non",
+     "Nee"
+    ]
+   },
+   {
+    "q": "Today",
+    "right": "Hoje",
+    "wrong": [
+     "Hoy",
+     "Oggi",
+     "Aujourd'hui"
+    ]
+   },
+   {
+    "q": "Tomorrow",
+    "right": "Amanhã",
+    "wrong": [
+     "Mañana",
+     "Domani",
+     "Demain"
+    ]
+   },
+   {
+    "q": "Small",
+    "right": "Pequeno",
+    "wrong": [
+     "Piccolo",
+     "Petit",
+     "Klein"
+    ]
+   },
+   {
+    "q": "Goodbye",
+    "right": "Adeus",
+    "wrong": [
+     "Adiós",
+     "Arrivederci",
+     "Au revoir"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's the main town of this island?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "islands",
+   "capitals",
+   "towns"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Greenland",
+    "right": "Nuuk",
+    "wrong": [
+     "Ilulissat",
+     "Sisimiut",
+     "Tasiilaq"
+    ]
+   },
+   {
+    "q": "The Faroe Islands",
+    "right": "Tórshavn",
+    "wrong": [
+     "Klaksvík",
+     "Runavík",
+     "Tvøroyri"
+    ]
+   },
+   {
+    "q": "The Isle of Man",
+    "right": "Douglas",
+    "wrong": [
+     "Ramsey",
+     "Peel",
+     "Castletown"
+    ]
+   },
+   {
+    "q": "Jersey",
+    "right": "St Helier",
+    "wrong": [
+     "Gorey",
+     "St Aubin",
+     "St Brelade"
+    ]
+   },
+   {
+    "q": "Guernsey",
+    "right": "St Peter Port",
+    "wrong": [
+     "St Sampson",
+     "St Anne",
+     "St Martin"
+    ]
+   },
+   {
+    "q": "Bermuda",
+    "right": "Hamilton",
+    "wrong": [
+     "St George's",
+     "Somerset",
+     "Nassau"
+    ]
+   },
+   {
+    "q": "Puerto Rico",
+    "right": "San Juan",
+    "wrong": [
+     "Ponce",
+     "Mayagüez",
+     "Santo Domingo"
+    ]
+   },
+   {
+    "q": "Tahiti",
+    "right": "Papeete",
+    "wrong": [
+     "Nouméa",
+     "Apia",
+     "Suva"
+    ]
+   },
+   {
+    "q": "Hawaii (the state)",
+    "right": "Honolulu",
+    "wrong": [
+     "Hilo",
+     "Lahaina",
+     "Kailua-Kona"
+    ]
+   },
+   {
+    "q": "Sicily",
+    "right": "Palermo",
+    "wrong": [
+     "Catania",
+     "Messina",
+     "Syracuse"
+    ]
+   },
+   {
+    "q": "Sardinia",
+    "right": "Cagliari",
+    "wrong": [
+     "Sassari",
+     "Olbia",
+     "Alghero"
+    ]
+   },
+   {
+    "q": "Corsica",
+    "right": "Ajaccio",
+    "wrong": [
+     "Bastia",
+     "Calvi",
+     "Bonifacio"
+    ]
+   },
+   {
+    "q": "Crete",
+    "right": "Heraklion",
+    "wrong": [
+     "Chania",
+     "Rethymno",
+     "Agios Nikolaos"
+    ]
+   },
+   {
+    "q": "Mallorca",
+    "right": "Palma",
+    "wrong": [
+     "Alcúdia",
+     "Sóller",
+     "Ibiza Town"
+    ]
+   },
+   {
+    "q": "Madeira",
+    "right": "Funchal",
+    "wrong": [
+     "Machico",
+     "Câmara de Lobos",
+     "Santana"
+    ]
+   },
+   {
+    "q": "The Isle of Wight",
+    "right": "Newport",
+    "wrong": [
+     "Ryde",
+     "Cowes",
+     "Ventnor"
+    ]
+   },
+   {
+    "q": "Orkney",
+    "right": "Kirkwall",
+    "wrong": [
+     "Stromness",
+     "Thurso",
+     "Wick"
+    ]
+   },
+   {
+    "q": "Shetland",
+    "right": "Lerwick",
+    "wrong": [
+     "Scalloway",
+     "Brae",
+     "Thurso"
+    ]
+   },
+   {
+    "q": "The Isle of Lewis",
+    "right": "Stornoway",
+    "wrong": [
+     "Tarbert",
+     "Tobermory",
+     "Portree"
+    ]
+   },
+   {
+    "q": "Tasmania",
+    "right": "Hobart",
+    "wrong": [
+     "Launceston",
+     "Devonport",
+     "Burnie"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country does this bread come from?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "bread",
+   "countries"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Baguette",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Switzerland",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "Ciabatta",
+    "right": "Italy",
+    "wrong": [
+     "Spain",
+     "Greece",
+     "Malta"
+    ]
+   },
+   {
+    "q": "Pretzel",
+    "right": "Germany",
+    "wrong": [
+     "the Netherlands",
+     "Belgium",
+     "Poland"
+    ]
+   },
+   {
+    "q": "Soda bread",
+    "right": "Ireland",
+    "wrong": [
+     "Wales",
+     "Iceland",
+     "the Netherlands"
+    ]
+   },
+   {
+    "q": "Tortilla (the flatbread)",
+    "right": "Mexico",
+    "wrong": [
+     "Peru",
+     "Colombia",
+     "Chile"
+    ]
+   },
+   {
+    "q": "Injera",
+    "right": "Ethiopia",
+    "wrong": [
+     "Kenya",
+     "Nigeria",
+     "Ghana"
+    ]
+   },
+   {
+    "q": "Pão de queijo",
+    "right": "Brazil",
+    "wrong": [
+     "Peru",
+     "Colombia",
+     "Chile"
+    ]
+   },
+   {
+    "q": "Bao",
+    "right": "China",
+    "wrong": [
+     "Vietnam",
+     "Thailand",
+     "the Philippines"
+    ]
+   },
+   {
+    "q": "Roti canai",
+    "right": "Malaysia",
+    "wrong": [
+     "Thailand",
+     "Vietnam",
+     "the Philippines"
+    ]
+   },
+   {
+    "q": "Stottie cake",
+    "right": "England",
+    "wrong": [
+     "Wales",
+     "Belgium",
+     "the Netherlands"
+    ]
+   },
+   {
+    "q": "Knäckebröd crispbread",
+    "right": "Sweden",
+    "wrong": [
+     "Iceland",
+     "the Netherlands",
+     "Poland"
+    ]
+   },
+   {
+    "q": "Lefse",
+    "right": "Norway",
+    "wrong": [
+     "Iceland",
+     "Poland",
+     "the Netherlands"
+    ]
+   },
+   {
+    "q": "Simit",
+    "right": "Turkey",
+    "wrong": [
+     "Greece",
+     "Lebanon",
+     "Egypt"
+    ]
+   },
+   {
+    "q": "Khachapuri",
+    "right": "Georgia",
+    "wrong": [
+     "Armenia",
+     "Azerbaijan",
+     "Ukraine"
+    ]
+   },
+   {
+    "q": "Bannock",
+    "right": "Scotland",
+    "wrong": [
+     "Wales",
+     "Iceland",
+     "Belgium"
+    ]
+   },
+   {
+    "q": "Damper",
+    "right": "Australia",
+    "wrong": [
+     "South Africa",
+     "Namibia",
+     "Kenya"
+    ]
+   },
+   {
+    "q": "Melonpan",
+    "right": "Japan",
+    "wrong": [
+     "Taiwan",
+     "Vietnam",
+     "the Philippines"
+    ]
+   },
+   {
+    "q": "Cornbread",
+    "right": "the USA",
+    "wrong": [
+     "Canada",
+     "Chile",
+     "Kenya"
+    ]
+   },
+   {
+    "q": "Rugbrød",
+    "right": "Denmark",
+    "wrong": [
+     "Belgium",
+     "Iceland",
+     "Poland"
+    ]
+   },
+   {
+    "q": "Bolo do caco",
+    "right": "Portugal",
+    "wrong": [
+     "Spain",
+     "Greece",
+     "Chile"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what does this Yorkshire word mean?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "Yorkshire",
+   "dialect"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Nowt",
+    "right": "Nothing",
+    "wrong": [
+     "Never",
+     "Nobody",
+     "Nowhere"
+    ]
+   },
+   {
+    "q": "Owt",
+    "right": "Anything",
+    "wrong": [
+     "Anyone",
+     "Anywhere",
+     "Outside"
+    ]
+   },
+   {
+    "q": "Summat",
+    "right": "Something",
+    "wrong": [
+     "Someone",
+     "Somewhere",
+     "Summer"
+    ]
+   },
+   {
+    "q": "Ginnel",
+    "right": "Alleyway",
+    "wrong": [
+     "Garden",
+     "Gutter",
+     "Cellar"
+    ]
+   },
+   {
+    "q": "Mardy",
+    "right": "Sulky",
+    "wrong": [
+     "Tired",
+     "Hungry",
+     "Cheerful"
+    ]
+   },
+   {
+    "q": "Laik",
+    "right": "Play",
+    "wrong": [
+     "Sleep",
+     "Steal",
+     "Shout"
+    ]
+   },
+   {
+    "q": "Spice",
+    "right": "Sweets",
+    "wrong": [
+     "Curry",
+     "Gravy",
+     "Cake"
+    ]
+   },
+   {
+    "q": "Nesh",
+    "right": "Feels the cold easily",
+    "wrong": [
+     "Greedy",
+     "Nosy",
+     "Lazy"
+    ]
+   },
+   {
+    "q": "Lug",
+    "right": "Ear",
+    "wrong": [
+     "Nose",
+     "Elbow",
+     "Knee"
+    ]
+   },
+   {
+    "q": "Gip",
+    "right": "Retch",
+    "wrong": [
+     "Sneeze",
+     "Cough",
+     "Hiccup"
+    ]
+   },
+   {
+    "q": "Mither",
+    "right": "Pester",
+    "wrong": [
+     "Gossip",
+     "Steal",
+     "Sulk"
+    ]
+   },
+   {
+    "q": "Ey up",
+    "right": "Hello",
+    "wrong": [
+     "Goodbye",
+     "Thank you",
+     "Good night"
+    ]
+   },
+   {
+    "q": "Gormless",
+    "right": "Clueless",
+    "wrong": [
+     "Clever",
+     "Cheerful",
+     "Rich"
+    ]
+   },
+   {
+    "q": "Allus",
+    "right": "Always",
+    "wrong": [
+     "Never",
+     "Sometimes",
+     "Already"
+    ]
+   },
+   {
+    "q": "Sup",
+    "right": "Drink",
+    "wrong": [
+     "Eat",
+     "Sleep",
+     "Shout"
+    ]
+   },
+   {
+    "q": "Happen",
+    "right": "Perhaps",
+    "wrong": [
+     "Never",
+     "Already",
+     "Quickly"
+    ]
+   },
+   {
+    "q": "Clarty",
+    "right": "Muddy",
+    "wrong": [
+     "Tidy",
+     "Windy",
+     "Sunny"
+    ]
+   },
+   {
+    "q": "Mash (the tea)",
+    "right": "Brew tea",
+    "wrong": [
+     "Wash up",
+     "Sweep",
+     "Iron clothes"
+    ]
+   },
+   {
+    "q": "Snap",
+    "right": "Packed lunch",
+    "wrong": [
+     "Breakfast",
+     "Supper",
+     "Pudding"
+    ]
+   },
+   {
+    "q": "Breadcake",
+    "right": "Bread roll",
+    "wrong": [
+     "Scone",
+     "Crumpet",
+     "Pancake"
+    ]
+   }
+  ]
+ }
+]
