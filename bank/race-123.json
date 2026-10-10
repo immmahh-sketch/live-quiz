@@ -1,0 +1,390 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what kind of shoe is this?",
+  "target": 10,
+  "category": "Fashion",
+  "tags": [
+   "shoes",
+   "fashion",
+   "clothes"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A sturdy leather shoe decorated with rows of little punched holes",
+    "right": "Brogue",
+    "wrong": [
+     "Derby",
+     "Monk strap",
+     "Chukka"
+    ]
+   },
+   {
+    "q": "A slip-on leather shoe with no laces, often with a 'penny' strap across the top",
+    "right": "Loafer",
+    "wrong": [
+     "Monk strap",
+     "Deck shoe",
+     "Derby"
+    ]
+   },
+   {
+    "q": "A summer shoe with a canvas top and a sole of woven rope",
+    "right": "Espadrille",
+    "wrong": [
+     "Huarache",
+     "Jelly shoe",
+     "Gladiator sandal"
+    ]
+   },
+   {
+    "q": "A soft leather slip-on first made by Native Americans",
+    "right": "Moccasin",
+    "wrong": [
+     "Huarache",
+     "Deck shoe",
+     "Pump"
+    ]
+   },
+   {
+    "q": "A high heel as thin as a dagger",
+    "right": "Stiletto",
+    "wrong": [
+     "Platform",
+     "Peep-toe",
+     "Pump"
+    ]
+   },
+   {
+    "q": "A waterproof rubber boot named after a duke",
+    "right": "Wellington",
+    "wrong": [
+     "Galosh",
+     "Wader",
+     "Snow boot"
+    ]
+   },
+   {
+    "q": "A shoe carved from a single block of wood, loved in the Netherlands",
+    "right": "Clog",
+    "wrong": [
+     "Geta",
+     "Platform",
+     "Huarache"
+    ]
+   },
+   {
+    "q": "A rubber sandal held on by a strap between the toes",
+    "right": "Flip-flop",
+    "wrong": [
+     "Gladiator sandal",
+     "Jelly shoe",
+     "Slipper"
+    ]
+   },
+   {
+    "q": "A backless shoe that slides on at the front, sharing its name with a farm animal",
+    "right": "Mule",
+    "wrong": [
+     "Pump",
+     "Peep-toe",
+     "Monk strap"
+    ]
+   },
+   {
+    "q": "A simple canvas gym shoe with a rubber sole, once a PE-lesson staple",
+    "right": "Plimsoll",
+    "wrong": [
+     "Deck shoe",
+     "Jelly shoe",
+     "Huarache"
+    ]
+   },
+   {
+    "q": "An ankle boot with elastic panels at the sides, loved by the Beatles",
+    "right": "Chelsea boot",
+    "wrong": [
+     "Chukka",
+     "Jodhpur boot",
+     "Pixie boot"
+    ]
+   },
+   {
+    "q": "A suede ankle boot with two eyelets and a crepe sole, made famous by Clarks",
+    "right": "Desert boot",
+    "wrong": [
+     "Jodhpur boot",
+     "Hiking boot",
+     "Cowboy boot"
+    ]
+   },
+   {
+    "q": "A women's shoe held on by a strap around the back of the heel",
+    "right": "Slingback",
+    "wrong": [
+     "Peep-toe",
+     "T-bar",
+     "Pump"
+    ]
+   },
+   {
+    "q": "A short, slim heel made famous by Audrey Hepburn",
+    "right": "Kitten heel",
+    "wrong": [
+     "Platform",
+     "Cuban heel",
+     "Block heel"
+    ]
+   },
+   {
+    "q": "A heel that runs solid under the whole length of the foot",
+    "right": "Wedge",
+    "wrong": [
+     "Block heel",
+     "Cuban heel",
+     "Spool heel"
+    ]
+   },
+   {
+    "q": "The classic plain office heel with no straps or laces",
+    "right": "Court shoe",
+    "wrong": [
+     "Peep-toe",
+     "T-bar",
+     "Slipper"
+    ]
+   },
+   {
+    "q": "A flat, slipper-like women's shoe inspired by dancers",
+    "right": "Ballet flat",
+    "wrong": [
+     "Jelly shoe",
+     "Deck shoe",
+     "Peep-toe"
+    ]
+   },
+   {
+    "q": "A shoe or boot with a very long, sharply pointed toe, loved by 1950s rockers",
+    "right": "Winklepicker",
+    "wrong": [
+     "Pixie boot",
+     "Cowboy boot",
+     "Monk strap"
+    ]
+   },
+   {
+    "q": "A shoe with a thick crepe sole, worn by Teddy Boys and later by punks",
+    "right": "Brothel creeper",
+    "wrong": [
+     "Platform",
+     "Chukka",
+     "Derby"
+    ]
+   },
+   {
+    "q": "A rounded, low-heeled shoe with a single strap across the top of the foot, often worn by girls",
+    "right": "Mary Jane",
+    "wrong": [
+     "Peep-toe",
+     "Slipper",
+     "Derby"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which British bird is this?",
+  "target": 10,
+  "category": "Animals",
+  "tags": [
+   "birds",
+   "British wildlife",
+   "nature"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Red breast, sings all winter, and follows gardeners for worms",
+    "right": "Robin",
+    "wrong": [
+     "Chaffinch",
+     "Bullfinch",
+     "Redstart"
+    ]
+   },
+   {
+    "q": "Black and white with a long tail: 'one for sorrow, two for joy'",
+    "right": "Magpie",
+    "wrong": [
+     "Jackdaw",
+     "Rook",
+     "Lapwing"
+    ]
+   },
+   {
+    "q": "Electric blue and orange, it dives into rivers for fish",
+    "right": "Kingfisher",
+    "wrong": [
+     "Bee-eater",
+     "Dipper",
+     "Roller"
+    ]
+   },
+   {
+    "q": "A seabird with a colourful striped beak, nicknamed the 'sea parrot'",
+    "right": "Puffin",
+    "wrong": [
+     "Guillemot",
+     "Razorbill",
+     "Fulmar"
+    ]
+   },
+   {
+    "q": "A tiny brown bird with a cocked-up tail and a very loud song",
+    "right": "Wren",
+    "wrong": [
+     "Dunnock",
+     "Treecreeper",
+     "Chiffchaff"
+    ]
+   },
+   {
+    "q": "A small garden bird with a blue cap and a yellow front",
+    "right": "Blue tit",
+    "wrong": [
+     "Great tit",
+     "Coal tit",
+     "Nuthatch"
+    ]
+   },
+   {
+    "q": "Red face and a flash of yellow on the wings; a group is a 'charm'",
+    "right": "Goldfinch",
+    "wrong": [
+     "Siskin",
+     "Linnet",
+     "Chaffinch"
+    ]
+   },
+   {
+    "q": "A glossy, speckled bird whose huge flocks swirl in a 'murmuration'",
+    "right": "Starling",
+    "wrong": [
+     "Blackbird",
+     "Fieldfare",
+     "Redwing"
+    ]
+   },
+   {
+    "q": "A tall grey bird that stands stock-still at the water's edge, waiting for fish",
+    "right": "Grey heron",
+    "wrong": [
+     "Crane",
+     "Bittern",
+     "Little egret"
+    ]
+   },
+   {
+    "q": "Lays its eggs in other birds' nests and is named after its call",
+    "right": "Cuckoo",
+    "wrong": [
+     "Nightjar",
+     "Corncrake",
+     "Hoopoe"
+    ]
+   },
+   {
+    "q": "A pale, heart-faced owl that hunts silently over fields at dusk",
+    "right": "Barn owl",
+    "wrong": [
+     "Tawny owl",
+     "Little owl",
+     "Long-eared owl"
+    ]
+   },
+   {
+    "q": "A small falcon often seen hovering over motorway verges",
+    "right": "Kestrel",
+    "wrong": [
+     "Sparrowhawk",
+     "Merlin",
+     "Hobby"
+    ]
+   },
+   {
+    "q": "A fork-tailed summer visitor that nests in barns; one doesn't make a summer",
+    "right": "Swallow",
+    "wrong": [
+     "Swift",
+     "House martin",
+     "Sand martin"
+    ]
+   },
+   {
+    "q": "A colourful crow with a blue wing flash that buries acorns",
+    "right": "Jay",
+    "wrong": [
+     "Jackdaw",
+     "Rook",
+     "Chough"
+    ]
+   },
+   {
+    "q": "Green with a red cap; its laughing call is known as a 'yaffle'",
+    "right": "Green woodpecker",
+    "wrong": [
+     "Great spotted woodpecker",
+     "Wryneck",
+     "Nuthatch"
+    ]
+   },
+   {
+    "q": "A huge white bird with an orange beak; the unmarked ones on open water belong to the monarch",
+    "right": "Mute swan",
+    "wrong": [
+     "Whooper swan",
+     "Bewick's swan",
+     "Snow goose"
+    ]
+   },
+   {
+    "q": "A black and white shore bird with a long orange-red beak and a loud piping call",
+    "right": "Oystercatcher",
+    "wrong": [
+     "Avocet",
+     "Lapwing",
+     "Curlew"
+    ]
+   },
+   {
+    "q": "A russet bird of prey with a forked tail, brought back to Gateshead's Derwent valley",
+    "right": "Red kite",
+    "wrong": [
+     "Buzzard",
+     "Marsh harrier",
+     "Osprey"
+    ]
+   },
+   {
+    "q": "A big white seabird that plunges into the sea like a dart, famous on the Bass Rock",
+    "right": "Gannet",
+    "wrong": [
+     "Fulmar",
+     "Kittiwake",
+     "Cormorant"
+    ]
+   },
+   {
+    "q": "A speckled bird that smashes snail shells on a stone 'anvil'",
+    "right": "Song thrush",
+    "wrong": [
+     "Mistle thrush",
+     "Fieldfare",
+     "Redwing"
+    ]
+   }
+  ]
+ }
+]
