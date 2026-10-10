@@ -1,0 +1,390 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: whose motto is this?",
+  "target": 10,
+  "category": "General knowledge",
+  "tags": [
+   "mottos",
+   "Latin",
+   "clubs"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Superbia in Proelio ('pride in battle')",
+    "right": "Manchester City",
+    "wrong": [
+     "Manchester United",
+     "Aston Villa",
+     "Chelsea"
+    ]
+   },
+   {
+    "q": "Audere est Facere ('to dare is to do')",
+    "right": "Tottenham Hotspur",
+    "wrong": [
+     "West Ham",
+     "Chelsea",
+     "Leeds United"
+    ]
+   },
+   {
+    "q": "Nil Satis Nisi Optimum ('only the best is good enough')",
+    "right": "Everton",
+    "wrong": [
+     "Aston Villa",
+     "Middlesbrough",
+     "Leeds United"
+    ]
+   },
+   {
+    "q": "Victoria Concordia Crescit ('victory through harmony')",
+    "right": "Arsenal",
+    "wrong": [
+     "Chelsea",
+     "West Ham",
+     "Aston Villa"
+    ]
+   },
+   {
+    "q": "You'll Never Walk Alone, on the club crest",
+    "right": "Liverpool",
+    "wrong": [
+     "Manchester United",
+     "Leeds United",
+     "Middlesbrough"
+    ]
+   },
+   {
+    "q": "Consectatio Excellentiae ('in pursuit of excellence')",
+    "right": "Sunderland AFC",
+    "wrong": [
+     "Middlesbrough",
+     "Leeds United",
+     "Aston Villa"
+    ]
+   },
+   {
+    "q": "Per ardua ad astra ('through adversity to the stars')",
+    "right": "The RAF",
+    "wrong": [
+     "The Royal Navy",
+     "The Army Air Corps",
+     "The Parachute Regiment"
+    ]
+   },
+   {
+    "q": "Who Dares Wins",
+    "right": "The SAS",
+    "wrong": [
+     "The Parachute Regiment",
+     "The Coldstream Guards",
+     "The French Foreign Legion"
+    ]
+   },
+   {
+    "q": "Be Prepared",
+    "right": "The Scouts",
+    "wrong": [
+     "The Boys' Brigade",
+     "St John Ambulance",
+     "The Army Cadets"
+    ]
+   },
+   {
+    "q": "Per Mare, Per Terram ('by sea, by land')",
+    "right": "The Royal Marines",
+    "wrong": [
+     "The Royal Navy",
+     "The Parachute Regiment",
+     "The Coldstream Guards"
+    ]
+   },
+   {
+    "q": "Semper Fidelis ('always faithful')",
+    "right": "The US Marines",
+    "wrong": [
+     "The US Navy",
+     "The French Foreign Legion",
+     "The US Army Rangers"
+    ]
+   },
+   {
+    "q": "Citius, Altius, Fortius ('faster, higher, stronger')",
+    "right": "The Olympic Games",
+    "wrong": [
+     "The Paralympic Games",
+     "The Commonwealth Games",
+     "The Tour de France"
+    ]
+   },
+   {
+    "q": "Draco dormiens nunquam titillandus ('never tickle a sleeping dragon')",
+    "right": "Hogwarts",
+    "wrong": [
+     "Beauxbatons",
+     "Durmstrang",
+     "Ilvermorny"
+    ]
+   },
+   {
+    "q": "Hear Me Roar!",
+    "right": "House Lannister",
+    "wrong": [
+     "House Stark",
+     "House Targaryen",
+     "House Baratheon"
+    ]
+   },
+   {
+    "q": "Honi soit qui mal y pense ('shame on him who thinks evil of it')",
+    "right": "The Order of the Garter",
+    "wrong": [
+     "The Order of the Bath",
+     "The Order of the Thistle",
+     "The Order of Merit"
+    ]
+   },
+   {
+    "q": "Ich dien ('I serve')",
+    "right": "The Prince of Wales",
+    "wrong": [
+     "The Duke of Edinburgh",
+     "The Princess Royal",
+     "The Duke of York"
+    ]
+   },
+   {
+    "q": "Fortiter Defendit Triumphans ('triumphing by brave defence')",
+    "right": "Newcastle upon Tyne",
+    "wrong": [
+     "Durham",
+     "Edinburgh",
+     "York"
+    ]
+   },
+   {
+    "q": "Veritas ('truth')",
+    "right": "Harvard",
+    "wrong": [
+     "Stanford",
+     "Princeton",
+     "MIT"
+    ]
+   },
+   {
+    "q": "Dominus illuminatio mea ('the Lord is my light')",
+    "right": "The University of Oxford",
+    "wrong": [
+     "The University of Cambridge",
+     "Durham University",
+     "Trinity College Dublin"
+    ]
+   },
+   {
+    "q": "Fluctuat nec mergitur ('tossed by the waves but never sunk')",
+    "right": "Paris",
+    "wrong": [
+     "Venice",
+     "Rome",
+     "Amsterdam"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's the everyday name for this condition?",
+  "target": 10,
+  "category": "Science",
+  "tags": [
+   "health",
+   "medicine",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Varicella",
+    "right": "Chickenpox",
+    "wrong": [
+     "Measles",
+     "Mumps",
+     "Scarlet fever"
+    ]
+   },
+   {
+    "q": "Rubella",
+    "right": "German measles",
+    "wrong": [
+     "Measles",
+     "Scarlet fever",
+     "Mumps"
+    ]
+   },
+   {
+    "q": "Pertussis",
+    "right": "Whooping cough",
+    "wrong": [
+     "Croup",
+     "Tonsillitis",
+     "Hay fever"
+    ]
+   },
+   {
+    "q": "Myopia",
+    "right": "Short-sightedness",
+    "wrong": [
+     "Long-sightedness",
+     "Colour blindness",
+     "Vertigo"
+    ]
+   },
+   {
+    "q": "Hypertension",
+    "right": "High blood pressure",
+    "wrong": [
+     "Low blood pressure",
+     "A heart murmur",
+     "Migraine"
+    ]
+   },
+   {
+    "q": "Epistaxis",
+    "right": "A nosebleed",
+    "wrong": [
+     "A bruise",
+     "A cold sore",
+     "Hay fever"
+    ]
+   },
+   {
+    "q": "Singultus",
+    "right": "Hiccups",
+    "wrong": [
+     "Snoring",
+     "Heartburn",
+     "Cramp"
+    ]
+   },
+   {
+    "q": "Halitosis",
+    "right": "Bad breath",
+    "wrong": [
+     "Tooth decay",
+     "Mouth ulcers",
+     "Heartburn"
+    ]
+   },
+   {
+    "q": "Alopecia",
+    "right": "Hair loss",
+    "wrong": [
+     "Dandruff",
+     "Ringworm",
+     "Hives"
+    ]
+   },
+   {
+    "q": "Somnambulism",
+    "right": "Sleepwalking",
+    "wrong": [
+     "Sleep talking",
+     "Insomnia",
+     "Snoring"
+    ]
+   },
+   {
+    "q": "Tinnitus",
+    "right": "Ringing in the ears",
+    "wrong": [
+     "Earache",
+     "Vertigo",
+     "Hay fever"
+    ]
+   },
+   {
+    "q": "Infectious mononucleosis",
+    "right": "Glandular fever",
+    "wrong": [
+     "Tonsillitis",
+     "Scarlet fever",
+     "Croup"
+    ]
+   },
+   {
+    "q": "Hallux valgus",
+    "right": "A bunion",
+    "wrong": [
+     "A corn",
+     "An ingrown toenail",
+     "Gout"
+    ]
+   },
+   {
+    "q": "Pes planus",
+    "right": "Flat feet",
+    "wrong": [
+     "Chilblains",
+     "Gout",
+     "A corn"
+    ]
+   },
+   {
+    "q": "Tinea pedis",
+    "right": "Athlete's foot",
+    "wrong": [
+     "Ringworm",
+     "Chilblains",
+     "An ingrown toenail"
+    ]
+   },
+   {
+    "q": "Herpes zoster",
+    "right": "Shingles",
+    "wrong": [
+     "A cold sore",
+     "Hives",
+     "Ringworm"
+    ]
+   },
+   {
+    "q": "Coryza",
+    "right": "The common cold",
+    "wrong": [
+     "Hay fever",
+     "A sore throat",
+     "Croup"
+    ]
+   },
+   {
+    "q": "Sternutation",
+    "right": "Sneezing",
+    "wrong": [
+     "Snoring",
+     "Coughing",
+     "Yawning"
+    ]
+   },
+   {
+    "q": "Pruritus",
+    "right": "Itching",
+    "wrong": [
+     "A rash",
+     "Hives",
+     "Dandruff"
+    ]
+   },
+   {
+    "q": "Pyrexia",
+    "right": "A fever",
+    "wrong": [
+     "Chills",
+     "Cramp",
+     "A stitch"
+    ]
+   }
+  ]
+ }
+]
