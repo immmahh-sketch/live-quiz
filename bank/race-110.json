@@ -1,0 +1,389 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which car maker's badge is this?",
+  "target": 10,
+  "category": "Cars and motoring",
+  "tags": [
+   "cars",
+   "logos",
+   "badges"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A three-pointed star in a circle",
+    "right": "Mercedes-Benz",
+    "wrong": [
+     "Chrysler",
+     "Infiniti",
+     "Genesis"
+    ]
+   },
+   {
+    "q": "Four interlocking rings",
+    "right": "Audi",
+    "wrong": [
+     "Porsche",
+     "Seat",
+     "Smart"
+    ]
+   },
+   {
+    "q": "A blue and white roundel",
+    "right": "BMW",
+    "wrong": [
+     "Mini",
+     "Porsche",
+     "Cupra"
+    ]
+   },
+   {
+    "q": "A gold 'bow tie'",
+    "right": "Chevrolet",
+    "wrong": [
+     "Cadillac",
+     "Dodge",
+     "Buick"
+    ]
+   },
+   {
+    "q": "A blue oval",
+    "right": "Ford",
+    "wrong": [
+     "Kia",
+     "Dacia",
+     "Nissan"
+    ]
+   },
+   {
+    "q": "Two overlapping Rs",
+    "right": "Rolls-Royce",
+    "wrong": [
+     "Lotus",
+     "Jaguar",
+     "Land Rover"
+    ]
+   },
+   {
+    "q": "A letter B with wings",
+    "right": "Bentley",
+    "wrong": [
+     "MG",
+     "Lotus",
+     "Bugatti"
+    ]
+   },
+   {
+    "q": "Neptune's trident",
+    "right": "Maserati",
+    "wrong": [
+     "Ferrari",
+     "Lamborghini",
+     "Fiat"
+    ]
+   },
+   {
+    "q": "A silver diamond",
+    "right": "Renault",
+    "wrong": [
+     "Dacia",
+     "Peugeot",
+     "Seat"
+    ]
+   },
+   {
+    "q": "Two upturned chevrons",
+    "right": "Citroën",
+    "wrong": [
+     "Peugeot",
+     "Dacia",
+     "Seat"
+    ]
+   },
+   {
+    "q": "The six stars of the Pleiades",
+    "right": "Subaru",
+    "wrong": [
+     "Mazda",
+     "Nissan",
+     "Suzuki"
+    ]
+   },
+   {
+    "q": "Three red diamonds",
+    "right": "Mitsubishi",
+    "wrong": [
+     "Mazda",
+     "Suzuki",
+     "Nissan"
+    ]
+   },
+   {
+    "q": "A pair of outstretched wings with the name across them",
+    "right": "Aston Martin",
+    "wrong": [
+     "Lotus",
+     "Jaguar",
+     "McLaren"
+    ]
+   },
+   {
+    "q": "A stylised L inside an oval",
+    "right": "Lexus",
+    "wrong": [
+     "Lotus",
+     "Lincoln",
+     "Land Rover"
+    ]
+   },
+   {
+    "q": "A lightning bolt in a circle",
+    "right": "Opel",
+    "wrong": [
+     "Vauxhall",
+     "Kia",
+     "Dacia"
+    ]
+   },
+   {
+    "q": "Three overlapping ovals",
+    "right": "Toyota",
+    "wrong": [
+     "Honda",
+     "Nissan",
+     "Mazda"
+    ]
+   },
+   {
+    "q": "A slanted, stylised H",
+    "right": "Hyundai",
+    "wrong": [
+     "Honda",
+     "Kia",
+     "Genesis"
+    ]
+   },
+   {
+    "q": "A circle with an arrow pointing up and to the right",
+    "right": "Volvo",
+    "wrong": [
+     "Polestar",
+     "Scania",
+     "Seat"
+    ]
+   },
+   {
+    "q": "A winged arrow",
+    "right": "Škoda",
+    "wrong": [
+     "Seat",
+     "Kia",
+     "Cupra"
+    ]
+   },
+   {
+    "q": "A stylised T, like a cross-section of an electric motor",
+    "right": "Tesla",
+    "wrong": [
+     "Polestar",
+     "Lucid",
+     "Rivian"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which designer or fashion house is famous for this?",
+  "target": 10,
+  "category": "Fashion",
+  "tags": [
+   "fashion",
+   "designers"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "No. 5 perfume and the little black dress",
+    "right": "Chanel",
+    "wrong": [
+     "Yves Saint Laurent",
+     "Lanvin",
+     "Balenciaga"
+    ]
+   },
+   {
+    "q": "The 'New Look' of 1947",
+    "right": "Dior",
+    "wrong": [
+     "Balenciaga",
+     "Yves Saint Laurent",
+     "Lanvin"
+    ]
+   },
+   {
+    "q": "The miniskirt, in 1960s London",
+    "right": "Mary Quant",
+    "wrong": [
+     "Biba",
+     "Ossie Clark",
+     "Zandra Rhodes"
+    ]
+   },
+   {
+    "q": "Punk clothes for the Sex Pistols",
+    "right": "Vivienne Westwood",
+    "wrong": [
+     "Zandra Rhodes",
+     "John Galliano",
+     "Jasper Conran"
+    ]
+   },
+   {
+    "q": "High heels with red soles",
+    "right": "Christian Louboutin",
+    "wrong": [
+     "Jimmy Choo",
+     "Kurt Geiger",
+     "Prada"
+    ]
+   },
+   {
+    "q": "The Birkin bag",
+    "right": "Hermès",
+    "wrong": [
+     "Mulberry",
+     "Fendi",
+     "Prada"
+    ]
+   },
+   {
+    "q": "A Medusa head logo",
+    "right": "Versace",
+    "wrong": [
+     "Armani",
+     "Valentino",
+     "Dolce & Gabbana"
+    ]
+   },
+   {
+    "q": "The wrap dress, from 1974",
+    "right": "Diane von Furstenberg",
+    "wrong": [
+     "Vera Wang",
+     "Michael Kors",
+     "Halston"
+    ]
+   },
+   {
+    "q": "A polo player logo",
+    "right": "Ralph Lauren",
+    "wrong": [
+     "Tommy Hilfiger",
+     "Fred Perry",
+     "Hackett"
+    ]
+   },
+   {
+    "q": "The trench coat and a famous camel check",
+    "right": "Burberry",
+    "wrong": [
+     "Aquascutum",
+     "Mulberry",
+     "Belstaff"
+    ]
+   },
+   {
+    "q": "Interlocking Gs",
+    "right": "Gucci",
+    "wrong": [
+     "Prada",
+     "Fendi",
+     "Armani"
+    ]
+   },
+   {
+    "q": "The LV monogram",
+    "right": "Louis Vuitton",
+    "wrong": [
+     "Mulberry",
+     "Fendi",
+     "Coach"
+    ]
+   },
+   {
+    "q": "Princess Diana's 1981 wedding dress",
+    "right": "David and Elizabeth Emanuel",
+    "wrong": [
+     "Bruce Oldfield",
+     "Catherine Walker",
+     "Zandra Rhodes"
+    ]
+   },
+   {
+    "q": "Catherine's 2011 wedding dress, by Sarah Burton",
+    "right": "Alexander McQueen",
+    "wrong": [
+     "Jenny Packham",
+     "Bruce Oldfield",
+     "Vera Wang"
+    ]
+   },
+   {
+    "q": "Audrey Hepburn's black dress in 'Breakfast at Tiffany's'",
+    "right": "Givenchy",
+    "wrong": [
+     "Yves Saint Laurent",
+     "Balenciaga",
+     "Valentino"
+    ]
+   },
+   {
+    "q": "Madonna's cone bra",
+    "right": "Jean Paul Gaultier",
+    "wrong": [
+     "Thierry Mugler",
+     "John Galliano",
+     "Moschino"
+    ]
+   },
+   {
+    "q": "The shoes Carrie Bradshaw calls 'Manolos'",
+    "right": "Manolo Blahnik",
+    "wrong": [
+     "Jimmy Choo",
+     "Kurt Geiger",
+     "Salvatore Ferragamo"
+    ]
+   },
+   {
+    "q": "The waxed jacket made in South Shields",
+    "right": "Barbour",
+    "wrong": [
+     "Belstaff",
+     "Hunter",
+     "Aquascutum"
+    ]
+   },
+   {
+    "q": "Vegetarian fashion, from a Beatle's daughter",
+    "right": "Stella McCartney",
+    "wrong": [
+     "Victoria Beckham",
+     "Jasper Conran",
+     "Phoebe Philo"
+    ]
+   },
+   {
+    "q": "The 501 jeans",
+    "right": "Levi's",
+    "wrong": [
+     "Wrangler",
+     "Lee",
+     "Diesel"
+    ]
+   }
+  ]
+ }
+]
