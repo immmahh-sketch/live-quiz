@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each animal to its surprising fact",
+  "pairs": [
+   {
+    "left": "Sea otter",
+    "right": "Holds hands while it sleeps"
+   },
+   {
+    "left": "Cow",
+    "right": "Has a best friend"
+   },
+   {
+    "left": "Snail",
+    "right": "Can sleep for three years"
+   },
+   {
+    "left": "Flamingo",
+    "right": "Turns pink from its food"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each product to what it was first invented for",
+  "pairs": [
+   {
+    "left": "Bubble wrap",
+    "right": "Textured wallpaper"
+   },
+   {
+    "left": "Play-Doh",
+    "right": "Cleaning soot off wallpaper"
+   },
+   {
+    "left": "Viagra",
+    "right": "Treating chest pain"
+   },
+   {
+    "left": "Coca-Cola",
+    "right": "A medicinal tonic"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

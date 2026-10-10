@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Brighton landmark to what it is",
+  "pairs": [
+   {
+    "left": "Royal Pavilion",
+    "right": "The Prince Regent's Indian-style palace"
+   },
+   {
+    "left": "Volk's Electric Railway",
+    "right": "The oldest electric railway still running"
+   },
+   {
+    "left": "The Lanes",
+    "right": "Narrow alleys full of jewellers"
+   },
+   {
+    "left": "i360",
+    "right": "A moving observation tower"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each Brighton & Hove Albion home to its era",
+  "pairs": [
+   {
+    "left": "Goldstone Ground",
+    "right": "1902-1997"
+   },
+   {
+    "left": "Priestfield, Gillingham",
+    "right": "1997-1999"
+   },
+   {
+    "left": "Withdean Stadium",
+    "right": "1999-2011"
+   },
+   {
+    "left": "Amex Stadium",
+    "right": "2011 onwards"
+   }
+  ],
+  "difficulty": "hard"
+ }
+]

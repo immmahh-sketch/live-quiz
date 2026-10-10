@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Covid phrase to what it meant",
+  "pairs": [
+   {
+    "left": "Eat Out to Help Out",
+    "right": "Half-price meals in August 2020"
+   },
+   {
+    "left": "Rule of six",
+    "right": "A limit on social gatherings"
+   },
+   {
+    "left": "Support bubble",
+    "right": "A single-adult home teaming up with one other"
+   },
+   {
+    "left": "Furlough",
+    "right": "The government paying wages of staff sent home"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each date to its Covid moment",
+  "pairs": [
+   {
+    "left": "23 March 2020",
+    "right": "The first national lockdown is announced"
+   },
+   {
+    "left": "8 December 2020",
+    "right": "The first vaccine jab, for Margaret Keenan"
+   },
+   {
+    "left": "19 July 2021",
+    "right": "'Freedom Day' in England"
+   },
+   {
+    "left": "24 February 2022",
+    "right": "England's last legal Covid rules end"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

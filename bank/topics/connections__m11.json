@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each comedian to their double-act partner",
+  "pairs": [
+   {
+    "left": "Eric Morecambe",
+    "right": "Ernie Wise"
+   },
+   {
+    "left": "Ronnie Barker",
+    "right": "Ronnie Corbett"
+   },
+   {
+    "left": "Jennifer Saunders",
+    "right": "Dawn French"
+   },
+   {
+    "left": "Peter Cook",
+    "right": "Dudley Moore"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each group to the member who's missing",
+  "pairs": [
+   {
+    "left": "Sporty, Scary, Baby, Ginger",
+    "right": "Posh"
+   },
+   {
+    "left": "John, Paul, George",
+    "right": "Ringo"
+   },
+   {
+    "left": "Athos, Porthos, d'Artagnan",
+    "right": "Aramis"
+   },
+   {
+    "left": "Dopey, Grumpy, Happy, Sleepy, Sneezy, Bashful",
+    "right": "Doc"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

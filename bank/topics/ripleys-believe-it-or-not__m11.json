@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each record-breaker to their record",
+  "pairs": [
+   {
+    "left": "Robert Wadlow",
+    "right": "Tallest man ever recorded"
+   },
+   {
+    "left": "Sultan Kösen",
+    "right": "Tallest man alive"
+   },
+   {
+    "left": "Jeanne Calment",
+    "right": "Oldest person ever, at 122"
+   },
+   {
+    "left": "Shridhar Chillal",
+    "right": "Longest fingernails on one hand"
+   }
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "match",
+  "text": "Match each odd museum to its country",
+  "pairs": [
+   {
+    "left": "Museum of Broken Relationships",
+    "right": "Croatia"
+   },
+   {
+    "left": "Cumberland Pencil Museum",
+    "right": "England"
+   },
+   {
+    "left": "The Sewer Museum",
+    "right": "France"
+   },
+   {
+    "left": "The Mütter Museum of medical oddities",
+    "right": "USA"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]
