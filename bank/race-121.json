@@ -1,0 +1,388 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what kind of boat is this?",
+  "target": 10,
+  "category": "General knowledge",
+  "tags": [
+   "boats",
+   "ships"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A black Venetian boat rowed by a standing oarsman",
+    "right": "Gondola",
+    "wrong": [
+     "Felucca",
+     "Skiff",
+     "Wherry"
+    ]
+   },
+   {
+    "q": "A Chinese sailing ship with ribbed, fan-like sails",
+    "right": "Junk",
+    "wrong": [
+     "Felucca",
+     "Schooner",
+     "Ketch"
+    ]
+   },
+   {
+    "q": "An Arab sailing boat with a triangular sail",
+    "right": "Dhow",
+    "wrong": [
+     "Felucca",
+     "Schooner",
+     "Sloop"
+    ]
+   },
+   {
+    "q": "A round Welsh boat of wicker and animal hide",
+    "right": "Coracle",
+    "wrong": [
+     "Kayak",
+     "Skiff",
+     "Raft"
+    ]
+   },
+   {
+    "q": "A flat boat pushed with a pole along the Cam",
+    "right": "Punt",
+    "wrong": [
+     "Skiff",
+     "Wherry",
+     "Raft"
+    ]
+   },
+   {
+    "q": "A long, thin canal boat, about seven feet wide",
+    "right": "Narrowboat",
+    "wrong": [
+     "Barge",
+     "Wherry",
+     "Lighter"
+    ]
+   },
+   {
+    "q": "A sailing boat with two hulls side by side",
+    "right": "Catamaran",
+    "wrong": [
+     "Outrigger",
+     "Ketch",
+     "Schooner"
+    ]
+   },
+   {
+    "q": "A boat with three hulls side by side",
+    "right": "Trimaran",
+    "wrong": [
+     "Outrigger",
+     "Ketch",
+     "Sloop"
+    ]
+   },
+   {
+    "q": "Rides on a cushion of air over land and sea",
+    "right": "Hovercraft",
+    "wrong": [
+     "Hydrofoil",
+     "Jet ski",
+     "Airboat"
+    ]
+   },
+   {
+    "q": "A big Spanish treasure ship of the 1500s",
+    "right": "Galleon",
+    "wrong": [
+     "Frigate",
+     "Man-of-war",
+     "Carrack"
+    ]
+   },
+   {
+    "q": "An ancient Greek warship with three rows of oars",
+    "right": "Trireme",
+    "wrong": [
+     "Bireme",
+     "Galley",
+     "Carrack"
+    ]
+   },
+   {
+    "q": "A Viking raiding ship with a dragon on the prow",
+    "right": "Longship",
+    "wrong": [
+     "Knarr",
+     "Galley",
+     "Carrack"
+    ]
+   },
+   {
+    "q": "A fast sailing ship of the tea trade, like the Cutty Sark",
+    "right": "Clipper",
+    "wrong": [
+     "Schooner",
+     "Frigate",
+     "Carrack"
+    ]
+   },
+   {
+    "q": "A small, powerful boat that pushes and pulls big ships into port",
+    "right": "Tugboat",
+    "wrong": [
+     "Tender",
+     "Launch",
+     "Lighter"
+    ]
+   },
+   {
+    "q": "A warship that travels under the water",
+    "right": "Submarine",
+    "wrong": [
+     "Hydrofoil",
+     "Destroyer",
+     "Frigate"
+    ]
+   },
+   {
+    "q": "A small open sailing boat, often a beginner's first",
+    "right": "Dinghy",
+    "wrong": [
+     "Skiff",
+     "Sloop",
+     "Ketch"
+    ]
+   },
+   {
+    "q": "A pedal-powered boat for hire at the seaside",
+    "right": "Pedalo",
+    "wrong": [
+     "Skiff",
+     "Raft",
+     "Jet ski"
+    ]
+   },
+   {
+    "q": "A flat-bottomed wooden boat seen in East Asian harbours",
+    "right": "Sampan",
+    "wrong": [
+     "Felucca",
+     "Skiff",
+     "Wherry"
+    ]
+   },
+   {
+    "q": "A ship built to smash a path through frozen seas",
+    "right": "Icebreaker",
+    "wrong": [
+     "Destroyer",
+     "Dreadnought",
+     "Frigate"
+    ]
+   },
+   {
+    "q": "A fishing boat that drags a big net behind it",
+    "right": "Trawler",
+    "wrong": [
+     "Coble",
+     "Lugger",
+     "Smack"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what kind of building is this?",
+  "target": 10,
+  "category": "General knowledge",
+  "tags": [
+   "buildings",
+   "architecture"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A dome built from blocks of snow",
+    "right": "Igloo",
+    "wrong": [
+     "Hogan",
+     "Chalet",
+     "Rotunda"
+    ]
+   },
+   {
+    "q": "The round felt tent of Mongolian nomads",
+    "right": "Yurt",
+    "wrong": [
+     "Hogan",
+     "Chalet",
+     "Pavilion"
+    ]
+   },
+   {
+    "q": "The cone-shaped tent of the Plains peoples",
+    "right": "Tepee",
+    "wrong": [
+     "Hogan",
+     "Pavilion",
+     "Kiosk"
+    ]
+   },
+   {
+    "q": "A tiered tower with upturned eaves at an Asian temple",
+    "right": "Pagoda",
+    "wrong": [
+     "Rotunda",
+     "Belvedere",
+     "Obelisk"
+    ]
+   },
+   {
+    "q": "A slender tower from which the call to prayer is made",
+    "right": "Minaret",
+    "wrong": [
+     "Spire",
+     "Belfry",
+     "Steeple"
+    ]
+   },
+   {
+    "q": "A tower with a bright light to warn ships",
+    "right": "Lighthouse",
+    "wrong": [
+     "Belvedere",
+     "Obelisk",
+     "Turret"
+    ]
+   },
+   {
+    "q": "A Kentish building with a cowled roof for drying hops",
+    "right": "Oast house",
+    "wrong": [
+     "Granary",
+     "Silo",
+     "Byre"
+    ]
+   },
+   {
+    "q": "A fanciful building put up just for show on a country estate",
+    "right": "Folly",
+    "wrong": [
+     "Belvedere",
+     "Pavilion",
+     "Rotunda"
+    ]
+   },
+   {
+    "q": "A house all on one floor",
+    "right": "Bungalow",
+    "wrong": [
+     "Chalet",
+     "Maisonette",
+     "Cottage"
+    ]
+   },
+   {
+    "q": "A stepped temple tower of ancient Mesopotamia",
+    "right": "Ziggurat",
+    "wrong": [
+     "Obelisk",
+     "Mausoleum",
+     "Rotunda"
+    ]
+   },
+   {
+    "q": "A domed Buddhist shrine holding sacred relics",
+    "right": "Stupa",
+    "wrong": [
+     "Mausoleum",
+     "Rotunda",
+     "Shrine"
+    ]
+   },
+   {
+    "q": "The church that holds a bishop's throne",
+    "right": "Cathedral",
+    "wrong": [
+     "Chapel",
+     "Priory",
+     "Basilica"
+    ]
+   },
+   {
+    "q": "A round coastal fort built to keep Napoleon out",
+    "right": "Martello tower",
+    "wrong": [
+     "Keep",
+     "Turret",
+     "Belfry"
+    ]
+   },
+   {
+    "q": "A building for keeping pigeons",
+    "right": "Dovecote",
+    "wrong": [
+     "Byre",
+     "Granary",
+     "Kiosk"
+    ]
+   },
+   {
+    "q": "An open-sided garden shelter with a roof",
+    "right": "Gazebo",
+    "wrong": [
+     "Pavilion",
+     "Kiosk",
+     "Lean-to"
+    ]
+   },
+   {
+    "q": "A small Scottish farm and its cottage",
+    "right": "Croft",
+    "wrong": [
+     "Byre",
+     "Manse",
+     "Grange"
+    ]
+   },
+   {
+    "q": "A row of old stables turned into houses",
+    "right": "Mews",
+    "wrong": [
+     "Terrace",
+     "Tenement",
+     "Arcade"
+    ]
+   },
+   {
+    "q": "A basic mountain shelter, free for walkers in Scotland",
+    "right": "Bothy",
+    "wrong": [
+     "Hut",
+     "Lodge",
+     "Cabin"
+    ]
+   },
+   {
+    "q": "An open-air public swimming pool",
+    "right": "Lido",
+    "wrong": [
+     "Rotunda",
+     "Pavilion",
+     "Arcade"
+    ]
+   },
+   {
+    "q": "An oval open-air arena, like the Colosseum",
+    "right": "Amphitheatre",
+    "wrong": [
+     "Rotunda",
+     "Colonnade",
+     "Forum"
+    ]
+   }
+  ]
+ }
+]
