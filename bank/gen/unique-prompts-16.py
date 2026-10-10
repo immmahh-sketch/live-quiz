@@ -1,0 +1,32 @@
+# Bank session 10 Oct 2026: 20 more Only One prompts (directors, albums, bands, hosts, circuits) appended to bank/unique-prompts.json. Each is a closed list with
+# every correct answer (other accepted forms after a slash), so a fair answer is never knocked out.
+import json, os
+NEW = [
+ ("Name a studio album by Dire Straits", ["Dire Straits", "Communiqué/Communique", "Making Movies", "Love over Gold", "Brothers in Arms", "On Every Street"]),
+ ("Name a studio album by Pink Floyd", ["The Piper at the Gates of Dawn/Piper at the Gates of Dawn", "A Saucerful of Secrets", "More", "Ummagumma", "Atom Heart Mother", "Meddle", "Obscured by Clouds", "The Dark Side of the Moon/Dark Side of the Moon", "Wish You Were Here", "Animals", "The Wall", "The Final Cut", "A Momentary Lapse of Reason", "The Division Bell", "The Endless River"]),
+ ("Name a studio album by Michael Jackson from Off the Wall (1979) onwards", ["Off the Wall", "Thriller", "Bad", "Dangerous", "HIStory/History/HIStory: Past, Present and Future, Book I", "Invincible"]),
+ ("Name a studio album by Amy Winehouse or by Duffy", ["Frank", "Back to Black", "Rockferry", "Endlessly"]),
+ ("Name a feature film directed by Stanley Kubrick", ["Fear and Desire", "Killer's Kiss", "The Killing", "Paths of Glory", "Spartacus", "Lolita", "Dr. Strangelove/Dr Strangelove", "2001: A Space Odyssey/2001", "A Clockwork Orange", "Barry Lyndon", "The Shining", "Full Metal Jacket", "Eyes Wide Shut"]),
+ ("Name a feature film directed by Quentin Tarantino", ["Reservoir Dogs", "Pulp Fiction", "Jackie Brown", "Kill Bill: Volume 1/Kill Bill/Kill Bill Vol. 1", "Kill Bill: Volume 2/Kill Bill Vol. 2", "Death Proof", "Inglourious Basterds", "Django Unchained", "The Hateful Eight", "Once Upon a Time in Hollywood/Once Upon a Time... in Hollywood"]),
+ ("Name a feature film directed by Christopher Nolan, up to 2026", ["Following", "Memento", "Insomnia", "Batman Begins", "The Prestige", "The Dark Knight", "Inception", "The Dark Knight Rises", "Interstellar", "Dunkirk", "Tenet", "Oppenheimer", "The Odyssey"]),
+ ("Name a feature film directed by Wes Anderson, up to 2025", ["Bottle Rocket", "Rushmore", "The Royal Tenenbaums", "The Life Aquatic with Steve Zissou/The Life Aquatic", "The Darjeeling Limited", "Fantastic Mr. Fox/Fantastic Mr Fox", "Moonrise Kingdom", "The Grand Budapest Hotel", "Isle of Dogs", "The French Dispatch", "Asteroid City", "The Phoenician Scheme"]),
+ ("Name a feature film directed by James Cameron (not his documentaries), up to 2025", ["Piranha II: The Spawning/Piranha II/Piranha 2", "The Terminator", "Aliens", "The Abyss", "Terminator 2: Judgment Day/Terminator 2/T2", "True Lies", "Titanic", "Avatar", "Avatar: The Way of Water", "Avatar: Fire and Ash"]),
+ ("Name a James Bond book written by Ian Fleming, including his short-story collections", ["Casino Royale", "Live and Let Die", "Moonraker", "Diamonds Are Forever", "From Russia, with Love/From Russia with Love", "Dr. No/Dr No", "Goldfinger", "For Your Eyes Only", "Thunderball", "The Spy Who Loved Me", "On Her Majesty's Secret Service", "You Only Live Twice", "The Man with the Golden Gun", "Octopussy and The Living Daylights/Octopussy/The Living Daylights"]),
+ ("Name one of the three Baltic states or one of the three Benelux countries", ["Estonia", "Latvia", "Lithuania", "Belgium", "Netherlands/Holland/The Netherlands", "Luxembourg"]),
+ ("Name a country that hosted the Eurovision Song Contest from 2000 to 2026", ["Sweden", "Denmark", "Estonia", "Latvia", "Turkey/Türkiye", "Ukraine", "Greece", "Finland", "Serbia", "Russia", "Norway", "Germany", "Azerbaijan", "Austria", "Portugal", "Israel", "Netherlands/Holland", "Italy", "United Kingdom/UK/Britain/Great Britain", "Switzerland"]),
+ ("Name a member of Madness or the Specials (classic line-ups)", ["Suggs/Graham McPherson", "Mike Barson/Barso", "Chris Foreman/Chrissy Boy", "Mark Bedford/Bedders", "Lee Thompson/Kix", "Dan Woodgate/Woody", "Chas Smash/Cathal Smyth", "Terry Hall", "Jerry Dammers", "Neville Staple", "Lynval Golding", "Roddy Radiation/Roddy Byers", "Horace Panter/Sir Horace Gentleman", "John Bradbury/Brad"]),
+ ("Name a member of Slade or the Bay City Rollers (classic line-ups)", ["Noddy Holder", "Dave Hill", "Jim Lea", "Don Powell", "Les McKeown", "Eric Faulkner", "Stuart Wood/Woody", "Alan Longmuir", "Derek Longmuir"]),
+ ("Name one of the Brontë children (all six)", ["Charlotte/Charlotte Brontë", "Emily/Emily Brontë", "Anne/Anne Brontë", "Branwell/Branwell Brontë", "Maria/Maria Brontë", "Elizabeth/Elizabeth Brontë"]),
+ ("Name a city that hosted the Summer Olympics before 1948", ["Athens", "Paris", "St Louis/St. Louis", "London", "Stockholm", "Antwerp", "Amsterdam", "Los Angeles/LA", "Berlin"]),
+ ("Name a city that has hosted a men's football World Cup final, up to 2026", ["Montevideo", "Rome", "Paris/Saint-Denis", "Rio de Janeiro/Rio", "Bern/Berne", "Stockholm/Solna", "Santiago", "London", "Mexico City", "Munich", "Buenos Aires", "Madrid", "Pasadena/Los Angeles", "Yokohama", "Berlin", "Johannesburg", "Moscow", "Lusail/Doha", "East Rutherford/New York/New Jersey"]),
+ ("Name a circuit or city that held a Formula One Grand Prix in 2025", ["Melbourne/Albert Park", "Shanghai", "Suzuka", "Bahrain/Sakhir", "Jeddah", "Miami", "Imola", "Monaco/Monte Carlo", "Barcelona/Catalunya", "Montreal/Gilles Villeneuve", "Red Bull Ring/Spielberg", "Silverstone", "Spa/Spa-Francorchamps", "Hungaroring/Budapest", "Zandvoort", "Monza", "Baku", "Singapore/Marina Bay", "Austin/Circuit of the Americas/COTA", "Mexico City/Hermanos Rodríguez", "Interlagos/São Paulo/Sao Paulo", "Las Vegas", "Lusail/Qatar", "Yas Marina/Abu Dhabi"]),
+ ("Name one of Madonna's UK number one singles", ["Into the Groove", "Papa Don't Preach", "True Blue", "La Isla Bonita", "Who's That Girl", "Like a Prayer", "Vogue", "Frozen", "American Pie", "Music", "Hung Up", "Sorry", "4 Minutes"]),
+ ("Name a member of Status Quo's 'Frantic Four' or of Dire Straits' original line-up", ["Francis Rossi", "Rick Parfitt", "Alan Lancaster", "John Coghlan", "Mark Knopfler", "David Knopfler", "John Illsley", "Pick Withers"]),
+]
+here = os.path.dirname(os.path.abspath(__file__))
+path = os.path.join(here, '..', 'unique-prompts.json')
+cur = json.load(open(path, encoding='utf-8'))
+have = {x['p'].lower() for x in cur}
+added = [{"p": p, "a": a} for p, a in NEW if p.lower() not in have]
+json.dump(cur + added, open(path, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+print(len(added), 'prompts added; now', len(cur) + len(added))
