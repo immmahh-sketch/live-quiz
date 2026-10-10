@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Wimbledon champion to the year of their first singles title there",
+  "pairs": [
+   {
+    "left": "Roger Federer",
+    "right": "2003"
+   },
+   {
+    "left": "Rafael Nadal",
+    "right": "2008"
+   },
+   {
+    "left": "Novak Djokovic",
+    "right": "2011"
+   },
+   {
+    "left": "Andy Murray",
+    "right": "2013"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each golf major to the month it's usually played",
+  "pairs": [
+   {
+    "left": "The Masters",
+    "right": "April"
+   },
+   {
+    "left": "PGA Championship",
+    "right": "May"
+   },
+   {
+    "left": "US Open",
+    "right": "June"
+   },
+   {
+    "left": "The Open",
+    "right": "July"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

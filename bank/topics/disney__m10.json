@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Disney heroine to where her film is set",
+  "pairs": [
+   {
+    "left": "Mulan",
+    "right": "China"
+   },
+   {
+    "left": "Merida",
+    "right": "Scotland"
+   },
+   {
+    "left": "Belle",
+    "right": "France"
+   },
+   {
+    "left": "Pocahontas",
+    "right": "Virginia"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each character to the star who voiced them",
+  "pairs": [
+   {
+    "left": "The Genie",
+    "right": "Robin Williams"
+   },
+   {
+    "left": "Woody",
+    "right": "Tom Hanks"
+   },
+   {
+    "left": "Olaf",
+    "right": "Josh Gad"
+   },
+   {
+    "left": "Scar",
+    "right": "Jeremy Irons"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

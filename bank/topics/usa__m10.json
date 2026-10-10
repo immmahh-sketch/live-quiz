@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each US city to its state",
+  "pairs": [
+   {
+    "left": "Las Vegas",
+    "right": "Nevada"
+   },
+   {
+    "left": "Miami",
+    "right": "Florida"
+   },
+   {
+    "left": "Seattle",
+    "right": "Washington"
+   },
+   {
+    "left": "New Orleans",
+    "right": "Louisiana"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each national park to its state",
+  "pairs": [
+   {
+    "left": "Yellowstone",
+    "right": "Wyoming"
+   },
+   {
+    "left": "Grand Canyon",
+    "right": "Arizona"
+   },
+   {
+    "left": "Yosemite",
+    "right": "California"
+   },
+   {
+    "left": "Everglades",
+    "right": "Florida"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

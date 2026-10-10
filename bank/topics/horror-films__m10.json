@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each haunted address or hotel to its film",
+  "pairs": [
+   {
+    "left": "The Overlook Hotel",
+    "right": "The Shining"
+   },
+   {
+    "left": "The Bates Motel",
+    "right": "Psycho"
+   },
+   {
+    "left": "112 Ocean Avenue",
+    "right": "The Amityville Horror"
+   },
+   {
+    "left": "1428 Elm Street",
+    "right": "A Nightmare on Elm Street"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each final girl to her film",
+  "pairs": [
+   {
+    "left": "Laurie Strode",
+    "right": "Halloween"
+   },
+   {
+    "left": "Sidney Prescott",
+    "right": "Scream"
+   },
+   {
+    "left": "Ellen Ripley",
+    "right": "Alien"
+   },
+   {
+    "left": "Clarice Starling",
+    "right": "The Silence of the Lambs"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

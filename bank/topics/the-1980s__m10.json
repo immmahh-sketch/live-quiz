@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each 1980s toy craze to what it was",
+  "pairs": [
+   {
+    "left": "Rubik's Cube",
+    "right": "A twisting colour puzzle"
+   },
+   {
+    "left": "Cabbage Patch Kids",
+    "right": "Dolls that came with adoption papers"
+   },
+   {
+    "left": "Transformers",
+    "right": "Robots that turn into vehicles"
+   },
+   {
+    "left": "Care Bears",
+    "right": "Cuddly bears with a symbol on the tummy"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each 1980s TV show to its famous wheels",
+  "pairs": [
+   {
+    "left": "Knight Rider",
+    "right": "KITT, a talking Pontiac Trans Am"
+   },
+   {
+    "left": "The A-Team",
+    "right": "A black GMC van"
+   },
+   {
+    "left": "Magnum, P.I.",
+    "right": "A red Ferrari 308"
+   },
+   {
+    "left": "The Dukes of Hazzard",
+    "right": "The General Lee"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

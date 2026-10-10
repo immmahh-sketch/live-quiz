@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Indian dish to what it is",
+  "pairs": [
+   {
+    "left": "Korma",
+    "right": "A mild, creamy curry"
+   },
+   {
+    "left": "Vindaloo",
+    "right": "A fiery hot curry from Goa"
+   },
+   {
+    "left": "Dhal",
+    "right": "A lentil stew"
+   },
+   {
+    "left": "Naan",
+    "right": "A leavened flatbread"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each beer style to the country it comes from",
+  "pairs": [
+   {
+    "left": "Pilsner",
+    "right": "Czech Republic"
+   },
+   {
+    "left": "Stout",
+    "right": "Ireland"
+   },
+   {
+    "left": "Hefeweizen",
+    "right": "Germany"
+   },
+   {
+    "left": "Trappist ale",
+    "right": "Belgium"
+   }
+  ],
+  "difficulty": "hard"
+ }
+]
