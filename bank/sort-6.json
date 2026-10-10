@@ -1,0 +1,634 @@
+[
+ {
+  "type": "sort",
+  "text": "Leap year or not?",
+  "categories": [
+   "Leap year",
+   "Not a leap year"
+  ],
+  "items": [
+   {
+    "text": "2000",
+    "category": "Leap year"
+   },
+   {
+    "text": "1996",
+    "category": "Leap year"
+   },
+   {
+    "text": "2024",
+    "category": "Leap year"
+   },
+   {
+    "text": "2400",
+    "category": "Leap year"
+   },
+   {
+    "text": "1900",
+    "category": "Not a leap year"
+   },
+   {
+    "text": "2100",
+    "category": "Not a leap year"
+   },
+   {
+    "text": "2023",
+    "category": "Not a leap year"
+   },
+   {
+    "text": "1800",
+    "category": "Not a leap year"
+   }
+  ],
+  "category": "Numbers",
+  "tags": [
+   "calendar",
+   "leap years",
+   "wow"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "From Shakespeare or from the Bible?",
+  "categories": [
+   "Shakespeare",
+   "The Bible"
+  ],
+  "items": [
+   {
+    "text": "To thine own self be true",
+    "category": "Shakespeare"
+   },
+   {
+    "text": "The course of true love never did run smooth",
+    "category": "Shakespeare"
+   },
+   {
+    "text": "Neither a borrower nor a lender be",
+    "category": "Shakespeare"
+   },
+   {
+    "text": "All the world's a stage",
+    "category": "Shakespeare"
+   },
+   {
+    "text": "Let there be light",
+    "category": "The Bible"
+   },
+   {
+    "text": "The love of money is the root of all evil",
+    "category": "The Bible"
+   },
+   {
+    "text": "An eye for an eye",
+    "category": "The Bible"
+   },
+   {
+    "text": "Am I my brother's keeper?",
+    "category": "The Bible"
+   }
+  ],
+  "category": "Words and language",
+  "tags": [
+   "Shakespeare",
+   "Bible",
+   "quotes"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Painted by Turner or by Constable?",
+  "categories": [
+   "Turner",
+   "Constable"
+  ],
+  "items": [
+   {
+    "text": "The Fighting Temeraire",
+    "category": "Turner"
+   },
+   {
+    "text": "Rain, Steam and Speed",
+    "category": "Turner"
+   },
+   {
+    "text": "The Slave Ship",
+    "category": "Turner"
+   },
+   {
+    "text": "Snow Storm: Hannibal Crossing the Alps",
+    "category": "Turner"
+   },
+   {
+    "text": "The Hay Wain",
+    "category": "Constable"
+   },
+   {
+    "text": "Flatford Mill",
+    "category": "Constable"
+   },
+   {
+    "text": "Salisbury Cathedral from the Meadows",
+    "category": "Constable"
+   },
+   {
+    "text": "The Cornfield",
+    "category": "Constable"
+   }
+  ],
+  "category": "Art",
+  "tags": [
+   "Turner",
+   "Constable",
+   "painting"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "Directed by Stanley Kubrick or by Quentin Tarantino?",
+  "categories": [
+   "Kubrick",
+   "Tarantino"
+  ],
+  "items": [
+   {
+    "text": "The Shining",
+    "category": "Kubrick"
+   },
+   {
+    "text": "A Clockwork Orange",
+    "category": "Kubrick"
+   },
+   {
+    "text": "Full Metal Jacket",
+    "category": "Kubrick"
+   },
+   {
+    "text": "Spartacus",
+    "category": "Kubrick"
+   },
+   {
+    "text": "Pulp Fiction",
+    "category": "Tarantino"
+   },
+   {
+    "text": "Reservoir Dogs",
+    "category": "Tarantino"
+   },
+   {
+    "text": "Jackie Brown",
+    "category": "Tarantino"
+   },
+   {
+    "text": "Django Unchained",
+    "category": "Tarantino"
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "Kubrick",
+   "Tarantino",
+   "directors"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Directed by Christopher Nolan or by Steven Spielberg?",
+  "categories": [
+   "Nolan",
+   "Spielberg"
+  ],
+  "items": [
+   {
+    "text": "Inception",
+    "category": "Nolan"
+   },
+   {
+    "text": "Interstellar",
+    "category": "Nolan"
+   },
+   {
+    "text": "Memento",
+    "category": "Nolan"
+   },
+   {
+    "text": "Dunkirk",
+    "category": "Nolan"
+   },
+   {
+    "text": "War Horse",
+    "category": "Spielberg"
+   },
+   {
+    "text": "Lincoln",
+    "category": "Spielberg"
+   },
+   {
+    "text": "Munich",
+    "category": "Spielberg"
+   },
+   {
+    "text": "The Terminal",
+    "category": "Spielberg"
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "Nolan",
+   "Spielberg",
+   "directors"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Daniel Craig Bond film or a Pierce Brosnan one?",
+  "categories": [
+   "Daniel Craig",
+   "Pierce Brosnan"
+  ],
+  "items": [
+   {
+    "text": "Casino Royale",
+    "category": "Daniel Craig"
+   },
+   {
+    "text": "Skyfall",
+    "category": "Daniel Craig"
+   },
+   {
+    "text": "Spectre",
+    "category": "Daniel Craig"
+   },
+   {
+    "text": "Quantum of Solace",
+    "category": "Daniel Craig"
+   },
+   {
+    "text": "GoldenEye",
+    "category": "Pierce Brosnan"
+   },
+   {
+    "text": "Tomorrow Never Dies",
+    "category": "Pierce Brosnan"
+   },
+   {
+    "text": "The World Is Not Enough",
+    "category": "Pierce Brosnan"
+   },
+   {
+    "text": "Die Another Day",
+    "category": "Pierce Brosnan"
+   }
+  ],
+  "category": "James Bond",
+  "tags": [
+   "Daniel Craig",
+   "Pierce Brosnan"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "Harry Potter character or Lord of the Rings character?",
+  "categories": [
+   "Harry Potter",
+   "Lord of the Rings"
+  ],
+  "items": [
+   {
+    "text": "Dobby",
+    "category": "Harry Potter"
+   },
+   {
+    "text": "Hagrid",
+    "category": "Harry Potter"
+   },
+   {
+    "text": "Sirius Black",
+    "category": "Harry Potter"
+   },
+   {
+    "text": "Luna Lovegood",
+    "category": "Harry Potter"
+   },
+   {
+    "text": "Gimli",
+    "category": "Lord of the Rings"
+   },
+   {
+    "text": "Legolas",
+    "category": "Lord of the Rings"
+   },
+   {
+    "text": "Samwise Gamgee",
+    "category": "Lord of the Rings"
+   },
+   {
+    "text": "Boromir",
+    "category": "Lord of the Rings"
+   }
+  ],
+  "category": "Books",
+  "tags": [
+   "Harry Potter",
+   "Lord of the Rings"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "Painted by Rembrandt or by Vermeer?",
+  "categories": [
+   "Rembrandt",
+   "Vermeer"
+  ],
+  "items": [
+   {
+    "text": "The Night Watch",
+    "category": "Rembrandt"
+   },
+   {
+    "text": "The Anatomy Lesson of Dr Tulp",
+    "category": "Rembrandt"
+   },
+   {
+    "text": "The Jewish Bride",
+    "category": "Rembrandt"
+   },
+   {
+    "text": "Self-Portrait with Two Circles",
+    "category": "Rembrandt"
+   },
+   {
+    "text": "Girl with a Pearl Earring",
+    "category": "Vermeer"
+   },
+   {
+    "text": "The Milkmaid",
+    "category": "Vermeer"
+   },
+   {
+    "text": "View of Delft",
+    "category": "Vermeer"
+   },
+   {
+    "text": "The Art of Painting",
+    "category": "Vermeer"
+   }
+  ],
+  "category": "Art",
+  "tags": [
+   "Rembrandt",
+   "Vermeer",
+   "Dutch art"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "A poem by Wordsworth or by Keats?",
+  "categories": [
+   "Wordsworth",
+   "Keats"
+  ],
+  "items": [
+   {
+    "text": "The Prelude",
+    "category": "Wordsworth"
+   },
+   {
+    "text": "Tintern Abbey",
+    "category": "Wordsworth"
+   },
+   {
+    "text": "Upon Westminster Bridge",
+    "category": "Wordsworth"
+   },
+   {
+    "text": "I Wandered Lonely as a Cloud",
+    "category": "Wordsworth"
+   },
+   {
+    "text": "Ode to a Nightingale",
+    "category": "Keats"
+   },
+   {
+    "text": "To Autumn",
+    "category": "Keats"
+   },
+   {
+    "text": "Ode on a Grecian Urn",
+    "category": "Keats"
+   },
+   {
+    "text": "La Belle Dame sans Merci",
+    "category": "Keats"
+   }
+  ],
+  "category": "Books",
+  "tags": [
+   "poetry",
+   "Wordsworth",
+   "Keats"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "An opera by Verdi or by Puccini?",
+  "categories": [
+   "Verdi",
+   "Puccini"
+  ],
+  "items": [
+   {
+    "text": "Aida",
+    "category": "Verdi"
+   },
+   {
+    "text": "La Traviata",
+    "category": "Verdi"
+   },
+   {
+    "text": "Rigoletto",
+    "category": "Verdi"
+   },
+   {
+    "text": "Otello",
+    "category": "Verdi"
+   },
+   {
+    "text": "Madama Butterfly",
+    "category": "Puccini"
+   },
+   {
+    "text": "La Bohème",
+    "category": "Puccini"
+   },
+   {
+    "text": "Tosca",
+    "category": "Puccini"
+   },
+   {
+    "text": "Turandot",
+    "category": "Puccini"
+   }
+  ],
+  "category": "Music",
+  "tags": [
+   "opera",
+   "Verdi",
+   "Puccini"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A band from Liverpool or from Manchester?",
+  "categories": [
+   "Liverpool",
+   "Manchester"
+  ],
+  "items": [
+   {
+    "text": "The Beatles",
+    "category": "Liverpool"
+   },
+   {
+    "text": "Echo & the Bunnymen",
+    "category": "Liverpool"
+   },
+   {
+    "text": "Frankie Goes to Hollywood",
+    "category": "Liverpool"
+   },
+   {
+    "text": "The La's",
+    "category": "Liverpool"
+   },
+   {
+    "text": "Oasis",
+    "category": "Manchester"
+   },
+   {
+    "text": "The Smiths",
+    "category": "Manchester"
+   },
+   {
+    "text": "Joy Division",
+    "category": "Manchester"
+   },
+   {
+    "text": "The Stone Roses",
+    "category": "Manchester"
+   }
+  ],
+  "category": "Music",
+  "tags": [
+   "Liverpool",
+   "Manchester",
+   "bands"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A low cloud or a high cloud?",
+  "categories": [
+   "Low",
+   "High"
+  ],
+  "items": [
+   {
+    "text": "Stratus",
+    "category": "Low"
+   },
+   {
+    "text": "Stratocumulus",
+    "category": "Low"
+   },
+   {
+    "text": "Nimbostratus",
+    "category": "Low"
+   },
+   {
+    "text": "Cumulus",
+    "category": "Low"
+   },
+   {
+    "text": "Cirrus",
+    "category": "High"
+   },
+   {
+    "text": "Cirrostratus",
+    "category": "High"
+   },
+   {
+    "text": "Cirrocumulus",
+    "category": "High"
+   },
+   {
+    "text": "Contrails",
+    "category": "High"
+   }
+  ],
+  "category": "Science",
+  "tags": [
+   "weather",
+   "clouds"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "Winter Olympic sport on ice or on snow?",
+  "categories": [
+   "Ice",
+   "Snow"
+  ],
+  "items": [
+   {
+    "text": "Curling",
+    "category": "Ice"
+   },
+   {
+    "text": "Bobsleigh",
+    "category": "Ice"
+   },
+   {
+    "text": "Speed skating",
+    "category": "Ice"
+   },
+   {
+    "text": "Ice hockey",
+    "category": "Ice"
+   },
+   {
+    "text": "Biathlon",
+    "category": "Snow"
+   },
+   {
+    "text": "Ski jumping",
+    "category": "Snow"
+   },
+   {
+    "text": "Slalom",
+    "category": "Snow"
+   },
+   {
+    "text": "Snowboard cross",
+    "category": "Snow"
+   }
+  ],
+  "category": "Olympics",
+  "tags": [
+   "Winter Olympics"
+  ],
+  "difficulty": "easy"
+ }
+]
