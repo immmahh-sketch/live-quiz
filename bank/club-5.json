@@ -1,0 +1,354 @@
+[
+ {
+  "type": "club",
+  "text": "How many sides do four hexagons have altogether?",
+  "answers": [
+   "24",
+   "Twenty-four"
+  ],
+  "pct": 90,
+  "why": "A hexagon has 6 sides: 4 × 6 = 24.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "shapes"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A team scores 2 goals before half-time and 3 after it, and lets in 4. By how many goals do they win?",
+  "answers": [
+   "1",
+   "One"
+  ],
+  "pct": 80,
+  "why": "They score 5 and let in 4.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "football"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A florist sells a dozen roses for £24. How much is that for each rose?",
+  "answers": [
+   "£2",
+   "2",
+   "2 pounds"
+  ],
+  "pct": 80,
+  "why": "£24 ÷ 12 = £2.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "money"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "How many minutes are there in two and a half hours?",
+  "answers": [
+   "150"
+  ],
+  "pct": 80,
+  "why": "60 + 60 + 30 = 150.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "time"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Share 99 sweets equally between three children. How many does each child get?",
+  "answers": [
+   "33",
+   "Thirty-three"
+  ],
+  "pct": 70,
+  "why": "99 ÷ 3 = 33.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "fractions"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Unscramble RAMCH to find a month of the year.",
+  "answers": [
+   "March"
+  ],
+  "pct": 70,
+  "why": "R-A-M-C-H makes MARCH.",
+  "difficulty": "easy",
+  "category": "Wordplay",
+  "tags": [
+   "anagrams",
+   "months"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "How many corners does a cube have?",
+  "answers": [
+   "8",
+   "Eight"
+  ],
+  "pct": 70,
+  "why": "Four on the top face and four on the bottom.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "shapes"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What gets wetter the more it dries?",
+  "answers": [
+   "A towel",
+   "Towel"
+  ],
+  "pct": 60,
+  "why": "A towel soaks up the water as it dries you.",
+  "difficulty": "medium",
+  "category": "Logic",
+  "tags": [
+   "riddles"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What has a head and a tail but no body?",
+  "answers": [
+   "A coin",
+   "Coin"
+  ],
+  "pct": 60,
+  "why": "Heads or tails!",
+  "difficulty": "medium",
+  "category": "Logic",
+  "tags": [
+   "riddles"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Add up the four angles inside a square. What do you get, in degrees?",
+  "answers": [
+   "360"
+  ],
+  "pct": 60,
+  "why": "Four right angles: 4 × 90 = 360.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "angles",
+   "shapes"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "How long is a quarter of an hour, counted in seconds?",
+  "answers": [
+   "900"
+  ],
+  "pct": 60,
+  "why": "15 minutes × 60 seconds = 900.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "time"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which month has the longest name, and how many letters is that?",
+  "answers": [
+   "9",
+   "Nine",
+   "September, 9"
+  ],
+  "pct": 50,
+  "why": "SEPTEMBER has nine letters; no month has more.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "months",
+   "letters"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A shop doubles all its prices, then holds a half-price sale. What does a £30 jumper cost in the sale?",
+  "answers": [
+   "£30",
+   "30"
+  ],
+  "pct": 50,
+  "why": "Doubled to £60, then halved back to £30.",
+  "difficulty": "medium",
+  "category": "Logic",
+  "tags": [
+   "money",
+   "percentages"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What is 25% of 25% of 160?",
+  "answers": [
+   "10",
+   "Ten"
+  ],
+  "pct": 40,
+  "why": "25% of 160 is 40, and 25% of 40 is 10.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "percentages"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A triangle is cut by one straight line from a corner to the opposite side. How many triangles can you count now?",
+  "answers": [
+   "3",
+   "Three"
+  ],
+  "pct": 40,
+  "why": "The two small ones, plus the big one they make together.",
+  "difficulty": "medium",
+  "category": "Logic",
+  "tags": [
+   "shapes",
+   "triangles"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Cut a cake in half, halve one piece, then halve that piece again. What fraction of the whole cake is your piece?",
+  "answers": [
+   "An eighth",
+   "1/8",
+   "One eighth",
+   "0.125"
+  ],
+  "pct": 30,
+  "why": "½ × ½ × ½ = ⅛.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "fractions"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Say 'silk' out loud three times. Now: what do cows drink?",
+  "answers": [
+   "Water"
+  ],
+  "pct": 30,
+  "why": "Cows drink water; the silk makes you want to say milk.",
+  "difficulty": "hard",
+  "category": "Wordplay",
+  "tags": [
+   "tricks"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "How many birthdays does the average person have?",
+  "answers": [
+   "One",
+   "1"
+  ],
+  "pct": 30,
+  "why": "You're only born once: the rest are anniversaries of it.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "tricks"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Before Mount Everest was discovered, what was the highest mountain in the world?",
+  "answers": [
+   "Mount Everest",
+   "Everest"
+  ],
+  "pct": 20,
+  "why": "It was still Everest, even before anyone measured it.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "riddles",
+   "mountains"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Half of a number is 4 more than a third of it. What is the number?",
+  "answers": [
+   "24",
+   "Twenty-four"
+  ],
+  "pct": 20,
+  "why": "12 is 4 more than 8: half of 24 and a third of 24.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "algebra"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Write out every number from 1 to 30. How many times do you write the digit 2?",
+  "answers": [
+   "13",
+   "Thirteen"
+  ],
+  "pct": 10,
+  "why": "2, 12, 22 for the units, plus 20 to 29 for the tens: 3 + 10 = 13.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "digits"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Apart from 1, what is the smallest whole number that is both a square number and a cube number?",
+  "answers": [
+   "64",
+   "Sixty-four"
+  ],
+  "pct": 5,
+  "why": "64 = 8 × 8 and 4 × 4 × 4.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "squares",
+   "cubes"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Over twelve hours, how often do a clock's two hands form a perfect right angle?",
+  "answers": [
+   "22",
+   "Twenty-two"
+  ],
+  "pct": 1,
+  "why": "Twice every hour, except around 3 and 9 where two of those moments fall together: 24 − 2 = 22.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "clocks",
+   "angles"
+  ]
+ }
+]
