@@ -1,0 +1,774 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: name the famous pig",
+  "target": 10,
+  "category": "Film, TV and books",
+  "tags": [
+   "pigs",
+   "characters"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The muddy-puddle-jumping pig",
+    "right": "Peppa",
+    "wrong": [
+     "Suzy Sheep",
+     "Rebecca Rabbit",
+     "Candy Cat"
+    ]
+   },
+   {
+    "q": "Peppa's little brother",
+    "right": "George",
+    "wrong": [
+     "Richard Rabbit",
+     "Danny Dog",
+     "Pedro Pony"
+    ]
+   },
+   {
+    "q": "The sheep-pig",
+    "right": "Babe",
+    "wrong": [
+     "Rex",
+     "Ferdinand",
+     "Maa"
+    ]
+   },
+   {
+    "q": "Kermit's karate-chopping love",
+    "right": "Miss Piggy",
+    "wrong": [
+     "Fozzie",
+     "Gonzo",
+     "Janice"
+    ]
+   },
+   {
+    "q": "Charlotte's Web's pig",
+    "right": "Wilbur",
+    "wrong": [
+     "Templeton",
+     "Avery",
+     "Homer"
+    ]
+   },
+   {
+    "q": "Pooh's very small friend",
+    "right": "Piglet",
+    "wrong": [
+     "Roo",
+     "Eeyore",
+     "Kanga"
+    ]
+   },
+   {
+    "q": "'Th-th-that's all, folks!'",
+    "right": "Porky",
+    "wrong": [
+     "Petunia",
+     "Elmer",
+     "Daffy"
+    ]
+   },
+   {
+    "q": "The Animal Farm pig who becomes a tyrant",
+    "right": "Napoleon",
+    "wrong": [
+     "Minimus",
+     "Pinkeye",
+     "Boxer"
+    ]
+   },
+   {
+    "q": "The Animal Farm pig chased off the farm",
+    "right": "Snowball",
+    "wrong": [
+     "Minimus",
+     "Pinkeye",
+     "Moses"
+    ]
+   },
+   {
+    "q": "The old boar whose dream starts the revolution",
+    "right": "Old Major",
+    "wrong": [
+     "Benjamin",
+     "Minimus",
+     "Mr Jones"
+    ]
+   },
+   {
+    "q": "Napoleon's smooth-talking spokespig",
+    "right": "Squealer",
+    "wrong": [
+     "Minimus",
+     "Pinkeye",
+     "Moses"
+    ]
+   },
+   {
+    "q": "Toy Story's piggy bank",
+    "right": "Hamm",
+    "wrong": [
+     "Rex",
+     "Slinky",
+     "Bullseye"
+    ]
+   },
+   {
+    "q": "Homer's pet in The Simpsons Movie",
+    "right": "Spider-Pig",
+    "wrong": [
+     "Santa's Little Helper",
+     "Snowball II",
+     "Pinchy"
+    ]
+   },
+   {
+    "q": "Doctor Dolittle's pig",
+    "right": "Gub-Gub",
+    "wrong": [
+     "Jip",
+     "Dab-Dab",
+     "Polynesia"
+    ]
+   },
+   {
+    "q": "Beatrix Potter's pig who goes to market",
+    "right": "Pigling Bland",
+    "wrong": [
+     "Pig-wig",
+     "Aunt Pettitoes",
+     "Alexander"
+    ]
+   },
+   {
+    "q": "The 'super pig' in the Netflix film",
+    "right": "Okja",
+    "wrong": [
+     "Mija",
+     "Lucy Mirando",
+     "Jay"
+    ]
+   },
+   {
+    "q": "Lord Emsworth's prize sow",
+    "right": "Empress of Blandings",
+    "wrong": [
+     "Pride of Matchingham",
+     "Queen of Matchingham",
+     "Lady Bracknell"
+    ]
+   },
+   {
+    "q": "The fortune-telling pig in The Black Cauldron",
+    "right": "Hen Wen",
+    "wrong": [
+     "Gurgi",
+     "Taran",
+     "Eilonwy"
+    ]
+   },
+   {
+    "q": "Gravity Falls' pet pig",
+    "right": "Waddles",
+    "wrong": [
+     "Gompers",
+     "Soos",
+     "Stan"
+    ]
+   },
+   {
+    "q": "M&S's sweet pig",
+    "right": "Percy Pig",
+    "wrong": [
+     "Colin the Caterpillar",
+     "Penny Pig",
+     "Freddo"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's the NATO phonetic word for this letter?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "NATO alphabet",
+   "letters"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "B",
+    "right": "Bravo",
+    "wrong": [
+     "Baker",
+     "Beta",
+     "Boston"
+    ]
+   },
+   {
+    "q": "C",
+    "right": "Charlie",
+    "wrong": [
+     "Castle",
+     "Coca",
+     "Carlo"
+    ]
+   },
+   {
+    "q": "D",
+    "right": "Delta",
+    "wrong": [
+     "Dog",
+     "David",
+     "Dixie"
+    ]
+   },
+   {
+    "q": "E",
+    "right": "Echo",
+    "wrong": [
+     "Easy",
+     "Edward",
+     "Eagle"
+    ]
+   },
+   {
+    "q": "F",
+    "right": "Foxtrot",
+    "wrong": [
+     "Fox",
+     "Freddie",
+     "Falcon"
+    ]
+   },
+   {
+    "q": "G",
+    "right": "Golf",
+    "wrong": [
+     "George",
+     "Gamma",
+     "Gulf"
+    ]
+   },
+   {
+    "q": "H",
+    "right": "Hotel",
+    "wrong": [
+     "How",
+     "Harry",
+     "Hector"
+    ]
+   },
+   {
+    "q": "J",
+    "right": "Juliett",
+    "wrong": [
+     "Jig",
+     "Jupiter",
+     "Johnny"
+    ]
+   },
+   {
+    "q": "K",
+    "right": "Kilo",
+    "wrong": [
+     "King",
+     "Kansas",
+     "Kitten"
+    ]
+   },
+   {
+    "q": "L",
+    "right": "Lima",
+    "wrong": [
+     "Love",
+     "London",
+     "Lemon"
+    ]
+   },
+   {
+    "q": "M",
+    "right": "Mike",
+    "wrong": [
+     "Mother",
+     "Madrid",
+     "Mexico"
+    ]
+   },
+   {
+    "q": "N",
+    "right": "November",
+    "wrong": [
+     "Nan",
+     "Nectar",
+     "Norway"
+    ]
+   },
+   {
+    "q": "P",
+    "right": "Papa",
+    "wrong": [
+     "Peter",
+     "Paris",
+     "Panama"
+    ]
+   },
+   {
+    "q": "Q",
+    "right": "Quebec",
+    "wrong": [
+     "Queen",
+     "Quiet",
+     "Quilt"
+    ]
+   },
+   {
+    "q": "R",
+    "right": "Romeo",
+    "wrong": [
+     "Roger",
+     "Rome",
+     "Robert"
+    ]
+   },
+   {
+    "q": "S",
+    "right": "Sierra",
+    "wrong": [
+     "Sugar",
+     "Samba",
+     "Santiago"
+    ]
+   },
+   {
+    "q": "T",
+    "right": "Tango",
+    "wrong": [
+     "Tare",
+     "Toby",
+     "Texas"
+    ]
+   },
+   {
+    "q": "U",
+    "right": "Uniform",
+    "wrong": [
+     "Uncle",
+     "Union",
+     "Utah"
+    ]
+   },
+   {
+    "q": "V",
+    "right": "Victor",
+    "wrong": [
+     "Violet",
+     "Venus",
+     "Vienna"
+    ]
+   },
+   {
+    "q": "W",
+    "right": "Whiskey",
+    "wrong": [
+     "William",
+     "Water",
+     "Winter"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what does this text speak stand for?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "abbreviations",
+   "texting"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "LOL",
+    "right": "Laugh out loud",
+    "wrong": [
+     "Lots of love",
+     "Laughing online",
+     "Loads of laughs"
+    ]
+   },
+   {
+    "q": "BRB",
+    "right": "Be right back",
+    "wrong": [
+     "Be really brief",
+     "Bring round beer",
+     "Back real busy"
+    ]
+   },
+   {
+    "q": "IMO",
+    "right": "In my opinion",
+    "wrong": [
+     "In my office",
+     "If memory obliges",
+     "I'm moving on"
+    ]
+   },
+   {
+    "q": "TBH",
+    "right": "To be honest",
+    "wrong": [
+     "Text back home",
+     "Talk between hours",
+     "To be happy"
+    ]
+   },
+   {
+    "q": "FOMO",
+    "right": "Fear of missing out",
+    "wrong": [
+     "Fear of moving on",
+     "Friends of mine only",
+     "Full of myself, obviously"
+    ]
+   },
+   {
+    "q": "SMH",
+    "right": "Shaking my head",
+    "wrong": [
+     "So much hate",
+     "Send me home",
+     "Sorry, my heart"
+    ]
+   },
+   {
+    "q": "IRL",
+    "right": "In real life",
+    "wrong": [
+     "I really love",
+     "In red letters",
+     "If really late"
+    ]
+   },
+   {
+    "q": "TL;DR",
+    "right": "Too long; didn't read",
+    "wrong": [
+     "Talk later; don't reply",
+     "Too late; don't rush",
+     "Time lost; do redo"
+    ]
+   },
+   {
+    "q": "OMG",
+    "right": "Oh my God",
+    "wrong": [
+     "On my go",
+     "Out my gate",
+     "Over my grave"
+    ]
+   },
+   {
+    "q": "NGL",
+    "right": "Not gonna lie",
+    "wrong": [
+     "Never gonna leave",
+     "Nice game, lads",
+     "No good lately"
+    ]
+   },
+   {
+    "q": "IDK",
+    "right": "I don't know",
+    "wrong": [
+     "I don't care",
+     "I did know",
+     "It doesn't count"
+    ]
+   },
+   {
+    "q": "FYI",
+    "right": "For your information",
+    "wrong": [
+     "Find your inbox",
+     "For your instance",
+     "Fix your internet"
+    ]
+   },
+   {
+    "q": "BTW",
+    "right": "By the way",
+    "wrong": [
+     "Back to work",
+     "Before the weekend",
+     "Better than wine"
+    ]
+   },
+   {
+    "q": "ASAP",
+    "right": "As soon as possible",
+    "wrong": [
+     "Always say a please",
+     "At some agreed point",
+     "As slow as possible"
+    ]
+   },
+   {
+    "q": "DM",
+    "right": "Direct message",
+    "wrong": [
+     "Daily mail",
+     "Don't mention",
+     "Deleted message"
+    ]
+   },
+   {
+    "q": "TTYL",
+    "right": "Talk to you later",
+    "wrong": [
+     "Thanks to you lot",
+     "Time to yawn loudly",
+     "Try to stay late"
+    ]
+   },
+   {
+    "q": "ROFL",
+    "right": "Rolling on the floor laughing",
+    "wrong": [
+     "Running out for lunch",
+     "Really overly funny, lol",
+     "Rather odd, full laugh"
+    ]
+   },
+   {
+    "q": "YOLO",
+    "right": "You only live once",
+    "wrong": [
+     "You owe lots of",
+     "Your old lady's out",
+     "You obviously love others"
+    ]
+   },
+   {
+    "q": "GOAT",
+    "right": "Greatest of all time",
+    "wrong": [
+     "Good on all teams",
+     "Getting old at thirty",
+     "Got our attention, thanks"
+    ]
+   },
+   {
+    "q": "BFF",
+    "right": "Best friends forever",
+    "wrong": [
+     "Big fat favour",
+     "Best for fun",
+     "Back from France"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: on which date is this saint's day?",
+  "target": 10,
+  "category": "Faiths and festivals",
+  "tags": [
+   "saints",
+   "dates"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "St David",
+    "right": "1 March",
+    "wrong": [
+     "1 April",
+     "1 February",
+     "8 March"
+    ]
+   },
+   {
+    "q": "St Patrick",
+    "right": "17 March",
+    "wrong": [
+     "7 March",
+     "17 April",
+     "27 March"
+    ]
+   },
+   {
+    "q": "St George",
+    "right": "23 April",
+    "wrong": [
+     "23 March",
+     "13 April",
+     "23 May"
+    ]
+   },
+   {
+    "q": "St Andrew",
+    "right": "30 November",
+    "wrong": [
+     "30 October",
+     "1 December",
+     "13 November"
+    ]
+   },
+   {
+    "q": "St Valentine",
+    "right": "14 February",
+    "wrong": [
+     "14 March",
+     "4 February",
+     "12 February"
+    ]
+   },
+   {
+    "q": "St Swithin",
+    "right": "15 July",
+    "wrong": [
+     "15 August",
+     "5 July",
+     "25 July"
+    ]
+   },
+   {
+    "q": "St Stephen",
+    "right": "26 December",
+    "wrong": [
+     "27 December",
+     "28 December",
+     "26 November"
+    ]
+   },
+   {
+    "q": "St Nicholas",
+    "right": "6 December",
+    "wrong": [
+     "8 December",
+     "6 November",
+     "16 December"
+    ]
+   },
+   {
+    "q": "St Crispin",
+    "right": "25 October",
+    "wrong": [
+     "24 October",
+     "15 October",
+     "25 November"
+    ]
+   },
+   {
+    "q": "St John the Baptist",
+    "right": "24 June",
+    "wrong": [
+     "21 June",
+     "24 July",
+     "4 June"
+    ]
+   },
+   {
+    "q": "St Joseph",
+    "right": "19 March",
+    "wrong": [
+     "9 March",
+     "29 March",
+     "19 April"
+    ]
+   },
+   {
+    "q": "St Mark",
+    "right": "25 April",
+    "wrong": [
+     "24 April",
+     "15 April",
+     "25 March"
+    ]
+   },
+   {
+    "q": "St Michael (Michaelmas)",
+    "right": "29 September",
+    "wrong": [
+     "21 September",
+     "29 August",
+     "9 September"
+    ]
+   },
+   {
+    "q": "St Cuthbert",
+    "right": "20 March",
+    "wrong": [
+     "20 February",
+     "2 March",
+     "10 March"
+    ]
+   },
+   {
+    "q": "St Bede",
+    "right": "25 May",
+    "wrong": [
+     "5 May",
+     "15 May",
+     "25 June"
+    ]
+   },
+   {
+    "q": "St Aidan",
+    "right": "31 August",
+    "wrong": [
+     "31 July",
+     "1 September",
+     "13 August"
+    ]
+   },
+   {
+    "q": "St Agnes",
+    "right": "21 January",
+    "wrong": [
+     "12 January",
+     "21 February",
+     "1 January"
+    ]
+   },
+   {
+    "q": "St Dwynwen (Welsh Valentine's Day)",
+    "right": "25 January",
+    "wrong": [
+     "5 January",
+     "15 January",
+     "25 February"
+    ]
+   },
+   {
+    "q": "St Lucy",
+    "right": "13 December",
+    "wrong": [
+     "3 December",
+     "13 November",
+     "23 December"
+    ]
+   },
+   {
+    "q": "St Luke",
+    "right": "18 October",
+    "wrong": [
+     "8 October",
+     "18 November",
+     "28 October"
+    ]
+   }
+  ]
+ }
+]
