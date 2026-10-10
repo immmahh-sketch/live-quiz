@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this courtroom word?",
+  "target": 10,
+  "category": "Law",
+  "tags": [
+   "law",
+   "courts",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Presides over the trial in a wig and robe, and passes sentence",
+    "right": "Judge",
+    "wrong": [
+     "Steward",
+     "Registrar",
+     "Coroner"
+    ]
+   },
+   {
+    "q": "The twelve members of the public who decide guilty or not guilty",
+    "right": "Jury",
+    "wrong": [
+     "Panel",
+     "Cabinet",
+     "Council"
+    ]
+   },
+   {
+    "q": "The jury's decision at the end of the trial",
+    "right": "Verdict",
+    "wrong": [
+     "Summons",
+     "Warrant",
+     "Affidavit"
+    ]
+   },
+   {
+    "q": "The person on trial, accused of the crime",
+    "right": "Defendant",
+    "wrong": [
+     "Juror",
+     "Usher",
+     "Claimant"
+    ]
+   },
+   {
+    "q": "Where people stand to give their evidence",
+    "right": "Witness box",
+    "wrong": [
+     "Gallery",
+     "Bench",
+     "Lobby"
+    ]
+   },
+   {
+    "q": "The promise to tell the truth, the whole truth and nothing but the truth",
+    "right": "Oath",
+    "wrong": [
+     "Plea",
+     "Writ",
+     "Caution"
+    ]
+   },
+   {
+    "q": "The lawyer in a wig who argues the case in the Crown Court",
+    "right": "Barrister",
+    "wrong": [
+     "Notary",
+     "Conveyancer",
+     "Paralegal"
+    ]
+   },
+   {
+    "q": "The little wooden hammer an American judge bangs",
+    "right": "Gavel",
+    "wrong": [
+     "Baton",
+     "Sceptre",
+     "Truncheon"
+    ]
+   },
+   {
+    "q": "The enclosure where the accused sits during a criminal trial",
+    "right": "Dock",
+    "wrong": [
+     "Bench",
+     "Gallery",
+     "Lobby"
+    ]
+   },
+   {
+    "q": "Being found not guilty and set free",
+    "right": "Acquittal",
+    "wrong": [
+     "Conviction",
+     "Remand",
+     "Probation"
+    ]
+   },
+   {
+    "q": "The crime of lying under oath",
+    "right": "Perjury",
+    "wrong": [
+     "Libel",
+     "Slander",
+     "Contempt"
+    ]
+   },
+   {
+    "q": "Paused until a later date",
+    "right": "Adjourned",
+    "wrong": [
+     "Dismissed",
+     "Overruled",
+     "Sustained"
+    ]
+   },
+   {
+    "q": "Money paid so the accused can go home until the trial",
+    "right": "Bail",
+    "wrong": [
+     "Fine",
+     "Costs",
+     "Damages"
+    ]
+   },
+   {
+    "q": "Proof you were somewhere else when the crime happened",
+    "right": "Alibi",
+    "wrong": [
+     "Motive",
+     "Hearsay",
+     "Precedent"
+    ]
+   },
+   {
+    "q": "What TV lawyers shout when the other side asks an unfair question",
+    "right": "Objection",
+    "wrong": [
+     "Recess",
+     "Hearsay",
+     "Precedent"
+    ]
+   },
+   {
+    "q": "Asking a higher court to overturn the decision",
+    "right": "Appeal",
+    "wrong": [
+     "Plea",
+     "Remand",
+     "Caution"
+    ]
+   },
+   {
+    "q": "London's Central Criminal Court, topped by a golden statue of Justice",
+    "right": "Old Bailey",
+    "wrong": [
+     "Royal Courts",
+     "Lincoln's Inn",
+     "Middle Temple"
+    ]
+   },
+   {
+    "q": "A trial stopped part-way and declared invalid, perhaps over a juror's misconduct",
+    "right": "Mistrial",
+    "wrong": [
+     "Retrial",
+     "Remand",
+     "Recess"
+    ]
+   },
+   {
+    "q": "An object shown to the court as evidence, labelled with a letter or number",
+    "right": "Exhibit",
+    "wrong": [
+     "Affidavit",
+     "Summons",
+     "Writ"
+    ]
+   },
+   {
+    "q": "Slang for a senior barrister, a King's Counsel, after the fabric of their gown",
+    "right": "Silk",
+    "wrong": [
+     "Bencher",
+     "Gown",
+     "Ermine"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this farm word?",
+  "target": 10,
+  "category": "Animals",
+  "tags": [
+   "farming",
+   "countryside",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "A young female cow that hasn't had a calf yet",
+    "right": "Heifer",
+    "wrong": [
+     "Bullock",
+     "Steer",
+     "Ox"
+    ]
+   },
+   {
+    "q": "Where the pigs live",
+    "right": "Sty",
+    "wrong": [
+     "Byre",
+     "Kennel",
+     "Stable"
+    ]
+   },
+   {
+    "q": "Where the hens are shut in at night",
+    "right": "Coop",
+    "wrong": [
+     "Hutch",
+     "Kennel",
+     "Stall"
+    ]
+   },
+   {
+    "q": "The big machine that cuts and threshes the wheat in one go",
+    "right": "Combine harvester",
+    "wrong": [
+     "Baler",
+     "Seed drill",
+     "Muck spreader"
+    ]
+   },
+   {
+    "q": "A tightly packed block of hay or straw",
+    "right": "Bale",
+    "wrong": [
+     "Stook",
+     "Rick",
+     "Clamp"
+    ]
+   },
+   {
+    "q": "Turns over the soil before sowing",
+    "right": "Plough",
+    "wrong": [
+     "Baler",
+     "Scythe",
+     "Sickle"
+    ]
+   },
+   {
+    "q": "A male sheep",
+    "right": "Ram",
+    "wrong": [
+     "Ewe",
+     "Nanny",
+     "Hind"
+    ]
+   },
+   {
+    "q": "Clipping the wool off the sheep in early summer",
+    "right": "Shearing",
+    "wrong": [
+     "Dipping",
+     "Docking",
+     "Drenching"
+    ]
+   },
+   {
+    "q": "The dog breed famous for rounding up sheep",
+    "right": "Border Collie",
+    "wrong": [
+     "Labrador",
+     "Beagle",
+     "Dachshund"
+    ]
+   },
+   {
+    "q": "A field left unplanted for a season to rest",
+    "right": "Fallow",
+    "wrong": [
+     "Headland",
+     "Stubble",
+     "Paddock"
+    ]
+   },
+   {
+    "q": "The long, straight trench cut by a plough",
+    "right": "Furrow",
+    "wrong": [
+     "Hedgerow",
+     "Dyke",
+     "Verge"
+    ]
+   },
+   {
+    "q": "Where the cows are milked",
+    "right": "Milking parlour",
+    "wrong": [
+     "Granary",
+     "Tack room",
+     "Lambing shed"
+    ]
+   },
+   {
+    "q": "Pickled grass fed to cattle in winter, stored under black plastic",
+    "right": "Silage",
+    "wrong": [
+     "Mulch",
+     "Compost",
+     "Bran"
+    ]
+   },
+   {
+    "q": "A tall tower that stores grain",
+    "right": "Silo",
+    "wrong": [
+     "Windmill",
+     "Water tower",
+     "Oast house"
+    ]
+   },
+   {
+    "q": "A female pig",
+    "right": "Sow",
+    "wrong": [
+     "Ewe",
+     "Doe",
+     "Hen"
+    ]
+   },
+   {
+    "q": "A baby horse",
+    "right": "Foal",
+    "wrong": [
+     "Calf",
+     "Kid",
+     "Cub"
+    ]
+   },
+   {
+    "q": "Steps that let walkers over a fence, but not the sheep",
+    "right": "Stile",
+    "wrong": [
+     "Lychgate",
+     "Turnstile",
+     "Portcullis"
+    ]
+   },
+   {
+    "q": "Metal bars across a road that cattle won't walk over",
+    "right": "Cattle grid",
+    "wrong": [
+     "Cattle crush",
+     "Turnstile",
+     "Speed bump"
+    ]
+   },
+   {
+    "q": "The upper floor of a barn, where the hay is kept",
+    "right": "Hayloft",
+    "wrong": [
+     "Cellar",
+     "Pantry",
+     "Scullery"
+    ]
+   },
+   {
+    "q": "Stands in the field in old clothes to frighten off the birds",
+    "right": "Scarecrow",
+    "wrong": [
+     "Dummy",
+     "Effigy",
+     "Totem"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this army word?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "army",
+   "military",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The rank with three stripes on the sleeve",
+    "right": "Sergeant",
+    "wrong": [
+     "Corporal",
+     "Lance corporal",
+     "Major"
+    ]
+   },
+   {
+    "q": "The lowest rank of soldier",
+    "right": "Private",
+    "wrong": [
+     "Colonel",
+     "Captain",
+     "Major"
+    ]
+   },
+   {
+    "q": "The buildings where soldiers live",
+    "right": "Barracks",
+    "wrong": [
+     "Armoury",
+     "Arsenal",
+     "Magazine"
+    ]
+   },
+   {
+    "q": "The blade fixed to the end of a rifle",
+    "right": "Bayonet",
+    "wrong": [
+     "Cutlass",
+     "Sabre",
+     "Dagger"
+    ]
+   },
+   {
+    "q": "Patterned clothing that blends into the background",
+    "right": "Camouflage",
+    "wrong": [
+     "Tunic",
+     "Epaulette",
+     "Puttees"
+    ]
+   },
+   {
+    "q": "The soldier standing guard at the gate",
+    "right": "Sentry",
+    "wrong": [
+     "Scout",
+     "Sniper",
+     "Batman"
+    ]
+   },
+   {
+    "q": "Where soldiers eat together",
+    "right": "Mess",
+    "wrong": [
+     "Guardroom",
+     "Armoury",
+     "Bunker"
+    ]
+   },
+   {
+    "q": "A hand raised to the forehead to greet an officer",
+    "right": "Salute",
+    "wrong": [
+     "Bow",
+     "Wave",
+     "Curtsey"
+    ]
+   },
+   {
+    "q": "A newly signed-up soldier",
+    "right": "Recruit",
+    "wrong": [
+     "Veteran",
+     "Reservist",
+     "Mercenary"
+    ]
+   },
+   {
+    "q": "A permanent army unit with its own badge and history, like the Coldstream Guards",
+    "right": "Regiment",
+    "wrong": [
+     "Squad",
+     "Section",
+     "Fireteam"
+    ]
+   },
+   {
+    "q": "A unit of about 30 soldiers led by a lieutenant",
+    "right": "Platoon",
+    "wrong": [
+     "Battalion",
+     "Division",
+     "Brigade"
+    ]
+   },
+   {
+    "q": "The bugle call that wakes the soldiers in the morning",
+    "right": "Reveille",
+    "wrong": [
+     "Last Post",
+     "Tattoo",
+     "Retreat"
+    ]
+   },
+   {
+    "q": "The letters for a soldier who's gone missing without permission",
+    "right": "AWOL",
+    "wrong": [
+     "POW",
+     "NCO",
+     "RSM"
+    ]
+   },
+   {
+    "q": "Soldiers who fight on foot",
+    "right": "Infantry",
+    "wrong": [
+     "Cavalry",
+     "Artillery",
+     "Signals"
+    ]
+   },
+   {
+    "q": "A long ditch dug to shelter soldiers on the Western Front",
+    "right": "Trench",
+    "wrong": [
+     "Moat",
+     "Rampart",
+     "Palisade"
+    ]
+   },
+   {
+    "q": "The soldier who treats the wounded on the battlefield",
+    "right": "Medic",
+    "wrong": [
+     "Padre",
+     "Gunner",
+     "Signaller"
+    ]
+   },
+   {
+    "q": "The officer in charge of supplies and stores",
+    "right": "Quartermaster",
+    "wrong": [
+     "Adjutant",
+     "Provost",
+     "Chaplain"
+    ]
+   },
+   {
+    "q": "An army engineer who builds bridges and clears mines",
+    "right": "Sapper",
+    "wrong": [
+     "Gunner",
+     "Rifleman",
+     "Drummer"
+    ]
+   },
+   {
+    "q": "The big open square where soldiers drill and march",
+    "right": "Parade ground",
+    "wrong": [
+     "Firing range",
+     "Assault course",
+     "Helipad"
+    ]
+   },
+   {
+    "q": "Metal discs worn round a soldier's neck to identify them",
+    "right": "Dog tags",
+    "wrong": [
+     "Medals",
+     "Insignia",
+     "Epaulettes"
+    ]
+   }
+  ]
+ }
+]
