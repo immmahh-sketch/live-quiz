@@ -1,0 +1,390 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this school word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "school",
+   "words",
+   "nostalgia"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Being kept behind after school as a punishment",
+    "right": "Detention",
+    "wrong": [
+     "Lines",
+     "Exclusion",
+     "Expulsion"
+    ]
+   },
+   {
+    "q": "Taken first thing each morning to check who's in",
+    "right": "Register",
+    "wrong": [
+     "Open day",
+     "Year group",
+     "Key stage"
+    ]
+   },
+   {
+    "q": "An older pupil given a badge and the power to keep order",
+    "right": "Prefect",
+    "wrong": [
+     "Governor",
+     "Bursar",
+     "Caretaker"
+    ]
+   },
+   {
+    "q": "The top pupil, chosen to lead the prefects",
+    "right": "Head boy",
+    "wrong": [
+     "Governor",
+     "Bursar",
+     "Deputy head"
+    ]
+   },
+   {
+    "q": "Where pupils buy sweets and snacks at break",
+    "right": "Tuck shop",
+    "wrong": [
+     "Staff room",
+     "Lunchbox",
+     "Pencil case"
+    ]
+   },
+   {
+    "q": "Skipping school without permission",
+    "right": "Truanting",
+    "wrong": [
+     "Exclusion",
+     "Expulsion",
+     "Lines"
+    ]
+   },
+   {
+    "q": "The whole school gathers in the hall for notices and a hymn",
+    "right": "Assembly",
+    "wrong": [
+     "Speech day",
+     "Open day",
+     "Prize-giving"
+    ]
+   },
+   {
+    "q": "A stand-in teacher who covers when yours is off",
+    "right": "Supply teacher",
+    "wrong": [
+     "Teaching assistant",
+     "Head of year",
+     "Deputy head"
+    ]
+   },
+   {
+    "q": "A week off in the middle of a term",
+    "right": "Half term",
+    "wrong": [
+     "Key stage",
+     "Year group",
+     "Open day"
+    ]
+   },
+   {
+    "q": "A day when the pupils stay home while the teachers have training",
+    "right": "Inset day",
+    "wrong": [
+     "Open day",
+     "Speech day",
+     "Field trip"
+    ]
+   },
+   {
+    "q": "She visited classes to check heads for lice",
+    "right": "Nit nurse",
+    "wrong": [
+     "Caretaker",
+     "Bursar",
+     "Governor"
+    ]
+   },
+   {
+    "q": "The inspectors who grade schools in England",
+    "right": "Ofsted",
+    "wrong": [
+     "SATs",
+     "Key stage",
+     "Year group"
+    ]
+   },
+   {
+    "q": "Sent home at the end of the year with every teacher's comments",
+    "right": "School report",
+    "wrong": [
+     "Prize-giving",
+     "Open day",
+     "Key stage"
+    ]
+   },
+   {
+    "q": "Serves lunches and keeps an eye on the playground at dinnertime",
+    "right": "Dinner lady",
+    "wrong": [
+     "Caretaker",
+     "Bursar",
+     "Teaching assistant"
+    ]
+   },
+   {
+    "q": "Helps children cross the road outside school with a big round sign",
+    "right": "Lollipop lady",
+    "wrong": [
+     "Caretaker",
+     "Bursar",
+     "Governor"
+    ]
+   },
+   {
+    "q": "Egg-and-spoon and sack races on the field in summer",
+    "right": "Sports day",
+    "wrong": [
+     "Speech day",
+     "Open day",
+     "Field trip"
+    ]
+   },
+   {
+    "q": "The teacher who takes your register and looks after your class each morning",
+    "right": "Form tutor",
+    "wrong": [
+     "Bursar",
+     "Governor",
+     "Teaching assistant"
+    ]
+   },
+   {
+    "q": "A leather school bag with a flap and a shoulder strap",
+    "right": "Satchel",
+    "wrong": [
+     "Pencil case",
+     "Lunchbox",
+     "Blazer"
+    ]
+   },
+   {
+    "q": "Practice exams before the real GCSEs",
+    "right": "Mocks",
+    "wrong": [
+     "SATs",
+     "Key stage",
+     "Field trip"
+    ]
+   },
+   {
+    "q": "When mums and dads come in to hear how you're getting on",
+    "right": "Parents' evening",
+    "wrong": [
+     "Open day",
+     "Speech day",
+     "Prize-giving"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which coffee is this?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "coffee",
+   "drinks",
+   "cafés"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A small, strong shot forced through finely ground coffee under pressure",
+    "right": "Espresso",
+    "wrong": [
+     "Red eye",
+     "Bicerin",
+     "Kopi luwak"
+    ]
+   },
+   {
+    "q": "Espresso topped up with lots of steamed milk and a thin layer of foam",
+    "right": "Latte",
+    "wrong": [
+     "Bicerin",
+     "Marocchino",
+     "Antoccino"
+    ]
+   },
+   {
+    "q": "Espresso with steamed milk and a thick cap of foam, often dusted with chocolate",
+    "right": "Cappuccino",
+    "wrong": [
+     "Bicerin",
+     "Breve",
+     "Vienna coffee"
+    ]
+   },
+   {
+    "q": "An Australian and New Zealand favourite: a double shot with a thin layer of velvety milk",
+    "right": "Flat white",
+    "wrong": [
+     "Red eye",
+     "Bicerin",
+     "Vienna coffee"
+    ]
+   },
+   {
+    "q": "Espresso topped up with hot water, said to be named after American soldiers in Italy",
+    "right": "Americano",
+    "wrong": [
+     "Red eye",
+     "Café bombón",
+     "Vienna coffee"
+    ]
+   },
+   {
+    "q": "Espresso 'stained' with just a dash of milk foam",
+    "right": "Macchiato",
+    "wrong": [
+     "Bicerin",
+     "Breve",
+     "Café bombón"
+    ]
+   },
+   {
+    "q": "A latte with chocolate added",
+    "right": "Mocha",
+    "wrong": [
+     "Breve",
+     "Red eye",
+     "Vienna coffee"
+    ]
+   },
+   {
+    "q": "Spanish espresso 'cut' with a roughly equal amount of warm milk",
+    "right": "Cortado",
+    "wrong": [
+     "Café bombón",
+     "Red eye",
+     "Vienna coffee"
+    ]
+   },
+   {
+    "q": "A scoop of vanilla ice cream 'drowned' in a shot of espresso",
+    "right": "Affogato",
+    "wrong": [
+     "Café bombón",
+     "Vienna coffee",
+     "Marocchino"
+    ]
+   },
+   {
+    "q": "Hot coffee, whiskey and sugar with cream floated on top",
+    "right": "Irish coffee",
+    "wrong": [
+     "Café bombón",
+     "Vienna coffee",
+     "Red eye"
+    ]
+   },
+   {
+    "q": "A 'restricted' espresso made with less water, so it's even stronger",
+    "right": "Ristretto",
+    "wrong": [
+     "Red eye",
+     "Breve",
+     "Café bombón"
+    ]
+   },
+   {
+    "q": "A 'long' espresso, pulled with more water",
+    "right": "Lungo",
+    "wrong": [
+     "Red eye",
+     "Breve",
+     "Antoccino"
+    ]
+   },
+   {
+    "q": "A double shot of espresso",
+    "right": "Doppio",
+    "wrong": [
+     "Red eye",
+     "Breve",
+     "Antoccino"
+    ]
+   },
+   {
+    "q": "Very fine coffee boiled in a little long-handled pot and served with the grounds still in",
+    "right": "Turkish coffee",
+    "wrong": [
+     "Kopi luwak",
+     "Vienna coffee",
+     "Café bombón"
+    ]
+   },
+   {
+    "q": "French breakfast coffee: brewed coffee and hot milk half and half, often in a bowl",
+    "right": "Café au lait",
+    "wrong": [
+     "Café bombón",
+     "Vienna coffee",
+     "Red eye"
+    ]
+   },
+   {
+    "q": "Frothy warm milk with chocolate on top, made for children",
+    "right": "Babyccino",
+    "wrong": [
+     "Antoccino",
+     "Breve",
+     "Marocchino"
+    ]
+   },
+   {
+    "q": "Coffee with the caffeine taken out",
+    "right": "Decaf",
+    "wrong": [
+     "Kopi luwak",
+     "Red eye",
+     "Breve"
+    ]
+   },
+   {
+    "q": "Grounds steeped in cold water for many hours",
+    "right": "Cold brew",
+    "wrong": [
+     "Red eye",
+     "Breve",
+     "Kopi luwak"
+    ]
+   },
+   {
+    "q": "Starbucks' blended iced coffee drink, topped with whipped cream",
+    "right": "Frappuccino",
+    "wrong": [
+     "Antoccino",
+     "Marocchino",
+     "Breve"
+    ]
+   },
+   {
+    "q": "The whipped coffee that went viral during the 2020 lockdown",
+    "right": "Dalgona coffee",
+    "wrong": [
+     "Antoccino",
+     "Bicerin",
+     "Café bombón"
+    ]
+   }
+  ]
+ }
+]
