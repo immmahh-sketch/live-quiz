@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each film to the number of Oscars it won",
+  "pairs": [
+   {
+    "left": "Titanic",
+    "right": "11"
+   },
+   {
+    "left": "Slumdog Millionaire",
+    "right": "8"
+   },
+   {
+    "left": "Oppenheimer",
+    "right": "7"
+   },
+   {
+    "left": "Gladiator",
+    "right": "5"
+   }
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "match",
+  "text": "Match each British actor to the film that won him Best Actor",
+  "pairs": [
+   {
+    "left": "Eddie Redmayne",
+    "right": "The Theory of Everything"
+   },
+   {
+    "left": "Gary Oldman",
+    "right": "Darkest Hour"
+   },
+   {
+    "left": "Colin Firth",
+    "right": "The King's Speech"
+   },
+   {
+    "left": "Daniel Day-Lewis",
+    "right": "Lincoln"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

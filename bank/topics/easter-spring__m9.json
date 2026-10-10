@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Easter food to the story behind it",
+  "pairs": [
+   {
+    "left": "Hot cross buns",
+    "right": "The cross of Good Friday"
+   },
+   {
+    "left": "Simnel cake",
+    "right": "Eleven marzipan balls for the apostles"
+   },
+   {
+    "left": "Easter eggs",
+    "right": "New life"
+   },
+   {
+    "left": "Pancakes",
+    "right": "Using up rich food before Lent"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each spring baby animal to its parent",
+  "pairs": [
+   {
+    "left": "Lamb",
+    "right": "Sheep"
+   },
+   {
+    "left": "Kid",
+    "right": "Goat"
+   },
+   {
+    "left": "Leveret",
+    "right": "Hare"
+   },
+   {
+    "left": "Cygnet",
+    "right": "Swan"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each boss to their workplace",
+  "pairs": [
+   {
+    "left": "David Brent",
+    "right": "Wernham Hogg"
+   },
+   {
+    "left": "Michael Scott",
+    "right": "Dunder Mifflin"
+   },
+   {
+    "left": "Mr Burns",
+    "right": "Springfield Nuclear Power Plant"
+   },
+   {
+    "left": "Captain Holt",
+    "right": "Brooklyn's 99th Precinct"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each workplace sitcom to its star",
+  "pairs": [
+   {
+    "left": "Black Books",
+    "right": "Dylan Moran"
+   },
+   {
+    "left": "The IT Crowd",
+    "right": "Chris O'Dowd"
+   },
+   {
+    "left": "Phoenix Nights",
+    "right": "Peter Kay"
+   },
+   {
+    "left": "Open All Hours",
+    "right": "Ronnie Barker"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

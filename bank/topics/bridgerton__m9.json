@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Bridgerton sibling to the one they fall for",
+  "pairs": [
+   {
+    "left": "Daphne",
+    "right": "Simon Basset"
+   },
+   {
+    "left": "Anthony",
+    "right": "Kate Sharma"
+   },
+   {
+    "left": "Colin",
+    "right": "Penelope Featherington"
+   },
+   {
+    "left": "Benedict",
+    "right": "Sophie Baek"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each Bridgerton sibling to their place in the family",
+  "pairs": [
+   {
+    "left": "Anthony",
+    "right": "Eldest"
+   },
+   {
+    "left": "Benedict",
+    "right": "Second"
+   },
+   {
+    "left": "Colin",
+    "right": "Third"
+   },
+   {
+    "left": "Daphne",
+    "right": "Fourth"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

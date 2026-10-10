@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Stark child to the actor who played them",
+  "pairs": [
+   {
+    "left": "Arya",
+    "right": "Maisie Williams"
+   },
+   {
+    "left": "Sansa",
+    "right": "Sophie Turner"
+   },
+   {
+    "left": "Bran",
+    "right": "Isaac Hempstead Wright"
+   },
+   {
+    "left": "Robb",
+    "right": "Richard Madden"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each castle to its region of Westeros",
+  "pairs": [
+   {
+    "left": "Winterfell",
+    "right": "The North"
+   },
+   {
+    "left": "Casterly Rock",
+    "right": "The Westerlands"
+   },
+   {
+    "left": "Highgarden",
+    "right": "The Reach"
+   },
+   {
+    "left": "Sunspear",
+    "right": "Dorne"
+   }
+  ],
+  "difficulty": "hard"
+ }
+]

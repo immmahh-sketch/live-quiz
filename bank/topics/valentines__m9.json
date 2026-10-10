@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each love song to its singer",
+  "pairs": [
+   {
+    "left": "I Will Always Love You",
+    "right": "Whitney Houston"
+   },
+   {
+    "left": "Something Stupid",
+    "right": "Frank and Nancy Sinatra"
+   },
+   {
+    "left": "Endless Love",
+    "right": "Diana Ross and Lionel Richie"
+   },
+   {
+    "left": "Perfect",
+    "right": "Ed Sheeran"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each famous lover to their beloved",
+  "pairs": [
+   {
+    "left": "Romeo",
+    "right": "Juliet"
+   },
+   {
+    "left": "Heathcliff",
+    "right": "Cathy"
+   },
+   {
+    "left": "Lancelot",
+    "right": "Guinevere"
+   },
+   {
+    "left": "Antony",
+    "right": "Cleopatra"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

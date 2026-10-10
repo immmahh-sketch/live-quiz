@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each I'm a Celebrity winner to their year",
+  "pairs": [
+   {
+    "left": "Kerry Katona",
+    "right": "2004"
+   },
+   {
+    "left": "Joe Swash",
+    "right": "2008"
+   },
+   {
+    "left": "Stacey Solomon",
+    "right": "2010"
+   },
+   {
+    "left": "Jill Scott",
+    "right": "2022"
+   }
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "match",
+  "text": "Match each Big Brother winner to their year",
+  "pairs": [
+   {
+    "left": "Craig Phillips",
+    "right": "2000"
+   },
+   {
+    "left": "Brian Dowling",
+    "right": "2001"
+   },
+   {
+    "left": "Kate Lawler",
+    "right": "2002"
+   },
+   {
+    "left": "Nadia Almada",
+    "right": "2004"
+   }
+  ],
+  "difficulty": "hard"
+ }
+]

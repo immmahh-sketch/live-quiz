@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each city to how it famously sees in the New Year",
+  "pairs": [
+   {
+    "left": "Sydney",
+    "right": "Fireworks over the Harbour Bridge"
+   },
+   {
+    "left": "New York",
+    "right": "The ball drop in Times Square"
+   },
+   {
+    "left": "London",
+    "right": "Big Ben's chimes and fireworks on the Thames"
+   },
+   {
+    "left": "Edinburgh",
+    "right": "A Hogmanay street party"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each New Year song to its writer or singer",
+  "pairs": [
+   {
+    "left": "Auld Lang Syne",
+    "right": "Robert Burns"
+   },
+   {
+    "left": "Happy New Year",
+    "right": "ABBA"
+   },
+   {
+    "left": "New Year's Day",
+    "right": "U2"
+   },
+   {
+    "left": "What Are You Doing New Year's Eve?",
+    "right": "Ella Fitzgerald"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

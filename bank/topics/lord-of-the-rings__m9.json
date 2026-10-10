@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Lord of the Rings character to the actor",
+  "pairs": [
+   {
+    "left": "Gandalf",
+    "right": "Ian McKellen"
+   },
+   {
+    "left": "Frodo",
+    "right": "Elijah Wood"
+   },
+   {
+    "left": "Aragorn",
+    "right": "Viggo Mortensen"
+   },
+   {
+    "left": "Gollum",
+    "right": "Andy Serkis"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each fantasy creature to the book it appears in",
+  "pairs": [
+   {
+    "left": "Aslan",
+    "right": "The Lion, the Witch and the Wardrobe"
+   },
+   {
+    "left": "Smaug",
+    "right": "The Hobbit"
+   },
+   {
+    "left": "Buckbeak",
+    "right": "Harry Potter and the Prisoner of Azkaban"
+   },
+   {
+    "left": "Falkor",
+    "right": "The NeverEnding Story"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

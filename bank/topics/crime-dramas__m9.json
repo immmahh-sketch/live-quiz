@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each detective to their sidekick",
+  "pairs": [
+   {
+    "left": "Inspector Morse",
+    "right": "Lewis"
+   },
+   {
+    "left": "Sherlock Holmes",
+    "right": "Dr Watson"
+   },
+   {
+    "left": "Hercule Poirot",
+    "right": "Captain Hastings"
+   },
+   {
+    "left": "Dalziel",
+    "right": "Pascoe"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each crime drama to its leading lady",
+  "pairs": [
+   {
+    "left": "Prime Suspect",
+    "right": "Helen Mirren"
+   },
+   {
+    "left": "Happy Valley",
+    "right": "Sarah Lancashire"
+   },
+   {
+    "left": "Vera",
+    "right": "Brenda Blethyn"
+   },
+   {
+    "left": "The Fall",
+    "right": "Gillian Anderson"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]
