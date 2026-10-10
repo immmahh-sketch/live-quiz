@@ -1,0 +1,774 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which country calls itself this?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "countries",
+   "native names"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Deutschland",
+    "right": "Germany",
+    "wrong": [
+     "Denmark",
+     "the Netherlands",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "España",
+    "right": "Spain",
+    "wrong": [
+     "Portugal",
+     "Andorra",
+     "Italy"
+    ]
+   },
+   {
+    "q": "Nippon",
+    "right": "Japan",
+    "wrong": [
+     "South Korea",
+     "Taiwan",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "Suomi",
+    "right": "Finland",
+    "wrong": [
+     "Iceland",
+     "Denmark",
+     "Latvia"
+    ]
+   },
+   {
+    "q": "Hellas",
+    "right": "Greece",
+    "wrong": [
+     "Cyprus",
+     "Malta",
+     "Bulgaria"
+    ]
+   },
+   {
+    "q": "Hrvatska",
+    "right": "Croatia",
+    "wrong": [
+     "Slovenia",
+     "Serbia",
+     "Slovakia"
+    ]
+   },
+   {
+    "q": "Magyarország",
+    "right": "Hungary",
+    "wrong": [
+     "Mongolia",
+     "Romania",
+     "Slovakia"
+    ]
+   },
+   {
+    "q": "Sverige",
+    "right": "Sweden",
+    "wrong": [
+     "Denmark",
+     "Iceland",
+     "Serbia"
+    ]
+   },
+   {
+    "q": "Norge",
+    "right": "Norway",
+    "wrong": [
+     "Denmark",
+     "Iceland",
+     "the Netherlands"
+    ]
+   },
+   {
+    "q": "Polska",
+    "right": "Poland",
+    "wrong": [
+     "Portugal",
+     "Slovakia",
+     "Czechia"
+    ]
+   },
+   {
+    "q": "Shqipëri",
+    "right": "Albania",
+    "wrong": [
+     "Slovenia",
+     "North Macedonia",
+     "Montenegro"
+    ]
+   },
+   {
+    "q": "Eesti",
+    "right": "Estonia",
+    "wrong": [
+     "Latvia",
+     "Lithuania",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Cymru",
+    "right": "Wales",
+    "wrong": [
+     "Cornwall",
+     "Scotland",
+     "Cyprus"
+    ]
+   },
+   {
+    "q": "Éire",
+    "right": "Ireland",
+    "wrong": [
+     "Scotland",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Österreich",
+    "right": "Austria",
+    "wrong": [
+     "Australia",
+     "Denmark",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "Helvetia (on its stamps and coins)",
+    "right": "Switzerland",
+    "wrong": [
+     "Belgium",
+     "Liechtenstein",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Bharat",
+    "right": "India",
+    "wrong": [
+     "Bhutan",
+     "Bangladesh",
+     "Nepal"
+    ]
+   },
+   {
+    "q": "Misr",
+    "right": "Egypt",
+    "wrong": [
+     "Morocco",
+     "Iraq",
+     "Tunisia"
+    ]
+   },
+   {
+    "q": "Zhongguo",
+    "right": "China",
+    "wrong": [
+     "Taiwan",
+     "Mongolia",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "Sakartvelo",
+    "right": "Georgia",
+    "wrong": [
+     "Armenia",
+     "Azerbaijan",
+     "Kazakhstan"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which language says 'thank you' like this?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "languages",
+   "thank you"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Arigatō",
+    "right": "Japanese",
+    "wrong": [
+     "Thai",
+     "Indonesian",
+     "Tagalog"
+    ]
+   },
+   {
+    "q": "Xièxie",
+    "right": "Mandarin",
+    "wrong": [
+     "Cantonese",
+     "Thai",
+     "Tagalog"
+    ]
+   },
+   {
+    "q": "Kamsahamnida",
+    "right": "Korean",
+    "wrong": [
+     "Thai",
+     "Mongolian",
+     "Tagalog"
+    ]
+   },
+   {
+    "q": "Spasibo",
+    "right": "Russian",
+    "wrong": [
+     "Ukrainian",
+     "Czech",
+     "Bulgarian"
+    ]
+   },
+   {
+    "q": "Dziękuję",
+    "right": "Polish",
+    "wrong": [
+     "Czech",
+     "Slovak",
+     "Ukrainian"
+    ]
+   },
+   {
+    "q": "Tack",
+    "right": "Swedish",
+    "wrong": [
+     "Icelandic",
+     "Estonian",
+     "German"
+    ]
+   },
+   {
+    "q": "Takk",
+    "right": "Norwegian",
+    "wrong": [
+     "Estonian",
+     "German",
+     "Latvian"
+    ]
+   },
+   {
+    "q": "Tak",
+    "right": "Danish",
+    "wrong": [
+     "Polish (where it means 'yes')",
+     "Estonian",
+     "Latvian"
+    ]
+   },
+   {
+    "q": "Kiitos",
+    "right": "Finnish",
+    "wrong": [
+     "Estonian",
+     "Latvian",
+     "Lithuanian"
+    ]
+   },
+   {
+    "q": "Efcharistó",
+    "right": "Greek",
+    "wrong": [
+     "Italian",
+     "Romanian",
+     "Maltese"
+    ]
+   },
+   {
+    "q": "Teşekkürler",
+    "right": "Turkish",
+    "wrong": [
+     "Persian",
+     "Kurdish",
+     "Armenian"
+    ]
+   },
+   {
+    "q": "Shukran",
+    "right": "Arabic",
+    "wrong": [
+     "Persian",
+     "Amharic",
+     "Somali"
+    ]
+   },
+   {
+    "q": "Toda",
+    "right": "Hebrew",
+    "wrong": [
+     "Amharic",
+     "Maltese",
+     "Persian"
+    ]
+   },
+   {
+    "q": "Dhanyavaad",
+    "right": "Hindi",
+    "wrong": [
+     "Tamil",
+     "Urdu",
+     "Sinhala"
+    ]
+   },
+   {
+    "q": "Asante",
+    "right": "Swahili",
+    "wrong": [
+     "Zulu",
+     "Yoruba",
+     "Amharic"
+    ]
+   },
+   {
+    "q": "Diolch",
+    "right": "Welsh",
+    "wrong": [
+     "Irish",
+     "Scottish Gaelic",
+     "Cornish"
+    ]
+   },
+   {
+    "q": "Köszönöm",
+    "right": "Hungarian",
+    "wrong": [
+     "Romanian",
+     "Czech",
+     "Slovak"
+    ]
+   },
+   {
+    "q": "Dank je",
+    "right": "Dutch",
+    "wrong": [
+     "German",
+     "Afrikaans",
+     "Luxembourgish"
+    ]
+   },
+   {
+    "q": "Mahalo",
+    "right": "Hawaiian",
+    "wrong": [
+     "Maori",
+     "Samoan",
+     "Tongan"
+    ]
+   },
+   {
+    "q": "Cảm ơn",
+    "right": "Vietnamese",
+    "wrong": [
+     "Thai",
+     "Khmer",
+     "Lao"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's the biggest city in this country?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "cities",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Australia",
+    "right": "Sydney",
+    "wrong": [
+     "Melbourne",
+     "Canberra",
+     "Brisbane"
+    ]
+   },
+   {
+    "q": "Canada",
+    "right": "Toronto",
+    "wrong": [
+     "Montreal",
+     "Vancouver",
+     "Ottawa"
+    ]
+   },
+   {
+    "q": "The USA",
+    "right": "New York City",
+    "wrong": [
+     "Los Angeles",
+     "Chicago",
+     "Washington, DC"
+    ]
+   },
+   {
+    "q": "Turkey",
+    "right": "Istanbul",
+    "wrong": [
+     "Ankara",
+     "Izmir",
+     "Bursa"
+    ]
+   },
+   {
+    "q": "Brazil",
+    "right": "São Paulo",
+    "wrong": [
+     "Rio de Janeiro",
+     "Brasília",
+     "Salvador"
+    ]
+   },
+   {
+    "q": "Switzerland",
+    "right": "Zurich",
+    "wrong": [
+     "Geneva",
+     "Bern",
+     "Basel"
+    ]
+   },
+   {
+    "q": "New Zealand",
+    "right": "Auckland",
+    "wrong": [
+     "Wellington",
+     "Christchurch",
+     "Hamilton"
+    ]
+   },
+   {
+    "q": "Nigeria",
+    "right": "Lagos",
+    "wrong": [
+     "Abuja",
+     "Kano",
+     "Ibadan"
+    ]
+   },
+   {
+    "q": "Pakistan",
+    "right": "Karachi",
+    "wrong": [
+     "Lahore",
+     "Islamabad",
+     "Faisalabad"
+    ]
+   },
+   {
+    "q": "South Africa",
+    "right": "Johannesburg",
+    "wrong": [
+     "Cape Town",
+     "Durban",
+     "Pretoria"
+    ]
+   },
+   {
+    "q": "Morocco",
+    "right": "Casablanca",
+    "wrong": [
+     "Rabat",
+     "Marrakesh",
+     "Fez"
+    ]
+   },
+   {
+    "q": "Vietnam",
+    "right": "Ho Chi Minh City",
+    "wrong": [
+     "Hanoi",
+     "Da Nang",
+     "Haiphong"
+    ]
+   },
+   {
+    "q": "Kazakhstan",
+    "right": "Almaty",
+    "wrong": [
+     "Astana",
+     "Shymkent",
+     "Karaganda"
+    ]
+   },
+   {
+    "q": "Tanzania",
+    "right": "Dar es Salaam",
+    "wrong": [
+     "Dodoma",
+     "Zanzibar City",
+     "Arusha"
+    ]
+   },
+   {
+    "q": "Bolivia",
+    "right": "Santa Cruz",
+    "wrong": [
+     "La Paz",
+     "Sucre",
+     "El Alto"
+    ]
+   },
+   {
+    "q": "Scotland",
+    "right": "Glasgow",
+    "wrong": [
+     "Edinburgh",
+     "Aberdeen",
+     "Dundee"
+    ]
+   },
+   {
+    "q": "Wales",
+    "right": "Cardiff",
+    "wrong": [
+     "Swansea",
+     "Newport",
+     "Wrexham"
+    ]
+   },
+   {
+    "q": "Germany",
+    "right": "Berlin",
+    "wrong": [
+     "Hamburg",
+     "Munich",
+     "Frankfurt"
+    ]
+   },
+   {
+    "q": "Italy",
+    "right": "Rome",
+    "wrong": [
+     "Milan",
+     "Naples",
+     "Turin"
+    ]
+   },
+   {
+    "q": "Spain",
+    "right": "Madrid",
+    "wrong": [
+     "Barcelona",
+     "Valencia",
+     "Seville"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this canal in?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "canals",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The Panama Canal",
+    "right": "Panama",
+    "wrong": [
+     "Colombia",
+     "Costa Rica",
+     "Nicaragua"
+    ]
+   },
+   {
+    "q": "The Suez Canal",
+    "right": "Egypt",
+    "wrong": [
+     "Israel",
+     "Jordan",
+     "Saudi Arabia"
+    ]
+   },
+   {
+    "q": "The Kiel Canal",
+    "right": "Germany",
+    "wrong": [
+     "Denmark",
+     "Poland",
+     "Austria"
+    ]
+   },
+   {
+    "q": "The Corinth Canal",
+    "right": "Greece",
+    "wrong": [
+     "Cyprus",
+     "Turkey",
+     "Malta"
+    ]
+   },
+   {
+    "q": "The Canal du Midi",
+    "right": "France",
+    "wrong": [
+     "Monaco",
+     "Switzerland",
+     "Andorra"
+    ]
+   },
+   {
+    "q": "The Grand Canal from Beijing to Hangzhou",
+    "right": "China",
+    "wrong": [
+     "Japan",
+     "Vietnam",
+     "Taiwan"
+    ]
+   },
+   {
+    "q": "The Rideau Canal",
+    "right": "Canada",
+    "wrong": [
+     "Mexico",
+     "Iceland",
+     "Greenland"
+    ]
+   },
+   {
+    "q": "The Erie Canal",
+    "right": "the USA",
+    "wrong": [
+     "Mexico",
+     "Greenland",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "The Göta Canal",
+    "right": "Sweden",
+    "wrong": [
+     "Denmark",
+     "Iceland",
+     "Estonia"
+    ]
+   },
+   {
+    "q": "The Caledonian Canal",
+    "right": "Scotland",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "The Manchester Ship Canal",
+    "right": "England",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "The Pontcysyllte Aqueduct",
+    "right": "Wales",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Cornwall"
+    ]
+   },
+   {
+    "q": "Venice's Grand Canal",
+    "right": "Italy",
+    "wrong": [
+     "Croatia",
+     "Malta",
+     "Slovenia"
+    ]
+   },
+   {
+    "q": "Amsterdam's canal ring",
+    "right": "the Netherlands",
+    "wrong": [
+     "Denmark",
+     "Luxembourg",
+     "Austria"
+    ]
+   },
+   {
+    "q": "The White Sea–Baltic Canal",
+    "right": "Russia",
+    "wrong": [
+     "Ukraine",
+     "Belarus",
+     "Estonia"
+    ]
+   },
+   {
+    "q": "The Telemark Canal",
+    "right": "Norway",
+    "wrong": [
+     "Denmark",
+     "Iceland",
+     "Estonia"
+    ]
+   },
+   {
+    "q": "The Danube–Black Sea Canal",
+    "right": "Romania",
+    "wrong": [
+     "Bulgaria",
+     "Serbia",
+     "Ukraine"
+    ]
+   },
+   {
+    "q": "The Royal Canal, Dublin",
+    "right": "Ireland",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Bruges's canals",
+    "right": "Belgium",
+    "wrong": [
+     "Luxembourg",
+     "Denmark",
+     "Austria"
+    ]
+   },
+   {
+    "q": "The Canal de Castilla",
+    "right": "Spain",
+    "wrong": [
+     "Portugal",
+     "Andorra",
+     "Malta"
+    ]
+   }
+  ]
+ }
+]
