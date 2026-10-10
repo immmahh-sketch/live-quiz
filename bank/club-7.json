@@ -1,0 +1,317 @@
+[
+ {
+  "type": "club",
+  "text": "Multiply any number at all by zero. What do you get?",
+  "answers": [
+   "0",
+   "Zero",
+   "Nothing"
+  ],
+  "pct": 90,
+  "why": "Anything times zero is zero.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "multiplying"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Ben has 3 apples and buys a dozen more. How many apples does he have now?",
+  "answers": [
+   "15",
+   "Fifteen"
+  ],
+  "pct": 90,
+  "why": "A dozen is 12, and 3 + 12 = 15.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "apples",
+   "adding"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "How many legs do two spiders and two ants have between them?",
+  "answers": [
+   "28",
+   "Twenty-eight"
+  ],
+  "pct": 80,
+  "why": "Spiders have 8 legs and ants have 6: 16 + 12 = 28.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "legs",
+   "insects"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Skipping one letter each time: A, C, E, G. Which letter follows?",
+  "answers": [
+   "I"
+  ],
+  "pct": 80,
+  "why": "A (b) C (d) E (f) G (h) I.",
+  "difficulty": "easy",
+  "category": "Wordplay",
+  "tags": [
+   "patterns",
+   "letters"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "How many hours are there in three whole days?",
+  "answers": [
+   "72",
+   "Seventy-two"
+  ],
+  "pct": 70,
+  "why": "24 × 3 = 72.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "time"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "At exactly three o'clock, what angle do a clock's two hands make?",
+  "answers": [
+   "90",
+   "90 degrees",
+   "A right angle"
+  ],
+  "pct": 60,
+  "why": "A quarter of the way round the face: 360 ÷ 4 = 90.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "clocks",
+   "angles"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Fill the gap in this run of numbers, each 4 apart: 3, 7, 11, __, 19",
+  "answers": [
+   "15",
+   "Fifteen"
+  ],
+  "pct": 50,
+  "why": "11 + 4 = 15, and 15 + 4 = 19.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "patterns"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "From midnight to midnight, how many minutes tick by?",
+  "answers": [
+   "1440",
+   "1,440"
+  ],
+  "pct": 40,
+  "why": "60 minutes × 24 hours = 1,440.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "time"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Write RACECAR backwards. What word do you get?",
+  "answers": [
+   "Racecar",
+   "RACECAR"
+  ],
+  "pct": 40,
+  "why": "It's a palindrome: it reads the same both ways.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "palindromes"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "The gaps shrink by one each time: a hundred, 90, 81, 73. Which number follows?",
+  "answers": [
+   "66",
+   "Sixty-six"
+  ],
+  "pct": 30,
+  "why": "The gaps are 10, 9, 8, so the next is 7: 73 − 7 = 66.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "patterns"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Toss a coin three times in a row. How many different heads-and-tails sequences could you get?",
+  "answers": [
+   "8",
+   "Eight"
+  ],
+  "pct": 30,
+  "why": "Two choices each time: 2 × 2 × 2 = 8.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "coins",
+   "chance"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Sally is 10 and her sister is half her age. When Sally is 70, how old will her sister be?",
+  "answers": [
+   "65",
+   "Sixty-five"
+  ],
+  "pct": 20,
+  "why": "Her sister is 5 years younger, not half her age for ever: 70 − 5 = 65.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "ages",
+   "sisters"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What is the first prime number after 20?",
+  "answers": [
+   "23",
+   "Twenty-three"
+  ],
+  "pct": 20,
+  "why": "21 = 3 × 7 and 22 = 2 × 11, but 23 has no factors.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "prime numbers"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A train a mile long runs at a mile a minute into a tunnel a mile long. How many minutes from its front going in to its back coming out?",
+  "answers": [
+   "2",
+   "Two",
+   "2 minutes"
+  ],
+  "pct": 20,
+  "why": "The front must travel the tunnel's mile plus the train's own mile.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "trains",
+   "tunnels"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A man has three daughters, and each daughter has one brother. How many children does he have?",
+  "answers": [
+   "4",
+   "Four"
+  ],
+  "pct": 10,
+  "why": "The daughters all share the same brother: 3 girls + 1 boy.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "families"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which is bigger: 2 multiplied by itself ten times, or 10 cubed?",
+  "answers": [
+   "2 to the power 10",
+   "2^10",
+   "The first",
+   "1024",
+   "2 multiplied by itself ten times"
+  ],
+  "pct": 5,
+  "why": "2¹⁰ is 1,024, while 10³ is 1,000.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "powers"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Spelt out in English, which number has as many letters as its own value?",
+  "answers": [
+   "Four",
+   "4"
+  ],
+  "pct": 1,
+  "why": "F-O-U-R has four letters; no other number word matches itself.",
+  "difficulty": "hard",
+  "category": "Wordplay",
+  "tags": [
+   "numbers",
+   "letters"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "How many corners do a triangle and a hexagon have between them?",
+  "answers": [
+   "9",
+   "Nine"
+  ],
+  "pct": 50,
+  "why": "3 + 6 = 9.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "shapes",
+   "corners"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Rearrange the letters of STOP to spell things you cook in.",
+  "answers": [
+   "Pots"
+  ],
+  "pct": 70,
+  "why": "S-T-O-P rearranges to POTS.",
+  "difficulty": "easy",
+  "category": "Wordplay",
+  "tags": [
+   "anagrams",
+   "kitchen"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Spell out EXCELLENCE. Count its Es. What do you get?",
+  "answers": [
+   "4",
+   "Four"
+  ],
+  "pct": 30,
+  "why": "E-x-c-E-l-l-E-n-c-E: four of them.",
+  "difficulty": "hard",
+  "category": "Wordplay",
+  "tags": [
+   "spelling",
+   "letters"
+  ]
+ }
+]
