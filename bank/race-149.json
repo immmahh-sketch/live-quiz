@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this phone word?",
+  "target": 10,
+  "category": "Computers and the internet",
+  "tags": [
+   "phones",
+   "mobiles",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The tune your mobile plays when someone calls",
+    "right": "Ringtone",
+    "wrong": [
+     "Dial tone",
+     "Hold music",
+     "Engaged tone"
+    ]
+   },
+   {
+    "q": "Where callers leave a message when you don't pick up",
+    "right": "Voicemail",
+    "wrong": [
+     "Telex",
+     "Telegram",
+     "Fax"
+    ]
+   },
+   {
+    "q": "A short written message sent from one phone to another",
+    "right": "Text message",
+    "wrong": [
+     "Fax",
+     "Telex",
+     "Morse code"
+    ]
+   },
+   {
+    "q": "The tiny chip that links your phone to your network",
+    "right": "SIM card",
+    "wrong": [
+     "Fax",
+     "Dial tone",
+     "Extension"
+    ]
+   },
+   {
+    "q": "Switches off calls and data so you can use the phone on a flight",
+    "right": "Airplane mode",
+    "wrong": [
+     "Party line",
+     "Hold music",
+     "Extension"
+    ]
+   },
+   {
+    "q": "Lets everyone in the room hear the call",
+    "right": "Speakerphone",
+    "wrong": [
+     "Party line",
+     "Extension",
+     "Answerphone"
+    ]
+   },
+   {
+    "q": "The list of names and numbers saved in your phone",
+    "right": "Contacts",
+    "wrong": [
+     "Switchboard",
+     "Operator",
+     "Directory enquiries"
+    ]
+   },
+   {
+    "q": "Changes 'teh' to 'the', and sometimes something far worse",
+    "right": "Autocorrect",
+    "wrong": [
+     "Morse code",
+     "Telex",
+     "Dial tone"
+    ]
+   },
+   {
+    "q": "A display you tap and swipe with your finger",
+    "right": "Touchscreen",
+    "wrong": [
+     "Rotary dial",
+     "Pager",
+     "Telex"
+    ]
+   },
+   {
+    "q": "A mobile that folds shut, like a clam",
+    "right": "Flip phone",
+    "wrong": [
+     "Walkie-talkie",
+     "Pager",
+     "Payphone"
+    ]
+   },
+   {
+    "q": "A code or fingerprint you need to get into the phone",
+    "right": "Screen lock",
+    "wrong": [
+     "Extension",
+     "Dial tone",
+     "Hold music"
+    ]
+   },
+   {
+    "q": "A pole to hold your phone further out than your arm can reach",
+    "right": "Selfie stick",
+    "wrong": [
+     "Walkie-talkie",
+     "Pager",
+     "Aerial"
+    ]
+   },
+   {
+    "q": "Using your phone abroad on a foreign network",
+    "right": "Roaming",
+    "wrong": [
+     "Reverse charges",
+     "Party line",
+     "Directory enquiries"
+    ]
+   },
+   {
+    "q": "Topping up credit instead of having a contract",
+    "right": "Pay as you go",
+    "wrong": [
+     "Reverse charges",
+     "Party line",
+     "Hold music"
+    ]
+   },
+   {
+    "q": "Talking without holding the phone, as when you're driving",
+    "right": "Hands-free",
+    "wrong": [
+     "Party line",
+     "Extension",
+     "Hold music"
+    ]
+   },
+   {
+    "q": "Seeing each other's faces on screen while you talk",
+    "right": "Video call",
+    "wrong": [
+     "Party line",
+     "Telex",
+     "Telegram"
+    ]
+   },
+   {
+    "q": "Guesses the next word before you've typed it",
+    "right": "Predictive text",
+    "wrong": [
+     "Morse code",
+     "Telex",
+     "Shorthand"
+    ]
+   },
+   {
+    "q": "A call you didn't answer in time",
+    "right": "Missed call",
+    "wrong": [
+     "Reverse charges",
+     "Dial tone",
+     "Engaged tone"
+    ]
+   },
+   {
+    "q": "One conversation shared between lots of friends",
+    "right": "Group chat",
+    "wrong": [
+     "Party line",
+     "Switchboard",
+     "Telex"
+    ]
+   },
+   {
+    "q": "The bars at the top of the screen show how strong this is",
+    "right": "Signal",
+    "wrong": [
+     "Dial tone",
+     "Hold music",
+     "Extension"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this cleaning word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "cleaning",
+   "home",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "A soft cloth for wiping the shelves",
+    "right": "Duster",
+    "wrong": [
+     "Sandpaper",
+     "Emery board",
+     "Spatula"
+    ]
+   },
+   {
+    "q": "The British name for a vacuum cleaner, after an American brand",
+    "right": "Hoover",
+    "wrong": [
+     "Kenwood",
+     "Teasmade",
+     "Breville"
+    ]
+   },
+   {
+    "q": "A stick with a shaggy head for washing the floor",
+    "right": "Mop",
+    "wrong": [
+     "Whisk",
+     "Ladle",
+     "Trowel"
+    ]
+   },
+   {
+    "q": "A rubber blade for wiping water off windows",
+    "right": "Squeegee",
+    "wrong": [
+     "Spatula",
+     "Trowel",
+     "Paintbrush"
+    ]
+   },
+   {
+    "q": "A fluffy stick for flicking dust off high places",
+    "right": "Feather duster",
+    "wrong": [
+     "Paintbrush",
+     "Whisk",
+     "Ladle"
+    ]
+   },
+   {
+    "q": "Sweep the crumbs up with this pair",
+    "right": "Dustpan and brush",
+    "wrong": [
+     "Pestle and mortar",
+     "Salt and pepper",
+     "Knife and fork"
+    ]
+   },
+   {
+    "q": "A strong chemical that kills germs and whitens",
+    "right": "Bleach",
+    "wrong": [
+     "Turpentine",
+     "Talc",
+     "Hairspray"
+    ]
+   },
+   {
+    "q": "Rubbed on furniture or shoes to make them shine",
+    "right": "Polish",
+    "wrong": [
+     "Turpentine",
+     "Talc",
+     "Hairspray"
+    ]
+   },
+   {
+    "q": "Clears the chalky crust from kettles and taps",
+    "right": "Limescale remover",
+    "wrong": [
+     "Turpentine",
+     "Talc",
+     "Hairspray"
+    ]
+   },
+   {
+    "q": "A rough pad for scrubbing burnt pans",
+    "right": "Scourer",
+    "wrong": [
+     "Emery board",
+     "Sandpaper",
+     "Grater"
+    ]
+   },
+   {
+    "q": "Yellow rubber gloves for the washing-up",
+    "right": "Marigolds",
+    "wrong": [
+     "Oven gloves",
+     "Mittens",
+     "Gauntlets"
+    ]
+   },
+   {
+    "q": "A soft leather cloth for drying the car",
+    "right": "Chamois",
+    "wrong": [
+     "Emery board",
+     "Sandpaper",
+     "Paintbrush"
+    ]
+   },
+   {
+    "q": "Blasts hot vapour at grubby carpets and grout",
+    "right": "Steam cleaner",
+    "wrong": [
+     "Kenwood",
+     "Teasmade",
+     "Breville"
+    ]
+   },
+   {
+    "q": "A top-to-bottom clean of the whole house, traditionally as the weather warms up",
+    "right": "Spring clean",
+    "wrong": [
+     "Car boot sale",
+     "Bring and buy",
+     "Jumble sale"
+    ]
+   },
+   {
+    "q": "Squeezed into the sink to wash the dishes",
+    "right": "Washing-up liquid",
+    "wrong": [
+     "Turpentine",
+     "Talc",
+     "Hairspray"
+    ]
+   },
+   {
+    "q": "Goes in the washing machine to make clothes soft",
+    "right": "Fabric conditioner",
+    "wrong": [
+     "Turpentine",
+     "Talc",
+     "Hairspray"
+    ]
+   },
+   {
+    "q": "A sticky roller for picking fluff off clothes",
+    "right": "Lint roller",
+    "wrong": [
+     "Rolling pin",
+     "Paint roller",
+     "Grater"
+    ]
+   },
+   {
+    "q": "A black plastic sack for rubbish",
+    "right": "Bin bag",
+    "wrong": [
+     "Carrier bag",
+     "Bag for life",
+     "Freezer bag"
+    ]
+   },
+   {
+    "q": "A wicker paddle for whacking the dust out of rugs on the line",
+    "right": "Carpet beater",
+    "wrong": [
+     "Rolling pin",
+     "Ladle",
+     "Fly swatter"
+    ]
+   },
+   {
+    "q": "A rubber cup on a stick for clearing a blocked loo",
+    "right": "Plunger",
+    "wrong": [
+     "Ladle",
+     "Whisk",
+     "Trowel"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this railway word?",
+  "target": 10,
+  "category": "Travel",
+  "tags": [
+   "trains",
+   "railways",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Where you stand to wait for the train",
+    "right": "Platform",
+    "wrong": [
+     "Quay",
+     "Berth",
+     "Kerb"
+    ]
+   },
+   {
+    "q": "The big springy stops at the very end of the line",
+    "right": "Buffers",
+    "wrong": [
+     "Kerb",
+     "Bollard",
+     "Speed bump"
+    ]
+   },
+   {
+    "q": "A trackside cabin where the signals and points are worked",
+    "right": "Signal box",
+    "wrong": [
+     "Control tower",
+     "Toll booth",
+     "Sentry box"
+    ]
+   },
+   {
+    "q": "Where a road crosses the railway, with barriers that come down",
+    "right": "Level crossing",
+    "wrong": [
+     "Roundabout",
+     "Box junction",
+     "Slip road"
+    ]
+   },
+   {
+    "q": "One of the wooden or concrete beams the rails sit on",
+    "right": "Sleeper",
+    "wrong": [
+     "Kerb",
+     "Joist",
+     "Girder"
+    ]
+   },
+   {
+    "q": "Moving rails that switch a train from one track to another",
+    "right": "Points",
+    "wrong": [
+     "Roundabout",
+     "Slip road",
+     "Filter lane"
+    ]
+   },
+   {
+    "q": "The member of staff who checks the doors and blows the whistle",
+    "right": "Guard",
+    "wrong": [
+     "Steward",
+     "Purser",
+     "Porter"
+    ]
+   },
+   {
+    "q": "The list of when every train arrives and leaves",
+    "right": "Timetable",
+    "wrong": [
+     "Manifest",
+     "Logbook",
+     "Ledger"
+    ]
+   },
+   {
+    "q": "Pay once for a whole year of commuting",
+    "right": "Season ticket",
+    "wrong": [
+     "Boarding pass",
+     "Passport",
+     "Visa"
+    ]
+   },
+   {
+    "q": "Cheaper travel outside the busy rush hours",
+    "right": "Off-peak",
+    "wrong": [
+     "Red-eye",
+     "Standby",
+     "Happy hour"
+    ]
+   },
+   {
+    "q": "A ticket there and back again",
+    "right": "Return",
+    "wrong": [
+     "Single",
+     "Standby",
+     "Boarding pass"
+    ]
+   },
+   {
+    "q": "One of the coaches that make up the train",
+    "right": "Carriage",
+    "wrong": [
+     "Cabin",
+     "Deck",
+     "Hold"
+    ]
+   },
+   {
+    "q": "Where you buy a tea and a sandwich on board",
+    "right": "Buffet car",
+    "wrong": [
+     "Galley",
+     "Mess",
+     "Canteen"
+    ]
+   },
+   {
+    "q": "Where phone calls and loud music are frowned on",
+    "right": "Quiet coach",
+    "wrong": [
+     "Departure lounge",
+     "Hold",
+     "Galley"
+    ]
+   },
+   {
+    "q": "Gets you a third off fares if you're young, older or travelling as a family",
+    "right": "Railcard",
+    "wrong": [
+     "Boarding pass",
+     "Passport",
+     "Loyalty card"
+    ]
+   },
+   {
+    "q": "Gates that open when you feed in your ticket",
+    "right": "Ticket barrier",
+    "wrong": [
+     "Security scanner",
+     "Toll booth",
+     "Revolving door"
+    ]
+   },
+   {
+    "q": "Lets you cross over the tracks to the other platform",
+    "right": "Footbridge",
+    "wrong": [
+     "Gangway",
+     "Jetty",
+     "Pier"
+    ]
+   },
+   {
+    "q": "Where two or more lines meet",
+    "right": "Junction",
+    "wrong": [
+     "Terminus",
+     "Quay",
+     "Lay-by"
+    ]
+   },
+   {
+    "q": "A short side track where trains are parked",
+    "right": "Siding",
+    "wrong": [
+     "Lay-by",
+     "Hard shoulder",
+     "Berth"
+    ]
+   },
+   {
+    "q": "A long bridge of arches carrying the railway over a valley",
+    "right": "Viaduct",
+    "wrong": [
+     "Aqueduct",
+     "Causeway",
+     "Pier"
+    ]
+   }
+  ]
+ }
+]
