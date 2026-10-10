@@ -1,0 +1,389 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which video game series features this character?",
+  "target": 10,
+  "category": "Video games",
+  "tags": [
+   "video games",
+   "characters"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Link, in a green tunic",
+    "right": "The Legend of Zelda",
+    "wrong": [
+     "Fable",
+     "Kingdom Hearts",
+     "Dark Souls"
+    ]
+   },
+   {
+    "q": "Master Chief",
+    "right": "Halo",
+    "wrong": [
+     "Destiny",
+     "Gears of War",
+     "Mass Effect"
+    ]
+   },
+   {
+    "q": "Lara Croft",
+    "right": "Tomb Raider",
+    "wrong": [
+     "Prince of Persia",
+     "Far Cry",
+     "Dead Space"
+    ]
+   },
+   {
+    "q": "Kratos, the Ghost of Sparta",
+    "right": "God of War",
+    "wrong": [
+     "Devil May Cry",
+     "Diablo",
+     "Elden Ring"
+    ]
+   },
+   {
+    "q": "Solid Snake",
+    "right": "Metal Gear Solid",
+    "wrong": [
+     "Splinter Cell",
+     "Max Payne",
+     "Call of Duty"
+    ]
+   },
+   {
+    "q": "Pikachu",
+    "right": "Pokémon",
+    "wrong": [
+     "Animal Crossing",
+     "Persona",
+     "Dragon Quest"
+    ]
+   },
+   {
+    "q": "Samus Aran, a bounty hunter in a power suit",
+    "right": "Metroid",
+    "wrong": [
+     "Mass Effect",
+     "Destiny",
+     "Borderlands"
+    ]
+   },
+   {
+    "q": "Cloud Strife, with a giant Buster Sword",
+    "right": "Final Fantasy VII",
+    "wrong": [
+     "Dragon Quest",
+     "Persona",
+     "Dark Souls"
+    ]
+   },
+   {
+    "q": "Steve, forever running from Creepers",
+    "right": "Minecraft",
+    "wrong": [
+     "Terraria",
+     "Roblox",
+     "Fortnite"
+    ]
+   },
+   {
+    "q": "Nathan Drake",
+    "right": "Uncharted",
+    "wrong": [
+     "Prince of Persia",
+     "Far Cry",
+     "Watch Dogs"
+    ]
+   },
+   {
+    "q": "Geralt of Rivia",
+    "right": "The Witcher",
+    "wrong": [
+     "Skyrim",
+     "Dark Souls",
+     "Dragon Age"
+    ]
+   },
+   {
+    "q": "Arthur Morgan",
+    "right": "Red Dead Redemption 2",
+    "wrong": [
+     "Mafia",
+     "Far Cry",
+     "Fallout"
+    ]
+   },
+   {
+    "q": "Ezio Auditore",
+    "right": "Assassin's Creed",
+    "wrong": [
+     "Prince of Persia",
+     "Ghost of Tsushima",
+     "Dishonored"
+    ]
+   },
+   {
+    "q": "Joel and Ellie",
+    "right": "The Last of Us",
+    "wrong": [
+     "Dead Space",
+     "Days Gone",
+     "Silent Hill"
+    ]
+   },
+   {
+    "q": "Niko Bellic",
+    "right": "Grand Theft Auto IV",
+    "wrong": [
+     "Mafia",
+     "Sleeping Dogs",
+     "Saints Row"
+    ]
+   },
+   {
+    "q": "Gordon Freeman, with his crowbar",
+    "right": "Half-Life",
+    "wrong": [
+     "Doom",
+     "BioShock",
+     "Quake"
+    ]
+   },
+   {
+    "q": "Ryu and Chun-Li",
+    "right": "Street Fighter",
+    "wrong": [
+     "Tekken",
+     "Soulcalibur",
+     "Dead or Alive"
+    ]
+   },
+   {
+    "q": "Sub-Zero and Scorpion",
+    "right": "Mortal Kombat",
+    "wrong": [
+     "Tekken",
+     "Killer Instinct",
+     "Soulcalibur"
+    ]
+   },
+   {
+    "q": "Agent 47",
+    "right": "Hitman",
+    "wrong": [
+     "Splinter Cell",
+     "Max Payne",
+     "Deus Ex"
+    ]
+   },
+   {
+    "q": "Jill Valentine, fighting zombies in Raccoon City",
+    "right": "Resident Evil",
+    "wrong": [
+     "Silent Hill",
+     "Dead Rising",
+     "Left 4 Dead"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: whose face is on this Bank of England note?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "banknotes",
+   "money",
+   "famous Britons"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The plastic £5 from 2016",
+    "right": "Winston Churchill",
+    "wrong": [
+     "Clement Attlee",
+     "David Lloyd George",
+     "Horatio Nelson"
+    ]
+   },
+   {
+    "q": "The plastic £10 from 2017",
+    "right": "Jane Austen",
+    "wrong": [
+     "Charlotte Brontë",
+     "Mary Shelley",
+     "George Eliot"
+    ]
+   },
+   {
+    "q": "The plastic £20 from 2020",
+    "right": "J. M. W. Turner",
+    "wrong": [
+     "John Constable",
+     "Thomas Gainsborough",
+     "William Blake"
+    ]
+   },
+   {
+    "q": "The plastic £50 from 2021",
+    "right": "Alan Turing",
+    "wrong": [
+     "Charles Babbage",
+     "Ada Lovelace",
+     "Tim Berners-Lee"
+    ]
+   },
+   {
+    "q": "The paper £10 from 2000, with a hummingbird and HMS Beagle",
+    "right": "Charles Darwin",
+    "wrong": [
+     "Alfred Russel Wallace",
+     "David Attenborough",
+     "Captain Cook"
+    ]
+   },
+   {
+    "q": "The paper £20 from 2007, with a pin factory",
+    "right": "Adam Smith",
+    "wrong": [
+     "John Maynard Keynes",
+     "David Hume",
+     "Robert Owen"
+    ]
+   },
+   {
+    "q": "The paper £5 from 2002, reading to prisoners at Newgate",
+    "right": "Elizabeth Fry",
+    "wrong": [
+     "Mary Seacole",
+     "Emmeline Pankhurst",
+     "Octavia Hill"
+    ]
+   },
+   {
+    "q": "The paper £50 from 2011, a pair of steam-engine pioneers",
+    "right": "Boulton and Watt",
+    "wrong": [
+     "Wedgwood and Arkwright",
+     "Brunel and Telford",
+     "Stephenson and Trevithick"
+    ]
+   },
+   {
+    "q": "The paper £10 from 1992, with a cricket match from Pickwick",
+    "right": "Charles Dickens",
+    "wrong": [
+     "Thomas Hardy",
+     "Anthony Trollope",
+     "William Thackeray"
+    ]
+   },
+   {
+    "q": "The paper £20 from 1991, lecturing at the Royal Institution",
+    "right": "Michael Faraday",
+    "wrong": [
+     "Joseph Lister",
+     "Humphry Davy",
+     "Edward Jenner"
+    ]
+   },
+   {
+    "q": "The paper £5 from 1990, with the Rocket locomotive",
+    "right": "George Stephenson",
+    "wrong": [
+     "Isambard Kingdom Brunel",
+     "Richard Trevithick",
+     "Robert Stephenson"
+    ]
+   },
+   {
+    "q": "The paper £20 from 1999, with Worcester Cathedral",
+    "right": "Edward Elgar",
+    "wrong": [
+     "Henry Purcell",
+     "Ralph Vaughan Williams",
+     "Gustav Holst"
+    ]
+   },
+   {
+    "q": "The 1975 £10, with a lamp on a hospital ward",
+    "right": "Florence Nightingale",
+    "wrong": [
+     "Mary Seacole",
+     "Edith Cavell",
+     "Elizabeth Garrett Anderson"
+    ]
+   },
+   {
+    "q": "The 1978 £1 note, the last one",
+    "right": "Isaac Newton",
+    "wrong": [
+     "Edmond Halley",
+     "Robert Hooke",
+     "Stephen Hawking"
+    ]
+   },
+   {
+    "q": "The 1971 £5, with a battle scene",
+    "right": "The Duke of Wellington",
+    "wrong": [
+     "Horatio Nelson",
+     "The Duke of Marlborough",
+     "Oliver Cromwell"
+    ]
+   },
+   {
+    "q": "The 1981 £50, with St Paul's Cathedral",
+    "right": "Christopher Wren",
+    "wrong": [
+     "Inigo Jones",
+     "Nicholas Hawksmoor",
+     "John Nash"
+    ]
+   },
+   {
+    "q": "The 1994 £50: the Bank's first Governor",
+    "right": "John Houblon",
+    "wrong": [
+     "William Paterson",
+     "Mervyn King",
+     "Montagu Norman"
+    ]
+   },
+   {
+    "q": "The 1970 £20, with a scene from Romeo and Juliet",
+    "right": "William Shakespeare",
+    "wrong": [
+     "Christopher Marlowe",
+     "Geoffrey Chaucer",
+     "John Milton"
+    ]
+   },
+   {
+    "q": "The front of every note issued from 1960 until 2024",
+    "right": "Elizabeth II",
+    "wrong": [
+     "Queen Victoria",
+     "George VI",
+     "Prince Philip"
+    ]
+   },
+   {
+    "q": "The front of the new notes from 2024",
+    "right": "King Charles III",
+    "wrong": [
+     "Prince William",
+     "Queen Victoria",
+     "George VI"
+    ]
+   }
+  ]
+ }
+]
