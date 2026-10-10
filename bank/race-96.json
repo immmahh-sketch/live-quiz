@@ -1,0 +1,390 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which pasta's name means this in Italian?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "pasta",
+   "Italian",
+   "words"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Little butterflies",
+    "right": "Farfalle",
+    "wrong": [
+     "Gemelli",
+     "Campanelle",
+     "Cappelletti"
+    ]
+   },
+   {
+    "q": "Little tongues",
+    "right": "Linguine",
+    "wrong": [
+     "Tagliatelle",
+     "Bucatini",
+     "Pappardelle"
+    ]
+   },
+   {
+    "q": "Little ears",
+    "right": "Orecchiette",
+    "wrong": [
+     "Cappelletti",
+     "Mezzelune",
+     "Anelli"
+    ]
+   },
+   {
+    "q": "Little worms",
+    "right": "Vermicelli",
+    "wrong": [
+     "Bucatini",
+     "Tagliolini",
+     "Trofie"
+    ]
+   },
+   {
+    "q": "Quills or pens",
+    "right": "Penne",
+    "wrong": [
+     "Ziti",
+     "Macaroni",
+     "Paccheri"
+    ]
+   },
+   {
+    "q": "Little strings",
+    "right": "Spaghetti",
+    "wrong": [
+     "Bucatini",
+     "Tagliolini",
+     "Trofie"
+    ]
+   },
+   {
+    "q": "Shells",
+    "right": "Conchiglie",
+    "wrong": [
+     "Lasagne",
+     "Campanelle",
+     "Casarecce"
+    ]
+   },
+   {
+    "q": "Big tubes",
+    "right": "Cannelloni",
+    "wrong": [
+     "Manicotti",
+     "Paccheri",
+     "Ziti"
+    ]
+   },
+   {
+    "q": "Little ribbons",
+    "right": "Fettuccine",
+    "wrong": [
+     "Tagliatelle",
+     "Pappardelle",
+     "Mafalde"
+    ]
+   },
+   {
+    "q": "Little spindles",
+    "right": "Fusilli",
+    "wrong": [
+     "Casarecce",
+     "Trofie",
+     "Gemelli"
+    ]
+   },
+   {
+    "q": "Priest stranglers",
+    "right": "Strozzapreti",
+    "wrong": [
+     "Paccheri",
+     "Garganelli",
+     "Cappelletti"
+    ]
+   },
+   {
+    "q": "Fine hair",
+    "right": "Capellini",
+    "wrong": [
+     "Tagliolini",
+     "Bucatini",
+     "Cappelletti"
+    ]
+   },
+   {
+    "q": "Barley",
+    "right": "Orzo",
+    "wrong": [
+     "Anelli",
+     "Trofie",
+     "Gnocchi"
+    ]
+   },
+   {
+    "q": "Snails",
+    "right": "Lumache",
+    "wrong": [
+     "Conchigliette",
+     "Campanelle",
+     "Mezzelune"
+    ]
+   },
+   {
+    "q": "Corkscrews",
+    "right": "Cavatappi",
+    "wrong": [
+     "Gemelli",
+     "Casarecce",
+     "Tortiglioni"
+    ]
+   },
+   {
+    "q": "Little wheels",
+    "right": "Rotelle",
+    "wrong": [
+     "Anelli",
+     "Mezzelune",
+     "Campanelle"
+    ]
+   },
+   {
+    "q": "Little thimbles",
+    "right": "Ditalini",
+    "wrong": [
+     "Cappelletti",
+     "Anelli",
+     "Paccheri"
+    ]
+   },
+   {
+    "q": "Radiators",
+    "right": "Radiatori",
+    "wrong": [
+     "Garganelli",
+     "Tortiglioni",
+     "Campanelle"
+    ]
+   },
+   {
+    "q": "Little stars",
+    "right": "Stelline",
+    "wrong": [
+     "Anelli",
+     "Mezzelune",
+     "Cappelletti"
+    ]
+   },
+   {
+    "q": "Big ridged ones",
+    "right": "Rigatoni",
+    "wrong": [
+     "Tortiglioni",
+     "Paccheri",
+     "Ziti"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's the word for someone who collects or loves this?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "words",
+   "collectors",
+   "hobbies"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Collects stamps",
+    "right": "Philatelist",
+    "wrong": [
+     "Philologist",
+     "Philanthropist",
+     "Cartographer"
+    ]
+   },
+   {
+    "q": "Collects coins",
+    "right": "Numismatist",
+    "wrong": [
+     "Numerologist",
+     "Chronologist",
+     "Philologist"
+    ]
+   },
+   {
+    "q": "Loves and collects books",
+    "right": "Bibliophile",
+    "wrong": [
+     "Bibliographer",
+     "Bibliopole",
+     "Lexicographer"
+    ]
+   },
+   {
+    "q": "Loves wine",
+    "right": "Oenophile",
+    "wrong": [
+     "Hydrophile",
+     "Thalassophile",
+     "Heliophile"
+    ]
+   },
+   {
+    "q": "Collects matchbox labels",
+    "right": "Phillumenist",
+    "wrong": [
+     "Philologist",
+     "Pyrophile",
+     "Heliophile"
+    ]
+   },
+   {
+    "q": "Collects beer mats",
+    "right": "Tegestologist",
+    "wrong": [
+     "Labeorphilist",
+     "Zymologist",
+     "Brewster"
+    ]
+   },
+   {
+    "q": "Collects postcards",
+    "right": "Deltiologist",
+    "wrong": [
+     "Cartographer",
+     "Topographer",
+     "Calligrapher"
+    ]
+   },
+   {
+    "q": "Collects teddy bears",
+    "right": "Arctophile",
+    "wrong": [
+     "Hippophile",
+     "Xenophile",
+     "Pogonophile"
+    ]
+   },
+   {
+    "q": "Collects banknotes",
+    "right": "Notaphilist",
+    "wrong": [
+     "Numerologist",
+     "Notary",
+     "Chronologist"
+    ]
+   },
+   {
+    "q": "Collects cigarette cards",
+    "right": "Cartophilist",
+    "wrong": [
+     "Cartographer",
+     "Calligrapher",
+     "Topographer"
+    ]
+   },
+   {
+    "q": "Collects and studies butterflies and moths",
+    "right": "Lepidopterist",
+    "wrong": [
+     "Coleopterist",
+     "Apiarist",
+     "Arachnologist"
+    ]
+   },
+   {
+    "q": "Loves films",
+    "right": "Cinephile",
+    "wrong": [
+     "Cinematographer",
+     "Audiologist",
+     "Xenophile"
+    ]
+   },
+   {
+    "q": "Loves England and all things English",
+    "right": "Anglophile",
+    "wrong": [
+     "Germanophile",
+     "Russophile",
+     "Sinophile"
+    ]
+   },
+   {
+    "q": "Loves France and all things French",
+    "right": "Francophile",
+    "wrong": [
+     "Hellenophile",
+     "Sinophile",
+     "Germanophile"
+    ]
+   },
+   {
+    "q": "Loves top-quality hi-fi sound",
+    "right": "Audiophile",
+    "wrong": [
+     "Audiologist",
+     "Hydrophile",
+     "Xenophile"
+    ]
+   },
+   {
+    "q": "Loves cats",
+    "right": "Ailurophile",
+    "wrong": [
+     "Ailurophobe",
+     "Hippophile",
+     "Cynophile"
+    ]
+   },
+   {
+    "q": "Loves words",
+    "right": "Logophile",
+    "wrong": [
+     "Lexicographer",
+     "Etymologist",
+     "Calligrapher"
+    ]
+   },
+   {
+    "q": "Loves rain",
+    "right": "Pluviophile",
+    "wrong": [
+     "Hydrophile",
+     "Thalassophile",
+     "Heliophile"
+    ]
+   },
+   {
+    "q": "Collects and mends clocks and watches",
+    "right": "Horologist",
+    "wrong": [
+     "Chronologist",
+     "Horticulturist",
+     "Numerologist"
+    ]
+   },
+   {
+    "q": "Spots trains (railway slang)",
+    "right": "Gricer",
+    "wrong": [
+     "Twitcher",
+     "Gongoozler",
+     "Bodger"
+    ]
+   }
+  ]
+ }
+]
