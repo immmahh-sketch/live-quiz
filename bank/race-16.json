@@ -1,0 +1,775 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which country uses this internet domain?",
+  "target": 10,
+  "category": "Science and technology",
+  "tags": [
+   "internet",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": ".de",
+    "right": "Germany",
+    "wrong": [
+     "Belgium",
+     "Luxembourg",
+     "Norway"
+    ]
+   },
+   {
+    "q": ".ch",
+    "right": "Switzerland",
+    "wrong": [
+     "Chile",
+     "Chad",
+     "Belgium"
+    ]
+   },
+   {
+    "q": ".es",
+    "right": "Spain",
+    "wrong": [
+     "Estonia",
+     "El Salvador",
+     "Ethiopia"
+    ]
+   },
+   {
+    "q": ".nl",
+    "right": "the Netherlands",
+    "wrong": [
+     "Nepal",
+     "Nigeria",
+     "Norway"
+    ]
+   },
+   {
+    "q": ".at",
+    "right": "Austria",
+    "wrong": [
+     "Australia",
+     "Argentina",
+     "Algeria"
+    ]
+   },
+   {
+    "q": ".se",
+    "right": "Sweden",
+    "wrong": [
+     "Senegal",
+     "Serbia",
+     "Seychelles"
+    ]
+   },
+   {
+    "q": ".dk",
+    "right": "Denmark",
+    "wrong": [
+     "Dominica",
+     "Djibouti",
+     "Norway"
+    ]
+   },
+   {
+    "q": ".ie",
+    "right": "Ireland",
+    "wrong": [
+     "Israel",
+     "Iran",
+     "Italy"
+    ]
+   },
+   {
+    "q": ".pl",
+    "right": "Poland",
+    "wrong": [
+     "Portugal",
+     "the Philippines",
+     "Peru"
+    ]
+   },
+   {
+    "q": ".jp",
+    "right": "Japan",
+    "wrong": [
+     "Jamaica",
+     "Jordan",
+     "Jersey"
+    ]
+   },
+   {
+    "q": ".cn",
+    "right": "China",
+    "wrong": [
+     "Canada",
+     "Cameroon",
+     "Colombia"
+    ]
+   },
+   {
+    "q": ".in",
+    "right": "India",
+    "wrong": [
+     "Indonesia",
+     "Iran",
+     "Israel"
+    ]
+   },
+   {
+    "q": ".br",
+    "right": "Brazil",
+    "wrong": [
+     "Britain",
+     "Belarus",
+     "Bahrain"
+    ]
+   },
+   {
+    "q": ".mx",
+    "right": "Mexico",
+    "wrong": [
+     "Malta",
+     "Malaysia",
+     "Morocco"
+    ]
+   },
+   {
+    "q": ".za",
+    "right": "South Africa",
+    "wrong": [
+     "Zambia",
+     "Zimbabwe",
+     "Tanzania"
+    ]
+   },
+   {
+    "q": ".nz",
+    "right": "New Zealand",
+    "wrong": [
+     "Niger",
+     "Nauru",
+     "Norway"
+    ]
+   },
+   {
+    "q": ".tv",
+    "right": "Tuvalu",
+    "wrong": [
+     "Tonga",
+     "Taiwan",
+     "Trinidad and Tobago"
+    ]
+   },
+   {
+    "q": ".is",
+    "right": "Iceland",
+    "wrong": [
+     "Israel",
+     "Italy",
+     "Iran"
+    ]
+   },
+   {
+    "q": ".cz",
+    "right": "Czechia",
+    "wrong": [
+     "Cyprus",
+     "Cuba",
+     "Slovakia"
+    ]
+   },
+   {
+    "q": ".kr",
+    "right": "South Korea",
+    "wrong": [
+     "North Korea",
+     "Kenya",
+     "Kyrgyzstan"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: name the Simpsons character",
+  "target": 10,
+  "category": "Film and TV",
+  "tags": [
+   "The Simpsons",
+   "characters"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Bart's best friend, with glasses",
+    "right": "Milhouse",
+    "wrong": [
+     "Martin",
+     "Rod",
+     "Todd"
+    ]
+   },
+   {
+    "q": "The nuclear plant's evil owner",
+    "right": "Mr. Burns",
+    "wrong": [
+     "Mayor Quimby",
+     "Fat Tony",
+     "Superintendent Chalmers"
+    ]
+   },
+   {
+    "q": "Mr. Burns's devoted assistant",
+    "right": "Smithers",
+    "wrong": [
+     "Lenny",
+     "Carl",
+     "Gil"
+    ]
+   },
+   {
+    "q": "The Kwik-E-Mart's owner",
+    "right": "Apu",
+    "wrong": [
+     "Sanjay",
+     "Snake",
+     "Cletus"
+    ]
+   },
+   {
+    "q": "The miserable barman",
+    "right": "Moe",
+    "wrong": [
+     "Lenny",
+     "Carl",
+     "Gil"
+    ]
+   },
+   {
+    "q": "Homer's burping barfly friend",
+    "right": "Barney",
+    "wrong": [
+     "Lenny",
+     "Carl",
+     "Duffman"
+    ]
+   },
+   {
+    "q": "The Simpsons' 'okily-dokily' neighbour",
+    "right": "Ned Flanders",
+    "wrong": [
+     "Rev. Lovejoy",
+     "Rod",
+     "Todd"
+    ]
+   },
+   {
+    "q": "Lisa's saxophone-playing hero",
+    "right": "Bleeding Gums Murphy",
+    "wrong": [
+     "Sideshow Mel",
+     "Disco Stu",
+     "Lou"
+    ]
+   },
+   {
+    "q": "The Scottish groundskeeper",
+    "right": "Willie",
+    "wrong": [
+     "Snake",
+     "Cletus",
+     "Hans Moleman"
+    ]
+   },
+   {
+    "q": "The school's principal",
+    "right": "Skinner",
+    "wrong": [
+     "Superintendent Chalmers",
+     "Mayor Quimby",
+     "Rev. Lovejoy"
+    ]
+   },
+   {
+    "q": "Bart's chain-smoking teacher",
+    "right": "Edna Krabappel",
+    "wrong": [
+     "Ms. Hoover",
+     "Patty",
+     "Selma"
+    ]
+   },
+   {
+    "q": "The clown Bart idolises",
+    "right": "Krusty",
+    "wrong": [
+     "Sideshow Mel",
+     "Troy McClure",
+     "Kent Brockman"
+    ]
+   },
+   {
+    "q": "Krusty's murderous ex-sidekick",
+    "right": "Sideshow Bob",
+    "wrong": [
+     "Sideshow Mel",
+     "Snake",
+     "Fat Tony"
+    ]
+   },
+   {
+    "q": "The school bus driver",
+    "right": "Otto",
+    "wrong": [
+     "Snake",
+     "Cletus",
+     "Disco Stu"
+    ]
+   },
+   {
+    "q": "Springfield's useless police chief",
+    "right": "Chief Wiggum",
+    "wrong": [
+     "Lou",
+     "Eddie",
+     "Fat Tony"
+    ]
+   },
+   {
+    "q": "'I'm learnding!' — Wiggum's son",
+    "right": "Ralph",
+    "wrong": [
+     "Martin",
+     "Rod",
+     "Todd"
+    ]
+   },
+   {
+    "q": "The bully who laughs 'Ha-ha!'",
+    "right": "Nelson",
+    "wrong": [
+     "Jimbo",
+     "Kearney",
+     "Dolph"
+    ]
+   },
+   {
+    "q": "The Simpsons' greyhound",
+    "right": "Santa's Little Helper",
+    "wrong": [
+     "Snowball II",
+     "Laddie",
+     "Mr. Teeny"
+    ]
+   },
+   {
+    "q": "'Hi, everybody!' — the dodgy doctor",
+    "right": "Dr. Nick",
+    "wrong": [
+     "Dr. Hibbert",
+     "Professor Frink",
+     "Dr. Marvin Monroe"
+    ]
+   },
+   {
+    "q": "The ambulance-chasing lawyer",
+    "right": "Lionel Hutz",
+    "wrong": [
+     "Troy McClure",
+     "Kent Brockman",
+     "Hans Moleman"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what kind of animal is this character?",
+  "target": 10,
+  "category": "Film and TV",
+  "tags": [
+   "animals",
+   "characters"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Scooby-Doo",
+    "right": "Dog",
+    "wrong": [
+     "Wolf",
+     "Fox",
+     "Bear"
+    ]
+   },
+   {
+    "q": "Garfield",
+    "right": "Cat",
+    "wrong": [
+     "Fox",
+     "Lynx",
+     "Ocelot"
+    ]
+   },
+   {
+    "q": "Eeyore",
+    "right": "Donkey",
+    "wrong": [
+     "Mule",
+     "Horse",
+     "Pony"
+    ]
+   },
+   {
+    "q": "Sonic",
+    "right": "Hedgehog",
+    "wrong": [
+     "Porcupine",
+     "Echidna",
+     "Armadillo"
+    ]
+   },
+   {
+    "q": "Pumbaa",
+    "right": "Warthog",
+    "wrong": [
+     "Wild boar",
+     "Pig",
+     "Tapir"
+    ]
+   },
+   {
+    "q": "Timon",
+    "right": "Meerkat",
+    "wrong": [
+     "Mongoose",
+     "Ferret",
+     "Prairie dog"
+    ]
+   },
+   {
+    "q": "Rafiki",
+    "right": "Mandrill",
+    "wrong": [
+     "Baboon",
+     "Chimpanzee",
+     "Orangutan"
+    ]
+   },
+   {
+    "q": "Zazu",
+    "right": "Hornbill",
+    "wrong": [
+     "Toucan",
+     "Parrot",
+     "Pelican"
+    ]
+   },
+   {
+    "q": "Sid in Ice Age",
+    "right": "Sloth",
+    "wrong": [
+     "Possum",
+     "Koala",
+     "Anteater"
+    ]
+   },
+   {
+    "q": "Marty in Madagascar",
+    "right": "Zebra",
+    "wrong": [
+     "Horse",
+     "Pony",
+     "Okapi"
+    ]
+   },
+   {
+    "q": "Gloria in Madagascar",
+    "right": "Hippo",
+    "wrong": [
+     "Rhino",
+     "Elephant",
+     "Manatee"
+    ]
+   },
+   {
+    "q": "Melman in Madagascar",
+    "right": "Giraffe",
+    "wrong": [
+     "Llama",
+     "Camel",
+     "Ostrich"
+    ]
+   },
+   {
+    "q": "King Julien",
+    "right": "Lemur",
+    "wrong": [
+     "Monkey",
+     "Bushbaby",
+     "Marmoset"
+    ]
+   },
+   {
+    "q": "Kanga",
+    "right": "Kangaroo",
+    "wrong": [
+     "Wallaby",
+     "Koala",
+     "Wombat"
+    ]
+   },
+   {
+    "q": "Rocket in Guardians of the Galaxy",
+    "right": "Raccoon",
+    "wrong": [
+     "Badger",
+     "Ferret",
+     "Otter"
+    ]
+   },
+   {
+    "q": "Shere Khan",
+    "right": "Tiger",
+    "wrong": [
+     "Lion",
+     "Leopard",
+     "Jaguar"
+    ]
+   },
+   {
+    "q": "Feathers McGraw",
+    "right": "Penguin",
+    "wrong": [
+     "Puffin",
+     "Chicken",
+     "Crow"
+    ]
+   },
+   {
+    "q": "Sebastian in The Little Mermaid",
+    "right": "Crab",
+    "wrong": [
+     "Lobster",
+     "Shrimp",
+     "Prawn"
+    ]
+   },
+   {
+    "q": "Squidward",
+    "right": "Octopus",
+    "wrong": [
+     "Squid",
+     "Cuttlefish",
+     "Jellyfish"
+    ]
+   },
+   {
+    "q": "Patrick in SpongeBob",
+    "right": "Starfish",
+    "wrong": [
+     "Sea urchin",
+     "Jellyfish",
+     "Sponge"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: name the ship or spaceship",
+  "target": 10,
+  "category": "Film, TV and books",
+  "tags": [
+   "ships",
+   "spaceships",
+   "fiction"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Jack Sparrow's ship",
+    "right": "Black Pearl",
+    "wrong": [
+     "Interceptor",
+     "Black Swan",
+     "Silent Mary"
+    ]
+   },
+   {
+    "q": "Captain Ahab's whaler",
+    "right": "Pequod",
+    "wrong": [
+     "Rachel",
+     "Essex",
+     "Bachelor"
+    ]
+   },
+   {
+    "q": "Captain Kirk's starship",
+    "right": "Enterprise",
+    "wrong": [
+     "Voyager",
+     "Defiant",
+     "Excelsior"
+    ]
+   },
+   {
+    "q": "The ship in Firefly",
+    "right": "Serenity",
+    "wrong": [
+     "Rocinante",
+     "Bebop",
+     "Normandy"
+    ]
+   },
+   {
+    "q": "Captain Hook's ship",
+    "right": "Jolly Roger",
+    "wrong": [
+     "Walrus",
+     "Black Hawk",
+     "Sea Witch"
+    ]
+   },
+   {
+    "q": "Quint's boat in Jaws",
+    "right": "Orca",
+    "wrong": [
+     "Andrea Gail",
+     "Kingfisher",
+     "Neptune"
+    ]
+   },
+   {
+    "q": "The ship in Treasure Island",
+    "right": "Hispaniola",
+    "wrong": [
+     "Walrus",
+     "Endeavour",
+     "Victory"
+    ]
+   },
+   {
+    "q": "Caspian's ship in Narnia",
+    "right": "Dawn Treader",
+    "wrong": [
+     "Splendour Hyaline",
+     "Black Swan",
+     "Silver Arrow"
+    ]
+   },
+   {
+    "q": "Han Solo's ship",
+    "right": "Millennium Falcon",
+    "wrong": [
+     "Slave I",
+     "Tantive IV",
+     "Ghost"
+    ]
+   },
+   {
+    "q": "The stolen ship in The Hitchhiker's Guide",
+    "right": "Heart of Gold",
+    "wrong": [
+     "Red Dwarf",
+     "Starbug",
+     "Planet Express Ship"
+    ]
+   },
+   {
+    "q": "The Doctor's time machine",
+    "right": "TARDIS",
+    "wrong": [
+     "Moya",
+     "Bebop",
+     "Rocinante"
+    ]
+   },
+   {
+    "q": "The ship in Alien",
+    "right": "Nostromo",
+    "wrong": [
+     "Sulaco",
+     "Covenant",
+     "Prometheus"
+    ]
+   },
+   {
+    "q": "Captain Nemo's submarine",
+    "right": "Nautilus",
+    "wrong": [
+     "Seaview",
+     "Proteus",
+     "Albatross"
+    ]
+   },
+   {
+    "q": "The battlestar in Battlestar Galactica",
+    "right": "Galactica",
+    "wrong": [
+     "Pegasus",
+     "Andromeda",
+     "Normandy"
+    ]
+   },
+   {
+    "q": "The ship in Blake's 7",
+    "right": "Liberator",
+    "wrong": [
+     "Moya",
+     "Andromeda",
+     "Normandy"
+    ]
+   },
+   {
+    "q": "The Walkers' dinghy in Swallows and Amazons",
+    "right": "Swallow",
+    "wrong": [
+     "Amazon",
+     "Kingfisher",
+     "Walrus"
+    ]
+   },
+   {
+    "q": "The ship in 2001: A Space Odyssey",
+    "right": "Discovery One",
+    "wrong": [
+     "Leonov",
+     "Event Horizon",
+     "Sulaco"
+    ]
+   },
+   {
+    "q": "Davy Jones's ship",
+    "right": "Flying Dutchman",
+    "wrong": [
+     "Silent Mary",
+     "Interceptor",
+     "Endeavour"
+    ]
+   },
+   {
+    "q": "Sean Connery's Soviet submarine",
+    "right": "Red October",
+    "wrong": [
+     "Dallas",
+     "Seaview",
+     "Proteus"
+    ]
+   },
+   {
+    "q": "Blackbeard's ship",
+    "right": "Queen Anne's Revenge",
+    "wrong": [
+     "Silent Mary",
+     "Interceptor",
+     "Black Swan"
+    ]
+   }
+  ]
+ }
+]
