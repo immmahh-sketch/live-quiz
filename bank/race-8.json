@@ -1,0 +1,775 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which country is this river in?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "rivers",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The Thames",
+    "right": "England",
+    "wrong": [
+     "Belgium",
+     "the Netherlands",
+     "the Isle of Man"
+    ]
+   },
+   {
+    "q": "The Seine",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Switzerland",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "The Tiber",
+    "right": "Italy",
+    "wrong": [
+     "Greece",
+     "Malta",
+     "Croatia"
+    ]
+   },
+   {
+    "q": "The Volga",
+    "right": "Russia",
+    "wrong": [
+     "Ukraine",
+     "Belarus",
+     "Kazakhstan"
+    ]
+   },
+   {
+    "q": "The Yangtze",
+    "right": "China",
+    "wrong": [
+     "Vietnam",
+     "Mongolia",
+     "Taiwan"
+    ]
+   },
+   {
+    "q": "The Shannon",
+    "right": "Ireland",
+    "wrong": [
+     "the Isle of Man",
+     "Iceland",
+     "Belgium"
+    ]
+   },
+   {
+    "q": "The Murray",
+    "right": "Australia",
+    "wrong": [
+     "Papua New Guinea",
+     "Fiji",
+     "Indonesia"
+    ]
+   },
+   {
+    "q": "The Waikato",
+    "right": "New Zealand",
+    "wrong": [
+     "Fiji",
+     "Samoa",
+     "Tonga"
+    ]
+   },
+   {
+    "q": "The Ebro",
+    "right": "Spain",
+    "wrong": [
+     "Andorra",
+     "Morocco",
+     "Malta"
+    ]
+   },
+   {
+    "q": "The Vistula",
+    "right": "Poland",
+    "wrong": [
+     "Germany",
+     "Czechia",
+     "Lithuania"
+    ]
+   },
+   {
+    "q": "The Mississippi",
+    "right": "USA",
+    "wrong": [
+     "Mexico",
+     "Cuba",
+     "the Bahamas"
+    ]
+   },
+   {
+    "q": "The Tay",
+    "right": "Scotland",
+    "wrong": [
+     "the Isle of Man",
+     "Norway",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "The Shinano",
+    "right": "Japan",
+    "wrong": [
+     "Taiwan",
+     "the Philippines",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "The Mackenzie",
+    "right": "Canada",
+    "wrong": [
+     "Greenland",
+     "Iceland",
+     "Norway"
+    ]
+   },
+   {
+    "q": "The Chao Phraya",
+    "right": "Thailand",
+    "wrong": [
+     "Laos",
+     "Cambodia",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "The Irrawaddy",
+    "right": "Myanmar",
+    "wrong": [
+     "Bangladesh",
+     "Nepal",
+     "Laos"
+    ]
+   },
+   {
+    "q": "The Han",
+    "right": "South Korea",
+    "wrong": [
+     "Taiwan",
+     "Mongolia",
+     "the Philippines"
+    ]
+   },
+   {
+    "q": "The São Francisco",
+    "right": "Brazil",
+    "wrong": [
+     "Argentina",
+     "Colombia",
+     "Peru"
+    ]
+   },
+   {
+    "q": "The Taff",
+    "right": "Wales",
+    "wrong": [
+     "the Isle of Man",
+     "Jersey",
+     "Guernsey"
+    ]
+   },
+   {
+    "q": "The Lagan",
+    "right": "Northern Ireland",
+    "wrong": [
+     "the Isle of Man",
+     "Jersey",
+     "Guernsey"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which US state is this city in?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "USA",
+   "states",
+   "cities"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Las Vegas",
+    "right": "Nevada",
+    "wrong": [
+     "New Mexico",
+     "Idaho",
+     "Oregon"
+    ]
+   },
+   {
+    "q": "Miami",
+    "right": "Florida",
+    "wrong": [
+     "Alabama",
+     "South Carolina",
+     "Mississippi"
+    ]
+   },
+   {
+    "q": "Seattle",
+    "right": "Washington",
+    "wrong": [
+     "Oregon",
+     "Idaho",
+     "Montana"
+    ]
+   },
+   {
+    "q": "Chicago",
+    "right": "Illinois",
+    "wrong": [
+     "Wisconsin",
+     "Indiana",
+     "Iowa"
+    ]
+   },
+   {
+    "q": "Boston",
+    "right": "Massachusetts",
+    "wrong": [
+     "Connecticut",
+     "Vermont",
+     "New York"
+    ]
+   },
+   {
+    "q": "Detroit",
+    "right": "Michigan",
+    "wrong": [
+     "Wisconsin",
+     "Indiana",
+     "Missouri"
+    ]
+   },
+   {
+    "q": "Nashville",
+    "right": "Tennessee",
+    "wrong": [
+     "Kentucky",
+     "Alabama",
+     "Arkansas"
+    ]
+   },
+   {
+    "q": "New Orleans",
+    "right": "Louisiana",
+    "wrong": [
+     "Mississippi",
+     "Alabama",
+     "Arkansas"
+    ]
+   },
+   {
+    "q": "Denver",
+    "right": "Colorado",
+    "wrong": [
+     "Wyoming",
+     "Kansas",
+     "New Mexico"
+    ]
+   },
+   {
+    "q": "Phoenix",
+    "right": "Arizona",
+    "wrong": [
+     "New Mexico",
+     "Oklahoma",
+     "Idaho"
+    ]
+   },
+   {
+    "q": "Atlanta",
+    "right": "Georgia",
+    "wrong": [
+     "Alabama",
+     "South Carolina",
+     "North Carolina"
+    ]
+   },
+   {
+    "q": "Houston",
+    "right": "Texas",
+    "wrong": [
+     "Oklahoma",
+     "Arkansas",
+     "New Mexico"
+    ]
+   },
+   {
+    "q": "Philadelphia",
+    "right": "Pennsylvania",
+    "wrong": [
+     "New Jersey",
+     "Delaware",
+     "New York"
+    ]
+   },
+   {
+    "q": "Salt Lake City",
+    "right": "Utah",
+    "wrong": [
+     "Idaho",
+     "Wyoming",
+     "Montana"
+    ]
+   },
+   {
+    "q": "Baltimore",
+    "right": "Maryland",
+    "wrong": [
+     "Virginia",
+     "Delaware",
+     "New Jersey"
+    ]
+   },
+   {
+    "q": "Anchorage",
+    "right": "Alaska",
+    "wrong": [
+     "Montana",
+     "Oregon",
+     "Wyoming"
+    ]
+   },
+   {
+    "q": "Honolulu",
+    "right": "Hawaii",
+    "wrong": [
+     "Oregon",
+     "New Mexico",
+     "Virginia"
+    ]
+   },
+   {
+    "q": "Minneapolis",
+    "right": "Minnesota",
+    "wrong": [
+     "Wisconsin",
+     "Iowa",
+     "Nebraska"
+    ]
+   },
+   {
+    "q": "Cleveland",
+    "right": "Ohio",
+    "wrong": [
+     "Indiana",
+     "Kentucky",
+     "New York"
+    ]
+   },
+   {
+    "q": "San Diego",
+    "right": "California",
+    "wrong": [
+     "Oregon",
+     "New Mexico",
+     "Idaho"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: name the famous horse",
+  "target": 10,
+  "category": "Animals",
+  "tags": [
+   "horses",
+   "famous animals"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The Lone Ranger's horse",
+    "right": "Silver",
+    "wrong": [
+     "Champion",
+     "Topper",
+     "Duke"
+    ]
+   },
+   {
+    "q": "Don Quixote's horse",
+    "right": "Rocinante",
+    "wrong": [
+     "Dapple",
+     "Dulcinea",
+     "Hidalgo"
+    ]
+   },
+   {
+    "q": "Napoleon's famous grey",
+    "right": "Marengo",
+    "wrong": [
+     "Austerlitz",
+     "Jena",
+     "Waterloo"
+    ]
+   },
+   {
+    "q": "Wellington's horse at Waterloo",
+    "right": "Copenhagen",
+    "wrong": [
+     "Waterloo",
+     "Salamanca",
+     "Vitoria"
+    ]
+   },
+   {
+    "q": "Alexander the Great's horse",
+    "right": "Bucephalus",
+    "wrong": [
+     "Pegasus",
+     "Xanthus",
+     "Arion"
+    ]
+   },
+   {
+    "q": "Dick Turpin's horse",
+    "right": "Black Bess",
+    "wrong": [
+     "Black Beauty",
+     "Black Jack",
+     "Brown Bess"
+    ]
+   },
+   {
+    "q": "Roy Rogers' horse",
+    "right": "Trigger",
+    "wrong": [
+     "Champion",
+     "Topper",
+     "Buttermilk"
+    ]
+   },
+   {
+    "q": "Woody's horse in Toy Story",
+    "right": "Bullseye",
+    "wrong": [
+     "Buster",
+     "Slinky",
+     "Spirit"
+    ]
+   },
+   {
+    "q": "Gandalf's horse",
+    "right": "Shadowfax",
+    "wrong": [
+     "Brego",
+     "Bill",
+     "Hasufel"
+    ]
+   },
+   {
+    "q": "Steptoe and Son's horse",
+    "right": "Hercules",
+    "wrong": [
+     "Samson",
+     "Dobbin",
+     "Albert"
+    ]
+   },
+   {
+    "q": "The Derby winner kidnapped in 1983",
+    "right": "Shergar",
+    "wrong": [
+     "Arkle",
+     "Nijinsky",
+     "Shirley Heights"
+    ]
+   },
+   {
+    "q": "Three-time Grand National winner",
+    "right": "Red Rum",
+    "wrong": [
+     "L'Escargot",
+     "Crisp",
+     "Aldaniti"
+    ]
+   },
+   {
+    "q": "The grey who won the 1989 Gold Cup",
+    "right": "Desert Orchid",
+    "wrong": [
+     "Arkle",
+     "Best Mate",
+     "Kauto Star"
+    ]
+   },
+   {
+    "q": "Animal Farm's cart-horse sent to the knacker's",
+    "right": "Boxer",
+    "wrong": [
+     "Clover",
+     "Mollie",
+     "Benjamin"
+    ]
+   },
+   {
+    "q": "The horse in War Horse",
+    "right": "Joey",
+    "wrong": [
+     "Topthorn",
+     "Albert",
+     "Ginger"
+    ]
+   },
+   {
+    "q": "Tonto's horse",
+    "right": "Scout",
+    "wrong": [
+     "Paint",
+     "Pinto",
+     "Lightning"
+    ]
+   },
+   {
+    "q": "Zorro's horse",
+    "right": "Tornado",
+    "wrong": [
+     "Phantom",
+     "Diablo",
+     "Thunder"
+    ]
+   },
+   {
+    "q": "The palace horse in Tangled",
+    "right": "Maximus",
+    "wrong": [
+     "Pascal",
+     "Flynn",
+     "Achilles"
+    ]
+   },
+   {
+    "q": "Odin's eight-legged horse",
+    "right": "Sleipnir",
+    "wrong": [
+     "Gullfaxi",
+     "Skinfaxi",
+     "Arvakr"
+    ]
+   },
+   {
+    "q": "The racehorse who won all 14 of his races",
+    "right": "Frankel",
+    "wrong": [
+     "Sea the Stars",
+     "Enable",
+     "Dancing Brave"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country does this club play in?",
+  "target": 10,
+  "category": "Football",
+  "tags": [
+   "clubs",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Ajax",
+    "right": "the Netherlands",
+    "wrong": [
+     "Denmark",
+     "Germany",
+     "Finland"
+    ]
+   },
+   {
+    "q": "Benfica",
+    "right": "Portugal",
+    "wrong": [
+     "Spain",
+     "Italy",
+     "Uruguay"
+    ]
+   },
+   {
+    "q": "Celtic",
+    "right": "Scotland",
+    "wrong": [
+     "Ireland",
+     "Wales",
+     "Northern Ireland"
+    ]
+   },
+   {
+    "q": "Galatasaray",
+    "right": "Turkey",
+    "wrong": [
+     "Cyprus",
+     "Bulgaria",
+     "Albania"
+    ]
+   },
+   {
+    "q": "Olympiacos",
+    "right": "Greece",
+    "wrong": [
+     "Cyprus",
+     "Italy",
+     "Bulgaria"
+    ]
+   },
+   {
+    "q": "Boca Juniors",
+    "right": "Argentina",
+    "wrong": [
+     "Uruguay",
+     "Chile",
+     "Colombia"
+    ]
+   },
+   {
+    "q": "Flamengo",
+    "right": "Brazil",
+    "wrong": [
+     "Uruguay",
+     "Colombia",
+     "Mexico"
+    ]
+   },
+   {
+    "q": "Red Star Belgrade",
+    "right": "Serbia",
+    "wrong": [
+     "Bosnia",
+     "Slovenia",
+     "Montenegro"
+    ]
+   },
+   {
+    "q": "Club Brugge",
+    "right": "Belgium",
+    "wrong": [
+     "Denmark",
+     "France",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "Dinamo Zagreb",
+    "right": "Croatia",
+    "wrong": [
+     "Slovenia",
+     "Romania",
+     "Bosnia"
+    ]
+   },
+   {
+    "q": "Sparta Prague",
+    "right": "Czechia",
+    "wrong": [
+     "Slovakia",
+     "Slovenia",
+     "Russia"
+    ]
+   },
+   {
+    "q": "Ferencváros",
+    "right": "Hungary",
+    "wrong": [
+     "Romania",
+     "Slovakia",
+     "Bulgaria"
+    ]
+   },
+   {
+    "q": "Legia Warsaw",
+    "right": "Poland",
+    "wrong": [
+     "Belarus",
+     "Lithuania",
+     "Russia"
+    ]
+   },
+   {
+    "q": "Rosenborg",
+    "right": "Norway",
+    "wrong": [
+     "Denmark",
+     "Finland",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Malmö FF",
+    "right": "Sweden",
+    "wrong": [
+     "Denmark",
+     "Finland",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Shakhtar Donetsk",
+    "right": "Ukraine",
+    "wrong": [
+     "Russia",
+     "Belarus",
+     "Moldova"
+    ]
+   },
+   {
+    "q": "Al Ahly",
+    "right": "Egypt",
+    "wrong": [
+     "Morocco",
+     "Tunisia",
+     "Saudi Arabia"
+    ]
+   },
+   {
+    "q": "Young Boys",
+    "right": "Switzerland",
+    "wrong": [
+     "Germany",
+     "Luxembourg",
+     "Liechtenstein"
+    ]
+   },
+   {
+    "q": "Red Bull Salzburg",
+    "right": "Austria",
+    "wrong": [
+     "Germany",
+     "Slovenia",
+     "Liechtenstein"
+    ]
+   },
+   {
+    "q": "LA Galaxy",
+    "right": "USA",
+    "wrong": [
+     "Mexico",
+     "Canada",
+     "Costa Rica"
+    ]
+   }
+  ]
+ }
+]
