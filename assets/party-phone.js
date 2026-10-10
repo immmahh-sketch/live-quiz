@@ -80,26 +80,26 @@ function partyDeadline(s) { if (s.phase === 'question' && s.q && s.power?.fx?.sl
 
 // ---------------------------------------------------------------- the games: Play Your Cards Right, the quiz-night task
 function partyGameKey(s) {
-  if (s.pc) { const g = s.pc; return ['pc', g.step, g.i, g.alive.includes(P.pid), g.called.includes(P.pid)].join('|'); }
+  if (s.pc) { const g = s.pc, me = P.pid; return ['pc', g.step, g.pos?.[me] ?? '-', me in (g.out || {}), (g.done || []).includes(me)].join('|'); }
   if (s.tm) { const g = s.tm; return ['tm', g.step, g.round, g.picks.join(), g.spinning ? 's' : '', g.totalMs ? 'c' : ''].join('|'); }
   if (s.task) { const g = s.task; return ['task', g.step, g.got.includes(P.pid), P.work.taskBusy || '', P.work.taskPrev ? 'p' : '', P.work.taskErr || ''].join('|'); }
   return '';
 }
-const pcMini = (c, up) => `<div class="pcmini ${up ? 'up' : 'down'}"><div class="pclabel">${esc(c.label)}</div><div class="pcval">${up ? esc(c.show) : '?'}</div></div>`;
+const pcMini = (c, up, cls = '') => `<div class="pcmini ${up ? 'up' : 'down'} ${cls}"><div class="pclabel">${esc(c.label)}</div><div class="pcval">${up ? esc(c.show) : '?'}</div></div>`;
+/** Play Your Cards Right on the phone: the whole row at once, your own run against the one 30-second clock. */
 function pcPhoneHtml(s) {
-  const g = s.pc, me = P.pid, cur = g.cards[g.i], nxt = g.cards[g.i + 1], mine = g.pts?.[me] || 0;
+  const g = s.pc, me = P.pid, pos = g.pos?.[me] ?? 0, out = (g.out || {})[me], won = (g.done || []).includes(me), mine = g.pts?.[me] || 0;
   app.className = 'app';
+  const grid = (hi) => `<div class="pcgrid">${g.cards.map((c, i) => pcMini(c, g.step === 'over' || i <= pos || i === out, i === hi ? 'next' : i === out ? 'lost' : '')).join('')}</div>`;
+  const clock = g.step === 'play' && g.remainingMs ? `<div class="pcclock"><i style="animation-duration:${g.remainingMs}ms"></i></div>` : '';
   const foot = mine ? `<p class="center small muted mt">You've won ${mine} so far</p>` : '';
-  if (g.step === 'over') { const won = g.winners.includes(me); return `<div class="state"><div class="em">${won ? '🏆' : '🃏'}</div><h2>${won ? 'You made it to the end!' : g.winners.length ? `${esc(g.winners.map((p) => partyName(s, p)).join(', '))} made it` : 'Nobody made it to the end'}</h2><p class="muted">“${esc(g.banter || '')}”</p></div>${foot}`; }
-  if (g.step === 'flip') {
-    const r = g.last.right.includes(me), w = g.last.wrong.includes(me);
-    if (r && navigator.vibrate) try { navigator.vibrate(80); } catch {}
-    return `<div class="pcpair">${pcMini(g.cards[g.i - 1], true)}${pcMini(cur, true)}</div><div class="state" style="padding-top:6px"><div class="em">${r ? '✅' : w ? '❌' : g.last.up ? '⬆' : '⬇'}</div><h2>${g.last.up ? 'Higher!' : 'Lower!'} ${r ? `+${g.perCard}` : w ? "You're out" : ''}</h2><p class="muted">“${esc(g.banter || '')}”</p></div>${foot}`;
-  }
-  if (!g.alive.includes(me)) return `<div class="pcpair">${pcMini(cur, true)}${nxt ? pcMini(nxt, false) : ''}</div><div class="state" style="padding-top:6px"><div class="em">👀</div><h2>You're out</h2><p class="muted">Watch the others sweat…</p></div>${foot}`;
-  if (g.called.includes(me)) { const c = P.work.pcCall?.k === s.q.id + g.i ? P.work.pcCall.c : ''; return `<div class="pcpair">${pcMini(cur, true)}${pcMini(nxt, false)}</div><div class="state" style="padding-top:6px"><div class="em">🔒</div><h2>${c === 'h' ? 'You said HIGHER' : c === 'l' ? 'You said LOWER' : 'Locked in'}</h2><p class="muted">Waiting for the flip…</p></div>${foot}`; }
-  return `<div class="pq">${esc(nxt.label)}: higher or lower than ${esc(cur.show)}?</div><div class="pcpair">${pcMini(cur, true)}${pcMini(nxt, false)}</div>
-    <div class="pchl"><button class="btn pch" data-pc="h">⬆ HIGHER</button><button class="btn pcl" data-pc="l">⬇ LOWER</button></div>${foot}`;
+  if (g.step === 'over') return `${grid(-1)}<div class="state" style="padding-top:6px"><div class="em">${won ? '🏆' : '🃏'}</div><h2>${won ? 'You made it to the end!' : g.winners.length ? `${esc(g.winners.map((p) => partyName(s, p)).join(', '))} made it` : 'Nobody made it to the end'}</h2><p class="muted">“${esc(g.banter || '')}”</p></div>${foot}`;
+  if (!(me in (g.pos || {}))) return `${grid(-1)}<div class="state"><div class="em">👀</div><h2>Watch this one</h2><p class="muted">You joined after the cards were dealt.</p></div>`;
+  if (won) { if (navigator.vibrate) try { navigator.vibrate([60, 40, 120]); } catch {} return `${clock}${grid(-1)}<div class="state" style="padding-top:6px"><div class="em">🏆</div><h2>All the way to the end!</h2><p class="muted">+${g.prize} bonus · see if anyone else makes it…</p></div>${foot}`; }
+  if (out) return `${clock}${grid(-1)}<div class="state" style="padding-top:6px"><div class="em">❌</div><h2>Out on card ${out + 1}</h2><p class="muted">${pos ? `${pos} right before that` : 'Unlucky!'} · watch the others sweat…</p></div>${foot}`;
+  const cur = g.cards[pos], nxt = g.cards[pos + 1];
+  return `${clock}<div class="pq">${esc(nxt.label)}: higher or lower than ${esc(cur.show)}?</div>${grid(pos + 1)}
+    <div class="pchl"><button class="btn pch" data-pc="h" data-at="${pos}">⬆ HIGHER</button><button class="btn pcl" data-pc="l" data-at="${pos}">⬇ LOWER</button></div>${foot}`;
 }
 function taskCapHtml(text) {
   const prev = P.work.taskPrev, busy = P.work.taskBusy;
@@ -161,7 +161,11 @@ function taskBind(code, key, done) {
 }
 function partyBindGame(s) {
   const qId = s.q.id;
-  $$('[data-pc]').forEach((b) => b.onclick = () => { P.work.pcCall = { k: qId + s.pc.i, c: b.dataset.pc }; send('answer', { pid: P.pid, qId, answer: { call: b.dataset.pc } }); $$('[data-pc]').forEach((x) => x.disabled = true); b.classList.add('on'); if (navigator.vibrate) try { navigator.vibrate(40); } catch {} });
+  $$('[data-pc]').forEach((b) => b.onclick = () => {
+    send('answer', { pid: P.pid, qId, answer: { call: b.dataset.pc, at: +b.dataset.at } });
+    $$('[data-pc]').forEach((x) => x.disabled = true); b.classList.add('on'); if (navigator.vibrate) try { navigator.vibrate(40); } catch {}
+    setTimeout(() => $$('[data-pc]').forEach((x) => { x.disabled = false; x.classList.remove('on'); }), 2500); // if the answer got lost, let them tap again
+  });
   if (s.task) { if (P.work.taskFor !== qId) { P.work.taskFor = qId; P.work.taskPrev = null; P.work.taskErr = ''; } taskBind(s.task.code, s.task.key, () => send('answer', { pid: P.pid, qId, answer: { photo: true } })); }
 }
 

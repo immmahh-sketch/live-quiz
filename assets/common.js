@@ -85,7 +85,7 @@ window.LQ = (() => {
     nearest:{ label: 'Nearest Wins',    icon: '🎯', blurb: 'A number question. Everyone guesses, the guesses go up on a number line, then the answer drops in. The closer you are, the more you score.' },
     draw:   { label: 'Draw It',         icon: '🎨', blurb: 'One player draws a secret word on their phone and it appears live on the screen. Everyone else races to guess it. Quick guessers score, and so does the artist.' },
     twenty: { label: '20 Questions',    icon: '🕵️', blurb: 'Everyone has the same mystery person or thing to find. Players tap yes/no questions on their phones and guess whenever they like. The first three to crack it score; running out of questions or time costs points.' },
-    cards:  { label: 'Play Your Cards Right', icon: '🃏', blurb: 'A row of cards, each hiding a number (a price, a year, a height). The first is face up; for every next card the room calls Higher or Lower on their phones. Right and you stay in; wrong and you are out. Reach the end for the bonus.' },
+    cards:  { label: 'Play Your Cards Right', icon: '🃏', blurb: 'A row of cards, each hiding a number (a price, a year, a height), all on screen at once. Everyone races the row on their own phone against one 30-second clock: call Higher or Lower and, if you are right, the next card turns straight away. One wrong call and you are out; reach the end for the bonus.' },
     task:   { label: 'Taskmaster',      icon: '📞', blurb: 'Silly tasks done on camera. The wheel spins to pick three players, an envelope opens with the task ("bring me six AA batteries"), and 90 seconds later the host picks 1st, 2nd and 3rd; not trying costs points. Or everyone at once, or a photo from every phone (the warm-up).' },
     about:  { label: 'About You',       icon: '🙋', blurb: 'For the warm-up: players answer a question about themselves. Their answers come back on quiz night in Who Said That?' },
     whosaid:{ label: 'Who Said That?',  icon: '🗣️', blurb: 'An answer someone gave in the warm-up goes up on the screen. Whose was it? Everyone picks the player on their phone (except the one who said it).' },
@@ -580,7 +580,7 @@ window.LQ = (() => {
     nearest: 'Type your best guess at the number. The closer you are, the more you score, and the closest of all gets a bonus.',
     twenty: 'Everyone has the same mystery person or thing. Tap a question and your phone says yes or no; new questions open up as you go. Guess whenever you like in the box, but a wrong guess uses up a question. You have 20 questions and a three-minute clock. First to crack it scores most, then second and third; still stuck at the end and it costs you.',
     draw: 'When it is your turn, pick a word and draw it on your phone: no letters or numbers! Everyone else types guesses as fast as they can. Quick guessers score most, and the artist scores for every right guess.',
-    cards: 'Play Your Cards Right! The first card is face up. Is the next one higher or lower? Call it on your phone before the clock runs out. Right and you stay in for the next card; wrong and you are out. Get to the end of the row for the bonus.',
+    cards: 'Play Your Cards Right! All the cards are dealt and the first is face up. Is the next one higher or lower? Call it on your phone: right and the next card turns over straight away, wrong and you are out. You have 30 seconds to get through the whole row: reach the end for the bonus.',
     'task-live': 'Taskmaster homework! No clock: read the task, tap "I’m in", then get it ready before quiz night. You show it on camera on the night and the Taskmaster scores it live.',
     task: 'A Taskmaster task! The wheel picks who does it (or it is everyone at once, or a photo on your phone). Do it on camera before the time runs out. The Taskmaster picks the winners, and not even trying costs you. Be quick, be creative, be ridiculous.',
     about: 'A question about YOU. Answer honestly (or at least entertainingly): your answer might turn up on quiz night, and everyone will have to guess it was you.',
@@ -649,7 +649,7 @@ window.LQ = (() => {
     return b;
   }
   try { setBrand(document.documentElement.dataset.brand || 'lq'); } catch {}
-  const DEFAULT_TIMES = { nearest: 25, draw: 60, catchphrase: 50, conundrum: 30, reveal: 40, survey: 30, unique: 25, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30, potato: 90, koth: 15, blockbusters: 20, chase: 15, twenty: 180, cards: 12, task: 120, about: 45, whosaid: 20 };
+  const DEFAULT_TIMES = { nearest: 25, draw: 60, catchphrase: 50, conundrum: 30, reveal: 40, survey: 30, unique: 25, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30, potato: 90, koth: 15, blockbusters: 20, chase: 15, twenty: 180, cards: 30, task: 120, about: 45, whosaid: 20 };
   const DEFAULT_SETTINGS = { maxPoints: 1000, minPoints: 500, defaultTime: 30, showAnswersOnPhones: true, timeByType: { ...DEFAULT_TIMES } };
 
   /** The time limit a question of this type gets by default in this quiz. */

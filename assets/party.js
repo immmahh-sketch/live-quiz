@@ -125,10 +125,10 @@ function partyState(s) {
   }
   if (G.quiz.settings.bounty && !WARMUP) s.bounty = true;
   const nowT = G.paused ? G.pausedAt : Date.now();
-  if (G.phase === 'question' && G.q?.pc) {
-    const g = G.q.pc, q = question();
-    s.pc = { step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, i: g.i, cards: g.cards.map((c, i) => i <= g.i ? c : { label: c.label }), alive: g.alive, called: Object.keys(g.calls),
-      last: g.step === 'flip' ? { up: g.last.up, right: g.last.right, wrong: g.last.wrong } : null, winners: g.winners || [], perCard: q.perCard ?? 200, prize: q.prize ?? 500, pts: g.pts, banter: g.banter };
+  if (G.phase === 'question' && G.q?.pc?.v) {
+    const g = G.q.pc, q = question(), over = g.step === 'over', best = Math.max(0, ...Object.values(g.pos));
+    s.pc = { step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, cards: g.cards.map((c, i) => over || i <= best || Object.values(g.out).includes(i) ? c : { label: c.label }),
+      pos: g.pos, out: g.out, done: Object.keys(g.done), winners: g.winners || [], perCard: q.perCard ?? 200, prize: q.prize ?? 500, pts: g.pts, banter: g.banter };
   }
   tmState(s); // Taskmaster on camera
   if (G.phase === 'question' && G.q?.task) {
@@ -164,66 +164,75 @@ function partyDecorate() {
 }
 
 // ---------------------------------------------------------------- Play Your Cards Right
+// Every card is on screen from the start. Each player runs the row on their own phone against one 30-second clock:
+// call higher or lower and, if it's right, the next card turns over at once (no countdown between turns). One wrong
+// call ends your run; get to the end of the row for the bonus. (User, 10 Oct 2026.)
+const PC_GAME_MS = 30000;
 const PC_BANTER = {
-  call: ['Higher or lower?', "Don't be shy, shout it out!", 'Make your mind up!', 'Have a word with yourself…', 'Higher! Lower! Somebody say something!'],
-  right: ['Good game, good game!', 'Lovely, lovely!', 'Nice to see you, to see you… still in!', "Didn't they do well?"],
-  wrong: ['Ohhh, what a shame.', 'You get nothing for a pair… not in this game!', 'Ooh, it was so close!', 'Points mean prizes… and you just lost yours!'],
-  over: ['What do points make? PRIZES!', 'Good game, good game!'],
+  play: ['Higher or lower?', "Don't be shy, shout it out!", 'Make your mind up!', 'Have a word with yourself…', 'Higher! Lower! Somebody say something!'],
+  over: ['What do points make? PRIZES!', 'Good game, good game!', "Didn't they do well?", 'Nice to see you, to see you… nice!'],
 };
 function pcStart() {
-  G.q.pc = { cards: LQ.cardsOf(question()), i: 0, step: 'call', until: 0, total: 0, alive: livePids().slice(), calls: {}, pts: {}, outAt: {}, last: null, banter: '', winners: [] };
-  pcCall();
+  const pos = {}; for (const pid of livePids()) pos[pid] = 0;
+  G.q.pc = { v: 2, cards: LQ.cardsOf(question()), step: 'play', until: 0, total: 0, pos, out: {}, done: {}, pts: {}, winners: [], banter: partyPick(PC_BANTER.play), t0: Date.now() };
+  stepTo(G.q.pc, 'play', PC_GAME_MS); sound('go');
+  persist(); pcRender(); broadcastState();
+  for (const b of G.bots || []) if (b.pid in G.q.pc.pos) pcBotTurn(b);
 }
-function pcCall() {
-  const g = G.q.pc; g.calls = {}; g.banter = partyPick(PC_BANTER.call);
-  stepTo(g, 'call', LQ.clamp(+question().time || 12, 5, 60) * 1000); sound('go');
-  persist(); pcRender(); broadcastState(); pcBots();
-}
+/** Still running the row: not out, not finished. */
+const pcPlaying = (g, pid) => pid in g.pos && !(pid in g.out) && !(pid in g.done);
 function pcAnswer(pid, a) {
-  const g = G.q.pc; if (!g || g.step !== 'call' || !g.alive.includes(pid) || g.calls[pid] || !a || !['h', 'l'].includes(a.call)) return;
-  g.calls[pid] = a.call; sound('tick');
-  if (g.alive.every((x) => g.calls[x])) return pcFlip();
+  const g = G.q.pc; if (!g || !g.v || g.step !== 'play' || !a || !['h', 'l'].includes(a.call)) return;
+  if (!(pid in g.pos) && G.players[pid]) g.pos[pid] = 0; // joined after the start
+  if (!pcPlaying(g, pid)) return;
+  const at = g.pos[pid]; if (a.at != null && +a.at !== at) return; // a double tap on a card that has already turned
+  const q = question(), cur = g.cards[at], nxt = g.cards[at + 1]; if (!nxt) return;
+  const up = nxt.n > cur.n;
+  if ((a.call === 'h') === up) {
+    g.pos[pid] = at + 1; g.pts[pid] = (g.pts[pid] || 0) + (q.perCard ?? 200);
+    if (g.pos[pid] >= g.cards.length - 1) { g.done[pid] = Date.now() - g.t0; g.winners.push(pid); g.pts[pid] += (q.prize ?? 500); sound('fanfare'); }
+    else sound('ding');
+  } else { g.out[pid] = at + 1; sound('wrong'); }
+  if (!Object.keys(g.pos).some((p) => pcPlaying(g, p))) return pcOver();
   persist(); pcRender(); broadcastState();
-}
-function pcFlip() {
-  const g = G.q.pc, q = question(), prev = g.cards[g.i], next = g.cards[g.i + 1]; if (!next) return pcOver();
-  g.i++; g.until = 0;
-  const up = next.n > prev.n, right = [], wrong = [];
-  for (const pid of g.alive) { const c = g.calls[pid]; if (c && (c === 'h') === up) { right.push(pid); g.pts[pid] = (g.pts[pid] || 0) + (q.perCard ?? 200); } else { wrong.push(pid); g.outAt[pid] = g.i; } }
-  g.alive = right; g.last = { up, right, wrong };
-  g.banter = partyPick(right.length ? PC_BANTER.right : PC_BANTER.wrong);
-  stepTo(g, 'flip', 5000); sound(right.length >= wrong.length ? 'ding' : 'wrong');
-  persist(); pcRender(); broadcastState();
+  const b = (G.bots || []).find((x) => x.pid === pid); if (b && pcPlaying(g, pid)) pcBotTurn(b);
 }
 function pcOver() {
-  const g = G.q.pc, q = question();
-  g.winners = g.i >= g.cards.length - 1 ? g.alive.slice() : [];
-  for (const pid of g.winners) g.pts[pid] = (g.pts[pid] || 0) + (q.prize ?? 500);
+  const g = G.q.pc; if (g.step === 'over') return;
   g.banter = partyPick(PC_BANTER.over); stepTo(g, 'over', 6000); sound(g.winners.length ? 'fanfare' : 'trombone');
   persist(); pcRender(); broadcastState();
 }
 function pcStepDone() {
   const g = G.q.pc;
-  if (g.step === 'call') return pcFlip();
-  if (g.step === 'flip') return !g.alive.length || g.i >= g.cards.length - 1 ? pcOver() : pcCall();
+  if (g.step === 'play') return pcOver();
   if (g.step === 'over') return endQuestion();
+  return endQuestion(); // a game saved by the old version
 }
-function pcBots() {
-  const g = G.q.pc, nxt = g.cards[g.i + 1], cur = g.cards[g.i]; if (!nxt) return;
-  const t = LQ.clamp(+question().time || 12, 5, 60) * 1000;
-  for (const b of G.bots || []) if (g.alive.includes(b.pid)) botLater(() => { if (G.q?.pc === g && g.step === 'call') pcAnswer(b.pid, { call: chance(b.skill) === (nxt.n > cur.n) ? 'h' : 'l' }); }, rnd(1200, t * 0.7));
+function pcBotTurn(b) {
+  const g = G.q.pc, at = g.pos[b.pid], cur = g.cards[at], nxt = g.cards[at + 1]; if (!nxt) return;
+  botLater(() => { if (G.q?.pc === g && g.step === 'play' && g.pos[b.pid] === at) pcAnswer(b.pid, { call: chance(b.skill) === (nxt.n > cur.n) ? 'h' : 'l', at }); }, rnd(900, 2600));
 }
 const pcCardHtml = (c, up, cls = '') => `<div class="pccard ${up ? 'up' : 'down'} ${cls}"><div class="pcin"><div class="pcface"><div class="pclabel">${esc(c.label)}</div><div class="pcval">${esc(c.show || '')}</div></div><div class="pcbackf"><div class="pclabel">${esc(c.label)}</div><div class="pcq">?</div></div></div></div>`;
+/** One player's run as a strip of pips: green for each right call, red where they went out. */
+function pcTrack(g, pid) {
+  const n = g.cards.length - 1, got = g.pos[pid] || 0;
+  const pips = Array.from({ length: n }, (_, i) => `<i class="${i < got ? 'ok' : g.out[pid] === i + 1 ? 'no' : ''}"></i>`).join('');
+  const tag = pid in g.done ? `🏆 ${(g.done[pid] / 1000).toFixed(1)}s` : pid in g.out ? '❌ out' : '';
+  return `<div class="pctrack ${pid in g.done ? 'won' : pid in g.out ? 'lost' : ''}"><span class="pcwho">${pem(pid)} ${esc(pname(pid))}</span><span class="pcpips">${pips}</span><span class="pctag">${tag}</span></div>`;
+}
 function pcRender() {
   const q = question(), g = G.q.pc; if (!g) return;
-  const row = g.cards.map((c, i) => pcCardHtml(c, i <= g.i, (i === g.i + 1 && g.step === 'call' ? 'next' : '') + (i === g.i && g.step === 'flip' ? ' flipped' : ''))).join('');
-  let sub;
-  if (g.step === 'call') sub = `<div class="pcask">${esc(g.cards[g.i + 1].label)}: <b>higher</b> or <b>lower</b> than ${esc(g.cards[g.i].show)}?</div><div class="pcbanter">“${esc(g.banter)}”</div><div class="pcstat">${Object.keys(g.calls).length} of ${g.alive.length} called · call it on your phone!</div>`;
-  else if (g.step === 'flip') sub = `<div class="pcbig ${g.last.up ? 'up' : 'down'}">${g.last.up ? '⬆ HIGHER!' : '⬇ LOWER!'}</div><div class="pcbanter">“${esc(g.banter)}”</div><div class="textlist">${g.last.right.map((p) => `<span class="tl ok">${pem(p)} ${esc(pname(p))} +${q.perCard ?? 200}</span>`).join('')}${g.last.wrong.map((p) => `<span class="tl no">${pem(p)} ${esc(pname(p))} out</span>`).join('')}</div>`;
-  else sub = g.winners.length ? `<div class="pcbig up">🏆 ${g.winners.map((p) => esc(pname(p))).join(', ')}</div><div class="pcbanter">“${esc(g.banter)}” · +${q.prize ?? 500} for reaching the end</div>` : `<div class="pcbig down">Nobody made it to the end!</div><div class="pcbanter">“${esc(g.banter)}”</div>`;
-  stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill">🃏 ${g.alive.length} still in</span><div class="timer ${g.until ? '' : 'hidden'}" id="timer" data-s="${Math.ceil((g.total || 0) / 1000)}" style="--p:100%"></div></div>`)}
-    <div class="stage-main pcstage"><h1 class="qtext" style="font-size:clamp(1.3rem,2.6vw,2.2rem)">${esc(q.text)}</h1><div class="pcrow">${row}</div>${sub}</div>
-    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-ghost" data-act="stopgame">Stop the game ■</button><button class="btn btn-primary" id="pcNext">${g.step === 'call' ? 'Flip it ▶' : g.step === 'flip' ? 'Next card ▶' : 'Finish ▶'}</button>`)}`;
+  if (!g.v) { g.v = 2; g.step = 'over'; g.until = 0; g.pos = g.pos || {}; g.out = g.outAt || {}; g.done = {}; g.winners = g.winners || []; g.banter = g.banter || ''; } // saved by the old version: just let it finish
+  const over = g.step === 'over', best = Math.max(0, ...Object.values(g.pos));
+  const row = g.cards.map((c, i) => pcCardHtml(c, over || i === 0, !over && i === best + 1 ? 'next' : '')).join('');
+  const pids = Object.keys(g.pos).filter((p) => G.players[p]).sort((a, b) => (b in g.done) - (a in g.done) || (g.done[a] ?? 0) - (g.done[b] ?? 0) || (g.pos[b] || 0) - (g.pos[a] || 0));
+  const still = pids.filter((p) => pcPlaying(g, p)).length;
+  const sub = over
+    ? (g.winners.length ? `<div class="pcbig up">🏆 ${g.winners.map((p) => esc(pname(p))).join(', ')}</div><div class="pcbanter">“${esc(g.banter)}” · +${q.prize ?? 500} for reaching the end</div>` : `<div class="pcbig down">Nobody made it to the end!</div><div class="pcbanter">“${esc(g.banter)}”</div>`)
+    : `<div class="pcask">Higher or lower? Get through every card in ${Math.round(PC_GAME_MS / 1000)} seconds on your phone!</div><div class="pcbanter">“${esc(g.banter)}”</div>`;
+  stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill">🃏 ${over ? `${g.winners.length} made it` : `${still} still going`}</span><div class="timer ${g.until ? '' : 'hidden'}" id="timer" data-s="${Math.ceil((g.total || 0) / 1000)}" style="--p:100%"></div></div>`)}
+    <div class="stage-main pcstage"><h1 class="qtext" style="font-size:clamp(1.3rem,2.6vw,2.2rem)">${esc(q.text)}</h1><div class="pcrow">${row}</div>${sub}<div class="pctracks">${pids.map((p) => pcTrack(g, p)).join('')}</div></div>
+    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-ghost" data-act="stopgame">Stop the game ■</button><button class="btn btn-primary" id="pcNext">${over ? 'Finish ▶' : 'Stop the clock ■'}</button>`)}`;
   bind(); $('#pcNext').onclick = () => { if (G.q?.pc) { G.q.pc.until = 0; pcStepDone(); } };
 }
 
@@ -334,7 +343,7 @@ function partyView(q, v, tok) {
   v.mine = drawSecret(wsNow.author, { mine: 1 });
 }
 function partyIntroSub(q) {
-  if (q.type === 'cards') return `${LQ.cardsOf(q).length} cards · call higher or lower on your phone · ${q.perCard ?? 200} for each right call · one wrong call and you're out · reach the end for ${q.prize ?? 500} more`;
+  if (q.type === 'cards') return `${LQ.cardsOf(q).length} cards · 30 seconds to get through the lot on your phone · ${q.perCard ?? 200} for each right call · one wrong call and you're out · reach the end for ${q.prize ?? 500} more`;
   if (tmMode(q) && q.mode === 'all') { const p = tmPrizes(q); return `Everybody does it, all at once, on camera · ${q.time || 90} seconds · best three win ${p.join(', ')}`; }
   if (tmMode(q)) { const p = tmPrizes(q); return `The wheel picks who does each task · bring it to the camera · ${q.time || 90} seconds · 1st ${p[0]}, 2nd ${p[1]}, 3rd ${p[2]} · don't even try: −${tmFail(q)}`; }
   if (q.type === 'task') { const p = q.prizes || [1000, 600, 300]; return `Take the photo on your phone and send it in · best three win ${p.join(', ')} · the worst loses ${q.worst ?? 300}`; }
@@ -401,11 +410,11 @@ function partyReveal() {
 /** Marking (inside grade): the new types. */
 function partyGrade(q, byPlayer, PL, stats, entries, res, keys) {
   if (q.type === 'cards') {
-    const g = G.q.pc || { pts: {}, outAt: {}, winners: [], cards: [] };
+    const g = G.q.pc || { pts: {}, out: {}, winners: [], cards: [] };
     for (const pid of new Set([...livePids(), ...Object.keys(g.pts)])) {
       if (!PL[pid]) continue;
-      const pts = g.pts[pid] || 0, won = g.winners.includes(pid);
-      byPlayer[pid] = { answered: true, correct: won, partial: won ? 1 : pts > 0 ? 0.5 : 0, points: pts, note: won ? '🃏 You made it to the end of the row!' : g.outAt[pid] ? `🃏 Out on card ${g.outAt[pid] + 1}${pts ? ` · +${pts}` : ''}` : '🃏 Still in when it stopped' };
+      const pts = g.pts[pid] || 0, won = g.winners.includes(pid), out = (g.out || g.outAt || {})[pid];
+      byPlayer[pid] = { answered: true, correct: won, partial: won ? 1 : pts > 0 ? 0.5 : 0, points: pts, note: won ? `🃏 You made it to the end of the row${g.done?.[pid] ? ` in ${(g.done[pid] / 1000).toFixed(1)}s` : ''}!` : out ? `🃏 Out on card ${out + 1}${pts ? ` · +${pts}` : ''}` : `🃏 Time ran out${pts ? ` · +${pts}` : ''}` };
       if (won) stats.right++;
     }
     stats.answered = Object.keys(byPlayer).length;
@@ -444,7 +453,7 @@ function partyAnswerText(q) {
   return null;
 }
 function partyAnswerDisplay(q, pid) {
-  if (q.type === 'cards') { const g = G.q.pc; return !g ? '—' : g.winners.includes(pid) ? 'made it to the end 🏆' : g.outAt[pid] ? `out on card ${g.outAt[pid] + 1}` : '—'; }
+  if (q.type === 'cards') { const g = G.q.pc, out = g && (g.out || g.outAt || {})[pid]; return !g ? '—' : g.winners.includes(pid) ? 'made it to the end 🏆' : out ? `out on card ${out + 1}` : g.pos?.[pid] ? `${g.pos[pid]} right when time ran out` : '—'; }
   if (q.type === 'task' && G.q.tm) { const d = G.q.tm.done.filter((x) => x.picks.includes(pid)); return d.length ? d.map((x) => `${x.places[pid] ? TM_PLACES[x.places[pid]] : '·'} ${x.got[pid] > 0 ? '+' : ''}${x.got[pid]}`).join(', ') : 'not picked'; }
   if (q.type === 'task') { const g = G.q.task; if (WARMUP) return G.q.answers[pid] ? (q.mode === 'live' ? '🎬 in' : '📸 photo sent') : '—'; return !g ? '—' : g.picks[pid] ? `${TASK_MEDAL[g.picks[pid]]} photo` : g.photos[pid] ? '📸 photo sent' : '—'; }
   if (q.type === 'whosaid') { const a = G.q.answers[pid]; if (pid === G.q.author) return 'it was theirs'; if (!a) return '—'; if (a.answer === 'skip') return 'skipped'; const id = G.q.keys[a.answer]; return id ? pname(id.slice(2)) : '—'; }

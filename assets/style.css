@@ -1496,6 +1496,26 @@ body.hascallbar .app { padding-top: calc(48px + env(safe-area-inset-top)); }
 .pcmini.up { background: #fff; border: 3px solid #e21b3c; color: var(--ink); }
 .pcmini.down { background: repeating-linear-gradient(45deg, #e21b3c 0 10px, #b5102b 10px 20px); color: #fff; border: 3px solid #fff; }
 .pcmini .pcval { font-size: 1.8rem; }
+/* Play Your Cards Right on the phone: the whole row at once, and one bar for the 30-second clock. */
+.pcgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(66px, 1fr)); gap: 6px; margin: 6px 0 12px; }
+.pcgrid .pcmini { width: auto; max-width: none; aspect-ratio: 4 / 5; padding: 5px 3px; border-radius: 10px; border-width: 2px; }
+.pcgrid .pcmini .pclabel { font-size: .72rem; line-height: 1.15; }
+.pcgrid .pcmini .pcval { font-size: 1.15rem; }
+.pcmini.next { outline: 4px solid #ffd60a; outline-offset: 2px; animation: pcPulse 1.2s infinite; }
+.pcmini.lost { border-color: var(--bad); box-shadow: 0 0 0 4px var(--bad); }
+.pcclock { height: 10px; border-radius: 99px; background: rgba(0,0,0,.12); overflow: hidden; margin: 2px 0 8px; }
+.pcclock i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, #e21b3c, #ffd60a); transform-origin: left; animation: pcClock linear forwards; }
+@keyframes pcClock { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+/* ...and on the host screen, everyone's run as a strip of pips */
+.pctracks { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 6px 18px; width: min(1100px, 96%); margin: 6px auto 0; }
+.pctrack { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: clamp(.85rem, 1.2vw, 1.05rem); }
+.pctrack .pcwho { flex: 0 1 40%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pctrack .pcpips { display: flex; gap: 4px; flex: 1; }
+.pctrack .pcpips i { flex: 1; height: 12px; border-radius: 4px; background: rgba(255,255,255,.22); }
+.pctrack .pcpips i.ok { background: #7dff8a; }
+.pctrack .pcpips i.no { background: #ff8a9b; }
+.pctrack .pctag { white-space: nowrap; }
+.pctrack.lost { opacity: .6; }
 .pchl { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .pchl .btn { min-height: 92px; font-size: 1.3rem; font-weight: 900; color: #fff; border: 0; justify-content: center; }
 .pch { background: #26890c; }

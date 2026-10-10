@@ -356,6 +356,26 @@ window.DEMO_SAMPLES = {
   "category": "General knowledge",
   "difficulty": "easy"
  },
+ "cards": {
+  "id": "q_pc000001",
+  "type": "cards",
+  "text": "Play Your Cards Right: the numbers of the Tyne Bridge",
+  "time": 30,
+  "media": { "kind": "none" },
+  "partial": false,
+  "perCard": 200,
+  "prize": 500,
+  "cards": [
+   { "label": "Year it opened", "value": "1928", "n": 1928 },
+   { "label": "Height of the arch, in metres, roughly", "value": "59", "n": 59 },
+   { "label": "Year the Sydney Harbour Bridge opened", "value": "1932", "n": 1932 },
+   { "label": "Bridges across the Tyne between Newcastle and Gateshead", "value": "7", "n": 7 },
+   { "label": "Length in metres, roughly", "value": "389", "n": 389 },
+   { "label": "Kittiwakes nesting on it each summer, roughly", "value": "1,000", "n": 1000 }
+  ],
+  "category": "North East England",
+  "difficulty": "medium"
+ },
  "conundrum": {
   "id": "q_cn000001",
   "type": "text",
@@ -1824,7 +1844,7 @@ window.DEMO_TYPES = [
   ['smash', 'Answer Smash', '🔀'], ['rhyme', 'Rhyme Time', '🎤'], ['wheel', 'Wheel of Fortune', '🎡'], ['club', 'The 1% Club', '🧠'],
   ['dingbat', 'Dingbats', '🔤'], ['conundrum', 'Countdown Conundrum', '🔠'], ['tune', 'Name That Tune', '🎵'], ['catchphrase', 'Catchphrase', '🗯️'], ['nearest', 'Nearest Wins', '🎯'],
   ['wipeout', 'Wipeout', '💥'], ['race', 'The Race', '🏁'], ['potato', 'Hot Potato', '💣'], ['koth', 'King of the Hill', '👑'],
-  ['chase', 'The Chase', '🏃'], ['blockbusters', 'Blockbusters', '⬢'], ['draw', 'Draw It', '🎨'], ['twenty', '20 Questions', '🕵️'],
+  ['chase', 'The Chase', '🏃'], ['blockbusters', 'Blockbusters', '⬢'], ['draw', 'Draw It', '🎨'], ['twenty', '20 Questions', '🕵️'], ['cards', 'Play Your Cards Right', '🃏'],
 ];
 /** Types with no bank of their own: only the one built-in sample, so at most one each. */
 window.DEMO_ONE_ONLY = ['nearest', 'draw'];
