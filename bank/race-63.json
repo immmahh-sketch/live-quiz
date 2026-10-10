@@ -1,0 +1,388 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which famous Duke?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "dukes",
+   "royals"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The 'Iron Duke' who won at Waterloo",
+    "right": "Wellington",
+    "wrong": [
+     "Beaufort",
+     "Somerset",
+     "Portland"
+    ]
+   },
+   {
+    "q": "Given Blenheim Palace for beating the French in 1704",
+    "right": "Marlborough",
+    "wrong": [
+     "Beaufort",
+     "Grafton",
+     "Rutland"
+    ]
+   },
+   {
+    "q": "Prince Philip's title, given on his wedding day in 1947",
+    "right": "Edinburgh",
+    "wrong": [
+     "Gloucester",
+     "Connaught",
+     "Albany"
+    ]
+   },
+   {
+    "q": "The grand old one who marched his ten thousand men up the hill",
+    "right": "York",
+    "wrong": [
+     "Gloucester",
+     "Albany",
+     "Buckingham"
+    ]
+   },
+   {
+    "q": "Edward VIII's title after he abdicated",
+    "right": "Windsor",
+    "wrong": [
+     "Gloucester",
+     "Cambridge",
+     "Albany"
+    ]
+   },
+   {
+    "q": "Prince Harry's title since his 2018 wedding",
+    "right": "Sussex",
+    "wrong": [
+     "Cambridge",
+     "Gloucester",
+     "Albany"
+    ]
+   },
+   {
+    "q": "The Earl Marshal, who organises coronations and state funerals",
+    "right": "Norfolk",
+    "wrong": [
+     "Somerset",
+     "Suffolk",
+     "Buckingham"
+    ]
+   },
+   {
+    "q": "Head of the Grosvenor family, who own much of Mayfair and Belgravia",
+    "right": "Westminster",
+    "wrong": [
+     "Buckingham",
+     "Portland",
+     "Grafton"
+    ]
+   },
+   {
+    "q": "His Alnwick Castle doubled as Hogwarts",
+    "right": "Northumberland",
+    "wrong": [
+     "Sutherland",
+     "Roxburghe",
+     "Buccleuch"
+    ]
+   },
+   {
+    "q": "Has Europe's only legal private army, his own Highlanders",
+    "right": "Atholl",
+    "wrong": [
+     "Argyll",
+     "Montrose",
+     "Hamilton"
+    ]
+   },
+   {
+    "q": "Woburn Abbey and its safari park",
+    "right": "Bedford",
+    "wrong": [
+     "Grafton",
+     "Manchester",
+     "Rutland"
+    ]
+   },
+   {
+    "q": "Charles II's son whose 1685 rebellion ended at Sedgemoor",
+    "right": "Monmouth",
+    "wrong": [
+     "Buckingham",
+     "Somerset",
+     "Grafton"
+    ]
+   },
+   {
+    "q": "Said to have been drowned in a barrel of malmsey wine in the Tower",
+    "right": "Clarence",
+    "wrong": [
+     "Gloucester",
+     "Buckingham",
+     "Somerset"
+    ]
+   },
+   {
+    "q": "Chatsworth House is the family seat",
+    "right": "Devonshire",
+    "wrong": [
+     "Rutland",
+     "Portland",
+     "Leeds"
+    ]
+   },
+   {
+    "q": "'Butcher' who crushed the Jacobites at Culloden",
+    "right": "Cumberland",
+    "wrong": [
+     "Hamilton",
+     "Montrose",
+     "Fife"
+    ]
+   },
+   {
+    "q": "The heir to the throne's title in England, with its own estate",
+    "right": "Cornwall",
+    "wrong": [
+     "Albany",
+     "Somerset",
+     "Suffolk"
+    ]
+   },
+   {
+    "q": "The heir to the throne's title in Scotland",
+    "right": "Rothesay",
+    "wrong": [
+     "Albany",
+     "Fife",
+     "Montrose"
+    ]
+   },
+   {
+    "q": "Hosts the Festival of Speed at Goodwood",
+    "right": "Richmond",
+    "wrong": [
+     "Beaufort",
+     "Rutland",
+     "Grafton"
+    ]
+   },
+   {
+    "q": "The monarch's own title in Lancashire, toasted as 'the Duke'",
+    "right": "Lancaster",
+    "wrong": [
+     "Leeds",
+     "Manchester",
+     "Suffolk"
+    ]
+   },
+   {
+    "q": "Presented the Wimbledon trophies for decades as All England Club president",
+    "right": "Kent",
+    "wrong": [
+     "Gloucester",
+     "Buckingham",
+     "Suffolk"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which town or city is this shopping centre in?",
+  "target": 10,
+  "category": "Britain",
+  "tags": [
+   "shopping centres",
+   "towns"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The Metrocentre",
+    "right": "Gateshead",
+    "wrong": [
+     "South Shields",
+     "Washington",
+     "Middlesbrough"
+    ]
+   },
+   {
+    "q": "The Bullring",
+    "right": "Birmingham",
+    "wrong": [
+     "Wolverhampton",
+     "Coventry",
+     "Derby"
+    ]
+   },
+   {
+    "q": "The Trafford Centre",
+    "right": "Manchester",
+    "wrong": [
+     "Bolton",
+     "Stockport",
+     "Wigan"
+    ]
+   },
+   {
+    "q": "Meadowhall",
+    "right": "Sheffield",
+    "wrong": [
+     "Doncaster",
+     "Barnsley",
+     "Chesterfield"
+    ]
+   },
+   {
+    "q": "Bluewater",
+    "right": "Dartford",
+    "wrong": [
+     "Chatham",
+     "Maidstone",
+     "Romford"
+    ]
+   },
+   {
+    "q": "Lakeside",
+    "right": "Thurrock",
+    "wrong": [
+     "Basildon",
+     "Romford",
+     "Chelmsford"
+    ]
+   },
+   {
+    "q": "Eldon Square",
+    "right": "Newcastle",
+    "wrong": [
+     "Durham",
+     "Middlesbrough",
+     "Carlisle"
+    ]
+   },
+   {
+    "q": "St David's",
+    "right": "Cardiff",
+    "wrong": [
+     "Swansea",
+     "Newport",
+     "Bath"
+    ]
+   },
+   {
+    "q": "Buchanan Galleries",
+    "right": "Glasgow",
+    "wrong": [
+     "Dundee",
+     "Stirling",
+     "Inverness"
+    ]
+   },
+   {
+    "q": "Cribbs Causeway",
+    "right": "Bristol",
+    "wrong": [
+     "Bath",
+     "Swindon",
+     "Exeter"
+    ]
+   },
+   {
+    "q": "White Rose",
+    "right": "Leeds",
+    "wrong": [
+     "Bradford",
+     "York",
+     "Wakefield"
+    ]
+   },
+   {
+    "q": "Victoria Square, under its glass dome",
+    "right": "Belfast",
+    "wrong": [
+     "Derry",
+     "Lisburn",
+     "Newry"
+    ]
+   },
+   {
+    "q": "St James Quarter",
+    "right": "Edinburgh",
+    "wrong": [
+     "Dundee",
+     "Stirling",
+     "Perth"
+    ]
+   },
+   {
+    "q": "Highcross",
+    "right": "Leicester",
+    "wrong": [
+     "Derby",
+     "Northampton",
+     "Coventry"
+    ]
+   },
+   {
+    "q": "Churchill Square",
+    "right": "Brighton",
+    "wrong": [
+     "Worthing",
+     "Eastbourne",
+     "Hastings"
+    ]
+   },
+   {
+    "q": "The Bridges",
+    "right": "Sunderland",
+    "wrong": [
+     "South Shields",
+     "Washington",
+     "Durham"
+    ]
+   },
+   {
+    "q": "The Victoria Centre",
+    "right": "Nottingham",
+    "wrong": [
+     "Derby",
+     "Lincoln",
+     "Northampton"
+    ]
+   },
+   {
+    "q": "Union Square",
+    "right": "Aberdeen",
+    "wrong": [
+     "Dundee",
+     "Inverness",
+     "Perth"
+    ]
+   },
+   {
+    "q": "Drake Circus",
+    "right": "Plymouth",
+    "wrong": [
+     "Exeter",
+     "Torquay",
+     "Truro"
+    ]
+   },
+   {
+    "q": "WestQuay",
+    "right": "Southampton",
+    "wrong": [
+     "Portsmouth",
+     "Bournemouth",
+     "Winchester"
+    ]
+   }
+  ]
+ }
+]
