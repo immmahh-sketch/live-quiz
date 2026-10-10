@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which city is this cricket ground in?",
+  "target": 10,
+  "category": "Cricket",
+  "tags": [
+   "cricket",
+   "grounds",
+   "cities"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Lord's",
+    "right": "London",
+    "wrong": [
+     "Canterbury",
+     "Hove",
+     "Taunton"
+    ]
+   },
+   {
+    "q": "The MCG",
+    "right": "Melbourne",
+    "wrong": [
+     "Adelaide",
+     "Hobart",
+     "Canberra"
+    ]
+   },
+   {
+    "q": "The SCG",
+    "right": "Sydney",
+    "wrong": [
+     "Adelaide",
+     "Hobart",
+     "Canberra"
+    ]
+   },
+   {
+    "q": "Eden Gardens",
+    "right": "Kolkata",
+    "wrong": [
+     "Delhi",
+     "Chennai",
+     "Bengaluru"
+    ]
+   },
+   {
+    "q": "The Wankhede Stadium",
+    "right": "Mumbai",
+    "wrong": [
+     "Delhi",
+     "Chennai",
+     "Bengaluru"
+    ]
+   },
+   {
+    "q": "The Gabba",
+    "right": "Brisbane",
+    "wrong": [
+     "Adelaide",
+     "Hobart",
+     "Canberra"
+    ]
+   },
+   {
+    "q": "The WACA",
+    "right": "Perth",
+    "wrong": [
+     "Adelaide",
+     "Hobart",
+     "Darwin"
+    ]
+   },
+   {
+    "q": "Headingley",
+    "right": "Leeds",
+    "wrong": [
+     "Bradford",
+     "Sheffield",
+     "York"
+    ]
+   },
+   {
+    "q": "Old Trafford (the cricket one)",
+    "right": "Manchester",
+    "wrong": [
+     "Liverpool",
+     "Bolton",
+     "Preston"
+    ]
+   },
+   {
+    "q": "Edgbaston",
+    "right": "Birmingham",
+    "wrong": [
+     "Coventry",
+     "Worcester",
+     "Derby"
+    ]
+   },
+   {
+    "q": "Trent Bridge",
+    "right": "Nottingham",
+    "wrong": [
+     "Derby",
+     "Leicester",
+     "Northampton"
+    ]
+   },
+   {
+    "q": "The Riverside",
+    "right": "Chester-le-Street",
+    "wrong": [
+     "Darlington",
+     "Sunderland",
+     "Newcastle"
+    ]
+   },
+   {
+    "q": "Sophia Gardens",
+    "right": "Cardiff",
+    "wrong": [
+     "Swansea",
+     "Newport",
+     "Bristol"
+    ]
+   },
+   {
+    "q": "The Basin Reserve",
+    "right": "Wellington",
+    "wrong": [
+     "Auckland",
+     "Christchurch",
+     "Dunedin"
+    ]
+   },
+   {
+    "q": "The Kensington Oval",
+    "right": "Bridgetown",
+    "wrong": [
+     "Port of Spain",
+     "St John's",
+     "Georgetown"
+    ]
+   },
+   {
+    "q": "Sabina Park",
+    "right": "Kingston",
+    "wrong": [
+     "Port of Spain",
+     "St John's",
+     "Georgetown"
+    ]
+   },
+   {
+    "q": "Newlands",
+    "right": "Cape Town",
+    "wrong": [
+     "Port Elizabeth",
+     "Pretoria",
+     "Centurion"
+    ]
+   },
+   {
+    "q": "The Wanderers",
+    "right": "Johannesburg",
+    "wrong": [
+     "Pretoria",
+     "Centurion",
+     "Port Elizabeth"
+    ]
+   },
+   {
+    "q": "The Gaddafi Stadium",
+    "right": "Lahore",
+    "wrong": [
+     "Karachi",
+     "Islamabad",
+     "Rawalpindi"
+    ]
+   },
+   {
+    "q": "Kingsmead",
+    "right": "Durban",
+    "wrong": [
+     "Port Elizabeth",
+     "Pretoria",
+     "Bloemfontein"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this ski resort in?",
+  "target": 10,
+  "category": "Travel",
+  "tags": [
+   "skiing",
+   "resorts",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Chamonix",
+    "right": "France",
+    "wrong": [
+     "Liechtenstein",
+     "Poland",
+     "Romania"
+    ]
+   },
+   {
+    "q": "Zermatt",
+    "right": "Switzerland",
+    "wrong": [
+     "Liechtenstein",
+     "Czechia",
+     "Poland"
+    ]
+   },
+   {
+    "q": "St Anton",
+    "right": "Austria",
+    "wrong": [
+     "Liechtenstein",
+     "Czechia",
+     "Poland"
+    ]
+   },
+   {
+    "q": "Cortina d'Ampezzo",
+    "right": "Italy",
+    "wrong": [
+     "Liechtenstein",
+     "Romania",
+     "Greece"
+    ]
+   },
+   {
+    "q": "Aspen",
+    "right": "the USA",
+    "wrong": [
+     "New Zealand",
+     "Argentina",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Whistler",
+    "right": "Canada",
+    "wrong": [
+     "New Zealand",
+     "Iceland",
+     "Argentina"
+    ]
+   },
+   {
+    "q": "Niseko",
+    "right": "Japan",
+    "wrong": [
+     "South Korea",
+     "China",
+     "Mongolia"
+    ]
+   },
+   {
+    "q": "Thredbo",
+    "right": "Australia",
+    "wrong": [
+     "New Zealand",
+     "Argentina",
+     "Lebanon"
+    ]
+   },
+   {
+    "q": "Åre",
+    "right": "Sweden",
+    "wrong": [
+     "Iceland",
+     "Poland",
+     "Czechia"
+    ]
+   },
+   {
+    "q": "Levi",
+    "right": "Finland",
+    "wrong": [
+     "Iceland",
+     "Estonia",
+     "Poland"
+    ]
+   },
+   {
+    "q": "Hemsedal",
+    "right": "Norway",
+    "wrong": [
+     "Iceland",
+     "Estonia",
+     "Czechia"
+    ]
+   },
+   {
+    "q": "Bansko",
+    "right": "Bulgaria",
+    "wrong": [
+     "Romania",
+     "Greece",
+     "Turkey"
+    ]
+   },
+   {
+    "q": "Jasná",
+    "right": "Slovakia",
+    "wrong": [
+     "Czechia",
+     "Poland",
+     "Romania"
+    ]
+   },
+   {
+    "q": "Kranjska Gora",
+    "right": "Slovenia",
+    "wrong": [
+     "Croatia",
+     "Czechia",
+     "Romania"
+    ]
+   },
+   {
+    "q": "Baqueira-Beret",
+    "right": "Spain",
+    "wrong": [
+     "Portugal",
+     "Greece",
+     "Morocco"
+    ]
+   },
+   {
+    "q": "Grandvalira",
+    "right": "Andorra",
+    "wrong": [
+     "Liechtenstein",
+     "Monaco",
+     "San Marino"
+    ]
+   },
+   {
+    "q": "Valle Nevado",
+    "right": "Chile",
+    "wrong": [
+     "Argentina",
+     "Peru",
+     "Bolivia"
+    ]
+   },
+   {
+    "q": "Gulmarg",
+    "right": "India",
+    "wrong": [
+     "Pakistan",
+     "Nepal",
+     "China"
+    ]
+   },
+   {
+    "q": "Aviemore",
+    "right": "Scotland",
+    "wrong": [
+     "Wales",
+     "Ireland",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Garmisch-Partenkirchen",
+    "right": "Germany",
+    "wrong": [
+     "Liechtenstein",
+     "Czechia",
+     "Poland"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: where is this zoo or aquarium?",
+  "target": 10,
+  "category": "Animals",
+  "tags": [
+   "zoos",
+   "aquariums",
+   "cities"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Taronga Zoo",
+    "right": "Sydney",
+    "wrong": [
+     "Melbourne",
+     "Brisbane",
+     "Perth"
+    ]
+   },
+   {
+    "q": "Schönbrunn Zoo, the world's oldest",
+    "right": "Vienna",
+    "wrong": [
+     "Salzburg",
+     "Graz",
+     "Budapest"
+    ]
+   },
+   {
+    "q": "Artis",
+    "right": "Amsterdam",
+    "wrong": [
+     "Utrecht",
+     "The Hague",
+     "Antwerp"
+    ]
+   },
+   {
+    "q": "The Bronx Zoo",
+    "right": "New York",
+    "wrong": [
+     "Boston",
+     "Philadelphia",
+     "Washington, DC"
+    ]
+   },
+   {
+    "q": "Monterey Bay Aquarium",
+    "right": "Monterey",
+    "wrong": [
+     "San Diego",
+     "Los Angeles",
+     "Sacramento"
+    ]
+   },
+   {
+    "q": "Georgia Aquarium",
+    "right": "Atlanta",
+    "wrong": [
+     "Savannah",
+     "Charlotte",
+     "Nashville"
+    ]
+   },
+   {
+    "q": "L'Oceanogràfic",
+    "right": "Valencia",
+    "wrong": [
+     "Barcelona",
+     "Málaga",
+     "Alicante"
+    ]
+   },
+   {
+    "q": "Loro Parque",
+    "right": "Tenerife",
+    "wrong": [
+     "Gran Canaria",
+     "Lanzarote",
+     "Majorca"
+    ]
+   },
+   {
+    "q": "Ueno Zoo",
+    "right": "Tokyo",
+    "wrong": [
+     "Osaka",
+     "Kyoto",
+     "Yokohama"
+    ]
+   },
+   {
+    "q": "Henry Doorly Zoo",
+    "right": "Omaha",
+    "wrong": [
+     "Kansas City",
+     "Des Moines",
+     "Denver"
+    ]
+   },
+   {
+    "q": "The Deep",
+    "right": "Hull",
+    "wrong": [
+     "Grimsby",
+     "Scarborough",
+     "Whitby"
+    ]
+   },
+   {
+    "q": "The National Marine Aquarium",
+    "right": "Plymouth",
+    "wrong": [
+     "Exeter",
+     "Torquay",
+     "Falmouth"
+    ]
+   },
+   {
+    "q": "Wilhelma",
+    "right": "Stuttgart",
+    "wrong": [
+     "Frankfurt",
+     "Nuremberg",
+     "Cologne"
+    ]
+   },
+   {
+    "q": "Hellabrunn Zoo",
+    "right": "Munich",
+    "wrong": [
+     "Frankfurt",
+     "Nuremberg",
+     "Cologne"
+    ]
+   },
+   {
+    "q": "Burgers' Zoo",
+    "right": "Arnhem",
+    "wrong": [
+     "Utrecht",
+     "The Hague",
+     "Eindhoven"
+    ]
+   },
+   {
+    "q": "Blijdorp Zoo",
+    "right": "Rotterdam",
+    "wrong": [
+     "Utrecht",
+     "The Hague",
+     "Eindhoven"
+    ]
+   },
+   {
+    "q": "The Ménagerie du Jardin des Plantes",
+    "right": "Paris",
+    "wrong": [
+     "Lyon",
+     "Marseille",
+     "Lille"
+    ]
+   },
+   {
+    "q": "The Bioparco",
+    "right": "Rome",
+    "wrong": [
+     "Naples",
+     "Florence",
+     "Milan"
+    ]
+   },
+   {
+    "q": "Shedd Aquarium",
+    "right": "Chicago",
+    "wrong": [
+     "Detroit",
+     "Milwaukee",
+     "Cleveland"
+    ]
+   },
+   {
+    "q": "The S.E.A. Aquarium on Sentosa",
+    "right": "Singapore",
+    "wrong": [
+     "Kuala Lumpur",
+     "Bangkok",
+     "Jakarta"
+    ]
+   }
+  ]
+ }
+]
