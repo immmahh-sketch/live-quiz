@@ -1,0 +1,775 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what is this on an Indian menu?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "Indian food",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Aloo",
+    "right": "Potato",
+    "wrong": [
+     "Onion",
+     "Carrot",
+     "Cabbage"
+    ]
+   },
+   {
+    "q": "Gobi",
+    "right": "Cauliflower",
+    "wrong": [
+     "Cabbage",
+     "Broccoli",
+     "Carrot"
+    ]
+   },
+   {
+    "q": "Saag",
+    "right": "Spinach",
+    "wrong": [
+     "Lettuce",
+     "Cabbage",
+     "Kale"
+    ]
+   },
+   {
+    "q": "Paneer",
+    "right": "Cheese",
+    "wrong": [
+     "Butter",
+     "Cream",
+     "Tofu"
+    ]
+   },
+   {
+    "q": "Murgh",
+    "right": "Chicken",
+    "wrong": [
+     "Duck",
+     "Beef",
+     "Pork"
+    ]
+   },
+   {
+    "q": "Gosht",
+    "right": "Meat (lamb or mutton)",
+    "wrong": [
+     "Duck",
+     "Pork",
+     "Rabbit"
+    ]
+   },
+   {
+    "q": "Dal",
+    "right": "Lentils",
+    "wrong": [
+     "Rice",
+     "Beans",
+     "Barley"
+    ]
+   },
+   {
+    "q": "Chana",
+    "right": "Chickpeas",
+    "wrong": [
+     "Beans",
+     "Corn",
+     "Peanuts"
+    ]
+   },
+   {
+    "q": "Bhindi",
+    "right": "Okra",
+    "wrong": [
+     "Courgette",
+     "Green beans",
+     "Celery"
+    ]
+   },
+   {
+    "q": "Baingan",
+    "right": "Aubergine",
+    "wrong": [
+     "Courgette",
+     "Pepper",
+     "Pumpkin"
+    ]
+   },
+   {
+    "q": "Matar",
+    "right": "Peas",
+    "wrong": [
+     "Beans",
+     "Corn",
+     "Broad beans"
+    ]
+   },
+   {
+    "q": "Jhinga",
+    "right": "Prawns",
+    "wrong": [
+     "Crab",
+     "Lobster",
+     "Squid"
+    ]
+   },
+   {
+    "q": "Machli",
+    "right": "Fish",
+    "wrong": [
+     "Squid",
+     "Crab",
+     "Duck"
+    ]
+   },
+   {
+    "q": "Keema",
+    "right": "Minced meat",
+    "wrong": [
+     "Sausage",
+     "Bacon",
+     "Liver"
+    ]
+   },
+   {
+    "q": "Raita",
+    "right": "Yoghurt dip",
+    "wrong": [
+     "Pickle",
+     "Chutney",
+     "Gravy"
+    ]
+   },
+   {
+    "q": "Lassi",
+    "right": "Yoghurt drink",
+    "wrong": [
+     "Tea",
+     "Lemonade",
+     "Coconut water"
+    ]
+   },
+   {
+    "q": "Tikka",
+    "right": "Chunks",
+    "wrong": [
+     "Sauce",
+     "Stew",
+     "Soup"
+    ]
+   },
+   {
+    "q": "Tandoor",
+    "right": "Clay oven",
+    "wrong": [
+     "Frying pan",
+     "Steamer",
+     "Wok"
+    ]
+   },
+   {
+    "q": "Pani",
+    "right": "Water",
+    "wrong": [
+     "Bread",
+     "Milk",
+     "Tea"
+    ]
+   },
+   {
+    "q": "Mirch",
+    "right": "Chilli",
+    "wrong": [
+     "Garlic",
+     "Ginger",
+     "Lime"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this natural wonder in?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "natural wonders",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The Great Barrier Reef",
+    "right": "Australia",
+    "wrong": [
+     "Papua New Guinea",
+     "Fiji",
+     "Indonesia"
+    ]
+   },
+   {
+    "q": "The Grand Canyon",
+    "right": "the USA",
+    "wrong": [
+     "Mexico",
+     "Peru",
+     "Argentina"
+    ]
+   },
+   {
+    "q": "Ha Long Bay",
+    "right": "Vietnam",
+    "wrong": [
+     "Thailand",
+     "Cambodia",
+     "Malaysia"
+    ]
+   },
+   {
+    "q": "The Giant's Causeway",
+    "right": "Northern Ireland",
+    "wrong": [
+     "Wales",
+     "the Isle of Man",
+     "the Faroe Islands"
+    ]
+   },
+   {
+    "q": "Salar de Uyuni, the salt flats",
+    "right": "Bolivia",
+    "wrong": [
+     "Peru",
+     "Argentina",
+     "Paraguay"
+    ]
+   },
+   {
+    "q": "Pamukkale's white terraces",
+    "right": "Turkey",
+    "wrong": [
+     "Greece",
+     "Cyprus",
+     "Georgia"
+    ]
+   },
+   {
+    "q": "The Geirangerfjord",
+    "right": "Norway",
+    "wrong": [
+     "Sweden",
+     "Finland",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "Zhangjiajie's stone pillars",
+    "right": "China",
+    "wrong": [
+     "Taiwan",
+     "Mongolia",
+     "South Korea"
+    ]
+   },
+   {
+    "q": "Milford Sound",
+    "right": "New Zealand",
+    "wrong": [
+     "Fiji",
+     "Samoa",
+     "Tonga"
+    ]
+   },
+   {
+    "q": "The Bay of Fundy",
+    "right": "Canada",
+    "wrong": [
+     "Greenland",
+     "Denmark",
+     "Portugal"
+    ]
+   },
+   {
+    "q": "The Cliffs of Moher",
+    "right": "Ireland",
+    "wrong": [
+     "Wales",
+     "the Isle of Man",
+     "the Faroe Islands"
+    ]
+   },
+   {
+    "q": "Fingal's Cave",
+    "right": "Scotland",
+    "wrong": [
+     "Wales",
+     "the Isle of Man",
+     "the Faroe Islands"
+    ]
+   },
+   {
+    "q": "Cheddar Gorge",
+    "right": "England",
+    "wrong": [
+     "Wales",
+     "the Isle of Man",
+     "Belgium"
+    ]
+   },
+   {
+    "q": "The red dunes of Sossusvlei",
+    "right": "Namibia",
+    "wrong": [
+     "Botswana",
+     "Angola",
+     "Zimbabwe"
+    ]
+   },
+   {
+    "q": "The Chocolate Hills",
+    "right": "the Philippines",
+    "wrong": [
+     "Indonesia",
+     "Malaysia",
+     "Thailand"
+    ]
+   },
+   {
+    "q": "The Jeita Grotto",
+    "right": "Lebanon",
+    "wrong": [
+     "Syria",
+     "Israel",
+     "Cyprus"
+    ]
+   },
+   {
+    "q": "The Blue Lagoon",
+    "right": "Iceland",
+    "wrong": [
+     "Greenland",
+     "the Faroe Islands",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "Wadi Rum",
+    "right": "Jordan",
+    "wrong": [
+     "Saudi Arabia",
+     "Egypt",
+     "Israel"
+    ]
+   },
+   {
+    "q": "Socotra's dragon's blood trees",
+    "right": "Yemen",
+    "wrong": [
+     "Oman",
+     "Somalia",
+     "Eritrea"
+    ]
+   },
+   {
+    "q": "Torres del Paine",
+    "right": "Chile",
+    "wrong": [
+     "Argentina",
+     "Peru",
+     "Uruguay"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what does this British slang mean?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "slang",
+   "British English"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Gobsmacked",
+    "right": "Amazed",
+    "wrong": [
+     "Punched",
+     "Hungry",
+     "Drunk"
+    ]
+   },
+   {
+    "q": "Knackered",
+    "right": "Exhausted",
+    "wrong": [
+     "Angry",
+     "Hungry",
+     "Drunk"
+    ]
+   },
+   {
+    "q": "Chuffed",
+    "right": "Pleased",
+    "wrong": [
+     "Out of breath",
+     "Embarrassed",
+     "Bored"
+    ]
+   },
+   {
+    "q": "Skint",
+    "right": "Broke",
+    "wrong": [
+     "Thin",
+     "Sunburnt",
+     "Drunk"
+    ]
+   },
+   {
+    "q": "Gutted",
+    "right": "Very disappointed",
+    "wrong": [
+     "Hungry",
+     "Relieved",
+     "Angry"
+    ]
+   },
+   {
+    "q": "Minging",
+    "right": "Disgusting",
+    "wrong": [
+     "Moaning",
+     "Lucky",
+     "Excellent"
+    ]
+   },
+   {
+    "q": "A faff",
+    "right": "A fuss about nothing",
+    "wrong": [
+     "A bit of gossip",
+     "A white lie",
+     "A quick nap"
+    ]
+   },
+   {
+    "q": "A bodge",
+    "right": "A botched repair",
+    "wrong": [
+     "A bribe",
+     "A clumsy dance",
+     "A shortcut"
+    ]
+   },
+   {
+    "q": "A kerfuffle",
+    "right": "A commotion",
+    "wrong": [
+     "A hairstyle",
+     "A hiccup",
+     "A sponge cake"
+    ]
+   },
+   {
+    "q": "A chinwag",
+    "right": "A chat",
+    "wrong": [
+     "A beard",
+     "A joke",
+     "An argument"
+    ]
+   },
+   {
+    "q": "Naff",
+    "right": "Uncool",
+    "wrong": [
+     "Rude",
+     "Hungry",
+     "Lucky"
+    ]
+   },
+   {
+    "q": "Throw a wobbly",
+    "right": "Have a tantrum",
+    "wrong": [
+     "Fall over",
+     "Get drunk",
+     "Dance badly"
+    ]
+   },
+   {
+    "q": "Gone pear-shaped",
+    "right": "Gone wrong",
+    "wrong": [
+     "Got fat",
+     "Gone mouldy",
+     "Gone well"
+    ]
+   },
+   {
+    "q": "Dodgy",
+    "right": "Suspicious",
+    "wrong": [
+     "Lucky",
+     "Quick",
+     "Hidden"
+    ]
+   },
+   {
+    "q": "The lurgy",
+    "right": "An illness",
+    "wrong": [
+     "A hangover",
+     "A bad mood",
+     "A parking fine"
+    ]
+   },
+   {
+    "q": "A cuppa",
+    "right": "A cup of tea",
+    "wrong": [
+     "A biscuit",
+     "A pint",
+     "A sandwich"
+    ]
+   },
+   {
+    "q": "Full of beans",
+    "right": "Lively",
+    "wrong": [
+     "Full up",
+     "Lying",
+     "Grumpy"
+    ]
+   },
+   {
+    "q": "Hunky-dory",
+    "right": "Fine",
+    "wrong": [
+     "Handsome",
+     "Dull",
+     "Lucky"
+    ]
+   },
+   {
+    "q": "A bevvy",
+    "right": "A drink",
+    "wrong": [
+     "A crowd",
+     "A bet",
+     "A bath"
+    ]
+   },
+   {
+    "q": "Chock-a-block",
+    "right": "Packed full",
+    "wrong": [
+     "Locked out",
+     "Upside down",
+     "Empty"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country does this drink come from?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "spirits",
+   "liqueurs",
+   "countries"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Cointreau",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Switzerland",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "Baileys",
+    "right": "Ireland",
+    "wrong": [
+     "Wales",
+     "Northern Ireland",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Amaretto",
+    "right": "Italy",
+    "wrong": [
+     "Malta",
+     "Croatia",
+     "Portugal"
+    ]
+   },
+   {
+    "q": "Jägermeister",
+    "right": "Germany",
+    "wrong": [
+     "Switzerland",
+     "Denmark",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "Ouzo",
+    "right": "Greece",
+    "wrong": [
+     "Cyprus",
+     "Bulgaria",
+     "Malta"
+    ]
+   },
+   {
+    "q": "Tequila",
+    "right": "Mexico",
+    "wrong": [
+     "Cuba",
+     "Colombia",
+     "Peru"
+    ]
+   },
+   {
+    "q": "Sake",
+    "right": "Japan",
+    "wrong": [
+     "China",
+     "Taiwan",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "Soju",
+    "right": "South Korea",
+    "wrong": [
+     "China",
+     "Taiwan",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "Becherovka",
+    "right": "Czechia",
+    "wrong": [
+     "Slovakia",
+     "Slovenia",
+     "Croatia"
+    ]
+   },
+   {
+    "q": "Unicum",
+    "right": "Hungary",
+    "wrong": [
+     "Slovakia",
+     "Romania",
+     "Croatia"
+    ]
+   },
+   {
+    "q": "Rakı",
+    "right": "Turkey",
+    "wrong": [
+     "Cyprus",
+     "Lebanon",
+     "Bulgaria"
+    ]
+   },
+   {
+    "q": "Cachaça",
+    "right": "Brazil",
+    "wrong": [
+     "Portugal",
+     "Argentina",
+     "Colombia"
+    ]
+   },
+   {
+    "q": "Malibu",
+    "right": "Barbados",
+    "wrong": [
+     "Jamaica",
+     "Cuba",
+     "Trinidad and Tobago"
+    ]
+   },
+   {
+    "q": "Drambuie",
+    "right": "Scotland",
+    "wrong": [
+     "Iceland",
+     "Wales",
+     "Northern Ireland"
+    ]
+   },
+   {
+    "q": "Pimm's",
+    "right": "England",
+    "wrong": [
+     "Wales",
+     "Northern Ireland",
+     "the Isle of Man"
+    ]
+   },
+   {
+    "q": "Southern Comfort",
+    "right": "the USA",
+    "wrong": [
+     "Canada",
+     "Cuba",
+     "Jamaica"
+    ]
+   },
+   {
+    "q": "Advocaat",
+    "right": "the Netherlands",
+    "wrong": [
+     "Belgium",
+     "Denmark",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "Krupnik",
+    "right": "Poland",
+    "wrong": [
+     "Slovakia",
+     "Ukraine",
+     "Belarus"
+    ]
+   },
+   {
+    "q": "Licor 43",
+    "right": "Spain",
+    "wrong": [
+     "Portugal",
+     "Andorra",
+     "Argentina"
+    ]
+   },
+   {
+    "q": "Stroh rum",
+    "right": "Austria",
+    "wrong": [
+     "Switzerland",
+     "Liechtenstein",
+     "Slovenia"
+    ]
+   }
+  ]
+ }
+]
