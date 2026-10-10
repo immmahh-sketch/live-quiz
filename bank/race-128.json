@@ -1,0 +1,390 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which exercise is this?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "fitness",
+   "gym",
+   "exercise"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Squat, kick back to a press-up, jump your feet in and leap up",
+    "right": "Burpee",
+    "wrong": [
+     "Thruster",
+     "Bear crawl",
+     "Inchworm"
+    ]
+   },
+   {
+    "q": "Bend your knees and lower your bottom as if sitting on a chair, then stand",
+    "right": "Squat",
+    "wrong": [
+     "Good morning",
+     "Hollow hold",
+     "Inchworm"
+    ]
+   },
+   {
+    "q": "Step one leg forward and drop the back knee towards the floor",
+    "right": "Lunge",
+    "wrong": [
+     "Skater jump",
+     "High knees",
+     "Good morning"
+    ]
+   },
+   {
+    "q": "Hold your body straight and rigid, resting on your forearms and toes",
+    "right": "Plank",
+    "wrong": [
+     "Hollow hold",
+     "Superman",
+     "Bear crawl"
+    ]
+   },
+   {
+    "q": "Lie face down and push your body up and down with your arms",
+    "right": "Press-up",
+    "wrong": [
+     "Superman",
+     "Inchworm",
+     "Lat pulldown"
+    ]
+   },
+   {
+    "q": "Lie on your back and raise your whole upper body up to your knees",
+    "right": "Sit-up",
+    "wrong": [
+     "Flutter kicks",
+     "Hollow hold",
+     "Superman"
+    ]
+   },
+   {
+    "q": "Jump while spreading your arms and legs wide, then bring them back together",
+    "right": "Star jump",
+    "wrong": [
+     "High knees",
+     "Skater jump",
+     "Tuck jump"
+    ]
+   },
+   {
+    "q": "Hang from a bar and haul your chin up over it",
+    "right": "Pull-up",
+    "wrong": [
+     "Lat pulldown",
+     "Farmer's walk",
+     "Inchworm"
+    ]
+   },
+   {
+    "q": "Lift a loaded barbell from the floor until you're standing up straight",
+    "right": "Deadlift",
+    "wrong": [
+     "Snatch",
+     "Clean and jerk",
+     "Good morning"
+    ]
+   },
+   {
+    "q": "Lie on a bench and push a barbell up from your chest",
+    "right": "Bench press",
+    "wrong": [
+     "Lat pulldown",
+     "Leg press",
+     "Thruster"
+    ]
+   },
+   {
+    "q": "Lie on your back and curl just your shoulders off the floor",
+    "right": "Crunch",
+    "wrong": [
+     "Flutter kicks",
+     "Superman",
+     "Hollow hold"
+    ]
+   },
+   {
+    "q": "From a press-up position, drive your knees towards your chest one after the other, fast",
+    "right": "Mountain climber",
+    "wrong": [
+     "High knees",
+     "Bear crawl",
+     "Inchworm"
+    ]
+   },
+   {
+    "q": "Bend your elbow to lift a dumbbell up towards your shoulder",
+    "right": "Bicep curl",
+    "wrong": [
+     "Lat pulldown",
+     "Shoulder press",
+     "Farmer's walk"
+    ]
+   },
+   {
+    "q": "Lower and raise yourself on your arms, hands on the edge of a bench behind you",
+    "right": "Tricep dip",
+    "wrong": [
+     "Shoulder press",
+     "Lat pulldown",
+     "Superman"
+    ]
+   },
+   {
+    "q": "Leap from the floor up onto a raised platform",
+    "right": "Box jump",
+    "wrong": [
+     "Tuck jump",
+     "Skater jump",
+     "Step-up"
+    ]
+   },
+   {
+    "q": "Lean your back against a wall with your knees bent at right angles, and hold",
+    "right": "Wall sit",
+    "wrong": [
+     "Hollow hold",
+     "Superman",
+     "Good morning"
+    ]
+   },
+   {
+    "q": "Sit leaning back with your feet up and turn from side to side, often holding a weight",
+    "right": "Russian twist",
+    "wrong": [
+     "Flutter kicks",
+     "Hollow hold",
+     "Woodchop"
+    ]
+   },
+   {
+    "q": "Swing a handled iron ball from between your legs up to chest height",
+    "right": "Kettlebell swing",
+    "wrong": [
+     "Turkish get-up",
+     "Farmer's walk",
+     "Thruster"
+    ]
+   },
+   {
+    "q": "Lie on your back with knees bent and push your hips up towards the ceiling",
+    "right": "Glute bridge",
+    "wrong": [
+     "Superman",
+     "Hollow hold",
+     "Flutter kicks"
+    ]
+   },
+   {
+    "q": "Rise up onto your tiptoes, then lower back down",
+    "right": "Calf raise",
+    "wrong": [
+     "Good morning",
+     "Step-up",
+     "High knees"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this gardening word?",
+  "target": 10,
+  "category": "Nature and the environment",
+  "tags": [
+   "gardening",
+   "plants",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Rotted-down kitchen and garden waste, dug back in to feed the soil",
+    "right": "Compost",
+    "wrong": [
+     "Tilth",
+     "Loam",
+     "Bedding"
+    ]
+   },
+   {
+    "q": "A layer of bark or straw spread on the soil to keep weeds down and moisture in",
+    "right": "Mulch",
+    "wrong": [
+     "Tilth",
+     "Loam",
+     "Riddle"
+    ]
+   },
+   {
+    "q": "Snipping off faded flowers so the plant blooms again",
+    "right": "Deadheading",
+    "wrong": [
+     "Bolting",
+     "Layering",
+     "Scarifying"
+    ]
+   },
+   {
+    "q": "Cutting back branches to shape a plant or keep it healthy",
+    "right": "Pruning",
+    "wrong": [
+     "Layering",
+     "Scarifying",
+     "Aerating"
+    ]
+   },
+   {
+    "q": "A plant that comes back year after year",
+    "right": "Perennial",
+    "wrong": [
+     "Biennial",
+     "Bedding",
+     "Standard"
+    ]
+   },
+   {
+    "q": "A plant that grows, flowers, seeds and dies all within one year",
+    "right": "Annual",
+    "wrong": [
+     "Biennial",
+     "Standard",
+     "Cordon"
+    ]
+   },
+   {
+    "q": "Hedges and shrubs clipped into shapes like birds or balls",
+    "right": "Topiary",
+    "wrong": [
+     "Parterre",
+     "Potager",
+     "Arbour"
+    ]
+   },
+   {
+    "q": "A fruit tree trained flat against a wall with its branches in tiers",
+    "right": "Espalier",
+    "wrong": [
+     "Standard",
+     "Obelisk",
+     "Pergola"
+    ]
+   },
+   {
+    "q": "A glass or plastic cover put over young plants to protect them",
+    "right": "Cloche",
+    "wrong": [
+     "Water butt",
+     "Trug",
+     "Obelisk"
+    ]
+   },
+   {
+    "q": "A wooden lattice fixed to a wall or fence for climbers to grow up",
+    "right": "Trellis",
+    "wrong": [
+     "Obelisk",
+     "Arbour",
+     "Gazebo"
+    ]
+   },
+   {
+    "q": "A pointed stick for poking holes to plant seeds or seedlings",
+    "right": "Dibber",
+    "wrong": [
+     "Widger",
+     "Riddle",
+     "Trug"
+    ]
+   },
+   {
+    "q": "A long-handled blade pushed through the topsoil to slice off weeds",
+    "right": "Hoe",
+    "wrong": [
+     "Rake",
+     "Fork",
+     "Widger"
+    ]
+   },
+   {
+    "q": "Strong one-handed clippers for snipping stems and twigs",
+    "right": "Secateurs",
+    "wrong": [
+     "Trug",
+     "Widger",
+     "Riddle"
+    ]
+   },
+   {
+    "q": "A mound of stones planted with alpine plants",
+    "right": "Rockery",
+    "wrong": [
+     "Parterre",
+     "Potager",
+     "Sunken garden"
+    ]
+   },
+   {
+    "q": "A rented plot of council land for growing your own vegetables",
+    "right": "Allotment",
+    "wrong": [
+     "Potager",
+     "Parterre",
+     "Orangery"
+    ]
+   },
+   {
+    "q": "A low box with a glass lid where young plants toughen up",
+    "right": "Cold frame",
+    "wrong": [
+     "Orangery",
+     "Water butt",
+     "Gazebo"
+    ]
+   },
+   {
+    "q": "Slowly getting indoor-raised plants used to life outdoors",
+    "right": "Hardening off",
+    "wrong": [
+     "Bolting",
+     "Damping off",
+     "Layering"
+    ]
+   },
+   {
+    "q": "Moving tiny seedlings from a tray into pots of their own",
+    "right": "Pricking out",
+    "wrong": [
+     "Layering",
+     "Double digging",
+     "Scarifying"
+    ]
+   },
+   {
+    "q": "A wall sunk in a ditch that keeps livestock out without spoiling the view",
+    "right": "Ha-ha",
+    "wrong": [
+     "Folly",
+     "Parterre",
+     "Arbour"
+    ]
+   },
+   {
+    "q": "Joining a piece of one plant onto the roots of another",
+    "right": "Grafting",
+    "wrong": [
+     "Layering",
+     "Bolting",
+     "Pollarding"
+    ]
+   }
+  ]
+ }
+]
