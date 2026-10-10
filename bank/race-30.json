@@ -1,0 +1,776 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which part of the body is inflamed?",
+  "target": 10,
+  "category": "Science and nature",
+  "tags": [
+   "the body",
+   "medicine",
+   "-itis"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Hepatitis",
+    "right": "Liver",
+    "wrong": [
+     "Spleen",
+     "Pancreas",
+     "Gallbladder"
+    ]
+   },
+   {
+    "q": "Nephritis",
+    "right": "Kidneys",
+    "wrong": [
+     "Spleen",
+     "Adrenal glands",
+     "Lymph nodes"
+    ]
+   },
+   {
+    "q": "Gingivitis",
+    "right": "Gums",
+    "wrong": [
+     "Teeth",
+     "Lips",
+     "Tonsils"
+    ]
+   },
+   {
+    "q": "Conjunctivitis",
+    "right": "Eyes",
+    "wrong": [
+     "Sinuses",
+     "Tonsils",
+     "Lips"
+    ]
+   },
+   {
+    "q": "Otitis",
+    "right": "Ears",
+    "wrong": [
+     "Sinuses",
+     "Tonsils",
+     "Teeth"
+    ]
+   },
+   {
+    "q": "Gastritis",
+    "right": "Stomach",
+    "wrong": [
+     "Small intestine",
+     "Gallbladder",
+     "Pancreas"
+    ]
+   },
+   {
+    "q": "Colitis",
+    "right": "Colon",
+    "wrong": [
+     "Small intestine",
+     "Appendix",
+     "Spleen"
+    ]
+   },
+   {
+    "q": "Bronchitis",
+    "right": "Airways of the lungs",
+    "wrong": [
+     "Ribs",
+     "Diaphragm",
+     "Thyroid"
+    ]
+   },
+   {
+    "q": "Laryngitis",
+    "right": "Voice box",
+    "wrong": [
+     "Tonsils",
+     "Thyroid",
+     "Windpipe"
+    ]
+   },
+   {
+    "q": "Rhinitis",
+    "right": "Nose",
+    "wrong": [
+     "Tonsils",
+     "Throat",
+     "Lips"
+    ]
+   },
+   {
+    "q": "Dermatitis",
+    "right": "Skin",
+    "wrong": [
+     "Hair",
+     "Nails",
+     "Sweat glands"
+    ]
+   },
+   {
+    "q": "Arthritis",
+    "right": "Joints",
+    "wrong": [
+     "Arteries",
+     "Tendons",
+     "Ligaments"
+    ]
+   },
+   {
+    "q": "Mastitis",
+    "right": "Breast",
+    "wrong": [
+     "Thyroid",
+     "Lymph nodes",
+     "Ovaries"
+    ]
+   },
+   {
+    "q": "Cystitis",
+    "right": "Bladder",
+    "wrong": [
+     "Ovaries",
+     "Prostate",
+     "Appendix"
+    ]
+   },
+   {
+    "q": "Encephalitis",
+    "right": "Brain",
+    "wrong": [
+     "Spinal cord",
+     "Thyroid",
+     "Lymph nodes"
+    ]
+   },
+   {
+    "q": "Carditis",
+    "right": "Heart",
+    "wrong": [
+     "Arteries",
+     "Lungs",
+     "Diaphragm"
+    ]
+   },
+   {
+    "q": "Phlebitis",
+    "right": "Veins",
+    "wrong": [
+     "Arteries",
+     "Nerves",
+     "Lymph nodes"
+    ]
+   },
+   {
+    "q": "Osteitis",
+    "right": "Bones",
+    "wrong": [
+     "Tendons",
+     "Ligaments",
+     "Cartilage"
+    ]
+   },
+   {
+    "q": "Myositis",
+    "right": "Muscles",
+    "wrong": [
+     "Tendons",
+     "Nerves",
+     "Cartilage"
+    ]
+   },
+   {
+    "q": "Glossitis",
+    "right": "Tongue",
+    "wrong": [
+     "Lips",
+     "Teeth",
+     "Tonsils"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this company from?",
+  "target": 10,
+  "category": "Business",
+  "tags": [
+   "companies",
+   "brands",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "IKEA",
+    "right": "Sweden",
+    "wrong": [
+     "Norway",
+     "Iceland",
+     "Estonia"
+    ]
+   },
+   {
+    "q": "Nokia",
+    "right": "Finland",
+    "wrong": [
+     "Norway",
+     "Estonia",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Samsung",
+    "right": "South Korea",
+    "wrong": [
+     "Vietnam",
+     "Singapore",
+     "Thailand"
+    ]
+   },
+   {
+    "q": "Lego",
+    "right": "Denmark",
+    "wrong": [
+     "Norway",
+     "Belgium",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Nestlé",
+    "right": "Switzerland",
+    "wrong": [
+     "Belgium",
+     "Luxembourg",
+     "Czechia"
+    ]
+   },
+   {
+    "q": "Philips",
+    "right": "the Netherlands",
+    "wrong": [
+     "Belgium",
+     "Luxembourg",
+     "Norway"
+    ]
+   },
+   {
+    "q": "Zara",
+    "right": "Spain",
+    "wrong": [
+     "Portugal",
+     "Argentina",
+     "Greece"
+    ]
+   },
+   {
+    "q": "Siemens",
+    "right": "Germany",
+    "wrong": [
+     "Czechia",
+     "Luxembourg",
+     "Poland"
+    ]
+   },
+   {
+    "q": "Sony",
+    "right": "Japan",
+    "wrong": [
+     "Singapore",
+     "Thailand",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "Huawei",
+    "right": "China",
+    "wrong": [
+     "Singapore",
+     "Vietnam",
+     "Malaysia"
+    ]
+   },
+   {
+    "q": "Tata",
+    "right": "India",
+    "wrong": [
+     "Pakistan",
+     "Singapore",
+     "Malaysia"
+    ]
+   },
+   {
+    "q": "Benetton",
+    "right": "Italy",
+    "wrong": [
+     "Greece",
+     "Portugal",
+     "Belgium"
+    ]
+   },
+   {
+    "q": "L'Oréal",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Luxembourg",
+     "Portugal"
+    ]
+   },
+   {
+    "q": "Red Bull",
+    "right": "Austria",
+    "wrong": [
+     "Czechia",
+     "Poland",
+     "Hungary"
+    ]
+   },
+   {
+    "q": "Bombardier",
+    "right": "Canada",
+    "wrong": [
+     "the USA",
+     "New Zealand",
+     "Norway"
+    ]
+   },
+   {
+    "q": "Havaianas",
+    "right": "Brazil",
+    "wrong": [
+     "Portugal",
+     "Argentina",
+     "Colombia"
+    ]
+   },
+   {
+    "q": "Billabong",
+    "right": "Australia",
+    "wrong": [
+     "New Zealand",
+     "South Africa",
+     "the USA"
+    ]
+   },
+   {
+    "q": "Acer",
+    "right": "Taiwan",
+    "wrong": [
+     "Singapore",
+     "Malaysia",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "Kerrygold",
+    "right": "Ireland",
+    "wrong": [
+     "Iceland",
+     "New Zealand",
+     "Norway"
+    ]
+   },
+   {
+    "q": "Bimbo, the baker",
+    "right": "Mexico",
+    "wrong": [
+     "Argentina",
+     "Colombia",
+     "Chile"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which mountain range is this peak in?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "mountains",
+   "peaks"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Everest",
+    "right": "Himalayas",
+    "wrong": [
+     "Pamirs",
+     "Tian Shan",
+     "Altai"
+    ]
+   },
+   {
+    "q": "Mont Blanc",
+    "right": "Alps",
+    "wrong": [
+     "Dolomites",
+     "Jura",
+     "Vosges"
+    ]
+   },
+   {
+    "q": "Aconcagua",
+    "right": "Andes",
+    "wrong": [
+     "Sierra Madre",
+     "Cascades",
+     "Brooks Range"
+    ]
+   },
+   {
+    "q": "Elbrus",
+    "right": "Caucasus",
+    "wrong": [
+     "Zagros",
+     "Altai",
+     "Pamirs"
+    ]
+   },
+   {
+    "q": "Ben Nevis",
+    "right": "Grampians",
+    "wrong": [
+     "Cairngorms",
+     "Cheviots",
+     "Mourne Mountains"
+    ]
+   },
+   {
+    "q": "K2",
+    "right": "Karakoram",
+    "wrong": [
+     "Pamirs",
+     "Tian Shan",
+     "Altai"
+    ]
+   },
+   {
+    "q": "Mount Whitney",
+    "right": "Sierra Nevada",
+    "wrong": [
+     "Cascades",
+     "Sierra Madre",
+     "Ozarks"
+    ]
+   },
+   {
+    "q": "Pikes Peak",
+    "right": "Rocky Mountains",
+    "wrong": [
+     "Cascades",
+     "Ozarks",
+     "Brooks Range"
+    ]
+   },
+   {
+    "q": "Mount Mitchell",
+    "right": "Appalachians",
+    "wrong": [
+     "Ozarks",
+     "Cascades",
+     "Sierra Madre"
+    ]
+   },
+   {
+    "q": "Gerlachovský štít",
+    "right": "Tatras",
+    "wrong": [
+     "Sudetes",
+     "Ore Mountains",
+     "Harz"
+    ]
+   },
+   {
+    "q": "Aneto",
+    "right": "Pyrenees",
+    "wrong": [
+     "Jura",
+     "Vosges",
+     "Cantabrian Mountains"
+    ]
+   },
+   {
+    "q": "Toubkal",
+    "right": "Atlas",
+    "wrong": [
+     "Drakensberg",
+     "Ruwenzori",
+     "Simien Mountains"
+    ]
+   },
+   {
+    "q": "Mount Kosciuszko",
+    "right": "Great Dividing Range",
+    "wrong": [
+     "Kaikoura Ranges",
+     "Flinders Ranges",
+     "MacDonnell Ranges"
+    ]
+   },
+   {
+    "q": "Aoraki / Mount Cook",
+    "right": "Southern Alps",
+    "wrong": [
+     "Kaikoura Ranges",
+     "Flinders Ranges",
+     "Blue Mountains"
+    ]
+   },
+   {
+    "q": "Pen y Fan",
+    "right": "Brecon Beacons",
+    "wrong": [
+     "Cambrian Mountains",
+     "Black Mountains",
+     "Clwydian Range"
+    ]
+   },
+   {
+    "q": "Cross Fell",
+    "right": "Pennines",
+    "wrong": [
+     "Cheviots",
+     "Cambrian Mountains",
+     "Cairngorms"
+    ]
+   },
+   {
+    "q": "Corno Grande",
+    "right": "Apennines",
+    "wrong": [
+     "Dolomites",
+     "Pindus",
+     "Dinaric Alps"
+    ]
+   },
+   {
+    "q": "Moldoveanu",
+    "right": "Carpathians",
+    "wrong": [
+     "Balkan Mountains",
+     "Rila",
+     "Dinaric Alps"
+    ]
+   },
+   {
+    "q": "Narodnaya",
+    "right": "Urals",
+    "wrong": [
+     "Altai",
+     "Tian Shan",
+     "Zagros"
+    ]
+   },
+   {
+    "q": "Tirich Mir",
+    "right": "Hindu Kush",
+    "wrong": [
+     "Zagros",
+     "Pamirs",
+     "Tian Shan"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's the American word for this?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "American English",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Pavement",
+    "right": "Sidewalk",
+    "wrong": [
+     "Crosswalk",
+     "Stoop",
+     "Freeway"
+    ]
+   },
+   {
+    "q": "Lift",
+    "right": "Elevator",
+    "wrong": [
+     "Dumbwaiter",
+     "Stoop",
+     "Escalator"
+    ]
+   },
+   {
+    "q": "Flat",
+    "right": "Apartment",
+    "wrong": [
+     "Townhouse",
+     "Ranch",
+     "Cabin"
+    ]
+   },
+   {
+    "q": "Car boot",
+    "right": "Trunk",
+    "wrong": [
+     "Fender",
+     "Muffler",
+     "Dashboard"
+    ]
+   },
+   {
+    "q": "Car bonnet",
+    "right": "Hood",
+    "wrong": [
+     "Fender",
+     "Muffler",
+     "Hubcap"
+    ]
+   },
+   {
+    "q": "Petrol",
+    "right": "Gas",
+    "wrong": [
+     "Kerosene",
+     "Propane",
+     "Gasket"
+    ]
+   },
+   {
+    "q": "Lorry",
+    "right": "Truck",
+    "wrong": [
+     "Station wagon",
+     "Minivan",
+     "Trailer"
+    ]
+   },
+   {
+    "q": "Nappy",
+    "right": "Diaper",
+    "wrong": [
+     "Onesie",
+     "Bassinet",
+     "Bib"
+    ]
+   },
+   {
+    "q": "Dummy",
+    "right": "Pacifier",
+    "wrong": [
+     "Rattle",
+     "Onesie",
+     "Bassinet"
+    ]
+   },
+   {
+    "q": "Rubbish",
+    "right": "Trash",
+    "wrong": [
+     "Dumpster",
+     "Hamper",
+     "Lint"
+    ]
+   },
+   {
+    "q": "Torch",
+    "right": "Flashlight",
+    "wrong": [
+     "Flashbulb",
+     "Lantern",
+     "Nightlight"
+    ]
+   },
+   {
+    "q": "Postcode",
+    "right": "Zip code",
+    "wrong": [
+     "Area code",
+     "Mailbox",
+     "Return address"
+    ]
+   },
+   {
+    "q": "Holiday",
+    "right": "Vacation",
+    "wrong": [
+     "Furlough",
+     "Sabbatical",
+     "Weekend"
+    ]
+   },
+   {
+    "q": "Autumn",
+    "right": "Fall",
+    "wrong": [
+     "Harvest",
+     "Indian summer",
+     "Thanksgiving"
+    ]
+   },
+   {
+    "q": "Jumper",
+    "right": "Sweater",
+    "wrong": [
+     "Cardigan",
+     "Hoodie",
+     "Tank top"
+    ]
+   },
+   {
+    "q": "Waistcoat",
+    "right": "Vest",
+    "wrong": [
+     "Suspenders",
+     "Tank top",
+     "Tuxedo"
+    ]
+   },
+   {
+    "q": "Tap",
+    "right": "Faucet",
+    "wrong": [
+     "Plunger",
+     "Drain",
+     "Sink"
+    ]
+   },
+   {
+    "q": "Cot",
+    "right": "Crib",
+    "wrong": [
+     "Bassinet",
+     "Playpen",
+     "Highchair"
+    ]
+   },
+   {
+    "q": "Pram or pushchair",
+    "right": "Stroller",
+    "wrong": [
+     "Playpen",
+     "Highchair",
+     "Car seat"
+    ]
+   },
+   {
+    "q": "Windscreen",
+    "right": "Windshield",
+    "wrong": [
+     "Dashboard",
+     "Fender",
+     "Hubcap"
+    ]
+   }
+  ]
+ }
+]
