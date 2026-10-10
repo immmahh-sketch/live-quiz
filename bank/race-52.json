@@ -1,0 +1,581 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which country is this famous hotel in?",
+  "target": 10,
+  "category": "Travel",
+  "tags": [
+   "hotels",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The Burj Al Arab",
+    "right": "the UAE",
+    "wrong": [
+     "Qatar",
+     "Bahrain",
+     "Oman"
+    ]
+   },
+   {
+    "q": "Raffles",
+    "right": "Singapore",
+    "wrong": [
+     "Malaysia",
+     "Indonesia",
+     "Hong Kong"
+    ]
+   },
+   {
+    "q": "The Savoy",
+    "right": "England",
+    "wrong": [
+     "Wales",
+     "Northern Ireland",
+     "the Isle of Man"
+    ]
+   },
+   {
+    "q": "The Waldorf Astoria",
+    "right": "the USA",
+    "wrong": [
+     "Mexico",
+     "Bermuda",
+     "the Bahamas"
+    ]
+   },
+   {
+    "q": "The Taj Mahal Palace",
+    "right": "India",
+    "wrong": [
+     "Pakistan",
+     "Sri Lanka",
+     "Bangladesh"
+    ]
+   },
+   {
+    "q": "The Mena House, by the Pyramids",
+    "right": "Egypt",
+    "wrong": [
+     "Jordan",
+     "Lebanon",
+     "Tunisia"
+    ]
+   },
+   {
+    "q": "The Château Frontenac",
+    "right": "Canada",
+    "wrong": [
+     "Belgium",
+     "Luxembourg",
+     "Monaco"
+    ]
+   },
+   {
+    "q": "The Gellért, with its famous baths",
+    "right": "Hungary",
+    "wrong": [
+     "Czechia",
+     "Slovakia",
+     "Romania"
+    ]
+   },
+   {
+    "q": "The Hotel Sacher",
+    "right": "Austria",
+    "wrong": [
+     "Switzerland",
+     "Czechia",
+     "Slovenia"
+    ]
+   },
+   {
+    "q": "The Hotel Adlon",
+    "right": "Germany",
+    "wrong": [
+     "Switzerland",
+     "Poland",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "The Pera Palace",
+    "right": "Turkey",
+    "wrong": [
+     "Greece",
+     "Cyprus",
+     "Bulgaria"
+    ]
+   },
+   {
+    "q": "La Mamounia",
+    "right": "Morocco",
+    "wrong": [
+     "Tunisia",
+     "Algeria",
+     "Jordan"
+    ]
+   },
+   {
+    "q": "The Copacabana Palace",
+    "right": "Brazil",
+    "wrong": [
+     "Argentina",
+     "Uruguay",
+     "Chile"
+    ]
+   },
+   {
+    "q": "Gleneagles",
+    "right": "Scotland",
+    "wrong": [
+     "Wales",
+     "Northern Ireland",
+     "the Isle of Man"
+    ]
+   },
+   {
+    "q": "The Grand Hotel Tremezzo, on Lake Como",
+    "right": "Italy",
+    "wrong": [
+     "Switzerland",
+     "Monaco",
+     "Croatia"
+    ]
+   },
+   {
+    "q": "The Mandarin Oriental, Bangkok",
+    "right": "Thailand",
+    "wrong": [
+     "Vietnam",
+     "Malaysia",
+     "Cambodia"
+    ]
+   },
+   {
+    "q": "The Hôtel de Crillon",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Luxembourg",
+     "Monaco"
+    ]
+   },
+   {
+    "q": "The Icehotel",
+    "right": "Sweden",
+    "wrong": [
+     "Norway",
+     "Finland",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Reid's Palace, on Madeira",
+    "right": "Portugal",
+    "wrong": [
+     "Spain",
+     "Cape Verde",
+     "Malta"
+    ]
+   },
+   {
+    "q": "Ashford Castle",
+    "right": "Ireland",
+    "wrong": [
+     "Wales",
+     "Northern Ireland",
+     "the Isle of Man"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which studio or company made this film?",
+  "target": 10,
+  "category": "Film",
+  "tags": [
+   "film studios",
+   "films"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Toy Story",
+    "right": "Pixar",
+    "wrong": [
+     "Sony Pictures Animation",
+     "Warner Bros.",
+     "Universal"
+    ]
+   },
+   {
+    "q": "Shrek",
+    "right": "DreamWorks",
+    "wrong": [
+     "Sony Pictures Animation",
+     "Warner Bros.",
+     "Paramount"
+    ]
+   },
+   {
+    "q": "Spirited Away",
+    "right": "Studio Ghibli",
+    "wrong": [
+     "Toei Animation",
+     "Sunrise",
+     "Madhouse"
+    ]
+   },
+   {
+    "q": "Chicken Run",
+    "right": "Aardman",
+    "wrong": [
+     "BBC Films",
+     "Film4",
+     "StudioCanal"
+    ]
+   },
+   {
+    "q": "Despicable Me",
+    "right": "Illumination",
+    "wrong": [
+     "Sony Pictures Animation",
+     "Warner Bros.",
+     "Paramount"
+    ]
+   },
+   {
+    "q": "Ice Age",
+    "right": "Blue Sky",
+    "wrong": [
+     "Sony Pictures Animation",
+     "Paramount",
+     "Warner Bros."
+    ]
+   },
+   {
+    "q": "Coraline",
+    "right": "Laika",
+    "wrong": [
+     "Warner Bros.",
+     "Paramount",
+     "Annapurna"
+    ]
+   },
+   {
+    "q": "Frozen",
+    "right": "Walt Disney Animation",
+    "wrong": [
+     "Sony Pictures Animation",
+     "Universal",
+     "Paramount"
+    ]
+   },
+   {
+    "q": "Dracula (1958), with Christopher Lee",
+    "right": "Hammer",
+    "wrong": [
+     "Rank",
+     "MGM",
+     "Universal"
+    ]
+   },
+   {
+    "q": "The Ladykillers (1955)",
+    "right": "Ealing",
+    "wrong": [
+     "Rank",
+     "MGM",
+     "Gainsborough"
+    ]
+   },
+   {
+    "q": "Four Weddings and a Funeral",
+    "right": "Working Title",
+    "wrong": [
+     "Film4",
+     "BBC Films",
+     "Miramax"
+    ]
+   },
+   {
+    "q": "Dr. No",
+    "right": "Eon Productions",
+    "wrong": [
+     "MGM",
+     "Rank",
+     "Paramount"
+    ]
+   },
+   {
+    "q": "Iron Man",
+    "right": "Marvel Studios",
+    "wrong": [
+     "Warner Bros.",
+     "Sony Pictures",
+     "20th Century Fox"
+    ]
+   },
+   {
+    "q": "Star Wars (1977)",
+    "right": "Lucasfilm",
+    "wrong": [
+     "Paramount",
+     "Universal",
+     "MGM"
+    ]
+   },
+   {
+    "q": "E.T. the Extra-Terrestrial",
+    "right": "Amblin",
+    "wrong": [
+     "Paramount",
+     "MGM",
+     "Columbia"
+    ]
+   },
+   {
+    "q": "Everything Everywhere All at Once",
+    "right": "A24",
+    "wrong": [
+     "Neon",
+     "Annapurna",
+     "Focus Features"
+    ]
+   },
+   {
+    "q": "Get Out",
+    "right": "Blumhouse",
+    "wrong": [
+     "Neon",
+     "Annapurna",
+     "Focus Features"
+    ]
+   },
+   {
+    "q": "The Secret of Kells",
+    "right": "Cartoon Saloon",
+    "wrong": [
+     "StudioCanal",
+     "BBC Films",
+     "Film4"
+    ]
+   },
+   {
+    "q": "The Hunger Games",
+    "right": "Lionsgate",
+    "wrong": [
+     "Paramount",
+     "Universal",
+     "Columbia"
+    ]
+   },
+   {
+    "q": "The Lord of the Rings films",
+    "right": "New Line Cinema",
+    "wrong": [
+     "Paramount",
+     "Universal",
+     "Miramax"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country does this department store come from?",
+  "target": 10,
+  "category": "Shopping",
+  "tags": [
+   "department stores",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Macy's",
+    "right": "the USA",
+    "wrong": [
+     "Canada",
+     "New Zealand",
+     "Puerto Rico"
+    ]
+   },
+   {
+    "q": "Galeries Lafayette",
+    "right": "France",
+    "wrong": [
+     "Luxembourg",
+     "Monaco",
+     "Portugal"
+    ]
+   },
+   {
+    "q": "KaDeWe",
+    "right": "Germany",
+    "wrong": [
+     "Austria",
+     "Poland",
+     "Czechia"
+    ]
+   },
+   {
+    "q": "El Corte Inglés",
+    "right": "Spain",
+    "wrong": [
+     "Portugal",
+     "Argentina",
+     "Andorra"
+    ]
+   },
+   {
+    "q": "La Rinascente",
+    "right": "Italy",
+    "wrong": [
+     "Malta",
+     "Greece",
+     "Croatia"
+    ]
+   },
+   {
+    "q": "GUM",
+    "right": "Russia",
+    "wrong": [
+     "Ukraine",
+     "Belarus",
+     "Kazakhstan"
+    ]
+   },
+   {
+    "q": "Isetan",
+    "right": "Japan",
+    "wrong": [
+     "Taiwan",
+     "China",
+     "Thailand"
+    ]
+   },
+   {
+    "q": "Myer",
+    "right": "Australia",
+    "wrong": [
+     "New Zealand",
+     "Canada",
+     "South Africa"
+    ]
+   },
+   {
+    "q": "Brown Thomas",
+    "right": "Ireland",
+    "wrong": [
+     "Scotland",
+     "Wales",
+     "Northern Ireland"
+    ]
+   },
+   {
+    "q": "Stockmann",
+    "right": "Finland",
+    "wrong": [
+     "Estonia",
+     "Latvia",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Illum",
+    "right": "Denmark",
+    "wrong": [
+     "Iceland",
+     "Estonia",
+     "Latvia"
+    ]
+   },
+   {
+    "q": "NK (Nordiska Kompaniet)",
+    "right": "Sweden",
+    "wrong": [
+     "Iceland",
+     "Estonia",
+     "Latvia"
+    ]
+   },
+   {
+    "q": "De Bijenkorf",
+    "right": "the Netherlands",
+    "wrong": [
+     "Luxembourg",
+     "Austria",
+     "Poland"
+    ]
+   },
+   {
+    "q": "Steen & Strøm",
+    "right": "Norway",
+    "wrong": [
+     "Iceland",
+     "Estonia",
+     "Latvia"
+    ]
+   },
+   {
+    "q": "Harrods",
+    "right": "England",
+    "wrong": [
+     "Scotland",
+     "Wales",
+     "Northern Ireland"
+    ]
+   },
+   {
+    "q": "El Puerto de Liverpool",
+    "right": "Mexico",
+    "wrong": [
+     "Colombia",
+     "Peru",
+     "Argentina"
+    ]
+   },
+   {
+    "q": "Falabella",
+    "right": "Chile",
+    "wrong": [
+     "Uruguay",
+     "Bolivia",
+     "Paraguay"
+    ]
+   },
+   {
+    "q": "Shinsegae",
+    "right": "South Korea",
+    "wrong": [
+     "Taiwan",
+     "China",
+     "Thailand"
+    ]
+   },
+   {
+    "q": "Inno",
+    "right": "Belgium",
+    "wrong": [
+     "Luxembourg",
+     "Austria",
+     "Poland"
+    ]
+   },
+   {
+    "q": "Manor",
+    "right": "Switzerland",
+    "wrong": [
+     "Austria",
+     "Liechtenstein",
+     "Luxembourg"
+    ]
+   }
+  ]
+ }
+]
