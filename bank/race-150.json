@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this cinema word?",
+  "target": 10,
+  "category": "Film",
+  "tags": [
+   "cinema",
+   "film",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "A short advert for a film that's coming soon",
+    "right": "Trailer",
+    "wrong": [
+     "Spoiler",
+     "Montage",
+     "Outtake"
+    ]
+   },
+   {
+    "q": "The salty or sweet snack eaten by the bucket",
+    "right": "Popcorn",
+    "wrong": [
+     "Candyfloss",
+     "Pretzels",
+     "Toffee apples"
+    ]
+   },
+   {
+    "q": "Shows you to your seat with a torch",
+    "right": "Usher",
+    "wrong": [
+     "Projectionist",
+     "Clapper loader",
+     "Gaffer"
+    ]
+   },
+   {
+    "q": "Where you buy your tickets",
+    "right": "Box office",
+    "wrong": [
+     "Foyer",
+     "Stalls",
+     "Projection booth"
+    ]
+   },
+   {
+    "q": "Beams the film onto the screen from the back",
+    "right": "Projector",
+    "wrong": [
+     "Clapperboard",
+     "Boom mic",
+     "Green screen"
+    ]
+   },
+   {
+    "q": "The glitzy first showing, with the stars there in person",
+    "right": "Premiere",
+    "wrong": [
+     "Matinée",
+     "Encore",
+     "Curtain call"
+    ]
+   },
+   {
+    "q": "A huge, big-budget hit",
+    "right": "Blockbuster",
+    "wrong": [
+     "B-movie",
+     "Short",
+     "Art-house film"
+    ]
+   },
+   {
+    "q": "Part two of the story",
+    "right": "Sequel",
+    "wrong": [
+     "Prequel",
+     "Spin-off",
+     "Reboot"
+    ]
+   },
+   {
+    "q": "Words along the bottom of the screen translating the dialogue",
+    "right": "Subtitles",
+    "wrong": [
+     "Voiceover",
+     "Storyboard",
+     "Script"
+    ]
+   },
+   {
+    "q": "Replacing the actors' voices with another language",
+    "right": "Dubbing",
+    "wrong": [
+     "Montage",
+     "Cutaway",
+     "Outtake"
+    ]
+   },
+   {
+    "q": "The list of names that rolls at the end",
+    "right": "Credits",
+    "wrong": [
+     "Programme",
+     "Libretto",
+     "Script"
+    ]
+   },
+   {
+    "q": "A longer version of the film, the way its maker wanted it",
+    "right": "Director's cut",
+    "wrong": [
+     "Outtake",
+     "Montage",
+     "Cutaway"
+    ]
+   },
+   {
+    "q": "Wear these to make things leap off the screen",
+    "right": "3D glasses",
+    "wrong": [
+     "Opera glasses",
+     "Binoculars",
+     "Monocle"
+    ]
+   },
+   {
+    "q": "A big cinema with lots of screens",
+    "right": "Multiplex",
+    "wrong": [
+     "Drive-in",
+     "Art house",
+     "Picture palace"
+    ]
+   },
+   {
+    "q": "Help yourself to sweets by the scoop",
+    "right": "Pick 'n' mix",
+    "wrong": [
+     "Choc ice",
+     "Candyfloss",
+     "Toffee apples"
+    ]
+   },
+   {
+    "q": "The rating, like PG or 15, saying who can watch",
+    "right": "Certificate",
+    "wrong": [
+     "Ticket stub",
+     "Programme",
+     "Script"
+    ]
+   },
+   {
+    "q": "Where the stars pose for the photographers on the big night",
+    "right": "Red carpet",
+    "wrong": [
+     "Green room",
+     "Dressing room",
+     "Stage door"
+    ]
+   },
+   {
+    "q": "A film that loses money because nobody goes to see it",
+    "right": "Flop",
+    "wrong": [
+     "Sleeper hit",
+     "Cult classic",
+     "B-movie"
+    ]
+   },
+   {
+    "q": "A film telling the true life story of a real person",
+    "right": "Biopic",
+    "wrong": [
+     "Rom-com",
+     "Whodunnit",
+     "Western"
+    ]
+   },
+   {
+    "q": "A new version of an old film",
+    "right": "Remake",
+    "wrong": [
+     "Spin-off",
+     "Prequel",
+     "Parody"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: who's this sports official?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "sport",
+   "officials",
+   "referees"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Runs a football match and blows the whistle",
+    "right": "Referee",
+    "wrong": [
+     "Coach",
+     "Captain",
+     "Physio"
+    ]
+   },
+   {
+    "q": "Gives a cricket batter out with a raised finger",
+    "right": "Umpire",
+    "wrong": [
+     "Coach",
+     "Selector",
+     "Groundsman"
+    ]
+   },
+   {
+    "q": "Runs the touchline with a flag for offside",
+    "right": "Linesman",
+    "wrong": [
+     "Kit man",
+     "Physio",
+     "Ball boy"
+    ]
+   },
+   {
+    "q": "Holds up the board showing the added time",
+    "right": "Fourth official",
+    "wrong": [
+     "Kit man",
+     "Physio",
+     "Mascot"
+    ]
+   },
+   {
+    "q": "Fires the gun to begin a race",
+    "right": "Starter",
+    "wrong": [
+     "Pacemaker",
+     "Coach",
+     "Selector"
+    ]
+   },
+   {
+    "q": "Waves the flags around the circuit at a motor race",
+    "right": "Marshal",
+    "wrong": [
+     "Mascot",
+     "Pundit",
+     "Groundsman"
+    ]
+   },
+   {
+    "q": "Rings the bell at the end of each boxing round",
+    "right": "Timekeeper",
+    "wrong": [
+     "Coach",
+     "Pundit",
+     "Physio"
+    ]
+   },
+   {
+    "q": "Calls whether a tennis ball has landed in or out on a line",
+    "right": "Line judge",
+    "wrong": [
+     "Ball boy",
+     "Coach",
+     "Pundit"
+    ]
+   },
+   {
+    "q": "Watches the TV replays to settle run-outs in cricket",
+    "right": "Third umpire",
+    "wrong": [
+     "Selector",
+     "Groundsman",
+     "Commentator"
+    ]
+   },
+   {
+    "q": "Rugby's video referee, who checks whether a try was grounded",
+    "right": "Television match official",
+    "wrong": [
+     "Commentator",
+     "Pundit",
+     "Selector"
+    ]
+   },
+   {
+    "q": "Settles disputes at a chess tournament",
+    "right": "Arbiter",
+    "wrong": [
+     "Coach",
+     "Captain",
+     "Commentator"
+    ]
+   },
+   {
+    "q": "Runs a racecourse on the day of a horse race",
+    "right": "Clerk of the course",
+    "wrong": [
+     "Groundsman",
+     "Selector",
+     "Pundit"
+    ]
+   },
+   {
+    "q": "Keeps the book of runs in a cricket match",
+    "right": "Scorer",
+    "wrong": [
+     "Selector",
+     "Groundsman",
+     "Kit man"
+    ]
+   },
+   {
+    "q": "Sits up high and calls the score at Wimbledon",
+    "right": "Chair umpire",
+    "wrong": [
+     "Ball boy",
+     "Commentator",
+     "Coach"
+    ]
+   },
+   {
+    "q": "The video team that reviews goals and red cards in football",
+    "right": "VAR",
+    "wrong": [
+     "Kit man",
+     "Pundit",
+     "Commentator"
+    ]
+   },
+   {
+    "q": "Score a boxing bout on points from ringside",
+    "right": "Judges",
+    "wrong": [
+     "Seconds",
+     "Cutmen",
+     "Promoters"
+    ]
+   },
+   {
+    "q": "Announces 'One hundred and eighty!' at the darts",
+    "right": "Caller",
+    "wrong": [
+     "Commentator",
+     "Pundit",
+     "Mascot"
+    ]
+   },
+   {
+    "q": "Investigates incidents and hands out penalties in Formula One",
+    "right": "Stewards",
+    "wrong": [
+     "Pit crew",
+     "Engineers",
+     "Mechanics"
+    ]
+   },
+   {
+    "q": "Rugby's flag-waving official on the touchline, by its traditional name",
+    "right": "Touch judge",
+    "wrong": [
+     "Kit man",
+     "Physio",
+     "Ball boy"
+    ]
+   },
+   {
+    "q": "Checks every runner crosses the line, and in what order",
+    "right": "Finish judge",
+    "wrong": [
+     "Pacemaker",
+     "Coach",
+     "Physio"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this ice cream word?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "ice cream",
+   "desserts",
+   "seaside"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The crispy cone your ice cream sits in",
+    "right": "Cornet",
+    "wrong": [
+     "Ramekin",
+     "Tumbler",
+     "Goblet"
+    ]
+   },
+   {
+    "q": "A flat, crisp biscuit sandwiching a slab of ice cream",
+    "right": "Wafer",
+    "wrong": [
+     "Shortbread",
+     "Digestive",
+     "Brandy snap"
+    ]
+   },
+   {
+    "q": "The crumbly chocolate stick pushed into a cone",
+    "right": "Flake",
+    "wrong": [
+     "Twix",
+     "Curly Wurly",
+     "Wispa"
+    ]
+   },
+   {
+    "q": "A whippy cone with a chocolate stick pushed in",
+    "right": "99",
+    "wrong": [
+     "Calippo",
+     "Feast",
+     "Magnum"
+    ]
+   },
+   {
+    "q": "Scoops in a tall glass with sauce, nuts and a cherry on top",
+    "right": "Sundae",
+    "wrong": [
+     "Trifle",
+     "Syllabub",
+     "Fool"
+    ]
+   },
+   {
+    "q": "A dairy-free frozen fruit ice",
+    "right": "Sorbet",
+    "wrong": [
+     "Frozen yoghurt",
+     "Kulfi",
+     "Blancmange"
+    ]
+   },
+   {
+    "q": "Italy's dense, silky ice cream",
+    "right": "Gelato",
+    "wrong": [
+     "Kulfi",
+     "Frozen yoghurt",
+     "Panna cotta"
+    ]
+   },
+   {
+    "q": "Layers of ice cream, fruit and cream in a very tall glass, with a long spoon",
+    "right": "Knickerbocker glory",
+    "wrong": [
+     "Trifle",
+     "Eton mess",
+     "Syllabub"
+    ]
+   },
+   {
+    "q": "Ice cream between the two halves of a banana",
+    "right": "Banana split",
+    "wrong": [
+     "Eton mess",
+     "Pavlova",
+     "Profiterole"
+    ]
+   },
+   {
+    "q": "A block of vanilla ice cream coated in chocolate, with no stick",
+    "right": "Choc ice",
+    "wrong": [
+     "Magnum",
+     "Feast",
+     "Calippo"
+    ]
+   },
+   {
+    "q": "A plastic cone of ice cream with a bubblegum ball at the bottom",
+    "right": "Screwball",
+    "wrong": [
+     "Calippo",
+     "Feast",
+     "Magnum"
+    ]
+   },
+   {
+    "q": "Soft-serve ice cream from the van",
+    "right": "Mr Whippy",
+    "wrong": [
+     "Milkshake",
+     "Slush",
+     "Ice pop"
+    ]
+   },
+   {
+    "q": "The North East name for the bright red raspberry sauce on a 99",
+    "right": "Monkey blood",
+    "wrong": [
+     "Butterscotch",
+     "Chocolate sauce",
+     "Toffee sauce"
+    ]
+   },
+   {
+    "q": "Tiny coloured sugar strands scattered on top",
+    "right": "Sprinkles",
+    "wrong": [
+     "Butterscotch",
+     "Toffee sauce",
+     "Chocolate sauce"
+    ]
+   },
+   {
+    "q": "Strawberry, vanilla and chocolate side by side in one block",
+    "right": "Neapolitan",
+    "wrong": [
+     "Tutti frutti",
+     "Rum and raisin",
+     "Mint choc chip"
+    ]
+   },
+   {
+    "q": "Sponge rolled round a log of ice cream, a 1980s pudding favourite",
+    "right": "Arctic roll",
+    "wrong": [
+     "Baked Alaska",
+     "Swiss roll",
+     "Yule log"
+    ]
+   },
+   {
+    "q": "A scoop of vanilla drowned in hot espresso",
+    "right": "Affogato",
+    "wrong": [
+     "Panna cotta",
+     "Crème brûlée",
+     "Profiterole"
+    ]
+   },
+   {
+    "q": "A big, crunchy cone with a criss-cross pattern",
+    "right": "Waffle cone",
+    "wrong": [
+     "Ramekin",
+     "Tumbler",
+     "Goblet"
+    ]
+   },
+   {
+    "q": "Vanilla ice cream swirled with streaks of red fruit sauce",
+    "right": "Raspberry ripple",
+    "wrong": [
+     "Tutti frutti",
+     "Rum and raisin",
+     "Mint choc chip"
+    ]
+   },
+   {
+    "q": "The rounded ball of ice cream, and the tool that makes it",
+    "right": "Scoop",
+    "wrong": [
+     "Wedge",
+     "Slab",
+     "Brick"
+    ]
+   }
+  ]
+ }
+]
