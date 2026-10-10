@@ -1,0 +1,582 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which country is this racecourse in?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "horse racing",
+   "racecourses"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Longchamp",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Switzerland",
+     "Monaco"
+    ]
+   },
+   {
+    "q": "Flemington",
+    "right": "Australia",
+    "wrong": [
+     "Fiji",
+     "Singapore",
+     "Malaysia"
+    ]
+   },
+   {
+    "q": "Churchill Downs",
+    "right": "the USA",
+    "wrong": [
+     "Mexico",
+     "Bermuda",
+     "the Bahamas"
+    ]
+   },
+   {
+    "q": "Meydan",
+    "right": "the UAE",
+    "wrong": [
+     "Qatar",
+     "Bahrain",
+     "Oman"
+    ]
+   },
+   {
+    "q": "Sha Tin",
+    "right": "Hong Kong",
+    "wrong": [
+     "Singapore",
+     "Macau",
+     "Taiwan"
+    ]
+   },
+   {
+    "q": "The Curragh",
+    "right": "Ireland",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Aintree",
+    "right": "England",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Ayr",
+    "right": "Scotland",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Chepstow",
+    "right": "Wales",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Tokyo Racecourse, home of the Japan Cup",
+    "right": "Japan",
+    "wrong": [
+     "South Korea",
+     "Taiwan",
+     "Singapore"
+    ]
+   },
+   {
+    "q": "Woodbine",
+    "right": "Canada",
+    "wrong": [
+     "Mexico",
+     "Bermuda",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "The Ippodromo San Siro",
+    "right": "Italy",
+    "wrong": [
+     "Switzerland",
+     "Monaco",
+     "Malta"
+    ]
+   },
+   {
+    "q": "Iffezheim, near Baden-Baden",
+    "right": "Germany",
+    "wrong": [
+     "Austria",
+     "Switzerland",
+     "Poland"
+    ]
+   },
+   {
+    "q": "Jägersro",
+    "right": "Sweden",
+    "wrong": [
+     "Denmark",
+     "Finland",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Øvrevoll",
+    "right": "Norway",
+    "wrong": [
+     "Denmark",
+     "Finland",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Ellerslie",
+    "right": "New Zealand",
+    "wrong": [
+     "Fiji",
+     "Singapore",
+     "Malaysia"
+    ]
+   },
+   {
+    "q": "Kenilworth",
+    "right": "South Africa",
+    "wrong": [
+     "Namibia",
+     "Zimbabwe",
+     "Kenya"
+    ]
+   },
+   {
+    "q": "The Hipódromo de Palermo",
+    "right": "Argentina",
+    "wrong": [
+     "Uruguay",
+     "Chile",
+     "Peru"
+    ]
+   },
+   {
+    "q": "The Gávea racecourse",
+    "right": "Brazil",
+    "wrong": [
+     "Uruguay",
+     "Peru",
+     "Colombia"
+    ]
+   },
+   {
+    "q": "Pardubice, home of the Velká pardubická",
+    "right": "Czechia",
+    "wrong": [
+     "Slovakia",
+     "Poland",
+     "Hungary"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country did this explorer come from?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "explorers",
+   "countries"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Christopher Columbus",
+    "right": "Italy",
+    "wrong": [
+     "Malta",
+     "Greece",
+     "Croatia"
+    ]
+   },
+   {
+    "q": "Ferdinand Magellan",
+    "right": "Portugal",
+    "wrong": [
+     "Brazil",
+     "Malta",
+     "Greece"
+    ]
+   },
+   {
+    "q": "Roald Amundsen",
+    "right": "Norway",
+    "wrong": [
+     "Finland",
+     "Estonia",
+     "Austria"
+    ]
+   },
+   {
+    "q": "Captain James Cook",
+    "right": "England",
+    "wrong": [
+     "Wales",
+     "the Isle of Man",
+     "Northern Ireland"
+    ]
+   },
+   {
+    "q": "Abel Tasman",
+    "right": "the Netherlands",
+    "wrong": [
+     "Luxembourg",
+     "Austria",
+     "Poland"
+    ]
+   },
+   {
+    "q": "Vitus Bering",
+    "right": "Denmark",
+    "wrong": [
+     "Finland",
+     "Estonia",
+     "Poland"
+    ]
+   },
+   {
+    "q": "Ibn Battuta",
+    "right": "Morocco",
+    "wrong": [
+     "Algeria",
+     "Tunisia",
+     "Egypt"
+    ]
+   },
+   {
+    "q": "Zheng He",
+    "right": "China",
+    "wrong": [
+     "Mongolia",
+     "Korea",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "Hernán Cortés",
+    "right": "Spain",
+    "wrong": [
+     "Mexico",
+     "Malta",
+     "Andorra"
+    ]
+   },
+   {
+    "q": "Jacques Cartier",
+    "right": "France",
+    "wrong": [
+     "Canada",
+     "Luxembourg",
+     "Switzerland"
+    ]
+   },
+   {
+    "q": "Leif Erikson",
+    "right": "Iceland",
+    "wrong": [
+     "Greenland",
+     "Finland",
+     "the Faroe Islands"
+    ]
+   },
+   {
+    "q": "Ernest Shackleton",
+    "right": "Ireland",
+    "wrong": [
+     "Wales",
+     "the Isle of Man",
+     "Northern Ireland"
+    ]
+   },
+   {
+    "q": "Edmund Hillary",
+    "right": "New Zealand",
+    "wrong": [
+     "Australia",
+     "Fiji",
+     "South Africa"
+    ]
+   },
+   {
+    "q": "Sven Hedin",
+    "right": "Sweden",
+    "wrong": [
+     "Finland",
+     "Estonia",
+     "Austria"
+    ]
+   },
+   {
+    "q": "Alexander von Humboldt",
+    "right": "Germany",
+    "wrong": [
+     "Austria",
+     "Switzerland",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "David Livingstone",
+    "right": "Scotland",
+    "wrong": [
+     "Wales",
+     "the Isle of Man",
+     "Northern Ireland"
+    ]
+   },
+   {
+    "q": "Robert Peary",
+    "right": "the USA",
+    "wrong": [
+     "Canada",
+     "Australia",
+     "Greenland"
+    ]
+   },
+   {
+    "q": "Yuri Gagarin",
+    "right": "Russia",
+    "wrong": [
+     "Ukraine",
+     "Belarus",
+     "Kazakhstan"
+    ]
+   },
+   {
+    "q": "Junko Tabei, first woman up Everest",
+    "right": "Japan",
+    "wrong": [
+     "South Korea",
+     "Taiwan",
+     "Mongolia"
+    ]
+   },
+   {
+    "q": "Adrien de Gerlache, of the Belgica",
+    "right": "Belgium",
+    "wrong": [
+     "Luxembourg",
+     "Austria",
+     "Switzerland"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country hosts this famous race or event?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "races",
+   "events",
+   "countries"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The Comrades Marathon",
+    "right": "South Africa",
+    "wrong": [
+     "Namibia",
+     "Zimbabwe",
+     "Kenya"
+    ]
+   },
+   {
+    "q": "The Marathon des Sables",
+    "right": "Morocco",
+    "wrong": [
+     "Algeria",
+     "Tunisia",
+     "Egypt"
+    ]
+   },
+   {
+    "q": "The Great North Run",
+    "right": "England",
+    "wrong": [
+     "Wales",
+     "Scotland",
+     "the Isle of Man"
+    ]
+   },
+   {
+    "q": "The Athens Classic Marathon",
+    "right": "Greece",
+    "wrong": [
+     "Cyprus",
+     "Turkey",
+     "Bulgaria"
+    ]
+   },
+   {
+    "q": "The Vasaloppet ski race",
+    "right": "Sweden",
+    "wrong": [
+     "Finland",
+     "Denmark",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "The Giro d'Italia",
+    "right": "Italy",
+    "wrong": [
+     "Malta",
+     "Croatia",
+     "Slovenia"
+    ]
+   },
+   {
+    "q": "The Vuelta",
+    "right": "Spain",
+    "wrong": [
+     "Portugal",
+     "Andorra",
+     "Malta"
+    ]
+   },
+   {
+    "q": "The Tour of Flanders",
+    "right": "Belgium",
+    "wrong": [
+     "Luxembourg",
+     "Denmark",
+     "Germany"
+    ]
+   },
+   {
+    "q": "The Dakar Rally, since 2020",
+    "right": "Saudi Arabia",
+    "wrong": [
+     "Senegal",
+     "Egypt",
+     "Jordan"
+    ]
+   },
+   {
+    "q": "The Bathurst 1000",
+    "right": "Australia",
+    "wrong": [
+     "Fiji",
+     "Singapore",
+     "Malaysia"
+    ]
+   },
+   {
+    "q": "The Indianapolis 500",
+    "right": "the USA",
+    "wrong": [
+     "Canada",
+     "Mexico",
+     "Bermuda"
+    ]
+   },
+   {
+    "q": "The Monte Carlo Rally",
+    "right": "Monaco",
+    "wrong": [
+     "Andorra",
+     "Luxembourg",
+     "San Marino"
+    ]
+   },
+   {
+    "q": "The Cresta Run",
+    "right": "Switzerland",
+    "wrong": [
+     "Liechtenstein",
+     "Luxembourg",
+     "Czechia"
+    ]
+   },
+   {
+    "q": "The Hahnenkamm downhill",
+    "right": "Austria",
+    "wrong": [
+     "Liechtenstein",
+     "Slovenia",
+     "Czechia"
+    ]
+   },
+   {
+    "q": "The Elfstedentocht skating race",
+    "right": "the Netherlands",
+    "wrong": [
+     "Denmark",
+     "Luxembourg",
+     "Germany"
+    ]
+   },
+   {
+    "q": "The Tour de France",
+    "right": "France",
+    "wrong": [
+     "Luxembourg",
+     "Andorra",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "The Birkebeinerrennet",
+    "right": "Norway",
+    "wrong": [
+     "Finland",
+     "Denmark",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "The Rás Tailteann cycle race",
+    "right": "Ireland",
+    "wrong": [
+     "Wales",
+     "Scotland",
+     "the Isle of Man"
+    ]
+   },
+   {
+    "q": "The Hakone Ekiden relay",
+    "right": "Japan",
+    "wrong": [
+     "South Korea",
+     "Taiwan",
+     "China"
+    ]
+   },
+   {
+    "q": "The Coast to Coast multisport race",
+    "right": "New Zealand",
+    "wrong": [
+     "Fiji",
+     "Singapore",
+     "Malaysia"
+    ]
+   }
+  ]
+ }
+]
