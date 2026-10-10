@@ -1,0 +1,388 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which famous London street?",
+  "target": 10,
+  "category": "London",
+  "tags": [
+   "streets",
+   "London"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Number 10, home of the Prime Minister",
+    "right": "Downing Street",
+    "wrong": [
+     "Birdcage Walk",
+     "Victoria Street",
+     "Northumberland Avenue"
+    ]
+   },
+   {
+    "q": "Sherlock Holmes's address, at number 221B",
+    "right": "Baker Street",
+    "wrong": [
+     "Gower Street",
+     "Marylebone Road",
+     "Wimpole Street"
+    ]
+   },
+   {
+    "q": "Once home to all of Britain's national newspapers",
+    "right": "Fleet Street",
+    "wrong": [
+     "Strand",
+     "Cheapside",
+     "Lombard Street"
+    ]
+   },
+   {
+    "q": "Famous for its private doctors and clinics",
+    "right": "Harley Street",
+    "wrong": [
+     "Great Portland Street",
+     "Gower Street",
+     "Euston Road"
+    ]
+   },
+   {
+    "q": "Soho's hub of Swinging Sixties mod fashion",
+    "right": "Carnaby Street",
+    "wrong": [
+     "Wardour Street",
+     "Berwick Street",
+     "Old Compton Street"
+    ]
+   },
+   {
+    "q": "Where gentlemen go for a bespoke tailored suit",
+    "right": "Savile Row",
+    "wrong": [
+     "Bond Street",
+     "Mount Street",
+     "Curzon Street"
+    ]
+   },
+   {
+    "q": "The Beatles' zebra crossing",
+    "right": "Abbey Road",
+    "wrong": [
+     "Edgware Road",
+     "Ladbroke Grove",
+     "Euston Road"
+    ]
+   },
+   {
+    "q": "Home of the Bank of England, the 'Old Lady'",
+    "right": "Threadneedle Street",
+    "wrong": [
+     "Lombard Street",
+     "Cheapside",
+     "Moorgate"
+    ]
+   },
+   {
+    "q": "'Tin Pan Alley', lined with guitar shops",
+    "right": "Denmark Street",
+    "wrong": [
+     "Wardour Street",
+     "Berwick Street",
+     "Dean Street"
+    ]
+   },
+   {
+    "q": "Theatreland's avenue with the Lyric, Apollo and Gielgud",
+    "right": "Shaftesbury Avenue",
+    "wrong": [
+     "Northumberland Avenue",
+     "Charing Cross Road",
+     "Kingsway"
+    ]
+   },
+   {
+    "q": "Notting Hill's antiques market",
+    "right": "Portobello Road",
+    "wrong": [
+     "Ladbroke Grove",
+     "Westbourne Grove",
+     "Notting Hill Gate"
+    ]
+   },
+   {
+    "q": "The East End street famous for its curry houses",
+    "right": "Brick Lane",
+    "wrong": [
+     "Columbia Road",
+     "Petticoat Lane",
+     "Commercial Street"
+    ]
+   },
+   {
+    "q": "Shirtmakers such as Turnbull & Asser",
+    "right": "Jermyn Street",
+    "wrong": [
+     "Bond Street",
+     "Sloane Street",
+     "Mount Street"
+    ]
+   },
+   {
+    "q": "Brixton's street in Eddy Grant's 1983 hit",
+    "right": "Electric Avenue",
+    "wrong": [
+     "Coldharbour Lane",
+     "Acre Lane",
+     "Atlantic Road"
+    ]
+   },
+   {
+    "q": "Chelsea street where punk was born in Vivienne Westwood's shop",
+    "right": "King's Road",
+    "wrong": [
+     "Fulham Road",
+     "Sloane Street",
+     "Brompton Road"
+    ]
+   },
+   {
+    "q": "The Cenotaph stands in the middle of it",
+    "right": "Whitehall",
+    "wrong": [
+     "Birdcage Walk",
+     "Victoria Street",
+     "Northumberland Avenue"
+    ]
+   },
+   {
+    "q": "The grand hotel road along Hyde Park, a dark blue Monopoly square",
+    "right": "Park Lane",
+    "wrong": [
+     "Bayswater Road",
+     "Curzon Street",
+     "Piccadilly"
+    ]
+   },
+   {
+    "q": "Selfridges stands on it",
+    "right": "Oxford Street",
+    "wrong": [
+     "Regent Street",
+     "Bond Street",
+     "Piccadilly"
+    ]
+   },
+   {
+    "q": "Gentlemen's clubs, and named after a game like croquet",
+    "right": "Pall Mall",
+    "wrong": [
+     "Haymarket",
+     "Piccadilly",
+     "Regent Street"
+    ]
+   },
+   {
+    "q": "The red road from Admiralty Arch to Buckingham Palace",
+    "right": "The Mall",
+    "wrong": [
+     "Birdcage Walk",
+     "Constitution Hill",
+     "Horse Guards Road"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which famous 'Gate'?",
+  "target": 10,
+  "category": "General knowledge",
+  "tags": [
+   "gates",
+   "wordplay"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The 1970s scandal that brought down Richard Nixon",
+    "right": "Watergate",
+    "wrong": [
+     "Whitewater",
+     "Irangate",
+     "Teapot Dome"
+    ]
+   },
+   {
+    "q": "Berlin's landmark with a four-horse chariot on top",
+    "right": "Brandenburg Gate",
+    "wrong": [
+     "Siegestor",
+     "Holstentor",
+     "Arc de Triomphe"
+    ]
+   },
+   {
+    "q": "Prisoners came into the Tower of London by boat through it",
+    "right": "Traitors' Gate",
+    "wrong": [
+     "Byward Tower",
+     "Bloody Tower",
+     "Lion Gate"
+    ]
+   },
+   {
+    "q": "The memorial at Ypres where the Last Post sounds every night",
+    "right": "Menin Gate",
+    "wrong": [
+     "Thiepval Memorial",
+     "Tyne Cot",
+     "Cloth Hall"
+    ]
+   },
+   {
+    "q": "Delhi's great war memorial arch",
+    "right": "India Gate",
+    "wrong": [
+     "Gateway of India",
+     "Red Fort",
+     "Qutub Minar"
+    ]
+   },
+   {
+    "q": "London's famous fish market",
+    "right": "Billingsgate",
+    "wrong": [
+     "Smithfield",
+     "Spitalfields",
+     "Leadenhall"
+    ]
+   },
+   {
+    "q": "The North London cemetery where Karl Marx is buried",
+    "right": "Highgate",
+    "wrong": [
+     "Kensal Green",
+     "Brompton",
+     "Nunhead"
+    ]
+   },
+   {
+    "q": "The Downing Street lockdown parties scandal",
+    "right": "Partygate",
+    "wrong": [
+     "Plebgate",
+     "Pastygate",
+     "Cash for Honours"
+    ]
+   },
+   {
+    "q": "Microsoft's co-founder",
+    "right": "Bill Gates",
+    "wrong": [
+     "Paul Allen",
+     "Steve Ballmer",
+     "Satya Nadella"
+    ]
+   },
+   {
+    "q": "The Yorkshire spa town with the Stray and Bettys tea rooms",
+    "right": "Harrogate",
+    "wrong": [
+     "Ripon",
+     "Knaresborough",
+     "Ilkley"
+    ]
+   },
+   {
+    "q": "The Kent resort with Dreamland and the Turner Contemporary",
+    "right": "Margate",
+    "wrong": [
+     "Ramsgate",
+     "Broadstairs",
+     "Herne Bay"
+    ]
+   },
+   {
+    "q": "The notorious prison where the Old Bailey now stands",
+    "right": "Newgate",
+    "wrong": [
+     "Fleet",
+     "Marshalsea",
+     "Clink"
+    ]
+   },
+   {
+    "q": "The hill that climbs up to St Paul's Cathedral",
+    "right": "Ludgate Hill",
+    "wrong": [
+     "Cornhill",
+     "Fish Street Hill",
+     "Tower Hill"
+    ]
+   },
+   {
+    "q": "Sci-fi film and series about an ancient ring that opens wormholes",
+    "right": "Stargate",
+    "wrong": [
+     "Farscape",
+     "Babylon 5",
+     "Event Horizon"
+    ]
+   },
+   {
+    "q": "Scene of the Tube's worst peacetime crash, in 1975",
+    "right": "Moorgate",
+    "wrong": [
+     "Aldgate",
+     "King's Cross",
+     "Ladbroke Grove"
+    ]
+   },
+   {
+    "q": "San Francisco's red suspension bridge",
+    "right": "Golden Gate Bridge",
+    "wrong": [
+     "Bay Bridge",
+     "Brooklyn Bridge",
+     "Verrazzano Bridge"
+    ]
+   },
+   {
+    "q": "The roofed gateway into a churchyard",
+    "right": "Lychgate",
+    "wrong": [
+     "Portcullis",
+     "Lintel",
+     "Cloister"
+    ]
+   },
+   {
+    "q": "The Tyneside town at the other end of the Millennium Bridge",
+    "right": "Gateshead",
+    "wrong": [
+     "Jarrow",
+     "Wallsend",
+     "Hebburn"
+    ]
+   },
+   {
+    "q": "The Surrey town below the North Downs, near Redhill",
+    "right": "Reigate",
+    "wrong": [
+     "Dorking",
+     "Guildford",
+     "Leatherhead"
+    ]
+   },
+   {
+    "q": "An American party held at the back of a car before the game",
+    "right": "Tailgate",
+    "wrong": [
+     "Potluck",
+     "Hoedown",
+     "Clambake"
+    ]
+   }
+  ]
+ }
+]
