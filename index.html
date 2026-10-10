@@ -667,10 +667,10 @@ function renderWarmups(r) {
 /** Judging a warm-up's Taskmaster photos: click each photo round 🥇 → 🥈 → 🥉 → 💩 → none, then save. The points go
  *  on (or come off) their warm-up scores; judging again only moves the difference. */
 async function warmupTaskModal(w, plays, after) {
-  const m = modal('<h3>📸 Taskmaster photos</h3><p class="muted">Loading…</p>');
+  const bg = modal('<h3>📸 Taskmaster photos</h3><p class="muted">Loading…</p>'), m = $('.modal', bg);
   let quiz; try { quiz = (await api('get', { id: w.id })).quiz; } catch (e) { $('p', m).textContent = e.message; return; }
   const tasks = (quiz.questions || []).filter((q) => q.type === 'task');
-  if (!tasks.length) { m.innerHTML = '<h3>📸 Taskmaster photos</h3><p>This warm-up has no Taskmaster task. Add one (📸 Taskmaster) to the warm-up and photos sent in will show up here.</p><div class="row" style="justify-content:flex-end"><button class="btn" data-x>Close</button></div>'; $('[data-x]', m).onclick = () => m.remove(); return; }
+  if (!tasks.length) { m.innerHTML = '<h3>📸 Taskmaster photos</h3><p>This warm-up has no Taskmaster task. Add one (📸 Taskmaster) to the warm-up and photos sent in will show up here.</p><div class="row" style="justify-content:flex-end"><button class="btn" data-x>Close</button></div>'; $('[data-x]', m).onclick = () => bg.remove(); return; }
   const names = Object.fromEntries(plays.filter((p) => p.code === w.code && (p.season || '') === (w.season || '')).map((p) => [p.pid, `${p.emoji || ''} ${p.name}`]));
   const MEDAL = { 1: '🥇', 2: '🥈', 3: '🥉', w: '💩' };
   let ti = 0, photos = [], picks = {};
@@ -686,7 +686,7 @@ async function warmupTaskModal(w, plays, after) {
       <p class="muted small" style="margin:0 0 8px">${photos.length} photo${photos.length === 1 ? '' : 's'} from warm-up players · click a photo: 🥇 ${pz[0]} → 🥈 ${pz[1]} → 🥉 ${pz[2]} → 💩 −${q.worst ?? 300} → none</p>
       <div class="wutaskgrid">${photos.map((p) => `<div class="wutaskph ${picks[p.pid] ? 'on' : ''}" data-wtp="${p.pid}"><img src="${esc(p.url)}" alt=""><div class="wtname">${esc(names[p.pid])}${picks[p.pid] ? ` · ${MEDAL[picks[p.pid]]} ${val(picks[p.pid]) > 0 ? '+' : ''}${val(picks[p.pid])}` : ''}</div></div>`).join('') || '<p class="muted">No photos yet.</p>'}</div>
       <div class="row mt" style="justify-content:flex-end"><button class="btn btn-ghost" data-x>Close</button><button class="btn btn-primary" data-save ${photos.length ? '' : 'disabled'}>Save the points</button></div>`;
-    $('[data-x]', m).onclick = () => m.remove();
+    $('[data-x]', m).onclick = () => bg.remove();
     $$('[data-tt]', m).forEach((b) => b.onclick = () => { ti = +b.dataset.tt; load(); });
     $$('[data-wtp]', m).forEach((el) => el.onclick = () => {
       const pid = el.dataset.wtp, order = ['1', '2', '3', 'w', ''], taken = new Set(Object.entries(picks).filter(([p]) => p !== pid).map(([, v]) => v));
@@ -709,15 +709,15 @@ async function warmupTaskModal(w, plays, after) {
 }
 /** One player's go: every question, what they answered, the right answer and what it scored. */
 async function warmupAnswersModal(code, season, pid) {
-  const m = modal('<p class="muted">Loading their answers…</p>');
+  const bg = modal('<p class="muted">Loading their answers…</p>'), m = $('.modal', bg);
   let r; try { r = await api('warmup_answers', { code, season, pid }); } catch (e) { m.innerHTML = `<div class="err">${esc(e.message)}</div>`; return; }
-  const p = r.play; if (!p?.answers) { m.innerHTML = '<p>No answers were kept for this go.</p><div class="row" style="justify-content:flex-end"><button class="btn" data-x>Close</button></div>'; $('[data-x]', m).onclick = () => m.remove(); return; }
+  const p = r.play; if (!p?.answers) { m.innerHTML = '<p>No answers were kept for this go.</p><div class="row" style="justify-content:flex-end"><button class="btn" data-x>Close</button></div>'; $('[data-x]', m).onclick = () => bg.remove(); return; }
   const T = (t) => LQ.TYPES[t] ? LQ.TYPES[t].icon + ' ' : '';
   m.innerHTML = `<h3 style="margin-top:0">${esc(p.emoji || '')} ${esc(p.name)} · ${p.score} points</h3>
     <div style="max-height:65vh;overflow:auto"><table class="wutable"><thead><tr><th>#</th><th>Question</th><th>They said</th><th>Answer</th><th>Points</th></tr></thead><tbody>
     ${p.answers.map((a) => `<tr><td>${a.n}</td><td class="small">${T(a.type)}${esc(a.text)}</td><td>${a.given ? `${a.correct ? '✅' : '❌'} ${esc(a.given)}` : '<span class="muted">—</span>'}</td><td class="small">${esc(a.right)}</td><td><b>${a.points}</b></td></tr>`).join('')}
     </tbody></table></div><div class="row mt" style="justify-content:flex-end"><button class="btn" data-x>Close</button></div>`;
-  $('[data-x]', m).onclick = () => m.remove();
+  $('[data-x]', m).onclick = () => bg.remove();
 }
 /** What the warm-up shares with its quiz, and a button to swap those out of the warm-up. */
 async function warmupCheckModal(id, after) {
