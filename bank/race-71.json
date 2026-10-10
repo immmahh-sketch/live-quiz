@@ -1,0 +1,388 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which famous 'Palace'?",
+  "target": 10,
+  "category": "General knowledge",
+  "tags": [
+   "palaces",
+   "wordplay"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The football club named after the Great Exhibition's glass hall",
+    "right": "Crystal",
+    "wrong": [
+     "Glass",
+     "Diamond",
+     "Silver"
+    ]
+   },
+   {
+    "q": "The King's London home, with the famous balcony",
+    "right": "Buckingham",
+    "wrong": [
+     "Clarence",
+     "Marlborough",
+     "Lancaster"
+    ]
+   },
+   {
+    "q": "Diana's home, now William and Catherine's London office",
+    "right": "Kensington",
+    "wrong": [
+     "Holland",
+     "Chelsea",
+     "Richmond"
+    ]
+   },
+   {
+    "q": "Churchill's birthplace in Oxfordshire",
+    "right": "Blenheim",
+    "wrong": [
+     "Woodstock",
+     "Ditchley",
+     "Chartwell"
+    ]
+   },
+   {
+    "q": "Henry VIII's Thames-side palace with the famous maze",
+    "right": "Hampton Court",
+    "wrong": [
+     "Richmond",
+     "Greenwich",
+     "Nonsuch"
+    ]
+   },
+   {
+    "q": "The Pall Mall palace where a new monarch is proclaimed",
+    "right": "St James's",
+    "wrong": [
+     "Whitehall",
+     "Marlborough",
+     "Clarence"
+    ]
+   },
+   {
+    "q": "The Archbishop of Canterbury's London home",
+    "right": "Lambeth",
+    "wrong": [
+     "Fulham",
+     "Southwark",
+     "Westminster"
+    ]
+   },
+   {
+    "q": "'Ally Pally', home of the World Darts Championship",
+    "right": "Alexandra",
+    "wrong": [
+     "Victoria",
+     "Albert",
+     "Olympia"
+    ]
+   },
+   {
+    "q": "The Roman-themed Las Vegas casino",
+    "right": "Caesars",
+    "wrong": [
+     "Bellagio",
+     "Venetian",
+     "Luxor"
+    ]
+   },
+   {
+    "q": "The St Petersburg palace stormed in 1917",
+    "right": "Winter",
+    "wrong": [
+     "Catherine",
+     "Peterhof",
+     "Smolny"
+    ]
+   },
+   {
+    "q": "Beijing's imperial lakeside retreat",
+    "right": "Summer",
+    "wrong": [
+     "Forbidden",
+     "Jade",
+     "Heavenly"
+    ]
+   },
+   {
+    "q": "The Dalai Lama's great palace in Lhasa",
+    "right": "Potala",
+    "wrong": [
+     "Jokhang",
+     "Norbulingka",
+     "Drepung"
+    ]
+   },
+   {
+    "q": "Istanbul's sultans' palace, home of the Spoonmaker's Diamond",
+    "right": "Topkapi",
+    "wrong": [
+     "Dolmabahçe",
+     "Galata",
+     "Yildiz"
+    ]
+   },
+   {
+    "q": "Vienna's Habsburg summer palace",
+    "right": "Schönbrunn",
+    "wrong": [
+     "Hofburg",
+     "Belvedere",
+     "Nymphenburg"
+    ]
+   },
+   {
+    "q": "Venice's palace beside St Mark's Basilica",
+    "right": "Doge's",
+    "wrong": [
+     "Rialto",
+     "Ca' d'Oro",
+     "Pope's"
+    ]
+   },
+   {
+    "q": "Birthplace of Mary, Queen of Scots",
+    "right": "Linlithgow",
+    "wrong": [
+     "Falkland",
+     "Stirling",
+     "Holyrood"
+    ]
+   },
+   {
+    "q": "Henry VIII's boyhood palace in south-east London, with its Art Deco house",
+    "right": "Eltham",
+    "wrong": [
+     "Greenwich",
+     "Richmond",
+     "Nonsuch"
+    ]
+   },
+   {
+    "q": "Frederick the Great's rococo palace at Potsdam",
+    "right": "Sanssouci",
+    "wrong": [
+     "Charlottenburg",
+     "Bellevue",
+     "Nymphenburg"
+    ]
+   },
+   {
+    "q": "Sintra's brightly painted hilltop palace",
+    "right": "Pena",
+    "wrong": [
+     "Ajuda",
+     "Queluz",
+     "Belém"
+    ]
+   },
+   {
+    "q": "The Paris palace beside the Louvre, burned down in 1871",
+    "right": "Tuileries",
+    "wrong": [
+     "Luxembourg",
+     "Élysée",
+     "Palais-Royal"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which famous 'Garden'?",
+  "target": 10,
+  "category": "General knowledge",
+  "tags": [
+   "gardens",
+   "wordplay"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The London piazza with the Royal Opera House",
+    "right": "Covent",
+    "wrong": [
+     "Spitalfields",
+     "Leadenhall",
+     "Smithfield"
+    ]
+   },
+   {
+    "q": "London's diamond quarter, scene of the 2015 vault raid",
+    "right": "Hatton",
+    "wrong": [
+     "Holborn",
+     "Leather",
+     "Clerkenwell"
+    ]
+   },
+   {
+    "q": "The Royal Botanic Gardens in south-west London",
+    "right": "Kew",
+    "wrong": [
+     "Chiswick",
+     "Syon",
+     "Richmond"
+    ]
+   },
+   {
+    "q": "Adam and Eve's garden",
+    "right": "Eden",
+    "wrong": [
+     "Babylon",
+     "Avalon",
+     "Arcadia"
+    ]
+   },
+   {
+    "q": "Ringo's song about life under the sea",
+    "right": "Octopus's",
+    "wrong": [
+     "Walrus's",
+     "Dolphin's",
+     "Mermaid's"
+    ]
+   },
+   {
+    "q": "Frances Hodgson Burnett's novel about Mary Lennox",
+    "right": "Secret",
+    "wrong": [
+     "Hidden",
+     "Forbidden",
+     "Lost"
+    ]
+   },
+   {
+    "q": "Where Peter Pan's statue stands in London",
+    "right": "Kensington",
+    "wrong": [
+     "Holland",
+     "Regent's",
+     "Chelsea"
+    ]
+   },
+   {
+    "q": "The Wonder of the Ancient World in Babylon",
+    "right": "Hanging",
+    "wrong": [
+     "Floating",
+     "Terraced",
+     "Royal"
+    ]
+   },
+   {
+    "q": "Where pub-goers drink outside in summer",
+    "right": "Beer",
+    "wrong": [
+     "Ale",
+     "Pub",
+     "Drinking"
+    ]
+   },
+   {
+    "q": "Cornwall's 'Lost Gardens', rediscovered in 1990",
+    "right": "Heligan",
+    "wrong": [
+     "Trebah",
+     "Glendurgan",
+     "Trelissick"
+    ]
+   },
+   {
+    "q": "Where Jesus prayed on the night of his arrest",
+    "right": "Gethsemane",
+    "wrong": [
+     "Olives",
+     "Golgotha",
+     "Bethany"
+    ]
+   },
+   {
+    "q": "The White House garden used for big announcements",
+    "right": "Rose",
+    "wrong": [
+     "Lily",
+     "Tulip",
+     "East"
+    ]
+   },
+   {
+    "q": "Blackpool's huge Victorian venue for party conferences and shows",
+    "right": "Winter",
+    "wrong": [
+     "Spring",
+     "Summer",
+     "Pleasure"
+    ]
+   },
+   {
+    "q": "Edinburgh's park in the valley below the Castle",
+    "right": "Princes Street",
+    "wrong": [
+     "George Street",
+     "Royal Mile",
+     "Queen Street"
+    ]
+   },
+   {
+    "q": "Copenhagen's amusement park, opened in 1843",
+    "right": "Tivoli",
+    "wrong": [
+     "Bakken",
+     "Legoland",
+     "Liseberg"
+    ]
+   },
+   {
+    "q": "Chelsea's 1673 garden for growing medicinal plants",
+    "right": "Physic",
+    "wrong": [
+     "Herb",
+     "Apothecaries'",
+     "Healing"
+    ]
+   },
+   {
+    "q": "The Goodie who still pops up on I'm Sorry I Haven't a Clue",
+    "right": "Graeme",
+    "wrong": [
+     "Bill",
+     "Tim",
+     "Barry"
+    ]
+   },
+   {
+    "q": "A farm growing fruit and veg for sale",
+    "right": "Market",
+    "wrong": [
+     "Kitchen",
+     "Allotment",
+     "Truck"
+    ]
+   },
+   {
+    "q": "The Northumberland garden with the Poison Garden and Grand Cascade",
+    "right": "Alnwick",
+    "wrong": [
+     "Belsay",
+     "Wallington",
+     "Howick"
+    ]
+   },
+   {
+    "q": "The crammed, informal English style of flower garden",
+    "right": "Cottage",
+    "wrong": [
+     "Country",
+     "Village",
+     "Farmhouse"
+    ]
+   }
+  ]
+ }
+]
