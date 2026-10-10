@@ -1,0 +1,388 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what colour is it?",
+  "target": 10,
+  "category": "General knowledge",
+  "tags": [
+   "colours",
+   "everyday"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The snooker ball worth four points",
+    "right": "Brown",
+    "wrong": [
+     "Tan",
+     "Bronze",
+     "Copper"
+    ]
+   },
+   {
+    "q": "The Tour de France leader's jersey",
+    "right": "Yellow",
+    "wrong": [
+     "Saffron",
+     "Lime",
+     "Peach"
+    ]
+   },
+   {
+    "q": "A British postbox",
+    "right": "Red",
+    "wrong": [
+     "Maroon",
+     "Coral",
+     "Rose"
+    ]
+   },
+   {
+    "q": "A traditional London taxi",
+    "right": "Black",
+    "wrong": [
+     "Charcoal",
+     "Olive",
+     "Burgundy"
+    ]
+   },
+   {
+    "q": "The middle stripe of the Irish flag",
+    "right": "White",
+    "wrong": [
+     "Ivory",
+     "Cream",
+     "Beige"
+    ]
+   },
+   {
+    "q": "The Smurfs",
+    "right": "Blue",
+    "wrong": [
+     "Teal",
+     "Lilac",
+     "Mauve"
+    ]
+   },
+   {
+    "q": "The Incredible Hulk",
+    "right": "Green",
+    "wrong": [
+     "Olive",
+     "Teal",
+     "Lime"
+    ]
+   },
+   {
+    "q": "A Cadbury Dairy Milk wrapper",
+    "right": "Purple",
+    "wrong": [
+     "Lilac",
+     "Mauve",
+     "Lavender"
+    ]
+   },
+   {
+    "q": "A Tiffany & Co. gift box",
+    "right": "Turquoise",
+    "wrong": [
+     "Teal",
+     "Lime",
+     "Sky blue"
+    ]
+   },
+   {
+    "q": "A first-place Olympic medal",
+    "right": "Gold",
+    "wrong": [
+     "Bronze",
+     "Copper",
+     "Platinum"
+    ]
+   },
+   {
+    "q": "A second-place Olympic medal",
+    "right": "Silver",
+    "wrong": [
+     "Bronze",
+     "Platinum",
+     "Copper"
+    ]
+   },
+   {
+    "q": "An easyJet plane's tail",
+    "right": "Orange",
+    "wrong": [
+     "Peach",
+     "Coral",
+     "Saffron"
+    ]
+   },
+   {
+    "q": "The colour between blue and violet in the rainbow",
+    "right": "Indigo",
+    "wrong": [
+     "Teal",
+     "Mauve",
+     "Lilac"
+    ]
+   },
+   {
+    "q": "The last colour of the rainbow",
+    "right": "Violet",
+    "wrong": [
+     "Lilac",
+     "Mauve",
+     "Lavender"
+    ]
+   },
+   {
+    "q": "An African elephant",
+    "right": "Grey",
+    "wrong": [
+     "Charcoal",
+     "Tan",
+     "Taupe"
+    ]
+   },
+   {
+    "q": "Barbie's signature colour",
+    "right": "Pink",
+    "wrong": [
+     "Coral",
+     "Peach",
+     "Rose"
+    ]
+   },
+   {
+    "q": "The dark blue named after Royal Navy uniforms",
+    "right": "Navy",
+    "wrong": [
+     "Teal",
+     "Charcoal",
+     "Sky blue"
+    ]
+   },
+   {
+    "q": "The M in CMYK printer ink",
+    "right": "Magenta",
+    "wrong": [
+     "Maroon",
+     "Mauve",
+     "Crimson"
+    ]
+   },
+   {
+    "q": "The British Army's sandy desert kit",
+    "right": "Khaki",
+    "wrong": [
+     "Olive",
+     "Tan",
+     "Beige"
+    ]
+   },
+   {
+    "q": "The middle traffic light",
+    "right": "Amber",
+    "wrong": [
+     "Saffron",
+     "Peach",
+     "Coral"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which part of the body does this job?",
+  "target": 10,
+  "category": "The human body",
+  "tags": [
+   "human body",
+   "organs"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Filters the blood and makes urine",
+    "right": "Kidneys",
+    "wrong": [
+     "Pancreas",
+     "Ureter",
+     "Adrenal glands"
+    ]
+   },
+   {
+    "q": "Pumps blood round the body",
+    "right": "Heart",
+    "wrong": [
+     "Thymus",
+     "Bone marrow",
+     "Lymph nodes"
+    ]
+   },
+   {
+    "q": "Stores bile until it's needed",
+    "right": "Gall bladder",
+    "wrong": [
+     "Pancreas",
+     "Duodenum",
+     "Thymus"
+    ]
+   },
+   {
+    "q": "The body's largest organ",
+    "right": "Skin",
+    "wrong": [
+     "Bone marrow",
+     "Thymus",
+     "Pancreas"
+    ]
+   },
+   {
+    "q": "Cleans toxins out of the blood and makes bile",
+    "right": "Liver",
+    "wrong": [
+     "Pancreas",
+     "Duodenum",
+     "Thymus"
+    ]
+   },
+   {
+    "q": "Where most of the goodness in food is absorbed",
+    "right": "Small intestine",
+    "wrong": [
+     "Rectum",
+     "Pancreas",
+     "Ureter"
+    ]
+   },
+   {
+    "q": "Takes water back out of waste before it leaves",
+    "right": "Large intestine",
+    "wrong": [
+     "Rectum",
+     "Ureter",
+     "Duodenum"
+    ]
+   },
+   {
+    "q": "Swaps oxygen for carbon dioxide",
+    "right": "Lungs",
+    "wrong": [
+     "Bronchi",
+     "Sinuses",
+     "Thymus"
+    ]
+   },
+   {
+    "q": "Runs everything, with around 86 billion nerve cells",
+    "right": "Brain",
+    "wrong": [
+     "Spinal cord",
+     "Pituitary gland",
+     "Thymus"
+    ]
+   },
+   {
+    "q": "Clears out old red blood cells and helps fight infection",
+    "right": "Spleen",
+    "wrong": [
+     "Thymus",
+     "Lymph nodes",
+     "Bone marrow"
+    ]
+   },
+   {
+    "q": "Stores urine",
+    "right": "Bladder",
+    "wrong": [
+     "Ureter",
+     "Urethra",
+     "Prostate"
+    ]
+   },
+   {
+    "q": "Carries food from the mouth to the stomach",
+    "right": "Oesophagus",
+    "wrong": [
+     "Epiglottis",
+     "Uvula",
+     "Duodenum"
+    ]
+   },
+   {
+    "q": "The voice box",
+    "right": "Larynx",
+    "wrong": [
+     "Epiglottis",
+     "Uvula",
+     "Sinuses"
+    ]
+   },
+   {
+    "q": "The windpipe",
+    "right": "Trachea",
+    "wrong": [
+     "Bronchi",
+     "Epiglottis",
+     "Sinuses"
+    ]
+   },
+   {
+    "q": "Helps you keep your balance",
+    "right": "Inner ear",
+    "wrong": [
+     "Eardrum",
+     "Sinuses",
+     "Adenoids"
+    ]
+   },
+   {
+    "q": "Churns food in acid",
+    "right": "Stomach",
+    "wrong": [
+     "Duodenum",
+     "Pancreas",
+     "Rectum"
+    ]
+   },
+   {
+    "q": "A small pouch off the gut that can burst and need taking out",
+    "right": "Appendix",
+    "wrong": [
+     "Adenoids",
+     "Thymus",
+     "Duodenum"
+    ]
+   },
+   {
+    "q": "The sheet of muscle under the lungs that powers breathing",
+    "right": "Diaphragm",
+    "wrong": [
+     "Epiglottis",
+     "Bronchi",
+     "Sinuses"
+    ]
+   },
+   {
+    "q": "The light-sensitive layer at the back of the eye",
+    "right": "Retina",
+    "wrong": [
+     "Cornea",
+     "Iris",
+     "Lens"
+    ]
+   },
+   {
+    "q": "Lumps at the back of the throat that can get infected and be taken out",
+    "right": "Tonsils",
+    "wrong": [
+     "Adenoids",
+     "Uvula",
+     "Epiglottis"
+    ]
+   }
+  ]
+ }
+]
