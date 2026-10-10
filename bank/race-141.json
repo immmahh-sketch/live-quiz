@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this geography word?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "geography",
+   "landforms",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Fan-shaped land where a river splits into channels near the sea, like the Nile's",
+    "right": "Delta",
+    "wrong": [
+     "Levee",
+     "Floodplain",
+     "Spit"
+    ]
+   },
+   {
+    "q": "A long, deep sea inlet carved out by a glacier, common in Norway",
+    "right": "Fjord",
+    "wrong": [
+     "Strait",
+     "Bay",
+     "Cove"
+    ]
+   },
+   {
+    "q": "A slow-moving river of ice",
+    "right": "Glacier",
+    "wrong": [
+     "Moraine",
+     "Cirque",
+     "Scree"
+    ]
+   },
+   {
+    "q": "Where a river widens as it meets the sea and the tide comes in",
+    "right": "Estuary",
+    "wrong": [
+     "Levee",
+     "Floodplain",
+     "Confluence"
+    ]
+   },
+   {
+    "q": "A narrow strip of land joining two larger areas, like Panama",
+    "right": "Isthmus",
+    "wrong": [
+     "Spit",
+     "Headland",
+     "Strait"
+    ]
+   },
+   {
+    "q": "Land almost surrounded by water, like Cornwall",
+    "right": "Peninsula",
+    "wrong": [
+     "Spit",
+     "Stack",
+     "Arch"
+    ]
+   },
+   {
+    "q": "A big group of islands",
+    "right": "Archipelago",
+    "wrong": [
+     "Stack",
+     "Sound",
+     "Strait"
+    ]
+   },
+   {
+    "q": "A ring-shaped coral island around a lagoon",
+    "right": "Atoll",
+    "wrong": [
+     "Stack",
+     "Spit",
+     "Headland"
+    ]
+   },
+   {
+    "q": "A shallow stretch of water cut off from the sea by a reef or sandbar",
+    "right": "Lagoon",
+    "wrong": [
+     "Oasis",
+     "Wadi",
+     "Cove"
+    ]
+   },
+   {
+    "q": "A smaller river that flows into a bigger one",
+    "right": "Tributary",
+    "wrong": [
+     "Confluence",
+     "Levee",
+     "Distributary"
+    ]
+   },
+   {
+    "q": "A curved lake left behind when a river cuts off one of its loops",
+    "right": "Oxbow lake",
+    "wrong": [
+     "Tarn",
+     "Reservoir",
+     "Loch"
+    ]
+   },
+   {
+    "q": "A big looping bend in a river",
+    "right": "Meander",
+    "wrong": [
+     "Levee",
+     "Confluence",
+     "Rapids"
+    ]
+   },
+   {
+    "q": "A large area of high, flat land",
+    "right": "Plateau",
+    "wrong": [
+     "Escarpment",
+     "Floodplain",
+     "Drumlin"
+    ]
+   },
+   {
+    "q": "A deep, steep-sided valley cut by a river, like the Grand one in Arizona",
+    "right": "Canyon",
+    "wrong": [
+     "Moraine",
+     "Drumlin",
+     "Esker"
+    ]
+   },
+   {
+    "q": "A cold, treeless plain where the ground stays frozen",
+    "right": "Tundra",
+    "wrong": [
+     "Taiga",
+     "Steppe",
+     "Pampas"
+    ]
+   },
+   {
+    "q": "Hot tropical grassland with scattered trees, home to lions and zebras",
+    "right": "Savanna",
+    "wrong": [
+     "Taiga",
+     "Wadi",
+     "Moorland"
+    ]
+   },
+   {
+    "q": "The imaginary line round the middle of the Earth",
+    "right": "Equator",
+    "wrong": [
+     "Prime meridian",
+     "International Date Line",
+     "Arctic Circle"
+    ]
+   },
+   {
+    "q": "The seasonal wind that brings heavy summer rain to South Asia",
+    "right": "Monsoon",
+    "wrong": [
+     "Sirocco",
+     "Mistral",
+     "Chinook"
+    ]
+   },
+   {
+    "q": "Where a river begins",
+    "right": "Source",
+    "wrong": [
+     "Mouth",
+     "Confluence",
+     "Levee"
+    ]
+   },
+   {
+    "q": "A mountain that can erupt with lava",
+    "right": "Volcano",
+    "wrong": [
+     "Geyser",
+     "Fumarole",
+     "Drumlin"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this maths word?",
+  "target": 10,
+  "category": "Maths and numbers",
+  "tags": [
+   "maths",
+   "words",
+   "school"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The longest side of a right-angled triangle",
+    "right": "Hypotenuse",
+    "wrong": [
+     "Tangent",
+     "Vertex",
+     "Gradient"
+    ]
+   },
+   {
+    "q": "The distance from the centre of a circle to its edge",
+    "right": "Radius",
+    "wrong": [
+     "Arc",
+     "Tangent",
+     "Segment"
+    ]
+   },
+   {
+    "q": "A straight line across a circle through its centre",
+    "right": "Diameter",
+    "wrong": [
+     "Tangent",
+     "Arc",
+     "Sector"
+    ]
+   },
+   {
+    "q": "The distance all the way round a circle",
+    "right": "Circumference",
+    "wrong": [
+     "Arc",
+     "Sector",
+     "Tangent"
+    ]
+   },
+   {
+    "q": "The distance all the way round the edge of a shape",
+    "right": "Perimeter",
+    "wrong": [
+     "Vertex",
+     "Axis",
+     "Gradient"
+    ]
+   },
+   {
+    "q": "The amount of flat space a shape covers",
+    "right": "Area",
+    "wrong": [
+     "Vertex",
+     "Axis",
+     "Ratio"
+    ]
+   },
+   {
+    "q": "How much space a solid takes up",
+    "right": "Volume",
+    "wrong": [
+     "Vertex",
+     "Ratio",
+     "Gradient"
+    ]
+   },
+   {
+    "q": "A whole number, with no fractions or decimals",
+    "right": "Integer",
+    "wrong": [
+     "Surd",
+     "Vector",
+     "Coefficient"
+    ]
+   },
+   {
+    "q": "The top number of a fraction",
+    "right": "Numerator",
+    "wrong": [
+     "Quotient",
+     "Coefficient",
+     "Index"
+    ]
+   },
+   {
+    "q": "The bottom number of a fraction",
+    "right": "Denominator",
+    "wrong": [
+     "Quotient",
+     "Coefficient",
+     "Index"
+    ]
+   },
+   {
+    "q": "An amount out of 100",
+    "right": "Percentage",
+    "wrong": [
+     "Ratio",
+     "Quotient",
+     "Index"
+    ]
+   },
+   {
+    "q": "Add them all up and divide by how many there are",
+    "right": "Mean",
+    "wrong": [
+     "Quartile",
+     "Frequency",
+     "Variance"
+    ]
+   },
+   {
+    "q": "The middle value once they're put in order",
+    "right": "Median",
+    "wrong": [
+     "Quartile",
+     "Frequency",
+     "Variance"
+    ]
+   },
+   {
+    "q": "The value that turns up most often",
+    "right": "Mode",
+    "wrong": [
+     "Quartile",
+     "Frequency",
+     "Variance"
+    ]
+   },
+   {
+    "q": "The biggest value take away the smallest",
+    "right": "Range",
+    "wrong": [
+     "Quartile",
+     "Variance",
+     "Frequency"
+    ]
+   },
+   {
+    "q": "A number that divides exactly into another",
+    "right": "Factor",
+    "wrong": [
+     "Remainder",
+     "Quotient",
+     "Exponent"
+    ]
+   },
+   {
+    "q": "Any number in another number's times table",
+    "right": "Multiple",
+    "wrong": [
+     "Remainder",
+     "Quotient",
+     "Exponent"
+    ]
+   },
+   {
+    "q": "The number that, multiplied by itself, gives this one",
+    "right": "Square root",
+    "wrong": [
+     "Logarithm",
+     "Exponent",
+     "Coefficient"
+    ]
+   },
+   {
+    "q": "A number that only divides by 1 and itself",
+    "right": "Prime number",
+    "wrong": [
+     "Surd",
+     "Vector",
+     "Coefficient"
+    ]
+   },
+   {
+    "q": "About 3.14: a circle's circumference divided by its diameter",
+    "right": "Pi",
+    "wrong": [
+     "Phi",
+     "Euler's number",
+     "Sigma"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this election word?",
+  "target": 10,
+  "category": "Politics",
+  "tags": [
+   "elections",
+   "politics",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The paper you mark with an X",
+    "right": "Ballot",
+    "wrong": [
+     "Hansard",
+     "Mandate",
+     "Caucus"
+    ]
+   },
+   {
+    "q": "The area an MP represents",
+    "right": "Constituency",
+    "wrong": [
+     "Caucus",
+     "Lobby",
+     "Primary"
+    ]
+   },
+   {
+    "q": "A party's list of promises before an election",
+    "right": "Manifesto",
+    "wrong": [
+     "Hansard",
+     "Filibuster",
+     "Mandate"
+    ]
+   },
+   {
+    "q": "A meeting where the candidates debate in front of voters",
+    "right": "Hustings",
+    "wrong": [
+     "Caucus",
+     "Primary",
+     "Division bell"
+    ]
+   },
+   {
+    "q": "Often a school or village hall, where you go to vote",
+    "right": "Polling station",
+    "wrong": [
+     "Lobby",
+     "Division bell",
+     "Electoral college"
+    ]
+   },
+   {
+    "q": "The 10pm forecast based on asking people as they leave",
+    "right": "Exit poll",
+    "wrong": [
+     "Caucus",
+     "Primary",
+     "Purdah"
+    ]
+   },
+   {
+    "q": "A huge victory, like Labour's in 1997",
+    "right": "Landslide",
+    "wrong": [
+     "Filibuster",
+     "Gerrymander",
+     "Purdah"
+    ]
+   },
+   {
+    "q": "No party has an overall majority",
+    "right": "Hung parliament",
+    "wrong": [
+     "Prorogation",
+     "Dissolution",
+     "Filibuster"
+    ]
+   },
+   {
+    "q": "The percentage shift of votes from one party to another",
+    "right": "Swing",
+    "wrong": [
+     "Whip",
+     "Mandate",
+     "Pairing"
+    ]
+   },
+   {
+    "q": "Held when an MP dies or resigns between general elections",
+    "right": "By-election",
+    "wrong": [
+     "Primary",
+     "Caucus",
+     "Prorogation"
+    ]
+   },
+   {
+    "q": "A public vote on a single question, like Brexit",
+    "right": "Referendum",
+    "wrong": [
+     "Primary",
+     "Caucus",
+     "Filibuster"
+    ]
+   },
+   {
+    "q": "The share of people who actually voted",
+    "right": "Turnout",
+    "wrong": [
+     "Mandate",
+     "Whip",
+     "Pairing"
+    ]
+   },
+   {
+    "q": "Counting the votes again when the result is very close",
+    "right": "Recount",
+    "wrong": [
+     "Filibuster",
+     "Prorogation",
+     "Pairing"
+    ]
+   },
+   {
+    "q": "Knocking on doors to ask for people's votes",
+    "right": "Canvassing",
+    "wrong": [
+     "Lobbying",
+     "Filibuster",
+     "Pairing"
+    ]
+   },
+   {
+    "q": "Backing a party you don't love to keep another one out",
+    "right": "Tactical voting",
+    "wrong": [
+     "Gerrymander",
+     "Filibuster",
+     "Pairing"
+    ]
+   },
+   {
+    "q": "A constituency one party almost always wins",
+    "right": "Safe seat",
+    "wrong": [
+     "Backbench",
+     "Front bench",
+     "Shadow cabinet"
+    ]
+   },
+   {
+    "q": "A seat that could easily change hands",
+    "right": "Marginal",
+    "wrong": [
+     "Backbench",
+     "Front bench",
+     "Shadow cabinet"
+    ]
+   },
+   {
+    "q": "Voting by post instead of in person",
+    "right": "Postal vote",
+    "wrong": [
+     "Proxy vote",
+     "Division",
+     "Pairing"
+    ]
+   },
+   {
+    "q": "What happens to a candidate's £500 if they get under 5% of the vote",
+    "right": "Lost deposit",
+    "wrong": [
+     "Purdah",
+     "Whip",
+     "Mandate"
+    ]
+   },
+   {
+    "q": "The official who reads out the results at the count",
+    "right": "Returning officer",
+    "wrong": [
+     "Speaker",
+     "Chief whip",
+     "Black Rod"
+    ]
+   }
+  ]
+ }
+]
