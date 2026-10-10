@@ -1,0 +1,775 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: who came up with this scientific idea?",
+  "target": 10,
+  "category": "Science and nature",
+  "tags": [
+   "scientists",
+   "theories"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Evolution by natural selection",
+    "right": "Charles Darwin",
+    "wrong": [
+     "Jean-Baptiste Lamarck",
+     "Thomas Huxley",
+     "Carl Linnaeus"
+    ]
+   },
+   {
+    "q": "Special relativity",
+    "right": "Albert Einstein",
+    "wrong": [
+     "Niels Bohr",
+     "Paul Dirac",
+     "Richard Feynman"
+    ]
+   },
+   {
+    "q": "The law of universal gravitation",
+    "right": "Isaac Newton",
+    "wrong": [
+     "Galileo Galilei",
+     "Edmond Halley",
+     "Tycho Brahe"
+    ]
+   },
+   {
+    "q": "A Sun-centred Solar System",
+    "right": "Nicolaus Copernicus",
+    "wrong": [
+     "Galileo Galilei",
+     "Ptolemy",
+     "Tycho Brahe"
+    ]
+   },
+   {
+    "q": "The uncertainty principle",
+    "right": "Werner Heisenberg",
+    "wrong": [
+     "Niels Bohr",
+     "Paul Dirac",
+     "Enrico Fermi"
+    ]
+   },
+   {
+    "q": "The periodic table",
+    "right": "Dmitri Mendeleev",
+    "wrong": [
+     "Antoine Lavoisier",
+     "John Dalton",
+     "J. J. Thomson"
+    ]
+   },
+   {
+    "q": "The laws of planetary motion",
+    "right": "Johannes Kepler",
+    "wrong": [
+     "Tycho Brahe",
+     "Galileo Galilei",
+     "Edmond Halley"
+    ]
+   },
+   {
+    "q": "The germ theory of disease",
+    "right": "Louis Pasteur",
+    "wrong": [
+     "Joseph Lister",
+     "Edward Jenner",
+     "Alexander Fleming"
+    ]
+   },
+   {
+    "q": "Electromagnetic induction",
+    "right": "Michael Faraday",
+    "wrong": [
+     "Alessandro Volta",
+     "André-Marie Ampère",
+     "Georg Ohm"
+    ]
+   },
+   {
+    "q": "The equations of electromagnetism",
+    "right": "James Clerk Maxwell",
+    "wrong": [
+     "Nikola Tesla",
+     "Thomas Edison",
+     "André-Marie Ampère"
+    ]
+   },
+   {
+    "q": "The 'primeval atom', the first Big Bang idea",
+    "right": "Georges Lemaître",
+    "wrong": [
+     "Fred Hoyle",
+     "William Herschel",
+     "Edmond Halley"
+    ]
+   },
+   {
+    "q": "The expanding universe",
+    "right": "Edwin Hubble",
+    "wrong": [
+     "William Herschel",
+     "Edmond Halley",
+     "Galileo Galilei"
+    ]
+   },
+   {
+    "q": "Continental drift",
+    "right": "Alfred Wegener",
+    "wrong": [
+     "Charles Lyell",
+     "James Hutton",
+     "Alexander von Humboldt"
+    ]
+   },
+   {
+    "q": "The laws of inheritance, from pea plants",
+    "right": "Gregor Mendel",
+    "wrong": [
+     "Jean-Baptiste Lamarck",
+     "Carl Linnaeus",
+     "Thomas Huxley"
+    ]
+   },
+   {
+    "q": "The atomic nucleus",
+    "right": "Ernest Rutherford",
+    "wrong": [
+     "J. J. Thomson",
+     "James Chadwick",
+     "John Dalton"
+    ]
+   },
+   {
+    "q": "Energy comes in 'quanta'",
+    "right": "Max Planck",
+    "wrong": [
+     "Niels Bohr",
+     "Paul Dirac",
+     "Enrico Fermi"
+    ]
+   },
+   {
+    "q": "The double helix of DNA",
+    "right": "Watson & Crick",
+    "wrong": [
+     "Pauling & Corey",
+     "Banting & Best",
+     "Hodgkin & Perutz"
+    ]
+   },
+   {
+    "q": "Black holes give off radiation",
+    "right": "Stephen Hawking",
+    "wrong": [
+     "Roger Penrose",
+     "Richard Feynman",
+     "Fred Hoyle"
+    ]
+   },
+   {
+    "q": "The cat in the box that's both alive and dead",
+    "right": "Erwin Schrödinger",
+    "wrong": [
+     "Niels Bohr",
+     "Paul Dirac",
+     "Max Born"
+    ]
+   },
+   {
+    "q": "The exclusion principle",
+    "right": "Wolfgang Pauli",
+    "wrong": [
+     "Niels Bohr",
+     "Paul Dirac",
+     "Enrico Fermi"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: whose fans are called this?",
+  "target": 10,
+  "category": "Music",
+  "tags": [
+   "fans",
+   "pop stars"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Beliebers",
+    "right": "Justin Bieber",
+    "wrong": [
+     "Shawn Mendes",
+     "Jonas Brothers",
+     "Jason Derulo"
+    ]
+   },
+   {
+    "q": "Swifties",
+    "right": "Taylor Swift",
+    "wrong": [
+     "Olivia Rodrigo",
+     "Sabrina Carpenter",
+     "Billie Eilish"
+    ]
+   },
+   {
+    "q": "Little Monsters",
+    "right": "Lady Gaga",
+    "wrong": [
+     "Madonna",
+     "Britney Spears",
+     "Christina Aguilera"
+    ]
+   },
+   {
+    "q": "The Beyhive",
+    "right": "Beyoncé",
+    "wrong": [
+     "Jennifer Lopez",
+     "Christina Aguilera",
+     "Shakira"
+    ]
+   },
+   {
+    "q": "Arianators",
+    "right": "Ariana Grande",
+    "wrong": [
+     "Sabrina Carpenter",
+     "Olivia Rodrigo",
+     "Camila Cabello"
+    ]
+   },
+   {
+    "q": "Directioners",
+    "right": "One Direction",
+    "wrong": [
+     "The Wanted",
+     "Westlife",
+     "Take That"
+    ]
+   },
+   {
+    "q": "Mixers",
+    "right": "Little Mix",
+    "wrong": [
+     "Girls Aloud",
+     "Sugababes",
+     "Spice Girls"
+    ]
+   },
+   {
+    "q": "The Barbz",
+    "right": "Nicki Minaj",
+    "wrong": [
+     "Doja Cat",
+     "Cardi B",
+     "Lizzo"
+    ]
+   },
+   {
+    "q": "The Navy",
+    "right": "Rihanna",
+    "wrong": [
+     "Doja Cat",
+     "Cardi B",
+     "Shakira"
+    ]
+   },
+   {
+    "q": "KatyCats",
+    "right": "Katy Perry",
+    "wrong": [
+     "Pink",
+     "Kesha",
+     "Avril Lavigne"
+    ]
+   },
+   {
+    "q": "Selenators",
+    "right": "Selena Gomez",
+    "wrong": [
+     "Demi Lovato",
+     "Hilary Duff",
+     "Camila Cabello"
+    ]
+   },
+   {
+    "q": "Sheerios",
+    "right": "Ed Sheeran",
+    "wrong": [
+     "Lewis Capaldi",
+     "James Arthur",
+     "George Ezra"
+    ]
+   },
+   {
+    "q": "ARMY",
+    "right": "BTS",
+    "wrong": [
+     "EXO",
+     "Twice",
+     "Stray Kids"
+    ]
+   },
+   {
+    "q": "Blinks",
+    "right": "Blackpink",
+    "wrong": [
+     "Twice",
+     "Red Velvet",
+     "NewJeans"
+    ]
+   },
+   {
+    "q": "Deadheads",
+    "right": "Grateful Dead",
+    "wrong": [
+     "The Doors",
+     "Jefferson Airplane",
+     "The Allman Brothers Band"
+    ]
+   },
+   {
+    "q": "Lambs",
+    "right": "Mariah Carey",
+    "wrong": [
+     "Whitney Houston",
+     "Celine Dion",
+     "Christina Aguilera"
+    ]
+   },
+   {
+    "q": "Smilers",
+    "right": "Miley Cyrus",
+    "wrong": [
+     "Demi Lovato",
+     "Hilary Duff",
+     "Kesha"
+    ]
+   },
+   {
+    "q": "The Kiss Army",
+    "right": "Kiss",
+    "wrong": [
+     "Aerosmith",
+     "Bon Jovi",
+     "Mötley Crüe"
+    ]
+   },
+   {
+    "q": "Hooligans",
+    "right": "Bruno Mars",
+    "wrong": [
+     "Jason Derulo",
+     "Pharrell Williams",
+     "The Weeknd"
+    ]
+   },
+   {
+    "q": "Harries",
+    "right": "Harry Styles",
+    "wrong": [
+     "Louis Tomlinson",
+     "Niall Horan",
+     "Zayn"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country did this monarch reign over in 2025?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "monarchs",
+   "royal families",
+   "countries"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "King Felipe VI",
+    "right": "Spain",
+    "wrong": [
+     "Portugal",
+     "Andorra",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "King Willem-Alexander",
+    "right": "the Netherlands",
+    "wrong": [
+     "Luxembourg",
+     "Austria",
+     "Finland"
+    ]
+   },
+   {
+    "q": "King Philippe",
+    "right": "Belgium",
+    "wrong": [
+     "Luxembourg",
+     "Austria",
+     "Andorra"
+    ]
+   },
+   {
+    "q": "King Frederik X",
+    "right": "Denmark",
+    "wrong": [
+     "Iceland",
+     "Finland",
+     "Estonia"
+    ]
+   },
+   {
+    "q": "King Carl XVI Gustaf",
+    "right": "Sweden",
+    "wrong": [
+     "Finland",
+     "Iceland",
+     "Estonia"
+    ]
+   },
+   {
+    "q": "King Harald V",
+    "right": "Norway",
+    "wrong": [
+     "Iceland",
+     "Finland",
+     "Estonia"
+    ]
+   },
+   {
+    "q": "Emperor Naruhito",
+    "right": "Japan",
+    "wrong": [
+     "South Korea",
+     "Taiwan",
+     "Cambodia"
+    ]
+   },
+   {
+    "q": "King Vajiralongkorn",
+    "right": "Thailand",
+    "wrong": [
+     "Cambodia",
+     "Laos",
+     "Myanmar"
+    ]
+   },
+   {
+    "q": "King Abdullah II",
+    "right": "Jordan",
+    "wrong": [
+     "Syria",
+     "Iraq",
+     "Kuwait"
+    ]
+   },
+   {
+    "q": "King Mohammed VI",
+    "right": "Morocco",
+    "wrong": [
+     "Algeria",
+     "Tunisia",
+     "Egypt"
+    ]
+   },
+   {
+    "q": "King Salman",
+    "right": "Saudi Arabia",
+    "wrong": [
+     "Kuwait",
+     "the UAE",
+     "Bahrain"
+    ]
+   },
+   {
+    "q": "Sultan Hassanal Bolkiah",
+    "right": "Brunei",
+    "wrong": [
+     "Malaysia",
+     "Indonesia",
+     "Singapore"
+    ]
+   },
+   {
+    "q": "King Mswati III",
+    "right": "Eswatini",
+    "wrong": [
+     "South Africa",
+     "Botswana",
+     "Mozambique"
+    ]
+   },
+   {
+    "q": "King Letsie III",
+    "right": "Lesotho",
+    "wrong": [
+     "South Africa",
+     "Botswana",
+     "Namibia"
+    ]
+   },
+   {
+    "q": "King Tupou VI",
+    "right": "Tonga",
+    "wrong": [
+     "Fiji",
+     "Samoa",
+     "Vanuatu"
+    ]
+   },
+   {
+    "q": "Prince Albert II",
+    "right": "Monaco",
+    "wrong": [
+     "Andorra",
+     "Luxembourg",
+     "San Marino"
+    ]
+   },
+   {
+    "q": "Prince Hans-Adam II",
+    "right": "Liechtenstein",
+    "wrong": [
+     "Luxembourg",
+     "Austria",
+     "Andorra"
+    ]
+   },
+   {
+    "q": "King Jigme Khesar Namgyel Wangchuck",
+    "right": "Bhutan",
+    "wrong": [
+     "Nepal",
+     "Sikkim",
+     "Myanmar"
+    ]
+   },
+   {
+    "q": "Sultan Haitham bin Tariq",
+    "right": "Oman",
+    "wrong": [
+     "Yemen",
+     "the UAE",
+     "Bahrain"
+    ]
+   },
+   {
+    "q": "Emir Tamim bin Hamad",
+    "right": "Qatar",
+    "wrong": [
+     "Bahrain",
+     "Kuwait",
+     "the UAE"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what kind of animal is this?",
+  "target": 10,
+  "category": "Animals",
+  "tags": [
+   "animals",
+   "unusual animals"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Axolotl",
+    "right": "Salamander",
+    "wrong": [
+     "Eel",
+     "Frog",
+     "Catfish"
+    ]
+   },
+   {
+    "q": "Pangolin",
+    "right": "Scaly mammal",
+    "wrong": [
+     "Armadillo",
+     "Reptile",
+     "Hedgehog"
+    ]
+   },
+   {
+    "q": "Okapi",
+    "right": "Giraffe family",
+    "wrong": [
+     "Zebra",
+     "Horse family",
+     "Deer"
+    ]
+   },
+   {
+    "q": "Aye-aye",
+    "right": "Lemur",
+    "wrong": [
+     "Bat",
+     "Squirrel",
+     "Opossum"
+    ]
+   },
+   {
+    "q": "Quokka",
+    "right": "Small wallaby",
+    "wrong": [
+     "Rat",
+     "Koala",
+     "Possum"
+    ]
+   },
+   {
+    "q": "Capybara",
+    "right": "Rodent",
+    "wrong": [
+     "Pig family",
+     "Deer",
+     "Bear"
+    ]
+   },
+   {
+    "q": "Narwhal",
+    "right": "Whale",
+    "wrong": [
+     "Walrus",
+     "Seal",
+     "Shark"
+    ]
+   },
+   {
+    "q": "Dugong",
+    "right": "Sea cow",
+    "wrong": [
+     "Walrus",
+     "Seal",
+     "Dolphin"
+    ]
+   },
+   {
+    "q": "Gharial",
+    "right": "Crocodilian",
+    "wrong": [
+     "Snake",
+     "Turtle",
+     "Eel"
+    ]
+   },
+   {
+    "q": "Kakapo",
+    "right": "Parrot",
+    "wrong": [
+     "Owl",
+     "Penguin",
+     "Kiwi"
+    ]
+   },
+   {
+    "q": "Komodo dragon",
+    "right": "Lizard",
+    "wrong": [
+     "Snake",
+     "Turtle",
+     "Dinosaur"
+    ]
+   },
+   {
+    "q": "Coati",
+    "right": "Raccoon family",
+    "wrong": [
+     "Monkey",
+     "Weasel family",
+     "Cat"
+    ]
+   },
+   {
+    "q": "Fossa",
+    "right": "Mongoose family",
+    "wrong": [
+     "Dog family",
+     "Weasel family",
+     "Bear"
+    ]
+   },
+   {
+    "q": "Binturong",
+    "right": "Civet family",
+    "wrong": [
+     "Bear",
+     "Cat",
+     "Monkey"
+    ]
+   },
+   {
+    "q": "Caracal",
+    "right": "Wild cat",
+    "wrong": [
+     "Dog family",
+     "Hyena",
+     "Fox"
+    ]
+   },
+   {
+    "q": "Takin",
+    "right": "Goat-antelope",
+    "wrong": [
+     "Cattle",
+     "Deer",
+     "Bear"
+    ]
+   },
+   {
+    "q": "Shoebill",
+    "right": "Bird",
+    "wrong": [
+     "Dinosaur",
+     "Pterosaur",
+     "Bat"
+    ]
+   },
+   {
+    "q": "Tarsier",
+    "right": "Primate",
+    "wrong": [
+     "Bat",
+     "Owl",
+     "Possum"
+    ]
+   },
+   {
+    "q": "Blobfish",
+    "right": "Fish",
+    "wrong": [
+     "Jellyfish",
+     "Octopus",
+     "Sea slug"
+    ]
+   },
+   {
+    "q": "Tardigrade",
+    "right": "Microscopic animal",
+    "wrong": [
+     "Insect",
+     "Spider",
+     "Bacterium"
+    ]
+   }
+  ]
+ }
+]
