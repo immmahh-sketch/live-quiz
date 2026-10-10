@@ -1,0 +1,541 @@
+[
+ {
+  "answers": [
+   "Backhand"
+  ],
+  "elements": [
+   {
+    "t": "DNAH",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Sport",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Reverse gear",
+   "Reverse gears"
+  ],
+  "elements": [
+   {
+    "t": "RAEG",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Back to front"
+  ],
+  "elements": [
+   {
+    "t": "TNORF",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Half time",
+   "Half-time"
+  ],
+  "elements": [
+   {
+    "t": "TI",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Football",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Half moon",
+   "Half-moon"
+  ],
+  "elements": [
+   {
+    "t": "MO",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "The Little Mermaid",
+   "Little Mermaid"
+  ],
+  "elements": [
+   {
+    "t": "mermaid",
+    "x": 50,
+    "y": 50,
+    "s": 1
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "Disney"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Big Bird"
+  ],
+  "elements": [
+   {
+    "t": "BIRD",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "TV",
+  "tags": [
+   "Sesame Street"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Small screen"
+  ],
+  "elements": [
+   {
+    "t": "screen",
+    "x": 50,
+    "y": 50,
+    "s": 1
+   }
+  ],
+  "category": "TV",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Tall story",
+   "Tall tale"
+  ],
+  "elements": [
+   {
+    "t": "S",
+    "x": 50,
+    "y": 14,
+    "s": 4
+   },
+   {
+    "t": "T",
+    "x": 50,
+    "y": 32,
+    "s": 4
+   },
+   {
+    "t": "O",
+    "x": 50,
+    "y": 50,
+    "s": 4
+   },
+   {
+    "t": "R",
+    "x": 50,
+    "y": 68,
+    "s": 4
+   },
+   {
+    "t": "Y",
+    "x": 50,
+    "y": 86,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Red tape"
+  ],
+  "elements": [
+   {
+    "t": "TAPE",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#d42020"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Blue cheese"
+  ],
+  "elements": [
+   {
+    "t": "CHEESE",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "color": "#4a7bd0"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "The Green Mile",
+   "Green Mile"
+  ],
+  "elements": [
+   {
+    "t": "MILE",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#1f9a3a"
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "Tom Hanks"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Orange County"
+  ],
+  "elements": [
+   {
+    "t": "COUNTY",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "color": "#f07c1a"
+   }
+  ],
+  "category": "Places",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Yellow fever"
+  ],
+  "elements": [
+   {
+    "t": "FEVER",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#e0b400"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Grey area"
+  ],
+  "elements": [
+   {
+    "t": "AREA",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#8a8f94"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Golden Globe",
+   "Golden Globes"
+  ],
+  "elements": [
+   {
+    "t": "GLOBE",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#c9a227"
+   }
+  ],
+  "category": "Film",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Cross-eyed",
+   "Cross eyed"
+  ],
+  "elements": [
+   {
+    "t": "EYED",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "style": "strike"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Cancelled flight",
+   "Flight cancelled"
+  ],
+  "elements": [
+   {
+    "t": "FLIGHT",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "style": "strike"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Box set",
+   "Boxset",
+   "Box-set"
+  ],
+  "elements": [
+   {
+    "t": "SET",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "style": "box"
+   }
+  ],
+  "category": "TV",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Flipping heck"
+  ],
+  "elements": [
+   {
+    "t": "HECK",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "flip": "v"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Turning point"
+  ],
+  "elements": [
+   {
+    "t": "POINT",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "rot": 90
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Leaning Tower of Pisa",
+   "The Leaning Tower of Pisa"
+  ],
+  "elements": [
+   {
+    "t": "PISA",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "rot": 12
+   }
+  ],
+  "category": "Places",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Double Dutch"
+  ],
+  "elements": [
+   {
+    "t": "DUTCH  DUTCH",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Pie in the sky"
+  ],
+  "elements": [
+   {
+    "t": "SKpieY",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Frog in the throat",
+   "A frog in your throat",
+   "A frog in the throat"
+  ],
+  "elements": [
+   {
+    "t": "THRfrogOAT",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Ants in your pants",
+   "Ants in his pants",
+   "Ants in the pants"
+  ],
+  "elements": [
+   {
+    "t": "PAantsNTS",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Cat among the pigeons",
+   "Put the cat among the pigeons"
+  ],
+  "elements": [
+   {
+    "t": "PIGEONS",
+    "x": 26,
+    "y": 20,
+    "s": 3
+   },
+   {
+    "t": "PIGEONS",
+    "x": 74,
+    "y": 24,
+    "s": 3
+   },
+   {
+    "t": "CAT",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   },
+   {
+    "t": "PIGEONS",
+    "x": 24,
+    "y": 78,
+    "s": 3
+   },
+   {
+    "t": "PIGEONS",
+    "x": 76,
+    "y": 80,
+    "s": 3
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Fish out of water",
+   "Like a fish out of water"
+  ],
+  "elements": [
+   {
+    "t": "fish",
+    "x": 50,
+    "y": 22,
+    "s": 2
+   },
+   {
+    "t": "WATER",
+    "x": 50,
+    "y": 66,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ }
+]
