@@ -1,0 +1,776 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which grape is this wine mainly made from?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "wine",
+   "grapes"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Chablis",
+    "right": "Chardonnay",
+    "wrong": [
+     "Aligoté",
+     "Viognier",
+     "Pinot Grigio"
+    ]
+   },
+   {
+    "q": "Sancerre",
+    "right": "Sauvignon Blanc",
+    "wrong": [
+     "Viognier",
+     "Muscat",
+     "Aligoté"
+    ]
+   },
+   {
+    "q": "Barolo",
+    "right": "Nebbiolo",
+    "wrong": [
+     "Barbera",
+     "Dolcetto",
+     "Aglianico"
+    ]
+   },
+   {
+    "q": "Rioja",
+    "right": "Tempranillo",
+    "wrong": [
+     "Touriga Nacional",
+     "Mourvèdre",
+     "Godello"
+    ]
+   },
+   {
+    "q": "Chianti",
+    "right": "Sangiovese",
+    "wrong": [
+     "Montepulciano",
+     "Aglianico",
+     "Barbera"
+    ]
+   },
+   {
+    "q": "Beaujolais",
+    "right": "Gamay",
+    "wrong": [
+     "Merlot",
+     "Cabernet Franc",
+     "Dolcetto"
+    ]
+   },
+   {
+    "q": "Red Burgundy",
+    "right": "Pinot Noir",
+    "wrong": [
+     "Merlot",
+     "Cabernet Franc",
+     "Grenache"
+    ]
+   },
+   {
+    "q": "Prosecco",
+    "right": "Glera",
+    "wrong": [
+     "Trebbiano",
+     "Vermentino",
+     "Pinot Grigio"
+    ]
+   },
+   {
+    "q": "Muscadet",
+    "right": "Melon de Bourgogne",
+    "wrong": [
+     "Muscat",
+     "Aligoté",
+     "Trebbiano"
+    ]
+   },
+   {
+    "q": "Vouvray",
+    "right": "Chenin Blanc",
+    "wrong": [
+     "Viognier",
+     "Marsanne",
+     "Aligoté"
+    ]
+   },
+   {
+    "q": "Hermitage",
+    "right": "Syrah",
+    "wrong": [
+     "Grenache",
+     "Mourvèdre",
+     "Merlot"
+    ]
+   },
+   {
+    "q": "Cahors",
+    "right": "Malbec",
+    "wrong": [
+     "Grenache",
+     "Zinfandel",
+     "Pinotage"
+    ]
+   },
+   {
+    "q": "Amarone",
+    "right": "Corvina",
+    "wrong": [
+     "Nero d'Avola",
+     "Aglianico",
+     "Primitivo"
+    ]
+   },
+   {
+    "q": "Gavi",
+    "right": "Cortese",
+    "wrong": [
+     "Vermentino",
+     "Trebbiano",
+     "Pinot Grigio"
+    ]
+   },
+   {
+    "q": "Soave",
+    "right": "Garganega",
+    "wrong": [
+     "Vermentino",
+     "Pinot Grigio",
+     "Viognier"
+    ]
+   },
+   {
+    "q": "Tokaji",
+    "right": "Furmint",
+    "wrong": [
+     "Grüner Veltliner",
+     "Gewürztraminer",
+     "Torrontés"
+    ]
+   },
+   {
+    "q": "Rías Baixas",
+    "right": "Albariño",
+    "wrong": [
+     "Godello",
+     "Torrontés",
+     "Vermentino"
+    ]
+   },
+   {
+    "q": "Rueda",
+    "right": "Verdejo",
+    "wrong": [
+     "Godello",
+     "Viognier",
+     "Torrontés"
+    ]
+   },
+   {
+    "q": "Sauternes",
+    "right": "Sémillon",
+    "wrong": [
+     "Viognier",
+     "Gewürztraminer",
+     "Marsanne"
+    ]
+   },
+   {
+    "q": "Mosel",
+    "right": "Riesling",
+    "wrong": [
+     "Grüner Veltliner",
+     "Gewürztraminer",
+     "Pinot Grigio"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which island group does this island belong to?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "islands",
+   "archipelagos"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Majorca",
+    "right": "The Balearic Islands",
+    "wrong": [
+     "The Sporades",
+     "The Aeolian Islands",
+     "Cape Verde"
+    ]
+   },
+   {
+    "q": "Tenerife",
+    "right": "The Canary Islands",
+    "wrong": [
+     "Cape Verde",
+     "The Aeolian Islands",
+     "The Sporades"
+    ]
+   },
+   {
+    "q": "Skye",
+    "right": "The Inner Hebrides",
+    "wrong": [
+     "The Faroe Islands",
+     "The Farne Islands",
+     "The Aran Islands"
+    ]
+   },
+   {
+    "q": "Lewis",
+    "right": "The Outer Hebrides",
+    "wrong": [
+     "The Faroe Islands",
+     "The Aran Islands",
+     "The Farne Islands"
+    ]
+   },
+   {
+    "q": "Hoy",
+    "right": "Orkney",
+    "wrong": [
+     "The Faroe Islands",
+     "The Farne Islands",
+     "The Aran Islands"
+    ]
+   },
+   {
+    "q": "Unst",
+    "right": "Shetland",
+    "wrong": [
+     "The Faroe Islands",
+     "Lofoten",
+     "The Åland Islands"
+    ]
+   },
+   {
+    "q": "Tresco",
+    "right": "The Isles of Scilly",
+    "wrong": [
+     "The Farne Islands",
+     "The Aran Islands",
+     "The Frisian Islands"
+    ]
+   },
+   {
+    "q": "Sark",
+    "right": "The Channel Islands",
+    "wrong": [
+     "The Frisian Islands",
+     "The Farne Islands",
+     "The Aran Islands"
+    ]
+   },
+   {
+    "q": "Santorini",
+    "right": "The Cyclades",
+    "wrong": [
+     "The Sporades",
+     "The Aeolian Islands",
+     "The Saronic Islands"
+    ]
+   },
+   {
+    "q": "Corfu",
+    "right": "The Ionian Islands",
+    "wrong": [
+     "The Sporades",
+     "The Saronic Islands",
+     "The Aeolian Islands"
+    ]
+   },
+   {
+    "q": "Rhodes",
+    "right": "The Dodecanese",
+    "wrong": [
+     "The Sporades",
+     "The Saronic Islands",
+     "The Aeolian Islands"
+    ]
+   },
+   {
+    "q": "Oahu",
+    "right": "The Hawaiian Islands",
+    "wrong": [
+     "The Aleutian Islands",
+     "The Cook Islands",
+     "The Marshall Islands"
+    ]
+   },
+   {
+    "q": "Tahiti",
+    "right": "The Society Islands",
+    "wrong": [
+     "The Cook Islands",
+     "The Marshall Islands",
+     "The Marquesas"
+    ]
+   },
+   {
+    "q": "Mahé",
+    "right": "The Seychelles",
+    "wrong": [
+     "The Maldives",
+     "The Comoros",
+     "The Andaman Islands"
+    ]
+   },
+   {
+    "q": "Porto Santo",
+    "right": "Madeira",
+    "wrong": [
+     "Cape Verde",
+     "The Aeolian Islands",
+     "The Sporades"
+    ]
+   },
+   {
+    "q": "São Miguel",
+    "right": "The Azores",
+    "wrong": [
+     "Cape Verde",
+     "The Faroe Islands",
+     "The Sporades"
+    ]
+   },
+   {
+    "q": "Guadalcanal",
+    "right": "The Solomon Islands",
+    "wrong": [
+     "The Marshall Islands",
+     "The Cook Islands",
+     "The Marquesas"
+    ]
+   },
+   {
+    "q": "Viti Levu",
+    "right": "Fiji",
+    "wrong": [
+     "The Cook Islands",
+     "The Marshall Islands",
+     "Tonga"
+    ]
+   },
+   {
+    "q": "Elba",
+    "right": "The Tuscan Archipelago",
+    "wrong": [
+     "The Aeolian Islands",
+     "The Sporades",
+     "The Maltese Islands"
+    ]
+   },
+   {
+    "q": "Spitsbergen",
+    "right": "Svalbard",
+    "wrong": [
+     "Lofoten",
+     "The Faroe Islands",
+     "Franz Josef Land"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country does this dog breed come from?",
+  "target": 10,
+  "category": "Animals",
+  "tags": [
+   "dogs",
+   "breeds",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Chihuahua",
+    "right": "Mexico",
+    "wrong": [
+     "Peru",
+     "Cuba",
+     "Argentina"
+    ]
+   },
+   {
+    "q": "Great Dane",
+    "right": "Germany",
+    "wrong": [
+     "Denmark",
+     "Norway",
+     "Sweden"
+    ]
+   },
+   {
+    "q": "Akita",
+    "right": "Japan",
+    "wrong": [
+     "South Korea",
+     "Taiwan",
+     "Mongolia"
+    ]
+   },
+   {
+    "q": "Basenji",
+    "right": "DR Congo",
+    "wrong": [
+     "Egypt",
+     "Kenya",
+     "Nigeria"
+    ]
+   },
+   {
+    "q": "Rhodesian Ridgeback",
+    "right": "Zimbabwe",
+    "wrong": [
+     "Kenya",
+     "Namibia",
+     "Botswana"
+    ]
+   },
+   {
+    "q": "Pug",
+    "right": "China",
+    "wrong": [
+     "Vietnam",
+     "Thailand",
+     "Mongolia"
+    ]
+   },
+   {
+    "q": "Samoyed",
+    "right": "Russia",
+    "wrong": [
+     "Finland",
+     "Norway",
+     "Mongolia"
+    ]
+   },
+   {
+    "q": "Dalmatian",
+    "right": "Croatia",
+    "wrong": [
+     "Serbia",
+     "Slovenia",
+     "Greece"
+    ]
+   },
+   {
+    "q": "Bernese Mountain Dog",
+    "right": "Switzerland",
+    "wrong": [
+     "Austria",
+     "Liechtenstein",
+     "France"
+    ]
+   },
+   {
+    "q": "Corgi",
+    "right": "Wales",
+    "wrong": [
+     "Scotland",
+     "Ireland",
+     "Cornwall"
+    ]
+   },
+   {
+    "q": "Vizsla",
+    "right": "Hungary",
+    "wrong": [
+     "Romania",
+     "Czechia",
+     "Poland"
+    ]
+   },
+   {
+    "q": "Keeshond",
+    "right": "the Netherlands",
+    "wrong": [
+     "Denmark",
+     "Norway",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "Schipperke",
+    "right": "Belgium",
+    "wrong": [
+     "Luxembourg",
+     "Denmark",
+     "France"
+    ]
+   },
+   {
+    "q": "Jack Russell Terrier",
+    "right": "England",
+    "wrong": [
+     "Scotland",
+     "Ireland",
+     "Cornwall"
+    ]
+   },
+   {
+    "q": "Cane Corso",
+    "right": "Italy",
+    "wrong": [
+     "Greece",
+     "Portugal",
+     "France"
+    ]
+   },
+   {
+    "q": "Pharaoh Hound",
+    "right": "Malta",
+    "wrong": [
+     "Egypt",
+     "Greece",
+     "Cyprus"
+    ]
+   },
+   {
+    "q": "Ibizan Hound",
+    "right": "Spain",
+    "wrong": [
+     "Portugal",
+     "France",
+     "Greece"
+    ]
+   },
+   {
+    "q": "Kangal",
+    "right": "Turkey",
+    "wrong": [
+     "Armenia",
+     "Greece",
+     "Iran"
+    ]
+   },
+   {
+    "q": "Kelpie",
+    "right": "Australia",
+    "wrong": [
+     "New Zealand",
+     "Scotland",
+     "Ireland"
+    ]
+   },
+   {
+    "q": "Alaskan Malamute",
+    "right": "the USA",
+    "wrong": [
+     "Canada",
+     "Greenland",
+     "Iceland"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this novel set in?",
+  "target": 10,
+  "category": "Books",
+  "tags": [
+   "novels",
+   "settings",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Captain Corelli's Mandolin",
+    "right": "Greece",
+    "wrong": [
+     "Cyprus",
+     "Croatia",
+     "Malta"
+    ]
+   },
+   {
+    "q": "The Kite Runner",
+    "right": "Afghanistan",
+    "wrong": [
+     "Pakistan",
+     "Iran",
+     "Iraq"
+    ]
+   },
+   {
+    "q": "Wild Swans",
+    "right": "China",
+    "wrong": [
+     "Taiwan",
+     "South Korea",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "The God of Small Things",
+    "right": "India",
+    "wrong": [
+     "Sri Lanka",
+     "Bangladesh",
+     "Pakistan"
+    ]
+   },
+   {
+    "q": "One Hundred Years of Solitude",
+    "right": "Colombia",
+    "wrong": [
+     "Peru",
+     "Venezuela",
+     "Cuba"
+    ]
+   },
+   {
+    "q": "Things Fall Apart",
+    "right": "Nigeria",
+    "wrong": [
+     "Ghana",
+     "Cameroon",
+     "Senegal"
+    ]
+   },
+   {
+    "q": "Cry, the Beloved Country",
+    "right": "South Africa",
+    "wrong": [
+     "Zimbabwe",
+     "Namibia",
+     "Botswana"
+    ]
+   },
+   {
+    "q": "The Shadow of the Wind",
+    "right": "Spain",
+    "wrong": [
+     "Portugal",
+     "Argentina",
+     "Andorra"
+    ]
+   },
+   {
+    "q": "Doctor Zhivago",
+    "right": "Russia",
+    "wrong": [
+     "Ukraine",
+     "Poland",
+     "Finland"
+    ]
+   },
+   {
+    "q": "The Name of the Rose",
+    "right": "Italy",
+    "wrong": [
+     "Austria",
+     "Switzerland",
+     "Croatia"
+    ]
+   },
+   {
+    "q": "Les Misérables",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Switzerland",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "The Grapes of Wrath",
+    "right": "the USA",
+    "wrong": [
+     "Canada",
+     "Ireland",
+     "Argentina"
+    ]
+   },
+   {
+    "q": "Memoirs of a Geisha",
+    "right": "Japan",
+    "wrong": [
+     "South Korea",
+     "Taiwan",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "Out of Africa",
+    "right": "Kenya",
+    "wrong": [
+     "Tanzania",
+     "Uganda",
+     "Ethiopia"
+    ]
+   },
+   {
+    "q": "Heart of Darkness",
+    "right": "the Congo",
+    "wrong": [
+     "Angola",
+     "Cameroon",
+     "Gabon"
+    ]
+   },
+   {
+    "q": "Wolf Hall",
+    "right": "England",
+    "wrong": [
+     "Wales",
+     "Ireland",
+     "Cornwall"
+    ]
+   },
+   {
+    "q": "Trainspotting",
+    "right": "Scotland",
+    "wrong": [
+     "Wales",
+     "Ireland",
+     "Northern Ireland"
+    ]
+   },
+   {
+    "q": "The Book Thief",
+    "right": "Germany",
+    "wrong": [
+     "Austria",
+     "Poland",
+     "Czechia"
+    ]
+   },
+   {
+    "q": "Like Water for Chocolate",
+    "right": "Mexico",
+    "wrong": [
+     "Peru",
+     "Cuba",
+     "Argentina"
+    ]
+   },
+   {
+    "q": "The House of the Spirits",
+    "right": "Chile",
+    "wrong": [
+     "Argentina",
+     "Peru",
+     "Bolivia"
+    ]
+   }
+  ]
+ }
+]
