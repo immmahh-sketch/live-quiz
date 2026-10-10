@@ -1,0 +1,390 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which Bond film is this henchman from?",
+  "target": 10,
+  "category": "James Bond",
+  "tags": [
+   "James Bond",
+   "villains",
+   "films"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Oddjob, with his steel-rimmed bowler hat",
+    "right": "Goldfinger",
+    "wrong": [
+     "Quantum of Solace",
+     "You Only Live Twice",
+     "Casino Royale"
+    ]
+   },
+   {
+    "q": "Rosa Klebb, with a poisoned blade in her shoe",
+    "right": "From Russia with Love",
+    "wrong": [
+     "Quantum of Solace",
+     "You Only Live Twice",
+     "For Your Eyes Only"
+    ]
+   },
+   {
+    "q": "Nick Nack, Scaramanga's tiny butler",
+    "right": "The Man with the Golden Gun",
+    "wrong": [
+     "You Only Live Twice",
+     "For Your Eyes Only",
+     "Quantum of Solace"
+    ]
+   },
+   {
+    "q": "May Day, played by Grace Jones",
+    "right": "A View to a Kill",
+    "wrong": [
+     "For Your Eyes Only",
+     "Casino Royale",
+     "You Only Live Twice"
+    ]
+   },
+   {
+    "q": "Xenia Onatopp, who crushes men with her thighs",
+    "right": "GoldenEye",
+    "wrong": [
+     "The World Is Not Enough",
+     "Casino Royale",
+     "Quantum of Solace"
+    ]
+   },
+   {
+    "q": "Tee Hee, with a metal claw for a hand",
+    "right": "Live and Let Die",
+    "wrong": [
+     "You Only Live Twice",
+     "For Your Eyes Only",
+     "Casino Royale"
+    ]
+   },
+   {
+    "q": "Mr Hinx, who gouges eyes with his thumbnails",
+    "right": "Spectre",
+    "wrong": [
+     "Quantum of Solace",
+     "Casino Royale",
+     "The World Is Not Enough"
+    ]
+   },
+   {
+    "q": "Mr Wint and Mr Kidd",
+    "right": "Diamonds Are Forever",
+    "wrong": [
+     "You Only Live Twice",
+     "For Your Eyes Only",
+     "Casino Royale"
+    ]
+   },
+   {
+    "q": "Fiona Volpe, SPECTRE's red-haired assassin",
+    "right": "Thunderball",
+    "wrong": [
+     "You Only Live Twice",
+     "For Your Eyes Only",
+     "Quantum of Solace"
+    ]
+   },
+   {
+    "q": "Irma Bunt, Blofeld's stern sidekick in the Alps",
+    "right": "On Her Majesty's Secret Service",
+    "wrong": [
+     "You Only Live Twice",
+     "For Your Eyes Only",
+     "Casino Royale"
+    ]
+   },
+   {
+    "q": "Necros, who strangles with his headphone wire",
+    "right": "The Living Daylights",
+    "wrong": [
+     "For Your Eyes Only",
+     "Casino Royale",
+     "The World Is Not Enough"
+    ]
+   },
+   {
+    "q": "Gobinda, who crushes dice in his fist",
+    "right": "Octopussy",
+    "wrong": [
+     "For Your Eyes Only",
+     "You Only Live Twice",
+     "The World Is Not Enough"
+    ]
+   },
+   {
+    "q": "Stamper, Elliot Carver's blond heavy",
+    "right": "Tomorrow Never Dies",
+    "wrong": [
+     "The World Is Not Enough",
+     "Quantum of Solace",
+     "Casino Royale"
+    ]
+   },
+   {
+    "q": "Zao, with diamonds stuck in his face",
+    "right": "Die Another Day",
+    "wrong": [
+     "The World Is Not Enough",
+     "Quantum of Solace",
+     "Casino Royale"
+    ]
+   },
+   {
+    "q": "Patrice, the sniper who falls from a Shanghai tower",
+    "right": "Skyfall",
+    "wrong": [
+     "Quantum of Solace",
+     "Casino Royale",
+     "The World Is Not Enough"
+    ]
+   },
+   {
+    "q": "Primo, with a bionic eye",
+    "right": "No Time to Die",
+    "wrong": [
+     "Quantum of Solace",
+     "Casino Royale",
+     "The World Is Not Enough"
+    ]
+   },
+   {
+    "q": "Dario, played by a young Benicio del Toro",
+    "right": "Licence to Kill",
+    "wrong": [
+     "For Your Eyes Only",
+     "The World Is Not Enough",
+     "Quantum of Solace"
+    ]
+   },
+   {
+    "q": "Chang, Drax's kendo-fighting manservant",
+    "right": "Moonraker",
+    "wrong": [
+     "For Your Eyes Only",
+     "You Only Live Twice",
+     "The World Is Not Enough"
+    ]
+   },
+   {
+    "q": "Professor Dent, sent with a tarantula",
+    "right": "Dr. No",
+    "wrong": [
+     "You Only Live Twice",
+     "For Your Eyes Only",
+     "Casino Royale"
+    ]
+   },
+   {
+    "q": "Jaws, on his very first outing",
+    "right": "The Spy Who Loved Me",
+    "wrong": [
+     "For Your Eyes Only",
+     "You Only Live Twice",
+     "The World Is Not Enough"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which town or city did this famous brand start in?",
+  "target": 10,
+  "category": "Brands",
+  "tags": [
+   "brands",
+   "Britain",
+   "business"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Greggs",
+    "right": "Newcastle",
+    "wrong": [
+     "Sunderland",
+     "Durham",
+     "Middlesbrough"
+    ]
+   },
+   {
+    "q": "Boots the Chemist",
+    "right": "Nottingham",
+    "wrong": [
+     "Derby",
+     "Lincoln",
+     "Chesterfield"
+    ]
+   },
+   {
+    "q": "Marks & Spencer, as a market stall",
+    "right": "Leeds",
+    "wrong": [
+     "Manchester",
+     "Liverpool",
+     "Huddersfield"
+    ]
+   },
+   {
+    "q": "Morrisons",
+    "right": "Bradford",
+    "wrong": [
+     "Halifax",
+     "Huddersfield",
+     "Wakefield"
+    ]
+   },
+   {
+    "q": "Cadbury",
+    "right": "Birmingham",
+    "wrong": [
+     "Coventry",
+     "Wolverhampton",
+     "Bristol"
+    ]
+   },
+   {
+    "q": "Rowntree's",
+    "right": "York",
+    "wrong": [
+     "Harrogate",
+     "Halifax",
+     "Hull"
+    ]
+   },
+   {
+    "q": "Lea & Perrins Worcestershire sauce",
+    "right": "Worcester",
+    "wrong": [
+     "Hereford",
+     "Gloucester",
+     "Cheltenham"
+    ]
+   },
+   {
+    "q": "Colman's mustard",
+    "right": "Norwich",
+    "wrong": [
+     "Ipswich",
+     "Cambridge",
+     "King's Lynn"
+    ]
+   },
+   {
+    "q": "Hovis bread",
+    "right": "Macclesfield",
+    "wrong": [
+     "Stockport",
+     "Crewe",
+     "Stoke"
+    ]
+   },
+   {
+    "q": "Barbour",
+    "right": "South Shields",
+    "wrong": [
+     "Hexham",
+     "Morpeth",
+     "Gateshead"
+    ]
+   },
+   {
+    "q": "Wilko",
+    "right": "Leicester",
+    "wrong": [
+     "Derby",
+     "Northampton",
+     "Coventry"
+    ]
+   },
+   {
+    "q": "JD Sports",
+    "right": "Bury",
+    "wrong": [
+     "Rochdale",
+     "Oldham",
+     "Wigan"
+    ]
+   },
+   {
+    "q": "Iceland",
+    "right": "Oswestry",
+    "wrong": [
+     "Shrewsbury",
+     "Wrexham",
+     "Chester"
+    ]
+   },
+   {
+    "q": "Lush cosmetics",
+    "right": "Poole",
+    "wrong": [
+     "Bournemouth",
+     "Brighton",
+     "Bath"
+    ]
+   },
+   {
+    "q": "Thorntons chocolates",
+    "right": "Sheffield",
+    "wrong": [
+     "Rotherham",
+     "Barnsley",
+     "Chesterfield"
+    ]
+   },
+   {
+    "q": "Warburtons",
+    "right": "Bolton",
+    "wrong": [
+     "Wigan",
+     "Preston",
+     "Blackburn"
+    ]
+   },
+   {
+    "q": "Burberry",
+    "right": "Basingstoke",
+    "wrong": [
+     "Reading",
+     "Guildford",
+     "Winchester"
+    ]
+   },
+   {
+    "q": "Clarks shoes",
+    "right": "Street",
+    "wrong": [
+     "Glastonbury",
+     "Wells",
+     "Taunton"
+    ]
+   },
+   {
+    "q": "Primark, as Penneys",
+    "right": "Dublin",
+    "wrong": [
+     "Belfast",
+     "Cork",
+     "Galway"
+    ]
+   },
+   {
+    "q": "Ted Baker",
+    "right": "Glasgow",
+    "wrong": [
+     "Edinburgh",
+     "Aberdeen",
+     "Dundee"
+    ]
+   }
+  ]
+ }
+]
