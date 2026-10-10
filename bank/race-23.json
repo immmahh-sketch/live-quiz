@@ -1,0 +1,774 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: who created this detective?",
+  "target": 10,
+  "category": "Books",
+  "tags": [
+   "detectives",
+   "authors"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Sherlock Holmes",
+    "right": "Arthur Conan Doyle",
+    "wrong": [
+     "Edgar Allan Poe",
+     "Wilkie Collins",
+     "Ngaio Marsh"
+    ]
+   },
+   {
+    "q": "Hercule Poirot",
+    "right": "Agatha Christie",
+    "wrong": [
+     "Margery Allingham",
+     "Ngaio Marsh",
+     "Ruth Rendell"
+    ]
+   },
+   {
+    "q": "Inspector Morse",
+    "right": "Colin Dexter",
+    "wrong": [
+     "Reginald Hill",
+     "Ruth Rendell",
+     "Peter Robinson"
+    ]
+   },
+   {
+    "q": "Rebus",
+    "right": "Ian Rankin",
+    "wrong": [
+     "Val McDermid",
+     "Denise Mina",
+     "Christopher Brookmyre"
+    ]
+   },
+   {
+    "q": "Maigret",
+    "right": "Georges Simenon",
+    "wrong": [
+     "Émile Gaboriau",
+     "Fred Vargas",
+     "Gaston Leroux"
+    ]
+   },
+   {
+    "q": "Father Brown",
+    "right": "G. K. Chesterton",
+    "wrong": [
+     "Edgar Allan Poe",
+     "Wilkie Collins",
+     "Hilaire Belloc"
+    ]
+   },
+   {
+    "q": "Lord Peter Wimsey",
+    "right": "Dorothy L. Sayers",
+    "wrong": [
+     "Margery Allingham",
+     "Ngaio Marsh",
+     "Josephine Tey"
+    ]
+   },
+   {
+    "q": "Philip Marlowe",
+    "right": "Raymond Chandler",
+    "wrong": [
+     "Mickey Spillane",
+     "Ross Macdonald",
+     "Rex Stout"
+    ]
+   },
+   {
+    "q": "Sam Spade",
+    "right": "Dashiell Hammett",
+    "wrong": [
+     "Mickey Spillane",
+     "Ross Macdonald",
+     "Rex Stout"
+    ]
+   },
+   {
+    "q": "Jack Reacher",
+    "right": "Lee Child",
+    "wrong": [
+     "James Patterson",
+     "John Grisham",
+     "David Baldacci"
+    ]
+   },
+   {
+    "q": "Harry Bosch",
+    "right": "Michael Connelly",
+    "wrong": [
+     "James Patterson",
+     "John Grisham",
+     "David Baldacci"
+    ]
+   },
+   {
+    "q": "Kurt Wallander",
+    "right": "Henning Mankell",
+    "wrong": [
+     "Jo Nesbø",
+     "Stieg Larsson",
+     "Camilla Läckberg"
+    ]
+   },
+   {
+    "q": "Adam Dalgliesh",
+    "right": "P. D. James",
+    "wrong": [
+     "Ruth Rendell",
+     "Peter James",
+     "Reginald Hill"
+    ]
+   },
+   {
+    "q": "Inspector Lynley",
+    "right": "Elizabeth George",
+    "wrong": [
+     "Ruth Rendell",
+     "Peter James",
+     "Martha Grimes"
+    ]
+   },
+   {
+    "q": "Vera Stanhope",
+    "right": "Ann Cleeves",
+    "wrong": [
+     "Val McDermid",
+     "Lynda La Plante",
+     "Martina Cole"
+    ]
+   },
+   {
+    "q": "Cormoran Strike",
+    "right": "Robert Galbraith (J. K. Rowling)",
+    "wrong": [
+     "Val McDermid",
+     "Peter James",
+     "Mark Billingham"
+    ]
+   },
+   {
+    "q": "Precious Ramotswe",
+    "right": "Alexander McCall Smith",
+    "wrong": [
+     "Wilbur Smith",
+     "Peter James",
+     "Mark Billingham"
+    ]
+   },
+   {
+    "q": "Jackson Brodie",
+    "right": "Kate Atkinson",
+    "wrong": [
+     "Val McDermid",
+     "Denise Mina",
+     "Lynda La Plante"
+    ]
+   },
+   {
+    "q": "Jack Frost",
+    "right": "R. D. Wingfield",
+    "wrong": [
+     "Reginald Hill",
+     "Peter Robinson",
+     "Ruth Rendell"
+    ]
+   },
+   {
+    "q": "Brother Cadfael",
+    "right": "Ellis Peters",
+    "wrong": [
+     "C. J. Sansom",
+     "Umberto Eco",
+     "Lindsey Davis"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: name the villain of this Disney film",
+  "target": 10,
+  "category": "Disney films",
+  "tags": [
+   "Disney",
+   "villains"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The Lion King",
+    "right": "Scar",
+    "wrong": [
+     "Shere Khan",
+     "Zira",
+     "Sabor"
+    ]
+   },
+   {
+    "q": "Aladdin",
+    "right": "Jafar",
+    "wrong": [
+     "Yzma",
+     "Abis Mal",
+     "Mozenrath"
+    ]
+   },
+   {
+    "q": "Snow White and the Seven Dwarfs",
+    "right": "The Evil Queen",
+    "wrong": [
+     "The Queen of Hearts",
+     "Madame Mim",
+     "Cruella de Vil"
+    ]
+   },
+   {
+    "q": "The Little Mermaid",
+    "right": "Ursula",
+    "wrong": [
+     "Morgana",
+     "Madame Medusa",
+     "Yzma"
+    ]
+   },
+   {
+    "q": "Sleeping Beauty",
+    "right": "Maleficent",
+    "wrong": [
+     "Madame Mim",
+     "The Queen of Hearts",
+     "Cruella de Vil"
+    ]
+   },
+   {
+    "q": "Peter Pan",
+    "right": "Captain Hook",
+    "wrong": [
+     "Mr. Smee",
+     "Captain Gantu",
+     "Long John Silver"
+    ]
+   },
+   {
+    "q": "Beauty and the Beast",
+    "right": "Gaston",
+    "wrong": [
+     "LeFou",
+     "Monsieur D'Arque",
+     "Clayton"
+    ]
+   },
+   {
+    "q": "Tangled",
+    "right": "Mother Gothel",
+    "wrong": [
+     "The Stabbington Brothers",
+     "Madame Mim",
+     "Cruella de Vil"
+    ]
+   },
+   {
+    "q": "Hercules",
+    "right": "Hades",
+    "wrong": [
+     "Pain and Panic",
+     "Chernabog",
+     "Te Kā"
+    ]
+   },
+   {
+    "q": "Mulan",
+    "right": "Shan Yu",
+    "wrong": [
+     "Chi-Fu",
+     "Bori Khan",
+     "Hayabusa"
+    ]
+   },
+   {
+    "q": "Pocahontas",
+    "right": "Governor Ratcliffe",
+    "wrong": [
+     "Clayton",
+     "Amos Slade",
+     "McLeach"
+    ]
+   },
+   {
+    "q": "The Princess and the Frog",
+    "right": "Dr. Facilier",
+    "wrong": [
+     "Mama Odie",
+     "Lawrence",
+     "Yzma"
+    ]
+   },
+   {
+    "q": "Up",
+    "right": "Charles Muntz",
+    "wrong": [
+     "Waternoose",
+     "Chick Hicks",
+     "Stinky Pete"
+    ]
+   },
+   {
+    "q": "The Incredibles",
+    "right": "Syndrome",
+    "wrong": [
+     "Mirage",
+     "The Underminer",
+     "Evelyn Deavor"
+    ]
+   },
+   {
+    "q": "Ratatouille",
+    "right": "Skinner",
+    "wrong": [
+     "Anton Ego",
+     "Colette",
+     "Linguini"
+    ]
+   },
+   {
+    "q": "Zootopia",
+    "right": "Bellwether",
+    "wrong": [
+     "Mr. Big",
+     "Chief Bogo",
+     "Duke Weaselton"
+    ]
+   },
+   {
+    "q": "Robin Hood",
+    "right": "Prince John",
+    "wrong": [
+     "Sir Hiss",
+     "The Sheriff of Nottingham",
+     "King Richard"
+    ]
+   },
+   {
+    "q": "Cinderella",
+    "right": "Lady Tremaine",
+    "wrong": [
+     "Drizella",
+     "Anastasia",
+     "Lucifer"
+    ]
+   },
+   {
+    "q": "Coco",
+    "right": "Ernesto de la Cruz",
+    "wrong": [
+     "Héctor",
+     "Chicharrón",
+     "Abuelita"
+    ]
+   },
+   {
+    "q": "The Hunchback of Notre Dame",
+    "right": "Frollo",
+    "wrong": [
+     "Clopin",
+     "Phoebus",
+     "Hugo"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what is this on a French menu?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "French",
+   "food"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Poulet",
+    "right": "Chicken",
+    "wrong": [
+     "Turkey",
+     "Goose",
+     "Quail"
+    ]
+   },
+   {
+    "q": "Bœuf",
+    "right": "Beef",
+    "wrong": [
+     "Veal",
+     "Venison",
+     "Ham"
+    ]
+   },
+   {
+    "q": "Agneau",
+    "right": "Lamb",
+    "wrong": [
+     "Veal",
+     "Goat",
+     "Venison"
+    ]
+   },
+   {
+    "q": "Porc",
+    "right": "Pork",
+    "wrong": [
+     "Veal",
+     "Venison",
+     "Turkey"
+    ]
+   },
+   {
+    "q": "Canard",
+    "right": "Duck",
+    "wrong": [
+     "Goose",
+     "Quail",
+     "Turkey"
+    ]
+   },
+   {
+    "q": "Lapin",
+    "right": "Rabbit",
+    "wrong": [
+     "Hare",
+     "Venison",
+     "Quail"
+    ]
+   },
+   {
+    "q": "Saumon",
+    "right": "Salmon",
+    "wrong": [
+     "Trout",
+     "Cod",
+     "Tuna"
+    ]
+   },
+   {
+    "q": "Crevettes",
+    "right": "Prawns",
+    "wrong": [
+     "Crab",
+     "Lobster",
+     "Oysters"
+    ]
+   },
+   {
+    "q": "Moules",
+    "right": "Mussels",
+    "wrong": [
+     "Oysters",
+     "Crab",
+     "Squid"
+    ]
+   },
+   {
+    "q": "Escargots",
+    "right": "Snails",
+    "wrong": [
+     "Frogs' legs",
+     "Oysters",
+     "Squid"
+    ]
+   },
+   {
+    "q": "Pommes de terre",
+    "right": "Potatoes",
+    "wrong": [
+     "Apples",
+     "Carrots",
+     "Leeks"
+    ]
+   },
+   {
+    "q": "Champignons",
+    "right": "Mushrooms",
+    "wrong": [
+     "Leeks",
+     "Spinach",
+     "Cabbage"
+    ]
+   },
+   {
+    "q": "Haricots verts",
+    "right": "Green beans",
+    "wrong": [
+     "Spinach",
+     "Leeks",
+     "Cabbage"
+    ]
+   },
+   {
+    "q": "Petits pois",
+    "right": "Peas",
+    "wrong": [
+     "Sprouts",
+     "Spinach",
+     "Carrots"
+    ]
+   },
+   {
+    "q": "Oignon",
+    "right": "Onion",
+    "wrong": [
+     "Leeks",
+     "Shallots",
+     "Cabbage"
+    ]
+   },
+   {
+    "q": "Ail",
+    "right": "Garlic",
+    "wrong": [
+     "Leeks",
+     "Ginger",
+     "Chives"
+    ]
+   },
+   {
+    "q": "Fromage",
+    "right": "Cheese",
+    "wrong": [
+     "Butter",
+     "Cream",
+     "Yoghurt"
+    ]
+   },
+   {
+    "q": "Pain",
+    "right": "Bread",
+    "wrong": [
+     "Rice",
+     "Pasta",
+     "Cake"
+    ]
+   },
+   {
+    "q": "Œuf",
+    "right": "Egg",
+    "wrong": [
+     "Butter",
+     "Cream",
+     "Ham"
+    ]
+   },
+   {
+    "q": "Fraises",
+    "right": "Strawberries",
+    "wrong": [
+     "Raspberries",
+     "Cherries",
+     "Blackcurrants"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: who was captain of this ship?",
+  "target": 10,
+  "category": "History and fiction",
+  "tags": [
+   "captains",
+   "ships"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The Pequod",
+    "right": "Ahab",
+    "wrong": [
+     "Starbuck",
+     "Ishmael",
+     "Queequeg"
+    ]
+   },
+   {
+    "q": "The Nautilus",
+    "right": "Nemo",
+    "wrong": [
+     "Professor Aronnax",
+     "Ned Land",
+     "Conseil"
+    ]
+   },
+   {
+    "q": "The Jolly Roger",
+    "right": "Hook",
+    "wrong": [
+     "Mr. Smee",
+     "Starkey",
+     "Cecco"
+    ]
+   },
+   {
+    "q": "The original Starship Enterprise",
+    "right": "Kirk",
+    "wrong": [
+     "Spock",
+     "Sulu",
+     "Scotty"
+    ]
+   },
+   {
+    "q": "The Black Pearl, in the first film",
+    "right": "Jack Sparrow",
+    "wrong": [
+     "Joshamee Gibbs",
+     "Will Turner",
+     "Pintel"
+    ]
+   },
+   {
+    "q": "HMS Bounty",
+    "right": "William Bligh",
+    "wrong": [
+     "Fletcher Christian",
+     "John Fryer",
+     "Peter Heywood"
+    ]
+   },
+   {
+    "q": "The Titanic",
+    "right": "Edward Smith",
+    "wrong": [
+     "William Murdoch",
+     "Charles Lightoller",
+     "Bruce Ismay"
+    ]
+   },
+   {
+    "q": "The Orca in Jaws",
+    "right": "Quint",
+    "wrong": [
+     "Brody",
+     "Hooper",
+     "Ben Gardner"
+    ]
+   },
+   {
+    "q": "The Millennium Falcon, in A New Hope",
+    "right": "Han Solo",
+    "wrong": [
+     "Chewbacca",
+     "Luke Skywalker",
+     "Poe Dameron"
+    ]
+   },
+   {
+    "q": "The Flying Dutchman, in Pirates of the Caribbean",
+    "right": "Davy Jones",
+    "wrong": [
+     "Bootstrap Bill",
+     "Maccus",
+     "Barbossa"
+    ]
+   },
+   {
+    "q": "HMS Endeavour",
+    "right": "James Cook",
+    "wrong": [
+     "Joseph Banks",
+     "Tobias Furneaux",
+     "Charles Clerke"
+    ]
+   },
+   {
+    "q": "HMS Beagle, with Darwin aboard",
+    "right": "Robert FitzRoy",
+    "wrong": [
+     "Charles Darwin",
+     "Joseph Hooker",
+     "Thomas Huxley"
+    ]
+   },
+   {
+    "q": "The Hispaniola in Treasure Island",
+    "right": "Captain Smollett",
+    "wrong": [
+     "Long John Silver",
+     "Billy Bones",
+     "Squire Trelawney"
+    ]
+   },
+   {
+    "q": "Serenity",
+    "right": "Mal Reynolds",
+    "wrong": [
+     "Zoe Washburne",
+     "Jayne Cobb",
+     "Wash"
+    ]
+   },
+   {
+    "q": "The Red October",
+    "right": "Marko Ramius",
+    "wrong": [
+     "Jack Ryan",
+     "Bart Mancuso",
+     "Borodin"
+    ]
+   },
+   {
+    "q": "HMS Surprise",
+    "right": "Jack Aubrey",
+    "wrong": [
+     "Stephen Maturin",
+     "Horatio Hornblower",
+     "Tom Pullings"
+    ]
+   },
+   {
+    "q": "The Nostromo in Alien",
+    "right": "Dallas",
+    "wrong": [
+     "Ripley",
+     "Kane",
+     "Ash"
+    ]
+   },
+   {
+    "q": "The Starship Voyager",
+    "right": "Kathryn Janeway",
+    "wrong": [
+     "Chakotay",
+     "Seven of Nine",
+     "Tuvok"
+    ]
+   },
+   {
+    "q": "The Mayflower",
+    "right": "Christopher Jones",
+    "wrong": [
+     "William Bradford",
+     "Myles Standish",
+     "John Alden"
+    ]
+   },
+   {
+    "q": "The Enterprise-D",
+    "right": "Jean-Luc Picard",
+    "wrong": [
+     "Riker",
+     "Data",
+     "Worf"
+    ]
+   }
+  ]
+ }
+]
