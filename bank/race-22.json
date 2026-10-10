@@ -1,0 +1,774 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: name the famous robot",
+  "target": 10,
+  "category": "Film and TV",
+  "tags": [
+   "robots",
+   "characters"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The beeping astromech droid",
+    "right": "R2-D2",
+    "wrong": [
+     "R5-D4",
+     "Chopper",
+     "D-O"
+    ]
+   },
+   {
+    "q": "The fussy golden protocol droid",
+    "right": "C-3PO",
+    "wrong": [
+     "K-2SO",
+     "L3-37",
+     "IG-88"
+    ]
+   },
+   {
+    "q": "The rubbish-compacting robot left on Earth",
+    "right": "WALL-E",
+    "wrong": [
+     "M-O",
+     "AUTO",
+     "BURN-E"
+    ]
+   },
+   {
+    "q": "WALL-E's sleek white robot love",
+    "right": "EVE",
+    "wrong": [
+     "AUTO",
+     "M-O",
+     "GO-4"
+    ]
+   },
+   {
+    "q": "The Doctor's robot dog",
+    "right": "K9",
+    "wrong": [
+     "Gizmo",
+     "Bleep",
+     "Kamelion"
+    ]
+   },
+   {
+    "q": "The paranoid android",
+    "right": "Marvin",
+    "wrong": [
+     "Eddie",
+     "Deep Thought",
+     "Zaphod"
+    ]
+   },
+   {
+    "q": "Forbidden Planet's robot",
+    "right": "Robby the Robot",
+    "wrong": [
+     "Gort",
+     "Robot B-9",
+     "Huey"
+    ]
+   },
+   {
+    "q": "Star Trek's android officer",
+    "right": "Data",
+    "wrong": [
+     "Lore",
+     "Worf",
+     "Spock"
+    ]
+   },
+   {
+    "q": "Futurama's beer-swilling robot",
+    "right": "Bender",
+    "wrong": [
+     "Calculon",
+     "Roberto",
+     "Hedonismbot"
+    ]
+   },
+   {
+    "q": "The Autobots' leader",
+    "right": "Optimus Prime",
+    "wrong": [
+     "Megatron",
+     "Bumblebee",
+     "Starscream"
+    ]
+   },
+   {
+    "q": "Big Hero 6's inflatable healthcare robot",
+    "right": "Baymax",
+    "wrong": [
+     "Hiro",
+     "Fred",
+     "Wasabi"
+    ]
+   },
+   {
+    "q": "The metal giant who befriends Hogarth",
+    "right": "The Iron Giant",
+    "wrong": [
+     "Gort",
+     "Robot B-9",
+     "Talos"
+    ]
+   },
+   {
+    "q": "The robot who comes 'alive' in Short Circuit",
+    "right": "Johnny 5",
+    "wrong": [
+     "Robot B-9",
+     "Gort",
+     "Chappie"
+    ]
+   },
+   {
+    "q": "2001's murderous computer",
+    "right": "HAL 9000",
+    "wrong": [
+     "Skynet",
+     "Deep Thought",
+     "Mother"
+    ]
+   },
+   {
+    "q": "Red Dwarf's mechanoid",
+    "right": "Kryten",
+    "wrong": [
+     "Holly",
+     "Talkie Toaster",
+     "Hudzen 10"
+    ]
+   },
+   {
+    "q": "The 1980s TV robot who said 'Boogie boogie!'",
+    "right": "Metal Mickey",
+    "wrong": [
+     "Sir Killalot",
+     "Matilda",
+     "Sgt. Bash"
+    ]
+   },
+   {
+    "q": "Buck Rogers' 'bidi-bidi-bidi' robot",
+    "right": "Twiki",
+    "wrong": [
+     "Dr. Theopolis",
+     "Robot B-9",
+     "Huey"
+    ]
+   },
+   {
+    "q": "The Jetsons' robot maid",
+    "right": "Rosie",
+    "wrong": [
+     "Astro",
+     "Elroy",
+     "Judy"
+    ]
+   },
+   {
+    "q": "The rolling orange-and-white droid",
+    "right": "BB-8",
+    "wrong": [
+     "R5-D4",
+     "Chopper",
+     "D-O"
+    ]
+   },
+   {
+    "q": "Will Smith's robot ally in I, Robot",
+    "right": "Sonny",
+    "wrong": [
+     "VIKI",
+     "NS-4",
+     "Ava"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: who lived here?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "houses",
+   "famous people"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Chartwell",
+    "right": "Winston Churchill",
+    "wrong": [
+     "Clement Attlee",
+     "Neville Chamberlain",
+     "Anthony Eden"
+    ]
+   },
+   {
+    "q": "Down House",
+    "right": "Charles Darwin",
+    "wrong": [
+     "Isaac Newton",
+     "Alfred Russel Wallace",
+     "Thomas Huxley"
+    ]
+   },
+   {
+    "q": "Hill Top",
+    "right": "Beatrix Potter",
+    "wrong": [
+     "Enid Blyton",
+     "Alison Uttley",
+     "Kenneth Grahame"
+    ]
+   },
+   {
+    "q": "Dove Cottage",
+    "right": "William Wordsworth",
+    "wrong": [
+     "Samuel Taylor Coleridge",
+     "Robert Southey",
+     "John Keats"
+    ]
+   },
+   {
+    "q": "Haworth Parsonage",
+    "right": "The Brontës",
+    "wrong": [
+     "Jane Austen",
+     "George Eliot",
+     "Elizabeth Gaskell"
+    ]
+   },
+   {
+    "q": "Max Gate",
+    "right": "Thomas Hardy",
+    "wrong": [
+     "D. H. Lawrence",
+     "George Eliot",
+     "John Fowles"
+    ]
+   },
+   {
+    "q": "Monk's House",
+    "right": "Virginia Woolf",
+    "wrong": [
+     "Vanessa Bell",
+     "Vita Sackville-West",
+     "E. M. Forster"
+    ]
+   },
+   {
+    "q": "Abbotsford",
+    "right": "Walter Scott",
+    "wrong": [
+     "Robert Burns",
+     "Robert Louis Stevenson",
+     "James Hogg"
+    ]
+   },
+   {
+    "q": "Bateman's",
+    "right": "Rudyard Kipling",
+    "wrong": [
+     "H. G. Wells",
+     "Arthur Conan Doyle",
+     "J. M. Barrie"
+    ]
+   },
+   {
+    "q": "Cragside",
+    "right": "Lord Armstrong",
+    "wrong": [
+     "George Stephenson",
+     "Charles Parsons",
+     "Joseph Swan"
+    ]
+   },
+   {
+    "q": "Gad's Hill Place",
+    "right": "Charles Dickens",
+    "wrong": [
+     "William Thackeray",
+     "Wilkie Collins",
+     "Anthony Trollope"
+    ]
+   },
+   {
+    "q": "Strawberry Hill",
+    "right": "Horace Walpole",
+    "wrong": [
+     "Alexander Pope",
+     "Samuel Johnson",
+     "William Beckford"
+    ]
+   },
+   {
+    "q": "Clouds Hill",
+    "right": "T. E. Lawrence",
+    "wrong": [
+     "D. H. Lawrence",
+     "Siegfried Sassoon",
+     "Wilfred Owen"
+    ]
+   },
+   {
+    "q": "Greenway",
+    "right": "Agatha Christie",
+    "wrong": [
+     "Dorothy L. Sayers",
+     "Daphne du Maurier",
+     "P. D. James"
+    ]
+   },
+   {
+    "q": "Mendips, Woolton",
+    "right": "John Lennon",
+    "wrong": [
+     "Ringo Starr",
+     "George Harrison",
+     "Brian Epstein"
+    ]
+   },
+   {
+    "q": "20 Forthlin Road",
+    "right": "Paul McCartney",
+    "wrong": [
+     "George Harrison",
+     "Ringo Starr",
+     "Gerry Marsden"
+    ]
+   },
+   {
+    "q": "Hughenden Manor",
+    "right": "Benjamin Disraeli",
+    "wrong": [
+     "William Gladstone",
+     "Lord Salisbury",
+     "Robert Peel"
+    ]
+   },
+   {
+    "q": "Osborne House",
+    "right": "Queen Victoria",
+    "wrong": [
+     "Edward VII",
+     "George III",
+     "William IV"
+    ]
+   },
+   {
+    "q": "Graceland",
+    "right": "Elvis Presley",
+    "wrong": [
+     "Johnny Cash",
+     "Jerry Lee Lewis",
+     "Buddy Holly"
+    ]
+   },
+   {
+    "q": "Neverland Ranch",
+    "right": "Michael Jackson",
+    "wrong": [
+     "Prince",
+     "Lionel Richie",
+     "Diana Ross"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: where in Britain does this tradition happen?",
+  "target": 10,
+  "category": "Britain",
+  "tags": [
+   "traditions",
+   "places"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The Hoppings fair on the Town Moor",
+    "right": "Newcastle",
+    "wrong": [
+     "Sunderland",
+     "Gateshead",
+     "Durham"
+    ]
+   },
+   {
+    "q": "Goose Fair",
+    "right": "Nottingham",
+    "wrong": [
+     "Derby",
+     "Leicester",
+     "Lincoln"
+    ]
+   },
+   {
+    "q": "Up Helly Aa, the Viking fire festival",
+    "right": "Lerwick",
+    "wrong": [
+     "Stornoway",
+     "Wick",
+     "Thurso"
+    ]
+   },
+   {
+    "q": "Chasing a cheese down a hill",
+    "right": "Cooper's Hill, Gloucestershire",
+    "wrong": [
+     "The Malvern Hills",
+     "Box Hill",
+     "Bredon Hill"
+    ]
+   },
+   {
+    "q": "Running with flaming tar barrels",
+    "right": "Ottery St Mary",
+    "wrong": [
+     "Exeter",
+     "Honiton",
+     "Sidmouth"
+    ]
+   },
+   {
+    "q": "England's biggest Bonfire Night parades",
+    "right": "Lewes",
+    "wrong": [
+     "Brighton",
+     "Hastings",
+     "Rye"
+    ]
+   },
+   {
+    "q": "The International Eisteddfod",
+    "right": "Llangollen",
+    "wrong": [
+     "Bangor",
+     "Aberystwyth",
+     "Wrexham"
+    ]
+   },
+   {
+    "q": "The World Bog Snorkelling Championships",
+    "right": "Llanwrtyd Wells",
+    "wrong": [
+     "Builth Wells",
+     "Brecon",
+     "Llandrindod Wells"
+    ]
+   },
+   {
+    "q": "The 'Obby 'Oss on May Day",
+    "right": "Padstow",
+    "wrong": [
+     "Newquay",
+     "St Ives",
+     "Penzance"
+    ]
+   },
+   {
+    "q": "The Furry Dance",
+    "right": "Helston",
+    "wrong": [
+     "Falmouth",
+     "Truro",
+     "Penzance"
+    ]
+   },
+   {
+    "q": "The Straw Bear festival",
+    "right": "Whittlesey",
+    "wrong": [
+     "Peterborough",
+     "Ely",
+     "March"
+    ]
+   },
+   {
+    "q": "The World Gurning Championships",
+    "right": "Egremont",
+    "wrong": [
+     "Whitehaven",
+     "Workington",
+     "Keswick"
+    ]
+   },
+   {
+    "q": "The Shrove Tuesday pancake race since 1445",
+    "right": "Olney",
+    "wrong": [
+     "Bedford",
+     "Buckingham",
+     "Newport Pagnell"
+    ]
+   },
+   {
+    "q": "Royal Shrovetide Football",
+    "right": "Ashbourne",
+    "wrong": [
+     "Bakewell",
+     "Buxton",
+     "Matlock"
+    ]
+   },
+   {
+    "q": "Hurling the Silver Ball",
+    "right": "St Columb",
+    "wrong": [
+     "Newquay",
+     "Bodmin",
+     "Truro"
+    ]
+   },
+   {
+    "q": "Easter Monday bottle kicking",
+    "right": "Hallaton",
+    "wrong": [
+     "Melton Mowbray",
+     "Oakham",
+     "Market Harborough"
+    ]
+   },
+   {
+    "q": "Well dressing, which began here in 1349",
+    "right": "Tissington",
+    "wrong": [
+     "Chester",
+     "Harrogate",
+     "Bath"
+    ]
+   },
+   {
+    "q": "Glastonbury Festival (the actual farm)",
+    "right": "Pilton",
+    "wrong": [
+     "Shepton Mallet",
+     "Wells",
+     "Frome"
+    ]
+   },
+   {
+    "q": "The Christmas and New Year Ba' game",
+    "right": "Kirkwall",
+    "wrong": [
+     "Stornoway",
+     "Wick",
+     "Stromness"
+    ]
+   },
+   {
+    "q": "The Fringe every August",
+    "right": "Edinburgh",
+    "wrong": [
+     "Glasgow",
+     "Aberdeen",
+     "Dundee"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's the Welsh name for this place?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "Welsh",
+   "place names"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Cardiff",
+    "right": "Caerdydd",
+    "wrong": [
+     "Caerffili",
+     "Caerllion",
+     "Caerwys"
+    ]
+   },
+   {
+    "q": "Swansea",
+    "right": "Abertawe",
+    "wrong": [
+     "Aberdaugleddau",
+     "Abergele",
+     "Aberdâr"
+    ]
+   },
+   {
+    "q": "Newport",
+    "right": "Casnewydd",
+    "wrong": [
+     "Caerllion",
+     "Casllwchwr",
+     "Caerffili"
+    ]
+   },
+   {
+    "q": "Wrexham",
+    "right": "Wrecsam",
+    "wrong": [
+     "Rhuthun",
+     "Treffynnon",
+     "Penarlâg"
+    ]
+   },
+   {
+    "q": "Carmarthen",
+    "right": "Caerfyrddin",
+    "wrong": [
+     "Caerffili",
+     "Caerllion",
+     "Caerwys"
+    ]
+   },
+   {
+    "q": "Holyhead",
+    "right": "Caergybi",
+    "wrong": [
+     "Caernarfon",
+     "Cemaes",
+     "Biwmares"
+    ]
+   },
+   {
+    "q": "Fishguard",
+    "right": "Abergwaun",
+    "wrong": [
+     "Aberdaugleddau",
+     "Abergele",
+     "Aberdâr"
+    ]
+   },
+   {
+    "q": "Brecon",
+    "right": "Aberhonddu",
+    "wrong": [
+     "Y Fenni",
+     "Aberdâr",
+     "Aberdaugleddau"
+    ]
+   },
+   {
+    "q": "Monmouth",
+    "right": "Trefynwy",
+    "wrong": [
+     "Y Fenni",
+     "Rhaglan",
+     "Brynbuga"
+    ]
+   },
+   {
+    "q": "Cardigan",
+    "right": "Aberteifi",
+    "wrong": [
+     "Aberdaugleddau",
+     "Aberdâr",
+     "Abergele"
+    ]
+   },
+   {
+    "q": "Bridgend",
+    "right": "Pen-y-bont ar Ogwr",
+    "wrong": [
+     "Pontypridd",
+     "Penarth",
+     "Pen-y-groes"
+    ]
+   },
+   {
+    "q": "Snowdon",
+    "right": "Yr Wyddfa",
+    "wrong": [
+     "Y Garn",
+     "Tryfan",
+     "Cadair Idris"
+    ]
+   },
+   {
+    "q": "Anglesey",
+    "right": "Ynys Môn",
+    "wrong": [
+     "Ynys Enlli",
+     "Ynys Gybi",
+     "Ynys Dewi"
+    ]
+   },
+   {
+    "q": "Pembroke",
+    "right": "Penfro",
+    "wrong": [
+     "Dinbych-y-pysgod",
+     "Aberdaugleddau",
+     "Arberth"
+    ]
+   },
+   {
+    "q": "Chepstow",
+    "right": "Cas-gwent",
+    "wrong": [
+     "Brynbuga",
+     "Rhaglan",
+     "Y Fenni"
+    ]
+   },
+   {
+    "q": "Haverfordwest",
+    "right": "Hwlffordd",
+    "wrong": [
+     "Arberth",
+     "Aberdaugleddau",
+     "Dinbych-y-pysgod"
+    ]
+   },
+   {
+    "q": "Neath",
+    "right": "Castell-nedd",
+    "wrong": [
+     "Caerffili",
+     "Pontypridd",
+     "Castellnewydd Emlyn"
+    ]
+   },
+   {
+    "q": "Denbigh",
+    "right": "Dinbych",
+    "wrong": [
+     "Dinbych-y-pysgod",
+     "Rhuthun",
+     "Treffynnon"
+    ]
+   },
+   {
+    "q": "Mold",
+    "right": "Yr Wyddgrug",
+    "wrong": [
+     "Rhuthun",
+     "Treffynnon",
+     "Penarlâg"
+    ]
+   },
+   {
+    "q": "Welshpool",
+    "right": "Y Trallwng",
+    "wrong": [
+     "Y Drenewydd",
+     "Llanidloes",
+     "Machynlleth"
+    ]
+   }
+  ]
+ }
+]
