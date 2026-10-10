@@ -1,0 +1,389 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what was their job before they were famous?",
+  "target": 10,
+  "category": "Famous people",
+  "tags": [
+   "celebrities",
+   "jobs",
+   "wow"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Sting",
+    "right": "Teacher",
+    "wrong": [
+     "Postman",
+     "Bus conductor",
+     "Window cleaner"
+    ]
+   },
+   {
+    "q": "Rod Stewart",
+    "right": "Gravedigger",
+    "wrong": [
+     "Butcher",
+     "Bricklayer",
+     "Bin man"
+    ]
+   },
+   {
+    "q": "Harrison Ford",
+    "right": "Carpenter",
+    "wrong": [
+     "Plumber",
+     "Taxi driver",
+     "Lifeguard"
+    ]
+   },
+   {
+    "q": "Sean Connery",
+    "right": "Milkman",
+    "wrong": [
+     "Postman",
+     "Coal miner",
+     "Bus conductor"
+    ]
+   },
+   {
+    "q": "Danny DeVito",
+    "right": "Hairdresser",
+    "wrong": [
+     "Waiter",
+     "Florist",
+     "Tailor"
+    ]
+   },
+   {
+    "q": "Whoopi Goldberg",
+    "right": "Mortuary make-up artist",
+    "wrong": [
+     "Nurse",
+     "Dental nurse",
+     "Florist"
+    ]
+   },
+   {
+    "q": "Christopher Walken",
+    "right": "Lion tamer",
+    "wrong": [
+     "Lifeguard",
+     "Chimney sweep",
+     "Ice cream seller"
+    ]
+   },
+   {
+    "q": "Elvis Presley",
+    "right": "Lorry driver",
+    "wrong": [
+     "Taxi driver",
+     "Bin man",
+     "Car salesman"
+    ]
+   },
+   {
+    "q": "Ozzy Osbourne",
+    "right": "Slaughterhouse worker",
+    "wrong": [
+     "Coal miner",
+     "Bricklayer",
+     "Chimney sweep"
+    ]
+   },
+   {
+    "q": "Gordon Ramsay",
+    "right": "Footballer",
+    "wrong": [
+     "Policeman",
+     "Estate agent",
+     "Lifeguard"
+    ]
+   },
+   {
+    "q": "Hugh Jackman",
+    "right": "Children's party clown",
+    "wrong": [
+     "Lifeguard",
+     "Ice cream seller",
+     "Car salesman"
+    ]
+   },
+   {
+    "q": "Simon Cowell",
+    "right": "Post room clerk",
+    "wrong": [
+     "Estate agent",
+     "Car salesman",
+     "Shop assistant"
+    ]
+   },
+   {
+    "q": "Madonna",
+    "right": "Doughnut shop worker",
+    "wrong": [
+     "Shop assistant",
+     "Florist",
+     "Dental nurse"
+    ]
+   },
+   {
+    "q": "Brad Pitt",
+    "right": "Man in a chicken costume",
+    "wrong": [
+     "Lifeguard",
+     "Ice cream seller",
+     "Paperboy"
+    ]
+   },
+   {
+    "q": "Mr T",
+    "right": "Bodyguard",
+    "wrong": [
+     "Policeman",
+     "Bin man",
+     "Taxi driver"
+    ]
+   },
+   {
+    "q": "Michael Caine",
+    "right": "Meat market porter",
+    "wrong": [
+     "Coal miner",
+     "Butcher",
+     "Bus conductor"
+    ]
+   },
+   {
+    "q": "Steve Buscemi",
+    "right": "Firefighter",
+    "wrong": [
+     "Policeman",
+     "Taxi driver",
+     "Paperboy"
+    ]
+   },
+   {
+    "q": "Tom Hanks",
+    "right": "Hotel bellboy",
+    "wrong": [
+     "Waiter",
+     "Paperboy",
+     "Shop assistant"
+    ]
+   },
+   {
+    "q": "Johnny Depp",
+    "right": "Selling pens over the phone",
+    "wrong": [
+     "Car salesman",
+     "Estate agent",
+     "Window cleaner"
+    ]
+   },
+   {
+    "q": "Alan Rickman",
+    "right": "Graphic designer",
+    "wrong": [
+     "Accountant",
+     "Estate agent",
+     "Tailor"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: who's the famous brother or sister?",
+  "target": 10,
+  "category": "Famous people",
+  "tags": [
+   "celebrities",
+   "families"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Noel Gallagher",
+    "right": "Liam Gallagher",
+    "wrong": [
+     "Paul Weller",
+     "Richard Ashcroft",
+     "Ian Brown"
+    ]
+   },
+   {
+    "q": "Venus Williams",
+    "right": "Serena Williams",
+    "wrong": [
+     "Maria Sharapova",
+     "Kim Clijsters",
+     "Justine Henin"
+    ]
+   },
+   {
+    "q": "Dannii Minogue",
+    "right": "Kylie Minogue",
+    "wrong": [
+     "Natalie Imbruglia",
+     "Holly Valance",
+     "Delta Goodrem"
+    ]
+   },
+   {
+    "q": "Prince William",
+    "right": "Prince Harry",
+    "wrong": [
+     "Prince Edward",
+     "Prince Andrew",
+     "Peter Phillips"
+    ]
+   },
+   {
+    "q": "Jack Charlton",
+    "right": "Bobby Charlton",
+    "wrong": [
+     "Bobby Moore",
+     "Geoff Hurst",
+     "Nobby Stiles"
+    ]
+   },
+   {
+    "q": "Phil Neville",
+    "right": "Gary Neville",
+    "wrong": [
+     "Jamie Carragher",
+     "Paul Scholes",
+     "Nicky Butt"
+    ]
+   },
+   {
+    "q": "Andy Murray",
+    "right": "Jamie Murray",
+    "wrong": [
+     "Tim Henman",
+     "Greg Rusedski",
+     "Kyle Edmund"
+    ]
+   },
+   {
+    "q": "Joseph Fiennes",
+    "right": "Ralph Fiennes",
+    "wrong": [
+     "Kenneth Branagh",
+     "Rufus Sewell",
+     "Clive Owen"
+    ]
+   },
+   {
+    "q": "Julia Roberts",
+    "right": "Eric Roberts",
+    "wrong": [
+     "Mickey Rourke",
+     "Dennis Quaid",
+     "Kurt Russell"
+    ]
+   },
+   {
+    "q": "Beyoncé",
+    "right": "Solange Knowles",
+    "wrong": [
+     "Kelly Rowland",
+     "Michelle Williams",
+     "Ciara"
+    ]
+   },
+   {
+    "q": "Warren Beatty",
+    "right": "Shirley MacLaine",
+    "wrong": [
+     "Faye Dunaway",
+     "Natalie Wood",
+     "Julie Christie"
+    ]
+   },
+   {
+    "q": "Maggie Gyllenhaal",
+    "right": "Jake Gyllenhaal",
+    "wrong": [
+     "Tobey Maguire",
+     "Heath Ledger",
+     "Ryan Gosling"
+    ]
+   },
+   {
+    "q": "Ben Affleck",
+    "right": "Casey Affleck",
+    "wrong": [
+     "Matt Damon",
+     "Joaquin Phoenix",
+     "Mark Ruffalo"
+    ]
+   },
+   {
+    "q": "Janet Jackson",
+    "right": "Michael Jackson",
+    "wrong": [
+     "Prince",
+     "Lionel Richie",
+     "Stevie Wonder"
+    ]
+   },
+   {
+    "q": "Joan Collins",
+    "right": "Jackie Collins",
+    "wrong": [
+     "Barbara Cartland",
+     "Shirley Conran",
+     "Jilly Cooper"
+    ]
+   },
+   {
+    "q": "Liam Hemsworth",
+    "right": "Chris Hemsworth",
+    "wrong": [
+     "Chris Pratt",
+     "Chris Pine",
+     "Chris Evans"
+    ]
+   },
+   {
+    "q": "Alistair Brownlee",
+    "right": "Jonny Brownlee",
+    "wrong": [
+     "Mo Farah",
+     "Chris Hoy",
+     "Bradley Wiggins"
+    ]
+   },
+   {
+    "q": "Elle Fanning",
+    "right": "Dakota Fanning",
+    "wrong": [
+     "Chloë Grace Moretz",
+     "Saoirse Ronan",
+     "Abigail Breslin"
+    ]
+   },
+   {
+    "q": "Ed Miliband",
+    "right": "David Miliband",
+    "wrong": [
+     "David Cameron",
+     "Nick Clegg",
+     "Ed Balls"
+    ]
+   },
+   {
+    "q": "Catherine, Princess of Wales",
+    "right": "Pippa Middleton",
+    "wrong": [
+     "Zara Tindall",
+     "Princess Beatrice",
+     "Autumn Phillips"
+    ]
+   }
+  ]
+ }
+]
