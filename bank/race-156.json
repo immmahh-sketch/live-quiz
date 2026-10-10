@@ -1,0 +1,585 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this walking word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "walking",
+   "countryside",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The bag on your back",
+    "right": "Rucksack",
+    "wrong": [
+     "Holdall",
+     "Satchel",
+     "Briefcase"
+    ]
+   },
+   {
+    "q": "A concrete pillar on a hilltop, put there by map-makers",
+    "right": "Trig point",
+    "wrong": [
+     "Milestone",
+     "Bollard",
+     "Gatepost"
+    ]
+   },
+   {
+    "q": "A pile of stones marking a path or summit",
+    "right": "Cairn",
+    "wrong": [
+     "Dolmen",
+     "Menhir",
+     "Henge"
+    ]
+   },
+   {
+    "q": "The walkers' map, by its two-letter initials",
+    "right": "OS",
+    "wrong": [
+     "AA",
+     "RAC",
+     "BT"
+    ]
+   },
+   {
+    "q": "Shows you which way is north",
+    "right": "Compass",
+    "wrong": [
+     "Sextant",
+     "Barometer",
+     "Protractor"
+    ]
+   },
+   {
+    "q": "Lines on a map joining places of equal height",
+    "right": "Contour lines",
+    "wrong": [
+     "Grid lines",
+     "Isobars",
+     "Latitude lines"
+    ]
+   },
+   {
+    "q": "The Lake District word for a hill or mountain",
+    "right": "Fell",
+    "wrong": [
+     "Tor",
+     "Brae",
+     "Ben"
+    ]
+   },
+   {
+    "q": "A Scottish mountain over 3,000 feet",
+    "right": "Munro",
+    "wrong": [
+     "Wainwright",
+     "Marilyn",
+     "Corbett"
+    ]
+   },
+   {
+    "q": "Climbing with your hands on rocky ground",
+    "right": "Scramble",
+    "wrong": [
+     "Abseil",
+     "Hike",
+     "Trek"
+    ]
+   },
+   {
+    "q": "A member of a walking club out in the countryside",
+    "right": "Rambler",
+    "wrong": [
+     "Rover",
+     "Ranger",
+     "Drifter"
+    ]
+   },
+   {
+    "q": "A path open to walkers, cyclists and horse riders",
+    "right": "Bridleway",
+    "wrong": [
+     "Footpath",
+     "Ginnel",
+     "Snicket"
+    ]
+   },
+   {
+    "q": "The path beside a canal",
+    "right": "Towpath",
+    "wrong": [
+     "Promenade",
+     "Boardwalk",
+     "Causeway"
+    ]
+   },
+   {
+    "q": "A little arrow on a post pointing out the route",
+    "right": "Waymarker",
+    "wrong": [
+     "Signet",
+     "Bookmark",
+     "Bollard"
+    ]
+   },
+   {
+    "q": "Covers worn over boots and lower legs to keep out the mud",
+    "right": "Gaiters",
+    "wrong": [
+     "Spats",
+     "Puttees",
+     "Garters"
+    ]
+   },
+   {
+    "q": "The sugary Lake District energy bar taken up Everest",
+    "right": "Kendal Mint Cake",
+    "wrong": [
+     "Grasmere gingerbread",
+     "Eccles cake",
+     "Bakewell tart"
+    ]
+   },
+   {
+    "q": "The legal freedom to walk across open countryside",
+    "right": "Right to roam",
+    "wrong": [
+     "Freedom of the city",
+     "Habeas corpus",
+     "Squatters' rights"
+    ]
+   },
+   {
+    "q": "The very top of the mountain",
+    "right": "Summit",
+    "wrong": [
+     "Saddle",
+     "Col",
+     "Ridge"
+    ]
+   },
+   {
+    "q": "A basic shelter in the hills, free for anyone to use",
+    "right": "Bothy",
+    "wrong": [
+     "Chalet",
+     "Gîte",
+     "Lodge"
+    ]
+   },
+   {
+    "q": "A painful bubble on the heel from new boots",
+    "right": "Blister",
+    "wrong": [
+     "Bunion",
+     "Corn",
+     "Verruca"
+    ]
+   },
+   {
+    "q": "A pair of sticks that take the strain off your knees",
+    "right": "Walking poles",
+    "wrong": [
+     "Crutches",
+     "Batons",
+     "Stilts"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this beach word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "seaside",
+   "beach",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "A striped fabric screen pegged into the sand",
+    "right": "Windbreak",
+    "wrong": [
+     "Gazebo",
+     "Awning",
+     "Trellis"
+    ]
+   },
+   {
+    "q": "A folding canvas seat",
+    "right": "Deckchair",
+    "wrong": [
+     "Bean bag",
+     "Pouffe",
+     "Rocking chair"
+    ]
+   },
+   {
+    "q": "A pool left among the rocks when the tide goes out",
+    "right": "Rock pool",
+    "wrong": [
+     "Plunge pool",
+     "Paddling pool",
+     "Millpond"
+    ]
+   },
+   {
+    "q": "A wooden barrier running down the beach into the sea",
+    "right": "Groyne",
+    "wrong": [
+     "Jetty",
+     "Slipway",
+     "Boardwalk"
+    ]
+   },
+   {
+    "q": "The sea coming in and going out twice a day",
+    "right": "Tide",
+    "wrong": [
+     "Current",
+     "Swell",
+     "Surf"
+    ]
+   },
+   {
+    "q": "Watches the swimmers from a high chair",
+    "right": "Lifeguard",
+    "wrong": [
+     "Coastguard",
+     "Harbourmaster",
+     "Steward"
+    ]
+   },
+   {
+    "q": "Red and yellow ones show where it's safe to swim",
+    "right": "Flags",
+    "wrong": [
+     "Buoys",
+     "Cones",
+     "Bunting"
+    ]
+   },
+   {
+    "q": "Built with a bucket and spade",
+    "right": "Sandcastle",
+    "wrong": [
+     "Snowman",
+     "Igloo",
+     "Bonfire"
+    ]
+   },
+   {
+    "q": "The paved walk along the seafront",
+    "right": "Promenade",
+    "wrong": [
+     "Arcade",
+     "Concourse",
+     "Precinct"
+    ]
+   },
+   {
+    "q": "A long platform on stilts out to sea, often with arcades",
+    "right": "Pier",
+    "wrong": [
+     "Lighthouse",
+     "Breakwater",
+     "Harbour wall"
+    ]
+   },
+   {
+    "q": "Slimy green and brown plants washed up on the shore",
+    "right": "Seaweed",
+    "wrong": [
+     "Moss",
+     "Lichen",
+     "Ivy"
+    ]
+   },
+   {
+    "q": "A see-through sea creature that can sting",
+    "right": "Jellyfish",
+    "wrong": [
+     "Starfish",
+     "Sea urchin",
+     "Sea cucumber"
+    ]
+   },
+   {
+    "q": "A brightly painted wooden cabin on the seafront",
+    "right": "Beach hut",
+    "wrong": [
+     "Chalet",
+     "Shed",
+     "Kiosk"
+    ]
+   },
+   {
+    "q": "The traditional seaside ride at Blackpool and Weston",
+    "right": "Donkey rides",
+    "wrong": [
+     "Pony trekking",
+     "Camel rides",
+     "Hay rides"
+    ]
+   },
+   {
+    "q": "Rub it on so you don't burn",
+    "right": "Suncream",
+    "wrong": [
+     "Moisturiser",
+     "Aftershave",
+     "Hand cream"
+    ]
+   },
+   {
+    "q": "Rubber sandals held on between your toes",
+    "right": "Flip-flops",
+    "wrong": [
+     "Clogs",
+     "Espadrilles",
+     "Moccasins"
+    ]
+   },
+   {
+    "q": "A beach of small pebbles instead of sand",
+    "right": "Shingle",
+    "wrong": [
+     "Silt",
+     "Clay",
+     "Loam"
+    ]
+   },
+   {
+    "q": "The line of seaweed and shells left by the high tide",
+    "right": "Strandline",
+    "wrong": [
+     "Skyline",
+     "Treeline",
+     "Horizon"
+    ]
+   },
+   {
+    "q": "An inflatable mattress you float on",
+    "right": "Lilo",
+    "wrong": [
+     "Futon",
+     "Hammock",
+     "Bean bag"
+    ]
+   },
+   {
+    "q": "A cheeky seaside hat with a slogan on it",
+    "right": "Kiss-me-quick hat",
+    "wrong": [
+     "Bobble hat",
+     "Deerstalker",
+     "Trilby"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this science word?",
+  "target": 10,
+  "category": "Science and nature",
+  "tags": [
+   "science",
+   "physics",
+   "chemistry",
+   "biology"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The tiny building block of every element",
+    "right": "Atom",
+    "wrong": [
+     "Pixel",
+     "Crystal",
+     "Fibre"
+    ]
+   },
+   {
+    "q": "The smallest unit of a living thing",
+    "right": "Cell",
+    "wrong": [
+     "Organ",
+     "Tissue",
+     "Limb"
+    ]
+   },
+   {
+    "q": "Two or more atoms bonded together, like H2O",
+    "right": "Molecule",
+    "wrong": [
+     "Isotope",
+     "Ion",
+     "Photon"
+    ]
+   },
+   {
+    "q": "The negatively charged particle whizzing round an atom",
+    "right": "Electron",
+    "wrong": [
+     "Photon",
+     "Positron",
+     "Quark"
+    ]
+   },
+   {
+    "q": "The centre of an atom",
+    "right": "Nucleus",
+    "wrong": [
+     "Shell",
+     "Orbit",
+     "Membrane"
+    ]
+   },
+   {
+    "q": "The force that pulls things towards the Earth",
+    "right": "Gravity",
+    "wrong": [
+     "Inertia",
+     "Momentum",
+     "Magnetism"
+    ]
+   },
+   {
+    "q": "The force that slows things down as they rub together",
+    "right": "Friction",
+    "wrong": [
+     "Inertia",
+     "Momentum",
+     "Magnetism"
+    ]
+   },
+   {
+    "q": "How plants make food from sunlight",
+    "right": "Photosynthesis",
+    "wrong": [
+     "Pollination",
+     "Germination",
+     "Fermentation"
+    ]
+   },
+   {
+    "q": "Releasing energy from food inside your cells",
+    "right": "Respiration",
+    "wrong": [
+     "Digestion",
+     "Circulation",
+     "Excretion"
+    ]
+   },
+   {
+    "q": "A liquid turning into a gas",
+    "right": "Evaporation",
+    "wrong": [
+     "Melting",
+     "Freezing",
+     "Sublimation"
+    ]
+   },
+   {
+    "q": "A gas turning back into a liquid",
+    "right": "Condensation",
+    "wrong": [
+     "Melting",
+     "Freezing",
+     "Sublimation"
+    ]
+   },
+   {
+    "q": "Has a pH below 7, like lemon juice",
+    "right": "Acid",
+    "wrong": [
+     "Base",
+     "Salt",
+     "Buffer"
+    ]
+   },
+   {
+    "q": "Has a pH above 7, like bleach",
+    "right": "Alkali",
+    "wrong": [
+     "Salt",
+     "Buffer",
+     "Solvent"
+    ]
+   },
+   {
+    "q": "An idea you test with an experiment",
+    "right": "Hypothesis",
+    "wrong": [
+     "Conclusion",
+     "Theorem",
+     "Variable"
+    ]
+   },
+   {
+    "q": "Speeds up a reaction without being used up",
+    "right": "Catalyst",
+    "wrong": [
+     "Solvent",
+     "Inhibitor",
+     "Residue"
+    ]
+   },
+   {
+    "q": "The energy of movement",
+    "right": "Kinetic energy",
+    "wrong": [
+     "Thermal energy",
+     "Nuclear energy",
+     "Chemical energy"
+    ]
+   },
+   {
+    "q": "Energy stored by something raised up high",
+    "right": "Potential energy",
+    "wrong": [
+     "Thermal energy",
+     "Sound energy",
+     "Light energy"
+    ]
+   },
+   {
+    "q": "The amount of matter in something, measured in kilograms",
+    "right": "Mass",
+    "wrong": [
+     "Weight",
+     "Volume",
+     "Density"
+    ]
+   },
+   {
+    "q": "The unit of force, named after a famous scientist",
+    "right": "Newton",
+    "wrong": [
+     "Joule",
+     "Watt",
+     "Pascal"
+    ]
+   },
+   {
+    "q": "A space with nothing in it, not even air",
+    "right": "Vacuum",
+    "wrong": [
+     "Vortex",
+     "Vapour",
+     "Venturi"
+    ]
+   }
+  ]
+ }
+]
