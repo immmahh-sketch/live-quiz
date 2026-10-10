@@ -1,0 +1,583 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this Halloween word?",
+  "target": 10,
+  "category": "Halloween",
+  "tags": [
+   "Halloween",
+   "spooky",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "A hollowed-out pumpkin with a carved face and a candle inside",
+    "right": "Jack-o'-lantern",
+    "wrong": [
+     "Will-o'-the-wisp",
+     "Crystal ball",
+     "Scarecrow"
+    ]
+   },
+   {
+    "q": "What children say at your door on 31 October",
+    "right": "Trick or treat",
+    "wrong": [
+     "Penny for the guy",
+     "Wassail",
+     "Knock down ginger"
+    ]
+   },
+   {
+    "q": "What a witch flies on",
+    "right": "Broomstick",
+    "wrong": [
+     "Wand",
+     "Pendulum",
+     "Crystal ball"
+    ]
+   },
+   {
+    "q": "A witch's big black pot for brewing potions",
+    "right": "Cauldron",
+    "wrong": [
+     "Pendulum",
+     "Crystal ball",
+     "Wand"
+    ]
+   },
+   {
+    "q": "Said to be bad luck if it crosses your path",
+    "right": "Black cat",
+    "wrong": [
+     "Toad",
+     "Owl",
+     "Newt"
+    ]
+   },
+   {
+    "q": "A monster that robs graves to feed on the dead",
+    "right": "Ghoul",
+    "wrong": [
+     "Poltergeist",
+     "Wraith",
+     "Imp"
+    ]
+   },
+   {
+    "q": "An Irish spirit whose wail warns of a death",
+    "right": "Banshee",
+    "wrong": [
+     "Kelpie",
+     "Changeling",
+     "Poltergeist"
+    ]
+   },
+   {
+    "q": "Turns into a wolf at the full moon",
+    "right": "Werewolf",
+    "wrong": [
+     "Wendigo",
+     "Golem",
+     "Gorgon"
+    ]
+   },
+   {
+    "q": "Drinks blood and hates garlic",
+    "right": "Vampire",
+    "wrong": [
+     "Wendigo",
+     "Golem",
+     "Gorgon"
+    ]
+   },
+   {
+    "q": "The walking dead, hungry for brains",
+    "right": "Zombie",
+    "wrong": [
+     "Golem",
+     "Gorgon",
+     "Harpy"
+    ]
+   },
+   {
+    "q": "An ancient Egyptian body wrapped in bandages",
+    "right": "Mummy",
+    "wrong": [
+     "Golem",
+     "Gorgon",
+     "Harpy"
+    ]
+   },
+   {
+    "q": "All bones and no flesh",
+    "right": "Skeleton",
+    "wrong": [
+     "Spectre",
+     "Wraith",
+     "Imp"
+    ]
+   },
+   {
+    "q": "Dusty threads hanging in every corner of a haunted house",
+    "right": "Cobweb",
+    "wrong": [
+     "Scarecrow",
+     "Gargoyle",
+     "Pendulum"
+    ]
+   },
+   {
+    "q": "Hangs upside down and flies out at night",
+    "right": "Bat",
+    "wrong": [
+     "Raven",
+     "Owl",
+     "Toad"
+    ]
+   },
+   {
+    "q": "Trying to catch fruit floating in water using only your teeth",
+    "right": "Apple bobbing",
+    "wrong": [
+     "Snapdragon",
+     "Conkers",
+     "Egg rolling"
+    ]
+   },
+   {
+    "q": "The Scottish name for going door to door in costume",
+    "right": "Guising",
+    "wrong": [
+     "Wassailing",
+     "Mumming",
+     "First-footing"
+    ]
+   },
+   {
+    "q": "The old Celtic festival Halloween grew out of",
+    "right": "Samhain",
+    "wrong": [
+     "Beltane",
+     "Imbolc",
+     "Lughnasadh"
+    ]
+   },
+   {
+    "q": "The old name for Halloween, the night before All Saints' Day",
+    "right": "All Hallows' Eve",
+    "wrong": [
+     "Walpurgis Night",
+     "Twelfth Night",
+     "Bonfire Night"
+    ]
+   },
+   {
+    "q": "Mexico's festival of skulls and marigolds for loved ones who have died",
+    "right": "Day of the Dead",
+    "wrong": [
+     "Walpurgis Night",
+     "Holi",
+     "Diwali"
+    ]
+   },
+   {
+    "q": "A board of letters that a glass slides across to spell out messages from spirits",
+    "right": "Ouija board",
+    "wrong": [
+     "Tarot",
+     "Crystal ball",
+     "Pendulum"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this bit of science lab kit?",
+  "target": 10,
+  "category": "Science",
+  "tags": [
+   "science",
+   "school",
+   "laboratory"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A gas flame on a tube, with an air hole to make it roar blue",
+    "right": "Bunsen burner",
+    "wrong": [
+     "Condenser",
+     "Centrifuge",
+     "Desiccator"
+    ]
+   },
+   {
+    "q": "A thin glass tube with a rounded bottom",
+    "right": "Test tube",
+    "wrong": [
+     "Condenser",
+     "Watch glass",
+     "Volumetric flask"
+    ]
+   },
+   {
+    "q": "Sucks up and lets out tiny measured amounts of liquid",
+    "right": "Pipette",
+    "wrong": [
+     "Condenser",
+     "Centrifuge",
+     "Balance"
+    ]
+   },
+   {
+    "q": "A glass cup with a lip for pouring",
+    "right": "Beaker",
+    "wrong": [
+     "Volumetric flask",
+     "Watch glass",
+     "Round-bottomed flask"
+    ]
+   },
+   {
+    "q": "A flask with a wide flat base and a narrow neck, good for swirling",
+    "right": "Conical flask",
+    "wrong": [
+     "Round-bottomed flask",
+     "Volumetric flask",
+     "Watch glass"
+    ]
+   },
+   {
+    "q": "A shallow round dish for growing bacteria",
+    "right": "Petri dish",
+    "wrong": [
+     "Watch glass",
+     "Mortar and pestle",
+     "Desiccator"
+    ]
+   },
+   {
+    "q": "Magnifies cells too small to see",
+    "right": "Microscope",
+    "wrong": [
+     "Centrifuge",
+     "Desiccator",
+     "Balance"
+    ]
+   },
+   {
+    "q": "Protect your eyes from splashes",
+    "right": "Goggles",
+    "wrong": [
+     "Gloves",
+     "Apron",
+     "Clamp"
+    ]
+   },
+   {
+    "q": "A three-legged stand to rest things on over the flame",
+    "right": "Tripod",
+    "wrong": [
+     "Clamp",
+     "Retort stand",
+     "Boss"
+    ]
+   },
+   {
+    "q": "Wire mesh laid on the tripod to spread out the heat",
+    "right": "Gauze",
+    "wrong": [
+     "Filter paper",
+     "Splint",
+     "Watch glass"
+    ]
+   },
+   {
+    "q": "Turns red in acid and blue in alkali",
+    "right": "Litmus paper",
+    "wrong": [
+     "Filter paper",
+     "Splint",
+     "Agar"
+    ]
+   },
+   {
+    "q": "A cone for pouring liquid into a narrow neck",
+    "right": "Funnel",
+    "wrong": [
+     "Condenser",
+     "Clamp",
+     "Splint"
+    ]
+   },
+   {
+    "q": "A tall, narrow jug with a scale up the side for measuring liquid",
+    "right": "Measuring cylinder",
+    "wrong": [
+     "Condenser",
+     "Watch glass",
+     "Desiccator"
+    ]
+   },
+   {
+    "q": "A little flat scoop for moving powders",
+    "right": "Spatula",
+    "wrong": [
+     "Splint",
+     "Clamp",
+     "Boss"
+    ]
+   },
+   {
+    "q": "Grip hot things so you don't burn your fingers",
+    "right": "Tongs",
+    "wrong": [
+     "Splint",
+     "Boss",
+     "Watch glass"
+    ]
+   },
+   {
+    "q": "A small heat-proof pot for heating solids to very high temperatures",
+    "right": "Crucible",
+    "wrong": [
+     "Mortar and pestle",
+     "Watch glass",
+     "Desiccator"
+    ]
+   },
+   {
+    "q": "A shallow dish for heating a solution until only crystals are left",
+    "right": "Evaporating basin",
+    "wrong": [
+     "Mortar and pestle",
+     "Desiccator",
+     "Centrifuge"
+    ]
+   },
+   {
+    "q": "A long tube with a tap at the bottom, used in titrations",
+    "right": "Burette",
+    "wrong": [
+     "Condenser",
+     "Centrifuge",
+     "Balance"
+    ]
+   },
+   {
+    "q": "A glass-fronted cabinet that sucks away nasty gases",
+    "right": "Fume cupboard",
+    "wrong": [
+     "Desiccator",
+     "Centrifuge",
+     "Incubator"
+    ]
+   },
+   {
+    "q": "A white overcoat that keeps chemicals off your clothes",
+    "right": "Lab coat",
+    "wrong": [
+     "Hairnet",
+     "Gloves",
+     "Face mask"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this circus word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "circus",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Top hat and tails, introducing every act",
+    "right": "Ringmaster",
+    "wrong": [
+     "Ventriloquist",
+     "Puppeteer",
+     "Hypnotist"
+    ]
+   },
+   {
+    "q": "The huge striped tent",
+    "right": "Big top",
+    "wrong": [
+     "Bandstand",
+     "Pavilion",
+     "Gazebo"
+    ]
+   },
+   {
+    "q": "A swinging bar high above the ring",
+    "right": "Trapeze",
+    "wrong": [
+     "Springboard",
+     "Seesaw",
+     "Pommel horse"
+    ]
+   },
+   {
+    "q": "A wire you walk along, high in the air",
+    "right": "Tightrope",
+    "wrong": [
+     "Bunting",
+     "Zip wire",
+     "Climbing rope"
+    ]
+   },
+   {
+    "q": "Keeps several balls in the air at once",
+    "right": "Juggler",
+    "wrong": [
+     "Ventriloquist",
+     "Escapologist",
+     "Hypnotist"
+    ]
+   },
+   {
+    "q": "Red nose, baggy trousers and enormous shoes",
+    "right": "Clown",
+    "wrong": [
+     "Mime",
+     "Ventriloquist",
+     "Escapologist"
+    ]
+   },
+   {
+    "q": "A bike with just one wheel",
+    "right": "Unicycle",
+    "wrong": [
+     "Penny-farthing",
+     "Tandem",
+     "Recumbent"
+    ]
+   },
+   {
+    "q": "Long poles that make you walk tall",
+    "right": "Stilts",
+    "wrong": [
+     "Pogo stick",
+     "Space hopper",
+     "Skateboard"
+    ]
+   },
+   {
+    "q": "Fired across the tent into a net",
+    "right": "Human cannonball",
+    "wrong": [
+     "Stuntman",
+     "Escapologist",
+     "Ventriloquist"
+    ]
+   },
+   {
+    "q": "Faces big cats with a whip and a chair",
+    "right": "Lion tamer",
+    "wrong": [
+     "Escapologist",
+     "Puppeteer",
+     "Hypnotist"
+    ]
+   },
+   {
+    "q": "Tumbles, flips and builds human pyramids",
+    "right": "Acrobat",
+    "wrong": [
+     "Ventriloquist",
+     "Puppeteer",
+     "Hypnotist"
+    ]
+   },
+   {
+    "q": "Bends their body into impossible shapes",
+    "right": "Contortionist",
+    "wrong": [
+     "Escapologist",
+     "Ventriloquist",
+     "Hypnotist"
+    ]
+   },
+   {
+    "q": "Puts flaming torches in their mouth",
+    "right": "Fire-eater",
+    "wrong": [
+     "Escapologist",
+     "Puppeteer",
+     "Ventriloquist"
+    ]
+   },
+   {
+    "q": "Slides a long blade down their throat",
+    "right": "Sword swallower",
+    "wrong": [
+     "Escapologist",
+     "Puppeteer",
+     "Hypnotist"
+    ]
+   },
+   {
+    "q": "Lifts enormous weights, often sporting a curly moustache",
+    "right": "Strongman",
+    "wrong": [
+     "Escapologist",
+     "Ventriloquist",
+     "Puppeteer"
+    ]
+   },
+   {
+    "q": "Stretched below the high-wire act in case anyone falls",
+    "right": "Safety net",
+    "wrong": [
+     "Bunting",
+     "Sawdust",
+     "Spotlight"
+    ]
+   },
+   {
+    "q": "Hurls blades at a spinning board with an assistant strapped to it",
+    "right": "Knife thrower",
+    "wrong": [
+     "Escapologist",
+     "Hypnotist",
+     "Puppeteer"
+    ]
+   },
+   {
+    "q": "The round space in the middle where the acts perform",
+    "right": "Ring",
+    "wrong": [
+     "Wings",
+     "Pit",
+     "Gallery"
+    ]
+   },
+   {
+    "q": "The thick make-up clowns wear",
+    "right": "Greasepaint",
+    "wrong": [
+     "Sawdust",
+     "Spotlight",
+     "Drumroll"
+    ]
+   },
+   {
+    "q": "Splatted into a clown's face",
+    "right": "Custard pie",
+    "wrong": [
+     "Trifle",
+     "Jelly",
+     "Blancmange"
+    ]
+   }
+  ]
+ }
+]
