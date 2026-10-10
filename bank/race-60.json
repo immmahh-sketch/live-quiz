@@ -1,0 +1,388 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which country is this glacier in?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "glaciers",
+   "countries"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The Perito Moreno Glacier",
+    "right": "Argentina",
+    "wrong": [
+     "Uruguay",
+     "Bolivia",
+     "Paraguay"
+    ]
+   },
+   {
+    "q": "The Aletsch Glacier",
+    "right": "Switzerland",
+    "wrong": [
+     "Liechtenstein",
+     "Slovenia",
+     "Germany"
+    ]
+   },
+   {
+    "q": "Jostedalsbreen",
+    "right": "Norway",
+    "wrong": [
+     "Sweden",
+     "Finland",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "Vatnajökull",
+    "right": "Iceland",
+    "wrong": [
+     "the Faroe Islands",
+     "Denmark",
+     "Sweden"
+    ]
+   },
+   {
+    "q": "The Franz Josef Glacier",
+    "right": "New Zealand",
+    "wrong": [
+     "Fiji",
+     "Australia",
+     "Papua New Guinea"
+    ]
+   },
+   {
+    "q": "The Mendenhall Glacier",
+    "right": "the USA",
+    "wrong": [
+     "Russia",
+     "Mexico",
+     "Japan"
+    ]
+   },
+   {
+    "q": "The Athabasca Glacier",
+    "right": "Canada",
+    "wrong": [
+     "Russia",
+     "Mexico",
+     "Japan"
+    ]
+   },
+   {
+    "q": "The Mer de Glace",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Luxembourg",
+     "Germany"
+    ]
+   },
+   {
+    "q": "The Pasterze",
+    "right": "Austria",
+    "wrong": [
+     "Germany",
+     "Slovenia",
+     "Liechtenstein"
+    ]
+   },
+   {
+    "q": "The Grey Glacier",
+    "right": "Chile",
+    "wrong": [
+     "Uruguay",
+     "Bolivia",
+     "Paraguay"
+    ]
+   },
+   {
+    "q": "The Khumbu Glacier, below Everest",
+    "right": "Nepal",
+    "wrong": [
+     "Bhutan",
+     "Bangladesh",
+     "Tibet"
+    ]
+   },
+   {
+    "q": "The Baltoro Glacier, below K2",
+    "right": "Pakistan",
+    "wrong": [
+     "Afghanistan",
+     "Kyrgyzstan",
+     "Bhutan"
+    ]
+   },
+   {
+    "q": "The Ilulissat Icefjord",
+    "right": "Greenland",
+    "wrong": [
+     "the Faroe Islands",
+     "Denmark",
+     "Sweden"
+    ]
+   },
+   {
+    "q": "The Fedchenko Glacier",
+    "right": "Tajikistan",
+    "wrong": [
+     "Kyrgyzstan",
+     "Uzbekistan",
+     "Afghanistan"
+    ]
+   },
+   {
+    "q": "The Pastoruri Glacier",
+    "right": "Peru",
+    "wrong": [
+     "Bolivia",
+     "Ecuador",
+     "Colombia"
+    ]
+   },
+   {
+    "q": "The Furtwängler Glacier on Kilimanjaro",
+    "right": "Tanzania",
+    "wrong": [
+     "Uganda",
+     "Rwanda",
+     "Ethiopia"
+    ]
+   },
+   {
+    "q": "The Gangotri Glacier, source of the Ganges",
+    "right": "India",
+    "wrong": [
+     "Bhutan",
+     "Bangladesh",
+     "Afghanistan"
+    ]
+   },
+   {
+    "q": "The Baishui Glacier on Jade Dragon Snow Mountain",
+    "right": "China",
+    "wrong": [
+     "Mongolia",
+     "Laos",
+     "Myanmar"
+    ]
+   },
+   {
+    "q": "The Calderone, a glacier in the Apennines",
+    "right": "Italy",
+    "wrong": [
+     "Slovenia",
+     "Croatia",
+     "Greece"
+    ]
+   },
+   {
+    "q": "The Lewis Glacier on Mount Kenya",
+    "right": "Kenya",
+    "wrong": [
+     "Uganda",
+     "Ethiopia",
+     "Rwanda"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this famous rock formation in?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "rock formations",
+   "countries"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Uluru",
+    "right": "Australia",
+    "wrong": [
+     "Fiji",
+     "Papua New Guinea",
+     "Indonesia"
+    ]
+   },
+   {
+    "q": "Sugarloaf Mountain",
+    "right": "Brazil",
+    "wrong": [
+     "Argentina",
+     "Uruguay",
+     "Chile"
+    ]
+   },
+   {
+    "q": "Table Mountain",
+    "right": "South Africa",
+    "wrong": [
+     "Namibia",
+     "Botswana",
+     "Zimbabwe"
+    ]
+   },
+   {
+    "q": "Delicate Arch",
+    "right": "the USA",
+    "wrong": [
+     "Mexico",
+     "Cuba",
+     "Guatemala"
+    ]
+   },
+   {
+    "q": "Sigiriya, the Lion Rock",
+    "right": "Sri Lanka",
+    "wrong": [
+     "India",
+     "the Maldives",
+     "Bangladesh"
+    ]
+   },
+   {
+    "q": "The monasteries of Meteora",
+    "right": "Greece",
+    "wrong": [
+     "Cyprus",
+     "Bulgaria",
+     "Albania"
+    ]
+   },
+   {
+    "q": "The cliffs of Étretat",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Luxembourg",
+     "the Netherlands"
+    ]
+   },
+   {
+    "q": "The Bastei rocks",
+    "right": "Germany",
+    "wrong": [
+     "Austria",
+     "Poland",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "The fairy chimneys of Cappadocia",
+    "right": "Turkey",
+    "wrong": [
+     "Cyprus",
+     "Armenia",
+     "Syria"
+    ]
+   },
+   {
+    "q": "Preikestolen (Pulpit Rock)",
+    "right": "Norway",
+    "wrong": [
+     "Sweden",
+     "Finland",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "The Moeraki Boulders",
+    "right": "New Zealand",
+    "wrong": [
+     "Fiji",
+     "Samoa",
+     "Tonga"
+    ]
+   },
+   {
+    "q": "The Stone Forest of Shilin",
+    "right": "China",
+    "wrong": [
+     "Vietnam",
+     "Laos",
+     "Mongolia"
+    ]
+   },
+   {
+    "q": "Ben Bulben",
+    "right": "Ireland",
+    "wrong": [
+     "Wales",
+     "Northern Ireland",
+     "the Isle of Man"
+    ]
+   },
+   {
+    "q": "The Drumheller hoodoos",
+    "right": "Canada",
+    "wrong": [
+     "Mexico",
+     "Greenland",
+     "Russia"
+    ]
+   },
+   {
+    "q": "The Ciudad Encantada",
+    "right": "Spain",
+    "wrong": [
+     "Portugal",
+     "Andorra",
+     "Italy"
+    ]
+   },
+   {
+    "q": "Old Harry Rocks",
+    "right": "England",
+    "wrong": [
+     "Wales",
+     "Northern Ireland",
+     "the Isle of Man"
+    ]
+   },
+   {
+    "q": "The Old Man of Hoy",
+    "right": "Scotland",
+    "wrong": [
+     "Wales",
+     "Northern Ireland",
+     "the Faroe Islands"
+    ]
+   },
+   {
+    "q": "'James Bond Island' in Phang Nga Bay",
+    "right": "Thailand",
+    "wrong": [
+     "Vietnam",
+     "Malaysia",
+     "Myanmar"
+    ]
+   },
+   {
+    "q": "Elephant Rock on Heimaey",
+    "right": "Iceland",
+    "wrong": [
+     "the Faroe Islands",
+     "Greenland",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "Auyán-tepui, the table mountain behind Angel Falls",
+    "right": "Venezuela",
+    "wrong": [
+     "Colombia",
+     "Ecuador",
+     "Peru"
+    ]
+   }
+  ]
+ }
+]
