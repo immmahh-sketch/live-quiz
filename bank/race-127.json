@@ -1,0 +1,390 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this money word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "money",
+   "finance",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A long loan for buying a house, secured on the house itself",
+    "right": "Mortgage",
+    "wrong": [
+     "Annuity",
+     "Bond",
+     "Lease"
+    ]
+   },
+   {
+    "q": "Spending more than is in your current account, with the bank's agreement",
+    "right": "Overdraft",
+    "wrong": [
+     "Arrears",
+     "Rebate",
+     "Annuity"
+    ]
+   },
+   {
+    "q": "Prices rising across the economy, so your money buys less",
+    "right": "Inflation",
+    "wrong": [
+     "Deflation",
+     "Austerity",
+     "Stagnation"
+    ]
+   },
+   {
+    "q": "The economy shrinking for two quarters in a row",
+    "right": "Recession",
+    "wrong": [
+     "Austerity",
+     "Deflation",
+     "Stagflation"
+    ]
+   },
+   {
+    "q": "A share of a company's profits paid out to its shareholders",
+    "right": "Dividend",
+    "wrong": [
+     "Royalty",
+     "Rebate",
+     "Commission"
+    ]
+   },
+   {
+    "q": "Regular money paid to you after you retire",
+    "right": "Pension",
+    "wrong": [
+     "Allowance",
+     "Bursary",
+     "Stipend"
+    ]
+   },
+   {
+    "q": "What a bank pays you for saving, or charges you for borrowing",
+    "right": "Interest",
+    "wrong": [
+     "Commission",
+     "Premium",
+     "Levy"
+    ]
+   },
+   {
+    "q": "Legally declared unable to pay your debts",
+    "right": "Bankrupt",
+    "wrong": [
+     "Solvent",
+     "Liquid",
+     "Audited"
+    ]
+   },
+   {
+    "q": "A bill sent out asking for payment for goods or work",
+    "right": "Invoice",
+    "wrong": [
+     "Quote",
+     "Estimate",
+     "Ledger"
+    ]
+   },
+   {
+    "q": "Proof that you've paid, handed over at the till",
+    "right": "Receipt",
+    "wrong": [
+     "Voucher",
+     "Ledger",
+     "Quote"
+    ]
+   },
+   {
+    "q": "A plan of how much you'll earn and how much you'll spend",
+    "right": "Budget",
+    "wrong": [
+     "Ledger",
+     "Audit",
+     "Balance sheet"
+    ]
+   },
+   {
+    "q": "Money paid up front to secure something, like a rented flat",
+    "right": "Deposit",
+    "wrong": [
+     "Premium",
+     "Levy",
+     "Rebate"
+    ]
+   },
+   {
+    "q": "Money handed back when you return something to a shop",
+    "right": "Refund",
+    "wrong": [
+     "Discount",
+     "Voucher",
+     "Commission"
+    ]
+   },
+   {
+    "q": "Fixed yearly pay for a job, usually paid in monthly instalments",
+    "right": "Salary",
+    "wrong": [
+     "Bonus",
+     "Commission",
+     "Allowance"
+    ]
+   },
+   {
+    "q": "Lets a company take varying amounts from your account when bills are due",
+    "right": "Direct debit",
+    "wrong": [
+     "Standing order",
+     "Cheque",
+     "Bank transfer"
+    ]
+   },
+   {
+    "q": "A number lenders check to judge how reliable a borrower you are",
+    "right": "Credit score",
+    "wrong": [
+     "PIN",
+     "IBAN",
+     "Account number"
+    ]
+   },
+   {
+    "q": "The form the self-employed fill in each year to tell HMRC what they earned",
+    "right": "Tax return",
+    "wrong": [
+     "P45",
+     "P60",
+     "Payslip"
+    ]
+   },
+   {
+    "q": "A long spell of share prices rising",
+    "right": "Bull market",
+    "wrong": [
+     "Bear market",
+     "Crash",
+     "Correction"
+    ]
+   },
+   {
+    "q": "The six-digit number that identifies your bank",
+    "right": "Sort code",
+    "wrong": [
+     "IBAN",
+     "PIN",
+     "Account number"
+    ]
+   },
+   {
+    "q": "The tax you pay when you buy a house",
+    "right": "Stamp duty",
+    "wrong": [
+     "Council tax",
+     "Capital gains tax",
+     "Inheritance tax"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what kind of government is this?",
+  "target": 10,
+  "category": "Politics",
+  "tags": [
+   "government",
+   "politics",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Rule by the people, who vote for their leaders",
+    "right": "Democracy",
+    "wrong": [
+     "Autocracy",
+     "Feudalism",
+     "Despotism"
+    ]
+   },
+   {
+    "q": "A king or queen is head of state, but an elected parliament makes the laws",
+    "right": "Constitutional monarchy",
+    "wrong": [
+     "Absolute monarchy",
+     "Regency",
+     "Feudalism"
+    ]
+   },
+   {
+    "q": "Rule by religious leaders in the name of God",
+    "right": "Theocracy",
+    "wrong": [
+     "Autocracy",
+     "Timocracy",
+     "Stratocracy"
+    ]
+   },
+   {
+    "q": "Power held by a small group of people",
+    "right": "Oligarchy",
+    "wrong": [
+     "Autocracy",
+     "Despotism",
+     "Ochlocracy"
+    ]
+   },
+   {
+    "q": "Rule by the very rich",
+    "right": "Plutocracy",
+    "wrong": [
+     "Stratocracy",
+     "Ochlocracy",
+     "Feudalism"
+    ]
+   },
+   {
+    "q": "One ruler with total power, who has usually seized it",
+    "right": "Dictatorship",
+    "wrong": [
+     "Regency",
+     "Protectorate",
+     "Triumvirate"
+    ]
+   },
+   {
+    "q": "No government at all",
+    "right": "Anarchy",
+    "wrong": [
+     "Ochlocracy",
+     "Feudalism",
+     "Totalitarianism"
+    ]
+   },
+   {
+    "q": "A state with an elected or appointed head of state instead of a monarch, like France",
+    "right": "Republic",
+    "wrong": [
+     "Emirate",
+     "Regency",
+     "Protectorate"
+    ]
+   },
+   {
+    "q": "Power goes to those with the most talent and ability",
+    "right": "Meritocracy",
+    "wrong": [
+     "Timocracy",
+     "Stratocracy",
+     "Ochlocracy"
+    ]
+   },
+   {
+    "q": "Rule by the elderly",
+    "right": "Gerontocracy",
+    "wrong": [
+     "Timocracy",
+     "Stratocracy",
+     "Ochlocracy"
+    ]
+   },
+   {
+    "q": "Rule by thieves who loot the country's wealth",
+    "right": "Kleptocracy",
+    "wrong": [
+     "Ochlocracy",
+     "Despotism",
+     "Timocracy"
+    ]
+   },
+   {
+    "q": "Rule by scientists and technical experts",
+    "right": "Technocracy",
+    "wrong": [
+     "Stratocracy",
+     "Timocracy",
+     "Ochlocracy"
+    ]
+   },
+   {
+    "q": "A society where women hold the power",
+    "right": "Matriarchy",
+    "wrong": [
+     "Regency",
+     "Feudalism",
+     "Despotism"
+    ]
+   },
+   {
+    "q": "A society where men hold the power",
+    "right": "Patriarchy",
+    "wrong": [
+     "Regency",
+     "Feudalism",
+     "Ochlocracy"
+    ]
+   },
+   {
+    "q": "Rule by a privileged noble class",
+    "right": "Aristocracy",
+    "wrong": [
+     "Ochlocracy",
+     "Stratocracy",
+     "Despotism"
+    ]
+   },
+   {
+    "q": "Run by officials and layers of red tape",
+    "right": "Bureaucracy",
+    "wrong": [
+     "Ochlocracy",
+     "Feudalism",
+     "Regency"
+    ]
+   },
+   {
+    "q": "A group of military officers ruling after a coup",
+    "right": "Junta",
+    "wrong": [
+     "Triumvirate",
+     "Regency",
+     "Protectorate"
+    ]
+   },
+   {
+    "q": "States with their own governments joined under a central one, like the USA",
+    "right": "Federation",
+    "wrong": [
+     "Protectorate",
+     "Regency",
+     "Emirate"
+    ]
+   },
+   {
+    "q": "A territory ruled from a distant country, like Hong Kong under Britain until 1997",
+    "right": "Colony",
+    "wrong": [
+     "Emirate",
+     "Regency",
+     "Triumvirate"
+    ]
+   },
+   {
+    "q": "Two or more parties sharing power, as in Britain from 2010 to 2015",
+    "right": "Coalition",
+    "wrong": [
+     "Triumvirate",
+     "Regency",
+     "Protectorate"
+    ]
+   }
+  ]
+ }
+]
