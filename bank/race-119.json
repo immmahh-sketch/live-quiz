@@ -1,0 +1,389 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which classic sweet is this?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "sweets",
+   "nostalgia"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "A liquorice stick dipped into sherbet in a paper tube",
+    "right": "Sherbet Fountain",
+    "wrong": [
+     "Dip Dab",
+     "Refreshers",
+     "Fizzers"
+    ]
+   },
+   {
+    "q": "Black aniseed chews, four for a penny",
+    "right": "Black Jacks",
+    "wrong": [
+     "Mojos",
+     "Chewits",
+     "Midget Gems"
+    ]
+   },
+   {
+    "q": "Raspberry-and-pineapple chews",
+    "right": "Fruit Salads",
+    "wrong": [
+     "Refreshers",
+     "Mojos",
+     "Chewits"
+    ]
+   },
+   {
+    "q": "Rice-paper discs filled with sherbet",
+    "right": "Flying Saucers",
+    "wrong": [
+     "Refreshers",
+     "Fizzers",
+     "Dip Dab"
+    ]
+   },
+   {
+    "q": "Purple, perfumed, flower-flavoured tablets",
+    "right": "Parma Violets",
+    "wrong": [
+     "Refreshers",
+     "Fizzers",
+     "Midget Gems"
+    ]
+   },
+   {
+    "q": "Fizzy tablets with messages like 'Be Mine'",
+    "right": "Love Hearts",
+    "wrong": [
+     "Refreshers",
+     "Fizzers",
+     "Dip Dab"
+    ]
+   },
+   {
+    "q": "A raspberry-and-milk lolly",
+    "right": "Drumstick",
+    "wrong": [
+     "Chupa Chups",
+     "Dip Dab",
+     "Fab"
+    ]
+   },
+   {
+    "q": "A huge hard ball that changes colour as you suck it",
+    "right": "Gobstopper",
+    "wrong": [
+     "Chupa Chups",
+     "Bonbons",
+     "Mint imperials"
+    ]
+   },
+   {
+    "q": "Boiled sweets that smell like nail varnish",
+    "right": "Pear drops",
+    "wrong": [
+     "Barley sugar",
+     "Mint imperials",
+     "Bonbons"
+    ]
+   },
+   {
+    "q": "Tiny red-brown balls with a seed in the middle",
+    "right": "Aniseed balls",
+    "wrong": [
+     "Bonbons",
+     "Mint imperials",
+     "Midget Gems"
+    ]
+   },
+   {
+    "q": "Pink and white foam sweets shaped like a sea creature",
+    "right": "Foam shrimps",
+    "wrong": [
+     "Flumps",
+     "Fried eggs",
+     "Milk teeth"
+    ]
+   },
+   {
+    "q": "A fizzy chewy bar with a cartoon alien on the wrapper",
+    "right": "Wham bar",
+    "wrong": [
+     "Fab",
+     "Refreshers",
+     "Chewits"
+    ]
+   },
+   {
+    "q": "Little jelly people",
+    "right": "Jelly babies",
+    "wrong": [
+     "Jelly beans",
+     "Midget Gems",
+     "Wine gums"
+    ]
+   },
+   {
+    "q": "Tiny pastel fondants and jellies",
+    "right": "Dolly mixtures",
+    "wrong": [
+     "Midget Gems",
+     "Jelly tots",
+     "Wine gums"
+    ]
+   },
+   {
+    "q": "Round liquorice discs stamped with a castle, from Yorkshire",
+    "right": "Pontefract cakes",
+    "wrong": [
+     "Liquorice Allsorts",
+     "Mojos",
+     "Midget Gems"
+    ]
+   },
+   {
+    "q": "A powder that crackles and pops on your tongue",
+    "right": "Space Dust",
+    "wrong": [
+     "Fizzers",
+     "Dip Dab",
+     "Refreshers"
+    ]
+   },
+   {
+    "q": "Lemon boiled sweets with a fizzy powder inside",
+    "right": "Sherbet lemons",
+    "wrong": [
+     "Barley sugar",
+     "Bonbons",
+     "Mint imperials"
+    ]
+   },
+   {
+    "q": "Fizzy cola cubes dusted in sugar",
+    "right": "Cola cubes",
+    "wrong": [
+     "Bonbons",
+     "Barley sugar",
+     "Mint imperials"
+    ]
+   },
+   {
+    "q": "Two-tone pink and yellow boiled sweets",
+    "right": "Rhubarb and custards",
+    "wrong": [
+     "Barley sugar",
+     "Bonbons",
+     "Mint imperials"
+    ]
+   },
+   {
+    "q": "Chewy butter toffee from Scotland in tartan wrappers",
+    "right": "Highland toffee",
+    "wrong": [
+     "Fudge",
+     "Bonbons",
+     "Chewits"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which nut or seed is this?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "nuts",
+   "seeds",
+   "food"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Ground up to make marzipan",
+    "right": "Almond",
+    "wrong": [
+     "Candlenut",
+     "Shea nut",
+     "Pili nut"
+    ]
+   },
+   {
+    "q": "Grows hanging below a fruit called an 'apple'",
+    "right": "Cashew",
+    "wrong": [
+     "Shea nut",
+     "Betel nut",
+     "Candlenut"
+    ]
+   },
+   {
+    "q": "Green nut in a shell that splits open, turned into green ice cream",
+    "right": "Pistachio",
+    "wrong": [
+     "Ginkgo nut",
+     "Pili nut",
+     "Candlenut"
+    ]
+   },
+   {
+    "q": "Big three-sided nut always left at the bottom of the Christmas tin",
+    "right": "Brazil nut",
+    "wrong": [
+     "Pili nut",
+     "Candlenut",
+     "Shea nut"
+    ]
+   },
+   {
+    "q": "Round Australian nut with the hardest shell of all",
+    "right": "Macadamia",
+    "wrong": [
+     "Candlenut",
+     "Bunya nut",
+     "Pili nut"
+    ]
+   },
+   {
+    "q": "Looks like a tiny brain",
+    "right": "Walnut",
+    "wrong": [
+     "Pili nut",
+     "Candlenut",
+     "Ginkgo nut"
+    ]
+   },
+   {
+    "q": "The nut in Nutella and Ferrero Rocher",
+    "right": "Hazelnut",
+    "wrong": [
+     "Pili nut",
+     "Candlenut",
+     "Ginkgo nut"
+    ]
+   },
+   {
+    "q": "Not a nut at all but a legume that grows underground",
+    "right": "Peanut",
+    "wrong": [
+     "Lotus seed",
+     "Ginkgo nut",
+     "Betel nut"
+    ]
+   },
+   {
+    "q": "Star of a sticky American pie",
+    "right": "Pecan",
+    "wrong": [
+     "Candlenut",
+     "Pili nut",
+     "Bunya nut"
+    ]
+   },
+   {
+    "q": "Roasted on an open fire at Christmas",
+    "right": "Chestnut",
+    "wrong": [
+     "Ginkgo nut",
+     "Pili nut",
+     "Bunya nut"
+    ]
+   },
+   {
+    "q": "Hairy brown shell with milk inside",
+    "right": "Coconut",
+    "wrong": [
+     "Pili nut",
+     "Bunya nut",
+     "Shea nut"
+    ]
+   },
+   {
+    "q": "Small cream seed from cones, blended into pesto",
+    "right": "Pine nut",
+    "wrong": [
+     "Lotus seed",
+     "Ginkgo nut",
+     "Hemp seed"
+    ]
+   },
+   {
+    "q": "The fruit of the oak tree",
+    "right": "Acorn",
+    "wrong": [
+     "Beechnut",
+     "Ginkgo nut",
+     "Bunya nut"
+    ]
+   },
+   {
+    "q": "Shiny brown seed of the horse chestnut, used in playground fights",
+    "right": "Conker",
+    "wrong": [
+     "Beechnut",
+     "Ginkgo nut",
+     "Candlenut"
+    ]
+   },
+   {
+    "q": "Gave its name to a famous fizzy drink",
+    "right": "Kola nut",
+    "wrong": [
+     "Betel nut",
+     "Shea nut",
+     "Candlenut"
+    ]
+   },
+   {
+    "q": "A little tuber blended into Spanish horchata",
+    "right": "Tiger nut",
+    "wrong": [
+     "Lotus seed",
+     "Betel nut",
+     "Ginkgo nut"
+    ]
+   },
+   {
+    "q": "Crunchy white discs in Chinese stir-fries",
+    "right": "Water chestnut",
+    "wrong": [
+     "Lotus seed",
+     "Ginkgo nut",
+     "Bamboo shoot"
+    ]
+   },
+   {
+    "q": "Ground into tahini",
+    "right": "Sesame seed",
+    "wrong": [
+     "Poppy seed",
+     "Linseed",
+     "Hemp seed"
+    ]
+   },
+   {
+    "q": "Striped seed from a tall yellow flower",
+    "right": "Sunflower seed",
+    "wrong": [
+     "Linseed",
+     "Hemp seed",
+     "Poppy seed"
+    ]
+   },
+   {
+    "q": "Green seed scooped out at Halloween",
+    "right": "Pumpkin seed",
+    "wrong": [
+     "Linseed",
+     "Hemp seed",
+     "Poppy seed"
+    ]
+   }
+  ]
+ }
+]
