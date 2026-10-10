@@ -1,0 +1,388 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which album has this cover?",
+  "target": 10,
+  "category": "Music",
+  "tags": [
+   "albums",
+   "album covers"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Four men walking over a zebra crossing",
+    "right": "Abbey Road",
+    "wrong": [
+     "Let It Be",
+     "Revolver",
+     "Help!"
+    ]
+   },
+   {
+    "q": "A baby swimming after a dollar bill",
+    "right": "Nevermind",
+    "wrong": [
+     "In Utero",
+     "Bleach",
+     "Ten"
+    ]
+   },
+   {
+    "q": "A beam of light split by a prism",
+    "right": "The Dark Side of the Moon",
+    "wrong": [
+     "Wish You Were Here",
+     "Meddle",
+     "The Wall"
+    ]
+   },
+   {
+    "q": "A pig floating over Battersea Power Station",
+    "right": "Animals",
+    "wrong": [
+     "The Wall",
+     "Meddle",
+     "Wish You Were Here"
+    ]
+   },
+   {
+    "q": "A crowd of cut-out famous faces round a drum",
+    "right": "Sgt. Pepper's Lonely Hearts Club Band",
+    "wrong": [
+     "Magical Mystery Tour",
+     "Rubber Soul",
+     "Revolver"
+    ]
+   },
+   {
+    "q": "A man smashing his bass guitar on stage",
+    "right": "London Calling",
+    "wrong": [
+     "Give 'Em Enough Rope",
+     "Combat Rock",
+     "Sandinista!"
+    ]
+   },
+   {
+    "q": "A man's back and jeans in front of the Stars and Stripes",
+    "right": "Born in the U.S.A.",
+    "wrong": [
+     "Born to Run",
+     "The River",
+     "Nebraska"
+    ]
+   },
+   {
+    "q": "Mick Fleetwood and Stevie Nicks, with wooden balls hanging from his belt",
+    "right": "Rumours",
+    "wrong": [
+     "Tusk",
+     "Tango in the Night",
+     "Mirage"
+    ]
+   },
+   {
+    "q": "Racing greyhounds at a dog track",
+    "right": "Parklife",
+    "wrong": [
+     "The Great Escape",
+     "Modern Life Is Rubbish",
+     "Leisure"
+    ]
+   },
+   {
+    "q": "Two men passing on a busy Soho street",
+    "right": "(What's the Story) Morning Glory?",
+    "wrong": [
+     "Be Here Now",
+     "Heathen Chemistry",
+     "Dig Out Your Soul"
+    ]
+   },
+   {
+    "q": "The band lounging in a living room with a globe and a Burt Bacharach photo",
+    "right": "Definitely Maybe",
+    "wrong": [
+     "Be Here Now",
+     "Heathen Chemistry",
+     "Dig Out Your Soul"
+    ]
+   },
+   {
+    "q": "A man in a white suit lying beside a tiger cub",
+    "right": "Thriller",
+    "wrong": [
+     "Bad",
+     "Off the Wall",
+     "Dangerous"
+    ]
+   },
+   {
+    "q": "A singer on a purple motorbike",
+    "right": "Purple Rain",
+    "wrong": [
+     "1999",
+     "Sign o' the Times",
+     "Parade"
+    ]
+   },
+   {
+    "q": "White lines from a pulsar on a black background",
+    "right": "Unknown Pleasures",
+    "wrong": [
+     "Closer",
+     "Power, Corruption & Lies",
+     "Substance"
+    ]
+   },
+   {
+    "q": "A motorbike bursting out of a grave",
+    "right": "Bat Out of Hell",
+    "wrong": [
+     "Dead Ringer",
+     "Welcome to My Nightmare",
+     "Hysteria"
+    ]
+   },
+   {
+    "q": "A banana by Andy Warhol",
+    "right": "The Velvet Underground & Nico",
+    "wrong": [
+     "White Light/White Heat",
+     "Loaded",
+     "Transformer"
+    ]
+   },
+   {
+    "q": "Pink and yellow, with ransom-note lettering",
+    "right": "Never Mind the Bollocks",
+    "wrong": [
+     "Damned Damned Damned",
+     "Pink Flag",
+     "The Clash"
+    ]
+   },
+   {
+    "q": "A New York tenement with cut-out windows",
+    "right": "Physical Graffiti",
+    "wrong": [
+     "Houses of the Holy",
+     "Led Zeppelin IV",
+     "Presence"
+    ]
+   },
+   {
+    "q": "A face with a red and blue lightning bolt across it",
+    "right": "Aladdin Sane",
+    "wrong": [
+     "The Rise and Fall of Ziggy Stardust",
+     "Hunky Dory",
+     "Heroes"
+    ]
+   },
+   {
+    "q": "A cow standing in a field, and no words at all",
+    "right": "Atom Heart Mother",
+    "wrong": [
+     "Ummagumma",
+     "Obscured by Clouds",
+     "More"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which nursery rhyme is this line from?",
+  "target": 10,
+  "category": "Children's books",
+  "tags": [
+   "nursery rhymes",
+   "childhood"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Went up the hill to fetch a pail of water",
+    "right": "Jack and Jill",
+    "wrong": [
+     "Doctor Foster",
+     "Jack Sprat",
+     "Lucy Locket"
+    ]
+   },
+   {
+    "q": "Sat on a wall and had a great fall",
+    "right": "Humpty Dumpty",
+    "wrong": [
+     "Rock-a-bye Baby",
+     "Simple Simon",
+     "Goosey Goosey Gander"
+    ]
+   },
+   {
+    "q": "The cow jumped over the moon",
+    "right": "Hey Diddle Diddle",
+    "wrong": [
+     "Twinkle Twinkle Little Star",
+     "Wee Willie Winkie",
+     "Lavender's Blue"
+    ]
+   },
+   {
+    "q": "Three bags full",
+    "right": "Baa Baa Black Sheep",
+    "wrong": [
+     "Little Boy Blue",
+     "Goosey Goosey Gander",
+     "Lavender's Blue"
+    ]
+   },
+   {
+    "q": "Sat on a tuffet, eating her curds and whey",
+    "right": "Little Miss Muffet",
+    "wrong": [
+     "Lucy Locket",
+     "Polly Put the Kettle On",
+     "Pease Porridge Hot"
+    ]
+   },
+   {
+    "q": "Its fleece was white as snow",
+    "right": "Mary Had a Little Lamb",
+    "wrong": [
+     "Little Boy Blue",
+     "Lavender's Blue",
+     "Goosey Goosey Gander"
+    ]
+   },
+   {
+    "q": "The mouse ran up the clock",
+    "right": "Hickory Dickory Dock",
+    "wrong": [
+     "The Muffin Man",
+     "This Old Man",
+     "Wee Willie Winkie"
+    ]
+   },
+   {
+    "q": "Went to the cupboard to fetch her poor dog a bone",
+    "right": "Old Mother Hubbard",
+    "wrong": [
+     "There Was an Old Woman Who Lived in a Shoe",
+     "Polly Put the Kettle On",
+     "Lucy Locket"
+    ]
+   },
+   {
+    "q": "Sat in the corner eating his Christmas pie",
+    "right": "Little Jack Horner",
+    "wrong": [
+     "Little Tommy Tucker",
+     "Simple Simon",
+     "Jack Sprat"
+    ]
+   },
+   {
+    "q": "Four and twenty blackbirds baked in a pie",
+    "right": "Sing a Song of Sixpence",
+    "wrong": [
+     "Simple Simon",
+     "Hot Cross Buns",
+     "Little Tommy Tucker"
+    ]
+   },
+   {
+    "q": "The farmer's wife cut off their tails with a carving knife",
+    "right": "Three Blind Mice",
+    "wrong": [
+     "This Old Man",
+     "The Muffin Man",
+     "Rub-a-dub-dub"
+    ]
+   },
+   {
+    "q": "Kissed the girls and made them cry",
+    "right": "Georgie Porgie",
+    "wrong": [
+     "Bobby Shafto",
+     "Tom, Tom, the Piper's Son",
+     "Simple Simon"
+    ]
+   },
+   {
+    "q": "Has lost her sheep and doesn't know where to find them",
+    "right": "Little Bo Peep",
+    "wrong": [
+     "Little Boy Blue",
+     "Lucy Locket",
+     "Goosey Goosey Gander"
+    ]
+   },
+   {
+    "q": "A pocket full of posies; atishoo, atishoo",
+    "right": "Ring a Ring o' Roses",
+    "wrong": [
+     "Lavender's Blue",
+     "London Bridge Is Falling Down",
+     "Pat-a-Cake"
+    ]
+   },
+   {
+    "q": "He had ten thousand men and marched them up to the top of the hill",
+    "right": "The Grand Old Duke of York",
+    "wrong": [
+     "Tom, Tom, the Piper's Son",
+     "This Old Man",
+     "Bobby Shafto"
+    ]
+   },
+   {
+    "q": "Half a pound of tuppenny rice, half a pound of treacle",
+    "right": "Pop Goes the Weasel",
+    "wrong": [
+     "Pease Porridge Hot",
+     "Hot Cross Buns",
+     "Polly Put the Kettle On"
+    ]
+   },
+   {
+    "q": "Say the bells of St Clement's",
+    "right": "Oranges and Lemons",
+    "wrong": [
+     "London Bridge Is Falling Down",
+     "Lavender's Blue",
+     "Pat-a-Cake"
+    ]
+   },
+   {
+    "q": "Pussy's in the well",
+    "right": "Ding Dong Bell",
+    "wrong": [
+     "Pussy Cat, Pussy Cat",
+     "Doctor Foster",
+     "Ladybird Ladybird"
+    ]
+   },
+   {
+    "q": "A merry old soul, who called for his pipe and his bowl",
+    "right": "Old King Cole",
+    "wrong": [
+     "Simple Simon",
+     "Tom, Tom, the Piper's Son",
+     "The Muffin Man"
+    ]
+   },
+   {
+    "q": "Silver bells and cockle shells, and pretty maids all in a row",
+    "right": "Mary, Mary, Quite Contrary",
+    "wrong": [
+     "Lavender's Blue",
+     "Lucy Locket",
+     "Ladybird Ladybird"
+    ]
+   }
+  ]
+ }
+]
