@@ -1,0 +1,777 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which sport is this venue famous for?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "venues",
+   "sport"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The Ryōgoku Kokugikan, Tokyo",
+    "right": "Sumo wrestling",
+    "wrong": [
+     "Judo",
+     "Karate",
+     "Kendo"
+    ]
+   },
+   {
+    "q": "Lambeau Field",
+    "right": "American football",
+    "wrong": [
+     "Ice hockey",
+     "Basketball",
+     "Rugby league"
+    ]
+   },
+   {
+    "q": "Yankee Stadium",
+    "right": "Baseball",
+    "wrong": [
+     "Ice hockey",
+     "Basketball",
+     "Lacrosse"
+    ]
+   },
+   {
+    "q": "Holmenkollen",
+    "right": "Ski jumping",
+    "wrong": [
+     "Bobsleigh",
+     "Luge",
+     "Speed skating"
+    ]
+   },
+   {
+    "q": "Kitzbühel's Hahnenkamm",
+    "right": "Alpine skiing",
+    "wrong": [
+     "Bobsleigh",
+     "Luge",
+     "Speed skating"
+    ]
+   },
+   {
+    "q": "Hickstead",
+    "right": "Show jumping",
+    "wrong": [
+     "Greyhound racing",
+     "Speedway",
+     "Croquet"
+    ]
+   },
+   {
+    "q": "Badminton House",
+    "right": "Eventing",
+    "wrong": [
+     "Badminton",
+     "Croquet",
+     "Bowls"
+    ]
+   },
+   {
+    "q": "Cowdray Park",
+    "right": "Polo",
+    "wrong": [
+     "Croquet",
+     "Bowls",
+     "Lacrosse"
+    ]
+   },
+   {
+    "q": "Lee Valley VeloPark",
+    "right": "Track cycling",
+    "wrong": [
+     "Speedway",
+     "Athletics",
+     "Swimming"
+    ]
+   },
+   {
+    "q": "Alexandra Palace",
+    "right": "Darts",
+    "wrong": [
+     "Pool",
+     "Table tennis",
+     "Bowls"
+    ]
+   },
+   {
+    "q": "The Crucible",
+    "right": "Snooker",
+    "wrong": [
+     "Pool",
+     "Table tennis",
+     "Squash"
+    ]
+   },
+   {
+    "q": "Augusta National",
+    "right": "Golf",
+    "wrong": [
+     "Croquet",
+     "Bowls",
+     "Lacrosse"
+    ]
+   },
+   {
+    "q": "Lord's",
+    "right": "Cricket",
+    "wrong": [
+     "Croquet",
+     "Bowls",
+     "Rugby league"
+    ]
+   },
+   {
+    "q": "Wimbledon",
+    "right": "Tennis",
+    "wrong": [
+     "Squash",
+     "Badminton",
+     "Table tennis"
+    ]
+   },
+   {
+    "q": "Twickenham",
+    "right": "Rugby union",
+    "wrong": [
+     "Hockey",
+     "Lacrosse",
+     "Netball"
+    ]
+   },
+   {
+    "q": "Ascot",
+    "right": "Horse racing",
+    "wrong": [
+     "Greyhound racing",
+     "Speedway",
+     "Croquet"
+    ]
+   },
+   {
+    "q": "Henley",
+    "right": "Rowing",
+    "wrong": [
+     "Sailing",
+     "Swimming",
+     "Water polo"
+    ]
+   },
+   {
+    "q": "Silverstone",
+    "right": "Motor racing",
+    "wrong": [
+     "Speedway",
+     "Greyhound racing",
+     "Athletics"
+    ]
+   },
+   {
+    "q": "Lee Valley White Water Centre",
+    "right": "Canoe slalom",
+    "wrong": [
+     "Sailing",
+     "Swimming",
+     "Water polo"
+    ]
+   },
+   {
+    "q": "Hampden Park",
+    "right": "Football",
+    "wrong": [
+     "Rugby league",
+     "Hockey",
+     "Lacrosse"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country does this cartoon or comic character come from?",
+  "target": 10,
+  "category": "Film and TV",
+  "tags": [
+   "cartoons",
+   "comics",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Tintin",
+    "right": "Belgium",
+    "wrong": [
+     "Luxembourg",
+     "Austria",
+     "Canada"
+    ]
+   },
+   {
+    "q": "Asterix",
+    "right": "France",
+    "wrong": [
+     "Luxembourg",
+     "Spain",
+     "Canada"
+    ]
+   },
+   {
+    "q": "Astro Boy",
+    "right": "Japan",
+    "wrong": [
+     "China",
+     "Taiwan",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "The Moomins",
+    "right": "Finland",
+    "wrong": [
+     "Norway",
+     "Iceland",
+     "Estonia"
+    ]
+   },
+   {
+    "q": "Pippi Longstocking",
+    "right": "Sweden",
+    "wrong": [
+     "Norway",
+     "Iceland",
+     "Estonia"
+    ]
+   },
+   {
+    "q": "Mafalda",
+    "right": "Argentina",
+    "wrong": [
+     "Uruguay",
+     "Spain",
+     "Mexico"
+    ]
+   },
+   {
+    "q": "Peppa Pig",
+    "right": "the United Kingdom",
+    "wrong": [
+     "Ireland",
+     "Canada",
+     "New Zealand"
+    ]
+   },
+   {
+    "q": "Pingu",
+    "right": "Switzerland",
+    "wrong": [
+     "Austria",
+     "Norway",
+     "Canada"
+    ]
+   },
+   {
+    "q": "Maya the Bee",
+    "right": "Germany",
+    "wrong": [
+     "Austria",
+     "Hungary",
+     "Slovenia"
+    ]
+   },
+   {
+    "q": "Masha and the Bear",
+    "right": "Russia",
+    "wrong": [
+     "Ukraine",
+     "Belarus",
+     "Slovakia"
+    ]
+   },
+   {
+    "q": "Miffy",
+    "right": "the Netherlands",
+    "wrong": [
+     "Luxembourg",
+     "Norway",
+     "Austria"
+    ]
+   },
+   {
+    "q": "Bluey",
+    "right": "Australia",
+    "wrong": [
+     "New Zealand",
+     "Canada",
+     "Ireland"
+    ]
+   },
+   {
+    "q": "Rasmus Klump (Barnaby Bear)",
+    "right": "Denmark",
+    "wrong": [
+     "Norway",
+     "Iceland",
+     "Estonia"
+    ]
+   },
+   {
+    "q": "Popeye",
+    "right": "the USA",
+    "wrong": [
+     "Canada",
+     "Ireland",
+     "Mexico"
+    ]
+   },
+   {
+    "q": "Pororo the Little Penguin",
+    "right": "South Korea",
+    "wrong": [
+     "China",
+     "Taiwan",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "Chhota Bheem",
+    "right": "India",
+    "wrong": [
+     "Pakistan",
+     "Sri Lanka",
+     "Bangladesh"
+    ]
+   },
+   {
+    "q": "Bolek and Lolek",
+    "right": "Poland",
+    "wrong": [
+     "Ukraine",
+     "Slovakia",
+     "Hungary"
+    ]
+   },
+   {
+    "q": "Krtek, the Little Mole",
+    "right": "Czechia",
+    "wrong": [
+     "Slovakia",
+     "Slovenia",
+     "Hungary"
+    ]
+   },
+   {
+    "q": "La Linea",
+    "right": "Italy",
+    "wrong": [
+     "Spain",
+     "Greece",
+     "Croatia"
+    ]
+   },
+   {
+    "q": "Condorito",
+    "right": "Chile",
+    "wrong": [
+     "Peru",
+     "Uruguay",
+     "Colombia"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country does this sauce or condiment come from?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "sauces",
+   "condiments",
+   "countries"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Tabasco",
+    "right": "the USA",
+    "wrong": [
+     "Canada",
+     "Cuba",
+     "Trinidad and Tobago"
+    ]
+   },
+   {
+    "q": "Sriracha",
+    "right": "Thailand",
+    "wrong": [
+     "Vietnam",
+     "Malaysia",
+     "Cambodia"
+    ]
+   },
+   {
+    "q": "Harissa",
+    "right": "Tunisia",
+    "wrong": [
+     "Egypt",
+     "Lebanon",
+     "Turkey"
+    ]
+   },
+   {
+    "q": "Pesto",
+    "right": "Italy",
+    "wrong": [
+     "Malta",
+     "Portugal",
+     "Croatia"
+    ]
+   },
+   {
+    "q": "Chimichurri",
+    "right": "Argentina",
+    "wrong": [
+     "Brazil",
+     "Peru",
+     "Colombia"
+    ]
+   },
+   {
+    "q": "Gochujang",
+    "right": "South Korea",
+    "wrong": [
+     "Vietnam",
+     "Taiwan",
+     "Malaysia"
+    ]
+   },
+   {
+    "q": "Wasabi",
+    "right": "Japan",
+    "wrong": [
+     "Taiwan",
+     "Vietnam",
+     "Malaysia"
+    ]
+   },
+   {
+    "q": "Tzatziki",
+    "right": "Greece",
+    "wrong": [
+     "Lebanon",
+     "Malta",
+     "Portugal"
+    ]
+   },
+   {
+    "q": "HP Sauce",
+    "right": "the United Kingdom",
+    "wrong": [
+     "Ireland",
+     "Canada",
+     "New Zealand"
+    ]
+   },
+   {
+    "q": "Vegemite",
+    "right": "Australia",
+    "wrong": [
+     "New Zealand",
+     "Canada",
+     "Ireland"
+    ]
+   },
+   {
+    "q": "Mole",
+    "right": "Mexico",
+    "wrong": [
+     "Peru",
+     "Colombia",
+     "Cuba"
+    ]
+   },
+   {
+    "q": "Romesco",
+    "right": "Spain",
+    "wrong": [
+     "Portugal",
+     "Malta",
+     "Croatia"
+    ]
+   },
+   {
+    "q": "Béarnaise",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Switzerland",
+     "Germany"
+    ]
+   },
+   {
+    "q": "Tkemali",
+    "right": "Georgia",
+    "wrong": [
+     "Armenia",
+     "Azerbaijan",
+     "Turkey"
+    ]
+   },
+   {
+    "q": "Mango chutney",
+    "right": "India",
+    "wrong": [
+     "Pakistan",
+     "Sri Lanka",
+     "Bangladesh"
+    ]
+   },
+   {
+    "q": "Hoisin",
+    "right": "China",
+    "wrong": [
+     "Taiwan",
+     "Malaysia",
+     "Cambodia"
+    ]
+   },
+   {
+    "q": "Jerk seasoning",
+    "right": "Jamaica",
+    "wrong": [
+     "Trinidad and Tobago",
+     "Barbados",
+     "Cuba"
+    ]
+   },
+   {
+    "q": "Zhug",
+    "right": "Yemen",
+    "wrong": [
+     "Oman",
+     "Saudi Arabia",
+     "Ethiopia"
+    ]
+   },
+   {
+    "q": "Banana ketchup",
+    "right": "the Philippines",
+    "wrong": [
+     "Indonesia",
+     "Malaysia",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "Pebre",
+    "right": "Chile",
+    "wrong": [
+     "Peru",
+     "Colombia",
+     "Brazil"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what does this unit measure?",
+  "target": 10,
+  "category": "Science and nature",
+  "tags": [
+   "units",
+   "physics",
+   "measurement"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The newton",
+    "right": "Force",
+    "wrong": [
+     "Momentum",
+     "Acceleration",
+     "Density"
+    ]
+   },
+   {
+    "q": "The watt",
+    "right": "Power",
+    "wrong": [
+     "Momentum",
+     "Density",
+     "Torque"
+    ]
+   },
+   {
+    "q": "The volt",
+    "right": "Voltage",
+    "wrong": [
+     "Wavelength",
+     "Viscosity",
+     "Torque"
+    ]
+   },
+   {
+    "q": "The ampere",
+    "right": "Electric current",
+    "wrong": [
+     "Wavelength",
+     "Density",
+     "Humidity"
+    ]
+   },
+   {
+    "q": "The ohm",
+    "right": "Resistance",
+    "wrong": [
+     "Wavelength",
+     "Humidity",
+     "Acceleration"
+    ]
+   },
+   {
+    "q": "The kelvin",
+    "right": "Temperature",
+    "wrong": [
+     "Humidity",
+     "Altitude",
+     "Density"
+    ]
+   },
+   {
+    "q": "The joule",
+    "right": "Energy",
+    "wrong": [
+     "Momentum",
+     "Torque",
+     "Acceleration"
+    ]
+   },
+   {
+    "q": "The pascal",
+    "right": "Pressure",
+    "wrong": [
+     "Density",
+     "Viscosity",
+     "Humidity"
+    ]
+   },
+   {
+    "q": "The hertz",
+    "right": "Frequency",
+    "wrong": [
+     "Wavelength",
+     "Acceleration",
+     "Momentum"
+    ]
+   },
+   {
+    "q": "The tesla",
+    "right": "Magnetic field strength",
+    "wrong": [
+     "Momentum",
+     "Density",
+     "Wavelength"
+    ]
+   },
+   {
+    "q": "The coulomb",
+    "right": "Electric charge",
+    "wrong": [
+     "Viscosity",
+     "Humidity",
+     "Density"
+    ]
+   },
+   {
+    "q": "The farad",
+    "right": "Capacitance",
+    "wrong": [
+     "Viscosity",
+     "Humidity",
+     "Torque"
+    ]
+   },
+   {
+    "q": "The becquerel",
+    "right": "Radioactivity",
+    "wrong": [
+     "Humidity",
+     "Viscosity",
+     "Acceleration"
+    ]
+   },
+   {
+    "q": "The lumen",
+    "right": "Light output",
+    "wrong": [
+     "Wavelength",
+     "Humidity",
+     "Density"
+    ]
+   },
+   {
+    "q": "The decibel",
+    "right": "Loudness",
+    "wrong": [
+     "Wavelength",
+     "Humidity",
+     "Viscosity"
+    ]
+   },
+   {
+    "q": "The mole",
+    "right": "Amount of substance",
+    "wrong": [
+     "Density",
+     "Volume",
+     "Humidity"
+    ]
+   },
+   {
+    "q": "The knot",
+    "right": "Speed",
+    "wrong": [
+     "Altitude",
+     "Depth",
+     "Acceleration"
+    ]
+   },
+   {
+    "q": "The light year",
+    "right": "Distance",
+    "wrong": [
+     "Time",
+     "Brightness",
+     "Mass"
+    ]
+   },
+   {
+    "q": "The hectare",
+    "right": "Area",
+    "wrong": [
+     "Volume",
+     "Depth",
+     "Altitude"
+    ]
+   },
+   {
+    "q": "The carat",
+    "right": "Weight of gemstones",
+    "wrong": [
+     "Clarity",
+     "Hardness",
+     "Value"
+    ]
+   }
+  ]
+ }
+]
