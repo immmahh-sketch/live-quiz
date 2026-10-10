@@ -1,0 +1,297 @@
+[
+ {
+  "type": "club",
+  "text": "Lucy has 10 sweets and eats 4 of them. How many does she have left?",
+  "answers": [
+   "6",
+   "Six"
+  ],
+  "pct": 90,
+  "why": "10 − 4 = 6.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "sweets",
+   "taking away"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Spell GOD backwards. Which animal do you get?",
+  "answers": [
+   "Dog",
+   "A dog"
+  ],
+  "pct": 90,
+  "why": "G-O-D reversed is D-O-G.",
+  "difficulty": "easy",
+  "category": "Wordplay",
+  "tags": [
+   "backwards",
+   "animals"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Add 25 four times over. What's the total?",
+  "answers": [
+   "100",
+   "One hundred"
+  ],
+  "pct": 80,
+  "why": "25 × 4 = 100.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "adding"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Two squares and a triangle: how many sides do they have between them?",
+  "answers": [
+   "11",
+   "Eleven"
+  ],
+  "pct": 70,
+  "why": "4 + 4 + 3 = 11.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "shapes",
+   "sides"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "It's 3pm now. What time will it be ten hours from now?",
+  "answers": [
+   "1am",
+   "1 am",
+   "1 o'clock in the morning",
+   "01:00"
+  ],
+  "pct": 70,
+  "why": "3pm plus 9 hours is midnight, plus one more is 1am.",
+  "difficulty": "easy",
+  "category": "Logic",
+  "tags": [
+   "time",
+   "clocks"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Unscramble OTOMAT to find something red you can eat.",
+  "answers": [
+   "Tomato"
+  ],
+  "pct": 60,
+  "why": "O-T-O-M-A-T rearranges to TOMATO.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "anagrams",
+   "food"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Add a quarter of an hour to half an hour. How many minutes is that?",
+  "answers": [
+   "45",
+   "Forty-five"
+  ],
+  "pct": 60,
+  "why": "15 + 30 = 45.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "time"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which lasts longer: a hundred minutes, or an hour and a half?",
+  "answers": [
+   "100 minutes"
+  ],
+  "pct": 50,
+  "why": "An hour and a half is only 90 minutes.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "time",
+   "comparing"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A box of 6 eggs costs £1.20. How much is that per egg?",
+  "answers": [
+   "20p",
+   "20 pence",
+   "£0.20"
+  ],
+  "pct": 50,
+  "why": "£1.20 ÷ 6 = 20p.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "money",
+   "dividing"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Going backwards two at a time: Z, X, V, T. Which letter follows?",
+  "answers": [
+   "R"
+  ],
+  "pct": 40,
+  "why": "Z (y) X (w) V (u) T (s) R.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "patterns",
+   "alphabet"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Four friends meet, and every pair of them shakes hands once. How many shakes is that?",
+  "answers": [
+   "6",
+   "Six"
+  ],
+  "pct": 40,
+  "why": "Each of 4 shakes 3 hands, but that counts every shake twice: 12 ÷ 2 = 6.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "handshakes"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Work out fifteen per cent of two hundred.",
+  "answers": [
+   "30",
+   "Thirty"
+  ],
+  "pct": 30,
+  "why": "10% is 20 and 5% is 10, so 15% is 30.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "percentages"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What is the smallest three-digit number that's a perfect square?",
+  "answers": [
+   "100",
+   "One hundred"
+  ],
+  "pct": 30,
+  "why": "10 × 10 = 100; 9 × 9 is only 81.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "squares"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "In a calendar year, count the thirty-day months.",
+  "answers": [
+   "4",
+   "Four"
+  ],
+  "pct": 20,
+  "why": "April, June, September and November.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "calendar",
+   "months"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "In a whole day, how many times does a clock's minute hand point straight up at the 12?",
+  "answers": [
+   "24",
+   "Twenty-four"
+  ],
+  "pct": 20,
+  "why": "Once every hour, and there are 24 hours in a day.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "clocks"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Counting from 1 to 50, how many of the numbers have a 5 in them?",
+  "answers": [
+   "6",
+   "Six"
+  ],
+  "pct": 10,
+  "why": "5, 15, 25, 35, 45, and don't forget 50.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "digits"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What is 11 × 11 × 11?",
+  "answers": [
+   "1331",
+   "1,331"
+  ],
+  "pct": 10,
+  "why": "11 × 11 = 121, and 121 × 11 = 1,331.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "multiplying"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Gaps of 1, then 2, then 3, then 4: 1, 2, 4, 7, 11. What's after 11?",
+  "answers": [
+   "16",
+   "Sixteen"
+  ],
+  "pct": 5,
+  "why": "The gaps are 1, 2, 3, 4, so the next gap is 5: 11 + 5 = 16.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "patterns"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Join the midpoints of a triangle's three sides. How many triangles can you now count?",
+  "answers": [
+   "5",
+   "Five"
+  ],
+  "pct": 5,
+  "why": "Four small ones inside, plus the big one around them.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "shapes",
+   "triangles"
+  ]
+ }
+]
