@@ -1,0 +1,778 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which city hosts this football derby?",
+  "target": 10,
+  "category": "Football",
+  "tags": [
+   "derbies",
+   "football",
+   "cities"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The Old Firm",
+    "right": "Glasgow",
+    "wrong": [
+     "Dundee",
+     "Aberdeen",
+     "Paisley"
+    ]
+   },
+   {
+    "q": "Hearts v Hibs",
+    "right": "Edinburgh",
+    "wrong": [
+     "Dundee",
+     "Aberdeen",
+     "Perth"
+    ]
+   },
+   {
+    "q": "The Derby della Madonnina",
+    "right": "Milan",
+    "wrong": [
+     "Naples",
+     "Florence",
+     "Bologna"
+    ]
+   },
+   {
+    "q": "The Derby della Capitale",
+    "right": "Rome",
+    "wrong": [
+     "Naples",
+     "Florence",
+     "Verona"
+    ]
+   },
+   {
+    "q": "The Superclásico (Boca v River)",
+    "right": "Buenos Aires",
+    "wrong": [
+     "Montevideo",
+     "Rosario",
+     "Córdoba"
+    ]
+   },
+   {
+    "q": "The Intercontinental Derby",
+    "right": "Istanbul",
+    "wrong": [
+     "Ankara",
+     "Izmir",
+     "Bursa"
+    ]
+   },
+   {
+    "q": "The Eternal Derby (Red Star v Partizan)",
+    "right": "Belgrade",
+    "wrong": [
+     "Zagreb",
+     "Sofia",
+     "Split"
+    ]
+   },
+   {
+    "q": "The Steel City derby",
+    "right": "Sheffield",
+    "wrong": [
+     "Leeds",
+     "Bradford",
+     "Derby"
+    ]
+   },
+   {
+    "q": "The Second City derby",
+    "right": "Birmingham",
+    "wrong": [
+     "Coventry",
+     "Wolverhampton",
+     "Leicester"
+    ]
+   },
+   {
+    "q": "The Derby della Mole",
+    "right": "Turin",
+    "wrong": [
+     "Naples",
+     "Verona",
+     "Bologna"
+    ]
+   },
+   {
+    "q": "The Derby della Lanterna",
+    "right": "Genoa",
+    "wrong": [
+     "Naples",
+     "Florence",
+     "Verona"
+    ]
+   },
+   {
+    "q": "Benfica v Sporting",
+    "right": "Lisbon",
+    "wrong": [
+     "Porto",
+     "Braga",
+     "Coimbra"
+    ]
+   },
+   {
+    "q": "The Gran Derbi (Betis v Sevilla)",
+    "right": "Seville",
+    "wrong": [
+     "Madrid",
+     "Valencia",
+     "Barcelona"
+    ]
+   },
+   {
+    "q": "Al Ahly v Zamalek",
+    "right": "Cairo",
+    "wrong": [
+     "Alexandria",
+     "Casablanca",
+     "Tunis"
+    ]
+   },
+   {
+    "q": "Rapid v Austria",
+    "right": "Vienna",
+    "wrong": [
+     "Graz",
+     "Salzburg",
+     "Linz"
+    ]
+   },
+   {
+    "q": "HSV v St Pauli",
+    "right": "Hamburg",
+    "wrong": [
+     "Berlin",
+     "Munich",
+     "Bremen"
+    ]
+   },
+   {
+    "q": "Dinamo v Steaua (FCSB)",
+    "right": "Bucharest",
+    "wrong": [
+     "Cluj",
+     "Budapest",
+     "Sofia"
+    ]
+   },
+   {
+    "q": "The Fla-Flu (Flamengo v Fluminense)",
+    "right": "Rio de Janeiro",
+    "wrong": [
+     "Belo Horizonte",
+     "Porto Alegre",
+     "Brasília"
+    ]
+   },
+   {
+    "q": "Corinthians v Palmeiras",
+    "right": "São Paulo",
+    "wrong": [
+     "Santos",
+     "Belo Horizonte",
+     "Porto Alegre"
+    ]
+   },
+   {
+    "q": "The Potteries derby",
+    "right": "Stoke-on-Trent",
+    "wrong": [
+     "Crewe",
+     "Derby",
+     "Stafford"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's the biggest city in this US state?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "USA",
+   "cities",
+   "states"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Florida",
+    "right": "Jacksonville",
+    "wrong": [
+     "Miami",
+     "Orlando",
+     "Tampa"
+    ]
+   },
+   {
+    "q": "California",
+    "right": "Los Angeles",
+    "wrong": [
+     "San Diego",
+     "San Francisco",
+     "San Jose"
+    ]
+   },
+   {
+    "q": "Texas",
+    "right": "Houston",
+    "wrong": [
+     "Dallas",
+     "San Antonio",
+     "Austin"
+    ]
+   },
+   {
+    "q": "Illinois",
+    "right": "Chicago",
+    "wrong": [
+     "Springfield",
+     "Peoria",
+     "Rockford"
+    ]
+   },
+   {
+    "q": "Pennsylvania",
+    "right": "Philadelphia",
+    "wrong": [
+     "Pittsburgh",
+     "Harrisburg",
+     "Allentown"
+    ]
+   },
+   {
+    "q": "Ohio",
+    "right": "Columbus",
+    "wrong": [
+     "Cleveland",
+     "Cincinnati",
+     "Toledo"
+    ]
+   },
+   {
+    "q": "Georgia",
+    "right": "Atlanta",
+    "wrong": [
+     "Savannah",
+     "Augusta",
+     "Macon"
+    ]
+   },
+   {
+    "q": "Michigan",
+    "right": "Detroit",
+    "wrong": [
+     "Grand Rapids",
+     "Lansing",
+     "Ann Arbor"
+    ]
+   },
+   {
+    "q": "Washington",
+    "right": "Seattle",
+    "wrong": [
+     "Spokane",
+     "Tacoma",
+     "Olympia"
+    ]
+   },
+   {
+    "q": "Arizona",
+    "right": "Phoenix",
+    "wrong": [
+     "Tucson",
+     "Mesa",
+     "Scottsdale"
+    ]
+   },
+   {
+    "q": "Tennessee",
+    "right": "Nashville",
+    "wrong": [
+     "Memphis",
+     "Knoxville",
+     "Chattanooga"
+    ]
+   },
+   {
+    "q": "Missouri",
+    "right": "Kansas City",
+    "wrong": [
+     "St Louis",
+     "Springfield",
+     "Jefferson City"
+    ]
+   },
+   {
+    "q": "Kentucky",
+    "right": "Louisville",
+    "wrong": [
+     "Lexington",
+     "Frankfort",
+     "Bowling Green"
+    ]
+   },
+   {
+    "q": "Louisiana",
+    "right": "New Orleans",
+    "wrong": [
+     "Baton Rouge",
+     "Shreveport",
+     "Lafayette"
+    ]
+   },
+   {
+    "q": "Maryland",
+    "right": "Baltimore",
+    "wrong": [
+     "Annapolis",
+     "Frederick",
+     "Rockville"
+    ]
+   },
+   {
+    "q": "Wisconsin",
+    "right": "Milwaukee",
+    "wrong": [
+     "Madison",
+     "Green Bay",
+     "Kenosha"
+    ]
+   },
+   {
+    "q": "Nevada",
+    "right": "Las Vegas",
+    "wrong": [
+     "Reno",
+     "Carson City",
+     "Henderson"
+    ]
+   },
+   {
+    "q": "Oregon",
+    "right": "Portland",
+    "wrong": [
+     "Salem",
+     "Eugene",
+     "Bend"
+    ]
+   },
+   {
+    "q": "Alaska",
+    "right": "Anchorage",
+    "wrong": [
+     "Juneau",
+     "Fairbanks",
+     "Sitka"
+    ]
+   },
+   {
+    "q": "North Carolina",
+    "right": "Charlotte",
+    "wrong": [
+     "Raleigh",
+     "Greensboro",
+     "Durham"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country did this leader rule?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "leaders",
+   "20th century",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Fidel Castro",
+    "right": "Cuba",
+    "wrong": [
+     "Nicaragua",
+     "Venezuela",
+     "Panama"
+    ]
+   },
+   {
+    "q": "Mao Zedong",
+    "right": "China",
+    "wrong": [
+     "Taiwan",
+     "Mongolia",
+     "Laos"
+    ]
+   },
+   {
+    "q": "Josip Broz Tito",
+    "right": "Yugoslavia",
+    "wrong": [
+     "Albania",
+     "Bulgaria",
+     "Hungary"
+    ]
+   },
+   {
+    "q": "Francisco Franco",
+    "right": "Spain",
+    "wrong": [
+     "Greece",
+     "Hungary",
+     "Mexico"
+    ]
+   },
+   {
+    "q": "António Salazar",
+    "right": "Portugal",
+    "wrong": [
+     "Greece",
+     "Brazil",
+     "Mexico"
+    ]
+   },
+   {
+    "q": "Augusto Pinochet",
+    "right": "Chile",
+    "wrong": [
+     "Paraguay",
+     "Peru",
+     "Bolivia"
+    ]
+   },
+   {
+    "q": "Idi Amin",
+    "right": "Uganda",
+    "wrong": [
+     "Kenya",
+     "Tanzania",
+     "Sudan"
+    ]
+   },
+   {
+    "q": "Muammar Gaddafi",
+    "right": "Libya",
+    "wrong": [
+     "Algeria",
+     "Tunisia",
+     "Sudan"
+    ]
+   },
+   {
+    "q": "Saddam Hussein",
+    "right": "Iraq",
+    "wrong": [
+     "Syria",
+     "Iran",
+     "Jordan"
+    ]
+   },
+   {
+    "q": "Pol Pot",
+    "right": "Cambodia",
+    "wrong": [
+     "Laos",
+     "Thailand",
+     "Myanmar"
+    ]
+   },
+   {
+    "q": "Kim Il-sung",
+    "right": "North Korea",
+    "wrong": [
+     "South Korea",
+     "Mongolia",
+     "Laos"
+    ]
+   },
+   {
+    "q": "Robert Mugabe",
+    "right": "Zimbabwe",
+    "wrong": [
+     "Zambia",
+     "Mozambique",
+     "Kenya"
+    ]
+   },
+   {
+    "q": "Nicolae Ceaușescu",
+    "right": "Romania",
+    "wrong": [
+     "Bulgaria",
+     "Hungary",
+     "Albania"
+    ]
+   },
+   {
+    "q": "Benito Mussolini",
+    "right": "Italy",
+    "wrong": [
+     "Greece",
+     "Albania",
+     "Hungary"
+    ]
+   },
+   {
+    "q": "Juan Perón",
+    "right": "Argentina",
+    "wrong": [
+     "Paraguay",
+     "Bolivia",
+     "Uruguay"
+    ]
+   },
+   {
+    "q": "Suharto",
+    "right": "Indonesia",
+    "wrong": [
+     "Malaysia",
+     "Myanmar",
+     "Thailand"
+    ]
+   },
+   {
+    "q": "Ferdinand Marcos",
+    "right": "the Philippines",
+    "wrong": [
+     "Malaysia",
+     "Thailand",
+     "Taiwan"
+    ]
+   },
+   {
+    "q": "Gamal Abdel Nasser",
+    "right": "Egypt",
+    "wrong": [
+     "Sudan",
+     "Jordan",
+     "Algeria"
+    ]
+   },
+   {
+    "q": "Kemal Atatürk",
+    "right": "Turkey",
+    "wrong": [
+     "Greece",
+     "Iran",
+     "Syria"
+    ]
+   },
+   {
+    "q": "Ho Chi Minh",
+    "right": "Vietnam",
+    "wrong": [
+     "Laos",
+     "Thailand",
+     "Myanmar"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this tower or skyscraper in?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "towers",
+   "skyscrapers",
+   "landmarks"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The Burj Khalifa",
+    "right": "the UAE",
+    "wrong": [
+     "Qatar",
+     "Bahrain",
+     "Oman"
+    ]
+   },
+   {
+    "q": "The Petronas Towers",
+    "right": "Malaysia",
+    "wrong": [
+     "Singapore",
+     "Indonesia",
+     "Thailand"
+    ]
+   },
+   {
+    "q": "The CN Tower",
+    "right": "Canada",
+    "wrong": [
+     "Austria",
+     "Ireland",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "Taipei 101",
+    "right": "Taiwan",
+    "wrong": [
+     "Hong Kong",
+     "Singapore",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "The Shanghai Tower",
+    "right": "China",
+    "wrong": [
+     "Hong Kong",
+     "Singapore",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "The Skytree",
+    "right": "Japan",
+    "wrong": [
+     "Vietnam",
+     "Singapore",
+     "Thailand"
+    ]
+   },
+   {
+    "q": "The Lotte World Tower",
+    "right": "South Korea",
+    "wrong": [
+     "Vietnam",
+     "Thailand",
+     "Singapore"
+    ]
+   },
+   {
+    "q": "The Space Needle",
+    "right": "the USA",
+    "wrong": [
+     "Ireland",
+     "Denmark",
+     "Austria"
+    ]
+   },
+   {
+    "q": "Auckland's Sky Tower",
+    "right": "New Zealand",
+    "wrong": [
+     "Fiji",
+     "Singapore",
+     "Ireland"
+    ]
+   },
+   {
+    "q": "The Eureka Tower",
+    "right": "Australia",
+    "wrong": [
+     "Fiji",
+     "Singapore",
+     "Ireland"
+    ]
+   },
+   {
+    "q": "The Kingdom Centre",
+    "right": "Saudi Arabia",
+    "wrong": [
+     "Qatar",
+     "Bahrain",
+     "Oman"
+    ]
+   },
+   {
+    "q": "The Ostankino Tower",
+    "right": "Russia",
+    "wrong": [
+     "Ukraine",
+     "Belarus",
+     "Poland"
+    ]
+   },
+   {
+    "q": "The Galata Tower",
+    "right": "Turkey",
+    "wrong": [
+     "Greece",
+     "Cyprus",
+     "Bulgaria"
+    ]
+   },
+   {
+    "q": "The Torre Latinoamericana",
+    "right": "Mexico",
+    "wrong": [
+     "Spain",
+     "Argentina",
+     "Colombia"
+    ]
+   },
+   {
+    "q": "The Euromast",
+    "right": "the Netherlands",
+    "wrong": [
+     "Denmark",
+     "Ireland",
+     "Austria"
+    ]
+   },
+   {
+    "q": "The Fernsehturm",
+    "right": "Germany",
+    "wrong": [
+     "Austria",
+     "Switzerland",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "The Atomium",
+    "right": "Belgium",
+    "wrong": [
+     "Luxembourg",
+     "Switzerland",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "The Milad Tower",
+    "right": "Iran",
+    "wrong": [
+     "Iraq",
+     "Pakistan",
+     "Oman"
+    ]
+   },
+   {
+    "q": "The Gran Torre Santiago",
+    "right": "Chile",
+    "wrong": [
+     "Argentina",
+     "Peru",
+     "Colombia"
+    ]
+   },
+   {
+    "q": "The Eiffel Tower",
+    "right": "France",
+    "wrong": [
+     "Luxembourg",
+     "Switzerland",
+     "Austria"
+    ]
+   }
+  ]
+ }
+]
