@@ -1,0 +1,404 @@
+[
+ {
+  "type": "club",
+  "text": "Which word goes in front of 'flake', 'ball' and 'man' to make three new words?",
+  "answers": [
+   "Snow"
+  ],
+  "pct": 90,
+  "why": "Snowflake, snowball, snowman.",
+  "difficulty": "easy",
+  "category": "Wordplay",
+  "tags": [
+   "compound words"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "How many sides do three triangles and two squares have altogether?",
+  "answers": [
+   "17",
+   "Seventeen"
+  ],
+  "pct": 90,
+  "why": "3 × 3 = 9 and 2 × 4 = 8: 9 + 8 = 17.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "shapes"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "I double a number and add 6, and get 20. What was the number?",
+  "answers": [
+   "7",
+   "Seven"
+  ],
+  "pct": 80,
+  "why": "20 − 6 = 14, and half of 14 is 7.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "arithmetic"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A train leaves at 10:50 and the journey takes 1 hour 25 minutes. What time does it arrive?",
+  "answers": [
+   "12:15",
+   "Quarter past twelve",
+   "12.15"
+  ],
+  "pct": 80,
+  "why": "10:50 plus an hour is 11:50; 25 minutes more is 12:15.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "time"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "How many times does the letter E appear in the word SEVENTEEN?",
+  "answers": [
+   "4",
+   "Four"
+  ],
+  "pct": 70,
+  "why": "sEvEntEEn: four Es.",
+  "difficulty": "easy",
+  "category": "Wordplay",
+  "tags": [
+   "letters"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Ann is taller than Ben, Ben is taller than Cal, and Cal is taller than Dee. Who is the second shortest?",
+  "answers": [
+   "Cal"
+  ],
+  "pct": 70,
+  "why": "Shortest first: Dee, Cal, Ben, Ann.",
+  "difficulty": "easy",
+  "category": "Logic",
+  "tags": [
+   "ordering"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What do all six faces of an ordinary dice add up to?",
+  "answers": [
+   "21",
+   "Twenty-one"
+  ],
+  "pct": 70,
+  "why": "1 + 2 + 3 + 4 + 5 + 6 = 21.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "dice"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What number is missing: 3, 6, 12, 24, ___, 96?",
+  "answers": [
+   "48",
+   "Forty-eight"
+  ],
+  "pct": 70,
+  "why": "Each number doubles: 24 × 2 = 48, and 48 × 2 = 96.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "sequences"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "How many minutes are there in a quarter of a day?",
+  "answers": [
+   "360",
+   "Three hundred and sixty"
+  ],
+  "pct": 60,
+  "why": "A quarter of 24 hours is 6 hours, and 6 × 60 = 360.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "time"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Written as a word, which whole number from 1 to 20 has the most letters?",
+  "answers": [
+   "Seventeen",
+   "17"
+  ],
+  "pct": 60,
+  "why": "SEVENTEEN has nine letters; thirteen, fourteen, eighteen and nineteen have eight.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "numbers as words"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which capital city is hidden in this sentence: 'The parish rose to the challenge'?",
+  "answers": [
+   "Paris"
+  ],
+  "pct": 60,
+  "why": "PARISh hides PARIS.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "hidden words"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which country is hidden in this sentence: 'Each in a box goes to the post office'?",
+  "answers": [
+   "China"
+  ],
+  "pct": 50,
+  "why": "eaCH IN A hides CHINA.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "hidden words"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which colour is hidden in this sentence: 'The cab lacked a spare tyre'?",
+  "answers": [
+   "Black"
+  ],
+  "pct": 50,
+  "why": "caB LACKed hides BLACK.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "hidden words"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which farm animal is hidden in this sentence: 'Eric owed his friend a fiver'?",
+  "answers": [
+   "Cow"
+  ],
+  "pct": 50,
+  "why": "eriC OWed hides COW.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "hidden words"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What day comes three days after the day before Friday?",
+  "answers": [
+   "Sunday"
+  ],
+  "pct": 50,
+  "why": "The day before Friday is Thursday, and three days after Thursday is Sunday.",
+  "difficulty": "medium",
+  "category": "Logic",
+  "tags": [
+   "days"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which planet is hidden in this sentence: 'They paid their gym arsenal of fees'?",
+  "answers": [
+   "Mars"
+  ],
+  "pct": 40,
+  "why": "gyM ARSenal hides MARS.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "hidden words"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Counting both days, how many days are there from 1 July to 31 December?",
+  "answers": [
+   "184",
+   "One hundred and eighty-four"
+  ],
+  "pct": 40,
+  "why": "31 + 31 + 30 + 31 + 30 + 31 = 184, whatever the year.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "calendar"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What is the smallest four-digit number you can make using each of 3, 0, 7 and 1 once?",
+  "answers": [
+   "1037",
+   "1,037"
+  ],
+  "pct": 40,
+  "why": "It can't start with 0, so put 1 first, then 0, 3 and 7.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "digits"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What is the next number: 1, 8, 27, 64, ___?",
+  "answers": [
+   "125",
+   "One hundred and twenty-five"
+  ],
+  "pct": 30,
+  "why": "They are cubes: 1³, 2³, 3³, 4³, so next is 5³ = 125.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "sequences"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "How many letters of the alphabet come after the letter that comes after Q?",
+  "answers": [
+   "8",
+   "Eight"
+  ],
+  "pct": 30,
+  "why": "The letter after Q is R, and S to Z is eight letters.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "alphabet"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A week from yesterday will be Tuesday. What day is it today?",
+  "answers": [
+   "Wednesday"
+  ],
+  "pct": 30,
+  "why": "A week from yesterday is the same weekday as yesterday, so yesterday was Tuesday and today is Wednesday.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "days"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A six-pointed star is drawn as two overlapping triangles. How many triangles can you count in it altogether?",
+  "answers": [
+   "8",
+   "Eight"
+  ],
+  "pct": 20,
+  "why": "The two big triangles, plus the six small points: 8.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "shapes"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A brick weighs 1 kilogram plus half a brick. How much does a whole brick weigh?",
+  "answers": [
+   "2 kilograms",
+   "2kg",
+   "2 kg",
+   "2",
+   "Two kilograms"
+  ],
+  "pct": 20,
+  "why": "If 1 kg is the other half of the brick, the whole brick is 2 kg.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "weights"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Write the numbers one to ten as words. How many of them contain the letter E?",
+  "answers": [
+   "7",
+   "Seven"
+  ],
+  "pct": 20,
+  "why": "One, three, five, seven, eight, nine and ten: two, four and six don't.",
+  "difficulty": "hard",
+  "category": "Wordplay",
+  "tags": [
+   "numbers as words"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A digital clock shows 12:51. How many minutes until the four digits next read the same backwards?",
+  "answers": [
+   "40",
+   "Forty",
+   "40 minutes"
+  ],
+  "pct": 5,
+  "why": "The next time that reads the same both ways is 13:31, 40 minutes later.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "time",
+   "palindromes"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which five-letter word, written in capital letters, still reads the same when you turn the page upside down?",
+  "answers": [
+   "SWIMS",
+   "Swims"
+  ],
+  "pct": 5,
+  "why": "Turn SWIMS through 180 degrees and the S, W, I, M and S land back as SWIMS.",
+  "difficulty": "hard",
+  "category": "Wordplay",
+  "tags": [
+   "upside down"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Rearrange the letters of NEW DOOR to make just one word.",
+  "answers": [
+   "One word",
+   "ONE WORD"
+  ],
+  "pct": 1,
+  "why": "NEW DOOR is an anagram of ONE WORD, which is exactly what you were asked for.",
+  "difficulty": "hard",
+  "category": "Wordplay",
+  "tags": [
+   "anagrams"
+  ]
+ }
+]
