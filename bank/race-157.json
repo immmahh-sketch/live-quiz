@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this photography word?",
+  "target": 10,
+  "category": "Art",
+  "tags": [
+   "photography",
+   "cameras",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The curved glass at the front of the camera",
+    "right": "Lens",
+    "wrong": [
+     "Prism",
+     "Monocle",
+     "Pane"
+    ]
+   },
+   {
+    "q": "Snaps open and shut to let the light in",
+    "right": "Shutter",
+    "wrong": [
+     "Hatch",
+     "Valve",
+     "Lid"
+    ]
+   },
+   {
+    "q": "A burst of light for dark rooms",
+    "right": "Flash",
+    "wrong": [
+     "Glare",
+     "Beam",
+     "Spark"
+    ]
+   },
+   {
+    "q": "A three-legged camera stand",
+    "right": "Tripod",
+    "wrong": [
+     "Monopod",
+     "Easel",
+     "Lectern"
+    ]
+   },
+   {
+    "q": "A photo you take of yourself",
+    "right": "Selfie",
+    "wrong": [
+     "Snapshot",
+     "Mugshot",
+     "Headshot"
+    ]
+   },
+   {
+    "q": "The instant camera whose prints develop in your hand",
+    "right": "Polaroid",
+    "wrong": [
+     "Brownie",
+     "Box Brownie",
+     "Kodachrome"
+    ]
+   },
+   {
+    "q": "The film image with dark and light swapped round",
+    "right": "Negative",
+    "wrong": [
+     "Print",
+     "Proof",
+     "Slide"
+    ]
+   },
+   {
+    "q": "Where film is developed under a red light",
+    "right": "Darkroom",
+    "wrong": [
+     "Green room",
+     "Back room",
+     "Box room"
+    ]
+   },
+   {
+    "q": "The lens that brings faraway things closer",
+    "right": "Zoom",
+    "wrong": [
+     "Fisheye",
+     "Macro",
+     "Wide-angle"
+    ]
+   },
+   {
+    "q": "Glowing pupils caused by the flash",
+    "right": "Red-eye",
+    "wrong": [
+     "Pink eye",
+     "Black eye",
+     "Lazy eye"
+    ]
+   },
+   {
+    "q": "A very wide photo of a whole view",
+    "right": "Panorama",
+    "wrong": [
+     "Diorama",
+     "Collage",
+     "Montage"
+    ]
+   },
+   {
+    "q": "A tiny dot that makes up a digital image",
+    "right": "Pixel",
+    "wrong": [
+     "Grain",
+     "Speck",
+     "Byte"
+    ]
+   },
+   {
+    "q": "Making the picture sharp, not blurry",
+    "right": "Focus",
+    "wrong": [
+     "Contrast",
+     "Saturation",
+     "Filter"
+    ]
+   },
+   {
+    "q": "How much light reaches the film or sensor",
+    "right": "Exposure",
+    "wrong": [
+     "Contrast",
+     "Saturation",
+     "Sharpness"
+    ]
+   },
+   {
+    "q": "Popping up uninvited in someone else's picture",
+    "right": "Photobomb",
+    "wrong": [
+     "Photo finish",
+     "Photocopy",
+     "Photofit"
+    ]
+   },
+   {
+    "q": "The upright picture shape, taller than it's wide",
+    "right": "Portrait",
+    "wrong": [
+     "Square",
+     "Widescreen",
+     "Letterbox"
+    ]
+   },
+   {
+    "q": "The picture shape that's wider than it's tall",
+    "right": "Landscape",
+    "wrong": [
+     "Square",
+     "Upright",
+     "Letterbox"
+    ]
+   },
+   {
+    "q": "A darkened room that projects an image through a pinhole, centuries before film",
+    "right": "Camera obscura",
+    "wrong": [
+     "Magic lantern",
+     "Kaleidoscope",
+     "Periscope"
+    ]
+   },
+   {
+    "q": "Photographers who chase celebrities",
+    "right": "Paparazzi",
+    "wrong": [
+     "Pundits",
+     "Groupies",
+     "Roadies"
+    ]
+   },
+   {
+    "q": "Touching up a photo to hide the flaws",
+    "right": "Airbrush",
+    "wrong": [
+     "Watermark",
+     "Crop",
+     "Caption"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this knight word?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "knights",
+   "medieval",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A knight's young assistant, training to be a knight",
+    "right": "Squire",
+    "wrong": [
+     "Herald",
+     "Steward",
+     "Jester"
+    ]
+   },
+   {
+    "q": "A boy of about seven, just starting knight training",
+    "right": "Page",
+    "wrong": [
+     "Herald",
+     "Steward",
+     "Jester"
+    ]
+   },
+   {
+    "q": "Two knights charging at each other with lances",
+    "right": "Joust",
+    "wrong": [
+     "Fencing",
+     "Duel",
+     "Archery"
+    ]
+   },
+   {
+    "q": "The long pole a knight charges with",
+    "right": "Lance",
+    "wrong": [
+     "Pike",
+     "Halberd",
+     "Javelin"
+    ]
+   },
+   {
+    "q": "Armour made of linked metal rings",
+    "right": "Chain mail",
+    "wrong": [
+     "Plate armour",
+     "Brigandine",
+     "Gambeson"
+    ]
+   },
+   {
+    "q": "The hinged part of a helmet that covers the face",
+    "right": "Visor",
+    "wrong": [
+     "Gorget",
+     "Breastplate",
+     "Pauldron"
+    ]
+   },
+   {
+    "q": "An armoured glove",
+    "right": "Gauntlet",
+    "wrong": [
+     "Vambrace",
+     "Greave",
+     "Pauldron"
+    ]
+   },
+   {
+    "q": "The design on a knight's shield showing his family",
+    "right": "Coat of arms",
+    "wrong": [
+     "Family tree",
+     "Hallmark",
+     "Monogram"
+    ]
+   },
+   {
+    "q": "To make someone a knight with a tap of the sword",
+    "right": "Dub",
+    "wrong": [
+     "Crown",
+     "Anoint",
+     "Ordain"
+    ]
+   },
+   {
+    "q": "The knightly code of honour and good manners",
+    "right": "Chivalry",
+    "wrong": [
+     "Heraldry",
+     "Fealty",
+     "Piety"
+    ]
+   },
+   {
+    "q": "The system of land given in return for loyalty and service",
+    "right": "Feudalism",
+    "wrong": [
+     "Capitalism",
+     "Socialism",
+     "Monarchy"
+    ]
+   },
+   {
+    "q": "A peasant tied to the lord's land",
+    "right": "Serf",
+    "wrong": [
+     "Yeoman",
+     "Freeman",
+     "Burgher"
+    ]
+   },
+   {
+    "q": "The water-filled ditch around a castle",
+    "right": "Moat",
+    "wrong": [
+     "Motte",
+     "Bailey",
+     "Keep"
+    ]
+   },
+   {
+    "q": "Surrounding a castle to starve it out",
+    "right": "Siege",
+    "wrong": [
+     "Raid",
+     "Ambush",
+     "Skirmish"
+    ]
+   },
+   {
+    "q": "The giant catapult swung by a counterweight",
+    "right": "Trebuchet",
+    "wrong": [
+     "Ballista",
+     "Mangonel",
+     "Battering ram"
+    ]
+   },
+   {
+    "q": "A holy war fought over the Holy Land",
+    "right": "Crusade",
+    "wrong": [
+     "Pilgrimage",
+     "Odyssey",
+     "Exodus"
+    ]
+   },
+   {
+    "q": "King Arthur's sword",
+    "right": "Excalibur",
+    "wrong": [
+     "Durendal",
+     "Glamdring",
+     "Andúril"
+    ]
+   },
+   {
+    "q": "Where Arthur's knights sat as equals",
+    "right": "Round Table",
+    "wrong": [
+     "High Table",
+     "Top Table",
+     "Card table"
+    ]
+   },
+   {
+    "q": "In the old stories, the young woman in distress",
+    "right": "Damsel",
+    "wrong": [
+     "Wench",
+     "Dowager",
+     "Matron"
+    ]
+   },
+   {
+    "q": "A knight's horse, in poetic language",
+    "right": "Steed",
+    "wrong": [
+     "Mule",
+     "Donkey",
+     "Pony"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this navy word?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "Royal Navy",
+   "ships",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The highest naval rank",
+    "right": "Admiral",
+    "wrong": [
+     "Commodore",
+     "Commander",
+     "Captain"
+    ]
+   },
+   {
+    "q": "The warship that travels under the water",
+    "right": "Submarine",
+    "wrong": [
+     "Frigate",
+     "Corvette",
+     "Minesweeper"
+    ]
+   },
+   {
+    "q": "A floating airfield",
+    "right": "Aircraft carrier",
+    "wrong": [
+     "Frigate",
+     "Corvette",
+     "Tanker"
+    ]
+   },
+   {
+    "q": "The tube for seeing above the surface from a submarine",
+    "right": "Periscope",
+    "wrong": [
+     "Telescope",
+     "Kaleidoscope",
+     "Stethoscope"
+    ]
+   },
+   {
+    "q": "An underwater missile",
+    "right": "Torpedo",
+    "wrong": [
+     "Depth charge",
+     "Mortar",
+     "Grenade"
+    ]
+   },
+   {
+    "q": "The daily 'tot' sailors got until 1970",
+    "right": "Rum ration",
+    "wrong": [
+     "Ale ration",
+     "Gin ration",
+     "Brandy ration"
+    ]
+   },
+   {
+    "q": "The old nickname for a British sailor",
+    "right": "Jack Tar",
+    "wrong": [
+     "Tommy",
+     "Jerry",
+     "Yank"
+    ]
+   },
+   {
+    "q": "The flared trousers sailors wore",
+    "right": "Bell-bottoms",
+    "wrong": [
+     "Plus-fours",
+     "Jodhpurs",
+     "Drainpipes"
+    ]
+   },
+   {
+    "q": "The ship's kitchen",
+    "right": "Galley",
+    "wrong": [
+     "Pantry",
+     "Scullery",
+     "Larder"
+    ]
+   },
+   {
+    "q": "The ship's jail",
+    "right": "Brig",
+    "wrong": [
+     "Hold",
+     "Bilge",
+     "Hatch"
+    ]
+   },
+   {
+    "q": "The sailors' hanging bed",
+    "right": "Hammock",
+    "wrong": [
+     "Futon",
+     "Divan",
+     "Four-poster"
+    ]
+   },
+   {
+    "q": "Nelson's final battle, in 1805",
+    "right": "Trafalgar",
+    "wrong": [
+     "Jutland",
+     "Copenhagen",
+     "The Nile"
+    ]
+   },
+   {
+    "q": "Nelson's flagship, now kept at Portsmouth",
+    "right": "HMS Victory",
+    "wrong": [
+     "HMS Belfast",
+     "Cutty Sark",
+     "HMS Warrior"
+    ]
+   },
+   {
+    "q": "Henry VIII's warship, raised from the Solent in 1982",
+    "right": "Mary Rose",
+    "wrong": [
+     "Golden Hind",
+     "Endeavour",
+     "Beagle"
+    ]
+   },
+   {
+    "q": "The navy's commando soldiers",
+    "right": "Royal Marines",
+    "wrong": [
+     "Royal Engineers",
+     "Royal Signals",
+     "Paras"
+    ]
+   },
+   {
+    "q": "The 1906 battleship that made every other warship out of date",
+    "right": "Dreadnought",
+    "wrong": [
+     "Leviathan",
+     "Juggernaut",
+     "Behemoth"
+    ]
+   },
+   {
+    "q": "Merchant ships sailing together under naval escort",
+    "right": "Convoy",
+    "wrong": [
+     "Regatta",
+     "Armada",
+     "Cortège"
+    ]
+   },
+   {
+    "q": "Sailors rising up against their captain",
+    "right": "Mutiny",
+    "wrong": [
+     "Desertion",
+     "Treason",
+     "Sabotage"
+    ]
+   },
+   {
+    "q": "The ship of Captain Bligh's famous mutiny",
+    "right": "Bounty",
+    "wrong": [
+     "Endeavour",
+     "Beagle",
+     "Discovery"
+    ]
+   },
+   {
+    "q": "The professional head of the Royal Navy: First ___",
+    "right": "Sea Lord",
+    "wrong": [
+     "Mate",
+     "Officer",
+     "Lieutenant"
+    ]
+   }
+  ]
+ }
+]
