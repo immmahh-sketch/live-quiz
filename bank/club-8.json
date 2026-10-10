@@ -1,0 +1,272 @@
+[
+ {
+  "type": "club",
+  "text": "Sam pays for a £3.20 sandwich with a £5 note. How much change does he get?",
+  "answers": [
+   "£1.80",
+   "1.80",
+   "£1.80p"
+  ],
+  "pct": 80,
+  "why": "£5.00 − £3.20 = £1.80.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "money",
+   "change"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Count on two months from November. Which month do you land on?",
+  "answers": [
+   "January"
+  ],
+  "pct": 80,
+  "why": "November, December, January.",
+  "difficulty": "easy",
+  "category": "Logic",
+  "tags": [
+   "months",
+   "calendar"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which is longer: a metre or a yard?",
+  "answers": [
+   "A metre",
+   "Metre"
+  ],
+  "pct": 80,
+  "why": "A metre is about 39 inches; a yard is 36.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "measures"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What do you get if you double 45?",
+  "answers": [
+   "90",
+   "Ninety"
+  ],
+  "pct": 70,
+  "why": "45 + 45 = 90.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "doubling"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A sand timer runs for five minutes. How many seconds is that?",
+  "answers": [
+   "300",
+   "Three hundred"
+  ],
+  "pct": 70,
+  "why": "60 × 5 = 300.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "time"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Each number is a third of the one before: 81, 27, 9, 3. Which follows?",
+  "answers": [
+   "1",
+   "One"
+  ],
+  "pct": 60,
+  "why": "3 ÷ 3 = 1.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "patterns",
+   "dividing"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A recipe for 4 people needs 200g of flour. How much flour for 8 people?",
+  "answers": [
+   "400g",
+   "400",
+   "400 grams"
+  ],
+  "pct": 60,
+  "why": "Twice the people, twice the flour.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "cooking",
+   "ratios"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Three painters paint three fences in three hours. How long would six painters take to paint six fences?",
+  "answers": [
+   "3 hours",
+   "Three hours",
+   "3"
+  ],
+  "pct": 40,
+  "why": "Each painter does one fence in three hours, so twice the painters do twice the fences in the same time.",
+  "difficulty": "medium",
+  "category": "Logic",
+  "tags": [
+   "painters",
+   "rates"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A clock gains 2 minutes every hour. It's set right at noon. What does it show at 6pm real time?",
+  "answers": [
+   "6:12",
+   "12 minutes past 6",
+   "6.12",
+   "18:12"
+  ],
+  "pct": 30,
+  "why": "Six hours × 2 minutes = 12 minutes fast.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "clocks",
+   "time"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Work out: half of 2, plus 2.",
+  "answers": [
+   "3",
+   "Three"
+  ],
+  "pct": 30,
+  "why": "Half of 2 is 1, and 1 + 2 = 3.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "order of operations"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Someone born on 29 February 2000 has had how many real birthdays, on the 29th, from 2001 to 2024?",
+  "answers": [
+   "6",
+   "Six"
+  ],
+  "pct": 20,
+  "why": "2004, 2008, 2012, 2016, 2020 and 2024.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "leap years",
+   "birthdays"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Count the S's in MISSISSIPPI.",
+  "answers": [
+   "4",
+   "Four"
+  ],
+  "pct": 20,
+  "why": "M-I-S-S-I-S-S-I-P-P-I: two pairs of S.",
+  "difficulty": "hard",
+  "category": "Wordplay",
+  "tags": [
+   "spelling",
+   "letters"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What is 0.1 + 0.2 × 10?",
+  "answers": [
+   "2.1",
+   "2 point 1"
+  ],
+  "pct": 10,
+  "why": "Multiply first: 0.2 × 10 = 2, then add 0.1.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "order of operations"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A hunter walks a mile south, a mile east and a mile north, and ends up exactly where he started. He sees a bear. What colour is it?",
+  "answers": [
+   "White"
+  ],
+  "pct": 10,
+  "why": "Only at the North Pole does that walk bring you back: it's a polar bear.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "riddles",
+   "North Pole"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "These are all primes: 2, 3, 5, 7, 11, 13. Which prime comes after 13?",
+  "answers": [
+   "17",
+   "Seventeen"
+  ],
+  "pct": 5,
+  "why": "14, 15 and 16 all divide by something; 17 doesn't.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "prime numbers"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which is bigger: 3 squared or 2 cubed?",
+  "answers": [
+   "3 squared",
+   "3²",
+   "9",
+   "Three squared"
+  ],
+  "pct": 40,
+  "why": "3 × 3 = 9, while 2 × 2 × 2 = 8.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "powers"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "In the Tower of Hanoi puzzle with three discs, what is the fewest number of moves to shift the whole tower?",
+  "answers": [
+   "7",
+   "Seven"
+  ],
+  "pct": 1,
+  "why": "With n discs it takes 2ⁿ − 1 moves: 2³ − 1 = 7.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "puzzles",
+   "Tower of Hanoi"
+  ]
+ }
+]
