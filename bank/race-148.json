@@ -1,0 +1,583 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this pub word?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "pubs",
+   "drinks",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The bell rung shortly before closing, your final chance to buy",
+    "right": "Last orders",
+    "wrong": [
+     "Happy hour",
+     "Nightcap",
+     "Hair of the dog"
+    ]
+   },
+   {
+    "q": "Drinking on behind closed doors after hours",
+    "right": "Lock-in",
+    "wrong": [
+     "Happy hour",
+     "Open mic",
+     "Meat raffle"
+    ]
+   },
+   {
+    "q": "Buying drinks for the whole group, then it's someone else's turn",
+    "right": "Round",
+    "wrong": [
+     "Happy hour",
+     "Nightcap",
+     "Meat raffle"
+    ]
+   },
+   {
+    "q": "A small, cosy private room in a pub",
+    "right": "Snug",
+    "wrong": [
+     "Saloon",
+     "Cellar",
+     "Hatch"
+    ]
+   },
+   {
+    "q": "Everyone chips into a pot of money that pays for the drinks",
+    "right": "Kitty",
+    "wrong": [
+     "Meat raffle",
+     "Tombola",
+     "Happy hour"
+    ]
+   },
+   {
+    "q": "Beer mixed with lemonade",
+    "right": "Shandy",
+    "wrong": [
+     "Black velvet",
+     "Spritzer",
+     "Boilermaker"
+    ]
+   },
+   {
+    "q": "The upside-down bottle on the wall that measures out a shot",
+    "right": "Optic",
+    "wrong": [
+     "Swizzle stick",
+     "Ice bucket",
+     "Cocktail shaker"
+    ]
+   },
+   {
+    "q": "The outdoor seating area for summer pints",
+    "right": "Beer garden",
+    "wrong": [
+     "Cellar",
+     "Saloon",
+     "Skittle alley"
+    ]
+   },
+   {
+    "q": "The person who runs the pub",
+    "right": "Landlord",
+    "wrong": [
+     "Cellarman",
+     "Glass collector",
+     "Doorman"
+    ]
+   },
+   {
+    "q": "Teams with silly names answering questions on a weeknight",
+    "right": "Pub quiz",
+    "wrong": [
+     "Open mic",
+     "Karaoke",
+     "Meat raffle"
+    ]
+   },
+   {
+    "q": "Put a coin in and pick a song",
+    "right": "Jukebox",
+    "wrong": [
+     "Fruit machine",
+     "Dartboard",
+     "Cigarette machine"
+    ]
+   },
+   {
+    "q": "A little cardboard square to stand your pint on",
+    "right": "Beer mat",
+    "wrong": [
+     "Tankard",
+     "Swizzle stick",
+     "Ice bucket"
+    ]
+   },
+   {
+    "q": "A tall seat at the counter",
+    "right": "Bar stool",
+    "wrong": [
+     "Settle",
+     "Pew",
+     "Booth"
+    ]
+   },
+   {
+    "q": "A short drink knocked back after a pint",
+    "right": "Chaser",
+    "wrong": [
+     "Spritzer",
+     "Black velvet",
+     "Mixer"
+    ]
+   },
+   {
+    "q": "A pub not tied to any one brewery",
+    "right": "Free house",
+    "wrong": [
+     "Tied house",
+     "Brewery tap",
+     "Gastropub"
+    ]
+   },
+   {
+    "q": "Running up a bill to settle at the end of the night",
+    "right": "Tab",
+    "wrong": [
+     "Tombola",
+     "Meat raffle",
+     "Happy hour"
+    ]
+   },
+   {
+    "q": "Crunchy fried pig skin in a little packet",
+    "right": "Pork scratchings",
+    "wrong": [
+     "Scampi fries",
+     "Twiglets",
+     "Bombay mix"
+    ]
+   },
+   {
+    "q": "A smaller glass, half the size of a pint",
+    "right": "Half",
+    "wrong": [
+     "Tankard",
+     "Stein",
+     "Schooner"
+    ]
+   },
+   {
+    "q": "Lager with a splash of lemonade on top",
+    "right": "Lager top",
+    "wrong": [
+     "Black velvet",
+     "Spritzer",
+     "Boilermaker"
+    ]
+   },
+   {
+    "q": "Lager and cider mixed together",
+    "right": "Snakebite",
+    "wrong": [
+     "Black velvet",
+     "Spritzer",
+     "Boilermaker"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this pet word?",
+  "target": 10,
+  "category": "Animals",
+  "tags": [
+   "pets",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "A wooden home for a rabbit or guinea pig",
+    "right": "Hutch",
+    "wrong": [
+     "Coop",
+     "Sty",
+     "Byre"
+    ]
+   },
+   {
+    "q": "A little swinging door so the cat can come and go",
+    "right": "Cat flap",
+    "wrong": [
+     "Hatch",
+     "Trapdoor",
+     "Porthole"
+    ]
+   },
+   {
+    "q": "Where an indoor cat goes to the loo",
+    "right": "Litter tray",
+    "wrong": [
+     "Basket",
+     "Crate",
+     "Trough"
+    ]
+   },
+   {
+    "q": "A herb that sends cats a bit giddy",
+    "right": "Catnip",
+    "wrong": [
+     "Rosemary",
+     "Lavender",
+     "Thyme"
+    ]
+   },
+   {
+    "q": "A rope-wrapped pole for sharpening claws on",
+    "right": "Scratching post",
+    "wrong": [
+     "Perch",
+     "Chew toy",
+     "Trough"
+    ]
+   },
+   {
+    "q": "A dog's wooden house in the garden",
+    "right": "Kennel",
+    "wrong": [
+     "Coop",
+     "Sty",
+     "Byre"
+    ]
+   },
+   {
+    "q": "Clipped onto the collar for walkies",
+    "right": "Lead",
+    "wrong": [
+     "Muzzle",
+     "Rawhide",
+     "Tag"
+    ]
+   },
+   {
+    "q": "Worn round the neck, with a name tag on it",
+    "right": "Collar",
+    "wrong": [
+     "Muzzle",
+     "Harness",
+     "Rawhide"
+    ]
+   },
+   {
+    "q": "The animal doctor",
+    "right": "Vet",
+    "wrong": [
+     "Breeder",
+     "Kennel maid",
+     "Farrier"
+    ]
+   },
+   {
+    "q": "Lets your dog travel abroad with you",
+    "right": "Pet passport",
+    "wrong": [
+     "Pedigree certificate",
+     "Dog licence",
+     "Tag"
+    ]
+   },
+   {
+    "q": "Hung in a budgie's cage for it to peck at for calcium",
+    "right": "Cuttlefish bone",
+    "wrong": [
+     "Mirror",
+     "Bell",
+     "Perch"
+    ]
+   },
+   {
+    "q": "A glass tank of water for pet fish",
+    "right": "Aquarium",
+    "wrong": [
+     "Aviary",
+     "Coop",
+     "Run"
+    ]
+   },
+   {
+    "q": "A heated glass home for a pet lizard or snake",
+    "right": "Vivarium",
+    "wrong": [
+     "Aviary",
+     "Coop",
+     "Run"
+    ]
+   },
+   {
+    "q": "Dry, biscuit-like pellets of pet food",
+    "right": "Kibble",
+    "wrong": [
+     "Rawhide",
+     "Chew toy",
+     "Wormer"
+    ]
+   },
+   {
+    "q": "A tiny tag under the skin that identifies a lost pet",
+    "right": "Microchip",
+    "wrong": [
+     "Tag",
+     "Dog licence",
+     "Muzzle"
+    ]
+   },
+   {
+    "q": "Spins round as a little rodent runs all night",
+    "right": "Hamster wheel",
+    "wrong": [
+     "Chew toy",
+     "Perch",
+     "Bell"
+    ]
+   },
+   {
+    "q": "A round glass bowl for a fairground prize fish",
+    "right": "Goldfish bowl",
+    "wrong": [
+     "Aviary",
+     "Coop",
+     "Trough"
+    ]
+   },
+   {
+    "q": "Where you go to adopt an unwanted animal",
+    "right": "Rescue centre",
+    "wrong": [
+     "Kennel Club",
+     "Crufts",
+     "Breeder"
+    ]
+   },
+   {
+    "q": "The operation that stops a pet having babies",
+    "right": "Neutering",
+    "wrong": [
+     "Worming",
+     "Grooming",
+     "Vaccinating"
+    ]
+   },
+   {
+    "q": "Washes, clips and trims a dog's coat",
+    "right": "Groomer",
+    "wrong": [
+     "Breeder",
+     "Kennel maid",
+     "Farrier"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this computer word?",
+  "target": 10,
+  "category": "Computers and the internet",
+  "tags": [
+   "computers",
+   "technology",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "You slide it across the desk to move the pointer",
+    "right": "Mouse",
+    "wrong": [
+     "Stylus",
+     "Scanner",
+     "Projector"
+    ]
+   },
+   {
+    "q": "The screen you look at on a desktop computer",
+    "right": "Monitor",
+    "wrong": [
+     "Projector",
+     "Scanner",
+     "Graphics card"
+    ]
+   },
+   {
+    "q": "Puts your document onto paper",
+    "right": "Printer",
+    "wrong": [
+     "Scanner",
+     "Projector",
+     "Fan"
+    ]
+   },
+   {
+    "q": "A little plug-in stick for carrying files around",
+    "right": "USB stick",
+    "wrong": [
+     "Heat sink",
+     "Sound card",
+     "Power supply"
+    ]
+   },
+   {
+    "q": "Lets people see you on a video call",
+    "right": "Webcam",
+    "wrong": [
+     "Projector",
+     "Scanner",
+     "Joystick"
+    ]
+   },
+   {
+    "q": "The box that spreads Wi-Fi round the house",
+    "right": "Router",
+    "wrong": [
+     "Projector",
+     "Scanner",
+     "Power supply"
+    ]
+   },
+   {
+    "q": "Where all your files are stored for keeps",
+    "right": "Hard drive",
+    "wrong": [
+     "Cache",
+     "Fan",
+     "Heat sink"
+    ]
+   },
+   {
+    "q": "Short-term memory that's wiped when you switch off",
+    "right": "RAM",
+    "wrong": [
+     "Firmware",
+     "Driver",
+     "Heat sink"
+    ]
+   },
+   {
+    "q": "The 'brain' chip that does the thinking",
+    "right": "Processor",
+    "wrong": [
+     "Fan",
+     "Heat sink",
+     "Sound card"
+    ]
+   },
+   {
+    "q": "The main circuit board everything plugs into",
+    "right": "Motherboard",
+    "wrong": [
+     "Graphics card",
+     "Sound card",
+     "Power supply"
+    ]
+   },
+   {
+    "q": "A folding computer you can rest on your knees",
+    "right": "Laptop",
+    "wrong": [
+     "Projector",
+     "Scanner",
+     "Joystick"
+    ]
+   },
+   {
+    "q": "A flat touchscreen computer with no keyboard",
+    "right": "Tablet",
+    "wrong": [
+     "Projector",
+     "Scanner",
+     "Joystick"
+    ]
+   },
+   {
+    "q": "Plugs in to top up the battery",
+    "right": "Charger",
+    "wrong": [
+     "Dongle",
+     "Joystick",
+     "Stylus"
+    ]
+   },
+   {
+    "q": "One tiny dot of colour on the screen",
+    "right": "Pixel",
+    "wrong": [
+     "Icon",
+     "Widget",
+     "Cookie"
+    ]
+   },
+   {
+    "q": "Copying a file from the internet onto your device",
+    "right": "Download",
+    "wrong": [
+     "Driver",
+     "Firmware",
+     "Cache"
+    ]
+   },
+   {
+    "q": "Switching it off and on again",
+    "right": "Reboot",
+    "wrong": [
+     "Driver",
+     "Firmware",
+     "Cache"
+    ]
+   },
+   {
+    "q": "A moving picture that appears when you leave the computer alone",
+    "right": "Screensaver",
+    "wrong": [
+     "Taskbar",
+     "Widget",
+     "Folder"
+    ]
+   },
+   {
+    "q": "The flashing line that shows where you'll type",
+    "right": "Cursor",
+    "wrong": [
+     "Icon",
+     "Widget",
+     "Taskbar"
+    ]
+   },
+   {
+    "q": "The main screen with all your icons on it",
+    "right": "Desktop",
+    "wrong": [
+     "Taskbar",
+     "Folder",
+     "Widget"
+    ]
+   },
+   {
+    "q": "The touch-sensitive pad below a laptop's keyboard",
+    "right": "Trackpad",
+    "wrong": [
+     "Stylus",
+     "Joystick",
+     "Scanner"
+    ]
+   }
+  ]
+ }
+]
