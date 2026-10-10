@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this camping word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "camping",
+   "outdoors",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Cords pegged out to hold a tent taut",
+    "right": "Guy rope",
+    "wrong": [
+     "Carabiner",
+     "Gaiters",
+     "Pannier"
+    ]
+   },
+   {
+    "q": "Hammered into the ground to pin the tent down",
+    "right": "Tent peg",
+    "wrong": [
+     "Carabiner",
+     "Crampon",
+     "Ice axe"
+    ]
+   },
+   {
+    "q": "The waterproof layer under the tent floor",
+    "right": "Groundsheet",
+    "wrong": [
+     "Gaiters",
+     "Awning",
+     "Canopy"
+    ]
+   },
+   {
+    "q": "A zipped-up padded bed you crawl inside",
+    "right": "Sleeping bag",
+    "wrong": [
+     "Rucksack",
+     "Bum bag",
+     "Pannier"
+    ]
+   },
+   {
+    "q": "A metal pot hung over the fire to boil water",
+    "right": "Billy can",
+    "wrong": [
+     "Lantern",
+     "Compass",
+     "Whistle"
+    ]
+   },
+   {
+    "q": "Small dry twigs to get the fire going",
+    "right": "Kindling",
+    "wrong": [
+     "Charcoal",
+     "Compass",
+     "Gaiters"
+    ]
+   },
+   {
+    "q": "A tiny waterproof shelter just big enough for one sleeper",
+    "right": "Bivvy",
+    "wrong": [
+     "Gazebo",
+     "Awning",
+     "Canopy"
+    ]
+   },
+   {
+    "q": "Camping in luxury, with real beds and fairy lights",
+    "right": "Glamping",
+    "wrong": [
+     "Wild camping",
+     "Backpacking",
+     "Caravanning"
+    ]
+   },
+   {
+    "q": "A swinging bed slung between two trees",
+    "right": "Hammock",
+    "wrong": [
+     "Gazebo",
+     "Awning",
+     "Pannier"
+    ]
+   },
+   {
+    "q": "A light strapped to your forehead",
+    "right": "Head torch",
+    "wrong": [
+     "Lantern",
+     "Compass",
+     "Whistle"
+    ]
+   },
+   {
+    "q": "The outer waterproof skin of a tent",
+    "right": "Flysheet",
+    "wrong": [
+     "Awning",
+     "Canopy",
+     "Gaiters"
+    ]
+   },
+   {
+    "q": "Striped fabric on poles, staked into the sand on a breezy beach",
+    "right": "Windbreak",
+    "wrong": [
+     "Gazebo",
+     "Awning",
+     "Canopy"
+    ]
+   },
+   {
+    "q": "Keeps the drinks and sandwiches cold",
+    "right": "Cool box",
+    "wrong": [
+     "Pannier",
+     "Rucksack",
+     "Bum bag"
+    ]
+   },
+   {
+    "q": "A folding frame bed that keeps you off the ground",
+    "right": "Camp bed",
+    "wrong": [
+     "Gazebo",
+     "Pannier",
+     "Canopy"
+    ]
+   },
+   {
+    "q": "Springs into shape the moment it's out of the bag",
+    "right": "Pop-up tent",
+    "wrong": [
+     "Gazebo",
+     "Awning",
+     "Canopy"
+    ]
+   },
+   {
+    "q": "Where you toast marshmallows after dark",
+    "right": "Campfire",
+    "wrong": [
+     "Lantern",
+     "Compass",
+     "Gazebo"
+    ]
+   },
+   {
+    "q": "A rubber hammer for knocking in the pegs",
+    "right": "Mallet",
+    "wrong": [
+     "Crampon",
+     "Ice axe",
+     "Carabiner"
+    ]
+   },
+   {
+    "q": "A thin foam layer between you and the cold ground",
+    "right": "Roll mat",
+    "wrong": [
+     "Gaiters",
+     "Pannier",
+     "Canopy"
+    ]
+   },
+   {
+    "q": "A round canvas tent with a single centre pole, a glamping favourite",
+    "right": "Bell tent",
+    "wrong": [
+     "Gazebo",
+     "Awning",
+     "Marquee"
+    ]
+   },
+   {
+    "q": "What you do when you put a tent up",
+    "right": "Pitch",
+    "wrong": [
+     "Strike",
+     "Rig",
+     "Moor"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this ballet word?",
+  "target": 10,
+  "category": "Theatre",
+  "tags": [
+   "ballet",
+   "dance",
+   "words"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Bending the knees with the feet turned out",
+    "right": "Plié",
+    "wrong": [
+     "Glissade",
+     "Cabriole",
+     "Brisé"
+    ]
+   },
+   {
+    "q": "Spinning round on one leg",
+    "right": "Pirouette",
+    "wrong": [
+     "Glissade",
+     "Échappé",
+     "Sissonne"
+    ]
+   },
+   {
+    "q": "Standing on one leg with the other stretched out straight behind",
+    "right": "Arabesque",
+    "wrong": [
+     "Développé",
+     "Cabriole",
+     "Coupé"
+    ]
+   },
+   {
+    "q": "A dance for two, usually the star couple",
+    "right": "Pas de deux",
+    "wrong": [
+     "Pas de bourrée",
+     "Balancé",
+     "Brisé"
+    ]
+   },
+   {
+    "q": "The stiff, sticking-out skirt a ballerina wears",
+    "right": "Tutu",
+    "wrong": [
+     "Leg warmers",
+     "Unitard",
+     "Bodice"
+    ]
+   },
+   {
+    "q": "Satin shoes with stiffened toes for dancing on the very tips",
+    "right": "Pointe shoes",
+    "wrong": [
+     "Ghillies",
+     "Jazz shoes",
+     "Character shoes"
+    ]
+   },
+   {
+    "q": "The handrail dancers hold on to while they warm up",
+    "right": "Barre",
+    "wrong": [
+     "Ballon",
+     "Brisé",
+     "Coupé"
+    ]
+   },
+   {
+    "q": "The leading female dancer of a company",
+    "right": "Prima ballerina",
+    "wrong": [
+     "Soloist",
+     "Coryphée",
+     "Danseur"
+    ]
+   },
+   {
+    "q": "The ensemble dancers who perform as a group",
+    "right": "Corps de ballet",
+    "wrong": [
+     "Danseur noble",
+     "Soloist",
+     "Principal"
+    ]
+   },
+   {
+    "q": "A big leap with the legs flung out front and back, like the splits in mid-air",
+    "right": "Grand jeté",
+    "wrong": [
+     "Cabriole",
+     "Sissonne",
+     "Échappé"
+    ]
+   },
+   {
+    "q": "A jump where the feet beat together quickly in the air",
+    "right": "Entrechat",
+    "wrong": [
+     "Échappé",
+     "Glissade",
+     "Balancé"
+    ]
+   },
+   {
+    "q": "A turn where the working leg whips out, done 32 times in 'Swan Lake'",
+    "right": "Fouetté",
+    "wrong": [
+     "Glissade",
+     "Échappé",
+     "Balancé"
+    ]
+   },
+   {
+    "q": "Rising up onto the balls of the feet or the tips of the toes",
+    "right": "Relevé",
+    "wrong": [
+     "Glissade",
+     "Ballon",
+     "Coupé"
+    ]
+   },
+   {
+    "q": "The person who creates the dance steps",
+    "right": "Choreographer",
+    "wrong": [
+     "Répétiteur",
+     "Accompanist",
+     "Dresser"
+    ]
+   },
+   {
+    "q": "Graceful carriage and movement of the arms",
+    "right": "Port de bras",
+    "wrong": [
+     "Rond de jambe",
+     "Battement",
+     "Frappé"
+    ]
+   },
+   {
+    "q": "A gliding step where one foot 'chases' the other",
+    "right": "Chassé",
+    "wrong": [
+     "Battement",
+     "Frappé",
+     "Brisé"
+    ]
+   },
+   {
+    "q": "Stretching the foot along the floor until only the toe touches",
+    "right": "Tendu",
+    "wrong": [
+     "Frappé",
+     "Rond de jambe",
+     "Coupé"
+    ]
+   },
+   {
+    "q": "The 'step of the cat': a sideways jump with both knees drawn up",
+    "right": "Pas de chat",
+    "wrong": [
+     "Pas de bourrée",
+     "Balancé",
+     "Brisé"
+    ]
+   },
+   {
+    "q": "A stretchy one-piece worn for practice, named after a French acrobat",
+    "right": "Leotard",
+    "wrong": [
+     "Leg warmers",
+     "Bodice",
+     "Tabard"
+    ]
+   },
+   {
+    "q": "Fixing your eyes on one point so you don't get dizzy while turning",
+    "right": "Spotting",
+    "wrong": [
+     "Ballon",
+     "Balancé",
+     "Coupé"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this office word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "office",
+   "work",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Joins sheets of paper with a little metal clip it punches through",
+    "right": "Stapler",
+    "wrong": [
+     "Laminator",
+     "Guillotine",
+     "Franking machine"
+    ]
+   },
+   {
+    "q": "Makes two holes so paper fits in a ring binder",
+    "right": "Hole punch",
+    "wrong": [
+     "Laminator",
+     "Guillotine",
+     "Shredder"
+    ]
+   },
+   {
+    "q": "Makes copies of a page, and often jams",
+    "right": "Photocopier",
+    "wrong": [
+     "Laminator",
+     "Shredder",
+     "Franking machine"
+    ]
+   },
+   {
+    "q": "Metal drawers full of hanging folders",
+    "right": "Filing cabinet",
+    "wrong": [
+     "Pigeonhole",
+     "Desk tidy",
+     "Flip chart"
+    ]
+   },
+   {
+    "q": "Where new work lands on your desk",
+    "right": "In-tray",
+    "wrong": [
+     "Out-tray",
+     "Pigeonhole",
+     "Desk tidy"
+    ]
+   },
+   {
+    "q": "A small sticky square for a quick reminder",
+    "right": "Post-it note",
+    "wrong": [
+     "Treasury tag",
+     "Bulldog clip",
+     "Rolodex"
+    ]
+   },
+   {
+    "q": "A bent loop of wire that holds a few sheets together",
+    "right": "Paper clip",
+    "wrong": [
+     "Treasury tag",
+     "Rolodex",
+     "Letter opener"
+    ]
+   },
+   {
+    "q": "Sitting wherever's free instead of having your own place",
+    "right": "Hot desk",
+    "wrong": [
+     "Pigeonhole",
+     "Desk tidy",
+     "Secondment"
+    ]
+   },
+   {
+    "q": "Spins round and rolls about on wheels",
+    "right": "Swivel chair",
+    "wrong": [
+     "Flip chart",
+     "Whiteboard",
+     "Desk tidy"
+    ]
+   },
+   {
+    "q": "Where office gossip happens over a paper cup",
+    "right": "Water cooler",
+    "wrong": [
+     "Franking machine",
+     "Shredder",
+     "Laminator"
+    ]
+   },
+   {
+    "q": "Your yearly review with the boss",
+    "right": "Appraisal",
+    "wrong": [
+     "Secondment",
+     "Duvet day",
+     "Clock in"
+    ]
+   },
+   {
+    "q": "The whole team goes off-site for workshops and team-building",
+    "right": "Away day",
+    "wrong": [
+     "Duvet day",
+     "Casual Friday",
+     "Secondment"
+    ]
+   },
+   {
+    "q": "The written record of what was said in a meeting",
+    "right": "Minutes",
+    "wrong": [
+     "Reply all",
+     "Blind copy",
+     "Payslip"
+    ]
+   },
+   {
+    "q": "The list of what a meeting will cover",
+    "right": "Agenda",
+    "wrong": [
+     "Reply all",
+     "Blind copy",
+     "Payslip"
+    ]
+   },
+   {
+    "q": "A short internal note sent round the office",
+    "right": "Memo",
+    "wrong": [
+     "Payslip",
+     "P45",
+     "Sick note"
+    ]
+   },
+   {
+    "q": "Rows and columns of numbers on screen, like Excel",
+    "right": "Spreadsheet",
+    "wrong": [
+     "Rolodex",
+     "Flip chart",
+     "Dictaphone"
+    ]
+   },
+   {
+    "q": "The cord round your neck that holds your pass",
+    "right": "Lanyard",
+    "wrong": [
+     "Treasury tag",
+     "Bulldog clip",
+     "Rolodex"
+    ]
+   },
+   {
+    "q": "Choosing your own start and finish times around core hours",
+    "right": "Flexitime",
+    "wrong": [
+     "Clock in",
+     "Casual Friday",
+     "Duvet day"
+    ]
+   },
+   {
+    "q": "Your paid holiday days for the year",
+    "right": "Annual leave",
+    "wrong": [
+     "Secondment",
+     "Casual Friday",
+     "Clock in"
+    ]
+   },
+   {
+    "q": "The weeks you must keep working after handing in your resignation",
+    "right": "Notice period",
+    "wrong": [
+     "Secondment",
+     "Probation",
+     "Casual Friday"
+    ]
+   }
+  ]
+ }
+]
