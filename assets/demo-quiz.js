@@ -356,6 +356,24 @@ window.DEMO_SAMPLES = {
   "category": "General knowledge",
   "difficulty": "easy"
  },
+ "conundrum": {
+  "id": "q_cn000001",
+  "type": "text",
+  "kind": "conundrum",
+  "text": "Countdown Conundrum",
+  "letters": "GNAPECHAM",
+  "answers": [
+   "CHAMPAGNE"
+  ],
+  "ai": false,
+  "time": 30,
+  "media": {
+   "kind": "none"
+  },
+  "partial": false,
+  "category": "Countdown Conundrum",
+  "difficulty": "easy"
+ },
  "dingbat": {
   "ai": true,
   "id": "q_ea370ae5",
@@ -1804,7 +1822,7 @@ window.DEMO_TYPES = [
   ['choice', 'Multiple choice', '◆'], ['text', 'Type the answer', '✎'], ['tf', 'True or false', '✓✗'], ['order', 'Put in order', '↕'],
   ['sort', 'Categorise', '🗂'], ['match', 'Match up', '⇄'], ['pin', 'Drop the pin', '📍'], ['highlow', 'Highbrow Lowbrow', '🎓'],
   ['smash', 'Answer Smash', '🔀'], ['rhyme', 'Rhyme Time', '🎤'], ['wheel', 'Wheel of Fortune', '🎡'], ['club', 'The 1% Club', '🧠'],
-  ['dingbat', 'Dingbats', '🔤'], ['tune', 'Name That Tune', '🎵'], ['catchphrase', 'Catchphrase', '🗯️'], ['nearest', 'Nearest Wins', '🎯'],
+  ['dingbat', 'Dingbats', '🔤'], ['conundrum', 'Countdown Conundrum', '🔠'], ['tune', 'Name That Tune', '🎵'], ['catchphrase', 'Catchphrase', '🗯️'], ['nearest', 'Nearest Wins', '🎯'],
   ['wipeout', 'Wipeout', '💥'], ['race', 'The Race', '🏁'], ['potato', 'Hot Potato', '💣'], ['koth', 'King of the Hill', '👑'],
   ['chase', 'The Chase', '🏃'], ['blockbusters', 'Blockbusters', '⬢'], ['draw', 'Draw It', '🎨'], ['twenty', '20 Questions', '🕵️'],
 ];

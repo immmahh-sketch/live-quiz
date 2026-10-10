@@ -73,6 +73,7 @@ window.LQ = (() => {
     club:   { label: 'The 1% Club',    icon: '🧠', blurb: 'Logic, wordplay and lateral thinking. No knowledge needed, just work it out. The fewer people who get it, the more it pays.' },
     dingbat:{ label: 'Dingbats',        icon: '🔤', blurb: 'Say what you see: a well-known phrase hidden in how the words are laid out.' },
     catchphrase: { label: 'Catchphrase', icon: '🗯️', blurb: 'A clip from the show plays on the screen. Players type the well-known phrase it shows.' },
+    conundrum: { label: 'Countdown Conundrum', icon: '🔠', blurb: 'Nine scrambled letters on the screen and 30 seconds on the clock. Players type the nine-letter word on their phones: spelt exactly right, and the quicker the better.' },
     unique: { label: 'Only One', icon: '☝️', blurb: 'Everyone answers the same prompt ("Name a pizza topping"). Be the only one to say it: match anyone and you are both out. The host can kick an answer that does not count. Last one standing wins.' },
     survey: { label: 'Family Fortunes', icon: '👪', blurb: '"We asked the room…": everyone types an answer, and you score by matching everyone else. The more players who said what you said, the more you score.' },
     reveal: { label: 'Picture Reveal', icon: '🧩', blurb: 'A picture hidden behind tiles that flip over one by one. Players type who or what it is: the fewer tiles it takes, the more they score.' },
@@ -567,6 +568,7 @@ window.LQ = (() => {
     club: 'No knowledge needed, just logic. The fewer people who get it, the more it is worth.',
     dingbat: 'Say what you see: a well-known phrase hidden in how the words are laid out.',
     catchphrase: 'Watch the clip and say what you see: type the well-known saying it shows.',
+    conundrum: 'Nine scrambled letters make one word. Unscramble them and type it on your phone before the 30 seconds run out. It must be spelt exactly right, and the quicker you are, the more you score.',
     unique: 'Everyone answers the same prompt. Be the ONLY one to say it: if anyone else gives the same answer, you are both out. It has to be a real answer, or the host will kick you! Last one standing wins.',
     survey: 'We asked the room! Type the first answer that comes to mind. The more people who say the same as you, the more you score. A lonely answer scores nothing.',
     reveal: 'A picture is hidden behind tiles that flip over one by one. Type who or what it is on your phone: the sooner you get it, the more you score.',
@@ -647,7 +649,7 @@ window.LQ = (() => {
     return b;
   }
   try { setBrand(document.documentElement.dataset.brand || 'lq'); } catch {}
-  const DEFAULT_TIMES = { nearest: 25, draw: 60, catchphrase: 50, reveal: 40, survey: 30, unique: 25, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30, potato: 90, koth: 15, blockbusters: 20, chase: 15, twenty: 180, cards: 12, task: 120, about: 45, whosaid: 20 };
+  const DEFAULT_TIMES = { nearest: 25, draw: 60, catchphrase: 50, conundrum: 30, reveal: 40, survey: 30, unique: 25, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, tune: 30, potato: 90, koth: 15, blockbusters: 20, chase: 15, twenty: 180, cards: 12, task: 120, about: 45, whosaid: 20 };
   const DEFAULT_SETTINGS = { maxPoints: 1000, minPoints: 500, defaultTime: 30, showAnswersOnPhones: true, timeByType: { ...DEFAULT_TIMES } };
 
   /** The time limit a question of this type gets by default in this quiz. */
@@ -717,6 +719,7 @@ window.LQ = (() => {
     if (type === 'unique') return { id: uid('q'), type: 'unique', text: 'Only One', prompts: [{ p: 'Name a sign of the zodiac', a: ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'] }, { p: 'Name a planet or dwarf planet in our Solar System', a: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'Ceres', 'Eris', 'Haumea', 'Makemake'] }, { p: 'Name a London Underground line', a: ['Bakerloo', 'Central', 'Circle', 'District', 'Hammersmith & City/Hammersmith and City', 'Jubilee', 'Metropolitan', 'Northern', 'Piccadilly', 'Victoria', 'Waterloo & City/Waterloo and City', 'Elizabeth'] }], perRound: 100, prize: 1000, time: timeFor('unique', settings), media: { kind: 'none' }, partial: false };
     if (type === 'survey') { const c = newQuestion('text', settings); c.kind = 'survey'; c.text = 'We asked the room: name something…'; c.answers = ['']; c.ai = false; c.time = timeFor('survey', settings); return c; }
     if (type === 'reveal') { const c = newQuestion('text', settings); c.kind = 'reveal'; c.text = 'Picture Reveal: who is this?'; c.media = { kind: 'image', url: '' }; c.tiles = 16; c.time = timeFor('reveal', settings); return c; }
+    if (type === 'conundrum') { const c = newQuestion('text', settings); c.kind = 'conundrum'; c.text = 'Countdown Conundrum'; c.letters = ''; c.ai = false; c.time = timeFor('conundrum', settings); return c; }
     if (type === 'catchphrase') { const c = newQuestion('text', settings); c.kind = 'catchphrase'; c.text = 'Catchphrase: say what you see'; c.media = { kind: 'youtube', url: '', videoId: '', start: 0 }; c.time = timeFor('catchphrase', settings); return c; }
     const q = { id: uid('q'), type, text: '', time: timeFor(type, settings), media: { kind: 'none' }, partial: false };
     if (type === 'choice') { q.options = [0, 1, 2, 3].map(() => ({ id: uid('o'), text: '' })); q.correct = q.options[0].id; }
@@ -836,6 +839,13 @@ window.LQ = (() => {
       if (!(q.media?.kind === 'audio' && q.media.url)) problems.push('Needs a clip: search for the song.');
       if (!(q.answers || []).some((a) => String(a).trim())) problems.push('Needs the answer.');
       if (q.ask === 'year' && !/^\d{4}$/.test(String(q.answers?.[0] || '').trim())) problems.push('The year needs four digits.');
+    }
+    if (q.kind === 'conundrum') {
+      const w = conundrumWord(q.answers?.[0]), l = conundrumWord(q.letters);
+      if (!w) problems.push('Needs the word.');
+      else if (!l) problems.push('Needs the scrambled letters (press Shuffle).');
+      else if (!sameLetters(w, l)) problems.push('The scrambled letters must use exactly the letters of the word.');
+      else if (l === w) problems.push('The letters are not scrambled yet.');
     }
     if (q.type === 'dingbat') {
       if (!(q.answers || []).some((a) => a.trim())) problems.push('Needs the phrase it stands for.');
@@ -1062,6 +1072,29 @@ window.LQ = (() => {
     }).join('')}</div>`;
   }
 
+  // ---------------------------------------------------------------- Countdown Conundrum
+  /** A word or letters as plain capitals, nothing else: " ab-c " → "ABC". */
+  function conundrumWord(s) { return String(s || '').toUpperCase().replace(/[^A-Z]/g, ''); }
+  /** True when two strings use exactly the same letters. */
+  function sameLetters(a, b) { const k = (x) => conundrumWord(x).split('').sort().join(''); return !!k(a) && k(a) === k(b); }
+  /** Scrambles a word so it is never left as the word itself (and, where the word allows, no letter stays in place). */
+  function scrambleWord(word) {
+    const w = conundrumWord(word); if (w.length < 2 || new Set(w).size < 2) return w;
+    let best = w, bestFixed = Infinity;
+    for (let tries = 0; tries < 200; tries++) {
+      const a = w.split(''); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+      const s = a.join(''); if (s === w) continue;
+      const fixed = a.filter((c, i) => c === w[i]).length;
+      if (fixed < bestFixed) { best = s; bestFixed = fixed; } if (!fixed) break;
+    }
+    return best;
+  }
+  /** Countdown-style letter tiles. Pass the scrambled letters (or the word, at the reveal). */
+  function conundrumHtml(letters, cls = '') {
+    const l = conundrumWord(letters);
+    return `<div class="conun ${cls}" style="--n:${Math.max(1, l.length)}">${l.split('').map((c) => `<span class="cn-tile">${c}</span>`).join('')}</div>`;
+  }
+
   // ---------------------------------------------------------------- AI usage and a rough cost
   // List prices in US dollars per million tokens (in, out); cache reads cost a tenth of input, cache writes a quarter more.
   // Edit here if the prices change. Web searches are priced per thousand.
@@ -1145,5 +1178,5 @@ window.LQ = (() => {
 
   return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
     GROUP_NAMES, groupSizes, BRANDS, brand, setBrand, TYPES, BANK_GAMES, NEW_GAME_DEFAULTS, cardNum, cardsOf, TWENTY_KINDS, TWENTY_QS, twentyQ, twentyBranch, twentyYes, twentyOpen, parseNum, nearestSpread, fmtNum, DRAW_WORDS, drawWords, drawHint, goodRows, BB_COLS, BB_ROWS, bbNeighbours, bbPath, bbBoardHtml, inkOn, SLIDE, BREAK, isPractice, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, pickContext, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
-    newCode, playUrl, shortPlayUrl, bbTeams, BB_TEAM_PAIRS, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml, addUsage, usageCost, usageSummary, AI_PRICES, TUNE_ASKS, tunePrompt, bigArt, cleanTitle };
+    newCode, playUrl, shortPlayUrl, bbTeams, BB_TEAM_PAIRS, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml, conundrumWord, sameLetters, scrambleWord, conundrumHtml, addUsage, usageCost, usageSummary, AI_PRICES, TUNE_ASKS, tunePrompt, bigArt, cleanTitle };
 })();

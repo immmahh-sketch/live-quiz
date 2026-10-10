@@ -278,7 +278,8 @@ async function bankView(type, id, summary, after) {
   const li = (arr) => `<ol style="margin:4px 0 0 18px;padding:0">${arr.map((x) => `<li>${esc(x)}</li>`).join('')}</ol>`;
   const kv = (k, v) => v ? `<div style="margin-top:8px"><div class="muted small">${esc(k)}</div><div>${v}</div></div>` : '';
   let body = '';
-  if (q.type === 'choice') body = kv('Options', `<ul style="margin:4px 0 0 18px;padding:0">${(q.options || []).map((o) => `<li>${o.id === q.correct ? '<b>✓ ' + esc(o.text) + '</b>' : esc(o.text)}</li>`).join('')}</ul>`);
+  if (q.kind === 'conundrum') body = kv('Letters', LQ.conundrumHtml(q.letters)) + kv('Word', `<b>${esc((q.answers || [])[0] || '')}</b>`);
+  else if (q.type === 'choice') body = kv('Options', `<ul style="margin:4px 0 0 18px;padding:0">${(q.options || []).map((o) => `<li>${o.id === q.correct ? '<b>✓ ' + esc(o.text) + '</b>' : esc(o.text)}</li>`).join('')}</ul>`);
   else if (q.type === 'tf') body = kv('Answer', `<b>${q.answer ? 'True' : 'False'}</b>`) + kv('Why', esc(q.why || q.explain || ''));
   else if (q.type === 'order') body = kv('Right order', li((q.items || []).map((i) => i.text))) + kv('Hint', esc(q.hint || ''));
   else if (q.type === 'sort') body = kv('Categories', (q.categories || []).map((c) => `<div><b>${esc(c.name)}</b>: ${esc((q.items || []).filter((i) => i.category === c.id).map((i) => i.text).join(', '))}</div>`).join(''));
@@ -339,6 +340,7 @@ function bankEdit(m, type, q, summary, after) {
   else if (t === 'wipeout') f = qtext + area('right', 'Right answers, one per line', lines((q.right || []).map((i) => i.text)), 6) + area('wrong', 'Wipeouts (wrong answers), one per line', lines((q.wrong || []).map((i) => i.text)), 5);
   else if (t === 'race') f = qtext + area('bank', 'Questions, one per line: question | right answer | wrong | wrong | wrong', lines((q.bank || []).map((b) => [b.text, ...(b.options || [])].join(' | '))), 8);
   else if (t === 'dingbat') f = answers + note('The picture puzzle itself stays as it is.');
+  else if (t === 'conundrum') f = answers + note('Change the word and the letters are shuffled again when you save.');
   else f = qtext + answers;
   $('.modal', m).innerHTML = `<h3>✏️ Edit: ${TYPES[type].icon} ${esc(TYPES[type].label)}</h3>${q.used?.note ? `<p class="muted small" style="margin:0">Note: ${esc(q.used.note)}</p>` : ''}${f}
     ${q.used ? `<label class="row" style="gap:8px;margin-top:12px;flex-wrap:nowrap"><input type="checkbox" id="bk_fresh" ${q.used.rejected ? 'checked' : ''}><span>Put it back into stock as a fresh question</span></label>` : ''}
@@ -372,6 +374,7 @@ function bankEdit(m, type, q, summary, after) {
       else if (t === 'highlow') nq.lowText = val('lowText');
       else if (t === 'smash') { nq.pictureAnswer = val('pictureAnswer'); nq.clueAnswer = val('clueAnswer'); }
       else if (t === 'rhyme') { nq.answer1 = val('answer1'); nq.text2 = val('text2'); nq.answer2 = val('answer2'); if (!nq.answer1 || !nq.answer2 || !nq.text2) throw new Error('Fill in both clues and both answers.'); }
+      else if (t === 'conundrum') { if (!LQ.sameLetters(nq.answers[0], q.letters)) nq.letters = LQ.scrambleWord(nq.answers[0]); }
       else if (t === 'tune') { nq.track = val('track'); nq.artist = val('artist'); nq.ask = val('ask'); if (!nq.track || !nq.artist) throw new Error('Give the song and the artist.'); }
       else if (t === 'wipeout') {
         const keep = (list, texts, p) => texts.map((text) => ({ id: (list || []).find((i) => i.text === text)?.id || rid(p), text }));
@@ -1256,13 +1259,13 @@ function renderQForm() {
     ${ck ? `<div class="checknote ${ck}"><b>${{ ok: '✓ Checked: looks right.', doubt: '? Worth a look.', wrong: '✗ Looks wrong.', stale: '~ Changed since it was checked.' }[ck]}</b> ${esc(q.check.note || '')}${q.check.fix && ck !== 'ok' ? `<div class="mt" style="margin-top:6px"><b>Suggested answer:</b> ${esc(q.check.fix)}</div>` : ''}<div class="row" style="margin-top:8px;gap:6px"><button class="btn btn-ghost btn-sm" id="recheck">Check again</button><button class="btn btn-ghost btn-sm" id="clearCheck">Dismiss</button></div></div>` : ''}
     ${q.type === 'wheel' ? '' : `<div class="field"><label>${q.type === 'smash' ? 'The clue' : q.type === 'highlow' ? 'The highbrow clue' : q.type === 'rhyme' ? 'The first clue' : q.type === 'dingbat' ? 'Instruction on the screen (optional)' : q.type === 'tune' ? 'Wording on the screen (optional — the ask below sets a default)' : 'Question'}</label><textarea id="f_text" placeholder="${esc(placeholderFor(q.type))}">${esc(q.text)}</textarea></div>`}
     <div id="typeBox"></div>
-    ${['wheel', 'tune', 'cards', 'task', 'about', 'whosaid'].includes(q.type) ? '' : `<div class="field"><label>${q.type === 'pin' ? 'Picture to drop the pin on' : q.type === 'smash' ? 'The picture' : 'On the screen'}</label><div id="mediaBox"></div></div>`}
+    ${['wheel', 'tune', 'cards', 'task', 'about', 'whosaid'].includes(q.type) || q.kind === 'conundrum' ? '' : `<div class="field"><label>${q.type === 'pin' ? 'Picture to drop the pin on' : q.type === 'smash' ? 'The picture' : 'On the screen'}</label><div id="mediaBox"></div></div>`}
     <div class="row" style="align-items:flex-end">
       <div class="field" style="max-width:180px${q.type === 'potato' ? ';display:none' : ''}"><label>${q.type === 'wipeout' ? 'Seconds per turn' : q.type === 'race' ? 'Race time limit (seconds)' : q.type === 'koth' ? 'Seconds to answer or buzz' : q.type === 'blockbusters' || q.type === 'chase' ? 'Seconds per question' : q.type === 'cards' ? 'Seconds for each call' : q.type === 'task' ? (q.mode === 'photo' || !q.mode ? 'Seconds to take the photo' : 'Seconds for each task') : 'Time limit (seconds)'}</label><input type="number" id="f_time" min="${q.type === 'wipeout' ? 3 : 5}" max="${q.type === 'race' || q.type === 'task' ? 600 : 180}" value="${q.time}"></div>
       ${q.type === 'wipeout' ? `<div class="field" style="max-width:160px"><label>Points per right pick</label><input type="number" id="f_pick" min="0" max="5000" value="${q.pickPoints ?? 200}"></div><div class="field" style="max-width:160px"><label>Wipeout penalty</label><input type="number" id="f_penalty" min="0" max="5000" value="${q.penalty == null || +q.penalty === 500 ? 100 : q.penalty}"></div><div class="field" style="max-width:190px"><label>Look at the board first (seconds)</label><input type="number" id="f_study" min="0" max="60" value="${q.study ?? 20}"></div>` : ''}
       ${S.quiz.rounds.length > 1 ? `<div class="field" style="max-width:240px"><label>Round</label><select id="f_round">${S.quiz.rounds.map((r, i) => `<option value="${r.id}" ${r.id === q.round ? 'selected' : ''}>${i + 1}. ${esc(r.title || 'Untitled round')}</option>`).join('')}</select></div>` : ''}
       ${q.type === 'order' || q.type === 'match' || q.type === 'sort' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_partial" ${q.partial ? 'checked' : ''}> Partial credit for partly right</label>` : ''}
-      ${q.type === 'text' || q.type === 'highlow' || q.type === 'rhyme' || q.type === 'club' || q.type === 'dingbat' || q.type === 'tune' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_ai" ${q.ai !== false ? 'checked' : ''}> Let AI judge spelling and wording</label>` : ''}
+      ${(q.type === 'text' && q.kind !== 'conundrum') || q.type === 'highlow' || q.type === 'rhyme' || q.type === 'club' || q.type === 'dingbat' || q.type === 'tune' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_ai" ${q.ai !== false ? 'checked' : ''}> Let AI judge spelling and wording</label>` : ''}
       ${S.quiz.rounds.find((r) => r.id === q.round)?.practice ? '<span class="muted small" style="margin-bottom:14px">🧪 Practice: the whole round scores nothing</span>' : `<label class="check" style="margin-bottom:14px" title="Played in full, but the points don&#39;t count: good for showing people how a game works"><input type="checkbox" id="f_practice" ${q.practice ? 'checked' : ''}> 🧪 Practice: no points</label>`}
     </div>
     ${['club', 'wheel', 'tune', 'cards', 'task', 'about', 'whosaid', 'draw', 'twenty', 'race', 'potato', 'koth', 'chase', 'blockbusters', 'wipeout', 'unique'].includes(q.type) ? '' : `<div class="field"><label>Why <span class="muted">— optional: a line shown under the right answer on the screen and the phones (a training note)</span></label><textarea id="f_why" rows="2" placeholder="e.g. A third time goes on paper: the form shows what was agreed.">${esc(q.why || '')}</textarea></div>`}
@@ -1415,6 +1418,19 @@ function showProblems() { const p = validate(cur()); const el = $('#problems'); 
 function G_MAX() { return +(S.quiz?.settings?.maxPoints) || 1000; }
 function renderTypeBox() {
   const q = cur(); const box = $('#typeBox');
+  if (q.kind === 'conundrum') {
+    q.answers = Array.isArray(q.answers) && q.answers.length ? q.answers : [''];
+    box.innerHTML = `<div class="notice" style="margin-bottom:12px">Countdown Conundrum: nine scrambled letters go up on the screen and the phones, and players type the word. It has to be spelt exactly right (no AI marking), and the quicker the answer, the more it scores. Pick a word with only one possible answer.</div>
+      <div class="row" style="gap:12px;flex-wrap:wrap;align-items:flex-end"><div class="field" style="flex:1 1 220px"><label>The word <span class="muted">— usually nine letters</span></label><input type="text" id="cn_word" value="${esc(q.answers[0] || '')}" placeholder="e.g. CHAMPAGNE" style="text-transform:uppercase;letter-spacing:.08em"></div>
+      <div class="field" style="flex:1 1 220px"><label>Scrambled letters</label><input type="text" id="cn_letters" value="${esc(q.letters || '')}" placeholder="e.g. GNAPECHAM" style="text-transform:uppercase;letter-spacing:.08em"></div>
+      <button class="btn btn-ghost btn-sm" id="cn_shuffle" style="margin-bottom:14px">🔀 Shuffle</button></div>
+      <div class="field"><label>On the screen <span class="muted">— live preview</span></label><div id="cn_prev">${LQ.conundrumHtml(q.letters)}</div></div>`;
+    const prev = () => { $('#cn_prev').innerHTML = LQ.conundrumHtml(q.letters); touch(); showProblems(); };
+    $('#cn_word').oninput = (e) => { const was = q.answers[0]; q.answers = [LQ.conundrumWord(e.target.value)]; if (!LQ.sameLetters(q.answers[0], q.letters) || !was) { q.letters = LQ.scrambleWord(q.answers[0]); $('#cn_letters').value = q.letters; } prev(); };
+    $('#cn_letters').oninput = (e) => { q.letters = LQ.conundrumWord(e.target.value); prev(); };
+    $('#cn_shuffle').onclick = () => { q.letters = LQ.scrambleWord(q.answers[0]); $('#cn_letters').value = q.letters; prev(); };
+    return;
+  }
   if (q.type === 'cards') {
     q.cards = Array.isArray(q.cards) ? q.cards : [];
     box.innerHTML = `<div class="notice" style="margin-bottom:12px">Play Your Cards Right: the first card is face up; for every next card the room calls Higher or Lower on their phones, and Bruce's lines go on the screen. Right and you stay in for the next card; wrong and you're out. Reach the end of the row for the bonus. Pick numbers that zig-zag (a pint in 1980, 1990, 1975…) so it isn't just "higher" every time.</div>

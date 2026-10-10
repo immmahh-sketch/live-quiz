@@ -689,6 +689,19 @@ async function finishRaw(raw: any[], count: number, usedPictures: string[], want
       const why = String(r.why ?? "").trim(); if (why) base.why = why.slice(0, 300); // one line of working, shown with the answer
       return base;
     }
+    if (r.type === "conundrum") {
+      // A Countdown Conundrum rides on the typed-answer question: nine scrambled letters, one word, marked exactly (no AI).
+      const word = String((Array.isArray(r.answers) ? r.answers[0] : r.answer) ?? "").toUpperCase().replace(/[^A-Z]/g, "");
+      const sorted = (x: string) => x.split("").sort().join("");
+      let letters = String(r.letters ?? "").toUpperCase().replace(/[^A-Z]/g, "");
+      if (word.length < 5 || word.length > 12) return null;
+      if (!letters || letters === word || sorted(letters) !== sorted(word)) {
+        letters = word;
+        for (let tries = 0; tries < 50 && letters === word; tries++) letters = word.split("").map((c) => [Math.random(), c] as [number, string]).sort((x, y) => x[0] - y[0]).map((x) => x[1]).join("");
+      }
+      base.type = "text"; base.kind = "conundrum"; base.text = "Countdown Conundrum"; base.letters = letters; base.answers = [word]; base.ai = false; base.time = 30; base.media = { kind: "none" };
+      return base;
+    }
     if (r.type === "dingbat") {
       const answers = (Array.isArray(r.answers) ? r.answers : [r.answer]).map((s: unknown) => String(s ?? "").trim()).filter(Boolean);
       const elements = (Array.isArray(r.elements) ? r.elements : []).slice(0, 8).map((e: any) => {
@@ -1142,7 +1155,7 @@ Deno.serve(async (req) => {
 
     if (action === "generate") {
       if (!ANTHROPIC_KEY) return json({ error: "AI is not set up on the server yet — add ANTHROPIC_API_KEY as a Supabase secret." }, 503);
-      const KNOWN = ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel", "highlow", "rhyme", "club", "dingbat", "tune", "catchphrase", "reveal", "survey", "unique", "nearest", "draw", "twenty", "cards", ...Object.keys(RACE_GAMES)];
+      const KNOWN = ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel", "highlow", "rhyme", "club", "dingbat", "tune", "catchphrase", "conundrum", "reveal", "survey", "unique", "nearest", "draw", "twenty", "cards", ...Object.keys(RACE_GAMES)];
       const asked = (Array.isArray(body.types) ? body.types : []).map(String);
       let types = asked.filter((t) => KNOWN.includes(t));
       // Hot Potato, King of the Hill and Blockbusters play on a race's bank of quick questions: take or write a race, then reshape it.
@@ -1180,7 +1193,7 @@ Deno.serve(async (req) => {
       if (fromBank.length >= wantCount) return json({ questions: reshape(fromBank), warnings: [], searched: false, usage: null, unknownTypes, fromBank: fromBank.length, bankInfo });
       if (body.bankOnly === true) return json({ questions: reshape(fromBank), warnings: [], searched: false, usage: null, unknownTypes, fromBank: fromBank.length, bankInfo });
       // Catchphrase clips only come from the bank: the AI cannot make a video.
-      if (types[0] === "catchphrase" || types[0] === "reveal" || types[0] === "survey" || types[0] === "unique") return json({ questions: fromBank, warnings: fromBank.length < wantCount ? [types[0] === "reveal" ? "The Picture Reveal pictures in the bank have run out. Add more, or pick another type for the rest." : "The Catchphrase clips in the bank have run out. Add more, or pick another type for the rest."] : [], searched: false, usage: null, unknownTypes, fromBank: fromBank.length, bankInfo });
+      if (types[0] === "catchphrase" || types[0] === "conundrum" || types[0] === "reveal" || types[0] === "survey" || types[0] === "unique") return json({ questions: fromBank, warnings: fromBank.length < wantCount ? [types[0] === "reveal" ? "The Picture Reveal pictures in the bank have run out. Add more, or pick another type for the rest." : types[0] === "conundrum" ? "The Countdown Conundrums in the bank have run out. Add more, or pick another type for the rest." : "The Catchphrase clips in the bank have run out. Add more, or pick another type for the rest."] : [], searched: false, usage: null, unknownTypes, fromBank: fromBank.length, bankInfo });
       const genOpts = {
         topic: String(body.brief ? (body.title || body.topic || "") : (body.topic || "")).slice(0, 200),
         brief: String(body.brief || "").slice(0, 1500),
@@ -1820,9 +1833,9 @@ async function kahootFromRead(read: any): Promise<{ title: string; description: 
 // Pre-written questions, one quiz_bank row each (see bankRow below). Each item carries category/tags for matching
 // a themed round and a "used" stamp once it has gone into a quiz, so it never comes round again.
 const BANK_LOW = 25;
-const EVERGREEN = ["club", "dingbat", "wheel", "pin", "tune", "catchphrase", "reveal", "survey", "unique", "twenty", "cards"]; // theme-free types: any unused item will do when the round has no matching one
+const EVERGREEN = ["club", "dingbat", "wheel", "pin", "tune", "catchphrase", "conundrum", "reveal", "survey", "unique", "twenty", "cards"]; // theme-free types: any unused item will do when the round has no matching one
 /** What makes two items "the same": the phrase for dingbats and wheels, the place for pins, the track for tunes, the wording otherwise. */
-function bankKey(q: any): string { if (q?.type === "unique") return "uq:" + norm((q.prompts || []).slice(0, 4).map((p: any) => typeof p === "string" ? p : p?.p || "").join(" ")); if (q?.kind === "reveal") return "rv:" + norm((q.answers || [])[0] || ""); if (q?.media?.kind === "youtube" && q.media.videoId) return "yt:" + q.media.videoId; if (q?.media?.kind === "image" && q.media.source && /which .*(flag|picture|this)/i.test(q.text || "")) return "img:" + q.media.source; return norm(q?.type === "dingbat" || q?.type === "twenty" ? (q.answers || [])[0] || "" : q?.type === "tune" ? `${q.track} ${q.artist}` : q?.type === "pin" ? q.place || q.text : q?.phrase || q?.text || ""); }
+function bankKey(q: any): string { if (q?.kind === "conundrum") return "cn:" + norm((q.answers || [])[0] || ""); if (q?.type === "unique") return "uq:" + norm((q.prompts || []).slice(0, 4).map((p: any) => typeof p === "string" ? p : p?.p || "").join(" ")); if (q?.kind === "reveal") return "rv:" + norm((q.answers || [])[0] || ""); if (q?.media?.kind === "youtube" && q.media.videoId) return "yt:" + q.media.videoId; if (q?.media?.kind === "image" && q.media.source && /which .*(flag|picture|this)/i.test(q.text || "")) return "img:" + q.media.source; return norm(q?.type === "dingbat" || q?.type === "twenty" ? (q.answers || [])[0] || "" : q?.type === "tune" ? `${q.track} ${q.artist}` : q?.type === "pin" ? q.place || q.text : q?.phrase || q?.text || ""); }
 /** The right answer of a finished question, as plain text, for near-duplicate checks. */
 function bankAnswer(q: any): string {
   if (!q) return "";
@@ -1846,6 +1859,7 @@ function nearDuplicate(a: any, b: any): boolean {
   if (a.type !== b.type) return false;
   const ka = bankKey(a), kb = bankKey(b);
   if (ka && ka === kb) return true;
+  if (a.kind === "conundrum" || b.kind === "conundrum") return false; // one word each: the same word already has the same key
   // Rounds made of lists all read alike ("Put these in order, earliest first"): what makes them the same is their items.
   if (a.type === "twenty" || a.type === "unique" || a.type === "dingbat") return false; // one answer each: the same answer already has the same key ("Big Bang" is not "Big")
   if (["order", "sort", "match", "wipeout", "race", "cards"].includes(a.type)) { const x = norm(bankAnswer(a)), y = norm(bankAnswer(b)); return !!x && x === y; }
@@ -1867,7 +1881,7 @@ function nearDuplicate(a: any, b: any): boolean {
 // questions in order, as the rest of the code expects, and remembers each item as it was loaded; bankSave() then
 // writes only what changed: new or edited items are upserted, removed ones deleted. (It used to be a few
 // quiz_quizzes rows of several MB each, so every small change rewrote megabytes and reads hit the statement timeout.)
-const BANK_LABEL: Record<string, string> = { choice: "Multiple choice", text: "Type the answer", order: "Put in order", pin: "Drop the pin", match: "Match up", tf: "True or false", sort: "Categorise", wipeout: "Wipeout", race: "The Race", smash: "Answer Smash", wheel: "Wheel of Fortune", highlow: "Highbrow Lowbrow", rhyme: "Rhyme Time", club: "The 1% Club", catchphrase: "Catchphrase", reveal: "Picture Reveal", survey: "Family Fortunes", unique: "Only One", dingbat: "Dingbats", tune: "Name That Tune", nearest: "Nearest Wins", draw: "Draw It", twenty: "20 Questions", cards: "Play Your Cards Right" };
+const BANK_LABEL: Record<string, string> = { choice: "Multiple choice", text: "Type the answer", order: "Put in order", pin: "Drop the pin", match: "Match up", tf: "True or false", sort: "Categorise", wipeout: "Wipeout", race: "The Race", smash: "Answer Smash", wheel: "Wheel of Fortune", highlow: "Highbrow Lowbrow", rhyme: "Rhyme Time", club: "The 1% Club", catchphrase: "Catchphrase", conundrum: "Countdown Conundrum", reveal: "Picture Reveal", survey: "Family Fortunes", unique: "Only One", dingbat: "Dingbats", tune: "Name That Tune", nearest: "Nearest Wins", draw: "Draw It", twenty: "20 Questions", cards: "Play Your Cards Right" };
 const BANK_PAGE = 1000; // PostgREST hands back at most this many rows a request
 async function restAll(path: string): Promise<any[]> {
   const out: any[] = [];

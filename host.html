@@ -945,6 +945,7 @@ function buildView(q) {
   if (q.type === 'highlow') { v.lowText = q.lowText; v.highPoints = q.highPoints ?? 1000; v.lowPoints = q.lowPoints ?? 500; }
   if (q.type === 'club') { v.pct = q.pct; v.points = LQ.clubPoints(q.pct); }
   if (q.type === 'dingbat') { v.elements = (q.elements || []).filter((e) => (e.t || '').trim()); }
+  if (q.kind === 'conundrum') { v.letters = LQ.conundrumWord(q.letters); }
   if (q.type === 'tune') { v.text = LQ.tunePrompt(q); v.ask = q.ask; v.media = null; v.clip = q.media?.length || 15; }
   // A warm-up has no shared screen: the phone plays the clip itself (no artwork: it would give the answer away)
   if (WARMUP && q.type === 'tune' && q.media?.url) v.tune = { url: q.media.url, start: Math.max(0, +q.media.start || 0), len: Math.min(30, Math.max(3, +q.media.length || 15)), backwards: !!q.backwards };
@@ -2279,6 +2280,7 @@ async function grade(noAi, ctx) {
     const unsure = [];
     for (const [pid, a] of entries) {
       const text = String(a.answer ?? '').slice(0, 200);
+      if (q.kind === 'conundrum') { res(pid, accepted.some((acc) => LQ.conundrumWord(acc) === LQ.conundrumWord(text)), 0, a.elapsed, { text, how: 'exact' }); continue; }
       let m = textMatch(text, accepted);
       if (q.type === 'rhyme' && m !== 'right') { const n = LQ.normText(text), a1 = LQ.normText(q.answer1), a2 = LQ.normText(q.answer2); if (a1 && a2 && n.includes(a1) && n.includes(a2)) m = 'right'; else if (!n.includes(a1) && !n.includes(a2) && LQ.similarity(n, LQ.normText(accepted[0])) < 0.5) m = 'wrong'; }
       if (m === 'unsure') unsure.push({ id: pid, text });
@@ -2851,7 +2853,7 @@ function renderRaceIntro() {
 function renderCountdown() {
   if (G.raceIntro) return renderRaceIntro();
   const q = question();
-  stage.innerHTML = `${topBar()}<div class="stage-main"><div style="opacity:.8;font-weight:800;font-size:1.4rem">${esc(TYPES[q.type].blurb)}</div><h1 class="qtext">${esc(q.type === 'wheel' ? 'Category: ' + q.category : q.text)}</h1><div class="huge" id="count">3</div><div id="prepNote" style="opacity:.75;font-weight:800;font-size:1.1rem"></div></div>
+  stage.innerHTML = `${topBar()}<div class="stage-main"><div style="opacity:.8;font-weight:800;font-size:1.4rem">${esc((TYPES[q.kind] || TYPES[q.type]).blurb)}</div><h1 class="qtext">${esc(q.type === 'wheel' ? 'Category: ' + q.category : q.text)}</h1><div class="huge" id="count">3</div><div id="prepNote" style="opacity:.75;font-weight:800;font-size:1.1rem"></div></div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">Go now ▶</button>`)}`;
   bind();
 }
@@ -2920,6 +2922,7 @@ function renderQuestion() {
   if (q.type === 'sort') body = `<div class="cats">${v.categories.map((c) => `<div class="cat"><h3>${esc(c.name)}</h3></div>`).join('')}</div><div class="items mt">${v.items.map((it) => `<div class="item">${esc(it.text)}</div>`).join('')}</div>`;
   if (q.type === 'text' && pollMode(q)) body = `<div class="pollwall" id="pollwall"></div>`;
   else if (q.type === 'text') body = `<div class="item" style="justify-content:center">${q.kind === 'survey' ? '👪 We asked the room! Type the first answer that comes to mind: match the most people to score most' : q.kind === 'reveal' ? '🧩 Who is it? Type it on your phone: the fewer tiles it takes, the more you score' : '✎ Type your answer on your phone'}</div>`;
+  if (q.kind === 'conundrum') body = `${LQ.conundrumHtml(q.letters, 'stage-cn')}<div class="item" style="justify-content:center;margin-top:14px">🔠 One nine-letter word · type it on your phone, spelt exactly right · the quicker, the more you score</div>`;
   if (q.type === 'smash') body = `<div class="item" style="justify-content:center">🔀 Answer Smash — type the picture and the clue smashed together</div>`;
   if (q.type === 'highlow') {
     stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill" id="answered">0 of ${players().length} answered</span><div class="timer" id="timer" data-s="${q.time}" style="--p:100%"></div></div>`)}
@@ -3090,7 +3093,8 @@ function renderReveal() {
     const sv = R.stats.survey || [], max = sv[0]?.n || 1;
     body = `<div class="ffboard">${sv.length ? sv.map((g, i) => `<div class="ffrow" style="animation-delay:${i * 0.35}s"><span class="ffn">${i + 1}</span><span class="fflabel">${esc(g.label)}</span><span class="ffbar"><i style="width:${g.n / max * 100}%"></i></span><span class="ffcount">${g.n}</span><span class="ffpts">${g.points ? '+' + g.points : '✗'}</span></div>`).join('') : '<div class="item">Nobody answered!</div>'}</div>`;
   } else if (q.type === 'text' || q.type === 'club' || q.type === 'dingbat' || q.type === 'tune') {
-    const pre = q.type === 'tune' ? `<div class="tunecard">${q.media?.artwork ? `<img src="${esc(LQ.bigArt(q.media.artwork))}" alt="">` : ''}<div><div class="tunetitle">${esc(q.track)}</div><div class="tuneartist">${esc(q.artist)}${q.year ? ` · ${esc(String(q.year))}` : ''}${q.film ? ` · ${esc(q.film)}` : ''}</div><div class="small" style="opacity:.6">Preview via Apple Music</div></div></div>` : q.type === 'club' ? `<div class="clubrow" style="margin-bottom:12px"><span class="clubpct">${q.pct}%</span><span class="clubnote">were expected to get it · <b>${R.stats.right} of ${n}</b> here did · ${LQ.clubPoints(q.pct)} points each</span></div>` : q.type === 'dingbat' && !(q.media?.kind === 'image' && q.media.url) ? LQ.dingbatHtml(q.elements, 'stage-db sm') : '';
+    let pre = q.type === 'tune' ? `<div class="tunecard">${q.media?.artwork ? `<img src="${esc(LQ.bigArt(q.media.artwork))}" alt="">` : ''}<div><div class="tunetitle">${esc(q.track)}</div><div class="tuneartist">${esc(q.artist)}${q.year ? ` · ${esc(String(q.year))}` : ''}${q.film ? ` · ${esc(q.film)}` : ''}</div><div class="small" style="opacity:.6">Preview via Apple Music</div></div></div>` : q.type === 'club' ? `<div class="clubrow" style="margin-bottom:12px"><span class="clubpct">${q.pct}%</span><span class="clubnote">were expected to get it · <b>${R.stats.right} of ${n}</b> here did · ${LQ.clubPoints(q.pct)} points each</span></div>` : q.type === 'dingbat' && !(q.media?.kind === 'image' && q.media.url) ? LQ.dingbatHtml(q.elements, 'stage-db sm') : '';
+    if (q.kind === 'conundrum') pre = `${LQ.conundrumHtml(q.answers[0], 'stage-cn solved')}<div style="height:12px"></div>`;
     body = `${pre}<div class="item ok" style="justify-content:center;font-size:1.8rem">✔ ${esc(q.answers[0])}${q.answers.length > 1 ? `<span style="opacity:.7;font-size:.7em"> (or ${esc(q.answers.slice(1, 4).join(', '))})</span>` : ''}</div>${q.type === 'club' && q.why ? `<div class="clubwhy">💡 ${esc(q.why)}</div>` : ''}
       <div class="textlist mt">${R.stats.texts.slice(0, 30).map((t) => `<span class="tl ${t.ok === null ? '' : t.ok ? 'ok' : 'no'}">${esc(t.text || '—')} <span style="opacity:.7;font-size:.85em">· ${esc(t.name)}</span></span>`).join('')}</div>`;
   }

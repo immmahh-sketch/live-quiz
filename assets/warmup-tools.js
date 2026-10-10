@@ -10,7 +10,7 @@ window.LQW = (() => {
   const api = (...a) => LQ.api(...a);
   const uid = (p) => p + '_' + Math.random().toString(36).slice(2, 10);
   const GAMES = ['potato', 'koth', 'chase', 'blockbusters'];
-  const TIMES = { nearest: 25, catchphrase: 50, reveal: 40, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, potato: 60, twenty: 150, unique: 25, koth: 15 };
+  const TIMES = { nearest: 25, catchphrase: 50, conundrum: 30, reveal: 40, choice: 20, text: 30, order: 45, pin: 25, match: 45, tf: 15, sort: 45, wipeout: 5, race: 120, smash: 30, wheel: 60, highlow: 40, rhyme: 30, club: 30, dingbat: 45, potato: 60, twenty: 150, unique: 25, koth: 15 };
   const BRIEF = "A warm-up anyone can enjoy on their own phone: mainstream, guessable and fun, with surprising 'well I never' facts. Nothing obscure, nothing regional, no specialist sport.";
   // The writer slips an Alan Shearer and a Roger question into any quiz that has neither; the quiz night has its own.
   const NO_SIGNATURES = [{ type: 'text', text: '(signature)', answers: ['Alan Shearer'] }, { type: 'text', text: '(signature)', answers: ['Roger'] }];

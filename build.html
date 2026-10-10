@@ -76,7 +76,7 @@ const GAMES = ['potato', 'koth', 'chase', 'blockbusters'];
 const TRIVIA = ['choice', 'text', 'tf', 'order', 'sort', 'match', 'nearest', 'pin'];
 const QUALITY = ['too_easy', 'giveaway', 'fact', 'weak_options', 'local'];
 const FLAG_LABEL = { too_easy: 'too easy', giveaway: 'gives the answer away', repetitive: 'repeats another question', weak_options: 'weak wrong answers', wording: 'clumsy wording', fact: 'fact in doubt', off_topic: 'off topic for the round', local: 'every Geordie knows it' };
-const SECS = { unique: 300, survey: 60, choice: 30, text: 40, tf: 20, order: 50, sort: 55, match: 55, pin: 35, nearest: 40, tune: 45, wipeout: 180, race: 240, koth: 480, chase: 420, potato: 300, blockbusters: 480, wheel: 70, catchphrase: 60, reveal: 50, smash: 45, rhyme: 45, dingbat: 55, highlow: 50, club: 45, twenty: 240, draw: 360 };
+const SECS = { unique: 300, survey: 60, choice: 30, text: 40, tf: 20, order: 50, sort: 55, match: 55, pin: 35, nearest: 40, tune: 45, wipeout: 180, race: 240, koth: 480, chase: 420, potato: 300, blockbusters: 480, wheel: 70, catchphrase: 60, conundrum: 40, reveal: 50, smash: 45, rhyme: 45, dingbat: 55, highlow: 50, club: 45, twenty: 240, draw: 360 };
 const B = { plan: null, quiz: null, busy: false, stop: false, saved: null };
 let toastT;
 function toast(msg, bad) { const t = $('#toast'); t.textContent = msg; t.className = 'toast show' + (bad ? ' bad' : ''); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 4000); }
@@ -245,6 +245,7 @@ function itemsOf(q) {
   if (t === 'survey') return [{ ...base, text: `Family Fortunes (the room is the survey): ${q.text}`, answer: 'whatever most of the room says' }];
   if (t === 'twenty') return [{ ...base, text: `20 Questions (${q.what || ''})`, answer: (q.answers || [])[0] }];
   if (t === 'dingbat') return [{ ...base, text: 'Dingbat', answer: (q.answers || [])[0] }];
+  if (t === 'conundrum') return [{ ...base, text: `Countdown Conundrum, letters ${q.letters} (players must type the one nine-letter word they make)`, answer: (q.answers || [])[0] }];
   return [{ ...base, text: q.text, answer: names(q.answers).join(' / ') || String(q.answer ?? '') }];
 }
 const roundQs = (r) => B.quiz.questions.filter((q) => q.round === r.id && q.type !== 'slide');
