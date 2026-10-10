@@ -1,0 +1,390 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which language says 'Cheers!' like this?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "languages",
+   "drinks",
+   "toasts"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Prost!",
+    "right": "German",
+    "wrong": [
+     "Danish",
+     "Swedish",
+     "Romanian"
+    ]
+   },
+   {
+    "q": "¡Salud!",
+    "right": "Spanish",
+    "wrong": [
+     "Catalan",
+     "Romanian",
+     "Basque"
+    ]
+   },
+   {
+    "q": "Santé!",
+    "right": "French",
+    "wrong": [
+     "Romanian",
+     "Catalan",
+     "Breton"
+    ]
+   },
+   {
+    "q": "Cin cin!",
+    "right": "Italian",
+    "wrong": [
+     "Romanian",
+     "Catalan",
+     "Maltese"
+    ]
+   },
+   {
+    "q": "Kanpai!",
+    "right": "Japanese",
+    "wrong": [
+     "Thai",
+     "Vietnamese",
+     "Malay"
+    ]
+   },
+   {
+    "q": "Na zdrowie!",
+    "right": "Polish",
+    "wrong": [
+     "Russian",
+     "Ukrainian",
+     "Bulgarian"
+    ]
+   },
+   {
+    "q": "Sláinte!",
+    "right": "Irish",
+    "wrong": [
+     "Cornish",
+     "Breton",
+     "Basque"
+    ]
+   },
+   {
+    "q": "Iechyd da!",
+    "right": "Welsh",
+    "wrong": [
+     "Cornish",
+     "Breton",
+     "Manx"
+    ]
+   },
+   {
+    "q": "Proost!",
+    "right": "Dutch",
+    "wrong": [
+     "Danish",
+     "Swedish",
+     "Norwegian"
+    ]
+   },
+   {
+    "q": "Saúde!",
+    "right": "Portuguese",
+    "wrong": [
+     "Catalan",
+     "Romanian",
+     "Basque"
+    ]
+   },
+   {
+    "q": "Gānbēi!",
+    "right": "Mandarin",
+    "wrong": [
+     "Thai",
+     "Vietnamese",
+     "Malay"
+    ]
+   },
+   {
+    "q": "Geonbae!",
+    "right": "Korean",
+    "wrong": [
+     "Thai",
+     "Vietnamese",
+     "Malay"
+    ]
+   },
+   {
+    "q": "Şerefe!",
+    "right": "Turkish",
+    "wrong": [
+     "Arabic",
+     "Persian",
+     "Hindi"
+    ]
+   },
+   {
+    "q": "Yamas!",
+    "right": "Greek",
+    "wrong": [
+     "Bulgarian",
+     "Albanian",
+     "Romanian"
+    ]
+   },
+   {
+    "q": "Egészségedre!",
+    "right": "Hungarian",
+    "wrong": [
+     "Estonian",
+     "Romanian",
+     "Croatian"
+    ]
+   },
+   {
+    "q": "Na zdraví!",
+    "right": "Czech",
+    "wrong": [
+     "Russian",
+     "Bulgarian",
+     "Ukrainian"
+    ]
+   },
+   {
+    "q": "Kippis!",
+    "right": "Finnish",
+    "wrong": [
+     "Estonian",
+     "Latvian",
+     "Lithuanian"
+    ]
+   },
+   {
+    "q": "L'chaim!",
+    "right": "Hebrew",
+    "wrong": [
+     "Arabic",
+     "Persian",
+     "Maltese"
+    ]
+   },
+   {
+    "q": "Gesondheid!",
+    "right": "Afrikaans",
+    "wrong": [
+     "Zulu",
+     "Swahili",
+     "Xhosa"
+    ]
+   },
+   {
+    "q": "Mabuhay!",
+    "right": "Tagalog",
+    "wrong": [
+     "Malay",
+     "Indonesian",
+     "Thai"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which actor played both of these?",
+  "target": 10,
+  "category": "Film",
+  "tags": [
+   "actors",
+   "films",
+   "roles"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Han Solo and Indiana Jones",
+    "right": "Harrison Ford",
+    "wrong": [
+     "Mark Hamill",
+     "Kurt Russell",
+     "Tom Selleck"
+    ]
+   },
+   {
+    "q": "Wolverine and P. T. Barnum",
+    "right": "Hugh Jackman",
+    "wrong": [
+     "Russell Crowe",
+     "Ryan Reynolds",
+     "Chris Hemsworth"
+    ]
+   },
+   {
+    "q": "Gandalf and Magneto",
+    "right": "Ian McKellen",
+    "wrong": [
+     "Michael Gambon",
+     "Christopher Lee",
+     "Michael Fassbender"
+    ]
+   },
+   {
+    "q": "Hannibal Lecter and Odin",
+    "right": "Anthony Hopkins",
+    "wrong": [
+     "Mads Mikkelsen",
+     "Brian Cox",
+     "Christopher Plummer"
+    ]
+   },
+   {
+    "q": "Mr Darcy and King George VI",
+    "right": "Colin Firth",
+    "wrong": [
+     "Hugh Grant",
+     "Matthew Macfadyen",
+     "Kenneth Branagh"
+    ]
+   },
+   {
+    "q": "Batman and Beetlejuice",
+    "right": "Michael Keaton",
+    "wrong": [
+     "George Clooney",
+     "Val Kilmer",
+     "Christian Bale"
+    ]
+   },
+   {
+    "q": "Captain Jack Sparrow and Willy Wonka",
+    "right": "Johnny Depp",
+    "wrong": [
+     "Gene Wilder",
+     "Orlando Bloom",
+     "Timothée Chalamet"
+    ]
+   },
+   {
+    "q": "Professor X and Captain Jean-Luc Picard",
+    "right": "Patrick Stewart",
+    "wrong": [
+     "James McAvoy",
+     "William Shatner",
+     "Jonathan Frakes"
+    ]
+   },
+   {
+    "q": "M and Queen Victoria",
+    "right": "Judi Dench",
+    "wrong": [
+     "Helen Mirren",
+     "Maggie Smith",
+     "Emily Blunt"
+    ]
+   },
+   {
+    "q": "Gollum and Caesar the ape",
+    "right": "Andy Serkis",
+    "wrong": [
+     "Elijah Wood",
+     "Ian Holm",
+     "Tom Felton"
+    ]
+   },
+   {
+    "q": "Iron Man and Sherlock Holmes",
+    "right": "Robert Downey Jr.",
+    "wrong": [
+     "Jude Law",
+     "Chris Evans",
+     "Mark Ruffalo"
+    ]
+   },
+   {
+    "q": "Doctor Strange and the TV Sherlock",
+    "right": "Benedict Cumberbatch",
+    "wrong": [
+     "Tom Hiddleston",
+     "Andrew Scott",
+     "Eddie Redmayne"
+    ]
+   },
+   {
+    "q": "Mrs Doubtfire and Popeye",
+    "right": "Robin Williams",
+    "wrong": [
+     "Steve Martin",
+     "Jim Carrey",
+     "Dustin Hoffman"
+    ]
+   },
+   {
+    "q": "Forrest Gump and the voice of Woody",
+    "right": "Tom Hanks",
+    "wrong": [
+     "Tim Allen",
+     "Kevin Costner",
+     "Bill Murray"
+    ]
+   },
+   {
+    "q": "The Terminator and Mr Freeze",
+    "right": "Arnold Schwarzenegger",
+    "wrong": [
+     "Dolph Lundgren",
+     "Jean-Claude Van Damme",
+     "Dwayne Johnson"
+    ]
+   },
+   {
+    "q": "Rocky and Rambo",
+    "right": "Sylvester Stallone",
+    "wrong": [
+     "Dolph Lundgren",
+     "Jean-Claude Van Damme",
+     "Bruce Willis"
+    ]
+   },
+   {
+    "q": "Mad Max and William Wallace",
+    "right": "Mel Gibson",
+    "wrong": [
+     "Tom Hardy",
+     "Liam Neeson",
+     "Russell Crowe"
+    ]
+   },
+   {
+    "q": "Neo and John Wick",
+    "right": "Keanu Reeves",
+    "wrong": [
+     "Laurence Fishburne",
+     "Hugo Weaving",
+     "Tom Cruise"
+    ]
+   },
+   {
+    "q": "Bilbo Baggins and Dr Watson",
+    "right": "Martin Freeman",
+    "wrong": [
+     "Ian Holm",
+     "Jude Law",
+     "Elijah Wood"
+    ]
+   },
+   {
+    "q": "Elizabeth I and Galadriel",
+    "right": "Cate Blanchett",
+    "wrong": [
+     "Liv Tyler",
+     "Helen Mirren",
+     "Margot Robbie"
+    ]
+   }
+  ]
+ }
+]
