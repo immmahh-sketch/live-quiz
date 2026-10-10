@@ -1,0 +1,775 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which country is this famous beach in?",
+  "target": 10,
+  "category": "Travel",
+  "tags": [
+   "beaches",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Bondi",
+    "right": "Australia",
+    "wrong": [
+     "Fiji",
+     "Samoa",
+     "Chile"
+    ]
+   },
+   {
+    "q": "Copacabana",
+    "right": "Brazil",
+    "wrong": [
+     "Argentina",
+     "Uruguay",
+     "Colombia"
+    ]
+   },
+   {
+    "q": "Waikiki",
+    "right": "the USA",
+    "wrong": [
+     "Fiji",
+     "Samoa",
+     "Tonga"
+    ]
+   },
+   {
+    "q": "Maya Bay",
+    "right": "Thailand",
+    "wrong": [
+     "Vietnam",
+     "Malaysia",
+     "the Philippines"
+    ]
+   },
+   {
+    "q": "Grace Bay",
+    "right": "Turks and Caicos",
+    "wrong": [
+     "Jamaica",
+     "Barbados",
+     "Cuba"
+    ]
+   },
+   {
+    "q": "Anse Source d'Argent",
+    "right": "the Seychelles",
+    "wrong": [
+     "Mauritius",
+     "the Maldives",
+     "Madagascar"
+    ]
+   },
+   {
+    "q": "Navagio (Shipwreck Beach)",
+    "right": "Greece",
+    "wrong": [
+     "Cyprus",
+     "Croatia",
+     "Malta"
+    ]
+   },
+   {
+    "q": "Praia da Rocha",
+    "right": "Portugal",
+    "wrong": [
+     "Spain",
+     "Cape Verde",
+     "Croatia"
+    ]
+   },
+   {
+    "q": "Playa del Carmen",
+    "right": "Mexico",
+    "wrong": [
+     "Cuba",
+     "the Dominican Republic",
+     "Costa Rica"
+    ]
+   },
+   {
+    "q": "The Skeleton Coast",
+    "right": "Namibia",
+    "wrong": [
+     "Angola",
+     "Mozambique",
+     "Morocco"
+    ]
+   },
+   {
+    "q": "Boulders Beach and its penguins",
+    "right": "South Africa",
+    "wrong": [
+     "Mozambique",
+     "Kenya",
+     "Tanzania"
+    ]
+   },
+   {
+    "q": "Pink Sands Beach",
+    "right": "the Bahamas",
+    "wrong": [
+     "Bermuda",
+     "Barbados",
+     "Jamaica"
+    ]
+   },
+   {
+    "q": "Reynisfjara's black sand",
+    "right": "Iceland",
+    "wrong": [
+     "Norway",
+     "the Faroe Islands",
+     "Greenland"
+    ]
+   },
+   {
+    "q": "Kuta",
+    "right": "Indonesia",
+    "wrong": [
+     "the Philippines",
+     "Malaysia",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "Durdle Door",
+    "right": "England",
+    "wrong": [
+     "Wales",
+     "Ireland",
+     "Scotland"
+    ]
+   },
+   {
+    "q": "Omaha Beach",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "the Netherlands",
+     "Spain"
+    ]
+   },
+   {
+    "q": "Mondello",
+    "right": "Italy",
+    "wrong": [
+     "Spain",
+     "Malta",
+     "Croatia"
+    ]
+   },
+   {
+    "q": "Juhu",
+    "right": "India",
+    "wrong": [
+     "Sri Lanka",
+     "Pakistan",
+     "the Maldives"
+    ]
+   },
+   {
+    "q": "Cox's Bazar",
+    "right": "Bangladesh",
+    "wrong": [
+     "Myanmar",
+     "Sri Lanka",
+     "Pakistan"
+    ]
+   },
+   {
+    "q": "Piha",
+    "right": "New Zealand",
+    "wrong": [
+     "Fiji",
+     "Samoa",
+     "Chile"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this famous square in?",
+  "target": 10,
+  "category": "Travel",
+  "tags": [
+   "squares",
+   "landmarks",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Red Square",
+    "right": "Russia",
+    "wrong": [
+     "Belarus",
+     "Poland",
+     "Romania"
+    ]
+   },
+   {
+    "q": "Tiananmen Square",
+    "right": "China",
+    "wrong": [
+     "Taiwan",
+     "Mongolia",
+     "Japan"
+    ]
+   },
+   {
+    "q": "Times Square",
+    "right": "the USA",
+    "wrong": [
+     "Canada",
+     "Ireland",
+     "Japan"
+    ]
+   },
+   {
+    "q": "Trafalgar Square",
+    "right": "the United Kingdom",
+    "wrong": [
+     "Ireland",
+     "Canada",
+     "Malta"
+    ]
+   },
+   {
+    "q": "St Mark's Square",
+    "right": "Italy",
+    "wrong": [
+     "Croatia",
+     "Malta",
+     "Slovenia"
+    ]
+   },
+   {
+    "q": "Plaza Mayor (Madrid)",
+    "right": "Spain",
+    "wrong": [
+     "Colombia",
+     "Peru",
+     "Chile"
+    ]
+   },
+   {
+    "q": "The Grand-Place",
+    "right": "Belgium",
+    "wrong": [
+     "France",
+     "Luxembourg",
+     "Switzerland"
+    ]
+   },
+   {
+    "q": "Wenceslas Square",
+    "right": "Czechia",
+    "wrong": [
+     "Slovakia",
+     "Poland",
+     "Hungary"
+    ]
+   },
+   {
+    "q": "Jemaa el-Fnaa",
+    "right": "Morocco",
+    "wrong": [
+     "Tunisia",
+     "Algeria",
+     "Lebanon"
+    ]
+   },
+   {
+    "q": "Naqsh-e Jahan Square",
+    "right": "Iran",
+    "wrong": [
+     "Iraq",
+     "Afghanistan",
+     "Pakistan"
+    ]
+   },
+   {
+    "q": "The Zócalo",
+    "right": "Mexico",
+    "wrong": [
+     "Colombia",
+     "Peru",
+     "Cuba"
+    ]
+   },
+   {
+    "q": "Dam Square",
+    "right": "the Netherlands",
+    "wrong": [
+     "Denmark",
+     "Luxembourg",
+     "Sweden"
+    ]
+   },
+   {
+    "q": "Syntagma Square",
+    "right": "Greece",
+    "wrong": [
+     "Cyprus",
+     "Bulgaria",
+     "Malta"
+    ]
+   },
+   {
+    "q": "Taksim Square",
+    "right": "Turkey",
+    "wrong": [
+     "Cyprus",
+     "Lebanon",
+     "Bulgaria"
+    ]
+   },
+   {
+    "q": "Tahrir Square (the one in its capital)",
+    "right": "Egypt",
+    "wrong": [
+     "Lebanon",
+     "Jordan",
+     "Tunisia"
+    ]
+   },
+   {
+    "q": "Plaza de Mayo",
+    "right": "Argentina",
+    "wrong": [
+     "Uruguay",
+     "Chile",
+     "Colombia"
+    ]
+   },
+   {
+    "q": "Praça do Comércio",
+    "right": "Portugal",
+    "wrong": [
+     "Brazil",
+     "Angola",
+     "Cape Verde"
+    ]
+   },
+   {
+    "q": "Federation Square",
+    "right": "Australia",
+    "wrong": [
+     "New Zealand",
+     "Canada",
+     "Ireland"
+    ]
+   },
+   {
+    "q": "Maidan Nezalezhnosti",
+    "right": "Ukraine",
+    "wrong": [
+     "Belarus",
+     "Poland",
+     "Moldova"
+    ]
+   },
+   {
+    "q": "Marienplatz",
+    "right": "Germany",
+    "wrong": [
+     "Austria",
+     "Switzerland",
+     "Denmark"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which animal has this scientific name?",
+  "target": 10,
+  "category": "Animals",
+  "tags": [
+   "animals",
+   "Latin names"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Panthera leo",
+    "right": "Lion",
+    "wrong": [
+     "Leopard",
+     "Jaguar",
+     "Cheetah"
+    ]
+   },
+   {
+    "q": "Canis lupus",
+    "right": "Wolf",
+    "wrong": [
+     "Jackal",
+     "Coyote",
+     "Hyena"
+    ]
+   },
+   {
+    "q": "Felis catus",
+    "right": "Cat",
+    "wrong": [
+     "Lynx",
+     "Puma",
+     "Ocelot"
+    ]
+   },
+   {
+    "q": "Ursus maritimus",
+    "right": "Polar bear",
+    "wrong": [
+     "Brown bear",
+     "Black bear",
+     "Walrus"
+    ]
+   },
+   {
+    "q": "Equus caballus",
+    "right": "Horse",
+    "wrong": [
+     "Donkey",
+     "Zebra",
+     "Mule"
+    ]
+   },
+   {
+    "q": "Sus scrofa",
+    "right": "Wild boar",
+    "wrong": [
+     "Warthog",
+     "Hippo",
+     "Peccary"
+    ]
+   },
+   {
+    "q": "Loxodonta africana",
+    "right": "African elephant",
+    "wrong": [
+     "Asian elephant",
+     "Rhino",
+     "Mammoth"
+    ]
+   },
+   {
+    "q": "Vulpes vulpes",
+    "right": "Red fox",
+    "wrong": [
+     "Arctic fox",
+     "Coyote",
+     "Stoat"
+    ]
+   },
+   {
+    "q": "Meles meles",
+    "right": "Badger",
+    "wrong": [
+     "Mole",
+     "Stoat",
+     "Weasel"
+    ]
+   },
+   {
+    "q": "Erinaceus europaeus",
+    "right": "Hedgehog",
+    "wrong": [
+     "Porcupine",
+     "Shrew",
+     "Mole"
+    ]
+   },
+   {
+    "q": "Lutra lutra",
+    "right": "Otter",
+    "wrong": [
+     "Mink",
+     "Beaver",
+     "Seal"
+    ]
+   },
+   {
+    "q": "Ailuropoda melanoleuca",
+    "right": "Giant panda",
+    "wrong": [
+     "Red panda",
+     "Koala",
+     "Sun bear"
+    ]
+   },
+   {
+    "q": "Struthio camelus",
+    "right": "Ostrich",
+    "wrong": [
+     "Emu",
+     "Rhea",
+     "Camel"
+    ]
+   },
+   {
+    "q": "Pan troglodytes",
+    "right": "Chimpanzee",
+    "wrong": [
+     "Bonobo",
+     "Gorilla",
+     "Orangutan"
+    ]
+   },
+   {
+    "q": "Panthera tigris",
+    "right": "Tiger",
+    "wrong": [
+     "Leopard",
+     "Jaguar",
+     "Snow leopard"
+    ]
+   },
+   {
+    "q": "Apis mellifera",
+    "right": "Honeybee",
+    "wrong": [
+     "Wasp",
+     "Hornet",
+     "Bumblebee"
+    ]
+   },
+   {
+    "q": "Oryctolagus cuniculus",
+    "right": "Rabbit",
+    "wrong": [
+     "Hare",
+     "Guinea pig",
+     "Squirrel"
+    ]
+   },
+   {
+    "q": "Erithacus rubecula",
+    "right": "Robin",
+    "wrong": [
+     "Wren",
+     "Blackbird",
+     "Thrush"
+    ]
+   },
+   {
+    "q": "Bufo bufo",
+    "right": "Toad",
+    "wrong": [
+     "Frog",
+     "Newt",
+     "Lizard"
+    ]
+   },
+   {
+    "q": "Salmo salar",
+    "right": "Salmon",
+    "wrong": [
+     "Trout",
+     "Cod",
+     "Pike"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: who wrote this poem?",
+  "target": 10,
+  "category": "Books",
+  "tags": [
+   "poems",
+   "poets"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Daffodils ('I wandered lonely as a cloud')",
+    "right": "William Wordsworth",
+    "wrong": [
+     "Lord Byron",
+     "John Clare",
+     "Thomas Hardy"
+    ]
+   },
+   {
+    "q": "The Raven",
+    "right": "Edgar Allan Poe",
+    "wrong": [
+     "Walt Whitman",
+     "Emily Dickinson",
+     "Henry Longfellow"
+    ]
+   },
+   {
+    "q": "If—",
+    "right": "Rudyard Kipling",
+    "wrong": [
+     "Henry Newbolt",
+     "John Betjeman",
+     "Thomas Hardy"
+    ]
+   },
+   {
+    "q": "The Road Not Taken",
+    "right": "Robert Frost",
+    "wrong": [
+     "Walt Whitman",
+     "Henry Longfellow",
+     "Emily Dickinson"
+    ]
+   },
+   {
+    "q": "Do Not Go Gentle into That Good Night",
+    "right": "Dylan Thomas",
+    "wrong": [
+     "Seamus Heaney",
+     "Ted Hughes",
+     "R. S. Thomas"
+    ]
+   },
+   {
+    "q": "Ozymandias",
+    "right": "Percy Bysshe Shelley",
+    "wrong": [
+     "Lord Byron",
+     "Alexander Pope",
+     "John Milton"
+    ]
+   },
+   {
+    "q": "The Charge of the Light Brigade",
+    "right": "Alfred, Lord Tennyson",
+    "wrong": [
+     "Robert Browning",
+     "Matthew Arnold",
+     "Thomas Hardy"
+    ]
+   },
+   {
+    "q": "Jabberwocky",
+    "right": "Lewis Carroll",
+    "wrong": [
+     "Hilaire Belloc",
+     "Spike Milligan",
+     "Ogden Nash"
+    ]
+   },
+   {
+    "q": "The Owl and the Pussy-cat",
+    "right": "Edward Lear",
+    "wrong": [
+     "Hilaire Belloc",
+     "Spike Milligan",
+     "A. A. Milne"
+    ]
+   },
+   {
+    "q": "Dulce et Decorum Est",
+    "right": "Wilfred Owen",
+    "wrong": [
+     "Siegfried Sassoon",
+     "Isaac Rosenberg",
+     "Edward Thomas"
+    ]
+   },
+   {
+    "q": "The Waste Land",
+    "right": "T. S. Eliot",
+    "wrong": [
+     "Ezra Pound",
+     "W. B. Yeats",
+     "Ted Hughes"
+    ]
+   },
+   {
+    "q": "Ode to a Nightingale",
+    "right": "John Keats",
+    "wrong": [
+     "Lord Byron",
+     "John Clare",
+     "Christina Rossetti"
+    ]
+   },
+   {
+    "q": "The Tyger",
+    "right": "William Blake",
+    "wrong": [
+     "John Milton",
+     "Alexander Pope",
+     "Lord Byron"
+    ]
+   },
+   {
+    "q": "Funeral Blues ('Stop all the clocks')",
+    "right": "W. H. Auden",
+    "wrong": [
+     "Louis MacNeice",
+     "Stephen Spender",
+     "John Betjeman"
+    ]
+   },
+   {
+    "q": "Still I Rise",
+    "right": "Maya Angelou",
+    "wrong": [
+     "Langston Hughes",
+     "Alice Walker",
+     "Toni Morrison"
+    ]
+   },
+   {
+    "q": "Not Waving but Drowning",
+    "right": "Stevie Smith",
+    "wrong": [
+     "Sylvia Plath",
+     "Christina Rossetti",
+     "Carol Ann Duffy"
+    ]
+   },
+   {
+    "q": "Kubla Khan",
+    "right": "Samuel Taylor Coleridge",
+    "wrong": [
+     "Lord Byron",
+     "Robert Southey",
+     "John Clare"
+    ]
+   },
+   {
+    "q": "To a Mouse",
+    "right": "Robert Burns",
+    "wrong": [
+     "Walter Scott",
+     "James Hogg",
+     "Hugh MacDiarmid"
+    ]
+   },
+   {
+    "q": "This Be the Verse",
+    "right": "Philip Larkin",
+    "wrong": [
+     "Ted Hughes",
+     "John Betjeman",
+     "Kingsley Amis"
+    ]
+   },
+   {
+    "q": "The Soldier ('If I should die, think only this of me')",
+    "right": "Rupert Brooke",
+    "wrong": [
+     "Siegfried Sassoon",
+     "Edward Thomas",
+     "Isaac Rosenberg"
+    ]
+   }
+  ]
+ }
+]
