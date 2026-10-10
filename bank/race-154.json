@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this builder's word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "building",
+   "trades",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Metal poles and planks put up around a building",
+    "right": "Scaffolding",
+    "wrong": [
+     "Trellis",
+     "Pergola",
+     "Lattice"
+    ]
+   },
+   {
+    "q": "A three-sided box on a pole for carrying bricks up a ladder",
+    "right": "Hod",
+    "wrong": [
+     "Trug",
+     "Pannier",
+     "Satchel"
+    ]
+   },
+   {
+    "q": "The big metal bin left in the road for rubble",
+    "right": "Skip",
+    "wrong": [
+     "Hopper",
+     "Silo",
+     "Vat"
+    ]
+   },
+   {
+    "q": "The paste between the bricks",
+    "right": "Mortar",
+    "wrong": [
+     "Grout",
+     "Putty",
+     "Glue"
+    ]
+   },
+   {
+    "q": "The tool with a bubble that checks a surface is flat",
+    "right": "Spirit level",
+    "wrong": [
+     "Set square",
+     "Tape measure",
+     "Protractor"
+    ]
+   },
+   {
+    "q": "The flat, diamond-shaped blade for spreading mortar",
+    "right": "Trowel",
+    "wrong": [
+     "Spatula",
+     "Chisel",
+     "Scraper"
+    ]
+   },
+   {
+    "q": "The tradesperson who smooths the walls before painting",
+    "right": "Plasterer",
+    "wrong": [
+     "Tiler",
+     "Joiner",
+     "Thatcher"
+    ]
+   },
+   {
+    "q": "Fits the glass in the windows",
+    "right": "Glazier",
+    "wrong": [
+     "Tiler",
+     "Joiner",
+     "Thatcher"
+    ]
+   },
+   {
+    "q": "A horizontal beam that holds up a floor",
+    "right": "Joist",
+    "wrong": [
+     "Rafter",
+     "Purlin",
+     "Post"
+    ]
+   },
+   {
+    "q": "The beam across the top of a door or window opening",
+    "right": "Lintel",
+    "wrong": [
+     "Sill",
+     "Jamb",
+     "Architrave"
+    ]
+   },
+   {
+    "q": "A big grey building block made with cinders",
+    "right": "Breeze block",
+    "wrong": [
+     "Paving slab",
+     "Kerbstone",
+     "Flagstone"
+    ]
+   },
+   {
+    "q": "The layer near the bottom of a wall that stops water rising",
+    "right": "Damp-proof course",
+    "wrong": [
+     "Soffit",
+     "Flashing",
+     "Fascia"
+    ]
+   },
+   {
+    "q": "The concrete foundations under the walls",
+    "right": "Footings",
+    "wrong": [
+     "Gables",
+     "Eaves",
+     "Coving"
+    ]
+   },
+   {
+    "q": "The rotating drum that churns the concrete",
+    "right": "Cement mixer",
+    "wrong": [
+     "Tumble dryer",
+     "Butter churn",
+     "Cement silo"
+    ]
+   },
+   {
+    "q": "Builders' slang for an electrician",
+    "right": "Sparky",
+    "wrong": [
+     "Scouser",
+     "Squaddie",
+     "Roadie"
+    ]
+   },
+   {
+    "q": "Builders' slang for a carpenter",
+    "right": "Chippy",
+    "wrong": [
+     "Bobby",
+     "Roadie",
+     "Squaddie"
+    ]
+   },
+   {
+    "q": "Builders' slang for a bricklayer",
+    "right": "Brickie",
+    "wrong": [
+     "Roadie",
+     "Squaddie",
+     "Bobby"
+    ]
+   },
+   {
+    "q": "The protective helmet worn on site",
+    "right": "Hard hat",
+    "wrong": [
+     "Bowler",
+     "Beret",
+     "Deerstalker"
+    ]
+   },
+   {
+    "q": "A builder's price for the job, given before they start",
+    "right": "Quote",
+    "wrong": [
+     "Invoice",
+     "Receipt",
+     "Statement"
+    ]
+   },
+   {
+    "q": "A dodgy tradesman who does shoddy work",
+    "right": "Cowboy builder",
+    "wrong": [
+     "Ghost writer",
+     "Back-seat driver",
+     "Fair-weather friend"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this skiing word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "skiing",
+   "winter sports",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A marked, groomed ski run",
+    "right": "Piste",
+    "wrong": [
+     "Track",
+     "Lane",
+     "Circuit"
+    ]
+   },
+   {
+    "q": "Seats on a cable carrying skiers up the mountain",
+    "right": "Chairlift",
+    "wrong": [
+     "Funicular",
+     "Rack railway",
+     "Escalator"
+    ]
+   },
+   {
+    "q": "Drinks and partying after a day on the slopes",
+    "right": "Après-ski",
+    "wrong": [
+     "Hors d'oeuvre",
+     "Déjà vu",
+     "Faux pas"
+    ]
+   },
+   {
+    "q": "The beginner's move: ski tips together in a V to slow down",
+    "right": "Snowplough",
+    "wrong": [
+     "Herringbone",
+     "Telemark",
+     "Parallel turn"
+    ]
+   },
+   {
+    "q": "A bump on a ski slope",
+    "right": "Mogul",
+    "wrong": [
+     "Boulder",
+     "Crevasse",
+     "Cornice"
+    ]
+   },
+   {
+    "q": "The hardest grade of run in Europe",
+    "right": "Black run",
+    "wrong": [
+     "Blue run",
+     "Red run",
+     "Green run"
+    ]
+   },
+   {
+    "q": "Racing in a zig-zag between gates",
+    "right": "Slalom",
+    "wrong": [
+     "Downhill",
+     "Biathlon",
+     "Luge"
+    ]
+   },
+   {
+    "q": "Skiing on unmarked, ungroomed snow",
+    "right": "Off-piste",
+    "wrong": [
+     "Freestyle",
+     "Slopestyle",
+     "Big air"
+    ]
+   },
+   {
+    "q": "A great slide of snow down the mountain",
+    "right": "Avalanche",
+    "wrong": [
+     "Blizzard",
+     "Whiteout",
+     "Snowdrift"
+    ]
+   },
+   {
+    "q": "Padded ski trousers held up by braces",
+    "right": "Salopettes",
+    "wrong": [
+     "Jodhpurs",
+     "Culottes",
+     "Dungarees"
+    ]
+   },
+   {
+    "q": "Protect your eyes from the snow glare",
+    "right": "Goggles",
+    "wrong": [
+     "Monocle",
+     "Lorgnette",
+     "Pince-nez"
+    ]
+   },
+   {
+    "q": "The ticket that lets you use the lifts",
+    "right": "Ski pass",
+    "wrong": [
+     "Boarding pass",
+     "Bus pass",
+     "Backstage pass"
+    ]
+   },
+   {
+    "q": "A disc between your legs that drags you up the slope",
+    "right": "Button lift",
+    "wrong": [
+     "Rack railway",
+     "Escalator",
+     "Travelator"
+    ]
+   },
+   {
+    "q": "Rides down on a single board",
+    "right": "Snowboarder",
+    "wrong": [
+     "Tobogganist",
+     "Bobsledder",
+     "Luger"
+    ]
+   },
+   {
+    "q": "Launching off a huge ramp to fly as far as possible",
+    "right": "Ski jump",
+    "wrong": [
+     "Half-pipe",
+     "Skeleton",
+     "Curling"
+    ]
+   },
+   {
+    "q": "Britain's famously hopeless 1988 Olympic ski jumper",
+    "right": "Eddie the Eagle",
+    "wrong": [
+     "Torvill and Dean",
+     "Robin Cousins",
+     "Amy Williams"
+    ]
+   },
+   {
+    "q": "A wooden holiday house in the Alps",
+    "right": "Chalet",
+    "wrong": [
+     "Bungalow",
+     "Bothy",
+     "Igloo"
+    ]
+   },
+   {
+    "q": "Fresh, fluffy, untouched snow that skiers love",
+    "right": "Powder",
+    "wrong": [
+     "Slush",
+     "Sleet",
+     "Hail"
+    ]
+   },
+   {
+    "q": "An enclosed cabin on a cable, carrying a few people up",
+    "right": "Gondola",
+    "wrong": [
+     "Funicular",
+     "Rack railway",
+     "Paternoster"
+    ]
+   },
+   {
+    "q": "The sticks you push yourself along with",
+    "right": "Poles",
+    "wrong": [
+     "Crooks",
+     "Canes",
+     "Staves"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this dentist word?",
+  "target": 10,
+  "category": "Health",
+  "tags": [
+   "dentist",
+   "teeth",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The big, flat tooth at the back, for chewing",
+    "right": "Molar",
+    "wrong": [
+     "Tusk",
+     "Fang",
+     "Gum"
+    ]
+   },
+   {
+    "q": "The sharp, flat front tooth, for biting",
+    "right": "Incisor",
+    "wrong": [
+     "Tusk",
+     "Fang",
+     "Gum"
+    ]
+   },
+   {
+    "q": "The pointed tooth named after dogs",
+    "right": "Canine",
+    "wrong": [
+     "Feline",
+     "Lupine",
+     "Bovine"
+    ]
+   },
+   {
+    "q": "The last molar to come through, often in your late teens or twenties",
+    "right": "Wisdom tooth",
+    "wrong": [
+     "Sweet tooth",
+     "Snaggletooth",
+     "Dogtooth"
+    ]
+   },
+   {
+    "q": "A baby tooth",
+    "right": "Milk tooth",
+    "wrong": [
+     "Sweet tooth",
+     "Snaggletooth",
+     "Dogtooth"
+    ]
+   },
+   {
+    "q": "What plugs the hole in a decayed tooth",
+    "right": "Filling",
+    "wrong": [
+     "Retainer",
+     "Denture",
+     "Veneer"
+    ]
+   },
+   {
+    "q": "A cap fitted over a damaged tooth",
+    "right": "Crown",
+    "wrong": [
+     "Veneer",
+     "Bridge",
+     "Inlay"
+    ]
+   },
+   {
+    "q": "Wires that straighten your teeth",
+    "right": "Brace",
+    "wrong": [
+     "Splint",
+     "Sling",
+     "Truss"
+    ]
+   },
+   {
+    "q": "The sticky film of bacteria on your teeth",
+    "right": "Plaque",
+    "wrong": [
+     "Mucus",
+     "Pollen",
+     "Moss"
+    ]
+   },
+   {
+    "q": "Plaque that's hardened into a crust",
+    "right": "Tartar",
+    "wrong": [
+     "Rust",
+     "Limescale",
+     "Scab"
+    ]
+   },
+   {
+    "q": "The hardest substance in the body, coating your teeth",
+    "right": "Enamel",
+    "wrong": [
+     "Dentine",
+     "Cartilage",
+     "Keratin"
+    ]
+   },
+   {
+    "q": "Inflamed, bleeding gums",
+    "right": "Gingivitis",
+    "wrong": [
+     "Tonsillitis",
+     "Conjunctivitis",
+     "Laryngitis"
+    ]
+   },
+   {
+    "q": "Treatment that clears out the infected pulp inside a tooth",
+    "right": "Root canal",
+    "wrong": [
+     "Bypass",
+     "Keyhole",
+     "Stent"
+    ]
+   },
+   {
+    "q": "The thread you pull between your teeth",
+    "right": "Floss",
+    "wrong": [
+     "Twine",
+     "Yarn",
+     "Tinsel"
+    ]
+   },
+   {
+    "q": "The minty rinse you swish and spit",
+    "right": "Mouthwash",
+    "wrong": [
+     "Shampoo",
+     "Cordial",
+     "Linctus"
+    ]
+   },
+   {
+    "q": "Does the scale and polish",
+    "right": "Hygienist",
+    "wrong": [
+     "Optician",
+     "Pharmacist",
+     "Phlebotomist"
+    ]
+   },
+   {
+    "q": "The specialist who straightens teeth",
+    "right": "Orthodontist",
+    "wrong": [
+     "Optician",
+     "Chiropodist",
+     "Audiologist"
+    ]
+   },
+   {
+    "q": "False teeth",
+    "right": "Dentures",
+    "wrong": [
+     "Fangs",
+     "Tusks",
+     "Veneers"
+    ]
+   },
+   {
+    "q": "The mineral added to toothpaste to strengthen teeth",
+    "right": "Fluoride",
+    "wrong": [
+     "Chlorine",
+     "Iodine",
+     "Helium"
+    ]
+   },
+   {
+    "q": "The whirring tool used on the decay",
+    "right": "Drill",
+    "wrong": [
+     "Lathe",
+     "Router",
+     "Grinder"
+    ]
+   }
+  ]
+ }
+]
