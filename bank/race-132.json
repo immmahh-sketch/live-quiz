@@ -1,0 +1,389 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this horse racing word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "horse racing",
+   "betting",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "An eighth of a mile, the measure for race distances",
+    "right": "Furlong",
+    "wrong": [
+     "Hand",
+     "Length",
+     "Chain"
+    ]
+   },
+   {
+    "q": "A bet split between the horse winning and it finishing in the places",
+    "right": "Each way",
+    "wrong": [
+     "Forecast",
+     "Tricast",
+     "Nap"
+    ]
+   },
+   {
+    "q": "Odds where you'd win less than your stake, like 1-2",
+    "right": "Odds-on",
+    "wrong": [
+     "Evens",
+     "Lay",
+     "Nap"
+    ]
+   },
+   {
+    "q": "The horse with the shortest odds in the race",
+    "right": "Favourite",
+    "wrong": [
+     "Nap",
+     "Novice",
+     "Juvenile"
+    ]
+   },
+   {
+    "q": "A horse given long odds, not expected to win",
+    "right": "Outsider",
+    "wrong": [
+     "Novice",
+     "Maiden",
+     "Juvenile"
+    ]
+   },
+   {
+    "q": "Too close to call, so the judge checks the camera",
+    "right": "Photo finish",
+    "wrong": [
+     "Objection",
+     "Tic-tac",
+     "Short head"
+    ]
+   },
+   {
+    "q": "A jump race over fences, ditches and water",
+    "right": "Steeplechase",
+    "wrong": [
+     "Bumper",
+     "Hurdle",
+     "Claimer"
+    ]
+   },
+   {
+    "q": "Where the horses are paraded so punters can look them over before the race",
+    "right": "Paddock",
+    "wrong": [
+     "Weighing room",
+     "Winning post",
+     "Rails"
+    ]
+   },
+   {
+    "q": "The state of the ground, from heavy to firm",
+    "right": "Going",
+    "wrong": [
+     "Draw",
+     "Rails",
+     "Tape"
+    ]
+   },
+   {
+    "q": "An investigation into possible interference before the result is confirmed",
+    "right": "Stewards' enquiry",
+    "wrong": [
+     "Tic-tac",
+     "Weigh-in",
+     "Forecast"
+    ]
+   },
+   {
+    "q": "Two horses crossing the line at exactly the same moment",
+    "right": "Dead heat",
+    "wrong": [
+     "Short head",
+     "Nose",
+     "Length"
+    ]
+   },
+   {
+    "q": "A young female horse",
+    "right": "Filly",
+    "wrong": [
+     "Dam",
+     "Sire",
+     "Stallion"
+    ]
+   },
+   {
+    "q": "A young male horse that hasn't been gelded",
+    "right": "Colt",
+    "wrong": [
+     "Sire",
+     "Dam",
+     "Stallion"
+    ]
+   },
+   {
+    "q": "A male horse that has been castrated",
+    "right": "Gelding",
+    "wrong": [
+     "Sire",
+     "Stallion",
+     "Dam"
+    ]
+   },
+   {
+    "q": "An adult female horse",
+    "right": "Mare",
+    "wrong": [
+     "Sire",
+     "Stallion",
+     "Cob"
+    ]
+   },
+   {
+    "q": "The coloured jacket and cap a jockey wears to show who owns the horse",
+    "right": "Silks",
+    "wrong": [
+     "Blinkers",
+     "Visor",
+     "Saddle cloth"
+    ]
+   },
+   {
+    "q": "Pool betting, where your winnings depend on how much everyone has staked",
+    "right": "Tote",
+    "wrong": [
+     "Tic-tac",
+     "Lay",
+     "Nap"
+    ]
+   },
+   {
+    "q": "One bet linking several races, all of which must win",
+    "right": "Accumulator",
+    "wrong": [
+     "Forecast",
+     "Tricast",
+     "Nap"
+    ]
+   },
+   {
+    "q": "A race where the better horses carry more weight to even things up",
+    "right": "Handicap",
+    "wrong": [
+     "Claimer",
+     "Seller",
+     "Bumper"
+    ]
+   },
+   {
+    "q": "The gates the horses burst out of at the start of a flat race",
+    "right": "Starting stalls",
+    "wrong": [
+     "Tape",
+     "Rails",
+     "Winning post"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this tennis word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "tennis",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A serve that clips the net and still lands in, so it's taken again",
+    "right": "Let",
+    "wrong": [
+     "Net cord",
+     "Hindrance",
+     "Walkover"
+    ]
+   },
+   {
+    "q": "A high shot over the head of an opponent at the net",
+    "right": "Lob",
+    "wrong": [
+     "Tweener",
+     "Half volley",
+     "Approach shot"
+    ]
+   },
+   {
+    "q": "Hitting the ball before it bounces",
+    "right": "Volley",
+    "wrong": [
+     "Half volley",
+     "Approach shot",
+     "Tweener"
+    ]
+   },
+   {
+    "q": "A hard overhead shot hit downwards, like a serve",
+    "right": "Smash",
+    "wrong": [
+     "Tweener",
+     "Approach shot",
+     "Chip and charge"
+    ]
+   },
+   {
+    "q": "A soft shot that barely clears the net and dies",
+    "right": "Drop shot",
+    "wrong": [
+     "Approach shot",
+     "Tweener",
+     "Moonball"
+    ]
+   },
+   {
+    "q": "A first-to-seven-points decider at six games all",
+    "right": "Tie-break",
+    "wrong": [
+     "Golden set",
+     "Bisque",
+     "Walkover"
+    ]
+   },
+   {
+    "q": "Slang for winning a set 6–0",
+    "right": "Bagel",
+    "wrong": [
+     "Bread stick",
+     "Golden set",
+     "Walkover"
+    ]
+   },
+   {
+    "q": "Missing both serves and losing the point",
+    "right": "Double fault",
+    "wrong": [
+     "Hindrance",
+     "Code violation",
+     "Net cord"
+    ]
+   },
+   {
+    "q": "A shot that whizzes past an opponent rushing the net",
+    "right": "Passing shot",
+    "wrong": [
+     "Approach shot",
+     "Moonball",
+     "Chip and charge"
+    ]
+   },
+   {
+    "q": "Forward spin that makes the ball dip and then kick up high",
+    "right": "Topspin",
+    "wrong": [
+     "Slice",
+     "Flat",
+     "Chip"
+    ]
+   },
+   {
+    "q": "The line at the very back of the court",
+    "right": "Baseline",
+    "wrong": [
+     "Service line",
+     "No man's land",
+     "T"
+    ]
+   },
+   {
+    "q": "The extra strips down the sides, used only in doubles",
+    "right": "Tramlines",
+    "wrong": [
+     "Service box",
+     "No man's land",
+     "T"
+    ]
+   },
+   {
+    "q": "The score when a player wins the point after deuce",
+    "right": "Advantage",
+    "wrong": [
+     "Bread stick",
+     "Bisque",
+     "Hindrance"
+    ]
+   },
+   {
+    "q": "Stepping on the baseline while you serve",
+    "right": "Foot fault",
+    "wrong": [
+     "Hindrance",
+     "Code violation",
+     "Net cord"
+    ]
+   },
+   {
+    "q": "The ball-tracking system players call on to check a line call",
+    "right": "Hawk-Eye",
+    "wrong": [
+     "Cyclops",
+     "Net cord",
+     "Wildcard"
+    ]
+   },
+   {
+    "q": "Winning a game when your opponent is serving",
+    "right": "Break",
+    "wrong": [
+     "Hold",
+     "Walkover",
+     "Bisque"
+    ]
+   },
+   {
+    "q": "Winning all four major titles in one calendar year",
+    "right": "Grand Slam",
+    "wrong": [
+     "Wildcard",
+     "Seed",
+     "Walkover"
+    ]
+   },
+   {
+    "q": "All four majors plus Olympic gold in the same year, as Steffi Graf did in 1988",
+    "right": "Golden Slam",
+    "wrong": [
+     "Wildcard",
+     "Seed",
+     "Walkover"
+    ]
+   },
+   {
+    "q": "A long exchange of shots back and forth",
+    "right": "Rally",
+    "wrong": [
+     "Walkover",
+     "Hold",
+     "Bisque"
+    ]
+   },
+   {
+    "q": "A beaten qualifier who gets into the main draw when someone pulls out",
+    "right": "Lucky loser",
+    "wrong": [
+     "Wildcard",
+     "Seed",
+     "Walkover"
+    ]
+   }
+  ]
+ }
+]
