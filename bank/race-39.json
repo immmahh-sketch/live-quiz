@@ -1,0 +1,774 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: who made this sculpture?",
+  "target": 10,
+  "category": "Art and culture",
+  "tags": [
+   "sculpture",
+   "artists"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The Thinker",
+    "right": "Auguste Rodin",
+    "wrong": [
+     "Camille Claudel",
+     "Aristide Maillol",
+     "Henri Matisse"
+    ]
+   },
+   {
+    "q": "The David in Florence's Accademia",
+    "right": "Michelangelo",
+    "wrong": [
+     "Donatello",
+     "Verrocchio",
+     "Ghiberti"
+    ]
+   },
+   {
+    "q": "The Angel of the North",
+    "right": "Antony Gormley",
+    "wrong": [
+     "Barbara Hepworth",
+     "Rachel Whiteread",
+     "Thomas Heatherwick"
+    ]
+   },
+   {
+    "q": "Balloon Dog",
+    "right": "Jeff Koons",
+    "wrong": [
+     "Claes Oldenburg",
+     "Andy Warhol",
+     "Yayoi Kusama"
+    ]
+   },
+   {
+    "q": "The Little Mermaid, Copenhagen",
+    "right": "Edvard Eriksen",
+    "wrong": [
+     "Gustav Vigeland",
+     "Carl Milles",
+     "Bertel Thorvaldsen"
+    ]
+   },
+   {
+    "q": "Christ the Redeemer",
+    "right": "Paul Landowski",
+    "wrong": [
+     "Oscar Niemeyer",
+     "Aleijadinho",
+     "Gutzon Borglum"
+    ]
+   },
+   {
+    "q": "The Statue of Liberty",
+    "right": "Frédéric Bartholdi",
+    "wrong": [
+     "Augustus Saint-Gaudens",
+     "Daniel Chester French",
+     "Gutzon Borglum"
+    ]
+   },
+   {
+    "q": "The Kelpies",
+    "right": "Andy Scott",
+    "wrong": [
+     "Eduardo Paolozzi",
+     "Barbara Hepworth",
+     "Thomas Heatherwick"
+    ]
+   },
+   {
+    "q": "The Reclining Figure series",
+    "right": "Henry Moore",
+    "wrong": [
+     "Barbara Hepworth",
+     "Jacob Epstein",
+     "Eduardo Paolozzi"
+    ]
+   },
+   {
+    "q": "The Ecstasy of Saint Teresa",
+    "right": "Gian Lorenzo Bernini",
+    "wrong": [
+     "Donatello",
+     "Borromini",
+     "Verrocchio"
+    ]
+   },
+   {
+    "q": "Perseus with the Head of Medusa",
+    "right": "Benvenuto Cellini",
+    "wrong": [
+     "Donatello",
+     "Giambologna",
+     "Ghiberti"
+    ]
+   },
+   {
+    "q": "Maman, the giant spider",
+    "right": "Louise Bourgeois",
+    "wrong": [
+     "Yayoi Kusama",
+     "Tracey Emin",
+     "Barbara Hepworth"
+    ]
+   },
+   {
+    "q": "Cloud Gate ('The Bean')",
+    "right": "Anish Kapoor",
+    "wrong": [
+     "Claes Oldenburg",
+     "Thomas Heatherwick",
+     "Richard Serra"
+    ]
+   },
+   {
+    "q": "Fountain, the signed urinal",
+    "right": "Marcel Duchamp",
+    "wrong": [
+     "Man Ray",
+     "Salvador Dalí",
+     "René Magritte"
+    ]
+   },
+   {
+    "q": "Walking Man",
+    "right": "Alberto Giacometti",
+    "wrong": [
+     "Jean Arp",
+     "Aristide Maillol",
+     "Ossip Zadkine"
+    ]
+   },
+   {
+    "q": "Bird in Space",
+    "right": "Constantin Brâncuși",
+    "wrong": [
+     "Jean Arp",
+     "Barbara Hepworth",
+     "Naum Gabo"
+    ]
+   },
+   {
+    "q": "The shark in formaldehyde",
+    "right": "Damien Hirst",
+    "wrong": [
+     "Tracey Emin",
+     "Marc Quinn",
+     "Banksy"
+    ]
+   },
+   {
+    "q": "Charging Bull, Wall Street",
+    "right": "Arturo Di Modica",
+    "wrong": [
+     "Kristen Visbal",
+     "Claes Oldenburg",
+     "Richard Serra"
+    ]
+   },
+   {
+    "q": "Little Dancer Aged Fourteen",
+    "right": "Edgar Degas",
+    "wrong": [
+     "Pierre-Auguste Renoir",
+     "Édouard Manet",
+     "Claude Monet"
+    ]
+   },
+   {
+    "q": "The Three Graces (1814–17)",
+    "right": "Antonio Canova",
+    "wrong": [
+     "Bertel Thorvaldsen",
+     "Donatello",
+     "Giambologna"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which architect designed this building?",
+  "target": 10,
+  "category": "Art and culture",
+  "tags": [
+   "architecture",
+   "architects"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "St Paul's Cathedral",
+    "right": "Christopher Wren",
+    "wrong": [
+     "Nicholas Hawksmoor",
+     "Inigo Jones",
+     "Robert Adam"
+    ]
+   },
+   {
+    "q": "The London Aquatics Centre",
+    "right": "Zaha Hadid",
+    "wrong": [
+     "Rem Koolhaas",
+     "Jean Nouvel",
+     "David Chipperfield"
+    ]
+   },
+   {
+    "q": "The Guggenheim Bilbao",
+    "right": "Frank Gehry",
+    "wrong": [
+     "Richard Meier",
+     "Jean Nouvel",
+     "Rem Koolhaas"
+    ]
+   },
+   {
+    "q": "The Sagrada Família",
+    "right": "Antoni Gaudí",
+    "wrong": [
+     "Lluís Domènech i Montaner",
+     "Josep Puig i Cadafalch",
+     "Andrea Palladio"
+    ]
+   },
+   {
+    "q": "The Sydney Opera House",
+    "right": "Jørn Utzon",
+    "wrong": [
+     "Alvar Aalto",
+     "Eero Saarinen",
+     "Arne Jacobsen"
+    ]
+   },
+   {
+    "q": "The Louvre Pyramid",
+    "right": "I. M. Pei",
+    "wrong": [
+     "Jean Nouvel",
+     "Philip Johnson",
+     "Tadao Ando"
+    ]
+   },
+   {
+    "q": "The Gherkin",
+    "right": "Norman Foster",
+    "wrong": [
+     "Terry Farrell",
+     "David Chipperfield",
+     "Rem Koolhaas"
+    ]
+   },
+   {
+    "q": "The Shard",
+    "right": "Renzo Piano",
+    "wrong": [
+     "Terry Farrell",
+     "Jean Nouvel",
+     "Richard Meier"
+    ]
+   },
+   {
+    "q": "Fallingwater",
+    "right": "Frank Lloyd Wright",
+    "wrong": [
+     "Louis Sullivan",
+     "Philip Johnson",
+     "Walter Gropius"
+    ]
+   },
+   {
+    "q": "The Palace of Westminster (after the 1834 fire)",
+    "right": "Charles Barry",
+    "wrong": [
+     "Decimus Burton",
+     "Robert Adam",
+     "John Soane"
+    ]
+   },
+   {
+    "q": "The Lloyd's building",
+    "right": "Richard Rogers",
+    "wrong": [
+     "Terry Farrell",
+     "James Stirling",
+     "Denys Lasdun"
+    ]
+   },
+   {
+    "q": "The Royal Pavilion, Brighton",
+    "right": "John Nash",
+    "wrong": [
+     "Robert Adam",
+     "John Soane",
+     "Decimus Burton"
+    ]
+   },
+   {
+    "q": "The Seagram Building",
+    "right": "Mies van der Rohe",
+    "wrong": [
+     "Walter Gropius",
+     "Louis Sullivan",
+     "Le Corbusier"
+    ]
+   },
+   {
+    "q": "The Cathedral of Brasília",
+    "right": "Oscar Niemeyer",
+    "wrong": [
+     "Le Corbusier",
+     "Lúcio Costa",
+     "Alvar Aalto"
+    ]
+   },
+   {
+    "q": "The dome of Florence Cathedral",
+    "right": "Filippo Brunelleschi",
+    "wrong": [
+     "Michelangelo",
+     "Bramante",
+     "Leon Battista Alberti"
+    ]
+   },
+   {
+    "q": "Valencia's City of Arts and Sciences",
+    "right": "Santiago Calatrava",
+    "wrong": [
+     "Rafael Moneo",
+     "Ricardo Bofill",
+     "Jean Nouvel"
+    ]
+   },
+   {
+    "q": "Beijing's Bird's Nest stadium",
+    "right": "Herzog & de Meuron",
+    "wrong": [
+     "Rem Koolhaas",
+     "Kengo Kuma",
+     "Tadao Ando"
+    ]
+   },
+   {
+    "q": "The Chrysler Building",
+    "right": "William Van Alen",
+    "wrong": [
+     "Louis Sullivan",
+     "Philip Johnson",
+     "Cass Gilbert"
+    ]
+   },
+   {
+    "q": "Newcastle Central Station",
+    "right": "John Dobson",
+    "wrong": [
+     "Richard Grainger",
+     "Thomas Oliver",
+     "Robert Stephenson"
+    ]
+   },
+   {
+    "q": "The new Coventry Cathedral",
+    "right": "Basil Spence",
+    "wrong": [
+     "Frederick Gibberd",
+     "Giles Gilbert Scott",
+     "Denys Lasdun"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this stadium in?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "stadiums",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The Maracanã",
+    "right": "Brazil",
+    "wrong": [
+     "Uruguay",
+     "Colombia",
+     "Chile"
+    ]
+   },
+   {
+    "q": "The Camp Nou",
+    "right": "Spain",
+    "wrong": [
+     "Andorra",
+     "Belgium",
+     "Greece"
+    ]
+   },
+   {
+    "q": "San Siro",
+    "right": "Italy",
+    "wrong": [
+     "Switzerland",
+     "Greece",
+     "Croatia"
+    ]
+   },
+   {
+    "q": "The Allianz Arena",
+    "right": "Germany",
+    "wrong": [
+     "Switzerland",
+     "Belgium",
+     "Czechia"
+    ]
+   },
+   {
+    "q": "The Estadio Azteca",
+    "right": "Mexico",
+    "wrong": [
+     "Colombia",
+     "Chile",
+     "the USA"
+    ]
+   },
+   {
+    "q": "The MCG",
+    "right": "Australia",
+    "wrong": [
+     "Fiji",
+     "England",
+     "Samoa"
+    ]
+   },
+   {
+    "q": "Eden Park",
+    "right": "New Zealand",
+    "wrong": [
+     "Fiji",
+     "Samoa",
+     "England"
+    ]
+   },
+   {
+    "q": "Ellis Park",
+    "right": "South Africa",
+    "wrong": [
+     "Namibia",
+     "Zimbabwe",
+     "Kenya"
+    ]
+   },
+   {
+    "q": "Croke Park",
+    "right": "Ireland",
+    "wrong": [
+     "Scotland",
+     "Wales",
+     "England"
+    ]
+   },
+   {
+    "q": "The Stade de France",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Switzerland",
+     "Monaco"
+    ]
+   },
+   {
+    "q": "The Johan Cruyff Arena",
+    "right": "the Netherlands",
+    "wrong": [
+     "Belgium",
+     "Luxembourg",
+     "Sweden"
+    ]
+   },
+   {
+    "q": "The Estádio da Luz",
+    "right": "Portugal",
+    "wrong": [
+     "Andorra",
+     "Greece",
+     "Uruguay"
+    ]
+   },
+   {
+    "q": "La Bombonera",
+    "right": "Argentina",
+    "wrong": [
+     "Uruguay",
+     "Chile",
+     "Colombia"
+    ]
+   },
+   {
+    "q": "The Rungrado May Day Stadium",
+    "right": "North Korea",
+    "wrong": [
+     "South Korea",
+     "China",
+     "Mongolia"
+    ]
+   },
+   {
+    "q": "The Luzhniki",
+    "right": "Russia",
+    "wrong": [
+     "Ukraine",
+     "Belarus",
+     "Poland"
+    ]
+   },
+   {
+    "q": "The Lusail Stadium",
+    "right": "Qatar",
+    "wrong": [
+     "Saudi Arabia",
+     "the UAE",
+     "Bahrain"
+    ]
+   },
+   {
+    "q": "Eden Gardens",
+    "right": "India",
+    "wrong": [
+     "Pakistan",
+     "Sri Lanka",
+     "Bangladesh"
+    ]
+   },
+   {
+    "q": "Parken",
+    "right": "Denmark",
+    "wrong": [
+     "Sweden",
+     "Norway",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "The Ernst Happel Stadium",
+    "right": "Austria",
+    "wrong": [
+     "Switzerland",
+     "Czechia",
+     "Slovakia"
+    ]
+   },
+   {
+    "q": "The Puskás Aréna",
+    "right": "Hungary",
+    "wrong": [
+     "Romania",
+     "Slovakia",
+     "Serbia"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this waterfall in?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "waterfalls",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Angel Falls",
+    "right": "Venezuela",
+    "wrong": [
+     "Colombia",
+     "Brazil",
+     "Ecuador"
+    ]
+   },
+   {
+    "q": "Gullfoss",
+    "right": "Iceland",
+    "wrong": [
+     "Greenland",
+     "the Faroe Islands",
+     "Finland"
+    ]
+   },
+   {
+    "q": "Sutherland Falls",
+    "right": "New Zealand",
+    "wrong": [
+     "Australia",
+     "Fiji",
+     "Chile"
+    ]
+   },
+   {
+    "q": "The Plitvice Lakes falls",
+    "right": "Croatia",
+    "wrong": [
+     "Slovenia",
+     "Bosnia and Herzegovina",
+     "Montenegro"
+    ]
+   },
+   {
+    "q": "Kaieteur Falls",
+    "right": "Guyana",
+    "wrong": [
+     "Suriname",
+     "Colombia",
+     "Brazil"
+    ]
+   },
+   {
+    "q": "Tugela Falls",
+    "right": "South Africa",
+    "wrong": [
+     "Lesotho",
+     "Namibia",
+     "Zimbabwe"
+    ]
+   },
+   {
+    "q": "Yosemite Falls",
+    "right": "the USA",
+    "wrong": [
+     "Canada",
+     "Mexico",
+     "Chile"
+    ]
+   },
+   {
+    "q": "The Rhine Falls",
+    "right": "Switzerland",
+    "wrong": [
+     "Germany",
+     "Liechtenstein",
+     "France"
+    ]
+   },
+   {
+    "q": "Jog Falls",
+    "right": "India",
+    "wrong": [
+     "Sri Lanka",
+     "Nepal",
+     "Bangladesh"
+    ]
+   },
+   {
+    "q": "Huangguoshu Falls",
+    "right": "China",
+    "wrong": [
+     "Vietnam",
+     "Laos",
+     "Mongolia"
+    ]
+   },
+   {
+    "q": "The Blue Nile Falls",
+    "right": "Ethiopia",
+    "wrong": [
+     "Sudan",
+     "Egypt",
+     "Kenya"
+    ]
+   },
+   {
+    "q": "Murchison Falls",
+    "right": "Uganda",
+    "wrong": [
+     "Kenya",
+     "Tanzania",
+     "Rwanda"
+    ]
+   },
+   {
+    "q": "Kegon Falls",
+    "right": "Japan",
+    "wrong": [
+     "South Korea",
+     "Taiwan",
+     "the Philippines"
+    ]
+   },
+   {
+    "q": "Gocta Falls",
+    "right": "Peru",
+    "wrong": [
+     "Ecuador",
+     "Bolivia",
+     "Colombia"
+    ]
+   },
+   {
+    "q": "The Krimml Falls",
+    "right": "Austria",
+    "wrong": [
+     "Germany",
+     "Liechtenstein",
+     "Slovenia"
+    ]
+   },
+   {
+    "q": "Vøringsfossen",
+    "right": "Norway",
+    "wrong": [
+     "Sweden",
+     "Finland",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "High Force",
+    "right": "England",
+    "wrong": [
+     "Scotland",
+     "Ireland",
+     "the Isle of Man"
+    ]
+   },
+   {
+    "q": "Swallow Falls",
+    "right": "Wales",
+    "wrong": [
+     "Scotland",
+     "Ireland",
+     "the Isle of Man"
+    ]
+   },
+   {
+    "q": "Erawan Falls",
+    "right": "Thailand",
+    "wrong": [
+     "Laos",
+     "Cambodia",
+     "Myanmar"
+    ]
+   },
+   {
+    "q": "The Cascata delle Marmore",
+    "right": "Italy",
+    "wrong": [
+     "Slovenia",
+     "Malta",
+     "Greece"
+    ]
+   }
+  ]
+ }
+]
