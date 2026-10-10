@@ -1,0 +1,388 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this chess word?",
+  "target": 10,
+  "category": "Games and toys",
+  "tags": [
+   "chess",
+   "games"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The king is under attack and can't escape: game over",
+    "right": "Checkmate",
+    "wrong": [
+     "Perpetual check",
+     "Swindle",
+     "Bughouse"
+    ]
+   },
+   {
+    "q": "The player to move has no legal move but isn't in check, so it's a draw",
+    "right": "Stalemate",
+    "wrong": [
+     "Perpetual check",
+     "Zwischenzug",
+     "Fianchetto"
+    ]
+   },
+   {
+    "q": "King and rook move in one go, tucking the king away safely",
+    "right": "Castling",
+    "wrong": [
+     "Fianchetto",
+     "Outpost",
+     "Battery"
+    ]
+   },
+   {
+    "q": "A pawn captures another that has just jumped two squares past it",
+    "right": "En passant",
+    "wrong": [
+     "Zwischenzug",
+     "Fianchetto",
+     "Outpost"
+    ]
+   },
+   {
+    "q": "One piece attacks two enemy pieces at once",
+    "right": "Fork",
+    "wrong": [
+     "Battery",
+     "Outpost",
+     "Zwischenzug"
+    ]
+   },
+   {
+    "q": "A piece can't move without exposing a more valuable piece behind it",
+    "right": "Pin",
+    "wrong": [
+     "Battery",
+     "Outpost",
+     "Tempo"
+    ]
+   },
+   {
+    "q": "A valuable piece is attacked and, when it moves, a lesser one behind it is taken",
+    "right": "Skewer",
+    "wrong": [
+     "Battery",
+     "Outpost",
+     "Tempo"
+    ]
+   },
+   {
+    "q": "Giving up a pawn early on to get ahead in development",
+    "right": "Gambit",
+    "wrong": [
+     "Fianchetto",
+     "Outpost",
+     "Swindle"
+    ]
+   },
+   {
+    "q": "A pawn reaches the far side of the board and becomes a queen",
+    "right": "Promotion",
+    "wrong": [
+     "Fianchetto",
+     "Outpost",
+     "Battery"
+    ]
+   },
+   {
+    "q": "Every move you could make will worsen your position, but you have to move",
+    "right": "Zugzwang",
+    "wrong": [
+     "Zwischenzug",
+     "Fianchetto",
+     "Tempo"
+    ]
+   },
+   {
+    "q": "The piece shaped like a castle tower",
+    "right": "Rook",
+    "wrong": [
+     "King",
+     "Chancellor",
+     "Archbishop"
+    ]
+   },
+   {
+    "q": "The only piece that can jump over others, moving in an L-shape",
+    "right": "Knight",
+    "wrong": [
+     "King",
+     "Chancellor",
+     "Amazon"
+    ]
+   },
+   {
+    "q": "Moves any distance diagonally and stays on one colour all game",
+    "right": "Bishop",
+    "wrong": [
+     "King",
+     "Archbishop",
+     "Chancellor"
+    ]
+   },
+   {
+    "q": "Moves forward one square at a time, but captures diagonally",
+    "right": "Pawn",
+    "wrong": [
+     "King",
+     "Amazon",
+     "Chancellor"
+    ]
+   },
+   {
+    "q": "The most powerful piece, moving any distance in any straight line",
+    "right": "Queen",
+    "wrong": [
+     "King",
+     "Archbishop",
+     "Chancellor"
+    ]
+   },
+   {
+    "q": "The top title a chess player can earn, kept for life",
+    "right": "Grandmaster",
+    "wrong": [
+     "Arbiter",
+     "Patzer",
+     "Simul"
+    ]
+   },
+   {
+    "q": "Your king is under attack and you must deal with it at once",
+    "right": "Check",
+    "wrong": [
+     "Swindle",
+     "Blunder",
+     "Tempo"
+    ]
+   },
+   {
+    "q": "Give up the game before checkmate, often by tipping over your king",
+    "right": "Resign",
+    "wrong": [
+     "Swindle",
+     "Blunder",
+     "Simul"
+    ]
+   },
+   {
+    "q": "A fast game with just a few minutes each on the clock",
+    "right": "Blitz",
+    "wrong": [
+     "Simul",
+     "Patzer",
+     "Arbiter"
+    ]
+   },
+   {
+    "q": "A four-move checkmate that catches out beginners, with queen and bishop",
+    "right": "Scholar's Mate",
+    "wrong": [
+     "Fool's Mate",
+     "Ruy Lopez",
+     "Caro-Kann"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this theatre word?",
+  "target": 10,
+  "category": "Theatre",
+  "tags": [
+   "theatre",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The hidden areas at the sides of the stage where actors wait",
+    "right": "Wings",
+    "wrong": [
+     "Flats",
+     "Fly tower",
+     "Trap room"
+    ]
+   },
+   {
+    "q": "A row of lamps along the front edge of the stage floor",
+    "right": "Footlights",
+    "wrong": [
+     "Followspot",
+     "Cyclorama",
+     "Gauze"
+    ]
+   },
+   {
+    "q": "The frame around the front of the stage, like a picture frame",
+    "right": "Proscenium arch",
+    "wrong": [
+     "Cyclorama",
+     "Fly tower",
+     "Orchestra pit"
+    ]
+   },
+   {
+    "q": "The seats on the ground floor, nearest the stage",
+    "right": "Stalls",
+    "wrong": [
+     "Mezzanine",
+     "Foyer",
+     "Gallery"
+    ]
+   },
+   {
+    "q": "The first balcony of seats above the stalls",
+    "right": "Dress circle",
+    "wrong": [
+     "Foyer",
+     "Gallery",
+     "Auditorium"
+    ]
+   },
+   {
+    "q": "The highest, cheapest seats, right up near the ceiling",
+    "right": "The gods",
+    "wrong": [
+     "Mezzanine",
+     "Foyer",
+     "Orchestra pit"
+    ]
+   },
+   {
+    "q": "An actor who learns a part in case the star can't go on",
+    "right": "Understudy",
+    "wrong": [
+     "Walk-on",
+     "Chorus",
+     "Extra"
+    ]
+   },
+   {
+    "q": "An afternoon performance",
+    "right": "Matinée",
+    "wrong": [
+     "Previews",
+     "Read-through",
+     "Tech run"
+    ]
+   },
+   {
+    "q": "An extra number performed because the audience calls for more",
+    "right": "Encore",
+    "wrong": [
+     "Aside",
+     "Cue",
+     "Walk-on"
+    ]
+   },
+   {
+    "q": "When the cast come back on stage at the end to take their bows",
+    "right": "Curtain call",
+    "wrong": [
+     "Get-in",
+     "Blocking",
+     "Walk-on"
+    ]
+   },
+   {
+    "q": "Making up lines on the spot when you've forgotten them",
+    "right": "Ad lib",
+    "wrong": [
+     "Blocking",
+     "Cue",
+     "Aside"
+    ]
+   },
+   {
+    "q": "What you say to wish an actor good luck",
+    "right": "Break a leg",
+    "wrong": [
+     "Fit-up",
+     "Get-in",
+     "Walk-on"
+    ]
+   },
+   {
+    "q": "The lounge where performers relax before and after going on",
+    "right": "Green room",
+    "wrong": [
+     "Trap room",
+     "Foyer",
+     "Dock"
+    ]
+   },
+   {
+    "q": "The back of the stage, furthest from the audience",
+    "right": "Upstage",
+    "wrong": [
+     "Apron",
+     "Orchestra pit",
+     "Fly tower"
+    ]
+   },
+   {
+    "q": "The break halfway through, when you dash for an ice cream",
+    "right": "Interval",
+    "wrong": [
+     "Previews",
+     "Tech run",
+     "Read-through"
+    ]
+   },
+   {
+    "q": "The final run-through in full costume before opening night",
+    "right": "Dress rehearsal",
+    "wrong": [
+     "Read-through",
+     "Tech run",
+     "Previews"
+    ]
+   },
+   {
+    "q": "A speech where a character alone on stage speaks their thoughts aloud",
+    "right": "Soliloquy",
+    "wrong": [
+     "Aside",
+     "Chorus",
+     "Cue"
+    ]
+   },
+   {
+    "q": "Getting the giggles on stage and breaking character",
+    "right": "Corpsing",
+    "wrong": [
+     "Blocking",
+     "Cue",
+     "Fit-up"
+    ]
+   },
+   {
+    "q": "Where you buy or collect your tickets",
+    "right": "Box office",
+    "wrong": [
+     "Foyer",
+     "Dock",
+     "Fly tower"
+    ]
+   },
+   {
+    "q": "The person offstage who whispers a line when an actor forgets it",
+    "right": "Prompter",
+    "wrong": [
+     "Dresser",
+     "Call boy",
+     "Chaperone"
+    ]
+   }
+  ]
+ }
+]
