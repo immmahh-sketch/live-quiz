@@ -1,0 +1,583 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this police word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "police",
+   "crime",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Slang for a police officer, named after Sir Robert Peel",
+    "right": "Bobby",
+    "wrong": [
+     "Screw",
+     "Squaddie",
+     "Traffic warden"
+    ]
+   },
+   {
+    "q": "The short wooden club an old-fashioned bobby carried",
+    "right": "Truncheon",
+    "wrong": [
+     "Taser",
+     "Cordon",
+     "Bodycam"
+    ]
+   },
+   {
+    "q": "Locked round a suspect's wrists",
+    "right": "Handcuffs",
+    "wrong": [
+     "Tag",
+     "Cordon",
+     "Bodycam"
+    ]
+   },
+   {
+    "q": "Being held at the police station",
+    "right": "Custody",
+    "wrong": [
+     "Probation",
+     "Stop and search",
+     "Duty solicitor"
+    ]
+   },
+   {
+    "q": "'You do not have to say anything, but it may harm your defence...'",
+    "right": "Caution",
+    "wrong": [
+     "Kettle",
+     "Stop and search",
+     "Duty solicitor"
+    ]
+   },
+   {
+    "q": "The ID a plain-clothes officer flashes to prove who they are",
+    "right": "Warrant card",
+    "wrong": [
+     "Bodycam",
+     "Tag",
+     "Hi-vis"
+    ]
+   },
+   {
+    "q": "Old nickname for a small blue-and-white police car",
+    "right": "Panda car",
+    "wrong": [
+     "Black Maria",
+     "Jam sandwich",
+     "Hi-vis"
+    ]
+   },
+   {
+    "q": "The patch a constable patrols on foot",
+    "right": "Beat",
+    "wrong": [
+     "Cordon",
+     "Kettle",
+     "Tag"
+    ]
+   },
+   {
+    "q": "The plain-clothes detectives' department",
+    "right": "CID",
+    "wrong": [
+     "Interpol",
+     "Scotland Yard",
+     "Traffic division"
+    ]
+   },
+   {
+    "q": "The officer behind the front counter at the station",
+    "right": "Desk sergeant",
+    "wrong": [
+     "Duty solicitor",
+     "Traffic warden",
+     "Screw"
+    ]
+   },
+   {
+    "q": "A row of people for a witness to pick out the suspect",
+    "right": "Identity parade",
+    "wrong": [
+     "Stop and search",
+     "Kettle",
+     "Cordon"
+    ]
+   },
+   {
+    "q": "The photo taken of a suspect after an arrest",
+    "right": "Mugshot",
+    "wrong": [
+     "Bodycam",
+     "Speed camera",
+     "Hi-vis"
+    ]
+   },
+   {
+    "q": "Secretly watching a place for hours, waiting for something to happen",
+    "right": "Stake-out",
+    "wrong": [
+     "Kettle",
+     "Stop and search",
+     "Cordon"
+    ]
+   },
+   {
+    "q": "Slang for an informer who tells the police",
+    "right": "Grass",
+    "wrong": [
+     "Screw",
+     "Rozzer",
+     "Squaddie"
+    ]
+   },
+   {
+    "q": "The wailing noise as a police car rushes to a 999 call",
+    "right": "Siren",
+    "wrong": [
+     "Blue light",
+     "Hi-vis",
+     "Speed camera"
+    ]
+   },
+   {
+    "q": "The Met's armed-robbery unit, nicknamed 'the Sweeney'",
+    "right": "Flying Squad",
+    "wrong": [
+     "Interpol",
+     "Traffic division",
+     "Special Branch"
+    ]
+   },
+   {
+    "q": "A volunteer officer with the same powers as a regular one",
+    "right": "Special constable",
+    "wrong": [
+     "Traffic warden",
+     "Screw",
+     "Duty solicitor"
+    ]
+   },
+   {
+    "q": "You blow into it to check you haven't been drinking",
+    "right": "Breathalyser",
+    "wrong": [
+     "Speed camera",
+     "Tag",
+     "Bodycam"
+    ]
+   },
+   {
+    "q": "Dusted for at a crime scene and matched to a suspect",
+    "right": "Fingerprints",
+    "wrong": [
+     "Hi-vis",
+     "Tag",
+     "Cordon"
+    ]
+   },
+   {
+    "q": "A specially trained animal that searches bags for drugs",
+    "right": "Sniffer dog",
+    "wrong": [
+     "Police horse",
+     "Guide dog",
+     "Mascot"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this TV word?",
+  "target": 10,
+  "category": "TV",
+  "tags": [
+   "television",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "An episode that ends on a knife-edge, leaving you desperate for the next",
+    "right": "Cliffhanger",
+    "wrong": [
+     "Montage",
+     "Outtake",
+     "Voiceover"
+    ]
+   },
+   {
+    "q": "A new show built around a character from an older one",
+    "right": "Spin-off",
+    "wrong": [
+     "Simulcast",
+     "Syndication",
+     "Montage"
+    ]
+   },
+   {
+    "q": "The trial first episode made to test a new series",
+    "right": "Pilot",
+    "wrong": [
+     "Promo",
+     "Trailer",
+     "Outtake"
+    ]
+   },
+   {
+    "q": "An old episode shown again",
+    "right": "Repeat",
+    "wrong": [
+     "Simulcast",
+     "Outtake",
+     "Promo"
+    ]
+   },
+   {
+    "q": "A whole series released together to watch in one go",
+    "right": "Box set",
+    "wrong": [
+     "Simulcast",
+     "Syndication",
+     "Promo"
+    ]
+   },
+   {
+    "q": "Recorded giggles added to a sitcom",
+    "right": "Laughter track",
+    "wrong": [
+     "Voiceover",
+     "Sting",
+     "Ident"
+    ]
+   },
+   {
+    "q": "9pm, after which more grown-up programmes may be shown",
+    "right": "Watershed",
+    "wrong": [
+     "Primetime",
+     "Daytime",
+     "Ident"
+    ]
+   },
+   {
+    "q": "The pause for commercials on ITV",
+    "right": "Ad break",
+    "wrong": [
+     "Ident",
+     "Sting",
+     "Montage"
+    ]
+   },
+   {
+    "q": "A one-off festive episode, often watched after the turkey",
+    "right": "Christmas special",
+    "wrong": [
+     "Simulcast",
+     "Outtake",
+     "Montage"
+    ]
+   },
+   {
+    "q": "The very last episode of a series",
+    "right": "Finale",
+    "wrong": [
+     "Promo",
+     "Outtake",
+     "Teaser"
+    ]
+   },
+   {
+    "q": "A story set before the original, like 'House of the Dragon'",
+    "right": "Prequel",
+    "wrong": [
+     "Sequel",
+     "Crossover",
+     "Simulcast"
+    ]
+   },
+   {
+    "q": "A new version of an old show or film",
+    "right": "Remake",
+    "wrong": [
+     "Sequel",
+     "Crossover",
+     "Montage"
+    ]
+   },
+   {
+    "q": "A brief surprise appearance by a famous face",
+    "right": "Cameo",
+    "wrong": [
+     "Voiceover",
+     "Outtake",
+     "Ident"
+    ]
+   },
+   {
+    "q": "Watching episode after episode in one sitting",
+    "right": "Binge-watch",
+    "wrong": [
+     "Simulcast",
+     "Channel-hop",
+     "Syndication"
+    ]
+   },
+   {
+    "q": "The person in overall charge of making a TV series",
+    "right": "Showrunner",
+    "wrong": [
+     "Continuity announcer",
+     "Floor manager",
+     "Clapper loader"
+    ]
+   },
+   {
+    "q": "The names and theme tune at the start of a show",
+    "right": "Opening credits",
+    "wrong": [
+     "Ident",
+     "Sting",
+     "Outtake"
+    ]
+   },
+   {
+    "q": "A comedy series built round the same characters and setting",
+    "right": "Sitcom",
+    "wrong": [
+     "Simulcast",
+     "Montage",
+     "Docudrama"
+    ]
+   },
+   {
+    "q": "A never-ending drama about one street or village, on several nights a week",
+    "right": "Soap opera",
+    "wrong": [
+     "Docudrama",
+     "Mockumentary",
+     "Miniseries"
+    ]
+   },
+   {
+    "q": "Watching a programme later on iPlayer or ITVX",
+    "right": "Catch-up",
+    "wrong": [
+     "Simulcast",
+     "Syndication",
+     "Ident"
+    ]
+   },
+   {
+    "q": "The picture of a girl and a clown shown when nothing else was on",
+    "right": "Test card",
+    "wrong": [
+     "Ident",
+     "Sting",
+     "Autocue"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this newspaper word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "newspapers",
+   "journalism",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A smaller-format paper known for punchy headlines and gossip",
+    "right": "Tabloid",
+    "wrong": [
+     "Masthead",
+     "Classifieds",
+     "Advertorial"
+    ]
+   },
+   {
+    "q": "A big-format 'serious' newspaper",
+    "right": "Broadsheet",
+    "wrong": [
+     "Masthead",
+     "Freesheet",
+     "Classifieds"
+    ]
+   },
+   {
+    "q": "The boss who decides what goes in the paper",
+    "right": "Editor",
+    "wrong": [
+     "Stringer",
+     "Proofreader",
+     "Copy boy"
+    ]
+   },
+   {
+    "q": "Writes a regular opinion piece under their own name",
+    "right": "Columnist",
+    "wrong": [
+     "Stringer",
+     "Proofreader",
+     "Copy boy"
+    ]
+   },
+   {
+    "q": "A big story one paper gets before all the others",
+    "right": "Scoop",
+    "wrong": [
+     "Puff piece",
+     "Advertorial",
+     "Embargo"
+    ]
+   },
+   {
+    "q": "Where the biggest story of the day goes",
+    "right": "Front page",
+    "wrong": [
+     "Back page",
+     "Classifieds",
+     "Centre spread"
+    ]
+   },
+   {
+    "q": "A write-up of someone's life after they've died",
+    "right": "Obituary",
+    "wrong": [
+     "Puff piece",
+     "Advertorial",
+     "Classifieds"
+    ]
+   },
+   {
+    "q": "Answers readers' letters about their problems",
+    "right": "Agony aunt",
+    "wrong": [
+     "Stringer",
+     "Proofreader",
+     "Copy boy"
+    ]
+   },
+   {
+    "q": "A grid of clues to solve, cryptic or quick",
+    "right": "Crossword",
+    "wrong": [
+     "Classifieds",
+     "Masthead",
+     "Advertorial"
+    ]
+   },
+   {
+    "q": "What the stars say for your sign this week",
+    "right": "Horoscope",
+    "wrong": [
+     "Classifieds",
+     "Masthead",
+     "Advertorial"
+    ]
+   },
+   {
+    "q": "Photographers who chase celebrities for pictures",
+    "right": "Paparazzi",
+    "wrong": [
+     "Stringers",
+     "Proofreaders",
+     "Copy boys"
+    ]
+   },
+   {
+    "q": "The line naming who wrote a story",
+    "right": "Byline",
+    "wrong": [
+     "Masthead",
+     "Dateline",
+     "Lede"
+    ]
+   },
+   {
+    "q": "The paper's own opinion on the news of the day",
+    "right": "Editorial",
+    "wrong": [
+     "Advertorial",
+     "Puff piece",
+     "Classifieds"
+    ]
+   },
+   {
+    "q": "An extra magazine tucked inside at the weekend",
+    "right": "Supplement",
+    "wrong": [
+     "Classifieds",
+     "Masthead",
+     "Centre spread"
+    ]
+   },
+   {
+    "q": "How many copies a paper sells",
+    "right": "Circulation",
+    "wrong": [
+     "Embargo",
+     "Masthead",
+     "Dateline"
+    ]
+   },
+   {
+    "q": "Secret information passed to a journalist",
+    "right": "Leak",
+    "wrong": [
+     "Embargo",
+     "Proof",
+     "Puff piece"
+    ]
+   },
+   {
+    "q": "The big bold words at the top of a story",
+    "right": "Headline",
+    "wrong": [
+     "Dateline",
+     "Lede",
+     "Masthead"
+    ]
+   },
+   {
+    "q": "A statement a company sends out, hoping to get coverage",
+    "right": "Press release",
+    "wrong": [
+     "Embargo",
+     "Puff piece",
+     "Advertorial"
+    ]
+   },
+   {
+    "q": "A journalist covering one subject or country, like politics or Washington",
+    "right": "Correspondent",
+    "wrong": [
+     "Proofreader",
+     "Copy boy",
+     "Typesetter"
+    ]
+   },
+   {
+    "q": "What an editor does to a story they decide not to run",
+    "right": "Spike",
+    "wrong": [
+     "Embargo",
+     "Proof",
+     "Splash"
+    ]
+   }
+  ]
+ }
+]
