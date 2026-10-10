@@ -1,0 +1,751 @@
+[
+ {
+  "answers": [
+   "Eye in the sky"
+  ],
+  "elements": [
+   {
+    "t": "SKeyeY",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Bottom line",
+   "The bottom line"
+  ],
+  "elements": [
+   {
+    "t": "LINE",
+    "x": 50,
+    "y": 92,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Black sheep",
+   "Black sheep of the family"
+  ],
+  "elements": [
+   {
+    "t": "SHEEP",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#111111"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Brown bread"
+  ],
+  "elements": [
+   {
+    "t": "BREAD",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#7a4a1e"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Backstroke"
+  ],
+  "elements": [
+   {
+    "t": "EKORTS",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Sport",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Turn back time",
+   "Turn back the clock"
+  ],
+  "elements": [
+   {
+    "t": "EMIT",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Upside-down cake",
+   "Upside down cake",
+   "Pineapple upside-down cake"
+  ],
+  "elements": [
+   {
+    "t": "CAKE",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "flip": "v"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Rising damp"
+  ],
+  "elements": [
+   {
+    "t": "D",
+    "x": 28,
+    "y": 82,
+    "s": 5
+   },
+   {
+    "t": "A",
+    "x": 42,
+    "y": 64,
+    "s": 5
+   },
+   {
+    "t": "M",
+    "x": 58,
+    "y": 46,
+    "s": 5
+   },
+   {
+    "t": "P",
+    "x": 72,
+    "y": 28,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [
+   "sitcoms"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Seven seas",
+   "The seven seas"
+  ],
+  "elements": [
+   {
+    "t": "C C C C C C C",
+    "x": 50,
+    "y": 50,
+    "s": 4
+   }
+  ],
+  "category": "World geography",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Upper class"
+  ],
+  "elements": [
+   {
+    "t": "CLASS",
+    "x": 50,
+    "y": 8,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Lower case",
+   "Lowercase"
+  ],
+  "elements": [
+   {
+    "t": "case",
+    "x": 50,
+    "y": 92,
+    "s": 5
+   }
+  ],
+  "category": "Words and language",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Highs and lows"
+  ],
+  "elements": [
+   {
+    "t": "HIGHS",
+    "x": 50,
+    "y": 10,
+    "s": 4
+   },
+   {
+    "t": "LOWS",
+    "x": 50,
+    "y": 90,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Undercurrent"
+  ],
+  "elements": [
+   {
+    "t": "CURRENT",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "style": "underline"
+   }
+  ],
+  "category": "Nature",
+  "tags": [],
+  "difficulty": "hard"
+ },
+ {
+  "answers": [
+   "Back to back"
+  ],
+  "elements": [
+   {
+    "t": "KCAB BACK",
+    "x": 50,
+    "y": 50,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Backlash"
+  ],
+  "elements": [
+   {
+    "t": "HSAL",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Backlog"
+  ],
+  "elements": [
+   {
+    "t": "GOL",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Backbencher",
+   "Backbenchers"
+  ],
+  "elements": [
+   {
+    "t": "REHCNEB",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   }
+  ],
+  "category": "Politics",
+  "tags": [],
+  "difficulty": "hard"
+ },
+ {
+  "answers": [
+   "Spin doctor"
+  ],
+  "elements": [
+   {
+    "t": "DOCTOR",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "rot": 160
+   }
+  ],
+  "category": "Politics",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Green tea"
+  ],
+  "elements": [
+   {
+    "t": "TEA",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#1f9a3a"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Redwood"
+  ],
+  "elements": [
+   {
+    "t": "WOOD",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#d42020"
+   }
+  ],
+  "category": "Nature",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Blackbird"
+  ],
+  "elements": [
+   {
+    "t": "BIRD",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#111111"
+   }
+  ],
+  "category": "Nature",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Blue Planet",
+   "The Blue Planet"
+  ],
+  "elements": [
+   {
+    "t": "PLANET",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "color": "#1f5fd4"
+   }
+  ],
+  "category": "TV",
+  "tags": [
+   "David Attenborough"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Red Arrows",
+   "The Red Arrows"
+  ],
+  "elements": [
+   {
+    "t": "ARROWS",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "color": "#d42020"
+   }
+  ],
+  "category": "Britain",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Golden Hind",
+   "The Golden Hind"
+  ],
+  "elements": [
+   {
+    "t": "HIND",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#c9a227"
+   }
+  ],
+  "category": "History",
+  "tags": [
+   "Francis Drake"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Golden retriever"
+  ],
+  "elements": [
+   {
+    "t": "RETRIEVER",
+    "x": 50,
+    "y": 50,
+    "s": 4,
+    "color": "#c9a227"
+   }
+  ],
+  "category": "Nature",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Silver Surfer",
+   "The Silver Surfer"
+  ],
+  "elements": [
+   {
+    "t": "SURFER",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "color": "#9aa0a6"
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "Marvel"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Purple Heart"
+  ],
+  "elements": [
+   {
+    "t": "HEART",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#7b2fbe"
+   }
+  ],
+  "category": "History",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Brown Owl"
+  ],
+  "elements": [
+   {
+    "t": "OWL",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#7a4a1e"
+   }
+  ],
+  "category": "Everyday life",
+  "tags": [
+   "Brownies"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Blue blood",
+   "Blue-blooded"
+  ],
+  "elements": [
+   {
+    "t": "BLOOD",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#1f5fd4"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Black Widow"
+  ],
+  "elements": [
+   {
+    "t": "WIDOW",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#111111"
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "Marvel"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Green Goblin",
+   "The Green Goblin"
+  ],
+  "elements": [
+   {
+    "t": "GOBLIN",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "color": "#1f9a3a"
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "Spider-Man"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Yellow Pages"
+  ],
+  "elements": [
+   {
+    "t": "PAGES",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#e0b400"
+   }
+  ],
+  "category": "Brands",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Blue Lagoon",
+   "The Blue Lagoon"
+  ],
+  "elements": [
+   {
+    "t": "LAGOON",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "color": "#1f5fd4"
+   }
+  ],
+  "category": "Film",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Little Chef"
+  ],
+  "elements": [
+   {
+    "t": "chef",
+    "x": 50,
+    "y": 50,
+    "s": 1
+   }
+  ],
+  "category": "Brands",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Little Italy"
+  ],
+  "elements": [
+   {
+    "t": "italy",
+    "x": 50,
+    "y": 50,
+    "s": 1
+   }
+  ],
+  "category": "World geography",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "The Big Easy",
+   "Big Easy"
+  ],
+  "elements": [
+   {
+    "t": "EASY",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "World geography",
+  "tags": [
+   "New Orleans"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Double take"
+  ],
+  "elements": [
+   {
+    "t": "TAKE TAKE",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Double trouble"
+  ],
+  "elements": [
+   {
+    "t": "TROUBLE TROUBLE",
+    "x": 50,
+    "y": 50,
+    "s": 3
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Double agent"
+  ],
+  "elements": [
+   {
+    "t": "AGENT AGENT",
+    "x": 50,
+    "y": 50,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Split level",
+   "Split-level"
+  ],
+  "elements": [
+   {
+    "t": "LEV",
+    "x": 38,
+    "y": 46,
+    "s": 6,
+    "rot": -10
+   },
+   {
+    "t": "EL",
+    "x": 64,
+    "y": 56,
+    "s": 6,
+    "rot": 10
+   }
+  ],
+  "category": "Everyday life",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Broken Arrow"
+  ],
+  "elements": [
+   {
+    "t": "ARR",
+    "x": 38,
+    "y": 46,
+    "s": 6,
+    "rot": -15
+   },
+   {
+    "t": "OW",
+    "x": 64,
+    "y": 58,
+    "s": 6,
+    "rot": 15
+   }
+  ],
+  "category": "Film",
+  "tags": [],
+  "difficulty": "hard"
+ }
+]
