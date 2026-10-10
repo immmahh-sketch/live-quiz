@@ -1,0 +1,775 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: in which city did this Olympic moment happen?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "Olympics",
+   "host cities"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Usain Bolt wins his first Olympic golds",
+    "right": "Beijing",
+    "wrong": [
+     "Munich",
+     "Melbourne",
+     "Amsterdam"
+    ]
+   },
+   {
+    "q": "Jesse Owens wins four golds",
+    "right": "Berlin",
+    "wrong": [
+     "Amsterdam",
+     "Antwerp",
+     "St Louis"
+    ]
+   },
+   {
+    "q": "Team GB's 'Super Saturday'",
+    "right": "London",
+    "wrong": [
+     "Munich",
+     "Melbourne",
+     "Antwerp"
+    ]
+   },
+   {
+    "q": "Bob Beamon's astonishing long jump",
+    "right": "Mexico City",
+    "wrong": [
+     "Munich",
+     "Melbourne",
+     "St Louis"
+    ]
+   },
+   {
+    "q": "Nadia Comăneci scores the first perfect 10",
+    "right": "Montreal",
+    "wrong": [
+     "Munich",
+     "Melbourne",
+     "Amsterdam"
+    ]
+   },
+   {
+    "q": "Cathy Freeman wins the 400 m at her home Games",
+    "right": "Sydney",
+    "wrong": [
+     "Melbourne",
+     "Munich",
+     "Antwerp"
+    ]
+   },
+   {
+    "q": "Torvill and Dean skate their Boléro",
+    "right": "Sarajevo",
+    "wrong": [
+     "Lake Placid",
+     "Innsbruck",
+     "Grenoble"
+    ]
+   },
+   {
+    "q": "Eddie 'the Eagle' Edwards ski-jumps for Britain",
+    "right": "Calgary",
+    "wrong": [
+     "Lake Placid",
+     "Albertville",
+     "Lillehammer"
+    ]
+   },
+   {
+    "q": "The USA's basketball 'Dream Team' plays",
+    "right": "Barcelona",
+    "wrong": [
+     "Munich",
+     "Melbourne",
+     "Amsterdam"
+    ]
+   },
+   {
+    "q": "Michael Johnson wins the 200 m and 400 m in gold shoes",
+    "right": "Atlanta",
+    "wrong": [
+     "St Louis",
+     "Munich",
+     "Melbourne"
+    ]
+   },
+   {
+    "q": "Kelly Holmes wins the 800 m and 1,500 m double",
+    "right": "Athens",
+    "wrong": [
+     "Munich",
+     "Melbourne",
+     "Antwerp"
+    ]
+   },
+   {
+    "q": "Simone Biles pulls out with 'the twisties'",
+    "right": "Tokyo",
+    "wrong": [
+     "Munich",
+     "Melbourne",
+     "Amsterdam"
+    ]
+   },
+   {
+    "q": "Abebe Bikila wins the marathon barefoot",
+    "right": "Rome",
+    "wrong": [
+     "Melbourne",
+     "Munich",
+     "Amsterdam"
+    ]
+   },
+   {
+    "q": "Ben Johnson is stripped of his 100 m gold",
+    "right": "Seoul",
+    "wrong": [
+     "Munich",
+     "Melbourne",
+     "Amsterdam"
+    ]
+   },
+   {
+    "q": "Carl Lewis wins four golds to match Jesse Owens",
+    "right": "Los Angeles",
+    "wrong": [
+     "St Louis",
+     "Munich",
+     "Melbourne"
+    ]
+   },
+   {
+    "q": "Eric Liddell wins the 400 m, as told in Chariots of Fire",
+    "right": "Paris",
+    "wrong": [
+     "Amsterdam",
+     "Antwerp",
+     "St Louis"
+    ]
+   },
+   {
+    "q": "Jim Thorpe wins both the pentathlon and decathlon",
+    "right": "Stockholm",
+    "wrong": [
+     "Antwerp",
+     "Amsterdam",
+     "St Louis"
+    ]
+   },
+   {
+    "q": "Emil Zátopek wins the 5,000 m, 10,000 m and marathon",
+    "right": "Helsinki",
+    "wrong": [
+     "Melbourne",
+     "Antwerp",
+     "Amsterdam"
+    ]
+   },
+   {
+    "q": "Usain Bolt wins his third Olympic 100 m in a row",
+    "right": "Rio de Janeiro",
+    "wrong": [
+     "Munich",
+     "Melbourne",
+     "Amsterdam"
+    ]
+   },
+   {
+    "q": "Seb Coe beats Steve Ovett to win the 1,500 m",
+    "right": "Moscow",
+    "wrong": [
+     "Munich",
+     "Melbourne",
+     "Amsterdam"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which company owns this brand?",
+  "target": 10,
+  "category": "Business",
+  "tags": [
+   "brands",
+   "companies"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "KitKat (outside the USA)",
+    "right": "Nestlé",
+    "wrong": [
+     "Ferrero",
+     "Lindt",
+     "Kraft Heinz"
+    ]
+   },
+   {
+    "q": "Cadbury",
+    "right": "Mondelēz",
+    "wrong": [
+     "Ferrero",
+     "Hershey",
+     "Lindt"
+    ]
+   },
+   {
+    "q": "Walkers crisps",
+    "right": "PepsiCo",
+    "wrong": [
+     "Kellogg's",
+     "Kraft Heinz",
+     "Ferrero"
+    ]
+   },
+   {
+    "q": "Maltesers",
+    "right": "Mars",
+    "wrong": [
+     "Ferrero",
+     "Hershey",
+     "Lindt"
+    ]
+   },
+   {
+    "q": "Costa Coffee",
+    "right": "Coca-Cola",
+    "wrong": [
+     "Starbucks",
+     "Whitbread",
+     "Kraft Heinz"
+    ]
+   },
+   {
+    "q": "Guinness",
+    "right": "Diageo",
+    "wrong": [
+     "Heineken",
+     "AB InBev",
+     "Carlsberg"
+    ]
+   },
+   {
+    "q": "Gillette",
+    "right": "Procter & Gamble",
+    "wrong": [
+     "Kimberly-Clark",
+     "Colgate-Palmolive",
+     "Johnson & Johnson"
+    ]
+   },
+   {
+    "q": "YouTube",
+    "right": "Alphabet (Google)",
+    "wrong": [
+     "Apple",
+     "Netflix",
+     "Oracle"
+    ]
+   },
+   {
+    "q": "Instagram",
+    "right": "Meta",
+    "wrong": [
+     "Apple",
+     "Snap",
+     "Oracle"
+    ]
+   },
+   {
+    "q": "LinkedIn",
+    "right": "Microsoft",
+    "wrong": [
+     "Apple",
+     "Oracle",
+     "Salesforce"
+    ]
+   },
+   {
+    "q": "Audible",
+    "right": "Amazon",
+    "wrong": [
+     "Apple",
+     "Spotify",
+     "Netflix"
+    ]
+   },
+   {
+    "q": "Moët & Chandon",
+    "right": "LVMH",
+    "wrong": [
+     "Kering",
+     "Richemont",
+     "Pernod Ricard"
+    ]
+   },
+   {
+    "q": "Zara",
+    "right": "Inditex",
+    "wrong": [
+     "H&M",
+     "Fast Retailing",
+     "Arcadia"
+    ]
+   },
+   {
+    "q": "Rolls-Royce cars",
+    "right": "BMW",
+    "wrong": [
+     "Volkswagen",
+     "Mercedes-Benz Group",
+     "Toyota"
+    ]
+   },
+   {
+    "q": "Jaguar Land Rover",
+    "right": "Tata",
+    "wrong": [
+     "Ford",
+     "Stellantis",
+     "Hyundai"
+    ]
+   },
+   {
+    "q": "Volvo Cars",
+    "right": "Geely",
+    "wrong": [
+     "Ford",
+     "Stellantis",
+     "Hyundai"
+    ]
+   },
+   {
+    "q": "Primark",
+    "right": "Associated British Foods",
+    "wrong": [
+     "Arcadia",
+     "Next",
+     "Tesco"
+    ]
+   },
+   {
+    "q": "Dettol",
+    "right": "Reckitt",
+    "wrong": [
+     "Johnson & Johnson",
+     "Colgate-Palmolive",
+     "Kimberly-Clark"
+    ]
+   },
+   {
+    "q": "Marmite",
+    "right": "Unilever",
+    "wrong": [
+     "Kraft Heinz",
+     "Kellogg's",
+     "General Mills"
+    ]
+   },
+   {
+    "q": "Pixar",
+    "right": "Disney",
+    "wrong": [
+     "Warner Bros.",
+     "Universal",
+     "Paramount"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what does this instrument measure?",
+  "target": 10,
+  "category": "Science and nature",
+  "tags": [
+   "instruments",
+   "measurement"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Barometer",
+    "right": "Air pressure",
+    "wrong": [
+     "Wind direction",
+     "Sunshine",
+     "Snowfall"
+    ]
+   },
+   {
+    "q": "Thermometer",
+    "right": "Temperature",
+    "wrong": [
+     "Sunshine",
+     "Snowfall",
+     "Salinity"
+    ]
+   },
+   {
+    "q": "Anemometer",
+    "right": "Wind speed",
+    "wrong": [
+     "Wind direction",
+     "Sunshine",
+     "Snowfall"
+    ]
+   },
+   {
+    "q": "Hygrometer",
+    "right": "Humidity",
+    "wrong": [
+     "Salinity",
+     "Sunshine",
+     "Snowfall"
+    ]
+   },
+   {
+    "q": "Seismograph",
+    "right": "Earthquakes",
+    "wrong": [
+     "Tide height",
+     "Magnetism",
+     "Wind direction"
+    ]
+   },
+   {
+    "q": "Altimeter",
+    "right": "Altitude",
+    "wrong": [
+     "Depth",
+     "Tide height",
+     "Magnetism"
+    ]
+   },
+   {
+    "q": "Odometer",
+    "right": "Distance travelled",
+    "wrong": [
+     "Fuel level",
+     "Tyre pressure",
+     "Engine temperature"
+    ]
+   },
+   {
+    "q": "Speedometer",
+    "right": "Speed",
+    "wrong": [
+     "Fuel level",
+     "Tyre pressure",
+     "Engine temperature"
+    ]
+   },
+   {
+    "q": "Ammeter",
+    "right": "Electric current",
+    "wrong": [
+     "Magnetism",
+     "Brightness",
+     "Torque"
+    ]
+   },
+   {
+    "q": "Voltmeter",
+    "right": "Voltage",
+    "wrong": [
+     "Magnetism",
+     "Brightness",
+     "Torque"
+    ]
+   },
+   {
+    "q": "Pedometer",
+    "right": "Steps",
+    "wrong": [
+     "Pulse",
+     "Calories eaten",
+     "Sleep"
+    ]
+   },
+   {
+    "q": "Sphygmomanometer",
+    "right": "Blood pressure",
+    "wrong": [
+     "Pulse",
+     "Hearing",
+     "Eyesight"
+    ]
+   },
+   {
+    "q": "Hydrometer",
+    "right": "Density of a liquid",
+    "wrong": [
+     "Viscosity",
+     "Hardness",
+     "Brightness"
+    ]
+   },
+   {
+    "q": "Rain gauge",
+    "right": "Rainfall",
+    "wrong": [
+     "Sunshine",
+     "Wind direction",
+     "Tide height"
+    ]
+   },
+   {
+    "q": "Geiger counter",
+    "right": "Radiation",
+    "wrong": [
+     "Magnetism",
+     "Brightness",
+     "Salinity"
+    ]
+   },
+   {
+    "q": "Spirometer",
+    "right": "Lung capacity",
+    "wrong": [
+     "Pulse",
+     "Hearing",
+     "Eyesight"
+    ]
+   },
+   {
+    "q": "Tachometer",
+    "right": "Engine revs",
+    "wrong": [
+     "Fuel level",
+     "Tyre pressure",
+     "Engine temperature"
+    ]
+   },
+   {
+    "q": "Chronometer",
+    "right": "Time",
+    "wrong": [
+     "Wind direction",
+     "Magnetism",
+     "Tide height"
+    ]
+   },
+   {
+    "q": "Breathalyser",
+    "right": "Alcohol in the breath",
+    "wrong": [
+     "Pulse",
+     "Blood sugar",
+     "Hearing"
+    ]
+   },
+   {
+    "q": "pH meter",
+    "right": "Acidity",
+    "wrong": [
+     "Salinity",
+     "Viscosity",
+     "Hardness"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country did this TV show first come from?",
+  "target": 10,
+  "category": "Film and TV",
+  "tags": [
+   "TV",
+   "world TV",
+   "countries"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Yo soy Betty, la fea (the original Ugly Betty)",
+    "right": "Colombia",
+    "wrong": [
+     "Venezuela",
+     "Argentina",
+     "Chile"
+    ]
+   },
+   {
+    "q": "Prisoners of War (the original Homeland)",
+    "right": "Israel",
+    "wrong": [
+     "the USA",
+     "Lebanon",
+     "Greece"
+    ]
+   },
+   {
+    "q": "The Killing (Forbrydelsen)",
+    "right": "Denmark",
+    "wrong": [
+     "Finland",
+     "Poland",
+     "Austria"
+    ]
+   },
+   {
+    "q": "Money Heist",
+    "right": "Spain",
+    "wrong": [
+     "Portugal",
+     "Argentina",
+     "Chile"
+    ]
+   },
+   {
+    "q": "Dark",
+    "right": "Germany",
+    "wrong": [
+     "Austria",
+     "Switzerland",
+     "Poland"
+    ]
+   },
+   {
+    "q": "Lupin",
+    "right": "France",
+    "wrong": [
+     "Switzerland",
+     "Canada",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "Skam",
+    "right": "Norway",
+    "wrong": [
+     "Finland",
+     "Poland",
+     "Austria"
+    ]
+   },
+   {
+    "q": "Gomorrah",
+    "right": "Italy",
+    "wrong": [
+     "Greece",
+     "Portugal",
+     "Malta"
+    ]
+   },
+   {
+    "q": "Sacred Games",
+    "right": "India",
+    "wrong": [
+     "Pakistan",
+     "Bangladesh",
+     "Sri Lanka"
+    ]
+   },
+   {
+    "q": "3%",
+    "right": "Brazil",
+    "wrong": [
+     "Argentina",
+     "Portugal",
+     "Chile"
+    ]
+   },
+   {
+    "q": "Wallander (the original)",
+    "right": "Sweden",
+    "wrong": [
+     "Finland",
+     "Poland",
+     "Austria"
+    ]
+   },
+   {
+    "q": "The Masked Singer",
+    "right": "South Korea",
+    "wrong": [
+     "China",
+     "Taiwan",
+     "Thailand"
+    ]
+   },
+   {
+    "q": "Dragons' Den (as Money Tigers)",
+    "right": "Japan",
+    "wrong": [
+     "China",
+     "Taiwan",
+     "the USA"
+    ]
+   },
+   {
+    "q": "Big Brother",
+    "right": "the Netherlands",
+    "wrong": [
+     "the USA",
+     "Austria",
+     "Switzerland"
+    ]
+   },
+   {
+    "q": "Who Wants to Be a Millionaire?",
+    "right": "the United Kingdom",
+    "wrong": [
+     "the USA",
+     "Ireland",
+     "Canada"
+    ]
+   },
+   {
+    "q": "Professor T",
+    "right": "Belgium",
+    "wrong": [
+     "Luxembourg",
+     "Switzerland",
+     "Austria"
+    ]
+   },
+   {
+    "q": "Magnificent Century",
+    "right": "Turkey",
+    "wrong": [
+     "Greece",
+     "Egypt",
+     "Iran"
+    ]
+   },
+   {
+    "q": "The House of Flowers",
+    "right": "Mexico",
+    "wrong": [
+     "Argentina",
+     "Chile",
+     "Venezuela"
+    ]
+   },
+   {
+    "q": "Trapped",
+    "right": "Iceland",
+    "wrong": [
+     "Finland",
+     "Greenland",
+     "the Faroe Islands"
+    ]
+   },
+   {
+    "q": "Neighbours",
+    "right": "Australia",
+    "wrong": [
+     "New Zealand",
+     "the USA",
+     "Canada"
+    ]
+   }
+  ]
+ }
+]
