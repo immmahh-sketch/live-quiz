@@ -1,0 +1,388 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which motorway?",
+  "target": 10,
+  "category": "Britain",
+  "tags": [
+   "motorways",
+   "roads"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "London to Leeds, the first full-length motorway",
+    "right": "M1",
+    "wrong": [
+     "M10",
+     "M45",
+     "M69"
+    ]
+   },
+   {
+    "q": "The Medway towns of Kent to Faversham",
+    "right": "M2",
+    "wrong": [
+     "M26",
+     "M48",
+     "M32"
+    ]
+   },
+   {
+    "q": "London to Southampton, past Winchester",
+    "right": "M3",
+    "wrong": [
+     "M32",
+     "M26",
+     "M48"
+    ]
+   },
+   {
+    "q": "London to South Wales, via Reading and Swindon",
+    "right": "M4",
+    "wrong": [
+     "M48",
+     "M49",
+     "M50"
+    ]
+   },
+   {
+    "q": "Birmingham to Exeter",
+    "right": "M5",
+    "wrong": [
+     "M50",
+     "M32",
+     "M49"
+    ]
+   },
+   {
+    "q": "Rugby to Gretna, Britain's longest",
+    "right": "M6",
+    "wrong": [
+     "M61",
+     "M55",
+     "M58"
+    ]
+   },
+   {
+    "q": "Edinburgh to Glasgow",
+    "right": "M8",
+    "wrong": [
+     "M80",
+     "M73",
+     "M77"
+    ]
+   },
+   {
+    "q": "Edinburgh to Stirling",
+    "right": "M9",
+    "wrong": [
+     "M80",
+     "M876",
+     "M73"
+    ]
+   },
+   {
+    "q": "London to Cambridge",
+    "right": "M11",
+    "wrong": [
+     "M10",
+     "M45",
+     "M26"
+    ]
+   },
+   {
+    "q": "Rotherham to Goole",
+    "right": "M18",
+    "wrong": [
+     "M180",
+     "M181",
+     "M621"
+    ]
+   },
+   {
+    "q": "London to Folkestone and the Channel Tunnel",
+    "right": "M20",
+    "wrong": [
+     "M26",
+     "M10",
+     "M45"
+    ]
+   },
+   {
+    "q": "London to Crawley and Gatwick",
+    "right": "M23",
+    "wrong": [
+     "M26",
+     "M10",
+     "M45"
+    ]
+   },
+   {
+    "q": "London's orbital motorway",
+    "right": "M25",
+    "wrong": [
+     "M26",
+     "M45",
+     "M10"
+    ]
+   },
+   {
+    "q": "Southampton to Portsmouth",
+    "right": "M27",
+    "wrong": [
+     "M271",
+     "M275",
+     "M32"
+    ]
+   },
+   {
+    "q": "London to Birmingham via Oxford",
+    "right": "M40",
+    "wrong": [
+     "M42",
+     "M45",
+     "M69"
+    ]
+   },
+   {
+    "q": "Wolverhampton to Telford",
+    "right": "M54",
+    "wrong": [
+     "M53",
+     "M56",
+     "M42"
+    ]
+   },
+   {
+    "q": "The ring road motorway around Manchester",
+    "right": "M60",
+    "wrong": [
+     "M61",
+     "M66",
+     "M67"
+    ]
+   },
+   {
+    "q": "Liverpool to Hull, over the Pennines",
+    "right": "M62",
+    "wrong": [
+     "M61",
+     "M65",
+     "M66"
+    ]
+   },
+   {
+    "q": "Glasgow to Gretna",
+    "right": "M74",
+    "wrong": [
+     "M73",
+     "M77",
+     "M80"
+    ]
+   },
+   {
+    "q": "Edinburgh to Perth, over the Queensferry Crossing",
+    "right": "M90",
+    "wrong": [
+     "M80",
+     "M876",
+     "M73"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which famous family?",
+  "target": 10,
+  "category": "Famous people",
+  "tags": [
+   "families",
+   "who's who"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Kim, Khloé and Kourtney",
+    "right": "Kardashian",
+    "wrong": [
+     "Jenner",
+     "Richie",
+     "Trump"
+    ]
+   },
+   {
+    "q": "Ozzy, Sharon, Kelly and Jack",
+    "right": "Osbourne",
+    "wrong": [
+     "Richie",
+     "Trump",
+     "Jenner"
+    ]
+   },
+   {
+    "q": "Brooklyn, Romeo, Cruz and Harper",
+    "right": "Beckham",
+    "wrong": [
+     "Rooney",
+     "Lampard",
+     "Owen"
+    ]
+   },
+   {
+    "q": "Michael, Janet, Tito and Jermaine",
+    "right": "Jackson",
+    "wrong": [
+     "Osmond",
+     "Knowles",
+     "Carpenter"
+    ]
+   },
+   {
+    "q": "John, Robert and Ted, the American political brothers",
+    "right": "Kennedy",
+    "wrong": [
+     "Bush",
+     "Clinton",
+     "Roosevelt"
+    ]
+   },
+   {
+    "q": "Charlotte, Emily, Anne and Branwell",
+    "right": "Brontë",
+    "wrong": [
+     "Austen",
+     "Mitford",
+     "Shelley"
+    ]
+   },
+   {
+    "q": "Groucho, Harpo, Chico and Zeppo",
+    "right": "Marx",
+    "wrong": [
+     "Ritz",
+     "Warner",
+     "Nicholas"
+    ]
+   },
+   {
+    "q": "Barry, Robin and Maurice",
+    "right": "Gibb",
+    "wrong": [
+     "Everly",
+     "Osmond",
+     "Walker"
+    ]
+   },
+   {
+    "q": "Jack and Bobby, World Cup winners in 1966",
+    "right": "Charlton",
+    "wrong": [
+     "Neville",
+     "Ferdinand",
+     "Lampard"
+    ]
+   },
+   {
+    "q": "Andy and Jamie, the tennis-playing brothers",
+    "right": "Murray",
+    "wrong": [
+     "Henman",
+     "Brownlee",
+     "Bryan"
+    ]
+   },
+   {
+    "q": "Vanessa, Lynn and Corin, the acting dynasty",
+    "right": "Redgrave",
+    "wrong": [
+     "Fiennes",
+     "Attenborough",
+     "Mills"
+    ]
+   },
+   {
+    "q": "Vito, Michael, Sonny and Fredo",
+    "right": "Corleone",
+    "wrong": [
+     "Tattaglia",
+     "Barzini",
+     "Montana"
+    ]
+   },
+   {
+    "q": "Tony, Carmela, Meadow and A.J.",
+    "right": "Soprano",
+    "wrong": [
+     "Moltisanti",
+     "Montana",
+     "Gambino"
+    ]
+   },
+   {
+    "q": "Frank, Fiona, Lip and Ian in Shameless",
+    "right": "Gallagher",
+    "wrong": [
+     "Fisher",
+     "Beale",
+     "Battersby"
+    ]
+   },
+   {
+    "q": "Henry, Jane and Peter",
+    "right": "Fonda",
+    "wrong": [
+     "Douglas",
+     "Sheen",
+     "Coppola"
+    ]
+   },
+   {
+    "q": "Phil, Grant and Peggy",
+    "right": "Mitchell",
+    "wrong": [
+     "Beale",
+     "Butcher",
+     "Fowler"
+    ]
+   },
+   {
+    "q": "Ken, Deirdre, Peter and Tracy",
+    "right": "Barlow",
+    "wrong": [
+     "Battersby",
+     "Platt",
+     "Webster"
+    ]
+   },
+   {
+    "q": "Zak, Cain, Charity and Marlon",
+    "right": "Dingle",
+    "wrong": [
+     "Sugden",
+     "Tate",
+     "King"
+    ]
+   },
+   {
+    "q": "Alec, Stephen, William and Daniel, the acting brothers",
+    "right": "Baldwin",
+    "wrong": [
+     "Wayans",
+     "Affleck",
+     "Hemsworth"
+    ]
+   },
+   {
+    "q": "Paris and Nicky, the hotel heiresses",
+    "right": "Hilton",
+    "wrong": [
+     "Richie",
+     "Trump",
+     "Jenner"
+    ]
+   }
+  ]
+ }
+]
