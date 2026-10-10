@@ -1,0 +1,582 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which country is this traditional dress from?",
+  "target": 10,
+  "category": "Art and culture",
+  "tags": [
+   "traditional dress",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The kilt",
+    "right": "Scotland",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Brittany"
+    ]
+   },
+   {
+    "q": "The kimono",
+    "right": "Japan",
+    "wrong": [
+     "Taiwan",
+     "Thailand",
+     "Laos"
+    ]
+   },
+   {
+    "q": "The hanbok",
+    "right": "South Korea",
+    "wrong": [
+     "Taiwan",
+     "Thailand",
+     "Laos"
+    ]
+   },
+   {
+    "q": "The qipao (cheongsam)",
+    "right": "China",
+    "wrong": [
+     "Thailand",
+     "Laos",
+     "Malaysia"
+    ]
+   },
+   {
+    "q": "The sombrero",
+    "right": "Mexico",
+    "wrong": [
+     "Peru",
+     "Chile",
+     "Cuba"
+    ]
+   },
+   {
+    "q": "The áo dài",
+    "right": "Vietnam",
+    "wrong": [
+     "Thailand",
+     "Laos",
+     "Malaysia"
+    ]
+   },
+   {
+    "q": "Kente cloth",
+    "right": "Ghana",
+    "wrong": [
+     "Nigeria",
+     "Kenya",
+     "Senegal"
+    ]
+   },
+   {
+    "q": "The flamenco dress",
+    "right": "Spain",
+    "wrong": [
+     "Portugal",
+     "Italy",
+     "Greece"
+    ]
+   },
+   {
+    "q": "The bunad",
+    "right": "Norway",
+    "wrong": [
+     "Sweden",
+     "Denmark",
+     "Finland"
+    ]
+   },
+   {
+    "q": "The gho",
+    "right": "Bhutan",
+    "wrong": [
+     "Nepal",
+     "Tibet",
+     "Myanmar"
+    ]
+   },
+   {
+    "q": "The sampot",
+    "right": "Cambodia",
+    "wrong": [
+     "Laos",
+     "Myanmar",
+     "Malaysia"
+    ]
+   },
+   {
+    "q": "The barong Tagalog",
+    "right": "the Philippines",
+    "wrong": [
+     "Indonesia",
+     "Malaysia",
+     "Thailand"
+    ]
+   },
+   {
+    "q": "The deel",
+    "right": "Mongolia",
+    "wrong": [
+     "Kazakhstan",
+     "Nepal",
+     "Tibet"
+    ]
+   },
+   {
+    "q": "The Aran jumper",
+    "right": "Ireland",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Klompen, the wooden clogs",
+    "right": "the Netherlands",
+    "wrong": [
+     "Belgium",
+     "Denmark",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "The beret",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Italy",
+     "Portugal"
+    ]
+   },
+   {
+    "q": "The tall black 'Welsh hat'",
+    "right": "Wales",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Cornwall"
+    ]
+   },
+   {
+    "q": "Bombachas, the gaucho's trousers",
+    "right": "Argentina",
+    "wrong": [
+     "Chile",
+     "Peru",
+     "Bolivia"
+    ]
+   },
+   {
+    "q": "The pollera, the national dress",
+    "right": "Panama",
+    "wrong": [
+     "Costa Rica",
+     "Cuba",
+     "Jamaica"
+    ]
+   },
+   {
+    "q": "The ruana",
+    "right": "Colombia",
+    "wrong": [
+     "Chile",
+     "Cuba",
+     "Uruguay"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country does this martial art or wrestling style come from?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "martial arts",
+   "wrestling",
+   "countries"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Karate",
+    "right": "Japan",
+    "wrong": [
+     "Taiwan",
+     "Mongolia",
+     "Laos"
+    ]
+   },
+   {
+    "q": "Taekwondo",
+    "right": "South Korea",
+    "wrong": [
+     "Taiwan",
+     "Mongolia",
+     "Laos"
+    ]
+   },
+   {
+    "q": "Kung fu",
+    "right": "China",
+    "wrong": [
+     "Mongolia",
+     "Laos",
+     "Nepal"
+    ]
+   },
+   {
+    "q": "Muay Thai",
+    "right": "Thailand",
+    "wrong": [
+     "Laos",
+     "Malaysia",
+     "Indonesia"
+    ]
+   },
+   {
+    "q": "Capoeira",
+    "right": "Brazil",
+    "wrong": [
+     "Argentina",
+     "Cuba",
+     "Colombia"
+    ]
+   },
+   {
+    "q": "Krav Maga",
+    "right": "Israel",
+    "wrong": [
+     "Lebanon",
+     "Jordan",
+     "Egypt"
+    ]
+   },
+   {
+    "q": "Sambo",
+    "right": "Russia",
+    "wrong": [
+     "Poland",
+     "Bulgaria",
+     "Finland"
+    ]
+   },
+   {
+    "q": "Kalaripayattu",
+    "right": "India",
+    "wrong": [
+     "Sri Lanka",
+     "Nepal",
+     "Bangladesh"
+    ]
+   },
+   {
+    "q": "Savate",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Italy",
+     "Spain"
+    ]
+   },
+   {
+    "q": "Eskrima",
+    "right": "the Philippines",
+    "wrong": [
+     "Indonesia",
+     "Malaysia",
+     "Taiwan"
+    ]
+   },
+   {
+    "q": "Glíma",
+    "right": "Iceland",
+    "wrong": [
+     "Denmark",
+     "Finland",
+     "Ireland"
+    ]
+   },
+   {
+    "q": "Lethwei",
+    "right": "Myanmar",
+    "wrong": [
+     "Laos",
+     "Bangladesh",
+     "Nepal"
+    ]
+   },
+   {
+    "q": "Bokator",
+    "right": "Cambodia",
+    "wrong": [
+     "Laos",
+     "Malaysia",
+     "Indonesia"
+    ]
+   },
+   {
+    "q": "Pankration",
+    "right": "Greece",
+    "wrong": [
+     "Italy",
+     "Cyprus",
+     "Egypt"
+    ]
+   },
+   {
+    "q": "Bartitsu",
+    "right": "England",
+    "wrong": [
+     "Scotland",
+     "Ireland",
+     "Wales"
+    ]
+   },
+   {
+    "q": "Vovinam",
+    "right": "Vietnam",
+    "wrong": [
+     "Laos",
+     "Taiwan",
+     "Malaysia"
+    ]
+   },
+   {
+    "q": "Laamb wrestling",
+    "right": "Senegal",
+    "wrong": [
+     "Nigeria",
+     "Ghana",
+     "Mali"
+    ]
+   },
+   {
+    "q": "Schwingen",
+    "right": "Switzerland",
+    "wrong": [
+     "Austria",
+     "Germany",
+     "Italy"
+    ]
+   },
+   {
+    "q": "Yağlı güreş (oil wrestling)",
+    "right": "Turkey",
+    "wrong": [
+     "Iran",
+     "Bulgaria",
+     "Egypt"
+    ]
+   },
+   {
+    "q": "Jogo do pau",
+    "right": "Portugal",
+    "wrong": [
+     "Spain",
+     "Italy",
+     "Cape Verde"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this opera house or concert hall in?",
+  "target": 10,
+  "category": "Music",
+  "tags": [
+   "opera houses",
+   "concert halls"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "La Scala",
+    "right": "Italy",
+    "wrong": [
+     "Switzerland",
+     "Malta",
+     "Croatia"
+    ]
+   },
+   {
+    "q": "The Sydney Opera House",
+    "right": "Australia",
+    "wrong": [
+     "New Zealand",
+     "Fiji",
+     "Singapore"
+    ]
+   },
+   {
+    "q": "The Bolshoi Theatre",
+    "right": "Russia",
+    "wrong": [
+     "Ukraine",
+     "Belarus",
+     "Poland"
+    ]
+   },
+   {
+    "q": "The Palais Garnier",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Switzerland",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "The Metropolitan Opera",
+    "right": "the USA",
+    "wrong": [
+     "Canada",
+     "Mexico",
+     "Cuba"
+    ]
+   },
+   {
+    "q": "The Royal Opera House",
+    "right": "the United Kingdom",
+    "wrong": [
+     "Belgium",
+     "Luxembourg",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "The Vienna State Opera",
+    "right": "Austria",
+    "wrong": [
+     "Switzerland",
+     "Slovakia",
+     "Slovenia"
+    ]
+   },
+   {
+    "q": "The Semperoper",
+    "right": "Germany",
+    "wrong": [
+     "Poland",
+     "Switzerland",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "The Teatro Colón",
+    "right": "Argentina",
+    "wrong": [
+     "Uruguay",
+     "Chile",
+     "Peru"
+    ]
+   },
+   {
+    "q": "The Oslo Opera House",
+    "right": "Norway",
+    "wrong": [
+     "Sweden",
+     "Finland",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "The Gran Teatre del Liceu",
+    "right": "Spain",
+    "wrong": [
+     "Andorra",
+     "Malta",
+     "Greece"
+    ]
+   },
+   {
+    "q": "The Teatro Amazonas",
+    "right": "Brazil",
+    "wrong": [
+     "Peru",
+     "Colombia",
+     "Venezuela"
+    ]
+   },
+   {
+    "q": "The Teatro Nacional de São Carlos",
+    "right": "Portugal",
+    "wrong": [
+     "Malta",
+     "Greece",
+     "Cape Verde"
+    ]
+   },
+   {
+    "q": "The Hungarian State Opera",
+    "right": "Hungary",
+    "wrong": [
+     "Slovakia",
+     "Romania",
+     "Poland"
+    ]
+   },
+   {
+    "q": "The Estates Theatre, where Don Giovanni opened",
+    "right": "Czechia",
+    "wrong": [
+     "Slovakia",
+     "Poland",
+     "Slovenia"
+    ]
+   },
+   {
+    "q": "Dubai Opera",
+    "right": "the UAE",
+    "wrong": [
+     "Qatar",
+     "Bahrain",
+     "Oman"
+    ]
+   },
+   {
+    "q": "The Guangzhou Opera House",
+    "right": "China",
+    "wrong": [
+     "Taiwan",
+     "Singapore",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "The Wexford Opera House",
+    "right": "Ireland",
+    "wrong": [
+     "Wales",
+     "Scotland",
+     "the Isle of Man"
+    ]
+   },
+   {
+    "q": "The Concertgebouw",
+    "right": "the Netherlands",
+    "wrong": [
+     "Belgium",
+     "Luxembourg",
+     "Switzerland"
+    ]
+   },
+   {
+    "q": "The Copenhagen Opera House",
+    "right": "Denmark",
+    "wrong": [
+     "Sweden",
+     "Finland",
+     "Iceland"
+    ]
+   }
+  ]
+ }
+]
