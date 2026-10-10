@@ -1,0 +1,748 @@
+[
+ {
+  "type": "sort",
+  "text": "Igneous rock or sedimentary rock?",
+  "categories": [
+   "Igneous",
+   "Sedimentary"
+  ],
+  "items": [
+   {
+    "text": "Granite",
+    "category": "Igneous"
+   },
+   {
+    "text": "Basalt",
+    "category": "Igneous"
+   },
+   {
+    "text": "Pumice",
+    "category": "Igneous"
+   },
+   {
+    "text": "Obsidian",
+    "category": "Igneous"
+   },
+   {
+    "text": "Sandstone",
+    "category": "Sedimentary"
+   },
+   {
+    "text": "Limestone",
+    "category": "Sedimentary"
+   },
+   {
+    "text": "Chalk",
+    "category": "Sedimentary"
+   },
+   {
+    "text": "Shale",
+    "category": "Sedimentary"
+   }
+  ],
+  "category": "Science",
+  "tags": [
+   "rocks"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Grows above the ground or below it?",
+  "categories": [
+   "Above ground",
+   "Below ground"
+  ],
+  "items": [
+   {
+    "text": "Broccoli",
+    "category": "Above ground"
+   },
+   {
+    "text": "Peas",
+    "category": "Above ground"
+   },
+   {
+    "text": "Cabbage",
+    "category": "Above ground"
+   },
+   {
+    "text": "Sweetcorn",
+    "category": "Above ground"
+   },
+   {
+    "text": "Potato",
+    "category": "Below ground"
+   },
+   {
+    "text": "Carrot",
+    "category": "Below ground"
+   },
+   {
+    "text": "Beetroot",
+    "category": "Below ground"
+   },
+   {
+    "text": "Parsnip",
+    "category": "Below ground"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [
+   "vegetables"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "Do they drive on the left or the right?",
+  "categories": [
+   "Left",
+   "Right"
+  ],
+  "items": [
+   {
+    "text": "Japan",
+    "category": "Left"
+   },
+   {
+    "text": "Australia",
+    "category": "Left"
+   },
+   {
+    "text": "India",
+    "category": "Left"
+   },
+   {
+    "text": "Ireland",
+    "category": "Left"
+   },
+   {
+    "text": "France",
+    "category": "Right"
+   },
+   {
+    "text": "USA",
+    "category": "Right"
+   },
+   {
+    "text": "Spain",
+    "category": "Right"
+   },
+   {
+    "text": "Brazil",
+    "category": "Right"
+   }
+  ],
+  "category": "World geography",
+  "tags": [
+   "roads"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Dog breed or cat breed?",
+  "categories": [
+   "Dog",
+   "Cat"
+  ],
+  "items": [
+   {
+    "text": "Beagle",
+    "category": "Dog"
+   },
+   {
+    "text": "Dachshund",
+    "category": "Dog"
+   },
+   {
+    "text": "Whippet",
+    "category": "Dog"
+   },
+   {
+    "text": "Weimaraner",
+    "category": "Dog"
+   },
+   {
+    "text": "Persian",
+    "category": "Cat"
+   },
+   {
+    "text": "Siamese",
+    "category": "Cat"
+   },
+   {
+    "text": "Maine Coon",
+    "category": "Cat"
+   },
+   {
+    "text": "Bengal",
+    "category": "Cat"
+   }
+  ],
+  "category": "Nature",
+  "tags": [
+   "pets"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "Played with a round ball or an oval ball?",
+  "categories": [
+   "Round ball",
+   "Oval ball"
+  ],
+  "items": [
+   {
+    "text": "Football",
+    "category": "Round ball"
+   },
+   {
+    "text": "Basketball",
+    "category": "Round ball"
+   },
+   {
+    "text": "Netball",
+    "category": "Round ball"
+   },
+   {
+    "text": "Volleyball",
+    "category": "Round ball"
+   },
+   {
+    "text": "Rugby union",
+    "category": "Oval ball"
+   },
+   {
+    "text": "Rugby league",
+    "category": "Oval ball"
+   },
+   {
+    "text": "American football",
+    "category": "Oval ball"
+   },
+   {
+    "text": "Aussie rules",
+    "category": "Oval ball"
+   }
+  ],
+  "category": "Sport",
+  "tags": [
+   "balls"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "Found wild in Australia or in Africa?",
+  "categories": [
+   "Australia",
+   "Africa"
+  ],
+  "items": [
+   {
+    "text": "Kangaroo",
+    "category": "Australia"
+   },
+   {
+    "text": "Koala",
+    "category": "Australia"
+   },
+   {
+    "text": "Wombat",
+    "category": "Australia"
+   },
+   {
+    "text": "Platypus",
+    "category": "Australia"
+   },
+   {
+    "text": "Zebra",
+    "category": "Africa"
+   },
+   {
+    "text": "Giraffe",
+    "category": "Africa"
+   },
+   {
+    "text": "Hippopotamus",
+    "category": "Africa"
+   },
+   {
+    "text": "Meerkat",
+    "category": "Africa"
+   }
+  ],
+  "category": "Nature",
+  "tags": [
+   "animals"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A bigger country than the UK, or a smaller one (by area)?",
+  "categories": [
+   "Bigger",
+   "Smaller"
+  ],
+  "items": [
+   {
+    "text": "France",
+    "category": "Bigger"
+   },
+   {
+    "text": "Spain",
+    "category": "Bigger"
+   },
+   {
+    "text": "Germany",
+    "category": "Bigger"
+   },
+   {
+    "text": "Japan",
+    "category": "Bigger"
+   },
+   {
+    "text": "Ireland",
+    "category": "Smaller"
+   },
+   {
+    "text": "Belgium",
+    "category": "Smaller"
+   },
+   {
+    "text": "Netherlands",
+    "category": "Smaller"
+   },
+   {
+    "text": "Portugal",
+    "category": "Smaller"
+   }
+  ],
+  "category": "World geography",
+  "tags": [
+   "countries",
+   "size"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A word from Hindi/Urdu or from Arabic?",
+  "categories": [
+   "Hindi/Urdu",
+   "Arabic"
+  ],
+  "items": [
+   {
+    "text": "Shampoo",
+    "category": "Hindi/Urdu"
+   },
+   {
+    "text": "Bungalow",
+    "category": "Hindi/Urdu"
+   },
+   {
+    "text": "Jungle",
+    "category": "Hindi/Urdu"
+   },
+   {
+    "text": "Pyjamas",
+    "category": "Hindi/Urdu"
+   },
+   {
+    "text": "Algebra",
+    "category": "Arabic"
+   },
+   {
+    "text": "Sofa",
+    "category": "Arabic"
+   },
+   {
+    "text": "Coffee",
+    "category": "Arabic"
+   },
+   {
+    "text": "Alcohol",
+    "category": "Arabic"
+   }
+  ],
+  "category": "Words and language",
+  "tags": [
+   "word origins"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "Played with a racket or a bat?",
+  "categories": [
+   "Racket",
+   "Bat"
+  ],
+  "items": [
+   {
+    "text": "Tennis",
+    "category": "Racket"
+   },
+   {
+    "text": "Badminton",
+    "category": "Racket"
+   },
+   {
+    "text": "Squash",
+    "category": "Racket"
+   },
+   {
+    "text": "Racquetball",
+    "category": "Racket"
+   },
+   {
+    "text": "Cricket",
+    "category": "Bat"
+   },
+   {
+    "text": "Baseball",
+    "category": "Bat"
+   },
+   {
+    "text": "Rounders",
+    "category": "Bat"
+   },
+   {
+    "text": "Table tennis",
+    "category": "Bat"
+   }
+  ],
+  "category": "Sport",
+  "tags": [
+   "equipment"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "From 'Finding Nemo' or 'The Little Mermaid'?",
+  "categories": [
+   "Finding Nemo",
+   "The Little Mermaid"
+  ],
+  "items": [
+   {
+    "text": "Nemo",
+    "category": "Finding Nemo"
+   },
+   {
+    "text": "Dory",
+    "category": "Finding Nemo"
+   },
+   {
+    "text": "Marlin",
+    "category": "Finding Nemo"
+   },
+   {
+    "text": "Bruce",
+    "category": "Finding Nemo"
+   },
+   {
+    "text": "Ariel",
+    "category": "The Little Mermaid"
+   },
+   {
+    "text": "Sebastian",
+    "category": "The Little Mermaid"
+   },
+   {
+    "text": "Flounder",
+    "category": "The Little Mermaid"
+   },
+   {
+    "text": "Ursula",
+    "category": "The Little Mermaid"
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "Disney",
+   "Pixar"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A breed of sheep or a breed of cattle?",
+  "categories": [
+   "Sheep",
+   "Cattle"
+  ],
+  "items": [
+   {
+    "text": "Texel",
+    "category": "Sheep"
+   },
+   {
+    "text": "Suffolk",
+    "category": "Sheep"
+   },
+   {
+    "text": "Jacob",
+    "category": "Sheep"
+   },
+   {
+    "text": "Herdwick",
+    "category": "Sheep"
+   },
+   {
+    "text": "Hereford",
+    "category": "Cattle"
+   },
+   {
+    "text": "Aberdeen Angus",
+    "category": "Cattle"
+   },
+   {
+    "text": "Highland",
+    "category": "Cattle"
+   },
+   {
+    "text": "Jersey",
+    "category": "Cattle"
+   }
+  ],
+  "category": "Nature",
+  "tags": [
+   "farm animals"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Made from grapes or from grain?",
+  "categories": [
+   "Grapes",
+   "Grain"
+  ],
+  "items": [
+   {
+    "text": "Brandy",
+    "category": "Grapes"
+   },
+   {
+    "text": "Port",
+    "category": "Grapes"
+   },
+   {
+    "text": "Champagne",
+    "category": "Grapes"
+   },
+   {
+    "text": "Sherry",
+    "category": "Grapes"
+   },
+   {
+    "text": "Whisky",
+    "category": "Grain"
+   },
+   {
+    "text": "Beer",
+    "category": "Grain"
+   },
+   {
+    "text": "Sake",
+    "category": "Grain"
+   },
+   {
+    "text": "Bourbon",
+    "category": "Grain"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [
+   "drinks"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Doctor Who monster or a Star Trek alien race?",
+  "categories": [
+   "Doctor Who",
+   "Star Trek"
+  ],
+  "items": [
+   {
+    "text": "Daleks",
+    "category": "Doctor Who"
+   },
+   {
+    "text": "Cybermen",
+    "category": "Doctor Who"
+   },
+   {
+    "text": "Sontarans",
+    "category": "Doctor Who"
+   },
+   {
+    "text": "Weeping Angels",
+    "category": "Doctor Who"
+   },
+   {
+    "text": "Klingons",
+    "category": "Star Trek"
+   },
+   {
+    "text": "Vulcans",
+    "category": "Star Trek"
+   },
+   {
+    "text": "Romulans",
+    "category": "Star Trek"
+   },
+   {
+    "text": "The Borg",
+    "category": "Star Trek"
+   }
+  ],
+  "category": "TV",
+  "tags": [
+   "sci-fi"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A spice or a herb?",
+  "categories": [
+   "Spice",
+   "Herb"
+  ],
+  "items": [
+   {
+    "text": "Cinnamon",
+    "category": "Spice"
+   },
+   {
+    "text": "Nutmeg",
+    "category": "Spice"
+   },
+   {
+    "text": "Cumin",
+    "category": "Spice"
+   },
+   {
+    "text": "Paprika",
+    "category": "Spice"
+   },
+   {
+    "text": "Basil",
+    "category": "Herb"
+   },
+   {
+    "text": "Parsley",
+    "category": "Herb"
+   },
+   {
+    "text": "Thyme",
+    "category": "Herb"
+   },
+   {
+    "text": "Rosemary",
+    "category": "Herb"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [
+   "cooking"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A primary colour or a secondary colour, in paint?",
+  "categories": [
+   "Primary",
+   "Secondary"
+  ],
+  "items": [
+   {
+    "text": "Red",
+    "category": "Primary"
+   },
+   {
+    "text": "Blue",
+    "category": "Primary"
+   },
+   {
+    "text": "Yellow",
+    "category": "Primary"
+   },
+   {
+    "text": "Green",
+    "category": "Secondary"
+   },
+   {
+    "text": "Orange",
+    "category": "Secondary"
+   },
+   {
+    "text": "Purple",
+    "category": "Secondary"
+   }
+  ],
+  "category": "Art",
+  "tags": [
+   "colours"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A London Tube line or a London mainline station?",
+  "categories": [
+   "Tube line",
+   "Mainline station"
+  ],
+  "items": [
+   {
+    "text": "Bakerloo",
+    "category": "Tube line"
+   },
+   {
+    "text": "Jubilee",
+    "category": "Tube line"
+   },
+   {
+    "text": "Northern",
+    "category": "Tube line"
+   },
+   {
+    "text": "Metropolitan",
+    "category": "Tube line"
+   },
+   {
+    "text": "Paddington",
+    "category": "Mainline station"
+   },
+   {
+    "text": "Euston",
+    "category": "Mainline station"
+   },
+   {
+    "text": "King's Cross",
+    "category": "Mainline station"
+   },
+   {
+    "text": "Marylebone",
+    "category": "Mainline station"
+   }
+  ],
+  "category": "London",
+  "tags": [
+   "transport"
+  ],
+  "difficulty": "easy"
+ }
+]
