@@ -1,0 +1,524 @@
+[
+ {
+  "answers": [
+   "Man in the middle",
+   "Piggy in the middle"
+  ],
+  "elements": [
+   {
+    "t": "MIDmanDLE",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Hole in the wall"
+  ],
+  "elements": [
+   {
+    "t": "WAholeLL",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Foot in the door"
+  ],
+  "elements": [
+   {
+    "t": "DOfootOR",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Man in the moon"
+  ],
+  "elements": [
+   {
+    "t": "MOmanON",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Bun in the oven"
+  ],
+  "elements": [
+   {
+    "t": "OVbunEN",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Sign on the dotted line"
+  ],
+  "elements": [
+   {
+    "t": "SIGN",
+    "x": 50,
+    "y": 38,
+    "s": 5
+   },
+   {
+    "t": ". . . . . . . . . .",
+    "x": 50,
+    "y": 64,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Hot under the collar"
+  ],
+  "elements": [
+   {
+    "t": "COLLAR",
+    "x": 50,
+    "y": 36,
+    "s": 4
+   },
+   {
+    "t": "HOT",
+    "x": 50,
+    "y": 66,
+    "s": 4,
+    "color": "#d42020"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Feeling under the weather",
+   "Under the weather"
+  ],
+  "elements": [
+   {
+    "t": "WEATHER",
+    "x": 50,
+    "y": 36,
+    "s": 4
+   },
+   {
+    "t": "FEELING",
+    "x": 50,
+    "y": 66,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Life after death"
+  ],
+  "elements": [
+   {
+    "t": "DEATH",
+    "x": 30,
+    "y": 50,
+    "s": 4
+   },
+   {
+    "t": "LIFE",
+    "x": 74,
+    "y": 50,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Man about town"
+  ],
+  "elements": [
+   {
+    "t": "TOWN",
+    "x": 50,
+    "y": 16,
+    "s": 3
+   },
+   {
+    "t": "TOWN",
+    "x": 16,
+    "y": 50,
+    "s": 3
+   },
+   {
+    "t": "MAN",
+    "x": 50,
+    "y": 50,
+    "s": 4
+   },
+   {
+    "t": "TOWN",
+    "x": 84,
+    "y": 50,
+    "s": 3
+   },
+   {
+    "t": "TOWN",
+    "x": 50,
+    "y": 84,
+    "s": 3
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Top Cat"
+  ],
+  "elements": [
+   {
+    "t": "CAT",
+    "x": 50,
+    "y": 12,
+    "s": 4
+   }
+  ],
+  "category": "TV",
+  "tags": [
+   "cartoons"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Highland",
+   "Highlands"
+  ],
+  "elements": [
+   {
+    "t": "LAND",
+    "x": 50,
+    "y": 10,
+    "s": 4
+   }
+  ],
+  "category": "Places",
+  "tags": [
+   "Scotland"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Once bitten, twice shy",
+   "Once bitten twice shy"
+  ],
+  "elements": [
+   {
+    "t": "BITTEN",
+    "x": 50,
+    "y": 34,
+    "s": 4
+   },
+   {
+    "t": "SHY  SHY",
+    "x": 50,
+    "y": 66,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Neck and neck"
+  ],
+  "elements": [
+   {
+    "t": "NECK  NECK",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Split decision"
+  ],
+  "elements": [
+   {
+    "t": "DECI",
+    "x": 32,
+    "y": 46,
+    "s": 5,
+    "rot": -10
+   },
+   {
+    "t": "SION",
+    "x": 70,
+    "y": 56,
+    "s": 5,
+    "rot": 10
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Falling star",
+   "Shooting star"
+  ],
+  "elements": [
+   {
+    "t": "S",
+    "x": 28,
+    "y": 14,
+    "s": 4
+   },
+   {
+    "t": "T",
+    "x": 42,
+    "y": 38,
+    "s": 4
+   },
+   {
+    "t": "A",
+    "x": 56,
+    "y": 62,
+    "s": 4
+   },
+   {
+    "t": "R",
+    "x": 70,
+    "y": 86,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Stand-up comedy",
+   "Stand up comedy"
+  ],
+  "elements": [
+   {
+    "t": "COMEDY",
+    "x": 50,
+    "y": 50,
+    "s": 4,
+    "rot": -90
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Tickled pink"
+  ],
+  "elements": [
+   {
+    "t": "TICKLED",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "color": "#e8579a"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Green light"
+  ],
+  "elements": [
+   {
+    "t": "LIGHT",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#1f9a3a"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Yellow card"
+  ],
+  "elements": [
+   {
+    "t": "CARD",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#e0b400"
+   }
+  ],
+  "category": "Football",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Purple Haze"
+  ],
+  "elements": [
+   {
+    "t": "HAZE",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#7b2fbe"
+   }
+  ],
+  "category": "Music",
+  "tags": [
+   "Jimi Hendrix"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Brown sauce"
+  ],
+  "elements": [
+   {
+    "t": "SAUCE",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#7a4a1e"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Silver spoon",
+   "Born with a silver spoon"
+  ],
+  "elements": [
+   {
+    "t": "SPOON",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#9aa0a6"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Gold rush"
+  ],
+  "elements": [
+   {
+    "t": "RUSH",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#c9a227"
+   }
+  ],
+  "category": "History",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Little Women"
+  ],
+  "elements": [
+   {
+    "t": "women",
+    "x": 50,
+    "y": 50,
+    "s": 1
+   }
+  ],
+  "category": "Books",
+  "tags": [
+   "Louisa May Alcott"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Tiny Tim"
+  ],
+  "elements": [
+   {
+    "t": "tim",
+    "x": 50,
+    "y": 50,
+    "s": 1
+   }
+  ],
+  "category": "Christmas",
+  "tags": [
+   "Dickens"
+  ],
+  "difficulty": "medium"
+ }
+]
