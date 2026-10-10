@@ -1,0 +1,776 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: name the famous fox or wolf",
+  "target": 10,
+  "category": "Film, TV and books",
+  "tags": [
+   "foxes",
+   "wolves",
+   "characters"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Roald Dahl's fantastic fox",
+    "right": "Mr. Fox",
+    "wrong": [
+     "Boggis",
+     "Bunce",
+     "Bean"
+    ]
+   },
+   {
+    "q": "'Boom! Boom!' — the puppet fox",
+    "right": "Basil Brush",
+    "wrong": [
+     "Sooty",
+     "Gordon the Gopher",
+     "Spit the Dog"
+    ]
+   },
+   {
+    "q": "The fox who tricks Chicken Licken",
+    "right": "Foxy Loxy",
+    "wrong": [
+     "Turkey Lurkey",
+     "Goosey Loosey",
+     "Ducky Lucky"
+    ]
+   },
+   {
+    "q": "The trickster fox of medieval fables",
+    "right": "Reynard",
+    "wrong": [
+     "Isengrim",
+     "Chanticleer",
+     "Bruin"
+    ]
+   },
+   {
+    "q": "The fox in The Fox and the Hound",
+    "right": "Tod",
+    "wrong": [
+     "Copper",
+     "Big Mama",
+     "Amos Slade"
+    ]
+   },
+   {
+    "q": "Zootopia's con-artist fox",
+    "right": "Nick Wilde",
+    "wrong": [
+     "Judy Hopps",
+     "Finnick",
+     "Bellwether"
+    ]
+   },
+   {
+    "q": "'Swiper, no swiping!'",
+    "right": "Swiper",
+    "wrong": [
+     "Boots",
+     "Backpack",
+     "Map"
+    ]
+   },
+   {
+    "q": "Sonic's two-tailed friend",
+    "right": "Tails",
+    "wrong": [
+     "Knuckles",
+     "Shadow",
+     "Amy"
+    ]
+   },
+   {
+    "q": "The fox who robs the rich in Disney's version",
+    "right": "Robin Hood",
+    "wrong": [
+     "Little John",
+     "Friar Tuck",
+     "Prince John"
+    ]
+   },
+   {
+    "q": "Beatrix Potter's fox",
+    "right": "Mr. Tod",
+    "wrong": [
+     "Tommy Brock",
+     "Mr. Jeremy Fisher",
+     "Benjamin Bunny"
+    ]
+   },
+   {
+    "q": "The wolf who huffs and puffs",
+    "right": "The Big Bad Wolf",
+    "wrong": [
+     "Isengrim",
+     "Wolfgang",
+     "Lupo"
+    ]
+   },
+   {
+    "q": "The Jungle Book's wolf-pack leader",
+    "right": "Akela",
+    "wrong": [
+     "Shere Khan",
+     "Baloo",
+     "Bagheera"
+    ]
+   },
+   {
+    "q": "Mowgli's wolf mother",
+    "right": "Raksha",
+    "wrong": [
+     "Shere Khan",
+     "Bagheera",
+     "Kaa"
+    ]
+   },
+   {
+    "q": "Jack London's wolfdog",
+    "right": "White Fang",
+    "wrong": [
+     "Buck",
+     "Kazan",
+     "Lassie"
+    ]
+   },
+   {
+    "q": "Jon Snow's direwolf",
+    "right": "Ghost",
+    "wrong": [
+     "Nymeria",
+     "Summer",
+     "Grey Wind"
+    ]
+   },
+   {
+    "q": "The giant wolf of Norse myth",
+    "right": "Fenrir",
+    "wrong": [
+     "Sleipnir",
+     "Jörmungandr",
+     "Ratatoskr"
+    ]
+   },
+   {
+    "q": "The sly fox who leads Pinocchio astray",
+    "right": "Honest John",
+    "wrong": [
+     "Gideon",
+     "Stromboli",
+     "Jiminy Cricket"
+    ]
+   },
+   {
+    "q": "Mr. Fox's wife in the Wes Anderson film",
+    "right": "Felicity",
+    "wrong": [
+     "Ash",
+     "Kristofferson",
+     "Kylie"
+    ]
+   },
+   {
+    "q": "The White Witch's wolf captain in Narnia",
+    "right": "Maugrim",
+    "wrong": [
+     "Ginarrbrik",
+     "Tumnus",
+     "Aslan"
+    ]
+   },
+   {
+    "q": "'What's the time, …?'",
+    "right": "Mr. Wolf",
+    "wrong": [
+     "Mr. Bear",
+     "Mr. Tiger",
+     "Mr. Owl"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this TV detective's first name?",
+  "target": 10,
+  "category": "Film and TV",
+  "tags": [
+   "detectives",
+   "names"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Morse",
+    "right": "Endeavour",
+    "wrong": [
+     "Edmund",
+     "Ernest",
+     "Edward"
+    ]
+   },
+   {
+    "q": "Poirot",
+    "right": "Hercule",
+    "wrong": [
+     "Hector",
+     "Henri",
+     "Hugo"
+    ]
+   },
+   {
+    "q": "Frost",
+    "right": "Jack",
+    "wrong": [
+     "Joe",
+     "Jake",
+     "Jerry"
+    ]
+   },
+   {
+    "q": "Taggart",
+    "right": "Jim",
+    "wrong": [
+     "Joe",
+     "Jock",
+     "Jake"
+    ]
+   },
+   {
+    "q": "Rebus",
+    "right": "John",
+    "wrong": [
+     "James",
+     "Jamie",
+     "Ian"
+    ]
+   },
+   {
+    "q": "Wallander",
+    "right": "Kurt",
+    "wrong": [
+     "Karl",
+     "Klaus",
+     "Lars"
+    ]
+   },
+   {
+    "q": "Lewis",
+    "right": "Robbie",
+    "wrong": [
+     "Ronnie",
+     "Richie",
+     "Roger"
+    ]
+   },
+   {
+    "q": "Barnaby",
+    "right": "Tom",
+    "wrong": [
+     "Tim",
+     "Ted",
+     "Tony"
+    ]
+   },
+   {
+    "q": "Maigret",
+    "right": "Jules",
+    "wrong": [
+     "Jean",
+     "Julien",
+     "Marcel"
+    ]
+   },
+   {
+    "q": "Wycliffe",
+    "right": "Charles",
+    "wrong": [
+     "Christopher",
+     "Colin",
+     "Clive"
+    ]
+   },
+   {
+    "q": "Dalziel",
+    "right": "Andy",
+    "wrong": [
+     "Alfie",
+     "Archie",
+     "Arnold"
+    ]
+   },
+   {
+    "q": "Pascoe",
+    "right": "Peter",
+    "wrong": [
+     "Paul",
+     "Patrick",
+     "Philip"
+    ]
+   },
+   {
+    "q": "Banks",
+    "right": "Alan",
+    "wrong": [
+     "Adrian",
+     "Adam",
+     "Albert"
+    ]
+   },
+   {
+    "q": "Shoestring",
+    "right": "Eddie",
+    "wrong": [
+     "Ernie",
+     "Eric",
+     "Ellis"
+    ]
+   },
+   {
+    "q": "Spender",
+    "right": "Freddie",
+    "wrong": [
+     "Frankie",
+     "Felix",
+     "Francis"
+    ]
+   },
+   {
+    "q": "Kojak",
+    "right": "Theo",
+    "wrong": [
+     "Tony",
+     "Terry",
+     "Teddy"
+    ]
+   },
+   {
+    "q": "Magnum",
+    "right": "Thomas",
+    "wrong": [
+     "Tim",
+     "Terry",
+     "Ted"
+    ]
+   },
+   {
+    "q": "Clouseau",
+    "right": "Jacques",
+    "wrong": [
+     "Jean",
+     "Henri",
+     "Pierre"
+    ]
+   },
+   {
+    "q": "Miss Marple",
+    "right": "Jane",
+    "wrong": [
+     "Joan",
+     "Jennifer",
+     "Julia"
+    ]
+   },
+   {
+    "q": "Strike",
+    "right": "Cormoran",
+    "wrong": [
+     "Corin",
+     "Conrad",
+     "Cameron"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which game is this from?",
+  "target": 10,
+  "category": "Games and toys",
+  "tags": [
+   "board games",
+   "games"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Colonel Mustard in the library",
+    "right": "Cluedo",
+    "wrong": [
+     "Murder in the Dark",
+     "Mystery Mansion",
+     "Scotland Yard"
+    ]
+   },
+   {
+    "q": "Free Parking",
+    "right": "Monopoly",
+    "wrong": [
+     "The Game of Life",
+     "Ticket to Ride",
+     "Cashflow"
+    ]
+   },
+   {
+    "q": "Triple word score",
+    "right": "Scrabble",
+    "wrong": [
+     "Boggle",
+     "Bananagrams",
+     "Upwords"
+    ]
+   },
+   {
+    "q": "Collecting pie wedges",
+    "right": "Trivial Pursuit",
+    "wrong": [
+     "Cranium",
+     "Articulate",
+     "Taboo"
+    ]
+   },
+   {
+    "q": "Castling",
+    "right": "Chess",
+    "wrong": [
+     "Stratego",
+     "Othello",
+     "Halma"
+    ]
+   },
+   {
+    "q": "Bearing off",
+    "right": "Backgammon",
+    "wrong": [
+     "Ludo",
+     "Sorry!",
+     "Frustration"
+    ]
+   },
+   {
+    "q": "Invading Kamchatka",
+    "right": "Risk",
+    "wrong": [
+     "Diplomacy",
+     "Axis & Allies",
+     "Stratego"
+    ]
+   },
+   {
+    "q": "The crazy contraption that catches mice",
+    "right": "Mouse Trap",
+    "wrong": [
+     "Pop-up Pirate",
+     "Perfection",
+     "Downfall"
+    ]
+   },
+   {
+    "q": "'Does your person wear glasses?'",
+    "right": "Guess Who?",
+    "wrong": [
+     "Taboo",
+     "Charades",
+     "Headbanz"
+    ]
+   },
+   {
+    "q": "'You sank my…'",
+    "right": "Battleships",
+    "wrong": [
+     "Stratego",
+     "Connect 4",
+     "Downfall"
+    ]
+   },
+   {
+    "q": "Cavity Sam's funny bone",
+    "right": "Operation",
+    "wrong": [
+     "Pop-up Pirate",
+     "Perfection",
+     "Jenga"
+    ]
+   },
+   {
+    "q": "'All play!' while you draw",
+    "right": "Pictionary",
+    "wrong": [
+     "Charades",
+     "Articulate",
+     "Taboo"
+    ]
+   },
+   {
+    "q": "Getting crowned when you reach the far side",
+    "right": "Draughts",
+    "wrong": [
+     "Halma",
+     "Othello",
+     "Nine Men's Morris"
+    ]
+   },
+   {
+    "q": "Black and white stones fighting for territory",
+    "right": "Go",
+    "wrong": [
+     "Othello",
+     "Halma",
+     "Nine Men's Morris"
+    ]
+   },
+   {
+    "q": "Cracking a secret code of coloured pegs",
+    "right": "Mastermind",
+    "wrong": [
+     "Yahtzee",
+     "Boggle",
+     "Perfection"
+    ]
+   },
+   {
+    "q": "'Right hand, red!'",
+    "right": "Twister",
+    "wrong": [
+     "Charades",
+     "Jenga",
+     "Hopscotch"
+    ]
+   },
+   {
+    "q": "Pulling out straws without dropping the marbles",
+    "right": "KerPlunk",
+    "wrong": [
+     "Jenga",
+     "Pop-up Pirate",
+     "Downfall"
+    ]
+   },
+   {
+    "q": "Loading up a kicking mule",
+    "right": "Buckaroo!",
+    "wrong": [
+     "Pop-up Pirate",
+     "Jenga",
+     "Hungry Hippos"
+    ]
+   },
+   {
+    "q": "Trading sheep for wood",
+    "right": "Catan",
+    "wrong": [
+     "Carcassonne",
+     "Ticket to Ride",
+     "Agricola"
+    ]
+   },
+   {
+    "q": "Shouting its name when you're down to one card",
+    "right": "Uno",
+    "wrong": [
+     "Snap",
+     "Crazy Eights",
+     "Happy Families"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: name the famous monkey or ape",
+  "target": 10,
+  "category": "Film, TV and books",
+  "tags": [
+   "monkeys",
+   "apes",
+   "characters"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The curious monkey with the Man in the Yellow Hat",
+    "right": "Curious George",
+    "wrong": [
+     "Hundley",
+     "Charkie",
+     "Jumpy Squirrel"
+    ]
+   },
+   {
+    "q": "The Jungle Book's swinging king",
+    "right": "King Louie",
+    "wrong": [
+     "Baloo",
+     "Bagheera",
+     "Kaa"
+    ]
+   },
+   {
+    "q": "Aladdin's light-fingered monkey",
+    "right": "Abu",
+    "wrong": [
+     "Iago",
+     "Rajah",
+     "Genie"
+    ]
+   },
+   {
+    "q": "Michael Jackson's pet chimp",
+    "right": "Bubbles",
+    "wrong": [
+     "Muscles",
+     "Louie",
+     "Gabriel"
+    ]
+   },
+   {
+    "q": "Tarzan's chimp in the old films",
+    "right": "Cheeta",
+    "wrong": [
+     "Jane",
+     "Boy",
+     "Tantor"
+    ]
+   },
+   {
+    "q": "Ross's capuchin in Friends",
+    "right": "Marcel",
+    "wrong": [
+     "Hugsy",
+     "Chick",
+     "Duck"
+    ]
+   },
+   {
+    "q": "Nintendo's tie-wearing gorilla",
+    "right": "Donkey Kong",
+    "wrong": [
+     "Cranky Kong",
+     "Funky Kong",
+     "Dixie Kong"
+    ]
+   },
+   {
+    "q": "Donkey Kong's little buddy in a red cap",
+    "right": "Diddy Kong",
+    "wrong": [
+     "Cranky Kong",
+     "Funky Kong",
+     "Dixie Kong"
+    ]
+   },
+   {
+    "q": "The chimp who leads the apes in the modern Planet of the Apes films",
+    "right": "Caesar",
+    "wrong": [
+     "Koba",
+     "Maurice",
+     "Rocket"
+    ]
+   },
+   {
+    "q": "The chimp scientist in the 1968 Planet of the Apes",
+    "right": "Cornelius",
+    "wrong": [
+     "Zira",
+     "Dr. Zaius",
+     "General Ursus"
+    ]
+   },
+   {
+    "q": "The Powerpuff Girls' monkey villain",
+    "right": "Mojo Jojo",
+    "wrong": [
+     "Him",
+     "Fuzzy Lumpkins",
+     "Professor Utonium"
+    ]
+   },
+   {
+    "q": "Barbossa's undead monkey",
+    "right": "Jack",
+    "wrong": [
+     "Pintel",
+     "Ragetti",
+     "Barbossa"
+    ]
+   },
+   {
+    "q": "Dora the Explorer's monkey friend",
+    "right": "Boots",
+    "wrong": [
+     "Swiper",
+     "Backpack",
+     "Map"
+    ]
+   },
+   {
+    "q": "The giant ape on the Empire State Building",
+    "right": "King Kong",
+    "wrong": [
+     "Godzilla",
+     "Mothra",
+     "Gorgo"
+    ]
+   },
+   {
+    "q": "The giant gorilla raised in Africa by a girl called Jill",
+    "right": "Mighty Joe Young",
+    "wrong": [
+     "Gorgo",
+     "Grape Ape",
+     "Magilla Gorilla"
+    ]
+   },
+   {
+    "q": "Krusty the Clown's monkey",
+    "right": "Mr. Teeny",
+    "wrong": [
+     "Snowball II",
+     "Santa's Little Helper",
+     "Pinchy"
+    ]
+   },
+   {
+    "q": "The Lion King's wise mandrill",
+    "right": "Rafiki",
+    "wrong": [
+     "Zazu",
+     "Timon",
+     "Pumbaa"
+    ]
+   },
+   {
+    "q": "The gorilla leader in Disney's Tarzan",
+    "right": "Kerchak",
+    "wrong": [
+     "Kala",
+     "Tantor",
+     "Clayton"
+    ]
+   },
+   {
+    "q": "Tarzan's wisecracking gorilla friend",
+    "right": "Terk",
+    "wrong": [
+     "Kala",
+     "Tantor",
+     "Clayton"
+    ]
+   },
+   {
+    "q": "The Monkey King of Chinese legend",
+    "right": "Sun Wukong",
+    "wrong": [
+     "Zhu Bajie",
+     "Sha Wujing",
+     "Tripitaka"
+    ]
+   }
+  ]
+ }
+]
