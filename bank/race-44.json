@@ -1,0 +1,775 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which country did this 21st-century leader lead?",
+  "target": 10,
+  "category": "Politics",
+  "tags": [
+   "leaders",
+   "21st century",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Angela Merkel",
+    "right": "Germany",
+    "wrong": [
+     "Austria",
+     "Switzerland",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "Jacinda Ardern",
+    "right": "New Zealand",
+    "wrong": [
+     "Fiji",
+     "Samoa",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Justin Trudeau",
+    "right": "Canada",
+    "wrong": [
+     "the USA",
+     "Iceland",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "Emmanuel Macron",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Luxembourg",
+     "Switzerland"
+    ]
+   },
+   {
+    "q": "Narendra Modi",
+    "right": "India",
+    "wrong": [
+     "Bangladesh",
+     "Sri Lanka",
+     "Nepal"
+    ]
+   },
+   {
+    "q": "Volodymyr Zelenskyy",
+    "right": "Ukraine",
+    "wrong": [
+     "Belarus",
+     "Moldova",
+     "Georgia"
+    ]
+   },
+   {
+    "q": "Recep Tayyip Erdoğan",
+    "right": "Turkey",
+    "wrong": [
+     "Iran",
+     "Cyprus",
+     "Greece"
+    ]
+   },
+   {
+    "q": "Luiz Inácio Lula da Silva",
+    "right": "Brazil",
+    "wrong": [
+     "Portugal",
+     "Chile",
+     "Colombia"
+    ]
+   },
+   {
+    "q": "Silvio Berlusconi",
+    "right": "Italy",
+    "wrong": [
+     "Spain",
+     "Greece",
+     "Malta"
+    ]
+   },
+   {
+    "q": "Viktor Orbán",
+    "right": "Hungary",
+    "wrong": [
+     "Poland",
+     "Slovakia",
+     "Romania"
+    ]
+   },
+   {
+    "q": "Benjamin Netanyahu",
+    "right": "Israel",
+    "wrong": [
+     "Lebanon",
+     "Jordan",
+     "Cyprus"
+    ]
+   },
+   {
+    "q": "Shinzo Abe",
+    "right": "Japan",
+    "wrong": [
+     "Taiwan",
+     "China",
+     "the Philippines"
+    ]
+   },
+   {
+    "q": "Imran Khan",
+    "right": "Pakistan",
+    "wrong": [
+     "Afghanistan",
+     "Bangladesh",
+     "Iran"
+    ]
+   },
+   {
+    "q": "Jacob Zuma",
+    "right": "South Africa",
+    "wrong": [
+     "Zimbabwe",
+     "Namibia",
+     "Nigeria"
+    ]
+   },
+   {
+    "q": "Julia Gillard",
+    "right": "Australia",
+    "wrong": [
+     "the UK",
+     "Fiji",
+     "Samoa"
+    ]
+   },
+   {
+    "q": "Leo Varadkar",
+    "right": "Ireland",
+    "wrong": [
+     "the UK",
+     "Iceland",
+     "Malta"
+    ]
+   },
+   {
+    "q": "Mark Rutte",
+    "right": "the Netherlands",
+    "wrong": [
+     "Belgium",
+     "Denmark",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "Sanna Marin",
+    "right": "Finland",
+    "wrong": [
+     "Estonia",
+     "Sweden",
+     "Norway"
+    ]
+   },
+   {
+    "q": "Javier Milei",
+    "right": "Argentina",
+    "wrong": [
+     "Uruguay",
+     "Chile",
+     "Peru"
+    ]
+   },
+   {
+    "q": "Moon Jae-in",
+    "right": "South Korea",
+    "wrong": [
+     "China",
+     "Taiwan",
+     "Vietnam"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: who lives or works here?",
+  "target": 10,
+  "category": "Politics",
+  "tags": [
+   "official residences",
+   "buildings"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "10 Downing Street",
+    "right": "The UK Prime Minister",
+    "wrong": [
+     "Leader of the Opposition",
+     "Speaker of the Commons",
+     "Foreign Secretary"
+    ]
+   },
+   {
+    "q": "11 Downing Street",
+    "right": "The Chancellor of the Exchequer",
+    "wrong": [
+     "Home Secretary",
+     "Foreign Secretary",
+     "Leader of the Opposition"
+    ]
+   },
+   {
+    "q": "The White House",
+    "right": "The US President",
+    "wrong": [
+     "US Vice President",
+     "Speaker of the House",
+     "Secretary of State"
+    ]
+   },
+   {
+    "q": "The Élysée Palace",
+    "right": "France's President",
+    "wrong": [
+     "France's Prime Minister",
+     "Mayor of Paris",
+     "President of the Senate"
+    ]
+   },
+   {
+    "q": "Bute House, Edinburgh",
+    "right": "Scotland's First Minister",
+    "wrong": [
+     "Wales's First Minister",
+     "Secretary of State for Scotland",
+     "Lord Provost of Edinburgh"
+    ]
+   },
+   {
+    "q": "The Lodge, Canberra",
+    "right": "Australia's Prime Minister",
+    "wrong": [
+     "Australia's Governor-General",
+     "Leader of the Opposition",
+     "Speaker of the House"
+    ]
+   },
+   {
+    "q": "Áras an Uachtaráin, Dublin",
+    "right": "Ireland's President",
+    "wrong": [
+     "The Taoiseach",
+     "The Tánaiste",
+     "The Ceann Comhairle"
+    ]
+   },
+   {
+    "q": "The Quirinal Palace, Rome",
+    "right": "Italy's President",
+    "wrong": [
+     "Italy's Prime Minister",
+     "President of the Senate",
+     "Mayor of Rome"
+    ]
+   },
+   {
+    "q": "Bellevue Palace, Berlin",
+    "right": "Germany's President",
+    "wrong": [
+     "Germany's Chancellor",
+     "Mayor of Berlin",
+     "Bundestag President"
+    ]
+   },
+   {
+    "q": "The Kantei, Tokyo",
+    "right": "Japan's Prime Minister",
+    "wrong": [
+     "Japan's Emperor",
+     "Governor of Tokyo",
+     "Speaker of the House"
+    ]
+   },
+   {
+    "q": "Rashtrapati Bhavan, New Delhi",
+    "right": "India's President",
+    "wrong": [
+     "India's Prime Minister",
+     "Chief Justice of India",
+     "Vice President of India"
+    ]
+   },
+   {
+    "q": "Lambeth Palace",
+    "right": "The Archbishop of Canterbury",
+    "wrong": [
+     "Archbishop of York",
+     "Dean of Westminster",
+     "Bishop of London"
+    ]
+   },
+   {
+    "q": "Mansion House, London",
+    "right": "The Lord Mayor of London",
+    "wrong": [
+     "Mayor of London",
+     "Bishop of London",
+     "Speaker of the Commons"
+    ]
+   },
+   {
+    "q": "The Casa Rosada",
+    "right": "Argentina's President",
+    "wrong": [
+     "Argentina's Vice President",
+     "Mayor of Buenos Aires",
+     "Archbishop of Buenos Aires"
+    ]
+   },
+   {
+    "q": "Moncloa Palace, Madrid",
+    "right": "Spain's Prime Minister",
+    "wrong": [
+     "Spain's King",
+     "Mayor of Madrid",
+     "Speaker of the Congress"
+    ]
+   },
+   {
+    "q": "Zhongnanhai, Beijing",
+    "right": "China's top leaders",
+    "wrong": [
+     "Mayor of Beijing",
+     "Hong Kong's Chief Executive",
+     "Taiwan's President"
+    ]
+   },
+   {
+    "q": "The Alvorada Palace, Brasília",
+    "right": "Brazil's President",
+    "wrong": [
+     "Brazil's Vice President",
+     "Mayor of Rio de Janeiro",
+     "Governor of São Paulo"
+    ]
+   },
+   {
+    "q": "The Kremlin",
+    "right": "Russia's President",
+    "wrong": [
+     "Russia's Prime Minister",
+     "Mayor of Moscow",
+     "Patriarch of Moscow"
+    ]
+   },
+   {
+    "q": "The Apostolic Palace",
+    "right": "The Pope",
+    "wrong": [
+     "Vatican Secretary of State",
+     "Dean of the College of Cardinals",
+     "Mayor of Rome"
+    ]
+   },
+   {
+    "q": "Rideau Hall, Ottawa",
+    "right": "Canada's Governor General",
+    "wrong": [
+     "Canada's Prime Minister",
+     "Mayor of Ottawa",
+     "Speaker of the Senate"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which fairy tale features this?",
+  "target": 10,
+  "category": "Books",
+  "tags": [
+   "fairy tales",
+   "stories"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "A glass slipper",
+    "right": "Cinderella",
+    "wrong": [
+     "The Red Shoes",
+     "Beauty and the Beast",
+     "The Frog Prince"
+    ]
+   },
+   {
+    "q": "A poisoned apple",
+    "right": "Snow White",
+    "wrong": [
+     "Beauty and the Beast",
+     "The Frog Prince",
+     "The Snow Maiden"
+    ]
+   },
+   {
+    "q": "A prick from a spindle",
+    "right": "Sleeping Beauty",
+    "wrong": [
+     "The Snow Maiden",
+     "Beauty and the Beast",
+     "The Frog Prince"
+    ]
+   },
+   {
+    "q": "Magic beans",
+    "right": "Jack and the Beanstalk",
+    "wrong": [
+     "The Golden Goose",
+     "Tom Thumb",
+     "Puss in Boots"
+    ]
+   },
+   {
+    "q": "A house made of gingerbread",
+    "right": "Hansel and Gretel",
+    "wrong": [
+     "The Gingerbread Man",
+     "Tom Thumb",
+     "Chicken Licken"
+    ]
+   },
+   {
+    "q": "Three bowls of porridge",
+    "right": "Goldilocks and the Three Bears",
+    "wrong": [
+     "The Gingerbread Man",
+     "Chicken Licken",
+     "The Ugly Duckling"
+    ]
+   },
+   {
+    "q": "A pea under twenty mattresses",
+    "right": "The Princess and the Pea",
+    "wrong": [
+     "The Frog Prince",
+     "The Ugly Duckling",
+     "The Nightingale"
+    ]
+   },
+   {
+    "q": "Straw spun into gold",
+    "right": "Rumpelstiltskin",
+    "wrong": [
+     "The Golden Goose",
+     "The Fisherman and His Wife",
+     "Tom Thumb"
+    ]
+   },
+   {
+    "q": "A tower with no door",
+    "right": "Rapunzel",
+    "wrong": [
+     "Beauty and the Beast",
+     "The Snow Maiden",
+     "The Frog Prince"
+    ]
+   },
+   {
+    "q": "A troll under a bridge",
+    "right": "The Three Billy Goats Gruff",
+    "wrong": [
+     "The Ugly Duckling",
+     "Chicken Licken",
+     "The Gingerbread Man"
+    ]
+   },
+   {
+    "q": "Houses of straw, sticks and bricks",
+    "right": "The Three Little Pigs",
+    "wrong": [
+     "Chicken Licken",
+     "The Gingerbread Man",
+     "The Ugly Duckling"
+    ]
+   },
+   {
+    "q": "A splinter from a magic mirror",
+    "right": "The Snow Queen",
+    "wrong": [
+     "The Snow Maiden",
+     "The Nightingale",
+     "The Steadfast Tin Soldier"
+    ]
+   },
+   {
+    "q": "A voice traded for a pair of legs",
+    "right": "The Little Mermaid",
+    "wrong": [
+     "The Fisherman and His Wife",
+     "The Nightingale",
+     "The Steadfast Tin Soldier"
+    ]
+   },
+   {
+    "q": "A key to a forbidden room",
+    "right": "Bluebeard",
+    "wrong": [
+     "Ali Baba",
+     "Aladdin",
+     "Beauty and the Beast"
+    ]
+   },
+   {
+    "q": "Twelve pairs of shoes worn through every night",
+    "right": "The Twelve Dancing Princesses",
+    "wrong": [
+     "The Red Shoes",
+     "The Snow Maiden",
+     "Beauty and the Beast"
+    ]
+   },
+   {
+    "q": "A bed made from a walnut shell",
+    "right": "Thumbelina",
+    "wrong": [
+     "Tom Thumb",
+     "The Steadfast Tin Soldier",
+     "The Nightingale"
+    ]
+   },
+   {
+    "q": "Shirts knitted from nettles",
+    "right": "The Wild Swans",
+    "wrong": [
+     "The Ugly Duckling",
+     "The Nightingale",
+     "The Snow Maiden"
+    ]
+   },
+   {
+    "q": "Leather left out overnight",
+    "right": "The Elves and the Shoemaker",
+    "wrong": [
+     "The Red Shoes",
+     "Puss in Boots",
+     "Tom Thumb"
+    ]
+   },
+   {
+    "q": "A pipe that leads the rats away",
+    "right": "The Pied Piper of Hamelin",
+    "wrong": [
+     "The Nightingale",
+     "Tom Thumb",
+     "Puss in Boots"
+    ]
+   },
+   {
+    "q": "A wolf in Grandma's nightgown",
+    "right": "Little Red Riding Hood",
+    "wrong": [
+     "Peter and the Wolf",
+     "The Boy Who Cried Wolf",
+     "The Gingerbread Man"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which animal does this food come from?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "food",
+   "animals"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Venison",
+    "right": "Deer",
+    "wrong": [
+     "Wild boar",
+     "Pheasant",
+     "Horse"
+    ]
+   },
+   {
+    "q": "Mutton",
+    "right": "Sheep",
+    "wrong": [
+     "Horse",
+     "Wild boar",
+     "Ox"
+    ]
+   },
+   {
+    "q": "Veal",
+    "right": "Calf",
+    "wrong": [
+     "Lamb",
+     "Piglet",
+     "Foal"
+    ]
+   },
+   {
+    "q": "Escargots",
+    "right": "Snail",
+    "wrong": [
+     "Slug",
+     "Mussel",
+     "Whelk"
+    ]
+   },
+   {
+    "q": "Calamari",
+    "right": "Squid",
+    "wrong": [
+     "Cuttlefish",
+     "Prawn",
+     "Scallop"
+    ]
+   },
+   {
+    "q": "Squab",
+    "right": "Pigeon",
+    "wrong": [
+     "Quail",
+     "Partridge",
+     "Chicken"
+    ]
+   },
+   {
+    "q": "Capon",
+    "right": "Cockerel",
+    "wrong": [
+     "Turkey",
+     "Hen",
+     "Guinea fowl"
+    ]
+   },
+   {
+    "q": "Kid",
+    "right": "Goat",
+    "wrong": [
+     "Lamb",
+     "Piglet",
+     "Foal"
+    ]
+   },
+   {
+    "q": "Caviar",
+    "right": "Sturgeon",
+    "wrong": [
+     "Salmon",
+     "Herring",
+     "Mackerel"
+    ]
+   },
+   {
+    "q": "Foie gras",
+    "right": "Duck or goose",
+    "wrong": [
+     "Chicken",
+     "Turkey",
+     "Pheasant"
+    ]
+   },
+   {
+    "q": "Pulpo",
+    "right": "Octopus",
+    "wrong": [
+     "Cuttlefish",
+     "Crab",
+     "Lobster"
+    ]
+   },
+   {
+    "q": "Lapin",
+    "right": "Rabbit",
+    "wrong": [
+     "Hare",
+     "Squirrel",
+     "Guinea pig"
+    ]
+   },
+   {
+    "q": "Cuisses de grenouille",
+    "right": "Frog",
+    "wrong": [
+     "Toad",
+     "Newt",
+     "Lizard"
+    ]
+   },
+   {
+    "q": "Unagi",
+    "right": "Eel",
+    "wrong": [
+     "Salmon",
+     "Tuna",
+     "Mackerel"
+    ]
+   },
+   {
+    "q": "Bombay duck",
+    "right": "Lizardfish",
+    "wrong": [
+     "Duck",
+     "Chicken",
+     "Goose"
+    ]
+   },
+   {
+    "q": "Ortolan",
+    "right": "Bunting",
+    "wrong": [
+     "Sparrow",
+     "Lark",
+     "Quail"
+    ]
+   },
+   {
+    "q": "Langoustine",
+    "right": "Norway lobster",
+    "wrong": [
+     "Prawn",
+     "Crab",
+     "Crayfish"
+    ]
+   },
+   {
+    "q": "Taramasalata",
+    "right": "Cod (its roe)",
+    "wrong": [
+     "Salmon",
+     "Herring",
+     "Mackerel"
+    ]
+   },
+   {
+    "q": "Gammon",
+    "right": "Pig",
+    "wrong": [
+     "Wild boar",
+     "Ox",
+     "Horse"
+    ]
+   },
+   {
+    "q": "Bresaola",
+    "right": "Cattle",
+    "wrong": [
+     "Wild boar",
+     "Turkey",
+     "Ostrich"
+    ]
+   }
+  ]
+ }
+]
