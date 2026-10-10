@@ -1,0 +1,775 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: name the famous bird",
+  "target": 10,
+  "category": "Film, TV and books",
+  "tags": [
+   "birds",
+   "characters"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Sylvester's yellow canary",
+    "right": "Tweety",
+    "wrong": [
+     "Sweetie",
+     "Chirpy",
+     "Granny"
+    ]
+   },
+   {
+    "q": "Snoopy's little yellow friend",
+    "right": "Woodstock",
+    "wrong": [
+     "Lucy",
+     "Linus",
+     "Peppermint Patty"
+    ]
+   },
+   {
+    "q": "Jafar's parrot",
+    "right": "Iago",
+    "wrong": [
+     "Abu",
+     "Rajah",
+     "Carpet"
+    ]
+   },
+   {
+    "q": "Harry's snowy owl",
+    "right": "Hedwig",
+    "wrong": [
+     "Hermes",
+     "Pigwidgeon",
+     "Crookshanks"
+    ]
+   },
+   {
+    "q": "The Weasleys' ancient, crash-landing owl",
+    "right": "Errol",
+    "wrong": [
+     "Hermes",
+     "Pigwidgeon",
+     "Scabbers"
+    ]
+   },
+   {
+    "q": "Sesame Street's eight-foot yellow bird",
+    "right": "Big Bird",
+    "wrong": [
+     "Elmo",
+     "Grover",
+     "Oscar"
+    ]
+   },
+   {
+    "q": "'Meep meep!'",
+    "right": "Road Runner",
+    "wrong": [
+     "Wile E. Coyote",
+     "Speedy Gonzales",
+     "Pepé Le Pew"
+    ]
+   },
+   {
+    "q": "The cartoon bird with the famous laugh",
+    "right": "Woody Woodpecker",
+    "wrong": [
+     "Heckle",
+     "Jeckle",
+     "Buzz Buzzard"
+    ]
+   },
+   {
+    "q": "The giant bird in Up",
+    "right": "Kevin",
+    "wrong": [
+     "Dug",
+     "Russell",
+     "Muntz"
+    ]
+   },
+   {
+    "q": "The Little Mermaid's know-it-all seagull",
+    "right": "Scuttle",
+    "wrong": [
+     "Flounder",
+     "Sebastian",
+     "Max"
+    ]
+   },
+   {
+    "q": "Richard Bach's seagull who lives to fly",
+    "right": "Jonathan Livingston Seagull",
+    "wrong": [
+     "Fletcher Lynd",
+     "Chiang",
+     "Sullivan"
+    ]
+   },
+   {
+    "q": "Watership Down's seagull",
+    "right": "Kehaar",
+    "wrong": [
+     "Fiver",
+     "Bigwig",
+     "Holly"
+    ]
+   },
+   {
+    "q": "Dumbledore's phoenix",
+    "right": "Fawkes",
+    "wrong": [
+     "Buckbeak",
+     "Fluffy",
+     "Aragog"
+    ]
+   },
+   {
+    "q": "Doctor Dolittle's parrot",
+    "right": "Polynesia",
+    "wrong": [
+     "Jip",
+     "Dab-Dab",
+     "Gub-Gub"
+    ]
+   },
+   {
+    "q": "Long John Silver's parrot",
+    "right": "Captain Flint",
+    "wrong": [
+     "Polly",
+     "Billy Bones",
+     "Ben Gunn"
+    ]
+   },
+   {
+    "q": "The leader of the Angry Birds",
+    "right": "Red",
+    "wrong": [
+     "Chuck",
+     "Bomb",
+     "Terence"
+    ]
+   },
+   {
+    "q": "The rare macaw in Rio",
+    "right": "Blu",
+    "wrong": [
+     "Jewel",
+     "Nigel",
+     "Rafael"
+    ]
+   },
+   {
+    "q": "The clay penguin who says 'Noot noot!'",
+    "right": "Pingu",
+    "wrong": [
+     "Pinga",
+     "Robby",
+     "Pingg"
+    ]
+   },
+   {
+    "q": "Mufasa's hornbill adviser",
+    "right": "Zazu",
+    "wrong": [
+     "Rafiki",
+     "Timon",
+     "Pumbaa"
+    ]
+   },
+   {
+    "q": "The wise bird of the Hundred Acre Wood",
+    "right": "Owl",
+    "wrong": [
+     "Rabbit",
+     "Eeyore",
+     "Gopher"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which school do they go to?",
+  "target": 10,
+  "category": "Film, TV and books",
+  "tags": [
+   "schools",
+   "fiction"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Harry Potter",
+    "right": "Hogwarts",
+    "wrong": [
+     "Beauxbatons",
+     "Durmstrang",
+     "Ilvermorny"
+    ]
+   },
+   {
+    "q": "Matilda",
+    "right": "Crunchem Hall",
+    "wrong": [
+     "Trunchbull Towers",
+     "Wormwood Hall",
+     "Honey Hall"
+    ]
+   },
+   {
+    "q": "Darrell Rivers",
+    "right": "Malory Towers",
+    "wrong": [
+     "Whyteleafe",
+     "The Chalet School",
+     "Cliffe House"
+    ]
+   },
+   {
+    "q": "The wild girls of the Ealing comedies",
+    "right": "St Trinian's",
+    "wrong": [
+     "St Custard's",
+     "Whyteleafe",
+     "The Chalet School"
+    ]
+   },
+   {
+    "q": "Billy Bunter",
+    "right": "Greyfriars",
+    "wrong": [
+     "St Jim's",
+     "Rookwood",
+     "Linton Hall"
+    ]
+   },
+   {
+    "q": "Danny and Sandy in Grease",
+    "right": "Rydell High",
+    "wrong": [
+     "Ridgemont High",
+     "West Beverly High",
+     "Hill Valley High"
+    ]
+   },
+   {
+    "q": "Zack Morris in Saved by the Bell",
+    "right": "Bayside High",
+    "wrong": [
+     "Ridgemont High",
+     "West Beverly High",
+     "Hill Valley High"
+    ]
+   },
+   {
+    "q": "Bart Simpson",
+    "right": "Springfield Elementary",
+    "wrong": [
+     "Shelbyville Elementary",
+     "South Park Elementary",
+     "Quahog Elementary"
+    ]
+   },
+   {
+    "q": "Buffy the Vampire Slayer",
+    "right": "Sunnydale High",
+    "wrong": [
+     "Ridgemont High",
+     "Mystic Falls High",
+     "Hill Valley High"
+    ]
+   },
+   {
+    "q": "Will McKenzie in The Inbetweeners",
+    "right": "Rudge Park Comprehensive",
+    "wrong": [
+     "Abbey Grove",
+     "Waterloo Road",
+     "Summerhill"
+    ]
+   },
+   {
+    "q": "The X-Men",
+    "right": "Xavier's School",
+    "wrong": [
+     "Starfleet Academy",
+     "Brakebills",
+     "Wayne Academy"
+    ]
+   },
+   {
+    "q": "Wednesday Addams",
+    "right": "Nevermore Academy",
+    "wrong": [
+     "Ravenwood Academy",
+     "Miss Peregrine's Home",
+     "Brakebills"
+    ]
+   },
+   {
+    "q": "Smike in Nicholas Nickleby",
+    "right": "Dotheboys Hall",
+    "wrong": [
+     "Salem House",
+     "Bleak House",
+     "Satis House"
+    ]
+   },
+   {
+    "q": "Jane Eyre",
+    "right": "Lowood",
+    "wrong": [
+     "Salem House",
+     "Thornfield",
+     "Gateshead Hall"
+    ]
+   },
+   {
+    "q": "Enid Blyton's O'Sullivan twins",
+    "right": "St Clare's",
+    "wrong": [
+     "Whyteleafe",
+     "The Chalet School",
+     "Cliffe House"
+    ]
+   },
+   {
+    "q": "Dudley Dursley",
+    "right": "Smeltings",
+    "wrong": [
+     "Stonewall High",
+     "Eton",
+     "Durmstrang"
+    ]
+   },
+   {
+    "q": "Tucker Jenkins",
+    "right": "Grange Hill",
+    "wrong": [
+     "Waterloo Road",
+     "Byker Grove",
+     "Summerhill"
+    ]
+   },
+   {
+    "q": "Jessica and Elizabeth Wakefield",
+    "right": "Sweet Valley High",
+    "wrong": [
+     "West Beverly High",
+     "Ridgemont High",
+     "Hill Valley High"
+    ]
+   },
+   {
+    "q": "The Breakfast Club",
+    "right": "Shermer High",
+    "wrong": [
+     "Ridgemont High",
+     "West Beverly High",
+     "Hill Valley High"
+    ]
+   },
+   {
+    "q": "Troy and Gabriella in High School Musical",
+    "right": "East High",
+    "wrong": [
+     "West High",
+     "Ridgemont High",
+     "Hill Valley High"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which Olympic sport is this from?",
+  "target": 10,
+  "category": "The Olympics",
+  "tags": [
+   "Olympics",
+   "sports",
+   "terms"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Épée",
+    "right": "Fencing",
+    "wrong": [
+     "Karate",
+     "Kendo",
+     "Taekwondo"
+    ]
+   },
+   {
+    "q": "Pommel horse",
+    "right": "Gymnastics",
+    "wrong": [
+     "Diving",
+     "Wrestling",
+     "Triathlon"
+    ]
+   },
+   {
+    "q": "Shuttlecock",
+    "right": "Badminton",
+    "wrong": [
+     "Table tennis",
+     "Squash",
+     "Handball"
+    ]
+   },
+   {
+    "q": "Puck",
+    "right": "Ice hockey",
+    "wrong": [
+     "Hockey",
+     "Lacrosse",
+     "Water polo"
+    ]
+   },
+   {
+    "q": "Coxless four",
+    "right": "Rowing",
+    "wrong": [
+     "Triathlon",
+     "Swimming",
+     "Water polo"
+    ]
+   },
+   {
+    "q": "Javelin",
+    "right": "Athletics",
+    "wrong": [
+     "Modern pentathlon",
+     "Triathlon",
+     "Biathlon"
+    ]
+   },
+   {
+    "q": "Stones and brooms",
+    "right": "Curling",
+    "wrong": [
+     "Bobsleigh",
+     "Speed skating",
+     "Biathlon"
+    ]
+   },
+   {
+    "q": "Recurve bow",
+    "right": "Archery",
+    "wrong": [
+     "Biathlon",
+     "Modern pentathlon",
+     "Triathlon"
+    ]
+   },
+   {
+    "q": "Lying feet-first on a sled",
+    "right": "Luge",
+    "wrong": [
+     "Bobsleigh",
+     "Biathlon",
+     "Speed skating"
+    ]
+   },
+   {
+    "q": "Lying head-first on a sled",
+    "right": "Skeleton",
+    "wrong": [
+     "Bobsleigh",
+     "Biathlon",
+     "Speed skating"
+    ]
+   },
+   {
+    "q": "Clay pigeons",
+    "right": "Shooting",
+    "wrong": [
+     "Biathlon",
+     "Modern pentathlon",
+     "Triathlon"
+    ]
+   },
+   {
+    "q": "Dinghies",
+    "right": "Sailing",
+    "wrong": [
+     "Triathlon",
+     "Surfing",
+     "Water polo"
+    ]
+   },
+   {
+    "q": "The peloton",
+    "right": "Cycling",
+    "wrong": [
+     "Water polo",
+     "Diving",
+     "Handball"
+    ]
+   },
+   {
+    "q": "Tatami mats and ippons",
+    "right": "Judo",
+    "wrong": [
+     "Taekwondo",
+     "Wrestling",
+     "Boxing"
+    ]
+   },
+   {
+    "q": "Kayaks",
+    "right": "Canoeing",
+    "wrong": [
+     "Triathlon",
+     "Swimming",
+     "Water polo"
+    ]
+   },
+   {
+    "q": "Bunkers",
+    "right": "Golf",
+    "wrong": [
+     "Hockey",
+     "Rugby sevens",
+     "Cricket"
+    ]
+   },
+   {
+    "q": "Dressage",
+    "right": "Equestrian",
+    "wrong": [
+     "Diving",
+     "Modern pentathlon",
+     "Figure skating"
+    ]
+   },
+   {
+    "q": "The snatch",
+    "right": "Weightlifting",
+    "wrong": [
+     "Wrestling",
+     "Boxing",
+     "Taekwondo"
+    ]
+   },
+   {
+    "q": "The libero",
+    "right": "Volleyball",
+    "wrong": [
+     "Handball",
+     "Water polo",
+     "Basketball"
+    ]
+   },
+   {
+    "q": "Deuce",
+    "right": "Tennis",
+    "wrong": [
+     "Basketball",
+     "Handball",
+     "Water polo"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this wine region in?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "wine",
+   "countries"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Bordeaux",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Luxembourg",
+     "Monaco"
+    ]
+   },
+   {
+    "q": "Rioja",
+    "right": "Spain",
+    "wrong": [
+     "Andorra",
+     "Mexico",
+     "Uruguay"
+    ]
+   },
+   {
+    "q": "Chianti",
+    "right": "Italy",
+    "wrong": [
+     "Croatia",
+     "Slovenia",
+     "Malta"
+    ]
+   },
+   {
+    "q": "Napa Valley",
+    "right": "the USA",
+    "wrong": [
+     "Mexico",
+     "Brazil",
+     "Peru"
+    ]
+   },
+   {
+    "q": "The Barossa Valley",
+    "right": "Australia",
+    "wrong": [
+     "Fiji",
+     "Uruguay",
+     "Brazil"
+    ]
+   },
+   {
+    "q": "Marlborough",
+    "right": "New Zealand",
+    "wrong": [
+     "Wales",
+     "Ireland",
+     "Fiji"
+    ]
+   },
+   {
+    "q": "The Mosel",
+    "right": "Germany",
+    "wrong": [
+     "Belgium",
+     "the Netherlands",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "The Douro",
+    "right": "Portugal",
+    "wrong": [
+     "Brazil",
+     "Uruguay",
+     "Mexico"
+    ]
+   },
+   {
+    "q": "Tokaj",
+    "right": "Hungary",
+    "wrong": [
+     "Romania",
+     "Czechia",
+     "Bulgaria"
+    ]
+   },
+   {
+    "q": "Stellenbosch",
+    "right": "South Africa",
+    "wrong": [
+     "Namibia",
+     "Zimbabwe",
+     "Kenya"
+    ]
+   },
+   {
+    "q": "Mendoza",
+    "right": "Argentina",
+    "wrong": [
+     "Uruguay",
+     "Peru",
+     "Brazil"
+    ]
+   },
+   {
+    "q": "The Maipo Valley",
+    "right": "Chile",
+    "wrong": [
+     "Peru",
+     "Uruguay",
+     "Bolivia"
+    ]
+   },
+   {
+    "q": "The Okanagan Valley",
+    "right": "Canada",
+    "wrong": [
+     "Iceland",
+     "Norway",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "The Wachau",
+    "right": "Austria",
+    "wrong": [
+     "Czechia",
+     "Slovenia",
+     "Liechtenstein"
+    ]
+   },
+   {
+    "q": "Santorini",
+    "right": "Greece",
+    "wrong": [
+     "Cyprus",
+     "Turkey",
+     "Malta"
+    ]
+   },
+   {
+    "q": "The Bekaa Valley",
+    "right": "Lebanon",
+    "wrong": [
+     "Israel",
+     "Syria",
+     "Jordan"
+    ]
+   },
+   {
+    "q": "Lavaux",
+    "right": "Switzerland",
+    "wrong": [
+     "Liechtenstein",
+     "Luxembourg",
+     "Belgium"
+    ]
+   },
+   {
+    "q": "Kakheti",
+    "right": "Georgia",
+    "wrong": [
+     "Armenia",
+     "Azerbaijan",
+     "Ukraine"
+    ]
+   },
+   {
+    "q": "Sussex (for sparkling wine)",
+    "right": "England",
+    "wrong": [
+     "Wales",
+     "Ireland",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "The Cricova cellars",
+    "right": "Moldova",
+    "wrong": [
+     "Romania",
+     "Ukraine",
+     "Bulgaria"
+    ]
+   }
+  ]
+ }
+]
