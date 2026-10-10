@@ -1,0 +1,311 @@
+[
+ {
+  "type": "wipeout",
+  "text": "Sea areas in the BBC Shipping Forecast",
+  "right": [
+   "Viking",
+   "Forties",
+   "Cromarty",
+   "Tyne",
+   "Dogger",
+   "German Bight",
+   "Humber",
+   "Thames",
+   "Dover",
+   "Wight",
+   "Plymouth",
+   "FitzRoy",
+   "Fastnet",
+   "Rockall",
+   "Malin"
+  ],
+  "wrong": [
+   "Solent",
+   "Tees",
+   "Mersey",
+   "Clyde",
+   "Orkney"
+  ],
+  "difficulty": "hard",
+  "category": "Britain",
+  "tags": [
+   "Shipping Forecast",
+   "sea areas"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "British freshwater fish",
+  "right": [
+   "Pike",
+   "Perch",
+   "Roach",
+   "Carp",
+   "Tench",
+   "Bream",
+   "Chub",
+   "Barbel",
+   "Rudd",
+   "Dace",
+   "Grayling",
+   "Brown trout",
+   "Gudgeon",
+   "Zander",
+   "Minnow"
+  ],
+  "wrong": [
+   "Pollock",
+   "Mackerel",
+   "Plaice",
+   "Whiting",
+   "Dab"
+  ],
+  "difficulty": "medium",
+  "category": "Animals",
+  "tags": [
+   "fish",
+   "fishing",
+   "rivers"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Makers of motorbikes",
+  "right": [
+   "Harley-Davidson",
+   "Ducati",
+   "Triumph",
+   "Kawasaki",
+   "Yamaha",
+   "Honda",
+   "Suzuki",
+   "BMW",
+   "KTM",
+   "Norton",
+   "Royal Enfield",
+   "Aprilia",
+   "Moto Guzzi",
+   "MV Agusta",
+   "Indian"
+  ],
+  "wrong": [
+   "Ferrari",
+   "Mazda",
+   "Subaru",
+   "Alfa Romeo",
+   "Lotus"
+  ],
+  "difficulty": "medium",
+  "category": "Motoring",
+  "tags": [
+   "motorbikes",
+   "brands"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Breeds of cattle",
+  "right": [
+   "Aberdeen Angus",
+   "Hereford",
+   "Highland",
+   "Jersey",
+   "Guernsey",
+   "Friesian",
+   "Holstein",
+   "Charolais",
+   "Limousin",
+   "Simmental",
+   "Dexter",
+   "Belted Galloway",
+   "Longhorn",
+   "Shorthorn",
+   "Ayrshire"
+  ],
+  "wrong": [
+   "Suffolk",
+   "Texel",
+   "Herdwick",
+   "Swaledale",
+   "Jacob"
+  ],
+  "difficulty": "hard",
+  "category": "Animals",
+  "tags": [
+   "cattle",
+   "farming",
+   "breeds"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Breeds of chicken",
+  "right": [
+   "Rhode Island Red",
+   "Leghorn",
+   "Orpington",
+   "Light Sussex",
+   "Plymouth Rock",
+   "Wyandotte",
+   "Silkie",
+   "Brahma",
+   "Marans",
+   "Cochin",
+   "Australorp",
+   "Welsummer",
+   "Dorking",
+   "Araucana",
+   "Faverolles"
+  ],
+  "wrong": [
+   "Aylesbury",
+   "Indian Runner",
+   "Khaki Campbell",
+   "Muscovy",
+   "Mallard"
+  ],
+  "difficulty": "hard",
+  "category": "Animals",
+  "tags": [
+   "chickens",
+   "poultry",
+   "breeds"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Shades of blue",
+  "right": [
+   "Navy",
+   "Royal blue",
+   "Sky blue",
+   "Cobalt",
+   "Azure",
+   "Cerulean",
+   "Ultramarine",
+   "Sapphire",
+   "Periwinkle",
+   "Powder blue",
+   "Duck egg",
+   "Midnight blue",
+   "Prussian blue",
+   "Cornflower",
+   "Electric blue"
+  ],
+  "wrong": [
+   "Chartreuse",
+   "Puce",
+   "Vermilion",
+   "Mauve",
+   "Taupe"
+  ],
+  "difficulty": "medium",
+  "category": "Art and design",
+  "tags": [
+   "colours",
+   "blue"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Characters from The Muppet Show",
+  "right": [
+   "Kermit",
+   "Miss Piggy",
+   "Fozzie Bear",
+   "Gonzo",
+   "Animal",
+   "Rowlf",
+   "Scooter",
+   "Beaker",
+   "Dr Bunsen Honeydew",
+   "The Swedish Chef",
+   "Statler",
+   "Waldorf",
+   "Sam Eagle",
+   "Rizzo the Rat",
+   "Pepe the King Prawn"
+  ],
+  "wrong": [
+   "Big Bird",
+   "Elmo",
+   "Cookie Monster",
+   "Oscar the Grouch",
+   "Bert"
+  ],
+  "difficulty": "easy",
+  "category": "Film and TV",
+  "tags": [
+   "The Muppets",
+   "puppets"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "US national parks",
+  "right": [
+   "Yellowstone",
+   "Yosemite",
+   "Grand Canyon",
+   "Zion",
+   "Arches",
+   "Everglades",
+   "Glacier",
+   "Acadia",
+   "Bryce Canyon",
+   "Death Valley",
+   "Joshua Tree",
+   "Olympic",
+   "Redwood",
+   "Great Smoky Mountains",
+   "Denali"
+  ],
+  "wrong": [
+   "Monument Valley",
+   "Niagara Falls",
+   "Mount Rushmore",
+   "Lake Tahoe",
+   "Hoover Dam"
+  ],
+  "difficulty": "medium",
+  "category": "World geography",
+  "tags": [
+   "USA",
+   "national parks"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Films directed by Martin Scorsese",
+  "right": [
+   "Mean Streets",
+   "Taxi Driver",
+   "Raging Bull",
+   "The Color of Money",
+   "Goodfellas",
+   "Cape Fear",
+   "Casino",
+   "Gangs of New York",
+   "The Aviator",
+   "The Departed",
+   "Shutter Island",
+   "Hugo",
+   "The Wolf of Wall Street",
+   "The Irishman",
+   "Killers of the Flower Moon"
+  ],
+  "wrong": [
+   "The Godfather Part II",
+   "Heat",
+   "Once Upon a Time in America",
+   "Donnie Brasco",
+   "Scarface"
+  ],
+  "difficulty": "medium",
+  "category": "Film",
+  "tags": [
+   "Martin Scorsese",
+   "directors"
+  ]
+ }
+]
