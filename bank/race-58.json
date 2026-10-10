@@ -1,0 +1,582 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which country is this gorge or canyon in?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "gorges",
+   "canyons",
+   "countries"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Antelope Canyon",
+    "right": "the USA",
+    "wrong": [
+     "Canada",
+     "Chile",
+     "Cuba"
+    ]
+   },
+   {
+    "q": "Fish River Canyon",
+    "right": "Namibia",
+    "wrong": [
+     "Botswana",
+     "Angola",
+     "Zimbabwe"
+    ]
+   },
+   {
+    "q": "Colca Canyon",
+    "right": "Peru",
+    "wrong": [
+     "Bolivia",
+     "Ecuador",
+     "Chile"
+    ]
+   },
+   {
+    "q": "Copper Canyon",
+    "right": "Mexico",
+    "wrong": [
+     "Guatemala",
+     "Cuba",
+     "Colombia"
+    ]
+   },
+   {
+    "q": "The Verdon Gorge",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Luxembourg",
+     "Monaco"
+    ]
+   },
+   {
+    "q": "The Samaria Gorge",
+    "right": "Greece",
+    "wrong": [
+     "Cyprus",
+     "Croatia",
+     "Malta"
+    ]
+   },
+   {
+    "q": "The Tara River Canyon",
+    "right": "Montenegro",
+    "wrong": [
+     "Albania",
+     "Serbia",
+     "Bosnia and Herzegovina"
+    ]
+   },
+   {
+    "q": "The Avon Gorge",
+    "right": "England",
+    "wrong": [
+     "Wales",
+     "Ireland",
+     "Northern Ireland"
+    ]
+   },
+   {
+    "q": "Tiger Leaping Gorge",
+    "right": "China",
+    "wrong": [
+     "Nepal",
+     "Bhutan",
+     "Laos"
+    ]
+   },
+   {
+    "q": "Blyde River Canyon",
+    "right": "South Africa",
+    "wrong": [
+     "Botswana",
+     "Zimbabwe",
+     "Mozambique"
+    ]
+   },
+   {
+    "q": "Kings Canyon",
+    "right": "Australia",
+    "wrong": [
+     "Fiji",
+     "Papua New Guinea",
+     "Indonesia"
+    ]
+   },
+   {
+    "q": "The Todra Gorge",
+    "right": "Morocco",
+    "wrong": [
+     "Algeria",
+     "Tunisia",
+     "Egypt"
+    ]
+   },
+   {
+    "q": "The Aare Gorge",
+    "right": "Switzerland",
+    "wrong": [
+     "Austria",
+     "Liechtenstein",
+     "Germany"
+    ]
+   },
+   {
+    "q": "The Vintgar Gorge",
+    "right": "Slovenia",
+    "wrong": [
+     "Croatia",
+     "Austria",
+     "Slovakia"
+    ]
+   },
+   {
+    "q": "The Takachiho Gorge",
+    "right": "Japan",
+    "wrong": [
+     "South Korea",
+     "Taiwan",
+     "the Philippines"
+    ]
+   },
+   {
+    "q": "Charyn Canyon",
+    "right": "Kazakhstan",
+    "wrong": [
+     "Uzbekistan",
+     "Kyrgyzstan",
+     "Mongolia"
+    ]
+   },
+   {
+    "q": "The Ihlara Valley",
+    "right": "Turkey",
+    "wrong": [
+     "Armenia",
+     "Syria",
+     "Cyprus"
+    ]
+   },
+   {
+    "q": "The Rugova Canyon",
+    "right": "Kosovo",
+    "wrong": [
+     "Albania",
+     "Serbia",
+     "North Macedonia"
+    ]
+   },
+   {
+    "q": "The Rakaia Gorge",
+    "right": "New Zealand",
+    "wrong": [
+     "Fiji",
+     "Papua New Guinea",
+     "Indonesia"
+    ]
+   },
+   {
+    "q": "Fjaðrárgljúfur",
+    "right": "Iceland",
+    "wrong": [
+     "Norway",
+     "the Faroe Islands",
+     "Greenland"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this famous cave in?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "caves",
+   "countries"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The Waitomo glow-worm caves",
+    "right": "New Zealand",
+    "wrong": [
+     "Fiji",
+     "Samoa",
+     "Tonga"
+    ]
+   },
+   {
+    "q": "Postojna Cave",
+    "right": "Slovenia",
+    "wrong": [
+     "Croatia",
+     "Slovakia",
+     "Hungary"
+    ]
+   },
+   {
+    "q": "Carlsbad Caverns",
+    "right": "the USA",
+    "wrong": [
+     "Canada",
+     "Cuba",
+     "Guatemala"
+    ]
+   },
+   {
+    "q": "Hang Sơn Đoòng, the world's biggest cave",
+    "right": "Vietnam",
+    "wrong": [
+     "Laos",
+     "Cambodia",
+     "Myanmar"
+    ]
+   },
+   {
+    "q": "The Blue Grotto on Capri",
+    "right": "Italy",
+    "wrong": [
+     "Cyprus",
+     "Montenegro",
+     "Albania"
+    ]
+   },
+   {
+    "q": "Reed Flute Cave",
+    "right": "China",
+    "wrong": [
+     "Laos",
+     "Myanmar",
+     "Mongolia"
+    ]
+   },
+   {
+    "q": "Eisriesenwelt, the giant ice cave",
+    "right": "Austria",
+    "wrong": [
+     "Switzerland",
+     "Germany",
+     "Czechia"
+    ]
+   },
+   {
+    "q": "The Cave of the Crystals",
+    "right": "Mexico",
+    "wrong": [
+     "Guatemala",
+     "Cuba",
+     "Colombia"
+    ]
+   },
+   {
+    "q": "The Lascaux cave paintings",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Luxembourg",
+     "Switzerland"
+    ]
+   },
+   {
+    "q": "The Altamira cave paintings",
+    "right": "Spain",
+    "wrong": [
+     "Andorra",
+     "Malta",
+     "Morocco"
+    ]
+   },
+   {
+    "q": "Wookey Hole",
+    "right": "England",
+    "wrong": [
+     "Wales",
+     "Ireland",
+     "the Isle of Man"
+    ]
+   },
+   {
+    "q": "The Ajanta Caves",
+    "right": "India",
+    "wrong": [
+     "Nepal",
+     "Sri Lanka",
+     "Bangladesh"
+    ]
+   },
+   {
+    "q": "The Batu Caves",
+    "right": "Malaysia",
+    "wrong": [
+     "Indonesia",
+     "Singapore",
+     "the Philippines"
+    ]
+   },
+   {
+    "q": "Phraya Nakhon Cave",
+    "right": "Thailand",
+    "wrong": [
+     "Laos",
+     "Cambodia",
+     "Myanmar"
+    ]
+   },
+   {
+    "q": "Benagil sea cave",
+    "right": "Portugal",
+    "wrong": [
+     "Morocco",
+     "Malta",
+     "Cape Verde"
+    ]
+   },
+   {
+    "q": "Melissani Cave",
+    "right": "Greece",
+    "wrong": [
+     "Cyprus",
+     "Albania",
+     "Turkey"
+    ]
+   },
+   {
+    "q": "The Jenolan Caves",
+    "right": "Australia",
+    "wrong": [
+     "Fiji",
+     "Samoa",
+     "Papua New Guinea"
+    ]
+   },
+   {
+    "q": "The ice caves under Vatnajökull",
+    "right": "Iceland",
+    "wrong": [
+     "Norway",
+     "Greenland",
+     "the Faroe Islands"
+    ]
+   },
+   {
+    "q": "Smoo Cave",
+    "right": "Scotland",
+    "wrong": [
+     "Wales",
+     "Ireland",
+     "the Isle of Man"
+    ]
+   },
+   {
+    "q": "Krubera Cave, the deepest known",
+    "right": "Georgia",
+    "wrong": [
+     "Armenia",
+     "Azerbaijan",
+     "Turkey"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this desert in?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "deserts",
+   "countries"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The Atacama",
+    "right": "Chile",
+    "wrong": [
+     "Bolivia",
+     "Argentina",
+     "Ecuador"
+    ]
+   },
+   {
+    "q": "The Namib",
+    "right": "Namibia",
+    "wrong": [
+     "Botswana",
+     "Zimbabwe",
+     "Zambia"
+    ]
+   },
+   {
+    "q": "The Simpson Desert",
+    "right": "Australia",
+    "wrong": [
+     "Fiji",
+     "New Zealand",
+     "Papua New Guinea"
+    ]
+   },
+   {
+    "q": "The Taklamakan",
+    "right": "China",
+    "wrong": [
+     "Mongolia",
+     "Kyrgyzstan",
+     "Pakistan"
+    ]
+   },
+   {
+    "q": "The Danakil Depression",
+    "right": "Ethiopia",
+    "wrong": [
+     "Somalia",
+     "Kenya",
+     "Sudan"
+    ]
+   },
+   {
+    "q": "The Lut Desert",
+    "right": "Iran",
+    "wrong": [
+     "Iraq",
+     "Afghanistan",
+     "Pakistan"
+    ]
+   },
+   {
+    "q": "The Negev",
+    "right": "Israel",
+    "wrong": [
+     "Jordan",
+     "Lebanon",
+     "Syria"
+    ]
+   },
+   {
+    "q": "The Sinai",
+    "right": "Egypt",
+    "wrong": [
+     "Jordan",
+     "Lebanon",
+     "Saudi Arabia"
+    ]
+   },
+   {
+    "q": "The Mojave",
+    "right": "the USA",
+    "wrong": [
+     "Cuba",
+     "Guatemala",
+     "Belize"
+    ]
+   },
+   {
+    "q": "The Tabernas Desert, home of spaghetti westerns",
+    "right": "Spain",
+    "wrong": [
+     "Portugal",
+     "Greece",
+     "Malta"
+    ]
+   },
+   {
+    "q": "The Karakum",
+    "right": "Turkmenistan",
+    "wrong": [
+     "Uzbekistan",
+     "Kazakhstan",
+     "Afghanistan"
+    ]
+   },
+   {
+    "q": "Lençóis Maranhenses",
+    "right": "Brazil",
+    "wrong": [
+     "Argentina",
+     "Venezuela",
+     "Uruguay"
+    ]
+   },
+   {
+    "q": "The Tatacoa Desert",
+    "right": "Colombia",
+    "wrong": [
+     "Venezuela",
+     "Ecuador",
+     "Panama"
+    ]
+   },
+   {
+    "q": "The Sechura Desert",
+    "right": "Peru",
+    "wrong": [
+     "Ecuador",
+     "Bolivia",
+     "Venezuela"
+    ]
+   },
+   {
+    "q": "Erg Chebbi",
+    "right": "Morocco",
+    "wrong": [
+     "Algeria",
+     "Tunisia",
+     "Libya"
+    ]
+   },
+   {
+    "q": "The Accona Desert",
+    "right": "Italy",
+    "wrong": [
+     "Greece",
+     "Malta",
+     "Croatia"
+    ]
+   },
+   {
+    "q": "The Oleshky Sands",
+    "right": "Ukraine",
+    "wrong": [
+     "Belarus",
+     "Moldova",
+     "Romania"
+    ]
+   },
+   {
+    "q": "The Błędów Desert",
+    "right": "Poland",
+    "wrong": [
+     "Czechia",
+     "Slovakia",
+     "Lithuania"
+    ]
+   },
+   {
+    "q": "The Deliblato Sands",
+    "right": "Serbia",
+    "wrong": [
+     "Croatia",
+     "Bosnia and Herzegovina",
+     "Bulgaria"
+    ]
+   },
+   {
+    "q": "The Carcross Desert",
+    "right": "Canada",
+    "wrong": [
+     "Greenland",
+     "Iceland",
+     "Russia"
+    ]
+   }
+  ]
+ }
+]
