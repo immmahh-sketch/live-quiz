@@ -1,0 +1,388 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which famous 'Market'?",
+  "target": 10,
+  "category": "General knowledge",
+  "tags": [
+   "markets",
+   "wordplay"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The Newcastle street famous for its Saturday-night revellers",
+    "right": "Bigg",
+    "wrong": [
+     "Groat",
+     "Cloth",
+     "Grainger"
+    ]
+   },
+   {
+    "q": "North London's market beside the Lock",
+    "right": "Camden",
+    "wrong": [
+     "Greenwich",
+     "Brixton",
+     "Portobello"
+    ]
+   },
+   {
+    "q": "The City of London's Victorian covered market, used as Diagon Alley",
+    "right": "Leadenhall",
+    "wrong": [
+     "Borough",
+     "Greenwich",
+     "Brixton"
+    ]
+   },
+   {
+    "q": "The East London market beside Hawksmoor's Christ Church",
+    "right": "Spitalfields",
+    "wrong": [
+     "Borough",
+     "Brixton",
+     "Greenwich"
+    ]
+   },
+   {
+    "q": "The East London street of the Sunday flower market",
+    "right": "Columbia Road",
+    "wrong": [
+     "Petticoat Lane",
+     "Brick Lane",
+     "Broadway"
+    ]
+   },
+   {
+    "q": "London's historic meat market",
+    "right": "Smithfield",
+    "wrong": [
+     "Billingsgate",
+     "Covent Garden",
+     "Nine Elms"
+    ]
+   },
+   {
+    "q": "The old British name for the EEC",
+    "right": "Common",
+    "wrong": [
+     "Single",
+     "European",
+     "Free"
+    ]
+   },
+   {
+    "q": "Illegal buying and selling",
+    "right": "Black",
+    "wrong": [
+     "Grey",
+     "Dark",
+     "Shadow"
+    ]
+   },
+   {
+    "q": "Where shares are bought and sold",
+    "right": "Stock",
+    "wrong": [
+     "Share",
+     "Money",
+     "Bond"
+    ]
+   },
+   {
+    "q": "A market where prices keep falling",
+    "right": "Bear",
+    "wrong": [
+     "Wolf",
+     "Stag",
+     "Lame"
+    ]
+   },
+   {
+    "q": "A market where prices keep rising",
+    "right": "Bull",
+    "wrong": [
+     "Stag",
+     "Ox",
+     "Ram"
+    ]
+   },
+   {
+    "q": "A second-hand market named after an insect",
+    "right": "Flea",
+    "wrong": [
+     "Rag",
+     "Jumble",
+     "Junk"
+    ]
+   },
+   {
+    "q": "Posh, aimed at wealthy shoppers",
+    "right": "Up",
+    "wrong": [
+     "High",
+     "Top",
+     "Over"
+    ]
+   },
+   {
+    "q": "Cheap and cheerful, aimed at bargain hunters",
+    "right": "Down",
+    "wrong": [
+     "Low",
+     "Cheap",
+     "Under"
+    ]
+   },
+   {
+    "q": "Where local growers sell straight to shoppers",
+    "right": "Farmers'",
+    "wrong": [
+     "Growers'",
+     "Country",
+     "Village"
+    ]
+   },
+   {
+    "q": "Tokyo's old fish market, famous for its tuna auctions",
+    "right": "Tsukiji",
+    "wrong": [
+     "Toyosu",
+     "Ginza",
+     "Akihabara"
+    ]
+   },
+   {
+    "q": "Aimed at as many ordinary buyers as possible",
+    "right": "Mass",
+    "wrong": [
+     "Big",
+     "Wide",
+     "General"
+    ]
+   },
+   {
+    "q": "The German festive tradition of mulled wine and wooden stalls",
+    "right": "Christmas",
+    "wrong": [
+     "Winter",
+     "Advent",
+     "Yule"
+    ]
+   },
+   {
+    "q": "Asia's after-dark street food markets",
+    "right": "Night",
+    "wrong": [
+     "Evening",
+     "Moon",
+     "Dark"
+    ]
+   },
+   {
+    "q": "Thailand's markets where traders sell from boats",
+    "right": "Floating",
+    "wrong": [
+     "Boat",
+     "River",
+     "Water"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which famous 'Point'?",
+  "target": 10,
+  "category": "General knowledge",
+  "tags": [
+   "points",
+   "wordplay"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Mainland Britain's most southerly point, in Cornwall",
+    "right": "Lizard",
+    "wrong": [
+     "Rame",
+     "Mullion",
+     "Kynance"
+    ]
+   },
+   {
+    "q": "The Devon headland and lighthouse facing out towards Lundy",
+    "right": "Hartland",
+    "wrong": [
+     "Baggy",
+     "Morte",
+     "Bull"
+    ]
+   },
+   {
+    "q": "The Norfolk spit famous for its seal colony",
+    "right": "Blakeney",
+    "wrong": [
+     "Scolt",
+     "Holkham",
+     "Cley"
+    ]
+   },
+   {
+    "q": "100°C for water at sea level",
+    "right": "Boiling",
+    "wrong": [
+     "Steaming",
+     "Flash",
+     "Smoke"
+    ]
+   },
+   {
+    "q": "The temperature at which water turns to ice",
+    "right": "Freezing",
+    "wrong": [
+     "Frost",
+     "Ice",
+     "Chill"
+    ]
+   },
+   {
+    "q": "The temperature at which a solid turns to liquid",
+    "right": "Melting",
+    "wrong": [
+     "Thawing",
+     "Softening",
+     "Liquid"
+    ]
+   },
+   {
+    "q": "The temperature at which moisture in the air forms droplets",
+    "right": "Dew",
+    "wrong": [
+     "Mist",
+     "Fog",
+     "Rain"
+    ]
+   },
+   {
+    "q": "In tennis, one point from winning the whole thing",
+    "right": "Match",
+    "wrong": [
+     "Game",
+     "Final",
+     "Win"
+    ]
+   },
+   {
+    "q": "In tennis, one point from winning the set",
+    "right": "Set",
+    "wrong": [
+     "Game",
+     "Tie",
+     "Love"
+    ]
+   },
+   {
+    "q": "In tennis, a chance to win your opponent's service game",
+    "right": "Break",
+    "wrong": [
+     "Return",
+     "Deuce",
+     "Ace"
+    ]
+   },
+   {
+    "q": "The US Army's military academy in New York State",
+    "right": "West",
+    "wrong": [
+     "Fort",
+     "Annapolis",
+     "Sandhurst"
+    ]
+   },
+   {
+    "q": "Malcolm Gladwell's book about how little things make a big difference",
+    "right": "Tipping",
+    "wrong": [
+     "Breaking",
+     "Critical",
+     "Crunch"
+    ]
+   },
+   {
+    "q": "The moment when everything changes",
+    "right": "Turning",
+    "wrong": [
+     "Breaking",
+     "Crunch",
+     "Pivot"
+    ]
+   },
+   {
+    "q": "Microsoft's slideshow program",
+    "right": "Power",
+    "wrong": [
+     "Slide",
+     "Key",
+     "Show"
+    ]
+   },
+   {
+    "q": "The dot in 3.14",
+    "right": "Decimal",
+    "wrong": [
+     "Full",
+     "Period",
+     "Dot"
+    ]
+   },
+   {
+    "q": "A list item marked with a dot",
+    "right": "Bullet",
+    "wrong": [
+     "Dot",
+     "Star",
+     "Tick"
+    ]
+   },
+   {
+    "q": "Credit for trying to please the boss",
+    "right": "Brownie",
+    "wrong": [
+     "Bonus",
+     "Gold",
+     "Merit"
+    ]
+   },
+   {
+    "q": "A spot on the body that martial artists strike",
+    "right": "Pressure",
+    "wrong": [
+     "Nerve",
+     "Trigger",
+     "Weak"
+    ]
+   },
+   {
+    "q": "A topic everyone is discussing",
+    "right": "Talking",
+    "wrong": [
+     "Speaking",
+     "Chat",
+     "Gossip"
+    ]
+   },
+   {
+    "q": "Where something begins",
+    "right": "Starting",
+    "wrong": [
+     "Opening",
+     "Launch",
+     "Kick-off"
+    ]
+   }
+  ]
+ }
+]
