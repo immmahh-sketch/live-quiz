@@ -1,0 +1,389 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which herb or spice is this?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "herbs",
+   "spices",
+   "cooking"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Dried stigmas of a crocus flower, the dearest spice in the world by weight",
+    "right": "Saffron",
+    "wrong": [
+     "Sumac",
+     "Allspice",
+     "Fenugreek"
+    ]
+   },
+   {
+    "q": "Bark from a tree, sold rolled up into quills",
+    "right": "Cinnamon",
+    "wrong": [
+     "Allspice",
+     "Caraway",
+     "Sumac"
+    ]
+   },
+   {
+    "q": "The seed of a fruit whose lacy red coat gives a second spice, mace",
+    "right": "Nutmeg",
+    "wrong": [
+     "Allspice",
+     "Caraway",
+     "Fenugreek"
+    ]
+   },
+   {
+    "q": "Pods of a climbing orchid, scraped into custard and ice cream",
+    "right": "Vanilla",
+    "wrong": [
+     "Tonka bean",
+     "Carob",
+     "Allspice"
+    ]
+   },
+   {
+    "q": "Bright yellow root powder that colours most curries",
+    "right": "Turmeric",
+    "wrong": [
+     "Galangal",
+     "Fenugreek",
+     "Asafoetida"
+    ]
+   },
+   {
+    "q": "Dried unopened flower buds, pushed into a ham or an orange",
+    "right": "Cloves",
+    "wrong": [
+     "Allspice",
+     "Capers",
+     "Caraway"
+    ]
+   },
+   {
+    "q": "Ground dried red peppers, smoked in Spain and the star of Hungarian goulash",
+    "right": "Paprika",
+    "wrong": [
+     "Sumac",
+     "Harissa",
+     "Allspice"
+    ]
+   },
+   {
+    "q": "The main herb in Italian pesto",
+    "right": "Basil",
+    "wrong": [
+     "Oregano",
+     "Parsley",
+     "Tarragon"
+    ]
+   },
+   {
+    "q": "The herb muddled into a classic mojito",
+    "right": "Mint",
+    "wrong": [
+     "Lemon balm",
+     "Parsley",
+     "Lemongrass"
+    ]
+   },
+   {
+    "q": "Needle-like herb that's 'for remembrance' in Hamlet, classic with roast lamb",
+    "right": "Rosemary",
+    "wrong": [
+     "Thyme",
+     "Tarragon",
+     "Marjoram"
+    ]
+   },
+   {
+    "q": "Soft grey-green leaves, mixed with onion in Christmas stuffing",
+    "right": "Sage",
+    "wrong": [
+     "Thyme",
+     "Parsley",
+     "Marjoram"
+    ]
+   },
+   {
+    "q": "Called cilantro in America; some people say it tastes of soap",
+    "right": "Coriander",
+    "wrong": [
+     "Parsley",
+     "Chervil",
+     "Fennel"
+    ]
+   },
+   {
+    "q": "Knobbly root grated into stir-fries and brewed into a fizzy beer",
+    "right": "Ginger",
+    "wrong": [
+     "Galangal",
+     "Lemongrass",
+     "Wasabi"
+    ]
+   },
+   {
+    "q": "The world's most traded spice: berries picked green, then dried until black",
+    "right": "Black pepper",
+    "wrong": [
+     "Allspice",
+     "Cayenne",
+     "Mustard seed"
+    ]
+   },
+   {
+    "q": "Eight-pointed brown pod tasting of liquorice, a key part of Chinese five-spice",
+    "right": "Star anise",
+    "wrong": [
+     "Fennel",
+     "Caraway",
+     "Liquorice root"
+    ]
+   },
+   {
+    "q": "Green pods crushed into Indian chai and Scandinavian buns",
+    "right": "Cardamom",
+    "wrong": [
+     "Fenugreek",
+     "Allspice",
+     "Caraway"
+    ]
+   },
+   {
+    "q": "Earthy seed that's the backbone of chilli con carne and most curry powders",
+    "right": "Cumin",
+    "wrong": [
+     "Caraway",
+     "Fennel",
+     "Fenugreek"
+    ]
+   },
+   {
+    "q": "Blue-black berries from a conifer that give gin its flavour",
+    "right": "Juniper",
+    "wrong": [
+     "Sloe",
+     "Elderberry",
+     "Allspice"
+    ]
+   },
+   {
+    "q": "Feathery herb cured with salmon in Scandinavian gravlax",
+    "right": "Dill",
+    "wrong": [
+     "Fennel",
+     "Chervil",
+     "Tarragon"
+    ]
+   },
+   {
+    "q": "Fiery root grated into the sauce served with roast beef",
+    "right": "Horseradish",
+    "wrong": [
+     "Wasabi",
+     "Mustard",
+     "Radish"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what kind of hat is this?",
+  "target": 10,
+  "category": "Fashion",
+  "tags": [
+   "hats",
+   "clothes"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Hard round felt hat of old City gents, worn by Laurel and Hardy",
+    "right": "Bowler",
+    "wrong": [
+     "Trilby",
+     "Homburg",
+     "Busby"
+    ]
+   },
+   {
+    "q": "Tall flat-topped silk hat of Abraham Lincoln and the Mad Hatter",
+    "right": "Top hat",
+    "wrong": [
+     "Homburg",
+     "Bicorne",
+     "Tricorn"
+    ]
+   },
+   {
+    "q": "Tweed cap peaked front and back, forever linked with Sherlock Holmes",
+    "right": "Deerstalker",
+    "wrong": [
+     "Newsboy cap",
+     "Trapper hat",
+     "Glengarry"
+    ]
+   },
+   {
+    "q": "Red felt with a black tassel, Tommy Cooper's trademark",
+    "right": "Fez",
+    "wrong": [
+     "Kufi",
+     "Skullcap",
+     "Turban"
+    ]
+   },
+   {
+    "q": "Very wide-brimmed hat from Mexico",
+    "right": "Sombrero",
+    "wrong": [
+     "Akubra",
+     "Sun hat",
+     "Conical hat"
+    ]
+   },
+   {
+    "q": "The classic cowboy hat, named after its Philadelphia maker",
+    "right": "Stetson",
+    "wrong": [
+     "Akubra",
+     "Homburg",
+     "Boonie hat"
+    ]
+   },
+   {
+    "q": "Woven straw hat named after one country but made in Ecuador",
+    "right": "Panama",
+    "wrong": [
+     "Trilby",
+     "Sun hat",
+     "Bucket hat"
+    ]
+   },
+   {
+    "q": "Stiff flat-topped straw hat of Henley Regatta and barbershop quartets",
+    "right": "Boater",
+    "wrong": [
+     "Trilby",
+     "Sun hat",
+     "Bucket hat"
+    ]
+   },
+   {
+    "q": "Soft round flat cap, linked with French onion sellers and the Paras",
+    "right": "Beret",
+    "wrong": [
+     "Kepi",
+     "Beanie",
+     "Toque"
+    ]
+   },
+   {
+    "q": "Tall black fur hat of the guards outside Buckingham Palace",
+    "right": "Bearskin",
+    "wrong": [
+     "Busby",
+     "Shako",
+     "Kepi"
+    ]
+   },
+   {
+    "q": "Square flat cap with a tassel, thrown in the air at graduation",
+    "right": "Mortarboard",
+    "wrong": [
+     "Biretta",
+     "Zucchetto",
+     "Kepi"
+    ]
+   },
+   {
+    "q": "Rounded cloth cap with a small stiff peak, Andy Capp's trademark",
+    "right": "Flat cap",
+    "wrong": [
+     "Newsboy cap",
+     "Beanie",
+     "Baseball cap"
+    ]
+   },
+   {
+    "q": "Soft felt hat pinched at the front, worn by Indiana Jones",
+    "right": "Fedora",
+    "wrong": [
+     "Trilby",
+     "Homburg",
+     "Akubra"
+    ]
+   },
+   {
+    "q": "Scottish woollen bonnet with a pompom, named after a Burns poem",
+    "right": "Tam o'shanter",
+    "wrong": [
+     "Glengarry",
+     "Balmoral",
+     "Bobble hat"
+    ]
+   },
+   {
+    "q": "Tall pointed hat worn by a bishop",
+    "right": "Mitre",
+    "wrong": [
+     "Biretta",
+     "Zucchetto",
+     "Skullcap"
+    ]
+   },
+   {
+    "q": "Oilskin rain hat with a long brim at the back, worn by fishermen",
+    "right": "Sou'wester",
+    "wrong": [
+     "Bucket hat",
+     "Trapper hat",
+     "Boonie hat"
+    ]
+   },
+   {
+    "q": "Small flat-topped hat worn by Walter White as Heisenberg",
+    "right": "Pork pie hat",
+    "wrong": [
+     "Trilby",
+     "Homburg",
+     "Bucket hat"
+    ]
+   },
+   {
+    "q": "Close-fitting bell-shaped hat of 1920s flappers",
+    "right": "Cloche",
+    "wrong": [
+     "Fascinator",
+     "Bonnet",
+     "Turban"
+    ]
+   },
+   {
+    "q": "Small round brimless hat made famous by Jackie Kennedy",
+    "right": "Pillbox hat",
+    "wrong": [
+     "Fascinator",
+     "Bonnet",
+     "Beanie"
+    ]
+   },
+   {
+    "q": "Russian fur hat with ear flaps that tie up on top",
+    "right": "Ushanka",
+    "wrong": [
+     "Busby",
+     "Papakha",
+     "Beanie"
+    ]
+   }
+  ]
+ }
+]
