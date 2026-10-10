@@ -1,0 +1,776 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what does this first name originally mean?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "names",
+   "meanings"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Sophia",
+    "right": "Wisdom",
+    "wrong": [
+     "Grace",
+     "Beauty",
+     "Hope"
+    ]
+   },
+   {
+    "q": "Peter",
+    "right": "Rock",
+    "wrong": [
+     "King",
+     "Fisherman",
+     "Shepherd"
+    ]
+   },
+   {
+    "q": "Philip",
+    "right": "Lover of horses",
+    "wrong": [
+     "Lover of books",
+     "Lover of the sea",
+     "Lover of wine"
+    ]
+   },
+   {
+    "q": "Lucy",
+    "right": "Light",
+    "wrong": [
+     "Moon",
+     "Grace",
+     "Joy"
+    ]
+   },
+   {
+    "q": "Margaret",
+    "right": "Pearl",
+    "wrong": [
+     "Rose",
+     "Diamond",
+     "Silver"
+    ]
+   },
+   {
+    "q": "Leo",
+    "right": "Lion",
+    "wrong": [
+     "Wolf",
+     "Eagle",
+     "Bear"
+    ]
+   },
+   {
+    "q": "Felix",
+    "right": "Lucky",
+    "wrong": [
+     "Brave",
+     "Noble",
+     "Wise"
+    ]
+   },
+   {
+    "q": "Irene",
+    "right": "Peace",
+    "wrong": [
+     "Hope",
+     "Faith",
+     "Joy"
+    ]
+   },
+   {
+    "q": "Barbara",
+    "right": "Stranger",
+    "wrong": [
+     "Princess",
+     "Warrior",
+     "Queen"
+    ]
+   },
+   {
+    "q": "Andrew",
+    "right": "Manly",
+    "wrong": [
+     "Gentle",
+     "Wise",
+     "Noble"
+    ]
+   },
+   {
+    "q": "George",
+    "right": "Farmer",
+    "wrong": [
+     "Warrior",
+     "Shepherd",
+     "Sailor"
+    ]
+   },
+   {
+    "q": "Christopher",
+    "right": "Christ-bearer",
+    "wrong": [
+     "Christ's servant",
+     "Christ's friend",
+     "Christ's soldier"
+    ]
+   },
+   {
+    "q": "Esther",
+    "right": "Star",
+    "wrong": [
+     "Moon",
+     "Flower",
+     "Queen"
+    ]
+   },
+   {
+    "q": "Ursula",
+    "right": "Little bear",
+    "wrong": [
+     "Little wolf",
+     "Little dove",
+     "Little queen"
+    ]
+   },
+   {
+    "q": "Stephen",
+    "right": "Crown",
+    "wrong": [
+     "Sword",
+     "Shield",
+     "King"
+    ]
+   },
+   {
+    "q": "Amanda",
+    "right": "Worthy of love",
+    "wrong": [
+     "Gift of God",
+     "Full of grace",
+     "Born in spring"
+    ]
+   },
+   {
+    "q": "Daniel",
+    "right": "God is my judge",
+    "wrong": [
+     "God is gracious",
+     "God is my strength",
+     "God is with us"
+    ]
+   },
+   {
+    "q": "Oliver",
+    "right": "Olive tree",
+    "wrong": [
+     "Oak tree",
+     "Apple tree",
+     "Holly bush"
+    ]
+   },
+   {
+    "q": "Melissa",
+    "right": "Honeybee",
+    "wrong": [
+     "Butterfly",
+     "Songbird",
+     "Ladybird"
+    ]
+   },
+   {
+    "q": "Thomas",
+    "right": "Twin",
+    "wrong": [
+     "Brother",
+     "Firstborn",
+     "Gift"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which county is this landmark in?",
+  "target": 10,
+  "category": "Britain",
+  "tags": [
+   "landmarks",
+   "counties",
+   "England"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Stonehenge",
+    "right": "Wiltshire",
+    "wrong": [
+     "Hampshire",
+     "Berkshire",
+     "Gloucestershire"
+    ]
+   },
+   {
+    "q": "Blackpool Tower",
+    "right": "Lancashire",
+    "wrong": [
+     "Merseyside",
+     "Greater Manchester",
+     "West Yorkshire"
+    ]
+   },
+   {
+    "q": "The Angel of the North",
+    "right": "Tyne and Wear",
+    "wrong": [
+     "Cleveland",
+     "West Yorkshire",
+     "South Yorkshire"
+    ]
+   },
+   {
+    "q": "Cheddar Gorge",
+    "right": "Somerset",
+    "wrong": [
+     "Devon",
+     "Gloucestershire",
+     "Herefordshire"
+    ]
+   },
+   {
+    "q": "Durdle Door",
+    "right": "Dorset",
+    "wrong": [
+     "Devon",
+     "Hampshire",
+     "the Isle of Wight"
+    ]
+   },
+   {
+    "q": "The White Cliffs of Dover",
+    "right": "Kent",
+    "wrong": [
+     "Essex",
+     "West Sussex",
+     "Surrey"
+    ]
+   },
+   {
+    "q": "Land's End",
+    "right": "Cornwall",
+    "wrong": [
+     "Devon",
+     "the Isle of Wight",
+     "Hampshire"
+    ]
+   },
+   {
+    "q": "Warwick Castle",
+    "right": "Warwickshire",
+    "wrong": [
+     "Worcestershire",
+     "Leicestershire",
+     "Staffordshire"
+    ]
+   },
+   {
+    "q": "Blenheim Palace",
+    "right": "Oxfordshire",
+    "wrong": [
+     "Buckinghamshire",
+     "Berkshire",
+     "Gloucestershire"
+    ]
+   },
+   {
+    "q": "Chatsworth House",
+    "right": "Derbyshire",
+    "wrong": [
+     "Nottinghamshire",
+     "Staffordshire",
+     "South Yorkshire"
+    ]
+   },
+   {
+    "q": "Whitby Abbey",
+    "right": "North Yorkshire",
+    "wrong": [
+     "East Riding of Yorkshire",
+     "West Yorkshire",
+     "Cleveland"
+    ]
+   },
+   {
+    "q": "Alnwick Castle",
+    "right": "Northumberland",
+    "wrong": [
+     "Cleveland",
+     "East Riding of Yorkshire",
+     "Berwickshire"
+    ]
+   },
+   {
+    "q": "Durham Cathedral",
+    "right": "County Durham",
+    "wrong": [
+     "Cleveland",
+     "West Yorkshire",
+     "East Riding of Yorkshire"
+    ]
+   },
+   {
+    "q": "Sandringham House",
+    "right": "Norfolk",
+    "wrong": [
+     "Lincolnshire",
+     "Cambridgeshire",
+     "Essex"
+    ]
+   },
+   {
+    "q": "Beachy Head",
+    "right": "East Sussex",
+    "wrong": [
+     "West Sussex",
+     "Surrey",
+     "Hampshire"
+    ]
+   },
+   {
+    "q": "The Iron Bridge",
+    "right": "Shropshire",
+    "wrong": [
+     "Staffordshire",
+     "Herefordshire",
+     "Worcestershire"
+    ]
+   },
+   {
+    "q": "Windermere",
+    "right": "Cumbria",
+    "wrong": [
+     "Greater Manchester",
+     "Merseyside",
+     "West Yorkshire"
+    ]
+   },
+   {
+    "q": "Silverstone",
+    "right": "Northamptonshire",
+    "wrong": [
+     "Bedfordshire",
+     "Leicestershire",
+     "Cambridgeshire"
+    ]
+   },
+   {
+    "q": "Sutton Hoo",
+    "right": "Suffolk",
+    "wrong": [
+     "Essex",
+     "Cambridgeshire",
+     "Lincolnshire"
+    ]
+   },
+   {
+    "q": "Jodrell Bank",
+    "right": "Cheshire",
+    "wrong": [
+     "Staffordshire",
+     "Greater Manchester",
+     "Merseyside"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's the capital of this Indian state?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "India",
+   "states",
+   "capitals"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Maharashtra",
+    "right": "Mumbai",
+    "wrong": [
+     "Pune",
+     "Nagpur",
+     "Nashik"
+    ]
+   },
+   {
+    "q": "Karnataka",
+    "right": "Bengaluru",
+    "wrong": [
+     "Mysuru",
+     "Mangaluru",
+     "Hubli"
+    ]
+   },
+   {
+    "q": "Tamil Nadu",
+    "right": "Chennai",
+    "wrong": [
+     "Madurai",
+     "Coimbatore",
+     "Tiruchirappalli"
+    ]
+   },
+   {
+    "q": "West Bengal",
+    "right": "Kolkata",
+    "wrong": [
+     "Darjeeling",
+     "Siliguri",
+     "Durgapur"
+    ]
+   },
+   {
+    "q": "Kerala",
+    "right": "Thiruvananthapuram",
+    "wrong": [
+     "Kochi",
+     "Kozhikode",
+     "Thrissur"
+    ]
+   },
+   {
+    "q": "Rajasthan",
+    "right": "Jaipur",
+    "wrong": [
+     "Udaipur",
+     "Jodhpur",
+     "Ajmer"
+    ]
+   },
+   {
+    "q": "Uttar Pradesh",
+    "right": "Lucknow",
+    "wrong": [
+     "Agra",
+     "Varanasi",
+     "Kanpur"
+    ]
+   },
+   {
+    "q": "Gujarat",
+    "right": "Gandhinagar",
+    "wrong": [
+     "Ahmedabad",
+     "Surat",
+     "Vadodara"
+    ]
+   },
+   {
+    "q": "Punjab",
+    "right": "Chandigarh",
+    "wrong": [
+     "Amritsar",
+     "Ludhiana",
+     "Jalandhar"
+    ]
+   },
+   {
+    "q": "Goa",
+    "right": "Panaji",
+    "wrong": [
+     "Margao",
+     "Vasco da Gama",
+     "Mapusa"
+    ]
+   },
+   {
+    "q": "Bihar",
+    "right": "Patna",
+    "wrong": [
+     "Gaya",
+     "Bhagalpur",
+     "Muzaffarpur"
+    ]
+   },
+   {
+    "q": "Telangana",
+    "right": "Hyderabad",
+    "wrong": [
+     "Warangal",
+     "Visakhapatnam",
+     "Vijayawada"
+    ]
+   },
+   {
+    "q": "Madhya Pradesh",
+    "right": "Bhopal",
+    "wrong": [
+     "Indore",
+     "Gwalior",
+     "Jabalpur"
+    ]
+   },
+   {
+    "q": "Odisha",
+    "right": "Bhubaneswar",
+    "wrong": [
+     "Cuttack",
+     "Puri",
+     "Rourkela"
+    ]
+   },
+   {
+    "q": "Assam",
+    "right": "Dispur",
+    "wrong": [
+     "Silchar",
+     "Dibrugarh",
+     "Jorhat"
+    ]
+   },
+   {
+    "q": "Himachal Pradesh",
+    "right": "Shimla",
+    "wrong": [
+     "Manali",
+     "Kullu",
+     "Mandi"
+    ]
+   },
+   {
+    "q": "Uttarakhand",
+    "right": "Dehradun",
+    "wrong": [
+     "Haridwar",
+     "Rishikesh",
+     "Nainital"
+    ]
+   },
+   {
+    "q": "Jharkhand",
+    "right": "Ranchi",
+    "wrong": [
+     "Jamshedpur",
+     "Dhanbad",
+     "Bokaro"
+    ]
+   },
+   {
+    "q": "Sikkim",
+    "right": "Gangtok",
+    "wrong": [
+     "Darjeeling",
+     "Pelling",
+     "Namchi"
+    ]
+   },
+   {
+    "q": "Meghalaya",
+    "right": "Shillong",
+    "wrong": [
+     "Tura",
+     "Cherrapunji",
+     "Jowai"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: whose sidekick is this?",
+  "target": 10,
+  "category": "Film and TV",
+  "tags": [
+   "sidekicks",
+   "characters"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Dr Watson",
+    "right": "Sherlock Holmes",
+    "wrong": [
+     "Father Brown",
+     "Albert Campion",
+     "Inspector Clouseau"
+    ]
+   },
+   {
+    "q": "Captain Hastings",
+    "right": "Hercule Poirot",
+    "wrong": [
+     "Miss Marple",
+     "Father Brown",
+     "Inspector Clouseau"
+    ]
+   },
+   {
+    "q": "Sergeant Lewis",
+    "right": "Inspector Morse",
+    "wrong": [
+     "Inspector Frost",
+     "Inspector Rebus",
+     "Vera Stanhope"
+    ]
+   },
+   {
+    "q": "Sergeant Hathaway",
+    "right": "Inspector Lewis",
+    "wrong": [
+     "Inspector Frost",
+     "Inspector Rebus",
+     "Vera Stanhope"
+    ]
+   },
+   {
+    "q": "Robin",
+    "right": "Batman",
+    "wrong": [
+     "Superman",
+     "Spider-Man",
+     "Zorro"
+    ]
+   },
+   {
+    "q": "Tonto",
+    "right": "The Lone Ranger",
+    "wrong": [
+     "Zorro",
+     "Davy Crockett",
+     "Buffalo Bill"
+    ]
+   },
+   {
+    "q": "Kato",
+    "right": "The Green Hornet",
+    "wrong": [
+     "Zorro",
+     "The Phantom",
+     "The Shadow"
+    ]
+   },
+   {
+    "q": "Bunter",
+    "right": "Lord Peter Wimsey",
+    "wrong": [
+     "Albert Campion",
+     "Father Brown",
+     "Lord Emsworth"
+    ]
+   },
+   {
+    "q": "Archie Goodwin",
+    "right": "Nero Wolfe",
+    "wrong": [
+     "Columbo",
+     "Philip Marlowe",
+     "Sam Spade"
+    ]
+   },
+   {
+    "q": "Sergeant Troy",
+    "right": "Inspector Barnaby",
+    "wrong": [
+     "Inspector Frost",
+     "Vera Stanhope",
+     "Inspector Rebus"
+    ]
+   },
+   {
+    "q": "Jeeves",
+    "right": "Bertie Wooster",
+    "wrong": [
+     "Lord Emsworth",
+     "Albert Campion",
+     "Psmith"
+    ]
+   },
+   {
+    "q": "Sancho Panza",
+    "right": "Don Quixote",
+    "wrong": [
+     "Gulliver",
+     "Robinson Crusoe",
+     "Tom Jones"
+    ]
+   },
+   {
+    "q": "Passepartout",
+    "right": "Phileas Fogg",
+    "wrong": [
+     "Captain Nemo",
+     "Professor Lidenbrock",
+     "Robinson Crusoe"
+    ]
+   },
+   {
+    "q": "Igor",
+    "right": "Dr Frankenstein",
+    "wrong": [
+     "Dracula",
+     "Dr Jekyll",
+     "Count Orlok"
+    ]
+   },
+   {
+    "q": "Chewbacca",
+    "right": "Han Solo",
+    "wrong": [
+     "Luke Skywalker",
+     "Lando Calrissian",
+     "Obi-Wan Kenobi"
+    ]
+   },
+   {
+    "q": "Donkey",
+    "right": "Shrek",
+    "wrong": [
+     "Puss in Boots",
+     "Lord Farquaad",
+     "Prince Charming"
+    ]
+   },
+   {
+    "q": "Baldrick",
+    "right": "Blackadder",
+    "wrong": [
+     "Captain Mainwaring",
+     "Rimmer",
+     "Basil Fawlty"
+    ]
+   },
+   {
+    "q": "Goose",
+    "right": "Maverick",
+    "wrong": [
+     "Iceman",
+     "Viper",
+     "Jester"
+    ]
+   },
+   {
+    "q": "Ron Weasley",
+    "right": "Harry Potter",
+    "wrong": [
+     "Neville Longbottom",
+     "Draco Malfoy",
+     "Cedric Diggory"
+    ]
+   },
+   {
+    "q": "Sergeant Havers",
+    "right": "Inspector Lynley",
+    "wrong": [
+     "Inspector Frost",
+     "Vera Stanhope",
+     "Inspector Rebus"
+    ]
+   }
+  ]
+ }
+]
