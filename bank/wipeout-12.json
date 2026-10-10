@@ -1,0 +1,376 @@
+[
+ {
+  "type": "wipeout",
+  "text": "Kinds of shark",
+  "right": [
+   "Great white",
+   "Hammerhead",
+   "Tiger",
+   "Bull",
+   "Mako",
+   "Whale shark",
+   "Basking",
+   "Nurse",
+   "Blue",
+   "Thresher",
+   "Lemon",
+   "Greenland",
+   "Goblin",
+   "Wobbegong",
+   "Porbeagle"
+  ],
+  "wrong": [
+   "Manta",
+   "Sawfish",
+   "Guitarfish",
+   "Barracuda",
+   "Orca"
+  ],
+  "difficulty": "medium",
+  "category": "Animals",
+  "tags": [
+   "sharks",
+   "sea life"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Kinds of whale",
+  "right": [
+   "Blue whale",
+   "Humpback",
+   "Sperm whale",
+   "Fin whale",
+   "Minke",
+   "Sei whale",
+   "Bowhead",
+   "Grey whale",
+   "Right whale",
+   "Beluga",
+   "Narwhal",
+   "Killer whale",
+   "Pilot whale",
+   "Bryde's whale",
+   "Cuvier's beaked whale"
+  ],
+  "wrong": [
+   "Dugong",
+   "Manatee",
+   "Walrus",
+   "Whale shark",
+   "Elephant seal"
+  ],
+  "difficulty": "medium",
+  "category": "Animals",
+  "tags": [
+   "whales",
+   "sea life"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Venomous snakes",
+  "right": [
+   "King cobra",
+   "Black mamba",
+   "Rattlesnake",
+   "Adder",
+   "Taipan",
+   "Puff adder",
+   "Saw-scaled viper",
+   "Copperhead",
+   "Cottonmouth",
+   "Coral snake",
+   "Krait",
+   "Boomslang",
+   "Fer-de-lance",
+   "Gaboon viper",
+   "Sea snake"
+  ],
+  "wrong": [
+   "Python",
+   "Boa constrictor",
+   "Anaconda",
+   "Grass snake",
+   "Corn snake"
+  ],
+  "difficulty": "medium",
+  "category": "Animals",
+  "tags": [
+   "snakes",
+   "reptiles"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Breeds of sheep",
+  "right": [
+   "Suffolk",
+   "Texel",
+   "Herdwick",
+   "Swaledale",
+   "Jacob",
+   "Merino",
+   "Cheviot",
+   "Scottish Blackface",
+   "Border Leicester",
+   "Romney",
+   "Shetland",
+   "Soay",
+   "Dorset Horn",
+   "Wensleydale",
+   "Hebridean"
+  ],
+  "wrong": [
+   "Gloucester Old Spot",
+   "Tamworth",
+   "Dexter",
+   "Hereford",
+   "Belted Galloway"
+  ],
+  "difficulty": "hard",
+  "category": "Animals",
+  "tags": [
+   "sheep",
+   "farming",
+   "breeds"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Typefaces (fonts)",
+  "right": [
+   "Arial",
+   "Helvetica",
+   "Times New Roman",
+   "Comic Sans",
+   "Garamond",
+   "Calibri",
+   "Verdana",
+   "Futura",
+   "Georgia",
+   "Courier",
+   "Gill Sans",
+   "Baskerville",
+   "Tahoma",
+   "Impact",
+   "Didot"
+  ],
+  "wrong": [
+   "Kerning",
+   "Serif",
+   "Pica",
+   "Leading",
+   "Ligature"
+  ],
+  "difficulty": "medium",
+  "category": "Science and technology",
+  "tags": [
+   "fonts",
+   "typography"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "English places with a Church of England cathedral",
+  "right": [
+   "Durham",
+   "York",
+   "Canterbury",
+   "Salisbury",
+   "Lincoln",
+   "Ely",
+   "Wells",
+   "Exeter",
+   "Winchester",
+   "Norwich",
+   "Chichester",
+   "Hereford",
+   "Worcester",
+   "Lichfield",
+   "Peterborough"
+  ],
+  "wrong": [
+   "Beverley",
+   "Bath",
+   "Tewkesbury",
+   "Hexham",
+   "Selby"
+  ],
+  "difficulty": "hard",
+  "category": "Britain",
+  "tags": [
+   "cathedrals",
+   "cities"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Deserts of the world",
+  "right": [
+   "Sahara",
+   "Gobi",
+   "Kalahari",
+   "Namib",
+   "Atacama",
+   "Mojave",
+   "Sonoran",
+   "Arabian",
+   "Thar",
+   "Great Victoria",
+   "Simpson",
+   "Taklamakan",
+   "Chihuahuan",
+   "Patagonian",
+   "Great Sandy"
+  ],
+  "wrong": [
+   "Serengeti",
+   "Okavango",
+   "Pampas",
+   "Masai Mara",
+   "Everglades"
+  ],
+  "difficulty": "medium",
+  "category": "World geography",
+  "tags": [
+   "deserts"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Italian pasta sauces",
+  "right": [
+   "Carbonara",
+   "Bolognese",
+   "Arrabbiata",
+   "Puttanesca",
+   "Amatriciana",
+   "Pesto",
+   "Marinara",
+   "Alfredo",
+   "Aglio e olio",
+   "Cacio e pepe",
+   "Vongole",
+   "Primavera",
+   "Napoletana",
+   "Alla Norma",
+   "Gricia"
+  ],
+  "wrong": [
+   "Bruschetta",
+   "Saltimbocca",
+   "Gnocchi",
+   "Ossobuco",
+   "Panzanella"
+  ],
+  "difficulty": "medium",
+  "category": "Food and drink",
+  "tags": [
+   "Italian food",
+   "sauces"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Knots and hitches",
+  "right": [
+   "Reef knot",
+   "Bowline",
+   "Clove hitch",
+   "Sheet bend",
+   "Figure of eight",
+   "Granny knot",
+   "Half hitch",
+   "Round turn and two half hitches",
+   "Sheepshank",
+   "Slip knot",
+   "Hangman's knot",
+   "Overhand knot",
+   "Fisherman's knot",
+   "Rolling hitch",
+   "Timber hitch"
+  ],
+  "wrong": [
+   "Mainbrace",
+   "Fathom",
+   "Cleat",
+   "Bollard",
+   "Halyard"
+  ],
+  "difficulty": "hard",
+  "category": "Hobbies",
+  "tags": [
+   "knots",
+   "sailing"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Towns in Yorkshire",
+  "right": [
+   "Harrogate",
+   "Whitby",
+   "Scarborough",
+   "Skipton",
+   "Halifax",
+   "Huddersfield",
+   "Barnsley",
+   "Rotherham",
+   "Doncaster",
+   "Keighley",
+   "Pontefract",
+   "Thirsk",
+   "Malton",
+   "Batley",
+   "Dewsbury"
+  ],
+  "wrong": [
+   "Burnley",
+   "Clitheroe",
+   "Darlington",
+   "Oldham",
+   "Gainsborough"
+  ],
+  "difficulty": "medium",
+  "category": "Britain",
+  "tags": [
+   "Yorkshire",
+   "towns"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Songs by David Bowie",
+  "right": [
+   "Space Oddity",
+   "Starman",
+   "Life on Mars?",
+   "Heroes",
+   "Changes",
+   "Rebel Rebel",
+   "Ashes to Ashes",
+   "Let's Dance",
+   "China Girl",
+   "Modern Love",
+   "Fame",
+   "Golden Years",
+   "Under Pressure",
+   "The Jean Genie",
+   "Sound and Vision"
+  ],
+  "wrong": [
+   "Rocket Man",
+   "Get It On",
+   "Virginia Plain",
+   "The Ballroom Blitz",
+   "20th Century Boy"
+  ],
+  "difficulty": "medium",
+  "category": "Music",
+  "tags": [
+   "David Bowie",
+   "songs"
+  ]
+ }
+]
