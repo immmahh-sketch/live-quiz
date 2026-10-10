@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each character to their play",
+  "pairs": [
+   {
+    "left": "Shylock",
+    "right": "The Merchant of Venice"
+   },
+   {
+    "left": "Prospero",
+    "right": "The Tempest"
+   },
+   {
+    "left": "Puck",
+    "right": "A Midsummer Night's Dream"
+   },
+   {
+    "left": "Malvolio",
+    "right": "Twelfth Night"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each famous line to its play",
+  "pairs": [
+   {
+    "left": "To be, or not to be",
+    "right": "Hamlet"
+   },
+   {
+    "left": "Now is the winter of our discontent",
+    "right": "Richard III"
+   },
+   {
+    "left": "Friends, Romans, countrymen",
+    "right": "Julius Caesar"
+   },
+   {
+    "left": "All the world's a stage",
+    "right": "As You Like It"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each actor to their Star Wars role",
+  "pairs": [
+   {
+    "left": "Ewan McGregor",
+    "right": "Obi-Wan Kenobi"
+   },
+   {
+    "left": "Daisy Ridley",
+    "right": "Rey"
+   },
+   {
+    "left": "Adam Driver",
+    "right": "Kylo Ren"
+   },
+   {
+    "left": "Billy Dee Williams",
+    "right": "Lando Calrissian"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each planet or moon to what happens there",
+  "pairs": [
+   {
+    "left": "Tatooine",
+    "right": "Luke grows up on a desert farm"
+   },
+   {
+    "left": "Hoth",
+    "right": "The Rebels' ice base is attacked"
+   },
+   {
+    "left": "Endor",
+    "right": "Ewoks help beat the Empire"
+   },
+   {
+    "left": "Alderaan",
+    "right": "It's blown up by the Death Star"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

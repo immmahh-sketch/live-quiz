@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each format to how long it lasts",
+  "pairs": [
+   {
+    "left": "Test match",
+    "right": "Up to five days"
+   },
+   {
+    "left": "One-day international",
+    "right": "50 overs a side"
+   },
+   {
+    "left": "T20",
+    "right": "20 overs a side"
+   },
+   {
+    "left": "The Hundred",
+    "right": "100 balls a side"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each county to its home ground",
+  "pairs": [
+   {
+    "left": "Surrey",
+    "right": "The Oval"
+   },
+   {
+    "left": "Middlesex",
+    "right": "Lord's"
+   },
+   {
+    "left": "Durham",
+    "right": "Chester-le-Street"
+   },
+   {
+    "left": "Sussex",
+    "right": "Hove"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

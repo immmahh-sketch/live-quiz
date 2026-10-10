@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each body part to how many an adult has",
+  "pairs": [
+   {
+    "left": "Ribs",
+    "right": "24"
+   },
+   {
+    "left": "Teeth, in a full set",
+    "right": "32"
+   },
+   {
+    "left": "Vertebrae",
+    "right": "33"
+   },
+   {
+    "left": "Bones in each hand",
+    "right": "27"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each hormone to where it's made",
+  "pairs": [
+   {
+    "left": "Insulin",
+    "right": "Pancreas"
+   },
+   {
+    "left": "Adrenaline",
+    "right": "Adrenal glands"
+   },
+   {
+    "left": "Melatonin",
+    "right": "Pineal gland"
+   },
+   {
+    "left": "Thyroxine",
+    "right": "Thyroid gland"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

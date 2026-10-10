@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Beatles film to the year it came out",
+  "pairs": [
+   {
+    "left": "A Hard Day's Night",
+    "right": "1964"
+   },
+   {
+    "left": "Help!",
+    "right": "1965"
+   },
+   {
+    "left": "Yellow Submarine",
+    "right": "1968"
+   },
+   {
+    "left": "Let It Be",
+    "right": "1970"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each Beatle to a song he sang lead on",
+  "pairs": [
+   {
+    "left": "Ringo",
+    "right": "Yellow Submarine"
+   },
+   {
+    "left": "George",
+    "right": "Here Comes the Sun"
+   },
+   {
+    "left": "Paul",
+    "right": "Yesterday"
+   },
+   {
+    "left": "John",
+    "right": "Strawberry Fields Forever"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

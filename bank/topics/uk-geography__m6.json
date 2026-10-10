@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each bridge to the water it crosses",
+  "pairs": [
+   {
+    "left": "Humber Bridge",
+    "right": "The Humber Estuary"
+   },
+   {
+    "left": "Clifton Suspension Bridge",
+    "right": "The River Avon"
+   },
+   {
+    "left": "Forth Bridge",
+    "right": "The Firth of Forth"
+   },
+   {
+    "left": "Menai Suspension Bridge",
+    "right": "The Menai Strait"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each lake or loch to its part of the UK",
+  "pairs": [
+   {
+    "left": "Lough Neagh",
+    "right": "Northern Ireland"
+   },
+   {
+    "left": "Loch Lomond",
+    "right": "Scotland"
+   },
+   {
+    "left": "Windermere",
+    "right": "England"
+   },
+   {
+    "left": "Llyn Tegid (Bala Lake)",
+    "right": "Wales"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

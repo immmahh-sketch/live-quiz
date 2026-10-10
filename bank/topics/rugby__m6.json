@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each nickname to its national rugby union team",
+  "pairs": [
+   {
+    "left": "All Blacks",
+    "right": "New Zealand"
+   },
+   {
+    "left": "Springboks",
+    "right": "South Africa"
+   },
+   {
+    "left": "Wallabies",
+    "right": "Australia"
+   },
+   {
+    "left": "Pumas",
+    "right": "Argentina"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each score in rugby union to its points",
+  "pairs": [
+   {
+    "left": "Try",
+    "right": "5"
+   },
+   {
+    "left": "Conversion",
+    "right": "2"
+   },
+   {
+    "left": "Penalty goal",
+    "right": "3"
+   },
+   {
+    "left": "Penalty try",
+    "right": "7"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

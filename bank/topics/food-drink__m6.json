@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each cocktail to its main spirit",
+  "pairs": [
+   {
+    "left": "Mojito",
+    "right": "Rum"
+   },
+   {
+    "left": "Margarita",
+    "right": "Tequila"
+   },
+   {
+    "left": "Negroni",
+    "right": "Gin"
+   },
+   {
+    "left": "Moscow Mule",
+    "right": "Vodka"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each dish to its country",
+  "pairs": [
+   {
+    "left": "Paella",
+    "right": "Spain"
+   },
+   {
+    "left": "Moussaka",
+    "right": "Greece"
+   },
+   {
+    "left": "Goulash",
+    "right": "Hungary"
+   },
+   {
+    "left": "Pierogi",
+    "right": "Poland"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

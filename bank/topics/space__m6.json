@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each mission to the first it achieved",
+  "pairs": [
+   {
+    "left": "Vostok 1",
+    "right": "First person in space"
+   },
+   {
+    "left": "Apollo 11",
+    "right": "First people on the Moon"
+   },
+   {
+    "left": "Sputnik 1",
+    "right": "First artificial satellite"
+   },
+   {
+    "left": "Voyager 1",
+    "right": "First probe into interstellar space"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each planet to something it's known for",
+  "pairs": [
+   {
+    "left": "Jupiter",
+    "right": "The Great Red Spot"
+   },
+   {
+    "left": "Mars",
+    "right": "Olympus Mons, the tallest volcano"
+   },
+   {
+    "left": "Uranus",
+    "right": "Rolling round the Sun on its side"
+   },
+   {
+    "left": "Venus",
+    "right": "The hottest surface of any planet"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

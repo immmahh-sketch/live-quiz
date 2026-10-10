@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each island group to one of its islands",
+  "pairs": [
+   {
+    "left": "Inner Hebrides",
+    "right": "Skye"
+   },
+   {
+    "left": "Outer Hebrides",
+    "right": "Lewis"
+   },
+   {
+    "left": "Orkney",
+    "right": "Hoy"
+   },
+   {
+    "left": "Shetland",
+    "right": "Unst"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each whisky region to one of its distilleries",
+  "pairs": [
+   {
+    "left": "Islay",
+    "right": "Laphroaig"
+   },
+   {
+    "left": "Speyside",
+    "right": "Glenfiddich"
+   },
+   {
+    "left": "Highland",
+    "right": "Glenmorangie"
+   },
+   {
+    "left": "Lowland",
+    "right": "Auchentoshan"
+   }
+  ],
+  "difficulty": "hard"
+ }
+]

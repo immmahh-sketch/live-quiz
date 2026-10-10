@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Irish band to one of its hits",
+  "pairs": [
+   {
+    "left": "U2",
+    "right": "With or Without You"
+   },
+   {
+    "left": "The Cranberries",
+    "right": "Zombie"
+   },
+   {
+    "left": "Thin Lizzy",
+    "right": "The Boys Are Back in Town"
+   },
+   {
+    "left": "The Pogues",
+    "right": "Fairytale of New York"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "match",
+  "text": "Match each Irish landmark to its county",
+  "pairs": [
+   {
+    "left": "Cliffs of Moher",
+    "right": "Clare"
+   },
+   {
+    "left": "Giant's Causeway",
+    "right": "Antrim"
+   },
+   {
+    "left": "Newgrange",
+    "right": "Meath"
+   },
+   {
+    "left": "Rock of Cashel",
+    "right": "Tipperary"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

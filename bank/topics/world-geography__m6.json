@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each waterfall to its country",
+  "pairs": [
+   {
+    "left": "Angel Falls",
+    "right": "Venezuela"
+   },
+   {
+    "left": "Victoria Falls",
+    "right": "Zambia and Zimbabwe"
+   },
+   {
+    "left": "Iguazu Falls",
+    "right": "Argentina and Brazil"
+   },
+   {
+    "left": "Gullfoss",
+    "right": "Iceland"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each strait to what it separates",
+  "pairs": [
+   {
+    "left": "Strait of Gibraltar",
+    "right": "Spain and Morocco"
+   },
+   {
+    "left": "Bering Strait",
+    "right": "Russia and Alaska"
+   },
+   {
+    "left": "Bosphorus",
+    "right": "Europe and Asia, in Istanbul"
+   },
+   {
+    "left": "Cook Strait",
+    "right": "New Zealand's North and South Islands"
+   }
+  ],
+  "difficulty": "hard"
+ }
+]

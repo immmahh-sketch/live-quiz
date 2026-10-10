@@ -1,0 +1,48 @@
+[
+ {
+  "type": "match",
+  "text": "Match each act to the song they sang for the UK",
+  "pairs": [
+   {
+    "left": "Sandie Shaw",
+    "right": "Puppet on a String"
+   },
+   {
+    "left": "Brotherhood of Man",
+    "right": "Save Your Kisses for Me"
+   },
+   {
+    "left": "Lulu",
+    "right": "Boom Bang-a-Bang"
+   },
+   {
+    "left": "Bucks Fizz",
+    "right": "Making Your Mind Up"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "match",
+  "text": "Match each winning act to the country they won for",
+  "pairs": [
+   {
+    "left": "ABBA",
+    "right": "Sweden"
+   },
+   {
+    "left": "Lordi",
+    "right": "Finland"
+   },
+   {
+    "left": "Conchita Wurst",
+    "right": "Austria"
+   },
+   {
+    "left": "Ruslana",
+    "right": "Ukraine"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]
