@@ -1,0 +1,388 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this wedding word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "weddings",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Gives the funniest speech and looks after the rings",
+    "right": "Best man",
+    "wrong": [
+     "Toastmaster",
+     "Chaperone",
+     "Vicar"
+    ]
+   },
+   {
+    "q": "One of the bride's attendants, often in matching dresses",
+    "right": "Bridesmaid",
+    "wrong": [
+     "Chaperone",
+     "Toastmaster",
+     "Vicar"
+    ]
+   },
+   {
+    "q": "Shows the guests to their seats in church",
+    "right": "Usher",
+    "wrong": [
+     "Toastmaster",
+     "Chaperone",
+     "Vicar"
+    ]
+   },
+   {
+    "q": "A young boy who attends the bride",
+    "right": "Page boy",
+    "wrong": [
+     "Chaperone",
+     "Toastmaster",
+     "Vicar"
+    ]
+   },
+   {
+    "q": "A little girl who scatters petals down the aisle",
+    "right": "Flower girl",
+    "wrong": [
+     "Chaperone",
+     "Toastmaster",
+     "Vicar"
+    ]
+   },
+   {
+    "q": "The chief bridesmaid, if she isn't married",
+    "right": "Maid of honour",
+    "wrong": [
+     "Chaperone",
+     "Toastmaster",
+     "Vicar"
+    ]
+   },
+   {
+    "q": "Sheer fabric over the bride's face, lifted for the kiss",
+    "right": "Veil",
+    "wrong": [
+     "Fascinator",
+     "Tiara",
+     "Train"
+    ]
+   },
+   {
+    "q": "The flowers the bride carries, then throws over her shoulder",
+    "right": "Bouquet",
+    "wrong": [
+     "Buttonhole",
+     "Corsage",
+     "Fascinator"
+    ]
+   },
+   {
+    "q": "Little paper shapes or petals thrown over the couple outside",
+    "right": "Confetti",
+    "wrong": [
+     "Charger plate",
+     "Cake topper",
+     "Order of service"
+    ]
+   },
+   {
+    "q": "The announcement read out in church on three Sundays before the wedding",
+    "right": "Banns",
+    "wrong": [
+     "Order of service",
+     "Prenup",
+     "Trousseau"
+    ]
+   },
+   {
+    "q": "The official who conducts a civil ceremony",
+    "right": "Registrar",
+    "wrong": [
+     "Toastmaster",
+     "Chaperone",
+     "Vicar"
+    ]
+   },
+   {
+    "q": "The main meal after the ceremony, whatever time of day it's served",
+    "right": "Wedding breakfast",
+    "wrong": [
+     "Evening do",
+     "Receiving line",
+     "Honeymoon"
+    ]
+   },
+   {
+    "q": "Where the couple, their parents and the best man sit for the meal",
+    "right": "Top table",
+    "wrong": [
+     "Receiving line",
+     "Charger plate",
+     "Cake topper"
+    ]
+   },
+   {
+    "q": "Little gifts left at each guest's place, often sugared almonds",
+    "right": "Favours",
+    "wrong": [
+     "Charger plate",
+     "Cake topper",
+     "Buttonhole"
+    ]
+   },
+   {
+    "q": "The couple's first spin round the floor as newlyweds",
+    "right": "First dance",
+    "wrong": [
+     "Receiving line",
+     "Evening do",
+     "Handfasting"
+    ]
+   },
+   {
+    "q": "The bride-to-be's big night out with her friends",
+    "right": "Hen do",
+    "wrong": [
+     "Evening do",
+     "Receiving line",
+     "Vow renewal"
+    ]
+   },
+   {
+    "q": "The groom-to-be's big night out with his mates",
+    "right": "Stag do",
+    "wrong": [
+     "Evening do",
+     "Receiving line",
+     "Vow renewal"
+    ]
+   },
+   {
+    "q": "A band worn round the bride's leg, sometimes tossed to the guests",
+    "right": "Garter",
+    "wrong": [
+     "Tiara",
+     "Train",
+     "Fascinator"
+    ]
+   },
+   {
+    "q": "Running off to marry in secret",
+    "right": "Elopement",
+    "wrong": [
+     "Handfasting",
+     "Vow renewal",
+     "Prenup"
+    ]
+   },
+   {
+    "q": "Something old, something new, ____, something blue",
+    "right": "Something borrowed",
+    "wrong": [
+     "Something gold",
+     "Something true",
+     "Something given"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this rugby word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "rugby",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Eight forwards from each side bind together and push to restart play",
+    "right": "Scrum",
+    "wrong": [
+     "Pod",
+     "Jackal",
+     "Play the ball"
+    ]
+   },
+   {
+    "q": "Grounding the ball over the opponents' line for five points",
+    "right": "Try",
+    "wrong": [
+     "Turnover",
+     "Line break",
+     "Bonus point"
+    ]
+   },
+   {
+    "q": "The kick at goal worth two points after a try",
+    "right": "Conversion",
+    "wrong": [
+     "Grubber",
+     "Box kick",
+     "Bonus point"
+    ]
+   },
+   {
+    "q": "A kick through the posts in open play, bouncing the ball first, worth three points",
+    "right": "Drop goal",
+    "wrong": [
+     "Grubber",
+     "Box kick",
+     "Golden point"
+    ]
+   },
+   {
+    "q": "Losing the ball forwards out of your hands",
+    "right": "Knock-on",
+    "wrong": [
+     "Offload",
+     "Dummy",
+     "Turnover"
+    ]
+   },
+   {
+    "q": "Ten minutes off the pitch for a yellow card",
+    "right": "Sin bin",
+    "wrong": [
+     "Blood bin",
+     "Dead ball line",
+     "Twenty-two"
+    ]
+   },
+   {
+    "q": "Players stay on their feet and drive over a ball lying on the ground",
+    "right": "Ruck",
+    "wrong": [
+     "Pod",
+     "Jackal",
+     "Play the ball"
+    ]
+   },
+   {
+    "q": "The ball carrier is held up and team-mates bind on and drive forward, ball off the ground",
+    "right": "Maul",
+    "wrong": [
+     "Pod",
+     "Jackal",
+     "Line break"
+    ]
+   },
+   {
+    "q": "A high kick ahead for the chasers to compete for, named after an Irish club",
+    "right": "Garryowen",
+    "wrong": [
+     "Grubber",
+     "Dummy",
+     "Sidestep"
+    ]
+   },
+   {
+    "q": "The forward in the middle of the front row, who throws the ball in at the lineout",
+    "right": "Hooker",
+    "wrong": [
+     "Flanker",
+     "Number eight",
+     "Lock"
+    ]
+   },
+   {
+    "q": "The number 10 who runs the back line and does most of the kicking",
+    "right": "Fly-half",
+    "wrong": [
+     "Winger",
+     "Full-back",
+     "Centre"
+    ]
+   },
+   {
+    "q": "The number 9 who feeds the scrum and passes from the base",
+    "right": "Scrum-half",
+    "wrong": [
+     "Winger",
+     "Full-back",
+     "Centre"
+    ]
+   },
+   {
+    "q": "One of the two big forwards either side of the hooker in the front row",
+    "right": "Prop",
+    "wrong": [
+     "Flanker",
+     "Number eight",
+     "Lock"
+    ]
+   },
+   {
+    "q": "Won by a home nation that beats the other three in one Six Nations",
+    "right": "Triple Crown",
+    "wrong": [
+     "Millennium Trophy",
+     "Cook Cup",
+     "Webb Ellis Cup"
+    ]
+   },
+   {
+    "q": "The 'prize' for finishing bottom of the Six Nations",
+    "right": "Wooden spoon",
+    "wrong": [
+     "Millennium Trophy",
+     "Cook Cup",
+     "Bonus point"
+    ]
+   },
+   {
+    "q": "The trophy England and Scotland play for each year",
+    "right": "Calcutta Cup",
+    "wrong": [
+     "Millennium Trophy",
+     "Cook Cup",
+     "Webb Ellis Cup"
+    ]
+   },
+   {
+    "q": "The challenge New Zealand perform before kick-off",
+    "right": "Haka",
+    "wrong": [
+     "Siva Tau",
+     "Cibi",
+     "Sipi Tau"
+    ]
+   },
+   {
+    "q": "Awarded when foul play stops a try that would probably have been scored",
+    "right": "Penalty try",
+    "wrong": [
+     "Bonus point",
+     "Turnover",
+     "Golden point"
+    ]
+   },
+   {
+    "q": "Throwing the ball towards the opponents' line, which isn't allowed",
+    "right": "Forward pass",
+    "wrong": [
+     "Offload",
+     "Dummy",
+     "Sidestep"
+    ]
+   },
+   {
+    "q": "Catch a kick cleanly inside your own 22 and shout this to win a free kick",
+    "right": "Mark",
+    "wrong": [
+     "Turnover",
+     "Jackal",
+     "Pod"
+    ]
+   }
+  ]
+ }
+]
