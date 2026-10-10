@@ -1,0 +1,774 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: name the Doctor Who baddie",
+  "target": 10,
+  "category": "Doctor Who",
+  "tags": [
+   "Doctor Who",
+   "villains"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "'Exterminate!'",
+    "right": "The Daleks",
+    "wrong": [
+     "The Toclafane",
+     "The Krotons",
+     "The Ogrons"
+    ]
+   },
+   {
+    "q": "'You will be upgraded. Delete!'",
+    "right": "The Cybermen",
+    "wrong": [
+     "The Krotons",
+     "The Toclafane",
+     "The Axons"
+    ]
+   },
+   {
+    "q": "Statues that move when you blink",
+    "right": "The Weeping Angels",
+    "wrong": [
+     "The Whisper Men",
+     "The Boneless",
+     "The Mire"
+    ]
+   },
+   {
+    "q": "Potato-headed clone warriors",
+    "right": "The Sontarans",
+    "wrong": [
+     "The Ogrons",
+     "The Draconians",
+     "The Rutans"
+    ]
+   },
+   {
+    "q": "Tentacle-faced servants who carry their brains",
+    "right": "The Ood",
+    "wrong": [
+     "The Hath",
+     "The Sycorax",
+     "The Racnoss"
+    ]
+   },
+   {
+    "q": "The Doctor's Time Lord arch-nemesis",
+    "right": "The Master",
+    "wrong": [
+     "Omega",
+     "Rassilon",
+     "The Toymaker"
+    ]
+   },
+   {
+    "q": "Living shop-window dummies",
+    "right": "The Autons",
+    "wrong": [
+     "The Krotons",
+     "The Kandyman",
+     "The Mire"
+    ]
+   },
+   {
+    "q": "Shape-shifters with suckers who hide in Loch Ness",
+    "right": "The Zygons",
+    "wrong": [
+     "The Axons",
+     "The Krillitanes",
+     "The Macra"
+    ]
+   },
+   {
+    "q": "Cute little creatures made of body fat",
+    "right": "The Adipose",
+    "wrong": [
+     "The Abzorbaloff",
+     "The Pyroviles",
+     "The Hath"
+    ]
+   },
+   {
+    "q": "Lizard people who lived on Earth before us",
+    "right": "The Silurians",
+    "wrong": [
+     "The Draconians",
+     "The Ogrons",
+     "The Krotons"
+    ]
+   },
+   {
+    "q": "Aliens you forget the moment you look away",
+    "right": "The Silence",
+    "wrong": [
+     "The Whisper Men",
+     "The Boneless",
+     "The Mire"
+    ]
+   },
+   {
+    "q": "Flesh-eating shadows in the Library",
+    "right": "The Vashta Nerada",
+    "wrong": [
+     "The Boneless",
+     "The Whisper Men",
+     "The Mara"
+    ]
+   },
+   {
+    "q": "Turtle-like sea creatures, cousins of the Silurians",
+    "right": "The Sea Devils",
+    "wrong": [
+     "The Macra",
+     "The Axons",
+     "The Draconians"
+    ]
+   },
+   {
+    "q": "Aliens who zip themselves into human skins",
+    "right": "The Slitheen",
+    "wrong": [
+     "The Abzorbaloff",
+     "The Sycorax",
+     "The Hath"
+    ]
+   },
+   {
+    "q": "Rhino-headed space police",
+    "right": "The Judoon",
+    "wrong": [
+     "The Ogrons",
+     "The Sycorax",
+     "The Krotons"
+    ]
+   },
+   {
+    "q": "Hissing armoured warriors from Mars",
+    "right": "The Ice Warriors",
+    "wrong": [
+     "The Draconians",
+     "The Sycorax",
+     "The Rutans"
+    ]
+   },
+   {
+    "q": "The villain behind the snowmen and the Yeti",
+    "right": "The Great Intelligence",
+    "wrong": [
+     "The Mara",
+     "Sutekh",
+     "The Toymaker"
+    ]
+   },
+   {
+    "q": "The scarred creator of the Daleks",
+    "right": "Davros",
+    "wrong": [
+     "Omega",
+     "Rassilon",
+     "Sutekh"
+    ]
+   },
+   {
+    "q": "The renegade Time Lady scientist of the 1980s",
+    "right": "The Rani",
+    "wrong": [
+     "Omega",
+     "Romana",
+     "Rassilon"
+    ]
+   },
+   {
+    "q": "The Master's later female incarnation",
+    "right": "Missy",
+    "wrong": [
+     "Romana",
+     "Rassilon",
+     "Omega"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this chocolate maker from?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "chocolate",
+   "countries"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Lindt",
+    "right": "Switzerland",
+    "wrong": [
+     "Luxembourg",
+     "Liechtenstein",
+     "Ireland"
+    ]
+   },
+   {
+    "q": "Godiva",
+    "right": "Belgium",
+    "wrong": [
+     "Luxembourg",
+     "Ireland",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Hershey's",
+    "right": "the USA",
+    "wrong": [
+     "Canada",
+     "Mexico",
+     "Ireland"
+    ]
+   },
+   {
+    "q": "Cadbury",
+    "right": "England",
+    "wrong": [
+     "Ireland",
+     "Wales",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Ritter Sport",
+    "right": "Germany",
+    "wrong": [
+     "Luxembourg",
+     "Liechtenstein",
+     "Slovakia"
+    ]
+   },
+   {
+    "q": "Marabou",
+    "right": "Sweden",
+    "wrong": [
+     "Iceland",
+     "Estonia",
+     "Latvia"
+    ]
+   },
+   {
+    "q": "Fazer",
+    "right": "Finland",
+    "wrong": [
+     "Estonia",
+     "Latvia",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Freia",
+    "right": "Norway",
+    "wrong": [
+     "Iceland",
+     "Estonia",
+     "Ireland"
+    ]
+   },
+   {
+    "q": "Ferrero",
+    "right": "Italy",
+    "wrong": [
+     "Spain",
+     "Portugal",
+     "Greece"
+    ]
+   },
+   {
+    "q": "Meiji",
+    "right": "Japan",
+    "wrong": [
+     "South Korea",
+     "Taiwan",
+     "China"
+    ]
+   },
+   {
+    "q": "Whittaker's",
+    "right": "New Zealand",
+    "wrong": [
+     "Ireland",
+     "South Africa",
+     "Canada"
+    ]
+   },
+   {
+    "q": "Tony's Chocolonely",
+    "right": "the Netherlands",
+    "wrong": [
+     "Luxembourg",
+     "Ireland",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Valrhona",
+    "right": "France",
+    "wrong": [
+     "Spain",
+     "Luxembourg",
+     "Ireland"
+    ]
+   },
+   {
+    "q": "Anthon Berg",
+    "right": "Denmark",
+    "wrong": [
+     "Iceland",
+     "Estonia",
+     "Latvia"
+    ]
+   },
+   {
+    "q": "Mirabell, makers of Mozartkugeln",
+    "right": "Austria",
+    "wrong": [
+     "Liechtenstein",
+     "Hungary",
+     "Slovakia"
+    ]
+   },
+   {
+    "q": "E. Wedel",
+    "right": "Poland",
+    "wrong": [
+     "Lithuania",
+     "Slovakia",
+     "Hungary"
+    ]
+   },
+   {
+    "q": "Orion",
+    "right": "Czechia",
+    "wrong": [
+     "Slovakia",
+     "Hungary",
+     "Slovenia"
+    ]
+   },
+   {
+    "q": "Haigh's",
+    "right": "Australia",
+    "wrong": [
+     "South Africa",
+     "Canada",
+     "Ireland"
+    ]
+   },
+   {
+    "q": "Kraš",
+    "right": "Croatia",
+    "wrong": [
+     "Slovenia",
+     "Serbia",
+     "Montenegro"
+    ]
+   },
+   {
+    "q": "Tunnock's",
+    "right": "Scotland",
+    "wrong": [
+     "Ireland",
+     "Wales",
+     "Northern Ireland"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which TV cook is this?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "TV cooks",
+   "chefs"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The Naked Chef",
+    "right": "Jamie Oliver",
+    "wrong": [
+     "Tom Kerridge",
+     "Gary Rhodes",
+     "Brian Turner"
+    ]
+   },
+   {
+    "q": "The sweary star of Kitchen Nightmares",
+    "right": "Gordon Ramsay",
+    "wrong": [
+     "Marco Pierre White",
+     "Michel Roux Jr",
+     "Gary Rhodes"
+    ]
+   },
+   {
+    "q": "River Cottage",
+    "right": "Hugh Fearnley-Whittingstall",
+    "wrong": [
+     "Tom Kerridge",
+     "Antony Worrall Thompson",
+     "Phil Vickery"
+    ]
+   },
+   {
+    "q": "Host of Saturday Kitchen from 2006 to 2016",
+    "right": "James Martin",
+    "wrong": [
+     "Antony Worrall Thompson",
+     "Brian Turner",
+     "Phil Vickery"
+    ]
+   },
+   {
+    "q": "The Galloping Gourmet",
+    "right": "Graham Kerr",
+    "wrong": [
+     "Robert Carrier",
+     "Philip Harben",
+     "Clement Freud"
+    ]
+   },
+   {
+    "q": "How to Cook, and her famous Christmas",
+    "right": "Delia Smith",
+    "wrong": [
+     "Clarissa Dickson Wright",
+     "Jennifer Paterson",
+     "Madhur Jaffrey"
+    ]
+   },
+   {
+    "q": "Padstow's seafood chef",
+    "right": "Rick Stein",
+    "wrong": [
+     "Paul Ainsworth",
+     "Tom Kerridge",
+     "Brian Turner"
+    ]
+   },
+   {
+    "q": "The wine-swigging 1980s cook in a bow tie",
+    "right": "Keith Floyd",
+    "wrong": [
+     "Clement Freud",
+     "Robert Carrier",
+     "Philip Harben"
+    ]
+   },
+   {
+    "q": "The 'domestic goddess'",
+    "right": "Nigella Lawson",
+    "wrong": [
+     "Lorraine Pascale",
+     "Rachel Khoo",
+     "Clarissa Dickson Wright"
+    ]
+   },
+   {
+    "q": "The Fat Duck's scientist chef",
+    "right": "Heston Blumenthal",
+    "wrong": [
+     "Michel Roux Jr",
+     "Marco Pierre White",
+     "Tom Kerridge"
+    ]
+   },
+   {
+    "q": "Ready Steady Cook's longest-serving host",
+    "right": "Ainsley Harriott",
+    "wrong": [
+     "Brian Turner",
+     "Fern Britton",
+     "Phil Vickery"
+    ]
+   },
+   {
+    "q": "MasterChef's first presenter",
+    "right": "Loyd Grossman",
+    "wrong": [
+     "Gregg Wallace",
+     "John Torode",
+     "Gary Rhodes"
+    ]
+   },
+   {
+    "q": "Bake Off's original judge in floral jackets",
+    "right": "Mary Berry",
+    "wrong": [
+     "Paul Hollywood",
+     "Lorraine Pascale",
+     "Rachel Khoo"
+    ]
+   },
+   {
+    "q": "The 1950s TV cook in evening gowns, with husband Johnnie",
+    "right": "Fanny Cradock",
+    "wrong": [
+     "Clarissa Dickson Wright",
+     "Jennifer Paterson",
+     "Marguerite Patten"
+    ]
+   },
+   {
+    "q": "The 2015 Bake Off winner who got her own cooking shows",
+    "right": "Nadiya Hussain",
+    "wrong": [
+     "Lorraine Pascale",
+     "Rachel Khoo",
+     "Candice Brown"
+    ]
+   },
+   {
+    "q": "The Geordie half of the Hairy Bikers",
+    "right": "Si King",
+    "wrong": [
+     "Dave Myers",
+     "Tom Kerridge",
+     "Paul Hollywood"
+    ]
+   },
+   {
+    "q": "The author of Toast and Real Fast Food",
+    "right": "Nigel Slater",
+    "wrong": [
+     "Yotam Ottolenghi",
+     "Gary Rhodes",
+     "Brian Turner"
+    ]
+   },
+   {
+    "q": "The Bake Off judge who replaced Mary Berry",
+    "right": "Prue Leith",
+    "wrong": [
+     "Paul Hollywood",
+     "Lorraine Pascale",
+     "Candice Brown"
+    ]
+   },
+   {
+    "q": "The chef behind Le Manoir aux Quat'Saisons",
+    "right": "Raymond Blanc",
+    "wrong": [
+     "Michel Roux Jr",
+     "Marco Pierre White",
+     "Albert Roux"
+    ]
+   },
+   {
+    "q": "The 1980s BBC chef who made the wok famous",
+    "right": "Ken Hom",
+    "wrong": [
+     "Madhur Jaffrey",
+     "Ching-He Huang",
+     "Yotam Ottolenghi"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which North East town is this landmark in?",
+  "target": 10,
+  "category": "The North East",
+  "tags": [
+   "North East",
+   "landmarks"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Penshaw Monument",
+    "right": "Sunderland",
+    "wrong": [
+     "Houghton-le-Spring",
+     "Durham",
+     "Peterlee"
+    ]
+   },
+   {
+    "q": "The Angel of the North",
+    "right": "Gateshead",
+    "wrong": [
+     "Durham",
+     "Wallsend",
+     "Consett"
+    ]
+   },
+   {
+    "q": "The Transporter Bridge",
+    "right": "Middlesbrough",
+    "wrong": [
+     "Billingham",
+     "Guisborough",
+     "Yarm"
+    ]
+   },
+   {
+    "q": "St Mary's Lighthouse",
+    "right": "Whitley Bay",
+    "wrong": [
+     "Tynemouth",
+     "Blyth",
+     "North Shields"
+    ]
+   },
+   {
+    "q": "Grey's Monument",
+    "right": "Newcastle",
+    "wrong": [
+     "Durham",
+     "Wallsend",
+     "North Shields"
+    ]
+   },
+   {
+    "q": "HMS Trincomalee",
+    "right": "Hartlepool",
+    "wrong": [
+     "Billingham",
+     "Peterlee",
+     "Blyth"
+    ]
+   },
+   {
+    "q": "Locomotion, the railway museum",
+    "right": "Shildon",
+    "wrong": [
+     "Newton Aycliffe",
+     "Spennymoor",
+     "Ferryhill"
+    ]
+   },
+   {
+    "q": "The Bowes Museum",
+    "right": "Barnard Castle",
+    "wrong": [
+     "Hexham",
+     "Durham",
+     "Stanley"
+    ]
+   },
+   {
+    "q": "Washington Old Hall",
+    "right": "Washington",
+    "wrong": [
+     "Houghton-le-Spring",
+     "Durham",
+     "Stanley"
+    ]
+   },
+   {
+    "q": "Arbeia Roman Fort",
+    "right": "South Shields",
+    "wrong": [
+     "Tynemouth",
+     "North Shields",
+     "Wallsend"
+    ]
+   },
+   {
+    "q": "Preston Park Museum",
+    "right": "Stockton-on-Tees",
+    "wrong": [
+     "Yarm",
+     "Billingham",
+     "Guisborough"
+    ]
+   },
+   {
+    "q": "Head of Steam railway museum",
+    "right": "Darlington",
+    "wrong": [
+     "Newton Aycliffe",
+     "Spennymoor",
+     "Ferryhill"
+    ]
+   },
+   {
+    "q": "Bede's monastery and Jarrow Hall",
+    "right": "Jarrow",
+    "wrong": [
+     "Wallsend",
+     "Hebburn",
+     "North Shields"
+    ]
+   },
+   {
+    "q": "Cragside",
+    "right": "Rothbury",
+    "wrong": [
+     "Alnwick",
+     "Morpeth",
+     "Hexham"
+    ]
+   },
+   {
+    "q": "Woodhorn mining museum",
+    "right": "Ashington",
+    "wrong": [
+     "Blyth",
+     "Morpeth",
+     "Cramlington"
+    ]
+   },
+   {
+    "q": "The 'Tommy' statue on the seafront",
+    "right": "Seaham",
+    "wrong": [
+     "Peterlee",
+     "Houghton-le-Spring",
+     "Blyth"
+    ]
+   },
+   {
+    "q": "The Redcar Beacon",
+    "right": "Redcar",
+    "wrong": [
+     "Guisborough",
+     "Yarm",
+     "Billingham"
+    ]
+   },
+   {
+    "q": "Lumley Castle",
+    "right": "Chester-le-Street",
+    "wrong": [
+     "Durham",
+     "Stanley",
+     "Houghton-le-Spring"
+    ]
+   },
+   {
+    "q": "Gibside",
+    "right": "Rowlands Gill",
+    "wrong": [
+     "Prudhoe",
+     "Stanley",
+     "Consett"
+    ]
+   },
+   {
+    "q": "Auckland Castle",
+    "right": "Bishop Auckland",
+    "wrong": [
+     "Durham",
+     "Spennymoor",
+     "Newton Aycliffe"
+    ]
+   }
+  ]
+ }
+]
