@@ -1,0 +1,582 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what does this sailing word mean?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "sailing",
+   "ships",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Port",
+    "right": "Left side",
+    "wrong": [
+     "Top deck",
+     "Middle",
+     "Lower deck"
+    ]
+   },
+   {
+    "q": "Starboard",
+    "right": "Right side",
+    "wrong": [
+     "Top deck",
+     "Middle",
+     "Lower deck"
+    ]
+   },
+   {
+    "q": "Bow",
+    "right": "Front",
+    "wrong": [
+     "Middle",
+     "Top deck",
+     "Lower deck"
+    ]
+   },
+   {
+    "q": "Stern",
+    "right": "Back",
+    "wrong": [
+     "Middle",
+     "Top deck",
+     "Lower deck"
+    ]
+   },
+   {
+    "q": "Galley",
+    "right": "Kitchen",
+    "wrong": [
+     "Dining room",
+     "Storeroom",
+     "Lounge"
+    ]
+   },
+   {
+    "q": "Head",
+    "right": "Toilet",
+    "wrong": [
+     "Captain's cabin",
+     "Lookout post",
+     "Crow's nest"
+    ]
+   },
+   {
+    "q": "Bulkhead",
+    "right": "Wall",
+    "wrong": [
+     "Ceiling",
+     "Roof",
+     "Stairs"
+    ]
+   },
+   {
+    "q": "Deck",
+    "right": "Floor",
+    "wrong": [
+     "Ceiling",
+     "Roof",
+     "Stairs"
+    ]
+   },
+   {
+    "q": "Hull",
+    "right": "Main body",
+    "wrong": [
+     "Engine room",
+     "Cargo hold",
+     "Sail"
+    ]
+   },
+   {
+    "q": "Keel",
+    "right": "Spine along the bottom",
+    "wrong": [
+     "Sail",
+     "Flag",
+     "Crow's nest"
+    ]
+   },
+   {
+    "q": "Bilge",
+    "right": "Lowest part inside",
+    "wrong": [
+     "Crow's nest",
+     "Lookout post",
+     "Top deck"
+    ]
+   },
+   {
+    "q": "Berth",
+    "right": "Bed",
+    "wrong": [
+     "Cupboard",
+     "Ladder",
+     "Deckchair"
+    ]
+   },
+   {
+    "q": "Brig",
+    "right": "Prison",
+    "wrong": [
+     "Lounge",
+     "Storeroom",
+     "Dining room"
+    ]
+   },
+   {
+    "q": "Helm",
+    "right": "Steering wheel",
+    "wrong": [
+     "Engine room",
+     "Lifeboat",
+     "Anchor"
+    ]
+   },
+   {
+    "q": "Leeward",
+    "right": "Side away from the wind",
+    "wrong": [
+     "Sunny side",
+     "Shady side",
+     "Quayside"
+    ]
+   },
+   {
+    "q": "Windward",
+    "right": "Side facing the wind",
+    "wrong": [
+     "Sunny side",
+     "Shady side",
+     "Quayside"
+    ]
+   },
+   {
+    "q": "Gunwale",
+    "right": "Top edge of the side",
+    "wrong": [
+     "Ladder",
+     "Plank",
+     "Rope"
+    ]
+   },
+   {
+    "q": "Porthole",
+    "right": "Window",
+    "wrong": [
+     "Ladder",
+     "Cupboard",
+     "Plank"
+    ]
+   },
+   {
+    "q": "Ballast",
+    "right": "Weight for balance",
+    "wrong": [
+     "Rope",
+     "Anchor",
+     "Engine room"
+    ]
+   },
+   {
+    "q": "Hatch",
+    "right": "Door in the deck",
+    "wrong": [
+     "Ladder",
+     "Cupboard",
+     "Plank"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: who wrote this famous non-fiction book?",
+  "target": 10,
+  "category": "Books",
+  "tags": [
+   "non-fiction",
+   "authors"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A Brief History of Time",
+    "right": "Stephen Hawking",
+    "wrong": [
+     "Carl Sagan",
+     "Brian Cox",
+     "Richard Feynman"
+    ]
+   },
+   {
+    "q": "On the Origin of Species",
+    "right": "Charles Darwin",
+    "wrong": [
+     "Alfred Russel Wallace",
+     "Thomas Huxley",
+     "Gregor Mendel"
+    ]
+   },
+   {
+    "q": "Silent Spring",
+    "right": "Rachel Carson",
+    "wrong": [
+     "Jane Goodall",
+     "Dian Fossey",
+     "Gloria Steinem"
+    ]
+   },
+   {
+    "q": "The Selfish Gene",
+    "right": "Richard Dawkins",
+    "wrong": [
+     "Steven Pinker",
+     "Christopher Hitchens",
+     "Sam Harris"
+    ]
+   },
+   {
+    "q": "Sapiens",
+    "right": "Yuval Noah Harari",
+    "wrong": [
+     "Jared Diamond",
+     "Steven Pinker",
+     "Mary Beard"
+    ]
+   },
+   {
+    "q": "The Diary of a Young Girl",
+    "right": "Anne Frank",
+    "wrong": [
+     "Zlata Filipović",
+     "Malala Yousafzai",
+     "Corrie ten Boom"
+    ]
+   },
+   {
+    "q": "Long Walk to Freedom",
+    "right": "Nelson Mandela",
+    "wrong": [
+     "Desmond Tutu",
+     "Steve Biko",
+     "Barack Obama"
+    ]
+   },
+   {
+    "q": "I Know Why the Caged Bird Sings",
+    "right": "Maya Angelou",
+    "wrong": [
+     "Toni Morrison",
+     "Alice Walker",
+     "Zora Neale Hurston"
+    ]
+   },
+   {
+    "q": "A Room of One's Own",
+    "right": "Virginia Woolf",
+    "wrong": [
+     "Simone de Beauvoir",
+     "Germaine Greer",
+     "Mary Wollstonecraft"
+    ]
+   },
+   {
+    "q": "The Wealth of Nations",
+    "right": "Adam Smith",
+    "wrong": [
+     "John Maynard Keynes",
+     "David Hume",
+     "Milton Friedman"
+    ]
+   },
+   {
+    "q": "Das Kapital",
+    "right": "Karl Marx",
+    "wrong": [
+     "Lenin",
+     "Leon Trotsky",
+     "Mao Zedong"
+    ]
+   },
+   {
+    "q": "The Prince",
+    "right": "Niccolò Machiavelli",
+    "wrong": [
+     "Thomas More",
+     "Erasmus",
+     "Dante"
+    ]
+   },
+   {
+    "q": "The Art of War",
+    "right": "Sun Tzu",
+    "wrong": [
+     "Confucius",
+     "Lao Tzu",
+     "Genghis Khan"
+    ]
+   },
+   {
+    "q": "Leviathan",
+    "right": "Thomas Hobbes",
+    "wrong": [
+     "John Locke",
+     "Jean-Jacques Rousseau",
+     "David Hume"
+    ]
+   },
+   {
+    "q": "The Tipping Point",
+    "right": "Malcolm Gladwell",
+    "wrong": [
+     "Nassim Taleb",
+     "Daniel Kahneman",
+     "Steven Pinker"
+    ]
+   },
+   {
+    "q": "Becoming",
+    "right": "Michelle Obama",
+    "wrong": [
+     "Hillary Clinton",
+     "Oprah Winfrey",
+     "Barack Obama"
+    ]
+   },
+   {
+    "q": "Spare",
+    "right": "Prince Harry",
+    "wrong": [
+     "Prince William",
+     "Meghan Markle",
+     "Prince Andrew"
+    ]
+   },
+   {
+    "q": "In Cold Blood",
+    "right": "Truman Capote",
+    "wrong": [
+     "Norman Mailer",
+     "Tom Wolfe",
+     "Hunter S. Thompson"
+    ]
+   },
+   {
+    "q": "Into the Wild",
+    "right": "Jon Krakauer",
+    "wrong": [
+     "Bill Bryson",
+     "Paul Theroux",
+     "Bruce Chatwin"
+    ]
+   },
+   {
+    "q": "Bad Science",
+    "right": "Ben Goldacre",
+    "wrong": [
+     "Brian Cox",
+     "Adam Rutherford",
+     "Simon Singh"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which town or city is this theatre in?",
+  "target": 10,
+  "category": "Art and culture",
+  "tags": [
+   "theatres",
+   "cities"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Shakespeare's Globe",
+    "right": "London",
+    "wrong": [
+     "Oxford",
+     "Bristol",
+     "Bath"
+    ]
+   },
+   {
+    "q": "The Abbey Theatre",
+    "right": "Dublin",
+    "wrong": [
+     "Cork",
+     "Galway",
+     "Limerick"
+    ]
+   },
+   {
+    "q": "The Comédie-Française",
+    "right": "Paris",
+    "wrong": [
+     "Lyon",
+     "Marseille",
+     "Bordeaux"
+    ]
+   },
+   {
+    "q": "The Burgtheater",
+    "right": "Vienna",
+    "wrong": [
+     "Salzburg",
+     "Graz",
+     "Munich"
+    ]
+   },
+   {
+    "q": "The Crucible Theatre",
+    "right": "Sheffield",
+    "wrong": [
+     "Leeds",
+     "Rotherham",
+     "Doncaster"
+    ]
+   },
+   {
+    "q": "The Royal Exchange Theatre",
+    "right": "Manchester",
+    "wrong": [
+     "Bolton",
+     "Salford",
+     "Stockport"
+    ]
+   },
+   {
+    "q": "Northern Stage",
+    "right": "Newcastle",
+    "wrong": [
+     "Sunderland",
+     "Gateshead",
+     "Durham"
+    ]
+   },
+   {
+    "q": "The Royal Lyceum Theatre",
+    "right": "Edinburgh",
+    "wrong": [
+     "Aberdeen",
+     "Dundee",
+     "Perth"
+    ]
+   },
+   {
+    "q": "The Citizens Theatre",
+    "right": "Glasgow",
+    "wrong": [
+     "Aberdeen",
+     "Dundee",
+     "Perth"
+    ]
+   },
+   {
+    "q": "The Everyman Theatre",
+    "right": "Liverpool",
+    "wrong": [
+     "Chester",
+     "Preston",
+     "Bolton"
+    ]
+   },
+   {
+    "q": "The Royal Shakespeare Theatre",
+    "right": "Stratford-upon-Avon",
+    "wrong": [
+     "Warwick",
+     "Coventry",
+     "Oxford"
+    ]
+   },
+   {
+    "q": "The Minack Theatre, cut into the cliffs",
+    "right": "Porthcurno",
+    "wrong": [
+     "St Ives",
+     "Penzance",
+     "Falmouth"
+    ]
+   },
+   {
+    "q": "Ford's Theatre, where Lincoln was shot",
+    "right": "Washington, DC",
+    "wrong": [
+     "Philadelphia",
+     "Baltimore",
+     "Richmond"
+    ]
+   },
+   {
+    "q": "The Berliner Ensemble",
+    "right": "Berlin",
+    "wrong": [
+     "Hamburg",
+     "Munich",
+     "Dresden"
+    ]
+   },
+   {
+    "q": "The Stephen Joseph Theatre",
+    "right": "Scarborough",
+    "wrong": [
+     "Whitby",
+     "York",
+     "Harrogate"
+    ]
+   },
+   {
+    "q": "The Alhambra Theatre",
+    "right": "Bradford",
+    "wrong": [
+     "Leeds",
+     "Huddersfield",
+     "Halifax"
+    ]
+   },
+   {
+    "q": "The Grand Opera House",
+    "right": "Belfast",
+    "wrong": [
+     "Derry",
+     "Cork",
+     "Lisburn"
+    ]
+   },
+   {
+    "q": "The Lincoln Center",
+    "right": "New York",
+    "wrong": [
+     "Boston",
+     "Philadelphia",
+     "Chicago"
+    ]
+   },
+   {
+    "q": "The Teatro Real",
+    "right": "Madrid",
+    "wrong": [
+     "Barcelona",
+     "Seville",
+     "Valencia"
+    ]
+   },
+   {
+    "q": "The New Vic",
+    "right": "Newcastle-under-Lyme",
+    "wrong": [
+     "Newcastle upon Tyne",
+     "Crewe",
+     "Stafford"
+    ]
+   }
+  ]
+ }
+]
