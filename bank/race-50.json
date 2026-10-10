@@ -1,0 +1,582 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which US state was this famous American born in?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "USA",
+   "birthplaces",
+   "states"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Elvis Presley",
+    "right": "Mississippi",
+    "wrong": [
+     "Florida",
+     "North Carolina",
+     "Oklahoma"
+    ]
+   },
+   {
+    "q": "Barack Obama",
+    "right": "Hawaii",
+    "wrong": [
+     "Alaska",
+     "Oregon",
+     "Nevada"
+    ]
+   },
+   {
+    "q": "Donald Trump",
+    "right": "New York",
+    "wrong": [
+     "Florida",
+     "Connecticut",
+     "New Hampshire"
+    ]
+   },
+   {
+    "q": "Dolly Parton",
+    "right": "Tennessee",
+    "wrong": [
+     "North Carolina",
+     "West Virginia",
+     "Virginia"
+    ]
+   },
+   {
+    "q": "Taylor Swift",
+    "right": "Pennsylvania",
+    "wrong": [
+     "Maryland",
+     "Delaware",
+     "Connecticut"
+    ]
+   },
+   {
+    "q": "Beyoncé",
+    "right": "Texas",
+    "wrong": [
+     "Oklahoma",
+     "Florida",
+     "Arizona"
+    ]
+   },
+   {
+    "q": "Bruce Springsteen",
+    "right": "New Jersey",
+    "wrong": [
+     "Delaware",
+     "Connecticut",
+     "Maryland"
+    ]
+   },
+   {
+    "q": "Bob Dylan",
+    "right": "Minnesota",
+    "wrong": [
+     "Wisconsin",
+     "Michigan",
+     "Iowa"
+    ]
+   },
+   {
+    "q": "Michael Jackson",
+    "right": "Indiana",
+    "wrong": [
+     "Michigan",
+     "Wisconsin",
+     "Iowa"
+    ]
+   },
+   {
+    "q": "Johnny Cash",
+    "right": "Arkansas",
+    "wrong": [
+     "Oklahoma",
+     "Florida",
+     "North Carolina"
+    ]
+   },
+   {
+    "q": "Abraham Lincoln",
+    "right": "Kentucky",
+    "wrong": [
+     "Virginia",
+     "West Virginia",
+     "North Carolina"
+    ]
+   },
+   {
+    "q": "Marilyn Monroe",
+    "right": "California",
+    "wrong": [
+     "Nevada",
+     "Oregon",
+     "Arizona"
+    ]
+   },
+   {
+    "q": "Neil Armstrong",
+    "right": "Ohio",
+    "wrong": [
+     "Michigan",
+     "Wisconsin",
+     "West Virginia"
+    ]
+   },
+   {
+    "q": "Martin Luther King Jr",
+    "right": "Georgia",
+    "wrong": [
+     "Florida",
+     "South Carolina",
+     "North Carolina"
+    ]
+   },
+   {
+    "q": "Jimi Hendrix",
+    "right": "Washington",
+    "wrong": [
+     "Oregon",
+     "Idaho",
+     "Montana"
+    ]
+   },
+   {
+    "q": "Louis Armstrong",
+    "right": "Louisiana",
+    "wrong": [
+     "Florida",
+     "Oklahoma",
+     "South Carolina"
+    ]
+   },
+   {
+    "q": "Mark Twain",
+    "right": "Missouri",
+    "wrong": [
+     "Kansas",
+     "Iowa",
+     "Nebraska"
+    ]
+   },
+   {
+    "q": "Walt Disney",
+    "right": "Illinois",
+    "wrong": [
+     "Michigan",
+     "Wisconsin",
+     "Iowa"
+    ]
+   },
+   {
+    "q": "John F. Kennedy",
+    "right": "Massachusetts",
+    "wrong": [
+     "Connecticut",
+     "Rhode Island",
+     "Vermont"
+    ]
+   },
+   {
+    "q": "Harper Lee",
+    "right": "Alabama",
+    "wrong": [
+     "Florida",
+     "South Carolina",
+     "North Carolina"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which city is this famous market in?",
+  "target": 10,
+  "category": "Travel",
+  "tags": [
+   "markets",
+   "cities"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The Grand Bazaar",
+    "right": "Istanbul",
+    "wrong": [
+     "Ankara",
+     "Izmir",
+     "Athens"
+    ]
+   },
+   {
+    "q": "La Boqueria",
+    "right": "Barcelona",
+    "wrong": [
+     "Valencia",
+     "Seville",
+     "Bilbao"
+    ]
+   },
+   {
+    "q": "Borough Market",
+    "right": "London",
+    "wrong": [
+     "Birmingham",
+     "Manchester",
+     "Bristol"
+    ]
+   },
+   {
+    "q": "Chatuchak Weekend Market",
+    "right": "Bangkok",
+    "wrong": [
+     "Chiang Mai",
+     "Phuket",
+     "Hanoi"
+    ]
+   },
+   {
+    "q": "Toyosu fish market",
+    "right": "Tokyo",
+    "wrong": [
+     "Osaka",
+     "Kyoto",
+     "Yokohama"
+    ]
+   },
+   {
+    "q": "Pike Place Market",
+    "right": "Seattle",
+    "wrong": [
+     "Portland",
+     "San Francisco",
+     "Boston"
+    ]
+   },
+   {
+    "q": "Mercado de San Miguel",
+    "right": "Madrid",
+    "wrong": [
+     "Valencia",
+     "Seville",
+     "Bilbao"
+    ]
+   },
+   {
+    "q": "Khan el-Khalili",
+    "right": "Cairo",
+    "wrong": [
+     "Alexandria",
+     "Luxor",
+     "Marrakesh"
+    ]
+   },
+   {
+    "q": "The Naschmarkt",
+    "right": "Vienna",
+    "wrong": [
+     "Salzburg",
+     "Graz",
+     "Budapest"
+    ]
+   },
+   {
+    "q": "The Viktualienmarkt",
+    "right": "Munich",
+    "wrong": [
+     "Berlin",
+     "Hamburg",
+     "Frankfurt"
+    ]
+   },
+   {
+    "q": "The Mercato Centrale",
+    "right": "Florence",
+    "wrong": [
+     "Rome",
+     "Milan",
+     "Bologna"
+    ]
+   },
+   {
+    "q": "The Rialto Market",
+    "right": "Venice",
+    "wrong": [
+     "Verona",
+     "Padua",
+     "Trieste"
+    ]
+   },
+   {
+    "q": "The Albert Cuyp Market",
+    "right": "Amsterdam",
+    "wrong": [
+     "Rotterdam",
+     "Utrecht",
+     "The Hague"
+    ]
+   },
+   {
+    "q": "The Queen Victoria Market",
+    "right": "Melbourne",
+    "wrong": [
+     "Sydney",
+     "Adelaide",
+     "Brisbane"
+    ]
+   },
+   {
+    "q": "The Grainger Market",
+    "right": "Newcastle",
+    "wrong": [
+     "Sunderland",
+     "Durham",
+     "Middlesbrough"
+    ]
+   },
+   {
+    "q": "Kirkgate Market",
+    "right": "Leeds",
+    "wrong": [
+     "Bradford",
+     "Sheffield",
+     "York"
+    ]
+   },
+   {
+    "q": "St Lawrence Market",
+    "right": "Toronto",
+    "wrong": [
+     "Montreal",
+     "Ottawa",
+     "Vancouver"
+    ]
+   },
+   {
+    "q": "La Vucciria",
+    "right": "Palermo",
+    "wrong": [
+     "Naples",
+     "Catania",
+     "Bari"
+    ]
+   },
+   {
+    "q": "Chandni Chowk",
+    "right": "Delhi",
+    "wrong": [
+     "Mumbai",
+     "Kolkata",
+     "Jaipur"
+    ]
+   },
+   {
+    "q": "Torvehallerne",
+    "right": "Copenhagen",
+    "wrong": [
+     "Stockholm",
+     "Oslo",
+     "Aarhus"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which sport does this body run?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "governing bodies",
+   "sport"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "FIDE",
+    "right": "Chess",
+    "wrong": [
+     "Draughts",
+     "Bridge",
+     "Backgammon"
+    ]
+   },
+   {
+    "q": "The PDC",
+    "right": "Darts",
+    "wrong": [
+     "Pool",
+     "Bowls",
+     "Skittles"
+    ]
+   },
+   {
+    "q": "The WPBSA",
+    "right": "Snooker",
+    "wrong": [
+     "Pool",
+     "Bowls",
+     "Table tennis"
+    ]
+   },
+   {
+    "q": "The R&A",
+    "right": "Golf",
+    "wrong": [
+     "Bowls",
+     "Croquet",
+     "Archery"
+    ]
+   },
+   {
+    "q": "The ITF",
+    "right": "Tennis",
+    "wrong": [
+     "Badminton",
+     "Squash",
+     "Table tennis"
+    ]
+   },
+   {
+    "q": "World Rugby",
+    "right": "Rugby union",
+    "wrong": [
+     "Netball",
+     "Lacrosse",
+     "Handball"
+    ]
+   },
+   {
+    "q": "The RFL",
+    "right": "Rugby league",
+    "wrong": [
+     "Netball",
+     "Lacrosse",
+     "Handball"
+    ]
+   },
+   {
+    "q": "The FIA",
+    "right": "Motor sport",
+    "wrong": [
+     "Sailing",
+     "Rowing",
+     "Bobsleigh"
+    ]
+   },
+   {
+    "q": "FIBA",
+    "right": "Basketball",
+    "wrong": [
+     "Netball",
+     "Handball",
+     "Lacrosse"
+    ]
+   },
+   {
+    "q": "The FIVB",
+    "right": "Volleyball",
+    "wrong": [
+     "Handball",
+     "Netball",
+     "Badminton"
+    ]
+   },
+   {
+    "q": "FIS",
+    "right": "Skiing",
+    "wrong": [
+     "Bobsleigh",
+     "Curling",
+     "Sailing"
+    ]
+   },
+   {
+    "q": "The ISU",
+    "right": "Ice skating",
+    "wrong": [
+     "Curling",
+     "Bobsleigh",
+     "Gymnastics"
+    ]
+   },
+   {
+    "q": "The FEI",
+    "right": "Equestrian",
+    "wrong": [
+     "Polo",
+     "Archery",
+     "Fencing"
+    ]
+   },
+   {
+    "q": "The IJF",
+    "right": "Judo",
+    "wrong": [
+     "Wrestling",
+     "Fencing",
+     "Weightlifting"
+    ]
+   },
+   {
+    "q": "The FIH",
+    "right": "Hockey",
+    "wrong": [
+     "Lacrosse",
+     "Netball",
+     "Handball"
+    ]
+   },
+   {
+    "q": "The British Boxing Board of Control",
+    "right": "Boxing",
+    "wrong": [
+     "Wrestling",
+     "Fencing",
+     "Weightlifting"
+    ]
+   },
+   {
+    "q": "The Jockey Club",
+    "right": "Horse racing",
+    "wrong": [
+     "Polo",
+     "Greyhound racing",
+     "Show jumping"
+    ]
+   },
+   {
+    "q": "The UCI",
+    "right": "Cycling",
+    "wrong": [
+     "Rowing",
+     "Sailing",
+     "Canoeing"
+    ]
+   },
+   {
+    "q": "The ICC",
+    "right": "Cricket",
+    "wrong": [
+     "Rounders",
+     "Baseball",
+     "Softball"
+    ]
+   },
+   {
+    "q": "World Aquatics (once FINA)",
+    "right": "Swimming",
+    "wrong": [
+     "Rowing",
+     "Sailing",
+     "Canoeing"
+    ]
+   }
+  ]
+ }
+]
