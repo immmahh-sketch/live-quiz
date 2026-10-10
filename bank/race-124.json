@@ -1,0 +1,389 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which card game is this?",
+  "target": 10,
+  "category": "Games and toys",
+  "tags": [
+   "card games",
+   "games"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Shout its name when two matching cards land on top of each other",
+    "right": "Snap",
+    "wrong": [
+     "Spit",
+     "Slapjack",
+     "Pairs"
+    ]
+   },
+   {
+    "q": "A game for one, building down in alternating colours; Americans call it Solitaire",
+    "right": "Patience",
+    "wrong": [
+     "Spit",
+     "Racing Demon",
+     "Cassino"
+    ]
+   },
+   {
+    "q": "Bet on your hand, where a royal flush beats everything",
+    "right": "Poker",
+    "wrong": [
+     "Brag",
+     "Faro",
+     "Écarté"
+    ]
+   },
+   {
+    "q": "Two partnerships bid for tricks, and one hand is laid face up as 'dummy'",
+    "right": "Bridge",
+    "wrong": [
+     "Euchre",
+     "Spades",
+     "Bezique"
+    ]
+   },
+   {
+    "q": "Collect sets and runs, then lay them down to go out",
+    "right": "Rummy",
+    "wrong": [
+     "Cassino",
+     "Bezique",
+     "Piquet"
+    ]
+   },
+   {
+    "q": "Get as close to 21 as you can without going bust, against the dealer",
+    "right": "Blackjack",
+    "wrong": [
+     "Faro",
+     "Brag",
+     "Écarté"
+    ]
+   },
+   {
+    "q": "Scored with pegs on a wooden board: 'fifteen two, fifteen four...'",
+    "right": "Cribbage",
+    "wrong": [
+     "Bezique",
+     "Piquet",
+     "Skat"
+    ]
+   },
+   {
+    "q": "A trick-taking game for two pairs with no bidding, the ancestor of bridge",
+    "right": "Whist",
+    "wrong": [
+     "Euchre",
+     "Spades",
+     "Skat"
+    ]
+   },
+   {
+    "q": "Ask another player 'Have you got any sevens?' and hope they don't send you off to the pile",
+    "right": "Go Fish",
+    "wrong": [
+     "Pairs",
+     "Spit",
+     "Slapjack"
+    ]
+   },
+   {
+    "q": "Pass cards round and don't get stuck with the unmatched queen at the end",
+    "right": "Old Maid",
+    "wrong": [
+     "Slapjack",
+     "Pairs",
+     "Spit"
+    ]
+   },
+   {
+    "q": "Collect all four members of families like Mr Bun the Baker",
+    "right": "Happy Families",
+    "wrong": [
+     "Pairs",
+     "Slapjack",
+     "Spit"
+    ]
+   },
+   {
+    "q": "Compare stats like speed or height to win your opponent's card",
+    "right": "Top Trumps",
+    "wrong": [
+     "Pairs",
+     "Slapjack",
+     "Cassino"
+    ]
+   },
+   {
+    "q": "A pub game with lives: swap with your neighbour to avoid holding the lowest card",
+    "right": "Chase the Ace",
+    "wrong": [
+     "Spit",
+     "Brag",
+     "Switch"
+    ]
+   },
+   {
+    "q": "Avoid winning any heart in a trick, and above all the queen of spades",
+    "right": "Hearts",
+    "wrong": [
+     "Spades",
+     "Euchre",
+     "Skat"
+    ]
+   },
+   {
+    "q": "A rummy-style game from Uruguay, played with two packs and jokers, chasing sets of seven",
+    "right": "Canasta",
+    "wrong": [
+     "Bezique",
+     "Piquet",
+     "Cassino"
+    ]
+   },
+   {
+    "q": "Bet on 'player' or 'banker' in the casino game James Bond plays in 'Dr. No'",
+    "right": "Baccarat",
+    "wrong": [
+     "Faro",
+     "Écarté",
+     "Brag"
+    ]
+   },
+   {
+    "q": "Build out from the four sevens, up and down in each suit",
+    "right": "Sevens",
+    "wrong": [
+     "Switch",
+     "Cassino",
+     "Spit"
+    ]
+   },
+   {
+    "q": "Lay cards face down, say what they are, and hope nobody calls you a liar",
+    "right": "Cheat",
+    "wrong": [
+     "Brag",
+     "Switch",
+     "Spit"
+    ]
+   },
+   {
+    "q": "Match the suit or number of the top card; an eight lets you change the suit",
+    "right": "Crazy Eights",
+    "wrong": [
+     "Spit",
+     "Cassino",
+     "Slapjack"
+    ]
+   },
+   {
+    "q": "Turn cards over in turn; a court card or ace makes your opponent pay up to four cards",
+    "right": "Beggar My Neighbour",
+    "wrong": [
+     "Slapjack",
+     "Spit",
+     "Pairs"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this hairstyle?",
+  "target": 10,
+  "category": "Fashion",
+  "tags": [
+   "hair",
+   "hairstyles",
+   "fashion"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Business at the front, party at the back",
+    "right": "Mullet",
+    "wrong": [
+     "Shag",
+     "Rat tail",
+     "Feathered"
+    ]
+   },
+   {
+    "q": "A towering 1960s 'do' piled high on the head, as worn by Amy Winehouse",
+    "right": "Beehive",
+    "wrong": [
+     "Victory rolls",
+     "Topknot",
+     "Marcel wave"
+    ]
+   },
+   {
+    "q": "Head shaved on both sides, leaving a tall strip down the middle: a punk favourite",
+    "right": "Mohican",
+    "wrong": [
+     "Liberty spikes",
+     "Fade",
+     "Skinhead"
+    ]
+   },
+   {
+    "q": "Hair swept up and back at the front, as worn by Morrissey and Tintin",
+    "right": "Quiff",
+    "wrong": [
+     "Fade",
+     "Caesar cut",
+     "Spiky"
+    ]
+   },
+   {
+    "q": "A straight cut level with the jaw, all the way round",
+    "right": "Bob",
+    "wrong": [
+     "Wedge",
+     "Shag",
+     "Eton crop"
+    ]
+   },
+   {
+    "q": "A very short, cropped women's style made famous by Twiggy",
+    "right": "Pixie cut",
+    "wrong": [
+     "Wedge",
+     "Shag",
+     "Lob"
+    ]
+   },
+   {
+    "q": "Naturally curly hair grown out into a big round halo",
+    "right": "Afro",
+    "wrong": [
+     "Jheri curl",
+     "Box braids",
+     "Bantu knots"
+    ]
+   },
+   {
+    "q": "Hair matted into rope-like strands, as worn by Bob Marley",
+    "right": "Dreadlocks",
+    "wrong": [
+     "Box braids",
+     "Bantu knots",
+     "Jheri curl"
+    ]
+   },
+   {
+    "q": "Hair braided close to the scalp in neat straight lines",
+    "right": "Cornrows",
+    "wrong": [
+     "Box braids",
+     "Fishtail plait",
+     "French plait"
+    ]
+   },
+   {
+    "q": "Very short all over, a little longer on top: the classic military trim",
+    "right": "Crew cut",
+    "wrong": [
+     "Caesar cut",
+     "Fade",
+     "Skinhead"
+    ]
+   },
+   {
+    "q": "Looks like someone put a pudding basin on your head and cut round it",
+    "right": "Bowl cut",
+    "wrong": [
+     "Caesar cut",
+     "Eton crop",
+     "Wedge"
+    ]
+   },
+   {
+    "q": "A layered, bouncy cut named after a 'Friends' character",
+    "right": "The Rachel",
+    "wrong": [
+     "Shag",
+     "Feathered",
+     "Lob"
+    ]
+   },
+   {
+    "q": "Shaved short at the sides and back with long hair on top: the 'Peaky Blinders' look",
+    "right": "Undercut",
+    "wrong": [
+     "Spiky",
+     "Caesar cut",
+     "Skinhead"
+    ]
+   },
+   {
+    "q": "Long hair from one side swept across to hide a bald patch",
+    "right": "Comb-over",
+    "wrong": [
+     "Tonsure",
+     "Topknot",
+     "Rat tail"
+    ]
+   },
+   {
+    "q": "A 1990s boys' cut, parted in the middle and hanging either side of the face",
+    "right": "Curtains",
+    "wrong": [
+     "Fringe",
+     "Feathered",
+     "Shag"
+    ]
+   },
+   {
+    "q": "Short at the sides and dead flat across the top, as on Dolph Lundgren in 'Rocky IV'",
+    "right": "Flat top",
+    "wrong": [
+     "Caesar cut",
+     "Fade",
+     "Spiky"
+    ]
+   },
+   {
+    "q": "Teased and backcombed into a big rounded puff, a 1960s favourite of Dusty Springfield",
+    "right": "Bouffant",
+    "wrong": [
+     "Victory rolls",
+     "Marcel wave",
+     "Finger waves"
+    ]
+   },
+   {
+    "q": "A smooth knot or coil of hair pinned at the nape of the neck",
+    "right": "Chignon",
+    "wrong": [
+     "Topknot",
+     "Ponytail",
+     "French plait"
+    ]
+   },
+   {
+    "q": "Chemically set curls, a huge 1980s craze among footballers",
+    "right": "Perm",
+    "wrong": [
+     "Marcel wave",
+     "Finger waves",
+     "Feathered"
+    ]
+   },
+   {
+    "q": "Two ponytails, one on either side of the head",
+    "right": "Bunches",
+    "wrong": [
+     "Topknot",
+     "Fishtail plait",
+     "Ponytail"
+    ]
+   }
+  ]
+ }
+]
