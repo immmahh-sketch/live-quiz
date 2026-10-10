@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this prison word?",
+  "target": 10,
+  "category": "Law",
+  "tags": [
+   "prison",
+   "crime",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The small room a prisoner is locked in",
+    "right": "Cell",
+    "wrong": [
+     "Ward",
+     "Cubicle",
+     "Booth"
+    ]
+   },
+   {
+    "q": "The person in charge of a British prison",
+    "right": "Governor",
+    "wrong": [
+     "Mayor",
+     "Provost",
+     "Bailiff"
+    ]
+   },
+   {
+    "q": "Old prison slang for a guard",
+    "right": "Screw",
+    "wrong": [
+     "Bolt",
+     "Nail",
+     "Rivet"
+    ]
+   },
+   {
+    "q": "Slang for time inside, and a Ronnie Barker sitcom",
+    "right": "Porridge",
+    "wrong": [
+     "Gruel",
+     "Stew",
+     "Broth"
+    ]
+   },
+   {
+    "q": "'Doing ___': more slang for a sentence, from rhyming slang 'bird lime'",
+    "right": "Bird",
+    "wrong": [
+     "Fish",
+     "Pig",
+     "Hen"
+    ]
+   },
+   {
+    "q": "Early release on good behaviour, under supervision",
+    "right": "Parole",
+    "wrong": [
+     "Bail",
+     "Remand",
+     "Amnesty"
+    ]
+   },
+   {
+    "q": "Being locked up completely alone",
+    "right": "Solitary confinement",
+    "wrong": [
+     "Open conditions",
+     "Day release",
+     "House arrest"
+    ]
+   },
+   {
+    "q": "A prisoner serving a life sentence",
+    "right": "Lifer",
+    "wrong": [
+     "Rookie",
+     "Trusty",
+     "Remand"
+    ]
+   },
+   {
+    "q": "Slang for an informer",
+    "right": "Grass",
+    "wrong": [
+     "Moss",
+     "Fern",
+     "Clover"
+    ]
+   },
+   {
+    "q": "A jail with no walls, for low-risk inmates",
+    "right": "Open prison",
+    "wrong": [
+     "Halfway house",
+     "Bail hostel",
+     "Safe house"
+    ]
+   },
+   {
+    "q": "The old name for a youth prison",
+    "right": "Borstal",
+    "wrong": [
+     "Workhouse",
+     "Asylum",
+     "Almshouse"
+    ]
+   },
+   {
+    "q": "The island prison in San Francisco Bay",
+    "right": "Alcatraz",
+    "wrong": [
+     "Rikers",
+     "Sing Sing",
+     "Devil's Island"
+    ]
+   },
+   {
+    "q": "The West London prison known as 'the Scrubs'",
+    "right": "Wormwood Scrubs",
+    "wrong": [
+     "Pentonville",
+     "Holloway",
+     "Brixton"
+    ]
+   },
+   {
+    "q": "The Manchester prison that saw a famous rooftop riot in 1990",
+    "right": "Strangeways",
+    "wrong": [
+     "Durham",
+     "Walton",
+     "Armley"
+    ]
+   },
+   {
+    "q": "A homemade prison knife",
+    "right": "Shank",
+    "wrong": [
+     "Cosh",
+     "Truncheon",
+     "Baton"
+    ]
+   },
+   {
+    "q": "Emptying the cell's bucket toilet each morning, a practice ended in 1996",
+    "right": "Slopping out",
+    "wrong": [
+     "Lights out",
+     "Roll call",
+     "Mucking in"
+    ]
+   },
+   {
+    "q": "All prisoners confined to their cells after trouble",
+    "right": "Lockdown",
+    "wrong": [
+     "Roll call",
+     "Association",
+     "Exercise yard"
+    ]
+   },
+   {
+    "q": "The pass a family needs to come and see an inmate",
+    "right": "Visiting order",
+    "wrong": [
+     "Search warrant",
+     "Court order",
+     "Summons"
+    ]
+   },
+   {
+    "q": "Another word for a prisoner",
+    "right": "Inmate",
+    "wrong": [
+     "Tenant",
+     "Patient",
+     "Lodger"
+    ]
+   },
+   {
+    "q": "The electronic device worn on the ankle after release",
+    "right": "Tag",
+    "wrong": [
+     "Badge",
+     "Lanyard",
+     "Pager"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this swimming word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "swimming",
+   "pools",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The fastest stroke, also called freestyle",
+    "right": "Front crawl",
+    "wrong": [
+     "Sidestroke",
+     "Trudgen",
+     "Lifesaving stroke"
+    ]
+   },
+   {
+    "q": "Frog-like kick, head up, arms sweeping round",
+    "right": "Breaststroke",
+    "wrong": [
+     "Sidestroke",
+     "Trudgen",
+     "Sculling"
+    ]
+   },
+   {
+    "q": "The stroke swum lying face up",
+    "right": "Backstroke",
+    "wrong": [
+     "Sidestroke",
+     "Treading water",
+     "Sculling"
+    ]
+   },
+   {
+    "q": "Both arms over together, with a dolphin kick",
+    "right": "Butterfly",
+    "wrong": [
+     "Sidestroke",
+     "Trudgen",
+     "Sculling"
+    ]
+   },
+   {
+    "q": "A child's first stroke, paddling like a puppy",
+    "right": "Doggy paddle",
+    "wrong": [
+     "Sculling",
+     "Treading water",
+     "Sidestroke"
+    ]
+   },
+   {
+    "q": "One swimmer using all four strokes in one race",
+    "right": "Individual medley",
+    "wrong": [
+     "Decathlon",
+     "Triathlon",
+     "Pentathlon"
+    ]
+   },
+   {
+    "q": "Flipping over at the wall without touching it with your hands",
+    "right": "Tumble turn",
+    "wrong": [
+     "Handstand",
+     "Cartwheel",
+     "Pirouette"
+    ]
+   },
+   {
+    "q": "The floating dividers between swimmers",
+    "right": "Lane rope",
+    "wrong": [
+     "Guide rope",
+     "Washing line",
+     "Tightrope"
+    ]
+   },
+   {
+    "q": "Where the water's over your head",
+    "right": "Deep end",
+    "wrong": [
+     "Shallow end",
+     "Paddling pool",
+     "Jacuzzi"
+    ]
+   },
+   {
+    "q": "Inflatables worn on the arms by beginners",
+    "right": "Armbands",
+    "wrong": [
+     "Wristbands",
+     "Headbands",
+     "Garters"
+    ]
+   },
+   {
+    "q": "Keep the chlorine out of your eyes",
+    "right": "Goggles",
+    "wrong": [
+     "Snorkel",
+     "Visor",
+     "Monocle"
+    ]
+   },
+   {
+    "q": "An outdoor public swimming pool",
+    "right": "Lido",
+    "wrong": [
+     "Spa",
+     "Grotto",
+     "Sauna"
+    ]
+   },
+   {
+    "q": "A painful foot wart picked up at the pool",
+    "right": "Verruca",
+    "wrong": [
+     "Bunion",
+     "Corn",
+     "Chilblain"
+    ]
+   },
+   {
+    "q": "Swimming from one end to the other, counted in these",
+    "right": "Lengths",
+    "wrong": [
+     "Heats",
+     "Rounds",
+     "Innings"
+    ]
+   },
+   {
+    "q": "Britain's double Olympic champion in Beijing in 2008",
+    "right": "Rebecca Adlington",
+    "wrong": [
+     "Sharron Davies",
+     "Duncan Goodhew",
+     "Keri-Anne Payne"
+    ]
+   },
+   {
+    "q": "British breaststroke king, Olympic champion in 2016 and 2021",
+    "right": "Adam Peaty",
+    "wrong": [
+     "Tom Daley",
+     "Duncan Goodhew",
+     "Mark Foster"
+    ]
+   },
+   {
+    "q": "The American with a record 23 Olympic golds",
+    "right": "Michael Phelps",
+    "wrong": [
+     "Mark Spitz",
+     "Ian Thorpe",
+     "Ryan Lochte"
+    ]
+   },
+   {
+    "q": "The chemical that keeps pool water clean",
+    "right": "Chlorine",
+    "wrong": [
+     "Fluoride",
+     "Iodine",
+     "Ammonia"
+    ]
+   },
+   {
+    "q": "A rubber suit for open-water swimming",
+    "right": "Wetsuit",
+    "wrong": [
+     "Tracksuit",
+     "Jumpsuit",
+     "Boiler suit"
+    ]
+   },
+   {
+    "q": "Now called artistic swimming: routines in time to music",
+    "right": "Synchronised swimming",
+    "wrong": [
+     "Water polo",
+     "Aquarobics",
+     "Diving"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this festival word?",
+  "target": 10,
+  "category": "Music",
+  "tags": [
+   "festivals",
+   "Glastonbury",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The biggest act, on last at night",
+    "right": "Headliner",
+    "wrong": [
+     "Support act",
+     "Roadie",
+     "Warm-up man"
+    ]
+   },
+   {
+    "q": "Glastonbury's famous main stage",
+    "right": "Pyramid Stage",
+    "wrong": [
+     "Other Stage",
+     "West Holts",
+     "Park Stage"
+    ]
+   },
+   {
+    "q": "What you wear to prove you've got a ticket",
+    "right": "Wristband",
+    "wrong": [
+     "Garter",
+     "Anklet",
+     "Armband"
+    ]
+   },
+   {
+    "q": "Footwear for when it gets muddy",
+    "right": "Wellies",
+    "wrong": [
+     "Flip-flops",
+     "Brogues",
+     "Stilettos"
+    ]
+   },
+   {
+    "q": "The plastic toilet cubicle",
+    "right": "Portaloo",
+    "wrong": [
+     "Gazebo",
+     "Yurt",
+     "Bivvy"
+    ]
+   },
+   {
+    "q": "The tent that springs open when you take it out of the bag",
+    "right": "Pop-up tent",
+    "wrong": [
+     "Bell tent",
+     "Teepee",
+     "Marquee"
+    ]
+   },
+   {
+    "q": "The crush of fans thrashing about at the front",
+    "right": "Mosh pit",
+    "wrong": [
+     "Ball pit",
+     "Orchestra pit",
+     "Pit stop"
+    ]
+   },
+   {
+    "q": "Being passed over the heads of the crowd",
+    "right": "Crowd-surfing",
+    "wrong": [
+     "Body-boarding",
+     "Kite-surfing",
+     "Windsurfing"
+    ]
+   },
+   {
+    "q": "The extra songs after the band pretends to leave",
+    "right": "Encore",
+    "wrong": [
+     "Interval",
+     "Overture",
+     "Prelude"
+    ]
+   },
+   {
+    "q": "The list of acts playing",
+    "right": "Line-up",
+    "wrong": [
+     "Set list",
+     "Tracklist",
+     "Playlist"
+    ]
+   },
+   {
+    "q": "The list of demands for a band's dressing room",
+    "right": "Rider",
+    "wrong": [
+     "Manifest",
+     "Inventory",
+     "Menu"
+    ]
+   },
+   {
+    "q": "The festival held at Worthy Farm in Somerset",
+    "right": "Glastonbury",
+    "wrong": [
+     "Reading",
+     "Latitude",
+     "Isle of Wight"
+    ]
+   },
+   {
+    "q": "The twin festivals on the August bank holiday weekend",
+    "right": "Reading and Leeds",
+    "wrong": [
+     "T in the Park",
+     "Creamfields",
+     "Latitude"
+    ]
+   },
+   {
+    "q": "The heavy metal festival at Donington Park",
+    "right": "Download",
+    "wrong": [
+     "Bestival",
+     "Latitude",
+     "Boardmasters"
+    ]
+   },
+   {
+    "q": "The dairy farmer who founded Glastonbury",
+    "right": "Michael Eavis",
+    "wrong": [
+     "Harvey Goldsmith",
+     "Bob Geldof",
+     "Simon Cowell"
+    ]
+   },
+   {
+    "q": "The year off Glastonbury takes to rest the land",
+    "right": "Fallow year",
+    "wrong": [
+     "Leap year",
+     "Gap year",
+     "Jubilee year"
+    ]
+   },
+   {
+    "q": "Dancing with headphones on, so there's no noise",
+    "right": "Silent disco",
+    "wrong": [
+     "Rave",
+     "Ceilidh",
+     "Tea dance"
+    ]
+   },
+   {
+    "q": "Testing the gear before the gig",
+    "right": "Sound check",
+    "wrong": [
+     "Spot check",
+     "Roll call",
+     "Rain check"
+    ]
+   },
+   {
+    "q": "Posh camping in yurts and bell tents",
+    "right": "Glamping",
+    "wrong": [
+     "Wild camping",
+     "Caravanning",
+     "Backpacking"
+    ]
+   },
+   {
+    "q": "The fence holding back the front row",
+    "right": "Barrier",
+    "wrong": [
+     "Bollard",
+     "Turnstile",
+     "Hoarding"
+    ]
+   }
+  ]
+ }
+]
