@@ -1,0 +1,389 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: where is this famous person buried?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "graves",
+   "famous people",
+   "history"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Karl Marx",
+    "right": "Highgate Cemetery",
+    "wrong": [
+     "Kensal Green Cemetery",
+     "Brompton Cemetery",
+     "Golders Green"
+    ]
+   },
+   {
+    "q": "Jim Morrison of the Doors",
+    "right": "Père Lachaise, Paris",
+    "wrong": [
+     "Montmartre Cemetery",
+     "Hollywood Forever",
+     "Montparnasse"
+    ]
+   },
+   {
+    "q": "Elvis Presley",
+    "right": "Graceland",
+    "wrong": [
+     "Forest Lawn",
+     "Sun Studio",
+     "Hollywood Forever"
+    ]
+   },
+   {
+    "q": "William Shakespeare",
+    "right": "Holy Trinity Church, Stratford",
+    "wrong": [
+     "Southwark Cathedral",
+     "St Giles' Cathedral",
+     "Canterbury Cathedral"
+    ]
+   },
+   {
+    "q": "Winston Churchill",
+    "right": "Bladon churchyard",
+    "wrong": [
+     "Chartwell",
+     "Blenheim Palace",
+     "Hampstead"
+    ]
+   },
+   {
+    "q": "Diana, Princess of Wales",
+    "right": "Althorp",
+    "wrong": [
+     "Sandringham",
+     "Kensington Palace",
+     "Balmoral"
+    ]
+   },
+   {
+    "q": "Richard III, after being found under a car park",
+    "right": "Leicester Cathedral",
+    "wrong": [
+     "York Minster",
+     "Bosworth Field",
+     "Fotheringhay"
+    ]
+   },
+   {
+    "q": "Admiral Lord Nelson",
+    "right": "St Paul's Cathedral",
+    "wrong": [
+     "Greenwich",
+     "Portsmouth Cathedral",
+     "Trafalgar Square"
+    ]
+   },
+   {
+    "q": "Isaac Newton",
+    "right": "Westminster Abbey",
+    "wrong": [
+     "Trinity College, Cambridge",
+     "Woolsthorpe Manor",
+     "Southwark Cathedral"
+    ]
+   },
+   {
+    "q": "Henry VIII",
+    "right": "St George's Chapel, Windsor",
+    "wrong": [
+     "Hampton Court",
+     "Canterbury Cathedral",
+     "The Tower of London"
+    ]
+   },
+   {
+    "q": "Napoleon",
+    "right": "Les Invalides, Paris",
+    "wrong": [
+     "Notre-Dame",
+     "The Panthéon",
+     "Versailles"
+    ]
+   },
+   {
+    "q": "John F. Kennedy",
+    "right": "Arlington National Cemetery",
+    "wrong": [
+     "Dallas",
+     "Boston",
+     "Hyannis Port"
+    ]
+   },
+   {
+    "q": "Lenin, embalmed in a mausoleum",
+    "right": "Red Square, Moscow",
+    "wrong": [
+     "Novodevichy Cemetery",
+     "St Petersburg",
+     "Volgograd"
+    ]
+   },
+   {
+    "q": "Robert the Bruce's body",
+    "right": "Dunfermline Abbey",
+    "wrong": [
+     "Scone Palace",
+     "Stirling Castle",
+     "Iona"
+    ]
+   },
+   {
+    "q": "Robert Burns",
+    "right": "Dumfries",
+    "wrong": [
+     "Alloway",
+     "Ayr",
+     "Edinburgh"
+    ]
+   },
+   {
+    "q": "Grace Darling, the lighthouse heroine",
+    "right": "Bamburgh",
+    "wrong": [
+     "Seahouses",
+     "The Farne Islands",
+     "Whitby"
+    ]
+   },
+   {
+    "q": "Charlotte and Emily Brontë",
+    "right": "Haworth",
+    "wrong": [
+     "Scarborough",
+     "Thornton",
+     "York"
+    ]
+   },
+   {
+    "q": "The Venerable Bede",
+    "right": "Durham Cathedral",
+    "wrong": [
+     "Jarrow",
+     "Lindisfarne",
+     "Whitby Abbey"
+    ]
+   },
+   {
+    "q": "Jane Austen",
+    "right": "Winchester Cathedral",
+    "wrong": [
+     "Bath Abbey",
+     "Chawton",
+     "Salisbury Cathedral"
+    ]
+   },
+   {
+    "q": "Dylan Thomas",
+    "right": "Laugharne",
+    "wrong": [
+     "Swansea",
+     "Cardiff",
+     "New York"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this famous university in?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "universities",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Harvard",
+    "right": "The USA",
+    "wrong": [
+     "Mexico",
+     "England",
+     "Scotland"
+    ]
+   },
+   {
+    "q": "Sciences Po",
+    "right": "France",
+    "wrong": [
+     "Greece",
+     "Austria",
+     "Hungary"
+    ]
+   },
+   {
+    "q": "Trinity College, home of the Book of Kells",
+    "right": "Ireland",
+    "wrong": [
+     "Scotland",
+     "Wales",
+     "England"
+    ]
+   },
+   {
+    "q": "Heidelberg",
+    "right": "Germany",
+    "wrong": [
+     "Austria",
+     "Luxembourg",
+     "Hungary"
+    ]
+   },
+   {
+    "q": "Bologna, the oldest university in the world",
+    "right": "Italy",
+    "wrong": [
+     "Greece",
+     "Malta",
+     "Austria"
+    ]
+   },
+   {
+    "q": "Salamanca",
+    "right": "Spain",
+    "wrong": [
+     "Mexico",
+     "Argentina",
+     "Chile"
+    ]
+   },
+   {
+    "q": "Leiden",
+    "right": "The Netherlands",
+    "wrong": [
+     "Luxembourg",
+     "Austria",
+     "Norway"
+    ]
+   },
+   {
+    "q": "Uppsala",
+    "right": "Sweden",
+    "wrong": [
+     "Norway",
+     "Finland",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "KU Leuven",
+    "right": "Belgium",
+    "wrong": [
+     "Luxembourg",
+     "Austria",
+     "Hungary"
+    ]
+   },
+   {
+    "q": "ETH, where Einstein studied",
+    "right": "Switzerland",
+    "wrong": [
+     "Austria",
+     "Hungary",
+     "Liechtenstein"
+    ]
+   },
+   {
+    "q": "Todai, the University of Tokyo",
+    "right": "Japan",
+    "wrong": [
+     "Malaysia",
+     "Thailand",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "NUS, the National University",
+    "right": "Singapore",
+    "wrong": [
+     "Malaysia",
+     "Indonesia",
+     "Thailand"
+    ]
+   },
+   {
+    "q": "McMaster",
+    "right": "Canada",
+    "wrong": [
+     "Scotland",
+     "England",
+     "Mexico"
+    ]
+   },
+   {
+    "q": "Monash",
+    "right": "Australia",
+    "wrong": [
+     "England",
+     "Scotland",
+     "Malaysia"
+    ]
+   },
+   {
+    "q": "Otago",
+    "right": "New Zealand",
+    "wrong": [
+     "Scotland",
+     "Wales",
+     "Fiji"
+    ]
+   },
+   {
+    "q": "Wits, in Johannesburg",
+    "right": "South Africa",
+    "wrong": [
+     "Kenya",
+     "Nigeria",
+     "Morocco"
+    ]
+   },
+   {
+    "q": "Al-Azhar, in Cairo",
+    "right": "Egypt",
+    "wrong": [
+     "Turkey",
+     "Morocco",
+     "Israel"
+    ]
+   },
+   {
+    "q": "Aarhus",
+    "right": "Denmark",
+    "wrong": [
+     "Norway",
+     "Iceland",
+     "Finland"
+    ]
+   },
+   {
+    "q": "Coimbra",
+    "right": "Portugal",
+    "wrong": [
+     "Brazil",
+     "Greece",
+     "Malta"
+    ]
+   },
+   {
+    "q": "KAIST",
+    "right": "South Korea",
+    "wrong": [
+     "Malaysia",
+     "Thailand",
+     "Vietnam"
+    ]
+   }
+  ]
+ }
+]
