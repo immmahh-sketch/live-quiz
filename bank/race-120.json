@@ -1,0 +1,390 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which art movement was this artist part of?",
+  "target": 10,
+  "category": "Art",
+  "tags": [
+   "art",
+   "artists",
+   "movements"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Claude Monet",
+    "right": "Impressionism",
+    "wrong": [
+     "Realism",
+     "Symbolism",
+     "Rococo"
+    ]
+   },
+   {
+    "q": "Pablo Picasso, with Georges Braque",
+    "right": "Cubism",
+    "wrong": [
+     "Vorticism",
+     "Constructivism",
+     "Symbolism"
+    ]
+   },
+   {
+    "q": "Salvador Dalí",
+    "right": "Surrealism",
+    "wrong": [
+     "Symbolism",
+     "Mannerism",
+     "Constructivism"
+    ]
+   },
+   {
+    "q": "Andy Warhol",
+    "right": "Pop Art",
+    "wrong": [
+     "Minimalism",
+     "Conceptual art",
+     "Photorealism"
+    ]
+   },
+   {
+    "q": "Jackson Pollock",
+    "right": "Abstract Expressionism",
+    "wrong": [
+     "Minimalism",
+     "Conceptual art",
+     "Constructivism"
+    ]
+   },
+   {
+    "q": "Vincent van Gogh",
+    "right": "Post-Impressionism",
+    "wrong": [
+     "Realism",
+     "Symbolism",
+     "Neoclassicism"
+    ]
+   },
+   {
+    "q": "Caravaggio",
+    "right": "Baroque",
+    "wrong": [
+     "Mannerism",
+     "Rococo",
+     "Neoclassicism"
+    ]
+   },
+   {
+    "q": "Marcel Duchamp, with his urinal 'Fountain'",
+    "right": "Dada",
+    "wrong": [
+     "Vorticism",
+     "Constructivism",
+     "Minimalism"
+    ]
+   },
+   {
+    "q": "Umberto Boccioni",
+    "right": "Futurism",
+    "wrong": [
+     "Vorticism",
+     "Constructivism",
+     "Symbolism"
+    ]
+   },
+   {
+    "q": "Piet Mondrian",
+    "right": "De Stijl",
+    "wrong": [
+     "Bauhaus",
+     "Constructivism",
+     "Minimalism"
+    ]
+   },
+   {
+    "q": "Henri Matisse",
+    "right": "Fauvism",
+    "wrong": [
+     "Symbolism",
+     "Rococo",
+     "Realism"
+    ]
+   },
+   {
+    "q": "Edvard Munch",
+    "right": "Expressionism",
+    "wrong": [
+     "Realism",
+     "Rococo",
+     "Mannerism"
+    ]
+   },
+   {
+    "q": "John Constable",
+    "right": "Romanticism",
+    "wrong": [
+     "Neoclassicism",
+     "Rococo",
+     "Mannerism"
+    ]
+   },
+   {
+    "q": "Damien Hirst",
+    "right": "Young British Artists",
+    "wrong": [
+     "Minimalism",
+     "Photorealism",
+     "Arts and Crafts"
+    ]
+   },
+   {
+    "q": "Mark Rothko",
+    "right": "Colour Field",
+    "wrong": [
+     "Minimalism",
+     "Photorealism",
+     "Constructivism"
+    ]
+   },
+   {
+    "q": "Dante Gabriel Rossetti",
+    "right": "Pre-Raphaelites",
+    "wrong": [
+     "Neoclassicism",
+     "Rococo",
+     "Symbolism"
+    ]
+   },
+   {
+    "q": "Georges Seurat",
+    "right": "Pointillism",
+    "wrong": [
+     "Realism",
+     "Rococo",
+     "Symbolism"
+    ]
+   },
+   {
+    "q": "Gustav Klimt",
+    "right": "Vienna Secession",
+    "wrong": [
+     "Bauhaus",
+     "Art Deco",
+     "Constructivism"
+    ]
+   },
+   {
+    "q": "Sandro Botticelli",
+    "right": "Renaissance",
+    "wrong": [
+     "Mannerism",
+     "Gothic",
+     "Rococo"
+    ]
+   },
+   {
+    "q": "Bridget Riley",
+    "right": "Op Art",
+    "wrong": [
+     "Minimalism",
+     "Photorealism",
+     "Constructivism"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which ballet is this?",
+  "target": 10,
+  "category": "Theatre",
+  "tags": [
+   "ballet",
+   "dance",
+   "music"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Odette and Odile, danced by the same ballerina",
+    "right": "Swan Lake",
+    "wrong": [
+     "Raymonda",
+     "Les Sylphides",
+     "Sylvia"
+    ]
+   },
+   {
+    "q": "Clara and the Sugar Plum Fairy",
+    "right": "The Nutcracker",
+    "wrong": [
+     "Paquita",
+     "Sylvia",
+     "Raymonda"
+    ]
+   },
+   {
+    "q": "A peasant girl dies of a broken heart and returns as a ghostly Wili",
+    "right": "Giselle",
+    "wrong": [
+     "Les Sylphides",
+     "Paquita",
+     "Raymonda"
+    ]
+   },
+   {
+    "q": "Princess Aurora pricks her finger on a spindle",
+    "right": "The Sleeping Beauty",
+    "wrong": [
+     "Raymonda",
+     "Sylvia",
+     "Paquita"
+    ]
+   },
+   {
+    "q": "A life-size dancing doll, to music by Delibes",
+    "right": "Coppélia",
+    "wrong": [
+     "Sylvia",
+     "Paquita",
+     "La Fille mal gardée"
+    ]
+   },
+   {
+    "q": "A pagan sacrifice that caused a riot in Paris in 1913",
+    "right": "The Rite of Spring",
+    "wrong": [
+     "Les Noces",
+     "Apollo",
+     "Daphnis and Chloé"
+    ]
+   },
+   {
+    "q": "A magical bird with glowing feathers, by Stravinsky",
+    "right": "The Firebird",
+    "wrong": [
+     "Apollo",
+     "Les Noces",
+     "Agon"
+    ]
+   },
+   {
+    "q": "A puppet who comes to life at a Russian fair",
+    "right": "Petrushka",
+    "wrong": [
+     "Apollo",
+     "Les Noces",
+     "Agon"
+    ]
+   },
+   {
+    "q": "A slave revolt against Rome, by Khachaturian",
+    "right": "Spartacus",
+    "wrong": [
+     "Le Corsaire",
+     "Raymonda",
+     "Apollo"
+    ]
+   },
+   {
+    "q": "Prokofiev's star-crossed lovers in Verona",
+    "right": "Romeo and Juliet",
+    "wrong": [
+     "Daphnis and Chloé",
+     "Sylvia",
+     "Le Corsaire"
+    ]
+   },
+   {
+    "q": "Prokofiev's girl with the glass slipper",
+    "right": "Cinderella",
+    "wrong": [
+     "Raymonda",
+     "Sylvia",
+     "La Fille mal gardée"
+    ]
+   },
+   {
+    "q": "A Scottish farmer bewitched by a forest spirit",
+    "right": "La Sylphide",
+    "wrong": [
+     "Les Sylphides",
+     "Raymonda",
+     "Sylvia"
+    ]
+   },
+   {
+    "q": "A temple dancer in India and a warrior's broken vow",
+    "right": "La Bayadère",
+    "wrong": [
+     "Le Corsaire",
+     "Paquita",
+     "Raymonda"
+    ]
+   },
+   {
+    "q": "Kitri and Basilio, from a Cervantes novel",
+    "right": "Don Quixote",
+    "wrong": [
+     "Paquita",
+     "Le Corsaire",
+     "La Fille mal gardée"
+    ]
+   },
+   {
+    "q": "Crown Prince Rudolf's tragic affair, by Kenneth MacMillan",
+    "right": "Mayerling",
+    "wrong": [
+     "Enigma Variations",
+     "Façade",
+     "Pineapple Poll"
+    ]
+   },
+   {
+    "q": "A young courtesan in 18th-century Paris, by MacMillan",
+    "right": "Manon",
+    "wrong": [
+     "Enigma Variations",
+     "Façade",
+     "Pineapple Poll"
+    ]
+   },
+   {
+    "q": "Pushkin's bored aristocrat, choreographed by John Cranko",
+    "right": "Onegin",
+    "wrong": [
+     "Raymonda",
+     "Jewels",
+     "Apollo"
+    ]
+   },
+   {
+    "q": "Ravel's ever-repeating, ever-louder piece, written as a ballet",
+    "right": "Boléro",
+    "wrong": [
+     "Daphnis and Chloé",
+     "La Valse",
+     "Jewels"
+    ]
+   },
+   {
+    "q": "Dancing shoes that won't let their wearer stop",
+    "right": "The Red Shoes",
+    "wrong": [
+     "The Dying Swan",
+     "Jewels",
+     "Façade"
+    ]
+   },
+   {
+    "q": "A tumble down a rabbit hole, for the Royal Ballet in 2011",
+    "right": "Alice's Adventures in Wonderland",
+    "wrong": [
+     "The Winter's Tale",
+     "Jewels",
+     "Enigma Variations"
+    ]
+   }
+  ]
+ }
+]
