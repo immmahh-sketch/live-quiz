@@ -1,0 +1,227 @@
+[
+ {
+  "type": "club",
+  "text": "A farmer carries 12 eggs and drops 3, which smash. How many are still whole?",
+  "answers": [
+   "9",
+   "Nine"
+  ],
+  "pct": 90,
+  "why": "12 − 3 = 9.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "eggs",
+   "taking away"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Three hens and one dog are in a yard. How many legs between them?",
+  "answers": [
+   "10",
+   "Ten"
+  ],
+  "pct": 90,
+  "why": "Three hens have 6 legs and the dog has 4.",
+  "difficulty": "easy",
+  "category": "Logic",
+  "tags": [
+   "legs",
+   "animals"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Halve 40, then halve it again. What's left?",
+  "answers": [
+   "10",
+   "Ten"
+  ],
+  "pct": 80,
+  "why": "40 → 20 → 10.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "halving"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Your bus sets off at 10:45 and the ride lasts 50 minutes. When do you get off?",
+  "answers": [
+   "11:35",
+   "11.35",
+   "11:35am",
+   "Twenty-five to twelve"
+  ],
+  "pct": 70,
+  "why": "10:45 plus 15 minutes is 11:00, plus 35 more is 11:35.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "time",
+   "trains"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which is bigger: three quarters, or two thirds?",
+  "answers": [
+   "Three quarters",
+   "3/4"
+  ],
+  "pct": 70,
+  "why": "Three quarters is 9/12; two thirds is only 8/12.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "fractions",
+   "comparing"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Six hours is a quarter of a day. How many minutes is that?",
+  "answers": [
+   "360",
+   "Three hundred and sixty"
+  ],
+  "pct": 60,
+  "why": "A quarter of a day is 6 hours, and 6 × 60 = 360.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "time",
+   "days"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Unscramble LIPNCE to find something you write with.",
+  "answers": [
+   "Pencil"
+  ],
+  "pct": 60,
+  "why": "L-I-P-N-C-E rearranges to PENCIL.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "anagrams",
+   "stationery"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Pick any starting figure. Double it, add 6, halve the result, then subtract your starting figure. What remains, whatever you picked?",
+  "answers": [
+   "3",
+   "Three"
+  ],
+  "pct": 30,
+  "why": "Doubling then halving cancels out, leaving just half of the 6.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "think of a number"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Spot the one that is not prime: 2, 3, 5, 9, 11, 13.",
+  "answers": [
+   "9",
+   "Nine"
+  ],
+  "pct": 20,
+  "why": "All the others are prime numbers; 9 is 3 × 3.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "primes",
+   "odd one out"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "You drive 60 miles at 30 mph, then 60 miles back at 60 mph. What's your average speed for the whole trip, in mph?",
+  "answers": [
+   "40",
+   "40 mph",
+   "Forty"
+  ],
+  "pct": 10,
+  "why": "120 miles in 3 hours (2 there, 1 back) is 40 mph, not 45.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "speed",
+   "averages"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "At a party, everyone shakes hands with everyone else once, and there are 28 handshakes. How many people are there?",
+  "answers": [
+   "8",
+   "Eight"
+  ],
+  "pct": 5,
+  "why": "8 people each shake 7 hands: 8 × 7 ÷ 2 = 28.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "handshakes",
+   "parties"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "How many 2p coins make up £3?",
+  "answers": [
+   "150",
+   "One hundred and fifty"
+  ],
+  "pct": 80,
+  "why": "£3 is 300p, and 300 ÷ 2 = 150.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "coins",
+   "money"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "15 people get off a bus and 10 get on, leaving 25 aboard. How many were on to start with?",
+  "answers": [
+   "30",
+   "Thirty"
+  ],
+  "pct": 50,
+  "why": "Work backwards: 25 − 10 + 15 = 30.",
+  "difficulty": "medium",
+  "category": "Logic",
+  "tags": [
+   "buses",
+   "working backwards"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A £20 shirt is cut by 10%, then cut by 10% again. What does it cost now?",
+  "answers": [
+   "£16.20",
+   "16.20",
+   "£16.20p"
+  ],
+  "pct": 20,
+  "why": "£20 → £18 → £16.20; the second cut is 10% of £18, not of £20.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "percentages",
+   "sales"
+  ]
+ }
+]
