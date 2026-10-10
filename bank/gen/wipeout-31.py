@@ -12,7 +12,7 @@ board("Words that make a new word when you add 'ward' to the end", "Words and la
  ["Home", "Back", "Fore", "Up", "Down", "In", "Out", "After", "Sea", "East", "West", "Wind", "Lee", "Way", "Sky"],
  ["Left", "Right", "Over", "Under", "Middle"])
 board("Words that make a new word when you add 'stand' to the end", "Words and language", "medium", ["wordplay", "compound words"],
- ["Band", "Grand", "Hat", "Hand", "Kick", "Night", "News", "Under", "With", "Wash", "Ink", "Head", "Cake", "Coat", "Music"],
+ ["Band", "Grand", "Hat", "Hand", "Kick", "Night", "News", "Under", "With", "Wash", "Ink", "Head", "Cake", "Coat", "Hall"],
  ["Sit", "Lie", "Kneel", "Walk", "Run"])
 board("Films starring Helen Mirren", "Film", "medium", ["Helen Mirren", "actors"],
  ["The Queen", "Calendar Girls", "Gosford Park", "The Long Good Friday", "Excalibur", "The Madness of King George", "Red", "The Hundred-Foot Journey", "Woman in Gold", "Trumbo", "Eye in the Sky", "Hitchcock", "The Last Station", "Golda", "The Cook, the Thief, His Wife & Her Lover"],
