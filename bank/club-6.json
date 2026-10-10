@@ -1,0 +1,314 @@
+[
+ {
+  "type": "club",
+  "text": "A pizza is cut into 8 slices and you eat 3 of them. How many slices are left?",
+  "answers": [
+   "5",
+   "Five"
+  ],
+  "pct": 90,
+  "why": "8 − 3 = 5.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "pizza",
+   "fractions"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "If today is Monday, what day will it be three days from now?",
+  "answers": [
+   "Thursday"
+  ],
+  "pct": 80,
+  "why": "Tuesday, Wednesday, Thursday.",
+  "difficulty": "easy",
+  "category": "Logic",
+  "tags": [
+   "days",
+   "calendar"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Unscramble NEDLON to find a capital city.",
+  "answers": [
+   "London"
+  ],
+  "pct": 70,
+  "why": "N-E-D-L-O-N rearranges to LONDON.",
+  "difficulty": "easy",
+  "category": "Wordplay",
+  "tags": [
+   "anagrams",
+   "capitals"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Counting only the small squares, how many squares are there on a chessboard?",
+  "answers": [
+   "64",
+   "Sixty-four"
+  ],
+  "pct": 40,
+  "why": "An 8 × 8 board: 8 × 8 = 64.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "chess",
+   "squares"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "An octopus and a spider meet on the seabed. How many legs do they have between them?",
+  "answers": [
+   "16",
+   "Sixteen"
+  ],
+  "pct": 90,
+  "why": "An octopus has 8 arms or legs and a spider has 8 legs: 8 + 8 = 16.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "legs",
+   "animals"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A family's dog has six puppies. They give two away, then she has three more. How many puppies do they have now?",
+  "answers": [
+   "7",
+   "Seven"
+  ],
+  "pct": 80,
+  "why": "6 − 2 + 3 = 7.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "puppies",
+   "adding"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "How many minutes pass between quarter to ten and quarter past eleven?",
+  "answers": [
+   "90",
+   "Ninety"
+  ],
+  "pct": 70,
+  "why": "9:45 to 10:45 is 60 minutes, then 30 more to 11:15.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "time"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Rearrange the letters of TEAM to make something you might eat.",
+  "answers": [
+   "Meat"
+  ],
+  "pct": 70,
+  "why": "T-E-A-M makes MEAT.",
+  "difficulty": "easy",
+  "category": "Wordplay",
+  "tags": [
+   "anagrams",
+   "food"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A £20 shirt has 25% knocked off in a sale. What does it cost now?",
+  "answers": [
+   "£15",
+   "15",
+   "15 pounds"
+  ],
+  "pct": 60,
+  "why": "25% of £20 is £5, and £20 − £5 = £15.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "percentages",
+   "shopping"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Kate is 8 and her brother is twice her age. When Kate turns 16, how old will her brother be?",
+  "answers": [
+   "24",
+   "Twenty-four"
+  ],
+  "pct": 50,
+  "why": "He's 16 now, 8 years older; in 8 years he'll be 24, not double her age.",
+  "difficulty": "medium",
+  "category": "Logic",
+  "tags": [
+   "ages"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Spot the pattern in the gaps: 3, 6, 11, 18, 27. Which number follows?",
+  "answers": [
+   "38",
+   "Thirty-eight"
+  ],
+  "pct": 40,
+  "why": "The gaps go up by odd numbers, 3, 5, 7, 9, so the next gap is 11: 27 + 11 = 38.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "patterns"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which word goes in front of BALL, PRINT and PATH to make three new words?",
+  "answers": [
+   "Foot"
+  ],
+  "pct": 40,
+  "why": "Football, footprint and footpath.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "compound words"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Four brothers each have exactly one sister. How many children are in the family?",
+  "answers": [
+   "5",
+   "Five"
+  ],
+  "pct": 30,
+  "why": "They all share the same sister: 4 boys + 1 girl = 5.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "families",
+   "siblings"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Take ten per cent of 10,000, then ten per cent of that. What are you left with?",
+  "answers": [
+   "100",
+   "One hundred"
+  ],
+  "pct": 20,
+  "why": "10% of 10,000 is 1,000, and 10% of 1,000 is 100.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "percentages"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Draw a six-pointed star as two overlapping triangles. Counting big and small, how many triangles can you see?",
+  "answers": [
+   "8",
+   "Eight"
+  ],
+  "pct": 20,
+  "why": "The two big triangles plus the six small points: 2 + 6 = 8.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "shapes",
+   "triangles"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Add these in your head: 1,000 + 40 + 1,000 + 30 + 1,000 + 20 + 1,000 + 10. What's the total?",
+  "answers": [
+   "4100",
+   "4,100"
+  ],
+  "pct": 10,
+  "why": "Four thousands make 4,000 and 40 + 30 + 20 + 10 = 100: 4,100. Many say 5,000.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "mental arithmetic",
+   "tricks"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A board is four tiles wide and four tiles tall. Counting every square you can make from whole tiles, big and small, how many are there?",
+  "answers": [
+   "30",
+   "Thirty"
+  ],
+  "pct": 1,
+  "why": "16 + 9 + 4 + 1 = 30.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "squares",
+   "grids"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "There's only one even prime number. What is it?",
+  "answers": [
+   "2",
+   "Two"
+  ],
+  "pct": 30,
+  "why": "Every other even number divides by 2, so only 2 itself is prime.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "prime numbers"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Lily pads on a pond double in area every day, and the pond is fully covered on day 30. On which day was it half covered?",
+  "answers": [
+   "29",
+   "Day 29",
+   "The 29th"
+  ],
+  "pct": 5,
+  "why": "It doubles overnight, so half covered is just one day earlier.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "ponds",
+   "doubling"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Using normal UK coins, what is the fewest coins you need to pay exactly 88p?",
+  "answers": [
+   "6",
+   "Six"
+  ],
+  "pct": 30,
+  "why": "50p + 20p + 10p + 5p + 2p + 1p = 88p.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "money",
+   "coins"
+  ]
+ }
+]
