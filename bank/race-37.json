@@ -1,0 +1,777 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which two sang this duet?",
+  "target": 10,
+  "category": "Music",
+  "tags": [
+   "duets",
+   "songs"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Islands in the Stream",
+    "right": "Kenny Rogers & Dolly Parton",
+    "wrong": [
+     "Kenny Rogers & Sheena Easton",
+     "Dolly Parton & Porter Wagoner",
+     "Johnny Cash & June Carter"
+    ]
+   },
+   {
+    "q": "Don't Go Breaking My Heart",
+    "right": "Elton John & Kiki Dee",
+    "wrong": [
+     "Elton John & George Michael",
+     "Cliff Richard & Sarah Brightman",
+     "Kiki Dee & Rod Stewart"
+    ]
+   },
+   {
+    "q": "Under Pressure",
+    "right": "Queen & David Bowie",
+    "wrong": [
+     "Queen & Elton John",
+     "David Bowie & Bing Crosby",
+     "Queen & Annie Lennox"
+    ]
+   },
+   {
+    "q": "Ebony and Ivory",
+    "right": "Paul McCartney & Stevie Wonder",
+    "wrong": [
+     "Paul McCartney & Michael Jackson",
+     "Stevie Wonder & Diana Ross",
+     "Lionel Richie & Michael Jackson"
+    ]
+   },
+   {
+    "q": "Shallow",
+    "right": "Lady Gaga & Bradley Cooper",
+    "wrong": [
+     "Lady Gaga & Tony Bennett",
+     "Lady Gaga & Beyoncé",
+     "Lady Gaga & Ariana Grande"
+    ]
+   },
+   {
+    "q": "Fairytale of New York",
+    "right": "The Pogues & Kirsty MacColl",
+    "wrong": [
+     "The Pogues & The Dubliners",
+     "Shane MacGowan & Sinéad O'Connor",
+     "Kirsty MacColl & Billy Bragg"
+    ]
+   },
+   {
+    "q": "Especially for You",
+    "right": "Kylie Minogue & Jason Donovan",
+    "wrong": [
+     "Kylie Minogue & Robbie Williams",
+     "Kylie Minogue & Nick Cave",
+     "Sonia & Jason Donovan"
+    ]
+   },
+   {
+    "q": "Endless Love",
+    "right": "Diana Ross & Lionel Richie",
+    "wrong": [
+     "Diana Ross & Marvin Gaye",
+     "Roberta Flack & Peabo Bryson",
+     "Lionel Richie & Michael Jackson"
+    ]
+   },
+   {
+    "q": "Up Where We Belong",
+    "right": "Joe Cocker & Jennifer Warnes",
+    "wrong": [
+     "Bill Medley & Jennifer Warnes",
+     "Patrick Swayze & Wendy Fraser",
+     "Kenny Rogers & Sheena Easton"
+    ]
+   },
+   {
+    "q": "Don't Give Up",
+    "right": "Peter Gabriel & Kate Bush",
+    "wrong": [
+     "Phil Collins & Philip Bailey",
+     "Kate Bush & David Gilmour",
+     "Annie Lennox & Al Green"
+    ]
+   },
+   {
+    "q": "Barcelona",
+    "right": "Freddie Mercury & Montserrat Caballé",
+    "wrong": [
+     "Andrea Bocelli & Sarah Brightman",
+     "José Carreras & Sarah Brightman",
+     "Plácido Domingo & John Denver"
+    ]
+   },
+   {
+    "q": "You're the One That I Want",
+    "right": "John Travolta & Olivia Newton-John",
+    "wrong": [
+     "Olivia Newton-John & Cliff Richard",
+     "Olivia Newton-John & ELO",
+     "Barry Gibb & Barbra Streisand"
+    ]
+   },
+   {
+    "q": "Picture",
+    "right": "Kid Rock & Sheryl Crow",
+    "wrong": [
+     "Kenny Chesney & Grace Potter",
+     "Tim McGraw & Faith Hill",
+     "Garth Brooks & Trisha Yearwood"
+    ]
+   },
+   {
+    "q": "Dancing in the Street",
+    "right": "David Bowie & Mick Jagger",
+    "wrong": [
+     "Mick Jagger & Tina Turner",
+     "Rod Stewart & Tina Turner",
+     "David Bowie & Bing Crosby"
+    ]
+   },
+   {
+    "q": "Señorita",
+    "right": "Shawn Mendes & Camila Cabello",
+    "wrong": [
+     "Ed Sheeran & Justin Bieber",
+     "Zayn & Taylor Swift",
+     "Camila Cabello & Ed Sheeran"
+    ]
+   },
+   {
+    "q": "Ain't No Mountain High Enough",
+    "right": "Marvin Gaye & Tammi Terrell",
+    "wrong": [
+     "Marvin Gaye & Kim Weston",
+     "Marvin Gaye & Mary Wells",
+     "Smokey Robinson & Diana Ross"
+    ]
+   },
+   {
+    "q": "I Knew You Were Waiting (For Me)",
+    "right": "Aretha Franklin & George Michael",
+    "wrong": [
+     "Elton John & George Michael",
+     "Aretha Franklin & Annie Lennox",
+     "Whitney Houston & George Michael"
+    ]
+   },
+   {
+    "q": "Stop Draggin' My Heart Around",
+    "right": "Stevie Nicks & Tom Petty",
+    "wrong": [
+     "Stevie Nicks & Don Henley",
+     "Linda Ronstadt & Aaron Neville",
+     "Tom Petty & Bob Dylan"
+    ]
+   },
+   {
+    "q": "Empire State of Mind",
+    "right": "Jay-Z & Alicia Keys",
+    "wrong": [
+     "Jay-Z & Beyoncé",
+     "Alicia Keys & Usher",
+     "Eminem & Rihanna"
+    ]
+   },
+   {
+    "q": "Uptown Funk",
+    "right": "Mark Ronson & Bruno Mars",
+    "wrong": [
+     "Bruno Mars & Anderson .Paak",
+     "Mark Ronson & Amy Winehouse",
+     "Pharrell Williams & Daft Punk"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which city hosted this world's fair?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "world's fairs",
+   "Expo",
+   "cities"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The Great Exhibition of 1851",
+    "right": "London",
+    "wrong": [
+     "Manchester",
+     "Edinburgh",
+     "Birmingham"
+    ]
+   },
+   {
+    "q": "Expo 67",
+    "right": "Montreal",
+    "wrong": [
+     "Toronto",
+     "Quebec City",
+     "Ottawa"
+    ]
+   },
+   {
+    "q": "Expo 58, which gave us the Atomium",
+    "right": "Brussels",
+    "wrong": [
+     "Antwerp",
+     "Amsterdam",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "The 1889 fair that gave us the Eiffel Tower",
+    "right": "Paris",
+    "wrong": [
+     "Lyon",
+     "Marseille",
+     "Bordeaux"
+    ]
+   },
+   {
+    "q": "The World's Columbian Exposition of 1893",
+    "right": "Chicago",
+    "wrong": [
+     "New York",
+     "Boston",
+     "Detroit"
+    ]
+   },
+   {
+    "q": "The 1962 fair that gave us the Space Needle",
+    "right": "Seattle",
+    "wrong": [
+     "Portland",
+     "Denver",
+     "Los Angeles"
+    ]
+   },
+   {
+    "q": "Expo '70",
+    "right": "Osaka",
+    "wrong": [
+     "Tokyo",
+     "Kyoto",
+     "Nagoya"
+    ]
+   },
+   {
+    "q": "Expo '92",
+    "right": "Seville",
+    "wrong": [
+     "Madrid",
+     "Valencia",
+     "Granada"
+    ]
+   },
+   {
+    "q": "Expo 2000",
+    "right": "Hanover",
+    "wrong": [
+     "Berlin",
+     "Munich",
+     "Frankfurt"
+    ]
+   },
+   {
+    "q": "Expo 2010",
+    "right": "Shanghai",
+    "wrong": [
+     "Beijing",
+     "Hong Kong",
+     "Guangzhou"
+    ]
+   },
+   {
+    "q": "Expo 2015",
+    "right": "Milan",
+    "wrong": [
+     "Rome",
+     "Turin",
+     "Florence"
+    ]
+   },
+   {
+    "q": "Expo 2020 (held in 2021–22)",
+    "right": "Dubai",
+    "wrong": [
+     "Abu Dhabi",
+     "Doha",
+     "Riyadh"
+    ]
+   },
+   {
+    "q": "Expo 86",
+    "right": "Vancouver",
+    "wrong": [
+     "Calgary",
+     "Toronto",
+     "Victoria"
+    ]
+   },
+   {
+    "q": "Expo '98",
+    "right": "Lisbon",
+    "wrong": [
+     "Porto",
+     "Madrid",
+     "Faro"
+    ]
+   },
+   {
+    "q": "The Louisiana Purchase Exposition of 1904",
+    "right": "St Louis",
+    "wrong": [
+     "Kansas City",
+     "New Orleans",
+     "Memphis"
+    ]
+   },
+   {
+    "q": "The Panama–Pacific Exposition of 1915",
+    "right": "San Francisco",
+    "wrong": [
+     "Los Angeles",
+     "Sacramento",
+     "Portland"
+    ]
+   },
+   {
+    "q": "World Expo 88",
+    "right": "Brisbane",
+    "wrong": [
+     "Sydney",
+     "Melbourne",
+     "Perth"
+    ]
+   },
+   {
+    "q": "The International Exposition of 1929",
+    "right": "Barcelona",
+    "wrong": [
+     "Madrid",
+     "Valencia",
+     "Bilbao"
+    ]
+   },
+   {
+    "q": "The Centennial Exposition of 1876",
+    "right": "Philadelphia",
+    "wrong": [
+     "Boston",
+     "New York",
+     "Baltimore"
+    ]
+   },
+   {
+    "q": "The Weltausstellung of 1873",
+    "right": "Vienna",
+    "wrong": [
+     "Berlin",
+     "Munich",
+     "Budapest"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: in which city is this organisation based?",
+  "target": 10,
+  "category": "Politics",
+  "tags": [
+   "organisations",
+   "headquarters",
+   "cities"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The United Nations",
+    "right": "New York",
+    "wrong": [
+     "Chicago",
+     "Boston",
+     "Toronto"
+    ]
+   },
+   {
+    "q": "The World Health Organization",
+    "right": "Geneva",
+    "wrong": [
+     "Bern",
+     "Basel",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "UNESCO",
+    "right": "Paris",
+    "wrong": [
+     "Madrid",
+     "Amsterdam",
+     "Copenhagen"
+    ]
+   },
+   {
+    "q": "The International Atomic Energy Agency",
+    "right": "Vienna",
+    "wrong": [
+     "Berlin",
+     "Bonn",
+     "Prague"
+    ]
+   },
+   {
+    "q": "The UN's Food and Agriculture Organization",
+    "right": "Rome",
+    "wrong": [
+     "Milan",
+     "Madrid",
+     "Naples"
+    ]
+   },
+   {
+    "q": "NATO",
+    "right": "Brussels",
+    "wrong": [
+     "Luxembourg",
+     "Amsterdam",
+     "Copenhagen"
+    ]
+   },
+   {
+    "q": "The International Criminal Court",
+    "right": "The Hague",
+    "wrong": [
+     "Amsterdam",
+     "Rotterdam",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "The European Central Bank",
+    "right": "Frankfurt",
+    "wrong": [
+     "Berlin",
+     "Bonn",
+     "Munich"
+    ]
+   },
+   {
+    "q": "The International Monetary Fund",
+    "right": "Washington, DC",
+    "wrong": [
+     "Chicago",
+     "Boston",
+     "Toronto"
+    ]
+   },
+   {
+    "q": "The International Olympic Committee",
+    "right": "Lausanne",
+    "wrong": [
+     "Bern",
+     "Basel",
+     "Monaco"
+    ]
+   },
+   {
+    "q": "FIFA",
+    "right": "Zurich",
+    "wrong": [
+     "Bern",
+     "Basel",
+     "Munich"
+    ]
+   },
+   {
+    "q": "UEFA",
+    "right": "Nyon",
+    "wrong": [
+     "Bern",
+     "Basel",
+     "Monaco"
+    ]
+   },
+   {
+    "q": "Interpol",
+    "right": "Lyon",
+    "wrong": [
+     "Marseille",
+     "Luxembourg",
+     "Bonn"
+    ]
+   },
+   {
+    "q": "The Council of Europe",
+    "right": "Strasbourg",
+    "wrong": [
+     "Luxembourg",
+     "Bonn",
+     "Basel"
+    ]
+   },
+   {
+    "q": "The Commonwealth Secretariat",
+    "right": "London",
+    "wrong": [
+     "Edinburgh",
+     "Ottawa",
+     "Dublin"
+    ]
+   },
+   {
+    "q": "The Arab League",
+    "right": "Cairo",
+    "wrong": [
+     "Riyadh",
+     "Beirut",
+     "Doha"
+    ]
+   },
+   {
+    "q": "The African Union",
+    "right": "Addis Ababa",
+    "wrong": [
+     "Lagos",
+     "Johannesburg",
+     "Accra"
+    ]
+   },
+   {
+    "q": "ASEAN",
+    "right": "Jakarta",
+    "wrong": [
+     "Kuala Lumpur",
+     "Singapore",
+     "Bangkok"
+    ]
+   },
+   {
+    "q": "The UN Environment Programme",
+    "right": "Nairobi",
+    "wrong": [
+     "Lagos",
+     "Kampala",
+     "Johannesburg"
+    ]
+   },
+   {
+    "q": "The World Anti-Doping Agency",
+    "right": "Montreal",
+    "wrong": [
+     "Toronto",
+     "Ottawa",
+     "Bern"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country are these ancient remains in?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "ancient sites",
+   "archaeology",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Petra",
+    "right": "Jordan",
+    "wrong": [
+     "Syria",
+     "Lebanon",
+     "Saudi Arabia"
+    ]
+   },
+   {
+    "q": "Angkor Wat",
+    "right": "Cambodia",
+    "wrong": [
+     "Thailand",
+     "Laos",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "Machu Picchu",
+    "right": "Peru",
+    "wrong": [
+     "Bolivia",
+     "Ecuador",
+     "Chile"
+    ]
+   },
+   {
+    "q": "Chichén Itzá",
+    "right": "Mexico",
+    "wrong": [
+     "Belize",
+     "Honduras",
+     "Colombia"
+    ]
+   },
+   {
+    "q": "Great Zimbabwe",
+    "right": "Zimbabwe",
+    "wrong": [
+     "Mozambique",
+     "Zambia",
+     "Botswana"
+    ]
+   },
+   {
+    "q": "Persepolis",
+    "right": "Iran",
+    "wrong": [
+     "Afghanistan",
+     "Uzbekistan",
+     "Syria"
+    ]
+   },
+   {
+    "q": "Ephesus",
+    "right": "Turkey",
+    "wrong": [
+     "Cyprus",
+     "Bulgaria",
+     "Syria"
+    ]
+   },
+   {
+    "q": "Pompeii",
+    "right": "Italy",
+    "wrong": [
+     "Malta",
+     "Croatia",
+     "Spain"
+    ]
+   },
+   {
+    "q": "Knossos",
+    "right": "Greece",
+    "wrong": [
+     "Cyprus",
+     "Malta",
+     "Croatia"
+    ]
+   },
+   {
+    "q": "Carthage",
+    "right": "Tunisia",
+    "wrong": [
+     "Algeria",
+     "Morocco",
+     "Lebanon"
+    ]
+   },
+   {
+    "q": "Babylon",
+    "right": "Iraq",
+    "wrong": [
+     "Syria",
+     "Kuwait",
+     "Saudi Arabia"
+    ]
+   },
+   {
+    "q": "Mohenjo-daro",
+    "right": "Pakistan",
+    "wrong": [
+     "India",
+     "Afghanistan",
+     "Bangladesh"
+    ]
+   },
+   {
+    "q": "Borobudur",
+    "right": "Indonesia",
+    "wrong": [
+     "Malaysia",
+     "the Philippines",
+     "Thailand"
+    ]
+   },
+   {
+    "q": "Bagan",
+    "right": "Myanmar",
+    "wrong": [
+     "Thailand",
+     "Laos",
+     "Bangladesh"
+    ]
+   },
+   {
+    "q": "Tikal",
+    "right": "Guatemala",
+    "wrong": [
+     "Belize",
+     "Honduras",
+     "Colombia"
+    ]
+   },
+   {
+    "q": "Skara Brae",
+    "right": "Scotland",
+    "wrong": [
+     "Norway",
+     "Wales",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Newgrange",
+    "right": "Ireland",
+    "wrong": [
+     "Wales",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Leptis Magna",
+    "right": "Libya",
+    "wrong": [
+     "Algeria",
+     "Morocco",
+     "Sudan"
+    ]
+   },
+   {
+    "q": "Abu Simbel",
+    "right": "Egypt",
+    "wrong": [
+     "Sudan",
+     "Eritrea",
+     "Saudi Arabia"
+    ]
+   },
+   {
+    "q": "Lalibela's rock churches",
+    "right": "Ethiopia",
+    "wrong": [
+     "Eritrea",
+     "Sudan",
+     "Kenya"
+    ]
+   }
+  ]
+ }
+]
