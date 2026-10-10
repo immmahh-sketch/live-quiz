@@ -1,0 +1,389 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which film had this tagline?",
+  "target": 10,
+  "category": "Film",
+  "tags": [
+   "films",
+   "taglines",
+   "posters"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "In space no one can hear you scream",
+    "right": "Alien",
+    "wrong": [
+     "Predator",
+     "The Thing",
+     "Event Horizon"
+    ]
+   },
+   {
+    "q": "You'll believe a man can fly",
+    "right": "Superman",
+    "wrong": [
+     "Batman",
+     "Flash Gordon",
+     "The Rocketeer"
+    ]
+   },
+   {
+    "q": "Just when you thought it was safe to go back in the water",
+    "right": "Jaws 2",
+    "wrong": [
+     "Piranha",
+     "Orca",
+     "Deep Blue Sea"
+    ]
+   },
+   {
+    "q": "Who you gonna call?",
+    "right": "Ghostbusters",
+    "wrong": [
+     "Gremlins",
+     "Beetlejuice",
+     "The Goonies"
+    ]
+   },
+   {
+    "q": "Be afraid. Be very afraid.",
+    "right": "The Fly",
+    "wrong": [
+     "Scream",
+     "The Thing",
+     "Hellraiser"
+    ]
+   },
+   {
+    "q": "The night HE came home",
+    "right": "Halloween",
+    "wrong": [
+     "Friday the 13th",
+     "A Nightmare on Elm Street",
+     "Scream"
+    ]
+   },
+   {
+    "q": "An adventure 65 million years in the making",
+    "right": "Jurassic Park",
+    "wrong": [
+     "King Kong",
+     "Land of the Lost",
+     "Mighty Joe Young"
+    ]
+   },
+   {
+    "q": "Collide with destiny",
+    "right": "Titanic",
+    "wrong": [
+     "Pearl Harbor",
+     "Poseidon",
+     "Deep Impact"
+    ]
+   },
+   {
+    "q": "The true story of a real fake",
+    "right": "Catch Me If You Can",
+    "wrong": [
+     "The Wolf of Wall Street",
+     "American Hustle",
+     "Ocean's Eleven"
+    ]
+   },
+   {
+    "q": "Don't get mad. Get everything.",
+    "right": "The First Wives Club",
+    "wrong": [
+     "Thelma & Louise",
+     "9 to 5",
+     "Working Girl"
+    ]
+   },
+   {
+    "q": "Earth. It was fun while it lasted.",
+    "right": "Armageddon",
+    "wrong": [
+     "Deep Impact",
+     "Independence Day",
+     "2012"
+    ]
+   },
+   {
+    "q": "Houston, we have a problem.",
+    "right": "Apollo 13",
+    "wrong": [
+     "Gravity",
+     "The Right Stuff",
+     "First Man"
+    ]
+   },
+   {
+    "q": "Every man dies. Not every man really lives.",
+    "right": "Braveheart",
+    "wrong": [
+     "Gladiator",
+     "Rob Roy",
+     "Troy"
+    ]
+   },
+   {
+    "q": "A long time ago in a galaxy far, far away...",
+    "right": "Star Wars",
+    "wrong": [
+     "Star Trek",
+     "Dune",
+     "Flash Gordon"
+    ]
+   },
+   {
+    "q": "On every street in every city, there's a nobody who dreams of being a somebody",
+    "right": "Taxi Driver",
+    "wrong": [
+     "Rocky",
+     "Mean Streets",
+     "Raging Bull"
+    ]
+   },
+   {
+    "q": "Fear can hold you prisoner. Hope can set you free.",
+    "right": "The Shawshank Redemption",
+    "wrong": [
+     "The Green Mile",
+     "Escape from Alcatraz",
+     "Cool Hand Luke"
+    ]
+   },
+   {
+    "q": "Size does matter",
+    "right": "Godzilla",
+    "wrong": [
+     "Cloverfield",
+     "Pacific Rim",
+     "King Kong"
+    ]
+   },
+   {
+    "q": "Love means never having to say you're sorry",
+    "right": "Love Story",
+    "wrong": [
+     "Ghost",
+     "The Notebook",
+     "Dirty Dancing"
+    ]
+   },
+   {
+    "q": "They're here.",
+    "right": "Poltergeist",
+    "wrong": [
+     "The Exorcist",
+     "The Amityville Horror",
+     "The Shining"
+    ]
+   },
+   {
+    "q": "The first casualty of war is innocence",
+    "right": "Platoon",
+    "wrong": [
+     "Full Metal Jacket",
+     "Apocalypse Now",
+     "Born on the Fourth of July"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which kitchen tool is this?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "kitchen",
+   "cooking"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Bowl full of holes for draining boiled pasta",
+    "right": "Colander",
+    "wrong": [
+     "Salad spinner",
+     "Steamer",
+     "Funnel"
+    ]
+   },
+   {
+    "q": "Fine mesh for sifting flour",
+    "right": "Sieve",
+    "wrong": [
+     "Funnel",
+     "Salad spinner",
+     "Slotted spoon"
+    ]
+   },
+   {
+    "q": "Loops of wire for beating air into cream",
+    "right": "Whisk",
+    "wrong": [
+     "Potato masher",
+     "Muddler",
+     "Fish slice"
+    ]
+   },
+   {
+    "q": "Flexible rubber blade for scraping the last of the mix from a bowl",
+    "right": "Spatula",
+    "wrong": [
+     "Fish slice",
+     "Slotted spoon",
+     "Muddler"
+    ]
+   },
+   {
+    "q": "Deep long-handled spoon for serving soup",
+    "right": "Ladle",
+    "wrong": [
+     "Slotted spoon",
+     "Melon baller",
+     "Funnel"
+    ]
+   },
+   {
+    "q": "Metal box with sharp-edged holes for cheese",
+    "right": "Grater",
+    "wrong": [
+     "Egg slicer",
+     "Cleaver",
+     "Apple corer"
+    ]
+   },
+   {
+    "q": "Wooden cylinder for flattening pastry",
+    "right": "Rolling pin",
+    "wrong": [
+     "Potato masher",
+     "Muddler",
+     "Trivet"
+    ]
+   },
+   {
+    "q": "Bowl and club for grinding spices by hand",
+    "right": "Pestle and mortar",
+    "wrong": [
+     "Potato masher",
+     "Muddler",
+     "Nutcracker"
+    ]
+   },
+   {
+    "q": "Flat frame with a blade for wafer-thin slices",
+    "right": "Mandoline",
+    "wrong": [
+     "Egg slicer",
+     "Cleaver",
+     "Pizza cutter"
+    ]
+   },
+   {
+    "q": "Little tool for scraping fine strips of citrus peel",
+    "right": "Zester",
+    "wrong": [
+     "Apple corer",
+     "Melon baller",
+     "Egg slicer"
+    ]
+   },
+   {
+    "q": "Hinged grabbers for turning sausages",
+    "right": "Tongs",
+    "wrong": [
+     "Nutcracker",
+     "Fish slice",
+     "Trivet"
+    ]
+   },
+   {
+    "q": "Swivel blade for taking the skin off a potato",
+    "right": "Peeler",
+    "wrong": [
+     "Apple corer",
+     "Cleaver",
+     "Egg slicer"
+    ]
+   },
+   {
+    "q": "Turn its handle to cut round the top of a can",
+    "right": "Tin opener",
+    "wrong": [
+     "Nutcracker",
+     "Apple corer",
+     "Bottle opener"
+    ]
+   },
+   {
+    "q": "Squeezes a clove through tiny holes",
+    "right": "Garlic press",
+    "wrong": [
+     "Nutcracker",
+     "Potato ricer",
+     "Egg slicer"
+    ]
+   },
+   {
+    "q": "Metal spiral for getting into a bottle of wine",
+    "right": "Corkscrew",
+    "wrong": [
+     "Bottle opener",
+     "Muddler",
+     "Nutcracker"
+    ]
+   },
+   {
+    "q": "Glass jug with a plunger for coffee",
+    "right": "Cafetière",
+    "wrong": [
+     "Percolator",
+     "Teapot",
+     "Moka pot"
+    ]
+   },
+   {
+    "q": "Long thin spike for kebabs",
+    "right": "Skewer",
+    "wrong": [
+     "Fondue fork",
+     "Cocktail stick",
+     "Meat thermometer"
+    ]
+   },
+   {
+    "q": "Rubber bulb and tube for squirting juices over the roast",
+    "right": "Baster",
+    "wrong": [
+     "Funnel",
+     "Meat thermometer",
+     "Pipette"
+    ]
+   },
+   {
+    "q": "Used to glaze a pie with beaten egg",
+    "right": "Pastry brush",
+    "wrong": [
+     "Piping bag",
+     "Pastry cutter",
+     "Muddler"
+    ]
+   },
+   {
+    "q": "Scottish wooden stick for stirring porridge",
+    "right": "Spurtle",
+    "wrong": [
+     "Muddler",
+     "Swizzle stick",
+     "Dibber"
+    ]
+   }
+  ]
+ }
+]
