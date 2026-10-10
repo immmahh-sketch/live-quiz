@@ -1,0 +1,775 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: name the famous dragon",
+  "target": 10,
+  "category": "Film, TV and books",
+  "tags": [
+   "dragons",
+   "characters"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The Hobbit's gold-hoarding dragon",
+    "right": "Smaug",
+    "wrong": [
+     "Glaurung",
+     "Ancalagon",
+     "Scatha"
+    ]
+   },
+   {
+    "q": "The magic dragon who lived by the sea",
+    "right": "Puff",
+    "wrong": [
+     "Jackie Paper",
+     "Honalee",
+     "Fluff"
+    ]
+   },
+   {
+    "q": "Hiccup's Night Fury",
+    "right": "Toothless",
+    "wrong": [
+     "Stormfly",
+     "Hookfang",
+     "Meatlug"
+    ]
+   },
+   {
+    "q": "Daenerys's biggest dragon",
+    "right": "Drogon",
+    "wrong": [
+     "Rhaegal",
+     "Viserion",
+     "Balerion"
+    ]
+   },
+   {
+    "q": "Hagrid's baby Norwegian Ridgeback",
+    "right": "Norbert",
+    "wrong": [
+     "Fluffy",
+     "Aragog",
+     "Buckbeak"
+    ]
+   },
+   {
+    "q": "The NeverEnding Story's luckdragon",
+    "right": "Falkor",
+    "wrong": [
+     "Artax",
+     "Atreyu",
+     "Gmork"
+    ]
+   },
+   {
+    "q": "Mulan's tiny guardian dragon",
+    "right": "Mushu",
+    "wrong": [
+     "Cri-Kee",
+     "Khan",
+     "Shan Yu"
+    ]
+   },
+   {
+    "q": "The dragon in Pete's Dragon",
+    "right": "Elliott",
+    "wrong": [
+     "Lampie",
+     "Nora",
+     "Doc Terminus"
+    ]
+   },
+   {
+    "q": "The purple video-game dragon",
+    "right": "Spyro",
+    "wrong": [
+     "Sparx",
+     "Crash",
+     "Gnasty Gnorc"
+    ]
+   },
+   {
+    "q": "Eragon's blue dragon",
+    "right": "Saphira",
+    "wrong": [
+     "Thorn",
+     "Glaedr",
+     "Shruikan"
+    ]
+   },
+   {
+    "q": "Spirited Away's river spirit who can turn into a dragon",
+    "right": "Haku",
+    "wrong": [
+     "No-Face",
+     "Kamaji",
+     "Yubaba"
+    ]
+   },
+   {
+    "q": "The dragon Sean Connery voices in Dragonheart",
+    "right": "Draco",
+    "wrong": [
+     "Bowen",
+     "Einon",
+     "Gilbert"
+    ]
+   },
+   {
+    "q": "The fire Pokémon that evolves from Charmeleon",
+    "right": "Charizard",
+    "wrong": [
+     "Charmander",
+     "Dragonite",
+     "Gyarados"
+    ]
+   },
+   {
+    "q": "Dragon Ball's wish-granting dragon on Earth",
+    "right": "Shenron",
+    "wrong": [
+     "Porunga",
+     "Piccolo",
+     "Goku"
+    ]
+   },
+   {
+    "q": "Ivor the Engine's little dragon",
+    "right": "Idris",
+    "wrong": [
+     "Jones the Steam",
+     "Dai Station",
+     "Evans the Song"
+    ]
+   },
+   {
+    "q": "Raya and the Last Dragon's water dragon",
+    "right": "Sisu",
+    "wrong": [
+     "Namaari",
+     "Tuk Tuk",
+     "Boun"
+    ]
+   },
+   {
+    "q": "The dragon Sigurd slays in Norse legend",
+    "right": "Fafnir",
+    "wrong": [
+     "Sleipnir",
+     "Fenrir",
+     "Ratatoskr"
+    ]
+   },
+   {
+    "q": "The dragon Harry faces in the Triwizard Tournament",
+    "right": "Hungarian Horntail",
+    "wrong": [
+     "Chinese Fireball",
+     "Swedish Short-Snout",
+     "Common Welsh Green"
+    ]
+   },
+   {
+    "q": "The Sleeping Beauty villain who turns into a dragon",
+    "right": "Maleficent",
+    "wrong": [
+     "Diablo",
+     "Aurora",
+     "Merryweather"
+    ]
+   },
+   {
+    "q": "The dragon on the Welsh flag",
+    "right": "Y Ddraig Goch",
+    "wrong": [
+     "Y Ddraig Wen",
+     "Dewi",
+     "Merlin"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this palace or castle in?",
+  "target": 10,
+  "category": "Famous landmarks",
+  "tags": [
+   "palaces",
+   "castles",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Versailles",
+    "right": "France",
+    "wrong": [
+     "Luxembourg",
+     "Switzerland",
+     "Monaco"
+    ]
+   },
+   {
+    "q": "The Alhambra",
+    "right": "Spain",
+    "wrong": [
+     "Morocco",
+     "Egypt",
+     "Greece"
+    ]
+   },
+   {
+    "q": "Topkapı Palace",
+    "right": "Turkey",
+    "wrong": [
+     "Greece",
+     "Iran",
+     "Egypt"
+    ]
+   },
+   {
+    "q": "Schönbrunn Palace",
+    "right": "Austria",
+    "wrong": [
+     "Switzerland",
+     "Czechia",
+     "Slovakia"
+    ]
+   },
+   {
+    "q": "The Forbidden City",
+    "right": "China",
+    "wrong": [
+     "Mongolia",
+     "Taiwan",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "Peterhof",
+    "right": "Russia",
+    "wrong": [
+     "Ukraine",
+     "Finland",
+     "Romania"
+    ]
+   },
+   {
+    "q": "Blenheim Palace",
+    "right": "England",
+    "wrong": [
+     "Wales",
+     "Ireland",
+     "the Netherlands"
+    ]
+   },
+   {
+    "q": "Mysore Palace",
+    "right": "India",
+    "wrong": [
+     "Pakistan",
+     "Nepal",
+     "Sri Lanka"
+    ]
+   },
+   {
+    "q": "Sanssouci",
+    "right": "Germany",
+    "wrong": [
+     "Switzerland",
+     "Czechia",
+     "the Netherlands"
+    ]
+   },
+   {
+    "q": "Pena Palace",
+    "right": "Portugal",
+    "wrong": [
+     "Brazil",
+     "Greece",
+     "Croatia"
+    ]
+   },
+   {
+    "q": "Holyroodhouse",
+    "right": "Scotland",
+    "wrong": [
+     "Wales",
+     "Ireland",
+     "Norway"
+    ]
+   },
+   {
+    "q": "Christiansborg Palace",
+    "right": "Denmark",
+    "wrong": [
+     "Norway",
+     "Finland",
+     "the Netherlands"
+    ]
+   },
+   {
+    "q": "Drottningholm Palace",
+    "right": "Sweden",
+    "wrong": [
+     "Norway",
+     "Finland",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "The Doge's Palace",
+    "right": "Italy",
+    "wrong": [
+     "Croatia",
+     "Greece",
+     "Malta"
+    ]
+   },
+   {
+    "q": "Gyeongbokgung Palace",
+    "right": "South Korea",
+    "wrong": [
+     "North Korea",
+     "Taiwan",
+     "Mongolia"
+    ]
+   },
+   {
+    "q": "The Grand Palace, home of the Emerald Buddha",
+    "right": "Thailand",
+    "wrong": [
+     "Cambodia",
+     "Laos",
+     "Myanmar"
+    ]
+   },
+   {
+    "q": "Himeji Castle",
+    "right": "Japan",
+    "wrong": [
+     "Taiwan",
+     "North Korea",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "Buda Castle",
+    "right": "Hungary",
+    "wrong": [
+     "Czechia",
+     "Romania",
+     "Slovakia"
+    ]
+   },
+   {
+    "q": "Wawel Castle",
+    "right": "Poland",
+    "wrong": [
+     "Czechia",
+     "Slovakia",
+     "Ukraine"
+    ]
+   },
+   {
+    "q": "The Royal Palace of Laeken",
+    "right": "Belgium",
+    "wrong": [
+     "Luxembourg",
+     "the Netherlands",
+     "Switzerland"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what does this Latin phrase mean?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "Latin",
+   "phrases"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Carpe diem",
+    "right": "Seize the day",
+    "wrong": [
+     "Seize the fish",
+     "Care for the day",
+     "Rest for a day"
+    ]
+   },
+   {
+    "q": "Tempus fugit",
+    "right": "Time flies",
+    "wrong": [
+     "Time stands still",
+     "The storm is coming",
+     "Time heals"
+    ]
+   },
+   {
+    "q": "In vino veritas",
+    "right": "In wine, there is truth",
+    "wrong": [
+     "Wine makes you wise",
+     "Truth in the vineyard",
+     "Wine is life"
+    ]
+   },
+   {
+    "q": "Mea culpa",
+    "right": "My fault",
+    "wrong": [
+     "My cup",
+     "My secret",
+     "My pleasure"
+    ]
+   },
+   {
+    "q": "Quid pro quo",
+    "right": "Something for something",
+    "wrong": [
+     "Money for nothing",
+     "A pound for a pound",
+     "Take it or leave it"
+    ]
+   },
+   {
+    "q": "Pro bono",
+    "right": "For the public good",
+    "wrong": [
+     "For a bone",
+     "For the professionals",
+     "For good luck"
+    ]
+   },
+   {
+    "q": "Caveat emptor",
+    "right": "Let the buyer beware",
+    "wrong": [
+     "Beware of empty promises",
+     "The empty cave",
+     "Let the seller beware"
+    ]
+   },
+   {
+    "q": "Bona fide",
+    "right": "In good faith",
+    "wrong": [
+     "Good dog",
+     "Faithful bones",
+     "Well made"
+    ]
+   },
+   {
+    "q": "Ad hoc",
+    "right": "For this purpose",
+    "wrong": [
+     "To the hill",
+     "For ever",
+     "After the fact"
+    ]
+   },
+   {
+    "q": "Terra firma",
+    "right": "Solid ground",
+    "wrong": [
+     "Terrible farm",
+     "Earth's edge",
+     "Shaky ground"
+    ]
+   },
+   {
+    "q": "Vice versa",
+    "right": "The other way round",
+    "wrong": [
+     "A bad poem",
+     "Against the law",
+     "Twice over"
+    ]
+   },
+   {
+    "q": "Post mortem",
+    "right": "After death",
+    "wrong": [
+     "After the post",
+     "Before death",
+     "After the war"
+    ]
+   },
+   {
+    "q": "Magnum opus",
+    "right": "Great work",
+    "wrong": [
+     "A big gun",
+     "A great opera",
+     "A large opening"
+    ]
+   },
+   {
+    "q": "Non sequitur",
+    "right": "It does not follow",
+    "wrong": [
+     "No second chances",
+     "Not secure",
+     "Without a sequel"
+    ]
+   },
+   {
+    "q": "Persona non grata",
+    "right": "An unwelcome person",
+    "wrong": [
+     "An ungrateful person",
+     "A person of no importance",
+     "A nameless person"
+    ]
+   },
+   {
+    "q": "Habeas corpus",
+    "right": "You should have the body",
+    "wrong": [
+     "Have a heart",
+     "Bring the money",
+     "A healthy body"
+    ]
+   },
+   {
+    "q": "Per annum",
+    "right": "Per year",
+    "wrong": [
+     "Per person",
+     "Per hour",
+     "Per month"
+    ]
+   },
+   {
+    "q": "Ad infinitum",
+    "right": "To infinity",
+    "wrong": [
+     "To the finish",
+     "In the end",
+     "Up to a point"
+    ]
+   },
+   {
+    "q": "Alma mater",
+    "right": "Nourishing mother",
+    "wrong": [
+     "Old flame",
+     "Mother's soul",
+     "Dear friend"
+    ]
+   },
+   {
+    "q": "Et tu, Brute?",
+    "right": "You too, Brutus?",
+    "wrong": [
+     "And now, brute?",
+     "And you, Caesar?",
+     "Even the brutes?"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this island part of?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "islands",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Corsica",
+    "right": "France",
+    "wrong": [
+     "Malta",
+     "Monaco",
+     "Croatia"
+    ]
+   },
+   {
+    "q": "Sardinia",
+    "right": "Italy",
+    "wrong": [
+     "Malta",
+     "Croatia",
+     "Tunisia"
+    ]
+   },
+   {
+    "q": "Mallorca",
+    "right": "Spain",
+    "wrong": [
+     "Malta",
+     "Morocco",
+     "Cyprus"
+    ]
+   },
+   {
+    "q": "Crete",
+    "right": "Greece",
+    "wrong": [
+     "Cyprus",
+     "Turkey",
+     "Malta"
+    ]
+   },
+   {
+    "q": "Gotland",
+    "right": "Sweden",
+    "wrong": [
+     "Finland",
+     "Estonia",
+     "Latvia"
+    ]
+   },
+   {
+    "q": "Bornholm",
+    "right": "Denmark",
+    "wrong": [
+     "Germany",
+     "Poland",
+     "Finland"
+    ]
+   },
+   {
+    "q": "Madeira",
+    "right": "Portugal",
+    "wrong": [
+     "Morocco",
+     "Cape Verde",
+     "Brazil"
+    ]
+   },
+   {
+    "q": "Tasmania",
+    "right": "Australia",
+    "wrong": [
+     "New Zealand",
+     "Papua New Guinea",
+     "Fiji"
+    ]
+   },
+   {
+    "q": "Hokkaido",
+    "right": "Japan",
+    "wrong": [
+     "Russia",
+     "North Korea",
+     "Taiwan"
+    ]
+   },
+   {
+    "q": "Bali",
+    "right": "Indonesia",
+    "wrong": [
+     "Malaysia",
+     "the Philippines",
+     "Thailand"
+    ]
+   },
+   {
+    "q": "Zanzibar",
+    "right": "Tanzania",
+    "wrong": [
+     "Kenya",
+     "Mozambique",
+     "Madagascar"
+    ]
+   },
+   {
+    "q": "Hawaii",
+    "right": "the USA",
+    "wrong": [
+     "Mexico",
+     "Fiji",
+     "Canada"
+    ]
+   },
+   {
+    "q": "Svalbard",
+    "right": "Norway",
+    "wrong": [
+     "Finland",
+     "Iceland",
+     "Russia"
+    ]
+   },
+   {
+    "q": "The Galápagos Islands",
+    "right": "Ecuador",
+    "wrong": [
+     "Peru",
+     "Colombia",
+     "Mexico"
+    ]
+   },
+   {
+    "q": "Easter Island",
+    "right": "Chile",
+    "wrong": [
+     "Peru",
+     "New Zealand",
+     "Argentina"
+    ]
+   },
+   {
+    "q": "Jeju",
+    "right": "South Korea",
+    "wrong": [
+     "North Korea",
+     "Taiwan",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "Hainan",
+    "right": "China",
+    "wrong": [
+     "Taiwan",
+     "Vietnam",
+     "the Philippines"
+    ]
+   },
+   {
+    "q": "Anglesey",
+    "right": "Wales",
+    "wrong": [
+     "Ireland",
+     "the Isle of Man",
+     "Northern Ireland"
+    ]
+   },
+   {
+    "q": "Lindisfarne",
+    "right": "England",
+    "wrong": [
+     "Ireland",
+     "Northern Ireland",
+     "the Isle of Man"
+    ]
+   },
+   {
+    "q": "Skye",
+    "right": "Scotland",
+    "wrong": [
+     "Ireland",
+     "Northern Ireland",
+     "Iceland"
+    ]
+   }
+  ]
+ }
+]
