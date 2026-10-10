@@ -1,0 +1,774 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which building has this nickname?",
+  "target": 10,
+  "category": "Famous landmarks",
+  "tags": [
+   "buildings",
+   "nicknames"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The Gherkin",
+    "right": "30 St Mary Axe",
+    "wrong": [
+     "The Shard",
+     "One Canada Square",
+     "Tower 42"
+    ]
+   },
+   {
+    "q": "The Walkie-Talkie",
+    "right": "20 Fenchurch Street",
+    "wrong": [
+     "The Shard",
+     "Tower 42",
+     "One Canada Square"
+    ]
+   },
+   {
+    "q": "The Cheesegrater",
+    "right": "The Leadenhall Building",
+    "wrong": [
+     "The Shard",
+     "Tower 42",
+     "One Canada Square"
+    ]
+   },
+   {
+    "q": "The Scalpel",
+    "right": "52 Lime Street",
+    "wrong": [
+     "Tower 42",
+     "One Canada Square",
+     "The Shard"
+    ]
+   },
+   {
+    "q": "The Wobbly Bridge",
+    "right": "The Millennium Bridge, London",
+    "wrong": [
+     "Tower Bridge",
+     "Hungerford Bridge",
+     "Waterloo Bridge"
+    ]
+   },
+   {
+    "q": "The Egg (or the 'glass testicle')",
+    "right": "London's old City Hall",
+    "wrong": [
+     "Somerset House",
+     "Mansion House",
+     "County Hall"
+    ]
+   },
+   {
+    "q": "The Wedding Cake",
+    "right": "Rome's Victor Emmanuel II Monument",
+    "wrong": [
+     "The Colosseum",
+     "The Pantheon",
+     "St Peter's"
+    ]
+   },
+   {
+    "q": "The Bird's Nest",
+    "right": "Beijing's National Stadium",
+    "wrong": [
+     "The Great Hall of the People",
+     "The Forbidden City",
+     "Tiananmen Gate"
+    ]
+   },
+   {
+    "q": "The Water Cube",
+    "right": "Beijing's National Aquatics Centre",
+    "wrong": [
+     "The Great Hall of the People",
+     "The Forbidden City",
+     "Tiananmen Gate"
+    ]
+   },
+   {
+    "q": "The Iron Lady",
+    "right": "The Eiffel Tower",
+    "wrong": [
+     "The Statue of Liberty",
+     "Blackpool Tower",
+     "The Atomium"
+    ]
+   },
+   {
+    "q": "Paddy's Wigwam",
+    "right": "Liverpool's Catholic cathedral",
+    "wrong": [
+     "Liverpool's Anglican cathedral",
+     "St George's Hall",
+     "The Royal Liver Building"
+    ]
+   },
+   {
+    "q": "The Blinking Eye",
+    "right": "The Gateshead Millennium Bridge",
+    "wrong": [
+     "The Tyne Bridge",
+     "The Swing Bridge",
+     "The Sage"
+    ]
+   },
+   {
+    "q": "The Coathanger",
+    "right": "Sydney Harbour Bridge",
+    "wrong": [
+     "Sydney Opera House",
+     "The Golden Gate Bridge",
+     "Brooklyn Bridge"
+    ]
+   },
+   {
+    "q": "The Armadillo",
+    "right": "Glasgow's Clyde Auditorium",
+    "wrong": [
+     "The SSE Hydro",
+     "The Riverside Museum",
+     "Kelvingrove"
+    ]
+   },
+   {
+    "q": "The Squinty Bridge",
+    "right": "Glasgow's Clyde Arc",
+    "wrong": [
+     "The Kingston Bridge",
+     "The Squiggly Bridge",
+     "The Bells Bridge"
+    ]
+   },
+   {
+    "q": "The Flatiron",
+    "right": "New York's Fuller Building",
+    "wrong": [
+     "The Chrysler Building",
+     "The Empire State Building",
+     "The Woolworth Building"
+    ]
+   },
+   {
+    "q": "The Dome",
+    "right": "The O2",
+    "wrong": [
+     "Wembley Arena",
+     "The Royal Albert Hall",
+     "The Barbican"
+    ]
+   },
+   {
+    "q": "The Old Lady of Threadneedle Street",
+    "right": "The Bank of England",
+    "wrong": [
+     "The Royal Exchange",
+     "The Stock Exchange",
+     "Lloyd's of London"
+    ]
+   },
+   {
+    "q": "Ally Pally",
+    "right": "Alexandra Palace",
+    "wrong": [
+     "Crystal Palace",
+     "Hampton Court",
+     "The Albert Hall"
+    ]
+   },
+   {
+    "q": "The real 'Big Ben'",
+    "right": "The Great Bell",
+    "wrong": [
+     "The Elizabeth Tower",
+     "The clock face",
+     "The Victoria Tower"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country does this dance come from?",
+  "target": 10,
+  "category": "Music",
+  "tags": [
+   "dance",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Flamenco",
+    "right": "Spain",
+    "wrong": [
+     "Portugal",
+     "Mexico",
+     "Malta"
+    ]
+   },
+   {
+    "q": "The tango",
+    "right": "Argentina",
+    "wrong": [
+     "Chile",
+     "Peru",
+     "Portugal"
+    ]
+   },
+   {
+    "q": "The samba",
+    "right": "Brazil",
+    "wrong": [
+     "Portugal",
+     "Venezuela",
+     "Peru"
+    ]
+   },
+   {
+    "q": "The haka",
+    "right": "New Zealand",
+    "wrong": [
+     "Fiji",
+     "Samoa",
+     "Tonga"
+    ]
+   },
+   {
+    "q": "The polka",
+    "right": "Czechia",
+    "wrong": [
+     "Germany",
+     "Slovakia",
+     "Hungary"
+    ]
+   },
+   {
+    "q": "The Viennese waltz",
+    "right": "Austria",
+    "wrong": [
+     "Germany",
+     "Switzerland",
+     "Hungary"
+    ]
+   },
+   {
+    "q": "The can-can",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Switzerland",
+     "Germany"
+    ]
+   },
+   {
+    "q": "The Highland fling",
+    "right": "Scotland",
+    "wrong": [
+     "Wales",
+     "Northern Ireland",
+     "the Isle of Man"
+    ]
+   },
+   {
+    "q": "Morris dancing",
+    "right": "England",
+    "wrong": [
+     "Wales",
+     "Northern Ireland",
+     "the Isle of Man"
+    ]
+   },
+   {
+    "q": "The hula",
+    "right": "Hawaii, USA",
+    "wrong": [
+     "Fiji",
+     "Samoa",
+     "Tonga"
+    ]
+   },
+   {
+    "q": "Kathakali",
+    "right": "India",
+    "wrong": [
+     "Sri Lanka",
+     "Nepal",
+     "Bangladesh"
+    ]
+   },
+   {
+    "q": "Salsa",
+    "right": "Cuba",
+    "wrong": [
+     "Mexico",
+     "Venezuela",
+     "Jamaica"
+    ]
+   },
+   {
+    "q": "The mazurka",
+    "right": "Poland",
+    "wrong": [
+     "Slovakia",
+     "Hungary",
+     "Russia"
+    ]
+   },
+   {
+    "q": "The tarantella",
+    "right": "Italy",
+    "wrong": [
+     "Malta",
+     "Portugal",
+     "Croatia"
+    ]
+   },
+   {
+    "q": "The sirtaki",
+    "right": "Greece",
+    "wrong": [
+     "Cyprus",
+     "Turkey",
+     "Bulgaria"
+    ]
+   },
+   {
+    "q": "The hopak",
+    "right": "Ukraine",
+    "wrong": [
+     "Russia",
+     "Romania",
+     "Belarus"
+    ]
+   },
+   {
+    "q": "The merengue",
+    "right": "the Dominican Republic",
+    "wrong": [
+     "Haiti",
+     "Jamaica",
+     "Puerto Rico"
+    ]
+   },
+   {
+    "q": "Cumbia",
+    "right": "Colombia",
+    "wrong": [
+     "Venezuela",
+     "Peru",
+     "Mexico"
+    ]
+   },
+   {
+    "q": "Kecak, the monkey chant",
+    "right": "Indonesia",
+    "wrong": [
+     "Malaysia",
+     "Thailand",
+     "the Philippines"
+    ]
+   },
+   {
+    "q": "Irish step dancing",
+    "right": "Ireland",
+    "wrong": [
+     "Wales",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: name the famous real animal",
+  "target": 10,
+  "category": "Animals",
+  "tags": [
+   "famous animals",
+   "history"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The first mammal cloned from an adult cell",
+    "right": "Dolly",
+    "wrong": [
+     "Polly",
+     "Molly",
+     "Megan"
+    ]
+   },
+   {
+    "q": "The first dog in orbit",
+    "right": "Laika",
+    "wrong": [
+     "Belka",
+     "Strelka",
+     "Albert"
+    ]
+   },
+   {
+    "q": "Downing Street's Chief Mouser since 2011",
+    "right": "Larry",
+    "wrong": [
+     "Humphrey",
+     "Palmerston",
+     "Freya"
+    ]
+   },
+   {
+    "q": "The dog who found the stolen World Cup in 1966",
+    "right": "Pickles",
+    "wrong": [
+     "Bruno",
+     "Patch",
+     "Rover"
+    ]
+   },
+   {
+    "q": "The octopus who 'predicted' World Cup results",
+    "right": "Paul",
+    "wrong": [
+     "Achilles",
+     "Mani",
+     "Nelly"
+    ]
+   },
+   {
+    "q": "The loyal Akita who waited at Shibuya station",
+    "right": "Hachikō",
+    "wrong": [
+     "Shiro",
+     "Taro",
+     "Hiro"
+    ]
+   },
+   {
+    "q": "London Zoo's famous giant panda",
+    "right": "Chi Chi",
+    "wrong": [
+     "An An",
+     "Ling Ling",
+     "Yang Guang"
+    ]
+   },
+   {
+    "q": "The polar bear cub who became a Berlin star",
+    "right": "Knut",
+    "wrong": [
+     "Flocke",
+     "Wilbär",
+     "Lars"
+    ]
+   },
+   {
+    "q": "The gorilla who learned sign language",
+    "right": "Koko",
+    "wrong": [
+     "Kanzi",
+     "Washoe",
+     "Nim Chimpsky"
+    ]
+   },
+   {
+    "q": "The orca who starred in Free Willy",
+    "right": "Keiko",
+    "wrong": [
+     "Tilikum",
+     "Shamu",
+     "Willy"
+    ]
+   },
+   {
+    "q": "The husky made famous by the serum run to Nome",
+    "right": "Balto",
+    "wrong": [
+     "Togo",
+     "Fala",
+     "Rin Tin Tin"
+    ]
+   },
+   {
+    "q": "The Edinburgh terrier who guarded his master's grave",
+    "right": "Greyfriars Bobby",
+    "wrong": [
+     "Auld Jock",
+     "Hamish",
+     "Bamse"
+    ]
+   },
+   {
+    "q": "The last passenger pigeon",
+    "right": "Martha",
+    "wrong": [
+     "Polly",
+     "Booming Ben",
+     "Incas"
+    ]
+   },
+   {
+    "q": "The giant tortoise who was the last of his kind",
+    "right": "Lonesome George",
+    "wrong": [
+     "Harriet",
+     "Jonathan",
+     "Diego"
+    ]
+   },
+   {
+    "q": "The chimp sent into space in 1961",
+    "right": "Ham",
+    "wrong": [
+     "Enos",
+     "Albert II",
+     "Gordo"
+    ]
+   },
+   {
+    "q": "The Depression-era racehorse who beat War Admiral",
+    "right": "Seabiscuit",
+    "wrong": [
+     "War Admiral",
+     "Phar Lap",
+     "Man o' War"
+    ]
+   },
+   {
+    "q": "London Zoo's famous old gorilla",
+    "right": "Guy",
+    "wrong": [
+     "Kumbuka",
+     "Alfred",
+     "Jambo"
+    ]
+   },
+   {
+    "q": "The frowning cat who became an internet star",
+    "right": "Grumpy Cat",
+    "wrong": [
+     "Lil Bub",
+     "Maru",
+     "Colonel Meow"
+    ]
+   },
+   {
+    "q": "Elizabeth II's first corgi",
+    "right": "Susan",
+    "wrong": [
+     "Willow",
+     "Monty",
+     "Holly"
+    ]
+   },
+   {
+    "q": "The London Zoo black bear who inspired Winnie-the-Pooh",
+    "right": "Winnie",
+    "wrong": [
+     "Brumas",
+     "Barnaby",
+     "Edward"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: where is this sitcom set?",
+  "target": 10,
+  "category": "Comedy",
+  "tags": [
+   "sitcoms",
+   "places"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Fawlty Towers",
+    "right": "Torquay",
+    "wrong": [
+     "Paignton",
+     "Brighton",
+     "Weymouth"
+    ]
+   },
+   {
+    "q": "Gavin & Stacey (the Welsh half)",
+    "right": "Barry",
+    "wrong": [
+     "Bridgend",
+     "Swansea",
+     "Cardiff"
+    ]
+   },
+   {
+    "q": "Only Fools and Horses",
+    "right": "Peckham",
+    "wrong": [
+     "Brixton",
+     "Lewisham",
+     "Deptford"
+    ]
+   },
+   {
+    "q": "The Royle Family",
+    "right": "Manchester",
+    "wrong": [
+     "Oldham",
+     "Stockport",
+     "Bury"
+    ]
+   },
+   {
+    "q": "Last of the Summer Wine",
+    "right": "Holmfirth",
+    "wrong": [
+     "Hebden Bridge",
+     "Huddersfield",
+     "Haworth"
+    ]
+   },
+   {
+    "q": "Father Ted",
+    "right": "Craggy Island",
+    "wrong": [
+     "Rugged Island",
+     "Inis Mór",
+     "Achill"
+    ]
+   },
+   {
+    "q": "Phoenix Nights",
+    "right": "Bolton",
+    "wrong": [
+     "Wigan",
+     "Oldham",
+     "Preston"
+    ]
+   },
+   {
+    "q": "The Office (UK)",
+    "right": "Slough",
+    "wrong": [
+     "Reading",
+     "Basingstoke",
+     "Bracknell"
+    ]
+   },
+   {
+    "q": "Dad's Army",
+    "right": "Walmington-on-Sea",
+    "wrong": [
+     "Eastgate",
+     "Seaview",
+     "Westcliff"
+    ]
+   },
+   {
+    "q": "Peep Show",
+    "right": "Croydon",
+    "wrong": [
+     "Lewisham",
+     "Bromley",
+     "Sutton"
+    ]
+   },
+   {
+    "q": "Porridge",
+    "right": "Slade Prison",
+    "wrong": [
+     "Wormwood Scrubs",
+     "Strangeways",
+     "Barlinnie"
+    ]
+   },
+   {
+    "q": "Open All Hours",
+    "right": "Doncaster",
+    "wrong": [
+     "Rotherham",
+     "Barnsley",
+     "Sheffield"
+    ]
+   },
+   {
+    "q": "Hi-de-Hi!",
+    "right": "Maplins holiday camp",
+    "wrong": [
+     "Butlins",
+     "Pontins",
+     "Haven"
+    ]
+   },
+   {
+    "q": "Detectorists",
+    "right": "Danebury",
+    "wrong": [
+     "Dunwich",
+     "Framlingham",
+     "Woodbridge"
+    ]
+   },
+   {
+    "q": "The League of Gentlemen",
+    "right": "Royston Vasey",
+    "wrong": [
+     "Royston Vale",
+     "Little Snoring",
+     "Vasey Bridge"
+    ]
+   },
+   {
+    "q": "Rab C. Nesbitt",
+    "right": "Govan",
+    "wrong": [
+     "Partick",
+     "Paisley",
+     "Possil"
+    ]
+   },
+   {
+    "q": "Still Game",
+    "right": "Craiglang",
+    "wrong": [
+     "Craigmillar",
+     "Craiglockhart",
+     "Cardonald"
+    ]
+   },
+   {
+    "q": "Mrs Brown's Boys",
+    "right": "Finglas",
+    "wrong": [
+     "Tallaght",
+     "Ballymun",
+     "Crumlin"
+    ]
+   },
+   {
+    "q": "Friday Night Dinner",
+    "right": "Mill Hill",
+    "wrong": [
+     "Finchley",
+     "Hendon",
+     "Edgware"
+    ]
+   },
+   {
+    "q": "Ghosts",
+    "right": "Button House",
+    "wrong": [
+     "Bly Manor",
+     "Cliveden",
+     "Blandings Castle"
+    ]
+   }
+  ]
+ }
+]
