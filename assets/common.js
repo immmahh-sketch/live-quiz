@@ -73,7 +73,7 @@ window.LQ = (() => {
     club:   { label: 'The 1% Club',    icon: '🧠', blurb: 'Logic, wordplay and lateral thinking. No knowledge needed, just work it out. The fewer people who get it, the more it pays.' },
     dingbat:{ label: 'Dingbats',        icon: '🔤', blurb: 'Say what you see: a well-known phrase hidden in how the words are laid out.' },
     catchphrase: { label: 'Catchphrase', icon: '🗯️', blurb: 'A clip from the show plays on the screen. Players type the well-known phrase it shows.' },
-    conundrum: { label: 'Countdown Conundrum', icon: '🔠', blurb: 'Nine scrambled letters on the screen and a minute on the clock. Players type the nine-letter word on their phones: spelt exactly right, and the quicker the better.' },
+    conundrum: { label: 'Countdown Conundrum', icon: '🔠', blurb: 'Nine scrambled letters on the screen and a minute on the clock. Players type the nine-letter word on their phones: spelt exactly right, it is worth 5,000 points.' },
     unique: { label: 'Only One', icon: '☝️', blurb: 'Everyone answers the same prompt ("Name a pizza topping"). Be the only one to say it: match anyone and you are both out. The host can kick an answer that does not count. Last one standing wins.' },
     survey: { label: 'Family Fortunes', icon: '👪', blurb: '"We asked the room…": everyone types an answer, and you score by matching everyone else. The more players who said what you said, the more you score.' },
     reveal: { label: 'Picture Reveal', icon: '🧩', blurb: 'A picture hidden behind tiles that flip over one by one. Players type who or what it is: the fewer tiles it takes, the more they score.' },
@@ -568,7 +568,7 @@ window.LQ = (() => {
     club: 'No knowledge needed, just logic. The fewer people who get it, the more it is worth.',
     dingbat: 'Say what you see: a well-known phrase hidden in how the words are laid out.',
     catchphrase: 'Watch the clip and say what you see: type the well-known saying it shows.',
-    conundrum: 'Nine scrambled letters make one word. Unscramble them and type it on your phone before the minute runs out. It must be spelt exactly right, and the quicker you are, the more you score.',
+    conundrum: 'Nine scrambled letters make one word. Unscramble them and type it on your phone before the minute runs out. It must be spelt exactly right, and getting it is worth 5,000 points.',
     unique: 'Everyone answers the same prompt. Be the ONLY one to say it: if anyone else gives the same answer, you are both out. It has to be a real answer, or the host will kick you! Last one standing wins.',
     survey: 'We asked the room! Type the first answer that comes to mind. The more people who say the same as you, the more you score. A lonely answer scores nothing.',
     reveal: 'A picture is hidden behind tiles that flip over one by one. Type who or what it is on your phone: the sooner you get it, the more you score.',
@@ -1077,6 +1077,8 @@ window.LQ = (() => {
 
   // ---------------------------------------------------------------- Countdown Conundrum
   /** A word or letters as plain capitals, nothing else: " ab-c " → "ABC". */
+  /** What a solved Countdown Conundrum is worth, however quick (user rule, 10 Oct 2026). */
+  const CONUNDRUM_POINTS = 5000;
   function conundrumWord(s) { return String(s || '').toUpperCase().replace(/[^A-Z]/g, ''); }
   /** True when two strings use exactly the same letters. */
   function sameLetters(a, b) { const k = (x) => conundrumWord(x).split('').sort().join(''); return !!k(a) && k(a) === k(b); }
@@ -1181,5 +1183,5 @@ window.LQ = (() => {
 
   return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
     GROUP_NAMES, groupSizes, BRANDS, brand, setBrand, TYPES, BANK_GAMES, NEW_GAME_DEFAULTS, cardNum, cardsOf, TWENTY_KINDS, TWENTY_QS, twentyQ, twentyBranch, twentyYes, twentyOpen, parseNum, nearestSpread, fmtNum, DRAW_WORDS, drawWords, drawHint, goodRows, BB_COLS, BB_ROWS, bbNeighbours, bbPath, bbBoardHtml, inkOn, SLIDE, BREAK, isPractice, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, pickContext, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
-    newCode, playUrl, shortPlayUrl, bbTeams, BB_TEAM_PAIRS, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml, conundrumWord, sameLetters, scrambleWord, conundrumHtml, addUsage, usageCost, usageSummary, AI_PRICES, TUNE_ASKS, tunePrompt, bigArt, cleanTitle };
+    newCode, playUrl, shortPlayUrl, bbTeams, BB_TEAM_PAIRS, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml, CONUNDRUM_POINTS, conundrumWord, sameLetters, scrambleWord, conundrumHtml, addUsage, usageCost, usageSummary, AI_PRICES, TUNE_ASKS, tunePrompt, bigArt, cleanTitle };
 })();

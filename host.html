@@ -2299,7 +2299,7 @@ async function grade(noAi, ctx) {
     const unsure = [];
     for (const [pid, a] of entries) {
       const text = String(a.answer ?? '').slice(0, 200);
-      if (q.kind === 'conundrum') { res(pid, accepted.some((acc) => LQ.conundrumWord(acc) === LQ.conundrumWord(text)), 0, a.elapsed, { text, how: 'exact' }); continue; }
+      if (q.kind === 'conundrum') { const ok = accepted.some((acc) => LQ.conundrumWord(acc) === LQ.conundrumWord(text)); res(pid, ok, 0, a.elapsed, { text, how: 'exact' }); byPlayer[pid].points = ok ? LQ.CONUNDRUM_POINTS : 0; continue; } // a flat 5,000 for getting it (user rule)
       let m = textMatch(text, accepted);
       if (q.type === 'rhyme' && m !== 'right') { const n = LQ.normText(text), a1 = LQ.normText(q.answer1), a2 = LQ.normText(q.answer2); if (a1 && a2 && n.includes(a1) && n.includes(a2)) m = 'right'; else if (!n.includes(a1) && !n.includes(a2) && LQ.similarity(n, LQ.normText(accepted[0])) < 0.5) m = 'wrong'; }
       if (m === 'unsure') unsure.push({ id: pid, text });
@@ -2941,7 +2941,7 @@ function renderQuestion() {
   if (q.type === 'sort') body = `<div class="cats">${v.categories.map((c) => `<div class="cat"><h3>${esc(c.name)}</h3></div>`).join('')}</div><div class="items mt">${v.items.map((it) => `<div class="item">${esc(it.text)}</div>`).join('')}</div>`;
   if (q.type === 'text' && pollMode(q)) body = `<div class="pollwall" id="pollwall"></div>`;
   else if (q.type === 'text') body = `<div class="item" style="justify-content:center">${q.kind === 'survey' ? '👪 We asked the room! Type the first answer that comes to mind: match the most people to score most' : q.kind === 'reveal' ? '🧩 Who is it? Type it on your phone: the fewer tiles it takes, the more you score' : '✎ Type your answer on your phone'}</div>`;
-  if (q.kind === 'conundrum') body = `${LQ.conundrumHtml(q.letters, 'stage-cn')}<div class="item" style="justify-content:center;margin-top:14px">🔠 One nine-letter word · type it on your phone, spelt exactly right · the quicker, the more you score</div>`;
+  if (q.kind === 'conundrum') body = `${LQ.conundrumHtml(q.letters, 'stage-cn')}<div class="item" style="justify-content:center;margin-top:14px">🔠 One nine-letter word · type it on your phone, spelt exactly right · 5,000 points for getting it</div>`;
   if (q.type === 'smash') body = `<div class="item" style="justify-content:center">🔀 Answer Smash — type the picture and the clue smashed together</div>`;
   if (q.type === 'highlow') {
     stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill" id="answered">0 of ${players().length} answered</span><div class="timer" id="timer" data-s="${q.time}" style="--p:100%"></div></div>`)}
