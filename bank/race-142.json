@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this driving word?",
+  "target": 10,
+  "category": "Cars and motoring",
+  "tags": [
+   "driving",
+   "roads",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The routine drilled into learners before every turn",
+    "right": "Mirror, signal, manoeuvre",
+    "wrong": [
+     "Tailgating",
+     "Undertaking",
+     "Rubbernecking"
+    ]
+   },
+   {
+    "q": "Turning round in a narrow road using forward and reverse",
+    "right": "Three-point turn",
+    "wrong": [
+     "Chicane",
+     "Filter lane",
+     "Slip road"
+    ]
+   },
+   {
+    "q": "Reversing into a gap between two parked cars",
+    "right": "Parallel parking",
+    "wrong": [
+     "Filter lane",
+     "Slip road",
+     "Undertaking"
+    ]
+   },
+   {
+    "q": "The examiner slaps the dashboard and you brake hard",
+    "right": "Emergency stop",
+    "wrong": [
+     "Tailgating",
+     "Rubbernecking",
+     "Undertaking"
+    ]
+   },
+   {
+    "q": "Moving off on a slope without rolling back",
+    "right": "Hill start",
+    "wrong": [
+     "Chicane",
+     "Slip road",
+     "Filter lane"
+    ]
+   },
+   {
+    "q": "The area your mirrors can't show, so you look over your shoulder",
+    "right": "Blind spot",
+    "wrong": [
+     "Central reservation",
+     "Verge",
+     "Kerb"
+    ]
+   },
+   {
+    "q": "Red letters on white showing a learner is at the wheel",
+    "right": "L-plates",
+    "wrong": [
+     "Gantry",
+     "Bollard",
+     "Tax disc"
+    ]
+   },
+   {
+    "q": "The computer test of multiple-choice questions and clips",
+    "right": "Theory test",
+    "wrong": [
+     "Tailgating",
+     "MOT",
+     "Undertaking"
+    ]
+   },
+   {
+    "q": "Clicking when you spot a developing danger in a video clip",
+    "right": "Hazard perception",
+    "wrong": [
+     "Rubbernecking",
+     "Tailgating",
+     "Undertaking"
+    ]
+   },
+   {
+    "q": "Yellow criss-cross lines you mustn't stop on",
+    "right": "Box junction",
+    "wrong": [
+     "Rumble strip",
+     "Chicane",
+     "Clearway"
+    ]
+   },
+   {
+    "q": "Black and white stripes with flashing orange Belisha beacons",
+    "right": "Zebra crossing",
+    "wrong": [
+     "Puffin crossing",
+     "Pegasus crossing",
+     "Rumble strip"
+    ]
+   },
+   {
+    "q": "Lights with a flashing amber phase, when you may go if the crossing is clear",
+    "right": "Pelican crossing",
+    "wrong": [
+     "Puffin crossing",
+     "Pegasus crossing",
+     "Chicane"
+    ]
+   },
+   {
+    "q": "A crossing shared by people on foot and people on bikes",
+    "right": "Toucan crossing",
+    "wrong": [
+     "Puffin crossing",
+     "Pegasus crossing",
+     "Rumble strip"
+    ]
+   },
+   {
+    "q": "A white painted circle you drive round, not over",
+    "right": "Mini roundabout",
+    "wrong": [
+     "Bollard",
+     "Chicane",
+     "Gantry"
+    ]
+   },
+   {
+    "q": "The strip at the edge of the motorway, for breakdowns only",
+    "right": "Hard shoulder",
+    "wrong": [
+     "Central reservation",
+     "Slip road",
+     "Crawler lane"
+    ]
+   },
+   {
+    "q": "Traffic moved over to share the other side of the motorway during roadworks",
+    "right": "Contraflow",
+    "wrong": [
+     "Clearway",
+     "Crawler lane",
+     "Filter lane"
+    ]
+   },
+   {
+    "q": "Main London roads where red lines mean no stopping at all",
+    "right": "Red route",
+    "wrong": [
+     "Bus lane",
+     "Crawler lane",
+     "Filter lane"
+    ]
+   },
+   {
+    "q": "A raised hump in the road that makes you slow down",
+    "right": "Speed bump",
+    "wrong": [
+     "Chicane",
+     "Rumble strip",
+     "Gantry"
+    ]
+   },
+   {
+    "q": "Little reflectors set into the middle of the road",
+    "right": "Cat's eyes",
+    "wrong": [
+     "Bollard",
+     "Gantry",
+     "Rumble strip"
+    ]
+   },
+   {
+    "q": "A road with a central reservation dividing the two directions",
+    "right": "Dual carriageway",
+    "wrong": [
+     "Slip road",
+     "Single-track road",
+     "Lay-by"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this restaurant word?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "restaurants",
+   "dining",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Choosing each dish separately from the menu, each with its own price",
+    "right": "À la carte",
+    "wrong": [
+     "Smörgåsbord",
+     "Entrée",
+     "Petit four"
+    ]
+   },
+   {
+    "q": "A set menu of a few courses at a fixed price",
+    "right": "Table d'hôte",
+    "wrong": [
+     "Smörgåsbord",
+     "Entrée",
+     "Garnish"
+    ]
+   },
+   {
+    "q": "A free bite-sized treat from the chef before your starter",
+    "right": "Amuse-bouche",
+    "wrong": [
+     "Petit four",
+     "Digestif",
+     "Garnish"
+    ]
+   },
+   {
+    "q": "The wine expert who helps you choose a bottle",
+    "right": "Sommelier",
+    "wrong": [
+     "Commis chef",
+     "Kitchen porter",
+     "Chef de partie"
+    ]
+   },
+   {
+    "q": "The head waiter who greets you and shows you to your table",
+    "right": "Maître d'",
+    "wrong": [
+     "Commis chef",
+     "Kitchen porter",
+     "Chef de partie"
+    ]
+   },
+   {
+    "q": "A fee for drinking wine you brought in yourself",
+    "right": "Corkage",
+    "wrong": [
+     "Covers",
+     "Garnish",
+     "Gratuity"
+    ]
+   },
+   {
+    "q": "An extra percentage added to the bill for the staff",
+    "right": "Service charge",
+    "wrong": [
+     "Covers",
+     "Garnish",
+     "Petit four"
+    ]
+   },
+   {
+    "q": "Lots of tiny courses showing off the chef's skills",
+    "right": "Tasting menu",
+    "wrong": [
+     "Smörgåsbord",
+     "Buffet",
+     "Entrée"
+    ]
+   },
+   {
+    "q": "The dish of the day",
+    "right": "Plat du jour",
+    "wrong": [
+     "Petit four",
+     "Digestif",
+     "Entrée"
+    ]
+   },
+   {
+    "q": "Your leftovers boxed up to take home",
+    "right": "Doggy bag",
+    "wrong": [
+     "Bento",
+     "Hamper",
+     "Lunchbox"
+    ]
+   },
+   {
+    "q": "A small, casual French-style restaurant",
+    "right": "Bistro",
+    "wrong": [
+     "Canteen",
+     "Diner",
+     "Chippy"
+    ]
+   },
+   {
+    "q": "Roast meat sliced for you at a counter, with all the trimmings",
+    "right": "Carvery",
+    "wrong": [
+     "Canteen",
+     "Diner",
+     "Smörgåsbord"
+    ]
+   },
+   {
+    "q": "Waiters serve food onto your plate from a platter with a spoon and fork",
+    "right": "Silver service",
+    "wrong": [
+     "Buffet",
+     "Smörgåsbord",
+     "Self-service"
+    ]
+   },
+   {
+    "q": "Small Spanish dishes shared round the table",
+    "right": "Tapas",
+    "wrong": [
+     "Smörgåsbord",
+     "Meze",
+     "Dim sum"
+    ]
+   },
+   {
+    "q": "The famous top award for a restaurant, given out by a tyre company",
+    "right": "Michelin star",
+    "wrong": [
+     "Blue plaque",
+     "Kitemark",
+     "Queen's Award"
+    ]
+   },
+   {
+    "q": "Booking a table ahead",
+    "right": "Reservation",
+    "wrong": [
+     "Covers",
+     "Walk-in",
+     "Gratuity"
+    ]
+   },
+   {
+    "q": "Getting every ingredient chopped and ready before service starts",
+    "right": "Mise en place",
+    "wrong": [
+     "The pass",
+     "Expo",
+     "Garnish"
+    ]
+   },
+   {
+    "q": "Everyone who looks after the diners rather than cooking",
+    "right": "Front of house",
+    "wrong": [
+     "Back of house",
+     "Kitchen porter",
+     "Commis chef"
+    ]
+   },
+   {
+    "q": "A cheaper deal for eating before a certain time",
+    "right": "Early bird",
+    "wrong": [
+     "Covers",
+     "Gratuity",
+     "Last orders"
+    ]
+   },
+   {
+    "q": "The head chef's second in command",
+    "right": "Sous chef",
+    "wrong": [
+     "Commis chef",
+     "Chef de partie",
+     "Kitchen porter"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this hospital word?",
+  "target": 10,
+  "category": "Science",
+  "tags": [
+   "hospitals",
+   "NHS",
+   "medicine"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The department you rush to in an emergency",
+    "right": "A&E",
+    "wrong": [
+     "Hospice",
+     "Day case",
+     "Pharmacy"
+    ]
+   },
+   {
+    "q": "Sorting patients by how urgent their case is",
+    "right": "Triage",
+    "wrong": [
+     "Suture",
+     "Nebuliser",
+     "Locum"
+    ]
+   },
+   {
+    "q": "Someone seen at the hospital who goes home the same day",
+    "right": "Outpatient",
+    "wrong": [
+     "Inpatient",
+     "Locum",
+     "Orderly"
+    ]
+   },
+   {
+    "q": "A room of beds where patients stay",
+    "right": "Ward",
+    "wrong": [
+     "Hospice",
+     "Pharmacy",
+     "Day case"
+    ]
+   },
+   {
+    "q": "The unit for the most seriously ill, with one-to-one nursing",
+    "right": "Intensive care",
+    "wrong": [
+     "Hospice",
+     "Day case",
+     "Pharmacy"
+    ]
+   },
+   {
+    "q": "Where operations take place",
+    "right": "Theatre",
+    "wrong": [
+     "Pharmacy",
+     "Hospice",
+     "Day case"
+    ]
+   },
+   {
+    "q": "Puts you to sleep, or numbs you, for an operation",
+    "right": "Anaesthetic",
+    "wrong": [
+     "Nebuliser",
+     "Tourniquet",
+     "Suture"
+    ]
+   },
+   {
+    "q": "The doctor's listening tube for hearing your heart",
+    "right": "Stethoscope",
+    "wrong": [
+     "Sphygmomanometer",
+     "Thermometer",
+     "Scalpel"
+    ]
+   },
+   {
+    "q": "A bag of fluid fed slowly into a vein",
+    "right": "Drip",
+    "wrong": [
+     "Catheter",
+     "Tourniquet",
+     "Nebuliser"
+    ]
+   },
+   {
+    "q": "A hard shell round a broken bone",
+    "right": "Plaster cast",
+    "wrong": [
+     "Tourniquet",
+     "Bandage",
+     "Suture"
+    ]
+   },
+   {
+    "q": "A pair of sticks to help you walk with a broken leg",
+    "right": "Crutches",
+    "wrong": [
+     "Trolley",
+     "Tourniquet",
+     "Bandage"
+    ]
+   },
+   {
+    "q": "The picture that shows a broken bone",
+    "right": "X-ray",
+    "wrong": [
+     "Thermometer",
+     "Nebuliser",
+     "Sphygmomanometer"
+    ]
+   },
+   {
+    "q": "Lying in a noisy tube while magnets take detailed pictures inside you",
+    "right": "MRI scan",
+    "wrong": [
+     "Nebuliser",
+     "Sphygmomanometer",
+     "Thermometer"
+    ]
+   },
+   {
+    "q": "The doctor's note telling the pharmacist what medicine to give you",
+    "right": "Prescription",
+    "wrong": [
+     "Referral",
+     "Locum",
+     "Suture"
+    ]
+   },
+   {
+    "q": "Being allowed to go home from hospital",
+    "right": "Discharge",
+    "wrong": [
+     "Referral",
+     "Locum",
+     "Day case"
+    ]
+   },
+   {
+    "q": "Used by a patient who can't get out of bed to go to the loo",
+    "right": "Bedpan",
+    "wrong": [
+     "Nebuliser",
+     "Tourniquet",
+     "Trolley"
+    ]
+   },
+   {
+    "q": "Crews the ambulance and treats you on the way in",
+    "right": "Paramedic",
+    "wrong": [
+     "Porter",
+     "Orderly",
+     "Phlebotomist"
+    ]
+   },
+   {
+    "q": "The senior doctor in charge of your care",
+    "right": "Consultant",
+    "wrong": [
+     "Porter",
+     "Orderly",
+     "Phlebotomist"
+    ]
+   },
+   {
+    "q": "The senior nurse who runs the wards",
+    "right": "Matron",
+    "wrong": [
+     "Porter",
+     "Orderly",
+     "Midwife"
+    ]
+   },
+   {
+    "q": "Gives an electric shock to restart the heart",
+    "right": "Defibrillator",
+    "wrong": [
+     "Nebuliser",
+     "Ventilator",
+     "Sphygmomanometer"
+    ]
+   }
+  ]
+ }
+]
