@@ -1,0 +1,774 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: name the famous duck",
+  "target": 10,
+  "category": "Film and TV",
+  "tags": [
+   "ducks",
+   "characters"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Mickey's short-tempered friend in a sailor suit",
+    "right": "Donald",
+    "wrong": [
+     "Goofy",
+     "Pluto",
+     "Gladstone"
+    ]
+   },
+   {
+    "q": "Bugs Bunny's lisping rival",
+    "right": "Daffy",
+    "wrong": [
+     "Porky",
+     "Elmer",
+     "Sylvester"
+    ]
+   },
+   {
+    "q": "Donald's girlfriend",
+    "right": "Daisy",
+    "wrong": [
+     "Minnie",
+     "Clarabelle",
+     "Della"
+    ]
+   },
+   {
+    "q": "The richest duck in the world",
+    "right": "Scrooge McDuck",
+    "wrong": [
+     "Flintheart Glomgold",
+     "Gladstone Gander",
+     "Gyro Gearloose"
+    ]
+   },
+   {
+    "q": "Beatrix Potter's duck in a bonnet",
+    "right": "Jemima Puddle-Duck",
+    "wrong": [
+     "Mrs. Tiggy-Winkle",
+     "Mrs. Tittlemouse",
+     "Pigling Bland"
+    ]
+   },
+   {
+    "q": "Marvel's cigar-chomping duck",
+    "right": "Howard the Duck",
+    "wrong": [
+     "Rocket",
+     "Groot",
+     "Squirrel Girl"
+    ]
+   },
+   {
+    "q": "The vegetarian vampire duck",
+    "right": "Count Duckula",
+    "wrong": [
+     "Igor",
+     "Nanny",
+     "Dracula"
+    ]
+   },
+   {
+    "q": "The Pokémon with a permanent headache",
+    "right": "Psyduck",
+    "wrong": [
+     "Golduck",
+     "Squirtle",
+     "Pikachu"
+    ]
+   },
+   {
+    "q": "'Let's get dangerous!' — the caped duck",
+    "right": "Darkwing Duck",
+    "wrong": [
+     "Negaduck",
+     "Gosalyn",
+     "Bushroot"
+    ]
+   },
+   {
+    "q": "Donald's professor uncle",
+    "right": "Ludwig Von Drake",
+    "wrong": [
+     "Gyro Gearloose",
+     "Gladstone Gander",
+     "Gus Goose"
+    ]
+   },
+   {
+    "q": "Keith Harris's green duck who wished he could fly",
+    "right": "Orville",
+    "wrong": [
+     "Cuddles",
+     "Lord Charles",
+     "Emu"
+    ]
+   },
+   {
+    "q": "The CBBC duck with a quiff",
+    "right": "Edd the Duck",
+    "wrong": [
+     "Gordon the Gopher",
+     "Otis the Aardvark",
+     "Zig"
+    ]
+   },
+   {
+    "q": "Tiny Toons' green duck",
+    "right": "Plucky Duck",
+    "wrong": [
+     "Buster Bunny",
+     "Hamton",
+     "Babs"
+    ]
+   },
+   {
+    "q": "The duck in Babe who wants to be a rooster",
+    "right": "Ferdinand",
+    "wrong": [
+     "Rex",
+     "Fly",
+     "Maa"
+    ]
+   },
+   {
+    "q": "Scrooge's crash-prone pilot",
+    "right": "Launchpad McQuack",
+    "wrong": [
+     "Fenton Crackshell",
+     "Duckworth",
+     "Gyro Gearloose"
+    ]
+   },
+   {
+    "q": "Scrooge's adventurous granddaughter-figure in DuckTales",
+    "right": "Webby Vanderquack",
+    "wrong": [
+     "Lena",
+     "Della",
+     "Mrs. Beakley"
+    ]
+   },
+   {
+    "q": "Donald's nephew in red",
+    "right": "Huey",
+    "wrong": [
+     "Dewey",
+     "Louie",
+     "Della"
+    ]
+   },
+   {
+    "q": "Thomas & Friends' Great Western tank engine",
+    "right": "Duck",
+    "wrong": [
+     "Oliver",
+     "Henry",
+     "Toby"
+    ]
+   },
+   {
+    "q": "Chicken Little's best friend",
+    "right": "Abby Mallard",
+    "wrong": [
+     "Runt of the Litter",
+     "Fish Out of Water",
+     "Foxy Loxy"
+    ]
+   },
+   {
+    "q": "Donald's gloomy, unlucky cousin",
+    "right": "Fethry Duck",
+    "wrong": [
+     "Gladstone Gander",
+     "Gus Goose",
+     "Della"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which sport is this prize or trophy from?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "trophies",
+   "sports"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The Ashes urn",
+    "right": "Cricket",
+    "wrong": [
+     "Bowls",
+     "Croquet",
+     "Hockey"
+    ]
+   },
+   {
+    "q": "The Ryder Cup",
+    "right": "Golf",
+    "wrong": [
+     "Bowls",
+     "Croquet",
+     "Polo"
+    ]
+   },
+   {
+    "q": "The Davis Cup",
+    "right": "Tennis",
+    "wrong": [
+     "Squash",
+     "Croquet",
+     "Volleyball"
+    ]
+   },
+   {
+    "q": "The Stanley Cup",
+    "right": "Ice hockey",
+    "wrong": [
+     "Lacrosse",
+     "Curling",
+     "Hockey"
+    ]
+   },
+   {
+    "q": "The Webb Ellis Cup",
+    "right": "Rugby union",
+    "wrong": [
+     "Australian rules",
+     "Football",
+     "Polo"
+    ]
+   },
+   {
+    "q": "The Yellow Jersey",
+    "right": "Cycling",
+    "wrong": [
+     "Athletics",
+     "Triathlon",
+     "Skiing"
+    ]
+   },
+   {
+    "q": "The Sam Maguire Cup",
+    "right": "Gaelic football",
+    "wrong": [
+     "Camogie",
+     "Australian rules",
+     "Handball"
+    ]
+   },
+   {
+    "q": "The Liam MacCarthy Cup",
+    "right": "Hurling",
+    "wrong": [
+     "Camogie",
+     "Lacrosse",
+     "Handball"
+    ]
+   },
+   {
+    "q": "The Vince Lombardi Trophy",
+    "right": "American football",
+    "wrong": [
+     "Australian rules",
+     "Lacrosse",
+     "Volleyball"
+    ]
+   },
+   {
+    "q": "The Larry O'Brien Trophy",
+    "right": "Basketball",
+    "wrong": [
+     "Volleyball",
+     "Netball",
+     "Handball"
+    ]
+   },
+   {
+    "q": "The Commissioner's Trophy (World Series)",
+    "right": "Baseball",
+    "wrong": [
+     "Softball",
+     "Rounders",
+     "Lacrosse"
+    ]
+   },
+   {
+    "q": "The Sid Waddell Trophy",
+    "right": "Darts",
+    "wrong": [
+     "Snooker",
+     "Bowls",
+     "Pool"
+    ]
+   },
+   {
+    "q": "The America's Cup",
+    "right": "Sailing",
+    "wrong": [
+     "Powerboating",
+     "Windsurfing",
+     "Canoeing"
+    ]
+   },
+   {
+    "q": "Doggett's Coat and Badge",
+    "right": "Rowing",
+    "wrong": [
+     "Canoeing",
+     "Swimming",
+     "Kayaking"
+    ]
+   },
+   {
+    "q": "The Uber Cup",
+    "right": "Badminton",
+    "wrong": [
+     "Squash",
+     "Volleyball",
+     "Netball"
+    ]
+   },
+   {
+    "q": "The Swaythling Cup",
+    "right": "Table tennis",
+    "wrong": [
+     "Squash",
+     "Snooker",
+     "Bowls"
+    ]
+   },
+   {
+    "q": "The Lonsdale Belt",
+    "right": "Boxing",
+    "wrong": [
+     "Wrestling",
+     "Judo",
+     "Fencing"
+    ]
+   },
+   {
+    "q": "The Melbourne Cup",
+    "right": "Horse racing",
+    "wrong": [
+     "Greyhound racing",
+     "Polo",
+     "Show jumping"
+    ]
+   },
+   {
+    "q": "The Grey Cup",
+    "right": "Canadian football",
+    "wrong": [
+     "Australian rules",
+     "Lacrosse",
+     "Curling"
+    ]
+   },
+   {
+    "q": "The Borg-Warner Trophy (Indy 500)",
+    "right": "Motor racing",
+    "wrong": [
+     "Speedway",
+     "Motocross",
+     "Powerboating"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this brand from?",
+  "target": 10,
+  "category": "Brands",
+  "tags": [
+   "brands",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "IKEA",
+    "right": "Sweden",
+    "wrong": [
+     "Norway",
+     "Iceland",
+     "Austria"
+    ]
+   },
+   {
+    "q": "Lego",
+    "right": "Denmark",
+    "wrong": [
+     "Norway",
+     "Iceland",
+     "the USA"
+    ]
+   },
+   {
+    "q": "Nokia",
+    "right": "Finland",
+    "wrong": [
+     "Norway",
+     "Estonia",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Samsung",
+    "right": "South Korea",
+    "wrong": [
+     "Taiwan",
+     "Vietnam",
+     "Singapore"
+    ]
+   },
+   {
+    "q": "Zara",
+    "right": "Spain",
+    "wrong": [
+     "Portugal",
+     "Argentina",
+     "Greece"
+    ]
+   },
+   {
+    "q": "Heineken",
+    "right": "the Netherlands",
+    "wrong": [
+     "Austria",
+     "Luxembourg",
+     "Poland"
+    ]
+   },
+   {
+    "q": "Rolex",
+    "right": "Switzerland",
+    "wrong": [
+     "Austria",
+     "Luxembourg",
+     "Liechtenstein"
+    ]
+   },
+   {
+    "q": "Nintendo",
+    "right": "Japan",
+    "wrong": [
+     "Taiwan",
+     "Singapore",
+     "Thailand"
+    ]
+   },
+   {
+    "q": "Adidas",
+    "right": "Germany",
+    "wrong": [
+     "Austria",
+     "the USA",
+     "Poland"
+    ]
+   },
+   {
+    "q": "Ferrari",
+    "right": "Italy",
+    "wrong": [
+     "Portugal",
+     "Greece",
+     "Austria"
+    ]
+   },
+   {
+    "q": "Guinness",
+    "right": "Ireland",
+    "wrong": [
+     "Scotland",
+     "Wales",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Tim Hortons",
+    "right": "Canada",
+    "wrong": [
+     "the USA",
+     "New Zealand",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Vegemite",
+    "right": "Australia",
+    "wrong": [
+     "New Zealand",
+     "South Africa",
+     "the USA"
+    ]
+   },
+   {
+    "q": "Havaianas",
+    "right": "Brazil",
+    "wrong": [
+     "Argentina",
+     "Portugal",
+     "Chile"
+    ]
+   },
+   {
+    "q": "Corona",
+    "right": "Mexico",
+    "wrong": [
+     "Argentina",
+     "the USA",
+     "Chile"
+    ]
+   },
+   {
+    "q": "Tata",
+    "right": "India",
+    "wrong": [
+     "Pakistan",
+     "Sri Lanka",
+     "Bangladesh"
+    ]
+   },
+   {
+    "q": "Huawei",
+    "right": "China",
+    "wrong": [
+     "Taiwan",
+     "Singapore",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "Škoda",
+    "right": "Czechia",
+    "wrong": [
+     "Slovakia",
+     "Poland",
+     "Hungary"
+    ]
+   },
+   {
+    "q": "Lacoste",
+    "right": "France",
+    "wrong": [
+     "Portugal",
+     "Luxembourg",
+     "Greece"
+    ]
+   },
+   {
+    "q": "Stella Artois",
+    "right": "Belgium",
+    "wrong": [
+     "Luxembourg",
+     "Austria",
+     "Poland"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's the Japanese word?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "Japanese",
+   "languages"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Thank you",
+    "right": "Arigatō",
+    "wrong": [
+     "Kanpai",
+     "Sumimasen",
+     "Gomen"
+    ]
+   },
+   {
+    "q": "Goodbye",
+    "right": "Sayōnara",
+    "wrong": [
+     "Oyasumi",
+     "Konbanwa",
+     "Dōzo"
+    ]
+   },
+   {
+    "q": "Yes",
+    "right": "Hai",
+    "wrong": [
+     "Ne",
+     "Sō",
+     "Ano"
+    ]
+   },
+   {
+    "q": "No",
+    "right": "Iie",
+    "wrong": [
+     "Ano",
+     "Ne",
+     "Etto"
+    ]
+   },
+   {
+    "q": "Water",
+    "right": "Mizu",
+    "wrong": [
+     "Mimi",
+     "Mochi",
+     "Mugi"
+    ]
+   },
+   {
+    "q": "Cat",
+    "right": "Neko",
+    "wrong": [
+     "Nezumi",
+     "Tori",
+     "Kitsune"
+    ]
+   },
+   {
+    "q": "Dog",
+    "right": "Inu",
+    "wrong": [
+     "Ushi",
+     "Uma",
+     "Kitsune"
+    ]
+   },
+   {
+    "q": "Mountain",
+    "right": "Yama",
+    "wrong": [
+     "Kaze",
+     "Kumo",
+     "Shima"
+    ]
+   },
+   {
+    "q": "River",
+    "right": "Kawa",
+    "wrong": [
+     "Kaze",
+     "Kumo",
+     "Mizuumi"
+    ]
+   },
+   {
+    "q": "Tree",
+    "right": "Ki",
+    "wrong": [
+     "Te",
+     "Me",
+     "Hi"
+    ]
+   },
+   {
+    "q": "Book",
+    "right": "Hon",
+    "wrong": [
+     "Kami",
+     "Ji",
+     "E"
+    ]
+   },
+   {
+    "q": "Car",
+    "right": "Kuruma",
+    "wrong": [
+     "Densha",
+     "Fune",
+     "Hikōki"
+    ]
+   },
+   {
+    "q": "Friend",
+    "right": "Tomodachi",
+    "wrong": [
+     "Sensei",
+     "Kazoku",
+     "Kodomo"
+    ]
+   },
+   {
+    "q": "Moon",
+    "right": "Tsuki",
+    "wrong": [
+     "Hoshi",
+     "Taiyō",
+     "Kumo"
+    ]
+   },
+   {
+    "q": "Flower",
+    "right": "Hana",
+    "wrong": [
+     "Ha",
+     "Kusa",
+     "Mori"
+    ]
+   },
+   {
+    "q": "Sea",
+    "right": "Umi",
+    "wrong": [
+     "Shima",
+     "Mizuumi",
+     "Hama"
+    ]
+   },
+   {
+    "q": "Rain",
+    "right": "Ame",
+    "wrong": [
+     "Kaze",
+     "Kumo",
+     "Kaminari"
+    ]
+   },
+   {
+    "q": "Snow",
+    "right": "Yuki",
+    "wrong": [
+     "Kōri",
+     "Fuyu",
+     "Shimo"
+    ]
+   },
+   {
+    "q": "Sky",
+    "right": "Sora",
+    "wrong": [
+     "Kumo",
+     "Hoshi",
+     "Taiyō"
+    ]
+   },
+   {
+    "q": "Good morning",
+    "right": "Ohayō",
+    "wrong": [
+     "Konbanwa",
+     "Oyasumi",
+     "Konnichiwa"
+    ]
+   }
+  ]
+ }
+]
