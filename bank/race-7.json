@@ -1,0 +1,774 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's the Italian word?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "Italian",
+   "languages"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Love",
+    "right": "Amore",
+    "wrong": [
+     "Amaro",
+     "Ambra",
+     "Armadio"
+    ]
+   },
+   {
+    "q": "Goodbye",
+    "right": "Arrivederci",
+    "wrong": [
+     "Avanti",
+     "Allora",
+     "Andiamo"
+    ]
+   },
+   {
+    "q": "Good morning",
+    "right": "Buongiorno",
+    "wrong": [
+     "Buonasera",
+     "Buonanotte",
+     "Benvenuto"
+    ]
+   },
+   {
+    "q": "Please",
+    "right": "Per favore",
+    "wrong": [
+     "Per sempre",
+     "Perché",
+     "Permesso"
+    ]
+   },
+   {
+    "q": "Church",
+    "right": "Chiesa",
+    "wrong": [
+     "Chiave",
+     "Chiusa",
+     "Cassa"
+    ]
+   },
+   {
+    "q": "Square (in a town)",
+    "right": "Piazza",
+    "wrong": [
+     "Pizza",
+     "Pazzo",
+     "Pezzo"
+    ]
+   },
+   {
+    "q": "Street",
+    "right": "Strada",
+    "wrong": [
+     "Stanza",
+     "Stella",
+     "Strega"
+    ]
+   },
+   {
+    "q": "Ice cream",
+    "right": "Gelato",
+    "wrong": [
+     "Gelo",
+     "Gilet",
+     "Gettone"
+    ]
+   },
+   {
+    "q": "Cheese",
+    "right": "Formaggio",
+    "wrong": [
+     "Formica",
+     "Fortuna",
+     "Foraggio"
+    ]
+   },
+   {
+    "q": "Boy",
+    "right": "Ragazzo",
+    "wrong": [
+     "Ragno",
+     "Regalo",
+     "Razzo"
+    ]
+   },
+   {
+    "q": "Girl",
+    "right": "Ragazza",
+    "wrong": [
+     "Regina",
+     "Ragione",
+     "Rana"
+    ]
+   },
+   {
+    "q": "Beautiful",
+    "right": "Bello",
+    "wrong": [
+     "Bollo",
+     "Bagno",
+     "Bianco"
+    ]
+   },
+   {
+    "q": "Bridge",
+    "right": "Ponte",
+    "wrong": [
+     "Porta",
+     "Punto",
+     "Pane"
+    ]
+   },
+   {
+    "q": "Window",
+    "right": "Finestra",
+    "wrong": [
+     "Fiera",
+     "Fontana",
+     "Festa"
+    ]
+   },
+   {
+    "q": "Dog",
+    "right": "Cane",
+    "wrong": [
+     "Carne",
+     "Cena",
+     "Casa"
+    ]
+   },
+   {
+    "q": "Cat",
+    "right": "Gatto",
+    "wrong": [
+     "Gallo",
+     "Gamba",
+     "Guanto"
+    ]
+   },
+   {
+    "q": "Sea",
+    "right": "Mare",
+    "wrong": [
+     "Mano",
+     "Male",
+     "Madre"
+    ]
+   },
+   {
+    "q": "Mountain",
+    "right": "Montagna",
+    "wrong": [
+     "Montone",
+     "Moneta",
+     "Mostra"
+    ]
+   },
+   {
+    "q": "Island",
+    "right": "Isola",
+    "wrong": [
+     "Isolato",
+     "Inverno",
+     "Insegna"
+    ]
+   },
+   {
+    "q": "Tomorrow",
+    "right": "Domani",
+    "wrong": [
+     "Domenica",
+     "Dopo",
+     "Donna"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which sport has this role or position?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "positions",
+   "sports"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Wicketkeeper",
+    "right": "Cricket",
+    "wrong": [
+     "Rounders",
+     "Hockey",
+     "Lacrosse"
+    ]
+   },
+   {
+    "q": "Quarterback",
+    "right": "American football",
+    "wrong": [
+     "Rugby league",
+     "Australian rules",
+     "Gaelic football"
+    ]
+   },
+   {
+    "q": "Pitcher",
+    "right": "Baseball",
+    "wrong": [
+     "Rounders",
+     "Lacrosse",
+     "Hurling"
+    ]
+   },
+   {
+    "q": "Goal attack",
+    "right": "Netball",
+    "wrong": [
+     "Handball",
+     "Korfball",
+     "Lacrosse"
+    ]
+   },
+   {
+    "q": "Setter",
+    "right": "Volleyball",
+    "wrong": [
+     "Badminton",
+     "Squash",
+     "Handball"
+    ]
+   },
+   {
+    "q": "Fly-half",
+    "right": "Rugby union",
+    "wrong": [
+     "Gaelic football",
+     "Australian rules",
+     "Hurling"
+    ]
+   },
+   {
+    "q": "Point guard",
+    "right": "Basketball",
+    "wrong": [
+     "Handball",
+     "Korfball",
+     "Lacrosse"
+    ]
+   },
+   {
+    "q": "Cox",
+    "right": "Rowing",
+    "wrong": [
+     "Canoeing",
+     "Kayaking",
+     "Dragon boat racing"
+    ]
+   },
+   {
+    "q": "Skip",
+    "right": "Curling",
+    "wrong": [
+     "Snooker",
+     "Darts",
+     "Bobsleigh"
+    ]
+   },
+   {
+    "q": "Jockey",
+    "right": "Horse racing",
+    "wrong": [
+     "Show jumping",
+     "Polo",
+     "Dressage"
+    ]
+   },
+   {
+    "q": "Caddie",
+    "right": "Golf",
+    "wrong": [
+     "Tennis",
+     "Snooker",
+     "Croquet"
+    ]
+   },
+   {
+    "q": "Netminder",
+    "right": "Ice hockey",
+    "wrong": [
+     "Handball",
+     "Hockey",
+     "Korfball"
+    ]
+   },
+   {
+    "q": "Picador",
+    "right": "Bullfighting",
+    "wrong": [
+     "Rodeo",
+     "Fencing",
+     "Polo"
+    ]
+   },
+   {
+    "q": "Seeker",
+    "right": "Quidditch",
+    "wrong": [
+     "Lacrosse",
+     "Polo",
+     "Hurling"
+    ]
+   },
+   {
+    "q": "Domestique",
+    "right": "Cycling",
+    "wrong": [
+     "Athletics",
+     "Triathlon",
+     "Motor racing"
+    ]
+   },
+   {
+    "q": "Cutman",
+    "right": "Boxing",
+    "wrong": [
+     "Wrestling",
+     "Judo",
+     "Fencing"
+    ]
+   },
+   {
+    "q": "Jammer",
+    "right": "Roller derby",
+    "wrong": [
+     "Speed skating",
+     "Figure skating",
+     "Skateboarding"
+    ]
+   },
+   {
+    "q": "Hole set",
+    "right": "Water polo",
+    "wrong": [
+     "Swimming",
+     "Diving",
+     "Canoe polo"
+    ]
+   },
+   {
+    "q": "Co-driver",
+    "right": "Rallying",
+    "wrong": [
+     "Speedway",
+     "Motocross",
+     "Karting"
+    ]
+   },
+   {
+    "q": "Helm",
+    "right": "Sailing",
+    "wrong": [
+     "Canoeing",
+     "Surfing",
+     "Windsurfing"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this wedding anniversary called?",
+  "target": 10,
+  "category": "Weddings",
+  "tags": [
+   "anniversaries",
+   "weddings"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "1st",
+    "right": "Paper",
+    "wrong": [
+     "Wool",
+     "Glass",
+     "Velvet"
+    ]
+   },
+   {
+    "q": "2nd",
+    "right": "Cotton",
+    "wrong": [
+     "Wool",
+     "Velvet",
+     "Glass"
+    ]
+   },
+   {
+    "q": "3rd",
+    "right": "Leather",
+    "wrong": [
+     "Copper",
+     "Wool",
+     "Oak"
+    ]
+   },
+   {
+    "q": "5th",
+    "right": "Wood",
+    "wrong": [
+     "Iron",
+     "Copper",
+     "Glass"
+    ]
+   },
+   {
+    "q": "8th",
+    "right": "Bronze",
+    "wrong": [
+     "Brass",
+     "Copper",
+     "Pewter"
+    ]
+   },
+   {
+    "q": "9th",
+    "right": "Pottery",
+    "wrong": [
+     "Glass",
+     "Wool",
+     "Brass"
+    ]
+   },
+   {
+    "q": "10th",
+    "right": "Tin",
+    "wrong": [
+     "Iron",
+     "Copper",
+     "Pewter"
+    ]
+   },
+   {
+    "q": "11th",
+    "right": "Steel",
+    "wrong": [
+     "Iron",
+     "Brass",
+     "Copper"
+    ]
+   },
+   {
+    "q": "12th",
+    "right": "Silk",
+    "wrong": [
+     "Velvet",
+     "Wool",
+     "Satin"
+    ]
+   },
+   {
+    "q": "13th",
+    "right": "Lace",
+    "wrong": [
+     "Velvet",
+     "Satin",
+     "Wool"
+    ]
+   },
+   {
+    "q": "15th",
+    "right": "Crystal",
+    "wrong": [
+     "Glass",
+     "Amber",
+     "Opal"
+    ]
+   },
+   {
+    "q": "20th",
+    "right": "China",
+    "wrong": [
+     "Glass",
+     "Opal",
+     "Amber"
+    ]
+   },
+   {
+    "q": "25th",
+    "right": "Silver",
+    "wrong": [
+     "Pewter",
+     "Brass",
+     "Copper"
+    ]
+   },
+   {
+    "q": "30th",
+    "right": "Pearl",
+    "wrong": [
+     "Opal",
+     "Amber",
+     "Jade"
+    ]
+   },
+   {
+    "q": "35th",
+    "right": "Coral",
+    "wrong": [
+     "Opal",
+     "Topaz",
+     "Amber"
+    ]
+   },
+   {
+    "q": "40th",
+    "right": "Ruby",
+    "wrong": [
+     "Garnet",
+     "Topaz",
+     "Opal"
+    ]
+   },
+   {
+    "q": "45th",
+    "right": "Sapphire",
+    "wrong": [
+     "Topaz",
+     "Jade",
+     "Opal"
+    ]
+   },
+   {
+    "q": "50th",
+    "right": "Gold",
+    "wrong": [
+     "Brass",
+     "Amber",
+     "Topaz"
+    ]
+   },
+   {
+    "q": "55th",
+    "right": "Emerald",
+    "wrong": [
+     "Jade",
+     "Topaz",
+     "Opal"
+    ]
+   },
+   {
+    "q": "60th",
+    "right": "Diamond",
+    "wrong": [
+     "Opal",
+     "Topaz",
+     "Jade"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what is this chemical formula?",
+  "target": 10,
+  "category": "Science and nature",
+  "tags": [
+   "chemistry",
+   "formulas"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "H₂O",
+    "right": "Water",
+    "wrong": [
+     "Hydrogen",
+     "Helium",
+     "Ethane"
+    ]
+   },
+   {
+    "q": "CO₂",
+    "right": "Carbon dioxide",
+    "wrong": [
+     "Nitrogen dioxide",
+     "Sulphur dioxide",
+     "Chlorine"
+    ]
+   },
+   {
+    "q": "NaCl",
+    "right": "Salt",
+    "wrong": [
+     "Bleach",
+     "Chlorine",
+     "Washing soda"
+    ]
+   },
+   {
+    "q": "O₃",
+    "right": "Ozone",
+    "wrong": [
+     "Nitrogen",
+     "Helium",
+     "Chlorine"
+    ]
+   },
+   {
+    "q": "CH₄",
+    "right": "Methane",
+    "wrong": [
+     "Ethane",
+     "Propane",
+     "Butane"
+    ]
+   },
+   {
+    "q": "NH₃",
+    "right": "Ammonia",
+    "wrong": [
+     "Nitric acid",
+     "Nitrogen",
+     "Ethane"
+    ]
+   },
+   {
+    "q": "H₂O₂",
+    "right": "Hydrogen peroxide",
+    "wrong": [
+     "Bleach",
+     "Vinegar",
+     "Nitric acid"
+    ]
+   },
+   {
+    "q": "C₆H₁₂O₆",
+    "right": "Glucose",
+    "wrong": [
+     "Starch",
+     "Cellulose",
+     "Lactose"
+    ]
+   },
+   {
+    "q": "CaCO₃",
+    "right": "Chalk",
+    "wrong": [
+     "Quicklime",
+     "Epsom salts",
+     "Magnesia"
+    ]
+   },
+   {
+    "q": "HCl",
+    "right": "Hydrochloric acid",
+    "wrong": [
+     "Nitric acid",
+     "Vinegar",
+     "Chlorine"
+    ]
+   },
+   {
+    "q": "H₂SO₄",
+    "right": "Sulphuric acid",
+    "wrong": [
+     "Nitric acid",
+     "Sulphur dioxide",
+     "Vinegar"
+    ]
+   },
+   {
+    "q": "NaHCO₃",
+    "right": "Bicarbonate of soda",
+    "wrong": [
+     "Washing soda",
+     "Epsom salts",
+     "Potash"
+    ]
+   },
+   {
+    "q": "C₂H₅OH",
+    "right": "Alcohol (ethanol)",
+    "wrong": [
+     "Vinegar",
+     "Ethylene",
+     "Propane"
+    ]
+   },
+   {
+    "q": "CO",
+    "right": "Carbon monoxide",
+    "wrong": [
+     "Nitrogen dioxide",
+     "Sulphur dioxide",
+     "Helium"
+    ]
+   },
+   {
+    "q": "N₂O",
+    "right": "Laughing gas",
+    "wrong": [
+     "Nitrogen dioxide",
+     "Nitric acid",
+     "Sulphur dioxide"
+    ]
+   },
+   {
+    "q": "SiO₂",
+    "right": "Sand (silica)",
+    "wrong": [
+     "Lime",
+     "Quicklime",
+     "Magnesia"
+    ]
+   },
+   {
+    "q": "Fe₂O₃",
+    "right": "Rust",
+    "wrong": [
+     "Iron sulphide",
+     "Magnetite",
+     "Quicklime"
+    ]
+   },
+   {
+    "q": "C₁₂H₂₂O₁₁",
+    "right": "Sugar (sucrose)",
+    "wrong": [
+     "Starch",
+     "Cellulose",
+     "Vinegar"
+    ]
+   },
+   {
+    "q": "O₂",
+    "right": "Oxygen",
+    "wrong": [
+     "Nitrogen",
+     "Hydrogen",
+     "Helium"
+    ]
+   },
+   {
+    "q": "NaOH",
+    "right": "Caustic soda",
+    "wrong": [
+     "Washing soda",
+     "Bleach",
+     "Potash"
+    ]
+   }
+  ]
+ }
+]
