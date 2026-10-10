@@ -631,7 +631,8 @@ function bindGame(s) {
 }
 /** How many turns until mine: 0 when it's mine now, 1 when I'm next. */
 function turnsUntilMe(w) {
-  const order = w.order || []; const me = order.indexOf(P.pid), cur = order.indexOf(w.turnPid);
+  const order = (w.order || []).filter((p) => p === w.turnPid || !(w.out || []).includes(p)); // players who are out never get another turn
+  const me = order.indexOf(P.pid), cur = order.indexOf(w.turnPid);
   if (me < 0) return null; if (cur < 0) return me; // before the first turn: my place in the order
   return ((me - cur) % order.length + order.length) % order.length;
 }
@@ -643,7 +644,7 @@ function wipeHtml(s) {
   const note = w.studyMs ? `<div class="turnnote">👀 Take a look — turns start in <span id="studyLeft">${Math.ceil(w.studyMs / 1000)}</span>s${until !== null && !out ? `<br><span class="small">You go ${LQ.ordinal(until + 1)}</span>` : ''}</div>`
     : w.over ? `<div class="turnnote">${w.last ? esc((w.last.name ? w.last.name + ': ' : '') + w.last.text) + (w.last.ok === false ? ' ✘' : w.last.ok ? ' ✔' : '') : 'Round over'}</div>`
     : mine ? `<div class="turnnote mine">🟢 Your pick! Tap a right answer</div>`
-    : out ? `<div class="turnnote">💥 You're out of this one.${w.turnName ? ` ${esc(w.turnName)} is picking…` : ''}${last ? '<br>' + last : ''}</div>`
+    : out ? `<div class="turnnote">${(w.timedOut || []).includes(P.pid) ? '⏱ You ran out of time, so you’re out of this one.' : '💥 You’re out of this one.'}${w.turnName ? ` ${esc(w.turnName)} is picking…` : ''}${last ? '<br>' + last : ''}</div>`
     : `<div class="turnnote">${w.turnName ? `${esc(w.turnName)} is picking…` : 'Next pick coming up…'}${last ? '<br>' + last : ''}</div>${countdown}`;
   const mineScore = w.scores?.[P.pid];
   app.className = 'app ' + (w.over || out || w.studyMs ? '' : mine ? 'turn-mine' : 'turn-wait');
