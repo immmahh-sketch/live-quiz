@@ -1,0 +1,581 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this Greek letter called?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "Greek alphabet",
+   "letters"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "α",
+    "right": "Alpha",
+    "wrong": [
+     "Omicron",
+     "Aleph",
+     "Iota"
+    ]
+   },
+   {
+    "q": "β",
+    "right": "Beta",
+    "wrong": [
+     "Kappa",
+     "Beth",
+     "Upsilon"
+    ]
+   },
+   {
+    "q": "γ",
+    "right": "Gamma",
+    "wrong": [
+     "Upsilon",
+     "Gimel",
+     "Kappa"
+    ]
+   },
+   {
+    "q": "δ",
+    "right": "Delta",
+    "wrong": [
+     "Omicron",
+     "Iota",
+     "Kappa"
+    ]
+   },
+   {
+    "q": "ε",
+    "right": "Epsilon",
+    "wrong": [
+     "Iota",
+     "Omicron",
+     "Upsilon"
+    ]
+   },
+   {
+    "q": "ζ",
+    "right": "Zeta",
+    "wrong": [
+     "Kappa",
+     "Upsilon",
+     "Iota"
+    ]
+   },
+   {
+    "q": "η",
+    "right": "Eta",
+    "wrong": [
+     "Upsilon",
+     "Kappa",
+     "Omicron"
+    ]
+   },
+   {
+    "q": "θ",
+    "right": "Theta",
+    "wrong": [
+     "Omicron",
+     "Kappa",
+     "Iota"
+    ]
+   },
+   {
+    "q": "λ",
+    "right": "Lambda",
+    "wrong": [
+     "Kappa",
+     "Upsilon",
+     "Yod"
+    ]
+   },
+   {
+    "q": "μ",
+    "right": "Mu",
+    "wrong": [
+     "Upsilon",
+     "Kappa",
+     "Omicron"
+    ]
+   },
+   {
+    "q": "ν",
+    "right": "Nu",
+    "wrong": [
+     "Upsilon",
+     "Kappa",
+     "Iota"
+    ]
+   },
+   {
+    "q": "ξ",
+    "right": "Xi",
+    "wrong": [
+     "Kappa",
+     "Iota",
+     "Omicron"
+    ]
+   },
+   {
+    "q": "π",
+    "right": "Pi",
+    "wrong": [
+     "Iota",
+     "Kappa",
+     "Upsilon"
+    ]
+   },
+   {
+    "q": "ρ",
+    "right": "Rho",
+    "wrong": [
+     "Omicron",
+     "Iota",
+     "Kappa"
+    ]
+   },
+   {
+    "q": "σ",
+    "right": "Sigma",
+    "wrong": [
+     "Omicron",
+     "Kappa",
+     "Upsilon"
+    ]
+   },
+   {
+    "q": "τ",
+    "right": "Tau",
+    "wrong": [
+     "Iota",
+     "Kappa",
+     "Upsilon"
+    ]
+   },
+   {
+    "q": "φ",
+    "right": "Phi",
+    "wrong": [
+     "Omicron",
+     "Upsilon",
+     "Kappa"
+    ]
+   },
+   {
+    "q": "χ",
+    "right": "Chi",
+    "wrong": [
+     "Kappa",
+     "Upsilon",
+     "Iota"
+    ]
+   },
+   {
+    "q": "ψ",
+    "right": "Psi",
+    "wrong": [
+     "Upsilon",
+     "Kappa",
+     "Iota"
+    ]
+   },
+   {
+    "q": "ω",
+    "right": "Omega",
+    "wrong": [
+     "Omicron",
+     "Upsilon",
+     "Kappa"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which part of the body does this specialist look after?",
+  "target": 10,
+  "category": "Science and nature",
+  "tags": [
+   "medicine",
+   "specialists"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Cardiologist",
+    "right": "Heart",
+    "wrong": [
+     "Spleen",
+     "Pancreas",
+     "Spine"
+    ]
+   },
+   {
+    "q": "Dermatologist",
+    "right": "Skin",
+    "wrong": [
+     "Muscles",
+     "Tendons",
+     "Spine"
+    ]
+   },
+   {
+    "q": "Ophthalmologist",
+    "right": "Eyes",
+    "wrong": [
+     "Spleen",
+     "Thyroid",
+     "Tonsils"
+    ]
+   },
+   {
+    "q": "Neurologist",
+    "right": "Nerves and brain",
+    "wrong": [
+     "Pancreas",
+     "Spleen",
+     "Tendons"
+    ]
+   },
+   {
+    "q": "Nephrologist",
+    "right": "Kidneys",
+    "wrong": [
+     "Spleen",
+     "Pancreas",
+     "Gallbladder"
+    ]
+   },
+   {
+    "q": "Hepatologist",
+    "right": "Liver",
+    "wrong": [
+     "Spleen",
+     "Pancreas",
+     "Appendix"
+    ]
+   },
+   {
+    "q": "Podiatrist",
+    "right": "Feet",
+    "wrong": [
+     "Hands",
+     "Knees",
+     "Spine"
+    ]
+   },
+   {
+    "q": "Gastroenterologist",
+    "right": "Stomach and gut",
+    "wrong": [
+     "Spleen",
+     "Thyroid",
+     "Tonsils"
+    ]
+   },
+   {
+    "q": "Pulmonologist",
+    "right": "Lungs",
+    "wrong": [
+     "Spleen",
+     "Pancreas",
+     "Thyroid"
+    ]
+   },
+   {
+    "q": "Urologist",
+    "right": "Bladder",
+    "wrong": [
+     "Spleen",
+     "Pancreas",
+     "Gallbladder"
+    ]
+   },
+   {
+    "q": "Rheumatologist",
+    "right": "Joints",
+    "wrong": [
+     "Spleen",
+     "Pancreas",
+     "Tonsils"
+    ]
+   },
+   {
+    "q": "Haematologist",
+    "right": "Blood",
+    "wrong": [
+     "Tonsils",
+     "Appendix",
+     "Tendons"
+    ]
+   },
+   {
+    "q": "Otologist",
+    "right": "Ears",
+    "wrong": [
+     "Tonsils",
+     "Spine",
+     "Knees"
+    ]
+   },
+   {
+    "q": "Rhinologist",
+    "right": "Nose",
+    "wrong": [
+     "Tonsils",
+     "Knees",
+     "Spine"
+    ]
+   },
+   {
+    "q": "Laryngologist",
+    "right": "Voice box",
+    "wrong": [
+     "Knees",
+     "Spleen",
+     "Appendix"
+    ]
+   },
+   {
+    "q": "Endocrinologist",
+    "right": "Hormone glands",
+    "wrong": [
+     "Tendons",
+     "Knees",
+     "Appendix"
+    ]
+   },
+   {
+    "q": "Trichologist",
+    "right": "Hair",
+    "wrong": [
+     "Nails",
+     "Tendons",
+     "Knees"
+    ]
+   },
+   {
+    "q": "Dentist",
+    "right": "Teeth",
+    "wrong": [
+     "Tonsils",
+     "Tendons",
+     "Knees"
+    ]
+   },
+   {
+    "q": "Psychiatrist",
+    "right": "The mind",
+    "wrong": [
+     "Spine",
+     "Tendons",
+     "Knees"
+    ]
+   },
+   {
+    "q": "Orthopaedic surgeon",
+    "right": "Bones",
+    "wrong": [
+     "Tonsils",
+     "Spleen",
+     "Appendix"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country did this royal house or dynasty rule?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "royal houses",
+   "dynasties"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The House of Windsor",
+    "right": "the United Kingdom",
+    "wrong": [
+     "Ireland",
+     "Denmark",
+     "Norway"
+    ]
+   },
+   {
+    "q": "The Grimaldis",
+    "right": "Monaco",
+    "wrong": [
+     "Andorra",
+     "Liechtenstein",
+     "San Marino"
+    ]
+   },
+   {
+    "q": "The House of Orange-Nassau",
+    "right": "the Netherlands",
+    "wrong": [
+     "Belgium",
+     "Denmark",
+     "Norway"
+    ]
+   },
+   {
+    "q": "The House of Bernadotte",
+    "right": "Sweden",
+    "wrong": [
+     "Denmark",
+     "Finland",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "The Chakri dynasty",
+    "right": "Thailand",
+    "wrong": [
+     "Cambodia",
+     "Laos",
+     "Myanmar"
+    ]
+   },
+   {
+    "q": "The Alaouite dynasty",
+    "right": "Morocco",
+    "wrong": [
+     "Algeria",
+     "Tunisia",
+     "Egypt"
+    ]
+   },
+   {
+    "q": "The Hashemites",
+    "right": "Jordan",
+    "wrong": [
+     "Kuwait",
+     "Oman",
+     "Bahrain"
+    ]
+   },
+   {
+    "q": "The House of Thani",
+    "right": "Qatar",
+    "wrong": [
+     "Kuwait",
+     "Bahrain",
+     "Oman"
+    ]
+   },
+   {
+    "q": "The Wangchuck dynasty",
+    "right": "Bhutan",
+    "wrong": [
+     "Nepal",
+     "Sikkim",
+     "Myanmar"
+    ]
+   },
+   {
+    "q": "The Romanovs",
+    "right": "Russia",
+    "wrong": [
+     "Denmark",
+     "Bulgaria",
+     "Greece"
+    ]
+   },
+   {
+    "q": "The Habsburgs, from Vienna",
+    "right": "Austria",
+    "wrong": [
+     "Denmark",
+     "Norway",
+     "Greece"
+    ]
+   },
+   {
+    "q": "The Hohenzollerns, as Kaisers",
+    "right": "Germany",
+    "wrong": [
+     "Denmark",
+     "Norway",
+     "Belgium"
+    ]
+   },
+   {
+    "q": "The Bourbons, before 1792",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Norway",
+     "Greece"
+    ]
+   },
+   {
+    "q": "The House of Savoy, as kings from 1861",
+    "right": "Italy",
+    "wrong": [
+     "Denmark",
+     "Norway",
+     "Greece"
+    ]
+   },
+   {
+    "q": "The Pahlavi dynasty",
+    "right": "Iran",
+    "wrong": [
+     "Iraq",
+     "Afghanistan",
+     "Egypt"
+    ]
+   },
+   {
+    "q": "The Qing dynasty",
+    "right": "China",
+    "wrong": [
+     "Japan",
+     "Korea",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "The Ottomans",
+    "right": "Turkey",
+    "wrong": [
+     "Afghanistan",
+     "Oman",
+     "Kuwait"
+    ]
+   },
+   {
+    "q": "The Mughals",
+    "right": "India",
+    "wrong": [
+     "Nepal",
+     "Sri Lanka",
+     "Myanmar"
+    ]
+   },
+   {
+    "q": "The House of Braganza",
+    "right": "Portugal",
+    "wrong": [
+     "Spain",
+     "Greece",
+     "Belgium"
+    ]
+   },
+   {
+    "q": "The Jagiellonians, from Kraków",
+    "right": "Poland",
+    "wrong": [
+     "Denmark",
+     "Norway",
+     "Greece"
+    ]
+   }
+  ]
+ }
+]
