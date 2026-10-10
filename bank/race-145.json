@@ -1,0 +1,582 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this Christmas word?",
+  "target": 10,
+  "category": "Christmas",
+  "tags": [
+   "Christmas",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Open a little door each day in December",
+    "right": "Advent calendar",
+    "wrong": [
+     "Lantern",
+     "Bunting",
+     "Piñata"
+    ]
+   },
+   {
+    "q": "Glittery strands draped round the tree",
+    "right": "Tinsel",
+    "wrong": [
+     "Bunting",
+     "Streamer",
+     "Sparkler"
+    ]
+   },
+   {
+    "q": "A shiny ball hung on the tree",
+    "right": "Bauble",
+    "wrong": [
+     "Lantern",
+     "Piñata",
+     "Sparkler"
+    ]
+   },
+   {
+    "q": "Kiss under it",
+    "right": "Mistletoe",
+    "wrong": [
+     "Poinsettia",
+     "Amaryllis",
+     "Ivy"
+    ]
+   },
+   {
+    "q": "Prickly leaves with bright red berries",
+    "right": "Holly",
+    "wrong": [
+     "Poinsettia",
+     "Amaryllis",
+     "Ivy"
+    ]
+   },
+   {
+    "q": "A ring of greenery hung on the front door",
+    "right": "Wreath",
+    "wrong": [
+     "Bunting",
+     "Lantern",
+     "Piñata"
+    ]
+   },
+   {
+    "q": "The school play with Mary, Joseph, shepherds and a tea towel on every head",
+    "right": "Nativity",
+    "wrong": [
+     "Masque",
+     "Mummers' play",
+     "Passion play"
+    ]
+   },
+   {
+    "q": "Hung at the end of the bed for Father Christmas to fill",
+    "right": "Stocking",
+    "wrong": [
+     "Piñata",
+     "Lantern",
+     "Bunting"
+    ]
+   },
+   {
+    "q": "Pulled with a bang, hiding a paper hat and a bad joke",
+    "right": "Cracker",
+    "wrong": [
+     "Sparkler",
+     "Piñata",
+     "Streamer"
+    ]
+   },
+   {
+    "q": "A chocolate sponge roll decorated to look like a piece of wood",
+    "right": "Yule log",
+    "wrong": [
+     "Stollen",
+     "Panettone",
+     "Simnel cake"
+    ]
+   },
+   {
+    "q": "A little pastry case of dried fruit and spices",
+    "right": "Mince pie",
+    "wrong": [
+     "Stollen",
+     "Panettone",
+     "Simnel cake"
+    ]
+   },
+   {
+    "q": "The 26th of December",
+    "right": "Boxing Day",
+    "wrong": [
+     "Candlemas",
+     "Michaelmas",
+     "Lammas"
+    ]
+   },
+   {
+    "q": "'Oh no it isn't!' Theatre with a dame and a principal boy",
+    "right": "Panto",
+    "wrong": [
+     "Masque",
+     "Passion play",
+     "Mummers' play"
+    ]
+   },
+   {
+    "q": "Going door to door singing and drinking toasts, an old English custom",
+    "right": "Wassailing",
+    "wrong": [
+     "Morris dancing",
+     "Maypole dancing",
+     "Beating the bounds"
+    ]
+   },
+   {
+    "q": "The evening of 5 January, when the decorations should come down",
+    "right": "Twelfth Night",
+    "wrong": [
+     "Candlemas",
+     "Michaelmas",
+     "Lammas"
+    ]
+   },
+   {
+    "q": "A box of chocolate bars given to children",
+    "right": "Selection box",
+    "wrong": [
+     "Piñata",
+     "Stollen",
+     "Lantern"
+    ]
+   },
+   {
+    "q": "Pulling a name out of a hat and buying that person a present",
+    "right": "Secret Santa",
+    "wrong": [
+     "Lucky dip",
+     "Tombola",
+     "Raffle"
+    ]
+   },
+   {
+    "q": "The 24th of December",
+    "right": "Christmas Eve",
+    "wrong": [
+     "Candlemas",
+     "Michaelmas",
+     "Lammas"
+    ]
+   },
+   {
+    "q": "6 January, when the Three Kings reached Bethlehem",
+    "right": "Epiphany",
+    "wrong": [
+     "Candlemas",
+     "Michaelmas",
+     "Lammas"
+    ]
+   },
+   {
+    "q": "A sweet, boozy spread served with Christmas pudding",
+    "right": "Brandy butter",
+    "wrong": [
+     "Clotted cream",
+     "Lemon curd",
+     "Marmalade"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this pirate word?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "pirates",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The skull-and-crossbones flag",
+    "right": "Jolly Roger",
+    "wrong": [
+     "Ensign",
+     "Pennant",
+     "Burgee"
+    ]
+   },
+   {
+    "q": "A Spanish gold coin, the pirate's prize",
+    "right": "Doubloon",
+    "wrong": [
+     "Ducat",
+     "Guinea",
+     "Sovereign"
+    ]
+   },
+   {
+    "q": "Spanish silver dollars, squawked about by Long John Silver's parrot",
+    "right": "Pieces of eight",
+    "wrong": [
+     "Ducats",
+     "Guineas",
+     "Sovereigns"
+    ]
+   },
+   {
+    "q": "Forced off the side of the ship, blindfolded, into the sea",
+    "right": "Walk the plank",
+    "wrong": [
+     "Keelhaul",
+     "Run the gauntlet",
+     "Flogging"
+    ]
+   },
+   {
+    "q": "The lookout platform high up the mast",
+    "right": "Crow's nest",
+    "wrong": [
+     "Poop deck",
+     "Bilge",
+     "Hold"
+    ]
+   },
+   {
+    "q": "A short, curved sword",
+    "right": "Cutlass",
+    "wrong": [
+     "Musket",
+     "Blunderbuss",
+     "Flintlock"
+    ]
+   },
+   {
+    "q": "Worn over a missing eye",
+    "right": "Eye patch",
+    "wrong": [
+     "Spyglass",
+     "Sextant",
+     "Tricorn hat"
+    ]
+   },
+   {
+    "q": "X marks the spot",
+    "right": "Treasure map",
+    "wrong": [
+     "Sextant",
+     "Spyglass",
+     "Logbook"
+    ]
+   },
+   {
+    "q": "A Caribbean pirate of the 1600s",
+    "right": "Buccaneer",
+    "wrong": [
+     "Bosun",
+     "Quartermaster",
+     "Purser"
+    ]
+   },
+   {
+    "q": "The treasure a pirate crew shares out",
+    "right": "Booty",
+    "wrong": [
+     "Bilge",
+     "Ballast",
+     "Rigging"
+    ]
+   },
+   {
+    "q": "The disease sailors got without fruit and vitamin C",
+    "right": "Scurvy",
+    "wrong": [
+     "Rickets",
+     "Beriberi",
+     "Gout"
+    ]
+   },
+   {
+    "q": "Rum watered down for sailors",
+    "right": "Grog",
+    "wrong": [
+     "Hardtack",
+     "Ship's biscuit",
+     "Bilge"
+    ]
+   },
+   {
+    "q": "A pirate's insult for someone who doesn't know the sea",
+    "right": "Landlubber",
+    "wrong": [
+     "Bosun",
+     "Purser",
+     "Quartermaster"
+    ]
+   },
+   {
+    "q": "The bottom of the sea, where drowned sailors end up",
+    "right": "Davy Jones' locker",
+    "wrong": [
+     "Brig",
+     "Hold",
+     "Bilge"
+    ]
+   },
+   {
+    "q": "When the crew rise up against their captain",
+    "right": "Mutiny",
+    "wrong": [
+     "Keelhaul",
+     "Flogging",
+     "Run the gauntlet"
+    ]
+   },
+   {
+    "q": "Left alone on a desert island as a punishment",
+    "right": "Marooned",
+    "wrong": [
+     "Keelhauled",
+     "Flogged",
+     "Press-ganged"
+    ]
+   },
+   {
+    "q": "A pirate's cry of shock",
+    "right": "Shiver me timbers",
+    "wrong": [
+     "Ahoy",
+     "Avast",
+     "Yo-ho-ho"
+    ]
+   },
+   {
+    "q": "In 'Treasure Island', the mark handed to a pirate who's to be killed",
+    "right": "Black Spot",
+    "wrong": [
+     "Ensign",
+     "Pennant",
+     "Burgee"
+    ]
+   },
+   {
+    "q": "Perched on Long John Silver's shoulder",
+    "right": "Parrot",
+    "wrong": [
+     "Monkey",
+     "Mynah bird",
+     "Albatross"
+    ]
+   },
+   {
+    "q": "The youngest member of the crew, running errands",
+    "right": "Cabin boy",
+    "wrong": [
+     "Bosun",
+     "Purser",
+     "Quartermaster"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this horse word?",
+  "target": 10,
+  "category": "Animals",
+  "tags": [
+   "horses",
+   "riding",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A baby horse",
+    "right": "Foal",
+    "wrong": [
+     "Cob",
+     "Hack",
+     "Hunter"
+    ]
+   },
+   {
+    "q": "The unit a horse's height is measured in",
+    "right": "Hand",
+    "wrong": [
+     "Stride",
+     "Cubit",
+     "Span"
+    ]
+   },
+   {
+    "q": "Headgear with the bit and reins, for steering",
+    "right": "Bridle",
+    "wrong": [
+     "Halter",
+     "Girth",
+     "Crupper"
+    ]
+   },
+   {
+    "q": "The seat strapped onto the horse's back",
+    "right": "Saddle",
+    "wrong": [
+     "Numnah",
+     "Girth",
+     "Surcingle"
+    ]
+   },
+   {
+    "q": "The footrest hanging from each side of the saddle",
+    "right": "Stirrup",
+    "wrong": [
+     "Girth",
+     "Crupper",
+     "Numnah"
+    ]
+   },
+   {
+    "q": "The straps the rider holds to steer",
+    "right": "Reins",
+    "wrong": [
+     "Halter",
+     "Girth",
+     "Crupper"
+    ]
+   },
+   {
+    "q": "The metal bar in the horse's mouth",
+    "right": "Bit",
+    "wrong": [
+     "Hackamore",
+     "Girth",
+     "Crupper"
+    ]
+   },
+   {
+    "q": "The person who fits the horseshoes",
+    "right": "Farrier",
+    "wrong": [
+     "Groom",
+     "Ostler",
+     "Jockey"
+    ]
+   },
+   {
+    "q": "'Horse ballet': precise movements judged for elegance",
+    "right": "Dressage",
+    "wrong": [
+     "Eventing",
+     "Hacking",
+     "Point-to-point"
+    ]
+   },
+   {
+    "q": "A fun day of mounted races and games for young riders",
+    "right": "Gymkhana",
+    "wrong": [
+     "Eventing",
+     "Point-to-point",
+     "Hacking"
+    ]
+   },
+   {
+    "q": "The long hair along a horse's neck",
+    "right": "Mane",
+    "wrong": [
+     "Forelock",
+     "Fetlock",
+     "Pastern"
+    ]
+   },
+   {
+    "q": "The hard foot a horse stands on",
+    "right": "Hoof",
+    "wrong": [
+     "Fetlock",
+     "Pastern",
+     "Withers"
+    ]
+   },
+   {
+    "q": "The vehicle that takes horses to shows",
+    "right": "Horsebox",
+    "wrong": [
+     "Tack room",
+     "Paddock",
+     "Livery"
+    ]
+   },
+   {
+    "q": "Riding without a saddle",
+    "right": "Bareback",
+    "wrong": [
+     "Side-saddle",
+     "Hacking",
+     "Eventing"
+    ]
+   },
+   {
+    "q": "A grey coat marked with darker rings",
+    "right": "Dapple grey",
+    "wrong": [
+     "Palomino",
+     "Piebald",
+     "Skewbald"
+    ]
+   },
+   {
+    "q": "A small, tough pony from the Scottish islands",
+    "right": "Shetland",
+    "wrong": [
+     "Cob",
+     "Thoroughbred",
+     "Palomino"
+    ]
+   },
+   {
+    "q": "Cleaning out the stable's dirty bedding",
+    "right": "Mucking out",
+    "wrong": [
+     "Hacking",
+     "Grooming",
+     "Tacking up"
+    ]
+   },
+   {
+    "q": "A strap that stops a horse throwing its head up too high",
+    "right": "Martingale",
+    "wrong": [
+     "Crupper",
+     "Surcingle",
+     "Numnah"
+    ]
+   },
+   {
+    "q": "A string bag of hay hung up for the horse to munch",
+    "right": "Hay net",
+    "wrong": [
+     "Numnah",
+     "Tack room",
+     "Girth"
+    ]
+   },
+   {
+    "q": "Nailed onto the hoof, and hung up for luck",
+    "right": "Horseshoe",
+    "wrong": [
+     "Crupper",
+     "Girth",
+     "Numnah"
+    ]
+   }
+  ]
+ }
+]
