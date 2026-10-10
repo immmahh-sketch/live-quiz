@@ -1,0 +1,586 @@
+[
+ {
+  "type": "sort",
+  "text": "A town in the North East or the North West?",
+  "categories": [
+   "North East",
+   "North West"
+  ],
+  "items": [
+   {
+    "text": "Hexham",
+    "category": "North East"
+   },
+   {
+    "text": "Morpeth",
+    "category": "North East"
+   },
+   {
+    "text": "Hartlepool",
+    "category": "North East"
+   },
+   {
+    "text": "Darlington",
+    "category": "North East"
+   },
+   {
+    "text": "Wigan",
+    "category": "North West"
+   },
+   {
+    "text": "Blackburn",
+    "category": "North West"
+   },
+   {
+    "text": "Kendal",
+    "category": "North West"
+   },
+   {
+    "text": "Warrington",
+    "category": "North West"
+   }
+  ],
+  "category": "UK geography",
+  "tags": [
+   "North East England",
+   "North West England",
+   "towns"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A breakfast cereal or a chocolate bar?",
+  "categories": [
+   "Cereal",
+   "Chocolate bar"
+  ],
+  "items": [
+   {
+    "text": "Shreddies",
+    "category": "Cereal"
+   },
+   {
+    "text": "Weetabix",
+    "category": "Cereal"
+   },
+   {
+    "text": "Cheerios",
+    "category": "Cereal"
+   },
+   {
+    "text": "Frosties",
+    "category": "Cereal"
+   },
+   {
+    "text": "Twix",
+    "category": "Chocolate bar"
+   },
+   {
+    "text": "Picnic",
+    "category": "Chocolate bar"
+   },
+   {
+    "text": "Boost",
+    "category": "Chocolate bar"
+   },
+   {
+    "text": "Lion Bar",
+    "category": "Chocolate bar"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [
+   "breakfast",
+   "chocolate"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "Played by Daniel Day-Lewis or by Tom Hanks?",
+  "categories": [
+   "Daniel Day-Lewis",
+   "Tom Hanks"
+  ],
+  "items": [
+   {
+    "text": "Abraham Lincoln",
+    "category": "Daniel Day-Lewis"
+   },
+   {
+    "text": "Daniel Plainview",
+    "category": "Daniel Day-Lewis"
+   },
+   {
+    "text": "Christy Brown",
+    "category": "Daniel Day-Lewis"
+   },
+   {
+    "text": "Bill the Butcher",
+    "category": "Daniel Day-Lewis"
+   },
+   {
+    "text": "Forrest Gump",
+    "category": "Tom Hanks"
+   },
+   {
+    "text": "Andrew Beckett",
+    "category": "Tom Hanks"
+   },
+   {
+    "text": "Captain Miller",
+    "category": "Tom Hanks"
+   },
+   {
+    "text": "Chuck Noland",
+    "category": "Tom Hanks"
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "Daniel Day-Lewis",
+   "Tom Hanks",
+   "actors"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "An Ivy League university or an Oxford college?",
+  "categories": [
+   "Ivy League",
+   "Oxford college"
+  ],
+  "items": [
+   {
+    "text": "Harvard",
+    "category": "Ivy League"
+   },
+   {
+    "text": "Yale",
+    "category": "Ivy League"
+   },
+   {
+    "text": "Princeton",
+    "category": "Ivy League"
+   },
+   {
+    "text": "Cornell",
+    "category": "Ivy League"
+   },
+   {
+    "text": "Balliol",
+    "category": "Oxford college"
+   },
+   {
+    "text": "Magdalen",
+    "category": "Oxford college"
+   },
+   {
+    "text": "Christ Church",
+    "category": "Oxford college"
+   },
+   {
+    "text": "Exeter",
+    "category": "Oxford college"
+   }
+  ],
+  "category": "Education",
+  "tags": [
+   "universities",
+   "Oxford",
+   "Ivy League"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A dance from Latin America or from Europe?",
+  "categories": [
+   "Latin America",
+   "Europe"
+  ],
+  "items": [
+   {
+    "text": "Tango",
+    "category": "Latin America"
+   },
+   {
+    "text": "Samba",
+    "category": "Latin America"
+   },
+   {
+    "text": "Salsa",
+    "category": "Latin America"
+   },
+   {
+    "text": "Rumba",
+    "category": "Latin America"
+   },
+   {
+    "text": "Waltz",
+    "category": "Europe"
+   },
+   {
+    "text": "Polka",
+    "category": "Europe"
+   },
+   {
+    "text": "Flamenco",
+    "category": "Europe"
+   },
+   {
+    "text": "Can-can",
+    "category": "Europe"
+   }
+  ],
+  "category": "Music",
+  "tags": [
+   "dance",
+   "Latin America",
+   "Europe"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Tottenham legend or an Arsenal legend?",
+  "categories": [
+   "Tottenham",
+   "Arsenal"
+  ],
+  "items": [
+   {
+    "text": "Glenn Hoddle",
+    "category": "Tottenham"
+   },
+   {
+    "text": "Jimmy Greaves",
+    "category": "Tottenham"
+   },
+   {
+    "text": "Gary Mabbutt",
+    "category": "Tottenham"
+   },
+   {
+    "text": "Harry Kane",
+    "category": "Tottenham"
+   },
+   {
+    "text": "Thierry Henry",
+    "category": "Arsenal"
+   },
+   {
+    "text": "Tony Adams",
+    "category": "Arsenal"
+   },
+   {
+    "text": "Ian Wright",
+    "category": "Arsenal"
+   },
+   {
+    "text": "Dennis Bergkamp",
+    "category": "Arsenal"
+   }
+  ],
+  "category": "Football",
+  "tags": [
+   "Tottenham",
+   "Arsenal",
+   "north London"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Managed Liverpool or managed Manchester United?",
+  "categories": [
+   "Liverpool",
+   "Manchester United"
+  ],
+  "items": [
+   {
+    "text": "Bill Shankly",
+    "category": "Liverpool"
+   },
+   {
+    "text": "Bob Paisley",
+    "category": "Liverpool"
+   },
+   {
+    "text": "Jürgen Klopp",
+    "category": "Liverpool"
+   },
+   {
+    "text": "Rafael Benítez",
+    "category": "Liverpool"
+   },
+   {
+    "text": "Matt Busby",
+    "category": "Manchester United"
+   },
+   {
+    "text": "Alex Ferguson",
+    "category": "Manchester United"
+   },
+   {
+    "text": "Ole Gunnar Solskjær",
+    "category": "Manchester United"
+   },
+   {
+    "text": "Erik ten Hag",
+    "category": "Manchester United"
+   }
+  ],
+  "category": "Football",
+  "tags": [
+   "Liverpool",
+   "Manchester United",
+   "managers"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "Born in Scotland or in the Republic of Ireland?",
+  "categories": [
+   "Scotland",
+   "Republic of Ireland"
+  ],
+  "items": [
+   {
+    "text": "Sean Connery",
+    "category": "Scotland"
+   },
+   {
+    "text": "Billy Connolly",
+    "category": "Scotland"
+   },
+   {
+    "text": "Annie Lennox",
+    "category": "Scotland"
+   },
+   {
+    "text": "Ewan McGregor",
+    "category": "Scotland"
+   },
+   {
+    "text": "Bono",
+    "category": "Republic of Ireland"
+   },
+   {
+    "text": "Colin Farrell",
+    "category": "Republic of Ireland"
+   },
+   {
+    "text": "Pierce Brosnan",
+    "category": "Republic of Ireland"
+   },
+   {
+    "text": "Enya",
+    "category": "Republic of Ireland"
+   }
+  ],
+  "category": "Famous people",
+  "tags": [
+   "Scotland",
+   "Ireland",
+   "birthplaces"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Hogwarts teacher or a Hogwarts pupil?",
+  "categories": [
+   "Teacher",
+   "Pupil"
+  ],
+  "items": [
+   {
+    "text": "Snape",
+    "category": "Teacher"
+   },
+   {
+    "text": "McGonagall",
+    "category": "Teacher"
+   },
+   {
+    "text": "Flitwick",
+    "category": "Teacher"
+   },
+   {
+    "text": "Lupin",
+    "category": "Teacher"
+   },
+   {
+    "text": "Neville Longbottom",
+    "category": "Pupil"
+   },
+   {
+    "text": "Luna Lovegood",
+    "category": "Pupil"
+   },
+   {
+    "text": "Cedric Diggory",
+    "category": "Pupil"
+   },
+   {
+    "text": "Cho Chang",
+    "category": "Pupil"
+   }
+  ],
+  "category": "Books",
+  "tags": [
+   "Harry Potter",
+   "Hogwarts"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A bird that can fly, or one that can't?",
+  "categories": [
+   "Can fly",
+   "Can't fly"
+  ],
+  "items": [
+   {
+    "text": "Albatross",
+    "category": "Can fly"
+   },
+   {
+    "text": "Swift",
+    "category": "Can fly"
+   },
+   {
+    "text": "Puffin",
+    "category": "Can fly"
+   },
+   {
+    "text": "Golden eagle",
+    "category": "Can fly"
+   },
+   {
+    "text": "Ostrich",
+    "category": "Can't fly"
+   },
+   {
+    "text": "Emu",
+    "category": "Can't fly"
+   },
+   {
+    "text": "Kiwi",
+    "category": "Can't fly"
+   },
+   {
+    "text": "Penguin",
+    "category": "Can't fly"
+   }
+  ],
+  "category": "Animals",
+  "tags": [
+   "birds",
+   "flight"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A football ground or a rugby union ground?",
+  "categories": [
+   "Football",
+   "Rugby union"
+  ],
+  "items": [
+   {
+    "text": "Anfield",
+    "category": "Football"
+   },
+   {
+    "text": "Molineux",
+    "category": "Football"
+   },
+   {
+    "text": "Craven Cottage",
+    "category": "Football"
+   },
+   {
+    "text": "Selhurst Park",
+    "category": "Football"
+   },
+   {
+    "text": "Twickenham",
+    "category": "Rugby union"
+   },
+   {
+    "text": "Murrayfield",
+    "category": "Rugby union"
+   },
+   {
+    "text": "Kingsholm",
+    "category": "Rugby union"
+   },
+   {
+    "text": "Welford Road",
+    "category": "Rugby union"
+   }
+  ],
+  "category": "Sport",
+  "tags": [
+   "stadiums",
+   "rugby union",
+   "football"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Strictly judge, or a Bake Off judge or host?",
+  "categories": [
+   "Strictly",
+   "Bake Off"
+  ],
+  "items": [
+   {
+    "text": "Craig Revel Horwood",
+    "category": "Strictly"
+   },
+   {
+    "text": "Shirley Ballas",
+    "category": "Strictly"
+   },
+   {
+    "text": "Motsi Mabuse",
+    "category": "Strictly"
+   },
+   {
+    "text": "Bruno Tonioli",
+    "category": "Strictly"
+   },
+   {
+    "text": "Paul Hollywood",
+    "category": "Bake Off"
+   },
+   {
+    "text": "Prue Leith",
+    "category": "Bake Off"
+   },
+   {
+    "text": "Noel Fielding",
+    "category": "Bake Off"
+   },
+   {
+    "text": "Alison Hammond",
+    "category": "Bake Off"
+   }
+  ],
+  "category": "TV",
+  "tags": [
+   "Strictly Come Dancing",
+   "Bake Off"
+  ],
+  "difficulty": "easy"
+ }
+]
