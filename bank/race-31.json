@@ -1,0 +1,776 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which club did this legend spend most of his career at?",
+  "target": 10,
+  "category": "Football",
+  "tags": [
+   "football",
+   "legends",
+   "clubs"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Paolo Maldini",
+    "right": "AC Milan",
+    "wrong": [
+     "Lazio",
+     "Napoli",
+     "Fiorentina"
+    ]
+   },
+   {
+    "q": "Francesco Totti",
+    "right": "Roma",
+    "wrong": [
+     "Lazio",
+     "Napoli",
+     "Fiorentina"
+    ]
+   },
+   {
+    "q": "Ryan Giggs",
+    "right": "Manchester United",
+    "wrong": [
+     "Manchester City",
+     "Everton",
+     "Aston Villa"
+    ]
+   },
+   {
+    "q": "Steven Gerrard",
+    "right": "Liverpool",
+    "wrong": [
+     "Everton",
+     "Aston Villa",
+     "Manchester City"
+    ]
+   },
+   {
+    "q": "Carles Puyol",
+    "right": "Barcelona",
+    "wrong": [
+     "Valencia",
+     "Sevilla",
+     "Atlético Madrid"
+    ]
+   },
+   {
+    "q": "Matt Le Tissier",
+    "right": "Southampton",
+    "wrong": [
+     "Portsmouth",
+     "Ipswich Town",
+     "Norwich City"
+    ]
+   },
+   {
+    "q": "Tony Adams",
+    "right": "Arsenal",
+    "wrong": [
+     "Everton",
+     "Aston Villa",
+     "Ipswich Town"
+    ]
+   },
+   {
+    "q": "Alan Shearer",
+    "right": "Newcastle United",
+    "wrong": [
+     "Blackburn Rovers",
+     "Sunderland",
+     "Middlesbrough"
+    ]
+   },
+   {
+    "q": "John Terry",
+    "right": "Chelsea",
+    "wrong": [
+     "Fulham",
+     "Aston Villa",
+     "Everton"
+    ]
+   },
+   {
+    "q": "Ledley King",
+    "right": "Tottenham Hotspur",
+    "wrong": [
+     "Fulham",
+     "Charlton Athletic",
+     "Crystal Palace"
+    ]
+   },
+   {
+    "q": "Iker Casillas",
+    "right": "Real Madrid",
+    "wrong": [
+     "Atlético Madrid",
+     "Valencia",
+     "Sevilla"
+    ]
+   },
+   {
+    "q": "Thomas Müller",
+    "right": "Bayern Munich",
+    "wrong": [
+     "Schalke",
+     "Bayer Leverkusen",
+     "Hamburg"
+    ]
+   },
+   {
+    "q": "Javier Zanetti",
+    "right": "Inter Milan",
+    "wrong": [
+     "Lazio",
+     "Napoli",
+     "Fiorentina"
+    ]
+   },
+   {
+    "q": "Marco Reus",
+    "right": "Borussia Dortmund",
+    "wrong": [
+     "Schalke",
+     "Bayer Leverkusen",
+     "Hamburg"
+    ]
+   },
+   {
+    "q": "Jamie Vardy",
+    "right": "Leicester City",
+    "wrong": [
+     "Nottingham Forest",
+     "Derby County",
+     "Sheffield United"
+    ]
+   },
+   {
+    "q": "Mark Noble",
+    "right": "West Ham United",
+    "wrong": [
+     "Fulham",
+     "Charlton Athletic",
+     "Crystal Palace"
+    ]
+   },
+   {
+    "q": "Billy Bremner",
+    "right": "Leeds United",
+    "wrong": [
+     "Sheffield Wednesday",
+     "Huddersfield Town",
+     "Bradford City"
+    ]
+   },
+   {
+    "q": "Gianluigi Buffon",
+    "right": "Juventus",
+    "wrong": [
+     "Lazio",
+     "Torino",
+     "Fiorentina"
+    ]
+   },
+   {
+    "q": "Billy McNeill",
+    "right": "Celtic",
+    "wrong": [
+     "Aberdeen",
+     "Hearts",
+     "Hibernian"
+    ]
+   },
+   {
+    "q": "Eusébio",
+    "right": "Benfica",
+    "wrong": [
+     "Porto",
+     "Sporting Lisbon",
+     "Braga"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which language gave English this word?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "words",
+   "etymology",
+   "languages"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Kindergarten",
+    "right": "German",
+    "wrong": [
+     "Danish",
+     "Polish",
+     "Hungarian"
+    ]
+   },
+   {
+    "q": "Bungalow",
+    "right": "Hindi",
+    "wrong": [
+     "Tamil",
+     "Malay",
+     "Korean"
+    ]
+   },
+   {
+    "q": "Tsunami",
+    "right": "Japanese",
+    "wrong": [
+     "Korean",
+     "Mandarin",
+     "Malay"
+    ]
+   },
+   {
+    "q": "Robot",
+    "right": "Czech",
+    "wrong": [
+     "Polish",
+     "Russian",
+     "Hungarian"
+    ]
+   },
+   {
+    "q": "Algebra",
+    "right": "Arabic",
+    "wrong": [
+     "Greek",
+     "Latin",
+     "Hebrew"
+    ]
+   },
+   {
+    "q": "Yacht",
+    "right": "Dutch",
+    "wrong": [
+     "Danish",
+     "Portuguese",
+     "Polish"
+    ]
+   },
+   {
+    "q": "Ski",
+    "right": "Norwegian",
+    "wrong": [
+     "Danish",
+     "Polish",
+     "Russian"
+    ]
+   },
+   {
+    "q": "Kayak",
+    "right": "Inuit",
+    "wrong": [
+     "Maori",
+     "Korean",
+     "Sami"
+    ]
+   },
+   {
+    "q": "Boomerang",
+    "right": "an Aboriginal Australian language",
+    "wrong": [
+     "Maori",
+     "Samoan",
+     "Malay"
+    ]
+   },
+   {
+    "q": "Tomato",
+    "right": "Nahuatl (Aztec)",
+    "wrong": [
+     "Quechua",
+     "Portuguese",
+     "Latin"
+    ]
+   },
+   {
+    "q": "Mosquito",
+    "right": "Spanish",
+    "wrong": [
+     "Latin",
+     "Greek",
+     "Hebrew"
+    ]
+   },
+   {
+    "q": "Piano",
+    "right": "Italian",
+    "wrong": [
+     "Latin",
+     "Greek",
+     "Portuguese"
+    ]
+   },
+   {
+    "q": "Ballet",
+    "right": "French",
+    "wrong": [
+     "Latin",
+     "Greek",
+     "Portuguese"
+    ]
+   },
+   {
+    "q": "Safari",
+    "right": "Swahili",
+    "wrong": [
+     "Zulu",
+     "Malay",
+     "Hebrew"
+    ]
+   },
+   {
+    "q": "Sauna",
+    "right": "Finnish",
+    "wrong": [
+     "Hungarian",
+     "Russian",
+     "Icelandic"
+    ]
+   },
+   {
+    "q": "Slogan",
+    "right": "Scottish Gaelic",
+    "wrong": [
+     "Welsh",
+     "Icelandic",
+     "Latin"
+    ]
+   },
+   {
+    "q": "Smorgasbord",
+    "right": "Swedish",
+    "wrong": [
+     "Danish",
+     "Icelandic",
+     "Polish"
+    ]
+   },
+   {
+    "q": "Taboo",
+    "right": "Tongan",
+    "wrong": [
+     "Malay",
+     "Korean",
+     "Zulu"
+    ]
+   },
+   {
+    "q": "Ukulele",
+    "right": "Hawaiian",
+    "wrong": [
+     "Malay",
+     "Maori",
+     "Samoan"
+    ]
+   },
+   {
+    "q": "Bazaar",
+    "right": "Persian",
+    "wrong": [
+     "Hebrew",
+     "Greek",
+     "Latin"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which war was this battle part of?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "battles",
+   "wars"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Hastings",
+    "right": "The Norman Conquest",
+    "wrong": [
+     "The Crusades",
+     "The Anarchy",
+     "The Barons' War"
+    ]
+   },
+   {
+    "q": "Agincourt",
+    "right": "The Hundred Years' War",
+    "wrong": [
+     "The Seven Years' War",
+     "The Thirty Years' War",
+     "The Crusades"
+    ]
+   },
+   {
+    "q": "Bosworth",
+    "right": "The Wars of the Roses",
+    "wrong": [
+     "The Anarchy",
+     "The Barons' War",
+     "The Seven Years' War"
+    ]
+   },
+   {
+    "q": "Naseby",
+    "right": "The English Civil War",
+    "wrong": [
+     "The Thirty Years' War",
+     "The Seven Years' War",
+     "The Glorious Revolution"
+    ]
+   },
+   {
+    "q": "Culloden",
+    "right": "The Jacobite rising",
+    "wrong": [
+     "The Seven Years' War",
+     "The Thirty Years' War",
+     "The Glorious Revolution"
+    ]
+   },
+   {
+    "q": "Waterloo",
+    "right": "The Napoleonic Wars",
+    "wrong": [
+     "The Peninsular War",
+     "The Franco-Prussian War",
+     "The Seven Years' War"
+    ]
+   },
+   {
+    "q": "Gettysburg",
+    "right": "The American Civil War",
+    "wrong": [
+     "The War of 1812",
+     "The Mexican–American War",
+     "The Spanish–American War"
+    ]
+   },
+   {
+    "q": "Bunker Hill",
+    "right": "The American War of Independence",
+    "wrong": [
+     "The War of 1812",
+     "The Seven Years' War",
+     "The Mexican–American War"
+    ]
+   },
+   {
+    "q": "Balaclava",
+    "right": "The Crimean War",
+    "wrong": [
+     "The Franco-Prussian War",
+     "The Russo-Japanese War",
+     "The Opium Wars"
+    ]
+   },
+   {
+    "q": "Rorke's Drift",
+    "right": "The Anglo-Zulu War",
+    "wrong": [
+     "The Opium Wars",
+     "The Mahdist War",
+     "The Indian Mutiny"
+    ]
+   },
+   {
+    "q": "The Siege of Mafeking",
+    "right": "The Boer War",
+    "wrong": [
+     "The Mahdist War",
+     "The Indian Mutiny",
+     "The Russo-Japanese War"
+    ]
+   },
+   {
+    "q": "The Somme",
+    "right": "The First World War",
+    "wrong": [
+     "The Franco-Prussian War",
+     "The Spanish Civil War",
+     "The Russo-Japanese War"
+    ]
+   },
+   {
+    "q": "Stalingrad",
+    "right": "The Second World War",
+    "wrong": [
+     "The Spanish Civil War",
+     "The Russo-Japanese War",
+     "The Winter War"
+    ]
+   },
+   {
+    "q": "Inchon",
+    "right": "The Korean War",
+    "wrong": [
+     "The Russo-Japanese War",
+     "The Winter War",
+     "The Iraq War"
+    ]
+   },
+   {
+    "q": "The Tet Offensive",
+    "right": "The Vietnam War",
+    "wrong": [
+     "The Iraq War",
+     "The Afghan War",
+     "The Russo-Japanese War"
+    ]
+   },
+   {
+    "q": "Goose Green",
+    "right": "The Falklands War",
+    "wrong": [
+     "The Iraq War",
+     "The Afghan War",
+     "The Suez Crisis"
+    ]
+   },
+   {
+    "q": "Bannockburn",
+    "right": "The Scottish Wars of Independence",
+    "wrong": [
+     "The Crusades",
+     "The Anarchy",
+     "The Barons' War"
+    ]
+   },
+   {
+    "q": "Thermopylae",
+    "right": "The Greco-Persian Wars",
+    "wrong": [
+     "The Peloponnesian War",
+     "The Punic Wars",
+     "The Trojan War"
+    ]
+   },
+   {
+    "q": "The Alamo",
+    "right": "The Texas Revolution",
+    "wrong": [
+     "The Mexican–American War",
+     "The War of 1812",
+     "The Spanish–American War"
+    ]
+   },
+   {
+    "q": "Operation Desert Storm",
+    "right": "The Gulf War",
+    "wrong": [
+     "The Iraq War",
+     "The Afghan War",
+     "The Suez Crisis"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: who was on the English or British throne when this happened?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "monarchs",
+   "kings and queens"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The Domesday Book is compiled",
+    "right": "William I",
+    "wrong": [
+     "William II",
+     "Henry I",
+     "Stephen"
+    ]
+   },
+   {
+    "q": "Thomas Becket is murdered",
+    "right": "Henry II",
+    "wrong": [
+     "Stephen",
+     "Richard I",
+     "Henry I"
+    ]
+   },
+   {
+    "q": "Magna Carta is sealed",
+    "right": "John",
+    "wrong": [
+     "Richard I",
+     "Henry III",
+     "Edward I"
+    ]
+   },
+   {
+    "q": "The Black Death reaches England",
+    "right": "Edward III",
+    "wrong": [
+     "Edward I",
+     "Edward II",
+     "Henry IV"
+    ]
+   },
+   {
+    "q": "The Peasants' Revolt",
+    "right": "Richard II",
+    "wrong": [
+     "Edward II",
+     "Henry IV",
+     "Henry VI"
+    ]
+   },
+   {
+    "q": "The Battle of Agincourt",
+    "right": "Henry V",
+    "wrong": [
+     "Henry IV",
+     "Henry VI",
+     "Edward IV"
+    ]
+   },
+   {
+    "q": "Columbus reaches the Americas",
+    "right": "Henry VII",
+    "wrong": [
+     "Richard III",
+     "Edward IV",
+     "Henry VIII"
+    ]
+   },
+   {
+    "q": "The first Book of Common Prayer",
+    "right": "Edward VI",
+    "wrong": [
+     "Henry VIII",
+     "Mary I",
+     "Richard III"
+    ]
+   },
+   {
+    "q": "The Spanish Armada",
+    "right": "Elizabeth I",
+    "wrong": [
+     "Mary I",
+     "Henry VIII",
+     "Charles I"
+    ]
+   },
+   {
+    "q": "The Gunpowder Plot",
+    "right": "James I",
+    "wrong": [
+     "Charles I",
+     "Mary I",
+     "James II"
+    ]
+   },
+   {
+    "q": "The Great Fire of London",
+    "right": "Charles II",
+    "wrong": [
+     "Charles I",
+     "James II",
+     "George I"
+    ]
+   },
+   {
+    "q": "The Battle of the Boyne",
+    "right": "William III",
+    "wrong": [
+     "Charles I",
+     "George I",
+     "Mary I"
+    ]
+   },
+   {
+    "q": "The Act of Union with Scotland",
+    "right": "Anne",
+    "wrong": [
+     "George I",
+     "Mary II",
+     "James II"
+    ]
+   },
+   {
+    "q": "The Battle of Culloden",
+    "right": "George II",
+    "wrong": [
+     "George I",
+     "George IV",
+     "James II"
+    ]
+   },
+   {
+    "q": "The Battle of Trafalgar",
+    "right": "George III",
+    "wrong": [
+     "George IV",
+     "George I",
+     "Edward VII"
+    ]
+   },
+   {
+    "q": "The Great Reform Act",
+    "right": "William IV",
+    "wrong": [
+     "George IV",
+     "Edward VII",
+     "George I"
+    ]
+   },
+   {
+    "q": "The Great Exhibition",
+    "right": "Victoria",
+    "wrong": [
+     "Edward VII",
+     "George IV",
+     "Edward VIII"
+    ]
+   },
+   {
+    "q": "The Titanic sinks",
+    "right": "George V",
+    "wrong": [
+     "Edward VII",
+     "Edward VIII",
+     "George IV"
+    ]
+   },
+   {
+    "q": "The Battle of Britain",
+    "right": "George VI",
+    "wrong": [
+     "Edward VIII",
+     "Edward VII",
+     "Charles III"
+    ]
+   },
+   {
+    "q": "The first Moon landing",
+    "right": "Elizabeth II",
+    "wrong": [
+     "Charles III",
+     "Edward VIII",
+     "Edward VII"
+    ]
+   }
+  ]
+ }
+]
