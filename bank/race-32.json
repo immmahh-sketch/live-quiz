@@ -1,0 +1,775 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which city is this university in?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "universities",
+   "cities"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The Sorbonne",
+    "right": "Paris",
+    "wrong": [
+     "Lyon",
+     "Marseille",
+     "Bordeaux"
+    ]
+   },
+   {
+    "q": "Heriot-Watt",
+    "right": "Edinburgh",
+    "wrong": [
+     "Aberdeen",
+     "Dundee",
+     "Stirling"
+    ]
+   },
+   {
+    "q": "Strathclyde",
+    "right": "Glasgow",
+    "wrong": [
+     "Aberdeen",
+     "Dundee",
+     "Paisley"
+    ]
+   },
+   {
+    "q": "Bocconi",
+    "right": "Milan",
+    "wrong": [
+     "Turin",
+     "Bologna",
+     "Florence"
+    ]
+   },
+   {
+    "q": "Sapienza",
+    "right": "Rome",
+    "wrong": [
+     "Florence",
+     "Naples",
+     "Bologna"
+    ]
+   },
+   {
+    "q": "Yale",
+    "right": "New Haven",
+    "wrong": [
+     "Boston",
+     "Hartford",
+     "Providence"
+    ]
+   },
+   {
+    "q": "McGill",
+    "right": "Montreal",
+    "wrong": [
+     "Toronto",
+     "Quebec City",
+     "Ottawa"
+    ]
+   },
+   {
+    "q": "Humboldt",
+    "right": "Berlin",
+    "wrong": [
+     "Hamburg",
+     "Munich",
+     "Frankfurt"
+    ]
+   },
+   {
+    "q": "Complutense",
+    "right": "Madrid",
+    "wrong": [
+     "Barcelona",
+     "Seville",
+     "Valencia"
+    ]
+   },
+   {
+    "q": "Charles University",
+    "right": "Prague",
+    "wrong": [
+     "Brno",
+     "Bratislava",
+     "Vienna"
+    ]
+   },
+   {
+    "q": "Jagiellonian",
+    "right": "Kraków",
+    "wrong": [
+     "Warsaw",
+     "Gdańsk",
+     "Wrocław"
+    ]
+   },
+   {
+    "q": "The Karolinska Institute",
+    "right": "Stockholm",
+    "wrong": [
+     "Uppsala",
+     "Gothenburg",
+     "Oslo"
+    ]
+   },
+   {
+    "q": "Tsinghua",
+    "right": "Beijing",
+    "wrong": [
+     "Hong Kong",
+     "Nanjing",
+     "Guangzhou"
+    ]
+   },
+   {
+    "q": "Fudan",
+    "right": "Shanghai",
+    "wrong": [
+     "Hong Kong",
+     "Nanjing",
+     "Guangzhou"
+    ]
+   },
+   {
+    "q": "Northumbria",
+    "right": "Newcastle",
+    "wrong": [
+     "Sunderland",
+     "Durham",
+     "Middlesbrough"
+    ]
+   },
+   {
+    "q": "Aston",
+    "right": "Birmingham",
+    "wrong": [
+     "Coventry",
+     "Leicester",
+     "Wolverhampton"
+    ]
+   },
+   {
+    "q": "Johns Hopkins",
+    "right": "Baltimore",
+    "wrong": [
+     "Annapolis",
+     "Philadelphia",
+     "Richmond"
+    ]
+   },
+   {
+    "q": "La Trobe",
+    "right": "Melbourne",
+    "wrong": [
+     "Sydney",
+     "Adelaide",
+     "Brisbane"
+    ]
+   },
+   {
+    "q": "Erasmus University",
+    "right": "Rotterdam",
+    "wrong": [
+     "Amsterdam",
+     "Utrecht",
+     "The Hague"
+    ]
+   },
+   {
+    "q": "Georgetown",
+    "right": "Washington, DC",
+    "wrong": [
+     "Annapolis",
+     "Richmond",
+     "Philadelphia"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which animal is on this logo?",
+  "target": 10,
+  "category": "Business",
+  "tags": [
+   "logos",
+   "brands",
+   "animals"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Peugeot",
+    "right": "Lion",
+    "wrong": [
+     "Tiger",
+     "Leopard",
+     "Wolf"
+    ]
+   },
+   {
+    "q": "Ferrari",
+    "right": "Horse",
+    "wrong": [
+     "Zebra",
+     "Goat",
+     "Hare"
+    ]
+   },
+   {
+    "q": "Lamborghini",
+    "right": "Bull",
+    "wrong": [
+     "Goat",
+     "Buffalo",
+     "Moose"
+    ]
+   },
+   {
+    "q": "Lacoste",
+    "right": "Crocodile",
+    "wrong": [
+     "Lizard",
+     "Frog",
+     "Shark"
+    ]
+   },
+   {
+    "q": "Bacardi",
+    "right": "Bat",
+    "wrong": [
+     "Hawk",
+     "Parrot",
+     "Moth"
+    ]
+   },
+   {
+    "q": "Twitter (before X)",
+    "right": "Bird",
+    "wrong": [
+     "Butterfly",
+     "Fish",
+     "Bee"
+    ]
+   },
+   {
+    "q": "Linux",
+    "right": "Penguin",
+    "wrong": [
+     "Seal",
+     "Parrot",
+     "Puffin"
+    ]
+   },
+   {
+    "q": "WWF",
+    "right": "Panda",
+    "wrong": [
+     "Koala",
+     "Gorilla",
+     "Tiger"
+    ]
+   },
+   {
+    "q": "Playboy",
+    "right": "Rabbit",
+    "wrong": [
+     "Fox",
+     "Cat",
+     "Mouse"
+    ]
+   },
+   {
+    "q": "Abarth",
+    "right": "Scorpion",
+    "wrong": [
+     "Spider",
+     "Wasp",
+     "Lizard"
+    ]
+   },
+   {
+    "q": "Alfa Romeo",
+    "right": "Snake",
+    "wrong": [
+     "Lizard",
+     "Eagle",
+     "Wolf"
+    ]
+   },
+   {
+    "q": "Saab",
+    "right": "Griffin",
+    "wrong": [
+     "Eagle",
+     "Dragon",
+     "Phoenix"
+    ]
+   },
+   {
+    "q": "HMV",
+    "right": "Dog",
+    "wrong": [
+     "Cat",
+     "Fox",
+     "Wolf"
+    ]
+   },
+   {
+    "q": "Kellogg's Corn Flakes",
+    "right": "Cockerel",
+    "wrong": [
+     "Eagle",
+     "Duck",
+     "Hen"
+    ]
+   },
+   {
+    "q": "Jägermeister",
+    "right": "Stag",
+    "wrong": [
+     "Moose",
+     "Goat",
+     "Ram"
+    ]
+   },
+   {
+    "q": "Duolingo",
+    "right": "Owl",
+    "wrong": [
+     "Parrot",
+     "Frog",
+     "Toucan"
+    ]
+   },
+   {
+    "q": "Evernote",
+    "right": "Elephant",
+    "wrong": [
+     "Rhino",
+     "Hippo",
+     "Mammoth"
+    ]
+   },
+   {
+    "q": "Toblerone (hidden in the mountain)",
+    "right": "Bear",
+    "wrong": [
+     "Goat",
+     "Eagle",
+     "Ibex"
+    ]
+   },
+   {
+    "q": "Lufthansa",
+    "right": "Crane",
+    "wrong": [
+     "Swan",
+     "Eagle",
+     "Stork"
+    ]
+   },
+   {
+    "q": "Qantas",
+    "right": "Kangaroo",
+    "wrong": [
+     "Koala",
+     "Emu",
+     "Wallaby"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this fictional character's job?",
+  "target": 10,
+  "category": "Film and TV",
+  "tags": [
+   "characters",
+   "jobs"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Hannibal Lecter",
+    "right": "Psychiatrist",
+    "wrong": [
+     "Surgeon",
+     "Dentist",
+     "Pharmacist"
+    ]
+   },
+   {
+    "q": "Indiana Jones",
+    "right": "Archaeologist",
+    "wrong": [
+     "Geologist",
+     "Astronomer",
+     "Pilot"
+    ]
+   },
+   {
+    "q": "Walter White",
+    "right": "Chemistry teacher",
+    "wrong": [
+     "Pharmacist",
+     "Accountant",
+     "Lawyer"
+    ]
+   },
+   {
+    "q": "Homer Simpson",
+    "right": "Nuclear safety inspector",
+    "wrong": [
+     "Electrician",
+     "Plumber",
+     "Mechanic"
+    ]
+   },
+   {
+    "q": "Fred Flintstone",
+    "right": "Quarry worker",
+    "wrong": [
+     "Plumber",
+     "Butcher",
+     "Mechanic"
+    ]
+   },
+   {
+    "q": "Sweeney Todd",
+    "right": "Barber",
+    "wrong": [
+     "Butcher",
+     "Tailor",
+     "Baker"
+    ]
+   },
+   {
+    "q": "Basil Fawlty",
+    "right": "Hotelier",
+    "wrong": [
+     "Estate agent",
+     "Butcher",
+     "Taxi driver"
+    ]
+   },
+   {
+    "q": "Del Boy",
+    "right": "Market trader",
+    "wrong": [
+     "Taxi driver",
+     "Estate agent",
+     "Plumber"
+    ]
+   },
+   {
+    "q": "Ross Geller",
+    "right": "Palaeontologist",
+    "wrong": [
+     "Geologist",
+     "Astronomer",
+     "Historian"
+    ]
+   },
+   {
+    "q": "Jessica Fletcher",
+    "right": "Crime writer",
+    "wrong": [
+     "Librarian",
+     "Lawyer",
+     "Florist"
+    ]
+   },
+   {
+    "q": "Clark Kent",
+    "right": "Reporter",
+    "wrong": [
+     "Photographer",
+     "Police officer",
+     "Librarian"
+    ]
+   },
+   {
+    "q": "Ted Mosby",
+    "right": "Architect",
+    "wrong": [
+     "Estate agent",
+     "Plumber",
+     "Photographer"
+    ]
+   },
+   {
+    "q": "Monica Geller",
+    "right": "Chef",
+    "wrong": [
+     "Florist",
+     "Librarian",
+     "Photographer"
+    ]
+   },
+   {
+    "q": "Phoebe Buffay",
+    "right": "Masseuse",
+    "wrong": [
+     "Florist",
+     "Lifeguard",
+     "Librarian"
+    ]
+   },
+   {
+    "q": "Captain Mainwaring",
+    "right": "Bank manager",
+    "wrong": [
+     "Accountant",
+     "Estate agent",
+     "Butcher"
+    ]
+   },
+   {
+    "q": "Mrs Doubtfire",
+    "right": "Housekeeper",
+    "wrong": [
+     "Librarian",
+     "Florist",
+     "Waiter"
+    ]
+   },
+   {
+    "q": "Rocky Balboa",
+    "right": "Boxer",
+    "wrong": [
+     "Wrestler",
+     "Jockey",
+     "Police officer"
+    ]
+   },
+   {
+    "q": "James Herriot",
+    "right": "Vet",
+    "wrong": [
+     "Zookeeper",
+     "Farmer",
+     "Pharmacist"
+    ]
+   },
+   {
+    "q": "Dexter Morgan",
+    "right": "Blood-spatter analyst",
+    "wrong": [
+     "Photographer",
+     "Pharmacist",
+     "Lifeguard"
+    ]
+   },
+   {
+    "q": "Bob Cratchit",
+    "right": "Clerk",
+    "wrong": [
+     "Butcher",
+     "Tailor",
+     "Baker"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which sport did this Briton win Olympic gold in?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "Olympics",
+   "Team GB"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Steve Redgrave",
+    "right": "Rowing",
+    "wrong": [
+     "Canoe sprint",
+     "Kayaking",
+     "Water polo"
+    ]
+   },
+   {
+    "q": "Chris Hoy",
+    "right": "Track cycling",
+    "wrong": [
+     "BMX",
+     "Mountain biking",
+     "Speed skating"
+    ]
+   },
+   {
+    "q": "Jessica Ennis-Hill",
+    "right": "Heptathlon",
+    "wrong": [
+     "Hurdles",
+     "Modern pentathlon",
+     "Pole vault"
+    ]
+   },
+   {
+    "q": "Mo Farah",
+    "right": "Long-distance running",
+    "wrong": [
+     "Sprinting",
+     "Hurdles",
+     "Race walking"
+    ]
+   },
+   {
+    "q": "Tom Daley",
+    "right": "Diving",
+    "wrong": [
+     "Trampolining",
+     "Water polo",
+     "Synchronised swimming"
+    ]
+   },
+   {
+    "q": "Adam Peaty",
+    "right": "Swimming",
+    "wrong": [
+     "Water polo",
+     "Canoe sprint",
+     "Kayaking"
+    ]
+   },
+   {
+    "q": "Ben Ainslie",
+    "right": "Sailing",
+    "wrong": [
+     "Canoe sprint",
+     "Kayaking",
+     "Water polo"
+    ]
+   },
+   {
+    "q": "Max Whitlock",
+    "right": "Gymnastics",
+    "wrong": [
+     "Weightlifting",
+     "Climbing",
+     "Judo"
+    ]
+   },
+   {
+    "q": "Nicola Adams",
+    "right": "Boxing",
+    "wrong": [
+     "Judo",
+     "Wrestling",
+     "Karate"
+    ]
+   },
+   {
+    "q": "Charlotte Dujardin",
+    "right": "Dressage",
+    "wrong": [
+     "Show jumping",
+     "Eventing",
+     "Modern pentathlon"
+    ]
+   },
+   {
+    "q": "Jade Jones",
+    "right": "Taekwondo",
+    "wrong": [
+     "Judo",
+     "Karate",
+     "Fencing"
+    ]
+   },
+   {
+    "q": "Andy Murray",
+    "right": "Tennis",
+    "wrong": [
+     "Badminton",
+     "Squash",
+     "Table tennis"
+    ]
+   },
+   {
+    "q": "Lizzy Yarnold",
+    "right": "Skeleton",
+    "wrong": [
+     "Bobsleigh",
+     "Luge",
+     "Curling"
+    ]
+   },
+   {
+    "q": "Jayne Torvill and Christopher Dean",
+    "right": "Ice dance",
+    "wrong": [
+     "Speed skating",
+     "Curling",
+     "Bobsleigh"
+    ]
+   },
+   {
+    "q": "Justin Rose",
+    "right": "Golf",
+    "wrong": [
+     "Archery",
+     "Curling",
+     "Squash"
+    ]
+   },
+   {
+    "q": "Kate Richardson-Walsh",
+    "right": "Hockey",
+    "wrong": [
+     "Handball",
+     "Rugby sevens",
+     "Water polo"
+    ]
+   },
+   {
+    "q": "Daley Thompson",
+    "right": "Decathlon",
+    "wrong": [
+     "Pole vault",
+     "Modern pentathlon",
+     "Hurdles"
+    ]
+   },
+   {
+    "q": "Peter Wilson",
+    "right": "Shooting",
+    "wrong": [
+     "Archery",
+     "Fencing",
+     "Curling"
+    ]
+   },
+   {
+    "q": "Alistair Brownlee",
+    "right": "Triathlon",
+    "wrong": [
+     "Modern pentathlon",
+     "Race walking",
+     "Road cycling"
+    ]
+   },
+   {
+    "q": "Joe Clarke",
+    "right": "Canoe slalom",
+    "wrong": [
+     "Canoe sprint",
+     "Water polo",
+     "Windsurfing"
+    ]
+   }
+  ]
+ }
+]
