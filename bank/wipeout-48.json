@@ -1,0 +1,278 @@
+[
+ {
+  "type": "wipeout",
+  "text": "Pizzas on an Italian pizzeria's menu (not other Italian dishes)",
+  "right": [
+   "Margherita",
+   "Marinara",
+   "Quattro formaggi",
+   "Quattro stagioni",
+   "Capricciosa",
+   "Diavola",
+   "Napoletana",
+   "Calzone",
+   "Fiorentina",
+   "Funghi",
+   "Romana",
+   "Bianca",
+   "Prosciutto e funghi",
+   "Vegetariana",
+   "Siciliana"
+  ],
+  "wrong": [
+   "Bruschetta",
+   "Focaccia",
+   "Arancini",
+   "Panzanella",
+   "Gnocchi"
+  ],
+  "difficulty": "medium",
+  "category": "Food and drink",
+  "tags": [
+   "pizza",
+   "Italian food"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Crisps and corn snacks (not crackers)",
+  "right": [
+   "Walkers",
+   "Golden Wonder",
+   "McCoy's",
+   "Pringles",
+   "Kettle",
+   "Tyrrells",
+   "Monster Munch",
+   "Wotsits",
+   "Quavers",
+   "Hula Hoops",
+   "Skips",
+   "Frazzles",
+   "Space Raiders",
+   "Doritos",
+   "Seabrook"
+  ],
+  "wrong": [
+   "Mini Cheddars",
+   "Ritz",
+   "TUC",
+   "Jacob's Cream Crackers",
+   "Ryvita"
+  ],
+  "difficulty": "easy",
+  "category": "Food and drink",
+  "tags": [
+   "crisps",
+   "snacks",
+   "brands"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Marvel characters (watch out for DC)",
+  "right": [
+   "Spider-Man",
+   "Iron Man",
+   "Captain America",
+   "Thor",
+   "Hulk",
+   "Black Widow",
+   "Hawkeye",
+   "Black Panther",
+   "Doctor Strange",
+   "Ant-Man",
+   "Wolverine",
+   "Deadpool",
+   "Groot",
+   "Scarlet Witch",
+   "Daredevil"
+  ],
+  "wrong": [
+   "Aquaman",
+   "The Flash",
+   "Green Lantern",
+   "Cyborg",
+   "Shazam"
+  ],
+  "difficulty": "easy",
+  "category": "Film",
+  "tags": [
+   "Marvel",
+   "superheroes"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Characters who appear in 'The Lord of the Rings' (not just 'The Hobbit')",
+  "right": [
+   "Frodo",
+   "Sam",
+   "Gandalf",
+   "Aragorn",
+   "Legolas",
+   "Gimli",
+   "Boromir",
+   "Merry",
+   "Pippin",
+   "Gollum",
+   "Saruman",
+   "Sauron",
+   "Galadriel",
+   "Elrond",
+   "Arwen"
+  ],
+  "wrong": [
+   "Smaug",
+   "Thorin Oakenshield",
+   "Bard the Bowman",
+   "Beorn",
+   "Azog"
+  ],
+  "difficulty": "medium",
+  "category": "Books",
+  "tags": [
+   "Tolkien",
+   "Lord of the Rings",
+   "fantasy"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "'Family Guy' characters (not 'American Dad')",
+  "right": [
+   "Peter Griffin",
+   "Lois Griffin",
+   "Meg Griffin",
+   "Chris Griffin",
+   "Stewie",
+   "Brian",
+   "Quagmire",
+   "Cleveland",
+   "Joe Swanson",
+   "Bonnie Swanson",
+   "Mort Goldman",
+   "Tom Tucker",
+   "Herbert",
+   "Consuela",
+   "Carter Pewterschmidt"
+  ],
+  "wrong": [
+   "Stan Smith",
+   "Francine Smith",
+   "Roger",
+   "Klaus",
+   "Steve Smith"
+  ],
+  "difficulty": "medium",
+  "category": "TV",
+  "tags": [
+   "Family Guy",
+   "cartoons",
+   "American TV"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Places in Cornwall (not Devon)",
+  "right": [
+   "Penzance",
+   "St Ives",
+   "Truro",
+   "Newquay",
+   "Falmouth",
+   "Padstow",
+   "Bodmin",
+   "Looe",
+   "Fowey",
+   "Bude",
+   "Mevagissey",
+   "Launceston",
+   "Redruth",
+   "Camborne",
+   "Tintagel"
+  ],
+  "wrong": [
+   "Plymouth",
+   "Salcombe",
+   "Torquay",
+   "Ilfracombe",
+   "Dartmouth"
+  ],
+  "difficulty": "medium",
+  "category": "UK geography",
+  "tags": [
+   "Cornwall",
+   "seaside",
+   "England"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Sports at the Summer Paralympics (not the Winter Games)",
+  "right": [
+   "Wheelchair basketball",
+   "Boccia",
+   "Goalball",
+   "Sitting volleyball",
+   "Wheelchair rugby",
+   "Para swimming",
+   "Para cycling",
+   "Wheelchair tennis",
+   "Wheelchair fencing",
+   "Blind football",
+   "Para archery",
+   "Powerlifting",
+   "Para athletics",
+   "Para rowing",
+   "Para canoe"
+  ],
+  "wrong": [
+   "Wheelchair curling",
+   "Para ice hockey",
+   "Para alpine skiing",
+   "Para biathlon",
+   "Para snowboard"
+  ],
+  "difficulty": "medium",
+  "category": "Sport",
+  "tags": [
+   "Paralympics",
+   "disability sport"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Engines on the Island of Sodor (not coaches, buses or helicopters)",
+  "right": [
+   "Thomas",
+   "Edward",
+   "Henry",
+   "Gordon",
+   "James",
+   "Percy",
+   "Toby",
+   "Duck",
+   "Donald",
+   "Douglas",
+   "Oliver",
+   "Emily",
+   "Diesel",
+   "Bill",
+   "Ben"
+  ],
+  "wrong": [
+   "Annie",
+   "Clarabel",
+   "Bertie",
+   "Harold",
+   "Terence"
+  ],
+  "difficulty": "medium",
+  "category": "TV",
+  "tags": [
+   "Thomas the Tank Engine",
+   "children's TV"
+  ]
+ }
+]
