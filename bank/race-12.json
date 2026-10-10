@@ -1,0 +1,774 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: name the famous rabbit",
+  "target": 10,
+  "category": "Film, TV and books",
+  "tags": [
+   "rabbits",
+   "characters"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "'Eh, what's up, doc?'",
+    "right": "Bugs Bunny",
+    "wrong": [
+     "Daffy",
+     "Porky",
+     "Elmer"
+    ]
+   },
+   {
+    "q": "Mr. McGregor's garden raider in the blue jacket",
+    "right": "Peter Rabbit",
+    "wrong": [
+     "Flopsy",
+     "Mopsy",
+     "Cottontail"
+    ]
+   },
+   {
+    "q": "Peter Rabbit's cousin",
+    "right": "Benjamin Bunny",
+    "wrong": [
+     "Flopsy",
+     "Mopsy",
+     "Cottontail"
+    ]
+   },
+   {
+    "q": "The toon framed for murder in 1988",
+    "right": "Roger Rabbit",
+    "wrong": [
+     "Baby Herman",
+     "Benny the Cab",
+     "Jessica"
+    ]
+   },
+   {
+    "q": "Bambi's foot-stamping friend",
+    "right": "Thumper",
+    "wrong": [
+     "Flower",
+     "Faline",
+     "Friend Owl"
+    ]
+   },
+   {
+    "q": "'I'm late!' — in Wonderland",
+    "right": "The White Rabbit",
+    "wrong": [
+     "The March Hare",
+     "The Dormouse",
+     "The Cheshire Cat"
+    ]
+   },
+   {
+    "q": "The trickster of the briar patch",
+    "right": "Br'er Rabbit",
+    "wrong": [
+     "Br'er Fox",
+     "Br'er Bear",
+     "Tar-Baby"
+    ]
+   },
+   {
+    "q": "Watership Down's leader",
+    "right": "Hazel",
+    "wrong": [
+     "Blackberry",
+     "Dandelion",
+     "Holly"
+    ]
+   },
+   {
+    "q": "Watership Down's seer, who foresees the danger",
+    "right": "Fiver",
+    "wrong": [
+     "Pipkin",
+     "Blackberry",
+     "Silver"
+    ]
+   },
+   {
+    "q": "Watership Down's big fighter",
+    "right": "Bigwig",
+    "wrong": [
+     "Holly",
+     "Silver",
+     "Dandelion"
+    ]
+   },
+   {
+    "q": "The tyrant of Efrafa in Watership Down",
+    "right": "General Woundwort",
+    "wrong": [
+     "Campion",
+     "Vervain",
+     "Chervil"
+    ]
+   },
+   {
+    "q": "Dick Bruna's little rabbit",
+    "right": "Miffy",
+    "wrong": [
+     "Snuffy",
+     "Boris",
+     "Poppy Pig"
+    ]
+   },
+   {
+    "q": "James Stewart's invisible six-foot friend",
+    "right": "Harvey",
+    "wrong": [
+     "Elwood",
+     "Veta",
+     "Wilson"
+    ]
+   },
+   {
+    "q": "Pooh's fussy gardening friend",
+    "right": "Rabbit",
+    "wrong": [
+     "Owl",
+     "Eeyore",
+     "Gopher"
+    ]
+   },
+   {
+    "q": "Zootopia's bunny cop",
+    "right": "Judy Hopps",
+    "wrong": [
+     "Nick Wilde",
+     "Chief Bogo",
+     "Clawhauser"
+    ]
+   },
+   {
+    "q": "Disney's 'Lucky Rabbit' from before Mickey",
+    "right": "Oswald",
+    "wrong": [
+     "Ortensia",
+     "Mortimer",
+     "Pete"
+    ]
+   },
+   {
+    "q": "The stuffed toy made Real by a boy's love",
+    "right": "The Velveteen Rabbit",
+    "wrong": [
+     "The Skin Horse",
+     "Corduroy",
+     "Raggedy Ann"
+    ]
+   },
+   {
+    "q": "The rabbit who swaps minds with Wallace in Curse of the Were-Rabbit",
+    "right": "Hutch",
+    "wrong": [
+     "Feathers McGraw",
+     "Preston",
+     "Fluffles"
+    ]
+   },
+   {
+    "q": "The Secret Life of Pets' mad bunny",
+    "right": "Snowball",
+    "wrong": [
+     "Max",
+     "Duke",
+     "Gidget"
+    ]
+   },
+   {
+    "q": "Bugs's basketball-playing girlfriend in Space Jam",
+    "right": "Lola Bunny",
+    "wrong": [
+     "Honey Bunny",
+     "Babs",
+     "Petunia"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which -ology is the study of this?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "-ologies",
+   "science"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Birds",
+    "right": "Ornithology",
+    "wrong": [
+     "Oology",
+     "Apiology",
+     "Aerology"
+    ]
+   },
+   {
+    "q": "Insects",
+    "right": "Entomology",
+    "wrong": [
+     "Arachnology",
+     "Helminthology",
+     "Malacology"
+    ]
+   },
+   {
+    "q": "Earthquakes",
+    "right": "Seismology",
+    "wrong": [
+     "Volcanology",
+     "Glaciology",
+     "Hydrology"
+    ]
+   },
+   {
+    "q": "Weather",
+    "right": "Meteorology",
+    "wrong": [
+     "Cosmology",
+     "Hydrology",
+     "Astrology"
+    ]
+   },
+   {
+    "q": "Fossils",
+    "right": "Palaeontology",
+    "wrong": [
+     "Archaeology",
+     "Anthropology",
+     "Mineralogy"
+    ]
+   },
+   {
+    "q": "Skin",
+    "right": "Dermatology",
+    "wrong": [
+     "Haematology",
+     "Neurology",
+     "Rheumatology"
+    ]
+   },
+   {
+    "q": "The heart",
+    "right": "Cardiology",
+    "wrong": [
+     "Haematology",
+     "Neurology",
+     "Urology"
+    ]
+   },
+   {
+    "q": "Eyes",
+    "right": "Ophthalmology",
+    "wrong": [
+     "Audiology",
+     "Otology",
+     "Rhinology"
+    ]
+   },
+   {
+    "q": "Mushrooms and fungi",
+    "right": "Mycology",
+    "wrong": [
+     "Pomology",
+     "Bryology",
+     "Phycology"
+    ]
+   },
+   {
+    "q": "Wine",
+    "right": "Oenology",
+    "wrong": [
+     "Pomology",
+     "Horology",
+     "Cetology"
+    ]
+   },
+   {
+    "q": "Bells and bell-ringing",
+    "right": "Campanology",
+    "wrong": [
+     "Horology",
+     "Phonology",
+     "Organology"
+    ]
+   },
+   {
+    "q": "Handwriting",
+    "right": "Graphology",
+    "wrong": [
+     "Phrenology",
+     "Philology",
+     "Cryptology"
+    ]
+   },
+   {
+    "q": "Old age",
+    "right": "Gerontology",
+    "wrong": [
+     "Neonatology",
+     "Endocrinology",
+     "Chronology"
+    ]
+   },
+   {
+    "q": "Shells",
+    "right": "Conchology",
+    "wrong": [
+     "Oology",
+     "Lithology",
+     "Mineralogy"
+    ]
+   },
+   {
+    "q": "Caves",
+    "right": "Speleology",
+    "wrong": [
+     "Glaciology",
+     "Lithology",
+     "Hydrology"
+    ]
+   },
+   {
+    "q": "Kidneys",
+    "right": "Nephrology",
+    "wrong": [
+     "Hepatology",
+     "Gastroenterology",
+     "Pulmonology"
+    ]
+   },
+   {
+    "q": "Fish",
+    "right": "Ichthyology",
+    "wrong": [
+     "Cetology",
+     "Malacology",
+     "Limnology"
+    ]
+   },
+   {
+    "q": "Reptiles and amphibians",
+    "right": "Herpetology",
+    "wrong": [
+     "Mammalogy",
+     "Primatology",
+     "Cetology"
+    ]
+   },
+   {
+    "q": "Flags",
+    "right": "Vexillology",
+    "wrong": [
+     "Semiology",
+     "Philology",
+     "Iconology"
+    ]
+   },
+   {
+    "q": "Where words come from",
+    "right": "Etymology",
+    "wrong": [
+     "Phonology",
+     "Morphology",
+     "Cryptology"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: whose national anthem is this?",
+  "target": 10,
+  "category": "Music",
+  "tags": [
+   "anthems",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "God Save the King",
+    "right": "the United Kingdom",
+    "wrong": [
+     "Liechtenstein",
+     "Norway",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "La Marseillaise",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Monaco",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "The Star-Spangled Banner",
+    "right": "the USA",
+    "wrong": [
+     "Mexico",
+     "Liberia",
+     "Brazil"
+    ]
+   },
+   {
+    "q": "Advance Australia Fair",
+    "right": "Australia",
+    "wrong": [
+     "Fiji",
+     "Samoa",
+     "Papua New Guinea"
+    ]
+   },
+   {
+    "q": "O Canada",
+    "right": "Canada",
+    "wrong": [
+     "Jamaica",
+     "the Bahamas",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Flower of Scotland (at the rugby)",
+    "right": "Scotland",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Norway"
+    ]
+   },
+   {
+    "q": "Hen Wlad Fy Nhadau",
+    "right": "Wales",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Amhrán na bhFiann",
+    "right": "Ireland",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Das Lied der Deutschen",
+    "right": "Germany",
+    "wrong": [
+     "Austria",
+     "Liechtenstein",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "Il Canto degli Italiani",
+    "right": "Italy",
+    "wrong": [
+     "San Marino",
+     "Malta",
+     "Croatia"
+    ]
+   },
+   {
+    "q": "Kimigayo",
+    "right": "Japan",
+    "wrong": [
+     "South Korea",
+     "Taiwan",
+     "Vietnam"
+    ]
+   },
+   {
+    "q": "Het Wilhelmus",
+    "right": "the Netherlands",
+    "wrong": [
+     "Belgium",
+     "Denmark",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "Nkosi Sikelel' iAfrika",
+    "right": "South Africa",
+    "wrong": [
+     "Kenya",
+     "Nigeria",
+     "Namibia"
+    ]
+   },
+   {
+    "q": "Jana Gana Mana",
+    "right": "India",
+    "wrong": [
+     "Pakistan",
+     "Bangladesh",
+     "Sri Lanka"
+    ]
+   },
+   {
+    "q": "March of the Volunteers",
+    "right": "China",
+    "wrong": [
+     "Taiwan",
+     "Vietnam",
+     "South Korea"
+    ]
+   },
+   {
+    "q": "Hatikvah",
+    "right": "Israel",
+    "wrong": [
+     "Jordan",
+     "Lebanon",
+     "Egypt"
+    ]
+   },
+   {
+    "q": "God Defend New Zealand",
+    "right": "New Zealand",
+    "wrong": [
+     "Fiji",
+     "Samoa",
+     "Tonga"
+    ]
+   },
+   {
+    "q": "Marcha Real (it has no words)",
+    "right": "Spain",
+    "wrong": [
+     "Mexico",
+     "Argentina",
+     "Andorra"
+    ]
+   },
+   {
+    "q": "A Portuguesa",
+    "right": "Portugal",
+    "wrong": [
+     "Brazil",
+     "Angola",
+     "Mozambique"
+    ]
+   },
+   {
+    "q": "Mazurek Dąbrowskiego",
+    "right": "Poland",
+    "wrong": [
+     "Czechia",
+     "Slovakia",
+     "Hungary"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which constellation is this star in?",
+  "target": 10,
+  "category": "Space",
+  "tags": [
+   "stars",
+   "constellations"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Sirius",
+    "right": "Canis Major",
+    "wrong": [
+     "Ursa Major",
+     "Lepus",
+     "Monoceros"
+    ]
+   },
+   {
+    "q": "Betelgeuse",
+    "right": "Orion",
+    "wrong": [
+     "Lepus",
+     "Monoceros",
+     "Hercules"
+    ]
+   },
+   {
+    "q": "Polaris",
+    "right": "Ursa Minor",
+    "wrong": [
+     "Ursa Major",
+     "Draco",
+     "Cassiopeia"
+    ]
+   },
+   {
+    "q": "Vega",
+    "right": "Lyra",
+    "wrong": [
+     "Hercules",
+     "Draco",
+     "Cassiopeia"
+    ]
+   },
+   {
+    "q": "Aldebaran",
+    "right": "Taurus",
+    "wrong": [
+     "Aries",
+     "Pisces",
+     "Cancer"
+    ]
+   },
+   {
+    "q": "Antares",
+    "right": "Scorpius",
+    "wrong": [
+     "Sagittarius",
+     "Libra",
+     "Ophiuchus"
+    ]
+   },
+   {
+    "q": "Spica",
+    "right": "Virgo",
+    "wrong": [
+     "Libra",
+     "Cancer",
+     "Aries"
+    ]
+   },
+   {
+    "q": "Arcturus",
+    "right": "Boötes",
+    "wrong": [
+     "Hercules",
+     "Corona Borealis",
+     "Ursa Major"
+    ]
+   },
+   {
+    "q": "Deneb",
+    "right": "Cygnus",
+    "wrong": [
+     "Andromeda",
+     "Pegasus",
+     "Cassiopeia"
+    ]
+   },
+   {
+    "q": "Altair",
+    "right": "Aquila",
+    "wrong": [
+     "Sagittarius",
+     "Hercules",
+     "Pegasus"
+    ]
+   },
+   {
+    "q": "Regulus",
+    "right": "Leo",
+    "wrong": [
+     "Cancer",
+     "Hydra",
+     "Libra"
+    ]
+   },
+   {
+    "q": "Pollux",
+    "right": "Gemini",
+    "wrong": [
+     "Cancer",
+     "Aries",
+     "Lepus"
+    ]
+   },
+   {
+    "q": "Capella",
+    "right": "Auriga",
+    "wrong": [
+     "Andromeda",
+     "Pegasus",
+     "Cassiopeia"
+    ]
+   },
+   {
+    "q": "Procyon",
+    "right": "Canis Minor",
+    "wrong": [
+     "Lepus",
+     "Monoceros",
+     "Hydra"
+    ]
+   },
+   {
+    "q": "Fomalhaut",
+    "right": "Piscis Austrinus",
+    "wrong": [
+     "Aquarius",
+     "Capricornus",
+     "Pisces"
+    ]
+   },
+   {
+    "q": "Achernar",
+    "right": "Eridanus",
+    "wrong": [
+     "Hydra",
+     "Columba",
+     "Lepus"
+    ]
+   },
+   {
+    "q": "Canopus",
+    "right": "Carina",
+    "wrong": [
+     "Crux",
+     "Columba",
+     "Lupus"
+    ]
+   },
+   {
+    "q": "Algol",
+    "right": "Perseus",
+    "wrong": [
+     "Andromeda",
+     "Cassiopeia",
+     "Pegasus"
+    ]
+   },
+   {
+    "q": "Mira",
+    "right": "Cetus",
+    "wrong": [
+     "Pisces",
+     "Aquarius",
+     "Aries"
+    ]
+   },
+   {
+    "q": "Alpha Centauri",
+    "right": "Centaurus",
+    "wrong": [
+     "Crux",
+     "Lupus",
+     "Hydra"
+    ]
+   }
+  ]
+ }
+]
