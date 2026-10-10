@@ -1,0 +1,774 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which body part is this slang for?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "slang",
+   "the body"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Noggin",
+    "right": "Head",
+    "wrong": [
+     "Knees",
+     "Shoulders",
+     "Chest"
+    ]
+   },
+   {
+    "q": "Conk",
+    "right": "Nose",
+    "wrong": [
+     "Chin",
+     "Cheeks",
+     "Forehead"
+    ]
+   },
+   {
+    "q": "Gob",
+    "right": "Mouth",
+    "wrong": [
+     "Chin",
+     "Cheeks",
+     "Throat"
+    ]
+   },
+   {
+    "q": "Lugholes",
+    "right": "Ears",
+    "wrong": [
+     "Nostrils",
+     "Cheeks",
+     "Eyebrows"
+    ]
+   },
+   {
+    "q": "Peepers",
+    "right": "Eyes",
+    "wrong": [
+     "Eyebrows",
+     "Lips",
+     "Cheeks"
+    ]
+   },
+   {
+    "q": "Gnashers",
+    "right": "Teeth",
+    "wrong": [
+     "Lips",
+     "Tongue",
+     "Gums"
+    ]
+   },
+   {
+    "q": "Plates (of meat)",
+    "right": "Feet",
+    "wrong": [
+     "Knees",
+     "Ankles",
+     "Shins"
+    ]
+   },
+   {
+    "q": "Mitts",
+    "right": "Hands",
+    "wrong": [
+     "Wrists",
+     "Thumbs",
+     "Knees"
+    ]
+   },
+   {
+    "q": "Ticker",
+    "right": "Heart",
+    "wrong": [
+     "Lungs",
+     "Liver",
+     "Kidneys"
+    ]
+   },
+   {
+    "q": "Pins",
+    "right": "Legs",
+    "wrong": [
+     "Arms",
+     "Wrists",
+     "Ankles"
+    ]
+   },
+   {
+    "q": "Barnet (Fair)",
+    "right": "Hair",
+    "wrong": [
+     "Beard",
+     "Eyebrows",
+     "Scalp"
+    ]
+   },
+   {
+    "q": "Boat (race)",
+    "right": "Face",
+    "wrong": [
+     "Back",
+     "Chest",
+     "Knees"
+    ]
+   },
+   {
+    "q": "Bread basket",
+    "right": "Stomach",
+    "wrong": [
+     "Chest",
+     "Lungs",
+     "Back"
+    ]
+   },
+   {
+    "q": "Digits",
+    "right": "Fingers",
+    "wrong": [
+     "Wrists",
+     "Ankles",
+     "Kidneys"
+    ]
+   },
+   {
+    "q": "Derrière",
+    "right": "Bottom",
+    "wrong": [
+     "Back",
+     "Hips",
+     "Thighs"
+    ]
+   },
+   {
+    "q": "Grey matter",
+    "right": "Brain",
+    "wrong": [
+     "Lungs",
+     "Liver",
+     "Spine"
+    ]
+   },
+   {
+    "q": "Guns",
+    "right": "Biceps",
+    "wrong": [
+     "Thighs",
+     "Calves",
+     "Shoulders"
+    ]
+   },
+   {
+    "q": "Scruff",
+    "right": "Back of the neck",
+    "wrong": [
+     "Throat",
+     "Chin",
+     "Shoulders"
+    ]
+   },
+   {
+    "q": "Tootsies",
+    "right": "Toes",
+    "wrong": [
+     "Ankles",
+     "Knees",
+     "Shins"
+    ]
+   },
+   {
+    "q": "Funny bone",
+    "right": "Elbow",
+    "wrong": [
+     "Knee",
+     "Wrist",
+     "Ankle"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: who composed the music for this film?",
+  "target": 10,
+  "category": "Film",
+  "tags": [
+   "film music",
+   "composers"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Star Wars",
+    "right": "John Williams",
+    "wrong": [
+     "Jerry Goldsmith",
+     "Basil Poledouris",
+     "Max Steiner"
+    ]
+   },
+   {
+    "q": "The Lord of the Rings",
+    "right": "Howard Shore",
+    "wrong": [
+     "Patrick Doyle",
+     "Harry Gregson-Williams",
+     "John Powell"
+    ]
+   },
+   {
+    "q": "Gladiator",
+    "right": "Hans Zimmer",
+    "wrong": [
+     "Harry Gregson-Williams",
+     "John Powell",
+     "Ramin Djawadi"
+    ]
+   },
+   {
+    "q": "Titanic",
+    "right": "James Horner",
+    "wrong": [
+     "Thomas Newman",
+     "Alexandre Desplat",
+     "Craig Armstrong"
+    ]
+   },
+   {
+    "q": "The Good, the Bad and the Ugly",
+    "right": "Ennio Morricone",
+    "wrong": [
+     "Nino Rota",
+     "Jerry Goldsmith",
+     "Max Steiner"
+    ]
+   },
+   {
+    "q": "Psycho",
+    "right": "Bernard Herrmann",
+    "wrong": [
+     "Max Steiner",
+     "Jerry Goldsmith",
+     "Nino Rota"
+    ]
+   },
+   {
+    "q": "Chariots of Fire",
+    "right": "Vangelis",
+    "wrong": [
+     "Jean-Michel Jarre",
+     "Mike Oldfield",
+     "Rick Wakeman"
+    ]
+   },
+   {
+    "q": "The Pink Panther",
+    "right": "Henry Mancini",
+    "wrong": [
+     "Burt Bacharach",
+     "Nelson Riddle",
+     "Quincy Jones"
+    ]
+   },
+   {
+    "q": "Lawrence of Arabia",
+    "right": "Maurice Jarre",
+    "wrong": [
+     "Miklós Rózsa",
+     "Max Steiner",
+     "Dimitri Tiomkin"
+    ]
+   },
+   {
+    "q": "Oppenheimer",
+    "right": "Ludwig Göransson",
+    "wrong": [
+     "Mica Levi",
+     "Jóhann Jóhannsson",
+     "Justin Hurwitz"
+    ]
+   },
+   {
+    "q": "Back to the Future",
+    "right": "Alan Silvestri",
+    "wrong": [
+     "Jerry Goldsmith",
+     "James Newton Howard",
+     "Basil Poledouris"
+    ]
+   },
+   {
+    "q": "Batman (1989)",
+    "right": "Danny Elfman",
+    "wrong": [
+     "James Newton Howard",
+     "Jerry Goldsmith",
+     "Christopher Young"
+    ]
+   },
+   {
+    "q": "The Piano",
+    "right": "Michael Nyman",
+    "wrong": [
+     "Philip Glass",
+     "Gabriel Yared",
+     "Rachel Portman"
+    ]
+   },
+   {
+    "q": "Amélie",
+    "right": "Yann Tiersen",
+    "wrong": [
+     "Gabriel Yared",
+     "Alexandre Desplat",
+     "Philip Glass"
+    ]
+   },
+   {
+    "q": "Out of Africa",
+    "right": "John Barry",
+    "wrong": [
+     "Ron Goodwin",
+     "George Fenton",
+     "David Arnold"
+    ]
+   },
+   {
+    "q": "Rocky",
+    "right": "Bill Conti",
+    "wrong": [
+     "Ron Goodwin",
+     "Jerry Goldsmith",
+     "James Newton Howard"
+    ]
+   },
+   {
+    "q": "Spirited Away",
+    "right": "Joe Hisaishi",
+    "wrong": [
+     "Ryuichi Sakamoto",
+     "Yoko Kanno",
+     "Toru Takemitsu"
+    ]
+   },
+   {
+    "q": "Up",
+    "right": "Michael Giacchino",
+    "wrong": [
+     "Thomas Newman",
+     "Randy Newman",
+     "Mark Mothersbaugh"
+    ]
+   },
+   {
+    "q": "Joker",
+    "right": "Hildur Guðnadóttir",
+    "wrong": [
+     "Mica Levi",
+     "Jóhann Jóhannsson",
+     "Justin Hurwitz"
+    ]
+   },
+   {
+    "q": "The Great Escape",
+    "right": "Elmer Bernstein",
+    "wrong": [
+     "Ron Goodwin",
+     "Malcolm Arnold",
+     "Dimitri Tiomkin"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: who's the real writer behind this pen name?",
+  "target": 10,
+  "category": "Books",
+  "tags": [
+   "pen names",
+   "authors"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "George Orwell",
+    "right": "Eric Blair",
+    "wrong": [
+     "Aldous Huxley",
+     "H. G. Wells",
+     "Evelyn Waugh"
+    ]
+   },
+   {
+    "q": "Mark Twain",
+    "right": "Samuel Clemens",
+    "wrong": [
+     "Bret Harte",
+     "Jack London",
+     "Herman Melville"
+    ]
+   },
+   {
+    "q": "George Eliot",
+    "right": "Mary Ann Evans",
+    "wrong": [
+     "Elizabeth Gaskell",
+     "Mary Shelley",
+     "Fanny Burney"
+    ]
+   },
+   {
+    "q": "Lewis Carroll",
+    "right": "Charles Dodgson",
+    "wrong": [
+     "Edward Lear",
+     "Charles Kingsley",
+     "Kenneth Grahame"
+    ]
+   },
+   {
+    "q": "Dr. Seuss",
+    "right": "Theodor Geisel",
+    "wrong": [
+     "Maurice Sendak",
+     "Shel Silverstein",
+     "Roald Dahl"
+    ]
+   },
+   {
+    "q": "Voltaire",
+    "right": "François-Marie Arouet",
+    "wrong": [
+     "Jean-Jacques Rousseau",
+     "Denis Diderot",
+     "Blaise Pascal"
+    ]
+   },
+   {
+    "q": "Currer Bell",
+    "right": "Charlotte Brontë",
+    "wrong": [
+     "Branwell Brontë",
+     "Elizabeth Gaskell",
+     "Jane Austen"
+    ]
+   },
+   {
+    "q": "Ellis Bell",
+    "right": "Emily Brontë",
+    "wrong": [
+     "Branwell Brontë",
+     "Elizabeth Gaskell",
+     "Mary Shelley"
+    ]
+   },
+   {
+    "q": "Acton Bell",
+    "right": "Anne Brontë",
+    "wrong": [
+     "Branwell Brontë",
+     "Mary Shelley",
+     "Fanny Burney"
+    ]
+   },
+   {
+    "q": "Boz",
+    "right": "Charles Dickens",
+    "wrong": [
+     "Wilkie Collins",
+     "William Thackeray",
+     "Anthony Trollope"
+    ]
+   },
+   {
+    "q": "O. Henry",
+    "right": "William Sydney Porter",
+    "wrong": [
+     "Jack London",
+     "Bret Harte",
+     "Ambrose Bierce"
+    ]
+   },
+   {
+    "q": "Saki",
+    "right": "Hector Hugh Munro",
+    "wrong": [
+     "P. G. Wodehouse",
+     "E. F. Benson",
+     "Jerome K. Jerome"
+    ]
+   },
+   {
+    "q": "Stendhal",
+    "right": "Marie-Henri Beyle",
+    "wrong": [
+     "Gustave Flaubert",
+     "Honoré de Balzac",
+     "Victor Hugo"
+    ]
+   },
+   {
+    "q": "Molière",
+    "right": "Jean-Baptiste Poquelin",
+    "wrong": [
+     "Jean Racine",
+     "Pierre Corneille",
+     "Jean de La Fontaine"
+    ]
+   },
+   {
+    "q": "John le Carré",
+    "right": "David Cornwell",
+    "wrong": [
+     "Len Deighton",
+     "Ian Fleming",
+     "Frederick Forsyth"
+    ]
+   },
+   {
+    "q": "Richard Bachman",
+    "right": "Stephen King",
+    "wrong": [
+     "Dean Koontz",
+     "Peter Straub",
+     "Clive Barker"
+    ]
+   },
+   {
+    "q": "Barbara Vine",
+    "right": "Ruth Rendell",
+    "wrong": [
+     "P. D. James",
+     "Minette Walters",
+     "Val McDermid"
+    ]
+   },
+   {
+    "q": "Mary Westmacott",
+    "right": "Agatha Christie",
+    "wrong": [
+     "Dorothy L. Sayers",
+     "Ngaio Marsh",
+     "Margery Allingham"
+    ]
+   },
+   {
+    "q": "Lemony Snicket",
+    "right": "Daniel Handler",
+    "wrong": [
+     "Neil Gaiman",
+     "Philip Pullman",
+     "Roald Dahl"
+    ]
+   },
+   {
+    "q": "Ellis Peters",
+    "right": "Edith Pargeter",
+    "wrong": [
+     "Dorothy L. Sayers",
+     "Margery Allingham",
+     "Ngaio Marsh"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: whose parliament is this?",
+  "target": 10,
+  "category": "Politics",
+  "tags": [
+   "parliaments",
+   "countries"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The Knesset",
+    "right": "Israel",
+    "wrong": [
+     "Lebanon",
+     "Jordan",
+     "Cyprus"
+    ]
+   },
+   {
+    "q": "The Bundestag",
+    "right": "Germany",
+    "wrong": [
+     "Austria",
+     "Switzerland",
+     "the Netherlands"
+    ]
+   },
+   {
+    "q": "The State Duma",
+    "right": "Russia",
+    "wrong": [
+     "Ukraine",
+     "Belarus",
+     "Kazakhstan"
+    ]
+   },
+   {
+    "q": "The Dáil",
+    "right": "Ireland",
+    "wrong": [
+     "Greenland",
+     "the Faroe Islands",
+     "Portugal"
+    ]
+   },
+   {
+    "q": "The Storting",
+    "right": "Norway",
+    "wrong": [
+     "the Faroe Islands",
+     "Greenland",
+     "the Netherlands"
+    ]
+   },
+   {
+    "q": "The Riksdag",
+    "right": "Sweden",
+    "wrong": [
+     "the Faroe Islands",
+     "Greenland",
+     "the Netherlands"
+    ]
+   },
+   {
+    "q": "The Folketing",
+    "right": "Denmark",
+    "wrong": [
+     "the Faroe Islands",
+     "Greenland",
+     "the Netherlands"
+    ]
+   },
+   {
+    "q": "The Althing",
+    "right": "Iceland",
+    "wrong": [
+     "the Faroe Islands",
+     "Greenland",
+     "Jersey"
+    ]
+   },
+   {
+    "q": "The Sejm",
+    "right": "Poland",
+    "wrong": [
+     "Czechia",
+     "Slovakia",
+     "Ukraine"
+    ]
+   },
+   {
+    "q": "The Cortes Generales",
+    "right": "Spain",
+    "wrong": [
+     "Portugal",
+     "Italy",
+     "Andorra"
+    ]
+   },
+   {
+    "q": "The National Diet",
+    "right": "Japan",
+    "wrong": [
+     "South Korea",
+     "China",
+     "Taiwan"
+    ]
+   },
+   {
+    "q": "The Senedd",
+    "right": "Wales",
+    "wrong": [
+     "Jersey",
+     "Guernsey",
+     "the Faroe Islands"
+    ]
+   },
+   {
+    "q": "Tynwald",
+    "right": "the Isle of Man",
+    "wrong": [
+     "Jersey",
+     "Guernsey",
+     "the Faroe Islands"
+    ]
+   },
+   {
+    "q": "Holyrood",
+    "right": "Scotland",
+    "wrong": [
+     "Jersey",
+     "Guernsey",
+     "England"
+    ]
+   },
+   {
+    "q": "Stormont",
+    "right": "Northern Ireland",
+    "wrong": [
+     "Jersey",
+     "Guernsey",
+     "England"
+    ]
+   },
+   {
+    "q": "The Eduskunta",
+    "right": "Finland",
+    "wrong": [
+     "Hungary",
+     "Belarus",
+     "Ukraine"
+    ]
+   },
+   {
+    "q": "The Saeima",
+    "right": "Latvia",
+    "wrong": [
+     "Belarus",
+     "Ukraine",
+     "Hungary"
+    ]
+   },
+   {
+    "q": "The Seimas",
+    "right": "Lithuania",
+    "wrong": [
+     "Belarus",
+     "Ukraine",
+     "Slovakia"
+    ]
+   },
+   {
+    "q": "The Riigikogu",
+    "right": "Estonia",
+    "wrong": [
+     "Belarus",
+     "Hungary",
+     "Ukraine"
+    ]
+   },
+   {
+    "q": "The Lok Sabha",
+    "right": "India",
+    "wrong": [
+     "Pakistan",
+     "Bangladesh",
+     "Sri Lanka"
+    ]
+   }
+  ]
+ }
+]
