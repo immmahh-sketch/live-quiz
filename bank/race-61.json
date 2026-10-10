@@ -1,0 +1,388 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: whose national motto is this?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "mottos",
+   "countries"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Liberté, égalité, fraternité",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Haiti",
+     "Monaco"
+    ]
+   },
+   {
+    "q": "E pluribus unum",
+    "right": "the USA",
+    "wrong": [
+     "Mexico",
+     "Cuba",
+     "the Philippines"
+    ]
+   },
+   {
+    "q": "Dieu et mon droit",
+    "right": "the United Kingdom",
+    "wrong": [
+     "Ireland",
+     "Australia",
+     "New Zealand"
+    ]
+   },
+   {
+    "q": "Nemo me impune lacessit",
+    "right": "Scotland",
+    "wrong": [
+     "Ireland",
+     "Northern Ireland",
+     "the Isle of Man"
+    ]
+   },
+   {
+    "q": "Out of many, one people",
+    "right": "Jamaica",
+    "wrong": [
+     "Barbados",
+     "Trinidad and Tobago",
+     "the Bahamas"
+    ]
+   },
+   {
+    "q": "Einigkeit und Recht und Freiheit",
+    "right": "Germany",
+    "wrong": [
+     "Austria",
+     "Liechtenstein",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "Je maintiendrai",
+    "right": "the Netherlands",
+    "wrong": [
+     "Belgium",
+     "Denmark",
+     "Norway"
+    ]
+   },
+   {
+    "q": "Mir wëlle bleiwe wat mir sinn",
+    "right": "Luxembourg",
+    "wrong": [
+     "Belgium",
+     "Liechtenstein",
+     "Austria"
+    ]
+   },
+   {
+    "q": "Ordem e Progresso",
+    "right": "Brazil",
+    "wrong": [
+     "Portugal",
+     "Argentina",
+     "Angola"
+    ]
+   },
+   {
+    "q": "A mari usque ad mare (from sea to sea)",
+    "right": "Canada",
+    "wrong": [
+     "Australia",
+     "New Zealand",
+     "Ireland"
+    ]
+   },
+   {
+    "q": "Bhinneka Tunggal Ika (unity in diversity)",
+    "right": "Indonesia",
+    "wrong": [
+     "Malaysia",
+     "the Philippines",
+     "Thailand"
+    ]
+   },
+   {
+    "q": "Satyameva Jayate (truth alone triumphs)",
+    "right": "India",
+    "wrong": [
+     "Nepal",
+     "Sri Lanka",
+     "Bangladesh"
+    ]
+   },
+   {
+    "q": "Unus pro omnibus, omnes pro uno",
+    "right": "Switzerland",
+    "wrong": [
+     "Austria",
+     "Liechtenstein",
+     "Belgium"
+    ]
+   },
+   {
+    "q": "Plus ultra",
+    "right": "Spain",
+    "wrong": [
+     "Portugal",
+     "Italy",
+     "Mexico"
+    ]
+   },
+   {
+    "q": "God, Homeland, King",
+    "right": "Morocco",
+    "wrong": [
+     "Algeria",
+     "Tunisia",
+     "Egypt"
+    ]
+   },
+   {
+    "q": "!ke e: |xarra ||ke (diverse people unite)",
+    "right": "South Africa",
+    "wrong": [
+     "Namibia",
+     "Botswana",
+     "Zimbabwe"
+    ]
+   },
+   {
+    "q": "Uhuru na Umoja (freedom and unity)",
+    "right": "Tanzania",
+    "wrong": [
+     "Uganda",
+     "Rwanda",
+     "Malawi"
+    ]
+   },
+   {
+    "q": "Harambee (let's all pull together)",
+    "right": "Kenya",
+    "wrong": [
+     "Uganda",
+     "Ethiopia",
+     "Malawi"
+    ]
+   },
+   {
+    "q": "Cymru am byth (Wales for ever)",
+    "right": "Wales",
+    "wrong": [
+     "Ireland",
+     "Cornwall",
+     "the Isle of Man"
+    ]
+   },
+   {
+    "q": "Eleftheria i thanatos (freedom or death)",
+    "right": "Greece",
+    "wrong": [
+     "Cyprus",
+     "Bulgaria",
+     "Albania"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which town or city is this famous statue in?",
+  "target": 10,
+  "category": "Britain",
+  "tags": [
+   "statues",
+   "towns"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Robin Hood, below the castle",
+    "right": "Nottingham",
+    "wrong": [
+     "Derby",
+     "Leicester",
+     "Sheffield"
+    ]
+   },
+   {
+    "q": "Peter Pan in Kensington Gardens",
+    "right": "London",
+    "wrong": [
+     "Oxford",
+     "Cambridge",
+     "Brighton"
+    ]
+   },
+   {
+    "q": "Greyfriars Bobby",
+    "right": "Edinburgh",
+    "wrong": [
+     "Glasgow",
+     "Stirling",
+     "Perth"
+    ]
+   },
+   {
+    "q": "Andy Capp",
+    "right": "Hartlepool",
+    "wrong": [
+     "Middlesbrough",
+     "Sunderland",
+     "Darlington"
+    ]
+   },
+   {
+    "q": "Desperate Dan",
+    "right": "Dundee",
+    "wrong": [
+     "Aberdeen",
+     "Perth",
+     "Glasgow"
+    ]
+   },
+   {
+    "q": "Lady Godiva on horseback",
+    "right": "Coventry",
+    "wrong": [
+     "Warwick",
+     "Leicester",
+     "Northampton"
+    ]
+   },
+   {
+    "q": "Earl Grey, on top of his Monument",
+    "right": "Newcastle",
+    "wrong": [
+     "Sunderland",
+     "Durham",
+     "Gateshead"
+    ]
+   },
+   {
+    "q": "Ken Dodd, at Lime Street station",
+    "right": "Liverpool",
+    "wrong": [
+     "Southport",
+     "St Helens",
+     "Warrington"
+    ]
+   },
+   {
+    "q": "Freddie Mercury by Lake Geneva",
+    "right": "Montreux",
+    "wrong": [
+     "Geneva",
+     "Lausanne",
+     "Zurich"
+    ]
+   },
+   {
+    "q": "The Little Mermaid",
+    "right": "Copenhagen",
+    "wrong": [
+     "Oslo",
+     "Stockholm",
+     "Aarhus"
+    ]
+   },
+   {
+    "q": "Manneken Pis",
+    "right": "Brussels",
+    "wrong": [
+     "Antwerp",
+     "Bruges",
+     "Ghent"
+    ]
+   },
+   {
+    "q": "Fred Dibnah",
+    "right": "Bolton",
+    "wrong": [
+     "Wigan",
+     "Preston",
+     "Burnley"
+    ]
+   },
+   {
+    "q": "Victoria Wood",
+    "right": "Bury",
+    "wrong": [
+     "Rochdale",
+     "Oldham",
+     "Wigan"
+    ]
+   },
+   {
+    "q": "Jimi Hendrix",
+    "right": "Seattle",
+    "wrong": [
+     "Portland",
+     "San Francisco",
+     "Tacoma"
+    ]
+   },
+   {
+    "q": "Les Dawson",
+    "right": "Lytham St Annes",
+    "wrong": [
+     "Blackpool",
+     "Southport",
+     "Fleetwood"
+    ]
+   },
+   {
+    "q": "Ronnie Barker",
+    "right": "Aylesbury",
+    "wrong": [
+     "Oxford",
+     "Reading",
+     "Luton"
+    ]
+   },
+   {
+    "q": "Molly Malone",
+    "right": "Dublin",
+    "wrong": [
+     "Cork",
+     "Galway",
+     "Belfast"
+    ]
+   },
+   {
+    "q": "Rocky Balboa",
+    "right": "Philadelphia",
+    "wrong": [
+     "Boston",
+     "Pittsburgh",
+     "New York"
+    ]
+   },
+   {
+    "q": "Captain Mainwaring of Dad's Army",
+    "right": "Thetford",
+    "wrong": [
+     "Norwich",
+     "Ipswich",
+     "Bury St Edmunds"
+    ]
+   },
+   {
+    "q": "Laurel and Hardy, side by side",
+    "right": "Ulverston",
+    "wrong": [
+     "Bishop Auckland",
+     "Kendal",
+     "Barrow-in-Furness"
+    ]
+   }
+  ]
+ }
+]
