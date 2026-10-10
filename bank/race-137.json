@@ -1,0 +1,389 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this football word?",
+  "target": 10,
+  "category": "Football",
+  "tags": [
+   "football",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Playing the ball through an opponent's legs",
+    "right": "Nutmeg",
+    "wrong": [
+     "Elastico",
+     "Cruyff turn",
+     "Step-over"
+    ]
+   },
+   {
+    "q": "An acrobatic overhead kick with your back to goal",
+    "right": "Bicycle kick",
+    "wrong": [
+     "Scorpion kick",
+     "Toe-poke",
+     "Half-volley"
+    ]
+   },
+   {
+    "q": "A penalty chipped softly down the middle as the keeper dives",
+    "right": "Panenka",
+    "wrong": [
+     "Toe-poke",
+     "Half-volley",
+     "Step-over"
+    ]
+   },
+   {
+    "q": "Kicking the ball with one leg wrapped behind the other",
+    "right": "Rabona",
+    "wrong": [
+     "Elastico",
+     "Cruyff turn",
+     "Marseille turn"
+    ]
+   },
+   {
+    "q": "When a goalkeeper and defence let in no goals all match",
+    "right": "Clean sheet",
+    "wrong": [
+     "Treble",
+     "Double",
+     "Golden Boot"
+    ]
+   },
+   {
+    "q": "Accidentally scoring for the other side",
+    "right": "Own goal",
+    "wrong": [
+     "Drop ball",
+     "Goal kick",
+     "Professional foul"
+    ]
+   },
+   {
+    "q": "A centre-forward who drops deep into midfield",
+    "right": "False nine",
+    "wrong": [
+     "Regista",
+     "Target man",
+     "Poacher"
+    ]
+   },
+   {
+    "q": "A defender who roams behind the back line to mop up",
+    "right": "Sweeper",
+    "wrong": [
+     "Regista",
+     "Wing-back",
+     "Holding midfielder"
+    ]
+   },
+   {
+    "q": "Barcelona and Spain's style of endless short passing",
+    "right": "Tiki-taka",
+    "wrong": [
+     "Gegenpress",
+     "Catenaccio",
+     "Long ball"
+    ]
+   },
+   {
+    "q": "Put every player behind the ball to protect a lead",
+    "right": "Park the bus",
+    "wrong": [
+     "Gegenpress",
+     "Long ball",
+     "Rondo"
+    ]
+   },
+   {
+    "q": "Sir Alex Ferguson's furious half-time dressing-down",
+    "right": "Hairdryer treatment",
+    "wrong": [
+     "Rondo",
+     "Gegenpress",
+     "Booking"
+    ]
+   },
+   {
+    "q": "Ferguson's name for the nervy end of a title race",
+    "right": "Squeaky bum time",
+    "wrong": [
+     "Rondo",
+     "Gegenpress",
+     "Super-sub"
+    ]
+   },
+   {
+    "q": "Dropping down a division after finishing near the bottom",
+    "right": "Relegation",
+    "wrong": [
+     "Treble",
+     "Double",
+     "Advantage"
+    ]
+   },
+   {
+    "q": "Knockout matches for the last promotion place",
+    "right": "Play-offs",
+    "wrong": [
+     "Treble",
+     "Double",
+     "Drop ball"
+    ]
+   },
+   {
+    "q": "The times of year when clubs may buy and sell players",
+    "right": "Transfer window",
+    "wrong": [
+     "Drop ball",
+     "Advantage",
+     "Booking"
+    ]
+   },
+   {
+    "q": "A match between two local rivals",
+    "right": "Derby",
+    "wrong": [
+     "Treble",
+     "Double",
+     "Drop ball"
+    ]
+   },
+   {
+    "q": "Falling over on purpose to win a free kick or penalty",
+    "right": "Dive",
+    "wrong": [
+     "Professional foul",
+     "Booking",
+     "Advantage"
+    ]
+   },
+   {
+    "q": "Two goals by the same player in one match",
+    "right": "Brace",
+    "wrong": [
+     "Treble",
+     "Double",
+     "Golden Boot"
+    ]
+   },
+   {
+    "q": "The old rule where the first goal in extra time won the match",
+    "right": "Golden goal",
+    "wrong": [
+     "Drop ball",
+     "Advantage",
+     "Super-sub"
+    ]
+   },
+   {
+    "q": "A badly weighted pass that leaves a team-mate about to get clattered",
+    "right": "Hospital pass",
+    "wrong": [
+     "Drop ball",
+     "Goal kick",
+     "Throw-in"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this darts or snooker word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "darts",
+   "snooker",
+   "words"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The double 20 segment at the top of the dartboard",
+    "right": "Double top",
+    "wrong": [
+     "Ton",
+     "Wire",
+     "Bullseye"
+    ]
+   },
+   {
+    "q": "Hitting a single, double and treble of the same number with three darts",
+    "right": "Shanghai",
+    "wrong": [
+     "Robin Hood",
+     "Splash",
+     "Ton-80"
+    ]
+   },
+   {
+    "q": "Darts slang for scoring 26, once said to be the price of a night's B&B",
+    "right": "Bed and breakfast",
+    "wrong": [
+     "Ton",
+     "Robin Hood",
+     "Splash"
+    ]
+   },
+   {
+    "q": "Being left needing double 1, the hardest finish of all",
+    "right": "Madhouse",
+    "wrong": [
+     "Ton",
+     "Wire",
+     "Bullseye"
+    ]
+   },
+   {
+    "q": "Scoring more than you need, so your turn doesn't count",
+    "right": "Bust",
+    "wrong": [
+     "Splash",
+     "Wire",
+     "Robin Hood"
+    ]
+   },
+   {
+    "q": "One game of 501 in darts",
+    "right": "Leg",
+    "wrong": [
+     "Set",
+     "Session",
+     "Match"
+    ]
+   },
+   {
+    "q": "A perfect leg of 501 in the fewest throws possible",
+    "right": "Nine-darter",
+    "wrong": [
+     "Robin Hood",
+     "Ton-80",
+     "Splash"
+    ]
+   },
+   {
+    "q": "The final throw that finishes a leg on a double",
+    "right": "Checkout",
+    "wrong": [
+     "Set",
+     "Ton",
+     "Wire"
+    ]
+   },
+   {
+    "q": "The little fins at the back of a dart",
+    "right": "Flight",
+    "wrong": [
+     "Barrel",
+     "Shaft",
+     "Tip"
+    ]
+   },
+   {
+    "q": "When the cue ball only just touches another ball",
+    "right": "Kiss",
+    "wrong": [
+     "Stun",
+     "Screw shot",
+     "Jaws"
+    ]
+   },
+   {
+    "q": "Hitting one red into another so the second one goes in",
+    "right": "Plant",
+    "wrong": [
+     "Stun",
+     "Screw shot",
+     "Swerve"
+    ]
+   },
+   {
+    "q": "A ball that goes in by lucky accident",
+    "right": "Fluke",
+    "wrong": [
+     "Stun",
+     "Clearance",
+     "Century"
+    ]
+   },
+   {
+    "q": "Playing to leave your opponent nothing easy instead of going for a pot",
+    "right": "Safety shot",
+    "wrong": [
+     "Clearance",
+     "Century",
+     "Stun"
+    ]
+   },
+   {
+    "q": "The X-headed stick that props up the cue for long shots",
+    "right": "Rest",
+    "wrong": [
+     "Extension",
+     "Chalk",
+     "Jaws"
+    ]
+   },
+   {
+    "q": "The rubber edge round the table that balls bounce off",
+    "right": "Cushion",
+    "wrong": [
+     "Pocket",
+     "Knuckle",
+     "Jaws"
+    ]
+   },
+   {
+    "q": "One game of snooker",
+    "right": "Frame",
+    "wrong": [
+     "Century",
+     "Clearance",
+     "Session"
+    ]
+   },
+   {
+    "q": "The area behind the line at the top end of the table, where the cue ball starts",
+    "right": "Baulk",
+    "wrong": [
+     "Knuckle",
+     "Jaws",
+     "Pocket"
+    ]
+   },
+   {
+    "q": "The very first shot of a frame",
+    "right": "Break-off",
+    "wrong": [
+     "Clearance",
+     "Century",
+     "Free ball"
+    ]
+   },
+   {
+    "q": "When the cue ball drops into a pocket after hitting a ball",
+    "right": "In-off",
+    "wrong": [
+     "Free ball",
+     "Stun",
+     "Jaws"
+    ]
+   },
+   {
+    "q": "Called by the referee when a player hasn't made a good enough effort to hit the right ball",
+    "right": "Miss",
+    "wrong": [
+     "Free ball",
+     "Clearance",
+     "Stun"
+    ]
+   }
+  ]
+ }
+]
