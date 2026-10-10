@@ -1,0 +1,776 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which country is this famous road in?",
+  "target": 10,
+  "category": "Travel",
+  "tags": [
+   "roads",
+   "road trips",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Route 66",
+    "right": "the USA",
+    "wrong": [
+     "Mexico",
+     "England",
+     "Spain"
+    ]
+   },
+   {
+    "q": "The Great Ocean Road",
+    "right": "Australia",
+    "wrong": [
+     "Fiji",
+     "Namibia",
+     "England"
+    ]
+   },
+   {
+    "q": "The Amalfi Coast road",
+    "right": "Italy",
+    "wrong": [
+     "Greece",
+     "Spain",
+     "Portugal"
+    ]
+   },
+   {
+    "q": "The Ring Road (Route 1)",
+    "right": "Iceland",
+    "wrong": [
+     "Greenland",
+     "Denmark",
+     "Finland"
+    ]
+   },
+   {
+    "q": "The Transfăgărășan",
+    "right": "Romania",
+    "wrong": [
+     "Bulgaria",
+     "Hungary",
+     "Serbia"
+    ]
+   },
+   {
+    "q": "Trollstigen",
+    "right": "Norway",
+    "wrong": [
+     "Sweden",
+     "Finland",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "The Grossglockner High Alpine Road",
+    "right": "Austria",
+    "wrong": [
+     "Germany",
+     "Slovenia",
+     "Hungary"
+    ]
+   },
+   {
+    "q": "The North Coast 500",
+    "right": "Scotland",
+    "wrong": [
+     "Wales",
+     "England",
+     "Northern Ireland"
+    ]
+   },
+   {
+    "q": "The Cabot Trail",
+    "right": "Canada",
+    "wrong": [
+     "Mexico",
+     "Greenland",
+     "England"
+    ]
+   },
+   {
+    "q": "The Garden Route",
+    "right": "South Africa",
+    "wrong": [
+     "Namibia",
+     "Botswana",
+     "Mozambique"
+    ]
+   },
+   {
+    "q": "The Milford Road",
+    "right": "New Zealand",
+    "wrong": [
+     "Fiji",
+     "England",
+     "Wales"
+    ]
+   },
+   {
+    "q": "The Yungas 'Death Road'",
+    "right": "Bolivia",
+    "wrong": [
+     "Peru",
+     "Ecuador",
+     "Paraguay"
+    ]
+   },
+   {
+    "q": "The Col du Tourmalet",
+    "right": "France",
+    "wrong": [
+     "Spain",
+     "Belgium",
+     "Portugal"
+    ]
+   },
+   {
+    "q": "The Furka Pass",
+    "right": "Switzerland",
+    "wrong": [
+     "Germany",
+     "Slovenia",
+     "Liechtenstein"
+    ]
+   },
+   {
+    "q": "The Kolyma Highway ('Road of Bones')",
+    "right": "Russia",
+    "wrong": [
+     "Kazakhstan",
+     "Mongolia",
+     "Ukraine"
+    ]
+   },
+   {
+    "q": "Ruta 40",
+    "right": "Argentina",
+    "wrong": [
+     "Uruguay",
+     "Paraguay",
+     "Peru"
+    ]
+   },
+   {
+    "q": "The Carretera Austral",
+    "right": "Chile",
+    "wrong": [
+     "Peru",
+     "Ecuador",
+     "Uruguay"
+    ]
+   },
+   {
+    "q": "The Hải Vân Pass",
+    "right": "Vietnam",
+    "wrong": [
+     "Laos",
+     "Cambodia",
+     "Thailand"
+    ]
+   },
+   {
+    "q": "The Wild Atlantic Way",
+    "right": "Ireland",
+    "wrong": [
+     "Wales",
+     "England",
+     "Portugal"
+    ]
+   },
+   {
+    "q": "The Leh–Manali Highway",
+    "right": "India",
+    "wrong": [
+     "Nepal",
+     "Pakistan",
+     "Bhutan"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which show is this a spin-off of?",
+  "target": 10,
+  "category": "Film and TV",
+  "tags": [
+   "TV",
+   "spin-offs"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Frasier",
+    "right": "Cheers",
+    "wrong": [
+     "Taxi",
+     "Seinfeld",
+     "M*A*S*H"
+    ]
+   },
+   {
+    "q": "Joey",
+    "right": "Friends",
+    "wrong": [
+     "Seinfeld",
+     "Scrubs",
+     "Two and a Half Men"
+    ]
+   },
+   {
+    "q": "Better Call Saul",
+    "right": "Breaking Bad",
+    "wrong": [
+     "The Sopranos",
+     "The Wire",
+     "Mad Men"
+    ]
+   },
+   {
+    "q": "Torchwood",
+    "right": "Doctor Who",
+    "wrong": [
+     "Red Dwarf",
+     "Sherlock",
+     "Merlin"
+    ]
+   },
+   {
+    "q": "Angel",
+    "right": "Buffy the Vampire Slayer",
+    "wrong": [
+     "Charmed",
+     "Smallville",
+     "True Blood"
+    ]
+   },
+   {
+    "q": "Young Sheldon",
+    "right": "The Big Bang Theory",
+    "wrong": [
+     "Two and a Half Men",
+     "Scrubs",
+     "Seinfeld"
+    ]
+   },
+   {
+    "q": "Private Practice",
+    "right": "Grey's Anatomy",
+    "wrong": [
+     "ER",
+     "Scrubs",
+     "House"
+    ]
+   },
+   {
+    "q": "Lewis",
+    "right": "Inspector Morse",
+    "wrong": [
+     "A Touch of Frost",
+     "Midsomer Murders",
+     "Taggart"
+    ]
+   },
+   {
+    "q": "Mork & Mindy",
+    "right": "Happy Days",
+    "wrong": [
+     "Taxi",
+     "The Brady Bunch",
+     "M*A*S*H"
+    ]
+   },
+   {
+    "q": "Rhoda",
+    "right": "The Mary Tyler Moore Show",
+    "wrong": [
+     "The Bob Newhart Show",
+     "Taxi",
+     "The Brady Bunch"
+    ]
+   },
+   {
+    "q": "The Jeffersons",
+    "right": "All in the Family",
+    "wrong": [
+     "The Brady Bunch",
+     "Taxi",
+     "The Partridge Family"
+    ]
+   },
+   {
+    "q": "House of the Dragon",
+    "right": "Game of Thrones",
+    "wrong": [
+     "Vikings",
+     "Lost",
+     "True Blood"
+    ]
+   },
+   {
+    "q": "Fear the Walking Dead",
+    "right": "The Walking Dead",
+    "wrong": [
+     "Lost",
+     "Vikings",
+     "True Blood"
+    ]
+   },
+   {
+    "q": "The Cleveland Show",
+    "right": "Family Guy",
+    "wrong": [
+     "American Dad!",
+     "King of the Hill",
+     "Futurama"
+    ]
+   },
+   {
+    "q": "Daria",
+    "right": "Beavis and Butt-Head",
+    "wrong": [
+     "The Ren & Stimpy Show",
+     "South Park",
+     "King of the Hill"
+    ]
+   },
+   {
+    "q": "Rock & Chips",
+    "right": "Only Fools and Horses",
+    "wrong": [
+     "Last of the Summer Wine",
+     "Porridge",
+     "Open All Hours"
+    ]
+   },
+   {
+    "q": "Holby City",
+    "right": "Casualty",
+    "wrong": [
+     "EastEnders",
+     "The Bill",
+     "ER"
+    ]
+   },
+   {
+    "q": "NCIS",
+    "right": "JAG",
+    "wrong": [
+     "CSI",
+     "Magnum, P.I.",
+     "The A-Team"
+    ]
+   },
+   {
+    "q": "Max and Paddy's Road to Nowhere",
+    "right": "Phoenix Nights",
+    "wrong": [
+     "Peter Kay's Car Share",
+     "The Royle Family",
+     "Early Doors"
+    ]
+   },
+   {
+    "q": "The Simpsons",
+    "right": "The Tracey Ullman Show",
+    "wrong": [
+     "Saturday Night Live",
+     "The Carol Burnett Show",
+     "The Late Show"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which city used to be called this?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "cities",
+   "old names"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Constantinople",
+    "right": "Istanbul",
+    "wrong": [
+     "Ankara",
+     "Athens",
+     "Thessaloniki"
+    ]
+   },
+   {
+    "q": "Bombay",
+    "right": "Mumbai",
+    "wrong": [
+     "Delhi",
+     "Bangalore",
+     "Hyderabad"
+    ]
+   },
+   {
+    "q": "Peking",
+    "right": "Beijing",
+    "wrong": [
+     "Shanghai",
+     "Nanjing",
+     "Hong Kong"
+    ]
+   },
+   {
+    "q": "Saigon",
+    "right": "Ho Chi Minh City",
+    "wrong": [
+     "Hanoi",
+     "Da Nang",
+     "Phnom Penh"
+    ]
+   },
+   {
+    "q": "Leningrad",
+    "right": "St Petersburg",
+    "wrong": [
+     "Moscow",
+     "Novgorod",
+     "Riga"
+    ]
+   },
+   {
+    "q": "New Amsterdam",
+    "right": "New York",
+    "wrong": [
+     "Boston",
+     "Philadelphia",
+     "Baltimore"
+    ]
+   },
+   {
+    "q": "Edo",
+    "right": "Tokyo",
+    "wrong": [
+     "Osaka",
+     "Kyoto",
+     "Nagasaki"
+    ]
+   },
+   {
+    "q": "Batavia",
+    "right": "Jakarta",
+    "wrong": [
+     "Surabaya",
+     "Bandung",
+     "Singapore"
+    ]
+   },
+   {
+    "q": "Madras",
+    "right": "Chennai",
+    "wrong": [
+     "Bangalore",
+     "Hyderabad",
+     "Colombo"
+    ]
+   },
+   {
+    "q": "Calcutta",
+    "right": "Kolkata",
+    "wrong": [
+     "Delhi",
+     "Dhaka",
+     "Hyderabad"
+    ]
+   },
+   {
+    "q": "Rangoon",
+    "right": "Yangon",
+    "wrong": [
+     "Mandalay",
+     "Dhaka",
+     "Bangkok"
+    ]
+   },
+   {
+    "q": "Salisbury, Rhodesia",
+    "right": "Harare",
+    "wrong": [
+     "Bulawayo",
+     "Lusaka",
+     "Gaborone"
+    ]
+   },
+   {
+    "q": "Léopoldville",
+    "right": "Kinshasa",
+    "wrong": [
+     "Lubumbashi",
+     "Brazzaville",
+     "Kisangani"
+    ]
+   },
+   {
+    "q": "Christiania",
+    "right": "Oslo",
+    "wrong": [
+     "Bergen",
+     "Stockholm",
+     "Copenhagen"
+    ]
+   },
+   {
+    "q": "Danzig",
+    "right": "Gdańsk",
+    "wrong": [
+     "Warsaw",
+     "Kraków",
+     "Szczecin"
+    ]
+   },
+   {
+    "q": "Königsberg",
+    "right": "Kaliningrad",
+    "wrong": [
+     "Riga",
+     "Vilnius",
+     "Minsk"
+    ]
+   },
+   {
+    "q": "Stalingrad",
+    "right": "Volgograd",
+    "wrong": [
+     "Samara",
+     "Rostov-on-Don",
+     "Moscow"
+    ]
+   },
+   {
+    "q": "Lutetia",
+    "right": "Paris",
+    "wrong": [
+     "Lyon",
+     "Marseille",
+     "Brussels"
+    ]
+   },
+   {
+    "q": "Pressburg",
+    "right": "Bratislava",
+    "wrong": [
+     "Vienna",
+     "Budapest",
+     "Prague"
+    ]
+   },
+   {
+    "q": "Smyrna",
+    "right": "Izmir",
+    "wrong": [
+     "Antalya",
+     "Ankara",
+     "Athens"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country's football team has this nickname?",
+  "target": 10,
+  "category": "Football",
+  "tags": [
+   "football",
+   "national teams",
+   "nicknames"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The Three Lions",
+    "right": "England",
+    "wrong": [
+     "Scotland",
+     "Wales",
+     "Ireland"
+    ]
+   },
+   {
+    "q": "The Socceroos",
+    "right": "Australia",
+    "wrong": [
+     "New Zealand",
+     "the USA",
+     "Canada"
+    ]
+   },
+   {
+    "q": "The Super Eagles",
+    "right": "Nigeria",
+    "wrong": [
+     "Ivory Coast",
+     "Mali",
+     "Zambia"
+    ]
+   },
+   {
+    "q": "The Black Stars",
+    "right": "Ghana",
+    "wrong": [
+     "Ivory Coast",
+     "Mali",
+     "Kenya"
+    ]
+   },
+   {
+    "q": "The Indomitable Lions",
+    "right": "Cameroon",
+    "wrong": [
+     "Ivory Coast",
+     "Mali",
+     "Tunisia"
+    ]
+   },
+   {
+    "q": "The Azzurri",
+    "right": "Italy",
+    "wrong": [
+     "Uruguay",
+     "Portugal",
+     "Switzerland"
+    ]
+   },
+   {
+    "q": "Les Bleus",
+    "right": "France",
+    "wrong": [
+     "Switzerland",
+     "Portugal",
+     "Croatia"
+    ]
+   },
+   {
+    "q": "Oranje",
+    "right": "the Netherlands",
+    "wrong": [
+     "Denmark",
+     "Sweden",
+     "Austria"
+    ]
+   },
+   {
+    "q": "The Seleção",
+    "right": "Brazil",
+    "wrong": [
+     "Colombia",
+     "Peru",
+     "Ecuador"
+    ]
+   },
+   {
+    "q": "La Albiceleste",
+    "right": "Argentina",
+    "wrong": [
+     "Uruguay",
+     "Chile",
+     "Paraguay"
+    ]
+   },
+   {
+    "q": "El Tri",
+    "right": "Mexico",
+    "wrong": [
+     "Costa Rica",
+     "Honduras",
+     "the USA"
+    ]
+   },
+   {
+    "q": "The Red Devils",
+    "right": "Belgium",
+    "wrong": [
+     "Switzerland",
+     "Austria",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "The Taeguk Warriors",
+    "right": "South Korea",
+    "wrong": [
+     "North Korea",
+     "China",
+     "Iran"
+    ]
+   },
+   {
+    "q": "Samurai Blue",
+    "right": "Japan",
+    "wrong": [
+     "China",
+     "Iran",
+     "Saudi Arabia"
+    ]
+   },
+   {
+    "q": "Bafana Bafana",
+    "right": "South Africa",
+    "wrong": [
+     "Zambia",
+     "Kenya",
+     "Mali"
+    ]
+   },
+   {
+    "q": "The Pharaohs",
+    "right": "Egypt",
+    "wrong": [
+     "Tunisia",
+     "Algeria",
+     "Saudi Arabia"
+    ]
+   },
+   {
+    "q": "The Atlas Lions",
+    "right": "Morocco",
+    "wrong": [
+     "Tunisia",
+     "Algeria",
+     "Mali"
+    ]
+   },
+   {
+    "q": "Die Mannschaft",
+    "right": "Germany",
+    "wrong": [
+     "Austria",
+     "Switzerland",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "The Reggae Boyz",
+    "right": "Jamaica",
+    "wrong": [
+     "Trinidad and Tobago",
+     "Haiti",
+     "Honduras"
+    ]
+   },
+   {
+    "q": "The Teranga Lions",
+    "right": "Senegal",
+    "wrong": [
+     "Mali",
+     "Ivory Coast",
+     "Zambia"
+    ]
+   }
+  ]
+ }
+]
