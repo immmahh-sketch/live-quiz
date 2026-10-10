@@ -1,0 +1,775 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: name the pub or bar",
+  "target": 10,
+  "category": "Film, TV and books",
+  "tags": [
+   "pubs",
+   "fiction"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "EastEnders' local",
+    "right": "The Queen Vic",
+    "wrong": [
+     "The Queen's Arms",
+     "The Albert",
+     "The Beale Arms"
+    ]
+   },
+   {
+    "q": "Coronation Street's local",
+    "right": "The Rovers Return",
+    "wrong": [
+     "The Rovers Rest",
+     "The Weatherfield Arms",
+     "The Bargain Arms"
+    ]
+   },
+   {
+    "q": "Emmerdale's local",
+    "right": "The Woolpack",
+    "wrong": [
+     "The Wool Shed",
+     "The Dingle Arms",
+     "The Sheep's Head"
+    ]
+   },
+   {
+    "q": "Hollyoaks' local",
+    "right": "The Dog in the Pond",
+    "wrong": [
+     "The Duck in the Pond",
+     "The Cat and Fiddle",
+     "The Fox and Hounds"
+    ]
+   },
+   {
+    "q": "Del Boy's local in Only Fools",
+    "right": "The Nag's Head",
+    "wrong": [
+     "The Horse and Groom",
+     "The Trotters' Arms",
+     "The Three Horseshoes"
+    ]
+   },
+   {
+    "q": "The pub in The Archers",
+    "right": "The Bull",
+    "wrong": [
+     "The Cat and Fiddle",
+     "The Feathers",
+     "The Red Lion"
+    ]
+   },
+   {
+    "q": "Homer's local",
+    "right": "Moe's Tavern",
+    "wrong": [
+     "Duff's Bar",
+     "Barney's Bar",
+     "Krusty's Tavern"
+    ]
+   },
+   {
+    "q": "Where Shaun waits for it all to blow over",
+    "right": "The Winchester",
+    "wrong": [
+     "The Crown",
+     "The Red Lion",
+     "The King's Arms"
+    ]
+   },
+   {
+    "q": "The bar in How I Met Your Mother",
+    "right": "MacLaren's",
+    "wrong": [
+     "Central Perk",
+     "Paddy's Pub",
+     "The Max"
+    ]
+   },
+   {
+    "q": "The wizarding pub on Charing Cross Road",
+    "right": "The Leaky Cauldron",
+    "wrong": [
+     "The Hog's Head",
+     "The Burrow",
+     "Honeydukes"
+    ]
+   },
+   {
+    "q": "The inn at Bree where Frodo meets Strider",
+    "right": "The Prancing Pony",
+    "wrong": [
+     "The Ivy Bush",
+     "The Golden Perch",
+     "The Floating Log"
+    ]
+   },
+   {
+    "q": "The Hobbits' favourite inn near Hobbiton",
+    "right": "The Green Dragon",
+    "wrong": [
+     "The Ivy Bush",
+     "The Golden Perch",
+     "The Floating Log"
+    ]
+   },
+   {
+    "q": "The Hogsmeade pub famous for its Butterbeer",
+    "right": "The Three Broomsticks",
+    "wrong": [
+     "The Hog's Head",
+     "Honeydukes",
+     "The Burrow"
+    ]
+   },
+   {
+    "q": "Brian Potter's club in Phoenix Nights",
+    "right": "The Phoenix Club",
+    "wrong": [
+     "The Neptune Club",
+     "The Peacock Club",
+     "The Talk of the Town"
+    ]
+   },
+   {
+    "q": "The moors pub in An American Werewolf in London",
+    "right": "The Slaughtered Lamb",
+    "wrong": [
+     "The Black Sheep",
+     "The Hanged Man",
+     "The Butcher's Arms"
+    ]
+   },
+   {
+    "q": "Jim Hawkins's family inn in Treasure Island",
+    "right": "The Admiral Benbow",
+    "wrong": [
+     "The Spyglass",
+     "The Jolly Sailor",
+     "The Anchor"
+    ]
+   },
+   {
+    "q": "The pub in Heartbeat",
+    "right": "The Aidensfield Arms",
+    "wrong": [
+     "The Ashfordly Arms",
+     "The Goathland Arms",
+     "The Moorland Inn"
+    ]
+   },
+   {
+    "q": "The pub in Neighbours",
+    "right": "The Waterhole",
+    "wrong": [
+     "The Billabong",
+     "The Kangaroo Arms",
+     "Harold's Café"
+    ]
+   },
+   {
+    "q": "Frank Gallagher's local in Shameless",
+    "right": "The Jockey",
+    "wrong": [
+     "The Saddle",
+     "The Trotter",
+     "The Racehorse"
+    ]
+   },
+   {
+    "q": "The Boston bar where everybody knows your name",
+    "right": "Cheers",
+    "wrong": [
+     "Norm's",
+     "Sam's Place",
+     "Melville's"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this cathedral or church in?",
+  "target": 10,
+  "category": "Famous landmarks",
+  "tags": [
+   "cathedrals",
+   "churches",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The Sagrada Família",
+    "right": "Spain",
+    "wrong": [
+     "Andorra",
+     "Mexico",
+     "Argentina"
+    ]
+   },
+   {
+    "q": "Notre-Dame",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Luxembourg",
+     "Switzerland"
+    ]
+   },
+   {
+    "q": "St Peter's Basilica",
+    "right": "Vatican City",
+    "wrong": [
+     "San Marino",
+     "Malta",
+     "Monaco"
+    ]
+   },
+   {
+    "q": "Hagia Sophia",
+    "right": "Turkey",
+    "wrong": [
+     "Greece",
+     "Cyprus",
+     "Bulgaria"
+    ]
+   },
+   {
+    "q": "St Basil's Cathedral",
+    "right": "Russia",
+    "wrong": [
+     "Ukraine",
+     "Belarus",
+     "Georgia"
+    ]
+   },
+   {
+    "q": "Cologne Cathedral",
+    "right": "Germany",
+    "wrong": [
+     "Switzerland",
+     "the Netherlands",
+     "Belgium"
+    ]
+   },
+   {
+    "q": "The Stephansdom",
+    "right": "Austria",
+    "wrong": [
+     "Switzerland",
+     "Hungary",
+     "Slovakia"
+    ]
+   },
+   {
+    "q": "St Vitus Cathedral",
+    "right": "Czechia",
+    "wrong": [
+     "Slovakia",
+     "Hungary",
+     "Slovenia"
+    ]
+   },
+   {
+    "q": "The Duomo with Brunelleschi's dome",
+    "right": "Italy",
+    "wrong": [
+     "Malta",
+     "San Marino",
+     "Croatia"
+    ]
+   },
+   {
+    "q": "Canterbury Cathedral",
+    "right": "England",
+    "wrong": [
+     "Ireland",
+     "Northern Ireland",
+     "the Isle of Man"
+    ]
+   },
+   {
+    "q": "St Giles' Cathedral",
+    "right": "Scotland",
+    "wrong": [
+     "Ireland",
+     "Northern Ireland",
+     "the Isle of Man"
+    ]
+   },
+   {
+    "q": "St Davids Cathedral",
+    "right": "Wales",
+    "wrong": [
+     "Ireland",
+     "Northern Ireland",
+     "the Isle of Man"
+    ]
+   },
+   {
+    "q": "Nidaros Cathedral",
+    "right": "Norway",
+    "wrong": [
+     "Estonia",
+     "Finland",
+     "the Netherlands"
+    ]
+   },
+   {
+    "q": "Oscar Niemeyer's crown-shaped cathedral",
+    "right": "Brazil",
+    "wrong": [
+     "Argentina",
+     "Mexico",
+     "Chile"
+    ]
+   },
+   {
+    "q": "Wawel Cathedral",
+    "right": "Poland",
+    "wrong": [
+     "Slovakia",
+     "Lithuania",
+     "Hungary"
+    ]
+   },
+   {
+    "q": "Roskilde Cathedral",
+    "right": "Denmark",
+    "wrong": [
+     "Finland",
+     "the Netherlands",
+     "Estonia"
+    ]
+   },
+   {
+    "q": "Uppsala Cathedral",
+    "right": "Sweden",
+    "wrong": [
+     "Finland",
+     "Estonia",
+     "Latvia"
+    ]
+   },
+   {
+    "q": "Hallgrímskirkja",
+    "right": "Iceland",
+    "wrong": [
+     "Finland",
+     "the Faroe Islands",
+     "Greenland"
+    ]
+   },
+   {
+    "q": "The rock-cut churches of Lalibela",
+    "right": "Ethiopia",
+    "wrong": [
+     "Eritrea",
+     "Sudan",
+     "Kenya"
+    ]
+   },
+   {
+    "q": "The Jerónimos Monastery",
+    "right": "Portugal",
+    "wrong": [
+     "Andorra",
+     "Malta",
+     "Argentina"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what does this Harry Potter spell do?",
+  "target": 10,
+  "category": "Harry Potter",
+  "tags": [
+   "spells",
+   "Harry Potter"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Lumos",
+    "right": "Lights up your wand",
+    "wrong": [
+     "Makes a shield",
+     "Reveals hidden ink",
+     "Points north"
+    ]
+   },
+   {
+    "q": "Nox",
+    "right": "Puts out your wand light",
+    "wrong": [
+     "Ends other spells",
+     "Locks a door",
+     "Makes a shield"
+    ]
+   },
+   {
+    "q": "Accio",
+    "right": "Summons an object",
+    "wrong": [
+     "Repels Muggles",
+     "Locks a door",
+     "Reveals hidden ink"
+    ]
+   },
+   {
+    "q": "Expelliarmus",
+    "right": "Disarms your opponent",
+    "wrong": [
+     "Makes a shield",
+     "Ends other spells",
+     "Causes great pain"
+    ]
+   },
+   {
+    "q": "Wingardium Leviosa",
+    "right": "Makes things float",
+    "wrong": [
+     "Points north",
+     "Repels Muggles",
+     "Makes a shield"
+    ]
+   },
+   {
+    "q": "Alohomora",
+    "right": "Unlocks doors",
+    "wrong": [
+     "Locks a door",
+     "Reveals hidden ink",
+     "Repels Muggles"
+    ]
+   },
+   {
+    "q": "Obliviate",
+    "right": "Wipes memories",
+    "wrong": [
+     "Controls someone's mind",
+     "Reveals hidden ink",
+     "Causes great pain"
+    ]
+   },
+   {
+    "q": "Riddikulus",
+    "right": "Defeats a boggart",
+    "wrong": [
+     "Summons a Patronus",
+     "Ends other spells",
+     "Makes a shield"
+    ]
+   },
+   {
+    "q": "Stupefy",
+    "right": "Stuns someone",
+    "wrong": [
+     "Kills instantly",
+     "Causes great pain",
+     "Tickles the target"
+    ]
+   },
+   {
+    "q": "Reparo",
+    "right": "Repairs broken things",
+    "wrong": [
+     "Heals small wounds",
+     "Ends other spells",
+     "Locks a door"
+    ]
+   },
+   {
+    "q": "Aguamenti",
+    "right": "Makes water",
+    "wrong": [
+     "Makes a shield",
+     "Points north",
+     "Repels Muggles"
+    ]
+   },
+   {
+    "q": "Incendio",
+    "right": "Makes fire",
+    "wrong": [
+     "Slashes like a sword",
+     "Causes great pain",
+     "Points north"
+    ]
+   },
+   {
+    "q": "Silencio",
+    "right": "Makes someone silent",
+    "wrong": [
+     "Locks a door",
+     "Ends other spells",
+     "Controls someone's mind"
+    ]
+   },
+   {
+    "q": "Engorgio",
+    "right": "Makes things bigger",
+    "wrong": [
+     "Heals small wounds",
+     "Reveals hidden ink",
+     "Tickles the target"
+    ]
+   },
+   {
+    "q": "Reducio",
+    "right": "Makes things smaller",
+    "wrong": [
+     "Heals small wounds",
+     "Locks a door",
+     "Ends other spells"
+    ]
+   },
+   {
+    "q": "Scourgify",
+    "right": "Cleans things",
+    "wrong": [
+     "Repels Muggles",
+     "Reveals hidden ink",
+     "Ends other spells"
+    ]
+   },
+   {
+    "q": "Sonorus",
+    "right": "Makes your voice loud",
+    "wrong": [
+     "Controls someone's mind",
+     "Tickles the target",
+     "Summons a Patronus"
+    ]
+   },
+   {
+    "q": "Morsmordre",
+    "right": "Conjures the Dark Mark",
+    "wrong": [
+     "Kills instantly",
+     "Summons a Patronus",
+     "Controls someone's mind"
+    ]
+   },
+   {
+    "q": "Tarantallegra",
+    "right": "Makes legs dance",
+    "wrong": [
+     "Tickles the target",
+     "Controls someone's mind",
+     "Causes great pain"
+    ]
+   },
+   {
+    "q": "Petrificus Totalus",
+    "right": "Freezes the whole body",
+    "wrong": [
+     "Kills instantly",
+     "Slashes like a sword",
+     "Controls someone's mind"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which Prime Minister had this nickname?",
+  "target": 10,
+  "category": "Politics",
+  "tags": [
+   "Prime Ministers",
+   "nicknames"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The Iron Lady",
+    "right": "Margaret Thatcher",
+    "wrong": [
+     "Clement Attlee",
+     "Harold Wilson",
+     "Anthony Eden"
+    ]
+   },
+   {
+    "q": "Supermac",
+    "right": "Harold Macmillan",
+    "wrong": [
+     "Harold Wilson",
+     "Anthony Eden",
+     "Alec Douglas-Home"
+    ]
+   },
+   {
+    "q": "The Grey Man",
+    "right": "John Major",
+    "wrong": [
+     "Alec Douglas-Home",
+     "Anthony Eden",
+     "Clement Attlee"
+    ]
+   },
+   {
+    "q": "Teflon Tony",
+    "right": "Tony Blair",
+    "wrong": [
+     "Harold Wilson",
+     "Keir Starmer",
+     "Ramsay MacDonald"
+    ]
+   },
+   {
+    "q": "Outlasted by a lettuce",
+    "right": "Liz Truss",
+    "wrong": [
+     "Keir Starmer",
+     "Anthony Eden",
+     "Alec Douglas-Home"
+    ]
+   },
+   {
+    "q": "Dishy Rishi",
+    "right": "Rishi Sunak",
+    "wrong": [
+     "Keir Starmer",
+     "Harold Wilson",
+     "Robert Peel"
+    ]
+   },
+   {
+    "q": "The British Bulldog",
+    "right": "Winston Churchill",
+    "wrong": [
+     "Neville Chamberlain",
+     "Stanley Baldwin",
+     "Clement Attlee"
+    ]
+   },
+   {
+    "q": "Pam",
+    "right": "Lord Palmerston",
+    "wrong": [
+     "Lord Melbourne",
+     "Robert Peel",
+     "Lord John Russell"
+    ]
+   },
+   {
+    "q": "Dizzy",
+    "right": "Benjamin Disraeli",
+    "wrong": [
+     "Lord Salisbury",
+     "Robert Peel",
+     "Lord Melbourne"
+    ]
+   },
+   {
+    "q": "The Grand Old Man",
+    "right": "William Gladstone",
+    "wrong": [
+     "Lord Salisbury",
+     "Robert Peel",
+     "Lord Melbourne"
+    ]
+   },
+   {
+    "q": "Sunny Jim",
+    "right": "James Callaghan",
+    "wrong": [
+     "Harold Wilson",
+     "Clement Attlee",
+     "Alec Douglas-Home"
+    ]
+   },
+   {
+    "q": "The Maybot",
+    "right": "Theresa May",
+    "wrong": [
+     "Keir Starmer",
+     "Anthony Eden",
+     "Harold Wilson"
+    ]
+   },
+   {
+    "q": "BoJo",
+    "right": "Boris Johnson",
+    "wrong": [
+     "Keir Starmer",
+     "Robert Peel",
+     "Harold Wilson"
+    ]
+   },
+   {
+    "q": "The Welsh Wizard",
+    "right": "David Lloyd George",
+    "wrong": [
+     "Stanley Baldwin",
+     "Ramsay MacDonald",
+     "Bonar Law"
+    ]
+   },
+   {
+    "q": "Old Squiffy",
+    "right": "H. H. Asquith",
+    "wrong": [
+     "Arthur Balfour",
+     "Henry Campbell-Bannerman",
+     "Bonar Law"
+    ]
+   },
+   {
+    "q": "The Clunking Fist",
+    "right": "Gordon Brown",
+    "wrong": [
+     "Keir Starmer",
+     "Clement Attlee",
+     "Harold Wilson"
+    ]
+   },
+   {
+    "q": "Ted",
+    "right": "Edward Heath",
+    "wrong": [
+     "Harold Wilson",
+     "Anthony Eden",
+     "Alec Douglas-Home"
+    ]
+   },
+   {
+    "q": "The Iron Duke",
+    "right": "The Duke of Wellington",
+    "wrong": [
+     "Robert Peel",
+     "Lord Liverpool",
+     "Lord Grey"
+    ]
+   },
+   {
+    "q": "The Pilot that Weathered the Storm",
+    "right": "William Pitt the Younger",
+    "wrong": [
+     "Pitt the Elder",
+     "Lord North",
+     "Spencer Perceval"
+    ]
+   },
+   {
+    "q": "Call Me Dave",
+    "right": "David Cameron",
+    "wrong": [
+     "Keir Starmer",
+     "Harold Wilson",
+     "Robert Peel"
+    ]
+   }
+  ]
+ }
+]
