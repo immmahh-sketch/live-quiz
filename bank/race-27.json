@@ -1,0 +1,775 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which river or water does this bridge cross?",
+  "target": 10,
+  "category": "Famous landmarks",
+  "tags": [
+   "bridges",
+   "rivers"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Tower Bridge",
+    "right": "The Thames",
+    "wrong": [
+     "The Lea",
+     "The Medway",
+     "The Mersey"
+    ]
+   },
+   {
+    "q": "The Tyne Bridge",
+    "right": "The Tyne",
+    "wrong": [
+     "The Tweed",
+     "The Derwent",
+     "The Blyth"
+    ]
+   },
+   {
+    "q": "The Charles Bridge, Prague",
+    "right": "The Vltava",
+    "wrong": [
+     "The Elbe",
+     "The Oder",
+     "The Morava"
+    ]
+   },
+   {
+    "q": "The Ponte Vecchio, Florence",
+    "right": "The Arno",
+    "wrong": [
+     "The Tiber",
+     "The Po",
+     "The Adige"
+    ]
+   },
+   {
+    "q": "The Pont Neuf, Paris",
+    "right": "The Seine",
+    "wrong": [
+     "The Loire",
+     "The Marne",
+     "The Garonne"
+    ]
+   },
+   {
+    "q": "Brooklyn Bridge",
+    "right": "The East River",
+    "wrong": [
+     "The Hudson",
+     "The Potomac",
+     "The Delaware"
+    ]
+   },
+   {
+    "q": "The Chain Bridge, Budapest",
+    "right": "The Danube",
+    "wrong": [
+     "The Tisza",
+     "The Drava",
+     "The Sava"
+    ]
+   },
+   {
+    "q": "The Clifton Suspension Bridge",
+    "right": "The Avon",
+    "wrong": [
+     "The Frome",
+     "The Usk",
+     "The Exe"
+    ]
+   },
+   {
+    "q": "The Severn Bridge",
+    "right": "The Severn",
+    "wrong": [
+     "The Wye",
+     "The Usk",
+     "The Dee"
+    ]
+   },
+   {
+    "q": "The Humber Bridge",
+    "right": "The Humber",
+    "wrong": [
+     "The Ouse",
+     "The Trent",
+     "The Aire"
+    ]
+   },
+   {
+    "q": "Telford's Menai Bridge",
+    "right": "The Menai Strait",
+    "wrong": [
+     "The Conwy",
+     "The Dee",
+     "The Clwyd"
+    ]
+   },
+   {
+    "q": "The Rialto Bridge, Venice",
+    "right": "The Grand Canal",
+    "wrong": [
+     "The Giudecca Canal",
+     "The Brenta",
+     "The Piave"
+    ]
+   },
+   {
+    "q": "Stari Most, Mostar",
+    "right": "The Neretva",
+    "wrong": [
+     "The Drina",
+     "The Sava",
+     "The Bosna"
+    ]
+   },
+   {
+    "q": "The Wearmouth Bridge",
+    "right": "The Wear",
+    "wrong": [
+     "The Tweed",
+     "The Derwent",
+     "The Blyth"
+    ]
+   },
+   {
+    "q": "Middlesbrough's Transporter Bridge",
+    "right": "The Tees",
+    "wrong": [
+     "The Swale",
+     "The Ure",
+     "The Esk"
+    ]
+   },
+   {
+    "q": "The Pont d'Avignon",
+    "right": "The Rhône",
+    "wrong": [
+     "The Loire",
+     "The Garonne",
+     "The Saône"
+    ]
+   },
+   {
+    "q": "Heidelberg's Old Bridge",
+    "right": "The Neckar",
+    "wrong": [
+     "The Main",
+     "The Moselle",
+     "The Weser"
+    ]
+   },
+   {
+    "q": "Cologne's Hohenzollern Bridge",
+    "right": "The Rhine",
+    "wrong": [
+     "The Moselle",
+     "The Main",
+     "The Weser"
+    ]
+   },
+   {
+    "q": "The Kapellbrücke, Lucerne",
+    "right": "The Reuss",
+    "wrong": [
+     "The Aare",
+     "The Limmat",
+     "The Inn"
+    ]
+   },
+   {
+    "q": "The Galata Bridge, Istanbul",
+    "right": "The Golden Horn",
+    "wrong": [
+     "The Bosphorus",
+     "The Dardanelles",
+     "The Sea of Marmara"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what is this on a Spanish menu?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "Spanish food",
+   "tapas"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Gazpacho",
+    "right": "Cold tomato soup",
+    "wrong": [
+     "Hot fish stew",
+     "Chicken broth",
+     "Lentil soup"
+    ]
+   },
+   {
+    "q": "Churros",
+    "right": "Fried dough sticks",
+    "wrong": [
+     "Cheese twists",
+     "Pancakes",
+     "Waffles"
+    ]
+   },
+   {
+    "q": "Tortilla española",
+    "right": "Potato omelette",
+    "wrong": [
+     "Corn wrap",
+     "Pancake",
+     "Pizza"
+    ]
+   },
+   {
+    "q": "Chorizo",
+    "right": "Spicy sausage",
+    "wrong": [
+     "Ham",
+     "Pork chop",
+     "Meatloaf"
+    ]
+   },
+   {
+    "q": "Jamón",
+    "right": "Cured ham",
+    "wrong": [
+     "Bacon",
+     "Beef",
+     "Sausage"
+    ]
+   },
+   {
+    "q": "Patatas bravas",
+    "right": "Spicy fried potatoes",
+    "wrong": [
+     "Chips with cheese",
+     "Mashed potato",
+     "Potato salad"
+    ]
+   },
+   {
+    "q": "Calamares",
+    "right": "Fried squid rings",
+    "wrong": [
+     "Battered cod",
+     "Fried prawns",
+     "Onion rings"
+    ]
+   },
+   {
+    "q": "Albóndigas",
+    "right": "Meatballs",
+    "wrong": [
+     "Dumplings",
+     "Fishcakes",
+     "Burgers"
+    ]
+   },
+   {
+    "q": "Pulpo",
+    "right": "Octopus",
+    "wrong": [
+     "Squid",
+     "Lobster",
+     "Crab"
+    ]
+   },
+   {
+    "q": "Gambas",
+    "right": "Prawns",
+    "wrong": [
+     "Crab",
+     "Mussels",
+     "Lobster"
+    ]
+   },
+   {
+    "q": "Pimientos de Padrón",
+    "right": "Little green peppers",
+    "wrong": [
+     "Stuffed olives",
+     "Pickled onions",
+     "Jalapeños"
+    ]
+   },
+   {
+    "q": "Boquerones",
+    "right": "Anchovies",
+    "wrong": [
+     "Sardines",
+     "Mackerel",
+     "Whitebait"
+    ]
+   },
+   {
+    "q": "Crema catalana",
+    "right": "Custard with a burnt-sugar top",
+    "wrong": [
+     "Rice pudding",
+     "Trifle",
+     "Sponge cake"
+    ]
+   },
+   {
+    "q": "Turrón",
+    "right": "Nougat",
+    "wrong": [
+     "Marzipan",
+     "Fudge",
+     "Toffee"
+    ]
+   },
+   {
+    "q": "Sangría",
+    "right": "Red wine punch",
+    "wrong": [
+     "White wine spritzer",
+     "Sherry",
+     "Cider"
+    ]
+   },
+   {
+    "q": "Fabada",
+    "right": "Bean and pork stew",
+    "wrong": [
+     "Chickpea soup",
+     "Fish stew",
+     "Vegetable soup"
+    ]
+   },
+   {
+    "q": "Pan con tomate",
+    "right": "Bread rubbed with tomato",
+    "wrong": [
+     "Garlic bread",
+     "Cheese on toast",
+     "Tomato soup"
+    ]
+   },
+   {
+    "q": "Paella",
+    "right": "Saffron rice dish",
+    "wrong": [
+     "Risotto",
+     "Fried rice",
+     "Rice pudding"
+    ]
+   },
+   {
+    "q": "Flan",
+    "right": "Crème caramel",
+    "wrong": [
+     "Cheesecake",
+     "Bread pudding",
+     "Jelly"
+    ]
+   },
+   {
+    "q": "Morcilla",
+    "right": "Black pudding",
+    "wrong": [
+     "White pudding",
+     "Haggis",
+     "Liver sausage"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what is this mythical creature?",
+  "target": 10,
+  "category": "Myths and legends",
+  "tags": [
+   "mythical creatures",
+   "legends"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A griffin",
+    "right": "Eagle and lion",
+    "wrong": [
+     "Horse and eagle",
+     "Lion and scorpion",
+     "Winged lion"
+    ]
+   },
+   {
+    "q": "A centaur",
+    "right": "Man and horse",
+    "wrong": [
+     "Man and lion",
+     "Man and stag",
+     "Man and wolf"
+    ]
+   },
+   {
+    "q": "The Minotaur",
+    "right": "Man and bull",
+    "wrong": [
+     "Man and lion",
+     "Man and stag",
+     "Man and wolf"
+    ]
+   },
+   {
+    "q": "A mermaid",
+    "right": "Woman and fish",
+    "wrong": [
+     "Woman and snake",
+     "Bull and fish",
+     "Woman and swan"
+    ]
+   },
+   {
+    "q": "A harpy",
+    "right": "Woman and bird",
+    "wrong": [
+     "Woman and snake",
+     "Woman and swan",
+     "Lion and scorpion"
+    ]
+   },
+   {
+    "q": "The Sphinx",
+    "right": "Lion with a human head",
+    "wrong": [
+     "Winged lion",
+     "Lion and scorpion",
+     "Dog-headed man"
+    ]
+   },
+   {
+    "q": "Pegasus",
+    "right": "Winged horse",
+    "wrong": [
+     "Horned rabbit",
+     "Winged lion",
+     "Horse and eagle"
+    ]
+   },
+   {
+    "q": "The Chimera",
+    "right": "Lion, goat and serpent",
+    "wrong": [
+     "Lion and scorpion",
+     "Winged serpent",
+     "Horse and eagle"
+    ]
+   },
+   {
+    "q": "A satyr",
+    "right": "Man and goat",
+    "wrong": [
+     "Man and stag",
+     "Man and wolf",
+     "Man and lion"
+    ]
+   },
+   {
+    "q": "The Kraken",
+    "right": "Giant squid",
+    "wrong": [
+     "Giant whale",
+     "Sea serpent",
+     "Giant crab"
+    ]
+   },
+   {
+    "q": "The Hydra",
+    "right": "Many-headed serpent",
+    "wrong": [
+     "Winged serpent",
+     "Two-headed dog",
+     "Sea serpent"
+    ]
+   },
+   {
+    "q": "A Cyclops",
+    "right": "One-eyed giant",
+    "wrong": [
+     "Many-armed giant",
+     "Dog-headed man",
+     "Giant wolf"
+    ]
+   },
+   {
+    "q": "A unicorn",
+    "right": "Horse with a single horn",
+    "wrong": [
+     "Horned rabbit",
+     "Horse and eagle",
+     "Winged lion"
+    ]
+   },
+   {
+    "q": "A kelpie",
+    "right": "Shape-shifting water horse",
+    "wrong": [
+     "Giant whale",
+     "Water-dwelling goblin",
+     "Sea serpent"
+    ]
+   },
+   {
+    "q": "A banshee",
+    "right": "Wailing spirit",
+    "wrong": [
+     "Headless horseman",
+     "Water-dwelling goblin",
+     "Shape-shifting fox"
+    ]
+   },
+   {
+    "q": "A selkie",
+    "right": "Seal that becomes human",
+    "wrong": [
+     "Shape-shifting fox",
+     "Woman and swan",
+     "Water-dwelling goblin"
+    ]
+   },
+   {
+    "q": "The phoenix",
+    "right": "Bird reborn from its ashes",
+    "wrong": [
+     "Winged serpent",
+     "Fire-breathing lizard",
+     "Woman and swan"
+    ]
+   },
+   {
+    "q": "A basilisk",
+    "right": "Serpent whose gaze kills",
+    "wrong": [
+     "Fire-breathing lizard",
+     "Sea serpent",
+     "Winged serpent"
+    ]
+   },
+   {
+    "q": "Cerberus",
+    "right": "Three-headed dog",
+    "wrong": [
+     "Two-headed dog",
+     "Giant wolf",
+     "Dog-headed man"
+    ]
+   },
+   {
+    "q": "The yeti",
+    "right": "Snowy ape-man",
+    "wrong": [
+     "Giant wolf",
+     "Many-armed giant",
+     "Headless horseman"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country does this pudding or sweet come from?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "puddings",
+   "sweets",
+   "countries"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Tiramisu",
+    "right": "Italy",
+    "wrong": [
+     "Malta",
+     "Croatia",
+     "Spain"
+    ]
+   },
+   {
+    "q": "Crème brûlée",
+    "right": "France",
+    "wrong": [
+     "Monaco",
+     "Switzerland",
+     "Luxembourg"
+    ]
+   },
+   {
+    "q": "Black Forest gâteau",
+    "right": "Germany",
+    "wrong": [
+     "Switzerland",
+     "Luxembourg",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "Sachertorte",
+    "right": "Austria",
+    "wrong": [
+     "Switzerland",
+     "Czechia",
+     "Slovakia"
+    ]
+   },
+   {
+    "q": "Pastel de nata",
+    "right": "Portugal",
+    "wrong": [
+     "Spain",
+     "Mexico",
+     "Argentina"
+    ]
+   },
+   {
+    "q": "Mochi",
+    "right": "Japan",
+    "wrong": [
+     "China",
+     "South Korea",
+     "Taiwan"
+    ]
+   },
+   {
+    "q": "Mango sticky rice",
+    "right": "Thailand",
+    "wrong": [
+     "Vietnam",
+     "Malaysia",
+     "Cambodia"
+    ]
+   },
+   {
+    "q": "Brigadeiro",
+    "right": "Brazil",
+    "wrong": [
+     "Argentina",
+     "Mexico",
+     "Colombia"
+    ]
+   },
+   {
+    "q": "The lamington",
+    "right": "Australia",
+    "wrong": [
+     "New Zealand",
+     "Fiji",
+     "Singapore"
+    ]
+   },
+   {
+    "q": "Kladdkaka",
+    "right": "Sweden",
+    "wrong": [
+     "Norway",
+     "Denmark",
+     "Finland"
+    ]
+   },
+   {
+    "q": "Dobos torte",
+    "right": "Hungary",
+    "wrong": [
+     "Slovakia",
+     "Romania",
+     "Czechia"
+    ]
+   },
+   {
+    "q": "Stroopwafel",
+    "right": "the Netherlands",
+    "wrong": [
+     "Denmark",
+     "Luxembourg",
+     "Norway"
+    ]
+   },
+   {
+    "q": "The Liège waffle",
+    "right": "Belgium",
+    "wrong": [
+     "Luxembourg",
+     "Switzerland",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "Bara brith",
+    "right": "Wales",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Cranachan",
+    "right": "Scotland",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Spotted dick",
+    "right": "England",
+    "wrong": [
+     "Northern Ireland",
+     "the Isle of Man",
+     "Iceland"
+    ]
+   },
+   {
+    "q": "Barmbrack",
+    "right": "Ireland",
+    "wrong": [
+     "the Isle of Man",
+     "Iceland",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "Malva pudding",
+    "right": "South Africa",
+    "wrong": [
+     "Namibia",
+     "Zimbabwe",
+     "Kenya"
+    ]
+   },
+   {
+    "q": "The Nanaimo bar",
+    "right": "Canada",
+    "wrong": [
+     "Iceland",
+     "Denmark",
+     "New Zealand"
+    ]
+   },
+   {
+    "q": "Key lime pie",
+    "right": "the USA",
+    "wrong": [
+     "Cuba",
+     "Jamaica",
+     "Mexico"
+    ]
+   }
+  ]
+ }
+]
