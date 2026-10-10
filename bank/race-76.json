@@ -1,0 +1,388 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which famous 'Moon'?",
+  "target": 10,
+  "category": "General knowledge",
+  "tags": [
+   "moons",
+   "wordplay"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Manchester City's anthem",
+    "right": "Blue",
+    "wrong": [
+     "Silver",
+     "Pale",
+     "Bright"
+    ]
+   },
+   {
+    "q": "The full moon nearest the autumn equinox",
+    "right": "Harvest",
+    "wrong": [
+     "Autumn",
+     "Barley",
+     "Frost"
+    ]
+   },
+   {
+    "q": "The full moon that follows the Harvest Moon",
+    "right": "Hunter's",
+    "wrong": [
+     "Hawk",
+     "Deer",
+     "Archer"
+    ]
+   },
+   {
+    "q": "The 1973 film starring Ryan and Tatum O'Neal",
+    "right": "Paper",
+    "wrong": [
+     "Cardboard",
+     "Glass",
+     "Silver"
+    ]
+   },
+   {
+    "q": "The Japanese anime heroine Usagi Tsukino",
+    "right": "Sailor",
+    "wrong": [
+     "Captain",
+     "Pirate",
+     "Star"
+    ]
+   },
+   {
+    "q": "The Who's wild drummer",
+    "right": "Keith",
+    "wrong": [
+     "Kenney",
+     "John",
+     "Roger"
+    ]
+   },
+   {
+    "q": "The second Twilight book and film",
+    "right": "New",
+    "wrong": [
+     "Eclipse",
+     "Midnight",
+     "Dark"
+    ]
+   },
+   {
+    "q": "A moon that turns red during a total eclipse",
+    "right": "Blood",
+    "wrong": [
+     "Red",
+     "Fire",
+     "Rust"
+    ]
+   },
+   {
+    "q": "A full moon at its closest to Earth, looking bigger than usual",
+    "right": "Super",
+    "wrong": [
+     "Mega",
+     "Giant",
+     "Big"
+    ]
+   },
+   {
+    "q": "The thin curved moon on many Islamic flags",
+    "right": "Crescent",
+    "wrong": [
+     "Sickle",
+     "Horn",
+     "Quarter"
+    ]
+   },
+   {
+    "q": "The moon's phase between half and full",
+    "right": "Gibbous",
+    "wrong": [
+     "Convex",
+     "Hump",
+     "Bulging"
+    ]
+   },
+   {
+    "q": "June's full moon, named after a summer fruit",
+    "right": "Strawberry",
+    "wrong": [
+     "Raspberry",
+     "Cherry",
+     "Apple"
+    ]
+   },
+   {
+    "q": "January's full moon, named after howling animals",
+    "right": "Wolf",
+    "wrong": [
+     "Fox",
+     "Bear",
+     "Dog"
+    ]
+   },
+   {
+    "q": "The holiday after a wedding",
+    "right": "Honey",
+    "wrong": [
+     "Sugar",
+     "Sweet",
+     "Love"
+    ]
+   },
+   {
+    "q": "The South Korean who led the United Nations from 2007 to 2016",
+    "right": "Ban Ki-moon",
+    "wrong": [
+     "Kofi Annan",
+     "Boutros Boutros-Ghali",
+     "António Guterres"
+    ]
+   },
+   {
+    "q": "Nick Drake's last album, and April's full moon",
+    "right": "Pink",
+    "wrong": [
+     "Purple",
+     "Rose",
+     "Peach"
+    ]
+   },
+   {
+    "q": "Werewolves change when the moon is like this",
+    "right": "Full",
+    "wrong": [
+     "Whole",
+     "Round",
+     "Bright"
+    ]
+   },
+   {
+    "q": "A common pub name, and a Californian bay",
+    "right": "Half",
+    "wrong": [
+     "Quarter",
+     "Silver",
+     "Rising"
+    ]
+   },
+   {
+    "q": "December's full moon, named for the season",
+    "right": "Cold",
+    "wrong": [
+     "Ice",
+     "Frost",
+     "Winter"
+    ]
+   },
+   {
+    "q": "February's full moon, named after the weather",
+    "right": "Snow",
+    "wrong": [
+     "Rain",
+     "Storm",
+     "Ice"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which famous 'Fire'?",
+  "target": 10,
+  "category": "General knowledge",
+  "tags": [
+   "fire",
+   "wordplay"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "London, 1666",
+    "right": "The Great Fire",
+    "wrong": [
+     "The Great Plague",
+     "The Great Storm",
+     "The Great Frost"
+    ]
+   },
+   {
+    "q": "The Supermarine fighter of the Battle of Britain",
+    "right": "Spitfire",
+    "wrong": [
+     "Hurricane",
+     "Typhoon",
+     "Mosquito"
+    ]
+   },
+   {
+    "q": "The second Hunger Games book",
+    "right": "Catching Fire",
+    "wrong": [
+     "Mockingjay",
+     "The Hunger Games",
+     "The Ballad of Songbirds and Snakes"
+    ]
+   },
+   {
+    "q": "The 1985 Brat Pack film set in Washington DC",
+    "right": "St. Elmo's Fire",
+    "wrong": [
+     "The Breakfast Club",
+     "Pretty in Pink",
+     "Sixteen Candles"
+    ]
+   },
+   {
+    "q": "The Canadian band behind The Suburbs",
+    "right": "Arcade Fire",
+    "wrong": [
+     "Broken Social Scene",
+     "Metric",
+     "The Stills"
+    ]
+   },
+   {
+    "q": "Amazon's colour tablet",
+    "right": "Kindle Fire",
+    "wrong": [
+     "Kindle Paperwhite",
+     "Echo Show",
+     "Nexus"
+    ]
+   },
+   {
+    "q": "Being shot at by your own side",
+    "right": "Friendly fire",
+    "wrong": [
+     "Crossfire",
+     "Backfire",
+     "Covering fire"
+    ]
+   },
+   {
+    "q": "Jerry Lee Lewis's 1957 hit",
+    "right": "Great Balls of Fire",
+    "wrong": [
+     "Whole Lotta Shakin' Goin' On",
+     "Breathless",
+     "Johnny B. Goode"
+    ]
+   },
+   {
+    "q": "Johnny Cash's 1963 hit",
+    "right": "Ring of Fire",
+    "wrong": [
+     "Folsom Prison Blues",
+     "I Walk the Line",
+     "A Boy Named Sue"
+    ]
+   },
+   {
+    "q": "The Doors' 1967 hit",
+    "right": "Light My Fire",
+    "wrong": [
+     "Break On Through",
+     "Riders on the Storm",
+     "People Are Strange"
+    ]
+   },
+   {
+    "q": "The Oscar-winning film about Eric Liddell and Harold Abrahams",
+    "right": "Chariots of Fire",
+    "wrong": [
+     "Gandhi",
+     "Ordinary People",
+     "Out of Africa"
+    ]
+   },
+   {
+    "q": "The fourth Harry Potter book",
+    "right": "Goblet of Fire",
+    "wrong": [
+     "Order of the Phoenix",
+     "Prisoner of Azkaban",
+     "Half-Blood Prince"
+    ]
+   },
+   {
+    "q": "The Prodigy's 1996 number one",
+    "right": "Firestarter",
+    "wrong": [
+     "Breathe",
+     "Out of Space",
+     "Charly"
+    ]
+   },
+   {
+    "q": "Kings of Leon's 2008 hit",
+    "right": "Sex on Fire",
+    "wrong": [
+     "Use Somebody",
+     "Closer",
+     "Molly's Chambers"
+    ]
+   },
+   {
+    "q": "Alicia Keys's 2012 hit",
+    "right": "Girl on Fire",
+    "wrong": [
+     "Fallin'",
+     "No One",
+     "Empire State of Mind"
+    ]
+   },
+   {
+    "q": "Billy Joel's 1989 rattle through history",
+    "right": "We Didn't Start the Fire",
+    "wrong": [
+     "Piano Man",
+     "Uptown Girl",
+     "My Life"
+    ]
+   },
+   {
+    "q": "Ed Sheeran's song for The Hobbit",
+    "right": "I See Fire",
+    "wrong": [
+     "Photograph",
+     "Perfect",
+     "Lego House"
+    ]
+   },
+   {
+    "q": "James Taylor's 1970 song about loss",
+    "right": "Fire and Rain",
+    "wrong": [
+     "Sweet Baby James",
+     "You've Got a Friend",
+     "Carolina in My Mind"
+    ]
+   },
+   {
+    "q": "The Crazy World of Arthur Brown's 1968 number one, one word",
+    "right": "Fire",
+    "wrong": [
+     "Flames",
+     "Burn",
+     "Inferno"
+    ]
+   },
+   {
+    "q": "The 5th of November celebrations",
+    "right": "Bonfire Night",
+    "wrong": [
+     "Halloween",
+     "Mischief Night",
+     "Hogmanay"
+    ]
+   }
+  ]
+ }
+]
