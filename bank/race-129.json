@@ -1,0 +1,390 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this baking word?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "baking",
+   "cooking",
+   "Bake Off"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Push, stretch and fold bread dough with the heels of your hands",
+    "right": "Knead",
+    "wrong": [
+     "Baste",
+     "Truss",
+     "Macerate"
+    ]
+   },
+   {
+    "q": "Leave dough somewhere warm so it rises",
+    "right": "Prove",
+    "wrong": [
+     "Reduce",
+     "Render",
+     "Coddle"
+    ]
+   },
+   {
+    "q": "Gently cut a spoon through a mixture so you keep the air in",
+    "right": "Fold",
+    "wrong": [
+     "Baste",
+     "Blanch",
+     "Deglaze"
+    ]
+   },
+   {
+    "q": "Beat butter and sugar together until pale and fluffy",
+    "right": "Cream",
+    "wrong": [
+     "Coddle",
+     "Render",
+     "Macerate"
+    ]
+   },
+   {
+    "q": "Work butter into flour with your fingertips until it looks like breadcrumbs",
+    "right": "Rub in",
+    "wrong": [
+     "Baste",
+     "Truss",
+     "Deglaze"
+    ]
+   },
+   {
+    "q": "Bake a pastry case with no filling, weighed down with baking beans",
+    "right": "Blind bake",
+    "wrong": [
+     "Flambé",
+     "Braise",
+     "Poach"
+    ]
+   },
+   {
+    "q": "Brush beaten egg or milk on top for a shiny finish",
+    "right": "Glaze",
+    "wrong": [
+     "Baste",
+     "Blanch",
+     "Render"
+    ]
+   },
+   {
+    "q": "Shake flour through a sieve to get rid of lumps",
+    "right": "Sift",
+    "wrong": [
+     "Reduce",
+     "Render",
+     "Julienne"
+    ]
+   },
+   {
+    "q": "Beat egg whites fast to fill them with air",
+    "right": "Whisk",
+    "wrong": [
+     "Coddle",
+     "Poach",
+     "Truss"
+    ]
+   },
+   {
+    "q": "Squeeze icing or cream through a nozzle in a bag",
+    "right": "Pipe",
+    "wrong": [
+     "Julienne",
+     "Truss",
+     "Baste"
+    ]
+   },
+   {
+    "q": "Heat and cool chocolate carefully so it sets glossy and snaps",
+    "right": "Temper",
+    "wrong": [
+     "Reduce",
+     "Render",
+     "Macerate"
+    ]
+   },
+   {
+    "q": "Fold butter into dough again and again to make croissant layers",
+    "right": "Laminate",
+    "wrong": [
+     "Truss",
+     "Braise",
+     "Julienne"
+    ]
+   },
+   {
+    "q": "Pinch the edge of a pie or pasty into a wavy pattern",
+    "right": "Crimp",
+    "wrong": [
+     "Truss",
+     "Baste",
+     "Julienne"
+    ]
+   },
+   {
+    "q": "Slash the top of a loaf with a blade before it goes in the oven",
+    "right": "Score",
+    "wrong": [
+     "Julienne",
+     "Truss",
+     "Render"
+    ]
+   },
+   {
+    "q": "Heat sugar until it melts and turns golden brown",
+    "right": "Caramelise",
+    "wrong": [
+     "Render",
+     "Reduce",
+     "Deglaze"
+    ]
+   },
+   {
+    "q": "A bowl set over a pan of simmering water, for melting chocolate gently",
+    "right": "Bain-marie",
+    "wrong": [
+     "Brûlée",
+     "Roulade",
+     "Streusel"
+    ]
+   },
+   {
+    "q": "Pastry that hasn't cooked through underneath, dreaded on Bake Off",
+    "right": "Soggy bottom",
+    "wrong": [
+     "Roulade",
+     "Streusel",
+     "Lattice"
+    ]
+   },
+   {
+    "q": "Chocolate melted into warm cream, for icing or truffles",
+    "right": "Ganache",
+    "wrong": [
+     "Fondant",
+     "Frangipane",
+     "Couverture"
+    ]
+   },
+   {
+    "q": "Egg whites and sugar whisked stiff and baked until crisp",
+    "right": "Meringue",
+    "wrong": [
+     "Frangipane",
+     "Streusel",
+     "Fondant"
+    ]
+   },
+   {
+    "q": "The texture of the inside of a cake or loaf, as judged on Bake Off",
+    "right": "Crumb",
+    "wrong": [
+     "Lattice",
+     "Streusel",
+     "Roulade"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this sewing or knitting word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "sewing",
+   "knitting",
+   "crafts"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "A little metal cap that protects your finger as you push a needle",
+    "right": "Thimble",
+    "wrong": [
+     "Bodkin",
+     "Spool",
+     "Eyelet"
+    ]
+   },
+   {
+    "q": "The small spool under a sewing machine that holds the lower thread",
+    "right": "Bobbin",
+    "wrong": [
+     "Bodkin",
+     "Toile",
+     "Eyelet"
+    ]
+   },
+   {
+    "q": "Turn up the raw edge of a trouser leg and stitch it down",
+    "right": "Hem",
+    "wrong": [
+     "Gusset",
+     "Placket",
+     "Yoke"
+    ]
+   },
+   {
+    "q": "Weaving thread back and forth across a hole in a sock to mend it",
+    "right": "Darning",
+    "wrong": [
+     "Tatting",
+     "Felting",
+     "Ruching"
+    ]
+   },
+   {
+    "q": "The knitting stitch that's the opposite of plain",
+    "right": "Purl",
+    "wrong": [
+     "Rib",
+     "Cable",
+     "Moss stitch"
+    ]
+   },
+   {
+    "q": "Putting the first row of stitches onto your knitting needle",
+    "right": "Casting on",
+    "wrong": [
+     "Casting off",
+     "Garter stitch",
+     "Cable"
+    ]
+   },
+   {
+    "q": "Scissors with zig-zag blades that stop fabric fraying",
+    "right": "Pinking shears",
+    "wrong": [
+     "Thread snips",
+     "Bodkin",
+     "Awl"
+    ]
+   },
+   {
+    "q": "Big temporary stitches that hold fabric in place before the proper sewing",
+    "right": "Tacking",
+    "wrong": [
+     "Shirring",
+     "Ruching",
+     "Felting"
+    ]
+   },
+   {
+    "q": "A small hooked tool for unpicking stitches",
+    "right": "Seam ripper",
+    "wrong": [
+     "Bodkin",
+     "Awl",
+     "Thread snips"
+    ]
+   },
+   {
+    "q": "The tightly woven edge of a length of fabric that doesn't fray",
+    "right": "Selvedge",
+    "wrong": [
+     "Placket",
+     "Godet",
+     "Yoke"
+    ]
+   },
+   {
+    "q": "Two wooden rings that hold fabric taut while you stitch a design",
+    "right": "Embroidery hoop",
+    "wrong": [
+     "Spool",
+     "Bodkin",
+     "Toile"
+    ]
+   },
+   {
+    "q": "Making fabric from yarn with a single hook",
+    "right": "Crochet",
+    "wrong": [
+     "Tatting",
+     "Macramé",
+     "Weaving"
+    ]
+   },
+   {
+    "q": "A tapered fold stitched in to shape a garment to the body",
+    "right": "Dart",
+    "wrong": [
+     "Gusset",
+     "Godet",
+     "Yoke"
+    ]
+   },
+   {
+    "q": "A fold pressed into fabric, as on a kilt or a school skirt",
+    "right": "Pleat",
+    "wrong": [
+     "Gusset",
+     "Placket",
+     "Yoke"
+    ]
+   },
+   {
+    "q": "Stitching shapes cut from one fabric on top of another",
+    "right": "Appliqué",
+    "wrong": [
+     "Batik",
+     "Felting",
+     "Tatting"
+    ]
+   },
+   {
+    "q": "X-shaped stitches on a grid that build up a picture",
+    "right": "Cross stitch",
+    "wrong": [
+     "Tatting",
+     "Macramé",
+     "Batik"
+    ]
+   },
+   {
+    "q": "Stitching layers of fabric and padding together, often in patchwork",
+    "right": "Quilting",
+    "wrong": [
+     "Felting",
+     "Batik",
+     "Weaving"
+    ]
+   },
+   {
+    "q": "A strip of fabric cut diagonally, used to finish curved edges",
+    "right": "Bias binding",
+    "wrong": [
+     "Ric-rac",
+     "Grosgrain",
+     "Interfacing"
+    ]
+   },
+   {
+    "q": "Gathering fabric into a tight honeycomb pattern, as on the front of a child's dress",
+    "right": "Smocking",
+    "wrong": [
+     "Tatting",
+     "Batik",
+     "Felting"
+    ]
+   },
+   {
+    "q": "A machine that trims a seam and wraps its edge in thread in one go",
+    "right": "Overlocker",
+    "wrong": [
+     "Treadle",
+     "Loom",
+     "Spinning wheel"
+    ]
+   }
+  ]
+ }
+]
