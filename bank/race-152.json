@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this magic word?",
+  "target": 10,
+  "category": "Entertainment",
+  "tags": [
+   "magic",
+   "magicians",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The stick a magician waves",
+    "right": "Wand",
+    "wrong": [
+     "Baton",
+     "Cane",
+     "Sceptre"
+    ]
+   },
+   {
+    "q": "The classic magic word",
+    "right": "Abracadabra",
+    "wrong": [
+     "Eureka",
+     "Bingo",
+     "Geronimo"
+    ]
+   },
+   {
+    "q": "Quick, skilful finger work that fools the eye",
+    "right": "Sleight of hand",
+    "wrong": [
+     "Mind reading",
+     "Escapology",
+     "Ventriloquism"
+    ]
+   },
+   {
+    "q": "A performer who wriggles free from chains and locked boxes, like Houdini",
+    "right": "Escapologist",
+    "wrong": [
+     "Ventriloquist",
+     "Juggler",
+     "Contortionist"
+    ]
+   },
+   {
+    "q": "The animal pulled out of a hat",
+    "right": "Rabbit",
+    "wrong": [
+     "Ferret",
+     "Guinea pig",
+     "Hamster"
+    ]
+   },
+   {
+    "q": "The tall black hat the rabbit comes out of",
+    "right": "Top hat",
+    "wrong": [
+     "Bowler",
+     "Trilby",
+     "Fez"
+    ]
+   },
+   {
+    "q": "The person in the sequins who gets sawn in half",
+    "right": "Assistant",
+    "wrong": [
+     "Usher",
+     "Compère",
+     "Stagehand"
+    ]
+   },
+   {
+    "q": "Making someone appear to float in mid-air",
+    "right": "Levitation",
+    "wrong": [
+     "Teleportation",
+     "Hypnosis",
+     "Telepathy"
+    ]
+   },
+   {
+    "q": "The famous London society of magicians, sworn to secrecy",
+    "right": "Magic Circle",
+    "wrong": [
+     "Round Table",
+     "Silver Circle",
+     "Inner Temple"
+    ]
+   },
+   {
+    "q": "Drawing the audience's eyes away from what really matters",
+    "right": "Misdirection",
+    "wrong": [
+     "Mesmerism",
+     "Hypnosis",
+     "Telekinesis"
+    ]
+   },
+   {
+    "q": "An audience member secretly in on the trick",
+    "right": "Plant",
+    "wrong": [
+     "Mark",
+     "Punter",
+     "Heckler"
+    ]
+   },
+   {
+    "q": "Tricks done at the table, right under your nose",
+    "right": "Close-up magic",
+    "wrong": [
+     "Stage illusion",
+     "Street theatre",
+     "Pantomime"
+    ]
+   },
+   {
+    "q": "Mind-reading tricks, the kind Derren Brown does",
+    "right": "Mentalism",
+    "wrong": [
+     "Spiritualism",
+     "Hypnotherapy",
+     "Escapology"
+    ]
+   },
+   {
+    "q": "The escape artist who died on Halloween 1926",
+    "right": "Houdini",
+    "wrong": [
+     "David Blaine",
+     "David Copperfield",
+     "Uri Geller"
+    ]
+   },
+   {
+    "q": "The Bradford magician who walked across the Thames",
+    "right": "Dynamo",
+    "wrong": [
+     "Derren Brown",
+     "David Blaine",
+     "Penn Jillette"
+    ]
+   },
+   {
+    "q": "'You'll like this... not a lot' was his catchphrase",
+    "right": "Paul Daniels",
+    "wrong": [
+     "Derren Brown",
+     "Uri Geller",
+     "David Copperfield"
+    ]
+   },
+   {
+    "q": "The comic magician in a fez whose tricks always 'went wrong'",
+    "right": "Tommy Cooper",
+    "wrong": [
+     "Les Dawson",
+     "Eric Morecambe",
+     "Frankie Howerd"
+    ]
+   },
+   {
+    "q": "The classic stage illusion with a long box and a big saw",
+    "right": "Sawing in half",
+    "wrong": [
+     "Zig Zag Girl",
+     "Metamorphosis",
+     "Floating lady"
+    ]
+   },
+   {
+    "q": "Shuffling a deck so it looks random but stays in order",
+    "right": "False shuffle",
+    "wrong": [
+     "Riffle shuffle",
+     "Overhand shuffle",
+     "Dovetail"
+    ]
+   },
+   {
+    "q": "The chat a magician keeps up during a trick",
+    "right": "Patter",
+    "wrong": [
+     "Encore",
+     "Finale",
+     "Prologue"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this church word?",
+  "target": 10,
+  "category": "Religion",
+  "tags": [
+   "churches",
+   "Christianity",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The holy table at the east end, where communion is prepared",
+    "right": "Altar",
+    "wrong": [
+     "Dais",
+     "Plinth",
+     "Trestle"
+    ]
+   },
+   {
+    "q": "The raised box the vicar preaches the sermon from",
+    "right": "Pulpit",
+    "wrong": [
+     "Podium",
+     "Rostrum",
+     "Soapbox"
+    ]
+   },
+   {
+    "q": "The stone basin used for christenings",
+    "right": "Font",
+    "wrong": [
+     "Trough",
+     "Cistern",
+     "Urn"
+    ]
+   },
+   {
+    "q": "The long wooden bench the congregation sits on",
+    "right": "Pew",
+    "wrong": [
+     "Ottoman",
+     "Chaise",
+     "Futon"
+    ]
+   },
+   {
+    "q": "The main central part of the church, where the congregation sits",
+    "right": "Nave",
+    "wrong": [
+     "Foyer",
+     "Atrium",
+     "Lobby"
+    ]
+   },
+   {
+    "q": "The tall, pointed top of the tower",
+    "right": "Spire",
+    "wrong": [
+     "Dome",
+     "Minaret",
+     "Turret"
+    ]
+   },
+   {
+    "q": "The room where the vicar changes into robes",
+    "right": "Vestry",
+    "wrong": [
+     "Pantry",
+     "Scullery",
+     "Larder"
+    ]
+   },
+   {
+    "q": "The underground chamber, often used for burials",
+    "right": "Crypt",
+    "wrong": [
+     "Cellar",
+     "Bunker",
+     "Dungeon"
+    ]
+   },
+   {
+    "q": "The stand, often shaped like an eagle, that holds the Bible for readings",
+    "right": "Lectern",
+    "wrong": [
+     "Easel",
+     "Trestle",
+     "Plinth"
+    ]
+   },
+   {
+    "q": "Where the bells hang",
+    "right": "Belfry",
+    "wrong": [
+     "Loft",
+     "Attic",
+     "Hayloft"
+    ]
+   },
+   {
+    "q": "The roofed gateway into the churchyard",
+    "right": "Lychgate",
+    "wrong": [
+     "Portcullis",
+     "Turnstile",
+     "Stile"
+    ]
+   },
+   {
+    "q": "The church caretaker who leads processions, carrying a rod",
+    "right": "Verger",
+    "wrong": [
+     "Bailiff",
+     "Steward",
+     "Porter"
+    ]
+   },
+   {
+    "q": "A song of praise sung by the whole congregation",
+    "right": "Hymn",
+    "wrong": [
+     "Aria",
+     "Ballad",
+     "Shanty"
+    ]
+   },
+   {
+    "q": "The group of singers in robes",
+    "right": "Choir",
+    "wrong": [
+     "Orchestra",
+     "Quartet",
+     "Brass band"
+    ]
+   },
+   {
+    "q": "The 'arms' of a cross-shaped church",
+    "right": "Transept",
+    "wrong": [
+     "Annexe",
+     "Porch",
+     "Conservatory"
+    ]
+   },
+   {
+    "q": "Coloured windows showing Bible scenes",
+    "right": "Stained glass",
+    "wrong": [
+     "Frosted glass",
+     "Double glazing",
+     "Mirror glass"
+    ]
+   },
+   {
+    "q": "The huge instrument with pipes",
+    "right": "Organ",
+    "wrong": [
+     "Harp",
+     "Piano",
+     "Accordion"
+    ]
+   },
+   {
+    "q": "Read out on three Sundays before a wedding",
+    "right": "Banns",
+    "wrong": [
+     "Vows",
+     "Rites",
+     "Writs"
+    ]
+   },
+   {
+    "q": "The clergyman or woman in charge of a Church of England parish",
+    "right": "Vicar",
+    "wrong": [
+     "Abbot",
+     "Cardinal",
+     "Rabbi"
+    ]
+   },
+   {
+    "q": "Money gathered in a plate during the service",
+    "right": "Collection",
+    "wrong": [
+     "Raffle",
+     "Tombola",
+     "Subscription"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this shopping word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "shopping",
+   "shops",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The slip of paper proving what you paid",
+    "right": "Receipt",
+    "wrong": [
+     "Voucher",
+     "Coupon",
+     "Leaflet"
+    ]
+   },
+   {
+    "q": "The wheeled cage you push round the supermarket",
+    "right": "Trolley",
+    "wrong": [
+     "Barrow",
+     "Pram",
+     "Buggy"
+    ]
+   },
+   {
+    "q": "Where you pay at the front of the shop",
+    "right": "Checkout",
+    "wrong": [
+     "Stockroom",
+     "Loading bay",
+     "Mezzanine"
+    ]
+   },
+   {
+    "q": "The walkway between rows of shelves",
+    "right": "Aisle",
+    "wrong": [
+     "Lobby",
+     "Foyer",
+     "Stockroom"
+    ]
+   },
+   {
+    "q": "Where you try clothes on before buying",
+    "right": "Fitting room",
+    "wrong": [
+     "Cloakroom",
+     "Green room",
+     "Staffroom"
+    ]
+   },
+   {
+    "q": "Something bought for much less than it's worth",
+    "right": "Bargain",
+    "wrong": [
+     "Rip-off",
+     "Mark-up",
+     "Surcharge"
+    ]
+   },
+   {
+    "q": "Getting your money back when you return something",
+    "right": "Refund",
+    "wrong": [
+     "Deposit",
+     "Tip",
+     "Surcharge"
+    ]
+   },
+   {
+    "q": "Collect points on it, like a Clubcard or Nectar",
+    "right": "Loyalty card",
+    "wrong": [
+     "Debit card",
+     "Gift card",
+     "Railcard"
+    ]
+   },
+   {
+    "q": "The black stripes scanned at the till",
+    "right": "Barcode",
+    "wrong": [
+     "Watermark",
+     "Hologram",
+     "Postcode"
+    ]
+   },
+   {
+    "q": "A sturdy carrier bag you use again and again",
+    "right": "Bag for life",
+    "wrong": [
+     "Doggy bag",
+     "Goody bag",
+     "Bin bag"
+    ]
+   },
+   {
+    "q": "Looking at the goods with no plan to buy",
+    "right": "Window shopping",
+    "wrong": [
+     "Panic buying",
+     "Bulk buying",
+     "Late-night shopping"
+    ]
+   },
+   {
+    "q": "'Buy one, get one free', in four letters",
+    "right": "BOGOF",
+    "wrong": [
+     "RRP",
+     "VAT",
+     "PAYG"
+    ]
+   },
+   {
+    "q": "Scanning and bagging your own shopping",
+    "right": "Self-checkout",
+    "wrong": [
+     "Cash machine",
+     "Ticket machine",
+     "Parking meter"
+    ]
+   },
+   {
+    "q": "Order online, pick it up from the shop",
+    "right": "Click and collect",
+    "wrong": [
+     "Cash and carry",
+     "Home delivery",
+     "Mail order"
+    ]
+   },
+   {
+    "q": "Stealing goods from a shop",
+    "right": "Shoplifting",
+    "wrong": [
+     "Pickpocketing",
+     "Burglary",
+     "Fraud"
+    ]
+   },
+   {
+    "q": "The late-November day of big American-style sales",
+    "right": "Black Friday",
+    "wrong": [
+     "Boxing Day",
+     "Cyber Monday",
+     "Shrove Tuesday"
+    ]
+   },
+   {
+    "q": "Getting money out at the till as you pay",
+    "right": "Cashback",
+    "wrong": [
+     "Overdraft",
+     "Interest",
+     "Dividend"
+    ]
+   },
+   {
+    "q": "The American word for a big indoor shopping centre",
+    "right": "Mall",
+    "wrong": [
+     "Precinct",
+     "Parade",
+     "Arcade"
+    ]
+   },
+   {
+    "q": "What you carry for a small shop instead of a trolley",
+    "right": "Basket",
+    "wrong": [
+     "Tray",
+     "Crate",
+     "Satchel"
+    ]
+   },
+   {
+    "q": "The little label showing what it costs",
+    "right": "Price tag",
+    "wrong": [
+     "Name badge",
+     "Luggage label",
+     "Gift tag"
+    ]
+   }
+  ]
+ }
+]
