@@ -1,0 +1,775 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which fruit or vegetable is this a variety of?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "fruit",
+   "vegetables",
+   "varieties"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Granny Smith",
+    "right": "Apple",
+    "wrong": [
+     "Quince",
+     "Peach",
+     "Nectarine"
+    ]
+   },
+   {
+    "q": "Conference",
+    "right": "Pear",
+    "wrong": [
+     "Quince",
+     "Apricot",
+     "Peach"
+    ]
+   },
+   {
+    "q": "Cavendish",
+    "right": "Banana",
+    "wrong": [
+     "Papaya",
+     "Pineapple",
+     "Guava"
+    ]
+   },
+   {
+    "q": "Hass",
+    "right": "Avocado",
+    "wrong": [
+     "Papaya",
+     "Guava",
+     "Lime"
+    ]
+   },
+   {
+    "q": "Victoria",
+    "right": "Plum",
+    "wrong": [
+     "Apricot",
+     "Peach",
+     "Nectarine"
+    ]
+   },
+   {
+    "q": "Maris Piper",
+    "right": "Potato",
+    "wrong": [
+     "Parsnip",
+     "Sweet potato",
+     "Turnip"
+    ]
+   },
+   {
+    "q": "Morello",
+    "right": "Cherry",
+    "wrong": [
+     "Raspberry",
+     "Blackcurrant",
+     "Redcurrant"
+    ]
+   },
+   {
+    "q": "Elsanta",
+    "right": "Strawberry",
+    "wrong": [
+     "Raspberry",
+     "Blackberry",
+     "Gooseberry"
+    ]
+   },
+   {
+    "q": "Seville",
+    "right": "Orange",
+    "wrong": [
+     "Lemon",
+     "Lime",
+     "Tangerine"
+    ]
+   },
+   {
+    "q": "Medjool",
+    "right": "Date",
+    "wrong": [
+     "Apricot",
+     "Prune",
+     "Lychee"
+    ]
+   },
+   {
+    "q": "Alphonso",
+    "right": "Mango",
+    "wrong": [
+     "Papaya",
+     "Lychee",
+     "Guava"
+    ]
+   },
+   {
+    "q": "Brown Turkey",
+    "right": "Fig",
+    "wrong": [
+     "Pomegranate",
+     "Quince",
+     "Apricot"
+    ]
+   },
+   {
+    "q": "Moneymaker",
+    "right": "Tomato",
+    "wrong": [
+     "Pepper",
+     "Aubergine",
+     "Cucumber"
+    ]
+   },
+   {
+    "q": "Galia",
+    "right": "Melon",
+    "wrong": [
+     "Pineapple",
+     "Papaya",
+     "Cucumber"
+    ]
+   },
+   {
+    "q": "Hayward",
+    "right": "Kiwi fruit",
+    "wrong": [
+     "Gooseberry",
+     "Passion fruit",
+     "Lychee"
+    ]
+   },
+   {
+    "q": "Thompson Seedless",
+    "right": "Grape",
+    "wrong": [
+     "Blueberry",
+     "Redcurrant",
+     "Gooseberry"
+    ]
+   },
+   {
+    "q": "Little Gem",
+    "right": "Lettuce",
+    "wrong": [
+     "Cabbage",
+     "Spinach",
+     "Kale"
+    ]
+   },
+   {
+    "q": "Chantenay",
+    "right": "Carrot",
+    "wrong": [
+     "Parsnip",
+     "Turnip",
+     "Beetroot"
+    ]
+   },
+   {
+    "q": "Tenderstem",
+    "right": "Broccoli",
+    "wrong": [
+     "Cauliflower",
+     "Asparagus",
+     "Kale"
+    ]
+   },
+   {
+    "q": "Ruby Red",
+    "right": "Grapefruit",
+    "wrong": [
+     "Lemon",
+     "Pomegranate",
+     "Tangerine"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what does this Yiddish word mean?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "Yiddish",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Chutzpah",
+    "right": "Cheek or nerve",
+    "wrong": [
+     "Bad luck",
+     "Show-off",
+     "Rumour"
+    ]
+   },
+   {
+    "q": "Klutz",
+    "right": "Clumsy person",
+    "wrong": [
+     "Show-off",
+     "Coward",
+     "Liar"
+    ]
+   },
+   {
+    "q": "Schlep",
+    "right": "Trudge or haul",
+    "wrong": [
+     "Gossip",
+     "Shout",
+     "Doze"
+    ]
+   },
+   {
+    "q": "Kvetch",
+    "right": "Complain",
+    "wrong": [
+     "Gossip",
+     "Shout",
+     "Boast"
+    ]
+   },
+   {
+    "q": "Nosh",
+    "right": "Food or a snack",
+    "wrong": [
+     "Party",
+     "Hangover",
+     "Bargain"
+    ]
+   },
+   {
+    "q": "Mensch",
+    "right": "Good, decent person",
+    "wrong": [
+     "Show-off",
+     "Bully",
+     "Liar"
+    ]
+   },
+   {
+    "q": "Schmaltz",
+    "right": "Sickly sentimentality",
+    "wrong": [
+     "Noise",
+     "Rumour",
+     "Bargain"
+    ]
+   },
+   {
+    "q": "Spiel",
+    "right": "Sales patter",
+    "wrong": [
+     "Argument",
+     "Bargain",
+     "Rumour"
+    ]
+   },
+   {
+    "q": "Shtick",
+    "right": "Comic routine",
+    "wrong": [
+     "Argument",
+     "Bad luck",
+     "Hangover"
+    ]
+   },
+   {
+    "q": "Maven",
+    "right": "Expert",
+    "wrong": [
+     "Fool",
+     "Coward",
+     "Thief"
+    ]
+   },
+   {
+    "q": "Meshuga",
+    "right": "Crazy",
+    "wrong": [
+     "Sleepy",
+     "Delicious",
+     "Lucky"
+    ]
+   },
+   {
+    "q": "Tush",
+    "right": "Bottom",
+    "wrong": [
+     "Belly",
+     "Nose",
+     "Elbow"
+    ]
+   },
+   {
+    "q": "Schmooze",
+    "right": "Chat someone up",
+    "wrong": [
+     "Shout at someone",
+     "Steal from someone",
+     "Tell on someone"
+    ]
+   },
+   {
+    "q": "Mazel tov",
+    "right": "Congratulations",
+    "wrong": [
+     "Goodbye",
+     "Cheers",
+     "Get well soon"
+    ]
+   },
+   {
+    "q": "Nebbish",
+    "right": "Timid, pitiful person",
+    "wrong": [
+     "Bully",
+     "Show-off",
+     "Thief"
+    ]
+   },
+   {
+    "q": "Kibitz",
+    "right": "Give unwanted advice",
+    "wrong": [
+     "Steal small items",
+     "Haggle",
+     "Boast"
+    ]
+   },
+   {
+    "q": "Schmutz",
+    "right": "Dirt",
+    "wrong": [
+     "Noise",
+     "Hangover",
+     "Rumour"
+    ]
+   },
+   {
+    "q": "Glitch",
+    "right": "Small fault",
+    "wrong": [
+     "Bargain",
+     "Rumour",
+     "Headache"
+    ]
+   },
+   {
+    "q": "Bupkis",
+    "right": "Absolutely nothing",
+    "wrong": [
+     "Lucky charm",
+     "Bargain",
+     "Feast"
+    ]
+   },
+   {
+    "q": "Tchotchke",
+    "right": "Trinket",
+    "wrong": [
+     "Tickle",
+     "Hiccup",
+     "Sneeze"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which sport uses this kit?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "sports equipment"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Shuttlecock",
+    "right": "Badminton",
+    "wrong": [
+     "Squash",
+     "Table tennis",
+     "Tennis"
+    ]
+   },
+   {
+    "q": "Puck",
+    "right": "Ice hockey",
+    "wrong": [
+     "Shinty",
+     "Polo",
+     "Water polo"
+    ]
+   },
+   {
+    "q": "Stone and broom",
+    "right": "Curling",
+    "wrong": [
+     "Bobsleigh",
+     "Luge",
+     "Speed skating"
+    ]
+   },
+   {
+    "q": "Épée",
+    "right": "Fencing",
+    "wrong": [
+     "Judo",
+     "Karate",
+     "Kendo"
+    ]
+   },
+   {
+    "q": "Sliotar",
+    "right": "Hurling",
+    "wrong": [
+     "Shinty",
+     "Gaelic football",
+     "Rounders"
+    ]
+   },
+   {
+    "q": "Pommel horse",
+    "right": "Gymnastics",
+    "wrong": [
+     "Equestrian",
+     "Polo",
+     "Horse racing"
+    ]
+   },
+   {
+    "q": "Bails",
+    "right": "Cricket",
+    "wrong": [
+     "Rounders",
+     "Softball",
+     "Tennis"
+    ]
+   },
+   {
+    "q": "Putter",
+    "right": "Golf",
+    "wrong": [
+     "Polo",
+     "Tennis",
+     "Hockey"
+    ]
+   },
+   {
+    "q": "Discus",
+    "right": "Athletics",
+    "wrong": [
+     "Swimming",
+     "Diving",
+     "Shooting"
+    ]
+   },
+   {
+    "q": "Jack",
+    "right": "Bowls",
+    "wrong": [
+     "Skittles",
+     "Shooting",
+     "Sailing"
+    ]
+   },
+   {
+    "q": "Toe pick",
+    "right": "Figure skating",
+    "wrong": [
+     "Speed skating",
+     "Skiing",
+     "Snowboarding"
+    ]
+   },
+   {
+    "q": "Belay device",
+    "right": "Climbing",
+    "wrong": [
+     "Sailing",
+     "Diving",
+     "Skiing"
+    ]
+   },
+   {
+    "q": "Flights",
+    "right": "Darts",
+    "wrong": [
+     "Shooting",
+     "Skittles",
+     "Table tennis"
+    ]
+   },
+   {
+    "q": "Spray deck",
+    "right": "Kayaking",
+    "wrong": [
+     "Sailing",
+     "Surfing",
+     "Windsurfing"
+    ]
+   },
+   {
+    "q": "Spider rest",
+    "right": "Snooker",
+    "wrong": [
+     "Table tennis",
+     "Skittles",
+     "Shooting"
+    ]
+   },
+   {
+    "q": "Quiver",
+    "right": "Archery",
+    "wrong": [
+     "Shooting",
+     "Biathlon",
+     "Javelin"
+    ]
+   },
+   {
+    "q": "Mitt",
+    "right": "Baseball",
+    "wrong": [
+     "Rounders",
+     "Netball",
+     "Volleyball"
+    ]
+   },
+   {
+    "q": "Scrum cap",
+    "right": "Rugby",
+    "wrong": [
+     "Boxing",
+     "Wrestling",
+     "Water polo"
+    ]
+   },
+   {
+    "q": "Mallet and hoops",
+    "right": "Croquet",
+    "wrong": [
+     "Polo",
+     "Skittles",
+     "Pétanque"
+    ]
+   },
+   {
+    "q": "Derailleur",
+    "right": "Cycling",
+    "wrong": [
+     "Sailing",
+     "Motocross",
+     "Rowing"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which US state is this landmark in?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "USA",
+   "landmarks",
+   "states"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Mount Rushmore",
+    "right": "South Dakota",
+    "wrong": [
+     "North Dakota",
+     "Montana",
+     "Nebraska"
+    ]
+   },
+   {
+    "q": "The Golden Gate Bridge",
+    "right": "California",
+    "wrong": [
+     "Oregon",
+     "Colorado",
+     "New Mexico"
+    ]
+   },
+   {
+    "q": "The Grand Canyon",
+    "right": "Arizona",
+    "wrong": [
+     "New Mexico",
+     "Colorado",
+     "Oklahoma"
+    ]
+   },
+   {
+    "q": "The Statue of Liberty",
+    "right": "New York",
+    "wrong": [
+     "Delaware",
+     "Connecticut",
+     "Rhode Island"
+    ]
+   },
+   {
+    "q": "The Space Needle",
+    "right": "Washington",
+    "wrong": [
+     "Oregon",
+     "Idaho",
+     "Montana"
+    ]
+   },
+   {
+    "q": "The Gateway Arch",
+    "right": "Missouri",
+    "wrong": [
+     "Kansas",
+     "Iowa",
+     "Arkansas"
+    ]
+   },
+   {
+    "q": "Graceland",
+    "right": "Tennessee",
+    "wrong": [
+     "Mississippi",
+     "Arkansas",
+     "Alabama"
+    ]
+   },
+   {
+    "q": "The Alamo",
+    "right": "Texas",
+    "wrong": [
+     "New Mexico",
+     "Oklahoma",
+     "Colorado"
+    ]
+   },
+   {
+    "q": "Old Faithful",
+    "right": "Wyoming",
+    "wrong": [
+     "Montana",
+     "Idaho",
+     "Colorado"
+    ]
+   },
+   {
+    "q": "The Las Vegas Strip",
+    "right": "Nevada",
+    "wrong": [
+     "New Mexico",
+     "Colorado",
+     "Oregon"
+    ]
+   },
+   {
+    "q": "The Everglades",
+    "right": "Florida",
+    "wrong": [
+     "Georgia",
+     "Alabama",
+     "South Carolina"
+    ]
+   },
+   {
+    "q": "The Liberty Bell",
+    "right": "Pennsylvania",
+    "wrong": [
+     "New Jersey",
+     "Maryland",
+     "Virginia"
+    ]
+   },
+   {
+    "q": "Pearl Harbor",
+    "right": "Hawaii",
+    "wrong": [
+     "Oregon",
+     "Virginia",
+     "Maine"
+    ]
+   },
+   {
+    "q": "Denali",
+    "right": "Alaska",
+    "wrong": [
+     "Montana",
+     "Idaho",
+     "Maine"
+    ]
+   },
+   {
+    "q": "Fenway Park",
+    "right": "Massachusetts",
+    "wrong": [
+     "Connecticut",
+     "Rhode Island",
+     "New Hampshire"
+    ]
+   },
+   {
+    "q": "Arches National Park",
+    "right": "Utah",
+    "wrong": [
+     "Colorado",
+     "New Mexico",
+     "Idaho"
+    ]
+   },
+   {
+    "q": "The Rock and Roll Hall of Fame",
+    "right": "Ohio",
+    "wrong": [
+     "Michigan",
+     "Indiana",
+     "West Virginia"
+    ]
+   },
+   {
+    "q": "Cloud Gate ('The Bean')",
+    "right": "Illinois",
+    "wrong": [
+     "Indiana",
+     "Wisconsin",
+     "Michigan"
+    ]
+   },
+   {
+    "q": "The French Quarter",
+    "right": "Louisiana",
+    "wrong": [
+     "Mississippi",
+     "Alabama",
+     "Arkansas"
+    ]
+   },
+   {
+    "q": "Fort Knox",
+    "right": "Kentucky",
+    "wrong": [
+     "West Virginia",
+     "Virginia",
+     "Indiana"
+    ]
+   }
+  ]
+ }
+]
