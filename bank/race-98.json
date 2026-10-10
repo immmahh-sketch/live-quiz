@@ -1,0 +1,390 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which Mr Men or Little Miss character is this?",
+  "target": 10,
+  "category": "Children's books",
+  "tags": [
+   "Mr Men",
+   "Little Miss",
+   "children's books"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Orange, with extraordinarily long arms he uses to tickle people",
+    "right": "Mr Tickle",
+    "wrong": [
+     "Mr Nosey",
+     "Mr Busy",
+     "Mr Tall"
+    ]
+   },
+   {
+    "q": "Round and pink, and eats so much he grows enormous",
+    "right": "Mr Greedy",
+    "wrong": [
+     "Mr Jelly",
+     "Mr Bounce",
+     "Mr Fussy"
+    ]
+   },
+   {
+    "q": "Round and yellow with a huge smile, living in Happyland",
+    "right": "Mr Happy",
+    "wrong": [
+     "Mr Cheerful",
+     "Mr Funny",
+     "Mr Daydream"
+    ]
+   },
+   {
+    "q": "Blue, wrapped in bandages, always having accidents",
+    "right": "Mr Bump",
+    "wrong": [
+     "Mr Clumsy",
+     "Mr Dizzy",
+     "Mr Muddle"
+    ]
+   },
+   {
+    "q": "Red, the strongest person in the world, thanks to eating eggs",
+    "right": "Mr Strong",
+    "wrong": [
+     "Mr Impossible",
+     "Mr Tall",
+     "Mr Bounce"
+    ]
+   },
+   {
+    "q": "Covered in pink scribble until two neat brothers clean him up",
+    "right": "Mr Messy",
+    "wrong": [
+     "Mr Muddle",
+     "Mr Nonsense",
+     "Mr Fussy"
+    ]
+   },
+   {
+    "q": "Scowls at everyone and tears pages out of books",
+    "right": "Mr Grumpy",
+    "wrong": [
+     "Mr Mean",
+     "Mr Worry",
+     "Mr Fussy"
+    ]
+   },
+   {
+    "q": "Lives in Coldland and can't stop going 'Atishoo!'",
+    "right": "Mr Sneeze",
+    "wrong": [
+     "Mr Snow",
+     "Mr Dizzy",
+     "Mr Worry"
+    ]
+   },
+   {
+    "q": "Tiny orange chap who once lived under a daisy",
+    "right": "Mr Small",
+    "wrong": [
+     "Mr Quiet",
+     "Mr Jelly",
+     "Little Miss Shy"
+    ]
+   },
+   {
+    "q": "Red, with a voice so loud it frightens the birds",
+    "right": "Mr Noisy",
+    "wrong": [
+     "Mr Rush",
+     "Mr Funny",
+     "Mr Nonsense"
+    ]
+   },
+   {
+    "q": "Wins Nonsenseland's prize for the silliest thing",
+    "right": "Mr Silly",
+    "wrong": [
+     "Mr Funny",
+     "Mr Mischief",
+     "Mr Daydream"
+    ]
+   },
+   {
+    "q": "Does everything upside down, even walking on his hands",
+    "right": "Mr Topsy-Turvy",
+    "wrong": [
+     "Mr Dizzy",
+     "Mr Bounce",
+     "Mr Rush"
+    ]
+   },
+   {
+    "q": "Lives in Sleepyland and can't be bothered to do anything",
+    "right": "Mr Lazy",
+    "wrong": [
+     "Mr Slow",
+     "Mr Daydream",
+     "Mr Quiet"
+    ]
+   },
+   {
+    "q": "Can't remember a thing, not even the message he was given",
+    "right": "Mr Forgetful",
+    "wrong": [
+     "Mr Muddle",
+     "Mr Daydream",
+     "Mr Dizzy"
+    ]
+   },
+   {
+    "q": "Rich and rude to everyone until a goblin teaches him manners",
+    "right": "Mr Uppity",
+    "wrong": [
+     "Mr Mean",
+     "Mr Fussy",
+     "Mr Clever"
+    ]
+   },
+   {
+    "q": "Yellow with pigtails, always cheerful",
+    "right": "Little Miss Sunshine",
+    "wrong": [
+     "Little Miss Giggles",
+     "Little Miss Helpful",
+     "Little Miss Splendid"
+    ]
+   },
+   {
+    "q": "Plays tricks on everyone until Mr Impossible teaches her a lesson",
+    "right": "Little Miss Naughty",
+    "wrong": [
+     "Little Miss Trouble",
+     "Little Miss Contrary",
+     "Little Miss Ditzy"
+    ]
+   },
+   {
+    "q": "Orders everybody about",
+    "right": "Little Miss Bossy",
+    "wrong": [
+     "Little Miss Splendid",
+     "Little Miss Princess",
+     "Little Miss Contrary"
+    ]
+   },
+   {
+    "q": "Simply never stops talking",
+    "right": "Little Miss Chatterbox",
+    "wrong": [
+     "Little Miss Giggles",
+     "Little Miss Late",
+     "Little Miss Ditzy"
+    ]
+   },
+   {
+    "q": "Muddle-headed, gets everything mixed up",
+    "right": "Little Miss Scatterbrain",
+    "wrong": [
+     "Little Miss Late",
+     "Little Miss Somersault",
+     "Little Miss Shy"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which long-distance walk is this?",
+  "target": 10,
+  "category": "Britain",
+  "tags": [
+   "walking",
+   "trails",
+   "outdoors"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Edale to Kirk Yetholm, along the backbone of England",
+    "right": "Pennine Way",
+    "wrong": [
+     "Pennine Bridleway",
+     "Dales Way",
+     "Teesdale Way"
+    ]
+   },
+   {
+    "q": "Wallsend to Bowness-on-Solway, following the Romans",
+    "right": "Hadrian's Wall Path",
+    "wrong": [
+     "Cumbria Way",
+     "Dales Way",
+     "Teesdale Way"
+    ]
+   },
+   {
+    "q": "St Bees to Robin Hood's Bay, devised by Alfred Wainwright",
+    "right": "Coast to Coast",
+    "wrong": [
+     "Cumbria Way",
+     "Dales Way",
+     "Teesdale Way"
+    ]
+   },
+   {
+    "q": "Helmsley round the North York Moors and down the coast to Filey",
+    "right": "Cleveland Way",
+    "wrong": [
+     "Dales Way",
+     "Teesdale Way",
+     "Esk Valley Walk"
+    ]
+   },
+   {
+    "q": "Milngavie to Fort William",
+    "right": "West Highland Way",
+    "wrong": [
+     "Rob Roy Way",
+     "Speyside Way",
+     "John o' Groats Trail"
+    ]
+   },
+   {
+    "q": "Minehead round to Poole Harbour: England's longest",
+    "right": "South West Coast Path",
+    "wrong": [
+     "Two Moors Way",
+     "Saints' Way",
+     "Macmillan Way"
+    ]
+   },
+   {
+    "q": "Prestatyn to Chepstow, along the England-Wales border",
+    "right": "Offa's Dyke Path",
+    "wrong": [
+     "Wye Valley Walk",
+     "Glyndŵr's Way",
+     "Cambrian Way"
+    ]
+   },
+   {
+    "q": "St Dogmaels to Amroth, round Wales's far south-west",
+    "right": "Pembrokeshire Coast Path",
+    "wrong": [
+     "Wye Valley Walk",
+     "Glyndŵr's Way",
+     "Cambrian Way"
+    ]
+   },
+   {
+    "q": "From the river's source in Gloucestershire to the Thames Barrier",
+    "right": "Thames Path",
+    "wrong": [
+     "London Loop",
+     "Capital Ring",
+     "Grand Union Canal Walk"
+    ]
+   },
+   {
+    "q": "Winchester to Eastbourne over the chalk hills",
+    "right": "South Downs Way",
+    "wrong": [
+     "North Downs Way",
+     "Wealdway",
+     "Greensand Way"
+    ]
+   },
+   {
+    "q": "Chipping Campden to Bath",
+    "right": "Cotswold Way",
+    "wrong": [
+     "Heart of England Way",
+     "Macmillan Way",
+     "Monarch's Way"
+    ]
+   },
+   {
+    "q": "'Britain's oldest road', from near Avebury to Ivinghoe Beacon",
+    "right": "The Ridgeway",
+    "wrong": [
+     "Icknield Way",
+     "Wessex Ridgeway",
+     "Greensand Way"
+    ]
+   },
+   {
+    "q": "Melrose Abbey to Holy Island, named after a Northumbrian saint",
+    "right": "St Cuthbert's Way",
+    "wrong": [
+     "St Oswald's Way",
+     "Borders Abbeys Way",
+     "Northumberland Coast Path"
+    ]
+   },
+   {
+    "q": "Pilgrims' route across northern Spain to a cathedral city",
+    "right": "Camino de Santiago",
+    "wrong": [
+     "Via Francigena",
+     "St Olav's Way",
+     "Kungsleden"
+    ]
+   },
+   {
+    "q": "Georgia to Maine along the eastern US mountains",
+    "right": "Appalachian Trail",
+    "wrong": [
+     "Pacific Crest Trail",
+     "Continental Divide Trail",
+     "John Muir Trail"
+    ]
+   },
+   {
+    "q": "Ancient stone path up to Machu Picchu",
+    "right": "Inca Trail",
+    "wrong": [
+     "Salkantay Trek",
+     "Lares Trek",
+     "W Trek"
+    ]
+   },
+   {
+    "q": "Fort William to Inverness, along Loch Ness",
+    "right": "Great Glen Way",
+    "wrong": [
+     "Rob Roy Way",
+     "Speyside Way",
+     "John o' Groats Trail"
+    ]
+   },
+   {
+    "q": "Corsica's notoriously tough north-south mountain trek",
+    "right": "GR20",
+    "wrong": [
+     "Haute Route",
+     "Kungsleden",
+     "Alta Via 1"
+    ]
+   },
+   {
+    "q": "A loop round western Europe's highest peak, through France, Italy and Switzerland",
+    "right": "Tour du Mont Blanc",
+    "wrong": [
+     "Haute Route",
+     "Alta Via 1",
+     "Eiger Trail"
+    ]
+   },
+   {
+    "q": "Forty miles across the North York Moors in under 24 hours, Osmotherley to Ravenscar",
+    "right": "Lyke Wake Walk",
+    "wrong": [
+     "Esk Valley Walk",
+     "Dales Way",
+     "White Rose Way"
+    ]
+   }
+  ]
+ }
+]
