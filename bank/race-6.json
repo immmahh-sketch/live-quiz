@@ -1,0 +1,775 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what do you call someone from here?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "demonyms",
+   "places"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Manchester",
+    "right": "Mancunian",
+    "wrong": [
+     "Manchestrian",
+     "Mancastrian",
+     "Mancovian"
+    ]
+   },
+   {
+    "q": "Liverpool",
+    "right": "Liverpudlian",
+    "wrong": [
+     "Liverpoolian",
+     "Liverpudian",
+     "Livermudlian"
+    ]
+   },
+   {
+    "q": "Glasgow",
+    "right": "Glaswegian",
+    "wrong": [
+     "Glasgowite",
+     "Glaswegan",
+     "Glasgonian"
+    ]
+   },
+   {
+    "q": "Aberdeen",
+    "right": "Aberdonian",
+    "wrong": [
+     "Aberdeenian",
+     "Aberdeener",
+     "Aberdovian"
+    ]
+   },
+   {
+    "q": "Dundee",
+    "right": "Dundonian",
+    "wrong": [
+     "Dundeeite",
+     "Dundovian",
+     "Dundeeian"
+    ]
+   },
+   {
+    "q": "Birmingham",
+    "right": "Brummie",
+    "wrong": [
+     "Birmie",
+     "Brummer",
+     "Bingie"
+    ]
+   },
+   {
+    "q": "Sunderland",
+    "right": "Mackem",
+    "wrong": [
+     "Geordie",
+     "Smoggie",
+     "Sand dancer"
+    ]
+   },
+   {
+    "q": "Moscow",
+    "right": "Muscovite",
+    "wrong": [
+     "Moscovian",
+     "Moskvan",
+     "Moscowite"
+    ]
+   },
+   {
+    "q": "Naples",
+    "right": "Neapolitan",
+    "wrong": [
+     "Naplesian",
+     "Napolese",
+     "Naplitan"
+    ]
+   },
+   {
+    "q": "Venice",
+    "right": "Venetian",
+    "wrong": [
+     "Venician",
+     "Venezian",
+     "Venesian"
+    ]
+   },
+   {
+    "q": "Monaco",
+    "right": "Monégasque",
+    "wrong": [
+     "Monacoan",
+     "Monegan",
+     "Monacian"
+    ]
+   },
+   {
+    "q": "Oxford",
+    "right": "Oxonian",
+    "wrong": [
+     "Oxfordian",
+     "Oxfordite",
+     "Oxenian"
+    ]
+   },
+   {
+    "q": "The Isle of Man",
+    "right": "Manx",
+    "wrong": [
+     "Mannish",
+     "Mannian",
+     "Manese"
+    ]
+   },
+   {
+    "q": "Leeds",
+    "right": "Loiner",
+    "wrong": [
+     "Leedsite",
+     "Leedser",
+     "Yorkie"
+    ]
+   },
+   {
+    "q": "The Philippines",
+    "right": "Filipino",
+    "wrong": [
+     "Philippian",
+     "Philipese",
+     "Manilan"
+    ]
+   },
+   {
+    "q": "Cyprus",
+    "right": "Cypriot",
+    "wrong": [
+     "Cyprese",
+     "Cyprusian",
+     "Cypran"
+    ]
+   },
+   {
+    "q": "Paris",
+    "right": "Parisian",
+    "wrong": [
+     "Parisite",
+     "Parisois",
+     "Parisine"
+    ]
+   },
+   {
+    "q": "Edinburgh",
+    "right": "Edinburgher",
+    "wrong": [
+     "Edinburgian",
+     "Edinbrian",
+     "Edinbourgher"
+    ]
+   },
+   {
+    "q": "Florence",
+    "right": "Florentine",
+    "wrong": [
+     "Florencian",
+     "Florentian",
+     "Florenzan"
+    ]
+   },
+   {
+    "q": "Hamburg",
+    "right": "Hamburger",
+    "wrong": [
+     "Hamburgian",
+     "Hamburgish",
+     "Hamburgite"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country is this mountain or volcano in?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "mountains",
+   "volcanoes",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Kilimanjaro",
+    "right": "Tanzania",
+    "wrong": [
+     "Kenya",
+     "Uganda",
+     "Ethiopia"
+    ]
+   },
+   {
+    "q": "Mount Fuji",
+    "right": "Japan",
+    "wrong": [
+     "China",
+     "South Korea",
+     "Taiwan"
+    ]
+   },
+   {
+    "q": "Table Mountain",
+    "right": "South Africa",
+    "wrong": [
+     "Namibia",
+     "Botswana",
+     "Zimbabwe"
+    ]
+   },
+   {
+    "q": "Mount Kosciuszko",
+    "right": "Australia",
+    "wrong": [
+     "Papua New Guinea",
+     "Fiji",
+     "Samoa"
+    ]
+   },
+   {
+    "q": "Denali",
+    "right": "USA",
+    "wrong": [
+     "Russia",
+     "Iceland",
+     "Greenland"
+    ]
+   },
+   {
+    "q": "Mount Etna",
+    "right": "Italy",
+    "wrong": [
+     "Malta",
+     "Croatia",
+     "Portugal"
+    ]
+   },
+   {
+    "q": "Mount Olympus",
+    "right": "Greece",
+    "wrong": [
+     "Cyprus",
+     "Bulgaria",
+     "Albania"
+    ]
+   },
+   {
+    "q": "Mount Ararat",
+    "right": "Turkey",
+    "wrong": [
+     "Armenia",
+     "Iran",
+     "Georgia"
+    ]
+   },
+   {
+    "q": "Aconcagua",
+    "right": "Argentina",
+    "wrong": [
+     "Chile",
+     "Peru",
+     "Bolivia"
+    ]
+   },
+   {
+    "q": "Aoraki / Mount Cook",
+    "right": "New Zealand",
+    "wrong": [
+     "Samoa",
+     "Tonga",
+     "Vanuatu"
+    ]
+   },
+   {
+    "q": "Mount Teide",
+    "right": "Spain",
+    "wrong": [
+     "Portugal",
+     "Morocco",
+     "Cape Verde"
+    ]
+   },
+   {
+    "q": "The Zugspitze",
+    "right": "Germany",
+    "wrong": [
+     "Switzerland",
+     "Poland",
+     "Czechia"
+    ]
+   },
+   {
+    "q": "Snowdon (Yr Wyddfa)",
+    "right": "Wales",
+    "wrong": [
+     "England",
+     "Ireland",
+     "the Isle of Man"
+    ]
+   },
+   {
+    "q": "Mount Sinai",
+    "right": "Egypt",
+    "wrong": [
+     "Jordan",
+     "Israel",
+     "Saudi Arabia"
+    ]
+   },
+   {
+    "q": "Ben Nevis",
+    "right": "Scotland",
+    "wrong": [
+     "England",
+     "Ireland",
+     "Northern Ireland"
+    ]
+   },
+   {
+    "q": "Popocatépetl",
+    "right": "Mexico",
+    "wrong": [
+     "Peru",
+     "Guatemala",
+     "Colombia"
+    ]
+   },
+   {
+    "q": "Mount Logan",
+    "right": "Canada",
+    "wrong": [
+     "Greenland",
+     "Iceland",
+     "Russia"
+    ]
+   },
+   {
+    "q": "Krakatoa",
+    "right": "Indonesia",
+    "wrong": [
+     "Malaysia",
+     "Thailand",
+     "Papua New Guinea"
+    ]
+   },
+   {
+    "q": "Galdhøpiggen",
+    "right": "Norway",
+    "wrong": [
+     "Sweden",
+     "Finland",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "Mount Pinatubo",
+    "right": "Philippines",
+    "wrong": [
+     "Malaysia",
+     "Vietnam",
+     "Thailand"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's the Spanish word?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "Spanish",
+   "languages"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Sun",
+    "right": "Sol",
+    "wrong": [
+     "Sal",
+     "Sur",
+     "Suelo"
+    ]
+   },
+   {
+    "q": "Moon",
+    "right": "Luna",
+    "wrong": [
+     "Lana",
+     "Lunes",
+     "Lluvia"
+    ]
+   },
+   {
+    "q": "Sea",
+    "right": "Mar",
+    "wrong": [
+     "Mes",
+     "Mil",
+     "Miel"
+    ]
+   },
+   {
+    "q": "Beach",
+    "right": "Playa",
+    "wrong": [
+     "Plaza",
+     "Plata",
+     "Planta"
+    ]
+   },
+   {
+    "q": "Fish (to eat)",
+    "right": "Pescado",
+    "wrong": [
+     "Pesado",
+     "Pecado",
+     "Pasado"
+    ]
+   },
+   {
+    "q": "Chicken",
+    "right": "Pollo",
+    "wrong": [
+     "Polvo",
+     "Pelo",
+     "Palo"
+    ]
+   },
+   {
+    "q": "Egg",
+    "right": "Huevo",
+    "wrong": [
+     "Hueso",
+     "Nuevo",
+     "Huerto"
+    ]
+   },
+   {
+    "q": "Cheese",
+    "right": "Queso",
+    "wrong": [
+     "Beso",
+     "Peso",
+     "Hueso"
+    ]
+   },
+   {
+    "q": "Bread",
+    "right": "Pan",
+    "wrong": [
+     "Paz",
+     "Pie",
+     "Piso"
+    ]
+   },
+   {
+    "q": "Water",
+    "right": "Agua",
+    "wrong": [
+     "Aguja",
+     "Ajo",
+     "Ala"
+    ]
+   },
+   {
+    "q": "Wine",
+    "right": "Vino",
+    "wrong": [
+     "Vivo",
+     "Vaso",
+     "Vela"
+    ]
+   },
+   {
+    "q": "Street",
+    "right": "Calle",
+    "wrong": [
+     "Cara",
+     "Cielo",
+     "Carne"
+    ]
+   },
+   {
+    "q": "Church",
+    "right": "Iglesia",
+    "wrong": [
+     "Isla",
+     "Idioma",
+     "Iguana"
+    ]
+   },
+   {
+    "q": "Money",
+    "right": "Dinero",
+    "wrong": [
+     "Diario",
+     "Dedo",
+     "Cordero"
+    ]
+   },
+   {
+    "q": "Today",
+    "right": "Hoy",
+    "wrong": [
+     "Hoja",
+     "Ayer",
+     "Hora"
+    ]
+   },
+   {
+    "q": "Tomorrow",
+    "right": "Mañana",
+    "wrong": [
+     "Manzana",
+     "Montaña",
+     "Semana"
+    ]
+   },
+   {
+    "q": "Big",
+    "right": "Grande",
+    "wrong": [
+     "Gordo",
+     "Grave",
+     "Guapo"
+    ]
+   },
+   {
+    "q": "Small",
+    "right": "Pequeño",
+    "wrong": [
+     "Pobre",
+     "Pesado",
+     "Pelado"
+    ]
+   },
+   {
+    "q": "Hot",
+    "right": "Caliente",
+    "wrong": [
+     "Cliente",
+     "Valiente",
+     "Corriente"
+    ]
+   },
+   {
+    "q": "Cold",
+    "right": "Frío",
+    "wrong": [
+     "Feo",
+     "Fuego",
+     "Frito"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which language says hello like this?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "languages",
+   "greetings"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Bonjour",
+    "right": "French",
+    "wrong": [
+     "Romanian",
+     "Catalan",
+     "Dutch"
+    ]
+   },
+   {
+    "q": "Ciao",
+    "right": "Italian",
+    "wrong": [
+     "Spanish",
+     "Romanian",
+     "Maltese"
+    ]
+   },
+   {
+    "q": "Guten Tag",
+    "right": "German",
+    "wrong": [
+     "Dutch",
+     "Danish",
+     "Norwegian"
+    ]
+   },
+   {
+    "q": "Konnichiwa",
+    "right": "Japanese",
+    "wrong": [
+     "Cantonese",
+     "Vietnamese",
+     "Mongolian"
+    ]
+   },
+   {
+    "q": "Nǐ hǎo",
+    "right": "Mandarin",
+    "wrong": [
+     "Cantonese",
+     "Vietnamese",
+     "Mongolian"
+    ]
+   },
+   {
+    "q": "Namaste",
+    "right": "Hindi",
+    "wrong": [
+     "Urdu",
+     "Persian",
+     "Sinhala"
+    ]
+   },
+   {
+    "q": "Shalom",
+    "right": "Hebrew",
+    "wrong": [
+     "Arabic",
+     "Persian",
+     "Amharic"
+    ]
+   },
+   {
+    "q": "Jambo",
+    "right": "Swahili",
+    "wrong": [
+     "Amharic",
+     "Yoruba",
+     "Somali"
+    ]
+   },
+   {
+    "q": "Aloha",
+    "right": "Hawaiian",
+    "wrong": [
+     "Samoan",
+     "Tongan",
+     "Fijian"
+    ]
+   },
+   {
+    "q": "Kia ora",
+    "right": "Māori",
+    "wrong": [
+     "Samoan",
+     "Tongan",
+     "Fijian"
+    ]
+   },
+   {
+    "q": "Sawubona",
+    "right": "Zulu",
+    "wrong": [
+     "Xhosa",
+     "Sotho",
+     "Shona"
+    ]
+   },
+   {
+    "q": "Merhaba",
+    "right": "Turkish",
+    "wrong": [
+     "Persian",
+     "Kurdish",
+     "Armenian"
+    ]
+   },
+   {
+    "q": "Olá",
+    "right": "Portuguese",
+    "wrong": [
+     "Spanish",
+     "Catalan",
+     "Romanian"
+    ]
+   },
+   {
+    "q": "Dzień dobry",
+    "right": "Polish",
+    "wrong": [
+     "Czech",
+     "Slovak",
+     "Ukrainian"
+    ]
+   },
+   {
+    "q": "Dia dhuit",
+    "right": "Irish",
+    "wrong": [
+     "Scottish Gaelic",
+     "Manx",
+     "Breton"
+    ]
+   },
+   {
+    "q": "Shwmae",
+    "right": "Welsh",
+    "wrong": [
+     "Cornish",
+     "Breton",
+     "Manx"
+    ]
+   },
+   {
+    "q": "Annyeong",
+    "right": "Korean",
+    "wrong": [
+     "Mongolian",
+     "Vietnamese",
+     "Cantonese"
+    ]
+   },
+   {
+    "q": "Sawasdee",
+    "right": "Thai",
+    "wrong": [
+     "Lao",
+     "Khmer",
+     "Burmese"
+    ]
+   },
+   {
+    "q": "Privet",
+    "right": "Russian",
+    "wrong": [
+     "Ukrainian",
+     "Bulgarian",
+     "Czech"
+    ]
+   },
+   {
+    "q": "Yassou",
+    "right": "Greek",
+    "wrong": [
+     "Albanian",
+     "Bulgarian",
+     "Maltese"
+    ]
+   }
+  ]
+ }
+]
