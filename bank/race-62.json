@@ -1,0 +1,581 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which US state is this national park in?",
+  "target": 10,
+  "category": "World geography",
+  "tags": [
+   "national parks",
+   "USA"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Yosemite",
+    "right": "California",
+    "wrong": [
+     "Nevada",
+     "Idaho",
+     "Nebraska"
+    ]
+   },
+   {
+    "q": "Petrified Forest",
+    "right": "Arizona",
+    "wrong": [
+     "Nevada",
+     "Oklahoma",
+     "Kansas"
+    ]
+   },
+   {
+    "q": "Zion",
+    "right": "Utah",
+    "wrong": [
+     "Nevada",
+     "Idaho",
+     "Nebraska"
+    ]
+   },
+   {
+    "q": "Dry Tortugas",
+    "right": "Florida",
+    "wrong": [
+     "Georgia",
+     "Louisiana",
+     "South Carolina"
+    ]
+   },
+   {
+    "q": "Acadia",
+    "right": "Maine",
+    "wrong": [
+     "Vermont",
+     "New Hampshire",
+     "Massachusetts"
+    ]
+   },
+   {
+    "q": "Glacier",
+    "right": "Montana",
+    "wrong": [
+     "Idaho",
+     "Nevada",
+     "Nebraska"
+    ]
+   },
+   {
+    "q": "Olympic",
+    "right": "Washington",
+    "wrong": [
+     "Idaho",
+     "Nevada",
+     "Nebraska"
+    ]
+   },
+   {
+    "q": "Crater Lake",
+    "right": "Oregon",
+    "wrong": [
+     "Idaho",
+     "Nevada",
+     "Kansas"
+    ]
+   },
+   {
+    "q": "Kenai Fjords",
+    "right": "Alaska",
+    "wrong": [
+     "Idaho",
+     "Nevada",
+     "Nebraska"
+    ]
+   },
+   {
+    "q": "Grand Teton",
+    "right": "Wyoming",
+    "wrong": [
+     "Idaho",
+     "Nevada",
+     "Nebraska"
+    ]
+   },
+   {
+    "q": "Mesa Verde",
+    "right": "Colorado",
+    "wrong": [
+     "Nevada",
+     "Kansas",
+     "Nebraska"
+    ]
+   },
+   {
+    "q": "Big Bend",
+    "right": "Texas",
+    "wrong": [
+     "Oklahoma",
+     "Louisiana",
+     "Kansas"
+    ]
+   },
+   {
+    "q": "Shenandoah",
+    "right": "Virginia",
+    "wrong": [
+     "West Virginia",
+     "Maryland",
+     "North Carolina"
+    ]
+   },
+   {
+    "q": "Mammoth Cave",
+    "right": "Kentucky",
+    "wrong": [
+     "Tennessee",
+     "Ohio",
+     "Indiana"
+    ]
+   },
+   {
+    "q": "Carlsbad Caverns",
+    "right": "New Mexico",
+    "wrong": [
+     "Oklahoma",
+     "Nevada",
+     "Kansas"
+    ]
+   },
+   {
+    "q": "Badlands",
+    "right": "South Dakota",
+    "wrong": [
+     "Nebraska",
+     "Iowa",
+     "Kansas"
+    ]
+   },
+   {
+    "q": "Hot Springs",
+    "right": "Arkansas",
+    "wrong": [
+     "Missouri",
+     "Oklahoma",
+     "Louisiana"
+    ]
+   },
+   {
+    "q": "Theodore Roosevelt",
+    "right": "North Dakota",
+    "wrong": [
+     "Nebraska",
+     "Iowa",
+     "Wisconsin"
+    ]
+   },
+   {
+    "q": "Isle Royale",
+    "right": "Michigan",
+    "wrong": [
+     "Wisconsin",
+     "Ohio",
+     "Illinois"
+    ]
+   },
+   {
+    "q": "Voyageurs",
+    "right": "Minnesota",
+    "wrong": [
+     "Wisconsin",
+     "Iowa",
+     "Illinois"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which city is this cathedral in?",
+  "target": 10,
+  "category": "Britain",
+  "tags": [
+   "cathedrals",
+   "cities"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The Mappa Mundi and a chained library",
+    "right": "Hereford",
+    "wrong": [
+     "Shrewsbury",
+     "Exeter",
+     "Chester"
+    ]
+   },
+   {
+    "q": "The Imp, a little stone devil carved in the Angel Choir",
+    "right": "Lincoln",
+    "wrong": [
+     "Southwell",
+     "Ripon",
+     "Carlisle"
+    ]
+   },
+   {
+    "q": "Britain's tallest spire and the best-kept Magna Carta",
+    "right": "Salisbury",
+    "wrong": [
+     "Exeter",
+     "Bath",
+     "Truro"
+    ]
+   },
+   {
+    "q": "The great 'scissor arches' under the tower",
+    "right": "Wells",
+    "wrong": [
+     "Bath",
+     "Bristol",
+     "Exeter"
+    ]
+   },
+   {
+    "q": "Thomas Becket was murdered here in 1170",
+    "right": "Canterbury",
+    "wrong": [
+     "Rochester",
+     "Guildford",
+     "St Albans"
+    ]
+   },
+   {
+    "q": "The tombs of St Cuthbert and the Venerable Bede",
+    "right": "Durham",
+    "wrong": [
+     "Carlisle",
+     "Ripon",
+     "Newcastle"
+    ]
+   },
+   {
+    "q": "The Great East Window in the Minster, the size of a tennis court",
+    "right": "York",
+    "wrong": [
+     "Ripon",
+     "Beverley",
+     "Carlisle"
+    ]
+   },
+   {
+    "q": "Jane Austen's grave",
+    "right": "Winchester",
+    "wrong": [
+     "Guildford",
+     "Rochester",
+     "Exeter"
+    ]
+   },
+   {
+    "q": "Richard III was reburied here in 2015",
+    "right": "Leicester",
+    "wrong": [
+     "Nottingham",
+     "Derby",
+     "Southwell"
+    ]
+   },
+   {
+    "q": "The 'Ship of the Fens'",
+    "right": "Ely",
+    "wrong": [
+     "Cambridge",
+     "Bury St Edmunds",
+     "St Albans"
+    ]
+   },
+   {
+    "q": "Basil Spence's building beside the ruins bombed in 1940",
+    "right": "Coventry",
+    "wrong": [
+     "Birmingham",
+     "Manchester",
+     "Sheffield"
+    ]
+   },
+   {
+    "q": "The Catholic cathedral nicknamed 'Paddy's Wigwam'",
+    "right": "Liverpool",
+    "wrong": [
+     "Manchester",
+     "Bradford",
+     "Sheffield"
+    ]
+   },
+   {
+    "q": "Wren's dome and the Whispering Gallery",
+    "right": "London",
+    "wrong": [
+     "St Albans",
+     "Oxford",
+     "Rochester"
+    ]
+   },
+   {
+    "q": "Edward II's tomb, and cloisters used as Hogwarts corridors",
+    "right": "Gloucester",
+    "wrong": [
+     "Bristol",
+     "Bath",
+     "Oxford"
+    ]
+   },
+   {
+    "q": "King John's tomb",
+    "right": "Worcester",
+    "wrong": [
+     "Shrewsbury",
+     "Bristol",
+     "Chester"
+    ]
+   },
+   {
+    "q": "England's largest monastic cloisters, with Edith Cavell buried outside",
+    "right": "Norwich",
+    "wrong": [
+     "Bury St Edmunds",
+     "Cambridge",
+     "Ipswich"
+    ]
+   },
+   {
+    "q": "Catherine of Aragon's grave",
+    "right": "Peterborough",
+    "wrong": [
+     "Oxford",
+     "Southwell",
+     "St Albans"
+    ]
+   },
+   {
+    "q": "The only medieval English cathedral with three spires",
+    "right": "Lichfield",
+    "wrong": [
+     "Derby",
+     "Southwell",
+     "Shrewsbury"
+    ]
+   },
+   {
+    "q": "St Mungo's tomb in the crypt",
+    "right": "Glasgow",
+    "wrong": [
+     "Edinburgh",
+     "St Andrews",
+     "Aberdeen"
+    ]
+   },
+   {
+    "q": "A Marc Chagall window, and a spire you can see from the sea",
+    "right": "Chichester",
+    "wrong": [
+     "Truro",
+     "Exeter",
+     "Rochester"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which famous Lord?",
+  "target": 10,
+  "category": "Famous people",
+  "tags": [
+   "lords",
+   "who's who"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Vanished in 1974 after his children's nanny was murdered",
+    "right": "Lucan",
+    "wrong": [
+     "Lichfield",
+     "Snowdon",
+     "Montagu"
+    ]
+   },
+   {
+    "q": "His column stands in Trafalgar Square",
+    "right": "Nelson",
+    "wrong": [
+     "Raglan",
+     "Palmerston",
+     "Mountbatten"
+    ]
+   },
+   {
+    "q": "The Romantic poet called 'mad, bad and dangerous to know'",
+    "right": "Byron",
+    "wrong": [
+     "Rochester",
+     "Palmerston",
+     "Montagu"
+    ]
+   },
+   {
+    "q": "His face pointed out from the 'Your Country Needs You' poster",
+    "right": "Kitchener",
+    "wrong": [
+     "Haig",
+     "Raglan",
+     "Mountbatten"
+    ]
+   },
+   {
+    "q": "'You're fired!' on The Apprentice",
+    "right": "Sugar",
+    "wrong": [
+     "Archer",
+     "Sainsbury",
+     "Bragg"
+    ]
+   },
+   {
+    "q": "He Who Must Not Be Named",
+    "right": "Voldemort",
+    "wrong": [
+     "Asriel",
+     "Summerisle",
+     "Business"
+    ]
+   },
+   {
+    "q": "The nickname of William Joyce, who broadcast Nazi propaganda to Britain",
+    "right": "Haw-Haw",
+    "wrong": [
+     "Beaverbrook",
+     "Rothermere",
+     "Reith"
+    ]
+   },
+   {
+    "q": "The short-tempered ruler of Duloc in Shrek",
+    "right": "Farquaad",
+    "wrong": [
+     "Business",
+     "Asriel",
+     "Summerisle"
+    ]
+   },
+   {
+    "q": "Ran the London 2012 Olympics after winning 1500m gold twice",
+    "right": "Coe",
+    "wrong": [
+     "Botham",
+     "Bragg",
+     "Winston"
+    ]
+   },
+   {
+    "q": "The Poet Laureate who wrote 'The Charge of the Light Brigade'",
+    "right": "Tennyson",
+    "wrong": [
+     "Rochester",
+     "Lister",
+     "Rayleigh"
+    ]
+   },
+   {
+    "q": "The top-hatted toff of the Beano, 'and His Pals'",
+    "right": "Snooty",
+    "wrong": [
+     "Percy",
+     "Emsworth",
+     "Marchmain"
+    ]
+   },
+   {
+    "q": "Robert Crawley, head of the family in Downton Abbey",
+    "right": "Grantham",
+    "wrong": [
+     "Marchmain",
+     "Emsworth",
+     "Summerisle"
+    ]
+   },
+   {
+    "q": "Took the Parthenon marbles to London",
+    "right": "Elgin",
+    "wrong": [
+     "Montagu",
+     "Lichfield",
+     "Palmerston"
+    ]
+   },
+   {
+    "q": "Led the Charge of the Light Brigade and gave his name to a knitted jacket",
+    "right": "Cardigan",
+    "wrong": [
+     "Raglan",
+     "Mountbatten",
+     "Palmerston"
+    ]
+   },
+   {
+    "q": "Said to have put meat between bread so he needn't leave the card table",
+    "right": "Sandwich",
+    "wrong": [
+     "Raglan",
+     "Lichfield",
+     "Rochester"
+    ]
+   },
+   {
+    "q": "Paid for Howard Carter's hunt for Tutankhamun's tomb",
+    "right": "Carnarvon",
+    "wrong": [
+     "Montagu",
+     "Rothermere",
+     "Beaverbrook"
+    ]
+   },
+   {
+    "q": "The absolute temperature scale is named after him",
+    "right": "Kelvin",
+    "wrong": [
+     "Rayleigh",
+     "Lister",
+     "Rutherford"
+    ]
+   },
+   {
+    "q": "Founded the Scouts",
+    "right": "Baden-Powell",
+    "wrong": [
+     "Reith",
+     "Mountbatten",
+     "Lister"
+    ]
+   },
+   {
+    "q": "Stephen Fry's Elizabethan courtier in Blackadder II",
+    "right": "Melchett",
+    "wrong": [
+     "Percy",
+     "Emsworth",
+     "Marchmain"
+    ]
+   },
+   {
+    "q": "Rik Mayall's 'Woof!' ladies' man in Blackadder",
+    "right": "Flashheart",
+    "wrong": [
+     "Percy",
+     "Emsworth",
+     "Asriel"
+    ]
+   }
+  ]
+ }
+]
