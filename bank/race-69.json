@@ -1,0 +1,388 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which famous '-wood'?",
+  "target": 10,
+  "category": "General knowledge",
+  "tags": [
+   "wordplay",
+   "who's who"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "California's film capital",
+    "right": "Hollywood",
+    "wrong": [
+     "Inglewood",
+     "Burbank",
+     "Hollyoaks"
+    ]
+   },
+   {
+    "q": "Mumbai's Hindi-language film industry",
+    "right": "Bollywood",
+    "wrong": [
+     "Tollywood",
+     "Kollywood",
+     "Mollywood"
+    ]
+   },
+   {
+    "q": "Nigeria's booming film industry",
+    "right": "Nollywood",
+    "wrong": [
+     "Tollywood",
+     "Kollywood",
+     "Riverwood"
+    ]
+   },
+   {
+    "q": "Robin Hood's forest",
+    "right": "Sherwood",
+    "wrong": [
+     "Epping",
+     "Arden",
+     "Savernake"
+    ]
+   },
+   {
+    "q": "The Essex town of The Only Way Is Essex",
+    "right": "Brentwood",
+    "wrong": [
+     "Billericay",
+     "Basildon",
+     "Romford"
+    ]
+   },
+   {
+    "q": "The Lancashire port, and drummer Mick of the Mac",
+    "right": "Fleetwood",
+    "wrong": [
+     "Blackpool",
+     "Morecambe",
+     "Heysham"
+    ]
+   },
+   {
+    "q": "Clint, the Man with No Name",
+    "right": "Eastwood",
+    "wrong": [
+     "Easton",
+     "Eastman",
+     "Eastham"
+    ]
+   },
+   {
+    "q": "Vivienne, queen of punk fashion",
+    "right": "Westwood",
+    "wrong": [
+     "Westfield",
+     "Weston",
+     "Westbrook"
+    ]
+   },
+   {
+    "q": "Margaret, author of The Handmaid's Tale",
+    "right": "Atwood",
+    "wrong": [
+     "Attwell",
+     "Atkins",
+     "Atwell"
+    ]
+   },
+   {
+    "q": "Jonny, Radiohead's guitarist",
+    "right": "Greenwood",
+    "wrong": [
+     "Greenfield",
+     "Greenway",
+     "Greenhalgh"
+    ]
+   },
+   {
+    "q": "Frank, the scheming politician in House of Cards",
+    "right": "Underwood",
+    "wrong": [
+     "Underhill",
+     "Underdown",
+     "Underworld"
+    ]
+   },
+   {
+    "q": "Josiah, the Staffordshire potter",
+    "right": "Wedgwood",
+    "wrong": [
+     "Spode",
+     "Doulton",
+     "Minton"
+    ]
+   },
+   {
+    "q": "The admiral who took over at Trafalgar, with a monument at Tynemouth",
+    "right": "Collingwood",
+    "wrong": [
+     "Hardy",
+     "Codrington",
+     "Jervis"
+    ]
+   },
+   {
+    "q": "Matilda's awful family, and a London prison's 'Scrubs'",
+    "right": "Wormwood",
+    "wrong": [
+     "Trunchbull",
+     "Holloway",
+     "Pentonville"
+    ]
+   },
+   {
+    "q": "The world's tallest trees",
+    "right": "Redwood",
+    "wrong": [
+     "Douglas fir",
+     "Mountain ash",
+     "Kauri"
+    ]
+   },
+   {
+    "q": "Wood washed up on the beach, and a Travis hit",
+    "right": "Driftwood",
+    "wrong": [
+     "Flotsam",
+     "Jetsam",
+     "Seawood"
+    ]
+   },
+   {
+    "q": "The fragrant Indian wood used in incense",
+    "right": "Sandalwood",
+    "wrong": [
+     "Teak",
+     "Mahogany",
+     "Ebony"
+    ]
+   },
+   {
+    "q": "Thin layers of wood glued together",
+    "right": "Plywood",
+    "wrong": [
+     "Chipboard",
+     "Hardboard",
+     "MDF"
+    ]
+   },
+   {
+    "q": "Crystal Palace stands in Upper ...",
+    "right": "Norwood",
+    "wrong": [
+     "Sydenham",
+     "Penge",
+     "Anerley"
+    ]
+   },
+   {
+    "q": "Christopher, whose Berlin stories became Cabaret",
+    "right": "Isherwood",
+    "wrong": [
+     "Auden",
+     "Spender",
+     "Waugh"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which famous 'Road'?",
+  "target": 10,
+  "category": "General knowledge",
+  "tags": [
+   "roads",
+   "wordplay"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The cheapest square on the London Monopoly board",
+    "right": "Old Kent",
+    "wrong": [
+     "Mile End",
+     "Bow",
+     "Lambeth"
+    ]
+   },
+   {
+    "q": "The other brown square on the London Monopoly board",
+    "right": "Whitechapel",
+    "wrong": [
+     "Mile End",
+     "Bow",
+     "Lambeth"
+    ]
+   },
+   {
+    "q": "The ancient trade route from China to the Mediterranean",
+    "right": "Silk",
+    "wrong": [
+     "Spice",
+     "Amber",
+     "Tea"
+    ]
+   },
+   {
+    "q": "Dorothy follows it to the Emerald City",
+    "right": "Yellow Brick",
+    "wrong": [
+     "Golden Brick",
+     "Red Brick",
+     "Emerald"
+    ]
+   },
+   {
+    "q": "The Second World War supply route over the mountains into China",
+    "right": "Burma",
+    "wrong": [
+     "Siam",
+     "Hump",
+     "Mandalay"
+    ]
+   },
+   {
+    "q": "Leeds United's ground",
+    "right": "Elland",
+    "wrong": [
+     "Valley",
+     "Bramall",
+     "Oakwell"
+    ]
+   },
+   {
+    "q": "QPR's ground",
+    "right": "Loftus",
+    "wrong": [
+     "Craven",
+     "Griffin",
+     "Upton"
+    ]
+   },
+   {
+    "q": "Norwich City's ground",
+    "right": "Carrow",
+    "wrong": [
+     "Abbey",
+     "Layer",
+     "Kenilworth"
+    ]
+   },
+   {
+    "q": "Ipswich Town's ground",
+    "right": "Portman",
+    "wrong": [
+     "Layer",
+     "Abbey",
+     "Kenilworth"
+    ]
+   },
+   {
+    "q": "Watford's ground",
+    "right": "Vicarage",
+    "wrong": [
+     "Kenilworth",
+     "Griffin",
+     "Adams"
+    ]
+   },
+   {
+    "q": "Springsteen's song where 'the screen door slams, Mary's dress waves'",
+    "right": "Thunder",
+    "wrong": [
+     "Lightning",
+     "Rocky",
+     "Dirt"
+    ]
+   },
+   {
+    "q": "The Beatles' last US number one, 'The ... Road'",
+    "right": "Long and Winding",
+    "wrong": [
+     "Long and Dusty",
+     "Lonely and Winding",
+     "Long and Lonesome"
+    ]
+   },
+   {
+    "q": "John Denver's 'Take Me Home, ... Roads'",
+    "right": "Country",
+    "wrong": [
+     "Mountain",
+     "Western",
+     "Valley"
+    ]
+   },
+   {
+    "q": "The London street of electronics shops, ending at Centre Point",
+    "right": "Tottenham Court",
+    "wrong": [
+     "Euston",
+     "Charing Cross",
+     "Gray's Inn"
+    ]
+   },
+   {
+    "q": "The South Kensington road named after the Great Exhibition",
+    "right": "Exhibition",
+    "wrong": [
+     "Cromwell",
+     "Albert",
+     "Prince Consort"
+    ]
+   },
+   {
+    "q": "Madame Tussauds stands on it",
+    "right": "Marylebone",
+    "wrong": [
+     "Euston",
+     "Edgware",
+     "Great Portland"
+    ]
+   },
+   {
+    "q": "Tom Hanks's 2002 gangster film, 'Road to ...'",
+    "right": "Perdition",
+    "wrong": [
+     "Redemption",
+     "Salvation",
+     "Damnation"
+    ]
+   },
+   {
+    "q": "Talking Heads' 1985 hit, 'Road to ...'",
+    "right": "Nowhere",
+    "wrong": [
+     "Somewhere",
+     "Paradise",
+     "Ruin"
+    ]
+   },
+   {
+    "q": "Hope and Crosby's 1947 'Road to' film, set in Brazil",
+    "right": "Rio",
+    "wrong": [
+     "Morocco",
+     "Zanzibar",
+     "Singapore"
+    ]
+   },
+   {
+    "q": "The old A1, from London to Edinburgh",
+    "right": "Great North",
+    "wrong": [
+     "Great West",
+     "Old North",
+     "King's"
+    ]
+   }
+  ]
+ }
+]
