@@ -1,0 +1,683 @@
+[
+ {
+  "type": "sort",
+  "text": "A Nirvana song or a Pearl Jam song?",
+  "categories": [
+   "Nirvana",
+   "Pearl Jam"
+  ],
+  "items": [
+   {
+    "text": "Smells Like Teen Spirit",
+    "category": "Nirvana"
+   },
+   {
+    "text": "Come as You Are",
+    "category": "Nirvana"
+   },
+   {
+    "text": "Lithium",
+    "category": "Nirvana"
+   },
+   {
+    "text": "Heart-Shaped Box",
+    "category": "Nirvana"
+   },
+   {
+    "text": "Alive",
+    "category": "Pearl Jam"
+   },
+   {
+    "text": "Jeremy",
+    "category": "Pearl Jam"
+   },
+   {
+    "text": "Even Flow",
+    "category": "Pearl Jam"
+   },
+   {
+    "text": "Black",
+    "category": "Pearl Jam"
+   }
+  ],
+  "category": "Music",
+  "tags": [
+   "Nirvana",
+   "Pearl Jam",
+   "grunge"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "An opera by Mozart or by Wagner?",
+  "categories": [
+   "Mozart",
+   "Wagner"
+  ],
+  "items": [
+   {
+    "text": "The Magic Flute",
+    "category": "Mozart"
+   },
+   {
+    "text": "Don Giovanni",
+    "category": "Mozart"
+   },
+   {
+    "text": "The Marriage of Figaro",
+    "category": "Mozart"
+   },
+   {
+    "text": "Così fan tutte",
+    "category": "Mozart"
+   },
+   {
+    "text": "Tristan und Isolde",
+    "category": "Wagner"
+   },
+   {
+    "text": "Parsifal",
+    "category": "Wagner"
+   },
+   {
+    "text": "Lohengrin",
+    "category": "Wagner"
+   },
+   {
+    "text": "Tannhäuser",
+    "category": "Wagner"
+   }
+  ],
+  "category": "Music",
+  "tags": [
+   "opera",
+   "Mozart",
+   "Wagner"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "Painted by Picasso or by Dalí?",
+  "categories": [
+   "Picasso",
+   "Dalí"
+  ],
+  "items": [
+   {
+    "text": "Guernica",
+    "category": "Picasso"
+   },
+   {
+    "text": "Les Demoiselles d'Avignon",
+    "category": "Picasso"
+   },
+   {
+    "text": "The Old Guitarist",
+    "category": "Picasso"
+   },
+   {
+    "text": "The Weeping Woman",
+    "category": "Picasso"
+   },
+   {
+    "text": "The Persistence of Memory",
+    "category": "Dalí"
+   },
+   {
+    "text": "The Elephants",
+    "category": "Dalí"
+   },
+   {
+    "text": "Swans Reflecting Elephants",
+    "category": "Dalí"
+   },
+   {
+    "text": "Christ of Saint John of the Cross",
+    "category": "Dalí"
+   }
+  ],
+  "category": "Art",
+  "tags": [
+   "Picasso",
+   "Dalí",
+   "painting"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "A work by Leonardo da Vinci or by Michelangelo?",
+  "categories": [
+   "Leonardo",
+   "Michelangelo"
+  ],
+  "items": [
+   {
+    "text": "Mona Lisa",
+    "category": "Leonardo"
+   },
+   {
+    "text": "The Last Supper",
+    "category": "Leonardo"
+   },
+   {
+    "text": "Lady with an Ermine",
+    "category": "Leonardo"
+   },
+   {
+    "text": "Vitruvian Man",
+    "category": "Leonardo"
+   },
+   {
+    "text": "The Creation of Adam",
+    "category": "Michelangelo"
+   },
+   {
+    "text": "The Last Judgment",
+    "category": "Michelangelo"
+   },
+   {
+    "text": "David",
+    "category": "Michelangelo"
+   },
+   {
+    "text": "Pietà",
+    "category": "Michelangelo"
+   }
+  ],
+  "category": "Art",
+  "tags": [
+   "Leonardo da Vinci",
+   "Michelangelo",
+   "Renaissance"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A 'Toy Story' character or a 'Monsters, Inc.' character?",
+  "categories": [
+   "Toy Story",
+   "Monsters, Inc."
+  ],
+  "items": [
+   {
+    "text": "Woody",
+    "category": "Toy Story"
+   },
+   {
+    "text": "Rex",
+    "category": "Toy Story"
+   },
+   {
+    "text": "Hamm",
+    "category": "Toy Story"
+   },
+   {
+    "text": "Slinky Dog",
+    "category": "Toy Story"
+   },
+   {
+    "text": "Sulley",
+    "category": "Monsters, Inc."
+   },
+   {
+    "text": "Mike Wazowski",
+    "category": "Monsters, Inc."
+   },
+   {
+    "text": "Boo",
+    "category": "Monsters, Inc."
+   },
+   {
+    "text": "Randall",
+    "category": "Monsters, Inc."
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "Pixar",
+   "Toy Story",
+   "Monsters, Inc."
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A Hogwarts teacher or someone who worked at the Ministry of Magic?",
+  "categories": [
+   "Hogwarts teacher",
+   "Ministry of Magic"
+  ],
+  "items": [
+   {
+    "text": "Minerva McGonagall",
+    "category": "Hogwarts teacher"
+   },
+   {
+    "text": "Filius Flitwick",
+    "category": "Hogwarts teacher"
+   },
+   {
+    "text": "Pomona Sprout",
+    "category": "Hogwarts teacher"
+   },
+   {
+    "text": "Horace Slughorn",
+    "category": "Hogwarts teacher"
+   },
+   {
+    "text": "Cornelius Fudge",
+    "category": "Ministry of Magic"
+   },
+   {
+    "text": "Arthur Weasley",
+    "category": "Ministry of Magic"
+   },
+   {
+    "text": "Kingsley Shacklebolt",
+    "category": "Ministry of Magic"
+   },
+   {
+    "text": "Barty Crouch Sr",
+    "category": "Ministry of Magic"
+   }
+  ],
+  "category": "Books",
+  "tags": [
+   "Harry Potter"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A 'Beano' character or a 'Dandy' character?",
+  "categories": [
+   "The Beano",
+   "The Dandy"
+  ],
+  "items": [
+   {
+    "text": "Dennis the Menace",
+    "category": "The Beano"
+   },
+   {
+    "text": "Minnie the Minx",
+    "category": "The Beano"
+   },
+   {
+    "text": "Roger the Dodger",
+    "category": "The Beano"
+   },
+   {
+    "text": "The Bash Street Kids",
+    "category": "The Beano"
+   },
+   {
+    "text": "Desperate Dan",
+    "category": "The Dandy"
+   },
+   {
+    "text": "Korky the Cat",
+    "category": "The Dandy"
+   },
+   {
+    "text": "Bananaman",
+    "category": "The Dandy"
+   },
+   {
+    "text": "Beryl the Peril",
+    "category": "The Dandy"
+   }
+  ],
+  "category": "Children's books",
+  "tags": [
+   "comics",
+   "The Beano",
+   "The Dandy"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Has won the European Cup or Champions League, or never has?",
+  "categories": [
+   "Has won it",
+   "Never"
+  ],
+  "items": [
+   {
+    "text": "Nottingham Forest",
+    "category": "Has won it"
+   },
+   {
+    "text": "Aston Villa",
+    "category": "Has won it"
+   },
+   {
+    "text": "Celtic",
+    "category": "Has won it"
+   },
+   {
+    "text": "Liverpool",
+    "category": "Has won it"
+   },
+   {
+    "text": "Arsenal",
+    "category": "Never"
+   },
+   {
+    "text": "Tottenham Hotspur",
+    "category": "Never"
+   },
+   {
+    "text": "Newcastle United",
+    "category": "Never"
+   },
+   {
+    "text": "Everton",
+    "category": "Never"
+   }
+  ],
+  "category": "Football",
+  "tags": [
+   "European Cup",
+   "Champions League"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Netflix series or an Amazon Prime Video series?",
+  "categories": [
+   "Netflix",
+   "Prime Video"
+  ],
+  "items": [
+   {
+    "text": "Stranger Things",
+    "category": "Netflix"
+   },
+   {
+    "text": "The Crown",
+    "category": "Netflix"
+   },
+   {
+    "text": "Bridgerton",
+    "category": "Netflix"
+   },
+   {
+    "text": "Squid Game",
+    "category": "Netflix"
+   },
+   {
+    "text": "The Boys",
+    "category": "Prime Video"
+   },
+   {
+    "text": "Reacher",
+    "category": "Prime Video"
+   },
+   {
+    "text": "The Grand Tour",
+    "category": "Prime Video"
+   },
+   {
+    "text": "Clarkson's Farm",
+    "category": "Prime Video"
+   }
+  ],
+  "category": "TV",
+  "tags": [
+   "Netflix",
+   "Prime Video",
+   "streaming"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A capital in South America or in Central America?",
+  "categories": [
+   "South America",
+   "Central America"
+  ],
+  "items": [
+   {
+    "text": "Lima",
+    "category": "South America"
+   },
+   {
+    "text": "Bogotá",
+    "category": "South America"
+   },
+   {
+    "text": "Quito",
+    "category": "South America"
+   },
+   {
+    "text": "Santiago",
+    "category": "South America"
+   },
+   {
+    "text": "Managua",
+    "category": "Central America"
+   },
+   {
+    "text": "Tegucigalpa",
+    "category": "Central America"
+   },
+   {
+    "text": "San José",
+    "category": "Central America"
+   },
+   {
+    "text": "Guatemala City",
+    "category": "Central America"
+   }
+  ],
+  "category": "World geography",
+  "tags": [
+   "capital cities",
+   "Latin America"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "A word English borrowed from Italian or from Spanish?",
+  "categories": [
+   "Italian",
+   "Spanish"
+  ],
+  "items": [
+   {
+    "text": "Opera",
+    "category": "Italian"
+   },
+   {
+    "text": "Piano",
+    "category": "Italian"
+   },
+   {
+    "text": "Graffiti",
+    "category": "Italian"
+   },
+   {
+    "text": "Fiasco",
+    "category": "Italian"
+   },
+   {
+    "text": "Patio",
+    "category": "Spanish"
+   },
+   {
+    "text": "Mosquito",
+    "category": "Spanish"
+   },
+   {
+    "text": "Tornado",
+    "category": "Spanish"
+   },
+   {
+    "text": "Siesta",
+    "category": "Spanish"
+   }
+  ],
+  "category": "Words and language",
+  "tags": [
+   "loanwords",
+   "Italian",
+   "Spanish"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A member of Queen or a member of Led Zeppelin?",
+  "categories": [
+   "Queen",
+   "Led Zeppelin"
+  ],
+  "items": [
+   {
+    "text": "Freddie Mercury",
+    "category": "Queen"
+   },
+   {
+    "text": "Brian May",
+    "category": "Queen"
+   },
+   {
+    "text": "Roger Taylor",
+    "category": "Queen"
+   },
+   {
+    "text": "John Deacon",
+    "category": "Queen"
+   },
+   {
+    "text": "Robert Plant",
+    "category": "Led Zeppelin"
+   },
+   {
+    "text": "Jimmy Page",
+    "category": "Led Zeppelin"
+   },
+   {
+    "text": "John Paul Jones",
+    "category": "Led Zeppelin"
+   },
+   {
+    "text": "John Bonham",
+    "category": "Led Zeppelin"
+   }
+  ],
+  "category": "Music",
+  "tags": [
+   "Queen",
+   "Led Zeppelin",
+   "rock"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Has fronted or judged 'Bake Off' or 'MasterChef'?",
+  "categories": [
+   "Bake Off",
+   "MasterChef"
+  ],
+  "items": [
+   {
+    "text": "Mary Berry",
+    "category": "Bake Off"
+   },
+   {
+    "text": "Paul Hollywood",
+    "category": "Bake Off"
+   },
+   {
+    "text": "Mel Giedroyc",
+    "category": "Bake Off"
+   },
+   {
+    "text": "Sue Perkins",
+    "category": "Bake Off"
+   },
+   {
+    "text": "Loyd Grossman",
+    "category": "MasterChef"
+   },
+   {
+    "text": "John Torode",
+    "category": "MasterChef"
+   },
+   {
+    "text": "Gregg Wallace",
+    "category": "MasterChef"
+   },
+   {
+    "text": "Monica Galetti",
+    "category": "MasterChef"
+   }
+  ],
+  "category": "TV",
+  "tags": [
+   "Bake Off",
+   "MasterChef",
+   "cookery"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A London Underground line or a London Overground line?",
+  "categories": [
+   "Underground",
+   "Overground"
+  ],
+  "items": [
+   {
+    "text": "Bakerloo",
+    "category": "Underground"
+   },
+   {
+    "text": "Jubilee",
+    "category": "Underground"
+   },
+   {
+    "text": "Victoria",
+    "category": "Underground"
+   },
+   {
+    "text": "Piccadilly",
+    "category": "Underground"
+   },
+   {
+    "text": "Lioness",
+    "category": "Overground"
+   },
+   {
+    "text": "Mildmay",
+    "category": "Overground"
+   },
+   {
+    "text": "Windrush",
+    "category": "Overground"
+   },
+   {
+    "text": "Suffragette",
+    "category": "Overground"
+   }
+  ],
+  "category": "Travel",
+  "tags": [
+   "London Underground",
+   "London Overground"
+  ],
+  "difficulty": "hard"
+ }
+]
