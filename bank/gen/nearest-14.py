@@ -18,7 +18,7 @@ Q = [
  ("Roughly how much does a full-size football weigh, in grams?", 430, "g", 120, "hard", "Football", False),
  ("At a free kick, how many yards away must the wall stand?", 10, "yards", 4, "medium", "Football", False),
  ("How high is a full-size football goal, in feet?", 8, "feet", 3, "medium", "Football", False),
- ("Measure a full-size football goal from post to post. How many feet is it?", 24, "feet", 8, "medium", "Football", False),
+ ("From one upright to the other, how wide is the goal at Wembley, in feet?", 24, "feet", 8, "medium", "Football", False),
  ("Roughly how much did a Paris 2024 Olympic gold medal weigh, in grams?", 529, "g", 200, "hard", "Olympics", True),
  ("Since 2024, what is the most horses allowed to start the Grand National?", 34, "horses", 8, "hard", "Sport", False),
  ("The 2025 London Marathon set a world record for finishers. Roughly how many crossed the line, to the nearest thousand?", 56000, "runners", 15000, "hard", "Sport", True),
