@@ -34,7 +34,7 @@ d(["Box set", "Boxset", "Box-set"], "TV", "easy", e("SET", s=6, style="box"))
 d(["Flipping heck"], "Phrase", "medium", e("HECK", s=6, flip="v"))
 d(["Turning point"], "Phrase", "medium", e("POINT", s=5, rot=90))
 d(["Leaning Tower of Pisa", "The Leaning Tower of Pisa"], "Places", "medium", e("PISA", s=6, rot=12))
-d(["Double Dutch"], "Phrase", "medium", e("DUTCH  DUTCH", s=5))
+d(["Double Dutch"], "Phrase", "medium", e("DUTCH  DUTCH", s=4))
 # things in, among and out of things
 d(["Pie in the sky"], "Phrase", "medium", e("SKpieY", s=6))
 d(["Frog in the throat", "A frog in your throat", "A frog in the throat"], "Phrase", "medium", e("THRfrogOAT", s=5))

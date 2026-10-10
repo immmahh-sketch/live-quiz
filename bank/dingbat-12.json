@@ -1,31 +1,104 @@
 [
  {
   "answers": [
-   "Red wine"
+   "Grey's Anatomy",
+   "Greys Anatomy"
   ],
   "elements": [
    {
-    "t": "WINE",
+    "t": "ANATOMY",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "color": "#8a8f94"
+   }
+  ],
+  "category": "TV",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Silver fox"
+  ],
+  "elements": [
+   {
+    "t": "FOX",
     "x": 50,
     "y": 50,
     "s": 6,
-    "color": "#d42020"
+    "color": "#9aa0a6"
    }
   ],
-  "category": "Food and drink",
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Golden eagle"
+  ],
+  "elements": [
+   {
+    "t": "EAGLE",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#c9a227"
+   }
+  ],
+  "category": "Nature",
   "tags": [],
   "difficulty": "easy"
  },
  {
   "answers": [
-   "Pink gin"
+   "Golden ticket",
+   "The golden ticket"
   ],
   "elements": [
    {
-    "t": "GIN",
+    "t": "TICKET",
     "x": 50,
     "y": 50,
-    "s": 6,
+    "s": 5,
+    "color": "#c9a227"
+   }
+  ],
+  "category": "Children's books",
+  "tags": [
+   "Willy Wonka"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Redcurrant",
+   "Redcurrants"
+  ],
+  "elements": [
+   {
+    "t": "CURRANT",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "color": "#d42020"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Pink lemonade"
+  ],
+  "elements": [
+   {
+    "t": "LEMONADE",
+    "x": 50,
+    "y": 50,
+    "s": 4,
     "color": "#e8579a"
    }
   ],
@@ -35,48 +108,65 @@
  },
  {
   "answers": [
-   "Green beans"
+   "Green card"
   ],
   "elements": [
    {
-    "t": "BEANS",
+    "t": "CARD",
     "x": 50,
     "y": 50,
     "s": 6,
     "color": "#1f9a3a"
    }
   ],
-  "category": "Food and drink",
+  "category": "Phrase",
   "tags": [],
-  "difficulty": "easy"
+  "difficulty": "medium"
  },
  {
   "answers": [
-   "Blue jeans"
+   "Red kite"
   ],
   "elements": [
    {
-    "t": "JEANS",
+    "t": "KITE",
     "x": 50,
     "y": 50,
     "s": 6,
-    "color": "#1f5fd4"
+    "color": "#d42020"
    }
   ],
-  "category": "Fashion",
+  "category": "Nature",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Brown bear"
+  ],
+  "elements": [
+   {
+    "t": "BEAR",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#7a4a1e"
+   }
+  ],
+  "category": "Nature",
   "tags": [],
   "difficulty": "easy"
  },
  {
   "answers": [
-   "Orange squash"
+   "Orange peel"
   ],
   "elements": [
    {
-    "t": "SQUASH",
+    "t": "PEEL",
     "x": 50,
     "y": 50,
-    "s": 5,
+    "s": 6,
     "color": "#e07a00"
    }
   ],
@@ -86,206 +176,15 @@
  },
  {
   "answers": [
-   "Golden syrup"
+   "Big cat",
+   "Big cats"
   ],
   "elements": [
    {
-    "t": "SYRUP",
-    "x": 50,
-    "y": 50,
-    "s": 6,
-    "color": "#c9a227"
-   }
-  ],
-  "category": "Food and drink",
-  "tags": [],
-  "difficulty": "easy"
- },
- {
-  "answers": [
-   "Silver Jubilee",
-   "Silver jubilee"
-  ],
-  "elements": [
-   {
-    "t": "JUBILEE",
-    "x": 50,
-    "y": 50,
-    "s": 5,
-    "color": "#9aa0a6"
-   }
-  ],
-  "category": "History",
-  "tags": [],
-  "difficulty": "medium"
- },
- {
-  "answers": [
-   "Yellow jersey",
-   "The yellow jersey"
-  ],
-  "elements": [
-   {
-    "t": "JERSEY",
-    "x": 50,
-    "y": 50,
-    "s": 5,
-    "color": "#e0b400"
-   }
-  ],
-  "category": "Sport",
-  "tags": [
-   "Tour de France"
-  ],
-  "difficulty": "medium"
- },
- {
-  "answers": [
-   "Brown sugar"
-  ],
-  "elements": [
-   {
-    "t": "SUGAR",
-    "x": 50,
-    "y": 50,
-    "s": 6,
-    "color": "#7a4a1e"
-   }
-  ],
-  "category": "Food and drink",
-  "tags": [],
-  "difficulty": "easy"
- },
- {
-  "answers": [
-   "Big Fish"
-  ],
-  "elements": [
-   {
-    "t": "FISH",
+    "t": "CAT",
     "x": 50,
     "y": 50,
     "s": 6
-   }
-  ],
-  "category": "Film",
-  "tags": [
-   "Tim Burton"
-  ],
-  "difficulty": "medium"
- },
- {
-  "answers": [
-   "Big Dipper",
-   "The Big Dipper"
-  ],
-  "elements": [
-   {
-    "t": "DIPPER",
-    "x": 50,
-    "y": 50,
-    "s": 6
-   }
-  ],
-  "category": "Everyday life",
-  "tags": [],
-  "difficulty": "medium"
- },
- {
-  "answers": [
-   "Small wonder",
-   "Small wonders"
-  ],
-  "elements": [
-   {
-    "t": "wonder",
-    "x": 50,
-    "y": 50,
-    "s": 1
-   }
-  ],
-  "category": "Phrase",
-  "tags": [],
-  "difficulty": "medium"
- },
- {
-  "answers": [
-   "Top Trumps"
-  ],
-  "elements": [
-   {
-    "t": "TRUMPS",
-    "x": 50,
-    "y": 8,
-    "s": 5
-   }
-  ],
-  "category": "Games and toys",
-  "tags": [],
-  "difficulty": "easy"
- },
- {
-  "answers": [
-   "Topknot",
-   "Top knot"
-  ],
-  "elements": [
-   {
-    "t": "KNOT",
-    "x": 50,
-    "y": 8,
-    "s": 5
-   }
-  ],
-  "category": "Fashion",
-  "tags": [],
-  "difficulty": "medium"
- },
- {
-  "answers": [
-   "Underline"
-  ],
-  "elements": [
-   {
-    "t": "LINE",
-    "x": 50,
-    "y": 50,
-    "s": 6,
-    "style": "underline"
-   }
-  ],
-  "category": "Words and language",
-  "tags": [],
-  "difficulty": "easy"
- },
- {
-  "answers": [
-   "Understudy"
-  ],
-  "elements": [
-   {
-    "t": "STUDY",
-    "x": 50,
-    "y": 50,
-    "s": 6,
-    "style": "underline"
-   }
-  ],
-  "category": "Theatre",
-  "tags": [],
-  "difficulty": "medium"
- },
- {
-  "answers": [
-   "Underwater"
-  ],
-  "elements": [
-   {
-    "t": "WATER",
-    "x": 50,
-    "y": 50,
-    "s": 6,
-    "style": "underline"
    }
   ],
   "category": "Nature",
@@ -294,76 +193,112 @@
  },
  {
   "answers": [
-   "Underarm"
+   "Bigfoot",
+   "Big Foot"
   ],
   "elements": [
    {
-    "t": "ARM",
+    "t": "FOOT",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Little toe"
+  ],
+  "elements": [
+   {
+    "t": "toe",
+    "x": 50,
+    "y": 50,
+    "s": 1
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Upper hand",
+   "The upper hand"
+  ],
+  "elements": [
+   {
+    "t": "HAND",
+    "x": 50,
+    "y": 8,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Top floor"
+  ],
+  "elements": [
+   {
+    "t": "FLOOR",
+    "x": 50,
+    "y": 8,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Underpants"
+  ],
+  "elements": [
+   {
+    "t": "PANTS",
     "x": 50,
     "y": 50,
     "s": 6,
     "style": "underline"
    }
   ],
-  "category": "Sport",
-  "tags": [],
-  "difficulty": "medium"
- },
- {
-  "answers": [
-   "Backpack"
-  ],
-  "elements": [
-   {
-    "t": "KCAP",
-    "x": 50,
-    "y": 50,
-    "s": 6
-   }
-  ],
-  "category": "Everyday life",
+  "category": "Phrase",
   "tags": [],
   "difficulty": "easy"
  },
  {
   "answers": [
-   "Backdrop"
+   "Backyard",
+   "Back yard"
   ],
   "elements": [
    {
-    "t": "PORD",
+    "t": "DRAY",
     "x": 50,
     "y": 50,
     "s": 6
    }
   ],
-  "category": "Theatre",
+  "category": "Phrase",
   "tags": [],
-  "difficulty": "medium"
+  "difficulty": "easy"
  },
  {
   "answers": [
-   "Backgammon"
+   "Backstreet",
+   "Back street"
   ],
   "elements": [
    {
-    "t": "NOMMAG",
-    "x": 50,
-    "y": 50,
-    "s": 6
-   }
-  ],
-  "category": "Games and toys",
-  "tags": [],
-  "difficulty": "medium"
- },
- {
-  "answers": [
-   "Backwater"
-  ],
-  "elements": [
-   {
-    "t": "RETAW",
+    "t": "TEERTS",
     "x": 50,
     "y": 50,
     "s": 6
@@ -375,89 +310,96 @@
  },
  {
   "answers": [
-   "Double cream"
+   "Backpacker"
   ],
   "elements": [
    {
-    "t": "CREAM CREAM",
+    "t": "REKCAP",
     "x": 50,
     "y": 50,
-    "s": 4
+    "s": 6
    }
   ],
-  "category": "Food and drink",
+  "category": "Travel",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Double glazing"
+  ],
+  "elements": [
+   {
+    "t": "GLAZING GLAZING",
+    "x": 50,
+    "y": 50,
+    "s": 3
+   }
+  ],
+  "category": "Everyday life",
   "tags": [],
   "difficulty": "easy"
  },
  {
   "answers": [
-   "Double bass"
+   "Double chin"
   ],
   "elements": [
    {
-    "t": "BASS BASS",
+    "t": "CHIN CHIN",
     "x": 50,
     "y": 50,
     "s": 5
    }
   ],
-  "category": "Music",
+  "category": "Phrase",
   "tags": [],
   "difficulty": "easy"
  },
  {
   "answers": [
-   "Double yellow lines",
-   "Double yellows"
+   "Double espresso"
   ],
   "elements": [
    {
-    "t": "LINES LINES",
+    "t": "ESPRESSO ESPRESSO",
     "x": 50,
     "y": 50,
-    "s": 4,
-    "color": "#e0b400"
+    "s": 3
    }
   ],
-  "category": "Everyday life",
+  "category": "Food and drink",
   "tags": [],
   "difficulty": "medium"
  },
  {
   "answers": [
-   "Split hairs",
-   "Splitting hairs"
+   "Crossbow"
   ],
   "elements": [
    {
-    "t": "HA",
-    "x": 38,
-    "y": 46,
-    "s": 6,
-    "rot": -10
-   },
-   {
-    "t": "IRS",
-    "x": 64,
-    "y": 56,
-    "s": 6,
-    "rot": 10
-   }
-  ],
-  "category": "Phrase",
-  "tags": [],
-  "difficulty": "medium"
- },
- {
-  "answers": [
-   "Crossbar"
-  ],
-  "elements": [
-   {
-    "t": "BAR",
+    "t": "BOW",
     "x": 50,
     "y": 50,
     "s": 6,
+    "style": "strike"
+   }
+  ],
+  "category": "History",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Cross-country",
+   "Cross country"
+  ],
+  "elements": [
+   {
+    "t": "COUNTRY",
+    "x": 50,
+    "y": 50,
+    "s": 5,
     "style": "strike"
    }
   ],
@@ -467,16 +409,33 @@
  },
  {
   "answers": [
-   "Crossfire",
-   "Caught in the crossfire"
+   "Cross stitch",
+   "Cross-stitch"
   ],
   "elements": [
    {
-    "t": "FIRE",
+    "t": "STITCH",
     "x": 50,
     "y": 50,
-    "s": 6,
+    "s": 5,
     "style": "strike"
+   }
+  ],
+  "category": "Everyday life",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Fish in a barrel",
+   "Shooting fish in a barrel"
+  ],
+  "elements": [
+   {
+    "t": "BARfishREL",
+    "x": 50,
+    "y": 50,
+    "s": 5
    }
   ],
   "category": "Phrase",
@@ -485,87 +444,70 @@
  },
  {
   "answers": [
-   "The Cat in the Hat",
-   "Cat in the Hat"
+   "Snake in the grass",
+   "A snake in the grass"
   ],
   "elements": [
    {
-    "t": "HAcatT",
+    "t": "GRAsnakeSS",
     "x": 50,
     "y": 50,
-    "s": 6
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Seven Dwarfs",
+   "The Seven Dwarfs"
+  ],
+  "elements": [
+   {
+    "t": "DWARF DWARF DWARF\nDWARF DWARF\nDWARF DWARF",
+    "x": 50,
+    "y": 50,
+    "s": 2
    }
   ],
   "category": "Children's books",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Six Nations",
+   "The Six Nations"
+  ],
+  "elements": [
+   {
+    "t": "NATIONS NATIONS\nNATIONS NATIONS\nNATIONS NATIONS",
+    "x": 50,
+    "y": 50,
+    "s": 2
+   }
+  ],
+  "category": "Sport",
   "tags": [
-   "Dr. Seuss"
+   "rugby"
   ],
   "difficulty": "medium"
  },
  {
   "answers": [
-   "Ship in a bottle"
+   "Nine lives"
   ],
   "elements": [
    {
-    "t": "BOTshipTLE",
+    "t": "LIVES LIVES LIVES\nLIVES LIVES LIVES\nLIVES LIVES LIVES",
     "x": 50,
     "y": 50,
-    "s": 5
+    "s": 2
    }
   ],
-  "category": "Everyday life",
-  "tags": [],
-  "difficulty": "medium"
- },
- {
-  "answers": [
-   "The Four Tops",
-   "Four Tops"
-  ],
-  "elements": [
-   {
-    "t": "TOPS TOPS TOPS TOPS",
-    "x": 50,
-    "y": 50,
-    "s": 3
-   }
-  ],
-  "category": "Music",
-  "tags": [],
-  "difficulty": "medium"
- },
- {
-  "answers": [
-   "The Three Musketeers",
-   "Three Musketeers"
-  ],
-  "elements": [
-   {
-    "t": "MUSKETEER\nMUSKETEER\nMUSKETEER",
-    "x": 50,
-    "y": 50,
-    "s": 3
-   }
-  ],
-  "category": "Books",
-  "tags": [],
-  "difficulty": "medium"
- },
- {
-  "answers": [
-   "Five a day",
-   "Five-a-day"
-  ],
-  "elements": [
-   {
-    "t": "DAY DAY DAY DAY DAY",
-    "x": 50,
-    "y": 50,
-    "s": 3
-   }
-  ],
-  "category": "Food and drink",
+  "category": "Phrase",
   "tags": [],
   "difficulty": "medium"
  }

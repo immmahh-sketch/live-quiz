@@ -1064,14 +1064,16 @@ window.LQ = (() => {
   /** Flat points for a 1% Club question: the rarer the right answer, the more it pays (90% → 200, 50% → 600, 10% → 1000). */
   function clubPoints(pct) { return clamp(Math.round(1100 - 10 * (+pct || 50)), 200, 1000); }
   const CLUB_PCTS = [90, 80, 70, 60, 50, 40, 30, 20, 10, 5, 1];
-  /** Draws a dingbat: text elements placed by percentage on a white board. Sizes 1–6; rot in degrees; flip h/v; style strike/underline/box/outline. */
+  /** Draws a dingbat: text elements placed by percentage on a white board. Sizes 1–6; rot in degrees; flip h/v; style strike/underline/box/outline.
+   *  Each word's size is in cqw on the word itself, so it scales with the board (its container). A cqw on the board's own
+   *  font-size measures the page instead, which made every word about twice too big on the half-width host stage. */
   function dingbatHtml(elements, cls = '') {
     const els = (elements || []).filter((e) => (e.t || '').trim());
     return `<div class="dingbat ${cls}">${els.map((e) => {
       const sz = clamp(+e.s || 3, 1, 6);
       const tf = ['translate(-50%,-50%)', e.rot ? `rotate(${clamp(+e.rot, -180, 180)}deg)` : '', e.flip === 'h' ? 'scaleX(-1)' : e.flip === 'v' ? 'scaleY(-1)' : ''].filter(Boolean).join(' ');
       const color = /^#[0-9a-f]{3,8}$/i.test(e.color || '') ? `color:${e.color};` : '';
-      return `<span class="db-el ${['strike', 'underline', 'box', 'outline'].includes(e.style) ? e.style : ''}" style="left:${clamp(+e.x || 50, 0, 100)}%;top:${clamp(+e.y || 50, 0, 100)}%;font-size:${sz}em;transform:${tf};${color}">${esc(e.t)}</span>`;
+      return `<span class="db-el ${['strike', 'underline', 'box', 'outline'].includes(e.style) ? e.style : ''}" style="left:${clamp(+e.x || 50, 0, 100)}%;top:${clamp(+e.y || 50, 0, 100)}%;font-size:calc(${sz} * 2.4cqw);transform:${tf};${color}">${esc(e.t)}</span>`;
     }).join('')}</div>`;
   }
 

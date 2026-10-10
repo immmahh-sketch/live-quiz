@@ -49,7 +49,7 @@ d(["Crossfire", "Caught in the crossfire"], "Phrase", "medium", e("FIRE", s=6, s
 d(["The Cat in the Hat", "Cat in the Hat"], "Children's books", "medium", e("HAcatT", s=6), tags=["Dr. Seuss"])
 d(["Ship in a bottle"], "Everyday life", "medium", e("BOTshipTLE", s=5))
 d(["The Four Tops", "Four Tops"], "Music", "medium", e("TOPS TOPS TOPS TOPS", s=3))
-d(["The Three Musketeers", "Three Musketeers"], "Books", "medium", e("MUSKETEER MUSKETEER MUSKETEER", s=2))
+d(["The Three Musketeers", "Three Musketeers"], "Books", "medium", e("MUSKETEER\nMUSKETEER\nMUSKETEER", s=3))
 d(["Five a day", "Five-a-day"], "Food and drink", "medium", e("DAY DAY DAY DAY DAY", s=3))
 have = set()
 here = os.path.dirname(os.path.abspath(__file__))
