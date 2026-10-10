@@ -1,0 +1,776 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which city is this museum or gallery in?",
+  "target": 10,
+  "category": "Art and culture",
+  "tags": [
+   "museums",
+   "galleries",
+   "cities"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The Louvre",
+    "right": "Paris",
+    "wrong": [
+     "Lyon",
+     "Marseille",
+     "Nice"
+    ]
+   },
+   {
+    "q": "The Prado",
+    "right": "Madrid",
+    "wrong": [
+     "Barcelona",
+     "Seville",
+     "Valencia"
+    ]
+   },
+   {
+    "q": "The Uffizi",
+    "right": "Florence",
+    "wrong": [
+     "Rome",
+     "Venice",
+     "Milan"
+    ]
+   },
+   {
+    "q": "The Rijksmuseum",
+    "right": "Amsterdam",
+    "wrong": [
+     "Rotterdam",
+     "Utrecht",
+     "Antwerp"
+    ]
+   },
+   {
+    "q": "The Hermitage",
+    "right": "St Petersburg",
+    "wrong": [
+     "Moscow",
+     "Kyiv",
+     "Riga"
+    ]
+   },
+   {
+    "q": "MoMA",
+    "right": "New York",
+    "wrong": [
+     "Boston",
+     "Philadelphia",
+     "Chicago"
+    ]
+   },
+   {
+    "q": "The Getty Center",
+    "right": "Los Angeles",
+    "wrong": [
+     "San Francisco",
+     "San Diego",
+     "Las Vegas"
+    ]
+   },
+   {
+    "q": "The Kunsthistorisches Museum",
+    "right": "Vienna",
+    "wrong": [
+     "Salzburg",
+     "Munich",
+     "Budapest"
+    ]
+   },
+   {
+    "q": "The Pergamon Museum",
+    "right": "Berlin",
+    "wrong": [
+     "Munich",
+     "Hamburg",
+     "Dresden"
+    ]
+   },
+   {
+    "q": "The Egyptian Museum (Tahrir Square)",
+    "right": "Cairo",
+    "wrong": [
+     "Alexandria",
+     "Luxor",
+     "Aswan"
+    ]
+   },
+   {
+    "q": "Tate Modern",
+    "right": "London",
+    "wrong": [
+     "Liverpool",
+     "St Ives",
+     "Manchester"
+    ]
+   },
+   {
+    "q": "Kelvingrove",
+    "right": "Glasgow",
+    "wrong": [
+     "Edinburgh",
+     "Aberdeen",
+     "Dundee"
+    ]
+   },
+   {
+    "q": "The Baltic Centre for Contemporary Art",
+    "right": "Gateshead",
+    "wrong": [
+     "Newcastle",
+     "Sunderland",
+     "Durham"
+    ]
+   },
+   {
+    "q": "The Ashmolean",
+    "right": "Oxford",
+    "wrong": [
+     "Bath",
+     "Bristol",
+     "Winchester"
+    ]
+   },
+   {
+    "q": "The Fitzwilliam Museum",
+    "right": "Cambridge",
+    "wrong": [
+     "Bath",
+     "Norwich",
+     "York"
+    ]
+   },
+   {
+    "q": "The Smithsonian",
+    "right": "Washington, DC",
+    "wrong": [
+     "Philadelphia",
+     "Boston",
+     "Baltimore"
+    ]
+   },
+   {
+    "q": "The Munch Museum",
+    "right": "Oslo",
+    "wrong": [
+     "Bergen",
+     "Stockholm",
+     "Copenhagen"
+    ]
+   },
+   {
+    "q": "The Mauritshuis",
+    "right": "The Hague",
+    "wrong": [
+     "Rotterdam",
+     "Utrecht",
+     "Leiden"
+    ]
+   },
+   {
+    "q": "Topkapı Palace",
+    "right": "Istanbul",
+    "wrong": [
+     "Ankara",
+     "Izmir",
+     "Athens"
+    ]
+   },
+   {
+    "q": "Te Papa",
+    "right": "Wellington",
+    "wrong": [
+     "Auckland",
+     "Christchurch",
+     "Sydney"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: whose middle name is this?",
+  "target": 10,
+  "category": "Celebrities",
+  "tags": [
+   "middle names",
+   "famous people"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Hercules",
+    "right": "Elton John",
+    "wrong": [
+     "Rod Stewart",
+     "George Michael",
+     "Freddie Mercury"
+    ]
+   },
+   {
+    "q": "Hussein",
+    "right": "Barack Obama",
+    "wrong": [
+     "Joe Biden",
+     "Bill Clinton",
+     "Jimmy Carter"
+    ]
+   },
+   {
+    "q": "Winston",
+    "right": "John Lennon",
+    "wrong": [
+     "Paul McCartney",
+     "Ringo Starr",
+     "George Harrison"
+    ]
+   },
+   {
+    "q": "Hilda",
+    "right": "Margaret Thatcher",
+    "wrong": [
+     "Theresa May",
+     "Liz Truss",
+     "Edward Heath"
+    ]
+   },
+   {
+    "q": "Rodney",
+    "right": "Keir Starmer",
+    "wrong": [
+     "Rishi Sunak",
+     "Gordon Brown",
+     "David Cameron"
+    ]
+   },
+   {
+    "q": "Fitzgerald",
+    "right": "John F. Kennedy",
+    "wrong": [
+     "Harry Truman",
+     "Dwight Eisenhower",
+     "Jimmy Carter"
+    ]
+   },
+   {
+    "q": "Walker",
+    "right": "George W. Bush",
+    "wrong": [
+     "Bill Clinton",
+     "Ronald Reagan",
+     "Joe Biden"
+    ]
+   },
+   {
+    "q": "Bilius",
+    "right": "Ron Weasley",
+    "wrong": [
+     "Harry Potter",
+     "Neville Longbottom",
+     "Draco Malfoy"
+    ]
+   },
+   {
+    "q": "Laurie Blue",
+    "right": "Adele",
+    "wrong": [
+     "Amy Winehouse",
+     "Duffy",
+     "Lily Allen"
+    ]
+   },
+   {
+    "q": "de Pfeffel",
+    "right": "Boris Johnson",
+    "wrong": [
+     "David Cameron",
+     "Jacob Rees-Mogg",
+     "Michael Gove"
+    ]
+   },
+   {
+    "q": "Marvolo",
+    "right": "Tom Riddle (Voldemort)",
+    "wrong": [
+     "Draco Malfoy",
+     "Severus Snape",
+     "Sirius Black"
+    ]
+   },
+   {
+    "q": "Tiberius",
+    "right": "Captain James T. Kirk",
+    "wrong": [
+     "Jean-Luc Picard",
+     "Han Solo",
+     "Mr Spock"
+    ]
+   },
+   {
+    "q": "Aaron",
+    "right": "Elvis Presley",
+    "wrong": [
+     "Johnny Cash",
+     "Buddy Holly",
+     "Roy Orbison"
+    ]
+   },
+   {
+    "q": "Delano",
+    "right": "Franklin D. Roosevelt",
+    "wrong": [
+     "Harry Truman",
+     "Woodrow Wilson",
+     "Herbert Hoover"
+    ]
+   },
+   {
+    "q": "Baines",
+    "right": "Lyndon B. Johnson",
+    "wrong": [
+     "Harry Truman",
+     "Gerald Ford",
+     "Jimmy Carter"
+    ]
+   },
+   {
+    "q": "Milhous",
+    "right": "Richard Nixon",
+    "wrong": [
+     "Gerald Ford",
+     "Ronald Reagan",
+     "Jimmy Carter"
+    ]
+   },
+   {
+    "q": "Amadeus",
+    "right": "Mozart",
+    "wrong": [
+     "Beethoven",
+     "Haydn",
+     "Schubert"
+    ]
+   },
+   {
+    "q": "Percival",
+    "right": "Albus Dumbledore",
+    "wrong": [
+     "Severus Snape",
+     "Sirius Black",
+     "Remus Lupin"
+    ]
+   },
+   {
+    "q": "Jeffrey",
+    "right": "Tom Hanks",
+    "wrong": [
+     "Tom Cruise",
+     "Brad Pitt",
+     "Kevin Costner"
+    ]
+   },
+   {
+    "q": "Lynton",
+    "right": "Tony Blair",
+    "wrong": [
+     "Gordon Brown",
+     "John Major",
+     "David Cameron"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which country does this famous train run in?",
+  "target": 10,
+  "category": "Travel",
+  "tags": [
+   "trains",
+   "railways",
+   "countries"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The Flying Scotsman",
+    "right": "the United Kingdom",
+    "wrong": [
+     "Ireland",
+     "Norway",
+     "Denmark"
+    ]
+   },
+   {
+    "q": "The Shinkansen",
+    "right": "Japan",
+    "wrong": [
+     "Taiwan",
+     "Vietnam",
+     "Thailand"
+    ]
+   },
+   {
+    "q": "The TGV",
+    "right": "France",
+    "wrong": [
+     "Belgium",
+     "Luxembourg",
+     "Austria"
+    ]
+   },
+   {
+    "q": "The Rocky Mountaineer",
+    "right": "Canada",
+    "wrong": [
+     "Norway",
+     "Iceland",
+     "Sweden"
+    ]
+   },
+   {
+    "q": "The Ghan",
+    "right": "Australia",
+    "wrong": [
+     "Chile",
+     "Argentina",
+     "Indonesia"
+    ]
+   },
+   {
+    "q": "The Glacier Express",
+    "right": "Switzerland",
+    "wrong": [
+     "Austria",
+     "Norway",
+     "Slovenia"
+    ]
+   },
+   {
+    "q": "The Trans-Siberian",
+    "right": "Russia",
+    "wrong": [
+     "Mongolia",
+     "Kazakhstan",
+     "Ukraine"
+    ]
+   },
+   {
+    "q": "The Blue Train",
+    "right": "South Africa",
+    "wrong": [
+     "Namibia",
+     "Kenya",
+     "Zimbabwe"
+    ]
+   },
+   {
+    "q": "The Palace on Wheels",
+    "right": "India",
+    "wrong": [
+     "Pakistan",
+     "Sri Lanka",
+     "Thailand"
+    ]
+   },
+   {
+    "q": "The ICE",
+    "right": "Germany",
+    "wrong": [
+     "Austria",
+     "Belgium",
+     "the Netherlands"
+    ]
+   },
+   {
+    "q": "The AVE",
+    "right": "Spain",
+    "wrong": [
+     "Portugal",
+     "Greece",
+     "Belgium"
+    ]
+   },
+   {
+    "q": "The Frecciarossa",
+    "right": "Italy",
+    "wrong": [
+     "Portugal",
+     "Greece",
+     "Austria"
+    ]
+   },
+   {
+    "q": "The California Zephyr",
+    "right": "the USA",
+    "wrong": [
+     "Argentina",
+     "Chile",
+     "Brazil"
+    ]
+   },
+   {
+    "q": "The Shanghai Maglev",
+    "right": "China",
+    "wrong": [
+     "Taiwan",
+     "Vietnam",
+     "Malaysia"
+    ]
+   },
+   {
+    "q": "The KTX",
+    "right": "South Korea",
+    "wrong": [
+     "Taiwan",
+     "Vietnam",
+     "Malaysia"
+    ]
+   },
+   {
+    "q": "The Tren Maya",
+    "right": "Mexico",
+    "wrong": [
+     "Guatemala",
+     "Colombia",
+     "Cuba"
+    ]
+   },
+   {
+    "q": "The Hiram Bingham, to Machu Picchu",
+    "right": "Peru",
+    "wrong": [
+     "Bolivia",
+     "Ecuador",
+     "Chile"
+    ]
+   },
+   {
+    "q": "The Coastal Pacific",
+    "right": "New Zealand",
+    "wrong": [
+     "Chile",
+     "Argentina",
+     "Fiji"
+    ]
+   },
+   {
+    "q": "Al Boraq",
+    "right": "Morocco",
+    "wrong": [
+     "Egypt",
+     "Tunisia",
+     "Algeria"
+    ]
+   },
+   {
+    "q": "The Haramain high-speed railway",
+    "right": "Saudi Arabia",
+    "wrong": [
+     "the UAE",
+     "Qatar",
+     "Oman"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this country's national flower?",
+  "target": 10,
+  "category": "Science and nature",
+  "tags": [
+   "flowers",
+   "national emblems"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "England",
+    "right": "Rose",
+    "wrong": [
+     "Poppy",
+     "Daisy",
+     "Lavender"
+    ]
+   },
+   {
+    "q": "Scotland",
+    "right": "Thistle",
+    "wrong": [
+     "Poppy",
+     "Daisy",
+     "Lavender"
+    ]
+   },
+   {
+    "q": "Wales",
+    "right": "Daffodil",
+    "wrong": [
+     "Primrose",
+     "Poppy",
+     "Daisy"
+    ]
+   },
+   {
+    "q": "Ireland",
+    "right": "Shamrock",
+    "wrong": [
+     "Poppy",
+     "Primrose",
+     "Daisy"
+    ]
+   },
+   {
+    "q": "Northern Ireland",
+    "right": "Flax flower",
+    "wrong": [
+     "Poppy",
+     "Daisy",
+     "Primrose"
+    ]
+   },
+   {
+    "q": "The Netherlands",
+    "right": "Tulip",
+    "wrong": [
+     "Hyacinth",
+     "Crocus",
+     "Iris"
+    ]
+   },
+   {
+    "q": "India",
+    "right": "Lotus",
+    "wrong": [
+     "Marigold",
+     "Magnolia",
+     "Gardenia"
+    ]
+   },
+   {
+    "q": "Austria",
+    "right": "Edelweiss",
+    "wrong": [
+     "Crocus",
+     "Poppy",
+     "Iris"
+    ]
+   },
+   {
+    "q": "Mexico",
+    "right": "Dahlia",
+    "wrong": [
+     "Marigold",
+     "Poinsettia",
+     "Magnolia"
+    ]
+   },
+   {
+    "q": "Australia",
+    "right": "Golden wattle",
+    "wrong": [
+     "Eucalyptus blossom",
+     "Waratah",
+     "Kangaroo paw"
+    ]
+   },
+   {
+    "q": "South Africa",
+    "right": "King protea",
+    "wrong": [
+     "Bird of paradise",
+     "Agapanthus",
+     "Daisy"
+    ]
+   },
+   {
+    "q": "Malaysia",
+    "right": "Hibiscus",
+    "wrong": [
+     "Frangipani",
+     "Bougainvillea",
+     "Marigold"
+    ]
+   },
+   {
+    "q": "Ukraine",
+    "right": "Sunflower",
+    "wrong": [
+     "Daisy",
+     "Lavender",
+     "Marigold"
+    ]
+   },
+   {
+    "q": "Spain",
+    "right": "Carnation",
+    "wrong": [
+     "Bougainvillea",
+     "Orange blossom",
+     "Lavender"
+    ]
+   },
+   {
+    "q": "Pakistan",
+    "right": "Jasmine",
+    "wrong": [
+     "Marigold",
+     "Frangipani",
+     "Magnolia"
+    ]
+   },
+   {
+    "q": "Bangladesh",
+    "right": "Water lily",
+    "wrong": [
+     "Marigold",
+     "Frangipani",
+     "Magnolia"
+    ]
+   },
+   {
+    "q": "Finland",
+    "right": "Lily of the valley",
+    "wrong": [
+     "Heather",
+     "Crocus",
+     "Poppy"
+    ]
+   },
+   {
+    "q": "Germany",
+    "right": "Cornflower",
+    "wrong": [
+     "Poppy",
+     "Daisy",
+     "Gentian"
+    ]
+   },
+   {
+    "q": "China",
+    "right": "Peony",
+    "wrong": [
+     "Chrysanthemum",
+     "Magnolia",
+     "Camellia"
+    ]
+   },
+   {
+    "q": "Singapore",
+    "right": "Orchid",
+    "wrong": [
+     "Frangipani",
+     "Bougainvillea",
+     "Gardenia"
+    ]
+   }
+  ]
+ }
+]
