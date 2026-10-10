@@ -1,0 +1,390 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this hotel word?",
+  "target": 10,
+  "category": "Travel",
+  "tags": [
+   "hotels",
+   "holidays",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The desk that books your theatre tickets, taxis and restaurant tables",
+    "right": "Concierge",
+    "wrong": [
+     "Sommelier",
+     "Maître d'",
+     "Doorman"
+    ]
+   },
+   {
+    "q": "Carries your luggage up to your room",
+    "right": "Porter",
+    "wrong": [
+     "Doorman",
+     "Sommelier",
+     "Maître d'"
+    ]
+   },
+   {
+    "q": "The team that cleans the rooms and changes the beds",
+    "right": "Housekeeping",
+    "wrong": [
+     "Front of house",
+     "Night audit",
+     "Reservations"
+    ]
+   },
+   {
+    "q": "An evening service when your bed is folded back and a chocolate left on the pillow",
+    "right": "Turndown",
+    "wrong": [
+     "Room only",
+     "Day let",
+     "Walk-in"
+    ]
+   },
+   {
+    "q": "A little fridge of pricey drinks and snacks in your room",
+    "right": "Minibar",
+    "wrong": [
+     "Buffet",
+     "À la carte",
+     "Corkage"
+    ]
+   },
+   {
+    "q": "A grand room with a separate living area, often the best in the hotel",
+    "right": "Suite",
+    "wrong": [
+     "Studio",
+     "Annexe",
+     "Family room"
+    ]
+   },
+   {
+    "q": "A room with two single beds",
+    "right": "Twin room",
+    "wrong": [
+     "Family room",
+     "Studio",
+     "Annexe"
+    ]
+   },
+   {
+    "q": "Food brought up to your room",
+    "right": "Room service",
+    "wrong": [
+     "Buffet",
+     "À la carte",
+     "Table d'hôte"
+    ]
+   },
+   {
+    "q": "Asking to keep your room past the usual leaving time",
+    "right": "Late checkout",
+    "wrong": [
+     "Early check-in",
+     "Day let",
+     "Walk-in"
+    ]
+   },
+   {
+    "q": "The entrance hall with the reception desk",
+    "right": "Lobby",
+    "wrong": [
+     "Mezzanine",
+     "Annexe",
+     "Penthouse"
+    ]
+   },
+   {
+    "q": "The sign you hang on the handle to keep the cleaners out",
+    "right": "Do Not Disturb",
+    "wrong": [
+     "Walk-in",
+     "No-show",
+     "Room only"
+    ]
+   },
+   {
+    "q": "Breakfast and an evening meal included, but not lunch",
+    "right": "Half board",
+    "wrong": [
+     "Room only",
+     "Self-catering",
+     "Table d'hôte"
+    ]
+   },
+   {
+    "q": "Breakfast, lunch and dinner all included",
+    "right": "Full board",
+    "wrong": [
+     "Room only",
+     "Self-catering",
+     "Table d'hôte"
+    ]
+   },
+   {
+    "q": "Every meal, snack and drink included in the price",
+    "right": "All-inclusive",
+    "wrong": [
+     "Room only",
+     "Self-catering",
+     "Table d'hôte"
+    ]
+   },
+   {
+    "q": "A room for the night and a morning meal, often in a small guest house",
+    "right": "Bed and breakfast",
+    "wrong": [
+     "Room only",
+     "Self-catering",
+     "Day let"
+    ]
+   },
+   {
+    "q": "A light morning spread of pastries, bread, jam and coffee",
+    "right": "Continental breakfast",
+    "wrong": [
+     "Table d'hôte",
+     "À la carte",
+     "Corkage"
+    ]
+   },
+   {
+    "q": "Someone takes your car keys and parks it for you",
+    "right": "Valet parking",
+    "wrong": [
+     "Doorman",
+     "Day let",
+     "Walk-in"
+    ]
+   },
+   {
+    "q": "The plastic card that unlocks your door",
+    "right": "Key card",
+    "wrong": [
+     "Room only",
+     "Walk-in",
+     "Corkage"
+    ]
+   },
+   {
+    "q": "Being moved to a better room at no extra cost",
+    "right": "Upgrade",
+    "wrong": [
+     "Overbooking",
+     "No-show",
+     "Corkage"
+    ]
+   },
+   {
+    "q": "The full, undiscounted price of a room",
+    "right": "Rack rate",
+    "wrong": [
+     "Corkage",
+     "Cover charge",
+     "No-show"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this flying word?",
+  "target": 10,
+  "category": "Travel",
+  "tags": [
+   "flying",
+   "planes",
+   "airports"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Where the pilots sit at the very front of the plane",
+    "right": "Cockpit",
+    "wrong": [
+     "Nacelle",
+     "Empennage",
+     "Winglet"
+    ]
+   },
+   {
+    "q": "The main tube-shaped body of the plane",
+    "right": "Fuselage",
+    "wrong": [
+     "Nacelle",
+     "Empennage",
+     "Winglet"
+    ]
+   },
+   {
+    "q": "Hinged flaps near the wing tips that make the plane roll",
+    "right": "Aileron",
+    "wrong": [
+     "Slat",
+     "Winglet",
+     "Pitot tube"
+    ]
+   },
+   {
+    "q": "The upright flap on the tail that swings the nose left and right",
+    "right": "Rudder",
+    "wrong": [
+     "Slat",
+     "Winglet",
+     "Spoiler"
+    ]
+   },
+   {
+    "q": "The wheels and legs a plane lands on",
+    "right": "Undercarriage",
+    "wrong": [
+     "Nacelle",
+     "Pitot tube",
+     "Slat"
+    ]
+   },
+   {
+    "q": "The tough recorder that investigators search for after a crash",
+    "right": "Black box",
+    "wrong": [
+     "Transponder",
+     "Pitot tube",
+     "Yoke"
+    ]
+   },
+   {
+    "q": "The aircraft's little kitchen",
+    "right": "Galley",
+    "wrong": [
+     "Nacelle",
+     "Airside",
+     "Manifest"
+    ]
+   },
+   {
+    "q": "The long strip where planes take off and land",
+    "right": "Runway",
+    "wrong": [
+     "Taxiway",
+     "Apron",
+     "Control tower"
+    ]
+   },
+   {
+    "q": "The huge shed where planes are kept and repaired",
+    "right": "Hangar",
+    "wrong": [
+     "Apron",
+     "Taxiway",
+     "Control tower"
+    ]
+   },
+   {
+    "q": "Bumpy air that shakes the plane about",
+    "right": "Turbulence",
+    "wrong": [
+     "Headwind",
+     "Tailwind",
+     "Contrail"
+    ]
+   },
+   {
+    "q": "The system that flies the plane by itself for long stretches",
+    "right": "Autopilot",
+    "wrong": [
+     "Transponder",
+     "Yoke",
+     "Squawk"
+    ]
+   },
+   {
+    "q": "The distress call a pilot makes in a real emergency",
+    "right": "Mayday",
+    "wrong": [
+     "Pan-pan",
+     "Squawk",
+     "Roger"
+    ]
+   },
+   {
+    "q": "The ticket you show at the gate to get on the plane",
+    "right": "Boarding pass",
+    "wrong": [
+     "Manifest",
+     "Codeshare",
+     "Air miles"
+    ]
+   },
+   {
+    "q": "The moving belt where you pick up your suitcase",
+    "right": "Carousel",
+    "wrong": [
+     "Taxiway",
+     "Apron",
+     "Airside"
+    ]
+   },
+   {
+    "q": "The shops where you can buy goods without paying certain taxes",
+    "right": "Duty free",
+    "wrong": [
+     "Landside",
+     "Codeshare",
+     "Standby"
+    ]
+   },
+   {
+    "q": "A break of a night or more on the way to somewhere further",
+    "right": "Stopover",
+    "wrong": [
+     "Standby",
+     "Codeshare",
+     "Air miles"
+    ]
+   },
+   {
+    "q": "An overnight flight that lands early in the morning",
+    "right": "Red-eye",
+    "wrong": [
+     "Standby",
+     "Codeshare",
+     "Air miles"
+    ]
+   },
+   {
+    "q": "The covered walkway from the terminal straight to the plane door",
+    "right": "Air bridge",
+    "wrong": [
+     "Taxiway",
+     "Apron",
+     "Airside"
+    ]
+   },
+   {
+    "q": "Where your hand luggage goes, above your seat",
+    "right": "Overhead locker",
+    "wrong": [
+     "Nacelle",
+     "Manifest",
+     "Airside"
+    ]
+   },
+   {
+    "q": "A fast wind high up that can speed flights from America to Europe",
+    "right": "Jet stream",
+    "wrong": [
+     "Contrail",
+     "Headwind",
+     "Squawk"
+    ]
+   }
+  ]
+ }
+]
