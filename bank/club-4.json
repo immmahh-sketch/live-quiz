@@ -1,0 +1,359 @@
+[
+ {
+  "type": "club",
+  "text": "Which word goes in front of 'fly', 'cup' and 'milk' to make three new words?",
+  "answers": [
+   "Butter"
+  ],
+  "pct": 90,
+  "why": "Butterfly, buttercup, buttermilk.",
+  "difficulty": "easy",
+  "category": "Wordplay",
+  "tags": [
+   "compound words"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "How many legs do four ducks and two cows have altogether?",
+  "answers": [
+   "16",
+   "Sixteen"
+  ],
+  "pct": 90,
+  "why": "4 × 2 = 8 and 2 × 4 = 8: 8 + 8 = 16.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "legs"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which colour do you get when you mix blue paint with yellow paint?",
+  "answers": [
+   "Green"
+  ],
+  "pct": 90,
+  "why": "Blue and yellow make green.",
+  "difficulty": "easy",
+  "category": "General",
+  "tags": [
+   "colours"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A pizza is cut into 8 slices and 3 friends eat 2 slices each. How many slices are left over?",
+  "answers": [
+   "2",
+   "Two"
+  ],
+  "pct": 80,
+  "why": "3 × 2 = 6 eaten, and 8 − 6 = 2.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "food",
+   "fractions"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A baker cracks a dozen and a half eggs into a big sponge mixture. How many eggs is that?",
+  "answers": [
+   "18",
+   "Eighteen"
+  ],
+  "pct": 80,
+  "why": "12 + 6 = 18.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "arithmetic"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A bus has 20 passengers. At the first stop 5 get off and 3 get on. At the next, 6 get off and 8 get on. How many are on the bus now?",
+  "answers": [
+   "20",
+   "Twenty"
+  ],
+  "pct": 80,
+  "why": "20 − 5 + 3 = 18, then 18 − 6 + 8 = 20.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "arithmetic"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "It's Wednesday today and our holiday starts in exactly 10 days' time. On which weekday does it start?",
+  "answers": [
+   "Saturday"
+  ],
+  "pct": 70,
+  "why": "Seven days on is Wednesday again; three more is Saturday.",
+  "difficulty": "easy",
+  "category": "Logic",
+  "tags": [
+   "days"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Spot the number that doesn't belong: 9, 16, 25, 30, 36.",
+  "answers": [
+   "30",
+   "Thirty"
+  ],
+  "pct": 70,
+  "why": "The others are square numbers: 3², 4², 5², 6².",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "odd one out",
+   "squares"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Put one letter in front of ONE to make a word meaning 'not any'.",
+  "answers": [
+   "None",
+   "NONE"
+  ],
+  "pct": 60,
+  "why": "N + ONE = NONE.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "letters"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A cooking timer is set for one fifth of an hour. How many minutes is that?",
+  "answers": [
+   "12",
+   "Twelve"
+  ],
+  "pct": 60,
+  "why": "60 ÷ 5 = 12.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "time"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which month comes three months after November?",
+  "answers": [
+   "February"
+  ],
+  "pct": 60,
+  "why": "December, January, February.",
+  "difficulty": "medium",
+  "category": "Logic",
+  "tags": [
+   "months"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Three whole numbers in a row add up to 72. What is the biggest of them?",
+  "answers": [
+   "25",
+   "Twenty-five"
+  ],
+  "pct": 50,
+  "why": "23 + 24 + 25 = 72.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "arithmetic"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What is 7 times 8, take away 7 times 7?",
+  "answers": [
+   "7",
+   "Seven"
+  ],
+  "pct": 50,
+  "why": "56 − 49 = 7 (or simply 7 × 1).",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "arithmetic"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A dad is four times as old as his son. In 20 years he'll be only twice as old. How old is the son now?",
+  "answers": [
+   "10",
+   "Ten"
+  ],
+  "pct": 40,
+  "why": "Son 10, dad 40; in 20 years they're 30 and 60.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "ages"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Draw a square and both of its diagonals. How many triangles can you count?",
+  "answers": [
+   "8",
+   "Eight"
+  ],
+  "pct": 40,
+  "why": "Four small triangles, plus four big ones, each half of the square.",
+  "difficulty": "medium",
+  "category": "Logic",
+  "tags": [
+   "shapes",
+   "triangles"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What is the biggest number that divides exactly into both 24 and 36?",
+  "answers": [
+   "12",
+   "Twelve"
+  ],
+  "pct": 40,
+  "why": "24 = 2 × 12 and 36 = 3 × 12; nothing bigger goes into both.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "factors"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "In a leap year, how many days are there from January to March inclusive?",
+  "answers": [
+   "91",
+   "Ninety-one"
+  ],
+  "pct": 40,
+  "why": "31 + 29 + 31 = 91.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "calendar"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Prime numbers have no factors except 1 and themselves. Which is the next prime after 23?",
+  "answers": [
+   "29",
+   "Twenty-nine"
+  ],
+  "pct": 40,
+  "why": "24 to 28 all divide by 2 or 3 (25 by 5); 29 is prime.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "primes"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which letter is three places before the letter that comes two after T?",
+  "answers": [
+   "S"
+  ],
+  "pct": 30,
+  "why": "Two after T is V; three before V is S.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "alphabet"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Find the value that should end this sequence: 2, 3, 5, 9, 17, ?",
+  "answers": [
+   "33",
+   "Thirty-three"
+  ],
+  "pct": 20,
+  "why": "The gaps double: +1, +2, +4, +8, then +16.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "sequences"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which word is spelled incorrectly in every dictionary?",
+  "answers": [
+   "Incorrectly"
+  ],
+  "pct": 20,
+  "why": "The word 'incorrectly' is always spelled I-N-C-O-R-R-E-C-T-L-Y.",
+  "difficulty": "hard",
+  "category": "Wordplay",
+  "tags": [
+   "riddles"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Here's a puzzling sequence: 61, 52, 63, 94, 46. Which number comes after 46?",
+  "answers": [
+   "18",
+   "Eighteen"
+  ],
+  "pct": 10,
+  "why": "They're the squares 16, 25, 36, 49, 64 written backwards; 81 backwards is 18.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "sequences",
+   "squares"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Carry on this pattern of numbers: 1, 2, 6, 24, 120, then what?",
+  "answers": [
+   "720"
+  ],
+  "pct": 10,
+  "why": "Multiply by 2, 3, 4, 5, then 6: 120 × 6 = 720.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "sequences"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A wall clock with hands loses 10 minutes every day. How many days until it shows the right time again?",
+  "answers": [
+   "72",
+   "Seventy-two"
+  ],
+  "pct": 5,
+  "why": "It must lose a full 12 hours, 720 minutes: 720 ÷ 10 = 72 days.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "clocks"
+  ]
+ }
+]
