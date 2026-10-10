@@ -1,0 +1,774 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's the Dutch word?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "Dutch",
+   "languages"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Bicycle",
+    "right": "Fiets",
+    "wrong": [
+     "Fles",
+     "Feest",
+     "Vis"
+    ]
+   },
+   {
+    "q": "Cheese",
+    "right": "Kaas",
+    "wrong": [
+     "Kast",
+     "Kaart",
+     "Kers"
+    ]
+   },
+   {
+    "q": "Dog",
+    "right": "Hond",
+    "wrong": [
+     "Hand",
+     "Hout",
+     "Hoed"
+    ]
+   },
+   {
+    "q": "House",
+    "right": "Huis",
+    "wrong": [
+     "Huid",
+     "Huur",
+     "Hoes"
+    ]
+   },
+   {
+    "q": "Bread",
+    "right": "Brood",
+    "wrong": [
+     "Broer",
+     "Bord",
+     "Brug"
+    ]
+   },
+   {
+    "q": "Friend",
+    "right": "Vriend",
+    "wrong": [
+     "Vrede",
+     "Vrij",
+     "Vreemd"
+    ]
+   },
+   {
+    "q": "Thank you",
+    "right": "Dank je",
+    "wrong": [
+     "Doei",
+     "Alstublieft",
+     "Dag"
+    ]
+   },
+   {
+    "q": "Good morning",
+    "right": "Goedemorgen",
+    "wrong": [
+     "Goedenavond",
+     "Goedenacht",
+     "Welterusten"
+    ]
+   },
+   {
+    "q": "Sea",
+    "right": "Zee",
+    "wrong": [
+     "Zon",
+     "Zout",
+     "Zeep"
+    ]
+   },
+   {
+    "q": "Street",
+    "right": "Straat",
+    "wrong": [
+     "Strand",
+     "Staart",
+     "Stad"
+    ]
+   },
+   {
+    "q": "Church",
+    "right": "Kerk",
+    "wrong": [
+     "Kers",
+     "Kaars",
+     "Kerst"
+    ]
+   },
+   {
+    "q": "Red",
+    "right": "Rood",
+    "wrong": [
+     "Rok",
+     "Roos",
+     "Rond"
+    ]
+   },
+   {
+    "q": "Small",
+    "right": "Klein",
+    "wrong": [
+     "Kleur",
+     "Klok",
+     "Kleed"
+    ]
+   },
+   {
+    "q": "Big",
+    "right": "Groot",
+    "wrong": [
+     "Grond",
+     "Groen",
+     "Grot"
+    ]
+   },
+   {
+    "q": "Egg",
+    "right": "Ei",
+    "wrong": [
+     "Eik",
+     "Eis",
+     "Uil"
+    ]
+   },
+   {
+    "q": "Book",
+    "right": "Boek",
+    "wrong": [
+     "Boer",
+     "Boot",
+     "Boom"
+    ]
+   },
+   {
+    "q": "Night",
+    "right": "Nacht",
+    "wrong": [
+     "Nagel",
+     "Naald",
+     "Nat"
+    ]
+   },
+   {
+    "q": "Woman",
+    "right": "Vrouw",
+    "wrong": [
+     "Vrucht",
+     "Vraag",
+     "Vlucht"
+    ]
+   },
+   {
+    "q": "Child",
+    "right": "Kind",
+    "wrong": [
+     "Kin",
+     "Kist",
+     "Keuken"
+    ]
+   },
+   {
+    "q": "Tomorrow",
+    "right": "Morgen",
+    "wrong": [
+     "Middag",
+     "Maandag",
+     "Moeder"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: name the famous bear",
+  "target": 10,
+  "category": "Film and TV",
+  "tags": [
+   "bears",
+   "characters"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The bear from darkest Peru",
+    "right": "Paddington",
+    "wrong": [
+     "Barnaby",
+     "Aloysius",
+     "Corduroy"
+    ]
+   },
+   {
+    "q": "Christopher Robin's bear",
+    "right": "Winnie-the-Pooh",
+    "wrong": [
+     "Bertie",
+     "Corduroy",
+     "Humphrey"
+    ]
+   },
+   {
+    "q": "The Jungle Book's laid-back bear",
+    "right": "Baloo",
+    "wrong": [
+     "Bagheera",
+     "Shere Khan",
+     "Kaa"
+    ]
+   },
+   {
+    "q": "The bear in yellow checked trousers",
+    "right": "Rupert",
+    "wrong": [
+     "Biffo",
+     "Bertie",
+     "Barnaby"
+    ]
+   },
+   {
+    "q": "Jellystone Park's picnic thief",
+    "right": "Yogi",
+    "wrong": [
+     "Cindy",
+     "Ranger Smith",
+     "Huckleberry"
+    ]
+   },
+   {
+    "q": "The Muppets' joke-telling bear",
+    "right": "Fozzie",
+    "wrong": [
+     "Gonzo",
+     "Animal",
+     "Sweetums"
+    ]
+   },
+   {
+    "q": "Children in Need's mascot",
+    "right": "Pudsey",
+    "wrong": [
+     "Blush",
+     "Barnaby",
+     "Bertie"
+    ]
+   },
+   {
+    "q": "Rainbow's bear",
+    "right": "Bungle",
+    "wrong": [
+     "Zippy",
+     "George",
+     "Geoffrey"
+    ]
+   },
+   {
+    "q": "Harry Corbett's glove puppet bear",
+    "right": "Sooty",
+    "wrong": [
+     "Sweep",
+     "Soo",
+     "Scampi"
+    ]
+   },
+   {
+    "q": "Mr. Bean's teddy",
+    "right": "Teddy",
+    "wrong": [
+     "Irma Gobb",
+     "Bertie",
+     "Mini"
+    ]
+   },
+   {
+    "q": "The foul-mouthed bear in Mark Wahlberg's film",
+    "right": "Ted",
+    "wrong": [
+     "Barney",
+     "Bruno",
+     "Freddy"
+    ]
+   },
+   {
+    "q": "Brother Bear's hero, turned into a bear",
+    "right": "Kenai",
+    "wrong": [
+     "Koda",
+     "Rutt",
+     "Tuke"
+    ]
+   },
+   {
+    "q": "Kung Fu Panda's hero",
+    "right": "Po",
+    "wrong": [
+     "Tigress",
+     "Shifu",
+     "Tai Lung"
+    ]
+   },
+   {
+    "q": "Merida's mum in Brave, turned into a bear",
+    "right": "Elinor",
+    "wrong": [
+     "Merida",
+     "Mor'du",
+     "Fergus"
+    ]
+   },
+   {
+    "q": "His Dark Materials' armoured bear",
+    "right": "Iorek Byrnison",
+    "wrong": [
+     "Iofur Raknison",
+     "Lee Scoresby",
+     "Pantalaimon"
+    ]
+   },
+   {
+    "q": "Play School's bigger teddy",
+    "right": "Big Ted",
+    "wrong": [
+     "Hamble",
+     "Jemima",
+     "Humpty"
+    ]
+   },
+   {
+    "q": "Yogi's little sidekick",
+    "right": "Boo-Boo",
+    "wrong": [
+     "Ranger Smith",
+     "Cindy",
+     "Huckleberry"
+    ]
+   },
+   {
+    "q": "The blue Care Bear with a rain cloud on his tummy",
+    "right": "Grumpy Bear",
+    "wrong": [
+     "Bedtime Bear",
+     "Tenderheart Bear",
+     "Cheer Bear"
+    ]
+   },
+   {
+    "q": "The bear in Disney's Robin Hood",
+    "right": "Little John",
+    "wrong": [
+     "Friar Tuck",
+     "Sir Hiss",
+     "Prince John"
+    ]
+   },
+   {
+    "q": "Toy Story 3's strawberry-scented villain",
+    "right": "Lotso",
+    "wrong": [
+     "Chunk",
+     "Big Baby",
+     "Stretch"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what number is this in French?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "French",
+   "numbers"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Cinq",
+    "right": "5",
+    "wrong": [
+     "4",
+     "6",
+     "7"
+    ]
+   },
+   {
+    "q": "Huit",
+    "right": "8",
+    "wrong": [
+     "6",
+     "7",
+     "18"
+    ]
+   },
+   {
+    "q": "Neuf",
+    "right": "9",
+    "wrong": [
+     "19",
+     "6",
+     "10"
+    ]
+   },
+   {
+    "q": "Onze",
+    "right": "11",
+    "wrong": [
+     "10",
+     "1",
+     "21"
+    ]
+   },
+   {
+    "q": "Douze",
+    "right": "12",
+    "wrong": [
+     "2",
+     "22",
+     "10"
+    ]
+   },
+   {
+    "q": "Treize",
+    "right": "13",
+    "wrong": [
+     "3",
+     "23",
+     "33"
+    ]
+   },
+   {
+    "q": "Quatorze",
+    "right": "14",
+    "wrong": [
+     "4",
+     "24",
+     "44"
+    ]
+   },
+   {
+    "q": "Quinze",
+    "right": "15",
+    "wrong": [
+     "25",
+     "55",
+     "51"
+    ]
+   },
+   {
+    "q": "Seize",
+    "right": "16",
+    "wrong": [
+     "6",
+     "7",
+     "26"
+    ]
+   },
+   {
+    "q": "Dix-sept",
+    "right": "17",
+    "wrong": [
+     "7",
+     "27",
+     "71"
+    ]
+   },
+   {
+    "q": "Vingt",
+    "right": "20",
+    "wrong": [
+     "2",
+     "22",
+     "200"
+    ]
+   },
+   {
+    "q": "Trente",
+    "right": "30",
+    "wrong": [
+     "3",
+     "33",
+     "300"
+    ]
+   },
+   {
+    "q": "Quarante",
+    "right": "40",
+    "wrong": [
+     "4",
+     "44",
+     "400"
+    ]
+   },
+   {
+    "q": "Cinquante",
+    "right": "50",
+    "wrong": [
+     "55",
+     "500",
+     "25"
+    ]
+   },
+   {
+    "q": "Soixante",
+    "right": "60",
+    "wrong": [
+     "6",
+     "66",
+     "600"
+    ]
+   },
+   {
+    "q": "Soixante-dix",
+    "right": "70",
+    "wrong": [
+     "76",
+     "7",
+     "160"
+    ]
+   },
+   {
+    "q": "Quatre-vingts",
+    "right": "80",
+    "wrong": [
+     "24",
+     "84",
+     "420"
+    ]
+   },
+   {
+    "q": "Quatre-vingt-dix",
+    "right": "90",
+    "wrong": [
+     "84",
+     "94",
+     "99"
+    ]
+   },
+   {
+    "q": "Cent",
+    "right": "100",
+    "wrong": [
+     "1",
+     "10",
+     "101"
+    ]
+   },
+   {
+    "q": "Mille",
+    "right": "1,000",
+    "wrong": [
+     "1",
+     "10,000",
+     "2,000"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: name the famous mouse",
+  "target": 10,
+  "category": "Film and TV",
+  "tags": [
+   "mice",
+   "characters"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Tom's rival in the cartoons",
+    "right": "Jerry",
+    "wrong": [
+     "Tuffy",
+     "Spike",
+     "Butch"
+    ]
+   },
+   {
+    "q": "Mickey's girlfriend",
+    "right": "Minnie",
+    "wrong": [
+     "Daisy",
+     "Clarabelle",
+     "Millie"
+    ]
+   },
+   {
+    "q": "Disney's first mouse star",
+    "right": "Mickey",
+    "wrong": [
+     "Morty",
+     "Ferdie",
+     "Oswald"
+    ]
+   },
+   {
+    "q": "The mouse adopted by the Little family",
+    "right": "Stuart",
+    "wrong": [
+     "Snowbell",
+     "George",
+     "Margalo"
+    ]
+   },
+   {
+    "q": "The secret-agent mouse with an eyepatch",
+    "right": "Danger Mouse",
+    "wrong": [
+     "Penfold",
+     "Greenback",
+     "Stiletto"
+    ]
+   },
+   {
+    "q": "The fastest mouse in all Mexico",
+    "right": "Speedy Gonzales",
+    "wrong": [
+     "Slowpoke Rodriguez",
+     "Pepé Le Pew",
+     "Daffy"
+    ]
+   },
+   {
+    "q": "Narnia's swashbuckling mouse",
+    "right": "Reepicheep",
+    "wrong": [
+     "Trumpkin",
+     "Puddleglum",
+     "Tumnus"
+    ]
+   },
+   {
+    "q": "The hero of An American Tail",
+    "right": "Fievel",
+    "wrong": [
+     "Tiger",
+     "Tanya",
+     "Warren T. Rat"
+    ]
+   },
+   {
+    "q": "Dumbo's mouse friend",
+    "right": "Timothy",
+    "wrong": [
+     "Casey Junior",
+     "Mr. Stork",
+     "Ringmaster"
+    ]
+   },
+   {
+    "q": "The cheese-loving mouse in The Aristocats",
+    "right": "Roquefort",
+    "wrong": [
+     "Toulouse",
+     "Berlioz",
+     "Edgar"
+    ]
+   },
+   {
+    "q": "The Great Mouse Detective",
+    "right": "Basil",
+    "wrong": [
+     "Dawson",
+     "Ratigan",
+     "Olivia"
+    ]
+   },
+   {
+    "q": "The Rescuers' Hungarian agent",
+    "right": "Bianca",
+    "wrong": [
+     "Bernard",
+     "Penny",
+     "Madame Medusa"
+    ]
+   },
+   {
+    "q": "Cinderella's chubby mouse friend",
+    "right": "Gus",
+    "wrong": [
+     "Jaq",
+     "Lucifer",
+     "Bruno"
+    ]
+   },
+   {
+    "q": "The Simpsons' cartoon mouse",
+    "right": "Itchy",
+    "wrong": [
+     "Scratchy",
+     "Poochie",
+     "Krusty"
+    ]
+   },
+   {
+    "q": "The lab mouse who wants to take over the world",
+    "right": "The Brain",
+    "wrong": [
+     "Pinky",
+     "Snowball",
+     "Dexter"
+    ]
+   },
+   {
+    "q": "Beatrix Potter's tidy mouse",
+    "right": "Mrs. Tittlemouse",
+    "wrong": [
+     "Mrs. Tiggy-Winkle",
+     "Tabitha Twitchit",
+     "Jemima Puddle-Duck"
+    ]
+   },
+   {
+    "q": "The ballerina mouse in the children's books",
+    "right": "Angelina",
+    "wrong": [
+     "Maisy",
+     "Olivia",
+     "Clarice"
+    ]
+   },
+   {
+    "q": "The widowed mouse in The Secret of NIMH",
+    "right": "Mrs. Brisby",
+    "wrong": [
+     "Jenner",
+     "Nicodemus",
+     "Jeremy"
+    ]
+   },
+   {
+    "q": "The greedy boy turned into a mouse in The Witches",
+    "right": "Bruno Jenkins",
+    "wrong": [
+     "Augustus Gloop",
+     "Mike Teavee",
+     "The Grand High Witch"
+    ]
+   },
+   {
+    "q": "The flying superhero mouse",
+    "right": "Mighty Mouse",
+    "wrong": [
+     "Atom Ant",
+     "Underdog",
+     "Secret Squirrel"
+    ]
+   }
+  ]
+ }
+]
