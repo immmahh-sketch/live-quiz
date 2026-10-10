@@ -1,0 +1,390 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which motorway is this?",
+  "target": 10,
+  "category": "Britain",
+  "tags": [
+   "motorways",
+   "roads",
+   "travel"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "London to Leeds, Britain's first full intercity motorway",
+    "right": "M1",
+    "wrong": [
+     "M18",
+     "M42",
+     "M69"
+    ]
+   },
+   {
+    "q": "Liverpool to Hull, right over the Pennines",
+    "right": "M62",
+    "wrong": [
+     "M65",
+     "M58",
+     "M56"
+    ]
+   },
+   {
+    "q": "London to south Wales, over the Severn",
+    "right": "M4",
+    "wrong": [
+     "M32",
+     "M49",
+     "M50"
+    ]
+   },
+   {
+    "q": "Birmingham to Exeter, past Bristol",
+    "right": "M5",
+    "wrong": [
+     "M50",
+     "M42",
+     "M32"
+    ]
+   },
+   {
+    "q": "Rugby to the Scottish border: Britain's longest motorway",
+    "right": "M6",
+    "wrong": [
+     "M61",
+     "M55",
+     "M54"
+    ]
+   },
+   {
+    "q": "The orbital ring road round London",
+    "right": "M25",
+    "wrong": [
+     "M26",
+     "M10",
+     "M45"
+    ]
+   },
+   {
+    "q": "Edinburgh to Glasgow",
+    "right": "M8",
+    "wrong": [
+     "M73",
+     "M80",
+     "M77"
+    ]
+   },
+   {
+    "q": "London to Folkestone and the Channel Tunnel",
+    "right": "M20",
+    "wrong": [
+     "M2",
+     "M26",
+     "M10"
+    ]
+   },
+   {
+    "q": "London to Cambridge",
+    "right": "M11",
+    "wrong": [
+     "M10",
+     "M45",
+     "M18"
+    ]
+   },
+   {
+    "q": "London to Southampton",
+    "right": "M3",
+    "wrong": [
+     "M27",
+     "M2",
+     "M26"
+    ]
+   },
+   {
+    "q": "Down past Gatwick on the way to Brighton",
+    "right": "M23",
+    "wrong": [
+     "M26",
+     "M2",
+     "M27"
+    ]
+   },
+   {
+    "q": "Manchester's orbital ring road",
+    "right": "M60",
+    "wrong": [
+     "M66",
+     "M56",
+     "M61"
+    ]
+   },
+   {
+    "q": "London to Birmingham by way of Oxford",
+    "right": "M40",
+    "wrong": [
+     "M42",
+     "M45",
+     "M54"
+    ]
+   },
+   {
+    "q": "The road you pay to use to get round Birmingham",
+    "right": "M6 Toll",
+    "wrong": [
+     "M42",
+     "M54",
+     "M69"
+    ]
+   },
+   {
+    "q": "Glasgow down to Carlisle and the border",
+    "right": "M74",
+    "wrong": [
+     "M77",
+     "M73",
+     "M80"
+    ]
+   },
+   {
+    "q": "Edinburgh to Perth, over the Queensferry Crossing",
+    "right": "M90",
+    "wrong": [
+     "M80",
+     "M876",
+     "M73"
+    ]
+   },
+   {
+    "q": "Doncaster towards Grimsby and the Humber",
+    "right": "M180",
+    "wrong": [
+     "M18",
+     "M621",
+     "M606"
+    ]
+   },
+   {
+    "q": "Over the old Severn Bridge to Chepstow",
+    "right": "M48",
+    "wrong": [
+     "M49",
+     "M32",
+     "M50"
+    ]
+   },
+   {
+    "q": "Through County Durham up to Newcastle",
+    "right": "A1(M)",
+    "wrong": [
+     "A19",
+     "A167",
+     "A66(M)"
+    ]
+   },
+   {
+    "q": "Edinburgh to Stirling",
+    "right": "M9",
+    "wrong": [
+     "M80",
+     "M876",
+     "M73"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: which Muppet is this?",
+  "target": 10,
+  "category": "TV",
+  "tags": [
+   "Muppets",
+   "puppets",
+   "children's TV"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Frog who hosts the show and sings 'Rainbow Connection'",
+    "right": "Kermit",
+    "wrong": [
+     "Walter",
+     "Clifford",
+     "Bobo"
+    ]
+   },
+   {
+    "q": "Pig with a karate chop, madly in love with a frog",
+    "right": "Miss Piggy",
+    "wrong": [
+     "Annie Sue",
+     "Foo-Foo",
+     "Bobo"
+    ]
+   },
+   {
+    "q": "Bear comic whose catchphrase is 'Wocka wocka!'",
+    "right": "Fozzie Bear",
+    "wrong": [
+     "Big Mean Carl",
+     "Bobo",
+     "Thog"
+    ]
+   },
+   {
+    "q": "Blue 'whatever' with a hooked nose and a passion for chickens",
+    "right": "Gonzo",
+    "wrong": [
+     "Uncle Deadly",
+     "Lew Zealand",
+     "Bobo"
+    ]
+   },
+   {
+    "q": "Wild drummer of the Electric Mayhem, kept on a chain",
+    "right": "Animal",
+    "wrong": [
+     "Floyd Pepper",
+     "Zoot",
+     "Lips"
+    ]
+   },
+   {
+    "q": "The dog who plays the piano",
+    "right": "Rowlf",
+    "wrong": [
+     "Foo-Foo",
+     "Sprocket",
+     "Bobo"
+    ]
+   },
+   {
+    "q": "Cook who babbles in mock Swedish and fights his food",
+    "right": "Swedish Chef",
+    "wrong": [
+     "Lew Zealand",
+     "Marvin Suggs",
+     "Bobo"
+    ]
+   },
+   {
+    "q": "Meeping lab assistant who always gets hurt",
+    "right": "Beaker",
+    "wrong": [
+     "Walter",
+     "Clifford",
+     "Bobo"
+    ]
+   },
+   {
+    "q": "Bald scientist with no eyes who runs Muppet Labs",
+    "right": "Dr Bunsen Honeydew",
+    "wrong": [
+     "Uncle Deadly",
+     "Marvin Suggs",
+     "Lew Zealand"
+    ]
+   },
+   {
+    "q": "The two grumpy old hecklers up in the theatre box",
+    "right": "Statler and Waldorf",
+    "wrong": [
+     "Bert and Ernie",
+     "Bob and Doug",
+     "Wayne and Wanda"
+    ]
+   },
+   {
+    "q": "Stern bald eagle who disapproves of everything",
+    "right": "Sam Eagle",
+    "wrong": [
+     "Uncle Deadly",
+     "Big Mean Carl",
+     "Lew Zealand"
+    ]
+   },
+   {
+    "q": "Young stage manager in glasses whose uncle owns the theatre",
+    "right": "Scooter",
+    "wrong": [
+     "Walter",
+     "Clifford",
+     "Bobo"
+    ]
+   },
+   {
+    "q": "Wisecracking rat, Gonzo's sidekick in The Muppet Christmas Carol",
+    "right": "Rizzo",
+    "wrong": [
+     "Sprocket",
+     "Clifford",
+     "Foo-Foo"
+    ]
+   },
+   {
+    "q": "King prawn who insists he is not a shrimp",
+    "right": "Pepe",
+    "wrong": [
+     "Lew Zealand",
+     "Clifford",
+     "Bobo"
+    ]
+   },
+   {
+    "q": "Gonzo's beloved chicken",
+    "right": "Camilla",
+    "wrong": [
+     "Annie Sue",
+     "Foo-Foo",
+     "Bobo"
+    ]
+   },
+   {
+    "q": "Gold-toothed leader of the Electric Mayhem, on keyboards",
+    "right": "Dr Teeth",
+    "wrong": [
+     "Floyd Pepper",
+     "Zoot",
+     "Lips"
+    ]
+   },
+   {
+    "q": "Laid-back Electric Mayhem guitarist who says 'Fer sure'",
+    "right": "Janice",
+    "wrong": [
+     "Floyd Pepper",
+     "Zoot",
+     "Lips"
+    ]
+   },
+   {
+    "q": "Kermit's young nephew",
+    "right": "Robin",
+    "wrong": [
+     "Walter",
+     "Clifford",
+     "Bobo"
+    ]
+   },
+   {
+    "q": "Big hairy monster who towers over everyone",
+    "right": "Sweetums",
+    "wrong": [
+     "Big Mean Carl",
+     "Thog",
+     "Uncle Deadly"
+    ]
+   },
+   {
+    "q": "Muppet who loves to blow things up with explosives",
+    "right": "Crazy Harry",
+    "wrong": [
+     "Lew Zealand",
+     "Marvin Suggs",
+     "Uncle Deadly"
+    ]
+   }
+  ]
+ }
+]
