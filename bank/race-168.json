@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this basketball word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "basketball",
+   "NBA",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Leaping up and forcing the ball down through the hoop",
+    "right": "Slam dunk",
+    "wrong": [
+     "Home run",
+     "Touchdown",
+     "Hat-trick"
+    ]
+   },
+   {
+    "q": "A gentle shot off the backboard on the run",
+    "right": "Lay-up",
+    "wrong": [
+     "Drop goal",
+     "Bunt",
+     "Volley"
+    ]
+   },
+   {
+    "q": "An unopposed shot from the line after a foul",
+    "right": "Free throw",
+    "wrong": [
+     "Penalty",
+     "Free kick",
+     "Conversion"
+    ]
+   },
+   {
+    "q": "A shot from beyond the arc",
+    "right": "Three-pointer",
+    "wrong": [
+     "Drop goal",
+     "Hat-trick",
+     "Six"
+    ]
+   },
+   {
+    "q": "Bouncing the ball while you move",
+    "right": "Dribble",
+    "wrong": [
+     "Juggle",
+     "Volley",
+     "Dink"
+    ]
+   },
+   {
+    "q": "Grabbing the ball after a missed shot",
+    "right": "Rebound",
+    "wrong": [
+     "Rally",
+     "Deflection",
+     "Scrum"
+    ]
+   },
+   {
+    "q": "Losing the ball to the other team",
+    "right": "Turnover",
+    "wrong": [
+     "Overturn",
+     "Turnstile",
+     "Throw-in"
+    ]
+   },
+   {
+    "q": "The rectangle behind the hoop",
+    "right": "Backboard",
+    "wrong": [
+     "Scoreboard",
+     "Dartboard",
+     "Skirting board"
+    ]
+   },
+   {
+    "q": "Taking too many steps without bouncing the ball",
+    "right": "Travelling",
+    "wrong": [
+     "Offside",
+     "Double hit",
+     "Handball"
+    ]
+   },
+   {
+    "q": "Gives a team 24 seconds to shoot",
+    "right": "Shot clock",
+    "wrong": [
+     "Stopwatch",
+     "Egg timer",
+     "Chess clock"
+    ]
+   },
+   {
+    "q": "America's top basketball league, by its initials",
+    "right": "NBA",
+    "wrong": [
+     "NFL",
+     "NHL",
+     "MLB"
+    ]
+   },
+   {
+    "q": "The show team famous for trick shots and 'Sweet Georgia Brown'",
+    "right": "Harlem Globetrotters",
+    "wrong": [
+     "Chicago Bulls",
+     "LA Lakers",
+     "Boston Celtics"
+    ]
+   },
+   {
+    "q": "The Chicago Bulls legend with six titles",
+    "right": "Michael Jordan",
+    "wrong": [
+     "Kobe Bryant",
+     "Magic Johnson",
+     "Shaquille O'Neal"
+    ]
+   },
+   {
+    "q": "The star who became the NBA's all-time top scorer in 2023",
+    "right": "LeBron James",
+    "wrong": [
+     "Kobe Bryant",
+     "Magic Johnson",
+     "Stephen Curry"
+    ]
+   },
+   {
+    "q": "The USA's superstar team at the 1992 Olympics",
+    "right": "Dream Team",
+    "wrong": [
+     "A-Team",
+     "Famous Five",
+     "Invincibles"
+    ]
+   },
+   {
+    "q": "The playmaker who runs the attack",
+    "right": "Point guard",
+    "wrong": [
+     "Centre",
+     "Power forward",
+     "Small forward"
+    ]
+   },
+   {
+    "q": "A shot that misses everything",
+    "right": "Air ball",
+    "wrong": [
+     "Airmail",
+     "Air guitar",
+     "Hot air"
+    ]
+   },
+   {
+    "q": "Players on court for each team",
+    "right": "Five",
+    "wrong": [
+     "Six",
+     "Seven",
+     "Eleven"
+    ]
+   },
+   {
+    "q": "Catching a pass in mid-air and dunking it",
+    "right": "Alley-oop",
+    "wrong": [
+     "Hopscotch",
+     "Hula hoop",
+     "Whoopsie-daisy"
+    ]
+   },
+   {
+    "q": "Another word for the basket",
+    "right": "Hoop",
+    "wrong": [
+     "Halo",
+     "Wreath",
+     "Bangle"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this baseball word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "baseball",
+   "American sport",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Hitting the ball right out of the park",
+    "right": "Home run",
+    "wrong": [
+     "Touchdown",
+     "Slam dunk",
+     "Hat-trick"
+    ]
+   },
+   {
+    "q": "Throws the ball to the batter",
+    "right": "Pitcher",
+    "wrong": [
+     "Bowler",
+     "Server",
+     "Kicker"
+    ]
+   },
+   {
+    "q": "Crouches behind home plate in a mask",
+    "right": "Catcher",
+    "wrong": [
+     "Wicketkeeper",
+     "Goalkeeper",
+     "Sweeper"
+    ]
+   },
+   {
+    "q": "A swing and a miss",
+    "right": "Strike",
+    "wrong": [
+     "Spare",
+     "Wide",
+     "No-ball"
+    ]
+   },
+   {
+    "q": "There are nine of these in a game",
+    "right": "Innings",
+    "wrong": [
+     "Overs",
+     "Quarters",
+     "Halves"
+    ]
+   },
+   {
+    "q": "The infield, named after its shape",
+    "right": "Diamond",
+    "wrong": [
+     "Pitch",
+     "Oval",
+     "Square"
+    ]
+   },
+   {
+    "q": "There are four of these, including home plate",
+    "right": "Bases",
+    "wrong": [
+     "Wickets",
+     "Posts",
+     "Holes"
+    ]
+   },
+   {
+    "q": "The big padded glove",
+    "right": "Mitt",
+    "wrong": [
+     "Gauntlet",
+     "Muff",
+     "Oven glove"
+    ]
+   },
+   {
+    "q": "Tapping the ball softly instead of swinging",
+    "right": "Bunt",
+    "wrong": [
+     "Nudge",
+     "Chip",
+     "Dink"
+    ]
+   },
+   {
+    "q": "A home run with all the bases loaded",
+    "right": "Grand slam",
+    "wrong": [
+     "Grand National",
+     "Grand Prix",
+     "Grand Tour"
+    ]
+   },
+   {
+    "q": "Baseball's championship, despite being all-American",
+    "right": "World Series",
+    "wrong": [
+     "Super Bowl",
+     "Stanley Cup",
+     "NBA Finals"
+    ]
+   },
+   {
+    "q": "The legendary Yankees slugger, 'the Bambino'",
+    "right": "Babe Ruth",
+    "wrong": [
+     "Joe DiMaggio",
+     "Lou Gehrig",
+     "Ty Cobb"
+    ]
+   },
+   {
+    "q": "The most successful team, from the Bronx",
+    "right": "New York Yankees",
+    "wrong": [
+     "Boston Red Sox",
+     "Los Angeles Dodgers",
+     "Chicago Cubs"
+    ]
+   },
+   {
+    "q": "When fans stand and sing 'Take Me Out to the Ball Game'",
+    "right": "Seventh-inning stretch",
+    "wrong": [
+     "Half-time show",
+     "Tea interval",
+     "Mexican wave"
+    ]
+   },
+   {
+    "q": "The sunken shelter where the team sits",
+    "right": "Dugout",
+    "wrong": [
+     "Pavilion",
+     "Paddock",
+     "Pit lane"
+    ]
+   },
+   {
+    "q": "Where the relief pitchers warm up",
+    "right": "Bullpen",
+    "wrong": [
+     "Pigpen",
+     "Playpen",
+     "Bullring"
+    ]
+   },
+   {
+    "q": "The British school game it's related to",
+    "right": "Rounders",
+    "wrong": [
+     "Hockey",
+     "Netball",
+     "Quoits"
+    ]
+   },
+   {
+    "q": "Three strikes and you're out",
+    "right": "Strikeout",
+    "wrong": [
+     "Knockout",
+     "Stumped",
+     "Run out"
+    ]
+   },
+   {
+    "q": "The quickest pitch",
+    "right": "Fastball",
+    "wrong": [
+     "Googly",
+     "Yorker",
+     "Bouncer"
+    ]
+   },
+   {
+    "q": "A pitch that swerves on its way",
+    "right": "Curveball",
+    "wrong": [
+     "Googly",
+     "Inswinger",
+     "Topspin"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this plumbing word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "plumbing",
+   "DIY",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The little rubber ring that stops a tap dripping",
+    "right": "Washer",
+    "wrong": [
+     "Bolt",
+     "Nut",
+     "Rivet"
+    ]
+   },
+   {
+    "q": "The valve that turns off water to the whole house",
+    "right": "Stopcock",
+    "wrong": [
+     "Weathercock",
+     "Peacock",
+     "Shuttlecock"
+    ]
+   },
+   {
+    "q": "The float valve that refills the toilet cistern",
+    "right": "Ballcock",
+    "wrong": [
+     "Weathercock",
+     "Peacock",
+     "Shuttlecock"
+    ]
+   },
+   {
+    "q": "The curved pipe under the sink that traps smells",
+    "right": "U-bend",
+    "wrong": [
+     "Hairpin bend",
+     "Elbow",
+     "Dog leg"
+    ]
+   },
+   {
+    "q": "The tank above the toilet",
+    "right": "Cistern",
+    "wrong": [
+     "Cauldron",
+     "Urn",
+     "Vat"
+    ]
+   },
+   {
+    "q": "A rubber cup on a stick for unblocking",
+    "right": "Plunger",
+    "wrong": [
+     "Plunge pool",
+     "Plonker",
+     "Prodder"
+    ]
+   },
+   {
+    "q": "Heats the water for the radiators",
+    "right": "Boiler",
+    "wrong": [
+     "Kettle",
+     "Toaster",
+     "Freezer"
+    ]
+   },
+   {
+    "q": "The hot metal panel that warms the room",
+    "right": "Radiator",
+    "wrong": [
+     "Refrigerator",
+     "Generator",
+     "Ventilator"
+    ]
+   },
+   {
+    "q": "Letting trapped air out of a radiator",
+    "right": "Bleed",
+    "wrong": [
+     "Pump",
+     "Prime",
+     "Prune"
+    ]
+   },
+   {
+    "q": "Water dripping where it shouldn't",
+    "right": "Leak",
+    "wrong": [
+     "Leek",
+     "Lick",
+     "Leap"
+    ]
+   },
+   {
+    "q": "Where the dirty water goes",
+    "right": "Drain",
+    "wrong": [
+     "Chimney",
+     "Flue",
+     "Vent"
+    ]
+   },
+   {
+    "q": "The channel along the roof edge that catches the rain",
+    "right": "Gutter",
+    "wrong": [
+     "Soffit",
+     "Fascia",
+     "Ridge"
+    ]
+   },
+   {
+    "q": "Carries the rain from the gutter to the ground",
+    "right": "Downpipe",
+    "wrong": [
+     "Flue",
+     "Chimney",
+     "Vent"
+    ]
+   },
+   {
+    "q": "The chalky crust left by hard water",
+    "right": "Limescale",
+    "wrong": [
+     "Plaque",
+     "Rust",
+     "Mould"
+    ]
+   },
+   {
+    "q": "The tool for tightening nuts",
+    "right": "Spanner",
+    "wrong": [
+     "Trowel",
+     "Chisel",
+     "Plane"
+    ]
+   },
+   {
+    "q": "White tape wound round threads to seal a joint",
+    "right": "PTFE tape",
+    "wrong": [
+     "Duct tape",
+     "Masking tape",
+     "Red tape"
+    ]
+   },
+   {
+    "q": "The electric element inside a hot-water tank",
+    "right": "Immersion heater",
+    "wrong": [
+     "Fan heater",
+     "Storage heater",
+     "Patio heater"
+    ]
+   },
+   {
+    "q": "An underground tank for sewage where there's no mains drain",
+    "right": "Septic tank",
+    "wrong": [
+     "Think tank",
+     "Fish tank",
+     "Petrol tank"
+    ]
+   },
+   {
+    "q": "A gadget that takes the calcium out of hard water",
+    "right": "Water softener",
+    "wrong": [
+     "Fabric softener",
+     "Water pistol",
+     "Watermark"
+    ]
+   },
+   {
+    "q": "The trade named from the Latin for lead, which old pipes were made of",
+    "right": "Plumber",
+    "wrong": [
+     "Fitter",
+     "Joiner",
+     "Glazier"
+    ]
+   }
+  ]
+ }
+]
