@@ -1,0 +1,160 @@
+[
+ {
+  "type": "club",
+  "text": "Read TOP from right to left. Which kitchen item do you get?",
+  "answers": [
+   "Pot",
+   "POT"
+  ],
+  "pct": 80,
+  "why": "T-O-P reversed is P-O-T.",
+  "difficulty": "easy",
+  "category": "Wordplay",
+  "tags": [
+   "backwards",
+   "kitchen"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Count the letters in the word ELEPHANT.",
+  "answers": [
+   "8",
+   "Eight"
+  ],
+  "pct": 70,
+  "why": "E-L-E-P-H-A-N-T.",
+  "difficulty": "easy",
+  "category": "Wordplay",
+  "tags": [
+   "letters",
+   "counting"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Square 3, square 4, and add the results.",
+  "answers": [
+   "25",
+   "Twenty-five"
+  ],
+  "pct": 60,
+  "why": "9 + 16 = 25.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "squares",
+   "adding"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Fill the gap in this run of squares: 1, 4, ?, 16, 25.",
+  "answers": [
+   "9",
+   "Nine"
+  ],
+  "pct": 40,
+  "why": "They're square numbers: 1, 4, 9, 16, 25.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "patterns",
+   "squares"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Spot the prime among 21, 27, 29 and 33.",
+  "answers": [
+   "29",
+   "Twenty-nine"
+  ],
+  "pct": 30,
+  "why": "21 = 3 × 7, 27 = 3 × 9, 33 = 3 × 11, but 29 has no factors.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "primes"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Half of a number is 18. What is that number doubled?",
+  "answers": [
+   "72",
+   "Seventy-two"
+  ],
+  "pct": 30,
+  "why": "The number is 36, and double 36 is 72.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "halving",
+   "doubling"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Monday is two days after which day?",
+  "answers": [
+   "Saturday"
+  ],
+  "pct": 20,
+  "why": "Saturday, Sunday, Monday.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "days"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "On a chess board, how many light-coloured squares are there?",
+  "answers": [
+   "32",
+   "Thirty-two"
+  ],
+  "pct": 10,
+  "why": "Half of the 64.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "chess",
+   "squares"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "If 1 = 5, 2 = 25, 3 = 125 and 4 = 625, what does 5 equal?",
+  "answers": [
+   "1",
+   "One"
+  ],
+  "pct": 5,
+  "why": "The very first line says 1 = 5, so 5 = 1.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "patterns",
+   "trick"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Add up all the inside angles of a hexagon. How many degrees is that?",
+  "answers": [
+   "720",
+   "720 degrees",
+   "Seven hundred and twenty"
+  ],
+  "pct": 5,
+  "why": "A hexagon splits into four triangles: 4 × 180 = 720.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "shapes",
+   "angles"
+  ]
+ }
+]
