@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this library word?",
+  "target": 10,
+  "category": "Books",
+  "tags": [
+   "libraries",
+   "books",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The person who runs the library",
+    "right": "Librarian",
+    "wrong": [
+     "Curator",
+     "Usher",
+     "Clerk"
+    ]
+   },
+   {
+    "q": "What lets you borrow the books",
+    "right": "Library card",
+    "wrong": [
+     "Credit card",
+     "Loyalty card",
+     "Railcard"
+    ]
+   },
+   {
+    "q": "A book brought back late",
+    "right": "Overdue",
+    "wrong": [
+     "Overdone",
+     "Overdrawn",
+     "Overtime"
+    ]
+   },
+   {
+    "q": "What you pay for a late book",
+    "right": "Fine",
+    "wrong": [
+     "Toll",
+     "Tip",
+     "Deposit"
+    ]
+   },
+   {
+    "q": "The numbering system for sorting the books",
+    "right": "Dewey Decimal",
+    "wrong": [
+     "Morse code",
+     "Highway Code",
+     "PIN code"
+    ]
+   },
+   {
+    "q": "Made-up stories",
+    "right": "Fiction",
+    "wrong": [
+     "Diction",
+     "Friction",
+     "Faction"
+    ]
+   },
+   {
+    "q": "Books of facts",
+    "right": "Non-fiction",
+    "wrong": [
+     "Nonsense",
+     "Non-stop",
+     "Nonentity"
+    ]
+   },
+   {
+    "q": "The edge of the book you see on the shelf",
+    "right": "Spine",
+    "wrong": [
+     "Index",
+     "Margin",
+     "Flyleaf"
+    ]
+   },
+   {
+    "q": "The short description on the back cover",
+    "right": "Blurb",
+    "wrong": [
+     "Burp",
+     "Blob",
+     "Bulb"
+    ]
+   },
+   {
+    "q": "A book with a stiff cover",
+    "right": "Hardback",
+    "wrong": [
+     "Hardware",
+     "Hardship",
+     "Hard shoulder"
+    ]
+   },
+   {
+    "q": "A book with a soft cover",
+    "right": "Paperback",
+    "wrong": [
+     "Paperweight",
+     "Paper chase",
+     "Paperwork"
+    ]
+   },
+   {
+    "q": "What the stereotypical librarian says",
+    "right": "Shh!",
+    "wrong": [
+     "Boo!",
+     "Oi!",
+     "Ahem!"
+    ]
+   },
+   {
+    "q": "Books with bigger text",
+    "right": "Large print",
+    "wrong": [
+     "Small print",
+     "Fine print",
+     "Footprint"
+    ]
+   },
+   {
+    "q": "A book read aloud as a recording",
+    "right": "Audiobook",
+    "wrong": [
+     "Notebook",
+     "Scrapbook",
+     "Logbook"
+    ]
+   },
+   {
+    "q": "A book read on a screen",
+    "right": "E-book",
+    "wrong": [
+     "E-mail",
+     "E-number",
+     "E-scooter"
+    ]
+   },
+   {
+    "q": "Books you can't take home, like encyclopedias",
+    "right": "Reference",
+    "wrong": [
+     "Preference",
+     "Conference",
+     "Deference"
+    ]
+   },
+   {
+    "q": "The quiet room for study",
+    "right": "Reading room",
+    "wrong": [
+     "Waiting room",
+     "Boardroom",
+     "Box room"
+    ]
+   },
+   {
+    "q": "The UK's national library, next to St Pancras",
+    "right": "British Library",
+    "wrong": [
+     "Bodleian",
+     "Ashmolean",
+     "John Rylands"
+    ]
+   },
+   {
+    "q": "A book's 13-digit number, by its initials",
+    "right": "ISBN",
+    "wrong": [
+     "PIN",
+     "IBAN",
+     "VIN"
+    ]
+   },
+   {
+    "q": "Someone who loves reading",
+    "right": "Bookworm",
+    "wrong": [
+     "Earthworm",
+     "Bookend",
+     "Bookmaker"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this museum word?",
+  "target": 10,
+  "category": "Art",
+  "tags": [
+   "museums",
+   "galleries",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The person in charge of the collection",
+    "right": "Curator",
+    "wrong": [
+     "Librarian",
+     "Conductor",
+     "Steward"
+    ]
+   },
+   {
+    "q": "An object on display",
+    "right": "Exhibit",
+    "wrong": [
+     "Inhibit",
+     "Prohibit",
+     "Exit"
+    ]
+   },
+   {
+    "q": "Where you exit through, according to Banksy's film",
+    "right": "Gift shop",
+    "wrong": [
+     "Café",
+     "Cloakroom",
+     "Ticket office"
+    ]
+   },
+   {
+    "q": "The glass box protecting the objects",
+    "right": "Display case",
+    "wrong": [
+     "Pencil case",
+     "Briefcase",
+     "Suitcase"
+    ]
+   },
+   {
+    "q": "Ancient remains turned to stone",
+    "right": "Fossil",
+    "wrong": [
+     "Pebble",
+     "Crystal",
+     "Geode"
+    ]
+   },
+   {
+    "q": "The Natural History Museum's famous diplodocus cast",
+    "right": "Dippy",
+    "wrong": [
+     "Sue",
+     "Stan",
+     "Archie"
+    ]
+   },
+   {
+    "q": "The blue whale skeleton that replaced it in 2017",
+    "right": "Hope",
+    "wrong": [
+     "Faith",
+     "Charity",
+     "Grace"
+    ]
+   },
+   {
+    "q": "Home of the Rosetta Stone",
+    "right": "British Museum",
+    "wrong": [
+     "Science Museum",
+     "National Gallery",
+     "Imperial War Museum"
+    ]
+   },
+   {
+    "q": "The London museum of design, named after a royal couple, by its initials",
+    "right": "V&A",
+    "wrong": [
+     "RA",
+     "NPG",
+     "BFI"
+    ]
+   },
+   {
+    "q": "The gallery in an old power station on the Thames",
+    "right": "Tate Modern",
+    "wrong": [
+     "Tate Britain",
+     "Saatchi Gallery",
+     "Hayward Gallery"
+    ]
+   },
+   {
+    "q": "The Paris museum that's home to the Mona Lisa",
+    "right": "Louvre",
+    "wrong": [
+     "Musée d'Orsay",
+     "Prado",
+     "Uffizi"
+    ]
+   },
+   {
+    "q": "The film where the exhibits come to life",
+    "right": "Night at the Museum",
+    "wrong": [
+     "Night Shift",
+     "Night Fever",
+     "Night School"
+    ]
+   },
+   {
+    "q": "A headset telling you about each room",
+    "right": "Audio guide",
+    "wrong": [
+     "Sat nav",
+     "Walkie-talkie",
+     "Hearing aid"
+    ]
+   },
+   {
+    "q": "An object made by people long ago",
+    "right": "Artefact",
+    "wrong": [
+     "Artifice",
+     "Artichoke",
+     "Article"
+    ]
+   },
+   {
+    "q": "The base a statue stands on",
+    "right": "Plinth",
+    "wrong": [
+     "Plank",
+     "Plant",
+     "Plunge"
+    ]
+   },
+   {
+    "q": "An old-fashioned room of odd collected objects",
+    "right": "Cabinet of curiosities",
+    "wrong": [
+     "Cabinet reshuffle",
+     "Kitchen cabinet",
+     "Filing cabinet"
+    ]
+   },
+   {
+    "q": "The expert who repairs and preserves the objects",
+    "right": "Conservator",
+    "wrong": [
+     "Conservative",
+     "Conservatory",
+     "Conversation"
+    ]
+   },
+   {
+    "q": "The price of getting into most UK national museums",
+    "right": "Free entry",
+    "wrong": [
+     "Half price",
+     "Peak fare",
+     "Season ticket"
+    ]
+   },
+   {
+    "q": "The open-air museum of North East life, near Stanley",
+    "right": "Beamish",
+    "wrong": [
+     "St Fagans",
+     "Ironbridge",
+     "Black Country Living Museum"
+    ]
+   },
+   {
+    "q": "The ancient Greek sculptures Greece wants returned",
+    "right": "Elgin Marbles",
+    "wrong": [
+     "Venus de Milo",
+     "Terracotta Army",
+     "Winged Victory"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this motorway word?",
+  "target": 10,
+  "category": "Travel",
+  "tags": [
+   "motorways",
+   "driving",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The strip kept for breakdowns",
+    "right": "Hard shoulder",
+    "wrong": [
+     "Cold shoulder",
+     "Hard hat",
+     "Hard line"
+    ]
+   },
+   {
+    "q": "The stop for fuel, food and toilets",
+    "right": "Services",
+    "wrong": [
+     "Lay-by",
+     "Roundabout",
+     "Car park"
+    ]
+   },
+   {
+    "q": "Where you join or leave, numbered",
+    "right": "Junction",
+    "wrong": [
+     "Function",
+     "Unction",
+     "Conjunction"
+    ]
+   },
+   {
+    "q": "The ramp onto the motorway",
+    "right": "Slip road",
+    "wrong": [
+     "Slipway",
+     "Side road",
+     "Ring road"
+    ]
+   },
+   {
+    "q": "The barrier strip between the two carriageways",
+    "right": "Central reservation",
+    "wrong": [
+     "Table reservation",
+     "Hotel reservation",
+     "Nature reserve"
+    ]
+   },
+   {
+    "q": "Reflective studs in the road",
+    "right": "Cat's eyes",
+    "wrong": [
+     "Cat flap",
+     "Cat's cradle",
+     "Catwalk"
+    ]
+   },
+   {
+    "q": "A motorway that uses the hard shoulder as a lane at busy times",
+    "right": "Smart motorway",
+    "wrong": [
+     "Smartphone",
+     "Smart casual",
+     "Smart meter"
+    ]
+   },
+   {
+    "q": "Britain's first full motorway, opened in 1959",
+    "right": "M1",
+    "wrong": [
+     "M6",
+     "M62",
+     "A1"
+    ]
+   },
+   {
+    "q": "The orbital road round London",
+    "right": "M25",
+    "wrong": [
+     "M4",
+     "M40",
+     "North Circular"
+    ]
+   },
+   {
+    "q": "Birmingham's famous tangle of flyovers",
+    "right": "Spaghetti Junction",
+    "wrong": [
+     "Clapham Junction",
+     "Scotch Corner",
+     "Hanger Lane"
+    ]
+   },
+   {
+    "q": "The nickname for the outside lane",
+    "right": "Fast lane",
+    "wrong": [
+     "Bus lane",
+     "Memory lane",
+     "Fast food"
+    ]
+   },
+   {
+    "q": "Driving far too close behind",
+    "right": "Tailgating",
+    "wrong": [
+     "Tailspin",
+     "Ponytail",
+     "Tail end"
+    ]
+   },
+   {
+    "q": "The overhead frame holding the signs",
+    "right": "Gantry",
+    "wrong": [
+     "Pantry",
+     "Gantt chart",
+     "Gangway"
+    ]
+   },
+   {
+    "q": "Changing limits shown on the overhead signs",
+    "right": "Variable speed limit",
+    "wrong": [
+     "Speed date",
+     "Speed camera",
+     "Speedometer"
+    ]
+   },
+   {
+    "q": "The speed limit for cars on a motorway, in mph",
+    "right": "70",
+    "wrong": [
+     "60",
+     "80",
+     "50"
+    ]
+   },
+   {
+    "q": "Traffic switched to the other side for roadworks",
+    "right": "Contraflow",
+    "wrong": [
+     "Overflow",
+     "Cash flow",
+     "Workflow"
+    ]
+   },
+   {
+    "q": "Orange markers around the roadworks",
+    "right": "Cones",
+    "wrong": [
+     "Buoys",
+     "Kegs",
+     "Funnels"
+    ]
+   },
+   {
+    "q": "Allowed on motorways with an instructor since 2018",
+    "right": "Learner drivers",
+    "wrong": [
+     "Cyclists",
+     "Horse riders",
+     "Pedestrians"
+    ]
+   },
+   {
+    "q": "The fee to use the M6 ___",
+    "right": "Toll",
+    "wrong": [
+     "Tax",
+     "Ticket",
+     "Tithe"
+    ]
+   },
+   {
+    "q": "Comes to tow your broken-down car",
+    "right": "Recovery truck",
+    "wrong": [
+     "Ice cream van",
+     "Milk float",
+     "Hearse"
+    ]
+   }
+  ]
+ }
+]
