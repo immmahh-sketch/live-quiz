@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this sci-fi word?",
+  "target": 10,
+  "category": "Film",
+  "tags": [
+   "science fiction",
+   "space",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A being from another planet",
+    "right": "Alien",
+    "wrong": [
+     "Mutant",
+     "Zombie",
+     "Ghost"
+    ]
+   },
+   {
+    "q": "A robot built to look like a human",
+    "right": "Android",
+    "wrong": [
+     "Golem",
+     "Puppet",
+     "Scarecrow"
+    ]
+   },
+   {
+    "q": "Part human, part machine",
+    "right": "Cyborg",
+    "wrong": [
+     "Golem",
+     "Mummy",
+     "Puppet"
+    ]
+   },
+   {
+    "q": "A device for travelling to the past or future",
+    "right": "Time machine",
+    "wrong": [
+     "Slot machine",
+     "Fruit machine",
+     "Sewing machine"
+    ]
+   },
+   {
+    "q": "Beam instantly from one place to another",
+    "right": "Teleport",
+    "wrong": [
+     "Telescope",
+     "Telegram",
+     "Telethon"
+    ]
+   },
+   {
+    "q": "Faster than light, on the Enterprise",
+    "right": "Warp speed",
+    "wrong": [
+     "Snail's pace",
+     "Top gear",
+     "Turbo boost"
+    ]
+   },
+   {
+    "q": "A Jedi's glowing sword",
+    "right": "Lightsaber",
+    "wrong": [
+     "Cutlass",
+     "Rapier",
+     "Scimitar"
+    ]
+   },
+   {
+    "q": "What the Millennium Falcon jumps into",
+    "right": "Hyperspace",
+    "wrong": [
+     "Cyberspace",
+     "Outer space",
+     "Headspace"
+    ]
+   },
+   {
+    "q": "A machine named from a Czech word for 'forced labour'",
+    "right": "Robot",
+    "wrong": [
+     "Drone",
+     "Golem",
+     "Mannequin"
+    ]
+   },
+   {
+    "q": "A grim imagined future society",
+    "right": "Dystopia",
+    "wrong": [
+     "Utopia",
+     "Atlantis",
+     "Shangri-La"
+    ]
+   },
+   {
+    "q": "A region of space that nothing can escape",
+    "right": "Black hole",
+    "wrong": [
+     "Pothole",
+     "Plughole",
+     "Manhole"
+    ]
+   },
+   {
+    "q": "A tunnel through space-time, a shortcut across the universe",
+    "right": "Wormhole",
+    "wrong": [
+     "Rabbit hole",
+     "Loophole",
+     "Porthole"
+    ]
+   },
+   {
+    "q": "An exact genetic copy",
+    "right": "Clone",
+    "wrong": [
+     "Mimic",
+     "Echo",
+     "Shadow"
+    ]
+   },
+   {
+    "q": "A 3D image made of light, like Rimmer in Red Dwarf",
+    "right": "Hologram",
+    "wrong": [
+     "Polaroid",
+     "Silhouette",
+     "Mirage"
+    ]
+   },
+   {
+    "q": "The Doctor's police box time machine",
+    "right": "TARDIS",
+    "wrong": [
+     "DeLorean",
+     "Enterprise",
+     "Millennium Falcon"
+    ]
+   },
+   {
+    "q": "Make a planet more like the Earth",
+    "right": "Terraform",
+    "wrong": [
+     "Transform",
+     "Terracotta",
+     "Terrarium"
+    ]
+   },
+   {
+    "q": "The distance light travels in a year",
+    "right": "Light year",
+    "wrong": [
+     "Leap year",
+     "Gap year",
+     "Year dot"
+    ]
+   },
+   {
+    "q": "Frozen sleep for long space voyages",
+    "right": "Cryosleep",
+    "wrong": [
+     "Power nap",
+     "Lie-in",
+     "Siesta"
+    ]
+   },
+   {
+    "q": "A huge alien craft that launches smaller ones",
+    "right": "Mothership",
+    "wrong": [
+     "Flagship",
+     "Battleship",
+     "Friendship"
+    ]
+   },
+   {
+    "q": "The author of The Time Machine and The War of the Worlds",
+    "right": "H. G. Wells",
+    "wrong": [
+     "Jules Verne",
+     "Arthur C. Clarke",
+     "Isaac Asimov"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this superhero word?",
+  "target": 10,
+  "category": "Film",
+  "tags": [
+   "superheroes",
+   "comics",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The flowing cloak worn by Superman",
+    "right": "Cape",
+    "wrong": [
+     "Apron",
+     "Poncho",
+     "Shawl"
+    ]
+   },
+   {
+    "q": "Hides a hero's face",
+    "right": "Mask",
+    "wrong": [
+     "Monocle",
+     "Snorkel",
+     "Veil"
+    ]
+   },
+   {
+    "q": "The everyday name a hero hides behind, like Clark Kent",
+    "right": "Secret identity",
+    "wrong": [
+     "Stage name",
+     "Pen name",
+     "Nickname"
+    ]
+   },
+   {
+    "q": "The hero's young helper, like Robin",
+    "right": "Sidekick",
+    "wrong": [
+     "Kickback",
+     "Sidecar",
+     "Kickstand"
+    ]
+   },
+   {
+    "q": "The hero's greatest foe, like the Joker",
+    "right": "Arch-enemy",
+    "wrong": [
+     "Best friend",
+     "Pen pal",
+     "Second cousin"
+    ]
+   },
+   {
+    "q": "How the hero got their powers",
+    "right": "Origin story",
+    "wrong": [
+     "Bedtime story",
+     "Ghost story",
+     "Cover story"
+    ]
+   },
+   {
+    "q": "The green crystal that weakens Superman",
+    "right": "Kryptonite",
+    "wrong": [
+     "Adamantium",
+     "Plutonium",
+     "Uranium"
+    ]
+   },
+   {
+    "q": "Wakanda's metal, used in Captain America's shield",
+    "right": "Vibranium",
+    "wrong": [
+     "Adamantium",
+     "Titanium",
+     "Mithril"
+    ]
+   },
+   {
+    "q": "The Dark Knight's car",
+    "right": "Batmobile",
+    "wrong": [
+     "Popemobile",
+     "Snowmobile",
+     "Bookmobile"
+    ]
+   },
+   {
+    "q": "The hidden lair under Wayne Manor",
+    "right": "Batcave",
+    "wrong": [
+     "Fortress of Solitude",
+     "Stark Tower",
+     "Baxter Building"
+    ]
+   },
+   {
+    "q": "Batman's gadget-packed belt",
+    "right": "Utility belt",
+    "wrong": [
+     "Seat belt",
+     "Black belt",
+     "Green belt"
+    ]
+   },
+   {
+    "q": "The searchlight in the sky over Gotham",
+    "right": "Bat-signal",
+    "wrong": [
+     "Smoke signal",
+     "Turn signal",
+     "Railway signal"
+    ]
+   },
+   {
+    "q": "Peter Parker's tingling danger warning",
+    "right": "Spider-sense",
+    "wrong": [
+     "Sixth sense",
+     "Common sense",
+     "Horse sense"
+    ]
+   },
+   {
+    "q": "The battle cry of Marvel's team",
+    "right": "Avengers assemble!",
+    "wrong": [
+     "Charge!",
+     "Geronimo!",
+     "To infinity and beyond!"
+    ]
+   },
+   {
+    "q": "Stan Lee's brief appearance in the Marvel films",
+    "right": "Cameo",
+    "wrong": [
+     "Encore",
+     "Montage",
+     "Trailer"
+    ]
+   },
+   {
+    "q": "The six gems Thanos collects",
+    "right": "Infinity Stones",
+    "wrong": [
+     "Rolling Stones",
+     "Stepping stones",
+     "Kidney stones"
+    ]
+   },
+   {
+    "q": "Batman's home city",
+    "right": "Gotham",
+    "wrong": [
+     "Metropolis",
+     "Star City",
+     "Central City"
+    ]
+   },
+   {
+    "q": "Captain America's round weapon",
+    "right": "Shield",
+    "wrong": [
+     "Hammer",
+     "Bow",
+     "Trident"
+    ]
+   },
+   {
+    "q": "Wonder Woman's golden rope that makes you tell the truth",
+    "right": "Lasso of Truth",
+    "wrong": [
+     "Bullwhip",
+     "Grappling hook",
+     "Washing line"
+    ]
+   },
+   {
+    "q": "The stretchy fabric of the classic costume",
+    "right": "Spandex",
+    "wrong": [
+     "Denim",
+     "Tweed",
+     "Corduroy"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this perfume word?",
+  "target": 10,
+  "category": "Fashion",
+  "tags": [
+   "perfume",
+   "fragrance",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The lighter, cheaper version of a fragrance",
+    "right": "Eau de toilette",
+    "wrong": [
+     "Eau de vie",
+     "Eau de Nil",
+     "Eau Claire"
+    ]
+   },
+   {
+    "q": "The spray bottle for scent",
+    "right": "Atomiser",
+    "wrong": [
+     "Moisturiser",
+     "Fertiliser",
+     "Tenderiser"
+    ]
+   },
+   {
+    "q": "The top, middle and base ___ of a scent",
+    "right": "Notes",
+    "wrong": [
+     "Chords",
+     "Keys",
+     "Bars"
+    ]
+   },
+   {
+    "q": "The animal-like base note, once taken from deer",
+    "right": "Musk",
+    "wrong": [
+     "Mask",
+     "Must",
+     "Mush"
+    ]
+   },
+   {
+    "q": "The French town known as the perfume capital of the world",
+    "right": "Grasse",
+    "wrong": [
+     "Nice",
+     "Cannes",
+     "Lyon"
+    ]
+   },
+   {
+    "q": "Marilyn Monroe said she wore only this to bed",
+    "right": "Chanel No. 5",
+    "wrong": [
+     "Opium",
+     "Poison",
+     "Shalimar"
+    ]
+   },
+   {
+    "q": "The nickname for an expert perfume maker",
+    "right": "Nose",
+    "wrong": [
+     "Eye",
+     "Ear",
+     "Palate"
+    ]
+   },
+   {
+    "q": "The shop bottle you can spray to try",
+    "right": "Tester",
+    "wrong": [
+     "Taster",
+     "Toaster",
+     "Teaser"
+    ]
+   },
+   {
+    "q": "The purple flower grown for scent in Provence and Norfolk",
+    "right": "Lavender",
+    "wrong": [
+     "Heather",
+     "Thistle",
+     "Foxglove"
+    ]
+   },
+   {
+    "q": "The sweet note from an orchid pod",
+    "right": "Vanilla",
+    "wrong": [
+     "Vinegar",
+     "Vermouth",
+     "Velvet"
+    ]
+   },
+   {
+    "q": "The creamy woody note from an Indian tree",
+    "right": "Sandalwood",
+    "wrong": [
+     "Driftwood",
+     "Boxwood",
+     "Sherwood"
+    ]
+   },
+   {
+    "q": "The airport shop where perfume is cheaper",
+    "right": "Duty free",
+    "wrong": [
+     "Tax return",
+     "Fee-paying",
+     "Free-range"
+    ]
+   },
+   {
+    "q": "The wrists and neck, where you dab the scent",
+    "right": "Pulse points",
+    "wrong": [
+     "Brownie points",
+     "Match points",
+     "Talking points"
+    ]
+   },
+   {
+    "q": "The German city that gave its name to a fragrance",
+    "right": "Cologne",
+    "wrong": [
+     "Hamburg",
+     "Frankfurt",
+     "Berlin"
+    ]
+   },
+   {
+    "q": "The citrus fruit that flavours Earl Grey and many scents",
+    "right": "Bergamot",
+    "wrong": [
+     "Kumquat",
+     "Ugli fruit",
+     "Satsuma"
+    ]
+   },
+   {
+    "q": "The precious dark resin from agarwood, loved in the Middle East",
+    "right": "Oud",
+    "wrong": [
+     "Odd",
+     "Ode",
+     "Oak"
+    ]
+   },
+   {
+    "q": "The one fragrance you always wear",
+    "right": "Signature scent",
+    "wrong": [
+     "Signature dish",
+     "Signature move",
+     "Signature tune"
+    ]
+   },
+   {
+    "q": "The earthy hippy scent from a plant in the mint family",
+    "right": "Patchouli",
+    "wrong": [
+     "Paprika",
+     "Pistachio",
+     "Papaya"
+    ]
+   },
+   {
+    "q": "Cheap all-over scent in an aerosol, like Lynx",
+    "right": "Body spray",
+    "wrong": [
+     "Hairspray",
+     "Fly spray",
+     "Sea spray"
+    ]
+   },
+   {
+    "q": "The person who creates fragrances",
+    "right": "Perfumer",
+    "wrong": [
+     "Brewer",
+     "Baker",
+     "Barber"
+    ]
+   }
+  ]
+ }
+]
