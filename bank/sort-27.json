@@ -1,0 +1,192 @@
+[
+ {
+  "type": "sort",
+  "text": "A poem by Robert Burns or by William Wordsworth?",
+  "categories": [
+   "Burns",
+   "Wordsworth"
+  ],
+  "items": [
+   {
+    "text": "Tam o' Shanter",
+    "category": "Burns"
+   },
+   {
+    "text": "To a Mouse",
+    "category": "Burns"
+   },
+   {
+    "text": "Auld Lang Syne",
+    "category": "Burns"
+   },
+   {
+    "text": "A Red, Red Rose",
+    "category": "Burns"
+   },
+   {
+    "text": "Daffodils",
+    "category": "Wordsworth"
+   },
+   {
+    "text": "The Prelude",
+    "category": "Wordsworth"
+   },
+   {
+    "text": "Tintern Abbey",
+    "category": "Wordsworth"
+   },
+   {
+    "text": "Composed upon Westminster Bridge",
+    "category": "Wordsworth"
+   }
+  ],
+  "category": "Books",
+  "tags": [
+   "Robert Burns",
+   "William Wordsworth",
+   "poetry"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A green gemstone or a red one?",
+  "categories": [
+   "Green",
+   "Red"
+  ],
+  "items": [
+   {
+    "text": "Emerald",
+    "category": "Green"
+   },
+   {
+    "text": "Jade",
+    "category": "Green"
+   },
+   {
+    "text": "Peridot",
+    "category": "Green"
+   },
+   {
+    "text": "Malachite",
+    "category": "Green"
+   },
+   {
+    "text": "Ruby",
+    "category": "Red"
+   },
+   {
+    "text": "Garnet",
+    "category": "Red"
+   },
+   {
+    "text": "Carnelian",
+    "category": "Red"
+   }
+  ],
+  "category": "Science",
+  "tags": [
+   "gemstones",
+   "colours"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A sitcom set in a shop or in an office?",
+  "categories": [
+   "Shop",
+   "Office"
+  ],
+  "items": [
+   {
+    "text": "Open All Hours",
+    "category": "Shop"
+   },
+   {
+    "text": "Are You Being Served?",
+    "category": "Shop"
+   },
+   {
+    "text": "Black Books",
+    "category": "Shop"
+   },
+   {
+    "text": "Still Open All Hours",
+    "category": "Shop"
+   },
+   {
+    "text": "The Office",
+    "category": "Office"
+   },
+   {
+    "text": "The IT Crowd",
+    "category": "Office"
+   },
+   {
+    "text": "W1A",
+    "category": "Office"
+   },
+   {
+    "text": "Drop the Dead Donkey",
+    "category": "Office"
+   }
+  ],
+  "category": "TV",
+  "tags": [
+   "sitcoms",
+   "workplaces"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Managed Liverpool or managed Everton?",
+  "categories": [
+   "Liverpool",
+   "Everton"
+  ],
+  "items": [
+   {
+    "text": "Bill Shankly",
+    "category": "Liverpool"
+   },
+   {
+    "text": "Bob Paisley",
+    "category": "Liverpool"
+   },
+   {
+    "text": "Rafael Benítez",
+    "category": "Liverpool"
+   },
+   {
+    "text": "Jürgen Klopp",
+    "category": "Liverpool"
+   },
+   {
+    "text": "Howard Kendall",
+    "category": "Everton"
+   },
+   {
+    "text": "David Moyes",
+    "category": "Everton"
+   },
+   {
+    "text": "Roberto Martínez",
+    "category": "Everton"
+   },
+   {
+    "text": "Sean Dyche",
+    "category": "Everton"
+   }
+  ],
+  "category": "Football",
+  "tags": [
+   "Liverpool",
+   "Everton",
+   "managers"
+  ],
+  "difficulty": "medium"
+ }
+]
