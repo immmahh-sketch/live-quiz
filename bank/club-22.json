@@ -1,0 +1,99 @@
+[
+ {
+  "type": "club",
+  "text": "Twelve stotties are shared equally between four families. How many does each family get?",
+  "answers": [
+   "3",
+   "Three"
+  ],
+  "pct": 90,
+  "why": "12 ÷ 4 = 3.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "sharing",
+   "stotties"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Odd one out: Beckham, Rooney, Kane, Federer.",
+  "answers": [
+   "Federer",
+   "Roger Federer"
+  ],
+  "pct": 80,
+  "why": "The others are England footballers; Federer plays tennis.",
+  "difficulty": "easy",
+  "category": "Logic",
+  "tags": [
+   "sport",
+   "odd one out"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A darts player needs exactly 40 to finish. Which double is the classic one to aim for?",
+  "answers": [
+   "Double 20",
+   "D20",
+   "Double top"
+  ],
+  "pct": 60,
+  "why": "Double 20 scores 40 — 'double top'.",
+  "difficulty": "medium",
+  "category": "Sport",
+  "tags": [
+   "darts",
+   "doubles"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "In snooker, what do the six colours add up to, potting each once (yellow to black)?",
+  "answers": [
+   "27",
+   "Twenty-seven"
+  ],
+  "pct": 50,
+  "why": "2 + 3 + 4 + 5 + 6 + 7 = 27.",
+  "difficulty": "medium",
+  "category": "Sport",
+  "tags": [
+   "snooker",
+   "adding"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A cricket over has 6 balls. How many balls in a 20-over innings?",
+  "answers": [
+   "120",
+   "One hundred and twenty"
+  ],
+  "pct": 40,
+  "why": "20 × 6 = 120.",
+  "difficulty": "medium",
+  "category": "Sport",
+  "tags": [
+   "cricket",
+   "multiplying"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What's the highest ODD total you can score with three darts?",
+  "answers": [
+   "177",
+   "One hundred and seventy-seven"
+  ],
+  "pct": 5,
+  "why": "Two treble 20s and a treble 19: 60 + 60 + 57 = 177.",
+  "difficulty": "hard",
+  "category": "Sport",
+  "tags": [
+   "darts",
+   "odd numbers"
+  ]
+ }
+]
