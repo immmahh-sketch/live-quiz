@@ -2,6 +2,7 @@
 # what's on the card, what it shows when it flips, and the number compared. The numbers zig-zag, no equal neighbours.
 # Titles must be new to the bank (the import skips a repeated title as a duplicate).
 import json, os
+# Sir Ian Botham was dropped after import: an "Ian Botham" game was already live (retired q_c68dfc65).
 G = []
 def game(text, cat, diff, tags, cards):
     ns = [n for _, _, n in cards]
@@ -26,9 +27,6 @@ game("the numbers of Tom Daley", "Sport", "medium", ["Tom Daley", "diving", "Oly
 game("the numbers of Sir Steve Redgrave", "Sport", "medium", ["Steve Redgrave", "rowing", "Olympics"], [
  ("Year he was born", "1962", 1962), ("His Olympic gold medals", "5", 5), ("Year of his first Olympic gold", "1984", 1984),
  ("Year he was knighted", "2001", 2001), ("Year of his last Olympic gold", "2000", 2000)])
-game("the numbers of Sir Ian Botham", "Sport", "medium", ["Ian Botham", "cricket", "England"], [
- ("Year he was born", "1955", 1955), ("His Test wickets", "383", 383), ("Year of 'Botham's Ashes' at Headingley", "1981", 1981),
- ("Tests he played for England", "102", 102), ("Year he became a lord", "2020", 2020)])
 game("the numbers of Phil Taylor", "Sport", "medium", ["Phil Taylor", "darts"], [
  ("Year he was born", "1960", 1960), ("His world titles", "16", 16), ("Year of his first world title", "1990", 1990),
  ("Year he retired", "2018", 2018), ("Year of his last world title", "2013", 2013)])
