@@ -1,0 +1,161 @@
+[
+ {
+  "type": "club",
+  "text": "Three tricycles are parked outside a nursery. How many wheels altogether?",
+  "answers": [
+   "9",
+   "Nine"
+  ],
+  "pct": 90,
+  "why": "3 wheels each, 3 × 3 = 9.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "tricycles",
+   "wheels"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Odd one out: Tuesday, Thursday, March, Saturday.",
+  "answers": [
+   "March"
+  ],
+  "pct": 80,
+  "why": "March is a month; the rest are days.",
+  "difficulty": "easy",
+  "category": "Logic",
+  "tags": [
+   "odd one out",
+   "days and months"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Grandma knits 3 scarves a week. How many has she made after 4 weeks?",
+  "answers": [
+   "12",
+   "Twelve"
+  ],
+  "pct": 70,
+  "why": "3 × 4 = 12.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "knitting",
+   "multiplying"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A cricket side of 11 has lost 4 wickets. How many of its batters are not yet out?",
+  "answers": [
+   "7",
+   "Seven"
+  ],
+  "pct": 60,
+  "why": "11 − 4 = 7, counting the two at the crease.",
+  "difficulty": "medium",
+  "category": "Sport",
+  "tags": [
+   "cricket",
+   "wickets"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "In a bakery queue, Ellie is 5th from the front and 5th from the back. How many people are queuing?",
+  "answers": [
+   "9",
+   "Nine"
+  ],
+  "pct": 50,
+  "why": "4 ahead of her, 4 behind her, plus Ellie.",
+  "difficulty": "medium",
+  "category": "Logic",
+  "tags": [
+   "queues",
+   "position"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Spot the number that isn't prime: 2, 3, 5, 9, 11.",
+  "answers": [
+   "9",
+   "Nine"
+  ],
+  "pct": 40,
+  "why": "The others are prime; 9 is 3 × 3.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "primes",
+   "odd one out"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A lift takes at most 8 people. What's the fewest trips needed to carry 30 people up?",
+  "answers": [
+   "4",
+   "Four"
+  ],
+  "pct": 20,
+  "why": "Three trips carry 24; the last 6 need a fourth.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "lifts",
+   "dividing"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "How many sides do a hexagon and an octagon have between them?",
+  "answers": [
+   "14",
+   "Fourteen"
+  ],
+  "pct": 20,
+  "why": "6 + 8 = 14.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "shapes",
+   "sides"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A farmer has 17 sheep. All but 9 run off. How many does he still have?",
+  "answers": [
+   "9",
+   "Nine"
+  ],
+  "pct": 10,
+  "why": "'All but 9' means 9 stay behind.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "sheep",
+   "trick questions"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A rope ladder hangs over a moored ship's side, with 4 rungs above the water. The tide rises a metre. How many rungs are above water now?",
+  "answers": [
+   "4",
+   "Four"
+  ],
+  "pct": 1,
+  "why": "The ship floats up with the tide, and the ladder with it.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "tides",
+   "ships"
+  ]
+ }
+]
