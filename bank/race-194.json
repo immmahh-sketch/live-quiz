@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this hair salon word?",
+  "target": 10,
+  "category": "Fashion",
+  "tags": [
+   "hairdressers",
+   "beauty",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Streaks of lighter colour through the hair",
+    "right": "Highlights",
+    "wrong": [
+     "Lowlights",
+     "Spotlights",
+     "Headlights"
+    ]
+   },
+   {
+    "q": "Hand-painted colour that fades in naturally",
+    "right": "Balayage",
+    "wrong": [
+     "Barrage",
+     "Badinage",
+     "Collage"
+    ]
+   },
+   {
+    "q": "A chemical treatment for lasting curls",
+    "right": "Perm",
+    "wrong": [
+     "Term",
+     "Germ",
+     "Firm"
+    ]
+   },
+   {
+    "q": "Styling with a hairdryer and round brush",
+    "right": "Blow-dry",
+    "wrong": [
+     "Tumble dry",
+     "Bone dry",
+     "Dry run"
+    ]
+   },
+   {
+    "q": "The regrowth showing near the scalp",
+    "right": "Roots",
+    "wrong": [
+     "Shoots",
+     "Routes",
+     "Boots"
+    ]
+   },
+   {
+    "q": "Frayed tips that need a trim",
+    "right": "Split ends",
+    "wrong": [
+     "Loose ends",
+     "Dead ends",
+     "Weekends"
+    ]
+   },
+   {
+    "q": "Hot plates that flatten curls",
+    "right": "Straighteners",
+    "wrong": [
+     "Crimpers",
+     "Flatterers",
+     "Stretchers"
+    ]
+   },
+   {
+    "q": "A hot barrel you wrap hair round for curls",
+    "right": "Curling tongs",
+    "wrong": [
+     "Sugar tongs",
+     "Salad tongs",
+     "Crimpers"
+    ]
+   },
+   {
+    "q": "Curlers you might sleep in",
+    "right": "Rollers",
+    "wrong": [
+     "Rolling pins",
+     "High rollers",
+     "Roller skates"
+    ]
+   },
+   {
+    "q": "The basin where you lean back to have your hair washed",
+    "right": "Backwash",
+    "wrong": [
+     "Whitewash",
+     "Mouthwash",
+     "Hogwash"
+    ]
+   },
+   {
+    "q": "Strips wrapped round hair while the colour takes",
+    "right": "Foils",
+    "wrong": [
+     "Spoils",
+     "Coils",
+     "Soils"
+    ]
+   },
+   {
+    "q": "Added hair for extra length",
+    "right": "Extensions",
+    "wrong": [
+     "Pensions",
+     "Tensions",
+     "Detentions"
+    ]
+   },
+   {
+    "q": "The product that takes the brassiness out of blonde",
+    "right": "Toner",
+    "wrong": [
+     "Tuner",
+     "Loner",
+     "Donor"
+    ]
+   },
+   {
+    "q": "Strips the colour out of hair",
+    "right": "Bleach",
+    "wrong": [
+     "Beach",
+     "Leech",
+     "Breach"
+    ]
+   },
+   {
+    "q": "A quick tidy-up of the ends",
+    "right": "Trim",
+    "wrong": [
+     "Prim",
+     "Slim",
+     "Brim"
+    ]
+   },
+   {
+    "q": "Cut at different lengths for volume",
+    "right": "Layers",
+    "wrong": [
+     "Players",
+     "Prayers",
+     "Slayers"
+    ]
+   },
+   {
+    "q": "A mist that holds a style in place",
+    "right": "Hairspray",
+    "wrong": [
+     "Body spray",
+     "Pepper spray",
+     "Sea spray"
+    ]
+   },
+   {
+    "q": "A spray-on powder that freshens hair between washes",
+    "right": "Dry shampoo",
+    "wrong": [
+     "Dry cleaning",
+     "Dry ice",
+     "Dry rot"
+    ]
+   },
+   {
+    "q": "The big dome you sit under",
+    "right": "Hood dryer",
+    "wrong": [
+     "Hood ornament",
+     "Riding hood",
+     "Hoodie"
+    ]
+   },
+   {
+    "q": "A dab of dye behind the ear 48 hours before colouring",
+    "right": "Patch test",
+    "wrong": [
+     "Spot check",
+     "Patch-up",
+     "Litmus test"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this playground word?",
+  "target": 10,
+  "category": "Lifestyle",
+  "tags": [
+   "playground",
+   "childhood",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "A plank that tips up and down with a child at each end",
+    "right": "See-saw",
+    "wrong": [
+     "Rocking horse",
+     "Merry-go-round",
+     "Hammock"
+    ]
+   },
+   {
+    "q": "A spinning platform you push and jump on",
+    "right": "Roundabout",
+    "wrong": [
+     "Turntable",
+     "Lazy Susan",
+     "Hula hoop"
+    ]
+   },
+   {
+    "q": "Bars you swing along hand over hand",
+    "right": "Monkey bars",
+    "wrong": [
+     "Climbing wall",
+     "Parallel bars",
+     "Candy bars"
+    ]
+   },
+   {
+    "q": "Hopping along chalked squares",
+    "right": "Hopscotch",
+    "wrong": [
+     "Butterscotch",
+     "Hotchpotch",
+     "Hop-on hop-off"
+    ]
+   },
+   {
+    "q": "Charging across the playground without getting caught",
+    "right": "British bulldog",
+    "wrong": [
+     "British Lion",
+     "Bulldog clip",
+     "British Gas"
+    ]
+   },
+   {
+    "q": "The chasing game also called tag",
+    "right": "Tig",
+    "wrong": [
+     "Twig",
+     "Gig",
+     "Pig"
+    ]
+   },
+   {
+    "q": "Tag where you stand frozen until someone frees you",
+    "right": "Stuck in the mud",
+    "wrong": [
+     "Mud pie",
+     "Muddy waters",
+     "Stuck record"
+    ]
+   },
+   {
+    "q": "Creeping up behind someone asking the time",
+    "right": "What's the time, Mr Wolf?",
+    "wrong": [
+     "Who's afraid of the big bad wolf?",
+     "Wolf whistle",
+     "Cry wolf"
+    ]
+   },
+   {
+    "q": "Tapping heads round a circle until one gets chased",
+    "right": "Duck, duck, goose",
+    "wrong": [
+     "Wild goose chase",
+     "Duck and dive",
+     "Goosey goosey gander"
+    ]
+   },
+   {
+    "q": "Riding on someone's back",
+    "right": "Piggyback",
+    "wrong": [
+     "Piggy bank",
+     "Piggy in the middle",
+     "Hogwash"
+    ]
+   },
+   {
+    "q": "Jumping as a rope turns",
+    "right": "Skipping rope",
+    "wrong": [
+     "Tightrope",
+     "Tow rope",
+     "Jump leads"
+    ]
+   },
+   {
+    "q": "Glass balls flicked at each other",
+    "right": "Marbles",
+    "wrong": [
+     "Bubbles",
+     "Pebbles",
+     "Baubles"
+    ]
+   },
+   {
+    "q": "Horse chestnuts on strings",
+    "right": "Conkers",
+    "wrong": [
+     "Acorns",
+     "Walnuts",
+     "Coconuts"
+    ]
+   },
+   {
+    "q": "Little metal stars picked up between bounces of a ball",
+    "right": "Jacks",
+    "wrong": [
+     "Dominoes",
+     "Tiddlywinks",
+     "Pick-up sticks"
+    ]
+   },
+   {
+    "q": "String shapes passed between fingers",
+    "right": "Cat's cradle",
+    "wrong": [
+     "Cat's whiskers",
+     "Cat flap",
+     "Cradle snatcher"
+    ]
+   },
+   {
+    "q": "Calling first dibs on something",
+    "right": "Bagsy",
+    "wrong": [
+     "Baggy",
+     "Bugsy",
+     "Patsy"
+    ]
+   },
+   {
+    "q": "Who served the school lunches",
+    "right": "Dinner lady",
+    "wrong": [
+     "Tea lady",
+     "Bag lady",
+     "Cleaning lady"
+    ]
+   },
+   {
+    "q": "Who helped you cross the road",
+    "right": "Lollipop lady",
+    "wrong": [
+     "Tea lady",
+     "Bag lady",
+     "First lady"
+    ]
+   },
+   {
+    "q": "Staying in at break because of the rain",
+    "right": "Wet play",
+    "wrong": [
+     "Fair play",
+     "Foul play",
+     "Role play"
+    ]
+   },
+   {
+    "q": "Vaulting over each other's bent backs",
+    "right": "Leapfrog",
+    "wrong": [
+     "Frogspawn",
+     "Leap year",
+     "Frogmarch"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this pub quiz word?",
+  "target": 10,
+  "category": "Games",
+  "tags": [
+   "pub quiz",
+   "quizzes",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The person reading out the questions",
+    "right": "Quizmaster",
+    "wrong": [
+     "Ringmaster",
+     "Postmaster",
+     "Scoutmaster"
+    ]
+   },
+   {
+    "q": "A sheet of faces to name",
+    "right": "Picture round",
+    "wrong": [
+     "Merry-go-round",
+     "Milk round",
+     "Paper round"
+    ]
+   },
+   {
+    "q": "Name that song from the opening bars",
+    "right": "Music round",
+    "wrong": [
+     "Paper round",
+     "Round robin",
+     "Round of applause"
+    ]
+   },
+   {
+    "q": "The nearest-number question that splits a draw",
+    "right": "Tiebreak",
+    "wrong": [
+     "Jailbreak",
+     "Heartbreak",
+     "Daybreak"
+    ]
+   },
+   {
+    "q": "The card you play to double one round's points",
+    "right": "Joker",
+    "wrong": [
+     "Ace",
+     "Queen",
+     "Knave"
+    ]
+   },
+   {
+    "q": "Where you write your team's answers",
+    "right": "Answer sheet",
+    "wrong": [
+     "Balance sheet",
+     "Bed sheet",
+     "Spreadsheet"
+    ]
+   },
+   {
+    "q": "The pun you agonise over, like 'Quiz Team Aguilera'",
+    "right": "Team name",
+    "wrong": [
+     "Code name",
+     "Pen name",
+     "Stage name"
+    ]
+   },
+   {
+    "q": "The jackpot carried to next week when nobody wins",
+    "right": "Rollover",
+    "wrong": [
+     "Pushover",
+     "Hangover",
+     "Changeover"
+    ]
+   },
+   {
+    "q": "The booby prize for coming last",
+    "right": "Wooden spoon",
+    "wrong": [
+     "Silver spoon",
+     "Greasy spoon",
+     "Golden ticket"
+    ]
+   },
+   {
+    "q": "University Challenge's opening question",
+    "right": "Starter for ten",
+    "wrong": [
+     "Ten-pin",
+     "Perfect ten",
+     "Top ten"
+    ]
+   },
+   {
+    "q": "The Millionaire lifeline where you ring a mate",
+    "right": "Phone a friend",
+    "wrong": [
+     "Text a pal",
+     "Call my bluff",
+     "Ring a ding"
+    ]
+   },
+   {
+    "q": "The lifeline where the crowd votes",
+    "right": "Ask the audience",
+    "wrong": [
+     "Ask Jeeves",
+     "Ask the family",
+     "Poll the room"
+    ]
+   },
+   {
+    "q": "The lifeline that removes two wrong answers",
+    "right": "Fifty-fifty",
+    "wrong": [
+     "Half-time",
+     "Double or quits",
+     "Go halves"
+    ]
+   },
+   {
+    "q": "Mastermind's first-round topic you pick yourself",
+    "right": "Specialist subject",
+    "wrong": [
+     "General knowledge",
+     "Open book",
+     "Hobby horse"
+    ]
+   },
+   {
+    "q": "The show where the lowest score wins",
+    "right": "Pointless",
+    "wrong": [
+     "The Chase",
+     "Eggheads",
+     "Tipping Point"
+    ]
+   },
+   {
+    "q": "An extra question worth more points",
+    "right": "Bonus question",
+    "wrong": [
+     "Bonus ball",
+     "Trick question",
+     "Leading question"
+    ]
+   },
+   {
+    "q": "Rearranged letters to unscramble",
+    "right": "Anagram",
+    "wrong": [
+     "Telegram",
+     "Hologram",
+     "Diagram"
+    ]
+   },
+   {
+    "q": "The bell before closing time",
+    "right": "Last orders",
+    "wrong": [
+     "Last post",
+     "Last rites",
+     "Last laugh"
+    ]
+   },
+   {
+    "q": "The call at the end of each round",
+    "right": "Pens down",
+    "wrong": [
+     "Pins down",
+     "Hands up",
+     "Eyes down"
+    ]
+   },
+   {
+    "q": "Swapping sheets with the next table to check them",
+    "right": "Marking",
+    "wrong": [
+     "Parking",
+     "Barking",
+     "Marketing"
+    ]
+   }
+  ]
+ }
+]
