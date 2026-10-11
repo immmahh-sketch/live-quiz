@@ -1,0 +1,381 @@
+[
+ {
+  "answers": [
+   "Underscore"
+  ],
+  "elements": [
+   {
+    "t": "SCORE",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "style": "underline"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Underwire",
+   "Underwired"
+  ],
+  "elements": [
+   {
+    "t": "WIRE",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "style": "underline"
+   }
+  ],
+  "category": "Everyday life",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Undersell"
+  ],
+  "elements": [
+   {
+    "t": "SELL",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "style": "underline"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Undercut"
+  ],
+  "elements": [
+   {
+    "t": "CUT",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "style": "underline"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Undertone",
+   "Undertones"
+  ],
+  "elements": [
+   {
+    "t": "TONE",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "style": "underline"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "hard"
+ },
+ {
+  "answers": [
+   "Backstab",
+   "Backstabbing",
+   "Stab in the back"
+  ],
+  "elements": [
+   {
+    "t": "BATS",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Backpedal",
+   "Backpedalling"
+  ],
+  "elements": [
+   {
+    "t": "LADEP",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Top banana"
+  ],
+  "elements": [
+   {
+    "t": "BANANA",
+    "x": 50,
+    "y": 15,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Low cost",
+   "Low-cost"
+  ],
+  "elements": [
+   {
+    "t": "COST",
+    "x": 50,
+    "y": 85,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Left wing",
+   "Left-wing"
+  ],
+  "elements": [
+   {
+    "t": "WING",
+    "x": 15,
+    "y": 50,
+    "s": 4
+   }
+  ],
+  "category": "Politics",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Right wing",
+   "Right-wing"
+  ],
+  "elements": [
+   {
+    "t": "WING",
+    "x": 85,
+    "y": 50,
+    "s": 4
+   }
+  ],
+  "category": "Politics",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Leftover",
+   "Leftovers"
+  ],
+  "elements": [
+   {
+    "t": "OVER",
+    "x": 15,
+    "y": 50,
+    "s": 4
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Left hand",
+   "Left-hand"
+  ],
+  "elements": [
+   {
+    "t": "HAND",
+    "x": 19,
+    "y": 50,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Right hand",
+   "Right-hand",
+   "Right-hand man"
+  ],
+  "elements": [
+   {
+    "t": "HAND",
+    "x": 81,
+    "y": 50,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Far left",
+   "The far left"
+  ],
+  "elements": [
+   {
+    "t": "LEFT",
+    "x": 12,
+    "y": 50,
+    "s": 3
+   }
+  ],
+  "category": "Politics",
+  "tags": [],
+  "difficulty": "hard"
+ },
+ {
+  "answers": [
+   "Far right",
+   "The far right"
+  ],
+  "elements": [
+   {
+    "t": "RIGHT",
+    "x": 85,
+    "y": 50,
+    "s": 3
+   }
+  ],
+  "category": "Politics",
+  "tags": [],
+  "difficulty": "hard"
+ },
+ {
+  "answers": [
+   "Downturn"
+  ],
+  "elements": [
+   {
+    "t": "TURN",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "rot": 90
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "hard"
+ },
+ {
+  "answers": [
+   "Ghostwriter",
+   "Ghost writer"
+  ],
+  "elements": [
+   {
+    "t": "WRITER",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "style": "outline"
+   }
+  ],
+  "category": "Books",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Ghost ship"
+  ],
+  "elements": [
+   {
+    "t": "SHIP",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "style": "outline"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Iceberg"
+  ],
+  "elements": [
+   {
+    "t": "BERG",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "style": "outline"
+   }
+  ],
+  "category": "Nature",
+  "tags": [],
+  "difficulty": "hard"
+ },
+ {
+  "answers": [
+   "Ice queen",
+   "The Ice Queen"
+  ],
+  "elements": [
+   {
+    "t": "QUEEN",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "style": "outline"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "hard"
+ },
+ {
+  "answers": [
+   "Gold medal"
+  ],
+  "elements": [
+   {
+    "t": "MEDAL",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#c9a227"
+   }
+  ],
+  "category": "Sport",
+  "tags": [],
+  "difficulty": "easy"
+ }
+]
