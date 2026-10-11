@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each number to its special name",
+  "pairs": [
+   {
+    "left": "12",
+    "right": "A dozen"
+   },
+   {
+    "left": "13",
+    "right": "A baker's dozen"
+   },
+   {
+    "left": "20",
+    "right": "A score"
+   },
+   {
+    "left": "144",
+    "right": "A gross"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

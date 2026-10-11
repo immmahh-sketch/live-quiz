@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each famous race to its country",
+  "pairs": [
+   {
+    "left": "Le Mans 24 Hours",
+    "right": "France"
+   },
+   {
+    "left": "Indianapolis 500",
+    "right": "USA"
+   },
+   {
+    "left": "Bathurst 1000",
+    "right": "Australia"
+   },
+   {
+    "left": "Monte Carlo Rally",
+    "right": "Monaco"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

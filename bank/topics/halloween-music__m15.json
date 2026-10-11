@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each spooky song or tune to its film",
+  "pairs": [
+   {
+    "left": "Time Warp",
+    "right": "The Rocky Horror Picture Show"
+   },
+   {
+    "left": "This Is Halloween",
+    "right": "The Nightmare Before Christmas"
+   },
+   {
+    "left": "Tubular Bells",
+    "right": "The Exorcist"
+   },
+   {
+    "left": "I Put a Spell on You",
+    "right": "Hocus Pocus"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

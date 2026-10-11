@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each London park to something you'll find there",
+  "pairs": [
+   {
+    "left": "Hyde Park",
+    "right": "Speakers' Corner"
+   },
+   {
+    "left": "Regent's Park",
+    "right": "London Zoo"
+   },
+   {
+    "left": "Greenwich Park",
+    "right": "The Royal Observatory"
+   },
+   {
+    "left": "Richmond Park",
+    "right": "Wild deer"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

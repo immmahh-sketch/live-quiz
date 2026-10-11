@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each city to its Irish province",
+  "pairs": [
+   {
+    "left": "Dublin",
+    "right": "Leinster"
+   },
+   {
+    "left": "Cork",
+    "right": "Munster"
+   },
+   {
+    "left": "Galway",
+    "right": "Connacht"
+   },
+   {
+    "left": "Belfast",
+    "right": "Ulster"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

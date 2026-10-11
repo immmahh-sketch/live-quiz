@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each racecourse to its county",
+  "pairs": [
+   {
+    "left": "Aintree",
+    "right": "Merseyside"
+   },
+   {
+    "left": "Ascot",
+    "right": "Berkshire"
+   },
+   {
+    "left": "Cheltenham",
+    "right": "Gloucestershire"
+   },
+   {
+    "left": "Newmarket",
+    "right": "Suffolk"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Hogwarts ghost to their house",
+  "pairs": [
+   {
+    "left": "Nearly Headless Nick",
+    "right": "Gryffindor"
+   },
+   {
+    "left": "The Bloody Baron",
+    "right": "Slytherin"
+   },
+   {
+    "left": "The Fat Friar",
+    "right": "Hufflepuff"
+   },
+   {
+    "left": "The Grey Lady",
+    "right": "Ravenclaw"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

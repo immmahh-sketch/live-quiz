@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each musical to its leading character",
+  "pairs": [
+   {
+    "left": "Les Misérables",
+    "right": "Jean Valjean"
+   },
+   {
+    "left": "Wicked",
+    "right": "Elphaba"
+   },
+   {
+    "left": "Miss Saigon",
+    "right": "Kim"
+   },
+   {
+    "left": "The Phantom of the Opera",
+    "right": "Christine Daaé"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

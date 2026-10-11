@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Westeros castle to the house that rules it",
+  "pairs": [
+   {
+    "left": "Winterfell",
+    "right": "Stark"
+   },
+   {
+    "left": "Casterly Rock",
+    "right": "Lannister"
+   },
+   {
+    "left": "Highgarden",
+    "right": "Tyrell"
+   },
+   {
+    "left": "Sunspear",
+    "right": "Martell"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]
