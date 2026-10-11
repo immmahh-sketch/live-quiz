@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this video game word?",
+  "target": 10,
+  "category": "Games",
+  "tags": [
+   "video games",
+   "gaming",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The big enemy at the end of a level",
+    "right": "Boss",
+    "wrong": [
+     "Minion",
+     "Mob",
+     "Grunt"
+    ]
+   },
+   {
+    "q": "Where you restart after dying, partway through a level",
+    "right": "Checkpoint",
+    "wrong": [
+     "Waypoint",
+     "Hotspot",
+     "Endpoint"
+    ]
+   },
+   {
+    "q": "The on-screen figure that represents you",
+    "right": "Avatar",
+    "wrong": [
+     "Emoji",
+     "Icon",
+     "Cursor"
+    ]
+   },
+   {
+    "q": "A character the computer controls",
+    "right": "NPC",
+    "wrong": [
+     "RPG",
+     "MMO",
+     "DLC"
+    ]
+   },
+   {
+    "q": "Players fighting each other rather than the computer",
+    "right": "PvP",
+    "wrong": [
+     "Co-op",
+     "Single-player",
+     "Campaign"
+    ]
+   },
+   {
+    "q": "A shoot-'em-up seen through the hero's own eyes",
+    "right": "First-person shooter",
+    "wrong": [
+     "Platformer",
+     "Beat-'em-up",
+     "Side-scroller"
+    ]
+   },
+   {
+    "q": "Coming back to life after being killed",
+    "right": "Respawn",
+    "wrong": [
+     "Reload",
+     "Rewind",
+     "Refresh"
+    ]
+   },
+   {
+    "q": "A bug that makes the game behave strangely",
+    "right": "Glitch",
+    "wrong": [
+     "Patch",
+     "Mod",
+     "Hack"
+    ]
+   },
+   {
+    "q": "Finishing a game as fast as humanly possible",
+    "right": "Speedrun",
+    "wrong": [
+     "Sprint",
+     "Dash",
+     "Marathon"
+    ]
+   },
+   {
+    "q": "A beginner, in gamer slang",
+    "right": "Noob",
+    "wrong": [
+     "Pro",
+     "Grinder",
+     "Camper"
+    ]
+   },
+   {
+    "q": "The delay you get on a slow connection",
+    "right": "Lag",
+    "wrong": [
+     "Drag",
+     "Stall",
+     "Snag"
+    ]
+   },
+   {
+    "q": "A paid-for mystery crate of random items",
+    "right": "Loot box",
+    "wrong": [
+     "Treasure chest",
+     "Goody bag",
+     "Lucky dip"
+    ]
+   },
+   {
+    "q": "An open game like Minecraft where you build freely",
+    "right": "Sandbox",
+    "wrong": [
+     "Arcade",
+     "Puzzler",
+     "Racer"
+    ]
+   },
+   {
+    "q": "A hidden secret left in the game by its makers",
+    "right": "Easter egg",
+    "wrong": [
+     "Golden ticket",
+     "Time capsule",
+     "Red herring"
+    ]
+   },
+   {
+    "q": "What you type in for infinite lives",
+    "right": "Cheat code",
+    "wrong": [
+     "Pin code",
+     "Postcode",
+     "Area code"
+    ]
+   },
+   {
+    "q": "The stick you push to steer on old arcade machines",
+    "right": "Joystick",
+    "wrong": [
+     "Gearstick",
+     "Drumstick",
+     "Lipstick"
+    ]
+   },
+   {
+    "q": "The box under the telly, like a PlayStation or Xbox",
+    "right": "Console",
+    "wrong": [
+     "Router",
+     "Modem",
+     "Decoder"
+    ]
+   },
+   {
+    "q": "Gaining enough experience to get stronger",
+    "right": "Level up",
+    "wrong": [
+     "Log in",
+     "Top up",
+     "Warm up"
+    ]
+   },
+   {
+    "q": "The words on screen when you've lost all your lives",
+    "right": "Game over",
+    "wrong": [
+     "Time out",
+     "Full time",
+     "Checkmate"
+    ]
+   },
+   {
+    "q": "A temporary boost, like Mario's star",
+    "right": "Power-up",
+    "wrong": [
+     "Pick-me-up",
+     "Top-up",
+     "Warm-up"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this Harry Potter word?",
+  "target": 10,
+  "category": "Books",
+  "tags": [
+   "Harry Potter",
+   "wizards",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A person with no magic at all",
+    "right": "Muggle",
+    "wrong": [
+     "Mugwump",
+     "Goblin",
+     "Ghoul"
+    ]
+   },
+   {
+    "q": "Someone from a wizarding family born without magic",
+    "right": "Squib",
+    "wrong": [
+     "Dud",
+     "Hobbit",
+     "Gremlin"
+    ]
+   },
+   {
+    "q": "The sport played on broomsticks at Hogwarts",
+    "right": "Quidditch",
+    "wrong": [
+     "Gobstones",
+     "Croquet",
+     "Polo"
+    ]
+   },
+   {
+    "q": "The tiny winged golden ball worth 150 points",
+    "right": "Golden Snitch",
+    "wrong": [
+     "Golden Egg",
+     "Golden Fleece",
+     "Philosopher's Stone"
+    ]
+   },
+   {
+    "q": "The red ball used to score goals",
+    "right": "Quaffle",
+    "wrong": [
+     "Gobstone",
+     "Remembrall",
+     "Sneakoscope"
+    ]
+   },
+   {
+    "q": "The heavy balls that try to knock players off their brooms",
+    "right": "Bludgers",
+    "wrong": [
+     "Bludgeons",
+     "Bowlers",
+     "Bouncers"
+    ]
+   },
+   {
+    "q": "An object hiding part of a dark wizard's soul",
+    "right": "Horcrux",
+    "wrong": [
+     "Hallow",
+     "Talisman",
+     "Amulet"
+    ]
+   },
+   {
+    "q": "An everyday object that whisks you away when you touch it",
+    "right": "Portkey",
+    "wrong": [
+     "Time-Turner",
+     "Remembrall",
+     "Sneakoscope"
+    ]
+   },
+   {
+    "q": "A stone basin for reliving memories",
+    "right": "Pensieve",
+    "wrong": [
+     "Goblet of Fire",
+     "Foe-glass",
+     "Vanishing Cabinet"
+    ]
+   },
+   {
+    "q": "The mirror that shows your deepest desire",
+    "right": "Mirror of Erised",
+    "wrong": [
+     "Two-way mirror",
+     "Foe-glass",
+     "Magic lantern"
+    ]
+   },
+   {
+    "q": "Thrown into a fireplace to travel through green flames",
+    "right": "Floo Powder",
+    "wrong": [
+     "Pixie dust",
+     "Sherbet Lemon",
+     "Bubotuber pus"
+    ]
+   },
+   {
+    "q": "The potion that makes you look like someone else",
+    "right": "Polyjuice Potion",
+    "wrong": [
+     "Amortentia",
+     "Skele-Gro",
+     "Wolfsbane"
+    ]
+   },
+   {
+    "q": "Liquid luck",
+    "right": "Felix Felicis",
+    "wrong": [
+     "Amortentia",
+     "Draught of Living Death",
+     "Pepperup"
+    ]
+   },
+   {
+    "q": "The truth potion",
+    "right": "Veritaserum",
+    "wrong": [
+     "Amortentia",
+     "Skele-Gro",
+     "Pepperup"
+    ]
+   },
+   {
+    "q": "The wizarding bank run by goblins",
+    "right": "Gringotts",
+    "wrong": [
+     "Ollivanders",
+     "Flourish and Blotts",
+     "Honeydukes"
+    ]
+   },
+   {
+    "q": "The wizard prison guarded by Dementors",
+    "right": "Azkaban",
+    "wrong": [
+     "Nurmengard",
+     "Durmstrang",
+     "Godric's Hollow"
+    ]
+   },
+   {
+    "q": "The wizarding world's daily newspaper",
+    "right": "Daily Prophet",
+    "wrong": [
+     "The Quibbler",
+     "Witch Weekly",
+     "Evening Standard"
+    ]
+   },
+   {
+    "q": "Hooded guards who suck the happiness out of you",
+    "right": "Dementors",
+    "wrong": [
+     "Inferi",
+     "Boggarts",
+     "Thestrals"
+    ]
+   },
+   {
+    "q": "The silvery guardian conjured to drive them off",
+    "right": "Patronus",
+    "wrong": [
+     "Animagus",
+     "Familiar",
+     "Boggart"
+    ]
+   },
+   {
+    "q": "Decides which house each first-year joins",
+    "right": "Sorting Hat",
+    "wrong": [
+     "Goblet of Fire",
+     "Marauder's Map",
+     "Remembrall"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this royal word?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "royal family",
+   "monarchy",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The monarch's ceremonial chair",
+    "right": "Throne",
+    "wrong": [
+     "Dais",
+     "Pew",
+     "Pulpit"
+    ]
+   },
+   {
+    "q": "The ceremony of crowning a new monarch",
+    "right": "Coronation",
+    "wrong": [
+     "Inauguration",
+     "Ordination",
+     "Graduation"
+    ]
+   },
+   {
+    "q": "The person next in line",
+    "right": "Heir",
+    "wrong": [
+     "Ward",
+     "Squire",
+     "Steward"
+    ]
+   },
+   {
+    "q": "Someone ruling for a monarch who is too young or too ill",
+    "right": "Regent",
+    "wrong": [
+     "Viceroy",
+     "Chancellor",
+     "Steward"
+    ]
+   },
+   {
+    "q": "Giving up the throne by choice",
+    "right": "Abdication",
+    "wrong": [
+     "Accession",
+     "Succession",
+     "Deposition"
+    ]
+   },
+   {
+    "q": "The flag flown when the monarch is in residence",
+    "right": "Royal Standard",
+    "wrong": [
+     "Union Jack",
+     "Red Ensign",
+     "White Ensign"
+    ]
+   },
+   {
+    "q": "The crowns, orb and sceptres kept in the Tower of London",
+    "right": "Crown Jewels",
+    "wrong": [
+     "Royal Collection",
+     "Elgin Marbles",
+     "Stone of Destiny"
+    ]
+   },
+   {
+    "q": "The ceremony where knighthoods and honours are handed out",
+    "right": "Investiture",
+    "wrong": [
+     "Induction",
+     "Ordination",
+     "Graduation"
+    ]
+   },
+   {
+    "q": "The royal family's surname since 1917",
+    "right": "Windsor",
+    "wrong": [
+     "Saxe-Coburg",
+     "Hanover",
+     "Stuart"
+    ]
+   },
+   {
+    "q": "The royal castle on Deeside in Scotland",
+    "right": "Balmoral",
+    "wrong": [
+     "Holyrood",
+     "Glamis",
+     "Scone"
+    ]
+   },
+   {
+    "q": "The Norfolk estate where the royals spend Christmas",
+    "right": "Sandringham",
+    "wrong": [
+     "Highgrove",
+     "Osborne",
+     "Frogmore"
+    ]
+   },
+   {
+    "q": "The palace with the balcony where the royals wave",
+    "right": "Buckingham Palace",
+    "wrong": [
+     "Kensington Palace",
+     "Hampton Court",
+     "Blenheim Palace"
+    ]
+   },
+   {
+    "q": "The little bob a woman makes when meeting the King",
+    "right": "Curtsy",
+    "wrong": [
+     "Salute",
+     "Bow",
+     "Wave"
+    ]
+   },
+   {
+    "q": "How you first address the King",
+    "right": "Your Majesty",
+    "wrong": [
+     "Your Highness",
+     "Your Grace",
+     "Your Excellency"
+    ]
+   },
+   {
+    "q": "The heir is usually made Prince of where?",
+    "right": "Wales",
+    "wrong": [
+     "York",
+     "Kent",
+     "Edinburgh"
+    ]
+   },
+   {
+    "q": "A noblewoman who attends the Queen",
+    "right": "Lady-in-waiting",
+    "wrong": [
+     "Governess",
+     "Matron",
+     "Housekeeper"
+    ]
+   },
+   {
+    "q": "The June parade for the monarch's official birthday",
+    "right": "Trooping the Colour",
+    "wrong": [
+     "Changing of the Guard",
+     "Beating Retreat",
+     "State Opening"
+    ]
+   },
+   {
+    "q": "A monarch's daughter",
+    "right": "Princess",
+    "wrong": [
+     "Duchess",
+     "Countess",
+     "Marchioness"
+    ]
+   },
+   {
+    "q": "The title of a reigning king's wife",
+    "right": "Queen consort",
+    "wrong": [
+     "Queen regnant",
+     "Queen mother",
+     "Dowager"
+    ]
+   },
+   {
+    "q": "A country with an elected head of state instead of a monarch",
+    "right": "Republic",
+    "wrong": [
+     "Dominion",
+     "Duchy",
+     "Principality"
+    ]
+   }
+  ]
+ }
+]
