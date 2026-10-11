@@ -1,0 +1,487 @@
+[
+ {
+  "type": "sort",
+  "text": "A Beatles album or a Rolling Stones album?",
+  "categories": [
+   "Beatles",
+   "Rolling Stones"
+  ],
+  "items": [
+   {
+    "text": "Revolver",
+    "category": "Beatles"
+   },
+   {
+    "text": "Abbey Road",
+    "category": "Beatles"
+   },
+   {
+    "text": "Rubber Soul",
+    "category": "Beatles"
+   },
+   {
+    "text": "Help!",
+    "category": "Beatles"
+   },
+   {
+    "text": "Sticky Fingers",
+    "category": "Rolling Stones"
+   },
+   {
+    "text": "Exile on Main St.",
+    "category": "Rolling Stones"
+   },
+   {
+    "text": "Let It Bleed",
+    "category": "Rolling Stones"
+   },
+   {
+    "text": "Beggars Banquet",
+    "category": "Rolling Stones"
+   }
+  ],
+  "category": "Music",
+  "tags": [
+   "The Beatles",
+   "The Rolling Stones",
+   "albums"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "An Agatha Christie novel or a Sherlock Holmes story?",
+  "categories": [
+   "Agatha Christie",
+   "Sherlock Holmes"
+  ],
+  "items": [
+   {
+    "text": "Death on the Nile",
+    "category": "Agatha Christie"
+   },
+   {
+    "text": "The ABC Murders",
+    "category": "Agatha Christie"
+   },
+   {
+    "text": "Evil Under the Sun",
+    "category": "Agatha Christie"
+   },
+   {
+    "text": "Murder on the Orient Express",
+    "category": "Agatha Christie"
+   },
+   {
+    "text": "The Speckled Band",
+    "category": "Sherlock Holmes"
+   },
+   {
+    "text": "A Study in Scarlet",
+    "category": "Sherlock Holmes"
+   },
+   {
+    "text": "The Sign of Four",
+    "category": "Sherlock Holmes"
+   },
+   {
+    "text": "The Red-Headed League",
+    "category": "Sherlock Holmes"
+   }
+  ],
+  "category": "Books",
+  "tags": [
+   "Agatha Christie",
+   "Sherlock Holmes"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A noble gas or a metal?",
+  "categories": [
+   "Noble gas",
+   "Metal"
+  ],
+  "items": [
+   {
+    "text": "Neon",
+    "category": "Noble gas"
+   },
+   {
+    "text": "Argon",
+    "category": "Noble gas"
+   },
+   {
+    "text": "Krypton",
+    "category": "Noble gas"
+   },
+   {
+    "text": "Xenon",
+    "category": "Noble gas"
+   },
+   {
+    "text": "Sodium",
+    "category": "Metal"
+   },
+   {
+    "text": "Copper",
+    "category": "Metal"
+   },
+   {
+    "text": "Zinc",
+    "category": "Metal"
+   },
+   {
+    "text": "Tin",
+    "category": "Metal"
+   }
+  ],
+  "category": "Science",
+  "tags": [
+   "elements",
+   "chemistry"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A US President or a British Prime Minister?",
+  "categories": [
+   "US President",
+   "UK Prime Minister"
+  ],
+  "items": [
+   {
+    "text": "Truman",
+    "category": "US President"
+   },
+   {
+    "text": "Eisenhower",
+    "category": "US President"
+   },
+   {
+    "text": "Nixon",
+    "category": "US President"
+   },
+   {
+    "text": "Carter",
+    "category": "US President"
+   },
+   {
+    "text": "Attlee",
+    "category": "UK Prime Minister"
+   },
+   {
+    "text": "Eden",
+    "category": "UK Prime Minister"
+   },
+   {
+    "text": "Macmillan",
+    "category": "UK Prime Minister"
+   },
+   {
+    "text": "Callaghan",
+    "category": "UK Prime Minister"
+   }
+  ],
+  "category": "History",
+  "tags": [
+   "US presidents",
+   "Prime Ministers"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A French sauce or an Italian sauce?",
+  "categories": [
+   "French",
+   "Italian"
+  ],
+  "items": [
+   {
+    "text": "Béarnaise",
+    "category": "French"
+   },
+   {
+    "text": "Hollandaise",
+    "category": "French"
+   },
+   {
+    "text": "Béchamel",
+    "category": "French"
+   },
+   {
+    "text": "Velouté",
+    "category": "French"
+   },
+   {
+    "text": "Pesto",
+    "category": "Italian"
+   },
+   {
+    "text": "Carbonara",
+    "category": "Italian"
+   },
+   {
+    "text": "Arrabbiata",
+    "category": "Italian"
+   },
+   {
+    "text": "Puttanesca",
+    "category": "Italian"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [
+   "sauces",
+   "French food",
+   "Italian food"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A shade of red or a shade of blue?",
+  "categories": [
+   "Red",
+   "Blue"
+  ],
+  "items": [
+   {
+    "text": "Crimson",
+    "category": "Red"
+   },
+   {
+    "text": "Scarlet",
+    "category": "Red"
+   },
+   {
+    "text": "Maroon",
+    "category": "Red"
+   },
+   {
+    "text": "Vermilion",
+    "category": "Red"
+   },
+   {
+    "text": "Navy",
+    "category": "Blue"
+   },
+   {
+    "text": "Cobalt",
+    "category": "Blue"
+   },
+   {
+    "text": "Azure",
+    "category": "Blue"
+   },
+   {
+    "text": "Cerulean",
+    "category": "Blue"
+   }
+  ],
+  "category": "Art",
+  "tags": [
+   "colours"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "An English county or a Welsh county?",
+  "categories": [
+   "England",
+   "Wales"
+  ],
+  "items": [
+   {
+    "text": "Shropshire",
+    "category": "England"
+   },
+   {
+    "text": "Herefordshire",
+    "category": "England"
+   },
+   {
+    "text": "Cheshire",
+    "category": "England"
+   },
+   {
+    "text": "Gloucestershire",
+    "category": "England"
+   },
+   {
+    "text": "Powys",
+    "category": "Wales"
+   },
+   {
+    "text": "Gwynedd",
+    "category": "Wales"
+   },
+   {
+    "text": "Pembrokeshire",
+    "category": "Wales"
+   },
+   {
+    "text": "Ceredigion",
+    "category": "Wales"
+   }
+  ],
+  "category": "UK geography",
+  "tags": [
+   "counties",
+   "England",
+   "Wales"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "An animal from Africa or from South America?",
+  "categories": [
+   "Africa",
+   "South America"
+  ],
+  "items": [
+   {
+    "text": "Lion",
+    "category": "Africa"
+   },
+   {
+    "text": "Zebra",
+    "category": "Africa"
+   },
+   {
+    "text": "Giraffe",
+    "category": "Africa"
+   },
+   {
+    "text": "Hippo",
+    "category": "Africa"
+   },
+   {
+    "text": "Llama",
+    "category": "South America"
+   },
+   {
+    "text": "Jaguar",
+    "category": "South America"
+   },
+   {
+    "text": "Sloth",
+    "category": "South America"
+   },
+   {
+    "text": "Capybara",
+    "category": "South America"
+   }
+  ],
+  "category": "Animals",
+  "tags": [
+   "Africa",
+   "South America",
+   "wildlife"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A Disney princess or a Disney villain?",
+  "categories": [
+   "Princess",
+   "Villain"
+  ],
+  "items": [
+   {
+    "text": "Ariel",
+    "category": "Princess"
+   },
+   {
+    "text": "Belle",
+    "category": "Princess"
+   },
+   {
+    "text": "Mulan",
+    "category": "Princess"
+   },
+   {
+    "text": "Jasmine",
+    "category": "Princess"
+   },
+   {
+    "text": "Ursula",
+    "category": "Villain"
+   },
+   {
+    "text": "Gaston",
+    "category": "Villain"
+   },
+   {
+    "text": "Jafar",
+    "category": "Villain"
+   },
+   {
+    "text": "Cruella",
+    "category": "Villain"
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "Disney",
+   "princesses",
+   "villains"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A city in Germany or in Austria?",
+  "categories": [
+   "Germany",
+   "Austria"
+  ],
+  "items": [
+   {
+    "text": "Munich",
+    "category": "Germany"
+   },
+   {
+    "text": "Hamburg",
+    "category": "Germany"
+   },
+   {
+    "text": "Cologne",
+    "category": "Germany"
+   },
+   {
+    "text": "Dresden",
+    "category": "Germany"
+   },
+   {
+    "text": "Vienna",
+    "category": "Austria"
+   },
+   {
+    "text": "Salzburg",
+    "category": "Austria"
+   },
+   {
+    "text": "Innsbruck",
+    "category": "Austria"
+   },
+   {
+    "text": "Graz",
+    "category": "Austria"
+   }
+  ],
+  "category": "World geography",
+  "tags": [
+   "Germany",
+   "Austria",
+   "cities"
+  ],
+  "difficulty": "medium"
+ }
+]
