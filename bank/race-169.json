@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this American football word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "American football",
+   "NFL",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Carrying the ball into the end zone for six points",
+    "right": "Touchdown",
+    "wrong": [
+     "Try",
+     "Home run",
+     "Slam dunk"
+    ]
+   },
+   {
+    "q": "The area at each end where you score",
+    "right": "End zone",
+    "wrong": [
+     "Penalty area",
+     "In-goal",
+     "Crease"
+    ]
+   },
+   {
+    "q": "The player who throws the passes",
+    "right": "Quarterback",
+    "wrong": [
+     "Fly-half",
+     "Point guard",
+     "Pitcher"
+    ]
+   },
+   {
+    "q": "The NFL's championship game in February",
+    "right": "Super Bowl",
+    "wrong": [
+     "World Series",
+     "Stanley Cup",
+     "Rose Bowl"
+    ]
+   },
+   {
+    "q": "Kicking the ball between the posts for three points",
+    "right": "Field goal",
+    "wrong": [
+     "Drop goal",
+     "Penalty",
+     "Conversion"
+    ]
+   },
+   {
+    "q": "The team gathering to call the next play",
+    "right": "Huddle",
+    "wrong": [
+     "Scrum",
+     "Ruck",
+     "Maul"
+    ]
+   },
+   {
+    "q": "Tackling the quarterback before he can throw",
+    "right": "Sack",
+    "wrong": [
+     "Bag",
+     "Bin",
+     "Bundle"
+    ]
+   },
+   {
+    "q": "Dropping the ball while carrying it",
+    "right": "Fumble",
+    "wrong": [
+     "Knock-on",
+     "Butterfingers",
+     "Juggle"
+    ]
+   },
+   {
+    "q": "Catching a pass meant for the other team",
+    "right": "Interception",
+    "wrong": [
+     "Intervention",
+     "Intersection",
+     "Interruption"
+    ]
+   },
+   {
+    "q": "The nickname for the sport, from the lines on the field",
+    "right": "Gridiron",
+    "wrong": [
+     "Griddle",
+     "Gridlock",
+     "Grid reference"
+    ]
+   },
+   {
+    "q": "A desperate long pass in the dying seconds",
+    "right": "Hail Mary",
+    "wrong": [
+     "Ave Maria",
+     "Our Father",
+     "Amen"
+    ]
+   },
+   {
+    "q": "Pom-pom-waving dancers on the sidelines",
+    "right": "Cheerleaders",
+    "wrong": [
+     "Ball boys",
+     "Mascots",
+     "Stewards"
+    ]
+   },
+   {
+    "q": "The league, by its initials",
+    "right": "NFL",
+    "wrong": [
+     "NBA",
+     "NHL",
+     "MLB"
+    ]
+   },
+   {
+    "q": "The quarterback with a record seven Super Bowl wins",
+    "right": "Tom Brady",
+    "wrong": [
+     "Peyton Manning",
+     "Patrick Mahomes",
+     "Joe Montana"
+    ]
+   },
+   {
+    "q": "The London stadium built with its own NFL pitch underneath",
+    "right": "Tottenham Hotspur Stadium",
+    "wrong": [
+     "Emirates Stadium",
+     "Stamford Bridge",
+     "London Stadium"
+    ]
+   },
+   {
+    "q": "Kicking the ball away downfield on fourth down",
+    "right": "Punt",
+    "wrong": [
+     "Bunt",
+     "Pass",
+     "Volley"
+    ]
+   },
+   {
+    "q": "The mid-game Super Bowl concert",
+    "right": "Halftime show",
+    "wrong": [
+     "Interval act",
+     "Tea break",
+     "Seventh-inning stretch"
+    ]
+   },
+   {
+    "q": "The unit of distance on the field, 100 of them long",
+    "right": "Yard",
+    "wrong": [
+     "Metre",
+     "Foot",
+     "Pace"
+    ]
+   },
+   {
+    "q": "Slang for the ball",
+    "right": "Pigskin",
+    "wrong": [
+     "Cowhide",
+     "Sheepskin",
+     "Oxblood"
+    ]
+   },
+   {
+    "q": "What players wear over their faces",
+    "right": "Face mask",
+    "wrong": [
+     "Visor",
+     "Goggles",
+     "Gumshield"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this gymnastics word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "gymnastics",
+   "Olympics",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The ten-centimetre-wide bar women balance on",
+    "right": "Beam",
+    "wrong": [
+     "Plank",
+     "Rail",
+     "Joist"
+    ]
+   },
+   {
+    "q": "The leather apparatus with two handles that men swing over",
+    "right": "Pommel horse",
+    "wrong": [
+     "Rocking horse",
+     "Clothes horse",
+     "Sawhorse"
+    ]
+   },
+   {
+    "q": "Sprinting, springing off a board and flipping over the table",
+    "right": "Vault",
+    "wrong": [
+     "Hurdle",
+     "Long jump",
+     "Hop"
+    ]
+   },
+   {
+    "q": "Two hoops hanging from straps, for the strongest men",
+    "right": "Rings",
+    "wrong": [
+     "Hoops",
+     "Bangles",
+     "Loops"
+    ]
+   },
+   {
+    "q": "The tumbling routine on a springy square mat",
+    "right": "Floor",
+    "wrong": [
+     "Carpet",
+     "Trampoline",
+     "Stage"
+    ]
+   },
+   {
+    "q": "The women's apparatus with two bars at different heights",
+    "right": "Uneven bars",
+    "wrong": [
+     "High bar",
+     "Pull-up bar",
+     "Wine bar"
+    ]
+   },
+   {
+    "q": "The men's apparatus with two bars side by side",
+    "right": "Parallel bars",
+    "wrong": [
+     "High bar",
+     "Crossbar",
+     "Handlebars"
+    ]
+   },
+   {
+    "q": "Balancing upside down on your hands",
+    "right": "Handstand",
+    "wrong": [
+     "Headstand",
+     "Bandstand",
+     "Grandstand"
+    ]
+   },
+   {
+    "q": "A sideways wheel, turning over hand to hand",
+    "right": "Cartwheel",
+    "wrong": [
+     "Catherine wheel",
+     "Waterwheel",
+     "Big wheel"
+    ]
+   },
+   {
+    "q": "Flipping head over heels",
+    "right": "Somersault",
+    "wrong": [
+     "Pirouette",
+     "Plié",
+     "Arabesque"
+    ]
+   },
+   {
+    "q": "Legs stretched flat in opposite directions",
+    "right": "Splits",
+    "wrong": [
+     "Shards",
+     "Halves",
+     "Cracks"
+    ]
+   },
+   {
+    "q": "The American with the most world and Olympic medals of all",
+    "right": "Simone Biles",
+    "wrong": [
+     "Olga Korbut",
+     "Gabby Douglas",
+     "Beth Tweddle"
+    ]
+   },
+   {
+    "q": "The first to score a perfect 10, in 1976",
+    "right": "Nadia Comăneci",
+    "wrong": [
+     "Olga Korbut",
+     "Beth Tweddle",
+     "Mary Lou Retton"
+    ]
+   },
+   {
+    "q": "Britain's pommel horse Olympic champion in 2016 and 2021",
+    "right": "Max Whitlock",
+    "wrong": [
+     "Louis Smith",
+     "Nile Wilson",
+     "Beth Tweddle"
+    ]
+   },
+   {
+    "q": "The stretchy one-piece suit",
+    "right": "Leotard",
+    "wrong": [
+     "Tutu",
+     "Kimono",
+     "Sarong"
+    ]
+   },
+   {
+    "q": "The final move off the apparatus",
+    "right": "Dismount",
+    "wrong": [
+     "Discount",
+     "Dismantle",
+     "Dislodge"
+    ]
+   },
+   {
+    "q": "Gymnastics with ribbons, hoops and clubs",
+    "right": "Rhythmic",
+    "wrong": [
+     "Artistic",
+     "Acrobatic",
+     "Aerobic"
+    ]
+   },
+   {
+    "q": "The board you bounce off before the vault",
+    "right": "Springboard",
+    "wrong": [
+     "Diving board",
+     "Skateboard",
+     "Surfboard"
+    ]
+   },
+   {
+    "q": "A gymnast's planned sequence of moves",
+    "right": "Routine",
+    "wrong": [
+     "Rota",
+     "Schedule",
+     "Agenda"
+    ]
+   },
+   {
+    "q": "A run of flips and twists across the floor",
+    "right": "Tumble",
+    "wrong": [
+     "Rumble",
+     "Fumble",
+     "Stumble"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this barber's word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "barbers",
+   "hair",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The buzzing electric tool for short hair",
+    "right": "Clippers",
+    "wrong": [
+     "Pliers",
+     "Tweezers",
+     "Secateurs"
+    ]
+   },
+   {
+    "q": "The classic barber's cut",
+    "right": "Short back and sides",
+    "wrong": [
+     "Mullet",
+     "Mohican",
+     "Beehive"
+    ]
+   },
+   {
+    "q": "Hair blended from very short to longer",
+    "right": "Fade",
+    "wrong": [
+     "Fringe",
+     "Quiff",
+     "Perm"
+    ]
+   },
+   {
+    "q": "The long folding blade for a wet shave",
+    "right": "Cut-throat razor",
+    "wrong": [
+     "Safety razor",
+     "Penknife",
+     "Scalpel"
+    ]
+   },
+   {
+    "q": "The soapy froth brushed on before a shave",
+    "right": "Lather",
+    "wrong": [
+     "Mousse",
+     "Gel",
+     "Wax"
+    ]
+   },
+   {
+    "q": "The red-and-white striped sign outside the shop",
+    "right": "Barber's pole",
+    "wrong": [
+     "Maypole",
+     "Totem pole",
+     "Barge pole"
+    ]
+   },
+   {
+    "q": "The shortest clipper guard setting",
+    "right": "Number one",
+    "wrong": [
+     "Number ten",
+     "Grade A",
+     "Size zero"
+    ]
+   },
+   {
+    "q": "Hair growing down in front of the ears",
+    "right": "Sideburns",
+    "wrong": [
+     "Eyebrows",
+     "Earlobes",
+     "Temples"
+    ]
+   },
+   {
+    "q": "Hair on the upper lip",
+    "right": "Moustache",
+    "wrong": [
+     "Stubble",
+     "Monobrow",
+     "Fringe"
+    ]
+   },
+   {
+    "q": "A small beard on the chin only",
+    "right": "Goatee",
+    "wrong": [
+     "Stubble",
+     "Monobrow",
+     "Fringe"
+    ]
+   },
+   {
+    "q": "A toothed strip for neatening hair",
+    "right": "Comb",
+    "wrong": [
+     "Fork",
+     "Rake",
+     "Saw"
+    ]
+   },
+   {
+    "q": "The line where hair is combed in different directions",
+    "right": "Parting",
+    "wrong": [
+     "Fringe",
+     "Crown",
+     "Nape"
+    ]
+   },
+   {
+    "q": "A steaming cloth laid on the face before a shave",
+    "right": "Hot towel",
+    "wrong": [
+     "Tea towel",
+     "Beach towel",
+     "Bath towel"
+    ]
+   },
+   {
+    "q": "The stinging scented splash after shaving",
+    "right": "Aftershave",
+    "wrong": [
+     "Mouthwash",
+     "Conditioner",
+     "Moisturiser"
+    ]
+   },
+   {
+    "q": "The hair cream: 'a little dab'll do ya'",
+    "right": "Brylcreem",
+    "wrong": [
+     "Vaseline",
+     "Nivea",
+     "Germolene"
+    ]
+   },
+   {
+    "q": "The demon barber of Fleet Street",
+    "right": "Sweeney Todd",
+    "wrong": [
+     "Jack the Ripper",
+     "Dick Turpin",
+     "Mack the Knife"
+    ]
+   },
+   {
+    "q": "A square-topped cut standing straight up",
+    "right": "Flat-top",
+    "wrong": [
+     "Bob",
+     "Bowl cut",
+     "Pixie cut"
+    ]
+   },
+   {
+    "q": "What's swept off the floor afterwards",
+    "right": "Clippings",
+    "wrong": [
+     "Shavings",
+     "Crumbs",
+     "Sawdust"
+    ]
+   },
+   {
+    "q": "Shaved short at the sides with longer hair on top",
+    "right": "Undercut",
+    "wrong": [
+     "Bob",
+     "Bowl cut",
+     "Pixie cut"
+    ]
+   },
+   {
+    "q": "The trade named from the Latin 'barba', meaning beard",
+    "right": "Barber",
+    "wrong": [
+     "Butcher",
+     "Baker",
+     "Barrister"
+    ]
+   }
+  ]
+ }
+]
