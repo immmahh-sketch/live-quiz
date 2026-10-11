@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this rowing word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "rowing",
+   "boats",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The long pole with a blade, pulled through the water",
+    "right": "Oar",
+    "wrong": [
+     "Paddle",
+     "Rudder",
+     "Mast"
+    ]
+   },
+   {
+    "q": "The small person who steers and shouts the orders",
+    "right": "Cox",
+    "wrong": [
+     "Coach",
+     "Bosun",
+     "Purser"
+    ]
+   },
+   {
+    "q": "The rower nearest the stern, who sets the rhythm",
+    "right": "Stroke",
+    "wrong": [
+     "Purser",
+     "Bosun",
+     "Lookout"
+    ]
+   },
+   {
+    "q": "The rower nearest the front of the boat",
+    "right": "Bow",
+    "wrong": [
+     "Purser",
+     "Bosun",
+     "Lookout"
+    ]
+   },
+   {
+    "q": "Rowing with an oar in each hand",
+    "right": "Sculls",
+    "wrong": [
+     "Sweep",
+     "Paddles",
+     "Punts"
+    ]
+   },
+   {
+    "q": "The boat with eight rowers and a cox",
+    "right": "Eight",
+    "wrong": [
+     "Four",
+     "Pair",
+     "Single"
+    ]
+   },
+   {
+    "q": "Oxford against Cambridge on the Thames every spring",
+    "right": "Boat Race",
+    "wrong": [
+     "Henley Regatta",
+     "Head of the River",
+     "Doggett's Coat and Badge"
+    ]
+   },
+   {
+    "q": "Royal ___ Regatta, every summer on the Thames",
+    "right": "Henley",
+    "wrong": [
+     "Hampton",
+     "Marlow",
+     "Windsor"
+    ]
+   },
+   {
+    "q": "The indoor rowing machine",
+    "right": "Erg",
+    "wrong": [
+     "Treadmill",
+     "Stepper",
+     "Spinner"
+    ]
+   },
+   {
+    "q": "Getting your oar stuck in the water by mistake",
+    "right": "Catch a crab",
+    "wrong": [
+     "Catch a cold",
+     "Catch a wave",
+     "Catch a tan"
+    ]
+   },
+   {
+    "q": "The five-time Olympic champion",
+    "right": "Steve Redgrave",
+    "wrong": [
+     "Matthew Pinsent",
+     "James Cracknell",
+     "Andy Holmes"
+    ]
+   },
+   {
+    "q": "The fitting that holds the oar on the boat",
+    "right": "Rowlock",
+    "wrong": [
+     "Padlock",
+     "Deadlock",
+     "Wedlock"
+    ]
+   },
+   {
+    "q": "The flat end of the oar",
+    "right": "Blade",
+    "wrong": [
+     "Fin",
+     "Rudder",
+     "Keel"
+    ]
+   },
+   {
+    "q": "What the rower sits on, rolling back and forth",
+    "right": "Sliding seat",
+    "wrong": [
+     "Swivel chair",
+     "Bench",
+     "Saddle"
+    ]
+   },
+   {
+    "q": "Tipping the boat right over",
+    "right": "Capsize",
+    "wrong": [
+     "Scuttle",
+     "Moor",
+     "Dock"
+    ]
+   },
+   {
+    "q": "A series of boat races",
+    "right": "Regatta",
+    "wrong": [
+     "Rally",
+     "Grand Prix",
+     "Derby"
+    ]
+   },
+   {
+    "q": "What an Oxford or Cambridge rower earns for racing",
+    "right": "Blue",
+    "wrong": [
+     "Cap",
+     "Badge",
+     "Medal"
+    ]
+   },
+   {
+    "q": "A boat with no one steering",
+    "right": "Coxless",
+    "wrong": [
+     "Captainless",
+     "Crewless",
+     "Oarless"
+    ]
+   },
+   {
+    "q": "Turning the blade flat between strokes",
+    "right": "Feathering",
+    "wrong": [
+     "Featherbedding",
+     "Tarring",
+     "Fledging"
+    ]
+   },
+   {
+    "q": "Another name for an oarsman or oarswoman",
+    "right": "Rower",
+    "wrong": [
+     "Rambler",
+     "Rover",
+     "Roamer"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this fencing word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "fencing",
+   "swords",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The light weapon where only the torso scores",
+    "right": "Foil",
+    "wrong": [
+     "Rapier",
+     "Cutlass",
+     "Scimitar"
+    ]
+   },
+   {
+    "q": "The heaviest weapon, where the whole body is a target",
+    "right": "Épée",
+    "wrong": [
+     "Rapier",
+     "Cutlass",
+     "Scimitar"
+    ]
+   },
+   {
+    "q": "The weapon that scores with cuts as well as thrusts",
+    "right": "Sabre",
+    "wrong": [
+     "Rapier",
+     "Cutlass",
+     "Scimitar"
+    ]
+   },
+   {
+    "q": "'On guard!' – the call to get ready",
+    "right": "En garde",
+    "wrong": [
+     "Bon voyage",
+     "Voilà",
+     "Au revoir"
+    ]
+   },
+   {
+    "q": "French for 'touched', said when you're hit",
+    "right": "Touché",
+    "wrong": [
+     "Bon voyage",
+     "Voilà",
+     "Encore"
+    ]
+   },
+   {
+    "q": "A long attacking step forward",
+    "right": "Lunge",
+    "wrong": [
+     "Squat",
+     "Leapfrog",
+     "Pirouette"
+    ]
+   },
+   {
+    "q": "Blocking your opponent's blade",
+    "right": "Parry",
+    "wrong": [
+     "Tackle",
+     "Volley",
+     "Smash"
+    ]
+   },
+   {
+    "q": "A counter-attack straight after a parry",
+    "right": "Riposte",
+    "wrong": [
+     "Rebuttal",
+     "Reprise",
+     "Encore"
+    ]
+   },
+   {
+    "q": "The long narrow strip you fence on",
+    "right": "Piste",
+    "wrong": [
+     "Rink",
+     "Mat",
+     "Lane"
+    ]
+   },
+   {
+    "q": "The mesh face guard",
+    "right": "Mask",
+    "wrong": [
+     "Visor",
+     "Goggles",
+     "Balaclava"
+    ]
+   },
+   {
+    "q": "The metallic jacket that registers hits",
+    "right": "Lamé",
+    "wrong": [
+     "Lycra",
+     "Tweed",
+     "Velvet"
+    ]
+   },
+   {
+    "q": "A single fencing match",
+    "right": "Bout",
+    "wrong": [
+     "Rally",
+     "Frame",
+     "Heat"
+    ]
+   },
+   {
+    "q": "Raising the sword to your opponent before you start",
+    "right": "Salute",
+    "wrong": [
+     "Wave",
+     "Curtsey",
+     "High five"
+    ]
+   },
+   {
+    "q": "A running attack, French for 'arrow'",
+    "right": "Flèche",
+    "wrong": [
+     "Flair",
+     "Fleece",
+     "Flash"
+    ]
+   },
+   {
+    "q": "The tip of the blade",
+    "right": "Point",
+    "wrong": [
+     "Pommel",
+     "Hilt",
+     "Grip"
+    ]
+   },
+   {
+    "q": "The dish-shaped shield protecting the hand",
+    "right": "Guard",
+    "wrong": [
+     "Gauntlet",
+     "Cuff",
+     "Bracer"
+    ]
+   },
+   {
+    "q": "A scoring hit",
+    "right": "Touch",
+    "wrong": [
+     "Goal",
+     "Try",
+     "Run"
+    ]
+   },
+   {
+    "q": "Athos, Porthos and Aramis",
+    "right": "Musketeers",
+    "wrong": [
+     "Highwaymen",
+     "Buccaneers",
+     "Cavaliers"
+    ]
+   },
+   {
+    "q": "The masked swordsman who carves a Z",
+    "right": "Zorro",
+    "wrong": [
+     "Robin Hood",
+     "The Saint",
+     "The Phantom"
+    ]
+   },
+   {
+    "q": "'Hello. My name is...' – the swordsman in The Princess Bride",
+    "right": "Inigo Montoya",
+    "wrong": [
+     "Westley",
+     "Captain Hook",
+     "Errol Flynn"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this lifeboat word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "RNLI",
+   "sea rescue",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The lifeboat charity, by its initials",
+    "right": "RNLI",
+    "wrong": [
+     "RSPB",
+     "RNIB",
+     "RAC"
+    ]
+   },
+   {
+    "q": "The skipper of a lifeboat",
+    "right": "Coxswain",
+    "wrong": [
+     "Purser",
+     "Bosun",
+     "Pilot"
+    ]
+   },
+   {
+    "q": "The distress call meaning a life is in danger",
+    "right": "Mayday",
+    "wrong": [
+     "Pan-pan",
+     "Sécurité",
+     "Over and out"
+    ]
+   },
+   {
+    "q": "The inflatable vest that keeps you afloat",
+    "right": "Lifejacket",
+    "wrong": [
+     "Straitjacket",
+     "Dinner jacket",
+     "Flak jacket"
+    ]
+   },
+   {
+    "q": "A bright red light fired into the sky to show you're in trouble",
+    "right": "Flare",
+    "wrong": [
+     "Firework",
+     "Lantern",
+     "Torch"
+    ]
+   },
+   {
+    "q": "The lighthouse keeper's daughter famous for an 1838 rescue",
+    "right": "Grace Darling",
+    "wrong": [
+     "Florence Nightingale",
+     "Edith Cavell",
+     "Mary Seacole"
+    ]
+   },
+   {
+    "q": "The service that coordinates sea rescues, reached on 999",
+    "right": "Coastguard",
+    "wrong": [
+     "Border Force",
+     "Lifeguard",
+     "Harbour master"
+    ]
+   },
+   {
+    "q": "The tall tower with a flashing lamp to warn ships",
+    "right": "Lighthouse",
+    "wrong": [
+     "Windmill",
+     "Watchtower",
+     "Water tower"
+    ]
+   },
+   {
+    "q": "Sending the lifeboat out to sea",
+    "right": "Launch",
+    "wrong": [
+     "Lunch",
+     "Lurch",
+     "Lounge"
+    ]
+   },
+   {
+    "q": "The ramp the lifeboat slides down into the sea",
+    "right": "Slipway",
+    "wrong": [
+     "Gangway",
+     "Runway",
+     "Causeway"
+    ]
+   },
+   {
+    "q": "What most lifeboat crew are, unpaid",
+    "right": "Volunteers",
+    "wrong": [
+     "Conscripts",
+     "Mercenaries",
+     "Contractors"
+    ]
+   },
+   {
+    "q": "The device that buzzes to call the crew out",
+    "right": "Pager",
+    "wrong": [
+     "Fax",
+     "Telex",
+     "Walkie-talkie"
+    ]
+   },
+   {
+    "q": "The dangerous chilling of the body in cold water",
+    "right": "Hypothermia",
+    "wrong": [
+     "Hyperthermia",
+     "Hydrophobia",
+     "Vertigo"
+    ]
+   },
+   {
+    "q": "Getting cut off on the sand by the incoming ___",
+    "right": "Tide",
+    "wrong": [
+     "Wind",
+     "Fog",
+     "Current"
+    ]
+   },
+   {
+    "q": "The small, fast inflatable for rescues close to shore",
+    "right": "Inshore lifeboat",
+    "wrong": [
+     "All-weather lifeboat",
+     "Dinghy",
+     "Jet ski"
+    ]
+   },
+   {
+    "q": "A hidden ridge that ships run aground on",
+    "right": "Sandbank",
+    "wrong": [
+     "Sandcastle",
+     "Sandpit",
+     "Sandbag"
+    ]
+   },
+   {
+    "q": "Stuck fast on the bottom",
+    "right": "Aground",
+    "wrong": [
+     "Adrift",
+     "Ashore",
+     "Abroad"
+    ]
+   },
+   {
+    "q": "What's left after a ship breaks up",
+    "right": "Shipwreck",
+    "wrong": [
+     "Shipshape",
+     "Shipyard",
+     "Shipment"
+    ]
+   },
+   {
+    "q": "The cry when someone falls into the sea",
+    "right": "Man overboard",
+    "wrong": [
+     "All aboard",
+     "Land ahoy",
+     "Anchors aweigh"
+    ]
+   },
+   {
+    "q": "The coastguard's flying rescue craft",
+    "right": "Helicopter",
+    "wrong": [
+     "Hovercraft",
+     "Seaplane",
+     "Airship"
+    ]
+   }
+  ]
+ }
+]
