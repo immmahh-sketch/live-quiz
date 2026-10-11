@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this dog word?",
+  "target": 10,
+  "category": "Animals",
+  "tags": [
+   "dogs",
+   "pets",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "A young dog",
+    "right": "Puppy",
+    "wrong": [
+     "Cub",
+     "Kit",
+     "Foal"
+    ]
+   },
+   {
+    "q": "A dog's shelter in the garden",
+    "right": "Kennel",
+    "wrong": [
+     "Hutch",
+     "Coop",
+     "Stable"
+    ]
+   },
+   {
+    "q": "A dog of mixed breed",
+    "right": "Mongrel",
+    "wrong": [
+     "Thoroughbred",
+     "Pedigree",
+     "Champion"
+    ]
+   },
+   {
+    "q": "Worn over the snout to stop biting",
+    "right": "Muzzle",
+    "wrong": [
+     "Bridle",
+     "Halter",
+     "Blinkers"
+    ]
+   },
+   {
+    "q": "The band round a dog's neck with its name tag",
+    "right": "Collar",
+    "wrong": [
+     "Bridle",
+     "Halter",
+     "Girth"
+    ]
+   },
+   {
+    "q": "The strap you walk a dog on",
+    "right": "Lead",
+    "wrong": [
+     "Rein",
+     "Tether",
+     "Bridle"
+    ]
+   },
+   {
+    "q": "The famous dog show held every March in Birmingham",
+    "right": "Crufts",
+    "wrong": [
+     "Badminton",
+     "Burghley",
+     "Chelsea"
+    ]
+   },
+   {
+    "q": "The charity behind 'A dog is for life, not just for Christmas'",
+    "right": "Dogs Trust",
+    "wrong": [
+     "RSPCA",
+     "PDSA",
+     "Blue Cross"
+    ]
+   },
+   {
+    "q": "A dog trained to lead a blind person",
+    "right": "Guide dog",
+    "wrong": [
+     "Sheepdog",
+     "Bloodhound",
+     "Watchdog"
+    ]
+   },
+   {
+    "q": "A dog trained to fetch birds that have been shot",
+    "right": "Gun dog",
+    "wrong": [
+     "Toy dog",
+     "Guard dog",
+     "Herding dog"
+    ]
+   },
+   {
+    "q": "A small pampered pet that sits on your knee",
+    "right": "Lapdog",
+    "wrong": [
+     "Watchdog",
+     "Underdog",
+     "Sea dog"
+    ]
+   },
+   {
+    "q": "A police dog that finds drugs or explosives",
+    "right": "Sniffer dog",
+    "wrong": [
+     "Guard dog",
+     "Herding dog",
+     "Show dog"
+    ]
+   },
+   {
+    "q": "The long, mournful cry of a wolf or husky",
+    "right": "Howl",
+    "wrong": [
+     "Whimper",
+     "Snarl",
+     "Growl"
+    ]
+   },
+   {
+    "q": "The breed that pulls sleds across the snow",
+    "right": "Husky",
+    "wrong": [
+     "Boxer",
+     "Pug",
+     "Shih Tzu"
+    ]
+   },
+   {
+    "q": "The spotted breed that once ran beside fire engines",
+    "right": "Dalmatian",
+    "wrong": [
+     "Pointer",
+     "Weimaraner",
+     "Setter"
+    ]
+   },
+   {
+    "q": "The fastest breed, raced round a track",
+    "right": "Greyhound",
+    "wrong": [
+     "Bulldog",
+     "Basset Hound",
+     "Pekingese"
+    ]
+   },
+   {
+    "q": "The breed the late Queen famously loved",
+    "right": "Corgi",
+    "wrong": [
+     "Dachshund",
+     "Pug",
+     "Beagle"
+    ]
+   },
+   {
+    "q": "Teaching a puppy to go to the toilet outside",
+    "right": "House-training",
+    "wrong": [
+     "Socialising",
+     "Obedience",
+     "Teething"
+    ]
+   },
+   {
+    "q": "Brushing and trimming a dog's coat",
+    "right": "Grooming",
+    "wrong": [
+     "Worming",
+     "Neutering",
+     "Microchipping"
+    ]
+   },
+   {
+    "q": "The command to walk close by your side",
+    "right": "Heel",
+    "wrong": [
+     "Stay",
+     "Fetch",
+     "Beg"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this sweet shop word?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "sweets",
+   "nostalgia",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "A huge hard sweet that changes colour as you suck it",
+    "right": "Gobstopper",
+    "wrong": [
+     "Barley sugar",
+     "Butterscotch",
+     "Mint imperial"
+    ]
+   },
+   {
+    "q": "Choosing your own sweets from the tubs",
+    "right": "Pick 'n' mix",
+    "wrong": [
+     "Lucky dip",
+     "Assortment",
+     "Selection box"
+    ]
+   },
+   {
+    "q": "The old weight sweets were sold in from the jar: four ounces",
+    "right": "Quarter",
+    "wrong": [
+     "Pound",
+     "Stone",
+     "Gill"
+    ]
+   },
+   {
+    "q": "Fizzy powder you dip a lolly into",
+    "right": "Sherbet",
+    "wrong": [
+     "Icing sugar",
+     "Popping candy",
+     "Bicarbonate"
+    ]
+   },
+   {
+    "q": "Black and chewy, made from a root, and found in Allsorts",
+    "right": "Liquorice",
+    "wrong": [
+     "Aniseed",
+     "Treacle",
+     "Molasses"
+    ]
+   },
+   {
+    "q": "A striped boiled mint, and Scrooge's favourite word",
+    "right": "Humbug",
+    "wrong": [
+     "Mint imperial",
+     "Polo",
+     "Murray Mint"
+    ]
+   },
+   {
+    "q": "A soft sugary block made with butter and milk",
+    "right": "Fudge",
+    "wrong": [
+     "Nougat",
+     "Marzipan",
+     "Halva"
+    ]
+   },
+   {
+    "q": "The seaside stick with the resort's name running through it",
+    "right": "Rock",
+    "wrong": [
+     "Candy cane",
+     "Barley sugar",
+     "Stick toffee"
+    ]
+   },
+   {
+    "q": "Spun sugar on a stick at the fair",
+    "right": "Candyfloss",
+    "wrong": [
+     "Marshmallow",
+     "Meringue",
+     "Nougat"
+    ]
+   },
+   {
+    "q": "Little jelly people, the Fourth Doctor's favourite",
+    "right": "Jelly Babies",
+    "wrong": [
+     "Jelly Tots",
+     "Wine Gums",
+     "Fruit Pastilles"
+    ]
+   },
+   {
+    "q": "Rice-paper discs filled with sherbet",
+    "right": "Flying saucers",
+    "wrong": [
+     "Parma Violets",
+     "Refreshers",
+     "Fruit Salads"
+    ]
+   },
+   {
+    "q": "Fizzy tablets printed with messages like 'Be Mine'",
+    "right": "Love Hearts",
+    "wrong": [
+     "Parma Violets",
+     "Refreshers",
+     "Polos"
+    ]
+   },
+   {
+    "q": "A hard sweet on a stick",
+    "right": "Lollipop",
+    "wrong": [
+     "Sugar mouse",
+     "Barley sugar",
+     "Ice lolly"
+    ]
+   },
+   {
+    "q": "An apple dipped in hard caramel for Bonfire Night",
+    "right": "Toffee apple",
+    "wrong": [
+     "Glacé cherry",
+     "Candied peel",
+     "Crystallised ginger"
+    ]
+   },
+   {
+    "q": "Tiny pastel cubes and jellies",
+    "right": "Dolly Mixtures",
+    "wrong": [
+     "Jelly Tots",
+     "Allsorts",
+     "Midget Gems"
+    ]
+   },
+   {
+    "q": "Fizzy gummy sweets shaped like little bottles of pop",
+    "right": "Cola bottles",
+    "wrong": [
+     "Fried eggs",
+     "Shrimps",
+     "Jelly beans"
+    ]
+   },
+   {
+    "q": "The tall glass container on the sweet-shop shelf",
+    "right": "Sweet jar",
+    "wrong": [
+     "Kilner jar",
+     "Bell jar",
+     "Tea caddy"
+    ]
+   },
+   {
+    "q": "Pink and yellow boiled sweets with a nail-varnish smell",
+    "right": "Pear drops",
+    "wrong": [
+     "Cola cubes",
+     "Aniseed balls",
+     "Clove rock"
+    ]
+   },
+   {
+    "q": "Red and yellow boiled sweets named after a pudding",
+    "right": "Rhubarb and custard",
+    "wrong": [
+     "Jam roly-poly",
+     "Spotted dick",
+     "Bread and butter"
+    ]
+   },
+   {
+    "q": "Chewy toffee balls dusted in icing sugar",
+    "right": "Bonbons",
+    "wrong": [
+     "Truffles",
+     "Macarons",
+     "Marshmallows"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this gig word?",
+  "target": 10,
+  "category": "Music",
+  "tags": [
+   "gigs",
+   "live music",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The crew member who lugs and sets up the band's gear",
+    "right": "Roadie",
+    "wrong": [
+     "Bouncer",
+     "Usher",
+     "Steward"
+    ]
+   },
+   {
+    "q": "Extra songs after the band leaves and comes back on",
+    "right": "Encore",
+    "wrong": [
+     "Reprise",
+     "Medley",
+     "Interval"
+    ]
+   },
+   {
+    "q": "The list of songs the band will play tonight",
+    "right": "Setlist",
+    "wrong": [
+     "Tracklist",
+     "Playlist",
+     "Chart"
+    ]
+   },
+   {
+    "q": "The band's list of backstage demands",
+    "right": "Rider",
+    "wrong": [
+     "Contract",
+     "Manifest",
+     "Itinerary"
+    ]
+   },
+   {
+    "q": "The act that plays before the headliner",
+    "right": "Support act",
+    "wrong": [
+     "Tribute act",
+     "Session band",
+     "House band"
+    ]
+   },
+   {
+    "q": "Leaping off the stage into the crowd",
+    "right": "Stage dive",
+    "wrong": [
+     "Belly flop",
+     "Swan dive",
+     "Moonwalk"
+    ]
+   },
+   {
+    "q": "Being passed over the audience's heads",
+    "right": "Crowd surfing",
+    "wrong": [
+     "Conga",
+     "Pogoing",
+     "Slow dance"
+    ]
+   },
+   {
+    "q": "The area at the front where fans slam into each other",
+    "right": "Mosh pit",
+    "wrong": [
+     "Orchestra pit",
+     "Front row",
+     "Dance floor"
+    ]
+   },
+   {
+    "q": "Testing the levels before the doors open",
+    "right": "Soundcheck",
+    "wrong": [
+     "Curtain call",
+     "Photocall",
+     "Roll call"
+    ]
+   },
+   {
+    "q": "Speakers pointing at the band so they can hear themselves",
+    "right": "Monitors",
+    "wrong": [
+     "Subwoofers",
+     "Tweeters",
+     "Mixers"
+    ]
+   },
+   {
+    "q": "The box that makes an electric guitar loud",
+    "right": "Amp",
+    "wrong": [
+     "Mixer",
+     "Pickup",
+     "Capo"
+    ]
+   },
+   {
+    "q": "The floor switch a guitarist stamps on to change the sound",
+    "right": "Effects pedal",
+    "wrong": [
+     "Capo",
+     "Whammy bar",
+     "Tuning peg"
+    ]
+   },
+   {
+    "q": "The little piece used to strum a guitar",
+    "right": "Plectrum",
+    "wrong": [
+     "Bow",
+     "Mallet",
+     "Slide"
+    ]
+   },
+   {
+    "q": "Someone outside selling tickets at a huge mark-up",
+    "right": "Tout",
+    "wrong": [
+     "Busker",
+     "Pedlar",
+     "Hawker"
+    ]
+   },
+   {
+    "q": "A superfan who follows the band everywhere",
+    "right": "Groupie",
+    "wrong": [
+     "Session musician",
+     "Tour manager",
+     "A&R man"
+    ]
+   },
+   {
+    "q": "The person who books the venue and sells the gig",
+    "right": "Promoter",
+    "wrong": [
+     "Producer",
+     "Engineer",
+     "Publicist"
+    ]
+   },
+   {
+    "q": "The act at the top of the bill",
+    "right": "Headliner",
+    "wrong": [
+     "Opener",
+     "Warm-up",
+     "Compère"
+    ]
+   },
+   {
+    "q": "A run of gigs in different cities",
+    "right": "Tour",
+    "wrong": [
+     "Residency",
+     "Session",
+     "Showcase"
+    ]
+   },
+   {
+    "q": "An acoustic set with no electric instruments",
+    "right": "Unplugged",
+    "wrong": [
+     "Unmixed",
+     "Unreleased",
+     "Untitled"
+    ]
+   },
+   {
+    "q": "The squeal when a mic picks up its own speaker",
+    "right": "Feedback",
+    "wrong": [
+     "Reverb",
+     "Distortion",
+     "Echo"
+    ]
+   }
+  ]
+ }
+]
