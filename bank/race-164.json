@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this fairground word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "fairs",
+   "rides",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Little electric cars you bump into each other",
+    "right": "Dodgems",
+    "wrong": [
+     "Go-karts",
+     "Bumper boats",
+     "Teacups"
+    ]
+   },
+   {
+    "q": "Spinning cars on a rolling track, whirled round by the operators",
+    "right": "Waltzer",
+    "wrong": [
+     "Teacups",
+     "Octopus",
+     "Pirate ship"
+    ]
+   },
+   {
+    "q": "A spiral slide down a tower, sitting on a mat",
+    "right": "Helter-skelter",
+    "wrong": [
+     "Log flume",
+     "Drop tower",
+     "Bouncy castle"
+    ]
+   },
+   {
+    "q": "A giant wheel with seats around the rim",
+    "right": "Big wheel",
+    "wrong": [
+     "Drop tower",
+     "Pirate ship",
+     "Swingboats"
+    ]
+   },
+   {
+    "q": "A merry-go-round of painted horses",
+    "right": "Carousel",
+    "wrong": [
+     "Swingboats",
+     "Teacups",
+     "Octopus"
+    ]
+   },
+   {
+    "q": "A dark ride full of skeletons and screams",
+    "right": "Ghost train",
+    "wrong": [
+     "Log flume",
+     "Pirate ship",
+     "Drop tower"
+    ]
+   },
+   {
+    "q": "The stall where you fish plastic ducks out of the water",
+    "right": "Hook-a-duck",
+    "wrong": [
+     "Crazy golf",
+     "Shooting gallery",
+     "Bagatelle"
+    ]
+   },
+   {
+    "q": "Throw balls to knock nuts off their posts",
+    "right": "Coconut shy",
+    "wrong": [
+     "Shooting gallery",
+     "Skittles",
+     "Crazy golf"
+    ]
+   },
+   {
+    "q": "Pink spun sugar on a stick",
+    "right": "Candyfloss",
+    "wrong": [
+     "Toffee apple",
+     "Rock",
+     "Nougat"
+    ]
+   },
+   {
+    "q": "Cars racing round loops and steep drops",
+    "right": "Rollercoaster",
+    "wrong": [
+     "Log flume",
+     "Monorail",
+     "Cable car"
+    ]
+   },
+   {
+    "q": "A room of wobbly glass that makes you look tall or wide",
+    "right": "Hall of mirrors",
+    "wrong": [
+     "Hall of fame",
+     "Hall of residence",
+     "Music hall"
+    ]
+   },
+   {
+    "q": "Draw tickets from a spinning drum to win prizes",
+    "right": "Tombola",
+    "wrong": [
+     "Kitty",
+     "Pools",
+     "Roulette"
+    ]
+   },
+   {
+    "q": "Hit the pad with a hammer to ring the bell",
+    "right": "Test your strength",
+    "wrong": [
+     "Arm wrestle",
+     "Tug of war",
+     "Whack-a-mole"
+    ]
+   },
+   {
+    "q": "The prize once won in a plastic bag of water",
+    "right": "Goldfish",
+    "wrong": [
+     "Hamster",
+     "Tortoise",
+     "Budgie"
+    ]
+   },
+   {
+    "q": "Swings on chains that fly outwards as they spin",
+    "right": "Chair-o-planes",
+    "wrong": [
+     "Swingboats",
+     "Pirate ship",
+     "Teacups"
+    ]
+   },
+   {
+    "q": "Throw rings over the prizes",
+    "right": "Hoopla",
+    "wrong": [
+     "Skittles",
+     "Bagatelle",
+     "Bowls"
+    ]
+   },
+   {
+    "q": "The travelling families who run the fairs",
+    "right": "Showmen",
+    "wrong": [
+     "Roadies",
+     "Drovers",
+     "Bargees"
+    ]
+   },
+   {
+    "q": "Newcastle's huge June fair on the Town Moor",
+    "right": "The Hoppings",
+    "wrong": [
+     "Hull Fair",
+     "Appleby Fair",
+     "Scarborough Fair"
+    ]
+   },
+   {
+    "q": "Nottingham's famous October fair",
+    "right": "Goose Fair",
+    "wrong": [
+     "Hull Fair",
+     "Appleby Fair",
+     "Scarborough Fair"
+    ]
+   },
+   {
+    "q": "The arcade game where coins tip over a moving shelf",
+    "right": "Penny falls",
+    "wrong": [
+     "Pinball",
+     "Fruit machine",
+     "Claw machine"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this Victorian word?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "Victorians",
+   "19th century",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The grim institution where the poor were made to live and work",
+    "right": "Workhouse",
+    "wrong": [
+     "Almshouse",
+     "Asylum",
+     "Orphanage"
+    ]
+   },
+   {
+    "q": "The world's first postage stamp",
+    "right": "Penny Black",
+    "wrong": [
+     "Penny Red",
+     "Twopenny Blue",
+     "Penny Farthing"
+    ]
+   },
+   {
+    "q": "The bicycle with a huge front wheel",
+    "right": "Penny-farthing",
+    "wrong": [
+     "Boneshaker",
+     "Hobby horse",
+     "Tandem"
+    ]
+   },
+   {
+    "q": "The 1851 show in a giant glasshouse in Hyde Park",
+    "right": "Great Exhibition",
+    "wrong": [
+     "Festival of Britain",
+     "Ideal Home Show",
+     "Expo"
+    ]
+   },
+   {
+    "q": "The Queen's husband, who died in 1861",
+    "right": "Prince Albert",
+    "wrong": [
+     "Prince Edward",
+     "Prince Leopold",
+     "Lord Melbourne"
+    ]
+   },
+   {
+    "q": "The job that sent small boys up the flues",
+    "right": "Chimney sweep",
+    "wrong": [
+     "Lamplighter",
+     "Costermonger",
+     "Muffin man"
+    ]
+   },
+   {
+    "q": "A child who scavenged the Thames mud at low tide",
+    "right": "Mudlark",
+    "wrong": [
+     "Lamplighter",
+     "Costermonger",
+     "Muffin man"
+    ]
+   },
+   {
+    "q": "Woke workers by tapping their windows with a long pole",
+    "right": "Knocker-upper",
+    "wrong": [
+     "Lamplighter",
+     "Costermonger",
+     "Muffin man"
+    ]
+   },
+   {
+    "q": "The never-caught killer of Whitechapel, 1888",
+    "right": "Jack the Ripper",
+    "wrong": [
+     "Sweeney Todd",
+     "Dick Turpin",
+     "Burke and Hare"
+    ]
+   },
+   {
+    "q": "The engineer of the Great Western Railway and the Clifton bridge",
+    "right": "Isambard Kingdom Brunel",
+    "wrong": [
+     "Thomas Telford",
+     "George Stephenson",
+     "Robert Stephenson"
+    ]
+   },
+   {
+    "q": "The engineer who built London's sewers",
+    "right": "Joseph Bazalgette",
+    "wrong": [
+     "Thomas Telford",
+     "John Snow",
+     "Robert Stephenson"
+    ]
+   },
+   {
+    "q": "The summer of 1858 when the Thames smelt so bad Parliament nearly fled",
+    "right": "Great Stink",
+    "wrong": [
+     "Great Smog",
+     "Great Fire",
+     "Great Plague"
+    ]
+   },
+   {
+    "q": "'The Lady with the Lamp' in the Crimean War",
+    "right": "Florence Nightingale",
+    "wrong": [
+     "Mary Seacole",
+     "Edith Cavell",
+     "Elizabeth Fry"
+    ]
+   },
+   {
+    "q": "A hooped petticoat for a wide skirt",
+    "right": "Crinoline",
+    "wrong": [
+     "Bustle",
+     "Corset",
+     "Bloomers"
+    ]
+   },
+   {
+    "q": "The author who'd worked in a blacking factory as a boy",
+    "right": "Charles Dickens",
+    "wrong": [
+     "Thomas Hardy",
+     "Wilkie Collins",
+     "Anthony Trollope"
+    ]
+   },
+   {
+    "q": "'The ___ on which the sun never sets'",
+    "right": "Empire",
+    "wrong": [
+     "Kingdom",
+     "Commonwealth",
+     "Republic"
+    ]
+   },
+   {
+    "q": "A cheap, gory serial story",
+    "right": "Penny dreadful",
+    "wrong": [
+     "Penny whistle",
+     "Penny arcade",
+     "Penny loafer"
+    ]
+   },
+   {
+    "q": "The street light lit each evening by a lamplighter",
+    "right": "Gas lamp",
+    "wrong": [
+     "Torch",
+     "Neon sign",
+     "Chandelier"
+    ]
+   },
+   {
+    "q": "Celebrated Victoria's 60 years on the throne in 1897",
+    "right": "Diamond Jubilee",
+    "wrong": [
+     "Golden Jubilee",
+     "Silver Jubilee",
+     "Ruby Jubilee"
+    ]
+   },
+   {
+    "q": "A free school for the poorest children",
+    "right": "Ragged school",
+    "wrong": [
+     "Grammar school",
+     "Public school",
+     "Boarding school"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this pottery word?",
+  "target": 10,
+  "category": "Art",
+  "tags": [
+   "pottery",
+   "ceramics",
+   "crafts"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The oven that fires the clay",
+    "right": "Kiln",
+    "wrong": [
+     "Forge",
+     "Smelter",
+     "Range"
+    ]
+   },
+   {
+    "q": "The spinning disc for shaping clay",
+    "right": "Potter's wheel",
+    "wrong": [
+     "Spinning wheel",
+     "Catherine wheel",
+     "Waterwheel"
+    ]
+   },
+   {
+    "q": "The glassy coating added before the second firing",
+    "right": "Glaze",
+    "wrong": [
+     "Varnish",
+     "Lacquer",
+     "Wax"
+    ]
+   },
+   {
+    "q": "Shaping clay on the wheel",
+    "right": "Throwing",
+    "wrong": [
+     "Bowling",
+     "Pitching",
+     "Tossing"
+    ]
+   },
+   {
+    "q": "Porous, low-fired pottery, like a flowerpot",
+    "right": "Earthenware",
+    "wrong": [
+     "Pewter",
+     "Glassware",
+     "Silverware"
+    ]
+   },
+   {
+    "q": "Dense, hard pottery fired at a high heat",
+    "right": "Stoneware",
+    "wrong": [
+     "Pewter",
+     "Glassware",
+     "Tinware"
+    ]
+   },
+   {
+    "q": "Fine, white, see-through ware, also called china",
+    "right": "Porcelain",
+    "wrong": [
+     "Pewter",
+     "Glassware",
+     "Tinware"
+    ]
+   },
+   {
+    "q": "Pottery fired once, before any glaze",
+    "right": "Biscuit",
+    "wrong": [
+     "Wafer",
+     "Cracker",
+     "Rusk"
+    ]
+   },
+   {
+    "q": "Liquid clay used to stick pieces together",
+    "right": "Slip",
+    "wrong": [
+     "Slurp",
+     "Sludge",
+     "Slick"
+    ]
+   },
+   {
+    "q": "Reddish-brown fired clay: 'baked earth' in Italian",
+    "right": "Terracotta",
+    "wrong": [
+     "Majolica",
+     "Faience",
+     "Raku"
+    ]
+   },
+   {
+    "q": "Blue-and-white pottery from the Netherlands",
+    "right": "Delft",
+    "wrong": [
+     "Majolica",
+     "Faience",
+     "Raku"
+    ]
+   },
+   {
+    "q": "The firm famous for pale-blue jasperware",
+    "right": "Wedgwood",
+    "wrong": [
+     "Royal Doulton",
+     "Spode",
+     "Moorcroft"
+    ]
+   },
+   {
+    "q": "'The Potteries' city in Staffordshire",
+    "right": "Stoke-on-Trent",
+    "wrong": [
+     "Stockport",
+     "Stafford",
+     "Stourbridge"
+    ]
+   },
+   {
+    "q": "Designer of the bright Art Deco 'Bizarre' ware",
+    "right": "Clarice Cliff",
+    "wrong": [
+     "Susie Cooper",
+     "Lucie Rie",
+     "Grayson Perry"
+    ]
+   },
+   {
+    "q": "The blue design with a bridge, two birds and a willow tree",
+    "right": "Willow pattern",
+    "wrong": [
+     "Chintz",
+     "Paisley",
+     "Toile"
+    ]
+   },
+   {
+    "q": "A pot built from rolled-up sausages of clay",
+    "right": "Coil pot",
+    "wrong": [
+     "Pinch pot",
+     "Slab pot",
+     "Chimney pot"
+    ]
+   },
+   {
+    "q": "The Japanese art of mending cracks with gold",
+    "right": "Kintsugi",
+    "wrong": [
+     "Origami",
+     "Ikebana",
+     "Bonsai"
+    ]
+   },
+   {
+    "q": "The TV contest where judge Keith Brymer Jones cries",
+    "right": "The Great Pottery Throw Down",
+    "wrong": [
+     "The Great British Sewing Bee",
+     "The Repair Shop",
+     "Grand Designs"
+    ]
+   },
+   {
+    "q": "The general word for objects made of fired clay",
+    "right": "Ceramics",
+    "wrong": [
+     "Textiles",
+     "Metallurgy",
+     "Lacquerware"
+    ]
+   },
+   {
+    "q": "Baking the pottery in the kiln",
+    "right": "Firing",
+    "wrong": [
+     "Smelting",
+     "Tempering",
+     "Roasting"
+    ]
+   }
+  ]
+ }
+]
