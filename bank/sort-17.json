@@ -1,0 +1,438 @@
+[
+ {
+  "type": "sort",
+  "text": "A Beatle or a Monkee?",
+  "categories": [
+   "Beatle",
+   "Monkee"
+  ],
+  "items": [
+   {
+    "text": "John Lennon",
+    "category": "Beatle"
+   },
+   {
+    "text": "Paul McCartney",
+    "category": "Beatle"
+   },
+   {
+    "text": "George Harrison",
+    "category": "Beatle"
+   },
+   {
+    "text": "Ringo Starr",
+    "category": "Beatle"
+   },
+   {
+    "text": "Davy Jones",
+    "category": "Monkee"
+   },
+   {
+    "text": "Micky Dolenz",
+    "category": "Monkee"
+   },
+   {
+    "text": "Peter Tork",
+    "category": "Monkee"
+   },
+   {
+    "text": "Mike Nesmith",
+    "category": "Monkee"
+   }
+  ],
+  "category": "Music",
+  "tags": [
+   "The Beatles",
+   "The Monkees"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A gemstone or a metal?",
+  "categories": [
+   "Gemstone",
+   "Metal"
+  ],
+  "items": [
+   {
+    "text": "Ruby",
+    "category": "Gemstone"
+   },
+   {
+    "text": "Emerald",
+    "category": "Gemstone"
+   },
+   {
+    "text": "Sapphire",
+    "category": "Gemstone"
+   },
+   {
+    "text": "Topaz",
+    "category": "Gemstone"
+   },
+   {
+    "text": "Copper",
+    "category": "Metal"
+   },
+   {
+    "text": "Zinc",
+    "category": "Metal"
+   },
+   {
+    "text": "Nickel",
+    "category": "Metal"
+   },
+   {
+    "text": "Titanium",
+    "category": "Metal"
+   }
+  ],
+  "category": "Science",
+  "tags": [
+   "gemstones",
+   "metals"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A play by Shakespeare or by Christopher Marlowe?",
+  "categories": [
+   "Shakespeare",
+   "Marlowe"
+  ],
+  "items": [
+   {
+    "text": "Hamlet",
+    "category": "Shakespeare"
+   },
+   {
+    "text": "King Lear",
+    "category": "Shakespeare"
+   },
+   {
+    "text": "Twelfth Night",
+    "category": "Shakespeare"
+   },
+   {
+    "text": "Coriolanus",
+    "category": "Shakespeare"
+   },
+   {
+    "text": "Doctor Faustus",
+    "category": "Marlowe"
+   },
+   {
+    "text": "Tamburlaine",
+    "category": "Marlowe"
+   },
+   {
+    "text": "The Jew of Malta",
+    "category": "Marlowe"
+   },
+   {
+    "text": "Edward II",
+    "category": "Marlowe"
+   }
+  ],
+  "category": "Books",
+  "tags": [
+   "Shakespeare",
+   "Christopher Marlowe",
+   "plays"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "In Oasis or in Blur?",
+  "categories": [
+   "Oasis",
+   "Blur"
+  ],
+  "items": [
+   {
+    "text": "Liam Gallagher",
+    "category": "Oasis"
+   },
+   {
+    "text": "Noel Gallagher",
+    "category": "Oasis"
+   },
+   {
+    "text": "Bonehead",
+    "category": "Oasis"
+   },
+   {
+    "text": "Guigsy",
+    "category": "Oasis"
+   },
+   {
+    "text": "Damon Albarn",
+    "category": "Blur"
+   },
+   {
+    "text": "Graham Coxon",
+    "category": "Blur"
+   },
+   {
+    "text": "Alex James",
+    "category": "Blur"
+   },
+   {
+    "text": "Dave Rowntree",
+    "category": "Blur"
+   }
+  ],
+  "category": "Music",
+  "tags": [
+   "Oasis",
+   "Blur",
+   "Britpop"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Pokémon or a Transformer?",
+  "categories": [
+   "Pokémon",
+   "Transformer"
+  ],
+  "items": [
+   {
+    "text": "Pikachu",
+    "category": "Pokémon"
+   },
+   {
+    "text": "Charizard",
+    "category": "Pokémon"
+   },
+   {
+    "text": "Squirtle",
+    "category": "Pokémon"
+   },
+   {
+    "text": "Jigglypuff",
+    "category": "Pokémon"
+   },
+   {
+    "text": "Optimus Prime",
+    "category": "Transformer"
+   },
+   {
+    "text": "Megatron",
+    "category": "Transformer"
+   },
+   {
+    "text": "Bumblebee",
+    "category": "Transformer"
+   },
+   {
+    "text": "Starscream",
+    "category": "Transformer"
+   }
+  ],
+  "category": "Games and toys",
+  "tags": [
+   "Pokémon",
+   "Transformers"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "An Australian soap or a British soap?",
+  "categories": [
+   "Australian",
+   "British"
+  ],
+  "items": [
+   {
+    "text": "Neighbours",
+    "category": "Australian"
+   },
+   {
+    "text": "Home and Away",
+    "category": "Australian"
+   },
+   {
+    "text": "Sons and Daughters",
+    "category": "Australian"
+   },
+   {
+    "text": "Prisoner: Cell Block H",
+    "category": "Australian"
+   },
+   {
+    "text": "EastEnders",
+    "category": "British"
+   },
+   {
+    "text": "Emmerdale",
+    "category": "British"
+   },
+   {
+    "text": "Hollyoaks",
+    "category": "British"
+   },
+   {
+    "text": "Doctors",
+    "category": "British"
+   }
+  ],
+  "category": "TV",
+  "tags": [
+   "soaps",
+   "Australia",
+   "UK"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A Hogwarts subject or a spell?",
+  "categories": [
+   "Subject",
+   "Spell"
+  ],
+  "items": [
+   {
+    "text": "Potions",
+    "category": "Subject"
+   },
+   {
+    "text": "Herbology",
+    "category": "Subject"
+   },
+   {
+    "text": "Divination",
+    "category": "Subject"
+   },
+   {
+    "text": "Transfiguration",
+    "category": "Subject"
+   },
+   {
+    "text": "Expelliarmus",
+    "category": "Spell"
+   },
+   {
+    "text": "Lumos",
+    "category": "Spell"
+   },
+   {
+    "text": "Accio",
+    "category": "Spell"
+   },
+   {
+    "text": "Alohomora",
+    "category": "Spell"
+   }
+  ],
+  "category": "Books",
+  "tags": [
+   "Harry Potter",
+   "Hogwarts"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A Doctor Who villain or a Star Wars villain?",
+  "categories": [
+   "Doctor Who",
+   "Star Wars"
+  ],
+  "items": [
+   {
+    "text": "Davros",
+    "category": "Doctor Who"
+   },
+   {
+    "text": "The Master",
+    "category": "Doctor Who"
+   },
+   {
+    "text": "Missy",
+    "category": "Doctor Who"
+   },
+   {
+    "text": "The Rani",
+    "category": "Doctor Who"
+   },
+   {
+    "text": "Darth Vader",
+    "category": "Star Wars"
+   },
+   {
+    "text": "Palpatine",
+    "category": "Star Wars"
+   },
+   {
+    "text": "Kylo Ren",
+    "category": "Star Wars"
+   },
+   {
+    "text": "Jabba the Hutt",
+    "category": "Star Wars"
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "Doctor Who",
+   "Star Wars",
+   "villains"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A Roman god or a Norse god?",
+  "categories": [
+   "Roman",
+   "Norse"
+  ],
+  "items": [
+   {
+    "text": "Jupiter",
+    "category": "Roman"
+   },
+   {
+    "text": "Mars",
+    "category": "Roman"
+   },
+   {
+    "text": "Mercury",
+    "category": "Roman"
+   },
+   {
+    "text": "Neptune",
+    "category": "Roman"
+   },
+   {
+    "text": "Odin",
+    "category": "Norse"
+   },
+   {
+    "text": "Thor",
+    "category": "Norse"
+   },
+   {
+    "text": "Loki",
+    "category": "Norse"
+   },
+   {
+    "text": "Freya",
+    "category": "Norse"
+   }
+  ],
+  "category": "Mythology",
+  "tags": [
+   "Roman gods",
+   "Norse gods"
+  ],
+  "difficulty": "easy"
+ }
+]
