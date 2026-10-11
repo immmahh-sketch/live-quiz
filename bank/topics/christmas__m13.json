@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each word for Christmas to its language",
+  "pairs": [
+   {
+    "left": "Noël",
+    "right": "French"
+   },
+   {
+    "left": "Navidad",
+    "right": "Spanish"
+   },
+   {
+    "left": "Weihnachten",
+    "right": "German"
+   },
+   {
+    "left": "Natale",
+    "right": "Italian"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

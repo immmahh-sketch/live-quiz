@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each capital to its famous landmark",
+  "pairs": [
+   {
+    "left": "Paris",
+    "right": "The Eiffel Tower"
+   },
+   {
+    "left": "Rome",
+    "right": "The Colosseum"
+   },
+   {
+    "left": "Athens",
+    "right": "The Acropolis"
+   },
+   {
+    "left": "Moscow",
+    "right": "Red Square"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each car to the decade it was launched",
+  "pairs": [
+   {
+    "left": "Mini",
+    "right": "1950s"
+   },
+   {
+    "left": "Ford Capri",
+    "right": "1960s"
+   },
+   {
+    "left": "Ford Sierra",
+    "right": "1980s"
+   },
+   {
+    "left": "Ford Ka",
+    "right": "1990s"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

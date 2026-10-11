@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each TV detective to the place they work",
+  "pairs": [
+   {
+    "left": "Inspector Morse",
+    "right": "Oxford"
+   },
+   {
+    "left": "Rebus",
+    "right": "Edinburgh"
+   },
+   {
+    "left": "Vera",
+    "right": "Northumberland"
+   },
+   {
+    "left": "Taggart",
+    "right": "Glasgow"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

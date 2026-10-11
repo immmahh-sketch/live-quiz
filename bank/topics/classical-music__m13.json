@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each composer to how many symphonies they wrote",
+  "pairs": [
+   {
+    "left": "Haydn",
+    "right": "104"
+   },
+   {
+    "left": "Mozart",
+    "right": "41"
+   },
+   {
+    "left": "Beethoven",
+    "right": "9"
+   },
+   {
+    "left": "Brahms",
+    "right": "4"
+   }
+  ],
+  "difficulty": "hard"
+ }
+]
