@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this vet word?",
+  "target": 10,
+  "category": "Animals",
+  "tags": [
+   "vets",
+   "pets",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The operation so a pet can't have babies",
+    "right": "Neutering",
+    "wrong": [
+     "Grooming",
+     "Clipping",
+     "Docking"
+    ]
+   },
+   {
+    "q": "A tiny tag under the skin with the owner's details",
+    "right": "Microchip",
+    "wrong": [
+     "Barcode",
+     "Name badge",
+     "Tattoo"
+    ]
+   },
+   {
+    "q": "The yearly top-up vaccination",
+    "right": "Booster",
+    "wrong": [
+     "Bonus",
+     "Refill",
+     "Rebate"
+    ]
+   },
+   {
+    "q": "The plastic collar that stops a pet licking its wound",
+    "right": "Cone",
+    "wrong": [
+     "Muzzle",
+     "Harness",
+     "Halter"
+    ]
+   },
+   {
+    "q": "Tiny jumping pests in a pet's fur",
+    "right": "Fleas",
+    "wrong": [
+     "Ants",
+     "Gnats",
+     "Moths"
+    ]
+   },
+   {
+    "q": "Tablets that clear out a pet's gut parasites",
+    "right": "Worming",
+    "wrong": [
+     "Flossing",
+     "Fumigating",
+     "Bleaching"
+    ]
+   },
+   {
+    "q": "Neutering a female",
+    "right": "Spay",
+    "wrong": [
+     "Snip",
+     "Dock",
+     "Crop"
+    ]
+   },
+   {
+    "q": "Assists the vet in surgery",
+    "right": "Veterinary nurse",
+    "wrong": [
+     "Matron",
+     "Midwife",
+     "Orderly"
+    ]
+   },
+   {
+    "q": "Where dogs stay while their owners are away",
+    "right": "Kennel",
+    "wrong": [
+     "Hutch",
+     "Stable",
+     "Coop"
+    ]
+   },
+   {
+    "q": "Where cats stay while their owners are away",
+    "right": "Cattery",
+    "wrong": [
+     "Aviary",
+     "Hutch",
+     "Stable"
+    ]
+   },
+   {
+    "q": "The policy that pays the vet's bills",
+    "right": "Pet insurance",
+    "wrong": [
+     "Life insurance",
+     "Car insurance",
+     "Travel insurance"
+    ]
+   },
+   {
+    "q": "A purebred with a recorded family tree",
+    "right": "Pedigree",
+    "wrong": [
+     "Mongrel",
+     "Crossbreed",
+     "Stray"
+    ]
+   },
+   {
+    "q": "The deadly disease that once meant months of quarantine",
+    "right": "Rabies",
+    "wrong": [
+     "Mange",
+     "Kennel cough",
+     "Hay fever"
+    ]
+   },
+   {
+    "q": "The document that lets your dog travel abroad",
+    "right": "Pet passport",
+    "wrong": [
+     "Pet licence",
+     "Boarding pass",
+     "Dog tag"
+    ]
+   },
+   {
+    "q": "James ___, the Yorkshire vet of All Creatures Great and Small",
+    "right": "Herriot",
+    "wrong": [
+     "Farnon",
+     "Pumphrey",
+     "Dalton"
+    ]
+   },
+   {
+    "q": "Noel Fitzpatrick's TV nickname",
+    "right": "Supervet",
+    "wrong": [
+     "Supernanny",
+     "Superdrug",
+     "Superman"
+    ]
+   },
+   {
+    "q": "The vet's word for anything to do with horses",
+    "right": "Equine",
+    "wrong": [
+     "Bovine",
+     "Canine",
+     "Feline"
+    ]
+   },
+   {
+    "q": "What the vet listens to the heart with",
+    "right": "Stethoscope",
+    "wrong": [
+     "Telescope",
+     "Periscope",
+     "Kaleidoscope"
+    ]
+   },
+   {
+    "q": "Where pets and owners sit before being seen",
+    "right": "Waiting room",
+    "wrong": [
+     "Green room",
+     "Box room",
+     "Boot room"
+    ]
+   },
+   {
+    "q": "Where the pet is weighed",
+    "right": "Scales",
+    "wrong": [
+     "Abacus",
+     "Sundial",
+     "Barometer"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this cruise word?",
+  "target": 10,
+  "category": "Travel",
+  "tags": [
+   "cruises",
+   "ships",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Your bedroom on board",
+    "right": "Cabin",
+    "wrong": [
+     "Chalet",
+     "Dorm",
+     "Lodge"
+    ]
+   },
+   {
+    "q": "One of the ship's floors",
+    "right": "Deck",
+    "wrong": [
+     "Storey",
+     "Landing",
+     "Mezzanine"
+    ]
+   },
+   {
+    "q": "A small round window",
+    "right": "Porthole",
+    "wrong": [
+     "Peephole",
+     "Keyhole",
+     "Pothole"
+    ]
+   },
+   {
+    "q": "The officer in overall command",
+    "right": "Captain",
+    "wrong": [
+     "Admiral",
+     "Pilot",
+     "Bosun"
+    ]
+   },
+   {
+    "q": "The officer looking after money and passengers' affairs",
+    "right": "Purser",
+    "wrong": [
+     "Bosun",
+     "Galley chef",
+     "Lookout"
+    ]
+   },
+   {
+    "q": "The front of the ship",
+    "right": "Bow",
+    "wrong": [
+     "Keel",
+     "Hull",
+     "Mast"
+    ]
+   },
+   {
+    "q": "The back of the ship",
+    "right": "Stern",
+    "wrong": [
+     "Keel",
+     "Hull",
+     "Mast"
+    ]
+   },
+   {
+    "q": "The left-hand side, facing forward",
+    "right": "Port",
+    "wrong": [
+     "Aft",
+     "Fore",
+     "Abeam"
+    ]
+   },
+   {
+    "q": "The right-hand side, facing forward",
+    "right": "Starboard",
+    "wrong": [
+     "Aft",
+     "Fore",
+     "Abeam"
+    ]
+   },
+   {
+    "q": "The safety practice before sailing",
+    "right": "Muster drill",
+    "wrong": [
+     "Square bashing",
+     "Roll call",
+     "Dress rehearsal"
+    ]
+   },
+   {
+    "q": "The all-you-can-eat spread",
+    "right": "Buffet",
+    "wrong": [
+     "Banquet",
+     "Picnic",
+     "Barbecue"
+    ]
+   },
+   {
+    "q": "A day trip off the ship at a port",
+    "right": "Shore excursion",
+    "wrong": [
+     "Long weekend",
+     "Staycation",
+     "Sabbatical"
+    ]
+   },
+   {
+    "q": "To board the ship",
+    "right": "Embark",
+    "wrong": [
+     "Disembark",
+     "Debark",
+     "Unpack"
+    ]
+   },
+   {
+    "q": "The walkway onto the ship",
+    "right": "Gangway",
+    "wrong": [
+     "Runway",
+     "Slipway",
+     "Fairway"
+    ]
+   },
+   {
+    "q": "The 'unsinkable' liner of 1912",
+    "right": "Titanic",
+    "wrong": [
+     "Lusitania",
+     "Queen Mary",
+     "Britannic"
+    ]
+   },
+   {
+    "q": "Cunard's transatlantic liner, launched in 2003",
+    "right": "Queen Mary 2",
+    "wrong": [
+     "Queen Elizabeth 2",
+     "Oceana",
+     "Oasis of the Seas"
+    ]
+   },
+   {
+    "q": "The queasy feeling from the rolling waves",
+    "right": "Seasickness",
+    "wrong": [
+     "Homesickness",
+     "Altitude sickness",
+     "Sleeping sickness"
+    ]
+   },
+   {
+    "q": "What a ship's speed is measured in",
+    "right": "Knots",
+    "wrong": [
+     "Miles per hour",
+     "Fathoms",
+     "Leagues"
+    ]
+   },
+   {
+    "q": "A big passenger ship crossing the ocean",
+    "right": "Ocean liner",
+    "wrong": [
+     "Freighter",
+     "Trawler",
+     "Tug"
+    ]
+   },
+   {
+    "q": "The package where all meals and drinks are covered",
+    "right": "All-inclusive",
+    "wrong": [
+     "Self-catering",
+     "Room only",
+     "Half board"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this archery word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "archery",
+   "bows",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The centre of the target",
+    "right": "Bullseye",
+    "wrong": [
+     "Outer",
+     "Magpie",
+     "Washer"
+    ]
+   },
+   {
+    "q": "The case holding the arrows",
+    "right": "Quiver",
+    "wrong": [
+     "Scabbard",
+     "Holster",
+     "Sheath"
+    ]
+   },
+   {
+    "q": "The cord you draw back",
+    "right": "Bowstring",
+    "wrong": [
+     "Shoelace",
+     "Guitar string",
+     "Washing line"
+    ]
+   },
+   {
+    "q": "The English weapon that won at Agincourt",
+    "right": "Longbow",
+    "wrong": [
+     "Crossbow",
+     "Slingshot",
+     "Catapult"
+    ]
+   },
+   {
+    "q": "The feathers on the back of the arrow",
+    "right": "Fletching",
+    "wrong": [
+     "Fledging",
+     "Plucking",
+     "Trimming"
+    ]
+   },
+   {
+    "q": "The old trade that made arrows",
+    "right": "Fletcher",
+    "wrong": [
+     "Cooper",
+     "Chandler",
+     "Smith"
+    ]
+   },
+   {
+    "q": "The old trade that made bows",
+    "right": "Bowyer",
+    "wrong": [
+     "Cooper",
+     "Chandler",
+     "Wheelwright"
+    ]
+   },
+   {
+    "q": "Split one arrow with another, in the legend",
+    "right": "Robin Hood",
+    "wrong": [
+     "Little John",
+     "Hiawatha",
+     "Will Scarlet"
+    ]
+   },
+   {
+    "q": "Shot an apple off his son's head",
+    "right": "William Tell",
+    "wrong": [
+     "Guy Fawkes",
+     "Hereward",
+     "Rob Roy"
+    ]
+   },
+   {
+    "q": "The winged archer of love",
+    "right": "Cupid",
+    "wrong": [
+     "Mercury",
+     "Apollo",
+     "Pan"
+    ]
+   },
+   {
+    "q": "The archer of the zodiac",
+    "right": "Sagittarius",
+    "wrong": [
+     "Taurus",
+     "Aries",
+     "Leo"
+    ]
+   },
+   {
+    "q": "The Olympic bow whose tips curl away from the archer",
+    "right": "Recurve",
+    "wrong": [
+     "Compound",
+     "Flatbow",
+     "Slingbow"
+    ]
+   },
+   {
+    "q": "The pointed tip of an arrow",
+    "right": "Arrowhead",
+    "wrong": [
+     "Spearhead",
+     "Figurehead",
+     "Arrowroot"
+    ]
+   },
+   {
+    "q": "What you shoot at, with its coloured rings",
+    "right": "Target",
+    "wrong": [
+     "Dartboard",
+     "Easel",
+     "Gong"
+    ]
+   },
+   {
+    "q": "The colour of the inner rings",
+    "right": "Gold",
+    "wrong": [
+     "Silver",
+     "Green",
+     "Purple"
+    ]
+   },
+   {
+    "q": "Pulling the string back",
+    "right": "Draw",
+    "wrong": [
+     "Yank",
+     "Tug",
+     "Heave"
+    ]
+   },
+   {
+    "q": "The notch at the back of the arrow for the string",
+    "right": "Nock",
+    "wrong": [
+     "Knock",
+     "Knack",
+     "Neck"
+    ]
+   },
+   {
+    "q": "Someone who shoots with a bow",
+    "right": "Archer",
+    "wrong": [
+     "Gunner",
+     "Lancer",
+     "Bowler"
+    ]
+   },
+   {
+    "q": "The 1415 battle won by English archers",
+    "right": "Agincourt",
+    "wrong": [
+     "Hastings",
+     "Bosworth",
+     "Culloden"
+    ]
+   },
+   {
+    "q": "The fancy word for a lover of archery",
+    "right": "Toxophilite",
+    "wrong": [
+     "Bibliophile",
+     "Audiophile",
+     "Francophile"
+    ]
+   }
+  ]
+ }
+]
