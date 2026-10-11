@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this orchestra word?",
+  "target": 10,
+  "category": "Music",
+  "tags": [
+   "orchestras",
+   "classical music",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Waves a baton at the front",
+    "right": "Conductor",
+    "wrong": [
+     "Soloist",
+     "Répétiteur",
+     "Prompter"
+    ]
+   },
+   {
+    "q": "The first violinist, who leads the tuning",
+    "right": "Leader",
+    "wrong": [
+     "Soloist",
+     "Répétiteur",
+     "Prompter"
+    ]
+   },
+   {
+    "q": "The little stick the conductor holds",
+    "right": "Baton",
+    "wrong": [
+     "Wand",
+     "Cane",
+     "Twig"
+    ]
+   },
+   {
+    "q": "Strung with horsehair and drawn across the strings",
+    "right": "Bow",
+    "wrong": [
+     "Pick",
+     "Plectrum",
+     "Mallet"
+    ]
+   },
+   {
+    "q": "The raised platform the conductor stands on",
+    "right": "Podium",
+    "wrong": [
+     "Pulpit",
+     "Lectern",
+     "Plinth"
+    ]
+   },
+   {
+    "q": "The full written music, with every part on the page",
+    "right": "Score",
+    "wrong": [
+     "Libretto",
+     "Synopsis",
+     "Programme"
+    ]
+   },
+   {
+    "q": "What everyone does when the oboe plays an A",
+    "right": "Tune up",
+    "wrong": [
+     "Bow out",
+     "Sign off",
+     "Wind down"
+    ]
+   },
+   {
+    "q": "The section with violins, violas, cellos and basses",
+    "right": "Strings",
+    "wrong": [
+     "Keys",
+     "Choir",
+     "Continuo"
+    ]
+   },
+   {
+    "q": "The section with trumpets, trombones, horns and a tuba",
+    "right": "Brass",
+    "wrong": [
+     "Keys",
+     "Rhythm section",
+     "Continuo"
+    ]
+   },
+   {
+    "q": "The section with flutes, oboes, clarinets and bassoons",
+    "right": "Woodwind",
+    "wrong": [
+     "Keys",
+     "Choir",
+     "Rhythm section"
+    ]
+   },
+   {
+    "q": "The section with timpani, cymbals and drums",
+    "right": "Percussion",
+    "wrong": [
+     "Choir",
+     "Rhythm section",
+     "Continuo"
+    ]
+   },
+   {
+    "q": "The big copper kettle drums",
+    "right": "Timpani",
+    "wrong": [
+     "Bongos",
+     "Tom-toms",
+     "Snare drums"
+    ]
+   },
+   {
+    "q": "The biggest string instrument, played standing up",
+    "right": "Double bass",
+    "wrong": [
+     "Cello",
+     "Viola",
+     "Harp"
+    ]
+   },
+   {
+    "q": "A piece for one soloist with the orchestra",
+    "right": "Concerto",
+    "wrong": [
+     "Sonata",
+     "Overture",
+     "Requiem"
+    ]
+   },
+   {
+    "q": "A big piece for full orchestra, usually in four movements",
+    "right": "Symphony",
+    "wrong": [
+     "Sonata",
+     "Overture",
+     "Requiem"
+    ]
+   },
+   {
+    "q": "One separate section of a symphony",
+    "right": "Movement",
+    "wrong": [
+     "Act",
+     "Verse",
+     "Chapter"
+    ]
+   },
+   {
+    "q": "Everyone playing together, in Italian",
+    "right": "Tutti",
+    "wrong": [
+     "Solo",
+     "Staccato",
+     "Legato"
+    ]
+   },
+   {
+    "q": "Plucking the strings instead of bowing",
+    "right": "Pizzicato",
+    "wrong": [
+     "Vibrato",
+     "Glissando",
+     "Tremolo"
+    ]
+   },
+   {
+    "q": "The BBC's summer concert season at the Royal Albert Hall",
+    "right": "Proms",
+    "wrong": [
+     "Glyndebourne",
+     "Aldeburgh",
+     "Edinburgh Fringe"
+    ]
+   },
+   {
+    "q": "Practice before the concert",
+    "right": "Rehearsal",
+    "wrong": [
+     "Recital",
+     "Matinée",
+     "Premiere"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this barbecue word?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "barbecues",
+   "summer",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The black lumps you burn on the grill",
+    "right": "Charcoal",
+    "wrong": [
+     "Pumice",
+     "Flint",
+     "Slate"
+    ]
+   },
+   {
+    "q": "White cubes that help get it going",
+    "right": "Firelighters",
+    "wrong": [
+     "Sugar cubes",
+     "Stock cubes",
+     "Ice cubes"
+    ]
+   },
+   {
+    "q": "For turning the sausages",
+    "right": "Tongs",
+    "wrong": [
+     "Pliers",
+     "Tweezers",
+     "Pincers"
+    ]
+   },
+   {
+    "q": "The metal stick you thread meat and veg onto",
+    "right": "Skewer",
+    "wrong": [
+     "Spindle",
+     "Knitting needle",
+     "Spike"
+    ]
+   },
+   {
+    "q": "A minced beef patty in a bun",
+    "right": "Burger",
+    "wrong": [
+     "Panini",
+     "Wrap",
+     "Toastie"
+    ]
+   },
+   {
+    "q": "A sausage in a long bun",
+    "right": "Hot dog",
+    "wrong": [
+     "Panini",
+     "Wrap",
+     "Sub"
+    ]
+   },
+   {
+    "q": "Soak the meat in this beforehand for flavour",
+    "right": "Marinade",
+    "wrong": [
+     "Gravy",
+     "Custard",
+     "Batter"
+    ]
+   },
+   {
+    "q": "The red sauce squirted on everything",
+    "right": "Ketchup",
+    "wrong": [
+     "Brown sauce",
+     "Mint sauce",
+     "Tartare sauce"
+    ]
+   },
+   {
+    "q": "The yellow sauce for hot dogs",
+    "right": "Mustard",
+    "wrong": [
+     "Mayonnaise",
+     "Salad cream",
+     "Relish"
+    ]
+   },
+   {
+    "q": "Buttery yellow veg eaten with your hands",
+    "right": "Corn on the cob",
+    "wrong": [
+     "Baby corn",
+     "Sweet potato",
+     "Courgette"
+    ]
+   },
+   {
+    "q": "The fuel tank for a gas barbecue",
+    "right": "Gas bottle",
+    "wrong": [
+     "Hot-water bottle",
+     "Milk bottle",
+     "Message in a bottle"
+    ]
+   },
+   {
+    "q": "Steak cooked briefly, still red inside",
+    "right": "Rare",
+    "wrong": [
+     "Medium",
+     "Charred",
+     "Crispy"
+    ]
+   },
+   {
+    "q": "Cooked right through, with no pink",
+    "right": "Well done",
+    "wrong": [
+     "Medium",
+     "Blue",
+     "Pink"
+    ]
+   },
+   {
+    "q": "Shredded cabbage and carrot in mayo",
+    "right": "Coleslaw",
+    "wrong": [
+     "Sauerkraut",
+     "Piccalilli",
+     "Chutney"
+    ]
+   },
+   {
+    "q": "The squeaky Cypriot cheese that grills without melting",
+    "right": "Halloumi",
+    "wrong": [
+     "Feta",
+     "Mozzarella",
+     "Brie"
+    ]
+   },
+   {
+    "q": "Shish ___: chunks of meat on a stick",
+    "right": "Kebab",
+    "wrong": [
+     "Korma",
+     "Kedgeree",
+     "Kipper"
+    ]
+   },
+   {
+    "q": "A canopy to keep the rain off",
+    "right": "Gazebo",
+    "wrong": [
+     "Pergola",
+     "Trellis",
+     "Conservatory"
+    ]
+   },
+   {
+    "q": "The metal rack the food sits on",
+    "right": "Grill",
+    "wrong": [
+     "Colander",
+     "Sieve",
+     "Whisk"
+    ]
+   },
+   {
+    "q": "Moulded blocks of charcoal",
+    "right": "Briquettes",
+    "wrong": [
+     "Croquettes",
+     "Baguettes",
+     "Banquettes"
+    ]
+   },
+   {
+    "q": "A foil tray you light once and throw away",
+    "right": "Disposable barbecue",
+    "wrong": [
+     "Chiminea",
+     "Fire pit",
+     "Smoker"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this birdwatching word?",
+  "target": 10,
+  "category": "Animals",
+  "tags": [
+   "birds",
+   "birdwatching",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The pair of lenses round your neck",
+    "right": "Binoculars",
+    "wrong": [
+     "Monocle",
+     "Periscope",
+     "Spectacles"
+    ]
+   },
+   {
+    "q": "A wooden shelter where you watch birds unseen",
+    "right": "Hide",
+    "wrong": [
+     "Den",
+     "Lair",
+     "Burrow"
+    ]
+   },
+   {
+    "q": "A keen birder who rushes off to see rare birds",
+    "right": "Twitcher",
+    "wrong": [
+     "Tweeter",
+     "Flapper",
+     "Chirper"
+    ]
+   },
+   {
+    "q": "The bird charity, by its initials",
+    "right": "RSPB",
+    "wrong": [
+     "RSPCA",
+     "RNLI",
+     "NSPCC"
+    ]
+   },
+   {
+    "q": "A bird's feathers, all together",
+    "right": "Plumage",
+    "wrong": [
+     "Fleece",
+     "Pelt",
+     "Mane"
+    ]
+   },
+   {
+    "q": "Flying south for the winter",
+    "right": "Migration",
+    "wrong": [
+     "Hibernation",
+     "Aestivation",
+     "Incubation"
+    ]
+   },
+   {
+    "q": "Shedding old feathers and growing new ones",
+    "right": "Moult",
+    "wrong": [
+     "Brood",
+     "Fledge",
+     "Perch"
+    ]
+   },
+   {
+    "q": "Cleaning and tidying the feathers with the beak",
+    "right": "Preen",
+    "wrong": [
+     "Brood",
+     "Perch",
+     "Hatch"
+    ]
+   },
+   {
+    "q": "A young bird that's just learned to fly",
+    "right": "Fledgling",
+    "wrong": [
+     "Hatchling",
+     "Gosling",
+     "Cygnet"
+    ]
+   },
+   {
+    "q": "A swirling cloud of thousands of starlings",
+    "right": "Murmuration",
+    "wrong": [
+     "Parliament",
+     "Gaggle",
+     "Charm"
+    ]
+   },
+   {
+    "q": "Birdsong at first light",
+    "right": "Dawn chorus",
+    "wrong": [
+     "Evensong",
+     "Lullaby",
+     "Reveille"
+    ]
+   },
+   {
+    "q": "The RSPB's January count of the birds in back gardens",
+    "right": "Big Garden Birdwatch",
+    "wrong": [
+     "Countryfile Count",
+     "Bird Race",
+     "Garden Census"
+    ]
+   },
+   {
+    "q": "The BBC show that watches nests live, with Chris Packham",
+    "right": "Springwatch",
+    "wrong": [
+     "Countryfile",
+     "Planet Earth",
+     "Blue Planet"
+    ]
+   },
+   {
+    "q": "A wooden box with a hole, put up for blue tits",
+    "right": "Nest box",
+    "wrong": [
+     "Dovecote",
+     "Bird bath",
+     "Feeder"
+    ]
+   },
+   {
+    "q": "A raised platform where you put out food",
+    "right": "Bird table",
+    "wrong": [
+     "Bird bath",
+     "Dovecote",
+     "Perch"
+    ]
+   },
+   {
+    "q": "Another word for a bird of prey",
+    "right": "Raptor",
+    "wrong": [
+     "Wader",
+     "Passerine",
+     "Finch"
+    ]
+   },
+   {
+    "q": "The crow family, including magpies and jays",
+    "right": "Corvid",
+    "wrong": [
+     "Finch",
+     "Warbler",
+     "Wader"
+    ]
+   },
+   {
+    "q": "Fitting a tiny numbered band to a bird's leg",
+    "right": "Ringing",
+    "wrong": [
+     "Branding",
+     "Tattooing",
+     "Clipping"
+    ]
+   },
+   {
+    "q": "A short sound a bird makes, rather than its song",
+    "right": "Call",
+    "wrong": [
+     "Verse",
+     "Chorus",
+     "Refrain"
+    ]
+   },
+   {
+    "q": "The sound a little bird makes, and the old name for a post on X",
+    "right": "Tweet",
+    "wrong": [
+     "Toot",
+     "Honk",
+     "Bleat"
+    ]
+   }
+  ]
+ }
+]
