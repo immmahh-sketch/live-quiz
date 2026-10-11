@@ -6,7 +6,6 @@ Q = [
  ("Over one lap in the 400 m hurdles, how many barriers does each athlete jump?", 10, "hurdles", 2, "medium", "Sport", False),
  ("How many maximum 147 breaks has Ronnie O'Sullivan made in professional competition?", 15, "maximums", 3, "hard", "Sport", False),
  ("Roughly how many people live on the Isle of Man?", 84000, "people", 12000, "hard", "UK geography", False),
- ("The King scored how many chart-topping singles in Britain? (Elvis Presley)", 21, "number ones", 3, "medium", "Music", False),
 ]
 here = os.path.dirname(os.path.abspath(__file__))
 out = [{"type": "nearest", "text": t, "answer": a, "unit": u, "spread": s, "difficulty": d, "category": c, "tags": ["nearest wins"] + (["wow"] if w else [])} for t, a, u, s, d, c, w in Q]
