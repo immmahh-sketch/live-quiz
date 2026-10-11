@@ -1,0 +1,203 @@
+[
+ {
+  "type": "club",
+  "text": "Three cars are parked in a row. How many wheels touch the ground?",
+  "answers": [
+   "12",
+   "Twelve"
+  ],
+  "pct": 90,
+  "why": "3 × 4 = 12.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "wheels",
+   "cars"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Take one away from a thousand.",
+  "answers": [
+   "999",
+   "Nine hundred and ninety-nine"
+  ],
+  "pct": 80,
+  "why": "1,000 − 1 = 999.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "taking away"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "How many eggs make two dozen?",
+  "answers": [
+   "24",
+   "Twenty-four"
+  ],
+  "pct": 80,
+  "why": "A dozen is 12, so two dozen is 24.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "dozens"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Rearrange the letters of NIGHT to make a word meaning 'an object'.",
+  "answers": [
+   "Thing"
+  ],
+  "pct": 70,
+  "why": "N-I-G-H-T rearranges to THING.",
+  "difficulty": "easy",
+  "category": "Wordplay",
+  "tags": [
+   "anagrams"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Add 45 to itself.",
+  "answers": [
+   "90",
+   "Ninety"
+  ],
+  "pct": 70,
+  "why": "45 + 45 = 90.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "doubling"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A match kicks off at 3pm and finishes 105 minutes later, half-time included. When does it end?",
+  "answers": [
+   "4:45pm",
+   "4.45pm",
+   "4:45",
+   "Quarter to five"
+  ],
+  "pct": 60,
+  "why": "3pm plus 1 hour 45 minutes is 4:45pm.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "time",
+   "football"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which number sits exactly halfway between 30 and 70?",
+  "answers": [
+   "50",
+   "Fifty"
+  ],
+  "pct": 50,
+  "why": "30 + 70 = 100, and half of 100 is 50.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "halfway"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Write the number 8 as a word. How many letters is that?",
+  "answers": [
+   "5",
+   "Five"
+  ],
+  "pct": 50,
+  "why": "E-I-G-H-T.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "spelling",
+   "numbers"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A train has 8 carriages with 60 seats in each. How many seats altogether?",
+  "answers": [
+   "480",
+   "Four hundred and eighty"
+  ],
+  "pct": 40,
+  "why": "8 × 60 = 480.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "trains",
+   "multiplying"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which letter is the 13th in the alphabet?",
+  "answers": [
+   "M"
+  ],
+  "pct": 30,
+  "why": "A to M is the first half of the alphabet: M is 13th.",
+  "difficulty": "hard",
+  "category": "Wordplay",
+  "tags": [
+   "alphabet"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What's fifteen per cent of sixty?",
+  "answers": [
+   "9",
+   "Nine"
+  ],
+  "pct": 30,
+  "why": "10% is 6 and 5% is 3: 9.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "percentages"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which whole number above zero gives the same answer whether you add it to itself or multiply it by itself?",
+  "answers": [
+   "2",
+   "Two"
+  ],
+  "pct": 10,
+  "why": "2 + 2 = 4 and 2 × 2 = 4.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "doubling",
+   "squaring"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Double 1 ten times over to reach 1,024. Now add up the digits of 1,024.",
+  "answers": [
+   "7",
+   "Seven"
+  ],
+  "pct": 20,
+  "why": "1 + 0 + 2 + 4 = 7.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "powers",
+   "digits"
+  ]
+ }
+]
