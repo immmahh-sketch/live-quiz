@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this car mechanic's word?",
+  "target": 10,
+  "category": "Science",
+  "tags": [
+   "cars",
+   "garages",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The pedal you press to change gear in a manual",
+    "right": "Clutch",
+    "wrong": [
+     "Throttle",
+     "Choke",
+     "Handbrake"
+    ]
+   },
+   {
+    "q": "The hinged cover over the engine",
+    "right": "Bonnet",
+    "wrong": [
+     "Sunroof",
+     "Tailgate",
+     "Sill"
+    ]
+   },
+   {
+    "q": "The luggage space at the back",
+    "right": "Boot",
+    "wrong": [
+     "Glovebox",
+     "Footwell",
+     "Sunroof"
+    ]
+   },
+   {
+    "q": "The yearly roadworthiness test once a car is three years old",
+    "right": "MOT",
+    "wrong": [
+     "DVLA",
+     "AA",
+     "RAC"
+    ]
+   },
+   {
+    "q": "Spark to light the fuel in each cylinder",
+    "right": "Spark plugs",
+    "wrong": [
+     "Fuses",
+     "Valves",
+     "Bulbs"
+    ]
+   },
+   {
+    "q": "Moves up and down inside a cylinder",
+    "right": "Piston",
+    "wrong": [
+     "Camshaft",
+     "Flywheel",
+     "Driveshaft"
+    ]
+   },
+   {
+    "q": "Keeps the engine cool, behind the front grille",
+    "right": "Radiator",
+    "wrong": [
+     "Condenser",
+     "Carburettor",
+     "Sump"
+    ]
+   },
+   {
+    "q": "Charges the battery while the engine runs",
+    "right": "Alternator",
+    "wrong": [
+     "Starter motor",
+     "Distributor",
+     "Regulator"
+    ]
+   },
+   {
+    "q": "Added to the coolant so it doesn't freeze",
+    "right": "Antifreeze",
+    "wrong": [
+     "De-icer",
+     "Screenwash",
+     "Brake fluid"
+    ]
+   },
+   {
+    "q": "The grooved pattern on a tyre that grips the road",
+    "right": "Tread",
+    "wrong": [
+     "Sidewall",
+     "Rim",
+     "Hubcap"
+    ]
+   },
+   {
+    "q": "The legal minimum tread depth on a car tyre",
+    "right": "1.6 mm",
+    "wrong": [
+     "1 mm",
+     "2.5 mm",
+     "3 mm"
+    ]
+   },
+   {
+    "q": "The pipe carrying fumes out of the back",
+    "right": "Exhaust",
+    "wrong": [
+     "Fuel line",
+     "Axle",
+     "Driveshaft"
+    ]
+   },
+   {
+    "q": "The stick you pull out to check the oil",
+    "right": "Dipstick",
+    "wrong": [
+     "Gearstick",
+     "Joystick",
+     "Yardstick"
+    ]
+   },
+   {
+    "q": "Lifts one corner of the car to change a wheel",
+    "right": "Jack",
+    "wrong": [
+     "Winch",
+     "Crane",
+     "Hoist"
+    ]
+   },
+   {
+    "q": "Springs and shock absorbers soaking up the bumps",
+    "right": "Suspension",
+    "wrong": [
+     "Ignition",
+     "Steering",
+     "Transmission"
+    ]
+   },
+   {
+    "q": "Starting a flat battery with leads from another car",
+    "right": "Jump start",
+    "wrong": [
+     "Kick start",
+     "Head start",
+     "False start"
+    ]
+   },
+   {
+    "q": "The belt that drives the valves, costly if it snaps",
+    "right": "Timing belt",
+    "wrong": [
+     "Fan belt",
+     "Seat belt",
+     "Conveyor belt"
+    ]
+   },
+   {
+    "q": "Adjusting the wheels' angles to stop uneven tyre wear",
+    "right": "Tracking",
+    "wrong": [
+     "Tuning",
+     "Bleeding",
+     "Topping up"
+    ]
+   },
+   {
+    "q": "A thorough clean of the car inside and out",
+    "right": "Valet",
+    "wrong": [
+     "Service",
+     "Respray",
+     "Tune-up"
+    ]
+   },
+   {
+    "q": "The mirror on the side of the car",
+    "right": "Wing mirror",
+    "wrong": [
+     "Rear-view mirror",
+     "Vanity mirror",
+     "Mirror ball"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this tenpin bowling word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "tenpin bowling",
+   "bowling",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "All ten pins down with your first ball",
+    "right": "Strike",
+    "wrong": [
+     "Hit",
+     "Slam",
+     "Smash"
+    ]
+   },
+   {
+    "q": "All ten pins down using both balls",
+    "right": "Spare",
+    "wrong": [
+     "Extra",
+     "Bonus",
+     "Second"
+    ]
+   },
+   {
+    "q": "Three strikes in a row",
+    "right": "Turkey",
+    "wrong": [
+     "Chicken",
+     "Goose",
+     "Hat-trick"
+    ]
+   },
+   {
+    "q": "Two strikes in a row",
+    "right": "Double",
+    "wrong": [
+     "Brace",
+     "Pair",
+     "Twin"
+    ]
+   },
+   {
+    "q": "A ball that drops into the channel at the side",
+    "right": "Gutter ball",
+    "wrong": [
+     "Dead ball",
+     "Wide",
+     "No-ball"
+    ]
+   },
+   {
+    "q": "A perfect game's score",
+    "right": "300",
+    "wrong": [
+     "100",
+     "200",
+     "500"
+    ]
+   },
+   {
+    "q": "Each of the ten turns in a game",
+    "right": "Frame",
+    "wrong": [
+     "Round",
+     "End",
+     "Over"
+    ]
+   },
+   {
+    "q": "A turn with no strike or spare",
+    "right": "Open frame",
+    "wrong": [
+     "Empty frame",
+     "Dead frame",
+     "Blank"
+    ]
+   },
+   {
+    "q": "The line you mustn't step over when you bowl",
+    "right": "Foul line",
+    "wrong": [
+     "Oche",
+     "Crease",
+     "Baseline"
+    ]
+   },
+   {
+    "q": "The run-up area before that line",
+    "right": "Approach",
+    "wrong": [
+     "Slipway",
+     "Runway",
+     "Apron"
+    ]
+   },
+   {
+    "q": "Pins left standing far apart after the first ball",
+    "right": "Split",
+    "wrong": [
+     "Spread",
+     "Fork",
+     "Gap"
+    ]
+   },
+   {
+    "q": "The pin at the very front",
+    "right": "Headpin",
+    "wrong": [
+     "Kingpin",
+     "Toppin",
+     "Leadpin"
+    ]
+   },
+   {
+    "q": "The gap between the front pin and the next, where strikes come from",
+    "right": "Pocket",
+    "wrong": [
+     "Slot",
+     "Notch",
+     "Groove"
+    ]
+   },
+   {
+    "q": "A ball that curves into the pins",
+    "right": "Hook",
+    "wrong": [
+     "Slice",
+     "Swerve",
+     "Bender"
+    ]
+   },
+   {
+    "q": "The machine that resets the pins",
+    "right": "Pinsetter",
+    "wrong": [
+     "Pinball",
+     "Pin cushion",
+     "Pin-up"
+    ]
+   },
+   {
+    "q": "Barriers raised in the gutters for children",
+    "right": "Bumpers",
+    "wrong": [
+     "Buffers",
+     "Cushions",
+     "Kerbs"
+    ]
+   },
+   {
+    "q": "The polished wooden strip you bowl along",
+    "right": "Lane",
+    "wrong": [
+     "Rink",
+     "Pitch",
+     "Green"
+    ]
+   },
+   {
+    "q": "The shape the pins are set out in",
+    "right": "Triangle",
+    "wrong": [
+     "Diamond",
+     "Square",
+     "Circle"
+    ]
+   },
+   {
+    "q": "Pins in the back row",
+    "right": "4",
+    "wrong": [
+     "3",
+     "5",
+     "6"
+    ]
+   },
+   {
+    "q": "What the balls' weights are marked in",
+    "right": "Pounds",
+    "wrong": [
+     "Kilograms",
+     "Stones",
+     "Ounces"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this Valentine's word?",
+  "target": 10,
+  "category": "Lifestyle",
+  "tags": [
+   "Valentine's Day",
+   "love",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Someone who sends a card without signing it",
+    "right": "Secret admirer",
+    "wrong": [
+     "Pen pal",
+     "Wingman",
+     "Matchmaker"
+    ]
+   },
+   {
+    "q": "The winged boy with a bow and arrow",
+    "right": "Cupid",
+    "wrong": [
+     "Puck",
+     "Pan",
+     "Mercury"
+    ]
+   },
+   {
+    "q": "The date of Valentine's Day",
+    "right": "14 February",
+    "wrong": [
+     "14 March",
+     "1 February",
+     "29 February"
+    ]
+   },
+   {
+    "q": "The Greek god of love",
+    "right": "Eros",
+    "wrong": [
+     "Ares",
+     "Hermes",
+     "Apollo"
+    ]
+   },
+   {
+    "q": "The classic Valentine's flower",
+    "right": "Red rose",
+    "wrong": [
+     "White lily",
+     "Yellow tulip",
+     "Daffodil"
+    ]
+   },
+   {
+    "q": "The letter that stands for a kiss on a card",
+    "right": "X",
+    "wrong": [
+     "O",
+     "H",
+     "Y"
+    ]
+   },
+   {
+    "q": "Fizzy sweets printed with messages like 'Be Mine'",
+    "right": "Love Hearts",
+    "wrong": [
+     "Parma Violets",
+     "Refreshers",
+     "Polos"
+    ]
+   },
+   {
+    "q": "A romantic meal for two by the light of a flame",
+    "right": "Candlelit dinner",
+    "wrong": [
+     "TV dinner",
+     "Packed lunch",
+     "Afternoon tea"
+    ]
+   },
+   {
+    "q": "Asking someone to marry you",
+    "right": "Proposal",
+    "wrong": [
+     "Petition",
+     "Motion",
+     "Overture"
+    ]
+   },
+   {
+    "q": "The ring that seals a yes",
+    "right": "Engagement ring",
+    "wrong": [
+     "Eternity ring",
+     "Signet ring",
+     "Nose ring"
+    ]
+   },
+   {
+    "q": "Getting down on one ...",
+    "right": "Knee",
+    "wrong": [
+     "Elbow",
+     "Foot",
+     "Hand"
+    ]
+   },
+   {
+    "q": "The shape of a box of Valentine's chocolates",
+    "right": "Heart",
+    "wrong": [
+     "Star",
+     "Diamond",
+     "Moon"
+    ]
+   },
+   {
+    "q": "What SWALK on an envelope stands for",
+    "right": "Sealed with a loving kiss",
+    "wrong": [
+     "Sent with a little kindness",
+     "Signed with a lucky key",
+     "Sealed with all love, Kate"
+    ]
+   },
+   {
+    "q": "'Roses are red, violets are ...'",
+    "right": "Blue",
+    "wrong": [
+     "Green",
+     "Pink",
+     "Purple"
+    ]
+   },
+   {
+    "q": "What 'je t'aime' means",
+    "right": "I love you",
+    "wrong": [
+     "I miss you",
+     "Thank you",
+     "Good night"
+    ]
+   },
+   {
+    "q": "The city of love, with padlocks on its bridges",
+    "right": "Paris",
+    "wrong": [
+     "Rome",
+     "Vienna",
+     "Prague"
+    ]
+   },
+   {
+    "q": "Shakespeare's star-crossed lovers",
+    "right": "Romeo and Juliet",
+    "wrong": [
+     "Antony and Cleopatra",
+     "Beatrice and Benedick",
+     "Oberon and Titania"
+    ]
+   },
+   {
+    "q": "Meeting lots of singles for a few minutes each",
+    "right": "Speed dating",
+    "wrong": [
+     "Speed reading",
+     "Hen do",
+     "Ceilidh"
+    ]
+   },
+   {
+    "q": "Going out with someone you've never met",
+    "right": "Blind date",
+    "wrong": [
+     "Double date",
+     "Dinner date",
+     "Play date"
+    ]
+   },
+   {
+    "q": "A bunch of flowers",
+    "right": "Bouquet",
+    "wrong": [
+     "Corsage",
+     "Garland",
+     "Wreath"
+    ]
+   }
+  ]
+ }
+]
