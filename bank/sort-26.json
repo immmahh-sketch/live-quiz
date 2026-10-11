@@ -1,0 +1,245 @@
+[
+ {
+  "type": "sort",
+  "text": "A Tyne and Wear Metro station or a London Tube station?",
+  "categories": [
+   "Metro",
+   "Tube"
+  ],
+  "items": [
+   {
+    "text": "Haymarket",
+    "category": "Metro"
+   },
+   {
+    "text": "Jesmond",
+    "category": "Metro"
+   },
+   {
+    "text": "Pelaw",
+    "category": "Metro"
+   },
+   {
+    "text": "Felling",
+    "category": "Metro"
+   },
+   {
+    "text": "Angel",
+    "category": "Tube"
+   },
+   {
+    "text": "Oval",
+    "category": "Tube"
+   },
+   {
+    "text": "Temple",
+    "category": "Tube"
+   },
+   {
+    "text": "Moorgate",
+    "category": "Tube"
+   }
+  ],
+  "category": "North East",
+  "tags": [
+   "Tyne and Wear Metro",
+   "London Underground"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A gin cocktail or a whisky cocktail?",
+  "categories": [
+   "Gin",
+   "Whisky"
+  ],
+  "items": [
+   {
+    "text": "Negroni",
+    "category": "Gin"
+   },
+   {
+    "text": "Tom Collins",
+    "category": "Gin"
+   },
+   {
+    "text": "Gimlet",
+    "category": "Gin"
+   },
+   {
+    "text": "Gin Fizz",
+    "category": "Gin"
+   },
+   {
+    "text": "Old Fashioned",
+    "category": "Whisky"
+   },
+   {
+    "text": "Whisky Sour",
+    "category": "Whisky"
+   },
+   {
+    "text": "Manhattan",
+    "category": "Whisky"
+   },
+   {
+    "text": "Rob Roy",
+    "category": "Whisky"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [
+   "cocktails",
+   "gin",
+   "whisky"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Fire-type Pokémon or a Water-type Pokémon?",
+  "categories": [
+   "Fire",
+   "Water"
+  ],
+  "items": [
+   {
+    "text": "Charmander",
+    "category": "Fire"
+   },
+   {
+    "text": "Vulpix",
+    "category": "Fire"
+   },
+   {
+    "text": "Growlithe",
+    "category": "Fire"
+   },
+   {
+    "text": "Ponyta",
+    "category": "Fire"
+   },
+   {
+    "text": "Squirtle",
+    "category": "Water"
+   },
+   {
+    "text": "Psyduck",
+    "category": "Water"
+   },
+   {
+    "text": "Magikarp",
+    "category": "Water"
+   },
+   {
+    "text": "Poliwag",
+    "category": "Water"
+   }
+  ],
+  "category": "Games",
+  "tags": [
+   "Pokémon",
+   "types"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "An original Avenger or a Guardian of the Galaxy?",
+  "categories": [
+   "Avengers",
+   "Guardians of the Galaxy"
+  ],
+  "items": [
+   {
+    "text": "Captain America",
+    "category": "Avengers"
+   },
+   {
+    "text": "Thor",
+    "category": "Avengers"
+   },
+   {
+    "text": "Black Widow",
+    "category": "Avengers"
+   },
+   {
+    "text": "Hawkeye",
+    "category": "Avengers"
+   },
+   {
+    "text": "Star-Lord",
+    "category": "Guardians of the Galaxy"
+   },
+   {
+    "text": "Gamora",
+    "category": "Guardians of the Galaxy"
+   },
+   {
+    "text": "Drax",
+    "category": "Guardians of the Galaxy"
+   },
+   {
+    "text": "Rocket",
+    "category": "Guardians of the Galaxy"
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "Marvel",
+   "Avengers",
+   "Guardians of the Galaxy"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A Grand National fence or a Cheltenham Festival race?",
+  "categories": [
+   "Grand National fence",
+   "Cheltenham race"
+  ],
+  "items": [
+   {
+    "text": "Becher's Brook",
+    "category": "Grand National fence"
+   },
+   {
+    "text": "The Chair",
+    "category": "Grand National fence"
+   },
+   {
+    "text": "Canal Turn",
+    "category": "Grand National fence"
+   },
+   {
+    "text": "Valentine's",
+    "category": "Grand National fence"
+   },
+   {
+    "text": "Gold Cup",
+    "category": "Cheltenham race"
+   },
+   {
+    "text": "Champion Hurdle",
+    "category": "Cheltenham race"
+   },
+   {
+    "text": "Queen Mother Champion Chase",
+    "category": "Cheltenham race"
+   },
+   {
+    "text": "Stayers' Hurdle",
+    "category": "Cheltenham race"
+   }
+  ],
+  "category": "Sport",
+  "tags": [
+   "horse racing",
+   "Grand National",
+   "Cheltenham"
+  ],
+  "difficulty": "hard"
+ }
+]
