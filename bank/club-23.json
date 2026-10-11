@@ -1,0 +1,133 @@
+[
+ {
+  "type": "club",
+  "text": "Pints are £5 each. You buy three and pay with a £20 note. How much change?",
+  "answers": [
+   "£5",
+   "5",
+   "Five pounds"
+  ],
+  "pct": 90,
+  "why": "3 × £5 = £15, and £20 − £15 = £5.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "money",
+   "change"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which is more: half a dozen, or a quarter of twenty?",
+  "answers": [
+   "Half a dozen",
+   "6"
+  ],
+  "pct": 80,
+  "why": "Half a dozen is 6; a quarter of twenty is 5.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "comparing",
+   "fractions"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A bus fare is £2.50 each way. What do two people pay for a return trip?",
+  "answers": [
+   "£10",
+   "10",
+   "Ten pounds"
+  ],
+  "pct": 70,
+  "why": "£5 return each, and two of them make £10.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "bus fares",
+   "money"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Five friends each buy a round of five drinks at £4 a drink. What do they spend altogether?",
+  "answers": [
+   "£100",
+   "100",
+   "A hundred pounds"
+  ],
+  "pct": 50,
+  "why": "5 rounds × 5 drinks × £4 = £100.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "rounds",
+   "multiplying"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "You leave a 15% tip on a £40 meal. How much is the tip?",
+  "answers": [
+   "£6",
+   "6",
+   "Six pounds"
+  ],
+  "pct": 40,
+  "why": "10% is £4, 5% is £2, so 15% is £6.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "percentages",
+   "tips"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A bottle of wine fills six glasses. Four people want three glasses each. How many bottles?",
+  "answers": [
+   "2",
+   "Two"
+  ],
+  "pct": 20,
+  "why": "12 glasses ÷ 6 per bottle = 2.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "wine",
+   "dividing"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A car does 50 miles to the gallon and petrol costs £7 a gallon. What does a 200-mile trip cost in fuel?",
+  "answers": [
+   "£28",
+   "28"
+  ],
+  "pct": 10,
+  "why": "200 ÷ 50 = 4 gallons, and 4 × £7 = £28.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "fuel",
+   "multiplying"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which month of the year has the longest name?",
+  "answers": [
+   "September"
+  ],
+  "pct": 5,
+  "why": "Nine letters; November, December and February have eight.",
+  "difficulty": "hard",
+  "category": "Wordplay",
+  "tags": [
+   "months",
+   "counting letters"
+  ]
+ }
+]
