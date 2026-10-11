@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this Chinese takeaway word?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "Chinese food",
+   "takeaway",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Fried noodles with meat and veg",
+    "right": "Chow mein",
+    "wrong": [
+     "Chop suey",
+     "Pad Thai",
+     "Ramen"
+    ]
+   },
+   {
+    "q": "Battered pork in a bright red-orange sauce",
+    "right": "Sweet and sour",
+    "wrong": [
+     "Jerk",
+     "Tikka",
+     "Teriyaki"
+    ]
+   },
+   {
+    "q": "Puffy crisps that swell in hot oil",
+    "right": "Prawn crackers",
+    "wrong": [
+     "Poppadoms",
+     "Pork scratchings",
+     "Tortilla chips"
+    ]
+   },
+   {
+    "q": "Shredded duck rolled in thin pancakes with cucumber",
+    "right": "Crispy aromatic duck",
+    "wrong": [
+     "Duck à l'orange",
+     "Duck confit",
+     "Duck pâté"
+    ]
+   },
+   {
+    "q": "The thick sweet sauce served with it",
+    "right": "Hoisin",
+    "wrong": [
+     "Worcestershire",
+     "Tabasco",
+     "Teriyaki"
+    ]
+   },
+   {
+    "q": "Veg wrapped in pastry and deep-fried",
+    "right": "Spring roll",
+    "wrong": [
+     "Sausage roll",
+     "Swiss roll",
+     "Bread roll"
+    ]
+   },
+   {
+    "q": "A crisp biscuit with a message inside",
+    "right": "Fortune cookie",
+    "wrong": [
+     "Party popper",
+     "Christmas cracker",
+     "Jaffa Cake"
+    ]
+   },
+   {
+    "q": "Small steamed parcels in bamboo baskets",
+    "right": "Dim sum",
+    "wrong": [
+     "Tapas",
+     "Mezze",
+     "Antipasti"
+    ]
+   },
+   {
+    "q": "Dumplings floating in soup",
+    "right": "Wonton",
+    "wrong": [
+     "Gnocchi",
+     "Croutons",
+     "Noodles"
+    ]
+   },
+   {
+    "q": "Red, sticky Cantonese barbecue pork",
+    "right": "Char siu",
+    "wrong": [
+     "Chorizo",
+     "Pastrami",
+     "Biltong"
+    ]
+   },
+   {
+    "q": "The spicy Chinese province famous for its peppercorns",
+    "right": "Sichuan",
+    "wrong": [
+     "Shanghai",
+     "Canton",
+     "Beijing"
+    ]
+   },
+   {
+    "q": "Chips tossed with salt, chilli and onion, a North East favourite",
+    "right": "Salt and pepper chips",
+    "wrong": [
+     "Cheesy chips",
+     "Curry chips",
+     "Chip butty"
+    ]
+   },
+   {
+    "q": "The round steel pan for stir-frying",
+    "right": "Wok",
+    "wrong": [
+     "Paella pan",
+     "Skillet",
+     "Tagine"
+    ]
+   },
+   {
+    "q": "Pork ribs in a sticky glaze",
+    "right": "Spare ribs",
+    "wrong": [
+     "Rack of lamb",
+     "Ribeye",
+     "Chops"
+    ]
+   },
+   {
+    "q": "Rice fried with scrambled egg",
+    "right": "Egg fried rice",
+    "wrong": [
+     "Pilau rice",
+     "Risotto",
+     "Paella"
+    ]
+   },
+   {
+    "q": "A set meal for several people",
+    "right": "Banquet",
+    "wrong": [
+     "Buffet",
+     "Platter",
+     "Picnic"
+    ]
+   },
+   {
+    "q": "A fluffy egg dish with fillings",
+    "right": "Foo yung",
+    "wrong": [
+     "Frittata",
+     "Crêpe",
+     "Soufflé"
+    ]
+   },
+   {
+    "q": "Peanut sauce on skewers",
+    "right": "Satay",
+    "wrong": [
+     "Pesto",
+     "Tahini",
+     "Hummus"
+    ]
+   },
+   {
+    "q": "Salted fermented beans made into a sauce",
+    "right": "Black bean",
+    "wrong": [
+     "Baked bean",
+     "Kidney bean",
+     "Coffee bean"
+    ]
+   },
+   {
+    "q": "The two sticks you eat with",
+    "right": "Chopsticks",
+    "wrong": [
+     "Drumsticks",
+     "Cocktail sticks",
+     "Matchsticks"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this Italian restaurant word?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "Italian food",
+   "restaurants",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The starters",
+    "right": "Antipasti",
+    "wrong": [
+     "Tapas",
+     "Mezze",
+     "Hors d'oeuvres"
+    ]
+   },
+   {
+    "q": "Toasted bread topped with tomato and garlic",
+    "right": "Bruschetta",
+    "wrong": [
+     "Crostata",
+     "Ciabatta",
+     "Brioche"
+    ]
+   },
+   {
+    "q": "Pasta in egg, cheese and pancetta",
+    "right": "Carbonara",
+    "wrong": [
+     "Primavera",
+     "Marinara",
+     "Alfredo"
+    ]
+   },
+   {
+    "q": "Pasta in a fiery tomato sauce",
+    "right": "Arrabbiata",
+    "wrong": [
+     "Primavera",
+     "Alfredo",
+     "Vongole"
+    ]
+   },
+   {
+    "q": "The pizza with just tomato, mozzarella and basil",
+    "right": "Margherita",
+    "wrong": [
+     "Marinara",
+     "Fiorentina",
+     "Quattro stagioni"
+    ]
+   },
+   {
+    "q": "A pizza folded over into a half-moon",
+    "right": "Calzone",
+    "wrong": [
+     "Panzanella",
+     "Cannelloni",
+     "Crostini"
+    ]
+   },
+   {
+    "q": "Coffee-soaked sponge layered with mascarpone",
+    "right": "Tiramisu",
+    "wrong": [
+     "Zabaglione",
+     "Cassata",
+     "Semifreddo"
+    ]
+   },
+   {
+    "q": "A set, wobbly cream pudding",
+    "right": "Panna cotta",
+    "wrong": [
+     "Crème brûlée",
+     "Blancmange",
+     "Trifle"
+    ]
+   },
+   {
+    "q": "Italian ice cream",
+    "right": "Gelato",
+    "wrong": [
+     "Granita",
+     "Kulfi",
+     "Frozen yogurt"
+    ]
+   },
+   {
+    "q": "Pasta cooked 'to the tooth'",
+    "right": "Al dente",
+    "wrong": [
+     "Al fresco",
+     "Al forno",
+     "À la carte"
+    ]
+   },
+   {
+    "q": "Creamy rice stirred with hot stock",
+    "right": "Risotto",
+    "wrong": [
+     "Paella",
+     "Pilaf",
+     "Congee"
+    ]
+   },
+   {
+    "q": "Basil, pine nuts and Parmesan sauce",
+    "right": "Pesto",
+    "wrong": [
+     "Salsa verde",
+     "Tapenade",
+     "Gremolata"
+    ]
+   },
+   {
+    "q": "Lemon liqueur served ice-cold after dinner",
+    "right": "Limoncello",
+    "wrong": [
+     "Amaretto",
+     "Sambuca",
+     "Grappa"
+    ]
+   },
+   {
+    "q": "Espresso poured over a scoop of ice cream",
+    "right": "Affogato",
+    "wrong": [
+     "Macchiato",
+     "Cortado",
+     "Frappé"
+    ]
+   },
+   {
+    "q": "Dry-cured ham served in wafer-thin slices",
+    "right": "Prosciutto",
+    "wrong": [
+     "Pancetta",
+     "Salami",
+     "Mortadella"
+    ]
+   },
+   {
+    "q": "Flat, oily bread topped with rosemary",
+    "right": "Focaccia",
+    "wrong": [
+     "Ciabatta",
+     "Naan",
+     "Pitta"
+    ]
+   },
+   {
+    "q": "A simple, family-run Italian eatery",
+    "right": "Trattoria",
+    "wrong": [
+     "Bodega",
+     "Brasserie",
+     "Taverna"
+    ]
+   },
+   {
+    "q": "Pasta parcels with a filling",
+    "right": "Ravioli",
+    "wrong": [
+     "Penne",
+     "Fusilli",
+     "Rigatoni"
+    ]
+   },
+   {
+    "q": "Layers of pasta, ragù and béchamel",
+    "right": "Lasagne",
+    "wrong": [
+     "Cannelloni",
+     "Moussaka",
+     "Gratin"
+    ]
+   },
+   {
+    "q": "What the waiter says as your food arrives",
+    "right": "Buon appetito",
+    "wrong": [
+     "Buongiorno",
+     "Arrivederci",
+     "Mamma mia"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this chocolate word?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "chocolate",
+   "sweets",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The bean chocolate is made from",
+    "right": "Cocoa bean",
+    "wrong": [
+     "Coffee bean",
+     "Vanilla pod",
+     "Carob"
+    ]
+   },
+   {
+    "q": "Chocolate melted into cream, for filling and icing",
+    "right": "Ganache",
+    "wrong": [
+     "Gnocchi",
+     "Garnish",
+     "Galette"
+    ]
+   },
+   {
+    "q": "A filling of caramelised sugar and ground nuts",
+    "right": "Praline",
+    "wrong": [
+     "Marzipan",
+     "Nougat",
+     "Fondant"
+    ]
+   },
+   {
+    "q": "A cocoa-dusted round chocolate named after a fungus",
+    "right": "Truffle",
+    "wrong": [
+     "Morel",
+     "Chanterelle",
+     "Button"
+    ]
+   },
+   {
+    "q": "Heating and cooling chocolate so it snaps and shines",
+    "right": "Tempering",
+    "wrong": [
+     "Tampering",
+     "Tempting",
+     "Tumbling"
+    ]
+   },
+   {
+    "q": "The whitish film on old chocolate",
+    "right": "Bloom",
+    "wrong": [
+     "Blush",
+     "Mould",
+     "Frost"
+    ]
+   },
+   {
+    "q": "Chocolate with no cocoa solids at all",
+    "right": "White chocolate",
+    "wrong": [
+     "Milk chocolate",
+     "Dark chocolate",
+     "Ruby chocolate"
+    ]
+   },
+   {
+    "q": "The fat pressed out of the beans",
+    "right": "Cocoa butter",
+    "wrong": [
+     "Peanut butter",
+     "Shea butter",
+     "Ghee"
+    ]
+   },
+   {
+    "q": "Cadbury's model village near Birmingham",
+    "right": "Bournville",
+    "wrong": [
+     "Port Sunlight",
+     "Saltaire",
+     "New Earswick"
+    ]
+   },
+   {
+    "q": "The York firm that first made the KitKat",
+    "right": "Rowntree's",
+    "wrong": [
+     "Fry's",
+     "Thorntons",
+     "Mackintosh's"
+    ]
+   },
+   {
+    "q": "The York firm behind the Chocolate Orange",
+    "right": "Terry's",
+    "wrong": [
+     "Fry's",
+     "Thorntons",
+     "Galaxy"
+    ]
+   },
+   {
+    "q": "Someone who makes fine chocolates",
+    "right": "Chocolatier",
+    "wrong": [
+     "Sommelier",
+     "Barista",
+     "Couturier"
+    ]
+   },
+   {
+    "q": "The ancient people who drank chocolate and called it 'xocolatl'",
+    "right": "Aztecs",
+    "wrong": [
+     "Incas",
+     "Romans",
+     "Vikings"
+    ]
+   },
+   {
+    "q": "The cocoa tree's Latin name, meaning 'food of the gods'",
+    "right": "Theobroma",
+    "wrong": [
+     "Ambrosia",
+     "Nectar",
+     "Manna"
+    ]
+   },
+   {
+    "q": "A rich, fudgy chocolate cake cut into squares",
+    "right": "Brownie",
+    "wrong": [
+     "Blondie",
+     "Flapjack",
+     "Rocky road"
+    ]
+   },
+   {
+    "q": "The Christmas tin of wrapped sweets with the purple one",
+    "right": "Quality Street",
+    "wrong": [
+     "Roses",
+     "Heroes",
+     "Celebrations"
+    ]
+   },
+   {
+    "q": "Windows opened each day in December",
+    "right": "Advent calendar",
+    "wrong": [
+     "Christmas card",
+     "Stocking",
+     "Cracker"
+    ]
+   },
+   {
+    "q": "Small crunchy bits of crushed cocoa bean",
+    "right": "Cocoa nibs",
+    "wrong": [
+     "Hundreds and thousands",
+     "Sprinkles",
+     "Coco Pops"
+    ]
+   },
+   {
+    "q": "A light, airy chocolate dessert",
+    "right": "Mousse",
+    "wrong": [
+     "Moose",
+     "Mouse",
+     "Mess"
+    ]
+   },
+   {
+    "q": "A mug of it with marshmallows on top",
+    "right": "Hot chocolate",
+    "wrong": [
+     "Horlicks",
+     "Bovril",
+     "Cappuccino"
+    ]
+   }
+  ]
+ }
+]
