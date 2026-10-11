@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each space telescope to the year it was launched",
+  "pairs": [
+   {
+    "left": "Hubble",
+    "right": "1990"
+   },
+   {
+    "left": "Spitzer",
+    "right": "2003"
+   },
+   {
+    "left": "Kepler",
+    "right": "2009"
+   },
+   {
+    "left": "James Webb",
+    "right": "2021"
+   }
+  ],
+  "difficulty": "hard"
+ }
+]

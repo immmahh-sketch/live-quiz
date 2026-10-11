@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each skyscraper to its city",
+  "pairs": [
+   {
+    "left": "Burj Khalifa",
+    "right": "Dubai"
+   },
+   {
+    "left": "Shanghai Tower",
+    "right": "Shanghai"
+   },
+   {
+    "left": "The Shard",
+    "right": "London"
+   },
+   {
+    "left": "Petronas Towers",
+    "right": "Kuala Lumpur"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

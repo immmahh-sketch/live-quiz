@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each classic rock album to its band",
+  "pairs": [
+   {
+    "left": "Nevermind",
+    "right": "Nirvana"
+   },
+   {
+    "left": "Rumours",
+    "right": "Fleetwood Mac"
+   },
+   {
+    "left": "Back in Black",
+    "right": "AC/DC"
+   },
+   {
+    "left": "Appetite for Destruction",
+    "right": "Guns N' Roses"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

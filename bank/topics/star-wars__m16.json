@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each character to their home planet",
+  "pairs": [
+   {
+    "left": "Luke Skywalker",
+    "right": "Tatooine"
+   },
+   {
+    "left": "Princess Leia",
+    "right": "Alderaan"
+   },
+   {
+    "left": "Chewbacca",
+    "right": "Kashyyyk"
+   },
+   {
+    "left": "Padmé Amidala",
+    "right": "Naboo"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

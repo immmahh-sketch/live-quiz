@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each place of worship to its faith",
+  "pairs": [
+   {
+    "left": "Church",
+    "right": "Christianity"
+   },
+   {
+    "left": "Mosque",
+    "right": "Islam"
+   },
+   {
+    "left": "Synagogue",
+    "right": "Judaism"
+   },
+   {
+    "left": "Gurdwara",
+    "right": "Sikhism"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]
