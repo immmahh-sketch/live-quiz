@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each musical to the city it's set in",
+  "pairs": [
+   {
+    "left": "Les Misérables",
+    "right": "Paris"
+   },
+   {
+    "left": "Cabaret",
+    "right": "Berlin"
+   },
+   {
+    "left": "Evita",
+    "right": "Buenos Aires"
+   },
+   {
+    "left": "West Side Story",
+    "right": "New York"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

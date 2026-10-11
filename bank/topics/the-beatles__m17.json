@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Beatles song to the album it's on",
+  "pairs": [
+   {
+    "left": "Yesterday",
+    "right": "Help!"
+   },
+   {
+    "left": "Eleanor Rigby",
+    "right": "Revolver"
+   },
+   {
+    "left": "Come Together",
+    "right": "Abbey Road"
+   },
+   {
+    "left": "Twist and Shout",
+    "right": "Please Please Me"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

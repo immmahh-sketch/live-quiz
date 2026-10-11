@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Scottish city to its river",
+  "pairs": [
+   {
+    "left": "Glasgow",
+    "right": "Clyde"
+   },
+   {
+    "left": "Dundee",
+    "right": "Tay"
+   },
+   {
+    "left": "Inverness",
+    "right": "Ness"
+   },
+   {
+    "left": "Aberdeen",
+    "right": "Dee"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

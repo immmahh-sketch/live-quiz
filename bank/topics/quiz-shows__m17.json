@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each quiz show to the channel it's best known on",
+  "pairs": [
+   {
+    "left": "Pointless",
+    "right": "BBC One"
+   },
+   {
+    "left": "The Chase",
+    "right": "ITV"
+   },
+   {
+    "left": "Only Connect",
+    "right": "BBC Two"
+   },
+   {
+    "left": "Countdown",
+    "right": "Channel 4"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]
