@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each TV detective to their first name",
+  "pairs": [
+   {
+    "left": "Morse",
+    "right": "Endeavour"
+   },
+   {
+    "left": "Frost",
+    "right": "Jack"
+   },
+   {
+    "left": "Rebus",
+    "right": "John"
+   },
+   {
+    "left": "Barnaby",
+    "right": "Tom"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

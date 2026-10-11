@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each keyboard shortcut to what it does",
+  "pairs": [
+   {
+    "left": "Ctrl + C",
+    "right": "Copy"
+   },
+   {
+    "left": "Ctrl + V",
+    "right": "Paste"
+   },
+   {
+    "left": "Ctrl + Z",
+    "right": "Undo"
+   },
+   {
+    "left": "Ctrl + P",
+    "right": "Print"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

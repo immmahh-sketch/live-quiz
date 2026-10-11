@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Disney film to the year it came out",
+  "pairs": [
+   {
+    "left": "Snow White and the Seven Dwarfs",
+    "right": "1937"
+   },
+   {
+    "left": "The Little Mermaid",
+    "right": "1989"
+   },
+   {
+    "left": "The Lion King",
+    "right": "1994"
+   },
+   {
+    "left": "Frozen",
+    "right": "2013"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each day of Christmas to its gift in the song",
+  "pairs": [
+   {
+    "left": "First day",
+    "right": "A partridge in a pear tree"
+   },
+   {
+    "left": "Fifth day",
+    "right": "Five gold rings"
+   },
+   {
+    "left": "Eighth day",
+    "right": "Eight maids a-milking"
+   },
+   {
+    "left": "Twelfth day",
+    "right": "Twelve drummers drumming"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

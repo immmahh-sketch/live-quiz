@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each international car code to its country",
+  "pairs": [
+   {
+    "left": "D",
+    "right": "Germany"
+   },
+   {
+    "left": "F",
+    "right": "France"
+   },
+   {
+    "left": "E",
+    "right": "Spain"
+   },
+   {
+    "left": "CH",
+    "right": "Switzerland"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

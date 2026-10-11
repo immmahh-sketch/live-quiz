@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each ballet to its composer",
+  "pairs": [
+   {
+    "left": "Swan Lake",
+    "right": "Tchaikovsky"
+   },
+   {
+    "left": "The Rite of Spring",
+    "right": "Stravinsky"
+   },
+   {
+    "left": "Romeo and Juliet",
+    "right": "Prokofiev"
+   },
+   {
+    "left": "Giselle",
+    "right": "Adolphe Adam"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Russian classic to its author",
+  "pairs": [
+   {
+    "left": "War and Peace",
+    "right": "Leo Tolstoy"
+   },
+   {
+    "left": "Crime and Punishment",
+    "right": "Fyodor Dostoevsky"
+   },
+   {
+    "left": "Doctor Zhivago",
+    "right": "Boris Pasternak"
+   },
+   {
+    "left": "Eugene Onegin",
+    "right": "Alexander Pushkin"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

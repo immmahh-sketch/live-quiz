@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Roman god to their Greek equivalent",
+  "pairs": [
+   {
+    "left": "Jupiter",
+    "right": "Zeus"
+   },
+   {
+    "left": "Venus",
+    "right": "Aphrodite"
+   },
+   {
+    "left": "Mars",
+    "right": "Ares"
+   },
+   {
+    "left": "Neptune",
+    "right": "Poseidon"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

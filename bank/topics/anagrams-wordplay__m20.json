@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each word to the word it makes spelled backwards",
+  "pairs": [
+   {
+    "left": "Stressed",
+    "right": "Desserts"
+   },
+   {
+    "left": "Diaper",
+    "right": "Repaid"
+   },
+   {
+    "left": "Drawer",
+    "right": "Reward"
+   },
+   {
+    "left": "Live",
+    "right": "Evil"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

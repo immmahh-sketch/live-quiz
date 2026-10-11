@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each famous bridge to its city",
+  "pairs": [
+   {
+    "left": "Golden Gate Bridge",
+    "right": "San Francisco"
+   },
+   {
+    "left": "Charles Bridge",
+    "right": "Prague"
+   },
+   {
+    "left": "Rialto Bridge",
+    "right": "Venice"
+   },
+   {
+    "left": "Ponte Vecchio",
+    "right": "Florence"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]
