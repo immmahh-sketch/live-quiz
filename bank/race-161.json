@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this Roman word?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "Romans",
+   "ancient Rome",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A Roman army unit of about 5,000 soldiers",
+    "right": "Legion",
+    "wrong": [
+     "Phalanx",
+     "Battalion",
+     "Regiment"
+    ]
+   },
+   {
+    "q": "The officer in charge of about 80 men",
+    "right": "Centurion",
+    "wrong": [
+     "Legate",
+     "Tribune",
+     "Praetor"
+    ]
+   },
+   {
+    "q": "Fought in the arena to entertain the crowd",
+    "right": "Gladiator",
+    "wrong": [
+     "Senator",
+     "Vestal",
+     "Tribune"
+    ]
+   },
+   {
+    "q": "Rome's giant amphitheatre",
+    "right": "Colosseum",
+    "wrong": [
+     "Pantheon",
+     "Circus Maximus",
+     "Parthenon"
+    ]
+   },
+   {
+    "q": "A Roman town's main square and marketplace",
+    "right": "Forum",
+    "wrong": [
+     "Agora",
+     "Piazza",
+     "Plaza"
+    ]
+   },
+   {
+    "q": "A bridge-like channel carrying water into town",
+    "right": "Aqueduct",
+    "wrong": [
+     "Viaduct",
+     "Causeway",
+     "Culvert"
+    ]
+   },
+   {
+    "q": "The draped white robe worn by Roman citizens",
+    "right": "Toga",
+    "wrong": [
+     "Tunic",
+     "Sari",
+     "Kaftan"
+    ]
+   },
+   {
+    "q": "The council that governed the Roman Republic",
+    "right": "Senate",
+    "wrong": [
+     "Parliament",
+     "Congress",
+     "Witan"
+    ]
+   },
+   {
+    "q": "Augustus was the first of these",
+    "right": "Emperor",
+    "wrong": [
+     "Pharaoh",
+     "Consul",
+     "Tsar"
+    ]
+   },
+   {
+    "q": "Underfloor heating in a Roman villa",
+    "right": "Hypocaust",
+    "wrong": [
+     "Atrium",
+     "Portico",
+     "Peristyle"
+    ]
+   },
+   {
+    "q": "A floor picture made of tiny coloured tiles",
+    "right": "Mosaic",
+    "wrong": [
+     "Fresco",
+     "Tapestry",
+     "Collage"
+    ]
+   },
+   {
+    "q": "A tall two-handled jar for wine or olive oil",
+    "right": "Amphora",
+    "wrong": [
+     "Urn",
+     "Flagon",
+     "Chalice"
+    ]
+   },
+   {
+    "q": "The 73-mile frontier across northern Britain",
+    "right": "Hadrian's Wall",
+    "wrong": [
+     "Antonine Wall",
+     "Offa's Dyke",
+     "Great Wall"
+    ]
+   },
+   {
+    "q": "The Iceni queen who led a revolt against Rome",
+    "right": "Boudicca",
+    "wrong": [
+     "Cartimandua",
+     "Cleopatra",
+     "Matilda"
+    ]
+   },
+   {
+    "q": "Roman London",
+    "right": "Londinium",
+    "wrong": [
+     "Eboracum",
+     "Camulodunum",
+     "Deva"
+    ]
+   },
+   {
+    "q": "The Roman name for France",
+    "right": "Gaul",
+    "wrong": [
+     "Hispania",
+     "Germania",
+     "Britannia"
+    ]
+   },
+   {
+    "q": "Letters on legion standards: 'the Senate and People of Rome'",
+    "right": "SPQR",
+    "wrong": [
+     "AD",
+     "BC",
+     "RIP"
+    ]
+   },
+   {
+    "q": "'I came, I saw, I conquered', in Latin",
+    "right": "Veni, vidi, vici",
+    "wrong": [
+     "Carpe diem",
+     "Et tu, Brute?",
+     "Alea iacta est"
+    ]
+   },
+   {
+    "q": "Stabbed on the Ides of March, 44 BC",
+    "right": "Julius Caesar",
+    "wrong": [
+     "Mark Antony",
+     "Brutus",
+     "Augustus"
+    ]
+   },
+   {
+    "q": "The town buried in ash when Vesuvius erupted in AD 79",
+    "right": "Pompeii",
+    "wrong": [
+     "Ostia",
+     "Paestum",
+     "Ravenna"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this ancient Egypt word?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "ancient Egypt",
+   "pharaohs",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Egypt's god-king",
+    "right": "Pharaoh",
+    "wrong": [
+     "Sultan",
+     "Shah",
+     "Caesar"
+    ]
+   },
+   {
+    "q": "A giant tomb with four triangular sides",
+    "right": "Pyramid",
+    "wrong": [
+     "Ziggurat",
+     "Pagoda",
+     "Stupa"
+    ]
+   },
+   {
+    "q": "A tall, thin, four-sided stone pillar with a pointed top",
+    "right": "Obelisk",
+    "wrong": [
+     "Menhir",
+     "Totem pole",
+     "Minaret"
+    ]
+   },
+   {
+    "q": "A body preserved and wrapped in linen",
+    "right": "Mummy",
+    "wrong": [
+     "Effigy",
+     "Relic",
+     "Zombie"
+    ]
+   },
+   {
+    "q": "A stone coffin",
+    "right": "Sarcophagus",
+    "wrong": [
+     "Crypt",
+     "Ossuary",
+     "Urn"
+    ]
+   },
+   {
+    "q": "Picture-writing on temple walls",
+    "right": "Hieroglyphics",
+    "wrong": [
+     "Cuneiform",
+     "Runes",
+     "Sanskrit"
+    ]
+   },
+   {
+    "q": "The slab that helped crack hieroglyphs, now in the British Museum",
+    "right": "Rosetta Stone",
+    "wrong": [
+     "Blarney Stone",
+     "Stone of Scone",
+     "Elgin Marbles"
+    ]
+   },
+   {
+    "q": "Paper made from reeds",
+    "right": "Papyrus",
+    "wrong": [
+     "Parchment",
+     "Vellum",
+     "Bark cloth"
+    ]
+   },
+   {
+    "q": "A lion with a human head, guarding Giza",
+    "right": "Sphinx",
+    "wrong": [
+     "Griffin",
+     "Chimera",
+     "Manticore"
+    ]
+   },
+   {
+    "q": "The river Egypt depends on",
+    "right": "Nile",
+    "wrong": [
+     "Euphrates",
+     "Tigris",
+     "Jordan"
+    ]
+   },
+   {
+    "q": "The boy king whose tomb was found in 1922",
+    "right": "Tutankhamun",
+    "wrong": [
+     "Ramesses",
+     "Akhenaten",
+     "Khufu"
+    ]
+   },
+   {
+    "q": "The archaeologist who found that tomb",
+    "right": "Howard Carter",
+    "wrong": [
+     "Lord Carnarvon",
+     "Flinders Petrie",
+     "Indiana Jones"
+    ]
+   },
+   {
+    "q": "The last ruler of ancient Egypt, lover of Mark Antony",
+    "right": "Cleopatra",
+    "wrong": [
+     "Nefertiti",
+     "Hatshepsut",
+     "Boudicca"
+    ]
+   },
+   {
+    "q": "The sun god",
+    "right": "Ra",
+    "wrong": [
+     "Osiris",
+     "Horus",
+     "Thoth"
+    ]
+   },
+   {
+    "q": "The jackal-headed god of the dead",
+    "right": "Anubis",
+    "wrong": [
+     "Osiris",
+     "Horus",
+     "Thoth"
+    ]
+   },
+   {
+    "q": "The burial place of the pharaohs near Luxor",
+    "right": "Valley of the Kings",
+    "wrong": [
+     "Valley of the Dolls",
+     "Valley of Death",
+     "Death Valley"
+    ]
+   },
+   {
+    "q": "A sacred dung beetle charm",
+    "right": "Scarab",
+    "wrong": [
+     "Locust",
+     "Ladybird",
+     "Mantis"
+    ]
+   },
+   {
+    "q": "A cross with a loop on top: the symbol of life",
+    "right": "Ankh",
+    "wrong": [
+     "Celtic cross",
+     "Crescent",
+     "Caduceus"
+    ]
+   },
+   {
+    "q": "The oval loop drawn around a pharaoh's name",
+    "right": "Cartouche",
+    "wrong": [
+     "Halo",
+     "Wreath",
+     "Monogram"
+    ]
+   },
+   {
+    "q": "Pots that held the mummy's organs",
+    "right": "Canopic jars",
+    "wrong": [
+     "Amphorae",
+     "Urns",
+     "Pithoi"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this cat word?",
+  "target": 10,
+  "category": "Animals",
+  "tags": [
+   "cats",
+   "pets",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "A baby cat",
+    "right": "Kitten",
+    "wrong": [
+     "Cub",
+     "Kid",
+     "Pup"
+    ]
+   },
+   {
+    "q": "A male cat",
+    "right": "Tom",
+    "wrong": [
+     "Jack",
+     "Buck",
+     "Billy"
+    ]
+   },
+   {
+    "q": "A female cat kept for breeding",
+    "right": "Queen",
+    "wrong": [
+     "Duchess",
+     "Nanny",
+     "Jenny"
+    ]
+   },
+   {
+    "q": "The rumbling sound of a happy cat",
+    "right": "Purr",
+    "wrong": [
+     "Growl",
+     "Bark",
+     "Howl"
+    ]
+   },
+   {
+    "q": "The angry sound with the ears flat back",
+    "right": "Hiss",
+    "wrong": [
+     "Bleat",
+     "Coo",
+     "Trill"
+    ]
+   },
+   {
+    "q": "The long feelers on a cat's face",
+    "right": "Whiskers",
+    "wrong": [
+     "Antennae",
+     "Bristles",
+     "Tentacles"
+    ]
+   },
+   {
+    "q": "Where an indoor cat does its business",
+    "right": "Litter tray",
+    "wrong": [
+     "Bird bath",
+     "Dog bowl",
+     "Hamster wheel"
+    ]
+   },
+   {
+    "q": "The plant that sends cats wild",
+    "right": "Catnip",
+    "wrong": [
+     "Bindweed",
+     "Dandelion",
+     "Nettle"
+    ]
+   },
+   {
+    "q": "The little swinging door in the back door",
+    "right": "Cat flap",
+    "wrong": [
+     "Cat's eye",
+     "Catwalk",
+     "Cat's cradle"
+    ]
+   },
+   {
+    "q": "Where a cat sharpens its claws",
+    "right": "Scratching post",
+    "wrong": [
+     "Goalpost",
+     "Signpost",
+     "Lamppost"
+    ]
+   },
+   {
+    "q": "What a cat coughs up after grooming",
+    "right": "Hairball",
+    "wrong": [
+     "Snowball",
+     "Meatball",
+     "Pom-pom"
+    ]
+   },
+   {
+    "q": "A striped coat, often with an M on the forehead",
+    "right": "Tabby",
+    "wrong": [
+     "Siamese",
+     "Persian",
+     "Maine Coon"
+    ]
+   },
+   {
+    "q": "A mottled black and ginger coat, almost always on a female",
+    "right": "Tortoiseshell",
+    "wrong": [
+     "Siamese",
+     "Persian",
+     "Maine Coon"
+    ]
+   },
+   {
+    "q": "The hairless breed",
+    "right": "Sphynx",
+    "wrong": [
+     "Siamese",
+     "Persian",
+     "Maine Coon"
+    ]
+   },
+   {
+    "q": "How many lives a cat supposedly has",
+    "right": "Nine",
+    "wrong": [
+     "Seven",
+     "Three",
+     "Twelve"
+    ]
+   },
+   {
+    "q": "The word meaning 'cat-like'",
+    "right": "Feline",
+    "wrong": [
+     "Canine",
+     "Bovine",
+     "Equine"
+    ]
+   },
+   {
+    "q": "A lover of cats",
+    "right": "Ailurophile",
+    "wrong": [
+     "Bibliophile",
+     "Cinephile",
+     "Audiophile"
+    ]
+   },
+   {
+    "q": "The cat who's been Chief Mouser at 10 Downing Street since 2011",
+    "right": "Larry",
+    "wrong": [
+     "Humphrey",
+     "Palmerston",
+     "Sybil"
+    ]
+   },
+   {
+    "q": "The lasagne-loving cartoon cat",
+    "right": "Garfield",
+    "wrong": [
+     "Felix",
+     "Sylvester",
+     "Top Cat"
+    ]
+   },
+   {
+    "q": "Pushing the paws in and out on a soft blanket, like making bread",
+    "right": "Kneading",
+    "wrong": [
+     "Scratching",
+     "Grooming",
+     "Stalking"
+    ]
+   }
+  ]
+ }
+]
