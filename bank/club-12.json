@@ -1,0 +1,222 @@
+[
+ {
+  "type": "club",
+  "text": "A pair of spiders: how many legs in total?",
+  "answers": [
+   "16",
+   "Sixteen"
+  ],
+  "pct": 90,
+  "why": "8 + 8 = 16.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "legs",
+   "spiders"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which is heavier: a kilo of sugar, or two kilos of feathers?",
+  "answers": [
+   "Two kilos of feathers",
+   "2 kilos of feathers",
+   "The feathers"
+  ],
+  "pct": 90,
+  "why": "Two kilos is more than one, whatever it's made of.",
+  "difficulty": "easy",
+  "category": "Logic",
+  "tags": [
+   "weight",
+   "comparing"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Unscramble HOCSOL to find somewhere children go on weekdays.",
+  "answers": [
+   "School"
+  ],
+  "pct": 70,
+  "why": "H-O-C-S-O-L rearranges to SCHOOL.",
+  "difficulty": "easy",
+  "category": "Wordplay",
+  "tags": [
+   "anagrams",
+   "school"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What is nine nines, take away one?",
+  "answers": [
+   "80",
+   "Eighty"
+  ],
+  "pct": 70,
+  "why": "9 × 9 = 81, minus 1 is 80.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "times tables"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A rectangle measures 6 cm by 4 cm. How far is it all the way round?",
+  "answers": [
+   "20 cm",
+   "20",
+   "Twenty centimetres"
+  ],
+  "pct": 60,
+  "why": "6 + 4 + 6 + 4 = 20.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "shapes",
+   "perimeter"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Count the vowels in ALPHABET.",
+  "answers": [
+   "3",
+   "Three"
+  ],
+  "pct": 60,
+  "why": "A, A and E.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "vowels",
+   "counting"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which month comes six months after March?",
+  "answers": [
+   "September"
+  ],
+  "pct": 50,
+  "why": "April, May, June, July, August, September.",
+  "difficulty": "medium",
+  "category": "Logic",
+  "tags": [
+   "months",
+   "calendar"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "£1.50 in 5p pieces: how many coins is that?",
+  "answers": [
+   "30",
+   "Thirty"
+  ],
+  "pct": 50,
+  "why": "150 ÷ 5 = 30.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "coins",
+   "money"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Mia is twice as old as Leo. In four years Leo will be 10. How old is Mia now?",
+  "answers": [
+   "12",
+   "Twelve"
+  ],
+  "pct": 40,
+  "why": "Leo is 6 now, so Mia is 12.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "ages"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Take half of sixty, then a third of that.",
+  "answers": [
+   "10",
+   "Ten"
+  ],
+  "pct": 40,
+  "why": "Half of 60 is 30; a third of 30 is 10.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "fractions"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Starting on a Monday, which weekday is it a hundred days later?",
+  "answers": [
+   "Wednesday"
+  ],
+  "pct": 20,
+  "why": "100 days is 14 weeks and 2 days, so two days on from Monday.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "days",
+   "calendar"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "How many diagonals can you draw inside a hexagon?",
+  "answers": [
+   "9",
+   "Nine"
+  ],
+  "pct": 10,
+  "why": "Each of the 6 corners joins 3 others not next to it: 6 × 3 ÷ 2 = 9.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "shapes",
+   "diagonals"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Two whole numbers multiply to make 36 and add up to 13. What's the bigger one?",
+  "answers": [
+   "9",
+   "Nine"
+  ],
+  "pct": 5,
+  "why": "9 × 4 = 36 and 9 + 4 = 13.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "pairs",
+   "logic"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Multiply together every whole number from 1 to 20. How many zeros are on the end of the answer?",
+  "answers": [
+   "4",
+   "Four"
+  ],
+  "pct": 1,
+  "why": "Each zero needs a 5 paired with a 2, and 5, 10, 15 and 20 give four 5s.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "multiplying",
+   "zeros"
+  ]
+ }
+]
