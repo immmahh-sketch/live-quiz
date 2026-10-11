@@ -106,7 +106,7 @@ async function start() {
 }
 function landError(msg) {
   app.innerHTML = `<div class="land">${brand}<h1>Warm-up</h1><div class="card"><div class="err">${esc(msg)}</div>
-    <form id="cf"><label>Warm-up code</label><input type="text" id="cc" value="${esc(CODE)}" maxlength="12" autocapitalize="characters"><button class="go">Try again</button></form></div></div>`;
+    <form id="cf"><label>Warm-up code</label><input type="text" id="cc" value="${esc(CODE)}" maxlength="16" autocapitalize="characters"><button class="go">Try again</button></form></div></div>`;
   $('#cf').onsubmit = (e) => { e.preventDefault(); location.href = 'warmup?c=' + encodeURIComponent($('#cc').value.trim()); };
 }
 // A game of its own (no quiz night it leads up to: r.standalone) is just for fun: no bonus, no Friday.

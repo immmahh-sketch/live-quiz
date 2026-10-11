@@ -21,7 +21,7 @@ function renderJoin(msg) {
   const code = (new URLSearchParams(location.search).get('g') || P.code || pending || '').toUpperCase();
   app.innerHTML = `<div class="joinbox card">${joinLogo()}<p class="center muted" style="margin-top:-6px">${BHB ? 'Join the session on the screen' : 'Join the game on the screen'}</p>
     ${msg ? `<div class="error" style="margin-bottom:12px">${esc(msg)}</div>` : ''}
-    <form id="join"><div class="field"><label>Game code</label><input type="text" id="code" class="codein" value="${esc(code)}" maxlength="12" oninput="this.style.letterSpacing = this.value.length > 6 ? '.06em' : ''" autocomplete="off" autocapitalize="characters" placeholder="ABC123" ${code ? '' : 'autofocus'}>
+    <form id="join"><div class="field"><label>Game code</label><input type="text" id="code" class="codein" value="${esc(code)}" maxlength="16" oninput="this.style.letterSpacing = this.value.length > 6 ? '.06em' : ''" autocomplete="off" autocapitalize="characters" placeholder="ABC123" ${code ? '' : 'autofocus'}>
       <button type="button" class="btn btn-ghost btn-block" id="scanBtn" style="margin-top:8px">📷 Scan the QR code on the screen</button></div>
     <div class="field"><label>Your name</label><input type="text" id="name" value="${esc(P.name)}" maxlength="20" autocomplete="nickname" placeholder="What should we call you?" ${code ? 'autofocus' : ''}></div>
     <div class="field"><label>Your emoji</label><div class="emopick">${LQ.EMOJIS.map((e) => `<button type="button" data-em="${e}" class="${e === P.emoji ? 'on' : ''}">${e}</button>`).join('')}</div></div>

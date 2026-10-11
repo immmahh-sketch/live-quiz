@@ -966,7 +966,7 @@ Deno.serve(async (req) => {
     // (its player id) per season goes into quiz_warmup_plays when the game ends, so each device plays once a season;
     // refreshing the warm-up for a later quiz starts a new season (a fresh scoreboard). Bots are never written.
     if (action === "warmup_open" || action === "warmup_check" || action === "warmup_save") {
-      const code = String(body.code || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 12);
+      const code = String(body.code || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 16); // a code is up to 12, TEST in front makes 16
       if (code.length < 3) return json({ error: "That's not a warm-up code." }, 400);
       // TEST in front of a warm-up's code (TESTWARMUP): the host trying it. Play as often as you like, nothing is saved,
       // it never closes. TESTWARMUP with no warm-up coded WARMUP tries the latest warm-up.
@@ -1018,7 +1018,7 @@ Deno.serve(async (req) => {
         return json({ code, open, ended, until: until ? new Date(until).toISOString() : null, title: quiz.title, count: all.length, top, board: boardOf(all), played, practice, test: TEST,
           notYet, opens: notYet ? new Date(opensAt!).toISOString() : null, nextOpens, bonus: wu.bonus && typeof wu.bonus === "object" ? { play: Math.round(+wu.bonus.play || 0), top: Math.round(+wu.bonus.top || 0) } : null, week: +wu.week || null, weeks: +wu.weeks || null,
           replay: REPLAY, best: REPLAY && !TEST && mine ? { score: mine.score, place: placeOf(mine.score), goes: mine.goes || 1 } : null,
-          standalone: !!wu.fun, questions: qs.length, bots: Math.max(0, Math.min(20, Math.round(+wu.bots || 3))), types: Array.from(new Set(qs.map((q: any) => q.type === "text" && q.kind ? q.kind : q.type))),
+          standalone: !!wu.fun, questions: qs.reduce((n: number, q: any) => n + (q.type === "behind" ? Math.max(1, (q.items || []).filter((i: any) => i?.q && i?.a).length) : 1), 0), // One Behind is ten questions in one bots: Math.max(0, Math.min(20, Math.round(+wu.bots || 3))), types: Array.from(new Set(qs.map((q: any) => q.type === "text" && q.kind ? q.kind : q.type))),
           ...(body.peek ? {} : { quiz: { id: quiz.id, title: quiz.title, settings: s, questions: quiz.questions } }) });
       }
       // warmup_save: the end of a game
