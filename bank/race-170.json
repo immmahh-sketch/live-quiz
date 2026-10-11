@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this ice hockey word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "ice hockey",
+   "NHL",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The hard rubber disc",
+    "right": "Puck",
+    "wrong": [
+     "Quoit",
+     "Counter",
+     "Coaster"
+    ]
+   },
+   {
+    "q": "The ice surface",
+    "right": "Rink",
+    "wrong": [
+     "Pitch",
+     "Court",
+     "Green"
+    ]
+   },
+   {
+    "q": "Dropping the puck between two players to restart",
+    "right": "Face-off",
+    "wrong": [
+     "Bully-off",
+     "Tip-off",
+     "Jump ball"
+    ]
+   },
+   {
+    "q": "Playing with an extra skater while an opponent sits out",
+    "right": "Power play",
+    "wrong": [
+     "Power cut",
+     "Power nap",
+     "Powerhouse"
+    ]
+   },
+   {
+    "q": "The nickname for the penalty box",
+    "right": "Sin bin",
+    "wrong": [
+     "Dugout",
+     "Bullpen",
+     "Pavilion"
+    ]
+   },
+   {
+    "q": "The machine that resurfaces the ice",
+    "right": "Zamboni",
+    "wrong": [
+     "Lamborghini",
+     "Zeppelin",
+     "Zambezi"
+    ]
+   },
+   {
+    "q": "Three goals by one player, so fans throw their caps on the ice",
+    "right": "Hat-trick",
+    "wrong": [
+     "Hole in one",
+     "Maximum",
+     "Triple crown"
+    ]
+   },
+   {
+    "q": "Shooting the puck the length of the ice, stopping play",
+    "right": "Icing",
+    "wrong": [
+     "Frosting",
+     "Glazing",
+     "Freezing"
+    ]
+   },
+   {
+    "q": "Barging an opponent into the boards",
+    "right": "Body check",
+    "wrong": [
+     "Spot check",
+     "Rain check",
+     "Double check"
+    ]
+   },
+   {
+    "q": "The walls around the rink",
+    "right": "Boards",
+    "wrong": [
+     "Ropes",
+     "Nets",
+     "Cushions"
+    ]
+   },
+   {
+    "q": "The padded player guarding the net",
+    "right": "Goaltender",
+    "wrong": [
+     "Wicketkeeper",
+     "Catcher",
+     "Sweeper"
+    ]
+   },
+   {
+    "q": "The NHL's famous trophy",
+    "right": "Stanley Cup",
+    "wrong": [
+     "Ryder Cup",
+     "Davis Cup",
+     "Webb Ellis Cup"
+    ]
+   },
+   {
+    "q": "North America's top league, by its initials",
+    "right": "NHL",
+    "wrong": [
+     "NFL",
+     "NBA",
+     "MLB"
+    ]
+   },
+   {
+    "q": "'The Great One', the record goalscorer",
+    "right": "Wayne Gretzky",
+    "wrong": [
+     "Bobby Orr",
+     "Mario Lemieux",
+     "Sidney Crosby"
+    ]
+   },
+   {
+    "q": "The country where the modern game was born",
+    "right": "Canada",
+    "wrong": [
+     "USA",
+     "Sweden",
+     "Russia"
+    ]
+   },
+   {
+    "q": "Extra time played after a draw",
+    "right": "Overtime",
+    "wrong": [
+     "Injury time",
+     "Extra innings",
+     "Super over"
+    ]
+   },
+   {
+    "q": "A wind-up shot hit as hard as possible",
+    "right": "Slapshot",
+    "wrong": [
+     "Wrist shot",
+     "Drop shot",
+     "Lob"
+    ]
+   },
+   {
+    "q": "The tough guy whose job is to fight",
+    "right": "Enforcer",
+    "wrong": [
+     "Bouncer",
+     "Minder",
+     "Prop"
+    ]
+   },
+   {
+    "q": "Each of the three 20-minute sections of a game",
+    "right": "Period",
+    "wrong": [
+     "Quarter",
+     "Half",
+     "Innings"
+    ]
+   },
+   {
+    "q": "Footwear with blades",
+    "right": "Skates",
+    "wrong": [
+     "Spikes",
+     "Cleats",
+     "Studs"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this Strictly word?",
+  "target": 10,
+  "category": "TV",
+  "tags": [
+   "Strictly Come Dancing",
+   "dance",
+   "TV"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The trophy the winners lift",
+    "right": "Glitterball",
+    "wrong": [
+     "Golden Boot",
+     "Silver Plate",
+     "Crystal Maze"
+    ]
+   },
+   {
+    "q": "The bottom two dance again to stay in",
+    "right": "Dance-off",
+    "wrong": [
+     "Face-off",
+     "Run-off",
+     "Bake-off"
+    ]
+   },
+   {
+    "q": "The top score on a judge's paddle",
+    "right": "Ten",
+    "wrong": [
+     "Five",
+     "Twelve",
+     "Twenty"
+    ]
+   },
+   {
+    "q": "Craig Revel Horwood's drawn-out word of praise",
+    "right": "Fab-u-lous",
+    "wrong": [
+     "Marvellous",
+     "Spectacular",
+     "Gorgeous"
+    ]
+   },
+   {
+    "q": "The score Len Goodman loved to shout",
+    "right": "Seven",
+    "wrong": [
+     "Eight",
+     "Nine",
+     "Six"
+    ]
+   },
+   {
+    "q": "Bruce Forsyth's sign-off",
+    "right": "Keep dancing",
+    "wrong": [
+     "Keep smiling",
+     "Keep calm",
+     "Keep going"
+    ]
+   },
+   {
+    "q": "The seaside town whose Tower Ballroom hosts a special show",
+    "right": "Blackpool",
+    "wrong": [
+     "Brighton",
+     "Scarborough",
+     "Bournemouth"
+    ]
+   },
+   {
+    "q": "The dramatic dance about a bullfighter and his cape",
+    "right": "Paso doble",
+    "wrong": [
+     "Tango",
+     "Rumba",
+     "Samba"
+    ]
+   },
+   {
+    "q": "The 1920s flapper dance with swivelling heels",
+    "right": "Charleston",
+    "wrong": [
+     "Jive",
+     "Quickstep",
+     "Twist"
+    ]
+   },
+   {
+    "q": "Sparkly discs sewn all over the costumes",
+    "right": "Sequins",
+    "wrong": [
+     "Buttons",
+     "Rivets",
+     "Sprinkles"
+    ]
+   },
+   {
+    "q": "The bronzed fake colour every celeb gets",
+    "right": "Spray tan",
+    "wrong": [
+     "Sunburn",
+     "Tan line",
+     "Freckles"
+    ]
+   },
+   {
+    "q": "The professional dancer partnering a celebrity",
+    "right": "Pro",
+    "wrong": [
+     "Rookie",
+     "Amateur",
+     "Stand-in"
+    ]
+   },
+   {
+    "q": "The week where pairs pick any style they like",
+    "right": "Couple's choice",
+    "wrong": [
+     "Wild card",
+     "Lucky dip",
+     "Free kick"
+    ]
+   },
+   {
+    "q": "The host who started in 2004 alongside Bruce Forsyth",
+    "right": "Tess Daly",
+    "wrong": [
+     "Claudia Winkleman",
+     "Zoe Ball",
+     "Holly Willoughby"
+    ]
+   },
+   {
+    "q": "The weekday spin-off show on BBC Two",
+    "right": "It Takes Two",
+    "wrong": [
+     "Strictly Kids",
+     "Dancing on Ice",
+     "Step Up"
+    ]
+   },
+   {
+    "q": "Head judge from 2017, the 'Queen of Latin'",
+    "right": "Shirley Ballas",
+    "wrong": [
+     "Arlene Phillips",
+     "Darcey Bussell",
+     "Motsi Mabuse"
+    ]
+   },
+   {
+    "q": "The waltz, foxtrot and quickstep family of dances",
+    "right": "Ballroom",
+    "wrong": [
+     "Latin",
+     "Street",
+     "Contemporary"
+    ]
+   },
+   {
+    "q": "The final's no-rules routine, full of lifts",
+    "right": "Showdance",
+    "wrong": [
+     "Showboat",
+     "Showtime",
+     "Showreel"
+    ]
+   },
+   {
+    "q": "The ranking after the judges' scores",
+    "right": "Leaderboard",
+    "wrong": [
+     "Dashboard",
+     "Clipboard",
+     "Billboard"
+    ]
+   },
+   {
+    "q": "The first deaf contestant, who won in 2021",
+    "right": "Rose Ayling-Ellis",
+    "wrong": [
+     "Giovanni Pernice",
+     "Joe McFadden",
+     "Bill Bailey"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this coronation word?",
+  "target": 10,
+  "category": "The Royal Family",
+  "tags": [
+   "coronations",
+   "royals",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Where coronations take place",
+    "right": "Westminster Abbey",
+    "wrong": [
+     "St Paul's Cathedral",
+     "Windsor Castle",
+     "Buckingham Palace"
+    ]
+   },
+   {
+    "q": "Places the crown on the monarch's head",
+    "right": "Archbishop of Canterbury",
+    "wrong": [
+     "Archbishop of York",
+     "Lord Chancellor",
+     "Dean of Westminster"
+    ]
+   },
+   {
+    "q": "The solid-gold crown used at the moment of crowning",
+    "right": "St Edward's Crown",
+    "wrong": [
+     "Imperial State Crown",
+     "Tiara",
+     "Coronet"
+    ]
+   },
+   {
+    "q": "The 700-year-old wooden throne",
+    "right": "Coronation Chair",
+    "wrong": [
+     "Cathedra",
+     "Sedan chair",
+     "Woolsack"
+    ]
+   },
+   {
+    "q": "The Scottish stone that sits beneath that chair",
+    "right": "Stone of Scone",
+    "wrong": [
+     "Blarney Stone",
+     "Rosetta Stone",
+     "Bluestone"
+    ]
+   },
+   {
+    "q": "The sacred moment with holy oil, hidden behind a screen",
+    "right": "Anointing",
+    "wrong": [
+     "Knighting",
+     "Christening",
+     "Unveiling"
+    ]
+   },
+   {
+    "q": "A golden globe topped with a cross",
+    "right": "Orb",
+    "wrong": [
+     "Mace",
+     "Chalice",
+     "Thurible"
+    ]
+   },
+   {
+    "q": "The rod held in the right hand, set with the Cullinan diamond",
+    "right": "Sceptre",
+    "wrong": [
+     "Mace",
+     "Crozier",
+     "Wand"
+    ]
+   },
+   {
+    "q": "The eagle-shaped flask holding the holy oil",
+    "right": "Ampulla",
+    "wrong": [
+     "Amphora",
+     "Decanter",
+     "Goblet"
+    ]
+   },
+   {
+    "q": "The royal treasures kept at the Tower of London",
+    "right": "Crown Jewels",
+    "wrong": [
+     "Royal Collection",
+     "Family silver",
+     "Treasure trove"
+    ]
+   },
+   {
+    "q": "The Yeoman Warders who guard them",
+    "right": "Beefeaters",
+    "wrong": [
+     "Grenadiers",
+     "Gurkhas",
+     "Gamekeepers"
+    ]
+   },
+   {
+    "q": "The anthem sung at the end",
+    "right": "God Save the King",
+    "wrong": [
+     "Land of Hope and Glory",
+     "Jerusalem",
+     "Rule, Britannia!"
+    ]
+   },
+   {
+    "q": "The Handel anthem sung at every coronation since 1727",
+    "right": "Zadok the Priest",
+    "wrong": [
+     "Messiah",
+     "Water Music",
+     "Ode to Joy"
+    ]
+   },
+   {
+    "q": "The gilded carriage used since 1762",
+    "right": "Gold State Coach",
+    "wrong": [
+     "Diamond Jubilee Coach",
+     "Cinderella's coach",
+     "Stagecoach"
+    ]
+   },
+   {
+    "q": "Where the royals wave from at Buckingham Palace",
+    "right": "Balcony",
+    "wrong": [
+     "Rooftop",
+     "Bandstand",
+     "Gatehouse"
+    ]
+   },
+   {
+    "q": "RAF planes roaring over the Mall",
+    "right": "Flypast",
+    "wrong": [
+     "Fly-tipping",
+     "Flyover",
+     "Flypaper"
+    ]
+   },
+   {
+    "q": "The year Elizabeth II was crowned",
+    "right": "1953",
+    "wrong": [
+     "1952",
+     "1947",
+     "1960"
+    ]
+   },
+   {
+    "q": "When Charles III was crowned",
+    "right": "May 2023",
+    "wrong": [
+     "June 2023",
+     "September 2022",
+     "April 2024"
+    ]
+   },
+   {
+    "q": "The white fur with black tail-spots on the robes",
+    "right": "Ermine",
+    "wrong": [
+     "Mink",
+     "Sable",
+     "Chinchilla"
+    ]
+   },
+   {
+    "q": "The pledge of loyalty spoken by Prince William",
+    "right": "Homage",
+    "wrong": [
+     "Toast",
+     "Ovation",
+     "Salute"
+    ]
+   }
+  ]
+ }
+]
