@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this university word?",
+  "target": 10,
+  "category": "Education",
+  "tags": [
+   "university",
+   "students",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A first-year student",
+    "right": "Fresher",
+    "wrong": [
+     "Senior",
+     "Veteran",
+     "Prefect"
+    ]
+   },
+   {
+    "q": "Someone who's finished their degree",
+    "right": "Graduate",
+    "wrong": [
+     "Undergraduate",
+     "Apprentice",
+     "Trainee"
+    ]
+   },
+   {
+    "q": "First-year student accommodation",
+    "right": "Halls",
+    "wrong": [
+     "Barracks",
+     "Hotels",
+     "Wards"
+    ]
+   },
+   {
+    "q": "A talk given to a big room of students",
+    "right": "Lecture",
+    "wrong": [
+     "Sermon",
+     "Assembly",
+     "Briefing"
+    ]
+   },
+   {
+    "q": "A small discussion group",
+    "right": "Seminar",
+    "wrong": [
+     "Sermon",
+     "Assembly",
+     "Rally"
+    ]
+   },
+   {
+    "q": "A small session with your own tutor",
+    "right": "Tutorial",
+    "wrong": [
+     "Sermon",
+     "Assembly",
+     "Rally"
+    ]
+   },
+   {
+    "q": "The long essay written in the final year",
+    "right": "Dissertation",
+    "wrong": [
+     "Dissection",
+     "Disinfection",
+     "Distraction"
+    ]
+   },
+   {
+    "q": "The service you apply to university through",
+    "right": "UCAS",
+    "wrong": [
+     "NHS",
+     "DVLA",
+     "HMRC"
+    ]
+   },
+   {
+    "q": "Borrowed money for fees, paid back later",
+    "right": "Student loan",
+    "wrong": [
+     "Mortgage",
+     "Overdraft",
+     "Pay rise"
+    ]
+   },
+   {
+    "q": "The week of parties at the start of the year",
+    "right": "Freshers' Week",
+    "wrong": [
+     "Rag Week",
+     "Reading Week",
+     "Holy Week"
+    ]
+   },
+   {
+    "q": "What graduates wear with a mortarboard",
+    "right": "Gown",
+    "wrong": [
+     "Tutu",
+     "Kilt",
+     "Toga"
+    ]
+   },
+   {
+    "q": "The flat square graduation hat",
+    "right": "Mortarboard",
+    "wrong": [
+     "Skateboard",
+     "Clipboard",
+     "Breadboard"
+    ]
+   },
+   {
+    "q": "The top degree grade",
+    "right": "First",
+    "wrong": [
+     "Gold",
+     "Ace",
+     "Premier"
+    ]
+   },
+   {
+    "q": "Oxford and Cambridge together",
+    "right": "Oxbridge",
+    "wrong": [
+     "Russell Group",
+     "Ivy League",
+     "Sorbonne"
+    ]
+   },
+   {
+    "q": "Victorian universities in big industrial cities, like Liverpool",
+    "right": "Redbrick",
+    "wrong": [
+     "Plate glass",
+     "Ivory tower",
+     "Blue chip"
+    ]
+   },
+   {
+    "q": "The distance-learning university founded in 1969",
+    "right": "Open University",
+    "wrong": [
+     "Night school",
+     "Sixth form",
+     "Grammar school"
+    ]
+   },
+   {
+    "q": "Former students",
+    "right": "Alumni",
+    "wrong": [
+     "Aluminium",
+     "Allotments",
+     "Allies"
+    ]
+   },
+   {
+    "q": "The highest academic rank",
+    "right": "Professor",
+    "wrong": [
+     "Lecturer",
+     "Prefect",
+     "Bursar"
+    ]
+   },
+   {
+    "q": "A year off before university",
+    "right": "Gap year",
+    "wrong": [
+     "Leap year",
+     "Light year",
+     "Lean year"
+    ]
+   },
+   {
+    "q": "Students' ___: the bar and club building",
+    "right": "Union",
+    "wrong": [
+     "League",
+     "Lodge",
+     "Senate"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this tattoo word?",
+  "target": 10,
+  "category": "Art",
+  "tags": [
+   "tattoos",
+   "body art",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Slang for tattoos",
+    "right": "Ink",
+    "wrong": [
+     "Paint",
+     "Dye",
+     "Graffiti"
+    ]
+   },
+   {
+    "q": "The buzzing machine with needles",
+    "right": "Tattoo gun",
+    "wrong": [
+     "Staple gun",
+     "Glue gun",
+     "Nail gun"
+    ]
+   },
+   {
+    "q": "Tattoos covering a whole arm",
+    "right": "Sleeve",
+    "wrong": [
+     "Collar",
+     "Cuff",
+     "Glove"
+    ]
+   },
+   {
+    "q": "Ready-made designs on the parlour wall",
+    "right": "Flash",
+    "wrong": [
+     "Bang",
+     "Crash",
+     "Spark"
+    ]
+   },
+   {
+    "q": "The shop where you get tattooed",
+    "right": "Parlour",
+    "wrong": [
+     "Salon",
+     "Surgery",
+     "Boutique"
+    ]
+   },
+   {
+    "q": "Temporary brown body art from a plant dye",
+    "right": "Henna",
+    "wrong": [
+     "Hemp",
+     "Hessian",
+     "Heather"
+    ]
+   },
+   {
+    "q": "Getting rid of an unwanted tattoo",
+    "right": "Laser removal",
+    "wrong": [
+     "Hair removal",
+     "Stain removal",
+     "Snow removal"
+    ]
+   },
+   {
+    "q": "The outline transferred onto the skin first",
+    "right": "Stencil",
+    "wrong": [
+     "Stapler",
+     "Pencil",
+     "Tinsel"
+    ]
+   },
+   {
+    "q": "Wrapped over a fresh tattoo",
+    "right": "Cling film",
+    "wrong": [
+     "Tin foil",
+     "Bubble wrap",
+     "Greaseproof paper"
+    ]
+   },
+   {
+    "q": "The classic sailor's tattoo",
+    "right": "Anchor",
+    "wrong": [
+     "Ladder",
+     "Kettle",
+     "Clock"
+    ]
+   },
+   {
+    "q": "The legendary American tattooist of old-school designs",
+    "right": "Sailor Jerry",
+    "wrong": [
+     "Sailor Moon",
+     "Popeye",
+     "Captain Birdseye"
+    ]
+   },
+   {
+    "q": "Bold lines and bright colours, the traditional style",
+    "right": "Old school",
+    "wrong": [
+     "Old hat",
+     "Old money",
+     "Old flame"
+    ]
+   },
+   {
+    "q": "Thick black swirling patterns",
+    "right": "Tribal",
+    "wrong": [
+     "Paisley",
+     "Tartan",
+     "Gingham"
+    ]
+   },
+   {
+    "q": "The Māori facial tattoo",
+    "right": "Tā moko",
+    "wrong": [
+     "Haka",
+     "Hula",
+     "Kava"
+    ]
+   },
+   {
+    "q": "The region 'tattoo' comes from, via Tahiti",
+    "right": "Polynesia",
+    "wrong": [
+     "Scandinavia",
+     "Siberia",
+     "Patagonia"
+    ]
+   },
+   {
+    "q": "Edinburgh's display of massed bands, not body art",
+    "right": "Military tattoo",
+    "wrong": [
+     "Highland Games",
+     "Changing of the Guard",
+     "Trooping the Colour"
+    ]
+   },
+   {
+    "q": "Looking after the healing skin",
+    "right": "Aftercare",
+    "wrong": [
+     "Childcare",
+     "Healthcare",
+     "Daycare"
+    ]
+   },
+   {
+    "q": "Redoing a faded patch",
+    "right": "Touch-up",
+    "wrong": [
+     "Pick-up",
+     "Catch-up",
+     "Make-up"
+    ]
+   },
+   {
+    "q": "A sideways figure of eight",
+    "right": "Infinity symbol",
+    "wrong": [
+     "Pi sign",
+     "Hashtag",
+     "Ampersand"
+    ]
+   },
+   {
+    "q": "The bird sailors got inked for every 5,000 miles at sea",
+    "right": "Swallow",
+    "wrong": [
+     "Robin",
+     "Sparrow",
+     "Wren"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this spa word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "spas",
+   "pampering",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "A hot wooden room of dry heat",
+    "right": "Sauna",
+    "wrong": [
+     "Igloo",
+     "Larder",
+     "Cellar"
+    ]
+   },
+   {
+    "q": "A misty room of wet heat",
+    "right": "Steam room",
+    "wrong": [
+     "Igloo",
+     "Larder",
+     "Darkroom"
+    ]
+   },
+   {
+    "q": "The bubbling hot tub",
+    "right": "Jacuzzi",
+    "wrong": [
+     "Paddling pool",
+     "Birdbath",
+     "Water butt"
+    ]
+   },
+   {
+    "q": "Kneading your aching muscles",
+    "right": "Massage",
+    "wrong": [
+     "Message",
+     "Mileage",
+     "Mirage"
+    ]
+   },
+   {
+    "q": "A treatment cleaning and moisturising your face",
+    "right": "Facial",
+    "wrong": [
+     "Facelift",
+     "Facepalm",
+     "Face-off"
+    ]
+   },
+   {
+    "q": "A treatment for the hands and nails",
+    "right": "Manicure",
+    "wrong": [
+     "Manifesto",
+     "Manacle",
+     "Mandolin"
+    ]
+   },
+   {
+    "q": "A treatment for the feet",
+    "right": "Pedicure",
+    "wrong": [
+     "Pedigree",
+     "Pedalo",
+     "Pedestal"
+    ]
+   },
+   {
+    "q": "The fluffy dressing gown they hand out",
+    "right": "Robe",
+    "wrong": [
+     "Tabard",
+     "Poncho",
+     "Cagoule"
+    ]
+   },
+   {
+    "q": "Slices placed over the eyes",
+    "right": "Cucumber",
+    "wrong": [
+     "Courgette",
+     "Gherkin",
+     "Celery"
+    ]
+   },
+   {
+    "q": "Coating the body in mineral clay",
+    "right": "Mud wrap",
+    "wrong": [
+     "Mudslide",
+     "Mudflat",
+     "Mud pie"
+    ]
+   },
+   {
+    "q": "Warm smooth pebbles placed on the back",
+    "right": "Hot stones",
+    "wrong": [
+     "Hot cross buns",
+     "Hot potatoes",
+     "Hot coals"
+    ]
+   },
+   {
+    "q": "An ice-cold dip after the sauna",
+    "right": "Plunge pool",
+    "wrong": [
+     "Rock pool",
+     "Car pool",
+     "Typing pool"
+    ]
+   },
+   {
+    "q": "A treatment using scented oils",
+    "right": "Aromatherapy",
+    "wrong": [
+     "Hydrotherapy",
+     "Physiotherapy",
+     "Hypnotherapy"
+    ]
+   },
+   {
+    "q": "Pressing points on the feet linked to the rest of the body",
+    "right": "Reflexology",
+    "wrong": [
+     "Chiropody",
+     "Podiatry",
+     "Osteopathy"
+    ]
+   },
+   {
+    "q": "The Roman spa city in Somerset",
+    "right": "Bath",
+    "wrong": [
+     "Cheltenham",
+     "Leamington",
+     "Harrogate"
+    ]
+   },
+   {
+    "q": "Cleansing the body of toxins",
+    "right": "Detox",
+    "wrong": [
+     "Botox",
+     "Decoy",
+     "Deluxe"
+    ]
+   },
+   {
+    "q": "What you shuffle about in",
+    "right": "Slippers",
+    "wrong": [
+     "Flippers",
+     "Clippers",
+     "Kippers"
+    ]
+   },
+   {
+    "q": "The quiet lounge for lying about after treatments",
+    "right": "Relaxation room",
+    "wrong": [
+     "Waiting room",
+     "Boardroom",
+     "Panic room"
+    ]
+   },
+   {
+    "q": "A ticket for using the spa just for the day",
+    "right": "Day pass",
+    "wrong": [
+     "Boarding pass",
+     "Bus pass",
+     "Free pass"
+    ]
+   },
+   {
+    "q": "The word comes from this Belgian town famous for its springs",
+    "right": "Spa",
+    "wrong": [
+     "Vichy",
+     "Evian",
+     "Perrier"
+    ]
+   }
+  ]
+ }
+]
