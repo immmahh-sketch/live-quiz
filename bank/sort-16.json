@@ -1,0 +1,392 @@
+[
+ {
+  "type": "sort",
+  "text": "A Tolkien elf or a Tolkien dwarf?",
+  "categories": [
+   "Elf",
+   "Dwarf"
+  ],
+  "items": [
+   {
+    "text": "Legolas",
+    "category": "Elf"
+   },
+   {
+    "text": "Galadriel",
+    "category": "Elf"
+   },
+   {
+    "text": "Elrond",
+    "category": "Elf"
+   },
+   {
+    "text": "Arwen",
+    "category": "Elf"
+   },
+   {
+    "text": "Gimli",
+    "category": "Dwarf"
+   },
+   {
+    "text": "Thorin",
+    "category": "Dwarf"
+   },
+   {
+    "text": "Balin",
+    "category": "Dwarf"
+   },
+   {
+    "text": "Dwalin",
+    "category": "Dwarf"
+   }
+  ],
+  "category": "Books",
+  "tags": [
+   "Tolkien",
+   "The Lord of the Rings"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Simpsons character or a Futurama character?",
+  "categories": [
+   "The Simpsons",
+   "Futurama"
+  ],
+  "items": [
+   {
+    "text": "Ned Flanders",
+    "category": "The Simpsons"
+   },
+   {
+    "text": "Moe",
+    "category": "The Simpsons"
+   },
+   {
+    "text": "Mr Burns",
+    "category": "The Simpsons"
+   },
+   {
+    "text": "Krusty",
+    "category": "The Simpsons"
+   },
+   {
+    "text": "Bender",
+    "category": "Futurama"
+   },
+   {
+    "text": "Leela",
+    "category": "Futurama"
+   },
+   {
+    "text": "Fry",
+    "category": "Futurama"
+   },
+   {
+    "text": "Zoidberg",
+    "category": "Futurama"
+   }
+  ],
+  "category": "TV",
+  "tags": [
+   "The Simpsons",
+   "Futurama",
+   "cartoons"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "An old unit of length or an old unit of weight?",
+  "categories": [
+   "Length",
+   "Weight"
+  ],
+  "items": [
+   {
+    "text": "Furlong",
+    "category": "Length"
+   },
+   {
+    "text": "Fathom",
+    "category": "Length"
+   },
+   {
+    "text": "League",
+    "category": "Length"
+   },
+   {
+    "text": "Chain",
+    "category": "Length"
+   },
+   {
+    "text": "Ounce",
+    "category": "Weight"
+   },
+   {
+    "text": "Stone",
+    "category": "Weight"
+   },
+   {
+    "text": "Dram",
+    "category": "Weight"
+   },
+   {
+    "text": "Grain",
+    "category": "Weight"
+   }
+  ],
+  "category": "Numbers",
+  "tags": [
+   "units",
+   "imperial measures"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "A Greek island or a Spanish island?",
+  "categories": [
+   "Greek",
+   "Spanish"
+  ],
+  "items": [
+   {
+    "text": "Crete",
+    "category": "Greek"
+   },
+   {
+    "text": "Corfu",
+    "category": "Greek"
+   },
+   {
+    "text": "Rhodes",
+    "category": "Greek"
+   },
+   {
+    "text": "Kos",
+    "category": "Greek"
+   },
+   {
+    "text": "Majorca",
+    "category": "Spanish"
+   },
+   {
+    "text": "Ibiza",
+    "category": "Spanish"
+   },
+   {
+    "text": "Tenerife",
+    "category": "Spanish"
+   },
+   {
+    "text": "Lanzarote",
+    "category": "Spanish"
+   }
+  ],
+  "category": "World geography",
+  "tags": [
+   "islands",
+   "Greece",
+   "Spain"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "Born in Liverpool or in Manchester?",
+  "categories": [
+   "Liverpool",
+   "Manchester"
+  ],
+  "items": [
+   {
+    "text": "Paul McCartney",
+    "category": "Liverpool"
+   },
+   {
+    "text": "Cilla Black",
+    "category": "Liverpool"
+   },
+   {
+    "text": "John Bishop",
+    "category": "Liverpool"
+   },
+   {
+    "text": "Jamie Carragher",
+    "category": "Liverpool"
+   },
+   {
+    "text": "Noel Gallagher",
+    "category": "Manchester"
+   },
+   {
+    "text": "Morrissey",
+    "category": "Manchester"
+   },
+   {
+    "text": "Jason Manford",
+    "category": "Manchester"
+   },
+   {
+    "text": "Karl Pilkington",
+    "category": "Manchester"
+   }
+  ],
+  "category": "Famous people",
+  "tags": [
+   "Liverpool",
+   "Manchester",
+   "birthplaces"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A terrier or a spaniel?",
+  "categories": [
+   "Terrier",
+   "Spaniel"
+  ],
+  "items": [
+   {
+    "text": "Yorkshire",
+    "category": "Terrier"
+   },
+   {
+    "text": "Jack Russell",
+    "category": "Terrier"
+   },
+   {
+    "text": "Border",
+    "category": "Terrier"
+   },
+   {
+    "text": "Airedale",
+    "category": "Terrier"
+   },
+   {
+    "text": "Cocker",
+    "category": "Spaniel"
+   },
+   {
+    "text": "Springer",
+    "category": "Spaniel"
+   },
+   {
+    "text": "Clumber",
+    "category": "Spaniel"
+   },
+   {
+    "text": "Sussex",
+    "category": "Spaniel"
+   }
+  ],
+  "category": "Animals",
+  "tags": [
+   "dogs",
+   "terriers",
+   "spaniels"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A type of pastry or a type of bread?",
+  "categories": [
+   "Pastry",
+   "Bread"
+  ],
+  "items": [
+   {
+    "text": "Filo",
+    "category": "Pastry"
+   },
+   {
+    "text": "Choux",
+    "category": "Pastry"
+   },
+   {
+    "text": "Puff",
+    "category": "Pastry"
+   },
+   {
+    "text": "Shortcrust",
+    "category": "Pastry"
+   },
+   {
+    "text": "Sourdough",
+    "category": "Bread"
+   },
+   {
+    "text": "Bloomer",
+    "category": "Bread"
+   },
+   {
+    "text": "Cob",
+    "category": "Bread"
+   },
+   {
+    "text": "Bap",
+    "category": "Bread"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [
+   "pastry",
+   "bread",
+   "baking"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A football ground or a famous music venue?",
+  "categories": [
+   "Football ground",
+   "Music venue"
+  ],
+  "items": [
+   {
+    "text": "Anfield",
+    "category": "Football ground"
+   },
+   {
+    "text": "Goodison Park",
+    "category": "Football ground"
+   },
+   {
+    "text": "Old Trafford",
+    "category": "Football ground"
+   },
+   {
+    "text": "Maine Road",
+    "category": "Football ground"
+   },
+   {
+    "text": "The Cavern",
+    "category": "Music venue"
+   },
+   {
+    "text": "The Haçienda",
+    "category": "Music venue"
+   },
+   {
+    "text": "Free Trade Hall",
+    "category": "Music venue"
+   },
+   {
+    "text": "Eric's",
+    "category": "Music venue"
+   }
+  ],
+  "category": "Music",
+  "tags": [
+   "Liverpool",
+   "Manchester",
+   "bands"
+  ],
+  "difficulty": "hard"
+ }
+]
