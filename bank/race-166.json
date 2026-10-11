@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this butcher's word?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "butchers",
+   "meat",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The prime beef cut from the lower back",
+    "right": "Sirloin",
+    "wrong": [
+     "Shank",
+     "Hock",
+     "Scrag"
+    ]
+   },
+   {
+    "q": "Fatty beef from the chest, slow-cooked for hours",
+    "right": "Brisket",
+    "wrong": [
+     "Shank",
+     "Hock",
+     "Scrag"
+    ]
+   },
+   {
+    "q": "The most tender, expensive steak",
+    "right": "Fillet",
+    "wrong": [
+     "Shank",
+     "Hock",
+     "Scrag"
+    ]
+   },
+   {
+    "q": "Finely ground meat for burgers and bolognese",
+    "right": "Mince",
+    "wrong": [
+     "Pâté",
+     "Purée",
+     "Paste"
+    ]
+   },
+   {
+    "q": "A cured ham steak from a pig's back leg",
+    "right": "Gammon",
+    "wrong": [
+     "Venison",
+     "Veal",
+     "Oxtail"
+    ]
+   },
+   {
+    "q": "Meat from an older sheep",
+    "right": "Mutton",
+    "wrong": [
+     "Lamb",
+     "Venison",
+     "Veal"
+    ]
+   },
+   {
+    "q": "Liver, kidneys and heart",
+    "right": "Offal",
+    "wrong": [
+     "Giblets",
+     "Gristle",
+     "Suet"
+    ]
+   },
+   {
+    "q": "The fat from roast beef, spread on bread",
+    "right": "Dripping",
+    "wrong": [
+     "Suet",
+     "Lard",
+     "Ghee"
+    ]
+   },
+   {
+    "q": "Crunchy roasted pork skin",
+    "right": "Crackling",
+    "wrong": [
+     "Croutons",
+     "Crisps",
+     "Wafers"
+    ]
+   },
+   {
+    "q": "A sausage made with blood and oatmeal",
+    "right": "Black pudding",
+    "wrong": [
+     "White pudding",
+     "Haggis",
+     "Faggot"
+    ]
+   },
+   {
+    "q": "The thick wooden chopping table",
+    "right": "Butcher's block",
+    "wrong": [
+     "Breadboard",
+     "Cheeseboard",
+     "Draining board"
+    ]
+   },
+   {
+    "q": "The heavy square knife for chopping through bone",
+    "right": "Cleaver",
+    "wrong": [
+     "Scalpel",
+     "Machete",
+     "Penknife"
+    ]
+   },
+   {
+    "q": "Beef hung in a cold room for weeks to deepen the flavour",
+    "right": "Dry-aged",
+    "wrong": [
+     "Smoked",
+     "Pickled",
+     "Brined"
+    ]
+   },
+   {
+    "q": "Animals allowed to roam outdoors",
+    "right": "Free-range",
+    "wrong": [
+     "Battery",
+     "Intensive",
+     "Factory-farmed"
+    ]
+   },
+   {
+    "q": "A large piece of meat for the Sunday roast",
+    "right": "Joint",
+    "wrong": [
+     "Escalope",
+     "Medallion",
+     "Cutlet"
+    ]
+   },
+   {
+    "q": "A small cut of pork or lamb with the bone in",
+    "right": "Chop",
+    "wrong": [
+     "Escalope",
+     "Medallion",
+     "Collop"
+    ]
+   },
+   {
+    "q": "A slice of bacon",
+    "right": "Rasher",
+    "wrong": [
+     "Wafer",
+     "Sliver",
+     "Collop"
+    ]
+   },
+   {
+    "q": "Melton Mowbray's famous savoury",
+    "right": "Pork pie",
+    "wrong": [
+     "Scotch egg",
+     "Sausage roll",
+     "Pasty"
+    ]
+   },
+   {
+    "q": "The long coiled sausage named after an English county",
+    "right": "Cumberland",
+    "wrong": [
+     "Lincolnshire",
+     "Toulouse",
+     "Frankfurter"
+    ]
+   },
+   {
+    "q": "The blue-and-white striped thing a butcher wears",
+    "right": "Apron",
+    "wrong": [
+     "Tabard",
+     "Pinafore",
+     "Smock"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this climbing word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "climbing",
+   "mountaineering",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Sliding down a rope on purpose",
+    "right": "Abseil",
+    "wrong": [
+     "Bungee",
+     "Zip line",
+     "Freefall"
+    ]
+   },
+   {
+    "q": "Holding the rope to protect a climbing partner",
+    "right": "Belay",
+    "wrong": [
+     "Tether",
+     "Moor",
+     "Hitch"
+    ]
+   },
+   {
+    "q": "A metal clip with a spring gate",
+    "right": "Carabiner",
+    "wrong": [
+     "Shackle",
+     "Buckle",
+     "Toggle"
+    ]
+   },
+   {
+    "q": "Webbing worn round the waist and legs, clipped to the rope",
+    "right": "Harness",
+    "wrong": [
+     "Corset",
+     "Girdle",
+     "Holster"
+    ]
+   },
+   {
+    "q": "White powder for dry, grippy hands",
+    "right": "Chalk",
+    "wrong": [
+     "Talc",
+     "Flour",
+     "Resin"
+    ]
+   },
+   {
+    "q": "Climbing short walls with no rope, over crash mats",
+    "right": "Bouldering",
+    "wrong": [
+     "Caving",
+     "Coasteering",
+     "Canyoning"
+    ]
+   },
+   {
+    "q": "Climbing alone with no rope at all",
+    "right": "Free solo",
+    "wrong": [
+     "Free fall",
+     "Freestyle",
+     "Freehand"
+    ]
+   },
+   {
+    "q": "Spikes strapped to boots for the ice",
+    "right": "Crampons",
+    "wrong": [
+     "Cleats",
+     "Snowshoes",
+     "Gaiters"
+    ]
+   },
+   {
+    "q": "The tool you swing into frozen slopes",
+    "right": "Ice axe",
+    "wrong": [
+     "Tomahawk",
+     "Machete",
+     "Hatchet"
+    ]
+   },
+   {
+    "q": "Rock that leans out past vertical",
+    "right": "Overhang",
+    "wrong": [
+     "Overpass",
+     "Overcoat",
+     "Overdraft"
+    ]
+   },
+   {
+    "q": "First climbed by Hillary and Tenzing in 1953",
+    "right": "Everest",
+    "wrong": [
+     "K2",
+     "Kilimanjaro",
+     "Mont Blanc"
+    ]
+   },
+   {
+    "q": "Where an expedition sets up below the mountain",
+    "right": "Base camp",
+    "wrong": [
+     "Boot camp",
+     "Holiday camp",
+     "Summer camp"
+    ]
+   },
+   {
+    "q": "The Himalayan people famous as mountain guides",
+    "right": "Sherpa",
+    "wrong": [
+     "Inuit",
+     "Maasai",
+     "Bedouin"
+    ]
+   },
+   {
+    "q": "Headaches and sickness in thin mountain air",
+    "right": "Altitude sickness",
+    "wrong": [
+     "Seasickness",
+     "Travel sickness",
+     "Morning sickness"
+    ]
+   },
+   {
+    "q": "A metal spike hammered into a crack",
+    "right": "Piton",
+    "wrong": [
+     "Piston",
+     "Python",
+     "Pylon"
+    ]
+   },
+   {
+    "q": "The number or letter showing how hard a route is",
+    "right": "Grade",
+    "wrong": [
+     "Rank",
+     "Score",
+     "Tier"
+    ]
+   },
+   {
+    "q": "The hardest move on a route",
+    "right": "Crux",
+    "wrong": [
+     "Crutch",
+     "Crust",
+     "Crumb"
+    ]
+   },
+   {
+    "q": "A crack wide enough to wedge your whole body in",
+    "right": "Chimney",
+    "wrong": [
+     "Funnel",
+     "Tunnel",
+     "Shaft"
+    ]
+   },
+   {
+    "q": "Kernmantle: a core inside a woven sheath",
+    "right": "Rope",
+    "wrong": [
+     "Cable",
+     "Chain",
+     "Twine"
+    ]
+   },
+   {
+    "q": "Britain's highest peak, with a famous north face",
+    "right": "Ben Nevis",
+    "wrong": [
+     "Snowdon",
+     "Scafell Pike",
+     "Helvellyn"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this florist word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "flowers",
+   "florists",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "A bunch of flowers wrapped up to give",
+    "right": "Bouquet",
+    "wrong": [
+     "Banquet",
+     "Bucket",
+     "Brochure"
+    ]
+   },
+   {
+    "q": "A ring of flowers for a funeral or a front door",
+    "right": "Wreath",
+    "wrong": [
+     "Halo",
+     "Hoop",
+     "Bracelet"
+    ]
+   },
+   {
+    "q": "A small spray of flowers worn on a dress or wrist",
+    "right": "Corsage",
+    "wrong": [
+     "Corset",
+     "Cortège",
+     "Collage"
+    ]
+   },
+   {
+    "q": "A single flower pinned to a groom's lapel",
+    "right": "Buttonhole",
+    "wrong": [
+     "Cufflink",
+     "Pocket square",
+     "Tie pin"
+    ]
+   },
+   {
+    "q": "The container for cut flowers",
+    "right": "Vase",
+    "wrong": [
+     "Urn",
+     "Ewer",
+     "Tankard"
+    ]
+   },
+   {
+    "q": "The green foam block that holds the stems in place",
+    "right": "Oasis",
+    "wrong": [
+     "Blur",
+     "Pulp",
+     "Suede"
+    ]
+   },
+   {
+    "q": "The stalk of a flower",
+    "right": "Stem",
+    "wrong": [
+     "Root",
+     "Bark",
+     "Trunk"
+    ]
+   },
+   {
+    "q": "The coloured, leaf-like part of a flower",
+    "right": "Petal",
+    "wrong": [
+     "Bark",
+     "Root",
+     "Spore"
+    ]
+   },
+   {
+    "q": "The yellow dust that sets off hay fever",
+    "right": "Pollen",
+    "wrong": [
+     "Spore",
+     "Sap",
+     "Resin"
+    ]
+   },
+   {
+    "q": "A sharp prickle on a rose",
+    "right": "Thorn",
+    "wrong": [
+     "Splinter",
+     "Needle",
+     "Barb"
+    ]
+   },
+   {
+    "q": "A flower that hasn't opened yet",
+    "right": "Bud",
+    "wrong": [
+     "Pod",
+     "Seed",
+     "Bulb"
+    ]
+   },
+   {
+    "q": "The classic Valentine's flowers",
+    "right": "Red roses",
+    "wrong": [
+     "Lilies",
+     "Carnations",
+     "Daisies"
+    ]
+   },
+   {
+    "q": "Tiny blue flowers that stand for remembrance",
+    "right": "Forget-me-nots",
+    "wrong": [
+     "Bluebells",
+     "Cornflowers",
+     "Violets"
+    ]
+   },
+   {
+    "q": "The red flower worn in November",
+    "right": "Poppy",
+    "wrong": [
+     "Tulip",
+     "Rose",
+     "Carnation"
+    ]
+   },
+   {
+    "q": "The yellow flower of Wales and of Marie Curie",
+    "right": "Daffodil",
+    "wrong": [
+     "Tulip",
+     "Primrose",
+     "Buttercup"
+    ]
+   },
+   {
+    "q": "The tall flower Van Gogh painted again and again",
+    "right": "Sunflower",
+    "wrong": [
+     "Marigold",
+     "Dandelion",
+     "Chrysanthemum"
+    ]
+   },
+   {
+    "q": "Scissor-like snippers for stems",
+    "right": "Secateurs",
+    "wrong": [
+     "Pliers",
+     "Tweezers",
+     "Tongs"
+    ]
+   },
+   {
+    "q": "A bowl of scented dried petals",
+    "right": "Pot pourri",
+    "wrong": [
+     "Pot Noodle",
+     "Pot luck",
+     "Pot roast"
+    ]
+   },
+   {
+    "q": "Flowers carefully set out in a display",
+    "right": "Arrangement",
+    "wrong": [
+     "Agreement",
+     "Argument",
+     "Settlement"
+    ]
+   },
+   {
+    "q": "Sending messages with flowers, as the Victorians did",
+    "right": "Floriography",
+    "wrong": [
+     "Calligraphy",
+     "Choreography",
+     "Cartography"
+    ]
+   }
+  ]
+ }
+]
