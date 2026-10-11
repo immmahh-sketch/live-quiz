@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this Formula One word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "Formula One",
+   "motor racing",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "When the car dives in for new tyres",
+    "right": "Pit stop",
+    "wrong": [
+     "Pit pony",
+     "Pit bull",
+     "Pitfall"
+    ]
+   },
+   {
+    "q": "The road past the garages, with a speed limit",
+    "right": "Pit lane",
+    "wrong": [
+     "Slip road",
+     "Hard shoulder",
+     "Bus lane"
+    ]
+   },
+   {
+    "q": "Where the team bosses sit watching screens",
+    "right": "Pit wall",
+    "wrong": [
+     "Sea wall",
+     "Firewall",
+     "Paywall"
+    ]
+   },
+   {
+    "q": "Starting first on the grid",
+    "right": "Pole position",
+    "wrong": [
+     "Pole vault",
+     "Pole dance",
+     "North Pole"
+    ]
+   },
+   {
+    "q": "Waved as the winner crosses the line",
+    "right": "Chequered flag",
+    "wrong": [
+     "Black flag",
+     "White flag",
+     "Green flag"
+    ]
+   },
+   {
+    "q": "The flag that stops the race completely",
+    "right": "Red flag",
+    "wrong": [
+     "Black flag",
+     "White flag",
+     "Green flag"
+    ]
+   },
+   {
+    "q": "Danger ahead: slow down and no overtaking",
+    "right": "Yellow flag",
+    "wrong": [
+     "Black flag",
+     "White flag",
+     "Green flag"
+    ]
+   },
+   {
+    "q": "Let the faster car that's lapping you go by",
+    "right": "Blue flag",
+    "wrong": [
+     "Black flag",
+     "White flag",
+     "Green flag"
+    ]
+   },
+   {
+    "q": "Leads the field slowly round after a crash",
+    "right": "Safety car",
+    "wrong": [
+     "Pace setter",
+     "Tow truck",
+     "Course car"
+    ]
+   },
+   {
+    "q": "The rear-wing flap that opens to help overtaking, by its initials",
+    "right": "DRS",
+    "wrong": [
+     "KERS",
+     "ERS",
+     "ABS"
+    ]
+   },
+   {
+    "q": "Tyres with no tread, for dry weather",
+    "right": "Slicks",
+    "wrong": [
+     "Retreads",
+     "Remoulds",
+     "Radials"
+    ]
+   },
+   {
+    "q": "Where the cars line up at the start",
+    "right": "Grid",
+    "wrong": [
+     "Kerb",
+     "Gravel trap",
+     "Run-off"
+    ]
+   },
+   {
+    "q": "The VIP area behind the garages",
+    "right": "Paddock",
+    "wrong": [
+     "Grandstand",
+     "Tribune",
+     "Terrace"
+    ]
+   },
+   {
+    "q": "The title won by the team rather than the driver",
+    "right": "Constructors' Championship",
+    "wrong": [
+     "Drivers' Championship",
+     "Nations Cup",
+     "Team Trophy"
+    ]
+   },
+   {
+    "q": "The street race round a tiny principality's harbour",
+    "right": "Monaco",
+    "wrong": [
+     "Monza",
+     "Spa",
+     "Baku"
+    ]
+   },
+   {
+    "q": "The home of the British Grand Prix",
+    "right": "Silverstone",
+    "wrong": [
+     "Brands Hatch",
+     "Donington",
+     "Goodwood"
+    ]
+   },
+   {
+    "q": "Pitting before your rival to get ahead on fresh tyres",
+    "right": "Undercut",
+    "wrong": [
+     "Overcut",
+     "Uppercut",
+     "Shortcut"
+    ]
+   },
+   {
+    "q": "The rules stopping teams changing the car after qualifying",
+    "right": "Parc fermé",
+    "wrong": [
+     "Carte blanche",
+     "Faux pas",
+     "Coup d'état"
+    ]
+   },
+   {
+    "q": "Held a sign in front of the car at old-style pit stops",
+    "right": "Lollipop man",
+    "wrong": [
+     "Flag marshal",
+     "Pit boss",
+     "Ice cream man"
+    ]
+   },
+   {
+    "q": "Where the top three spray the champagne",
+    "right": "Podium",
+    "wrong": [
+     "Pulpit",
+     "Plinth",
+     "Balcony"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this skateboarding word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "skateboarding",
+   "skate parks",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Jumping with the board without using your hands",
+    "right": "Ollie",
+    "wrong": [
+     "Wheelie",
+     "Bunny hop",
+     "Hopscotch"
+    ]
+   },
+   {
+    "q": "Spinning the board under your feet with a flick of the toe",
+    "right": "Kickflip",
+    "wrong": [
+     "Backflip",
+     "Somersault",
+     "Cartwheel"
+    ]
+   },
+   {
+    "q": "Rolling along on just the back two wheels",
+    "right": "Manual",
+    "wrong": [
+     "Automatic",
+     "Handbook",
+     "Handbrake"
+    ]
+   },
+   {
+    "q": "A U-shaped ramp",
+    "right": "Half-pipe",
+    "wrong": [
+     "Quarter pipe",
+     "Drainpipe",
+     "Bagpipe"
+    ]
+   },
+   {
+    "q": "Sliding along a rail on the board's metal axles",
+    "right": "Grind",
+    "wrong": [
+     "Grate",
+     "Grime",
+     "Groan"
+    ]
+   },
+   {
+    "q": "The metal axles holding the wheels",
+    "right": "Trucks",
+    "wrong": [
+     "Lorries",
+     "Vans",
+     "Wagons"
+    ]
+   },
+   {
+    "q": "The wooden board you stand on",
+    "right": "Deck",
+    "wrong": [
+     "Hull",
+     "Bench",
+     "Shelf"
+    ]
+   },
+   {
+    "q": "The sandpapery sheet on top for grip",
+    "right": "Grip tape",
+    "wrong": [
+     "Duct tape",
+     "Red tape",
+     "Ticker tape"
+    ]
+   },
+   {
+    "q": "The legend who landed the first 900",
+    "right": "Tony Hawk",
+    "wrong": [
+     "Rodney Mullen",
+     "Bam Margera",
+     "Shaun White"
+    ]
+   },
+   {
+    "q": "The British teenager who won Olympic bronze in 2021, aged 13",
+    "right": "Sky Brown",
+    "wrong": [
+     "Bethany Shriever",
+     "Keely Hodgkinson",
+     "Emma Raducanu"
+    ]
+   },
+   {
+    "q": "A concrete playground of ramps and bowls",
+    "right": "Skate park",
+    "wrong": [
+     "Car park",
+     "Theme park",
+     "Business park"
+    ]
+   },
+   {
+    "q": "A deep, rounded dip like an empty pool",
+    "right": "Bowl",
+    "wrong": [
+     "Basin",
+     "Trough",
+     "Crater"
+    ]
+   },
+   {
+    "q": "Jumping off the board when a trick goes wrong",
+    "right": "Bail",
+    "wrong": [
+     "Bow out",
+     "Opt out",
+     "Sign off"
+    ]
+   },
+   {
+    "q": "Skating on stairs, rails and benches around town",
+    "right": "Street",
+    "wrong": [
+     "Park",
+     "Vert",
+     "Freestyle"
+    ]
+   },
+   {
+    "q": "Little steel balls inside the wheels",
+    "right": "Bearings",
+    "wrong": [
+     "Marbles",
+     "Pellets",
+     "Beads"
+    ]
+   },
+   {
+    "q": "The front end of the board",
+    "right": "Nose",
+    "wrong": [
+     "Bow",
+     "Prow",
+     "Snout"
+    ]
+   },
+   {
+    "q": "The back end, kicked down for an ollie",
+    "right": "Tail",
+    "wrong": [
+     "Stern",
+     "Rump",
+     "Heel"
+    ]
+   },
+   {
+    "q": "Riding with your left foot forward",
+    "right": "Regular",
+    "wrong": [
+     "Goofy",
+     "Fakie",
+     "Switch"
+    ]
+   },
+   {
+    "q": "The PlayStation game series that began in 1999",
+    "right": "Tony Hawk's Pro Skater",
+    "wrong": [
+     "SSX",
+     "Skate",
+     "Grind Session"
+    ]
+   },
+   {
+    "q": "The famous skateboarding magazine with the flame logo",
+    "right": "Thrasher",
+    "wrong": [
+     "Kerrang!",
+     "Smash Hits",
+     "The Face"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this seafood word?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "seafood",
+   "fish",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Breaded langoustine tails",
+    "right": "Scampi",
+    "wrong": [
+     "Croquettes",
+     "Goujons",
+     "Nuggets"
+    ]
+   },
+   {
+    "q": "Rings of fried squid",
+    "right": "Calamari",
+    "wrong": [
+     "Onion rings",
+     "Hoops",
+     "Fritters"
+    ]
+   },
+   {
+    "q": "Tiny whole fish, deep-fried",
+    "right": "Whitebait",
+    "wrong": [
+     "Crispy seaweed",
+     "Scratchings",
+     "Croutons"
+    ]
+   },
+   {
+    "q": "Split, smoked herring for breakfast",
+    "right": "Kippers",
+    "wrong": [
+     "Arbroath smokies",
+     "Finnan haddie",
+     "Gravlax"
+    ]
+   },
+   {
+    "q": "The 1970s starter with Marie Rose sauce",
+    "right": "Prawn cocktail",
+    "wrong": [
+     "Prawn toast",
+     "Prawn crackers",
+     "Fish cocktail"
+    ]
+   },
+   {
+    "q": "Lobster baked in a creamy, mustardy sauce",
+    "right": "Lobster Thermidor",
+    "wrong": [
+     "Lobster bisque",
+     "Lobster roll",
+     "Lobster pot"
+    ]
+   },
+   {
+    "q": "Shellfish swallowed raw, famously from Whitstable",
+    "right": "Oysters",
+    "wrong": [
+     "Cockles",
+     "Whelks",
+     "Winkles"
+    ]
+   },
+   {
+    "q": "Shellfish served as moules marinière",
+    "right": "Mussels",
+    "wrong": [
+     "Clams",
+     "Scallops",
+     "Razor clams"
+    ]
+   },
+   {
+    "q": "Its 'dressed' meat is famous from Cromer",
+    "right": "Crab",
+    "wrong": [
+     "Lobster",
+     "Crayfish",
+     "Langoustine"
+    ]
+   },
+   {
+    "q": "Cod in breadcrumbs, made famous by Birds Eye",
+    "right": "Fish finger",
+    "wrong": [
+     "Goujon",
+     "Fish ball",
+     "Fish slice"
+    ]
+   },
+   {
+    "q": "Flaked fish mixed with mash and fried",
+    "right": "Fish cake",
+    "wrong": [
+     "Fish pie",
+     "Fish ball",
+     "Fish slice"
+    ]
+   },
+   {
+    "q": "Rice with smoked haddock and egg, a breakfast from the Raj",
+    "right": "Kedgeree",
+    "wrong": [
+     "Paella",
+     "Risotto",
+     "Biryani"
+    ]
+   },
+   {
+    "q": "Expensive salted fish eggs",
+    "right": "Caviar",
+    "wrong": [
+     "Taramasalata",
+     "Tapenade",
+     "Pâté"
+    ]
+   },
+   {
+    "q": "Japanese vinegared rice topped with raw fish",
+    "right": "Sushi",
+    "wrong": [
+     "Sashimi",
+     "Tempura",
+     "Teriyaki"
+    ]
+   },
+   {
+    "q": "Pink slices on a bagel with cream cheese",
+    "right": "Smoked salmon",
+    "wrong": [
+     "Gravlax",
+     "Ham",
+     "Pastrami"
+    ]
+   },
+   {
+    "q": "The East End dish served cold in jelly",
+    "right": "Jellied eels",
+    "wrong": [
+     "Pie and mash",
+     "Whelks",
+     "Faggots"
+    ]
+   },
+   {
+    "q": "Wrapped in paper, with salt and vinegar",
+    "right": "Fish and chips",
+    "wrong": [
+     "Pie and peas",
+     "Bangers and mash",
+     "Bubble and squeak"
+    ]
+   },
+   {
+    "q": "Many northerners' chippy favourite, ahead of cod",
+    "right": "Haddock",
+    "wrong": [
+     "Plaice",
+     "Pollock",
+     "Hake"
+    ]
+   },
+   {
+    "q": "The shop or person selling fresh fish",
+    "right": "Fishmonger",
+    "wrong": [
+     "Ironmonger",
+     "Costermonger",
+     "Cheesemonger"
+    ]
+   },
+   {
+    "q": "Steak and lobster on one plate",
+    "right": "Surf and turf",
+    "wrong": [
+     "Bed and breakfast",
+     "Rock and roll",
+     "Fish and fowl"
+    ]
+   }
+  ]
+ }
+]
