@@ -1,0 +1,587 @@
+[
+ {
+  "type": "sort",
+  "text": "A Disney Animation film or a DreamWorks film?",
+  "categories": [
+   "Disney",
+   "DreamWorks"
+  ],
+  "items": [
+   {
+    "text": "Frozen",
+    "category": "Disney"
+   },
+   {
+    "text": "Moana",
+    "category": "Disney"
+   },
+   {
+    "text": "Tangled",
+    "category": "Disney"
+   },
+   {
+    "text": "Zootopia",
+    "category": "Disney"
+   },
+   {
+    "text": "Shrek",
+    "category": "DreamWorks"
+   },
+   {
+    "text": "Madagascar",
+    "category": "DreamWorks"
+   },
+   {
+    "text": "Kung Fu Panda",
+    "category": "DreamWorks"
+   },
+   {
+    "text": "How to Train Your Dragon",
+    "category": "DreamWorks"
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "Disney",
+   "DreamWorks",
+   "animation"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A Spanish club or an Italian club?",
+  "categories": [
+   "Spain",
+   "Italy"
+  ],
+  "items": [
+   {
+    "text": "Sevilla",
+    "category": "Spain"
+   },
+   {
+    "text": "Valencia",
+    "category": "Spain"
+   },
+   {
+    "text": "Real Betis",
+    "category": "Spain"
+   },
+   {
+    "text": "Athletic Bilbao",
+    "category": "Spain"
+   },
+   {
+    "text": "Lazio",
+    "category": "Italy"
+   },
+   {
+    "text": "Fiorentina",
+    "category": "Italy"
+   },
+   {
+    "text": "Napoli",
+    "category": "Italy"
+   },
+   {
+    "text": "Atalanta",
+    "category": "Italy"
+   }
+  ],
+  "category": "Football",
+  "tags": [
+   "Spain",
+   "Italy",
+   "European football"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A gin brand or a vodka brand?",
+  "categories": [
+   "Gin",
+   "Vodka"
+  ],
+  "items": [
+   {
+    "text": "Gordon's",
+    "category": "Gin"
+   },
+   {
+    "text": "Tanqueray",
+    "category": "Gin"
+   },
+   {
+    "text": "Bombay Sapphire",
+    "category": "Gin"
+   },
+   {
+    "text": "Hendrick's",
+    "category": "Gin"
+   },
+   {
+    "text": "Smirnoff",
+    "category": "Vodka"
+   },
+   {
+    "text": "Absolut",
+    "category": "Vodka"
+   },
+   {
+    "text": "Grey Goose",
+    "category": "Vodka"
+   },
+   {
+    "text": "Stolichnaya",
+    "category": "Vodka"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [
+   "gin",
+   "vodka",
+   "brands"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Star Wars character or a Lord of the Rings character?",
+  "categories": [
+   "Star Wars",
+   "Lord of the Rings"
+  ],
+  "items": [
+   {
+    "text": "Chewbacca",
+    "category": "Star Wars"
+   },
+   {
+    "text": "Obi-Wan Kenobi",
+    "category": "Star Wars"
+   },
+   {
+    "text": "Leia",
+    "category": "Star Wars"
+   },
+   {
+    "text": "Yoda",
+    "category": "Star Wars"
+   },
+   {
+    "text": "Gimli",
+    "category": "Lord of the Rings"
+   },
+   {
+    "text": "Galadriel",
+    "category": "Lord of the Rings"
+   },
+   {
+    "text": "Saruman",
+    "category": "Lord of the Rings"
+   },
+   {
+    "text": "Samwise",
+    "category": "Lord of the Rings"
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "Star Wars",
+   "The Lord of the Rings"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A river in Africa or in South America?",
+  "categories": [
+   "Africa",
+   "South America"
+  ],
+  "items": [
+   {
+    "text": "Nile",
+    "category": "Africa"
+   },
+   {
+    "text": "Congo",
+    "category": "Africa"
+   },
+   {
+    "text": "Niger",
+    "category": "Africa"
+   },
+   {
+    "text": "Zambezi",
+    "category": "Africa"
+   },
+   {
+    "text": "Amazon",
+    "category": "South America"
+   },
+   {
+    "text": "Orinoco",
+    "category": "South America"
+   },
+   {
+    "text": "Paraná",
+    "category": "South America"
+   },
+   {
+    "text": "Magdalena",
+    "category": "South America"
+   }
+  ],
+  "category": "World geography",
+  "tags": [
+   "rivers",
+   "Africa",
+   "South America"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A mountain range in Europe or in the Americas?",
+  "categories": [
+   "Europe",
+   "The Americas"
+  ],
+  "items": [
+   {
+    "text": "Alps",
+    "category": "Europe"
+   },
+   {
+    "text": "Pyrenees",
+    "category": "Europe"
+   },
+   {
+    "text": "Carpathians",
+    "category": "Europe"
+   },
+   {
+    "text": "Dolomites",
+    "category": "Europe"
+   },
+   {
+    "text": "Andes",
+    "category": "The Americas"
+   },
+   {
+    "text": "Rockies",
+    "category": "The Americas"
+   },
+   {
+    "text": "Appalachians",
+    "category": "The Americas"
+   },
+   {
+    "text": "Sierra Madre",
+    "category": "The Americas"
+   }
+  ],
+  "category": "World geography",
+  "tags": [
+   "mountain ranges",
+   "Europe",
+   "the Americas"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A horse-drawn carriage or a hat?",
+  "categories": [
+   "Carriage",
+   "Hat"
+  ],
+  "items": [
+   {
+    "text": "Landau",
+    "category": "Carriage"
+   },
+   {
+    "text": "Hansom",
+    "category": "Carriage"
+   },
+   {
+    "text": "Phaeton",
+    "category": "Carriage"
+   },
+   {
+    "text": "Brougham",
+    "category": "Carriage"
+   },
+   {
+    "text": "Fedora",
+    "category": "Hat"
+   },
+   {
+    "text": "Trilby",
+    "category": "Hat"
+   },
+   {
+    "text": "Homburg",
+    "category": "Hat"
+   },
+   {
+    "text": "Stetson",
+    "category": "Hat"
+   }
+  ],
+  "category": "Words and language",
+  "tags": [
+   "carriages",
+   "hats",
+   "wordplay"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "A dog breed or a cheese?",
+  "categories": [
+   "Dog breed",
+   "Cheese"
+  ],
+  "items": [
+   {
+    "text": "Lhasa Apso",
+    "category": "Dog breed"
+   },
+   {
+    "text": "Shih Tzu",
+    "category": "Dog breed"
+   },
+   {
+    "text": "Basenji",
+    "category": "Dog breed"
+   },
+   {
+    "text": "Keeshond",
+    "category": "Dog breed"
+   },
+   {
+    "text": "Gouda",
+    "category": "Cheese"
+   },
+   {
+    "text": "Gruyère",
+    "category": "Cheese"
+   },
+   {
+    "text": "Emmental",
+    "category": "Cheese"
+   },
+   {
+    "text": "Manchego",
+    "category": "Cheese"
+   }
+  ],
+  "category": "Words and language",
+  "tags": [
+   "dogs",
+   "cheese",
+   "wordplay"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A David Bowie song or a Prince song?",
+  "categories": [
+   "David Bowie",
+   "Prince"
+  ],
+  "items": [
+   {
+    "text": "Heroes",
+    "category": "David Bowie"
+   },
+   {
+    "text": "Life on Mars?",
+    "category": "David Bowie"
+   },
+   {
+    "text": "Starman",
+    "category": "David Bowie"
+   },
+   {
+    "text": "Let's Dance",
+    "category": "David Bowie"
+   },
+   {
+    "text": "Purple Rain",
+    "category": "Prince"
+   },
+   {
+    "text": "Kiss",
+    "category": "Prince"
+   },
+   {
+    "text": "When Doves Cry",
+    "category": "Prince"
+   },
+   {
+    "text": "1999",
+    "category": "Prince"
+   }
+  ],
+  "category": "Music",
+  "tags": [
+   "David Bowie",
+   "Prince"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A comedian or a magician?",
+  "categories": [
+   "Comedian",
+   "Magician"
+  ],
+  "items": [
+   {
+    "text": "Peter Kay",
+    "category": "Comedian"
+   },
+   {
+    "text": "Michael McIntyre",
+    "category": "Comedian"
+   },
+   {
+    "text": "Sarah Millican",
+    "category": "Comedian"
+   },
+   {
+    "text": "Jimmy Carr",
+    "category": "Comedian"
+   },
+   {
+    "text": "Paul Daniels",
+    "category": "Magician"
+   },
+   {
+    "text": "Dynamo",
+    "category": "Magician"
+   },
+   {
+    "text": "David Blaine",
+    "category": "Magician"
+   },
+   {
+    "text": "David Copperfield",
+    "category": "Magician"
+   }
+  ],
+  "category": "Entertainment",
+  "tags": [
+   "comedians",
+   "magicians"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A newsreader or a weather presenter?",
+  "categories": [
+   "Newsreader",
+   "Weather"
+  ],
+  "items": [
+   {
+    "text": "Fiona Bruce",
+    "category": "Newsreader"
+   },
+   {
+    "text": "Moira Stuart",
+    "category": "Newsreader"
+   },
+   {
+    "text": "Trevor McDonald",
+    "category": "Newsreader"
+   },
+   {
+    "text": "Jon Snow",
+    "category": "Newsreader"
+   },
+   {
+    "text": "Carol Kirkwood",
+    "category": "Weather"
+   },
+   {
+    "text": "Michael Fish",
+    "category": "Weather"
+   },
+   {
+    "text": "Siân Lloyd",
+    "category": "Weather"
+   },
+   {
+    "text": "Tomasz Schafernaker",
+    "category": "Weather"
+   }
+  ],
+  "category": "TV",
+  "tags": [
+   "newsreaders",
+   "weather presenters",
+   "BBC"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A London airport or a Paris airport?",
+  "categories": [
+   "London",
+   "Paris"
+  ],
+  "items": [
+   {
+    "text": "Heathrow",
+    "category": "London"
+   },
+   {
+    "text": "Gatwick",
+    "category": "London"
+   },
+   {
+    "text": "Stansted",
+    "category": "London"
+   },
+   {
+    "text": "Luton",
+    "category": "London"
+   },
+   {
+    "text": "Charles de Gaulle",
+    "category": "Paris"
+   },
+   {
+    "text": "Orly",
+    "category": "Paris"
+   },
+   {
+    "text": "Beauvais",
+    "category": "Paris"
+   },
+   {
+    "text": "Le Bourget",
+    "category": "Paris"
+   }
+  ],
+  "category": "Travel",
+  "tags": [
+   "airports",
+   "London",
+   "Paris"
+  ],
+  "difficulty": "medium"
+ }
+]
