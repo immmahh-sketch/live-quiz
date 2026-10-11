@@ -1,0 +1,583 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this canal word?",
+  "target": 10,
+  "category": "Travel",
+  "tags": [
+   "canals",
+   "boats",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The long, thin boat built to fit the locks",
+    "right": "Narrowboat",
+    "wrong": [
+     "Gondola",
+     "Punt",
+     "Coracle"
+    ]
+   },
+   {
+    "q": "The gated chamber that raises or lowers boats",
+    "right": "Lock",
+    "wrong": [
+     "Weir",
+     "Dam",
+     "Ford"
+    ]
+   },
+   {
+    "q": "The person in charge of the lock gates",
+    "right": "Lock keeper",
+    "wrong": [
+     "Gatekeeper",
+     "Goalkeeper",
+     "Bookkeeper"
+    ]
+   },
+   {
+    "q": "The L-shaped handle that winds the lock paddles",
+    "right": "Windlass",
+    "wrong": [
+     "Wind-up",
+     "Windbreak",
+     "Windsock"
+    ]
+   },
+   {
+    "q": "A bridge carrying the canal over a valley",
+    "right": "Aqueduct",
+    "wrong": [
+     "Viaduct",
+     "Causeway",
+     "Culvert"
+    ]
+   },
+   {
+    "q": "Telford's Welsh aqueduct, the highest in Britain",
+    "right": "Pontcysyllte",
+    "wrong": [
+     "Menai",
+     "Clifton",
+     "Forth"
+    ]
+   },
+   {
+    "q": "The rotating boat lift in Scotland",
+    "right": "Falkirk Wheel",
+    "wrong": [
+     "London Eye",
+     "Ferris wheel",
+     "Catherine wheel"
+    ]
+   },
+   {
+    "q": "Where boats were 'legged' through by men lying on their backs",
+    "right": "Tunnel",
+    "wrong": [
+     "Chimney",
+     "Mineshaft",
+     "Culvert"
+    ]
+   },
+   {
+    "q": "Pushing a boat through a tunnel with your feet on the walls",
+    "right": "Legging",
+    "wrong": [
+     "Paddling",
+     "Poling",
+     "Kedging"
+    ]
+   },
+   {
+    "q": "The old name for a canal boatman",
+    "right": "Bargee",
+    "wrong": [
+     "Bargain hunter",
+     "Barman",
+     "Bandsman"
+    ]
+   },
+   {
+    "q": "How boats were pulled before engines",
+    "right": "Horse-drawn",
+    "wrong": [
+     "Steam-powered",
+     "Pedal-powered",
+     "Wind-powered"
+    ]
+   },
+   {
+    "q": "The traditional painted decoration on boats",
+    "right": "Roses and Castles",
+    "wrong": [
+     "Hearts and Flowers",
+     "Stars and Stripes",
+     "Lions and Unicorns"
+    ]
+   },
+   {
+    "q": "To tie up the boat for the night",
+    "right": "Moor",
+    "wrong": [
+     "Anchor",
+     "Beach",
+     "Ground"
+    ]
+   },
+   {
+    "q": "Someone who idly watches the boats at a lock",
+    "right": "Gongoozler",
+    "wrong": [
+     "Busybody",
+     "Twitcher",
+     "Trainspotter"
+    ]
+   },
+   {
+    "q": "Locks joined in a flight with no gap, like Bingley Five Rise",
+    "right": "Staircase",
+    "wrong": [
+     "Ladder",
+     "Escalator",
+     "Spiral"
+    ]
+   },
+   {
+    "q": "A bridge you push aside to let a boat through",
+    "right": "Swing bridge",
+    "wrong": [
+     "Rope bridge",
+     "Suspension bridge",
+     "Toll bridge"
+    ]
+   },
+   {
+    "q": "A wide spot where a long boat can turn round",
+    "right": "Winding hole",
+    "wrong": [
+     "Rabbit hole",
+     "Pothole",
+     "Plughole"
+    ]
+   },
+   {
+    "q": "The Duke's canal of 1761, the start of the canal age",
+    "right": "Bridgewater",
+    "wrong": [
+     "Grand Union",
+     "Kennet and Avon",
+     "Caledonian"
+    ]
+   },
+   {
+    "q": "James ___, the engineer who built it",
+    "right": "Brindley",
+    "wrong": [
+     "Telford",
+     "Brunel",
+     "Stephenson"
+    ]
+   },
+   {
+    "q": "The stretch of water between two locks",
+    "right": "Pound",
+    "wrong": [
+     "Penny",
+     "Shilling",
+     "Crown"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this firefighter word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "firefighters",
+   "fire safety",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The big red truck with ladders and hoses",
+    "right": "Fire engine",
+    "wrong": [
+     "Ambulance",
+     "Police van",
+     "Tow truck"
+    ]
+   },
+   {
+    "q": "The long tube that sprays the water",
+    "right": "Hose",
+    "wrong": [
+     "Rope",
+     "Cable",
+     "Chain"
+    ]
+   },
+   {
+    "q": "The street water point the hose plugs into",
+    "right": "Hydrant",
+    "wrong": [
+     "Drain",
+     "Manhole",
+     "Meter"
+    ]
+   },
+   {
+    "q": "The brass rod you slide down to the engine",
+    "right": "Fireman's pole",
+    "wrong": [
+     "Maypole",
+     "Totem pole",
+     "Flagpole"
+    ]
+   },
+   {
+    "q": "Carrying someone over your shoulders",
+    "right": "Fireman's lift",
+    "wrong": [
+     "Ski lift",
+     "Chairlift",
+     "Facelift"
+    ]
+   },
+   {
+    "q": "The beeping box on the ceiling",
+    "right": "Smoke alarm",
+    "wrong": [
+     "Burglar alarm",
+     "Car alarm",
+     "Alarm clock"
+    ]
+   },
+   {
+    "q": "The red cylinder you squeeze to put out a small fire",
+    "right": "Extinguisher",
+    "wrong": [
+     "Defibrillator",
+     "Inhaler",
+     "Thermos"
+    ]
+   },
+   {
+    "q": "Thrown over a chip-pan fire",
+    "right": "Fire blanket",
+    "wrong": [
+     "Picnic blanket",
+     "Electric blanket",
+     "Security blanket"
+    ]
+   },
+   {
+    "q": "The air tank and mask worn in thick smoke",
+    "right": "Breathing apparatus",
+    "wrong": [
+     "Stethoscope",
+     "Megaphone",
+     "Visor"
+    ]
+   },
+   {
+    "q": "The number you call",
+    "right": "999",
+    "wrong": [
+     "101",
+     "111",
+     "118"
+    ]
+   },
+   {
+    "q": "The extending ladder that swivels on the engine",
+    "right": "Turntable ladder",
+    "wrong": [
+     "Stepladder",
+     "Rope ladder",
+     "Snakes and ladders"
+    ]
+   },
+   {
+    "q": "Where firefighters wait for a call",
+    "right": "Station",
+    "wrong": [
+     "Depot",
+     "Terminal",
+     "Barracks"
+    ]
+   },
+   {
+    "q": "A firefighters' shift, like Blue ___ or Red ___",
+    "right": "Watch",
+    "wrong": [
+     "Squad",
+     "Platoon",
+     "Unit"
+    ]
+   },
+   {
+    "q": "A practice evacuation",
+    "right": "Fire drill",
+    "wrong": [
+     "Fire sale",
+     "Fire walk",
+     "Fire eater"
+    ]
+   },
+   {
+    "q": "Where everyone gathers outside",
+    "right": "Assembly point",
+    "wrong": [
+     "Bus stop",
+     "Checkpoint",
+     "Lay-by"
+    ]
+   },
+   {
+    "q": "A heavy, self-closing door that slows a blaze",
+    "right": "Fire door",
+    "wrong": [
+     "Trapdoor",
+     "Stable door",
+     "Revolving door"
+    ]
+   },
+   {
+    "q": "Starting a fire on purpose",
+    "right": "Arson",
+    "wrong": [
+     "Treason",
+     "Larceny",
+     "Perjury"
+    ]
+   },
+   {
+    "q": "A gap cleared in a forest to stop the flames spreading",
+    "right": "Firebreak",
+    "wrong": [
+     "Coffee break",
+     "Jailbreak",
+     "Windbreak"
+    ]
+   },
+   {
+    "q": "The outside staircase for getting out",
+    "right": "Fire escape",
+    "wrong": [
+     "Back stairs",
+     "Escalator",
+     "Lift shaft"
+    ]
+   },
+   {
+    "q": "The hero of Pontypandy",
+    "right": "Fireman Sam",
+    "wrong": [
+     "Postman Pat",
+     "Bob the Builder",
+     "Thomas the Tank Engine"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this board game?",
+  "target": 10,
+  "category": "Games and toys",
+  "tags": [
+   "board games",
+   "family games"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Spotted cubes you roll",
+    "right": "Dice",
+    "wrong": [
+     "Dominoes",
+     "Tiddlywinks",
+     "Marbles"
+    ]
+   },
+   {
+    "q": "Little pieces you move around the board",
+    "right": "Counters",
+    "wrong": [
+     "Dominoes",
+     "Cards",
+     "Beads"
+    ]
+   },
+   {
+    "q": "Buy properties, pass Go, collect £200",
+    "right": "Monopoly",
+    "wrong": [
+     "Game of Life",
+     "Stratego",
+     "Diplomacy"
+    ]
+   },
+   {
+    "q": "Colonel Mustard in the library with the candlestick",
+    "right": "Cluedo",
+    "wrong": [
+     "Guess Who?",
+     "Game of Life",
+     "Othello"
+    ]
+   },
+   {
+    "q": "Letter tiles on a grid, with triple word scores",
+    "right": "Scrabble",
+    "wrong": [
+     "Boggle",
+     "Bananagrams",
+     "Snap"
+    ]
+   },
+   {
+    "q": "Slide down, climb up, first to 100",
+    "right": "Snakes and ladders",
+    "wrong": [
+     "Sorry!",
+     "Backgammon",
+     "Mancala"
+    ]
+   },
+   {
+    "q": "Four colours race home, and you need a six to get out",
+    "right": "Ludo",
+    "wrong": [
+     "Sorry!",
+     "Mancala",
+     "Backgammon"
+    ]
+   },
+   {
+    "q": "Jump your opponent's pieces diagonally and crown a king",
+    "right": "Draughts",
+    "wrong": [
+     "Chess",
+     "Othello",
+     "Backgammon"
+    ]
+   },
+   {
+    "q": "Collect a wedge for each category",
+    "right": "Trivial Pursuit",
+    "wrong": [
+     "Articulate",
+     "Taboo",
+     "Guess Who?"
+    ]
+   },
+   {
+    "q": "Draw it for your team to guess",
+    "right": "Pictionary",
+    "wrong": [
+     "Charades",
+     "Articulate",
+     "Taboo"
+    ]
+   },
+   {
+    "q": "Conquer the world, one territory at a time",
+    "right": "Risk",
+    "wrong": [
+     "Diplomacy",
+     "Stratego",
+     "Game of Life"
+    ]
+   },
+   {
+    "q": "'B4!' 'Miss!' – sink the hidden fleet",
+    "right": "Battleship",
+    "wrong": [
+     "Stratego",
+     "Guess Who?",
+     "Othello"
+    ]
+   },
+   {
+    "q": "Crack the hidden code of coloured pegs",
+    "right": "Mastermind",
+    "wrong": [
+     "Othello",
+     "Guess Who?",
+     "Stratego"
+    ]
+   },
+   {
+    "q": "Drop discs to get four in a row",
+    "right": "Connect 4",
+    "wrong": [
+     "Othello",
+     "Snap",
+     "Mancala"
+    ]
+   },
+   {
+    "q": "Pull out the sticks without dropping the marbles",
+    "right": "Kerplunk",
+    "wrong": [
+     "Hungry Hippos",
+     "Mousetrap",
+     "Pop-up Pirate"
+    ]
+   },
+   {
+    "q": "Pull blocks from a tower without toppling it",
+    "right": "Jenga",
+    "wrong": [
+     "Hungry Hippos",
+     "Mousetrap",
+     "Pop-up Pirate"
+    ]
+   },
+   {
+    "q": "Remove the funny bone without touching the sides",
+    "right": "Operation",
+    "wrong": [
+     "Hungry Hippos",
+     "Mousetrap",
+     "Pop-up Pirate"
+    ]
+   },
+   {
+    "q": "Load the mule until it kicks",
+    "right": "Buckaroo",
+    "wrong": [
+     "Hungry Hippos",
+     "Mousetrap",
+     "Pop-up Pirate"
+    ]
+   },
+   {
+    "q": "The ancient Chinese game of black and white stones",
+    "right": "Go",
+    "wrong": [
+     "Mahjong",
+     "Shogi",
+     "Xiangqi"
+    ]
+   },
+   {
+    "q": "The Monopoly corner where nothing happens, officially",
+    "right": "Free Parking",
+    "wrong": [
+     "Jail",
+     "Go to Jail",
+     "Community Chest"
+    ]
+   }
+  ]
+ }
+]
