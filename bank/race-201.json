@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this Crystal Maze word?",
+  "target": 10,
+  "category": "TV",
+  "tags": [
+   "The Crystal Maze",
+   "game shows",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The giant dome where you grab tickets in the final",
+    "right": "Crystal Dome",
+    "wrong": [
+     "Millennium Dome",
+     "Thunderdome",
+     "Snow globe"
+    ]
+   },
+   {
+    "q": "The tickets that count towards your total",
+    "right": "Gold tokens",
+    "wrong": [
+     "Gold coins",
+     "Gold stars",
+     "Golden tickets"
+    ]
+   },
+   {
+    "q": "The tickets that get taken off your total",
+    "right": "Silver tokens",
+    "wrong": [
+     "Bronze tokens",
+     "Red tokens",
+     "Black tokens"
+    ]
+   },
+   {
+    "q": "What each game wins",
+    "right": "Crystals",
+    "wrong": [
+     "Diamonds",
+     "Rubies",
+     "Pearls"
+    ]
+   },
+   {
+    "q": "The original host, who played the harmonica",
+    "right": "Richard O'Brien",
+    "wrong": [
+     "Richard Whiteley",
+     "Richard Madeley",
+     "Richard Hammond"
+    ]
+   },
+   {
+    "q": "The host who took over in 1993",
+    "right": "Ed Tudor-Pole",
+    "wrong": [
+     "Ed Balls",
+     "Ed Sheeran",
+     "Ed Byrne"
+    ]
+   },
+   {
+    "q": "The host of the 2017 revival",
+    "right": "Richard Ayoade",
+    "wrong": [
+     "Stephen Merchant",
+     "Rob Brydon",
+     "Noel Fielding"
+    ]
+   },
+   {
+    "q": "The instrument the first host played",
+    "right": "Harmonica",
+    "wrong": [
+     "Kazoo",
+     "Ukulele",
+     "Banjo"
+    ]
+   },
+   {
+    "q": "Trapped in the cell when time runs out",
+    "right": "Lock-in",
+    "wrong": [
+     "Lockjaw",
+     "Lockdown",
+     "Lock-up"
+    ]
+   },
+   {
+    "q": "What breaking a rule triggers",
+    "right": "Automatic lock-in",
+    "wrong": [
+     "Automatic win",
+     "Penalty kick",
+     "Time-out"
+    ]
+   },
+   {
+    "q": "Swapping a crystal to free a trapped teammate",
+    "right": "Buy-back",
+    "wrong": [
+     "Buy-out",
+     "Payback",
+     "Cashback"
+    ]
+   },
+   {
+    "q": "Skill, Physical, Mental and ...",
+    "right": "Mystery",
+    "wrong": [
+     "Musical",
+     "Magic",
+     "Memory"
+    ]
+   },
+   {
+    "q": "The zone with a pyramid and sand",
+    "right": "Aztec",
+    "wrong": [
+     "Roman",
+     "Viking",
+     "Greek"
+    ]
+   },
+   {
+    "q": "The zone set on a space station",
+    "right": "Futuristic",
+    "wrong": [
+     "Galactic",
+     "Cosmic",
+     "Lunar"
+    ]
+   },
+   {
+    "q": "The zone of pipes, steam and machinery",
+    "right": "Industrial",
+    "wrong": [
+     "Victorian",
+     "Mechanical",
+     "Steampunk"
+    ]
+   },
+   {
+    "q": "The zone of castles and knights",
+    "right": "Medieval",
+    "wrong": [
+     "Tudor",
+     "Gothic",
+     "Norman"
+    ]
+   },
+   {
+    "q": "The famous line before the final",
+    "right": "Start the fans, please!",
+    "wrong": [
+     "Let's get ready to rumble!",
+     "Come on down!",
+     "Lights, camera, action!"
+    ]
+   },
+   {
+    "q": "The live London version you can play yourself",
+    "right": "Crystal Maze Live",
+    "wrong": [
+     "Crystal Palace",
+     "Crystal Ball",
+     "Crystal Method"
+    ]
+   },
+   {
+    "q": "The channel it first aired on",
+    "right": "Channel 4",
+    "wrong": [
+     "BBC One",
+     "ITV",
+     "Channel 5"
+    ]
+   },
+   {
+    "q": "Players in a team",
+    "right": "6",
+    "wrong": [
+     "4",
+     "5",
+     "8"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this word from The Chase?",
+  "target": 10,
+  "category": "TV",
+  "tags": [
+   "The Chase",
+   "quiz shows",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The quiz genius chasing the contestants",
+    "right": "Chaser",
+    "wrong": [
+     "Chancer",
+     "Chaperone",
+     "Chaplain"
+    ]
+   },
+   {
+    "q": "The host",
+    "right": "Bradley Walsh",
+    "wrong": [
+     "Ben Shephard",
+     "Alexander Armstrong",
+     "Nick Knowles"
+    ]
+   },
+   {
+    "q": "Mark Labbett's nickname",
+    "right": "The Beast",
+    "wrong": [
+     "The Brain",
+     "The Professor",
+     "The Shark"
+    ]
+   },
+   {
+    "q": "Anne Hegerty's nickname",
+    "right": "The Governess",
+    "wrong": [
+     "The Headmistress",
+     "The Matron",
+     "The Duchess"
+    ]
+   },
+   {
+    "q": "Shaun Wallace's nickname",
+    "right": "The Dark Destroyer",
+    "wrong": [
+     "The Black Panther",
+     "The Terminator",
+     "The Hammer"
+    ]
+   },
+   {
+    "q": "Paul Sinha's nickname",
+    "right": "The Sinnerman",
+    "wrong": [
+     "The Saint",
+     "The Bishop",
+     "The Monk"
+    ]
+   },
+   {
+    "q": "Jenny Ryan's nickname",
+    "right": "The Vixen",
+    "wrong": [
+     "The Fox",
+     "The Cat",
+     "The Siren"
+    ]
+   },
+   {
+    "q": "Darragh Ennis's nickname",
+    "right": "The Menace",
+    "wrong": [
+     "The Brute",
+     "The Bruiser",
+     "The Joker"
+    ]
+   },
+   {
+    "q": "The first round: as many answers as you can in a minute",
+    "right": "Cash builder",
+    "wrong": [
+     "Cash cow",
+     "Cash point",
+     "Cashback"
+    ]
+   },
+   {
+    "q": "Bigger money for starting closer to the Chaser",
+    "right": "Higher offer",
+    "wrong": [
+     "Better deal",
+     "Top bid",
+     "Gamble"
+    ]
+   },
+   {
+    "q": "Less money but a head start",
+    "right": "Lower offer",
+    "wrong": [
+     "Lowball",
+     "Safe bet",
+     "Downgrade"
+    ]
+   },
+   {
+    "q": "The two-minute showdown at the end",
+    "right": "Final Chase",
+    "wrong": [
+     "Final Countdown",
+     "Last Lap",
+     "Car Chase"
+    ]
+   },
+   {
+    "q": "Stopping the clock when the Chaser slips up",
+    "right": "Pushback",
+    "wrong": [
+     "Comeback",
+     "Kickback",
+     "Flashback"
+    ]
+   },
+   {
+    "q": "Steps given for each player who reaches the final",
+    "right": "Head start",
+    "wrong": [
+     "Jump start",
+     "False start",
+     "Fresh start"
+    ]
+   },
+   {
+    "q": "When the Chaser lands on your step",
+    "right": "Caught",
+    "wrong": [
+     "Bowled",
+     "Stumped",
+     "Tagged"
+    ]
+   },
+   {
+    "q": "Getting the money all the way down the board",
+    "right": "Getting home",
+    "wrong": [
+     "Getting off",
+     "Getting by",
+     "Getting lost"
+    ]
+   },
+   {
+    "q": "The question format in the head-to-head",
+    "right": "Multiple choice",
+    "wrong": [
+     "True or false",
+     "Fill in the blank",
+     "Spot the difference"
+    ]
+   },
+   {
+    "q": "The spin-off where several Chasers take on one player",
+    "right": "Beat the Chasers",
+    "wrong": [
+     "Beat the Clock",
+     "Beat the Intro",
+     "Beat Bobby Flay"
+    ]
+   },
+   {
+    "q": "The channel it's on",
+    "right": "ITV",
+    "wrong": [
+     "BBC One",
+     "Channel 4",
+     "Sky One"
+    ]
+   },
+   {
+    "q": "The ITV quiz that follows it some afternoons, with a coin-pusher",
+    "right": "Tipping Point",
+    "wrong": [
+     "Pointless",
+     "Golden Balls",
+     "Deal or No Deal"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this Only Fools and Horses word?",
+  "target": 10,
+  "category": "TV",
+  "tags": [
+   "Only Fools and Horses",
+   "sitcoms",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The wheeler-dealer played by David Jason",
+    "right": "Del Boy",
+    "wrong": [
+     "Arthur Daley",
+     "Frank Spencer",
+     "Albert Steptoe"
+    ]
+   },
+   {
+    "q": "His younger brother, the 'plonker'",
+    "right": "Rodney",
+    "wrong": [
+     "Dougal",
+     "Baldrick",
+     "Gareth"
+    ]
+   },
+   {
+    "q": "The road sweeper who calls Rodney 'Dave'",
+    "right": "Trigger",
+    "wrong": [
+     "Sparky",
+     "Arthur",
+     "Norman"
+    ]
+   },
+   {
+    "q": "The smug second-hand car dealer",
+    "right": "Boycie",
+    "wrong": [
+     "Smithy",
+     "Gareth",
+     "Swiss Toni"
+    ]
+   },
+   {
+    "q": "The long-suffering lorry driver",
+    "right": "Denzil",
+    "wrong": [
+     "Dennis",
+     "Derek",
+     "Darren"
+    ]
+   },
+   {
+    "q": "The old sailor who starts every story 'During the war...'",
+    "right": "Uncle Albert",
+    "wrong": [
+     "Captain Birdseye",
+     "Captain Pugwash",
+     "Uncle Bulgaria"
+    ]
+   },
+   {
+    "q": "The old man glued to two tellies",
+    "right": "Grandad",
+    "wrong": [
+     "Granny",
+     "Grandpa Joe",
+     "Uncle Fester"
+    ]
+   },
+   {
+    "q": "Del's partner, mother of Damien",
+    "right": "Raquel",
+    "wrong": [
+     "Rachel",
+     "Rebecca",
+     "Rosie"
+    ]
+   },
+   {
+    "q": "Rodney's posh wife",
+    "right": "Cassandra",
+    "wrong": [
+     "Camilla",
+     "Clarissa",
+     "Cordelia"
+    ]
+   },
+   {
+    "q": "Their local pub",
+    "right": "Nag's Head",
+    "wrong": [
+     "Rovers Return",
+     "Queen Vic",
+     "Woolpack"
+    ]
+   },
+   {
+    "q": "The part of London they live in",
+    "right": "Peckham",
+    "wrong": [
+     "Walford",
+     "Hackney",
+     "Brixton"
+    ]
+   },
+   {
+    "q": "Their tower block",
+    "right": "Nelson Mandela House",
+    "wrong": [
+     "Nelson's Column",
+     "Mandela Way",
+     "Churchill House"
+    ]
+   },
+   {
+    "q": "Their yellow three-wheeled van",
+    "right": "Reliant Regal",
+    "wrong": [
+     "Ford Transit",
+     "Morris Minor",
+     "Bond Bug"
+    ]
+   },
+   {
+    "q": "The firm painted on the van",
+    "right": "Trotters Independent Traders",
+    "wrong": [
+     "Peckham Market Traders",
+     "Del's Discount Deals",
+     "Trotter & Sons"
+    ]
+   },
+   {
+    "q": "Del's catchphrase for something great",
+    "right": "Lovely jubbly",
+    "wrong": [
+     "Bob's your uncle",
+     "Easy peasy",
+     "Bang tidy"
+    ]
+   },
+   {
+    "q": "What Del calls Rodney",
+    "right": "Plonker",
+    "wrong": [
+     "Wally",
+     "Muppet",
+     "Numpty"
+    ]
+   },
+   {
+    "q": "What they drop in the famous stately-home scene",
+    "right": "Chandelier",
+    "wrong": [
+     "Grandfather clock",
+     "Grand piano",
+     "Suit of armour"
+    ]
+   },
+   {
+    "q": "Their fancy dress in 'Heroes and Villains'",
+    "right": "Batman and Robin",
+    "wrong": [
+     "Laurel and Hardy",
+     "Starsky and Hutch",
+     "Bananas in Pyjamas"
+    ]
+   },
+   {
+    "q": "The actor who played Del",
+    "right": "David Jason",
+    "wrong": [
+     "Nicholas Lyndhurst",
+     "Ronnie Barker",
+     "Dennis Waterman"
+    ]
+   },
+   {
+    "q": "The writer of the show",
+    "right": "John Sullivan",
+    "wrong": [
+     "Richard Curtis",
+     "Ben Elton",
+     "Roy Clarke"
+    ]
+   }
+  ]
+ }
+]
