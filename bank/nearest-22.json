@@ -1,0 +1,111 @@
+[
+ {
+  "type": "nearest",
+  "text": "How many episodes of Friends were made?",
+  "answer": 236,
+  "unit": "episodes",
+  "spread": 40,
+  "difficulty": "hard",
+  "category": "TV",
+  "tags": [
+   "nearest wins",
+   "wow"
+  ]
+ },
+ {
+  "type": "nearest",
+  "text": "How many top-flight titles have Liverpool won, up to 2025?",
+  "answer": 20,
+  "unit": "titles",
+  "spread": 3,
+  "difficulty": "medium",
+  "category": "Football",
+  "tags": [
+   "nearest wins"
+  ]
+ },
+ {
+  "type": "nearest",
+  "text": "Counting old First Division wins too, how many English league titles have Manchester United won?",
+  "answer": 20,
+  "unit": "titles",
+  "spread": 3,
+  "difficulty": "medium",
+  "category": "Football",
+  "tags": [
+   "nearest wins"
+  ]
+ },
+ {
+  "type": "nearest",
+  "text": "How many FA Cups have Arsenal won, a record?",
+  "answer": 14,
+  "unit": "cups",
+  "spread": 3,
+  "difficulty": "medium",
+  "category": "Football",
+  "tags": [
+   "nearest wins"
+  ]
+ },
+ {
+  "type": "nearest",
+  "text": "West Germany included, how many times have Germany lifted the men's World Cup?",
+  "answer": 4,
+  "unit": "World Cups",
+  "spread": 1,
+  "difficulty": "medium",
+  "category": "Football",
+  "tags": [
+   "nearest wins"
+  ]
+ },
+ {
+  "type": "nearest",
+  "text": "How many Wimbledon singles titles did Martina Navratilova win?",
+  "answer": 9,
+  "unit": "titles",
+  "spread": 2,
+  "difficulty": "medium",
+  "category": "Sport",
+  "tags": [
+   "nearest wins"
+  ]
+ },
+ {
+  "type": "nearest",
+  "text": "How many times did Chris Froome win the Tour de France?",
+  "answer": 4,
+  "unit": "wins",
+  "spread": 1,
+  "difficulty": "medium",
+  "category": "Sport",
+  "tags": [
+   "nearest wins"
+  ]
+ },
+ {
+  "type": "nearest",
+  "text": "How many UK number ones did Elvis Presley have?",
+  "answer": 21,
+  "unit": "number ones",
+  "spread": 5,
+  "difficulty": "hard",
+  "category": "Music",
+  "tags": [
+   "nearest wins"
+  ]
+ },
+ {
+  "type": "nearest",
+  "text": "How many Olympic gold medals did Sir Chris Hoy win?",
+  "answer": 6,
+  "unit": "golds",
+  "spread": 2,
+  "difficulty": "medium",
+  "category": "Sport",
+  "tags": [
+   "nearest wins"
+  ]
+ }
+]
