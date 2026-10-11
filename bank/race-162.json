@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this panto word?",
+  "target": 10,
+  "category": "Entertainment",
+  "tags": [
+   "pantomime",
+   "Christmas",
+   "theatre"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The man in a frock and a huge wig",
+    "right": "Dame",
+    "wrong": [
+     "Ugly duckling",
+     "Jester",
+     "Clown"
+    ]
+   },
+   {
+    "q": "The hero, traditionally played by a young woman in tights",
+    "right": "Principal boy",
+    "wrong": [
+     "Leading lady",
+     "Understudy",
+     "Chorus girl"
+    ]
+   },
+   {
+    "q": "The audience's reply to 'Oh yes it is!'",
+    "right": "Oh no it isn't!",
+    "wrong": [
+     "Hip hip hooray!",
+     "Encore!",
+     "Bravo!"
+    ]
+   },
+   {
+    "q": "What everyone shouts when the villain sneaks up",
+    "right": "Behind you!",
+    "wrong": [
+     "Bravo!",
+     "Encore!",
+     "Hip hip hooray!"
+    ]
+   },
+   {
+    "q": "What the audience does when the villain walks on",
+    "right": "Booing",
+    "wrong": [
+     "Cheering",
+     "Clapping",
+     "Whistling"
+    ]
+   },
+   {
+    "q": "Two actors in one costume in Jack and the Beanstalk",
+    "right": "Pantomime cow",
+    "wrong": [
+     "Pantomime dragon",
+     "Pantomime goat",
+     "Pantomime pig"
+    ]
+   },
+   {
+    "q": "The dame in Aladdin",
+    "right": "Widow Twankey",
+    "wrong": [
+     "Mother Goose",
+     "Dame Trott",
+     "Sarah the Cook"
+    ]
+   },
+   {
+    "q": "Cinderella's loyal friend",
+    "right": "Buttons",
+    "wrong": [
+     "Dandini",
+     "Wishee Washee",
+     "Idle Jack"
+    ]
+   },
+   {
+    "q": "The villain in Aladdin",
+    "right": "Abanazar",
+    "wrong": [
+     "Fleshcreep",
+     "Captain Hook",
+     "Baron Hardup"
+    ]
+   },
+   {
+    "q": "The villain in Dick Whittington",
+    "right": "King Rat",
+    "wrong": [
+     "Fleshcreep",
+     "Captain Hook",
+     "Baron Hardup"
+    ]
+   },
+   {
+    "q": "Dick Whittington's faithful companion",
+    "right": "Tommy the Cat",
+    "wrong": [
+     "Puss in Boots",
+     "Daisy the Cow",
+     "Simple Simon"
+    ]
+   },
+   {
+    "q": "Cinderella's nasty stepsisters",
+    "right": "Ugly Sisters",
+    "wrong": [
+     "Weird Sisters",
+     "Andrews Sisters",
+     "Pointer Sisters"
+    ]
+   },
+   {
+    "q": "Messy comedy with buckets of gunge and custard pies",
+    "right": "Slapstick",
+    "wrong": [
+     "Stand-up",
+     "Satire",
+     "Mime"
+    ]
+   },
+   {
+    "q": "Thrown into the audience",
+    "right": "Sweets",
+    "wrong": [
+     "Confetti",
+     "Flowers",
+     "Programmes"
+    ]
+   },
+   {
+    "q": "The lyrics lowered from above for a sing-along",
+    "right": "Song sheet",
+    "wrong": [
+     "Cue card",
+     "Autocue",
+     "Libretto"
+    ]
+   },
+   {
+    "q": "Turns a pumpkin into a coach",
+    "right": "Fairy Godmother",
+    "wrong": [
+     "Tooth Fairy",
+     "Wicked Queen",
+     "Snow Queen"
+    ]
+   },
+   {
+    "q": "Pops out of the lamp in Aladdin",
+    "right": "Genie",
+    "wrong": [
+     "Leprechaun",
+     "Imp",
+     "Goblin"
+    ]
+   },
+   {
+    "q": "What Jack climbs",
+    "right": "Beanstalk",
+    "wrong": [
+     "Ladder",
+     "Drainpipe",
+     "Rope"
+    ]
+   },
+   {
+    "q": "The season when most pantos run",
+    "right": "Christmas",
+    "wrong": [
+     "Easter",
+     "Halloween",
+     "Midsummer"
+    ]
+   },
+   {
+    "q": "What Cinderella leaves behind at the ball",
+    "right": "Glass slipper",
+    "wrong": [
+     "Ruby slipper",
+     "Clog",
+     "Wellington"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this Bonfire Night word?",
+  "target": 10,
+  "category": "Bonfire Night and autumn",
+  "tags": [
+   "Bonfire Night",
+   "Gunpowder Plot",
+   "fireworks"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Caught guarding the gunpowder in 1605",
+    "right": "Guy Fawkes",
+    "wrong": [
+     "Thomas Percy",
+     "Thomas Wintour",
+     "Walter Raleigh"
+    ]
+   },
+   {
+    "q": "The leader of the Gunpowder Plot",
+    "right": "Robert Catesby",
+    "wrong": [
+     "Thomas Percy",
+     "Thomas Wintour",
+     "Francis Drake"
+    ]
+   },
+   {
+    "q": "The king they tried to blow up",
+    "right": "James I",
+    "wrong": [
+     "Charles I",
+     "Henry VIII",
+     "Elizabeth I"
+    ]
+   },
+   {
+    "q": "The building they tried to blow up",
+    "right": "Houses of Parliament",
+    "wrong": [
+     "Tower of London",
+     "Westminster Abbey",
+     "Buckingham Palace"
+    ]
+   },
+   {
+    "q": "What filled the barrels under the House of Lords",
+    "right": "Gunpowder",
+    "wrong": [
+     "Dynamite",
+     "TNT",
+     "Napalm"
+    ]
+   },
+   {
+    "q": "The stuffed figure burned on the bonfire",
+    "right": "Guy",
+    "wrong": [
+     "Scarecrow",
+     "Mannequin",
+     "Puppet"
+    ]
+   },
+   {
+    "q": "What children used to ask for, showing off their stuffed figure",
+    "right": "Penny for the guy",
+    "wrong": [
+     "Trick or treat",
+     "Bob a job",
+     "Knock knock"
+    ]
+   },
+   {
+    "q": "The handheld firework you write your name with",
+    "right": "Sparkler",
+    "wrong": [
+     "Fountain",
+     "Mine",
+     "Flare"
+    ]
+   },
+   {
+    "q": "A tube firing coloured balls one after another",
+    "right": "Roman candle",
+    "wrong": [
+     "Fountain",
+     "Cake",
+     "Flare"
+    ]
+   },
+   {
+    "q": "Spins round on a post",
+    "right": "Catherine wheel",
+    "wrong": [
+     "Fountain",
+     "Mine",
+     "Cake"
+    ]
+   },
+   {
+    "q": "Shoots up into the sky on a stick",
+    "right": "Rocket",
+    "wrong": [
+     "Mine",
+     "Cake",
+     "Flare"
+    ]
+   },
+   {
+    "q": "A sticky, red-coated treat on a stick",
+    "right": "Toffee apple",
+    "wrong": [
+     "Candyfloss",
+     "Lolly",
+     "Corn dog"
+    ]
+   },
+   {
+    "q": "Sticky oaty gingerbread from Yorkshire",
+    "right": "Parkin",
+    "wrong": [
+     "Flapjack",
+     "Brack",
+     "Lardy cake"
+    ]
+   },
+   {
+    "q": "Dark, brittle treacle sweet, also called plot toffee",
+    "right": "Bonfire toffee",
+    "wrong": [
+     "Fudge",
+     "Tablet",
+     "Nougat"
+    ]
+   },
+   {
+    "q": "The opening words of the rhyme about the fifth of November",
+    "right": "Remember, remember",
+    "wrong": [
+     "Ring a ring",
+     "Twinkle, twinkle",
+     "Hickory dickory"
+    ]
+   },
+   {
+    "q": "The Sussex town famous for its huge bonfire parades",
+    "right": "Lewes",
+    "wrong": [
+     "Rye",
+     "Hastings",
+     "Brighton"
+    ]
+   },
+   {
+    "q": "Where the gunpowder was hidden, beneath the House of Lords",
+    "right": "Undercroft",
+    "wrong": [
+     "Attic",
+     "Belfry",
+     "Turret"
+    ]
+   },
+   {
+    "q": "The crime the plotters were executed for",
+    "right": "Treason",
+    "wrong": [
+     "Arson",
+     "Piracy",
+     "Fraud"
+    ]
+   },
+   {
+    "q": "The date of Bonfire Night",
+    "right": "Fifth of November",
+    "wrong": [
+     "First of November",
+     "Thirty-first of October",
+     "Eleventh of November"
+    ]
+   },
+   {
+    "q": "Where you put a used sparkler",
+    "right": "Bucket of water",
+    "wrong": [
+     "Bin",
+     "Flower bed",
+     "Pocket"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this Scouting word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "Scouts",
+   "Guides",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The founder of the Scouts",
+    "right": "Baden-Powell",
+    "wrong": [
+     "Lord Kitchener",
+     "Captain Scott",
+     "Ernest Shackleton"
+    ]
+   },
+   {
+    "q": "The site of the first Scout camp, in 1907",
+    "right": "Brownsea Island",
+    "wrong": [
+     "Lundy",
+     "Holy Island",
+     "Isle of Wight"
+    ]
+   },
+   {
+    "q": "The ring that holds the neckerchief in place",
+    "right": "Woggle",
+    "wrong": [
+     "Toggle",
+     "Brooch",
+     "Cufflink"
+    ]
+   },
+   {
+    "q": "The scarf worn in the troop's colours",
+    "right": "Neckerchief",
+    "wrong": [
+     "Cravat",
+     "Cummerbund",
+     "Stole"
+    ]
+   },
+   {
+    "q": "The Scout motto",
+    "right": "Be Prepared",
+    "wrong": [
+     "Do Your Best",
+     "Lend a Hand",
+     "Be Kind"
+    ]
+   },
+   {
+    "q": "The section for 8 to 10½-year-olds",
+    "right": "Cubs",
+    "wrong": [
+     "Squirrels",
+     "Explorers",
+     "Rovers"
+    ]
+   },
+   {
+    "q": "The section for 6 to 8-year-olds",
+    "right": "Beavers",
+    "wrong": [
+     "Explorers",
+     "Rovers",
+     "Rangers"
+    ]
+   },
+   {
+    "q": "The name for a Cub leader, from The Jungle Book",
+    "right": "Akela",
+    "wrong": [
+     "Mowgli",
+     "Kaa",
+     "Shere Khan"
+    ]
+   },
+   {
+    "q": "Earned for a skill and sewn on the uniform",
+    "right": "Badge",
+    "wrong": [
+     "Medal",
+     "Rosette",
+     "Trophy"
+    ]
+   },
+   {
+    "q": "A huge international Scout gathering",
+    "right": "Jamboree",
+    "wrong": [
+     "Jubilee",
+     "Carnival",
+     "Regatta"
+    ]
+   },
+   {
+    "q": "The old fundraising week doing chores for a shilling",
+    "right": "Bob-a-job",
+    "wrong": [
+     "Penny for the guy",
+     "Trick or treat",
+     "Car boot"
+    ]
+   },
+   {
+    "q": "The Scouts' variety show, made famous by Ralph Reader",
+    "right": "Gang Show",
+    "wrong": [
+     "Royal Variety",
+     "Panto",
+     "Talent show"
+    ]
+   },
+   {
+    "q": "Right over left, then left over right",
+    "right": "Reef knot",
+    "wrong": [
+     "Granny knot",
+     "Bowline",
+     "Clove hitch"
+    ]
+   },
+   {
+    "q": "A small group of about six Scouts with its own leader",
+    "right": "Patrol",
+    "wrong": [
+     "Platoon",
+     "Squadron",
+     "Brigade"
+    ]
+   },
+   {
+    "q": "What new Scouts make when they join",
+    "right": "Promise",
+    "wrong": [
+     "Wager",
+     "Toast",
+     "Petition"
+    ]
+   },
+   {
+    "q": "Where you sing songs and toast marshmallows",
+    "right": "Campfire",
+    "wrong": [
+     "Barbecue",
+     "Beacon",
+     "Brazier"
+    ]
+   },
+   {
+    "q": "The girls' movement founded in 1910 by Agnes Baden-Powell",
+    "right": "Guides",
+    "wrong": [
+     "Women's Institute",
+     "Townswomen's Guild",
+     "Rangers"
+    ]
+   },
+   {
+    "q": "The younger section of Girlguiding, aged 7 to 10",
+    "right": "Brownies",
+    "wrong": [
+     "Rainbows",
+     "Rangers",
+     "Pixies"
+    ]
+   },
+   {
+    "q": "Used with a map for orienteering",
+    "right": "Compass",
+    "wrong": [
+     "Sextant",
+     "Barometer",
+     "Sundial"
+    ]
+   },
+   {
+    "q": "How many fingers the Scout salute uses",
+    "right": "Three",
+    "wrong": [
+     "Two",
+     "Four",
+     "Five"
+    ]
+   }
+  ]
+ }
+]
