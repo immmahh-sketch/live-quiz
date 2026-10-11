@@ -1,0 +1,181 @@
+[
+ {
+  "type": "club",
+  "text": "You put on a pair of socks and a pair of shoes. How many items is that on your feet?",
+  "answers": [
+   "4",
+   "Four"
+  ],
+  "pct": 90,
+  "why": "Two socks plus two shoes.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "clothes",
+   "pairs"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Fill the gap in the five times table: 5, 10, 15, ?, 25.",
+  "answers": [
+   "20",
+   "Twenty"
+  ],
+  "pct": 80,
+  "why": "Each step adds 5, so 15 + 5 = 20.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "counting in fives"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "In a February that isn't a leap year, what's the most Fridays it can have?",
+  "answers": [
+   "4",
+   "Four"
+  ],
+  "pct": 50,
+  "why": "28 days is exactly four weeks, so every weekday appears four times.",
+  "difficulty": "medium",
+  "category": "Time",
+  "tags": [
+   "February",
+   "calendar"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which weighs more: a kilogram of feathers or 900 grams of bricks?",
+  "answers": [
+   "A kilogram of feathers",
+   "Feathers",
+   "The feathers"
+  ],
+  "pct": 40,
+  "why": "1,000 grams beats 900 grams, whatever it's made of.",
+  "difficulty": "medium",
+  "category": "Logic",
+  "tags": [
+   "weight",
+   "trick questions"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Use the digits 1, 2, 3 and 4 once each to make two two-digit numbers with the biggest possible product. What is that product?",
+  "answers": [
+   "1312",
+   "1,312"
+  ],
+  "pct": 1,
+  "why": "41 × 32 = 1,312 beats 42 × 31 = 1,302 and every other split.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "digits",
+   "multiplying"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Gran is older than Aunt Jo, and Aunt Jo is older than Uncle Pete. Who's the youngest of the three?",
+  "answers": [
+   "Uncle Pete",
+   "Pete"
+  ],
+  "pct": 70,
+  "why": "Gran > Jo > Pete, so Pete is youngest.",
+  "difficulty": "easy",
+  "category": "Logic",
+  "tags": [
+   "ages",
+   "family"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Mum is 34 and her son is 8. How old will Mum be when her son turns 20?",
+  "answers": [
+   "46",
+   "Forty-six"
+  ],
+  "pct": 60,
+  "why": "That's 12 years away, and 34 + 12 = 46.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "ages"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A pack of six bread rolls costs £1.50. What's the price of one roll?",
+  "answers": [
+   "25p",
+   "25 pence",
+   "£0.25"
+  ],
+  "pct": 50,
+  "why": "150p ÷ 6 = 25p.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "money",
+   "dividing"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Grandad's Whitby train departs at 10:50 and the trip lasts 25 minutes. When does he get there?",
+  "answers": [
+   "11:15",
+   "Quarter past eleven",
+   "11.15"
+  ],
+  "pct": 60,
+  "why": "10 minutes takes it to 11:00, then 15 more.",
+  "difficulty": "medium",
+  "category": "Time",
+  "tags": [
+   "trains",
+   "Whitby"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "At the chippy, a fish and a portion of chips come to £4 in total. The fish is £3 dearer than the chips. How much are the chips?",
+  "answers": [
+   "50p",
+   "50 pence",
+   "£0.50"
+  ],
+  "pct": 5,
+  "why": "Chips 50p, fish £3.50: £4 altogether, £3 apart.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "money",
+   "fish and chips"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Your phone battery is at 40% and drops 5% every hour. How many hours until it's dead?",
+  "answers": [
+   "8",
+   "Eight",
+   "8 hours"
+  ],
+  "pct": 30,
+  "why": "40 ÷ 5 = 8.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "phone battery",
+   "percentages"
+  ]
+ }
+]
