@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each actress to the film that won her Best Actress",
+  "pairs": [
+   {
+    "left": "Frances McDormand",
+    "right": "Fargo"
+   },
+   {
+    "left": "Emma Stone",
+    "right": "La La Land"
+   },
+   {
+    "left": "Olivia Colman",
+    "right": "The Favourite"
+   },
+   {
+    "left": "Julia Roberts",
+    "right": "Erin Brockovich"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

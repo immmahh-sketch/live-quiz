@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each bone to where you'd find it",
+  "pairs": [
+   {
+    "left": "Femur",
+    "right": "Thigh"
+   },
+   {
+    "left": "Humerus",
+    "right": "Upper arm"
+   },
+   {
+    "left": "Mandible",
+    "right": "Jaw"
+   },
+   {
+    "left": "Tibia",
+    "right": "Shin"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

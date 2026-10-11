@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Marvel hero to their signature weapon",
+  "pairs": [
+   {
+    "left": "Thor",
+    "right": "Hammer"
+   },
+   {
+    "left": "Captain America",
+    "right": "Shield"
+   },
+   {
+    "left": "Hawkeye",
+    "right": "Bow and arrow"
+   },
+   {
+    "left": "Wolverine",
+    "right": "Claws"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

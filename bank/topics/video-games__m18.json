@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each game character to what kind of creature they are",
+  "pairs": [
+   {
+    "left": "Sonic",
+    "right": "Hedgehog"
+   },
+   {
+    "left": "Crash",
+    "right": "Bandicoot"
+   },
+   {
+    "left": "Spyro",
+    "right": "Dragon"
+   },
+   {
+    "left": "Yoshi",
+    "right": "Dinosaur"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each fantasy wizard to their story",
+  "pairs": [
+   {
+    "left": "Gandalf",
+    "right": "The Lord of the Rings"
+   },
+   {
+    "left": "Merlin",
+    "right": "The legend of King Arthur"
+   },
+   {
+    "left": "Rincewind",
+    "right": "Discworld"
+   },
+   {
+    "left": "Ged",
+    "right": "Earthsea"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Olympian to their nickname",
+  "pairs": [
+   {
+    "left": "Usain Bolt",
+    "right": "Lightning Bolt"
+   },
+   {
+    "left": "Michael Phelps",
+    "right": "The Baltimore Bullet"
+   },
+   {
+    "left": "Eddie Edwards",
+    "right": "The Eagle"
+   },
+   {
+    "left": "Ian Thorpe",
+    "right": "The Thorpedo"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

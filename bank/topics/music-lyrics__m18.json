@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each lyric or song title to the missing day",
+  "pairs": [
+   {
+    "left": "I don't like ___s",
+    "right": "Monday"
+   },
+   {
+    "left": "___ I'm in Love",
+    "right": "Friday"
+   },
+   {
+    "left": "Ruby ___",
+    "right": "Tuesday"
+   },
+   {
+    "left": "___ Bloody ___",
+    "right": "Sunday"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

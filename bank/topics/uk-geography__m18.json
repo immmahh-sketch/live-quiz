@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each island to the part of the UK it belongs to",
+  "pairs": [
+   {
+    "left": "Anglesey",
+    "right": "Wales"
+   },
+   {
+    "left": "Arran",
+    "right": "Scotland"
+   },
+   {
+    "left": "Lundy",
+    "right": "England"
+   },
+   {
+    "left": "Rathlin Island",
+    "right": "Northern Ireland"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

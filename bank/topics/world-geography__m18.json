@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each capital to the river that runs through it",
+  "pairs": [
+   {
+    "left": "Paris",
+    "right": "Seine"
+   },
+   {
+    "left": "Rome",
+    "right": "Tiber"
+   },
+   {
+    "left": "Budapest",
+    "right": "Danube"
+   },
+   {
+    "left": "Cairo",
+    "right": "Nile"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]
