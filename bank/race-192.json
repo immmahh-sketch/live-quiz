@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this house buying word?",
+  "target": 10,
+  "category": "Lifestyle",
+  "tags": [
+   "property",
+   "house buying",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The big loan you take out to buy a home",
+    "right": "Mortgage",
+    "wrong": [
+     "Overdraft",
+     "Pension",
+     "Annuity"
+    ]
+   },
+   {
+    "q": "The chunk of the price you put down yourself",
+    "right": "Deposit",
+    "wrong": [
+     "Dividend",
+     "Rebate",
+     "Refund"
+    ]
+   },
+   {
+    "q": "The tax you pay when you buy",
+    "right": "Stamp duty",
+    "wrong": [
+     "Council tax",
+     "Road tax",
+     "Poll tax"
+    ]
+   },
+   {
+    "q": "The inspection for damp, cracks and rot",
+    "right": "Survey",
+    "wrong": [
+     "Census",
+     "Audit",
+     "Poll"
+    ]
+   },
+   {
+    "q": "The legal work of transferring ownership",
+    "right": "Conveyancing",
+    "wrong": [
+     "Conveyor belt",
+     "Convening",
+     "Canvassing"
+    ]
+   },
+   {
+    "q": "Another buyer outbidding you after your offer was accepted",
+    "right": "Gazumping",
+    "wrong": [
+     "Gazundering",
+     "Gatecrashing",
+     "Jumping the gun"
+    ]
+   },
+   {
+    "q": "The line of buyers and sellers all waiting on each other",
+    "right": "Chain",
+    "wrong": [
+     "Queue",
+     "Loop",
+     "Rope"
+    ]
+   },
+   {
+    "q": "What first-time buyers try to get a foot on",
+    "right": "Property ladder",
+    "wrong": [
+     "Stepladder",
+     "Snakes and ladders",
+     "Rope ladder"
+    ]
+   },
+   {
+    "q": "The moment the deal becomes legally binding",
+    "right": "Exchange of contracts",
+    "wrong": [
+     "Shaking hands",
+     "Signing off",
+     "Handover"
+    ]
+   },
+   {
+    "q": "Moving day, when the money changes hands and you get the keys",
+    "right": "Completion",
+    "wrong": [
+     "Conclusion",
+     "Competition",
+     "Compilation"
+    ]
+   },
+   {
+    "q": "Owning the building and the land outright, for ever",
+    "right": "Freehold",
+    "wrong": [
+     "Stronghold",
+     "Foothold",
+     "Household"
+    ]
+   },
+   {
+    "q": "Owning it only for a fixed number of years",
+    "right": "Leasehold",
+    "wrong": [
+     "Rent-to-buy",
+     "Timeshare",
+     "Tenancy"
+    ]
+   },
+   {
+    "q": "Owing more than the house is worth",
+    "right": "Negative equity",
+    "wrong": [
+     "Negative feedback",
+     "Overdrawn",
+     "Bankruptcy"
+    ]
+   },
+   {
+    "q": "The price the seller hopes to get",
+    "right": "Asking price",
+    "wrong": [
+     "Ticket price",
+     "Reserve price",
+     "Cover price"
+    ]
+   },
+   {
+    "q": "A house joined to one neighbour",
+    "right": "Semi-detached",
+    "wrong": [
+     "Detached",
+     "Maisonette",
+     "Cottage"
+    ]
+   },
+   {
+    "q": "A house in a row, joined on both sides",
+    "right": "Terraced",
+    "wrong": [
+     "Detached",
+     "Maisonette",
+     "Cottage"
+    ]
+   },
+   {
+    "q": "A home with no upstairs",
+    "right": "Bungalow",
+    "wrong": [
+     "Penthouse",
+     "Townhouse",
+     "Duplex"
+    ]
+   },
+   {
+    "q": "Someone buying their very first home",
+    "right": "First-time buyer",
+    "wrong": [
+     "Early adopter",
+     "Window shopper",
+     "Landlord"
+    ]
+   },
+   {
+    "q": "The UK's biggest property-search website",
+    "right": "Rightmove",
+    "wrong": [
+     "Trustpilot",
+     "Moneysupermarket",
+     "Autotrader"
+    ]
+   },
+   {
+    "q": "Sells houses for a commission",
+    "right": "Estate agent",
+    "wrong": [
+     "Travel agent",
+     "Secret agent",
+     "Double agent"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this electrician's word?",
+  "target": 10,
+  "category": "Science",
+  "tags": [
+   "electricity",
+   "trades",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Slang for an electrician",
+    "right": "Sparky",
+    "wrong": [
+     "Chippy",
+     "Brickie",
+     "Postie"
+    ]
+   },
+   {
+    "q": "Blows to protect a circuit",
+    "right": "Fuse",
+    "wrong": [
+     "Valve",
+     "Filter",
+     "Washer"
+    ]
+   },
+   {
+    "q": "The box of switches that trip when something goes wrong",
+    "right": "Fuse box",
+    "wrong": [
+     "Junction box",
+     "Meter box",
+     "Letterbox"
+    ]
+   },
+   {
+    "q": "The green-and-yellow wire",
+    "right": "Earth",
+    "wrong": [
+     "Return",
+     "Signal",
+     "Feed"
+    ]
+   },
+   {
+    "q": "The brown wire",
+    "right": "Live",
+    "wrong": [
+     "Return",
+     "Signal",
+     "Spare"
+    ]
+   },
+   {
+    "q": "The blue wire",
+    "right": "Neutral",
+    "wrong": [
+     "Signal",
+     "Feed",
+     "Spare"
+    ]
+   },
+   {
+    "q": "The unit of electrical 'push'",
+    "right": "Volt",
+    "wrong": [
+     "Joule",
+     "Newton",
+     "Pascal"
+    ]
+   },
+   {
+    "q": "The unit of current",
+    "right": "Amp",
+    "wrong": [
+     "Hertz",
+     "Kelvin",
+     "Lumen"
+    ]
+   },
+   {
+    "q": "The unit of power printed on light bulbs",
+    "right": "Watt",
+    "wrong": [
+     "Joule",
+     "Kelvin",
+     "Lumen"
+    ]
+   },
+   {
+    "q": "The unit of resistance",
+    "right": "Ohm",
+    "wrong": [
+     "Hertz",
+     "Newton",
+     "Pascal"
+    ]
+   },
+   {
+    "q": "Current taking a path it shouldn't, with sparks",
+    "right": "Short circuit",
+    "wrong": [
+     "Long haul",
+     "Circuit training",
+     "Shortcut"
+    ]
+   },
+   {
+    "q": "The safety switch that cuts the power if you touch a live wire",
+    "right": "RCD",
+    "wrong": [
+     "MOT",
+     "LED",
+     "DVD"
+    ]
+   },
+   {
+    "q": "Checking that portable appliances are safe",
+    "right": "PAT testing",
+    "wrong": [
+     "MOT test",
+     "Smear test",
+     "Driving test"
+    ]
+   },
+   {
+    "q": "The plastic coating round copper wire",
+    "right": "Insulation",
+    "wrong": [
+     "Isolation",
+     "Inflation",
+     "Installation"
+    ]
+   },
+   {
+    "q": "A lead with several sockets on the end",
+    "right": "Extension lead",
+    "wrong": [
+     "Dog lead",
+     "Pencil lead",
+     "Lead singer"
+    ]
+   },
+   {
+    "q": "Turns the lights brighter or lower",
+    "right": "Dimmer switch",
+    "wrong": [
+     "Toggle switch",
+     "Bait and switch",
+     "Nintendo Switch"
+    ]
+   },
+   {
+    "q": "The meter that measures volts, amps and ohms",
+    "right": "Multimeter",
+    "wrong": [
+     "Speedometer",
+     "Thermometer",
+     "Pedometer"
+    ]
+   },
+   {
+    "q": "The tube that cables run through",
+    "right": "Conduit",
+    "wrong": [
+     "Culvert",
+     "Conductor",
+     "Chimney"
+    ]
+   },
+   {
+    "q": "The British plug",
+    "right": "Three-pin plug",
+    "wrong": [
+     "Two-pin plug",
+     "Spark plug",
+     "Bath plug"
+    ]
+   },
+   {
+    "q": "Where you plug in on the wall",
+    "right": "Socket",
+    "wrong": [
+     "Sprocket",
+     "Pocket",
+     "Rocket"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this job hunting word?",
+  "target": 10,
+  "category": "Lifestyle",
+  "tags": [
+   "jobs",
+   "work",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Your two-page summary of jobs and skills",
+    "right": "CV",
+    "wrong": [
+     "ID",
+     "PIN",
+     "VAT"
+    ]
+   },
+   {
+    "q": "The letter sent with it saying why you want the job",
+    "right": "Cover letter",
+    "wrong": [
+     "Love letter",
+     "Chain letter",
+     "Newsletter"
+    ]
+   },
+   {
+    "q": "A former boss vouching for you",
+    "right": "Reference",
+    "wrong": [
+     "Preference",
+     "Inference",
+     "Conference"
+    ]
+   },
+   {
+    "q": "A job waiting to be filled",
+    "right": "Vacancy",
+    "wrong": [
+     "Vacation",
+     "Vagrancy",
+     "Vacuum"
+    ]
+   },
+   {
+    "q": "The few picked out for interview",
+    "right": "Shortlist",
+    "wrong": [
+     "Shortcut",
+     "Shortbread",
+     "Short straw"
+    ]
+   },
+   {
+    "q": "A recruiter who poaches people for top jobs",
+    "right": "Headhunter",
+    "wrong": [
+     "Bounty hunter",
+     "Treasure hunter",
+     "Ghost hunter"
+    ]
+   },
+   {
+    "q": "The government office that helps people find work",
+    "right": "Jobcentre",
+    "wrong": [
+     "Garden centre",
+     "Leisure centre",
+     "Call centre"
+    ]
+   },
+   {
+    "q": "The social network for professionals",
+    "right": "LinkedIn",
+    "wrong": [
+     "Facebook",
+     "Instagram",
+     "Snapchat"
+    ]
+   },
+   {
+    "q": "The trial period at the start of a new job",
+    "right": "Probation",
+    "wrong": [
+     "Probate",
+     "Proclamation",
+     "Prohibition"
+    ]
+   },
+   {
+    "q": "The time you must work after handing in your notice letter",
+    "right": "Notice period",
+    "wrong": [
+     "Grace period",
+     "Cooling-off period",
+     "Free period"
+    ]
+   },
+   {
+    "q": "The monthly breakdown of pay and deductions",
+    "right": "Payslip",
+    "wrong": [
+     "Receipt",
+     "Invoice",
+     "Bank statement"
+    ]
+   },
+   {
+    "q": "Fixed yearly pay",
+    "right": "Salary",
+    "wrong": [
+     "Pension",
+     "Bonus",
+     "Commission"
+    ]
+   },
+   {
+    "q": "A contract with no guaranteed hours",
+    "right": "Zero-hours",
+    "wrong": [
+     "Part-time",
+     "Full-time",
+     "Flexitime"
+    ]
+   },
+   {
+    "q": "Self-employed, working for different clients",
+    "right": "Freelance",
+    "wrong": [
+     "Free rein",
+     "Free kick",
+     "Freeloader"
+    ]
+   },
+   {
+    "q": "Losing your job because the role is cut",
+    "right": "Redundancy",
+    "wrong": [
+     "Retirement",
+     "Dismissal",
+     "Sabbatical"
+    ]
+   },
+   {
+    "q": "Choosing to leave your job",
+    "right": "Resignation",
+    "wrong": [
+     "Retirement",
+     "Sabbatical",
+     "Reservation"
+    ]
+   },
+   {
+    "q": "Earning while you learn a trade",
+    "right": "Apprenticeship",
+    "wrong": [
+     "Fellowship",
+     "Partnership",
+     "Membership"
+    ]
+   },
+   {
+    "q": "A short work placement, often unpaid",
+    "right": "Internship",
+    "wrong": [
+     "Fellowship",
+     "Citizenship",
+     "Friendship"
+    ]
+   },
+   {
+    "q": "Moving up to a better job in the same firm",
+    "right": "Promotion",
+    "wrong": [
+     "Demotion",
+     "Commotion",
+     "Locomotion"
+    ]
+   },
+   {
+    "q": "The meeting where they quiz you about the job",
+    "right": "Interview",
+    "wrong": [
+     "Overview",
+     "Preview",
+     "Review"
+    ]
+   }
+  ]
+ }
+]
