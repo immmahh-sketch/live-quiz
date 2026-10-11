@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this bus word?",
+  "target": 10,
+  "category": "Travel",
+  "tags": [
+   "buses",
+   "transport",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "A bus with two floors",
+    "right": "Double-decker",
+    "wrong": [
+     "Minibus",
+     "Charabanc",
+     "Trolleybus"
+    ]
+   },
+   {
+    "q": "A long bus with a hinge in the middle",
+    "right": "Bendy bus",
+    "wrong": [
+     "Minibus",
+     "Charabanc",
+     "Trolleybus"
+    ]
+   },
+   {
+    "q": "The classic red London bus with an open platform at the back",
+    "right": "Routemaster",
+    "wrong": [
+     "Roadmaster",
+     "Ringmaster",
+     "Roadrunner"
+    ]
+   },
+   {
+    "q": "Where you wait for the bus",
+    "right": "Bus stop",
+    "wrong": [
+     "Full stop",
+     "Pit stop",
+     "Backstop"
+    ]
+   },
+   {
+    "q": "The roof over the stop",
+    "right": "Bus shelter",
+    "wrong": [
+     "Bomb shelter",
+     "Tax shelter",
+     "Animal shelter"
+    ]
+   },
+   {
+    "q": "The card that gives free travel to pensioners",
+    "right": "Bus pass",
+    "wrong": [
+     "Boarding pass",
+     "Backstage pass",
+     "Ski pass"
+    ]
+   },
+   {
+    "q": "The old job of collecting fares on board",
+    "right": "Conductor",
+    "wrong": [
+     "Inspector",
+     "Steward",
+     "Porter"
+    ]
+   },
+   {
+    "q": "What you press to stop the bus",
+    "right": "Bell",
+    "wrong": [
+     "Horn",
+     "Whistle",
+     "Siren"
+    ]
+   },
+   {
+    "q": "The list of departure times",
+    "right": "Timetable",
+    "wrong": [
+     "Times table",
+     "Tide table",
+     "Coffee table"
+    ]
+   },
+   {
+    "q": "The last stop at the end of the line",
+    "right": "Terminus",
+    "wrong": [
+     "Junction",
+     "Interchange",
+     "Crossing"
+    ]
+   },
+   {
+    "q": "A long-distance bus, like National Express",
+    "right": "Coach",
+    "wrong": [
+     "Tram",
+     "Shuttle",
+     "Rickshaw"
+    ]
+   },
+   {
+    "q": "A lane only for buses",
+    "right": "Bus lane",
+    "wrong": [
+     "Memory lane",
+     "Fast lane",
+     "Lovers' lane"
+    ]
+   },
+   {
+    "q": "London's travel card, named after a shellfish",
+    "right": "Oyster",
+    "wrong": [
+     "Mussel",
+     "Clam",
+     "Cockle"
+    ]
+   },
+   {
+    "q": "A stop where the bus only pulls in if you signal",
+    "right": "Request stop",
+    "wrong": [
+     "Emergency stop",
+     "Last orders",
+     "Rain check"
+    ]
+   },
+   {
+    "q": "When the buses are packed",
+    "right": "Rush hour",
+    "wrong": [
+     "Happy hour",
+     "Zero hour",
+     "Witching hour"
+    ]
+   },
+   {
+    "q": "The Cliff Richard film about a London bus trip across Europe",
+    "right": "Summer Holiday",
+    "wrong": [
+     "The Italian Job",
+     "Carry On Abroad",
+     "Mamma Mia!"
+    ]
+   },
+   {
+    "q": "The 1970s sitcom with Reg Varney and 'I 'ate you, Butler!'",
+    "right": "On the Buses",
+    "wrong": [
+     "Dad's Army",
+     "Porridge",
+     "Rising Damp"
+    ]
+   },
+   {
+    "q": "The price of a journey",
+    "right": "Fare",
+    "wrong": [
+     "Toll",
+     "Rent",
+     "Levy"
+    ]
+   },
+   {
+    "q": "'Please have the ___ ready'",
+    "right": "Exact change",
+    "wrong": [
+     "Small change",
+     "Climate change",
+     "Sea change"
+    ]
+   },
+   {
+    "q": "The 1994 film about a bus that mustn't drop below 50 mph",
+    "right": "Speed",
+    "wrong": [
+     "Crash",
+     "Drive",
+     "Duel"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this strongman word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "strongman",
+   "weightlifting",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Lifting a bar from the floor to the hips",
+    "right": "Deadlift",
+    "wrong": [
+     "Curl",
+     "Shrug",
+     "Row"
+    ]
+   },
+   {
+    "q": "Pushing the bar up while lying on your back",
+    "right": "Bench press",
+    "wrong": [
+     "Curl",
+     "Shrug",
+     "Row"
+    ]
+   },
+   {
+    "q": "The Olympic lift: to the shoulders, then overhead",
+    "right": "Clean and jerk",
+    "wrong": [
+     "Push-up",
+     "Pull-up",
+     "Sit-up"
+    ]
+   },
+   {
+    "q": "The Olympic lift: floor to overhead in one movement",
+    "right": "Snatch",
+    "wrong": [
+     "Push-up",
+     "Pull-up",
+     "Sit-up"
+    ]
+   },
+   {
+    "q": "Huge round stones lifted onto platforms",
+    "right": "Atlas stones",
+    "wrong": [
+     "Rosetta stones",
+     "Stepping stones",
+     "Curling stones"
+    ]
+   },
+   {
+    "q": "Carrying heavy weights in each hand along a course",
+    "right": "Farmer's walk",
+    "wrong": [
+     "Moonwalk",
+     "Catwalk",
+     "Sponsored walk"
+    ]
+   },
+   {
+    "q": "Dragging a lorry by a rope",
+    "right": "Truck pull",
+    "wrong": [
+     "Cracker pull",
+     "Tug of love",
+     "Pub crawl"
+    ]
+   },
+   {
+    "q": "Pressing a giant log overhead",
+    "right": "Log lift",
+    "wrong": [
+     "Log flume",
+     "Log fire",
+     "Logbook"
+    ]
+   },
+   {
+    "q": "The TV contest won by Geoff Capes and Eddie Hall",
+    "right": "World's Strongest Man",
+    "wrong": [
+     "Gladiators",
+     "Superstars",
+     "Ninja Warrior"
+    ]
+   },
+   {
+    "q": "The Stoke strongman who deadlifted 500 kg in 2016",
+    "right": "Eddie Hall",
+    "wrong": [
+     "Brian Shaw",
+     "Mark Felix",
+     "Bill Kazmaier"
+    ]
+   },
+   {
+    "q": "The Icelandic strongman who played The Mountain",
+    "right": "Hafþór Björnsson",
+    "wrong": [
+     "Magnús Ver Magnússon",
+     "Jón Páll Sigmarsson",
+     "Brian Shaw"
+    ]
+   },
+   {
+    "q": "The wide belt supporting the lower back",
+    "right": "Weight belt",
+    "wrong": [
+     "Seat belt",
+     "Black belt",
+     "Green belt"
+    ]
+   },
+   {
+    "q": "The round weights loaded onto the bar",
+    "right": "Plates",
+    "wrong": [
+     "Saucers",
+     "Hubcaps",
+     "Coasters"
+    ]
+   },
+   {
+    "q": "A partner standing by in case you get stuck",
+    "right": "Spotter",
+    "wrong": [
+     "Trainspotter",
+     "Talent scout",
+     "Lookout"
+    ]
+   },
+   {
+    "q": "Your heaviest lift ever, in two letters",
+    "right": "PB",
+    "wrong": [
+     "PE",
+     "PG",
+     "PC"
+    ]
+   },
+   {
+    "q": "What lifters eat lots of to build muscle",
+    "right": "Protein",
+    "wrong": [
+     "Sugar",
+     "Fibre",
+     "Salt"
+    ]
+   },
+   {
+    "q": "The sport of squat, bench press and deadlift",
+    "right": "Powerlifting",
+    "wrong": [
+     "Paragliding",
+     "Powerboating",
+     "Pole vault"
+    ]
+   },
+   {
+    "q": "A painful bulge from lifting too much",
+    "right": "Hernia",
+    "wrong": [
+     "Hiccup",
+     "Cramp",
+     "Rash"
+    ]
+   },
+   {
+    "q": "The wide-stance deadlift named after Japanese wrestlers",
+    "right": "Sumo",
+    "wrong": [
+     "Samurai",
+     "Ninja",
+     "Karate"
+    ]
+   },
+   {
+    "q": "The shot putter who twice won World's Strongest Man and bred budgies",
+    "right": "Geoff Capes",
+    "wrong": [
+     "Bill Kazmaier",
+     "Jamie Reeves",
+     "Mark Felix"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this nightclub word?",
+  "target": 10,
+  "category": "Entertainment",
+  "tags": [
+   "nightclubs",
+   "nights out",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The doorman who decides who gets in",
+    "right": "Bouncer",
+    "wrong": [
+     "Usher",
+     "Butler",
+     "Steward"
+    ]
+   },
+   {
+    "q": "Where everyone dances",
+    "right": "Dance floor",
+    "wrong": [
+     "Shop floor",
+     "Ground floor",
+     "Forest floor"
+    ]
+   },
+   {
+    "q": "The mirrored ball hanging from the ceiling",
+    "right": "Glitter ball",
+    "wrong": [
+     "Snowball",
+     "Cannonball",
+     "Meatball"
+    ]
+   },
+   {
+    "q": "The flashing white light",
+    "right": "Strobe",
+    "wrong": [
+     "Lava lamp",
+     "Night light",
+     "Torch"
+    ]
+   },
+   {
+    "q": "Puffs out fog onto the dance floor",
+    "right": "Smoke machine",
+    "wrong": [
+     "Fruit machine",
+     "Slot machine",
+     "Time machine"
+    ]
+   },
+   {
+    "q": "The names allowed in free",
+    "right": "Guest list",
+    "wrong": [
+     "Bucket list",
+     "Shopping list",
+     "Waiting list"
+    ]
+   },
+   {
+    "q": "Where you hand in your coat",
+    "right": "Cloakroom",
+    "wrong": [
+     "Boardroom",
+     "Box room",
+     "Green room"
+    ]
+   },
+   {
+    "q": "The final call at the bar",
+    "right": "Last orders",
+    "wrong": [
+     "Last rites",
+     "Last Post",
+     "Last Supper"
+    ]
+   },
+   {
+    "q": "When the lights come up and everyone's sent home",
+    "right": "Chucking-out time",
+    "wrong": [
+     "Half-time",
+     "Teatime",
+     "Bedtime"
+    ]
+   },
+   {
+    "q": "The roped-off section for special guests",
+    "right": "VIP area",
+    "wrong": [
+     "Fire exit",
+     "Smoking area",
+     "Car park"
+    ]
+   },
+   {
+    "q": "The line outside the door",
+    "right": "Queue",
+    "wrong": [
+     "Cue",
+     "Crowd",
+     "Herd"
+    ]
+   },
+   {
+    "q": "Rules like 'no trainers'",
+    "right": "Dress code",
+    "wrong": [
+     "Morse code",
+     "Highway Code",
+     "Barcode"
+    ]
+   },
+   {
+    "q": "An ink mark on your wrist to get back in",
+    "right": "Hand stamp",
+    "wrong": [
+     "Postage stamp",
+     "Stamp duty",
+     "Rubber stamp"
+    ]
+   },
+   {
+    "q": "A mixed drink with a little umbrella",
+    "right": "Cocktail",
+    "wrong": [
+     "Ponytail",
+     "Dovetail",
+     "Coat-tail"
+    ]
+   },
+   {
+    "q": "The famous Manchester club of the rave era",
+    "right": "Haçienda",
+    "wrong": [
+     "Ministry of Sound",
+     "Cream",
+     "Gatecrasher"
+    ]
+   },
+   {
+    "q": "The Balearic party island",
+    "right": "Ibiza",
+    "wrong": [
+     "Majorca",
+     "Crete",
+     "Malta"
+    ]
+   },
+   {
+    "q": "A new version of a song for the dance floor",
+    "right": "Remix",
+    "wrong": [
+     "Rehash",
+     "Repeat",
+     "Rerun"
+    ]
+   },
+   {
+    "q": "What a DJ wears round their neck",
+    "right": "Headphones",
+    "wrong": [
+     "Earmuffs",
+     "Earplugs",
+     "Hearing aids"
+    ]
+   },
+   {
+    "q": "The party after the club shuts",
+    "right": "Afters",
+    "wrong": [
+     "Starters",
+     "Mains",
+     "Desserts"
+    ]
+   },
+   {
+    "q": "Where you queue for a cab home",
+    "right": "Taxi rank",
+    "wrong": [
+     "Rank and file",
+     "Bus stop",
+     "Car wash"
+    ]
+   }
+  ]
+ }
+]
