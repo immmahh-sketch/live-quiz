@@ -1,0 +1,132 @@
+[
+ {
+  "type": "club",
+  "text": "You cut a stottie into 4 equal pieces and eat one. What fraction of it is left?",
+  "answers": [
+   "Three quarters",
+   "3/4",
+   "¾"
+  ],
+  "pct": 90,
+  "why": "Three of the four quarters remain.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "fractions",
+   "stotties"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Odd one out: Tyne, Wear, Tees, Thames.",
+  "answers": [
+   "Thames",
+   "The Thames"
+  ],
+  "pct": 80,
+  "why": "The other three are North East rivers.",
+  "difficulty": "easy",
+  "category": "Logic",
+  "tags": [
+   "rivers",
+   "odd one out"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A match kicks off at 3pm: two 45-minute halves and a 15-minute break. With no added time, when does it finish?",
+  "answers": [
+   "4:45pm",
+   "4.45pm",
+   "Quarter to five",
+   "16:45"
+  ],
+  "pct": 70,
+  "why": "45 + 15 + 45 = 105 minutes after 3pm.",
+  "difficulty": "easy",
+  "category": "Time",
+  "tags": [
+   "football",
+   "half-time"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Three pints cost £13.50. What does one cost?",
+  "answers": [
+   "£4.50",
+   "4.50",
+   "£4.5"
+  ],
+  "pct": 60,
+  "why": "£13.50 ÷ 3 = £4.50.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "money",
+   "pints"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A quiz round has 10 questions worth 2 points each, plus a 5-point bonus. What's the most you can score?",
+  "answers": [
+   "25",
+   "Twenty-five"
+  ],
+  "pct": 40,
+  "why": "20 + 5 = 25.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "quiz scores"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Sam is twice Jo's age. In 4 years Sam will be 20. How old is Jo now?",
+  "answers": [
+   "8",
+   "Eight"
+  ],
+  "pct": 30,
+  "why": "Sam is 16 now, so Jo is 8.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "ages"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "From a 3-metre ribbon, how many 25-centimetre pieces can you cut?",
+  "answers": [
+   "12",
+   "Twelve"
+  ],
+  "pct": 20,
+  "why": "300 cm ÷ 25 cm = 12.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "measuring",
+   "ribbon"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "How many times a day does a 24-hour digital clock show the same digit four times, like 11:11?",
+  "answers": [
+   "3",
+   "Three"
+  ],
+  "pct": 10,
+  "why": "00:00, 11:11 and 22:22; 33:33 isn't a time.",
+  "difficulty": "hard",
+  "category": "Time",
+  "tags": [
+   "24-hour clock",
+   "digits"
+  ]
+ }
+]
