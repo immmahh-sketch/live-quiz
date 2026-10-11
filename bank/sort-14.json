@@ -1,0 +1,533 @@
+[
+ {
+  "type": "sort",
+  "text": "A Ford or a Vauxhall?",
+  "categories": [
+   "Ford",
+   "Vauxhall"
+  ],
+  "items": [
+   {
+    "text": "Fiesta",
+    "category": "Ford"
+   },
+   {
+    "text": "Focus",
+    "category": "Ford"
+   },
+   {
+    "text": "Mondeo",
+    "category": "Ford"
+   },
+   {
+    "text": "Escort",
+    "category": "Ford"
+   },
+   {
+    "text": "Corsa",
+    "category": "Vauxhall"
+   },
+   {
+    "text": "Astra",
+    "category": "Vauxhall"
+   },
+   {
+    "text": "Vectra",
+    "category": "Vauxhall"
+   },
+   {
+    "text": "Cavalier",
+    "category": "Vauxhall"
+   }
+  ],
+  "category": "Cars and motoring",
+  "tags": [
+   "Ford",
+   "Vauxhall"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A pasta or an Italian bread?",
+  "categories": [
+   "Pasta",
+   "Bread"
+  ],
+  "items": [
+   {
+    "text": "Penne",
+    "category": "Pasta"
+   },
+   {
+    "text": "Fusilli",
+    "category": "Pasta"
+   },
+   {
+    "text": "Farfalle",
+    "category": "Pasta"
+   },
+   {
+    "text": "Linguine",
+    "category": "Pasta"
+   },
+   {
+    "text": "Focaccia",
+    "category": "Bread"
+   },
+   {
+    "text": "Ciabatta",
+    "category": "Bread"
+   },
+   {
+    "text": "Grissini",
+    "category": "Bread"
+   },
+   {
+    "text": "Panettone",
+    "category": "Bread"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [
+   "Italian food",
+   "pasta",
+   "bread"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A Shakespeare play or a Dickens novel?",
+  "categories": [
+   "Shakespeare",
+   "Dickens"
+  ],
+  "items": [
+   {
+    "text": "Hamlet",
+    "category": "Shakespeare"
+   },
+   {
+    "text": "Othello",
+    "category": "Shakespeare"
+   },
+   {
+    "text": "Macbeth",
+    "category": "Shakespeare"
+   },
+   {
+    "text": "The Tempest",
+    "category": "Shakespeare"
+   },
+   {
+    "text": "Bleak House",
+    "category": "Dickens"
+   },
+   {
+    "text": "Hard Times",
+    "category": "Dickens"
+   },
+   {
+    "text": "Great Expectations",
+    "category": "Dickens"
+   },
+   {
+    "text": "Little Dorrit",
+    "category": "Dickens"
+   }
+  ],
+  "category": "Books",
+  "tags": [
+   "Shakespeare",
+   "Charles Dickens"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A volcano, or a mountain that isn't one?",
+  "categories": [
+   "Volcano",
+   "Not a volcano"
+  ],
+  "items": [
+   {
+    "text": "Etna",
+    "category": "Volcano"
+   },
+   {
+    "text": "Vesuvius",
+    "category": "Volcano"
+   },
+   {
+    "text": "Kilimanjaro",
+    "category": "Volcano"
+   },
+   {
+    "text": "Mount Fuji",
+    "category": "Volcano"
+   },
+   {
+    "text": "Everest",
+    "category": "Not a volcano"
+   },
+   {
+    "text": "K2",
+    "category": "Not a volcano"
+   },
+   {
+    "text": "Matterhorn",
+    "category": "Not a volcano"
+   },
+   {
+    "text": "Mont Blanc",
+    "category": "Not a volcano"
+   }
+  ],
+  "category": "World geography",
+  "tags": [
+   "volcanoes",
+   "mountains"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A US state or a Canadian province?",
+  "categories": [
+   "US state",
+   "Canadian province"
+  ],
+  "items": [
+   {
+    "text": "Oregon",
+    "category": "US state"
+   },
+   {
+    "text": "Ohio",
+    "category": "US state"
+   },
+   {
+    "text": "Idaho",
+    "category": "US state"
+   },
+   {
+    "text": "Maine",
+    "category": "US state"
+   },
+   {
+    "text": "Ontario",
+    "category": "Canadian province"
+   },
+   {
+    "text": "Quebec",
+    "category": "Canadian province"
+   },
+   {
+    "text": "Alberta",
+    "category": "Canadian province"
+   },
+   {
+    "text": "Manitoba",
+    "category": "Canadian province"
+   }
+  ],
+  "category": "World geography",
+  "tags": [
+   "USA",
+   "Canada"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A board game or a video game?",
+  "categories": [
+   "Board game",
+   "Video game"
+  ],
+  "items": [
+   {
+    "text": "Cluedo",
+    "category": "Board game"
+   },
+   {
+    "text": "Risk",
+    "category": "Board game"
+   },
+   {
+    "text": "Ludo",
+    "category": "Board game"
+   },
+   {
+    "text": "Trivial Pursuit",
+    "category": "Board game"
+   },
+   {
+    "text": "Tetris",
+    "category": "Video game"
+   },
+   {
+    "text": "Minecraft",
+    "category": "Video game"
+   },
+   {
+    "text": "Sonic the Hedgehog",
+    "category": "Video game"
+   },
+   {
+    "text": "Fortnite",
+    "category": "Video game"
+   }
+  ],
+  "category": "Games and toys",
+  "tags": [
+   "board games",
+   "video games"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A type of cloud or a type of rock?",
+  "categories": [
+   "Cloud",
+   "Rock"
+  ],
+  "items": [
+   {
+    "text": "Cumulus",
+    "category": "Cloud"
+   },
+   {
+    "text": "Stratus",
+    "category": "Cloud"
+   },
+   {
+    "text": "Cirrus",
+    "category": "Cloud"
+   },
+   {
+    "text": "Nimbostratus",
+    "category": "Cloud"
+   },
+   {
+    "text": "Granite",
+    "category": "Rock"
+   },
+   {
+    "text": "Basalt",
+    "category": "Rock"
+   },
+   {
+    "text": "Slate",
+    "category": "Rock"
+   },
+   {
+    "text": "Marble",
+    "category": "Rock"
+   }
+  ],
+  "category": "Science and nature",
+  "tags": [
+   "clouds",
+   "rocks"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A club from Greater London or from Greater Manchester?",
+  "categories": [
+   "London",
+   "Manchester"
+  ],
+  "items": [
+   {
+    "text": "Arsenal",
+    "category": "London"
+   },
+   {
+    "text": "Chelsea",
+    "category": "London"
+   },
+   {
+    "text": "Fulham",
+    "category": "London"
+   },
+   {
+    "text": "Brentford",
+    "category": "London"
+   },
+   {
+    "text": "Bolton Wanderers",
+    "category": "Manchester"
+   },
+   {
+    "text": "Wigan Athletic",
+    "category": "Manchester"
+   },
+   {
+    "text": "Salford City",
+    "category": "Manchester"
+   },
+   {
+    "text": "Stockport County",
+    "category": "Manchester"
+   }
+  ],
+  "category": "Football",
+  "tags": [
+   "London",
+   "Manchester"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A horse breed or a dog breed?",
+  "categories": [
+   "Horse",
+   "Dog"
+  ],
+  "items": [
+   {
+    "text": "Shire",
+    "category": "Horse"
+   },
+   {
+    "text": "Clydesdale",
+    "category": "Horse"
+   },
+   {
+    "text": "Appaloosa",
+    "category": "Horse"
+   },
+   {
+    "text": "Arabian",
+    "category": "Horse"
+   },
+   {
+    "text": "Dalmatian",
+    "category": "Dog"
+   },
+   {
+    "text": "Weimaraner",
+    "category": "Dog"
+   },
+   {
+    "text": "Saluki",
+    "category": "Dog"
+   },
+   {
+    "text": "Akita",
+    "category": "Dog"
+   }
+  ],
+  "category": "Animals",
+  "tags": [
+   "horses",
+   "dogs",
+   "breeds"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Sean Connery Bond film or a Daniel Craig one?",
+  "categories": [
+   "Sean Connery",
+   "Daniel Craig"
+  ],
+  "items": [
+   {
+    "text": "Goldfinger",
+    "category": "Sean Connery"
+   },
+   {
+    "text": "Thunderball",
+    "category": "Sean Connery"
+   },
+   {
+    "text": "Dr. No",
+    "category": "Sean Connery"
+   },
+   {
+    "text": "From Russia with Love",
+    "category": "Sean Connery"
+   },
+   {
+    "text": "Skyfall",
+    "category": "Daniel Craig"
+   },
+   {
+    "text": "Casino Royale",
+    "category": "Daniel Craig"
+   },
+   {
+    "text": "Spectre",
+    "category": "Daniel Craig"
+   },
+   {
+    "text": "No Time to Die",
+    "category": "Daniel Craig"
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "James Bond",
+   "Sean Connery",
+   "Daniel Craig"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A Formula One driver or a jockey?",
+  "categories": [
+   "F1 driver",
+   "Jockey"
+  ],
+  "items": [
+   {
+    "text": "Lewis Hamilton",
+    "category": "F1 driver"
+   },
+   {
+    "text": "Jenson Button",
+    "category": "F1 driver"
+   },
+   {
+    "text": "Nigel Mansell",
+    "category": "F1 driver"
+   },
+   {
+    "text": "Damon Hill",
+    "category": "F1 driver"
+   },
+   {
+    "text": "Frankie Dettori",
+    "category": "Jockey"
+   },
+   {
+    "text": "Tony McCoy",
+    "category": "Jockey"
+   },
+   {
+    "text": "Lester Piggott",
+    "category": "Jockey"
+   },
+   {
+    "text": "Hollie Doyle",
+    "category": "Jockey"
+   }
+  ],
+  "category": "Sport",
+  "tags": [
+   "Formula One",
+   "horse racing"
+  ],
+  "difficulty": "easy"
+ }
+]
