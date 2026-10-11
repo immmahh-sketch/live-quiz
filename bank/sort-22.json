@@ -1,0 +1,344 @@
+[
+ {
+  "type": "sort",
+  "text": "A ski resort in France or in Switzerland?",
+  "categories": [
+   "France",
+   "Switzerland"
+  ],
+  "items": [
+   {
+    "text": "Val d'Isère",
+    "category": "France"
+   },
+   {
+    "text": "Chamonix",
+    "category": "France"
+   },
+   {
+    "text": "Courchevel",
+    "category": "France"
+   },
+   {
+    "text": "Méribel",
+    "category": "France"
+   },
+   {
+    "text": "Zermatt",
+    "category": "Switzerland"
+   },
+   {
+    "text": "Verbier",
+    "category": "Switzerland"
+   },
+   {
+    "text": "St Moritz",
+    "category": "Switzerland"
+   },
+   {
+    "text": "Davos",
+    "category": "Switzerland"
+   }
+  ],
+  "category": "Sport",
+  "tags": [
+   "skiing",
+   "France",
+   "Switzerland"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Part of a ship or part of a castle?",
+  "categories": [
+   "Ship",
+   "Castle"
+  ],
+  "items": [
+   {
+    "text": "Bow",
+    "category": "Ship"
+   },
+   {
+    "text": "Stern",
+    "category": "Ship"
+   },
+   {
+    "text": "Hull",
+    "category": "Ship"
+   },
+   {
+    "text": "Keel",
+    "category": "Ship"
+   },
+   {
+    "text": "Keep",
+    "category": "Castle"
+   },
+   {
+    "text": "Moat",
+    "category": "Castle"
+   },
+   {
+    "text": "Battlements",
+    "category": "Castle"
+   },
+   {
+    "text": "Drawbridge",
+    "category": "Castle"
+   }
+  ],
+  "category": "History",
+  "tags": [
+   "ships",
+   "castles"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A Jacqueline Wilson book or an Enid Blyton book?",
+  "categories": [
+   "Jacqueline Wilson",
+   "Enid Blyton"
+  ],
+  "items": [
+   {
+    "text": "The Story of Tracy Beaker",
+    "category": "Jacqueline Wilson"
+   },
+   {
+    "text": "The Illustrated Mum",
+    "category": "Jacqueline Wilson"
+   },
+   {
+    "text": "Double Act",
+    "category": "Jacqueline Wilson"
+   },
+   {
+    "text": "Hetty Feather",
+    "category": "Jacqueline Wilson"
+   },
+   {
+    "text": "The Magic Faraway Tree",
+    "category": "Enid Blyton"
+   },
+   {
+    "text": "Malory Towers",
+    "category": "Enid Blyton"
+   },
+   {
+    "text": "Five on a Treasure Island",
+    "category": "Enid Blyton"
+   },
+   {
+    "text": "The Naughtiest Girl in the School",
+    "category": "Enid Blyton"
+   }
+  ],
+  "category": "Books",
+  "tags": [
+   "Jacqueline Wilson",
+   "Enid Blyton",
+   "children's books"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Tolkien character or a Narnia character?",
+  "categories": [
+   "Tolkien",
+   "Narnia"
+  ],
+  "items": [
+   {
+    "text": "Bilbo",
+    "category": "Tolkien"
+   },
+   {
+    "text": "Gimli",
+    "category": "Tolkien"
+   },
+   {
+    "text": "Legolas",
+    "category": "Tolkien"
+   },
+   {
+    "text": "Galadriel",
+    "category": "Tolkien"
+   },
+   {
+    "text": "Aslan",
+    "category": "Narnia"
+   },
+   {
+    "text": "Mr Tumnus",
+    "category": "Narnia"
+   },
+   {
+    "text": "Reepicheep",
+    "category": "Narnia"
+   },
+   {
+    "text": "Puddleglum",
+    "category": "Narnia"
+   }
+  ],
+  "category": "Books",
+  "tags": [
+   "Tolkien",
+   "Narnia",
+   "fantasy"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A US state capital or a Canadian provincial capital?",
+  "categories": [
+   "US state capital",
+   "Canadian provincial capital"
+  ],
+  "items": [
+   {
+    "text": "Sacramento",
+    "category": "US state capital"
+   },
+   {
+    "text": "Albany",
+    "category": "US state capital"
+   },
+   {
+    "text": "Austin",
+    "category": "US state capital"
+   },
+   {
+    "text": "Tallahassee",
+    "category": "US state capital"
+   },
+   {
+    "text": "Toronto",
+    "category": "Canadian provincial capital"
+   },
+   {
+    "text": "Victoria",
+    "category": "Canadian provincial capital"
+   },
+   {
+    "text": "Halifax",
+    "category": "Canadian provincial capital"
+   },
+   {
+    "text": "Winnipeg",
+    "category": "Canadian provincial capital"
+   }
+  ],
+  "category": "World geography",
+  "tags": [
+   "capital cities",
+   "USA",
+   "Canada"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "A tennis term or a cricket term?",
+  "categories": [
+   "Tennis",
+   "Cricket"
+  ],
+  "items": [
+   {
+    "text": "Deuce",
+    "category": "Tennis"
+   },
+   {
+    "text": "Let",
+    "category": "Tennis"
+   },
+   {
+    "text": "Ace",
+    "category": "Tennis"
+   },
+   {
+    "text": "Tie-break",
+    "category": "Tennis"
+   },
+   {
+    "text": "Googly",
+    "category": "Cricket"
+   },
+   {
+    "text": "Yorker",
+    "category": "Cricket"
+   },
+   {
+    "text": "Maiden",
+    "category": "Cricket"
+   },
+   {
+    "text": "Duck",
+    "category": "Cricket"
+   }
+  ],
+  "category": "Sport",
+  "tags": [
+   "tennis",
+   "cricket",
+   "jargon"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A breed of cat or a breed of rabbit?",
+  "categories": [
+   "Cat",
+   "Rabbit"
+  ],
+  "items": [
+   {
+    "text": "Siamese",
+    "category": "Cat"
+   },
+   {
+    "text": "Persian",
+    "category": "Cat"
+   },
+   {
+    "text": "Maine Coon",
+    "category": "Cat"
+   },
+   {
+    "text": "Ragdoll",
+    "category": "Cat"
+   },
+   {
+    "text": "Netherland Dwarf",
+    "category": "Rabbit"
+   },
+   {
+    "text": "Flemish Giant",
+    "category": "Rabbit"
+   },
+   {
+    "text": "Lionhead",
+    "category": "Rabbit"
+   },
+   {
+    "text": "English Lop",
+    "category": "Rabbit"
+   }
+  ],
+  "category": "Animals",
+  "tags": [
+   "cats",
+   "rabbits",
+   "breeds"
+  ],
+  "difficulty": "medium"
+ }
+]
