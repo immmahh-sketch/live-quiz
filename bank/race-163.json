@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this coal mining word?",
+  "target": 10,
+  "category": "North East England",
+  "tags": [
+   "coal mining",
+   "North East",
+   "pits"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Another name for a coal mine",
+    "right": "Pit",
+    "wrong": [
+     "Quarry",
+     "Kiln",
+     "Foundry"
+    ]
+   },
+   {
+    "q": "The old North East word for a miner",
+    "right": "Pitman",
+    "wrong": [
+     "Navvy",
+     "Ganger",
+     "Docker"
+    ]
+   },
+   {
+    "q": "The dialect of the Durham and Northumberland coalfield",
+    "right": "Pitmatic",
+    "wrong": [
+     "Geordie",
+     "Mackem",
+     "Smoggie"
+    ]
+   },
+   {
+    "q": "The vertical tunnel down into the mine",
+    "right": "Shaft",
+    "wrong": [
+     "Adit",
+     "Drift",
+     "Sump"
+    ]
+   },
+   {
+    "q": "A layer of coal in the rock",
+    "right": "Seam",
+    "wrong": [
+     "Vein",
+     "Lode",
+     "Strata"
+    ]
+   },
+   {
+    "q": "The lift that carries the men down the shaft",
+    "right": "Cage",
+    "wrong": [
+     "Bucket",
+     "Cradle",
+     "Gondola"
+    ]
+   },
+   {
+    "q": "The bird taken underground to warn of gas",
+    "right": "Canary",
+    "wrong": [
+     "Budgie",
+     "Pigeon",
+     "Robin"
+    ]
+   },
+   {
+    "q": "The safety lamp named after a Cornish scientist",
+    "right": "Davy lamp",
+    "wrong": [
+     "Tilley lamp",
+     "Hurricane lamp",
+     "Anglepoise"
+    ]
+   },
+   {
+    "q": "George Stephenson's rival safety lamp, which some say gave Tynesiders their name",
+    "right": "Geordie lamp",
+    "wrong": [
+     "Tilley lamp",
+     "Hurricane lamp",
+     "Storm lantern"
+    ]
+   },
+   {
+    "q": "The horse that hauled coal underground",
+    "right": "Pit pony",
+    "wrong": [
+     "Dray horse",
+     "Carthorse",
+     "Packhorse"
+    ]
+   },
+   {
+    "q": "The North East word for a miner's packed lunch",
+    "right": "Bait",
+    "wrong": [
+     "Tiffin",
+     "Elevenses",
+     "Brunch"
+    ]
+   },
+   {
+    "q": "The miner who cut the coal at the face",
+    "right": "Hewer",
+    "wrong": [
+     "Banksman",
+     "Deputy",
+     "Onsetter"
+    ]
+   },
+   {
+    "q": "The miner who pushed the coal tubs",
+    "right": "Putter",
+    "wrong": [
+     "Banksman",
+     "Deputy",
+     "Onsetter"
+    ]
+   },
+   {
+    "q": "Where the coal is actually cut",
+    "right": "Coalface",
+    "wrong": [
+     "Pithead",
+     "Spoil heap",
+     "Colliery yard"
+    ]
+   },
+   {
+    "q": "A great tip of waste rock beside the pit",
+    "right": "Slag heap",
+    "wrong": [
+     "Compost heap",
+     "Scrap heap",
+     "Rubbish dump"
+    ]
+   },
+   {
+    "q": "The 'Big Meeting' every July, with brass bands and banners",
+    "right": "Durham Miners' Gala",
+    "wrong": [
+     "The Hoppings",
+     "Great North Run",
+     "Sunderland Air Show"
+    ]
+   },
+   {
+    "q": "The year-long dispute of 1984 to 1985",
+    "right": "Strike",
+    "wrong": [
+     "Lockout",
+     "Sit-in",
+     "Boycott"
+    ]
+   },
+   {
+    "q": "The miners' union leader in that dispute",
+    "right": "Arthur Scargill",
+    "wrong": [
+     "Ian MacGregor",
+     "Neil Kinnock",
+     "Joe Gormley"
+    ]
+   },
+   {
+    "q": "The explosive methane gas in a mine",
+    "right": "Firedamp",
+    "wrong": [
+     "Blackdamp",
+     "Afterdamp",
+     "Whitedamp"
+    ]
+   },
+   {
+    "q": "The huge embroidered flag paraded by each pit village",
+    "right": "Banner",
+    "wrong": [
+     "Bunting",
+     "Pennant",
+     "Tapestry"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this poetry word?",
+  "target": 10,
+  "category": "Books",
+  "tags": [
+   "poetry",
+   "poets",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Words that end with the same sound",
+    "right": "Rhyme",
+    "wrong": [
+     "Pun",
+     "Echo",
+     "Chorus"
+    ]
+   },
+   {
+    "q": "A verse, or group of lines",
+    "right": "Stanza",
+    "wrong": [
+     "Paragraph",
+     "Chapter",
+     "Scene"
+    ]
+   },
+   {
+    "q": "A poem of 14 lines",
+    "right": "Sonnet",
+    "wrong": [
+     "Ode",
+     "Villanelle",
+     "Ballad"
+    ]
+   },
+   {
+    "q": "Three lines of 5, 7 and 5 syllables",
+    "right": "Haiku",
+    "wrong": [
+     "Ode",
+     "Villanelle",
+     "Ballad"
+    ]
+   },
+   {
+    "q": "Five funny lines that rhyme AABBA",
+    "right": "Limerick",
+    "wrong": [
+     "Ode",
+     "Villanelle",
+     "Ballad"
+    ]
+   },
+   {
+    "q": "Two rhyming lines in a row",
+    "right": "Couplet",
+    "wrong": [
+     "Tercet",
+     "Quatrain",
+     "Octave"
+    ]
+   },
+   {
+    "q": "Repeating the first sound: 'Peter Piper picked'",
+    "right": "Alliteration",
+    "wrong": [
+     "Assonance",
+     "Hyperbole",
+     "Irony"
+    ]
+   },
+   {
+    "q": "Words that sound like what they mean, like 'buzz'",
+    "right": "Onomatopoeia",
+    "wrong": [
+     "Assonance",
+     "Hyperbole",
+     "Irony"
+    ]
+   },
+   {
+    "q": "The King's official poet",
+    "right": "Poet Laureate",
+    "wrong": [
+     "Lord Chancellor",
+     "Master of the Rolls",
+     "Astronomer Royal"
+    ]
+   },
+   {
+    "q": "Wrote 'I wandered lonely as a cloud'",
+    "right": "Wordsworth",
+    "wrong": [
+     "Coleridge",
+     "Keats",
+     "Shelley"
+    ]
+   },
+   {
+    "q": "Wrote 'The Charge of the Light Brigade'",
+    "right": "Tennyson",
+    "wrong": [
+     "Browning",
+     "Byron",
+     "Blake"
+    ]
+   },
+   {
+    "q": "Wrote 'If—'",
+    "right": "Kipling",
+    "wrong": [
+     "Hardy",
+     "Housman",
+     "Auden"
+    ]
+   },
+   {
+    "q": "The First World War poet of 'Dulce et Decorum Est'",
+    "right": "Wilfred Owen",
+    "wrong": [
+     "Siegfried Sassoon",
+     "Rupert Brooke",
+     "Edward Thomas"
+    ]
+   },
+   {
+    "q": "Scotland's national poet",
+    "right": "Robert Burns",
+    "wrong": [
+     "Walter Scott",
+     "James Hogg",
+     "Hugh MacDiarmid"
+    ]
+   },
+   {
+    "q": "The Welsh poet of 'Do not go gentle into that good night'",
+    "right": "Dylan Thomas",
+    "wrong": [
+     "R. S. Thomas",
+     "Edward Thomas",
+     "Gerard Manley Hopkins"
+    ]
+   },
+   {
+    "q": "'Oh, I wish I'd looked after me teeth'",
+    "right": "Pam Ayres",
+    "wrong": [
+     "Wendy Cope",
+     "Carol Ann Duffy",
+     "Benjamin Zephaniah"
+    ]
+   },
+   {
+    "q": "'Come, friendly bombs, and fall on Slough!'",
+    "right": "John Betjeman",
+    "wrong": [
+     "Philip Larkin",
+     "Ted Hughes",
+     "John Cooper Clarke"
+    ]
+   },
+   {
+    "q": "Poetry with no fixed rhyme or rhythm",
+    "right": "Free verse",
+    "wrong": [
+     "Blank verse",
+     "Light verse",
+     "Nursery rhyme"
+    ]
+   },
+   {
+    "q": "The regular pattern of beats in a line",
+    "right": "Metre",
+    "wrong": [
+     "Litre",
+     "Gram",
+     "Furlong"
+    ]
+   },
+   {
+    "q": "A collection of poems by different poets",
+    "right": "Anthology",
+    "wrong": [
+     "Biography",
+     "Glossary",
+     "Almanac"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this opera word?",
+  "target": 10,
+  "category": "Music",
+  "tags": [
+   "opera",
+   "classical music",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The highest female voice",
+    "right": "Soprano",
+    "wrong": [
+     "Contralto",
+     "Mezzo-soprano",
+     "Alto"
+    ]
+   },
+   {
+    "q": "The highest common male voice",
+    "right": "Tenor",
+    "wrong": [
+     "Bass",
+     "Baritone",
+     "Basso profundo"
+    ]
+   },
+   {
+    "q": "A solo song in an opera",
+    "right": "Aria",
+    "wrong": [
+     "Chorus",
+     "Recitative",
+     "Finale"
+    ]
+   },
+   {
+    "q": "The words of an opera",
+    "right": "Libretto",
+    "wrong": [
+     "Score",
+     "Synopsis",
+     "Programme"
+    ]
+   },
+   {
+    "q": "A man singing in the alto range",
+    "right": "Countertenor",
+    "wrong": [
+     "Baritone",
+     "Bass",
+     "Castrato"
+    ]
+   },
+   {
+    "q": "What you shout at the end of a great performance",
+    "right": "Bravo",
+    "wrong": [
+     "Olé",
+     "Bingo",
+     "Cheers"
+    ]
+   },
+   {
+    "q": "The orchestral piece played before the curtain rises",
+    "right": "Overture",
+    "wrong": [
+     "Coda",
+     "Finale",
+     "Interlude"
+    ]
+   },
+   {
+    "q": "Small binoculars for the stalls",
+    "right": "Opera glasses",
+    "wrong": [
+     "Monocle",
+     "Spectacles",
+     "Goggles"
+    ]
+   },
+   {
+    "q": "Bizet's opera about a fiery cigarette girl",
+    "right": "Carmen",
+    "wrong": [
+     "Tosca",
+     "Aida",
+     "Norma"
+    ]
+   },
+   {
+    "q": "Puccini's opera set in Nagasaki",
+    "right": "Madama Butterfly",
+    "wrong": [
+     "Turandot",
+     "Tosca",
+     "La bohème"
+    ]
+   },
+   {
+    "q": "The aria that became the theme of Italia 90",
+    "right": "Nessun dorma",
+    "wrong": [
+     "O sole mio",
+     "Ave Maria",
+     "Time to Say Goodbye"
+    ]
+   },
+   {
+    "q": "The Italian among the Three Tenors",
+    "right": "Pavarotti",
+    "wrong": [
+     "Domingo",
+     "Carreras",
+     "Bocelli"
+    ]
+   },
+   {
+    "q": "The opera festival in a Sussex country-house garden",
+    "right": "Glyndebourne",
+    "wrong": [
+     "Aldeburgh",
+     "Henley",
+     "Cheltenham"
+    ]
+   },
+   {
+    "q": "Covent Garden's opera house",
+    "right": "Royal Opera House",
+    "wrong": [
+     "London Coliseum",
+     "Royal Albert Hall",
+     "Wigmore Hall"
+    ]
+   },
+   {
+    "q": "The translation shown above the stage",
+    "right": "Surtitles",
+    "wrong": [
+     "Footnotes",
+     "Headlines",
+     "Credits"
+    ]
+   },
+   {
+    "q": "The composer of the 15-hour Ring Cycle",
+    "right": "Wagner",
+    "wrong": [
+     "Verdi",
+     "Puccini",
+     "Mozart"
+    ]
+   },
+   {
+    "q": "The Mozart opera with Papageno the bird-catcher",
+    "right": "The Magic Flute",
+    "wrong": [
+     "The Marriage of Figaro",
+     "Don Giovanni",
+     "Così fan tutte"
+    ]
+   },
+   {
+    "q": "A lighter, shorter opera, like Gilbert and Sullivan's",
+    "right": "Operetta",
+    "wrong": [
+     "Oratorio",
+     "Cantata",
+     "Requiem"
+    ]
+   },
+   {
+    "q": "'It ain't over till the ___ sings'",
+    "right": "Fat lady",
+    "wrong": [
+     "Big man",
+     "Chorus",
+     "Organist"
+    ]
+   },
+   {
+    "q": "The lead female singer, and a word for a self-important person",
+    "right": "Prima donna",
+    "wrong": [
+     "Ballerina",
+     "Femme fatale",
+     "Grande dame"
+    ]
+   }
+  ]
+ }
+]
