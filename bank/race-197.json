@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this first aid word?",
+  "target": 10,
+  "category": "Science",
+  "tags": [
+   "first aid",
+   "health",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A sticky dressing for a small cut",
+    "right": "Plaster",
+    "wrong": [
+     "Poultice",
+     "Compress",
+     "Stencil"
+    ]
+   },
+   {
+    "q": "A strip of cloth wrapped round a wound",
+    "right": "Bandage",
+    "wrong": [
+     "Bandana",
+     "Banner",
+     "Bangle"
+    ]
+   },
+   {
+    "q": "A triangular bandage cradling an injured arm",
+    "right": "Sling",
+    "wrong": [
+     "Hammock",
+     "Lasso",
+     "Garter"
+    ]
+   },
+   {
+    "q": "Chest compressions and rescue breaths, by its letters",
+    "right": "CPR",
+    "wrong": [
+     "GPS",
+     "CRB",
+     "RSI"
+    ]
+   },
+   {
+    "q": "Lying an unconscious person safely on their side",
+    "right": "Recovery position",
+    "wrong": [
+     "Lotus position",
+     "Starting position",
+     "Pole position"
+    ]
+   },
+   {
+    "q": "The machine that shocks the heart back into rhythm",
+    "right": "Defibrillator",
+    "wrong": [
+     "Dehumidifier",
+     "Pacemaker",
+     "Ventilator"
+    ]
+   },
+   {
+    "q": "A rigid support strapped to a broken limb",
+    "right": "Splint",
+    "wrong": [
+     "Splinter",
+     "Sprint",
+     "Spline"
+    ]
+   },
+   {
+    "q": "A band tightened above a severe bleed",
+    "right": "Tourniquet",
+    "wrong": [
+     "Turnkey",
+     "Tournament",
+     "Turban"
+    ]
+   },
+   {
+    "q": "Abdominal thrusts for someone who's choking",
+    "right": "Heimlich manoeuvre",
+    "wrong": [
+     "Pincer movement",
+     "Three-point turn",
+     "Hokey-cokey"
+    ]
+   },
+   {
+    "q": "The UK's emergency number",
+    "right": "999",
+    "wrong": [
+     "101",
+     "111",
+     "123"
+    ]
+   },
+   {
+    "q": "An ambulance crew member trained in emergency care",
+    "right": "Paramedic",
+    "wrong": [
+     "Paralegal",
+     "Paratrooper",
+     "Parasite"
+    ]
+   },
+   {
+    "q": "The first aid charity at football grounds and events",
+    "right": "St John Ambulance",
+    "wrong": [
+     "St John's Wort",
+     "St Andrews",
+     "St Trinian's"
+    ]
+   },
+   {
+    "q": "Checked at the wrist or the neck",
+    "right": "Pulse",
+    "wrong": [
+     "Pupil",
+     "Pore",
+     "Pitch"
+    ]
+   },
+   {
+    "q": "Pressed on a sprain to bring the swelling down",
+    "right": "Ice pack",
+    "wrong": [
+     "Ice cube",
+     "Six-pack",
+     "Ice bucket"
+    ]
+   },
+   {
+    "q": "What you pull out a splinter with",
+    "right": "Tweezers",
+    "wrong": [
+     "Pliers",
+     "Clippers",
+     "Scissors"
+    ]
+   },
+   {
+    "q": "What you cool a burn under for twenty minutes",
+    "right": "Cold running water",
+    "wrong": [
+     "Butter",
+     "Ice-cold milk",
+     "Vinegar"
+    ]
+   },
+   {
+    "q": "A brain injury from a bang on the head",
+    "right": "Concussion",
+    "wrong": [
+     "Percussion",
+     "Conclusion",
+     "Contusion"
+    ]
+   },
+   {
+    "q": "Kills the germs in a wound",
+    "right": "Antiseptic",
+    "wrong": [
+     "Antacid",
+     "Antihistamine",
+     "Anaesthetic"
+    ]
+   },
+   {
+    "q": "The green box with a white cross on it",
+    "right": "First aid kit",
+    "wrong": [
+     "Toolkit",
+     "Kit Kat",
+     "Sewing kit"
+    ]
+   },
+   {
+    "q": "Pale, clammy and faint after an injury: they may be in ...",
+    "right": "Shock",
+    "wrong": [
+     "Awe",
+     "Denial",
+     "Trouble"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this Burns Night word?",
+  "target": 10,
+  "category": "Scotland",
+  "tags": [
+   "Burns Night",
+   "Scotland",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The 'great chieftain o' the puddin'-race'",
+    "right": "Haggis",
+    "wrong": [
+     "Black pudding",
+     "White pudding",
+     "Scotch pie"
+    ]
+   },
+   {
+    "q": "The mashed swede served with it",
+    "right": "Neeps",
+    "wrong": [
+     "Parsnips",
+     "Kale",
+     "Leeks"
+    ]
+   },
+   {
+    "q": "The mashed potatoes served with it",
+    "right": "Tatties",
+    "wrong": [
+     "Chips",
+     "Dumplings",
+     "Oatcakes"
+    ]
+   },
+   {
+    "q": "The date of Burns Night",
+    "right": "25 January",
+    "wrong": [
+     "30 November",
+     "1 March",
+     "31 December"
+    ]
+   },
+   {
+    "q": "The poem recited before cutting into the haggis",
+    "right": "Address to a Haggis",
+    "wrong": [
+     "Ode to Joy",
+     "Ode to a Nightingale",
+     "To Autumn"
+    ]
+   },
+   {
+    "q": "The musician who plays the haggis in",
+    "right": "Piper",
+    "wrong": [
+     "Drummer",
+     "Fiddler",
+     "Bugler"
+    ]
+   },
+   {
+    "q": "The small knife tucked into the sock",
+    "right": "Sgian-dubh",
+    "wrong": [
+     "Claymore",
+     "Dirk",
+     "Cutlass"
+    ]
+   },
+   {
+    "q": "The short prayer said before the meal",
+    "right": "Selkirk Grace",
+    "wrong": [
+     "Lord's Prayer",
+     "Amazing Grace",
+     "Grace Kelly"
+    ]
+   },
+   {
+    "q": "The main speech about Burns' life and work",
+    "right": "Immortal Memory",
+    "wrong": [
+     "Eternal Sunshine",
+     "Total Recall",
+     "Memory Lane"
+    ]
+   },
+   {
+    "q": "The cheeky speech by a man about the women present",
+    "right": "Toast to the Lassies",
+    "wrong": [
+     "Toast to the Bride",
+     "Vote of thanks",
+     "Best man's speech"
+    ]
+   },
+   {
+    "q": "The Burns song everyone sings at the end of the night",
+    "right": "Auld Lang Syne",
+    "wrong": [
+     "Flower of Scotland",
+     "Loch Lomond",
+     "Scotland the Brave"
+    ]
+   },
+   {
+    "q": "Burns' birthplace in Ayrshire",
+    "right": "Alloway",
+    "wrong": [
+     "Alloa",
+     "Ayr",
+     "Dumfries"
+    ]
+   },
+   {
+    "q": "His poem about a drunken farmer chased by witches",
+    "right": "Tam o' Shanter",
+    "wrong": [
+     "Tam Lin",
+     "Tom Thumb",
+     "Tam Dalyell"
+    ]
+   },
+   {
+    "q": "The dram everyone toasts with",
+    "right": "Whisky",
+    "wrong": [
+     "Gin",
+     "Brandy",
+     "Mead"
+    ]
+   },
+   {
+    "q": "Pudding of cream, raspberries, honey, oats and whisky",
+    "right": "Cranachan",
+    "wrong": [
+     "Cranberry sauce",
+     "Crannog",
+     "Clafoutis"
+    ]
+   },
+   {
+    "q": "A Scottish dance party",
+    "right": "Ceilidh",
+    "wrong": [
+     "Hootenanny",
+     "Rave",
+     "Disco"
+    ]
+   },
+   {
+    "q": "The tartan worn by the men",
+    "right": "Kilt",
+    "wrong": [
+     "Sarong",
+     "Kaftan",
+     "Toga"
+    ]
+   },
+   {
+    "q": "Burns' nickname, from his farming roots",
+    "right": "Ploughman Poet",
+    "wrong": [
+     "Bard of Avon",
+     "Poet Laureate",
+     "Lake Poet"
+    ]
+   },
+   {
+    "q": "Scotland's national poet",
+    "right": "Robert Burns",
+    "wrong": [
+     "Walter Scott",
+     "Robert Louis Stevenson",
+     "Robert the Bruce"
+    ]
+   },
+   {
+    "q": "His poem with 'the best-laid schemes o' mice an' men'",
+    "right": "To a Mouse",
+    "wrong": [
+     "The Mousetrap",
+     "Of Mice and Men",
+     "Three Blind Mice"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this Lake District word?",
+  "target": 10,
+  "category": "UK geography",
+  "tags": [
+   "Lake District",
+   "Cumbria",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The Lakeland word for a mountain or hill",
+    "right": "Fell",
+    "wrong": [
+     "Moor",
+     "Dale",
+     "Tor"
+    ]
+   },
+   {
+    "q": "A small mountain lake",
+    "right": "Tarn",
+    "wrong": [
+     "Loch",
+     "Lough",
+     "Llyn"
+    ]
+   },
+   {
+    "q": "A Lakeland stream",
+    "right": "Beck",
+    "wrong": [
+     "Burn",
+     "Bourne",
+     "Wadi"
+    ]
+   },
+   {
+    "q": "The Lakeland word for a waterfall, as in Aira ...",
+    "right": "Force",
+    "wrong": [
+     "Spout",
+     "Linn",
+     "Rapids"
+    ]
+   },
+   {
+    "q": "Loose stones on a steep slope",
+    "right": "Scree",
+    "wrong": [
+     "Screed",
+     "Shingle",
+     "Gravel"
+    ]
+   },
+   {
+    "q": "The lake word in Buttermere and Thirlmere",
+    "right": "Mere",
+    "wrong": [
+     "Mare",
+     "Moor",
+     "Marsh"
+    ]
+   },
+   {
+    "q": "A peaked summit, as in Scafell ...",
+    "right": "Pike",
+    "wrong": [
+     "Tor",
+     "Ben",
+     "Knoll"
+    ]
+   },
+   {
+    "q": "The tough Lakeland breed of sheep",
+    "right": "Herdwick",
+    "wrong": [
+     "Swaledale",
+     "Cheviot",
+     "Texel"
+    ]
+   },
+   {
+    "q": "The sugary energy bar taken up Everest",
+    "right": "Kendal Mint Cake",
+    "wrong": [
+     "Eccles cake",
+     "Mint Imperial",
+     "Kendal Calling"
+    ]
+   },
+   {
+    "q": "The spicy treat from Sarah Nelson's shop",
+    "right": "Grasmere gingerbread",
+    "wrong": [
+     "Parkin",
+     "Bath bun",
+     "Shortbread"
+    ]
+   },
+   {
+    "q": "The author who farmed at Hill Top",
+    "right": "Beatrix Potter",
+    "wrong": [
+     "Enid Blyton",
+     "Arthur Ransome",
+     "Roald Dahl"
+    ]
+   },
+   {
+    "q": "The poet of 'I wandered lonely as a cloud'",
+    "right": "Wordsworth",
+    "wrong": [
+     "Coleridge",
+     "Southey",
+     "Keats"
+    ]
+   },
+   {
+    "q": "His cottage home in Grasmere",
+    "right": "Dove Cottage",
+    "wrong": [
+     "Hill Top",
+     "Rose Cottage",
+     "Brantwood"
+    ]
+   },
+   {
+    "q": "The fell climbed by Striding Edge",
+    "right": "Helvellyn",
+    "wrong": [
+     "Skiddaw",
+     "Blencathra",
+     "Great Gable"
+    ]
+   },
+   {
+    "q": "Donald Campbell's boat that crashed on Coniston",
+    "right": "Bluebird",
+    "wrong": [
+     "Bluebell",
+     "Kingfisher",
+     "Golden Hind"
+    ]
+   },
+   {
+    "q": "England's largest natural lake",
+    "right": "Windermere",
+    "wrong": [
+     "Ullswater",
+     "Derwentwater",
+     "Coniston Water"
+    ]
+   },
+   {
+    "q": "The town with the Derwent Pencil Museum",
+    "right": "Keswick",
+    "wrong": [
+     "Kendal",
+     "Penrith",
+     "Ambleside"
+    ]
+   },
+   {
+    "q": "A long, coiled banger",
+    "right": "Cumberland sausage",
+    "wrong": [
+     "Lincolnshire sausage",
+     "Saveloy",
+     "Black pudding"
+    ]
+   },
+   {
+    "q": "One of England's steepest roads, with hairpin bends",
+    "right": "Hardknott Pass",
+    "wrong": [
+     "Khyber Pass",
+     "Boarding pass",
+     "Bus pass"
+    ]
+   },
+   {
+    "q": "The fellwalker whose hand-drawn guides cover 214 fells",
+    "right": "Wainwright",
+    "wrong": [
+     "Wainscot",
+     "Wheelwright",
+     "Shipwright"
+    ]
+   }
+  ]
+ }
+]
