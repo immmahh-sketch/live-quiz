@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this birthday party word?",
+  "target": 10,
+  "category": "Lifestyle",
+  "tags": [
+   "birthdays",
+   "parties",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Unwrapping a layer each time the music stops",
+    "right": "Pass the parcel",
+    "wrong": [
+     "Pass the port",
+     "Pass the buck",
+     "Pass the hat"
+    ]
+   },
+   {
+    "q": "One seat fewer each time the music stops",
+    "right": "Musical chairs",
+    "wrong": [
+     "Musical beds",
+     "Deckchairs",
+     "Armchairs"
+    ]
+   },
+   {
+    "q": "Freezing on the spot when the music stops",
+    "right": "Musical statues",
+    "wrong": [
+     "Musical bumps",
+     "Hokey-cokey",
+     "Conga"
+    ]
+   },
+   {
+    "q": "Blindfolded, trying to stick it in the right place",
+    "right": "Pin the tail on the donkey",
+    "wrong": [
+     "Blind man's buff",
+     "Pin the tail on the pig",
+     "Donkey derby"
+    ]
+   },
+   {
+    "q": "The goodie bag you take home",
+    "right": "Party bag",
+    "wrong": [
+     "Doggy bag",
+     "Bean bag",
+     "Tote bag"
+    ]
+   },
+   {
+    "q": "A papier-mâché figure you whack for sweets",
+    "right": "Piñata",
+    "wrong": [
+     "Pinafore",
+     "Pinto",
+     "Pinnacle"
+    ]
+   },
+   {
+    "q": "The inflatable everyone jumps on",
+    "right": "Bouncy castle",
+    "wrong": [
+     "Sandcastle",
+     "Bouncy ball",
+     "Castle keep"
+    ]
+   },
+   {
+    "q": "Blown out on the cake",
+    "right": "Candles",
+    "wrong": [
+     "Matches",
+     "Lanterns",
+     "Torches"
+    ]
+   },
+   {
+    "q": "Pull the string for a bang and streamers",
+    "right": "Party poppers",
+    "wrong": [
+     "Christmas crackers",
+     "Bubble wrap",
+     "Popcorn"
+    ]
+   },
+   {
+    "q": "Turning up as a pirate or a princess",
+    "right": "Fancy dress",
+    "wrong": [
+     "Black tie",
+     "Smart casual",
+     "Dress code"
+    ]
+   },
+   {
+    "q": "Lifting the birthday child once for every year",
+    "right": "The bumps",
+    "wrong": [
+     "The bends",
+     "The jumps",
+     "The lumps"
+    ]
+   },
+   {
+    "q": "The classic party pudding",
+    "right": "Jelly and ice cream",
+    "wrong": [
+     "Jam and cream",
+     "Strawberries and cream",
+     "Fish and chips"
+    ]
+   },
+   {
+    "q": "A cone of card held on with elastic",
+    "right": "Party hat",
+    "wrong": [
+     "Top hat",
+     "Hard hat",
+     "Bobble hat"
+    ]
+   },
+   {
+    "q": "Friends staying the night",
+    "right": "Sleepover",
+    "wrong": [
+     "Hangover",
+     "Takeover",
+     "Leftover"
+    ]
+   },
+   {
+    "q": "Pinned on the card, saying 'I am 7'",
+    "right": "Badge",
+    "wrong": [
+     "Medal",
+     "Rosette",
+     "Sticker"
+    ]
+   },
+   {
+    "q": "The entertainer who pulls a rabbit from a hat",
+    "right": "Magician",
+    "wrong": [
+     "Clown",
+     "Juggler",
+     "Ventriloquist"
+    ]
+   },
+   {
+    "q": "Twisting balloons into sausage dogs",
+    "right": "Balloon modelling",
+    "wrong": [
+     "Origami",
+     "Papier-mâché",
+     "Plasticine"
+    ]
+   },
+   {
+    "q": "The card asking your friends to come",
+    "right": "Invitation",
+    "wrong": [
+     "Invoice",
+     "Inspection",
+     "Invention"
+    ]
+   },
+   {
+    "q": "The song everybody sings",
+    "right": "Happy Birthday",
+    "wrong": [
+     "Auld Lang Syne",
+     "Jingle Bells",
+     "Here Comes the Bride"
+    ]
+   },
+   {
+    "q": "What you make as you blow out the candles",
+    "right": "Wish",
+    "wrong": [
+     "Toast",
+     "Speech",
+     "Promise"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this Sunday roast word?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "Sunday roast",
+   "British food",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Batter that puffs up in hot fat",
+    "right": "Yorkshire pudding",
+    "wrong": [
+     "Spotted dick",
+     "Bread pudding",
+     "Black pudding"
+    ]
+   },
+   {
+    "q": "The sauce made from the meat juices",
+    "right": "Gravy",
+    "wrong": [
+     "Custard",
+     "Béchamel",
+     "Ketchup"
+    ]
+   },
+   {
+    "q": "The famous brand of gravy granules",
+    "right": "Bisto",
+    "wrong": [
+     "Bovril",
+     "Marmite",
+     "Horlicks"
+    ]
+   },
+   {
+    "q": "The jug the gravy is served in",
+    "right": "Gravy boat",
+    "wrong": [
+     "Saucepan",
+     "Teapot",
+     "Ramekin"
+    ]
+   },
+   {
+    "q": "The crispy skin on roast pork",
+    "right": "Crackling",
+    "wrong": [
+     "Crumble",
+     "Crust",
+     "Croutons"
+    ]
+   },
+   {
+    "q": "The sage and onion mix cooked with the chicken",
+    "right": "Stuffing",
+    "wrong": [
+     "Dumplings",
+     "Croutons",
+     "Couscous"
+    ]
+   },
+   {
+    "q": "The hot sauce served with roast beef",
+    "right": "Horseradish",
+    "wrong": [
+     "Tartare sauce",
+     "Salad cream",
+     "Brown sauce"
+    ]
+   },
+   {
+    "q": "Served with roast lamb",
+    "right": "Mint sauce",
+    "wrong": [
+     "Tartare sauce",
+     "Salad cream",
+     "Cranberry sauce"
+    ]
+   },
+   {
+    "q": "Served with roast pork",
+    "right": "Apple sauce",
+    "wrong": [
+     "Tartare sauce",
+     "Salad cream",
+     "Brown sauce"
+    ]
+   },
+   {
+    "q": "The milky, clove-scented sauce for roast chicken or turkey",
+    "right": "Bread sauce",
+    "wrong": [
+     "Hollandaise",
+     "Tartare sauce",
+     "Salsa"
+    ]
+   },
+   {
+    "q": "Fluffy inside, crispy outside",
+    "right": "Roast potatoes",
+    "wrong": [
+     "Jacket potatoes",
+     "Mash",
+     "Chips"
+    ]
+   },
+   {
+    "q": "The pub where a chef slices the meat for you",
+    "right": "Carvery",
+    "wrong": [
+     "Cavalry",
+     "Cavern",
+     "Brewery"
+    ]
+   },
+   {
+    "q": "The whole piece of meat you roast",
+    "right": "Joint",
+    "wrong": [
+     "Slab",
+     "Hunk",
+     "Slice"
+    ]
+   },
+   {
+    "q": "Spooning the juices over the meat as it cooks",
+    "right": "Basting",
+    "wrong": [
+     "Boasting",
+     "Wasting",
+     "Toasting"
+    ]
+   },
+   {
+    "q": "Leaving the meat to stand before carving",
+    "right": "Resting",
+    "wrong": [
+     "Nesting",
+     "Testing",
+     "Wresting"
+    ]
+   },
+   {
+    "q": "The long blade for slicing the joint",
+    "right": "Carving knife",
+    "wrong": [
+     "Butter knife",
+     "Penknife",
+     "Palette knife"
+    ]
+   },
+   {
+    "q": "Florets baked in a cheesy sauce",
+    "right": "Cauliflower cheese",
+    "wrong": [
+     "Macaroni cheese",
+     "Welsh rarebit",
+     "Cheese on toast"
+    ]
+   },
+   {
+    "q": "Sausages wrapped in bacon",
+    "right": "Pigs in blankets",
+    "wrong": [
+     "Toad in the hole",
+     "Scotch eggs",
+     "Sausage rolls"
+    ]
+   },
+   {
+    "q": "Sweet pale roots, roasted with honey",
+    "right": "Parsnips",
+    "wrong": [
+     "Turnips",
+     "Radishes",
+     "Beetroot"
+    ]
+   },
+   {
+    "q": "What becomes Monday's bubble and squeak",
+    "right": "Leftovers",
+    "wrong": [
+     "Takeaways",
+     "Starters",
+     "Seconds"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this badminton word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "badminton",
+   "racket sports",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The feathered thing you hit",
+    "right": "Shuttlecock",
+    "wrong": [
+     "Puck",
+     "Ball",
+     "Dart"
+    ]
+   },
+   {
+    "q": "What a top-quality shuttle's skirt is made of",
+    "right": "Feathers",
+    "wrong": [
+     "Silk",
+     "Leather",
+     "Straw"
+    ]
+   },
+   {
+    "q": "How many feathers a shuttlecock has",
+    "right": "16",
+    "wrong": [
+     "8",
+     "12",
+     "20"
+    ]
+   },
+   {
+    "q": "A steep, powerful downward hit",
+    "right": "Smash",
+    "wrong": [
+     "Lob",
+     "Slice",
+     "Dink"
+    ]
+   },
+   {
+    "q": "A high, deep shot to the back of the court",
+    "right": "Clear",
+    "wrong": [
+     "Dink",
+     "Slice",
+     "Chip"
+    ]
+   },
+   {
+    "q": "A gentle shot that drops just over the net",
+    "right": "Drop shot",
+    "wrong": [
+     "Drop goal",
+     "Drop kick",
+     "Long shot"
+    ]
+   },
+   {
+    "q": "A fast, flat shot skimming the net",
+    "right": "Drive",
+    "wrong": [
+     "Lob",
+     "Dink",
+     "Spin"
+    ]
+   },
+   {
+    "q": "An exchange of shots until a point is won",
+    "right": "Rally",
+    "wrong": [
+     "Relay",
+     "Raffle",
+     "Round"
+    ]
+   },
+   {
+    "q": "Points needed to win a game, with a two-point lead",
+    "right": "21",
+    "wrong": [
+     "11",
+     "15",
+     "25"
+    ]
+   },
+   {
+    "q": "A man and a woman on each side",
+    "right": "Mixed doubles",
+    "wrong": [
+     "Mixed grill",
+     "Mixed bag",
+     "Mixed martial arts"
+    ]
+   },
+   {
+    "q": "The famous championships held in Birmingham",
+    "right": "All England Open",
+    "wrong": [
+     "British Open",
+     "Queen's Club",
+     "Wimbledon"
+    ]
+   },
+   {
+    "q": "Must be hit underarm, below the waist",
+    "right": "Serve",
+    "wrong": [
+     "Toss",
+     "Throw-in",
+     "Bowl"
+    ]
+   },
+   {
+    "q": "The point is replayed, say if the shuttle gets stuck",
+    "right": "Let",
+    "wrong": [
+     "Deuce",
+     "Advantage",
+     "Rerun"
+    ]
+   },
+   {
+    "q": "An illegal shot or serve that loses the rally",
+    "right": "Fault",
+    "wrong": [
+     "Offside",
+     "No-ball",
+     "Handball"
+    ]
+   },
+   {
+    "q": "What you hit it with",
+    "right": "Racket",
+    "wrong": [
+     "Bat",
+     "Club",
+     "Paddle"
+    ]
+   },
+   {
+    "q": "A delicate tap just over the net from close in",
+    "right": "Net shot",
+    "wrong": [
+     "Net curtain",
+     "Net profit",
+     "Long shot"
+    ]
+   },
+   {
+    "q": "The country with the most Olympic badminton golds",
+    "right": "China",
+    "wrong": [
+     "Japan",
+     "India",
+     "Thailand"
+    ]
+   },
+   {
+    "q": "The extra strips down the sides of a doubles court",
+    "right": "Tramlines",
+    "wrong": [
+     "Bus lanes",
+     "Gutters",
+     "Wings"
+    ]
+   },
+   {
+    "q": "Hitting it up from low down to the back of the court",
+    "right": "Lift",
+    "wrong": [
+     "Elevator",
+     "Hoist",
+     "Shove"
+    ]
+   },
+   {
+    "q": "The American name for the shuttlecock",
+    "right": "Birdie",
+    "wrong": [
+     "Eagle",
+     "Bogey",
+     "Robin"
+    ]
+   }
+  ]
+ }
+]
