@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each action star to the martial art he's known for",
+  "pairs": [
+   {
+    "left": "Bruce Lee",
+    "right": "Jeet Kune Do"
+   },
+   {
+    "left": "Chuck Norris",
+    "right": "Karate"
+   },
+   {
+    "left": "Jean-Claude Van Damme",
+    "right": "Kickboxing"
+   },
+   {
+    "left": "Steven Seagal",
+    "right": "Aikido"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

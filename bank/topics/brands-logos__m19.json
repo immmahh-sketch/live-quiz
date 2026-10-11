@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each company to what it first made or sold",
+  "pairs": [
+   {
+    "left": "Nokia",
+    "right": "Paper"
+   },
+   {
+    "left": "Nintendo",
+    "right": "Playing cards"
+   },
+   {
+    "left": "Lamborghini",
+    "right": "Tractors"
+   },
+   {
+    "left": "Samsung",
+    "right": "Groceries"
+   }
+  ],
+  "difficulty": "hard"
+ }
+]

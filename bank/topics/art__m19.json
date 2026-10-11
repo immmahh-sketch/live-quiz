@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each artist to the city most linked with their work",
+  "pairs": [
+   {
+    "left": "L. S. Lowry",
+    "right": "Salford"
+   },
+   {
+    "left": "Rembrandt",
+    "right": "Amsterdam"
+   },
+   {
+    "left": "Antoni Gaudí",
+    "right": "Barcelona"
+   },
+   {
+    "left": "Andy Warhol",
+    "right": "New York"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

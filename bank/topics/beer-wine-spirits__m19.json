@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each beer style to its character",
+  "pairs": [
+   {
+    "left": "Stout",
+    "right": "Dark and roasty"
+   },
+   {
+    "left": "Pilsner",
+    "right": "Pale, crisp lager"
+   },
+   {
+    "left": "IPA",
+    "right": "Hoppy pale ale"
+   },
+   {
+    "left": "Mild",
+    "right": "Low-strength dark ale"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Bond car to its film",
+  "pairs": [
+   {
+    "left": "Aston Martin DB5",
+    "right": "Goldfinger"
+   },
+   {
+    "left": "Lotus Esprit submarine",
+    "right": "The Spy Who Loved Me"
+   },
+   {
+    "left": "BMW Z3",
+    "right": "GoldenEye"
+   },
+   {
+    "left": "Invisible Aston Martin Vanquish",
+    "right": "Die Another Day"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

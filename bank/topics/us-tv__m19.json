@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each US sitcom to its lead character's job",
+  "pairs": [
+   {
+    "left": "Frasier",
+    "right": "Radio psychiatrist"
+   },
+   {
+    "left": "Cheers",
+    "right": "Bar owner"
+   },
+   {
+    "left": "The Office",
+    "right": "Paper company manager"
+   },
+   {
+    "left": "Scrubs",
+    "right": "Hospital doctor"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

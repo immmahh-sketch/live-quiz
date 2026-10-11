@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Toy Story toy to what it is",
+  "pairs": [
+   {
+    "left": "Rex",
+    "right": "Dinosaur"
+   },
+   {
+    "left": "Hamm",
+    "right": "Piggy bank"
+   },
+   {
+    "left": "Slinky",
+    "right": "Dog"
+   },
+   {
+    "left": "Bullseye",
+    "right": "Horse"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

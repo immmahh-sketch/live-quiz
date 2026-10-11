@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each UFC star to their country",
+  "pairs": [
+   {
+    "left": "Conor McGregor",
+    "right": "Ireland"
+   },
+   {
+    "left": "Khabib Nurmagomedov",
+    "right": "Russia"
+   },
+   {
+    "left": "Israel Adesanya",
+    "right": "New Zealand"
+   },
+   {
+    "left": "Jon Jones",
+    "right": "USA"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]
