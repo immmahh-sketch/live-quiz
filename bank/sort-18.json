@@ -1,0 +1,392 @@
+[
+ {
+  "type": "sort",
+  "text": "A French cake or an Austrian cake?",
+  "categories": [
+   "French",
+   "Austrian"
+  ],
+  "items": [
+   {
+    "text": "Éclair",
+    "category": "French"
+   },
+   {
+    "text": "Madeleine",
+    "category": "French"
+   },
+   {
+    "text": "Macaron",
+    "category": "French"
+   },
+   {
+    "text": "Mille-feuille",
+    "category": "French"
+   },
+   {
+    "text": "Sachertorte",
+    "category": "Austrian"
+   },
+   {
+    "text": "Apple strudel",
+    "category": "Austrian"
+   },
+   {
+    "text": "Linzer torte",
+    "category": "Austrian"
+   },
+   {
+    "text": "Kaiserschmarrn",
+    "category": "Austrian"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [
+   "cakes",
+   "France",
+   "Austria"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "A Welsh rugby legend or an Irish one?",
+  "categories": [
+   "Wales",
+   "Ireland"
+  ],
+  "items": [
+   {
+    "text": "Gareth Edwards",
+    "category": "Wales"
+   },
+   {
+    "text": "Shane Williams",
+    "category": "Wales"
+   },
+   {
+    "text": "Alun Wyn Jones",
+    "category": "Wales"
+   },
+   {
+    "text": "Leigh Halfpenny",
+    "category": "Wales"
+   },
+   {
+    "text": "Brian O'Driscoll",
+    "category": "Ireland"
+   },
+   {
+    "text": "Johnny Sexton",
+    "category": "Ireland"
+   },
+   {
+    "text": "Paul O'Connell",
+    "category": "Ireland"
+   },
+   {
+    "text": "Keith Earls",
+    "category": "Ireland"
+   }
+  ],
+  "category": "Sport",
+  "tags": [
+   "rugby",
+   "Wales",
+   "Ireland"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Queen song or a David Bowie song?",
+  "categories": [
+   "Queen",
+   "David Bowie"
+  ],
+  "items": [
+   {
+    "text": "Radio Ga Ga",
+    "category": "Queen"
+   },
+   {
+    "text": "Killer Queen",
+    "category": "Queen"
+   },
+   {
+    "text": "I Want to Break Free",
+    "category": "Queen"
+   },
+   {
+    "text": "We Are the Champions",
+    "category": "Queen"
+   },
+   {
+    "text": "Space Oddity",
+    "category": "David Bowie"
+   },
+   {
+    "text": "Ziggy Stardust",
+    "category": "David Bowie"
+   },
+   {
+    "text": "Ashes to Ashes",
+    "category": "David Bowie"
+   },
+   {
+    "text": "Rebel Rebel",
+    "category": "David Bowie"
+   }
+  ],
+  "category": "Music",
+  "tags": [
+   "Queen",
+   "David Bowie"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Simon & Garfunkel song or a Beach Boys song?",
+  "categories": [
+   "Simon & Garfunkel",
+   "Beach Boys"
+  ],
+  "items": [
+   {
+    "text": "Mrs. Robinson",
+    "category": "Simon & Garfunkel"
+   },
+   {
+    "text": "The Sound of Silence",
+    "category": "Simon & Garfunkel"
+   },
+   {
+    "text": "Bridge Over Troubled Water",
+    "category": "Simon & Garfunkel"
+   },
+   {
+    "text": "The Boxer",
+    "category": "Simon & Garfunkel"
+   },
+   {
+    "text": "Good Vibrations",
+    "category": "Beach Boys"
+   },
+   {
+    "text": "Surfin' U.S.A.",
+    "category": "Beach Boys"
+   },
+   {
+    "text": "God Only Knows",
+    "category": "Beach Boys"
+   },
+   {
+    "text": "Wouldn't It Be Nice",
+    "category": "Beach Boys"
+   }
+  ],
+  "category": "Music",
+  "tags": [
+   "Simon & Garfunkel",
+   "The Beach Boys",
+   "1960s"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Japanese brand or a South Korean brand?",
+  "categories": [
+   "Japan",
+   "South Korea"
+  ],
+  "items": [
+   {
+    "text": "Sony",
+    "category": "Japan"
+   },
+   {
+    "text": "Panasonic",
+    "category": "Japan"
+   },
+   {
+    "text": "Toyota",
+    "category": "Japan"
+   },
+   {
+    "text": "Nintendo",
+    "category": "Japan"
+   },
+   {
+    "text": "Samsung",
+    "category": "South Korea"
+   },
+   {
+    "text": "LG",
+    "category": "South Korea"
+   },
+   {
+    "text": "Hyundai",
+    "category": "South Korea"
+   },
+   {
+    "text": "Kia",
+    "category": "South Korea"
+   }
+  ],
+  "category": "Business",
+  "tags": [
+   "brands",
+   "Japan",
+   "South Korea"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Danish brand or a Swedish brand?",
+  "categories": [
+   "Denmark",
+   "Sweden"
+  ],
+  "items": [
+   {
+    "text": "Lego",
+    "category": "Denmark"
+   },
+   {
+    "text": "Carlsberg",
+    "category": "Denmark"
+   },
+   {
+    "text": "Pandora",
+    "category": "Denmark"
+   },
+   {
+    "text": "Bang & Olufsen",
+    "category": "Denmark"
+   },
+   {
+    "text": "IKEA",
+    "category": "Sweden"
+   },
+   {
+    "text": "H&M",
+    "category": "Sweden"
+   },
+   {
+    "text": "Volvo",
+    "category": "Sweden"
+   },
+   {
+    "text": "Spotify",
+    "category": "Sweden"
+   }
+  ],
+  "category": "Business",
+  "tags": [
+   "brands",
+   "Denmark",
+   "Sweden"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A London club or a Midlands club?",
+  "categories": [
+   "London",
+   "Midlands"
+  ],
+  "items": [
+   {
+    "text": "Fulham",
+    "category": "London"
+   },
+   {
+    "text": "Brentford",
+    "category": "London"
+   },
+   {
+    "text": "QPR",
+    "category": "London"
+   },
+   {
+    "text": "Millwall",
+    "category": "London"
+   },
+   {
+    "text": "Aston Villa",
+    "category": "Midlands"
+   },
+   {
+    "text": "Wolves",
+    "category": "Midlands"
+   },
+   {
+    "text": "West Brom",
+    "category": "Midlands"
+   },
+   {
+    "text": "Coventry City",
+    "category": "Midlands"
+   }
+  ],
+  "category": "Football",
+  "tags": [
+   "London",
+   "Midlands"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A German Formula One driver or a Finnish one?",
+  "categories": [
+   "Germany",
+   "Finland"
+  ],
+  "items": [
+   {
+    "text": "Sebastian Vettel",
+    "category": "Germany"
+   },
+   {
+    "text": "Michael Schumacher",
+    "category": "Germany"
+   },
+   {
+    "text": "Nico Hülkenberg",
+    "category": "Germany"
+   },
+   {
+    "text": "Ralf Schumacher",
+    "category": "Germany"
+   },
+   {
+    "text": "Kimi Räikkönen",
+    "category": "Finland"
+   },
+   {
+    "text": "Mika Häkkinen",
+    "category": "Finland"
+   },
+   {
+    "text": "Valtteri Bottas",
+    "category": "Finland"
+   },
+   {
+    "text": "Heikki Kovalainen",
+    "category": "Finland"
+   }
+  ],
+  "category": "Sport",
+  "tags": [
+   "Formula One",
+   "Germany",
+   "Finland"
+  ],
+  "difficulty": "medium"
+ }
+]
