@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this woodland word?",
+  "target": 10,
+  "category": "Nature",
+  "tags": [
+   "woodland",
+   "trees",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A young tree",
+    "right": "Sapling",
+    "wrong": [
+     "Sprig",
+     "Shrub",
+     "Twig"
+    ]
+   },
+   {
+    "q": "The roof of leaves high above",
+    "right": "Canopy",
+    "wrong": [
+     "Awning",
+     "Thatch",
+     "Dome"
+    ]
+   },
+   {
+    "q": "The oak's nut",
+    "right": "Acorn",
+    "wrong": [
+     "Beechnut",
+     "Cobnut",
+     "Chestnut"
+    ]
+   },
+   {
+    "q": "The horse chestnut's shiny seed",
+    "right": "Conker",
+    "wrong": [
+     "Marble",
+     "Walnut",
+     "Hazelnut"
+    ]
+   },
+   {
+    "q": "Cutting trees back to the base so they regrow",
+    "right": "Coppicing",
+    "wrong": [
+     "Pollarding",
+     "Grafting",
+     "Thinning"
+    ]
+   },
+   {
+    "q": "What's left in the ground after a tree is felled",
+    "right": "Stump",
+    "wrong": [
+     "Root",
+     "Trunk",
+     "Bough"
+    ]
+   },
+   {
+    "q": "A tree's protective outer skin",
+    "right": "Bark",
+    "wrong": [
+     "Rind",
+     "Husk",
+     "Peel"
+    ]
+   },
+   {
+    "q": "The sugary fluid running inside a tree",
+    "right": "Sap",
+    "wrong": [
+     "Nectar",
+     "Syrup",
+     "Pulp"
+    ]
+   },
+   {
+    "q": "Count these on a stump to tell the tree's age",
+    "right": "Rings",
+    "wrong": [
+     "Knots",
+     "Burrs",
+     "Veins"
+    ]
+   },
+   {
+    "q": "Trees that drop their leaves in autumn",
+    "right": "Deciduous",
+    "wrong": [
+     "Perennial",
+     "Annual",
+     "Hardy"
+    ]
+   },
+   {
+    "q": "Keeps its leaves all year round",
+    "right": "Evergreen",
+    "wrong": [
+     "Perennial",
+     "Hardy",
+     "Annual"
+    ]
+   },
+   {
+    "q": "A tree with needles and cones",
+    "right": "Conifer",
+    "wrong": [
+     "Broadleaf",
+     "Palm",
+     "Fern"
+    ]
+   },
+   {
+    "q": "The carpet of blue flowers in spring woods",
+    "right": "Bluebells",
+    "wrong": [
+     "Violets",
+     "Cornflowers",
+     "Forget-me-nots"
+    ]
+   },
+   {
+    "q": "An open space in the middle of a wood",
+    "right": "Clearing",
+    "wrong": [
+     "Thicket",
+     "Hedgerow",
+     "Spinney"
+    ]
+   },
+   {
+    "q": "A small group of trees",
+    "right": "Copse",
+    "wrong": [
+     "Glade",
+     "Heath",
+     "Moor"
+    ]
+   },
+   {
+    "q": "Shrubs and plants growing beneath the trees",
+    "right": "Undergrowth",
+    "wrong": [
+     "Overgrowth",
+     "Outgrowth",
+     "Ingrowth"
+    ]
+   },
+   {
+    "q": "A badger's underground home",
+    "right": "Sett",
+    "wrong": [
+     "Drey",
+     "Holt",
+     "Form"
+    ]
+   },
+   {
+    "q": "The professional who climbs and cuts trees",
+    "right": "Tree surgeon",
+    "wrong": [
+     "Steeplejack",
+     "Thatcher",
+     "Farrier"
+    ]
+   },
+   {
+    "q": "A mushroom-like fungus, often poisonous",
+    "right": "Toadstool",
+    "wrong": [
+     "Puffball",
+     "Truffle",
+     "Lichen"
+    ]
+   },
+   {
+    "q": "The layer of dead leaves on the woodland floor",
+    "right": "Leaf litter",
+    "wrong": [
+     "Compost",
+     "Topsoil",
+     "Peat"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this post office word?",
+  "target": 10,
+  "category": "Lifestyle",
+  "tags": [
+   "post office",
+   "Royal Mail",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Letters and numbers like NE1 4ST",
+    "right": "Postcode",
+    "wrong": [
+     "Area code",
+     "Pin code",
+     "Grid reference"
+    ]
+   },
+   {
+    "q": "Stuck in the corner to pay for postage",
+    "right": "Stamp",
+    "wrong": [
+     "Sticker",
+     "Seal",
+     "Label"
+    ]
+   },
+   {
+    "q": "The faster, dearer stamp",
+    "right": "First class",
+    "wrong": [
+     "Second class",
+     "Business class",
+     "Express"
+    ]
+   },
+   {
+    "q": "The old service where someone signs to say it arrived",
+    "right": "Recorded delivery",
+    "wrong": [
+     "Cash on delivery",
+     "Same-day courier",
+     "Standing order"
+    ]
+   },
+   {
+    "q": "The inky mark showing where and when it was posted",
+    "right": "Postmark",
+    "wrong": [
+     "Watermark",
+     "Hallmark",
+     "Trademark"
+    ]
+   },
+   {
+    "q": "The red cylindrical postbox on the street",
+    "right": "Pillar box",
+    "wrong": [
+     "Phone box",
+     "Ballot box",
+     "Signal box"
+    ]
+   },
+   {
+    "q": "The flap in your front door",
+    "right": "Letterbox",
+    "wrong": [
+     "Cat flap",
+     "Peephole",
+     "Knocker"
+    ]
+   },
+   {
+    "q": "A numbered mailbox you rent at the post office",
+    "right": "PO Box",
+    "wrong": [
+     "Safe deposit box",
+     "Left luggage",
+     "Locker room"
+    ]
+   },
+   {
+    "q": "Where mail is sorted, and where you fetch missed parcels",
+    "right": "Sorting office",
+    "wrong": [
+     "Booking office",
+     "Box office",
+     "Ticket office"
+    ]
+   },
+   {
+    "q": "Slang for the person who brings your letters",
+    "right": "Postie",
+    "wrong": [
+     "Bobby",
+     "Milkie",
+     "Sparky"
+    ]
+   },
+   {
+    "q": "Letters sent abroad by plane",
+    "right": "Airmail",
+    "wrong": [
+     "Surface mail",
+     "Junk mail",
+     "Chain mail"
+    ]
+   },
+   {
+    "q": "Written on mail that can't be delivered",
+    "right": "Return to sender",
+    "wrong": [
+     "Please forward",
+     "Handle with care",
+     "Do not bend"
+    ]
+   },
+   {
+    "q": "The company that delivers Britain's letters",
+    "right": "Royal Mail",
+    "wrong": [
+     "Evri",
+     "DPD",
+     "Yodel"
+    ]
+   },
+   {
+    "q": "The world's first adhesive stamp, from 1840",
+    "right": "Penny Black",
+    "wrong": [
+     "Penny Red",
+     "Penny Farthing",
+     "Black Adder"
+    ]
+   },
+   {
+    "q": "A money slip bought at the counter to send cash safely",
+    "right": "Postal order",
+    "wrong": [
+     "Standing order",
+     "Direct debit",
+     "Money belt"
+    ]
+   },
+   {
+    "q": "The paper cover a letter goes in",
+    "right": "Envelope",
+    "wrong": [
+     "Folder",
+     "Wallet",
+     "Sleeve"
+    ]
+   },
+   {
+    "q": "A padded envelope, by its famous brand name",
+    "right": "Jiffy bag",
+    "wrong": [
+     "Bubble wrap",
+     "Carrier bag",
+     "Bum bag"
+    ]
+   },
+   {
+    "q": "The card left when you're out",
+    "right": "Sorry we missed you",
+    "wrong": [
+     "Wish you were here",
+     "Get well soon",
+     "Back in five minutes"
+    ]
+   },
+   {
+    "q": "Printing postage by machine instead of using stamps",
+    "right": "Franking",
+    "wrong": [
+     "Laminating",
+     "Embossing",
+     "Collating"
+    ]
+   },
+   {
+    "q": "The deadline for posting cards to arrive by Christmas",
+    "right": "Last posting date",
+    "wrong": [
+     "Sell-by date",
+     "Due date",
+     "Best-before date"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this sleep word?",
+  "target": 10,
+  "category": "Science",
+  "tags": [
+   "sleep",
+   "bedtime",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Being unable to get to sleep",
+    "right": "Insomnia",
+    "wrong": [
+     "Amnesia",
+     "Narcolepsy",
+     "Anaemia"
+    ]
+   },
+   {
+    "q": "Noisy breathing while asleep",
+    "right": "Snoring",
+    "wrong": [
+     "Sneezing",
+     "Hiccuping",
+     "Wheezing"
+    ]
+   },
+   {
+    "q": "The dreaming stage of sleep, by its initials",
+    "right": "REM",
+    "wrong": [
+     "RSI",
+     "BMI",
+     "ENT"
+    ]
+   },
+   {
+    "q": "An afternoon nap in Spain",
+    "right": "Siesta",
+    "wrong": [
+     "Fiesta",
+     "Tapas",
+     "Paseo"
+    ]
+   },
+   {
+    "q": "Getting up and wandering about while asleep",
+    "right": "Sleepwalking",
+    "wrong": [
+     "Moonwalking",
+     "Daydreaming",
+     "Fire walking"
+    ]
+   },
+   {
+    "q": "A frightening dream",
+    "right": "Nightmare",
+    "wrong": [
+     "Nightcap",
+     "Nightshade",
+     "Nightingale"
+    ]
+   },
+   {
+    "q": "The quilted cover filled with feathers",
+    "right": "Duvet",
+    "wrong": [
+     "Valance",
+     "Throw",
+     "Bolster"
+    ]
+   },
+   {
+    "q": "Tiredness after flying across time zones",
+    "right": "Jet lag",
+    "wrong": [
+     "Hangover",
+     "Burnout",
+     "Cabin fever"
+    ]
+   },
+   {
+    "q": "Your inner 24-hour rhythm",
+    "right": "Body clock",
+    "wrong": [
+     "Alarm clock",
+     "Grandfather clock",
+     "Stopwatch"
+    ]
+   },
+   {
+    "q": "Staying in bed late on a weekend morning",
+    "right": "Lie-in",
+    "wrong": [
+     "Sit-in",
+     "Stand-in",
+     "Walk-in"
+    ]
+   },
+   {
+    "q": "Someone who stays up late",
+    "right": "Night owl",
+    "wrong": [
+     "Dark horse",
+     "Lone wolf",
+     "Busy bee"
+    ]
+   },
+   {
+    "q": "Someone who's up at dawn",
+    "right": "Early bird",
+    "wrong": [
+     "Dark horse",
+     "Lone wolf",
+     "Cold fish"
+    ]
+   },
+   {
+    "q": "A short sleep, in the old phrase",
+    "right": "Forty winks",
+    "wrong": [
+     "Forty thieves",
+     "Twenty questions",
+     "Fifty-fifty"
+    ]
+   },
+   {
+    "q": "The hormone that makes you sleepy",
+    "right": "Melatonin",
+    "wrong": [
+     "Adrenaline",
+     "Insulin",
+     "Testosterone"
+    ]
+   },
+   {
+    "q": "Breathing that stops and starts during sleep",
+    "right": "Sleep apnoea",
+    "wrong": [
+     "Asthma",
+     "Hay fever",
+     "Vertigo"
+    ]
+   },
+   {
+    "q": "The classic trick for dropping off",
+    "right": "Counting sheep",
+    "wrong": [
+     "Counting crows",
+     "Counting cards",
+     "Counting chickens"
+    ]
+   },
+   {
+    "q": "The wide-mouthed sign you're tired",
+    "right": "Yawn",
+    "wrong": [
+     "Sigh",
+     "Gasp",
+     "Hiccup"
+    ]
+   },
+   {
+    "q": "The figure who sprinkles sleepy dust in your eyes",
+    "right": "Sandman",
+    "wrong": [
+     "Bogeyman",
+     "Tooth fairy",
+     "Snowman"
+    ]
+   },
+   {
+    "q": "An animal's long winter sleep",
+    "right": "Hibernation",
+    "wrong": [
+     "Migration",
+     "Moulting",
+     "Aestivation"
+    ]
+   },
+   {
+    "q": "Beds stacked one above the other",
+    "right": "Bunk beds",
+    "wrong": [
+     "Sofa bed",
+     "Camp bed",
+     "Water bed"
+    ]
+   }
+  ]
+ }
+]
