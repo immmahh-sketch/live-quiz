@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this time word?",
+  "target": 10,
+  "category": "Science",
+  "tags": [
+   "time",
+   "calendar",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Two weeks",
+    "right": "Fortnight",
+    "wrong": [
+     "Fortnite",
+     "Sennight",
+     "Weekend"
+    ]
+   },
+   {
+    "q": "Ten years",
+    "right": "Decade",
+    "wrong": [
+     "Score",
+     "Dozen",
+     "Gross"
+    ]
+   },
+   {
+    "q": "A hundred years",
+    "right": "Century",
+    "wrong": [
+     "Centurion",
+     "Score",
+     "Jubilee"
+    ]
+   },
+   {
+    "q": "A thousand years",
+    "right": "Millennium",
+    "wrong": [
+     "Millipede",
+     "Milestone",
+     "Millimetre"
+    ]
+   },
+   {
+    "q": "A year with 366 days",
+    "right": "Leap year",
+    "wrong": [
+     "Light year",
+     "Gap year",
+     "School year"
+    ]
+   },
+   {
+    "q": "When day and night are the same length",
+    "right": "Equinox",
+    "wrong": [
+     "Eclipse",
+     "Zenith",
+     "Perigee"
+    ]
+   },
+   {
+    "q": "The longest or shortest day of the year",
+    "right": "Solstice",
+    "wrong": [
+     "Eclipse",
+     "Zenith",
+     "Sabbatical"
+    ]
+   },
+   {
+    "q": "The dim light just after sunset",
+    "right": "Dusk",
+    "wrong": [
+     "Husk",
+     "Musk",
+     "Rusk"
+    ]
+   },
+   {
+    "q": "The first light of morning",
+    "right": "Dawn",
+    "wrong": [
+     "Drawn",
+     "Lawn",
+     "Yawn"
+    ]
+   },
+   {
+    "q": "Twelve o'clock in the day",
+    "right": "Noon",
+    "wrong": [
+     "Moon",
+     "Spoon",
+     "Soon"
+    ]
+   },
+   {
+    "q": "The witching hour",
+    "right": "Midnight",
+    "wrong": [
+     "Midday",
+     "Midweek",
+     "Midway"
+    ]
+   },
+   {
+    "q": "Greenwich Mean Time, by its letters",
+    "right": "GMT",
+    "wrong": [
+     "GPS",
+     "GSM",
+     "GDP"
+    ]
+   },
+   {
+    "q": "What Britain switches to when the clocks go forward",
+    "right": "British Summer Time",
+    "wrong": [
+     "Central European Time",
+     "Daylight Robbery",
+     "Summertime Blues"
+    ]
+   },
+   {
+    "q": "Tells the time by a shadow",
+    "right": "Sundial",
+    "wrong": [
+     "Sunbed",
+     "Sunroof",
+     "Barometer"
+    ]
+   },
+   {
+    "q": "Sand trickling between two glass bulbs",
+    "right": "Hourglass",
+    "wrong": [
+     "Wine glass",
+     "Spyglass",
+     "Glasshouse"
+    ]
+   },
+   {
+    "q": "A very short moment, as in 'back in a ...'",
+    "right": "Jiffy",
+    "wrong": [
+     "Jaffa",
+     "Jacuzzi",
+     "Jigsaw"
+    ]
+   },
+   {
+    "q": "A public day off, often a Monday",
+    "right": "Bank holiday",
+    "wrong": [
+     "Bank statement",
+     "Busman's holiday",
+     "Bank account"
+    ]
+   },
+   {
+    "q": "A long, distinct period of history",
+    "right": "Epoch",
+    "wrong": [
+     "Epic",
+     "Echo",
+     "Ethic"
+    ]
+   },
+   {
+    "q": "A billionth of a second",
+    "right": "Nanosecond",
+    "wrong": [
+     "Nanny goat",
+     "Millisecond",
+     "Microsecond"
+    ]
+   },
+   {
+    "q": "A page for every month on the kitchen wall",
+    "right": "Calendar",
+    "wrong": [
+     "Colander",
+     "Cylinder",
+     "Lavender"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this advertising word?",
+  "target": 10,
+  "category": "Lifestyle",
+  "tags": [
+   "adverts",
+   "marketing",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "A catchy phrase like 'Because you're worth it'",
+    "right": "Slogan",
+    "wrong": [
+     "Sermon",
+     "Sonnet",
+     "Saga"
+    ]
+   },
+   {
+    "q": "A short catchy tune in an advert",
+    "right": "Jingle",
+    "wrong": [
+     "Jangle",
+     "Jungle",
+     "Jingo"
+    ]
+   },
+   {
+    "q": "A giant poster by the roadside",
+    "right": "Billboard",
+    "wrong": [
+     "Blackboard",
+     "Skateboard",
+     "Sideboard"
+    ]
+   },
+   {
+    "q": "A brand's symbol, like the Nike tick",
+    "right": "Logo",
+    "wrong": [
+     "Lego",
+     "Lingo",
+     "Limbo"
+    ]
+   },
+   {
+    "q": "A character like Tony the Tiger",
+    "right": "Mascot",
+    "wrong": [
+     "Muscat",
+     "Mascara",
+     "Masquerade"
+    ]
+   },
+   {
+    "q": "When the programme stops for commercials",
+    "right": "Ad break",
+    "wrong": [
+     "Tea break",
+     "Jailbreak",
+     "Daybreak"
+    ]
+   },
+   {
+    "q": "A brand slipped into a film or show on purpose",
+    "right": "Product placement",
+    "wrong": [
+     "Product recall",
+     "Work placement",
+     "Place setting"
+    ]
+   },
+   {
+    "q": "A company paying to put its name on shirts or events",
+    "right": "Sponsorship",
+    "wrong": [
+     "Scholarship",
+     "Citizenship",
+     "Censorship"
+    ]
+   },
+   {
+    "q": "A long TV advert dressed up as a programme",
+    "right": "Infomercial",
+    "wrong": [
+     "Infographic",
+     "Intermission",
+     "Interview"
+    ]
+   },
+   {
+    "q": "A social media star paid to promote products",
+    "right": "Influencer",
+    "wrong": [
+     "Infiltrator",
+     "Inspector",
+     "Invigilator"
+    ]
+   },
+   {
+    "q": "An ad that springs up in a new window",
+    "right": "Pop-up",
+    "wrong": [
+     "Pop-Tart",
+     "Pop quiz",
+     "Popcorn"
+    ]
+   },
+   {
+    "q": "Ad boards worn front and back by someone walking the streets",
+    "right": "Sandwich board",
+    "wrong": [
+     "Sandwich bag",
+     "Ironing board",
+     "Drawing board"
+    ]
+   },
+   {
+    "q": "The people an advert is aimed at",
+    "right": "Target audience",
+    "wrong": [
+     "Studio audience",
+     "Target practice",
+     "Captive audience"
+    ]
+   },
+   {
+    "q": "The watchdog that bans misleading adverts, by its letters",
+    "right": "ASA",
+    "wrong": [
+     "ABTA",
+     "ACAS",
+     "AA"
+    ]
+   },
+   {
+    "q": "A sensational headline written just to get clicks",
+    "right": "Clickbait",
+    "wrong": [
+     "Click and collect",
+     "Bait and switch",
+     "Fish bait"
+    ]
+   },
+   {
+    "q": "Unwanted junk email",
+    "right": "Spam",
+    "wrong": [
+     "Spud",
+     "Spat",
+     "Scam"
+    ]
+   },
+   {
+    "q": "A folded flyer pushed through your door",
+    "right": "Leaflet",
+    "wrong": [
+     "Leafblower",
+     "Ringlet",
+     "Omelette"
+    ]
+   },
+   {
+    "q": "Phoning strangers to sell them something",
+    "right": "Cold calling",
+    "wrong": [
+     "Cold feet",
+     "Cold shoulder",
+     "Cold snap"
+    ]
+   },
+   {
+    "q": "John Lewis's yearly tear-jerker",
+    "right": "Christmas advert",
+    "wrong": [
+     "Christmas card",
+     "Christmas cracker",
+     "Christmas jumper"
+    ]
+   },
+   {
+    "q": "A taster handed out to try for nothing",
+    "right": "Free sample",
+    "wrong": [
+     "Free kick",
+     "Free spirit",
+     "Free fall"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this sports day word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "sports day",
+   "school",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Balancing something fragile on cutlery while you run",
+    "right": "Egg and spoon race",
+    "wrong": [
+     "Bacon and egg",
+     "Spoon and fork",
+     "Egg hunt"
+    ]
+   },
+   {
+    "q": "Jumping along inside a hessian bag",
+    "right": "Sack race",
+    "wrong": [
+     "Sack of potatoes",
+     "Rat race",
+     "Sack truck"
+    ]
+   },
+   {
+    "q": "Running with your ankle tied to a partner's",
+    "right": "Three-legged race",
+    "wrong": [
+     "Three-wheeler",
+     "Two-step",
+     "Four-poster"
+    ]
+   },
+   {
+    "q": "Walking on your hands while someone holds your legs",
+    "right": "Wheelbarrow race",
+    "wrong": [
+     "Handstand",
+     "Wheelie bin",
+     "Crab walk"
+    ]
+   },
+   {
+    "q": "Two teams heaving on a rope",
+    "right": "Tug of war",
+    "wrong": [
+     "Tugboat",
+     "Man of war",
+     "War of words"
+    ]
+   },
+   {
+    "q": "Passing a baton between teammates",
+    "right": "Relay",
+    "wrong": [
+     "Replay",
+     "Delay",
+     "Rally"
+    ]
+   },
+   {
+    "q": "Crawling under nets and over barriers",
+    "right": "Obstacle course",
+    "wrong": [
+     "Golf course",
+     "Main course",
+     "Crash course"
+    ]
+   },
+   {
+    "q": "When the mums and dads go flat out",
+    "right": "Parents' race",
+    "wrong": [
+     "Arms race",
+     "Boat race",
+     "Space race"
+    ]
+   },
+   {
+    "q": "'Ready, steady ...'",
+    "right": "Go",
+    "wrong": [
+     "Stop",
+     "Now",
+     "Wait"
+    ]
+   },
+   {
+    "q": "A ribbon award pinned on the winners",
+    "right": "Rosette",
+    "wrong": [
+     "Roulette",
+     "Rosemary",
+     "Rosetta Stone"
+    ]
+   },
+   {
+    "q": "What your team, named after a colour or a famous person, earns",
+    "right": "House points",
+    "wrong": [
+     "House arrest",
+     "House party",
+     "Brownie points"
+    ]
+   },
+   {
+    "q": "Where the long jump lands",
+    "right": "Sandpit",
+    "wrong": [
+     "Cockpit",
+     "Snake pit",
+     "Mosh pit"
+    ]
+   },
+   {
+    "q": "The ribbon the winner breaks across the line",
+    "right": "Finishing tape",
+    "wrong": [
+     "Red tape",
+     "Masking tape",
+     "Duct tape"
+    ]
+   },
+   {
+    "q": "A big orange bouncy ball with handles",
+    "right": "Space hopper",
+    "wrong": [
+     "Grasshopper",
+     "Hip hop",
+     "Hopscotch"
+    ]
+   },
+   {
+    "q": "Balanced on your head in one of the races",
+    "right": "Bean bag",
+    "wrong": [
+     "Tea bag",
+     "Doggy bag",
+     "Sandbag"
+    ]
+   },
+   {
+    "q": "Jumping a turning rope as you run",
+    "right": "Skipping race",
+    "wrong": [
+     "Rope swing",
+     "Tightrope",
+     "Boat race"
+    ]
+   },
+   {
+    "q": "Small barriers to leap over",
+    "right": "Hurdles",
+    "wrong": [
+     "Huddles",
+     "Hurdy-gurdy",
+     "Hustles"
+    ]
+   },
+   {
+    "q": "What everyone gets for taking part",
+    "right": "Sticker",
+    "wrong": [
+     "Medal",
+     "Trophy",
+     "Cup"
+    ]
+   },
+   {
+    "q": "Slapped on by teachers on a hot afternoon",
+    "right": "Sun cream",
+    "wrong": [
+     "Ice cream",
+     "Salad cream",
+     "Clotted cream"
+    ]
+   },
+   {
+    "q": "What the teacher keeps the scores on",
+    "right": "Clipboard",
+    "wrong": [
+     "Cupboard",
+     "Skateboard",
+     "Clipper"
+    ]
+   }
+  ]
+ }
+]
