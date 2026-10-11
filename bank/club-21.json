@@ -1,0 +1,98 @@
+[
+ {
+  "type": "club",
+  "text": "Six bottles of Brown Ale sit on a shelf. You drink two, then buy three more. How many are on the shelf now?",
+  "answers": [
+   "7",
+   "Seven"
+  ],
+  "pct": 90,
+  "why": "6 − 2 + 3 = 7.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "adding",
+   "taking away"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Sausage rolls are 90p each. How many can you buy with a £5 note?",
+  "answers": [
+   "5",
+   "Five"
+  ],
+  "pct": 70,
+  "why": "5 × 90p = £4.50, and a sixth would cost £5.40.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "money",
+   "sausage rolls"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A quiz has 8 rounds of 10 questions, and you get 7 right in every round. What's your total?",
+  "answers": [
+   "56",
+   "Fifty-six"
+  ],
+  "pct": 60,
+  "why": "8 × 7 = 56.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "quiz scores",
+   "multiplying"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Quiz night is a Saturday. What day of the week was it ten days before?",
+  "answers": [
+   "Wednesday"
+  ],
+  "pct": 50,
+  "why": "Seven days back is Saturday again; three more is Wednesday.",
+  "difficulty": "medium",
+  "category": "Time",
+  "tags": [
+   "days of the week",
+   "counting back"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A Metro leaves every 12 minutes, starting at 7:00. At what time does the fifth one leave?",
+  "answers": [
+   "7:48",
+   "7.48",
+   "Twelve minutes to eight"
+  ],
+  "pct": 40,
+  "why": "7:00, 7:12, 7:24, 7:36, 7:48.",
+  "difficulty": "medium",
+  "category": "Time",
+  "tags": [
+   "timetables",
+   "trains"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Using only 1p, 2p and 5p pieces, count the different combinations totalling exactly 10p.",
+  "answers": [
+   "10",
+   "Ten"
+  ],
+  "pct": 1,
+  "why": "With no 5p: 6 ways; with one 5p: 3 ways; with two 5p: 1 way.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "coins",
+   "combinations"
+  ]
+ }
+]
