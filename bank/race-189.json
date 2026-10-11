@@ -1,0 +1,583 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this archaeology word?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "archaeology",
+   "history",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The small pointed tool for scraping away soil",
+    "right": "Trowel",
+    "wrong": [
+     "Spatula",
+     "Chisel",
+     "Ladle"
+    ]
+   },
+   {
+    "q": "Any object made by people in the past",
+    "right": "Artefact",
+    "wrong": [
+     "Fossil",
+     "Specimen",
+     "Mineral"
+    ]
+   },
+   {
+    "q": "Telling a find's age from radioactive decay",
+    "right": "Carbon dating",
+    "wrong": [
+     "Speed dating",
+     "Carbon copy",
+     "Tree-ring dating"
+    ]
+   },
+   {
+    "q": "A buried stash of treasure, like the Staffordshire one",
+    "right": "Hoard",
+    "wrong": [
+     "Horde",
+     "Herd",
+     "Hoop"
+    ]
+   },
+   {
+    "q": "What hobbyists sweep across ploughed fields",
+    "right": "Metal detector",
+    "wrong": [
+     "Smoke detector",
+     "Lie detector",
+     "Minesweeper"
+    ]
+   },
+   {
+    "q": "The Channel 4 show that dug a site in three days",
+    "right": "Time Team",
+    "wrong": [
+     "Time Lords",
+     "Dream Team",
+     "Time Bandits"
+    ]
+   },
+   {
+    "q": "Its presenter, once Baldrick",
+    "right": "Tony Robinson",
+    "wrong": [
+     "Phil Harding",
+     "Mick Aston",
+     "Michael Wood"
+    ]
+   },
+   {
+    "q": "The Anglo-Saxon ship burial in Suffolk",
+    "right": "Sutton Hoo",
+    "wrong": [
+     "Sutton Coldfield",
+     "Jarlshof",
+     "Grime's Graves"
+    ]
+   },
+   {
+    "q": "The Stone Age village on Orkney",
+    "right": "Skara Brae",
+    "wrong": [
+     "Jarlshof",
+     "Maiden Castle",
+     "Grime's Graves"
+    ]
+   },
+   {
+    "q": "The Roman fort near Hadrian's Wall famous for its writing tablets",
+    "right": "Vindolanda",
+    "wrong": [
+     "Vindaloo",
+     "Arbeia",
+     "Segedunum"
+    ]
+   },
+   {
+    "q": "An ancient rubbish heap",
+    "right": "Midden",
+    "wrong": [
+     "Mound",
+     "Mire",
+     "Moat"
+    ]
+   },
+   {
+    "q": "A prehistoric burial mound",
+    "right": "Barrow",
+    "wrong": [
+     "Moat",
+     "Motte",
+     "Dyke"
+    ]
+   },
+   {
+    "q": "A circular bank and ditch, like Stonehenge",
+    "right": "Henge",
+    "wrong": [
+     "Hinge",
+     "Hedge",
+     "Fringe"
+    ]
+   },
+   {
+    "q": "Broken bits of ancient pottery",
+    "right": "Potsherds",
+    "wrong": [
+     "Crumbs",
+     "Flakes",
+     "Chips"
+    ]
+   },
+   {
+    "q": "The man who opened Tutankhamun's tomb in 1922",
+    "right": "Howard Carter",
+    "wrong": [
+     "Indiana Jones",
+     "Heinrich Schliemann",
+     "Arthur Evans"
+    ]
+   },
+   {
+    "q": "Scanning under the ground without digging",
+    "right": "Geophysics",
+    "wrong": [
+     "Geography",
+     "Geometry",
+     "Geology"
+    ]
+   },
+   {
+    "q": "The long pit dug across a site",
+    "right": "Trench",
+    "wrong": [
+     "Moat",
+     "Gully",
+     "Tunnel"
+    ]
+   },
+   {
+    "q": "The stone chipped into tools and arrowheads",
+    "right": "Flint",
+    "wrong": [
+     "Chalk",
+     "Slate",
+     "Marble"
+    ]
+   },
+   {
+    "q": "A floor picture of tiny tiles in a Roman villa",
+    "right": "Mosaic",
+    "wrong": [
+     "Fresco",
+     "Tapestry",
+     "Collage"
+    ]
+   },
+   {
+    "q": "The slab that cracked Egyptian hieroglyphs",
+    "right": "Rosetta Stone",
+    "wrong": [
+     "Philosopher's Stone",
+     "Blarney Stone",
+     "Stone of Scone"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this netball word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "netball",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The vest with letters showing your position",
+    "right": "Bib",
+    "wrong": [
+     "Sash",
+     "Badge",
+     "Armband"
+    ]
+   },
+   {
+    "q": "The only two positions allowed to shoot",
+    "right": "Goal Shooter and Goal Attack",
+    "wrong": [
+     "Wing Attack and Centre",
+     "Goal Keeper and Goal Defence",
+     "Centre and Goal Defence"
+    ]
+   },
+   {
+    "q": "What GK stands for",
+    "right": "Goal Keeper",
+    "wrong": [
+     "Game Keeper",
+     "Goal Kicker",
+     "Guard Keeper"
+    ]
+   },
+   {
+    "q": "What WD stands for",
+    "right": "Wing Defence",
+    "wrong": [
+     "Wall Defence",
+     "Wide Deep",
+     "Wing Drive"
+    ]
+   },
+   {
+    "q": "The position allowed everywhere except the shooting circles",
+    "right": "Centre",
+    "wrong": [
+     "Wing Attack",
+     "Goal Attack",
+     "Goal Defence"
+    ]
+   },
+   {
+    "q": "How play restarts after every goal",
+    "right": "Centre pass",
+    "wrong": [
+     "Throw-in",
+     "Bully-off",
+     "Tip-off"
+    ]
+   },
+   {
+    "q": "The semicircle you must be inside to shoot",
+    "right": "Shooting circle",
+    "wrong": [
+     "Penalty box",
+     "Crease",
+     "Key"
+    ]
+   },
+   {
+    "q": "The rule against moving your landing foot while holding the ball",
+    "right": "Footwork",
+    "wrong": [
+     "Offside",
+     "Double dribble",
+     "Handball"
+    ]
+   },
+   {
+    "q": "Defending closer than 0.9 metres to the player with the ball",
+    "right": "Obstruction",
+    "wrong": [
+     "Interference",
+     "Offside",
+     "Encroachment"
+    ]
+   },
+   {
+    "q": "Players per side on court",
+    "right": "7",
+    "wrong": [
+     "5",
+     "6",
+     "11"
+    ]
+   },
+   {
+    "q": "How long you can hold the ball",
+    "right": "3 seconds",
+    "wrong": [
+     "1 second",
+     "5 seconds",
+     "10 seconds"
+    ]
+   },
+   {
+    "q": "England's netball team",
+    "right": "The Roses",
+    "wrong": [
+     "The Lionesses",
+     "The Red Roses",
+     "The Lady Lions"
+    ]
+   },
+   {
+    "q": "Scotland's netball team",
+    "right": "The Thistles",
+    "wrong": [
+     "The Lionesses",
+     "The Highlanders",
+     "The Tartan Army"
+    ]
+   },
+   {
+    "q": "New Zealand's netball team",
+    "right": "The Silver Ferns",
+    "wrong": [
+     "The All Blacks",
+     "The Black Ferns",
+     "The Kiwis"
+    ]
+   },
+   {
+    "q": "Australia's netball team",
+    "right": "The Diamonds",
+    "wrong": [
+     "The Matildas",
+     "The Wallabies",
+     "The Kangaroos"
+    ]
+   },
+   {
+    "q": "The metal hoop on top of the post",
+    "right": "Ring",
+    "wrong": [
+     "Backboard",
+     "Basket",
+     "Target"
+    ]
+   },
+   {
+    "q": "The jump ball when two players grab it at once",
+    "right": "Toss-up",
+    "wrong": [
+     "Tip-off",
+     "Bully-off",
+     "Face-off"
+    ]
+   },
+   {
+    "q": "Each of the four periods of play",
+    "right": "Quarter",
+    "wrong": [
+     "Half",
+     "Innings",
+     "Set"
+    ]
+   },
+   {
+    "q": "The pass awarded for contact or obstruction",
+    "right": "Penalty pass",
+    "wrong": [
+     "Free kick",
+     "Penalty corner",
+     "Power play"
+    ]
+   },
+   {
+    "q": "England's top domestic competition",
+    "right": "Netball Super League",
+    "wrong": [
+     "Championship",
+     "Premiership",
+     "Champions League"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this volcano word?",
+  "target": 10,
+  "category": "Science",
+  "tags": [
+   "volcanoes",
+   "earthquakes",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Molten rock underground",
+    "right": "Magma",
+    "wrong": [
+     "Mantle",
+     "Magnet",
+     "Marrow"
+    ]
+   },
+   {
+    "q": "Molten rock once it reaches the surface",
+    "right": "Lava",
+    "wrong": [
+     "Larva",
+     "Lather",
+     "Slag"
+    ]
+   },
+   {
+    "q": "The bowl-shaped hole at the top",
+    "right": "Crater",
+    "wrong": [
+     "Grater",
+     "Crevasse",
+     "Cavern"
+    ]
+   },
+   {
+    "q": "Not erupting now, but could again",
+    "right": "Dormant",
+    "wrong": [
+     "Dominant",
+     "Docile",
+     "Drowsy"
+    ]
+   },
+   {
+    "q": "Never expected to erupt again",
+    "right": "Extinct",
+    "wrong": [
+     "Instinct",
+     "Extant",
+     "Exhausted"
+    ]
+   },
+   {
+    "q": "What grounded flights across Europe in 2010",
+    "right": "Ash cloud",
+    "wrong": [
+     "Smog",
+     "Fog bank",
+     "Hailstorm"
+    ]
+   },
+   {
+    "q": "The Icelandic volcano that caused it",
+    "right": "Eyjafjallajökull",
+    "wrong": [
+     "Etna",
+     "Krakatoa",
+     "Hekla"
+    ]
+   },
+   {
+    "q": "The Roman town buried in AD 79",
+    "right": "Pompeii",
+    "wrong": [
+     "Pompidou",
+     "Palermo",
+     "Paestum"
+    ]
+   },
+   {
+    "q": "The volcano that buried it",
+    "right": "Vesuvius",
+    "wrong": [
+     "Etna",
+     "Stromboli",
+     "Olympus"
+    ]
+   },
+   {
+    "q": "Huge moving slabs of the Earth's crust",
+    "right": "Tectonic plates",
+    "wrong": [
+     "Dinner plates",
+     "Number plates",
+     "Hot plates"
+    ]
+   },
+   {
+    "q": "The old scale for measuring earthquakes",
+    "right": "Richter scale",
+    "wrong": [
+     "Beaufort scale",
+     "Mohs scale",
+     "Kelvin scale"
+    ]
+   },
+   {
+    "q": "The point on the surface right above a quake",
+    "right": "Epicentre",
+    "wrong": [
+     "Bullseye",
+     "Hypocentre",
+     "Midpoint"
+    ]
+   },
+   {
+    "q": "A smaller quake after the big one",
+    "right": "Aftershock",
+    "wrong": [
+     "Afterburner",
+     "Aftertaste",
+     "Afterglow"
+    ]
+   },
+   {
+    "q": "A giant wave caused by an undersea quake",
+    "right": "Tsunami",
+    "wrong": [
+     "Typhoon",
+     "Monsoon",
+     "Tornado"
+    ]
+   },
+   {
+    "q": "The instrument that records ground shaking",
+    "right": "Seismograph",
+    "wrong": [
+     "Barometer",
+     "Thermometer",
+     "Anemometer"
+    ]
+   },
+   {
+    "q": "A crack where plates slip past each other",
+    "right": "Fault line",
+    "wrong": [
+     "Fold",
+     "Ridge",
+     "Groove"
+    ]
+   },
+   {
+    "q": "California's famous fault",
+    "right": "San Andreas",
+    "wrong": [
+     "San Diego",
+     "Santa Ana",
+     "San Fermín"
+    ]
+   },
+   {
+    "q": "The Pacific's horseshoe of volcanoes",
+    "right": "Ring of Fire",
+    "wrong": [
+     "Ring of Kerry",
+     "Circle of Life",
+     "Ring of Brodgar"
+    ]
+   },
+   {
+    "q": "A deadly rushing avalanche of hot gas and ash",
+    "right": "Pyroclastic flow",
+    "wrong": [
+     "Lava lamp",
+     "Mudslide",
+     "Firestorm"
+    ]
+   },
+   {
+    "q": "A hot spring that shoots water into the air",
+    "right": "Geyser",
+    "wrong": [
+     "Geezer",
+     "Fumarole",
+     "Spout"
+    ]
+   }
+  ]
+ }
+]
