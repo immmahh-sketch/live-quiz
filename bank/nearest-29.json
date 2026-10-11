@@ -1,0 +1,63 @@
+[
+ {
+  "type": "nearest",
+  "text": "Count every player on the field at Croke Park in an All-Ireland Gaelic football final. What's the total?",
+  "answer": 30,
+  "unit": "players",
+  "spread": 4,
+  "difficulty": "hard",
+  "category": "Sport",
+  "tags": [
+   "nearest wins",
+   "wow"
+  ]
+ },
+ {
+  "type": "nearest",
+  "text": "Over one lap in the 400 m hurdles, how many barriers does each athlete jump?",
+  "answer": 10,
+  "unit": "hurdles",
+  "spread": 2,
+  "difficulty": "medium",
+  "category": "Sport",
+  "tags": [
+   "nearest wins"
+  ]
+ },
+ {
+  "type": "nearest",
+  "text": "How many maximum 147 breaks has Ronnie O'Sullivan made in professional competition?",
+  "answer": 15,
+  "unit": "maximums",
+  "spread": 3,
+  "difficulty": "hard",
+  "category": "Sport",
+  "tags": [
+   "nearest wins"
+  ]
+ },
+ {
+  "type": "nearest",
+  "text": "Roughly how many people live on the Isle of Man?",
+  "answer": 84000,
+  "unit": "people",
+  "spread": 12000,
+  "difficulty": "hard",
+  "category": "UK geography",
+  "tags": [
+   "nearest wins"
+  ]
+ },
+ {
+  "type": "nearest",
+  "text": "The King scored how many chart-topping singles in Britain? (Elvis Presley)",
+  "answer": 21,
+  "unit": "number ones",
+  "spread": 3,
+  "difficulty": "medium",
+  "category": "Music",
+  "tags": [
+   "nearest wins"
+  ]
+ }
+]
