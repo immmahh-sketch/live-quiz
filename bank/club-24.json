@@ -1,0 +1,115 @@
+[
+ {
+  "type": "club",
+  "text": "A football match finishes 3–2. How many goals were scored in total?",
+  "answers": [
+   "5",
+   "Five"
+  ],
+  "pct": 90,
+  "why": "3 + 2 = 5.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "football",
+   "adding"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A car park charges £1.50 an hour. What do you pay for four hours?",
+  "answers": [
+   "£6",
+   "6",
+   "Six pounds"
+  ],
+  "pct": 60,
+  "why": "4 × £1.50 = £6.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "parking",
+   "money"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "You pack 3 shirts and 2 pairs of trousers. How many different outfits can you make?",
+  "answers": [
+   "6",
+   "Six"
+  ],
+  "pct": 50,
+  "why": "Each shirt goes with either pair: 3 × 2 = 6.",
+  "difficulty": "medium",
+  "category": "Logic",
+  "tags": [
+   "outfits",
+   "combinations"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A dartboard has the numbers 1 to 20 round it. How many of them are even?",
+  "answers": [
+   "10",
+   "Ten"
+  ],
+  "pct": 40,
+  "why": "Half of the twenty numbers are even.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "darts",
+   "even numbers"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A Metro comes every 6 minutes. How many arrive in an hour?",
+  "answers": [
+   "10",
+   "Ten"
+  ],
+  "pct": 30,
+  "why": "60 ÷ 6 = 10.",
+  "difficulty": "hard",
+  "category": "Time",
+  "tags": [
+   "Metro",
+   "dividing"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "You fly out on Friday 28 March and come home 10 nights later. What day of the week do you get back?",
+  "answers": [
+   "Monday"
+  ],
+  "pct": 10,
+  "why": "Seven nights takes you to Friday 4 April; three more make it Monday 7 April.",
+  "difficulty": "hard",
+  "category": "Time",
+  "tags": [
+   "holidays",
+   "calendar"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A ball dropped from 16 m bounces back to half its height every time. How far has it travelled when it hits the ground for the third time?",
+  "answers": [
+   "40 m",
+   "40",
+   "Forty metres"
+  ],
+  "pct": 1,
+  "why": "16 down, 8 up and 8 down, 4 up and 4 down: 40 m.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "bouncing",
+   "halving"
+  ]
+ }
+]
