@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this auction word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "auctions",
+   "antiques",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The auctioneer's little hammer",
+    "right": "Gavel",
+    "wrong": [
+     "Baton",
+     "Chisel",
+     "Pestle"
+    ]
+   },
+   {
+    "q": "Each item up for sale, with its own number",
+    "right": "Lot",
+    "wrong": [
+     "Batch",
+     "Bundle",
+     "Parcel"
+    ]
+   },
+   {
+    "q": "The lowest price the seller will accept",
+    "right": "Reserve",
+    "wrong": [
+     "Deposit",
+     "Ransom",
+     "Retainer"
+    ]
+   },
+   {
+    "q": "The final winning bid",
+    "right": "Hammer price",
+    "wrong": [
+     "Asking price",
+     "Cost price",
+     "Trade price"
+    ]
+   },
+   {
+    "q": "The auctioneer's countdown to the sale",
+    "right": "Going, going, gone",
+    "wrong": [
+     "Ready, steady, go",
+     "Three, two, one",
+     "Once upon a time"
+    ]
+   },
+   {
+    "q": "The numbered card you hold up to bid",
+    "right": "Paddle",
+    "wrong": [
+     "Placard",
+     "Banner",
+     "Flag"
+    ]
+   },
+   {
+    "q": "Someone making an offer",
+    "right": "Bidder",
+    "wrong": [
+     "Broker",
+     "Agent",
+     "Curator"
+    ]
+   },
+   {
+    "q": "The person selling",
+    "right": "Vendor",
+    "wrong": [
+     "Broker",
+     "Agent",
+     "Curator"
+    ]
+   },
+   {
+    "q": "The recorded history of who has owned an item",
+    "right": "Provenance",
+    "wrong": [
+     "Inventory",
+     "Insignia",
+     "Ledger"
+    ]
+   },
+   {
+    "q": "The glow old wood or bronze takes on with age",
+    "right": "Patina",
+    "wrong": [
+     "Varnish",
+     "Veneer",
+     "Lacquer"
+    ]
+   },
+   {
+    "q": "The stamp on silver showing where and when it was tested",
+    "right": "Hallmark",
+    "wrong": [
+     "Watermark",
+     "Postmark",
+     "Trademark"
+    ]
+   },
+   {
+    "q": "Odds and ends of little value",
+    "right": "Bric-a-brac",
+    "wrong": [
+     "Heirlooms",
+     "Treasures",
+     "Valuables"
+    ]
+   },
+   {
+    "q": "The BBC show where experts value the public's treasures",
+    "right": "Antiques Roadshow",
+    "wrong": [
+     "Flog It!",
+     "Cash in the Attic",
+     "Dickinson's Real Deal"
+    ]
+   },
+   {
+    "q": "Red and blue teams buy at a fair and sell at auction",
+    "right": "Bargain Hunt",
+    "wrong": [
+     "Flog It!",
+     "Cash in the Attic",
+     "Antiques Road Trip"
+    ]
+   },
+   {
+    "q": "The perma-tanned 'cheap as chips' dealer",
+    "right": "David Dickinson",
+    "wrong": [
+     "Tim Wonnacott",
+     "Paul Martin",
+     "Fiona Bruce"
+    ]
+   },
+   {
+    "q": "The auction house founded in London in 1744",
+    "right": "Sotheby's",
+    "wrong": [
+     "Bonhams",
+     "Phillips",
+     "Harrods"
+    ]
+   },
+   {
+    "q": "The auction house that sold Leonardo's 'Salvator Mundi' for $450 million",
+    "right": "Christie's",
+    "wrong": [
+     "Bonhams",
+     "Phillips",
+     "Heritage"
+    ]
+   },
+   {
+    "q": "The extra percentage added on top of the winning bid",
+    "right": "Buyer's premium",
+    "wrong": [
+     "Stamp duty",
+     "Service charge",
+     "Corkage"
+    ]
+   },
+   {
+    "q": "Selling junk from the back of your car",
+    "right": "Car boot sale",
+    "wrong": [
+     "Jumble sale",
+     "Garage sale",
+     "Yard sale"
+    ]
+   },
+   {
+    "q": "A modern copy made to look old",
+    "right": "Reproduction",
+    "wrong": [
+     "Restoration",
+     "Renovation",
+     "Rendition"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this clothing word?",
+  "target": 10,
+  "category": "Fashion",
+  "tags": [
+   "clothes",
+   "fashion",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "A knitted jumper that buttons down the front",
+    "right": "Cardigan",
+    "wrong": [
+     "Tank top",
+     "Poncho",
+     "Tabard"
+    ]
+   },
+   {
+    "q": "Trousers with a bib and shoulder straps",
+    "right": "Dungarees",
+    "wrong": [
+     "Chinos",
+     "Culottes",
+     "Jodhpurs"
+    ]
+   },
+   {
+    "q": "An all-in-one fleece suit for lounging about",
+    "right": "Onesie",
+    "wrong": [
+     "Kaftan",
+     "Toga",
+     "Sarong"
+    ]
+   },
+   {
+    "q": "The tartan skirt worn by Scotsmen",
+    "right": "Kilt",
+    "wrong": [
+     "Sporran",
+     "Sarong",
+     "Kaftan"
+    ]
+   },
+   {
+    "q": "A smart jacket with a school badge",
+    "right": "Blazer",
+    "wrong": [
+     "Anorak",
+     "Cagoule",
+     "Bomber jacket"
+    ]
+   },
+   {
+    "q": "A coat with a fur-trimmed hood, loved by mods",
+    "right": "Parka",
+    "wrong": [
+     "Cagoule",
+     "Duffel coat",
+     "Trench coat"
+    ]
+   },
+   {
+    "q": "The stiff net skirt worn by ballerinas",
+    "right": "Tutu",
+    "wrong": [
+     "Crinoline",
+     "Bustle",
+     "Basque"
+    ]
+   },
+   {
+    "q": "A silky scarf tied at the neck instead of a tie",
+    "right": "Cravat",
+    "wrong": [
+     "Bandana",
+     "Lanyard",
+     "Choker"
+    ]
+   },
+   {
+    "q": "Leather shoes with decorative punched holes",
+    "right": "Brogues",
+    "wrong": [
+     "Loafers",
+     "Clogs",
+     "Espadrilles"
+    ]
+   },
+   {
+    "q": "The cloth cap people link with Yorkshire",
+    "right": "Flat cap",
+    "wrong": [
+     "Bowler",
+     "Beret",
+     "Fez"
+    ]
+   },
+   {
+    "q": "A woolly hat covering the whole face except the eyes",
+    "right": "Balaclava",
+    "wrong": [
+     "Bobble hat",
+     "Beanie",
+     "Deerstalker"
+    ]
+   },
+   {
+    "q": "A sleeveless jacket worn under a suit jacket",
+    "right": "Waistcoat",
+    "wrong": [
+     "Gilet",
+     "Bolero",
+     "Tabard"
+    ]
+   },
+   {
+    "q": "Stretchy, skin-tight trousers",
+    "right": "Leggings",
+    "wrong": [
+     "Flares",
+     "Chinos",
+     "Cargo trousers"
+    ]
+   },
+   {
+    "q": "A sleeveless dress worn over a blouse",
+    "right": "Pinafore",
+    "wrong": [
+     "Kaftan",
+     "Sarong",
+     "Tabard"
+    ]
+   },
+   {
+    "q": "A sweatshirt with a hood",
+    "right": "Hoodie",
+    "wrong": [
+     "Gilet",
+     "Poncho",
+     "Tank top"
+    ]
+   },
+   {
+    "q": "Shoes with very high, thin heels",
+    "right": "Stilettos",
+    "wrong": [
+     "Wedges",
+     "Platforms",
+     "Kitten heels"
+    ]
+   },
+   {
+    "q": "The long draped garment worn in India",
+    "right": "Sari",
+    "wrong": [
+     "Cheongsam",
+     "Dirndl",
+     "Poncho"
+    ]
+   },
+   {
+    "q": "The wide-sleeved robe from Japan",
+    "right": "Kimono",
+    "wrong": [
+     "Cheongsam",
+     "Dirndl",
+     "Hanbok"
+    ]
+   },
+   {
+    "q": "Leather shorts with braces, from Bavaria",
+    "right": "Lederhosen",
+    "wrong": [
+     "Dirndl",
+     "Jodhpurs",
+     "Culottes"
+    ]
+   },
+   {
+    "q": "A one-piece outfit covering body, arms and legs",
+    "right": "Jumpsuit",
+    "wrong": [
+     "Tracksuit",
+     "Twinset",
+     "Trouser suit"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this insect word?",
+  "target": 10,
+  "category": "Animals",
+  "tags": [
+   "insects",
+   "bugs",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The feelers on an insect's head",
+    "right": "Antennae",
+    "wrong": [
+     "Tentacles",
+     "Whiskers",
+     "Pincers"
+    ]
+   },
+   {
+    "q": "The middle section of an insect's body",
+    "right": "Thorax",
+    "wrong": [
+     "Pelvis",
+     "Carapace",
+     "Mandible"
+    ]
+   },
+   {
+    "q": "The rear section of an insect's body",
+    "right": "Abdomen",
+    "wrong": [
+     "Pelvis",
+     "Carapace",
+     "Mandible"
+    ]
+   },
+   {
+    "q": "The grub stage that hatches from the egg",
+    "right": "Larva",
+    "wrong": [
+     "Spawn",
+     "Embryo",
+     "Imago"
+    ]
+   },
+   {
+    "q": "The resting stage inside a case, before the adult comes out",
+    "right": "Pupa",
+    "wrong": [
+     "Nymph",
+     "Spawn",
+     "Embryo"
+    ]
+   },
+   {
+    "q": "A butterfly's pupa case",
+    "right": "Chrysalis",
+    "wrong": [
+     "Cocoon",
+     "Husk",
+     "Pod"
+    ]
+   },
+   {
+    "q": "A butterfly's larva",
+    "right": "Caterpillar",
+    "wrong": [
+     "Tadpole",
+     "Elver",
+     "Fry"
+    ]
+   },
+   {
+    "q": "A fly's larva",
+    "right": "Maggot",
+    "wrong": [
+     "Tadpole",
+     "Elver",
+     "Fry"
+    ]
+   },
+   {
+    "q": "Insect eyes made of thousands of tiny lenses",
+    "right": "Compound eyes",
+    "wrong": [
+     "Bifocals",
+     "Cat's eyes",
+     "Eyelets"
+    ]
+   },
+   {
+    "q": "The one bee in the hive that lays the eggs",
+    "right": "Queen",
+    "wrong": [
+     "Matriarch",
+     "Duchess",
+     "Empress"
+    ]
+   },
+   {
+    "q": "A male bee whose only job is mating",
+    "right": "Drone",
+    "wrong": [
+     "Soldier",
+     "Scout",
+     "Hornet"
+    ]
+   },
+   {
+    "q": "A female bee that collects the nectar",
+    "right": "Worker",
+    "wrong": [
+     "Soldier",
+     "Hornet",
+     "Wasp"
+    ]
+   },
+   {
+    "q": "Where honeybees live",
+    "right": "Hive",
+    "wrong": [
+     "Warren",
+     "Sett",
+     "Eyrie"
+    ]
+   },
+   {
+    "q": "The hard outer casing an insect has instead of bones",
+    "right": "Exoskeleton",
+    "wrong": [
+     "Endoskeleton",
+     "Cartilage",
+     "Membrane"
+    ]
+   },
+   {
+    "q": "A complete change of body, like caterpillar to butterfly",
+    "right": "Metamorphosis",
+    "wrong": [
+     "Photosynthesis",
+     "Mitosis",
+     "Hibernation"
+    ]
+   },
+   {
+    "q": "A scientist who studies insects",
+    "right": "Entomologist",
+    "wrong": [
+     "Etymologist",
+     "Ornithologist",
+     "Herpetologist"
+    ]
+   },
+   {
+    "q": "A huge flying group of bees or locusts",
+    "right": "Swarm",
+    "wrong": [
+     "Shoal",
+     "Flock",
+     "Herd"
+    ]
+   },
+   {
+    "q": "A butterfly's long, coiled drinking tube",
+    "right": "Proboscis",
+    "wrong": [
+     "Tusk",
+     "Antler",
+     "Beak"
+    ]
+   },
+   {
+    "q": "How many legs every adult insect has",
+    "right": "Six",
+    "wrong": [
+     "Eight",
+     "Ten",
+     "Four"
+    ]
+   },
+   {
+    "q": "Britain's biggest beetle, with huge antler-like jaws",
+    "right": "Stag beetle",
+    "wrong": [
+     "Dung beetle",
+     "Ladybird",
+     "Cockchafer"
+    ]
+   }
+  ]
+ }
+]
