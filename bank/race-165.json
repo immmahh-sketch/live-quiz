@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this woodwork word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "woodwork",
+   "carpentry",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A toothed blade for cutting wood",
+    "right": "Saw",
+    "wrong": [
+     "Trowel",
+     "Spanner",
+     "Pliers"
+    ]
+   },
+   {
+    "q": "A flat blade tapped with a mallet to carve out wood",
+    "right": "Chisel",
+    "wrong": [
+     "Trowel",
+     "Spanner",
+     "Wrench"
+    ]
+   },
+   {
+    "q": "Shaves thin curls off a wooden surface",
+    "right": "Plane",
+    "wrong": [
+     "Trowel",
+     "Pliers",
+     "Wrench"
+    ]
+   },
+   {
+    "q": "A wooden hammer",
+    "right": "Mallet",
+    "wrong": [
+     "Spanner",
+     "Pliers",
+     "Trowel"
+    ]
+   },
+   {
+    "q": "The pattern of lines running through the wood",
+    "right": "Grain",
+    "wrong": [
+     "Weave",
+     "Nap",
+     "Seam"
+    ]
+   },
+   {
+    "q": "A dark, round mark where a branch once grew",
+    "right": "Knot",
+    "wrong": [
+     "Blot",
+     "Smudge",
+     "Dent"
+    ]
+   },
+   {
+    "q": "A gritty sheet for smoothing",
+    "right": "Sandpaper",
+    "wrong": [
+     "Wallpaper",
+     "Tracing paper",
+     "Greaseproof paper"
+    ]
+   },
+   {
+    "q": "An interlocking joint shaped like a bird's tail",
+    "right": "Dovetail",
+    "wrong": [
+     "Butt joint",
+     "Lap joint",
+     "Biscuit joint"
+    ]
+   },
+   {
+    "q": "A joint where a tongue of wood fits into a slot",
+    "right": "Mortise and tenon",
+    "wrong": [
+     "Butt joint",
+     "Lap joint",
+     "Biscuit joint"
+    ]
+   },
+   {
+    "q": "A joint cut at 45 degrees, like the corner of a picture frame",
+    "right": "Mitre",
+    "wrong": [
+     "Butt joint",
+     "Lap joint",
+     "Biscuit joint"
+    ]
+   },
+   {
+    "q": "The powder left after cutting",
+    "right": "Sawdust",
+    "wrong": [
+     "Stardust",
+     "Talc",
+     "Pumice"
+    ]
+   },
+   {
+    "q": "The bench clamp that holds the wood tight",
+    "right": "Vice",
+    "wrong": [
+     "Anvil",
+     "Easel",
+     "Trestle"
+    ]
+   },
+   {
+    "q": "The machine that spins wood so you can turn bowls and table legs",
+    "right": "Lathe",
+    "wrong": [
+     "Kiln",
+     "Loom",
+     "Forge"
+    ]
+   },
+   {
+    "q": "Board made of thin layers glued crossways",
+    "right": "Plywood",
+    "wrong": [
+     "Chipboard",
+     "Hardboard",
+     "Veneer"
+    ]
+   },
+   {
+    "q": "Board made of pressed wood fibres, by its initials",
+    "right": "MDF",
+    "wrong": [
+     "PVC",
+     "DPC",
+     "LED"
+    ]
+   },
+   {
+    "q": "White wood glue, by its initials",
+    "right": "PVA",
+    "wrong": [
+     "PVC",
+     "DPC",
+     "LED"
+    ]
+   },
+   {
+    "q": "The strong hardwood of Tudor beams and wine barrels",
+    "right": "Oak",
+    "wrong": [
+     "Pine",
+     "Spruce",
+     "Larch"
+    ]
+   },
+   {
+    "q": "The super-light wood used for model aeroplanes",
+    "right": "Balsa",
+    "wrong": [
+     "Teak",
+     "Mahogany",
+     "Ebony"
+    ]
+   },
+   {
+    "q": "A woodworker who builds things on site",
+    "right": "Carpenter",
+    "wrong": [
+     "Cooper",
+     "Wheelwright",
+     "Fletcher"
+    ]
+   },
+   {
+    "q": "Widening a screw hole so the head sits flush",
+    "right": "Countersink",
+    "wrong": [
+     "Counterweight",
+     "Counterfeit",
+     "Countertop"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this surfing word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "surfing",
+   "beach",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A spectacular fall off the board",
+    "right": "Wipeout",
+    "wrong": [
+     "Knockout",
+     "Walkout",
+     "Blackout"
+    ]
+   },
+   {
+    "q": "The hollow tube inside a breaking wave",
+    "right": "Barrel",
+    "wrong": [
+     "Bucket",
+     "Funnel",
+     "Trough"
+    ]
+   },
+   {
+    "q": "Standing with all ten toes over the front of the board",
+    "right": "Hang ten",
+    "wrong": [
+     "Count to ten",
+     "High ten",
+     "Top ten"
+    ]
+   },
+   {
+    "q": "The cord tying the board to your ankle",
+    "right": "Leash",
+    "wrong": [
+     "Lasso",
+     "Halter",
+     "Reins"
+    ]
+   },
+   {
+    "q": "Rubbed on the deck for grip",
+    "right": "Wax",
+    "wrong": [
+     "Polish",
+     "Varnish",
+     "Talc"
+    ]
+   },
+   {
+    "q": "The small blade under the tail that steers",
+    "right": "Fin",
+    "wrong": [
+     "Rudder",
+     "Keel",
+     "Paddle"
+    ]
+   },
+   {
+    "q": "A board over nine feet long, for gentle waves",
+    "right": "Longboard",
+    "wrong": [
+     "Skateboard",
+     "Snowboard",
+     "Kickboard"
+    ]
+   },
+   {
+    "q": "A short foam board ridden lying down",
+    "right": "Bodyboard",
+    "wrong": [
+     "Skateboard",
+     "Snowboard",
+     "Kickboard"
+    ]
+   },
+   {
+    "q": "Rolling waves arriving from a distant storm",
+    "right": "Swell",
+    "wrong": [
+     "Ripple",
+     "Eddy",
+     "Puddle"
+    ]
+   },
+   {
+    "q": "A strong channel of water dragging swimmers out to sea",
+    "right": "Rip current",
+    "wrong": [
+     "Gulf Stream",
+     "Jet stream",
+     "Trade wind"
+    ]
+   },
+   {
+    "q": "Swimming your board out through the breaking waves",
+    "right": "Paddle out",
+    "wrong": [
+     "Bail out",
+     "Drop out",
+     "Check out"
+    ]
+   },
+   {
+    "q": "Stealing a wave someone else is already riding",
+    "right": "Drop in",
+    "wrong": [
+     "Drop off",
+     "Drop kick",
+     "Drop out"
+    ]
+   },
+   {
+    "q": "Riding with your right foot forward",
+    "right": "Goofy",
+    "wrong": [
+     "Regular",
+     "Natural",
+     "Normal"
+    ]
+   },
+   {
+    "q": "Slang for a young surfer",
+    "right": "Grom",
+    "wrong": [
+     "Dude",
+     "Bro",
+     "Rookie"
+    ]
+   },
+   {
+    "q": "Cornwall's surf capital, home of Fistral Beach",
+    "right": "Newquay",
+    "wrong": [
+     "Padstow",
+     "Falmouth",
+     "Penzance"
+    ]
+   },
+   {
+    "q": "The Portuguese town with the biggest waves ever surfed",
+    "right": "Nazaré",
+    "wrong": [
+     "Biarritz",
+     "Malibu",
+     "Bondi"
+    ]
+   },
+   {
+    "q": "Where modern surfing was born",
+    "right": "Hawaii",
+    "wrong": [
+     "California",
+     "Australia",
+     "Portugal"
+    ]
+   },
+   {
+    "q": "The hand sign with the thumb and little finger out",
+    "right": "Shaka",
+    "wrong": [
+     "Thumbs up",
+     "V sign",
+     "Peace sign"
+    ]
+   },
+   {
+    "q": "Slang for a clueless beginner who gets in the way",
+    "right": "Kook",
+    "wrong": [
+     "Chump",
+     "Muppet",
+     "Plonker"
+    ]
+   },
+   {
+    "q": "Where surfers sit waiting for a wave",
+    "right": "Line-up",
+    "wrong": [
+     "Queue",
+     "Rank",
+     "Huddle"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this zoo word?",
+  "target": 10,
+  "category": "Animals",
+  "tags": [
+   "zoos",
+   "animals",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The person who looks after the animals",
+    "right": "Zookeeper",
+    "wrong": [
+     "Gamekeeper",
+     "Shepherd",
+     "Groom"
+    ]
+   },
+   {
+    "q": "An animal's fenced home at the zoo",
+    "right": "Enclosure",
+    "wrong": [
+     "Kennel",
+     "Stable",
+     "Hutch"
+    ]
+   },
+   {
+    "q": "A building full of fish tanks",
+    "right": "Aquarium",
+    "wrong": [
+     "Planetarium",
+     "Conservatory",
+     "Arboretum"
+    ]
+   },
+   {
+    "q": "A huge cage for birds",
+    "right": "Aviary",
+    "wrong": [
+     "Apiary",
+     "Dovecote",
+     "Hatchery"
+    ]
+   },
+   {
+    "q": "Where the snakes and lizards are kept",
+    "right": "Reptile house",
+    "wrong": [
+     "Bird hide",
+     "Glasshouse",
+     "Bat cave"
+    ]
+   },
+   {
+    "q": "Where children can stroke the goats and rabbits",
+    "right": "Petting zoo",
+    "wrong": [
+     "Circus",
+     "Kennels",
+     "Pound"
+    ]
+   },
+   {
+    "q": "Drive round in your car while the animals roam",
+    "right": "Safari park",
+    "wrong": [
+     "Theme park",
+     "Car park",
+     "Business park"
+    ]
+   },
+   {
+    "q": "When crowds gather to watch the penguins get their fish",
+    "right": "Feeding time",
+    "wrong": [
+     "Closing time",
+     "Opening time",
+     "Tea time"
+    ]
+   },
+   {
+    "q": "A plan to help rare animals have young",
+    "right": "Breeding programme",
+    "wrong": [
+     "Training course",
+     "Exercise class",
+     "Diet plan"
+    ]
+   },
+   {
+    "q": "At risk of dying out",
+    "right": "Endangered",
+    "wrong": [
+     "Extinct",
+     "Domesticated",
+     "Invasive"
+    ]
+   },
+   {
+    "q": "An animal that eats only plants",
+    "right": "Herbivore",
+    "wrong": [
+     "Insectivore",
+     "Scavenger",
+     "Predator"
+    ]
+   },
+   {
+    "q": "An animal that eats only meat",
+    "right": "Carnivore",
+    "wrong": [
+     "Insectivore",
+     "Scavenger",
+     "Grazer"
+    ]
+   },
+   {
+    "q": "An animal that eats both plants and meat",
+    "right": "Omnivore",
+    "wrong": [
+     "Insectivore",
+     "Grazer",
+     "Predator"
+    ]
+   },
+   {
+    "q": "The world's oldest scientific zoo, in Regent's Park",
+    "right": "London Zoo",
+    "wrong": [
+     "Whipsnade",
+     "Edinburgh Zoo",
+     "Bristol Zoo"
+    ]
+   },
+   {
+    "q": "The UK's most visited zoo, in Cheshire",
+    "right": "Chester Zoo",
+    "wrong": [
+     "Whipsnade",
+     "Twycross",
+     "Edinburgh Zoo"
+    ]
+   },
+   {
+    "q": "Edinburgh Zoo's black-and-white pair, Tian Tian and Yang Guang",
+    "right": "Giant pandas",
+    "wrong": [
+     "Red pandas",
+     "Sun bears",
+     "Koalas"
+    ]
+   },
+   {
+    "q": "The biggest of the apes",
+    "right": "Gorilla",
+    "wrong": [
+     "Orangutan",
+     "Chimpanzee",
+     "Baboon"
+    ]
+   },
+   {
+    "q": "When staff tell visitors about the animals",
+    "right": "Keeper talk",
+    "wrong": [
+     "Pep talk",
+     "Small talk",
+     "Pillow talk"
+    ]
+   },
+   {
+    "q": "A dark building for animals that come out at night",
+    "right": "Nocturnal house",
+    "wrong": [
+     "Night shelter",
+     "Darkroom",
+     "Lighthouse"
+    ]
+   },
+   {
+    "q": "Protecting animals and their habitats",
+    "right": "Conservation",
+    "wrong": [
+     "Conversation",
+     "Conservatory",
+     "Constellation"
+    ]
+   }
+  ]
+ }
+]
