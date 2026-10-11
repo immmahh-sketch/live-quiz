@@ -1,0 +1,583 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this boxing word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "boxing",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A quick straight punch with the lead hand",
+    "right": "Jab",
+    "wrong": [
+     "Cross",
+     "Swing",
+     "Slap"
+    ]
+   },
+   {
+    "q": "A punch thrown round from the side",
+    "right": "Hook",
+    "wrong": [
+     "Cross",
+     "Lunge",
+     "Prod"
+    ]
+   },
+   {
+    "q": "A rising punch to the chin",
+    "right": "Uppercut",
+    "wrong": [
+     "Undercut",
+     "Cross",
+     "Overhand"
+    ]
+   },
+   {
+    "q": "A left-handed boxer",
+    "right": "Southpaw",
+    "wrong": [
+     "Orthodox",
+     "Sidewinder",
+     "Backhand"
+    ]
+   },
+   {
+    "q": "Floored and not up by the count of ten",
+    "right": "Knockout",
+    "wrong": [
+     "Walkover",
+     "Split decision",
+     "Draw"
+    ]
+   },
+   {
+    "q": "The referee stops it though the boxer's still standing",
+    "right": "Technical knockout",
+    "wrong": [
+     "Walkover",
+     "Split decision",
+     "Unanimous decision"
+    ]
+   },
+   {
+    "q": "An illegal low punch",
+    "right": "Below the belt",
+    "wrong": [
+     "Over the top",
+     "Off the cuff",
+     "Under the radar"
+    ]
+   },
+   {
+    "q": "Holding on so your opponent can't punch",
+    "right": "Clinch",
+    "wrong": [
+     "Headlock",
+     "Nelson",
+     "Tackle"
+    ]
+   },
+   {
+    "q": "Practice fighting with a partner in training",
+    "right": "Sparring",
+    "wrong": [
+     "Shadow boxing",
+     "Skipping",
+     "Roadwork"
+    ]
+   },
+   {
+    "q": "The day-before check that both fighters make the limit",
+    "right": "Weigh-in",
+    "wrong": [
+     "Face-off",
+     "Press call",
+     "Line-up"
+    ]
+   },
+   {
+    "q": "The top weight division",
+    "right": "Heavyweight",
+    "wrong": [
+     "Cruiserweight",
+     "Middleweight",
+     "Welterweight"
+    ]
+   },
+   {
+    "q": "Protects the teeth",
+    "right": "Gumshield",
+    "wrong": [
+     "Chin strap",
+     "Visor",
+     "Nose clip"
+    ]
+   },
+   {
+    "q": "Where the boxer sits with the trainer between rounds",
+    "right": "Corner",
+    "wrong": [
+     "Bench",
+     "Dugout",
+     "Pit"
+    ]
+   },
+   {
+    "q": "The corner man who stops the bleeding",
+    "right": "Cutman",
+    "wrong": [
+     "Bagman",
+     "Hitman",
+     "Linesman"
+    ]
+   },
+   {
+    "q": "Rings to start and end each round",
+    "right": "Bell",
+    "wrong": [
+     "Whistle",
+     "Horn",
+     "Klaxon"
+    ]
+   },
+   {
+    "q": "Each three-minute session of a pro fight",
+    "right": "Round",
+    "wrong": [
+     "Quarter",
+     "Innings",
+     "Leg"
+    ]
+   },
+   {
+    "q": "The smaller fights before the main event",
+    "right": "Undercard",
+    "wrong": [
+     "Wildcard",
+     "Scorecard",
+     "Red card"
+    ]
+   },
+   {
+    "q": "The prize money a boxer is paid",
+    "right": "Purse",
+    "wrong": [
+     "Wallet",
+     "Kitty",
+     "Jackpot"
+    ]
+   },
+   {
+    "q": "Ali's trick of leaning on the ropes to tire Foreman out",
+    "right": "Rope-a-dope",
+    "wrong": [
+     "Ali shuffle",
+     "Rumble in the Jungle",
+     "Rock-a-bye"
+    ]
+   },
+   {
+    "q": "A wild, all-or-nothing swinging punch",
+    "right": "Haymaker",
+    "wrong": [
+     "Haystack",
+     "Matchmaker",
+     "Peacemaker"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this athletics word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "athletics",
+   "track and field",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "What relay runners pass on",
+    "right": "Baton",
+    "wrong": [
+     "Torch",
+     "Flag",
+     "Wand"
+    ]
+   },
+   {
+    "q": "The last runner in a relay team",
+    "right": "Anchor",
+    "wrong": [
+     "Captain",
+     "Skipper",
+     "Sweeper"
+    ]
+   },
+   {
+    "q": "The long race with barriers and a water jump",
+    "right": "Steeplechase",
+    "wrong": [
+     "Cross-country",
+     "Obstacle course",
+     "Assault course"
+    ]
+   },
+   {
+    "q": "The sprint over ten barriers",
+    "right": "Hurdles",
+    "wrong": [
+     "Fences",
+     "Gates",
+     "Barricades"
+    ]
+   },
+   {
+    "q": "26.2 miles",
+    "right": "Marathon",
+    "wrong": [
+     "Half marathon",
+     "Ultramarathon",
+     "Fun run"
+    ]
+   },
+   {
+    "q": "Ten events over two days",
+    "right": "Decathlon",
+    "wrong": [
+     "Pentathlon",
+     "Triathlon",
+     "Biathlon"
+    ]
+   },
+   {
+    "q": "Seven events, for the women at the Olympics",
+    "right": "Heptathlon",
+    "wrong": [
+     "Pentathlon",
+     "Triathlon",
+     "Biathlon"
+    ]
+   },
+   {
+    "q": "The spear you throw",
+    "right": "Javelin",
+    "wrong": [
+     "Lance",
+     "Trident",
+     "Harpoon"
+    ]
+   },
+   {
+    "q": "Pushing a heavy metal ball away from the neck",
+    "right": "Shot put",
+    "wrong": [
+     "Bowls",
+     "Boules",
+     "Curling"
+    ]
+   },
+   {
+    "q": "The heavy plate spun round and thrown",
+    "right": "Discus",
+    "wrong": [
+     "Frisbee",
+     "Quoit",
+     "Saucer"
+    ]
+   },
+   {
+    "q": "A ball on a wire, whirled round and let go",
+    "right": "Hammer",
+    "wrong": [
+     "Mace",
+     "Flail",
+     "Kettlebell"
+    ]
+   },
+   {
+    "q": "Clearing a bar with a long bendy pole",
+    "right": "Pole vault",
+    "wrong": [
+     "Pole dance",
+     "Pole position",
+     "Caber toss"
+    ]
+   },
+   {
+    "q": "The event of the Fosbury flop",
+    "right": "High jump",
+    "wrong": [
+     "Long jump",
+     "Ski jump",
+     "Bungee jump"
+    ]
+   },
+   {
+    "q": "Hop, skip and jump",
+    "right": "Triple jump",
+    "wrong": [
+     "Long jump",
+     "Hopscotch",
+     "Leapfrog"
+    ]
+   },
+   {
+    "q": "What sprinters push off from at the start",
+    "right": "Starting blocks",
+    "wrong": [
+     "Building blocks",
+     "Stumbling blocks",
+     "Chopping blocks"
+    ]
+   },
+   {
+    "q": "Going before the gun",
+    "right": "False start",
+    "wrong": [
+     "Head start",
+     "Jump start",
+     "Kick start"
+    ]
+   },
+   {
+    "q": "A finish too close to call by eye",
+    "right": "Photo finish",
+    "wrong": [
+     "Close shave",
+     "Near miss",
+     "Dead heat"
+    ]
+   },
+   {
+    "q": "What PB stands for",
+    "right": "Personal best",
+    "wrong": [
+     "Peak burst",
+     "Pace bonus",
+     "Perfect ball"
+    ]
+   },
+   {
+    "q": "A runner hired to set the speed early on",
+    "right": "Pacemaker",
+    "wrong": [
+     "Matchmaker",
+     "Peacemaker",
+     "Shoemaker"
+    ]
+   },
+   {
+    "q": "One full circuit of the 400-metre track",
+    "right": "Lap",
+    "wrong": [
+     "Leg",
+     "Stage",
+     "Spin"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this decorating word?",
+  "target": 10,
+  "category": "Lifestyle",
+  "tags": [
+   "DIY",
+   "decorating",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The first coat, to help paint stick to bare surfaces",
+    "right": "Primer",
+    "wrong": [
+     "Topcoat",
+     "Lacquer",
+     "Glaze"
+    ]
+   },
+   {
+    "q": "The coat beneath the gloss",
+    "right": "Undercoat",
+    "wrong": [
+     "Overcoat",
+     "Raincoat",
+     "Petticoat"
+    ]
+   },
+   {
+    "q": "Shiny paint for doors and skirting",
+    "right": "Gloss",
+    "wrong": [
+     "Distemper",
+     "Whitewash",
+     "Creosote"
+    ]
+   },
+   {
+    "q": "A flat finish with no shine",
+    "right": "Matt",
+    "wrong": [
+     "Satin",
+     "Silk",
+     "Lacquer"
+    ]
+   },
+   {
+    "q": "Water-based paint for walls and ceilings",
+    "right": "Emulsion",
+    "wrong": [
+     "Creosote",
+     "Varnish",
+     "Whitewash"
+    ]
+   },
+   {
+    "q": "Tape that stops paint going where it shouldn't",
+    "right": "Masking tape",
+    "wrong": [
+     "Duct tape",
+     "Sellotape",
+     "Red tape"
+    ]
+   },
+   {
+    "q": "Covers the furniture and floor while you paint",
+    "right": "Dust sheet",
+    "wrong": [
+     "Bed sheet",
+     "Spreadsheet",
+     "Balance sheet"
+    ]
+   },
+   {
+    "q": "Rolls paint onto walls quickly",
+    "right": "Roller",
+    "wrong": [
+     "Squeegee",
+     "Trowel",
+     "Spatula"
+    ]
+   },
+   {
+    "q": "Rough paper for smoothing wood",
+    "right": "Sandpaper",
+    "wrong": [
+     "Tissue paper",
+     "Crêpe paper",
+     "Greaseproof paper"
+    ]
+   },
+   {
+    "q": "Paste squeezed into cracks and holes",
+    "right": "Filler",
+    "wrong": [
+     "Grout",
+     "Mortar",
+     "Glue"
+    ]
+   },
+   {
+    "q": "The board along the bottom of the walls",
+    "right": "Skirting board",
+    "wrong": [
+     "Picture rail",
+     "Architrave",
+     "Sill"
+    ]
+   },
+   {
+    "q": "The rail round the wall at waist height",
+    "right": "Dado rail",
+    "wrong": [
+     "Picture rail",
+     "Curtain rail",
+     "Handrail"
+    ]
+   },
+   {
+    "q": "Curved moulding where the wall meets the ceiling",
+    "right": "Coving",
+    "wrong": [
+     "Architrave",
+     "Plinth",
+     "Lintel"
+    ]
+   },
+   {
+    "q": "The famous creamy paint colour of rented flats",
+    "right": "Magnolia",
+    "wrong": [
+     "Mustard",
+     "Avocado",
+     "Duck egg"
+    ]
+   },
+   {
+    "q": "The cleaner for washing walls before painting",
+    "right": "Sugar soap",
+    "wrong": [
+     "Washing soda",
+     "Caustic soda",
+     "Saddle soap"
+    ]
+   },
+   {
+    "q": "The solvent for cleaning oil-paint brushes",
+    "right": "White spirit",
+    "wrong": [
+     "Surgical spirit",
+     "Holy Spirit",
+     "Team spirit"
+    ]
+   },
+   {
+    "q": "The bumpy textured wallpaper of the 1970s",
+    "right": "Woodchip",
+    "wrong": [
+     "Wood stain",
+     "Chipboard",
+     "Hardboard"
+    ]
+   },
+   {
+    "q": "A folding ladder with flat steps",
+    "right": "Stepladder",
+    "wrong": [
+     "Rope ladder",
+     "Snakes and ladders",
+     "Extension ladder"
+    ]
+   },
+   {
+    "q": "A cut-out sheet for painting a pattern",
+    "right": "Stencil",
+    "wrong": [
+     "Doily",
+     "Collage",
+     "Mosaic"
+    ]
+   },
+   {
+    "q": "One wall painted in a bolder colour than the rest",
+    "right": "Feature wall",
+    "wrong": [
+     "Party wall",
+     "Dry-stone wall",
+     "Firewall"
+    ]
+   }
+  ]
+ }
+]
