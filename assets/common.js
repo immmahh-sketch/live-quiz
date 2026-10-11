@@ -5,8 +5,27 @@
   try {
     const r = await fetch(location.pathname, { method: 'HEAD', cache: 'no-store' });
     const live = r.headers.get('last-modified');
-    if (!live || new Date(live) - new Date(document.lastModified) < 2000 || sessionStorage.getItem('lq_reloaded_for') === live) return;
-    sessionStorage.setItem('lq_reloaded_for', live);
+    if (live && new Date(live) - new Date(document.lastModified) >= 2000 && sessionStorage.getItem('lq_reloaded_for') !== live) {
+      sessionStorage.setItem('lq_reloaded_for', live);
+      return location.reload();
+    }
+    // The page can be fresh while its scripts and styles are old (only play.js changed, say): check each one too. A file
+    // whose date has moved on since this phone last looked, or that came out of the browser's cache on a first look, is
+    // fetched afresh into the cache and the page reloads once to use it.
+    if (document.readyState === 'loading') await new Promise((r) => document.addEventListener('DOMContentLoaded', r, { once: true }));
+    const urls = [...document.querySelectorAll('script[src], link[rel="stylesheet"][href]')].map((e) => e.src || e.href).filter((u) => u.startsWith(location.origin));
+    const stale = [], seenNow = [];
+    await Promise.all(urls.map(async (u) => {
+      const lm = (await fetch(u, { method: 'HEAD', cache: 'no-store' })).headers.get('last-modified'); if (!lm) return;
+      const k = 'lq_lm_' + new URL(u).pathname, seen = localStorage.getItem(k), ent = performance.getEntriesByName(u)[0];
+      const fromCache = !!ent && ent.transferSize === 0 && ent.decodedBodySize > 0;
+      if (seen !== lm && (seen || fromCache)) stale.push(u);
+      localStorage.setItem(k, lm); seenNow.push(lm);
+    }));
+    const key = seenNow.sort().join('|');
+    if (!stale.length || sessionStorage.getItem('lq_assets_for') === key) return;
+    sessionStorage.setItem('lq_assets_for', key);
+    await Promise.all(stale.map((u) => fetch(u, { cache: 'reload' }).catch(() => {})));
     location.reload();
   } catch {}
 })();
