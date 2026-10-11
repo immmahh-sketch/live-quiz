@@ -1,0 +1,147 @@
+[
+ {
+  "type": "club",
+  "text": "A Metro day ticket costs £2. What do you pay for you and two friends?",
+  "answers": [
+   "£6",
+   "6",
+   "Six pounds"
+  ],
+  "pct": 90,
+  "why": "3 × £2 = £6.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "Metro",
+   "money"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which of these isn't a real day of the week: Wednesday, Funday, Friday, Monday?",
+  "answers": [
+   "Funday"
+  ],
+  "pct": 80,
+  "why": "The other three are real days.",
+  "difficulty": "easy",
+  "category": "Logic",
+  "tags": [
+   "days of the week",
+   "odd one out"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Sausage rolls come in packs of 4. You need 22 for a party. How many packs must you buy?",
+  "answers": [
+   "6",
+   "Six"
+  ],
+  "pct": 70,
+  "why": "5 packs give only 20, so you need a sixth.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "Greggs",
+   "dividing"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Take eighteen, cut it in half, multiply by two and finally add one. Result?",
+  "answers": [
+   "19",
+   "Nineteen"
+  ],
+  "pct": 60,
+  "why": "Halving then doubling gets you back to 18; add 1 for 19.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "halving",
+   "doubling"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Gossip spreads: 3 people know at 9am, 6 by 10am and 12 by 11am. If it keeps doubling, how many know by noon?",
+  "answers": [
+   "24",
+   "Twenty-four"
+  ],
+  "pct": 50,
+  "why": "12 doubled is 24.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "doubling",
+   "gossip"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Sunderland to Newcastle is about 12 miles. Walking at 3 miles an hour, how many hours will it take?",
+  "answers": [
+   "4",
+   "Four",
+   "4 hours"
+  ],
+  "pct": 40,
+  "why": "12 ÷ 3 = 4.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "walking",
+   "speed"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A pub quiz team of 6 shares a £45 prize equally. How much does each person get?",
+  "answers": [
+   "£7.50",
+   "7.50",
+   "£7.5"
+  ],
+  "pct": 40,
+  "why": "£45 ÷ 6 = £7.50.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "money",
+   "sharing"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What's the most Sundays a 31-day month can have?",
+  "answers": [
+   "5",
+   "Five"
+  ],
+  "pct": 30,
+  "why": "31 days is 4 weeks and 3 days, so three weekdays appear five times.",
+  "difficulty": "hard",
+  "category": "Time",
+  "tags": [
+   "calendar",
+   "Sundays"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which month of the year has the shortest name?",
+  "answers": [
+   "May"
+  ],
+  "pct": 5,
+  "why": "Three letters, one fewer than June or July.",
+  "difficulty": "hard",
+  "category": "Wordplay",
+  "tags": [
+   "months",
+   "counting letters"
+  ]
+ }
+]
