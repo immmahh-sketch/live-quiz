@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this Star Wars word?",
+  "target": 10,
+  "category": "Film",
+  "tags": [
+   "Star Wars",
+   "sci-fi",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The energy field that binds the galaxy together",
+    "right": "The Force",
+    "wrong": [
+     "The Spark",
+     "The Flow",
+     "The Light"
+    ]
+   },
+   {
+    "q": "A Jedi's glowing sword",
+    "right": "Lightsaber",
+    "wrong": [
+     "Phaser",
+     "Sonic screwdriver",
+     "Beam sword"
+    ]
+   },
+   {
+    "q": "A Star Wars laser gun",
+    "right": "Blaster",
+    "wrong": [
+     "Phaser",
+     "Ray gun",
+     "Proton pack"
+    ]
+   },
+   {
+    "q": "The order of peacekeeping warrior monks",
+    "right": "Jedi",
+    "wrong": [
+     "Klingons",
+     "Templars",
+     "Samurai"
+    ]
+   },
+   {
+    "q": "Followers of the dark side, always two at a time",
+    "right": "Sith",
+    "wrong": [
+     "Borg",
+     "Daleks",
+     "Nazgûl"
+    ]
+   },
+   {
+    "q": "A Jedi apprentice",
+    "right": "Padawan",
+    "wrong": [
+     "Squire",
+     "Cadet",
+     "Page"
+    ]
+   },
+   {
+    "q": "Chewbacca's species",
+    "right": "Wookiee",
+    "wrong": [
+     "Gungan",
+     "Hutt",
+     "Rodian"
+    ]
+   },
+   {
+    "q": "Furry little warriors on the forest moon of Endor",
+    "right": "Ewoks",
+    "wrong": [
+     "Jawas",
+     "Gungans",
+     "Porgs"
+    ]
+   },
+   {
+    "q": "The moon-sized battle station",
+    "right": "Death Star",
+    "wrong": [
+     "Starkiller Base",
+     "Borg Cube",
+     "Mothership"
+    ]
+   },
+   {
+    "q": "Han Solo's battered ship",
+    "right": "Millennium Falcon",
+    "wrong": [
+     "Slave I",
+     "Serenity",
+     "Enterprise"
+    ]
+   },
+   {
+    "q": "The Rebel fighter Luke flies against the Death Star",
+    "right": "X-wing",
+    "wrong": [
+     "Y-wing",
+     "A-wing",
+     "B-wing"
+    ]
+   },
+   {
+    "q": "The Empire's standard fighter, with its scream",
+    "right": "TIE fighter",
+    "wrong": [
+     "Star Destroyer",
+     "AT-AT",
+     "Speeder bike"
+    ]
+   },
+   {
+    "q": "The Empire's white-armoured soldiers",
+    "right": "Stormtroopers",
+    "wrong": [
+     "Cybermen",
+     "Redcoats",
+     "Centurions"
+    ]
+   },
+   {
+    "q": "The Star Wars word for a robot like R2-D2",
+    "right": "Droid",
+    "wrong": [
+     "Cyborg",
+     "Replicant",
+     "Dalek"
+    ]
+   },
+   {
+    "q": "Faster-than-light travel the Falcon jumps into",
+    "right": "Hyperspace",
+    "wrong": [
+     "Warp speed",
+     "Wormhole",
+     "Time vortex"
+    ]
+   },
+   {
+    "q": "The bar in Mos Eisley where Han meets Luke",
+    "right": "Cantina",
+    "wrong": [
+     "Saloon",
+     "Diner",
+     "Bistro"
+    ]
+   },
+   {
+    "q": "Boba Fett's line of work",
+    "right": "Bounty hunter",
+    "wrong": [
+     "Smuggler",
+     "Senator",
+     "Pod racer"
+    ]
+   },
+   {
+    "q": "What Han Solo is frozen in",
+    "right": "Carbonite",
+    "wrong": [
+     "Kryptonite",
+     "Adamantium",
+     "Vibranium"
+    ]
+   },
+   {
+    "q": "Leia's side in the fight against the Empire",
+    "right": "Rebel Alliance",
+    "wrong": [
+     "Galactic Republic",
+     "Trade Federation",
+     "First Order"
+    ]
+   },
+   {
+    "q": "The crystal at the heart of every lightsaber",
+    "right": "Kyber crystal",
+    "wrong": [
+     "Dilithium crystal",
+     "Infinity Stone",
+     "Philosopher's Stone"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this Bible word?",
+  "target": 10,
+  "category": "Religion and myth",
+  "tags": [
+   "Bible",
+   "Christianity",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The first book of the Bible",
+    "right": "Genesis",
+    "wrong": [
+     "Exodus",
+     "Leviticus",
+     "Numbers"
+    ]
+   },
+   {
+    "q": "The last book of the Bible",
+    "right": "Revelation",
+    "wrong": [
+     "Acts",
+     "Jude",
+     "Malachi"
+    ]
+   },
+   {
+    "q": "The four books telling Jesus's life",
+    "right": "Gospels",
+    "wrong": [
+     "Epistles",
+     "Chronicles",
+     "Lamentations"
+    ]
+   },
+   {
+    "q": "Jesus's twelve chosen followers",
+    "right": "Apostles",
+    "wrong": [
+     "Prophets",
+     "Elders",
+     "Levites"
+    ]
+   },
+   {
+    "q": "The song-poems credited to King David",
+    "right": "Psalms",
+    "wrong": [
+     "Hymns",
+     "Carols",
+     "Sonnets"
+    ]
+   },
+   {
+    "q": "A story Jesus told to teach a lesson",
+    "right": "Parable",
+    "wrong": [
+     "Fable",
+     "Riddle",
+     "Ballad"
+    ]
+   },
+   {
+    "q": "The garden where Adam and Eve lived",
+    "right": "Eden",
+    "wrong": [
+     "Gethsemane",
+     "Babylon",
+     "Canaan"
+    ]
+   },
+   {
+    "q": "The giant felled by David's sling",
+    "right": "Goliath",
+    "wrong": [
+     "Herod",
+     "Pharaoh",
+     "Nebuchadnezzar"
+    ]
+   },
+   {
+    "q": "The tower where languages got confused",
+    "right": "Babel",
+    "wrong": [
+     "Jericho",
+     "Zion",
+     "Bethel"
+    ]
+   },
+   {
+    "q": "Noah's boat",
+    "right": "Ark",
+    "wrong": [
+     "Galleon",
+     "Barge",
+     "Coracle"
+    ]
+   },
+   {
+    "q": "Where baby Jesus was laid",
+    "right": "Manger",
+    "wrong": [
+     "Cradle",
+     "Basket",
+     "Hammock"
+    ]
+   },
+   {
+    "q": "Gold, frankincense and ...",
+    "right": "Myrrh",
+    "wrong": [
+     "Silver",
+     "Saffron",
+     "Amber"
+    ]
+   },
+   {
+    "q": "The ten rules given to Moses",
+    "right": "Commandments",
+    "wrong": [
+     "Beatitudes",
+     "Proverbs",
+     "Miracles"
+    ]
+   },
+   {
+    "q": "The ten disasters sent on Egypt",
+    "right": "Plagues",
+    "wrong": [
+     "Curses",
+     "Trials",
+     "Woes"
+    ]
+   },
+   {
+    "q": "The mountain where Moses received the tablets",
+    "right": "Sinai",
+    "wrong": [
+     "Ararat",
+     "Carmel",
+     "Olympus"
+    ]
+   },
+   {
+    "q": "The man swallowed by a great fish",
+    "right": "Jonah",
+    "wrong": [
+     "Job",
+     "Noah",
+     "Daniel"
+    ]
+   },
+   {
+    "q": "The town where Jesus was born",
+    "right": "Bethlehem",
+    "wrong": [
+     "Nazareth",
+     "Jerusalem",
+     "Galilee"
+    ]
+   },
+   {
+    "q": "The disciple who betrayed Jesus for thirty pieces of silver",
+    "right": "Judas",
+    "wrong": [
+     "Peter",
+     "Andrew",
+     "Matthew"
+    ]
+   },
+   {
+    "q": "The disciple who doubted until he saw the wounds",
+    "right": "Thomas",
+    "wrong": [
+     "Philip",
+     "James",
+     "Bartholomew"
+    ]
+   },
+   {
+    "q": "The strong man whose hair was cut by Delilah",
+    "right": "Samson",
+    "wrong": [
+     "Solomon",
+     "Gideon",
+     "Absalom"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this Lord of the Rings word?",
+  "target": 10,
+  "category": "Books",
+  "tags": [
+   "Lord of the Rings",
+   "Tolkien",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The hobbits' green homeland",
+    "right": "The Shire",
+    "wrong": [
+     "Bree",
+     "Dale",
+     "Esgaroth"
+    ]
+   },
+   {
+    "q": "Sauron's dark land",
+    "right": "Mordor",
+    "wrong": [
+     "Angmar",
+     "Harad",
+     "Rhûn"
+    ]
+   },
+   {
+    "q": "Elrond's hidden elven valley",
+    "right": "Rivendell",
+    "wrong": [
+     "Lothlórien",
+     "Mirkwood",
+     "Valinor"
+    ]
+   },
+   {
+    "q": "The kingdom of the White City, Minas Tirith",
+    "right": "Gondor",
+    "wrong": [
+     "Arnor",
+     "Númenor",
+     "Erebor"
+    ]
+   },
+   {
+    "q": "The land of the horse-lords",
+    "right": "Rohan",
+    "wrong": [
+     "Dunland",
+     "Eriador",
+     "Ithilien"
+    ]
+   },
+   {
+    "q": "Where the One Ring was forged, and destroyed",
+    "right": "Mount Doom",
+    "wrong": [
+     "Lonely Mountain",
+     "Weathertop",
+     "Misty Mountains"
+    ]
+   },
+   {
+    "q": "What Gollum calls the Ring",
+    "right": "Precious",
+    "wrong": [
+     "Treasure",
+     "Darling",
+     "Beloved"
+    ]
+   },
+   {
+    "q": "Tree-herds like Treebeard",
+    "right": "Ents",
+    "wrong": [
+     "Trolls",
+     "Dryads",
+     "Wargs"
+    ]
+   },
+   {
+    "q": "Sauron's brutish foot soldiers",
+    "right": "Orcs",
+    "wrong": [
+     "Dwarves",
+     "Elves",
+     "Wizards"
+    ]
+   },
+   {
+    "q": "The nine Ringwraiths",
+    "right": "Nazgûl",
+    "wrong": [
+     "Maiar",
+     "Valar",
+     "Dúnedain"
+    ]
+   },
+   {
+    "q": "The light silvery metal of Frodo's mail shirt",
+    "right": "Mithril",
+    "wrong": [
+     "Valyrian steel",
+     "Vibranium",
+     "Dwarven gold"
+    ]
+   },
+   {
+    "q": "Elvish waybread",
+    "right": "Lembas",
+    "wrong": [
+     "Mead",
+     "Bannock",
+     "Pemmican"
+    ]
+   },
+   {
+    "q": "A seeing-stone",
+    "right": "Palantír",
+    "wrong": [
+     "Silmaril",
+     "Arkenstone",
+     "Evenstar"
+    ]
+   },
+   {
+    "q": "The nine walkers who set out from Rivendell",
+    "right": "Fellowship",
+    "wrong": [
+     "Company",
+     "Council",
+     "Brotherhood"
+    ]
+   },
+   {
+    "q": "The fiery demon Gandalf fights in Moria",
+    "right": "Balrog",
+    "wrong": [
+     "Smaug",
+     "Shelob",
+     "Witch-king"
+    ]
+   },
+   {
+    "q": "Saruman's fortress",
+    "right": "Isengard",
+    "wrong": [
+     "Barad-dûr",
+     "Dol Guldur",
+     "Minas Morgul"
+    ]
+   },
+   {
+    "q": "The name of Tolkien's world",
+    "right": "Middle-earth",
+    "wrong": [
+     "Narnia",
+     "Westeros",
+     "Earthsea"
+    ]
+   },
+   {
+    "q": "Frodo's elvish blade that glows blue near orcs",
+    "right": "Sting",
+    "wrong": [
+     "Glamdring",
+     "Andúril",
+     "Orcrist"
+    ]
+   },
+   {
+    "q": "Saruman's bred super-orcs",
+    "right": "Uruk-hai",
+    "wrong": [
+     "Haradrim",
+     "Easterlings",
+     "Corsairs"
+    ]
+   },
+   {
+    "q": "The hobbit meal straight after breakfast",
+    "right": "Second breakfast",
+    "wrong": [
+     "Brunch",
+     "Tiffin",
+     "Supper"
+    ]
+   }
+  ]
+ }
+]
