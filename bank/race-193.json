@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this shoe word?",
+  "target": 10,
+  "category": "Fashion",
+  "tags": [
+   "shoes",
+   "fashion",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A very high, very thin heel",
+    "right": "Stiletto",
+    "wrong": [
+     "Cuban heel",
+     "Block heel",
+     "Cowboy heel"
+    ]
+   },
+   {
+    "q": "A heel that's solid all the way along the sole",
+    "right": "Wedge",
+    "wrong": [
+     "Block heel",
+     "Cuban heel",
+     "Spike"
+    ]
+   },
+   {
+    "q": "A short, slim heel",
+    "right": "Kitten heel",
+    "wrong": [
+     "Puppy heel",
+     "Block heel",
+     "Cuban heel"
+    ]
+   },
+   {
+    "q": "A leather shoe with decorative punched holes",
+    "right": "Brogue",
+    "wrong": [
+     "Mule",
+     "Slipper",
+     "Galosh"
+    ]
+   },
+   {
+    "q": "A slip-on leather shoe with no laces",
+    "right": "Loafer",
+    "wrong": [
+     "Lounger",
+     "Slacker",
+     "Drifter"
+    ]
+   },
+   {
+    "q": "The simple canvas PE shoe",
+    "right": "Plimsoll",
+    "wrong": [
+     "Galosh",
+     "Sabot",
+     "Mule"
+    ]
+   },
+   {
+    "q": "A canvas shoe with a rope sole",
+    "right": "Espadrille",
+    "wrong": [
+     "Espresso",
+     "Esplanade",
+     "Escapade"
+    ]
+   },
+   {
+    "q": "A Dutch wooden shoe",
+    "right": "Clog",
+    "wrong": [
+     "Mule",
+     "Slipper",
+     "Moccasin"
+    ]
+   },
+   {
+    "q": "Air-cushioned boots with yellow stitching",
+    "right": "Doc Martens",
+    "wrong": [
+     "Timberlands",
+     "Hush Puppies",
+     "Kickers"
+    ]
+   },
+   {
+    "q": "Rubber boots named after a duke",
+    "right": "Wellies",
+    "wrong": [
+     "Marlboroughs",
+     "Nelsons",
+     "Napoleons"
+    ]
+   },
+   {
+    "q": "Someone who mends shoes",
+    "right": "Cobbler",
+    "wrong": [
+     "Cooper",
+     "Chandler",
+     "Fletcher"
+    ]
+   },
+   {
+    "q": "The padded layer inside the shoe",
+    "right": "Insole",
+    "wrong": [
+     "Outsole",
+     "Upper",
+     "Welt"
+    ]
+   },
+   {
+    "q": "The little hole a lace goes through",
+    "right": "Eyelet",
+    "wrong": [
+     "Toecap",
+     "Tongue",
+     "Heel tab"
+    ]
+   },
+   {
+    "q": "The plastic tip on a shoelace",
+    "right": "Aglet",
+    "wrong": [
+     "Ferrule",
+     "Nib",
+     "Rivet"
+    ]
+   },
+   {
+    "q": "The curved tool that eases your heel in",
+    "right": "Shoehorn",
+    "wrong": [
+     "Shoetree",
+     "Shoe brush",
+     "Horn of plenty"
+    ]
+   },
+   {
+    "q": "A shoe with a very thick sole",
+    "right": "Platform",
+    "wrong": [
+     "Plinth",
+     "Pedestal",
+     "Podium"
+    ]
+   },
+   {
+    "q": "Rubber sandals with a post between the toes",
+    "right": "Flip-flops",
+    "wrong": [
+     "Sliders",
+     "Jellies",
+     "Gladiators"
+    ]
+   },
+   {
+    "q": "An ankle boot with stretchy side panels",
+    "right": "Chelsea boot",
+    "wrong": [
+     "Desert boot",
+     "Cowboy boot",
+     "Ugg boot"
+    ]
+   },
+   {
+    "q": "Chunky foam clogs full of holes",
+    "right": "Crocs",
+    "wrong": [
+     "Vans",
+     "Birkenstocks",
+     "Converse"
+    ]
+   },
+   {
+    "q": "The underneath of a shoe",
+    "right": "Sole",
+    "wrong": [
+     "Upper",
+     "Heel tab",
+     "Vamp"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this singing word?",
+  "target": 10,
+  "category": "Music",
+  "tags": [
+   "singing",
+   "voices",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The highest female voice",
+    "right": "Soprano",
+    "wrong": [
+     "Treble",
+     "Baritone",
+     "Mezzo"
+    ]
+   },
+   {
+    "q": "The lower female voice",
+    "right": "Alto",
+    "wrong": [
+     "Baritone",
+     "Treble",
+     "Countertenor"
+    ]
+   },
+   {
+    "q": "The highest everyday male voice",
+    "right": "Tenor",
+    "wrong": [
+     "Baritone",
+     "Treble",
+     "Mezzo"
+    ]
+   },
+   {
+    "q": "The deepest male voice",
+    "right": "Bass",
+    "wrong": [
+     "Baritone",
+     "Treble",
+     "Mezzo"
+    ]
+   },
+   {
+    "q": "Singing above your natural range, like the Bee Gees",
+    "right": "Falsetto",
+    "wrong": [
+     "Staccato",
+     "Legato",
+     "Crescendo"
+    ]
+   },
+   {
+    "q": "A rapid wobble on a held note",
+    "right": "Vibrato",
+    "wrong": [
+     "Staccato",
+     "Legato",
+     "Crescendo"
+    ]
+   },
+   {
+    "q": "Singing with no instruments at all",
+    "right": "A cappella",
+    "wrong": [
+     "Al fresco",
+     "À la carte",
+     "Al dente"
+    ]
+   },
+   {
+    "q": "Different notes sung together that blend",
+    "right": "Harmony",
+    "wrong": [
+     "Melody",
+     "Rhythm",
+     "Tempo"
+    ]
+   },
+   {
+    "q": "A higher tune sung over the top of a hymn",
+    "right": "Descant",
+    "wrong": [
+     "Decant",
+     "Discount",
+     "Descent"
+    ]
+   },
+   {
+    "q": "Singing along to backing tracks, a craze from Japan",
+    "right": "Karaoke",
+    "wrong": [
+     "Origami",
+     "Kimono",
+     "Sudoku"
+    ]
+   },
+   {
+    "q": "Miming to a recording",
+    "right": "Lip-sync",
+    "wrong": [
+     "Lip-read",
+     "Lip gloss",
+     "Lip service"
+    ]
+   },
+   {
+    "q": "Eight notes up from where you started",
+    "right": "Octave",
+    "wrong": [
+     "Octopus",
+     "Octagon",
+     "Octet"
+    ]
+   },
+   {
+    "q": "A grand, demanding star singer",
+    "right": "Diva",
+    "wrong": [
+     "Diver",
+     "Divan",
+     "Dove"
+    ]
+   },
+   {
+    "q": "A gentle song to send a baby to sleep",
+    "right": "Lullaby",
+    "wrong": [
+     "Lollipop",
+     "Lollygag",
+     "Hullabaloo"
+    ]
+   },
+   {
+    "q": "Alpine singing that flips between chest and head voice",
+    "right": "Yodel",
+    "wrong": [
+     "Yo-yo",
+     "Yokel",
+     "Yonder"
+    ]
+   },
+   {
+    "q": "Making drum sounds with your mouth",
+    "right": "Beatbox",
+    "wrong": [
+     "Jukebox",
+     "Soapbox",
+     "Beatnik"
+    ]
+   },
+   {
+    "q": "Software that fixes off-key singing",
+    "right": "Auto-Tune",
+    "wrong": [
+     "Autopilot",
+     "Autocorrect",
+     "Autoplay"
+    ]
+   },
+   {
+    "q": "A song for two singers",
+    "right": "Duet",
+    "wrong": [
+     "Duel",
+     "Duvet",
+     "Trio"
+    ]
+   },
+   {
+    "q": "A group of people singing together",
+    "right": "Choir",
+    "wrong": [
+     "Squire",
+     "Chore",
+     "Coir"
+    ]
+   },
+   {
+    "q": "The repeated bit everyone joins in on",
+    "right": "Chorus",
+    "wrong": [
+     "Verse",
+     "Bridge",
+     "Intro"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this caravan word?",
+  "target": 10,
+  "category": "Travel",
+  "tags": [
+   "caravans",
+   "motorhomes",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The tent that fixes to the side",
+    "right": "Awning",
+    "wrong": [
+     "Gazebo",
+     "Marquee",
+     "Yurt"
+    ]
+   },
+   {
+    "q": "Fitted to the car so it can pull the caravan",
+    "right": "Tow bar",
+    "wrong": [
+     "Roof rack",
+     "Tow rope",
+     "Bull bar"
+    ]
+   },
+   {
+    "q": "Coupling the caravan to the car",
+    "right": "Hitch",
+    "wrong": [
+     "Latch",
+     "Clinch",
+     "Splice"
+    ]
+   },
+   {
+    "q": "The small front wheel for moving it by hand",
+    "right": "Jockey wheel",
+    "wrong": [
+     "Steering wheel",
+     "Cartwheel",
+     "Big wheel"
+    ]
+   },
+   {
+    "q": "Wind-down legs that stop it rocking",
+    "right": "Corner steadies",
+    "wrong": [
+     "Stabilisers",
+     "Outriggers",
+     "Stilts"
+    ]
+   },
+   {
+    "q": "One that stays put on a holiday park",
+    "right": "Static caravan",
+    "wrong": [
+     "Fifth-wheel caravan",
+     "Folding caravan",
+     "Teardrop caravan"
+    ]
+   },
+   {
+    "q": "A caravan you tow from site to site",
+    "right": "Touring caravan",
+    "wrong": [
+     "Houseboat",
+     "Narrowboat",
+     "Chalet"
+    ]
+   },
+   {
+    "q": "Engine and living quarters in one big vehicle",
+    "right": "Motorhome",
+    "wrong": [
+     "Horsebox",
+     "Minibus",
+     "Hearse"
+    ]
+   },
+   {
+    "q": "A smaller van conversion, like a VW",
+    "right": "Campervan",
+    "wrong": [
+     "Horsebox",
+     "Ice cream van",
+     "Transit"
+    ]
+   },
+   {
+    "q": "The plot on the site where you park up",
+    "right": "Pitch",
+    "wrong": [
+     "Patch",
+     "Pier",
+     "Pen"
+    ]
+   },
+   {
+    "q": "Plugging into the site's mains electricity",
+    "right": "Hook-up",
+    "wrong": [
+     "Hookah",
+     "Hook line",
+     "Pick-up"
+    ]
+   },
+   {
+    "q": "The loo you empty at the disposal point",
+    "right": "Chemical toilet",
+    "wrong": [
+     "Compost heap",
+     "Pit stop",
+     "Bidet"
+    ]
+   },
+   {
+    "q": "Runs the lights when you're not plugged in",
+    "right": "Leisure battery",
+    "wrong": [
+     "Car battery",
+     "Battery hen",
+     "Assault and battery"
+    ]
+   },
+   {
+    "q": "The barrel-shaped water carrier you roll along",
+    "right": "Aquaroll",
+    "wrong": [
+     "Aqualung",
+     "Swiss roll",
+     "Aquarium"
+    ]
+   },
+   {
+    "q": "Waste water from the sink and shower",
+    "right": "Grey water",
+    "wrong": [
+     "Black water",
+     "Fresh water",
+     "Holy water"
+    ]
+   },
+   {
+    "q": "Luxury camping in yurts and pods",
+    "right": "Glamping",
+    "wrong": [
+     "Clamping",
+     "Vamping",
+     "Tramping"
+    ]
+   },
+   {
+    "q": "Pitching up miles from any official site",
+    "right": "Wild camping",
+    "wrong": [
+     "Wild card",
+     "Wildlife",
+     "Wild goose chase"
+    ]
+   },
+   {
+    "q": "A gravel or concrete pitch",
+    "right": "Hardstanding",
+    "wrong": [
+     "Grandstand",
+     "Bandstand",
+     "Understanding"
+    ]
+   },
+   {
+    "q": "A campervan roof that lifts up for headroom",
+    "right": "Pop-top",
+    "wrong": [
+     "Sunroof",
+     "Soft top",
+     "Hard top"
+    ]
+   },
+   {
+    "q": "Extra-wide mirrors so you can see past the caravan",
+    "right": "Towing mirrors",
+    "wrong": [
+     "Rear-view mirror",
+     "Vanity mirror",
+     "Mirror ball"
+    ]
+   }
+  ]
+ }
+]
