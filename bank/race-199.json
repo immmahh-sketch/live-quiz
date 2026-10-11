@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this Pancake Day word?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "Pancake Day",
+   "Shrove Tuesday",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The proper name for Pancake Day",
+    "right": "Shrove Tuesday",
+    "wrong": [
+     "Maundy Thursday",
+     "Good Friday",
+     "Plough Monday"
+    ]
+   },
+   {
+    "q": "The day after, when Lent begins",
+    "right": "Ash Wednesday",
+    "wrong": [
+     "Maundy Thursday",
+     "Palm Sunday",
+     "Holy Saturday"
+    ]
+   },
+   {
+    "q": "The forty days of giving things up",
+    "right": "Lent",
+    "wrong": [
+     "Advent",
+     "Ramadan",
+     "Passover"
+    ]
+   },
+   {
+    "q": "Flour, eggs and milk whisked together",
+    "right": "Batter",
+    "wrong": [
+     "Dough",
+     "Pastry",
+     "Butter"
+    ]
+   },
+   {
+    "q": "Turning it over in mid-air with the pan",
+    "right": "Flipping",
+    "wrong": [
+     "Flapping",
+     "Flopping",
+     "Slipping"
+    ]
+   },
+   {
+    "q": "The classic British topping",
+    "right": "Lemon and sugar",
+    "wrong": [
+     "Salt and vinegar",
+     "Fish and chips",
+     "Bread and butter"
+    ]
+   },
+   {
+    "q": "The Buckinghamshire town with a pancake race since 1445",
+    "right": "Olney",
+    "wrong": [
+     "Oakham",
+     "Ludlow",
+     "Ely"
+    ]
+   },
+   {
+    "q": "What you cook it in",
+    "right": "Frying pan",
+    "wrong": [
+     "Saucepan",
+     "Dustpan",
+     "Peter Pan"
+    ]
+   },
+   {
+    "q": "A thin French pancake",
+    "right": "Crêpe",
+    "wrong": [
+     "Crumpet",
+     "Croissant",
+     "Brioche"
+    ]
+   },
+   {
+    "q": "French for 'Fat Tuesday'",
+    "right": "Mardi Gras",
+    "wrong": [
+     "Carnaval",
+     "Fiesta",
+     "Mamma Mia"
+    ]
+   },
+   {
+    "q": "The Canadian topping poured over stacks",
+    "right": "Maple syrup",
+    "wrong": [
+     "Golden syrup",
+     "Cough syrup",
+     "Treacle"
+    ]
+   },
+   {
+    "q": "Small thick pancakes also called drop scones",
+    "right": "Scotch pancakes",
+    "wrong": [
+     "Scotch eggs",
+     "Scotch broth",
+     "Hopscotch"
+    ]
+   },
+   {
+    "q": "Running while flipping one in a pan",
+    "right": "Pancake race",
+    "wrong": [
+     "Egg and spoon race",
+     "Sack race",
+     "Rat race"
+    ]
+   },
+   {
+    "q": "The hazelnut chocolate spread everyone reaches for",
+    "right": "Nutella",
+    "wrong": [
+     "Marmite",
+     "Lurpak",
+     "Bovril"
+    ]
+   },
+   {
+    "q": "A tall pile of American pancakes",
+    "right": "Stack",
+    "wrong": [
+     "Stake",
+     "Snack",
+     "Stash"
+    ]
+   },
+   {
+    "q": "A savoury Breton buckwheat pancake",
+    "right": "Galette",
+    "wrong": [
+     "Gazette",
+     "Gavotte",
+     "Galleon"
+    ]
+   },
+   {
+    "q": "Small Russian pancakes served with caviar",
+    "right": "Blini",
+    "wrong": [
+     "Bellini",
+     "Bikini",
+     "Linguini"
+    ]
+   },
+   {
+    "q": "A crispy South Indian rice-and-lentil pancake",
+    "right": "Dosa",
+    "wrong": [
+     "Samosa",
+     "Doha",
+     "Dosh"
+    ]
+   },
+   {
+    "q": "Confessing your sins, which gave the day its name",
+    "right": "Shriving",
+    "wrong": [
+     "Shaving",
+     "Thriving",
+     "Striving"
+    ]
+   },
+   {
+    "q": "Used up before Lent, along with the milk and fat",
+    "right": "Eggs",
+    "wrong": [
+     "Apples",
+     "Potatoes",
+     "Biscuits"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this Remembrance word?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "Remembrance",
+   "war",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The red flower worn in November",
+    "right": "Poppy",
+    "wrong": [
+     "Rose",
+     "Carnation",
+     "Tulip"
+    ]
+   },
+   {
+    "q": "The memorial on Whitehall",
+    "right": "Cenotaph",
+    "wrong": [
+     "Epitaph",
+     "Autograph",
+     "Monument"
+    ]
+   },
+   {
+    "q": "Kept at eleven o'clock",
+    "right": "Two-minute silence",
+    "wrong": [
+     "Minute's applause",
+     "Moment of madness",
+     "Silent night"
+    ]
+   },
+   {
+    "q": "The bugle call played at the ceremony",
+    "right": "Last Post",
+    "wrong": [
+     "First Post",
+     "Post Office",
+     "Goalpost"
+    ]
+   },
+   {
+    "q": "The 1918 agreement that ended the fighting",
+    "right": "Armistice",
+    "wrong": [
+     "Amnesty",
+     "Ambush",
+     "Annexation"
+    ]
+   },
+   {
+    "q": "Armistice Day's date",
+    "right": "11 November",
+    "wrong": [
+     "5 November",
+     "30 November",
+     "11 September"
+    ]
+   },
+   {
+    "q": "A ring of poppies laid at a memorial",
+    "right": "Wreath",
+    "wrong": [
+     "Bouquet",
+     "Corsage",
+     "Rosette"
+    ]
+   },
+   {
+    "q": "The charity behind the Poppy Appeal",
+    "right": "Royal British Legion",
+    "wrong": [
+     "RSPCA",
+     "Royal Mail",
+     "Foreign Legion"
+    ]
+   },
+   {
+    "q": "The nameless soldier buried in Westminster Abbey",
+    "right": "Unknown Warrior",
+    "wrong": [
+     "Lone Ranger",
+     "Unsung Hero",
+     "Iron Duke"
+    ]
+   },
+   {
+    "q": "John McCrae's poem about poppies",
+    "right": "In Flanders Fields",
+    "wrong": [
+     "In the Bleak Midwinter",
+     "Strawberry Fields",
+     "Fields of Athenry"
+    ]
+   },
+   {
+    "q": "The last line of the Exhortation",
+    "right": "We will remember them",
+    "wrong": [
+     "We'll meet again",
+     "Keep calm and carry on",
+     "Never surrender"
+    ]
+   },
+   {
+    "q": "The memorial at Ypres where the Last Post sounds every night",
+    "right": "Menin Gate",
+    "wrong": [
+     "Menai Bridge",
+     "Golden Gate",
+     "Watergate"
+    ]
+   },
+   {
+    "q": "The Sunday each November when the nation marks its war dead",
+    "right": "Remembrance Sunday",
+    "wrong": [
+     "Mothering Sunday",
+     "Palm Sunday",
+     "Super Sunday"
+    ]
+   },
+   {
+    "q": "Someone who has served in the forces",
+    "right": "Veteran",
+    "wrong": [
+     "Veterinarian",
+     "Volunteer",
+     "Vegetarian"
+    ]
+   },
+   {
+    "q": "Worn as a symbol of peace",
+    "right": "White poppy",
+    "wrong": [
+     "White rose",
+     "White feather",
+     "White flag"
+    ]
+   },
+   {
+    "q": "Remembers the animals lost in war",
+    "right": "Purple poppy",
+    "wrong": [
+     "Purple Heart",
+     "Purple patch",
+     "Purple Rain"
+    ]
+   },
+   {
+    "q": "The 1916 battle with 57,000 British casualties on its first day",
+    "right": "The Somme",
+    "wrong": [
+     "Waterloo",
+     "Hastings",
+     "Agincourt"
+    ]
+   },
+   {
+    "q": "The body that cares for the white headstones",
+    "right": "Commonwealth War Graves Commission",
+    "wrong": [
+     "Charity Commission",
+     "Forestry Commission",
+     "Electoral Commission"
+    ]
+   },
+   {
+    "q": "The musician who plays the Last Post",
+    "right": "Bugler",
+    "wrong": [
+     "Piper",
+     "Drummer",
+     "Fiddler"
+    ]
+   },
+   {
+    "q": "The reading that begins 'They shall grow not old'",
+    "right": "Exhortation",
+    "wrong": [
+     "Exhalation",
+     "Exaltation",
+     "Extortion"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this Wimbledon word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "Wimbledon",
+   "tennis",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The famous dish eaten at the Championships",
+    "right": "Strawberries and cream",
+    "wrong": [
+     "Fish and chips",
+     "Scones and jam",
+     "Pie and mash"
+    ]
+   },
+   {
+    "q": "The main show court, with a retractable roof",
+    "right": "Centre Court",
+    "wrong": [
+     "Food court",
+     "Royal Court",
+     "Supreme Court"
+    ]
+   },
+   {
+    "q": "The grassy slope where fans watch on a big screen",
+    "right": "Henman Hill",
+    "wrong": [
+     "Primrose Hill",
+     "Notting Hill",
+     "Box Hill"
+    ]
+   },
+   {
+    "q": "The players' dress code",
+    "right": "All white",
+    "wrong": [
+     "All black",
+     "Black tie",
+     "Blue and white"
+    ]
+   },
+   {
+    "q": "Where VIP guests sit on Centre Court",
+    "right": "Royal Box",
+    "wrong": [
+     "Royal Mint",
+     "Royal Mail",
+     "Box office"
+    ]
+   },
+   {
+    "q": "Wimbledon's postcode",
+    "right": "SW19",
+    "wrong": [
+     "NE1",
+     "SE1",
+     "W1"
+    ]
+   },
+   {
+    "q": "The line of fans camping out for tickets",
+    "right": "The Queue",
+    "wrong": [
+     "The Crowd",
+     "The Mob",
+     "The Rush"
+    ]
+   },
+   {
+    "q": "The fruity gin drink sipped on the lawns",
+    "right": "Pimm's",
+    "wrong": [
+     "Baileys",
+     "Guinness",
+     "Sherry"
+    ]
+   },
+   {
+    "q": "The Harris hawk that scares off the pigeons",
+    "right": "Rufus",
+    "wrong": [
+     "Rupert",
+     "Rocky",
+     "Roger"
+    ]
+   },
+   {
+    "q": "Teenagers who fetch the balls",
+    "right": "Ball boys and girls",
+    "wrong": [
+     "Line judges",
+     "Caddies",
+     "Stewards"
+    ]
+   },
+   {
+    "q": "The trophy for the women's singles champion",
+    "right": "Venus Rosewater Dish",
+    "wrong": [
+     "Claret Jug",
+     "Webb Ellis Cup",
+     "Calcutta Cup"
+    ]
+   },
+   {
+    "q": "The surface it's played on",
+    "right": "Grass",
+    "wrong": [
+     "Clay",
+     "Hard court",
+     "Carpet"
+    ]
+   },
+   {
+    "q": "The club that hosts it",
+    "right": "All England Club",
+    "wrong": [
+     "Queen's Club",
+     "MCC",
+     "Hurlingham Club"
+    ]
+   },
+   {
+    "q": "The traditional rest day, since scrapped",
+    "right": "Middle Sunday",
+    "wrong": [
+     "Super Sunday",
+     "Palm Sunday",
+     "Lazy Sunday"
+    ]
+   },
+   {
+    "q": "How long the Championships last",
+    "right": "Fortnight",
+    "wrong": [
+     "Weekend",
+     "Month",
+     "Ten days"
+    ]
+   },
+   {
+    "q": "What the umpire says to hush the crowd",
+    "right": "Quiet, please",
+    "wrong": [
+     "Shush now",
+     "Silence in court",
+     "Order, order"
+    ]
+   },
+   {
+    "q": "Rolled over the grass when it rains",
+    "right": "Covers",
+    "wrong": [
+     "Duvets",
+     "Blankets",
+     "Sheets"
+    ]
+   },
+   {
+    "q": "The first British man to win the singles since 1936",
+    "right": "Andy Murray",
+    "wrong": [
+     "Tim Henman",
+     "Greg Rusedski",
+     "Jack Draper"
+    ]
+   },
+   {
+    "q": "The 1936 champion with a statue at the club",
+    "right": "Fred Perry",
+    "wrong": [
+     "Fred Dibnah",
+     "Fred Flintstone",
+     "Fred Trueman"
+    ]
+   },
+   {
+    "q": "The last British woman to win the singles, in 1977",
+    "right": "Virginia Wade",
+    "wrong": [
+     "Sue Barker",
+     "Emma Raducanu",
+     "Annabel Croft"
+    ]
+   }
+  ]
+ }
+]
