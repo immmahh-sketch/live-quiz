@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this astronaut word?",
+  "target": 10,
+  "category": "Space",
+  "tags": [
+   "space",
+   "astronauts",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The pressurised outfit for working in space",
+    "right": "Spacesuit",
+    "wrong": [
+     "Wetsuit",
+     "Boiler suit",
+     "Jumpsuit"
+    ]
+   },
+   {
+    "q": "Going outside the craft in a suit",
+    "right": "Spacewalk",
+    "wrong": [
+     "Moonwalk",
+     "Catwalk",
+     "Boardwalk"
+    ]
+   },
+   {
+    "q": "'10, 9, 8...' before the launch",
+    "right": "Countdown",
+    "wrong": [
+     "Roll call",
+     "Head count",
+     "Recount"
+    ]
+   },
+   {
+    "q": "The moment the rocket leaves the pad",
+    "right": "Lift-off",
+    "wrong": [
+     "Touchdown",
+     "Kick-off",
+     "Sign-off"
+    ]
+   },
+   {
+    "q": "Coming down in the sea in a capsule",
+    "right": "Splashdown",
+    "wrong": [
+     "Touchdown",
+     "Crash landing",
+     "Belly flop"
+    ]
+   },
+   {
+    "q": "The space station, by its initials",
+    "right": "ISS",
+    "wrong": [
+     "ESA",
+     "RAF",
+     "BBC"
+    ]
+   },
+   {
+    "q": "America's space agency",
+    "right": "NASA",
+    "wrong": [
+     "ESA",
+     "JAXA",
+     "Roscosmos"
+    ]
+   },
+   {
+    "q": "Floating about weightless",
+    "right": "Zero gravity",
+    "wrong": [
+     "Zero tolerance",
+     "Ground zero",
+     "Zero hour"
+    ]
+   },
+   {
+    "q": "The British astronaut who ran the London Marathon in space",
+    "right": "Tim Peake",
+    "wrong": [
+     "Michael Foale",
+     "Piers Sellers",
+     "Tim Henman"
+    ]
+   },
+   {
+    "q": "The first Briton in space, in 1991",
+    "right": "Helen Sharman",
+    "wrong": [
+     "Valentina Tereshkova",
+     "Sally Ride",
+     "Mae Jemison"
+    ]
+   },
+   {
+    "q": "The first person in space, in 1961",
+    "right": "Yuri Gagarin",
+    "wrong": [
+     "Neil Armstrong",
+     "Buzz Aldrin",
+     "John Glenn"
+    ]
+   },
+   {
+    "q": "The mission that first landed people on the Moon",
+    "right": "Apollo 11",
+    "wrong": [
+     "Apollo 13",
+     "Gemini 4",
+     "Vostok 1"
+    ]
+   },
+   {
+    "q": "'___, we've had a problem'",
+    "right": "Houston",
+    "wrong": [
+     "Boston",
+     "Dallas",
+     "Austin"
+    ]
+   },
+   {
+    "q": "The team on the ground running the flight",
+    "right": "Mission control",
+    "wrong": [
+     "Crowd control",
+     "Remote control",
+     "Air traffic control"
+    ]
+   },
+   {
+    "q": "The small crew cabin on top of the rocket",
+    "right": "Capsule",
+    "wrong": [
+     "Cockpit",
+     "Gondola",
+     "Booth"
+    ]
+   },
+   {
+    "q": "An extra rocket strapped on for launch",
+    "right": "Booster",
+    "wrong": [
+     "Rooster",
+     "Bouncer",
+     "Busker"
+    ]
+   },
+   {
+    "q": "The reusable winged spaceplane, retired in 2011",
+    "right": "Space Shuttle",
+    "wrong": [
+     "Space station",
+     "Space hopper",
+     "Space Invader"
+    ]
+   },
+   {
+    "q": "How space food is preserved",
+    "right": "Freeze-dried",
+    "wrong": [
+     "Deep-fried",
+     "Sun-dried",
+     "Pan-fried"
+    ]
+   },
+   {
+    "q": "Coming back into the atmosphere in a ball of heat",
+    "right": "Re-entry",
+    "wrong": [
+     "Rerun",
+     "Reboot",
+     "Replay"
+    ]
+   },
+   {
+    "q": "The dog who orbited the Earth in 1957",
+    "right": "Laika",
+    "wrong": [
+     "Lassie",
+     "Snoopy",
+     "Gromit"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this optician word?",
+  "target": 10,
+  "category": "Health",
+  "tags": [
+   "opticians",
+   "eyes",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Lenses in frames that sit on your nose",
+    "right": "Glasses",
+    "wrong": [
+     "Binoculars",
+     "Visor",
+     "Mask"
+    ]
+   },
+   {
+    "q": "Thin discs that sit right on your eyes",
+    "right": "Contact lenses",
+    "wrong": [
+     "Contact sport",
+     "Contact book",
+     "Contact form"
+    ]
+   },
+   {
+    "q": "Reading letters off a chart",
+    "right": "Eye test",
+    "wrong": [
+     "Spelling test",
+     "Driving test",
+     "Blood test"
+    ]
+   },
+   {
+    "q": "The rows of shrinking letters on the wall",
+    "right": "Snellen chart",
+    "wrong": [
+     "Pie chart",
+     "Flow chart",
+     "Bar chart"
+    ]
+   },
+   {
+    "q": "Can't see faraway things clearly",
+    "right": "Short-sighted",
+    "wrong": [
+     "Cross-eyed",
+     "Snow-blind",
+     "Double-jointed"
+    ]
+   },
+   {
+    "q": "Can't see close-up things clearly",
+    "right": "Long-sighted",
+    "wrong": [
+     "Cross-eyed",
+     "Snow-blind",
+     "Double-jointed"
+    ]
+   },
+   {
+    "q": "Glasses with two lens strengths",
+    "right": "Bifocals",
+    "wrong": [
+     "Binoculars",
+     "Bicycle",
+     "Bilingual"
+    ]
+   },
+   {
+    "q": "Specs just for close-up",
+    "right": "Reading glasses",
+    "wrong": [
+     "Sunglasses",
+     "Opera glasses",
+     "Safety glasses"
+    ]
+   },
+   {
+    "q": "The professional who tests your eyes",
+    "right": "Optometrist",
+    "wrong": [
+     "Orthodontist",
+     "Osteopath",
+     "Optimist"
+    ]
+   },
+   {
+    "q": "The black dot in the centre of the eye",
+    "right": "Pupil",
+    "wrong": [
+     "Retina",
+     "Cornea",
+     "Lid"
+    ]
+   },
+   {
+    "q": "The coloured ring around it",
+    "right": "Iris",
+    "wrong": [
+     "Retina",
+     "Cornea",
+     "Lid"
+    ]
+   },
+   {
+    "q": "Short slang word for glasses",
+    "right": "Specs",
+    "wrong": [
+     "Shades",
+     "Bins",
+     "Peepers"
+    ]
+   },
+   {
+    "q": "The part that holds the lenses",
+    "right": "Frames",
+    "wrong": [
+     "Cases",
+     "Cloths",
+     "Chains"
+    ]
+   },
+   {
+    "q": "A soft cloth for wiping the lenses",
+    "right": "Lens cloth",
+    "wrong": [
+     "Dishcloth",
+     "Loincloth",
+     "Tablecloth"
+    ]
+   },
+   {
+    "q": "Can't tell red from green",
+    "right": "Colour-blind",
+    "wrong": [
+     "Cross-eyed",
+     "Snow-blind",
+     "Double-jointed"
+    ]
+   },
+   {
+    "q": "A weak eye that wanders, often patched in childhood",
+    "right": "Lazy eye",
+    "wrong": [
+     "Black eye",
+     "Evil eye",
+     "Private eye"
+    ]
+   },
+   {
+    "q": "Eyes that don't line up",
+    "right": "Squint",
+    "wrong": [
+     "Wink",
+     "Blink",
+     "Glance"
+    ]
+   },
+   {
+    "q": "A cloudy lens, common in old age",
+    "right": "Cataract",
+    "wrong": [
+     "Glaucoma",
+     "Conjunctivitis",
+     "Astigmatism"
+    ]
+   },
+   {
+    "q": "A painful red lump on the eyelid",
+    "right": "Stye",
+    "wrong": [
+     "Wart",
+     "Mole",
+     "Freckle"
+    ]
+   },
+   {
+    "q": "'Should've gone to ___'",
+    "right": "Specsavers",
+    "wrong": [
+     "Boots",
+     "Vision Express",
+     "Superdrug"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this chemist word?",
+  "target": 10,
+  "category": "Health",
+  "tags": [
+   "chemists",
+   "medicine",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The doctor's note for medicine",
+    "right": "Prescription",
+    "wrong": [
+     "Description",
+     "Subscription",
+     "Inscription"
+    ]
+   },
+   {
+    "q": "The qualified person who hands out medicines",
+    "right": "Pharmacist",
+    "wrong": [
+     "Phlebotomist",
+     "Physiotherapist",
+     "Pharaoh"
+    ]
+   },
+   {
+    "q": "The common painkiller called acetaminophen in America",
+    "right": "Paracetamol",
+    "wrong": [
+     "Penicillin",
+     "Insulin",
+     "Aspirin"
+    ]
+   },
+   {
+    "q": "The anti-inflammatory painkiller in Nurofen",
+    "right": "Ibuprofen",
+    "wrong": [
+     "Penicillin",
+     "Insulin",
+     "Laxative"
+    ]
+   },
+   {
+    "q": "Tablets for hay fever",
+    "right": "Antihistamine",
+    "wrong": [
+     "Antibiotic",
+     "Antiseptic",
+     "Laxative"
+    ]
+   },
+   {
+    "q": "A sticky strip for a cut",
+    "right": "Plaster",
+    "wrong": [
+     "Coaster",
+     "Poster",
+     "Plasma"
+    ]
+   },
+   {
+    "q": "A sweet you suck for a sore throat",
+    "right": "Lozenge",
+    "wrong": [
+     "Gobstopper",
+     "Mint imperial",
+     "Jelly bean"
+    ]
+   },
+   {
+    "q": "The pink medicine for children",
+    "right": "Calpol",
+    "wrong": [
+     "Calamine",
+     "Calypso",
+     "Capitol"
+    ]
+   },
+   {
+    "q": "Measures your temperature",
+    "right": "Thermometer",
+    "wrong": [
+     "Barometer",
+     "Speedometer",
+     "Pedometer"
+    ]
+   },
+   {
+    "q": "The puffer for asthma",
+    "right": "Inhaler",
+    "wrong": [
+     "Kazoo",
+     "Whistle",
+     "Harmonica"
+    ]
+   },
+   {
+    "q": "Medicine in a little gelatin shell",
+    "right": "Capsule",
+    "wrong": [
+     "Pellet",
+     "Bead",
+     "Pastille"
+    ]
+   },
+   {
+    "q": "Medicine you can buy without a prescription",
+    "right": "Over the counter",
+    "wrong": [
+     "Under the table",
+     "Behind the scenes",
+     "Up for grabs"
+    ]
+   },
+   {
+    "q": "The cheaper, unbranded version of a medicine",
+    "right": "Generic",
+    "wrong": [
+     "Genetic",
+     "Genuine",
+     "Generous"
+    ]
+   },
+   {
+    "q": "Unwanted extra things a medicine can do",
+    "right": "Side effects",
+    "wrong": [
+     "Special effects",
+     "Sound effects",
+     "Personal effects"
+    ]
+   },
+   {
+    "q": "How much medicine to take at one time",
+    "right": "Dose",
+    "wrong": [
+     "Doze",
+     "Dash",
+     "Dollop"
+    ]
+   },
+   {
+    "q": "The vitamin in oranges, said to fight colds",
+    "right": "Vitamin C",
+    "wrong": [
+     "Vitamin D",
+     "Vitamin K",
+     "Vitamin B12"
+    ]
+   },
+   {
+    "q": "The high-street chemist founded by Jesse ___ in Nottingham",
+    "right": "Boots",
+    "wrong": [
+     "Superdrug",
+     "Lloyds",
+     "Savers"
+    ]
+   },
+   {
+    "q": "The old symbol of the apothecary",
+    "right": "Pestle and mortar",
+    "wrong": [
+     "Knife and fork",
+     "Hammer and sickle",
+     "Bow and arrow"
+    ]
+   },
+   {
+    "q": "The sign outside most chemists",
+    "right": "Green cross",
+    "wrong": [
+     "Red cross",
+     "Blue cross",
+     "White cross"
+    ]
+   },
+   {
+    "q": "A dummy pill with no medicine in it",
+    "right": "Placebo",
+    "wrong": [
+     "Gazebo",
+     "Plateau",
+     "Polo"
+    ]
+   }
+  ]
+ }
+]
