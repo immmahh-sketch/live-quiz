@@ -3,7 +3,6 @@
 import json, os
 Q = [
  ("How many Grammy Awards has Beyoncé won, the most ever?", 35, "Grammys", 8, "hard", "Music", False),
- ("Madonna has topped the UK singles chart how many times?", 13, "number ones", 3, "hard", "Music", False),
  ("Westlife's tally of UK chart-toppers comes to how many?", 14, "number ones", 3, "hard", "Music", False),
  ("Stations and utilities included, how many properties can you buy on a Monopoly board?", 28, "properties", 5, "hard", "Games and toys", False),
  ("How many pieces does each player start with in draughts?", 12, "pieces", 3, "medium", "Games and toys", False),
