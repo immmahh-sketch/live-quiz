@@ -1,0 +1,635 @@
+[
+ {
+  "type": "sort",
+  "text": "A Disney villain or a Disney sidekick?",
+  "categories": [
+   "Villain",
+   "Sidekick"
+  ],
+  "items": [
+   {
+    "text": "Scar",
+    "category": "Villain"
+   },
+   {
+    "text": "Ursula",
+    "category": "Villain"
+   },
+   {
+    "text": "Jafar",
+    "category": "Villain"
+   },
+   {
+    "text": "Cruella de Vil",
+    "category": "Villain"
+   },
+   {
+    "text": "Timon",
+    "category": "Sidekick"
+   },
+   {
+    "text": "Sebastian",
+    "category": "Sidekick"
+   },
+   {
+    "text": "Abu",
+    "category": "Sidekick"
+   },
+   {
+    "text": "Mushu",
+    "category": "Sidekick"
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "Disney",
+   "villains",
+   "sidekicks"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A French cheese or an Italian cheese?",
+  "categories": [
+   "France",
+   "Italy"
+  ],
+  "items": [
+   {
+    "text": "Brie",
+    "category": "France"
+   },
+   {
+    "text": "Camembert",
+    "category": "France"
+   },
+   {
+    "text": "Roquefort",
+    "category": "France"
+   },
+   {
+    "text": "Comté",
+    "category": "France"
+   },
+   {
+    "text": "Parmesan",
+    "category": "Italy"
+   },
+   {
+    "text": "Gorgonzola",
+    "category": "Italy"
+   },
+   {
+    "text": "Mozzarella",
+    "category": "Italy"
+   },
+   {
+    "text": "Pecorino",
+    "category": "Italy"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [
+   "cheese",
+   "France",
+   "Italy"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A cricket term or a golf term?",
+  "categories": [
+   "Cricket",
+   "Golf"
+  ],
+  "items": [
+   {
+    "text": "Googly",
+    "category": "Cricket"
+   },
+   {
+    "text": "Yorker",
+    "category": "Cricket"
+   },
+   {
+    "text": "Maiden",
+    "category": "Cricket"
+   },
+   {
+    "text": "Silly mid-on",
+    "category": "Cricket"
+   },
+   {
+    "text": "Birdie",
+    "category": "Golf"
+   },
+   {
+    "text": "Bogey",
+    "category": "Golf"
+   },
+   {
+    "text": "Albatross",
+    "category": "Golf"
+   },
+   {
+    "text": "Mulligan",
+    "category": "Golf"
+   }
+  ],
+  "category": "Sport",
+  "tags": [
+   "cricket",
+   "golf",
+   "jargon"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A London Underground line or a Monopoly property?",
+  "categories": [
+   "Tube line",
+   "Monopoly"
+  ],
+  "items": [
+   {
+    "text": "Jubilee",
+    "category": "Tube line"
+   },
+   {
+    "text": "Central",
+    "category": "Tube line"
+   },
+   {
+    "text": "Northern",
+    "category": "Tube line"
+   },
+   {
+    "text": "Bakerloo",
+    "category": "Tube line"
+   },
+   {
+    "text": "Mayfair",
+    "category": "Monopoly"
+   },
+   {
+    "text": "Old Kent Road",
+    "category": "Monopoly"
+   },
+   {
+    "text": "Pall Mall",
+    "category": "Monopoly"
+   },
+   {
+    "text": "Whitechapel Road",
+    "category": "Monopoly"
+   }
+  ],
+  "category": "UK geography",
+  "tags": [
+   "London Underground",
+   "Monopoly"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A Norse god or an Egyptian god?",
+  "categories": [
+   "Norse",
+   "Egyptian"
+  ],
+  "items": [
+   {
+    "text": "Odin",
+    "category": "Norse"
+   },
+   {
+    "text": "Thor",
+    "category": "Norse"
+   },
+   {
+    "text": "Loki",
+    "category": "Norse"
+   },
+   {
+    "text": "Freya",
+    "category": "Norse"
+   },
+   {
+    "text": "Ra",
+    "category": "Egyptian"
+   },
+   {
+    "text": "Anubis",
+    "category": "Egyptian"
+   },
+   {
+    "text": "Osiris",
+    "category": "Egyptian"
+   },
+   {
+    "text": "Horus",
+    "category": "Egyptian"
+   }
+  ],
+  "category": "Religion and myth",
+  "tags": [
+   "Norse gods",
+   "Egyptian gods",
+   "mythology"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Batman villain or a Spider-Man villain?",
+  "categories": [
+   "Batman",
+   "Spider-Man"
+  ],
+  "items": [
+   {
+    "text": "The Joker",
+    "category": "Batman"
+   },
+   {
+    "text": "The Penguin",
+    "category": "Batman"
+   },
+   {
+    "text": "The Riddler",
+    "category": "Batman"
+   },
+   {
+    "text": "Bane",
+    "category": "Batman"
+   },
+   {
+    "text": "Green Goblin",
+    "category": "Spider-Man"
+   },
+   {
+    "text": "Doctor Octopus",
+    "category": "Spider-Man"
+   },
+   {
+    "text": "Venom",
+    "category": "Spider-Man"
+   },
+   {
+    "text": "Sandman",
+    "category": "Spider-Man"
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "Batman",
+   "Spider-Man",
+   "villains"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A Spice Girl or a Sugababe?",
+  "categories": [
+   "Spice Girls",
+   "Sugababes"
+  ],
+  "items": [
+   {
+    "text": "Mel B",
+    "category": "Spice Girls"
+   },
+   {
+    "text": "Emma Bunton",
+    "category": "Spice Girls"
+   },
+   {
+    "text": "Geri Halliwell",
+    "category": "Spice Girls"
+   },
+   {
+    "text": "Victoria Beckham",
+    "category": "Spice Girls"
+   },
+   {
+    "text": "Keisha Buchanan",
+    "category": "Sugababes"
+   },
+   {
+    "text": "Mutya Buena",
+    "category": "Sugababes"
+   },
+   {
+    "text": "Siobhán Donaghy",
+    "category": "Sugababes"
+   },
+   {
+    "text": "Heidi Range",
+    "category": "Sugababes"
+   }
+  ],
+  "category": "Music",
+  "tags": [
+   "Spice Girls",
+   "Sugababes",
+   "girl groups"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Grand National winner or a Derby winner?",
+  "categories": [
+   "Grand National",
+   "Derby"
+  ],
+  "items": [
+   {
+    "text": "Red Rum",
+    "category": "Grand National"
+   },
+   {
+    "text": "Aldaniti",
+    "category": "Grand National"
+   },
+   {
+    "text": "Tiger Roll",
+    "category": "Grand National"
+   },
+   {
+    "text": "Corbiere",
+    "category": "Grand National"
+   },
+   {
+    "text": "Shergar",
+    "category": "Derby"
+   },
+   {
+    "text": "Nijinsky",
+    "category": "Derby"
+   },
+   {
+    "text": "Galileo",
+    "category": "Derby"
+   },
+   {
+    "text": "Mill Reef",
+    "category": "Derby"
+   }
+  ],
+  "category": "Sport",
+  "tags": [
+   "horse racing",
+   "Grand National",
+   "Derby"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "Judged Strictly or judged Dancing on Ice?",
+  "categories": [
+   "Strictly",
+   "Dancing on Ice"
+  ],
+  "items": [
+   {
+    "text": "Craig Revel Horwood",
+    "category": "Strictly"
+   },
+   {
+    "text": "Shirley Ballas",
+    "category": "Strictly"
+   },
+   {
+    "text": "Motsi Mabuse",
+    "category": "Strictly"
+   },
+   {
+    "text": "Anton Du Beke",
+    "category": "Strictly"
+   },
+   {
+    "text": "Christopher Dean",
+    "category": "Dancing on Ice"
+   },
+   {
+    "text": "Jayne Torvill",
+    "category": "Dancing on Ice"
+   },
+   {
+    "text": "Ashley Banjo",
+    "category": "Dancing on Ice"
+   },
+   {
+    "text": "Oti Mabuse",
+    "category": "Dancing on Ice"
+   }
+  ],
+  "category": "TV",
+  "tags": [
+   "Strictly Come Dancing",
+   "Dancing on Ice",
+   "judges"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "An original 1990s Gladiator: a man or a woman?",
+  "categories": [
+   "Man",
+   "Woman"
+  ],
+  "items": [
+   {
+    "text": "Wolf",
+    "category": "Man"
+   },
+   {
+    "text": "Saracen",
+    "category": "Man"
+   },
+   {
+    "text": "Shadow",
+    "category": "Man"
+   },
+   {
+    "text": "Hunter",
+    "category": "Man"
+   },
+   {
+    "text": "Jet",
+    "category": "Woman"
+   },
+   {
+    "text": "Lightning",
+    "category": "Woman"
+   },
+   {
+    "text": "Panther",
+    "category": "Woman"
+   },
+   {
+    "text": "Flame",
+    "category": "Woman"
+   }
+  ],
+  "category": "TV",
+  "tags": [
+   "Gladiators",
+   "1990s TV"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Thunderbirds character or a Captain Scarlet character?",
+  "categories": [
+   "Thunderbirds",
+   "Captain Scarlet"
+  ],
+  "items": [
+   {
+    "text": "Lady Penelope",
+    "category": "Thunderbirds"
+   },
+   {
+    "text": "Parker",
+    "category": "Thunderbirds"
+   },
+   {
+    "text": "Brains",
+    "category": "Thunderbirds"
+   },
+   {
+    "text": "Scott Tracy",
+    "category": "Thunderbirds"
+   },
+   {
+    "text": "Captain Blue",
+    "category": "Captain Scarlet"
+   },
+   {
+    "text": "Colonel White",
+    "category": "Captain Scarlet"
+   },
+   {
+    "text": "Captain Black",
+    "category": "Captain Scarlet"
+   },
+   {
+    "text": "Destiny Angel",
+    "category": "Captain Scarlet"
+   }
+  ],
+  "category": "TV",
+  "tags": [
+   "Gerry Anderson",
+   "Thunderbirds",
+   "Captain Scarlet"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Chinese zodiac animal or a Western star sign's creature?",
+  "categories": [
+   "Chinese zodiac",
+   "Star sign"
+  ],
+  "items": [
+   {
+    "text": "Rat",
+    "category": "Chinese zodiac"
+   },
+   {
+    "text": "Dragon",
+    "category": "Chinese zodiac"
+   },
+   {
+    "text": "Monkey",
+    "category": "Chinese zodiac"
+   },
+   {
+    "text": "Rooster",
+    "category": "Chinese zodiac"
+   },
+   {
+    "text": "Scorpion",
+    "category": "Star sign"
+   },
+   {
+    "text": "Crab",
+    "category": "Star sign"
+   },
+   {
+    "text": "Lion",
+    "category": "Star sign"
+   },
+   {
+    "text": "Fish",
+    "category": "Star sign"
+   }
+  ],
+  "category": "Religion and myth",
+  "tags": [
+   "Chinese zodiac",
+   "star signs"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Sesame Street character or a Muppet Show character?",
+  "categories": [
+   "Sesame Street",
+   "The Muppet Show"
+  ],
+  "items": [
+   {
+    "text": "Big Bird",
+    "category": "Sesame Street"
+   },
+   {
+    "text": "Elmo",
+    "category": "Sesame Street"
+   },
+   {
+    "text": "Cookie Monster",
+    "category": "Sesame Street"
+   },
+   {
+    "text": "Oscar the Grouch",
+    "category": "Sesame Street"
+   },
+   {
+    "text": "Fozzie Bear",
+    "category": "The Muppet Show"
+   },
+   {
+    "text": "Miss Piggy",
+    "category": "The Muppet Show"
+   },
+   {
+    "text": "Gonzo",
+    "category": "The Muppet Show"
+   },
+   {
+    "text": "Animal",
+    "category": "The Muppet Show"
+   }
+  ],
+  "category": "TV",
+  "tags": [
+   "Sesame Street",
+   "The Muppet Show"
+  ],
+  "difficulty": "medium"
+ }
+]
