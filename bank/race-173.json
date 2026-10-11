@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this bowls word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "lawn bowls",
+   "bowls",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The small white target ball",
+    "right": "Jack",
+    "wrong": [
+     "Cue ball",
+     "Shuttlecock",
+     "Puck"
+    ]
+   },
+   {
+    "q": "The lopsided weighting that makes a bowl curve",
+    "right": "Bias",
+    "wrong": [
+     "Spin",
+     "Swing",
+     "Grip"
+    ]
+   },
+   {
+    "q": "The lawn the game is played on",
+    "right": "Green",
+    "wrong": [
+     "Pitch",
+     "Court",
+     "Fairway"
+    ]
+   },
+   {
+    "q": "One round of bowling in one direction",
+    "right": "End",
+    "wrong": [
+     "Frame",
+     "Over",
+     "Leg"
+    ]
+   },
+   {
+    "q": "A strip of the green for one game, and a team of four",
+    "right": "Rink",
+    "wrong": [
+     "Lane",
+     "Bay",
+     "Track"
+    ]
+   },
+   {
+    "q": "The team captain, who bowls last",
+    "right": "Skip",
+    "wrong": [
+     "Anchor",
+     "Sweeper",
+     "Pivot"
+    ]
+   },
+   {
+    "q": "The player who bowls first",
+    "right": "Lead",
+    "wrong": [
+     "Opener",
+     "Starter",
+     "Server"
+    ]
+   },
+   {
+    "q": "A bowl that touches the jack",
+    "right": "Toucher",
+    "wrong": [
+     "Kisser",
+     "Nudger",
+     "Toppler"
+    ]
+   },
+   {
+    "q": "The rubber square you stand on to bowl",
+    "right": "Mat",
+    "wrong": [
+     "Doormat",
+     "Coaster",
+     "Placemat"
+    ]
+   },
+   {
+    "q": "Sir Francis ___, who finished his game before facing the Armada",
+    "right": "Drake",
+    "wrong": [
+     "Raleigh",
+     "Hawkins",
+     "Frobisher"
+    ]
+   },
+   {
+    "q": "Where that legendary game was played",
+    "right": "Plymouth Hoe",
+    "wrong": [
+     "Brighton Pier",
+     "Hampton Court",
+     "Tilbury Docks"
+    ]
+   },
+   {
+    "q": "Bowls on a green that rises in the middle, popular in the north",
+    "right": "Crown green",
+    "wrong": [
+     "Village green",
+     "Putting green",
+     "Bowling alley"
+    ]
+   },
+   {
+    "q": "The trench round the edge of the green",
+    "right": "Ditch",
+    "wrong": [
+     "Moat",
+     "Gutter",
+     "Bunker"
+    ]
+   },
+   {
+    "q": "Bowling gently to stop right by the jack",
+    "right": "Draw",
+    "wrong": [
+     "Lob",
+     "Chip",
+     "Putt"
+    ]
+   },
+   {
+    "q": "Firing a fast bowl to scatter the others",
+    "right": "Drive",
+    "wrong": [
+     "Lob",
+     "Chip",
+     "Putt"
+    ]
+   },
+   {
+    "q": "The cluster of bowls around the jack",
+    "right": "Head",
+    "wrong": [
+     "Pack",
+     "Huddle",
+     "Scrum"
+    ]
+   },
+   {
+    "q": "A bowl nearer the jack than any of the other side's",
+    "right": "Shot",
+    "wrong": [
+     "Strike",
+     "Spare",
+     "Birdie"
+    ]
+   },
+   {
+    "q": "Bowls played on carpet in the winter",
+    "right": "Indoor",
+    "wrong": [
+     "Beach",
+     "Ten-pin",
+     "Floodlit"
+    ]
+   },
+   {
+    "q": "The traditional all-white clothing",
+    "right": "Whites",
+    "wrong": [
+     "Blues",
+     "Reds",
+     "Blacks"
+    ]
+   },
+   {
+    "q": "The old name for bowls, from what they were made of",
+    "right": "Woods",
+    "wrong": [
+     "Irons",
+     "Stones",
+     "Pins"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this triathlon word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "triathlon",
+   "endurance sport",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The first of the three legs",
+    "right": "Swim",
+    "wrong": [
+     "Row",
+     "Ski",
+     "Climb"
+    ]
+   },
+   {
+    "q": "The middle leg",
+    "right": "Cycle",
+    "wrong": [
+     "Row",
+     "Ski",
+     "Paddle"
+    ]
+   },
+   {
+    "q": "The final leg",
+    "right": "Run",
+    "wrong": [
+     "Row",
+     "Ski",
+     "Climb"
+    ]
+   },
+   {
+    "q": "Changing from one sport to the next",
+    "right": "Transition",
+    "wrong": [
+     "Translation",
+     "Transmission",
+     "Transfusion"
+    ]
+   },
+   {
+    "q": "Alistair and Jonny, Yorkshire's triathlon brothers",
+    "right": "Brownlee",
+    "wrong": [
+     "Murray",
+     "Kenny",
+     "Charlton"
+    ]
+   },
+   {
+    "q": "A 2.4-mile swim, 112-mile ride and a full marathon",
+    "right": "Ironman",
+    "wrong": [
+     "Iron Lady",
+     "Superman",
+     "Tin Man"
+    ]
+   },
+   {
+    "q": "The shortest race distance",
+    "right": "Sprint",
+    "wrong": [
+     "Marathon",
+     "Ultra",
+     "Endurance"
+    ]
+   },
+   {
+    "q": "1.5 km swim, 40 km ride, 10 km run",
+    "right": "Olympic distance",
+    "wrong": [
+     "Marathon distance",
+     "Ironman distance",
+     "Cross-country"
+    ]
+   },
+   {
+    "q": "A training session going straight from a ride into a run",
+    "right": "Brick",
+    "wrong": [
+     "Block",
+     "Slab",
+     "Wall"
+    ]
+   },
+   {
+    "q": "Handlebar extensions you lean on",
+    "right": "Aero bars",
+    "wrong": [
+     "Monkey bars",
+     "Parallel bars",
+     "Crossbars"
+    ]
+   },
+   {
+    "q": "Swimming in a lake or the sea rather than a pool",
+    "right": "Open water",
+    "wrong": [
+     "Deep end",
+     "Lido",
+     "Splash zone"
+    ]
+   },
+   {
+    "q": "Riding close behind another to save energy",
+    "right": "Drafting",
+    "wrong": [
+     "Doodling",
+     "Sketching",
+     "Tracing"
+    ]
+   },
+   {
+    "q": "The five-sport event with fencing and riding",
+    "right": "Pentathlon",
+    "wrong": [
+     "Heptathlon",
+     "Decathlon",
+     "Duathlon"
+    ]
+   },
+   {
+    "q": "Skiing and shooting",
+    "right": "Biathlon",
+    "wrong": [
+     "Duathlon",
+     "Aquathlon",
+     "Heptathlon"
+    ]
+   },
+   {
+    "q": "Where the bikes hang in the transition area",
+    "right": "Bike rack",
+    "wrong": [
+     "Hat rack",
+     "Toast rack",
+     "Roof rack"
+    ]
+   },
+   {
+    "q": "Home of the Ironman World Championship at Kona",
+    "right": "Hawaii",
+    "wrong": [
+     "Florida",
+     "California",
+     "Fiji"
+    ]
+   },
+   {
+    "q": "The timing device worn on the ankle",
+    "right": "Chip",
+    "wrong": [
+     "Pager",
+     "Badge",
+     "Bracelet"
+    ]
+   },
+   {
+    "q": "A painful muscle spasm",
+    "right": "Cramp",
+    "wrong": [
+     "Blister",
+     "Chafe",
+     "Bruise"
+    ]
+   },
+   {
+    "q": "A sharp pain in your side when running",
+    "right": "Stitch",
+    "wrong": [
+     "Blister",
+     "Chafe",
+     "Bruise"
+    ]
+   },
+   {
+    "q": "The rubber suit for the swim, banned when the water's warm",
+    "right": "Wetsuit",
+    "wrong": [
+     "Tracksuit",
+     "Jumpsuit",
+     "Spacesuit"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this crossword word?",
+  "target": 10,
+  "category": "Words and language",
+  "tags": [
+   "crosswords",
+   "puzzles",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The hint for each answer",
+    "right": "Clue",
+    "wrong": [
+     "Cue",
+     "Glue",
+     "Claw"
+    ]
+   },
+   {
+    "q": "Answers written left to right",
+    "right": "Across",
+    "wrong": [
+     "Over",
+     "Along",
+     "Upwards"
+    ]
+   },
+   {
+    "q": "Answers written top to bottom",
+    "right": "Down",
+    "wrong": [
+     "Under",
+     "Below",
+     "Beneath"
+    ]
+   },
+   {
+    "q": "The pattern of squares",
+    "right": "Grid",
+    "wrong": [
+     "Board",
+     "Map",
+     "Chart"
+    ]
+   },
+   {
+    "q": "The kind with tricky wordplay clues",
+    "right": "Cryptic",
+    "wrong": [
+     "Graphic",
+     "Lyric",
+     "Classic"
+    ]
+   },
+   {
+    "q": "The simple, straightforward kind",
+    "right": "Quick",
+    "wrong": [
+     "Junior",
+     "Starter",
+     "Practice"
+    ]
+   },
+   {
+    "q": "A clue where the letters are rearranged",
+    "right": "Anagram",
+    "wrong": [
+     "Acronym",
+     "Palindrome",
+     "Spoonerism"
+    ]
+   },
+   {
+    "q": "The person who writes the crossword",
+    "right": "Setter",
+    "wrong": [
+     "Editor",
+     "Printer",
+     "Compositor"
+    ]
+   },
+   {
+    "q": "The person who fills it in",
+    "right": "Solver",
+    "wrong": [
+     "Reader",
+     "Subscriber",
+     "Proofreader"
+    ]
+   },
+   {
+    "q": "The filled-in blocks between the answers",
+    "right": "Black squares",
+    "wrong": [
+     "Blind spots",
+     "Black holes",
+     "Dark horses"
+    ]
+   },
+   {
+    "q": "The newspaper famous for its daily cryptic, The ___",
+    "right": "Times",
+    "wrong": [
+     "Mirror",
+     "Sun",
+     "Express"
+    ]
+   },
+   {
+    "q": "What a setter writes under",
+    "right": "Pen name",
+    "wrong": [
+     "Nickname",
+     "Codename",
+     "Stage name"
+    ]
+   },
+   {
+    "q": "A clue where the answer is tucked inside the words",
+    "right": "Hidden word",
+    "wrong": [
+     "Hidden track",
+     "Hidden gem",
+     "Hidden agenda"
+    ]
+   },
+   {
+    "q": "'We hear': a clue for a word that sounds like another",
+    "right": "Homophone",
+    "wrong": [
+     "Synonym",
+     "Antonym",
+     "Acronym"
+    ]
+   },
+   {
+    "q": "A clue with two meanings and no wordplay",
+    "right": "Double definition",
+    "wrong": [
+     "Double take",
+     "Double cream",
+     "Double agent"
+    ]
+   },
+   {
+    "q": "The numbers in brackets giving the word lengths",
+    "right": "Enumeration",
+    "wrong": [
+     "Equation",
+     "Estimation",
+     "Elimination"
+    ]
+   },
+   {
+    "q": "Wise to use until you're sure",
+    "right": "Pencil",
+    "wrong": [
+     "Biro",
+     "Crayon",
+     "Highlighter"
+    ]
+   },
+   {
+    "q": "The weekend puzzle you can send in to win",
+    "right": "Prize crossword",
+    "wrong": [
+     "Prize draw",
+     "Raffle",
+     "Sweepstake"
+    ]
+   },
+   {
+    "q": "The daily five-letter puzzle with six guesses",
+    "right": "Wordle",
+    "wrong": [
+     "Sudoku",
+     "Boggle",
+     "Scrabble"
+    ]
+   },
+   {
+    "q": "The man who published the first crossword, in 1913",
+    "right": "Arthur Wynne",
+    "wrong": [
+     "Lewis Carroll",
+     "Peter Roget",
+     "Noah Webster"
+    ]
+   }
+  ]
+ }
+]
