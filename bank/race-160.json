@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this betting word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "betting",
+   "horse racing",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The chances, like 5-1, that set your winnings",
+    "right": "Odds",
+    "wrong": [
+     "Margins",
+     "Ratios",
+     "Rates"
+    ]
+   },
+   {
+    "q": "The money you put on the bet",
+    "right": "Stake",
+    "wrong": [
+     "Payout",
+     "Return",
+     "Jackpot"
+    ]
+   },
+   {
+    "q": "The horse expected to win, with the shortest odds",
+    "right": "Favourite",
+    "wrong": [
+     "Also-ran",
+     "Non-starter",
+     "Pacemaker"
+    ]
+   },
+   {
+    "q": "A long-odds runner nobody expects to win",
+    "right": "Outsider",
+    "wrong": [
+     "Front-runner",
+     "Pacemaker",
+     "Non-starter"
+    ]
+   },
+   {
+    "q": "Odds of 1-1: you win as much as you staked",
+    "right": "Evens",
+    "wrong": [
+     "Double",
+     "Treble",
+     "Forecast"
+    ]
+   },
+   {
+    "q": "When a runner's so likely to win you'd get back less than your stake in profit",
+    "right": "Odds-on",
+    "wrong": [
+     "Double",
+     "Treble",
+     "Forecast"
+    ]
+   },
+   {
+    "q": "A bet split half on winning and half on finishing placed",
+    "right": "Each way",
+    "wrong": [
+     "Double",
+     "Treble",
+     "Reverse forecast"
+    ]
+   },
+   {
+    "q": "One bet linking lots of selections that all have to win",
+    "right": "Accumulator",
+    "wrong": [
+     "Patent",
+     "Yankee",
+     "Lucky 15"
+    ]
+   },
+   {
+    "q": "The person who takes your bet",
+    "right": "Bookie",
+    "wrong": [
+     "Croupier",
+     "Cashier",
+     "Steward"
+    ]
+   },
+   {
+    "q": "Pool betting where all the stakes are shared among the winners",
+    "right": "Tote",
+    "wrong": [
+     "Lottery",
+     "Raffle",
+     "Kitty"
+    ]
+   },
+   {
+    "q": "A bet with little chance but a big payout",
+    "right": "Long shot",
+    "wrong": [
+     "Sure thing",
+     "Dead cert",
+     "Banker"
+    ]
+   },
+   {
+    "q": "Someone who hands out their selections",
+    "right": "Tipster",
+    "wrong": [
+     "Steward",
+     "Starter",
+     "Clerk"
+    ]
+   },
+   {
+    "q": "Someone placing a bet",
+    "right": "Punter",
+    "wrong": [
+     "Bidder",
+     "Shopper",
+     "Client"
+    ]
+   },
+   {
+    "q": "When the result has to be judged from a picture of the line",
+    "right": "Photo finish",
+    "wrong": [
+     "Stewards' enquiry",
+     "False start",
+     "Walkover"
+    ]
+   },
+   {
+    "q": "Two runners crossing the line together, a tie",
+    "right": "Dead heat",
+    "wrong": [
+     "Walkover",
+     "False start",
+     "Whitewash"
+    ]
+   },
+   {
+    "q": "A horse withdrawn before the race",
+    "right": "Non-runner",
+    "wrong": [
+     "Faller",
+     "Also-ran",
+     "Pacemaker"
+    ]
+   },
+   {
+    "q": "The Aintree steeplechase that's Britain's biggest betting race",
+    "right": "Grand National",
+    "wrong": [
+     "Derby",
+     "Gold Cup",
+     "St Leger"
+    ]
+   },
+   {
+    "q": "The weekly football coupon for predicting score draws",
+    "right": "Pools",
+    "wrong": [
+     "Lotto",
+     "Bingo",
+     "Premium Bonds"
+    ]
+   },
+   {
+    "q": "Rub off the silver panel to see if you've won",
+    "right": "Scratchcard",
+    "wrong": [
+     "Raffle ticket",
+     "Bingo card",
+     "Betting slip"
+    ]
+   },
+   {
+    "q": "The pub slot machine with spinning reels",
+    "right": "Fruit machine",
+    "wrong": [
+     "Jukebox",
+     "Pinball",
+     "Cash machine"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this radio word?",
+  "target": 10,
+  "category": "TV",
+  "tags": [
+   "radio",
+   "BBC",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Plays the records and chats in between",
+    "right": "DJ",
+    "wrong": [
+     "Roadie",
+     "Usher",
+     "Compère"
+    ]
+   },
+   {
+    "q": "A short, catchy tune that announces the station",
+    "right": "Jingle",
+    "wrong": [
+     "Ringtone",
+     "Anthem",
+     "Lullaby"
+    ]
+   },
+   {
+    "q": "Listeners ring up to share their views live",
+    "right": "Phone-in",
+    "wrong": [
+     "Sit-in",
+     "Walk-in",
+     "Drop-in"
+    ]
+   },
+   {
+    "q": "The number you tune to, like 97.6",
+    "right": "Frequency",
+    "wrong": [
+     "Postcode",
+     "Bandwidth",
+     "Volume"
+    ]
+   },
+   {
+    "q": "The band most music stations broadcast on, in two letters",
+    "right": "FM",
+    "wrong": [
+     "AM",
+     "TV",
+     "PA"
+    ]
+   },
+   {
+    "q": "Guests pick eight records to take to a remote island",
+    "right": "Desert Island Discs",
+    "wrong": [
+     "Pick of the Pops",
+     "In Our Time",
+     "Gardeners' Question Time"
+    ]
+   },
+   {
+    "q": "The world's longest-running drama serial, set in Ambridge",
+    "right": "The Archers",
+    "wrong": [
+     "Emmerdale",
+     "Mrs Dale's Diary",
+     "Coronation Street"
+    ]
+   },
+   {
+    "q": "Talk for sixty seconds without hesitation, repetition or deviation",
+    "right": "Just a Minute",
+    "wrong": [
+     "The News Quiz",
+     "The Unbelievable Truth",
+     "Gardeners' Question Time"
+    ]
+   },
+   {
+    "q": "The comedy panel show with a game called Mornington Crescent",
+    "right": "I'm Sorry I Haven't a Clue",
+    "wrong": [
+     "The News Quiz",
+     "The Unbelievable Truth",
+     "The Now Show"
+    ]
+   },
+   {
+    "q": "The late-night bulletin listing Dogger, Fisher and German Bight",
+    "right": "Shipping Forecast",
+    "wrong": [
+     "Sailing By",
+     "Farming Today",
+     "The News"
+    ]
+   },
+   {
+    "q": "Six short beeps marking the hour",
+    "right": "The pips",
+    "wrong": [
+     "The bongs",
+     "The chimes",
+     "The bleeps"
+    ]
+   },
+   {
+    "q": "Unlicensed stations broadcasting from ships in the 1960s",
+    "right": "Pirate radio",
+    "wrong": [
+     "Hospital radio",
+     "Community radio",
+     "Talk radio"
+    ]
+   },
+   {
+    "q": "The most famous of those offshore pirate stations",
+    "right": "Radio Caroline",
+    "wrong": [
+     "Radio Luxembourg",
+     "Capital Radio",
+     "Radio City"
+    ]
+   },
+   {
+    "q": "Radio 4's flagship morning news programme",
+    "right": "Today",
+    "wrong": [
+     "PM",
+     "The World at One",
+     "Front Row"
+    ]
+   },
+   {
+    "q": "What the presenter speaks into",
+    "right": "Microphone",
+    "wrong": [
+     "Megaphone",
+     "Gramophone",
+     "Headphones"
+    ]
+   },
+   {
+    "q": "Silence when nothing's being broadcast",
+    "right": "Dead air",
+    "wrong": [
+     "Hot air",
+     "Fresh air",
+     "Thin air"
+    ]
+   },
+   {
+    "q": "What the red light in the studio means",
+    "right": "On air",
+    "wrong": [
+     "Off air",
+     "On hold",
+     "On call"
+    ]
+   },
+   {
+    "q": "The old-fashioned word for a radio",
+    "right": "Wireless",
+    "wrong": [
+     "Gramophone",
+     "Telegraph",
+     "Phonograph"
+    ]
+   },
+   {
+    "q": "The Italian who pioneered radio",
+    "right": "Marconi",
+    "wrong": [
+     "Edison",
+     "Baird",
+     "Bell"
+    ]
+   },
+   {
+    "q": "A song a listener asks the DJ to play",
+    "right": "Request",
+    "wrong": [
+     "Encore",
+     "Medley",
+     "Remix"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this Viking word?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "Vikings",
+   "Norse",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The Vikings' long, narrow ship with oars and a square sail",
+    "right": "Longship",
+    "wrong": [
+     "Galleon",
+     "Trireme",
+     "Junk"
+    ]
+   },
+   {
+    "q": "The holy island raided in 793, the start of the Viking Age in England",
+    "right": "Lindisfarne",
+    "wrong": [
+     "Iona",
+     "Skye",
+     "Anglesey"
+    ]
+   },
+   {
+    "q": "The Viking name for York",
+    "right": "Jorvik",
+    "wrong": [
+     "Eboracum",
+     "Lundenwic",
+     "Camulodunum"
+    ]
+   },
+   {
+    "q": "The part of England ruled under Viking law",
+    "right": "Danelaw",
+    "wrong": [
+     "Wessex",
+     "Cornwall",
+     "Strathclyde"
+    ]
+   },
+   {
+    "q": "The great hall where warriors who die in battle feast",
+    "right": "Valhalla",
+    "wrong": [
+     "Asgard",
+     "Midgard",
+     "Olympus"
+    ]
+   },
+   {
+    "q": "The one-eyed chief of the Norse gods",
+    "right": "Odin",
+    "wrong": [
+     "Tyr",
+     "Baldr",
+     "Heimdall"
+    ]
+   },
+   {
+    "q": "The god of thunder",
+    "right": "Thor",
+    "wrong": [
+     "Tyr",
+     "Baldr",
+     "Freyr"
+    ]
+   },
+   {
+    "q": "The shape-shifting trickster god",
+    "right": "Loki",
+    "wrong": [
+     "Baldr",
+     "Heimdall",
+     "Freyr"
+    ]
+   },
+   {
+    "q": "Thor's hammer",
+    "right": "Mjölnir",
+    "wrong": [
+     "Gungnir",
+     "Excalibur",
+     "Durendal"
+    ]
+   },
+   {
+    "q": "A Viking warrior who fought in a wild trance",
+    "right": "Berserker",
+    "wrong": [
+     "Housecarl",
+     "Thane",
+     "Squire"
+    ]
+   },
+   {
+    "q": "A letter of the old Viking alphabet",
+    "right": "Rune",
+    "wrong": [
+     "Hieroglyph",
+     "Cuneiform",
+     "Ogham"
+    ]
+   },
+   {
+    "q": "A long Old Norse story of heroes and families",
+    "right": "Saga",
+    "wrong": [
+     "Sonnet",
+     "Ballad",
+     "Fable"
+    ]
+   },
+   {
+    "q": "The Viking who founded the first settlement in Greenland",
+    "right": "Erik the Red",
+    "wrong": [
+     "Harald Hardrada",
+     "Ivar the Boneless",
+     "Sweyn Forkbeard"
+    ]
+   },
+   {
+    "q": "His son, who reached North America around the year 1000",
+    "right": "Leif Erikson",
+    "wrong": [
+     "Harald Hardrada",
+     "Ragnar Lothbrok",
+     "Sweyn Forkbeard"
+    ]
+   },
+   {
+    "q": "The 1066 battle where King Harold beat Harald Hardrada",
+    "right": "Stamford Bridge",
+    "wrong": [
+     "Hastings",
+     "Fulford",
+     "Maldon"
+    ]
+   },
+   {
+    "q": "The Viking king of England who supposedly ordered back the tide",
+    "right": "Cnut",
+    "wrong": [
+     "Æthelred",
+     "Edgar",
+     "Athelstan"
+    ]
+   },
+   {
+    "q": "The Wessex king who burned the cakes while fighting the Danes",
+    "right": "Alfred the Great",
+    "wrong": [
+     "Æthelred",
+     "Edgar",
+     "Athelstan"
+    ]
+   },
+   {
+    "q": "The Shetland fire festival where a Viking galley is burned",
+    "right": "Up Helly Aa",
+    "wrong": [
+     "Hogmanay",
+     "Beltane",
+     "Burns Night"
+    ]
+   },
+   {
+    "q": "What Vikings almost certainly did NOT wear into battle",
+    "right": "Horned helmets",
+    "wrong": [
+     "Chain mail",
+     "Round shields",
+     "Woollen cloaks"
+    ]
+   },
+   {
+    "q": "A Viking assembly where laws were made, and a word we still use for an object",
+    "right": "Thing",
+    "wrong": [
+     "Moot",
+     "Witan",
+     "Senate"
+    ]
+   }
+  ]
+ }
+]
