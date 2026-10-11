@@ -1,0 +1,96 @@
+[
+ {
+  "type": "club",
+  "text": "The 21 bus to Durham has 20 passengers. At Chester-le-Street 5 get off and 3 get on. How many are aboard now?",
+  "answers": [
+   "18",
+   "Eighteen"
+  ],
+  "pct": 90,
+  "why": "20 − 5 + 3 = 18.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "buses",
+   "adding and taking away"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which one of these letters is a vowel: B, K, O or T?",
+  "answers": [
+   "O"
+  ],
+  "pct": 80,
+  "why": "A, E, I, O and U are the vowels.",
+  "difficulty": "easy",
+  "category": "Wordplay",
+  "tags": [
+   "vowels"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Count the feet: two farm cats plus three hens.",
+  "answers": [
+   "14",
+   "Fourteen"
+  ],
+  "pct": 70,
+  "why": "2 × 4 + 3 × 2 = 8 + 6 = 14.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "legs",
+   "animals"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What is twenty-five per cent of sixty?",
+  "answers": [
+   "15",
+   "Fifteen"
+  ],
+  "pct": 50,
+  "why": "A quarter of 60 is 15.",
+  "difficulty": "medium",
+  "category": "Time",
+  "tags": [
+   "percentages",
+   "hours"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A chocolate bar is 4 rows of 6 squares. You snap off and eat one whole row of 6. How many squares are left?",
+  "answers": [
+   "18",
+   "Eighteen"
+  ],
+  "pct": 30,
+  "why": "24 squares in all, minus 6, leaves 18.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "chocolate",
+   "rows"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A mum has four daughters, and each daughter has one brother. How many children does she have?",
+  "answers": [
+   "5",
+   "Five"
+  ],
+  "pct": 20,
+  "why": "The four girls all share the same one brother.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "families",
+   "trick questions"
+  ]
+ }
+]
