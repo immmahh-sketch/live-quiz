@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this wrestling word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "wrestling",
+   "WWE",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Lifting and throwing your opponent flat onto the mat",
+    "right": "Body slam",
+    "wrong": [
+     "Slam dunk",
+     "Grand slam",
+     "Door slam"
+    ]
+   },
+   {
+    "q": "Holding the shoulders down for a three-count",
+    "right": "Pin",
+    "wrong": [
+     "Stitch",
+     "Clip",
+     "Tack"
+    ]
+   },
+   {
+    "q": "Pairs who swap in by touching hands",
+    "right": "Tag team",
+    "wrong": [
+     "Tag rugby",
+     "Price tag",
+     "Dog tag"
+    ]
+   },
+   {
+    "q": "The padded corner post of the ring",
+    "right": "Turnbuckle",
+    "wrong": [
+     "Belt buckle",
+     "Swashbuckle",
+     "Turntable"
+    ]
+   },
+   {
+    "q": "Wrestling's word for a villain",
+    "right": "Heel",
+    "wrong": [
+     "Toe",
+     "Sole",
+     "Arch"
+    ]
+   },
+   {
+    "q": "Wrestling's word for a goodie",
+    "right": "Face",
+    "wrong": [
+     "Mask",
+     "Brow",
+     "Chin"
+    ]
+   },
+   {
+    "q": "The British wrestler famous on Saturday-afternoon TV",
+    "right": "Big Daddy",
+    "wrong": [
+     "Giant Haystacks",
+     "Kendo Nagasaki",
+     "Mick McManus"
+    ]
+   },
+   {
+    "q": "The ITV show where British wrestling went out on Saturdays",
+    "right": "World of Sport",
+    "wrong": [
+     "Grandstand",
+     "Sportsnight",
+     "Superstars"
+    ]
+   },
+   {
+    "q": "The American wrestling company, by its initials",
+    "right": "WWE",
+    "wrong": [
+     "NFL",
+     "UFC",
+     "NBA"
+    ]
+   },
+   {
+    "q": "The moustached star of 'Hulkamania'",
+    "right": "Hulk Hogan",
+    "wrong": [
+     "André the Giant",
+     "Randy Savage",
+     "Ric Flair"
+    ]
+   },
+   {
+    "q": "Dwayne Johnson's ring name",
+    "right": "The Rock",
+    "wrong": [
+     "The Stone",
+     "The Boulder",
+     "The Pebble"
+    ]
+   },
+   {
+    "q": "Making your opponent tap out",
+    "right": "Submission",
+    "wrong": [
+     "Admission",
+     "Permission",
+     "Commission"
+    ]
+   },
+   {
+    "q": "A throw lifting the opponent overhead and falling backwards",
+    "right": "Suplex",
+    "wrong": [
+     "Duplex",
+     "Triplex",
+     "Complex"
+    ]
+   },
+   {
+    "q": "The 30-man battle royal event",
+    "right": "Royal Rumble",
+    "wrong": [
+     "Rumble in the Jungle",
+     "Royal Variety",
+     "Royal Flush"
+    ]
+   },
+   {
+    "q": "What the champion holds aloft",
+    "right": "Championship belt",
+    "wrong": [
+     "Seat belt",
+     "Black belt",
+     "Green belt"
+    ]
+   },
+   {
+    "q": "Where the bout happens, surrounded by ropes",
+    "right": "Ring",
+    "wrong": [
+     "Rink",
+     "Court",
+     "Pitch"
+    ]
+   },
+   {
+    "q": "Keeping up the pretence that it's all real",
+    "right": "Kayfabe",
+    "wrong": [
+     "Kebab",
+     "Kaftan",
+     "Kaput"
+    ]
+   },
+   {
+    "q": "Swinging an outstretched arm into someone's neck",
+    "right": "Clothesline",
+    "wrong": [
+     "Washing line",
+     "Hemline",
+     "Punchline"
+    ]
+   },
+   {
+    "q": "Climbing up to grab a prize hanging over the ring",
+    "right": "Ladder match",
+    "wrong": [
+     "Snakes and ladders",
+     "Stepladder",
+     "Rope ladder"
+    ]
+   },
+   {
+    "q": "Counts '1, 2, 3!' slapping the mat",
+    "right": "Referee",
+    "wrong": [
+     "Commentator",
+     "Manager",
+     "Valet"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this talent show word?",
+  "target": 10,
+  "category": "TV",
+  "tags": [
+   "talent shows",
+   "X Factor",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The first performance in front of the judges",
+    "right": "Audition",
+    "wrong": [
+     "Addition",
+     "Edition",
+     "Ambition"
+    ]
+   },
+   {
+    "q": "The Britain's Got Talent button that sends an act straight to the live shows",
+    "right": "Golden buzzer",
+    "wrong": [
+     "Golden ticket",
+     "Golden handshake",
+     "Golden goose"
+    ]
+   },
+   {
+    "q": "The X Factor stage where acts visit their mentor, often abroad",
+    "right": "Judges' houses",
+    "wrong": [
+     "Big Brother house",
+     "Halfway house",
+     "Open house"
+    ]
+   },
+   {
+    "q": "The X Factor's tough stage between auditions and judges' houses",
+    "right": "Bootcamp",
+    "wrong": [
+     "Base camp",
+     "Holiday camp",
+     "Boot sale"
+    ]
+   },
+   {
+    "q": "Saturday nights where the public votes",
+    "right": "Live shows",
+    "wrong": [
+     "Roadshows",
+     "Chat shows",
+     "Peep shows"
+    ]
+   },
+   {
+    "q": "How viewers keep their favourites in",
+    "right": "Phone vote",
+    "wrong": [
+     "Show of hands",
+     "Coin toss",
+     "Secret ballot"
+    ]
+   },
+   {
+    "q": "The bottom two perform again",
+    "right": "Sing-off",
+    "wrong": [
+     "Dance-off",
+     "Bake-off",
+     "Face-off"
+    ]
+   },
+   {
+    "q": "A judge who coaches a category",
+    "right": "Mentor",
+    "wrong": [
+     "Matron",
+     "Steward",
+     "Prefect"
+    ]
+   },
+   {
+    "q": "The red cross button pressed when an act flops",
+    "right": "Buzzer",
+    "wrong": [
+     "Doorbell",
+     "Klaxon",
+     "Alarm clock"
+    ]
+   },
+   {
+    "q": "'Mr Nasty', the judge who created The X Factor",
+    "right": "Simon Cowell",
+    "wrong": [
+     "Louis Walsh",
+     "Piers Morgan",
+     "Sharon Osbourne"
+    ]
+   },
+   {
+    "q": "The dance troupe that won BGT in 2009",
+    "right": "Diversity",
+    "wrong": [
+     "Susan Boyle",
+     "Ashley and Pudsey",
+     "Flawless"
+    ]
+   },
+   {
+    "q": "The dancing dog who won BGT in 2012",
+    "right": "Pudsey",
+    "wrong": [
+     "Gromit",
+     "Lassie",
+     "Scooby"
+    ]
+   },
+   {
+    "q": "The 2006 X Factor winner who hit number one with 'Bleeding Love'",
+    "right": "Leona Lewis",
+    "wrong": [
+     "Alexandra Burke",
+     "Shayne Ward",
+     "Olly Murs"
+    ]
+   },
+   {
+    "q": "The first Pop Idol winner, in 2002",
+    "right": "Will Young",
+    "wrong": [
+     "Gareth Gates",
+     "Darius",
+     "Michelle McManus"
+    ]
+   },
+   {
+    "q": "The show where judges turn their chairs",
+    "right": "The Voice",
+    "wrong": [
+     "The Chair",
+     "The Throne",
+     "The Swivel"
+    ]
+   },
+   {
+    "q": "The sob story told before an act performs",
+    "right": "Backstory",
+    "wrong": [
+     "Back pay",
+     "Backstage",
+     "Backdrop"
+    ]
+   },
+   {
+    "q": "The hosts of Britain's Got Talent",
+    "right": "Ant and Dec",
+    "wrong": [
+     "Holly and Phil",
+     "Richard and Judy",
+     "Fearne and Reggie"
+    ]
+   },
+   {
+    "q": "A rejected act brought back for another chance",
+    "right": "Wildcard",
+    "wrong": [
+     "Red card",
+     "Postcard",
+     "Scorecard"
+    ]
+   },
+   {
+    "q": "The last live show, where the winner is crowned",
+    "right": "Final",
+    "wrong": [
+     "Opener",
+     "Pilot",
+     "Encore"
+    ]
+   },
+   {
+    "q": "What the winner signs with a record label",
+    "right": "Contract",
+    "wrong": [
+     "Contraption",
+     "Contrast",
+     "Contraflow"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this horror film word?",
+  "target": 10,
+  "category": "Film",
+  "tags": [
+   "horror films",
+   "scary movies",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A sudden shock to make you leap from your seat",
+    "right": "Jump scare",
+    "wrong": [
+     "Jump start",
+     "Jump leads",
+     "Jumpsuit"
+    ]
+   },
+   {
+    "q": "A ghost-filled home",
+    "right": "Haunted house",
+    "wrong": [
+     "Farmhouse",
+     "Penthouse",
+     "Townhouse"
+    ]
+   },
+   {
+    "q": "The last survivor, who faces the killer",
+    "right": "Final girl",
+    "wrong": [
+     "Final whistle",
+     "Final score",
+     "Final straw"
+    ]
+   },
+   {
+    "q": "A horror film with a masked killer and a knife",
+    "right": "Slasher",
+    "wrong": [
+     "Thrasher",
+     "Crasher",
+     "Washer"
+    ]
+   },
+   {
+    "q": "An undead flesh-eater shuffling about",
+    "right": "Zombie",
+    "wrong": [
+     "Banshee",
+     "Poltergeist",
+     "Gremlin"
+    ]
+   },
+   {
+    "q": "An undead blood-drinker",
+    "right": "Vampire",
+    "wrong": [
+     "Banshee",
+     "Poltergeist",
+     "Ghoul"
+    ]
+   },
+   {
+    "q": "A man who turns into a wolf at full moon",
+    "right": "Werewolf",
+    "wrong": [
+     "Banshee",
+     "Gremlin",
+     "Ghoul"
+    ]
+   },
+   {
+    "q": "When a demon takes over someone's body",
+    "right": "Possession",
+    "wrong": [
+     "Procession",
+     "Profession",
+     "Obsession"
+    ]
+   },
+   {
+    "q": "The ritual to drive the demon out",
+    "right": "Exorcism",
+    "wrong": [
+     "Exercise",
+     "Excursion",
+     "Extortion"
+    ]
+   },
+   {
+    "q": "A gathering to contact the dead",
+    "right": "Séance",
+    "wrong": [
+     "Seesaw",
+     "Sequence",
+     "Scene"
+    ]
+   },
+   {
+    "q": "A board with letters for spelling out spirit messages",
+    "right": "Ouija board",
+    "wrong": [
+     "Dartboard",
+     "Chessboard",
+     "Surfboard"
+    ]
+   },
+   {
+    "q": "The British studio famous for Dracula films with Christopher Lee",
+    "right": "Hammer",
+    "wrong": [
+     "Ealing",
+     "Pinewood",
+     "Aardman"
+    ]
+   },
+   {
+    "q": "The author of Carrie, It and The Shining",
+    "right": "Stephen King",
+    "wrong": [
+     "Dean Koontz",
+     "James Herbert",
+     "Clive Barker"
+    ]
+   },
+   {
+    "q": "A spooky setting full of tombstones",
+    "right": "Graveyard",
+    "wrong": [
+     "Shipyard",
+     "Farmyard",
+     "Junkyard"
+    ]
+   },
+   {
+    "q": "Leatherface's weapon in Texas",
+    "right": "Chainsaw",
+    "wrong": [
+     "Pitchfork",
+     "Crowbar",
+     "Sledgehammer"
+    ]
+   },
+   {
+    "q": "The style of The Blair Witch Project, as if filmed on a real camera",
+    "right": "Found footage",
+    "wrong": [
+     "Stock footage",
+     "Square footage",
+     "Footnote"
+    ]
+   },
+   {
+    "q": "The killer doll in Child's Play",
+    "right": "Chucky",
+    "wrong": [
+     "Barbie",
+     "Sindy",
+     "Cabbage Patch"
+    ]
+   },
+   {
+    "q": "When the werewolf transforms",
+    "right": "Full moon",
+    "wrong": [
+     "Half moon",
+     "New moon",
+     "Blue moon"
+    ]
+   },
+   {
+    "q": "What wards off vampires",
+    "right": "Garlic",
+    "wrong": [
+     "Ginger",
+     "Onion",
+     "Chilli"
+    ]
+   },
+   {
+    "q": "What kills a werewolf",
+    "right": "Silver bullet",
+    "wrong": [
+     "Golden ticket",
+     "Silver spoon",
+     "Silver lining"
+    ]
+   }
+  ]
+ }
+]
