@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this Wild West word?",
+  "target": 10,
+  "category": "Film",
+  "tags": [
+   "Wild West",
+   "westerns",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The elected lawman in charge of a county",
+    "right": "Sheriff",
+    "wrong": [
+     "Mayor",
+     "Judge",
+     "Ranger"
+    ]
+   },
+   {
+    "q": "A ranch hand who herds cattle on horseback",
+    "right": "Cowboy",
+    "wrong": [
+     "Prospector",
+     "Trapper",
+     "Blacksmith"
+    ]
+   },
+   {
+    "q": "A band of townsfolk sworn in to chase outlaws",
+    "right": "Posse",
+    "wrong": [
+     "Gang",
+     "Mob",
+     "Troop"
+    ]
+   },
+   {
+    "q": "The bar with swinging doors",
+    "right": "Saloon",
+    "wrong": [
+     "Diner",
+     "Chapel",
+     "Bank"
+    ]
+   },
+   {
+    "q": "A rope loop thrown to catch cattle",
+    "right": "Lasso",
+    "wrong": [
+     "Bridle",
+     "Stirrup",
+     "Saddle"
+    ]
+   },
+   {
+    "q": "A leather holder for a gun on the hip",
+    "right": "Holster",
+    "wrong": [
+     "Scabbard",
+     "Quiver",
+     "Satchel"
+    ]
+   },
+   {
+    "q": "A show of bronco riding and steer roping",
+    "right": "Rodeo",
+    "wrong": [
+     "Regatta",
+     "Gymkhana",
+     "Jamboree"
+    ]
+   },
+   {
+    "q": "Spiked wheels on the heels of a cowboy's boots",
+    "right": "Spurs",
+    "wrong": [
+     "Studs",
+     "Cleats",
+     "Buckles"
+    ]
+   },
+   {
+    "q": "A wanted criminal on the run",
+    "right": "Outlaw",
+    "wrong": [
+     "Deputy",
+     "Ranger",
+     "Drifter"
+    ]
+   },
+   {
+    "q": "The 1849 scramble to California for gold",
+    "right": "Gold rush",
+    "wrong": [
+     "Land grab",
+     "Dust bowl",
+     "Gold standard"
+    ]
+   },
+   {
+    "q": "Cattle bolting in a panic",
+    "right": "Stampede",
+    "wrong": [
+     "Roundup",
+     "Cattle drive",
+     "Barn dance"
+    ]
+   },
+   {
+    "q": "A final face-off between two gunfighters",
+    "right": "Showdown",
+    "wrong": [
+     "Hoedown",
+     "Breakdown",
+     "Lowdown"
+    ]
+   },
+   {
+    "q": "A big cattle farm",
+    "right": "Ranch",
+    "wrong": [
+     "Croft",
+     "Allotment",
+     "Vineyard"
+    ]
+   },
+   {
+    "q": "The wide-brimmed cowboy hat",
+    "right": "Stetson",
+    "wrong": [
+     "Bowler",
+     "Trilby",
+     "Beret"
+    ]
+   },
+   {
+    "q": "Leather leg coverings worn over trousers",
+    "right": "Chaps",
+    "wrong": [
+     "Gaiters",
+     "Spats",
+     "Puttees"
+    ]
+   },
+   {
+    "q": "A horse-drawn coach carrying mail and passengers between towns",
+    "right": "Stagecoach",
+    "wrong": [
+     "Hackney",
+     "Charabanc",
+     "Tram"
+    ]
+   },
+   {
+    "q": "The horseback mail relay of 1860 and 1861",
+    "right": "Pony Express",
+    "wrong": [
+     "Royal Mail",
+     "Penny Post",
+     "Iron Horse"
+    ]
+   },
+   {
+    "q": "A deserted town left behind when the mine closed",
+    "right": "Ghost town",
+    "wrong": [
+     "New town",
+     "Market town",
+     "Twin town"
+    ]
+   },
+   {
+    "q": "A wild horse of the American plains",
+    "right": "Mustang",
+    "wrong": [
+     "Shire",
+     "Clydesdale",
+     "Shetland"
+    ]
+   },
+   {
+    "q": "The dried plant that rolls across the desert",
+    "right": "Tumbleweed",
+    "wrong": [
+     "Bracken",
+     "Thistledown",
+     "Heather"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this dinosaur word?",
+  "target": 10,
+  "category": "Science",
+  "tags": [
+   "dinosaurs",
+   "fossils",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A scientist who studies fossils",
+    "right": "Palaeontologist",
+    "wrong": [
+     "Archaeologist",
+     "Geologist",
+     "Anthropologist"
+    ]
+   },
+   {
+    "q": "The 'tyrant lizard king'",
+    "right": "Tyrannosaurus rex",
+    "wrong": [
+     "Allosaurus",
+     "Spinosaurus",
+     "Megalosaurus"
+    ]
+   },
+   {
+    "q": "The three-horned plant-eater",
+    "right": "Triceratops",
+    "wrong": [
+     "Pachycephalosaurus",
+     "Iguanodon",
+     "Oviraptor"
+    ]
+   },
+   {
+    "q": "Plates along its back and spikes on its tail",
+    "right": "Stegosaurus",
+    "wrong": [
+     "Iguanodon",
+     "Parasaurolophus",
+     "Gallimimus"
+    ]
+   },
+   {
+    "q": "Armoured all over, with a club on its tail",
+    "right": "Ankylosaurus",
+    "wrong": [
+     "Iguanodon",
+     "Pachycephalosaurus",
+     "Parasaurolophus"
+    ]
+   },
+   {
+    "q": "The long-necked giant nicknamed 'Dippy' at the Natural History Museum",
+    "right": "Diplodocus",
+    "wrong": [
+     "Brachiosaurus",
+     "Brontosaurus",
+     "Argentinosaurus"
+    ]
+   },
+   {
+    "q": "The 'swift thief' made famous by Jurassic Park",
+    "right": "Velociraptor",
+    "wrong": [
+     "Compsognathus",
+     "Gallimimus",
+     "Oviraptor"
+    ]
+   },
+   {
+    "q": "Flying reptiles that lived alongside dinosaurs",
+    "right": "Pterosaurs",
+    "wrong": [
+     "Ichthyosaurs",
+     "Mosasaurs",
+     "Ammonites"
+    ]
+   },
+   {
+    "q": "The long-necked sea reptile often linked to Nessie",
+    "right": "Plesiosaur",
+    "wrong": [
+     "Ichthyosaur",
+     "Mosasaur",
+     "Ammonite"
+    ]
+   },
+   {
+    "q": "The period that gave Jurassic Park its name",
+    "right": "Jurassic",
+    "wrong": [
+     "Triassic",
+     "Permian",
+     "Devonian"
+    ]
+   },
+   {
+    "q": "The period at the end of which the dinosaurs died out",
+    "right": "Cretaceous",
+    "wrong": [
+     "Triassic",
+     "Carboniferous",
+     "Cambrian"
+    ]
+   },
+   {
+    "q": "Dinosaur dung turned to stone",
+    "right": "Coprolite",
+    "wrong": [
+     "Flint",
+     "Jet",
+     "Chalk"
+    ]
+   },
+   {
+    "q": "What most scientists think wiped out the dinosaurs",
+    "right": "Asteroid",
+    "wrong": [
+     "Ice age",
+     "Flood",
+     "Plague"
+    ]
+   },
+   {
+    "q": "Fossilised tree resin that can trap insects",
+    "right": "Amber",
+    "wrong": [
+     "Jet",
+     "Coral",
+     "Pearl"
+    ]
+   },
+   {
+    "q": "The famous fossil hunter of Lyme Regis",
+    "right": "Mary Anning",
+    "wrong": [
+     "Mary Shelley",
+     "Mary Seacole",
+     "Mary Leakey"
+    ]
+   },
+   {
+    "q": "The stretch of Dorset and Devon shoreline famous for fossils",
+    "right": "Jurassic Coast",
+    "wrong": [
+     "Heritage Coast",
+     "Gold Coast",
+     "Causeway Coast"
+    ]
+   },
+   {
+    "q": "The scientist who coined the word 'dinosaur'",
+    "right": "Richard Owen",
+    "wrong": [
+     "Charles Darwin",
+     "David Attenborough",
+     "Thomas Huxley"
+    ]
+   },
+   {
+    "q": "What 'dinosaur' means",
+    "right": "Terrible lizard",
+    "wrong": [
+     "Thunder lizard",
+     "Giant lizard",
+     "Ancient beast"
+    ]
+   },
+   {
+    "q": "The living animals descended from dinosaurs",
+    "right": "Birds",
+    "wrong": [
+     "Crocodiles",
+     "Lizards",
+     "Snakes"
+    ]
+   },
+   {
+    "q": "A meat-eating dinosaur",
+    "right": "Carnivore",
+    "wrong": [
+     "Herbivore",
+     "Omnivore",
+     "Insectivore"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this wine word?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "wine",
+   "drinks",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The restaurant's wine expert",
+    "right": "Sommelier",
+    "wrong": [
+     "Maître d'",
+     "Barista",
+     "Concierge"
+    ]
+   },
+   {
+    "q": "The smell of a wine",
+    "right": "Bouquet",
+    "wrong": [
+     "Body",
+     "Tannin",
+     "Palate"
+    ]
+   },
+   {
+    "q": "The year the grapes were harvested",
+    "right": "Vintage",
+    "wrong": [
+     "Varietal",
+     "Reserve",
+     "Cuvée"
+    ]
+   },
+   {
+    "q": "Spoiled, with a musty, damp-cardboard smell",
+    "right": "Corked",
+    "wrong": [
+     "Mulled",
+     "Chilled",
+     "Aerated"
+    ]
+   },
+   {
+    "q": "Pink wine",
+    "right": "Rosé",
+    "wrong": [
+     "Blanc",
+     "Claret",
+     "Tawny"
+    ]
+   },
+   {
+    "q": "The taste that lingers after you swallow",
+    "right": "Finish",
+    "wrong": [
+     "Body",
+     "Tannin",
+     "Palate"
+    ]
+   },
+   {
+    "q": "A bottle holding two normal bottles' worth",
+    "right": "Magnum",
+    "wrong": [
+     "Jeroboam",
+     "Nebuchadnezzar",
+     "Methuselah"
+    ]
+   },
+   {
+    "q": "Pouring wine into a jug to let it breathe",
+    "right": "Decanting",
+    "wrong": [
+     "Fining",
+     "Blending",
+     "Pressing"
+    ]
+   },
+   {
+    "q": "The word for a wine that isn't sweet",
+    "right": "Dry",
+    "wrong": [
+     "Rich",
+     "Jammy",
+     "Fruity"
+    ]
+   },
+   {
+    "q": "Fizzy",
+    "right": "Sparkling",
+    "wrong": [
+     "Still",
+     "Fortified",
+     "Mulled"
+    ]
+   },
+   {
+    "q": "The study of wine",
+    "right": "Oenology",
+    "wrong": [
+     "Ornithology",
+     "Etymology",
+     "Mycology"
+    ]
+   },
+   {
+    "q": "A wine estate in Bordeaux",
+    "right": "Château",
+    "wrong": [
+     "Palazzo",
+     "Schloss",
+     "Manor"
+    ]
+   },
+   {
+    "q": "The grape used for Chablis",
+    "right": "Chardonnay",
+    "wrong": [
+     "Merlot",
+     "Shiraz",
+     "Malbec"
+    ]
+   },
+   {
+    "q": "Spain's sparkling wine",
+    "right": "Cava",
+    "wrong": [
+     "Crémant",
+     "Sekt",
+     "Asti"
+    ]
+   },
+   {
+    "q": "Italy's best-selling sparkling wine, from the Veneto",
+    "right": "Prosecco",
+    "wrong": [
+     "Rioja",
+     "Chianti",
+     "Retsina"
+    ]
+   },
+   {
+    "q": "The fortified wine from Portugal's Douro valley",
+    "right": "Port",
+    "wrong": [
+     "Marsala",
+     "Vermouth",
+     "Brandy"
+    ]
+   },
+   {
+    "q": "The fortified wine from Jerez in Spain",
+    "right": "Sherry",
+    "wrong": [
+     "Madeira",
+     "Marsala",
+     "Cognac"
+    ]
+   },
+   {
+    "q": "Where wine is kept to age, underground",
+    "right": "Cellar",
+    "wrong": [
+     "Attic",
+     "Larder",
+     "Pantry"
+    ]
+   },
+   {
+    "q": "The streaks that run down the inside of the glass",
+    "right": "Legs",
+    "wrong": [
+     "Arms",
+     "Fingers",
+     "Stripes"
+    ]
+   },
+   {
+    "q": "Grapes crushed by foot in a big vat",
+    "right": "Treading",
+    "wrong": [
+     "Kneading",
+     "Churning",
+     "Threshing"
+    ]
+   }
+  ]
+ }
+]
