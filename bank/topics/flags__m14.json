@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each country to the symbol on its flag",
+  "pairs": [
+   {
+    "left": "Canada",
+    "right": "A maple leaf"
+   },
+   {
+    "left": "Lebanon",
+    "right": "A cedar tree"
+   },
+   {
+    "left": "Cyprus",
+    "right": "A map of the island"
+   },
+   {
+    "left": "Brazil",
+    "right": "A starry globe"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

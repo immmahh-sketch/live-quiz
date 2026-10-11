@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Friend to one of their siblings",
+  "pairs": [
+   {
+    "left": "Ross",
+    "right": "Monica"
+   },
+   {
+    "left": "Phoebe",
+    "right": "Ursula"
+   },
+   {
+    "left": "Rachel",
+    "right": "Jill"
+   },
+   {
+    "left": "Joey",
+    "right": "Gina"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

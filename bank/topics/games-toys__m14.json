@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each toy to the decade it first went on sale",
+  "pairs": [
+   {
+    "left": "Barbie",
+    "right": "1950s"
+   },
+   {
+    "left": "Rubik's Cube",
+    "right": "1970s"
+   },
+   {
+    "left": "Cabbage Patch Kids",
+    "right": "1980s"
+   },
+   {
+    "left": "Tamagotchi",
+    "right": "1990s"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]

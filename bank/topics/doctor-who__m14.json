@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each monster to its famous cry",
+  "pairs": [
+   {
+    "left": "Daleks",
+    "right": "Exterminate!"
+   },
+   {
+    "left": "Cybermen",
+    "right": "Delete!"
+   },
+   {
+    "left": "Sontarans",
+    "right": "Sontar-ha!"
+   },
+   {
+    "left": "Weeping Angels",
+    "right": "Don't blink"
+   }
+  ],
+  "difficulty": "easy"
+ }
+]

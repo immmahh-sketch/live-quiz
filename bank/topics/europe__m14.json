@@ -1,0 +1,25 @@
+[
+ {
+  "type": "match",
+  "text": "Match each country to its money before the euro",
+  "pairs": [
+   {
+    "left": "France",
+    "right": "Franc"
+   },
+   {
+    "left": "Germany",
+    "right": "Deutschmark"
+   },
+   {
+    "left": "Italy",
+    "right": "Lira"
+   },
+   {
+    "left": "Spain",
+    "right": "Peseta"
+   }
+  ],
+  "difficulty": "medium"
+ }
+]
