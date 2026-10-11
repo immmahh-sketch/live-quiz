@@ -8,7 +8,7 @@ NEW = [
  ("Name a character from Parks and Recreation", ["Leslie Knope/Leslie", "Ron Swanson/Ron", "April Ludgate/April", "Andy Dwyer/Andy", "Tom Haverford/Tom", "Ann Perkins/Ann", "Ben Wyatt/Ben", "Chris Traeger/Chris", "Jerry Gergich/Jerry/Garry", "Donna Meagle/Donna", "Mark Brendanawicz/Mark", "Tammy", "Jean-Ralphio", "Li'l Sebastian", "Craig Middlebrooks/Craig"]),
  ("Name a character from The IT Crowd", ["Roy", "Moss", "Jen", "Douglas Reynholm/Douglas", "Denholm Reynholm/Denholm", "Richmond"]),
  ("Name one of the three main characters in Black Books", ["Bernard Black/Bernard", "Manny", "Fran"]),
- ("Name a character from Phoenix Nights", ["Brian Potter/Brian", "Jerry St Clair/Jerry", "Max", "Paddy", "Ray Von", "Kenny Senior", "Young Kenny", "Holy Mary", "Spencer", "Den Perry", "Les McQueen"]),
+ ("Name a character from Phoenix Nights", ["Brian Potter/Brian", "Jerry St Clair/Jerry", "Max", "Paddy", "Ray Von", "Kenny Senior", "Young Kenny", "Holy Mary", "Spencer", "Den Perry"]),
  ("Name a character from Still Game", ["Jack", "Victor", "Winston", "Isa", "Navid", "Tam", "Boabby", "Methadone Mick", "Shug", "Meena", "Pete the Jakey"]),
  ("Name a detective or regular in Inspector Morse, Lewis or Endeavour", ["Morse/Endeavour Morse", "Lewis/Robbie Lewis", "Hathaway/James Hathaway", "Fred Thursday/Thursday", "Joan Thursday", "Strange", "Max DeBryn", "Laura Hobson", "Jakes", "Bright", "Innocent"]),
  ("Name one of the lead detectives in Death in Paradise", ["Richard Poole", "Humphrey Goodman", "Jack Mooney", "Neville Parker", "Mervin Wilson"]),
