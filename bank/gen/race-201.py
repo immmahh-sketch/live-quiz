@@ -55,7 +55,7 @@ race("what's this word from The Chase?", "TV", "easy", ["The Chase", "quiz shows
  ("The question format in the head-to-head", "Multiple choice", ["True or false", "Fill in the blank", "Spot the difference"]),
  ("The spin-off where several Chasers take on one player", "Beat the Chasers", ["Beat the Clock", "Beat the Intro", "Beat Bobby Flay"]),
  ("The channel it's on", "ITV", ["BBC One", "Channel 4", "Sky One"]),
- ("The ITV quiz that follows it some afternoons, with a coin-pusher", "Tipping Point", ["Pointless", "Golden Balls", "Deal or No Deal"])])
+ ("The ITV afternoon quiz built around a coin-pusher machine", "Tipping Point", ["Pointless", "Golden Balls", "Deal or No Deal"])])
 
 race("what's this Only Fools and Horses word?", "TV", "easy", ["Only Fools and Horses", "sitcoms", "words"], [
  ("The wheeler-dealer played by David Jason", "Del Boy", ["Arthur Daley", "Frank Spencer", "Albert Steptoe"]),
