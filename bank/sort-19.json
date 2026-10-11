@@ -1,0 +1,341 @@
+[
+ {
+  "type": "sort",
+  "text": "A Hollywood star or a Bollywood star?",
+  "categories": [
+   "Hollywood",
+   "Bollywood"
+  ],
+  "items": [
+   {
+    "text": "Tom Cruise",
+    "category": "Hollywood"
+   },
+   {
+    "text": "Julia Roberts",
+    "category": "Hollywood"
+   },
+   {
+    "text": "Denzel Washington",
+    "category": "Hollywood"
+   },
+   {
+    "text": "Meryl Streep",
+    "category": "Hollywood"
+   },
+   {
+    "text": "Shah Rukh Khan",
+    "category": "Bollywood"
+   },
+   {
+    "text": "Amitabh Bachchan",
+    "category": "Bollywood"
+   },
+   {
+    "text": "Aamir Khan",
+    "category": "Bollywood"
+   },
+   {
+    "text": "Deepika Padukone",
+    "category": "Bollywood"
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "Hollywood",
+   "Bollywood",
+   "actors"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A peak in the Alps or in the Himalayas?",
+  "categories": [
+   "Alps",
+   "Himalayas"
+  ],
+  "items": [
+   {
+    "text": "Mont Blanc",
+    "category": "Alps"
+   },
+   {
+    "text": "Matterhorn",
+    "category": "Alps"
+   },
+   {
+    "text": "Eiger",
+    "category": "Alps"
+   },
+   {
+    "text": "Jungfrau",
+    "category": "Alps"
+   },
+   {
+    "text": "Everest",
+    "category": "Himalayas"
+   },
+   {
+    "text": "Annapurna",
+    "category": "Himalayas"
+   },
+   {
+    "text": "Kangchenjunga",
+    "category": "Himalayas"
+   },
+   {
+    "text": "Lhotse",
+    "category": "Himalayas"
+   }
+  ],
+  "category": "World geography",
+  "tags": [
+   "Alps",
+   "Himalayas",
+   "mountains"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A desert in Africa or in Asia?",
+  "categories": [
+   "Africa",
+   "Asia"
+  ],
+  "items": [
+   {
+    "text": "Sahara",
+    "category": "Africa"
+   },
+   {
+    "text": "Kalahari",
+    "category": "Africa"
+   },
+   {
+    "text": "Namib",
+    "category": "Africa"
+   },
+   {
+    "text": "Nubian",
+    "category": "Africa"
+   },
+   {
+    "text": "Gobi",
+    "category": "Asia"
+   },
+   {
+    "text": "Thar",
+    "category": "Asia"
+   },
+   {
+    "text": "Taklamakan",
+    "category": "Asia"
+   },
+   {
+    "text": "Karakum",
+    "category": "Asia"
+   }
+  ],
+  "category": "World geography",
+  "tags": [
+   "deserts",
+   "Africa",
+   "Asia"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A famous horse or a famous dog?",
+  "categories": [
+   "Horse",
+   "Dog"
+  ],
+  "items": [
+   {
+    "text": "Red Rum",
+    "category": "Horse"
+   },
+   {
+    "text": "Black Beauty",
+    "category": "Horse"
+   },
+   {
+    "text": "Shergar",
+    "category": "Horse"
+   },
+   {
+    "text": "Desert Orchid",
+    "category": "Horse"
+   },
+   {
+    "text": "Lassie",
+    "category": "Dog"
+   },
+   {
+    "text": "Greyfriars Bobby",
+    "category": "Dog"
+   },
+   {
+    "text": "Snoopy",
+    "category": "Dog"
+   },
+   {
+    "text": "Gromit",
+    "category": "Dog"
+   }
+  ],
+  "category": "Animals",
+  "tags": [
+   "famous animals",
+   "horses",
+   "dogs"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A Thai dish or an Indian dish?",
+  "categories": [
+   "Thai",
+   "Indian"
+  ],
+  "items": [
+   {
+    "text": "Pad Thai",
+    "category": "Thai"
+   },
+   {
+    "text": "Tom yum",
+    "category": "Thai"
+   },
+   {
+    "text": "Massaman curry",
+    "category": "Thai"
+   },
+   {
+    "text": "Som tam",
+    "category": "Thai"
+   },
+   {
+    "text": "Biryani",
+    "category": "Indian"
+   },
+   {
+    "text": "Dal",
+    "category": "Indian"
+   },
+   {
+    "text": "Tandoori chicken",
+    "category": "Indian"
+   },
+   {
+    "text": "Saag aloo",
+    "category": "Indian"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [
+   "Thai food",
+   "Indian food"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A golf course or a Formula One circuit?",
+  "categories": [
+   "Golf course",
+   "F1 circuit"
+  ],
+  "items": [
+   {
+    "text": "St Andrews",
+    "category": "Golf course"
+   },
+   {
+    "text": "Augusta",
+    "category": "Golf course"
+   },
+   {
+    "text": "Carnoustie",
+    "category": "Golf course"
+   },
+   {
+    "text": "Wentworth",
+    "category": "Golf course"
+   },
+   {
+    "text": "Silverstone",
+    "category": "F1 circuit"
+   },
+   {
+    "text": "Monza",
+    "category": "F1 circuit"
+   },
+   {
+    "text": "Suzuka",
+    "category": "F1 circuit"
+   },
+   {
+    "text": "Interlagos",
+    "category": "F1 circuit"
+   }
+  ],
+  "category": "Sport",
+  "tags": [
+   "golf",
+   "Formula One"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "Played with a bow, or blown?",
+  "categories": [
+   "Bowed",
+   "Blown"
+  ],
+  "items": [
+   {
+    "text": "Violin",
+    "category": "Bowed"
+   },
+   {
+    "text": "Viola",
+    "category": "Bowed"
+   },
+   {
+    "text": "Cello",
+    "category": "Bowed"
+   },
+   {
+    "text": "Double bass",
+    "category": "Bowed"
+   },
+   {
+    "text": "Flute",
+    "category": "Blown"
+   },
+   {
+    "text": "Oboe",
+    "category": "Blown"
+   },
+   {
+    "text": "Trumpet",
+    "category": "Blown"
+   },
+   {
+    "text": "Bassoon",
+    "category": "Blown"
+   }
+  ],
+  "category": "Music",
+  "tags": [
+   "instruments"
+  ],
+  "difficulty": "easy"
+ }
+]
