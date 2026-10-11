@@ -1,0 +1,176 @@
+[
+ {
+  "type": "club",
+  "text": "Which comes first in the alphabet: K or H?",
+  "answers": [
+   "H"
+  ],
+  "pct": 90,
+  "why": "H is the 8th letter, K the 11th.",
+  "difficulty": "easy",
+  "category": "Wordplay",
+  "tags": [
+   "alphabet"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Rearrange the letters of EVIL to make a word meaning 'not dead'.",
+  "answers": [
+   "Live",
+   "LIVE"
+  ],
+  "pct": 80,
+  "why": "E-V-I-L rearranges to L-I-V-E.",
+  "difficulty": "easy",
+  "category": "Wordplay",
+  "tags": [
+   "anagrams"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Three apples cost 20p each. What change do you get from £1?",
+  "answers": [
+   "40p",
+   "40 pence",
+   "£0.40"
+  ],
+  "pct": 70,
+  "why": "3 × 20p = 60p, and £1 − 60p = 40p.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "money",
+   "change"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Count on in twos from 98. What comes after it?",
+  "answers": [
+   "100",
+   "One hundred"
+  ],
+  "pct": 70,
+  "why": "98 + 2 = 100.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "even numbers"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Five triangles: what's the total of their corners?",
+  "answers": [
+   "15",
+   "Fifteen"
+  ],
+  "pct": 60,
+  "why": "5 × 3 = 15.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "triangles",
+   "corners"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Pick the larger product: three nines, or four sevens.",
+  "answers": [
+   "Four sevens",
+   "4 × 7",
+   "28"
+  ],
+  "pct": 50,
+  "why": "3 × 9 = 27, but 4 × 7 = 28.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "multiplying",
+   "comparing"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Write seventy-seven in figures, then add its two digits together.",
+  "answers": [
+   "14",
+   "Fourteen"
+  ],
+  "pct": 40,
+  "why": "7 + 7 = 14.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "digits",
+   "adding"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What's the biggest two-digit prime number?",
+  "answers": [
+   "97",
+   "Ninety-seven"
+  ],
+  "pct": 20,
+  "why": "98 and 99 both have factors; 97 doesn't.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "primes"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "It's 22:45 on a 24-hour clock. How many minutes until midnight?",
+  "answers": [
+   "75",
+   "Seventy-five"
+  ],
+  "pct": 10,
+  "why": "15 minutes to 23:00, then 60 more to midnight.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "time",
+   "minutes"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A three-legged stool stands next to a four-legged chair. How many legs is that?",
+  "answers": [
+   "7",
+   "Seven"
+  ],
+  "pct": 90,
+  "why": "3 + 4 = 7.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "legs",
+   "furniture"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A rectangle has an area of 24 square metres, and one side is 4 metres. How long is the other side?",
+  "answers": [
+   "6",
+   "6 metres",
+   "Six"
+  ],
+  "pct": 20,
+  "why": "24 ÷ 4 = 6.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "area",
+   "rectangles"
+  ]
+ }
+]
