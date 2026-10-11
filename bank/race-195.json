@@ -1,0 +1,584 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this scuba diving word?",
+  "target": 10,
+  "category": "Sport",
+  "tags": [
+   "scuba diving",
+   "the sea",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "A neoprene suit that keeps you warm in the water",
+    "right": "Wetsuit",
+    "wrong": [
+     "Tracksuit",
+     "Boiler suit",
+     "Spacesuit"
+    ]
+   },
+   {
+    "q": "A sealed suit that keeps the water out altogether",
+    "right": "Drysuit",
+    "wrong": [
+     "Tracksuit",
+     "Jumpsuit",
+     "Spacesuit"
+    ]
+   },
+   {
+    "q": "A breathing tube for swimming face-down at the surface",
+    "right": "Snorkel",
+    "wrong": [
+     "Periscope",
+     "Funnel",
+     "Straw"
+    ]
+   },
+   {
+    "q": "Rubber fins on your feet",
+    "right": "Flippers",
+    "wrong": [
+     "Paddles",
+     "Clogs",
+     "Flip-flops"
+    ]
+   },
+   {
+    "q": "The mouthpiece that delivers air from the tank",
+    "right": "Regulator",
+    "wrong": [
+     "Radiator",
+     "Respirator",
+     "Ventilator"
+    ]
+   },
+   {
+    "q": "The bottle of air on your back",
+    "right": "Cylinder",
+    "wrong": [
+     "Barrel",
+     "Flask",
+     "Keg"
+    ]
+   },
+   {
+    "q": "Sickness from coming up too fast",
+    "right": "The bends",
+    "wrong": [
+     "The shakes",
+     "The shivers",
+     "The runs"
+    ]
+   },
+   {
+    "q": "Pausing on the way up to let gas leave your body",
+    "right": "Decompression stop",
+    "wrong": [
+     "Pit stop",
+     "Bus stop",
+     "Full stop"
+    ]
+   },
+   {
+    "q": "The partner you always dive with",
+    "right": "Buddy",
+    "wrong": [
+     "Caddie",
+     "Chaperone",
+     "Steward"
+    ]
+   },
+   {
+    "q": "The world's biggest diving qualification body, by its letters",
+    "right": "PADI",
+    "wrong": [
+     "RNLI",
+     "RSPB",
+     "RAC"
+    ]
+   },
+   {
+    "q": "A colourful underwater ridge built by tiny animals",
+    "right": "Coral reef",
+    "wrong": [
+     "Sandbank",
+     "Seabed",
+     "Kelp forest"
+    ]
+   },
+   {
+    "q": "Exploring a sunken ship",
+    "right": "Wreck dive",
+    "wrong": [
+     "Salvage run",
+     "Shipshape",
+     "Wreck-It Ralph"
+    ]
+   },
+   {
+    "q": "The French pioneer of the Aqualung",
+    "right": "Jacques Cousteau",
+    "wrong": [
+     "Jacques Chirac",
+     "Jacques Brel",
+     "Jacques Clouseau"
+    ]
+   },
+   {
+    "q": "Lead strapped round your waist so you sink",
+    "right": "Weight belt",
+    "wrong": [
+     "Seat belt",
+     "Black belt",
+     "Money belt"
+    ]
+   },
+   {
+    "q": "The inflatable vest you adjust to float or sink",
+    "right": "Buoyancy jacket",
+    "wrong": [
+     "Straitjacket",
+     "Dinner jacket",
+     "Donkey jacket"
+    ]
+   },
+   {
+    "q": "The stretchy rubber wetsuits are made of",
+    "right": "Neoprene",
+    "wrong": [
+     "Nylon",
+     "Polystyrene",
+     "Kevlar"
+    ]
+   },
+   {
+    "q": "Diving deep on a single breath",
+    "right": "Free diving",
+    "wrong": [
+     "Skydiving",
+     "Cliff diving",
+     "Deep-sea fishing"
+    ]
+   },
+   {
+    "q": "Goggles that cover your eyes and nose",
+    "right": "Mask",
+    "wrong": [
+     "Visor",
+     "Monocle",
+     "Blindfold"
+    ]
+   },
+   {
+    "q": "How far you can see underwater",
+    "right": "Visibility",
+    "wrong": [
+     "Velocity",
+     "Viscosity",
+     "Humidity"
+    ]
+   },
+   {
+    "q": "The world's biggest coral reef system",
+    "right": "Great Barrier Reef",
+    "wrong": [
+     "Great Wall",
+     "Great Rift Valley",
+     "Great Lakes"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this beekeeping word?",
+  "target": 10,
+  "category": "Nature",
+  "tags": [
+   "bees",
+   "honey",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The box the colony lives in",
+    "right": "Hive",
+    "wrong": [
+     "Hutch",
+     "Coop",
+     "Kennel"
+    ]
+   },
+   {
+    "q": "The only bee that lays eggs",
+    "right": "Queen",
+    "wrong": [
+     "Duchess",
+     "Matriarch",
+     "Princess"
+    ]
+   },
+   {
+    "q": "A male bee",
+    "right": "Drone",
+    "wrong": [
+     "Stag",
+     "Bull",
+     "Cob"
+    ]
+   },
+   {
+    "q": "The female bees that do all the jobs",
+    "right": "Workers",
+    "wrong": [
+     "Soldiers",
+     "Servants",
+     "Labourers"
+    ]
+   },
+   {
+    "q": "Wax cells where honey is stored",
+    "right": "Honeycomb",
+    "wrong": [
+     "Honey trap",
+     "Honeydew",
+     "Honeymoon"
+    ]
+   },
+   {
+    "q": "The six-sided shape of each cell",
+    "right": "Hexagon",
+    "wrong": [
+     "Pentagon",
+     "Octagon",
+     "Heptagon"
+    ]
+   },
+   {
+    "q": "Thousands leaving with the old queen to find a new home",
+    "right": "Swarm",
+    "wrong": [
+     "Stampede",
+     "Flock",
+     "Shoal"
+    ]
+   },
+   {
+    "q": "Puffs smoke to calm the bees",
+    "right": "Smoker",
+    "wrong": [
+     "Fogger",
+     "Kettle",
+     "Chimney"
+    ]
+   },
+   {
+    "q": "Mesh over the beekeeper's face",
+    "right": "Veil",
+    "wrong": [
+     "Visor",
+     "Balaclava",
+     "Snood"
+    ]
+   },
+   {
+    "q": "A place where hives are kept",
+    "right": "Apiary",
+    "wrong": [
+     "Aviary",
+     "Aquarium",
+     "Arboretum"
+    ]
+   },
+   {
+    "q": "Another word for a beekeeper",
+    "right": "Apiarist",
+    "wrong": [
+     "Arborist",
+     "Aviator",
+     "Artist"
+    ]
+   },
+   {
+    "q": "The sugary liquid bees collect from flowers",
+    "right": "Nectar",
+    "wrong": [
+     "Sap",
+     "Dew",
+     "Syrup"
+    ]
+   },
+   {
+    "q": "Yellow dust carried home on bees' legs",
+    "right": "Pollen",
+    "wrong": [
+     "Spores",
+     "Talc",
+     "Sawdust"
+    ]
+   },
+   {
+    "q": "The special food fed to future queens",
+    "right": "Royal jelly",
+    "wrong": [
+     "Royal icing",
+     "Royal flush",
+     "Jelly baby"
+    ]
+   },
+   {
+    "q": "Sticky 'bee glue' made from tree resin",
+    "right": "Propolis",
+    "wrong": [
+     "Metropolis",
+     "Acropolis",
+     "Necropolis"
+    ]
+   },
+   {
+    "q": "How a bee tells the others where the flowers are",
+    "right": "Waggle dance",
+    "wrong": [
+     "Rain dance",
+     "Moonwalk",
+     "Conga"
+    ]
+   },
+   {
+    "q": "The eggs, larvae and pupae in the comb",
+    "right": "Brood",
+    "wrong": [
+     "Litter",
+     "Clutch",
+     "Spawn"
+    ]
+   },
+   {
+    "q": "New Zealand honey prized as a health food",
+    "right": "Manuka",
+    "wrong": [
+     "Maori",
+     "Marula",
+     "Matcha"
+    ]
+   },
+   {
+    "q": "What candles and lip balm are made from in the hive",
+    "right": "Beeswax",
+    "wrong": [
+     "Earwax",
+     "Paraffin",
+     "Tallow"
+    ]
+   },
+   {
+    "q": "The box stacked on top of the hive for honey",
+    "right": "Super",
+    "wrong": [
+     "Topper",
+     "Lid",
+     "Attic"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this brewing word?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "beer",
+   "brewing",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The flowers that give beer its bitterness",
+    "right": "Hops",
+    "wrong": [
+     "Barley",
+     "Heather",
+     "Elderflower"
+    ]
+   },
+   {
+    "q": "Barley soaked, sprouted and dried",
+    "right": "Malt",
+    "wrong": [
+     "Bran",
+     "Chaff",
+     "Husk"
+    ]
+   },
+   {
+    "q": "Malt steeped in hot water to release its sugars",
+    "right": "Mash",
+    "wrong": [
+     "Smash",
+     "Mesh",
+     "Marsh"
+    ]
+   },
+   {
+    "q": "The sugary liquid drained off before fermenting",
+    "right": "Wort",
+    "wrong": [
+     "Wart",
+     "Worm",
+     "Whey"
+    ]
+   },
+   {
+    "q": "Turns the sugar into alcohol",
+    "right": "Yeast",
+    "wrong": [
+     "Rennet",
+     "Gelatine",
+     "Baking powder"
+    ]
+   },
+   {
+    "q": "The process where sugar becomes alcohol",
+    "right": "Fermentation",
+    "wrong": [
+     "Distillation",
+     "Pasteurisation",
+     "Filtration"
+    ]
+   },
+   {
+    "q": "The barrel real ale is served from",
+    "right": "Cask",
+    "wrong": [
+     "Casket",
+     "Crate",
+     "Carton"
+    ]
+   },
+   {
+    "q": "A pressurised metal container for fizzy beer",
+    "right": "Keg",
+    "wrong": [
+     "Peg",
+     "Leg",
+     "Egg"
+    ]
+   },
+   {
+    "q": "The Campaign for Real Ale, by its letters",
+    "right": "CAMRA",
+    "wrong": [
+     "RSPCA",
+     "CAMEO",
+     "NAAFI"
+    ]
+   },
+   {
+    "q": "Beer that keeps maturing in the cask",
+    "right": "Real ale",
+    "wrong": [
+     "Real deal",
+     "Real Madrid",
+     "Real time"
+    ]
+   },
+   {
+    "q": "A dark, roasty beer like Guinness",
+    "right": "Stout",
+    "wrong": [
+     "Shandy",
+     "Cider",
+     "Perry"
+    ]
+   },
+   {
+    "q": "Pale, cold, fizzy beer",
+    "right": "Lager",
+    "wrong": [
+     "Shandy",
+     "Cider",
+     "Perry"
+    ]
+   },
+   {
+    "q": "Hoppy pale ale first brewed for the voyage to India",
+    "right": "IPA",
+    "wrong": [
+     "NHS",
+     "BBC",
+     "DIY"
+    ]
+   },
+   {
+    "q": "The strength on the label, by its letters",
+    "right": "ABV",
+    "wrong": [
+     "BMI",
+     "RPM",
+     "MPH"
+    ]
+   },
+   {
+    "q": "The foam on top of a pint",
+    "right": "Head",
+    "wrong": [
+     "Cap",
+     "Crown",
+     "Hat"
+    ]
+   },
+   {
+    "q": "A nine-gallon cask",
+    "right": "Firkin",
+    "wrong": [
+     "Gherkin",
+     "Pumpkin",
+     "Bumpkin"
+    ]
+   },
+   {
+    "q": "The tall lever the barman pulls",
+    "right": "Hand pump",
+    "wrong": [
+     "Handbrake",
+     "Bike pump",
+     "Handshake"
+    ]
+   },
+   {
+    "q": "The nozzle that gives a northern pint its creamy head",
+    "right": "Sparkler",
+    "wrong": [
+     "Firework",
+     "Glitter",
+     "Sprinkler"
+    ]
+   },
+   {
+    "q": "A small independent brewery",
+    "right": "Microbrewery",
+    "wrong": [
+     "Micromanager",
+     "Microwave",
+     "Microchip"
+    ]
+   },
+   {
+    "q": "The classic copper-coloured English ale",
+    "right": "Bitter",
+    "wrong": [
+     "Sweet",
+     "Sour",
+     "Savoury"
+    ]
+   }
+  ]
+ }
+]
