@@ -1,0 +1,195 @@
+[
+ {
+  "type": "sort",
+  "text": "Has played Scrooge or has played Fagin?",
+  "categories": [
+   "Scrooge",
+   "Fagin"
+  ],
+  "items": [
+   {
+    "text": "Alastair Sim",
+    "category": "Scrooge"
+   },
+   {
+    "text": "Michael Caine",
+    "category": "Scrooge"
+   },
+   {
+    "text": "Patrick Stewart",
+    "category": "Scrooge"
+   },
+   {
+    "text": "Jim Carrey",
+    "category": "Scrooge"
+   },
+   {
+    "text": "Alec Guinness",
+    "category": "Fagin"
+   },
+   {
+    "text": "Ron Moody",
+    "category": "Fagin"
+   },
+   {
+    "text": "Ben Kingsley",
+    "category": "Fagin"
+   },
+   {
+    "text": "Timothy Spall",
+    "category": "Fagin"
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "Dickens",
+   "Scrooge",
+   "Fagin",
+   "actors"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "Has played Elizabeth I or Elizabeth II on screen?",
+  "categories": [
+   "Elizabeth I",
+   "Elizabeth II"
+  ],
+  "items": [
+   {
+    "text": "Cate Blanchett",
+    "category": "Elizabeth I"
+   },
+   {
+    "text": "Judi Dench",
+    "category": "Elizabeth I"
+   },
+   {
+    "text": "Glenda Jackson",
+    "category": "Elizabeth I"
+   },
+   {
+    "text": "Bette Davis",
+    "category": "Elizabeth I"
+   },
+   {
+    "text": "Claire Foy",
+    "category": "Elizabeth II"
+   },
+   {
+    "text": "Olivia Colman",
+    "category": "Elizabeth II"
+   },
+   {
+    "text": "Imelda Staunton",
+    "category": "Elizabeth II"
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "Elizabeth I",
+   "Elizabeth II",
+   "actresses"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Gavin & Stacey character from Essex or from Wales?",
+  "categories": [
+   "Essex",
+   "Wales"
+  ],
+  "items": [
+   {
+    "text": "Gavin",
+    "category": "Essex"
+   },
+   {
+    "text": "Pam",
+    "category": "Essex"
+   },
+   {
+    "text": "Mick",
+    "category": "Essex"
+   },
+   {
+    "text": "Smithy",
+    "category": "Essex"
+   },
+   {
+    "text": "Stacey",
+    "category": "Wales"
+   },
+   {
+    "text": "Nessa",
+    "category": "Wales"
+   },
+   {
+    "text": "Bryn",
+    "category": "Wales"
+   },
+   {
+    "text": "Gwen",
+    "category": "Wales"
+   }
+  ],
+  "category": "TV",
+  "tags": [
+   "Gavin & Stacey",
+   "Essex",
+   "Wales"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A Derry Girls character or a Father Ted character?",
+  "categories": [
+   "Derry Girls",
+   "Father Ted"
+  ],
+  "items": [
+   {
+    "text": "Erin",
+    "category": "Derry Girls"
+   },
+   {
+    "text": "Orla",
+    "category": "Derry Girls"
+   },
+   {
+    "text": "Clare",
+    "category": "Derry Girls"
+   },
+   {
+    "text": "Sister Michael",
+    "category": "Derry Girls"
+   },
+   {
+    "text": "Dougal",
+    "category": "Father Ted"
+   },
+   {
+    "text": "Father Jack",
+    "category": "Father Ted"
+   },
+   {
+    "text": "Mrs Doyle",
+    "category": "Father Ted"
+   },
+   {
+    "text": "Bishop Brennan",
+    "category": "Father Ted"
+   }
+  ],
+  "category": "TV",
+  "tags": [
+   "Derry Girls",
+   "Father Ted",
+   "Irish comedy"
+  ],
+  "difficulty": "medium"
+ }
+]
