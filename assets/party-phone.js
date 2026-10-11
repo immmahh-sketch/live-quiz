@@ -81,6 +81,7 @@ function partyDeadline(s) { if (s.phase === 'question' && s.q && s.power?.fx?.sl
 // ---------------------------------------------------------------- the games: Play Your Cards Right, the quiz-night task
 function partyGameKey(s) {
   if (s.pc) { const g = s.pc, me = P.pid; return ['pc', g.step, g.pos?.[me] ?? '-', me in (g.out || {}), (g.done || []).includes(me)].join('|'); }
+  if (s.ob) { const g = s.ob, me = P.pid; return ['ob', g.step, g.k, g.alive.includes(me), me in (g.out || {}), g.ans.includes(me)].join('|'); }
   if (s.tm) { const g = s.tm; return ['tm', g.step, g.round, g.picks.join(), g.spinning ? 's' : '', g.totalMs ? 'c' : ''].join('|'); }
   if (s.task) { const g = s.task; return ['task', g.step, g.got.includes(P.pid), P.work.taskBusy || '', P.work.taskPrev ? 'p' : '', P.work.taskErr || ''].join('|'); }
   return '';
@@ -159,8 +160,31 @@ function taskBind(code, key, done) {
     redraw();
   };
 }
+/** One Behind on the phone: the new question to remember at the top, the box for the answer to the one before. Never
+ *  the question being answered (the host doesn't send it). */
+function obPhoneHtml(s) {
+  const g = s.ob, me = P.pid, n = g.n, out = (g.out || {})[me], streak = g.streak?.[me] || 0;
+  app.className = 'app';
+  const rem = g.show ? `<div class="obrem"><small>${g.step === 'first' ? 'Question 1 · just remember it' : `Remember question ${g.show.i + 1}`}</small><div>${esc(g.show.q)}</div></div>` : '';
+  if (!g.alive.includes(me) && out === undefined) return `${rem}<div class="state"><div class="em">👀</div><h2>Watch this one</h2><p class="muted">You joined after it started.</p></div>`;
+  if (g.step === 'first') return `${rem}<div class="state" style="padding-top:0"><p class="muted">Don't answer yet! When the next question appears, you type the answer to this one.</p></div>`;
+  if (out !== undefined) return `${rem}<div class="state" style="padding-top:6px"><div class="em">❌</div><h2>${out === g.k ? "That's not it: you're out" : "You're out"}</h2><p class="muted">${streak ? `${streak} right before that · ` : ''}play along in your head…</p></div>`;
+  if (g.ans.includes(me)) { if (navigator.vibrate) try { navigator.vibrate(40); } catch {} return `${rem || ''}<div class="state" style="padding-top:6px"><div class="em">✅</div><h2>Right! ${streak} in a row</h2>${rem ? '' : '<p class="muted">That was the last one. Fingers crossed for the others…</p>'}</div>`; }
+  return `${rem}<div class="obask">Answer to question ${g.k + 1}?</div>
+    <form id="obForm" class="state" style="justify-content:flex-start;padding-top:6px"><input type="text" id="obIn" maxlength="60" placeholder="The answer to question ${g.k + 1}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="font-size:1.2rem;text-align:center"><button class="btn btn-primary btn-lg btn-block">Lock it in</button></form>`;
+}
 function partyBindGame(s) {
   const qId = s.q.id;
+  const ob = $('#obForm');
+  if (ob) {
+    const k = s.ob.k;
+    ob.onsubmit = (e) => {
+      e.preventDefault(); const t = $('#obIn').value.trim(); if (!t) return;
+      send('answer', { pid: P.pid, qId, answer: { t, at: k } }); const b = ob.querySelector('button'); b.disabled = true; b.textContent = 'Sent…';
+      setTimeout(() => { if (document.body.contains(b)) { b.disabled = false; b.textContent = 'Lock it in'; } }, 3000); // if the answer got lost, let them send again
+    };
+    setTimeout(() => $('#obIn')?.focus(), 50);
+  }
   $$('[data-pc]').forEach((b) => b.onclick = () => {
     send('answer', { pid: P.pid, qId, answer: { call: b.dataset.pc, at: +b.dataset.at } });
     $$('[data-pc]').forEach((x) => x.disabled = true); b.classList.add('on'); if (navigator.vibrate) try { navigator.vibrate(40); } catch {}

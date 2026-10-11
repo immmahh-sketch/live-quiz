@@ -1602,3 +1602,27 @@ body.hascallbar .app { padding-top: calc(48px + env(safe-area-inset-top)); }
 .hurrybots { position: fixed; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 60; border: 0; border-radius: 999px; padding: 10px 14px; font: 800 .95rem 'Nunito', system-ui, sans-serif; background: #5b3df5; color: #fff; box-shadow: 0 6px 18px rgba(0,0,0,.25); cursor: pointer; }
 body.hurry-on .app { padding-bottom: 70px; }
 .hurrybots:active { transform: scale(.97); }
+
+/* One Behind (host): the question to remember, big; who's still in along the bottom */
+.obstage { gap: 18px; }
+.obcard { width: min(1100px, 92vw); padding: clamp(18px, 3vw, 36px); border-radius: 22px; background: rgba(255,255,255,.12); border: 3px solid rgba(255,255,255,.35); text-align: center; }
+.obcard.anim { animation: obIn .45s ease-out; }
+.obcard.last { background: rgba(255,214,10,.16); border-color: #ffd60a; }
+@keyframes obIn { from { opacity: 0; transform: translateY(18px) scale(.97); } to { opacity: 1; transform: none; } }
+.obnum { font-weight: 900; letter-spacing: .08em; text-transform: uppercase; opacity: .8; font-size: clamp(.9rem, 1.4vw, 1.2rem); }
+.obq { font-weight: 900; font-size: clamp(1.8rem, 4vw, 3.4rem); line-height: 1.15; margin: 8px 0; text-wrap: balance; }
+.obhint { font-weight: 800; opacity: .8; font-style: italic; }
+.obphone { font-weight: 900; font-size: clamp(1.1rem, 2.2vw, 1.9rem); background: #ffd60a; color: #1b1650; border-radius: 999px; padding: 8px 22px; }
+.obfaces { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; max-width: 94vw; }
+.obface { font-weight: 800; padding: 5px 12px; border-radius: 999px; background: rgba(255,255,255,.14); border: 2px solid transparent; transition: opacity .3s; }
+.obface.in { border-color: #7dff8a; }
+.obface.out { opacity: .35; text-decoration: line-through; }
+.oblist { width: min(1000px, 92vw); margin: 0; padding: 0 0 0 1.6em; display: flex; flex-direction: column; gap: 4px; text-align: left; font-size: clamp(.9rem, 1.4vw, 1.15rem); }
+.oblist li span { font-weight: 700; opacity: .9; } .oblist li b { margin-left: 10px; color: #ffd60a; } .oblist li small { margin-left: 8px; opacity: .65; }
+
+/* One Behind (phone) */
+.obrem { margin: 4px 12px 10px; padding: 12px 14px; border-radius: 16px; background: var(--brand-soft); border: 2px dashed var(--brand); text-align: center; }
+.obrem small { display: block; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; color: var(--brand-2); font-size: .75rem; }
+.obrem div { font-weight: 900; font-size: 1.1rem; margin-top: 4px; text-wrap: balance; }
+.obask { text-align: center; font-weight: 900; font-size: 1.25rem; margin: 6px 12px 0; }
+.obsum { margin: 0 12px; padding: 0 0 0 1.4em; font-size: .9rem; } .obsum b { color: var(--brand-2); }

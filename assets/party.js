@@ -130,12 +130,18 @@ function partyState(s) {
     s.pc = { step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, cards: g.cards.map((c, i) => over || i <= best || Object.values(g.out).includes(i) ? c : { label: c.label }),
       pos: g.pos, out: g.out, done: Object.keys(g.done), winners: g.winners || [], perCard: q.perCard ?? 200, prize: q.prize ?? 500, pts: g.pts, banter: g.banter };
   }
+  if (G.phase === 'question' && G.q?.ob) {
+    const g = G.q.ob, showI = g.step === 'first' ? 0 : g.k + 1;
+    // never the question being answered: that is the whole game
+    s.ob = { step: g.step, k: g.k, n: g.items.length, show: showI < g.items.length ? { i: showI, q: g.items[showI].q } : null, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total,
+      alive: g.alive, out: g.out, ans: Object.keys(g.ans), streak: g.streak };
+  }
   tmState(s); // Taskmaster on camera
   if (G.phase === 'question' && G.q?.task) {
     const g = G.q.task;
     s.task = { step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, code: G.code, key: question().id, got: Object.keys(g.photos), picks: g.step === 'show' ? g.picks : null };
   }
-  if (s.pc || s.task) s.names = Object.fromEntries(Object.values(G.players).map((p) => [p.id, { name: p.name, emoji: p.emoji || '' }]));
+  if (s.pc || s.task || s.ob) s.names = Object.fromEntries(Object.values(G.players).map((p) => [p.id, { name: p.name, emoji: p.emoji || '' }]));
   if (G.phase === 'question' && G.q?.author !== undefined) s.wsEmpty = !G.q.ws;
 }
 /** Over the screen: what the cards are doing to this question, and Bounty on the reveal. Test bots play cards too. */
@@ -234,6 +240,70 @@ function pcRender() {
     <div class="stage-main pcstage"><h1 class="qtext" style="font-size:clamp(1.3rem,2.6vw,2.2rem)">${esc(q.text)}</h1><div class="pcrow">${row}</div>${sub}<div class="pctracks">${pids.map((p) => pcTrack(g, p)).join('')}</div></div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-ghost" data-act="stopgame">Stop the game ■</button><button class="btn btn-primary" id="pcNext">${over ? 'Finish ▶' : 'Stop the clock ■'}</button>`)}`;
   bind(); $('#pcNext').onclick = () => { if (G.q?.pc) { G.q.pc.until = 0; pcStepDone(); } };
+}
+
+// ---------------------------------------------------------------- One Behind
+// Quick-fire, always a question behind. The first question goes up with nothing to answer; from then on the screen
+// shows the next question while the phones type the answer to the one before, and a last step answers the final one.
+// Each step ends at the clock (q.time, 30s) or as soon as everyone still in has answered: no host clicks, no scores in
+// between. The nth right answer scores n × 100; a wrong answer or no answer and you sit out the rest. (User, 11 Oct 2026.)
+const OB_FIRST_MS = 10000;
+let obCardKey = ''; // the card slides in once per step, not again every time someone answers
+function obStart() {
+  const items = LQ.behindOf(question());
+  G.q.ob = { v: 1, items, k: -1, step: 'first', until: 0, total: 0, alive: livePids().slice(), out: {}, streak: {}, pts: {}, said: {}, got: {}, ans: {}, inStep: [] };
+  stepTo(G.q.ob, 'first', OB_FIRST_MS); sound('go');
+  persist(); obRender(); broadcastState();
+}
+/** Step k: answer question k (0-based) while question k+1 is up (none after the last). */
+function obNext(k) {
+  const g = G.q.ob, q = question();
+  g.k = k; g.ans = {}; g.inStep = g.alive.slice();
+  stepTo(g, 'play', (q.time || 30) * 1000); sound('beep');
+  persist(); obRender(); broadcastState();
+  for (const b of G.bots || []) if (g.alive.includes(b.pid)) botLater(() => {
+    if (G.q?.ob !== g || g.step !== 'play' || g.k !== k) return;
+    const right = chance(Math.min(0.97, b.skill + 0.15));
+    obAnswer(b.pid, { t: right ? g.items[k].a.split('/')[0] : partyPick(['No idea', 'Pass', 'Er…', 'Dunno']), at: k });
+  }, rnd(2500, Math.min(14000, (q.time || 30) * 600)));
+}
+/** The step's answers are all in (or there is nobody left to wait for): on to the next straight away. */
+/** Who got every one right (not just still in when the host stopped the game). */
+const obWinners = (g) => g.alive.filter((p) => (g.streak[p] || 0) === g.items.length);
+const obAllIn = (g) => g.inStep.every((p) => g.ans[p] !== undefined || !G.players[p]);
+function obAnswer(pid, a) {
+  const g = G.q.ob; if (!g || g.step !== 'play' || !a || +a.at !== g.k) return;
+  if (!g.alive.includes(pid) || g.ans[pid] !== undefined) return;
+  const t = String(a.t ?? '').trim().slice(0, 80); if (!t) return;
+  const ok = LQ.behindRight(t, g.items[g.k].a);
+  (g.said[pid] = g.said[pid] || {})[g.k] = t; g.ans[pid] = ok ? 1 : 0;
+  if (ok) { g.streak[pid] = (g.streak[pid] || 0) + 1; g.pts[pid] = (g.pts[pid] || 0) + g.streak[pid] * (question().step ?? 100); (g.got[g.k] = g.got[g.k] || []).push(pid); }
+  else { g.out[pid] = g.k; g.alive = g.alive.filter((p) => p !== pid); }
+  if (obAllIn(g)) g.until = Math.min(g.until || Infinity, Date.now() + 900);
+  persist(); obRender(); broadcastState();
+}
+function obStepDone() {
+  const g = G.q.ob; if (!g) return;
+  if (g.step === 'first') return obNext(0);
+  for (const pid of g.inStep) if (g.ans[pid] === undefined && g.alive.includes(pid)) { g.out[pid] = g.k; g.alive = g.alive.filter((p) => p !== pid); }
+  if (g.k + 1 < g.items.length && g.alive.length) return obNext(g.k + 1);
+  sound(g.alive.length ? 'fanfare' : 'trombone'); return endQuestion(); // straight to the answers and points
+}
+function obRender() {
+  const q = question(), g = G.q.ob; if (!g) return;
+  const n = g.items.length;
+  const faces = `<div class="obfaces">${Object.keys(G.players).map((p) => `<span class="obface ${g.alive.includes(p) ? '' : 'out'} ${g.step === 'play' && g.ans[p] !== undefined ? 'in' : ''}">${pem(p)} ${esc(pname(p))}</span>`).join('')}</div>`;
+  const showI = g.step === 'first' ? 0 : g.k + 1, ask = g.step === 'play' ? g.k : -1;
+  const key = `${q.id}:${g.step}:${g.k}`, fresh = key !== obCardKey; obCardKey = key;
+  const card = showI < n ? `<div class="obcard ${fresh ? 'anim' : ''}"><div class="obnum">Question ${showI + 1} of ${n}</div><div class="obq">${esc(g.items[showI].q)}</div><div class="obhint">${g.step === 'first' ? "Don't answer yet: remember it!" : 'Remember this one…'}</div></div>`
+    : `<div class="obcard last ${fresh ? 'anim' : ''}"><div class="obnum">No more questions</div><div class="obq">Last answer!</div></div>`;
+  const phone = ask >= 0 ? `<div class="obphone">📱 On your phone: the answer to <b>question ${ask + 1}</b></div>` : `<div class="obphone">📱 Nothing to answer yet. When the next question appears, answer this one!</div>`;
+  const done = ask >= 0 ? g.inStep.filter((p) => g.ans[p] !== undefined).length : 0;
+  const pill = ask >= 0 ? `⏪ ${g.alive.length} still in · ${done} of ${g.inStep.length} answered` : `⏪ ${g.alive.length} playing`;
+  stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill">${pill}</span><div class="timer ${g.until ? '' : 'hidden'}" id="timer" data-s="${Math.ceil((g.total || 0) / 1000)}" style="--p:100%"></div></div>`)}
+    <div class="stage-main obstage">${card}${phone}${faces}</div>
+    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-ghost" data-act="stopgame">Stop the game ■</button>`)}`;
+  bind();
 }
 
 // ---------------------------------------------------------------- Taskmaster
@@ -343,6 +413,7 @@ function partyView(q, v, tok) {
   v.mine = drawSecret(wsNow.author, { mine: 1 });
 }
 function partyIntroSub(q) {
+  if (q.type === 'behind') { const n = LQ.behindOf(q).length, st = q.step ?? 100; return `${n} quick-fire questions, always answer the one BEFORE · ${q.time || 30} seconds each · ${st}, ${st * 2}, ${st * 3}… for each right answer in a row · one wrong and you're out`; }
   if (q.type === 'cards') return `${LQ.cardsOf(q).length} cards · 30 seconds to get through the lot on your phone · ${q.perCard ?? 200} for each right call · one wrong call and you're out · reach the end for ${q.prize ?? 500} more`;
   if (tmMode(q) && q.mode === 'all') { const p = tmPrizes(q); return `Everybody does it, all at once, on camera · ${q.time || 90} seconds · best three win ${p.join(', ')}`; }
   if (tmMode(q)) { const p = tmPrizes(q); return `The wheel picks who does each task · bring it to the camera · ${q.time || 90} seconds · 1st ${p[0]}, 2nd ${p[1]}, 3rd ${p[2]} · don't even try: −${tmFail(q)}`; }
@@ -354,6 +425,7 @@ function partyIntroSub(q) {
 function partyRenderQuestion() {
   const q = question();
   if (q.type === 'cards') { if (G.q.pc) pcRender(); return true; }
+  if (q.type === 'behind') { if (G.q.ob) obRender(); return true; }
   if (q.type === 'task' && G.q.tm) { tmRender(); return true; }
   if (q.type === 'task' && G.q.task) { taskRender(); return true; }
   if (q.type === 'whosaid') {
@@ -375,13 +447,21 @@ function partyRenderQuestion() {
 }
 function partyReveal() {
   const q = question(), R = G.q?.results; if (!R) return false;
-  if (!['cards', 'task', 'whosaid', 'about'].includes(q.type)) return false;
+  if (!['cards', 'task', 'whosaid', 'about', 'behind'].includes(q.type)) return false;
   let body = '', pill = '';
   if (q.type === 'cards') {
     const g = G.q.pc || { cards: LQ.cardsOf(q), i: 0, winners: [], pts: {} };
     body = `<div class="pcrow">${g.cards.map((c) => pcCardHtml(c, true)).join('')}</div><div class="pcbig ${g.winners.length ? 'up' : 'down'}">${g.winners.length ? '🏆 ' + g.winners.map((p) => esc(pname(p))).join(', ') + ' made it to the end' : 'Nobody made it to the end'}</div>
       <div class="textlist mt">${Object.entries(g.pts).sort((a, b) => b[1] - a[1]).map(([pid, v]) => `<span class="tl ok">${pem(pid)} ${esc(pname(pid))} +${v}</span>`).join('')}</div>`;
     pill = `🃏 ${g.winners.length} made it`;
+  }
+  if (q.type === 'behind') {
+    const g = G.q.ob || { items: LQ.behindOf(q), alive: [], pts: {}, got: {} };
+    const w = G.q.ob ? obWinners(g) : [];
+    body = `<div class="pcbig ${w.length ? 'up' : 'down'}">${w.length ? '🏆 ' + w.map((p) => esc(pname(p))).join(', ') + ` got all ${g.items.length}` : `Nobody got all ${g.items.length}`}</div>
+      <ol class="oblist">${g.items.map((it, i) => `<li><span>${esc(it.q)}</span><b>${esc(it.a.split('/')[0])}</b><small>${(g.got[i] || []).length} right</small></li>`).join('')}</ol>
+      <div class="textlist mt">${Object.entries(g.pts).sort((a, b) => b[1] - a[1]).map(([pid, v]) => `<span class="tl ok">${pem(pid)} ${esc(pname(pid))} +${v}</span>`).join('')}</div>`;
+    pill = `⏪ ${w.length} got them all`;
   }
   if (q.type === 'task' && G.q.tm) { body = tmRevealHtml(q); pill = `📞 ${G.q.tm.done.length} task${G.q.tm.done.length === 1 ? '' : 's'}`; }
   else if (q.type === 'task') {
@@ -419,6 +499,16 @@ function partyGrade(q, byPlayer, PL, stats, entries, res, keys) {
     }
     stats.answered = Object.keys(byPlayer).length;
   }
+  if (q.type === 'behind') {
+    const g = G.q.ob || { items: [], alive: [], out: {}, streak: {}, pts: {} }, n = g.items.length;
+    for (const pid of new Set([...g.alive, ...Object.keys(g.out)])) {
+      if (!PL[pid]) continue;
+      const pts = g.pts[pid] || 0, got = g.streak[pid] || 0, all = got === n && n > 0, at = g.out[pid];
+      byPlayer[pid] = { answered: true, correct: all, partial: n ? got / n : 0, points: pts, note: all ? `⏪ All ${n} right!` : at === undefined ? `⏪ ${got} right when the game was stopped` : `⏪ ${got} right, out on question ${at + 1}${g.said[pid]?.[at] === undefined ? ' (no answer)' : ''}` };
+      if (all) stats.right++;
+    }
+    stats.answered = Object.keys(byPlayer).length;
+  }
   if (q.type === 'task' && G.q.tm) tmGrade(q, byPlayer, PL, stats);
   else if (q.type === 'task' && !WARMUP) {
     const g = G.q.task || { photos: {}, picks: {} };
@@ -446,6 +536,7 @@ function partyGrade(q, byPlayer, PL, stats, entries, res, keys) {
 }
 function partyAnswerText(q) {
   if (q.type === 'cards') { const w = G.q?.pc?.winners || []; return w.length ? `🏆 ${w.map(pname).join(', ')} made it to the end` : 'Nobody made it to the end'; }
+  if (q.type === 'behind') { const g = G.q?.ob, w = g ? obWinners(g) : []; return w.length ? `🏆 ${w.map(pname).join(', ')} got all ${g.items.length}` : 'Nobody got them all'; }
   if (q.type === 'task' && G.q?.tm) { const w = Object.entries(G.q.tm.pts).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]).map(([p]) => pname(p)); return w.length ? `📞 Top of the tasks: ${w.slice(0, 3).join(', ')}` : ''; }
   if (q.type === 'task') { const g = G.q?.task, w = g ? Object.keys(g.picks).find((p) => g.picks[p] === '1') : null; return WARMUP ? '' : w ? `🥇 ${pname(w)}'s photo won` : ''; }
   if (q.type === 'whosaid') return G.q?.ws ? `It was ${pname(G.q.ws.author)}` : '';
@@ -454,6 +545,7 @@ function partyAnswerText(q) {
 }
 function partyAnswerDisplay(q, pid) {
   if (q.type === 'cards') { const g = G.q.pc, out = g && (g.out || g.outAt || {})[pid]; return !g ? '—' : g.winners.includes(pid) ? 'made it to the end 🏆' : out ? `out on card ${out + 1}` : g.pos?.[pid] ? `${g.pos[pid]} right when time ran out` : '—'; }
+  if (q.type === 'behind') { const g = G.q.ob; if (!g) return '—'; const got = g.streak[pid] || 0; return got === g.items.length ? `all ${got} right 🏆` : pid in g.out ? `${got} right, out on Q${g.out[pid] + 1}` : `${got} right`; }
   if (q.type === 'task' && G.q.tm) { const d = G.q.tm.done.filter((x) => x.picks.includes(pid)); return d.length ? d.map((x) => `${x.places[pid] ? TM_PLACES[x.places[pid]] : '·'} ${x.got[pid] > 0 ? '+' : ''}${x.got[pid]}`).join(', ') : 'not picked'; }
   if (q.type === 'task') { const g = G.q.task; if (WARMUP) return G.q.answers[pid] ? (q.mode === 'live' ? '🎬 in' : '📸 photo sent') : '—'; return !g ? '—' : g.picks[pid] ? `${TASK_MEDAL[g.picks[pid]]} photo` : g.photos[pid] ? '📸 photo sent' : '—'; }
   if (q.type === 'whosaid') { const a = G.q.answers[pid]; if (pid === G.q.author) return 'it was theirs'; if (!a) return '—'; if (a.answer === 'skip') return 'skipped'; const id = G.q.keys[a.answer]; return id ? pname(id.slice(2)) : '—'; }
