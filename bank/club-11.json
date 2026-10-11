@@ -1,0 +1,196 @@
+[
+ {
+  "type": "club",
+  "text": "Two bicycles and a tricycle are parked outside. How many wheels in all?",
+  "answers": [
+   "7",
+   "Seven"
+  ],
+  "pct": 90,
+  "why": "2 + 2 + 3 = 7.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "wheels",
+   "adding"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which is longer: 2 metres, or 150 centimetres?",
+  "answers": [
+   "2 metres",
+   "2m",
+   "Two metres"
+  ],
+  "pct": 70,
+  "why": "2 metres is 200 centimetres.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "measuring",
+   "comparing"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "If today is Wednesday, what day was it ten days ago?",
+  "answers": [
+   "Sunday"
+  ],
+  "pct": 60,
+  "why": "Seven days ago was Wednesday; three more back is Sunday.",
+  "difficulty": "medium",
+  "category": "Logic",
+  "tags": [
+   "days",
+   "calendar"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Three whole pizzas are each cut into quarters. How many slices?",
+  "answers": [
+   "12",
+   "Twelve"
+  ],
+  "pct": 60,
+  "why": "3 × 4 = 12.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "fractions",
+   "pizza"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Double 35, halve 50, then add the two answers together.",
+  "answers": [
+   "95",
+   "Ninety-five"
+  ],
+  "pct": 50,
+  "why": "70 + 25 = 95.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "doubling",
+   "halving"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which is the odd one out: CAT, DOG, COW, OWL?",
+  "answers": [
+   "Owl",
+   "OWL"
+  ],
+  "pct": 50,
+  "why": "The owl is a bird; the others are mammals.",
+  "difficulty": "medium",
+  "category": "Logic",
+  "tags": [
+   "odd one out",
+   "animals"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A pencil costs 30p more than a rubber, and together they cost 50p. What does the rubber cost?",
+  "answers": [
+   "10p",
+   "10 pence",
+   "Ten pence"
+  ],
+  "pct": 40,
+  "why": "Rubber 10p, pencil 40p: 40 is 30 more than 10, and they add to 50.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "money",
+   "logic"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which number do you get both by adding 1, 2 and 3 together and by multiplying them?",
+  "answers": [
+   "6",
+   "Six"
+  ],
+  "pct": 20,
+  "why": "1 + 2 + 3 = 6 and 1 × 2 × 3 = 6.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "adding",
+   "multiplying"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A film starts at 7:40pm and runs for 1 hour 50 minutes. When does it finish?",
+  "answers": [
+   "9:30pm",
+   "9.30pm",
+   "9:30",
+   "Half past nine"
+  ],
+  "pct": 60,
+  "why": "7:40 plus 2 hours is 9:40; take off 10 minutes: 9:30.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "time",
+   "films"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Count the corners on three squares and two triangles together.",
+  "answers": [
+   "18",
+   "Eighteen"
+  ],
+  "pct": 40,
+  "why": "3 × 4 = 12 and 2 × 3 = 6: 18 in all.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "shapes",
+   "corners"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which whole number is exactly double the whole number just before it?",
+  "answers": [
+   "2",
+   "Two"
+  ],
+  "pct": 10,
+  "why": "2 is double 1; for any bigger number, double the one before is too big.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "doubling"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Add up every whole number from 1 to 20.",
+  "answers": [
+   "210",
+   "Two hundred and ten"
+  ],
+  "pct": 1,
+  "why": "Pair them up: 1 + 20, 2 + 19 and so on gives ten pairs of 21.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "adding",
+   "patterns"
+  ]
+ }
+]
