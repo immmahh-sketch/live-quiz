@@ -1,0 +1,164 @@
+[
+ {
+  "type": "club",
+  "text": "Count up in fives starting from 5. What is the eighth number you say?",
+  "answers": [
+   "40",
+   "Forty"
+  ],
+  "pct": 80,
+  "why": "5, 10, 15, 20, 25, 30, 35, 40.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "counting",
+   "fives"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "You buy a dozen eggs and then half a dozen more. How many eggs have you got?",
+  "answers": [
+   "18",
+   "Eighteen"
+  ],
+  "pct": 70,
+  "why": "12 + 6 = 18.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "eggs",
+   "dozens"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A curling team has four players. How many players take part in a game between two teams?",
+  "answers": [
+   "8",
+   "Eight"
+  ],
+  "pct": 60,
+  "why": "4 × 2 = 8.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "curling",
+   "teams"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Americans write the month first. What date do they mean by 10/12?",
+  "answers": [
+   "12 October",
+   "October 12",
+   "12th October"
+  ],
+  "pct": 40,
+  "why": "Month 10 is October, and the day is the 12th.",
+  "difficulty": "medium",
+  "category": "Time",
+  "tags": [
+   "dates",
+   "America"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A film starts at 7:45pm and lasts 1 hour 50 minutes. What time does it finish?",
+  "answers": [
+   "9:35pm",
+   "9:35",
+   "9.35",
+   "21:35"
+  ],
+  "pct": 30,
+  "why": "7:45 + 1 hour = 8:45, + 50 minutes = 9:35.",
+  "difficulty": "hard",
+  "category": "Time",
+  "tags": [
+   "films",
+   "adding time"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Two thirds of a class of 30 are girls. How many boys are there?",
+  "answers": [
+   "10",
+   "Ten"
+  ],
+  "pct": 30,
+  "why": "Two thirds of 30 is 20 girls, leaving 10 boys.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "fractions",
+   "school"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What is the fewest UK coins you need to make exactly 99p?",
+  "answers": [
+   "6",
+   "Six"
+  ],
+  "pct": 20,
+  "why": "50p + 20p + 20p + 5p + 2p + 2p.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "coins",
+   "money"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "How many minutes are there from 11:45pm to 1:15am?",
+  "answers": [
+   "90",
+   "Ninety"
+  ],
+  "pct": 10,
+  "why": "15 minutes to midnight, then 75 more to 1:15: 90 minutes.",
+  "difficulty": "hard",
+  "category": "Time",
+  "tags": [
+   "midnight",
+   "minutes"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Today is Sunday. What day of the week was it 1,000 days ago?",
+  "answers": [
+   "Monday"
+  ],
+  "pct": 5,
+  "why": "1,000 days is 142 weeks and 6 days, and six days before a Sunday is a Monday.",
+  "difficulty": "hard",
+  "category": "Time",
+  "tags": [
+   "calendar",
+   "days"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which whole number is exactly twice the sum of its own digits?",
+  "answers": [
+   "18",
+   "Eighteen"
+  ],
+  "pct": 1,
+  "why": "1 + 8 = 9, and 2 × 9 = 18. No other whole number (above zero) works.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "digits",
+   "reasoning"
+  ]
+ }
+]
