@@ -1,0 +1,87 @@
+[
+ {
+  "type": "match",
+  "text": "Match each old British coin to what it was worth",
+  "pairs": [
+   {
+    "left": "Farthing",
+    "right": "A quarter of a penny"
+   },
+   {
+    "left": "Florin",
+    "right": "Two shillings"
+   },
+   {
+    "left": "Half crown",
+    "right": "Two shillings and sixpence"
+   },
+   {
+    "left": "Guinea",
+    "right": "Twenty-one shillings"
+   }
+  ],
+  "difficulty": "hard",
+  "category": "History",
+  "tags": [
+   "coins",
+   "money",
+   "pre-decimal"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each bread to the part of Britain it comes from",
+  "pairs": [
+   {
+    "left": "Stottie",
+    "right": "The North East"
+   },
+   {
+    "left": "Barm cake",
+    "right": "Lancashire"
+   },
+   {
+    "left": "Farl",
+    "right": "Northern Ireland"
+   },
+   {
+    "left": "Bara brith",
+    "right": "Wales"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Food and drink",
+  "tags": [
+   "bread",
+   "British food"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each Anglo-Saxon kingdom to the area it covered",
+  "pairs": [
+   {
+    "left": "Northumbria",
+    "right": "The north of England"
+   },
+   {
+    "left": "Mercia",
+    "right": "The Midlands"
+   },
+   {
+    "left": "Wessex",
+    "right": "The south-west"
+   },
+   {
+    "left": "East Anglia",
+    "right": "Norfolk and Suffolk"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "History",
+  "tags": [
+   "Anglo-Saxons",
+   "kingdoms"
+  ]
+ }
+]
