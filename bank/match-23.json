@@ -1,0 +1,115 @@
+[
+ {
+  "type": "match",
+  "text": "Match each fictional pig to the story it's from",
+  "pairs": [
+   {
+    "left": "Wilbur",
+    "right": "Charlotte's Web"
+   },
+   {
+    "left": "Napoleon",
+    "right": "Animal Farm"
+   },
+   {
+    "left": "Piglet",
+    "right": "Winnie-the-Pooh"
+   },
+   {
+    "left": "Hamm",
+    "right": "Toy Story"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Books",
+  "tags": [
+   "pigs",
+   "fictional animals"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each fictional dog to its owner",
+  "pairs": [
+   {
+    "left": "Gromit",
+    "right": "Wallace"
+   },
+   {
+    "left": "Snowy",
+    "right": "Tintin"
+   },
+   {
+    "left": "Toto",
+    "right": "Dorothy"
+   },
+   {
+    "left": "Fang",
+    "right": "Hagrid"
+   }
+  ],
+  "difficulty": "easy",
+  "category": "TV",
+  "tags": [
+   "dogs",
+   "fictional animals"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each jazz legend to their instrument",
+  "pairs": [
+   {
+    "left": "Miles Davis",
+    "right": "Trumpet"
+   },
+   {
+    "left": "Charlie Parker",
+    "right": "Saxophone"
+   },
+   {
+    "left": "Thelonious Monk",
+    "right": "Piano"
+   },
+   {
+    "left": "Benny Goodman",
+    "right": "Clarinet"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Music",
+  "tags": [
+   "jazz",
+   "instruments"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each New Year tradition to where it happens",
+  "pairs": [
+   {
+    "left": "Swinging fireballs",
+    "right": "Stonehaven"
+   },
+   {
+    "left": "The Loony Dook",
+    "right": "South Queensferry"
+   },
+   {
+    "left": "Up Helly Aa",
+    "right": "Lerwick"
+   },
+   {
+    "left": "The big street party",
+    "right": "Edinburgh"
+   }
+  ],
+  "difficulty": "hard",
+  "category": "Scotland",
+  "tags": [
+   "Hogmanay",
+   "New Year",
+   "traditions"
+  ]
+ }
+]
