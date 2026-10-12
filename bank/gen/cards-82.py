@@ -12,7 +12,7 @@ def game(text, cat, diff, tags, cards):
               "cards": [{"label": l, "value": v, "n": n} for l, v, n in cards]})
 
 game("the numbers of the Stadium of Light", "Football", "medium", ["Stadium of Light", "Sunderland", "North East"], [
- ("Year it opened", "1997", 1997), ("Points Sunderland won there and away in 1998–99", "105", 105), ("Its capacity, roughly", "49,000", 49000),
+ ("Year it opened", "1997", 1997), ("Sunderland's record points total, in 1998–99", "105", 105), ("Its capacity, roughly", "49,000", 49000),
  ("Year their old ground Roker Park opened", "1898", 1898), ("Year England first played there", "1999", 1999)])
 game("the numbers of the Tyne and Wear Metro", "The North East of England", "medium", ["Metro", "Tyne and Wear", "transport"], [
  ("Year it first opened", "1980", 1980), ("Stations on the network", "60", 60), ("Year it reached Sunderland", "2002", 2002),
