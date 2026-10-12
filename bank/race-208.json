@@ -1,0 +1,197 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this laundry word?",
+  "target": 10,
+  "category": "Everyday life",
+  "tags": [
+   "laundry",
+   "washing",
+   "home",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The fast whirl at the end of a wash that wrings the water out",
+    "right": "Spin cycle",
+    "wrong": [
+     "Rinse cycle",
+     "Soak",
+     "Eco mode"
+    ]
+   },
+   {
+    "q": "A machine that dries clothes in a turning drum of warm air",
+    "right": "Tumble dryer",
+    "wrong": [
+     "Twin tub",
+     "Trouser press",
+     "Steamer"
+    ]
+   },
+   {
+    "q": "A folding frame you hang washing on indoors",
+    "right": "Clothes horse",
+    "wrong": [
+     "Washboard",
+     "Dolly tub",
+     "Laundry basket"
+    ]
+   },
+   {
+    "q": "Old hand-cranked rollers for squeezing the water out",
+    "right": "Mangle",
+    "wrong": [
+     "Washboard",
+     "Dolly tub",
+     "Twin tub"
+    ]
+   },
+   {
+    "q": "Clips the washing onto the line",
+    "right": "Clothes peg",
+    "wrong": [
+     "Safety pin",
+     "Bulldog clip",
+     "Hair grip"
+    ]
+   },
+   {
+    "q": "The rope or wire strung across the garden",
+    "right": "Washing line",
+    "wrong": [
+     "Clothes rail",
+     "Bunting",
+     "Guy rope"
+    ]
+   },
+   {
+    "q": "The spinning, umbrella-shaped washing line",
+    "right": "Rotary dryer",
+    "wrong": [
+     "Maypole",
+     "Parasol",
+     "Carousel"
+    ]
+   },
+   {
+    "q": "The hot, flat-bottomed tool that takes out creases",
+    "right": "Iron",
+    "wrong": [
+     "Crimper",
+     "Curling tongs",
+     "Toastie maker"
+    ]
+   },
+   {
+    "q": "The narrow padded table you press clothes on",
+    "right": "Ironing board",
+    "wrong": [
+     "Drawing board",
+     "Chopping board",
+     "Surfboard"
+    ]
+   },
+   {
+    "q": "Sprayed on shirt collars to make them stiff",
+    "right": "Starch",
+    "wrong": [
+     "Glue",
+     "Varnish",
+     "Lacquer"
+    ]
+   },
+   {
+    "q": "A shop full of coin-operated washing machines",
+    "right": "Launderette",
+    "wrong": [
+     "Dry cleaner's",
+     "Tailor's",
+     "Haberdashery"
+    ]
+   },
+   {
+    "q": "The pile of black and navy clothes washed together",
+    "right": "Darks",
+    "wrong": [
+     "Brights",
+     "Lights",
+     "Shades"
+    ]
+   },
+   {
+    "q": "Silky and lacy things that need a gentle wash",
+    "right": "Delicates",
+    "wrong": [
+     "Smalls",
+     "Fineries",
+     "Softs"
+    ]
+   },
+   {
+    "q": "When one red sock turns the whole load pink",
+    "right": "Colour run",
+    "wrong": [
+     "Fade",
+     "Bobble",
+     "Fray"
+    ]
+   },
+   {
+    "q": "What wool can do if it's washed too hot",
+    "right": "Shrink",
+    "wrong": [
+     "Fade",
+     "Bobble",
+     "Stretch"
+    ]
+   },
+   {
+    "q": "The fluff that collects in the dryer's filter",
+    "right": "Lint",
+    "wrong": [
+     "Dust",
+     "Felt",
+     "Down"
+    ]
+   },
+   {
+    "q": "Washing powder or liquid",
+    "right": "Detergent",
+    "wrong": [
+     "Descaler",
+     "Degreaser",
+     "Solvent"
+    ]
+   },
+   {
+    "q": "The care label showing a hand in a tub",
+    "right": "Hand wash",
+    "wrong": [
+     "Do not wash",
+     "Tumble dry",
+     "Cold rinse"
+    ]
+   },
+   {
+    "q": "The care label showing a plain circle",
+    "right": "Dry clean only",
+    "wrong": [
+     "Tumble dry",
+     "Do not iron",
+     "Do not bleach"
+    ]
+   },
+   {
+    "q": "The little bag that hangs on the line holding the clips",
+    "right": "Peg bag",
+    "wrong": [
+     "Kit bag",
+     "Tote bag",
+     "Bum bag"
+    ]
+   }
+  ]
+ }
+]
