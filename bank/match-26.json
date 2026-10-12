@@ -1,0 +1,89 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Girlguiding section to its age range",
+  "pairs": [
+   {
+    "left": "Rainbows",
+    "right": "4 to 7"
+   },
+   {
+    "left": "Brownies",
+    "right": "7 to 10"
+   },
+   {
+    "left": "Guides",
+    "right": "10 to 14"
+   },
+   {
+    "left": "Rangers",
+    "right": "14 to 18"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Everyday life",
+  "tags": [
+   "Girlguiding",
+   "Brownies",
+   "Guides"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each Scouts section to its age range",
+  "pairs": [
+   {
+    "left": "Beavers",
+    "right": "6 to 8"
+   },
+   {
+    "left": "Cubs",
+    "right": "8 to 10½"
+   },
+   {
+    "left": "Scouts",
+    "right": "10½ to 14"
+   },
+   {
+    "left": "Explorers",
+    "right": "14 to 18"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Everyday life",
+  "tags": [
+   "Scouts",
+   "Cubs",
+   "Beavers"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each ruined abbey to its county",
+  "pairs": [
+   {
+    "left": "Fountains Abbey",
+    "right": "North Yorkshire"
+   },
+   {
+    "left": "Tintern Abbey",
+    "right": "Monmouthshire"
+   },
+   {
+    "left": "Furness Abbey",
+    "right": "Cumbria"
+   },
+   {
+    "left": "Kirkstall Abbey",
+    "right": "West Yorkshire"
+   }
+  ],
+  "difficulty": "hard",
+  "category": "History",
+  "tags": [
+   "abbeys",
+   "monasteries",
+   "counties"
+  ]
+ }
+]
