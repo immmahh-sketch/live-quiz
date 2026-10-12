@@ -1,0 +1,197 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this tailor's word?",
+  "target": 10,
+  "category": "Fashion",
+  "tags": [
+   "tailoring",
+   "suits",
+   "clothes",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Made completely to the customer's own measurements",
+    "right": "Bespoke",
+    "wrong": [
+     "Ready to wear",
+     "Second-hand",
+     "Hand-me-down"
+    ]
+   },
+   {
+    "q": "Bought ready-made from the rail in a shop",
+    "right": "Off the peg",
+    "wrong": [
+     "Hand-me-down",
+     "Home-made",
+     "Knock-off"
+    ]
+   },
+   {
+    "q": "The measurement from crotch to ankle",
+    "right": "Inside leg",
+    "wrong": [
+     "Outside leg",
+     "Instep",
+     "Rise"
+    ]
+   },
+   {
+    "q": "The folded flap down the front of a jacket",
+    "right": "Lapel",
+    "wrong": [
+     "Cuff",
+     "Yoke",
+     "Placket"
+    ]
+   },
+   {
+    "q": "Folded-back cuffs at the bottom of trousers",
+    "right": "Turn-ups",
+    "wrong": [
+     "Pleats",
+     "Flares",
+     "Darts"
+    ]
+   },
+   {
+    "q": "Straps over the shoulders that hold trousers up",
+    "right": "Braces",
+    "wrong": [
+     "Belt",
+     "Sash",
+     "Garters"
+    ]
+   },
+   {
+    "q": "Thin vertical lines on a City gent's suit",
+    "right": "Pinstripe",
+    "wrong": [
+     "Houndstooth",
+     "Herringbone",
+     "Tartan"
+    ]
+   },
+   {
+    "q": "Rough woollen cloth from Scotland, like Harris",
+    "right": "Tweed",
+    "wrong": [
+     "Denim",
+     "Corduroy",
+     "Linen"
+    ]
+   },
+   {
+    "q": "A folded handkerchief in the breast pocket",
+    "right": "Pocket square",
+    "wrong": [
+     "Cravat",
+     "Bow tie",
+     "Tie pin"
+    ]
+   },
+   {
+    "q": "Used to mark the cloth before cutting",
+    "right": "Tailor's chalk",
+    "wrong": [
+     "Crayon",
+     "Charcoal",
+     "Pastel"
+    ]
+   },
+   {
+    "q": "Trying on a part-made suit so it can be adjusted",
+    "right": "Fitting",
+    "wrong": [
+     "Audition",
+     "Rehearsal",
+     "Casting"
+    ]
+   },
+   {
+    "q": "A jacket with two rows of buttons",
+    "right": "Double-breasted",
+    "wrong": [
+     "Single-breasted",
+     "Bomber",
+     "Norfolk"
+    ]
+   },
+   {
+    "q": "The slit up the back of a jacket",
+    "right": "Vent",
+    "wrong": [
+     "Gusset",
+     "Seam",
+     "Yoke"
+    ]
+   },
+   {
+    "q": "The silky layer inside a jacket",
+    "right": "Lining",
+    "wrong": [
+     "Interfacing",
+     "Wadding",
+     "Padding"
+    ]
+   },
+   {
+    "q": "Tailcoat and striped trousers for a wedding",
+    "right": "Morning suit",
+    "wrong": [
+     "Dinner suit",
+     "Lounge suit",
+     "Zoot suit"
+    ]
+   },
+   {
+    "q": "The black jacket worn with a bow tie",
+    "right": "Dinner jacket",
+    "wrong": [
+     "Smoking jacket",
+     "Tailcoat",
+     "Bomber jacket"
+    ]
+   },
+   {
+    "q": "A suit with jacket, trousers and a waistcoat",
+    "right": "Three-piece",
+    "wrong": [
+     "Two-piece",
+     "Tracksuit",
+     "Jumpsuit"
+    ]
+   },
+   {
+    "q": "They fasten the cuffs of a double-cuffed shirt",
+    "right": "Cufflinks",
+    "wrong": [
+     "Studs",
+     "Toggles",
+     "Poppers"
+    ]
+   },
+   {
+    "q": "The tailor who draws and cuts the pattern",
+    "right": "Cutter",
+    "wrong": [
+     "Fitter",
+     "Presser",
+     "Trimmer"
+    ]
+   },
+   {
+    "q": "The torso-shaped stand a suit is built up on",
+    "right": "Tailor's dummy",
+    "wrong": [
+     "Scarecrow",
+     "Coat stand",
+     "Hat stand"
+    ]
+   }
+  ]
+ }
+]
