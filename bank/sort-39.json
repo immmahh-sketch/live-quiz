@@ -1,0 +1,100 @@
+[
+ {
+  "type": "sort",
+  "text": "A Brontë character or a Jane Austen character?",
+  "categories": [
+   "Brontë",
+   "Jane Austen"
+  ],
+  "items": [
+   {
+    "text": "Heathcliff",
+    "category": "Brontë"
+   },
+   {
+    "text": "Mr Rochester",
+    "category": "Brontë"
+   },
+   {
+    "text": "Cathy Earnshaw",
+    "category": "Brontë"
+   },
+   {
+    "text": "Bertha Mason",
+    "category": "Brontë"
+   },
+   {
+    "text": "Mr Knightley",
+    "category": "Jane Austen"
+   },
+   {
+    "text": "Fanny Price",
+    "category": "Jane Austen"
+   },
+   {
+    "text": "Marianne Dashwood",
+    "category": "Jane Austen"
+   },
+   {
+    "text": "Mr Wickham",
+    "category": "Jane Austen"
+   }
+  ],
+  "category": "Books",
+  "tags": [
+   "Brontë sisters",
+   "Jane Austen",
+   "characters"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A street in Newcastle or in Sunderland?",
+  "categories": [
+   "Newcastle",
+   "Sunderland"
+  ],
+  "items": [
+   {
+    "text": "Grey Street",
+    "category": "Newcastle"
+   },
+   {
+    "text": "Grainger Street",
+    "category": "Newcastle"
+   },
+   {
+    "text": "Northumberland Street",
+    "category": "Newcastle"
+   },
+   {
+    "text": "Collingwood Street",
+    "category": "Newcastle"
+   },
+   {
+    "text": "Fawcett Street",
+    "category": "Sunderland"
+   },
+   {
+    "text": "Holmeside",
+    "category": "Sunderland"
+   },
+   {
+    "text": "Vine Place",
+    "category": "Sunderland"
+   },
+   {
+    "text": "Hylton Road",
+    "category": "Sunderland"
+   }
+  ],
+  "category": "The North East of England",
+  "tags": [
+   "Newcastle",
+   "Sunderland",
+   "streets"
+  ],
+  "difficulty": "medium"
+ }
+]
