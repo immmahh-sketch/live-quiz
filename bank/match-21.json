@@ -1,0 +1,86 @@
+[
+ {
+  "type": "match",
+  "text": "Match each North East dish to what it is",
+  "pairs": [
+   {
+    "left": "Parmo",
+    "right": "Breaded chicken under white sauce and cheese"
+   },
+   {
+    "left": "Stottie",
+    "right": "A flat, round loaf of bread"
+   },
+   {
+    "left": "Pease pudding",
+    "right": "A spread made from split peas"
+   },
+   {
+    "left": "Panackelty",
+    "right": "A meat and potato bake"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Food and drink",
+  "tags": [
+   "North East",
+   "food"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each spice to the part of the plant it comes from",
+  "pairs": [
+   {
+    "left": "Cinnamon",
+    "right": "Bark"
+   },
+   {
+    "left": "Cloves",
+    "right": "Flower buds"
+   },
+   {
+    "left": "Ginger",
+    "right": "Root"
+   },
+   {
+    "left": "Nutmeg",
+    "right": "Seed"
+   }
+  ],
+  "difficulty": "hard",
+  "category": "Food and drink",
+  "tags": [
+   "spices",
+   "plants"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each dance to the country it comes from",
+  "pairs": [
+   {
+    "left": "Tango",
+    "right": "Argentina"
+   },
+   {
+    "left": "Flamenco",
+    "right": "Spain"
+   },
+   {
+    "left": "Samba",
+    "right": "Brazil"
+   },
+   {
+    "left": "Polka",
+    "right": "Czech Republic"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Music",
+  "tags": [
+   "dance",
+   "countries"
+  ]
+ }
+]
