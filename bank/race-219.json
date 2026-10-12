@@ -1,0 +1,197 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this monastery word?",
+  "target": 10,
+  "category": "History",
+  "tags": [
+   "monks",
+   "monasteries",
+   "religion",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The head of an abbey",
+    "right": "Abbot",
+    "wrong": [
+     "Bishop",
+     "Deacon",
+     "Curate"
+    ]
+   },
+   {
+    "q": "Second in command at an abbey, or head of a priory",
+    "right": "Prior",
+    "wrong": [
+     "Canon",
+     "Dean",
+     "Rector"
+    ]
+   },
+   {
+    "q": "A new monk still in training",
+    "right": "Novice",
+    "wrong": [
+     "Acolyte",
+     "Postulant",
+     "Deacon"
+    ]
+   },
+   {
+    "q": "The covered walkway round a square garden",
+    "right": "Cloister",
+    "wrong": [
+     "Arcade",
+     "Colonnade",
+     "Portico"
+    ]
+   },
+   {
+    "q": "Where the monks ate together",
+    "right": "Refectory",
+    "wrong": [
+     "Scullery",
+     "Buttery",
+     "Larder"
+    ]
+   },
+   {
+    "q": "The room where monks copied books by hand",
+    "right": "Scriptorium",
+    "wrong": [
+     "Sacristy",
+     "Solarium",
+     "Oratory"
+    ]
+   },
+   {
+    "q": "Where the monks slept",
+    "right": "Dormitory",
+    "wrong": [
+     "Almonry",
+     "Calefactory",
+     "Sacristy"
+    ]
+   },
+   {
+    "q": "Where sick and elderly monks were cared for",
+    "right": "Infirmary",
+    "wrong": [
+     "Almonry",
+     "Calefactory",
+     "Sacristy"
+    ]
+   },
+   {
+    "q": "The first service of the day, in the small hours",
+    "right": "Matins",
+    "wrong": [
+     "Mass",
+     "Angelus",
+     "Lauds"
+    ]
+   },
+   {
+    "q": "The evening service, sung at sunset",
+    "right": "Vespers",
+    "wrong": [
+     "Mass",
+     "Angelus",
+     "Lauds"
+    ]
+   },
+   {
+    "q": "The last service of the day, before bed",
+    "right": "Compline",
+    "wrong": [
+     "Mass",
+     "Angelus",
+     "Lauds"
+    ]
+   },
+   {
+    "q": "The long robe a monk wears",
+    "right": "Habit",
+    "wrong": [
+     "Cassock",
+     "Surplice",
+     "Chasuble"
+    ]
+   },
+   {
+    "q": "The shaved patch on top of a monk's head",
+    "right": "Tonsure",
+    "wrong": [
+     "Mullet",
+     "Topknot",
+     "Buzz cut"
+    ]
+   },
+   {
+    "q": "A promise never to speak",
+    "right": "Vow of silence",
+    "wrong": [
+     "Vow of chastity",
+     "Gag order",
+     "Lock-in"
+    ]
+   },
+   {
+    "q": "The room where the monks met each day to run the abbey",
+    "right": "Chapter house",
+    "wrong": [
+     "Boardroom",
+     "Counting house",
+     "Guildhall"
+    ]
+   },
+   {
+    "q": "Monks who follow the Rule of St Benedict",
+    "right": "Benedictine",
+    "wrong": [
+     "Franciscan",
+     "Dominican",
+     "Jesuit"
+    ]
+   },
+   {
+    "q": "Silent monks famous for brewing beer",
+    "right": "Trappist",
+    "wrong": [
+     "Carthusian",
+     "Augustinian",
+     "Carmelite"
+    ]
+   },
+   {
+    "q": "A brother who works out in the world, like Tuck",
+    "right": "Friar",
+    "wrong": [
+     "Hermit",
+     "Pilgrim",
+     "Pardoner"
+    ]
+   },
+   {
+    "q": "Henry VIII's closing of the monasteries",
+    "right": "Dissolution",
+    "wrong": [
+     "Restoration",
+     "Abolition",
+     "Enclosure"
+    ]
+   },
+   {
+    "q": "Decorated with gold and colour, like a monk's manuscript",
+    "right": "Illuminated",
+    "wrong": [
+     "Laminated",
+     "Embossed",
+     "Engraved"
+    ]
+   }
+  ]
+ }
+]
