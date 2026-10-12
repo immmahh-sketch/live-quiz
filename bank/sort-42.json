@@ -1,0 +1,100 @@
+[
+ {
+  "type": "sort",
+  "text": "A Dragon from 'Dragons' Den' or an adviser on 'The Apprentice'?",
+  "categories": [
+   "Dragon",
+   "Apprentice adviser"
+  ],
+  "items": [
+   {
+    "text": "Peter Jones",
+    "category": "Dragon"
+   },
+   {
+    "text": "Deborah Meaden",
+    "category": "Dragon"
+   },
+   {
+    "text": "Theo Paphitis",
+    "category": "Dragon"
+   },
+   {
+    "text": "Touker Suleyman",
+    "category": "Dragon"
+   },
+   {
+    "text": "Karren Brady",
+    "category": "Apprentice adviser"
+   },
+   {
+    "text": "Nick Hewer",
+    "category": "Apprentice adviser"
+   },
+   {
+    "text": "Margaret Mountford",
+    "category": "Apprentice adviser"
+   },
+   {
+    "text": "Claude Littner",
+    "category": "Apprentice adviser"
+   }
+  ],
+  "category": "TV",
+  "tags": [
+   "Dragons' Den",
+   "The Apprentice",
+   "business"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Benedictine house or a Cistercian abbey?",
+  "categories": [
+   "Benedictine",
+   "Cistercian"
+  ],
+  "items": [
+   {
+    "text": "Durham Cathedral Priory",
+    "category": "Benedictine"
+   },
+   {
+    "text": "Whitby Abbey",
+    "category": "Benedictine"
+   },
+   {
+    "text": "Westminster Abbey",
+    "category": "Benedictine"
+   },
+   {
+    "text": "Lindisfarne Priory",
+    "category": "Benedictine"
+   },
+   {
+    "text": "Fountains Abbey",
+    "category": "Cistercian"
+   },
+   {
+    "text": "Rievaulx Abbey",
+    "category": "Cistercian"
+   },
+   {
+    "text": "Tintern Abbey",
+    "category": "Cistercian"
+   },
+   {
+    "text": "Furness Abbey",
+    "category": "Cistercian"
+   }
+  ],
+  "category": "History",
+  "tags": [
+   "monasteries",
+   "Benedictines",
+   "Cistercians"
+  ],
+  "difficulty": "hard"
+ }
+]
