@@ -1,0 +1,186 @@
+[
+ {
+  "type": "club",
+  "text": "On a dartboard, which number sits at the very top, between the 5 and the 1?",
+  "answers": [
+   "20",
+   "Twenty"
+  ],
+  "pct": 60,
+  "why": "The board runs 20, 1, 18, 4… from the top, with the 5 on the other side of the 20.",
+  "difficulty": "medium",
+  "category": "Logic",
+  "tags": [
+   "darts"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Ellie finished the Great North Run before Jo, but after Kim. Who finished first?",
+  "answers": [
+   "Kim"
+  ],
+  "pct": 50,
+  "why": "Kim, then Ellie, then Jo.",
+  "difficulty": "medium",
+  "category": "Logic",
+  "tags": [
+   "Great North Run",
+   "order"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which is bigger: a third of ninety, or a quarter of a hundred?",
+  "answers": [
+   "A third of 90",
+   "Third of 90",
+   "30",
+   "The third"
+  ],
+  "pct": 50,
+  "why": "A third of 90 is 30; a quarter of 100 is 25.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "fractions",
+   "comparing"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A train leaves Newcastle at 10:47 and takes 2 hours 55 minutes to reach London. What time does it arrive?",
+  "answers": [
+   "13:42",
+   "1:42",
+   "1:42pm",
+   "1.42pm",
+   "1.42"
+  ],
+  "pct": 50,
+  "why": "10:47 + 3 hours is 13:47; take off 5 minutes: 13:42.",
+  "difficulty": "medium",
+  "category": "Time",
+  "tags": [
+   "trains",
+   "adding time"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "How many times does the letter E appear in NEWCASTLE UPON TYNE?",
+  "answers": [
+   "3",
+   "Three"
+  ],
+  "pct": 40,
+  "why": "NEWCASTLE has two, UPON has none, TYNE has one.",
+  "difficulty": "medium",
+  "category": "Words",
+  "tags": [
+   "letters",
+   "counting"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Sausage rolls cost £1.20 each. How much do five of them cost?",
+  "answers": [
+   "£6",
+   "6",
+   "Six pounds",
+   "£6.00"
+  ],
+  "pct": 70,
+  "why": "5 × £1.20 = £6.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "Greggs",
+   "money"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Going clockwise round a compass from North, the points are N, E, S… then?",
+  "answers": [
+   "W",
+   "West"
+  ],
+  "pct": 60,
+  "why": "The points of the compass, going clockwise from North.",
+  "difficulty": "medium",
+  "category": "Logic",
+  "tags": [
+   "compass",
+   "sequences"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Multiply a hexagon's sides by a spider's legs, then subtract the players in one football team. What's the result?",
+  "answers": [
+   "37",
+   "Thirty-seven"
+  ],
+  "pct": 30,
+  "why": "6 × 8 = 48, and 48 − 11 = 37.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "shapes",
+   "spiders",
+   "football"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Sunderland is 12 miles from Newcastle. A cyclist rides there and back at 12 mph. How many minutes does the round trip take?",
+  "answers": [
+   "120",
+   "120 minutes",
+   "Two hours"
+  ],
+  "pct": 40,
+  "why": "24 miles at 12 miles an hour is 2 hours: 120 minutes.",
+  "difficulty": "medium",
+  "category": "Time",
+  "tags": [
+   "cycling",
+   "speed"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A £40 coat goes up by 10%, then the new price is cut by 10%. What does it cost now?",
+  "answers": [
+   "£39.60",
+   "39.60",
+   "39.6"
+  ],
+  "pct": 10,
+  "why": "Up 10% is £44; 10% off £44 is £4.40, leaving £39.60.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "percentages",
+   "shopping"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A year that isn't a leap year starts on a Saturday. How many Saturdays does it have?",
+  "answers": [
+   "53",
+   "Fifty-three"
+  ],
+  "pct": 10,
+  "why": "365 days is 52 weeks and 1 day, and that extra day is a Saturday.",
+  "difficulty": "hard",
+  "category": "Time",
+  "tags": [
+   "calendar",
+   "Saturdays"
+  ]
+ }
+]
