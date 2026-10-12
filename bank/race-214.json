@@ -1,0 +1,196 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which British bread is this?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "bread",
+   "British food",
+   "North East"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Flat, round, heavy North East loaf, often filled with ham and pease pudding",
+    "right": "Stottie",
+    "wrong": [
+     "Focaccia",
+     "Naan",
+     "Pitta"
+    ]
+   },
+   {
+    "q": "Lancashire's word for a soft round bread roll",
+    "right": "Barm cake",
+    "wrong": [
+     "Bap",
+     "Batch",
+     "Breadcake"
+    ]
+   },
+   {
+    "q": "The East Midlands word for a crusty round roll",
+    "right": "Cob",
+    "wrong": [
+     "Bap",
+     "Batch",
+     "Breadcake"
+    ]
+   },
+   {
+    "q": "A long loaf with diagonal slashes across the top",
+    "right": "Bloomer",
+    "wrong": [
+     "Baguette",
+     "Ciabatta",
+     "Challah"
+    ]
+   },
+   {
+    "q": "Two round loaves, a small one sat on top of a big one",
+    "right": "Cottage loaf",
+    "wrong": [
+     "Brioche",
+     "Bagel",
+     "Pretzel"
+    ]
+   },
+   {
+    "q": "A tin loaf with a long split down the middle",
+    "right": "Split tin",
+    "wrong": [
+     "Ciabatta",
+     "Focaccia",
+     "Rye bread"
+    ]
+   },
+   {
+    "q": "Spongy round griddle bread full of holes, eaten toasted",
+    "right": "Crumpet",
+    "wrong": [
+     "Scone",
+     "Pancake",
+     "Waffle"
+    ]
+   },
+   {
+    "q": "A thin, flat crumpet made without a ring",
+    "right": "Pikelet",
+    "wrong": [
+     "Oatcake",
+     "Pancake",
+     "Drop scone"
+    ]
+   },
+   {
+    "q": "A flat round bun split and toasted, as in eggs Benedict",
+    "right": "English muffin",
+    "wrong": [
+     "Bagel",
+     "Scone",
+     "Brioche"
+    ]
+   },
+   {
+    "q": "A Northern Irish griddle bread cut into quarters",
+    "right": "Farl",
+    "wrong": [
+     "Bap",
+     "Oatcake",
+     "Scone"
+    ]
+   },
+   {
+    "q": "A flat Scottish oat or barley loaf baked on a griddle",
+    "right": "Bannock",
+    "wrong": [
+     "Pancake",
+     "Pitta",
+     "Croissant"
+    ]
+   },
+   {
+    "q": "Northumbria's griddle scone that sizzles as it cooks",
+    "right": "Singin' hinny",
+    "wrong": [
+     "Fat rascal",
+     "Welsh cake",
+     "Rock cake"
+    ]
+   },
+   {
+    "q": "Sticky Wiltshire bread made with lard, sugar and dried fruit",
+    "right": "Lardy cake",
+    "wrong": [
+     "Fruit loaf",
+     "Bara brith",
+     "Panettone"
+    ]
+   },
+   {
+    "q": "A flat Lancashire roll baked on the floor of the oven",
+    "right": "Oven bottom muffin",
+    "wrong": [
+     "Bap",
+     "Batch",
+     "Breadcake"
+    ]
+   },
+   {
+    "q": "Brown bread with malted wheat grains, a famous trade name",
+    "right": "Granary",
+    "wrong": [
+     "Rye bread",
+     "Challah",
+     "Pumpernickel"
+    ]
+   },
+   {
+    "q": "Bread made from the whole wheat grain",
+    "right": "Wholemeal",
+    "wrong": [
+     "White",
+     "Rye bread",
+     "Sourdough"
+    ]
+   },
+   {
+    "q": "A sweet fruited bun, split, toasted and buttered",
+    "right": "Teacake",
+    "wrong": [
+     "Brioche",
+     "Croissant",
+     "Iced bun"
+    ]
+   },
+   {
+    "q": "A very thick slice of bread",
+    "right": "Doorstep",
+    "wrong": [
+     "Wedge",
+     "Slab",
+     "Brick"
+    ]
+   },
+   {
+    "q": "The crusty end slice of a loaf",
+    "right": "Heel",
+    "wrong": [
+     "Butt",
+     "Elbow",
+     "Knob"
+    ]
+   },
+   {
+    "q": "Strips of toast for dipping into a boiled egg",
+    "right": "Soldiers",
+    "wrong": [
+     "Sticks",
+     "Twigs",
+     "Ladders"
+    ]
+   }
+  ]
+ }
+]
