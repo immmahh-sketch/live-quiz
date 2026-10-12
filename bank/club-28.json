@@ -1,0 +1,147 @@
+[
+ {
+  "type": "club",
+  "text": "A Metro ticket costs £2. How much do three tickets cost?",
+  "answers": [
+   "£6",
+   "6",
+   "Six pounds"
+  ],
+  "pct": 90,
+  "why": "3 × £2 = £6.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "Metro",
+   "money"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "You face north and turn right. Which way are you facing now?",
+  "answers": [
+   "East"
+  ],
+  "pct": 70,
+  "why": "A right turn from north points you east.",
+  "difficulty": "easy",
+  "category": "Logic",
+  "tags": [
+   "compass",
+   "directions"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Write STOP backwards, then put an S on the front. What word have you made?",
+  "answers": [
+   "Spots",
+   "SPOTS"
+  ],
+  "pct": 60,
+  "why": "STOP backwards is POTS, and S in front makes SPOTS.",
+  "difficulty": "medium",
+  "category": "Words",
+  "tags": [
+   "backwards",
+   "wordplay"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which square number lies between 20 and 30?",
+  "answers": [
+   "25",
+   "Twenty-five"
+  ],
+  "pct": 50,
+  "why": "4 × 4 = 16 and 6 × 6 = 36, so it's 5 × 5 = 25.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "square numbers"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A team wins 5, draws 3 and loses 2. With 3 points for a win and 1 for a draw, how many points have they got?",
+  "answers": [
+   "18",
+   "Eighteen"
+  ],
+  "pct": 40,
+  "why": "5 × 3 = 15, plus 3 for the draws = 18.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "football",
+   "league points"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A clock is 10 minutes fast. It shows five to three. What's the real time?",
+  "answers": [
+   "2:45",
+   "Quarter to three",
+   "2.45",
+   "14:45"
+  ],
+  "pct": 30,
+  "why": "Five to three, take away 10 minutes, is quarter to three.",
+  "difficulty": "hard",
+  "category": "Time",
+  "tags": [
+   "clocks",
+   "subtracting"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "How many squares on a chessboard are not on its outside edge?",
+  "answers": [
+   "36",
+   "Thirty-six"
+  ],
+  "pct": 10,
+  "why": "Take the outer ring away and a 6 × 6 square of 36 is left.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "chess",
+   "squares"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which two-digit number is exactly three times the sum of its own digits?",
+  "answers": [
+   "27",
+   "Twenty-seven"
+  ],
+  "pct": 5,
+  "why": "2 + 7 = 9, and 3 × 9 = 27. No other two-digit number works.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "digits",
+   "reasoning"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "I'm a whole number over 10. Half of me is a square number, and so is twice me. What's the smallest I can be?",
+  "answers": [
+   "18",
+   "Eighteen"
+  ],
+  "pct": 1,
+  "why": "Half of 18 is 9 (3 × 3) and double 18 is 36 (6 × 6). 8 also works, but it's under 10.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "square numbers",
+   "reasoning"
+  ]
+ }
+]
