@@ -1,0 +1,41 @@
+[
+ {
+  "type": "order",
+  "text": "Put these fictional dogs in order of their first appearance, earliest first",
+  "items": [
+   "Toto",
+   "Pluto",
+   "Lassie",
+   "Snoopy",
+   "Scooby-Doo",
+   "Gromit",
+   "Brian Griffin"
+  ],
+  "hint": "earliest first",
+  "category": "TV",
+  "tags": [
+   "dogs",
+   "fictional animals"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these great liners in order of launch, earliest first",
+  "items": [
+   "Great Eastern",
+   "Mauretania",
+   "Queen Mary",
+   "Canberra",
+   "Queen Elizabeth 2"
+  ],
+  "hint": "earliest first",
+  "category": "History",
+  "tags": [
+   "ships",
+   "ocean liners",
+   "shipbuilding"
+  ],
+  "difficulty": "hard"
+ }
+]
