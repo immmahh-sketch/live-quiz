@@ -1,0 +1,197 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this fish and chip shop word?",
+  "target": 10,
+  "category": "Food and drink",
+  "tags": [
+   "fish and chips",
+   "chippy",
+   "food",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "Crispy bits of fried batter, scooped from the fryer",
+    "right": "Scraps",
+    "wrong": [
+     "Crumbs",
+     "Flakes",
+     "Shavings"
+    ]
+   },
+   {
+    "q": "Soft green side made from marrowfat peas",
+    "right": "Mushy peas",
+    "wrong": [
+     "Petits pois",
+     "Garden peas",
+     "Split peas"
+    ]
+   },
+   {
+    "q": "Britain's most popular chip shop fish",
+    "right": "Cod",
+    "wrong": [
+     "Hake",
+     "Pollock",
+     "Whiting"
+    ]
+   },
+   {
+    "q": "The chippy fish Yorkshire and Scotland prefer",
+    "right": "Haddock",
+    "wrong": [
+     "Hake",
+     "Pollock",
+     "Whiting"
+    ]
+   },
+   {
+    "q": "A flat fish with orange spots",
+    "right": "Plaice",
+    "wrong": [
+     "Turbot",
+     "Halibut",
+     "Sole"
+    ]
+   },
+   {
+    "q": "A flat, wing-shaped fish, served on the bone",
+    "right": "Skate",
+    "wrong": [
+     "Turbot",
+     "Halibut",
+     "Sole"
+    ]
+   },
+   {
+    "q": "The bright red, smoked sausage sold in chippies",
+    "right": "Saveloy",
+    "wrong": [
+     "Chorizo",
+     "Frankfurter",
+     "Black pudding"
+    ]
+   },
+   {
+    "q": "A sausage dipped in batter and deep-fried",
+    "right": "Battered sausage",
+    "wrong": [
+     "Toad in the hole",
+     "Corn dog",
+     "Sausage roll"
+    ]
+   },
+   {
+    "q": "A whole onion kept in vinegar in a jar on the counter",
+    "right": "Pickled onion",
+    "wrong": [
+     "Spring onion",
+     "Red onion",
+     "Onion ring"
+    ]
+   },
+   {
+    "q": "Mashed fish and potato, shaped and fried",
+    "right": "Fishcake",
+    "wrong": [
+     "Fish finger",
+     "Goujon",
+     "Fish pie"
+    ]
+   },
+   {
+    "q": "Scotland's famous chippy pudding: a chocolate bar in batter",
+    "right": "Deep-fried Mars bar",
+    "wrong": [
+     "Deep-fried Twix",
+     "Deep-fried Snickers",
+     "Deep-fried Bounty"
+    ]
+   },
+   {
+    "q": "Malt, or 'non-brewed condiment': what you shake on your chips",
+    "right": "Vinegar",
+    "wrong": [
+     "Brown sauce",
+     "Ketchup",
+     "Mayonnaise"
+    ]
+   },
+   {
+    "q": "Thick brown sauce poured over chips in the North",
+    "right": "Gravy",
+    "wrong": [
+     "Brown sauce",
+     "Bread sauce",
+     "Custard"
+    ]
+   },
+   {
+    "q": "Yellowy-brown spicy sauce, a chippy classic",
+    "right": "Curry sauce",
+    "wrong": [
+     "Tikka masala",
+     "Korma",
+     "Satay"
+    ]
+   },
+   {
+    "q": "What chips were famously wrapped in, back in the day",
+    "right": "Newspaper",
+    "wrong": [
+     "Tracing paper",
+     "Wallpaper",
+     "Parchment"
+    ]
+   },
+   {
+    "q": "A buttered bread roll stuffed with chips",
+    "right": "Chip butty",
+    "wrong": [
+     "Bacon butty",
+     "Toastie",
+     "Sausage roll"
+    ]
+   },
+   {
+    "q": "A slice of potato dipped in batter and fried",
+    "right": "Potato fritter",
+    "wrong": [
+     "Hash brown",
+     "Rösti",
+     "Croquette"
+    ]
+   },
+   {
+    "q": "The fat many Northern chippies still fry in",
+    "right": "Beef dripping",
+    "wrong": [
+     "Olive oil",
+     "Butter",
+     "Coconut oil"
+    ]
+   },
+   {
+    "q": "Scotland's orange fizzy drink, a chippy favourite",
+    "right": "Irn-Bru",
+    "wrong": [
+     "Vimto",
+     "Tizer",
+     "Dandelion and burdock"
+    ]
+   },
+   {
+    "q": "The North East's yellow split-pea spread, great with a saveloy",
+    "right": "Pease pudding",
+    "wrong": [
+     "Hummus",
+     "Black pudding",
+     "Polenta"
+    ]
+   }
+  ]
+ }
+]
