@@ -1,0 +1,59 @@
+[
+ {
+  "type": "match",
+  "text": "Match each order of friars to the name their robes gave them",
+  "pairs": [
+   {
+    "left": "Franciscans",
+    "right": "Greyfriars"
+   },
+   {
+    "left": "Dominicans",
+    "right": "Blackfriars"
+   },
+   {
+    "left": "Carmelites",
+    "right": "Whitefriars"
+   },
+   {
+    "left": "Augustinians",
+    "right": "Austin Friars"
+   }
+  ],
+  "difficulty": "hard",
+  "category": "History",
+  "tags": [
+   "friars",
+   "monks",
+   "religion"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each Cold War word to what it meant",
+  "pairs": [
+   {
+    "left": "Glasnost",
+    "right": "Openness"
+   },
+   {
+    "left": "Perestroika",
+    "right": "Restructuring"
+   },
+   {
+    "left": "Détente",
+    "right": "Easing of tension"
+   },
+   {
+    "left": "Brinkmanship",
+    "right": "Pushing right to the edge of war"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "History",
+  "tags": [
+   "Cold War",
+   "words"
+  ]
+ }
+]
