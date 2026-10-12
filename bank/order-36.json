@@ -1,0 +1,41 @@
+[
+ {
+  "type": "order",
+  "text": "Put these monks' services in order through the day, earliest first",
+  "items": [
+   "Matins",
+   "Lauds",
+   "Terce",
+   "Sext",
+   "Vespers",
+   "Compline"
+  ],
+  "hint": "earliest first",
+  "category": "History",
+  "tags": [
+   "monks",
+   "monasteries",
+   "religion"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "order",
+  "text": "Put these events from the end of the Cold War in order, earliest first",
+  "items": [
+   "Solidarity is founded in Poland",
+   "Gorbachev takes power",
+   "Chernobyl",
+   "The INF missile treaty",
+   "The Berlin Wall falls",
+   "The Soviet Union breaks up"
+  ],
+  "hint": "earliest first",
+  "category": "History",
+  "tags": [
+   "Cold War",
+   "1980s"
+  ],
+  "difficulty": "medium"
+ }
+]
