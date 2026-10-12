@@ -1,5 +1,5 @@
-# Bank session 12 Oct 2026: 1 more general race -> bank/race-222.json (lighthouse words). Checked against the lifeboat, pirate,
-# navy and shipbuilding races: lighthouse and Grace Darling left out as answers, as the lifeboat race has them.
+# Bank session 12 Oct 2026: 1 more general race -> bank/race-222.json (lighthouse words). Checked against every race in stock:
+# lighthouse and Grace Darling left out (the lifeboat race has them); only Beam repeats, as the gymnastics beam.
 # 20 rows each, target 10; wrong options are the same kind of thing, never another row's right answer, and never also right for that row.
 import json, os
 R = []
