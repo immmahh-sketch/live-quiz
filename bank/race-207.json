@@ -1,0 +1,391 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this Monopoly word?",
+  "target": 10,
+  "category": "Games and toys",
+  "tags": [
+   "Monopoly",
+   "board games",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "The corner square where you collect £200",
+    "right": "Go",
+    "wrong": [
+     "Start",
+     "Home",
+     "Bank"
+    ]
+   },
+   {
+    "q": "The first property after Go on the UK board",
+    "right": "Old Kent Road",
+    "wrong": [
+     "Euston Road",
+     "Pentonville Road",
+     "Bow Street"
+    ]
+   },
+   {
+    "q": "The most expensive property on the UK board",
+    "right": "Mayfair",
+    "wrong": [
+     "Regent Street",
+     "Oxford Street",
+     "Piccadilly"
+    ]
+   },
+   {
+    "q": "Mayfair's dark blue partner",
+    "right": "Park Lane",
+    "wrong": [
+     "Strand",
+     "Whitehall",
+     "Fleet Street"
+    ]
+   },
+   {
+    "q": "The dearest of the three green properties",
+    "right": "Bond Street",
+    "wrong": [
+     "Regent Street",
+     "Oxford Street",
+     "Leicester Square"
+    ]
+   },
+   {
+    "q": "The corner where you're 'just visiting' or locked up",
+    "right": "Jail",
+    "wrong": [
+     "Court",
+     "Police station",
+     "Workhouse"
+    ]
+   },
+   {
+    "q": "The corner square where nothing happens, by the rules",
+    "right": "Free Parking",
+    "wrong": [
+     "Rest Stop",
+     "Car Park",
+     "Lay-by"
+    ]
+   },
+   {
+    "q": "The card you can keep until you need to escape",
+    "right": "Get Out of Jail Free",
+    "wrong": [
+     "Bail card",
+     "Royal pardon",
+     "Lucky break"
+    ]
+   },
+   {
+    "q": "The pile of cards shown as a treasure chest",
+    "right": "Community Chest",
+    "wrong": [
+     "Lucky Dip",
+     "Treasure Trove",
+     "Bank Holiday"
+    ]
+   },
+   {
+    "q": "The pile of cards marked with a question mark",
+    "right": "Chance",
+    "wrong": [
+     "Fortune",
+     "Fate",
+     "Luck"
+    ]
+   },
+   {
+    "q": "The first station on the UK board, after Go",
+    "right": "King's Cross Station",
+    "wrong": [
+     "Marylebone Station",
+     "Fenchurch St Station",
+     "Liverpool Street Station"
+    ]
+   },
+   {
+    "q": "The utility that isn't the Electric Company",
+    "right": "Water Works",
+    "wrong": [
+     "Electric Company",
+     "Gas Board",
+     "Sewage Works"
+    ]
+   },
+   {
+    "q": "The tax square just before Mayfair on the UK board",
+    "right": "Super Tax",
+    "wrong": [
+     "Income Tax",
+     "Luxury Tax",
+     "Poll Tax"
+    ]
+   },
+   {
+    "q": "What you build in place of four houses",
+    "right": "Hotel",
+    "wrong": [
+     "Castle",
+     "Mansion",
+     "Skyscraper"
+    ]
+   },
+   {
+    "q": "The player who looks after all the money",
+    "right": "Banker",
+    "wrong": [
+     "Treasurer",
+     "Cashier",
+     "Accountant"
+    ]
+   },
+   {
+    "q": "Turning a property card over to borrow from the bank",
+    "right": "Mortgage",
+    "wrong": [
+     "Loan",
+     "Overdraft",
+     "Pawn"
+    ]
+   },
+   {
+    "q": "Selling a property to the highest bidder",
+    "right": "Auction",
+    "wrong": [
+     "Raffle",
+     "Clearance",
+     "Tender"
+    ]
+   },
+   {
+    "q": "The token voted out in 2013 and replaced by a cat",
+    "right": "Iron",
+    "wrong": [
+     "Boot",
+     "Top hat",
+     "Racing car"
+    ]
+   },
+   {
+    "q": "The board's moustached mascot in the top hat",
+    "right": "Mr Monopoly",
+    "wrong": [
+     "Mr Moneybags",
+     "Uncle Scrooge",
+     "Mr Banker"
+    ]
+   },
+   {
+    "q": "The colour of the Mayfair and Park Lane set",
+    "right": "Dark blue",
+    "wrong": [
+     "Green",
+     "Red",
+     "Orange"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this whisky word?",
+  "target": 10,
+  "category": "Beer, wine and spirits",
+  "tags": [
+   "whisky",
+   "Scotland",
+   "drinks",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "Whisky from one distillery, made only from malted barley",
+    "right": "Single malt",
+    "wrong": [
+     "Grain whisky",
+     "Blend",
+     "Moonshine"
+    ]
+   },
+   {
+    "q": "American whiskey made mostly from corn",
+    "right": "Bourbon",
+    "wrong": [
+     "Moonshine",
+     "Sake",
+     "Brandy"
+    ]
+   },
+   {
+    "q": "The Scots word for a small measure of whisky",
+    "right": "Dram",
+    "wrong": [
+     "Pint",
+     "Jigger",
+     "Gill"
+    ]
+   },
+   {
+    "q": "The wooden barrel whisky ages in",
+    "right": "Cask",
+    "wrong": [
+     "Keg",
+     "Vat",
+     "Churn"
+    ]
+   },
+   {
+    "q": "Gives some whiskies their smoky taste when it's burned to dry the barley",
+    "right": "Peat",
+    "wrong": [
+     "Oak",
+     "Coal",
+     "Charcoal"
+    ]
+   },
+   {
+    "q": "The building where whisky is made",
+    "right": "Distillery",
+    "wrong": [
+     "Brewery",
+     "Winery",
+     "Refinery"
+    ]
+   },
+   {
+    "q": "The Scottish region around the River Spey, home to dozens of distilleries",
+    "right": "Speyside",
+    "wrong": [
+     "Lowlands",
+     "Campbeltown",
+     "Highlands"
+    ]
+   },
+   {
+    "q": "The Hebridean island famous for smoky whiskies like Laphroaig",
+    "right": "Islay",
+    "wrong": [
+     "Skye",
+     "Mull",
+     "Arran"
+    ]
+   },
+   {
+    "q": "Served on its own, with nothing added",
+    "right": "Neat",
+    "wrong": [
+     "Dry",
+     "Clean",
+     "Bare"
+    ]
+   },
+   {
+    "q": "Served poured over ice",
+    "right": "On the rocks",
+    "wrong": [
+     "Shaken",
+     "Stirred",
+     "Frappé"
+    ]
+   },
+   {
+    "q": "The whisky that evaporates from the cask as it ages",
+    "right": "Angel's share",
+    "wrong": [
+     "Devil's cut",
+     "Cellarman's tithe",
+     "Spirit's sigh"
+    ]
+   },
+   {
+    "q": "What whisky made in Scotland is called",
+    "right": "Scotch",
+    "wrong": [
+     "Hooch",
+     "Grog",
+     "Firewater"
+    ]
+   },
+   {
+    "q": "Whiskey made mainly from the grain in dark German bread",
+    "right": "Rye",
+    "wrong": [
+     "Spelt",
+     "Oats",
+     "Millet"
+    ]
+   },
+   {
+    "q": "The grain soaked and sprouted to make malt whisky",
+    "right": "Malted barley",
+    "wrong": [
+     "Sweetcorn",
+     "Wild rice",
+     "Buckwheat"
+    ]
+   },
+   {
+    "q": "The big copper kettle-shaped vessel malt whisky is distilled in",
+    "right": "Pot still",
+    "wrong": [
+     "Column still",
+     "Mash tun",
+     "Washback"
+    ]
+   },
+   {
+    "q": "Smelling a whisky carefully before tasting it",
+    "right": "Nosing",
+    "wrong": [
+     "Sniffing",
+     "Breathing",
+     "Airing"
+    ]
+   },
+   {
+    "q": "The old way of measuring how strong a spirit is",
+    "right": "Proof",
+    "wrong": [
+     "Gauge",
+     "Grade",
+     "Strength"
+    ]
+   },
+   {
+    "q": "How the Irish and the Americans usually spell it",
+    "right": "Whiskey",
+    "wrong": [
+     "Whiskie",
+     "Wiskey",
+     "Whisqui"
+    ]
+   },
+   {
+    "q": "A small flat bottle carried in a pocket",
+    "right": "Hip flask",
+    "wrong": [
+     "Hipster",
+     "Canteen",
+     "Decanter"
+    ]
+   },
+   {
+    "q": "Hot water, honey, lemon and a splash of whisky",
+    "right": "Hot toddy",
+    "wrong": [
+     "Hot buttered rum",
+     "Mulled wine",
+     "Irish coffee"
+    ]
+   }
+  ]
+ }
+]
