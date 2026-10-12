@@ -1,5 +1,5 @@
 # Bank session 12 Oct 2026: 1 more general race -> bank/race-206.json (fish and chip shop words). No other race covers chippies;
-# the seafood and Indian menu races share no answers with it.
+# only Haddock (seafood race) and Gravy (Sunday roast race) appear in other races, with different clues.
 # 20 rows each, target 10; wrong options are the same kind of thing, never another row's right answer, and never also right for that row.
 import json, os
 R = []
