@@ -1,0 +1,585 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this flying word?",
+  "target": 10,
+  "category": "Travel",
+  "tags": [
+   "flying",
+   "aviation",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The person who flies the plane",
+    "right": "Pilot",
+    "wrong": [
+     "Marshal",
+     "Dispatcher",
+     "Loadmaster"
+    ]
+   },
+   {
+    "q": "Where the pilots sit, right at the front",
+    "right": "Cockpit",
+    "wrong": [
+     "Hold",
+     "Nacelle",
+     "Wheel well"
+    ]
+   },
+   {
+    "q": "The long main body of the plane, where the passengers sit",
+    "right": "Fuselage",
+    "wrong": [
+     "Keel",
+     "Chassis",
+     "Hull"
+    ]
+   },
+   {
+    "q": "The big shed where planes are kept and repaired",
+    "right": "Hangar",
+    "wrong": [
+     "Depot",
+     "Terminal",
+     "Silo"
+    ]
+   },
+   {
+    "q": "The little kitchen where the cabin crew make the drinks",
+    "right": "Galley",
+    "wrong": [
+     "Pantry",
+     "Buttery",
+     "Scullery"
+    ]
+   },
+   {
+    "q": "Leaving the runway and climbing into the air",
+    "right": "Take-off",
+    "wrong": [
+     "Touchdown",
+     "Go-around",
+     "Climb-out"
+    ]
+   },
+   {
+    "q": "Rolling slowly along the ground to the runway",
+    "right": "Taxiing",
+    "wrong": [
+     "Gliding",
+     "Hovering",
+     "Stalling"
+    ]
+   },
+   {
+    "q": "Tilting the wings to make a turn",
+    "right": "Banking",
+    "wrong": [
+     "Pitching",
+     "Coasting",
+     "Drifting"
+    ]
+   },
+   {
+    "q": "A sudden bumpy patch of air",
+    "right": "Turbulence",
+    "wrong": [
+     "Headwind",
+     "Backdraft",
+     "Downforce"
+    ]
+   },
+   {
+    "q": "The 'black box' that records the flight",
+    "right": "Flight recorder",
+    "wrong": [
+     "Transponder",
+     "Gyroscope",
+     "Beacon"
+    ]
+   },
+   {
+    "q": "The dial that shows how high you are",
+    "right": "Altimeter",
+    "wrong": [
+     "Barometer",
+     "Odometer",
+     "Speedometer"
+    ]
+   },
+   {
+    "q": "The hinged flap on the tail that steers the nose left and right",
+    "right": "Rudder",
+    "wrong": [
+     "Aileron",
+     "Elevator",
+     "Spoiler"
+    ]
+   },
+   {
+    "q": "A stop on the way where you wait to change planes",
+    "right": "Layover",
+    "wrong": [
+     "Detour",
+     "Shortcut",
+     "Diversion"
+    ]
+   },
+   {
+    "q": "An aircraft with no pilot on board, flown remotely",
+    "right": "Drone",
+    "wrong": [
+     "Glider",
+     "Blimp",
+     "Kite"
+    ]
+   },
+   {
+    "q": "A giant rigid airship like the Hindenburg",
+    "right": "Zeppelin",
+    "wrong": [
+     "Blimp",
+     "Balloon",
+     "Autogyro"
+    ]
+   },
+   {
+    "q": "The covered walkway from the gate to the plane door",
+    "right": "Jet bridge",
+    "wrong": [
+     "Gangplank",
+     "Slipway",
+     "Causeway"
+    ]
+   },
+   {
+    "q": "The radio distress call, said three times",
+    "right": "Mayday",
+    "wrong": [
+     "Pan-pan",
+     "Roger",
+     "Wilco"
+    ]
+   },
+   {
+    "q": "The senior cabin crew member in charge of the cabin",
+    "right": "Purser",
+    "wrong": [
+     "Bosun",
+     "Quartermaster",
+     "Bursar"
+    ]
+   },
+   {
+    "q": "The tall airport building where controllers guide the planes",
+    "right": "Control tower",
+    "wrong": [
+     "Terminal",
+     "Concourse",
+     "Lighthouse"
+    ]
+   },
+   {
+    "q": "The patch of tarmac where planes park to load up",
+    "right": "Apron",
+    "wrong": [
+     "Runway",
+     "Forecourt",
+     "Verge"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this shape or maths word?",
+  "target": 10,
+  "category": "Science",
+  "tags": [
+   "maths",
+   "shapes",
+   "geometry",
+   "words"
+  ],
+  "difficulty": "easy",
+  "bank": [
+   {
+    "q": "A flat shape with three straight sides",
+    "right": "Triangle",
+    "wrong": [
+     "Square",
+     "Kite",
+     "Oblong"
+    ]
+   },
+   {
+    "q": "Six sides, like a cell in a honeycomb",
+    "right": "Hexagon",
+    "wrong": [
+     "Heptagon",
+     "Decagon",
+     "Nonagon"
+    ]
+   },
+   {
+    "q": "Eight sides, like a stop sign",
+    "right": "Octagon",
+    "wrong": [
+     "Heptagon",
+     "Decagon",
+     "Dodecagon"
+    ]
+   },
+   {
+    "q": "Five sides, like the US military headquarters",
+    "right": "Pentagon",
+    "wrong": [
+     "Heptagon",
+     "Nonagon",
+     "Dodecagon"
+    ]
+   },
+   {
+    "q": "From the centre of a circle out to its edge",
+    "right": "Radius",
+    "wrong": [
+     "Chord",
+     "Arc",
+     "Tangent"
+    ]
+   },
+   {
+    "q": "Straight across a circle, through the middle",
+    "right": "Diameter",
+    "wrong": [
+     "Arc",
+     "Sector",
+     "Tangent"
+    ]
+   },
+   {
+    "q": "The distance all the way round a circle",
+    "right": "Circumference",
+    "wrong": [
+     "Area",
+     "Arc",
+     "Segment"
+    ]
+   },
+   {
+    "q": "An angle of exactly 90 degrees",
+    "right": "Right angle",
+    "wrong": [
+     "Acute angle",
+     "Reflex angle",
+     "Straight angle"
+    ]
+   },
+   {
+    "q": "Lines that run side by side and never meet",
+    "right": "Parallel",
+    "wrong": [
+     "Diagonal",
+     "Tangent",
+     "Axis"
+    ]
+   },
+   {
+    "q": "Four equal sides, like the diamond on a playing card",
+    "right": "Rhombus",
+    "wrong": [
+     "Kite",
+     "Oblong",
+     "Parallelogram"
+    ]
+   },
+   {
+    "q": "Four sides with just one pair of parallel sides",
+    "right": "Trapezium",
+    "wrong": [
+     "Parallelogram",
+     "Kite",
+     "Oblong"
+    ]
+   },
+   {
+    "q": "A perfectly round 3D ball",
+    "right": "Sphere",
+    "wrong": [
+     "Ellipse",
+     "Oval",
+     "Torus"
+    ]
+   },
+   {
+    "q": "Six square faces, like a dice",
+    "right": "Cube",
+    "wrong": [
+     "Prism",
+     "Tetrahedron",
+     "Octahedron"
+    ]
+   },
+   {
+    "q": "A square base with four sides meeting at a point",
+    "right": "Pyramid",
+    "wrong": [
+     "Prism",
+     "Tetrahedron",
+     "Octahedron"
+    ]
+   },
+   {
+    "q": "The shape of a tin of beans",
+    "right": "Cylinder",
+    "wrong": [
+     "Prism",
+     "Cuboid",
+     "Torus"
+    ]
+   },
+   {
+    "q": "The shape of an ice-cream cornet",
+    "right": "Cone",
+    "wrong": [
+     "Prism",
+     "Crescent",
+     "Tetrahedron"
+    ]
+   },
+   {
+    "q": "A triangle with exactly two equal sides",
+    "right": "Isosceles",
+    "wrong": [
+     "Scalene",
+     "Acute",
+     "Reflex"
+    ]
+   },
+   {
+    "q": "A triangle with all three sides equal",
+    "right": "Equilateral",
+    "wrong": [
+     "Scalene",
+     "Quadrilateral",
+     "Oblique"
+    ]
+   },
+   {
+    "q": "The longest side of a right-angled triangle",
+    "right": "Hypotenuse",
+    "wrong": [
+     "Tangent",
+     "Diagonal",
+     "Vertex"
+    ]
+   },
+   {
+    "q": "An angle between 90 and 180 degrees",
+    "right": "Obtuse",
+    "wrong": [
+     "Acute",
+     "Reflex",
+     "Oblique"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: what's this TV and film set word?",
+  "target": 10,
+  "category": "TV",
+  "tags": [
+   "TV",
+   "film",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The screen that shows the presenter their script",
+    "right": "Autocue",
+    "wrong": [
+     "Viewfinder",
+     "Cue light",
+     "Monitor"
+    ]
+   },
+   {
+    "q": "Words along the bottom of the screen for people who can't hear",
+    "right": "Subtitles",
+    "wrong": [
+     "Ticker",
+     "Watermark",
+     "Teaser"
+    ]
+   },
+   {
+    "q": "A short advert for a programme that's coming soon",
+    "right": "Trailer",
+    "wrong": [
+     "Jingle",
+     "Bumper",
+     "Sting"
+    ]
+   },
+   {
+    "q": "The channel's short logo clip between programmes",
+    "right": "Ident",
+    "wrong": [
+     "Jingle",
+     "Watermark",
+     "Ticker"
+    ]
+   },
+   {
+    "q": "A mistake that ends up on a funny outtakes show",
+    "right": "Blooper",
+    "wrong": [
+     "Montage",
+     "Cutaway",
+     "Freeze-frame"
+    ]
+   },
+   {
+    "q": "A brief appearance by a famous face",
+    "right": "Cameo",
+    "wrong": [
+     "Lead role",
+     "Understudy",
+     "Stunt double"
+    ]
+   },
+   {
+    "q": "The first test episode of a new series",
+    "right": "Pilot",
+    "wrong": [
+     "Season",
+     "Box set",
+     "Reboot"
+    ]
+   },
+   {
+    "q": "The very last episode of a series",
+    "right": "Finale",
+    "wrong": [
+     "Reboot",
+     "Prequel",
+     "Remake"
+    ]
+   },
+   {
+    "q": "A new show built around a character from another show",
+    "right": "Spin-off",
+    "wrong": [
+     "Reboot",
+     "Prequel",
+     "Remake"
+    ]
+   },
+   {
+    "q": "Making the words up on the spot instead of using the script",
+    "right": "Ad-lib",
+    "wrong": [
+     "Recap",
+     "Monologue",
+     "Cue card"
+    ]
+   },
+   {
+    "q": "Giving away a plot twist before someone's seen it",
+    "right": "Spoiler",
+    "wrong": [
+     "Teaser",
+     "Recap",
+     "Cliffhanger"
+    ]
+   },
+   {
+    "q": "A narrator's voice heard but not seen",
+    "right": "Voice-over",
+    "wrong": [
+     "Playback",
+     "Echo",
+     "Soundtrack"
+    ]
+   },
+   {
+    "q": "Replacing the actors' voices in another language",
+    "right": "Dubbing",
+    "wrong": [
+     "Playback",
+     "Remake",
+     "Remix"
+    ]
+   },
+   {
+    "q": "Miming along to a recorded song",
+    "right": "Lip-sync",
+    "wrong": [
+     "Karaoke",
+     "Busking",
+     "Encore"
+    ]
+   },
+   {
+    "q": "The striped board snapped shut at the start of every take",
+    "right": "Clapperboard",
+    "wrong": [
+     "Viewfinder",
+     "Dolly",
+     "Boom"
+    ]
+   },
+   {
+    "q": "The chief electrician on a film or TV set",
+    "right": "Gaffer",
+    "wrong": [
+     "Grip",
+     "Best boy",
+     "Dolly operator"
+    ]
+   },
+   {
+    "q": "The junior who fetches and carries on set",
+    "right": "Runner",
+    "wrong": [
+     "Grip",
+     "Best boy",
+     "Producer"
+    ]
+   },
+   {
+    "q": "A background actor with no lines",
+    "right": "Extra",
+    "wrong": [
+     "Understudy",
+     "Stand-in",
+     "Stunt double"
+    ]
+   },
+   {
+    "q": "Drawings of every shot in order, like a comic strip",
+    "right": "Storyboard",
+    "wrong": [
+     "Viewfinder",
+     "Script",
+     "Shot list"
+    ]
+   },
+   {
+    "q": "The raw, unedited footage from a day's filming",
+    "right": "Rushes",
+    "wrong": [
+     "Cutaways",
+     "Montage",
+     "Trailers"
+    ]
+   }
+  ]
+ }
+]
