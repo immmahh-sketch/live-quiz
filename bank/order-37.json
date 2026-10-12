@@ -1,0 +1,40 @@
+[
+ {
+  "type": "order",
+  "text": "Put these Rudyard Kipling works in order of publication, earliest first",
+  "items": [
+   "The Jungle Book",
+   "Captains Courageous",
+   "Kim",
+   "Just So Stories",
+   "Puck of Pook's Hill",
+   "If—"
+  ],
+  "hint": "earliest first",
+  "category": "Books",
+  "tags": [
+   "Kipling",
+   "classic books"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "order",
+  "text": "Put these classic animal stories in order of publication, earliest first",
+  "items": [
+   "Black Beauty",
+   "The Call of the Wild",
+   "The Wind in the Willows",
+   "Bambi",
+   "Charlotte's Web",
+   "Watership Down"
+  ],
+  "hint": "earliest first",
+  "category": "Books",
+  "tags": [
+   "animal stories",
+   "classic books"
+  ],
+  "difficulty": "medium"
+ }
+]
