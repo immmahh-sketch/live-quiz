@@ -1,0 +1,198 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this shipbuilding word?",
+  "target": 10,
+  "category": "The North East of England",
+  "tags": [
+   "shipbuilding",
+   "Tyne",
+   "Wear",
+   "North East",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The skilled tradesman who builds ships",
+    "right": "Shipwright",
+    "wrong": [
+     "Wheelwright",
+     "Cartwright",
+     "Millwright"
+    ]
+   },
+   {
+    "q": "Hammered red-hot metal pins to hold the steel plates together",
+    "right": "Riveter",
+    "wrong": [
+     "Blacksmith",
+     "Farrier",
+     "Glazier"
+    ]
+   },
+   {
+    "q": "Joins metal together with a hot arc or flame",
+    "right": "Welder",
+    "wrong": [
+     "Tinsmith",
+     "Brazier",
+     "Cooper"
+    ]
+   },
+   {
+    "q": "Shaped and fitted the big steel plates of the hull",
+    "right": "Plater",
+    "wrong": [
+     "Fitter",
+     "Turner",
+     "Moulder"
+    ]
+   },
+   {
+    "q": "Made the seams between the plates watertight",
+    "right": "Caulker",
+    "wrong": [
+     "Thatcher",
+     "Tiler",
+     "Roofer"
+    ]
+   },
+   {
+    "q": "A basin pumped empty so a ship can be worked on out of the water",
+    "right": "Dry dock",
+    "wrong": [
+     "Wet dock",
+     "Marina",
+     "Quayside"
+    ]
+   },
+   {
+    "q": "The giant T-shaped crane over a fitting-out berth",
+    "right": "Hammerhead crane",
+    "wrong": [
+     "Tower crane",
+     "Crawler crane",
+     "Derrick"
+    ]
+   },
+   {
+    "q": "The siren that sounded the start and end of every shift",
+    "right": "Hooter",
+    "wrong": [
+     "Klaxon",
+     "Bugle",
+     "Gong"
+    ]
+   },
+   {
+    "q": "Finishing the ship's insides after she has been launched",
+    "right": "Fitting-out",
+    "wrong": [
+     "Kitting-up",
+     "Rigging-down",
+     "Topping-off"
+    ]
+   },
+   {
+    "q": "Test voyages before the ship is handed over to her owners",
+    "right": "Sea trials",
+    "wrong": [
+     "Maiden voyage",
+     "Dress rehearsal",
+     "Test drive"
+    ]
+   },
+   {
+    "q": "Smashing a bottle on the bow as she's named",
+    "right": "Christening",
+    "wrong": [
+     "Baptism",
+     "Toasting",
+     "Crowning"
+    ]
+   },
+   {
+    "q": "A watertight wall dividing up the inside of the ship",
+    "right": "Bulkhead",
+    "wrong": [
+     "Hatch",
+     "Deckhead",
+     "Gunwale"
+    ]
+   },
+   {
+    "q": "The detailed plan drawing of the ship",
+    "right": "Blueprint",
+    "wrong": [
+     "Sketch",
+     "Mock-up",
+     "Doodle"
+    ]
+   },
+   {
+    "q": "The famous Wallsend shipyard whose cranes stood over the Tyne until 2009",
+    "right": "Swan Hunter",
+    "wrong": [
+     "Harland and Wolff",
+     "Cammell Laird",
+     "Vickers"
+    ]
+   },
+   {
+    "q": "The famous shipbuilder and engine maker on the Wear in Sunderland",
+    "right": "Doxford",
+    "wrong": [
+     "Readhead",
+     "Smith's Dock",
+     "Vosper Thornycroft"
+    ]
+   },
+   {
+    "q": "The record-breaking Cunard liner launched on the Tyne in 1906",
+    "right": "Mauretania",
+    "wrong": [
+     "Lusitania",
+     "Aquitania",
+     "Olympic"
+    ]
+   },
+   {
+    "q": "The mark on the hull showing how low a loaded ship may safely sit",
+    "right": "Plimsoll line",
+    "wrong": [
+     "Sea line",
+     "Tide mark",
+     "Hemline"
+    ]
+   },
+   {
+    "q": "A young worker learning the trade over several years",
+    "right": "Apprentice",
+    "wrong": [
+     "Journeyman",
+     "Foreman",
+     "Gaffer"
+    ]
+   },
+   {
+    "q": "A tall frame running on rails, carrying loads across the berth",
+    "right": "Gantry",
+    "wrong": [
+     "Scaffold",
+     "Trestle",
+     "Pulley"
+    ]
+   },
+   {
+    "q": "The number a shipyard gives every ship it builds",
+    "right": "Yard number",
+    "wrong": [
+     "Berth number",
+     "Pennant number",
+     "Call sign"
+    ]
+   }
+  ]
+ }
+]
