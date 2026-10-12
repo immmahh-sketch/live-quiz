@@ -1,0 +1,44 @@
+[
+ {
+  "type": "order",
+  "text": "Put these old British coins in order of value, lowest first",
+  "items": [
+   "Farthing",
+   "Halfpenny",
+   "Threepenny bit",
+   "Sixpence",
+   "Shilling",
+   "Florin",
+   "Half crown"
+  ],
+  "hint": "lowest first",
+  "category": "History",
+  "tags": [
+   "coins",
+   "money",
+   "pre-decimal"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these medieval kings of England in order of their reigns, earliest first",
+  "items": [
+   "William the Conqueror",
+   "Henry I",
+   "Stephen",
+   "Henry II",
+   "Richard the Lionheart",
+   "Edward I",
+   "Edward III"
+  ],
+  "hint": "earliest first",
+  "category": "History",
+  "tags": [
+   "kings",
+   "Normans",
+   "Plantagenets"
+  ],
+  "difficulty": "hard"
+ }
+]
