@@ -1,0 +1,72 @@
+[
+ {
+  "type": "wipeout",
+  "text": "Old British coins (before decimal day, or long before)",
+  "right": [
+   "Farthing",
+   "Halfpenny",
+   "Penny",
+   "Threepenny bit",
+   "Sixpence",
+   "Shilling",
+   "Florin",
+   "Half crown",
+   "Crown",
+   "Groat",
+   "Guinea",
+   "Sovereign",
+   "Half sovereign",
+   "Noble",
+   "Angel"
+  ],
+  "wrong": [
+   "Ducat",
+   "Doubloon",
+   "Thaler",
+   "Franc",
+   "Groschen"
+  ],
+  "difficulty": "medium",
+  "category": "History",
+  "tags": [
+   "coins",
+   "money",
+   "pre-decimal"
+  ]
+ },
+ {
+  "type": "wipeout",
+  "text": "Kings of England between 1066 and 1485",
+  "right": [
+   "William the Conqueror",
+   "William Rufus",
+   "Henry I",
+   "Stephen",
+   "Henry II",
+   "Richard the Lionheart",
+   "King John",
+   "Henry III",
+   "Edward I",
+   "Edward II",
+   "Edward III",
+   "Richard II",
+   "Henry V",
+   "Edward IV",
+   "Richard III"
+  ],
+  "wrong": [
+   "Henry VII",
+   "Harold Godwinson",
+   "Edward VI",
+   "Robert the Bruce",
+   "Empress Matilda"
+  ],
+  "difficulty": "medium",
+  "category": "History",
+  "tags": [
+   "kings",
+   "Normans",
+   "Plantagenets"
+  ]
+ }
+]
