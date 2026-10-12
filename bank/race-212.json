@@ -1,0 +1,197 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: what's this allotment word?",
+  "target": 10,
+  "category": "Nature",
+  "tags": [
+   "allotments",
+   "gardening",
+   "vegetables",
+   "words"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The little wooden hut on every plot",
+    "right": "Shed",
+    "wrong": [
+     "Gazebo",
+     "Pergola",
+     "Summerhouse"
+    ]
+   },
+   {
+    "q": "Your own patch of ground at the allotments",
+    "right": "Plot",
+    "wrong": [
+     "Paddock",
+     "Croft",
+     "Acre"
+    ]
+   },
+   {
+    "q": "A big barrel collecting rainwater off the shed roof",
+    "right": "Water butt",
+    "wrong": [
+     "Cistern",
+     "Sump",
+     "Trough"
+    ]
+   },
+   {
+    "q": "A tall clay pot put over a crown to grow pale, tender stalks",
+    "right": "Rhubarb forcer",
+    "wrong": [
+     "Bell jar",
+     "Plant pot",
+     "Chimney pot"
+    ]
+   },
+   {
+    "q": "Climbing beans with scarlet flowers, grown up canes",
+    "right": "Runner beans",
+    "wrong": [
+     "Broad beans",
+     "Kidney beans",
+     "Butter beans"
+    ]
+   },
+   {
+    "q": "The thick-stemmed giant grown for North East shows",
+    "right": "Pot leek",
+    "wrong": [
+     "Spring onion",
+     "Shallot",
+     "Celeriac"
+    ]
+   },
+   {
+    "q": "The old measure of a standard plot: ten of these",
+    "right": "Rod",
+    "wrong": [
+     "Chain",
+     "Furlong",
+     "Yard"
+    ]
+   },
+   {
+    "q": "Mesh draped over the cabbages to keep the pigeons off",
+    "right": "Netting",
+    "wrong": [
+     "Bunting",
+     "Tarpaulin",
+     "Muslin"
+    ]
+   },
+   {
+    "q": "A long, curved plastic greenhouse",
+    "right": "Polytunnel",
+    "wrong": [
+     "Orangery",
+     "Conservatory",
+     "Gazebo"
+    ]
+   },
+   {
+    "q": "A bed built up inside wooden boards",
+    "right": "Raised bed",
+    "wrong": [
+     "Flower bed",
+     "Sunbed",
+     "Water bed"
+    ]
+   },
+   {
+    "q": "Spuds you plant to grow next year's crop",
+    "right": "Seed potatoes",
+    "wrong": [
+     "New potatoes",
+     "Jacket potatoes",
+     "Mash"
+    ]
+   },
+   {
+    "q": "Leaving seed potatoes on a windowsill to sprout first",
+    "right": "Chitting",
+    "wrong": [
+     "Thinning",
+     "Sowing",
+     "Pricking out"
+    ]
+   },
+   {
+    "q": "Piling soil up round the potato stems",
+    "right": "Earthing up",
+    "wrong": [
+     "Digging in",
+     "Turning over",
+     "Bedding down"
+    ]
+   },
+   {
+    "q": "Growing a different crop in each bed every year",
+    "right": "Crop rotation",
+    "wrong": [
+     "Crop circle",
+     "Companion planting",
+     "Succession sowing"
+    ]
+   },
+   {
+    "q": "Plants like clover grown to be dug back in and feed the soil",
+    "right": "Green manure",
+    "wrong": [
+     "Bone meal",
+     "Blood, fish and bone",
+     "Wood ash"
+    ]
+   },
+   {
+    "q": "Rotted-down autumn leaves used to improve the soil",
+    "right": "Leaf mould",
+    "wrong": [
+     "Peat",
+     "Bark chips",
+     "Gravel"
+    ]
+   },
+   {
+    "q": "What you join to get a plot in many towns",
+    "right": "Waiting list",
+    "wrong": [
+     "Guest list",
+     "Wish list",
+     "Shortlist"
+    ]
+   },
+   {
+    "q": "Little blue pellets that stop slimy pests",
+    "right": "Slug pellets",
+    "wrong": [
+     "Bird seed",
+     "Mothballs",
+     "Weedkiller"
+    ]
+   },
+   {
+    "q": "The cabbage, sprout and kale family",
+    "right": "Brassicas",
+    "wrong": [
+     "Legumes",
+     "Alliums",
+     "Cucurbits"
+    ]
+   },
+   {
+    "q": "Hairy green berries on a prickly bush",
+    "right": "Gooseberry",
+    "wrong": [
+     "Blackcurrant",
+     "Redcurrant",
+     "Cranberry"
+    ]
+   }
+  ]
+ }
+]
