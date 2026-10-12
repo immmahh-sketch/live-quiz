@@ -1,0 +1,100 @@
+[
+ {
+  "type": "sort",
+  "text": "A character from 'The Jungle Book' or from 'Watership Down'?",
+  "categories": [
+   "The Jungle Book",
+   "Watership Down"
+  ],
+  "items": [
+   {
+    "text": "Baloo",
+    "category": "The Jungle Book"
+   },
+   {
+    "text": "Bagheera",
+    "category": "The Jungle Book"
+   },
+   {
+    "text": "Shere Khan",
+    "category": "The Jungle Book"
+   },
+   {
+    "text": "Kaa",
+    "category": "The Jungle Book"
+   },
+   {
+    "text": "Hazel",
+    "category": "Watership Down"
+   },
+   {
+    "text": "Fiver",
+    "category": "Watership Down"
+   },
+   {
+    "text": "Bigwig",
+    "category": "Watership Down"
+   },
+   {
+    "text": "General Woundwort",
+    "category": "Watership Down"
+   }
+  ],
+  "category": "Books",
+  "tags": [
+   "The Jungle Book",
+   "Watership Down",
+   "animal stories"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A lighthouse in England or in Scotland?",
+  "categories": [
+   "England",
+   "Scotland"
+  ],
+  "items": [
+   {
+    "text": "Eddystone",
+    "category": "England"
+   },
+   {
+    "text": "Souter",
+    "category": "England"
+   },
+   {
+    "text": "Longstone",
+    "category": "England"
+   },
+   {
+    "text": "Beachy Head",
+    "category": "England"
+   },
+   {
+    "text": "Bell Rock",
+    "category": "Scotland"
+   },
+   {
+    "text": "Skerryvore",
+    "category": "Scotland"
+   },
+   {
+    "text": "Muckle Flugga",
+    "category": "Scotland"
+   },
+   {
+    "text": "Ardnamurchan",
+    "category": "Scotland"
+   }
+  ],
+  "category": "UK geography",
+  "tags": [
+   "lighthouses",
+   "England",
+   "Scotland"
+  ],
+  "difficulty": "hard"
+ }
+]
