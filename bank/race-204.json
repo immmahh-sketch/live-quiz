@@ -1,201 +1,7 @@
 [
  {
   "type": "race",
-  "text": "The Race: what's this flying word?",
-  "target": 10,
-  "category": "Travel",
-  "tags": [
-   "flying",
-   "aviation",
-   "words"
-  ],
-  "difficulty": "medium",
-  "bank": [
-   {
-    "q": "The person who flies the plane",
-    "right": "Pilot",
-    "wrong": [
-     "Marshal",
-     "Dispatcher",
-     "Loadmaster"
-    ]
-   },
-   {
-    "q": "Where the pilots sit, right at the front",
-    "right": "Cockpit",
-    "wrong": [
-     "Hold",
-     "Nacelle",
-     "Wheel well"
-    ]
-   },
-   {
-    "q": "The long main body of the plane, where the passengers sit",
-    "right": "Fuselage",
-    "wrong": [
-     "Keel",
-     "Chassis",
-     "Hull"
-    ]
-   },
-   {
-    "q": "The big shed where planes are kept and repaired",
-    "right": "Hangar",
-    "wrong": [
-     "Depot",
-     "Terminal",
-     "Silo"
-    ]
-   },
-   {
-    "q": "The little kitchen where the cabin crew make the drinks",
-    "right": "Galley",
-    "wrong": [
-     "Pantry",
-     "Buttery",
-     "Scullery"
-    ]
-   },
-   {
-    "q": "Leaving the runway and climbing into the air",
-    "right": "Take-off",
-    "wrong": [
-     "Touchdown",
-     "Go-around",
-     "Climb-out"
-    ]
-   },
-   {
-    "q": "Rolling slowly along the ground to the runway",
-    "right": "Taxiing",
-    "wrong": [
-     "Gliding",
-     "Hovering",
-     "Stalling"
-    ]
-   },
-   {
-    "q": "Tilting the wings to make a turn",
-    "right": "Banking",
-    "wrong": [
-     "Pitching",
-     "Coasting",
-     "Drifting"
-    ]
-   },
-   {
-    "q": "A sudden bumpy patch of air",
-    "right": "Turbulence",
-    "wrong": [
-     "Headwind",
-     "Backdraft",
-     "Downforce"
-    ]
-   },
-   {
-    "q": "The 'black box' that records the flight",
-    "right": "Flight recorder",
-    "wrong": [
-     "Transponder",
-     "Gyroscope",
-     "Beacon"
-    ]
-   },
-   {
-    "q": "The dial that shows how high you are",
-    "right": "Altimeter",
-    "wrong": [
-     "Barometer",
-     "Odometer",
-     "Speedometer"
-    ]
-   },
-   {
-    "q": "The hinged flap on the tail that steers the nose left and right",
-    "right": "Rudder",
-    "wrong": [
-     "Aileron",
-     "Elevator",
-     "Spoiler"
-    ]
-   },
-   {
-    "q": "A stop on the way where you wait to change planes",
-    "right": "Layover",
-    "wrong": [
-     "Detour",
-     "Shortcut",
-     "Diversion"
-    ]
-   },
-   {
-    "q": "An aircraft with no pilot on board, flown remotely",
-    "right": "Drone",
-    "wrong": [
-     "Glider",
-     "Blimp",
-     "Kite"
-    ]
-   },
-   {
-    "q": "A giant rigid airship like the Hindenburg",
-    "right": "Zeppelin",
-    "wrong": [
-     "Blimp",
-     "Balloon",
-     "Autogyro"
-    ]
-   },
-   {
-    "q": "The covered walkway from the gate to the plane door",
-    "right": "Jet bridge",
-    "wrong": [
-     "Gangplank",
-     "Slipway",
-     "Causeway"
-    ]
-   },
-   {
-    "q": "The radio distress call, said three times",
-    "right": "Mayday",
-    "wrong": [
-     "Pan-pan",
-     "Roger",
-     "Wilco"
-    ]
-   },
-   {
-    "q": "The senior cabin crew member in charge of the cabin",
-    "right": "Purser",
-    "wrong": [
-     "Bosun",
-     "Quartermaster",
-     "Bursar"
-    ]
-   },
-   {
-    "q": "The tall airport building where controllers guide the planes",
-    "right": "Control tower",
-    "wrong": [
-     "Terminal",
-     "Concourse",
-     "Lighthouse"
-    ]
-   },
-   {
-    "q": "The patch of tarmac where planes park to load up",
-    "right": "Apron",
-    "wrong": [
-     "Runway",
-     "Forecourt",
-     "Verge"
-    ]
-   }
-  ]
- },
- {
-  "type": "race",
-  "text": "The Race: what's this shape or maths word?",
+  "text": "The Race: what's this shape word?",
   "target": 10,
   "category": "Science",
   "tags": [
@@ -243,30 +49,30 @@
     ]
    },
    {
-    "q": "From the centre of a circle out to its edge",
-    "right": "Radius",
+    "q": "Two halves that mirror each other exactly",
+    "right": "Symmetry",
     "wrong": [
-     "Chord",
-     "Arc",
-     "Tangent"
+     "Rotation",
+     "Translation",
+     "Enlargement"
     ]
    },
    {
-    "q": "Straight across a circle, through the middle",
-    "right": "Diameter",
+    "q": "Shapes fitting together with no gaps, like floor tiles",
+    "right": "Tessellation",
     "wrong": [
-     "Arc",
-     "Sector",
-     "Tangent"
+     "Rotation",
+     "Translation",
+     "Enlargement"
     ]
    },
    {
-    "q": "The distance all the way round a circle",
-    "right": "Circumference",
+    "q": "Four right angles, with two long sides and two short",
+    "right": "Rectangle",
     "wrong": [
-     "Area",
-     "Arc",
-     "Segment"
+     "Kite",
+     "Parallelogram",
+     "Square"
     ]
    },
    {
@@ -369,12 +175,12 @@
     ]
    },
    {
-    "q": "The longest side of a right-angled triangle",
-    "right": "Hypotenuse",
+    "q": "The flat sides of a 3D shape, like the six on a cube",
+    "right": "Faces",
     "wrong": [
-     "Tangent",
-     "Diagonal",
-     "Vertex"
+     "Edges",
+     "Vertices",
+     "Angles"
     ]
    },
    {
@@ -390,7 +196,7 @@
  },
  {
   "type": "race",
-  "text": "The Race: what's this TV and film set word?",
+  "text": "The Race: what's this behind-the-scenes word?",
   "target": 10,
   "category": "TV",
   "tags": [
@@ -410,21 +216,21 @@
     ]
    },
    {
-    "q": "Words along the bottom of the screen for people who can't hear",
-    "right": "Subtitles",
+    "q": "The crew member holding the long microphone pole over the actors",
+    "right": "Boom operator",
     "wrong": [
-     "Ticker",
-     "Watermark",
-     "Teaser"
+     "Grip",
+     "Best boy",
+     "Focus puller"
     ]
    },
    {
-    "q": "A short advert for a programme that's coming soon",
-    "right": "Trailer",
+    "q": "The wheeled trolley the camera glides along on, on tracks",
+    "right": "Dolly",
     "wrong": [
-     "Jingle",
-     "Bumper",
-     "Sting"
+     "Crane",
+     "Steadicam",
+     "Tripod"
     ]
    },
    {
@@ -446,39 +252,39 @@
     ]
    },
    {
-    "q": "A brief appearance by a famous face",
-    "right": "Cameo",
+    "q": "The plain background swapped for something else in the edit",
+    "right": "Green screen",
     "wrong": [
-     "Lead role",
+     "Backdrop",
+     "Blackout",
+     "Spotlight"
+    ]
+   },
+   {
+    "q": "Making sure nothing changes between shots, like how full a glass is",
+    "right": "Continuity",
+    "wrong": [
+     "Catering",
+     "Casting",
+     "Costume"
+    ]
+   },
+   {
+    "q": "The performer who takes the dangerous falls for the star",
+    "right": "Stunt double",
+    "wrong": [
+     "Stand-in",
      "Understudy",
-     "Stunt double"
+     "Choreographer"
     ]
    },
    {
-    "q": "The first test episode of a new series",
-    "right": "Pilot",
+    "q": "'That's a ___!': said when the filming is finished",
+    "right": "Wrap",
     "wrong": [
-     "Season",
-     "Box set",
-     "Reboot"
-    ]
-   },
-   {
-    "q": "The very last episode of a series",
-    "right": "Finale",
-    "wrong": [
-     "Reboot",
-     "Prequel",
-     "Remake"
-    ]
-   },
-   {
-    "q": "A new show built around a character from another show",
-    "right": "Spin-off",
-    "wrong": [
-     "Reboot",
-     "Prequel",
-     "Remake"
+     "Take",
+     "Cut",
+     "Print"
     ]
    },
    {
@@ -509,12 +315,12 @@
     ]
    },
    {
-    "q": "Replacing the actors' voices in another language",
-    "right": "Dubbing",
+    "q": "The director's shout to start the scene",
+    "right": "Action",
     "wrong": [
-     "Playback",
-     "Remake",
-     "Remix"
+     "Cut",
+     "Places",
+     "Quiet please"
     ]
    },
    {
@@ -531,8 +337,8 @@
     "right": "Clapperboard",
     "wrong": [
      "Viewfinder",
-     "Dolly",
-     "Boom"
+     "Light meter",
+     "Megaphone"
     ]
    },
    {
@@ -541,7 +347,7 @@
     "wrong": [
      "Grip",
      "Best boy",
-     "Dolly operator"
+     "Camera operator"
     ]
    },
    {
@@ -559,7 +365,7 @@
     "wrong": [
      "Understudy",
      "Stand-in",
-     "Stunt double"
+     "Leading lady"
     ]
    },
    {
