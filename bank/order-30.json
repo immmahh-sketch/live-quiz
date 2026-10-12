@@ -1,0 +1,41 @@
+[
+ {
+  "type": "order",
+  "text": "Put these Metro stations in order, heading east from Monument towards the coast",
+  "items": [
+   "Manors",
+   "Byker",
+   "Wallsend",
+   "Percy Main",
+   "North Shields",
+   "Tynemouth"
+  ],
+  "hint": "first stop first",
+  "category": "The North East of England",
+  "tags": [
+   "Metro",
+   "Tyne and Wear",
+   "transport"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these bridges over the Wear in order, going upriver from the sea",
+  "items": [
+   "Wearmouth Bridge",
+   "Queen Alexandra Bridge",
+   "Northern Spire",
+   "The A19 bridge at Hylton",
+   "Framwellgate Bridge in Durham"
+  ],
+  "hint": "nearest the sea first",
+  "category": "The North East of England",
+  "tags": [
+   "River Wear",
+   "bridges",
+   "Sunderland"
+  ],
+  "difficulty": "hard"
+ }
+]
