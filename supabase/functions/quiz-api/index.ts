@@ -2085,24 +2085,20 @@ function levelQuota(need: number, difficulty: string, shape = { easy: 0.15, hard
 }
 const levelOf = (q: any) => (["easy", "medium", "hard"].includes(q.difficulty) ? q.difficulty : "medium");
 /** Flags from the hand review of the bank: never picked. */
-/** A Race fit to play: full questions, and no row whose answer turns up among another row's options (the clicking-contest problem). */
-/** Why a Race fails raceOk, in words the writer can act on. */
+/** Why a Race fails raceOk, in words the writer can act on. Rows may be clues ("The unicorn") under a title that asks the question. */
 function raceProblems(q: any): string {
   const rows = Array.isArray(q?.bank) ? q.bank : [], out: string[] = [];
   if (rows.length < 20) out.push(`only ${rows.length} rows`);
   const ans = rows.map((b: any) => norm(String(b?.options?.[0] ?? "")));
-  if (rows.some((b: any) => !/\?\s*$/.test(String(b?.text || "")) || String(b?.text || "").trim().split(/\s+/).length < 4)) out.push("some rows are not full questions");
+  if (rows.some((b: any) => !String(b?.text || "").trim())) out.push("some rows have no text");
   if (rows.some((b: any, i: number) => (b.options || []).slice(1).some((o: any) => { const j = ans.indexOf(norm(String(o))); return j >= 0 && j !== i; }))) out.push("answers reused as other rows' options");
   const wc: Record<string, number> = {}; rows.forEach((b: any) => (b.options || []).slice(1).forEach((o: any) => { const k = norm(String(o)); wc[k] = (wc[k] || 0) + 1; }));
   if (Object.values(wc).some((c) => c > 2)) out.push("the same wrong answers on many rows");
   return out.join(", ") || "ok";
 }
+/** A Race fit to play: 20+ rows, no row whose answer turns up among another row's options (the clicking-contest problem), no wrong answer on more than 2 rows. */
 function raceOk(q: any): boolean {
-  if (raceProblems(q) !== "ok") return false;
-  const rows = Array.isArray(q?.bank) ? q.bank : []; if (rows.length < 20) return false;
-  const ans = rows.map((b: any) => norm(String(b?.options?.[0] ?? "")));
-  return rows.every((b: any, i: number) => /\?\s*$/.test(String(b?.text || "")) && String(b.text).trim().split(/\s+/).length >= 4
-    && (b.options || []).slice(1).every((o: any) => { const j = ans.indexOf(norm(String(o))); return j < 0 || j === i; }));
+  return raceProblems(q) === "ok";
 }
 const flagged = (q: any) => !!(q.tooEasy || q.giveaway || q.doubt || q.recycled);
 /** Categories that are nothing but surprising facts. */
