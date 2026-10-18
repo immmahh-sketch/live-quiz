@@ -1,0 +1,82 @@
+[
+ {
+  "type": "club",
+  "text": "How many of the letters in NEWCASTLE are vowels?",
+  "answers": [
+   "3",
+   "Three"
+  ],
+  "pct": 70,
+  "why": "E, A and E: three vowels in nine letters.",
+  "difficulty": "easy",
+  "category": "Wordplay",
+  "tags": [
+   "vowels",
+   "North East"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What is the smallest number of UK coins that add up to exactly 87p?",
+  "answers": [
+   "5",
+   "Five"
+  ],
+  "pct": 40,
+  "why": "50p + 20p + 10p + 5p + 2p = 87p.",
+  "difficulty": "medium",
+  "category": "Money",
+  "tags": [
+   "coins",
+   "change"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Four of these numbers are square numbers and one is not: 9, 16, 25, 27, 36. Which one is not?",
+  "answers": [
+   "27",
+   "Twenty-seven"
+  ],
+  "pct": 60,
+  "why": "The others are square numbers (3², 4², 5², 6²); 27 is not.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "square numbers",
+   "odd one out"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Halfway through a 20-question quiz you have 7 right. How many of the last 10 must you get right to finish with three-quarters right?",
+  "answers": [
+   "8",
+   "Eight"
+  ],
+  "pct": 30,
+  "why": "Three-quarters of 20 is 15, and 15 − 7 = 8.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "quiz scores",
+   "fractions"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A recipe needs 3 eggs to make 12 cupcakes. How many eggs do you need for 20 cupcakes?",
+  "answers": [
+   "5",
+   "Five"
+  ],
+  "pct": 50,
+  "why": "That's one egg for every 4 cupcakes, and 20 ÷ 4 = 5.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "baking",
+   "ratios"
+  ]
+ }
+]
