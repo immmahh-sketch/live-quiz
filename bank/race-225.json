@@ -1,0 +1,392 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: which Shipping Forecast area is this?",
+  "target": 10,
+  "category": "UK geography",
+  "tags": [
+   "Shipping Forecast",
+   "sea",
+   "radio",
+   "geography"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "Named after the North Sea bank that was once land joining Britain to Europe",
+    "right": "Dogger",
+    "wrong": [
+     "North Utsire",
+     "Sole",
+     "Moray"
+    ]
+   },
+   {
+    "q": "Renamed in 2002 after the founder of the Met Office",
+    "right": "FitzRoy",
+    "wrong": [
+     "Finisterre",
+     "Beaufort",
+     "Nelson"
+    ]
+   },
+   {
+    "q": "Off north-west Germany and south-west Denmark",
+    "right": "German Bight",
+    "wrong": [
+     "Fisher",
+     "South Utsire",
+     "Skagerrak"
+    ]
+   },
+   {
+    "q": "Named after a lighthouse rock off south-west Ireland",
+    "right": "Fastnet",
+    "wrong": [
+     "Sole",
+     "Cork",
+     "Mizen"
+    ]
+   },
+   {
+    "q": "The remotest area, named after a tiny islet far west of the Hebrides",
+    "right": "Rockall",
+    "wrong": [
+     "Bailey",
+     "St Kilda",
+     "Faeroes"
+    ]
+   },
+   {
+    "q": "The far north of the North Sea, between Shetland and Norway",
+    "right": "Viking",
+    "wrong": [
+     "North Utsire",
+     "Faeroes",
+     "Bergen"
+    ]
+   },
+   {
+    "q": "Named after a stretch of sea about forty fathoms deep, off north-east Scotland",
+    "right": "Forties",
+    "wrong": [
+     "Fathoms",
+     "Fisher",
+     "Moray"
+    ]
+   },
+   {
+    "q": "Off the Moray Firth and Inverness",
+    "right": "Cromarty",
+    "wrong": [
+     "Forth",
+     "Orkney",
+     "Pentland"
+    ]
+   },
+   {
+    "q": "Named after the most northerly point of Ireland",
+    "right": "Malin",
+    "wrong": [
+     "Clyde",
+     "Irish Sea",
+     "Donegal"
+    ]
+   },
+   {
+    "q": "Named after the Bristol Channel island famous for puffins",
+    "right": "Lundy",
+    "wrong": [
+     "Severn",
+     "Bristol",
+     "Portland"
+    ]
+   },
+   {
+    "q": "Our own North East coast, from Berwick down to Whitby",
+    "right": "Tyne",
+    "wrong": [
+     "Forth",
+     "Wear",
+     "Tees"
+    ]
+   },
+   {
+    "q": "Off Yorkshire and Lincolnshire, named after an estuary",
+    "right": "Humber",
+    "wrong": [
+     "Wash",
+     "Tees",
+     "Trent"
+    ]
+   },
+   {
+    "q": "Off Essex and Kent, named after a river",
+    "right": "Thames",
+    "wrong": [
+     "Medway",
+     "Wash",
+     "Severn"
+    ]
+   },
+   {
+    "q": "The narrowest part of the English Channel",
+    "right": "Dover",
+    "wrong": [
+     "Calais",
+     "Portland",
+     "Solent"
+    ]
+   },
+   {
+    "q": "Named after the island off Hampshire",
+    "right": "Wight",
+    "wrong": [
+     "Solent",
+     "Plymouth",
+     "Purbeck"
+    ]
+   },
+   {
+    "q": "Off south-west Spain, named after Nelson's last battle",
+    "right": "Trafalgar",
+    "wrong": [
+     "Nelson",
+     "Cadiz",
+     "Finisterre"
+    ]
+   },
+   {
+    "q": "Off western Ireland, named after a river",
+    "right": "Shannon",
+    "wrong": [
+     "Galway",
+     "Liffey",
+     "Cork"
+    ]
+   },
+   {
+    "q": "The famously stormy bay off western France",
+    "right": "Biscay",
+    "wrong": [
+     "Brest",
+     "Gascony",
+     "Plymouth"
+    ]
+   },
+   {
+    "q": "Off the Western Isles of Scotland",
+    "right": "Hebrides",
+    "wrong": [
+     "St Kilda",
+     "Minch",
+     "Bailey"
+    ]
+   },
+   {
+    "q": "Named after the island between Orkney and Shetland famous for its knitwear",
+    "right": "Fair Isle",
+    "wrong": [
+     "Orkney",
+     "Shetland",
+     "Foula"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: name the cloud or sky sight",
+  "target": 10,
+  "category": "Nature and the environment",
+  "tags": [
+   "weather",
+   "clouds",
+   "sky",
+   "nature"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The towering thunder cloud",
+    "right": "Cumulonimbus",
+    "wrong": [
+     "Altostratus",
+     "Stratocumulus",
+     "Cirrocumulus"
+    ]
+   },
+   {
+    "q": "Thin, wispy high cloud, the 'mares' tails'",
+    "right": "Cirrus",
+    "wrong": [
+     "Cirrostratus",
+     "Altocumulus",
+     "Smog"
+    ]
+   },
+   {
+    "q": "Fluffy, fair-weather cotton-wool cloud",
+    "right": "Cumulus",
+    "wrong": [
+     "Stratocumulus",
+     "Altostratus",
+     "Pileus"
+    ]
+   },
+   {
+    "q": "A low grey blanket of cloud, like fog that has lifted",
+    "right": "Stratus",
+    "wrong": [
+     "Cirrocumulus",
+     "Altocumulus",
+     "Shelf cloud"
+    ]
+   },
+   {
+    "q": "A thick, dark, featureless layer that brings steady rain",
+    "right": "Nimbostratus",
+    "wrong": [
+     "Cirrostratus",
+     "Wall cloud",
+     "Funnel cloud"
+    ]
+   },
+   {
+    "q": "Pouch-like bulges hanging under a storm cloud",
+    "right": "Mammatus",
+    "wrong": [
+     "Pileus",
+     "Shelf cloud",
+     "Wall cloud"
+    ]
+   },
+   {
+    "q": "A smooth, lens- or UFO-shaped cloud over mountains",
+    "right": "Lenticular cloud",
+    "wrong": [
+     "Funnel cloud",
+     "Ball lightning",
+     "Will-o'-the-wisp"
+    ]
+   },
+   {
+    "q": "Glowing clouds seen on summer nights, the highest of all",
+    "right": "Noctilucent clouds",
+    "wrong": [
+     "Zodiacal light",
+     "St Elmo's fire",
+     "Ball lightning"
+    ]
+   },
+   {
+    "q": "Rows of small ripples that look like fish scales",
+    "right": "Mackerel sky",
+    "wrong": [
+     "Herring sky",
+     "Salmon sky",
+     "Sardine sky"
+    ]
+   },
+   {
+    "q": "A bright spot either side of the Sun, also called a parhelion",
+    "right": "Sun dog",
+    "wrong": [
+     "Moonbow",
+     "Glory",
+     "Sun cat"
+    ]
+   },
+   {
+    "q": "A ring of light round the Sun or Moon, made by ice crystals",
+    "right": "Halo",
+    "wrong": [
+     "Glory",
+     "Iridescence",
+     "Zodiacal light"
+    ]
+   },
+   {
+    "q": "A white rainbow made in fog",
+    "right": "Fogbow",
+    "wrong": [
+     "Iridescence",
+     "Sea fret",
+     "Smog"
+    ]
+   },
+   {
+    "q": "Streaks of rain that dry up before they reach the ground",
+    "right": "Virga",
+    "wrong": [
+     "Drizzle",
+     "Sleet",
+     "Graupel"
+    ]
+   },
+   {
+    "q": "The cold sea fog of Scotland's east coast",
+    "right": "Haar",
+    "wrong": [
+     "Mist",
+     "Murk",
+     "Smirr"
+    ]
+   },
+   {
+    "q": "The line of cloud left behind a jet",
+    "right": "Contrail",
+    "wrong": [
+     "Jet stream",
+     "Slipstream",
+     "Airstream"
+    ]
+   },
+   {
+    "q": "The Northern Lights' Latin name",
+    "right": "Aurora borealis",
+    "wrong": [
+     "Aurora australis",
+     "Ignis fatuus",
+     "Stella maris"
+    ]
+   },
+   {
+    "q": "Your giant shadow on the mist below a mountain top",
+    "right": "Brocken spectre",
+    "wrong": [
+     "Will-o'-the-wisp",
+     "Fata Morgana",
+     "Green man"
+    ]
+   },
+   {
+    "q": "A flicker of colour at the top of the setting Sun",
+    "right": "Green flash",
+    "wrong": [
+     "Blue moon",
+     "Red sky",
+     "Fata Morgana"
+    ]
+   },
+   {
+    "q": "Sunbeams fanning out through gaps in the clouds",
+    "right": "Crepuscular rays",
+    "wrong": [
+     "Solar flares",
+     "Cosmic rays",
+     "Northern rays"
+    ]
+   },
+   {
+    "q": "The flat, spreading top of a thunderstorm cloud",
+    "right": "Anvil",
+    "wrong": [
+     "Hammerhead",
+     "Plateau",
+     "Crown"
+    ]
+   }
+  ]
+ }
+]
