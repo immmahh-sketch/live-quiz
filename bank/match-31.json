@@ -1,0 +1,88 @@
+[
+ {
+  "type": "match",
+  "text": "Match each cartoon dog to its owner",
+  "pairs": [
+   {
+    "left": "Gnasher",
+    "right": "Dennis the Menace"
+   },
+   {
+    "left": "Snoopy",
+    "right": "Charlie Brown"
+   },
+   {
+    "left": "Scooby-Doo",
+    "right": "Shaggy"
+   },
+   {
+    "left": "Muttley",
+    "right": "Dick Dastardly"
+   }
+  ],
+  "difficulty": "easy",
+  "category": "Children's TV",
+  "tags": [
+   "cartoons",
+   "dogs",
+   "comics"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each number to how many zeros it has",
+  "pairs": [
+   {
+    "left": "Million",
+    "right": "6"
+   },
+   {
+    "left": "Billion",
+    "right": "9"
+   },
+   {
+    "left": "Trillion",
+    "right": "12"
+   },
+   {
+    "left": "Googol",
+    "right": "100"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Maths and numbers",
+  "tags": [
+   "big numbers",
+   "zeros"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each famous cat to its owner",
+  "pairs": [
+   {
+    "left": "Garfield",
+    "right": "Jon Arbuckle"
+   },
+   {
+    "left": "Jess",
+    "right": "Postman Pat"
+   },
+   {
+    "left": "Salem",
+    "right": "Sabrina"
+   },
+   {
+    "left": "Mrs Norris",
+    "right": "Argus Filch"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Children's TV",
+  "tags": [
+   "cats",
+   "cartoons",
+   "books"
+  ]
+ }
+]
