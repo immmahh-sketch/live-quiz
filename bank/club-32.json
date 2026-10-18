@@ -1,0 +1,99 @@
+[
+ {
+  "type": "club",
+  "text": "Spell the five-letter palindrome meaning flat and even.",
+  "answers": [
+   "Level"
+  ],
+  "pct": 60,
+  "why": "L-E-V-E-L is the same both ways.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "palindromes"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Of Monday to Sunday, which day's name has the most letters?",
+  "answers": [
+   "Wednesday"
+  ],
+  "pct": 50,
+  "why": "Wednesday has nine letters; Thursday and Saturday have eight.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "days",
+   "letters"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A Sudoku row holds each digit from 1 to 9 once. What does the row add up to?",
+  "answers": [
+   "45",
+   "Forty-five"
+  ],
+  "pct": 50,
+  "why": "1 + 2 + … + 9 = 45.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "sudoku",
+   "adding"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A ferry leaves at 6:00am and then every 40 minutes. When does the fifth ferry leave?",
+  "answers": [
+   "8:40am",
+   "8:40",
+   "8.40",
+   "08:40"
+  ],
+  "pct": 40,
+  "why": "6:00, 6:40, 7:20, 8:00, 8:40.",
+  "difficulty": "medium",
+  "category": "Time",
+  "tags": [
+   "timetables",
+   "ferries"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Multiply together the four digits of the year 2026. What do you get?",
+  "answers": [
+   "0",
+   "Zero",
+   "Nothing"
+  ],
+  "pct": 30,
+  "why": "One of the digits is 0, so the answer is 0.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "digits",
+   "multiplying",
+   "trick"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Pay exactly £1.99 using as few UK coins as possible. How many coins is that?",
+  "answers": [
+   "7",
+   "Seven"
+  ],
+  "pct": 20,
+  "why": "£1 + 50p + 20p + 20p + 5p + 2p + 2p = £1.99.",
+  "difficulty": "hard",
+  "category": "Money",
+  "tags": [
+   "coins",
+   "change"
+  ]
+ }
+]
