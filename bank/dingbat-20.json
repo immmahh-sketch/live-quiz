@@ -1,0 +1,107 @@
+[
+ {
+  "answers": [
+   "Feeling blue"
+  ],
+  "elements": [
+   {
+    "t": "FEELING",
+    "x": 50,
+    "y": 50,
+    "s": 4,
+    "color": "#1f5fd4"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Head start"
+  ],
+  "elements": [
+   {
+    "t": "START",
+    "x": 50,
+    "y": 12,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Fall behind"
+  ],
+  "elements": [
+   {
+    "t": "BEHIND",
+    "x": 50,
+    "y": 50,
+    "s": 3,
+    "rot": 90
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "hard"
+ },
+ {
+  "answers": [
+   "Walking on air"
+  ],
+  "elements": [
+   {
+    "t": "WALKING",
+    "x": 50,
+    "y": 33,
+    "s": 4
+   },
+   {
+    "t": "AIR",
+    "x": 50,
+    "y": 67,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Out of order"
+  ],
+  "elements": [
+   {
+    "t": "RODER",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Uphill struggle"
+  ],
+  "elements": [
+   {
+    "t": "STRUGGLE",
+    "x": 50,
+    "y": 50,
+    "s": 4,
+    "rot": -25
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ }
+]
