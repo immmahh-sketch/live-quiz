@@ -1,0 +1,87 @@
+[
+ {
+  "type": "match",
+  "text": "Match each organ to one of its jobs",
+  "pairs": [
+   {
+    "left": "Liver",
+    "right": "Makes bile"
+   },
+   {
+    "left": "Kidneys",
+    "right": "Filter blood to make urine"
+   },
+   {
+    "left": "Pancreas",
+    "right": "Makes insulin"
+   },
+   {
+    "left": "Spleen",
+    "right": "Clears out old red blood cells"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "The human body",
+  "tags": [
+   "organs",
+   "biology"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each Shakespeare villain to the play they're in",
+  "pairs": [
+   {
+    "left": "Iago",
+    "right": "Othello"
+   },
+   {
+    "left": "Lady Macbeth",
+    "right": "Macbeth"
+   },
+   {
+    "left": "Edmund",
+    "right": "King Lear"
+   },
+   {
+    "left": "Tybalt",
+    "right": "Romeo and Juliet"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Shakespeare",
+  "tags": [
+   "villains",
+   "plays"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each famous steam engine to the engineer behind it",
+  "pairs": [
+   {
+    "left": "Rocket",
+    "right": "Robert Stephenson"
+   },
+   {
+    "left": "Mallard",
+    "right": "Nigel Gresley"
+   },
+   {
+    "left": "City of Truro",
+    "right": "George Jackson Churchward"
+   },
+   {
+    "left": "Evening Star",
+    "right": "Robert Riddles"
+   }
+  ],
+  "difficulty": "hard",
+  "category": "History",
+  "tags": [
+   "steam",
+   "railways",
+   "engineers"
+  ]
+ }
+]
