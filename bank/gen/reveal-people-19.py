@@ -14,8 +14,11 @@ P = [
  ("Sacha Baron Cohen", ["Sacha Baron Cohen", "Baron Cohen", "Borat", "Ali G"], "easy"), ("Giles Coren", ["Giles Coren", "Coren"], "hard"),
  ("Kirsty Gallacher", ["Kirsty Gallacher", "Gallacher"], "hard"), ("Gail Porter", ["Gail Porter", "Porter"], "medium"),
 ]
-NO_PICTURE = {"Bob Holness", "Magnus Magnusson", "Larry Grayson", "Dale Winton", "Michael Aspel", "Richard Whiteley", "Bob Monkhouse", "Matthew Kelly", "Mel Giedroyc"}
-RETIRED = {"Roy Walker", "Des O'Connor"}
+# After stocking: no usable Wikipedia picture for Philippa Forrester, Les Dawson, Leslie Crowther or Amol Rajan. Retired from
+# the contact sheet: Drew Carey (tiny face in a baseball kit), Gail Porter (sunglasses, small) and Bob Barker (a 1975 still,
+# and too little known here).
+NO_PICTURE = {"Philippa Forrester", "Les Dawson", "Leslie Crowther", "Amol Rajan"}
+RETIRED = {"Drew Carey", "Gail Porter", "Bob Barker"}
 P = [p for p in P if p[0] not in NO_PICTURE | RETIRED]
 here = os.path.dirname(os.path.abspath(__file__))
 json.dump([{"title": t, "answers": list(dict.fromkeys(a)), "difficulty": d} for t, a, d in P], open(os.path.join(here, '..', 'reveal-people-19.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
