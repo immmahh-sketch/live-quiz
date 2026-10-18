@@ -1,0 +1,86 @@
+[
+ {
+  "type": "match",
+  "text": "Match each unit to what it's used to measure",
+  "pairs": [
+   {
+    "left": "Hand",
+    "right": "A horse's height"
+   },
+   {
+    "left": "Knot",
+    "right": "Speed at sea"
+   },
+   {
+    "left": "Carat",
+    "right": "A gemstone's weight"
+   },
+   {
+    "left": "Furlong",
+    "right": "A horse race's distance"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Everyday life",
+  "tags": [
+   "units",
+   "measurement"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each big cat to its coat",
+  "pairs": [
+   {
+    "left": "Leopard",
+    "right": "Rosettes"
+   },
+   {
+    "left": "Cheetah",
+    "right": "Solid black spots"
+   },
+   {
+    "left": "Tiger",
+    "right": "Stripes"
+   },
+   {
+    "left": "Lion",
+    "right": "Plain tawny"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Nature",
+  "tags": [
+   "big cats",
+   "patterns"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each game show to the person who created it",
+  "pairs": [
+   {
+    "left": "Wheel of Fortune",
+    "right": "Merv Griffin"
+   },
+   {
+    "left": "Mastermind",
+    "right": "Bill Wright"
+   },
+   {
+    "left": "Pointless",
+    "right": "Richard Osman"
+   },
+   {
+    "left": "Robot Wars",
+    "right": "Marc Thorpe"
+   }
+  ],
+  "difficulty": "hard",
+  "category": "Television",
+  "tags": [
+   "game shows",
+   "creators"
+  ]
+ }
+]
