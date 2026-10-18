@@ -1,0 +1,117 @@
+[
+ {
+  "type": "match",
+  "text": "Match each David Croft sitcom to where it's set",
+  "pairs": [
+   {
+    "left": "Dad's Army",
+    "right": "Walmington-on-Sea"
+   },
+   {
+    "left": "Hi-de-Hi!",
+    "right": "Maplins holiday camp"
+   },
+   {
+    "left": "'Allo 'Allo!",
+    "right": "A café in Nouvion"
+   },
+   {
+    "left": "Are You Being Served?",
+    "right": "Grace Brothers department store"
+   }
+  ],
+  "difficulty": "easy",
+  "category": "British sitcoms",
+  "tags": [
+   "David Croft",
+   "sitcoms"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each Gerry Anderson show to its hero",
+  "pairs": [
+   {
+    "left": "Stingray",
+    "right": "Troy Tempest"
+   },
+   {
+    "left": "Fireball XL5",
+    "right": "Steve Zodiac"
+   },
+   {
+    "left": "Joe 90",
+    "right": "Joe McClaine"
+   },
+   {
+    "left": "Terrahawks",
+    "right": "Dr Tiger Ninestein"
+   }
+  ],
+  "difficulty": "hard",
+  "category": "Television",
+  "tags": [
+   "Gerry Anderson",
+   "puppets",
+   "1960s TV"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each solid shape to its number of faces",
+  "pairs": [
+   {
+    "left": "Tetrahedron",
+    "right": "4"
+   },
+   {
+    "left": "Cube",
+    "right": "6"
+   },
+   {
+    "left": "Octahedron",
+    "right": "8"
+   },
+   {
+    "left": "Dodecahedron",
+    "right": "12"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Maths and numbers",
+  "tags": [
+   "shapes",
+   "geometry",
+   "Platonic solids"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each of the 'Big Four' railway companies to one of its famous engines",
+  "pairs": [
+   {
+    "left": "LNER",
+    "right": "Flying Scotsman"
+   },
+   {
+    "left": "GWR",
+    "right": "City of Truro"
+   },
+   {
+    "left": "LMS",
+    "right": "Royal Scot"
+   },
+   {
+    "left": "Southern",
+    "right": "Merchant Navy class"
+   }
+  ],
+  "difficulty": "hard",
+  "category": "History",
+  "tags": [
+   "railways",
+   "steam",
+   "locomotives"
+  ]
+ }
+]
