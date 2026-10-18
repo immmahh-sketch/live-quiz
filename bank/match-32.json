@@ -1,0 +1,86 @@
+[
+ {
+  "type": "match",
+  "text": "Match each instrument to how many strings it usually has",
+  "pairs": [
+   {
+    "left": "Violin",
+    "right": "4"
+   },
+   {
+    "left": "Banjo",
+    "right": "5"
+   },
+   {
+    "left": "Guitar",
+    "right": "6"
+   },
+   {
+    "left": "Concert harp",
+    "right": "47"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Music",
+  "tags": [
+   "instruments",
+   "strings"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each dessert to the country it comes from",
+  "pairs": [
+   {
+    "left": "Tiramisu",
+    "right": "Italy"
+   },
+   {
+    "left": "Apple strudel",
+    "right": "Austria"
+   },
+   {
+    "left": "Churros",
+    "right": "Spain"
+   },
+   {
+    "left": "Crème brûlée",
+    "right": "France"
+   }
+  ],
+  "difficulty": "easy",
+  "category": "Food and drink",
+  "tags": [
+   "desserts",
+   "countries"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each sauce to the roast it traditionally goes with",
+  "pairs": [
+   {
+    "left": "Mint sauce",
+    "right": "Lamb"
+   },
+   {
+    "left": "Apple sauce",
+    "right": "Pork"
+   },
+   {
+    "left": "Horseradish sauce",
+    "right": "Beef"
+   },
+   {
+    "left": "Bread sauce",
+    "right": "Turkey"
+   }
+  ],
+  "difficulty": "easy",
+  "category": "Food and drink",
+  "tags": [
+   "sauces",
+   "Sunday roast"
+  ]
+ }
+]
