@@ -1,0 +1,41 @@
+[
+ {
+  "type": "order",
+  "text": "Put these old imperial lengths in order, shortest first",
+  "items": [
+   "Inch",
+   "Foot",
+   "Yard",
+   "Chain",
+   "Furlong",
+   "Mile"
+  ],
+  "hint": "shortest first",
+  "category": "Maths and numbers",
+  "tags": [
+   "imperial units",
+   "length",
+   "measurement"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these eggs in order of size, smallest first",
+  "items": [
+   "Quail's egg",
+   "Hen's egg",
+   "Duck egg",
+   "Goose egg",
+   "Emu egg",
+   "Ostrich egg"
+  ],
+  "hint": "smallest first",
+  "category": "Nature",
+  "tags": [
+   "eggs",
+   "birds"
+  ],
+  "difficulty": "easy"
+ }
+]
