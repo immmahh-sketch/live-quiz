@@ -1,0 +1,98 @@
+[
+ {
+  "type": "club",
+  "text": "1 January 2027 is a Friday. On what day of the week does 1 January 2028 fall?",
+  "answers": [
+   "Saturday",
+   "Sat"
+  ],
+  "pct": 40,
+  "why": "2027 isn't a leap year, so 365 days = 52 weeks + 1 day: one day on from Friday.",
+  "difficulty": "medium",
+  "category": "Time",
+  "tags": [
+   "calendars",
+   "days"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Of all the years from 2000 onwards, which one needs the fewest Roman numerals to write?",
+  "answers": [
+   "2000",
+   "MM"
+  ],
+  "pct": 30,
+  "why": "2000 is just MM: two letters. Every later year adds at least one more.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "Roman numerals",
+   "years"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A dromedary has one hump and a Bactrian camel has two. A herd of 5 camels has 7 humps. How many are Bactrian?",
+  "answers": [
+   "2",
+   "Two"
+  ],
+  "pct": 50,
+  "why": "If all 5 had one hump there'd be 5; the 2 extra humps mean 2 Bactrians.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "camels",
+   "adding"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "In a double-six set of dominoes, how many dominoes have at least one six on them?",
+  "answers": [
+   "7",
+   "Seven"
+  ],
+  "pct": 20,
+  "why": "6-0, 6-1, 6-2, 6-3, 6-4, 6-5 and the double six: 7.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "dominoes",
+   "counting"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "On a dice, opposite faces add up to 7. Looking at a corner you can see 1, 2 and 3. What do the three hidden faces add up to?",
+  "answers": [
+   "15",
+   "Fifteen"
+  ],
+  "pct": 10,
+  "why": "The hidden faces are 6, 5 and 4: 15.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "dice",
+   "logic"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "In snooker, what's the most points you can score by potting one red and then one colour?",
+  "answers": [
+   "8",
+   "Eight"
+  ],
+  "pct": 50,
+  "why": "A red is worth 1 and the black, the most valuable colour, 7.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "snooker",
+   "adding"
+  ]
+ }
+]
