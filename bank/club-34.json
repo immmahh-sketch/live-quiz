@@ -1,0 +1,82 @@
+[
+ {
+  "type": "club",
+  "text": "How many letters of the alphabet appear in none of the twelve months' names?",
+  "answers": [
+   "5",
+   "Five"
+  ],
+  "pct": 10,
+  "why": "Only K, Q, W, X and Z are missing from January to December.",
+  "difficulty": "hard",
+  "category": "Wordplay",
+  "tags": [
+   "months",
+   "alphabet"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Deal a full 52-card pack out equally to 5 players. How many cards are left over?",
+  "answers": [
+   "2",
+   "Two"
+  ],
+  "pct": 50,
+  "why": "5 × 10 = 50, leaving 2.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "cards",
+   "dividing"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "How many minutes after midnight is 2:15am?",
+  "answers": [
+   "135",
+   "135 minutes"
+  ],
+  "pct": 60,
+  "why": "Two hours is 120 minutes, plus 15.",
+  "difficulty": "medium",
+  "category": "Time",
+  "tags": [
+   "clocks",
+   "minutes"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What's the most Sundays there can be in one calendar year?",
+  "answers": [
+   "53",
+   "Fifty-three"
+  ],
+  "pct": 40,
+  "why": "52 weeks plus one or two spare days: if one of those is a Sunday, there are 53.",
+  "difficulty": "medium",
+  "category": "Time",
+  "tags": [
+   "calendars",
+   "Sundays"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "In noughts and crosses, how many different straight lines of three can win the game?",
+  "answers": [
+   "8",
+   "Eight"
+  ],
+  "pct": 50,
+  "why": "3 rows, 3 columns and 2 diagonals.",
+  "difficulty": "medium",
+  "category": "Games and puzzles",
+  "tags": [
+   "noughts and crosses",
+   "counting"
+  ]
+ }
+]
