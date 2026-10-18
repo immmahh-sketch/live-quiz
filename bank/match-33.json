@@ -1,0 +1,118 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Mr Man to his colour",
+  "pairs": [
+   {
+    "left": "Mr Happy",
+    "right": "Yellow"
+   },
+   {
+    "left": "Mr Tickle",
+    "right": "Orange"
+   },
+   {
+    "left": "Mr Bump",
+    "right": "Blue"
+   },
+   {
+    "left": "Mr Strong",
+    "right": "Red"
+   }
+  ],
+  "difficulty": "easy",
+  "category": "Children's TV",
+  "tags": [
+   "Mr Men",
+   "colours",
+   "books"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each peer to his wife's title",
+  "pairs": [
+   {
+    "left": "Duke",
+    "right": "Duchess"
+   },
+   {
+    "left": "Marquess",
+    "right": "Marchioness"
+   },
+   {
+    "left": "Earl",
+    "right": "Countess"
+   },
+   {
+    "left": "Viscount",
+    "right": "Viscountess"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "History",
+  "tags": [
+   "peerage",
+   "titles",
+   "aristocracy"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each Thunderbird to the Tracy brother who flies it",
+  "pairs": [
+   {
+    "left": "Thunderbird 1",
+    "right": "Scott"
+   },
+   {
+    "left": "Thunderbird 2",
+    "right": "Virgil"
+   },
+   {
+    "left": "Thunderbird 3",
+    "right": "Alan"
+   },
+   {
+    "left": "Thunderbird 5",
+    "right": "John"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Children's TV",
+  "tags": [
+   "Thunderbirds",
+   "Gerry Anderson",
+   "Tracy brothers"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each famous bear to where it lives",
+  "pairs": [
+   {
+    "left": "Paddington",
+    "right": "Darkest Peru, then London"
+   },
+   {
+    "left": "Rupert",
+    "right": "Nutwood"
+   },
+   {
+    "left": "Winnie-the-Pooh",
+    "right": "Hundred Acre Wood"
+   },
+   {
+    "left": "Yogi",
+    "right": "Jellystone Park"
+   }
+  ],
+  "difficulty": "easy",
+  "category": "Books",
+  "tags": [
+   "bears",
+   "Paddington",
+   "Rupert"
+  ]
+ }
+]
