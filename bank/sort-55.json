@@ -1,0 +1,99 @@
+[
+ {
+  "type": "sort",
+  "text": "A cat that can roar or one that can't?",
+  "categories": [
+   "Can roar",
+   "Can't roar"
+  ],
+  "items": [
+   {
+    "text": "Lion",
+    "category": "Can roar"
+   },
+   {
+    "text": "Tiger",
+    "category": "Can roar"
+   },
+   {
+    "text": "Jaguar",
+    "category": "Can roar"
+   },
+   {
+    "text": "Leopard",
+    "category": "Can roar"
+   },
+   {
+    "text": "Cheetah",
+    "category": "Can't roar"
+   },
+   {
+    "text": "Puma",
+    "category": "Can't roar"
+   },
+   {
+    "text": "Lynx",
+    "category": "Can't roar"
+   },
+   {
+    "text": "Snow leopard",
+    "category": "Can't roar"
+   }
+  ],
+  "category": "Nature",
+  "tags": [
+   "big cats",
+   "roaring"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "A breed of hen or a breed of duck?",
+  "categories": [
+   "Hen",
+   "Duck"
+  ],
+  "items": [
+   {
+    "text": "Rhode Island Red",
+    "category": "Hen"
+   },
+   {
+    "text": "Leghorn",
+    "category": "Hen"
+   },
+   {
+    "text": "Orpington",
+    "category": "Hen"
+   },
+   {
+    "text": "Silkie",
+    "category": "Hen"
+   },
+   {
+    "text": "Aylesbury",
+    "category": "Duck"
+   },
+   {
+    "text": "Indian Runner",
+    "category": "Duck"
+   },
+   {
+    "text": "Khaki Campbell",
+    "category": "Duck"
+   },
+   {
+    "text": "Pekin",
+    "category": "Duck"
+   }
+  ],
+  "category": "Nature",
+  "tags": [
+   "poultry",
+   "breeds",
+   "farming"
+  ],
+  "difficulty": "medium"
+ }
+]
