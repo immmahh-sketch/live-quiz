@@ -1,0 +1,58 @@
+[
+ {
+  "type": "match",
+  "text": "Match each sitcom to its writer or writers",
+  "pairs": [
+   {
+    "left": "The IT Crowd",
+    "right": "Graham Linehan"
+   },
+   {
+    "left": "Some Mothers Do 'Ave 'Em",
+    "right": "Raymond Allen"
+   },
+   {
+    "left": "Yes Minister",
+    "right": "Antony Jay and Jonathan Lynn"
+   },
+   {
+    "left": "The Inbetweeners",
+    "right": "Iain Morris and Damon Beesley"
+   }
+  ],
+  "difficulty": "hard",
+  "category": "Comedy",
+  "tags": [
+   "sitcoms",
+   "writers"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each sitcom line to the character who said it",
+  "pairs": [
+   {
+    "left": "Ooh, Betty!",
+    "right": "Frank Spencer"
+   },
+   {
+    "left": "I'm free!",
+    "right": "Mr Humphries"
+   },
+   {
+    "left": "You dirty old man!",
+    "right": "Harold Steptoe"
+   },
+   {
+    "left": "Have you tried turning it off and on again?",
+    "right": "Roy"
+   }
+  ],
+  "difficulty": "easy",
+  "category": "Comedy",
+  "tags": [
+   "sitcoms",
+   "catchphrases"
+  ]
+ }
+]
