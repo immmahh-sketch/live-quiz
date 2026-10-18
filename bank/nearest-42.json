@@ -1,0 +1,52 @@
+[
+ {
+  "type": "nearest",
+  "text": "In the British winter, how many hours ahead of London is Tokyo?",
+  "answer": 9,
+  "unit": "hours",
+  "spread": 2,
+  "difficulty": "medium",
+  "category": "World geography",
+  "tags": [
+   "nearest wins"
+  ]
+ },
+ {
+  "type": "nearest",
+  "text": "Roughly how many baked beans are in a standard 415g tin?",
+  "answer": 465,
+  "unit": "beans",
+  "spread": 60,
+  "difficulty": "hard",
+  "category": "Food and drink",
+  "tags": [
+   "nearest wins",
+   "wow"
+  ]
+ },
+ {
+  "type": "nearest",
+  "text": "On the shortest day, roughly how many hours of daylight does Newcastle get?",
+  "answer": 7,
+  "unit": "hours",
+  "spread": 1,
+  "difficulty": "medium",
+  "category": "The North East of England",
+  "tags": [
+   "nearest wins",
+   "wow"
+  ]
+ },
+ {
+  "type": "nearest",
+  "text": "How many raised dots make up a single Braille cell?",
+  "answer": 6,
+  "unit": "dots",
+  "spread": 1,
+  "difficulty": "medium",
+  "category": "Science and technology",
+  "tags": [
+   "nearest wins"
+  ]
+ }
+]
