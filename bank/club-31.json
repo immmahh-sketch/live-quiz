@@ -1,0 +1,113 @@
+[
+ {
+  "type": "club",
+  "text": "Which letter of the alphabet is the 18th?",
+  "answers": [
+   "R"
+  ],
+  "pct": 60,
+  "why": "A-I is 9, J-R takes you to 18: R.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "alphabet",
+   "letters"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Count the Es in the word EXCELLENCE.",
+  "answers": [
+   "4",
+   "Four"
+  ],
+  "pct": 60,
+  "why": "E-X-C-E-L-L-E-N-C-E: four Es.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "spelling",
+   "counting"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Fold a sheet of paper in half, then in half again, four folds in all. How many layers thick is it?",
+  "answers": [
+   "16",
+   "Sixteen"
+  ],
+  "pct": 50,
+  "why": "Each fold doubles it: 2, 4, 8, 16.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "paper",
+   "doubling"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Kim is fourth from the front of a queue and fourth from the back. How many people are queuing?",
+  "answers": [
+   "7",
+   "Seven"
+  ],
+  "pct": 40,
+  "why": "Three in front of Kim, three behind, and Kim: seven.",
+  "difficulty": "medium",
+  "category": "Logic",
+  "tags": [
+   "queues",
+   "counting"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A fortnight lasts how many minutes?",
+  "answers": [
+   "20,160",
+   "20160"
+  ],
+  "pct": 30,
+  "why": "14 days × 24 hours × 60 minutes = 20,160.",
+  "difficulty": "hard",
+  "category": "Time",
+  "tags": [
+   "fortnight",
+   "minutes"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Gran is 80 and her grandson is 8. In how many years will Gran be exactly five times his age?",
+  "answers": [
+   "10",
+   "Ten"
+  ],
+  "pct": 20,
+  "why": "In 10 years she'll be 90 and he'll be 18, and 18 × 5 = 90.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "ages",
+   "algebra"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "With three straight cuts across a round pizza, what is the most pieces you can make?",
+  "answers": [
+   "7",
+   "Seven"
+  ],
+  "pct": 10,
+  "why": "Make every cut cross both of the others, and not all at one point: 7 pieces.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "pizza",
+   "cutting"
+  ]
+ }
+]
