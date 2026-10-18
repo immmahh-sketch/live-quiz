@@ -1,0 +1,80 @@
+[
+ {
+  "type": "cards",
+  "text": "Play Your Cards Right: the numbers of a cheetah",
+  "category": "Nature",
+  "tags": [
+   "Play Your Cards Right",
+   "cheetahs",
+   "big cats",
+   "Africa"
+  ],
+  "difficulty": "medium",
+  "cards": [
+   {
+    "label": "Its top speed, in mph",
+    "value": "70",
+    "n": 70
+   },
+   {
+    "label": "Seconds it takes to reach 60 mph",
+    "value": "3",
+    "n": 3
+   },
+   {
+    "label": "Its weight, in kilos",
+    "value": "50",
+    "n": 50
+   },
+   {
+    "label": "Cubs in a typical litter",
+    "value": "4",
+    "n": 4
+   },
+   {
+    "label": "Years it lives in the wild",
+    "value": "12",
+    "n": 12
+   }
+  ]
+ },
+ {
+  "type": "cards",
+  "text": "Play Your Cards Right: the numbers of a polar bear",
+  "category": "Nature",
+  "tags": [
+   "Play Your Cards Right",
+   "polar bears",
+   "Arctic",
+   "bears"
+  ],
+  "difficulty": "medium",
+  "cards": [
+   {
+    "label": "Weight of a big male, in kilos",
+    "value": "700",
+    "n": 700
+   },
+   {
+    "label": "Cubs in a usual litter",
+    "value": "2",
+    "n": 2
+   },
+   {
+    "label": "Polar bears left in the wild, roughly",
+    "value": "26,000",
+    "n": 26000
+   },
+   {
+    "label": "Its height standing up, in metres",
+    "value": "3",
+    "n": 3
+   },
+   {
+    "label": "Years it lives in the wild",
+    "value": "25",
+    "n": 25
+   }
+  ]
+ }
+]
