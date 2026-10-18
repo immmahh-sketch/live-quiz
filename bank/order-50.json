@@ -1,0 +1,74 @@
+[
+ {
+  "type": "order",
+  "text": "Put these 'Blankety Blank' hosts in order, earliest first",
+  "items": [
+   "Terry Wogan",
+   "Les Dawson",
+   "Lily Savage",
+   "David Walliams",
+   "Bradley Walsh"
+  ],
+  "hint": "earliest first",
+  "category": "Television",
+  "tags": [
+   "Blankety Blank",
+   "game shows",
+   "hosts"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these 'Crystal Maze' hosts in order, earliest first",
+  "items": [
+   "Richard O'Brien",
+   "Ed Tudor-Pole",
+   "Stephen Merchant",
+   "Richard Ayoade"
+  ],
+  "hint": "earliest first",
+  "category": "Television",
+  "tags": [
+   "The Crystal Maze",
+   "game shows",
+   "hosts"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these big cats in order of weight, heaviest first",
+  "items": [
+   "Tiger",
+   "Lion",
+   "Jaguar",
+   "Leopard",
+   "Cheetah"
+  ],
+  "hint": "heaviest first",
+  "category": "Nature",
+  "tags": [
+   "big cats",
+   "animals"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these birds in order of wingspan, widest first",
+  "items": [
+   "Wandering albatross",
+   "Mute swan",
+   "Barn owl",
+   "Robin"
+  ],
+  "hint": "widest first",
+  "category": "Nature",
+  "tags": [
+   "birds",
+   "wingspan"
+  ],
+  "difficulty": "easy"
+ }
+]
