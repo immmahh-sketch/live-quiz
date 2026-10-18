@@ -1,0 +1,88 @@
+[
+ {
+  "type": "match",
+  "text": "Match each famous ship to its captain",
+  "pairs": [
+   {
+    "left": "HMS Endeavour",
+    "right": "James Cook"
+   },
+   {
+    "left": "HMS Beagle",
+    "right": "Robert FitzRoy"
+   },
+   {
+    "left": "HMS Bounty",
+    "right": "William Bligh"
+   },
+   {
+    "left": "Golden Hind",
+    "right": "Francis Drake"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "History",
+  "tags": [
+   "ships",
+   "explorers",
+   "Royal Navy"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each dip to its main ingredient",
+  "pairs": [
+   {
+    "left": "Pesto",
+    "right": "Basil"
+   },
+   {
+    "left": "Guacamole",
+    "right": "Avocado"
+   },
+   {
+    "left": "Hummus",
+    "right": "Chickpeas"
+   },
+   {
+    "left": "Tzatziki",
+    "right": "Cucumber and yoghurt"
+   }
+  ],
+  "difficulty": "easy",
+  "category": "Food and drink",
+  "tags": [
+   "dips",
+   "food"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each national park to its highest point",
+  "pairs": [
+   {
+    "left": "Lake District",
+    "right": "Scafell Pike"
+   },
+   {
+    "left": "Eryri (Snowdonia)",
+    "right": "Yr Wyddfa (Snowdon)"
+   },
+   {
+    "left": "Northumberland",
+    "right": "The Cheviot"
+   },
+   {
+    "left": "Peak District",
+    "right": "Kinder Scout"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "UK geography",
+  "tags": [
+   "national parks",
+   "mountains",
+   "North East"
+  ]
+ }
+]
