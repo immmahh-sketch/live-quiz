@@ -1,0 +1,323 @@
+[
+ {
+  "answers": [
+   "Raise the bar",
+   "Raising the bar"
+  ],
+  "elements": [
+   {
+    "t": "BAR",
+    "x": 50,
+    "y": 14,
+    "s": 5
+   },
+   {
+    "t": "↑",
+    "x": 50,
+    "y": 55,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Lower the tone",
+   "Lowering the tone"
+  ],
+  "elements": [
+   {
+    "t": "↓",
+    "x": 50,
+    "y": 42,
+    "s": 5
+   },
+   {
+    "t": "TONE",
+    "x": 50,
+    "y": 86,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Right on time",
+   "Bang on time"
+  ],
+  "elements": [
+   {
+    "t": "TIME",
+    "x": 84,
+    "y": 50,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Up in the air"
+  ],
+  "elements": [
+   {
+    "t": "A",
+    "x": 25,
+    "y": 50,
+    "s": 4
+   },
+   {
+    "t": "UP",
+    "x": 50,
+    "y": 50,
+    "s": 4,
+    "color": "#d62828"
+   },
+   {
+    "t": "IR",
+    "x": 75,
+    "y": 50,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Down to earth"
+  ],
+  "elements": [
+   {
+    "t": "D\nO\nW\nN",
+    "x": 50,
+    "y": 35,
+    "s": 3
+   },
+   {
+    "t": "EARTH",
+    "x": 50,
+    "y": 88,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Long story short",
+   "To cut a long story short"
+  ],
+  "elements": [
+   {
+    "t": "STOOOOOOORY",
+    "x": 50,
+    "y": 50,
+    "s": 1
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "hard"
+ },
+ {
+  "answers": [
+   "Stand out from the crowd",
+   "Stand out in a crowd"
+  ],
+  "elements": [
+   {
+    "t": "CROWD CROWD CROWD",
+    "x": 50,
+    "y": 38,
+    "s": 2
+   },
+   {
+    "t": "STAND",
+    "x": 50,
+    "y": 70,
+    "s": 4,
+    "color": "#d62828"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Paint the town red"
+  ],
+  "elements": [
+   {
+    "t": "TOWN",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#d62828"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Going downhill"
+  ],
+  "elements": [
+   {
+    "t": "GOING",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "rot": 25
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Over and over",
+   "Over and over again"
+  ],
+  "elements": [
+   {
+    "t": "OVER\nOVER\nOVER",
+    "x": 50,
+    "y": 50,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Step by step"
+  ],
+  "elements": [
+   {
+    "t": "STEP",
+    "x": 22,
+    "y": 75,
+    "s": 3
+   },
+   {
+    "t": "STEP",
+    "x": 50,
+    "y": 50,
+    "s": 3
+   },
+   {
+    "t": "STEP",
+    "x": 78,
+    "y": 25,
+    "s": 3
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Wide open"
+  ],
+  "elements": [
+   {
+    "t": "O   P   E   N",
+    "x": 50,
+    "y": 50,
+    "s": 2
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Short circuit"
+  ],
+  "elements": [
+   {
+    "t": "CIRC",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Easy as pie",
+   "Easy as pi"
+  ],
+  "elements": [
+   {
+    "t": "EZ = π",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "hard"
+ },
+ {
+  "answers": [
+   "Break a leg"
+  ],
+  "elements": [
+   {
+    "t": "L     EG",
+    "x": 50,
+    "y": 50,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Near and far"
+  ],
+  "elements": [
+   {
+    "t": "NEAR",
+    "x": 30,
+    "y": 50,
+    "s": 5
+   },
+   {
+    "t": "far",
+    "x": 86,
+    "y": 50,
+    "s": 1
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ }
+]
