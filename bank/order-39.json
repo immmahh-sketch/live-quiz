@@ -1,0 +1,79 @@
+[
+ {
+  "type": "order",
+  "text": "Put these UK coins in order of size, smallest across first",
+  "items": [
+   "5p",
+   "1p",
+   "20p",
+   "£1",
+   "10p",
+   "2p"
+  ],
+  "hint": "smallest first",
+  "category": "Money",
+  "tags": [
+   "coins",
+   "money",
+   "UK"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "order",
+  "text": "Put these planets in order of how long one day lasts (one turn on its axis), shortest first",
+  "items": [
+   "Jupiter",
+   "Saturn",
+   "Earth",
+   "Mars",
+   "Mercury",
+   "Venus"
+  ],
+  "hint": "shortest first",
+  "category": "Space and astronomy",
+  "tags": [
+   "planets",
+   "solar system",
+   "days"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "order",
+  "text": "Put these faces on Bank of England notes in order of the note's value, lowest first",
+  "items": [
+   "Winston Churchill",
+   "Jane Austen",
+   "JMW Turner",
+   "Alan Turing"
+  ],
+  "hint": "lowest value first",
+  "category": "Money",
+  "tags": [
+   "banknotes",
+   "Bank of England",
+   "famous faces"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these coffees in order of how much milk is in them, least first",
+  "items": [
+   "Espresso",
+   "Macchiato",
+   "Cortado",
+   "Flat white",
+   "Latte"
+  ],
+  "hint": "least milk first",
+  "category": "Food and drink",
+  "tags": [
+   "coffee",
+   "cafés",
+   "drinks"
+  ],
+  "difficulty": "medium"
+ }
+]
