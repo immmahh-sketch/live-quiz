@@ -1,0 +1,149 @@
+[
+ {
+  "type": "sort",
+  "text": "A Ford or a Vauxhall?",
+  "categories": [
+   "Ford",
+   "Vauxhall"
+  ],
+  "items": [
+   {
+    "text": "Fiesta",
+    "category": "Ford"
+   },
+   {
+    "text": "Focus",
+    "category": "Ford"
+   },
+   {
+    "text": "Escort",
+    "category": "Ford"
+   },
+   {
+    "text": "Capri",
+    "category": "Ford"
+   },
+   {
+    "text": "Corsa",
+    "category": "Vauxhall"
+   },
+   {
+    "text": "Astra",
+    "category": "Vauxhall"
+   },
+   {
+    "text": "Nova",
+    "category": "Vauxhall"
+   },
+   {
+    "text": "Cavalier",
+    "category": "Vauxhall"
+   }
+  ],
+  "category": "Everyday life",
+  "tags": [
+   "cars",
+   "Ford",
+   "Vauxhall"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A Monopoly token or a Cluedo weapon?",
+  "categories": [
+   "Monopoly token",
+   "Cluedo weapon"
+  ],
+  "items": [
+   {
+    "text": "Top hat",
+    "category": "Monopoly token"
+   },
+   {
+    "text": "Boot",
+    "category": "Monopoly token"
+   },
+   {
+    "text": "Thimble",
+    "category": "Monopoly token"
+   },
+   {
+    "text": "Iron",
+    "category": "Monopoly token"
+   },
+   {
+    "text": "Candlestick",
+    "category": "Cluedo weapon"
+   },
+   {
+    "text": "Rope",
+    "category": "Cluedo weapon"
+   },
+   {
+    "text": "Dagger",
+    "category": "Cluedo weapon"
+   },
+   {
+    "text": "Lead pipe",
+    "category": "Cluedo weapon"
+   }
+  ],
+  "category": "Games and puzzles",
+  "tags": [
+   "Monopoly",
+   "Cluedo",
+   "board games"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A garden bird or a seabird?",
+  "categories": [
+   "Garden bird",
+   "Seabird"
+  ],
+  "items": [
+   {
+    "text": "Robin",
+    "category": "Garden bird"
+   },
+   {
+    "text": "Blue tit",
+    "category": "Garden bird"
+   },
+   {
+    "text": "Wren",
+    "category": "Garden bird"
+   },
+   {
+    "text": "Blackbird",
+    "category": "Garden bird"
+   },
+   {
+    "text": "Puffin",
+    "category": "Seabird"
+   },
+   {
+    "text": "Gannet",
+    "category": "Seabird"
+   },
+   {
+    "text": "Guillemot",
+    "category": "Seabird"
+   },
+   {
+    "text": "Kittiwake",
+    "category": "Seabird"
+   }
+  ],
+  "category": "Nature",
+  "tags": [
+   "birds",
+   "seabirds",
+   "garden birds"
+  ],
+  "difficulty": "easy"
+ }
+]
