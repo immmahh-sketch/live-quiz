@@ -1,6 +1,7 @@
 # Bank session 18 Oct 2026: 3 Categorise questions -> bank/sort-53.json. Two groups, three or four items each. Each pair of
 # categories was probed against every Categorise question in the live bank first (Cluedo suspect v weapon, Monopoly square v
-# Cluedo room and Crystal Maze zone v Gladiators event exist, but not these pairs).
+# Cluedo room and Crystal Maze zone v Gladiators event exist, but not these pairs). The import skipped the garden-bird one
+# as too close to the existing "Bird of prey or seabird?" (same puffin, gannet and kittiwake).
 import json, os
 OUT = []
 def s(cat, tags, diff, text, a, b, A, B):
