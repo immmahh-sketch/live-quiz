@@ -1,0 +1,80 @@
+[
+ {
+  "type": "cards",
+  "text": "Play Your Cards Right: the numbers of an emperor penguin",
+  "category": "Nature",
+  "tags": [
+   "Play Your Cards Right",
+   "penguins",
+   "Antarctica",
+   "birds"
+  ],
+  "difficulty": "hard",
+  "cards": [
+   {
+    "label": "Its height, in centimetres",
+    "value": "120",
+    "n": 120
+   },
+   {
+    "label": "Its weight at the heaviest, in kilos",
+    "value": "45",
+    "n": 45
+   },
+   {
+    "label": "How deep it can dive, in metres",
+    "value": "500",
+    "n": 500
+   },
+   {
+    "label": "How long it can hold its breath, in minutes",
+    "value": "20",
+    "n": 20
+   },
+   {
+    "label": "Days the father keeps the egg warm on his feet",
+    "value": "65",
+    "n": 65
+   }
+  ]
+ },
+ {
+  "type": "cards",
+  "text": "Play Your Cards Right: the numbers of a honeybee",
+  "category": "Nature",
+  "tags": [
+   "Play Your Cards Right",
+   "bees",
+   "insects",
+   "honey"
+  ],
+  "difficulty": "medium",
+  "cards": [
+   {
+    "label": "Its legs",
+    "value": "6",
+    "n": 6
+   },
+   {
+    "label": "Bees in a busy summer hive, roughly",
+    "value": "50,000",
+    "n": 50000
+   },
+   {
+    "label": "Its wings",
+    "value": "4",
+    "n": 4
+   },
+   {
+    "label": "How fast it flies, in mph",
+    "value": "15",
+    "n": 15
+   },
+   {
+    "label": "Its eyes",
+    "value": "5",
+    "n": 5
+   }
+  ]
+ }
+]
