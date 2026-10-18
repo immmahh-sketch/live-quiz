@@ -1,0 +1,51 @@
+[
+ {
+  "type": "nearest",
+  "text": "How many series of 'Men Behaving Badly' were made?",
+  "answer": 6,
+  "unit": "series",
+  "spread": 1,
+  "difficulty": "hard",
+  "category": "British sitcoms",
+  "tags": [
+   "nearest wins"
+  ]
+ },
+ {
+  "type": "nearest",
+  "text": "How many episodes of 'Red Dwarf' did the BBC make in its first run, from 1988 to 1999?",
+  "answer": 52,
+  "unit": "episodes",
+  "spread": 8,
+  "difficulty": "hard",
+  "category": "British sitcoms",
+  "tags": [
+   "nearest wins"
+  ]
+ },
+ {
+  "type": "nearest",
+  "text": "Rummikub: how many tiles come in the box?",
+  "answer": 106,
+  "unit": "tiles",
+  "spread": 15,
+  "difficulty": "hard",
+  "category": "Games and toys",
+  "tags": [
+   "nearest wins",
+   "wow"
+  ]
+ },
+ {
+  "type": "nearest",
+  "text": "The rope, the dagger, the candlestick... how many murder weapons does classic Cluedo have?",
+  "answer": 6,
+  "unit": "weapons",
+  "spread": 1,
+  "difficulty": "medium",
+  "category": "Games and toys",
+  "tags": [
+   "nearest wins"
+  ]
+ }
+]
