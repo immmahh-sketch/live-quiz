@@ -1,0 +1,487 @@
+[
+ {
+  "text": "A penny dropped from the top of the Empire State Building could kill someone below.",
+  "answer": false,
+  "category": "Science",
+  "tags": [
+   "myths",
+   "physics"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "text": "Sherlock Holmes says 'Elementary, my dear Watson' in Arthur Conan Doyle's stories.",
+  "answer": false,
+  "category": "Books and literature",
+  "tags": [
+   "Sherlock Holmes",
+   "quotes"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Captain Kirk says the exact words 'Beam me up, Scotty' in the original 'Star Trek' series.",
+  "answer": false,
+  "category": "Film quotes",
+  "tags": [
+   "Star Trek",
+   "quotes"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Humphrey Bogart says 'Play it again, Sam' in 'Casablanca'.",
+  "answer": false,
+  "category": "Film quotes",
+  "tags": [
+   "Casablanca",
+   "quotes"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "In Mary Shelley's novel, the monster is called Frankenstein.",
+  "answer": false,
+  "category": "Books and literature",
+  "tags": [
+   "Frankenstein",
+   "horror"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "text": "The distress signal SOS stands for 'Save Our Souls'.",
+  "answer": false,
+  "category": "History",
+  "tags": [
+   "Morse code",
+   "Titanic"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Diamonds are formed from compressed coal.",
+  "answer": false,
+  "category": "Science",
+  "tags": [
+   "diamonds",
+   "geology"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Christopher Columbus set out to prove that the Earth was round.",
+  "answer": false,
+  "category": "History",
+  "tags": [
+   "Columbus",
+   "myths"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Coca-Cola was originally green.",
+  "answer": false,
+  "category": "Food and drink",
+  "tags": [
+   "Coca-Cola",
+   "myths"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "text": "Guinea pigs come from Guinea.",
+  "answer": false,
+  "category": "Nature",
+  "tags": [
+   "pets",
+   "South America"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "text": "The Canary Islands are named after canaries.",
+  "answer": false,
+  "category": "Geography",
+  "tags": [
+   "Spain",
+   "islands",
+   "word origins"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Catgut, once used for violin strings, is made from cats.",
+  "answer": false,
+  "category": "Music",
+  "tags": [
+   "instruments",
+   "strings"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Turkeys come from Turkey.",
+  "answer": false,
+  "category": "Food and drink",
+  "tags": [
+   "turkey",
+   "North America"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "text": "Arabic numerals were invented by the Arabs.",
+  "answer": false,
+  "category": "Maths and numbers",
+  "tags": [
+   "numbers",
+   "India"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Thomas Crapper invented the flush toilet.",
+  "answer": false,
+  "category": "Famous people in history",
+  "tags": [
+   "inventions",
+   "toilets"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Lemmings throw themselves off cliffs in mass suicides.",
+  "answer": false,
+  "category": "Nature",
+  "tags": [
+   "lemmings",
+   "Disney",
+   "myths"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Earwigs got their name because they crawl into people's ears to lay eggs.",
+  "answer": false,
+  "category": "Nature",
+  "tags": [
+   "insects",
+   "earwigs"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "The guillotine was invented by Dr Joseph-Ignace Guillotin.",
+  "answer": false,
+  "category": "History",
+  "tags": [
+   "French Revolution",
+   "guillotine"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "The 1918 'Spanish flu' pandemic began in Spain.",
+  "answer": false,
+  "category": "History",
+  "tags": [
+   "pandemics",
+   "1918"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "German measles is caused by the same virus as measles.",
+  "answer": false,
+  "category": "The human body",
+  "tags": [
+   "illness",
+   "rubella"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "The fax machine was invented before the telephone.",
+  "answer": true,
+  "category": "Science and technology",
+  "tags": [
+   "inventions",
+   "fax"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Woolly mammoths were still alive when the Great Pyramid of Giza was built.",
+  "answer": true,
+  "category": "Ancient history",
+  "tags": [
+   "mammoths",
+   "pyramids"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Lobster was once thought of as food for the poor in America.",
+  "answer": true,
+  "category": "Food and drink",
+  "tags": [
+   "lobster",
+   "America"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Bolivia exports more Brazil nuts than Brazil does.",
+  "answer": true,
+  "category": "Food and drink",
+  "tags": [
+   "nuts",
+   "South America"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "On average, Mercury is the closest planet to Earth.",
+  "answer": true,
+  "category": "Space and astronomy",
+  "tags": [
+   "Mercury",
+   "planets"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Russia has a bigger surface area than Pluto.",
+  "answer": true,
+  "category": "Space and astronomy",
+  "tags": [
+   "Pluto",
+   "Russia"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Alaska is both the westernmost and the easternmost US state.",
+  "answer": true,
+  "category": "The United States",
+  "tags": [
+   "Alaska",
+   "geography"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "The Atlantic end of the Panama Canal is further west than the Pacific end.",
+  "answer": true,
+  "category": "World geography",
+  "tags": [
+   "Panama Canal",
+   "oceans"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Newcastle is further north than Belfast.",
+  "answer": true,
+  "category": "UK geography",
+  "tags": [
+   "Newcastle",
+   "Belfast"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Tyrannosaurus rex lived closer in time to us than to Stegosaurus.",
+  "answer": true,
+  "category": "Nature",
+  "tags": [
+   "dinosaurs",
+   "time"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Moscow is further north than Glasgow.",
+  "answer": false,
+  "category": "World geography",
+  "tags": [
+   "Moscow",
+   "Glasgow",
+   "latitude"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "London is further north than Calgary.",
+  "answer": true,
+  "category": "World geography",
+  "tags": [
+   "London",
+   "Canada",
+   "latitude"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Africa lies in all four hemispheres.",
+  "answer": true,
+  "category": "World geography",
+  "tags": [
+   "Africa",
+   "hemispheres"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "From Detroit, you travel south to reach Canada.",
+  "answer": true,
+  "category": "The United States",
+  "tags": [
+   "Detroit",
+   "Canada"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Lake Baikal holds more fresh water than all five of North America's Great Lakes put together.",
+  "answer": true,
+  "category": "World geography",
+  "tags": [
+   "lakes",
+   "Russia"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "In a vacuum, a heavy object falls faster than a light one.",
+  "answer": false,
+  "category": "Science",
+  "tags": [
+   "gravity",
+   "physics"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "text": "Cats were domesticated before dogs.",
+  "answer": false,
+  "category": "Nature",
+  "tags": [
+   "cats",
+   "dogs",
+   "history"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Flamingos are pink when they hatch.",
+  "answer": false,
+  "category": "Nature",
+  "tags": [
+   "flamingos",
+   "birds"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Male seahorses give birth.",
+  "answer": true,
+  "category": "Nature",
+  "tags": [
+   "seahorses",
+   "fish"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "text": "Penguins live only in the southern hemisphere.",
+  "answer": false,
+  "category": "Nature",
+  "tags": [
+   "penguins",
+   "Galapagos"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Rabbits are rodents.",
+  "answer": false,
+  "category": "Nature",
+  "tags": [
+   "rabbits",
+   "mammals"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Winston Churchill was born in a palace.",
+  "answer": true,
+  "category": "Famous people in history",
+  "tags": [
+   "Churchill",
+   "Blenheim"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "Shakespeare left his wife his 'second-best bed' in his will.",
+  "answer": true,
+  "category": "Shakespeare",
+  "tags": [
+   "Shakespeare",
+   "wills"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "'Yesterday' was never a UK number one for the Beatles.",
+  "answer": true,
+  "category": "Music",
+  "tags": [
+   "Beatles",
+   "number ones"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "ABBA won Eurovision with 'Dancing Queen'.",
+  "answer": false,
+  "category": "Eurovision",
+  "tags": [
+   "ABBA",
+   "Eurovision"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "text": "The first UK number one single was by Elvis Presley.",
+  "answer": false,
+  "category": "Music",
+  "tags": [
+   "Elvis",
+   "charts"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "On the London Monopoly board, Old Kent Road is cheaper than Whitechapel Road.",
+  "answer": false,
+  "category": "Games and toys",
+  "tags": [
+   "Monopoly",
+   "London"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "text": "The Pacific Ocean is slowly getting smaller.",
+  "answer": true,
+  "category": "World geography",
+  "tags": [
+   "oceans",
+   "plate tectonics"
+  ],
+  "difficulty": "hard"
+ }
+]
