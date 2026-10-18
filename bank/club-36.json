@@ -1,0 +1,86 @@
+[
+ {
+  "type": "club",
+  "text": "If one human year counts as seven 'dog years', how old in dog years is a 6-year-old dog?",
+  "answers": [
+   "42",
+   "Forty-two"
+  ],
+  "pct": 70,
+  "why": "6 × 7 = 42.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "dogs",
+   "multiplying"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A cat has 18 toes: five on each front paw and four on each back paw. How many toes do 3 cats have between them?",
+  "answers": [
+   "54",
+   "Fifty-four"
+  ],
+  "pct": 60,
+  "why": "18 × 3 = 54.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "cats",
+   "multiplying"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A cat and her kitten weigh 5 kg together. The cat weighs 4 kg more than the kitten. How much does the kitten weigh?",
+  "answers": [
+   "500g",
+   "0.5kg",
+   "Half a kilo",
+   "500 grams",
+   "0.5"
+  ],
+  "pct": 10,
+  "why": "Not 1 kg: kitten ½ kg + cat 4½ kg = 5 kg, and the difference is 4 kg.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "cats",
+   "logic",
+   "trick"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "The myth says a goldfish's memory lasts 3 seconds. How many fresh starts would that give it in one minute?",
+  "answers": [
+   "20",
+   "Twenty"
+  ],
+  "pct": 60,
+  "why": "60 ÷ 3 = 20.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "goldfish",
+   "time"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A dog is pregnant for 63 days. If her puppies arrive on 1 March 2027, in which month did she conceive?",
+  "answers": [
+   "December",
+   "Dec"
+  ],
+  "pct": 30,
+  "why": "February 2027 has 28 days, January 31: that's 59 days, so 4 more takes you back to 28 December.",
+  "difficulty": "hard",
+  "category": "Time",
+  "tags": [
+   "dogs",
+   "calendars"
+  ]
+ }
+]
