@@ -1,0 +1,225 @@
+[
+ {
+  "answers": [
+   "Over the top"
+  ],
+  "elements": [
+   {
+    "t": "OVER",
+    "x": 50,
+    "y": 22,
+    "s": 3
+   },
+   {
+    "t": "TOP",
+    "x": 50,
+    "y": 60,
+    "s": 6
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "You're under arrest",
+   "Under arrest"
+  ],
+  "elements": [
+   {
+    "t": "ARREST",
+    "x": 50,
+    "y": 35,
+    "s": 5
+   },
+   {
+    "t": "YOU",
+    "x": 50,
+    "y": 70,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Second hand",
+   "Second-hand"
+  ],
+  "elements": [
+   {
+    "t": "HAND",
+    "x": 27,
+    "y": 50,
+    "s": 4
+   },
+   {
+    "t": "HAND",
+    "x": 73,
+    "y": 50,
+    "s": 4,
+    "color": "#d62828"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Big fish in a small pond"
+  ],
+  "elements": [
+   {
+    "t": "FISH",
+    "x": 50,
+    "y": 38,
+    "s": 6
+   },
+   {
+    "t": "pond",
+    "x": 50,
+    "y": 75,
+    "s": 1
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "hard"
+ },
+ {
+  "answers": [
+   "Far away"
+  ],
+  "elements": [
+   {
+    "t": "away",
+    "x": 90,
+    "y": 90,
+    "s": 1
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Rock the boat",
+   "Rocking the boat"
+  ],
+  "elements": [
+   {
+    "t": "BOAT",
+    "x": 28,
+    "y": 50,
+    "s": 4,
+    "rot": -20
+   },
+   {
+    "t": "BOAT",
+    "x": 72,
+    "y": 50,
+    "s": 4,
+    "rot": 20
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "hard"
+ },
+ {
+  "answers": [
+   "Cross the line",
+   "Crossing the line"
+  ],
+  "elements": [
+   {
+    "t": "LINE",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "style": "strike"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "In the long run",
+   "Long run"
+  ],
+  "elements": [
+   {
+    "t": "RUUUUUUUN",
+    "x": 50,
+    "y": 50,
+    "s": 3
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "High and dry"
+  ],
+  "elements": [
+   {
+    "t": "DRY",
+    "x": 50,
+    "y": 10,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "First among equals"
+  ],
+  "elements": [
+   {
+    "t": "=  =  1  =  =",
+    "x": 50,
+    "y": 50,
+    "s": 2
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "hard"
+ },
+ {
+  "answers": [
+   "Fly by night",
+   "Fly-by-night"
+  ],
+  "elements": [
+   {
+    "t": "FLY",
+    "x": 28,
+    "y": 50,
+    "s": 4
+   },
+   {
+    "t": "NIGHT",
+    "x": 70,
+    "y": 50,
+    "s": 3,
+    "color": "#1d2b6b"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "hard"
+ }
+]
