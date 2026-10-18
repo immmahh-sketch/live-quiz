@@ -1,5 +1,5 @@
 # Bank session 19 Oct 2026: 3 Play Your Cards Right games -> bank/cards-102.json (the hamster, the tortoise, the mallard).
-# Probed against every cards game in the live bank first (no hamster, tortoise or duck games). Numbers are the commonly quoted ones.
+# Probed against every cards game in the live bank first (no hamster, tortoise or duck games; 'the numbers of Mallard' is the steam engine, a different game). Numbers are the commonly quoted ones.
 # A row of 5-7 cards each: what's on the card, what it shows when it flips, and the number compared. No equal neighbours.
 import json, os
 G = []
