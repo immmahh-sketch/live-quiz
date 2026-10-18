@@ -1,0 +1,58 @@
+[
+ {
+  "type": "match",
+  "text": "Match each animal to the name of its meat",
+  "pairs": [
+   {
+    "left": "Pig",
+    "right": "Pork"
+   },
+   {
+    "left": "Cow",
+    "right": "Beef"
+   },
+   {
+    "left": "Deer",
+    "right": "Venison"
+   },
+   {
+    "left": "Sheep",
+    "right": "Mutton"
+   }
+  ],
+  "difficulty": "easy",
+  "category": "Food and drink",
+  "tags": [
+   "meat",
+   "farm animals"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each comedian to the sitcom they starred in",
+  "pairs": [
+   {
+    "left": "Richard Ayoade",
+    "right": "The IT Crowd"
+   },
+   {
+    "left": "David Mitchell",
+    "right": "Peep Show"
+   },
+   {
+    "left": "Romesh Ranganathan",
+    "right": "The Reluctant Landlord"
+   },
+   {
+    "left": "Steve Coogan",
+    "right": "I'm Alan Partridge"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Comedy",
+  "tags": [
+   "comedians",
+   "sitcoms"
+  ]
+ }
+]
