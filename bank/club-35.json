@@ -1,0 +1,83 @@
+[
+ {
+  "type": "club",
+  "text": "A tennis player wins a game without losing a single point. How many points did they win?",
+  "answers": [
+   "4",
+   "Four"
+  ],
+  "pct": 70,
+  "why": "15, 30, 40, game: four points.",
+  "difficulty": "easy",
+  "category": "Sport",
+  "tags": [
+   "tennis",
+   "scoring"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "In a standard Rubik's Cube, how many of the small cubes show three coloured faces?",
+  "answers": [
+   "8",
+   "Eight"
+  ],
+  "pct": 30,
+  "why": "Only the corner pieces show three colours, and a cube has 8 corners.",
+  "difficulty": "hard",
+  "category": "Games and puzzles",
+  "tags": [
+   "Rubik's Cube",
+   "counting"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "What's the fewest straight cuts that will divide a round cake into 8 equal pieces?",
+  "answers": [
+   "3",
+   "Three"
+  ],
+  "pct": 10,
+  "why": "Two cuts across make 4 quarters; one cut through the middle, sideways, makes 8.",
+  "difficulty": "hard",
+  "category": "Games and puzzles",
+  "tags": [
+   "cake",
+   "cutting",
+   "lateral thinking"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "In a standard 52-card pack, how many red cards show a jack, queen or king?",
+  "answers": [
+   "6",
+   "Six"
+  ],
+  "pct": 50,
+  "why": "Two red suits, each with a jack, queen and king.",
+  "difficulty": "medium",
+  "category": "Games and puzzles",
+  "tags": [
+   "cards",
+   "counting"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "How many of the twelve months have the letter R in their name?",
+  "answers": [
+   "8",
+   "Eight"
+  ],
+  "pct": 40,
+  "why": "January, February, March, April, September, October, November, December.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "months",
+   "letters"
+  ]
+ }
+]
