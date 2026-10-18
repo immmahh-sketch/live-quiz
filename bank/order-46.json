@@ -1,0 +1,40 @@
+[
+ {
+  "type": "order",
+  "text": "Put these batteries in order of size, smallest first",
+  "items": [
+   "AAA",
+   "AA",
+   "C",
+   "D"
+  ],
+  "hint": "smallest first",
+  "category": "Everyday life",
+  "tags": [
+   "batteries",
+   "sizes"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "order",
+  "text": "Put these pencil grades in order, hardest first",
+  "items": [
+   "4H",
+   "2H",
+   "H",
+   "HB",
+   "B",
+   "2B",
+   "4B"
+  ],
+  "hint": "hardest first",
+  "category": "Everyday life",
+  "tags": [
+   "pencils",
+   "art",
+   "drawing"
+  ],
+  "difficulty": "medium"
+ }
+]
