@@ -1,0 +1,59 @@
+[
+ {
+  "type": "match",
+  "text": "Match each sitcom to where its main characters live",
+  "pairs": [
+   {
+    "left": "Only Fools and Horses",
+    "right": "Nelson Mandela House"
+   },
+   {
+    "left": "Steptoe and Son",
+    "right": "Oil Drum Lane"
+   },
+   {
+    "left": "Father Ted",
+    "right": "The Parochial House"
+   },
+   {
+    "left": "Keeping Up Appearances",
+    "right": "Blossom Avenue"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Comedy",
+  "tags": [
+   "sitcoms",
+   "homes"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each classic sitcom character to how they earn a living",
+  "pairs": [
+   {
+    "left": "Albert Steptoe",
+    "right": "Rag-and-bone man"
+   },
+   {
+    "left": "Mr Humphries",
+    "right": "Department store assistant"
+   },
+   {
+    "left": "Captain Mainwaring",
+    "right": "Bank manager"
+   },
+   {
+    "left": "Tom Good",
+    "right": "Self-sufficient smallholder"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Comedy",
+  "tags": [
+   "sitcoms",
+   "jobs",
+   "1970s"
+  ]
+ }
+]
