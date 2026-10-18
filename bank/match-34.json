@@ -1,0 +1,88 @@
+[
+ {
+  "type": "match",
+  "text": "Match each game-show catchphrase to the host who said it",
+  "pairs": [
+   {
+    "left": "Your starter for ten",
+    "right": "Bamber Gascoigne"
+   },
+   {
+    "left": "Super, smashing, great!",
+    "right": "Jim Bowen"
+   },
+   {
+    "left": "Shut that door!",
+    "right": "Larry Grayson"
+   },
+   {
+    "left": "Is that your final answer?",
+    "right": "Chris Tarrant"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Television",
+  "tags": [
+   "catchphrases",
+   "game shows",
+   "hosts"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each primate to where it lives in the wild",
+  "pairs": [
+   {
+    "left": "Ring-tailed lemur",
+    "right": "Madagascar"
+   },
+   {
+    "left": "Orangutan",
+    "right": "Borneo and Sumatra"
+   },
+   {
+    "left": "Mountain gorilla",
+    "right": "Central Africa"
+   },
+   {
+    "left": "Capuchin monkey",
+    "right": "Central and South America"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Nature",
+  "tags": [
+   "primates",
+   "monkeys",
+   "apes"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each to the right number",
+  "pairs": [
+   {
+    "left": "Hearts in an octopus",
+    "right": "3"
+   },
+   {
+    "left": "Arms on a common starfish",
+    "right": "5"
+   },
+   {
+    "left": "Legs on a spider",
+    "right": "8"
+   },
+   {
+    "left": "Humps on a dromedary",
+    "right": "1"
+   }
+  ],
+  "difficulty": "easy",
+  "category": "Nature",
+  "tags": [
+   "animals",
+   "numbers"
+  ]
+ }
+]
