@@ -1,0 +1,178 @@
+[
+ {
+  "type": "match",
+  "text": "Match each newspaper to its nickname",
+  "pairs": [
+   {
+    "left": "The Guardian",
+    "right": "The Grauniad"
+   },
+   {
+    "left": "The Times",
+    "right": "The Thunderer"
+   },
+   {
+    "left": "The Daily Telegraph",
+    "right": "The Torygraph"
+   },
+   {
+    "left": "Financial Times",
+    "right": "The Pink 'Un"
+   }
+  ],
+  "difficulty": "hard",
+  "category": "Everyday life",
+  "tags": [
+   "newspapers",
+   "nicknames",
+   "press"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each Roman road to the route it ran",
+  "pairs": [
+   {
+    "left": "Watling Street",
+    "right": "Dover to Wroxeter, via London"
+   },
+   {
+    "left": "Ermine Street",
+    "right": "London to York"
+   },
+   {
+    "left": "Fosse Way",
+    "right": "Exeter to Lincoln"
+   },
+   {
+    "left": "Dere Street",
+    "right": "York to Scotland"
+   }
+  ],
+  "difficulty": "hard",
+  "category": "British history",
+  "tags": [
+   "Romans",
+   "roads",
+   "Roman Britain"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each Latin plant name to its common name",
+  "pairs": [
+   {
+    "left": "Digitalis",
+    "right": "Foxglove"
+   },
+   {
+    "left": "Galanthus",
+    "right": "Snowdrop"
+   },
+   {
+    "left": "Taraxacum",
+    "right": "Dandelion"
+   },
+   {
+    "left": "Bellis perennis",
+    "right": "Daisy"
+   }
+  ],
+  "difficulty": "hard",
+  "category": "Nature and the environment",
+  "tags": [
+   "plants",
+   "Latin names",
+   "wild flowers"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each Tyne bridge to what it's known for",
+  "pairs": [
+   {
+    "left": "Tyne Bridge",
+    "right": "Green steel arch, opened in 1928"
+   },
+   {
+    "left": "Swing Bridge",
+    "right": "Turns to let ships through"
+   },
+   {
+    "left": "High Level Bridge",
+    "right": "Road and railway on two decks"
+   },
+   {
+    "left": "Gateshead Millennium Bridge",
+    "right": "Tilts like a blinking eye"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Tyne and Wear",
+  "tags": [
+   "Newcastle",
+   "Gateshead",
+   "bridges",
+   "North East"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each diarist to a famous detail from their diary",
+  "pairs": [
+   {
+    "left": "Samuel Pepys",
+    "right": "Buried his Parmesan during the Great Fire"
+   },
+   {
+    "left": "Anne Frank",
+    "right": "Called her diary Kitty"
+   },
+   {
+    "left": "Adrian Mole",
+    "right": "Aged 13¾"
+   },
+   {
+    "left": "Bridget Jones",
+    "right": "Counted calories, units and cigarettes"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Books and literature",
+  "tags": [
+   "diaries",
+   "Pepys",
+   "Anne Frank",
+   "Adrian Mole"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each Womble to what they're known for",
+  "pairs": [
+   {
+    "left": "Great Uncle Bulgaria",
+    "right": "The oldest, who leads the burrow"
+   },
+   {
+    "left": "Orinoco",
+    "right": "Lazy and always hungry"
+   },
+   {
+    "left": "Tobermory",
+    "right": "Handyman who fixes everything"
+   },
+   {
+    "left": "Wellington",
+    "right": "Shy, bespectacled scientist"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Children's TV",
+  "tags": [
+   "Wombles",
+   "children's TV",
+   "1970s TV"
+  ]
+ }
+]
