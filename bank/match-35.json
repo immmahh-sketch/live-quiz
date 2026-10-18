@@ -1,0 +1,86 @@
+[
+ {
+  "type": "match",
+  "text": "Match each show to its famous consolation or booby prize",
+  "pairs": [
+   {
+    "left": "Bullseye",
+    "right": "Bendy Bully"
+   },
+   {
+    "left": "Crackerjack",
+    "right": "A Crackerjack pencil"
+   },
+   {
+    "left": "Blankety Blank",
+    "right": "A chequebook and pen"
+   },
+   {
+    "left": "3-2-1",
+    "right": "Dusty Bin"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Television",
+  "tags": [
+   "game shows",
+   "prizes"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each British show to the overseas show it was based on",
+  "pairs": [
+   {
+    "left": "Play Your Cards Right",
+    "right": "Card Sharks"
+   },
+   {
+    "left": "University Challenge",
+    "right": "College Bowl"
+   },
+   {
+    "left": "The Generation Game",
+    "right": "Een van de Acht"
+   },
+   {
+    "left": "Countdown",
+    "right": "Des chiffres et des lettres"
+   }
+  ],
+  "difficulty": "hard",
+  "category": "Television",
+  "tags": [
+   "game shows",
+   "formats"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each presenter to the long-running quiz they took over",
+  "pairs": [
+   {
+    "left": "Anne Robinson",
+    "right": "Countdown"
+   },
+   {
+    "left": "Jeremy Clarkson",
+    "right": "Who Wants to Be a Millionaire?"
+   },
+   {
+    "left": "Amol Rajan",
+    "right": "University Challenge"
+   },
+   {
+    "left": "Clive Myrie",
+    "right": "Mastermind"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Television",
+  "tags": [
+   "quiz shows",
+   "presenters"
+  ]
+ }
+]
