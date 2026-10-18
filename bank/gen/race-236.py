@@ -1,5 +1,6 @@
 # Bank session 18 Oct 2026: 2 races -> bank/race-236.json (The Vicar of Dibley; Red Dwarf).
-# Topics found free by probing candidate answers against every race in stock; checked again with lqsql/audit/race-overlap.py.
+# Red Dwarf's four actor rows were swapped out after the overlap check: they repeated 'which actor played this British sitcom
+# character?'. Topics found free by probing candidate answers against every race in stock; checked again with lqsql/audit/race-overlap.py.
 # raceOk: 20 rows, 20 different right answers, no right answer among another row's options, no wrong option on 3+ rows.
 import json, os
 from collections import Counter
@@ -46,17 +47,17 @@ race("Red Dwarf - name it", "British sitcoms", "medium", ["Red Dwarf", "sitcoms"
  ("What the H on his forehead stands for", "Hologram", ["Hero", "Hull", "Help"]),
  ("His rank aboard the ship", "Second Technician", ["First Officer", "Chief Engineer", "Captain"]),
  ("The ship's computer", "Holly", ["Hal", "Mother", "Kitt"]),
- ("The cleaning mechanoid who joins them", "Kryten", ["Kraken", "Talkie Toaster", "Krissie"]),
+ ("The cleaning mechanoid who joins them", "Kryten", ["Kraken", "Kelvin", "Krissie"]),
  ("The creature descended from Lister's pet", "The Cat", ["The Dog", "The Rat", "The Fox"]),
  ("How long Lister spent in stasis", "3 million years", ["30 years", "3,000 years", "300,000 years"]),
  ("The little green shuttle they fly around in", "Starbug", ["Blue Midget", "Spacebug", "Moonhopper"]),
  ("The show's made-up swear word", "Smeg", ["Frak", "Gorram", "Frell"]),
  ("Lister's dream: a farm in …", "Fiji", ["Tahiti", "Jamaica", "Bali"]),
  ("Lister's favourite food", "Curry", ["Pizza", "Kebab", "Fish and chips"]),
- ("The actor who played Lister", "Craig Charles", ["Craig Cash", "Ross Noble", "Phil Daniels"]),
- ("The actor who played Rimmer", "Chris Barrie", ["Chris Addison", "Chris Morris", "Chris Langham"]),
- ("The actor who played Kryten", "Robert Llewellyn", ["Robert Webb", "Robert Bathurst", "Robert Lindsay"]),
- ("The actor who played the Cat", "Danny John-Jules", ["Lenny Henry", "Ashley Banjo", "Reece Shearsmith"]),
+ ("The ship's cigar-chomping captain", "Captain Hollister", ["Captain Holloway", "Captain Hollis", "Captain Hollings"]),
+ ("The kitchen gadget obsessed with toast", "Talkie Toaster", ["Chatty Kettle", "Toasty", "Mr Crumpet"]),
+ ("Lister's pet cat, smuggled aboard", "Frankenstein", ["Fluffy", "Tiddles", "Felix"]),
+ ("The board game Rimmer is obsessed with", "Risk", ["Cluedo", "Monopoly", "Diplomacy"]),
  ("The writers who created it", "Grant and Naylor", ["Clement and La Frenais", "Esmonde and Larbey", "Armstrong and Bain"]),
  ("The year it began", "1988", ["1984", "1992", "1996"]),
  ("The channel it moved to for its 2009 comeback", "Dave", ["Sky One", "ITV2", "E4"])])
