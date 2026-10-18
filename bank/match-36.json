@@ -1,0 +1,86 @@
+[
+ {
+  "type": "match",
+  "text": "Match each comedian to their famous alter ego",
+  "pairs": [
+   {
+    "left": "Paul O'Grady",
+    "right": "Lily Savage"
+   },
+   {
+    "left": "Barry Humphries",
+    "right": "Dame Edna Everage"
+   },
+   {
+    "left": "Steve Coogan",
+    "right": "Alan Partridge"
+   },
+   {
+    "left": "Sacha Baron Cohen",
+    "right": "Ali G"
+   }
+  ],
+  "difficulty": "easy",
+  "category": "Comedy",
+  "tags": [
+   "comedians",
+   "characters"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each car model to its maker",
+  "pairs": [
+   {
+    "left": "Mondeo",
+    "right": "Ford"
+   },
+   {
+    "left": "Corsa",
+    "right": "Vauxhall"
+   },
+   {
+    "left": "Golf",
+    "right": "Volkswagen"
+   },
+   {
+    "left": "Clio",
+    "right": "Renault"
+   }
+  ],
+  "difficulty": "easy",
+  "category": "Everyday life",
+  "tags": [
+   "cars",
+   "models"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each broadcaster to their famous parent",
+  "pairs": [
+   {
+    "left": "Sally Magnusson",
+    "right": "Magnus Magnusson"
+   },
+   {
+    "left": "Victoria Coren Mitchell",
+    "right": "Alan Coren"
+   },
+   {
+    "left": "Dan Snow",
+    "right": "Peter Snow"
+   },
+   {
+    "left": "Jack Whitehall",
+    "right": "Michael Whitehall"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Television",
+  "tags": [
+   "broadcasters",
+   "families"
+  ]
+ }
+]
