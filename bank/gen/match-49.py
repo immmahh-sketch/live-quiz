@@ -9,7 +9,7 @@ def m(cat, tags, diff, text, *pairs):
     assert len(set(L)) == 4 and len(set(R)) == 4, text
     OUT.append({"type": "match", "text": text, "pairs": [{"left": l, "right": r} for l, r in pairs], "difficulty": diff, "category": cat, "tags": tags})
 
-m("Comedy", ["sitcoms", "families"], "medium", "Match each sitcom family to its show",
+m("Comedy", ["sitcoms", "families"], "medium", "Which comedy does each of these TV families live in?",
   ("The Goodmans", "Friday Night Dinner"), ("The Brockmans", "Outnumbered"), ("The Harpers", "My Family"), ("The Garveys", "Benidorm"))
 m("Comedy", ["comedians", "the North"], "medium", "Match each comedian to their home town",
   ("Peter Kay", "Bolton"), ("Sarah Millican", "South Shields"), ("Johnny Vegas", "St Helens"), ("Jason Manford", "Salford"))
