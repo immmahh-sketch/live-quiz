@@ -1,0 +1,99 @@
+[
+ {
+  "type": "sort",
+  "text": "Played James Bond, or played a Bond villain?",
+  "categories": [
+   "Bond",
+   "Villain"
+  ],
+  "items": [
+   {
+    "text": "Sean Connery",
+    "category": "Bond"
+   },
+   {
+    "text": "Roger Moore",
+    "category": "Bond"
+   },
+   {
+    "text": "Timothy Dalton",
+    "category": "Bond"
+   },
+   {
+    "text": "Pierce Brosnan",
+    "category": "Bond"
+   },
+   {
+    "text": "Christopher Lee",
+    "category": "Villain"
+   },
+   {
+    "text": "Javier Bardem",
+    "category": "Villain"
+   },
+   {
+    "text": "Christoph Waltz",
+    "category": "Villain"
+   },
+   {
+    "text": "Rami Malek",
+    "category": "Villain"
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "James Bond",
+   "actors"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A character from Luther or from Bodyguard?",
+  "categories": [
+   "Luther",
+   "Bodyguard"
+  ],
+  "items": [
+   {
+    "text": "John Luther",
+    "category": "Luther"
+   },
+   {
+    "text": "Alice Morgan",
+    "category": "Luther"
+   },
+   {
+    "text": "Justin Ripley",
+    "category": "Luther"
+   },
+   {
+    "text": "Zoe Luther",
+    "category": "Luther"
+   },
+   {
+    "text": "David Budd",
+    "category": "Bodyguard"
+   },
+   {
+    "text": "Julia Montague",
+    "category": "Bodyguard"
+   },
+   {
+    "text": "Vicky Budd",
+    "category": "Bodyguard"
+   },
+   {
+    "text": "Anne Sampson",
+    "category": "Bodyguard"
+   }
+  ],
+  "category": "Television",
+  "tags": [
+   "Luther",
+   "Bodyguard",
+   "BBC"
+  ],
+  "difficulty": "medium"
+ }
+]
