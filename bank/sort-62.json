@@ -1,0 +1,100 @@
+[
+ {
+  "type": "sort",
+  "text": "A bird that visits Britain for the summer or for the winter?",
+  "categories": [
+   "Summer visitor",
+   "Winter visitor"
+  ],
+  "items": [
+   {
+    "text": "House martin",
+    "category": "Summer visitor"
+   },
+   {
+    "text": "Chiffchaff",
+    "category": "Summer visitor"
+   },
+   {
+    "text": "Willow warbler",
+    "category": "Summer visitor"
+   },
+   {
+    "text": "Nightingale",
+    "category": "Summer visitor"
+   },
+   {
+    "text": "Redwing",
+    "category": "Winter visitor"
+   },
+   {
+    "text": "Fieldfare",
+    "category": "Winter visitor"
+   },
+   {
+    "text": "Brambling",
+    "category": "Winter visitor"
+   },
+   {
+    "text": "Waxwing",
+    "category": "Winter visitor"
+   }
+  ],
+  "category": "Nature",
+  "tags": [
+   "birds",
+   "migration",
+   "British wildlife"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "A Miranda character or a Brittas Empire character?",
+  "categories": [
+   "Miranda",
+   "The Brittas Empire"
+  ],
+  "items": [
+   {
+    "text": "Stevie",
+    "category": "Miranda"
+   },
+   {
+    "text": "Gary",
+    "category": "Miranda"
+   },
+   {
+    "text": "Penny",
+    "category": "Miranda"
+   },
+   {
+    "text": "Tilly",
+    "category": "Miranda"
+   },
+   {
+    "text": "Gordon",
+    "category": "The Brittas Empire"
+   },
+   {
+    "text": "Helen",
+    "category": "The Brittas Empire"
+   },
+   {
+    "text": "Carole",
+    "category": "The Brittas Empire"
+   },
+   {
+    "text": "Laura",
+    "category": "The Brittas Empire"
+   }
+  ],
+  "category": "Comedy",
+  "tags": [
+   "Miranda",
+   "The Brittas Empire",
+   "sitcoms"
+  ],
+  "difficulty": "easy"
+ }
+]
