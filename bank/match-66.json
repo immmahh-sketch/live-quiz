@@ -1,0 +1,60 @@
+[
+ {
+  "type": "match",
+  "text": "Match each All Creatures Great and Small character to the actor who played them in the original series",
+  "pairs": [
+   {
+    "left": "James Herriot",
+    "right": "Christopher Timothy"
+   },
+   {
+    "left": "Siegfried Farnon",
+    "right": "Robert Hardy"
+   },
+   {
+    "left": "Tristan Farnon",
+    "right": "Peter Davison"
+   },
+   {
+    "left": "Helen Herriot",
+    "right": "Carol Drinkwater"
+   }
+  ],
+  "difficulty": "hard",
+  "category": "Television",
+  "tags": [
+   "All Creatures Great and Small",
+   "actors",
+   "BBC"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each Doctor Who actor to another drama he's known for",
+  "pairs": [
+   {
+    "left": "Peter Davison",
+    "right": "All Creatures Great and Small"
+   },
+   {
+    "left": "David Tennant",
+    "right": "Broadchurch"
+   },
+   {
+    "left": "Christopher Eccleston",
+    "right": "Our Friends in the North"
+   },
+   {
+    "left": "Matt Smith",
+    "right": "The Crown"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Television",
+  "tags": [
+   "Doctor Who",
+   "actors",
+   "TV drama"
+  ]
+ }
+]
