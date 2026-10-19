@@ -1,0 +1,38 @@
+[
+ {
+  "type": "order",
+  "text": "Put these birds of prey in order of wingspan, widest first",
+  "items": [
+   "Golden eagle",
+   "Osprey",
+   "Buzzard",
+   "Peregrine falcon",
+   "Kestrel"
+  ],
+  "hint": "widest first",
+  "category": "Nature",
+  "tags": [
+   "birds of prey",
+   "wingspan"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these Channel 4 sitcoms in order of first series, earliest first",
+  "items": [
+   "Father Ted",
+   "Spaced",
+   "Black Books",
+   "Peep Show",
+   "The IT Crowd"
+  ],
+  "hint": "earliest first",
+  "category": "Comedy",
+  "tags": [
+   "Channel 4",
+   "sitcoms"
+  ],
+  "difficulty": "medium"
+ }
+]
