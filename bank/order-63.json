@@ -1,0 +1,56 @@
+[
+ {
+  "type": "order",
+  "text": "Rank these owls seen in Britain from lightest to heaviest",
+  "items": [
+   "Little owl",
+   "Barn owl",
+   "Tawny owl",
+   "Eagle owl"
+  ],
+  "hint": "lightest first",
+  "category": "Nature",
+  "tags": [
+   "owls",
+   "birds",
+   "British wildlife"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Rank these deer found wild in Britain from lightest to heaviest",
+  "items": [
+   "Muntjac",
+   "Roe deer",
+   "Fallow deer",
+   "Red deer"
+  ],
+  "hint": "lightest first",
+  "category": "Nature",
+  "tags": [
+   "deer",
+   "British wildlife"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these ITV crime dramas by the year they started, oldest first",
+  "items": [
+   "Inspector Morse",
+   "A Touch of Frost",
+   "Midsomer Murders",
+   "Foyle's War",
+   "Vera"
+  ],
+  "hint": "oldest first",
+  "category": "Television",
+  "tags": [
+   "detectives",
+   "ITV",
+   "TV drama"
+  ],
+  "difficulty": "hard"
+ }
+]
