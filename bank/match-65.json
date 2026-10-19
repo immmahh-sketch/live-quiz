@@ -1,0 +1,60 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Call the Midwife actress to the character she played",
+  "pairs": [
+   {
+    "left": "Jenny Agutter",
+    "right": "Sister Julienne"
+   },
+   {
+    "left": "Pam Ferris",
+    "right": "Sister Evangelina"
+   },
+   {
+    "left": "Judy Parfitt",
+    "right": "Sister Monica Joan"
+   },
+   {
+    "left": "Miranda Hart",
+    "right": "Chummy"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Television",
+  "tags": [
+   "Call the Midwife",
+   "actors",
+   "BBC"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each coastal village or town to what it's known for",
+  "pairs": [
+   {
+    "left": "Craster",
+    "right": "Smoked kippers"
+   },
+   {
+    "left": "Robin Hood's Bay",
+    "right": "Smugglers"
+   },
+   {
+    "left": "Saltburn-by-the-Sea",
+    "right": "A Victorian cliff lift"
+   },
+   {
+    "left": "Cullercoats",
+    "right": "A colony of painters"
+   }
+  ],
+  "difficulty": "hard",
+  "category": "UK geography",
+  "tags": [
+   "coast",
+   "North East",
+   "Yorkshire"
+  ]
+ }
+]
