@@ -1,6 +1,7 @@
 # Bank session 19 Oct 2026: 3 Play Your Cards Right games -> bank/cards-117.json (TV detectives' first years, Inspector Morse,
 # the slow worm). Probed against every cards game in the live bank first (no detective, Morse or slow worm games; the swallow and
 # beaver already have games). Numbers are the commonly quoted ones.
+# The cop-show game first shared Taggart, Morse and Midsomer with the live 'TV detective series' game; swapped after import.
 # A row of 5-7 cards each: what's on the card, what it shows when it flips, and the number compared. No equal neighbours.
 import json, os
 G = []
@@ -13,8 +14,8 @@ def game(text, cat, diff, tags, cards):
               "cards": [{"label": l, "value": v, "n": n} for l, v, n in cards]})
 
 game("the year each TV cop show began", "Television", "medium", ["detectives", "police", "TV drama"], [
- ("Z-Cars", "1962", 1962), ("Bergerac", "1981", 1981), ("The Sweeney", "1975", 1975), ("Taggart", "1983", 1983),
- ("A Touch of Frost", "1992", 1992), ("Inspector Morse", "1987", 1987), ("Midsomer Murders", "1997", 1997)])
+ ("Z-Cars", "1962", 1962), ("Bergerac", "1981", 1981), ("The Sweeney", "1975", 1975), ("The Bill", "1984", 1984),
+ ("Dixon of Dock Green", "1955", 1955), ("A Touch of Frost", "1992", 1992), ("Juliet Bravo", "1980", 1980)])
 game("the numbers of Inspector Morse", "Television", "hard", ["Inspector Morse", "detectives", "ITV"], [
  ("Episodes made with John Thaw", "33", 33), ("Year it began", "1987", 1987), ("Age John Thaw was when he died", "60", 60),
  ("Year Morse died on screen", "2000", 2000), ("Year John Thaw was born", "1942", 1942)])
