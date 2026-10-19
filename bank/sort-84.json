@@ -1,0 +1,99 @@
+[
+ {
+  "type": "sort",
+  "text": "Played Sherlock Holmes or played Dr Watson?",
+  "categories": [
+   "Holmes",
+   "Watson"
+  ],
+  "items": [
+   {
+    "text": "Basil Rathbone",
+    "category": "Holmes"
+   },
+   {
+    "text": "Jeremy Brett",
+    "category": "Holmes"
+   },
+   {
+    "text": "Robert Downey Jr",
+    "category": "Holmes"
+   },
+   {
+    "text": "Benedict Cumberbatch",
+    "category": "Holmes"
+   },
+   {
+    "text": "Nigel Bruce",
+    "category": "Watson"
+   },
+   {
+    "text": "Edward Hardwicke",
+    "category": "Watson"
+   },
+   {
+    "text": "Jude Law",
+    "category": "Watson"
+   },
+   {
+    "text": "Martin Freeman",
+    "category": "Watson"
+   }
+  ],
+  "category": "Film",
+  "tags": [
+   "Sherlock Holmes",
+   "actors"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "A character from Happy Valley or from Line of Duty?",
+  "categories": [
+   "Happy Valley",
+   "Line of Duty"
+  ],
+  "items": [
+   {
+    "text": "Catherine Cawood",
+    "category": "Happy Valley"
+   },
+   {
+    "text": "Tommy Lee Royce",
+    "category": "Happy Valley"
+   },
+   {
+    "text": "Clare Cartwright",
+    "category": "Happy Valley"
+   },
+   {
+    "text": "Ryan Cawood",
+    "category": "Happy Valley"
+   },
+   {
+    "text": "Ted Hastings",
+    "category": "Line of Duty"
+   },
+   {
+    "text": "Steve Arnott",
+    "category": "Line of Duty"
+   },
+   {
+    "text": "Kate Fleming",
+    "category": "Line of Duty"
+   },
+   {
+    "text": "Lindsay Denton",
+    "category": "Line of Duty"
+   }
+  ],
+  "category": "Television",
+  "tags": [
+   "Happy Valley",
+   "Line of Duty",
+   "BBC"
+  ],
+  "difficulty": "medium"
+ }
+]
