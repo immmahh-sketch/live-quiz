@@ -1,0 +1,155 @@
+[
+ {
+  "answers": [
+   "Close call"
+  ],
+  "elements": [
+   {
+    "t": "CALLCALL",
+    "x": 50,
+    "y": 50,
+    "s": 3
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Day by day"
+  ],
+  "elements": [
+   {
+    "t": "DAY",
+    "x": 28,
+    "y": 50,
+    "s": 4
+   },
+   {
+    "t": "DAY",
+    "x": 72,
+    "y": 50,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "One for the road"
+  ],
+  "elements": [
+   {
+    "t": "1  4",
+    "x": 50,
+    "y": 25,
+    "s": 4
+   },
+   {
+    "t": "ROAD",
+    "x": 50,
+    "y": 65,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Seventh heaven"
+  ],
+  "elements": [
+   {
+    "t": "HEAVEN",
+    "x": 45,
+    "y": 50,
+    "s": 5
+   },
+   {
+    "t": "7th",
+    "x": 90,
+    "y": 22,
+    "s": 2
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "hard"
+ },
+ {
+  "answers": [
+   "Spread the word"
+  ],
+  "elements": [
+   {
+    "t": "W   O   R   D",
+    "x": 50,
+    "y": 50,
+    "s": 2
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Rat race"
+  ],
+  "elements": [
+   {
+    "t": "RAT RAT RAT →",
+    "x": 50,
+    "y": 50,
+    "s": 2
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "hard"
+ },
+ {
+  "answers": [
+   "Overflow"
+  ],
+  "elements": [
+   {
+    "t": "OVER",
+    "x": 50,
+    "y": 22,
+    "s": 3
+   },
+   {
+    "t": "FLOW",
+    "x": 50,
+    "y": 60,
+    "s": 6
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Lowdown",
+   "The lowdown"
+  ],
+  "elements": [
+   {
+    "t": "L\nO\nW",
+    "x": 50,
+    "y": 68,
+    "s": 3
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ }
+]
