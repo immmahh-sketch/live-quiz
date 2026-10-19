@@ -1,0 +1,67 @@
+[
+ {
+  "type": "club",
+  "text": "A tortoise plods along at 0.3 km an hour. How long does it take to cover 1.5 km?",
+  "answers": [
+   "5 hours",
+   "5",
+   "Five hours"
+  ],
+  "pct": 60,
+  "why": "1.5 ÷ 0.3 = 5.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "tortoises",
+   "speed"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A koala sleeps 20 hours a day. How many hours is it awake in a week?",
+  "answers": [
+   "28",
+   "28 hours"
+  ],
+  "pct": 50,
+  "why": "4 hours a day × 7 days = 28.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "koalas",
+   "time"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "On a seesaw, a 30 kg child sits 2 metres from the middle. How far from the middle must a 60 kg adult sit on the other side to balance?",
+  "answers": [
+   "1 metre",
+   "1",
+   "1m",
+   "One metre"
+  ],
+  "pct": 30,
+  "why": "Twice the weight needs half the distance: 30 × 2 = 60 × 1.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "seesaw",
+   "balance"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Rearrange the letters of THE EYES into two words that say what they do.",
+  "answers": [
+   "They see"
+  ],
+  "pct": 40,
+  "why": "T-H-E-E-Y-E-S makes THEY SEE.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "anagrams"
+  ]
+ }
+]
