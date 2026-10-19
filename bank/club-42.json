@@ -1,0 +1,80 @@
+[
+ {
+  "type": "club",
+  "text": "Rearrange the letters of OWL to make a word meaning 'not high'.",
+  "answers": [
+   "Low"
+  ],
+  "pct": 70,
+  "why": "O-W-L becomes L-O-W.",
+  "difficulty": "easy",
+  "category": "Wordplay",
+  "tags": [
+   "anagrams",
+   "birds"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Rearrange the letters of PARROT to make a word for a bird of prey, or a dinosaur.",
+  "answers": [
+   "Raptor"
+  ],
+  "pct": 30,
+  "why": "P-A-R-R-O-T becomes R-A-P-T-O-R.",
+  "difficulty": "hard",
+  "category": "Wordplay",
+  "tags": [
+   "anagrams",
+   "birds"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A beaver dam grows 30 cm higher each week. How many weeks until it has grown 1.5 metres?",
+  "answers": [
+   "5",
+   "Five",
+   "5 weeks"
+  ],
+  "pct": 60,
+  "why": "1.5 m = 150 cm, and 150 ÷ 30 = 5.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "beavers",
+   "dividing"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Write out every number from 1 to 30. How many times do you write the digit 3?",
+  "answers": [
+   "4",
+   "Four"
+  ],
+  "pct": 30,
+  "why": "3, 13, 23 and 30.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "digits",
+   "counting"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Rearrange the letters of SWAN to make a word meaning 'cut with a saw'.",
+  "answers": [
+   "Sawn"
+  ],
+  "pct": 50,
+  "why": "S-W-A-N becomes S-A-W-N.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "anagrams",
+   "birds"
+  ]
+ }
+]
