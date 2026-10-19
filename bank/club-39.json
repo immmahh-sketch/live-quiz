@@ -1,0 +1,85 @@
+[
+ {
+  "type": "club",
+  "text": "A bumblebee's wings beat 200 times a second. How many times do they beat in one minute?",
+  "answers": [
+   "12,000",
+   "12000",
+   "Twelve thousand"
+  ],
+  "pct": 50,
+  "why": "200 × 60 = 12,000.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "bees",
+   "multiplying"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A pipistrelle bat can eat 3,000 insects in one night. How many could it eat in a week?",
+  "answers": [
+   "21,000",
+   "21000",
+   "Twenty-one thousand"
+  ],
+  "pct": 60,
+  "why": "3,000 × 7 = 21,000.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "bats",
+   "multiplying"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Spell out all seven days of the week. How many letters is that altogether?",
+  "answers": [
+   "50",
+   "Fifty"
+  ],
+  "pct": 30,
+  "why": "Monday 6, Tuesday 7, Wednesday 9, Thursday 8, Friday 6, Saturday 8, Sunday 6: 50.",
+  "difficulty": "hard",
+  "category": "Wordplay",
+  "tags": [
+   "days",
+   "letters",
+   "adding"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which day of the week has a letter D in its name that isn't part of the DAY at the end?",
+  "answers": [
+   "Wednesday"
+  ],
+  "pct": 40,
+  "why": "WeDnesday: the only D outside the final DAY.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "days",
+   "letters"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "In a room there are some cats and some people. Altogether there are 13 heads and 38 legs. How many cats are there?",
+  "answers": [
+   "6",
+   "Six"
+  ],
+  "pct": 20,
+  "why": "If all 13 were people that's 26 legs; the 12 extra legs come from cats with two more each: 6 cats.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "cats",
+   "dogs",
+   "legs"
+  ]
+ }
+]
