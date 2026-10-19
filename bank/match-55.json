@@ -1,0 +1,59 @@
+[
+ {
+  "type": "match",
+  "text": "Match each North East actor to the TV detective they played",
+  "pairs": [
+   {
+    "left": "Kevin Whately",
+    "right": "Lewis"
+   },
+   {
+    "left": "Brenda Blethyn",
+    "right": "Vera Stanhope"
+   },
+   {
+    "left": "Robson Green",
+    "right": "Geordie Keating"
+   },
+   {
+    "left": "Jimmy Nail",
+    "right": "Spender"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Television",
+  "tags": [
+   "North East",
+   "detectives",
+   "actors"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each North East landmark to the town it's in",
+  "pairs": [
+   {
+    "left": "Angel of the North",
+    "right": "Gateshead"
+   },
+   {
+    "left": "Penshaw Monument",
+    "right": "Sunderland"
+   },
+   {
+    "left": "Transporter Bridge",
+    "right": "Middlesbrough"
+   },
+   {
+    "left": "St James' Park",
+    "right": "Newcastle"
+   }
+  ],
+  "difficulty": "easy",
+  "category": "UK geography",
+  "tags": [
+   "North East",
+   "landmarks"
+  ]
+ }
+]
