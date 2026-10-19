@@ -1,0 +1,77 @@
+[
+ {
+  "type": "club",
+  "text": "A swallow flies 10,000 km to South Africa in 50 days. On average, how far does it fly each day?",
+  "answers": [
+   "200 km",
+   "200"
+  ],
+  "pct": 50,
+  "why": "10,000 ÷ 50 = 200.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "swallows",
+   "dividing"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A mole digs 20 metres of tunnel a day. How many days would it take to dig a kilometre?",
+  "answers": [
+   "50",
+   "50 days",
+   "Fifty"
+  ],
+  "pct": 50,
+  "why": "1,000 ÷ 20 = 50.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "moles",
+   "dividing"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Rearrange the letters of BREAD to make something that grows on a man's chin.",
+  "answers": [
+   "Beard"
+  ],
+  "pct": 60,
+  "why": "B-R-E-A-D becomes B-E-A-R-D.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "anagrams"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Rearrange the letters of SEAL to make a word for a time when shops cut their prices.",
+  "answers": [
+   "Sale"
+  ],
+  "pct": 70,
+  "why": "S-E-A-L becomes S-A-L-E.",
+  "difficulty": "easy",
+  "category": "Wordplay",
+  "tags": [
+   "anagrams"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Rearrange the letters of DEER to make a tall plant that grows by water.",
+  "answers": [
+   "Reed"
+  ],
+  "pct": 60,
+  "why": "D-E-E-R becomes R-E-E-D.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "anagrams"
+  ]
+ }
+]
