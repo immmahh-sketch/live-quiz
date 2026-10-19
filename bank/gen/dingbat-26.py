@@ -10,7 +10,8 @@ PURPLE = "#7b2fbe"
 NL = chr(10)
 
 # candidates (the clash filter below drops any already in the bank); about 65 phrases were checked first and only the free
-# ones were drawn (bottom line, low key, crossover, first class and others were already in).
+# ones were drawn (bottom line, low key, crossover, first class and others were already in). Step back and Overturn
+# then clashed on their alternative answers and were dropped by the filter, so 9 went in.
 d(['Middle class'], 'Phrase', 'medium', e('upper', y=20, s=2), e('CLASS', y=50, s=5), e('lower', y=80, s=2))
 d(['Breakfast', 'Break fast'], 'Phrase', 'medium', e('FA    ST', s=4))
 d(['Overdue'], 'Phrase', 'easy', e('OVER', y=22, s=3), e('DUE', y=60, s=6))
