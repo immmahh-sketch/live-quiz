@@ -1,0 +1,181 @@
+[
+ {
+  "answers": [
+   "Middle class"
+  ],
+  "elements": [
+   {
+    "t": "upper",
+    "x": 50,
+    "y": 20,
+    "s": 2
+   },
+   {
+    "t": "CLASS",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   },
+   {
+    "t": "lower",
+    "x": 50,
+    "y": 80,
+    "s": 2
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Breakfast",
+   "Break fast"
+  ],
+  "elements": [
+   {
+    "t": "FA    ST",
+    "x": 50,
+    "y": 50,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Overdue"
+  ],
+  "elements": [
+   {
+    "t": "OVER",
+    "x": 50,
+    "y": 22,
+    "s": 3
+   },
+   {
+    "t": "DUE",
+    "x": 50,
+    "y": 60,
+    "s": 6
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Walk the line"
+  ],
+  "elements": [
+   {
+    "t": "WALK",
+    "x": 50,
+    "y": 40,
+    "s": 5
+   },
+   {
+    "t": "__________",
+    "x": 50,
+    "y": 58,
+    "s": 3
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Sidestep",
+   "Side step"
+  ],
+  "elements": [
+   {
+    "t": "STEP",
+    "x": 88,
+    "y": 50,
+    "s": 3,
+    "rot": 90
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Backwards"
+  ],
+  "elements": [
+   {
+    "t": "SDRAWKCAB",
+    "x": 50,
+    "y": 50,
+    "s": 3
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Look over",
+   "Overlook"
+  ],
+  "elements": [
+   {
+    "t": "LOOK",
+    "x": 50,
+    "y": 28,
+    "s": 4
+   },
+   {
+    "t": "OVER",
+    "x": 50,
+    "y": 62,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Income"
+  ],
+  "elements": [
+   {
+    "t": "COME",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "style": "box"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Downtime"
+  ],
+  "elements": [
+   {
+    "t": "T\nI\nM\nE",
+    "x": 50,
+    "y": 50,
+    "s": 3
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ }
+]
