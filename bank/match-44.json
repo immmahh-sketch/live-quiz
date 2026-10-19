@@ -1,0 +1,58 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Ghosts character to the time they died in",
+  "pairs": [
+   {
+    "left": "Robin",
+    "right": "The Stone Age"
+   },
+   {
+    "left": "The Captain",
+    "right": "The Second World War"
+   },
+   {
+    "left": "Fanny",
+    "right": "The Edwardian era"
+   },
+   {
+    "left": "Julian",
+    "right": "The 1990s"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Comedy",
+  "tags": [
+   "Ghosts",
+   "history"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each sitcom to who sang its theme",
+  "pairs": [
+   {
+    "left": "Only Fools and Horses",
+    "right": "John Sullivan"
+   },
+   {
+    "left": "The Royle Family",
+    "right": "Oasis"
+   },
+   {
+    "left": "Detectorists",
+    "right": "Johnny Flynn"
+   },
+   {
+    "left": "Auf Wiedersehen, Pet",
+    "right": "Joe Fagin"
+   }
+  ],
+  "difficulty": "hard",
+  "category": "Comedy",
+  "tags": [
+   "sitcoms",
+   "theme tunes"
+  ]
+ }
+]
