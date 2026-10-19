@@ -1,0 +1,81 @@
+[
+ {
+  "type": "club",
+  "text": "A golden eagle dives at 240 km an hour. How many kilometres would it cover in 15 minutes at that speed?",
+  "answers": [
+   "60",
+   "60 km",
+   "Sixty"
+  ],
+  "pct": 50,
+  "why": "15 minutes is a quarter of an hour: 240 ÷ 4 = 60.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "eagles",
+   "speed"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A clump of frogspawn holds 2,000 eggs. Half are eaten, and half of the rest never hatch. How many tadpoles are left?",
+  "answers": [
+   "500",
+   "Five hundred"
+  ],
+  "pct": 40,
+  "why": "2,000 → 1,000 → 500.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "frogs",
+   "halving"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A goat can see 320 degrees around itself. How many degrees of a full circle can't it see?",
+  "answers": [
+   "40",
+   "40 degrees",
+   "Forty"
+  ],
+  "pct": 50,
+  "why": "A full circle is 360 degrees: 360 − 320 = 40.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "goats",
+   "angles"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Move the first letter of STEAM to the end. What new word do you get?",
+  "answers": [
+   "Teams"
+  ],
+  "pct": 40,
+  "why": "S-TEAM becomes TEAM-S.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "anagrams",
+   "letters"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Swap the first letters of 'tons of soil'. What phrase do you get?",
+  "answers": [
+   "Sons of toil"
+  ],
+  "pct": 30,
+  "why": "T and S trade places: Sons of toil.",
+  "difficulty": "hard",
+  "category": "Wordplay",
+  "tags": [
+   "spoonerisms"
+  ]
+ }
+]
