@@ -1,0 +1,96 @@
+[
+ {
+  "type": "sort",
+  "text": "A character from The Sweeney or from The Bill?",
+  "categories": [
+   "The Sweeney",
+   "The Bill"
+  ],
+  "items": [
+   {
+    "text": "Jack Regan",
+    "category": "The Sweeney"
+   },
+   {
+    "text": "George Carter",
+    "category": "The Sweeney"
+   },
+   {
+    "text": "Frank Haskins",
+    "category": "The Sweeney"
+   },
+   {
+    "text": "June Ackland",
+    "category": "The Bill"
+   },
+   {
+    "text": "Reg Hollis",
+    "category": "The Bill"
+   },
+   {
+    "text": "Tosh Lines",
+    "category": "The Bill"
+   },
+   {
+    "text": "Bob Cryer",
+    "category": "The Bill"
+   }
+  ],
+  "category": "Television",
+  "tags": [
+   "The Sweeney",
+   "The Bill",
+   "police"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Does it hibernate, or stay active all winter?",
+  "categories": [
+   "Hibernates",
+   "Stays active"
+  ],
+  "items": [
+   {
+    "text": "Hedgehog",
+    "category": "Hibernates"
+   },
+   {
+    "text": "Dormouse",
+    "category": "Hibernates"
+   },
+   {
+    "text": "Adder",
+    "category": "Hibernates"
+   },
+   {
+    "text": "Common toad",
+    "category": "Hibernates"
+   },
+   {
+    "text": "Fox",
+    "category": "Stays active"
+   },
+   {
+    "text": "Badger",
+    "category": "Stays active"
+   },
+   {
+    "text": "Red squirrel",
+    "category": "Stays active"
+   },
+   {
+    "text": "Mole",
+    "category": "Stays active"
+   }
+  ],
+  "category": "Nature",
+  "tags": [
+   "hibernation",
+   "winter",
+   "British wildlife"
+  ],
+  "difficulty": "medium"
+ }
+]
