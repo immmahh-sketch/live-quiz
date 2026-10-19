@@ -1,0 +1,60 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Home and Away star to the character they played",
+  "pairs": [
+   {
+    "left": "Isla Fisher",
+    "right": "Shannon Reed"
+   },
+   {
+    "left": "Melissa George",
+    "right": "Angel Parrish"
+   },
+   {
+    "left": "Ray Meagher",
+    "right": "Alf Stewart"
+   },
+   {
+    "left": "Kate Ritchie",
+    "right": "Sally Fletcher"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Television",
+  "tags": [
+   "Home and Away",
+   "soaps",
+   "actors"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each English island to its county",
+  "pairs": [
+   {
+    "left": "Lindisfarne",
+    "right": "Northumberland"
+   },
+   {
+    "left": "Hayling Island",
+    "right": "Hampshire"
+   },
+   {
+    "left": "St Michael's Mount",
+    "right": "Cornwall"
+   },
+   {
+    "left": "Brownsea Island",
+    "right": "Dorset"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Geography",
+  "tags": [
+   "islands",
+   "England",
+   "counties"
+  ]
+ }
+]
