@@ -1,0 +1,60 @@
+[
+ {
+  "type": "match",
+  "text": "Match each TV drama to the author of the books it's based on",
+  "pairs": [
+   {
+    "left": "Poldark",
+    "right": "Winston Graham"
+   },
+   {
+    "left": "Call the Midwife",
+    "right": "Jennifer Worth"
+   },
+   {
+    "left": "Bridgerton",
+    "right": "Julia Quinn"
+   },
+   {
+    "left": "Outlander",
+    "right": "Diana Gabaldon"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Television",
+  "tags": [
+   "period dramas",
+   "books",
+   "authors"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each BBC drama to the writer who created it",
+  "pairs": [
+   {
+    "left": "Bodyguard",
+    "right": "Jed Mercurio"
+   },
+   {
+    "left": "Luther",
+    "right": "Neil Cross"
+   },
+   {
+    "left": "Happy Valley",
+    "right": "Sally Wainwright"
+   },
+   {
+    "left": "Peaky Blinders",
+    "right": "Steven Knight"
+   }
+  ],
+  "difficulty": "hard",
+  "category": "Television",
+  "tags": [
+   "TV drama",
+   "writers",
+   "BBC"
+  ]
+ }
+]
