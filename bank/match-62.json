@@ -1,0 +1,59 @@
+[
+ {
+  "type": "match",
+  "text": "Match each soap clan to the soap it belongs to",
+  "pairs": [
+   {
+    "left": "The Dingles",
+    "right": "Emmerdale"
+   },
+   {
+    "left": "The Mitchells",
+    "right": "EastEnders"
+   },
+   {
+    "left": "The Barlows",
+    "right": "Coronation Street"
+   },
+   {
+    "left": "The Robinsons",
+    "right": "Neighbours"
+   }
+  ],
+  "difficulty": "easy",
+  "category": "Television",
+  "tags": [
+   "soaps",
+   "families"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each Neighbours star to the character they played",
+  "pairs": [
+   {
+    "left": "Kylie Minogue",
+    "right": "Charlene Robinson"
+   },
+   {
+    "left": "Jason Donovan",
+    "right": "Scott Robinson"
+   },
+   {
+    "left": "Guy Pearce",
+    "right": "Mike Young"
+   },
+   {
+    "left": "Margot Robbie",
+    "right": "Donna Freedman"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Television",
+  "tags": [
+   "Neighbours",
+   "soaps",
+   "actors"
+  ]
+ }
+]
