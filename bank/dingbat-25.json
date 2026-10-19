@@ -1,0 +1,179 @@
+[
+ {
+  "answers": [
+   "On the house"
+  ],
+  "elements": [
+   {
+    "t": "ON",
+    "x": 50,
+    "y": 25,
+    "s": 3
+   },
+   {
+    "t": "HOUSE",
+    "x": 50,
+    "y": 65,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Under the counter"
+  ],
+  "elements": [
+   {
+    "t": "COUNTER",
+    "x": 50,
+    "y": 30,
+    "s": 4
+   },
+   {
+    "t": "£ £ £",
+    "x": 50,
+    "y": 70,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Overweight"
+  ],
+  "elements": [
+   {
+    "t": "OVER",
+    "x": 50,
+    "y": 22,
+    "s": 3
+   },
+   {
+    "t": "WEIGHT",
+    "x": 50,
+    "y": 60,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Wall to wall"
+  ],
+  "elements": [
+   {
+    "t": "WALL 2 WALL",
+    "x": 50,
+    "y": 50,
+    "s": 3
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Second chance"
+  ],
+  "elements": [
+   {
+    "t": "CHANCE",
+    "x": 50,
+    "y": 32,
+    "s": 4
+   },
+   {
+    "t": "CHANCE",
+    "x": 50,
+    "y": 68,
+    "s": 4,
+    "color": "#d62828"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Split the bill"
+  ],
+  "elements": [
+   {
+    "t": "BI    LL",
+    "x": 50,
+    "y": 50,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Look back"
+  ],
+  "elements": [
+   {
+    "t": "KOOL",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Fingers crossed",
+   "Crossed fingers"
+  ],
+  "elements": [
+   {
+    "t": "FINGERS",
+    "x": 50,
+    "y": 50,
+    "s": 2
+   },
+   {
+    "t": "FINGERS",
+    "x": 50,
+    "y": 50,
+    "s": 2,
+    "rot": 90
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Sign of the times"
+  ],
+  "elements": [
+   {
+    "t": "×",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "hard"
+ }
+]
