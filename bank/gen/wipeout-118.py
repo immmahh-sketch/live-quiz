@@ -1,6 +1,6 @@
 # Bank session 19 Oct 2026: new Wipeout boards -> bank/wipeout-118.json (words that take a Y on the end; farm animals hidden in words).
 # Same shapes as wipeout-92 to 94. Every decoy was checked letter by letter: no word made by adding Y to Cup/Desk/Coin/
-# Tree/Lamp, and no farm animal (asserted against a list) hidden in Pillow/Garden/Button/Ladder/Window (Basket hides an ass).
+# Tree/Lamp, and no farm animal (asserted against a list) hidden in Pillow/Garden/Button/Ladder/Window.
 import json, os
 B = []
 def board(text, cat, diff, tags, right, wrong):
