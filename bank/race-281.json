@@ -1,0 +1,390 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: The Bill - name it",
+  "target": 10,
+  "category": "Television",
+  "tags": [
+   "The Bill",
+   "police",
+   "ITV"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The police station",
+    "right": "Sun Hill",
+    "wrong": [
+     "Fenchurch East",
+     "Kingsmarkham",
+     "Denton"
+    ]
+   },
+   {
+    "q": "The made-up borough it covers",
+    "right": "Canley",
+    "wrong": [
+     "Walford",
+     "Weatherfield",
+     "Holby"
+    ]
+   },
+   {
+    "q": "The city",
+    "right": "London",
+    "wrong": [
+     "Manchester",
+     "Birmingham",
+     "Liverpool"
+    ]
+   },
+   {
+    "q": "What the title means",
+    "right": "Slang for the police",
+    "wrong": [
+     "A pub bill",
+     "A law going through Parliament",
+     "A copper's first name"
+    ]
+   },
+   {
+    "q": "The channel",
+    "right": "ITV",
+    "wrong": [
+     "BBC One",
+     "Channel 4",
+     "BBC Two"
+    ]
+   },
+   {
+    "q": "The ITV company that made it",
+    "right": "Thames Television",
+    "wrong": [
+     "Granada",
+     "Central",
+     "Yorkshire Television"
+    ]
+   },
+   {
+    "q": "The one-off drama it grew out of",
+    "right": "Woodentop",
+    "wrong": [
+     "Copper",
+     "Beat",
+     "The Nick"
+    ]
+   },
+   {
+    "q": "The year that drama was shown",
+    "right": "1983",
+    "wrong": [
+     "1979",
+     "1987",
+     "1990"
+    ]
+   },
+   {
+    "q": "The writer who created it",
+    "right": "Geoff McQueen",
+    "wrong": [
+     "Lynda La Plante",
+     "Jimmy McGovern",
+     "Tony Jordan"
+    ]
+   },
+   {
+    "q": "The year it ended",
+    "right": "2010",
+    "wrong": [
+     "2004",
+     "2007",
+     "2013"
+    ]
+   },
+   {
+    "q": "The theme tune",
+    "right": "Overkill",
+    "wrong": [
+     "Kickback",
+     "Night Beat",
+     "The Chase"
+    ]
+   },
+   {
+    "q": "The long-serving woman officer",
+    "right": "June Ackland",
+    "wrong": [
+     "Jane Tennison",
+     "Jackie Reid",
+     "Kate Fleming"
+    ]
+   },
+   {
+    "q": "The actress who played her",
+    "right": "Trudie Goodwin",
+    "wrong": [
+     "Tracy-Ann Oberman",
+     "Tessa Peake-Jones",
+     "Trudie Styler"
+    ]
+   },
+   {
+    "q": "The moaning PC always filing complaints",
+    "right": "Reg Hollis",
+    "wrong": [
+     "Reg Holdsworth",
+     "Reg Cox",
+     "Reg Varney"
+    ]
+   },
+   {
+    "q": "The actor who played him",
+    "right": "Jeff Stewart",
+    "wrong": [
+     "Jeff Rawle",
+     "Jeff Stelling",
+     "Jeff Goldblum"
+    ]
+   },
+   {
+    "q": "The hard-man detective inspector",
+    "right": "Frank Burnside",
+    "wrong": [
+     "Frank Butcher",
+     "Frank Gallagher",
+     "Frank Spencer"
+    ]
+   },
+   {
+    "q": "The actor who played him",
+    "right": "Christopher Ellison",
+    "wrong": [
+     "Christopher Eccleston",
+     "Christopher Biggins",
+     "Christopher Timothy"
+    ]
+   },
+   {
+    "q": "That detective's own spin-off",
+    "right": "Burnside",
+    "wrong": [
+     "Sun Hill CID",
+     "Canley Nights",
+     "Cryer's Law"
+    ]
+   },
+   {
+    "q": "Scruffy DC Tosh's surname",
+    "right": "Lines",
+    "wrong": [
+     "Lynch",
+     "Lomas",
+     "Lane"
+    ]
+   },
+   {
+    "q": "The actor who played Sergeant Bob Cryer",
+    "right": "Eric Richard",
+    "wrong": [
+     "Eric Sykes",
+     "Eric Idle",
+     "Eric Porter"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: The Sweeney - name it",
+  "target": 10,
+  "category": "Television",
+  "tags": [
+   "The Sweeney",
+   "police",
+   "ITV"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The actor who played Jack Regan",
+    "right": "John Thaw",
+    "wrong": [
+     "John Nettles",
+     "Michael Elphick",
+     "Lewis Collins"
+    ]
+   },
+   {
+    "q": "The actor who played George Carter",
+    "right": "Dennis Waterman",
+    "wrong": [
+     "Martin Shaw",
+     "Gareth Hunt",
+     "Patrick Mower"
+    ]
+   },
+   {
+    "q": "Regan's rank",
+    "right": "Detective Inspector",
+    "wrong": [
+     "Detective Sergeant",
+     "Chief Inspector",
+     "Superintendent"
+    ]
+   },
+   {
+    "q": "The squad they worked for",
+    "right": "Flying Squad",
+    "wrong": [
+     "Special Branch",
+     "Vice Squad",
+     "Serious Crime Squad"
+    ]
+   },
+   {
+    "q": "Where the name comes from",
+    "right": "Rhyming slang: Sweeney Todd, Flying Squad",
+    "wrong": [
+     "A real detective's surname",
+     "A London street",
+     "A police radio code"
+    ]
+   },
+   {
+    "q": "Regan's famous line",
+    "right": "Get your trousers on, you're nicked!",
+    "wrong": [
+     "Evenin' all",
+     "There's been a murder",
+     "Book 'em, Danno"
+    ]
+   },
+   {
+    "q": "Their boss",
+    "right": "Frank Haskins",
+    "wrong": [
+     "Frank Butcher",
+     "Frank Gallagher",
+     "Frank Spencer"
+    ]
+   },
+   {
+    "q": "The city",
+    "right": "London",
+    "wrong": [
+     "Manchester",
+     "Birmingham",
+     "Glasgow"
+    ]
+   },
+   {
+    "q": "The channel",
+    "right": "ITV",
+    "wrong": [
+     "BBC One",
+     "BBC Two",
+     "Channel 4"
+    ]
+   },
+   {
+    "q": "The film company that made it",
+    "right": "Euston Films",
+    "wrong": [
+     "Granada",
+     "LWT",
+     "Central"
+    ]
+   },
+   {
+    "q": "The one-off drama that launched it",
+    "right": "Regan",
+    "wrong": [
+     "Carter",
+     "Squad Car",
+     "The Squad"
+    ]
+   },
+   {
+    "q": "The year the series began",
+    "right": "1975",
+    "wrong": [
+     "1970",
+     "1979",
+     "1983"
+    ]
+   },
+   {
+    "q": "The year it ended",
+    "right": "1978",
+    "wrong": [
+     "1973",
+     "1982",
+     "1986"
+    ]
+   },
+   {
+    "q": "The comedy double act who guest-starred",
+    "right": "Morecambe and Wise",
+    "wrong": [
+     "The Two Ronnies",
+     "Cannon and Ball",
+     "Little and Large"
+    ]
+   },
+   {
+    "q": "Feature films made from it in the 1970s",
+    "right": "2",
+    "wrong": [
+     "1",
+     "3",
+     "4"
+    ]
+   },
+   {
+    "q": "The theme tune composer",
+    "right": "Harry South",
+    "wrong": [
+     "Ron Grainer",
+     "Tony Hatch",
+     "Laurie Johnson"
+    ]
+   },
+   {
+    "q": "The year of the big-screen remake",
+    "right": "2012",
+    "wrong": [
+     "2005",
+     "2016",
+     "2019"
+    ]
+   },
+   {
+    "q": "The remake's Regan",
+    "right": "Ray Winstone",
+    "wrong": [
+     "Ross Kemp",
+     "Danny Dyer",
+     "Jason Statham"
+    ]
+   },
+   {
+    "q": "The musician who played Carter in the remake",
+    "right": "Plan B",
+    "wrong": [
+     "Stormzy",
+     "Example",
+     "Professor Green"
+    ]
+   },
+   {
+    "q": "The lead actor's later Oxford detective",
+    "right": "Inspector Morse",
+    "wrong": [
+     "Lewis",
+     "Frost",
+     "Barnaby"
+    ]
+   }
+  ]
+ }
+]
