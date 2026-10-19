@@ -13,7 +13,7 @@ o("Comedy", ["Armando Iannucci", "career"], "hard", "Put these Armando Iannucci 
 # 2000, 2001, 2005, 2015
 o("Comedy", ["Peter Kay", "career"], "medium", "Put these Peter Kay moments in order, earliest first",
   ["That Peter Kay Thing", "Phoenix Nights begins", "Amarillo goes to number one", "Car Share begins"], "earliest first")
-o("Nature", ["horses", "donkeys", "height"], "easy", "Put these in order of height, shortest first",
+o("Nature", ["horses", "donkeys", "height"], "easy", "Put these horses and donkeys in order of height at the shoulder, shortest first",
   ["Shetland pony", "Donkey", "Thoroughbred racehorse", "Shire horse"], "shortest first")
 o("Nature", ["British wildlife", "mammals", "size"], "easy", "Put these British mammals in order of size, smallest first",
   ["Harvest mouse", "Grey squirrel", "Badger", "Red deer"], "smallest first")
