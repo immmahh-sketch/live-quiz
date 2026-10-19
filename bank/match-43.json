@@ -1,0 +1,58 @@
+[
+ {
+  "type": "match",
+  "text": "Match each sitcom to the city or town it's set in",
+  "pairs": [
+   {
+    "left": "Still Game",
+    "right": "Glasgow"
+   },
+   {
+    "left": "Dinnerladies",
+    "right": "Manchester"
+   },
+   {
+    "left": "Phoenix Nights",
+    "right": "Bolton"
+   },
+   {
+    "left": "Black Books",
+    "right": "London"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Comedy",
+  "tags": [
+   "sitcoms",
+   "places"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each Scottish comedian to the show they're best known for",
+  "pairs": [
+   {
+    "left": "Gregor Fisher",
+    "right": "Rab C. Nesbitt"
+   },
+   {
+    "left": "Limmy",
+    "right": "Limmy's Show"
+   },
+   {
+    "left": "Ford Kiernan",
+    "right": "Still Game"
+   },
+   {
+    "left": "Frankie Boyle",
+    "right": "Mock the Week"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Comedy",
+  "tags": [
+   "Scotland",
+   "comedians"
+  ]
+ }
+]
