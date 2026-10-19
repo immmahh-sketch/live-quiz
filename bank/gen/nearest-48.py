@@ -11,7 +11,7 @@ Q = [
  ("For roughly how many years were beavers missing from Britain before they came back?", 400, "years", 80, "hard", "Nature", True),
  ("By roughly what percentage have hazel dormouse numbers fallen in Britain since 2000?", 70, "%", 15, "hard", "Nature", True),
  ("Roughly how many breeding pairs of magpies are there in the UK?", 600000, "pairs", 150000, "hard", "Nature", False),
- ("Roughly how many grams does a kingfisher weigh?", 40, "grams", 10, "medium", "Nature", False),
+ ("The kingfisher, the bright blue bird of British rivers, tips the scales at roughly how many grams?", 40, "grams", 10, "medium", "Nature", False),
  ("Roughly how many kinds of ladybird live in the UK?", 46, "kinds", 8, "hard", "Nature", True),
 ]
 here = os.path.dirname(os.path.abspath(__file__))
