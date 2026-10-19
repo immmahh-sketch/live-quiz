@@ -1,0 +1,197 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: The Tube - name it",
+  "target": 10,
+  "category": "Television",
+  "tags": [
+   "The Tube",
+   "music TV",
+   "North East",
+   "Channel 4"
+  ],
+  "difficulty": "hard",
+  "bank": [
+   {
+    "q": "The channel",
+    "right": "Channel 4",
+    "wrong": [
+     "BBC Two",
+     "ITV",
+     "BBC One"
+    ]
+   },
+   {
+    "q": "The city it came from",
+    "right": "Newcastle",
+    "wrong": [
+     "Manchester",
+     "Liverpool",
+     "Glasgow"
+    ]
+   },
+   {
+    "q": "The TV company whose studio it used",
+    "right": "Tyne Tees",
+    "wrong": [
+     "Granada",
+     "Yorkshire",
+     "Border"
+    ]
+   },
+   {
+    "q": "Its studio",
+    "right": "Studio 5",
+    "wrong": [
+     "Studio 1",
+     "Studio 3",
+     "Studio 8"
+    ]
+   },
+   {
+    "q": "The day it went out",
+    "right": "Friday",
+    "wrong": [
+     "Monday",
+     "Wednesday",
+     "Saturday"
+    ]
+   },
+   {
+    "q": "When it went out",
+    "right": "Early evening",
+    "wrong": [
+     "Breakfast",
+     "Late night",
+     "Lunchtime"
+    ]
+   },
+   {
+    "q": "How it was broadcast",
+    "right": "Live",
+    "wrong": [
+     "Pre-recorded",
+     "Animated",
+     "Radio only"
+    ]
+   },
+   {
+    "q": "The year it began",
+    "right": "1982",
+    "wrong": [
+     "1978",
+     "1986",
+     "1990"
+    ]
+   },
+   {
+    "q": "The year it ended",
+    "right": "1987",
+    "wrong": [
+     "1984",
+     "1990",
+     "1993"
+    ]
+   },
+   {
+    "q": "Its male presenter",
+    "right": "Jools Holland",
+    "wrong": [
+     "Jonathan Ross",
+     "Mark Lamarr",
+     "Chris Evans"
+    ]
+   },
+   {
+    "q": "His band",
+    "right": "Squeeze",
+    "wrong": [
+     "Madness",
+     "The Specials",
+     "Dexys Midnight Runners"
+    ]
+   },
+   {
+    "q": "Why he was suspended",
+    "right": "He swore in a live trailer",
+    "wrong": [
+     "He fell asleep on air",
+     "He insulted a guest",
+     "He played the wrong song"
+    ]
+   },
+   {
+    "q": "His later music show",
+    "right": "Later... with Jools Holland",
+    "wrong": [
+     "Top of the Pops",
+     "The Old Grey Whistle Test",
+     "The Word"
+    ]
+   },
+   {
+    "q": "Its female presenter",
+    "right": "Paula Yates",
+    "wrong": [
+     "Paula Abdul",
+     "Paula Hamilton",
+     "Paula Wilcox"
+    ]
+   },
+   {
+    "q": "The man she married in 1986",
+    "right": "Bob Geldof",
+    "wrong": [
+     "Bono",
+     "Sting",
+     "Midge Ure"
+    ]
+   },
+   {
+    "q": "The Scottish presenter",
+    "right": "Muriel Gray",
+    "wrong": [
+     "Muriel Young",
+     "Mariella Frostrup",
+     "Kirsty Wark"
+    ]
+   },
+   {
+    "q": "Another presenter, later in Men Behaving Badly",
+    "right": "Leslie Ash",
+    "wrong": [
+     "Leslie Grantham",
+     "Lesley Joseph",
+     "Lesley Garrett"
+    ]
+   },
+   {
+    "q": "The band who played their last TV show on the first episode",
+    "right": "The Jam",
+    "wrong": [
+     "The Police",
+     "The Clash",
+     "The Specials"
+    ]
+   },
+   {
+    "q": "The band it famously launched in 1983",
+    "right": "Frankie Goes to Hollywood",
+    "wrong": [
+     "Duran Duran",
+     "Culture Club",
+     "Spandau Ballet"
+    ]
+   },
+   {
+    "q": "Its producer",
+    "right": "Malcolm Gerrie",
+    "wrong": [
+     "Malcolm McLaren",
+     "Malcolm Allison",
+     "Malcolm Hardee"
+    ]
+   }
+  ]
+ }
+]
