@@ -1,0 +1,58 @@
+[
+ {
+  "type": "match",
+  "text": "Match each sitcom to its made-up town",
+  "pairs": [
+   {
+    "left": "Dad's Army",
+    "right": "Walmington-on-Sea"
+   },
+   {
+    "left": "Hi-de-Hi!",
+    "right": "Crimpton-on-Sea"
+   },
+   {
+    "left": "Still Game",
+    "right": "Craiglang"
+   },
+   {
+    "left": "Detectorists",
+    "right": "Danebury"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Comedy",
+  "tags": [
+   "sitcoms",
+   "places"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each sitcom character to his job",
+  "pairs": [
+   {
+    "left": "Ben Harper",
+    "right": "Dentist"
+   },
+   {
+    "left": "Pete Brockman",
+    "right": "Teacher"
+   },
+   {
+    "left": "Gary Sparrow",
+    "right": "TV repairman"
+   },
+   {
+    "left": "Gordon Brittas",
+    "right": "Leisure centre manager"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Comedy",
+  "tags": [
+   "sitcoms",
+   "jobs"
+  ]
+ }
+]
