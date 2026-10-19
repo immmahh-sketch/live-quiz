@@ -1,0 +1,59 @@
+[
+ {
+  "type": "match",
+  "text": "Match each TV right-hand man to the boss he worked for",
+  "pairs": [
+   {
+    "left": "Mike Jardine",
+    "right": "Taggart"
+   },
+   {
+    "left": "Terry McCann",
+    "right": "Arthur Daley"
+   },
+   {
+    "left": "Tinker",
+    "right": "Lovejoy"
+   },
+   {
+    "left": "Joe Ashworth",
+    "right": "Vera Stanhope"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Television",
+  "tags": [
+   "TV drama",
+   "detectives",
+   "sidekicks"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each animal brought back to Britain to where it was first released",
+  "pairs": [
+   {
+    "left": "White-tailed eagle",
+    "right": "Isle of Rum"
+   },
+   {
+    "left": "Beaver",
+    "right": "Knapdale, Argyll"
+   },
+   {
+    "left": "Bison",
+    "right": "West Blean Woods, Kent"
+   },
+   {
+    "left": "Red kite",
+    "right": "The Chilterns"
+   }
+  ],
+  "difficulty": "hard",
+  "category": "Nature",
+  "tags": [
+   "rewilding",
+   "British wildlife"
+  ]
+ }
+]
