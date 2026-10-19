@@ -1,0 +1,59 @@
+[
+ {
+  "type": "match",
+  "text": "In the magpie rhyme, match each number of magpies to its line",
+  "pairs": [
+   {
+    "left": "One",
+    "right": "For sorrow"
+   },
+   {
+    "left": "Two",
+    "right": "For joy"
+   },
+   {
+    "left": "Three",
+    "right": "For a girl"
+   },
+   {
+    "left": "Four",
+    "right": "For a boy"
+   }
+  ],
+  "difficulty": "easy",
+  "category": "Nature",
+  "tags": [
+   "magpies",
+   "rhymes",
+   "folklore"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each comedian to the panel show they're a regular on",
+  "pairs": [
+   {
+    "left": "Lee Mack",
+    "right": "Would I Lie to You?"
+   },
+   {
+    "left": "Hugh Dennis",
+    "right": "Mock the Week"
+   },
+   {
+    "left": "Ian Hislop",
+    "right": "Have I Got News for You"
+   },
+   {
+    "left": "Alan Davies",
+    "right": "QI"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Comedy",
+  "tags": [
+   "panel shows",
+   "comedians"
+  ]
+ }
+]
