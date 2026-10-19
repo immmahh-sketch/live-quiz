@@ -1,0 +1,58 @@
+[
+ {
+  "type": "match",
+  "text": "Match each sitcom to its local pub or club",
+  "pairs": [
+   {
+    "left": "Only Fools and Horses",
+    "right": "The Nag's Head"
+   },
+   {
+    "left": "Phoenix Nights",
+    "right": "The Phoenix Club"
+   },
+   {
+    "left": "Early Doors",
+    "right": "The Grapes"
+   },
+   {
+    "left": "Still Game",
+    "right": "The Clansman"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Comedy",
+  "tags": [
+   "sitcoms",
+   "pubs"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each sitcom character to how they get about",
+  "pairs": [
+   {
+    "left": "Del Boy",
+    "right": "Yellow Reliant three-wheeler"
+   },
+   {
+    "left": "Mr Bean",
+    "right": "Mini"
+   },
+   {
+    "left": "Simon Cooper",
+    "right": "Yellow Fiat Cinquecento"
+   },
+   {
+    "left": "Albert Steptoe",
+    "right": "Horse and cart"
+   }
+  ],
+  "difficulty": "easy",
+  "category": "Comedy",
+  "tags": [
+   "sitcoms",
+   "cars"
+  ]
+ }
+]
