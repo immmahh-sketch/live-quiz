@@ -1,0 +1,97 @@
+[
+ {
+  "type": "club",
+  "text": "Spot the number here that isn't a perfect square: 9, 16, 25, 36, 48, 64.",
+  "answers": [
+   "48"
+  ],
+  "pct": 70,
+  "why": "The others are square numbers (3×3 up to 8×8); 48 isn't.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "squares",
+   "odd one out"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Count every edge you'd draw for three triangles and two squares, none touching.",
+  "answers": [
+   "17",
+   "Seventeen"
+  ],
+  "pct": 70,
+  "why": "3 × 3 = 9 and 2 × 4 = 8, so 17.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "shapes",
+   "adding"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Multiply a spider's legs by an ant's legs, then take away a horse's legs. What's left?",
+  "answers": [
+   "44",
+   "Forty-four"
+  ],
+  "pct": 50,
+  "why": "8 × 6 = 48, and 48 − 4 = 44.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "animals",
+   "legs"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A Metro train leaves at 7:00 and then every 12 minutes. Counting the 7:00, how many leave before 8:00?",
+  "answers": [
+   "5",
+   "Five"
+  ],
+  "pct": 40,
+  "why": "7:00, 7:12, 7:24, 7:36 and 7:48; the next is 8:00.",
+  "difficulty": "medium",
+  "category": "Time",
+  "tags": [
+   "timetables",
+   "Metro",
+   "North East"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Spell out NEWCASTLE, then SUNDERLAND. Which letters turn up in the first word only? Give how many.",
+  "answers": [
+   "3",
+   "Three"
+  ],
+  "pct": 30,
+  "why": "W, C and T; N, E, A, S and L are in both.",
+  "difficulty": "hard",
+  "category": "Wordplay",
+  "tags": [
+   "letters",
+   "North East"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "I'm a three-digit number. My digits add up to 2, and I'm odd. What am I?",
+  "answers": [
+   "101"
+  ],
+  "pct": 20,
+  "why": "Only 101, 110 and 200 have digits adding to 2, and only 101 is odd.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "digits",
+   "logic"
+  ]
+ }
+]
