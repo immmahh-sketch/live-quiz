@@ -1,0 +1,87 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Rik Mayall character to the show he's from",
+  "pairs": [
+   {
+    "left": "Rick",
+    "right": "The Young Ones"
+   },
+   {
+    "left": "Richie",
+    "right": "Bottom"
+   },
+   {
+    "left": "Lord Flashheart",
+    "right": "Blackadder"
+   },
+   {
+    "left": "Alan B'Stard",
+    "right": "The New Statesman"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Comedy",
+  "tags": [
+   "Rik Mayall",
+   "characters"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each actor to their Blackadder role",
+  "pairs": [
+   {
+    "left": "Rowan Atkinson",
+    "right": "Blackadder"
+   },
+   {
+    "left": "Tony Robinson",
+    "right": "Baldrick"
+   },
+   {
+    "left": "Hugh Laurie",
+    "right": "Prince George"
+   },
+   {
+    "left": "Stephen Fry",
+    "right": "Lord Melchett"
+   }
+  ],
+  "difficulty": "easy",
+  "category": "Comedy",
+  "tags": [
+   "Blackadder",
+   "actors"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each garden bird to its splash of colour",
+  "pairs": [
+   {
+    "left": "Robin",
+    "right": "Orange-red breast"
+   },
+   {
+    "left": "Goldfinch",
+    "right": "Red face"
+   },
+   {
+    "left": "Blue tit",
+    "right": "Blue cap"
+   },
+   {
+    "left": "Bullfinch",
+    "right": "Rosy-pink chest"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Nature",
+  "tags": [
+   "birds",
+   "British wildlife",
+   "colours"
+  ]
+ }
+]
