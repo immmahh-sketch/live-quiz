@@ -1,0 +1,81 @@
+[
+ {
+  "type": "club",
+  "text": "Lady Mary is older than Lady Edith, and Lady Sybil is younger than Edith. Which of the three sisters is in the middle?",
+  "answers": [
+   "Edith",
+   "Lady Edith"
+  ],
+  "pct": 70,
+  "why": "Mary, then Edith, then Sybil.",
+  "difficulty": "easy",
+  "category": "Logic",
+  "tags": [
+   "Downton Abbey",
+   "ages"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Rearrange the letters of LUTHER to make a word meaning 'to rush along dangerously fast'.",
+  "answers": [
+   "Hurtle"
+  ],
+  "pct": 40,
+  "why": "L-U-T-H-E-R becomes H-U-R-T-L-E.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "anagrams",
+   "detectives"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Counting both ends, how many whole numbers are there from 200 to 221?",
+  "answers": [
+   "22",
+   "Twenty-two"
+  ],
+  "pct": 40,
+  "why": "221 − 200 = 21, plus one because both ends count.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "Sherlock",
+   "counting"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "In the words DOWNTON ABBEY, how many different letters appear exactly twice?",
+  "answers": [
+   "3",
+   "Three"
+  ],
+  "pct": 20,
+  "why": "O, N and B each appear twice; D, W, T, A, E and Y once.",
+  "difficulty": "hard",
+  "category": "Wordplay",
+  "tags": [
+   "letters",
+   "Downton Abbey"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Morse code uses dots and dashes. How many different signals can be made from exactly two symbols?",
+  "answers": [
+   "4",
+   "Four"
+  ],
+  "pct": 10,
+  "why": "Dot-dot, dot-dash, dash-dot and dash-dash.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "Morse code",
+   "combinations"
+  ]
+ }
+]
