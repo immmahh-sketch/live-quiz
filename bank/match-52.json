@@ -1,0 +1,58 @@
+[
+ {
+  "type": "match",
+  "text": "Match each sitcom to the building it's set in",
+  "pairs": [
+   {
+    "left": "Ghosts",
+    "right": "Button House"
+   },
+   {
+    "left": "To the Manor Born",
+    "right": "Grantleigh Manor"
+   },
+   {
+    "left": "Hi-de-Hi!",
+    "right": "Maplins holiday camp"
+   },
+   {
+    "left": "'Allo 'Allo!",
+    "right": "Café René"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Comedy",
+  "tags": [
+   "sitcoms",
+   "places"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each actress to her sitcom role",
+  "pairs": [
+   {
+    "left": "Penelope Keith",
+    "right": "Audrey fforbes-Hamilton"
+   },
+   {
+    "left": "Wendy Craig",
+    "right": "Ria Parkinson"
+   },
+   {
+    "left": "Zoë Wanamaker",
+    "right": "Susan Harper"
+   },
+   {
+    "left": "Pauline Quirke",
+    "right": "Sharon Theodopolopodous"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Comedy",
+  "tags": [
+   "sitcoms",
+   "actresses"
+  ]
+ }
+]
