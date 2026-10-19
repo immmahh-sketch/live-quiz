@@ -1,5 +1,6 @@
 # Bank session 19 Oct 2026: 3 Play Your Cards Right games -> bank/cards-121.json (Sherlock, Happy Valley, Call the Midwife).
 # Probed against every cards game in the live bank first (none on these). Numbers are the commonly quoted ones.
+# Sherlock's Baker Street card was swapped after import: the live 'numbers of Sherlock Holmes' game already has it.
 # A row of 5-7 cards each: what's on the card, what it shows when it flips, and the number compared. No equal neighbours.
 import json, os
 G = []
@@ -12,7 +13,7 @@ def game(text, cat, diff, tags, cards):
               "cards": [{"label": l, "value": v, "n": n} for l, v, n in cards]})
 
 game("the numbers of Sherlock", "Television", "medium", ["Sherlock", "TV drama", "BBC"], [
- ("Year it began", "2010", 2010), ("Series made", "4", 4), ("House number on Baker Street", "221", 221),
+ ("Year it began", "2010", 2010), ("Series made", "4", 4), ("Year Benedict Cumberbatch was born", "1976", 1976),
  ("Episodes made, counting the Victorian special", "13", 13), ("Year of the last episode", "2017", 2017)])
 game("the numbers of Happy Valley", "Television", "medium", ["Happy Valley", "TV drama", "BBC"], [
  ("Year it began", "2014", 2014), ("Series made", "3", 3), ("Year Sarah Lancashire was born", "1964", 1964),
