@@ -1,0 +1,58 @@
+[
+ {
+  "type": "match",
+  "text": "Match each animal to the name of its home",
+  "pairs": [
+   {
+    "left": "Badger",
+    "right": "Sett"
+   },
+   {
+    "left": "Otter",
+    "right": "Holt"
+   },
+   {
+    "left": "Squirrel",
+    "right": "Drey"
+   },
+   {
+    "left": "Rabbit",
+    "right": "Warren"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Nature",
+  "tags": [
+   "British wildlife",
+   "homes"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each spin-off or sequel to the show it came from",
+  "pairs": [
+   {
+    "left": "Grace & Favour",
+    "right": "Are You Being Served?"
+   },
+   {
+    "left": "Max and Paddy's Road to Nowhere",
+    "right": "Phoenix Nights"
+   },
+   {
+    "left": "In the Loop",
+    "right": "The Thick of It"
+   },
+   {
+    "left": "Still Open All Hours",
+    "right": "Open All Hours"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Comedy",
+  "tags": [
+   "sitcoms",
+   "spin-offs"
+  ]
+ }
+]
