@@ -1,0 +1,97 @@
+[
+ {
+  "type": "club",
+  "text": "Rearrange the letters of SKYE to make the things you open a lock with.",
+  "answers": [
+   "Keys"
+  ],
+  "pct": 70,
+  "why": "S-K-Y-E becomes K-E-Y-S.",
+  "difficulty": "easy",
+  "category": "Wordplay",
+  "tags": [
+   "anagrams",
+   "islands"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Rearrange the letters of BUTE, a Scottish island, to make a nickname for the London Underground.",
+  "answers": [
+   "Tube"
+  ],
+  "pct": 60,
+  "why": "B-U-T-E becomes T-U-B-E.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "anagrams",
+   "islands"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A ferry to Lundy leaves at 9:15am and takes 2 hours 50 minutes. What time does it arrive?",
+  "answers": [
+   "12:05",
+   "12:05pm",
+   "12.05",
+   "Five past twelve"
+  ],
+  "pct": 50,
+  "why": "9:15 + 2 hours = 11:15, then 50 minutes more = 12:05.",
+  "difficulty": "medium",
+  "category": "Time",
+  "tags": [
+   "ferries",
+   "islands"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A cliff lift carries 12 people a trip, and each round trip takes 4 minutes. How many people can it take up in an hour?",
+  "answers": [
+   "180"
+  ],
+  "pct": 40,
+  "why": "60 ÷ 4 = 15 trips, and 15 × 12 = 180.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "seaside",
+   "multiplying"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "On a cliff there are 31 seabirds: puffins and gulls. There are 7 more gulls than puffins. How many puffins?",
+  "answers": [
+   "12",
+   "Twelve"
+  ],
+  "pct": 30,
+  "why": "Take away the 7 extra gulls: 24 left, split evenly, so 12 puffins and 19 gulls.",
+  "difficulty": "hard",
+  "category": "Numbers",
+  "tags": [
+   "birds",
+   "logic"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Which single letter can go in front of SLAY to make the name of a Scottish island?",
+  "answers": [
+   "I",
+   "Islay"
+  ],
+  "pct": 20,
+  "why": "I + SLAY = ISLAY.",
+  "difficulty": "hard",
+  "category": "Wordplay",
+  "tags": [
+   "letters",
+   "islands"
+  ]
+ }
+]
