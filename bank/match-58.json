@@ -1,0 +1,60 @@
+[
+ {
+  "type": "match",
+  "text": "Match each TV detective to the place they police",
+  "pairs": [
+   {
+    "left": "Jim Bergerac",
+    "right": "Jersey"
+   },
+   {
+    "left": "Jimmy Pérez",
+    "right": "Shetland"
+   },
+   {
+    "left": "Tom Barnaby",
+    "right": "Causton"
+   },
+   {
+    "left": "Hamish Macbeth",
+    "right": "Lochdubh"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Television",
+  "tags": [
+   "detectives",
+   "TV drama",
+   "places"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each antiques show to one of its best-known presenters",
+  "pairs": [
+   {
+    "left": "Antiques Roadshow",
+    "right": "Fiona Bruce"
+   },
+   {
+    "left": "Bargain Hunt",
+    "right": "Tim Wonnacott"
+   },
+   {
+    "left": "Flog It!",
+    "right": "Paul Martin"
+   },
+   {
+    "left": "Dickinson's Real Deal",
+    "right": "David Dickinson"
+   }
+  ],
+  "difficulty": "easy",
+  "category": "Television",
+  "tags": [
+   "antiques",
+   "presenters",
+   "daytime TV"
+  ]
+ }
+]
