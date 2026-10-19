@@ -1,0 +1,97 @@
+[
+ {
+  "type": "sort",
+  "text": "A character from Spooks or from Line of Duty?",
+  "categories": [
+   "Spooks",
+   "Line of Duty"
+  ],
+  "items": [
+   {
+    "text": "Harry Pearce",
+    "category": "Spooks"
+   },
+   {
+    "text": "Tom Quinn",
+    "category": "Spooks"
+   },
+   {
+    "text": "Ruth Evershed",
+    "category": "Spooks"
+   },
+   {
+    "text": "Ros Myers",
+    "category": "Spooks"
+   },
+   {
+    "text": "Ted Hastings",
+    "category": "Line of Duty"
+   },
+   {
+    "text": "Steve Arnott",
+    "category": "Line of Duty"
+   },
+   {
+    "text": "Kate Fleming",
+    "category": "Line of Duty"
+   },
+   {
+    "text": "Dot Cottan",
+    "category": "Line of Duty"
+   }
+  ],
+  "category": "Television",
+  "tags": [
+   "Spooks",
+   "Line of Duty",
+   "BBC"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A British spy series made for the BBC or for ITV?",
+  "categories": [
+   "BBC",
+   "ITV"
+  ],
+  "items": [
+   {
+    "text": "Spooks",
+    "category": "BBC"
+   },
+   {
+    "text": "The Night Manager",
+    "category": "BBC"
+   },
+   {
+    "text": "Tinker Tailor Soldier Spy",
+    "category": "BBC"
+   },
+   {
+    "text": "Callan",
+    "category": "ITV"
+   },
+   {
+    "text": "The Avengers",
+    "category": "ITV"
+   },
+   {
+    "text": "Danger Man",
+    "category": "ITV"
+   },
+   {
+    "text": "The Prisoner",
+    "category": "ITV"
+   }
+  ],
+  "category": "Television",
+  "tags": [
+   "spies",
+   "British TV",
+   "BBC",
+   "ITV"
+  ],
+  "difficulty": "hard"
+ }
+]
