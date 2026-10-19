@@ -1,0 +1,59 @@
+[
+ {
+  "type": "match",
+  "text": "Match each TV drama character to the car they're known for",
+  "pairs": [
+   {
+    "left": "Jim Bergerac",
+    "right": "Triumph Roadster"
+   },
+   {
+    "left": "Lovejoy",
+    "right": "Morris Minor"
+   },
+   {
+    "left": "Arthur Daley",
+    "right": "Jaguar"
+   },
+   {
+    "left": "Ray Doyle",
+    "right": "Ford Capri"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Television",
+  "tags": [
+   "TV drama",
+   "cars"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each British bird to its old country nickname",
+  "pairs": [
+   {
+    "left": "Puffin",
+    "right": "Sea parrot"
+   },
+   {
+    "left": "Lapwing",
+    "right": "Peewit"
+   },
+   {
+    "left": "Mistle thrush",
+    "right": "Stormcock"
+   },
+   {
+    "left": "Wren",
+    "right": "Jenny"
+   }
+  ],
+  "difficulty": "hard",
+  "category": "Nature",
+  "tags": [
+   "birds",
+   "names",
+   "British wildlife"
+  ]
+ }
+]
