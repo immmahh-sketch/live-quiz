@@ -1,0 +1,61 @@
+[
+ {
+  "type": "match",
+  "text": "Match each actor to the TV detective he played",
+  "pairs": [
+   {
+    "left": "David Jason",
+    "right": "Jack Frost"
+   },
+   {
+    "left": "John Nettles",
+    "right": "Jim Bergerac"
+   },
+   {
+    "left": "Mark McManus",
+    "right": "Jim Taggart"
+   },
+   {
+    "left": "Neil Dudgeon",
+    "right": "John Barnaby"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Television",
+  "tags": [
+   "detectives",
+   "actors",
+   "ITV",
+   "BBC"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each British beetle to its trick",
+  "pairs": [
+   {
+    "left": "Glow-worm",
+    "right": "Lights up to attract a mate"
+   },
+   {
+    "left": "Devil's coach horse",
+    "right": "Raises its tail like a scorpion"
+   },
+   {
+    "left": "Stag beetle",
+    "right": "Males wrestle with giant jaws"
+   },
+   {
+    "left": "Ladybird",
+    "right": "Oozes foul-tasting yellow fluid from its legs"
+   }
+  ],
+  "difficulty": "hard",
+  "category": "Nature",
+  "tags": [
+   "beetles",
+   "insects",
+   "British wildlife"
+  ]
+ }
+]
