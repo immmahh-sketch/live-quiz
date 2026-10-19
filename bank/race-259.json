@@ -1,0 +1,196 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: Ghosts - name it",
+  "target": 10,
+  "category": "Television",
+  "tags": [
+   "Ghosts",
+   "sitcoms",
+   "BBC"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The house",
+    "right": "Button House",
+    "wrong": [
+     "Bolton House",
+     "Barton Hall",
+     "Bunton Manor"
+    ]
+   },
+   {
+    "q": "The couple who inherit it",
+    "right": "Alison and Mike",
+    "wrong": [
+     "Allie and Mark",
+     "Anna and Mike",
+     "Alison and Matt"
+    ]
+   },
+   {
+    "q": "Who can see the ghosts",
+    "right": "Alison",
+    "wrong": [
+     "Mike",
+     "The builder",
+     "The vicar"
+    ]
+   },
+   {
+    "q": "Why she can see them",
+    "right": "A near-death fall from a window",
+    "wrong": [
+     "A lightning strike",
+     "A car crash",
+     "A séance"
+    ]
+   },
+   {
+    "q": "The actress who plays her",
+    "right": "Charlotte Ritchie",
+    "wrong": [
+     "Charlotte Crosby",
+     "Charlotte Church",
+     "Charlotte Hawkins"
+    ]
+   },
+   {
+    "q": "The ghost who carries his own head",
+    "right": "Humphrey",
+    "wrong": [
+     "Henry",
+     "Hugh",
+     "Harold"
+    ]
+   },
+   {
+    "q": "The caveman ghost",
+    "right": "Robin",
+    "wrong": [
+     "Rocky",
+     "Ugg",
+     "Bruce"
+    ]
+   },
+   {
+    "q": "The trouserless MP ghost",
+    "right": "Julian",
+    "wrong": [
+     "Jeremy",
+     "Jonathan",
+     "James"
+    ]
+   },
+   {
+    "q": "The Second World War ghost",
+    "right": "The Captain",
+    "wrong": [
+     "The Major",
+     "The Colonel",
+     "The Sergeant"
+    ]
+   },
+   {
+    "q": "The scout leader with an arrow through his neck",
+    "right": "Pat",
+    "wrong": [
+     "Phil",
+     "Peter",
+     "Paul"
+    ]
+   },
+   {
+    "q": "The posh Edwardian lady of the house",
+    "right": "Fanny",
+    "wrong": [
+     "Fiona",
+     "Florence",
+     "Felicity"
+    ]
+   },
+   {
+    "q": "The romantic poet ghost",
+    "right": "Thomas Thorne",
+    "wrong": [
+     "Thomas Byron",
+     "Thomas Keats",
+     "Thomas Shelley"
+    ]
+   },
+   {
+    "q": "The ghosts who live in the cellar",
+    "right": "The plague victims",
+    "wrong": [
+     "The miners",
+     "The monks",
+     "The soldiers"
+    ]
+   },
+   {
+    "q": "The team who write and star in it",
+    "right": "The Horrible Histories team",
+    "wrong": [
+     "The Mighty Boosh",
+     "The League of Gentlemen",
+     "Monty Python"
+    ]
+   },
+   {
+    "q": "The channel",
+    "right": "BBC One",
+    "wrong": [
+     "BBC Two",
+     "ITV",
+     "Channel 4"
+    ]
+   },
+   {
+    "q": "The year it began",
+    "right": "2019",
+    "wrong": [
+     "2015",
+     "2017",
+     "2021"
+    ]
+   },
+   {
+    "q": "Series made",
+    "right": "5",
+    "wrong": [
+     "3",
+     "4",
+     "6"
+    ]
+   },
+   {
+    "q": "The year of the final Christmas special",
+    "right": "2023",
+    "wrong": [
+     "2020",
+     "2022",
+     "2025"
+    ]
+   },
+   {
+    "q": "The American channel that remade it",
+    "right": "CBS",
+    "wrong": [
+     "NBC",
+     "ABC",
+     "Fox"
+    ]
+   },
+   {
+    "q": "What Alison inherits it from",
+    "right": "A distant relative",
+    "wrong": [
+     "Her parents",
+     "A lottery win",
+     "Her old school"
+    ]
+   }
+  ]
+ }
+]
