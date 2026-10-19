@@ -1,0 +1,390 @@
+[
+ {
+  "type": "race",
+  "text": "The Race: Spooks - name it",
+  "target": 10,
+  "category": "Television",
+  "tags": [
+   "Spooks",
+   "TV drama",
+   "BBC"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The service the officers work for",
+    "right": "MI5",
+    "wrong": [
+     "MI6",
+     "GCHQ",
+     "Special Branch"
+    ]
+   },
+   {
+    "q": "The channel",
+    "right": "BBC One",
+    "wrong": [
+     "ITV",
+     "Channel 4",
+     "Sky One"
+    ]
+   },
+   {
+    "q": "The year it began",
+    "right": "2002",
+    "wrong": [
+     "1998",
+     "2005",
+     "2009"
+    ]
+   },
+   {
+    "q": "The year it ended",
+    "right": "2011",
+    "wrong": [
+     "2008",
+     "2013",
+     "2015"
+    ]
+   },
+   {
+    "q": "Series made",
+    "right": "10",
+    "wrong": [
+     "6",
+     "8",
+     "12"
+    ]
+   },
+   {
+    "q": "The section's headquarters nickname",
+    "right": "The Grid",
+    "wrong": [
+     "The Box",
+     "The Hub",
+     "The Yard"
+    ]
+   },
+   {
+    "q": "The head of section",
+    "right": "Harry Pearce",
+    "wrong": [
+     "Harry Potter",
+     "Harry Palmer",
+     "Harry Hill"
+    ]
+   },
+   {
+    "q": "The actor who played him",
+    "right": "Peter Firth",
+    "wrong": [
+     "Peter Davison",
+     "Peter Capaldi",
+     "Peter Egan"
+    ]
+   },
+   {
+    "q": "The first main spy hero",
+    "right": "Tom Quinn",
+    "wrong": [
+     "Tom Barnaby",
+     "Tom Hardy",
+     "Tom Baker"
+    ]
+   },
+   {
+    "q": "The actor who played him",
+    "right": "Matthew Macfadyen",
+    "wrong": [
+     "Matthew Horne",
+     "Matthew Rhys",
+     "Matthew Goode"
+    ]
+   },
+   {
+    "q": "The officer who died in the first series",
+    "right": "Helen Flynn",
+    "wrong": [
+     "Helen Cawood",
+     "Helen Hardy",
+     "Helen Lewis"
+    ]
+   },
+   {
+    "q": "The tech expert Malcolm's surname",
+    "right": "Wynn-Jones",
+    "wrong": [
+     "Wynn-Davies",
+     "Wynn-Smith",
+     "Wynn-Evans"
+    ]
+   },
+   {
+    "q": "The analyst who loved Harry",
+    "right": "Ruth Evershed",
+    "wrong": [
+     "Ruth Madoc",
+     "Ruth Wilson",
+     "Ruth Langsford"
+    ]
+   },
+   {
+    "q": "The actress who played her",
+    "right": "Nicola Walker",
+    "wrong": [
+     "Nicola Roberts",
+     "Nicola Stapleton",
+     "Nicola Sturgeon"
+    ]
+   },
+   {
+    "q": "The officer who died saving others in series 4",
+    "right": "Danny Hunter",
+    "wrong": [
+     "Danny Dyer",
+     "Danny Miller",
+     "Danny Baker"
+    ]
+   },
+   {
+    "q": "The actor who played him",
+    "right": "David Oyelowo",
+    "wrong": [
+     "David Harewood",
+     "David Gyasi",
+     "David Jonsson"
+    ]
+   },
+   {
+    "q": "The later spy hero Lucas's surname",
+    "right": "North",
+    "wrong": [
+     "South",
+     "East",
+     "West"
+    ]
+   },
+   {
+    "q": "The actor who played him",
+    "right": "Richard Armitage",
+    "wrong": [
+     "Richard Madden",
+     "Richard Ayoade",
+     "Richard Osman"
+    ]
+   },
+   {
+    "q": "The 2015 film",
+    "right": "Spooks: The Greater Good",
+    "wrong": [
+     "Spooks: Section D",
+     "Spooks: The Final Hour",
+     "Spooks: Black Ops"
+    ]
+   },
+   {
+    "q": "The Game of Thrones star who led the film",
+    "right": "Kit Harington",
+    "wrong": [
+     "Sean Bean",
+     "Peter Dinklage",
+     "Rory McCann"
+    ]
+   }
+  ]
+ },
+ {
+  "type": "race",
+  "text": "The Race: Killing Eve - name it",
+  "target": 10,
+  "category": "Television",
+  "tags": [
+   "Killing Eve",
+   "TV drama",
+   "BBC"
+  ],
+  "difficulty": "medium",
+  "bank": [
+   {
+    "q": "The MI5 officer who hunts the killer",
+    "right": "Eve Polastri",
+    "wrong": [
+     "Eve Arden",
+     "Eve Myles",
+     "Eve Hewson"
+    ]
+   },
+   {
+    "q": "The actress who played her",
+    "right": "Sandra Oh",
+    "wrong": [
+     "Sandra Bullock",
+     "Sandra Dickinson",
+     "Sandy Toksvig"
+    ]
+   },
+   {
+    "q": "The assassin she chases",
+    "right": "Villanelle",
+    "wrong": [
+     "Vesper Lynd",
+     "Valentine",
+     "Veronica"
+    ]
+   },
+   {
+    "q": "The actress who played her",
+    "right": "Jodie Comer",
+    "wrong": [
+     "Jodie Whittaker",
+     "Jodie Foster",
+     "Jodie Turner-Smith"
+    ]
+   },
+   {
+    "q": "The Russian handler",
+    "right": "Konstantin",
+    "wrong": [
+     "Konrad",
+     "Kostya",
+     "Kirill"
+    ]
+   },
+   {
+    "q": "The actor who played him",
+    "right": "Kim Bodnia",
+    "wrong": [
+     "Kim Cattrall",
+     "Kim Basinger",
+     "Kim Woodburn"
+    ]
+   },
+   {
+    "q": "The boss who runs the secret MI6 unit",
+    "right": "Carolyn Martens",
+    "wrong": [
+     "Camilla Parker",
+     "Caroline Quentin",
+     "Cate Blanchett"
+    ]
+   },
+   {
+    "q": "The actress who played her",
+    "right": "Fiona Shaw",
+    "wrong": [
+     "Fiona Bruce",
+     "Fiona Fullerton",
+     "Fiona Phillips"
+    ]
+   },
+   {
+    "q": "Eve's husband",
+    "right": "Niko",
+    "wrong": [
+     "Nick",
+     "Nigel",
+     "Noel"
+    ]
+   },
+   {
+    "q": "The shadowy crime syndicate",
+    "right": "The Twelve",
+    "wrong": [
+     "The Seven",
+     "The Ten",
+     "The Circle"
+    ]
+   },
+   {
+    "q": "The writer behind series one",
+    "right": "Phoebe Waller-Bridge",
+    "wrong": [
+     "Emerald Fennell",
+     "Sally Wainwright",
+     "Lena Dunham"
+    ]
+   },
+   {
+    "q": "The author of the books it's based on",
+    "right": "Luke Jennings",
+    "wrong": [
+     "John le Carré",
+     "Ian Fleming",
+     "Mick Herron"
+    ]
+   },
+   {
+    "q": "The books are called",
+    "right": "Codename Villanelle",
+    "wrong": [
+     "Codename Eve",
+     "Codename Twelve",
+     "Codename Oxana"
+    ]
+   },
+   {
+    "q": "The channel it started on",
+    "right": "BBC America",
+    "wrong": [
+     "BBC One",
+     "Sky Atlantic",
+     "ITV2"
+    ]
+   },
+   {
+    "q": "The year it began",
+    "right": "2018",
+    "wrong": [
+     "2014",
+     "2016",
+     "2020"
+    ]
+   },
+   {
+    "q": "Series made",
+    "right": "4",
+    "wrong": [
+     "2",
+     "3",
+     "6"
+    ]
+   },
+   {
+    "q": "The year the final series aired",
+    "right": "2022",
+    "wrong": [
+     "2019",
+     "2021",
+     "2024"
+    ]
+   },
+   {
+    "q": "The award Jodie Comer won for it",
+    "right": "An Emmy",
+    "wrong": [
+     "An Oscar",
+     "A Grammy",
+     "A Tony"
+    ]
+   },
+   {
+    "q": "The award Sandra Oh won for it",
+    "right": "A Golden Globe",
+    "wrong": [
+     "A BAFTA",
+     "An Oscar",
+     "A Brit"
+    ]
+   },
+   {
+    "q": "What Villanelle loves to spend her money on",
+    "right": "Designer clothes",
+    "wrong": [
+     "Vintage cars",
+     "Racehorses",
+     "Fast boats"
+    ]
+   }
+  ]
+ }
+]
