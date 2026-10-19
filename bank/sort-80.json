@@ -1,0 +1,100 @@
+[
+ {
+  "type": "sort",
+  "text": "A character from Brookside or from Casualty?",
+  "categories": [
+   "Brookside",
+   "Casualty"
+  ],
+  "items": [
+   {
+    "text": "Trevor Jordache",
+    "category": "Brookside"
+   },
+   {
+    "text": "Jimmy Corkhill",
+    "category": "Brookside"
+   },
+   {
+    "text": "Barry Grant",
+    "category": "Brookside"
+   },
+   {
+    "text": "Sheila Grant",
+    "category": "Brookside"
+   },
+   {
+    "text": "Charlie Fairhead",
+    "category": "Casualty"
+   },
+   {
+    "text": "Duffy",
+    "category": "Casualty"
+   },
+   {
+    "text": "Connie Beauchamp",
+    "category": "Casualty"
+   },
+   {
+    "text": "Josh Griffiths",
+    "category": "Casualty"
+   }
+  ],
+  "category": "Television",
+  "tags": [
+   "Brookside",
+   "Casualty",
+   "TV drama"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "A British medical drama or a British police drama?",
+  "categories": [
+   "Medical",
+   "Police"
+  ],
+  "items": [
+   {
+    "text": "Casualty",
+    "category": "Medical"
+   },
+   {
+    "text": "Holby City",
+    "category": "Medical"
+   },
+   {
+    "text": "Angels",
+    "category": "Medical"
+   },
+   {
+    "text": "Peak Practice",
+    "category": "Medical"
+   },
+   {
+    "text": "The Bill",
+    "category": "Police"
+   },
+   {
+    "text": "Z-Cars",
+    "category": "Police"
+   },
+   {
+    "text": "Juliet Bravo",
+    "category": "Police"
+   },
+   {
+    "text": "Heartbeat",
+    "category": "Police"
+   }
+  ],
+  "category": "Television",
+  "tags": [
+   "medical dramas",
+   "police",
+   "TV drama"
+  ],
+  "difficulty": "easy"
+ }
+]
