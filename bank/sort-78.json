@@ -1,0 +1,94 @@
+[
+ {
+  "type": "sort",
+  "text": "A real village, or a made-up one from a TV show?",
+  "categories": [
+   "Real",
+   "Made up"
+  ],
+  "items": [
+   {
+    "text": "Goathland",
+    "category": "Real"
+   },
+   {
+    "text": "Esholt",
+    "category": "Real"
+   },
+   {
+    "text": "Port Isaac",
+    "category": "Real"
+   },
+   {
+    "text": "Plockton",
+    "category": "Real"
+   },
+   {
+    "text": "Aidensfield",
+    "category": "Made up"
+   },
+   {
+    "text": "Beckindale",
+    "category": "Made up"
+   },
+   {
+    "text": "Portwenn",
+    "category": "Made up"
+   },
+   {
+    "text": "Lochdubh",
+    "category": "Made up"
+   }
+  ],
+  "category": "Television",
+  "tags": [
+   "TV locations",
+   "villages"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "A police or detective show that began in the 1970s, or in the 1990s?",
+  "categories": [
+   "1970s",
+   "1990s"
+  ],
+  "items": [
+   {
+    "text": "The Sweeney",
+    "category": "1970s"
+   },
+   {
+    "text": "The Professionals",
+    "category": "1970s"
+   },
+   {
+    "text": "Shoestring",
+    "category": "1970s"
+   },
+   {
+    "text": "A Touch of Frost",
+    "category": "1990s"
+   },
+   {
+    "text": "Heartbeat",
+    "category": "1990s"
+   },
+   {
+    "text": "Cracker",
+    "category": "1990s"
+   },
+   {
+    "text": "Dalziel and Pascoe",
+    "category": "1990s"
+   }
+  ],
+  "category": "Television",
+  "tags": [
+   "police",
+   "TV drama"
+  ],
+  "difficulty": "medium"
+ }
+]
