@@ -1,0 +1,60 @@
+[
+ {
+  "type": "match",
+  "text": "Match each Sherlock actor to the character he played",
+  "pairs": [
+   {
+    "left": "Benedict Cumberbatch",
+    "right": "Sherlock Holmes"
+   },
+   {
+    "left": "Martin Freeman",
+    "right": "Dr John Watson"
+   },
+   {
+    "left": "Andrew Scott",
+    "right": "Moriarty"
+   },
+   {
+    "left": "Mark Gatiss",
+    "right": "Mycroft Holmes"
+   }
+  ],
+  "difficulty": "easy",
+  "category": "Television",
+  "tags": [
+   "Sherlock",
+   "actors",
+   "BBC"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each Sally Wainwright drama to one of its stars",
+  "pairs": [
+   {
+    "left": "Gentleman Jack",
+    "right": "Suranne Jones"
+   },
+   {
+    "left": "Scott & Bailey",
+    "right": "Lesley Sharp"
+   },
+   {
+    "left": "Last Tango in Halifax",
+    "right": "Anne Reid"
+   },
+   {
+    "left": "At Home with the Braithwaites",
+    "right": "Amanda Redman"
+   }
+  ],
+  "difficulty": "hard",
+  "category": "Television",
+  "tags": [
+   "Sally Wainwright",
+   "TV drama",
+   "actors"
+  ]
+ }
+]
