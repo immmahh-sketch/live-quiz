@@ -1,0 +1,78 @@
+[
+ {
+  "type": "club",
+  "text": "Kylie Minogue was born in 1968 and started playing Charlene at 18. In which year did she start?",
+  "answers": [
+   "1986"
+  ],
+  "pct": 70,
+  "why": "1968 + 18 = 1986.",
+  "difficulty": "easy",
+  "category": "Numbers",
+  "tags": [
+   "Neighbours",
+   "years"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Morse, Frost and Taggart each drive one of a Jaguar, a Ford and a Vauxhall. Morse drives the Jaguar, and Frost doesn't drive the Vauxhall. Who drives the Vauxhall?",
+  "answers": [
+   "Taggart"
+  ],
+  "pct": 60,
+  "why": "Morse has the Jaguar, so Frost has the Ford, leaving the Vauxhall for Taggart.",
+  "difficulty": "medium",
+  "category": "Logic",
+  "tags": [
+   "detectives",
+   "cars"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A soap is shown every Monday, Wednesday and Friday. Episode 1 goes out on a Monday. On which day is episode 10 shown?",
+  "answers": [
+   "Monday"
+  ],
+  "pct": 40,
+  "why": "Episodes 1, 4, 7 and 10 all fall on Mondays.",
+  "difficulty": "medium",
+  "category": "Time",
+  "tags": [
+   "soaps",
+   "days"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "F comes a certain number of letters before M in the alphabet. Which letter comes the same number of letters after M?",
+  "answers": [
+   "T"
+  ],
+  "pct": 30,
+  "why": "F is 7 before M, and 7 after M is T.",
+  "difficulty": "hard",
+  "category": "Wordplay",
+  "tags": [
+   "letters",
+   "alphabet"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Count every letter E in EMMERDALE, EASTENDERS and NEIGHBOURS put together. How many is that?",
+  "answers": [
+   "7",
+   "Seven"
+  ],
+  "pct": 30,
+  "why": "EMMERDALE has 3, EASTENDERS has 3 and NEIGHBOURS has 1.",
+  "difficulty": "hard",
+  "category": "Wordplay",
+  "tags": [
+   "letters",
+   "soaps"
+  ]
+ }
+]
