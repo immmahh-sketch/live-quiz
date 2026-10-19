@@ -1,0 +1,99 @@
+[
+ {
+  "type": "sort",
+  "text": "From Friday Night Dinner or from Bread?",
+  "categories": [
+   "Friday Night Dinner",
+   "Bread"
+  ],
+  "items": [
+   {
+    "text": "Martin",
+    "category": "Friday Night Dinner"
+   },
+   {
+    "text": "Jackie",
+    "category": "Friday Night Dinner"
+   },
+   {
+    "text": "Jim",
+    "category": "Friday Night Dinner"
+   },
+   {
+    "text": "Wilson the dog",
+    "category": "Friday Night Dinner"
+   },
+   {
+    "text": "Nellie",
+    "category": "Bread"
+   },
+   {
+    "text": "Joey",
+    "category": "Bread"
+   },
+   {
+    "text": "Aveline",
+    "category": "Bread"
+   },
+   {
+    "text": "Lilo Lil",
+    "category": "Bread"
+   }
+  ],
+  "category": "Comedy",
+  "tags": [
+   "Friday Night Dinner",
+   "Bread",
+   "sitcoms"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "Does this fruit grow on a tree or a bush?",
+  "categories": [
+   "Tree",
+   "Bush"
+  ],
+  "items": [
+   {
+    "text": "Apple",
+    "category": "Tree"
+   },
+   {
+    "text": "Pear",
+    "category": "Tree"
+   },
+   {
+    "text": "Cherry",
+    "category": "Tree"
+   },
+   {
+    "text": "Plum",
+    "category": "Tree"
+   },
+   {
+    "text": "Blackcurrant",
+    "category": "Bush"
+   },
+   {
+    "text": "Gooseberry",
+    "category": "Bush"
+   },
+   {
+    "text": "Redcurrant",
+    "category": "Bush"
+   },
+   {
+    "text": "Blueberry",
+    "category": "Bush"
+   }
+  ],
+  "category": "Food and drink",
+  "tags": [
+   "fruit",
+   "gardening"
+  ],
+  "difficulty": "medium"
+ }
+]
