@@ -1,0 +1,101 @@
+[
+ {
+  "type": "sort",
+  "text": "A My Family character or an Outnumbered character?",
+  "categories": [
+   "My Family",
+   "Outnumbered"
+  ],
+  "items": [
+   {
+    "text": "Ben",
+    "category": "My Family"
+   },
+   {
+    "text": "Susan",
+    "category": "My Family"
+   },
+   {
+    "text": "Nick",
+    "category": "My Family"
+   },
+   {
+    "text": "Janey",
+    "category": "My Family"
+   },
+   {
+    "text": "Pete",
+    "category": "Outnumbered"
+   },
+   {
+    "text": "Sue",
+    "category": "Outnumbered"
+   },
+   {
+    "text": "Jake",
+    "category": "Outnumbered"
+   },
+   {
+    "text": "Karen",
+    "category": "Outnumbered"
+   }
+  ],
+  "category": "Comedy",
+  "tags": [
+   "My Family",
+   "Outnumbered",
+   "sitcoms"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "A breed of goat or a breed of sheep?",
+  "categories": [
+   "Goat",
+   "Sheep"
+  ],
+  "items": [
+   {
+    "text": "Nubian",
+    "category": "Goat"
+   },
+   {
+    "text": "Saanen",
+    "category": "Goat"
+   },
+   {
+    "text": "Toggenburg",
+    "category": "Goat"
+   },
+   {
+    "text": "Boer",
+    "category": "Goat"
+   },
+   {
+    "text": "Suffolk",
+    "category": "Sheep"
+   },
+   {
+    "text": "Texel",
+    "category": "Sheep"
+   },
+   {
+    "text": "Herdwick",
+    "category": "Sheep"
+   },
+   {
+    "text": "Merino",
+    "category": "Sheep"
+   }
+  ],
+  "category": "Nature",
+  "tags": [
+   "farming",
+   "breeds",
+   "goats",
+   "sheep"
+  ],
+  "difficulty": "hard"
+ }
+]
