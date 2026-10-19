@@ -1,0 +1,58 @@
+[
+ {
+  "type": "match",
+  "text": "Match each sitcom boss to the place they run",
+  "pairs": [
+   {
+    "left": "Gordon Brittas",
+    "right": "Whitbury Leisure Centre"
+   },
+   {
+    "left": "Brian Potter",
+    "right": "The Phoenix Club"
+   },
+   {
+    "left": "Ken",
+    "right": "The Grapes"
+   },
+   {
+    "left": "Tony",
+    "right": "The HWD Components canteen"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Comedy",
+  "tags": [
+   "sitcoms",
+   "bosses"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each Scottish island to what it's famous for",
+  "pairs": [
+   {
+    "left": "Islay",
+    "right": "Whisky distilleries"
+   },
+   {
+    "left": "Iona",
+    "right": "Its ancient abbey"
+   },
+   {
+    "left": "Staffa",
+    "right": "Fingal's Cave"
+   },
+   {
+    "left": "Lewis",
+    "right": "The Lewis Chessmen"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "UK geography",
+  "tags": [
+   "Scotland",
+   "islands"
+  ]
+ }
+]
