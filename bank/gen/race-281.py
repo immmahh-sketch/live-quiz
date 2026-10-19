@@ -1,5 +1,6 @@
 # Bank session 19 Oct 2026: 2 races -> bank/race-281.json (The Bill; The Sweeney).
 # Neither show had a race in the live bank. Checked against every live race with lqsql/audit/race-overlap-live.py before importing.
+# The Sweeney's "city" row was swapped for the car after the overlap check flagged 4 rights shared with Minder.
 # raceOk: 20 rows, 20 different right answers, no right answer among another row's options, no wrong option on 3+ rows.
 import json, os
 from collections import Counter
@@ -47,7 +48,7 @@ race("The Sweeney - name it", "Television", "medium", ["The Sweeney", "police", 
  ("Where the name comes from", "Rhyming slang: Sweeney Todd, Flying Squad", ["A real detective's surname", "A London street", "A police radio code"]),
  ("Regan's famous line", "Get your trousers on, you're nicked!", ["Evenin' all", "There's been a murder", "Book 'em, Danno"]),
  ("Their boss", "Frank Haskins", ["Frank Butcher", "Frank Gallagher", "Frank Spencer"]),
- ("The city", "London", ["Manchester", "Birmingham", "Glasgow"]),
+ ("The make of car the squad usually drove", "Ford", ["Jaguar", "Rover", "Vauxhall"]),
  ("The channel", "ITV", ["BBC One", "BBC Two", "Channel 4"]),
  ("The film company that made it", "Euston Films", ["Granada", "LWT", "Central"]),
  ("The one-off drama that launched it", "Regan", ["Carter", "Squad Car", "The Squad"]),
