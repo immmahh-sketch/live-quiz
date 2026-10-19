@@ -1,0 +1,202 @@
+[
+ {
+  "answers": [
+   "Upright",
+   "Up right"
+  ],
+  "elements": [
+   {
+    "t": "RIGHT",
+    "x": 50,
+    "y": 50,
+    "s": 3,
+    "rot": -90
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Weak link"
+  ],
+  "elements": [
+   {
+    "t": "CHAIN link CHAIN",
+    "x": 50,
+    "y": 50,
+    "s": 2
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Topsy turvy",
+   "Topsy-turvy"
+  ],
+  "elements": [
+   {
+    "t": "TOPSY",
+    "x": 50,
+    "y": 35,
+    "s": 5,
+    "flip": "v"
+   },
+   {
+    "t": "TURVY",
+    "x": 50,
+    "y": 65,
+    "s": 5,
+    "flip": "h"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Check in",
+   "Check-in"
+  ],
+  "elements": [
+   {
+    "t": "IN ✓",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Short list",
+   "Shortlist"
+  ],
+  "elements": [
+   {
+    "t": "1 EGGS\n2 MILK",
+    "x": 50,
+    "y": 50,
+    "s": 3
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Half asleep"
+  ],
+  "elements": [
+   {
+    "t": "ASL",
+    "x": 50,
+    "y": 50,
+    "s": 6
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "hard"
+ },
+ {
+  "answers": [
+   "Bigger picture",
+   "The bigger picture"
+  ],
+  "elements": [
+   {
+    "t": "picture",
+    "x": 50,
+    "y": 30,
+    "s": 2
+   },
+   {
+    "t": "PICTURE",
+    "x": 50,
+    "y": 65,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Change of heart"
+  ],
+  "elements": [
+   {
+    "t": "HEART → EARTH",
+    "x": 50,
+    "y": 50,
+    "s": 2
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Dot com",
+   "Dotcom",
+   ".com"
+  ],
+  "elements": [
+   {
+    "t": ".COM",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "One-way street",
+   "One way street"
+  ],
+  "elements": [
+   {
+    "t": "STREET →",
+    "x": 50,
+    "y": 50,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Three-piece suite",
+   "Three piece suite"
+  ],
+  "elements": [
+   {
+    "t": "SU   I   TE",
+    "x": 50,
+    "y": 50,
+    "s": 3
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ }
+]
