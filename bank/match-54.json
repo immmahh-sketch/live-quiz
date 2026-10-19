@@ -1,0 +1,58 @@
+[
+ {
+  "type": "match",
+  "text": "Match each bird of prey to what it's known for",
+  "pairs": [
+   {
+    "left": "Osprey",
+    "right": "Diving feet-first for fish"
+   },
+   {
+    "left": "Peregrine falcon",
+    "right": "The fastest dive of any animal"
+   },
+   {
+    "left": "Kestrel",
+    "right": "Hovering over roadside verges"
+   },
+   {
+    "left": "Barn owl",
+    "right": "Silent flight at dusk"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Nature",
+  "tags": [
+   "birds of prey",
+   "British wildlife"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each sitcom character to their obsession",
+  "pairs": [
+   {
+    "left": "Martin Bryce",
+    "right": "Running local committees"
+   },
+   {
+    "left": "Tim Bisley",
+    "right": "Comics and video games"
+   },
+   {
+    "left": "Ben Parkinson",
+    "right": "Collecting butterflies"
+   },
+   {
+    "left": "Mike Watt",
+    "right": "The army"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Comedy",
+  "tags": [
+   "sitcoms",
+   "hobbies"
+  ]
+ }
+]
