@@ -1,0 +1,59 @@
+[
+ {
+  "type": "match",
+  "text": "Match each panel show to one of its long-serving team captains",
+  "pairs": [
+   {
+    "left": "Never Mind the Buzzcocks",
+    "right": "Phill Jupitus"
+   },
+   {
+    "left": "8 Out of 10 Cats",
+    "right": "Sean Lock"
+   },
+   {
+    "left": "A Question of Sport",
+    "right": "Matt Dawson"
+   },
+   {
+    "left": "They Think It's All Over",
+    "right": "David Gower"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Television",
+  "tags": [
+   "panel shows",
+   "team captains"
+  ]
+ },
+ {
+  "type": "match",
+  "text": "Match each British bird to where it nests",
+  "pairs": [
+   {
+    "left": "Puffin",
+    "right": "A burrow in a clifftop"
+   },
+   {
+    "left": "House martin",
+    "right": "A mud cup under the eaves"
+   },
+   {
+    "left": "Great spotted woodpecker",
+    "right": "A hole it drills in a tree"
+   },
+   {
+    "left": "Reed warbler",
+    "right": "Woven between reed stems"
+   }
+  ],
+  "difficulty": "medium",
+  "category": "Nature",
+  "tags": [
+   "birds",
+   "nests",
+   "British wildlife"
+  ]
+ }
+]
