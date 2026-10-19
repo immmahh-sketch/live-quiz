@@ -1,0 +1,67 @@
+[
+ {
+  "type": "club",
+  "text": "Killing Eve ran for 4 series of 8 episodes each. How many episodes is that altogether?",
+  "answers": [
+   "32",
+   "Thirty-two"
+  ],
+  "pct": 60,
+  "why": "4 × 8 = 32.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "Killing Eve",
+   "multiplying"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "A 60-minute episode of Spooks starts at 9:00pm, and the news follows it 5 minutes later. What time does the news start?",
+  "answers": [
+   "10:05",
+   "10:05pm",
+   "10.05",
+   "Five past ten"
+  ],
+  "pct": 50,
+  "why": "9:00 + 60 minutes = 10:00, plus 5 minutes = 10:05.",
+  "difficulty": "medium",
+  "category": "Time",
+  "tags": [
+   "Spooks",
+   "clocks"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "The assassin in Killing Eve is called VILLANELLE. Count its distinct letters: how many is that?",
+  "answers": [
+   "6",
+   "Six"
+  ],
+  "pct": 40,
+  "why": "V, I, L, A, N and E.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "letters",
+   "Killing Eve"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Sherlock, Luther and Morse each own one of a violin, a coat and a Jaguar. Sherlock owns neither the coat nor the Jaguar, and Luther doesn't own the coat. Who owns the coat?",
+  "answers": [
+   "Morse"
+  ],
+  "pct": 30,
+  "why": "Sherlock has the violin; Luther isn't the coat, so he has the Jaguar; that leaves the coat for Morse.",
+  "difficulty": "hard",
+  "category": "Logic",
+  "tags": [
+   "detectives",
+   "swaps"
+  ]
+ }
+]
