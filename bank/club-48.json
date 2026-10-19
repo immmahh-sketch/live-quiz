@@ -1,0 +1,79 @@
+[
+ {
+  "type": "club",
+  "text": "Rearrange the letters of ELBA, as in Idris, to make a bundle of hay.",
+  "answers": [
+   "Bale"
+  ],
+  "pct": 70,
+  "why": "E-L-B-A becomes B-A-L-E.",
+  "difficulty": "easy",
+  "category": "Wordplay",
+  "tags": [
+   "anagrams",
+   "actors"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Rearrange the letters of CRAIG, as in Daniel, to make something you might smoke.",
+  "answers": [
+   "Cigar"
+  ],
+  "pct": 60,
+  "why": "C-R-A-I-G becomes C-I-G-A-R.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "anagrams",
+   "James Bond"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Rearrange the letters of MADDEN, as in Richard, to make a word meaning 'condemned'.",
+  "answers": [
+   "Damned"
+  ],
+  "pct": 40,
+  "why": "M-A-D-D-E-N becomes D-A-M-N-E-D.",
+  "difficulty": "medium",
+  "category": "Wordplay",
+  "tags": [
+   "anagrams",
+   "actors"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "Add up the digits of Sherlock's house number, 221, then multiply by the number of letters in SHERLOCK. What do you get?",
+  "answers": [
+   "40",
+   "Forty"
+  ],
+  "pct": 40,
+  "why": "2 + 2 + 1 = 5, and SHERLOCK has 8 letters: 5 × 8 = 40.",
+  "difficulty": "medium",
+  "category": "Numbers",
+  "tags": [
+   "Sherlock",
+   "digits"
+  ]
+ },
+ {
+  "type": "club",
+  "text": "In the words HAPPY VALLEY, how many different letters appear exactly twice?",
+  "answers": [
+   "4",
+   "Four"
+  ],
+  "pct": 20,
+  "why": "A, P, L and Y each appear twice; H, V and E once.",
+  "difficulty": "hard",
+  "category": "Wordplay",
+  "tags": [
+   "letters",
+   "Happy Valley"
+  ]
+ }
+]
