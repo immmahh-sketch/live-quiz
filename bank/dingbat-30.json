@@ -1,0 +1,230 @@
+[
+ {
+  "answers": [
+   "Time out",
+   "Timeout"
+  ],
+  "elements": [
+   {
+    "t": "TIME",
+    "x": 50,
+    "y": 40,
+    "s": 5,
+    "style": "box"
+   },
+   {
+    "t": "OUT",
+    "x": 88,
+    "y": 88,
+    "s": 3
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Fast forward",
+   "Fast-forward"
+  ],
+  "elements": [
+   {
+    "t": "FAST >>",
+    "x": 50,
+    "y": 50,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Rewind"
+  ],
+  "elements": [
+   {
+    "t": "<< REWIND",
+    "x": 50,
+    "y": 50,
+    "s": 3
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Pause"
+  ],
+  "elements": [
+   {
+    "t": "PA||SE",
+    "x": 50,
+    "y": 50,
+    "s": 5
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Cold turkey"
+  ],
+  "elements": [
+   {
+    "t": "TURKEY",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "color": "#3fa9f5"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Hot potato"
+  ],
+  "elements": [
+   {
+    "t": "POTATO",
+    "x": 50,
+    "y": 50,
+    "s": 5,
+    "color": "#d62828"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Warm up",
+   "Warm-up",
+   "Warmup"
+  ],
+  "elements": [
+   {
+    "t": "UP",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#d62828"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Cool down",
+   "Cooldown",
+   "Cool-down"
+  ],
+  "elements": [
+   {
+    "t": "DOWN",
+    "x": 50,
+    "y": 75,
+    "s": 5,
+    "color": "#3fa9f5"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Pop up",
+   "Popup",
+   "Pop-up"
+  ],
+  "elements": [
+   {
+    "t": "POP",
+    "x": 50,
+    "y": 75,
+    "s": 3
+   },
+   {
+    "t": "UP",
+    "x": 50,
+    "y": 18,
+    "s": 6
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Run away",
+   "Runaway"
+  ],
+  "elements": [
+   {
+    "t": "RUN",
+    "x": 16,
+    "y": 50,
+    "s": 4
+   },
+   {
+    "t": "AWAY",
+    "x": 76,
+    "y": 50,
+    "s": 4
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "easy"
+ },
+ {
+  "answers": [
+   "Pink slip"
+  ],
+  "elements": [
+   {
+    "t": "SLIP",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#ff69b4"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ },
+ {
+  "answers": [
+   "Brown nose",
+   "Brownnose",
+   "Brown-nose"
+  ],
+  "elements": [
+   {
+    "t": "NOSE",
+    "x": 50,
+    "y": 50,
+    "s": 6,
+    "color": "#8b4513"
+   }
+  ],
+  "category": "Phrase",
+  "tags": [],
+  "difficulty": "medium"
+ }
+]
