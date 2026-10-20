@@ -353,23 +353,32 @@ function biFail(g, msg) {
 function biState(g, e) {
   if (G.q?.bi !== g) return;
   if (e.data === 1 && g.step === 'listen' && !g.started) {
-    g.started = true; let t = 0; try { t = (biP.getCurrentTime() || 0) - (g.start || 0); } catch {}
+    g.started = true; g.needClick = false; let t = 0; try { t = (biP.getCurrentTime() || 0) - (g.start || 0); } catch {}
     g.t0 = Date.now() - t * 1000;
     persist(); broadcastState(); biRender();
   }
 }
 function biListen(g) {
   stepTo(g, 'listen', 0); persist(); biRender(); broadcastState();
-  try { biP.seekTo(g.start || 0, true); biP.playVideo(); } catch {}
-  // a browser that refused sound gets one muted try, with the sound brought up once it runs
-  setTimeout(() => { if (G.q?.bi === g && g.step === 'listen' && !g.started && !g.err) { try { biP.mute(); biP.playVideo(); setTimeout(() => { try { biP.unMute(); } catch {} }, 600); } catch {} } }, 3500);
-  setTimeout(() => { if (G.q?.bi === g && g.step === 'listen' && !g.started) biFail(g, 'The song would not start. Skip it and carry on.'); }, 12000);
+  try { biP.unMute(); biP.setVolume(100); biP.seekTo(g.start || 0, true); biP.playVideo(); } catch {}
+  biAskClick(g, 3000);
+}
+/** A browser that has not had a click on this page will not play sound by itself. If the song has not started, say so and wait for a click
+ *  (never a muted start: the phones' clocks must only run while the music really plays). */
+function biAskClick(g, ms) {
+  setTimeout(() => { if (G.q?.bi === g && g.step === 'listen' && !g.started && !g.err) { g.needClick = true; persist(); biRender(); } }, ms);
+}
+function biClickPlay() {
+  const g = G.q?.bi; if (!g || g.started || g.step !== 'listen') return;
+  g.needClick = false; biRender();
+  try { biP.unMute(); biP.setVolume(100); biP.seekTo(g.start || 0, true); biP.playVideo(); } catch {}
+  biAskClick(g, 5000);
 }
 /** Runs every 30 ms: stops the music at stopAt, paints the clocks, and stops on the first sung word. */
 function biPollTick() {
   const g = G.q?.bi; if (!g || !biP || G.paused || G.phase !== 'question' || g.err) return;
   let t; try { t = biP.getCurrentTime() - (g.start || 0); } catch { return; }
-  if (g.step === 'listen' && g.started && t >= g.stopAt) {
+  if (g.step === 'listen' && g.started && (t >= g.stopAt || Date.now() - g.t0 > (g.stopAt + 2.5) * 1000)) { // the wall-clock test is a safety net for a stalled video
     try { biP.pauseVideo(); } catch {}
     stepTo(g, 'guess', (question().time || 20) * 1000);
     persist(); biRender(); broadcastState(); biBots(g); return;
@@ -377,7 +386,7 @@ function biPollTick() {
   const clock = document.getElementById('biClock');
   if (g.step === 'guess' && clock) clock.textContent = ((Date.now() - g.t0) / 1000).toFixed(1);
   if (g.step === 'play') {
-    if (t >= g.fw) return biReveal(g);
+    if (t >= g.fw || Date.now() - (g.resumedAt || Date.now()) > (g.fw - g.stopAt + 2.5) * 1000) return biReveal(g);
     if (clock) clock.textContent = Math.max(g.stopAt, t).toFixed(2);
     biBar(g, t);
   }
@@ -423,7 +432,7 @@ function biShow(g) {
   persist(); biRender(); broadcastState();
 }
 function biPlayOn(g) {
-  g.step = 'play'; g.until = 0; g.total = 0;
+  g.step = 'play'; g.until = 0; g.total = 0; g.resumedAt = Date.now();
   try { biP.playVideo(); } catch {}
   persist(); biRender(); broadcastState();
 }
@@ -458,6 +467,7 @@ function biPause(want, d) {
   const g = G.q?.bi; if (!g || !biP) return;
   try { if (want) { if (g.step === 'listen' || g.step === 'play') biP.pauseVideo(); } else if (g.step === 'listen' || g.step === 'play') biP.playVideo(); } catch {}
   if (!want && d && g.t0) g.t0 += d;
+  if (!want && d && g.resumedAt) g.resumedAt += d;
 }
 function biRender() {
   const q = question(), g = G.q.bi; if (!g) return;
@@ -467,6 +477,7 @@ function biRender() {
   if (g.err) main = `<div class="bibig">😕</div><div class="bisub">${esc(g.err)}</div>`;
   else if (g.step === 'load') main = `<div class="bibig">🎧</div><div class="bisub">Getting the song ready…</div>`;
   else if (g.step === 'ready') main = `<div class="bibig">🎧</div><div class="bisub">Get ready to listen…</div><div class="bihint">When the music stops, tap your phone when you think the first sung word would come in</div>`;
+  else if (g.step === 'listen' && g.needClick) main = `<div class="bibig">🔊</div><div class="bisub">The song won't start until you click</div><button class="btn btn-primary btn-lg" id="biSound">🔊 Click to start the music</button><div class="bihint">Your browser only plays sound after a click on this page. If it still stays silent, check the tab isn't muted and the volume is up.</div>`;
   else if (g.step === 'listen') main = `<div class="bibig bipulse">🎧</div><div class="bisub">Listen…</div><div class="bibars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>`;
   else if (g.step === 'guess') main = `<div class="bisub">The music has stopped. When does the first word come in?</div><div class="biclock" id="biClock">${((Date.now() - g.t0) / 1000).toFixed(1)}</div><div class="bihint">Tap your phone when you think the first sung word would be heard</div>${faces}`;
   else if (g.step === 'show') main = `<div class="bisub">${done ? "Here's everyone's guess" : 'Nobody guessed!'}</div>${biTlHtml(g, g.stopAt)}<div class="bihint">Now let's hear the song…</div>`;
@@ -475,11 +486,12 @@ function biRender() {
     main = `<div class="bisub">${rev ? 'The first sung word!' : 'The song carries on…'}</div><div class="biclock sm ${rev ? 'done' : ''}" id="biClock">${(rev ? g.fw : g.stopAt).toFixed(2)}</div>${biTlHtml(g, rev ? g.fw : g.stopAt, rev)}`
       + (rev ? `<div class="biwin">${w ? `🏆 ${pem(w.pid)} <b>${esc(pname(w.pid))}</b> was closest: ${secs(w.ms)}, ${off < 50 ? 'dead on!' : `${(off / 1000).toFixed(2)} s ${w.off < 0 ? 'early' : 'late'}`}` : 'Nobody guessed this one'}</div><div class="bisong">${esc(q.song)}${q.artist ? ' · ' + esc(q.artist) : ''}</div>` : '');
   }
-  const btn = g.err ? `<button class="btn btn-primary" id="biSkip">Skip this one ▶</button>` : g.step === 'guess' ? `<button class="btn btn-primary" id="biNext">Show the guesses ▶</button>` : g.step === 'show' ? `<button class="btn btn-primary" id="biNext">Play the song ▶</button>` : '';
+  const btn = g.err || g.needClick ? `<button class="btn ${g.err ? 'btn-primary' : 'btn-ghost'}" id="biSkip">Skip this one ▶</button>` : g.step === 'guess' ? `<button class="btn btn-primary" id="biNext">Show the guesses ▶</button>` : g.step === 'show' ? `<button class="btn btn-primary" id="biNext">Play the song ▶</button>` : '';
   stage.innerHTML = `${topBar(`<span class="hpill">🎧 ${g.step === 'guess' ? `${done} of ${pids.length} guessed` : 'Beat the Intro'}</span>`)}
     <div class="stage-main bistage">${main}</div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-ghost" data-act="stopgame">Stop the game ■</button>${btn}`)}`;
   bind();
+  if ($('#biSound')) $('#biSound').onclick = biClickPlay;
   if ($('#biSkip')) $('#biSkip').onclick = () => { if (G.phase === 'question') endQuestion(); };
   if ($('#biNext')) $('#biNext').onclick = () => { const x = G.q?.bi; if (x) { x.until = 0; biStepDone(); } };
 }
