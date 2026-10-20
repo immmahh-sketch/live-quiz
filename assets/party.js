@@ -313,7 +313,7 @@ function obRender() {
 
 // ---------------------------------------------------------------- Beat the Intro
 // The first seconds of a song play, the music stops, and every phone keeps a timer that started with the music. Players tap
-// when they think the first sung word would come in. The five closest guesses go up, the song carries on, and the timer
+// when they think the first sung word would come in. The five closest guesses go up, the song plays again from the start, and the timer
 // stops on the first sung word. The song is a YouTube embed kept off screen (its picture would give the song away).
 // q.stopAt: when the music stops (seconds into the song). q.firstWordAt: when the first word is sung. q.prize: the winner's points.
 // A guess is measured on the phone from the moment it was told the music had started; settings.introLag (seconds, default 0.3)
@@ -386,8 +386,8 @@ function biPollTick() {
   const clock = document.getElementById('biClock');
   if (g.step === 'guess' && clock) clock.textContent = ((Date.now() - g.t0) / 1000).toFixed(1);
   if (g.step === 'play') {
-    if (t >= g.fw || Date.now() - (g.resumedAt || Date.now()) > (g.fw - g.stopAt + 2.5) * 1000) return biReveal(g);
-    if (clock) clock.textContent = Math.max(g.stopAt, t).toFixed(2);
+    if (t >= g.fw || Date.now() - (g.resumedAt || Date.now()) > (g.fw + 2.5) * 1000) return biReveal(g);
+    if (clock) clock.textContent = Math.max(0, t).toFixed(2);
     biBar(g, t);
   }
 }
@@ -399,7 +399,8 @@ function biRank(g) {
  *  later only if the song itself runs past the right-hand end. */
 function biAxis(g) {
   const ms = Object.values(g.guesses).map((x) => x.ms / 1000);
-  let lo = Math.max(0, Math.floor((Math.min(g.stopAt, ...ms) - 0.5) * 2) / 2), hi = Math.ceil((Math.max(g.stopAt + 3, ...ms) + 0.6) * 2) / 2;
+  const lo = 0; // the song plays again from the very start, so the line starts at 0
+  let hi = Math.ceil((Math.max(g.stopAt + 3, ...ms) + 0.6) * 2) / 2;
   if (hi - lo < 4) hi = lo + 4;
   return { lo, hi };
 }
@@ -414,9 +415,9 @@ function biTlHtml(g, t, rev) {
   for (const p of pins) { let lv = 0; while (lastAt[lv] !== undefined && p.x - lastAt[lv] < 12) lv++; lastAt[lv] = p.x; p.lv = lv; }
   const win = rev ? (g.rank || biRank(g))[0]?.pid : null;
   const pinHtml = pins.map((p) => `<div class="bitl-pin ${win === p.pid ? 'win' : ''} ${rev && win !== p.pid ? 'dim' : ''}" style="left:${p.x}%;--h:${16 + p.lv * 62}px"><div class="bitl-chip">${win === p.pid ? '👑 ' : ''}${pem(p.pid)} ${esc(pname(p.pid))}<b>${p.s.toFixed(2)}</b></div><div class="bitl-stem"></div><div class="bitl-dot"></div></div>`).join('');
-  const from = pos(g.stopAt), to = pos(Math.max(g.stopAt, t || g.stopAt));
+  const from = pos(0), to = pos(Math.max(0, t || 0)), stopX = pos(g.stopAt);
   return `<div class="bitl" id="biTl"><div class="bitl-axis"></div><div class="bitl-bar ${rev ? 'done' : ''}" id="biBar" style="left:${from}%;width:${Math.max(0, to - from)}%"></div>${ticks}
-    <div class="bitl-flag stop" style="left:${from}%"><i></i><span>⏹ music stopped</span></div>${rev ? `<div class="bitl-flag word" style="left:${pos(g.fw)}%"><i></i><span>🎤 first word ${g.fw.toFixed(2)} s</span></div>` : ''}${pinHtml}</div>`;
+    <div class="bitl-flag stop" style="left:${stopX}%"><i></i><span>⏹ music stopped</span></div>${rev ? `<div class="bitl-flag word" style="left:${pos(g.fw)}%"><i></i><span>🎤 first word ${g.fw.toFixed(2)} s</span></div>` : ''}${pinHtml}</div>`;
 }
 /** Moves the travelling bar to how far the song has got; widens the line if the song runs past the end of it. */
 function biBar(g, t) {
@@ -424,7 +425,7 @@ function biBar(g, t) {
   if (t > ax.hi - (ax.hi - ax.lo) * 0.08) { ax.hi = t + (ax.hi - ax.lo) * 0.4; const tl = document.getElementById('biTl'); if (tl) tl.outerHTML = biTlHtml(g, t); return; }
   const bar = document.getElementById('biBar'); if (!bar) return;
   const pos = (x) => ((x - ax.lo) / (ax.hi - ax.lo)) * 100;
-  bar.style.width = Math.max(0, pos(t) - pos(g.stopAt)) + '%';
+  bar.style.width = Math.max(0, pos(t) - pos(0)) + '%';
 }
 function biShow(g) {
   g.axis = biAxis(g);
@@ -433,7 +434,7 @@ function biShow(g) {
 }
 function biPlayOn(g) {
   g.step = 'play'; g.until = 0; g.total = 0; g.resumedAt = Date.now();
-  try { biP.playVideo(); } catch {}
+  try { biP.seekTo(g.start || 0, true); biP.playVideo(); } catch {} // from the beginning of the clip, not from where it stopped
   persist(); biRender(); broadcastState();
 }
 function biReveal(g) {
@@ -480,10 +481,10 @@ function biRender() {
   else if (g.step === 'listen' && g.needClick) main = `<div class="bibig">🔊</div><div class="bisub">The song won't start until you click</div><button class="btn btn-primary btn-lg" id="biSound">🔊 Click to start the music</button><div class="bihint">Your browser only plays sound after a click on this page. If it still stays silent, check the tab isn't muted and the volume is up.</div>`;
   else if (g.step === 'listen') main = `<div class="bibig bipulse">🎧</div><div class="bisub">Listen…</div><div class="bibars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>`;
   else if (g.step === 'guess') main = `<div class="bisub">The music has stopped. When does the first word come in?</div><div class="biclock" id="biClock">${((Date.now() - g.t0) / 1000).toFixed(1)}</div><div class="bihint">Tap your phone when you think the first sung word would be heard</div>${faces}`;
-  else if (g.step === 'show') main = `<div class="bisub">${done ? "Here's everyone's guess" : 'Nobody guessed!'}</div>${biTlHtml(g, g.stopAt)}<div class="bihint">Now let's hear the song…</div>`;
+  else if (g.step === 'show') main = `<div class="bisub">${done ? "Here's everyone's guess" : 'Nobody guessed!'}</div>${biTlHtml(g, 0)}<div class="bihint">Now let's hear the song again from the start…</div>`;
   else {
     const w = (g.rank || [])[0], off = w ? Math.abs(w.off) : 0, rev = g.step === 'reveal';
-    main = `<div class="bisub">${rev ? 'The first sung word!' : 'The song carries on…'}</div><div class="biclock sm ${rev ? 'done' : ''}" id="biClock">${(rev ? g.fw : g.stopAt).toFixed(2)}</div>${biTlHtml(g, rev ? g.fw : g.stopAt, rev)}`
+    main = `<div class="bisub">${rev ? 'The first sung word!' : 'The song again, from the start…'}</div><div class="biclock sm ${rev ? 'done' : ''}" id="biClock">${(rev ? g.fw : 0).toFixed(2)}</div>${biTlHtml(g, rev ? g.fw : 0, rev)}`
       + (rev ? `<div class="biwin">${w ? `🏆 ${pem(w.pid)} <b>${esc(pname(w.pid))}</b> was closest: ${secs(w.ms)}, ${off < 50 ? 'dead on!' : `${(off / 1000).toFixed(2)} s ${w.off < 0 ? 'early' : 'late'}`}` : 'Nobody guessed this one'}</div><div class="bisong">${esc(q.song)}${q.artist ? ' · ' + esc(q.artist) : ''}</div>` : '');
   }
   const btn = g.err || g.needClick ? `<button class="btn ${g.err ? 'btn-primary' : 'btn-ghost'}" id="biSkip">Skip this one ▶</button>` : g.step === 'guess' ? `<button class="btn btn-primary" id="biNext">Show the guesses ▶</button>` : g.step === 'show' ? `<button class="btn btn-primary" id="biNext">Play the song ▶</button>` : '';
