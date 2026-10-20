@@ -80,6 +80,7 @@ function partyDeadline(s) { if (s.phase === 'question' && s.q && s.power?.fx?.sl
 
 // ---------------------------------------------------------------- the games: Play Your Cards Right, the quiz-night task
 function partyGameKey(s) {
+  if (s.bi) { const g = s.bi; return ['bi', g.step, g.started, g.answered.includes(P.pid), g.err, (g.top || []).map((x) => x.pid).join(), g.fw ?? '', P.bi?.myMs != null].join('|'); }
   if (s.pc) { const g = s.pc, me = P.pid; return ['pc', g.step, g.pos?.[me] ?? '-', me in (g.out || {}), (g.done || []).includes(me)].join('|'); }
   if (s.ob) { const g = s.ob, me = P.pid; return ['ob', g.step, g.k, g.alive.includes(me), me in (g.out || {}), g.ans.includes(me)].join('|'); }
   if (s.tm) { const g = s.tm; return ['tm', g.step, g.round, g.picks.join(), g.spinning ? 's' : '', g.totalMs ? 'c' : ''].join('|'); }
@@ -175,6 +176,12 @@ function obPhoneHtml(s) {
 }
 function partyBindGame(s) {
   const qId = s.q.id;
+  if ($('#biTap')) $('#biTap').onpointerdown = (e) => {
+    e.preventDefault(); if (!P.bi?.base || P.bi.myMs != null) return;
+    P.bi.myMs = Math.max(0, Date.now() - P.bi.base); P.bi.sentAt = Date.now();
+    send('answer', { pid: P.pid, qId, answer: { ms: P.bi.myMs } }); if (navigator.vibrate) try { navigator.vibrate(40); } catch {}
+    P.viewKey = ''; render();
+  };
   const ob = $('#obForm');
   if (ob) {
     const k = s.ob.k;
@@ -217,3 +224,29 @@ function partyBindQuestion(q) {
 }
 /** The result card's extra lines: power cards, Bounty, Who Said That. */
 function partyResultLines(r) { return r?.party?.length ? `<div class="partynotes">${r.party.map((x) => `<div>${esc(x)}</div>`).join('')}</div>` : ''; }
+
+// ---------------------------------------------------------------- Beat the Intro on the phone
+// The timer counts from the moment the host said the music started (P.bi.base), through the silence, until you tap.
+// The host never sends the first-word time until the reveal.
+function biPhoneHtml(s) {
+  const g = s.bi, me = P.pid, mine = P.bi?.myMs, done = g.answered.includes(me), secs = (ms) => (ms / 1000).toFixed(2);
+  app.className = 'app';
+  const clock = (txt) => `<div class="biphone"><div class="biclock" id="biClock">${txt}</div></div>`;
+  if (g.err) return `<div class="state"><div class="em">😕</div><h2>Trouble with the song</h2><p class="muted">The host will skip this one.</p></div>`;
+  if (g.step === 'load' || g.step === 'ready') return `<div class="state"><div class="em">🎧</div><h2>Get ready to listen…</h2><p class="muted">The timer starts with the music. When the music stops, tap the button when you think the first sung word would come in.</p></div>`;
+  if (g.step === 'listen') return `<div class="state" style="padding-top:6px"><div class="em bipulse">🎧</div><h2>Listen…</h2>${clock('0.00')}<p class="muted">The music is about to stop. Keep counting!</p></div>`;
+  if (g.step === 'guess') {
+    if (done) return `<div class="state"><div class="em">🔒</div><h2>Locked in${mine != null ? ': ' + secs(mine) + ' s' : ''}</h2><p class="muted">Waiting for the others…</p></div>`;
+    return `${clock('0.00')}<button class="btn btn-primary btn-lg btn-block bitap" id="biTap">🎤 NOW!</button><p class="center small muted">Tap when you think the first sung word would be heard</p>`;
+  }
+  if (g.step === 'show') { const top = (g.top || []).some((x) => x.pid === me); return `<div class="state"><div class="em">${top ? '🔥' : '👀'}</div><h2>${top ? "You're in the closest five!" : 'Look at the screen'}</h2><p class="muted">${mine != null ? 'Your guess: ' + secs(mine) + ' s · ' : ''}the song carries on in a moment…</p></div>`; }
+  if (g.step === 'play') return `<div class="state"><div class="em bipulse">🎶</div><h2>The song carries on…</h2><p class="muted">${mine != null ? 'Your guess: ' + secs(mine) + ' s' : 'Listen for the first sung word'}</p></div>`;
+  return `<div class="state"><div class="em">🎤</div><h2>The first word came in at ${secs(g.fw)} s</h2><p class="muted">${mine != null ? 'Your guess: ' + secs(mine) + ' s. ' : ''}Your result is coming up…</p></div>`;
+}
+/** Redraws the phone's timer 20 times a second: running until you tap, then frozen on your guess. */
+function tickBi() {
+  const el = $('#biClock'), s = P.state?.bi; if (!el || !s || !P.bi?.base) return;
+  el.textContent = ((P.bi.myMs != null ? P.bi.myMs : Date.now() - P.bi.base) / 1000).toFixed(2);
+  // a tap that never reached the host is sent again
+  if (P.bi.myMs != null && s.step === 'guess' && !s.answered.includes(P.pid) && Date.now() - P.bi.sentAt > 2000) { P.bi.sentAt = Date.now(); send('answer', { pid: P.pid, qId: P.state.q.id, answer: { ms: P.bi.myMs } }); }
+}

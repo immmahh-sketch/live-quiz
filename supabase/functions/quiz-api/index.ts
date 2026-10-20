@@ -1520,6 +1520,29 @@ Deno.serve(async (req) => {
       if (added) await bankSave(row);
       return json({ added, skipped: qs.length - added, total: row.questions.length });
     }
+    if (action === "lyrics_first") {
+      // Beat the Intro: when does the first sung line start? LRCLIB (free, no key) keeps time-synced lyrics; only the timestamp of the
+      // first line with words goes back, never the words. It is a suggestion tied to one recording: the host checks it by ear.
+      const artist = String(body.artist || "").trim().slice(0, 120), track = String(body.track || "").trim().slice(0, 160);
+      if (!track) return json({ error: "Which song? Fill in the song title first." }, 400);
+      const get = async (url: string) => { const r = await fetch(url, { headers: { "User-Agent": "LetsQuiz (letsquiz.uk)" }, signal: AbortSignal.timeout(12000) }); return r.ok ? await r.json() : null; };
+      let hit: any = null;
+      try { hit = await get(`https://lrclib.net/api/get?artist_name=${encodeURIComponent(artist)}&track_name=${encodeURIComponent(track)}`); } catch { /* fall through to the search */ }
+      if (!hit?.syncedLyrics) {
+        try { const list = await get(`https://lrclib.net/api/search?track_name=${encodeURIComponent(track)}${artist ? `&artist_name=${encodeURIComponent(artist)}` : ""}`); hit = (Array.isArray(list) ? list : []).find((x: any) => x?.syncedLyrics) || hit; } catch { /* none */ }
+      }
+      if (!hit) return json({ error: "LRCLIB has nothing for that song. Tap the first sung word in by hand instead." }, 404);
+      if (hit.instrumental) return json({ instrumental: true, track: hit.trackName, artist: hit.artistName });
+      let first: number | null = null;
+      for (const line of String(hit.syncedLyrics || "").split("\n")) {
+        const m = line.match(/^\[(\d+):(\d+(?:\.\d+)?)\]\s*(.*)$/); if (!m) continue;
+        const words = m[3].replace(/[\u266a\u266b\u2669\[\]\(\)]/g, "").trim();
+        if (!/[\p{L}\p{N}]/u.test(words) || /^(instrumental|intro|music)$/i.test(words)) continue;
+        first = Math.round((+m[1] * 60 + +m[2]) * 100) / 100; break;
+      }
+      if (first === null) return json({ error: "Found the song but its lyrics have no timings. Tap the first sung word in by hand." }, 404);
+      return json({ firstAt: first, duration: +hit.duration || null, track: hit.trackName || track, artist: hit.artistName || artist });
+    }
     if (action === "tune_search") {
       const term = String(body.term || "").trim().slice(0, 120);
       if (!term) return json({ error: "What song?" }, 400);

@@ -550,7 +550,7 @@ function addViewer(pid, name, emoji) {
   if (!G.viewers[pid]) { G.viewers[pid] = { id: pid, name, emoji: LQ.EMOJIS.includes(emoji) ? emoji : '', score: 0 }; persist(); }
   clearTimeout(helloT); helloT = setTimeout(broadcastState, 150);
 }
-const groupGame = () => !!(G.q && (G.q.wipe || G.q.race || G.q.tq || G.q.potato || G.q.koth || G.q.bb || G.q.chase || G.q.draw || G.q.uq || G.q.pc || G.q.task || G.q.tm || G.q.ob));
+const groupGame = () => !!(G.q && (G.q.wipe || G.q.race || G.q.tq || G.q.potato || G.q.koth || G.q.bb || G.q.chase || G.q.draw || G.q.uq || G.q.pc || G.q.task || G.q.tm || G.q.ob || G.q.bi));
 function viewerAnswer(pid, qId, answer) {
   if (groupGame()) return; // watched, not played
   G.q.vAnswers = G.q.vAnswers || {};
@@ -604,6 +604,7 @@ function onAnswer({ pid, qId, answer, low }) {
   if (G.q.uq) return uqAnswer(pid, answer);
   if (G.q.pc) return pcAnswer(pid, answer);
   if (G.q.ob) return obAnswer(pid, answer);
+  if (G.q.bi) return biAnswer(pid, answer);
   if (G.q.task) return taskAnswer(pid, answer);
   if (G.q.tm) return; // Taskmaster on camera: nothing to send from the phones
   if (partyBlocks(pid)) return; // frozen, copying, out of (cut) time, or their own Who Said That
@@ -920,7 +921,7 @@ function goBack() {
 }
 function startCountdown(i) {
   markPlayed(i);
-  if (LQ.BANK_GAMES.includes(G.quiz.questions[i]?.type) || ['draw', 'twenty', 'unique', 'cards', 'behind'].includes(G.quiz.questions[i]?.type) || (G.quiz.questions[i]?.type === 'task' && !WARMUP)) return startRaceIntro(i); // a splash first; the race adds 3-2-1 and the pistol
+  if (LQ.BANK_GAMES.includes(G.quiz.questions[i]?.type) || ['draw', 'twenty', 'unique', 'cards', 'behind', 'intro'].includes(G.quiz.questions[i]?.type) || (G.quiz.questions[i]?.type === 'task' && !WARMUP)) return startRaceIntro(i); // a splash first; the race adds 3-2-1 and the pistol
   clearInterval(tickT); clearInterval(countT); if (typeof stopTune === 'function') stopTune(); G.raceIntro = null;
   G.qIndex = i; G.phase = 'countdown'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString();
   persist(); render(); broadcastState();
@@ -1177,7 +1178,7 @@ const pname = (pid) => G.players[pid]?.name || 'Player', pem = (pid) => G.player
  *  camera (assets/quizcam.js fills it in and sizes it up); otherwise their emoji, as before. */
 const face = (pid, emoji) => `<span class="pface" data-pcam="${esc(pid || '')}"><span class="pface-em">${emoji || pem(pid)}</span></span>`;
 function livePids() { const live = Object.keys(G.players).filter((pid) => present.has(pid)); return live.length ? live : Object.keys(G.players); }
-const gameKind = () => G.q?.tm ? 'tm' : G.q?.pc ? 'pc' : G.q?.ob ? 'ob' : G.q?.task ? 'task' : G.q?.potato ? 'potato' : G.q?.koth ? 'koth' : G.q?.bb ? 'bb' : G.q?.chase ? 'chase' : G.q?.draw ? 'draw' : G.q?.uq ? 'uq' : '';
+const gameKind = () => G.q?.bi ? 'bi' : G.q?.tm ? 'tm' : G.q?.pc ? 'pc' : G.q?.ob ? 'ob' : G.q?.task ? 'task' : G.q?.potato ? 'potato' : G.q?.koth ? 'koth' : G.q?.bb ? 'bb' : G.q?.chase ? 'chase' : G.q?.draw ? 'draw' : G.q?.uq ? 'uq' : '';
 /** The question's bank as playable rows, shuffled once: the right answer, and option tokens for the phones (right answer's token maps to R:). */
 function gameRows(q, tok) {
   return shuffle(LQ.goodRows(q)).map((b) => ({ id: b.id, text: b.text, right: b.options[0].trim(), options: shuffle(b.options.map((o, oi) => ({ o: o.trim(), oi })).filter((x) => x.o)).map((x, i) => ({ k: tok((x.oi === 0 ? 'R:' : 'W:') + b.id), text: x.o, c: i })) }));
@@ -1188,7 +1189,7 @@ const isRight = (row, k) => !!row && G.q.keys[k] === 'R:' + row.id;
 /** Moves every game deadline on by d ms (after a pause). */
 function shiftGame(d) {
   const p = G.q?.potato; if (p) for (const b of p.bombs) { b.fuseEnd += d; b.startedAt += d; if (b.passBy) b.passBy += d; }
-  for (const g of [G.q?.koth, G.q?.bb, G.q?.chase, G.q?.draw, G.q?.uq, G.q?.pc, G.q?.task, G.q?.tm, G.q?.ob]) if (g?.until) g.until += d;
+  for (const g of [G.q?.koth, G.q?.bb, G.q?.chase, G.q?.draw, G.q?.uq, G.q?.pc, G.q?.task, G.q?.tm, G.q?.ob, G.q?.bi]) if (g?.until) g.until += d;
   if (G.q?.tm?.openAt) G.q.tm.openAt += d; if (G.q?.tm?.spin) G.q.tm.spin.at += d;
 }
 function stepTo(g, step, ms) { g.step = step; g.until = ms ? Date.now() + ms : 0; g.total = ms || 0; }
@@ -1201,7 +1202,7 @@ function gameTick() {
   if (k === 'potato') return potatoTick(now);
   if (k === 'draw') drawTick(now);
   if (k === 'tm') tmTick(now);
-  if (g.until && now >= g.until) { g.until = 0; if (k === 'koth') kothStepDone(); else if (k === 'chase') chaseStepDone(); else if (k === 'draw') drawStepDone(); else if (k === 'uq') uqStepDone(); else if (k === 'pc') pcStepDone(); else if (k === 'ob') obStepDone(); else if (k === 'tm') tmStepDone(); else if (k === 'task') taskStepDone(); else bbStepDone(); }
+  if (g.until && now >= g.until) { g.until = 0; if (k === 'koth') kothStepDone(); else if (k === 'chase') chaseStepDone(); else if (k === 'draw') drawStepDone(); else if (k === 'uq') uqStepDone(); else if (k === 'pc') pcStepDone(); else if (k === 'ob') obStepDone(); else if (k === 'bi') biStepDone(); else if (k === 'tm') tmStepDone(); else if (k === 'task') taskStepDone(); else bbStepDone(); }
   else if (k === 'koth' && g.step === 'answer') { const c = $('#kothCount'); if (c) c.textContent = Math.max(0, Math.ceil((g.until - now) / 1000)); }
 }
 function gameStop() { ask('Stop this game now?', 'Points scored so far are kept; nobody gets the winner\'s bonus unless they have already won.', 'Stop the game', 'Keep playing').then((ok) => { if (ok && G.phase === 'question') endQuestion(); }); }
@@ -1967,7 +1968,8 @@ function startQuestion() {
   clearInterval(countT); G.raceIntro = null;
   const q = question();
   const { view, keys, rows } = buildView(q);
-  const now = Date.now(), own = ['wipeout', 'potato', 'koth', 'blockbusters', 'chase', 'draw', 'unique', 'cards', 'behind'].includes(q.type) || (q.type === 'task' && !WARMUP); // these run their own clocks
+  if (typeof biCleanup === 'function') biCleanup();
+  const now = Date.now(), own = ['wipeout', 'potato', 'koth', 'blockbusters', 'chase', 'draw', 'unique', 'cards', 'behind', 'intro'].includes(q.type) || (q.type === 'task' && !WARMUP); // these run their own clocks
   G.q = { view, keys, rows, startedAt: now, deadline: own ? null : now + q.time * 1000, answers: {}, results: null };
   if (q.kind === 'reveal') G.q.reveal = revealPlan(q, now);
   if (q.type === 'wheel') { G.q.wheelRevealed = (q.startLetters || '').toUpperCase().replace(/[^A-Z]/g, '').replace(/[AEIOU]/g, ''); /* no vowels, even to start */ G.q.nextReveal = now + (q.revealEvery || 4) * 1000; }
@@ -1976,6 +1978,7 @@ function startQuestion() {
   if (q.type === 'cards' || (q.type === 'task' && !WARMUP)) { botClear(); if (q.type === 'cards') pcStart(); else taskStart(); startTick(); musicStart(q); return; }
   if (q.type === 'unique') { botClear(); uqStart(); startTick(); musicStart(q); return; }
   if (q.type === 'behind') { botClear(); obStart(); startTick(); musicStart(q); return; }
+  if (q.type === 'intro') { botClear(); biStart(); startTick(); return; } // no background music: the song is the music
   if (q.type === 'potato' || q.type === 'koth' || q.type === 'blockbusters' || q.type === 'chase' || q.type === 'draw') { botClear(); if (q.type === 'potato') potatoStart(); else if (q.type === 'koth') kothStart(); else if (q.type === 'chase') chaseStart(); else if (q.type === 'draw') drawStart(); else bbStart(); startTick(); musicStart(q); return; }
   render();
   if (q.type === 'wipeout') wipeStart(); else if (q.type === 'race') raceStart(); else if (q.type === 'twenty') twentyStart(); else broadcastState();
@@ -2028,8 +2031,8 @@ function wheelReveal() {
 async function endQuestion() {
   musicStop();
   if (G.phase !== 'question') return;
-  if (!['wipeout', 'race', 'potato', 'koth', 'blockbusters', 'chase', 'draw', 'unique', 'cards', 'task', 'behind'].includes(question()?.type)) sound('gong');
-  clearInterval(tickT); botClear(); stopTune();
+  if (!['wipeout', 'race', 'potato', 'koth', 'blockbusters', 'chase', 'draw', 'unique', 'cards', 'task', 'behind', 'intro'].includes(question()?.type)) sound('gong');
+  clearInterval(tickT); botClear(); stopTune(); if (typeof biCleanup === 'function') biCleanup();
   G.phase = 'grading'; persist(); render(); broadcastState();
   partyBeforeGrade(); // a Copycat takes on their target's answer
   try { G.q.results = await grade(); }
@@ -2545,9 +2548,9 @@ function renderTypeCard() {
 function togglePause(want, quiet) {
   want = typeof want === 'boolean' ? want : !G.paused;
   if (want === !!G.paused) return;
-  if (want) { G.paused = true; G.pausedAt = Date.now(); clearTimeout(autoT); musicPause(true); }
+  if (want) { G.paused = true; G.pausedAt = Date.now(); clearTimeout(autoT); musicPause(true); if (typeof biPause === 'function') biPause(true); }
   else {
-    const d = Date.now() - (G.pausedAt || Date.now()); G.paused = false; G.pausedAt = 0; musicPause(false);
+    const d = Date.now() - (G.pausedAt || Date.now()); G.paused = false; G.pausedAt = 0; musicPause(false); if (typeof biPause === 'function') biPause(false, d);
     if (G.brk) G.brk.endsAt += d;
     if (G.q) { if (G.q.deadline) G.q.deadline += d; if (G.q.nextReveal) G.q.nextReveal += d; const w = G.q.wipe; if (w) { if (w.studyUntil) w.studyUntil += d; if (w.turnDeadline) w.turnDeadline += d; } shiftGame(d); }
   }

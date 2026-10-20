@@ -136,12 +136,17 @@ function partyState(s) {
     s.ob = { step: g.step, k: g.k, n: g.items.length, show: showI < g.items.length ? { i: showI, q: g.items[showI].q } : null, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total,
       alive: g.alive, out: g.out, ans: Object.keys(g.ans), streak: g.streak };
   }
+  if (G.phase === 'question' && G.q?.bi) {
+    const g = G.q.bi, rev = g.step === 'reveal';
+    // the first-word time goes out only at the reveal: it is the whole game
+    s.bi = { step: g.step, started: g.started, elapsedMs: g.started ? nowT - g.t0 : 0, answered: Object.keys(g.guesses), top: ['show', 'play', 'reveal'].includes(g.step) ? g.top : null, fw: rev ? Math.round(g.fw * 1000) : null, lag: g.lag, err: !!g.err };
+  }
   tmState(s); // Taskmaster on camera
   if (G.phase === 'question' && G.q?.task) {
     const g = G.q.task;
     s.task = { step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, code: G.code, key: question().id, got: Object.keys(g.photos), picks: g.step === 'show' ? g.picks : null };
   }
-  if (s.pc || s.task || s.ob) s.names = Object.fromEntries(Object.values(G.players).map((p) => [p.id, { name: p.name, emoji: p.emoji || '' }]));
+  if (s.pc || s.task || s.ob || s.bi) s.names = Object.fromEntries(Object.values(G.players).map((p) => [p.id, { name: p.name, emoji: p.emoji || '' }]));
   if (G.phase === 'question' && G.q?.author !== undefined) s.wsEmpty = !G.q.ws;
 }
 /** Over the screen: what the cards are doing to this question, and Bounty on the reveal. Test bots play cards too. */
@@ -306,6 +311,147 @@ function obRender() {
   bind();
 }
 
+// ---------------------------------------------------------------- Beat the Intro
+// The first seconds of a song play, the music stops, and every phone keeps a timer that started with the music. Players tap
+// when they think the first sung word would come in. The five closest guesses go up, the song carries on, and the timer
+// stops on the first sung word. The song is a YouTube embed kept off screen (its picture would give the song away).
+// q.stopAt: when the music stops (seconds into the song). q.firstWordAt: when the first word is sung. q.prize: the winner's points.
+// A guess is measured on the phone from the moment it was told the music had started; settings.introLag (seconds, default 0.3)
+// is what the call and the network add on, and is taken off every guess.
+let biP = null, biPoll = null;
+const BI_SHARES = [1, 0.7, 0.5, 0.3, 0.2]; // the closest five score these shares of the prize; everyone else who guessed gets a tenth
+const biLag = () => (+G.quiz?.settings?.introLag >= 0 && G.quiz.settings.introLag !== '' ? +G.quiz.settings.introLag : 0.3);
+function biCleanup() {
+  clearInterval(biPoll); biPoll = null;
+  try { biP?.destroy?.(); } catch {}
+  biP = null; document.getElementById('biWrap')?.remove();
+}
+function biStart() {
+  const q = question();
+  biCleanup();
+  const g = G.q.bi = { v: 1, step: 'load', stopAt: +q.stopAt || 4, fw: +q.firstWordAt || 8, lag: biLag(), started: false, t0: 0, guesses: {}, order: 0, top: [], rank: null, err: '', until: 0, total: 0 };
+  stepTo(g, 'load', 25000); persist(); biRender(); broadcastState();
+  const wrap = document.createElement('div'); wrap.id = 'biWrap'; wrap.className = 'bgm'; wrap.innerHTML = '<div id="biPlayer"></div>'; document.body.appendChild(wrap);
+  ytApi().then(() => {
+    if (G.q?.bi !== g) return;
+    biP = new YT.Player('biPlayer', { width: 200, height: 200, videoId: q.media.videoId, host: 'https://www.youtube-nocookie.com',
+      playerVars: { controls: 0, disablekb: 1, playsinline: 1, rel: 0, iv_load_policy: 3, fs: 0 },
+      events: {
+        onReady: () => { if (G.q?.bi !== g || g.step !== 'load') return; try { biP.setVolume(100); biP.unMute(); } catch {} stepTo(g, 'ready', 3000); sound('beep'); persist(); biRender(); broadcastState(); },
+        onStateChange: (e) => biState(g, e),
+        onError: (e) => biFail(g, `YouTube would not play this song here (error ${e.data}). Skip it, or use another upload.`),
+      } });
+  }).catch(() => biFail(g, 'YouTube could not be reached from this screen.'));
+  biPoll = setInterval(biPollTick, 30);
+}
+function biFail(g, msg) {
+  if (G.q?.bi !== g || g.err) return;
+  g.err = msg; g.until = 0; try { biP?.pauseVideo?.(); } catch {}
+  persist(); biRender(); broadcastState();
+}
+/** The audio is really running: that is the moment every phone's clock starts. */
+function biState(g, e) {
+  if (G.q?.bi !== g) return;
+  if (e.data === 1 && g.step === 'listen' && !g.started) {
+    g.started = true; let t = 0; try { t = biP.getCurrentTime() || 0; } catch {}
+    g.t0 = Date.now() - t * 1000;
+    persist(); broadcastState(); biRender();
+  }
+}
+function biListen(g) {
+  stepTo(g, 'listen', 0); persist(); biRender(); broadcastState();
+  try { biP.seekTo(0, true); biP.playVideo(); } catch {}
+  // a browser that refused sound gets one muted try, with the sound brought up once it runs
+  setTimeout(() => { if (G.q?.bi === g && g.step === 'listen' && !g.started && !g.err) { try { biP.mute(); biP.playVideo(); setTimeout(() => { try { biP.unMute(); } catch {} }, 600); } catch {} } }, 3500);
+  setTimeout(() => { if (G.q?.bi === g && g.step === 'listen' && !g.started) biFail(g, 'The song would not start. Skip it and carry on.'); }, 12000);
+}
+/** Runs every 30 ms: stops the music at stopAt, paints the clocks, and stops on the first sung word. */
+function biPollTick() {
+  const g = G.q?.bi; if (!g || !biP || G.paused || G.phase !== 'question' || g.err) return;
+  let t; try { t = biP.getCurrentTime(); } catch { return; }
+  if (g.step === 'listen' && g.started && t >= g.stopAt) {
+    try { biP.pauseVideo(); } catch {}
+    stepTo(g, 'guess', (question().time || 20) * 1000);
+    persist(); biRender(); broadcastState(); biBots(g); return;
+  }
+  const clock = document.getElementById('biClock');
+  if (g.step === 'guess' && clock) clock.textContent = ((Date.now() - g.t0) / 1000).toFixed(1);
+  if (g.step === 'play') {
+    if (t >= g.fw) return biReveal(g);
+    if (clock) clock.textContent = Math.max(g.stopAt, t).toFixed(2);
+  }
+}
+/** Everyone who guessed, closest to the first sung word first (ties: whoever tapped first). off is negative for early. */
+function biRank(g) {
+  return Object.entries(g.guesses).filter(([pid]) => G.players[pid]).map(([pid, x]) => ({ pid, ms: x.ms, off: x.ms - g.fw * 1000, at: x.at })).sort((a, b) => Math.abs(a.off) - Math.abs(b.off) || a.at - b.at);
+}
+function biShow(g) {
+  g.top = biRank(g).slice(0, 5).map(({ pid, ms }) => ({ pid, ms })).sort((a, b) => a.ms - b.ms);
+  stepTo(g, 'show', 7000); sound('drumroll');
+  persist(); biRender(); broadcastState();
+}
+function biPlayOn(g) {
+  g.step = 'play'; g.until = 0; g.total = 0;
+  try { biP.playVideo(); } catch {}
+  persist(); biRender(); broadcastState();
+}
+function biReveal(g) {
+  g.step = 'reveal'; g.until = 0; g.rank = biRank(g);
+  sound('ding'); persist(); biRender(); broadcastState();
+  setTimeout(() => { if (G.q?.bi === g && G.phase === 'question') endQuestion(); }, 4500); // the song plays on while the winner is named
+}
+function biStepDone() {
+  const g = G.q.bi; if (!g || g.err) return;
+  if (g.step === 'load') return biFail(g, 'The song took too long to load. Skip it and carry on.');
+  if (g.step === 'ready') return biListen(g);
+  if (g.step === 'guess') return biShow(g);
+  if (g.step === 'show') return biPlayOn(g);
+}
+function biAnswer(pid, a) {
+  const g = G.q.bi; if (!g || g.step !== 'guess' || g.err || g.guesses[pid]) return;
+  const ms = Number(a?.ms); if (!Number.isFinite(ms) || ms < 0 || ms > 600000) return;
+  g.guesses[pid] = { raw: Math.round(ms), ms: Math.round(ms - g.lag * 1000), at: ++g.order };
+  sound('ding');
+  if (livePids().every((p) => g.guesses[p])) g.until = Math.min(g.until || Infinity, Date.now() + 900);
+  persist(); biRender(); broadcastState();
+}
+/** Each bot taps when its own timer reaches a guess near the first word; better bots are nearer. */
+function biBots(g) {
+  for (const b of G.bots || []) {
+    const spread = 350 + (1 - b.skill) * 2200, guess = Math.max(g.stopAt * 1000 + 300, g.fw * 1000 + g.lag * 1000 + (Math.random() + Math.random() - 1) * spread);
+    botLater(() => { if (G.q?.bi === g && g.step === 'guess') biAnswer(b.pid, { ms: guess }); }, Math.max(500, guess - (Date.now() - g.t0)));
+  }
+}
+function biPause(want, d) {
+  const g = G.q?.bi; if (!g || !biP) return;
+  try { if (want) { if (g.step === 'listen' || g.step === 'play') biP.pauseVideo(); } else if (g.step === 'listen' || g.step === 'play') biP.playVideo(); } catch {}
+  if (!want && d && g.t0) g.t0 += d;
+}
+function biRender() {
+  const q = question(), g = G.q.bi; if (!g) return;
+  const pids = Object.keys(G.players), done = pids.filter((p) => g.guesses[p]).length, secs = (ms) => (ms / 1000).toFixed(2) + ' s';
+  const faces = `<div class="obfaces">${pids.map((p) => `<span class="obface ${g.guesses[p] ? 'in' : ''}">${pem(p)} ${esc(pname(p))}</span>`).join('')}</div>`;
+  let main;
+  if (g.err) main = `<div class="bibig">😕</div><div class="bisub">${esc(g.err)}</div>`;
+  else if (g.step === 'load') main = `<div class="bibig">🎧</div><div class="bisub">Getting the song ready…</div>`;
+  else if (g.step === 'ready') main = `<div class="bibig">🎧</div><div class="bisub">Get ready to listen…</div><div class="bihint">When the music stops, tap your phone when you think the first sung word would come in</div>`;
+  else if (g.step === 'listen') main = `<div class="bibig bipulse">🎧</div><div class="bisub">Listen…</div><div class="bibars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>`;
+  else if (g.step === 'guess') main = `<div class="bisub">The music has stopped. When does the first word come in?</div><div class="biclock" id="biClock">${((Date.now() - g.t0) / 1000).toFixed(1)}</div><div class="bihint">Tap your phone when you think the first sung word would be heard</div>${faces}`;
+  else if (g.step === 'show') main = `<div class="bisub">${g.top.length ? 'The closest five guesses' : 'Nobody guessed!'}</div><div class="bitop">${g.top.map((x) => `<div class="bichip"><span>${pem(x.pid)} ${esc(pname(x.pid))}</span><b>${secs(x.ms)}</b></div>`).join('')}</div><div class="bihint">Now let's hear the song…</div>`;
+  else {
+    const w = (g.rank || [])[0], off = w ? Math.abs(w.off) : 0, rev = g.step === 'reveal';
+    main = `<div class="bisub">${rev ? 'The first sung word!' : 'The song carries on…'}</div><div class="biclock ${rev ? 'done' : ''}" id="biClock">${(rev ? g.fw : g.stopAt).toFixed(2)}</div>`
+      + (rev ? `<div class="biwin">${w ? `🏆 ${pem(w.pid)} <b>${esc(pname(w.pid))}</b> was closest: ${secs(w.ms)}, ${off < 50 ? 'dead on!' : `${(off / 1000).toFixed(2)} s ${w.off < 0 ? 'early' : 'late'}`}` : 'Nobody guessed this one'}</div><div class="bisong">${esc(q.song)}${q.artist ? ' · ' + esc(q.artist) : ''}</div>` : '');
+  }
+  const btn = g.err ? `<button class="btn btn-primary" id="biSkip">Skip this one ▶</button>` : g.step === 'guess' ? `<button class="btn btn-primary" id="biNext">Show the guesses ▶</button>` : g.step === 'show' ? `<button class="btn btn-primary" id="biNext">Play the song ▶</button>` : '';
+  stage.innerHTML = `${topBar(`<span class="hpill">🎧 ${g.step === 'guess' ? `${done} of ${pids.length} guessed` : 'Beat the Intro'}</span>`)}
+    <div class="stage-main bistage">${main}</div>
+    ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-ghost" data-act="stopgame">Stop the game ■</button>${btn}`)}`;
+  bind();
+  if ($('#biSkip')) $('#biSkip').onclick = () => { if (G.phase === 'question') endQuestion(); };
+  if ($('#biNext')) $('#biNext').onclick = () => { const x = G.q?.bi; if (x) { x.until = 0; biStepDone(); } };
+}
+
 // ---------------------------------------------------------------- Taskmaster
 let taskPollT = null;
 function taskStart() {
@@ -413,6 +559,7 @@ function partyView(q, v, tok) {
   v.mine = drawSecret(wsNow.author, { mine: 1 });
 }
 function partyIntroSub(q) {
+  if (q.type === 'intro') return `The start of a song plays, then stops · tap your phone when you think the first sung word comes in · the closest guess wins ${q.prize ?? 1000}`;
   if (q.type === 'behind') { const n = LQ.behindOf(q).length, st = q.step ?? 100; return `${n} quick-fire questions, always answer the one BEFORE · ${q.time || 30} seconds each · ${st}, ${st * 2}, ${st * 3}… for each right answer in a row · one wrong and you're out`; }
   if (q.type === 'cards') return `${LQ.cardsOf(q).length} cards · 30 seconds to get through the lot on your phone · ${q.perCard ?? 200} for each right call · one wrong call and you're out · reach the end for ${q.prize ?? 500} more`;
   if (tmMode(q) && q.mode === 'all') { const p = tmPrizes(q); return `Everybody does it, all at once, on camera · ${q.time || 90} seconds · best three win ${p.join(', ')}`; }
@@ -426,6 +573,7 @@ function partyRenderQuestion() {
   const q = question();
   if (q.type === 'cards') { if (G.q.pc) pcRender(); return true; }
   if (q.type === 'behind') { if (G.q.ob) obRender(); return true; }
+  if (q.type === 'intro') { if (G.q.bi) biRender(); return true; }
   if (q.type === 'task' && G.q.tm) { tmRender(); return true; }
   if (q.type === 'task' && G.q.task) { taskRender(); return true; }
   if (q.type === 'whosaid') {
@@ -447,7 +595,7 @@ function partyRenderQuestion() {
 }
 function partyReveal() {
   const q = question(), R = G.q?.results; if (!R) return false;
-  if (!['cards', 'task', 'whosaid', 'about', 'behind'].includes(q.type)) return false;
+  if (!['cards', 'task', 'whosaid', 'about', 'behind', 'intro'].includes(q.type)) return false;
   let body = '', pill = '';
   if (q.type === 'cards') {
     const g = G.q.pc || { cards: LQ.cardsOf(q), i: 0, winners: [], pts: {} };
@@ -462,6 +610,13 @@ function partyReveal() {
       <ol class="oblist">${g.items.map((it, i) => `<li><span>${esc(it.q)}</span><b>${esc(it.a.split('/')[0])}</b><small>${(g.got[i] || []).length} right</small></li>`).join('')}</ol>
       <div class="textlist mt">${Object.entries(g.pts).sort((a, b) => b[1] - a[1]).map(([pid, v]) => `<span class="tl ok">${pem(pid)} ${esc(pname(pid))} +${v}</span>`).join('')}</div>`;
     pill = `⏪ ${w.length} got them all`;
+  }
+  if (q.type === 'intro') {
+    const g = G.q.bi, rank = g ? biRank(g) : [], secs = (ms) => (ms / 1000).toFixed(2) + ' s';
+    body = `<div class="pcbig ${rank.length ? 'up' : 'down'}">${rank.length ? `🏆 ${esc(pname(rank[0].pid))} was closest` : 'Nobody guessed'}</div>
+      <div class="bisong">The first sung word came in at <b>${g ? secs(g.fw * 1000) : ''}</b> · ${esc(q.song)}${q.artist ? ' · ' + esc(q.artist) : ''}</div>
+      <div class="textlist mt">${rank.slice(0, 12).map((x, i) => `<span class="tl ${i === 0 ? 'ok' : ''}">${['🥇', '🥈', '🥉'][i] || (i + 1) + '.'} ${pem(x.pid)} ${esc(pname(x.pid))} ${secs(x.ms)} (${Math.abs(x.off) < 50 ? 'dead on' : (Math.abs(x.off) / 1000).toFixed(2) + (x.off < 0 ? ' early' : ' late')}) +${R.byPlayer[x.pid]?.points ?? 0}</span>`).join('')}</div>`;
+    pill = `🎧 ${rank.length} guessed`;
   }
   if (q.type === 'task' && G.q.tm) { body = tmRevealHtml(q); pill = `📞 ${G.q.tm.done.length} task${G.q.tm.done.length === 1 ? '' : 's'}`; }
   else if (q.type === 'task') {
@@ -509,6 +664,20 @@ function partyGrade(q, byPlayer, PL, stats, entries, res, keys) {
     }
     stats.answered = Object.keys(byPlayer).length;
   }
+  if (q.type === 'intro') {
+    const g = G.q.bi, prize = +q.prize || 1000;
+    if (g) {
+      const rank = biRank(g), secs = (ms) => (ms / 1000).toFixed(2);
+      rank.forEach((x, i) => {
+        if (!PL[x.pid]) return;
+        const pts = Math.round(prize * (BI_SHARES[i] ?? 0.1) / 10) * 10, off = Math.abs(x.off);
+        byPlayer[x.pid] = { answered: true, correct: i === 0, partial: i < 5 ? 1 - i * 0.15 : 0.1, points: pts, note: `🎧 ${secs(x.ms)} s: ${off < 50 ? 'dead on' : (off / 1000).toFixed(2) + ' s ' + (x.off < 0 ? 'early' : 'late')} · ${LQ.ordinal(i + 1)} closest` };
+        if (i === 0) stats.right++;
+      });
+      for (const pid of livePids()) if (PL[pid] && !byPlayer[pid]) byPlayer[pid] = { answered: false, correct: false, partial: 0, points: 0, note: "🎧 You didn't tap in time" };
+      stats.answered = rank.length;
+    }
+  }
   if (q.type === 'task' && G.q.tm) tmGrade(q, byPlayer, PL, stats);
   else if (q.type === 'task' && !WARMUP) {
     const g = G.q.task || { photos: {}, picks: {} };
@@ -535,6 +704,7 @@ function partyGrade(q, byPlayer, PL, stats, entries, res, keys) {
   }
 }
 function partyAnswerText(q) {
+  if (q.type === 'intro') { const g = G.q?.bi, w = g ? (g.rank || biRank(g))[0] : null; return g ? `🎧 The first sung word came in at ${g.fw.toFixed(2)} s${w ? ': ' + pname(w.pid) + ' was closest' : ''}` : ''; }
   if (q.type === 'cards') { const w = G.q?.pc?.winners || []; return w.length ? `🏆 ${w.map(pname).join(', ')} made it to the end` : 'Nobody made it to the end'; }
   if (q.type === 'behind') { const g = G.q?.ob, w = g ? obWinners(g) : []; return w.length ? `🏆 ${w.map(pname).join(', ')} got all ${g.items.length}` : 'Nobody got them all'; }
   if (q.type === 'task' && G.q?.tm) { const w = Object.entries(G.q.tm.pts).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]).map(([p]) => pname(p)); return w.length ? `📞 Top of the tasks: ${w.slice(0, 3).join(', ')}` : ''; }
@@ -544,6 +714,7 @@ function partyAnswerText(q) {
   return null;
 }
 function partyAnswerDisplay(q, pid) {
+  if (q.type === 'intro') { const g = G.q.bi, x = g?.guesses?.[pid]; return x ? `${(x.ms / 1000).toFixed(2)} s (${Math.abs(x.ms - g.fw * 1000) < 50 ? 'dead on' : (Math.abs(x.ms - g.fw * 1000) / 1000).toFixed(2) + (x.ms < g.fw * 1000 ? ' early' : ' late')})` : '—'; }
   if (q.type === 'cards') { const g = G.q.pc, out = g && (g.out || g.outAt || {})[pid]; return !g ? '—' : g.winners.includes(pid) ? 'made it to the end 🏆' : out ? `out on card ${out + 1}` : g.pos?.[pid] ? `${g.pos[pid]} right when time ran out` : '—'; }
   if (q.type === 'behind') { const g = G.q.ob; if (!g) return '—'; const got = g.streak[pid] || 0; return got === g.items.length ? `all ${got} right 🏆` : pid in g.out ? `${got} right, out on Q${g.out[pid] + 1}` : `${got} right`; }
   if (q.type === 'task' && G.q.tm) { const d = G.q.tm.done.filter((x) => x.picks.includes(pid)); return d.length ? d.map((x) => `${x.places[pid] ? TM_PLACES[x.places[pid]] : '·'} ${x.got[pid] > 0 ? '+' : ''}${x.got[pid]}`).join(', ') : 'not picked'; }
