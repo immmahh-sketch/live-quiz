@@ -239,7 +239,7 @@ function biPhoneHtml(s) {
     if (done) return `<div class="state"><div class="em">🔒</div><h2>Locked in${mine != null ? ': ' + secs(mine) + ' s' : ''}</h2><p class="muted">Waiting for the others…</p></div>`;
     return `${clock('0.00')}<button class="btn btn-primary btn-lg btn-block bitap" id="biTap">🎤 NOW!</button><p class="center small muted">Tap when you think the first sung word would be heard</p>`;
   }
-  if (g.step === 'show') { const top = (g.top || []).some((x) => x.pid === me); return `<div class="state"><div class="em">${top ? '🔥' : '👀'}</div><h2>${top ? "You're in the closest five!" : 'Look at the screen'}</h2><p class="muted">${mine != null ? 'Your guess: ' + secs(mine) + ' s · ' : ''}the song carries on in a moment…</p></div>`; }
+  if (g.step === 'show') { return `<div class="state"><div class="em">👀</div><h2>Everyone's guesses are on the screen</h2><p class="muted">${mine != null ? 'Your guess: ' + secs(mine) + ' s · ' : ''}the song carries on in a moment…</p></div>`; }
   if (g.step === 'play') return `<div class="state"><div class="em bipulse">🎶</div><h2>The song carries on…</h2><p class="muted">${mine != null ? 'Your guess: ' + secs(mine) + ' s' : 'Listen for the first sung word'}</p></div>`;
   return `<div class="state"><div class="em">🎤</div><h2>The first word came in at ${secs(g.fw)} s</h2><p class="muted">${mine != null ? 'Your guess: ' + secs(mine) + ' s. ' : ''}Your result is coming up…</p></div>`;
 }

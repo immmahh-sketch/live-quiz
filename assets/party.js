@@ -139,7 +139,7 @@ function partyState(s) {
   if (G.phase === 'question' && G.q?.bi) {
     const g = G.q.bi, rev = g.step === 'reveal';
     // the first-word time goes out only at the reveal: it is the whole game
-    s.bi = { step: g.step, started: g.started, elapsedMs: g.started ? nowT - g.t0 : 0, answered: Object.keys(g.guesses), top: ['show', 'play', 'reveal'].includes(g.step) ? g.top : null, fw: rev ? Math.round(g.fw * 1000) : null, lag: g.lag, err: !!g.err };
+    s.bi = { step: g.step, started: g.started, elapsedMs: g.started ? nowT - g.t0 : 0, answered: Object.keys(g.guesses), top: null, fw: rev ? Math.round(g.fw * 1000) : null, lag: g.lag, err: !!g.err };
   }
   tmState(s); // Taskmaster on camera
   if (G.phase === 'question' && G.q?.task) {
@@ -379,15 +379,47 @@ function biPollTick() {
   if (g.step === 'play') {
     if (t >= g.fw) return biReveal(g);
     if (clock) clock.textContent = Math.max(g.stopAt, t).toFixed(2);
+    biBar(g, t);
   }
 }
 /** Everyone who guessed, closest to the first sung word first (ties: whoever tapped first). off is negative for early. */
 function biRank(g) {
   return Object.entries(g.guesses).filter(([pid]) => G.players[pid]).map(([pid, x]) => ({ pid, ms: x.ms, off: x.ms - g.fw * 1000, at: x.at })).sort((a, b) => Math.abs(a.off) - Math.abs(b.off) || a.at - b.at);
 }
+/** The timeline's range in seconds. Worked out from the guesses and the stop point only, never the first word; it grows
+ *  later only if the song itself runs past the right-hand end. */
+function biAxis(g) {
+  const ms = Object.values(g.guesses).map((x) => x.ms / 1000);
+  let lo = Math.max(0, Math.floor((Math.min(g.stopAt, ...ms) - 0.5) * 2) / 2), hi = Math.ceil((Math.max(g.stopAt + 3, ...ms) + 0.6) * 2) / 2;
+  if (hi - lo < 4) hi = lo + 4;
+  return { lo, hi };
+}
+/** Everyone's guess as a pin on one line of seconds. t = how far the song has got (a bar runs from the stop point to there);
+ *  rev marks the first sung word and crowns the closest. */
+function biTlHtml(g, t, rev) {
+  const ax = g.axis || (g.axis = biAxis(g)), span = ax.hi - ax.lo, pos = (x) => Math.max(0, Math.min(100, ((x - ax.lo) / span) * 100));
+  const step = span <= 6 ? 0.5 : span <= 14 ? 1 : 2;
+  let ticks = ''; for (let v = Math.ceil(ax.lo / step) * step; v <= ax.hi + 1e-6; v += step) ticks += `<div class="bitl-tick" style="left:${pos(v)}%"><span>${Number.isInteger(v) ? v : v.toFixed(1)}</span></div>`;
+  const pins = Object.entries(g.guesses).filter(([pid]) => G.players[pid]).map(([pid, x]) => ({ pid, s: x.ms / 1000, x: pos(x.ms / 1000) })).sort((a, b) => a.s - b.s);
+  const lastAt = []; // greedy levels so neighbours do not sit on top of each other
+  for (const p of pins) { let lv = 0; while (lastAt[lv] !== undefined && p.x - lastAt[lv] < 12) lv++; lastAt[lv] = p.x; p.lv = lv; }
+  const win = rev ? (g.rank || biRank(g))[0]?.pid : null;
+  const pinHtml = pins.map((p) => `<div class="bitl-pin ${win === p.pid ? 'win' : ''} ${rev && win !== p.pid ? 'dim' : ''}" style="left:${p.x}%;--h:${16 + p.lv * 62}px"><div class="bitl-chip">${win === p.pid ? '👑 ' : ''}${pem(p.pid)} ${esc(pname(p.pid))}<b>${p.s.toFixed(2)}</b></div><div class="bitl-stem"></div><div class="bitl-dot"></div></div>`).join('');
+  const from = pos(g.stopAt), to = pos(Math.max(g.stopAt, t || g.stopAt));
+  return `<div class="bitl" id="biTl"><div class="bitl-axis"></div><div class="bitl-bar ${rev ? 'done' : ''}" id="biBar" style="left:${from}%;width:${Math.max(0, to - from)}%"></div>${ticks}
+    <div class="bitl-flag stop" style="left:${from}%"><i></i><span>⏹ music stopped</span></div>${rev ? `<div class="bitl-flag word" style="left:${pos(g.fw)}%"><i></i><span>🎤 first word ${g.fw.toFixed(2)} s</span></div>` : ''}${pinHtml}</div>`;
+}
+/** Moves the travelling bar to how far the song has got; widens the line if the song runs past the end of it. */
+function biBar(g, t) {
+  const ax = g.axis; if (!ax) return;
+  if (t > ax.hi - (ax.hi - ax.lo) * 0.08) { ax.hi = t + (ax.hi - ax.lo) * 0.4; const tl = document.getElementById('biTl'); if (tl) tl.outerHTML = biTlHtml(g, t); return; }
+  const bar = document.getElementById('biBar'); if (!bar) return;
+  const pos = (x) => ((x - ax.lo) / (ax.hi - ax.lo)) * 100;
+  bar.style.width = Math.max(0, pos(t) - pos(g.stopAt)) + '%';
+}
 function biShow(g) {
-  g.top = biRank(g).slice(0, 5).map(({ pid, ms }) => ({ pid, ms })).sort((a, b) => a.ms - b.ms);
-  stepTo(g, 'show', 7000); sound('drumroll');
+  g.axis = biAxis(g);
+  stepTo(g, 'show', 8000); sound('drumroll');
   persist(); biRender(); broadcastState();
 }
 function biPlayOn(g) {
@@ -437,10 +469,10 @@ function biRender() {
   else if (g.step === 'ready') main = `<div class="bibig">🎧</div><div class="bisub">Get ready to listen…</div><div class="bihint">When the music stops, tap your phone when you think the first sung word would come in</div>`;
   else if (g.step === 'listen') main = `<div class="bibig bipulse">🎧</div><div class="bisub">Listen…</div><div class="bibars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>`;
   else if (g.step === 'guess') main = `<div class="bisub">The music has stopped. When does the first word come in?</div><div class="biclock" id="biClock">${((Date.now() - g.t0) / 1000).toFixed(1)}</div><div class="bihint">Tap your phone when you think the first sung word would be heard</div>${faces}`;
-  else if (g.step === 'show') main = `<div class="bisub">${g.top.length ? 'The closest five guesses' : 'Nobody guessed!'}</div><div class="bitop">${g.top.map((x) => `<div class="bichip"><span>${pem(x.pid)} ${esc(pname(x.pid))}</span><b>${secs(x.ms)}</b></div>`).join('')}</div><div class="bihint">Now let's hear the song…</div>`;
+  else if (g.step === 'show') main = `<div class="bisub">${done ? "Here's everyone's guess" : 'Nobody guessed!'}</div>${biTlHtml(g, g.stopAt)}<div class="bihint">Now let's hear the song…</div>`;
   else {
     const w = (g.rank || [])[0], off = w ? Math.abs(w.off) : 0, rev = g.step === 'reveal';
-    main = `<div class="bisub">${rev ? 'The first sung word!' : 'The song carries on…'}</div><div class="biclock ${rev ? 'done' : ''}" id="biClock">${(rev ? g.fw : g.stopAt).toFixed(2)}</div>`
+    main = `<div class="bisub">${rev ? 'The first sung word!' : 'The song carries on…'}</div><div class="biclock sm ${rev ? 'done' : ''}" id="biClock">${(rev ? g.fw : g.stopAt).toFixed(2)}</div>${biTlHtml(g, rev ? g.fw : g.stopAt, rev)}`
       + (rev ? `<div class="biwin">${w ? `🏆 ${pem(w.pid)} <b>${esc(pname(w.pid))}</b> was closest: ${secs(w.ms)}, ${off < 50 ? 'dead on!' : `${(off / 1000).toFixed(2)} s ${w.off < 0 ? 'early' : 'late'}`}` : 'Nobody guessed this one'}</div><div class="bisong">${esc(q.song)}${q.artist ? ' · ' + esc(q.artist) : ''}</div>` : '');
   }
   const btn = g.err ? `<button class="btn btn-primary" id="biSkip">Skip this one ▶</button>` : g.step === 'guess' ? `<button class="btn btn-primary" id="biNext">Show the guesses ▶</button>` : g.step === 'show' ? `<button class="btn btn-primary" id="biNext">Play the song ▶</button>` : '';
@@ -614,7 +646,7 @@ function partyReveal() {
   if (q.type === 'intro') {
     const g = G.q.bi, rank = g ? biRank(g) : [], secs = (ms) => (ms / 1000).toFixed(2) + ' s';
     body = `<div class="pcbig ${rank.length ? 'up' : 'down'}">${rank.length ? `🏆 ${esc(pname(rank[0].pid))} was closest` : 'Nobody guessed'}</div>
-      <div class="bisong">The first sung word came in at <b>${g ? secs(g.fw * 1000) : ''}</b> · ${esc(q.song)}${q.artist ? ' · ' + esc(q.artist) : ''}</div>
+      <div class="bisong">The first sung word came in at <b>${g ? secs(g.fw * 1000) : ''}</b> · ${esc(q.song)}${q.artist ? ' · ' + esc(q.artist) : ''}</div>${g && rank.length ? biTlHtml(g, g.fw, true) : ''}
       <div class="textlist mt">${rank.slice(0, 12).map((x, i) => `<span class="tl ${i === 0 ? 'ok' : ''}">${['🥇', '🥈', '🥉'][i] || (i + 1) + '.'} ${pem(x.pid)} ${esc(pname(x.pid))} ${secs(x.ms)} (${Math.abs(x.off) < 50 ? 'dead on' : (Math.abs(x.off) / 1000).toFixed(2) + (x.off < 0 ? ' early' : ' late')}) +${R.byPlayer[x.pid]?.points ?? 0}</span>`).join('')}</div>`;
     pill = `🎧 ${rank.length} guessed`;
   }
