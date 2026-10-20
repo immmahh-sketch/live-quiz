@@ -245,11 +245,12 @@ function bankCategory(name) {
   $('[data-x]', m).onclick = () => m.remove();
   $$('[data-bct]', m).forEach((b) => b.onclick = () => { m.remove(); bankBrowse(b.dataset.bct, name); });
 }
-async function bankBrowse(type, cat = null) {
+async function bankBrowse(type, cat = null, pick = null) {
   const m = modal(`<h3>🏦 ${TYPES[type].icon} ${esc(TYPES[type].label)} bank</h3><p class="muted small">Loading…</p>`);
   let list = [];
   try { list = (await api('bank_list', { type })).questions; } catch (e) { $('p', m).textContent = e.message; return; }
-  let filter = '', show = 'all', diff = 'all';
+  let filter = '', show = pick ? 'fresh' : 'all', diff = 'all';
+  const pickRound = pick ? S.quiz?.rounds.find((x) => x.id === pick) : null;
   const draw = () => {
     list = list.filter((q) => !q.gone);
     const pool = cat === null ? list : list.filter((q) => (q.category || '') === cat);
@@ -257,21 +258,48 @@ async function bankBrowse(type, cat = null) {
     const unused = pool.filter((q) => !q.used).length, rejected = pool.filter((q) => q.rejected).length;
     $('.modal', m).innerHTML = `<h3>🏦 ${TYPES[type].icon} ${esc(TYPES[type].label)} bank <span class="muted small">· ${unused} unused of ${pool.length}</span>${cat === null ? '' : ` <button class="tag" data-allcat title="Show every category">📚 ${esc(cat || 'Uncategorised')} ✕</button>`}</h3>
       <div class="row" style="margin-bottom:8px"><input type="text" id="bk_f" class="grow" placeholder="Search the bank" value="${esc(filter)}"><select id="bk_show"><option value="all" ${show === 'all' ? 'selected' : ''}>Everything</option><option value="fresh" ${show === 'fresh' ? 'selected' : ''}>Fresh (${unused})</option><option value="used" ${show === 'used' ? 'selected' : ''}>Used in a quiz</option><option value="rejected" ${show === 'rejected' ? 'selected' : ''}>👎 Rejected (${rejected})</option></select><select id="bk_diff"><option value="all" ${diff === 'all' ? 'selected' : ''}>Any difficulty</option><option value="easy" ${diff === 'easy' ? 'selected' : ''}>Easy</option><option value="medium" ${diff === 'medium' ? 'selected' : ''}>Medium</option><option value="hard" ${diff === 'hard' ? 'selected' : ''}>Hard</option><option value="unrated" ${diff === 'unrated' ? 'selected' : ''}>Unrated</option></select><button class="btn btn-ghost btn-sm" data-x>Close</button></div>
+      ${pickRound ? `<div class="notice" style="margin-bottom:8px">Picking for <b>Round ${roundIndex(pickRound.id) + 1}${pickRound.title ? ': ' + esc(pickRound.title) : ''}</b>. Press <b>➕ Add</b> on each one you want; it goes into the round and is marked used for this quiz. Click a question to read all of it first.</div>` : ''}
       ${show === 'rejected' ? '<p class="muted small" style="margin:0 0 8px">Questions a host turned down. Click one to see it, then ✏️ Edit to put it right and send it back into stock. ↺ restores one as it is; ✕ drops it for good.</p>' : ''}
-      <div class="banklist">${rows.slice(0, 400).map((q) => `<div class="bankrow ${q.used ? 'used' : ''}" data-bv="${esc(q.id)}" style="cursor:pointer" title="Click to see the whole question"><div><div class="t">${q.media === 'youtube' ? '<span title="Has a video clip: click to watch">🎬</span> ' : q.media === 'audio' ? '<span title="Has a music clip: click to listen">🎵</span> ' : ''}${esc(q.text || (q.answer ? '' : ''))}${q.pct ? ` <span class="tag">${q.pct}%</span>` : ''}${q.difficulty ? ` <span class="tag dif-${q.difficulty}">${q.difficulty}</span>` : ''}</div><div class="a">${esc(q.answer || '')}${q.category ? ` <span class="muted">· ${esc(q.category)}</span>` : ''}${q.used ? ` <span class="usedtag">${q.rejected ? '👎 rejected' : 'used'} ${esc((q.used.at || '').slice(0, 10))}</span>` : ''}</div></div><div class="row" style="gap:4px">${q.used ? `<button class="btn btn-ghost btn-sm" data-br="${esc(q.id)}" title="Back into stock as a fresh question">↺</button>` : ''}<button class="btn btn-ghost btn-sm" data-bd="${esc(q.id)}" title="Remove from the bank">✕</button></div></div>`).join('')}${rows.length > 400 ? `<p class="muted small">Showing 400 of ${rows.length}; narrow the search.</p>` : ''}</div>`;
+      <div class="banklist">${rows.slice(0, 400).map((q) => `<div class="bankrow ${q.used ? 'used' : ''}" data-bv="${esc(q.id)}" style="cursor:pointer" title="Click to see the whole question"><div><div class="t">${q.media === 'youtube' ? '<span title="Has a video clip: click to watch">🎬</span> ' : q.media === 'audio' ? '<span title="Has a music clip: click to listen">🎵</span> ' : ''}${esc(q.text || (q.answer ? '' : ''))}${q.pct ? ` <span class="tag">${q.pct}%</span>` : ''}${q.difficulty ? ` <span class="tag dif-${q.difficulty}">${q.difficulty}</span>` : ''}</div><div class="a">${esc(q.answer || '')}${q.category ? ` <span class="muted">· ${esc(q.category)}</span>` : ''}${q.used ? ` <span class="usedtag">${q.rejected ? '👎 rejected' : 'used'} ${esc((q.used.at || '').slice(0, 10))}</span>` : ''}</div></div><div class="row" style="gap:4px">${pickRound ? (q.used ? '' : `<button class="btn btn-primary btn-sm" data-bp="${esc(q.id)}" title="Add to the round">➕ Add</button>`) : `${q.used ? `<button class="btn btn-ghost btn-sm" data-br="${esc(q.id)}" title="Back into stock as a fresh question">↺</button>` : ''}<button class="btn btn-ghost btn-sm" data-bd="${esc(q.id)}" title="Remove from the bank">✕</button>`}</div></div>`).join('')}${rows.length > 400 ? `<p class="muted small">Showing 400 of ${rows.length}; narrow the search.</p>` : ''}</div>`;
     $('#bk_f', m).oninput = (e) => { filter = e.target.value.toLowerCase(); draw(); $('#bk_f', m).focus(); $('#bk_f', m).setSelectionRange(filter.length, filter.length); };
     $('[data-x]', m).onclick = () => m.remove();
     if ($('[data-allcat]', m)) $('[data-allcat]', m).onclick = () => { cat = null; draw(); };
     $('#bk_show', m).onchange = (e) => { show = e.target.value; draw(); };
     $('#bk_diff', m).onchange = (e) => { diff = e.target.value; draw(); };
     $$('[data-bd]', m).forEach((b) => b.onclick = async () => { try { await api('bank_delete', { type, id: b.dataset.bd }); list = list.filter((q) => q.id !== b.dataset.bd); draw(); } catch (e) { toast(e.message, true); } });
-    $$('[data-bv]', m).forEach((r) => r.onclick = (e) => { if (e.target.closest('button')) return; bankView(type, r.dataset.bv, list.find((q) => q.id === r.dataset.bv), draw); });
+    $$('[data-bv]', m).forEach((r) => r.onclick = (e) => { if (e.target.closest('button')) return; bankView(type, r.dataset.bv, list.find((q) => q.id === r.dataset.bv), draw, pickRound); });
+    $$('[data-bp]', m).forEach((b) => b.onclick = async () => { b.disabled = true; try { await bankPick(type, b.dataset.bp, pickRound.id); const q = list.find((x) => x.id === b.dataset.bp); if (q) q.used = { at: new Date().toISOString() }; draw(); } catch (e) { toast(e.message, true); b.disabled = false; } });
     $$('[data-br]', m).forEach((b) => b.onclick = async () => { try { await api('bank_restore', { type, id: b.dataset.br }); const q = list.find((x) => x.id === b.dataset.br); if (q) { q.used = null; q.rejected = false; } draw(); } catch (e) { toast(e.message, true); } });
   };
   draw();
 }
+/** Hand-picking: one bank question straight into a round (no AI). The server stamps it used for this quiz and hands it over as a draw would. */
+async function bankPick(type, id, roundId) {
+  if (!S.quiz.id) await save();
+  const res = await api('bank_use', { type, id, quizId: S.quiz.id });
+  const q = res.question; q.round = roundId; q.time = q.time || timeFor(q.kind || q.type, S.quiz.settings);
+  if (q.collage && !q.media?.url) { try { await buildCollageFor(q); } catch {} }
+  const last = S.quiz.questions.reduce((a, x, i) => x.round === roundId ? i : a, -1);
+  if (last >= 0) S.quiz.questions.splice(last + 1, 0, q); else S.quiz.questions.push(q);
+  touch(); renderQList(); if (S.planner) renderPlanner(roundId); save();
+  toast(`Added to Round ${roundIndex(roundId) + 1}.`);
+}
+/** "🏦 Pick from the bank": choose a question type, then browse its unused questions with ➕ Add on each. */
+async function bankPicker(roundId) {
+  const r = S.quiz.rounds.find((x) => x.id === roundId); if (!r) return;
+  const m = modal(`<h3>🏦 Pick from the bank</h3><p class="muted small">Loading…</p>`);
+  let st; try { st = (await api('bank_status')).bank || {}; } catch (e) { $('p', m).textContent = e.message; return; }
+  const types = Object.keys(TYPES).filter((t) => st[t] && st[t].unused);
+  const want = new Set(Object.keys(r.mix || {}));
+  types.sort((a, b) => (want.has(b) ? 1 : 0) - (want.has(a) ? 1 : 0));
+  $('.modal', m).innerHTML = `<h3>🏦 Pick from the bank</h3><p class="muted small">For <b>Round ${roundIndex(roundId) + 1}${r.title ? ': ' + esc(r.title) : ''}</b>. Choose a type of question, then add the ones you like. Nothing is written by the AI. The types this round asks for come first.</p>
+    <div class="bankgrid">${types.map((t) => `<button class="bankcell" data-bpt="${t}"><span>${TYPES[t].icon} ${esc(TYPES[t].label)}${want.has(t) ? ' ✓' : ''}</span><b>${st[t].unused}</b><small>unused</small></button>`).join('')}</div>
+    <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn btn-primary btn-sm" data-x>Close</button></div>`;
+  $('[data-x]', m).onclick = () => m.remove();
+  $$('[data-bpt]', m).forEach((b) => b.onclick = () => { m.remove(); bankBrowse(b.dataset.bpt, null, roundId); });
+}
 /** The whole of one bank question, read-only: every option, accepted answer, item, category, picture and tag. */
-async function bankView(type, id, summary, after) {
+async function bankView(type, id, summary, after, pickRound = null) {
   const m = modal(`<h3>${TYPES[type].icon} ${esc(TYPES[type].label)}</h3><p class="muted small">Loading…</p>`);
   let q;
   try { q = (await api('bank_get', { type, id })).question; } catch (e) { $('p', m).textContent = e.message; return; }
@@ -292,7 +320,7 @@ async function bankView(type, id, summary, after) {
   else if (q.type === 'wipeout') body = kv('Right answers', li((q.right || []).map((i) => i.text))) + kv('Wipeouts', li((q.wrong || []).map((i) => i.text)));
   else if (q.type === 'highlow') body = kv('Highbrow answer', `<b>${esc((q.answers || [])[0] || '')}</b>`) + kv('Lowbrow clue', esc(q.low || q.lowText || '')) + kv('Also accepted', esc((q.answers || []).slice(1).join(', ')));
   else if (q.type === 'nearest') body = kv('Answer', `<b>${esc(String(q.answer ?? ''))}${q.unit ? ' ' + esc(q.unit) : ''}</b>`) + kv('Points run out at', `± ${esc(LQ.fmtNum(LQ.nearestSpread(q)))}${q.spread ? '' : ' (automatic)'}`);
-  else if (q.type === 'twenty') body = kv('Answer', '<b>' + esc((q.answers || [])[0] || '') + '</b>') + kv('Also accepted', esc((q.answers || []).slice(1).join(', '))) + kv('What it is', esc(LQ.twentyQ(q.what)?.text || q.what || '')) + kv('Yes to', esc(LQ.twentyBranch(q.what).filter((x) => (q.facts || {})[x.id]).map((x) => x.text).join(' · ')));
+  else if (q.type === 'twenty') body = kv('Answer', '<b>' + esc((q.answers || [])[0] || '') + '</b>') + kv('Also accepted', esc((q.answers || []).slice(1).join(', '))) + kv('What it is', esc(LQ.twentyQ(q.what, q)?.text || q.what || '')) + kv('Yes to', esc(LQ.twentyBranch(q.what).filter((x) => (q.facts || {})[x.id]).map((x) => x.text).concat((q.custom || []).filter((c) => c.yes).map((c) => c.text)).join(' · ')));
   else if (q.type === 'draw') body = kv('Drawings', esc(String(q.turns || 3))) + kv('Words', (q.words || []).filter((w) => String(w).trim()).length ? esc(q.words.filter((w) => String(w).trim()).join(', ')) : 'The built-in list');
   else if (q.type === 'club') body = kv('Answer', `<b>${esc((q.answers || [])[0] || '')}</b>`) + kv('Also accepted', esc((q.answers || []).slice(1).join(', '))) + kv('Why', esc(q.why || '')) + kv('Billed as', q.pct ? esc(q.pct + '%') : '');
   else if (q.type === 'wipeout' || q.type === 'race') body = kv(q.type === 'race' ? 'Questions' : 'Board', li((q.items || q.bank || []).map((i) => i.text + (i.right === false || i.wipeout ? ' ✗' : i.options ? ' → ' + i.options[0] : ''))));
@@ -307,13 +335,14 @@ async function bankView(type, id, summary, after) {
   $('.modal', m).innerHTML = `<h3>${TYPES[type].icon} ${esc(TYPES[type].label)} ${q.pct ? `<span class="tag">${q.pct}%</span>` : ''} ${st}</h3>
     <div style="font-size:1.05em;margin-top:6px">${esc(q.text || q.phrase || q.place || '')}</div>${pic}${body}
     ${kv('Category', esc(q.category || ''))}${kv('Tags', (q.tags || []).map((t) => `<span class="tag">${esc(t)}</span>`).join(' '))}${kv('Time', q.time ? q.time + ' s' : '')}${kv('Difficulty', ['easy', 'medium', 'hard'].map((d) => `<button class="btn btn-sm ${q.difficulty === d ? 'btn-primary' : 'btn-ghost'}" data-rate="${d}">${d[0].toUpperCase() + d.slice(1)}</button>`).join(' ') + (q.difficulty ? '' : ' <span class="muted small">not rated yet</span>'))}
-    <div class="row" style="justify-content:flex-end;margin-top:14px;gap:6px"><button class="btn btn-primary btn-sm" data-preview title="Play it now on the big screen with you and 3 bots">▶ Preview this question</button><button class="btn btn-ghost btn-sm" data-edit>✏️ Edit</button>${q.used ? '<button class="btn btn-ghost btn-sm" data-restore>↺ Back into stock</button>' : ''}<button class="btn btn-ghost btn-sm" data-del style="color:var(--bad)">Remove from bank</button><button class="btn btn-primary btn-sm" data-x>Close</button></div>`;
+    <div class="row" style="justify-content:flex-end;margin-top:14px;gap:6px">${pickRound && !q.used ? `<button class="btn btn-primary btn-sm" data-pick>➕ Add to Round ${roundIndex(pickRound.id) + 1}</button>` : ''}<button class="btn ${pickRound && !q.used ? 'btn-ghost' : 'btn-primary'} btn-sm" data-preview title="Play it now on the big screen with you and 3 bots">▶ Preview this question</button><button class="btn btn-ghost btn-sm" data-edit>✏️ Edit</button>${q.used ? '<button class="btn btn-ghost btn-sm" data-restore>↺ Back into stock</button>' : ''}<button class="btn btn-ghost btn-sm" data-del style="color:var(--bad)">Remove from bank</button><button class="btn btn-primary btn-sm" data-x>Close</button></div>`;
   $('[data-x]', m).onclick = () => m.remove();
   const au = $('.bankaud audio', m); if (au) au.addEventListener('play', () => { if (au.currentTime < 0.5 && +au.dataset.start) au.currentTime = +au.dataset.start; }, { once: true });
   $('[data-edit]', m).onclick = () => bankEdit(m, type, q, summary, after);
   $('[data-preview]', m).onclick = () => previewBankItem(q);
+  if ($('[data-pick]', m)) $('[data-pick]', m).onclick = async () => { try { await bankPick(type, id, pickRound.id); if (summary) summary.used = { at: new Date().toISOString() }; m.remove(); after?.(); } catch (e) { toast(e.message, true); } };
   if ($('[data-restore]', m)) $('[data-restore]', m).onclick = async () => { try { await api('bank_restore', { type, id }); if (summary) { summary.used = null; summary.rejected = false; } m.remove(); after?.(); toast('Back in stock.'); } catch (e) { toast(e.message, true); } };
-  $$('[data-rate]', m).forEach((b) => b.onclick = async () => { try { await api('bank_patch', { type, patches: [{ id, difficulty: b.dataset.rate }] }); if (summary) summary.difficulty = b.dataset.rate; m.remove(); after?.(); bankView(type, id, summary, after); } catch (e) { toast(e.message, true); } });
+  $$('[data-rate]', m).forEach((b) => b.onclick = async () => { try { await api('bank_patch', { type, patches: [{ id, difficulty: b.dataset.rate }] }); if (summary) summary.difficulty = b.dataset.rate; m.remove(); after?.(); bankView(type, id, summary, after, pickRound); } catch (e) { toast(e.message, true); } });
   $('[data-del]', m).onclick = async () => { if (!(await confirmBox('Remove from the bank?', 'It will be gone for good.'))) return; try { await api('bank_delete', { type, id }); if (summary) summary.gone = true; m.remove(); after?.(); toast('Removed.'); } catch (e) { toast(e.message, true); } };
 }
 /** Edits a bank question in place, in the viewer's own window: the wording and the answers, laid out per type.
@@ -1016,6 +1045,8 @@ function roundMenu(anchor, id) {
     { label: '✎ Rename', fn: () => renameRound(id) },
     { label: '📋 Round set-up', title: 'Types, difficulty, prompt and examples, in the planner', fn: () => { S.planner = true; renderPlanner(id); } },
     { label: '⧉ Duplicate round', fn: () => duplicateRound(id) },
+    { label: '🏦 Pick from the bank…', title: 'Browse the question bank and add the ones you want. No AI.', fn: () => bankPicker(id) },
+    { label: `🏦 Fill from the bank (no AI)${miss ? ` (${miss} missing)` : ''}`, title: 'Takes what the bank has for this round\'s title, types and difficulty. May fall short; nothing is written by the AI.', disabled: !miss, fn: () => writeRound(r, true) },
     { label: miss ? `✨ Fill with AI (${miss} missing)` : '✨ Write more with AI', disabled: !S.ai, fn: () => miss ? writeRound(r) : aiModal(false, id) },
     { label: `↻ Redo the rest${redoN ? ` (${redoN})` : ''}`, title: 'Swap every question here that isn\'t 📌 kept: back into the bank, and the round refilled. One Undo puts them back.', disabled: !S.ai || !redoN, fn: () => redoRest(r) },
     '-',
@@ -1032,11 +1063,19 @@ function duplicateRound(id) {
   toast(`Round duplicated, with ${copies.length} question${copies.length === 1 ? '' : 's'}.`, false, undoAct(u));
 }
 /** Writes what a round is missing, following its mix, prompt, difficulty and source. */
-async function writeRound(r) {
+async function writeRound(r, bankOnly = false) {
   if (!r.count) return toast('Add question types to the round first (📋 Rounds).', true);
   if (!r.title && !r.brief) return toast('Give the round a title or a prompt first.', true);
-  if (!roundShortfall(r).length) return toast('This round already has everything its mix asks for.');
-  try { if ((await generateForRound(r)) === 'stopped') { renderQList(); return; } toast('Round written. Read it through before you host.'); S.planner = false; renderQList(); renderQForm(); } catch {}
+  const before = roundShortfall(r).reduce((a, x) => a + x.need, 0);
+  if (!before) return toast('This round already has everything its mix asks for.');
+  const bank = bankOnly || r.source === 'bankonly';
+  try {
+    if ((await generateForRound(r, [], bankOnly)) === 'stopped') { renderQList(); return; }
+    const left = roundShortfall(r), leftN = left.reduce((a, x) => a + x.need, 0);
+    if (bank && leftN) toast(`Added ${before - leftN} from the bank. It has no more unused ones for this round's title: ${left.map((x) => `${x.need} ${TYPES[x.type]?.label || x.type}`).join(', ')} still missing. Try 🏦 Pick from the bank, change the title, or add them by hand.`, true);
+    else toast(bank ? 'Round filled from the bank. Read it through before you host.' : 'Round written. Read it through before you host.');
+    S.planner = false; renderQList(); renderQForm();
+  } catch {}
 }
 /** ↻ Redo the rest: every question in the round that isn't 📌 kept (slides stay too) goes back into the bank unused and comes out,
  *  and the round is refilled to the same shape. One Undo puts them all back. */
@@ -1117,7 +1156,7 @@ function renderPlanner(focusId) {
   const countIn = (r) => qz.questions.filter((q) => q.round === r.id && q.type !== 'slide').length;
   const haveIn = (r) => { const h = {}; for (const q of qz.questions) if (q.round === r.id) h[q.kind || q.type] = (h[q.kind || q.type] || 0) + 1; return h; };
   const missing = (r) => { const m = roundShortfall(r); return { n: m.reduce((a, x) => a + x.need, 0), text: m.map((x) => `${x.need} ${TYPES[x.type]?.label || x.type}`).join(', ') }; };
-  const aiLabel = (r) => { const m = missing(r); return !r.count ? '✨ Write this round with AI' : m.n ? `✨ Write the ${m.n} missing (${esc(m.text)})` : 'Round complete ✓'; };
+  const aiLabel = (r) => { const m = missing(r), bk = r.source === 'bankonly'; return !r.count ? (bk ? '🏦 Fill this round from the bank' : '✨ Write this round with AI') : m.n ? `${bk ? '🏦 Fill the' : '✨ Write the'} ${m.n} missing (${esc(m.text)})` : 'Round complete ✓'; };
   const chips = (r) => { const h = haveIn(r); return `<div class="mixchips">${Object.entries(r.mix).map(([t, n]) => `<span class="mixchip ${(h[t] || 0) >= n ? 'done' : ''}" title="${h[t] || 0} in the round, ${n} wanted"><span>${TYPES[t]?.icon || ''} ${esc(TYPES[t]?.label || t)}</span><button data-pmx="${r.id}:${t}:-1" title="One fewer">−</button><b>${h[t] || 0}/${n}</b><button data-pmx="${r.id}:${t}:1" title="One more">+</button></span>`).join('')}<select data-ptype="${r.id}"><option value="">+ question type</option>${Object.keys(TYPES).filter((t) => !r.mix[t]).map((t) => `<option value="${t}">${TYPES[t].icon} ${esc(TYPES[t].label)}</option>`).join('')}</select></div>`; };
   box.innerHTML = `<div class="row" style="justify-content:space-between;margin-bottom:12px"><h3 style="margin:0">📋 Rounds</h3><div class="row"><button class="btn btn-ghost btn-sm" id="pl_close">Back to questions</button><button class="btn btn-ghost btn-sm" id="pl_tpl" title="Keep this set-up (rounds, types, prompts) to write a fresh quiz from later">💾 Save as format</button><button class="btn btn-primary btn-sm" id="pl_writeall" ${S.ai ? '' : 'disabled'}>✨ Write every round with AI</button></div></div>
     ${qz.settings.template ? '<div class="notice" style="margin-bottom:12px">📋 This is a <b>weekly format</b>: a saved set-up with no questions of its own. Change the rounds, types and prompts here; then on the quiz list press <b>New quiz from this</b> to write a fresh quiz in this shape.</div>' : ''}
@@ -1130,9 +1169,9 @@ function renderPlanner(focusId) {
       <div class="field"><label>Question types <span class="muted">— have / wanted, ${r.count} wanted in all</span></label>${chips(r)}</div>
       <div class="field"><label>Prompt for the AI <span class="muted">— what you want, as you'd tell a quizmaster</span></label><textarea data-pb="${r.id}" placeholder="e.g. A sports round where every question is about Harry Kane: clubs, records, goals, England career.">${esc(r.brief)}</textarea></div>
       <div class="row" style="gap:12px;align-items:flex-start"><div class="field" style="flex:0 1 170px"><label>Difficulty</label><select data-pdiff="${r.id}">${['mixed', 'easy', 'medium', 'hard'].map((d) => `<option value="${d}" ${(r.difficulty || 'mixed') === d ? 'selected' : ''}>${d[0].toUpperCase() + d.slice(1)}</option>`).join('')}</select></div>
-        <div class="field" style="flex:1 1 260px"><label>Where the questions come from</label><select data-psrc="${r.id}"><option value="bank" ${r.source !== 'fresh' ? 'selected' : ''}>🏦 The bank first, then the AI writes the rest</option><option value="fresh" ${r.source === 'fresh' ? 'selected' : ''}>✨ All freshly written by the AI</option></select></div></div>
+        <div class="field" style="flex:1 1 260px"><label>Where the questions come from</label><select data-psrc="${r.id}"><option value="bank" ${r.source !== 'fresh' && r.source !== 'bankonly' ? 'selected' : ''}>🏦 The bank first, then the AI writes the rest</option><option value="bankonly" ${r.source === 'bankonly' ? 'selected' : ''}>🏦 The bank only: no AI, fills what the bank has</option><option value="fresh" ${r.source === 'fresh' ? 'selected' : ''}>✨ All freshly written by the AI</option></select></div></div>
       <div class="field"><label>Example questions <span class="muted">— optional: the AI matches their style, length and difficulty</span></label><textarea data-pex="${r.id}" rows="3" placeholder="Paste 1–3 questions in the style you want">${esc(r.examples || '')}</textarea></div>
-      <div class="row"><button class="btn btn-sm" data-pai="${r.id}" ${S.ai && (!r.count || missing(r).n) ? '' : 'disabled'}>${aiLabel(r)}</button><button class="btn btn-ghost btn-sm" data-padd="${r.id}">+ Add a question by hand</button></div>
+      <div class="row"><button class="btn btn-sm" data-pai="${r.id}" ${(S.ai || r.source === 'bankonly') && (!r.count || missing(r).n) ? '' : 'disabled'}>${aiLabel(r)}</button><button class="btn btn-ghost btn-sm" data-padd="${r.id}">+ Add a question by hand</button><button class="btn btn-ghost btn-sm" data-ppick="${r.id}" title="Browse the question bank and pick the ones you want, no AI">🏦 Pick from the bank</button></div>
     </div>`).join('')}
     <button class="btn btn-block" id="pl_add">+ Add a round</button></div>`;
   const R = (id) => qz.rounds.find((x) => x.id === id);
@@ -1142,13 +1181,14 @@ function renderPlanner(focusId) {
   $$('[data-pb]').forEach((i) => i.oninput = () => { R(i.dataset.pb).brief = i.value; touch(); renderQList(); });
   $$('[data-pdbl]').forEach((i) => i.onchange = () => { const r = R(i.dataset.pdbl); r.double = i.checked; if (!r.double) delete r.double; touch(); renderQList(); });
   $$('[data-pdiff]').forEach((sel) => sel.onchange = () => { const r = R(sel.dataset.pdiff); if (sel.value === 'mixed') delete r.difficulty; else r.difficulty = sel.value; touch(); });
-  $$('[data-psrc]').forEach((sel) => sel.onchange = () => { const r = R(sel.dataset.psrc); if (sel.value === 'fresh') r.source = 'fresh'; else delete r.source; touch(); });
+  $$('[data-psrc]').forEach((sel) => sel.onchange = () => { const r = R(sel.dataset.psrc); if (sel.value === 'fresh' || sel.value === 'bankonly') r.source = sel.value; else delete r.source; touch(); renderPlanner(r.id); });
   $$('[data-pex]').forEach((i) => i.oninput = () => { const r = R(i.dataset.pex); r.examples = i.value; if (!r.examples.trim()) delete r.examples; touch(); });
   $$('[data-pmx]').forEach((b) => b.onclick = () => { const [id, t, d] = b.dataset.pmx.split(':'); const r = R(id); setMix(r, t, (r.mix[t] || 0) + +d); });
   $$('[data-ptype]').forEach((sel) => sel.onchange = () => { if (sel.value) setMix(R(sel.dataset.ptype), sel.value, 1); });
   $$('[data-pdel]').forEach((b) => b.onclick = () => deleteRound(b.dataset.pdel));
   $$('[data-pai]').forEach((b) => b.onclick = () => writeRound(R(b.dataset.pai)));
   $$('[data-padd]').forEach((b) => b.onclick = () => pickType(b.dataset.padd));
+  $$('[data-ppick]').forEach((b) => b.onclick = () => bankPicker(b.dataset.ppick));
   $('#pl_add').onclick = addRound;
   $('#pl_close').onclick = () => { S.planner = false; renderQForm(); };
   $('#pl_writeall').onclick = () => { if (S.quiz.settings.template) return toast('This is a format. Write a quiz from it on the quiz list with “New quiz from this”.', true); writeAllRounds(); };
@@ -1178,11 +1218,11 @@ function roundReq(r, type) {
   return {};
 }
 /** Everything the writer is told when it writes for a round: one path for filling a round, adding to it and swapping a question. */
-function roundAsk(r, type, count, avoid) {
+function roundAsk(r, type, count, avoid, forceBank = false) {
   const title = r.title || S.quiz.title, ex = String(r.examples || '').trim().split(/\s*\n\s*/).filter(Boolean).join(' | ');
   const brief = [String(r.brief || '').trim(), ex && `Match the style, length and difficulty of these example questions: ${ex}`].filter(Boolean).join(' ').slice(0, 1390);
   const usedPictures = S.quiz.questions.flatMap((q) => [q.media?.source, q.media?.url]).filter((s) => typeof s === 'string' && /^https?:/.test(s));
-  return { topic: (r.brief ? `${title}. ${r.brief}` : title).slice(0, 200), title, brief, usedPictures, count, difficulty: r.difficulty || 'mixed', useBank: r.source !== 'fresh', types: [type], pictures: true, web: true, avoid, premium: !!S.quiz.settings.aiPremium, quizId: S.quiz.id, ...roundReq(r, type), round: r.id, context: LQ.pickContext(S.quiz) };
+  return { topic: (r.brief ? `${title}. ${r.brief}` : title).slice(0, 200), title, brief, usedPictures, count, difficulty: r.difficulty || 'mixed', useBank: r.source !== 'fresh', ...(forceBank || r.source === 'bankonly' ? { bankOnly: true } : {}), types: [type], pictures: true, web: true, avoid, premium: !!S.quiz.settings.aiPremium, quizId: S.quiz.id, ...roundReq(r, type), round: r.id, context: LQ.pickContext(S.quiz) };
 }
 /** Writes every round that still needs questions, one after another, following each round's own mix. */
 async function writeAllRounds() {
@@ -1196,7 +1236,7 @@ async function writeAllRounds() {
 }
 /** Generates a round's missing questions, one type at a time in the quantities its mix asks for, following its title, prompt,
  *  examples, difficulty and source (roundAsk). `extraAvoid`: texts it must not bring back, e.g. questions just swapped out. */
-async function generateForRound(r, extraAvoid = []) {
+async function generateForRound(r, extraAvoid = [], forceBank = false) {
   const plan = roundShortfall(r);
   const total = plan.reduce((a, x) => a + x.need, 0);
   if (!total) return;
@@ -1214,8 +1254,8 @@ async function generateForRound(r, extraAvoid = []) {
       let got = 0;
       while (got < need) {
         if (stopped) break outer;
-        $('#ga_step', m).textContent = `${TYPES[type].label}: writing ${got + 1}–${Math.min(need, got + BATCH)} of ${need} (${written} of ${total} done)…`;
-        const res = await api('generate', roundAsk(r, type, Math.min(BATCH, need - got), avoid), { timeout: 170000 });
+        $('#ga_step', m).textContent = `${TYPES[type].label}: ${forceBank || r.source === 'bankonly' ? 'taking' : 'writing'} ${got + 1}–${Math.min(need, got + BATCH)} of ${need} (${written} of ${total} done)…`;
+        const res = await api('generate', roundAsk(r, type, Math.min(BATCH, need - got), avoid, forceBank), { timeout: 170000 });
         LQ.addUsage(S.quiz.settings, res.usage); LQ.genLog(S.quiz.settings, 'Write round', res, { round: r.title });
         if (stopped) break outer; // closed while this batch was being written: leave it out
         if (!res.questions.length) break;
@@ -1567,15 +1607,30 @@ function renderTypeBox() {
     const branch = q.what ? LQ.twentyBranch(q.what) : [];
     box.innerHTML = `<div class="notice" style="margin-bottom:12px">20 Questions: everyone hunts the same answer. Players tap yes/no questions from the shared list on their phones (the same list every time) and guess whenever they like; a wrong guess uses a question. Say what the answer is, then tick every question in its list that should get a <b>Yes</b>.</div>
       <div class="field"><label>The answer <span class="muted">— one per line: the answer first, then other ways people might type it (e.g. a surname on its own)</span></label><textarea id="tq_ans" rows="3" placeholder="Gary Barlow&#10;Barlow">${esc((q.answers || []).join('\n'))}</textarea></div>
-      <div class="field"><label>What is it?</label><select id="tq_what"><option value="">Choose…</option>${LQ.TWENTY_KINDS.map((k) => `<option value="${k.id}" ${q.what === k.id ? 'selected' : ''}>${esc(k.text.replace(/^Is it (a |an )?/, '').replace(/\?$/, ''))}</option>`).join('')}</select></div>
+      <div class="field"><label>What is it?</label><select id="tq_what"><option value="">Choose…</option>${LQ.TWENTY_KINDS.map((k) => `<option value="${k.id}" ${q.what === k.id ? 'selected' : ''}>${esc(k.text.replace(/^Is it (a |an )?/, '').replace(/\?$/, ''))}</option>`).join('')}<option value="${LQ.CUSTOM_KIND}" ${q.what === LQ.CUSTOM_KIND ? 'selected' : ''}>✏️ Something else: I'll write the questions myself</option></select></div>
+      ${q.what === LQ.CUSTOM_KIND ? `<div class="field"><label>Your opening question <span class="muted">— players are asked this with the other kinds (yours comes first), and a Yes opens your own questions below</span></label><input type="text" id="tq_ckind" maxlength="80" placeholder="Is it a football club?" value="${esc(q.customKind?.text || '')}"></div>` : ''}
       ${branch.length ? `<div class="field"><label>Tick each question that gets a Yes <span class="muted">— indented ones only appear once an earlier one is a Yes; anything left unticked is a No</span></label><div class="tqfacts">${branch.map((x, i) => `${x.sec !== branch[i - 1]?.sec ? `<div class="tqsec">${esc(x.sec)}</div>` : ''}<label class="check" style="${x.needs.length || x.any.length ? 'margin-left:22px' : ''}"><input type="checkbox" data-fact="${x.id}" ${q.facts[x.id] ? 'checked' : ''}> ${esc(x.text)}</label>`).join('')}</div></div>` : ''}
+      <div class="field"><label>Your own questions <span class="muted">— ${q.what === LQ.CUSTOM_KIND ? 'the only ones players get for your kind of thing' : 'added to the list above once players know what kind of thing it is'}. Say whether each one is a Yes or a No for this answer</span></label>
+        <div id="tq_own">${(q.custom || []).map((c, i) => `<div class="row" style="gap:8px;margin-bottom:6px;flex-wrap:nowrap"><input type="text" class="grow" style="min-width:0" data-cq="${i}" maxlength="90" placeholder="Has he played for Newcastle?" value="${esc(c.text || '')}"><select data-cy="${i}" style="flex:0 0 84px"><option value="1" ${c.yes ? 'selected' : ''}>Yes</option><option value="0" ${c.yes ? '' : 'selected'}>No</option></select><button class="btn btn-ghost btn-sm" data-cx="${i}" title="Take this question out">✕</button></div>`).join('')}</div>
+        <div class="row"><button class="btn btn-sm" id="tq_addown">+ Add a question</button><button class="btn btn-sm" id="tq_pasteown">📋 Paste a list</button></div>
+        ${tqClash()}</div>
       <div class="row" style="gap:12px;flex-wrap:wrap"><div class="field" style="flex:0 1 150px"><label>Questions each</label><input type="number" id="tq_max" min="5" max="40" value="${+q.maxQ || 20}"></div>
       <div class="field" style="flex:0 1 120px"><label>1st</label><input type="number" id="tq_p1" step="50" value="${q.prize ?? 1000}"></div>
       <div class="field" style="flex:0 1 120px"><label>2nd</label><input type="number" id="tq_p2" step="50" value="${q.prize2 ?? 500}"></div>
       <div class="field" style="flex:0 1 120px"><label>3rd</label><input type="number" id="tq_p3" step="50" value="${q.prize3 ?? 100}"></div>
       <div class="field" style="flex:0 1 160px"><label>Still stuck loses</label><input type="number" id="tq_pen" min="0" step="50" value="${q.penalty ?? 200}"></div></div>`;
     $('#tq_ans').oninput = (e) => { q.answers = e.target.value.split('\n').map((a) => a.trim()).filter(Boolean).slice(0, 12); if (!q.answers.length) q.answers = ['']; touch(); showProblems(); };
-    $('#tq_what').onchange = (e) => { q.what = e.target.value; const keep = new Set(LQ.twentyBranch(q.what).map((x) => x.id)); q.facts = Object.fromEntries(Object.entries(q.facts || {}).filter(([k]) => keep.has(k))); touch(); renderTypeBox(); showProblems(); };
+    if ($('#tq_ckind')) $('#tq_ckind').oninput = (e) => { q.customKind = { text: e.target.value }; touch(); showProblems(); };
+    $$('[data-cq]').forEach((i) => i.oninput = () => { q.custom[+i.dataset.cq].text = i.value; touch(); showProblems(); });
+    $$('[data-cy]').forEach((i) => i.onchange = () => { q.custom[+i.dataset.cy].yes = i.value === '1'; touch(); showProblems(); });
+    $$('[data-cx]').forEach((b) => b.onclick = () => { q.custom.splice(+b.dataset.cx, 1); touch(); renderTypeBox(); showProblems(); });
+    $('#tq_addown').onclick = () => { tqAddOwn(q, [{ text: '', yes: false }]); touch(); renderTypeBox(); showProblems(); const rows = $$('[data-cq]'); if (rows.length) rows[rows.length - 1].focus(); };
+    $('#tq_pasteown').onclick = () => {
+      const m = modal(`<h3>Paste your questions</h3><p class="muted small">One question per line. End a line with “yes” or “no” to say what the answer is (a line with neither counts as No), for example:<br><i>Has he played for Newcastle? yes</i></p><div class="field"><textarea id="tq_paste" rows="10" autofocus></textarea></div><div class="row" style="justify-content:flex-end"><button class="btn btn-ghost" data-x>Cancel</button><button class="btn btn-primary" data-ok>Add them</button></div>`);
+      $('[data-x]', m).onclick = () => m.remove();
+      $('[data-ok]', m).onclick = () => { const list = tqParseOwn($('#tq_paste', m).value); if (!list.length) return toast('Nothing to add.', true); const n = tqAddOwn(q, list); m.remove(); touch(); renderTypeBox(); showProblems(); toast(n < list.length ? `${n} added (${list.length - n} left out: repeats or too many).` : `${n} added.`); };
+    };
+    $('#tq_what').onchange = (e) => { q.what = e.target.value; if (q.what === LQ.CUSTOM_KIND && !q.customKind) q.customKind = { text: '' }; const keep = new Set(LQ.twentyBranch(q.what).map((x) => x.id)); q.facts = Object.fromEntries(Object.entries(q.facts || {}).filter(([k]) => keep.has(k))); touch(); renderTypeBox(); showProblems(); };
     $$('[data-fact]').forEach((c) => c.onchange = () => { q.facts[c.dataset.fact] = c.checked; touch(); });
     const num = (id, key, lo, hi) => { $(id).oninput = (e) => { q[key] = LQ.clamp(Math.round(+e.target.value || 0), lo, hi); touch(); }; };
     num('#tq_max', 'maxQ', 5, 40); num('#tq_p1', 'prize', 0, 10000); num('#tq_p2', 'prize2', 0, 10000); num('#tq_p3', 'prize3', 0, 10000); num('#tq_pen', 'penalty', 0, 5000);
@@ -1619,7 +1674,7 @@ function renderTypeBox() {
       <div class="field"><label>Question bank <span class="muted">— ${good} ready of ${q.bank.length}. Put the right answer first; players see the answers shuffled. Have at least ${q.target + (q.maxWrong ?? 10)} (right answers to win + wrong answers allowed) so nobody runs out.</span></label>
         <div class="racehead"><span></span><span>Question</span><span>★ Right answer</span><span>Wrong</span><span>Wrong</span><span>Wrong</span><span></span></div>
         ${q.bank.map((b, i) => `<div class="racerow"><div class="n">${i + 1}</div><input type="text" data-bq="${i}" value="${esc(b.text)}" placeholder="Question">${b.options.map((o, oi) => `<input type="text" data-bo="${i}:${oi}" value="${esc(o)}" placeholder="${oi === 0 ? 'Right' : 'Wrong'}" ${oi === 0 ? 'class="right"' : ''}>`).join('')}<button class="btn btn-ghost btn-sm" data-rm-b="${i}">✕</button></div>`).join('')}
-        <button class="btn btn-ghost btn-sm" id="addBank" ${q.bank.length >= 60 ? 'disabled' : ''}>+ Add question</button></div>`;
+        <button class="btn btn-ghost btn-sm" id="addBank" ${q.bank.length >= 60 ? 'disabled' : ''}>+ Add question</button> <button class="btn btn-ghost btn-sm" id="pasteBank" title="Paste a whole list at once, from a spreadsheet or a text file">📋 Paste a list</button></div>`;
     $('#r_target').onchange = (e) => { q.target = LQ.clamp(+e.target.value || 10, 3, 50); touch(); renderTypeBox(); showProblems(); };
     $('#r_lives').onchange = (e) => { q.maxWrong = LQ.clamp(Math.round(+e.target.value), 0, 50) || 0; touch(); renderTypeBox(); showProblems(); };
     $('#r_prize').onchange = (e) => { q.prize = LQ.clamp(+e.target.value || 0, 0, 50000); touch(); renderTypeBox(); };
@@ -1632,6 +1687,7 @@ function renderTypeBox() {
     $$('[data-bo]').forEach((inp) => inp.oninput = () => { const [i, oi] = inp.dataset.bo.split(':').map(Number); q.bank[i].options[oi] = inp.value; touch(); showProblems(); });
     $$('[data-rm-b]').forEach((b) => b.onclick = () => { q.bank.splice(+b.dataset.rmB, 1); touch(); renderTypeBox(); showProblems(); });
     $('#addBank').onclick = () => { q.bank.push(LQ.newBankItem()); touch(); renderTypeBox(); $$('[data-bq]').pop().focus(); };
+    $('#pasteBank').onclick = () => bankPasteModal(q);
   }
   if (q.type === 'potato' || q.type === 'koth' || q.type === 'blockbusters' || q.type === 'chase') {
     const bb = q.type === 'blockbusters', good = LQ.goodRows(q).length;
@@ -1652,7 +1708,7 @@ function renderTypeBox() {
       <div class="field"><label>Question bank <span class="muted">— ${good} ready of ${q.bank.length}. ${bb ? 'A short question and its answer; the hexagon shows the answer\'s first letter.' : 'Put the right answer first; players see the answers shuffled.'}</span></label>
         <div class="racehead ${bb ? 'two' : ''}"><span></span><span>Question</span><span>${bb ? 'Answer' : '★ Right answer'}</span>${bb ? '' : '<span>Wrong</span><span>Wrong</span><span>Wrong</span>'}<span></span></div>
         ${q.bank.map((b, i) => `<div class="racerow ${bb ? 'two' : ''}"><div class="n">${i + 1}</div><input type="text" data-bq="${i}" value="${esc(b.text)}" placeholder="Question">${b.options.slice(0, bb ? 1 : 4).map((o, oi) => `<input type="text" data-bo="${i}:${oi}" value="${esc(o)}" placeholder="${oi === 0 ? (bb ? 'Answer' : 'Right') : 'Wrong'}" ${oi === 0 ? 'class="right"' : ''}>`).join('')}<button class="btn btn-ghost btn-sm" data-rm-b="${i}">✕</button></div>`).join('')}
-        <button class="btn btn-ghost btn-sm" id="addBank" ${q.bank.length >= 80 ? 'disabled' : ''}>+ Add question</button></div>`;
+        <button class="btn btn-ghost btn-sm" id="addBank" ${q.bank.length >= 80 ? 'disabled' : ''}>+ Add question</button> <button class="btn btn-ghost btn-sm" id="pasteBank" title="Paste a whole list at once, from a spreadsheet or a text file">📋 Paste a list</button></div>`;
     const setNum = (id, key, min, max, redraw = true) => { if ($('#' + id)) $('#' + id).onchange = (e) => { q[key] = LQ.clamp(Math.round(+e.target.value) || 0, min, max); if (key === 'fuseMin' && q.fuseMax < q.fuseMin) q.fuseMax = q.fuseMin; if (key === 'fuseMax' && q.fuseMax < q.fuseMin) q.fuseMin = q.fuseMax; if (key === 'fuseMax') q.time = q.fuseMax; touch(); if (redraw) renderTypeBox(); showProblems(); }; };
     setNum('g_fmin', 'fuseMin', 10, 600); setNum('g_fmax', 'fuseMax', 10, 600); setNum('g_per', 'perCorrect', 0, 5000); setNum('g_wrong', 'perWrong', 0, 5000); setNum('g_pen', 'penalty', 0, 50000);
     setNum('g_target', 'target', 1, q.type === 'chase' ? 15 : 10); setNum('g_head', 'headStart', 0, 10); setNum('g_tprize', 'teamPrize', 0, 50000); setNum('g_cprize', 'chaserPrize', 0, 50000); setNum('g_prize', 'prize', 0, 50000); setNum('g_ans', 'answerSecs', 1, 15); setNum('g_hex', 'hexPoints', 0, 5000); setNum('g_pp', 'perPoint', 0, 5000); setNum('g_rounds', 'maxRounds', 1, 50);
@@ -1664,6 +1720,7 @@ function renderTypeBox() {
     $$('[data-bo]').forEach((inp) => inp.oninput = () => { const [i, oi] = inp.dataset.bo.split(':').map(Number); q.bank[i].options[oi] = inp.value; touch(); showProblems(); });
     $$('[data-rm-b]').forEach((b) => b.onclick = () => { q.bank.splice(+b.dataset.rmB, 1); touch(); renderTypeBox(); showProblems(); });
     $('#addBank').onclick = () => { q.bank.push(LQ.newBankItem()); touch(); renderTypeBox(); $$('[data-bq]').pop().focus(); };
+    $('#pasteBank').onclick = () => bankPasteModal(q);
   }
   if (q.type === 'pin') {
     q.mode = q.mode || 'point';
@@ -1882,6 +1939,35 @@ function collageModal(q) {
   draw();
 }
 
+/** 20 Questions: add the host's own questions ([{text, yes}]) to an item; returns how many went in (repeats are left out, at most 40). */
+function tqAddOwn(q, list) {
+  q.custom = q.custom || [];
+  let next = q.custom.reduce((m, c) => Math.max(m, +String(c.id).replace(/\D/g, '') || 0), 0) + 1, n = 0;
+  const have = new Set(q.custom.map((c) => String(c.text || '').trim().toLowerCase()));
+  for (const x of list) {
+    const text = String(x.text || '').trim(), key = text.toLowerCase();
+    if (q.custom.length >= 40) break;
+    if (text && have.has(key)) continue;
+    if (text) have.add(key);
+    q.custom.push({ id: 'c' + next++, text: text.slice(0, 90), yes: !!x.yes }); n++;
+  }
+  return n;
+}
+/** One question per line, optionally ending "yes"/"no" (also y/n, with or without a dash, colon, bar or comma before it). */
+function tqParseOwn(text) {
+  return String(text || '').split(/\r?\n/).map((l) => l.trim()).filter(Boolean).map((l) => {
+    const m = l.match(/^(.*?)\s*[-–—:|,]?\s*\b(yes|no|y|n)\s*$/i);
+    if (m && m[1].trim().length > 3) return { text: m[1].trim().replace(/[-–—:|,]\s*$/, '').trim(), yes: /^y/i.test(m[2]) };
+    return { text: l, yes: false };
+  });
+}
+/** What a 20 Questions gets Yes to, as one string: two items with the same string can't be told apart by players. */
+function tqSig(x) { return [x.what, ...Object.entries(x.facts || {}).filter(([, v]) => v).map(([k]) => k).sort(), '|', ...(x.custom || []).filter((c) => c.yes).map((c) => String(c.text).trim().toLowerCase()).sort()].join(','); }
+function tqClash() {
+  const q = cur(); if (!q || !q.what) return '';
+  const sig = tqSig(q), twin = (S.quiz.questions || []).find((x) => x !== q && x.type === 'twenty' && x.what === q.what && tqSig(x) === sig);
+  return twin ? `<div class="notice" style="margin-top:8px">Another 20 Questions in this quiz (${esc((twin.answers || [])[0] || 'no answer yet')}) gets exactly the same Yes answers, so players can't tell the two apart. Tick or add something that sets them apart.</div>` : '';
+}
 function renderMediaBox() {
   const q = cur(); const box = $('#mediaBox'); const m = q.media || (q.media = { kind: 'none' });
   const pinOnly = q.type === 'pin' || q.type === 'smash';
@@ -2019,6 +2105,51 @@ async function avoidList(extra = []) {
   return [...new Set([...extra, ...here, ...past])];
 }
 
+// ------------------------------------------------------------------ paste a list into a quick-fire bank
+/** One row per line: question, right answer, then up to three wrong answers, split by a tab (a spreadsheet paste), " | " or ";".
+ *  Returns { rows: [{text, options[4]}], notes: [] }. Blockbusters needs only the answer. */
+function parseBankPaste(text, type) {
+  const rows = [], notes = [];
+  String(text || '').split(/\r?\n/).forEach((line, i) => {
+    const l = line.trim(); if (!l) return;
+    const parts = (l.includes('\t') ? l.split('\t') : l.includes('|') ? l.split('|') : l.split(';')).map((x) => x.trim().replace(/^["“]+|["”]+$/g, '')).filter((x, k) => x || k < 2);
+    const [t, ...opts] = parts, o = opts.filter(Boolean);
+    if (!t || !o.length) { notes.push(`Line ${i + 1} has no answer: “${l.slice(0, 40)}”`); return; }
+    if (type !== 'blockbusters' && o.length < 2) { notes.push(`Line ${i + 1} needs at least one wrong answer after the right one: “${t.slice(0, 40)}”`); return; }
+    if (o.length > 4) notes.push(`Line ${i + 1} has more than 3 wrong answers; only the first 3 are kept.`);
+    rows.push({ text: t.slice(0, 200), options: [...o.slice(0, 4), '', '', '', ''].slice(0, 4).map((x) => x.slice(0, 80)) });
+  });
+  return { rows, notes };
+}
+function bankPasteModal(q) {
+  const cap = q.type === 'race' ? 60 : 80, bb = q.type === 'blockbusters';
+  const m = modal(`<h3>📋 Paste a list of questions</h3>
+    <p class="muted small">One question per line. ${bb ? 'Put the question, then the answer (a single word or short name), split by a tab or “ | ”.' : 'Put the question, then the <b>right answer first</b>, then up to three wrong answers, split by a tab (copy straight from a spreadsheet) or “ | ”.'}</p>
+    <p class="muted small"><i>${bb ? 'Which planet is known as the Red Planet? | Mars' : 'Which planet is known as the Red Planet? | Mars | Venus | Jupiter | Saturn'}</i></p>
+    <div class="field"><textarea id="bp_text" rows="12" autofocus></textarea></div><div id="bp_note" class="muted small"></div>
+    <div class="row mt" style="justify-content:flex-end"><button class="btn btn-ghost" data-x>Cancel</button><button class="btn btn-primary" data-ok disabled>Add them</button></div>`);
+  const upd = () => {
+    const r = parseBankPaste($('#bp_text', m).value, q.type), blanks = q.bank.filter((b) => !b.text.trim() && !b.options.some((o) => o.trim())).length;
+    const room = cap - q.bank.length + blanks;
+    $('#bp_note', m).innerHTML = `${r.rows.length} question${r.rows.length === 1 ? '' : 's'} ready${r.rows.length > room ? ` (room for ${Math.max(0, room)}; the rest are left out)` : ''}.${r.notes.length ? '<br>' + r.notes.slice(0, 6).map(esc).join('<br>') + (r.notes.length > 6 ? `<br>…and ${r.notes.length - 6} more.` : '') : ''}`;
+    $('[data-ok]', m).disabled = !r.rows.length || room <= 0;
+  };
+  $('#bp_text', m).oninput = upd;
+  $('[data-x]', m).onclick = () => m.remove();
+  $('[data-ok]', m).onclick = () => {
+    const { rows } = parseBankPaste($('#bp_text', m).value, q.type);
+    const have = new Set(q.bank.map((b) => b.text.trim().toLowerCase()).filter(Boolean));
+    q.bank = q.bank.filter((b) => b.text.trim() || b.options.some((o) => o.trim())); // the empty placeholder rows make way
+    let n = 0, dup = 0;
+    for (const r of rows) {
+      if (q.bank.length >= cap) break;
+      if (have.has(r.text.toLowerCase())) { dup++; continue; }
+      have.add(r.text.toLowerCase()); q.bank.push({ id: uid('b'), text: r.text, options: r.options }); n++;
+    }
+    m.remove(); touch(); renderTypeBox(); showProblems();
+    toast(`${n} added${dup ? `, ${dup} left out as repeats` : ''}.`);
+  };
+}
 // ------------------------------------------------------------------ AI: fill a race bank
 function bankModal(q) {
   const want = q.type === 'race' ? Math.max(20, (q.target || 10) + (q.maxWrong ?? 10)) : q.type === 'potato' ? 20 : 30, bb = q.type === 'blockbusters';
@@ -2079,7 +2210,7 @@ function summaryOf(q) {
   if (q.type === 'highlow') lines.push(`Highbrow Lowbrow: both clues must have the same answer. Highbrow clue: ${q.text}. Lowbrow clue: ${q.lowText}. Accepted answers: ${q.answers.filter((a) => a.trim()).join(' | ')}. Check each clue really leads to that answer and nothing else.`);
   if (q.type === 'tune') lines.push(`Name That Tune: a clip of "${q.track}" by ${q.artist}${q.year ? ` (${q.year})` : ''} plays; players must ${LQ.TUNE_ASKS[q.ask]?.label.toLowerCase() || 'name the song'}. Accepted answers: ${q.answers.filter((a) => String(a).trim()).join(' | ')}${q.film ? `. Film: ${q.film}` : ''}. Check the answer is right for that track (artist credit, release year, which film it is from).`);
   if (q.type === 'nearest') lines.push(`Nearest Wins (players guess a number; closest wins). The answer is ${q.answer}${q.unit ? ' ' + q.unit : ''}. Check that number is right and current, and that the question has one clear numeric answer.`);
-  if (q.type === 'twenty') lines.push(`20 Questions: players ask yes/no questions to find the answer, ${(q.answers || [])[0] || '?'} (${LQ.twentyQ(q.what)?.text || 'kind not set'}). They'll get Yes to: ${LQ.twentyBranch(q.what).filter((x) => (q.facts || {})[x.id]).map((x) => x.text).join(' ') || 'nothing'} and No to every other question in that list. Check each Yes and No is true, and that the answer is well known.`);
+  if (q.type === 'twenty') lines.push(`20 Questions: players ask yes/no questions to find the answer, ${(q.answers || [])[0] || '?'} (${LQ.twentyQ(q.what, q)?.text || 'kind not set'}). They'll get Yes to: ${LQ.twentyBranch(q.what).filter((x) => (q.facts || {})[x.id]).map((x) => x.text).concat((q.custom || []).filter((c) => c.yes).map((c) => c.text)).join(' ') || 'nothing'} and No to every other question in that list. Check each Yes and No is true, and that the answer is well known.`);
   if (q.type === 'draw') lines.push(`Draw It: players draw words for others to guess. Words: ${(q.words || []).filter((w) => String(w).trim()).join(', ') || '(the built-in list)'}. Check each word can be drawn without writing letters.`);
   if (q.type === 'club') lines.push(`The 1% Club (logic/lateral thinking, no knowledge needed), billed as a ${q.pct}% question. Accepted answers: ${q.answers.filter((a) => a.trim()).join(' | ')}. Check the puzzle has exactly that answer, is solvable by reasoning alone within 30 seconds, and that the difficulty roughly matches the percentage.`);
   if (q.type === 'dingbat') lines.push(`Dingbats rebus. Words on the board: ${(q.elements || []).filter((e) => (e.t || '').trim()).map((e) => `"${e.t}" at x${e.x} y${e.y} size ${e.s}${e.rot ? ` rotated ${e.rot}°` : ''}${e.flip === 'h' ? ' mirrored' : e.flip === 'v' ? ' upside down' : ''}${e.style ? ` ${e.style}` : ''}`).join('; ')}. Answer: ${q.answers[0]}. Check the layout genuinely suggests that phrase and no other.`);
@@ -2155,18 +2286,19 @@ function addMoreModal(roundId) {
     <div class="row"><div class="field" style="flex:0 1 110px"><label>How many</label><input type="number" id="am_n" value="4" min="1" max="40"></div>
       <div class="field grow"><label>Question type</label><select id="am_t">${Object.entries(TYPES).map(([k, t]) => `<option value="${k}" ${k === def ? 'selected' : ''}>${t.icon} ${esc(t.label)}</option>`).join('')}</select></div></div>
     <div class="row"><div class="field" style="flex:0 1 170px"><label>Difficulty</label><select id="am_diff">${['mixed', 'easy', 'medium', 'hard'].map((d) => `<option value="${d}" ${(r.difficulty || 'mixed') === d ? 'selected' : ''}>${d[0].toUpperCase() + d.slice(1)}</option>`).join('')}</select></div>
-      <div class="field grow"><label>Where they come from</label><select id="am_src"><option value="bank" ${r.source !== 'fresh' ? 'selected' : ''}>🏦 The bank first, then the AI</option><option value="fresh" ${r.source === 'fresh' ? 'selected' : ''}>✨ All freshly written by the AI</option></select></div></div>
+      <div class="field grow"><label>Where they come from</label><select id="am_src"><option value="bank" ${r.source !== 'fresh' && r.source !== 'bankonly' ? 'selected' : ''}>🏦 The bank first, then the AI</option><option value="bankonly" ${r.source === 'bankonly' ? 'selected' : ''}>🏦 The bank only (no AI)</option><option value="fresh" ${r.source === 'fresh' ? 'selected' : ''}>✨ All freshly written by the AI</option></select></div></div>
     ${missN ? `<p class="muted small">This round is also still missing ${missN} (${esc(miss.map((x) => `${x.need} ${TYPES[x.type]?.label || x.type}`).join(', '))}); those are written too.</p>` : ''}
     <p class="muted small">${r.examples ? '⭐ Its example questions are followed too. ' : ''}The round's full set-up, examples included, is under 📋 Rounds.</p>
-    <div class="row mt" style="justify-content:flex-end"><button class="btn btn-ghost" data-x>Cancel</button><button class="btn btn-primary" data-ok ${S.ai ? '' : 'disabled'}>Add 4 more to this round</button></div>`);
+    <div class="row mt" style="justify-content:flex-end"><button class="btn btn-ghost" data-x>Cancel</button><button class="btn btn-primary" data-ok ${S.ai || r.source === 'bankonly' ? '' : 'disabled'}>Add 4 more to this round</button></div>`);
   $('[data-x]', m).onclick = () => m.remove();
+  $('#am_src', m).onchange = (e) => { $('[data-ok]', m).disabled = !(S.ai || e.target.value === 'bankonly'); };
   $('#am_n', m).oninput = (e) => { const n = LQ.clamp(Math.round(+e.target.value) || 1, 1, 40); $('[data-ok]', m).textContent = `Add ${n} more to this round`; };
   $('[data-ok]', m).onclick = () => {
     const title = $('#am_title', m).value.trim(), brief = $('#am_brief', m).value.trim(), t = $('#am_t', m).value, n = LQ.clamp(Math.round(+$('#am_n', m).value) || 4, 1, 40);
     if (!title && !brief) return toast('Give the round a name or a prompt.', true);
     r.title = title || r.title; r.brief = brief;
     if ($('#am_diff', m).value === 'mixed') delete r.difficulty; else r.difficulty = $('#am_diff', m).value;
-    if ($('#am_src', m).value === 'fresh') r.source = 'fresh'; else delete r.source;
+    if (['fresh', 'bankonly'].includes($('#am_src', m).value)) r.source = $('#am_src', m).value; else delete r.source;
     const have = S.quiz.questions.filter((q) => q.round === r.id && (q.kind || q.type) === t).length;
     S.lastType = t; m.remove();
     setMix(r, t, Math.max(r.mix[t] || 0, have) + n);

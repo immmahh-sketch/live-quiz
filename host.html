@@ -973,7 +973,7 @@ function buildView(q) {
   if (q.type === 'rhyme') { v.text2 = q.text2; }
   if (q.type === 'nearest') v.unit = q.unit || '';
   if (q.type === 'wheel') { v.text = `${q.category}: solve the puzzle`; v.layout = LQ.wheelLayout(q.phrase).map((row) => row.map((t) => t.t === 'L' ? { t: 'L' } : t)); v.category = q.category; }
-  if (q.type === 'twenty') { v.maxQ = +q.maxQ || 20; v.prize = q.prize ?? 1000; v.prize2 = q.prize2 ?? 500; v.prize3 = q.prize3 ?? 100; v.penalty = q.penalty ?? 200; }
+  if (q.type === 'twenty') { v.maxQ = +q.maxQ || 20; v.prize = q.prize ?? 1000; v.prize2 = q.prize2 ?? 500; v.prize3 = q.prize3 ?? 100; v.penalty = q.penalty ?? 200; if (q.customKind?.text) v.customKind = { text: q.customKind.text }; v.custom = LQ.twentyCustom(q).map((c) => ({ id: c.id, text: c.text })); }
   if (q.type === 'race') {
     const good = q.bank.filter((b) => b.text.trim() && b.options[0].trim() && b.options.filter((o) => o.trim()).length >= 2);
     v.bank = good.map((b) => ({ k: tok('Q:' + b.id), text: b.text, options: shuffle(b.options.map((o, oi) => ({ o, oi })).filter((x) => x.o.trim())).map((x, i) => ({ k: tok((x.oi === 0 ? 'R:' : 'W:') + b.id), text: x.o, c: i })) }));
@@ -1036,7 +1036,7 @@ async function twentyPick(pid, a) {
   if (r.done || r.out || r.busy || +a.n !== r.n) return; // finished, mid-check, or a repeat of a message already handled
   let last;
   if (a.ask) {
-    if (!LQ.twentyOpen(r.asked).some((x) => x.id === a.ask)) return;
+    if (!LQ.twentyOpen(r.asked, q).some((x) => x.id === a.ask)) return;
     const yes = LQ.twentyYes(q, a.ask);
     r.asked.push({ id: a.ask, yes }); r.n++; last = { id: a.ask, yes };
   } else {
@@ -1072,7 +1072,7 @@ function botTwentyStep(b) {
     const tq = G.q?.tq; if (G.phase !== 'question' || !tq || tq.over) return;
     const r = tq.players[b.pid] || (tq.players[b.pid] = twentyFresh()); if (r.done || r.out) return;
     if (r.busy) return botTwentyStep(b);
-    const q = question(), open = LQ.twentyOpen(r.asked), yeses = r.asked.filter((x) => x.yes).length;
+    const q = question(), open = LQ.twentyOpen(r.asked, q), yeses = r.asked.filter((x) => x.yes).length;
     const guess = !open.length || (yeses >= 3 && chance(0.15 + b.skill * 0.25));
     twentyPick(b.pid, guess ? { n: r.n, guess: chance(b.skill) ? q.answers[0] : ['Bob', 'Paris', 'A spoon', 'Elvis', 'Cheese'][Math.floor(Math.random() * 5)] } : { n: r.n, ask: open[Math.floor(Math.random() * open.length)].id });
     botTwentyStep(b);

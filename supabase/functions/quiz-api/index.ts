@@ -1154,7 +1154,8 @@ Deno.serve(async (req) => {
     }
 
     if (action === "generate") {
-      if (!ANTHROPIC_KEY) return json({ error: "AI is not set up on the server yet — add ANTHROPIC_API_KEY as a Supabase secret." }, 503);
+      // bankOnly asks for pre-written questions and nothing else, so it needs no AI key (and spends no credit).
+      if (!ANTHROPIC_KEY && body.bankOnly !== true) return json({ error: "AI is not set up on the server yet — add ANTHROPIC_API_KEY as a Supabase secret." }, 503);
       const KNOWN = ["choice", "text", "order", "match", "pin", "tf", "sort", "wipeout", "race", "smash", "wheel", "highlow", "rhyme", "club", "dingbat", "tune", "catchphrase", "conundrum", "reveal", "survey", "unique", "nearest", "draw", "twenty", "cards", ...Object.keys(RACE_GAMES)];
       const asked = (Array.isArray(body.types) ? body.types : []).map(String);
       let types = asked.filter((t) => KNOWN.includes(t));
@@ -1316,6 +1317,22 @@ Deno.serve(async (req) => {
       for (const q of moving) { if (body.kind) q.kind = String(body.kind).slice(0, 30); to.questions.push(q); }
       await bankSave(to); await bankSave(from);
       return json({ moved: moving.length });
+    }
+    if (action === "bank_use") {
+      // Hand-picking from the bank: the one item (by id) goes into a quiz exactly as a bank draw would hand it over, and is
+      // stamped used for that quiz so the writer will not deal it again. Reads and writes just this row.
+      const type = String(body.type || ""), id = String(body.id || "");
+      const quizId = UUID_RE.test(String(body.quizId || "")) ? String(body.quizId) : "";
+      const hit = ((await rest(`quiz_bank?type=eq.${encodeURIComponent(type)}&id=eq.${encodeURIComponent(id)}&select=q`)) || [])[0]?.q;
+      if (!hit) return json({ error: "That bank item no longer exists." }, 404);
+      if (quizId && !hit.used?.rejected) {
+        hit.used = { quiz: quizId, at: new Date().toISOString() };
+        await rest(`quiz_bank?on_conflict=id`, { method: "POST", headers: { Prefer: "resolution=merge-duplicates,return=minimal" }, body: JSON.stringify([{ id, type, category: String(hit.category || ""), difficulty: String(hit.difficulty || ""), used: true, q: hit, updated_at: new Date().toISOString() }]) });
+      }
+      const c = JSON.parse(JSON.stringify(hit)); delete c.used; delete c.passed; delete c.tooEasy; delete c.giveaway; delete c.doubt; delete c.recycled; delete c.local;
+      c.bankId = hit.id; c.id = "q_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8); c.fromBank = true;
+      if (c.type === "race") Object.assign(c, { perCorrect: 100, prize: 500, prize2: 200, prize3: 100, forfeit: 200 });
+      return json({ question: c });
     }
     if (action === "bank_get") {
       const type = String(body.type || ""), id = String(body.id || "");

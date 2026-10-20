@@ -470,20 +470,33 @@ window.LQ = (() => {
     ['b_search', 'Is it a search engine?', { needs: ['b_tech'] }], ['b_stream', 'Is it a streaming service?', { needs: ['b_tech'] }], ['b_games', 'Does it make games or consoles?', { needs: ['b_tech'] }],
     ['b_sportscar', 'Does it make luxury or sports cars?', { needs: ['b_cars'] }], ['b_ukfactory', 'Does it build cars in Britain?', { needs: ['b_cars'] }],
   ]);
-  const twentyQ = (id) => TWENTY_KINDS.find((k) => k.id === id) || TWENTY_QS.find((x) => x.id === id) || null;
+  // A host can add their own: `q.customKind` ({text}) is one extra opener ("Is it a football club?", id c_kind, first in the list)
+  // and `q.custom` ([{id, text, yes}]) are extra yes/no questions for this one answer. A custom question is always open once
+  // a kind has been found; with a custom kind, those are the only ones. The phones only ever get the id and text (never `yes`).
+  const CUSTOM_KIND = 'c_kind';
+  const twentyKinds = (q) => q?.customKind?.text ? [{ id: CUSTOM_KIND, text: q.customKind.text, custom: true }, ...TWENTY_KINDS] : TWENTY_KINDS;
+  const twentyCustom = (q) => (q?.custom || []).filter((c) => c && c.id && String(c.text || '').trim());
+  const twentyQ = (id, q) => twentyKinds(q).find((k) => k.id === id) || (q?.custom || []).find((c) => c.id === id) || TWENTY_QS.find((x) => x.id === id) || null;
   /** The questions in one kind's branch, openers excluded. */
   const twentyBranch = (kind) => TWENTY_QS.filter((x) => x.cat === kind);
   /** The true answer to a question about this item: the openers from its kind, the rest from its facts. */
-  function twentyYes(q, id) { return TWENTY_KINDS.some((k) => k.id === id) ? q.what === id : !!(q.facts || {})[id]; }
+  function twentyYes(q, id) {
+    if (twentyKinds(q).some((k) => k.id === id)) return q.what === id;
+    const c = (q.custom || []).find((x) => x.id === id); if (c) return !!c.yes;
+    return !!(q.facts || {})[id];
+  }
   /** Which questions a player can ask next, given what they've asked ([{id, yes}]): the openers until one is yes, then
-   *  that kind's questions that the answers so far make worth asking (see the gates on TWENTY_QS). Never one already asked. */
-  function twentyOpen(asked) {
+   *  that kind's questions that the answers so far make worth asking (see the gates on TWENTY_QS), then the host's own
+   *  extra ones. Never one already asked. `q` is the item (or the phone's public view of it) and may be left out. */
+  function twentyOpen(asked, q) {
     const done = new Set(asked.map((a) => a.id)), yes = new Set(asked.filter((a) => a.yes).map((a) => a.id)), no = new Set(asked.filter((a) => !a.yes).map((a) => a.id));
-    const kind = TWENTY_KINDS.find((k) => yes.has(k.id));
-    if (!kind) return TWENTY_KINDS.filter((k) => !done.has(k.id));
+    const kinds = twentyKinds(q), kind = kinds.find((k) => yes.has(k.id));
+    if (!kind) return kinds.filter((k) => !done.has(k.id));
+    const extra = twentyCustom(q).filter((c) => !done.has(c.id)).map((c) => ({ id: c.id, text: c.text, sec: kind.custom ? 'Ask away' : 'More questions' }));
+    if (kind.custom) return extra;
     const branch = twentyBranch(kind.id), closed = new Set(branch.filter((x) => x.group && yes.has(x.id)).map((x) => x.group));
     return branch.filter((x) => !done.has(x.id) && x.needs.every((n) => yes.has(n)) && (!x.any.length || x.any.some((n) => yes.has(n)))
-      && !x.not.some((n) => yes.has(n)) && !x.notNo.some((n) => no.has(n)) && !(x.pair && done.has(x.pair)) && !(x.group && closed.has(x.group)));
+      && !x.not.some((n) => yes.has(n)) && !x.notNo.some((n) => no.has(n)) && !(x.pair && done.has(x.pair)) && !(x.group && closed.has(x.group))).concat(extra);
   }
   /** The games that run on a bank of quick questions, like The Race. */
   const BANK_GAMES = ['race', 'potato', 'koth', 'blockbusters', 'chase'];
@@ -882,7 +895,11 @@ window.LQ = (() => {
     }
     if (q.type === 'twenty') {
       if (!(q.answers || []).some((a) => String(a).trim())) problems.push('Needs the answer: who or what it is.');
-      if (!TWENTY_KINDS.some((k) => k.id === q.what)) problems.push('Say what kind of thing it is (a person, an animal, a place…).');
+      if (!twentyKinds(q).some((k) => k.id === q.what)) problems.push('Say what kind of thing it is (a person, an animal, a place…).');
+      if (q.what === CUSTOM_KIND && !(q.customKind?.text || '').trim()) problems.push('Write the opening question for your own kind of thing (for example “Is it a football club?”).');
+      if ((q.custom || []).some((c) => !String(c.text || '').trim())) problems.push('A question you added is blank: fill it in or take it out.');
+      if (q.what === CUSTOM_KIND && !twentyCustom(q).length) problems.push('Add at least a few questions of your own: with your own kind of thing they are the only ones players get.');
+      if (new Set(twentyCustom(q).map((c) => String(c.text).trim().toLowerCase())).size < twentyCustom(q).length) problems.push('Two of your questions are the same.');
     }
     if (q.type === 'highlow') {
       if (!(q.lowText || '').trim()) problems.push('Needs the lowbrow clue.');
@@ -1228,6 +1245,6 @@ window.LQ = (() => {
   function ordinal(n) { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
   return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
-    GROUP_NAMES, groupSizes, BRANDS, brand, setBrand, TYPES, BANK_GAMES, NEW_GAME_DEFAULTS, cardNum, cardsOf, behindOf, behindRight, TWENTY_KINDS, TWENTY_QS, twentyQ, twentyBranch, twentyYes, twentyOpen, parseNum, nearestSpread, fmtNum, DRAW_WORDS, drawWords, drawHint, goodRows, BB_COLS, BB_ROWS, bbNeighbours, bbPath, bbBoardHtml, inkOn, SLIDE, BREAK, isPractice, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, pickContext, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
+    GROUP_NAMES, groupSizes, BRANDS, brand, setBrand, TYPES, BANK_GAMES, NEW_GAME_DEFAULTS, cardNum, cardsOf, behindOf, behindRight, TWENTY_KINDS, TWENTY_QS, CUSTOM_KIND, twentyKinds, twentyCustom, twentyQ, twentyBranch, twentyYes, twentyOpen, parseNum, nearestSpread, fmtNum, DRAW_WORDS, drawWords, drawHint, goodRows, BB_COLS, BB_ROWS, bbNeighbours, bbPath, bbBoardHtml, inkOn, SLIDE, BREAK, isPractice, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, pickContext, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
     newCode, playUrl, shortPlayUrl, bbTeams, BB_TEAM_PAIRS, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml, CONUNDRUM_POINTS, conundrumWord, sameLetters, scrambleWord, conundrumHtml, addUsage, usageCost, usageSummary, AI_PRICES, TUNE_ASKS, tunePrompt, bigArt, cleanTitle };
 })();

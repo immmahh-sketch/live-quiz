@@ -353,7 +353,7 @@ function onTwentyEvent(e) {
 }
 function twentyHtml(s) {
   const q = s.q, t = s.tq, me = twentyMine(s), maxQ = t.maxQ || 20, left = Math.max(0, maxQ - me.n), last = P.tq?.last, medal = ['🥇', '🥈', '🥉'];
-  const qt = (id) => LQ.twentyQ(id)?.text || id;
+  const qt = (id) => LQ.twentyQ(id, q)?.text || id;
   const lastHtml = !last ? '' : last.id ? `<div class="tqans ${last.yes ? 'yes' : 'no'}"><span>${esc(qt(last.id))}</span><b>${last.yes ? 'Yes!' : 'No'}</b></div>` : last.ok ? '' : `<div class="tqans no"><span>Is it ${esc(last.guess)}?</span><b>No</b></div>`;
   const hist = me.asked.length || me.guesses.length ? `<details class="tqhist"><summary>What you know so far (${me.asked.length})</summary><ul>${me.asked.map((a) => `<li class="${a.yes ? 'yes' : 'no'}">${a.yes ? '✔' : '✘'} ${esc(qt(a.id))}</li>`).join('')}${me.guesses.filter((g) => !g.ok).map((g) => `<li class="no">✘ Not ${esc(g.t)}</li>`).join('')}</ul></details>` : '';
   const head = `<div class="pq">${esc(q.text)}</div><div class="tqcount"><span><b>${me.n}</b> of ${maxQ} questions used</span><span>${left} left</span></div>`;
@@ -361,10 +361,10 @@ function twentyHtml(s) {
   if (me.out) return head + `<div class="state"><div class="em">💀</div><h2>Out of questions</h2><p class="muted">Wait for the answer on the screen.</p></div>${hist}`;
   // while an answer is being shown, keep the list as it was, with the tapped question coloured in
   const fl = twentyFlash(), pend = P.tq?.pending;
-  const open = LQ.twentyOpen(fl?.id ? me.asked.filter((a) => a.id !== fl.id) : me.asked), busy = !!pend || !!fl;
+  const open = LQ.twentyOpen(fl?.id ? me.asked.filter((a) => a.id !== fl.id) : me.asked, q), busy = !!pend || !!fl;
   const tone = (id) => fl?.id === id ? (fl.yes ? ' yes' : ' no') : pend?.ask === id ? ' pending' : '';
   const gtone = fl?.guess ? (fl.yes ? ' yes' : ' no') : pend?.guess ? ' pending' : '';
-  const kinds = !me.asked.some((a) => a.yes && LQ.TWENTY_KINDS.some((k) => k.id === a.id));
+  const kinds = !me.asked.some((a) => a.yes && LQ.twentyKinds(q).some((k) => k.id === a.id));
   return head + lastHtml + `<p class="tqhint">${kinds ? 'Start by finding out what kind of thing it is:' : 'Tap a question to ask it:'}</p>
     <div class="tqlist">${open.map((x, i) => `${x.sec && x.sec !== open[i - 1]?.sec ? `<div class="tqsec">${esc(x.sec)}</div>` : ''}<button class="tqq${tone(x.id)}" data-tq="${x.id}" ${busy ? 'disabled' : ''}>${esc(x.text)}</button>`).join('') || '<p class="muted center">No questions left to ask. Time to guess!</p>'}</div>${hist}
     <form class="tqguess" id="tqForm"><input id="tqIn" placeholder="Who or what is it?" autocomplete="off" maxlength="60" ${busy ? 'disabled' : ''}><button class="btn btn-primary${gtone}" ${busy ? 'disabled' : ''}>Guess</button></form>
