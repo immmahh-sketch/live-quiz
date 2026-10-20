@@ -1480,17 +1480,19 @@ function renderTypeBox() {
     box.innerHTML = `<div class="notice" style="margin-bottom:12px">Beat the Intro: the start of the song plays on the big screen, then the music stops while every phone keeps counting. Players tap when they think the first sung word would come in. The closest five guesses go up, the song carries on, and the timer stops on the first sung word. Two times to set: <b>when the music stops</b> and <b>when the first word is sung</b>. Use the player below to find them by ear.</div>
       <div class="field"><label>The song on YouTube <span class="muted">— a lyric or audio upload is best (a music video can open with a skit), and it must allow embedding</span></label><input type="url" id="bi_url" value="${esc(q.media.url || '')}" placeholder="https://www.youtube.com/watch?v=…"></div>
       <div class="row" style="gap:12px"><div class="field grow"><label>Song title <span class="muted">— shown at the reveal</span></label><input type="text" id="bi_song" maxlength="80" value="${esc(q.song || '')}" placeholder="Wannabe"></div><div class="field grow"><label>Artist</label><input type="text" id="bi_artist" maxlength="80" value="${esc(q.artist || '')}" placeholder="Spice Girls"></div></div>
-      <div class="row" style="gap:12px;flex-wrap:wrap"><div class="field" style="max-width:190px"><label>Music stops at (seconds)</label><input type="number" id="bi_stop" min="0.5" max="60" step="0.1" value="${q.stopAt ?? 4}"></div>
+      <div class="row" style="gap:12px;flex-wrap:wrap"><div class="field" style="max-width:210px"><label>Music starts at (seconds)</label><input type="number" id="bi_start" min="0" max="600" step="0.01" value="${q.startAt || 0}"></div>
+        <div class="field" style="max-width:190px"><label>Music stops at (seconds)</label><input type="number" id="bi_stop" min="0.5" max="60" step="0.1" value="${q.stopAt ?? 4}"></div>
         <div class="field" style="max-width:230px"><label>First sung word at (seconds)</label><input type="number" id="bi_fw" min="0" max="300" step="0.01" value="${q.firstWordAt || ''}"></div>
         <div class="field" style="max-width:150px"><label>Winner scores</label><input type="number" id="bi_prize" min="0" max="10000" step="50" value="${q.prize ?? 1000}"></div></div>
       <div class="field"><label>Check it by ear</label>
         ${vid ? `<div style="max-width:360px"><div id="bi_player"></div></div>` : '<p class="muted small">Paste the YouTube link above and the song loads here.</p>'}
         <div class="row mt" style="gap:8px;flex-wrap:wrap"><button class="btn btn-sm" id="bi_lyrics" title="Looks up when the first line of the song starts (free, from LRCLIB); only the time comes back">🔎 Suggest from lyrics</button><button class="btn btn-sm" id="bi_test" ${vid ? '' : 'disabled'}>▶ Play the intro</button><button class="btn btn-sm" id="bi_onto" ${vid ? '' : 'disabled'}>▶ Play on to the first word</button></div>
-        <div class="row mt" style="gap:8px;flex-wrap:wrap"><button class="btn btn-sm btn-primary" id="bi_tapfw" ${vid ? '' : 'disabled'}>🎤 Tap: first sung word NOW</button><button class="btn btn-sm" id="bi_tapstop" ${vid ? '' : 'disabled'}>✋ Tap: stop here</button><span class="muted small">Nudge the first word:</span><button class="btn btn-ghost btn-sm" data-bifw="-0.1">−0.1</button><button class="btn btn-ghost btn-sm" data-bifw="0.1">+0.1</button><span class="muted small">Now: <b id="bi_now">0.00</b> s</span></div>
+        <div class="row mt" style="gap:8px;flex-wrap:wrap"><button class="btn btn-sm" id="bi_tapstart" ${vid ? '' : 'disabled'} title="If the video does not start straight with the music (an intro, a silence, a spoken bit), play it and tap this the instant the music begins">▶ Start here: the music starts NOW</button></div>
+        <div class="row mt" style="gap:8px;flex-wrap:wrap"><button class="btn btn-sm btn-primary" id="bi_tapfw" ${vid ? '' : 'disabled'}>🎤 Tap: first sung word NOW</button><button class="btn btn-sm" id="bi_tapstop" ${vid ? '' : 'disabled'}>✋ Tap: stop here</button><span class="muted small">Nudge the first word:</span><button class="btn btn-ghost btn-sm" data-bifw="-0.1">−0.1</button><button class="btn btn-ghost btn-sm" data-bifw="0.1">+0.1</button><span class="muted small">Video <b id="bi_now">0.00</b> s · music <b id="bi_nowm">0.00</b> s</span></div>
         <div class="help" id="bi_note">Play the song, and tap the first button the instant the first word is sung. A lyrics suggestion is only a starting point: it is for one recording, so check it by ear.</div></div>
       <div class="field" style="max-width:300px"><label>Allow for call delay (seconds) <span class="muted">— for the whole quiz</span></label><input type="number" id="bi_lag" min="0" max="3" step="0.05" value="${lag}"><div class="help">Players hear the song through the call a moment after their phone's timer starts, so every guess is moved this much earlier. Use 0 if everyone is in the room with the screen. Run a practice round to tune it.</div></div>`;
     const num = (id, key, lo, hi, dp) => { $(id).oninput = (e) => { const v = e.target.value === '' ? 0 : +e.target.value; q[key] = Number.isFinite(v) ? LQ.clamp(Math.round(v * dp) / dp, lo, hi) : 0; touch(); showProblems(); }; };
-    num('#bi_stop', 'stopAt', 0, 60, 10); num('#bi_fw', 'firstWordAt', 0, 300, 100); num('#bi_prize', 'prize', 0, 10000, 1);
+    num('#bi_stop', 'stopAt', 0, 60, 10); num('#bi_start', 'startAt', 0, 600, 100); num('#bi_fw', 'firstWordAt', 0, 300, 100); num('#bi_prize', 'prize', 0, 10000, 1);
     $('#bi_song').oninput = (e) => { q.song = e.target.value; touch(); showProblems(); };
     $('#bi_artist').oninput = (e) => { q.artist = e.target.value; touch(); };
     $('#bi_lag').oninput = (e) => { S.quiz.settings.introLag = LQ.clamp(+e.target.value || 0, 0, 3); touch(); };
@@ -1514,16 +1516,18 @@ function renderTypeBox() {
         S.biPlayer = new YT.Player('bi_player', { width: 360, height: 203, videoId: vid, host: 'https://www.youtube-nocookie.com', playerVars: { playsinline: 1, rel: 0, modestbranding: 1 },
           events: { onError: (e) => note(`YouTube will not play this one here (error ${e.data}). Try another upload.`, true) } });
         let stopAt = 0;
+        const st = () => +q.startAt || 0; // where the music begins in the video; every other time counts from there
         const now = () => { try { return S.biPlayer.getCurrentTime() || 0; } catch { return 0; } };
         S.biPoll = setInterval(() => {
           const t = now(), n = document.getElementById('bi_now'); if (!n) return clearInterval(S.biPoll);
-          n.textContent = t.toFixed(2);
+          n.textContent = t.toFixed(2); $('#bi_nowm').textContent = (t - st()).toFixed(2);
           if (stopAt && t >= stopAt) { try { S.biPlayer.pauseVideo(); } catch {} stopAt = 0; }
         }, 40);
-        $('#bi_test').onclick = () => { if (!(+q.stopAt > 0)) return toast('Say when the music stops first.', true); stopAt = +q.stopAt; try { S.biPlayer.seekTo(0, true); S.biPlayer.playVideo(); } catch {} };
-        $('#bi_onto').onclick = () => { if (!(+q.firstWordAt > 0)) return toast('Set the first sung word first (or use Suggest from lyrics).', true); stopAt = +q.firstWordAt; try { S.biPlayer.seekTo(Math.max(0, (+q.stopAt || 0) - 0.05), true); S.biPlayer.playVideo(); } catch {} };
-        $('#bi_tapfw').onclick = () => { setFw(now()); note(`First sung word set to ${now().toFixed(2)} s. Press “Play on to the first word” to hear whether it stops on it.`); };
-        $('#bi_tapstop').onclick = () => { q.stopAt = Math.max(0.5, Math.round(now() * 10) / 10); $('#bi_stop').value = q.stopAt; touch(); showProblems(); };
+        $('#bi_test').onclick = () => { if (!(+q.stopAt > 0)) return toast('Say when the music stops first.', true); stopAt = st() + +q.stopAt; try { S.biPlayer.seekTo(st(), true); S.biPlayer.playVideo(); } catch {} };
+        $('#bi_onto').onclick = () => { if (!(+q.firstWordAt > 0)) return toast('Set the first sung word first (or use Suggest from lyrics).', true); stopAt = st() + +q.firstWordAt; try { S.biPlayer.seekTo(Math.max(0, st() + (+q.stopAt || 0) - 0.05), true); S.biPlayer.playVideo(); } catch {} };
+        $('#bi_tapstart').onclick = () => { q.startAt = Math.max(0, Math.round(now() * 100) / 100); $('#bi_start').value = q.startAt; touch(); showProblems(); note(`The music now starts at ${q.startAt.toFixed(2)} s of the video. The stop and first-word times count from there, so set them again (or use Suggest from lyrics).`); };
+        $('#bi_tapfw').onclick = () => { setFw(now() - st()); note(`First sung word set to ${(now() - st()).toFixed(2)} s after the music starts. Press “Play on to the first word” to hear whether it stops on it.`); };
+        $('#bi_tapstop').onclick = () => { q.stopAt = Math.max(0.5, Math.round((now() - st()) * 10) / 10); $('#bi_stop').value = q.stopAt; touch(); showProblems(); };
       }).catch(() => note('YouTube could not be loaded here.', true));
     }
   }

@@ -329,7 +329,7 @@ function biCleanup() {
 function biStart() {
   const q = question();
   biCleanup();
-  const g = G.q.bi = { v: 1, step: 'load', stopAt: +q.stopAt || 4, fw: +q.firstWordAt || 8, lag: biLag(), started: false, t0: 0, guesses: {}, order: 0, top: [], rank: null, err: '', until: 0, total: 0 };
+  const g = G.q.bi = { v: 1, step: 'load', start: +q.startAt || 0, stopAt: +q.stopAt || 4, fw: +q.firstWordAt || 8, lag: biLag(), started: false, t0: 0, guesses: {}, order: 0, top: [], rank: null, err: '', until: 0, total: 0 };
   stepTo(g, 'load', 25000); persist(); biRender(); broadcastState();
   const wrap = document.createElement('div'); wrap.id = 'biWrap'; wrap.className = 'bgm'; wrap.innerHTML = '<div id="biPlayer"></div>'; document.body.appendChild(wrap);
   ytApi().then(() => {
@@ -353,14 +353,14 @@ function biFail(g, msg) {
 function biState(g, e) {
   if (G.q?.bi !== g) return;
   if (e.data === 1 && g.step === 'listen' && !g.started) {
-    g.started = true; let t = 0; try { t = biP.getCurrentTime() || 0; } catch {}
+    g.started = true; let t = 0; try { t = (biP.getCurrentTime() || 0) - (g.start || 0); } catch {}
     g.t0 = Date.now() - t * 1000;
     persist(); broadcastState(); biRender();
   }
 }
 function biListen(g) {
   stepTo(g, 'listen', 0); persist(); biRender(); broadcastState();
-  try { biP.seekTo(0, true); biP.playVideo(); } catch {}
+  try { biP.seekTo(g.start || 0, true); biP.playVideo(); } catch {}
   // a browser that refused sound gets one muted try, with the sound brought up once it runs
   setTimeout(() => { if (G.q?.bi === g && g.step === 'listen' && !g.started && !g.err) { try { biP.mute(); biP.playVideo(); setTimeout(() => { try { biP.unMute(); } catch {} }, 600); } catch {} } }, 3500);
   setTimeout(() => { if (G.q?.bi === g && g.step === 'listen' && !g.started) biFail(g, 'The song would not start. Skip it and carry on.'); }, 12000);
@@ -368,7 +368,7 @@ function biListen(g) {
 /** Runs every 30 ms: stops the music at stopAt, paints the clocks, and stops on the first sung word. */
 function biPollTick() {
   const g = G.q?.bi; if (!g || !biP || G.paused || G.phase !== 'question' || g.err) return;
-  let t; try { t = biP.getCurrentTime(); } catch { return; }
+  let t; try { t = biP.getCurrentTime() - (g.start || 0); } catch { return; }
   if (g.step === 'listen' && g.started && t >= g.stopAt) {
     try { biP.pauseVideo(); } catch {}
     stepTo(g, 'guess', (question().time || 20) * 1000);
