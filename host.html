@@ -2141,7 +2141,17 @@ async function grade(noAi, ctx) {
   };
 
   if (q.type === 'choice' || q.type === 'tf') {
-    for (const [pid, a] of entries) { const id = keys[a.answer]; stats.counts[id] = (stats.counts[id] || 0) + 1; res(pid, id === LQ.correctId(q), 0, a.elapsed, { choice: id }); }
+    for (const [pid, a] of entries) {
+      const id = keys[a.answer]; stats.counts[id] = (stats.counts[id] || 0) + 1; res(pid, id === LQ.correctId(q), 0, a.elapsed, { choice: id });
+      // A question that pays by answer ("Is your name Dan?": yes -5000, no +1000): q.optionPoints maps an option id to its points, with no speed bonus.
+      // q.optionNotes can give each answer its own line on the result card.
+      if (q.optionPoints && Object.prototype.hasOwnProperty.call(q.optionPoints, id)) {
+        const p = Math.round(+q.optionPoints[id] || 0), r = byPlayer[pid];
+        if (p > 0 && !r.correct) stats.right++; else if (p <= 0 && r.correct) stats.right--;
+        r.points = p; r.correct = p > 0; r.partial = p > 0 ? 1 : 0;
+        const n = q.optionNotes && q.optionNotes[id]; if (n) { r.note = n; r.headline = true; }
+      }
+    }
   }
   if (q.type === 'sort') {
     const n = v.items.length;
