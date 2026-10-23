@@ -130,6 +130,7 @@ function onState(s) {
   keepAwake();
   if (s.phase === 'question' && typeof s.remainingMs === 'number') { P.deadline = Date.now() + (s.wipe ? s.wipe.remainingMs : s.remainingMs); partyDeadline(s); }
   if (Array.isArray(s.answered) && s.answered.includes(P.pid)) P.answered[s.q?.id] = true;
+  if (s.bi && typeof biSync === 'function') biSync(s);
   render();
 }
 function watchdog() {
@@ -205,7 +206,7 @@ function render() {
   }
   else if (s.phase === 'countdown') app.innerHTML = top + top2 + `<div class="state"><div class="em">${TYPES[s.next?.type]?.icon || '⏳'}</div><h2>Get ready…</h2><p class="muted">Question ${s.next?.n || s.qIndex + 1}: ${esc(TYPES[s.next?.type]?.label || '')}</p></div>`;
   else if (s.phase === 'question' && s.tm && !P.view) { const gs = s.tm; P.game = { at: Date.now(), rem: gs.remainingMs || 0, total: gs.totalMs || 0, frozen: s.paused }; app.innerHTML = top + top2 + '<div class="ptimer" id="gtimer"><i></i></div>' + tmPhoneHtml(s); timerT = setInterval(tickGame, 200); tickGame(); }
-  else if (s.phase === 'question' && s.bi && !P.view) { if (!P.bi || P.bi.qId !== s.q.id) P.bi = { qId: s.q.id, base: 0, myMs: null, sentAt: 0 }; if (s.bi.started && !P.bi.base) P.bi.base = Date.now() - s.bi.elapsedMs; app.innerHTML = top + top2 + biPhoneHtml(s); partyBindGame(s); timerT = setInterval(tickBi, 50); tickBi(); }
+  else if (s.phase === 'question' && s.bi && !P.view) { biSync(s); app.innerHTML = top + top2 + biPhoneHtml(s); partyBindGame(s); timerT = setInterval(tickBi, 50); tickBi(); }
   else if (s.phase === 'question' && s.ob && !P.view) { const gs = s.ob; P.game = { at: Date.now(), rem: gs.remainingMs || 0, total: gs.totalMs || 0, frozen: s.paused }; app.innerHTML = top + top2 + '<div class="ptimer" id="gtimer"><i></i></div>' + obPhoneHtml(s); partyBindGame(s); timerT = setInterval(tickGame, 200); tickGame(); }
   else if (s.phase === 'question' && (s.pc || s.task) && !P.view) { const gs = s.pc || s.task; P.game = { at: Date.now(), rem: gs.remainingMs || 0, total: gs.totalMs || 0, frozen: s.paused }; app.innerHTML = top + top2 + '<div class="ptimer" id="gtimer"><i></i></div>' + (s.pc ? pcPhoneHtml(s) : taskPhoneHtml(s)); partyBindGame(s); timerT = setInterval(tickGame, 200); tickGame(); }
   else if (s.phase === 'question' && (s.potato || s.koth || s.bb || s.chase || s.draw || s.uq)) { const gs = s.koth || s.bb || s.chase || s.draw || s.uq; P.game = { at: Date.now(), rem: gs?.remainingMs || 0, total: gs?.totalMs || 0, frozen: s.paused }; app.innerHTML = top + top2 + (s.potato ? '' : '<div class="ptimer" id="gtimer"><i></i></div>') + (s.potato ? potatoHtml(s) : s.koth ? kothHtml(s) : s.chase ? chaseHtml(s) : s.draw ? drawHtml(s) : s.uq ? uqHtml(s) : bbHtml(s)); if (s.draw) bindDraw(s); else if (s.uq) bindUq(s); else bindGame(s); timerT = setInterval(tickGame, 200); tickGame(); }

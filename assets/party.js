@@ -140,6 +140,10 @@ function partyState(s) {
     const g = G.q.bi, rev = g.step === 'reveal';
     // the first-word time goes out only at the reveal: it is the whole game
     s.bi = { step: g.step, started: g.started, elapsedMs: g.started ? nowT - g.t0 : 0, answered: Object.keys(g.guesses), top: null, fw: rev ? Math.round(g.fw * 1000) : null, lag: g.lag, err: !!g.err, needClick: !!g.needClick };
+    if (['show', 'play', 'reveal'].includes(g.step)) { // a phone playing on its own has no big screen: it draws the timeline itself
+      Object.assign(s.bi, { guesses: Object.entries(g.guesses).map(([pid, x]) => ({ pid, ms: x.ms })), axis: g.axis, stopAt: g.stopAt, playMs: g.playT0 ? nowT - g.playT0 : null });
+      if (rev) Object.assign(s.bi, { song: question().song || '', artist: question().artist || '', rank: (g.rank || []).map((x) => ({ pid: x.pid, off: Math.round(x.off) })) });
+    }
   }
   tmState(s); // Taskmaster on camera
   if (G.phase === 'question' && G.q?.task) {
@@ -352,6 +356,7 @@ function biFail(g, msg) {
 /** The audio is really running: that is the moment every phone's clock starts. */
 function biState(g, e) {
   if (G.q?.bi !== g) return;
+  if (e.data === 1 && g.step === 'play' && !g.playT0) { let t = 0; try { t = (biP.getCurrentTime() || 0) - (g.start || 0); } catch {} g.playT0 = Date.now() - Math.max(0, t) * 1000; persist(); broadcastState(); }
   if (e.data === 1 && g.step === 'listen' && !g.started) {
     g.started = true; g.needClick = false; let t = 0; try { t = (biP.getCurrentTime() || 0) - (g.start || 0); } catch {}
     g.t0 = Date.now() - t * 1000;
@@ -433,7 +438,7 @@ function biShow(g) {
   persist(); biRender(); broadcastState();
 }
 function biPlayOn(g) {
-  g.step = 'play'; g.until = 0; g.total = 0; g.resumedAt = Date.now();
+  g.step = 'play'; g.until = 0; g.total = 0; g.resumedAt = Date.now(); g.playT0 = 0;
   try { biP.seekTo(g.start || 0, true); biP.playVideo(); } catch {} // from the beginning of the clip, not from where it stopped
   persist(); biRender(); broadcastState();
 }

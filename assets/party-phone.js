@@ -247,6 +247,7 @@ function biPhoneHtml(s) {
     if (done) return `<div class="state"><div class="em">🔒</div><h2>Locked in${mine != null ? ': ' + secs(mine) + ' s' : ''}</h2><p class="muted">Waiting for the others…</p></div>`;
     return `${clock('0.00')}<button class="btn btn-primary btn-lg btn-block bitap" id="biTap">🎤 NOW!</button><p class="center small muted">Tap when you think the first sung word would be heard</p>`;
   }
+  if (biSolo() && ['show', 'play', 'reveal'].includes(g.step)) return biSoloView(s); // no big screen when playing alone: it all shows here
   if (g.step === 'show') { return `<div class="state"><div class="em">👀</div><h2>Everyone's guesses are on the screen</h2><p class="muted">${mine != null ? 'Your guess: ' + secs(mine) + ' s · ' : ''}the song plays again from the start in a moment…</p></div>`; }
   if (g.step === 'play') return `<div class="state"><div class="em bipulse">🎶</div><h2>The song again, from the start…</h2><p class="muted">${mine != null ? 'Your guess: ' + secs(mine) + ' s' : 'Listen for the first sung word'}</p></div>`;
   return `<div class="state"><div class="em">🎤</div><h2>The first word came in at ${secs(g.fw)} s</h2><p class="muted">${mine != null ? 'Your guess: ' + secs(mine) + ' s. ' : ''}Your result is coming up…</p></div>`;
@@ -256,8 +257,57 @@ function biPhoneHtml(s) {
 const biSolo = () => { try { return new URLSearchParams(location.search).get('solo') === '1' && window.parent !== window && !!window.parent.document.getElementById('hostFrame'); } catch { return false; } };
 function biStartMusicNow() { try { return window.parent.document.getElementById('hostFrame').contentWindow.biClickPlay(); } catch { return false; } }
 function tickBi() {
+  const s0 = P.state?.bi;
+  if (s0 && s0.step === 'play' && biSolo() && P.bi) { // the replay: its clock and the travelling bar (the line widens if the song runs past its end, as on the big screen)
+    const t = biPlayT(), ax = P.bi.axis, c = $('#biClock'); if (c) c.textContent = t.toFixed(2);
+    if (ax) {
+      if (t > ax.hi - (ax.hi - ax.lo) * 0.08) { ax.hi = t + (ax.hi - ax.lo) * 0.4; const tl = $('#biTlP'); if (tl) tl.outerHTML = biPhoneTl(s0, P.state, t, null); }
+      else { const bar = $('#biBarP'); if (bar) bar.style.width = Math.max(0, ((t - ax.lo) / (ax.hi - ax.lo)) * 100 - ((0 - ax.lo) / (ax.hi - ax.lo)) * 100) + '%'; }
+    }
+    return;
+  }
+  if (s0 && biSolo() && (s0.step === 'show' || s0.step === 'reveal')) return; // those screens are drawn once; the guessing clock must not touch them
   const el = $('#biClock'), s = P.state?.bi; if (!el || !s || !P.bi?.base) return;
   el.textContent = ((P.bi.myMs != null ? P.bi.myMs : Date.now() - P.bi.base) / 1000).toFixed(2);
   // a tap that never reached the host is sent again
   if (P.bi.myMs != null && s.step === 'guess' && !s.answered.includes(P.pid) && Date.now() - P.bi.sentAt > 2000) { P.bi.sentAt = Date.now(); send('answer', { pid: P.pid, qId: P.state.q.id, answer: { ms: P.bi.myMs } }); }
+}
+
+/** Keeps the phone's own Beat the Intro clocks in line with the host's: the guessing clock (base) and the replay clock (playBase). */
+function biSync(s) {
+  if (!s.q || !s.bi) return;
+  if (!P.bi || P.bi.qId !== s.q.id) P.bi = { qId: s.q.id, base: 0, myMs: null, sentAt: 0, axis: null, playBase: 0 };
+  if (s.bi.started && !P.bi.base) P.bi.base = Date.now() - s.bi.elapsedMs;
+  if (s.bi.playMs != null) { const b = Date.now() - s.bi.playMs; if (!P.bi.playBase || Math.abs(b - P.bi.playBase) > 400) P.bi.playBase = b; }
+  if (s.bi.axis && !P.bi.axis) P.bi.axis = { lo: s.bi.axis.lo, hi: s.bi.axis.hi };
+}
+const biPlayT = () => (P.bi?.playBase ? Math.max(0, (Date.now() - P.bi.playBase) / 1000) : 0);
+/** The line of seconds with everyone's guess on it, drawn small for a phone. t = how far the replay has got (a bar runs from 0 to there). */
+function biPhoneTl(g, s, t, win) {
+  const ax = P.bi.axis || (P.bi.axis = { lo: g.axis?.lo ?? 0, hi: g.axis?.hi ?? 8 }), span = ax.hi - ax.lo, pos = (x) => Math.max(0, Math.min(100, ((x - ax.lo) / span) * 100));
+  const nm = (pid) => s.names?.[pid] || { name: 'Player', emoji: '🙂' };
+  const step = span <= 6 ? 1 : span <= 14 ? 2 : 5; let ticks = '';
+  for (let v = Math.ceil(ax.lo / step) * step; v <= ax.hi + 1e-6; v += step) ticks += `<div class="bip-tick" style="left:${pos(v)}%"><span>${v}</span></div>`;
+  const pins = (g.guesses || []).map((x) => ({ pid: x.pid, s: x.ms / 1000, x: pos(x.ms / 1000) })).sort((a, b) => a.s - b.s), last = [];
+  for (const p of pins) { let lv = 0; while (last[lv] !== undefined && p.x - last[lv] < 13 && lv < 4) lv++; last[lv] = p.x; p.lv = lv; }
+  const pinHtml = pins.map((p) => `<div class="bip-pin ${win === p.pid ? 'win' : ''} ${p.pid === P.pid ? 'me' : ''}" style="left:${p.x}%;--h:${10 + p.lv * 30}px"><span class="bip-em">${win === p.pid ? '👑' : ''}${esc(nm(p.pid).emoji || '🙂')}</span><i class="bip-stem"></i><b class="bip-dot"></b></div>`).join('');
+  const word = g.fw != null ? `<div class="bip-flag word" style="left:${pos(g.fw / 1000)}%"><i></i><span>🎤 ${(g.fw / 1000).toFixed(2)}</span></div>` : '';
+  return `<div class="bip" id="biTlP"><div class="bip-axis"></div><div class="bip-bar ${g.fw != null ? 'done' : ''}" id="biBarP" style="left:${pos(0)}%;width:${Math.max(0, pos(t) - pos(0))}%"></div>${ticks}
+    <div class="bip-flag stop" style="left:${pos(g.stopAt ?? 0)}%"><i></i><span>⏹</span></div>${word}${pinHtml}</div>`;
+}
+/** Beat the Intro on a phone playing alone: the guesses, the replay with its travelling bar, and the reveal, all on this screen. */
+function biSoloView(s) {
+  const g = s.bi, rev = g.step === 'reveal', play = g.step === 'play', me = P.pid, secs = (ms) => (ms / 1000).toFixed(2);
+  const nm = (pid) => s.names?.[pid] || { name: 'Player', emoji: '🙂' };
+  app.className = 'app';
+  const t = rev ? g.fw / 1000 : play ? biPlayT() : 0, win = rev ? g.rank?.[0]?.pid : null;
+  const offOf = (pid) => g.rank?.find((r) => r.pid === pid)?.off;
+  const rows = rev ? (g.rank || []).map((r) => ({ pid: r.pid, ms: (g.guesses || []).find((x) => x.pid === r.pid)?.ms ?? 0, off: r.off })) : [...(g.guesses || [])].sort((a, b) => a.ms - b.ms).map((x) => ({ pid: x.pid, ms: x.ms }));
+  const diff = (r) => r.off == null ? '' : Math.abs(r.off) < 50 ? ' · dead on!' : ` · ${(Math.abs(r.off) / 1000).toFixed(2)} s ${r.off < 0 ? 'early' : 'late'}`;
+  const list = rows.map((r, i) => `<li class="${r.pid === me ? 'me' : ''} ${win === r.pid ? 'win' : ''}"><span class="n">${rev ? (['🥇', '🥈', '🥉'][i] || i + 1) : esc(nm(r.pid).emoji || '🙂')}</span><span class="nm">${rev ? esc(nm(r.pid).emoji || '') + ' ' : ''}${esc(nm(r.pid).name)}${r.pid === me ? ' (you)' : ''}</span><b>${secs(r.ms)} s${rev ? diff(r) : ''}</b></li>`).join('');
+  const w = win ? nm(win) : null;
+  return `<div class="biph"><h2>${rev ? 'The first sung word!' : play ? 'The song again, from the start…' : "Everyone's guesses"}</h2>
+    ${play || rev ? `<div class="biclock sm ${rev ? 'done' : ''}" id="biClock">${t.toFixed(2)}</div>` : '<p class="muted center small" style="margin:0 0 4px">The song plays again from the start in a moment…</p>'}
+    ${biPhoneTl(g, s, t, win)}<ol class="bipl">${list || '<li class="muted">Nobody guessed.</li>'}</ol>
+    ${rev ? `<div class="biphwin">${w ? `🏆 ${esc(w.emoji || '')} <b>${esc(w.name)}</b> was closest` : 'Nobody guessed this one'}</div><div class="biphsong">${esc(g.song || '')}${g.artist ? ' · ' + esc(g.artist) : ''}</div>` : ''}</div>`;
 }
