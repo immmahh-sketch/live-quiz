@@ -2179,7 +2179,7 @@ async function grade(noAi, ctx) {
         const p = Math.round(+table[id] || 0), r = byPlayer[pid];
         if (p > 0 && !r.correct) stats.right++; else if (p <= 0 && r.correct) stats.right--;
         r.points = p; r.correct = p > 0; r.partial = p > 0 ? 1 : 0;
-        const n = notes && notes[id]; if (n) { r.note = n; r.headline = true; if (ov?.screen) r.screen = true; }
+        const n = notes && notes[id]; if (n) { r.note = n; r.headline = true; if (ov ? ov.screen : (q.screenOptions || []).includes(id)) r.screen = true; } // screen: a full-screen takeover, for a name rule or for listed options
       }
     }
   }

@@ -722,12 +722,45 @@ function stopPhoneTune() {
   clearInterval(P.tuneT);
   try { P.tuneNode?.stop(); } catch {} try { P.tuneEl?.pause(); } catch {}
   P.tuneNode = null; P.tuneEl = null; $('#pvinyl')?.classList.remove('spin');
+  try { if (navigator.audioSession) navigator.audioSession.type = 'auto'; } catch {}
+}
+/** A phone's silent switch mutes Web Audio but not a media element (that is why YouTube plays on silent). So song clips play through one
+ *  <audio> element that is unlocked by the first tap (played and paused inside the tap) and then reused, with no tap needed later. */
+function unlockMedia() {
+  if (P.med) return;
+  try {
+    const a = new Audio(); a.setAttribute('playsinline', ''); a.preload = 'auto';
+    // a tenth of a second of silence, made here, so there is nothing to download
+    const n = 800, buf = new ArrayBuffer(44 + n * 2), v = new DataView(buf), w = (o, s) => { for (let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); };
+    w(0, 'RIFF'); v.setUint32(4, 36 + n * 2, true); w(8, 'WAVEfmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true); v.setUint32(24, 8000, true); v.setUint32(28, 16000, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true); w(36, 'data'); v.setUint32(40, n * 2, true);
+    a.src = URL.createObjectURL(new Blob([buf], { type: 'audio/wav' }));
+    P.med = a;
+    a.play().then(() => a.pause()).catch(() => { P.med = null; });
+  } catch { P.med = null; }
+}
+['pointerdown', 'touchend', 'click'].forEach((ev) => document.addEventListener(ev, unlockMedia, { passive: true }));
+/** One clip through the media element: from t.start for t.len seconds. Resolves true once it is playing. */
+async function playTuneEl(t, qId, spin, track) {
+  const a = P.med || new Audio(); a.setAttribute('playsinline', ''); a.loop = false;
+  a.src = t.url; a.load();
+  await new Promise((res, rej) => { const ok = () => { a.removeEventListener('error', bad); res(); }, bad = () => { a.removeEventListener('loadedmetadata', ok); rej(new Error('clip')); }; a.addEventListener('loadedmetadata', ok, { once: true }); a.addEventListener('error', bad, { once: true }); setTimeout(ok, 6000); });
+  if (P.tuneFor !== qId) return true;
+  try { a.currentTime = t.start || 0; } catch {}
+  await a.play();
+  if (P.tuneFor !== qId) { a.pause(); return true; }
+  P.tuneEl = a; spin(true); track(t.len, () => a.currentTime - (t.start || 0));
+  const stop = () => { if (P.tuneEl === a) { a.pause(); spin(false); } };
+  a.ontimeupdate = () => { if (a.currentTime >= (t.start || 0) + t.len) { a.ontimeupdate = null; stop(); } };
+  setTimeout(stop, t.len * 1000 + 600);
+  return true;
 }
 async function playPhoneTune(t, qId) {
   stopPhoneTune(); P.tuneFor = qId;
   const bar = () => $('#pbar'), btn = $('#ptuneAgain');
   const spin = (on) => $('#pvinyl')?.classList.toggle('spin', on);
   const track = (dur, now) => { const t0 = now(); clearInterval(P.tuneT); P.tuneT = setInterval(() => { const f = Math.min(1, (now() - t0) / dur); if (bar()) bar().style.width = f * 100 + '%'; if (f >= 1) { clearInterval(P.tuneT); spin(false); } }, 100); };
+  if (!t.backwards) { try { if (await playTuneEl(t, qId, spin, track)) { if (btn) btn.textContent = '▶ Play it again'; return; } } catch { /* fall through to Web Audio, then a tap */ } }
+  try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch {} // Web Audio (backwards clips) would otherwise obey the silent switch
   try {
     const ctx = P.actx || (P.actx = new (window.AudioContext || window.webkitAudioContext)());
     if (ctx.state === 'suspended') await ctx.resume().catch(() => {});
