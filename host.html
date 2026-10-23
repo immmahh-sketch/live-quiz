@@ -35,7 +35,10 @@ const PREVIEW = new URLSearchParams(location.search).get('quiz') === 'preview'; 
 // A warm-up game (?quiz=warmup&w=CODE, inside warmup.html): anyone with the code plays the quiz opened as a warm-up on
 // their own device, against three bots, friends welcome. No sign-in. Each real player's score is saved at the end, and a
 // device that has played once can't play again.
-const WARMUP = new URLSearchParams(location.search).get('quiz') === 'warmup' ? (new URLSearchParams(location.search).get('w') || '').toUpperCase().replace(/[^A-Z0-9]/g, '') : '';
+// "📱 Play on my phone": ?quiz=play&q=<quiz id> runs any quiz of yours the way a warm-up runs (hidden host, phone only, bots), as a
+// test game under the code TESTPLAY, so nothing is saved. warmup.html?q=<id> sets it up and shows the phone.
+const PLAYQ = (() => { const p = new URLSearchParams(location.search), id = p.get('q') || ''; return p.get('quiz') === 'play' && /^[0-9a-f-]{36}$/i.test(id) ? id : ''; })();
+const WARMUP = PLAYQ ? 'TESTPLAY' : new URLSearchParams(location.search).get('quiz') === 'warmup' ? (new URLSearchParams(location.search).get('w') || '').toUpperCase().replace(/[^A-Z0-9]/g, '') : '';
 if (WARMUP) document.body.classList.add('warmup');
 // On a TV (the Fire TV app, or ?tv=1): D-pad focus ring, self-play on, Back goes to the TV home.
 const TV = new URLSearchParams(location.search).get('tv') === '1' || /LetsQuizTV/.test(navigator.userAgent);
@@ -200,8 +203,9 @@ const startsRound = (i) => {
 /** This device's player id: the one its player screen (play.html) keeps, so a device is one player. */
 function myPid() { const p = store('lq_player'); return p && /^p_[a-z0-9]{6,12}$/.test(p.pid || '') ? p.pid : ''; }
 async function bootWarmup() {
-  const back = () => { (window.top || window).location.href = 'warmup?c=' + encodeURIComponent(WARMUP); };
+  const back = () => { (window.top || window).location.href = PLAYQ ? 'warmup?q=' + PLAYQ : 'warmup?c=' + encodeURIComponent(WARMUP); };
   if (!myPid()) return back(); // no name yet: warmup.html asks for one
+  if (PLAYQ) return bootPlayQuiz();
   // A test game (TEST in front of the code) never carries on: every visit starts afresh.
   if (WARM_TEST) unstore(SAVE_KEY);
   // A game already under way on this device carries on where it was (a reload, a dropped connection).
@@ -228,10 +232,30 @@ async function bootWarmup() {
   setTimeout(() => addBots(G.warmBots), 0); // settings.warmup.bots (3 unless set); a test go too, so the host sees it as players do
   setTimeout(() => { if (musicOn()) loadYT().catch(() => {}); }, 0);
 }
+/** Any quiz of yours on this phone: loaded with the builder's password (so this phone must be signed in to the builder), the break
+ *  slides, camera tasks and Who Said That left out (they need a host or a warm-up's answers), power cards and Bounty off, three bots
+ *  unless ?bots=N. It starts afresh every time and saves nothing. */
+async function bootPlayQuiz() {
+  unstore(SAVE_KEY);
+  stage.innerHTML = '<div class="stage-main"><div class="waiting">Getting the questions ready…</div></div>';
+  let r;
+  try { r = await api('get', { id: PLAYQ }, { timeout: 30000 }); }
+  catch (e) { return fail(e.status === 401 || !LQ.hostPassword() ? "This phone isn't signed in to the builder. Open the builder on it, log in, then try again." : e.message); }
+  const quiz = LQ.normalizeQuiz(r.quiz), skip = new Set(['slide', 'task', 'whosaid']), all = quiz.questions.length;
+  quiz.questions = quiz.questions.filter((q) => !skip.has(q.type) && LQ.validate(q).length === 0);
+  quiz.rounds = quiz.rounds.filter((x) => quiz.questions.some((q) => q.round === x.id));
+  quiz.settings = { ...quiz.settings, power: { on: false }, bounty: false };
+  if (!quiz.questions.length) return fail('Nothing in this quiz can be played on a phone yet.');
+  const bp = new URLSearchParams(location.search).get('bots'), nb = bp === null ? 3 : Math.max(0, Math.min(MAX_BOTS, +bp || 0));
+  G = { code: newCode(), quizId: r.quiz.id, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: true, warmup: WARMUP, warmTop: [], warmCount: 0, warmBonus: null, warmUntil: null, warmSolo: true, warmBots: nb, warmReplay: true, playSkipped: all - quiz.questions.length };
+  persist(); connect();
+  setTimeout(() => addBots(nb), 0);
+  setTimeout(() => { if (musicOn()) loadYT().catch(() => {}); }, 0);
+}
 /** Someone joining from another phone who has had their go already is turned away, kindly. */
 const warmChecked = new Set();
 async function warmupGate(pid) {
-  if (!WARMUP || warmChecked.has(pid) || pid.startsWith('p_bot') || pid === myPid()) return;
+  if (!WARMUP || PLAYQ || warmChecked.has(pid) || pid.startsWith('p_bot') || pid === myPid()) return;
   warmChecked.add(pid);
   try {
     const r = await api('warmup_check', { code: WARMUP, pids: [pid] });
@@ -244,6 +268,7 @@ async function warmupGate(pid) {
 }
 /** The end of a warm-up: every real player's score goes on the scoreboard (bots never do). */
 async function warmupSave() {
+  if (PLAYQ) { G.warmSaved = { ok: true, solo: true }; persist(); if (G.phase === 'final') render(); return; } // just for you: nothing goes on any scoreboard
   const rk = ranked();
   const log = (G.log || []).slice().sort((a, b) => a.index - b.index);
   // what each player answered, question by question, so the host can look through their go afterwards
@@ -2677,7 +2702,7 @@ if (window.QuizCall) {
   idle();
 })();
 function bind() {
-  $$('[data-act]').forEach((b) => b.onclick = () => ({ back: goBack, call: callClick, cam: camToggle, fs: fsToggle, bonus: bonusModal, camlinks: camLinksModal, wusave: () => { G.warmSaved = null; render(); warmupSave(); }, wuboard: () => { (window.top || window).location.href = 'warmup?c=' + encodeURIComponent(G.warmup); }, primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(G.bots?.length ? 5 : 3), bots20: () => addBots(MAX_BOTS), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, pause: () => togglePause(), music: toggleMusic, stopgame: gameStop, builder: () => PREVIEW ? window.close() : location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
+  $$('[data-act]').forEach((b) => b.onclick = () => ({ back: goBack, call: callClick, cam: camToggle, fs: fsToggle, bonus: bonusModal, camlinks: camLinksModal, wusave: () => { G.warmSaved = null; render(); warmupSave(); }, wuboard: () => { (window.top || window).location.href = PLAYQ ? 'warmup?q=' + PLAYQ : 'warmup?c=' + encodeURIComponent(G.warmup); }, primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(G.bots?.length ? 5 : 3), bots20: () => addBots(MAX_BOTS), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, pause: () => togglePause(), music: toggleMusic, stopgame: gameStop, builder: () => PREVIEW ? window.close() : location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
   $$('[data-kick]').forEach((el) => { el.style.cursor = 'pointer'; el.title = 'Click to remove this player from the game'; el.onclick = () => kickPlayer(el.dataset.kick); });
   paintClock(); // a redrawn screen shows the time left, not the full time
 }
@@ -2836,7 +2861,7 @@ function renderWarmFinal() {
   const meAt = mine ? board.findIndex((p) => p.score === mine.score && p.name === (me?.name || p.name)) : -1;
   const place = (p) => board.filter((x) => x.score > p.score).length + 1;
   const medal = (n) => n === 1 ? '🥇' : n === 2 ? '🥈' : n === 3 ? '🥉' : n;
-  const status = !sv || sv === 'saving' ? '<div class="wusave">Saving your score…</div>'
+  const status = sv?.solo ? '<div class="wusave ok">🎮 Just for you: nothing is saved.</div>' : !sv || sv === 'saving' ? '<div class="wusave">Saving your score…</div>'
     : sv.error ? `<div class="wusave bad">Your score didn't save: ${esc(sv.error)} <button class="btn btn-sm" data-act="wusave">Try again</button></div>`
     : mine ? `<div class="wusave ok">✅ Saved! ${mine.kept ? (sv.replay ? `Your best of <b>${mine.score}</b> stays on the board. ` : `This phone had played already, so its first score stays: <b>${mine.score}</b>. `) : sv.replay ? 'A new best! ' : ''}You're <b>${ordinal(mine.place)}</b> of ${sv.count} on the ${G.warmSolo ? '' : 'warm-up '}scoreboard.${mine.place === 1 ? ' 🥇 Top of the table!' : ''}</div>`
     : '<div class="wusave ok">✅ Scores saved.</div>';
@@ -2848,7 +2873,7 @@ function renderWarmFinal() {
         ${G.warmSolo ? '' : `<p class="wusmall" style="margin-top:auto">${G.warmBonus ? `Finish it for ${Number(G.warmBonus.play).toLocaleString('en-GB')} bonus points on quiz night; the top score when it closes${G.warmUntil ? ' on ' + esc(endsText(G.warmUntil)) : ''} gets ${Number(G.warmBonus.top).toLocaleString('en-GB')} more.` : `The top score when the warm-up closes${G.warmUntil ? ' on ' + esc(endsText(G.warmUntil)) : ''} gets 1,000 bonus points at the start of the quiz.`}</p>`}</div>
       <div class="wuright"><div class="wusmall">🏆 ${G.warmSolo ? 'Scoreboard' : 'Warm-up scoreboard'}${sv?.count ? ` · ${sv.count} played so far` : ''}</div>
         ${board.length ? `<ol class="wulist" id="wuBoard">${board.map((p, i) => `<li class="${i === meAt ? 'me' : ''}"><span class="n">${medal(place(p))}</span><span class="nm">${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}${i === meAt ? ' (you)' : ''}</span><b>${p.score}</b></li>`).join('')}</ol>`
-          : `<p class="wusmall" style="margin-top:12px">${!sv || sv === 'saving' ? 'Loading the scoreboard…' : 'The scoreboard shows here once your score is saved.'}</p>`}</div>
+          : `<p class="wusmall" style="margin-top:12px">${!sv || sv === 'saving' ? 'Loading the scoreboard…' : sv?.solo ? 'No scoreboard: this one was just for you.' : 'The scoreboard shows here once your score is saved.'}</p>`}</div>
     </div></div>
     ${hostBar('<button class="btn btn-primary" data-act="wuboard">Done</button>')}`;
   bind();

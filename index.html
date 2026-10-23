@@ -592,6 +592,7 @@ function renderList() {
   $$('[data-open]').forEach((b) => b.onclick = () => openQuiz(b.dataset.open));
   $$('[data-tnew]').forEach((b) => b.onclick = () => newFromTemplate(b.dataset.tnew));
   $$('[data-host]').forEach((b) => b.onclick = () => window.open('host.html?quiz=' + b.dataset.host, '_blank'));
+  $$('[data-playme]').forEach((b) => b.onclick = () => { location.href = 'warmup.html?q=' + b.dataset.playme; });
   $$('[data-dup]').forEach((b) => b.onclick = () => duplicateQuiz(b.dataset.dup));
   $$('[data-del]').forEach((b) => b.onclick = async () => {
     const q = S.quizzes.find((x) => x.id === b.dataset.del);
@@ -642,6 +643,7 @@ function quizCard(q) {
     <div class="muted small">${q.count} question${q.count === 1 ? '' : 's'} · updated ${fmtDate(q.updated_at)}</div>
     <div class="types">${(q.types = q.types.filter((t) => t !== 'slide')).slice(0, 4).map((t) => `<span class="tag">${esc(TYPES[t]?.label || t)}</span>`).join('')}${q.types.length > 4 ? `<span class="tag" style="background:var(--paper);color:var(--ink-3)">+${q.types.length - 4} more</span>` : ''}</div>
     <div class="actions"><button class="btn btn-primary btn-sm" data-host="${q.id}" ${q.count ? '' : 'disabled'}>▶ Host</button>
+      <button class="btn btn-sm" data-playme="${q.id}" ${q.count ? '' : 'disabled'} title="Play it yourself on this phone, warm-up style: one screen, bots, nothing saved">📱 Play</button>
       <button class="btn btn-sm" data-open="${q.id}">Edit</button>
       <button class="btn btn-ghost btn-sm" data-dup="${q.id}">Duplicate</button>
       <button class="btn btn-ghost btn-sm" data-del="${q.id}" style="color:var(--bad)">Delete</button></div></div>`;
@@ -826,7 +828,7 @@ function renderEditor() {
   view.innerHTML = `
     <div class="edhead">
       <div class="row"><button class="btn btn-ghost btn-sm" id="back">← Quizzes</button><input type="text" id="title" value="${esc(q.title)}" class="grow" style="font-weight:900;font-size:1.2rem;max-width:560px" placeholder="Quiz title"><span id="saveState" class="muted small"></span></div>
-      <div class="row"><button class="btn btn-ghost btn-sm" id="planner">📋 Rounds</button><button class="btn btn-ghost btn-sm" id="settings">⚙ Settings</button><button class="btn btn-ghost btn-sm" id="aiAdd">✨ Add with AI</button><button class="btn btn-ghost btn-sm" id="checkAll" title="Fact-check every question with AI">✔ Check all</button><button class="btn btn-ghost btn-sm" id="buildLog" title="How this quiz was written: what the writer was asked and what came back">📜 Build log</button><button class="btn btn-ghost btn-sm" id="keys" title="Keyboard shortcuts: Ctrl+S save · Ctrl+↑/↓ previous/next · Alt+↑/↓ move · Ctrl+D duplicate · Ctrl+Enter another like this · Ctrl+Z undo">⌨</button><div class="grow"></div><span id="edNote" class="ednote">${S.unconfirmed ? UNCONFIRMED : ''}</span>${q.settings.report && q.id ? `<a class="btn btn-ghost btn-sm" href="build.html?quiz=${encodeURIComponent(q.id)}" title="The one-click builder's report on this quiz">📋 Report</a>` : ''}<button class="btn btn-sm" id="save">Save</button><button class="btn btn-primary btn-sm" id="host">▶ Host live</button></div>
+      <div class="row"><button class="btn btn-ghost btn-sm" id="planner">📋 Rounds</button><button class="btn btn-ghost btn-sm" id="settings">⚙ Settings</button><button class="btn btn-ghost btn-sm" id="aiAdd">✨ Add with AI</button><button class="btn btn-ghost btn-sm" id="checkAll" title="Fact-check every question with AI">✔ Check all</button><button class="btn btn-ghost btn-sm" id="buildLog" title="How this quiz was written: what the writer was asked and what came back">📜 Build log</button><button class="btn btn-ghost btn-sm" id="keys" title="Keyboard shortcuts: Ctrl+S save · Ctrl+↑/↓ previous/next · Alt+↑/↓ move · Ctrl+D duplicate · Ctrl+Enter another like this · Ctrl+Z undo">⌨</button><div class="grow"></div><span id="edNote" class="ednote">${S.unconfirmed ? UNCONFIRMED : ''}</span>${q.settings.report && q.id ? `<a class="btn btn-ghost btn-sm" href="build.html?quiz=${encodeURIComponent(q.id)}" title="The one-click builder's report on this quiz">📋 Report</a>` : ''}<button class="btn btn-sm" id="save">Save</button><button class="btn btn-primary btn-sm" id="host">▶ Host live</button><button class="btn btn-sm" id="playMe" title="Play this quiz yourself on this phone, the way the warm-ups play: everything on one screen, with bots, nothing saved">📱 Play on my phone</button></div>
     </div>
     <div class="editor"><div class="card qlist" id="qlist"></div><div class="card" id="qform"></div></div>`;
   $('#back').onclick = async () => { if (S.dirty) await save(); loadList(); };
@@ -839,6 +841,7 @@ function renderEditor() {
   $('#checkAll').onclick = () => checkRounds(q.rounds.map((r) => r.id));
   $('#save').onclick = () => save(true);
   $('#host').onclick = hostNow;
+  $('#playMe').onclick = playOnPhone;
   for (const ev of ['input', 'change', 'click']) $('#qform').addEventListener(ev, markEdited);
   renderQList(); renderQForm();
 }
@@ -861,6 +864,15 @@ async function save(explicit) {
     if (explicit) toast('Saved');
   } catch (e) { if (st) st.textContent = 'Not saved'; toast('Could not save: ' + e.message, true); }
   S.saving = false;
+}
+/** "📱 Play on my phone": saves, then opens the warm-up-style player for this quiz (phone screen only, bots, nothing saved). */
+async function playOnPhone() {
+  const bad = S.quiz.questions.map((q, i) => ({ i, p: validate(q) })).filter((x) => x.p.length);
+  if (!S.quiz.questions.length) return toast('Add a question first.', true);
+  if (bad.length) { S.sel = bad[0].i; renderQList(); renderQForm(); return toast(`Question ${bad[0].i + 1} isn't finished: ${bad[0].p[0]}`, true); }
+  await save();
+  if (!S.quiz.id) return;
+  location.href = 'warmup.html?q=' + S.quiz.id;
 }
 async function hostNow() {
   const bad = S.quiz.questions.map((q, i) => ({ i, p: validate(q) })).filter((x) => x.p.length);

@@ -80,6 +80,9 @@ const WEEK = +(new URLSearchParams(location.search).get('wk') || 0) || 0; // TES
 const CODE = (new URLSearchParams(location.search).get('c') || new URLSearchParams(location.search).get('code') || 'WARMUP').toUpperCase().replace(/[^A-Z0-9]/g, '');
 const me = () => { const p = store('lq_player') || {}; return { pid: /^p_[a-z0-9]{6,12}$/.test(p.pid || '') ? p.pid : '', name: p.name || '', emoji: LQ.EMOJIS.includes(p.emoji) ? p.emoji : '' }; };
 const SAVE_KEY = 'lq_live_warmup';
+// warmup?q=<quiz id>: "Play on my phone" for any quiz of yours, the way a warm-up plays (this phone must be signed in to the builder).
+const QID = (() => { const q = new URLSearchParams(location.search).get('q') || ''; return /^[0-9a-f-]{36}$/i.test(q) ? q : ''; })();
+const BOTSQ = new URLSearchParams(location.search).get('bots');
 const TEST = /^TEST[A-Z0-9]+$/.test(CODE); // TEST in front of the code: the host trying the warm-up, as often as you like, nothing saved
 const brand = `<div class="brand"><img src="assets/brand/mark.png" alt="">Let's Quiz!</div>`;
 // Everyone who has played, best first; equal scores share a place. `mine` is picked out (and scrolled to).
@@ -94,6 +97,7 @@ async function start() {
   if (qs.get('reset') === '1') { LQ.unstore(SAVE_KEY); qs.delete('reset'); history.replaceState(null, '', location.pathname + (qs.toString() ? '?' + qs : '')); }
   // A game already going on this device carries straight on (a reload, a dropped connection). Not a test game
   // (TESTWARMUP): that starts afresh every time and is saved apart, so it never touches a real one.
+  if (QID) return playQuiz();
   const g = TEST ? null : store(SAVE_KEY);
   if (g?.warmup === CODE && g.phase && g.phase !== 'lobby' && g.phase !== 'final' && me().pid) return game();
   app.innerHTML = `<div class="land">${brand}<p class="muted" style="color:#fff;opacity:.7">Loading…</p></div>`;
@@ -103,6 +107,21 @@ async function start() {
   if (r.played) return played(r);
   if (!r.open) return closed(r);
   intro(r);
+}
+/** The start page for "Play on my phone": the quiz's own title and mix, then the usual name and emoji. Nothing is saved. */
+async function playQuiz() {
+  app.innerHTML = `<div class="land">${brand}<p class="muted" style="color:#fff;opacity:.7">Loading your quiz…</p></div>`;
+  let q;
+  try { q = (await LQ.api('get', { id: QID }, { timeout: 20000 })).quiz; }
+  catch (e) {
+    const msg = e.status === 401 || !LQ.hostPassword() ? "This phone isn't signed in to the builder yet. Open the builder on it, log in, then come back to this page." : e.message;
+    app.innerHTML = `<div class="land">${brand}<h1>Play on my phone</h1><div class="card"><div class="err">${esc(msg)}</div><a class="go" style="display:block;text-align:center;text-decoration:none" href="index.html">Open the builder</a></div></div>`;
+    return;
+  }
+  const nq = LQ.normalizeQuiz(q), play = nq.questions.filter((x) => !['slide', 'task', 'whosaid'].includes(x.type) && LQ.validate(x).length === 0);
+  if (!play.length) { app.innerHTML = `<div class="land">${brand}<h1>${esc(q.title || 'Your quiz')}</h1><div class="card"><div class="err">Nothing in this quiz can be played on a phone yet.</div></div></div>`; return; }
+  intro({ title: q.title || 'Your quiz', standalone: true, test: true, personal: true, questions: play.length, skipped: nq.questions.length - play.length,
+    bots: BOTSQ === null ? 3 : Math.max(0, Math.min(12, +BOTSQ || 0)), replay: true, top: [], count: 0, types: [...new Set(play.map((x) => x.kind || x.type))] });
 }
 function landError(msg) {
   app.innerHTML = `<div class="land">${brand}<h1>Warm-up</h1><div class="card"><div class="err">${esc(msg)}</div>
@@ -118,7 +137,7 @@ function intro(r) {
   app.innerHTML = `<div class="land">${brand}
     <h1>${esc(r.title)}</h1>
     ${solo(r) ? `<p class="lead">${r.questions || 'Ten'} questions and games on your phone, against ${r.bots === 3 || r.bots == null ? 'three' : r.bots} bots.</p>
-    <div class="prize"><span class="big">🏆</span><span>Top the scoreboard<small>${r.replay ? 'Play as often as you like: your best score counts.' : 'One go per phone, so make it count!'}</small></span></div>
+    ${r.personal ? `<p class="muted" style="margin:0;color:#fff;opacity:.8">Plays like the warm-up: everything on this phone. ${r.skipped ? r.skipped + ' item' + (r.skipped === 1 ? ' is' : 's are') + ' left out (break slides, camera tasks and Who Said That need a host).' : ''}</p>` : `<div class="prize"><span class="big">🏆</span><span>Top the scoreboard<small>${r.replay ? 'Play as often as you like: your best score counts.' : 'One go per phone, so make it count!'}</small></span></div>`}
     ${r.best ? `<div class="chip" style="align-self:flex-start;background:#ffd54a;color:#1b1544">🔁 Your best so far: ${r.best.score} (${ordinal(r.best.place)} of ${r.count}) after ${r.best.goes} go${r.best.goes === 1 ? '' : 'es'}. Beat it!</div>` : ''}` : `<p class="lead">${r.questions ? r.questions : 'Twenty'} questions and games on your phone, against three bots, before quiz night.${(r.types || []).includes('about') ? ' Some are about YOU: watch out, your answers might come back on quiz night!' : ''}</p>
     <div class="prize"><span class="big">🏆</span><span>${r.bonus ? `Finish it for <u>${fmtPts(r.bonus.play)} bonus points</u> on quiz night, and the week's top score gets <u>${fmtPts(r.bonus.top)}</u>` : 'The top score starts the quiz <u>1,000 points</u> ahead'}<small>One go per phone, so make it count!</small></span></div>`}
     ${r.week && !solo(r) ? `<div class="chip" style="align-self:flex-start;background:#ffd54a;color:#1b1544">📅 Warm-up week ${r.week}${r.weeks ? ' of ' + r.weeks : ''}: a new one every Saturday at 5am, and the bonus points from every week add up</div>` : ''}
@@ -131,7 +150,7 @@ function intro(r) {
       <label>Your emoji</label><div class="emopick">${LQ.EMOJIS.map((e) => `<button type="button" data-em="${e}" class="${e === emoji ? 'on' : ''}">${e}</button>`).join('')}</div>
       <div id="nerr"></div><button class="go">Let's play ▶</button></form>
       <p class="muted small" style="margin:10px 0 0">It all plays on your phone.${solo(r) ? '' : " Use the same name you'll use on Friday, so the bonus finds you."}</p></div>
-    <div class="card"><h2>🏆 Top scores so far</h2>${boardHtml(r.top || [])}${r.count > 10 ? `<p class="muted small" style="margin:8px 0 0">${r.count} people have played.</p>` : ''}</div>
+    ${r.personal ? '' : `<div class="card"><h2>🏆 Top scores so far</h2>${boardHtml(r.top || [])}${r.count > 10 ? `<p class="muted small" style="margin:8px 0 0">${r.count} people have played.</p>` : ''}</div>`}
     <p class="note">Friends can join your game too: the code is on your screen once it starts.</p></div>`;
   $$('[data-em]').forEach((b) => b.onclick = () => { emoji = b.dataset.em; $$('[data-em]').forEach((x) => x.classList.toggle('on', x === b)); });
   $('#nf').onsubmit = (e) => {
@@ -178,7 +197,7 @@ function game() {
     </div>
     <iframe class="engine" id="hostFrame" title="" aria-hidden="true" tabindex="-1" allow="autoplay"></iframe>`;
   const hostFrame = $('#hostFrame');
-  hostFrame.src = 'host?quiz=warmup&w=' + encodeURIComponent(CODE) + (WEEK ? '&wk=' + WEEK : '') + '&x=' + Date.now().toString(36);
+  hostFrame.src = (QID ? 'host?quiz=play&q=' + QID + (BOTSQ !== null ? '&bots=' + encodeURIComponent(BOTSQ) : '') : 'host?quiz=warmup&w=' + encodeURIComponent(CODE) + (WEEK ? '&wk=' + WEEK : '')) + '&x=' + Date.now().toString(36);
   // Sound comes from the hidden quiz frame, and phones only let it play after a tap: any tap in the game switches it on.
   const soundOn = () => { try { hostFrame.contentWindow.eval("sfx = sfx || new (window.AudioContext || window.webkitAudioContext)(); if (sfx.state === 'suspended') sfx.resume();"); } catch {} };
   document.addEventListener('pointerdown', soundOn);
