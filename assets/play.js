@@ -868,6 +868,8 @@ function bindQuestion(q) {
   }
 }
 function resultHtml(s, r) {
+  // a full-screen takeover line from the host (a name rule on a pay-by-answer question): big words, the points, nothing else
+  if (r?.screen && r.note) return `<div class="result takeover ${r.points < 0 ? 'neg' : 'ok'}"><div class="tkmsg">${esc(r.note)}</div><div class="pts">${r.points > 0 ? '+' : ''}${r.points}</div><div class="rk">${ordinal(r.rank)} of ${r.of} · ${r.score} points</div></div>`;
   if (r?.viewer && r.watched) return `<div class="result part"><div style="font-size:1.5rem;font-weight:900">👀 You watched this one</div>${s.answer ? `<div style="font-weight:800;opacity:.95">Answer: ${esc(s.answer)}</div>` : ''}<div class="rk">👀 Viewing · ${r.score} points</div></div>`;
   if (!r) return `<div class="state"><h2>Results are on the screen</h2></div>`;
   const wipeQ = s.qType === 'wipeout' || r.wiped || r.points < 0, raceQ = s.qType === 'race' || r.raced;

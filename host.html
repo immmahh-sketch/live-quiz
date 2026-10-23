@@ -479,7 +479,7 @@ function stateForPlayers() {
   if ((G.phase === 'reveal' || G.phase === 'scoreboard' || G.phase === 'final') && G.q?.results) {
     s.results = {}; s.qType = question()?.type;
     const rk = ranked();
-    for (const p of rk) { const r = G.q.results.byPlayer[p.id]; s.results[p.id] = { party: r?.party || null, note: r?.note || '', headline: !!r?.headline, practice: !!r?.practice, would: r?.would || 0, correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, skipped: !!r?.skipped, wiped: !!r?.wiped, raced: !!r?.raced, lost: !!r?.lost, place: r?.place || 0, base: r?.base || 0, bonus: r?.bonus || 0, got: r?.got, out: !!r?.out, score: p.score, rank: rk.indexOf(p) + 1, of: rk.length }; }
+    for (const p of rk) { const r = G.q.results.byPlayer[p.id]; s.results[p.id] = { party: r?.party || null, note: r?.note || '', headline: !!r?.headline, screen: !!r?.screen, practice: !!r?.practice, would: r?.would || 0, correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, skipped: !!r?.skipped, wiped: !!r?.wiped, raced: !!r?.raced, lost: !!r?.lost, place: r?.place || 0, base: r?.base || 0, bonus: r?.bonus || 0, got: r?.got, out: !!r?.out, score: p.score, rank: rk.indexOf(p) + 1, of: rk.length }; }
     // VIEW phones: each its own result, marked as viewing and never ranked (watched: a group game they sat out)
     for (const [vid, v] of Object.entries(G.viewers || {})) { const r = G.q.vResults?.[vid]; s.results[vid] = { note: r?.note || '', practice: !!r?.practice, would: r?.would || 0, correct: r?.correct || false, partial: r?.partial ?? (r?.correct ? 1 : 0), points: r?.points || 0, answered: !!r?.answered, skipped: !!r?.skipped, score: v.score, rank: 0, of: rk.length, viewer: true, watched: groupGame() }; }
     if (G.quiz.settings.showAnswersOnPhones !== false) { s.answer = answerText(question()); if (question()?.why) s.why = question().why; else if (question()?.type === 'pin' && question().info) s.why = question().info; }
@@ -2145,11 +2145,16 @@ async function grade(noAi, ctx) {
       const id = keys[a.answer]; stats.counts[id] = (stats.counts[id] || 0) + 1; res(pid, id === LQ.correctId(q), 0, a.elapsed, { choice: id });
       // A question that pays by answer ("Is your name Dan?": yes -5000, no +1000): q.optionPoints maps an option id to its points, with no speed bonus.
       // q.optionNotes can give each answer its own line on the result card.
-      if (q.optionPoints && Object.prototype.hasOwnProperty.call(q.optionPoints, id)) {
-        const p = Math.round(+q.optionPoints[id] || 0), r = byPlayer[pid];
+      // q.nameOverrides: [{name, optionPoints, optionNotes, screen}] swaps in other points and lines for a player of that name
+      // (first word, any case: "Dan", "dan 🦖"), and screen:true makes the phone show the line as a full-screen takeover.
+      const nm = String(PL[pid]?.name || '').replace(/[^\p{L}\s]/gu, ' ').trim().toLowerCase();
+      const ov = (q.nameOverrides || []).find((o) => { const w = String(o.name || '').toLowerCase(); return w && (nm === w || nm.startsWith(w + ' ')); });
+      const table = ov?.optionPoints || q.optionPoints, notes = ov?.optionNotes || q.optionNotes;
+      if (table && Object.prototype.hasOwnProperty.call(table, id)) {
+        const p = Math.round(+table[id] || 0), r = byPlayer[pid];
         if (p > 0 && !r.correct) stats.right++; else if (p <= 0 && r.correct) stats.right--;
         r.points = p; r.correct = p > 0; r.partial = p > 0 ? 1 : 0;
-        const n = q.optionNotes && q.optionNotes[id]; if (n) { r.note = n; r.headline = true; }
+        const n = notes && notes[id]; if (n) { r.note = n; r.headline = true; if (ov?.screen) r.screen = true; }
       }
     }
   }
