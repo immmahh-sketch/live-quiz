@@ -965,6 +965,15 @@ Deno.serve(async (req) => {
     // anyone with the code, on their own device, against three bots, until the `until` time. One row per device
     // (its player id) per season goes into quiz_warmup_plays when the game ends, so each device plays once a season;
     // refreshing the warm-up for a later quiz starts a new season (a fresh scoreboard). Bots are never written.
+    if (action === "play_open") {
+      // "Play on my phone" for anyone with the link: a quiz its owner has shared (settings.share) is handed over so a phone can run it
+      // warm-up style, against bots, with nothing saved. Not shared, or an unknown id, gets nothing.
+      const id = String(body.id || "");
+      if (!UUID_RE.test(id)) return json({ error: "That isn't a quiz link." }, 400);
+      const q = (await rest(`quiz_quizzes?id=eq.${id}&select=id,title,settings,questions`))?.[0];
+      if (!q || q.settings?.share !== true) return json({ error: "This quiz isn't shared for play. Ask whoever sent the link to share it again." }, 403);
+      return json({ quiz: { id: q.id, title: q.title, settings: q.settings, questions: q.questions } });
+    }
     if (action === "warmup_open" || action === "warmup_check" || action === "warmup_save") {
       const code = String(body.code || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 16); // a code is up to 12, TEST in front makes 16
       if (code.length < 3) return json({ error: "That's not a warm-up code." }, 400);
@@ -1076,6 +1085,7 @@ Deno.serve(async (req) => {
         id: r.id, title: r.title, updated_at: r.updated_at, created_at: r.created_at,
         template: !!(r.settings && r.settings.template),
         bank: !!(r.settings && r.settings.bank),
+        share: r.settings?.share === true, // the play link is on
         // a warm-up or a just-for-fun game: people open it by its code, so it has an on/off switch in the builder
         play: r.settings?.warmup ? { code: String(r.settings.warmup.code || ""), on: r.settings.warmup.open !== false, fun: !!r.settings.warmup.fun, ended: !!(r.settings.warmup.until && Date.parse(r.settings.warmup.until) <= Date.now()) } : null,
         rounds: Array.isArray(r.settings?.rounds) ? r.settings.rounds.map((x: any) => ({ title: x?.title || "", count: Object.values(x?.mix || {}).reduce((a: number, b: any) => a + (+b || 0), 0) || +x?.count || 0, types: Object.keys(x?.mix || {}) })) : [],
@@ -1685,6 +1695,16 @@ Deno.serve(async (req) => {
       const q = (await rest(`quiz_quizzes?id=eq.${body.id}&select=id,settings`))?.[0];
       if (!q?.settings?.warmup) return json({ error: "Only warm-ups and games played by code can be switched on and off." }, 400);
       const settings = { ...q.settings, warmup: { ...q.settings.warmup, open: !!body.on } };
+      await rest(`quiz_quizzes?id=eq.${q.id}`, { method: "PATCH", headers: { Prefer: "return=minimal" }, body: JSON.stringify({ settings }) });
+      return json({ ok: true, on: !!body.on });
+    }
+
+    if (action === "quiz_share") {
+      // The builder's switch for the play link: on, anyone with warmup?q=<id> can play the quiz on a phone (play_open); off, nobody can.
+      if (!UUID_RE.test(String(body.id))) return json({ error: "Bad quiz id." }, 400);
+      const q = (await rest(`quiz_quizzes?id=eq.${body.id}&select=id,settings`))?.[0];
+      if (!q) return json({ error: "That quiz no longer exists." }, 404);
+      const settings = { ...(q.settings || {}) }; if (body.on) settings.share = true; else delete settings.share;
       await rest(`quiz_quizzes?id=eq.${q.id}`, { method: "PATCH", headers: { Prefer: "return=minimal" }, body: JSON.stringify({ settings }) });
       return json({ ok: true, on: !!body.on });
     }

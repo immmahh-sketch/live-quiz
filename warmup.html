@@ -112,12 +112,13 @@ async function start() {
 async function playQuiz() {
   app.innerHTML = `<div class="land">${brand}<p class="muted" style="color:#fff;opacity:.7">Loading your quiz…</p></div>`;
   let q;
-  try { q = (await LQ.api('get', { id: QID }, { timeout: 20000 })).quiz; }
-  catch (e) {
-    const msg = e.status === 401 || !LQ.hostPassword() ? "This phone isn't signed in to the builder yet. Open the builder on it, log in, then come back to this page." : e.message;
-    app.innerHTML = `<div class="land">${brand}<h1>Play on my phone</h1><div class="card"><div class="err">${esc(msg)}</div><a class="go" style="display:block;text-align:center;text-decoration:none" href="index.html">Open the builder</a></div></div>`;
-    return;
-  }
+  try { q = (await LQ.api('play_open', { id: QID }, { timeout: 20000 })).quiz; }              // shared with a play link: anyone can
+  catch { try { q = (await LQ.api('get', { id: QID }, { timeout: 20000 })).quiz; }             // not shared: the owner, signed in to the builder
+    catch (e) {
+      const msg = e.status === 401 || !LQ.hostPassword() ? "This quiz isn't shared for play. Ask whoever sent you the link to share it again." : e.message;
+      app.innerHTML = `<div class="land">${brand}<h1>Play on my phone</h1><div class="card"><div class="err">${esc(msg)}</div></div></div>`;
+      return;
+    } }
   const nq = LQ.normalizeQuiz(q), play = nq.questions.filter((x) => !['slide', 'task', 'whosaid'].includes(x.type) && LQ.validate(x).length === 0);
   if (!play.length) { app.innerHTML = `<div class="land">${brand}<h1>${esc(q.title || 'Your quiz')}</h1><div class="card"><div class="err">Nothing in this quiz can be played on a phone yet.</div></div></div>`; return; }
   intro({ title: q.title || 'Your quiz', standalone: true, test: true, personal: true, questions: play.length, skipped: nq.questions.length - play.length,

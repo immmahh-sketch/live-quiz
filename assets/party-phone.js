@@ -80,7 +80,7 @@ function partyDeadline(s) { if (s.phase === 'question' && s.q && s.power?.fx?.sl
 
 // ---------------------------------------------------------------- the games: Play Your Cards Right, the quiz-night task
 function partyGameKey(s) {
-  if (s.bi) { const g = s.bi; return ['bi', g.step, g.started, g.answered.includes(P.pid), g.err, (g.top || []).map((x) => x.pid).join(), g.fw ?? '', P.bi?.myMs != null].join('|'); }
+  if (s.bi) { const g = s.bi; return ['bi', g.step, g.needClick, g.started, g.answered.includes(P.pid), g.err, (g.top || []).map((x) => x.pid).join(), g.fw ?? '', P.bi?.myMs != null].join('|'); }
   if (s.pc) { const g = s.pc, me = P.pid; return ['pc', g.step, g.pos?.[me] ?? '-', me in (g.out || {}), (g.done || []).includes(me)].join('|'); }
   if (s.ob) { const g = s.ob, me = P.pid; return ['ob', g.step, g.k, g.alive.includes(me), me in (g.out || {}), g.ans.includes(me)].join('|'); }
   if (s.tm) { const g = s.tm; return ['tm', g.step, g.round, g.picks.join(), g.spinning ? 's' : '', g.totalMs ? 'c' : ''].join('|'); }
@@ -176,6 +176,12 @@ function obPhoneHtml(s) {
 }
 function partyBindGame(s) {
   const qId = s.q.id;
+  if ($('#biStartMusic')) $('#biStartMusic').onclick = (e) => {
+    // Played on one phone, the song runs in a hidden frame of this same page and can't be tapped itself, so this tap starts it:
+    // called straight from the tap, so the phone counts it as the player's own.
+    e.target.disabled = true; e.target.textContent = 'Starting…'; biStartMusicNow();
+    setTimeout(() => { if (document.body.contains(e.target)) { e.target.disabled = false; e.target.textContent = '🔊 Start the music'; } }, 6000);
+  };
   if ($('#biTap')) $('#biTap').onpointerdown = (e) => {
     e.preventDefault(); if (!P.bi?.base || P.bi.myMs != null) return;
     P.bi.myMs = Math.max(0, Date.now() - P.bi.base); P.bi.sentAt = Date.now();
@@ -234,6 +240,8 @@ function biPhoneHtml(s) {
   const clock = (txt) => `<div class="biphone"><div class="biclock" id="biClock">${txt}</div></div>`;
   if (g.err) return `<div class="state"><div class="em">😕</div><h2>Trouble with the song</h2><p class="muted">The host will skip this one.</p></div>`;
   if (g.step === 'load' || g.step === 'ready') return `<div class="state"><div class="em">🎧</div><h2>Get ready to listen…</h2><p class="muted">The timer starts with the music. When the music stops, tap the button when you think the first sung word would come in.</p></div>`;
+  if (g.step === 'listen' && g.needClick) return biSolo() ? `<div class="state"><div class="em">🔊</div><h2>Tap to start the music</h2><p class="muted">Your phone needs a tap before it will play sound.</p><button class="btn btn-primary btn-lg btn-block bitap" id="biStartMusic">🔊 Start the music</button></div>`
+    : `<div class="state"><div class="em">🔊</div><h2>Waiting for the music…</h2><p class="muted">The host needs to tap to start it.</p></div>`;
   if (g.step === 'listen') return `<div class="state" style="padding-top:6px"><div class="em bipulse">🎧</div><h2>Listen…</h2>${clock('0.00')}<p class="muted">The music is about to stop. Keep counting!</p></div>`;
   if (g.step === 'guess') {
     if (done) return `<div class="state"><div class="em">🔒</div><h2>Locked in${mine != null ? ': ' + secs(mine) + ' s' : ''}</h2><p class="muted">Waiting for the others…</p></div>`;
@@ -244,6 +252,9 @@ function biPhoneHtml(s) {
   return `<div class="state"><div class="em">🎤</div><h2>The first word came in at ${secs(g.fw)} s</h2><p class="muted">${mine != null ? 'Your guess: ' + secs(mine) + ' s. ' : ''}Your result is coming up…</p></div>`;
 }
 /** Redraws the phone's timer 20 times a second: running until you tap, then frozen on your guess. */
+/** True when this phone is playing on its own (the warm-up shell around it also runs the game). */
+const biSolo = () => { try { return new URLSearchParams(location.search).get('solo') === '1' && window.parent !== window && !!window.parent.document.getElementById('hostFrame'); } catch { return false; } };
+function biStartMusicNow() { try { return window.parent.document.getElementById('hostFrame').contentWindow.biClickPlay(); } catch { return false; } }
 function tickBi() {
   const el = $('#biClock'), s = P.state?.bi; if (!el || !s || !P.bi?.base) return;
   el.textContent = ((P.bi.myMs != null ? P.bi.myMs : Date.now() - P.bi.base) / 1000).toFixed(2);

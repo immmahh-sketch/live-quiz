@@ -239,8 +239,9 @@ async function bootPlayQuiz() {
   unstore(SAVE_KEY);
   stage.innerHTML = '<div class="stage-main"><div class="waiting">Getting the questions ready…</div></div>';
   let r;
-  try { r = await api('get', { id: PLAYQ }, { timeout: 30000 }); }
-  catch (e) { return fail(e.status === 401 || !LQ.hostPassword() ? "This phone isn't signed in to the builder. Open the builder on it, log in, then try again." : e.message); }
+  try { r = await api('play_open', { id: PLAYQ }, { timeout: 30000 }); }                  // shared with a play link: anyone can
+  catch { try { r = await api('get', { id: PLAYQ }, { timeout: 30000 }); }                 // not shared: the owner, signed in to the builder
+    catch (e) { return fail(e.status === 401 || !LQ.hostPassword() ? "This quiz isn't shared for play. Ask whoever sent you the link to share it again." : e.message); } }
   const quiz = LQ.normalizeQuiz(r.quiz), skip = new Set(['slide', 'task', 'whosaid']), all = quiz.questions.length;
   quiz.questions = quiz.questions.filter((q) => !skip.has(q.type) && LQ.validate(q).length === 0);
   quiz.rounds = quiz.rounds.filter((x) => quiz.questions.some((q) => q.round === x.id));

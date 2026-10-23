@@ -139,7 +139,7 @@ function partyState(s) {
   if (G.phase === 'question' && G.q?.bi) {
     const g = G.q.bi, rev = g.step === 'reveal';
     // the first-word time goes out only at the reveal: it is the whole game
-    s.bi = { step: g.step, started: g.started, elapsedMs: g.started ? nowT - g.t0 : 0, answered: Object.keys(g.guesses), top: null, fw: rev ? Math.round(g.fw * 1000) : null, lag: g.lag, err: !!g.err };
+    s.bi = { step: g.step, started: g.started, elapsedMs: g.started ? nowT - g.t0 : 0, answered: Object.keys(g.guesses), top: null, fw: rev ? Math.round(g.fw * 1000) : null, lag: g.lag, err: !!g.err, needClick: !!g.needClick };
   }
   tmState(s); // Taskmaster on camera
   if (G.phase === 'question' && G.q?.task) {
@@ -361,7 +361,7 @@ function biState(g, e) {
 function biListen(g) {
   stepTo(g, 'listen', 0); persist(); biRender(); broadcastState();
   try { biP.unMute(); biP.setVolume(100); biP.seekTo(g.start || 0, true); biP.playVideo(); } catch {}
-  biAskClick(g, 3000);
+  biAskClick(g, WARMUP ? 250 : 3000); // played on one phone: nobody can click the hidden screen, so ask the phone for the tap straight away
 }
 /** A browser that has not had a click on this page will not play sound by itself. If the song has not started, say so and wait for a click
  *  (never a muted start: the phones' clocks must only run while the music really plays). */
