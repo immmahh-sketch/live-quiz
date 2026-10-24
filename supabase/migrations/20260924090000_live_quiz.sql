@@ -40,7 +40,7 @@ alter table quiz_games enable row level security;
 -- function, which is the only thing holding a key that can write.
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values ('quiz-media', 'quiz-media', true, 8388608,
-        array['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+        array['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'audio/mpeg'])
 on conflict (id) do update
   set public = excluded.public,
       file_size_limit = excluded.file_size_limit,

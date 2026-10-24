@@ -2562,8 +2562,19 @@ const pick = (arr) => { const opts = arr.filter((x) => (Array.isArray(x) ? x[0] 
 // (musicPrepare), started at once when the question goes live, and kept in step with the clock: whenever it plays, and
 // every couple of seconds after, it is moved to where it should be for the time left (musicSync).
 let musicPlan = null;
+/** A quiz can bring its own background music: settings.bgMusic = { clips: [mp3 urls], volume: 0.3 }. A different clip plays under each question. */
+const customMusic = () => (G?.quiz?.settings?.bgMusic?.clips || []).length > 0;
+let bgAudio = null, bgLast = -1;
+function playCustom() {
+  const m = G.quiz.settings.bgMusic, clips = m.clips; let i;
+  do { i = Math.floor(Math.random() * clips.length); } while (clips.length > 1 && i === bgLast);
+  bgLast = i; musicStop(); musicMode = 'custom';
+  const a = bgAudio = new Audio(clips[i]); a.volume = Math.min(1, Math.max(0, +m.volume || 0.3));
+  a.play().catch(() => {}); // the browser may wait for a first press on the page before it lets sound start
+}
 function planFor(q) {
   if (!q || q.type === 'tune' || q.type === 'koth' || q.media?.kind === 'youtube') return null; // King of the Hill is answered out loud
+  if (customMusic()) return { qid: q.id, custom: true };
   const T = ['wipeout', 'potato', 'blockbusters', 'chase', 'draw', 'unique'].includes(q.type) ? 0 : +q.time || 0;
   const bucket = T ? Object.keys(MUSIC.countdown).map(Number).sort((a, b) => a - b).find((b) => b >= T) : null;
   if (!bucket) return { qid: q.id, loop: true };
@@ -2572,7 +2583,7 @@ function planFor(q) {
 }
 async function musicPrepare(q) {
   if (!musicOn()) return;
-  const plan = planFor(q); musicPlan = plan; if (!plan || plan.loop) return;
+  const plan = planFor(q); musicPlan = plan; if (!plan || plan.loop || plan.custom) return;
   const p = await loadYT().catch(() => null); if (!p || musicPlan !== plan) return;
   try { p.setVolume(45); p.cueVideoById({ videoId: plan.id, startSeconds: Math.max(0, plan.dur - plan.T) }); } catch {}
 }
@@ -2586,6 +2597,7 @@ async function musicStart(q) {
   if (!q || !musicOn()) return musicStop();
   const plan = musicPlan && musicPlan.qid === q.id ? musicPlan : planFor(q); musicPlan = plan;
   if (!plan) return musicStop();
+  if (plan.custom) return G.phase === 'question' && !G.paused ? playCustom() : undefined;
   const p = await loadYT().catch(() => null);
   if (!p || G.phase !== 'question' || G.paused || question() !== q) return;
   if (plan.loop) return playLoop();
@@ -2593,8 +2605,8 @@ async function musicStart(q) {
   try { if (p.getVideoData?.()?.video_id === plan.id) { p.seekTo(musicTarget(), true); p.playVideo(); } else p.loadVideoById({ videoId: plan.id, startSeconds: musicTarget() }); } catch {}
 }
 function playLoop() { if (!ytP) return; musicMode = 'loop'; ytP.setVolume(35); ytP.loadVideoById(pick(MUSIC.loop)); }
-function musicStop() { if (!musicMode) return; musicMode = null; try { ytP?.stopVideo(); } catch {} }
-function musicPause(on) { try { if (on) ytP?.pauseVideo(); else if (musicMode) ytP?.playVideo(); } catch {} }
+function musicStop() { try { bgAudio?.pause(); } catch {} bgAudio = null; if (!musicMode) return; musicMode = null; try { ytP?.stopVideo(); } catch {} }
+function musicPause(on) { if (musicMode === 'custom') { try { on ? bgAudio?.pause() : bgAudio?.play().catch(() => {}); } catch {} return; } try { if (on) ytP?.pauseVideo(); else if (musicMode) ytP?.playVideo(); } catch {} }
 function renderTypeCard() {
   const q = question(), k = q.kind || q.type, T = TYPES[k] || { icon: '❓', label: k }, run = typeRun(G.qIndex);
   stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">Question ${qNum(G.qIndex)} of ${total()}</span>${practiceQ() ? '<span class="hpill practicepill">🧪 Practice · no points</span>' : ''}</div></div>
