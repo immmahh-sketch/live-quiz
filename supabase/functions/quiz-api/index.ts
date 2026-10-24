@@ -700,6 +700,7 @@ async function finishRaw(raw: any[], count: number, usedPictures: string[], want
         for (let tries = 0; tries < 50 && letters === word; tries++) letters = word.split("").map((c) => [Math.random(), c] as [number, string]).sort((x, y) => x[0] - y[0]).map((x) => x[1]).join("");
       }
       base.type = "text"; base.kind = "conundrum"; base.text = "Countdown Conundrum"; base.letters = letters; base.answers = [word]; base.ai = false; base.time = 60; base.media = { kind: "none" };
+      const clue = String(r.clue ?? "").replace(/\s+/g, " ").trim().slice(0, 80); if (clue) base.clue = clue; // a small hint at the word, shown under the letters
       return base;
     }
     if (r.type === "dingbat") {

@@ -1586,8 +1586,10 @@ function renderTypeBox() {
       <div class="row" style="gap:12px;flex-wrap:wrap;align-items:flex-end"><div class="field" style="flex:1 1 220px"><label>The word <span class="muted">— usually nine letters</span></label><input type="text" id="cn_word" value="${esc(q.answers[0] || '')}" placeholder="e.g. CHAMPAGNE" style="text-transform:uppercase;letter-spacing:.08em"></div>
       <div class="field" style="flex:1 1 220px"><label>Scrambled letters</label><input type="text" id="cn_letters" value="${esc(q.letters || '')}" placeholder="e.g. GNAPECHAM" style="text-transform:uppercase;letter-spacing:.08em"></div>
       <button class="btn btn-ghost btn-sm" id="cn_shuffle" style="margin-bottom:14px">🔀 Shuffle</button></div>
-      <div class="field"><label>On the screen <span class="muted">— live preview</span></label><div id="cn_prev">${LQ.conundrumHtml(q.letters)}</div></div>`;
-    const prev = () => { $('#cn_prev').innerHTML = LQ.conundrumHtml(q.letters); touch(); showProblems(); };
+      <div class="field"><label>Clue <span class="muted">— a small hint at the word, shown under the letters (without using the word)</span></label><input type="text" id="cn_clue" value="${esc(q.clue || '')}" maxlength="60" placeholder="e.g. Spiky tropical fruit"></div>
+      <div class="field"><label>On the screen <span class="muted">— live preview</span></label><div id="cn_prev">${LQ.conundrumHtml(q.letters)}<div class="cnclue" id="cn_cluep">${q.clue ? '💡 ' + esc(q.clue) : ''}</div></div></div>`;
+    const prev = () => { $('#cn_prev').innerHTML = LQ.conundrumHtml(q.letters) + `<div class="cnclue" id="cn_cluep">${q.clue ? '💡 ' + esc(q.clue) : ''}</div>`; touch(); showProblems(); };
+    $('#cn_clue').oninput = (e) => { q.clue = e.target.value.trim(); if (!q.clue) delete q.clue; prev(); };
     $('#cn_word').oninput = (e) => { const was = q.answers[0]; q.answers = [LQ.conundrumWord(e.target.value)]; if (!LQ.sameLetters(q.answers[0], q.letters) || !was) { q.letters = LQ.scrambleWord(q.answers[0]); $('#cn_letters').value = q.letters; } prev(); };
     $('#cn_letters').oninput = (e) => { q.letters = LQ.conundrumWord(e.target.value); prev(); };
     $('#cn_shuffle').onclick = () => { q.letters = LQ.scrambleWord(q.answers[0]); $('#cn_letters').value = q.letters; prev(); };

@@ -1001,7 +1001,7 @@ function buildView(q) {
   if (q.type === 'highlow') { v.lowText = q.lowText; v.highPoints = q.highPoints ?? 1000; v.lowPoints = q.lowPoints ?? 500; }
   if (q.type === 'club') { v.pct = q.pct; v.points = LQ.clubPoints(q.pct); }
   if (q.type === 'dingbat') { v.elements = (q.elements || []).filter((e) => (e.t || '').trim()); }
-  if (q.kind === 'conundrum') { v.letters = LQ.conundrumWord(q.letters); }
+  if (q.kind === 'conundrum') { v.letters = LQ.conundrumWord(q.letters); if (q.clue) v.clue = String(q.clue).slice(0, 80); }
   if (q.type === 'tune') { v.text = LQ.tunePrompt(q); v.ask = q.ask; v.media = null; v.clip = q.media?.length || 15; }
   // A warm-up has no shared screen: the phone plays the clip itself (no artwork: it would give the answer away)
   if (WARMUP && q.type === 'tune' && q.media?.url) v.tune = { url: q.media.url, start: Math.max(0, +q.media.start || 0), len: Math.min(30, Math.max(3, +q.media.length || 15)), backwards: !!q.backwards };
@@ -3017,7 +3017,7 @@ function renderQuestion() {
   if (q.type === 'sort') body = `<div class="cats">${v.categories.map((c) => `<div class="cat"><h3>${esc(c.name)}</h3></div>`).join('')}</div><div class="items mt">${v.items.map((it) => `<div class="item">${esc(it.text)}</div>`).join('')}</div>`;
   if (q.type === 'text' && pollMode(q)) body = `<div class="pollwall" id="pollwall"></div>`;
   else if (q.type === 'text') body = `<div class="item" style="justify-content:center">${q.kind === 'survey' ? '👪 We asked the room! Type the first answer that comes to mind: match the most people to score most' : q.kind === 'reveal' ? '🧩 Who is it? Type it on your phone: the fewer tiles it takes, the more you score' : '✎ Type your answer on your phone'}</div>`;
-  if (q.kind === 'conundrum') body = `${LQ.conundrumHtml(q.letters, 'stage-cn')}<div class="item" style="justify-content:center;margin-top:14px">🔠 One nine-letter word · type it on your phone, spelt exactly right · 5,000 points for getting it</div>`;
+  if (q.kind === 'conundrum') body = `${LQ.conundrumHtml(q.letters, 'stage-cn')}${q.clue ? `<div class="cnclue">💡 ${esc(q.clue)}</div>` : ''}<div class="item" style="justify-content:center;margin-top:14px">🔠 One nine-letter word · type it on your phone, spelt exactly right · 5,000 points for getting it</div>`;
   if (q.type === 'smash') body = `<div class="item" style="justify-content:center">🔀 Answer Smash — type the picture and the clue smashed together</div>`;
   if (q.type === 'highlow') {
     stage.innerHTML = `${topBar(`<div class="pillbox"><span class="hpill" id="answered">0 of ${players().length} answered</span><div class="timer" id="timer" data-s="${q.time}" style="--p:100%"></div></div>`)}
