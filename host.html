@@ -1688,10 +1688,15 @@ function kothH2h(pair) {
   stepTo(g, 'h2h', q.time * 1000);
   persist(); renderKoth(); broadcastState(); botKothBuzz();
 }
-/** Who may press Correct / Incorrect: the host screen always; in self-play, the other players' phones too (the opponent's if nobody else is playing). */
+/** Who may press Correct / Incorrect: the host screen always; in self-play, the phone of someone not in the head-to-head, else the opponent's, else a lone player's own (bots never count). */
 function kothJudges() {
   const g = G.q.koth; if (!G.auto || !g?.h2h?.buzz) return [];
-  const others = livePids().filter((x) => !g.pair.includes(x)); return others.length ? others : g.pair.filter((x) => x !== g.h2h.buzz);
+  const human = (x) => !(G.bots || []).some((b) => b.pid === x); // a bot has no phone to press on
+  const others = livePids().filter((x) => !g.pair.includes(x) && human(x));
+  if (others.length) return others; // somebody who is not in the head-to-head marks it
+  const opp = g.pair.filter((x) => x !== g.h2h.buzz && human(x));
+  if (opp.length) return opp; // else the person they were up against
+  return human(g.h2h.buzz) ? [g.h2h.buzz] : []; // else (one person and bots) they mark their own, on trust
 }
 function kothStepDone() {
   const g = G.q.koth, q = question();

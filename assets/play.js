@@ -501,7 +501,7 @@ function kothHtml(s) {
   if (g.step === 'noBuzz') return `${vs()}<div class="state"><h2>Nobody buzzed</h2><p class="muted">It was <b>${esc(h.answer || '')}</b>. Same two again…</p></div>`;
   if (g.step === 'judge') {
     const judge = g.judges.includes(me);
-    return `${vs()}<div class="state"><h2>${esc(nm(s, h.buzz))} answered…</h2><p style="font-weight:800">The answer: ${esc(h.answer || '')}</p>${judge ? `<p class="muted">Did they get it right?</p><div class="kjudgep"><button class="btn kyes" data-judge="1">✅ Correct</button><button class="btn kno" data-judge="0">❌ Incorrect</button></div>` : '<p class="muted">Waiting for the verdict…</p>'}</div>`;
+    return `${vs()}<div class="state"><h2>${esc(nm(s, h.buzz))} answered…</h2><p style="font-weight:800">The answer: ${esc(h.answer || '')}</p>${judge ? `<p class="muted">${h.buzz === me ? 'Be honest: did you get it right?' : 'Did they get it right?'}</p><div class="kjudgep"><button class="btn kyes" data-judge="1">✅ Correct</button><button class="btn kno" data-judge="0">❌ Incorrect</button></div>` : '<p class="muted">Waiting for the verdict…</p>'}</div>`;
   }
   if (g.step === 'result') { const r = g.result; return `${pts}<div class="state"><div class="em">${r.ok ? '✅' : '❌'}</div><h2>${r.ok ? `${esc(nm(s, r.pid))} got it: ${g.pts[r.pid]} / ${g.target}` : `${esc(nm(s, r.pid))} got it wrong`}</h2><p class="muted">${esc(nm(s, g.king))} stays on the hill 👑</p></div>`; }
   return pts;
