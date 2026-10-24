@@ -314,7 +314,18 @@ function renderDone() {
 // ------------------------------------------------------------------ boot
 (async function boot() {
   if (!LQ.hostPassword()) return go('login', { replace: true });
-  try { const r = await api('login'); T.ai = !!r.ai; } catch (e) { if (e.status === 401) { LQ.setHostPassword(''); return go('login', { replace: true }); } }
+  try { const r = await api('login', {}, { timeout: 12000 }); T.ai = !!r.ai; }
+  catch (e) {
+    if (e.status === 401) { LQ.setHostPassword(''); return go('login', { replace: true }); }
+    // No answer from the server (usually the TV's Wi-Fi or internet): say so, rather than sit on a spinner
+    view.innerHTML = `${head("Can't reach the quiz server", 'The TV could not get an answer. Check the Fire TV is online (Settings, Network), then try again.')}
+      <div class="row mt"><button class="btn btn-primary btn-lg" id="retry" data-autofocus>Try again</button><button class="btn btn-ghost btn-lg" id="carry">Carry on anyway</button></div>
+      <p class="muted mt">${esc(e.message || '')}</p>`;
+    $('#retry').onclick = () => location.reload();
+    $('#carry').onclick = () => go('home', { replace: true });
+    $('[data-autofocus]')?.focus();
+    return;
+  }
   go('home', { replace: true });
 })();
 </script>
