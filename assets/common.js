@@ -475,6 +475,11 @@ window.LQ = (() => {
   // and `q.custom` ([{id, text, yes}]) are extra yes/no questions for this one answer. A custom question is always open once
   // a kind has been found; with a custom kind, those are the only ones. The phones only ever get the id and text (never `yes`).
   const CUSTOM_KIND = 'c_kind';
+  /** Sealed messages (AES-GCM, key from the host password and a game code): the host's phone talks to the host screen over the
+   *  players' own channel without them being able to read or fake it. Returns base64 of iv + ciphertext. */
+  async function sealKey(pw, code) { const h = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw + ':traitors:' + code)); return crypto.subtle.importKey('raw', h, 'AES-GCM', false, ['encrypt', 'decrypt']); }
+  async function seal(pw, code, obj) { const iv = crypto.getRandomValues(new Uint8Array(12)), ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, await sealKey(pw, code), new TextEncoder().encode(JSON.stringify(obj)))); const all = new Uint8Array(12 + ct.length); all.set(iv); all.set(ct, 12); let s = ''; for (const b of all) s += String.fromCharCode(b); return btoa(s); }
+  async function unseal(pw, code, b64) { const all = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0)); return JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: all.slice(0, 12) }, await sealKey(pw, code), all.slice(12)))); }
   const twentyKinds = (q) => q?.customKind?.text ? [{ id: CUSTOM_KIND, text: q.customKind.text, custom: true }, ...TWENTY_KINDS] : TWENTY_KINDS;
   const twentyCustom = (q) => (q?.custom || []).filter((c) => c && c.id && String(c.text || '').trim());
   const twentyQ = (id, q) => twentyKinds(q).find((k) => k.id === id) || (q?.custom || []).find((c) => c.id === id) || TWENTY_QS.find((x) => x.id === id) || null;
@@ -491,7 +496,7 @@ window.LQ = (() => {
    *  extra ones. Never one already asked. `q` is the item (or the phone's public view of it) and may be left out. */
   function twentyOpen(asked, q) {
     const done = new Set(asked.map((a) => a.id)), yes = new Set(asked.filter((a) => a.yes).map((a) => a.id)), no = new Set(asked.filter((a) => !a.yes).map((a) => a.id));
-    const kinds = twentyKinds(q), kind = kinds.find((k) => yes.has(k.id));
+    const kinds = twentyKinds(q), kind = q?.skipKind && q?.customKind?.text ? kinds[0] : kinds.find((k) => yes.has(k.id)); // skipKind: straight to the host's own questions (the Traitors round)
     if (!kind) return kinds.filter((k) => !done.has(k.id));
     const extra = twentyCustom(q).filter((c) => !done.has(c.id)).map((c) => ({ id: c.id, text: c.text, sec: kind.custom ? 'Ask away' : 'More questions' }));
     if (kind.custom) return extra;
@@ -1255,6 +1260,6 @@ window.LQ = (() => {
   function ordinal(n) { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
   return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
-    GROUP_NAMES, groupSizes, BRANDS, brand, setBrand, TYPES, BANK_GAMES, NEW_GAME_DEFAULTS, cardNum, cardsOf, behindOf, behindRight, TWENTY_KINDS, TWENTY_QS, CUSTOM_KIND, twentyKinds, twentyCustom, twentyQ, twentyBranch, twentyYes, twentyOpen, parseNum, nearestSpread, fmtNum, DRAW_WORDS, drawWords, drawHint, goodRows, BB_COLS, BB_ROWS, bbNeighbours, bbPath, bbBoardHtml, inkOn, SLIDE, BREAK, isPractice, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, pickContext, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
+    GROUP_NAMES, groupSizes, BRANDS, brand, setBrand, TYPES, BANK_GAMES, NEW_GAME_DEFAULTS, cardNum, cardsOf, behindOf, behindRight, TWENTY_KINDS, TWENTY_QS, CUSTOM_KIND, seal, unseal, twentyKinds, twentyCustom, twentyQ, twentyBranch, twentyYes, twentyOpen, parseNum, nearestSpread, fmtNum, DRAW_WORDS, drawWords, drawHint, goodRows, BB_COLS, BB_ROWS, bbNeighbours, bbPath, bbBoardHtml, inkOn, SLIDE, BREAK, isPractice, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, pickContext, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, speedPoints, normText, similarity, textMatch,
     newCode, playUrl, shortPlayUrl, bbTeams, BB_TEAM_PAIRS, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml, CONUNDRUM_POINTS, conundrumWord, sameLetters, scrambleWord, conundrumHtml, addUsage, usageCost, usageSummary, AI_PRICES, TUNE_ASKS, tunePrompt, bigArt, cleanTitle };
 })();

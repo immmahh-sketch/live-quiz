@@ -1708,3 +1708,41 @@ body.hurry-on .app { padding-bottom: 70px; }
 .bipl li b { font-variant-numeric: tabular-nums; font-size: .88rem; }
 .bipl li.me { outline: 2px solid #5b3df5; } .bipl li.win { background: #fff6c8; }
 .biphwin { text-align: center; font-size: 1.15rem; margin-top: 6px; } .biphsong { text-align: center; color: #6a6592; font-weight: 700; }
+
+/* ---------------------------------------------------------------- The Traitors (assets/traitors.js, assets/traitors-phone.js) */
+.trp-full { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; text-align: center; color: #f4e9d0; padding: 22px 18px calc(22px + env(safe-area-inset-bottom)); overflow: auto;
+  background: radial-gradient(ellipse at 50% 20%, #3a1018 0%, #160709 60%, #0a0405 100%); }
+.trp-full.screen { z-index: 58; }
+.trp-in { width: 100%; max-width: 440px; margin: auto; }
+.trp-dag { font-size: 4rem; filter: drop-shadow(0 0 18px rgba(255,60,60,.6)); }
+.trp-big { font-family: Georgia, 'Times New Roman', serif; font-weight: 900; letter-spacing: .06em; font-size: clamp(1.6rem, 8vw, 2.2rem); color: #e8c46a; text-shadow: 0 0 22px rgba(232,196,106,.35); margin: 6px 0 12px; line-height: 1.1; }
+.trp-big.small { font-size: 1.2rem; }
+.trp-in p { line-height: 1.4; margin: 8px 0; }
+.trp-small { font-size: .82rem; opacity: .75; }
+.trp-quote { font-family: Georgia, serif; font-size: 1.35rem; font-style: normal; border-top: 1px solid #e8c46a66; border-bottom: 1px solid #e8c46a66; padding: 14px 6px; margin: 12px 0; color: #fff; }
+.trp-ul { text-align: left; font-size: .92rem; line-height: 1.35; padding-left: 18px; margin: 10px 0; } .trp-ul li { margin-bottom: 6px; }
+.trp-in .btn { margin-top: 10px; }
+.trp-clock { font-family: Georgia, serif; font-weight: 900; font-size: 3.4rem; color: #fff; text-shadow: 0 0 20px rgba(255,255,255,.3); } .trp-clock.low { color: #ff5a4d; animation: pcbBob 1s infinite; }
+.trp-vote { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; } .trp-vote .btn { justify-content: flex-start; }
+.trp-bars > div { display: grid; grid-template-columns: 90px 1fr 24px; gap: 8px; align-items: center; margin: 6px 0; text-align: left; font-size: .9rem; } .trp-bars i { display: block; height: 14px; border-radius: 7px; background: linear-gradient(90deg, #8a1c26, #e8c46a); }
+.trp-pill { position: fixed; z-index: 44; left: 12px; border: 0; border-radius: 14px; padding: 6px 11px; font: inherit; font-weight: 800; font-size: .78rem; box-shadow: 0 4px 12px rgba(0,0,0,.25); }
+.trp-pill.rules { bottom: calc(14px + env(safe-area-inset-bottom)); background: #2b1115; color: #e8c46a; }
+.trp-pill.shield { top: calc(10px + env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); background: linear-gradient(160deg, #6ec6ff, #2a7fff); color: #fff; }
+.trp-btn { position: fixed; z-index: 45; left: 12px; bottom: calc(58px + env(safe-area-inset-bottom)); border: 0; border-radius: 18px; padding: 8px 14px; background: #3a2a2d; color: #c9a0a4; font: inherit; font-weight: 900; font-size: 1.4rem; display: flex; flex-direction: column; align-items: center; line-height: 1.05; box-shadow: 0 6px 16px rgba(0,0,0,.35); }
+.trp-btn small { font-size: .62rem; font-weight: 800; } .trp-btn.live { background: linear-gradient(160deg, #b3202e, #5a0d16); color: #ffe9b8; animation: pcbBob 2s infinite; }
+.trp-sheet { z-index: 57; } .trp-sheet .pcs-in { background: #1e0d10; color: #f4e9d0; }
+.trp-sheet .btn { background: #34191d; color: #f4e9d0; border-color: #6a3a40; } .trp-sheet .btn-primary { background: #b3202e; border-color: #e8c46a; color: #fff; } .trp-sheet .btn:disabled { opacity: .4; }
+.trp-sheet .pcs-card { background: #2b1115; color: #f4e9d0; border-color: #5a2a30; } .trp-sheet .pcs-card.sel { border-color: #e8c46a; background: #43181d; } .trp-sheet .pcs-card small, .trp-sheet .btn small { color: #c9a0a4; }
+.trp-tabs { display: flex; gap: 4px; margin: 6px 0 10px; } .trp-tabs button { flex: 1; border: 0; border-radius: 10px; padding: 8px 4px; font: inherit; font-weight: 800; font-size: .8rem; background: #34191d; color: #c9a0a4; } .trp-tabs button.on { background: #e8c46a; color: #2b1115; }
+.trp-lh { font-weight: 900; color: #e8c46a; margin: 12px 0 2px; font-size: .85rem; letter-spacing: .05em; text-transform: uppercase; }
+.trp-li { display: flex; gap: 8px; align-items: flex-start; padding: 6px 0; font-size: .92rem; border-bottom: 1px solid #ffffff12; } .trp-li input { margin-top: 3px; transform: scale(1.25); }
+.trp-guide { position: fixed; inset: 0; z-index: 62; background: #fff; display: flex; flex-direction: column; } .trp-gbar { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 10px; background: #160709; color: #e8c46a; padding-top: calc(8px + env(safe-area-inset-top)); } .trp-guide iframe { flex: 1; border: 0; width: 100%; }
+/* the big screen */
+.trstage { text-align: center; justify-content: center; gap: 14px; background: radial-gradient(ellipse at 50% 15%, #3a1018 0%, #160709 62%, #0a0405 100%); color: #f4e9d0; border-radius: 22px; padding: 28px 34px; }
+.trbig { font-family: Georgia, 'Times New Roman', serif; font-weight: 900; letter-spacing: .08em; font-size: clamp(2rem, 5.2vw, 4.4rem); color: #e8c46a; text-shadow: 0 0 34px rgba(232,196,106,.35); line-height: 1.08; }
+.trbig.trname { font-size: clamp(2.6rem, 7vw, 6rem); color: #fff; } .trsmall { font-size: 1.2rem; letter-spacing: .3em; opacity: .75; }
+.trline { font-size: clamp(1.05rem, 2.2vw, 1.8rem); line-height: 1.35; max-width: 56ch; margin: 0 auto; } .trline.small { font-size: 1rem; opacity: .75; }
+.trquote { font-family: Georgia, serif; font-size: clamp(1.6rem, 3.6vw, 3rem); color: #fff; border-top: 2px solid #e8c46a77; border-bottom: 2px solid #e8c46a77; padding: 18px 10px; margin: 6px auto; max-width: 30ch; }
+.trclock { font-family: Georgia, serif; font-weight: 900; font-size: clamp(4rem, 12vw, 9rem); color: #fff; line-height: 1; }
+.trfaces { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; } .trface { background: #2b1115; border: 1px solid #5a2a30; border-radius: 999px; padding: 6px 14px; font-weight: 800; }
+.trbars { max-width: 760px; margin: 0 auto; width: 100%; } .trbar { display: grid; grid-template-columns: 220px 1fr 40px; gap: 12px; align-items: center; text-align: left; margin: 8px 0; font-size: 1.3rem; } .trbar i { display: block; height: 22px; border-radius: 11px; background: linear-gradient(90deg, #8a1c26, #e8c46a); } .trbar b { font-size: 1.5rem; }

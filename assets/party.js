@@ -15,7 +15,7 @@ const partyPick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 const partyNote = (r, line) => { if (r) (r.party = r.party || []).push(line); };
 
 /** The game leaves the lobby: deal the power cards and fetch the warm-up's About You answers. */
-function partyGameStart() { powerDealAll(); wsLoad(); }
+function partyGameStart() { powerDealAll(); wsLoad(); trEnsure(); trRegisterLive(); }
 
 // ---------------------------------------------------------------- power cards + Bounty
 const POWER = {
@@ -72,7 +72,7 @@ function powerFlashShow() {
 /** A question starts: the cards played in the break land on it (if it is an everyone-answers one), and the break's
  *  one-card-each limit resets. */
 function partyStartQuestion(q) {
-  G.fxGap = {};
+  G.fxGap = {}; trStartQuestion(q);
   if (partyPlain(q) && G.fxPend?.length) {
     const fx = { frozen: {}, copy: {}, x5: {}, slow: {} };
     for (const f of G.fxPend) { if (f.kind === 'freeze') fx.frozen[f.target] = f.by; if (f.kind === 'copy') fx.copy[f.by] = f.target; if (f.kind === 'x5') fx.x5[f.by] = true; if (f.kind === 'slow') fx.slow[f.target] = f.by; }
@@ -83,7 +83,7 @@ function partyStartQuestion(q) {
 /** An answer this player may not give: frozen, copying someone, out of (cut) time, or it's their own Who Said That. */
 function partyBlocks(pid) {
   const fx = G.q?.fx;
-  if (G.q?.author === pid) return true;
+  if (G.q?.author === pid || trBlocked(pid)) return true;
   if (!fx) return false;
   if (fx.frozen[pid] || fx.copy[pid]) return true;
   return !!fx.slow[pid] && Date.now() - G.q.startedAt > question().time * 700;
@@ -116,6 +116,7 @@ function partyAfterGrade(byPlayer) {
       }
     }
   }
+  trAfterGrade(byPlayer); // the Traitor's gifts, blocks and doubles; shields
 }
 /** The phones' share of all this: hands, what's in play, the last card played; Play Your Cards Right and the task. */
 function partyState(s) {
@@ -124,6 +125,7 @@ function partyState(s) {
       players: Object.values(G.players).map((p) => ({ pid: p.id, name: p.name, emoji: p.emoji || '', score: p.score })) };
   }
   if (G.quiz.settings.bounty && !WARMUP) s.bounty = true;
+  trState(s); // the Traitors (assets/traitors.js)
   const nowT = G.paused ? G.pausedAt : Date.now();
   if (G.phase === 'question' && G.q?.pc?.v) {
     const g = G.q.pc, q = question(), over = g.step === 'over', best = Math.max(0, ...Object.values(g.pos));

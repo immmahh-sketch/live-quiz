@@ -1086,6 +1086,8 @@ Deno.serve(async (req) => {
         template: !!(r.settings && r.settings.template),
         bank: !!(r.settings && r.settings.bank),
         share: r.settings?.share === true, // the play link is on
+        traitors: r.settings?.traitors?.on === true, // Traitors mode is switched on
+        live: r.settings?.live?.code && Date.now() - Date.parse(r.settings.live.at || "") < 14 * 3600e3 ? String(r.settings.live.code) : "", // the code of the game being hosted now (the Traitors control on the builder finds it)
         // a warm-up or a just-for-fun game: people open it by its code, so it has an on/off switch in the builder
         play: r.settings?.warmup ? { code: String(r.settings.warmup.code || ""), on: r.settings.warmup.open !== false, fun: !!r.settings.warmup.fun, ended: !!(r.settings.warmup.until && Date.parse(r.settings.warmup.until) <= Date.now()) } : null,
         rounds: Array.isArray(r.settings?.rounds) ? r.settings.rounds.map((x: any) => ({ title: x?.title || "", count: Object.values(x?.mix || {}).reduce((a: number, b: any) => a + (+b || 0), 0) || +x?.count || 0, types: Object.keys(x?.mix || {}) })) : [],
@@ -1697,6 +1699,17 @@ Deno.serve(async (req) => {
       const settings = { ...q.settings, warmup: { ...q.settings.warmup, open: !!body.on } };
       await rest(`quiz_quizzes?id=eq.${q.id}`, { method: "PATCH", headers: { Prefer: "return=minimal" }, body: JSON.stringify({ settings }) });
       return json({ ok: true, on: !!body.on });
+    }
+
+    if (action === "live_set") {
+      // The host screen tells the server which code it is running a quiz under, so the builder (on the host's phone) can find the game.
+      if (!UUID_RE.test(String(body.id))) return json({ error: "Bad quiz id." }, 400);
+      const code = String(body.code || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 12); if (!code) return json({ error: "No code." }, 400);
+      const q = (await rest(`quiz_quizzes?id=eq.${body.id}&select=id,settings`))?.[0];
+      if (!q) return json({ error: "That quiz no longer exists." }, 404);
+      const settings = { ...(q.settings || {}), live: { code, at: new Date().toISOString() } };
+      await rest(`quiz_quizzes?id=eq.${q.id}`, { method: "PATCH", headers: { Prefer: "return=minimal" }, body: JSON.stringify({ settings }) });
+      return json({ ok: true });
     }
 
     if (action === "quiz_share") {

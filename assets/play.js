@@ -93,6 +93,7 @@ function connect() {
   ch.on('broadcast', { event: 'ack' }, ({ payload }) => { if (payload.pid === P.pid) { P.answered[payload.qId] = true; render(); } });
   ch.on('broadcast', { event: 'race' }, ({ payload }) => onRaceEvent(payload));
   ch.on('broadcast', { event: 'tq' }, ({ payload }) => onTwentyEvent(payload));
+  ch.on('broadcast', { event: 'trs' }, ({ payload }) => { if (typeof trpOnPrivate === 'function') trpOnPrivate(payload); }); // a private word from the Traitors game
   ch.on('broadcast', { event: 'cardno' }, ({ payload }) => { if (payload?.pid === P.pid) toast(payload.why || "That card can't be played right now", true); });
   ch.on('broadcast', { event: 'kick' }, ({ payload }) => { if (payload.pid === P.pid) { clearInterval(watchdogT); leave(); P.code = ''; renderJoin(payload.why ? String(payload.why).slice(0, 160) : 'The host has removed you from the game. You can join again if that was a mistake.'); } });
   ch.subscribe(async (status) => {
@@ -359,6 +360,7 @@ function twentyHtml(s) {
   const lastHtml = !last ? '' : last.id ? `<div class="tqans ${last.yes ? 'yes' : 'no'}"><span>${esc(qt(last.id))}</span><b>${last.yes ? 'Yes!' : 'No'}</b></div>` : last.ok ? '' : `<div class="tqans no"><span>Is it ${esc(last.guess)}?</span><b>No</b></div>`;
   const hist = me.asked.length || me.guesses.length ? `<details class="tqhist"><summary>What you know so far (${me.asked.length})</summary><ul>${me.asked.map((a) => `<li class="${a.yes ? 'yes' : 'no'}">${a.yes ? '✔' : '✘'} ${esc(qt(a.id))}</li>`).join('')}${me.guesses.filter((g) => !g.ok).map((g) => `<li class="no">✘ Not ${esc(g.t)}</li>`).join('')}</ul></details>` : '';
   const head = `<div class="pq">${esc(q.text)}</div><div class="tqcount"><span><b>${me.n}</b> of ${maxQ} questions used</span><span>${left} left</span></div>`;
+  if (typeof trpSitsOut === 'function' && trpSitsOut(s)) return head + `<div class="state"><div class="em">🗡</div><h2>They're hunting you!</h2><p class="muted">Everyone else is asking questions about you to find the Traitor. Sit this one out, keep a straight face, and watch the screen.</p></div>`;
   if (me.done) return head + `<div class="state"><div class="em">${medal[me.place - 1] || '🎉'}</div><h2>You got it!</h2><p class="muted">${me.place <= 3 ? `${ordinal(me.place)} to crack it` : 'Cracked it, but the first three take the points'} · watch the screen for the others</p></div>${hist}`;
   if (me.out) return head + `<div class="state"><div class="em">💀</div><h2>Out of questions</h2><p class="muted">Wait for the answer on the screen.</p></div>${hist}`;
   // while an answer is being shown, keep the list as it was, with the tapped question coloured in
@@ -366,7 +368,7 @@ function twentyHtml(s) {
   const open = LQ.twentyOpen(fl?.id ? me.asked.filter((a) => a.id !== fl.id) : me.asked, q), busy = !!pend || !!fl;
   const tone = (id) => fl?.id === id ? (fl.yes ? ' yes' : ' no') : pend?.ask === id ? ' pending' : '';
   const gtone = fl?.guess ? (fl.yes ? ' yes' : ' no') : pend?.guess ? ' pending' : '';
-  const kinds = !me.asked.some((a) => a.yes && LQ.twentyKinds(q).some((k) => k.id === a.id));
+  const kinds = !q.skipKind && !me.asked.some((a) => a.yes && LQ.twentyKinds(q).some((k) => k.id === a.id));
   return head + lastHtml + `<p class="tqhint">${kinds ? 'Start by finding out what kind of thing it is:' : 'Tap a question to ask it:'}</p>
     <div class="tqlist">${open.map((x, i) => `${x.sec && x.sec !== open[i - 1]?.sec ? `<div class="tqsec">${esc(x.sec)}</div>` : ''}<button class="tqq${tone(x.id)}" data-tq="${x.id}" ${busy ? 'disabled' : ''}>${esc(x.text)}</button>`).join('') || '<p class="muted center">No questions left to ask. Time to guess!</p>'}</div>${hist}
     <form class="tqguess" id="tqForm"><input id="tqIn" placeholder="Who or what is it?" autocomplete="off" maxlength="60" ${busy ? 'disabled' : ''}><button class="btn btn-primary${gtone}" ${busy ? 'disabled' : ''}>Guess</button></form>

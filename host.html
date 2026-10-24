@@ -27,6 +27,7 @@
 <script src="assets/dpad.js"></script>
 <script src="assets/demo-quiz.js"></script>
 <script src="assets/party.js"></script>
+<script src="assets/traitors.js"></script>
 <script src="assets/taskmaster.js"></script>
 <script>
 const { $, $$, esc, uid, api, TYPES, COLORS, speedPoints, textMatch, similarity, shuffle, newCode, playUrl, shortPlayUrl, store, unstore, ordinal } = LQ;
@@ -429,6 +430,8 @@ function connect() {
   ch.on('broadcast', { event: 'hint' }, ({ payload }) => onHint(payload || {}));
   ch.on('broadcast', { event: 'hurry' }, ({ payload }) => onHurry(payload || {}));
   ch.on('broadcast', { event: 'card' }, ({ payload }) => onCard(payload || {})); // a power card (assets/party.js)
+  ch.on('broadcast', { event: 'tr' }, ({ payload }) => onTr(payload || {})); // the Traitor's menu and the vote (assets/traitors.js)
+  ch.on('broadcast', { event: 'trctl' }, ({ payload }) => onTrCtl(payload || {})); // the host's phone control, sealed
   ch.on('presence', { event: 'sync' }, () => {
     present.clear();
     for (const entries of Object.values(ch.presenceState())) for (const e of entries) if (e.role === 'player' && e.pid) present.set(e.pid, e.name);
@@ -437,7 +440,7 @@ function connect() {
     if (G.phase === 'question') { renderAnswered(); maybeAllAnswered(); }
   });
   ch.subscribe(async (status) => {
-    if (status === 'SUBSCRIBED') { await ch.track({ role: 'host' }); render(); broadcastState(); startHeartbeat(); if (G.phase === 'question') startTick(); }
+    if (status === 'SUBSCRIBED') { await ch.track({ role: 'host' }); trEnsure(); trRegisterLive(); render(); broadcastState(); startHeartbeat(); if (G.phase === 'question') startTick(); }
     else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') toast('Connection trouble — retrying…', true);
   });
 }
@@ -561,6 +564,7 @@ function onHello({ pid, name, emoji, test, view }) {
   if (!G.players[pid]) { G.players[pid] = { id: pid, name, emoji, score: 0, joinedAt: Date.now() }; if (G.phase !== 'lobby') powerDeal(pid); persist(); if (G.phase === 'lobby') renderLobbyPlayers(); warmupGate(pid); if (G.wbonus) warmBonusGive(G.players[pid]); else warmBonusLoad(); }
   else if ((G.players[pid].name !== name || G.players[pid].emoji !== emoji) && G.phase === 'lobby') { G.players[pid].name = name; G.players[pid].emoji = emoji; persist(); renderLobbyPlayers(); }
   if (test === true && !G.test) makeTest();
+  trOnHello(pid);
   clearTimeout(helloT); helloT = setTimeout(broadcastState, 150);
 }
 // ------------------------------------------------------------------ VIEW phones
@@ -669,7 +673,7 @@ function autoDelay() {
   return 0;
 }
 function scheduleAuto() {
-  clearTimeout(autoT); const d = autoDelay(); if (!d || G.paused) return;
+  clearTimeout(autoT); const d = autoDelay(); if (!d || G.paused || (trOn() && ['table', 'verdict', 'final'].includes(G.tr.screen?.kind))) return;
   const ph = G.phase, qi = G.qIndex;
   autoT = setTimeout(() => { if (G.auto && !G.paused && G.phase === ph && G.qIndex === qi && !document.querySelector('.modal-bg')) primaryAction(); }, d);
 }
@@ -692,6 +696,7 @@ function onCtrl({ pid, cmd }) {
 function primaryAction() {
   clearTimeout(autoT);
   if (G.paused) togglePause(false, true);
+  if (trOn() && G.tr.screen && G.phase !== 'lobby' && trScreenNext()) return;
   if (G.phase === 'lobby') return players().length ? (partyGameStart(), goTo(0)) : toast('Waiting for at least one player.');
   if (G.phase === 'round') return toTypeCard(G.qIndex);
   if (G.phase === 'slide') return nextFrom(G.qIndex);
@@ -711,7 +716,10 @@ function skipScoreboard() {
   const cur = G.quiz.questions[G.qIndex];
   return G.quiz.questions.slice(G.qIndex + 1).some((x) => x.round === cur.round && !isSlide(x));
 }
-function nextFrom(i) { return i + 1 < G.quiz.questions.length ? goTo(i + 1) : finish(); }
+function nextFrom(i) {
+  if (trOn()) { if (trInterlude(false)) return; if (trWantsTable(i)) return trTable(i); if (i + 1 >= G.quiz.questions.length && trEnd()) return; } // the Traitors: a pause, the Round Table, the last round
+  return i + 1 < G.quiz.questions.length ? goTo(i + 1) : finish();
+}
 /** A slide: up on the screen and the phones until someone moves on. A break slide starts its countdown clock. */
 /** Group slides: everyone is dealt into a team (and a role in it), once per slide; late joiners go to the smallest team. */
 function ensureGroups(q) {
@@ -940,6 +948,7 @@ function markPlayed(i) {
 /** Back: the previous slide, or the previous question asked again without points. */
 function canBack() { return !PREVIEW && !WARMUP && !G.warmup && !['lobby', 'final'].includes(G.phase) && G.qIndex > 0; }
 function goBack() {
+  if (trOn() && G.tr.screen) { if (G.tr.screen.kind === 'notice') { G.tr.screen = null; persist(); broadcastState(); render(); } return; } // a Traitors screen: only a notice can be put away
   if (!canBack()) return;
   clearInterval(tickT); clearInterval(countT); clearInterval(brkT); if (typeof stopTune === 'function') stopTune();
   const i = G.qIndex - 1;
@@ -1000,7 +1009,7 @@ function buildView(q) {
   if (q.type === 'rhyme') { v.text2 = q.text2; }
   if (q.type === 'nearest') v.unit = q.unit || '';
   if (q.type === 'wheel') { v.text = `${q.category}: solve the puzzle`; v.layout = LQ.wheelLayout(q.phrase).map((row) => row.map((t) => t.t === 'L' ? { t: 'L' } : t)); v.category = q.category; }
-  if (q.type === 'twenty') { v.maxQ = +q.maxQ || 20; v.prize = q.prize ?? 1000; v.prize2 = q.prize2 ?? 500; v.prize3 = q.prize3 ?? 100; v.penalty = q.penalty ?? 200; if (q.customKind?.text) v.customKind = { text: q.customKind.text }; v.custom = LQ.twentyCustom(q).map((c) => ({ id: c.id, text: c.text })); }
+  if (q.type === 'twenty') { v.maxQ = +q.maxQ || 20; v.prize = q.prize ?? 1000; v.prize2 = q.prize2 ?? 500; v.prize3 = q.prize3 ?? 100; v.penalty = q.penalty ?? 200; if (q.trTwenty) v.trTwenty = true; if (q.skipKind) v.skipKind = true; if (q.customKind?.text) v.customKind = { text: q.customKind.text }; v.custom = LQ.twentyCustom(q).map((c) => ({ id: c.id, text: c.text })); }
   if (q.type === 'race') {
     const good = q.bank.filter((b) => b.text.trim() && b.options[0].trim() && b.options.filter((o) => o.trim()).length >= 2);
     v.bank = good.map((b) => ({ k: tok('Q:' + b.id), text: b.text, options: shuffle(b.options.map((o, oi) => ({ o, oi })).filter((x) => x.o.trim())).map((x, i) => ({ k: tok((x.oi === 0 ? 'R:' : 'W:') + b.id), text: x.o, c: i })) }));
@@ -1050,15 +1059,16 @@ function raceStandings() {
 // Everyone hunts the same answer. Each phone asks yes/no questions from the shared tree (LQ.TWENTY_QS) and guesses
 // whenever it likes; this screen keeps the answer and its facts and replies to every ask, so the phones never hold
 // either. A wrong guess costs a question. The first three to crack it score; anyone without it at the end loses.
+const trSitsOut = (pid) => trOn() && question()?.trTwenty && G.tr.traitor === pid; // the Traitor does not hunt themselves
 const twentyFresh = () => ({ asked: [], guesses: [], n: 0, done: false, out: false, place: 0 });
 function twentyStart() {
   G.q.tq = { players: {}, solved: [], over: false };
-  for (const pid of Object.keys(G.players)) if (present.has(pid)) G.q.tq.players[pid] = twentyFresh();
+  for (const pid of Object.keys(G.players)) if (present.has(pid) && !trSitsOut(pid)) G.q.tq.players[pid] = twentyFresh();
   persist(); renderTwenty(); broadcastState();
 }
 async function twentyPick(pid, a) {
   const tq = G.q?.tq, q = question(), maxQ = +q.maxQ || 20;
-  if (!tq || tq.over || !a || typeof a !== 'object') return;
+  if (!tq || tq.over || !a || typeof a !== 'object' || trSitsOut(pid)) return;
   const r = tq.players[pid] || (tq.players[pid] = twentyFresh());
   if (r.done || r.out || r.busy || +a.n !== r.n) return; // finished, mid-check, or a repeat of a message already handled
   let last;
@@ -2113,6 +2123,7 @@ function buildReport() {
 }
 function showScoreboard() { G.phase = 'scoreboard'; persist(); render(); broadcastState(); }
 async function finish() {
+  trPayHidden(); // the Traitors' secret bonuses (assets/traitors.js)
   G.phase = 'final'; persist(); render(); broadcastState(); if (!G.quiz.settings?.noScores) confetti();
   const rk = ranked();
   if (WARMUP) { if (!G.warmSaved) warmupSave(); return; }
@@ -2197,9 +2208,9 @@ async function grade(noAi, ctx) {
     const tq = G.q.tq || { players: {}, solved: [] }, prizes = [q.prize ?? 1000, q.prize2 ?? 500, q.prize3 ?? 100], pen = q.penalty ?? 200, medal = ['🥇', '🥈', '🥉'];
     for (const [pid, r] of Object.entries(tq.players)) {
       if (!PL[pid]) continue;
-      const pts = r.done ? (prizes[r.place - 1] || 0) : -pen;
+      const pts = r.done ? (prizes[r.place - 1] || 0) + (q.trBonus || 0) : -pen;
       byPlayer[pid] = { answered: true, correct: r.done, partial: r.done ? 1 : 0, points: pts, place: r.done ? r.place : 0, got: r.done ? r.used : r.n, lost: !r.done,
-        note: r.done ? `${medal[r.place - 1] || '✅'} You cracked it in ${r.used} question${r.used === 1 ? '' : 's'}${pts ? '' : ' (only the first three score)'}` : r.out ? '💀 Out of questions' : '⏱ Time up, still stuck' };
+        note: r.done ? `${medal[r.place - 1] || '✅'} You cracked it in ${r.used} question${r.used === 1 ? '' : 's'}${pts ? (q.trBonus ? ` · +${pts} for finding the Traitor` : '') : ' (only the first three score)'}` : r.out ? '💀 Out of questions' : '⏱ Time up, still stuck' };
       if (r.done) stats.right++;
     }
     stats.solved = (tq.solved || []).filter((pid) => PL[pid]).map((pid, i) => ({ pid, name: pname(pid), emoji: pem(pid), n: tq.players[pid]?.used, points: prizes[i] || 0 }));
@@ -2447,6 +2458,7 @@ function applyBrand() {
 const BHB = () => LQ.brand().id === 'bhb';
 function renderPhase() {
   const ph = G.phase;
+  if (trOn() && G.tr.screen && ph !== 'lobby') return trRenderScreen();
   if (ph === 'lobby') return renderLobby();
   if (ph === 'round') return renderRound();
   if (ph === 'slide') return renderSlide();

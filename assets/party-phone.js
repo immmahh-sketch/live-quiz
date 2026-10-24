@@ -16,6 +16,7 @@ const partyName = (s, pid) => s.power?.players?.find((p) => p.pid === pid)?.name
 // ---------------------------------------------------------------- power cards
 /** Every state: the 🃏 button (with the hand), and the big banner when anyone plays a card. */
 function partyPhoneAfter(s) {
+  if (typeof trPhoneAfter === 'function') trPhoneAfter(s); // the Traitors (assets/traitors-phone.js)
   const pw = s.power, hand = (pw?.hands?.[P.pid] || []);
   let b = document.getElementById('pcardsBtn');
   if (!pw || P.view || !hand.length || s.phase === 'final') { b?.remove(); document.getElementById('pcardsSheet')?.remove(); }
@@ -62,6 +63,7 @@ function partyCardsSheet(refresh) {
 }
 /** A question someone played a card on you for: frozen out, or copying (nothing to answer). */
 function partyBlockHtml(s) {
+  if (s.tr?.blocked?.[P.pid] && s.phase === 'question') { app.className = 'app'; return `<div class="state"><div class="em">🚫</div><h2>Blocked!</h2><p class="muted">The Traitor has blocked you from this question. Sit tight: you're back for the next one.</p></div>`; }
   const fx = s.power?.fx; if (!fx || s.phase !== 'question') return '';
   if (fx.frozen?.[P.pid]) { app.className = 'app'; return `<div class="state"><div class="em">🥶</div><h2>Frozen!</h2><p class="muted">${esc(partyName(s, fx.frozen[P.pid]))} froze you out of this question. Sit tight, you thaw out for the next one.</p></div>`; }
   if (fx.copy?.[P.pid]) return `<div class="state"><div class="em">🪞</div><h2>You're copying ${esc(partyName(s, fx.copy[P.pid]))}</h2><p class="muted">Whatever they answer, you answer. Fingers crossed they know it!</p></div>`;
