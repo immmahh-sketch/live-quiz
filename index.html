@@ -23,6 +23,7 @@
 <div class="toast" id="toast"></div>
 
 <script src="assets/common.js"></script>
+<script src="assets/leaderboard.js"></script>
 <script src="assets/train-visuals.js"></script>
 <script src="assets/warmup-tools.js"></script>
 <script>
@@ -594,6 +595,7 @@ function renderList() {
   $$('[data-playme]').forEach((b) => b.onclick = () => { location.href = 'warmup.html?q=' + b.dataset.playme; });
   $$('[data-share]').forEach((b) => b.onclick = () => shareModal(b.dataset.share, b.dataset.shared === '1'));
   $$('[data-board]').forEach((b) => b.onclick = () => warmupBoardModal(b.dataset.board));
+  $$('[data-lb]').forEach((b) => b.onclick = () => leaderboardFor(b.dataset.lb));
   $$('[data-dup]').forEach((b) => b.onclick = () => duplicateQuiz(b.dataset.dup));
   $$('[data-del]').forEach((b) => b.onclick = async () => {
     const q = S.quizzes.find((x) => x.id === b.dataset.del);
@@ -645,7 +647,7 @@ function quizCard(q) {
     <div class="types">${(q.types = q.types.filter((t) => t !== 'slide')).slice(0, 4).map((t) => `<span class="tag">${esc(TYPES[t]?.label || t)}</span>`).join('')}${q.types.length > 4 ? `<span class="tag" style="background:var(--paper);color:var(--ink-3)">+${q.types.length - 4} more</span>` : ''}</div>
     <div class="actions"><button class="btn btn-primary btn-sm" data-host="${q.id}" ${q.count ? '' : 'disabled'}>▶ Host</button>
       <button class="btn btn-sm" data-playme="${q.id}" ${q.count ? '' : 'disabled'} title="Play it yourself on this phone, warm-up style: one screen, bots, nothing saved">📱 Play</button>
-      ${q.play ? `<button class="btn btn-sm" data-board="${q.id}" title="Every player's score, the link, and the tools for this game">🏆 Scoreboard</button>` : ''}
+      ${q.play ? `<button class="btn btn-sm" data-board="${q.id}" title="Every player's score, the link, and the tools for this game">🏆 Scoreboard</button><button class="btn btn-sm btn-primary" data-lb="${q.id}" title="One click: a leaderboard picture and post text, ready for Facebook">📣 Post scores</button>` : ''}
       <button class="btn btn-sm ${q.share ? 'btn-primary' : 'btn-ghost'}" data-share="${q.id}" data-shared="${q.share ? 1 : 0}" ${q.count ? '' : 'disabled'} title="A link anyone can open to play this quiz on their phone, with no code">🔗 ${q.share ? 'Shared' : 'Link'}</button>
       <button class="btn btn-sm" data-open="${q.id}">Edit</button>
       <button class="btn btn-ghost btn-sm" data-dup="${q.id}">Duplicate</button>
@@ -666,6 +668,30 @@ function warmupBoardModal(id) {
   if (S.warmData) drawBoardModal();
   else { $('#wbBody', bg).innerHTML = '<h3>🏆 Scoreboard</h3><p class="muted">Loading…</p>'; api('warmup_board').then(renderWarmups).catch((e) => toast(e.message, true)); }
 }
+/** "📣 Post scores": a leaderboard picture (1080 x 1350, the Facebook feed shape) and the words to go with it, from this game's scores. */
+async function leaderboardFor(id) {
+  if (!S.warmData) { try { S.warmData = await api('warmup_board'); } catch (e) { return toast(e.message, true); } }
+  const r = S.warmData, w = r.warmups.find((x) => x.id === id); if (!w) return toast('That game has no scoreboard yet.', true);
+  const plays = r.plays.filter((p) => p.code === w.code && (p.season || '') === (w.season || '')).sort((a, b) => b.score - a.score);
+  const data = { title: w.title.replace(/^Warm-up\s+/i, ''), heading: w.fun ? 'GAME SCOREBOARD' : 'WARM-UP SCOREBOARD', rows: plays.map((p) => ({ name: p.name, emoji: p.emoji, score: p.score })), count: plays.length, code: w.code, until: w.until, ended: !!w.until && new Date(w.until) <= Date.now(), link: 'letsquiz.uk/play' };
+  if (!plays.length) return toast('Nobody has played yet, so there is nothing to post.', true);
+  let topN = 5, canvas = null;
+  const bg = modal(`<h3 style="margin-top:0">📣 Post the scores</h3>
+    <div class="row" style="margin-bottom:8px;gap:8px"><span class="muted small">Show the top</span><button class="btn btn-sm btn-primary" data-top="5">5</button><button class="btn btn-sm btn-ghost" data-top="8">8</button></div>
+    <img id="lbImg" alt="Leaderboard" style="width:100%;max-width:420px;display:block;margin:0 auto 10px;border-radius:14px;box-shadow:0 6px 24px rgba(0,0,0,.25)">
+    <div class="field"><label>Post text <span class="muted">— paste it under the picture</span></label><textarea id="lbText" rows="8"></textarea></div>
+    <div class="row" style="gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="btn btn-ghost" data-x>Close</button><button class="btn" id="lbTxt">Copy text</button><button class="btn" id="lbShare" hidden>📤 Share…</button><button class="btn" id="lbCopy">Copy picture</button><button class="btn btn-primary" id="lbDl">⬇ Download picture</button></div>`);
+  const blob = () => new Promise((res) => canvas.toBlob(res, 'image/png'));
+  const render = async () => { canvas = await LQLeader.draw(data, topN); $('#lbImg', bg).src = canvas.toDataURL('image/png'); $('#lbText', bg).value = LQLeader.caption(data, topN); $$('[data-top]', bg).forEach((b) => { const on = +b.dataset.top === topN; b.classList.toggle('btn-primary', on); b.classList.toggle('btn-ghost', !on); }); };
+  $('[data-x]', bg).onclick = () => bg.remove();
+  $$('[data-top]', bg).forEach((b) => b.onclick = () => { topN = +b.dataset.top; render(); });
+  $('#lbDl', bg).onclick = async () => { const a = document.createElement('a'); a.href = URL.createObjectURL(await blob()); a.download = `scoreboard-${new Date().toISOString().slice(0, 10)}.png`; document.body.appendChild(a); a.click(); a.remove(); toast('Picture saved: now post it on Facebook.'); };
+  $('#lbCopy', bg).onclick = async () => { try { await navigator.clipboard.write([new ClipboardItem({ 'image/png': await blob() })]); toast('Picture copied: paste it into your Facebook post.'); } catch { toast('This browser will not copy a picture: use Download instead.', true); } };
+  $('#lbTxt', bg).onclick = async () => { const t = $('#lbText', bg); try { await navigator.clipboard.writeText(t.value); toast('Text copied.'); } catch { t.select(); document.execCommand?.('copy'); toast('Text copied.'); } };
+  try { const f = new File([await (await fetch('data:image/png;base64,iVBORw0KGgo=')).blob()], 'x.png', { type: 'image/png' }); if (navigator.canShare?.({ files: [f] })) $('#lbShare', bg).hidden = false; } catch {}
+  $('#lbShare', bg).onclick = async () => { try { await navigator.share({ files: [new File([await blob()], 'scoreboard.png', { type: 'image/png' })], text: $('#lbText', bg).value }); } catch {} };
+  render();
+}
 /** One game's scoreboard card: its switch, code, link, tools and every player's score. */
 function warmupBoardHtml(w, r) {
   const when = (t) => new Date(t).toLocaleString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
@@ -681,6 +707,7 @@ function warmupBoardHtml(w, r) {
       <div class="row" style="margin-bottom:8px;flex-wrap:wrap"><span class="muted small">${w.forQuiz ? `Leads up to <b>${esc(titleOf(w.forQuiz))}</b>` : solo ? `Just for fun · ${w.bots} bots · ${w.replay ? 'play as often as you like (best score counts)' : 'one go per phone'}` : 'Not linked to a quiz yet (Settings on the warm-up)'}</span><div class="grow"></div>
         <code class="small">${esc(warmupLink(w.code))}</code><button class="btn btn-ghost btn-sm" data-wucopy="${esc(w.code)}">Copy link</button>
         ${w.forQuiz ? `<button class="btn btn-ghost btn-sm" data-wucheck="${w.id}" title="Look for any question the warm-up shares with its quiz, game rows included">🔍 Check for overlap</button>` : ''}
+        <button class="btn btn-sm btn-primary" data-wufb="${w.id}" title="One click: a leaderboard picture and post text, ready for Facebook">📣 Post scores</button>
         <button class="btn btn-ghost btn-sm" data-wutask="${w.id}" title="Judge the Taskmaster photos sent in the warm-up: the best three win points, the worst loses some">📸 Task photos</button>
         ${solo ? '' : `<button class="btn btn-ghost btn-sm" data-wurefresh="${w.id}" title="New questions from the bank for a later quiz, a new end time and a fresh scoreboard">🔄 Refresh for a new quiz</button>`}<button class="btn btn-ghost btn-sm" data-open="${w.id}">Edit</button></div>
       ${plays.length ? `<table class="wutable"><thead><tr><th>#</th><th>Player</th><th>Score</th><th>Played</th><th>In that game</th><th></th></tr></thead><tbody>${plays.map((p, i) => `<tr><td>${i === 0 ? '🥇' : i + 1}</td><td>${esc(p.emoji || '')} ${esc(p.name)}${p.goes > 1 ? ` <span class="muted small">· ${p.goes} goes</span>` : ''}</td><td><b>${p.score}</b></td><td>${when(p.played_at)}</td><td class="muted small">${p.players} player${p.players === 1 ? '' : 's'} + ${p.bots} bots · game ${esc(p.game_code)} · came ${LQ.ordinal(p.rank)}</td><td>${p.has_answers ? `<button class="btn btn-ghost btn-sm" data-wuanswers="${esc(p.code)}|${esc(p.season || '')}|${esc(p.pid)}" title="What they answered, question by question">👀 Answers</button> ` : ''}<button class="btn btn-ghost btn-sm" data-wuforget="${esc(p.code)}|${esc(p.season || '')}|${esc(p.pid)}|${esc(p.name)}" title="Let that phone play again: a practice go that keeps their score, or reset their score">Let them replay</button>${p.test_go ? '<div class="muted small" style="margin-top:4px">🧪 Practice go allowed</div>' : ''}</td></tr>`).join('')}</tbody></table>` : '<p class="muted" style="margin:0">Nobody has played yet. Send the link!</p>'}
@@ -713,6 +740,7 @@ function drawBoardModal() {
       toast(choice === 'keep' ? `Done: ${name} can have a practice go. Their score stays on the board.` : `Done: ${name}'s score is off and that phone can play again.`); reload();
     } catch (e) { toast(e.message, true); }
   });
+  $$('[data-wufb]', el).forEach((b) => b.onclick = () => leaderboardFor(b.dataset.wufb));
   $$('[data-wucheck]', el).forEach((b) => b.onclick = () => warmupCheckModal(b.dataset.wucheck, reload));
   $$('[data-wuanswers]', el).forEach((b) => b.onclick = () => { const [code, season, pid] = b.dataset.wuanswers.split('|'); warmupAnswersModal(code, season, pid); });
   $$('[data-wurefresh]', el).forEach((b) => b.onclick = () => warmupRefreshModal(r.warmups.find((w) => w.id === b.dataset.wurefresh), reload));
