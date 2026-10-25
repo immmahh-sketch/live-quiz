@@ -121,7 +121,7 @@ async function renderList() {
   view.innerHTML = `${head('Play a saved quiz', 'Pick one. The lobby comes up with the QR code for the phones.')}<p class="muted">Loading…</p>`;
   try { const r = await api('list'); T.quizzes = r.quizzes; } catch (e) { view.innerHTML += `<div class="error">${esc(e.message)}</div>`; return; }
   if (T.screen !== 'list') return;
-  const rows = T.quizzes.filter((q) => q.count > 0);
+  const rows = T.quizzes.filter((q) => q.count > 0 && !q.hidden);
   view.innerHTML = `${head(MOBILE ? 'My quizzes' : 'Play a saved quiz', MOBILE ? 'Tap one to open it in the full builder.' : 'Pick one. The lobby comes up with the QR code for the phones.')}
     <div style="max-width:1000px">${rows.length ? rows.map((q, i) => `<button class="tvrow" data-id="${esc(q.id)}" ${i === 0 ? 'data-autofocus' : ''}><span style="font-size:1.6rem">▶</span><span class="grow"><b style="font-size:1.35rem">${esc(q.title)}</b><br><span style="opacity:.75;font-size:1rem">${q.count} question${q.count === 1 ? '' : 's'} · ${q.types.slice(0, 5).map((t) => TYPES[t]?.label || t).join(', ')}${q.types.length > 5 ? '…' : ''}</span></span></button>`).join('') : '<p class="muted">No quizzes yet. Make one first.</p>'}
     <div class="row mt"><button class="btn btn-ghost" id="back">← Back</button></div></div>`;

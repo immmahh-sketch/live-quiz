@@ -1082,11 +1082,15 @@ Deno.serve(async (req) => {
 
     if (action === "list") {
       const rows = await rest(`quiz_quizzes?or=(settings->>bank.is.null,settings->>bank.neq.true)&select=id,title,settings,questions,created_at,updated_at&order=updated_at.desc`);
+      const warmFor = new Map<string, number>(); // how many warm-ups lead up to each quiz (for its bonus summary)
+      for (const r of rows || []) { const wu = r.settings?.warmup; if (wu?.forQuiz && wu.fun !== true) warmFor.set(wu.forQuiz, (warmFor.get(wu.forQuiz) || 0) + 1); }
       return json({ quizzes: (rows || []).map((r: any) => ({
         id: r.id, title: r.title, updated_at: r.updated_at, created_at: r.created_at,
         template: !!(r.settings && r.settings.template),
         bank: !!(r.settings && r.settings.bank),
         share: r.settings?.share === true, // the play link is on
+        hidden: r.settings?.hidden === true, // hidden from the builder's list (and the TV's) until unhidden
+        warmups: warmFor.get(r.id) || 0,
         traitors: r.settings?.traitors?.on === true, // Traitors mode is switched on
         live: r.settings?.live?.code && Date.now() - Date.parse(r.settings.live.at || "") < 14 * 3600e3 ? String(r.settings.live.code) : "", // the code of the game being hosted now (the Traitors control on the builder finds it)
         // a warm-up or a just-for-fun game: people open it by its code, so it has an on/off switch in the builder
@@ -1711,6 +1715,16 @@ Deno.serve(async (req) => {
       const settings = { ...(q.settings || {}), live: { code, at: new Date().toISOString() } };
       await rest(`quiz_quizzes?id=eq.${q.id}`, { method: "PATCH", headers: { Prefer: "return=minimal" }, body: JSON.stringify({ settings }) });
       return json({ ok: true });
+    }
+
+    if (action === "quiz_hide") {
+      // The builder's Hide button: the quiz stays exactly as it is (and can still be hosted by its link), it just leaves the list.
+      if (!UUID_RE.test(String(body.id))) return json({ error: "Bad quiz id." }, 400);
+      const q = (await rest(`quiz_quizzes?id=eq.${body.id}&select=id,settings`))?.[0];
+      if (!q) return json({ error: "That quiz no longer exists." }, 404);
+      const settings = { ...(q.settings || {}) }; if (body.on) settings.hidden = true; else delete settings.hidden;
+      await rest(`quiz_quizzes?id=eq.${q.id}`, { method: "PATCH", headers: { Prefer: "return=minimal" }, body: JSON.stringify({ settings }) });
+      return json({ ok: true, hidden: !!body.on });
     }
 
     if (action === "quiz_share") {
