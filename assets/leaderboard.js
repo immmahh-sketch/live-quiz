@@ -34,7 +34,7 @@ const LQLeader = (() => {
     const r = seeded(11); for (let i = 0; i < 90; i++) { x.globalAlpha = .25 + r() * .6; sparkle(x, r() * W, r() * H, 3 + r() * 6, r() * 3, '#fff'); } x.globalAlpha = 1;
     // header
     x.save(); x.translate(W / 2, 78); rrect(x, -165, -34, 330, 68, 34); x.fillStyle = YELLOW; x.fill(); x.restore(); text(x, "LET'S QUIZ!", W / 2, 80, 40, { c: DEEP });
-    text(x, d.ended ? 'FINAL SCOREBOARD' : d.heading || 'SCOREBOARD', W / 2, 188, 118, { f: HEAD, w: 400, c: YELLOW, stroke: DEEP, shadow: 24, maxW: 980 });
+    text(x, d.fixedHeading || (d.ended ? 'FINAL SCOREBOARD' : d.heading || 'SCOREBOARD'), W / 2, 188, 118, { f: HEAD, w: 400, c: YELLOW, stroke: DEEP, shadow: 24, maxW: 980 });
     const sub = wrap(x, cap1(d.title), BODY, 42, 900, 2); sub.forEach((l, i) => text(x, l, W / 2, 275 + i * 50, 42, { c: '#fff', stroke: DEEP, sw: 6 }));
     // podium: 2nd, 1st, 3rd
     const top = rows.slice(0, 3), t1 = compact ? 405 : 420, t2 = compact ? 470 : 505, ph1 = compact ? 330 : 400, ph2 = compact ? 270 : 310;
@@ -46,7 +46,7 @@ const LQLeader = (() => {
       if (s.i === 0) text(x, '👑', s.cx, s.top - 24, 96, { f: EMO });
       text(x, p.emoji || '🙂', s.cx, s.top + s.h * .30, s.av, { f: EMO });
       text(x, p.name || 'Player', s.cx, s.top + s.h * .60, s.nm, { c: DEEP, maxW: s.w - 40 });
-      text(x, fmt(p.score), s.cx, s.top + s.h * .82, s.sc, { f: HEAD, w: 400, c: p.score < 0 ? '#d94b5f' : PURPLE, maxW: s.w - 40 });
+      text(x, (p.display ?? fmt(p.score)), s.cx, s.top + s.h * .82, s.sc, { f: HEAD, w: 400, c: p.score < 0 ? '#d94b5f' : PURPLE, maxW: s.w - 40 });
     }
     // the rest of the table
     const rest = rows.slice(3), y0 = compact ? 752 : 845, rh = compact ? 58 : 84, gap = compact ? 8 : 14;
@@ -55,7 +55,7 @@ const LQLeader = (() => {
       text(x, String(places[k + 3]), 150, y + rh / 2, rh * .6, { f: HEAD, w: 400, c: PURPLE });
       text(x, p.emoji || '🙂', 225, y + rh / 2, rh * .62, { f: EMO });
       text(x, p.name || 'Player', 275, y + rh / 2, rh * .5, { a: 'left', c: DEEP, maxW: 520 });
-      text(x, fmt(p.score), W - 135, y + rh / 2, rh * .62, { a: 'right', f: HEAD, w: 400, c: p.score < 0 ? '#d94b5f' : PURPLE });
+      text(x, (p.display ?? fmt(p.score)), W - 135, y + rh / 2, rh * .62, { a: 'right', f: HEAD, w: 400, c: p.score < 0 ? '#d94b5f' : PURPLE });
     });
     if (!rows.length) text(x, 'Nobody has played yet', W / 2, 700, 64, { c: '#fff', stroke: DEEP });
     else if (!rest.length) { // a short table leaves a gap: a line to fill it
@@ -64,8 +64,8 @@ const LQLeader = (() => {
       if (!d.ended) text(x, 'Have a go before it closes 👇', W / 2, compact ? 905 : 1010, 44, { c: YELLOW, stroke: DEEP, sw: 7, maxW: 940 });
     }
     // footer: how many, where to play, when it closes
-    const n = d.count ?? (d.rows || []).length, plural = `${n} player${n === 1 ? '' : 's'} so far`;
-    const cl = d.ended ? 'Thanks for playing!' : d.until ? `Still time to play · closes ${closes(d.until)}` : 'Play it free on your phone';
+    const n = d.count ?? (d.rows || []).length, plural = d.countText || `${n} player${n === 1 ? '' : 's'} so far`;
+    const cl = d.footer || (d.ended ? 'Thanks for playing!' : d.until ? `Still time to play · closes ${closes(d.until)}` : 'Play it free on your phone');
     const pill = (cy, w, h, fill, line, lw, label, size, col) => { x.save(); x.translate(W / 2, cy); rrect(x, -w / 2, -h / 2, w, h, h / 2); x.fillStyle = fill; x.shadowColor = 'rgba(0,0,0,.4)'; x.shadowBlur = 24; x.shadowOffsetY = 9; x.fill(); x.shadowColor = 'transparent'; x.lineWidth = lw; x.strokeStyle = line; x.stroke(); x.restore(); text(x, label, W / 2, cy + 3, size, { c: col, maxW: w - 60 }); };
     if (compact) {
       pill(1140, 780, 84, '#fff', PINK, 6, d.link || 'letsquiz.uk/play', 56, PURPLE);
@@ -82,8 +82,8 @@ const LQLeader = (() => {
   /** The words to post with it. */
   function caption(d, topN = 5) {
     const rows = (d.rows || []).slice(0, topN), places = placeOf(d.rows || []), medal = ['🥇', '🥈', '🥉'];
-    const lines = rows.map((p, i) => `${places[i] <= 3 ? medal[places[i] - 1] : places[i] + '.'} ${p.emoji ? p.emoji + ' ' : ''}${p.name} · ${fmt(p.score)}`);
-    return [`🏆 ${d.ended ? 'FINAL SCOREBOARD' : (d.heading || 'SCOREBOARD')} · ${cap1(d.title)}`.trim(), '', ...lines, '', `${d.count ?? (d.rows || []).length} players so far. ${d.ended ? 'Thanks for playing!' : d.until ? `Still time to play: it closes ${closes(d.until)}!` : 'Play it free on your phone!'}`, `👉 ${d.link || 'letsquiz.uk/play'} · game code ${d.code || 'WARMUP'}`].join('\n');
+    const lines = rows.map((p, i) => `${places[i] <= 3 ? medal[places[i] - 1] : places[i] + '.'} ${p.emoji ? p.emoji + ' ' : ''}${p.name} · ${(p.display ?? fmt(p.score))}`);
+    return [d.captionIntro || `🏆 ${d.fixedHeading || (d.ended ? 'FINAL SCOREBOARD' : (d.heading || 'SCOREBOARD'))} · ${cap1(d.title)}`.trim(), '', ...lines, '', `${d.countText || (d.count ?? (d.rows || []).length) + ' players so far'}. ${d.ended ? 'Thanks for playing!' : d.until ? `Still time to play: it closes ${closes(d.until)}!` : 'Play it free on your phone!'}`, `👉 ${d.link || 'letsquiz.uk/play'} · game code ${d.code || 'WARMUP'}`].join('\n');
   }
   return { draw, caption, fmt, W, H };
 })();

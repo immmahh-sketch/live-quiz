@@ -734,7 +734,8 @@ async function warmupBonusModal(id) {
       if (+w.bonus.top && p.score === best) { b.pts += +w.bonus.top; b.tops[label] = true; }
     }
   }
-  const list = Object.values(people).sort((a, b) => b.pts - a.pts || a.name.localeCompare(b.name)), total = list.reduce((s, p) => s + p.pts, 0);
+  for (const b of Object.values(people)) b.total = Object.values(b.played).reduce((a, v) => a + v, 0);
+  const list = Object.values(people).sort((a, b) => b.pts - a.pts || b.total - a.total || a.name.localeCompare(b.name)), total = list.reduce((s, p) => s + p.pts, 0);
   const rule = wus[0]?.bonus ? `${n0(+wus[0].bonus.play || 0)} for every warm-up finished, plus ${n0(+wus[0].bonus.top || 0)} for the week's top score` : '';
   const open = weeks.filter((x) => !x.closed).length;
   body.innerHTML = `<h3 style="margin-top:0">🎁 Warm-up bonuses${quiz ? ` <span class="muted" style="font-weight:600;font-size:.7em">· ${esc(quiz.title)}</span>` : ''}</h3>
@@ -744,8 +745,20 @@ async function warmupBonusModal(id) {
         <tbody>${list.map((p, i) => `<tr style="border-top:1px solid var(--line)"><td style="padding:5px 4px">${i + 1}. ${esc(p.emoji || '')} <b>${esc(p.name)}</b></td>${weeks.map((x) => p.played[x.label] === undefined ? '<td class="muted" style="text-align:center">–</td>' : `<td style="text-align:center">${p.tops[x.label] ? '🏆 ' : ''}${n0(p.played[x.label])}</td>`).join('')}<td style="text-align:right"><b>+${n0(p.pts)}</b></td></tr>`).join('')}</tbody></table></div>
         <p class="small muted" style="margin:8px 0 0">${list.length} player${list.length === 1 ? '' : 's'} · ${n0(total)} points to give out in all</p>` : '<p class="muted">Nobody has played the warm-ups yet.</p>'}`
       : '<p class="muted">No warm-ups with a bonus lead up to this quiz.</p>'}
-    <div class="row" style="justify-content:flex-end;gap:8px;margin-top:12px">${list.length ? '<button class="btn" id="wbnCopy">Copy as text</button>' : ''}<button class="btn btn-primary" data-x>Close</button></div>`;
+    <div class="row" style="justify-content:flex-end;gap:8px;margin-top:12px">${list.length ? '<button class="btn" id="wbnCopy">Copy as text</button><button class="btn btn-primary" id="wbnPost">📣 Post the overall scoreboard</button>' : ''}<button class="btn btn-ghost" data-x>Close</button></div>`;
   $('[data-x]', bg).onclick = () => bg.remove();
+  const post = $('#wbnPost', bg);
+  if (post) post.onclick = () => {
+    const title = (quiz?.title || 'The quiz night').replace(/^Friday Quiz Night\s*·\s*/i, 'Quiz night · ');
+    const done = weeks.length && weeks.every((x) => x.closed), anyOpen = weeks.find((x) => !x.closed && x.w.until);
+    const getData = (mode) => {
+      const byBonus = mode === 'bonus', rows = list.map((p) => ({ name: p.name, emoji: p.emoji, score: byBonus ? p.pts : p.total, display: byBonus ? '+' + n0(p.pts) : n0(p.total) })).sort((a, b) => b.score - a.score);
+      return { title, fixedHeading: byBonus ? 'WARM-UP BONUSES' : 'WARM-UP TOTALS', rows, count: list.length, countText: `${list.length} player${list.length === 1 ? '' : 's'} in the warm-ups`, link: 'letsquiz.uk/play', code: 'WARMUP',
+        footer: byBonus ? 'Bonus points start the quiz night with you' : 'All the warm-ups added together', until: anyOpen?.w.until, ended: done,
+        captionIntro: byBonus ? `🎁 WARM-UP BONUSES · ${title}\n200 for every warm-up you finish, plus 1,000 for topping a week. They are added to your score when the quiz night starts!` : `🏆 WARM-UP TOTALS · ${title}\nEvery warm-up score added together.` };
+    };
+    postBoardModal(getData, [['bonus', '🎁 Bonus points'], ['total', '🔢 Total score']]);
+  };
   const cp = $('#wbnCopy', bg); if (cp) cp.onclick = async () => { const t = list.map((p) => `${p.name}: +${p.pts}${Object.keys(p.tops).length ? ' (top in ' + Object.keys(p.tops).join(', ') + ')' : ''}`).join('\n'); try { await navigator.clipboard.writeText(t); toast('Copied'); } catch { toast('Could not copy here', true); } };
 }
 /** "📣 Post scores": a leaderboard picture (1080 x 1350, the Facebook feed shape) and the words to go with it, from this game's scores. */
@@ -755,8 +768,14 @@ async function leaderboardFor(id) {
   const plays = r.plays.filter((p) => p.code === w.code && (p.season || '') === (w.season || '')).sort((a, b) => b.score - a.score);
   const data = { title: w.title.replace(/^Warm-up\s+/i, ''), heading: w.fun ? 'GAME SCOREBOARD' : 'WARM-UP SCOREBOARD', rows: plays.map((p) => ({ name: p.name, emoji: p.emoji, score: p.score })), count: plays.length, code: w.code, until: w.until, ended: !!w.until && new Date(w.until) <= Date.now(), link: 'letsquiz.uk/play' };
   if (!plays.length) return toast('Nobody has played yet, so there is nothing to post.', true);
+  return postBoardModal(() => data);
+}
+/** The pop-up that shows a leaderboard picture and its post text, to copy, download or share. getData(mode) gives the board; modes ([[key, label]…]) adds a "rank by" switch. */
+async function postBoardModal(getData, modes) {
+  let mode = modes ? modes[0][0] : null, data = getData(mode);
   let topN = 5, canvas = null;
   const bg = modal(`<h3 style="margin-top:0">📣 Post the scores</h3>
+    ${modes ? `<div class="row" style="margin-bottom:8px;gap:8px"><span class="muted small">Rank by</span>${modes.map(([k, l]) => `<button class="btn btn-sm ${k === mode ? 'btn-primary' : 'btn-ghost'}" data-mode="${k}">${l}</button>`).join('')}</div>` : ''}
     <div class="row" style="margin-bottom:8px;gap:8px"><span class="muted small">Show the top</span><button class="btn btn-sm btn-primary" data-top="5">5</button><button class="btn btn-sm btn-ghost" data-top="8">8</button></div>
     <img id="lbImg" alt="Leaderboard" style="width:100%;max-width:420px;display:block;margin:0 auto 10px;border-radius:14px;box-shadow:0 6px 24px rgba(0,0,0,.25)">
     <div class="field"><label>Post text <span class="muted">— paste it under the picture</span></label><textarea id="lbText" rows="8"></textarea></div>
@@ -765,6 +784,7 @@ async function leaderboardFor(id) {
   const render = async () => { canvas = await LQLeader.draw(data, topN); $('#lbImg', bg).src = canvas.toDataURL('image/png'); $('#lbText', bg).value = LQLeader.caption(data, topN); $$('[data-top]', bg).forEach((b) => { const on = +b.dataset.top === topN; b.classList.toggle('btn-primary', on); b.classList.toggle('btn-ghost', !on); }); };
   $('[data-x]', bg).onclick = () => bg.remove();
   $$('[data-top]', bg).forEach((b) => b.onclick = () => { topN = +b.dataset.top; render(); });
+  $$('[data-mode]', bg).forEach((b) => b.onclick = () => { mode = b.dataset.mode; data = getData(mode); $$('[data-mode]', bg).forEach((x) => { const on = x === b; x.classList.toggle('btn-primary', on); x.classList.toggle('btn-ghost', !on); }); render(); });
   $('#lbDl', bg).onclick = async () => { const a = document.createElement('a'); a.href = URL.createObjectURL(await blob()); a.download = `scoreboard-${new Date().toISOString().slice(0, 10)}.png`; document.body.appendChild(a); a.click(); a.remove(); toast('Picture saved: now post it on Facebook.'); };
   $('#lbCopy', bg).onclick = async () => { try { await navigator.clipboard.write([new ClipboardItem({ 'image/png': await blob() })]); toast('Picture copied: paste it into your Facebook post.'); } catch { toast('This browser will not copy a picture: use Download instead.', true); } };
   $('#lbTxt', bg).onclick = async () => { const t = $('#lbText', bg); try { await navigator.clipboard.writeText(t.value); toast('Text copied.'); } catch { t.select(); document.execCommand?.('copy'); toast('Text copied.'); } };
