@@ -155,7 +155,7 @@ function clk(i) {
 }
 function clkOut() {
   const c = G.clock; if (!c?.t0) return null;
-  return { firstQuestionAt: new Date(c.t0).toISOString(), finalAt: c.finalAt ?? null, endAt: c.endAt ?? c.finalAt ?? null, marks: c.marks };
+  return { firstQuestionAt: new Date(c.t0).toISOString(), finalAt: c.finalAt ?? null, endAt: c.endAt ?? c.finalAt ?? null, marks: c.marks, music: musicLogArr.slice(-300) };
 }
 let clkT = null, clkBeats = 0;
 /** The final scores are up: note the time, then keep noting how long they stay up (once a minute, for up to half an hour). */
@@ -2578,7 +2578,9 @@ function loadYT() {
   ytReady = ytApi().then(() => new Promise((res) => {
     const wrap = document.createElement('div'); wrap.className = 'bgm'; wrap.innerHTML = '<div id="bgmPlayer"></div>'; document.body.appendChild(wrap);
     ytP = new YT.Player('bgmPlayer', { width: 200, height: 200, playerVars: { controls: 0, disablekb: 1, playsinline: 1, rel: 0, iv_load_policy: 3 },
-      events: { onReady: () => res(ytP), onStateChange: (e) => { if (e.data === 0 && musicMode === 'loop') playLoop(); if (e.data === 1) musicSync(); }, onError: () => { if (musicMode === 'loop') playLoop(); } } });
+      events: { onReady: () => res(ytP), onAutoplayBlocked: () => musicBlocked(),
+        onStateChange: (e) => { if (musicMode) musicLog('state', e.data); if (e.data === 3) musicBufAt = Date.now(); if (e.data === 0 && musicMode === 'loop') playLoop(); },
+        onError: (e) => { musicLog('error', e.data); if (musicMode === 'loop' || musicMode === 'countdown') musicFallback(); } } });
   }));
   ytReady.catch(() => { ytReady = null; });
   return ytReady;
@@ -2595,7 +2597,7 @@ function playCustom() {
   const m = G.quiz.settings.bgMusic, clips = m.clips; let i;
   do { i = Math.floor(Math.random() * clips.length); } while (clips.length > 1 && i === bgLast);
   bgLast = i; musicStop(); musicMode = 'custom';
-  const a = bgAudio = new Audio(clips[i]); a.volume = Math.min(1, Math.max(0, +m.volume || 0.3));
+  const a = bgAudio = new Audio(clips[i]); a.preload = 'auto'; a.loop = true; a.volume = Math.min(1, Math.max(0, +m.volume || 0.3));
   a.play().catch(() => {}); // the browser may wait for a first press on the page before it lets sound start
 }
 function planFor(q) {
@@ -2615,23 +2617,49 @@ async function musicPrepare(q) {
 }
 /** Where the countdown track should be right now: its length less the time left on the clock. */
 function musicTarget() { if (!musicPlan?.dur || !G.q?.deadline) return 0; const rem = (G.q.deadline - (G.paused ? G.pausedAt : Date.now())) / 1000; return Math.max(0, musicPlan.dur - rem); }
+// A track needs a second or two to buffer after it starts, so it is always a little behind the clock at first. Seeking to catch up
+// made every start stutter and replay its first moment, so it only moves for a real drift: more than 2.5 s late or 1.5 s early,
+// never within 2.5 s of buffering or 6 s of the last move. musicStart begins it a little ahead to cover the buffering.
+let musicSeekAt = 0, musicBufAt = 0, musicBlockedHint = false;
 function musicSync() {
   if (musicMode !== 'countdown' || !ytP || G.paused) return;
-  try { if (ytP.getPlayerState() !== 1) return; const want = musicTarget(); if (Math.abs(ytP.getCurrentTime() - want) > 0.6) ytP.seekTo(want, true); } catch {}
+  try {
+    if (ytP.getPlayerState() !== 1) return;
+    const now = Date.now(); if (now - musicSeekAt < 6000 || now - musicBufAt < 2500) return;
+    const want = musicTarget(), cur = ytP.getCurrentTime(), lag = want - cur;
+    if (lag > 2.5 || lag < -1.5) { musicSeekAt = now; musicLog('seek', +cur.toFixed(1), +want.toFixed(1)); ytP.seekTo(want, true); }
+  } catch {}
 }
+/** What the music did, kept for the game report (report.timing.music): when it started, buffered, seeked, failed or was blocked. */
+let musicLogArr = [];
+function musicLog(ev, a, b) { try { musicLogArr.push([G?.clock?.t0 ? +((Date.now() - G.clock.t0) / 1000).toFixed(1) : 0, G?.qIndex ?? -1, ev, a ?? '', b ?? '']); if (musicLogArr.length > 400) musicLogArr.shift(); } catch {} }
+/** The browser will not let sound start until someone clicks on the page: say so, and start the music on the next click. */
+function musicBlocked() {
+  musicLog('blocked');
+  if (musicBlockedHint) return; musicBlockedHint = true;
+  toast('The browser is holding back the music. Click anywhere on this page to start it.', true);
+  document.addEventListener('pointerdown', () => { musicBlockedHint = false; if (G?.phase === 'question' && !G.paused && musicOn()) { if (musicPlan) musicPlan.started = false; musicStart(question()); } }, { once: true });
+}
+/** A track that will not play: use a lobby loop instead, so the question is not silent. */
+function musicFallback() { if (!ytP || G?.phase !== 'question' || G.paused) return; musicLog('fallback'); playLoop(); }
 async function musicStart(q) {
   if (!q || !musicOn()) return musicStop();
   const plan = musicPlan && musicPlan.qid === q.id ? musicPlan : planFor(q); musicPlan = plan;
   if (!plan) return musicStop();
-  if (plan.custom) return G.phase === 'question' && !G.paused ? playCustom() : undefined;
+  if (plan.started && musicMode) return; // already playing for this question (a second start would restart it)
+  if (plan.custom) { if (G.phase === 'question' && !G.paused) { plan.started = true; playCustom(); } return; }
   const p = await loadYT().catch(() => null);
   if (!p || G.phase !== 'question' || G.paused || question() !== q) return;
+  if (plan.started && musicMode) return;
+  plan.started = true;
   if (plan.loop) return playLoop();
-  musicMode = 'countdown'; p.setVolume(45);
-  try { if (p.getVideoData?.()?.video_id === plan.id) { p.seekTo(musicTarget(), true); p.playVideo(); } else p.loadVideoById({ videoId: plan.id, startSeconds: musicTarget() }); } catch {}
+  musicMode = 'countdown'; p.setVolume(45); musicSeekAt = Date.now(); musicBufAt = Date.now();
+  const at = Math.max(0, Math.min((plan.dur || 9999) - 1, musicTarget() + 0.8)); // a little ahead: it lags by the buffering
+  musicLog('start', plan.id, +at.toFixed(1));
+  try { if (p.getPlayerState() === 5 && p.getVideoData?.()?.video_id === plan.id) { p.seekTo(at, true); p.playVideo(); } else p.loadVideoById({ videoId: plan.id, startSeconds: at }); } catch {}
 }
-function playLoop() { if (!ytP) return; musicMode = 'loop'; ytP.setVolume(35); ytP.loadVideoById(pick(MUSIC.loop)); }
-function musicStop() { try { bgAudio?.pause(); } catch {} bgAudio = null; if (!musicMode) return; musicMode = null; try { ytP?.stopVideo(); } catch {} }
+function playLoop() { if (!ytP) return; musicMode = 'loop'; ytP.setVolume(35); const id = pick(MUSIC.loop); musicLog('loop', id); ytP.loadVideoById(id); }
+function musicStop() { try { bgAudio?.pause(); } catch {} bgAudio = null; if (musicPlan) musicPlan.started = false; if (!musicMode) return; musicMode = null; try { ytP?.stopVideo(); } catch {} }
 function musicPause(on) { if (musicMode === 'custom') { try { on ? bgAudio?.pause() : bgAudio?.play().catch(() => {}); } catch {} return; } try { if (on) ytP?.pauseVideo(); else if (musicMode) ytP?.playVideo(); } catch {} }
 function renderTypeCard() {
   const q = question(), k = q.kind || q.type, T = TYPES[k] || { icon: '❓', label: k }, run = typeRun(G.qIndex);
@@ -2668,7 +2696,7 @@ function syncPause() {
 function hostBar(buttons) {
   const d = autoDelay();
   const hint = G.auto ? `runs itself · players can press Start and Next on their phones${TV ? ' · centre button for next' : ''}` : TV ? 'press the centre button for next' : 'press Space for next';
-  return `<div class="stage-bottom"><span class="muted small" style="opacity:.6">Game ${G.code} · ${players().length} players${G.test ? ` · 🧪 TEST GAME, ${G.bots.length} bots, nothing is saved` : G.bots?.length ? (WARMUP ? ` + ${G.bots.length} bots` : ` · test mode, ${G.bots.length} bots`) : ''} · ${hint}</span>${d ? `<div class="autobar" title="Moving on by itself"><i style="animation-duration:${d}ms"></i></div>` : ''}<div class="hostbar">${callBtn()}${canBack() ? '<button class="btn btn-ghost" data-act="back" title="Go back one slide or question (←)">◀ Back</button>' : ''}${G.auto && !['lobby', 'final'].includes(G.phase) ? `<button class="btn btn-ghost" data-act="pause" title="Stop the clock and hold this screen (P)">${G.paused ? '▶ Resume' : '⏸ Pause'}</button>` : ''}${buttons}</div></div>`;
+  return `<div class="stage-bottom"><span class="muted small" style="opacity:.6">Game ${G.code} · ${players().length} players${G.test ? ` · 🧪 TEST GAME, ${G.bots.length} bots, nothing is saved` : G.bots?.length ? (WARMUP ? ` + ${G.bots.length} bots` : ` · test mode, ${G.bots.length} bots`) : ''} · ${hint}</span>${d ? `<div class="autobar" title="Moving on by itself"><i style="animation-duration:${d}ms"></i></div>` : ''}<div class="hostbar">${callBtn()}${canBack() ? '<button class="btn btn-ghost" data-act="back" title="Go back one slide or question (←)">◀ Back</button>' : ''}${G.auto && !['lobby', 'final'].includes(G.phase) ? `<button class="btn btn-ghost" data-act="pause" title="Stop the clock and hold this screen (P)">${G.paused ? '▶ Resume' : '⏸ Pause'}</button>` : ''}${buttons.includes('data-act="music"') || BHB() || G.phase === 'final' ? '' : `<button class="btn btn-ghost ${musicOn() ? 'on' : ''}" data-act="music" title="Background music on or off (M)">${musicOn() ? '🎵 Music: on' : '🔇 Music: off'}</button>`}${buttons}</div></div>`;
 }
 /* ---------- the quiz night video call (Gather) ---------- */
 function callLabel() {
@@ -3073,7 +3101,7 @@ function renderQuestion() {
     <div>${body}</div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">Stop the clock ■</button>`)}`;
   renderAnswered(); bind();
-  if (q.type === 'tune' && !WARMUP) { playTune(q); const b = $('#tuneAgain'); if (b) b.onclick = () => playTune(q); }
+  if (q.type === 'tune' && !WARMUP) { const key = q.id + '@' + G.q.startedAt; if (tuneKey !== key) { tuneKey = key; playTune(q); } const b = $('#tuneAgain'); if (b) b.onclick = () => playTune(q); } // once per question: a redraw (a player joining, a power card) must not restart the clip
 }
 // ------------------------------------------------------------------ Picture Reveal: tiles flip off the picture one at a time
 /** 12 to 20 tiles depending on the picture's shape; all but a couple are gone by 85% of the clock, so the last answers still need a look. */
@@ -3118,7 +3146,7 @@ async function playBackwards(url, start, len) {
     tuneT = setInterval(() => { if (bar) bar.style.width = Math.min(100, (ctx.currentTime - t0) / dur * 100) + '%'; }, 100);
   } catch (e) { toast('The backwards clip would not play: ' + e.message, true); }
 }
-let tuneAudio = null, tuneT = null;
+let tuneAudio = null, tuneT = null, tuneKey = '';
 function stopTune() { clearInterval(tuneT); if (tuneAudio) { try { tuneAudio.pause(); } catch {} tuneAudio = null; } const v = $('#vinyl'); if (v) v.classList.remove('spin'); }
 function playTune(q) {
   stopTune();
@@ -3127,7 +3155,8 @@ function playTune(q) {
   if (q.backwards) return playBackwards(m.url, start, len);
   const a = new Audio(m.url); a.preload = 'auto'; tuneAudio = a;
   const bar = $('#tuneBar'), v = $('#vinyl');
-  a.addEventListener('loadedmetadata', () => { try { a.currentTime = start; } catch {} });
+  if (start) { try { a.currentTime = start; } catch {} } // set before it plays, so it never starts at 0 and jumps
+  a.addEventListener('loadedmetadata', () => { try { if (start && Math.abs(a.currentTime - start) > 0.5) a.currentTime = start; } catch {} });
   a.addEventListener('playing', () => { if (v) v.classList.add('spin'); });
   a.addEventListener('error', () => toast('The clip would not play. Check the connection.', true));
   const stopAt = start + len;
