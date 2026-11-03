@@ -144,6 +144,31 @@ const persist = () => store(SAVE_KEY, G);
 const players = () => Object.values(G.players);
 const ranked = () => players().slice().sort((a, b) => b.score - a.score || a.joinedAt - b.joinedAt);
 const isSlide = (q) => q?.type === 'slide';
+// ------------------------------------------------------------------ hidden stopwatch
+/** Never shown to players. Times the night from the first question to the end of the final scores, so we learn how long a quiz really takes. */
+function clk(i) {
+  const q = G.quiz.questions[i]; if (!q) return;
+  const c = G.clock || (G.clock = { marks: [] });
+  if (c.marks.some((m) => m.i === i)) return;
+  if (!c.t0) { if (isSlide(q)) return; c.t0 = Date.now(); }
+  c.marks.push({ i, k: q.kind || q.type, at: Date.now() - c.t0 });
+}
+function clkOut() {
+  const c = G.clock; if (!c?.t0) return null;
+  return { firstQuestionAt: new Date(c.t0).toISOString(), finalAt: c.finalAt ?? null, endAt: c.endAt ?? c.finalAt ?? null, marks: c.marks };
+}
+let clkT = null, clkBeats = 0;
+/** The final scores are up: note the time, then keep noting how long they stay up (once a minute, for up to half an hour). */
+function clkFinal() {
+  const c = G.clock; if (!c?.t0 || c.finalAt != null) return;
+  c.finalAt = c.endAt = Date.now() - c.t0; persist();
+  clearInterval(clkT);
+  clkT = setInterval(async () => {
+    c.endAt = Date.now() - c.t0; persist();
+    if (G.reportId && !DEMO && !PREVIEW && !G.test && !WARMUP) { try { await api('game_timing', { id: G.reportId, timing: clkOut() }); } catch {} }
+    if (++clkBeats >= 30) clearInterval(clkT);
+  }, 60000);
+}
 /** How many questions the game has; slides are not counted. */
 const total = () => G.quiz.questions.filter((q) => !isSlide(q)).length;
 /** The question number of item i, not counting slides. */
@@ -763,7 +788,7 @@ function groupsView(q) {
 function teamsSlideFor(i) { for (let j = i - 1; j >= Math.max(0, i - 3); j--) { const q = G.quiz.questions[j]; if (q?.groups) return q; if (!isSlide(q)) break; } return null; }
 function showSlide(i) {
   clearInterval(tickT); clearInterval(countT); if (typeof stopTune === 'function') stopTune();
-  G.qIndex = i; G.phase = 'slide'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString();
+  G.qIndex = i; G.phase = 'slide'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString(); clk(i);
   const q = G.quiz.questions[i], ms = LQ.breakMs(q);
   G.brk = q.break ? { endsAt: Date.now() + ms, totalMs: ms, done: false } : null;
   persist(); render(); broadcastState();
@@ -797,7 +822,7 @@ function tickBreak() {
 function goTo(i) {
   if (G.quiz.rounds.length > 1 && startsRound(i) && !G.quiz.settings?.noRoundCards) {
     clearInterval(tickT); clearInterval(countT);
-    G.qIndex = i; G.phase = 'round'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString();
+    G.qIndex = i; G.phase = 'round'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString(); clk(i);
     persist(); render(); broadcastState(); return;
   }
   toTypeCard(i);
@@ -810,7 +835,7 @@ function toTypeCard(i) {
   if (isSlide(qs[i])) return showSlide(i);
   if ((i > 0 && (qs[i - 1]?.kind || qs[i - 1]?.type) === (qs[i]?.kind || qs[i]?.type)) || G.quiz.settings?.noTypeCards) return startCountdown(i);
   clearInterval(tickT); clearInterval(countT);
-  G.qIndex = i; G.phase = 'typecard'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString();
+  G.qIndex = i; G.phase = 'typecard'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString(); clk(i);
   persist(); render(); broadcastState();
 }
 // ------------------------------------------------------------------ the race's start: splash, 3-2-1, starting pistol
@@ -923,7 +948,7 @@ function sound(kind) {
 /** Before a race: the topic on a splash, then 3, 2, 1, then the starting pistol fires and the race is on. */
 function startRaceIntro(i) {
   clearInterval(tickT); clearInterval(countT); if (typeof stopTune === 'function') stopTune();
-  G.qIndex = i; G.phase = 'countdown'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString();
+  G.qIndex = i; G.phase = 'countdown'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString(); clk(i);
   G.raceIntro = { step: 'splash', n: 3, kind: G.quiz.questions[i].type };
   persist(); render(); broadcastState(); musicPrepare(G.quiz.questions[i]);
   let t = 0;
@@ -958,7 +983,7 @@ function startCountdown(i) {
   markPlayed(i);
   if (LQ.BANK_GAMES.includes(G.quiz.questions[i]?.type) || ['draw', 'twenty', 'unique', 'cards', 'behind', 'intro'].includes(G.quiz.questions[i]?.type) || (G.quiz.questions[i]?.type === 'task' && !WARMUP)) return startRaceIntro(i); // a splash first; the race adds 3-2-1 and the pistol
   clearInterval(tickT); clearInterval(countT); if (typeof stopTune === 'function') stopTune(); G.raceIntro = null;
-  G.qIndex = i; G.phase = 'countdown'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString();
+  G.qIndex = i; G.phase = 'countdown'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString(); clk(i);
   persist(); render(); broadcastState();
   const q = question(); musicPrepare(q);
   // Pre-load the picture so the aspect ratio is known for pin scoring and the screen is instant.
@@ -2006,7 +2031,7 @@ function renderChase() {
   bind(); gameTick();
 }
 function startQuestion() {
-  clearInterval(countT); G.raceIntro = null;
+  clearInterval(countT); G.raceIntro = null; clk(G.qIndex);
   const q = question();
   const { view, keys, rows } = buildView(q);
   if (typeof biCleanup === 'function') biCleanup();
@@ -2124,11 +2149,12 @@ function logQuestion() {
 function buildReport() {
   const rk = ranked();
   const log = (G.log || []).slice().sort((a, b) => a.index - b.index);
-  return { players: rk.map((p, i) => ({ pid: p.id, name: p.name, emoji: p.emoji || '', score: p.score, rank: i + 1, correct: log.filter((e) => !e.practice && e.players[p.id]?.correct).length, answered: log.filter((e) => !e.practice && e.players[p.id]?.answered).length })), questions: log, bots: (G.bots || []).map((b) => b.pid) };
+  return { players: rk.map((p, i) => ({ pid: p.id, name: p.name, emoji: p.emoji || '', score: p.score, rank: i + 1, correct: log.filter((e) => !e.practice && e.players[p.id]?.correct).length, answered: log.filter((e) => !e.practice && e.players[p.id]?.answered).length })), questions: log, bots: (G.bots || []).map((b) => b.pid), timing: clkOut() };
 }
 function showScoreboard() { G.phase = 'scoreboard'; persist(); render(); broadcastState(); }
 async function finish() {
   trPayHidden(); // the Traitors' secret bonuses (assets/traitors.js)
+  clkFinal();
   G.phase = 'final'; persist(); render(); broadcastState(); if (!G.quiz.settings?.noScores) confetti();
   const rk = ranked();
   if (WARMUP) { if (!G.warmSaved) warmupSave(); return; }

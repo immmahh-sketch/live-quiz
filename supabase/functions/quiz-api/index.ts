@@ -1628,6 +1628,17 @@ Deno.serve(async (req) => {
       return json({ ok: true, id: rows?.[0]?.id || null });
     }
 
+    if (action === "game_timing") {
+      // The host's hidden stopwatch: first question to the end of the final scores, kept in the game's report.
+      if (!UUID_RE.test(String(body.id))) return json({ error: "Bad game id." }, 400);
+      const tm = body.timing && typeof body.timing === "object" ? body.timing : null;
+      if (!tm || JSON.stringify(tm).length > 100_000) return json({ error: "No timing to save." }, 400);
+      const rows = await rest(`quiz_games?id=eq.${body.id}&select=report`);
+      if (!rows?.[0]) return json({ error: "That game record no longer exists." }, 404);
+      await rest(`quiz_games?id=eq.${body.id}`, { method: "PATCH", headers: { Prefer: "return=minimal" }, body: JSON.stringify({ report: { ...(rows[0].report || {}), timing: tm } }) });
+      return json({ ok: true });
+    }
+
     if (action === "warmup_board") {
       // Every warm-up and every device's score, best first, with when each game was played.
       const quizzes: any[] = (await rest(`quiz_quizzes?settings->warmup=not.is.null&select=id,title,warmup:settings->warmup,updated_at&order=updated_at.desc`)) || [];

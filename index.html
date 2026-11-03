@@ -149,9 +149,19 @@ async function openReport(id) {
   const rep = g.report, when = new Date(g.ended_at).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
   if (!rep) { view.innerHTML = `<div class="row" style="margin-bottom:14px"><button class="btn btn-ghost btn-sm" id="back">← Quizzes</button><h1 style="margin:0">${esc(g.title || 'Quiz')}</h1></div><div class="card"><p>This game was played before reports were kept, so only the scoreboard is here.</p><ol>${(g.players || []).map((p) => `<li>${esc(p.name)} — ${p.score}</li>`).join('')}</ol></div>`; $('#back').onclick = () => loadList(); return; }
   const ps = rep.players, qs = rep.questions;
+  // The host's hidden stopwatch (first question to the end of the final scores): how long the night really took, and where the time went.
+  let timeHtml = '';
+  const tm = rep.timing;
+  if (tm?.marks?.length && tm.finalAt != null) {
+    const fmtM = (ms) => { const m = Math.round(ms / 60000); return m >= 60 ? `${Math.floor(m / 60)}h ${String(m % 60).padStart(2, '0')}m` : `${m}m`; };
+    const by = {};
+    tm.marks.forEach((m, j) => { const end = j + 1 < tm.marks.length ? tm.marks[j + 1].at : tm.finalAt, b = by[m.k] || (by[m.k] = { n: 0, ms: 0 }); b.n++; b.ms += Math.max(0, end - m.at); });
+    timeHtml = `<div class="card" style="margin-bottom:16px"><h2 style="font-size:1.15rem">⏱ How long it took</h2><p><b>${fmtM(tm.finalAt)}</b> from the first question to the final scores${tm.endAt > tm.finalAt + 60000 ? `, and the final scores stayed up for another ${fmtM(tm.endAt - tm.finalAt)}` : ''}.</p><table class="rtable"><thead><tr><th>Type</th><th>Items</th><th>Total</th><th>Average</th></tr></thead><tbody>${Object.entries(by).sort((a, b) => b[1].ms - a[1].ms).map(([k, b]) => `<tr><td>${esc(TYPES[k]?.label || k)}</td><td>${b.n}</td><td>${fmtM(b.ms)}</td><td>${(b.ms / b.n / 60000).toFixed(1)} min</td></tr>`).join('')}</tbody></table><p class="muted small">Players never see this clock. Each figure includes the round card, countdown, reveal and scoreboard around the item, and a break counts in full.</p></div>`;
+  }
   const cell = (e, pid) => { const a = e.players[pid]; if (!a) return '<td class="muted">—</td>'; const cls = a.skipped ? 'r-skip' : a.correct ? 'r-ok' : a.partial > 0 ? 'r-part' : a.answered ? 'r-no' : 'r-none'; return `<td class="${cls}"><div class="ans-t">${esc(a.answer)}</div><div class="ans-p">${a.points > 0 ? '+' : ''}${a.points}</div></td>`; };
   view.innerHTML = `
     <div class="row" style="margin-bottom:14px"><button class="btn btn-ghost btn-sm" id="back">← Quizzes</button><h1 style="margin:0">📊 ${esc(g.title || 'Quiz')}</h1><span class="muted small">${when} · game ${esc(g.code)} · ${qs.length} questions · ${ps.length} players</span><div class="grow"></div><button class="btn btn-ghost btn-sm" id="csv">⬇ Download CSV</button><button class="btn btn-ghost btn-sm" onclick="window.print()">🖨 Print</button></div>
+    ${timeHtml}
     <div class="card" style="margin-bottom:16px"><h2 style="font-size:1.15rem">Final scores</h2><table class="rtable"><thead><tr><th>#</th><th>Player</th><th>Score</th><th>Right</th><th>Answered</th></tr></thead><tbody>${ps.map((p) => `<tr><td>${p.rank}</td><td>${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}${(rep.bots || []).includes(p.pid) ? ' <span class="tag">bot</span>' : ''}</td><td><b>${p.score}</b></td><td>${p.correct} of ${qs.length}</td><td>${p.answered} of ${qs.length}</td></tr>`).join('')}</tbody></table></div>
     <div class="card" style="overflow:auto"><h2 style="font-size:1.15rem">Every answer</h2><p class="muted small">Green is right, amber partly right, red wrong, grey skipped or not answered. The figure under each answer is the points it scored.</p>
       <table class="rtable answers-t"><thead><tr><th>#</th><th>Question</th><th>Answer</th>${ps.map((p) => `<th>${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}</th>`).join('')}</tr></thead>
