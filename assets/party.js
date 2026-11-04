@@ -614,6 +614,7 @@ function partyIntroSub(q) {
   if (q.type === 'intro') return `The start of a song plays, then stops · tap your phone when you think the first sung word comes in · the closest guess wins ${q.prize ?? 1000}`;
   if (q.type === 'behind') { const n = LQ.behindOf(q).length, st = q.step ?? 100; return `${n} quick-fire questions, always answer the one BEFORE · ${q.time || 30} seconds each · ${st}, ${st * 2}, ${st * 3}… for each right answer in a row · one wrong and you're out`; }
   if (q.type === 'cards') return `${LQ.cardsOf(q).length} cards · 30 seconds to get through the lot on your phone · ${q.perCard ?? 200} for each right call · one wrong call and you're out · reach the end for ${q.prize ?? 500} more`;
+  if (tmMode(q) && q.mode === 'all' && tmHide(q)) { const h = tmHide(q); return `Everybody hides at once, on camera · the Taskmaster turns away for ${h.hideSecs} seconds, then looks for ${h.seekSecs} · spotted: −${h.spotted} · don't play: −${h.fail}`; }
   if (tmMode(q) && q.mode === 'all') { const p = tmPrizes(q); return `Everybody does it, all at once, on camera · ${q.time || 90} seconds · best three win ${p.join(', ')}`; }
   if (tmMode(q)) { const p = tmPrizes(q); return `The wheel picks who does each task · bring it to the camera · ${q.time || 90} seconds · 1st ${p[0]}, 2nd ${p[1]}, 3rd ${p[2]} · don't even try: −${tmFail(q)}`; }
   if (q.type === 'task') { const p = q.prizes || [1000, 600, 300]; return `Take the photo on your phone and send it in · best three win ${p.join(', ')} · the worst loses ${q.worst ?? 300}`; }

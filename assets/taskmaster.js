@@ -8,13 +8,16 @@
  * task is used twice in a night. Loaded with party.js before host.html's own script; names start tm. */
 
 const TM_SPIN_MS = 4800, TM_HOLD_MS = 1700, TM_READY_MS = 3500, TM_PEEK_MS = 5000, TM_SHOW_MS = 6000;
-const TM_PLACES = { 1: '🥇', 2: '🥈', 3: '🥉', x: '❌' };
+const TM_PLACES = { 1: '🥇', 2: '🥈', 3: '🥉', x: '❌', s: '👀' };
 /** Is this question played on camera (the wheel, or everyone at once)? A warm-up's task is always a photo. */
 const tmMode = (q) => q?.type === 'task' && !WARMUP && (q.mode === 'spin' || q.mode === 'all');
 const tmTasksOf = (q) => (Array.isArray(q?.tasks) ? q.tasks : []).map((t) => String(t || '').trim()).filter(Boolean);
 const tmPrizes = (q) => { const p = Array.isArray(q.prizes) ? q.prizes : []; return [p[0] ?? 1000, p[1] ?? 200, p[2] ?? 0]; };
-const tmFail = (q) => q.mode === 'all' ? 0 : Math.abs(+(q.fail ?? 1000) || 0);
-function tmPoints(q, v) { const p = tmPrizes(q); return v === 'x' ? -tmFail(q) : ['1', '2', '3'].includes(v) ? (+p[+v - 1] || 0) : 0; }
+/** Hide and seek (q.hide = { hideSecs, seekSecs, spotted, fail }): one task for everyone in two timed parts. The Taskmaster turns away while
+ *  everyone hides in view of the camera, then looks for the same time. Spotted loses `spotted`, not playing loses `fail`, hidden scores nothing. */
+const tmHide = (q) => (q?.type === 'task' && q.hide && typeof q.hide === 'object') ? { hideSecs: LQ.clamp(+q.hide.hideSecs || 30, 5, 300), seekSecs: LQ.clamp(+q.hide.seekSecs || 30, 5, 300), spotted: Math.abs(+(q.hide.spotted ?? 500) || 0), fail: Math.abs(+(q.hide.fail ?? 1000) || 0) } : null;
+const tmFail = (q) => tmHide(q) ? tmHide(q).fail : q.mode === 'all' ? 0 : Math.abs(+(q.fail ?? 1000) || 0);
+function tmPoints(q, v) { const p = tmPrizes(q); return v === 'x' ? -tmFail(q) : v === 's' ? -(tmHide(q)?.spotted || 0) : ['1', '2', '3'].includes(v) ? (+p[+v - 1] || 0) : 0; }
 /** The unused tasks for this question: its own first, then any other spin question's (so a big room never runs dry). */
 function tmPool(q) {
   const used = new Set(G.tmUsed || []);
@@ -67,9 +70,9 @@ function tmLanded() {
 function tmReady() { const g = G.q.tm; g.spin = null; stepTo(g, 'ready', TM_READY_MS); g.total = 0; sound('drumroll'); persist(); tmRender(); broadcastState(); }
 /** The envelope opens: the clock starts now, and shows itself 5 seconds in. */
 function tmOpen() {
-  const g = G.q.tm, ms = LQ.clamp(+question().time || 90, 20, 600) * 1000;
-  g.openAt = Date.now(); g.spin = null;
-  stepTo(g, 'envelope', ms); g.total = 0; // the clock stays hidden for the first 5 seconds
+  const g = G.q.tm, h = tmHide(question()), ms = h ? h.hideSecs * 1000 : LQ.clamp(+question().time || 90, 20, 600) * 1000;
+  g.openAt = Date.now(); g.spin = null; g.phase = 1;
+  stepTo(g, 'envelope', ms); g.total = h ? ms : 0; // the clock stays hidden for the first 5 seconds (not in hide and seek: both timers show)
   sound('go'); persist(); tmRender(); broadcastState();
   // once the opening has played, draw it again without the animation: the card is there even if animations stalled
   const at = g.openAt; setTimeout(() => { if (G.q?.tm === g && g.step === 'envelope' && g.openAt === at) tmRender(); }, 1900);
@@ -83,7 +86,11 @@ function tmStepDone() {
   const g = G.q.tm;
   if (g.step === 'spin') { tmLanded(); return g.cur.picks.length < g.per ? tmSpin() : tmReady(); }
   if (g.step === 'ready') return tmOpen();
-  if (g.step === 'envelope') { stepTo(g, 'judge', 0); sound('claxon'); persist(); tmRender(); broadcastState(); return; }
+  if (g.step === 'envelope') {
+    const h = tmHide(question());
+    if (h && g.phase === 1) { g.phase = 2; stepTo(g, 'envelope', h.seekSecs * 1000); sound('claxon'); persist(); tmRender(); broadcastState(); return; } // part 2: the Taskmaster looks
+    stepTo(g, 'judge', 0); sound('claxon'); persist(); tmRender(); broadcastState(); return;
+  }
   if (g.step === 'show') return g.round < g.count ? tmNextTask() : endQuestion();
 }
 /** The host marks a player: on the wheel tasks each place goes to one player (clicking a taken place takes it over). */
@@ -131,13 +138,17 @@ function tmRender() {
     // the envelope opens and fades, and the task card takes its place (only animated just after opening; a later redraw
     // shows the card straight away, and so does a screen where animations don't run)
     const fresh = Date.now() - g.openAt < 1800;
-    main = `<div class="tmletter ${fresh ? 'fresh' : ''}"><div class="tmcard"><div class="tmcard-k">TASK ${g.all ? '' : g.round}</div><div class="tmcard-t">${esc(g.cur.task)}</div><div class="tmcard-f">You have ${Math.round((g.until - g.openAt) / 1000)} seconds. Your time started when you opened this task.</div></div><div class="tmenv2"><div class="tme-body"></div><div class="tme-flap"></div><div class="tmseal">TM</div></div></div>
+    const hd = tmHide(q), look = hd && g.phase === 2;
+    const kick = hd ? (look ? '👀 PART 2 OF 2 · THE TASKMASTER LOOKS' : '🙈 PART 1 OF 2 · HIDE!') : `TASK ${g.all ? '' : g.round}`;
+    const txt = look ? 'Stay hidden. Stay still.' : g.cur.task;
+    const foot = hd ? (look ? `The Taskmaster has ${hd.seekSecs} seconds to spot you. Spotted: −${hd.spotted}.` : `The Taskmaster is not looking. You have ${hd.hideSecs} seconds to hide.`) : `You have ${Math.round((g.until - g.openAt) / 1000)} seconds. Your time started when you opened this task.`;
+    main = `<div class="tmletter ${fresh ? 'fresh' : ''}"><div class="tmcard"><div class="tmcard-k">${kick}</div><div class="tmcard-t">${esc(txt)}</div><div class="tmcard-f">${foot}</div></div><div class="tmenv2"><div class="tme-body"></div><div class="tme-flap"></div><div class="tmseal">TM</div></div></div>
       ${g.all ? '<div class="tmpicked row"><span class="tmchip"><b>🎭 Everyone!</b></span></div>' : `<div class="tmpicked row">${g.cur.picks.map((p) => tmChip(p)).join('')}</div>`}`;
-    btn = '<button class="btn btn-primary" id="tmGo">Time\'s up ■</button>';
+    btn = hd && !look ? '<button class="btn btn-primary" id="tmGo">The Taskmaster looks now ▶</button>' : '<button class="btn btn-primary" id="tmGo">Time\'s up ■</button>';
   } else if (g.step === 'judge') {
-    const p = tmPrizes(q), fail = tmFail(q);
-    const places = g.all ? ['1', '2', '3'] : ['1', '2', '3', 'x'];
-    const lab = (v) => v === 'x' ? `❌ Didn't try${fail ? ` −${fail}` : ''}` : `${TM_PLACES[v]} ${p[+v - 1] > 0 ? '+' : ''}${p[+v - 1]}`;
+    const p = tmPrizes(q), fail = tmFail(q), hd = tmHide(q);
+    const places = hd ? ['s', 'x'] : g.all ? ['1', '2', '3'] : ['1', '2', '3', 'x'];
+    const lab = (v) => v === 'x' ? `❌ ${hd ? "Didn't play" : "Didn't try"}${fail ? ` −${fail}` : ''}` : v === 's' ? `👀 Spotted −${hd.spotted}` : `${TM_PLACES[v]} ${p[+v - 1] > 0 ? '+' : ''}${p[+v - 1]}`;
     main = `<div class="tmhead"><div class="ri-kicker">⚖️ The Taskmaster decides</div><div class="tmtask-sm">${esc(g.cur.task)}</div></div>
       <div class="tmjudge ${g.all ? 'all' : ''}">${g.cur.picks.map((pid) => `<div class="tmj ${g.cur.places[pid] ? 'set' : ''}"><div class="tmj-who">${face(pid)}<b>${esc(pname(pid))}</b>${g.cur.places[pid] ? `<span class="tmj-medal">${TM_PLACES[g.cur.places[pid]]}</span>` : ''}</div><div class="tmj-btns">${places.map((v) => `<button class="btn btn-sm ${g.cur.places[pid] === v ? 'btn-primary' : 'btn-ghost'}" data-tmp="${pid}" data-v="${v}">${lab(v)}</button>`).join('')}</div></div>`).join('')}</div>`;
     btn = '<button class="btn btn-primary" id="tmGo">Award the points ▶</button>';
@@ -145,7 +156,7 @@ function tmRender() {
     const last = g.done[g.done.length - 1];
     const order = Object.keys(last.got).sort((a, b) => last.got[b] - last.got[a]);
     main = `<div class="tmhead"><div class="ri-kicker">📞 Taskmaster · ${head}</div><div class="tmtask-sm">${esc(last.task)}</div></div>
-      <div class="tmresults">${order.filter((pid) => last.places[pid] || last.got[pid]).map((pid) => `<div class="tmres ${last.got[pid] < 0 ? 'neg' : ''}">${last.places[pid] ? `<span class="tmj-medal">${TM_PLACES[last.places[pid]]}</span>` : ''}${face(pid)}<b>${esc(pname(pid))}</b><span class="tmres-pts">${last.got[pid] > 0 ? '+' : ''}${last.got[pid]}</span></div>`).join('') || '<div class="item">No points this time!</div>'}</div>
+      <div class="tmresults">${order.filter((pid) => tmHide(q) || last.places[pid] || last.got[pid]).map((pid) => `<div class="tmres ${last.got[pid] < 0 ? 'neg' : ''}">${last.places[pid] ? `<span class="tmj-medal">${TM_PLACES[last.places[pid]]}</span>` : tmHide(q) ? '<span class="tmj-medal">🙈</span>' : ''}${face(pid)}<b>${esc(pname(pid))}</b><span class="tmres-pts">${last.got[pid] > 0 ? '+' : ''}${last.got[pid]}</span></div>`).join('') || '<div class="item">No points this time!</div>'}</div>
       ${g.round < g.count ? '<p class="uqrule">Spinning again in a moment…</p>' : ''}`;
     btn = `<button class="btn btn-primary" id="tmGo">${g.round < g.count ? 'Spin again 🎡' : 'Finish ▶'}</button>`;
   }
@@ -173,7 +184,7 @@ function tmState(s) {
   const g = G.q?.tm; if (!g || G.phase !== 'question') return;
   const nowT = G.paused ? G.pausedAt : Date.now();
   const landed = g.spin && nowT - g.spin.at >= TM_SPIN_MS ? g.spin.target : null;
-  s.tm = { step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, round: g.round, count: g.count, all: !!g.all,
+  s.tm = { phase: g.phase || 1, hide: !!tmHide(question()), step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, round: g.round, count: g.count, all: !!g.all,
     picks: [...(g.cur?.picks || []), ...(landed && !g.cur.picks.includes(landed) ? [landed] : [])], spinning: g.step === 'spin' && !landed,
     task: ['envelope', 'judge', 'show'].includes(g.step) ? g.cur?.task : '', got: g.step === 'show' ? g.done[g.done.length - 1]?.got : null, pts: g.pts };
   s.names = Object.fromEntries(Object.values(G.players).map((p) => [p.id, { name: p.name, emoji: p.emoji || '' }]));
@@ -186,7 +197,7 @@ function tmGrade(q, byPlayer, PL, stats) {
     const pts = g.pts[pid] || 0, mine = g.done.filter((d) => d.picks.includes(pid));
     const best = mine.map((d) => d.places[pid]).find((v) => v === '1') || mine.map((d) => d.places[pid]).find(Boolean) || '';
     byPlayer[pid] = { answered: took.has(pid), correct: pts > 0, partial: pts > 0 ? 1 : 0, points: pts,
-      note: !took.has(pid) ? '📞 Not picked for this one' : best === 'x' ? "❌ You didn't even try!" : best ? `${TM_PLACES[best]} The Taskmaster put you ${best === '1' ? 'FIRST' : best === '2' ? 'second' : 'third'}!` : '📞 No points from the Taskmaster this time' };
+      note: !took.has(pid) ? '📞 Not picked for this one' : best === 'x' ? "❌ You didn't even try!" : best === 's' ? '👀 The Taskmaster spotted you!' : best ? `${TM_PLACES[best]} The Taskmaster put you ${best === '1' ? 'FIRST' : best === '2' ? 'second' : 'third'}!` : '📞 No points from the Taskmaster this time' };
     if (pts > 0) stats.right++;
   }
   stats.answered = took.size;
