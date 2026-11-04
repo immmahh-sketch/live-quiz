@@ -722,7 +722,18 @@ function primaryAction() {
   clearTimeout(autoT);
   if (G.paused) togglePause(false, true);
   if (trOn() && G.tr.screen && G.phase !== 'lobby' && trScreenNext()) return;
-  if (G.phase === 'lobby') return players().length ? (partyGameStart(), goTo(0)) : toast('Waiting for at least one player.');
+  if (G.phase === 'lobby') {
+    if (!players().length) return toast('Waiting for at least one player.');
+    if (trOn() && !G.tr.traitor && !G.test) { // no Traitor picked: no steals, no Round Table, no last round
+      const real = players().filter((p) => !p.id.startsWith('p_bot'));
+      return ask('No Traitor picked yet', 'Open 🗡 Traitors on your phone (on this quiz\'s card in the builder) to pick one, or let the game pick one at random now.', 'Pick at random', 'Go back').then((ok) => {
+        if (!ok) return;
+        if (real.length) trSetTraitor(real[Math.floor(Math.random() * real.length)].id, 'random');
+        partyGameStart(); goTo(0);
+      });
+    }
+    return (partyGameStart(), goTo(0));
+  }
   if (G.phase === 'round') return toTypeCard(G.qIndex);
   if (G.phase === 'slide') return nextFrom(G.qIndex);
   if (G.phase === 'typecard') return startCountdown(G.qIndex);
@@ -2795,7 +2806,7 @@ function lobbyLogo() { const b = LQ.brand(); return b.id === 'bhb' ? `<div class
 function renderLobby() {
   if (G.warmup) return renderWarmLobby();
   const url = playUrl(G.code);
-  stage.innerHTML = `<div class="stage-top">${lobbyLogo()}<div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">${total()} questions</span>${G.test ? '<span class="hpill" style="background:#ffd60a;color:#1b1640">🧪 Test game · nothing is saved</span>' : ''}</div></div>
+  stage.innerHTML = `<div class="stage-top">${lobbyLogo()}<div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">${total()} questions</span>${trOn() ? `<span class="hpill">🗡 The Traitors${G.tr.traitor ? ' · a Traitor is picked' : ' · no Traitor picked yet'}</span>` : ''}${G.test ? '<span class="hpill" style="background:#ffd60a;color:#1b1640">🧪 Test game · nothing is saved</span>' : ''}</div></div>
     <div class="stage-main"><div class="lobby">
       <div class="center"><div class="qr" id="qr"></div><p class="joinurl mt">${BHB() ? 'Scan with your phone camera, or open <b>BHB Training</b> on your phone' : `Scan, or go to <b>${esc(shortPlayUrl())}</b>`}</p></div>
       <div class="center"><div style="opacity:.8;font-weight:800;font-size:1.3rem">and enter the code</div><div class="code">${G.code}</div>

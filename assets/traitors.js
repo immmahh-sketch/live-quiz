@@ -65,6 +65,7 @@ function trSetTraitor(pid, reason = 'picked') {
   Object.assign(G.tr, { powers: trFresh(), set: { gift: null, block: null, dbl: null }, used: { gift: 0, block: 0, dbl: 0 }, lastStealQ: -99, victimQ: {}, list: null, msgBreak: 0 });
   trLog(`${pname(pid)} is the Traitor (${reason})`);
   trTell(pid, 'role', { reason, n: G.tr.history.length }); trSync(); persist(); broadcastState();
+  if (G.phase === 'lobby') render(); // the lobby says a Traitor is picked
   return true;
 }
 
