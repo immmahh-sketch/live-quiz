@@ -26,6 +26,7 @@ function trpOnPrivate(m) {
   if (!m || m.to !== P.pid) return;
   if (m.kind === 'role') { TRP.traitor = true; const k = 'role' + (m.n ?? 0); if (!trpSeen(k)) { trpMark(k); trpRoleScreen(m); } trpRefresh(); }
   else if (m.kind === 'sync') { TRP.sync = m.d; if (!TRP.traitor) TRP.traitor = true; trpRefresh(); if (m.d.needList && !TRP.listPrompted) { TRP.listPrompted = true; TRP.tab = 'list'; trpMenu(); if (navigator.vibrate) try { navigator.vibrate([80, 50, 80]); } catch {} } if (!m.d.needList) TRP.listPrompted = false; }
+  else if (m.kind === 'listnow') { TRP.tab = 'list'; trpMenu(); toast(m.text || 'Save your list!', true); if (navigator.vibrate) try { navigator.vibrate([120, 60, 120, 60, 120]); } catch {} }
   else if (m.kind === 'ok') toast(m.text || 'Done');
   else if (m.kind === 'no') toast(m.why || "That didn't work", true);
   else if (m.kind === 'ping') partyFlash({ icon: m.icon || '🗡', text: m.text });

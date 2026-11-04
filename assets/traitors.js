@@ -128,6 +128,7 @@ function trList({ items }) {
   const list = items.map((x, i) => ({ id: 'c' + (i + 1), text: String(x.text || '').trim().slice(0, 90), yes: !!x.yes, own: !!x.own })).filter((x) => x.text).slice(0, 90);
   if (list.filter((x) => x.yes).length < 3) return trNo('Tick at least 3 that are true of you.');
   G.tr.list = list; trLog(`The Traitor's 20 Questions list is in (${list.length} questions)`); trTell(G.tr.traitor, 'ok', { text: '✅ Your list is saved. Honesty is the whole game!' }); trSync(); persist();
+  if (G.phase === 'slide') render(); // the half-time button was waiting for it
 }
 /** A notice for the screen (and the phones): up at once if the game is between questions, else when it next pauses. */
 function trPushNotice(n, now) {
@@ -202,7 +203,7 @@ function trScreenNext() {
   const sc = G.tr.screen; if (!sc) return false;
   if (sc.kind === 'notice') { G.tr.screen = null; persist(); broadcastState(); if (sc.cont) nextFrom(G.qIndex); else render(); return true; }
   if (sc.kind === 'table') { trLockVotes(); return true; }
-  if (sc.kind === 'verdict') { G.tr.screen = null; G.tr.tableDone = true; persist(); trSync(); broadcastState(); goTo(sc.next); return true; }
+  if (sc.kind === 'verdict') { G.tr.screen = null; G.tr.tableDone = true; persist(); trSync(); trNudgeList(); broadcastState(); goTo(sc.next); return true; }
   if (sc.kind === 'final') { G.tr.screen = null; G.tr.revealed = true; persist(); broadcastState(); finish(); return true; }
   return false;
 }
@@ -211,6 +212,18 @@ function trScreenNext() {
 /** Item index of half time: the first break slide, else the middle of the quiz. */
 function trHalfIndex() { const qs = G.quiz.questions, b = qs.findIndex((x) => x.type === 'slide' && x.break); return b >= 0 ? b : Math.floor(qs.length / 2); }
 const trWantsTable = (i) => trOn() && G.tr.traitor && !G.tr.tableDone && trHalfIndex() === i + 1 && i + 1 < G.quiz.questions.length;
+/** Half time is over the Traitor's list: no list, no last round. True while a real Traitor has yet to save it (a bot Traitor can't, and the host can waive it). */
+const trListPending = () => trOn() && !!G.tr.traitor && !!G.players[G.tr.traitor] && !G.tr.traitor.startsWith('p_bot') && G.tr.tableDone && !G.tr.list && !G.tr.listWaived;
+/** The Traitor's phone opens the list and buzzes. */
+const trNudgeList = () => { if (trListPending()) trTell(G.tr.traitor, 'listnow', { text: "Save your list! The quiz can't carry on without it." }); };
+/** The host tried to leave half time with no list: hold them here unless they choose to drop the last round. */
+function trHoldForList(i) {
+  trNudgeList(); render();
+  return ask('Waiting for the Traitor', `${pname(G.tr.traitor)} hasn't saved their list yet. Their phone has it open now. Without it there is no last round (the Traitor's 20 Questions).`, 'Keep waiting', 'Skip the last round').then((wait) => {
+    if (wait) return;
+    G.tr.listWaived = true; trLog('The host skipped the last round: no list from the Traitor'); persist(); render(); nextFrom(i);
+  });
+}
 let trTickT = null;
 function trTable(i) {
   clearInterval(tickT); clearInterval(countT);

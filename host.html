@@ -753,7 +753,7 @@ function skipScoreboard() {
   return G.quiz.questions.slice(G.qIndex + 1).some((x) => x.round === cur.round && !isSlide(x));
 }
 function nextFrom(i) {
-  if (trOn()) { if (trInterlude(false)) return; if (trWantsTable(i)) return trTable(i); if (i + 1 >= G.quiz.questions.length && trEnd()) return; } // the Traitors: a pause, the Round Table, the last round
+  if (trOn()) { if (trInterlude(false)) return; if (trWantsTable(i)) return trTable(i); if (trListPending() && i >= trHalfIndex()) return trHoldForList(i); if (i + 1 >= G.quiz.questions.length && trEnd()) return; } // the Traitors: a pause, the Round Table, the last round
   return i + 1 < G.quiz.questions.length ? goTo(i + 1) : finish();
 }
 /** A slide: up on the screen and the phones until someone moves on. A break slide starts its countdown clock. */
@@ -2525,7 +2525,7 @@ function renderSlide() {
   const rich = !!(q.layout || q.visual || q.kicker || q.groups); // a training-style slide: drawn by assets/train-visuals.js
   if (G.brk) {
     const ex = !!q.exercise, what = ex ? 'exercise' : 'break';
-    const bar = hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-ghost" data-brk="-1" title="Take a minute off (−)">−1 min</button><button class="btn btn-ghost" data-brk="1" title="Add a minute (+)">+1 min</button><button class="btn btn-ghost" data-brk="5">+5 min</button><button class="btn btn-primary btn-lg" data-act="primary">${!more ? 'Final results 🏆' : ex ? 'End exercise ▶' : 'End break ▶'}</button>`);
+    const bar = hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-ghost" data-brk="-1" title="Take a minute off (−)">−1 min</button><button class="btn btn-ghost" data-brk="1" title="Add a minute (+)">+1 min</button><button class="btn btn-ghost" data-brk="5">+5 min</button><button class="btn btn-primary btn-lg" data-act="primary">${!more ? 'Final results 🏆' : ex ? 'End exercise ▶' : trListPending() ? '📋 Waiting for the Traitor\'s list' : 'End break ▶'}</button>`);
     if (rich) stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${pill}</span><span class="hpill">${ex ? '🎭 Exercise' : '☕ Break'}</span></div></div><div class="stage-main slide brk">${LQ.trainSlideHtml({ ...sl, layout: sl.layout || 'exercise' }, { brk: { prefix: 'brk', what }, teams: (ex && teamsSlideFor(G.qIndex)) ? LQ.visualHtml({ type: 'groups', compact: true, list: groupsView(teamsSlideFor(G.qIndex)) }) : '' })}</div>${bar}`;
     else stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${pill}</span><span class="hpill">☕ Break</span></div></div>
       <div class="stage-main slide brk">${q.text ? `<h1 class="big">${esc(q.text)}</h1>` : ''}${LQ.breakClockHtml('brk')}<div class="brkback" id="brkBack"></div>${body ? `<div class="slidebody">${body}</div>` : ''}</div>
