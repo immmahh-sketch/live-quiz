@@ -105,11 +105,16 @@ function trpScreen(s) {
       <p class="trp-small">${TRP.vote ? `You voted for ${esc(trpName(s, TRP.vote))}.` : 'You have not voted yet.'} ${(sc.voted || []).length} of ${(s.tr.players || []).length} have voted.</p>`;
     if (sc.locked) h = h.replace(/<div class="trp-vote">[\s\S]*?<\/div>/, '<p><b>Votes are locked!</b></p>');
   }
+  if (sc.kind === 'chosen') {
+    h = sc.banished === P.pid
+      ? `<div class="trp-big">THE ROOM HAS CHOSEN YOU</div><p>Your camera is on the big screen. Look at it and tell everyone: <b>are you the Traitor?</b></p><p class="trp-small">If you are innocent, you lose 3,000 points for being wrongly accused.</p>`
+      : `<div class="trp-big">${esc(trpName(s, sc.banished))} HAS BEEN CHOSEN</div><p>They are on the big screen telling the room whether they are the Traitor. Are they telling the truth?</p>`;
+  }
   if (sc.kind === 'verdict') {
     const top = sc.banished, me = P.pid, voted = sc.rows?.length;
     h = `<div class="trp-big">${sc.tie ? 'NO MAJORITY' : top ? `${esc(trpName(s, top))} IS BANISHED${sc.correct ? '!' : '…'}` : 'NOBODY VOTED'}</div>
       <div class="trp-bars">${(sc.rows || []).map((r) => `<div><span>${esc(trpName(s, r.pid))}</span><i style="width:${Math.max(8, r.n / Math.max(1, sc.rows[0].n) * 100)}%"></i><b>${r.n}</b></div>`).join('')}</div>
-      <p>${sc.tie ? 'The votes were split. The Traitor lives on…' : !top ? 'Nobody is banished.' : sc.correct ? `…and they WERE the Traitor! ${(sc.winners || []).includes(me) ? 'You voted right: +2,000!' : ''}` : '…but they were NOT the Traitor. The Traitor is still among you.'}</p>`;
+      <p>${sc.tie ? 'The votes were split. The Traitor lives on…' : !top ? 'Nobody is banished.' : sc.correct ? `…and they WERE the Traitor! ${(sc.winners || []).includes(me) ? 'You voted right: +2,000!' : ''}` : `…but they were NOT the Traitor. ${top === me ? 'You were wrongly accused: you lose 3,000.' : 'They lose 3,000 for being wrongly accused.'} The Traitor is still among you.`}</p>`;
   }
   if (sc.kind === 'final') h = `<div class="trp-small">THE TRAITOR WAS…</div><div class="trp-big">${esc(trpName(s, sc.traitor))}</div>${(sc.lines || []).map((l) => `<p>${esc(l)}</p>`).join('')}`;
   el.innerHTML = `<div class="trp-in">${h}</div>`;

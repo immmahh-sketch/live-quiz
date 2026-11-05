@@ -12,7 +12,7 @@
  * panel talks to this screen with sealed ('trctl') messages. Hooks into host.html and party.js are small and named tr*.
  * Loaded after party.js; runs once a game exists. */
 
-const TR = { STEAL_EVERY: 5, SAME_VICTIM: 15, MIN: 100, MAX: 1000, USES: 5, TABLE_MS: 180000, BANISH_LOSS: 5000, VOTER_BONUS: 2000, SLIP_BONUS: 2000, FINDER_BONUS: 2000, CAUGHT_LOSS: 2000, AWAY_BONUS: 5000, MSGS: 3, MSG_LEN: 140 };
+const TR = { STEAL_EVERY: 5, SAME_VICTIM: 15, MIN: 100, MAX: 1000, USES: 5, TABLE_MS: 180000, BANISH_LOSS: 5000, WRONG_LOSS: 3000, VOTER_BONUS: 2000, SLIP_BONUS: 2000, FINDER_BONUS: 2000, CAUGHT_LOSS: 2000, AWAY_BONUS: 5000, MSGS: 3, MSG_LEN: 140 };
 const trFresh = () => ({ gift: TR.USES, block: TR.USES, dbl: TR.USES });
 const trNames = (pids) => pids.map((p) => pname(p)).join(' and ').replace(/, ([^,]*)$/, ' and $1');
 const trLog = (text) => { if (G.tr) { G.tr.log.push({ t: Date.now(), q: G.tr.qDone, text }); G.tr.log = G.tr.log.slice(-80); } };
@@ -43,7 +43,8 @@ function trPublicScreen(sc) {
   const o = { id: sc.id, kind: sc.kind };
   if (sc.kind === 'notice') Object.assign(o, { title: sc.title, lines: sc.lines, quote: sc.quote || '' });
   if (sc.kind === 'table') Object.assign(o, { endsAt: sc.endsAt, total: sc.total, left: Math.max(0, sc.endsAt - (G.paused ? G.pausedAt : Date.now())), voted: Object.keys(G.tr.votes), locked: !!sc.locked });
-  if (sc.kind === 'verdict') Object.assign(o, { rows: sc.rows, banished: sc.banished, correct: sc.correct, winners: sc.winners, tie: !!sc.tie });
+  if (sc.kind === 'chosen') Object.assign(o, { rows: sc.rows, banished: sc.banished });
+  if (sc.kind === 'verdict') Object.assign(o, { rows: sc.rows, banished: sc.banished, correct: sc.correct, winners: sc.winners, tie: !!sc.tie, wrongLoss: !!sc.wrongLoss });
   if (sc.kind === 'final') Object.assign(o, { traitor: sc.traitor, lines: sc.lines });
   return o;
 }
@@ -72,7 +73,7 @@ function trSetTraitor(pid, reason = 'picked') {
 
 // ---------------------------------------------------------------- the Traitor's actions (from their phone)
 /** Between questions: the same break the power cards are played in. Not while a vote or a notice is up. */
-function trWindow() { return trOn() && ['round', 'slide', 'typecard', 'countdown', 'reveal', 'scoreboard'].includes(G.phase) && !(G.tr.screen && ['table', 'verdict', 'final'].includes(G.tr.screen.kind)); }
+function trWindow() { return trOn() && ['round', 'slide', 'typecard', 'countdown', 'reveal', 'scoreboard'].includes(G.phase) && !(G.tr.screen && ['table', 'chosen', 'verdict', 'final'].includes(G.tr.screen.kind)); }
 const trNo = (why) => trTell(G.tr.traitor, 'no', { why });
 function onTr({ pid, op, ...a }) {
   if (!trOn() || !G.players[pid]) return;
@@ -210,6 +211,7 @@ function trScreenNext() {
   const sc = G.tr.screen; if (!sc) return false;
   if (sc.kind === 'notice') { G.tr.screen = null; persist(); broadcastState(); if (sc.cont) nextFrom(G.qIndex); else render(); return true; }
   if (sc.kind === 'table') { trLockVotes(); return true; }
+  if (sc.kind === 'chosen') { trReveal(); return true; }
   if (sc.kind === 'verdict') { G.tr.screen = null; G.tr.tableDone = true; persist(); trSync(); trNudgeList(); broadcastState(); goTo(sc.next); return true; }
   if (sc.kind === 'final') { G.tr.screen = null; G.tr.revealed = true; persist(); broadcastState(); finish(); return true; }
   return false;
@@ -252,13 +254,22 @@ function trVote(pid, target) {
   G.tr.votes[pid] = target; persist(); broadcastState();
   const n = document.getElementById('trVoted'); if (n) n.textContent = `${Object.keys(G.tr.votes).length} of ${Object.keys(G.players).length} have voted`;
 }
-/** The votes are in: count them, and the points move (the Traitor's own bonus is held back until the end). */
+/** The votes are in: count them. The person chosen goes full screen on camera to say whether they are the Traitor; the points move when the host reveals the truth. */
 function trLockVotes() {
   const sc = G.tr.screen; if (sc?.kind !== 'table' || sc.locked) return;
   sc.locked = true; clearInterval(trTickT); trTickT = null;
   const count = {}; for (const t of Object.values(G.tr.votes)) count[t] = (count[t] || 0) + 1;
   const rows = Object.entries(count).map(([pid, n]) => ({ pid, n })).sort((a, b) => b.n - a.n), tie = rows.length > 1 && rows[0].n === rows[1].n;
-  const banished = rows.length && !tie ? rows[0].pid : null, traitor = G.tr.traitor, correct = banished && banished === traitor;
+  const banished = rows.length && !tie ? rows[0].pid : null;
+  Object.assign(sc, { rows, banished, tie });
+  if (!banished) return trReveal(); // a tie or no votes: nobody to put on camera
+  sc.kind = 'chosen'; sc.id = uid('s'); trLog(`The room chose ${pname(banished)}`);
+  persist(); sound('gong'); render(); broadcastState();
+}
+/** The host reveals the truth: right, the Traitor is banished; wrong, the person chosen loses points for being wrongly accused. */
+function trReveal() {
+  const sc = G.tr.screen; if (!sc || !['table', 'chosen'].includes(sc.kind)) return;
+  const { rows, banished, tie } = sc, traitor = G.tr.traitor, correct = banished && banished === traitor;
   let winners = [];
   if (correct) {
     G.players[traitor].score -= TR.BANISH_LOSS;
@@ -268,8 +279,11 @@ function trLockVotes() {
     trTell(traitor, 'banished', { text: `You were banished! You lose your power and ${TR.BANISH_LOSS.toLocaleString('en-GB')} points.` });
     const pool = Object.keys(G.players).filter((p) => p !== traitor); const next = pool[Math.floor(Math.random() * pool.length)];
     trSetTraitor(next, 'new');
-  } else { G.tr.hidden += TR.SLIP_BONUS; trLog(`The vote missed (${banished ? pname(banished) : 'a tie'}): ${TR.SLIP_BONUS} held back for the Traitor`); }
-  sc.kind = 'verdict'; Object.assign(sc, { rows, banished, correct: !!correct, winners, tie, locked: true });
+  } else {
+    G.tr.hidden += TR.SLIP_BONUS; trLog(`The vote missed (${banished ? pname(banished) : 'a tie'}): ${TR.SLIP_BONUS} held back for the Traitor`);
+    if (banished && G.players[banished]) { G.players[banished].score -= TR.WRONG_LOSS; trLog(`${pname(banished)} was wrongly accused: -${TR.WRONG_LOSS}`); trTell(banished, 'ping', { icon: '😬', text: `You were wrongly accused! You lose ${TR.WRONG_LOSS.toLocaleString('en-GB')} points.` }); }
+  }
+  sc.kind = 'verdict'; sc.id = uid('s'); Object.assign(sc, { rows, banished, correct: !!correct, winners, tie, locked: true, wrongLoss: !!banished && !correct });
   persist(); sound(correct ? 'fanfare' : 'trombone'); render(); broadcastState(); if (correct) confetti();
 }
 
@@ -330,12 +344,19 @@ function trRenderScreen() {
       <div class="trclock" id="trClock">${Math.floor(left / 60000)}:${String(Math.floor(left / 1000) % 60).padStart(2, '0')}</div>
       <p class="trline small" id="trVoted">${n} of ${all} have voted</p>
       <div class="trfaces">${Object.values(G.players).map((p) => `<span class="trface">${esc(p.emoji || '🙂')} ${esc(p.name)}</span>`).join('')}</div>
-      <p class="trline small">Right: the Traitor loses their power and 5,000 points, and everyone who voted for them wins 2,000. Wrong: the Traitor stays.</p>`, nextBtn('Lock the votes ▶'));
+      <p class="trline small">The player with the most votes goes on camera and tells the room whether they are the Traitor. Right: the Traitor loses their power and 5,000 points, and everyone who voted for them wins 2,000. Wrong: the Traitor stays, and the person chosen loses ${TR.WRONG_LOSS.toLocaleString('en-GB')}.</p>`, nextBtn('Lock the votes ▶'));
+  }
+  if (sc.kind === 'chosen') {
+    const who = sc.banished;
+    return wrap(`<div class="trspot" data-pcam="${esc(who)}" data-pzoom="3.4"><div class="trspot-em">${esc(pem(who))}</div>
+      <div class="trspot-cap"><div class="trsmall">THE ROOM HAS CHOSEN</div><div class="trbig trname">${esc(pname(who))}</div>
+      <p class="trline">Look at the camera and tell everyone: <b>are you the Traitor?</b></p>
+      <p class="trline small">Wrongly accused? You lose ${TR.WRONG_LOSS.toLocaleString('en-GB')} points.</p></div></div>`, nextBtn('Reveal the truth ▶'));
   }
   if (sc.kind === 'verdict') {
     const mx = Math.max(1, ...sc.rows.map((r) => r.n)), top = sc.banished;
     const head = sc.tie ? 'NO MAJORITY' : sc.correct ? `${esc(pname(top))} IS BANISHED!` : top ? `${esc(pname(top))} IS BANISHED…` : 'NOBODY VOTED';
-    const verdict = sc.tie ? 'The votes were split. Nobody is banished. The Traitor lives on…' : !top ? 'Nobody voted, so nobody is banished.' : sc.correct ? `…and ${esc(pname(top))} WAS the Traitor! They lose their power and ${TR.BANISH_LOSS.toLocaleString('en-GB')} points. A new Traitor has been chosen, in secret.` : `…but ${esc(pname(top))} was NOT the Traitor. The Traitor is still among you, and stays for the second half.`;
+    const verdict = sc.tie ? 'The votes were split. Nobody is banished. The Traitor lives on…' : !top ? 'Nobody voted, so nobody is banished.' : sc.correct ? `…and ${esc(pname(top))} WAS the Traitor! They lose their power and ${TR.BANISH_LOSS.toLocaleString('en-GB')} points. A new Traitor has been chosen, in secret.` : `…but ${esc(pname(top))} was NOT the Traitor. Wrongly accused: they lose ${TR.WRONG_LOSS.toLocaleString('en-GB')} points. The Traitor is still among you, and stays for the second half.`;
     return wrap(`<div class="trbig">${head}</div><div class="trbars">${sc.rows.map((r) => `<div class="trbar"><span class="trbn">${esc(pem(r.pid))} ${esc(pname(r.pid))}</span><i style="width:${Math.max(6, r.n / mx * 100)}%"></i><b>${r.n}</b></div>`).join('')}</div>
       <p class="trline">${verdict}</p>${sc.correct && sc.winners.length ? `<p class="trline">🏅 Right: ${esc(trNames(sc.winners))} win ${TR.VOTER_BONUS.toLocaleString('en-GB')} each.</p>` : ''}`, nextBtn('On to half time ▶'));
   }

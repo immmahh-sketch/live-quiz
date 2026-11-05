@@ -125,7 +125,7 @@ window.QuizCam = (() => {
       if (p && hasVideo(p)) {
         seen.add(p.id);
         let c = el.querySelector('canvas'); if (!c) { c = document.createElement('canvas'); el.appendChild(c); }
-        ok = FaceCam.paint(c, p.id, 1.9);
+        ok = FaceCam.paint(c, p.id, +el.dataset.pzoom || 1.9);
       }
       if (el.classList.contains('live') !== ok) { el.classList.toggle('live', ok); changed = true; }
     }

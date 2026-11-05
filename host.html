@@ -698,7 +698,7 @@ function autoDelay() {
   return 0;
 }
 function scheduleAuto() {
-  clearTimeout(autoT); const d = autoDelay(); if (!d || G.paused || (trOn() && ['table', 'verdict', 'final'].includes(G.tr.screen?.kind))) return;
+  clearTimeout(autoT); const d = autoDelay(); if (!d || G.paused || (trOn() && ['table', 'chosen', 'verdict', 'final'].includes(G.tr.screen?.kind))) return;
   const ph = G.phase, qi = G.qIndex;
   autoT = setTimeout(() => { if (G.auto && !G.paused && G.phase === ph && G.qIndex === qi && !document.querySelector('.modal-bg')) primaryAction(); }, d);
 }
