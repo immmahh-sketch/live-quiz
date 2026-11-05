@@ -654,6 +654,7 @@ function onHint({ pid, qId }) {
 function hlAskedText() { const n = Object.keys(G.q?.low || {}).length; return n ? `📺 ${n} ${n === 1 ? 'player has' : 'players have'} asked for the lowbrow clue` : '📺 Nobody has asked for the lowbrow clue yet'; }
 function onAnswer({ pid, qId, answer, low }) {
   if (G.phase !== 'question' || !G.q || qId !== G.q.view.id) return;
+  if (G.flash) return; // the picture is up: the phone sends it again afterwards
   if (G.viewers?.[pid]) return viewerAnswer(pid, qId, answer);
   if (!G.players[pid]) { onHello({ pid, name: present.get(pid) || 'Player' }); }
   if (G.q.wipe) return wipePick(pid, String(answer));
@@ -762,15 +763,20 @@ function skipScoreboard() {
 }
 function nextFrom(i) {
   if (trOn()) { if (trInterlude(false)) return; if (trWantsTable(i)) return trTable(i); if (trListPending() && i >= trHalfIndex()) return trHoldForList(i); if (i + 1 >= G.quiz.questions.length && trEnd()) return; } // the Traitors: a pause, the Round Table, the last round
-  const nq = G.quiz.questions[i + 1]; if (nq?.flash?.url && !(G.flashed || {})[nq.id] && !G.paused) return flashThen(nq, () => goTo(i + 1));
   return i + 1 < G.quiz.questions.length ? goTo(i + 1) : finish();
 }
-/** A surprise picture, full screen on the host and on every phone for a few seconds, before the next item (item.flash = { url, ms }). It is how the 'I Literally Just Told You' picture works: nobody is told it is coming. */
-function flashThen(nq, cont) {
-  const ms = Math.max(1000, Math.min(10000, +nq.flash.ms || 3000));
-  (G.flashed = G.flashed || {})[nq.id] = true; G.flash = { id: nq.id, url: nq.flash.url, until: Date.now() + ms };
-  persist(); flashOverlay(true, nq.flash.url); sound('whoosh'); broadcastState();
-  setTimeout(() => { G.flash = null; flashOverlay(false); persist(); broadcastState(); cont(); }, ms);
+/** A surprise picture inside a question (item.flash = { url, ms, at }): `at` ms after its clock starts (1 s by default) the clock stops, the picture takes the whole screen on the host and on every phone for `ms`, then the clock carries on from the same moment. Nobody is told it is coming. */
+function flashSoon(q, idx) {
+  if (!q.flash?.url || (G.flashed || {})[q.id]) return;
+  setTimeout(() => flashNow(q, idx), Math.max(0, +q.flash.at >= 0 ? +q.flash.at : 1000));
+}
+function flashNow(q, idx) {
+  if (G.phase !== 'question' || G.qIndex !== idx || !G.q || G.paused || G.flash) return;
+  const ms = Math.max(1000, Math.min(10000, +q.flash.ms || 3000));
+  (G.flashed = G.flashed || {})[q.id] = true; G.flash = { id: q.id, url: q.flash.url, until: Date.now() + ms };
+  flashOverlay(true, q.flash.url);
+  togglePause(true, true); // the question clock (and the music) stop; resuming gives the time back
+  setTimeout(() => { G.flash = null; flashOverlay(false); if (G.paused) togglePause(false, true); else { persist(); broadcastState(); } }, ms);
 }
 function flashOverlay(on, url) {
   let el = document.getElementById('flashFull');
@@ -780,7 +786,7 @@ function flashOverlay(on, url) {
 }
 /** The URL of the next picture still to come, if one is within the next eight items: phones fetch it early so it is on screen the instant it flashes. */
 function flashAhead() {
-  const qs = G.quiz?.questions || []; for (let i = Math.max(0, G.qIndex + 1); i < Math.min(qs.length, G.qIndex + 9); i++) if (qs[i]?.flash?.url && !(G.flashed || {})[qs[i].id]) return qs[i].flash.url;
+  const qs = G.quiz?.questions || []; for (let i = Math.max(0, G.qIndex); i < Math.min(qs.length, G.qIndex + 9); i++) if (qs[i]?.flash?.url && !(G.flashed || {})[qs[i].id]) return qs[i].flash.url;
   return '';
 }
 /** A slide: up on the screen and the phones until someone moves on. A break slide starts its countdown clock. */
@@ -2088,6 +2094,7 @@ function startQuestion() {
   render();
   if (q.type === 'wipeout') wipeStart(); else if (q.type === 'race') raceStart(); else if (q.type === 'twenty') twentyStart(); else broadcastState();
   startTick(); botsOnQuestion(); musicStart(q);
+  flashSoon(q, G.qIndex); // a surprise picture, if this question has one
 }
 let musicSyncAt = 0;
 function startTick() {
