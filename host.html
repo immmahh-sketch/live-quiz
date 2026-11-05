@@ -25,6 +25,7 @@
 <script src="assets/quizcall.js"></script>
 <script src="assets/facecam.js"></script>
 <script src="assets/quizcam.js"></script>
+<script src="assets/tvcams.js"></script>
 <script src="assets/dpad.js"></script>
 <script src="assets/demo-quiz.js"></script>
 <script src="assets/party.js"></script>
@@ -2835,8 +2836,11 @@ if (window.QuizCall) {
     if (QuizCall.state === 'error' && QuizCall.error !== lastErr) toast(QuizCall.error, true);
     if (QuizCall.state === 'live' && lastErr !== 'live') toast('📞 This screen is now on the quiz call');
     // The camera tile runs while the screen is on the call (not on a Fire TV, which only shares).
-    if ((QuizCall.state === 'live' || QuizCall.state === 'reconnecting') && !QuizCall.native && window.QuizCam && !QuizCam.on) { QuizCam.start(); refreshCallBtns(); }
+    if ((QuizCall.state === 'live' || QuizCall.state === 'reconnecting') && !QuizCall.native && !TV && window.QuizCam && !QuizCam.on) { QuizCam.start(); refreshCallBtns(); }
     if ((QuizCall.state === 'off' || QuizCall.state === 'error') && window.QuizCam?.on) { QuizCam.stop(); refreshCallBtns(); }
+    // On a Fire TV: four cameras down the right, rotating round the room (assets/tvcams.js)
+    if ((QuizCall.state === 'live' || QuizCall.state === 'reconnecting') && TV && window.TvCams && !TvCams.on) TvCams.start();
+    if ((QuizCall.state === 'off' || QuizCall.state === 'error') && window.TvCams?.on) TvCams.stop();
     if (QuizCall.state === 'live' && wantCallWindow) { wantCallWindow = false; if (!TV) (callPass ? Promise.resolve() : makeCallPass()).catch(() => {}).then(openCallWindow); }
     if (QuizCall.state === 'off' || QuizCall.state === 'error') wantCallWindow = false;
     lastErr = QuizCall.state === 'error' ? QuizCall.error : QuizCall.state;
@@ -3475,6 +3479,7 @@ document.addEventListener('keydown', (e) => {
   if ((e.key === 'm' || e.key === 'M') && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName || '')) { e.preventDefault(); toggleMusic(); return; }
   if ((e.key === 'p' || e.key === 'P') && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName || '') && typeof G !== 'undefined' && G && G.auto && !['lobby', 'final'].includes(G.phase)) { e.preventDefault(); togglePause(); return; }
   if ((e.key === 'c' || e.key === 'C') && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName || '') && window.QuizCam?.on && !e.ctrlKey && !e.metaKey) { e.preventDefault(); camToggle(); return; }
+  if ((e.key === 'c' || e.key === 'C') && window.TvCams?.on && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName || '') && !e.ctrlKey && !e.metaKey) { e.preventDefault(); toast(TvCams.toggle() ? '🎥 Room cameras on' : '🎥 Room cameras off'); return; }
   if ((e.key === 'f' || e.key === 'F') && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName || '') && !TV && !e.ctrlKey && !e.metaKey) { e.preventDefault(); fsToggle(); return; }
   if (G?.phase === 'slide' && G.brk && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName || '') && ['+', '=', '-', '_'].includes(e.key)) { e.preventDefault(); adjustBreak(e.key === '-' || e.key === '_' ? -1 : 1); return; }
   if (e.target.matches('input, textarea, button, a, select')) return; // a focused control handles its own key

@@ -1861,3 +1861,15 @@ body.host .cnclue { font-size: clamp(1.1rem, 2.4vw, 2rem); }
 .cuepop .cue-say { white-space: pre-line; font: 800 1.3rem/1.35 system-ui, sans-serif; text-align: left; padding: 14px 16px; border-radius: 16px; background: rgba(0,0,0,.22); }
 .cuepop .btn { background: #fff; color: #0b6b2b; font-weight: 900; border: 0; }
 @keyframes cuePulse { from { background: #0f9d3e; } to { background: #14c24d; } }
+
+/* Fire TV: four cameras from the room down the right (assets/tvcams.js) */
+body.tvcams { --tvw: clamp(210px, 15vw, 340px); }
+body.tvcams .stage { padding-right: calc(var(--tvw) + 44px); }
+.tvcol { position: fixed; top: 12px; right: 14px; width: var(--tvw, 15vw); display: flex; flex-direction: column; gap: 10px; z-index: 62; pointer-events: none; }
+.tvcam { position: relative; aspect-ratio: 4 / 3; border-radius: 14px; overflow: hidden; background: #0b0820; box-shadow: 0 6px 20px rgba(0,0,0,.4); opacity: 0; transform: scale(.96); transition: opacity .35s ease, transform .35s ease; }
+.tvcam:not(.show) { display: none; } /* a tile with nobody on it takes no room, so the column starts at the top */
+.tvcam.show { opacity: 1; transform: none; }
+.tvcam video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; background: #000; }
+.tvcam .tvcard { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; font: 900 3rem system-ui, sans-serif; color: #fff; }
+.tvcam.novideo .tvcard { display: flex; } .tvcam.novideo video { visibility: hidden; }
+.tvcam .tvname { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 10px 5px; font: 800 .95rem system-ui, sans-serif; color: #fff; background: linear-gradient(transparent, rgba(0,0,0,.72)); text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

@@ -146,12 +146,8 @@ function trHold(on, what) {
 }
 /** Whatever the Traitor sends lifts the hold: the host is free to carry on. */
 function trHoldClear() { if (!G.tr?.hold) return; G.tr.hold = null; trHoldUI(); trCtlPush(); }
-/** A hold shows on the host's phone panel. The big screen only says so while the Traitor is writing a message (a single phone): "HOLD WHILE THE TRAITOR SENDS A MESSAGE". A game on auto does not move on while one is up. */
-function trHoldUI() {
-  let b = document.getElementById('trHoldBar');
-  if (trHoldOn() && G.tr.hold.what === 'msg' && G.phase !== 'final') { if (!b) { b = document.createElement('div'); b.id = 'trHoldBar'; b.className = 'trholdbar'; b.textContent = 'HOLD WHILE THE TRAITOR SENDS A MESSAGE'; document.body.appendChild(b); } }
-  else b?.remove();
-}
+/** A hold shows on the host's phone panel and nowhere else: nothing on the big screen, so nobody looks for the Traitor. A game on auto does not move on while one is up. */
+function trHoldUI() { document.getElementById('trHoldBar')?.remove(); }
 setInterval(() => { try { if (typeof G === 'undefined' || !G?.tr) return; if (G.tr.hold && !trHoldOn()) { G.tr.hold = null; trSync(); trCtlPush(); } trHoldUI(); } catch {} }, 1000);
 
 // ---------------------------------------------------------------- Claudia: letters from the host's side of the game, and the recruit
