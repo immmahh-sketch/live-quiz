@@ -202,7 +202,7 @@ const trpWho = (d, extra = {}) => (d.players || []).filter((p) => !extra.not || 
 const trpShowToggle = (who) => `<div class="trp-show"><button data-show="screen" class="${TRP.st.show !== 'secret' ? 'on' : ''}">📺 The big screen</button><button data-show="secret" class="${TRP.st.show === 'secret' ? 'on' : ''}">🤫 Only ${who}</button></div>`;
 function trpSteal(d, win) {
   const st = TRP.st;
-  if (!win) return `<p class="muted">Steals happen in the break between questions. Wait for the answer or the scores.</p>`;
+  if (!win) return `<p class="muted">Not right now: the Round Table vote is on.</p>`;
   if (!d.canSteal) return `<div class="state" style="padding:16px 0"><div class="em">⏳</div><h3>All used up</h3><p class="muted">You have used all 5 steals for this half. They come back at half time.</p></div>`;
   const now = P.state?.tr?.players || [], vics = trpWho(d).map((p) => ({ ...p, ...(d.victims?.[p.pid] || {}), score: now.find((x) => x.pid === p.pid)?.score ?? d.victims?.[p.pid]?.score ?? 0 }));
   const v = st.victim && d.victims?.[st.victim] ? st.victim : '';
@@ -218,7 +218,7 @@ function trpSteal(d, win) {
 function trpPowers(d, win) {
   const defs = [['gift', '🎁', 'Free answer', 'full points for them on the next question', d.powers.gift], ['block', '🚫', 'Block', 'they sit the next question out', d.powers.block], ['dbl', '✨', 'Double points', 'their points count twice on the next question', d.powers.dbl]];
   const pick = TRP.st.power;
-  let h = `<p class="small muted" style="margin:6px 0">${win ? (d.nextPlain ? 'Choose before the next question starts. You have 5 of each every half: they all come back at half time.' : 'There is no everyone-answers question left to use these on.') : 'Wait for the break between questions.'}</p>`;
+  let h = `<p class="small muted" style="margin:6px 0">${win ? (d.nextPlain ? 'Use these at any time, before a question or while one is running. If a question is running, it counts on the next one. You have 5 of each every half: they all come back at half time.' : 'There is no everyone-answers question left to use these on.') : 'Not right now: the Round Table vote is on.'}</p>`;
   h += `<div class="pcs-cards">${defs.map(([k, ic, nm, how, left]) => { const t = d.set?.[k]; return `<button class="pcs-card ${pick === k ? 'sel' : ''}" data-pw="${k}" ${win && d.nextPlain && left > 0 ? '' : 'disabled'}><span class="pcs-ic">${ic}</span><span><b>${nm} <small style="display:inline">· ${left} left</small></b><small>${how}</small>${t ? `<small style="color:var(--brand);font-weight:800">Set for: ${t === P.pid ? 'you' : esc(trpWho(d).find((p) => p.pid === t)?.name || '')}</small>` : ''}</span></button>`; }).join('')}</div>`;
   if (pick && win) {
     h += `<p class="small" style="margin:12px 0 4px">Who sees the letter?</p>${trpShowToggle('them')}<p class="small" style="margin:6px 0">${defs.find((x) => x[0] === pick)[1]} Who gets it?</p><div class="pcs-who"><button class="btn" data-pt="${P.pid}">🫵 Me${pick === 'block' ? '' : ' (for show)'}</button>${trpWho(d).map((p) => `<button class="btn" data-pt="${p.pid}">${esc(p.emoji || '🙂')} ${esc(p.name)}</button>`).join('')}</div>${d.set?.[pick] ? `<button class="btn btn-ghost btn-block mt" data-pundo>Take it back</button>` : ''}`;

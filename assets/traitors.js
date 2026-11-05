@@ -151,7 +151,8 @@ function trSetTraitor(pid, reason = 'picked') {
 
 // ---------------------------------------------------------------- the Traitor's actions (from their phone)
 /** Between questions: the same break the power cards are played in. Not while a vote or a notice is up. */
-function trWindow() { return trOn() && ['round', 'slide', 'typecard', 'countdown', 'reveal', 'scoreboard'].includes(G.phase) && !(G.tr.screen && ['table', 'chosen', 'verdict', 'final'].includes(G.tr.screen.kind)); }
+/** The Traitor can act at any time, before or during a question (not in the lobby, the final results, or while the Round Table vote is up). A power set while a question is running counts on the next one. */
+function trWindow() { return trOn() && !['lobby', 'final'].includes(G.phase) && !(G.tr.screen && ['table', 'chosen', 'verdict', 'final'].includes(G.tr.screen.kind)); }
 const trNo = (why) => trTell(G.tr.traitor, 'no', { why });
 function onTr({ pid, op, ...a }) {
   if (!trOn() || !G.players[pid]) return;
@@ -166,7 +167,7 @@ function onTr({ pid, op, ...a }) {
 }
 function trSteal({ victim, amount, to, show }) {
   const t = G.tr.traitor, qd = G.tr.qDone;
-  if (!trWindow()) return trNo('Wait for the break between questions.');
+  if (!trWindow()) return trNo('Not right now: the vote is on.');
   if ((G.tr.stealsHalf || 0) >= TR.STEALS) return trNo(`You have used all ${TR.STEALS} steals for this half. They come back at half time.`);
   if (!G.players[victim] || victim === t) return trNo('Pick someone else to steal from.');
   if (!G.players[to] || to === victim) return trNo('Give the points to someone other than the player you took them from (you can keep them yourself, but they only count for show).');
@@ -190,7 +191,7 @@ function trSteal({ victim, amount, to, show }) {
 }
 function trPower({ kind, target, show }) {
   const t = G.tr.traitor; if (!['gift', 'block', 'dbl'].includes(kind)) return;
-  if (!trWindow()) return trNo('Pick before the question starts, in the break.');
+  if (!trWindow()) return trNo('Not right now: the vote is on.');
   if (powerNextPlain() < 0) return trNo('There is no everyone-answers question left to use it on.');
   if (target === null || target === undefined || target === '') { G.tr.set[kind] = null; trSync(); persist(); trLog(`↩ Took back the ${{ gift: 'free answer', block: 'block', dbl: 'double' }[kind]}`); return trTell(t, 'ok', { text: 'Taken back: it is not used.' }); }
   if (!G.players[target]) return;

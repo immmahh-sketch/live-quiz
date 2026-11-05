@@ -36,7 +36,7 @@ function powerDealAll() { if (!powerOn()) return; for (const pid of Object.keys(
 /** Cards are played between questions: never while one is being answered. */
 function powerWindow() { return powerOn() && ['round', 'slide', 'typecard', 'countdown', 'reveal', 'scoreboard'].includes(G.phase); }
 /** The next everyone-answers question, the one a Copycat, 5×, Slow down or Freeze lands on (-1: none left). */
-function powerNextPlain() { const from = ['reveal', 'scoreboard', 'grading'].includes(G.phase) ? G.qIndex + 1 : Math.max(0, G.qIndex); for (let i = from; i < G.quiz.questions.length; i++) if (partyPlain(G.quiz.questions[i])) return i; return -1; }
+function powerNextPlain() { const from = ['reveal', 'scoreboard', 'grading', 'question'].includes(G.phase) ? G.qIndex + 1 : Math.max(0, G.qIndex); for (let i = from; i < G.quiz.questions.length; i++) if (partyPlain(G.quiz.questions[i])) return i; return -1; }
 function onCard({ pid, id, target }) {
   if (!powerWindow() || !G.players[pid]) return;
   const hand = G.hands?.[pid] || [], card = hand.find((c) => c.id === id); if (!card) return;
