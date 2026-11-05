@@ -43,8 +43,8 @@ function trpRoleScreen(m) {
   const first = m.reason !== 'new';
   trpFull('role', `<div class="trp-dag">🗡</div><div class="trp-big">YOU ARE THE TRAITOR</div>
     <p>${first ? 'You were chosen in secret. Nobody else knows.' : 'The room banished the last Traitor. You have been chosen in secret to take over.'}</p>
-    <ul class="trp-ul"><li><b>Steal</b> 100 to 1,000 points from a player (once every 5 questions, the same player only once every 15) and give them to someone else, or <b>keep them yourself: but points you give yourself are only for show</b>.</li>
-    <li><b>5 free answers</b> to gift, <b>5 blocks</b> to knock someone out of a question, <b>5 doubles</b>: use them on anyone, yourself included. <b>Extra points you give yourself (a steal, a free answer, a double) are only for show</b>: they look real all night, then come off your score at the very end.</li>
+    <ul class="trp-ul"><li><b>Steal</b> 100 to 1,000 points from a player (up to 5 times each half, the same player only once every 15 questions) and give them to someone else, or <b>keep them yourself: but points you give yourself are only for show</b>.</li>
+    <li><b>5 free answers</b> to gift, <b>5 blocks</b> to knock someone out of a question, <b>5 doubles</b> (5 of each every half: they all come back at half time): use them on anyone, yourself included. <b>Extra points you give yourself (a steal, a free answer, a double) are only for show</b>: they look real all night, then come off your score at the very end.</li>
     <li><b>Messages</b> to one person in secret, or to the whole room.</li>
     <li>Players earn a 🛡 with 3 right in a row: it keeps you off them until they get a question wrong.</li>
     <li>Your 🗡 button is always on your screen. Don't show anyone!</li></ul>
@@ -170,11 +170,11 @@ const trpShowToggle = (who) => `<div class="trp-show"><button data-show="screen"
 function trpSteal(d, win) {
   const st = TRP.st;
   if (!win) return `<p class="muted">Steals happen in the break between questions. Wait for the answer or the scores.</p>`;
-  if (!d.canSteal) return `<div class="state" style="padding:16px 0"><div class="em">⏳</div><h3>Not yet</h3><p class="muted">You can steal once every 5 questions: ${d.stealWait} more to go.</p></div>`;
+  if (!d.canSteal) return `<div class="state" style="padding:16px 0"><div class="em">⏳</div><h3>All used up</h3><p class="muted">You have used all 5 steals for this half. They come back at half time.</p></div>`;
   const now = P.state?.tr?.players || [], vics = trpWho(d).map((p) => ({ ...p, ...(d.victims?.[p.pid] || {}), score: now.find((x) => x.pid === p.pid)?.score ?? d.victims?.[p.pid]?.score ?? 0 }));
   const v = st.victim && d.victims?.[st.victim] ? st.victim : '';
   const ok = (p) => !p.shield && !p.wait && p.score > 0;
-  let h = `<p class="small" style="margin:6px 0">1. Pick who to steal from</p><div class="pcs-who">${vics.map((p) => `<button class="btn ${v === p.pid ? 'btn-primary' : ''}" data-sv="${p.pid}" ${ok(p) ? '' : 'disabled'}>${esc(p.emoji || '🙂')} ${esc(p.name)}<small class="muted">${p.shield ? '🛡 shield' : p.wait ? `in ${p.wait} q` : p.score > 0 ? p.score : '0'}</small></button>`).join('')}</div>`;
+  let h = `<p class="small muted" style="margin:6px 0">${d.stealsLeft} of 5 steals left this half.</p><p class="small" style="margin:6px 0">1. Pick who to steal from</p><div class="pcs-who">${vics.map((p) => `<button class="btn ${v === p.pid ? 'btn-primary' : ''}" data-sv="${p.pid}" ${ok(p) ? '' : 'disabled'}>${esc(p.emoji || '🙂')} ${esc(p.name)}<small class="muted">${p.shield ? '🛡 shield' : p.wait ? `in ${p.wait} q` : p.score > 0 ? p.score : '0'}</small></button>`).join('')}</div>`;
   if (v) {
     h += `<p class="small" style="margin:12px 0 4px">2. How much? <b id="trpAmt">${st.amount}</b></p><input type="range" min="100" max="1000" step="100" value="${st.amount}" id="trpRange" style="width:100%">
       <p class="small" style="margin:12px 0 6px">3. Give it to…</p><div class="pcs-who"><button class="btn ${st.to === P.pid ? 'btn-primary' : ''}" data-st="${P.pid}">🫵 Me (for show)</button>${vics.filter((p) => p.pid !== v).map((p) => `<button class="btn ${st.to === p.pid ? 'btn-primary' : ''}" data-st="${p.pid}">${esc(p.emoji || '🙂')} ${esc(p.name)}</button>`).join('')}</div>`;
@@ -185,7 +185,7 @@ function trpSteal(d, win) {
 function trpPowers(d, win) {
   const defs = [['gift', '🎁', 'Free answer', 'full points for them on the next question', d.powers.gift], ['block', '🚫', 'Block', 'they sit the next question out', d.powers.block], ['dbl', '✨', 'Double points', 'their points count twice on the next question', d.powers.dbl]];
   const pick = TRP.st.power;
-  let h = `<p class="small muted" style="margin:6px 0">${win ? (d.nextPlain ? 'Choose before the next question starts. The target is pinged when it begins, and the host screen shows it afterwards.' : 'There is no everyone-answers question left to use these on.') : 'Wait for the break between questions.'}</p>`;
+  let h = `<p class="small muted" style="margin:6px 0">${win ? (d.nextPlain ? 'Choose before the next question starts. You have 5 of each every half: they all come back at half time.' : 'There is no everyone-answers question left to use these on.') : 'Wait for the break between questions.'}</p>`;
   h += `<div class="pcs-cards">${defs.map(([k, ic, nm, how, left]) => { const t = d.set?.[k]; return `<button class="pcs-card ${pick === k ? 'sel' : ''}" data-pw="${k}" ${win && d.nextPlain && left > 0 ? '' : 'disabled'}><span class="pcs-ic">${ic}</span><span><b>${nm} <small style="display:inline">· ${left} left</small></b><small>${how}</small>${t ? `<small style="color:var(--brand);font-weight:800">Set for: ${t === P.pid ? 'you' : esc(trpWho(d).find((p) => p.pid === t)?.name || '')}</small>` : ''}</span></button>`; }).join('')}</div>`;
   if (pick && win) {
     h += `<p class="small" style="margin:12px 0 4px">Who sees the letter?</p>${trpShowToggle('them')}<p class="small" style="margin:6px 0">${defs.find((x) => x[0] === pick)[1]} Who gets it?</p><div class="pcs-who"><button class="btn" data-pt="${P.pid}">🫵 Me${pick === 'block' ? '' : ' (for show)'}</button>${trpWho(d).map((p) => `<button class="btn" data-pt="${p.pid}">${esc(p.emoji || '🙂')} ${esc(p.name)}</button>`).join('')}</div>${d.set?.[pick] ? `<button class="btn btn-ghost btn-block mt" data-pundo>Take it back</button>` : ''}`;

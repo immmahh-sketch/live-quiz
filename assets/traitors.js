@@ -1,8 +1,8 @@
 /* Let's Quiz host screen: THE TRAITORS (October 2026).
  *
  * One player is secretly the Traitor, picked from the host's own phone (the 🗡 Traitors button on the quiz's card in the builder).
- * The Traitor gets a secret menu on their phone: steal points (100-1000, once every 5 questions, the same person once every 15),
- * gift a free answer, block someone from a question, double someone's points (5 of each), and send secret or whole-group messages.
+ * The Traitor gets a secret menu on their phone: steal points (100-1000, up to 5 times a half, the same person once every 15 questions),
+ * gift a free answer, block someone from a question, double someone's points (5 of each per half: they all come back at half time), and send secret or whole-group messages.
  * Everyone earns a 🛡 shield by getting 3 in a row (the Traitor can't touch them until they get one wrong). Points the Traitor
  * gives themselves (free answer, double) are only for show: taken off again at the very end. After the last question
  * before half time, 3 minutes at the Round Table, then a vote to banish the Traitor. At half time the Traitor ticks a 20 Questions
@@ -12,7 +12,7 @@
  * panel talks to this screen with sealed ('trctl') messages. Hooks into host.html and party.js are small and named tr*.
  * Loaded after party.js; runs once a game exists. */
 
-const TR = { STEAL_EVERY: 5, SAME_VICTIM: 15, MIN: 100, MAX: 1000, USES: 5, TABLE_MS: 180000, BANISH_LOSS: 5000, WRONG_LOSS: 3000, VOTER_BONUS: 2000, SLIP_BONUS: 2000, FINDER_BONUS: 2000, CAUGHT_LOSS: 2000, AWAY_BONUS: 5000, MSGS: 3, MSG_LEN: 140 };
+const TR = { STEALS: 5, SAME_VICTIM: 15, MIN: 100, MAX: 1000, USES: 5, TABLE_MS: 180000, BANISH_LOSS: 5000, WRONG_LOSS: 3000, VOTER_BONUS: 2000, SLIP_BONUS: 2000, FINDER_BONUS: 2000, CAUGHT_LOSS: 2000, AWAY_BONUS: 5000, MSGS: 3, MSG_LEN: 140 };
 const trFresh = () => ({ gift: TR.USES, block: TR.USES, dbl: TR.USES });
 const trNames = (pids) => pids.map((p) => pname(p)).join(' and ').replace(/, ([^,]*)$/, ' and $1');
 const trLog = (text) => { if (G.tr) { G.tr.log.push({ t: Date.now(), q: G.tr.qDone, text }); G.tr.log = G.tr.log.slice(-80); } };
@@ -36,7 +36,7 @@ const trShielded = (pid) => !!G.tr?.shield?.[pid]; // earned with 3 right in a r
 /** The mode switched on in the quiz's settings: build the traitor state once. Not in warm-ups, previews or the demo. */
 function trEnsure() {
   if (G.tr || !G.quiz?.settings?.traitors?.on || WARMUP || PREVIEW || DEMO) return;
-  G.tr = { on: true, traitor: null, history: [], qDone: 0, lastStealQ: -99, victimQ: {}, stolen: 0, steals: 0, powers: trFresh(), set: { gift: null, block: null, dbl: null }, used: { gift: 0, block: 0, dbl: 0 },
+  G.tr = { on: true, traitor: null, history: [], qDone: 0, lastStealQ: -99, victimQ: {}, stolen: 0, steals: 0, stealsHalf: 0, powers: trFresh(), set: { gift: null, block: null, dbl: null }, used: { gift: 0, block: 0, dbl: 0 },
     streak: {}, shield: {}, notices: [], screen: null, hidden: 0, fake: {}, show: {}, hold: null, tableDone: false, votes: {}, list: null, twentyAdded: false, revealed: false, log: [], msgBreak: 0, msgs: 0, stealShown: false, banishedBefore: [] };
   persist();
 }
@@ -92,9 +92,9 @@ setInterval(() => { try { if (typeof G === 'undefined' || !G?.tr) return; if (G.
 const trTell = (to, kind, data = {}) => send('trs', { to, kind, ...data });
 function trSync() {
   const t = G.tr?.traitor; if (!t || !G.players[t]) return;
-  const qd = G.tr.qDone, since = qd - G.tr.lastStealQ, victims = {};
+  const qd = G.tr.qDone, victims = {};
   for (const p of Object.keys(G.players)) if (p !== t) victims[p] = { shield: trShielded(p), wait: Math.max(0, TR.SAME_VICTIM - (qd - (G.tr.victimQ[p] ?? -99))), score: G.players[p].score };
-  trTell(t, 'sync', { d: { powers: G.tr.powers, set: G.tr.set, canSteal: since >= TR.STEAL_EVERY, stealWait: Math.max(0, TR.STEAL_EVERY - since), victims, window: trWindow(), nextPlain: powerNextPlain() >= 0, msgsLeft: Math.max(0, TR.MSGS - G.tr.msgBreak), hold: trHoldOn(),
+  trTell(t, 'sync', { d: { powers: G.tr.powers, set: G.tr.set, canSteal: (G.tr.stealsHalf || 0) < TR.STEALS, stealsLeft: Math.max(0, TR.STEALS - (G.tr.stealsHalf || 0)), victims, window: trWindow(), nextPlain: powerNextPlain() >= 0, msgsLeft: Math.max(0, TR.MSGS - G.tr.msgBreak), hold: trHoldOn(),
     needList: G.tr.tableDone && !G.tr.list, list: G.tr.list, qDone: qd, players: Object.values(G.players).filter((p) => p.id !== t).map((p) => ({ pid: p.id, name: p.name, emoji: p.emoji || '' })) } });
 }
 /** A phone says hello (joining, or coming back after a drop): a Traitor is reminded who they are. */
@@ -104,7 +104,7 @@ function trOnHello(pid) { if (trOn() && G.tr.traitor === pid) { trTell(pid, 'rol
 function trSetTraitor(pid, reason = 'picked') {
   trEnsure(); if (!trOn() || !G.players[pid]) return false;
   G.tr.traitor = pid; G.tr.history.push({ pid, at: G.tr.qDone, reason });
-  Object.assign(G.tr, { powers: trFresh(), set: { gift: null, block: null, dbl: null }, used: { gift: 0, block: 0, dbl: 0 }, lastStealQ: -99, victimQ: {}, list: null, msgBreak: 0, hold: null });
+  Object.assign(G.tr, { powers: trFresh(), set: { gift: null, block: null, dbl: null }, used: { gift: 0, block: 0, dbl: 0 }, lastStealQ: -99, stealsHalf: 0, victimQ: {}, list: null, msgBreak: 0, hold: null });
   trLog(`${pname(pid)} is the Traitor (${reason})`);
   trTell(pid, 'role', { reason, n: G.tr.history.length }); trSync(); persist(); broadcastState();
   if (G.phase === 'lobby') render(); // the lobby says a Traitor is picked
@@ -129,7 +129,7 @@ function onTr({ pid, op, ...a }) {
 function trSteal({ victim, amount, to, show }) {
   const t = G.tr.traitor, qd = G.tr.qDone;
   if (!trWindow()) return trNo('Wait for the break between questions.');
-  if (qd - G.tr.lastStealQ < TR.STEAL_EVERY) return trNo(`You can steal once every ${TR.STEAL_EVERY} questions: ${TR.STEAL_EVERY - (qd - G.tr.lastStealQ)} more to go.`);
+  if ((G.tr.stealsHalf || 0) >= TR.STEALS) return trNo(`You have used all ${TR.STEALS} steals for this half. They come back at half time.`);
   if (!G.players[victim] || victim === t) return trNo('Pick someone else to steal from.');
   if (!G.players[to] || to === victim) return trNo('Give the points to someone other than the player you took them from (you can keep them yourself, but they only count for show).');
   if (trShielded(victim)) return trNo(`${pname(victim)} has a 🛡 shield.`);
@@ -138,7 +138,7 @@ function trSteal({ victim, amount, to, show }) {
   const amt = Math.min(want, Math.max(0, G.players[victim].score)); if (amt <= 0) return trNo(`${pname(victim)} has no points to steal.`);
   G.players[victim].score -= amt; G.players[to].score += amt;
   if (to === t) { G.tr.fake = G.tr.fake || {}; G.tr.fake[t] = (G.tr.fake[t] || 0) + amt; } // kept for themselves: only for show, it comes off again at the very end
-  G.tr.lastStealQ = qd; G.tr.victimQ[victim] = qd; G.tr.stolen += amt; G.tr.steals++;
+  G.tr.lastStealQ = qd; G.tr.victimQ[victim] = qd; G.tr.stolen += amt; G.tr.steals++; G.tr.stealsHalf = (G.tr.stealsHalf || 0) + 1;
   const afterIdx = ['reveal', 'scoreboard', 'slide'].includes(G.phase) ? G.qIndex + 1 : G.qIndex; // the question that comes next: the notice follows it
   if (show === 'secret') trTell(victim, 'letter', { text: TR_SAY.steal2(to === t ? null : pname(to), amt.toLocaleString('en-GB')) });
   else {
@@ -254,12 +254,18 @@ function trScreenNext() {
   if (sc.kind === 'notice') { G.tr.screen = null; persist(); broadcastState(); if (sc.cont) nextFrom(G.qIndex); else render(); return true; }
   if (sc.kind === 'table') { trLockVotes(); return true; }
   if (sc.kind === 'chosen') { trReveal(); return true; }
-  if (sc.kind === 'verdict') { G.tr.screen = null; G.tr.tableDone = true; persist(); trSync(); trNudgeList(); broadcastState(); goTo(sc.next); return true; }
+  if (sc.kind === 'verdict') { G.tr.screen = null; G.tr.tableDone = true; trHalfReset(); persist(); trSync(); trNudgeList(); broadcastState(); goTo(sc.next); return true; }
   if (sc.kind === 'final') { G.tr.screen = null; G.tr.revealed = true; persist(); broadcastState(); finish(); return true; }
   return false;
 }
 
 // ---------------------------------------------------------------- half time: the Round Table and the vote
+/** Half time: the steals and powers all come back, for the same Traitor or a new one. */
+function trHalfReset() {
+  G.tr.powers = trFresh(); G.tr.stealsHalf = 0;
+  trLog(`Half time: ${TR.STEALS} steals and ${TR.USES} of each power are back`);
+  if (G.tr.traitor) trTell(G.tr.traitor, 'ok', { text: `✨ Half time: your ${TR.STEALS} steals and ${TR.USES} of each power are back for the second half.` });
+}
 /** Item index of half time: the first break slide, else the middle of the quiz. */
 function trHalfIndex() { const qs = G.quiz.questions, b = qs.findIndex((x) => x.type === 'slide' && x.break); return b >= 0 ? b : Math.floor(qs.length / 2); }
 const trWantsTable = (i) => trOn() && G.tr.traitor && !G.tr.tableDone && trHalfIndex() === i + 1 && i + 1 < G.quiz.questions.length;
