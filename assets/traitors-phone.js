@@ -26,7 +26,7 @@ const trpName = (s, pid) => (s.tr?.players || []).find((p) => p.pid === pid)?.na
 function trpOnPrivate(m) {
   if (!m || m.to !== P.pid) return;
   if (m.kind === 'role') { TRP.traitor = true; const k = 'role' + (m.n ?? 0); if (!trpSeen(k)) { trpMark(k); trpRoleScreen(m); } trpRefresh(); }
-  else if (m.kind === 'sync') { const had = TRP.sync?.team?.pending?.dev, was = TRP.sync?.team?.linked; TRP.sync = m.d; if (!TRP.traitor) TRP.traitor = true; trpApplyTeam(m.d.team); if (m.d.team?.pending && m.d.team.pending.dev !== had && P.teamRole !== 'answer') { TRP.tab = 'team'; trpMenu(true); if (!document.getElementById('trpMenu')) trpMenu(); if (navigator.vibrate) try { navigator.vibrate([100, 60, 100]); } catch {} } if (m.d.team?.linked && !was && !m.d.team.answerDev) { TRP.tab = 'team'; if (document.getElementById('trpMenu')) trpMenu(true); else trpMenu(); } trpRefresh(); if (m.d.needList && !TRP.listPrompted) { TRP.listPrompted = true; TRP.tab = 'list'; trpMenu(); if (navigator.vibrate) try { navigator.vibrate([80, 50, 80]); } catch {} } if (!m.d.needList) TRP.listPrompted = false; }
+  else if (m.kind === 'sync') { if (TRP.holding && !m.d.hold && Date.now() - (TRP.holdAt || 0) > 1500) { TRP.holding = false; TRP.holdDone = true; clearInterval(TRP.holdT); TRP.holdT = null; } const had = TRP.sync?.team?.pending?.dev, was = TRP.sync?.team?.linked; TRP.sync = m.d; if (!TRP.traitor) TRP.traitor = true; trpApplyTeam(m.d.team); if (m.d.team?.pending && m.d.team.pending.dev !== had && P.teamRole !== 'answer') { TRP.tab = 'team'; trpMenu(true); if (!document.getElementById('trpMenu')) trpMenu(); if (navigator.vibrate) try { navigator.vibrate([100, 60, 100]); } catch {} } if (m.d.team?.linked && !was && !m.d.team.answerDev) { TRP.tab = 'team'; if (document.getElementById('trpMenu')) trpMenu(true); else trpMenu(); } trpRefresh(); if (m.d.needList && !TRP.listPrompted) { TRP.listPrompted = true; TRP.tab = 'list'; trpMenu(); if (navigator.vibrate) try { navigator.vibrate([80, 50, 80]); } catch {} } if (!m.d.needList) TRP.listPrompted = false; }
   else if (m.kind === 'listnow') { TRP.tab = 'list'; trpMenu(); toast(m.text || 'Save your list!', true); if (navigator.vibrate) try { navigator.vibrate([120, 60, 120, 60, 120]); } catch {} }
   else if (m.kind === 'ok') { if (P.teamRole === 'answer') partyFlash({ icon: '🗡', text: m.text || 'Done' }); else toast(m.text || 'Done'); } // the answering phone is told what the Traitor phone decided
   else if (m.kind === 'no') { if (P.teamRole !== 'answer') toast(m.why || "That didn't work", true); }
@@ -96,15 +96,19 @@ function trPhoneAfter(s) {
   trpScreen(s);
   trpMsgShow();
   const mk = JSON.stringify([tr.window, tr.players.map((p) => p.score + (p.shield ? 's' : ''))]); if (mk !== TRP.menuKey) { TRP.menuKey = mk; if (document.getElementById('trpMenu')) trpMenu(true); }
-  if (TRP.traitor && s.phase === 'final') { document.getElementById('trpBtn')?.remove(); document.getElementById('trpHold')?.remove(); }
+  if (TRP.traitor && s.phase === 'final') { document.getElementById('trpBtn')?.remove(); }
   if (TRP.traitor && !TRP.sync && !TRP.syncAsked) { TRP.syncAsked = true; send('tr', { pid: P.pid, op: 'sync' }); }
 }
-/** ✋ Hold: tell the host to wait, before doing something. It lifts when the Traitor sends their action (or taps it again). */
-function trpHoldToggle() {
-  const on = !TRP.sync?.hold; if (TRP.sync) TRP.sync.hold = on;
-  send('tr', { pid: P.pid, op: 'hold', on }); trpRefresh();
-  if (navigator.vibrate) try { navigator.vibrate(40); } catch {}
+/** ✋ The host's phone shows HOLD ON while the Traitor is in their menu choosing something (steal, powers, messages). There is nothing to tap: it goes the moment they make a choice or leave the menu. */
+const TRP_HOLD_TABS = ['steal', 'power', 'msg'];
+function trpHoldSync() {
+  const open = !!document.getElementById('trpMenu') && TRP_HOLD_TABS.includes(TRP.tab) && P.teamRole !== 'answer';
+  if (!open) { TRP.holdDone = false; clearInterval(TRP.holdT); TRP.holdT = null; if (TRP.holding) { TRP.holding = false; send('tr', { pid: P.pid, op: 'hold', on: false }); } return; }
+  if (TRP.holding || TRP.holdDone) return;
+  TRP.holding = true; TRP.holdAt = Date.now(); send('tr', { pid: P.pid, op: 'hold', on: true });
+  clearInterval(TRP.holdT); TRP.holdT = setInterval(() => { if (TRP.holding) send('tr', { pid: P.pid, op: 'hold', on: true }); }, 20000); // still in the menu: keep it up
 }
+new MutationObserver(() => trpHoldSync()).observe(document.body, { childList: true }); // the menu closed, by whatever route
 function trpRefresh() { if (P.state) trpPills(P.state); const m = document.getElementById('trpMenu'); if (m) trpMenu(true); }
 function trpPills(s) {
   const tr = s.tr, me = trpMe(s);
@@ -119,11 +123,8 @@ function trpPills(s) {
   if (TRP.traitor && s.phase !== 'final' && P.teamRole !== 'answer') {
     if (!b) { b = document.createElement('button'); b.id = 'trpBtn'; b.className = 'trp-btn'; b.onclick = () => trpMenu(); document.body.appendChild(b); }
     const can = tr.window && TRP.sync?.canSteal;
-    let hb = document.getElementById('trpHold');
-    if (!hb) { hb = document.createElement('button'); hb.id = 'trpHold'; hb.className = 'trp-hold'; hb.onclick = trpHoldToggle; document.body.appendChild(hb); }
-    const held = !!TRP.sync?.hold; hb.classList.toggle('on', held); hb.innerHTML = held ? '✋<small>Holding: tap to let go</small>' : '✋<small>Hold</small>';
     b.classList.toggle('live', !!(tr.window)); b.innerHTML = `🗡<small>${TRP.sync?.needList ? 'Your list' : tr.window ? (can ? 'Steal now' : 'Powers') : 'After this one'}</small>`;
-  } else { b?.remove(); document.getElementById('trpHold')?.remove(); if (P.teamRole === 'answer') document.getElementById('trpMenu')?.remove(); }
+  } else { b?.remove(); if (P.teamRole === 'answer') document.getElementById('trpMenu')?.remove(); }
 }
 
 // ---------------------------------------------------------------- the host's Traitors screens (notice, Round Table, verdict, reveal)
@@ -192,8 +193,9 @@ function trpMenu(refresh) {
     <div class="trp-tabs">${tabs.map(([k, l]) => `<button class="${TRP.tab === k ? 'on' : ''}" data-tab="${k}">${l}${k === 'list' && d.needList ? ' ❗' : ''}</button>`).join('')}</div>${body}</div>`;
   if (!old) document.body.appendChild(el);
   el.querySelector('[data-pcx]').onclick = () => el.remove(); el.onclick = (e) => { if (e.target === el) el.remove(); };
-  el.querySelectorAll('[data-tab]').forEach((b) => b.onclick = () => { TRP.tab = b.dataset.tab; trpMenu(true); });
+  el.querySelectorAll('[data-tab]').forEach((b) => b.onclick = () => { TRP.tab = b.dataset.tab; TRP.holdDone = false; trpMenu(true); });
   trpBind(el, d);
+  trpHoldSync();
 }
 const trpWho = (d, extra = {}) => (d.players || []).filter((p) => !extra.not || !extra.not.includes(p.pid));
 /** The Traitor chooses: the letter goes up on the big screen (and every phone), or only the person it happened to sees it. */

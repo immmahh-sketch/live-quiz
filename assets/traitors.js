@@ -65,14 +65,13 @@ function trPublicScreen(sc) {
   return o;
 }
 // ---------------------------------------------------------------- "Hold on": the Traitor asks the host not to rush the next question
-const TR_HOLD_MS = 180000; // forgotten holds let go by themselves
+const TR_HOLD_MS = 60000; // the Traitor's phone repeats it every 20 s while the menu is open; if it goes quiet the hold lets go by itself
 const trHoldOn = () => !!(trOn() && G.tr.hold && Date.now() - G.tr.hold.at < TR_HOLD_MS);
 function trHold(on) {
   if (!trOn() || !G.tr.traitor) return;
   const was = trHoldOn(); G.tr.hold = on ? { at: Date.now() } : null;
-  if (was !== trHoldOn()) trLog(on ? '✋ The Traitor asked you to HOLD ON' : '✋ The Traitor let the hold go');
+  if (was !== trHoldOn()) trLog(on ? '✋ The Traitor opened their menu: HOLD ON' : '✋ The Traitor is out of their menu');
   trHoldUI(); trSync(); persist(); trCtlPush();
-  if (on) trTell(G.tr.traitor, 'ok', { text: '✋ The host has been asked to hold on. It lifts when you send something, or tap again.' });
 }
 /** Whatever the Traitor sends lifts the hold: the host is free to carry on. */
 function trHoldClear() { if (!G.tr?.hold) return; G.tr.hold = null; trHoldUI(); trCtlPush(); }
