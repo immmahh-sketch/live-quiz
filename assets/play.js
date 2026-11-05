@@ -37,13 +37,14 @@ function renderJoin(msg) {
     const c = $('#code').value.trim().toUpperCase().replace(/[^A-Z0-9]/g, ''), n = $('#name').value.replace(/\s+/g, ' ').trim();
     if (c.length < 3) return renderJoin('The game code is six letters and numbers — it\'s on the shared screen.');
     if (!n) return renderJoin('Tell us your name so it shows on the scoreboard.');
-    P.code = c; P.name = n; P.test = false; P.partner = false; if (!/^TEAM[A-Z0-9]{6}([A-Z0-9]{3})?$/.test(c)) { if (typeof teamForget === 'function') teamForget(); store('lq_player' + SLOT, { pid: P.pid, name: n, emoji: P.emoji }); }
+    P.code = c; P.name = n; P.test = false; P.partner = false; if (!/^TEAM([A-Z0-9]{4}|[A-Z0-9]{6}([A-Z0-9]{3})?)$/.test(c)) { if (typeof teamForget === 'function') teamForget(); store('lq_player' + SLOT, { pid: P.pid, name: n, emoji: P.emoji }); }
     // TEST in front of a live game's code: join that game and make it a test game (ten bots, nothing saved).
     // TEST in front of a warm-up's code (TESTWARMUP) goes to the warm-up instead, found by the check below.
     // VIEW in front of a live game's code: play along as the players see it and get a score, but never be a player
     // (no lobby, no leaderboard, no name anywhere for anyone else). A viewer id of its own, so it can't be a player too.
     // TEAM in front of a live game's code: a second phone for the Traitor, joined secretly as the same player (assets/traitors-phone.js)
-    if (/^TEAM[A-Z0-9]{6}([A-Z0-9]{3})?$/.test(c)) { P.code = c.slice(4, 10); P.teamTag = c.slice(10); P.partner = true; }
+    if (/^TEAM[A-Z0-9]{4}$/.test(c)) { P.teamTag = c.slice(4); P.partner = true; teamFind(P.teamTag); return; } // a team code: the game is found from it
+    else if (/^TEAM[A-Z0-9]{6}([A-Z0-9]{3})?$/.test(c)) { P.code = c.slice(4, 10); P.teamTag = c.slice(10); P.partner = true; }
     else if (/^VIEW[A-Z0-9]{6}$/.test(c)) { P.code = c.slice(4); P.view = true; P.pid = 'p_vw' + P.pid.replace(/^p_/, '').slice(0, 8); }
     else if (/^TEST[A-Z0-9]{6}$/.test(c)) { P.code = c.slice(4); P.test = true; }
     // A live game's code is always six characters; anything else can only be a warm-up (TESTWARMUP, say)

@@ -1,4 +1,4 @@
-/* Let's Quiz: TEAM MODE (November 2026), the host half. Loaded after traitors.js, which it borrows trTell, trTeam and the Traitor's own
+/* Let's Quiz: TEAM MODE (November 2026), the host half. (A team code is TEAM + 4 characters; a phone finds the game from the 4 on a shared channel, see teamFindStart.) Loaded after traitors.js, which it borrows trTell, trTeam and the Traitor's own
  * two-phone door from.
  * Every player has a team code of their own: TEAM + the game code + three characters. A teammate types it where the game code goes,
  * knocks, and the player lets them in. From then on that phone is the same player (same id, same score): it sees the same screens and
@@ -17,7 +17,7 @@ function teamOf(pid) {
   G.team = G.team || {};
   if (!G.team[pid]) {
     const used = new Set(Object.values(G.team).map((t) => t.tag));
-    let tag = ''; do { tag = Array.from({ length: 3 }, () => TEAM_CHARS[Math.floor(Math.random() * TEAM_CHARS.length)]).join(''); } while (used.has(tag));
+    let tag = ''; do { tag = Array.from({ length: 4 }, () => TEAM_CHARS[Math.floor(Math.random() * TEAM_CHARS.length)]).join(''); } while (used.has(tag));
     G.team[pid] = { tag, members: [], pending: [] };
     persist();
   }
@@ -28,6 +28,18 @@ function teamTell(pid) {
   if (!G.players?.[pid]) return;
   const t = teamOf(pid);
   tmTell(pid, 'team', { tag: t.tag, members: t.members.map((m) => ({ name: m.name, dev: m.dev })), pending: tmIsTraitor(pid) ? [] : t.pending.map((p) => ({ name: p.name, dev: p.dev })) });
+}
+/** A phone that has only a team code (TEAM + 4 characters) asks on a channel every host listens to, and the host whose player has that code answers with the game code. */
+let teamFindCh = null;
+function teamFindStart() {
+  if (teamFindCh || typeof sb === 'undefined' || !sb) return;
+  teamFindCh = sb.channel('lq-teamfind', { config: { broadcast: { self: false } } });
+  teamFindCh.on('broadcast', { event: 'find' }, ({ payload }) => {
+    const tag = String(payload?.tag || '').toUpperCase();
+    if (!tag || !G?.team || !Object.keys(G.team).some((p) => G.team[p].tag === tag && G.players[p])) return;
+    teamFindCh.send({ type: 'broadcast', event: 'found', payload: { rid: payload.rid, code: G.code } });
+  });
+  teamFindCh.subscribe();
 }
 /** Every team message from a phone ('team' on the channel). The Traitor's own ops fall through to onTeam. */
 function teamHandle(m) {

@@ -471,6 +471,7 @@ function connect() {
     if (G.phase === 'lobby') renderLobbyPlayers();
     if (G.phase === 'question') { renderAnswered(); maybeAllAnswered(); }
   });
+  if (!WARMUP && !PREVIEW && typeof teamFindStart === 'function') teamFindStart(); // phones that have only a team code find this game here
   ch.subscribe(async (status) => {
     if (status === 'SUBSCRIBED') { await ch.track({ role: 'host' }); trEnsure(); trRegisterLive(); render(); broadcastState(); startHeartbeat(); if (G.phase === 'question') startTick(); }
     else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') toast('Connection trouble — retrying…', true);

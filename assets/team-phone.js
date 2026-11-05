@@ -3,7 +3,7 @@
  * in, and that phone is then the same player: same screens, the quickest answer counts, and each phone can be on the quiz call. */
 
 const TM = { tag: '', members: [], pending: [], open: false, asked: false };
-const teamCode = () => 'TEAM' + P.code + TM.tag;
+const teamCode = () => 'TEAM' + TM.tag;
 /** What goes under an answer on the team's other phones: “Sam answered: Paris”. */
 function teamSay(q, answer) {
   if (answer === 'skip') return 'skipped: no idea';
@@ -17,6 +17,20 @@ function teamSay(q, answer) {
 }
 const teamMe = () => P.me || P.name;
 
+/** A phone that typed TEAM + 4 characters: it does not know the game yet, so it asks every host on a shared channel; the one with that team code answers with the game code, and the phone goes on to knock at the player's door. */
+function teamFind(tag) {
+  app.innerHTML = '<div class="state"><span class="spinner"></span><h2>Looking for your team…</h2></div>';
+  sb = sb || LQ.client();
+  const c = sb.channel('lq-teamfind', { config: { broadcast: { self: false } } }), rid = uid('f'); let done = false, t = null;
+  const stop = () => { done = true; clearInterval(t); try { sb.removeChannel(c); } catch {} };
+  c.on('broadcast', { event: 'found' }, ({ payload }) => { if (done || payload?.rid !== rid) return; stop(); P.code = String(payload.code || ''); P.partner = true; P.teamTag = tag; connect(); });
+  c.subscribe((st) => {
+    if (st !== 'SUBSCRIBED' || t) return;
+    const ask = () => { if (!done) c.send({ type: 'broadcast', event: 'find', payload: { tag, rid } }); };
+    ask(); t = setInterval(ask, 1500);
+    setTimeout(() => { if (!done) { stop(); P.partner = false; renderJoin('No team has that code. Check it, and that the game is open on the big screen.'); } }, 9000);
+  });
+}
 /** From the host: the code, the team and anyone knocking (to this player's id, so every phone of the team hears it). */
 function teamOnMsg(m) {
   if (!m || m.to !== P.pid) return;
