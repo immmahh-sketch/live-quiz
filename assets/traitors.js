@@ -12,7 +12,7 @@
  * panel talks to this screen with sealed ('trctl') messages. Hooks into host.html and party.js are small and named tr*.
  * Loaded after party.js; runs once a game exists. */
 
-const TR = { STEALS: 5, SAME_VICTIM: 15, MIN: 100, MAX: 1000, USES: 5, TABLE_MS: 180000, BANISH_LOSS: 5000, WRONG_LOSS: 3000, VOTER_BONUS: 2000, SLIP_BONUS: 2000, FINDER_BONUS: 2000, CAUGHT_LOSS: 2000, AWAY_BONUS: 5000, MSGS: 3, MSG_LEN: 140 };
+const TR = { RECRUIT_REFUSE: 2000, PROP_MAX: 4, STEALS: 5, SAME_VICTIM: 15, MIN: 100, MAX: 1000, USES: 5, TABLE_MS: 180000, BANISH_LOSS: 5000, WRONG_LOSS: 3000, VOTER_BONUS: 2000, SLIP_BONUS: 2000, FINDER_BONUS: 3000, CAUGHT_LOSS: 2000, AWAY_BONUS: 5000, MSGS: 3, MSG_LEN: 140 };
 const trFresh = () => ({ gift: TR.USES, block: TR.USES, dbl: TR.USES });
 const trNames = (pids) => pids.map((p) => pname(p)).join(' and ').replace(/, ([^,]*)$/, ' and $1');
 let trPushT = null;
@@ -98,7 +98,7 @@ const trShielded = (pid) => !!G.tr?.shield?.[pid]; // earned with 3 right in a r
 function trEnsure() {
   if (G.tr || !G.quiz?.settings?.traitors?.on || WARMUP || PREVIEW || DEMO) return;
   G.tr = { on: true, traitor: null, history: [], qDone: 0, lastStealQ: -99, victimQ: {}, stolen: 0, steals: 0, stealsHalf: 0, powers: trFresh(), set: { gift: null, block: null, dbl: null }, used: { gift: 0, block: 0, dbl: 0 },
-    streak: {}, shield: {}, notices: [], screen: null, hidden: 0, fake: {}, show: {}, hold: null, team: null, tableDone: false, votes: {}, list: null, twentyAdded: false, revealed: false, log: [], msgBreak: 0, msgs: 0, stealShown: false, banishedBefore: [] };
+    streak: {}, shield: {}, notices: [], screen: null, hidden: 0, hiddenMate: 0, fake: {}, show: {}, hold: null, team: null, teams: {}, mate: null, prop: null, chat: [], recruit: null, recruitOffered: false, lists: {}, roster: [], needTwo: false, twoAtHalf: false, finalDone: false, banishedFinal: [], tableDone: false, votes: {}, list: null, twentyAdded: false, revealed: false, log: [], msgBreak: 0, msgs: 0, stealShown: false, banishedBefore: [] };
   persist();
 }
 /** The code of this live game, left on the quiz so the host's phone can find it (builder: 🗡 Traitors on the quiz's card). */
@@ -117,10 +117,10 @@ function trState(s) {
 function trPublicScreen(sc) {
   const o = { id: sc.id, kind: sc.kind };
   if (sc.kind === 'notice') Object.assign(o, { title: sc.title, lines: sc.lines, quote: sc.quote || '', letter: sc.letter || '' });
-  if (sc.kind === 'table') Object.assign(o, { endsAt: sc.endsAt, total: sc.total, left: Math.max(0, sc.endsAt - (G.paused ? G.pausedAt : Date.now())), voted: Object.keys(G.tr.votes), locked: !!sc.locked });
+  if (sc.kind === 'table') Object.assign(o, { final: !!sc.final, endsAt: sc.endsAt, total: sc.total, left: Math.max(0, sc.endsAt - (G.paused ? G.pausedAt : Date.now())), voted: Object.keys(G.tr.votes), locked: !!sc.locked });
   if (sc.kind === 'chosen') Object.assign(o, { rows: sc.rows, banished: sc.banished });
   if (sc.kind === 'verdict') Object.assign(o, { rows: sc.rows, banished: sc.banished, correct: sc.correct, winners: sc.winners, wrongVoters: sc.wrongVoters || [], tie: !!sc.tie, wrongLoss: !!sc.wrongLoss });
-  if (sc.kind === 'final') Object.assign(o, { traitor: sc.traitor, lines: sc.lines });
+  if (sc.kind === 'final') Object.assign(o, { traitor: sc.traitor, roster: sc.roster || [], lines: sc.lines });
   return o;
 }
 // ---------------------------------------------------------------- "Hold on": the Traitor asks the host not to rush the next question
@@ -138,6 +138,108 @@ function trHoldClear() { if (!G.tr?.hold) return; G.tr.hold = null; trHoldUI(); 
 function trHoldUI() { document.getElementById('trHoldBar')?.remove(); }
 setInterval(() => { try { if (typeof G === 'undefined' || !G?.tr) return; if (G.tr.hold && !trHoldOn()) { G.tr.hold = null; trSync(); trCtlPush(); } trHoldUI(); } catch {} }, 1000);
 
+// ---------------------------------------------------------------- Claudia: letters from the host's side of the game, and the recruit
+/** A letter from Claudia to one phone (the phone shows it signed by her, with any buttons below). */
+const trClaudia = (to, text, o = {}) => trTell(to, 'claudia', { id: o.id || uid('c'), text, ...o });
+/** The host writes to the Traitor from their own phone: 'traitor', 'mate' or 'both'. */
+function trTellTraitors(text, to) {
+  const msg = text.replace(/\s+/g, ' ').trim().slice(0, 280); if (!msg) return 'Write something first.';
+  const who = to === 'mate' ? [G.tr.mate] : to === 'both' ? trTraitors() : [G.tr.traitor];
+  const ok = who.filter((p) => p && G.players[p]); if (!ok.length) return 'There is nobody to send that to yet.';
+  for (const p of ok) trClaudia(p, msg, { greet: 'Dear Traitor,' });
+  trLog(`✉ You (as Claudia) wrote to ${ok.map(pname).join(' and ')}: “${msg}”`); return '';
+}
+/** The vote missed, the first time: the Traitor is offered a recruit. */
+function trOfferRecruit() {
+  const t = G.tr.traitor; if (!t || G.tr.recruitOffered || G.tr.mate || String(t).startsWith('p_bot')) return;
+  G.tr.recruitOffered = true; const id = uid('c'); G.tr.recruit = { stage: 'offer', id, target: null };
+  trLog('✉ Claudia offered the Traitor a recruit'); persist();
+  trClaudia(t, 'Traitors - you live to Murder another day! As you were not Banished, maybe its time to recruit?', { id, greet: 'Dear Traitor,', buttons: [{ k: 'yes', label: '🗡 Recruit: YES' }, { k: 'no', label: 'No' }] });
+}
+/** An answer to one of Claudia's letters: the Traitor's yes or no, their pick, or the recruit's join or refuse. */
+function trClaudiaReply(pid, { id, k, target }) {
+  const r = G.tr.recruit; if (!r || r.id !== id) return;
+  if (r.stage === 'offer' && pid === G.tr.traitor) {
+    if (k === 'no') { G.tr.recruit = { stage: 'done' }; trLog('✉ The Traitor said no to recruiting'); persist(); return; }
+    if (k !== 'yes') return;
+    const pool = Object.values(G.players).filter((p) => p.id !== pid && !p.id.startsWith('p_bot')).map((p) => ({ pid: p.id, name: p.name, emoji: p.emoji || '' }));
+    if (!pool.length) { G.tr.recruit = { stage: 'done' }; return trTell(pid, 'ok', { text: 'There is nobody to recruit.' }); }
+    r.stage = 'pick'; r.id = uid('c'); trLog('✉ The Traitor said YES to recruiting: choosing who'); persist();
+    return trClaudia(pid, 'Who will you recruit? They may say no, and it will cost them.', { id: r.id, greet: 'Dear Traitor,', pick: pool });
+  }
+  if (r.stage === 'pick' && pid === G.tr.traitor) {
+    if (k === 'none') { G.tr.recruit = { stage: 'done' }; trLog('✉ The Traitor changed their mind about recruiting'); persist(); return; }
+    if (k !== 'pick' || !G.players[target] || target === pid || String(target).startsWith('p_bot')) return;
+    r.stage = 'invite'; r.target = target; r.id = uid('c'); trLog(`✉ The Traitor chose ${pname(target)} to recruit; Claudia has asked them`); persist();
+    trTell(pid, 'ok', { text: `✉ Claudia has asked ${pname(target)}. You will hear what they say.` });
+    return trClaudia(target, `The Traitors want you. Join, and learn who they are and share their powers. Refuse, and lose ${TR.RECRUIT_REFUSE.toLocaleString('en-GB')} points.`, { id: r.id, greet: `Dear ${pname(target)},`, buttons: [{ k: 'join', label: '🗡 Join the Traitors' }, { k: 'refuse', label: `Refuse (lose ${TR.RECRUIT_REFUSE.toLocaleString('en-GB')} points)` }] });
+  }
+  if (r.stage === 'invite' && pid === r.target) {
+    const t = G.tr.traitor;
+    if (k === 'refuse') {
+      G.players[pid].score -= TR.RECRUIT_REFUSE; G.tr.recruit = { stage: 'done' }; trLog(`✉ ${pname(pid)} refused to join and lost ${TR.RECRUIT_REFUSE}`); persist(); broadcastState();
+      trTell(t, 'ok', { text: `✉ ${pname(pid)} said no, and lost ${TR.RECRUIT_REFUSE.toLocaleString('en-GB')} points.` }); trTell(pid, 'ping', { icon: '😬', text: `You refused, and lose ${TR.RECRUIT_REFUSE.toLocaleString('en-GB')} points.` });
+      return;
+    }
+    if (k !== 'join') return;
+    G.tr.mate = pid; G.tr.recruit = { stage: 'done' }; G.tr.chat = []; G.tr.prop = null; G.tr.twoAtHalf = true; (G.tr.roster = G.tr.roster || []).includes(pid) || G.tr.roster.push(pid);
+    trLog(`🗡 ${pname(pid)} JOINED the Traitors (recruited by ${pname(t)})`); persist();
+    trTell(pid, 'role', { reason: 'recruited', recruited: true, mate: trWho(t), n: G.tr.history.length });
+    trTell(t, 'mate', { mate: trWho(pid) }); trSync(); trNudgeList(); broadcastState();
+  }
+}
+// ---------------------------------------------------------------- two Traitors: private chat, and steals and powers that both must agree
+const trDescribe = (a) => {
+  const how = a.show === 'secret' ? 'only they see the letter' : 'letter on the big screen';
+  if (a.op === 'steal') return `Steal ${(+a.amount || 0).toLocaleString('en-GB')} from ${pname(a.victim)} and give it to ${trIsTraitor(a.to) ? pname(a.to) + ' (for show)' : pname(a.to)} (${how})`;
+  return `${{ gift: '🎁 Free answer', block: '🚫 Block', dbl: '✨ Double' }[a.kind] || a.kind} for ${pname(a.target)} on the next question (${how})`;
+};
+/** What a Traitor sees of the series in progress (null if none): whose turn it is and what has been said. */
+function trPropFor(pid) {
+  const p = G.tr?.prop; if (!p) return null;
+  return { id: p.id, n: p.n, by: trWho(p.by), mine: p.by === pid, turn: p.to === pid, final: p.n >= TR.PROP_MAX, text: trDescribe(p.action), hist: p.hist.map((h) => ({ by: pname(h.by), n: h.n, text: h.text })) };
+}
+function trChat(pid, text) {
+  const msg = String(text || '').replace(/\s+/g, ' ').trim().slice(0, 200), other = trOther(pid); if (!msg || !other) return;
+  G.tr.chat = [...(G.tr.chat || []), { by: pid, text: msg, t: Date.now() }].slice(-60);
+  trLog(`🤝 ${pname(pid)} to ${pname(other)}: “${msg}”`); trSync(); persist();
+}
+/** One Traitor suggests a steal or a power: the other must confirm it or suggest something else, up to 4 messages in all. */
+function trPropose(by, op, a) {
+  const other = trOther(by), prev = G.tr.prop;
+  if (op === 'power' && (a.target === null || a.target === undefined || a.target === '')) return trPower({ ...a, who: by }); // taking one back needs no agreement
+  if (prev && prev.to !== by) return trTell(by, 'no', { why: `Still waiting for ${pname(prev.to)} to answer your suggestion.` });
+  if (prev && prev.n >= TR.PROP_MAX) return trTell(by, 'no', { why: 'That was the last suggestion: do it, or lose 1 power.' });
+  if (!trWindow()) return trTell(by, 'no', { why: 'Not right now: the vote is on.' });
+  const action = op === 'steal' ? { op, victim: a.victim, amount: a.amount, to: a.to, show: a.show } : { op, kind: a.kind, target: a.target, show: a.show };
+  const n = prev ? prev.n + 1 : 1;
+  G.tr.prop = { id: prev?.id || uid('x'), n, by, to: other, action, hist: [...(prev?.hist || []), { by, n, text: trDescribe(action) }] };
+  trLog(`🤝 ${pname(by)} suggests to ${pname(other)} (message ${n} of ${TR.PROP_MAX}): ${trDescribe(action)}`);
+  trTell(by, 'ok', { text: `🤝 Sent to ${pname(other)}: they confirm, or suggest something else.` }); trHoldClear(); trSync(); persist();
+}
+/** The Traitor whose turn it is answers: 'yes' (do it), 'lose' (on the last message: lose 1 power instead) or 'cancel' (the one who suggested takes it back). */
+function trPropReply(pid, k) {
+  const p = G.tr.prop; if (!p) return;
+  if (k === 'cancel' && p.by === pid) { G.tr.prop = null; trLog(`🤝 ${pname(pid)} took their suggestion back`); trSync(); persist(); return; }
+  if (p.to !== pid) return;
+  const by = p.by, other = pid;
+  if (k === 'yes') {
+    G.tr.prop = null; trLog(`🤝 ${pname(pid)} agreed: ${trDescribe(p.action)}`); trTell(pid, 'ok', { text: '🤝 Agreed. Doing it now.' });
+    return p.action.op === 'steal' ? trSteal({ ...p.action, who: by }) : trPower({ ...p.action, who: by });
+  }
+  if (k === 'lose' && p.n >= TR.PROP_MAX) {
+    G.tr.prop = null; const lost = trLosePower();
+    trLog(`🤝 No agreement after ${TR.PROP_MAX} messages: ${lost ? 'one ' + lost + ' was lost' : 'there was no power left to lose'}`);
+    for (const x of trTraitors()) trTell(x, 'ok', { text: lost ? `⚠ No agreement: you lose 1 ${lost}.` : '⚠ No agreement, and no power left to lose.' });
+    trSync(); persist();
+  }
+}
+/** Takes one use away from a random power (free answer, block or double) that still has some. Returns what was lost. */
+function trLosePower() {
+  const live = ['gift', 'block', 'dbl'].filter((k) => G.tr.powers[k] > 0); if (!live.length) return '';
+  const k = live[Math.floor(Math.random() * live.length)]; G.tr.powers[k]--; return { gift: 'free answer', block: 'block', dbl: 'double' }[k];
+}
+
 /** A demo slide that plays a sample letter: on the big screen and every phone, or ('phones') only on the real players' phones. */
 function trDemoLetter(q) {
   if (!trOn() || !q.letter) return;
@@ -147,61 +249,68 @@ function trDemoLetter(q) {
 }
 // ---------------------------------------------------------------- the Traitor's team: a second phone, secretly the same player
 const trTeamFresh = () => ({ open: 0, pending: null, linked: false, traitorDev: '', partnerDev: '', answerDev: '', actDev: '' });
-/** What the Traitor's phones are told (pending is the second phone knocking; nobody else ever sees any of this). */
-function trTeamPublic() {
-  const t = G.tr?.team; if (!t) return { linked: false, open: false, pending: null };
+/** What a Traitor's phones are told about their team (pending is the second phone knocking; nobody else ever sees any of this). */
+function trTeamPublic(pid) {
+  const t = G.tr?.teams?.[pid]; if (!t) return { linked: false, open: false, pending: null };
   return { linked: !!t.linked, open: t.open > Date.now(), pending: t.pending ? { dev: t.pending.dev, name: t.pending.name } : null, answerDev: t.answerDev, actDev: t.actDev, traitorDev: t.traitorDev, partnerDev: t.partnerDev };
 }
-/** From a phone with TEAM in front of the code ('ask') or from the Traitor's own phone (everything else). */
+/** From a phone with TEAM in front of the code ('ask') or from a Traitor's own phone (everything else). */
 function onTeam({ op, pid, tmp, dev, name, ...a }) {
   if (!trOn()) return;
-  const tr = G.tr.traitor, t = G.tr.team = G.tr.team || trTeamFresh();
-  if (op === 'ask') { // a second phone knocks: it is not a player, and has no say until the Traitor lets it in
-    if (typeof tmp !== 'string' || !tr) return;
-    if (t.linked) return trTell(tmp, 'teamno', { why: 'That team already has two phones.' });
-    if (!(t.open > Date.now())) return trTell(tmp, 'teamno', { why: 'Your teammate has not opened the door yet. Ask them to tap “Open the door for them” on their phone, then try again.' });
-    const nm = String(name || '').replace(/\s+/g, ' ').trim().slice(0, 20) || 'A';
-    if (!t.pending || t.pending.tmp !== tmp) { t.pending = { tmp, dev: String(dev || '').slice(0, 24), name: nm }; trLog(`👥 ${nm}'s phone is asking to join the Traitor's team`); trSync(); persist(); }
+  if (op === 'ask') { // a second phone knocks: it is not a player, and has no say until a Traitor lets it in
+    if (typeof tmp !== 'string' || !trTraitors().length) return;
+    const doors = trTraitors().map((x) => [x, trTeam(x)]).filter(([, t]) => !t.linked && t.open > Date.now()).sort((p, q) => p[1].open - q[1].open);
+    if (!doors.length) return trTell(tmp, 'teamno', { why: 'Your teammate has not opened the door yet. Ask them to tap “Open the door for them” on their phone, then try again.' });
+    const [, t] = doors[0], nm = String(name || '').replace(/\s+/g, ' ').trim().slice(0, 20) || 'A';
+    if (!t.pending || t.pending.tmp !== tmp) { t.pending = { tmp, dev: String(dev || '').slice(0, 24), name: nm }; trLog(`👥 ${nm}'s phone is asking to join a Traitor's team`); trSync(); persist(); }
     return trTell(tmp, 'teamwait', {});
   }
-  if (pid !== tr) return; // everything below is the Traitor's own phone
+  if (!trIsTraitor(pid)) return; // everything below is a Traitor's own phone
+  const tr = pid, t = trTeam(pid);
   if (op === 'open') { t.open = Date.now() + 300000; trSync(); persist(); return; }
   if (op === 'decline') { if (t.pending) trTell(t.pending.tmp, 'teamno', { why: 'Your teammate said no.' }); t.pending = null; trSync(); persist(); return; }
   if (op === 'accept') {
     if (!t.pending) return;
     Object.assign(t, { linked: true, partnerDev: t.pending.dev, traitorDev: String(dev || '').slice(0, 24), open: 0, answerDev: '', actDev: '' });
     trTell(t.pending.tmp, 'teamlinked', { pid: tr, name: G.players[tr]?.name || '', emoji: G.players[tr]?.emoji || '' });
-    trLog(`👥 A second phone joined the Traitor's team (still one player: ${pname(tr)})`); t.pending = null;
+    trLog(`👥 A second phone joined ${pname(tr)}'s team (still one player)`); t.pending = null;
     trSync(); persist(); return trTell(tr, 'teamroles', {});
   }
   if (op === 'roles') {
     if (!t.linked) return; const ans = String(a.answerDev || '');
     if (ans !== t.traitorDev && ans !== t.partnerDev) return;
     t.answerDev = ans; t.actDev = ans === t.traitorDev ? t.partnerDev : t.traitorDev;
-    trLog('👥 The team chose which phone answers and which does the Traitor actions');
+    trLog(`👥 ${pname(tr)}'s team chose which phone answers and which does the Traitor actions`);
     trSync(); persist(); return trTell(tr, 'ok', { text: '👥 Done: one phone answers, the other does the Traitor actions. The answering phone gets an alert for each decision.' });
   }
-  if (op === 'end') { G.tr.team = trTeamFresh(); trLog('👥 The second phone was unlinked'); trTell(tr, 'teamended', {}); trSync(); persist(); }
+  if (op === 'end') { G.tr.teams[pid] = trTeamFresh(); trLog(`👥 ${pname(tr)}'s second phone was unlinked`); trTell(tr, 'teamended', {}); trSync(); persist(); }
 }
 /** A private word to one phone (or all of them, for ping-style banners). Only the phone it is for acts on it. */
 const trTell = (to, kind, data = {}) => send('trs', { to, kind, ...data });
-function trSync() {
-  const t = G.tr?.traitor; if (!t || !G.players[t]) return;
+// With a recruit there are two Traitors (G.tr.traitor and G.tr.mate) sharing one set of steals and powers.
+const trTraitors = () => [G.tr?.traitor, G.tr?.mate].filter((p) => p && G.players[p]);
+const trIsTraitor = (pid) => !!pid && (pid === G.tr?.traitor || pid === G.tr?.mate);
+const trOther = (pid) => (pid === G.tr.traitor ? G.tr.mate : pid === G.tr.mate ? G.tr.traitor : null) || null;
+const trTeam = (pid) => { G.tr.teams = G.tr.teams || {}; return G.tr.teams[pid] = G.tr.teams[pid] || trTeamFresh(); };
+const trWho = (pid) => (G.players[pid] ? { pid, name: G.players[pid].name, emoji: G.players[pid].emoji || '' } : null);
+function trSync() { for (const t of trTraitors()) trSyncOne(t); }
+function trSyncOne(t) {
+  if (!t || !G.players[t]) return;
   const qd = G.tr.qDone, victims = {};
-  for (const p of Object.keys(G.players)) if (p !== t) victims[p] = { shield: trShielded(p), wait: Math.max(0, TR.SAME_VICTIM - (qd - (G.tr.victimQ[p] ?? -99))), score: G.players[p].score };
-  trTell(t, 'sync', { d: { powers: G.tr.powers, set: G.tr.set, canSteal: (G.tr.stealsHalf || 0) < TR.STEALS, stealsLeft: Math.max(0, TR.STEALS - (G.tr.stealsHalf || 0)), victims, window: trWindow(), nextPlain: powerNextPlain() >= 0, msgsLeft: Math.max(0, TR.MSGS - G.tr.msgBreak), hold: trHoldOn(), team: trTeamPublic(),
-    needList: G.tr.tableDone && !G.tr.list, list: G.tr.list, qDone: qd, players: Object.values(G.players).filter((p) => p.id !== t).map((p) => ({ pid: p.id, name: p.name, emoji: p.emoji || '' })) } });
+  for (const p of Object.keys(G.players)) if (!trIsTraitor(p)) victims[p] = { shield: trShielded(p), wait: Math.max(0, TR.SAME_VICTIM - (qd - (G.tr.victimQ[p] ?? -99))), score: G.players[p].score };
+  trTell(t, 'sync', { d: { powers: G.tr.powers, set: G.tr.set, canSteal: (G.tr.stealsHalf || 0) < TR.STEALS, stealsLeft: Math.max(0, TR.STEALS - (G.tr.stealsHalf || 0)), victims, window: trWindow(), nextPlain: powerNextPlain() >= 0, msgsLeft: Math.max(0, TR.MSGS - G.tr.msgBreak), hold: trHoldOn(), team: trTeamPublic(t), me: t, mate: trWho(trOther(t)), prop: trPropFor(t), chat: (G.tr.chat || []).slice(-30), recruited: t === G.tr.mate,
+    needList: !!(G.tr.tableDone && G.tr.twoAtHalf && !G.tr.lists?.[t]), list: G.tr.lists?.[t] || null, qDone: qd, players: Object.values(G.players).filter((p) => p.id !== t).map((p) => ({ pid: p.id, name: p.name, emoji: p.emoji || '' })) } });
 }
 /** A phone says hello (joining, or coming back after a drop): a Traitor is reminded who they are. */
-function trOnHello(pid) { if (trOn() && G.tr.traitor === pid) { trTell(pid, 'role', { again: true, reason: G.tr.history.at(-1)?.reason, n: G.tr.history.length }); trSync(); } }
+function trOnHello(pid) { if (trOn() && trIsTraitor(pid)) { trTell(pid, 'role', { again: true, reason: G.tr.history.at(-1)?.reason, n: G.tr.history.length, recruited: pid === G.tr.mate, mate: trWho(trOther(pid)) }); trSync(); } }
 
 // ---------------------------------------------------------------- picking the Traitor
 function trSetTraitor(pid, reason = 'picked') {
   trEnsure(); if (!trOn() || !G.players[pid]) return false;
-  if (G.tr.traitor && G.tr.team?.linked) trTell(G.tr.traitor, 'teamended', {}); // the old Traitor's second phone is just a second phone now
-  G.tr.team = null;
-  G.tr.traitor = pid; G.tr.history.push({ pid, at: G.tr.qDone, reason });
-  Object.assign(G.tr, { powers: trFresh(), set: { gift: null, block: null, dbl: null }, used: { gift: 0, block: 0, dbl: 0 }, lastStealQ: -99, stealsHalf: 0, victimQ: {}, list: null, msgBreak: 0, hold: null });
+  for (const x of trTraitors()) { if (G.tr.teams?.[x]?.linked) trTell(x, 'teamended', {}); if (x !== pid) trTell(x, 'unrecruited', {}); } // old Traitors' second phones are just second phones now
+  Object.assign(G.tr, { teams: {}, mate: null, prop: null, chat: [] });
+  G.tr.traitor = pid; G.tr.history.push({ pid, at: G.tr.qDone, reason }); (G.tr.roster = G.tr.roster || []).includes(pid) || G.tr.roster.push(pid);
+  Object.assign(G.tr, { powers: trFresh(), set: { gift: null, block: null, dbl: null }, used: { gift: 0, block: 0, dbl: 0 }, lastStealQ: -99, stealsHalf: 0, victimQ: {}, lists: {}, needTwo: false, twoAtHalf: false, msgBreak: 0, hold: null });
   trLog(`${pname(pid)} is the Traitor (${reason})`);
   trTell(pid, 'role', { reason, n: G.tr.history.length }); trSync(); persist(); broadcastState();
   if (G.phase === 'lobby') render(); // the lobby says a Traitor is picked
@@ -212,70 +321,73 @@ function trSetTraitor(pid, reason = 'picked') {
 /** Between questions: the same break the power cards are played in. Not while a vote or a notice is up. */
 /** The Traitor can act at any time, before or during a question (not in the lobby, the final results, or while the Round Table vote is up). A power set while a question is running counts on the next one. */
 function trWindow() { return trOn() && !['lobby', 'final'].includes(G.phase) && !(G.tr.screen && ['table', 'chosen', 'verdict', 'final'].includes(G.tr.screen.kind)); }
-const trNo = (why) => trTell(G.tr.traitor, 'no', { why });
+const trNo = (why, who) => trTell(who || G.tr.traitor, 'no', { why });
 function onTr({ pid, op, ...a }) {
   if (!trOn() || !G.players[pid]) return;
-  if (op === 'sync') { if (pid === G.tr.traitor) trSync(); return; }
+  if (op === 'sync') { if (trIsTraitor(pid)) trSync(); return; }
   if (op === 'vote') return trVote(pid, a.target);
-  if (pid !== G.tr.traitor) return;
+  if (op === 'claudia') return trClaudiaReply(pid, a);
+  if (!trIsTraitor(pid)) return;
   if (op === 'hold') return trHold(!!a.on);
-  if (op === 'steal') return trSteal(a);
-  if (op === 'power') return trPower(a);
-  if (op === 'msg') return trMsg(a);
-  if (op === 'list') return trList(a);
+  if (op === 'msg') return trMsg({ ...a, who: pid });
+  if (op === 'tchat') return trChat(pid, a.text);
+  if (op === 'prop') return trPropReply(pid, a.k);
+  if (op === 'steal' || op === 'power') return G.tr.mate ? trPropose(pid, op, a) : (op === 'steal' ? trSteal({ ...a, who: pid }) : trPower({ ...a, who: pid }));
+  if (op === 'list') return trList({ ...a, who: pid });
 }
-function trSteal({ victim, amount, to, show }) {
-  const t = G.tr.traitor, qd = G.tr.qDone;
+function trSteal({ victim, amount, to, show, who }) {
+  const t = who || G.tr.traitor, qd = G.tr.qDone, trNo = (why) => trTell(t, 'no', { why });
   if (!trWindow()) return trNo('Not right now: the vote is on.');
   if ((G.tr.stealsHalf || 0) >= TR.STEALS) return trNo(`You have used all ${TR.STEALS} steals for this half. They come back at half time.`);
-  if (!G.players[victim] || victim === t) return trNo('Pick someone else to steal from.');
+  if (!G.players[victim] || trIsTraitor(victim)) return trNo('Pick someone else to steal from.');
   if (!G.players[to] || to === victim) return trNo('Give the points to someone other than the player you took them from (you can keep them yourself, but they only count for show).');
   if (trShielded(victim)) return trNo(`${pname(victim)} has a 🛡 shield.`);
   const wait = TR.SAME_VICTIM - (qd - (G.tr.victimQ[victim] ?? -99)); if (wait > 0) return trNo(`You can only steal from ${pname(victim)} once every ${TR.SAME_VICTIM} questions: ${wait} more to go.`);
   const want = Math.round((+amount || 0) / 100) * 100; if (want < TR.MIN || want > TR.MAX) return trNo(`Steal between ${TR.MIN} and ${TR.MAX}.`);
   const amt = Math.min(want, Math.max(0, G.players[victim].score)); if (amt <= 0) return trNo(`${pname(victim)} has no points to steal.`);
   G.players[victim].score -= amt; G.players[to].score += amt;
-  if (to === t) { G.tr.fake = G.tr.fake || {}; G.tr.fake[t] = (G.tr.fake[t] || 0) + amt; } // kept for themselves: only for show, it comes off again at the very end
+  if (trIsTraitor(to)) { G.tr.fake = G.tr.fake || {}; G.tr.fake[to] = (G.tr.fake[to] || 0) + amt; } // kept by a Traitor: only for show, it comes off again at the very end
   G.tr.lastStealQ = qd; G.tr.victimQ[victim] = qd; G.tr.stolen += amt; G.tr.steals++; G.tr.stealsHalf = (G.tr.stealsHalf || 0) + 1;
   const afterIdx = ['reveal', 'scoreboard', 'slide'].includes(G.phase) ? G.qIndex + 1 : G.qIndex; // the question that comes next: the notice follows it
-  if (show === 'secret') trTell(victim, 'letter', { text: TR_SAY.steal2(to === t ? null : pname(to), amt.toLocaleString('en-GB')) });
+  if (show === 'secret') trTell(victim, 'letter', { text: TR_SAY.steal2(trIsTraitor(to) ? null : pname(to), amt.toLocaleString('en-GB')) });
   else {
-    G.tr.notices.push({ kind: 'notice', title: TR_LETTER_TITLE, letter: TR_SAY.steal(pname(victim), to === t ? null : pname(to), amt.toLocaleString('en-GB')), afterIdx, sound: 'whoosh',
+    G.tr.notices.push({ kind: 'notice', title: TR_LETTER_TITLE, letter: TR_SAY.steal(pname(victim), trIsTraitor(to) ? null : pname(to), amt.toLocaleString('en-GB')), afterIdx, sound: 'whoosh',
       lines: G.tr.stealShown ? [] : ['At half time you will have the chance to "banish" who you think the Traitor is. If you are right, they lose their power and 5,000 points, and everyone who voted for them wins 2,000.'] });
     G.tr.stealShown = true;
   }
-  trLog(`💰 Stole ${amt} from ${pname(victim)} and gave it to ${to === t ? 'themselves (for show)' : pname(to)} · ${show === 'secret' ? '🤫 only ' + pname(victim) + ' sees the letter' : '📺 letter on the big screen'}`);
+  trLog(`💰 Stole ${amt} from ${pname(victim)} and gave it to ${trIsTraitor(to) ? (to === t ? 'themselves' : 'their teammate') + ' (for show)' : pname(to)} · ${show === 'secret' ? '🤫 only ' + pname(victim) + ' sees the letter' : '📺 letter on the big screen'}`);
   trTell(t, 'ok', { text: `🗡 Done: ${amt} points taken from ${pname(victim)} and ${to === t ? 'kept for yourself (only for show: they come off at the end)' : 'given to ' + pname(to)}.` }); trHoldClear();
   trSync(); persist(); broadcastState(); if (['reveal', 'scoreboard'].includes(G.phase)) render();
 }
-function trPower({ kind, target, show }) {
-  const t = G.tr.traitor; if (!['gift', 'block', 'dbl'].includes(kind)) return;
+function trPower({ kind, target, show, who }) {
+  const t = who || G.tr.traitor, trNo = (why) => trTell(t, 'no', { why }); if (!['gift', 'block', 'dbl'].includes(kind)) return;
   if (!trWindow()) return trNo('Not right now: the vote is on.');
   if (powerNextPlain() < 0) return trNo('There is no everyone-answers question left to use it on.');
   if (target === null || target === undefined || target === '') { G.tr.set[kind] = null; trSync(); persist(); trLog(`↩ Took back the ${{ gift: 'free answer', block: 'block', dbl: 'double' }[kind]}`); return trTell(t, 'ok', { text: 'Taken back: it is not used.' }); }
   if (!G.players[target]) return;
   if (G.tr.powers[kind] <= 0) return trNo('You have none of those left.');
   for (const k of ['gift', 'block', 'dbl']) if (k !== kind && G.tr.set[k] === target) return trNo(`${pname(target)} already has something from you for the next question.`);
-  if (kind === 'block' && target !== t && trShielded(target)) return trNo(`${pname(target)} has a 🛡 shield: you can't block them.`);
+  if (kind === 'block' && !trIsTraitor(target) && trShielded(target)) return trNo(`${pname(target)} has a 🛡 shield: you can't block them.`);
   trHoldClear(); G.tr.set[kind] = target; (G.tr.show = G.tr.show || {})[kind] = show === 'secret' ? 'secret' : 'screen'; trSync(); persist();
   trLog(`${{ gift: '🎁 Free answer', block: '🚫 Block', dbl: '✨ Double' }[kind]} lined up for ${target === t ? 'themselves (for show)' : pname(target)} on the next question · ${show === 'secret' ? '🤫 only they see the letter' : '📺 letter on the big screen after the question'}`);
   trTell(t, 'ok', { text: { gift: `🎁 ${target === t ? 'You' : pname(target)} will get a free answer on the next question.`, block: `🚫 ${target === t ? 'You' : pname(target)} will be blocked from the next question.`, dbl: `✨ ${target === t ? 'Your' : pname(target) + "'s"} points will be doubled on the next question.` }[kind] });
 }
-function trMsg({ to, text }) {
-  const t = G.tr.traitor, msg = String(text || '').replace(/\s+/g, ' ').trim().slice(0, TR.MSG_LEN);
+function trMsg({ to, text, who }) {
+  const t = who || G.tr.traitor, trNo = (why) => trTell(t, 'no', { why }), msg = String(text || '').replace(/\s+/g, ' ').trim().slice(0, TR.MSG_LEN);
   if (!msg) return trNo('Write a message first.');
   if (G.tr.msgBreak >= TR.MSGS) return trNo(`That's ${TR.MSGS} messages for this break. Wait for the next question.`);
-  if (to !== 'all' && (!G.players[to] || to === t)) return trNo('Pick someone to send it to.');
+  if (to !== 'all' && (!G.players[to] || trIsTraitor(to))) return trNo('Pick someone to send it to.');
   G.tr.msgBreak++; G.tr.msgs++;
   if (to === 'all') { trPushNotice({ kind: 'notice', title: TR_LETTER_TITLE, letter: msg, afterIdx: 0, sound: 'whoosh' }, true); trLog(`📜 Message to EVERYONE (big screen): “${msg}”`); }
   else { trTell(to, 'msg', { text: msg }); trLog(`🤫 Secret message to ${pname(to)}: “${msg}”`); }
   trTell(t, 'ok', { text: to === 'all' ? '📜 Sent to everyone.' : `🤫 Sent to ${pname(to)}.` }); trHoldClear(); trSync(); persist();
 }
-function trList({ items }) {
-  if (!Array.isArray(items)) return;
+function trList({ items, who }) {
+  if (!Array.isArray(items) || !trIsTraitor(who)) return;
+  const trNo = (why) => trTell(who, 'no', { why });
   const list = items.map((x, i) => ({ id: 'c' + (i + 1), text: String(x.text || '').trim().slice(0, 90), yes: !!x.yes, own: !!x.own })).filter((x) => x.text).slice(0, 90);
   if (list.filter((x) => x.yes).length < 3) return trNo('Tick at least 3 that are true of you.');
-  G.tr.list = list; trLog(`📋 The Traitor's 20 Questions list is in (${list.length} questions)`); trTell(G.tr.traitor, 'ok', { text: '✅ Your list is saved. Honesty is the whole game!' }); trHoldClear(); trSync(); persist();
+  (G.tr.lists = G.tr.lists || {})[who] = list; trLog(`📋 ${pname(who)}'s 20 Questions list is in (${list.length} questions)`); trTell(who, 'ok', { text: '✅ Your list is saved. Honesty is the whole game!' }); trHoldClear(); trSync(); persist();
   if (G.phase === 'slide') render(); // the half-time button was waiting for it
 }
 /** A notice for the screen (and the phones): up at once if the game is between questions, else when it next pauses. */
@@ -294,9 +406,9 @@ function trStartQuestion(q) {
   for (const k of ['gift', 'block', 'dbl']) if (set[k] && G.players[set[k]]) { fx[k] = set[k]; G.tr.powers[k]--; G.tr.used[k]++; }
   G.tr.set = { gift: null, block: null, dbl: null };
   G.q.trshow = Object.assign({}, G.tr.show); G.tr.show = {};
-  if (fx.gift && fx.gift !== G.tr.traitor) trTell(fx.gift, 'letter', { now: true, text: TR_SAY.gift2() });
-  if (fx.block && fx.block !== G.tr.traitor) trTell(fx.block, 'letter', { now: true, text: TR_SAY.block2() });
-  if (fx.dbl && fx.dbl !== G.tr.traitor) trTell(fx.dbl, 'letter', { now: true, text: TR_SAY.dbl2() });
+  if (fx.gift && !trIsTraitor(fx.gift)) trTell(fx.gift, 'letter', { now: true, text: TR_SAY.gift2() });
+  if (fx.block && !trIsTraitor(fx.block)) trTell(fx.block, 'letter', { now: true, text: TR_SAY.block2() });
+  if (fx.dbl && !trIsTraitor(fx.dbl)) trTell(fx.dbl, 'letter', { now: true, text: TR_SAY.dbl2() });
   if (Object.keys(fx).length) { G.q.trfx = fx; trLog(`🎯 Used for this question: ${Object.entries(fx).map(([k, p]) => `${{ gift: 'free answer', block: 'block', dbl: 'double' }[k]} on ${pname(p)}`).join(', ')}`); }
   trSync();
 }
@@ -317,13 +429,13 @@ function trAfterGrade(byPlayer) {
     G.tr.streak[pid] = right ? (G.tr.streak[pid] || 0) + 1 : 0;
     if (G.tr.streak[pid] >= 3) { G.tr.streak[pid] = 0; if (!trShielded(pid)) { G.tr.shield[pid] = 1; trTell(pid, 'ping', { icon: '🛡', text: "Shield earned! The traitor can't touch you until you get one wrong." }); } }
   }
-  const t = G.tr.traitor, own = t ? (byPlayer[t]?.points || 0) : 0;
+  const owns = {}; for (const x of trTraitors()) owns[x] = byPlayer[x]?.points || 0;
   if (fx.block) { const r = byPlayer[fx.block] = byPlayer[fx.block] || blank(); r.points = 0; r.correct = false; r.partial = 0; r.blocked = true; partyNote(r, '🚫 The Traitor blocked you from this question'); }
   if (fx.gift) { const r = byPlayer[fx.gift] = byPlayer[fx.gift] || blank(); r.answered = true; r.points = Math.max(r.points || 0, full); r.correct = true; r.partial = 1; partyNote(r, '🎁 The Traitor gifted you full points!'); }
   if (fx.dbl) { const r = byPlayer[fx.dbl] = byPlayer[fx.dbl] || blank(); if (r.points > 0) { r.points *= 2; partyNote(r, '✨ The Traitor doubled your points!'); } else partyNote(r, '✨ Doubled… but double nothing is nothing'); }
-  if (t && fx.block !== t && (fx.gift === t || fx.dbl === t)) { // what the Traitor gave themselves is only for show: it comes off again at the very end
-    const extra = Math.max(0, (byPlayer[t]?.points || 0) - own);
-    if (extra) { G.tr.fake = G.tr.fake || {}; G.tr.fake[t] = (G.tr.fake[t] || 0) + extra; trLog(`🎭 ${extra} points the Traitor gave themselves, for show only`); }
+  for (const t of trTraitors()) if (fx.block !== t && (fx.gift === t || fx.dbl === t)) { // what a Traitor is given by their own side is only for show: it comes off again at the very end
+    const extra = Math.max(0, (byPlayer[t]?.points || 0) - (owns[t] || 0));
+    if (extra) { G.tr.fake = G.tr.fake || {}; G.tr.fake[t] = (G.tr.fake[t] || 0) + extra; trLog(`🎭 ${extra} points ${pname(t)} was given by the Traitors, for show only`); }
   }
   for (const k of ['gift', 'block', 'dbl']) if (fx[k] && (G.q.trshow || {})[k] !== 'secret') G.tr.notices.push({ kind: 'notice', title: TR_LETTER_TITLE, letter: TR_SAY[k](pname(fx[k])), afterIdx: 0, sound: 'whoosh' });
   trSync();
@@ -353,6 +465,7 @@ function trScreenNext() {
   if (sc.kind === 'notice') { G.tr.screen = null; persist(); broadcastState(); if (sc.cont) nextFrom(G.qIndex); else render(); return true; }
   if (sc.kind === 'table') { trLockVotes(); return true; }
   if (sc.kind === 'chosen') { trReveal(); return true; }
+  if (sc.kind === 'verdict' && sc.final) { G.tr.screen = null; G.tr.finalDone = true; persist(); trSync(); broadcastState(); nextFrom(G.qIndex); return true; } // the last vote is over: on to the 20 Questions, or the reveal
   if (sc.kind === 'verdict') { G.tr.screen = null; G.tr.tableDone = true; trHalfReset(); persist(); trSync(); trNudgeList(); broadcastState(); goTo(sc.next); return true; }
   if (sc.kind === 'final') { G.tr.screen = null; G.tr.revealed = true; persist(); broadcastState(); finish(); return true; }
   return false;
@@ -363,29 +476,49 @@ function trScreenNext() {
 function trHalfReset() {
   G.tr.powers = trFresh(); G.tr.stealsHalf = 0;
   trLog(`Half time: ${TR.STEALS} steals and ${TR.USES} of each power are back`);
-  if (G.tr.traitor) trTell(G.tr.traitor, 'ok', { text: `✨ Half time: your ${TR.STEALS} steals and ${TR.USES} of each power are back for the second half.` });
+  for (const x of trTraitors()) trTell(x, 'ok', { text: `✨ Half time: your ${TR.STEALS} steals and ${TR.USES} of each power are back for the second half.` });
 }
 /** Item index of half time: the first break slide, else the middle of the quiz. */
 function trHalfIndex() { const qs = G.quiz.questions, b = qs.findIndex((x) => x.type === 'slide' && x.break); return b >= 0 ? b : Math.floor(qs.length / 2); }
 const trWantsTable = (i) => trOn() && G.tr.traitor && !G.tr.tableDone && trHalfIndex() === i + 1 && i + 1 < G.quiz.questions.length;
 /** Half time is over the Traitor's list: no list, no last round. True while a real Traitor has yet to save it (a bot Traitor can't, and the host can waive it). */
-const trListPending = () => trOn() && !!G.tr.traitor && !!G.players[G.tr.traitor] && !G.tr.traitor.startsWith('p_bot') && G.tr.tableDone && !G.tr.list && !G.tr.listWaived;
-/** The Traitor's phone opens the list and buzzes. */
-const trNudgeList = () => { if (trListPending()) trTell(G.tr.traitor, 'listnow', { text: "Save your list! The quiz can't carry on without it." }); };
-/** The host tried to leave half time with no list: hold them here unless they choose to drop the last round. */
+/** What half time is still waiting for: the Traitor's answer about a recruit, the host picking two new Traitors, and (once there are two Traitors) each one's honest list. Empty when nothing is. */
+function trWaitingFor() {
+  if (!trOn() || !G.tr.tableDone || G.tr.listWaived) return [];
+  const out = [], rc = G.tr.recruit?.stage;
+  if (G.tr.needTwo) out.push('you to pick the two new Traitors (on your phone)');
+  if (['offer', 'pick', 'invite'].includes(rc) && G.tr.traitor && !String(G.tr.traitor).startsWith('p_bot')) out.push(`${pname(G.tr.traitor)} to answer Claudia about recruiting`);
+  if (G.tr.twoAtHalf) for (const x of trTraitors()) if (!String(x).startsWith('p_bot') && !G.tr.lists?.[x]) out.push(`${pname(x)}'s list`);
+  return out;
+}
+const trListPending = () => trWaitingFor().length > 0;
+/** The Traitors' phones open the list and buzz. */
+const trNudgeList = () => { if (G.tr.twoAtHalf && G.tr.tableDone) for (const x of trTraitors()) if (!String(x).startsWith('p_bot') && !G.tr.lists?.[x]) trTell(x, 'listnow', { text: "Save your list! The quiz can't carry on without it." }); };
+/** The host tried to leave half time while something is outstanding: hold them here unless they choose to carry on without. */
 function trHoldForList(i) {
   trNudgeList(); render();
-  return ask('Waiting for the Traitor', `${pname(G.tr.traitor)} hasn't saved their list yet. Their phone has it open now. Without it there is no last round (the Traitor's 20 Questions).`, 'Keep waiting', 'Skip the last round').then((wait) => {
+  const w = trWaitingFor();
+  return ask('Waiting at half time', `Still waiting for ${w.join(', ')}. Without that, the last round (the 20 Questions) will not happen.`, 'Keep waiting', 'Carry on without').then((wait) => {
     if (wait) return;
-    G.tr.listWaived = true; trLog('The host skipped the last round: no list from the Traitor'); persist(); render(); nextFrom(i);
+    G.tr.listWaived = true; G.tr.needTwo = false; trLog('The host carried on without waiting: no 20 Questions'); persist(); render(); nextFrom(i);
   });
 }
+/** The host picks two new Traitors (after a Traitor was caught at half time). */
+function trPickTwo(a, b) {
+  if (!trOn() || a === b || !G.players[a] || !G.players[b]) return false;
+  G.tr.traitor = null; G.tr.mate = null;
+  trSetTraitor(a, 'new'); G.tr.mate = b; (G.tr.roster = G.tr.roster || []).includes(b) || G.tr.roster.push(b);
+  Object.assign(G.tr, { recruitOffered: true, recruit: { stage: 'done' }, twoAtHalf: true, needTwo: false, chat: [] });
+  trLog(`🗡 You picked two new Traitors: ${pname(a)} and ${pname(b)}`);
+  trTell(b, 'role', { reason: 'picked2', recruited: true, mate: trWho(a), n: G.tr.history.length }); trTell(a, 'mate', { mate: trWho(b) });
+  trSync(); trNudgeList(); persist(); broadcastState(); return true;
+}
 let trTickT = null;
-function trTable(i) {
+function trTable(i, final) {
   clearInterval(tickT); clearInterval(countT);
-  G.tr.votes = {}; G.tr.screen = { id: uid('s'), kind: 'table', endsAt: Date.now() + TR.TABLE_MS, total: TR.TABLE_MS, next: i + 1 };
+  G.tr.votes = {}; G.tr.screen = { id: uid('s'), kind: 'table', endsAt: Date.now() + TR.TABLE_MS, total: TR.TABLE_MS, next: i + 1, final: !!final };
   persist(); sound('drumroll'); render(); broadcastState(); trStartTick();
-  for (const b of G.bots || []) botLater(() => { const sc = G.tr?.screen; if (sc?.kind !== 'table' || sc.locked) return; const others = Object.keys(G.players).filter((p) => p !== b.pid); trVote(b.pid, chance(0.45) && G.tr.traitor !== b.pid ? G.tr.traitor : others[Math.floor(Math.random() * others.length)]); }, rnd(15000, 150000));
+  for (const b of G.bots || []) botLater(() => { const sc = G.tr?.screen; if (sc?.kind !== 'table' || sc.locked) return; const others = Object.keys(G.players).filter((p) => p !== b.pid); trVote(b.pid, chance(0.45) && !trIsTraitor(b.pid) && trTraitors()[0] ? trTraitors()[0] : others[Math.floor(Math.random() * others.length)]); }, rnd(15000, 150000));
 }
 function trStartTick() {
   clearInterval(trTickT);
@@ -416,18 +549,25 @@ function trLockVotes() {
 /** The host reveals the truth: right, the Traitor is banished; wrong, the person chosen loses points for being wrongly accused. */
 function trReveal() {
   const sc = G.tr.screen; if (!sc || !['table', 'chosen'].includes(sc.kind)) return;
-  const { rows, banished, tie } = sc, traitor = G.tr.traitor, correct = banished && banished === traitor;
+  const { rows, banished, tie } = sc, final = !!sc.final, correct = !!banished && trIsTraitor(banished), traitor = banished;
   let winners = [], wrongVoters = [];
   if (correct) {
     G.players[traitor].score -= TR.BANISH_LOSS;
     winners = Object.entries(G.tr.votes).filter(([v, t]) => t === traitor && v !== traitor).map(([v]) => v);
     for (const v of winners) G.players[v].score += TR.VOTER_BONUS;
-    G.tr.banishedBefore.push(traitor); trLog(`${pname(traitor)} was banished (right!): -${TR.BANISH_LOSS}, ${winners.length} voters +${TR.VOTER_BONUS}`);
+    (final ? G.tr.banishedFinal : G.tr.banishedBefore).push(traitor); trLog(`${pname(traitor)} was banished${final ? ' at the FINAL Round Table' : ''} (right!): -${TR.BANISH_LOSS}, ${winners.length} voters +${TR.VOTER_BONUS}`);
     trTell(traitor, 'banished', { text: `You were banished! You lose your power and ${TR.BANISH_LOSS.toLocaleString('en-GB')} points.` });
-    const pool = Object.keys(G.players).filter((p) => p !== traitor); const next = pool[Math.floor(Math.random() * pool.length)];
-    trSetTraitor(next, 'new');
+    if (!final) { // the first vote: that Traitor is out, and the host picks two new ones
+      for (const x of trTraitors()) if (x !== traitor) trTell(x, 'banished', { text: 'The room found your team.' });
+      Object.assign(G.tr, { traitor: null, mate: null, teams: {}, prop: null, chat: [], needTwo: true, twoAtHalf: false, lists: {} });
+      trLog('🎲 The host picks two new Traitors (on your phone)');
+    } else { // the last vote: that Traitor is out; the other one, if there is one, carries on to the 20 Questions
+      const left = trOther(traitor); if (G.tr.teams) delete G.tr.teams[traitor];
+      G.tr.traitor = left || null; G.tr.mate = null; G.tr.prop = null; G.tr.chat = [];
+      if (left) trTell(left, 'unrecruited', {});
+    }
   } else {
-    G.tr.hidden += TR.SLIP_BONUS; trLog(`The vote missed (${banished ? pname(banished) : 'a tie'}): ${TR.SLIP_BONUS} held back for the Traitor`);
+    G.tr.hidden += TR.SLIP_BONUS; if (G.tr.mate) G.tr.hiddenMate = (G.tr.hiddenMate || 0) + TR.SLIP_BONUS; trLog(`The vote missed (${banished ? pname(banished) : 'a tie'}): ${TR.SLIP_BONUS} held back for the Traitor${G.tr.mate ? 's' : ''}`);
     if (banished && G.players[banished]) {
       G.players[banished].score -= TR.WRONG_LOSS; trLog(`${pname(banished)} was wrongly accused: -${TR.WRONG_LOSS}`); trTell(banished, 'ping', { icon: '😬', text: `You were wrongly accused! You lose ${TR.WRONG_LOSS.toLocaleString('en-GB')} points.` });
       wrongVoters = Object.entries(G.tr.votes).filter(([v, t]) => t === banished && v !== banished && G.players[v]).map(([v]) => v);
@@ -435,19 +575,30 @@ function trReveal() {
       if (wrongVoters.length) trLog(`${wrongVoters.length} voters for the wrong person: -${TR.WRONG_LOSS} each`);
     }
   }
-  sc.kind = 'verdict'; sc.id = uid('s'); Object.assign(sc, { rows, banished, correct: !!correct, winners, wrongVoters, tie, locked: true, wrongLoss: !!banished && !correct });
+  sc.kind = 'verdict'; sc.id = uid('s'); Object.assign(sc, { rows, banished, correct: !!correct, winners, wrongVoters, tie, locked: true, wrongLoss: !!banished && !correct, final });
   persist(); sound(correct ? 'fanfare' : 'trombone'); render(); broadcastState(); if (correct) confetti();
+  if (!correct && !final) trOfferRecruit(); // not found, at half time: Claudia has a word with the Traitor
 }
 
 // ---------------------------------------------------------------- the last round: the Traitor's 20 Questions
-/** nextFrom's turn: after the last item, add the Traitor's 20 Questions, then the reveal. Returns true if it took over. */
+/** The 20 Questions happen only if there were two Traitors at half time and one is still in (and its list is in). */
+const trTwentyOn = () => !!G.tr.twoAtHalf && !G.tr.listWaived && trTraitors().some((x) => G.tr.lists?.[x]?.length);
+/** Every remaining Traitor's list, together: a question is a yes if it is a yes for any of them. */
+function trCombineLists(lists) {
+  const m = new Map();
+  for (const l of lists) for (const x of l) { if (!m.has(x.text)) m.set(x.text, { ...x, id: 'c' + (m.size + 1) }); else if (x.yes) m.get(x.text).yes = true; }
+  return [...m.values()];
+}
+/** nextFrom's turn, after the last item: the FINAL Round Table, then the 20 Questions (if there are any), then the reveal. Returns true if it took over. */
 function trEnd() {
-  if (!trOn() || !G.tr.traitor) return false;
-  if (!G.tr.twentyAdded && G.tr.list?.length) {
+  if (!trOn() || !(G.tr.roster || []).length) return false;
+  if (!G.tr.finalDone && trTraitors().length && !G.tr.screen) { trTable(G.quiz.questions.length - 1, true); return true; }
+  if (!G.tr.twentyAdded && trTwentyOn()) {
     G.tr.twentyAdded = true;
-    const last = G.quiz.questions[G.quiz.questions.length - 1], nm = pname(G.tr.traitor), q = LQ.newQuestion('twenty', G.quiz.settings);
-    Object.assign(q, { text: '🗡 The Traitor\'s 20 Questions: who is the Traitor?', answers: [nm, nm.split(/\s+/)[0]], what: 'c_kind', customKind: { text: 'Is it one of tonight\'s players?' }, skipKind: true, trTwenty: true, trBonus: TR.FINDER_BONUS,
-      custom: G.tr.list.map((x) => ({ ...x })), prize: 0, prize2: 0, prize3: 0, penalty: 0, maxQ: 20, time: 600, round: last?.round });
+    const rem = trTraitors().filter((x) => G.tr.lists?.[x]?.length), last = G.quiz.questions[G.quiz.questions.length - 1], q = LQ.newQuestion('twenty', G.quiz.settings);
+    const names = rem.flatMap((x) => [pname(x), pname(x).split(/\s+/)[0]]);
+    Object.assign(q, { text: rem.length === 1 ? '🗡 The Traitor\'s 20 Questions: who is the Traitor?' : '🗡 The Traitors\' 20 Questions: who are the Traitors?', answers: names, what: 'c_kind', customKind: { text: 'Is it one of tonight\'s players?' }, skipKind: true, trTwenty: true, trBonus: TR.FINDER_BONUS,
+      custom: trCombineLists(rem.map((x) => G.tr.lists[x])), prize: 0, prize2: 0, prize3: 0, penalty: 0, maxQ: 20, time: 600, round: last?.round });
     G.quiz.questions.push(q); persist();
     return goTo(G.quiz.questions.length - 1), true;
   }
@@ -455,11 +606,13 @@ function trEnd() {
   return false;
 }
 function trAfterTwenty(byPlayer) {
-  const t = G.tr.traitor, tq = G.q.tq?.players || {}, others = Object.keys(G.players).filter((p) => p !== t);
+  const tq = G.q.tq?.players || {}, others = Object.keys(G.players).filter((p) => !trIsTraitor(p));
   const right = others.filter((p) => tq[p]?.done), most = right.length > others.length / 2;
-  const r = byPlayer[t] = byPlayer[t] || { answered: false, correct: false, partial: 0, points: 0 };
-  if (most) { r.points -= TR.CAUGHT_LOSS; partyNote(r, `🗡 Found out by most of the room: −${TR.CAUGHT_LOSS.toLocaleString('en-GB')}`); }
-  else { G.tr.hidden += TR.AWAY_BONUS; }
+  for (const t of trTraitors()) {
+    const r = byPlayer[t] = byPlayer[t] || { answered: false, correct: false, partial: 0, points: 0 };
+    if (most) { r.points -= TR.CAUGHT_LOSS; partyNote(r, `🗡 Found out by most of the room: −${TR.CAUGHT_LOSS.toLocaleString('en-GB')}`); }
+  }
+  if (!most) { G.tr.hidden += TR.AWAY_BONUS; if (G.tr.mate) G.tr.hiddenMate = (G.tr.hiddenMate || 0) + TR.AWAY_BONUS; }
   G.tr.found = { right, most };
   trLog(`20 Questions: ${right.length} of ${others.length} found the Traitor. ${most ? 'Caught' : 'Got away with it'}`);
 }
@@ -468,11 +621,12 @@ function trShowFinal() {
   lines.push(`Over the night: ${G.tr.steals} steal${G.tr.steals === 1 ? '' : 's'}, ${G.tr.stolen.toLocaleString('en-GB')} points taken in all.`);
   const u = G.tr.used; lines.push(`🎁 ${u.gift} free answer${u.gift === 1 ? '' : 's'} · 🚫 ${u.block} block${u.block === 1 ? '' : 's'} · ✨ ${u.dbl} double${u.dbl === 1 ? '' : 's'} · 📜 ${G.tr.msgs} message${G.tr.msgs === 1 ? '' : 's'}.`);
   if (G.tr.banishedBefore.length) lines.push(`${trNames(G.tr.banishedBefore)} ${G.tr.banishedBefore.length === 1 ? 'was' : 'were'} banished at half time.`);
+  if (G.tr.banishedFinal?.length) lines.push(`${trNames(G.tr.banishedFinal)} ${G.tr.banishedFinal.length === 1 ? 'was' : 'were'} banished at the final Round Table.`);
   if (f) lines.push(f.most ? `Most of the room worked it out: caught, and they lose ${TR.CAUGHT_LOSS.toLocaleString('en-GB')}.` : `Most of the room never worked it out: they get away with it, plus a ${TR.AWAY_BONUS.toLocaleString('en-GB')} bonus.`);
   const fake = Object.values(G.tr.fake || {}).reduce((a, b) => a + b, 0);
   if (fake) lines.push(`The ${fake.toLocaleString('en-GB')} points they gave themselves were only for show: they come off now.`);
   if (G.tr.hidden && !f?.most) lines.push(`Their secret bonuses, ${G.tr.hidden.toLocaleString('en-GB')} points, are added now.`);
-  G.tr.screen = { id: uid('s'), kind: 'final', traitor: t, lines };
+  G.tr.screen = { id: uid('s'), kind: 'final', traitor: t, roster: (G.tr.roster || []).slice(), lines };
   persist(); sound('fanfare'); render(); broadcastState(); confetti();
 }
 
@@ -480,6 +634,7 @@ function trShowFinal() {
 function trPayHidden() {
   if (!trOn()) return; G.tr.screen = null;
   const t = G.tr.traitor; if (t && G.players[t] && G.tr.hidden) { G.players[t].score += G.tr.hidden; trLog(`Hidden bonuses paid out: ${G.tr.hidden}`); G.tr.hidden = 0; persist(); }
+  const m = G.tr.mate; if (m && G.players[m] && G.tr.hiddenMate) { G.players[m].score += G.tr.hiddenMate; trLog(`Hidden bonus paid out to ${pname(m)}: ${G.tr.hiddenMate}`); G.tr.hiddenMate = 0; persist(); }
   for (const [pid, n] of Object.entries(G.tr.fake || {})) if (n && G.players[pid]) { G.players[pid].score -= n; trLog(`Points given to themselves, for show, taken off ${pname(pid)}: ${n}`); G.tr.fake[pid] = 0; persist(); }
 }
 
@@ -493,7 +648,7 @@ function trRenderScreen() {
   if (sc.kind === 'notice') return wrap(`<div class="trbig">${esc(sc.title)}</div>${sc.quote ? `<div class="trquote">“${esc(sc.quote)}”</div>` : ''}${(sc.lines || []).map((l) => `<p class="trline">${esc(l)}</p>`).join('')}`, nextBtn('Continue ▶'));
   if (sc.kind === 'table') {
     const left = Math.max(0, sc.endsAt - Date.now()), n = Object.keys(G.tr.votes).length, all = Object.keys(G.players).length;
-    return wrap(`<div class="trbig">🕯 THE ROUND TABLE</div><p class="trline">One of you is the Traitor. Talk it over, then vote on your phone for who to banish.</p>
+    return wrap(`<div class="trbig">🕯 THE ${sc.final ? 'FINAL ' : ''}ROUND TABLE</div><p class="trline">${sc.final ? 'This is your last chance to catch them.' : 'One of you is the Traitor.'} Talk it over, then vote on your phone for who to banish.</p>
       <div class="trclock" id="trClock">${Math.floor(left / 60000)}:${String(Math.floor(left / 1000) % 60).padStart(2, '0')}</div>
       <p class="trline small" id="trVoted">${n} of ${all} have voted</p>
       <div class="trfaces" style="--pf-live:${all <= 6 ? 21 : all <= 12 ? 15 : all <= 20 ? 11 : 8}vh">${Object.values(G.players).map((p) => `<span class="trface cam">${face(p.id, esc(p.emoji || '🙂'))}<span class="trfn">${esc(p.name)}</span></span>`).join('')}</div>
@@ -509,11 +664,11 @@ function trRenderScreen() {
   if (sc.kind === 'verdict') {
     const mx = Math.max(1, ...sc.rows.map((r) => r.n)), top = sc.banished;
     const head = sc.tie ? 'NO MAJORITY' : sc.correct ? `${esc(pname(top))} IS BANISHED!` : top ? `${esc(pname(top))} IS BANISHED…` : 'NOBODY VOTED';
-    const verdict = sc.tie ? 'The votes were split. Nobody is banished. The Traitor lives on…' : !top ? 'Nobody voted, so nobody is banished.' : sc.correct ? `…and ${esc(pname(top))} WAS the Traitor! They lose their power and ${TR.BANISH_LOSS.toLocaleString('en-GB')} points. A new Traitor has been chosen, in secret.` : `…but ${esc(pname(top))} was NOT the Traitor. Wrongly accused: they lose ${TR.WRONG_LOSS.toLocaleString('en-GB')} points. The Traitor is still among you, and stays for the second half.`;
+    const verdict = sc.tie ? 'The votes were split. Nobody is banished. The Traitor lives on…' : !top ? 'Nobody voted, so nobody is banished.' : sc.correct ? `…and ${esc(pname(top))} WAS the Traitor! They lose their power and ${TR.BANISH_LOSS.toLocaleString('en-GB')} points. Two new Traitors will be chosen, in secret.` : `…but ${esc(pname(top))} was NOT the Traitor. Wrongly accused: they lose ${TR.WRONG_LOSS.toLocaleString('en-GB')} points. The Traitor is still among you, and stays for the second half.`;
     return wrap(`<div class="trbig">${head}</div><div class="trbars">${sc.rows.map((r) => `<div class="trbar"><span class="trbn">${esc(pem(r.pid))} ${esc(pname(r.pid))}</span><i style="width:${Math.max(6, r.n / mx * 100)}%"></i><b>${r.n}</b></div>`).join('')}</div>
       <p class="trline">${verdict}</p>${sc.correct && sc.winners.length ? `<p class="trline">🏅 Right: ${esc(trNames(sc.winners))} win ${TR.VOTER_BONUS.toLocaleString('en-GB')} each.</p>` : ''}${sc.wrongLoss && sc.wrongVoters?.length ? `<p class="trline">😬 Wrong: ${esc(trNames(sc.wrongVoters))} voted for them, so ${sc.wrongVoters.length === 1 ? 'they lose' : 'they each lose'} ${TR.WRONG_LOSS.toLocaleString('en-GB')} too.</p>` : ''}`, nextBtn('On to half time ▶'));
   }
-  if (sc.kind === 'final') return wrap(`<div class="trsmall">THE TRAITOR WAS…</div><div class="trbig trname">${esc(pem(sc.traitor))} ${esc(pname(sc.traitor))}</div>${sc.lines.map((l) => `<p class="trline">${esc(l)}</p>`).join('')}`, nextBtn('Final results 🏆'));
+  if (sc.kind === 'final') return wrap(`<div class="trsmall">THE TRAIT${(sc.roster || []).length > 1 ? 'ORS WERE' : 'OR WAS'}…</div><div class="trbig trname">${(sc.roster || [sc.traitor]).map((x) => `${esc(pem(x))} ${esc(pname(x))}`).join(' and ')}</div>${sc.lines.map((l) => `<p class="trline">${esc(l)}</p>`).join('')}`, nextBtn('Final results 🏆'));
 }
 
 // ---------------------------------------------------------------- the host's phone: the control panel (sealed messages)
@@ -526,6 +681,9 @@ async function onTrCtl(payload) {
   let note = '';
   if (!trOn()) note = 'Traitors mode is not switched on for this quiz (Settings).';
   else if (m.op === 'pick') note = trSetTraitor(m.pid, 'picked') ? '' : 'That player is not in the game.';
+  else if (m.op === 'pick2') { note = trPickTwo(m.a, m.b) ? '' : 'Choose two different players who are in the game.'; }
+  else if (m.op === 'random2') { const pool = Object.keys(G.players).filter((p) => !p.startsWith('p_bot')); if (pool.length >= 2) { const a = pool.splice(Math.floor(Math.random() * pool.length), 1)[0], b = pool[Math.floor(Math.random() * pool.length)]; trPickTwo(a, b); } else note = 'Need at least two real players.'; }
+  else if (m.op === 'tell') { note = trTellTraitors(String(m.text || ''), m.to); }
   else if (m.op === 'random') { const pool = Object.keys(G.players); if (pool.length) trSetTraitor(pool[Math.floor(Math.random() * pool.length)], 'picked'); else note = 'Nobody has joined yet.'; }
   await trCtlSend(note, pw);
 }
@@ -534,7 +692,7 @@ async function trCtlSend(note = '', pw = LQ.hostPassword()) {
   if (!pw || typeof G === 'undefined' || !G?.code) return;
   const t = trOn() ? G.tr : null;
   const reply = { ts: Date.now(), note, on: !!t, players: Object.values(G.players).map((p) => ({ pid: p.id, name: p.name, emoji: p.emoji || '', score: p.score, bot: p.id.startsWith('p_bot') })),
-    traitor: t?.traitor || null, powers: t?.powers, qDone: t?.qDone, tableDone: t?.tableDone, hidden: t?.hidden, listIn: !!t?.list, hold: trHoldOn(), stealsLeft: t ? Math.max(0, TR.STEALS - (t.stealsHalf || 0)) : null, set: t?.set, phase: G.phase, log: (t?.log || []).slice(-40) };
+    traitor: t?.traitor || null, mate: t?.mate || null, needTwo: !!t?.needTwo, powers: t?.powers, qDone: t?.qDone, tableDone: t?.tableDone, hidden: t?.hidden, listIn: !!t?.list, hold: trHoldOn(), stealsLeft: t ? Math.max(0, TR.STEALS - (t.stealsHalf || 0)) : null, set: t?.set, phase: G.phase, log: (t?.log || []).slice(-40) };
   send('trctlr', { m: await LQ.seal(pw, G.code, reply) });
 }
 const trCtlPush = () => { trCtlSend().catch(() => {}); };

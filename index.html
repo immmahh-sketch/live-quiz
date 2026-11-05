@@ -691,8 +691,8 @@ function warmupBoardModal(id) {
 /** 🗡 Traitors: the host's secret control, made to be opened on a phone while the quiz runs on the laptop. It finds the live game by its
  *  code, then talks to the host screen over the game's channel, sealed with the host password so the players can't read or fake it. */
 async function traitorsPanel(id) {
-  const bg = modal('<h3 style="margin-top:0">🗡 The Traitors</h3><div id="trBody"><p class="muted"><span class="spinner"></span> Looking for your live game…</p></div><div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn btn-ghost" data-x>Close</button></div>');
-  const body = $('#trBody', bg); let sbc = null, ch = null, timer = null, last = null;
+  const bg = modal('<h3 style="margin-top:0">🗡 The Traitors</h3><div id="trBody"><p class="muted"><span class="spinner"></span> Looking for your live game…</p></div><div id="trTell" class="card" style="display:none;margin:10px 0 0"><b>✉ Write to the Traitor</b> <span class="muted small">(a letter from Claudia, only they see it)</span><textarea id="tmText" rows="2" maxlength="280" placeholder="Your secret message…" style="width:100%;margin-top:6px;font:inherit;padding:8px;border-radius:10px;border:2px solid var(--line)"></textarea><div class="row" id="trTellBtns" style="gap:6px;margin-top:6px"></div></div><div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn btn-ghost" data-x>Close</button></div>');
+  const body = $('#trBody', bg); let sbc = null, ch = null, timer = null, last = null, sel2 = [];
   const close = () => { clearInterval(timer); try { wake?.release(); } catch {} try { sbc?.removeChannel(ch); } catch {} bg.remove(); };
   $('[data-x]', bg).onclick = close;
   let code = '';
@@ -705,19 +705,31 @@ async function traitorsPanel(id) {
   const draw = () => {
     const d = last; if (!d) return;
     if (!d.on) { body.innerHTML = `<p>${esc(d.note || 'Traitors mode is not on for this quiz.')}</p>`; return; }
-    const tr = d.players.find((p) => p.pid === d.traitor);
+    const tr = d.players.find((p) => p.pid === d.traitor), mate = d.mate ? d.players.find((p) => p.pid === d.mate) : null;
     const used = (k) => d.powers ? 5 - d.powers[k] : 0;
     if (d.hold && !draw.held) { try { navigator.vibrate?.([300, 120, 300, 120, 300, 120, 300]); } catch {} }
     if (draw.logN !== undefined && (d.log?.length || 0) > draw.logN && !(d.hold && !draw.held)) { try { navigator.vibrate?.(120); } catch {} }
     draw.held = !!d.hold; draw.logN = d.log?.length || 0;
     const t0 = (ts) => new Date(ts).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    sel2 = sel2.filter((x) => d.players.some((p) => p.pid === x && !p.bot));
+    const twoBlock = `<div class="card" style="background:#43181d;color:#f4e9d0;margin:0 0 10px"><b>🗡 The Traitor was caught: pick the two new Traitors</b><div class="small" style="opacity:.85;margin:4px 0 8px">Tap two players. They find out who each other is, and carry on as a pair.</div>
+      <div style="display:grid;gap:6px">${d.players.filter((p) => !p.bot).map((p) => `<button class="btn ${sel2.includes(p.pid) ? 'btn-primary' : ''}" data-p2="${p.pid}" style="justify-content:space-between"><span>${esc(p.emoji || '🙂')} ${esc(p.name)}</span><small>${p.score}</small></button>`).join('') || '<p class="muted">Nobody real has joined.</p>'}</div>
+      <div class="row" style="gap:6px;margin-top:8px"><button class="btn btn-primary btn-sm" data-p2go ${sel2.length === 2 ? '' : 'disabled'}>Make them the Traitors</button><button class="btn btn-sm" data-p2rand>🎲 Pick two at random</button></div></div>`;
     const pickers = `<div class="row" style="gap:6px;margin-bottom:8px"><button class="btn btn-sm" data-rand>🎲 Pick at random</button><button class="btn btn-ghost btn-sm" data-ref>↻ Refresh</button></div>
       <div style="display:grid;gap:6px">${d.players.slice().sort((a, b) => b.score - a.score).map((p) => `<button class="btn ${p.pid === d.traitor ? 'btn-primary' : ''}" data-pick="${p.pid}" style="justify-content:space-between"><span>${esc(p.emoji || '🙂')} ${esc(p.name)}${p.bot ? ' 🤖' : ''}</span><small>${p.score}</small></button>`).join('') || '<p class="muted">Nobody has joined yet.</p>'}</div>`;
     body.innerHTML = `${d.hold ? '<div class="trholdalert"><div class="big">✋ HOLD ON</div><div class="sub">The Traitor is about to do something. Do not start the next question yet. This clears the moment they send it.</div></div>' : ''}
       <p class="muted small" style="margin:0 0 8px">Game <b>${esc(code)}</b> · ${esc(d.phase)} · ${d.players.length} player${d.players.length === 1 ? '' : 's'} · ${d.qDone ?? 0} question${d.qDone === 1 ? '' : 's'} done${d.note ? ` · <span style="color:var(--bad)">${esc(d.note)}</span>` : ''}</p>
-      ${tr ? `<div class="card" style="background:#2b1115;color:#f4e9d0;margin:0 0 10px"><b>🗡 ${esc(tr.emoji || '')} ${esc(tr.name)} is the Traitor</b><div class="small" style="opacity:.85;margin-top:4px">This half left: 💰 ${d.stealsLeft ?? '?'} · 🎁 ${d.powers?.gift ?? '?'} · 🚫 ${d.powers?.block ?? '?'} · ✨ ${d.powers?.dbl ?? '?'} · secret bonus waiting: ${(d.hidden || 0).toLocaleString('en-GB')} · ${d.tableDone ? (d.listIn ? '📋 list in' : '📋 waiting for their list') : 'half-time vote to come'}${d.set && Object.values(d.set).some(Boolean) ? `<br>Lined up for the next question: ${[['gift', '🎁'], ['block', '🚫'], ['dbl', '✨']].filter(([k]) => d.set[k]).map(([k, ic]) => `${ic} ${esc(d.players.find((x) => x.pid === d.set[k])?.name || (d.set[k] === d.traitor ? 'themselves' : '?'))}`).join(' · ')}` : ''}</div></div>` : '<p><b>Nobody is the Traitor yet.</b> Pick one:</p>'}
+      ${tr ? `<div class="card" style="background:#2b1115;color:#f4e9d0;margin:0 0 10px"><b>🗡 ${esc(tr.emoji || '')} ${esc(tr.name)} is the Traitor${mate ? ` · and 🗡 ${esc(mate.emoji || '')} ${esc(mate.name)} (recruited)` : ''}</b><div class="small" style="opacity:.85;margin-top:4px">This half left: 💰 ${d.stealsLeft ?? '?'} · 🎁 ${d.powers?.gift ?? '?'} · 🚫 ${d.powers?.block ?? '?'} · ✨ ${d.powers?.dbl ?? '?'} · secret bonus waiting: ${(d.hidden || 0).toLocaleString('en-GB')} · ${d.tableDone ? (d.listIn ? '📋 list in' : '📋 waiting for their list') : 'half-time vote to come'}${d.set && Object.values(d.set).some(Boolean) ? `<br>Lined up for the next question: ${[['gift', '🎁'], ['block', '🚫'], ['dbl', '✨']].filter(([k]) => d.set[k]).map(([k, ic]) => `${ic} ${esc(d.players.find((x) => x.pid === d.set[k])?.name || (d.set[k] === d.traitor ? 'themselves' : '?'))}`).join(' · ')}` : ''}</div></div>` : (d.needTwo ? '' : '<p><b>Nobody is the Traitor yet.</b> Pick one:</p>')}
       ${tr ? `<div class="trfeed"><div class="small" style="font-weight:800;margin:0 0 4px">Everything the Traitor does <span class="muted" style="font-weight:600">(only you see this, live)</span></div>${d.log?.length ? `<ul>${d.log.slice().reverse().map((l) => `<li><span class="tm">${t0(l.t)}</span> ${esc(l.text)}</li>`).join('')}</ul>` : '<p class="muted small" style="margin:4px 0">Nothing yet. It appears here the moment they do it.</p>'}</div>` : ''}
-      ${tr ? `<details class="mt"><summary class="small">Change the Traitor</summary><div style="margin-top:8px">${pickers}</div></details>` : pickers}`;
+      ${tr ? `<details class="mt"><summary class="small">Change the Traitor</summary><div style="margin-top:8px">${pickers}</div></details>` : d.needTwo ? twoBlock : pickers}`;
+    $$('[data-p2]', body).forEach((b) => b.onclick = () => { const x = b.dataset.p2; sel2 = sel2.includes(x) ? sel2.filter((y) => y !== x) : [...sel2, x].slice(-2); draw(); });
+    $('[data-p2go]', body)?.addEventListener('click', () => { if (sel2.length === 2) { ask({ op: 'pick2', a: sel2[0], b: sel2[1] }); sel2 = []; } });
+    $('[data-p2rand]', body)?.addEventListener('click', () => { ask({ op: 'random2' }); sel2 = []; });
+    const tell = $('#trTell', bg); tell.style.display = tr ? '' : 'none';
+    if (tr) {
+      $('#trTellBtns', bg).innerHTML = `<button class="btn btn-primary btn-sm" data-tell="traitor">Send to ${esc(tr.name)}</button>${mate ? `<button class="btn btn-sm" data-tell="mate">Send to ${esc(mate.name)}</button><button class="btn btn-sm" data-tell="both">Both</button>` : ''}`;
+      $$('[data-tell]', bg).forEach((b) => b.onclick = () => { const x = $('#tmText', bg), text = x.value.trim(); if (!text) return; ask({ op: 'tell', text, to: b.dataset.tell }); x.value = ''; });
+    }
     $$('[data-pick]', body).forEach((b) => b.onclick = async () => {
       const p = d.players.find((x) => x.pid === b.dataset.pick); if (p.pid === d.traitor) return;
       if (!(await confirmIt(d.traitor ? `Make ${p.name} the Traitor instead?` : `Make ${p.name} the Traitor?`, d.traitor ? `${tr.name} stops being the Traitor.` : 'A secret screen goes to their phone straight away.', 'Yes, pick them'))) return;

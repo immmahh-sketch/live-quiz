@@ -1129,7 +1129,7 @@ function raceStandings() {
 // Everyone hunts the same answer. Each phone asks yes/no questions from the shared tree (LQ.TWENTY_QS) and guesses
 // whenever it likes; this screen keeps the answer and its facts and replies to every ask, so the phones never hold
 // either. A wrong guess costs a question. The first three to crack it score; anyone without it at the end loses.
-const trSitsOut = (pid) => trOn() && question()?.trTwenty && G.tr.traitor === pid; // the Traitor does not hunt themselves
+const trSitsOut = (pid) => trOn() && question()?.trTwenty && trIsTraitor(pid); // the Traitor does not hunt themselves
 const twentyFresh = () => ({ asked: [], guesses: [], n: 0, done: false, out: false, place: 0 });
 function twentyStart() {
   G.q.tq = { players: {}, solved: [], over: false };

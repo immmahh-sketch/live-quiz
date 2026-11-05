@@ -25,8 +25,8 @@ const trpName = (s, pid) => (s.tr?.players || []).find((p) => p.pid === pid)?.na
 // ---------------------------------------------------------------- private messages for this phone
 function trpOnPrivate(m) {
   if (!m || m.to !== P.pid) return;
-  if (m.kind === 'role') { TRP.traitor = true; const k = 'role' + (m.n ?? 0); if (!trpSeen(k)) { trpMark(k); trpRoleScreen(m); } trpRefresh(); }
-  else if (m.kind === 'sync') { if (TRP.holding && !m.d.hold && Date.now() - (TRP.holdAt || 0) > 1500) { TRP.holding = false; TRP.holdManual = false; TRP.holdDone = true; clearInterval(TRP.holdT); TRP.holdT = null; } const had = TRP.sync?.team?.pending?.dev, was = TRP.sync?.team?.linked; TRP.sync = m.d; if (!TRP.traitor) TRP.traitor = true; trpApplyTeam(m.d.team); if (m.d.team?.pending && m.d.team.pending.dev !== had && P.teamRole !== 'answer') { TRP.tab = 'team'; trpMenu(true); if (!document.getElementById('trpMenu')) trpMenu(); if (navigator.vibrate) try { navigator.vibrate([100, 60, 100]); } catch {} } if (m.d.team?.linked && !was && !m.d.team.answerDev) { TRP.tab = 'team'; if (document.getElementById('trpMenu')) trpMenu(true); else trpMenu(); } trpRefresh(); if (m.d.needList && !TRP.listPrompted) { TRP.listPrompted = true; TRP.tab = 'list'; trpMenu(); if (navigator.vibrate) try { navigator.vibrate([80, 50, 80]); } catch {} } if (!m.d.needList) TRP.listPrompted = false; }
+  if (m.kind === 'role') { TRP.traitor = true; if (m.mate) TRP.mate = m.mate; const k = 'role' + (m.n ?? 0); if (!trpSeen(k)) { trpMark(k); trpRoleScreen(m); } trpRefresh(); }
+  else if (m.kind === 'sync') { if (TRP.holding && !m.d.hold && Date.now() - (TRP.holdAt || 0) > 1500) { TRP.holding = false; TRP.holdManual = false; TRP.holdDone = true; clearInterval(TRP.holdT); TRP.holdT = null; } const had = TRP.sync?.team?.pending?.dev, was = TRP.sync?.team?.linked; TRP.sync = m.d; if (!TRP.traitor) TRP.traitor = true; TRP.mate = m.d.mate || null; trpApplyTeam(m.d.team); { const pr = m.d.prop; if (pr?.turn && TRP.propSeen !== pr.id + ':' + pr.n && P.teamRole !== 'answer') { TRP.propSeen = pr.id + ':' + pr.n; if (navigator.vibrate) try { navigator.vibrate([100, 60, 100, 60, 100]); } catch {} setTimeout(() => { if (document.getElementById('trpMenu')) trpMenu(true); else trpMenu(); }, 0); } } if (m.d.team?.pending && m.d.team.pending.dev !== had && P.teamRole !== 'answer') { TRP.tab = 'team'; trpMenu(true); if (!document.getElementById('trpMenu')) trpMenu(); if (navigator.vibrate) try { navigator.vibrate([100, 60, 100]); } catch {} } if (m.d.team?.linked && !was && !m.d.team.answerDev) { TRP.tab = 'team'; if (document.getElementById('trpMenu')) trpMenu(true); else trpMenu(); } trpRefresh(); if (m.d.needList && !TRP.listPrompted) { TRP.listPrompted = true; TRP.tab = 'list'; trpMenu(); if (navigator.vibrate) try { navigator.vibrate([80, 50, 80]); } catch {} } if (!m.d.needList) TRP.listPrompted = false; }
   else if (m.kind === 'listnow') { TRP.tab = 'list'; trpMenu(); toast(m.text || 'Save your list!', true); if (navigator.vibrate) try { navigator.vibrate([120, 60, 120, 60, 120]); } catch {} }
   else if (m.kind === 'ok') { if (P.teamRole === 'answer') partyFlash({ icon: '🗡', text: m.text || 'Done' }); else toast(m.text || 'Done'); } // the answering phone is told what the Traitor phone decided
   else if (m.kind === 'no') { if (P.teamRole !== 'answer') toast(m.why || "That didn't work", true); }
@@ -36,6 +36,9 @@ function trpOnPrivate(m) {
   else if (m.kind === 'teamroles') { TRP.tab = 'team'; if (document.getElementById('trpMenu')) trpMenu(true); else trpMenu(); if (navigator.vibrate) try { navigator.vibrate([100, 60, 100]); } catch {} }
   else if (m.kind === 'teamended') { TRP.holdManual = false; if (TRP.holding) { TRP.holding = false; trpHoldSend(false); } trpHoldBeat(); P.teamRole = null; if (TRP.sync) TRP.sync.team = null; P.viewKey = ''; if (P.state) render(); trpRefresh(); }
   else if (m.kind === 'ping') partyFlash({ icon: m.icon || '🗡', text: m.text });
+  else if (m.kind === 'claudia') trpClaudiaQueue(m);
+  else if (m.kind === 'mate') { TRP.mate = m.mate || null; if (TRP.sync) TRP.sync.mate = TRP.mate; toast(`🗡 ${m.mate?.name || 'Someone'} has joined you. Your menu has a 🤝 chat tab.`); trpRefresh(); }
+  else if (m.kind === 'unrecruited') { TRP.mate = null; if (TRP.sync) { TRP.sync.mate = null; TRP.sync.prop = null; } trpRefresh(); }
   else if (m.kind === 'msg' || m.kind === 'letter') { TRP.msgs.push({ text: String(m.text || ''), now: !!m.now }); trpMsgShow(); }
   else if (m.kind === 'banished') { TRP.traitor = false; TRP.sync = null; document.getElementById('trpMenu')?.remove(); trpFull('banished', `<div class="trp-big">🗡 BANISHED</div><p>${esc(m.text || 'You have been banished.')}</p><p class="trp-small">Keep quiet: the new Traitor is chosen in secret.</p><button class="btn btn-lg btn-block" data-trpx>OK</button>`); trpRefresh(); }
 }
@@ -46,6 +49,15 @@ function trpFull(id, html) {
   return el;
 }
 function trpRoleScreen(m) {
+  if (m.recruited) { // recruited by the Traitor (or picked by the host with them): now one of them
+    trpFull('role', `<div class="trp-dag">🗡</div><div class="trp-big">YOU ARE A TRAITOR</div>
+      <p>${m.reason === 'picked2' ? 'You and' : 'You joined'} <b>${esc(m.mate?.name || 'the Traitor')}</b>${m.reason === 'picked2' ? ' have been chosen in secret as the new Traitors' : ''}. Nobody else knows. You share their powers and you have to agree what to do with them.</p>
+      <ul class="trp-ul"><li>Your 🗡 menu has the same steals and powers: pick one and your teammate must <b>confirm it or suggest something else</b>. After 4 messages with no agreement it is <b>do it or lose 1 power</b>.</li>
+      <li>Talk in secret in the 🤝 Chat tab of your menu.</li>
+      <li>You can add a second phone of your own too: the 👥 Team tab.</li></ul>
+      <p class="trp-small">Points you are given by your own side are only for show, and come off at the end.</p><button class="btn btn-primary btn-lg btn-block" data-trpx>I understand ✓</button>`);
+    return;
+  }
   const first = m.reason !== 'new';
   trpFull('role', `<div class="trp-dag">🗡</div><div class="trp-big">YOU ARE THE TRAITOR</div>
     <p>${first ? 'You were chosen in secret. Nobody else knows.' : 'The room banished the last Traitor. You have been chosen in secret to take over.'}</p>
@@ -76,6 +88,35 @@ function trpPartnerScreen(text, retry) {
 function trpActScreen(s) {
   const q = s.q, what = s.phase === 'question' ? `A question is up${q?.text ? `: <b>${esc(String(q.text).slice(0, 120))}</b>` : ''}` : s.phase === 'reveal' ? 'The answer is up.' : s.phase === 'scoreboard' ? 'The scores are up.' : s.phase === 'lobby' ? 'Waiting to start.' : 'Between questions: a good time to act.';
   return `<div class="state"><div class="em">🗡</div><h2>You do the Traitor actions</h2><p>Your teammate answers the questions on their phone, so there are no answers to give here.</p><p class="muted">${what}</p><p class="small muted">Use the 🗡 button on the left. ✋ Hold tells the host to wait.</p></div>`;
+}
+// ---------------------------------------------------------------- letters from Claudia (the host's side of the game), and the recruit
+function trpClaudiaQueue(m) { (TRP.claudiaQ = TRP.claudiaQ || []).push(m); trpClaudiaShow(); }
+function trpClaudiaShow() {
+  const m = TRP.claudiaQ?.[0]; if (!m) return;
+  if (P.teamRole === 'answer') { TRP.claudiaQ.shift(); partyFlash({ icon: '✉', text: 'Claudia has written to your teammate: it is on their phone.' }); return trpClaudiaShow(); }
+  if (document.getElementById('trpFull')) { clearTimeout(TRP.claudiaT); TRP.claudiaT = setTimeout(trpClaudiaShow, 1500); return; }
+  TRP.claudiaQ.shift();
+  const choices = m.pick ? m.pick.map((p) => `<button class="btn btn-block" data-ck="pick" data-target="${esc(p.pid)}">${esc(p.emoji || '🙂')} ${esc(p.name)}</button>`).join('') + '<button class="btn btn-ghost btn-block" data-ck="none">Never mind</button>'
+    : (m.buttons || []).map((b) => `<button class="btn btn-lg btn-block ${b.k === 'yes' || b.k === 'join' ? 'btn-primary' : ''}" data-ck="${esc(b.k)}">${esc(b.label)}</button>`).join('') || '<button class="btn btn-primary btn-lg btn-block" data-trpx>OK</button>';
+  const el = trpFull('claudia', `<div class="trp-big small">✉ A MESSAGE FROM CLAUDIA</div>${trLetterHtml(m.text, { to: m.greet || 'Dear Traitor,', sign: 'Claudia' })}<div class="trp-claudia">${choices}</div>`);
+  el.querySelectorAll('[data-ck]').forEach((b) => b.onclick = () => { send('tr', { pid: P.pid, op: 'claudia', id: m.id, k: b.dataset.ck, target: b.dataset.target }); el.remove(); setTimeout(trpClaudiaShow, 300); });
+  el.querySelector('[data-trpx]')?.addEventListener('click', () => setTimeout(trpClaudiaShow, 300));
+  if (navigator.vibrate) try { navigator.vibrate([150, 80, 150]); } catch {}
+}
+// ---------------------------------------------------------------- two Traitors: a suggestion to agree, and the secret chat
+/** The suggestion in progress, at the top of the menu: waiting for the other, or the buttons to answer it. */
+function trpPropCard(d) {
+  const p = d.prop; if (!p || !d.mate) return '';
+  const hist = p.hist.length > 1 ? `<div class="small muted" style="margin-top:6px">${p.hist.slice(0, -1).map((h) => `${esc(h.by)} (${h.n}): ${esc(h.text)}`).join('<br>')}</div>` : '';
+  if (p.mine) return `<div class="trp-team"><b>⏳ Waiting for ${esc(d.mate.name)}</b> <span class="small">(message ${p.n} of 4)</span><br>${esc(p.text)}${hist}<button class="btn btn-block" data-prop="cancel">Take it back</button></div>`;
+  return `<div class="trp-team" style="border-color:#e8c46a"><b>🤝 ${esc(d.mate.name)} suggests</b> <span class="small">(message ${p.n} of 4)</span><br>${esc(p.text)}${hist}
+    ${p.final ? `<p class="small" style="margin:8px 0 0">No agreement yet: do this, or lose 1 power.</p><div class="pcs-who" style="margin-top:6px"><button class="btn btn-primary" data-prop="yes">✅ Do this</button><button class="btn" data-prop="lose">⚠ Lose 1 power</button></div>`
+      : `<div class="pcs-who" style="margin-top:8px"><button class="btn btn-primary" data-prop="yes">✅ Confirm</button><button class="btn" data-propalt>💡 Suggest something else</button></div>`}</div>`;
+}
+function trpChat(d) {
+  const log = (d.chat || []).map((c) => `<div class="trp-chatline ${c.by === d.me ? 'me' : ''}"><b>${c.by === d.me ? 'You' : esc(d.mate?.name || '')}</b> ${esc(c.text)}</div>`).join('') || '<p class="small muted" style="margin:6px 0">Nothing yet. Only the two of you can see this.</p>';
+  return `<p class="small muted" style="margin:6px 0">A private chat with ${esc(d.mate?.name || 'your teammate')}. Nobody else sees it.</p><div class="trp-chatlog">${log}</div>
+    <div class="row" style="gap:6px;margin-top:8px"><input id="trpChatText" maxlength="200" placeholder="Write to ${esc(d.mate?.name || 'your teammate')}…" style="flex:1;font:inherit;padding:10px;border-radius:12px;border:2px solid var(--line)"><button class="btn btn-primary" data-chatsend>Send</button></div>`;
 }
 /** Secret messages wait for the break between questions. */
 function trpMsgShow() {
@@ -150,7 +191,7 @@ function trpScreen(s) {
   else if (sc.kind === 'notice') h = `<div class="trp-big">${esc(sc.title)}</div>${sc.quote ? `<div class="trp-quote">“${esc(sc.quote)}”</div>` : ''}${(sc.lines || []).map((l) => `<p>${esc(l)}</p>`).join('')}<p class="trp-small">Watch the big screen…</p>`;
   if (sc.kind === 'table') {
     const others = (s.tr.players || []).filter((p) => p.pid !== P.pid);
-    h = `<div class="trp-big">🕯 THE ROUND TABLE</div><div class="trp-clock" id="trpClock">3:00</div><p>Talk it over. Who is the Traitor? Vote for who to banish. You can change your mind until the votes are locked.</p>
+    h = `<div class="trp-big">🕯 THE ${sc.final ? 'FINAL ' : ''}ROUND TABLE</div><div class="trp-clock" id="trpClock">3:00</div><p>Talk it over. Who is the Traitor? Vote for who to banish. You can change your mind until the votes are locked.</p>
       <div class="trp-vote">${others.map((p) => `<button class="btn ${TRP.vote === p.pid ? 'btn-primary' : ''}" data-trpv="${p.pid}">${esc(p.emoji || '🙂')} ${esc(p.name)}</button>`).join('')}</div>
       <p class="trp-small">${TRP.vote ? `You voted for ${esc(trpName(s, TRP.vote))}.` : 'You have not voted yet.'} ${(sc.voted || []).length} of ${(s.tr.players || []).length} have voted.</p>`;
     if (sc.locked) h = h.replace(/<div class="trp-vote">[\s\S]*?<\/div>/, '<p><b>Votes are locked!</b></p>');
@@ -166,7 +207,7 @@ function trpScreen(s) {
       <div class="trp-bars">${(sc.rows || []).map((r) => `<div><span>${esc(trpName(s, r.pid))}</span><i style="width:${Math.max(8, r.n / Math.max(1, sc.rows[0].n) * 100)}%"></i><b>${r.n}</b></div>`).join('')}</div>
       <p>${sc.tie ? 'The votes were split. The Traitor lives on…' : !top ? 'Nobody is banished.' : sc.correct ? `…and they WERE the Traitor! ${(sc.winners || []).includes(me) ? 'You voted right: +2,000!' : ''}` : `…but they were NOT the Traitor. ${top === me ? 'You were wrongly accused: you lose 3,000.' : (sc.wrongVoters || []).includes(me) ? 'They lose 3,000 for being wrongly accused, and so do you for voting for them.' : 'They lose 3,000 for being wrongly accused, and so does everyone who voted for them.'} The Traitor is still among you.`}</p>`;
   }
-  if (sc.kind === 'final') h = `<div class="trp-small">THE TRAITOR WAS…</div><div class="trp-big">${esc(trpName(s, sc.traitor))}</div>${(sc.lines || []).map((l) => `<p>${esc(l)}</p>`).join('')}`;
+  if (sc.kind === 'final') h = `<div class="trp-small">THE TRAIT${(sc.roster || []).length > 1 ? 'ORS WERE' : 'OR WAS'}…</div><div class="trp-big">${(sc.roster || [sc.traitor]).map((x) => esc(trpName(s, x))).join(' and ')}</div>${(sc.lines || []).map((l) => `<p>${esc(l)}</p>`).join('')}`;
   el.innerHTML = `<div class="trp-in">${h}</div>`;
   el.querySelectorAll('[data-trpv]').forEach((b) => b.onclick = () => { TRP.vote = b.dataset.trpv; send('tr', { pid: P.pid, op: 'vote', target: TRP.vote }); toast('Vote cast'); trpScreen({ ...s, tr: { ...s.tr, screen: { ...sc } } }); });
   clearInterval(TRP.tick);
@@ -189,7 +230,7 @@ function trpMenu(refresh) {
   if (old && old.contains(document.activeElement) && /^(TEXTAREA|INPUT)$/.test(document.activeElement.tagName)) return; // never rebuild under someone's typing
   const d = TRP.sync; const el = old || document.createElement('div'); el.id = 'trpMenu'; el.className = 'pcsheet trp-sheet';
   if (!d) { el.innerHTML = `<div class="pcs-in"><p>Loading…</p></div>`; if (!old) document.body.appendChild(el); send('tr', { pid: P.pid, op: 'sync' }); trpHoldSync(); return; }
-  const tabs = [['steal', '💰 Steal'], ['power', '🎁 Powers'], ['msg', '📜 Messages'], ['team', '👥 Team' + (d.team?.pending || (d.team?.linked && !d.team.answerDev) ? ' ❗' : '')]].concat(d.needList || d.list ? [['list', '📋 My list']] : []);
+  const tabs = [['steal', '💰 Steal'], ['power', '🎁 Powers'], ['msg', '📜 Messages'], ['team', '👥 Team' + (d.team?.pending || (d.team?.linked && !d.team.answerDev) ? ' ❗' : '')]].concat(d.mate ? [['chat', '🤝 Chat']] : []).concat(d.needList || d.list ? [['list', '📋 My list']] : []);
   if (!tabs.some(([k]) => k === TRP.tab)) TRP.tab = 'steal';
   const win = s.tr.window;
   let body = '';
@@ -198,7 +239,9 @@ function trpMenu(refresh) {
   if (TRP.tab === 'msg') body = trpMessages(d);
   if (TRP.tab === 'list') body = trpList(d);
   if (TRP.tab === 'team') body = trpTeamTab(d);
+  if (TRP.tab === 'chat') body = trpChat(d);
   el.innerHTML = `<div class="pcs-in"><div class="pcs-head"><b>🗡 The Traitor's menu</b><button class="btn btn-ghost btn-sm" data-pcx>Close</button></div>
+    ${trpPropCard(d)}
     ${d.team?.linked ? `<button class="btn btn-block ${TRP.holdManual ? 'btn-primary' : ''}" data-hold style="margin:0 0 8px">${TRP.holdManual ? '✋ Holding the host: tap to let go' : '✋ Hold the host while I do something'}</button>` : ''}
     <div class="trp-tabs">${tabs.map(([k, l]) => `<button class="${TRP.tab === k ? 'on' : ''}" data-tab="${k}">${l}${k === 'list' && d.needList ? ' ❗' : ''}</button>`).join('')}</div>${body}</div>`;
   if (!old) document.body.appendChild(el);
@@ -221,14 +264,14 @@ function trpSteal(d, win) {
   if (v) {
     h += `<p class="small" style="margin:12px 0 4px">2. How much? <b id="trpAmt">${st.amount}</b></p><input type="range" min="100" max="1000" step="100" value="${st.amount}" id="trpRange" style="width:100%">
       <p class="small" style="margin:12px 0 6px">3. Give it to…</p><div class="pcs-who"><button class="btn ${st.to === P.pid ? 'btn-primary' : ''}" data-st="${P.pid}">🫵 Me (for show)</button>${vics.filter((p) => p.pid !== v).map((p) => `<button class="btn ${st.to === p.pid ? 'btn-primary' : ''}" data-st="${p.pid}">${esc(p.emoji || '🙂')} ${esc(p.name)}</button>`).join('')}</div>`;
-    if (st.to && st.to !== v) h += `<p class="small" style="margin:12px 0 4px">4. Who sees the letter?</p>${trpShowToggle(esc(vics.find((p) => p.pid === v)?.name || 'them'))}<button class="btn btn-primary btn-lg btn-block mt" data-go>🗡 Steal ${st.amount} from ${esc(vics.find((p) => p.pid === v)?.name || '')}</button>`;
+    if (st.to && st.to !== v) h += `<p class="small" style="margin:12px 0 4px">4. Who sees the letter?</p>${trpShowToggle(esc(vics.find((p) => p.pid === v)?.name || 'them'))}<button class="btn btn-primary btn-lg btn-block mt" data-go>🗡 ${d.mate ? 'Suggest: steal' : 'Steal'} ${st.amount} from ${esc(vics.find((p) => p.pid === v)?.name || '')}</button>`;
   }
   return h;
 }
 function trpPowers(d, win) {
   const defs = [['gift', '🎁', 'Free answer', 'full points for them on the next question', d.powers.gift], ['block', '🚫', 'Block', 'they sit the next question out', d.powers.block], ['dbl', '✨', 'Double points', 'their points count twice on the next question', d.powers.dbl]];
   const pick = TRP.st.power;
-  let h = `<p class="small muted" style="margin:6px 0">${win ? (d.nextPlain ? 'Use these at any time, before a question or while one is running. If a question is running, it counts on the next one. You have 5 of each every half: they all come back at half time.' : 'There is no everyone-answers question left to use these on.') : 'Not right now: the Round Table vote is on.'}</p>`;
+  let h = `<p class="small muted" style="margin:6px 0">${win ? (d.nextPlain ? `${d.mate ? `Your teammate ${esc(d.mate.name)} has to agree to each one. ` : ''}Use these at any time, before a question or while one is running. If a question is running, it counts on the next one. You have 5 of each every half: they all come back at half time.` : 'There is no everyone-answers question left to use these on.') : 'Not right now: the Round Table vote is on.'}</p>`;
   h += `<div class="pcs-cards">${defs.map(([k, ic, nm, how, left]) => { const t = d.set?.[k]; return `<button class="pcs-card ${pick === k ? 'sel' : ''}" data-pw="${k}" ${win && d.nextPlain && left > 0 ? '' : 'disabled'}><span class="pcs-ic">${ic}</span><span><b>${nm} <small style="display:inline">· ${left} left</small></b><small>${how}</small>${t ? `<small style="color:var(--brand);font-weight:800">Set for: ${t === P.pid ? 'you' : esc(trpWho(d).find((p) => p.pid === t)?.name || '')}</small>` : ''}</span></button>`; }).join('')}</div>`;
   if (pick && win) {
     h += `<p class="small" style="margin:12px 0 4px">Who sees the letter?</p>${trpShowToggle('them')}<p class="small" style="margin:6px 0">${defs.find((x) => x[0] === pick)[1]} Who gets it?</p><div class="pcs-who"><button class="btn" data-pt="${P.pid}">🫵 Me${pick === 'block' ? '' : ' (for show)'}</button>${trpWho(d).map((p) => `<button class="btn" data-pt="${p.pid}">${esc(p.emoji || '🙂')} ${esc(p.name)}</button>`).join('')}</div>${d.set?.[pick] ? `<button class="btn btn-ghost btn-block mt" data-pundo>Take it back</button>` : ''}`;
@@ -266,10 +309,15 @@ function trpBind(el, d) {
   const st = TRP.st, re = () => trpMenu(true);
   el.querySelectorAll('[data-sv]').forEach((b) => b.onclick = () => { st.victim = b.dataset.sv; if (st.to === st.victim) st.to = ''; re(); });
   el.querySelectorAll('[data-st]').forEach((b) => b.onclick = () => { st.to = b.dataset.st; re(); });
-  const range = el.querySelector('#trpRange'); if (range) range.oninput = () => { st.amount = +range.value; el.querySelector('#trpAmt').textContent = st.amount; const g = el.querySelector('[data-go]'); if (g) g.textContent = g.textContent.replace(/Steal \d+/, 'Steal ' + st.amount); };
+  const range = el.querySelector('#trpRange'); if (range) range.oninput = () => { st.amount = +range.value; el.querySelector('#trpAmt').textContent = st.amount; const g = el.querySelector('[data-go]'); if (g) g.textContent = g.textContent.replace(/(teal) \d+/, '$1 ' + st.amount); };
   el.querySelector('[data-go]')?.addEventListener('click', () => { send('tr', { pid: P.pid, op: 'steal', victim: st.victim, amount: st.amount, to: st.to, show: st.show }); st.victim = ''; st.to = ''; el.remove(); });
   el.querySelectorAll('[data-pw]').forEach((b) => b.onclick = () => { st.power = b.dataset.pw; re(); });
   el.querySelector('[data-hold]')?.addEventListener('click', trpHoldToggle);
+  el.querySelectorAll('[data-prop]').forEach((b) => b.onclick = () => send('tr', { pid: P.pid, op: 'prop', k: b.dataset.prop }));
+  el.querySelector('[data-propalt]')?.addEventListener('click', () => { TRP.tab = 'steal'; toast('Choose what you would rather do and send it: it goes back to them.'); trpMenu(true); });
+  el.querySelector('[data-chatsend]')?.addEventListener('click', () => { const x = el.querySelector('#trpChatText'); if (x?.value.trim()) { send('tr', { pid: P.pid, op: 'tchat', text: x.value }); x.value = ''; } });
+  el.querySelector('#trpChatText')?.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); el.querySelector('[data-chatsend]')?.click(); } });
+  { const lg = el.querySelector('.trp-chatlog'); if (lg) lg.scrollTop = lg.scrollHeight; }
   el.querySelector('[data-teamopen]')?.addEventListener('click', () => { send('team', { op: 'open', pid: P.pid }); toast('The door is open for 5 minutes'); });
   el.querySelector('[data-teamyes]')?.addEventListener('click', () => send('team', { op: 'accept', pid: P.pid, dev: DEVID }));
   el.querySelector('[data-teamno]')?.addEventListener('click', () => send('team', { op: 'decline', pid: P.pid }));
