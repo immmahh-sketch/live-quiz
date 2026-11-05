@@ -2879,12 +2879,12 @@ async function bonusModal() {
   const here = (w) => real().filter((p) => norm(p.name) === norm(w.name)).length;
   /** The warm-up phones, one row per person (the same name on different phones or weeks is one person), with what is still to give. */
   const wgroups = () => {
-    const given = G.wbonus?.given || {}, byName = {};
-    for (const [pid, b] of Object.entries(wpeople?.byPid || {})) { const k = norm(b.name) || pid; (byName[k] = byName[k] || { key: k, name: b.name, emoji: b.emoji, pids: [] }).pids.push({ pid, ...b, given: !!given[pid] }); }
+    const given = G.wbonus?.given || {}, byName = {}, canon = warmCanon();
+    for (const [pid, b] of Object.entries(wpeople?.byPid || {})) { const k = canon(norm(b.name) || pid), g = byName[k] = byName[k] || { key: k, name: b.name, names: [], emoji: b.emoji, pids: [] }; if (b.name && !g.names.includes(b.name)) g.names.push(b.name); g.name = g.names.join(' / '); g.pids.push({ pid, ...b, given: !!given[pid] }); }
     const ps = real();
     return Object.values(byName).map((g) => {
       const todo = g.pids.filter((x) => !x.given), pts = todo.reduce((a, x) => a + x.pts, 0), played = g.pids.reduce((a, x) => a + x.played, 0), topped = g.pids.flatMap((x) => x.topped);
-      const joined = ps.find((p) => g.pids.some((x) => x.pid === p.id)) || ps.find((p) => norm(p.name) === g.key);
+      const joined = ps.find((p) => g.pids.some((x) => x.pid === p.id)) || ps.find((p) => g.names.some((n) => norm(n) === norm(p.name)));
       const link = (G.wlinks || {})[g.key] !== undefined ? G.wlinks[g.key] : (joined?.id || '');
       return { ...g, todo, pts, played, topped, link, doneAll: !todo.length, doneTotal: g.pids.filter((x) => x.given).reduce((a, x) => a + x.pts, 0) };
     }).sort((a, b) => b.pts - a.pts || a.name.localeCompare(b.name));
@@ -2895,8 +2895,9 @@ async function bonusModal() {
       ${leaders.length ? `<div class="notice"><b>🏆 Warm-up top scores</b> <span class="small">(give the bonus to the highest one here)</span>${leaders.map((w, k) => { const n = here(w); return `<div class="small" style="margin-top:4px">${['🥇', '🥈', '🥉', '4.', '5.'][k]} <b>${esc(w.emoji || '')} ${esc(w.name)}</b> ${w.score} · ${n === 1 ? '<span style="color:#1a7f37;font-weight:800">in this game</span>' : n > 1 ? `<span style="color:#b3261e;font-weight:800">⚠ ${n} players with this name: check which</span>` : '<span class="muted">not here</span>'}</div>`; }).join('')}</div>` : '<p class="muted small">No warm-up scores yet.</p>'}
       ${wpeople && Object.keys(wpeople.byPid).length ? (() => { const wg = wgroups(), ready = wg.filter((g) => !g.doneAll && g.pts > 0 && G.players[g.link]), tot = ready.reduce((a, g) => a + g.pts, 0), left = wg.filter((g) => !g.doneAll).length - ready.length;
         return `<div class="notice" style="margin-bottom:10px"><b>🔗 Everyone who played the warm-ups</b> <span class="small">All weeks together, one row per person. Choose who each one is tonight (same names are linked for you), then give everyone their full bonus in one go.</span>
-          <div style="max-height:34vh;overflow:auto;margin-top:6px">${wg.map((g) => `<div class="row" style="padding:5px 0;gap:8px;flex-wrap:nowrap;align-items:center"><span style="flex:1 1 40%;min-width:0">${esc(g.emoji || '')} <b>${esc(g.name)}</b><br><span class="muted small">${g.played} played${g.topped.length ? ` · top in ${esc(g.topped.join(' & '))}` : ''}${g.pids.length > 1 ? ` · ${g.pids.length} phones` : ''}</span></span>
+          <div style="max-height:34vh;overflow:auto;margin-top:6px">${wg.map((g) => `<div class="row" style="padding:5px 0;gap:8px;flex-wrap:nowrap;align-items:center"><span style="flex:1 1 40%;min-width:0">${esc(g.emoji || '')} <b>${esc(g.names.join(' / '))}</b><br><span class="muted small">${g.played} played${g.topped.length ? ` · top in ${esc(g.topped.join(' & '))}` : ''}${g.pids.length > 1 ? ` · ${g.pids.length} phones` : ''}${g.names.length > 1 ? ' · same person' : ''}</span></span>
             ${g.doneAll ? `<span class="small" style="flex:0 0 auto">✅ given +${g.doneTotal.toLocaleString('en-GB')}</span>` : `<b style="flex:0 0 auto">+${g.pts.toLocaleString('en-GB')}</b><select data-wlink="${esc(g.key)}" style="flex:1 1 40%;min-width:0"><option value="">Not here yet</option>${ps.map((p) => `<option value="${p.id}" ${g.link === p.id ? 'selected' : ''}>${esc(p.emoji || '')} ${esc(p.name)}</option>`).join('')}</select>`}</div>`).join('')}</div>
+          <div class="small" style="margin-top:8px">Same person under two names? <select id="ws_a"><option value="">First name…</option>${[...new Set(wg.flatMap((g) => g.names))].sort().map((n) => `<option>${esc(n)}</option>`).join('')}</select> = <select id="ws_b"><option value="">Second name…</option>${[...new Set(wg.flatMap((g) => g.names))].sort().map((n) => `<option>${esc(n)}</option>`).join('')}</select> <button class="btn btn-sm" data-wsame>🔗 Link</button>${(G.wsame || []).map((s2, i) => `<span class="muted"> · ${esc(s2.join(' = '))} <a href="#" data-wunsame="${i}" style="color:inherit">✕</a></span>`).join('')}</div>
           ${ready.length ? `<button class="btn btn-primary btn-block" data-wgive style="margin-top:8px;background:var(--brand);color:#fff">🎁 Give ${ready.length} player${ready.length === 1 ? '' : 's'} their full bonus (${tot.toLocaleString('en-GB')} points) in one go</button>` : '<p class="small muted" style="margin:8px 0 0">Nothing left to give to the people who are here.</p>'}${left > 0 ? `<p class="small muted" style="margin:6px 0 0">${left} not linked to anyone here yet.</p>` : ''}</div>`; })() : ''}
       ${ps.length ? `<div class="field"><label>Who</label><select id="bn_who"><option value="" selected disabled>Choose who gets it…</option>${ps.map((p) => `<option value="${p.id}">${esc(p.emoji || '')} ${esc(p.name)}${p.bonus ? ` (has ${p.bonus > 0 ? '+' : ''}${p.bonus})` : ''}</option>`).join('')}</select></div>
       <div class="row"><div class="field grow"><label>Points</label><input type="number" id="bn_pts" value="1000" step="100" min="-5000" max="10000"></div><div class="field grow"><label>Why (shown on the screen)</label><input type="text" id="bn_why" value="Warm-up bonus" maxlength="40"></div></div>` : '<p class="muted">Nobody has joined yet. Players need to be in the game first.</p>'}
@@ -2909,6 +2910,8 @@ async function bonusModal() {
       if (p) { p.score -= x.pts; p.bonus = (p.bonus || 0) - x.pts; if (!p.bonus) delete p.bonus; }
       persist(); broadcastState(); if (G.phase === 'lobby') renderLobbyPlayers(); draw();
     });
+    $('[data-wsame]', m)?.addEventListener('click', () => { const a = $('#ws_a', m).value, b = $('#ws_b', m).value; if (!a || !b || a === b) return toast('Choose two different names', true); (G.wsame = G.wsame || []).push([a, b]); persist(); draw(); });
+    $$('[data-wunsame]', m).forEach((x) => x.onclick = (e) => { e.preventDefault(); G.wsame.splice(+x.dataset.wunsame, 1); persist(); draw(); });
     $$('[data-wlink]', m).forEach((sel) => sel.onchange = () => { (G.wlinks = G.wlinks || {})[sel.dataset.wlink] = sel.value; persist(); draw(); });
     $('[data-wgive]', m)?.addEventListener('click', () => {
       const w = (G.wbonus = G.wbonus || { byPid: {}, given: {} }); let n = 0, tot = 0, delay = 0;
@@ -2958,6 +2961,13 @@ function camLinksModal() {
  *  Matched by device (pid), so it finds a player who uses the same phone; anyone else can be given points by hand
  *  with 🎁 Bonus points. Each player gets it once, when they join (or straight away for players already here). */
 let warmBonusBusy = false;
+/** Warm-up names that are the same person (two names, or two phones): from the quiz's settings.warmSame and the host's own links (G.wsame). Returns a function that gives a name's shared key. */
+function warmCanon() {
+  const nm = (x) => String(x || '').toLowerCase().replace(/[^a-z0-9]/g, ''), parent = {};
+  const find = (x) => { parent[x] = parent[x] ?? x; return parent[x] === x ? x : (parent[x] = find(parent[x])); };
+  for (const set of [...(G.quiz?.settings?.warmSame || []), ...(G.wsame || [])]) { const ks = set.map(nm).filter(Boolean); for (let i = 1; i < ks.length; i++) { const a = find(ks[0]), b = find(ks[i]); if (a !== b) parent[b] = a; } }
+  return (k) => find(k);
+}
 /** What every phone that played this quiz's warm-ups has earned, all weeks together: { pid: { pts, played, topped[], name, emoji, why } }. */
 function warmBonusPeople(r) {
   const wus = (r.warmups || []).filter((w) => w.forQuiz === G.quizId && !w.fun && w.bonus && (+w.bonus.play || +w.bonus.top));
