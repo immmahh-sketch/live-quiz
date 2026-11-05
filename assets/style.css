@@ -1743,7 +1743,7 @@ body.hurry-on .app { padding-bottom: 70px; }
 .trbig.trname { font-size: clamp(2.6rem, 7vw, 6rem); color: #fff; } .trsmall { font-size: 1.2rem; letter-spacing: .3em; opacity: .75; }
 .trline { font-size: clamp(1.05rem, 2.2vw, 1.8rem); line-height: 1.35; max-width: 56ch; margin: 0 auto; } .trline.small { font-size: 1rem; opacity: .75; }
 .trquote { font-family: Georgia, serif; font-size: clamp(1.6rem, 3.6vw, 3rem); color: #fff; border-top: 2px solid #e8c46a77; border-bottom: 2px solid #e8c46a77; padding: 18px 10px; margin: 6px auto; max-width: 30ch; }
-.trclock { font-family: Georgia, serif; font-weight: 900; font-size: clamp(4rem, 12vw, 9rem); color: #fff; line-height: 1; }
+.trclock { font-family: Georgia, serif; font-weight: 900; font-size: clamp(3rem, min(9vw, 11vh), 6.5rem); color: #fff; line-height: 1; }
 .trfaces { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; } .trface { background: #2b1115; border: 1px solid #5a2a30; border-radius: 999px; padding: 6px 14px; font-weight: 800; }
 .trbars { max-width: 760px; margin: 0 auto; width: 100%; } .trbar { display: grid; grid-template-columns: 220px 1fr 40px; gap: 12px; align-items: center; text-align: left; margin: 8px 0; font-size: 1.3rem; } .trbar i { display: block; height: 22px; border-radius: 11px; background: linear-gradient(90deg, #8a1c26, #e8c46a); } .trbar b { font-size: 1.5rem; }
 
@@ -1760,3 +1760,7 @@ body.host .cnclue { font-size: clamp(1.1rem, 2.4vw, 2rem); }
 .trspot-cap .trbig { font-size: clamp(1.8rem, 5vh, 3.6rem); }
 .trspot-cap .trline { font-size: clamp(1rem, 2.6vh, 1.6rem); margin-top: 4px; }
 .trspot-cap .trline.small { font-size: clamp(.85rem, 2vh, 1.1rem); }
+/* The Round Table: everyone's face (QuizCam paints a canvas into each [data-pcam]); the name sits underneath */
+.trfaces .trface.cam { display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: 0; padding: 0; }
+.trfaces .trface.cam .pface { font-size: 2.4rem; }
+.trfaces .trface.cam .trfn { background: #2b1115; border: 1px solid #5a2a30; border-radius: 999px; padding: 1px 12px; font-size: clamp(.78rem, 1.9vh, 1.1rem); max-width: 22vh; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

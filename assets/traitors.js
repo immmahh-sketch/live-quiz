@@ -343,7 +343,7 @@ function trRenderScreen() {
     return wrap(`<div class="trbig">🕯 THE ROUND TABLE</div><p class="trline">One of you is the Traitor. Talk it over, then vote on your phone for who to banish.</p>
       <div class="trclock" id="trClock">${Math.floor(left / 60000)}:${String(Math.floor(left / 1000) % 60).padStart(2, '0')}</div>
       <p class="trline small" id="trVoted">${n} of ${all} have voted</p>
-      <div class="trfaces">${Object.values(G.players).map((p) => `<span class="trface">${esc(p.emoji || '🙂')} ${esc(p.name)}</span>`).join('')}</div>
+      <div class="trfaces" style="--pf-live:${all <= 6 ? 21 : all <= 12 ? 15 : all <= 20 ? 11 : 8}vh">${Object.values(G.players).map((p) => `<span class="trface cam">${face(p.id, esc(p.emoji || '🙂'))}<span class="trfn">${esc(p.name)}</span></span>`).join('')}</div>
       <p class="trline small">The player with the most votes goes on camera and tells the room whether they are the Traitor. Right: the Traitor loses their power and 5,000 points, and everyone who voted for them wins 2,000. Wrong: the Traitor stays, and the person chosen loses ${TR.WRONG_LOSS.toLocaleString('en-GB')}.</p>`, nextBtn('Lock the votes ▶'));
   }
   if (sc.kind === 'chosen') {
