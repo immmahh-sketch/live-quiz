@@ -26,7 +26,7 @@ const trpName = (s, pid) => (s.tr?.players || []).find((p) => p.pid === pid)?.na
 function trpOnPrivate(m) {
   if (!m || m.to !== P.pid) return;
   if (m.kind === 'role') { TRP.traitor = true; const k = 'role' + (m.n ?? 0); if (!trpSeen(k)) { trpMark(k); trpRoleScreen(m); } trpRefresh(); }
-  else if (m.kind === 'sync') { if (TRP.holding && !m.d.hold && Date.now() - (TRP.holdAt || 0) > 1500) { TRP.holding = false; TRP.holdDone = true; clearInterval(TRP.holdT); TRP.holdT = null; } const had = TRP.sync?.team?.pending?.dev, was = TRP.sync?.team?.linked; TRP.sync = m.d; if (!TRP.traitor) TRP.traitor = true; trpApplyTeam(m.d.team); if (m.d.team?.pending && m.d.team.pending.dev !== had && P.teamRole !== 'answer') { TRP.tab = 'team'; trpMenu(true); if (!document.getElementById('trpMenu')) trpMenu(); if (navigator.vibrate) try { navigator.vibrate([100, 60, 100]); } catch {} } if (m.d.team?.linked && !was && !m.d.team.answerDev) { TRP.tab = 'team'; if (document.getElementById('trpMenu')) trpMenu(true); else trpMenu(); } trpRefresh(); if (m.d.needList && !TRP.listPrompted) { TRP.listPrompted = true; TRP.tab = 'list'; trpMenu(); if (navigator.vibrate) try { navigator.vibrate([80, 50, 80]); } catch {} } if (!m.d.needList) TRP.listPrompted = false; }
+  else if (m.kind === 'sync') { if (TRP.holding && !m.d.hold && Date.now() - (TRP.holdAt || 0) > 1500) { TRP.holding = false; TRP.holdManual = false; TRP.holdDone = true; clearInterval(TRP.holdT); TRP.holdT = null; } const had = TRP.sync?.team?.pending?.dev, was = TRP.sync?.team?.linked; TRP.sync = m.d; if (!TRP.traitor) TRP.traitor = true; trpApplyTeam(m.d.team); if (m.d.team?.pending && m.d.team.pending.dev !== had && P.teamRole !== 'answer') { TRP.tab = 'team'; trpMenu(true); if (!document.getElementById('trpMenu')) trpMenu(); if (navigator.vibrate) try { navigator.vibrate([100, 60, 100]); } catch {} } if (m.d.team?.linked && !was && !m.d.team.answerDev) { TRP.tab = 'team'; if (document.getElementById('trpMenu')) trpMenu(true); else trpMenu(); } trpRefresh(); if (m.d.needList && !TRP.listPrompted) { TRP.listPrompted = true; TRP.tab = 'list'; trpMenu(); if (navigator.vibrate) try { navigator.vibrate([80, 50, 80]); } catch {} } if (!m.d.needList) TRP.listPrompted = false; }
   else if (m.kind === 'listnow') { TRP.tab = 'list'; trpMenu(); toast(m.text || 'Save your list!', true); if (navigator.vibrate) try { navigator.vibrate([120, 60, 120, 60, 120]); } catch {} }
   else if (m.kind === 'ok') { if (P.teamRole === 'answer') partyFlash({ icon: '🗡', text: m.text || 'Done' }); else toast(m.text || 'Done'); } // the answering phone is told what the Traitor phone decided
   else if (m.kind === 'no') { if (P.teamRole !== 'answer') toast(m.why || "That didn't work", true); }
@@ -34,7 +34,7 @@ function trpOnPrivate(m) {
   else if (m.kind === 'teamno') { P.partnerSeen = true; clearInterval(helloT); trpPartnerScreen(m.why || 'Not this time.', true); }
   else if (m.kind === 'teamlinked') { P.partnerSeen = true; clearInterval(helloT); P.partner = false; P.pid = m.pid; P.name = m.name || P.name; P.emoji = m.emoji || P.emoji; store('lq_player' + SLOT, { pid: P.pid, name: P.name, emoji: P.emoji }); connect(); }
   else if (m.kind === 'teamroles') { TRP.tab = 'team'; if (document.getElementById('trpMenu')) trpMenu(true); else trpMenu(); if (navigator.vibrate) try { navigator.vibrate([100, 60, 100]); } catch {} }
-  else if (m.kind === 'teamended') { P.teamRole = null; if (TRP.sync) TRP.sync.team = null; P.viewKey = ''; if (P.state) render(); trpRefresh(); }
+  else if (m.kind === 'teamended') { TRP.holdManual = false; if (TRP.holding) { TRP.holding = false; trpHoldSend(false); } trpHoldBeat(); P.teamRole = null; if (TRP.sync) TRP.sync.team = null; P.viewKey = ''; if (P.state) render(); trpRefresh(); }
   else if (m.kind === 'ping') partyFlash({ icon: m.icon || '🗡', text: m.text });
   else if (m.kind === 'msg' || m.kind === 'letter') { TRP.msgs.push({ text: String(m.text || ''), now: !!m.now }); trpMsgShow(); }
   else if (m.kind === 'banished') { TRP.traitor = false; TRP.sync = null; document.getElementById('trpMenu')?.remove(); trpFull('banished', `<div class="trp-big">🗡 BANISHED</div><p>${esc(m.text || 'You have been banished.')}</p><p class="trp-small">Keep quiet: the new Traitor is chosen in secret.</p><button class="btn btn-lg btn-block" data-trpx>OK</button>`); trpRefresh(); }
@@ -99,14 +99,23 @@ function trPhoneAfter(s) {
   if (TRP.traitor && s.phase === 'final') { document.getElementById('trpBtn')?.remove(); }
   if (TRP.traitor && !TRP.sync && !TRP.syncAsked) { TRP.syncAsked = true; send('tr', { pid: P.pid, op: 'sync' }); }
 }
-/** ✋ The host's phone shows HOLD ON while the Traitor is in their menu choosing something (steal, powers, messages). There is nothing to tap: it goes the moment they make a choice or leave the menu. */
+/** ✋ The host's phone shows HOLD ON while the Traitor is in their menu choosing something (steal, powers, messages). On one phone it is automatic: it goes the moment they make a choice or leave the menu. With a second phone the automatic hold is off (the answering phone is not held up), and a ✋ Hold button inside the menu does it by hand. */
 const TRP_HOLD_TABS = ['steal', 'power', 'msg'];
+const trpHoldSend = (on) => send('tr', { pid: P.pid, op: 'hold', on });
+const trpHoldBeat = () => { clearInterval(TRP.holdT); TRP.holdT = TRP.holding ? setInterval(() => { if (TRP.holding) trpHoldSend(true); }, 20000) : null; }; // still holding: keep it up
 function trpHoldSync() {
-  const open = !!document.getElementById('trpMenu') && TRP_HOLD_TABS.includes(TRP.tab) && P.teamRole !== 'answer';
-  if (!open) { TRP.holdDone = false; clearInterval(TRP.holdT); TRP.holdT = null; if (TRP.holding) { TRP.holding = false; send('tr', { pid: P.pid, op: 'hold', on: false }); } return; }
+  if (TRP.holdManual) return; // a hold asked for with the button stays until they let go or send something
+  const open = !TRP.sync?.team?.linked && !!document.getElementById('trpMenu') && TRP_HOLD_TABS.includes(TRP.tab) && P.teamRole !== 'answer';
+  if (!open) { TRP.holdDone = false; if (TRP.holding) { TRP.holding = false; trpHoldSend(false); } trpHoldBeat(); return; }
   if (TRP.holding || TRP.holdDone) return;
-  TRP.holding = true; TRP.holdAt = Date.now(); send('tr', { pid: P.pid, op: 'hold', on: true });
-  clearInterval(TRP.holdT); TRP.holdT = setInterval(() => { if (TRP.holding) send('tr', { pid: P.pid, op: 'hold', on: true }); }, 20000); // still in the menu: keep it up
+  TRP.holding = true; TRP.holdAt = Date.now(); trpHoldSend(true); trpHoldBeat();
+}
+/** The ✋ Hold button (only for a Traitor with two phones): hold the host, or let go. */
+function trpHoldToggle() {
+  if (TRP.holdManual) { TRP.holdManual = false; TRP.holding = false; trpHoldSend(false); }
+  else { TRP.holdManual = true; TRP.holding = true; TRP.holdAt = Date.now(); trpHoldSend(true); }
+  trpHoldBeat(); if (navigator.vibrate) try { navigator.vibrate(40); } catch {}
+  trpMenu(true);
 }
 new MutationObserver(() => trpHoldSync()).observe(document.body, { childList: true }); // the menu closed, by whatever route
 function trpRefresh() { if (P.state) trpPills(P.state); const m = document.getElementById('trpMenu'); if (m) trpMenu(true); }
@@ -179,7 +188,7 @@ function trpMenu(refresh) {
   if (old && !refresh) { old.remove(); return; }
   if (old && old.contains(document.activeElement) && /^(TEXTAREA|INPUT)$/.test(document.activeElement.tagName)) return; // never rebuild under someone's typing
   const d = TRP.sync; const el = old || document.createElement('div'); el.id = 'trpMenu'; el.className = 'pcsheet trp-sheet';
-  if (!d) { el.innerHTML = `<div class="pcs-in"><p>Loading…</p></div>`; if (!old) document.body.appendChild(el); send('tr', { pid: P.pid, op: 'sync' }); return; }
+  if (!d) { el.innerHTML = `<div class="pcs-in"><p>Loading…</p></div>`; if (!old) document.body.appendChild(el); send('tr', { pid: P.pid, op: 'sync' }); trpHoldSync(); return; }
   const tabs = [['steal', '💰 Steal'], ['power', '🎁 Powers'], ['msg', '📜 Messages'], ['team', '👥 Team' + (d.team?.pending || (d.team?.linked && !d.team.answerDev) ? ' ❗' : '')]].concat(d.needList || d.list ? [['list', '📋 My list']] : []);
   if (!tabs.some(([k]) => k === TRP.tab)) TRP.tab = 'steal';
   const win = s.tr.window;
@@ -190,6 +199,7 @@ function trpMenu(refresh) {
   if (TRP.tab === 'list') body = trpList(d);
   if (TRP.tab === 'team') body = trpTeamTab(d);
   el.innerHTML = `<div class="pcs-in"><div class="pcs-head"><b>🗡 The Traitor's menu</b><button class="btn btn-ghost btn-sm" data-pcx>Close</button></div>
+    ${d.team?.linked ? `<button class="btn btn-block ${TRP.holdManual ? 'btn-primary' : ''}" data-hold style="margin:0 0 8px">${TRP.holdManual ? '✋ Holding the host: tap to let go' : '✋ Hold the host while I do something'}</button>` : ''}
     <div class="trp-tabs">${tabs.map(([k, l]) => `<button class="${TRP.tab === k ? 'on' : ''}" data-tab="${k}">${l}${k === 'list' && d.needList ? ' ❗' : ''}</button>`).join('')}</div>${body}</div>`;
   if (!old) document.body.appendChild(el);
   el.querySelector('[data-pcx]').onclick = () => el.remove(); el.onclick = (e) => { if (e.target === el) el.remove(); };
@@ -259,6 +269,7 @@ function trpBind(el, d) {
   const range = el.querySelector('#trpRange'); if (range) range.oninput = () => { st.amount = +range.value; el.querySelector('#trpAmt').textContent = st.amount; const g = el.querySelector('[data-go]'); if (g) g.textContent = g.textContent.replace(/Steal \d+/, 'Steal ' + st.amount); };
   el.querySelector('[data-go]')?.addEventListener('click', () => { send('tr', { pid: P.pid, op: 'steal', victim: st.victim, amount: st.amount, to: st.to, show: st.show }); st.victim = ''; st.to = ''; el.remove(); });
   el.querySelectorAll('[data-pw]').forEach((b) => b.onclick = () => { st.power = b.dataset.pw; re(); });
+  el.querySelector('[data-hold]')?.addEventListener('click', trpHoldToggle);
   el.querySelector('[data-teamopen]')?.addEventListener('click', () => { send('team', { op: 'open', pid: P.pid }); toast('The door is open for 5 minutes'); });
   el.querySelector('[data-teamyes]')?.addEventListener('click', () => send('team', { op: 'accept', pid: P.pid, dev: DEVID }));
   el.querySelector('[data-teamno]')?.addEventListener('click', () => send('team', { op: 'decline', pid: P.pid }));
