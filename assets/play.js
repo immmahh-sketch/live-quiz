@@ -136,6 +136,8 @@ function leave() { letSleep(); if (window.PhoneCam && PhoneCam.state !== 'off') 
 function onState(s) {
   if (!s || typeof s.phase !== 'string') return;
   P.state = s; P.receivedAt = Date.now(); P.hostSeen = Date.now();
+  if (s.flashPre && P.flashPre !== s.flashPre) { P.flashPre = s.flashPre; try { new Image().src = s.flashPre; } catch {} } // fetched early, so it is there the instant it flashes
+  flashSync(s.flash);
   P.pausedRem = s.paused && s.phase === 'question' ? (s.wipe ? s.wipe.remainingMs : s.remainingMs) : null;
   syncPauseUi(s);
   syncCallBar(s);
@@ -145,6 +147,16 @@ function onState(s) {
   if (Array.isArray(s.answered) && s.answered.includes(P.pid)) P.answered[s.q?.id] = true;
   if (s.bi && typeof biSync === 'function') biSync(s);
   render();
+}
+/** A surprise picture from the host, on the whole phone for a few seconds (see flashThen in host.html). */
+let flashId = '', flashT = null;
+function flashSync(f) {
+  const el = document.getElementById('flashFull');
+  if (!f) { if (el && !flashT) el.remove(); return; }
+  if (f.id === flashId) return; flashId = f.id;
+  const box = el || Object.assign(document.createElement('div'), { id: 'flashFull', className: 'flashfull' }); box.innerHTML = `<img src="${esc(f.url)}" alt="">`; if (!el) document.body.appendChild(box);
+  clearTimeout(flashT); flashT = setTimeout(() => { flashT = null; document.getElementById('flashFull')?.remove(); }, Math.max(500, f.ms || 3000));
+  if (navigator.vibrate) try { navigator.vibrate(60); } catch {}
 }
 function watchdog() {
   // Re-send an answer the host has not acknowledged, and warn if the host has gone quiet.

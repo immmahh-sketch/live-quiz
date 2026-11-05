@@ -529,6 +529,8 @@ function stateForPlayers() {
     if (G.q.race) { const r = G.q.race; s.race = { winner: r.winner, winnerName: r.winner ? G.players[r.winner]?.name : null, over: r.over, target: G.q.view.target, maxWrong: G.q.view.maxWrong ?? 10, players: Object.fromEntries(Object.entries(r.players).map(([pid, p]) => [pid, { idx: p.idx, correct: p.correct, wrong: p.wrong, out: p.out, why: p.why, done: p.done }])) }; }
   }
   if (G.phase === 'countdown') s.next = { type: question().kind || question().type, n: qNum(G.qIndex) };
+  if (G.flash) s.flash = { id: G.flash.id, url: G.flash.url, ms: Math.max(0, G.flash.until - Date.now()) };
+  const fp = flashAhead(); if (fp) s.flashPre = fp;
   if (G.phase === 'countdown' && G.raceIntro) s.raceIntro = { kind: G.raceIntro.kind || 'race', title: TYPES[question().type]?.label, icon: TYPES[question().type]?.icon, sub: introSub(question()), step: G.raceIntro.step, n: G.raceIntro.n, topic: raceTopic(question()), target: +question().target || 10, maxWrong: question().maxWrong ?? 10 };
   if (G.phase === 'typecard') s.typecard = { type: question().kind || question().type, n: qNum(G.qIndex), run: typeRun(G.qIndex), how: question().mode === 'live' ? 'task-live' : undefined };
   if (G.phase === 'round') { const r = roundOf(G.qIndex); s.round = { n: r.n, title: r.title, practice: !!r.practice, intro: r.intro || '', count: r.count }; }
@@ -760,7 +762,26 @@ function skipScoreboard() {
 }
 function nextFrom(i) {
   if (trOn()) { if (trInterlude(false)) return; if (trWantsTable(i)) return trTable(i); if (trListPending() && i >= trHalfIndex()) return trHoldForList(i); if (i + 1 >= G.quiz.questions.length && trEnd()) return; } // the Traitors: a pause, the Round Table, the last round
+  const nq = G.quiz.questions[i + 1]; if (nq?.flash?.url && !(G.flashed || {})[nq.id] && !G.paused) return flashThen(nq, () => goTo(i + 1));
   return i + 1 < G.quiz.questions.length ? goTo(i + 1) : finish();
+}
+/** A surprise picture, full screen on the host and on every phone for a few seconds, before the next item (item.flash = { url, ms }). It is how the 'I Literally Just Told You' picture works: nobody is told it is coming. */
+function flashThen(nq, cont) {
+  const ms = Math.max(1000, Math.min(10000, +nq.flash.ms || 3000));
+  (G.flashed = G.flashed || {})[nq.id] = true; G.flash = { id: nq.id, url: nq.flash.url, until: Date.now() + ms };
+  persist(); flashOverlay(true, nq.flash.url); sound('whoosh'); broadcastState();
+  setTimeout(() => { G.flash = null; flashOverlay(false); persist(); broadcastState(); cont(); }, ms);
+}
+function flashOverlay(on, url) {
+  let el = document.getElementById('flashFull');
+  if (!on) return el?.remove();
+  if (!el) { el = document.createElement('div'); el.id = 'flashFull'; el.className = 'flashfull'; document.body.appendChild(el); }
+  el.innerHTML = `<img src="${esc(url)}" alt="">`;
+}
+/** The URL of the next picture still to come, if one is within the next eight items: phones fetch it early so it is on screen the instant it flashes. */
+function flashAhead() {
+  const qs = G.quiz?.questions || []; for (let i = Math.max(0, G.qIndex + 1); i < Math.min(qs.length, G.qIndex + 9); i++) if (qs[i]?.flash?.url && !(G.flashed || {})[qs[i].id]) return qs[i].flash.url;
+  return '';
 }
 /** A slide: up on the screen and the phones until someone moves on. A break slide starts its countdown clock. */
 /** Group slides: everyone is dealt into a team (and a role in it), once per slide; late joiners go to the smallest team. */
