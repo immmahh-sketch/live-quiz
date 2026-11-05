@@ -22,16 +22,75 @@ const trOn = () => !!G?.tr?.on;
 /** What the letters say. The Traitor signs them all, and never names themselves. */
 const trPick = (a) => a[Math.floor(Math.random() * a.length)];
 const TR_SAY = {
-  // read out on the big screen, about somebody
-  steal: (v, to, n) => !to ? trPick([`${v}, ${n} of your points are now mine. Sleep well.`, `I have taken ${n} points from ${v} and kept every one. Who will be next?`, `${v}, did you really think your ${n} points were safe? They are mine now.`]) : trPick([`${v}, ${n} of your points now belong to ${to}. Sleep well.`, `I have taken ${n} points from ${v} and gifted them to ${to}. Who will be next?`, `${v}, did you really think your ${n} points were safe? ${to} sends their thanks.`, `${n} points changed hands tonight: from ${v} to ${to}. Trust no one.`]),
-  gift: (v) => trPick([`${v} has been handed a free answer: full points, whatever they say. A gift from me… for now.`, `A little present for ${v}: full points on this question. Ask yourselves why.`]),
-  block: (v) => trPick([`${v} has been silenced for this question. Sit back and watch.`, `${v}, not a word from you on this one. Sit this out.`]),
-  dbl: (v) => trPick([`${v}'s points are doubled on this question. Enjoy it… while it lasts.`, `Double points for ${v}, courtesy of me. You are welcome.`]),
+  // read out on the big screen, about somebody. Each one has several versions, picked at random.
+  steal: (v, to, n) => trPick(!to ? [
+    `${v}, ${n} of your points are no longer yours. I thought I deserved them more!`,
+    `I looked at my score and felt a bit sad. ${v}, I took ${n} of yours!`,
+    `${v}, ${n} of your points are now mine. Sleep well.`,
+    `I took ${n} points from ${v} and kept every one. Who will be next?`,
+    `${v}, did you really think your ${n} points were safe? They are mine now.`,
+    `Everyone needs a little treat. ${v}, mine was ${n} of your points.`
+  ] : [
+    `${n} of your points are no longer yours, ${v}. I thought ${to} deserved them more!`,
+    `${to} looks like they will cry if they do not get some points. ${v}, I gave them ${n} of yours!`,
+    `${v}, I took ${n} of your points and gave them to ${to}. Call it charity.`,
+    `${to} was looking a bit sad, so I gave them ${n} of ${v}'s points. You are welcome, ${to}.`,
+    `Somebody had to look after ${to}. ${v}, that somebody was you: ${n} points.`,
+    `I felt ${to} needed ${n} points more than ${v} did. Do not take it personally.`,
+    `${v}, consider ${n} of your points a donation to ${to}. I did not ask.`,
+    `${n} points have left ${v} and gone to ${to}. Did anyone see who did it?`
+  ]),
+  gift: (v) => trPick([
+    `${v} has been handed a free answer: full points, whatever they say. A gift from me… for now.`,
+    `A little present for ${v}: full points on this question. Ask yourselves why.`,
+    `${v} looked like they needed a hand, so I gave them a free answer. You are welcome.`,
+    `Full points for ${v}, whatever they answer. I am feeling generous. Suspicious, isn't it?`,
+    `${v} does not even need to try: a free answer, courtesy of someone in this room.`
+  ]),
+  block: (v) => trPick([
+    `${v} has been silenced for this question. Sit back and watch.`,
+    `${v}, not a word from you on this one. Sit this out.`,
+    `${v} will not be answering this question. Somebody wanted a bit of peace and quiet.`,
+    `I have taken ${v}'s phone away for one question. Do not ask why.`,
+    `${v}, you have been blocked. Make yourself a cup of tea instead.`
+  ]),
+  dbl: (v) => trPick([
+    `${v}'s points are doubled on this question. Enjoy it… while it lasts.`,
+    `Double points for ${v}, courtesy of me. You are welcome.`,
+    `${v} gets twice the points on this one. I would not get used to it.`,
+    `I have decided ${v} deserves double. Do not ask me why. Just answer.`,
+    `Every point ${v} wins on this question counts twice. Somebody likes you.`
+  ]),
   // whispered to the person it happened to
-  steal2: (to, n) => !to ? trPick([`I have taken ${n} of your points and kept them. Better luck next time.`, `${n} of your points are now mine. Did you see it coming?`]) : trPick([`I have taken ${n} of your points and given them to ${to}. Better luck next time.`, `${n} of your points now belong to ${to}. Did you see it coming?`]),
-  gift2: () => trPick(['A gift: full points on this question, whatever you answer. Ask yourself why.', 'I have given you a free answer. Full points, no questions asked. For now.']),
-  block2: () => trPick(['I have silenced you for this question. Sit back and watch.', 'Not a word from you on this one. You are blocked.']),
-  dbl2: () => trPick(['Your points are doubled on this question. Do not trust a gift.', 'Double points for you this time. You are welcome.'])
+  steal2: (to, n) => trPick(!to ? [
+    `${n} of your points are no longer yours: I thought I deserved them more!`,
+    `I took ${n} of your points and kept them. Better luck next time.`,
+    `${n} of your points are now mine. Did you see it coming?`,
+    `I felt a bit sad, so I borrowed ${n} of your points. I will not be giving them back.`
+  ] : [
+    `${n} of your points are no longer yours: I thought ${to} deserved them more!`,
+    `${to} looked like they might cry, so I gave them ${n} of yours. Better luck next time.`,
+    `I took ${n} of your points and gave them to ${to}. Did you see it coming?`,
+    `${n} of your points now belong to ${to}, who sends their thanks.`
+  ]),
+  gift2: () => trPick([
+    'A gift: full points on this question, whatever you answer. Ask yourself why.',
+    'I have given you a free answer. Full points, no questions asked. For now.',
+    'You looked like you needed a hand, so here is a free answer. You are welcome.',
+    'Full points for you on this question. I am feeling generous. Suspicious, isn’t it?'
+  ]),
+  block2: () => trPick([
+    'I have silenced you for this question. Sit back and watch.',
+    'Not a word from you on this one. You are blocked.',
+    'You will not be answering this question. Somebody wanted a bit of peace and quiet.',
+    'Your phone is mine for one question. Make yourself a cup of tea.'
+  ]),
+  dbl2: () => trPick([
+    'Your points are doubled on this question. Do not trust a gift.',
+    'Double points for you this time. You are welcome.',
+    'Twice the points on this one. I would not get used to it.',
+    'I have decided you deserve double. Do not ask me why.'
+  ])
 };
 const trShielded = (pid) => !!G.tr?.shield?.[pid]; // earned with 3 right in a row, kept until the next wrong answer
 
