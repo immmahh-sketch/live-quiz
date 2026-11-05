@@ -719,7 +719,7 @@ async function traitorsPanel(id) {
     }
     if (!d.on) { body.innerHTML = `<p>${esc(d.note || 'Traitors mode is not on for this quiz.')}</p>`; return; }
     const tr = d.players.find((p) => p.pid === d.traitor), mate = d.mate ? d.players.find((p) => p.pid === d.mate) : null;
-    const used = (k) => d.powers ? 5 - d.powers[k] : 0;
+    const used = (k) => d.powers ? 3 - d.powers[k] : 0;
     if (d.hold && !draw.held) { try { navigator.vibrate?.([300, 120, 300, 120, 300, 120, 300]); } catch {} }
     if (draw.logN !== undefined && (d.log?.length || 0) > draw.logN && !(d.hold && !draw.held)) { try { navigator.vibrate?.(120); } catch {} }
     draw.held = !!d.hold; draw.logN = d.log?.length || 0;

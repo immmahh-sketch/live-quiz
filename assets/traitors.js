@@ -1,8 +1,8 @@
 /* Let's Quiz host screen: THE TRAITORS (October 2026).
  *
  * One player is secretly the Traitor, picked from the host's own phone (the 🗡 Traitors button on the quiz's card in the builder).
- * The Traitor gets a secret menu on their phone: steal points (100-1000, up to 5 times a half, the same person once every 15 questions),
- * gift a free answer, block someone from a question, double someone's points (5 of each per half: they all come back at half time), and send secret or whole-group messages.
+ * The Traitor gets a secret menu on their phone: steal points (100-1000, up to 3 times a half, the same person once every 15 questions),
+ * gift a free answer, block someone from a question, double someone's points (3 of each per half: they all come back at half time), and send secret or whole-group messages.
  * Everyone earns a 🛡 shield by getting 3 in a row (the Traitor can't touch them until they get one wrong). Points the Traitor
  * gives themselves (free answer, double) are only for show: taken off again at the very end. After the last question
  * before half time, 3 minutes at the Round Table, then a vote to banish the Traitor. At half time the Traitor ticks a 20 Questions
@@ -12,7 +12,7 @@
  * panel talks to this screen with sealed ('trctl') messages. Hooks into host.html and party.js are small and named tr*.
  * Loaded after party.js; runs once a game exists. */
 
-const TR = { PROMPT_EVERY: 20, RECRUIT_REFUSE: 2000, PROP_MAX: 4, STEALS: 5, SAME_VICTIM: 15, MIN: 100, MAX: 1000, USES: 5, TABLE_MS: 180000, BANISH_LOSS: 5000, WRONG_LOSS: 3000, VOTER_BONUS: 2000, SLIP_BONUS: 2000, FINDER_BONUS: 3000, CAUGHT_LOSS: 2000, AWAY_BONUS: 5000, MSGS: 3, MSG_LEN: 140 };
+const TR = { PROMPT_EVERY: 20, RECRUIT_REFUSE: 2000, PROP_MAX: 4, STEALS: 3, SAME_VICTIM: 15, MIN: 100, MAX: 1000, USES: 3, TABLE_MS: 180000, BANISH_LOSS: 5000, WRONG_LOSS: 3000, VOTER_BONUS: 2000, SLIP_BONUS: 2000, FINDER_BONUS: 3000, CAUGHT_LOSS: 2000, AWAY_BONUS: 5000, MSGS: 3, MSG_LEN: 140 };
 const trFresh = () => ({ gift: TR.USES, block: TR.USES, dbl: TR.USES });
 const trNames = (pids) => pids.map((p) => pname(p)).join(' and ').replace(/, ([^,]*)$/, ' and $1');
 let trPushT = null;
