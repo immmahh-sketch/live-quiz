@@ -2864,9 +2864,10 @@ async function bonusModal() {
   const bg = document.createElement('div'); bg.className = 'modal-bg';
   bg.innerHTML = '<div class="modal bonusmodal" style="color:var(--ink)"><h3>🎁 Bonus points</h3><p class="muted">Loading the warm-up scoreboard…</p></div>';
   document.body.appendChild(bg);
-  let leaders = [];
+  let leaders = [], wpeople = null;
   try {
     const r = await api('warmup_board');
+    wpeople = warmBonusPeople(r);
     // the warm-up that leads up to this quiz (else the latest), and only its current run's scores
     const wu = (r.warmups || []).find((w) => w.forQuiz === G.quizId) || (r.warmups || []).find((w) => w.forQuiz); // never a game of its own (no bonus)
     leaders = wu ? (r.plays || []).filter((p) => p.code === wu.code && (p.season || '') === (wu.season || '')).slice(0, 5) : [];
@@ -2876,10 +2877,27 @@ async function bonusModal() {
   // Shown, never chosen for the host (user's rule, 2 Oct 2026): two players can share a name, and if the winner
   // doesn't join the bonus goes to the next highest. So each of the warm-up's top five says whether they are here.
   const here = (w) => real().filter((p) => norm(p.name) === norm(w.name)).length;
+  /** The warm-up phones, one row per person (the same name on different phones or weeks is one person), with what is still to give. */
+  const wgroups = () => {
+    const given = G.wbonus?.given || {}, byName = {};
+    for (const [pid, b] of Object.entries(wpeople?.byPid || {})) { const k = norm(b.name) || pid; (byName[k] = byName[k] || { key: k, name: b.name, emoji: b.emoji, pids: [] }).pids.push({ pid, ...b, given: !!given[pid] }); }
+    const ps = real();
+    return Object.values(byName).map((g) => {
+      const todo = g.pids.filter((x) => !x.given), pts = todo.reduce((a, x) => a + x.pts, 0), played = g.pids.reduce((a, x) => a + x.played, 0), topped = g.pids.flatMap((x) => x.topped);
+      const joined = ps.find((p) => g.pids.some((x) => x.pid === p.id)) || ps.find((p) => norm(p.name) === g.key);
+      const link = (G.wlinks || {})[g.key] !== undefined ? G.wlinks[g.key] : (joined?.id || '');
+      return { ...g, todo, pts, played, topped, link, doneAll: !todo.length, doneTotal: g.pids.filter((x) => x.given).reduce((a, x) => a + x.pts, 0) };
+    }).sort((a, b) => b.pts - a.pts || a.name.localeCompare(b.name));
+  };
   const draw = () => {
     const m = $('.modal', bg), ps = real();
     m.innerHTML = `<h3>🎁 Bonus points</h3>
       ${leaders.length ? `<div class="notice"><b>🏆 Warm-up top scores</b> <span class="small">(give the bonus to the highest one here)</span>${leaders.map((w, k) => { const n = here(w); return `<div class="small" style="margin-top:4px">${['🥇', '🥈', '🥉', '4.', '5.'][k]} <b>${esc(w.emoji || '')} ${esc(w.name)}</b> ${w.score} · ${n === 1 ? '<span style="color:#1a7f37;font-weight:800">in this game</span>' : n > 1 ? `<span style="color:#b3261e;font-weight:800">⚠ ${n} players with this name: check which</span>` : '<span class="muted">not here</span>'}</div>`; }).join('')}</div>` : '<p class="muted small">No warm-up scores yet.</p>'}
+      ${wpeople && Object.keys(wpeople.byPid).length ? (() => { const wg = wgroups(), ready = wg.filter((g) => !g.doneAll && g.pts > 0 && G.players[g.link]), tot = ready.reduce((a, g) => a + g.pts, 0), left = wg.filter((g) => !g.doneAll).length - ready.length;
+        return `<div class="notice" style="margin-bottom:10px"><b>🔗 Everyone who played the warm-ups</b> <span class="small">All weeks together, one row per person. Choose who each one is tonight (same names are linked for you), then give everyone their full bonus in one go.</span>
+          <div style="max-height:34vh;overflow:auto;margin-top:6px">${wg.map((g) => `<div class="row" style="padding:5px 0;gap:8px;flex-wrap:nowrap;align-items:center"><span style="flex:1 1 40%;min-width:0">${esc(g.emoji || '')} <b>${esc(g.name)}</b><br><span class="muted small">${g.played} played${g.topped.length ? ` · top in ${esc(g.topped.join(' & '))}` : ''}${g.pids.length > 1 ? ` · ${g.pids.length} phones` : ''}</span></span>
+            ${g.doneAll ? `<span class="small" style="flex:0 0 auto">✅ given +${g.doneTotal.toLocaleString('en-GB')}</span>` : `<b style="flex:0 0 auto">+${g.pts.toLocaleString('en-GB')}</b><select data-wlink="${esc(g.key)}" style="flex:1 1 40%;min-width:0"><option value="">Not here yet</option>${ps.map((p) => `<option value="${p.id}" ${g.link === p.id ? 'selected' : ''}>${esc(p.emoji || '')} ${esc(p.name)}</option>`).join('')}</select>`}</div>`).join('')}</div>
+          ${ready.length ? `<button class="btn btn-primary btn-block" data-wgive style="margin-top:8px;background:var(--brand);color:#fff">🎁 Give ${ready.length} player${ready.length === 1 ? '' : 's'} their full bonus (${tot.toLocaleString('en-GB')} points) in one go</button>` : '<p class="small muted" style="margin:8px 0 0">Nothing left to give to the people who are here.</p>'}${left > 0 ? `<p class="small muted" style="margin:6px 0 0">${left} not linked to anyone here yet.</p>` : ''}</div>`; })() : ''}
       ${ps.length ? `<div class="field"><label>Who</label><select id="bn_who"><option value="" selected disabled>Choose who gets it…</option>${ps.map((p) => `<option value="${p.id}">${esc(p.emoji || '')} ${esc(p.name)}${p.bonus ? ` (has ${p.bonus > 0 ? '+' : ''}${p.bonus})` : ''}</option>`).join('')}</select></div>
       <div class="row"><div class="field grow"><label>Points</label><input type="number" id="bn_pts" value="1000" step="100" min="-5000" max="10000"></div><div class="field grow"><label>Why (shown on the screen)</label><input type="text" id="bn_why" value="Warm-up bonus" maxlength="40"></div></div>` : '<p class="muted">Nobody has joined yet. Players need to be in the game first.</p>'}
       ${(G.bonuses || []).length ? `<div class="field"><label>Given so far</label>${G.bonuses.map((b, i) => `<div class="row" style="padding:4px 0"><span>${esc(b.name)} <b>${b.pts > 0 ? '+' : ''}${b.pts}</b> <span class="muted small">${esc(b.why)}</span></span><div class="grow"></div><button class="btn btn-ghost btn-sm" data-undo="${i}" style="color:var(--ink)">Take back</button></div>`).join('')}</div>` : ''}
@@ -2887,8 +2905,22 @@ async function bonusModal() {
     $('[data-x]', m).onclick = () => { bg.remove(); if (G.phase === 'lobby') renderLobby(); };
     $$('[data-undo]', m).forEach((b) => b.onclick = () => {
       const x = G.bonuses.splice(+b.dataset.undo, 1)[0], p = G.players[x.pid];
+      (x.warm || []).forEach((wp) => { if (G.wbonus?.given) delete G.wbonus.given[wp]; }); // given back: it can be given again
       if (p) { p.score -= x.pts; p.bonus = (p.bonus || 0) - x.pts; if (!p.bonus) delete p.bonus; }
       persist(); broadcastState(); if (G.phase === 'lobby') renderLobbyPlayers(); draw();
+    });
+    $$('[data-wlink]', m).forEach((sel) => sel.onchange = () => { (G.wlinks = G.wlinks || {})[sel.dataset.wlink] = sel.value; persist(); draw(); });
+    $('[data-wgive]', m)?.addEventListener('click', () => {
+      const w = (G.wbonus = G.wbonus || { byPid: {}, given: {} }); let n = 0, tot = 0, delay = 0;
+      for (const g of wgroups()) {
+        const p = G.players[g.link]; if (g.doneAll || !g.pts || !p) continue;
+        const why = ['Warm-up bonuses', g.played ? `${g.played} played` : '', g.topped.length ? `top in ${g.topped.join(' & ')}` : ''].filter(Boolean).join(' · ');
+        p.score += g.pts; p.bonus = (p.bonus || 0) + g.pts; g.todo.forEach((x) => { w.given[x.pid] = true; });
+        (G.bonuses = G.bonuses || []).push({ pid: p.id, name: p.name, pts: g.pts, why, at: Date.now(), warm: g.todo.map((x) => x.pid) });
+        n++; tot += g.pts; setTimeout(() => bonusFlash(p, g.pts, why), delay); delay += 2600;
+      }
+      persist(); broadcastState(); if (G.phase === 'lobby') renderLobbyPlayers();
+      toast(`🎁 ${n} player${n === 1 ? '' : 's'} given their warm-up bonuses: ${tot.toLocaleString('en-GB')} points in all.`); draw();
     });
     const give = $('[data-give]', m);
     if (give) give.onclick = () => {
@@ -2926,25 +2958,30 @@ function camLinksModal() {
  *  Matched by device (pid), so it finds a player who uses the same phone; anyone else can be given points by hand
  *  with 🎁 Bonus points. Each player gets it once, when they join (or straight away for players already here). */
 let warmBonusBusy = false;
+/** What every phone that played this quiz's warm-ups has earned, all weeks together: { pid: { pts, played, topped[], name, emoji, why } }. */
+function warmBonusPeople(r) {
+  const wus = (r.warmups || []).filter((w) => w.forQuiz === G.quizId && !w.fun && w.bonus && (+w.bonus.play || +w.bonus.top));
+  const byPid = {};
+  for (const w of wus) {
+    const rows = (r.plays || []).filter((p) => p.code === w.code && (p.season || '') === (w.season || '') && !String(p.pid).startsWith('p_bot'));
+    const best = Math.max(...rows.map((p) => p.score));
+    const label = w.week ? 'week ' + w.week : 'the warm-up';
+    for (const p of rows) {
+      const b = byPid[p.pid] = byPid[p.pid] || { pts: 0, played: 0, topped: [] };
+      b.name = p.name || b.name; b.emoji = p.emoji || b.emoji;
+      if (+w.bonus.play) { b.pts += +w.bonus.play; b.played++; }
+      if (+w.bonus.top && p.score === best) { b.pts += +w.bonus.top; b.topped.push(label); }
+    }
+  }
+  for (const b of Object.values(byPid)) b.why = ['Warm-up bonus', b.played ? `${b.played} played` : '', b.topped.length ? `top in ${b.topped.join(' & ')}` : ''].filter(Boolean).join(' · ');
+  return { byPid, weeks: wus.length };
+}
 async function warmBonusLoad() {
   if (WARMUP || PREVIEW || !G || G.wbonus || warmBonusBusy || !G.quizId) return;
   warmBonusBusy = true;
   try {
     const r = await api('warmup_board');
-    const wus = (r.warmups || []).filter((w) => w.forQuiz === G.quizId && !w.fun && w.bonus && (+w.bonus.play || +w.bonus.top));
-    const byPid = {};
-    for (const w of wus) {
-      const rows = (r.plays || []).filter((p) => p.code === w.code && (p.season || '') === (w.season || '') && !String(p.pid).startsWith('p_bot'));
-      const best = Math.max(...rows.map((p) => p.score));
-      const label = w.week ? 'week ' + w.week : 'the warm-up';
-      for (const p of rows) {
-        const b = byPid[p.pid] = byPid[p.pid] || { pts: 0, played: 0, topped: [] };
-        if (+w.bonus.play) { b.pts += +w.bonus.play; b.played++; }
-        if (+w.bonus.top && p.score === best) { b.pts += +w.bonus.top; b.topped.push(label); }
-      }
-    }
-    for (const b of Object.values(byPid)) b.why = ['Warm-up bonus', b.played ? `${b.played} played` : '', b.topped.length ? `top in ${b.topped.join(' & ')}` : ''].filter(Boolean).join(' · ');
-    G.wbonus = { byPid, given: {} }; persist();
+    G.wbonus = { byPid: warmBonusPeople(r).byPid, given: {} }; persist();
     Object.values(G.players).forEach(warmBonusGive);
   } catch (e) { console.warn('warm-up bonuses', e); } finally { warmBonusBusy = false; }
 }
@@ -2953,7 +2990,7 @@ function warmBonusGive(p) {
   const b = w.byPid[p.id]; if (!b?.pts) return;
   w.given[p.id] = true;
   p.score += b.pts; p.bonus = (p.bonus || 0) + b.pts;
-  (G.bonuses = G.bonuses || []).push({ pid: p.id, name: p.name, pts: b.pts, why: b.why, at: Date.now() });
+  (G.bonuses = G.bonuses || []).push({ pid: p.id, name: p.name, pts: b.pts, why: b.why, at: Date.now(), warm: [p.id] });
   persist(); broadcastState(); if (G.phase === 'lobby') renderLobbyPlayers();
   bonusFlash(p, b.pts, b.why);
 }
