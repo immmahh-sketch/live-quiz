@@ -39,6 +39,7 @@ function trpOnPrivate(m) {
   else if (m.kind === 'claudia') trpClaudiaQueue(m);
   else if (m.kind === 'mate') { TRP.mate = m.mate || null; if (TRP.sync) TRP.sync.mate = TRP.mate; toast(`🗡 ${m.mate?.name || 'Someone'} has joined you. Your menu has a 🤝 chat tab.`); trpRefresh(); }
   else if (m.kind === 'unrecruited') { TRP.mate = null; if (TRP.sync) { TRP.sync.mate = null; TRP.sync.prop = null; } trpRefresh(); }
+  else if (m.kind === 'shielded') { TRP.msgs.push({ shield: true, text: String(m.text || '') }); trpMsgShow(); }
   else if (m.kind === 'msg' || m.kind === 'letter') { TRP.msgs.push({ text: String(m.text || ''), now: !!m.now, note: m.note || '' }); trpMsgShow(); }
   else if (m.kind === 'banished') { TRP.traitor = false; TRP.sync = null; document.getElementById('trpMenu')?.remove(); trpFull('banished', `<div class="trp-big">🗡 BANISHED</div><p>${esc(m.text || 'You have been banished.')}</p><p class="trp-small">Keep quiet: the new Traitor is chosen in secret.</p><button class="btn btn-lg btn-block" data-trpx>OK</button>`); trpRefresh(); }
 }
@@ -64,7 +65,7 @@ function trpRoleScreen(m) {
     <ul class="trp-ul"><li><b>Steal</b> 100 to 1,000 points from a player (up to 3 times each half, the same player only once every 15 questions) and give them to someone else, or <b>keep them yourself: but points you give yourself are only for show</b>.</li>
     <li><b>3 free answers</b> to gift, <b>3 blocks</b> to knock someone out of a question, <b>3 doubles</b> (3 of each every half: they all come back at half time): use them on anyone, yourself included. <b>Extra points you give yourself (a steal, a free answer, a double) are only for show</b>: they look real all night, then come off your score at the very end.</li>
     <li><b>Messages</b> to one person in secret, or to the whole room.</li>
-    <li>Players earn a 🛡 with 3 right in a row: it keeps you off them until they get a question wrong.</li>
+    <li>Players earn a 🛡 with 3 right in a row. You are never told who has one: a steal or a block on them just fails (and still counts as used), and they are told what you tried.</li>
     <li>Your 🗡 button is always on your screen. Don't show anyone!</li></ul>
     <p class="trp-small">Be sneaky, but honest when you fill in your 20 Questions list at half time.</p>
     ${m.again || P.partnerLinked ? '' : `<div class="trp-team"><b>👥 Got another player with you?</b> Use this game code on their phone to secretly join (still as one team) so one of you can do the answering while the other does the <b>MURDERING</b>!<div class="trp-code">${esc(typeof teamCode === 'function' && TM.tag ? teamCode() : 'TEAM' + P.code)}</div><small>Type it in the box where the game code goes. Then tap the button below so they can get in.</small><button class="btn btn-block" data-teamopen>🚪 Open the door for them</button></div>`}
@@ -123,6 +124,12 @@ function trpMsgShow() {
   const s = P.state; if (!TRP.msgs.length || !s || document.getElementById('trpFull')) return;
   if (!TRP.msgs[0].now && (s.phase === 'question' || s.phase === 'grading')) return;
   const m = TRP.msgs.shift(), t = m.text;
+  if (m.shield) { // the shield held: what the Traitor tried, and that telling the group is the player's choice
+    const sh = trpFull('msg', `<div class="trp-big small">🛡 YOUR SHIELD PROTECTED YOU</div><p style="font-size:1.2rem;margin:16px 0">${esc(t)}</p><p class="trp-small">Your shield stays up until you get a question wrong. It is up to you whether you tell the rest of the group what happened.</p><button class="btn btn-primary btn-lg btn-block" data-trpx>OK</button>`);
+    sh.querySelector('[data-trpx]').addEventListener('click', () => setTimeout(trpMsgShow, 200));
+    if (navigator.vibrate) try { navigator.vibrate([150, 80, 150]); } catch {}
+    return;
+  }
   const el = trpFull('msg', `<div class="trp-big small">${m.note ? '🤫 A SECRET MESSAGE, JUST FOR YOU' : esc(TR_LETTER_TITLE)}</div>${trLetterHtml(t, { to: `Dear ${P.name},` })}${m.note ? `<p class="trp-small" style="font-style:italic">${esc(m.note)}</p>` : ''}<button class="btn btn-primary btn-lg btn-block" data-trpx>OK</button>`);
   el.querySelector('[data-trpx]').addEventListener('click', () => setTimeout(trpMsgShow, 200));
   if (navigator.vibrate) try { navigator.vibrate([100, 60, 100]); } catch {}

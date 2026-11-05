@@ -739,6 +739,8 @@ function primaryAction() {
   clearTimeout(autoT);
   if (G.paused) togglePause(false, true);
   if (trOn() && G.tr.screen && G.phase !== 'lobby' && trScreenNext()) return;
+  // a Traitors letter waiting for the big screen comes up on this click (and the click is given back when it has been read)
+  if (trOn() && !G.tr.screen && G.tr.notices?.length && ['round', 'slide', 'typecard', 'reveal', 'scoreboard'].includes(G.phase) && trInterlude(false, true)) return;
   if (G.phase === 'lobby') {
     if (!players().length) return toast('Waiting for at least one player.');
     if (trOn() && !G.tr.traitor && !G.test) { // no Traitor picked: no steals, no Round Table, no last round

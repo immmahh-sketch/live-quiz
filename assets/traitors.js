@@ -3,7 +3,7 @@
  * One player is secretly the Traitor, picked from the host's own phone (the 🗡 Traitors button on the quiz's card in the builder).
  * The Traitor gets a secret menu on their phone: steal points (100-1000, up to 3 times a half, the same person once every 15 questions),
  * gift a free answer, block someone from a question, double someone's points (3 of each per half: they all come back at half time), and send secret or whole-group messages.
- * Everyone earns a 🛡 shield by getting 3 in a row (the Traitor can't touch them until they get one wrong). Points the Traitor
+ * Everyone earns a 🛡 shield by getting 3 in a row (the Traitor's steals and blocks fail against them until they get one wrong). Points the Traitor
  * gives themselves (free answer, double) are only for show: taken off again at the very end. After the last question
  * before half time, 3 minutes at the Round Table, then a vote to banish the Traitor. At half time the Traitor ticks a 20 Questions
  * list about themselves, which becomes the last round: find the Traitor. See docs/traitors-guide.html (also the PDF the players get).
@@ -337,7 +337,7 @@ function trSync() { for (const t of trTraitors()) trSyncOne(t); }
 function trSyncOne(t) {
   if (!t || !G.players[t]) return;
   const qd = G.tr.qDone, victims = {};
-  for (const p of Object.keys(G.players)) if (!trIsTraitor(p)) victims[p] = { shield: trShielded(p), wait: Math.max(0, TR.SAME_VICTIM - (qd - (G.tr.victimQ[p] ?? -99))), score: G.players[p].score };
+  for (const p of Object.keys(G.players)) if (!trIsTraitor(p)) victims[p] = { wait: Math.max(0, TR.SAME_VICTIM - (qd - (G.tr.victimQ[p] ?? -99))), score: G.players[p].score };
   trTell(t, 'sync', { d: { powers: G.tr.powers, set: G.tr.set, canSteal: (G.tr.stealsHalf || 0) < TR.STEALS, stealsLeft: Math.max(0, TR.STEALS - (G.tr.stealsHalf || 0)), victims, window: trWindow(), nextPlain: powerNextPlain() >= 0, msgsLeft: Math.max(0, TR.MSGS - G.tr.msgBreak), hold: trHoldOn(), team: trTeamPublic(t), me: t, mate: trWho(trOther(t)), prop: trPropFor(t), chat: (G.tr.chat || []).slice(-30), recruited: t === G.tr.mate,
     needList: !!(G.tr.tableDone && G.tr.twoAtHalf && !G.tr.lists?.[t]), list: G.tr.lists?.[t] || null, qDone: qd, players: Object.values(G.players).filter((p) => p.id !== t).map((p) => ({ pid: p.id, name: p.name, emoji: p.emoji || '' })) } });
 }
@@ -381,10 +381,10 @@ function trSteal({ victim, amount, to, show, who }) {
   if ((G.tr.stealsHalf || 0) >= TR.STEALS) return trNo(`You have used all ${TR.STEALS} steals for this half. They come back at half time.`);
   if (!G.players[victim] || trIsTraitor(victim)) return trNo('Pick someone else to steal from.');
   if (!G.players[to] || to === victim) return trNo('Give the points to someone other than the player you took them from (you can keep them yourself, but they only count for show).');
-  if (trShielded(victim)) return trNo(`${pname(victim)} has a 🛡 shield.`);
   const wait = TR.SAME_VICTIM - (qd - (G.tr.victimQ[victim] ?? -99)); if (wait > 0) return trNo(`You can only steal from ${pname(victim)} once every ${TR.SAME_VICTIM} questions: ${wait} more to go.`);
   const want = Math.round((+amount || 0) / 100) * 100; if (want < TR.MIN || want > TR.MAX) return trNo(`Steal between ${TR.MIN} and ${TR.MAX}.`);
   const amt = Math.min(want, Math.max(0, G.players[victim].score)); if (amt <= 0) return trNo(`${pname(victim)} has no points to steal.`);
+  if (trShielded(victim)) return trShieldHeld('steal', { t, victim, to, amt }); // the Traitor only finds out by trying
   G.players[victim].score -= amt; G.players[to].score += amt;
   if (trIsTraitor(to)) { G.tr.fake = G.tr.fake || {}; G.tr.fake[to] = (G.tr.fake[to] || 0) + amt; } // kept by a Traitor: only for show, it comes off again at the very end
   G.tr.lastStealQ = qd; G.tr.victimQ[victim] = qd; G.tr.stolen += amt; G.tr.steals++; G.tr.stealsHalf = (G.tr.stealsHalf || 0) + 1;
@@ -399,6 +399,17 @@ function trSteal({ victim, amount, to, show, who }) {
   trAct('steal'); trTell(t, 'ok', { text: `🗡 Done: ${amt} points taken from ${pname(victim)} and ${to === t ? 'kept for yourself (only for show: they come off at the end)' : 'given to ' + pname(to)}.` }); trHoldClear();
   trSync(); persist(); broadcastState(); if (['reveal', 'scoreboard'].includes(G.phase)) render();
 }
+/** A steal or a block aimed at someone with a shield. The Traitor is never told who has one: they find out by trying, and the attempt is still used up.
+ *  The Traitor hears it failed because of a shield; the player is told exactly what was tried, and that sharing it is up to them. */
+function trShieldHeld(kind, { t, victim, to, amt }) {
+  const qd = G.tr.qDone, who = pname(victim), steal = kind === 'steal';
+  if (steal) { G.tr.lastStealQ = qd; G.tr.victimQ[victim] = qd; G.tr.stealsHalf = (G.tr.stealsHalf || 0) + 1; }
+  else { G.tr.powers.block = Math.max(0, G.tr.powers.block - 1); G.tr.used.block++; }
+  trTell(t, 'ping', { icon: '🛡', text: steal ? `Your steal from ${who} failed: they had a shield. It still counts as one of your steals.` : `Your block on ${who} failed: they had a shield. It still counts as one of your blocks.` });
+  trLetterTo(victim, steal ? `The Traitor tried to steal ${amt.toLocaleString('en-GB')} of your points and ${trIsTraitor(to) ? 'keep them' : 'give them to ' + pname(to)}. Your shield stopped it.` : 'The Traitor tried to block you from the next question. Your shield stopped it.', {}, 'shielded');
+  trLog(`🛡 ${steal ? `Steal of ${amt} from ${who}` : `Block on ${who}`} FAILED: they had a shield (both sides have been told)`);
+  trAct(steal ? 'steal' : 'power'); trHoldClear(); trSync(); persist();
+}
 function trPower({ kind, target, show, who }) {
   const t = who || G.tr.traitor, trNo = (why) => trTell(t, 'no', { why }); if (!['gift', 'block', 'dbl'].includes(kind)) return;
   if (!trWindow()) return trNo('Not right now: the vote is on.');
@@ -408,7 +419,7 @@ function trPower({ kind, target, show, who }) {
   if (!G.players[target]) return;
   if (G.tr.powers[kind] <= 0) return trNo('You have none of those left.');
   for (const k of ['gift', 'block', 'dbl']) if (k !== kind && G.tr.set[k] === target) return trNo(`${pname(target)} already has something from you for the next question.`);
-  if (kind === 'block' && !trIsTraitor(target) && trShielded(target)) return trNo(`${pname(target)} has a 🛡 shield: you can't block them.`);
+  if (kind === 'block' && !trIsTraitor(target) && trShielded(target)) return trShieldHeld('block', { t, victim: target });
   trAct('power'); trHoldClear(); G.tr.set[kind] = target; (G.tr.show = G.tr.show || {})[kind] = show === 'secret' ? 'secret' : 'screen'; (G.tr.said = G.tr.said || {})[kind] = true;
   // the letter goes out now, before the question it is about, so there is time to read it (held until the clock stops if a question is on)
   if (show === 'secret') { if (!trIsTraitor(target)) trLetterTo(target, TR_SAY[kind + '2']()); }
@@ -435,10 +446,9 @@ function trList({ items, who }) {
   (G.tr.lists = G.tr.lists || {})[who] = list; trLog(`📋 ${pname(who)}'s 20 Questions list is in (${list.length} questions)`); trTell(who, 'ok', { text: '✅ Your list is saved. Honesty is the whole game!' }); trHoldClear(); trSync(); persist();
   if (G.phase === 'slide') render(); // the half-time button was waiting for it
 }
-/** A notice for the screen (and the phones): up at once if the game is between questions, else when it next pauses. */
-function trPushNotice(n, now) {
+/** A notice for the screen (and the phones). It waits for the host's NEXT CLICK (primaryAction): it never appears in the middle of a screen that is being shown. */
+function trPushNotice(n) {
   G.tr.notices.push(n);
-  if (now && !trTimerOn() && !G.tr.screen) trInterlude(true);
   persist(); broadcastState();
 }
 
@@ -469,9 +479,9 @@ function trAfterGrade(byPlayer) {
   // streaks and shields count what people really answered, before the Traitor's gifts
   for (const pid of Object.keys(G.players)) {
     const r = byPlayer[pid], right = !!r?.correct && !r.frozen && fx.block !== pid;
-    if (trShielded(pid) && !right && fx.block !== pid) { G.tr.shield[pid] = 0; trTell(pid, 'ping', { icon: '🛡', text: 'Wrong answer: your shield is gone. The traitor can touch you again.' }); }
+    if (trShielded(pid) && !right && fx.block !== pid) { G.tr.shield[pid] = 0; trTell(pid, 'ping', { icon: '🛡', text: "Wrong answer: your shield is gone. The Traitor's steals and blocks can work on you again." }); }
     G.tr.streak[pid] = right ? (G.tr.streak[pid] || 0) + 1 : 0;
-    if (G.tr.streak[pid] >= 3) { G.tr.streak[pid] = 0; if (!trShielded(pid)) { G.tr.shield[pid] = 1; trTell(pid, 'ping', { icon: '🛡', text: "Shield earned! The traitor can't touch you until you get one wrong." }); } }
+    if (G.tr.streak[pid] >= 3) { G.tr.streak[pid] = 0; if (!trShielded(pid)) { G.tr.shield[pid] = 1; trTell(pid, 'ping', { icon: '🛡', text: "Shield earned! The Traitor's steals and blocks will fail against you until you get one wrong." }); } }
   }
   const owns = {}; for (const x of trTraitors()) owns[x] = byPlayer[x]?.points || 0;
   if (fx.block) { const r = byPlayer[fx.block] = byPlayer[fx.block] || blank(); r.points = 0; r.correct = false; r.partial = 0; r.blocked = true; partyNote(r, '🚫 The Traitor blocked you from this question'); }
@@ -486,7 +496,7 @@ function trAfterGrade(byPlayer) {
 
 // ---------------------------------------------------------------- the game pauses: notices up on the host screen and the phones
 /** After a question (reveal, scoreboard): a waiting notice goes up. Returns true if it did. */
-function trInterlude(now) {
+function trInterlude(now, resume) {
   if (!trOn() || G.tr.screen) return false;
   const i = G.tr.notices.findIndex((n) => now ? true : (n.afterIdx || 0) <= G.qIndex);
   if (i < 0) return false;
@@ -498,7 +508,7 @@ function trInterlude(now) {
       : [`${n.amt.toLocaleString('en-GB')} points were stolen from one player and given to another…`, `Who is the Traitor? You'll get your chance to banish them at half time.`];
     n.sound = 'caught';
   }
-  G.tr.screen = { id: uid('s'), kind: 'notice', title: n.title, lines: n.lines || [], quote: n.quote || '', letter: n.letter || '', cont: !now };
+  G.tr.screen = { id: uid('s'), kind: 'notice', title: n.title, lines: n.lines || [], quote: n.quote || '', letter: n.letter || '', cont: !now && !resume }; // resume: the click that brought it up is given back once it is read, so the screen underneath carries on from where it was
   persist(); sound(n.sound || (n.letter ? 'whoosh' : 'gong')); render(); broadcastState();
   return true;
 }
