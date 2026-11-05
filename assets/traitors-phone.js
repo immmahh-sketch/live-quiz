@@ -3,7 +3,7 @@
  *  - The Traitor: the secret "you are the Traitor" screen, and a 🗡 menu (steal, gift / block / double, messages, and at half time the honest 20 Questions list).
  * Everything private for one phone arrives as a 'trs' message addressed to this pid and is acted on only here. Loaded after party-phone.js. */
 
-const TRP = { traitor: false, sync: null, tab: 'steal', st: { amount: 300, show: 'screen' }, msgs: [], screenId: '', vote: '', tableEnd: 0, listDraft: null, listPrompted: false, msgTo: '', tick: null };
+const TRP = { traitor: false, sync: null, tab: 'power', st: { amount: 300, show: 'screen' }, msgs: [], screenId: '', vote: '', tableEnd: 0, listDraft: null, listPrompted: false, msgTo: '', tick: null };
 const trpKey = () => 'lq_tr_' + (P.code || '') + (SLOT ? '_' + SLOT : '');
 const trpSeen = (k) => { try { return localStorage.getItem(trpKey() + k) === '1'; } catch { return false; } };
 const trpMark = (k) => { try { localStorage.setItem(trpKey() + k, '1'); } catch {} };
@@ -231,11 +231,10 @@ function trpMenu(refresh) {
   if (old && old.contains(document.activeElement) && /^(TEXTAREA|INPUT)$/.test(document.activeElement.tagName)) return; // never rebuild under someone's typing
   const d = TRP.sync; const el = old || document.createElement('div'); el.id = 'trpMenu'; el.className = 'pcsheet trp-sheet';
   if (!d) { el.innerHTML = `<div class="pcs-in"><p>Loading…</p></div>`; if (!old) document.body.appendChild(el); send('tr', { pid: P.pid, op: 'sync' }); trpHoldSync(); return; }
-  const tabs = [['steal', '💰 Steal'], ['power', '🎁 Powers'], ['msg', '📜 Messages'], ['team', '👥 Team' + (d.team?.pending || (d.team?.linked && !d.team.answerDev) ? ' ❗' : '')]].concat(d.mate ? [['chat', '🤝 Chat']] : []).concat(d.needList || d.list ? [['list', '📋 My list']] : []);
-  if (!tabs.some(([k]) => k === TRP.tab)) TRP.tab = 'steal';
+  const tabs = [['power', '🎁 Powers'], ['msg', '📜 Messages'], ['team', '👥 Team' + (d.team?.pending || (d.team?.linked && !d.team.answerDev) ? ' ❗' : '')]].concat(d.mate ? [['chat', '🤝 Chat']] : []).concat(d.needList || d.list ? [['list', '📋 My list']] : []);
+  if (!tabs.some(([k]) => k === TRP.tab)) TRP.tab = 'power';
   const win = s.tr.window;
   let body = '';
-  if (TRP.tab === 'steal') body = trpSteal(d, win);
   if (TRP.tab === 'power') body = trpPowers(d, win);
   if (TRP.tab === 'msg') body = trpMessages(d);
   if (TRP.tab === 'list') body = trpList(d);
@@ -272,11 +271,12 @@ function trpSteal(d, win) {
   return h;
 }
 function trpPowers(d, win) {
-  const defs = [['gift', '🎁', 'Free answer', 'full points for them on the next question', d.powers.gift], ['block', '🚫', 'Block', 'they sit the next question out', d.powers.block], ['dbl', '✨', 'Double points', 'their points count twice on the next question', d.powers.dbl]];
+  const defs = [['steal', '💰', 'Steal', 'take 100 to 1,000 points from one player and give them to someone else', d.stealsLeft ?? 0], ['gift', '🎁', 'Free answer', 'full points for them on the next question', d.powers.gift], ['block', '🚫', 'Block', 'they sit the next question out', d.powers.block], ['dbl', '✨', 'Double points', 'their points count twice on the next question', d.powers.dbl]];
   const pick = TRP.st.power;
-  let h = `<p class="small muted" style="margin:6px 0">${win ? (d.nextPlain ? `${d.mate ? `Your teammate ${esc(d.mate.name)} has to agree to each one. ` : ''}Use these at any time, before a question or while one is running. If a question is running, it counts on the next one. You have 5 of each every half: they all come back at half time.` : 'There is no everyone-answers question left to use these on.') : 'Not right now: the Round Table vote is on.'}</p>`;
-  h += `<div class="pcs-cards">${defs.map(([k, ic, nm, how, left]) => { const t = d.set?.[k]; return `<button class="pcs-card ${pick === k ? 'sel' : ''}" data-pw="${k}" ${win && d.nextPlain && left > 0 ? '' : 'disabled'}><span class="pcs-ic">${ic}</span><span><b>${nm} <small style="display:inline">· ${left} left</small></b><small>${how}</small>${t ? `<small style="color:var(--brand);font-weight:800">Set for: ${t === P.pid ? 'you' : esc(trpWho(d).find((p) => p.pid === t)?.name || '')}</small>` : ''}</span></button>`; }).join('')}</div>`;
-  if (pick && win) {
+  let h = `<p class="small muted" style="margin:6px 0">${win ? (d.nextPlain ? `${d.mate ? `Your teammate ${esc(d.mate.name)} has to agree to each one. ` : ''}Use these at any time, before a question or while one is running. If a question is running, a power counts on the next one. You have 5 of each every half: they all come back at half time.` : 'There is no everyone-answers question left to use these on.') : 'Not right now: the Round Table vote is on.'}</p>`;
+  h += `<div class="pcs-cards">${defs.map(([k, ic, nm, how, left]) => { const t = d.set?.[k]; return `<button class="pcs-card ${pick === k ? 'sel' : ''}" data-pw="${k}" ${win && (k === 'steal' ? d.canSteal : d.nextPlain && left > 0) ? '' : 'disabled'}><span class="pcs-ic">${ic}</span><span><b>${nm} <small style="display:inline">· ${left} left</small></b><small>${how}</small>${t ? `<small style="color:var(--brand);font-weight:800">Set for: ${t === P.pid ? 'you' : esc(trpWho(d).find((p) => p.pid === t)?.name || '')}</small>` : ''}</span></button>`; }).join('')}</div>`;
+  if (pick === 'steal' && win) h += `<div style="margin-top:12px">${trpSteal(d, win)}</div>`;
+  else if (pick && win) {
     h += `<p class="small" style="margin:12px 0 4px">Who sees the letter?</p>${trpShowToggle('them')}<p class="small" style="margin:6px 0">${defs.find((x) => x[0] === pick)[1]} Who gets it?</p><div class="pcs-who"><button class="btn" data-pt="${P.pid}">🫵 Me${pick === 'block' ? '' : ' (for show)'}</button>${trpWho(d).map((p) => `<button class="btn" data-pt="${p.pid}">${esc(p.emoji || '🙂')} ${esc(p.name)}</button>`).join('')}</div>${d.set?.[pick] ? `<button class="btn btn-ghost btn-block mt" data-pundo>Take it back</button>` : ''}`;
   }
   return h;
@@ -313,11 +313,11 @@ function trpBind(el, d) {
   el.querySelectorAll('[data-sv]').forEach((b) => b.onclick = () => { st.victim = b.dataset.sv; if (st.to === st.victim) st.to = ''; re(); });
   el.querySelectorAll('[data-st]').forEach((b) => b.onclick = () => { st.to = b.dataset.st; re(); });
   const range = el.querySelector('#trpRange'); if (range) range.oninput = () => { st.amount = +range.value; el.querySelector('#trpAmt').textContent = st.amount; const g = el.querySelector('[data-go]'); if (g) g.textContent = g.textContent.replace(/(teal) \d+/, '$1 ' + st.amount); };
-  el.querySelector('[data-go]')?.addEventListener('click', () => { send('tr', { pid: P.pid, op: 'steal', victim: st.victim, amount: st.amount, to: st.to, show: st.show }); st.victim = ''; st.to = ''; el.remove(); });
+  el.querySelector('[data-go]')?.addEventListener('click', () => { send('tr', { pid: P.pid, op: 'steal', victim: st.victim, amount: st.amount, to: st.to, show: st.show }); st.victim = ''; st.to = ''; st.power = ''; el.remove(); });
   el.querySelectorAll('[data-pw]').forEach((b) => b.onclick = () => { st.power = b.dataset.pw; re(); });
   el.querySelector('[data-hold]')?.addEventListener('click', trpHoldToggle);
   el.querySelectorAll('[data-prop]').forEach((b) => b.onclick = () => send('tr', { pid: P.pid, op: 'prop', k: b.dataset.prop }));
-  el.querySelector('[data-propalt]')?.addEventListener('click', () => { TRP.tab = 'steal'; toast('Choose what you would rather do and send it: it goes back to them.'); trpMenu(true); });
+  el.querySelector('[data-propalt]')?.addEventListener('click', () => { TRP.tab = 'power'; toast('Choose what you would rather do and send it: it goes back to them.'); trpMenu(true); });
   el.querySelector('[data-chatsend]')?.addEventListener('click', () => { const x = el.querySelector('#trpChatText'); if (x?.value.trim()) { send('tr', { pid: P.pid, op: 'tchat', text: x.value }); x.value = ''; TRP.chatText = ''; } });
   el.querySelector('#trpChatText')?.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); el.querySelector('[data-chatsend]')?.click(); } });
   { const lg = el.querySelector('.trp-chatlog'); if (lg) lg.scrollTop = lg.scrollHeight; }
