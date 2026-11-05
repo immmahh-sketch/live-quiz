@@ -2233,6 +2233,11 @@ function kickPlayer(pid) {
     toast(`${p.name} removed`);
   });
 }
+/** Closing a preview: a tab opened by the builder can close itself, but phones and installed apps refuse, so if it is still here a moment later it goes back to the builder instead. */
+function closePreview() {
+  try { window.close(); } catch {}
+  setTimeout(() => { if (!window.closed) { if (history.length > 1 && document.referrer) history.back(); else location.href = 'index.html'; } }, 300);
+}
 function endEarly() { ask('End the game now?', 'The scores so far will be shown as the final result.', 'End game', 'Keep going').then((ok) => { if (ok) { clearInterval(tickT); clearInterval(countT); finish(); } }); }
 function playAgain() { unstore(SAVE_KEY); location.reload(); }
 
@@ -2832,7 +2837,7 @@ if (window.QuizCall) {
   idle();
 })();
 function bind() {
-  $$('[data-act]').forEach((b) => b.onclick = () => ({ back: goBack, call: callClick, cam: camToggle, fs: fsToggle, bonus: bonusModal, camlinks: camLinksModal, wusave: () => { G.warmSaved = null; render(); warmupSave(); }, wuboard: () => { (window.top || window).location.href = PLAYQ ? 'warmup?q=' + PLAYQ : 'warmup?c=' + encodeURIComponent(G.warmup); }, primary: primaryAction, end: endEarly, again: playAgain, bots: () => addBots(G.bots?.length ? 5 : 3), bots20: () => addBots(MAX_BOTS), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, pause: () => togglePause(), music: toggleMusic, stopgame: gameStop, builder: () => PREVIEW ? window.close() : location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
+  $$('[data-act]').forEach((b) => b.onclick = () => ({ back: goBack, call: callClick, cam: camToggle, fs: fsToggle, bonus: bonusModal, camlinks: camLinksModal, wusave: () => { G.warmSaved = null; render(); warmupSave(); }, wuboard: () => { (window.top || window).location.href = PLAYQ ? 'warmup?q=' + PLAYQ : 'warmup?c=' + encodeURIComponent(G.warmup); }, primary: primaryAction, end: () => PREVIEW ? closePreview() : endEarly(), again: playAgain, bots: () => addBots(G.bots?.length ? 5 : 3), bots20: () => addBots(MAX_BOTS), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, pause: () => togglePause(), music: toggleMusic, stopgame: gameStop, builder: () => PREVIEW ? closePreview() : location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
   $$('[data-kick]').forEach((el) => { el.style.cursor = 'pointer'; el.title = 'Click to remove this player from the game'; el.onclick = () => kickPlayer(el.dataset.kick); });
   paintClock(); // a redrawn screen shows the time left, not the full time
 }
