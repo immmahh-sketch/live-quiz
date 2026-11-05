@@ -460,6 +460,7 @@ function connect() {
   ch.on('broadcast', { event: 'hint' }, ({ payload }) => onHint(payload || {}));
   ch.on('broadcast', { event: 'hurry' }, ({ payload }) => onHurry(payload || {}));
   ch.on('broadcast', { event: 'card' }, ({ payload }) => onCard(payload || {})); // a power card (assets/party.js)
+  ch.on('broadcast', { event: 'team' }, ({ payload }) => onTeam(payload || {})); // a Traitor's second phone (assets/traitors.js)
   ch.on('broadcast', { event: 'tr' }, ({ payload }) => onTr(payload || {})); // the Traitor's menu and the vote (assets/traitors.js)
   ch.on('broadcast', { event: 'trctl' }, ({ payload }) => onTrCtl(payload || {})); // the host's phone control, sealed
   ch.on('presence', { event: 'sync' }, () => {

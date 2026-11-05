@@ -15,6 +15,7 @@ const TRP_QUESTIONS = [
   ['Where they live', ['Does the Traitor live in Newcastle?', 'Does the Traitor live in Sunderland?', 'Does the Traitor live in County Durham?', 'Was the Traitor born in the North East?', 'Does the Traitor live in a flat?', 'Does the Traitor live on their own?', 'Does the Traitor have a garden?', 'Does the Traitor live outside the UK?']],
   ['Pets, wheels and work', ['Does the Traitor have a dog?', 'Does the Traitor have a cat?', 'Does the Traitor have any pet at all?', 'Does the Traitor drive?', 'Does the Traitor own a bike?', 'Does the Traitor work from home?', 'Is the Traitor retired?', 'Does the Traitor work in hospitality?', 'Does the Traitor work in an office?', 'Is the Traitor a student?']],
   ['Likes and habits', ['Does the Traitor support Newcastle United?', 'Does the Traitor support Sunderland?', 'Does the Traitor like football?', 'Does the Traitor play a sport every week?', 'Does the Traitor go to the gym?', 'Does the Traitor drink tea more than coffee?', 'Does the Traitor drink alcohol?', 'Does the Traitor prefer wine to beer?', 'Is the Traitor vegetarian?', 'Does the Traitor like spicy food?', 'Does the Traitor like pineapple on pizza?', 'Does the Traitor like Marmite?', 'Does the Traitor play a musical instrument?', 'Does the Traitor play video games?', 'Does the Traitor watch the soaps?', 'Has the Traitor watched The Traitors on TV?', 'Is the Traitor a morning person?', 'Does the Traitor go to bed after midnight?']],
+  ['Their team', ['Is there 1 person in the Traitor’s team?', 'Are there 2 people in the Traitor’s team?', 'Are there 3 or more people in the Traitor’s team?']],
   ['Life so far', ['Has the Traitor been abroad this year?', 'Has the Traitor been on a cruise?', 'Can the Traitor speak another language?', 'Has the Traitor met a celebrity?', 'Has the Traitor been on TV?', 'Has the Traitor broken a bone?', 'Has the Traitor run a marathon?', 'Has the Traitor been to a festival?', 'Is the Traitor afraid of spiders?', 'Is the Traitor afraid of heights?', 'Can the Traitor swim?', 'Has the Traitor ever been in a pub quiz team that won?']],
 ];
 const trpSitsOut = (s) => TRP.traitor && !!s.q?.trTwenty;
@@ -25,10 +26,15 @@ const trpName = (s, pid) => (s.tr?.players || []).find((p) => p.pid === pid)?.na
 function trpOnPrivate(m) {
   if (!m || m.to !== P.pid) return;
   if (m.kind === 'role') { TRP.traitor = true; const k = 'role' + (m.n ?? 0); if (!trpSeen(k)) { trpMark(k); trpRoleScreen(m); } trpRefresh(); }
-  else if (m.kind === 'sync') { TRP.sync = m.d; if (!TRP.traitor) TRP.traitor = true; trpRefresh(); if (m.d.needList && !TRP.listPrompted) { TRP.listPrompted = true; TRP.tab = 'list'; trpMenu(); if (navigator.vibrate) try { navigator.vibrate([80, 50, 80]); } catch {} } if (!m.d.needList) TRP.listPrompted = false; }
+  else if (m.kind === 'sync') { const had = TRP.sync?.team?.pending?.dev, was = TRP.sync?.team?.linked; TRP.sync = m.d; if (!TRP.traitor) TRP.traitor = true; trpApplyTeam(m.d.team); if (m.d.team?.pending && m.d.team.pending.dev !== had && P.teamRole !== 'answer') { TRP.tab = 'team'; trpMenu(true); if (!document.getElementById('trpMenu')) trpMenu(); if (navigator.vibrate) try { navigator.vibrate([100, 60, 100]); } catch {} } if (m.d.team?.linked && !was && !m.d.team.answerDev) { TRP.tab = 'team'; if (document.getElementById('trpMenu')) trpMenu(true); else trpMenu(); } trpRefresh(); if (m.d.needList && !TRP.listPrompted) { TRP.listPrompted = true; TRP.tab = 'list'; trpMenu(); if (navigator.vibrate) try { navigator.vibrate([80, 50, 80]); } catch {} } if (!m.d.needList) TRP.listPrompted = false; }
   else if (m.kind === 'listnow') { TRP.tab = 'list'; trpMenu(); toast(m.text || 'Save your list!', true); if (navigator.vibrate) try { navigator.vibrate([120, 60, 120, 60, 120]); } catch {} }
-  else if (m.kind === 'ok') toast(m.text || 'Done');
-  else if (m.kind === 'no') toast(m.why || "That didn't work", true);
+  else if (m.kind === 'ok') { if (P.teamRole === 'answer') partyFlash({ icon: '🗡', text: m.text || 'Done' }); else toast(m.text || 'Done'); } // the answering phone is told what the Traitor phone decided
+  else if (m.kind === 'no') { if (P.teamRole !== 'answer') toast(m.why || "That didn't work", true); }
+  else if (m.kind === 'teamwait') { P.partnerSeen = true; trpPartnerScreen('Waiting for your teammate to let you in…'); }
+  else if (m.kind === 'teamno') { P.partnerSeen = true; clearInterval(helloT); trpPartnerScreen(m.why || 'Not this time.', true); }
+  else if (m.kind === 'teamlinked') { P.partnerSeen = true; clearInterval(helloT); P.partner = false; P.pid = m.pid; P.name = m.name || P.name; P.emoji = m.emoji || P.emoji; store('lq_player' + SLOT, { pid: P.pid, name: P.name, emoji: P.emoji }); connect(); }
+  else if (m.kind === 'teamroles') { TRP.tab = 'team'; if (document.getElementById('trpMenu')) trpMenu(true); else trpMenu(); if (navigator.vibrate) try { navigator.vibrate([100, 60, 100]); } catch {} }
+  else if (m.kind === 'teamended') { P.teamRole = null; if (TRP.sync) TRP.sync.team = null; P.viewKey = ''; if (P.state) render(); trpRefresh(); }
   else if (m.kind === 'ping') partyFlash({ icon: m.icon || '🗡', text: m.text });
   else if (m.kind === 'msg' || m.kind === 'letter') { TRP.msgs.push({ text: String(m.text || ''), now: !!m.now }); trpMsgShow(); }
   else if (m.kind === 'banished') { TRP.traitor = false; TRP.sync = null; document.getElementById('trpMenu')?.remove(); trpFull('banished', `<div class="trp-big">🗡 BANISHED</div><p>${esc(m.text || 'You have been banished.')}</p><p class="trp-small">Keep quiet: the new Traitor is chosen in secret.</p><button class="btn btn-lg btn-block" data-trpx>OK</button>`); trpRefresh(); }
@@ -48,7 +54,28 @@ function trpRoleScreen(m) {
     <li><b>Messages</b> to one person in secret, or to the whole room.</li>
     <li>Players earn a 🛡 with 3 right in a row: it keeps you off them until they get a question wrong.</li>
     <li>Your 🗡 button is always on your screen. Don't show anyone!</li></ul>
-    <p class="trp-small">Be sneaky, but honest when you fill in your 20 Questions list at half time.</p><button class="btn btn-primary btn-lg btn-block" data-trpx>I understand ✓</button>`);
+    <p class="trp-small">Be sneaky, but honest when you fill in your 20 Questions list at half time.</p>
+    ${m.again || P.partnerLinked ? '' : `<div class="trp-team"><b>👥 Got another player with you?</b> Use this game code on their phone to secretly join (still as one team) so one of you can do the answering while the other does the <b>MURDERING</b>!<div class="trp-code">TEAM${esc(P.code)}</div><small>Type it in the box where the game code goes. Then tap the button below so they can get in.</small><button class="btn btn-block" data-teamopen>🚪 Open the door for them</button></div>`}
+    <button class="btn btn-primary btn-lg btn-block" data-trpx>I understand ✓</button>`);
+  document.querySelector('#trpFull [data-teamopen]')?.addEventListener('click', () => { send('team', { op: 'open', pid: P.pid }); toast('The door is open for 5 minutes'); });
+}
+// ---------------------------------------------------------------- the Traitor's team: two phones, one player
+/** The host says who answers and who does the Traitor actions; this phone works out which it is (by its own device id). */
+function trpApplyTeam(t) {
+  const was = P.teamRole || null;
+  P.teamRole = t?.linked && t.answerDev && t.actDev ? (DEVID === t.actDev ? 'act' : DEVID === t.answerDev ? 'answer' : null) : null;
+  P.partnerLinked = !!t?.linked;
+  if ((P.teamRole || null) !== was) { P.viewKey = ''; if (P.state) render(); }
+}
+/** The second phone, before it is let in. */
+function trpPartnerScreen(text, retry) {
+  app.innerHTML = `<div class="state"><div class="em">👥</div><h2>Joining the team</h2><p>${esc(text)}</p>${retry ? '<button class="btn btn-primary btn-lg btn-block" id="partnerBack">Back</button>' : '<span class="spinner"></span>'}</div>`;
+  document.getElementById('partnerBack')?.addEventListener('click', () => { leave(); P.partner = false; renderJoin(); });
+}
+/** What the Traitor-actions phone shows instead of the answers: where the game is, and the Traitor's buttons. */
+function trpActScreen(s) {
+  const q = s.q, what = s.phase === 'question' ? `A question is up${q?.text ? `: <b>${esc(String(q.text).slice(0, 120))}</b>` : ''}` : s.phase === 'reveal' ? 'The answer is up.' : s.phase === 'scoreboard' ? 'The scores are up.' : s.phase === 'lobby' ? 'Waiting to start.' : 'Between questions: a good time to act.';
+  return `<div class="state"><div class="em">🗡</div><h2>You do the Traitor actions</h2><p>Your teammate answers the questions on their phone, so there are no answers to give here.</p><p class="muted">${what}</p><p class="small muted">Use the 🗡 button on the left. ✋ Hold tells the host to wait.</p></div>`;
 }
 /** Secret messages wait for the break between questions. */
 function trpMsgShow() {
@@ -87,14 +114,16 @@ function trpPills(s) {
   if (me?.shield) { if (!sh) { sh = document.createElement('div'); sh.id = 'trpShield'; sh.className = 'trp-pill shield'; document.body.appendChild(sh); } sh.textContent = '🛡 Shield on'; }
   else sh?.remove();
   let b = document.getElementById('trpBtn');
-  if (TRP.traitor && s.phase !== 'final') {
+  let tp = document.getElementById('trpTeamPill');
+  if (TRP.traitor && P.teamRole === 'answer' && s.phase !== 'final') { if (!tp) { tp = document.createElement('div'); tp.id = 'trpTeamPill'; tp.className = 'trp-pill team'; document.body.appendChild(tp); } tp.textContent = '👥 You answer · your teammate does the Traitor bit'; } else tp?.remove();
+  if (TRP.traitor && s.phase !== 'final' && P.teamRole !== 'answer') {
     if (!b) { b = document.createElement('button'); b.id = 'trpBtn'; b.className = 'trp-btn'; b.onclick = () => trpMenu(); document.body.appendChild(b); }
     const can = tr.window && TRP.sync?.canSteal;
     let hb = document.getElementById('trpHold');
     if (!hb) { hb = document.createElement('button'); hb.id = 'trpHold'; hb.className = 'trp-hold'; hb.onclick = trpHoldToggle; document.body.appendChild(hb); }
     const held = !!TRP.sync?.hold; hb.classList.toggle('on', held); hb.innerHTML = held ? '✋<small>Holding: tap to let go</small>' : '✋<small>Hold</small>';
     b.classList.toggle('live', !!(tr.window)); b.innerHTML = `🗡<small>${TRP.sync?.needList ? 'Your list' : tr.window ? (can ? 'Steal now' : 'Powers') : 'After this one'}</small>`;
-  } else { b?.remove(); document.getElementById('trpHold')?.remove(); }
+  } else { b?.remove(); document.getElementById('trpHold')?.remove(); if (P.teamRole === 'answer') document.getElementById('trpMenu')?.remove(); }
 }
 
 // ---------------------------------------------------------------- the host's Traitors screens (notice, Round Table, verdict, reveal)
@@ -145,11 +174,12 @@ function trpGuide() {
 // ---------------------------------------------------------------- the Traitor's menu
 function trpMenu(refresh) {
   const s = P.state, old = document.getElementById('trpMenu'); if (!s?.tr) return;
+  if (P.teamRole === 'answer') { old?.remove(); return toast('Your teammate does the Traitor actions on their phone.'); }
   if (old && !refresh) { old.remove(); return; }
   if (old && old.contains(document.activeElement) && /^(TEXTAREA|INPUT)$/.test(document.activeElement.tagName)) return; // never rebuild under someone's typing
   const d = TRP.sync; const el = old || document.createElement('div'); el.id = 'trpMenu'; el.className = 'pcsheet trp-sheet';
   if (!d) { el.innerHTML = `<div class="pcs-in"><p>Loading…</p></div>`; if (!old) document.body.appendChild(el); send('tr', { pid: P.pid, op: 'sync' }); return; }
-  const tabs = [['steal', '💰 Steal'], ['power', '🎁 Powers'], ['msg', '📜 Messages']].concat(d.needList || d.list ? [['list', '📋 My list']] : []);
+  const tabs = [['steal', '💰 Steal'], ['power', '🎁 Powers'], ['msg', '📜 Messages'], ['team', '👥 Team' + (d.team?.pending || (d.team?.linked && !d.team.answerDev) ? ' ❗' : '')]].concat(d.needList || d.list ? [['list', '📋 My list']] : []);
   if (!tabs.some(([k]) => k === TRP.tab)) TRP.tab = 'steal';
   const win = s.tr.window;
   let body = '';
@@ -157,6 +187,7 @@ function trpMenu(refresh) {
   if (TRP.tab === 'power') body = trpPowers(d, win);
   if (TRP.tab === 'msg') body = trpMessages(d);
   if (TRP.tab === 'list') body = trpList(d);
+  if (TRP.tab === 'team') body = trpTeamTab(d);
   el.innerHTML = `<div class="pcs-in"><div class="pcs-head"><b>🗡 The Traitor's menu</b><button class="btn btn-ghost btn-sm" data-pcx>Close</button></div>
     <div class="trp-tabs">${tabs.map(([k, l]) => `<button class="${TRP.tab === k ? 'on' : ''}" data-tab="${k}">${l}${k === 'list' && d.needList ? ' ❗' : ''}</button>`).join('')}</div>${body}</div>`;
   if (!old) document.body.appendChild(el);
@@ -201,9 +232,17 @@ function trpMessages(d) {
     <textarea id="trpText" rows="3" maxlength="140" placeholder="Write your message (140 characters)…" style="width:100%;margin-top:10px;font:inherit;padding:10px;border-radius:12px;border:2px solid var(--line)"></textarea>
     <button class="btn btn-primary btn-lg btn-block mt" data-msend ${to && d.msgsLeft > 0 ? '' : 'disabled'}>Send ✉</button>`;
 }
+function trpTeamTab(d) {
+  const t = d.team || {}, code = 'TEAM' + P.code;
+  if (!t.linked) return `<p class="small" style="margin:6px 0"><b>Got another player with you?</b> Use this game code on their phone to secretly join (still as one team) so one of you can do the answering while the other does the <b>MURDERING</b>!</p>
+    <div class="trp-code">${esc(code)}</div><p class="small muted" style="margin:6px 0">They type it where the game code goes. Nobody else sees them: it is still one player, one name on the scoreboard.</p>
+    ${t.pending ? `<div class="trp-team"><b>${esc(t.pending.name)}'s phone</b> is asking to join your team.<div class="pcs-who" style="margin-top:8px"><button class="btn btn-primary" data-teamyes>✅ Let them in</button><button class="btn" data-teamno>❌ Not them</button></div></div>` : `<button class="btn btn-primary btn-lg btn-block mt" data-teamopen>🚪 ${t.open ? 'Door open: tap to keep it open' : 'Open the door for them'}</button><p class="small muted" style="margin:6px 0">${t.open ? 'It stays open for 5 minutes, and shuts once someone is in.' : 'The door shuts by itself after 5 minutes.'}</p>`}`;
+  if (!t.answerDev) return `<p class="small" style="margin:6px 0"><b>You are a team of two.</b> Which phone does what?</p><div class="pcs-who" style="grid-template-columns:1fr"><button class="btn btn-primary" data-teamroles="${DEVID}">📱 THIS phone answers the questions<small class="muted">the other phone does the Traitor actions</small></button><button class="btn" data-teamroles="${DEVID === t.traitorDev ? t.partnerDev : t.traitorDev}">🗡 THIS phone does the Traitor actions<small class="muted">the other phone answers the questions</small></button></div><p class="small muted" style="margin:6px 0">The answering phone gets an alert for every decision the Traitor phone makes.</p>`;
+  return `<p><b>👥 A team of two.</b> This phone ${P.teamRole === 'act' ? 'does the Traitor actions' : 'answers the questions'}. The other phone ${P.teamRole === 'act' ? 'answers' : 'does the Traitor actions'}.</p><div class="pcs-who" style="grid-template-columns:1fr"><button class="btn" data-teamroles="${t.answerDev === DEVID ? t.actDev : t.answerDev}">🔁 Swap the jobs</button><button class="btn btn-ghost" data-teamend>Unlink the second phone</button></div>`;
+}
 function trpList(d) {
   if (d.list && !TRP.listDraft) return `<p><b>✅ Your list is saved.</b> ${d.list.filter((x) => x.yes).length} of ${d.list.length} are true of you. It becomes the last round: the room asks these about you to find you.</p><button class="btn btn-block" data-lredo>Change my answers</button>`;
-  if (!TRP.listDraft) TRP.listDraft = { yes: new Set((d.list || []).filter((x) => x.yes && !x.own).map((x) => x.text)), own: (d.list || []).filter((x) => x.own).map((x) => ({ text: x.text, yes: x.yes })) };
+  if (!TRP.listDraft) TRP.listDraft = { yes: new Set(d.list ? (d.list || []).filter((x) => x.yes && !x.own).map((x) => x.text) : [d.team?.linked ? 'Are there 2 people in the Traitor’s team?' : 'Is there 1 person in the Traitor’s team?']), own: (d.list || []).filter((x) => x.own).map((x) => ({ text: x.text, yes: x.yes })) };
   const D = TRP.listDraft;
   return `<p class="small" style="margin:6px 0"><b>Be honest!</b> Tick every question that is <b>true of you</b>. In the last round the room asks these to find you out. Untick = the answer is no. You can add your own at the bottom.</p>
     ${TRP_QUESTIONS.map(([h, qs]) => `<div class="trp-lh">${h}</div>${qs.map((t) => `<label class="trp-li"><input type="checkbox" data-lq="${esc(t)}" ${D.yes.has(t) ? 'checked' : ''}> ${esc(t.replace(/^(Is|Does|Has|Can|Was) the Traitor /, (m, v) => v + ' the Traitor '))}</label>`).join('')}`).join('')}
@@ -218,6 +257,11 @@ function trpBind(el, d) {
   const range = el.querySelector('#trpRange'); if (range) range.oninput = () => { st.amount = +range.value; el.querySelector('#trpAmt').textContent = st.amount; const g = el.querySelector('[data-go]'); if (g) g.textContent = g.textContent.replace(/Steal \d+/, 'Steal ' + st.amount); };
   el.querySelector('[data-go]')?.addEventListener('click', () => { send('tr', { pid: P.pid, op: 'steal', victim: st.victim, amount: st.amount, to: st.to, show: st.show }); st.victim = ''; st.to = ''; el.remove(); });
   el.querySelectorAll('[data-pw]').forEach((b) => b.onclick = () => { st.power = b.dataset.pw; re(); });
+  el.querySelector('[data-teamopen]')?.addEventListener('click', () => { send('team', { op: 'open', pid: P.pid }); toast('The door is open for 5 minutes'); });
+  el.querySelector('[data-teamyes]')?.addEventListener('click', () => send('team', { op: 'accept', pid: P.pid, dev: DEVID }));
+  el.querySelector('[data-teamno]')?.addEventListener('click', () => send('team', { op: 'decline', pid: P.pid }));
+  el.querySelectorAll('[data-teamroles]').forEach((b) => b.onclick = () => send('team', { op: 'roles', pid: P.pid, answerDev: b.dataset.teamroles }));
+  el.querySelector('[data-teamend]')?.addEventListener('click', () => send('team', { op: 'end', pid: P.pid }));
   el.querySelectorAll('[data-show]').forEach((b) => b.onclick = () => { st.show = b.dataset.show; re(); });
   el.querySelectorAll('[data-pt]').forEach((b) => b.onclick = () => { send('tr', { pid: P.pid, op: 'power', kind: st.power, target: b.dataset.pt, show: st.show }); st.power = ''; });
   el.querySelector('[data-pundo]')?.addEventListener('click', () => { send('tr', { pid: P.pid, op: 'power', kind: st.power, target: null }); st.power = ''; });

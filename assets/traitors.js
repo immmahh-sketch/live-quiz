@@ -39,7 +39,7 @@ const trShielded = (pid) => !!G.tr?.shield?.[pid]; // earned with 3 right in a r
 function trEnsure() {
   if (G.tr || !G.quiz?.settings?.traitors?.on || WARMUP || PREVIEW || DEMO) return;
   G.tr = { on: true, traitor: null, history: [], qDone: 0, lastStealQ: -99, victimQ: {}, stolen: 0, steals: 0, stealsHalf: 0, powers: trFresh(), set: { gift: null, block: null, dbl: null }, used: { gift: 0, block: 0, dbl: 0 },
-    streak: {}, shield: {}, notices: [], screen: null, hidden: 0, fake: {}, show: {}, hold: null, tableDone: false, votes: {}, list: null, twentyAdded: false, revealed: false, log: [], msgBreak: 0, msgs: 0, stealShown: false, banishedBefore: [] };
+    streak: {}, shield: {}, notices: [], screen: null, hidden: 0, fake: {}, show: {}, hold: null, team: null, tableDone: false, votes: {}, list: null, twentyAdded: false, revealed: false, log: [], msgBreak: 0, msgs: 0, stealShown: false, banishedBefore: [] };
   persist();
 }
 /** The code of this live game, left on the quiz so the host's phone can find it (builder: 🗡 Traitors on the quiz's card). */
@@ -87,13 +87,51 @@ function trDemoLetter(q) {
   const at = G.qIndex;
   setTimeout(() => { if (G.qIndex === at && G.phase === 'slide' && !G.tr.screen) trPushNotice({ kind: 'notice', title: TR_LETTER_TITLE, letter: q.letter, afterIdx: 0, sound: 'whoosh' }, true); }, 500);
 }
+// ---------------------------------------------------------------- the Traitor's team: a second phone, secretly the same player
+const trTeamFresh = () => ({ open: 0, pending: null, linked: false, traitorDev: '', partnerDev: '', answerDev: '', actDev: '' });
+/** What the Traitor's phones are told (pending is the second phone knocking; nobody else ever sees any of this). */
+function trTeamPublic() {
+  const t = G.tr?.team; if (!t) return { linked: false, open: false, pending: null };
+  return { linked: !!t.linked, open: t.open > Date.now(), pending: t.pending ? { dev: t.pending.dev, name: t.pending.name } : null, answerDev: t.answerDev, actDev: t.actDev, traitorDev: t.traitorDev, partnerDev: t.partnerDev };
+}
+/** From a phone with TEAM in front of the code ('ask') or from the Traitor's own phone (everything else). */
+function onTeam({ op, pid, tmp, dev, name, ...a }) {
+  if (!trOn()) return;
+  const tr = G.tr.traitor, t = G.tr.team = G.tr.team || trTeamFresh();
+  if (op === 'ask') { // a second phone knocks: it is not a player, and has no say until the Traitor lets it in
+    if (typeof tmp !== 'string' || !tr) return;
+    if (t.linked) return trTell(tmp, 'teamno', { why: 'That team already has two phones.' });
+    if (!(t.open > Date.now())) return trTell(tmp, 'teamno', { why: 'Your teammate has not opened the door yet. Ask them to tap “Open the door for them” on their phone, then try again.' });
+    const nm = String(name || '').replace(/\s+/g, ' ').trim().slice(0, 20) || 'A';
+    if (!t.pending || t.pending.tmp !== tmp) { t.pending = { tmp, dev: String(dev || '').slice(0, 24), name: nm }; trLog(`👥 ${nm}'s phone is asking to join the Traitor's team`); trSync(); persist(); }
+    return trTell(tmp, 'teamwait', {});
+  }
+  if (pid !== tr) return; // everything below is the Traitor's own phone
+  if (op === 'open') { t.open = Date.now() + 300000; trSync(); persist(); return; }
+  if (op === 'decline') { if (t.pending) trTell(t.pending.tmp, 'teamno', { why: 'Your teammate said no.' }); t.pending = null; trSync(); persist(); return; }
+  if (op === 'accept') {
+    if (!t.pending) return;
+    Object.assign(t, { linked: true, partnerDev: t.pending.dev, traitorDev: String(dev || '').slice(0, 24), open: 0, answerDev: '', actDev: '' });
+    trTell(t.pending.tmp, 'teamlinked', { pid: tr, name: G.players[tr]?.name || '', emoji: G.players[tr]?.emoji || '' });
+    trLog(`👥 A second phone joined the Traitor's team (still one player: ${pname(tr)})`); t.pending = null;
+    trSync(); persist(); return trTell(tr, 'teamroles', {});
+  }
+  if (op === 'roles') {
+    if (!t.linked) return; const ans = String(a.answerDev || '');
+    if (ans !== t.traitorDev && ans !== t.partnerDev) return;
+    t.answerDev = ans; t.actDev = ans === t.traitorDev ? t.partnerDev : t.traitorDev;
+    trLog('👥 The team chose which phone answers and which does the Traitor actions');
+    trSync(); persist(); return trTell(tr, 'ok', { text: '👥 Done: one phone answers, the other does the Traitor actions. The answering phone gets an alert for each decision.' });
+  }
+  if (op === 'end') { G.tr.team = trTeamFresh(); trLog('👥 The second phone was unlinked'); trTell(tr, 'teamended', {}); trSync(); persist(); }
+}
 /** A private word to one phone (or all of them, for ping-style banners). Only the phone it is for acts on it. */
 const trTell = (to, kind, data = {}) => send('trs', { to, kind, ...data });
 function trSync() {
   const t = G.tr?.traitor; if (!t || !G.players[t]) return;
   const qd = G.tr.qDone, victims = {};
   for (const p of Object.keys(G.players)) if (p !== t) victims[p] = { shield: trShielded(p), wait: Math.max(0, TR.SAME_VICTIM - (qd - (G.tr.victimQ[p] ?? -99))), score: G.players[p].score };
-  trTell(t, 'sync', { d: { powers: G.tr.powers, set: G.tr.set, canSteal: (G.tr.stealsHalf || 0) < TR.STEALS, stealsLeft: Math.max(0, TR.STEALS - (G.tr.stealsHalf || 0)), victims, window: trWindow(), nextPlain: powerNextPlain() >= 0, msgsLeft: Math.max(0, TR.MSGS - G.tr.msgBreak), hold: trHoldOn(),
+  trTell(t, 'sync', { d: { powers: G.tr.powers, set: G.tr.set, canSteal: (G.tr.stealsHalf || 0) < TR.STEALS, stealsLeft: Math.max(0, TR.STEALS - (G.tr.stealsHalf || 0)), victims, window: trWindow(), nextPlain: powerNextPlain() >= 0, msgsLeft: Math.max(0, TR.MSGS - G.tr.msgBreak), hold: trHoldOn(), team: trTeamPublic(),
     needList: G.tr.tableDone && !G.tr.list, list: G.tr.list, qDone: qd, players: Object.values(G.players).filter((p) => p.id !== t).map((p) => ({ pid: p.id, name: p.name, emoji: p.emoji || '' })) } });
 }
 /** A phone says hello (joining, or coming back after a drop): a Traitor is reminded who they are. */
@@ -102,6 +140,8 @@ function trOnHello(pid) { if (trOn() && G.tr.traitor === pid) { trTell(pid, 'rol
 // ---------------------------------------------------------------- picking the Traitor
 function trSetTraitor(pid, reason = 'picked') {
   trEnsure(); if (!trOn() || !G.players[pid]) return false;
+  if (G.tr.traitor && G.tr.team?.linked) trTell(G.tr.traitor, 'teamended', {}); // the old Traitor's second phone is just a second phone now
+  G.tr.team = null;
   G.tr.traitor = pid; G.tr.history.push({ pid, at: G.tr.qDone, reason });
   Object.assign(G.tr, { powers: trFresh(), set: { gift: null, block: null, dbl: null }, used: { gift: 0, block: 0, dbl: 0 }, lastStealQ: -99, stealsHalf: 0, victimQ: {}, list: null, msgBreak: 0, hold: null });
   trLog(`${pname(pid)} is the Traitor (${reason})`);

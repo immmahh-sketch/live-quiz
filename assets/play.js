@@ -6,7 +6,8 @@ const PENDING = BHB ? 'lq_pending_bhb' : 'lq_pending'; // each app keeps its own
 /** The mark at the top of the join and install pages. */
 const joinLogo = () => BHB ? `<div class="joinlogo"><img src="${BRAND.logo}" alt="Black Horse Beamish"><h2>Training</h2></div>` : `<div class="joinlogo"><img src="assets/brand/mark.png" alt=""><h2>${esc(BRAND.name)}</h2></div>`;
 const app = $('#app');
-const SLOT = new URLSearchParams(location.search).get('slot') || ''; // a second phone panel on the host page is its own player
+const SLOT = new URLSearchParams(location.search).get('slot') || '';
+const DEVID = (() => { let d = store('lq_dev' + SLOT); if (!d) { d = 'd_' + Math.random().toString(36).slice(2, 10); store('lq_dev' + SLOT, d); } return d; })(); // this phone, for a Traitor's team of two phones // a second phone panel on the host page is its own player
 const saved = store('lq_player' + SLOT) || {};
 const P = { pid: /^p_[a-z0-9]{6,12}$/.test(saved.pid || '') ? saved.pid : uid('p'), name: saved.name || '', emoji: LQ.EMOJIS.includes(saved.emoji) ? saved.emoji : LQ.EMOJIS[Math.floor(Math.random() * LQ.EMOJIS.length)], code: '', race: null,
   state: null, receivedAt: 0, deadline: 0, viewKey: '', answered: {}, skipped: {}, sent: {}, low: {}, joined: false, hostSeen: 0, work: {} };
@@ -35,12 +36,14 @@ function renderJoin(msg) {
     const c = $('#code').value.trim().toUpperCase().replace(/[^A-Z0-9]/g, ''), n = $('#name').value.replace(/\s+/g, ' ').trim();
     if (c.length < 3) return renderJoin('The game code is six letters and numbers — it\'s on the shared screen.');
     if (!n) return renderJoin('Tell us your name so it shows on the scoreboard.');
-    P.code = c; P.name = n; P.test = false; store('lq_player' + SLOT, { pid: P.pid, name: n, emoji: P.emoji });
+    P.code = c; P.name = n; P.test = false; P.partner = false; if (!/^TEAM[A-Z0-9]{6}$/.test(c)) store('lq_player' + SLOT, { pid: P.pid, name: n, emoji: P.emoji });
     // TEST in front of a live game's code: join that game and make it a test game (ten bots, nothing saved).
     // TEST in front of a warm-up's code (TESTWARMUP) goes to the warm-up instead, found by the check below.
     // VIEW in front of a live game's code: play along as the players see it and get a score, but never be a player
     // (no lobby, no leaderboard, no name anywhere for anyone else). A viewer id of its own, so it can't be a player too.
-    if (/^VIEW[A-Z0-9]{6}$/.test(c)) { P.code = c.slice(4); P.view = true; P.pid = 'p_vw' + P.pid.replace(/^p_/, '').slice(0, 8); }
+    // TEAM in front of a live game's code: a second phone for the Traitor, joined secretly as the same player (assets/traitors-phone.js)
+    if (/^TEAM[A-Z0-9]{6}$/.test(c)) { P.code = c.slice(4); P.partner = true; }
+    else if (/^VIEW[A-Z0-9]{6}$/.test(c)) { P.code = c.slice(4); P.view = true; P.pid = 'p_vw' + P.pid.replace(/^p_/, '').slice(0, 8); }
     else if (/^TEST[A-Z0-9]{6}$/.test(c)) { P.code = c.slice(4); P.test = true; }
     // A live game's code is always six characters; anything else can only be a warm-up (TESTWARMUP, say)
     else if (c.length !== 6) {
@@ -49,6 +52,7 @@ function renderJoin(msg) {
       return;
     }
     connect();
+    if (P.partner) return; // a Traitor's second phone is never a warm-up
     LQ.api('warmup_open', { code: c, peek: true }, { timeout: 8000 }).then(() => { if (P.joined) return; clearInterval(watchdogT); leave(); location.href = 'warmup?c=' + encodeURIComponent(c); }).catch(() => {});
   };
 }
@@ -99,6 +103,13 @@ function connect() {
   ch.on('broadcast', { event: 'kick' }, ({ payload }) => { if (payload.pid === P.pid) { clearInterval(watchdogT); leave(); P.code = ''; renderJoin(payload.why ? String(payload.why).slice(0, 160) : 'The host has removed you from the game. You can join again if that was a mistake.'); } });
   ch.subscribe(async (status) => {
     if (status === 'SUBSCRIBED') {
+      if (P.partner) { // a Traitor's second phone: not a player, just knocking until the Traitor lets it in
+        await ch.track({ role: 'partner', pid: P.pid });
+        clearInterval(helloT); const ask = () => send('team', { op: 'ask', tmp: P.pid, dev: DEVID, name: P.name }); ask(); helloT = setInterval(ask, 4000);
+        trpPartnerScreen('Looking for your teammate…');
+        setTimeout(() => { if (P.partner && !P.partnerSeen) { clearInterval(helloT); leave(); P.partner = false; renderJoin('Nobody answered. Check the code, and that your teammate has opened the door on their phone.'); } }, 15000);
+        return;
+      }
       await ch.track({ role: P.view ? 'viewer' : 'player', pid: P.pid, name: P.name, emoji: P.emoji });
       hello(); clearInterval(helloT); helloT = setInterval(() => { if (!P.joined) hello(); }, 2000);
       setTimeout(() => { if (!P.joined) { clearInterval(helloT); leave(); renderJoin('No game found with that code. Check the screen — the host needs to have the game open.'); } }, 9000);
@@ -188,6 +199,7 @@ function render() {
   const top = `<div class="app-top"><span>${esc(P.name)}${s.test ? '<span class="testtag" title="A test game: nothing is saved">🧪 Test</span>' : ''}${P.view ? '<span class="testtag" title="Viewing: you play along, but you are not a player and not on any leaderboard">👀 Viewing</span>' : ''}</span><span>${s.phase !== 'lobby' && s.phase !== 'slide' && s.qIndex >= 0 ? `Q${s.num ?? s.qIndex + 1}/${s.total}` : esc(s.title || '')}</span>${score !== '' && score !== undefined ? `<span class="score">${score}</span>` : '<span></span>'}</div>`;
   const top2 = (s.practice && ['typecard', 'countdown', 'question', 'grading', 'reveal'].includes(s.phase) ? '<div class="practicebar">🧪 Practice · no points</div>' : '') + partyBadges(s);
   const ctrl = (cmd, label) => s.auto && !P.view ? `<button class="btn btn-primary btn-lg btn-block ctrlbtn" data-ctrl="${cmd}">${label}</button>` : '';
+  if (P.teamRole === 'act' && typeof trpActScreen === 'function') { app.innerHTML = top + trpActScreen(s); if (typeof trPhoneAfter === 'function') trPhoneAfter(s); return; } // the Traitor's own phone: no answering here
   if (P.view && s.phase === 'question' && (s.race || s.wipe || s.potato || s.koth || s.bb || s.chase || s.draw || s.tq || s.uq || s.bi || s.pc || s.task || s.tm || s.ob)) app.innerHTML = top + top2 + `<div class="state"><div class="em">👀</div><h2>You're watching this one</h2><p class="muted">It's a game for the players. Watch the shared screen; you're back in for the next question.</p></div>`;
   else if (s.phase === 'lobby' && P.view) app.innerHTML = top + top2 + `<div class="state"><div class="em">👀</div><h2>You're viewing, ${esc(P.name)}</h2><p class="muted">Play along with every question and keep your own score. You're not a player: you won't show in the game or on any leaderboard.</p></div>`;
   else if (s.phase === 'lobby') app.innerHTML = top + top2 + `<div class="state"><div class="em">🎉</div><h2>You're in, ${esc(P.name)}!</h2><p class="muted">${s.auto ? 'The game runs itself. When everyone is in, start it from here.' : BHB ? 'Watch the screen. The session starts when your trainer presses go.' : 'Watch the shared screen. The quiz starts when the host presses go.'}</p>${ctrl('start', BHB ? 'Start the session ▶' : 'Start the quiz ▶')}</div>`;
