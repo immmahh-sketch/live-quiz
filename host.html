@@ -755,7 +755,7 @@ function skipScoreboard() {
   return G.quiz.questions.slice(G.qIndex + 1).some((x) => x.round === cur.round && !isSlide(x));
 }
 function nextFrom(i) {
-  if (trOn()) { if (trHoldOn()) return trHoldAsk(i); if (trInterlude(false)) return; if (trWantsTable(i)) return trTable(i); if (trListPending() && i >= trHalfIndex()) return trHoldForList(i); if (i + 1 >= G.quiz.questions.length && trEnd()) return; } // the Traitors: a pause, the Round Table, the last round
+  if (trOn()) { if (trInterlude(false)) return; if (trWantsTable(i)) return trTable(i); if (trListPending() && i >= trHalfIndex()) return trHoldForList(i); if (i + 1 >= G.quiz.questions.length && trEnd()) return; } // the Traitors: a pause, the Round Table, the last round
   return i + 1 < G.quiz.questions.length ? goTo(i + 1) : finish();
 }
 /** A slide: up on the screen and the phones until someone moves on. A break slide starts its countdown clock. */

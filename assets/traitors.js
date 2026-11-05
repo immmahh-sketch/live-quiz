@@ -15,7 +15,9 @@
 const TR = { STEALS: 5, SAME_VICTIM: 15, MIN: 100, MAX: 1000, USES: 5, TABLE_MS: 180000, BANISH_LOSS: 5000, WRONG_LOSS: 3000, VOTER_BONUS: 2000, SLIP_BONUS: 2000, FINDER_BONUS: 2000, CAUGHT_LOSS: 2000, AWAY_BONUS: 5000, MSGS: 3, MSG_LEN: 140 };
 const trFresh = () => ({ gift: TR.USES, block: TR.USES, dbl: TR.USES });
 const trNames = (pids) => pids.map((p) => pname(p)).join(' and ').replace(/, ([^,]*)$/, ' and $1');
-const trLog = (text) => { if (G.tr) { G.tr.log.push({ t: Date.now(), q: G.tr.qDone, text }); G.tr.log = G.tr.log.slice(-80); } };
+let trPushT = null;
+const trCtlPushSoon = () => { clearTimeout(trPushT); trPushT = setTimeout(() => { try { trCtlPush(); } catch {} }, 250); }; // the host's phone panel sees every entry as it happens
+const trLog = (text) => { if (G.tr) { G.tr.log.push({ t: Date.now(), q: G.tr.qDone, text }); G.tr.log = G.tr.log.slice(-80); trCtlPushSoon(); } };
 const trOn = () => !!G?.tr?.on;
 /** What the letters say. The Traitor signs them all, and never names themselves. */
 const trPick = (a) => a[Math.floor(Math.random() * a.length)];
@@ -68,24 +70,14 @@ const trHoldOn = () => !!(trOn() && G.tr.hold && Date.now() - G.tr.hold.at < TR_
 function trHold(on) {
   if (!trOn() || !G.tr.traitor) return;
   const was = trHoldOn(); G.tr.hold = on ? { at: Date.now() } : null;
-  if (was !== trHoldOn()) trLog(on ? 'The Traitor asked the host to hold on' : 'The Traitor let the hold go');
+  if (was !== trHoldOn()) trLog(on ? '✋ The Traitor asked you to HOLD ON' : '✋ The Traitor let the hold go');
   trHoldUI(); trSync(); persist(); trCtlPush();
   if (on) trTell(G.tr.traitor, 'ok', { text: '✋ The host has been asked to hold on. It lifts when you send something, or tap again.' });
 }
 /** Whatever the Traitor sends lifts the hold: the host is free to carry on. */
 function trHoldClear() { if (!G.tr?.hold) return; G.tr.hold = null; trHoldUI(); trCtlPush(); }
-/** A small pulsing bar on the host screen, in words that give nothing away. */
-function trHoldUI() {
-  let b = document.getElementById('trHoldBar');
-  if (trHoldOn() && G.phase !== 'final') { if (!b) { b = document.createElement('div'); b.id = 'trHoldBar'; b.className = 'trholdbar'; b.textContent = '✋ Hold on a moment…'; document.body.appendChild(b); } }
-  else b?.remove();
-}
-/** The host holds the next question back while a hold is up (nextFrom in host.html asks first). */
-function trHoldAsk(i) {
-  return ask('The Traitor has asked you to hold on', 'They are about to do something. Give them a moment before the next question starts: it clears when they send it.', 'Keep waiting', 'Carry on anyway').then((wait) => {
-    if (wait) return; trHoldClear(); trLog('The host carried on without waiting'); persist(); trSync(); nextFrom(i);
-  });
-}
+/** Nothing about a hold shows on the host screen (everyone can see it): the alert is only on the host's phone panel. A game on auto does not move on while one is up. */
+function trHoldUI() { document.getElementById('trHoldBar')?.remove(); }
 setInterval(() => { try { if (typeof G === 'undefined' || !G?.tr) return; if (G.tr.hold && !trHoldOn()) { G.tr.hold = null; trSync(); trCtlPush(); } trHoldUI(); } catch {} }, 1000);
 
 /** A private word to one phone (or all of them, for ping-style banners). Only the phone it is for acts on it. */
@@ -146,7 +138,7 @@ function trSteal({ victim, amount, to, show }) {
       lines: G.tr.stealShown ? [] : ['At half time you will have the chance to "banish" who you think the Traitor is. If you are right, they lose their power and 5,000 points, and everyone who voted for them wins 2,000.'] });
     G.tr.stealShown = true;
   }
-  trLog(`Stole ${amt} from ${pname(victim)} and gave it to ${to === t ? 'themselves (for show)' : pname(to)}`);
+  trLog(`💰 Stole ${amt} from ${pname(victim)} and gave it to ${to === t ? 'themselves (for show)' : pname(to)} · ${show === 'secret' ? '🤫 only ' + pname(victim) + ' sees the letter' : '📺 letter on the big screen'}`);
   trTell(t, 'ok', { text: `🗡 Done: ${amt} points taken from ${pname(victim)} and ${to === t ? 'kept for yourself (only for show: they come off at the end)' : 'given to ' + pname(to)}.` }); trHoldClear();
   trSync(); persist(); broadcastState(); if (['reveal', 'scoreboard'].includes(G.phase)) render();
 }
@@ -154,12 +146,13 @@ function trPower({ kind, target, show }) {
   const t = G.tr.traitor; if (!['gift', 'block', 'dbl'].includes(kind)) return;
   if (!trWindow()) return trNo('Pick before the question starts, in the break.');
   if (powerNextPlain() < 0) return trNo('There is no everyone-answers question left to use it on.');
-  if (target === null || target === undefined || target === '') { G.tr.set[kind] = null; trSync(); persist(); return trTell(t, 'ok', { text: 'Taken back: it is not used.' }); }
+  if (target === null || target === undefined || target === '') { G.tr.set[kind] = null; trSync(); persist(); trLog(`↩ Took back the ${{ gift: 'free answer', block: 'block', dbl: 'double' }[kind]}`); return trTell(t, 'ok', { text: 'Taken back: it is not used.' }); }
   if (!G.players[target]) return;
   if (G.tr.powers[kind] <= 0) return trNo('You have none of those left.');
   for (const k of ['gift', 'block', 'dbl']) if (k !== kind && G.tr.set[k] === target) return trNo(`${pname(target)} already has something from you for the next question.`);
   if (kind === 'block' && target !== t && trShielded(target)) return trNo(`${pname(target)} has a 🛡 shield: you can't block them.`);
   trHoldClear(); G.tr.set[kind] = target; (G.tr.show = G.tr.show || {})[kind] = show === 'secret' ? 'secret' : 'screen'; trSync(); persist();
+  trLog(`${{ gift: '🎁 Free answer', block: '🚫 Block', dbl: '✨ Double' }[kind]} lined up for ${target === t ? 'themselves (for show)' : pname(target)} on the next question · ${show === 'secret' ? '🤫 only they see the letter' : '📺 letter on the big screen after the question'}`);
   trTell(t, 'ok', { text: { gift: `🎁 ${target === t ? 'You' : pname(target)} will get a free answer on the next question.`, block: `🚫 ${target === t ? 'You' : pname(target)} will be blocked from the next question.`, dbl: `✨ ${target === t ? 'Your' : pname(target) + "'s"} points will be doubled on the next question.` }[kind] });
 }
 function trMsg({ to, text }) {
@@ -168,15 +161,15 @@ function trMsg({ to, text }) {
   if (G.tr.msgBreak >= TR.MSGS) return trNo(`That's ${TR.MSGS} messages for this break. Wait for the next question.`);
   if (to !== 'all' && (!G.players[to] || to === t)) return trNo('Pick someone to send it to.');
   G.tr.msgBreak++; G.tr.msgs++;
-  if (to === 'all') { trPushNotice({ kind: 'notice', title: TR_LETTER_TITLE, letter: msg, afterIdx: 0, sound: 'whoosh' }, true); trLog(`Message to everyone: ${msg}`); }
-  else { trTell(to, 'msg', { text: msg }); trLog(`Secret message to ${pname(to)}: ${msg}`); }
+  if (to === 'all') { trPushNotice({ kind: 'notice', title: TR_LETTER_TITLE, letter: msg, afterIdx: 0, sound: 'whoosh' }, true); trLog(`📜 Message to EVERYONE (big screen): “${msg}”`); }
+  else { trTell(to, 'msg', { text: msg }); trLog(`🤫 Secret message to ${pname(to)}: “${msg}”`); }
   trTell(t, 'ok', { text: to === 'all' ? '📜 Sent to everyone.' : `🤫 Sent to ${pname(to)}.` }); trHoldClear(); trSync(); persist();
 }
 function trList({ items }) {
   if (!Array.isArray(items)) return;
   const list = items.map((x, i) => ({ id: 'c' + (i + 1), text: String(x.text || '').trim().slice(0, 90), yes: !!x.yes, own: !!x.own })).filter((x) => x.text).slice(0, 90);
   if (list.filter((x) => x.yes).length < 3) return trNo('Tick at least 3 that are true of you.');
-  G.tr.list = list; trLog(`The Traitor's 20 Questions list is in (${list.length} questions)`); trTell(G.tr.traitor, 'ok', { text: '✅ Your list is saved. Honesty is the whole game!' }); trHoldClear(); trSync(); persist();
+  G.tr.list = list; trLog(`📋 The Traitor's 20 Questions list is in (${list.length} questions)`); trTell(G.tr.traitor, 'ok', { text: '✅ Your list is saved. Honesty is the whole game!' }); trHoldClear(); trSync(); persist();
   if (G.phase === 'slide') render(); // the half-time button was waiting for it
 }
 /** A notice for the screen (and the phones): up at once if the game is between questions, else when it next pauses. */
@@ -198,7 +191,7 @@ function trStartQuestion(q) {
   if (fx.gift && fx.gift !== G.tr.traitor) trTell(fx.gift, 'letter', { now: true, text: TR_SAY.gift2() });
   if (fx.block && fx.block !== G.tr.traitor) trTell(fx.block, 'letter', { now: true, text: TR_SAY.block2() });
   if (fx.dbl && fx.dbl !== G.tr.traitor) trTell(fx.dbl, 'letter', { now: true, text: TR_SAY.dbl2() });
-  if (Object.keys(fx).length) { G.q.trfx = fx; trLog(`Used for this question: ${Object.entries(fx).map(([k, p]) => `${{ gift: 'free answer', block: 'block', dbl: 'double' }[k]} on ${pname(p)}`).join(', ')}`); }
+  if (Object.keys(fx).length) { G.q.trfx = fx; trLog(`🎯 Used for this question: ${Object.entries(fx).map(([k, p]) => `${{ gift: 'free answer', block: 'block', dbl: 'double' }[k]} on ${pname(p)}`).join(', ')}`); }
   trSync();
 }
 /** A blocked player can't answer (party.js partyBlocks asks). */
@@ -224,7 +217,7 @@ function trAfterGrade(byPlayer) {
   if (fx.dbl) { const r = byPlayer[fx.dbl] = byPlayer[fx.dbl] || blank(); if (r.points > 0) { r.points *= 2; partyNote(r, '✨ The Traitor doubled your points!'); } else partyNote(r, '✨ Doubled… but double nothing is nothing'); }
   if (t && fx.block !== t && (fx.gift === t || fx.dbl === t)) { // what the Traitor gave themselves is only for show: it comes off again at the very end
     const extra = Math.max(0, (byPlayer[t]?.points || 0) - own);
-    if (extra) { G.tr.fake = G.tr.fake || {}; G.tr.fake[t] = (G.tr.fake[t] || 0) + extra; trLog(`${extra} points the Traitor gave themselves, for show only`); }
+    if (extra) { G.tr.fake = G.tr.fake || {}; G.tr.fake[t] = (G.tr.fake[t] || 0) + extra; trLog(`🎭 ${extra} points the Traitor gave themselves, for show only`); }
   }
   for (const k of ['gift', 'block', 'dbl']) if (fx[k] && (G.q.trshow || {})[k] !== 'secret') G.tr.notices.push({ kind: 'notice', title: TR_LETTER_TITLE, letter: TR_SAY[k](pname(fx[k])), afterIdx: 0, sound: 'whoosh' });
   trSync();
@@ -435,7 +428,7 @@ async function trCtlSend(note = '', pw = LQ.hostPassword()) {
   if (!pw || typeof G === 'undefined' || !G?.code) return;
   const t = trOn() ? G.tr : null;
   const reply = { ts: Date.now(), note, on: !!t, players: Object.values(G.players).map((p) => ({ pid: p.id, name: p.name, emoji: p.emoji || '', score: p.score, bot: p.id.startsWith('p_bot') })),
-    traitor: t?.traitor || null, powers: t?.powers, qDone: t?.qDone, tableDone: t?.tableDone, hidden: t?.hidden, listIn: !!t?.list, hold: trHoldOn(), phase: G.phase, log: (t?.log || []).slice(-25) };
+    traitor: t?.traitor || null, powers: t?.powers, qDone: t?.qDone, tableDone: t?.tableDone, hidden: t?.hidden, listIn: !!t?.list, hold: trHoldOn(), stealsLeft: t ? Math.max(0, TR.STEALS - (t.stealsHalf || 0)) : null, set: t?.set, phase: G.phase, log: (t?.log || []).slice(-40) };
   send('trctlr', { m: await LQ.seal(pw, G.code, reply) });
 }
 const trCtlPush = () => { trCtlSend().catch(() => {}); };
