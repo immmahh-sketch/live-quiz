@@ -21,6 +21,16 @@ const trLog = (text) => { if (G.tr) { G.tr.log.push({ t: Date.now(), q: G.tr.qDo
 const trOn = () => !!G?.tr?.on;
 /** What the letters say. The Traitor signs them all, and never names themselves. */
 const trPick = (a) => a[Math.floor(Math.random() * a.length)];
+/** Said under a secret message, so the reader knows it was sent to them alone. */
+const TR_SECRET_NOTES = [
+  'Read into that what you will.',
+  'This was sent to you, and to nobody else. Make of that what you will.',
+  'A message for your eyes only. Draw your own conclusions.',
+  'Why you? That is for you to work out.',
+  'Only you have seen this. Trust it… or don\'t.',
+  'A little secret, just between us. Or is it?',
+  'You were chosen to read this. Read into that what you will.'
+];
 const TR_SAY = {
   // read out on the big screen, about somebody. Each one has several versions, picked at random.
   steal: (v, to, n) => trPick(!to ? [
@@ -126,16 +136,20 @@ function trPublicScreen(sc) {
 // ---------------------------------------------------------------- "Hold on": the Traitor asks the host not to rush the next question
 const TR_HOLD_MS = 60000; // the Traitor's phone repeats it every 20 s while the menu is open; if it goes quiet the hold lets go by itself
 const trHoldOn = () => !!(trOn() && G.tr.hold && Date.now() - G.tr.hold.at < TR_HOLD_MS);
-function trHold(on) {
+function trHold(on, what) {
   if (!trOn() || !G.tr.traitor) return;
-  const was = trHoldOn(); G.tr.hold = on ? { at: Date.now() } : null;
+  const was = trHoldOn(); G.tr.hold = on ? { at: Date.now(), what: what || '' } : null;
   if (was !== trHoldOn()) trLog(on ? '✋ The Traitor opened their menu: HOLD ON' : '✋ The Traitor is out of their menu');
   trHoldUI(); trSync(); persist(); trCtlPush();
 }
 /** Whatever the Traitor sends lifts the hold: the host is free to carry on. */
 function trHoldClear() { if (!G.tr?.hold) return; G.tr.hold = null; trHoldUI(); trCtlPush(); }
-/** Nothing about a hold shows on the host screen (everyone can see it): the alert is only on the host's phone panel. A game on auto does not move on while one is up. */
-function trHoldUI() { document.getElementById('trHoldBar')?.remove(); }
+/** A hold shows on the host's phone panel. The big screen only says so while the Traitor is writing a message (a single phone): "HOLD WHILE THE TRAITOR SENDS A MESSAGE". A game on auto does not move on while one is up. */
+function trHoldUI() {
+  let b = document.getElementById('trHoldBar');
+  if (trHoldOn() && G.tr.hold.what === 'msg' && G.phase !== 'final') { if (!b) { b = document.createElement('div'); b.id = 'trHoldBar'; b.className = 'trholdbar'; b.textContent = 'HOLD WHILE THE TRAITOR SENDS A MESSAGE'; document.body.appendChild(b); } }
+  else b?.remove();
+}
 setInterval(() => { try { if (typeof G === 'undefined' || !G?.tr) return; if (G.tr.hold && !trHoldOn()) { G.tr.hold = null; trSync(); trCtlPush(); } trHoldUI(); } catch {} }, 1000);
 
 // ---------------------------------------------------------------- Claudia: letters from the host's side of the game, and the recruit
@@ -328,7 +342,7 @@ function onTr({ pid, op, ...a }) {
   if (op === 'vote') return trVote(pid, a.target);
   if (op === 'claudia') return trClaudiaReply(pid, a);
   if (!trIsTraitor(pid)) return;
-  if (op === 'hold') return trHold(!!a.on);
+  if (op === 'hold') return trHold(!!a.on, a.what);
   if (op === 'msg') return trMsg({ ...a, who: pid });
   if (op === 'tchat') return trChat(pid, a.text);
   if (op === 'prop') return trPropReply(pid, a.k);
@@ -379,7 +393,7 @@ function trMsg({ to, text, who }) {
   if (to !== 'all' && (!G.players[to] || trIsTraitor(to))) return trNo('Pick someone to send it to.');
   G.tr.msgBreak++; G.tr.msgs++;
   if (to === 'all') { trPushNotice({ kind: 'notice', title: TR_LETTER_TITLE, letter: msg, afterIdx: 0, sound: 'whoosh' }, true); trLog(`📜 Message to EVERYONE (big screen): “${msg}”`); }
-  else { trTell(to, 'msg', { text: msg }); trLog(`🤫 Secret message to ${pname(to)}: “${msg}”`); }
+  else { trTell(to, 'msg', { text: msg, note: trPick(TR_SECRET_NOTES) }); trLog(`🤫 Secret message to ${pname(to)}: “${msg}”`); }
   trTell(t, 'ok', { text: to === 'all' ? '📜 Sent to everyone.' : `🤫 Sent to ${pname(to)}.` }); trHoldClear(); trSync(); persist();
 }
 function trList({ items, who }) {
