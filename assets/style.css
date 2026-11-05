@@ -1888,3 +1888,10 @@ body.tvcams .stage { padding-right: calc(var(--tvw) + 44px); }
 .trslide .slidebody, .trslide .trslide-body { font-family: Georgia, 'Times New Roman', serif; color: #f4e9d0; }
 .state.trslide { background: radial-gradient(ellipse at 50% 10%, #4a1420 0%, #1d0a0d 62%, #0a0405 100%); border-radius: 18px; padding: 22px 18px; border: 1px solid rgba(232,196,106,.35); }
 .state.trslide .trcrest { width: 64px; }
+
+/* A Traitors slide has to fit above the buttons whatever the screen: type sized from the height of the screen, the middle scrolls as a last resort */
+.stage-main.trslide { min-height: 0; overflow-y: auto; justify-content: safe center; gap: clamp(8px, 1.6vh, 18px); padding-bottom: clamp(8px, 1.5vh, 16px); }
+.trslide .trcrest { width: auto; height: clamp(40px, 9vh, 110px); }
+.trslide .trbig.trslide-title { font-size: clamp(1.6rem, 6.4vh, 4.4rem); }
+.trslide .slidebody, .trslide .trslide-body { font-size: clamp(1rem, 3.1vh, 2.1rem); line-height: 1.32; max-width: min(1180px, 94%); }
+.trslide .slidebody p, .trslide .trslide-body p { margin: .35em 0; }
