@@ -3,7 +3,8 @@
  * One player is secretly the Traitor, picked from the host's own phone (the 🗡 Traitors button on the quiz's card in the builder).
  * The Traitor gets a secret menu on their phone: steal points (100-1000, once every 5 questions, the same person once every 15),
  * gift a free answer, block someone from a question, double someone's points (5 of each), and send secret or whole-group messages.
- * Everyone earns a 🛡 shield by getting 3 in a row (the Traitor can't touch them for the next question). After the last question
+ * Everyone earns a 🛡 shield by getting 3 in a row (the Traitor can't touch them until they get one wrong). Points the Traitor
+ * gives themselves (free answer, double) are only for show: taken off again at the very end. After the last question
  * before half time, 3 minutes at the Round Table, then a vote to banish the Traitor. At half time the Traitor ticks a 20 Questions
  * list about themselves, which becomes the last round: find the Traitor. See docs/traitors-guide.html (also the PDF the players get).
  *
@@ -16,13 +17,13 @@ const trFresh = () => ({ gift: TR.USES, block: TR.USES, dbl: TR.USES });
 const trNames = (pids) => pids.map((p) => pname(p)).join(' and ').replace(/, ([^,]*)$/, ' and $1');
 const trLog = (text) => { if (G.tr) { G.tr.log.push({ t: Date.now(), q: G.tr.qDone, text }); G.tr.log = G.tr.log.slice(-80); } };
 const trOn = () => !!G?.tr?.on;
-const trShielded = (pid) => (G.tr?.shield?.[pid] ?? -1) > (G.tr?.qDone ?? 0);
+const trShielded = (pid) => !!G.tr?.shield?.[pid]; // earned with 3 right in a row, kept until the next wrong answer
 
 /** The mode switched on in the quiz's settings: build the traitor state once. Not in warm-ups, previews or the demo. */
 function trEnsure() {
   if (G.tr || !G.quiz?.settings?.traitors?.on || WARMUP || PREVIEW || DEMO) return;
   G.tr = { on: true, traitor: null, history: [], qDone: 0, lastStealQ: -99, victimQ: {}, stolen: 0, steals: 0, powers: trFresh(), set: { gift: null, block: null, dbl: null }, used: { gift: 0, block: 0, dbl: 0 },
-    streak: {}, shield: {}, notices: [], screen: null, hidden: 0, tableDone: false, votes: {}, list: null, twentyAdded: false, revealed: false, log: [], msgBreak: 0, msgs: 0, stealShown: false, banishedBefore: [] };
+    streak: {}, shield: {}, notices: [], screen: null, hidden: 0, fake: {}, tableDone: false, votes: {}, list: null, twentyAdded: false, revealed: false, log: [], msgBreak: 0, msgs: 0, stealShown: false, banishedBefore: [] };
   persist();
 }
 /** The code of this live game, left on the quiz so the host's phone can find it (builder: 🗡 Traitors on the quiz's card). */
@@ -164,12 +165,18 @@ function trAfterGrade(byPlayer) {
   // streaks and shields count what people really answered, before the Traitor's gifts
   for (const pid of Object.keys(G.players)) {
     const r = byPlayer[pid], right = !!r?.correct && !r.frozen && fx.block !== pid;
+    if (trShielded(pid) && !right && fx.block !== pid) { G.tr.shield[pid] = 0; trTell(pid, 'ping', { icon: '🛡', text: 'Wrong answer: your shield is gone. The traitor can touch you again.' }); }
     G.tr.streak[pid] = right ? (G.tr.streak[pid] || 0) + 1 : 0;
-    if (G.tr.streak[pid] >= 3) { G.tr.streak[pid] = 0; G.tr.shield[pid] = G.tr.qDone + 1; trTell(pid, 'ping', { icon: '🛡', text: "Shield earned! The traitor can't touch you for the next question." }); }
+    if (G.tr.streak[pid] >= 3) { G.tr.streak[pid] = 0; if (!trShielded(pid)) { G.tr.shield[pid] = 1; trTell(pid, 'ping', { icon: '🛡', text: "Shield earned! The traitor can't touch you until you get one wrong." }); } }
   }
+  const t = G.tr.traitor, own = t ? (byPlayer[t]?.points || 0) : 0;
   if (fx.block) { const r = byPlayer[fx.block] = byPlayer[fx.block] || blank(); r.points = 0; r.correct = false; r.partial = 0; r.blocked = true; partyNote(r, '🚫 The Traitor blocked you from this question'); }
   if (fx.gift) { const r = byPlayer[fx.gift] = byPlayer[fx.gift] || blank(); r.answered = true; r.points = Math.max(r.points || 0, full); r.correct = true; r.partial = 1; partyNote(r, '🎁 The Traitor gifted you full points!'); }
   if (fx.dbl) { const r = byPlayer[fx.dbl] = byPlayer[fx.dbl] || blank(); if (r.points > 0) { r.points *= 2; partyNote(r, '✨ The Traitor doubled your points!'); } else partyNote(r, '✨ Doubled… but double nothing is nothing'); }
+  if (t && fx.block !== t && (fx.gift === t || fx.dbl === t)) { // what the Traitor gave themselves is only for show: it comes off again at the very end
+    const extra = Math.max(0, (byPlayer[t]?.points || 0) - own);
+    if (extra) { G.tr.fake = G.tr.fake || {}; G.tr.fake[t] = (G.tr.fake[t] || 0) + extra; trLog(`${extra} points the Traitor gave themselves, for show only`); }
+  }
   if (fx.gift || fx.block || fx.dbl) {
     const lines = [];
     if (fx.gift) lines.push(`🎁 ${pname(fx.gift)} was gifted a free answer: full points whatever they said.`);
@@ -296,6 +303,8 @@ function trShowFinal() {
   const u = G.tr.used; lines.push(`🎁 ${u.gift} free answer${u.gift === 1 ? '' : 's'} · 🚫 ${u.block} block${u.block === 1 ? '' : 's'} · ✨ ${u.dbl} double${u.dbl === 1 ? '' : 's'} · 📜 ${G.tr.msgs} message${G.tr.msgs === 1 ? '' : 's'}.`);
   if (G.tr.banishedBefore.length) lines.push(`${trNames(G.tr.banishedBefore)} ${G.tr.banishedBefore.length === 1 ? 'was' : 'were'} banished at half time.`);
   if (f) lines.push(f.most ? `Most of the room worked it out: caught, and they lose ${TR.CAUGHT_LOSS.toLocaleString('en-GB')}.` : `Most of the room never worked it out: they get away with it, plus a ${TR.AWAY_BONUS.toLocaleString('en-GB')} bonus.`);
+  const fake = Object.values(G.tr.fake || {}).reduce((a, b) => a + b, 0);
+  if (fake) lines.push(`The ${fake.toLocaleString('en-GB')} points they gave themselves were only for show: they come off now.`);
   if (G.tr.hidden && !f?.most) lines.push(`Their secret bonuses, ${G.tr.hidden.toLocaleString('en-GB')} points, are added now.`);
   G.tr.screen = { id: uid('s'), kind: 'final', traitor: t, lines };
   persist(); sound('fanfare'); render(); broadcastState(); confetti();
@@ -305,6 +314,7 @@ function trShowFinal() {
 function trPayHidden() {
   if (!trOn()) return; G.tr.screen = null;
   const t = G.tr.traitor; if (t && G.players[t] && G.tr.hidden) { G.players[t].score += G.tr.hidden; trLog(`Hidden bonuses paid out: ${G.tr.hidden}`); G.tr.hidden = 0; persist(); }
+  for (const [pid, n] of Object.entries(G.tr.fake || {})) if (n && G.players[pid]) { G.players[pid].score -= n; trLog(`Points given to themselves, for show, taken off ${pname(pid)}: ${n}`); G.tr.fake[pid] = 0; persist(); }
 }
 
 // ---------------------------------------------------------------- the host screen

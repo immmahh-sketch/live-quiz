@@ -44,9 +44,9 @@ function trpRoleScreen(m) {
   trpFull('role', `<div class="trp-dag">🗡</div><div class="trp-big">YOU ARE THE TRAITOR</div>
     <p>${first ? 'You were chosen in secret. Nobody else knows.' : 'The room banished the last Traitor. You have been chosen in secret to take over.'}</p>
     <ul class="trp-ul"><li><b>Steal</b> 100 to 1,000 points from a player (once every 5 questions, the same player only once every 15) and give them to someone else, never yourself.</li>
-    <li><b>5 free answers</b> to gift, <b>5 blocks</b> to knock someone out of a question, <b>5 doubles</b>: use them on anyone, yourself included.</li>
+    <li><b>5 free answers</b> to gift, <b>5 blocks</b> to knock someone out of a question, <b>5 doubles</b>: use them on anyone, yourself included. <b>Extra points you give yourself are only for show</b>: they look real all night, then come off your score at the very end.</li>
     <li><b>Messages</b> to one person in secret, or to the whole room.</li>
-    <li>Players earn a 🛡 with 3 right in a row: it keeps you off them for the next question.</li>
+    <li>Players earn a 🛡 with 3 right in a row: it keeps you off them until they get a question wrong.</li>
     <li>Your 🗡 button is always on your screen. Don't show anyone!</li></ul>
     <p class="trp-small">Be sneaky, but honest when you fill in your 20 Questions list at half time.</p><button class="btn btn-primary btn-lg btn-block" data-trpx>I understand ✓</button>`);
 }
@@ -170,7 +170,7 @@ function trpPowers(d, win) {
   let h = `<p class="small muted" style="margin:6px 0">${win ? (d.nextPlain ? 'Choose before the next question starts. The target is pinged when it begins, and the host screen shows it afterwards.' : 'There is no everyone-answers question left to use these on.') : 'Wait for the break between questions.'}</p>`;
   h += `<div class="pcs-cards">${defs.map(([k, ic, nm, how, left]) => { const t = d.set?.[k]; return `<button class="pcs-card ${pick === k ? 'sel' : ''}" data-pw="${k}" ${win && d.nextPlain && left > 0 ? '' : 'disabled'}><span class="pcs-ic">${ic}</span><span><b>${nm} <small style="display:inline">· ${left} left</small></b><small>${how}</small>${t ? `<small style="color:var(--brand);font-weight:800">Set for: ${t === P.pid ? 'you' : esc(trpWho(d).find((p) => p.pid === t)?.name || '')}</small>` : ''}</span></button>`; }).join('')}</div>`;
   if (pick && win) {
-    h += `<p class="small" style="margin:12px 0 6px">${defs.find((x) => x[0] === pick)[1]} Who gets it?</p><div class="pcs-who"><button class="btn" data-pt="${P.pid}">🫵 Me</button>${trpWho(d).map((p) => `<button class="btn" data-pt="${p.pid}">${esc(p.emoji || '🙂')} ${esc(p.name)}</button>`).join('')}</div>${d.set?.[pick] ? `<button class="btn btn-ghost btn-block mt" data-pundo>Take it back</button>` : ''}`;
+    h += `<p class="small" style="margin:12px 0 6px">${defs.find((x) => x[0] === pick)[1]} Who gets it?</p><div class="pcs-who"><button class="btn" data-pt="${P.pid}">🫵 Me${pick === 'block' ? '' : ' (for show)'}</button>${trpWho(d).map((p) => `<button class="btn" data-pt="${p.pid}">${esc(p.emoji || '🙂')} ${esc(p.name)}</button>`).join('')}</div>${d.set?.[pick] ? `<button class="btn btn-ghost btn-block mt" data-pundo>Take it back</button>` : ''}`;
   }
   return h;
 }
