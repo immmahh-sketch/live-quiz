@@ -82,7 +82,7 @@ function trpMsgShow() {
   const s = P.state; if (!TRP.msgs.length || !s || document.getElementById('trpFull')) return;
   if (!TRP.msgs[0].now && (s.phase === 'question' || s.phase === 'grading')) return;
   const t = TRP.msgs.shift().text;
-  const el = trpFull('msg', `<div class="trp-big small">${esc(TR_LETTER_TITLE)}</div>${trLetterHtml(t)}<p class="trp-small">From the Traitor. Or is it? 👀</p><button class="btn btn-primary btn-lg btn-block" data-trpx>OK</button>`);
+  const el = trpFull('msg', `<div class="trp-big small">${esc(TR_LETTER_TITLE)}</div>${trLetterHtml(t)}<button class="btn btn-primary btn-lg btn-block" data-trpx>OK</button>`);
   el.querySelector('[data-trpx]').addEventListener('click', () => setTimeout(trpMsgShow, 200));
   if (navigator.vibrate) try { navigator.vibrate([100, 60, 100]); } catch {}
 }
