@@ -30,9 +30,9 @@ function trpOnPrivate(m) {
   else if (m.kind === 'listnow') { TRP.tab = 'list'; trpMenu(); toast(m.text || 'Save your list!', true); if (navigator.vibrate) try { navigator.vibrate([120, 60, 120, 60, 120]); } catch {} }
   else if (m.kind === 'ok') { if (P.teamRole === 'answer') partyFlash({ icon: '🗡', text: m.text || 'Done' }); else toast(m.text || 'Done'); } // the answering phone is told what the Traitor phone decided
   else if (m.kind === 'no') { if (P.teamRole !== 'answer') toast(m.why || "That didn't work", true); }
-  else if (m.kind === 'teamwait') { P.partnerSeen = true; trpPartnerScreen('Waiting for your teammate to let you in…'); }
+  else if (m.kind === 'teamwait') { P.partnerSeen = true; trpPartnerScreen('Waiting for your teammate to let you in…'); clearTimeout(P.teamWaitT); P.teamWaitT = setTimeout(() => { if (P.partner) { clearInterval(helloT); trpPartnerScreen('Still no answer. Check your teammate has seen the request on their phone, or go back and try again.', true); } }, 60000); }
   else if (m.kind === 'teamno') { P.partnerSeen = true; clearInterval(helloT); trpPartnerScreen(m.why || 'Not this time.', true); }
-  else if (m.kind === 'teamlinked') { P.partnerSeen = true; clearInterval(helloT); P.partner = false; P.pid = m.pid; P.name = m.name || P.name; P.emoji = m.emoji || P.emoji; store('lq_player' + SLOT, { pid: P.pid, name: P.name, emoji: P.emoji }); connect(); }
+  else if (m.kind === 'teamlinked') { P.partnerSeen = true; clearTimeout(P.teamWaitT); clearInterval(helloT); P.partner = false; P.me = P.name; P.owner = m.name || ''; P.member = true; P.pid = m.pid; P.name = m.name || P.name; P.emoji = m.emoji || P.emoji; store('lq_player' + SLOT, { pid: P.pid, name: P.name, emoji: P.emoji }); store('lq_member' + SLOT, { pid: P.pid, me: P.me, owner: P.owner }); connect(); }
   else if (m.kind === 'teamroles') { TRP.tab = 'team'; if (document.getElementById('trpMenu')) trpMenu(true); else trpMenu(); if (navigator.vibrate) try { navigator.vibrate([100, 60, 100]); } catch {} }
   else if (m.kind === 'teamended') { TRP.holdManual = false; if (TRP.holding) { TRP.holding = false; trpHoldSend(false); } trpHoldBeat(); P.teamRole = null; if (TRP.sync) TRP.sync.team = null; P.viewKey = ''; if (P.state) render(); trpRefresh(); }
   else if (m.kind === 'ping') partyFlash({ icon: m.icon || '🗡', text: m.text });
@@ -67,7 +67,7 @@ function trpRoleScreen(m) {
     <li>Players earn a 🛡 with 3 right in a row: it keeps you off them until they get a question wrong.</li>
     <li>Your 🗡 button is always on your screen. Don't show anyone!</li></ul>
     <p class="trp-small">Be sneaky, but honest when you fill in your 20 Questions list at half time.</p>
-    ${m.again || P.partnerLinked ? '' : `<div class="trp-team"><b>👥 Got another player with you?</b> Use this game code on their phone to secretly join (still as one team) so one of you can do the answering while the other does the <b>MURDERING</b>!<div class="trp-code">TEAM${esc(P.code)}</div><small>Type it in the box where the game code goes. Then tap the button below so they can get in.</small><button class="btn btn-block" data-teamopen>🚪 Open the door for them</button></div>`}
+    ${m.again || P.partnerLinked ? '' : `<div class="trp-team"><b>👥 Got another player with you?</b> Use this game code on their phone to secretly join (still as one team) so one of you can do the answering while the other does the <b>MURDERING</b>!<div class="trp-code">${esc(typeof teamCode === 'function' && TM.tag ? teamCode() : 'TEAM' + P.code)}</div><small>Type it in the box where the game code goes. Then tap the button below so they can get in.</small><button class="btn btn-block" data-teamopen>🚪 Open the door for them</button></div>`}
     <button class="btn btn-primary btn-lg btn-block" data-trpx>I understand ✓</button>`);
   document.querySelector('#trpFull [data-teamopen]')?.addEventListener('click', () => { send('team', { op: 'open', pid: P.pid }); toast('The door is open for 5 minutes'); });
 }
@@ -123,7 +123,7 @@ function trpMsgShow() {
   const s = P.state; if (!TRP.msgs.length || !s || document.getElementById('trpFull')) return;
   if (!TRP.msgs[0].now && (s.phase === 'question' || s.phase === 'grading')) return;
   const m = TRP.msgs.shift(), t = m.text;
-  const el = trpFull('msg', `<div class="trp-big small">${m.note ? '🤫 A SECRET MESSAGE, JUST FOR YOU' : esc(TR_LETTER_TITLE)}</div>${trLetterHtml(t)}${m.note ? `<p class="trp-small" style="font-style:italic">${esc(m.note)}</p>` : ''}<button class="btn btn-primary btn-lg btn-block" data-trpx>OK</button>`);
+  const el = trpFull('msg', `<div class="trp-big small">${m.note ? '🤫 A SECRET MESSAGE, JUST FOR YOU' : esc(TR_LETTER_TITLE)}</div>${trLetterHtml(t, { to: `Dear ${P.name},` })}${m.note ? `<p class="trp-small" style="font-style:italic">${esc(m.note)}</p>` : ''}<button class="btn btn-primary btn-lg btn-block" data-trpx>OK</button>`);
   el.querySelector('[data-trpx]').addEventListener('click', () => setTimeout(trpMsgShow, 200));
   if (navigator.vibrate) try { navigator.vibrate([100, 60, 100]); } catch {}
 }
@@ -291,7 +291,7 @@ function trpMessages(d) {
     <button class="btn btn-primary btn-lg btn-block mt" data-msend ${to && d.msgsLeft > 0 ? '' : 'disabled'}>Send ✉</button>`;
 }
 function trpTeamTab(d) {
-  const t = d.team || {}, code = 'TEAM' + P.code;
+  const t = d.team || {}, code = typeof teamCode === 'function' && TM.tag ? teamCode() : 'TEAM' + P.code;
   if (!t.linked) return `<p class="small" style="margin:6px 0"><b>Got another player with you?</b> Use this game code on their phone to secretly join (still as one team) so one of you can do the answering while the other does the <b>MURDERING</b>!</p>
     <div class="trp-code">${esc(code)}</div><p class="small muted" style="margin:6px 0">They type it where the game code goes. Nobody else sees them: it is still one player, one name on the scoreboard.</p>
     ${t.pending ? `<div class="trp-team"><b>${esc(t.pending.name)}'s phone</b> is asking to join your team.<div class="pcs-who" style="margin-top:8px"><button class="btn btn-primary" data-teamyes>✅ Let them in</button><button class="btn" data-teamno>❌ Not them</button></div></div>` : `<button class="btn btn-primary btn-lg btn-block mt" data-teamopen>🚪 ${t.open ? 'Door open: tap to keep it open' : 'Open the door for them'}</button><p class="small muted" style="margin:6px 0">${t.open ? 'It stays open for 5 minutes, and shuts once someone is in.' : 'The door shuts by itself after 5 minutes.'}</p>`}`;

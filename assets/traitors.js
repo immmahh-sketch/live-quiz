@@ -50,26 +50,28 @@ const TR_SAY = {
     `${v}, consider ${n} of your points a donation to ${to}. I did not ask.`,
     `${n} points have left ${v} and gone to ${to}. Did anyone see who did it?`
   ]),
+  // Power letters go out the moment the Traitor chooses, so they are all about the next question.
+  // Power letters go out the moment the Traitor chooses, so they are all about the next question.
   gift: (v) => trPick([
-    `${v} has been handed a free answer: full points, whatever they say. A gift from me… for now.`,
-    `A little present for ${v}: full points on this question. Ask yourselves why.`,
-    `${v} looked like they needed a hand, so I gave them a free answer. You are welcome.`,
-    `Full points for ${v}, whatever they answer. I am feeling generous. Suspicious, isn't it?`,
-    `${v} does not even need to try: a free answer, courtesy of someone in this room.`
+    `${v} has been handed a free answer on the next question: full points, whatever they say. A gift from me… for now.`,
+    `A little present for ${v}: full points on the next question. Ask yourselves why.`,
+    `${v} looked like they needed a hand, so on the next question they get a free answer. You are welcome.`,
+    `Full points for ${v} on the next question, whatever they answer. I am feeling generous. Suspicious, isn't it?`,
+    `${v} will not even need to try on the next question: a free answer, courtesy of someone in this room.`
   ]),
   block: (v) => trPick([
-    `${v} has been silenced for this question. Sit back and watch.`,
-    `${v}, not a word from you on this one. Sit this out.`,
-    `${v} will not be answering this question. Somebody wanted a bit of peace and quiet.`,
-    `I have taken ${v}'s phone away for one question. Do not ask why.`,
-    `${v}, you have been blocked. Make yourself a cup of tea instead.`
+    `${v} has been silenced for the next question. Sit back and watch.`,
+    `${v}, not a word from you on the next question. Sit it out.`,
+    `${v} will not be answering the next question. Somebody wanted a bit of peace and quiet.`,
+    `I am taking ${v}'s phone away for the next question. Do not ask why.`,
+    `${v}, you have been blocked from the next question. Make yourself a cup of tea instead.`
   ]),
   dbl: (v) => trPick([
-    `${v}'s points are doubled on this question. Enjoy it… while it lasts.`,
-    `Double points for ${v}, courtesy of me. You are welcome.`,
-    `${v} gets twice the points on this one. I would not get used to it.`,
-    `I have decided ${v} deserves double. Do not ask me why. Just answer.`,
-    `Every point ${v} wins on this question counts twice. Somebody likes you.`
+    `${v}'s points are doubled on the next question. Enjoy it… while it lasts.`,
+    `Double points for ${v} on the next question, courtesy of me. You are welcome.`,
+    `${v} gets twice the points on the next question. I would not get used to it.`,
+    `I have decided ${v} deserves double on the next question. Do not ask me why. Just answer.`,
+    `Every point ${v} wins on the next question counts twice. Somebody likes you.`
   ]),
   // whispered to the person it happened to
   steal2: (to, n) => trPick(!to ? [
@@ -84,22 +86,22 @@ const TR_SAY = {
     `${n} of your points now belong to ${to}, who sends their thanks.`
   ]),
   gift2: () => trPick([
-    'A gift: full points on this question, whatever you answer. Ask yourself why.',
-    'I have given you a free answer. Full points, no questions asked. For now.',
-    'You looked like you needed a hand, so here is a free answer. You are welcome.',
-    'Full points for you on this question. I am feeling generous. Suspicious, isn’t it?'
+    'A gift: full points on your next question, whatever you answer. Ask yourself why.',
+    'I have given you a free answer for your next question. Full points, no questions asked. For now.',
+    'You looked like you needed a hand, so your next question comes with a free answer. You are welcome.',
+    'Full points for you on your next question. I am feeling generous. Suspicious, isn’t it?'
   ]),
   block2: () => trPick([
-    'I have silenced you for this question. Sit back and watch.',
-    'Not a word from you on this one. You are blocked.',
-    'You will not be answering this question. Somebody wanted a bit of peace and quiet.',
-    'Your phone is mine for one question. Make yourself a cup of tea.'
+    'I have silenced you for your next question. Sit back and watch.',
+    'Not a word from you on your next question. You are blocked.',
+    'You will not be answering your next question. Somebody wanted a bit of peace and quiet.',
+    'Your phone is mine for your next question. Make yourself a cup of tea.'
   ]),
   dbl2: () => trPick([
-    'Your points are doubled on this question. Do not trust a gift.',
-    'Double points for you this time. You are welcome.',
-    'Twice the points on this one. I would not get used to it.',
-    'I have decided you deserve double. Do not ask me why.'
+    'Your points are doubled on your next question. Do not trust a gift.',
+    'Double points for you on your next question. You are welcome.',
+    'Twice the points on your next question. I would not get used to it.',
+    'I have decided you deserve double on your next question. Do not ask me why.'
   ])
 };
 const trShielded = (pid) => !!G.tr?.shield?.[pid]; // earned with 3 right in a row, kept until the next wrong answer
@@ -313,6 +315,20 @@ function trPromptActivity() {
   for (const x of who) { trTell(x, 'ping', { icon: '🗡', text }); }
   trLog(`💬 Prompted the Traitor${who.length > 1 ? 's' : ''}: “${text}”`); persist();
 }
+/** A clock is running: a question is about to start, is on, or is being marked. */
+const trTimerOn = () => ['countdown', 'question', 'grading'].includes(G.phase);
+/** A letter for one phone. While a question's clock is running it waits (a letter in the middle of a question costs people time), and goes out as soon as the clock has stopped. */
+function trLetterTo(to, text, extra = {}, kind = 'letter') {
+  if (!G.players[to]) return;
+  if (trTimerOn()) { (G.tr.held = G.tr.held || []).push({ to, text, extra, kind }); persist(); return; }
+  trTell(to, kind, { text, ...extra });
+}
+function trFlushLetters() {
+  if (!G.tr?.held?.length || trTimerOn()) return;
+  const h = G.tr.held; G.tr.held = [];
+  for (const l of h) trTell(l.to, l.kind || 'letter', { text: l.text, ...(l.extra || {}) });
+  persist();
+}
 /** A private word to one phone (or all of them, for ping-style banners). Only the phone it is for acts on it. */
 const trTell = (to, kind, data = {}) => send('trs', { to, kind, ...data });
 // With a recruit there are two Traitors (G.tr.traitor and G.tr.mate) sharing one set of steals and powers.
@@ -377,7 +393,7 @@ function trSteal({ victim, amount, to, show, who }) {
   if (trIsTraitor(to)) { G.tr.fake = G.tr.fake || {}; G.tr.fake[to] = (G.tr.fake[to] || 0) + amt; } // kept by a Traitor: only for show, it comes off again at the very end
   G.tr.lastStealQ = qd; G.tr.victimQ[victim] = qd; G.tr.stolen += amt; G.tr.steals++; G.tr.stealsHalf = (G.tr.stealsHalf || 0) + 1;
   const afterIdx = ['reveal', 'scoreboard', 'slide'].includes(G.phase) ? G.qIndex + 1 : G.qIndex; // the question that comes next: the notice follows it
-  if (show === 'secret') trTell(victim, 'letter', { text: TR_SAY.steal2(trIsTraitor(to) ? null : pname(to), amt.toLocaleString('en-GB')) });
+  if (show === 'secret') trLetterTo(victim, TR_SAY.steal2(trIsTraitor(to) ? null : pname(to), amt.toLocaleString('en-GB')));
   else {
     G.tr.notices.push({ kind: 'notice', title: TR_LETTER_TITLE, letter: TR_SAY.steal(pname(victim), trIsTraitor(to) ? null : pname(to), amt.toLocaleString('en-GB')), afterIdx, sound: 'whoosh',
       lines: G.tr.stealShown ? [] : ['At half time you will have the chance to "banish" who you think the Traitor is. If you are right, they lose their power and 5,000 points, and everyone who voted for them wins 2,000.'] });
@@ -391,13 +407,18 @@ function trPower({ kind, target, show, who }) {
   const t = who || G.tr.traitor, trNo = (why) => trTell(t, 'no', { why }); if (!['gift', 'block', 'dbl'].includes(kind)) return;
   if (!trWindow()) return trNo('Not right now: the vote is on.');
   if (powerNextPlain() < 0) return trNo('There is no everyone-answers question left to use it on.');
+  if (G.tr.said?.[kind]) return trNo('That one has already been announced for the next question, so it can not be changed now.');
   if (target === null || target === undefined || target === '') { G.tr.set[kind] = null; trSync(); persist(); trLog(`↩ Took back the ${{ gift: 'free answer', block: 'block', dbl: 'double' }[kind]}`); return trTell(t, 'ok', { text: 'Taken back: it is not used.' }); }
   if (!G.players[target]) return;
   if (G.tr.powers[kind] <= 0) return trNo('You have none of those left.');
   for (const k of ['gift', 'block', 'dbl']) if (k !== kind && G.tr.set[k] === target) return trNo(`${pname(target)} already has something from you for the next question.`);
   if (kind === 'block' && !trIsTraitor(target) && trShielded(target)) return trNo(`${pname(target)} has a 🛡 shield: you can't block them.`);
-  trAct('power'); trHoldClear(); G.tr.set[kind] = target; (G.tr.show = G.tr.show || {})[kind] = show === 'secret' ? 'secret' : 'screen'; trSync(); persist();
-  trLog(`${{ gift: '🎁 Free answer', block: '🚫 Block', dbl: '✨ Double' }[kind]} lined up for ${target === t ? 'themselves (for show)' : pname(target)} on the next question · ${show === 'secret' ? '🤫 only they see the letter' : '📺 letter on the big screen after the question'}`);
+  trAct('power'); trHoldClear(); G.tr.set[kind] = target; (G.tr.show = G.tr.show || {})[kind] = show === 'secret' ? 'secret' : 'screen'; (G.tr.said = G.tr.said || {})[kind] = true;
+  // the letter goes out now, before the question it is about, so there is time to read it (held until the clock stops if a question is on)
+  if (show === 'secret') { if (!trIsTraitor(target)) trLetterTo(target, TR_SAY[kind + '2']()); }
+  else trPushNotice({ kind: 'notice', title: TR_LETTER_TITLE, letter: TR_SAY[kind](pname(target)), afterIdx: 0, sound: 'whoosh' }, true);
+  trSync(); persist();
+  trLog(`${{ gift: '🎁 Free answer', block: '🚫 Block', dbl: '✨ Double' }[kind]} lined up for ${target === t ? 'themselves (for show)' : pname(target)} on the next question · ${show === 'secret' ? '🤫 only they see the letter' : '📺 letter on the big screen before it'}`);
   trTell(t, 'ok', { text: { gift: `🎁 ${target === t ? 'You' : pname(target)} will get a free answer on the next question.`, block: `🚫 ${target === t ? 'You' : pname(target)} will be blocked from the next question.`, dbl: `✨ ${target === t ? 'Your' : pname(target) + "'s"} points will be doubled on the next question.` }[kind] });
 }
 function trMsg({ to, text, who }) {
@@ -407,7 +428,7 @@ function trMsg({ to, text, who }) {
   if (to !== 'all' && (!G.players[to] || trIsTraitor(to))) return trNo('Pick someone to send it to.');
   G.tr.msgBreak++; G.tr.msgs++;
   if (to === 'all') { trPushNotice({ kind: 'notice', title: TR_LETTER_TITLE, letter: msg, afterIdx: 0, sound: 'whoosh' }, true); trLog(`📜 Message to EVERYONE (big screen): “${msg}”`); }
-  else { trTell(to, 'msg', { text: msg, note: trPick(TR_SECRET_NOTES) }); trLog(`🤫 Secret message to ${pname(to)}: “${msg}”`); }
+  else { trLetterTo(to, msg, { note: trPick(TR_SECRET_NOTES) }, 'msg'); trLog(`🤫 Secret message to ${pname(to)}: “${msg}”`); }
   trAct('msg'); trTell(t, 'ok', { text: to === 'all' ? '📜 Sent to everyone.' : `🤫 Sent to ${pname(to)}.` }); trHoldClear(); trSync(); persist();
 }
 function trList({ items, who }) {
@@ -421,7 +442,7 @@ function trList({ items, who }) {
 /** A notice for the screen (and the phones): up at once if the game is between questions, else when it next pauses. */
 function trPushNotice(n, now) {
   G.tr.notices.push(n);
-  if (now && G.phase !== 'question' && G.phase !== 'grading' && !G.tr.screen) trInterlude(true);
+  if (now && !trTimerOn() && !G.tr.screen) trInterlude(true);
   persist(); broadcastState();
 }
 
@@ -434,9 +455,7 @@ function trStartQuestion(q) {
   for (const k of ['gift', 'block', 'dbl']) if (set[k] && G.players[set[k]]) { fx[k] = set[k]; G.tr.powers[k]--; G.tr.used[k]++; }
   G.tr.set = { gift: null, block: null, dbl: null };
   G.q.trshow = Object.assign({}, G.tr.show); G.tr.show = {};
-  if (fx.gift && !trIsTraitor(fx.gift)) trTell(fx.gift, 'letter', { now: true, text: TR_SAY.gift2() });
-  if (fx.block && !trIsTraitor(fx.block)) trTell(fx.block, 'letter', { now: true, text: TR_SAY.block2() });
-  if (fx.dbl && !trIsTraitor(fx.dbl)) trTell(fx.dbl, 'letter', { now: true, text: TR_SAY.dbl2() });
+  G.tr.said = {}; // the next ones can be chosen
   if (Object.keys(fx).length) { G.q.trfx = fx; trLog(`🎯 Used for this question: ${Object.entries(fx).map(([k, p]) => `${{ gift: 'free answer', block: 'block', dbl: 'double' }[k]} on ${pname(p)}`).join(', ')}`); }
   trSync();
 }
@@ -466,7 +485,6 @@ function trAfterGrade(byPlayer) {
     const extra = Math.max(0, (byPlayer[t]?.points || 0) - (owns[t] || 0));
     if (extra) { G.tr.fake = G.tr.fake || {}; G.tr.fake[t] = (G.tr.fake[t] || 0) + extra; trLog(`🎭 ${extra} points ${pname(t)} was given by the Traitors, for show only`); }
   }
-  for (const k of ['gift', 'block', 'dbl']) if (fx[k] && (G.q.trshow || {})[k] !== 'secret') G.tr.notices.push({ kind: 'notice', title: TR_LETTER_TITLE, letter: TR_SAY[k](pname(fx[k])), afterIdx: 0, sound: 'whoosh' });
   trSync();
 }
 

@@ -30,6 +30,7 @@
 <script src="assets/party.js"></script>
 <script src="assets/letter.js"></script>
 <script src="assets/traitors.js"></script>
+<script src="assets/team.js"></script>
 <script src="assets/taskmaster.js"></script>
 <script>
 const { $, $$, esc, uid, api, TYPES, COLORS, speedPoints, textMatch, similarity, shuffle, newCode, playUrl, shortPlayUrl, store, unstore, ordinal } = LQ;
@@ -460,7 +461,7 @@ function connect() {
   ch.on('broadcast', { event: 'hint' }, ({ payload }) => onHint(payload || {}));
   ch.on('broadcast', { event: 'hurry' }, ({ payload }) => onHurry(payload || {}));
   ch.on('broadcast', { event: 'card' }, ({ payload }) => onCard(payload || {})); // a power card (assets/party.js)
-  ch.on('broadcast', { event: 'team' }, ({ payload }) => onTeam(payload || {})); // a Traitor's second phone (assets/traitors.js)
+  ch.on('broadcast', { event: 'team' }, ({ payload }) => teamHandle(payload || {})); // a teammate's phone, and a Traitor's second phone (assets/team.js, assets/traitors.js)
   ch.on('broadcast', { event: 'tr' }, ({ payload }) => onTr(payload || {})); // the Traitor's menu and the vote (assets/traitors.js)
   ch.on('broadcast', { event: 'trctl' }, ({ payload }) => onTrCtl(payload || {})); // the host's phone control, sealed
   ch.on('presence', { event: 'sync' }, () => {
@@ -560,7 +561,10 @@ function stateForPlayers() {
   partyState(s); // power cards, Play Your Cards Right, the task
   return s;
 }
-function broadcastState() { send('state', stateForPlayers()); }
+function broadcastState() {
+  if (typeof trFlushLetters === 'function') trFlushLetters(); // letters held while a clock ran go out once it has stopped
+  send('state', stateForPlayers());
+}
 function answerText(q) {
   const pa = partyAnswerText(q); if (pa !== null) return pa;
   if (q.type === 'choice') return q.options.find((o) => o.id === q.correct)?.text || '';
@@ -598,6 +602,7 @@ function onHello({ pid, name, emoji, test, view }) {
   else if ((G.players[pid].name !== name || G.players[pid].emoji !== emoji) && G.phase === 'lobby') { G.players[pid].name = name; G.players[pid].emoji = emoji; persist(); renderLobbyPlayers(); }
   if (test === true && !G.test) makeTest();
   trOnHello(pid);
+  if (!WARMUP && !DEMO && !PREVIEW && !G.players[pid].bot && !pid.startsWith('p_bot')) teamOf(pid); // every player has a team code of their own
   clearTimeout(helloT); helloT = setTimeout(broadcastState, 150);
 }
 // ------------------------------------------------------------------ VIEW phones
@@ -652,7 +657,7 @@ function onHint({ pid, qId }) {
   if (!G.q.low[pid]) { G.q.low[pid] = Date.now() - G.q.startedAt; persist(); const el = $('#hlAsked'); if (el) el.textContent = hlAskedText(); }
 }
 function hlAskedText() { const n = Object.keys(G.q?.low || {}).length; return n ? `📺 ${n} ${n === 1 ? 'player has' : 'players have'} asked for the lowbrow clue` : '📺 Nobody has asked for the lowbrow clue yet'; }
-function onAnswer({ pid, qId, answer, low }) {
+function onAnswer({ pid, qId, answer, low, by, dev, say }) {
   if (G.phase !== 'question' || !G.q || qId !== G.q.view.id) return;
   if (G.flash) return; // the picture is up: the phone sends it again afterwards
   if (G.viewers?.[pid]) return viewerAnswer(pid, qId, answer);
@@ -676,7 +681,7 @@ function onAnswer({ pid, qId, answer, low }) {
   if (low) onHint({ pid, qId });
   G.q.answers[pid] = { answer, elapsed: Date.now() - G.q.startedAt };
   persist();
-  send('ack', { pid, qId });
+  send('ack', { pid, qId, ...teamAnswerInfo({ by, dev, say }) }); // a team's other phones are told who answered, and what
   renderAnswered();
   if (WARMUP) broadcastState(); // warm-up phones tick off who has answered
   maybeAllAnswered();
@@ -2238,6 +2243,17 @@ function closePreview() {
   try { window.close(); } catch {}
   setTimeout(() => { if (!window.closed) { if (history.length > 1 && document.referrer) history.back(); else location.href = 'index.html'; } }, 300);
 }
+/** Back to the builder. A host window opened from the builder (window.open) goes back to that window and closes itself: an installed app hands the builder's address to its own window, so loading it here looked like the button doing nothing. Otherwise it simply goes there. */
+function backToBuilder() {
+  const url = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId;
+  if (!TV && window.opener && !window.opener.closed) {
+    try { window.opener.focus(); } catch {}
+    try { window.close(); } catch {}
+    setTimeout(() => { if (!window.closed) location.href = url; }, 400);
+    return;
+  }
+  location.href = url;
+}
 function endEarly() { ask('End the game now?', 'The scores so far will be shown as the final result.', 'End game', 'Keep going').then((ok) => { if (ok) { clearInterval(tickT); clearInterval(countT); finish(); } }); }
 function playAgain() { unstore(SAVE_KEY); location.reload(); }
 
@@ -2837,7 +2853,7 @@ if (window.QuizCall) {
   idle();
 })();
 function bind() {
-  $$('[data-act]').forEach((b) => b.onclick = () => ({ back: goBack, call: callClick, cam: camToggle, fs: fsToggle, bonus: bonusModal, camlinks: camLinksModal, wusave: () => { G.warmSaved = null; render(); warmupSave(); }, wuboard: () => { (window.top || window).location.href = PLAYQ ? 'warmup?q=' + PLAYQ : 'warmup?c=' + encodeURIComponent(G.warmup); }, primary: primaryAction, end: () => PREVIEW ? closePreview() : endEarly(), again: playAgain, bots: () => addBots(G.bots?.length ? 5 : 3), bots20: () => addBots(MAX_BOTS), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, pause: () => togglePause(), music: toggleMusic, stopgame: gameStop, builder: () => PREVIEW ? closePreview() : location.href = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId })[b.dataset.act]());
+  $$('[data-act]').forEach((b) => b.onclick = () => ({ back: goBack, call: callClick, cam: camToggle, fs: fsToggle, bonus: bonusModal, camlinks: camLinksModal, wusave: () => { G.warmSaved = null; render(); warmupSave(); }, wuboard: () => { (window.top || window).location.href = PLAYQ ? 'warmup?q=' + PLAYQ : 'warmup?c=' + encodeURIComponent(G.warmup); }, primary: primaryAction, end: () => PREVIEW ? closePreview() : endEarly(), again: playAgain, bots: () => addBots(G.bots?.length ? 5 : 3), bots20: () => addBots(MAX_BOTS), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, pause: () => togglePause(), music: toggleMusic, stopgame: gameStop, builder: () => PREVIEW ? closePreview() : backToBuilder() })[b.dataset.act]());
   $$('[data-kick]').forEach((el) => { el.style.cursor = 'pointer'; el.title = 'Click to remove this player from the game'; el.onclick = () => kickPlayer(el.dataset.kick); });
   paintClock(); // a redrawn screen shows the time left, not the full time
 }
