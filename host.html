@@ -2606,8 +2606,18 @@ function renderSlide() {
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary btn-lg" data-act="primary">${more ? 'Next ▶' : 'Final results 🏆'}</button>`)}`;
   bind();
 }
+/** Taskmaster look: red damask, a gold frame, a typed heading on grey paper and a wax seal (CSS only, see .tm* in style.css). */
+const isTmRound = (t) => /^\s*Taskmaster/i.test(t || '');
+function tmPaper({ kicker, sub, body, foot }) {
+  return `<div class="tmbg"></div><div class="stage-main tmround"><div class="tmpaper"><div class="tmhead1">TASKMASTER</div><div class="tmwax"><span>TM</span></div>${kicker ? `<div class="tmkick">${esc(kicker)}</div>` : ''}${sub ? `<div class="tmsubt">${esc(sub)}</div>` : ''}${body ? `<p class="tmbody">${esc(body)}</p>` : ''}${foot ? `<div class="tmfoot">${esc(foot)}</div>` : ''}</div></div>`;
+}
 function renderRound() {
   const r = roundOf(G.qIndex);
+  if (isTmRound(r.title)) {
+    stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill tmpill">${esc(G.quiz.title)}</span></div></div>${tmPaper({ kicker: `${LQ.brand().round} ${r.n} of ${G.quiz.rounds.length}`, sub: r.title.replace(/^\s*Taskmaster:?\s*/i, ''), body: r.intro, foot: `${r.count} question${r.count === 1 ? '' : 's'}` })}
+      ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary btn-lg" data-act="primary">Start round ▶</button>`)}`;
+    bind(); return;
+  }
   stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span></div></div>
     <div class="stage-main"><div style="opacity:.8;font-weight:800;font-size:1.6rem">${LQ.brand().round} ${r.n} of ${G.quiz.rounds.length}</div><h1 class="big">${esc(r.title) || LQ.brand().round + ' ' + r.n}</h1>${r.double ? '<div class="dblbadge">✨ Double points! ✨</div>' : ''}${r.intro ? `<p style="font-size:clamp(1.1rem,2.2vw,1.8rem);font-weight:800;max-width:1000px;text-wrap:balance">${esc(r.intro)}</p>` : ''}<div style="opacity:.75;font-weight:800;font-size:1.3rem">${r.count} question${r.count === 1 ? '' : 's'}</div>${r.practice ? '<div class="practicepill big">🧪 Practice round · no points, just a go at each game</div>' : ''}</div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary btn-lg" data-act="primary">Start round ▶</button>`)}`;
@@ -2739,6 +2749,11 @@ function musicStop() { try { bgAudio?.pause(); } catch {} bgAudio = null; if (mu
 function musicPause(on) { if (musicMode === 'custom') { try { on ? bgAudio?.pause() : bgAudio?.play().catch(() => {}); } catch {} return; } try { if (on) ytP?.pauseVideo(); else if (musicMode) ytP?.playVideo(); } catch {} }
 function renderTypeCard() {
   const q = question(), k = q.kind || q.type, T = TYPES[k] || { icon: '❓', label: k }, run = typeRun(G.qIndex);
+  if (k === 'task') {
+    stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill tmpill">${esc(G.quiz.title)}</span><span class="hpill tmpill">Question ${qNum(G.qIndex)} of ${total()}</span></div></div>${tmPaper({ kicker: `Next up${run > 1 ? ` · ${run} tasks` : ''}`, sub: '', body: LQ.HOWTO[q.mode === 'live' ? 'task-live' : k] || T.blurb || '' })}
+      ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary btn-lg" data-act="primary">Let's go ▶</button>`)}`;
+    bind(); return;
+  }
   stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">Question ${qNum(G.qIndex)} of ${total()}</span>${practiceQ() ? '<span class="hpill practicepill">🧪 Practice · no points</span>' : ''}</div></div>
     <div class="stage-main typecard"><div class="tc-icon">${T.icon}</div><div class="tc-next">Next up${run > 1 ? ` · ${run} questions` : ''}</div><h1 class="big">${esc(T.label)}</h1><p class="tc-how">${esc(LQ.HOWTO[q.mode === 'live' ? 'task-live' : k] || T.blurb || '')}</p></div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary btn-lg" data-act="primary">Let's go ▶</button>`)}`;

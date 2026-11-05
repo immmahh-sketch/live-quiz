@@ -1895,3 +1895,27 @@ body.tvcams .stage { padding-right: calc(var(--tvw) + 44px); }
 .trslide .trbig.trslide-title { font-size: clamp(1.6rem, 6.4vh, 4.4rem); }
 .trslide .slidebody, .trslide .trslide-body { font-size: clamp(1rem, 3.1vh, 2.1rem); line-height: 1.32; max-width: min(1180px, 94%); }
 .trslide .slidebody p, .trslide .trslide-body p { margin: .35em 0; }
+
+/* Taskmaster look: red damask wallpaper, a gold frame, typed heading on grey paper, a wax seal */
+.tmbg { position: fixed; inset: 0; z-index: -1; background: #7a0b14 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='160' viewBox='0 0 120 160'%3E%3Crect width='120' height='160' fill='%237a0b14'/%3E%3Cg fill='%23951620'%3E%3Cpath d='M60 10 C80 30 80 55 60 75 C40 55 40 30 60 10Z'/%3E%3Cpath d='M60 85 C80 105 80 130 60 150 C40 130 40 105 60 85Z'/%3E%3Ccircle cx='0' cy='80' r='22'/%3E%3Ccircle cx='120' cy='80' r='22'/%3E%3Ccircle cx='60' cy='80' r='6'/%3E%3C/g%3E%3Cg fill='none' stroke='%236a0910' stroke-width='3'%3E%3Cpath d='M20 30 C40 40 40 60 20 70 M100 30 C80 40 80 60 100 70'/%3E%3C/g%3E%3C/svg%3E"); background-size: 110px 146px; }
+.tmbg::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 35%, rgba(0,0,0,.55) 100%); }
+.tmbg::after { content: ''; position: absolute; inset: 14px; border: 12px solid transparent; border-image: linear-gradient(135deg, #f6de8f, #a67c1b 28%, #f6de8f 52%, #8a6414 78%, #f6de8f) 1; box-shadow: inset 0 0 0 2px rgba(60,35,0,.55), 0 0 0 2px rgba(60,35,0,.55), inset 0 0 28px rgba(0,0,0,.5); pointer-events: none; }
+.tmpill { background: rgba(0,0,0,.35) !important; color: #f6de8f !important; border: 1px solid rgba(246,222,143,.45); }
+.stage-main.tmround { min-height: 0; overflow-y: auto; justify-content: safe center; }
+.tmpaper { position: relative; width: min(1000px, 88vw); background: linear-gradient(180deg, #e4dfd2 0%, #d2ccbb 100%); color: #1d1b17; border-radius: 6px; padding: clamp(14px, 3.2vh, 34px) clamp(18px, 3vw, 44px); display: flex; flex-direction: column; align-items: center; gap: clamp(6px, 1.4vh, 16px); box-shadow: 0 18px 44px rgba(0,0,0,.55), 0 0 0 1px rgba(0,0,0,.25); font-family: 'Special Elite', 'Courier New', monospace; text-align: center; }
+.tmpaper::after { content: ''; position: absolute; left: 0; right: 0; top: 52%; height: 2px; background: linear-gradient(180deg, rgba(0,0,0,.18), rgba(255,255,255,.35)); pointer-events: none; }
+.tmhead1 { font-family: 'Special Elite', 'Courier New', monospace; font-size: clamp(2rem, 9vh, 5.6rem); letter-spacing: .05em; line-height: 1; color: #15130f; text-shadow: 0 0 1px rgba(0,0,0,.7), 1px 1px 0 rgba(0,0,0,.18); }
+.tmwax { position: relative; width: clamp(70px, 15vh, 160px); aspect-ratio: 1; border-radius: 48% 52% 50% 50% / 52% 48% 52% 48%; background: radial-gradient(circle at 34% 28%, #e9473a 0%, #b4141b 52%, #760a10 100%); box-shadow: 0 7px 14px rgba(0,0,0,.5), inset 0 -4px 8px rgba(0,0,0,.35), inset 0 3px 6px rgba(255,255,255,.18); display: grid; place-items: center; flex: none; }
+.tmwax::before { content: ''; position: absolute; inset: 11%; border-radius: 50%; border: 3px solid rgba(70,0,6,.45); box-shadow: 1px 1px 0 rgba(255,255,255,.2); }
+.tmwax span { font-family: 'Special Elite', 'Courier New', monospace; font-weight: 700; font-size: clamp(1.4rem, 5.6vh, 3.6rem); color: rgba(96,6,12,.95); text-shadow: 1px 1px 0 rgba(255,255,255,.28), -1px -1px 0 rgba(0,0,0,.3); }
+.tmkick { font-size: clamp(.95rem, 2.6vh, 1.6rem); letter-spacing: .12em; text-transform: uppercase; color: #5a1016; }
+.tmsubt { font-size: clamp(1.8rem, 7vh, 4.4rem); line-height: 1.05; color: #15130f; }
+.tmbody { font-size: clamp(1rem, 3vh, 1.9rem); line-height: 1.35; max-width: 56ch; margin: 0; color: #2a2620; text-wrap: balance; }
+.tmfoot { font-size: clamp(.9rem, 2.4vh, 1.4rem); color: #5b564a; }
+.state.tmstate { background: #7a0b14; border: 3px solid #d9b24a; border-radius: 18px; color: #1d1b17; padding: 18px 14px; gap: 8px; box-shadow: inset 0 0 40px rgba(0,0,0,.45); font-family: 'Special Elite', 'Courier New', monospace; }
+.state.tmstate .tmhead1 { font-size: 2.1rem; background: #ddd8ca; width: 100%; padding: 10px 6px; border-radius: 4px; }
+.state.tmstate .tmwax { width: 78px; margin: -4px 0; }
+.state.tmstate .tmkick, .state.tmstate .tmfoot { color: #f6de8f; }
+.state.tmstate .tmsubt { color: #fff; font-size: 2rem; text-shadow: 0 2px 0 rgba(0,0,0,.35); }
+.state.tmstate .tmbody { color: #fbeee6; font-size: 1.05rem; }
+.tmpaper .tmkick { margin-top: clamp(4px, 1.2vh, 14px); }

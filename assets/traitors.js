@@ -174,14 +174,18 @@ function trClaudiaReply(pid, { id, k, target }) {
   if (r.stage === 'offer' && pid === G.tr.traitor) {
     if (k === 'no') { G.tr.recruit = { stage: 'done' }; trLog('✉ The Traitor said no to recruiting'); persist(); return; }
     if (k !== 'yes') return;
-    const pool = Object.values(G.players).filter((p) => p.id !== pid && !p.id.startsWith('p_bot')).map((p) => ({ pid: p.id, name: p.name, emoji: p.emoji || '' }));
-    if (!pool.length) { G.tr.recruit = { stage: 'done' }; return trTell(pid, 'ok', { text: 'There is nobody to recruit.' }); }
+    const pool = Object.values(G.players).filter((p) => p.id !== pid && (G.test || !p.id.startsWith('p_bot'))).map((p) => ({ pid: p.id, name: p.name + (p.id.startsWith('p_bot') ? ' 🤖' : ''), emoji: p.emoji || '' }));
+    if (!pool.length) { G.tr.recruit = { stage: 'done' }; trLog('✉ The Traitor said YES to recruiting, but there is nobody else in the game to recruit'); persist(); return trClaudia(pid, 'There is nobody else in the game to recruit yet. Only people playing on their own phone can be asked.', { greet: 'Dear Traitor,' }); }
     r.stage = 'pick'; r.id = uid('c'); trLog('✉ The Traitor said YES to recruiting: choosing who'); persist();
     return trClaudia(pid, 'Who will you recruit? They may say no, and it will cost them.', { id: r.id, greet: 'Dear Traitor,', pick: pool });
   }
   if (r.stage === 'pick' && pid === G.tr.traitor) {
     if (k === 'none') { G.tr.recruit = { stage: 'done' }; trLog('✉ The Traitor changed their mind about recruiting'); persist(); return; }
-    if (k !== 'pick' || !G.players[target] || target === pid || String(target).startsWith('p_bot')) return;
+    if (k !== 'pick' || !G.players[target] || target === pid || (String(target).startsWith('p_bot') && !G.test)) return;
+    if (String(target).startsWith('p_bot')) { // a bot in a test game: it has no phone, so it simply says no
+      G.players[target].score -= TR.RECRUIT_REFUSE; G.tr.recruit = { stage: 'done' }; trLog(`✉ ${pname(target)} (a bot) refused to join and lost ${TR.RECRUIT_REFUSE}`); persist(); broadcastState();
+      return trClaudia(pid, `${pname(target)} said no, and lost ${TR.RECRUIT_REFUSE.toLocaleString('en-GB')} points. (A bot always says no: pick a real player to see them choose.)`, { greet: 'Dear Traitor,' });
+    }
     r.stage = 'invite'; r.target = target; r.id = uid('c'); trLog(`✉ The Traitor chose ${pname(target)} to recruit; Claudia has asked them`); persist();
     trTell(pid, 'ok', { text: `✉ Claudia has asked ${pname(target)}. You will hear what they say.` });
     return trClaudia(target, `The Traitors want you. Join, and learn who they are and share their powers. Refuse, and lose ${TR.RECRUIT_REFUSE.toLocaleString('en-GB')} points.`, { id: r.id, greet: `Dear ${pname(target)},`, buttons: [{ k: 'join', label: '🗡 Join the Traitors' }, { k: 'refuse', label: `Refuse (lose ${TR.RECRUIT_REFUSE.toLocaleString('en-GB')} points)` }] });
