@@ -327,14 +327,14 @@ function trpBind(el, d) {
   el.querySelectorAll('[data-teamroles]').forEach((b) => b.onclick = () => send('team', { op: 'roles', pid: P.pid, answerDev: b.dataset.teamroles }));
   el.querySelector('[data-teamend]')?.addEventListener('click', () => send('team', { op: 'end', pid: P.pid }));
   el.querySelectorAll('[data-show]').forEach((b) => b.onclick = () => { st.show = b.dataset.show; re(); });
-  el.querySelectorAll('[data-pt]').forEach((b) => b.onclick = () => { send('tr', { pid: P.pid, op: 'power', kind: st.power, target: b.dataset.pt, show: st.show }); st.power = ''; });
-  el.querySelector('[data-pundo]')?.addEventListener('click', () => { send('tr', { pid: P.pid, op: 'power', kind: st.power, target: null }); st.power = ''; });
+  el.querySelectorAll('[data-pt]').forEach((b) => b.onclick = () => { send('tr', { pid: P.pid, op: 'power', kind: st.power, target: b.dataset.pt, show: st.show }); st.power = ''; if (!P.partnerLinked) el.remove(); }); // picked: the menu closes so the whole screen is back (not when playing as a team)
+  el.querySelector('[data-pundo]')?.addEventListener('click', () => { send('tr', { pid: P.pid, op: 'power', kind: st.power, target: null }); st.power = ''; if (!P.partnerLinked) el.remove(); });
   el.querySelector('#trpText')?.addEventListener('input', (e) => { TRP.msgText = e.target.value; });
   el.querySelector('#trpChatText')?.addEventListener('input', (e) => { TRP.chatText = e.target.value; });
   el.querySelector('#trpOwn')?.addEventListener('input', (e) => { TRP.ownText = e.target.value; });
   el.querySelectorAll('[data-mt]').forEach((b) => b.onclick = () => { TRP.msgTo = b.dataset.mt; re(); });
   el.querySelectorAll('[data-pr]').forEach((b) => b.onclick = () => { const x = el.querySelector('#trpText'); if (!x) return; const t = TR_PROMPTS[+b.dataset.pr]; x.value = t; TRP.msgText = t; x.focus(); const k = t.indexOf('…'); if (k >= 0) x.setSelectionRange(k, k + 1); else x.setSelectionRange(t.length, t.length); });
-  el.querySelector('[data-msend]')?.addEventListener('click', () => { const x = el.querySelector('#trpText'); send('tr', { pid: P.pid, op: 'msg', to: TRP.msgTo, text: x.value }); x.value = ''; TRP.msgText = ''; });
+  el.querySelector('[data-msend]')?.addEventListener('click', () => { const x = el.querySelector('#trpText'); send('tr', { pid: P.pid, op: 'msg', to: TRP.msgTo, text: x.value }); x.value = ''; TRP.msgText = ''; if (!P.partnerLinked) el.remove(); });
   const D = TRP.listDraft;
   el.querySelector('[data-lredo]')?.addEventListener('click', () => { TRP.listDraft = { yes: new Set((d.list || []).filter((x) => x.yes && !x.own).map((x) => x.text)), own: (d.list || []).filter((x) => x.own).map((x) => ({ text: x.text, yes: x.yes })) }; re(); });
   el.querySelectorAll('[data-lq]').forEach((c) => c.onchange = () => { c.checked ? D.yes.add(c.dataset.lq) : D.yes.delete(c.dataset.lq); const b = el.querySelector('[data-lsave]'); if (b) b.textContent = `Save my list (${D.yes.size + D.own.filter((o) => o.yes).length} ticked)`; });
