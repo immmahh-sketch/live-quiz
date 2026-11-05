@@ -3105,8 +3105,8 @@ function renderCountdown() {
   bind();
 }
 function mediaHtml(q, live) {
-  if (q.kind === 'reveal' && live && q.media?.url && G.q?.reveal?.blur) return `<div class="qmedia reveal"><img class="rblur" src="${esc(q.media.url)}" style="filter:blur(${blurPx(G.q.reveal)}px)"></div>`;
-  if (q.kind === 'reveal' && live && q.media?.url && G.q?.reveal) { const r = G.q.reveal; return `<div class="qmedia reveal"><img src="${esc(q.media.url)}"><div class="rtiles" style="grid-template-columns:repeat(${r.cols},1fr);grid-template-rows:repeat(${r.rows},1fr)">${Array.from({ length: r.cols * r.rows }, (_, i) => `<i data-t="${i}" class="${r.order.indexOf(i) < r.shown ? 'off' : ''}"></i>`).join('')}</div></div>`; }
+  if (q.kind === 'reveal' && live && q.media?.url && G.q?.reveal?.blur) return `<div class="qmedia reveal">${LQ.isVideoUrl(q.media.url) ? LQ.videoHtml(q.media.url, 'rblur').replace('<video class="rblur"', `<video style="filter:blur(${blurPx(G.q.reveal)}px)" class="rblur"`) : `<img class="rblur" src="${esc(q.media.url)}" style="filter:blur(${blurPx(G.q.reveal)}px)">`}</div>`;
+  if (q.kind === 'reveal' && live && q.media?.url && G.q?.reveal) { const r = G.q.reveal; return `<div class="qmedia reveal">${LQ.isVideoUrl(q.media.url) ? LQ.videoHtml(q.media.url) : `<img src="${esc(q.media.url)}">`}<div class="rtiles" style="grid-template-columns:repeat(${r.cols},1fr);grid-template-rows:repeat(${r.rows},1fr)">${Array.from({ length: r.cols * r.rows }, (_, i) => `<i data-t="${i}" class="${r.order.indexOf(i) < r.shown ? 'off' : ''}"></i>`).join('')}</div></div>`; }
   if (q.media?.kind === 'image' && q.media.url) return `<div class="qmedia"><img src="${esc(q.media.url)}"></div>`;
   if (q.media?.kind === 'youtube' && q.media.videoId && live && !WARMUP) return `<div class="qmedia"><div class="ytbox" data-yt="${esc(q.id)}"></div></div>`;
   return '';

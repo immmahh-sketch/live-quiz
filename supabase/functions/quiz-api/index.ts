@@ -74,7 +74,7 @@ async function rest(path: string, init: RequestInit = {}) {
 
 // ---------------------------------------------------------------- storage
 function extFor(ct: string) {
-  return ct.includes("mpeg") ? "mp3" : ct.includes("png") ? "png" : ct.includes("webp") ? "webp" : ct.includes("gif") ? "gif" : "jpg";
+  return ct.includes("mp4") ? "mp4" : ct.includes("mpeg") ? "mp3" : ct.includes("png") ? "png" : ct.includes("webp") ? "webp" : ct.includes("gif") ? "gif" : "jpg";
 }
 async function storagePut(path: string, bytes: Uint8Array, contentType: string): Promise<string> {
   const r = await fetch(`${SUPA_URL}/storage/v1/object/${BUCKET}/${path}`, {
@@ -1149,7 +1149,7 @@ Deno.serve(async (req) => {
 
     if (action === "upload") {
       const ct = String(body.contentType || "image/jpeg");
-      if (!/^(image\/(jpeg|png|webp|gif)|audio\/mpeg)$/.test(ct)) return json({ error: "Only JPEG, PNG, WebP or GIF pictures (or an MP3 clip)." }, 400);
+      if (!/^(image\/(jpeg|png|webp|gif)|audio\/mpeg|video\/mp4)$/.test(ct)) return json({ error: "Only JPEG, PNG, WebP or GIF pictures (or an MP3 or MP4 clip)." }, 400);
       let bytes: Uint8Array;
       try { bytes = Uint8Array.from(atob(String(body.data || "")), (c) => c.charCodeAt(0)); }
       catch { return json({ error: "The picture data was not readable." }, 400); }

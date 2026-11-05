@@ -265,9 +265,9 @@ function syncReveal(s) {
   const box = $('#prv'), r = s.reveal; if (!box || !r) return;
   if (box.dataset.url !== r.url) {
     box.dataset.url = r.url;
-    box.innerHTML = `<img src="${esc(r.url)}" alt="">` + (r.blur === null ? `<div class="prvt" style="grid-template-columns:repeat(${r.cols},1fr);grid-template-rows:repeat(${r.rows},1fr)">${Array.from({ length: r.cols * r.rows }, (_, i) => `<i data-t="${i}"></i>`).join('')}</div>` : '');
+    box.innerHTML = (LQ.isVideoUrl(r.url) ? LQ.videoHtml(r.url, 'rblur') : `<img src="${esc(r.url)}" alt="">`) + (r.blur === null ? `<div class="prvt" style="grid-template-columns:repeat(${r.cols},1fr);grid-template-rows:repeat(${r.rows},1fr)">${Array.from({ length: r.cols * r.rows }, (_, i) => `<i data-t="${i}"></i>`).join('')}</div>` : '');
   }
-  if (r.blur !== null) { const im = box.querySelector('img'); if (im) im.style.filter = `blur(${r.blur}px)`; return; }
+  if (r.blur !== null) { const im = box.querySelector('img, video'); if (im) im.style.filter = `blur(${r.blur}px)`; return; }
   const off = new Set(r.off); box.querySelectorAll('.prvt i').forEach((t) => t.classList.toggle('off', off.has(+t.dataset.t)));
 }
 /** The pause veil over the phone, and in run-itself mode a small pause button in the corner. */
