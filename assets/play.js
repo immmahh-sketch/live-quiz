@@ -6,7 +6,8 @@ const PENDING = BHB ? 'lq_pending_bhb' : 'lq_pending'; // each app keeps its own
 /** The mark at the top of the join and install pages. */
 const joinLogo = () => BHB ? `<div class="joinlogo"><img src="${BRAND.logo}" alt="Black Horse Beamish"><h2>Training</h2></div>` : `<div class="joinlogo"><img src="assets/brand/mark.png" alt=""><h2>${esc(BRAND.name)}</h2></div>`;
 const app = $('#app');
-const saved = store('lq_player') || {};
+const SLOT = new URLSearchParams(location.search).get('slot') || ''; // a second phone panel on the host page is its own player
+const saved = store('lq_player' + SLOT) || {};
 const P = { pid: /^p_[a-z0-9]{6,12}$/.test(saved.pid || '') ? saved.pid : uid('p'), name: saved.name || '', emoji: LQ.EMOJIS.includes(saved.emoji) ? saved.emoji : LQ.EMOJIS[Math.floor(Math.random() * LQ.EMOJIS.length)], code: '', race: null,
   state: null, receivedAt: 0, deadline: 0, viewKey: '', answered: {}, skipped: {}, sent: {}, low: {}, joined: false, hostSeen: 0, work: {} };
 let ch = null, sb = null, timerT = null, helloT = null, watchdogT = null;
@@ -34,7 +35,7 @@ function renderJoin(msg) {
     const c = $('#code').value.trim().toUpperCase().replace(/[^A-Z0-9]/g, ''), n = $('#name').value.replace(/\s+/g, ' ').trim();
     if (c.length < 3) return renderJoin('The game code is six letters and numbers — it\'s on the shared screen.');
     if (!n) return renderJoin('Tell us your name so it shows on the scoreboard.');
-    P.code = c; P.name = n; P.test = false; store('lq_player', { pid: P.pid, name: n, emoji: P.emoji });
+    P.code = c; P.name = n; P.test = false; store('lq_player' + SLOT, { pid: P.pid, name: n, emoji: P.emoji });
     // TEST in front of a live game's code: join that game and make it a test game (ten bots, nothing saved).
     // TEST in front of a warm-up's code (TESTWARMUP) goes to the warm-up instead, found by the check below.
     // VIEW in front of a live game's code: play along as the players see it and get a score, but never be a player
@@ -1006,7 +1007,7 @@ if (bootQ.get('solo') === '1') document.addEventListener('pointerdown', () => { 
 const bootCode = (bootQ.get('g') || '').toUpperCase();
 if (bootQ.get('solo') === '1' && /^[A-Z0-9]{6}$/.test(bootCode)) {
   // the host testing alone: this panel sits inside the host page, so join without the form
-  P.code = bootCode; P.name = P.name || 'Me'; store('lq_player', { pid: P.pid, name: P.name, emoji: P.emoji });
+  P.code = bootCode; P.name = P.name || (SLOT ? 'Dave' : 'Me'); store('lq_player' + SLOT, { pid: P.pid, name: P.name, emoji: P.emoji });
   connect();
 } else if (PHONE && !STANDALONE) {
   if (/^[A-Z0-9]{6}$/.test(bootCode)) store(PENDING, { code: bootCode, at: Date.now() });

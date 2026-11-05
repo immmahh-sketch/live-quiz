@@ -80,6 +80,13 @@ function trHoldClear() { if (!G.tr?.hold) return; G.tr.hold = null; trHoldUI(); 
 function trHoldUI() { document.getElementById('trHoldBar')?.remove(); }
 setInterval(() => { try { if (typeof G === 'undefined' || !G?.tr) return; if (G.tr.hold && !trHoldOn()) { G.tr.hold = null; trSync(); trCtlPush(); } trHoldUI(); } catch {} }, 1000);
 
+/** A demo slide that plays a sample letter: on the big screen and every phone, or ('phones') only on the real players' phones. */
+function trDemoLetter(q) {
+  if (!trOn() || !q.letter) return;
+  if (q.letterMode === 'phones') { for (const p of Object.values(G.players)) if (!p.id.startsWith('p_bot')) trTell(p.id, 'letter', { now: true, text: q.letter }); return; }
+  const at = G.qIndex;
+  setTimeout(() => { if (G.qIndex === at && G.phase === 'slide' && !G.tr.screen) trPushNotice({ kind: 'notice', title: TR_LETTER_TITLE, letter: q.letter, afterIdx: 0, sound: 'whoosh' }, true); }, 500);
+}
 /** A private word to one phone (or all of them, for ping-style banners). Only the phone it is for acts on it. */
 const trTell = (to, kind, data = {}) => send('trs', { to, kind, ...data });
 function trSync() {

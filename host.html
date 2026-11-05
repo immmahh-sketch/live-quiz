@@ -107,13 +107,16 @@ const present = new Map(); // pid -> name, from presence
 let toastT;
 /** Test by myself: three bots for company and a player panel docked on this page (play.html in an iframe, joined as "Me"). */
 function toggleSolo() {
-  if (G.solo) { G.solo = false; document.body.classList.remove('solo'); $('#solopanel')?.remove(); renderLobby(); return; }
+  if (G.solo) { G.solo = false; document.body.classList.remove('solo', 'solo2'); $('#solopanel')?.remove(); $('#solopanel2')?.remove(); renderLobby(); return; }
   G.solo = true; document.body.classList.add('solo');
   if (!G.bots?.length) addBots(3);
+  const two = !!G.quiz?.settings?.twoPhones; // a demo: a second phone, to be the Traitor
+  if (two) document.body.classList.add('solo2');
   const p = document.createElement('div'); p.id = 'solopanel'; p.className = 'solopanel';
-  p.innerHTML = `<div class="solohead"><b>🧪 You, as a player</b><button class="btn btn-ghost btn-sm" id="soloClose">Close</button></div><iframe src="play?g=${G.code}&solo=1" allow="camera"></iframe>`;
+  p.innerHTML = `<div class="solohead"><b>${two ? '📱 Phone 1: a player (Me)' : '🧪 You, as a player'}</b><button class="btn btn-ghost btn-sm" id="soloClose">Close</button></div><iframe src="play?g=${G.code}&solo=1" allow="camera"></iframe>`;
   document.body.appendChild(p);
   $('#soloClose').onclick = toggleSolo;
+  if (two) { const p2 = document.createElement('div'); p2.id = 'solopanel2'; p2.className = 'solopanel two'; p2.innerHTML = `<div class="solohead"><b>📱 Phone 2: Dave (pick him as the Traitor)</b></div><iframe src="play?g=${G.code}&solo=1&slot=2" allow="camera"></iframe>`; document.body.appendChild(p2); }
   renderLobby();
 }
 /** Preview from the builder: bots and the player panel, then straight into the 3-2-1 (or the slide) once your panel has joined. */
@@ -805,6 +808,7 @@ function showSlide(i) {
   const q = G.quiz.questions[i], ms = LQ.breakMs(q);
   G.brk = q.break ? { endsAt: Date.now() + ms, totalMs: ms, done: false } : null;
   persist(); render(); broadcastState();
+  if (q.letter && typeof trDemoLetter === 'function') trDemoLetter(q); // a demo slide that plays a sample letter
 }
 // ------------------------------------------------------------------ break clock
 let brkT = null;

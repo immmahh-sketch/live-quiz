@@ -4,7 +4,7 @@
  * Everything private for one phone arrives as a 'trs' message addressed to this pid and is acted on only here. Loaded after party-phone.js. */
 
 const TRP = { traitor: false, sync: null, tab: 'steal', st: { amount: 300, show: 'screen' }, msgs: [], screenId: '', vote: '', tableEnd: 0, listDraft: null, listPrompted: false, msgTo: '', tick: null };
-const trpKey = () => 'lq_tr_' + (P.code || '');
+const trpKey = () => 'lq_tr_' + (P.code || '') + (SLOT ? '_' + SLOT : '');
 const trpSeen = (k) => { try { return localStorage.getItem(trpKey() + k) === '1'; } catch { return false; } };
 const trpMark = (k) => { try { localStorage.setItem(trpKey() + k, '1'); } catch {} };
 
