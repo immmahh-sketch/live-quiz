@@ -35,6 +35,7 @@ window.TvCams = (() => {
       col.appendChild(el);
       return { el, video: el.querySelector('video'), card: el.querySelector('.tvcard'), name: el.querySelector('.tvname'), pid: null, next: null, nextAt: 0 };
     });
+    S.stat = document.createElement('div'); S.stat.className = 'tvstat'; col.appendChild(S.stat);
     document.body.appendChild(col);
   }
   function unbuild() { col?.remove(); col = null; S.slots = []; document.body.classList.remove('tvcams'); }
@@ -48,7 +49,14 @@ window.TvCams = (() => {
     s.card.style.background = `hsl(${hue(p.name)} 55% 40%)`;
     s.el.classList.toggle('novideo', !withVideo);
   }
-  const layout = () => document.body.classList.toggle('tvcams', S.enabled && S.slots.some((s) => s.pid));
+  const layout = () => { document.body.classList.toggle('tvcams', S.enabled && S.slots.some((s) => s.pid)); status(); };
+  /** While no picture is up, a small pill says what the cameras are waiting for (so an empty column is never a mystery). */
+  function status() {
+    if (!S.stat) return;
+    const any = S.slots.some((s) => s.pid || s.next), n = S.people.size, c = eligible().length;
+    S.stat.style.display = any ? 'none' : '';
+    S.stat.textContent = !S.enabled ? '📷 Room cameras off (press C)' : !n ? '📷 Room cameras on · nobody else is on the call yet' : !c ? `📷 Room cameras on · ${n} on the call, nobody has their camera on` : `📷 Room cameras on · connecting to ${c} camera${c === 1 ? '' : 's'}…`;
+  }
 
   // ---------- one receive-only connection to the SFU ----------
   function newLink() { return { pc: null, sessionId: null, pulls: new Map(), byMid: new Map(), idle: 0, dead: false }; }
@@ -120,7 +128,7 @@ window.TvCams = (() => {
       S.people.set(id, Object.assign(p, { id, name: String(meta.name || 'Guest').slice(0, 24), sessionId: typeof meta.sessionId === 'string' ? meta.sessionId : null, cam: meta.cam !== false && tracks.includes('cam') }));
     }
     for (const id of [...S.people.keys()]) if (!seen.has(id)) S.people.delete(id);
-    step(true);
+    status(); step(true);
   }
   const eligible = () => [...S.people.values()].filter((p) => p.sessionId && p.cam && (S.cool.get(p.id) || 0) < Date.now()).map((p) => p.id);
 

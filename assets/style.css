@@ -1873,3 +1873,18 @@ body.tvcams .stage { padding-right: calc(var(--tvw) + 44px); }
 .tvcam .tvcard { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; font: 900 3rem system-ui, sans-serif; color: #fff; }
 .tvcam.novideo .tvcard { display: flex; } .tvcam.novideo video { visibility: hidden; }
 .tvcam .tvname { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 10px 5px; font: 800 .95rem system-ui, sans-serif; color: #fff; background: linear-gradient(transparent, rgba(0,0,0,.72)); text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.tvstat { align-self: flex-end; padding: 6px 12px; border-radius: 99px; background: rgba(0,0,0,.45); color: #fff; font: 800 .8rem system-ui, sans-serif; text-align: right; }
+
+/* A Traitors slide (q.theme = 'traitors'): the Traitors colours, the crest, serif gold */
+.trbg { position: fixed; inset: 0; z-index: -1; background: radial-gradient(ellipse at 50% 12%, #4a1420 0%, #1d0a0d 58%, #0a0405 100%); }
+.trbg::after { content: ''; position: absolute; inset: 18px; border: 2px solid rgba(232,196,106,.35); border-radius: 22px; pointer-events: none; }
+.trpill { background: rgba(232,196,106,.14) !important; color: #e8c46a !important; border: 1px solid rgba(232,196,106,.4); }
+.trcrest { width: clamp(70px, 11vh, 130px); height: auto; color: #e8c46a; filter: drop-shadow(0 0 22px rgba(232,196,106,.45)); flex: none; }
+.trslide { color: #f4e9d0; }
+.trslide .trslide-title, .trslide.state h2 { font-family: Georgia, 'Times New Roman', serif; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; color: #e8c46a; text-shadow: 0 0 34px rgba(232,196,106,.35); margin: 0; }
+.trslide .trbig.trslide-title { font-size: clamp(2.2rem, 5.6vw, 4.8rem); }
+.trrule { width: min(260px, 40%); height: 2px; background: linear-gradient(90deg, transparent, #e8c46a, transparent); flex: none; }
+.trslide .slidebody, .trslide .trslide-body { font-family: Georgia, 'Times New Roman', serif; color: #f4e9d0; }
+.state.trslide { background: radial-gradient(ellipse at 50% 10%, #4a1420 0%, #1d0a0d 62%, #0a0405 100%); border-radius: 18px; padding: 22px 18px; border: 1px solid rgba(232,196,106,.35); }
+.state.trslide .trcrest { width: 64px; }

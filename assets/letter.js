@@ -5,6 +5,8 @@
 
 const TR_LETTER_TITLE = '📜 THE TRAITOR HAS A MESSAGE FOR YOU!';
 const trLetterEsc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+/** The Traitors crest: the arch with the lightning bolt, the same mark as on the letter. Gold by default (see .trcrest). */
+const trCrestSvg = (cls = '') => `<svg class="trcrest ${cls}" viewBox="0 0 60 66" aria-hidden="true"><path d="M6 62 C6 28 18 8 30 3 C42 8 54 28 54 62 L46 62 C46 36 40 22 30 14 C20 22 14 36 14 62 Z" fill="currentColor"/><path d="M33 34 L37 30 L35 40 L40 38 L31 52 L32 42 L27 44 Z" fill="currentColor"/></svg>`;
 /** Short notes are written big, long ones smaller, so a 140-character message still fits the page. */
 const trLetterSize = (n) => (n <= 40 ? 0.24 : n <= 80 ? 0.2 : n <= 120 ? 0.17 : n <= 180 ? 0.14 : 0.115);
 
