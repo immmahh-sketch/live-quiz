@@ -564,6 +564,7 @@ function stateForPlayers() {
 }
 function broadcastState() {
   if (typeof trFlushLetters === 'function') trFlushLetters(); // letters held while a clock ran go out once it has stopped
+  if (typeof ilCuePush === 'function') ilCuePush(); // a stunt cue that has just become due goes to the host's phone
   send('state', stateForPlayers());
 }
 function answerText(q) {

@@ -704,6 +704,19 @@ async function traitorsPanel(id) {
   const confirmIt = (t, m, ok) => new Promise((res) => { const c = modal(`<h3 style="margin-top:0">${esc(t)}</h3><p>${esc(m)}</p><div class="row" style="justify-content:flex-end;gap:8px"><button class="btn btn-ghost" data-n>Cancel</button><button class="btn btn-primary" data-y>${esc(ok)}</button></div>`); $('[data-n]', c).onclick = () => { c.remove(); res(false); }; $('[data-y]', c).onclick = () => { c.remove(); res(true); }; });
   const draw = () => {
     const d = last; if (!d) return;
+    { // an "I Literally Just Told You" stunt is due: a big green pop-up over everything, until Done (or the game moves past it)
+      const cp = bg.querySelector('#cuePop');
+      if (d.cue) {
+        if (!cp || cp.dataset.id !== d.cue.id) {
+          cp?.remove();
+          const el = document.createElement('div'); el.id = 'cuePop'; el.className = 'cuepop'; el.dataset.id = d.cue.id;
+          el.innerHTML = `<div class="cue-in"><div class="cue-kick">DO IT NOW · ITEM ${d.cue.item}</div><div class="cue-title">${esc(d.cue.title)}</div><div class="cue-say">${esc(d.cue.say)}</div><button class="btn btn-lg" data-cdone>✓ DONE</button></div>`;
+          bg.appendChild(el);
+          el.querySelector('[data-cdone]').onclick = () => { el.remove(); ask({ op: 'cuedone', id: d.cue.id }); };
+          try { navigator.vibrate?.([500, 150, 500, 150, 500]); } catch {}
+        }
+      } else cp?.remove();
+    }
     if (!d.on) { body.innerHTML = `<p>${esc(d.note || 'Traitors mode is not on for this quiz.')}</p>`; return; }
     const tr = d.players.find((p) => p.pid === d.traitor), mate = d.mate ? d.players.find((p) => p.pid === d.mate) : null;
     const used = (k) => d.powers ? 5 - d.powers[k] : 0;

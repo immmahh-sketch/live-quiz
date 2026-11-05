@@ -722,7 +722,8 @@ async function onTrCtl(payload) {
   if (!m || Math.abs(Date.now() - (+m.ts || 0)) > 120000 || (G.trCtlNonce && +m.ts <= G.trCtlNonce)) return;
   G.trCtlNonce = +m.ts; trEnsure();
   let note = '';
-  if (!trOn()) note = 'Traitors mode is not switched on for this quiz (Settings).';
+  if (m.op === 'cuedone') { (G.cueDone = G.cueDone || {})[String(m.id)] = 1; persist(); }
+  else if (!trOn()) note = 'Traitors mode is not switched on for this quiz (Settings).';
   else if (m.op === 'pick') note = trSetTraitor(m.pid, 'picked') ? '' : 'That player is not in the game.';
   else if (m.op === 'pick2') { note = trPickTwo(m.a, m.b) ? '' : 'Choose two different players who are in the game.'; }
   else if (m.op === 'random2') { const pool = Object.keys(G.players).filter((p) => !p.startsWith('p_bot')); if (pool.length >= 2) { const a = pool.splice(Math.floor(Math.random() * pool.length), 1)[0], b = pool[Math.floor(Math.random() * pool.length)]; trPickTwo(a, b); } else note = 'Need at least two real players.'; }
@@ -730,11 +731,21 @@ async function onTrCtl(payload) {
   else if (m.op === 'random') { const pool = Object.keys(G.players); if (pool.length) trSetTraitor(pool[Math.floor(Math.random() * pool.length)], 'picked'); else note = 'Nobody has joined yet.'; }
   await trCtlSend(note, pw);
 }
+/** "I Literally Just Told You" stunts: a question can carry q.cue = { n, title, say }. The host's phone panel shows it as a big green pop-up once it is due: the item is next (we are between questions or on a slide) or on (the round card, countdown, or the question itself). It goes when the host taps Done or the game moves past it. */
+function ilCueDue() {
+  if (typeof G === 'undefined' || !G?.quiz?.questions || G.qIndex == null || G.qIndex < 0 || ['lobby', 'final'].includes(G.phase)) return null;
+  const qs = G.quiz.questions, i = ['round', 'typecard', 'countdown', 'question'].includes(G.phase) ? G.qIndex : ['reveal', 'scoreboard', 'grading', 'slide'].includes(G.phase) ? G.qIndex + 1 : -1;
+  const q = qs[i], c = q?.cue; if (!c || G.cueDone?.[q.id]) return null;
+  return { id: q.id, n: c.n || 0, title: String(c.title || 'Stunt'), say: String(c.say || ''), item: i + 1 };
+}
+let ilCueKey = '';
+/** Called with every state broadcast: when a cue becomes due (or stops being due) the phone panel is told at once. */
+function ilCuePush() { const c = ilCueDue(), k = c ? c.id : ''; if (k === ilCueKey) return; ilCueKey = k; trCtlPushSoon(); }
 /** What the host's phone panel is shown: it is also pushed unasked when the Traitor asks for a hold. */
 async function trCtlSend(note = '', pw = LQ.hostPassword()) {
   if (!pw || typeof G === 'undefined' || !G?.code) return;
   const t = trOn() ? G.tr : null;
-  const reply = { ts: Date.now(), note, on: !!t, players: Object.values(G.players).map((p) => ({ pid: p.id, name: p.name, emoji: p.emoji || '', score: p.score, bot: p.id.startsWith('p_bot') })),
+  const reply = { ts: Date.now(), note, cue: ilCueDue(), on: !!t, players: Object.values(G.players).map((p) => ({ pid: p.id, name: p.name, emoji: p.emoji || '', score: p.score, bot: p.id.startsWith('p_bot') })),
     traitor: t?.traitor || null, mate: t?.mate || null, needTwo: !!t?.needTwo, powers: t?.powers, qDone: t?.qDone, tableDone: t?.tableDone, hidden: t?.hidden, listIn: !!t?.list, hold: trHoldOn(), stealsLeft: t ? Math.max(0, TR.STEALS - (t.stealsHalf || 0)) : null, set: t?.set, phase: G.phase, log: (t?.log || []).slice(-40) };
   send('trctlr', { m: await LQ.seal(pw, G.code, reply) });
 }
