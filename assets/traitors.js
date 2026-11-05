@@ -597,22 +597,18 @@ function trReveal() {
 // ---------------------------------------------------------------- the last round: the Traitor's 20 Questions
 /** The 20 Questions happen only if there were two Traitors at half time and one is still in (and its list is in). */
 const trTwentyOn = () => !!G.tr.twoAtHalf && !G.tr.listWaived && trTraitors().some((x) => G.tr.lists?.[x]?.length);
-/** Every remaining Traitor's list, together: a question is a yes if it is a yes for any of them. */
-function trCombineLists(lists) {
-  const m = new Map();
-  for (const l of lists) for (const x of l) { if (!m.has(x.text)) m.set(x.text, { ...x, id: 'c' + (m.size + 1) }); else if (x.yes) m.get(x.text).yes = true; }
-  return [...m.values()];
-}
 /** nextFrom's turn, after the last item: the FINAL Round Table, then the 20 Questions (if there are any), then the reveal. Returns true if it took over. */
 function trEnd() {
   if (!trOn() || !(G.tr.roster || []).length) return false;
   if (!G.tr.finalDone && trTraitors().length && !G.tr.screen) { trTable(G.quiz.questions.length - 1, true); return true; }
   if (!G.tr.twentyAdded && trTwentyOn()) {
     G.tr.twentyAdded = true;
-    const rem = trTraitors().filter((x) => G.tr.lists?.[x]?.length), last = G.quiz.questions[G.quiz.questions.length - 1], q = LQ.newQuestion('twenty', G.quiz.settings);
+    const withList = trTraitors().filter((x) => G.tr.lists?.[x]?.length), rem = trTraitors(), last = G.quiz.questions[G.quiz.questions.length - 1], q = LQ.newQuestion('twenty', G.quiz.settings);
+    const live = withList[Math.floor(Math.random() * withList.length)]; // two lists would contradict each other: one Traitor's questions go live, for everyone
     const names = rem.flatMap((x) => [pname(x), pname(x).split(/\s+/)[0]]);
+    trLog(`🗡 20 Questions: ${pname(live)}'s questions are live${rem.length > 1 ? ' (finding either Traitor wins)' : ''}`);
     Object.assign(q, { text: rem.length === 1 ? '🗡 The Traitor\'s 20 Questions: who is the Traitor?' : '🗡 The Traitors\' 20 Questions: who are the Traitors?', answers: names, what: 'c_kind', customKind: { text: 'Is it one of tonight\'s players?' }, skipKind: true, trTwenty: true, trBonus: TR.FINDER_BONUS,
-      custom: trCombineLists(rem.map((x) => G.tr.lists[x])), prize: 0, prize2: 0, prize3: 0, penalty: 0, maxQ: 20, time: 600, round: last?.round });
+      custom: G.tr.lists[live].map((x) => ({ ...x })), prize: 0, prize2: 0, prize3: 0, penalty: 0, maxQ: 20, time: 600, round: last?.round });
     G.quiz.questions.push(q); persist();
     return goTo(G.quiz.questions.length - 1), true;
   }
