@@ -1,12 +1,15 @@
 /* Fake call: "📞 Call me in 20 s" for the host's phone. After the countdown a full-screen incoming-call screen comes up with a
- * phone-style ringtone (made here with the Web Audio API, no sound file) and buzzes, until it is cleared with Accept or Decline.
+ * ringtone and buzzes, until it is cleared with Accept or Decline. The ringtone is a YouTube video's sound played as media, so it
+ * is heard even with the phone on silent (the silent switch mutes web sounds but not media). The player is started muted by the
+ * tap on the button, when the phone allows it, and unmuted from the start when the call comes. If that does not work, a
+ * synthesised marimba tone (Web Audio, which does obey the silent switch) plays instead.
  * The countdown and the call live on the page, not in the pop-up that holds the button, so closing that pop-up does not cancel it. */
 (() => {
-  const DELAY = 20, NAME_KEY = 'lq_fakecall_name';
-  let ac = null, t0 = 0, tick = null, ring = null, vib = null, el = null, mounts = [];
+  const DELAY = 20, NAME_KEY = 'lq_fakecall_name', VIDEO = 'MKODR8q2iys';
+  let ac = null, t0 = 0, tick = null, ring = null, vib = null, el = null, mounts = [], yt = null, ytReady = false, ytApi = null, ytWant = false, ytCheck = null;
   const getName = () => { try { return localStorage.getItem(NAME_KEY) || 'Hotel Reception'; } catch { return 'Hotel Reception'; } };
 
-  /* Marimba-style ringtone: a bright marimba note is a sine plus a quiet overtone four times higher, with a fast decay.
+  /* The fallback tone: a bright marimba note is a sine plus a quiet overtone four times higher, with a fast decay.
    * One phrase of 16 quick notes, a short gap, then again until stopped. */
   const NOTES = [76, 80, 76, 80, 83, 80, 76, 80, 76, 80, 76, 80, 83, 80, 88, 83]; // MIDI numbers
   const STEP = 0.125, PHRASE = NOTES.length * STEP + 1.1;
@@ -20,13 +23,48 @@
     }
   }
   function phrase() { const now = ac.currentTime + 0.05; NOTES.forEach((m, i) => note(now + i * STEP, m)); }
-  function startRing() {
-    stopRing();
+  function startTone() {
+    clearInterval(ring);
     try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); ac.resume(); phrase(); ring = setInterval(phrase, PHRASE * 1000); } catch {}
+  }
+  function startBuzz() {
+    clearInterval(vib);
     const buzz = () => { try { navigator.vibrate?.([700, 300, 700]); } catch {} };
     buzz(); vib = setInterval(buzz, PHRASE * 1000);
   }
   function stopRing() { clearInterval(ring); clearInterval(vib); ring = vib = null; try { navigator.vibrate?.(0); } catch {} }
+
+  /* The ringtone as media: a hidden YouTube player, started by the tap, kept muted until the call comes, then unmuted from the start. */
+  function loadApi() {
+    if (window.YT?.Player) return Promise.resolve();
+    return ytApi = ytApi || new Promise((res, rej) => {
+      const prev = window.onYouTubeIframeAPIReady; window.onYouTubeIframeAPIReady = () => { res(); if (prev) prev(); };
+      const sc = document.createElement('script'); sc.src = 'https://www.youtube.com/iframe_api'; sc.onerror = () => rej(new Error('no YouTube')); document.head.appendChild(sc);
+    });
+  }
+  function ytPrepare() {
+    if (yt) { if (ytReady) { try { yt.mute(); yt.seekTo(0, true); yt.playVideo(); } catch {} } return; }
+    const box = document.createElement('div'); box.id = 'fcYt';
+    box.style.cssText = 'position:fixed;left:0;bottom:0;width:160px;height:90px;opacity:.02;pointer-events:none;z-index:1';
+    box.innerHTML = '<div id="fcYtp"></div>'; document.body.appendChild(box);
+    loadApi().then(() => {
+      yt = new YT.Player('fcYtp', { width: 160, height: 90, videoId: VIDEO, host: 'https://www.youtube-nocookie.com',
+        playerVars: { playsinline: 1, controls: 0, rel: 0, modestbranding: 1, disablekb: 1, fs: 0 },
+        events: {
+          onReady: () => { ytReady = true; try { yt.mute(); yt.playVideo(); } catch {} if (ytWant) ytRing(); },
+          onStateChange: (e) => { if (e.data === 0) { try { yt.seekTo(0, true); yt.playVideo(); } catch {} } }, // it loops while it rings
+        } });
+    }).catch(() => {});
+  }
+  /** The call is here: unmute and play from the start. False if the player is not ready. */
+  function ytRing() {
+    ytWant = true;
+    if (!yt || !ytReady) return false;
+    try { yt.unMute(); yt.setVolume(100); yt.seekTo(0, true); yt.playVideo(); } catch { return false; }
+    return true;
+  }
+  const ytPlaying = () => { try { return !!yt && ytReady && yt.getPlayerState() === 1 && !yt.isMuted(); } catch { return false; } };
+  function ytStop() { ytWant = false; clearTimeout(ytCheck); try { yt?.pauseVideo(); yt?.mute(); } catch {} }
 
   function css() {
     if (document.getElementById('fcStyle')) return;
@@ -52,19 +90,22 @@
     el.innerHTML = `<div><p class="who"></p><div class="sub">mobile</div></div><div class="btns"><button class="b no" type="button"><i>✕</i>Decline</button><button class="b yes" type="button"><i>📞</i>Accept</button></div>`;
     el.querySelector('.who').textContent = getName();
     document.body.appendChild(el);
-    const clear = () => { stopRing(); el?.remove(); el = null; paint(); };
+    const clear = () => { stopRing(); ytStop(); el?.remove(); el = null; paint(); };
     el.querySelector('.no').onclick = clear; el.querySelector('.yes').onclick = clear;
-    startRing();
+    startBuzz();
+    if (!ytRing()) startTone();
+    else ytCheck = setTimeout(() => { if (el && !ytPlaying()) startTone(); }, 3000); // the video did not start: the synthesised tone instead
   }
   function stopTick() { clearInterval(tick); tick = null; t0 = 0; }
   function start() {
-    // pressing the button is the tap that lets the phone play sound later, so the audio is woken here
+    // pressing the button is the tap that lets the phone play sound later, so the players are woken here
     try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); ac.resume(); } catch {}
+    ytPrepare();
     t0 = Date.now() + DELAY * 1000;
     tick = setInterval(() => { if (Date.now() >= t0) show(); else paint(); }, 250);
     paint();
   }
-  function cancel() { stopTick(); paint(); }
+  function cancel() { stopTick(); ytStop(); paint(); }
   function paint() {
     mounts = mounts.filter((m) => m.isConnected);
     const left = t0 ? Math.max(0, Math.ceil((t0 - Date.now()) / 1000)) : 0;
@@ -88,5 +129,6 @@
     },
     // for a test: ring now
     ringNow: show,
+    debug: () => { try { return { ready: ytReady, state: yt?.getPlayerState?.(), muted: yt?.isMuted?.(), t: yt?.getCurrentTime?.(), dur: yt?.getDuration?.() }; } catch (e) { return String(e); } },
   };
 })();
