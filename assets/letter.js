@@ -50,3 +50,26 @@ const TR_PROMPTS = [
   'The next person to … might just lose something.',
   'Points are only numbers. Friends are only … for now.'
 ];
+
+/** THE TASKMASTER LETTER: the same folded, wax-sealed sheet as the Traitor's letter (same animation, see .tmltr in style.css), in the
+ *  Taskmaster look: grey typed paper and a red TN seal. The seal cracks, the folds open, the details are typed in.
+ *  o = { kicker, sub, body, foot }. Used for the Taskmaster round card and task cards on the host screen and on phones. */
+const tmLetterSize = (n, big, small) => (n <= 120 ? big : n <= 190 ? big * 0.88 : n <= 270 ? big * 0.76 : small);
+function tmLetterSheet(o, i) {
+  const sub = String(o.sub || ''), mid = sub || String(o.kicker || ''), top = sub ? String(o.kicker || '') : '', body = String(o.body || ''), foot = String(o.foot || '');
+  return `<div class="ltr-sheet" style="top:calc(var(--H) * -${i})"${i === 1 ? '' : ' aria-hidden="true"'}>
+    <div class="tm-head ltr-ink">TASKMASTER</div>${top ? `<div class="tm-kick ltr-ink">${trLetterEsc(top)}</div>` : ''}
+    <div class="tm-sub ltr-ink" style="font-size:calc(var(--H) * ${sub ? (mid.length <= 12 ? 0.36 : mid.length <= 22 ? 0.28 : 0.22) : 0.2})">${trLetterEsc(mid)}</div>
+    ${body ? `<div class="tm-body ltr-ink" style="font-size:calc(var(--H) * ${tmLetterSize(body.length, 0.115, 0.07)})">${trLetterEsc(body)}</div>` : ''}
+    ${foot ? `<div class="tm-foot ltr-ink">${trLetterEsc(foot)}</div>` : ''}
+  </div>`;
+}
+function tmLetterHtml(o = {}) {
+  const seal = '<span class="tm-wax"><b>TN</b></span>';
+  const label = [o.kicker, o.sub, o.body, o.foot].filter(Boolean).join('. ');
+  return `<div class="ltr tmltr" role="img" aria-label="Taskmaster: ${trLetterEsc(label)}"><div class="ltr-stage">
+    <div class="ltr-panel ltr-top"><div class="ltr-f ltr-front">${tmLetterSheet(o, 0)}</div><div class="ltr-f ltr-back"></div></div>
+    <div class="ltr-panel ltr-mid"><div class="ltr-f ltr-front">${tmLetterSheet(o, 1)}</div></div>
+    <div class="ltr-panel ltr-bot"><div class="ltr-f ltr-front">${tmLetterSheet(o, 2)}</div><div class="ltr-f ltr-back"><div class="tm-closed">TASKMASTER</div><div class="ltr-seal"><i class="l">${seal}</i><i class="r">${seal}</i></div></div></div>
+  </div></div>`;
+}

@@ -1963,3 +1963,21 @@ body.solo.solofit .stage { padding-right: 28px; }
 .team-lobby p { margin: 6px 0 0; font-size: .92rem; line-height: 1.4; color: var(--ink-2, #4a4570); }
 .team-lobby .team-code { text-align: center; font-size: 1.45rem; white-space: nowrap; }
 .team-lobby ol { margin: 4px 0 4px; padding-left: 20px; font-size: .88rem; line-height: 1.45; color: var(--ink-2, #4a4570); }
+/* ===== The Taskmaster letter: the Traitor's letter (above), in grey typed paper with a red TN seal. Same animation. (assets/letter.js tmLetterHtml) ===== */
+.tmltr { --W: min(88vw, 60vh); font-family: 'Special Elite', 'Courier New', monospace; }
+.tmltr .ltr-f { background: linear-gradient(180deg, #e8e3d6, #d4cebd); }
+.tmltr .ltr-back { background: linear-gradient(180deg, #ddd7c6, #cbc4b0); box-shadow: inset 0 0 0 4px rgba(0,0,0,.07); }
+.tmltr .ltr-top .ltr-front, .tmltr .ltr-mid .ltr-front, .tmltr .ltr-bot .ltr-front { box-shadow: none; }
+.tmltr .ltr-top .ltr-front { box-shadow: inset 0 -14px 16px -14px rgba(0,0,0,.28); } .tmltr .ltr-mid .ltr-front { box-shadow: inset 0 14px 16px -14px rgba(0,0,0,.25), inset 0 -14px 16px -14px rgba(0,0,0,.25); } .tmltr .ltr-bot .ltr-front { box-shadow: inset 0 14px 16px -14px rgba(0,0,0,.28); }
+.tmltr .ltr-sheet { color: #1d1b17; font-family: 'Special Elite', 'Courier New', monospace; text-align: center; }
+.tm-head { position: absolute; top: 5.5%; left: 0; right: 0; font-size: calc(var(--H) * .3); letter-spacing: .1em; font-weight: 700; line-height: 1.1; }
+.tm-kick { position: absolute; top: 21%; left: 0; right: 0; font-size: calc(var(--H) * .12); letter-spacing: .14em; text-transform: uppercase; color: #5a1016; }
+.tm-sub { position: absolute; top: 33.3%; height: 33.3%; left: 6%; right: 6%; display: flex; align-items: center; justify-content: center; line-height: 1.08; }
+.tm-body { position: absolute; top: 68%; left: 8%; right: 8%; line-height: 1.28; text-wrap: balance; }
+.tm-foot { position: absolute; bottom: 2.4%; left: 0; right: 0; font-size: calc(var(--H) * .1); color: #5b564a; letter-spacing: .06em; }
+.tm-closed { position: absolute; top: 8%; left: 0; right: 0; text-align: center; font: 700 calc(var(--H) * .24)/1.1 'Special Elite', 'Courier New', monospace; letter-spacing: .1em; color: #1d1b17; }
+.tmltr .ltr-seal { width: calc(var(--H) * .5); top: 64%; }
+.tm-wax { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 48% 52% 50% 50% / 52% 48% 52% 48%; background: radial-gradient(circle at 34% 28%, #e0364a, #a3101f 58%, #6b0a14); box-shadow: 0 3px 8px rgba(0,0,0,.5), inset 0 -4px 8px rgba(0,0,0,.35), inset 0 3px 6px rgba(255,255,255,.25); position: relative; }
+.tm-wax::before { content: ''; position: absolute; inset: 11%; border-radius: 50%; border: 2px solid rgba(70,0,6,.45); box-shadow: 1px 1px 0 rgba(255,255,255,.2); }
+.tm-wax b { font: 700 calc(var(--H) * .19)/1 'Special Elite', 'Courier New', monospace; color: rgba(96,6,12,.95); text-shadow: 1px 1px 0 rgba(255,255,255,.25); position: relative; }
+.state.tmstate .tmltr { --W: min(calc(100vw - 64px), 60vh); margin-top: 4px; }

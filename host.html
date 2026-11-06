@@ -2676,8 +2676,8 @@ function renderSlide() {
 /** Taskmaster look: red damask, a gold frame, a typed heading on grey paper and a wax seal (CSS only, see .tm* in style.css). */
 const isTmRound = (t) => /^\s*Taskmaster/i.test(t || '');
 function tmPaper({ kicker, sub, body, foot }) {
-  // the envelope on its own, then the sheet unfolds out of it with the details (CSS animation: .tmf1 then .tmf2)
-  return `<div class="tmbg"></div><div class="stage-main tmround"><div class="tmenv"><img class="tmlogo tmlogo-big" src="assets/brand/taskmaster-logo.jpg" alt="Taskmaster"><div class="tmsheet"><div class="tmfold tmf1">${kicker ? `<div class="tmkick">${esc(kicker)}</div>` : ''}${sub ? `<div class="tmsubt">${esc(sub)}</div>` : ''}</div><div class="tmfold tmf2">${body ? `<p class="tmbody">${esc(body)}</p>` : ''}${foot ? `<div class="tmfoot">${esc(foot)}</div>` : ''}</div></div></div></div>`;
+  // a sheet folded in three and sealed with the red TN wax: the seal cracks, the folds open, the details are typed in (assets/letter.js, .tmltr in style.css)
+  return `<div class="tmbg"></div><div class="stage-main tmround">${tmLetterHtml({ kicker, sub, body, foot })}</div>`;
 }
 function renderRound() {
   const r = roundOf(G.qIndex);
