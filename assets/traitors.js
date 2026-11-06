@@ -791,13 +791,18 @@ async function onTrCtl(payload) {
 /** "I Literally Just Told You" stunts: a question can carry q.cue = { n, title, say }. The host's phone panel shows it as a big green pop-up once it is due: the item is next (we are between questions or on a slide) or on (the round card, countdown, or the question itself). It goes when the host taps Done or the game moves past it. */
 function ilCueDue() {
   if (typeof G === 'undefined' || !G?.quiz?.questions || G.qIndex == null || G.qIndex < 0 || ['lobby', 'final'].includes(G.phase)) return null;
-  const qs = G.quiz.questions, i = ['round', 'typecard', 'countdown', 'question'].includes(G.phase) ? G.qIndex : ['reveal', 'scoreboard', 'grading', 'slide'].includes(G.phase) ? G.qIndex + 1 : -1;
-  const q = qs[i], c = q?.cue; if (!c || G.cueDone?.[q.id]) return null;
+  const qs = G.quiz.questions;
+  // a stunt tied to a break's clock (cue.breakLeft = seconds): due while that break has that long or less left to run, and until Done
+  const cur = qs[G.qIndex], bc = cur?.cue;
+  if (bc?.breakLeft && G.phase === 'slide' && G.brk && !G.cueDone?.[cur.id] && typeof breakLeft === 'function') { const left = breakLeft(); if (left > 0 && left <= bc.breakLeft * 1000) return { id: cur.id, n: bc.n || 0, title: String(bc.title || 'Stunt'), say: String(bc.say || ''), item: G.qIndex + 1 }; }
+  const i = ['round', 'typecard', 'countdown', 'question'].includes(G.phase) ? G.qIndex : ['reveal', 'scoreboard', 'grading', 'slide'].includes(G.phase) ? G.qIndex + 1 : -1;
+  const q = qs[i], c = q?.cue; if (!c || c.breakLeft || G.cueDone?.[q.id]) return null; // (a break's own stunt waits for its clock, above)
   return { id: q.id, n: c.n || 0, title: String(c.title || 'Stunt'), say: String(c.say || ''), item: i + 1 };
 }
 let ilCueKey = '';
 /** Called with every state broadcast: when a cue becomes due (or stops being due) the phone panel is told at once. */
 function ilCuePush() { const c = ilCueDue(), k = c ? c.id : ''; if (k === ilCueKey) return; ilCueKey = k; trCtlPushSoon(); }
+setInterval(() => { try { ilCuePush(); } catch {} }, 1000); // a stunt tied to a break's clock comes due between state broadcasts
 /** What the host's phone panel is shown: it is also pushed unasked when the Traitor asks for a hold. */
 async function trCtlSend(note = '', pw = LQ.hostPassword()) {
   if (!pw || typeof G === 'undefined' || !G?.code) return;
