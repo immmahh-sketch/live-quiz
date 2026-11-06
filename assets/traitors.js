@@ -351,14 +351,15 @@ function trSyncOne(t) {
 function trOnHello(pid) { if (trOn() && trIsTraitor(pid)) { trTell(pid, 'role', { again: true, reason: G.tr.history.at(-1)?.reason, n: G.tr.history.length, recruited: pid === G.tr.mate, mate: trWho(trOther(pid)) }); trSync(); } }
 
 // ---------------------------------------------------------------- picking the Traitor
-function trSetTraitor(pid, reason = 'picked') {
+function trSetTraitor(pid, reason = 'picked', quiet = false) { // quiet: the caller tells the player their role itself (two new Traitors)
   trEnsure(); if (!trOn() || !G.players[pid]) return false;
   for (const x of trTraitors()) { if (G.tr.teams?.[x]?.linked) trTell(x, 'teamended', {}); if (x !== pid) trTell(x, 'unrecruited', {}); } // old Traitors' second phones are just second phones now
   Object.assign(G.tr, { teams: {}, mate: null, prop: null, chat: [] });
   G.tr.traitor = pid; G.tr.history.push({ pid, at: G.tr.qDone, reason }); (G.tr.roster = G.tr.roster || []).includes(pid) || G.tr.roster.push(pid);
   Object.assign(G.tr, { powers: trFresh(), set: { gift: null, block: null, dbl: null }, used: { gift: 0, block: 0, dbl: 0 }, lastStealQ: -99, stealsHalf: 0, victimQ: {}, lists: {}, needTwo: false, twoAtHalf: false, msgBreak: 0, hold: null });
   trLog(`${pname(pid)} is the Traitor (${reason})`);
-  trTell(pid, 'role', { reason, n: G.tr.history.length }); trSync(); persist(); broadcastState();
+  if (!quiet) trTell(pid, 'role', { reason, n: G.tr.history.length });
+  trSync(); persist(); broadcastState();
   if (G.phase === 'lobby') render(); // the lobby says a Traitor is picked
   return true;
 }
@@ -566,10 +567,12 @@ function trHoldForList(i) {
 function trPickTwo(a, b) {
   if (!trOn() || a === b || !G.players[a] || !G.players[b]) return false;
   G.tr.traitor = null; G.tr.mate = null;
-  trSetTraitor(a, 'new'); G.tr.mate = b; (G.tr.roster = G.tr.roster || []).includes(b) || G.tr.roster.push(b);
+  trSetTraitor(a, 'picked2', true); G.tr.mate = b; (G.tr.roster = G.tr.roster || []).includes(b) || G.tr.roster.push(b);
   Object.assign(G.tr, { recruitOffered: true, recruit: { stage: 'done' }, twoAtHalf: true, needTwo: false, chat: [] });
   trLog(`🗡 You picked two new Traitors: ${pname(a)} and ${pname(b)}`);
-  trTell(b, 'role', { reason: 'picked2', recruited: true, mate: trWho(a), n: G.tr.history.length }); trTell(a, 'mate', { mate: trWho(b) });
+  // both are told the same way: you and your partner have been chosen, and who the other is
+  trTell(a, 'role', { reason: 'picked2', recruited: true, mate: trWho(b), n: G.tr.history.length });
+  trTell(b, 'role', { reason: 'picked2', recruited: true, mate: trWho(a), n: G.tr.history.length });
   trSync(); trNudgeList(); persist(); broadcastState(); return true;
 }
 let trTickT = null;
