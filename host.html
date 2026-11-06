@@ -949,6 +949,7 @@ function typeRun(i) { const qs = G.quiz.questions, k = (q) => q && (q.kind || q.
 function toTypeCard(i) {
   const qs = G.quiz.questions;
   if (isSlide(qs[i])) return showSlide(i);
+  if ((qs[i].kind || qs[i].type) === 'task') return startCountdown(i); // no "Next up" card for a Taskmaster task: the round card and the task's own intro say it, and the card's wheel talk is not true of every task
   if ((i > 0 && (qs[i - 1]?.kind || qs[i - 1]?.type) === (qs[i]?.kind || qs[i]?.type)) || G.quiz.settings?.noTypeCards) return startCountdown(i);
   clearInterval(tickT); clearInterval(countT);
   G.qIndex = i; G.phase = 'typecard'; G.q = null; if (!G.startedAt) G.startedAt = new Date().toISOString(); clk(i);
@@ -2670,7 +2671,8 @@ function renderSlide() {
 /** Taskmaster look: red damask, a gold frame, a typed heading on grey paper and a wax seal (CSS only, see .tm* in style.css). */
 const isTmRound = (t) => /^\s*Taskmaster/i.test(t || '');
 function tmPaper({ kicker, sub, body, foot }) {
-  return `<div class="tmbg"></div><div class="stage-main tmround"><div class="tmpaper"><img class="tmlogo" src="assets/brand/taskmaster-logo.jpg" alt="Taskmaster">${kicker ? `<div class="tmkick">${esc(kicker)}</div>` : ''}${sub ? `<div class="tmsubt">${esc(sub)}</div>` : ''}${body ? `<p class="tmbody">${esc(body)}</p>` : ''}${foot ? `<div class="tmfoot">${esc(foot)}</div>` : ''}</div></div>`;
+  // the envelope on its own, then the sheet unfolds out of it with the details (CSS animation: .tmf1 then .tmf2)
+  return `<div class="tmbg"></div><div class="stage-main tmround"><div class="tmenv"><img class="tmlogo tmlogo-big" src="assets/brand/taskmaster-logo.jpg" alt="Taskmaster"><div class="tmsheet"><div class="tmfold tmf1">${kicker ? `<div class="tmkick">${esc(kicker)}</div>` : ''}${sub ? `<div class="tmsubt">${esc(sub)}</div>` : ''}</div><div class="tmfold tmf2">${body ? `<p class="tmbody">${esc(body)}</p>` : ''}${foot ? `<div class="tmfoot">${esc(foot)}</div>` : ''}</div></div></div></div>`;
 }
 function renderRound() {
   const r = roundOf(G.qIndex);

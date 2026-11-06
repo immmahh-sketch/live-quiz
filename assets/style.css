@@ -1933,3 +1933,27 @@ body.solo.solofit .stage { padding-right: 28px; }
 .soloskip input, .soloskip select { font: inherit; padding: 5px 8px; border-radius: 8px; border: 0; color: #1b1544; background: #fff; }
 .soloskip input { width: 82px; }
 .soloskip select { max-width: 280px; }
+
+/* Taskmaster card: the envelope on its own, then the sheet unfolds out of it with the task details */
+.tmenv { display: flex; flex-direction: column; align-items: center; width: clamp(300px, 64vh, 840px); max-width: 90vw; perspective: 1500px; }
+.tmlogo.tmlogo-big { width: 100%; box-shadow: 0 14px 36px rgba(0,0,0,.55); position: relative; z-index: 2; }
+.tmsheet { width: 94%; display: flex; flex-direction: column; align-items: center; margin-top: -3px; font-family: 'Special Elite', 'Courier New', monospace; text-align: center; }
+.tmfold { width: 100%; background: linear-gradient(180deg, #e6e1d4 0%, #d4cebd 100%); color: #1d1b17; padding: clamp(8px, 1.8vh, 20px) clamp(14px, 2vw, 30px); transform-origin: 50% 0; backface-visibility: hidden; opacity: 0; transform: rotateX(-90deg); animation: tmFold .85s cubic-bezier(.2, .8, .3, 1) both; box-shadow: 0 8px 18px rgba(0,0,0,.4); }
+.tmf1 { animation-delay: 1.6s; }
+.tmf2 { animation-delay: 2.35s; border-radius: 0 0 4px 4px; }
+.tmf1::after { content: ''; display: block; height: 0; }
+@keyframes tmFold { 0% { opacity: 0; transform: rotateX(-90deg); } 1% { opacity: 1; } 100% { opacity: 1; transform: none; } }
+.tmsheet .tmkick { margin: 0; }
+.tmsheet .tmsubt { font-size: clamp(1.6rem, 6vh, 3.6rem); }
+.tmsheet .tmbody { font-size: clamp(.95rem, 2.7vh, 1.7rem); max-width: none; }
+.state.tmstate .tmsheet { width: 100%; }
+.state.tmstate .tmfold { padding: 10px 12px; }
+.state.tmstate .tmfold .tmkick { color: #5a1016; }
+.state.tmstate .tmfold .tmsubt { color: #15130f; font-size: 1.9rem; text-shadow: none; }
+.state.tmstate .tmfold .tmbody { color: #2a2620; font-size: 1rem; }
+.state.tmstate .tmfold .tmfoot { color: #5b564a; }
+@media (prefers-reduced-motion: reduce) { .tmfold { animation-duration: .01s; } }
+/* the envelope sits in the middle of the screen on its own, then rises as the sheet unfolds below it */
+.tmlogo.tmlogo-big { animation: tmEnvUp .9s cubic-bezier(.3, .7, .3, 1) 1.45s both; }
+@keyframes tmEnvUp { from { transform: translateY(15vh); } to { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .tmlogo.tmlogo-big { animation-duration: .01s; } }
