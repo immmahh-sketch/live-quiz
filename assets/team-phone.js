@@ -38,6 +38,7 @@ function teamOnMsg(m) {
     const had = TM.pending.length;
     TM.tag = m.tag || TM.tag; TM.members = m.members || []; TM.pending = m.pending || [];
     teamBtnSync(); if (TM.open) teamModal();
+    if (P.state?.phase === 'lobby' && typeof render === 'function') { P.viewKey = ''; render(); } // the code appears on the "You're in" screen as soon as it arrives
     if (TM.pending.length > had && !P.member) { teamModal(true); if (navigator.vibrate) try { navigator.vibrate([100, 60, 100]); } catch {} }
   }
 }
@@ -48,10 +49,19 @@ function teamBtnSync() {
   const s = P.state, want = !!s && P.joined && !P.view && !BHB && !s.roster && !s.preview && !P.partner;
   let b = document.getElementById('teamBtn');
   if (!want) { b?.remove(); return; }
-  if (!TM.asked) { TM.asked = true; teamAsk(); }
+  if (!TM.asked || (!TM.tag && Date.now() - (TM.askedAt || 0) > 3000)) { TM.asked = true; TM.askedAt = Date.now(); teamAsk(); } // asked again until the code arrives
   if (!b) { b = document.createElement('button'); b.id = 'teamBtn'; b.type = 'button'; b.className = 'teambtn'; b.onclick = () => teamModal(true); document.body.appendChild(b); }
   const n = TM.pending.length, label = P.member ? '👥 My team' : `👥 Team${TM.members.length ? ' · ' + (TM.members.length + 1) : ''}`;
   if (b.dataset.l !== label + n) { b.dataset.l = label + n; b.innerHTML = label + (n ? `<i class="teamdot">${n}</i>` : ''); }
+}
+/** On the "You're in" screen: how to add a teammate, with this player's team code, so nobody has to find the 👥 Team button first. */
+function teamLobbyCard() {
+  const s = P.state;
+  if (!s || BHB || P.member || P.partner || P.view || s.roster || s.preview) return '';
+  return `<div class="team-lobby"><b>👥 Playing with someone else?</b>
+    <p>Give them your team code. On their own phone they open <b>letsquiz.uk/play</b>, type it where the game code goes, and add their own name.</p>
+    <div class="team-code">${esc(TM.tag ? teamCode() : '…')}</div>
+    <ol><li>Their name pops up on your <b>👥 Team</b> button: tap <b>Let in</b>.</li><li>You all see the same screens and any of you can answer.</li><li>The quickest answer counts for the team, and everyone is told who answered.</li></ol></div>`;
 }
 /** The team sheet: the code to give out, who is on the team, who is knocking. */
 function teamModal(show) {

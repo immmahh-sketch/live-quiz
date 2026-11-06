@@ -1957,3 +1957,9 @@ body.solo.solofit .stage { padding-right: 28px; }
 .tmlogo.tmlogo-big { animation: tmEnvUp .9s cubic-bezier(.3, .7, .3, 1) 1.45s both; }
 @keyframes tmEnvUp { from { transform: translateY(15vh); } to { transform: none; } }
 @media (prefers-reduced-motion: reduce) { .tmlogo.tmlogo-big { animation-duration: .01s; } }
+/* The "You're in" screen: how to add a teammate, with the team code */
+.team-lobby { width: min(380px, 100%); margin: 18px auto 0; text-align: left; background: #fff; border: 2px solid #e4defc; border-radius: 16px; padding: 14px 16px 10px; }
+.team-lobby b { color: var(--ink, #1a1445); }
+.team-lobby p { margin: 6px 0 0; font-size: .92rem; line-height: 1.4; color: var(--ink-2, #4a4570); }
+.team-lobby .team-code { text-align: center; font-size: 1.45rem; white-space: nowrap; }
+.team-lobby ol { margin: 4px 0 4px; padding-left: 20px; font-size: .88rem; line-height: 1.45; color: var(--ink-2, #4a4570); }
