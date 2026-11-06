@@ -45,8 +45,8 @@
   async function auRing() {
     if (!au) return false;
     try { au.muted = false; au.volume = 1; au.currentTime = 0; await au.play(); } catch { return false; }
-    const from = au.currentTime; await new Promise((r) => setTimeout(r, 900));
-    return !au.paused && !au.muted && (au.currentTime > from || au.currentTime > 0.2);
+    await new Promise((r) => setTimeout(r, 600));
+    return !au.paused && !au.muted; // (a phone can be slow to report the time moving, so only play() failing or pausing counts as not playing)
   }
   function auStop() { try { au?.pause(); if (au) au.muted = true; } catch {} }
 
