@@ -582,22 +582,36 @@ let wsNow = null;
 async function wsLoad() {
   if (G.about || WARMUP || PREVIEW || DEMO || !G.quiz.questions.some((q) => q.type === 'whosaid')) return;
   G.about = [];
-  try { const r = await api('warmup_about', { quizId: G.quizId }); G.about = r.about || []; } catch { G.about = []; }
+  try { const r = await api('warmup_about', { quizId: G.quizId }); G.about = r.about || []; G.aboutNames = r.names || []; } catch { G.about = []; }
   persist();
 }
 const WS_FAKE = [['Tell us: your worst ever job?', 'Dressing up as a giant sausage outside a butcher\'s'], ['Tell us: your most embarrassing moment?', 'Waved back at someone who was waving at the person behind me'], ['Tell us: a secret talent?', 'I can name every Eurovision winner since 1990'], ['Tell us: your guilty pleasure?', 'Crisp sandwiches. Every day.'], ['Tell us: the worst gift you ever got?', 'A framed photo of the person who gave it to me']];
-/** Picks this question's quote: an About You answer from someone in the game (by device, else by name), each answer
- *  used once and everyone's turn coming round before anyone's second. A test game with bots borrows made-up ones. */
+/** Picks this question's quote: an About You answer, each used once and everyone's turn coming round before anyone's
+ *  second. Someone who is in the game (by device, else by name) comes first; once they have all had a go, an answer from
+ *  someone who is not here tonight still plays, with their name. A test game with bots borrows made-up ones. */
+const wsKey = (s) => LQ.normText(String(s || ''));
+/** Someone who is not in the game, kept as a name only: an id of their own so they can sit in the four options. */
+function wsGhost(name, emoji) { const id = 'x_' + wsKey(name).replace(/[^a-z0-9]/g, '').slice(0, 24); (G.ghosts = G.ghosts || {})[id] = { name: String(name), emoji: emoji || '🙂' }; return id; }
+const wsName = (pid) => G.players[pid]?.name || G.ghosts?.[pid]?.name || 'Player', wsEmoji = (pid) => G.players[pid]?.emoji || G.ghosts?.[pid]?.emoji || '🙂';
 function wsPick() {
-  const here = livePids(), key = (s) => LQ.normText(String(s || '')), byName = new Map(here.map((pid) => [key(pname(pid)), pid]));
+  const here = livePids(), byName = new Map(here.map((pid) => [wsKey(pname(pid)), pid]));
   const used = new Set(G.aboutUsed || []), count = {};
   for (const i of used) { const a = (G.about || [])[i]; if (a) count[a.pid] = (count[a.pid] || 0) + 1; }
-  let pool = (G.about || []).map((a, i) => ({ ...a, i, who: G.players[a.pid] ? a.pid : byName.get(key(a.name)) })).filter((a) => a.who && here.includes(a.who) && !used.has(a.i));
-  if (pool.length) { const least = Math.min(...pool.map((a) => count[a.pid] || 0)); pool = pool.filter((a) => (count[a.pid] || 0) === least); const a = partyPick(pool); return { author: a.who, prompt: a.prompt, answer: a.answer, i: a.i }; }
-  if (G.test && (G.bots || []).length) { const [prompt, answer] = partyPick(WS_FAKE); return { author: partyPick(G.bots).pid, prompt, answer, i: -1 }; }
+  const all = (G.about || []).map((a, i) => { const who = G.players[a.pid] ? a.pid : byName.get(wsKey(a.name)); return { ...a, i, who: who && here.includes(who) ? who : null }; }).filter((a) => !used.has(a.i) && String(a.name || '').trim());
+  const inRoom = all.filter((a) => a.who);
+  // an answer from someone who is not here needs enough other names to sit beside it (the server's list of past players), else it would stand out
+  let pool = inRoom.length ? inRoom : (G.aboutNames || []).length >= 8 ? all : [];
+  if (pool.length) {
+    const least = Math.min(...pool.map((a) => count[a.pid] || 0)); pool = pool.filter((a) => (count[a.pid] || 0) === least);
+    const a = partyPick(pool), author = a.who || wsGhost(a.name, a.emoji);
+    return { author, away: !a.who, authorName: a.who ? pname(a.who) : String(a.name), authorEmoji: a.who ? pem(a.who) : a.emoji || '🙂', prompt: a.prompt, answer: a.answer, i: a.i };
+  }
+  if (G.test && (G.bots || []).length) { const [prompt, answer] = partyPick(WS_FAKE); const b = partyPick(G.bots); return { author: b.pid, away: false, authorName: pname(b.pid), authorEmoji: pem(b.pid), prompt, answer, i: -1 }; }
   return null;
 }
-/** The question as the phones get it (buildView): the quote and four names, never which is right. */
+/** The question as the phones get it (buildView): the quote and four names, never which is right. The three other names
+ *  are the same kind of person as the real one, so nothing gives it away: people in the room for someone in the room;
+ *  for someone who is not here, people from the last hosted quiz and the warm-ups who are not here either. */
 function partyView(q, v, tok) {
   if (q.type === 'task' && WARMUP && q.mode === 'live') v.live = { by: q.liveBy || 'quiz night' }; // a live task: done before quiz night, shown on camera, scored by the host there
   else if (q.type === 'task' && WARMUP) v.upload = { code: String(WARMUP).toUpperCase(), key: q.id }; // a warm-up has no host to judge live: the photo is kept for later
@@ -605,9 +619,12 @@ function partyView(q, v, tok) {
   wsNow = wsPick();
   if (!wsNow) { v.empty = true; v.options = []; return; }
   const others = shuffle(livePids().filter((p) => p !== wsNow.author && !G.viewers?.[p]));
-  const real = others.filter((p) => !p.startsWith('p_bot')), pool = [...real, ...others.filter((p) => p.startsWith('p_bot'))];
+  const realHere = others.filter((p) => !p.startsWith('p_bot')), bots = others.filter((p) => p.startsWith('p_bot'));
+  const inGame = new Set(livePids().map((p) => wsKey(pname(p)))), seen = new Set([wsKey(wsNow.authorName)]);
+  const away = shuffle((G.aboutNames || []).filter((n) => { const k = wsKey(n.name); if (!k || inGame.has(k) || seen.has(k)) return false; seen.add(k); return true; })).map((n) => wsGhost(n.name, n.emoji));
+  const pool = wsNow.away ? [...away, ...realHere, ...bots] : [...realHere, ...away, ...bots];
   v.quote = wsNow.answer; v.prompt = wsNow.prompt;
-  v.options = shuffle([wsNow.author, ...pool.slice(0, 3)]).map((pid, i) => ({ k: tok('A:' + pid), text: pname(pid), emoji: pem(pid), c: i }));
+  v.options = shuffle([wsNow.author, ...pool.slice(0, 3)]).map((pid, i) => ({ k: tok('A:' + pid), text: wsName(pid), emoji: wsEmoji(pid), c: i }));
   v.mine = drawSecret(wsNow.author, { mine: 1 });
 }
 function partyIntroSub(q) {
@@ -683,7 +700,7 @@ function partyReveal() {
     if (!ws) body = '<div class="item" style="justify-content:center">Nothing to play this time.</div>';
     else {
       const max = Math.max(1, ...Object.values(R.stats.counts || {}));
-      body = `<div class="wsquote">“${esc(ws.answer)}”</div><div class="wsit">It was ${face(ws.author)} <b>${esc(pname(ws.author))}</b>!</div>
+      body = `<div class="wsquote">“${esc(ws.answer)}”</div><div class="wsit">It was ${face(ws.author, ws.authorEmoji)} <b>${esc(ws.authorName || pname(ws.author))}</b>!${ws.away ? ' <small style="opacity:.7">(not here tonight)</small>' : ''}</div>
         <div class="answers">${v.options.map((o) => { const id = G.q.keys[o.k], c = (R.stats.counts || {})[id] || 0, ok = id === 'A:' + ws.author; return `<div class="ans ${ok ? '' : 'dim'}" style="background:${COLORS[o.c].hex}"><div class="bar" style="width:${(c / max) * 100}%"></div><span class="shape" style="position:relative">${o.emoji}</span><span style="position:relative">${esc(o.text)}</span><span class="count" style="position:relative">${c}</span>${ok ? '<span class="tick" style="position:relative">✔</span>' : ''}</div>`; }).join('')}</div>`;
     }
     pill = `${R.stats.right} guessed right`;

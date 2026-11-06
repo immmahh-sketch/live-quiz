@@ -1660,7 +1660,16 @@ Deno.serve(async (req) => {
       if (!UUID_RE.test(String(body.quizId))) return json({ error: "Bad quiz id." }, 400);
       // Every warm-up that leads up to this quiz (one a week, say), so About You answers from any of them come back.
       const wus: any[] = (await rest(`quiz_quizzes?settings->warmup->>forQuiz=eq.${body.quizId}&select=id,title,settings&order=updated_at.desc&limit=12`)) || [];
-      const w = wus[0]?.settings?.warmup; if (!w) return json({ about: [], warmup: null });
+      // Names to put beside an answer from someone who is not playing tonight: everyone in the last hosted quiz and
+      // everyone who has played any warm-up (name and emoji only).
+      const names: { name: string; emoji: string }[] = [], seenName = new Set<string>();
+      const addName = (n: unknown, e: unknown) => { const name = String(n ?? "").trim().slice(0, 30), k = name.toLowerCase().replace(/[^a-z0-9]/g, ""); if (!k || seenName.has(k)) return; seenName.add(k); names.push({ name, emoji: String(e ?? "").slice(0, 8) }); };
+      try {
+        const last: any[] = (await rest(`quiz_games?select=players&order=started_at.desc&limit=1`)) || [];
+        for (const p of (Array.isArray(last[0]?.players) ? last[0].players : [])) addName(p?.name, p?.emoji);
+        for (const r of ((await rest(`quiz_warmup_plays?select=name,emoji&order=played_at.desc&limit=3000`)) || []) as any[]) addName(r.name, r.emoji);
+      } catch { /* the names are a bonus: the answers still play without them */ }
+      const w = wus[0]?.settings?.warmup; if (!w) return json({ about: [], warmup: null, names });
       const code = String(w.code || "").toUpperCase().replace(/[^A-Z0-9]/g, ""), season = String(w.season || "").replace(/[^A-Za-z0-9_-]/g, "");
       const rows: any[] = [];
       for (const x of wus) {
@@ -1672,7 +1681,7 @@ Deno.serve(async (req) => {
         const given = String(a?.given ?? "").trim();
         if (a?.type === "about" && given && !/^(skipped|—|-)$/i.test(given)) about.push({ pid: r.pid, name: r.name, emoji: r.emoji || "", prompt: String(a.text || "").slice(0, 240), answer: given.slice(0, 200) });
       }
-      return json({ about, warmup: { id: wus[0].id, title: wus[0].title, code, season } });
+      return json({ about, names, warmup: { id: wus[0].id, title: wus[0].title, code, season } });
     }
 
     if (action === "warmup_task_award") {
