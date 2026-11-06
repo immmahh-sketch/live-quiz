@@ -316,17 +316,19 @@ function trPromptActivity() {
   trLog(`💬 Prompted the Traitor${who.length > 1 ? 's' : ''}: “${text}”`); persist();
 }
 /** A clock is running: a question is about to start, is on, or is being marked. */
+/** The title on a letter: singular until half time is over, then "the Traitors". */
+const trLetterTitle = () => (G.tr?.tableDone ? TR_LETTER_TITLE_PL : TR_LETTER_TITLE);
 const trTimerOn = () => ['countdown', 'question', 'grading'].includes(G.phase);
 /** A letter for one phone. While a question's clock is running it waits (a letter in the middle of a question costs people time), and goes out as soon as the clock has stopped. */
 function trLetterTo(to, text, extra = {}, kind = 'letter') {
   if (!G.players[to]) return;
   if (trTimerOn()) { (G.tr.held = G.tr.held || []).push({ to, text, extra, kind }); persist(); return; }
-  trTell(to, kind, { text, ...extra });
+  trTell(to, kind, { text, title: trLetterTitle(), ...extra });
 }
 function trFlushLetters() {
   if (!G.tr?.held?.length || trTimerOn()) return;
   const h = G.tr.held; G.tr.held = [];
-  for (const l of h) trTell(l.to, l.kind || 'letter', { text: l.text, ...(l.extra || {}) });
+  for (const l of h) trTell(l.to, l.kind || 'letter', { text: l.text, title: trLetterTitle(), ...(l.extra || {}) });
   persist();
 }
 /** A private word to one phone (or all of them, for ping-style banners). Only the phone it is for acts on it. */
@@ -512,7 +514,7 @@ function trInterlude(now, resume) {
       : [`${n.amt.toLocaleString('en-GB')} points were stolen from one player and given to another…`, `Who is the Traitor? You'll get your chance to banish them at half time.`];
     n.sound = 'caught';
   }
-  G.tr.screen = { id: uid('s'), kind: 'notice', title: n.title, lines: n.lines || [], quote: n.quote || '', letter: n.letter || '', cont: !now && !resume }; // resume: the click that brought it up is given back once it is read, so the screen underneath carries on from where it was
+  G.tr.screen = { id: uid('s'), kind: 'notice', title: n.title === TR_LETTER_TITLE ? trLetterTitle() : n.title, lines: n.lines || [], quote: n.quote || '', letter: n.letter || '', cont: !now && !resume }; // resume: the click that brought it up is given back once it is read, so the screen underneath carries on from where it was
   persist(); sound(n.sound || (n.letter ? 'whoosh' : 'gong')); render(); broadcastState();
   return true;
 }

@@ -40,7 +40,7 @@ function trpOnPrivate(m) {
   else if (m.kind === 'mate') { TRP.mate = m.mate || null; if (TRP.sync) TRP.sync.mate = TRP.mate; toast(`🗡 ${m.mate?.name || 'Someone'} has joined you. Your menu has a 🤝 chat tab.`); trpRefresh(); }
   else if (m.kind === 'unrecruited') { TRP.mate = null; if (TRP.sync) { TRP.sync.mate = null; TRP.sync.prop = null; } trpRefresh(); }
   else if (m.kind === 'shielded') { TRP.msgs.push({ shield: true, text: String(m.text || '') }); trpMsgShow(); }
-  else if (m.kind === 'msg' || m.kind === 'letter') { TRP.msgs.push({ text: String(m.text || ''), now: !!m.now, note: m.note || '' }); trpMsgShow(); }
+  else if (m.kind === 'msg' || m.kind === 'letter') { TRP.msgs.push({ text: String(m.text || ''), now: !!m.now, note: m.note || '', title: m.title || '' }); trpMsgShow(); }
   else if (m.kind === 'banished') { TRP.traitor = false; TRP.sync = null; document.getElementById('trpMenu')?.remove(); trpFull('banished', `<div class="trp-big">🗡 BANISHED</div><p>${esc(m.text || 'You have been banished.')}</p><p class="trp-small">Keep quiet: the new Traitor is chosen in secret.</p><button class="btn btn-lg btn-block" data-trpx>OK</button>`); trpRefresh(); }
 }
 function trpFull(id, html) {
@@ -130,7 +130,7 @@ function trpMsgShow() {
     if (navigator.vibrate) try { navigator.vibrate([150, 80, 150]); } catch {}
     return;
   }
-  const el = trpFull('msg', `<div class="trp-big small">${m.note ? '🤫 A SECRET MESSAGE, JUST FOR YOU' : esc(TR_LETTER_TITLE)}</div>${trLetterHtml(t, { to: `Dear ${P.name},` })}${m.note ? `<p class="trp-small" style="font-style:italic">${esc(m.note)}</p>` : ''}<button class="btn btn-primary btn-lg btn-block" data-trpx>OK</button>`);
+  const el = trpFull('msg', `<div class="trp-big small">${m.note ? '🤫 A SECRET MESSAGE, JUST FOR YOU' : esc(m.title || TR_LETTER_TITLE)}</div>${trLetterHtml(t, { to: `Dear ${P.name},` })}${m.note ? `<p class="trp-small" style="font-style:italic">${esc(m.note)}</p>` : ''}<button class="btn btn-primary btn-lg btn-block" data-trpx>OK</button>`);
   el.querySelector('[data-trpx]').addEventListener('click', () => setTimeout(trpMsgShow, 200));
   if (navigator.vibrate) try { navigator.vibrate([100, 60, 100]); } catch {}
 }
