@@ -1927,3 +1927,9 @@ body.tvcams .stage { padding-right: calc(var(--tvw) + 44px); }
 /* Test by myself on a big screen: the host screen is the whole window, scaled down (soloFit in host.html) so it keeps its shape beside the phones */
 body.solo.solofit #stage { position: fixed; left: var(--soloL, 0); top: var(--soloT, 0); width: 100vw; height: 100vh; transform: scale(var(--soloK, 1)); transform-origin: 0 0; padding-right: 28px; z-index: 1; }
 body.solo.solofit .stage { padding-right: 28px; }
+
+/* Test by myself: the Skip-to bar */
+.soloskip { position: fixed; left: 10px; top: 8px; z-index: 45; display: flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 12px; background: rgba(20,14,60,.92); color: #fff; box-shadow: 0 4px 16px rgba(0,0,0,.4); font: 700 .85rem 'Nunito', system-ui, sans-serif; max-width: calc(100vw - 20px); }
+.soloskip input, .soloskip select { font: inherit; padding: 5px 8px; border-radius: 8px; border: 0; color: #1b1544; background: #fff; }
+.soloskip input { width: 82px; }
+.soloskip select { max-width: 280px; }

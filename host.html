@@ -118,6 +118,37 @@ function soloFit() {
   b.style.setProperty('--soloK', k.toFixed(4)); b.style.setProperty('--soloL', ((availW - innerWidth * k) / 2).toFixed(1) + 'px'); b.style.setProperty('--soloT', ((innerHeight - innerHeight * k) / 2).toFixed(1) + 'px');
 }
 window.addEventListener('resize', () => { try { soloFit(); } catch {} });
+/** Test by myself: jump straight to an item (its number in the builder), so there is no clicking through every screen before it. From the lobby it starts the game first. */
+function soloSkipTo(n) {
+  const qs = G.quiz.questions, num = Math.round(+n);
+  if (!(num >= 1)) return toast('Type an item number, or pick one from the list', true);
+  const i = Math.min(qs.length, num) - 1;
+  clearInterval(tickT); clearInterval(countT); clearInterval(brkT); clearTimeout(autoT); if (typeof stopTune === 'function') stopTune();
+  if (G.phase === 'lobby') {
+    if (trOn() && !G.tr.traitor && !G.test) { const real = players().filter((p) => !p.id.startsWith('p_bot')); if (real.length) { trSetTraitor(real[Math.floor(Math.random() * real.length)].id, 'random'); toast('🗡 No Traitor was picked, so one was chosen at random'); } }
+    partyGameStart();
+  }
+  if (trOn()) { G.tr.screen = null; trHoldClear(); }
+  G.paused = false; G.flash = null; G.raceIntro = null;
+  if (isSlide(qs[i])) showSlide(i); else startCountdown(i);
+  toast(`⏭ Item ${i + 1}`);
+}
+/** The "Skip to" bar over the top left of the page while Test by myself is on: a list of every item by round, and a box for the number. */
+function soloSkipUI(on) {
+  document.getElementById('soloSkip')?.remove();
+  if (!on) return;
+  const qs = G.quiz.questions, nm = (q) => String(q.text || q.phrase || q.track || (q.kind || q.type)).replace(/\s+/g, ' ').slice(0, 46);
+  let opts = '', cur = null;
+  qs.forEach((q, i) => { if (q.round !== cur) { if (cur !== null) opts += '</optgroup>'; cur = q.round; opts += `<optgroup label="${esc(G.quiz.rounds.find((r) => r.id === q.round)?.title || 'Round')}">`; } opts += `<option value="${i + 1}">${i + 1} · ${esc(nm(q))}</option>`; });
+  opts += '</optgroup>';
+  const el = document.createElement('div'); el.id = 'soloSkip'; el.className = 'soloskip';
+  el.innerHTML = `<b>⏭ Skip to item</b><input type="number" id="soloNum" min="1" max="${qs.length}" placeholder="1–${qs.length}"><select id="soloSel"><option value="">or pick from the list…</option>${opts}</select><button class="btn btn-primary btn-sm" id="soloGo">Go</button>`;
+  document.body.appendChild(el);
+  const num = el.querySelector('#soloNum'), sel = el.querySelector('#soloSel');
+  sel.onchange = () => { if (sel.value) { num.value = sel.value; soloSkipTo(sel.value); sel.value = ''; } };
+  el.querySelector('#soloGo').onclick = () => soloSkipTo(num.value);
+  num.onkeydown = (e) => { if (e.key === 'Enter') { e.preventDefault(); soloSkipTo(num.value); } e.stopPropagation(); };
+}
 const SOLO_NAMES = ['Me', 'Dave', 'Ellie', 'Sam']; // the players on the docked phones (play.js gives each slot the same name)
 const SOLO_W = [0, 'min(390px, 100vw)', 'min(340px, 48vw)', 'min(280px, 27vw)', 'min(235px, 19vw)']; // panel width for 1 to 4 phones
 /** Test by myself: how many phones? (1 to 4). A narrow screen only has room for one. */
@@ -134,7 +165,7 @@ function soloPick() {
   });
 }
 function toggleSolo(n) {
-  if (G.solo) { G.solo = false; document.body.classList.remove('solo', 'solo2'); document.body.style.removeProperty('--solow'); document.body.style.removeProperty('--solon'); document.querySelectorAll('.solopanel').forEach((e) => e.remove()); soloFit(); renderLobby(); return; }
+  if (G.solo) { G.solo = false; document.body.classList.remove('solo', 'solo2'); document.body.style.removeProperty('--solow'); document.body.style.removeProperty('--solon'); document.querySelectorAll('.solopanel').forEach((e) => e.remove()); soloSkipUI(false); soloFit(); renderLobby(); return; }
   if (n === undefined) return soloPick().then((k) => { if (k) toggleSolo(k); });
   n = Math.max(1, Math.min(4, +n || 1));
   G.solo = true; document.body.classList.add('solo');
@@ -148,6 +179,7 @@ function toggleSolo(n) {
     document.body.appendChild(p);
   }
   $('#soloClose').onclick = () => toggleSolo();
+  if (!PREVIEW) soloSkipUI(true);
   soloFit(); renderLobby();
 }
 /** Preview from the builder: bots and the player panel, then straight into the 3-2-1 (or the slide) once your panel has joined. */
