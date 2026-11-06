@@ -1044,7 +1044,7 @@ if (bootQ.get('solo') === '1') document.addEventListener('pointerdown', () => { 
 const bootCode = (bootQ.get('g') || '').toUpperCase();
 if (bootQ.get('solo') === '1' && /^[A-Z0-9]{6}$/.test(bootCode)) {
   // the host testing alone: this panel sits inside the host page, so join without the form
-  P.code = bootCode; P.name = P.name || (SLOT ? 'Dave' : 'Me'); store('lq_player' + SLOT, { pid: P.pid, name: P.name, emoji: P.emoji });
+  P.code = bootCode; P.name = P.name || ({ '': 'Me', '2': 'Dave', '3': 'Ellie', '4': 'Sam' }[SLOT] || 'Dave'); store('lq_player' + SLOT, { pid: P.pid, name: P.name, emoji: P.emoji });
   connect();
 } else if (PHONE && !STANDALONE) {
   if (/^[A-Z0-9]{6}$/.test(bootCode)) store(PENDING, { code: bootCode, at: Date.now() });

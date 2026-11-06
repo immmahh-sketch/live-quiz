@@ -108,17 +108,36 @@ const present = new Map(); // pid -> name, from presence
 
 let toastT;
 /** Test by myself: three bots for company and a player panel docked on this page (play.html in an iframe, joined as "Me"). */
-function toggleSolo() {
-  if (G.solo) { G.solo = false; document.body.classList.remove('solo', 'solo2'); $('#solopanel')?.remove(); $('#solopanel2')?.remove(); renderLobby(); return; }
+const SOLO_NAMES = ['Me', 'Dave', 'Ellie', 'Sam']; // the players on the docked phones (play.js gives each slot the same name)
+const SOLO_W = [0, 'min(390px, 100vw)', 'min(340px, 48vw)', 'min(280px, 27vw)', 'min(235px, 19vw)']; // panel width for 1 to 4 phones
+/** Test by myself: how many phones? (1 to 4). A narrow screen only has room for one. */
+function soloPick() {
+  if (innerWidth < 900) return Promise.resolve(1);
+  const def = G.quiz?.settings?.twoPhones ? 2 : 1;
+  return new Promise((res) => {
+    const bg = document.createElement('div'); bg.className = 'modal-bg';
+    bg.innerHTML = `<div class="modal" style="color:var(--ink)"><h3>🧪 Test by myself: how many phones?</h3><p class="muted">Each phone is its own player, docked down the right of this screen (${SOLO_NAMES.join(', ')}). Three bots join as well.</p><div class="row" style="gap:8px;flex-wrap:wrap">${[1, 2, 3, 4].map((n) => `<button class="btn ${n === def ? 'btn-primary' : ''}" data-n="${n}" style="min-width:64px">${n}</button>`).join('')}</div><div class="row" style="justify-content:flex-end;margin-top:10px"><button class="btn btn-ghost" data-no style="color:var(--ink)">Cancel</button></div></div>`;
+    document.body.appendChild(bg);
+    bg.querySelectorAll('[data-n]').forEach((b) => b.onclick = () => { bg.remove(); res(+b.dataset.n); });
+    bg.querySelector('[data-no]').onclick = () => { bg.remove(); res(0); };
+    const first = bg.querySelector(`[data-n="${def}"]`); first?.focus();
+  });
+}
+function toggleSolo(n) {
+  if (G.solo) { G.solo = false; document.body.classList.remove('solo', 'solo2'); document.body.style.removeProperty('--solow'); document.body.style.removeProperty('--solon'); document.querySelectorAll('.solopanel').forEach((e) => e.remove()); renderLobby(); return; }
+  if (n === undefined) return soloPick().then((k) => { if (k) toggleSolo(k); });
+  n = Math.max(1, Math.min(4, +n || 1));
   G.solo = true; document.body.classList.add('solo');
+  document.body.style.setProperty('--solon', n); document.body.style.setProperty('--solow', SOLO_W[n]);
   if (!G.bots?.length) addBots(3);
-  const two = !!G.quiz?.settings?.twoPhones; // a demo: a second phone, to be the Traitor
-  if (two) document.body.classList.add('solo2');
-  const p = document.createElement('div'); p.id = 'solopanel'; p.className = 'solopanel';
-  p.innerHTML = `<div class="solohead"><b>${two ? '📱 Phone 1: a player (Me)' : '🧪 You, as a player'}</b><button class="btn btn-ghost btn-sm" id="soloClose">Close</button></div><iframe src="play?g=${G.code}&solo=1" allow="camera"></iframe>`;
-  document.body.appendChild(p);
-  $('#soloClose').onclick = toggleSolo;
-  if (two) { const p2 = document.createElement('div'); p2.id = 'solopanel2'; p2.className = 'solopanel two'; p2.innerHTML = `<div class="solohead"><b>📱 Phone 2: Dave (pick him as the Traitor)</b></div><iframe src="play?g=${G.code}&solo=1&slot=2" allow="camera"></iframe>`; document.body.appendChild(p2); }
+  const demoTwo = !!G.quiz?.settings?.twoPhones; // a demo: the second phone is the one to pick as the Traitor
+  for (let i = 0; i < n; i++) {
+    const p = document.createElement('div'); p.id = i ? 'solopanel' + (i + 1) : 'solopanel'; p.className = 'solopanel' + (i ? ' two' : ''); p.style.right = `calc(var(--solow) * ${i})`;
+    const title = i === 0 ? (n > 1 ? `📱 Phone 1: a player (${SOLO_NAMES[0]})` : '🧪 You, as a player') : `📱 Phone ${i + 1}: ${SOLO_NAMES[i]}${i === 1 && demoTwo ? ' (pick him as the Traitor)' : ''}`;
+    p.innerHTML = `<div class="solohead"><b>${title}</b>${i === 0 ? '<button class="btn btn-ghost btn-sm" id="soloClose">Close</button>' : ''}</div><iframe src="play?g=${G.code}&solo=1${i ? '&slot=' + (i + 1) : ''}" allow="camera"></iframe>`;
+    document.body.appendChild(p);
+  }
+  $('#soloClose').onclick = () => toggleSolo();
   renderLobby();
 }
 /** Preview from the builder: bots and the player panel, then straight into the 3-2-1 (or the slide) once your panel has joined. */
@@ -126,7 +145,7 @@ const question0 = () => G.quiz.questions[0];
 function startPreview() {
   G.auto = true; // a preview drives itself: straight in, and it stops on the answer and the points
   document.body.classList.add('preview');
-  toggleSolo();
+  toggleSolo(1);
   const t0 = Date.now();
   const go = () => {
     if (G.phase !== 'lobby') return;
