@@ -200,6 +200,8 @@ window.TvCams = (() => {
   return {
     start, stop, toggle,
     get on() { return S.on; }, get enabled() { return S.enabled; },
+    /** Names (lower case) of the people on the call whose camera is on: the confession round picks from them. */
+    get camNames() { return [...S.people.values()].filter((p) => p.cam && p.sessionId).map((p) => String(p.name).toLowerCase()); },
     /** For testing and diagnosing: who is on each tile, and what is waiting. */
     get state() { return { tiles: S.slots.map((s) => ({ pid: s.pid, name: s.pid ? S.people.get(s.pid)?.name : null, next: s.next, video: !!s.video.srcObject })), eligible: eligible().length, idle: S.link?.idle || 0, failures: S.failures }; }
   };

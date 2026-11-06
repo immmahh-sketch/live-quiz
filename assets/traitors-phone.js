@@ -204,6 +204,11 @@ function trpScreen(s) {
       <p class="trp-small">${TRP.vote ? `You voted for ${esc(trpName(s, TRP.vote))}.` : 'You have not voted yet.'} ${(sc.voted || []).length} of ${(s.tr.players || []).length} have voted.</p>`;
     if (sc.locked) h = h.replace(/<div class="trp-vote">[\s\S]*?<\/div>/, '<p><b>Votes are locked!</b></p>');
   }
+  if (sc.kind === 'confess') {
+    h = sc.who === P.pid
+      ? `<div class="trp-big">YOUR TURN</div><p>Your camera is on the big screen. Look at it and tell everyone: <b>were you a Traitor tonight?</b></p><p class="trp-small">Confession ${sc.n} of ${sc.of}.</p>`
+      : `<div class="trp-big">${esc(trpName(s, sc.who))} IS ON CAMERA</div><p>They are telling the room whether they were a Traitor tonight. Do you believe them?</p><p class="trp-small">Confession ${sc.n} of ${sc.of}.</p>`;
+  }
   if (sc.kind === 'chosen') {
     h = sc.banished === P.pid
       ? `<div class="trp-big">THE ROOM HAS CHOSEN YOU</div><p>Your camera is on the big screen. Look at it and tell everyone: <b>are you the Traitor?</b></p><p class="trp-small">If you are innocent, you lose 3,000 points for being wrongly accused, and so does everyone who voted for you.</p>`

@@ -132,6 +132,7 @@ function trPublicScreen(sc) {
   if (sc.kind === 'table') Object.assign(o, { final: !!sc.final, endsAt: sc.endsAt, total: sc.total, left: Math.max(0, sc.endsAt - (G.paused ? G.pausedAt : Date.now())), voted: Object.keys(G.tr.votes), locked: !!sc.locked });
   if (sc.kind === 'chosen') Object.assign(o, { rows: sc.rows, banished: sc.banished });
   if (sc.kind === 'verdict') Object.assign(o, { rows: sc.rows, banished: sc.banished, correct: sc.correct, winners: sc.winners, wrongVoters: sc.wrongVoters || [], tie: !!sc.tie, wrongLoss: !!sc.wrongLoss });
+  if (sc.kind === 'confess') Object.assign(o, { who: sc.who, n: sc.n, of: sc.of });
   if (sc.kind === 'final') Object.assign(o, { traitor: sc.traitor, roster: sc.roster || [], lines: sc.lines });
   return o;
 }
@@ -367,7 +368,7 @@ function trSetTraitor(pid, reason = 'picked', quiet = false) { // quiet: the cal
 // ---------------------------------------------------------------- the Traitor's actions (from their phone)
 /** Between questions: the same break the power cards are played in. Not while a vote or a notice is up. */
 /** The Traitor can act at any time, before or during a question (not in the lobby, the final results, or while the Round Table vote is up). A power set while a question is running counts on the next one. */
-function trWindow() { return trOn() && !['lobby', 'final'].includes(G.phase) && !(G.tr.screen && ['table', 'chosen', 'verdict', 'final'].includes(G.tr.screen.kind)); }
+function trWindow() { return trOn() && !['lobby', 'final'].includes(G.phase) && !(G.tr.screen && ['table', 'chosen', 'verdict', 'confess', 'final'].includes(G.tr.screen.kind)); }
 const trNo = (why, who) => trTell(who || G.tr.traitor, 'no', { why });
 function onTr({ pid, op, ...a }) {
   if (!trOn() || !G.players[pid]) return;
@@ -525,6 +526,7 @@ function trScreenNext() {
   if (sc.kind === 'notice') { G.tr.screen = null; persist(); broadcastState(); if (sc.cont) nextFrom(G.qIndex); else render(); return true; }
   if (sc.kind === 'table') { trLockVotes(); return true; }
   if (sc.kind === 'chosen') { trReveal(); return true; }
+  if (sc.kind === 'confess') { trConfessNext(); return true; }
   if (sc.kind === 'verdict' && sc.final) { G.tr.screen = null; G.tr.finalDone = true; persist(); trSync(); broadcastState(); nextFrom(G.qIndex); return true; } // the last vote is over: on to the 20 Questions, or the reveal
   if (sc.kind === 'verdict') { G.tr.screen = null; G.tr.tableDone = true; trHalfReset(); persist(); trSync(); trNudgeList(); broadcastState(); goTo(sc.next); return true; }
   if (sc.kind === 'final') { G.tr.screen = null; G.tr.revealed = true; persist(); broadcastState(); finish(); return true; }
@@ -674,7 +676,37 @@ function trAfterTwenty(byPlayer) {
   G.tr.found = { right, most };
   trLog(`20 Questions: ${right.length} of ${others.length} found the Traitor. ${most ? 'Caught' : 'Got away with it'}`);
 }
+/** The confession round, before the final reveal: up to five people, one at a time, each on camera to say whether they were a Traitor. The first is a Faithful;
+ *  after that it is anyone, Faithful or Traitor, at random. People whose camera is on come first (nobody on camera: whoever is playing on a phone). */
+const TR_CONFESS = 5;
+function trCamPlayers() {
+  const real = Object.values(G.players).filter((p) => !p.id.startsWith('p_bot')).map((p) => p.id);
+  const onCam = (pid) => {
+    try {
+      const name = G.players[pid]?.name || '';
+      if (window.QuizCam?.on) { const c = QuizCam.linkedName(pid) || name; return QuizCam.callNames.some((x) => !x.host && x.video && String(x.name).toLowerCase() === String(c).toLowerCase()); }
+      if (window.TvCams?.on) return TvCams.camNames.includes(name.toLowerCase());
+    } catch {}
+    return false;
+  };
+  return { real, cam: real.filter(onCam) };
+}
+function trConfessPlan() {
+  const roster = G.tr.roster || [], { real, cam } = trCamPlayers(), pool = cam.length ? cam : real;
+  const faithful = shuffle(pool.filter((p) => !roster.includes(p))), anyone = shuffle(pool.slice());
+  const first = faithful[0] || anyone[0]; if (!first) return [];
+  return [first, ...anyone.filter((p) => p !== first)].slice(0, TR_CONFESS);
+}
+function trConfessNext() {
+  const c = G.tr.confess = G.tr.confess || { picks: trConfessPlan(), i: 0 };
+  if (c.i >= c.picks.length) { G.tr.confessDone = true; G.tr.screen = null; return trShowFinal(); }
+  const who = c.picks[c.i++];
+  trLog(`🎤 Confession ${c.i} of ${c.picks.length}: ${pname(who)} ${(G.tr.roster || []).includes(who) ? '(was a Traitor)' : '(was a Faithful)'}`);
+  G.tr.screen = { id: uid('s'), kind: 'confess', who, n: c.i, of: c.picks.length, last: c.i >= c.picks.length };
+  persist(); sound('drumroll'); render(); broadcastState();
+}
 function trShowFinal() {
+  if (!G.tr.confessDone) return trConfessNext();
   const t = G.tr.traitor, f = G.tr.found, lines = [];
   lines.push(`Over the night: ${G.tr.steals} steal${G.tr.steals === 1 ? '' : 's'}, ${G.tr.stolen.toLocaleString('en-GB')} points taken in all.`);
   const u = G.tr.used; lines.push(`🎁 ${u.gift} free answer${u.gift === 1 ? '' : 's'} · 🚫 ${u.block} block${u.block === 1 ? '' : 's'} · ✨ ${u.dbl} double${u.dbl === 1 ? '' : 's'} · 📜 ${G.tr.msgs} message${G.tr.msgs === 1 ? '' : 's'}.`);
@@ -718,6 +750,12 @@ function trRenderScreen() {
       <div class="trspot-cap"><div class="trsmall">THE ROOM HAS CHOSEN</div><div class="trbig trname">${esc(pname(who))}</div>
       <p class="trline">Look at the camera and tell everyone: <b>are you the Traitor?</b></p>
       <p class="trline small">Wrongly accused? You lose ${TR.WRONG_LOSS.toLocaleString('en-GB')} points, and so does everyone who voted for you.</p></div></div>`, nextBtn('Reveal the truth ▶'));
+  }
+  if (sc.kind === 'confess') {
+    return wrap(`<div class="trspot" data-pcam="${esc(sc.who)}" data-pzoom="3.4"><div class="trspot-em">${esc(pem(sc.who))}</div>
+      <div class="trspot-cap"><div class="trsmall">CONFESSION ${sc.n} OF ${sc.of}</div><div class="trbig trname">${esc(pname(sc.who))}</div>
+      <p class="trline">Look at the camera and tell everyone: <b>were you a Traitor tonight?</b></p>
+      <p class="trline small">Be honest… or don't. The truth is coming.</p></div></div>`, nextBtn(sc.last ? 'The reveal ▶' : 'Next one ▶'));
   }
   if (sc.kind === 'verdict') {
     const mx = Math.max(1, ...sc.rows.map((r) => r.n)), top = sc.banished;
