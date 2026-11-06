@@ -594,7 +594,7 @@ function stateForPlayers() {
   }
   if (G.phase === 'countdown') s.next = { type: question().kind || question().type, n: qNum(G.qIndex) };
   if (G.flash) s.flash = { id: G.flash.id, url: G.flash.url, ms: Math.max(0, G.flash.until - Date.now()) };
-  const fp = flashAhead(); if (fp) s.flashPre = fp;
+  const fp = flashAhead(); if (fp) { s.flashPre = fp; flashPreload(fp); }
   if (G.phase === 'countdown' && G.raceIntro) s.raceIntro = { kind: G.raceIntro.kind || 'race', title: TYPES[question().type]?.label, icon: TYPES[question().type]?.icon, sub: introSub(question()), step: G.raceIntro.step, n: G.raceIntro.n, topic: raceTopic(question()), target: +question().target || 10, maxWrong: question().maxWrong ?? 10 };
   if (G.phase === 'typecard') s.typecard = { type: question().kind || question().type, n: qNum(G.qIndex), run: typeRun(G.qIndex), how: question().mode === 'live' ? 'task-live' : undefined };
   if (G.phase === 'round') { const r = roundOf(G.qIndex); s.round = { n: r.n, title: r.title, practice: !!r.practice, intro: r.intro || '', count: r.count }; }
@@ -841,8 +841,13 @@ function flashSoon(q, idx) {
   if (!q.flash?.url || (G.flashed || {})[q.id]) return;
   setTimeout(() => flashNow(q, idx), Math.max(0, +q.flash.at >= 0 ? +q.flash.at : 1000));
 }
+/** The picture is fetched as soon as it is within eight items (broadcastState), so it is in the cache when it flashes. */
+function flashPreload(url) { if (url && window.__flashPre !== url) { window.__flashPre = url; const im = new Image(); im.src = url; window.__flashImg = im; } }
 function flashNow(q, idx) {
   if (G.phase !== 'question' || G.qIndex !== idx || !G.q || G.paused || G.flash) return;
+  // the seconds count from when the picture is on screen: wait (at most 2.5 s) for it to arrive if it has not yet
+  const im = window.__flashImg && window.__flashPre === q.flash.url ? window.__flashImg : (flashPreload(q.flash.url), window.__flashImg);
+  if (!im.complete && !q.__flashWaited) { q.__flashWaited = true; let done = false; const go = () => { if (!done) { done = true; flashNow(q, idx); } }; im.addEventListener('load', go, { once: true }); im.addEventListener('error', go, { once: true }); setTimeout(go, 2500); return; }
   const ms = Math.max(1000, Math.min(10000, +q.flash.ms || 3000));
   (G.flashed = G.flashed || {})[q.id] = true; G.flash = { id: q.id, url: q.flash.url, until: Date.now() + ms };
   flashOverlay(true, q.flash.url);

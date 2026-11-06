@@ -160,7 +160,10 @@ function flashSync(f) {
   if (!f) { if (el && !flashT) el.remove(); return; }
   if (f.id === flashId) return; flashId = f.id;
   const box = el || Object.assign(document.createElement('div'), { id: 'flashFull', className: 'flashfull' }); box.innerHTML = `<img src="${esc(f.url)}" alt="">`; if (!el) document.body.appendChild(box);
-  clearTimeout(flashT); flashT = setTimeout(() => { flashT = null; document.getElementById('flashFull')?.remove(); }, Math.max(500, f.ms || 3000));
+  // the seconds count from when the picture has loaded (it is also fetched early: s.flashPre)
+  const hold = Math.max(500, f.ms || 3000), remove = () => { flashT = null; document.getElementById('flashFull')?.remove(); }, start = () => { clearTimeout(flashT); flashT = setTimeout(remove, hold); };
+  const img = box.querySelector('img'); clearTimeout(flashT);
+  if (img && !img.complete) { flashT = setTimeout(remove, hold + 2500); img.addEventListener('load', start, { once: true }); } else start();
   if (navigator.vibrate) try { navigator.vibrate(60); } catch {}
 }
 function watchdog() {
