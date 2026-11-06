@@ -1919,3 +1919,7 @@ body.tvcams .stage { padding-right: calc(var(--tvw) + 44px); }
 .state.tmstate .tmsubt { color: #fff; font-size: 2rem; text-shadow: 0 2px 0 rgba(0,0,0,.35); }
 .state.tmstate .tmbody { color: #fbeee6; font-size: 1.05rem; }
 .tmpaper .tmkick { margin-top: clamp(4px, 1.2vh, 14px); }
+
+/* the real Taskmaster logo (heading and wax seal in one picture) sits at the top of the paper */
+.tmlogo { display: block; width: clamp(240px, 52vh, 620px); max-width: 100%; height: auto; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,.28); flex: none; }
+.state.tmstate .tmlogo { width: 100%; border-radius: 6px; mix-blend-mode: normal; }
