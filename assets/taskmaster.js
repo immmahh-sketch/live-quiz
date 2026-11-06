@@ -71,16 +71,24 @@ function tmReady() { const g = G.q.tm; g.spin = null; stepTo(g, 'ready', TM_READ
 /** The envelope opens: the clock starts now, and shows itself 5 seconds in. */
 function tmOpen() {
   const g = G.q.tm, h = tmHide(question()), ms = h ? h.hideSecs * 1000 : LQ.clamp(+question().time || 90, 20, 600) * 1000;
-  g.openAt = Date.now(); g.spin = null; g.phase = 1;
-  stepTo(g, 'envelope', ms); g.total = h ? ms : 0; // the clock stays hidden for the first 5 seconds (not in hide and seek: both timers show)
+  g.openAt = g.shownAt = Date.now(); g.spin = null; g.phase = 1;
+  // the card is up for everyone to read, with no clock yet: the host starts it ("Start the timer") when they have read it
+  stepTo(g, 'envelope', 0); g.wait = true; g.waitMs = ms;
   sound('go'); persist(); tmRender(); broadcastState();
   // once the opening has played, draw it again without the animation: the card is there even if animations stalled
   const at = g.openAt; setTimeout(() => { if (G.q?.tm === g && g.step === 'envelope' && g.openAt === at) tmRender(); }, 1900);
 }
+/** The host has said go: the clock starts now, and shows itself 5 seconds in (not in hide and seek: both timers show). */
+function tmStartClock() {
+  const g = G.q.tm, h = tmHide(question()); if (!g || g.step !== 'envelope' || !g.wait) return;
+  g.wait = false; g.openAt = Date.now();
+  stepTo(g, 'envelope', g.waitMs); g.total = h ? g.waitMs : 0;
+  sound('go'); persist(); tmRender(); broadcastState();
+}
 /** Ten times a second: 5 seconds after the envelope opens, the clock appears (at 85 seconds of 90). */
 function tmTick(now) {
   const g = G.q.tm;
-  if (g?.step === 'envelope' && !g.total && g.openAt && now - g.openAt >= TM_PEEK_MS) { g.total = Math.max(1000, g.until - g.openAt - TM_PEEK_MS); persist(); paintClock(); broadcastState(); }
+  if (g?.step === 'envelope' && !g.wait && !g.total && g.openAt && now - g.openAt >= TM_PEEK_MS) { g.total = Math.max(1000, g.until - g.openAt - TM_PEEK_MS); persist(); paintClock(); broadcastState(); }
 }
 function tmStepDone() {
   const g = G.q.tm;
@@ -137,14 +145,15 @@ function tmRender() {
   } else if (g.step === 'envelope') {
     // the envelope opens and fades, and the task card takes its place (only animated just after opening; a later redraw
     // shows the card straight away, and so does a screen where animations don't run)
-    const fresh = Date.now() - g.openAt < 1800;
+    const fresh = Date.now() - (g.shownAt || g.openAt) < 1800;
     const hd = tmHide(q), look = hd && g.phase === 2;
     const kick = hd ? (look ? '👀 PART 2 OF 2 · THE TASKMASTER LOOKS' : '🙈 PART 1 OF 2 · HIDE!') : `TASK ${g.all ? '' : g.round}`;
     const txt = look ? 'Stay hidden. Stay still.' : g.cur.task;
-    const foot = hd ? (look ? `The Taskmaster has ${hd.seekSecs} seconds to spot you. Spotted: −${hd.spotted}.` : `The Taskmaster is not looking. You have ${hd.hideSecs} seconds to hide.`) : `You have ${Math.round((g.until - g.openAt) / 1000)} seconds. Your time started when you opened this task.`;
+    const foot = g.wait ? `Read the task. The timer has not started: you have ${Math.round(g.waitMs / 1000)} seconds once it does.`
+      : hd ? (look ? `The Taskmaster has ${hd.seekSecs} seconds to spot you. Spotted: −${hd.spotted}.` : `The Taskmaster is not looking. You have ${hd.hideSecs} seconds to hide.`) : `You have ${Math.round((g.until - g.openAt) / 1000)} seconds. Your time started when you pressed go.`;
     main = `<div class="tmletter ${fresh ? 'fresh' : ''}"><div class="tmcard"><div class="tmcard-k">${kick}</div><div class="tmcard-t">${esc(txt)}</div><div class="tmcard-f">${foot}</div></div><div class="tmenv2"><div class="tme-body"></div><div class="tme-flap"></div><div class="tmseal">TM</div></div></div>
       ${g.all ? '<div class="tmpicked row"><span class="tmchip"><b>🎭 Everyone!</b></span></div>' : `<div class="tmpicked row">${g.cur.picks.map((p) => tmChip(p)).join('')}</div>`}`;
-    btn = hd && !look ? '<button class="btn btn-primary" id="tmGo">The Taskmaster looks now ▶</button>' : '<button class="btn btn-primary" id="tmGo">Time\'s up ■</button>';
+    btn = g.wait ? '<button class="btn btn-primary" id="tmGo">⏱ Start the timer ▶</button>' : hd && !look ? '<button class="btn btn-primary" id="tmGo">The Taskmaster looks now ▶</button>' : '<button class="btn btn-primary" id="tmGo">Time\'s up ■</button>';
   } else if (g.step === 'judge') {
     const p = tmPrizes(q), fail = tmFail(q), hd = tmHide(q);
     const places = hd ? ['s', 'x'] : g.all ? ['1', '2', '3'] : ['1', '2', '3', 'x'];
@@ -174,6 +183,7 @@ function tmRender() {
   if (go) go.onclick = () => {
     const s = G.q?.tm?.step;
     if (s === 'judge') return tmAward();
+    if (s === 'envelope' && G.q.tm.wait) return tmStartClock();
     if (s === 'envelope') { G.q.tm.until = 0; return tmStepDone(); }
     if (s === 'spin' && Date.now() - G.q.tm.spin.at < TM_SPIN_MS) return; // let the wheel finish
     G.q.tm.until = 0; tmStepDone();
@@ -184,7 +194,7 @@ function tmState(s) {
   const g = G.q?.tm; if (!g || G.phase !== 'question') return;
   const nowT = G.paused ? G.pausedAt : Date.now();
   const landed = g.spin && nowT - g.spin.at >= TM_SPIN_MS ? g.spin.target : null;
-  s.tm = { phase: g.phase || 1, hide: !!tmHide(question()), step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, round: g.round, count: g.count, all: !!g.all,
+  s.tm = { phase: g.phase || 1, hide: !!tmHide(question()), wait: !!g.wait, step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, round: g.round, count: g.count, all: !!g.all,
     picks: [...(g.cur?.picks || []), ...(landed && !g.cur.picks.includes(landed) ? [landed] : [])], spinning: g.step === 'spin' && !landed,
     task: ['envelope', 'judge', 'show'].includes(g.step) ? g.cur?.task : '', got: g.step === 'show' ? g.done[g.done.length - 1]?.got : null, pts: g.pts };
   s.names = Object.fromEntries(Object.values(G.players).map((p) => [p.id, { name: p.name, emoji: p.emoji || '' }]));

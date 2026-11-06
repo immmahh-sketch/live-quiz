@@ -85,7 +85,7 @@ function partyGameKey(s) {
   if (s.bi) { const g = s.bi; return ['bi', g.step, g.needClick, g.started, g.answered.includes(P.pid), g.err, (g.top || []).map((x) => x.pid).join(), g.fw ?? '', P.bi?.myMs != null].join('|'); }
   if (s.pc) { const g = s.pc, me = P.pid; return ['pc', g.step, g.pos?.[me] ?? '-', me in (g.out || {}), (g.done || []).includes(me)].join('|'); }
   if (s.ob) { const g = s.ob, me = P.pid; return ['ob', g.step, g.k, g.alive.includes(me), me in (g.out || {}), g.ans.includes(me)].join('|'); }
-  if (s.tm) { const g = s.tm; return ['tm', g.step, g.round, g.picks.join(), g.spinning ? 's' : '', g.totalMs ? 'c' : '', g.phase || 1].join('|'); }
+  if (s.tm) { const g = s.tm; return ['tm', g.step, g.round, g.picks.join(), g.spinning ? 's' : '', g.totalMs ? 'c' : '', g.wait ? 'w' : '', g.phase || 1].join('|'); }
   if (s.task) { const g = s.task; return ['task', g.step, g.got.includes(P.pid), P.work.taskBusy || '', P.work.taskPrev ? 'p' : '', P.work.taskErr || ''].join('|'); }
   return '';
 }
@@ -130,9 +130,9 @@ function tmPhoneHtml(s) {
   }
   if (g.step === 'envelope' && g.hide) return g.phase === 2
     ? `<div class="tmphone"><div class="tmphone-k">👀 THE TASKMASTER IS LOOKING</div><div class="tmphone-t">Stay hidden. Stay still.</div><div class="tmphone-f">If you are spotted you lose points. Not playing loses more.</div></div>${foot}`
-    : `<div class="tmphone"><div class="tmphone-k">🙈 HIDE!</div><div class="tmphone-t">${esc(g.task)}</div><div class="tmphone-f">The Taskmaster is not looking. Hide, and stay where the camera can see.</div></div>${foot}`;
+    : `<div class="tmphone"><div class="tmphone-k">🙈 HIDE!</div><div class="tmphone-t">${esc(g.task)}</div><div class="tmphone-f">${g.wait ? 'Read it first. The timer starts when the host says go.' : 'The Taskmaster is not looking. Hide, and stay where the camera can see.'}</div></div>${foot}`;
   if (g.step === 'envelope') return mine
-    ? `<div class="tmphone"><div class="tmphone-k">✉️ YOUR TASK</div><div class="tmphone-t">${esc(g.task)}</div><div class="tmphone-f">Do it on camera! Your time started when you opened this task.</div></div>${foot}`
+    ? `<div class="tmphone"><div class="tmphone-k">✉️ YOUR TASK</div><div class="tmphone-t">${esc(g.task)}</div><div class="tmphone-f">${g.wait ? 'Read it first. The timer starts when the host says go.' : 'Do it on camera! Your time started when the host said go.'}</div></div>${foot}`
     : `<div class="state"><div class="em">📺</div><h2>Watch the screen!</h2><p class="muted"><b>${who}</b> ${g.picks.length === 1 ? 'is' : 'are'} on a task:</p><p style="font-weight:800">${esc(g.task)}</p></div>${foot}`;
   if (g.step === 'judge') return `<div class="state"><div class="em">⚖️</div><h2>The Taskmaster is deciding…</h2><p class="muted">${esc(g.task)}</p></div>${foot}`;
   if (g.step === 'show') { const got = g.got?.[me]; return `<div class="state"><div class="em">${got > 0 ? '🏆' : got < 0 ? '❌' : mine ? '😬' : '📞'}</div><h2>${got === undefined ? 'Results are on the screen' : got > 0 ? `+${got}!` : got < 0 ? `${got}: you didn't even try!` : 'No points this time'}</h2></div>${foot}`; }
