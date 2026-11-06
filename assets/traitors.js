@@ -789,16 +789,40 @@ async function onTrCtl(payload) {
   else if (m.op === 'random') { const pool = Object.keys(G.players); if (pool.length) trSetTraitor(pool[Math.floor(Math.random() * pool.length)], 'picked'); else note = 'Nobody has joined yet.'; }
   await trCtlSend(note, pw, ctlNote);
 }
+/** The one button that moves the host screen on: its own Next / Start / Stop the clock button, or on a game screen that game's single step button
+ *  (Show the answers, Next round, Start the timer…). kind: 'primary' | 'step' | 'many' (several steps to choose from) | 'none' (a game that runs itself). */
+function hostNextBtn() {
+  const p = document.querySelector('[data-act="primary"]:not([disabled])');
+  if (p) return { kind: 'primary', el: p };
+  const tm = document.querySelector('#tmGo:not([disabled])');
+  if (tm) return { kind: 'step', el: tm };
+  const steps = [...document.querySelectorAll('.stage-bottom .hostbar button[id]:not([disabled])')].filter((b) => !b.dataset.act && !/skip/i.test(b.textContent));
+  if (steps.length === 1) return { kind: 'step', el: steps[0] };
+  return { kind: steps.length ? 'many' : 'none', el: null, steps };
+}
 /** What the panel's buttons say: the host screen's own bottom-bar buttons, as the panel shows them. Only while a game is running (the lobby keeps its own buttons). */
 function hostBarState() {
   if (typeof G === 'undefined' || !G || ['lobby', 'final'].includes(G.phase) || !G.phase) return { game: false };
-  const p = document.querySelector('[data-act="primary"]') || document.querySelector('#tmGo');
-  return { game: true, primary: p ? p.textContent.trim() : '', canBack: typeof canBack === 'function' && canBack(), music: typeof musicOn === 'function' && musicOn(), callState: window.QuizCall ? QuizCall.state : 'off', callOk: !!(window.QuizCall && QuizCall.supported() && !WARMUP), fs: !!document.fullscreenElement };
+  const nb = hostNextBtn();
+  return { game: true, primary: nb.el ? nb.el.textContent.trim() : '', canNext: nb.kind !== 'none', canSkip: typeof canSkip === 'function' && canSkip(), canBack: typeof canBack === 'function' && canBack(), music: typeof musicOn === 'function' && musicOn(), callState: window.QuizCall ? QuizCall.state : 'off', callOk: !!(window.QuizCall && QuizCall.supported() && !WARMUP), fs: !!document.fullscreenElement };
 }
 /** A button pressed on the host panel: done here as if the host screen's own button had been pressed. Returns a short note for the panel ('' when all is well). */
 function hostCtl(name) {
   try {
-    if (name === 'next') { if (document.querySelector('.modal-bg')) return 'A box is open on the host screen: close it there first.'; primaryAction(); return ''; }
+    if (name === 'next') {
+      if (document.querySelector('.modal-bg')) return 'A box is open on the host screen: close it there first.';
+      const nb = hostNextBtn();
+      if (nb.kind === 'primary') { primaryAction(); return ''; }
+      if (nb.kind === 'step') { nb.el.click(); return ''; }
+      if (nb.kind === 'many') return 'This game has a choice to make: ' + nb.steps.map((b) => b.textContent.trim()).join(' or ') + '. Press it on the host screen.';
+      return 'This game moves on by itself. Wait for it to finish, or press Skip this question.';
+    }
+    if (name === 'skip') {
+      if (document.querySelector('.modal-bg')) return 'A box is open on the host screen: close it there first.';
+      if (!canSkip()) return 'There is nothing to skip.';
+      if (trOn() && G.tr.screen) return 'A Traitors screen is up: press Next to put it away first.';
+      skipNow(); return 'Skipped.';
+    }
     if (name === 'back') { if (!canBack()) return 'There is nothing to go back to.'; goBack(); return ''; }
     if (name === 'music') { toggleMusic(); return ''; }
     if (name === 'end') { if (!G.code || G.phase === 'final') return ''; clearInterval(tickT); clearInterval(countT); finish(); return ''; }

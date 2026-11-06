@@ -1983,4 +1983,4 @@ body.solo.solofit .stage { padding-right: 28px; }
 .state.tmstate .tmltr { --W: min(calc(100vw - 64px), 60vh); margin-top: 4px; }
 
 /* The host panel has taken over these buttons for as long as it is connected (host.html sets body.panelctl). */
-body.panelctl .stage-bottom .hostbar [data-act="back"], body.panelctl .stage-bottom .hostbar [data-act="music"], body.panelctl .stage-bottom .hostbar [data-act="end"], body.panelctl .stage-bottom .hostbar [data-act="primary"], body.panelctl .stage-bottom .hostbar [data-act="call"], body.panelctl .stage-bottom .hostbar [data-act="fs"] { display: none !important; }
+body.panelctl .stage-bottom .hostbar [data-act="back"], body.panelctl .stage-bottom .hostbar [data-act="music"], body.panelctl .stage-bottom .hostbar [data-act="end"], body.panelctl .stage-bottom .hostbar [data-act="primary"], body.panelctl .stage-bottom .hostbar [data-act="call"], body.panelctl .stage-bottom .hostbar [data-act="fs"], body.panelctl .stage-bottom .hostbar [data-act="skip"] { display: none !important; }

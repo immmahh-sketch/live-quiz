@@ -1101,6 +1101,16 @@ function goBack() {
   const i = G.qIndex - 1;
   if (isSlide(G.quiz.questions[i])) showSlide(i); else startCountdown(i);
 }
+/** Skip: leave this slide, question or game as it stands (nothing is scored for it) and go on to whatever follows. */
+function canSkip() { return !PREVIEW && !WARMUP && !G.warmup && !['lobby', 'final'].includes(G.phase) && G.qIndex >= 0; }
+function skipNow() {
+  if (!canSkip()) return;
+  clearTimeout(autoT); clearInterval(tickT); clearInterval(countT); clearInterval(brkT); if (typeof stopTune === 'function') stopTune();
+  if (G.paused) togglePause(false, true);
+  G.raceIntro = null;
+  nextFrom(G.qIndex);
+}
+function skipItem() { if (canSkip()) ask('Skip this one?', 'Nobody scores for it, and the quiz carries straight on to what comes next.', 'Skip it', 'Keep it').then((ok) => { if (ok) skipNow(); }); }
 function startCountdown(i) {
   markPlayed(i);
   if (LQ.BANK_GAMES.includes(G.quiz.questions[i]?.type) || ['draw', 'twenty', 'unique', 'cards', 'behind', 'intro'].includes(G.quiz.questions[i]?.type) || (G.quiz.questions[i]?.type === 'task' && !WARMUP)) return startRaceIntro(i); // a splash first; the race adds 3-2-1 and the pistol
@@ -2855,7 +2865,7 @@ function syncPause() {
 function hostBar(buttons) {
   const d = autoDelay();
   const hint = G.auto ? `runs itself · players can press Start and Next on their phones${TV ? ' · centre button for next' : ''}` : TV ? 'press the centre button for next' : 'press Space for next';
-  return `<div class="stage-bottom"><span class="muted small" style="opacity:.6">Game ${G.code} · ${players().length} players${G.test ? ` · 🧪 TEST GAME, ${G.bots.length} bots, nothing is saved` : G.bots?.length ? (WARMUP ? ` + ${G.bots.length} bots` : ` · test mode, ${G.bots.length} bots`) : ''} · ${hint}</span>${d ? `<div class="autobar" title="Moving on by itself"><i style="animation-duration:${d}ms"></i></div>` : ''}<div class="hostbar">${callBtn()}${canBack() ? '<button class="btn btn-ghost" data-act="back" title="Go back one slide or question (←)">◀ Back</button>' : ''}${G.auto && !['lobby', 'final'].includes(G.phase) ? `<button class="btn btn-ghost" data-act="pause" title="Stop the clock and hold this screen (P)">${G.paused ? '▶ Resume' : '⏸ Pause'}</button>` : ''}${buttons.includes('data-act="music"') || BHB() || G.phase === 'final' ? '' : `<button class="btn btn-ghost ${musicOn() ? 'on' : ''}" data-act="music" title="Background music on or off (M)">${musicOn() ? '🎵 Music: on' : '🔇 Music: off'}</button>`}${buttons}</div></div>`;
+  return `<div class="stage-bottom"><span class="muted small" style="opacity:.6">Game ${G.code} · ${players().length} players${G.test ? ` · 🧪 TEST GAME, ${G.bots.length} bots, nothing is saved` : G.bots?.length ? (WARMUP ? ` + ${G.bots.length} bots` : ` · test mode, ${G.bots.length} bots`) : ''} · ${hint}</span>${d ? `<div class="autobar" title="Moving on by itself"><i style="animation-duration:${d}ms"></i></div>` : ''}<div class="hostbar">${callBtn()}${canBack() ? '<button class="btn btn-ghost" data-act="back" title="Go back one slide or question (←)">◀ Back</button>' : ''}${canSkip() ? '<button class="btn btn-ghost" data-act="skip" title="Leave this one without scoring it and go on to the next">Skip this question ⏭</button>' : ''}${G.auto && !['lobby', 'final'].includes(G.phase) ? `<button class="btn btn-ghost" data-act="pause" title="Stop the clock and hold this screen (P)">${G.paused ? '▶ Resume' : '⏸ Pause'}</button>` : ''}${buttons.includes('data-act="music"') || BHB() || G.phase === 'final' ? '' : `<button class="btn btn-ghost ${musicOn() ? 'on' : ''}" data-act="music" title="Background music on or off (M)">${musicOn() ? '🎵 Music: on' : '🔇 Music: off'}</button>`}${buttons}</div></div>`;
 }
 /* ---------- the quiz night video call (Gather) ---------- */
 function callLabel() {
@@ -2951,7 +2961,7 @@ setInterval(() => { document.body.classList.toggle('panelctl', !!G && !!G.phase 
   idle();
 })();
 function bind() {
-  $$('[data-act]').forEach((b) => b.onclick = () => ({ back: goBack, call: callClick, cam: camToggle, fs: fsToggle, bonus: bonusModal, camlinks: camLinksModal, wusave: () => { G.warmSaved = null; render(); warmupSave(); }, wuboard: () => { (window.top || window).location.href = PLAYQ ? 'warmup?q=' + PLAYQ : 'warmup?c=' + encodeURIComponent(G.warmup); }, primary: primaryAction, end: () => PREVIEW ? closePreview() : endEarly(), again: playAgain, bots: () => addBots(G.bots?.length ? 5 : 3), bots20: () => addBots(MAX_BOTS), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, pause: () => togglePause(), music: toggleMusic, stopgame: gameStop, builder: () => PREVIEW ? closePreview() : backToBuilder() })[b.dataset.act]());
+  $$('[data-act]').forEach((b) => b.onclick = () => ({ back: goBack, skip: skipItem, call: callClick, cam: camToggle, fs: fsToggle, bonus: bonusModal, camlinks: camLinksModal, wusave: () => { G.warmSaved = null; render(); warmupSave(); }, wuboard: () => { (window.top || window).location.href = PLAYQ ? 'warmup?q=' + PLAYQ : 'warmup?c=' + encodeURIComponent(G.warmup); }, primary: primaryAction, end: () => PREVIEW ? closePreview() : endEarly(), again: playAgain, bots: () => addBots(G.bots?.length ? 5 : 3), bots20: () => addBots(MAX_BOTS), auto: toggleAuto, restock: returnToBank, solo: toggleSolo, pause: () => togglePause(), music: toggleMusic, stopgame: gameStop, builder: () => PREVIEW ? closePreview() : backToBuilder() })[b.dataset.act]());
   $$('[data-kick]').forEach((el) => { el.style.cursor = 'pointer'; el.title = 'Click to remove this player from the game'; el.onclick = () => kickPlayer(el.dataset.kick); });
   paintClock(); // a redrawn screen shows the time left, not the full time
 }

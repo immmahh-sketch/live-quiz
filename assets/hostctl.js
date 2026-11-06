@@ -11,7 +11,11 @@ const LQHostCtl = (() => {
     s.textContent = `
       .hc { background: #1d2a2e; color: #f4e9d0; border-radius: 14px; padding: 10px; margin: 0 0 10px; }
       .hc-next { width: 100%; font: 900 1.25rem system-ui, sans-serif; padding: 16px 10px; border-radius: 12px; border: 0; background: #ffd60a; color: #1b1640; cursor: pointer; }
+      .hc-next small { display: block; font: 700 .75rem system-ui, sans-serif; opacity: .6; margin-top: 3px; }
+      .hc-main { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+      .hc-main .hc-btn { font-size: 1.05rem; padding: 15px 8px; }
       .hc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+      .hc-grid .hc-btn { font-size: .85rem; padding: 10px 6px; opacity: .85; }
       .hc-btn { font: 800 .95rem system-ui, sans-serif; padding: 12px 8px; border-radius: 11px; border: 1px solid rgba(244,233,208,.25); background: rgba(244,233,208,.1); color: #f4e9d0; cursor: pointer; }
       .hc-btn.on { background: #8a1c26; border-color: #e8c46a; }
       .hc-btn.end { color: #ff9a9a; }
@@ -26,14 +30,17 @@ const LQHostCtl = (() => {
     if (!b.game) { box.innerHTML = ''; box._hc = ''; return; } // the lobby: the host screen keeps its own buttons
     const callOn = b.callState === 'live' || b.callState === 'reconnecting';
     const html = `<div class="hc">
-      <button class="hc-next" type="button" data-c="next">${esc(b.primary || 'Next ▶')}</button>
+      <button class="hc-next" type="button" data-c="next">Next ▶${b.primary && !/^next/i.test(b.primary) ? `<small>${esc(b.primary)}</small>` : ''}</button>
+      <div class="hc-main">
+        <button class="hc-btn" type="button" data-c="skip" ${b.canSkip === false ? 'disabled' : ''}>⏭ Skip this question</button>
+        <button class="hc-btn end" type="button" data-c="end">⏹ End the quiz</button>
+      </div>
       <div class="hc-grid">
         <button class="hc-btn" type="button" data-c="back" ${b.canBack ? '' : 'disabled'}>◀ Back</button>
         <button class="hc-btn ${b.music ? 'on' : ''}" type="button" data-c="music">${b.music ? '🎵 Music: on' : '🔇 Music: off'}</button>
         <button class="hc-btn ${callOn ? 'on' : ''}" type="button" data-c="call" ${b.callOk === false ? 'disabled' : ''}>${callOn ? '🔴 On the quiz call' : b.callState === 'starting' ? '📞 Joining…' : '📞 Launch the quiz call'}</button>
         <button class="hc-btn" type="button" data-c="fs">${b.fs ? '⛶ Leave full screen' : '⛶ Full screen'}</button>
         <button class="hc-btn" type="button" data-c="audiofix">🎧 Reconnect audio</button>
-        <button class="hc-btn end" type="button" data-c="end">⏹ End game</button>
       </div><div class="hc-msg"></div></div>`;
     const say = (t) => { shown = t; const m = box.querySelector('.hc-msg'); if (m) m.textContent = t; clearTimeout(msgT); msgT = setTimeout(() => { shown = ''; const m2 = box.querySelector('.hc-msg'); if (m2) m2.textContent = ''; }, 6000); };
     if (box._hc === html) { if (d.ctlNote) say(d.ctlNote); return; } // unchanged: leave the buttons alone (a redraw between a touch's down and up would lose the tap)
@@ -41,7 +48,8 @@ const LQHostCtl = (() => {
     if (d.ctlNote) say(d.ctlNote);
     box.querySelectorAll('[data-c]').forEach((el) => el.onclick = async () => {
       const n = el.dataset.c;
-      if (n === 'end') { if (!(await confirmIt('End the game now?', 'The scores so far will be shown as the final result.', 'End game'))) return; ask({ op: 'ctl', name: 'end' }); say('Ending the game…'); return; }
+      if (n === 'end') { if (!(await confirmIt('End the quiz now?', 'The scores so far will be shown as the final result.', 'End the quiz'))) return; ask({ op: 'ctl', name: 'end' }); say('Ending the quiz…'); return; }
+      if (n === 'skip') { if (!(await confirmIt('Skip this question?', 'Nobody scores for it, and the quiz carries straight on to what comes next.', 'Skip it'))) return; ask({ op: 'ctl', name: 'skip' }); return; }
       ask({ op: 'ctl', name: n });
       if (n === 'audiofix') say('Asked the call window to reset the microphone and speakers…');
     });
