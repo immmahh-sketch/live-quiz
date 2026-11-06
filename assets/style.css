@@ -1981,3 +1981,6 @@ body.solo.solofit .stage { padding-right: 28px; }
 .tm-wax::before { content: ''; position: absolute; inset: 11%; border-radius: 50%; border: 2px solid rgba(70,0,6,.45); box-shadow: 1px 1px 0 rgba(255,255,255,.2); }
 .tm-wax b { font: 700 calc(var(--H) * .19)/1 'Special Elite', 'Courier New', monospace; color: rgba(96,6,12,.95); text-shadow: 1px 1px 0 rgba(255,255,255,.25); position: relative; }
 .state.tmstate .tmltr { --W: min(calc(100vw - 64px), 60vh); margin-top: 4px; }
+
+/* The host panel has taken over these buttons for as long as it is connected (host.html sets body.panelctl). */
+body.panelctl .stage-bottom .hostbar [data-act="back"], body.panelctl .stage-bottom .hostbar [data-act="music"], body.panelctl .stage-bottom .hostbar [data-act="end"], body.panelctl .stage-bottom .hostbar [data-act="primary"], body.panelctl .stage-bottom .hostbar [data-act="call"], body.panelctl .stage-bottom .hostbar [data-act="fs"] { display: none !important; }

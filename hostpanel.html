@@ -53,10 +53,12 @@
 <body class="hostpanel">
 <div class="hp-top"><span class="hp-dot" id="hpDot"></span><h1>🗡 Host panel</h1><span class="hp-status" id="hpStatus">Looking for your live game…</span><button id="hpSound" type="button" title="A short beep when a hold or a stunt comes up">🔔 Sound on</button></div>
 <div id="hpAlerts"></div>
+<div id="hpCtl" style="padding:10px 14px 0"></div>
 <div id="hpMain"><p class="hp-muted">Looking for your live game… Start it with ▶ Host in the builder, and open the lobby.</p></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="assets/common.js"></script>
+<script src="assets/hostctl.js"></script>
 <script>
 /* The Traitors control panel as a window of its own (a copy of the builder's 🗡 Traitors pop-up in index.html, made for the quizmaster's
  * computer): HOLD ON, the stunt prompts from "I Literally Just Told You", the Traitor's activity and the pick/message tools.
@@ -132,6 +134,7 @@ function drawAlerts(d) {
 function draw() {
   const d = last; if (!d) return;
   drawAlerts(d);
+  LQHostCtl.render($('#hpCtl'), d, ask, confirmIt);
   const main = $('#hpMain');
   if (!d.on) { main.innerHTML = `<div class="hp-card"><b>${esc(d.note || 'Traitors mode is not on for this quiz.')}</b></div>`; return; }
   const tr = d.players.find((p) => p.pid === d.traitor), mate = d.mate ? d.players.find((p) => p.pid === d.mate) : null;

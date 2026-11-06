@@ -777,16 +777,43 @@ async function onTrCtl(payload) {
   const pw = LQ.hostPassword(); if (!pw || !payload?.m) return;
   let m; try { m = await LQ.unseal(pw, G.code, payload.m); } catch { return; }
   if (!m || Math.abs(Date.now() - (+m.ts || 0)) > 120000 || (G.trCtlNonce && +m.ts <= G.trCtlNonce)) return;
-  G.trCtlNonce = +m.ts; trEnsure();
-  let note = '';
-  if (m.op === 'cuedone') { (G.cueDone = G.cueDone || {})[String(m.id)] = 1; persist(); }
+  G.trCtlNonce = +m.ts; trEnsure(); G.panelAt = Date.now();
+  let note = '', ctlNote = '';
+  if (m.op === 'ctl') ctlNote = hostCtl(String(m.name || ''));
+  else if (m.op === 'cuedone') { (G.cueDone = G.cueDone || {})[String(m.id)] = 1; persist(); }
   else if (!trOn()) note = 'Traitors mode is not switched on for this quiz (Settings).';
   else if (m.op === 'pick') note = trSetTraitor(m.pid, 'picked') ? '' : 'That player is not in the game.';
   else if (m.op === 'pick2') { note = trPickTwo(m.a, m.b) ? '' : 'Choose two different players who are in the game.'; }
   else if (m.op === 'random2') { const pool = Object.keys(G.players).filter((p) => !p.startsWith('p_bot')); if (pool.length >= 2) { const a = pool.splice(Math.floor(Math.random() * pool.length), 1)[0], b = pool[Math.floor(Math.random() * pool.length)]; trPickTwo(a, b); } else note = 'Need at least two real players.'; }
   else if (m.op === 'tell') { note = trTellTraitors(String(m.text || ''), m.to); }
   else if (m.op === 'random') { const pool = Object.keys(G.players); if (pool.length) trSetTraitor(pool[Math.floor(Math.random() * pool.length)], 'picked'); else note = 'Nobody has joined yet.'; }
-  await trCtlSend(note, pw);
+  await trCtlSend(note, pw, ctlNote);
+}
+/** What the panel's buttons say: the host screen's own bottom-bar buttons, as the panel shows them. Only while a game is running (the lobby keeps its own buttons). */
+function hostBarState() {
+  if (typeof G === 'undefined' || !G || ['lobby', 'final'].includes(G.phase) || !G.phase) return { game: false };
+  const p = document.querySelector('[data-act="primary"]') || document.querySelector('#tmGo');
+  return { game: true, primary: p ? p.textContent.trim() : '', canBack: typeof canBack === 'function' && canBack(), music: typeof musicOn === 'function' && musicOn(), callState: window.QuizCall ? QuizCall.state : 'off', callOk: !!(window.QuizCall && QuizCall.supported() && !WARMUP), fs: !!document.fullscreenElement };
+}
+/** A button pressed on the host panel: done here as if the host screen's own button had been pressed. Returns a short note for the panel ('' when all is well). */
+function hostCtl(name) {
+  try {
+    if (name === 'next') { if (document.querySelector('.modal-bg')) return 'A box is open on the host screen: close it there first.'; primaryAction(); return ''; }
+    if (name === 'back') { if (!canBack()) return 'There is nothing to go back to.'; goBack(); return ''; }
+    if (name === 'music') { toggleMusic(); return ''; }
+    if (name === 'end') { if (!G.code || G.phase === 'final') return ''; clearInterval(tickT); clearInterval(countT); finish(); return ''; }
+    if (name === 'call') {
+      if (!window.QuizCall || !QuizCall.supported()) return 'This screen cannot join the quiz call.';
+      if (['live', 'reconnecting', 'starting'].includes(QuizCall.state)) return 'This screen is already on the quiz call. To leave it, use the call button on the host screen.';
+      callClick(); return 'Joining the call… (if nothing happens, press the call button on the host screen: the browser may need a click there)';
+    }
+    if (name === 'fs') { (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen()).then(() => trCtlSend('', LQ.hostPassword()), () => trCtlSend('', LQ.hostPassword(), 'The browser only allows full screen from a click on the host screen itself. Press F there.')).catch(() => {}); return ''; }
+    if (name === 'audiofix') {
+      try { if (callWin && !callWin.closed) { callWin.postMessage({ lq: 'audiofix' }, 'https://gathercall.uk'); return 'Asked the call window to reset the microphone and speakers.'; } } catch {}
+      return 'The call window is not open on this computer. Open it with the call button first.';
+    }
+  } catch (e) { return 'That did not work: ' + (e && e.message || e); }
+  return '';
 }
 /** "I Literally Just Told You" stunts: a question can carry q.cue = { n, title, say }. The host's phone panel shows it as a big green pop-up once it is due: the item is next (we are between questions or on a slide) or on (the round card, countdown, or the question itself). It goes when the host taps Done or the game moves past it. */
 function ilCueDue() {
@@ -804,10 +831,10 @@ let ilCueKey = '';
 function ilCuePush() { const c = ilCueDue(), k = c ? c.id : ''; if (k === ilCueKey) return; ilCueKey = k; trCtlPushSoon(); }
 setInterval(() => { try { ilCuePush(); } catch {} }, 1000); // a stunt tied to a break's clock comes due between state broadcasts
 /** What the host's phone panel is shown: it is also pushed unasked when the Traitor asks for a hold. */
-async function trCtlSend(note = '', pw = LQ.hostPassword()) {
+async function trCtlSend(note = '', pw = LQ.hostPassword(), ctlNote = '') {
   if (!pw || typeof G === 'undefined' || !G?.code) return;
   const t = trOn() ? G.tr : null;
-  const reply = { ts: Date.now(), note, cue: ilCueDue(), on: !!t, players: Object.values(G.players).map((p) => ({ pid: p.id, name: p.name, emoji: p.emoji || '', score: p.score, bot: p.id.startsWith('p_bot') })),
+  const reply = { ts: Date.now(), note, ctlNote, bar: hostBarState(), cue: ilCueDue(), on: !!t, players: Object.values(G.players).map((p) => ({ pid: p.id, name: p.name, emoji: p.emoji || '', score: p.score, bot: p.id.startsWith('p_bot') })),
     traitor: t?.traitor || null, mate: t?.mate || null, needTwo: !!t?.needTwo, powers: t?.powers, qDone: t?.qDone, tableDone: t?.tableDone, hidden: t?.hidden, listIn: !!t?.list, hold: trHoldOn(), stealsLeft: t ? Math.max(0, TR.STEALS - (t.stealsHalf || 0)) : null, set: t?.set, phase: G.phase, log: (t?.log || []).slice(-40) };
   send('trctlr', { m: await LQ.seal(pw, G.code, reply) });
 }

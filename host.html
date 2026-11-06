@@ -2938,6 +2938,9 @@ if (window.QuizCall) {
     if (QuizCall.state !== lastCallState) { lastCallState = QuizCall.state; refreshCallBtns(); } // the Hold to talk button comes and goes with the call
   });
 }
+// While the host panel is talking to this screen (it asks every 6 seconds), its buttons stand in for the bottom bar's Next, Back, Music, call,
+// full screen and End game, which are hidden (style.css, body.panelctl). If no panel has been heard from for 20 seconds they come back.
+setInterval(() => { document.body.classList.toggle('panelctl', !!G && !!G.phase && !['lobby', 'final'].includes(G.phase) && Date.now() - (G.panelAt || 0) < 20000); }, 1000);
 // On the call, the pointer disappears as soon as it stops moving (the way a video player hides it), so the people
 // watching aren't looking at the quizmaster's arrow. Move the mouse and it's back to click with.
 (() => {
