@@ -27,6 +27,7 @@
 <script src="assets/leaderboard.js"></script>
 <script src="assets/train-visuals.js"></script>
 <script src="assets/warmup-tools.js"></script>
+<script src="assets/fakecall.js"></script>
 <script>
 const { $, $$, esc, uid, api, TYPES, COLORS, DEFAULT_SETTINGS, newQuestion, validate, youtubeId, resizeImage, orderQuestions, quizForSave, timeFor, composeCollage, buildCollageFor } = LQ;
 /** normalizeQuiz (common.js) keeps a fixed set of round fields. These ride along from the raw rounds, matched by id:
@@ -695,8 +696,8 @@ function warmupBoardModal(id) {
 /** 🗡 Traitors: the host's secret control, made to be opened on a phone while the quiz runs on the laptop. It finds the live game by its
  *  code, then talks to the host screen over the game's channel, sealed with the host password so the players can't read or fake it. */
 async function traitorsPanel(id) {
-  const bg = modal('<h3 style="margin-top:0">🗡 The Traitors</h3><div id="trBody"><p class="muted"><span class="spinner"></span> Looking for your live game…</p></div><div id="trTell" class="card" style="display:none;margin:10px 0 0"><b>✉ Write to the Traitor</b> <span class="muted small">(a letter from Claudia, only they see it)</span><textarea id="tmText" rows="2" maxlength="280" placeholder="Your secret message…" style="width:100%;margin-top:6px;font:inherit;padding:8px;border-radius:10px;border:2px solid var(--line)"></textarea><div class="row" id="trTellBtns" style="gap:6px;margin-top:6px"></div></div><div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn btn-ghost" data-x>Close</button></div>');
-  const body = $('#trBody', bg); let sbc = null, ch = null, timer = null, last = null, sel2 = [];
+  const bg = modal('<h3 style="margin-top:0">🗡 The Traitors</h3><div id="trBody"><p class="muted"><span class="spinner"></span> Looking for your live game…</p></div><div id="trTell" class="card" style="display:none;margin:10px 0 0"><b>✉ Write to the Traitor</b> <span class="muted small">(a letter from Claudia, only they see it)</span><textarea id="tmText" rows="2" maxlength="280" placeholder="Your secret message…" style="width:100%;margin-top:6px;font:inherit;padding:8px;border-radius:10px;border:2px solid var(--line)"></textarea><div class="row" id="trTellBtns" style="gap:6px;margin-top:6px"></div></div><div id="trCall"></div><div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn btn-ghost" data-x>Close</button></div>');
+  const body = $('#trBody', bg); window.LQFakeCall?.mount($('#trCall', bg)); let sbc = null, ch = null, timer = null, last = null, sel2 = [];
   const close = () => { clearInterval(timer); try { wake?.release(); } catch {} try { sbc?.removeChannel(ch); } catch {} bg.remove(); };
   $('[data-x]', bg).onclick = close;
   let code = '';
