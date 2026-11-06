@@ -108,6 +108,16 @@ const present = new Map(); // pid -> name, from presence
 
 let toastT;
 /** Test by myself: three bots for company and a player panel docked on this page (play.html in an iframe, joined as "Me"). */
+/** Test by myself: the host screen keeps the shape of the whole window (so it looks exactly as it would full screen) and is scaled down to fit beside the phones. */
+function soloFit() {
+  const b = document.body;
+  const first = document.getElementById('solopanel');
+  if (!G?.solo || !first || innerWidth < 900) { b.classList.remove('solofit'); ['--soloK', '--soloL', '--soloT'].forEach((v) => b.style.removeProperty(v)); return; }
+  const n = +b.style.getPropertyValue('--solon') || 1, availW = Math.max(240, innerWidth - first.getBoundingClientRect().width * n), k = Math.min(1, availW / innerWidth);
+  b.classList.add('solofit');
+  b.style.setProperty('--soloK', k.toFixed(4)); b.style.setProperty('--soloL', ((availW - innerWidth * k) / 2).toFixed(1) + 'px'); b.style.setProperty('--soloT', ((innerHeight - innerHeight * k) / 2).toFixed(1) + 'px');
+}
+window.addEventListener('resize', () => { try { soloFit(); } catch {} });
 const SOLO_NAMES = ['Me', 'Dave', 'Ellie', 'Sam']; // the players on the docked phones (play.js gives each slot the same name)
 const SOLO_W = [0, 'min(390px, 100vw)', 'min(340px, 48vw)', 'min(280px, 27vw)', 'min(235px, 19vw)']; // panel width for 1 to 4 phones
 /** Test by myself: how many phones? (1 to 4). A narrow screen only has room for one. */
@@ -124,7 +134,7 @@ function soloPick() {
   });
 }
 function toggleSolo(n) {
-  if (G.solo) { G.solo = false; document.body.classList.remove('solo', 'solo2'); document.body.style.removeProperty('--solow'); document.body.style.removeProperty('--solon'); document.querySelectorAll('.solopanel').forEach((e) => e.remove()); renderLobby(); return; }
+  if (G.solo) { G.solo = false; document.body.classList.remove('solo', 'solo2'); document.body.style.removeProperty('--solow'); document.body.style.removeProperty('--solon'); document.querySelectorAll('.solopanel').forEach((e) => e.remove()); soloFit(); renderLobby(); return; }
   if (n === undefined) return soloPick().then((k) => { if (k) toggleSolo(k); });
   n = Math.max(1, Math.min(4, +n || 1));
   G.solo = true; document.body.classList.add('solo');
@@ -138,7 +148,7 @@ function toggleSolo(n) {
     document.body.appendChild(p);
   }
   $('#soloClose').onclick = () => toggleSolo();
-  renderLobby();
+  soloFit(); renderLobby();
 }
 /** Preview from the builder: bots and the player panel, then straight into the 3-2-1 (or the slide) once your panel has joined. */
 const question0 = () => G.quiz.questions[0];

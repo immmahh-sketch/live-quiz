@@ -1923,3 +1923,7 @@ body.tvcams .stage { padding-right: calc(var(--tvw) + 44px); }
 /* the real Taskmaster logo (heading and wax seal in one picture) sits at the top of the paper */
 .tmlogo { display: block; width: clamp(240px, 52vh, 620px); max-width: 100%; height: auto; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,.28); flex: none; }
 .state.tmstate .tmlogo { width: 100%; border-radius: 6px; mix-blend-mode: normal; }
+
+/* Test by myself on a big screen: the host screen is the whole window, scaled down (soloFit in host.html) so it keeps its shape beside the phones */
+body.solo.solofit #stage { position: fixed; left: var(--soloL, 0); top: var(--soloT, 0); width: 100vw; height: 100vh; transform: scale(var(--soloK, 1)); transform-origin: 0 0; padding-right: 28px; z-index: 1; }
+body.solo.solofit .stage { padding-right: 28px; }
