@@ -210,7 +210,6 @@ function game() {
     const pf = $('#playFrame');
     pf.src = 'play?g=' + encodeURIComponent(code) + '&solo=1';
     pf.hidden = false; $('#waiting')?.remove();
-    $('#who').textContent = '🎮 Friends join at letsquiz.uk/play · ' + code;
     pf.addEventListener('load', () => { try { pf.contentDocument.addEventListener('pointerdown', soundOn); } catch {} });
   }, 300);
   $('#fs').onclick = () => { const d = document.documentElement; if (document.fullscreenElement) document.exitFullscreen?.(); else d.requestFullscreen?.().catch(() => {}); };

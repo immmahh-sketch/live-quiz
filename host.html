@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
-<link rel="stylesheet" href="assets/boxes.css?v=20261107f">
+<link rel="stylesheet" href="assets/boxes.css?v=20261107g">
 <link rel="stylesheet" href="assets/train.css">
 </head>
 <body class="host">
@@ -30,7 +30,7 @@
 <script src="assets/dpad.js"></script>
 <script src="assets/demo-quiz.js"></script>
 <script src="assets/party.js"></script>
-<script src="assets/boxes.js?v=20261107f"></script>
+<script src="assets/boxes.js?v=20261107g"></script>
 <script src="assets/letter.js"></script>
 <script src="assets/traitors.js"></script>
 <script src="assets/team.js"></script>
@@ -323,7 +323,7 @@ async function bootWarmup() {
   let quiz = LQ.normalizeQuiz(r.quiz);
   quiz.questions = quiz.questions.filter((q) => LQ.validate(q).length === 0);
   quiz.rounds = quiz.rounds.filter((x) => quiz.questions.some((q) => q.round === x.id));
-  G = { code: newCode(), quizId: r.quiz.id, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: true, warmup: WARMUP, warmTop: r.top || [], warmCount: r.count || 0, warmBonus: r.bonus || null, warmUntil: r.until || null, warmSolo: !!r.standalone, warmBots: r.bots ?? 3, warmReplay: !!r.replay };
+  G = { code: newCode(), quizId: r.quiz.id, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: true, warmup: WARMUP, warmTop: r.top || [], warmCount: r.count || 0, warmBonus: r.bonus || null, warmUntil: r.until || null, warmSolo: !!r.standalone, warmBots: r.bots ?? 3, fixedBots: quiz.questions.some((q) => q.type === 'boxes'), warmReplay: !!r.replay };
   persist(); connect();
   setTimeout(() => addBots(G.warmBots), 0); // settings.warmup.bots (3 unless set); a test go too, so the host sees it as players do
   setTimeout(() => { if (musicOn()) loadYT().catch(() => {}); }, 0);
@@ -344,7 +344,7 @@ async function bootPlayQuiz() {
   quiz.settings = { ...quiz.settings, power: { on: false }, bounty: false };
   if (!quiz.questions.length) return fail('Nothing in this quiz can be played on a phone yet.');
   const bp = new URLSearchParams(location.search).get('bots'), nb = bp === null ? 3 : Math.max(0, Math.min(MAX_BOTS, +bp || 0));
-  G = { code: newCode(), quizId: r.quiz.id, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: true, warmup: WARMUP, warmTop: [], warmCount: 0, warmBonus: null, warmUntil: null, warmSolo: true, warmBots: nb, warmReplay: true, playSkipped: all - quiz.questions.length };
+  G = { code: newCode(), quizId: r.quiz.id, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: true, warmup: WARMUP, warmTop: [], warmCount: 0, warmBonus: null, warmUntil: null, warmSolo: true, warmBots: nb, fixedBots: quiz.questions.some((q) => q.type === 'boxes'), warmReplay: true, playSkipped: all - quiz.questions.length };
   persist(); connect();
   setTimeout(() => addBots(nb), 0);
   setTimeout(() => { if (musicOn()) loadYT().catch(() => {}); }, 0);
@@ -389,11 +389,13 @@ const BOT_NAMES = [['Ada', '🦉'], ['Bo', '👾'], ['Cy', '🐙'], ['Dee', '�
 const MAX_BOTS = BOT_NAMES.length;
 const BOT_SKILL = [0.85, 0.65, 0.5, 0.75, 0.6, 0.55, 0.7, 0.8, 0.45, 0.9, 0.6, 0.7, 0.5, 0.65, 0.8, 0.55, 0.75, 0.4, 0.7, 0.6];
 const BOT_PACE = [0.35, 0.6, 0.9, 0.5, 0.7, 0.8, 0.45, 0.65, 0.85, 0.4, 0.55, 0.75, 0.6, 0.95, 0.5, 0.7, 0.3, 0.8, 0.65, 0.55];
+/** Box Clever's one-phone game: everybody plays the same two rivals, with the same nerve and the same knowledge. */
+const BOX_BOTS = [{ nm: 'Rex', em: '🐶', skill: 0.8, risk: { r: 0.85, s: 0.2 } }, { nm: 'Max', em: '🦁', skill: 0.6, risk: { r: 0.2, s: 0.2 } }];
 function addBots(n) {
   G.bots = G.bots || [];
   for (let i = 0; i < n && G.bots.length < MAX_BOTS; i++) {
-    const [nm, em] = BOT_NAMES[G.bots.length];
-    const bot = { pid: 'p_bot' + (G.bots.length + 1) + nm.toLowerCase().padEnd(4, 'x'), name: 'Bot ' + nm, emoji: em, skill: BOT_SKILL[G.bots.length], pace: BOT_PACE[G.bots.length] };
+    const fx = G.fixedBots && BOX_BOTS[G.bots.length], [nm, em] = fx ? [fx.nm, fx.em] : BOT_NAMES[G.bots.length];
+    const bot = { pid: 'p_bot' + (G.bots.length + 1) + nm.toLowerCase().padEnd(4, 'x'), name: 'Bot ' + nm, emoji: em, skill: fx ? fx.skill : BOT_SKILL[G.bots.length], pace: BOT_PACE[G.bots.length], ...(fx ? { risk: fx.risk } : {}) };
     G.bots.push(bot); present.set(bot.pid, bot.name);
     onHello({ pid: bot.pid, name: bot.name, emoji: bot.emoji });
   }

@@ -215,6 +215,8 @@ function bxReveal() { const c = G.bx.cur; if (!c) return; if (c.mode === 'host')
 function bxNextTurn() {
   const b = G.bx; b.cur = null; b.votes = {};
   b.turn = (b.turn + 1) % b.teams.length;
+  for (const cell of b.board) if (cell.st === 'now') cell.st = 'open'; // nothing is on the table now: a box left half-picked goes back
+  if (!b.board.some((x) => x.st === 'open')) b.asked = Math.max(b.asked, b.cuts[b.part - 1]); // and with no box left the part is over, whatever the count
   if (b.asked >= b.cuts[b.part - 1]) { b.lastSnap = true; for (const p of Object.values(G.players)) b.snap[p.id] = p.score; b.step = 'seg'; persist(); return nextFrom(G.qIndex); }
   b.step = 'pick'; persist(); render(); broadcastState(); bxBots();
 }
@@ -449,7 +451,8 @@ function bxFinal() {
 /** Each bot is given a risk factor when it first has to bet: 0 is cautious (the small stakes), 1 is bold (big stakes, all in). A quarter of
  *  them are "mixers" whose stakes could be anything. Risky bots double up more often and pass less. */
 function bxRisk(pid) {
-  const b = G.bx; b.risk = b.risk || {};
+  const b = G.bx, own = (G.bots || []).find((x) => x.pid === pid)?.risk; if (own) return own; // a bot with a set nature keeps it
+  b.risk = b.risk || {};
   if (!b.risk[pid]) b.risk[pid] = { r: Math.round(Math.random() * 100) / 100, s: chance(0.25) ? 0.6 : 0.2 };
   return b.risk[pid];
 }
