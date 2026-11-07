@@ -24,7 +24,13 @@ function bxStakes(pot) {
   return [...[0.1, 0.3, 0.5, 0.75].map((f) => Math.max(step, Math.round(base * f / step) * step)).filter((x, i, a) => x < pot && a.indexOf(x) === i), pot];
 }
 /** A team that has lost everything is lent a thousand to carry on with; it comes off its score at the end. */
-function bxBroke(t) { if (t.pot > 0) return false; t.pot = BX_LOAN; t.loan = (t.loan || 0) + BX_LOAN; return true; }
+function bxBroke(t) { if (t.pot > 0) return false; t.owes = true; return true; } // down to nothing: 0 points until its next go, when bxLend steps in
+/** A team that went bankrupt is lent its thousand when its next go comes round, with a pop-up (b.loanNote) on the phones and the big screen. */
+function bxLend() {
+  const b = G.bx, t = b.teams[b.turn]; if (!t || !t.owes) return;
+  t.owes = false; if (t.pot > 0) return; // it has points again (bonus round): no loan needed
+  t.pot = BX_LOAN; t.loan = (t.loan || 0) + BX_LOAN; b.loanNote = { team: t.i, at: Date.now() };
+}
 const bxNet = (t) => Math.max(0, t.pot) - (t.loan || 0);
 const BX_TEAMS = [
   { name: 'Red Dragons', emoji: '🐉', color: '#e5484d' }, { name: 'Blue Sharks', emoji: '🦈', color: '#3b82f6' },
@@ -104,8 +110,8 @@ function bxPublic() {
   const b = G.bx; if (!b) return null; bxSync();
   const c = b.cur;
   return { v: 1, step: b.step, part: b.part, turn: b.turn, solo: !!b.solo, closing: !!b.closing, pickTeam: bxPickTeam(), forcedBy: b.forcedBy || {}, pickNote: b.pickNote || '', total: b.total, cols: b.cols, asked: b.asked, cut: b.cuts[b.part - 1], cats: b.cats, board: b.board.map((x) => x.st), boardBy: b.board.map((x) => x.by ?? -1),
-    teams: b.teams.map((t) => ({ i: t.i, name: t.name, emoji: t.emoji, color: t.color, members: t.members, captain: t.captain, pot: t.pot, loan: t.loan || 0, stakes: bxStakes(t.pot), powers: t.powers, spin: t.spin || null })),
-    votes: b.votes, absorb: b.lastAbsorb || null, names: Object.fromEntries(Object.values(G.players).map((p) => [p.id, { name: p.name, emoji: p.emoji || '' }])),
+    teams: b.teams.map((t) => ({ i: t.i, name: t.name, emoji: t.emoji, color: t.color, members: t.members, captain: t.captain, pot: t.pot, loan: t.loan || 0, owes: !!t.owes, stakes: bxStakes(t.pot), powers: t.powers, spin: t.spin || null })),
+    loanNote: b.loanNote || null, votes: b.votes, absorb: b.lastAbsorb || null, names: Object.fromEntries(Object.values(G.players).map((p) => [p.id, { name: p.name, emoji: p.emoji || '' }])),
     cur: c ? { num: c.num, at: c.openedAt || 0, cat: c.cat, stake: c.stake, dbl: c.dbl, by: c.by, origin: c.origin, mode: c.mode, sub: c.sub || '', canPass: c.mode === 'own' && !c.noPass, passes: (c.passes || 0), locked: c.locked !== undefined, lockedAs: c.locked !== undefined ? c.locked : null,
       q: b.step === 'stake' || b.step === 'open' ? { t: '', kind: c.q.kind, opts: null } : { t: c.q.t, kind: c.q.kind, opts: c.q.opts ? c.q.opts.map((o) => o.t) : null, m: c.q.m || null }, used: c.used || [], res: b.step === 'result' || c.sub === 'judged' ? c.res : null, note: c.note || '' } : null };
 }
@@ -218,13 +224,13 @@ function bxNextTurn() {
   for (const cell of b.board) if (cell.st === 'now') cell.st = 'open'; // nothing is on the table now: a box left half-picked goes back
   if (!b.board.some((x) => x.st === 'open')) b.asked = Math.max(b.asked, b.cuts[b.part - 1]); // and with no box left the part is over, whatever the count
   if (b.asked >= b.cuts[b.part - 1]) { b.lastSnap = true; for (const p of Object.values(G.players)) b.snap[p.id] = p.score; b.step = 'seg'; persist(); return nextFrom(G.qIndex); }
-  b.step = 'pick'; persist(); render(); broadcastState(); bxBots();
+  b.step = 'pick'; bxLend(); persist(); render(); broadcastState(); bxBots();
 }
 /** Skip (the host panel's Skip this question): the box on the table is thrown away, nobody wins or loses, and the next team is up. */
 function bxSkip() {
   const b = G.bx; if (!b) return false;
   if (b.step === 'teams' || b.step === 'vote' || b.step === 'captains') { return false; }
-  if (b.step === 'seg') { b.step = 'pick'; persist(); render(); broadcastState(); bxBots(); return true; }
+  if (b.step === 'seg') { b.step = 'pick'; bxLend(); persist(); render(); broadcastState(); bxBots(); return true; }
   if (b.cur) { const cell = b.board[b.cur.num - 1]; if (cell) cell.st = 'void'; b.asked++; }
   bxNextTurn(); return true;
 }
@@ -296,7 +302,7 @@ document.addEventListener('click', (e) => {
   const el = e.target.closest?.('[data-bx]'); if (!el || !G?.bx) return;
   const k = el.dataset.bx;
   if (k === 'replay') { const m = G.bx.cur?.q.m; if (m) playTune({ media: { url: m.url, start: m.start || 0, length: m.len || 15 } }); } else if (k === 'force') bxForce(); else if (k === 'hostnew') bxHostNew(); else if (k === 'hostright') bxHostJudge(true); else if (k === 'hostwrong') bxHostJudge(false);
-  else if (k === 'flip' && G.bx.step === 'result') { const c = G.bx.cur, r = c.res, t = G.bx.teams[r.team]; if (r.broke) { t.pot -= BX_LOAN; t.loan -= BX_LOAN; } t.pot = Math.max(0, t.pot - r.delta); const cell = G.bx.board[c.num - 1]; const ok = !r.ok; const delta = ok ? (c.dbl ? 3 : 1) * c.stake : -Math.min(c.stake, t.pot); t.pot = Math.max(0, t.pot + delta); cell.st = ok ? 'won' : 'lost'; c.res = { ...r, ok, delta, broke: bxBroke(t) }; persist(); render(); broadcastState(); }
+  else if (k === 'flip' && G.bx.step === 'result') { const c = G.bx.cur, r = c.res, t = G.bx.teams[r.team]; if (r.broke) t.owes = false; t.pot = Math.max(0, t.pot - r.delta); const cell = G.bx.board[c.num - 1]; const ok = !r.ok; const delta = ok ? (c.dbl ? 3 : 1) * c.stake : -Math.min(c.stake, t.pot); t.pot = Math.max(0, t.pot + delta); cell.st = ok ? 'won' : 'lost'; c.res = { ...r, ok, delta, broke: bxBroke(t) }; persist(); render(); broadcastState(); }
 });
 function bxNextBtn() { // the step button for each screen
   const b = G.bx, c = b.cur;
@@ -315,8 +321,8 @@ function bxClickGo() {
   const b = G.bx, c = b.cur;
   if (b.step === 'teams') return bxGo('vote');
   if (b.step === 'vote') return bxCount();
-  if (b.step === 'captains') { b.step = 'pick'; b.votes = {}; persist(); render(); broadcastState(); bxBots(); return; }
-  if (b.step === 'seg') { b.step = 'pick'; b.votes = {}; persist(); render(); broadcastState(); bxBots(); return; }
+  if (b.step === 'captains') { b.step = 'pick'; b.votes = {}; bxLend(); persist(); render(); broadcastState(); bxBots(); return; }
+  if (b.step === 'seg') { b.step = 'pick'; b.votes = {}; bxLend(); persist(); render(); broadcastState(); bxBots(); return; }
   if (b.step === 'open') return bxOpen();
   if (b.step === 'locked') return bxReveal();
   if (b.step === 'result') return bxClose(bxNextTurn);
@@ -374,6 +380,7 @@ function bxQuestionHtml(reveal) {
 }
 function bxRender() {
   const b = G.bx; if (!b) return;
+  bxLoanPopHost();
   bxSync();
   let main = '';
   const t = b.teams[b.turn], c = b.cur;
@@ -433,7 +440,7 @@ function bxScoreboard() {
   requestAnimationFrame(() => $$('.fill').forEach((f) => f.style.width = f.dataset.w + '%'));
   bind();
 }
-const bxBrokeNote = (t) => `<div class="bxnote">💸 ${esc(t.name)} went bankrupt! The bank lends ${bxN(BX_LOAN)} to carry on. It comes off the final score.</div>`;
+const bxBrokeNote = (t) => `<div class="bxnote">💸 ${esc(t.name)} went bankrupt! They are on 0 until their next go, when the bank lends ${bxN(BX_LOAN)} to carry on. It comes off the final score.</div>`;
 function bxFinalHtml() {
   const rows = bxProjected();
   return `<h1 class="big" style="font-size:2.8rem">🏆 ${rows[0].t.emoji} ${esc(rows[0].t.name)} win!</h1><div class="bxteamlist">${rows.map((r, i) => `<div class="bxtl" style="--tc:${r.t.color};${i === 0 ? 'transform:scale(1.08)' : ''}"><h2>${['🥇', '🥈', '🥉', '4.'][i] || i + 1 + '.'} ${r.t.emoji} ${esc(r.t.name)}</h2><div class="bxcapname">${bxN(r.net)}</div>${r.loan ? `<small>after repaying 🏦 ${bxN(r.loan)} borrowed</small>` : ''}<div>${r.t.members.map((m) => `<span class="bxmem">${pem(m)} ${esc(pname(m))}${m === r.t.captain ? ' 👑' : ''}</span>`).join('')}</div></div>`).join('')}</div>`;
@@ -445,6 +452,16 @@ function bxFinal() {
   for (const p of Object.values(G.players)) { const ti = bxTeamOf(p.id); if (ti >= 0) p.score = bxNet(b.teams[ti]); }
   b.winner = b.teams.slice().sort((x, y) => bxNet(y) - bxNet(x))[0]?.i;
   persist();
+}
+
+/** The bank's pop-up on the big screen (a hosted game; on one phone the phone shows it). */
+let bxLoanSeenHost = 0;
+function bxLoanPopHost() {
+  const b = G.bx, n = b?.loanNote; if (!n || b.solo || bxLoanSeenHost === n.at || Date.now() - n.at > 15000 || $('#bxLoanH')) return;
+  const t = b.teams[n.team]; if (!t) return; bxLoanSeenHost = n.at;
+  const d = document.createElement('div'); d.id = 'bxLoanH'; d.className = 'bxloan';
+  d.innerHTML = `<div class="bxloancard"><div class="em">🏦</div><h2>${esc(t.emoji)} ${esc(t.name)}</h2><p>went bankrupt, so the bank lends them <b>${bxN(BX_LOAN)}</b> points to carry on.</p><p class="muted">It comes off their final score.</p></div>`;
+  document.body.appendChild(d); try { sound('ding'); } catch {} setTimeout(() => d.remove(), 6000);
 }
 
 // ---------------------------------------------------------------- bots (test games and the warm-up)

@@ -18,7 +18,7 @@ function bxBoardHtml(s, canPick, votes, sel) {
 }
 function bxKey(s) {
   const g = s.bx, me = bxMe(s), c = g.cur, v = g.votes || {}, sel = P.bxSel;
-  return ['bx', g.step, g.turn, g.pickTeam, JSON.stringify(g.forcedBy), g.asked, g.part, c?.num, c?.q?.t, c?.q?.opts?.length, c?.locked ? 1 : 0, c?.by, c?.mode, c?.sub, c?.dbl ? 1 : 0, c?.stake, c?.at, g.closing ? 1 : 0, c?.res?.delta, me.cap ? 'C' : 'm', me.t?.pot, me.t?.loan, me.t ? Object.values(me.t.powers).join('') : '',
+  return ['bx', g.step, g.turn, g.pickTeam, JSON.stringify(g.forcedBy), g.asked, g.part, c?.num, c?.q?.t, c?.q?.opts?.length, c?.locked ? 1 : 0, c?.by, c?.mode, c?.sub, c?.dbl ? 1 : 0, c?.stake, c?.at, g.closing ? 1 : 0, c?.res?.delta, me.cap ? 'C' : 'm', me.t?.pot, me.t?.loan, g.loanNote?.at, me.t ? Object.values(me.t.powers).join('') : '',
     me.t?.captain, sel ? [sel.v, sel.dbl, sel.power].join() : '', me.cap || g.step === 'vote' ? JSON.stringify(v) : (v[P.pid] ?? '') + (v.ans?.[P.pid] ?? '') + (v.pow?.[P.pid] ?? '') + (v.pass?.[P.pid] ?? ''), g.teams.map((t) => t.pot).join()].join('|');
 }
 function bxPhoneHtml(s) { app.className = 'app'; return s.bx.solo ? bxSoloHtml(s) : bxPhoneBody(s); }
@@ -108,6 +108,7 @@ function bxPhoneBody(s) {
 }
 function bxBind(s) {
   const g = s.bx, me = bxMe(s), sel = bxSel(), redo = () => { P.viewKey = ''; render(); };
+  bxLoanPop(s);
   $$('[data-bxcap]').forEach((b) => b.onclick = () => { bxSend('cap', b.dataset.bxcap); });
   $$('[data-bxn]').forEach((b) => b.onclick = () => { const n = +b.dataset.bxn; bxSend('pick', n); sel.v = n; redo(); });
   if ($('#bxLock')) $('#bxLock').onclick = () => { if (sel.v) { bxSend('pick', sel.v, { go: true }); $('#bxLock').disabled = true; } };
@@ -134,7 +135,17 @@ function bxBind(s) {
   $$('[data-bxtarget]').forEach((b) => b.onclick = () => { bxSend('pow', sel.power || 'make', { go: true, target: +b.dataset.bxtarget }); sel.power = null; });
 }
 
-const bxBrokeP = (g, r) => r.broke ? `<p class="bxbroke">💸 <b>Bankrupt!</b> The bank lends you ${bxFmt(1000)} to carry on. It comes off your score at the end.</p>` : '';
+const bxBrokeP = (g, r) => r.broke ? `<p class="bxbroke">💸 <b>${esc(g.teams[r.team]?.name || 'Bankrupt')}</b> is bankrupt: 0 points until the next go, when the bank lends ${bxFmt(1000)}. It comes off the final score.</p>` : '';
+/** The bank's pop-up, shown once per loan to everyone playing; tap it or wait and it goes. */
+function bxLoanPop(s) {
+  const g = s.bx, n = g.loanNote; if (!n || P.bxLoanSeen === n.at || Date.now() - n.at > 15000 || $('#bxLoan')) return;
+  const me = bxMe(s), t = g.teams[n.team]; if (!t) return;
+  const mine = n.team === me.ti, who = g.solo ? 'you' : 'your team';
+  const d = document.createElement('div'); d.id = 'bxLoan'; d.className = 'bxloan';
+  d.innerHTML = `<div class="bxloancard"><div class="em">🏦</div>${mine ? `<h2>The bank is lending ${who} ${bxFmt(1000)}</h2><p>You went bankrupt, so here is ${bxFmt(1000)} to carry on with. It comes off your score at the end.</p>` : `<h2>${t.emoji} ${esc(t.name)}</h2><p>went bankrupt, so the bank lends them ${bxFmt(1000)} to carry on.</p>`}<button type="button" class="btn btn-primary btn-lg btn-block">${mine ? 'Thanks, bank!' : 'OK'}</button></div>`;
+  const gone = () => { P.bxLoanSeen = n.at; d.remove(); };
+  d.onclick = gone; document.body.appendChild(d); setTimeout(gone, mine ? 12000 : 5000);
+}
 const bxNextBtn = (g) => g.solo ? '<button type="button" class="btn btn-primary btn-lg btn-block" id="bxNext">Next ▶</button>' : '';
 
 // ---------------------------------------------------------------- the warm-up: everything on this one phone

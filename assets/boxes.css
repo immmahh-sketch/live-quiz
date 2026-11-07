@@ -193,3 +193,10 @@
 .bxtbar { flex: 1 1 auto; max-width: 260px; height: 8px; border-radius: 4px; background: rgba(0,0,0,.2); overflow: hidden; }
 .bxtbar i { display: block; height: 100%; width: 0; background: #ffd60a; }
 .bxcab.ph .bxcabrow { flex: none; }
+
+.bxloan { position: fixed; inset: 0; z-index: 400; display: flex; align-items: center; justify-content: center; background: rgba(15,10,45,.7); padding: 18px; animation: bxLoanIn .25s ease-out; }
+.bxloancard { background: #fff; color: #1b1544; border-radius: 22px; padding: 22px 20px; max-width: 420px; width: 100%; text-align: center; box-shadow: 0 18px 50px rgba(0,0,0,.45); }
+.bxloancard .em { font-size: 3.2rem; }
+.bxloancard h2 { margin: 6px 0 8px; }
+.bxloancard p { margin: 0 0 10px; font-weight: 700; }
+@keyframes bxLoanIn { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: none; } }
