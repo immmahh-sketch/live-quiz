@@ -642,6 +642,7 @@ function partyIntroSub(q) {
 function partyRenderQuestion() {
   const q = question();
   if (q.type === 'cards') { if (G.q.pc) pcRender(); return true; }
+  if (q.type === 'boxes') { if (G.bx) bxRender(); return true; }
   if (q.type === 'behind') { if (G.q.ob) obRender(); return true; }
   if (q.type === 'intro') { if (G.q.bi) biRender(); return true; }
   if (q.type === 'task' && G.q.tm) { tmRender(); return true; }

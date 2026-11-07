@@ -11,6 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/boxes.css?v=20261107b">
 <link rel="stylesheet" href="assets/train.css">
 </head>
 <body class="host">
@@ -29,6 +30,7 @@
 <script src="assets/dpad.js"></script>
 <script src="assets/demo-quiz.js"></script>
 <script src="assets/party.js"></script>
+<script src="assets/boxes.js?v=20261107b"></script>
 <script src="assets/letter.js"></script>
 <script src="assets/traitors.js"></script>
 <script src="assets/team.js"></script>
@@ -588,6 +590,7 @@ function stateForPlayers() {
     }
     if (G.q.uq) { const g = G.q.uq; s.uq = { step: g.step, remainingMs: g.until ? Math.max(0, g.until - nowT) : 0, totalMs: g.total, round: g.pi + 1, prompt: uqText(g.prompts[g.pi]), alive: g.alive, answered: g.step === 'ask' ? Object.keys(g.answers) : [], winners: g.winners,
       results: g.step === 'judge' ? g.alive.map((pid) => ({ pid, a: g.answers[pid] || '', out: uqIsOut(g, pid), host: g.override[pid] !== undefined, mates: g.matchWith[pid] || [], why: g.why?.[pid] || '' })) : null }; }
+    if (G.q.bx && G.bx) s.bx = bxPublic();
     if (s.potato || s.koth || s.bb || s.chase || s.draw || s.uq) s.names = Object.fromEntries(Object.values(G.players).map((p) => [p.id, { name: p.name, emoji: p.emoji || '' }]));
     if (G.q.tq) { const t = G.q.tq; s.tq = { over: t.over, maxQ: G.q.view.maxQ, solved: t.solved, players: Object.fromEntries(Object.entries(t.players).map(([pid, p]) => [pid, { n: p.n, asked: p.asked, guesses: p.guesses.map((g) => ({ t: g.t, ok: g.ok })), done: p.done, out: p.out, place: p.place }])) }; }
     if (G.q.race) { const r = G.q.race; s.race = { winner: r.winner, winnerName: r.winner ? G.players[r.winner]?.name : null, over: r.over, target: G.q.view.target, maxWrong: G.q.view.maxWrong ?? 10, players: Object.fromEntries(Object.entries(r.players).map(([pid, p]) => [pid, { idx: p.idx, correct: p.correct, wrong: p.wrong, out: p.out, why: p.why, done: p.done }])) }; }
@@ -682,7 +685,7 @@ function addViewer(pid, name, emoji) {
   if (!G.viewers[pid]) { G.viewers[pid] = { id: pid, name, emoji: LQ.EMOJIS.includes(emoji) ? emoji : '', score: 0 }; persist(); }
   clearTimeout(helloT); helloT = setTimeout(broadcastState, 150);
 }
-const groupGame = () => !!(G.q && (G.q.wipe || G.q.race || G.q.tq || G.q.potato || G.q.koth || G.q.bb || G.q.chase || G.q.draw || G.q.uq || G.q.pc || G.q.task || G.q.tm || G.q.ob || G.q.bi));
+const groupGame = () => !!(G.q && (G.q.wipe || G.q.race || G.q.tq || G.q.potato || G.q.koth || G.q.bb || G.q.chase || G.q.draw || G.q.uq || G.q.pc || G.q.task || G.q.tm || G.q.ob || G.q.bi || G.q.bx));
 function viewerAnswer(pid, qId, answer) {
   if (groupGame()) return; // watched, not played
   G.q.vAnswers = G.q.vAnswers || {};
@@ -726,6 +729,7 @@ function onAnswer({ pid, qId, answer, low, by, dev, say }) {
   if (G.flash) return; // the picture is up: the phone sends it again afterwards
   if (G.viewers?.[pid]) return viewerAnswer(pid, qId, answer);
   if (!G.players[pid]) { onHello({ pid, name: present.get(pid) || 'Player' }); }
+  if (G.q.bx) return bxAnswer(pid, answer);
   if (G.q.wipe) return wipePick(pid, String(answer));
   if (G.q.race) return racePick(pid, answer);
   if (G.q.tq) return twentyPick(pid, answer);
@@ -1093,7 +1097,7 @@ function markPlayed(i) {
   G.played[q.id] = 1;
 }
 /** Back: the previous slide, or the previous question asked again without points. */
-function canBack() { return !PREVIEW && !WARMUP && !G.warmup && !['lobby', 'final'].includes(G.phase) && G.qIndex > 0; }
+function canBack() { return !PREVIEW && !WARMUP && !G.warmup && !['lobby', 'final'].includes(G.phase) && G.qIndex > 0 && !(G.bx && question()?.type === 'boxes'); }
 function goBack() {
   if (trOn() && G.tr.screen) { if (G.tr.screen.kind === 'notice') { G.tr.screen = null; persist(); broadcastState(); render(); } return; } // a Traitors screen: only a notice can be put away
   if (!canBack()) return;
@@ -1105,6 +1109,7 @@ function goBack() {
 function canSkip() { return !PREVIEW && !WARMUP && !G.warmup && !['lobby', 'final'].includes(G.phase) && G.qIndex >= 0; }
 function skipNow() {
   if (!canSkip()) return;
+  if (G.phase === 'question' && question()?.type === 'boxes' && typeof bxSkip === 'function' && bxSkip()) return; // Box Clever: bins the box on the table, not the whole game
   clearTimeout(autoT); clearInterval(tickT); clearInterval(countT); clearInterval(brkT); if (typeof stopTune === 'function') stopTune();
   if (G.paused) togglePause(false, true);
   G.raceIntro = null;
@@ -2167,7 +2172,7 @@ function startQuestion() {
   const q = question();
   const { view, keys, rows } = buildView(q);
   if (typeof biCleanup === 'function') biCleanup();
-  const now = Date.now(), own = ['wipeout', 'potato', 'koth', 'blockbusters', 'chase', 'draw', 'unique', 'cards', 'behind', 'intro'].includes(q.type) || (q.type === 'task' && !WARMUP); // these run their own clocks
+  const now = Date.now(), own = ['wipeout', 'potato', 'koth', 'blockbusters', 'chase', 'draw', 'unique', 'cards', 'behind', 'intro', 'boxes'].includes(q.type) || (q.type === 'task' && !WARMUP); // these run their own clocks
   G.q = { view, keys, rows, startedAt: now, deadline: own ? null : now + q.time * 1000, answers: {}, results: null };
   if (q.kind === 'reveal') G.q.reveal = revealPlan(q, now);
   if (q.type === 'wheel') { G.q.wheelRevealed = (q.startLetters || '').toUpperCase().replace(/[^A-Z]/g, '').replace(/[AEIOU]/g, ''); /* no vowels, even to start */ G.q.nextReveal = now + (q.revealEvery || 4) * 1000; }
@@ -2175,6 +2180,7 @@ function startQuestion() {
   G.phase = 'question'; persist();
   if (q.type === 'cards' || (q.type === 'task' && !WARMUP)) { botClear(); if (q.type === 'cards') pcStart(); else taskStart(); startTick(); musicStart(q); return; }
   if (q.type === 'unique') { botClear(); uqStart(); startTick(); musicStart(q); return; }
+  if (q.type === 'boxes') { botClear(); bxStart(); musicStart(q); return; } // no clocks: the captains take as long as they like
   if (q.type === 'behind') { botClear(); obStart(); startTick(); musicStart(q); return; }
   if (q.type === 'intro') { botClear(); biStart(); startTick(); return; } // no background music: the song is the music
   if (q.type === 'potato' || q.type === 'koth' || q.type === 'blockbusters' || q.type === 'chase' || q.type === 'draw') { botClear(); if (q.type === 'potato') potatoStart(); else if (q.type === 'koth') kothStart(); else if (q.type === 'chase') chaseStart(); else if (q.type === 'draw') drawStart(); else bbStart(); startTick(); musicStart(q); return; }
@@ -2286,6 +2292,7 @@ function buildReport() {
 }
 function showScoreboard() { G.phase = 'scoreboard'; persist(); render(); broadcastState(); }
 async function finish() {
+  if (typeof bxFinal === 'function') bxFinal(); // Box Clever: every player carries their team's pot
   trPayHidden(); // the Traitors' secret bonuses (assets/traitors.js)
   clkFinal();
   G.phase = 'final'; persist(); render(); broadcastState(); if (!G.quiz.settings?.noScores) confetti();
@@ -3550,6 +3557,7 @@ function drawPins() {
   img.onload = draw; if (img.complete) draw(); window.onresize = draw;
 }
 function renderScoreboard() {
+  if (G.bx && typeof bxScoreboard === 'function') return bxScoreboard(); // Box Clever: the teams' pots, with the bonus round's points in
   const rk = ranked().slice(0, 5), top = Math.max(1, rk[0]?.score || 1), R = G.q?.results?.byPlayer || {};
   stage.innerHTML = `${topBar()}<div class="stage-main"><h1 class="big" style="font-size:2.6rem">Scoreboard <span class="small" style="opacity:.45;font-size:.85rem;font-weight:700">· click a name to remove a player who has left</span></h1><div class="board">${rk.map((p, i) => `<div class="brow"><div class="fill" data-w="${(p.score / top) * 100}"></div><div class="rank">${i + 1}</div><div><span data-kick="${p.id}">${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}</span>${R[p.id]?.points ? `<span class="delta" ${R[p.id].points < 0 ? 'style="color:#ffb3c0"' : ''}>${R[p.id].points > 0 ? '+' : ''}${R[p.id].points}</span>` : ''}</div><div>${p.score}</div></div>`).join('')}</div></div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">${G.qIndex + 1 < G.quiz.questions.length ? 'Next ▶' : 'Final results 🏆'}</button>`)}`;
@@ -3564,9 +3572,9 @@ function renderFinal() {
   const rk = ranked();
   const pod = (i, cls) => rk[i] ? `<div class="pod ${cls}"><div class="name"><div class="podface">${face(rk[i].id, rk[i].emoji || '🙂')}</div>${esc(rk[i].name)}</div><div class="score">${rk[i].score} pts</div><div class="block">${i + 1}</div></div>` : '';
   stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">Final results</span></div></div>
-    <div class="stage-main"><h1 class="big" style="font-size:2.6rem">🏆 ${rk[0] ? esc(rk[0].name) + ' wins!' : 'Game over'}</h1>
-      <div class="podium">${pod(1, 'p2')}${pod(0, 'p1')}${pod(2, 'p3')}</div>
-      ${rk.length > 3 ? `<div class="textlist">${rk.slice(3, 15).map((p, i) => `<span class="tl">${i + 4}. ${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)} · ${p.score}</span>`).join('')}</div>` : ''}
+    <div class="stage-main">${G.bx && typeof bxFinalHtml === 'function' ? bxFinalHtml() : ''}<h1 class="big" style="font-size:2.6rem${G.bx ? ';display:none' : ''}">🏆 ${rk[0] ? esc(rk[0].name) + ' wins!' : 'Game over'}</h1>
+      <div class="podium" style="${G.bx ? 'display:none' : ''}">${pod(1, 'p2')}${pod(0, 'p1')}${pod(2, 'p3')}</div>
+      ${rk.length > 3 && !G.bx ? `<div class="textlist">${rk.slice(3, 15).map((p, i) => `<span class="tl">${i + 4}. ${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)} · ${p.score}</span>`).join('')}</div>` : ''}
       <p class="small clicktip" style="opacity:.5;margin-top:10px">Players can be removed from the scoreboard during the game by clicking their name.</p></div>
     ${hostBar(`<a class="btn btn-ghost ${G.reportId ? '' : 'hidden'}" id="reportBtn" href="index.html?game=${G.reportId || ''}" target="_blank">📊 Report</a><button class="btn btn-ghost" data-act="builder">${TV ? '🏠 Home' : PREVIEW ? 'Close preview' : 'Back to builder'}</button>${G.quizId && !PREVIEW && (G.test || players().every((p) => p.id.startsWith('p_bot'))) ? '<button class="btn btn-ghost" data-act="restock" title="Just testing? Put every question back into the bank as unused and delete this quiz">↩ Return questions to the bank</button>' : ''}<button class="btn btn-primary" data-act="again">Play again ↻</button>`)}`;
   bind();

@@ -815,7 +815,7 @@ function hostCtl(name) {
       if (nb.kind === 'primary') { primaryAction(); return ''; }
       if (nb.kind === 'step') { nb.el.click(); return ''; }
       if (nb.kind === 'many') return 'This game has a choice to make: ' + nb.steps.map((b) => b.textContent.trim()).join(' or ') + '. Press it on the host screen.';
-      return 'This game moves on by itself. Wait for it to finish, or press Skip this question.';
+      return (typeof bxWaitNote === 'function' && G.bx && question()?.type === 'boxes' && bxWaitNote()) || 'This game moves on by itself. Wait for it to finish, or press Skip this question.';
     }
     if (name === 'skip') {
       if (document.querySelector('.modal-bg')) return 'A box is open on the host screen: close it there first.';

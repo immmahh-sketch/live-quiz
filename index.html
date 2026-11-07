@@ -502,6 +502,7 @@ function kAnswer(q) {
   if (q.type === 'nearest') return '✓ ' + (q.answer ?? '') + (q.unit ? ' ' + q.unit : '');
   if (q.type === 'unique') return `☝️ ${(q.prompts || []).length} prompts`;
   if (q.type === 'draw') return `🎨 ${q.turns || 3} drawings`;
+  if (q.type === 'boxes') return `📦 Box Clever, part ${q.part || 1} of 4${q.cats ? ` · ${q.cats.length} categories, ${q.cats.reduce((a, c) => a + (c.qs || []).length, 0)} questions in the pool` : ''}`;
   if (q.type === 'twenty') return '🕵️ ' + ((q.answers || [])[0] || '?');
   if (q.type === 'intro') return '🎧 ' + (q.song || 'Beat the Intro');
   if (q.type === 'order') return (q.items || []).map((i) => i.text).join(' → ');
@@ -1535,7 +1536,7 @@ function renderQForm() {
     ${ck ? `<div class="checknote ${ck}"><b>${{ ok: '✓ Checked: looks right.', doubt: '? Worth a look.', wrong: '✗ Looks wrong.', stale: '~ Changed since it was checked.' }[ck]}</b> ${esc(q.check.note || '')}${q.check.fix && ck !== 'ok' ? `<div class="mt" style="margin-top:6px"><b>Suggested answer:</b> ${esc(q.check.fix)}</div>` : ''}<div class="row" style="margin-top:8px;gap:6px"><button class="btn btn-ghost btn-sm" id="recheck">Check again</button><button class="btn btn-ghost btn-sm" id="clearCheck">Dismiss</button></div></div>` : ''}
     ${q.type === 'wheel' ? '' : `<div class="field"><label>${q.type === 'smash' ? 'The clue' : q.type === 'highlow' ? 'The highbrow clue' : q.type === 'rhyme' ? 'The first clue' : q.type === 'dingbat' ? 'Instruction on the screen (optional)' : q.type === 'tune' ? 'Wording on the screen (optional — the ask below sets a default)' : 'Question'}</label><textarea id="f_text" placeholder="${esc(placeholderFor(q.type))}">${esc(q.text)}</textarea></div>`}
     <div id="typeBox"></div>
-    ${['wheel', 'tune', 'cards', 'behind', 'task', 'about', 'whosaid', 'intro'].includes(q.type) || q.kind === 'conundrum' ? '' : `<div class="field"><label>${q.type === 'pin' ? 'Picture to drop the pin on' : q.type === 'smash' ? 'The picture' : 'On the screen'}</label><div id="mediaBox"></div></div>`}
+    ${['wheel', 'tune', 'cards', 'behind', 'task', 'about', 'whosaid', 'intro', 'boxes'].includes(q.type) || q.kind === 'conundrum' ? '' : `<div class="field"><label>${q.type === 'pin' ? 'Picture to drop the pin on' : q.type === 'smash' ? 'The picture' : 'On the screen'}</label><div id="mediaBox"></div></div>`}
     <div class="row" style="align-items:flex-end">
       <div class="field" style="max-width:180px${q.type === 'potato' ? ';display:none' : ''}"><label>${q.type === 'wipeout' ? 'Seconds per turn' : q.type === 'race' ? 'Race time limit (seconds)' : q.type === 'koth' ? 'Seconds to answer or buzz' : q.type === 'blockbusters' || q.type === 'chase' ? 'Seconds per question' : q.type === 'cards' ? 'Seconds for each call' : q.type === 'behind' ? 'Seconds for each answer' : q.type === 'task' ? (q.mode === 'photo' || !q.mode ? 'Seconds to take the photo' : 'Seconds for each task') : 'Time limit (seconds)'}</label><input type="number" id="f_time" min="${q.type === 'wipeout' ? 3 : 5}" max="${q.type === 'race' || q.type === 'task' ? 600 : 180}" value="${q.time}"></div>
       ${q.type === 'wipeout' ? `<div class="field" style="max-width:160px"><label>Points per right pick</label><input type="number" id="f_pick" min="0" max="5000" value="${q.pickPoints ?? 200}"></div><div class="field" style="max-width:160px"><label>Wipeout penalty</label><input type="number" id="f_penalty" min="0" max="5000" value="${q.penalty == null || +q.penalty === 500 ? 100 : q.penalty}"></div><div class="field" style="max-width:190px"><label>Look at the board first (seconds)</label><input type="number" id="f_study" min="0" max="60" value="${q.study ?? 20}"></div>` : ''}
@@ -1544,7 +1545,7 @@ function renderQForm() {
       ${(q.type === 'text' && q.kind !== 'conundrum') || q.type === 'highlow' || q.type === 'rhyme' || q.type === 'club' || q.type === 'dingbat' || q.type === 'tune' ? `<label class="check" style="margin-bottom:14px"><input type="checkbox" id="f_ai" ${q.ai !== false ? 'checked' : ''}> Let AI judge spelling and wording</label>` : ''}
       ${S.quiz.rounds.find((r) => r.id === q.round)?.practice ? '<span class="muted small" style="margin-bottom:14px">🧪 Practice: the whole round scores nothing</span>' : `<label class="check" style="margin-bottom:14px" title="Played in full, but the points don&#39;t count: good for showing people how a game works"><input type="checkbox" id="f_practice" ${q.practice ? 'checked' : ''}> 🧪 Practice: no points</label>`}
     </div>
-    ${['club', 'wheel', 'tune', 'cards', 'behind', 'intro', 'task', 'about', 'whosaid', 'draw', 'twenty', 'race', 'potato', 'koth', 'chase', 'blockbusters', 'wipeout', 'unique'].includes(q.type) ? '' : `<div class="field"><label>Why <span class="muted">— optional: a line shown under the right answer on the screen and the phones (a training note)</span></label><textarea id="f_why" rows="2" placeholder="e.g. A third time goes on paper: the form shows what was agreed.">${esc(q.why || '')}</textarea></div>`}
+    ${['club', 'wheel', 'tune', 'cards', 'behind', 'intro', 'task', 'about', 'whosaid', 'draw', 'twenty', 'race', 'potato', 'koth', 'chase', 'blockbusters', 'wipeout', 'unique', 'boxes'].includes(q.type) ? '' : `<div class="field"><label>Why <span class="muted">— optional: a line shown under the right answer on the screen and the phones (a training note)</span></label><textarea id="f_why" rows="2" placeholder="e.g. A third time goes on paper: the form shows what was agreed.">${esc(q.why || '')}</textarea></div>`}
     ${q.kind === 'reveal' ? `<div class="row"><div class="field" style="max-width:240px"><label>How the picture is revealed</label><select id="f_rstyle"><option value="tiles" ${q.revealStyle !== 'blur' ? 'selected' : ''}>Tiles flip over one by one</option><option value="blur" ${q.revealStyle === 'blur' ? 'selected' : ''}>A blur slowly clears</option></select></div>${q.revealStyle === 'blur' ? '' : `<div class="field" style="max-width:140px"><label>Tiles (12–20)</label><input type="number" id="f_tiles" min="12" max="20" value="${q.tiles || 16}"></div>`}</div>` : ''}
     <div id="problems"></div>`;
   if ($('#f_rstyle')) $('#f_rstyle').onchange = (e) => { q.revealStyle = e.target.value; touch(); renderQForm(); };
@@ -1638,7 +1639,7 @@ function renderSlideForm(q) {
   if ($('#mediaBox')) renderMediaBox(); showProblems();
 }
 /** Party games filled in by hand: the bank and the AI writer don't make them, so Swap and Bad question don't apply. */
-const HAND_MADE = ['task', 'about', 'whosaid', 'behind', 'intro'];
+const HAND_MADE = ['task', 'about', 'whosaid', 'behind', 'intro', 'boxes'];
 /** 🔄 Swap (how 'swap': nothing wrong with it, it goes back into the bank unused) or 👎 Bad question (how 'reject': stamped
  *  rejected in the bank). The question stays where it is, marked "swapping…", until its replacement has arrived; then the bank
  *  is told and the new one takes its place. If nothing comes back, the old one simply stays. */
@@ -1767,6 +1768,10 @@ function renderTypeBox() {
         $('#bi_tapstop').onclick = () => { q.stopAt = Math.max(0.5, Math.round((now() - st()) * 10) / 10); $('#bi_stop').value = q.stopAt; touch(); showProblems(); };
       }).catch(() => note('YouTube could not be loaded here.', true));
     }
+  }
+  if (q.type === 'boxes') {
+    box.innerHTML = `<div class="notice">📦 <b>Box Clever</b>: the team gambling game. It is built by script (<code>node tools/build-boxes.mjs</code>), not in this editor, and parts 2 to 4 carry on from part 1, which holds the question pool${q.cats ? ` (${q.cats.length} categories, ${(q.reserve || []).length} spares, ${(q.hostq || []).length} questions you have not seen for "Make the host answer")` : ''}. <b>Don't open the pool</b> if you want to stay in the dark. Delete or reorder the bonus rounds around it freely.</div>`;
+    return;
   }
   if (q.type === 'behind') {
     q.items = Array.isArray(q.items) && q.items.length ? q.items : [{ q: '', a: '' }];
