@@ -15,12 +15,13 @@
  * Phones talk to it with answer payloads { bx: 'v', k, v, go, dbl, target }: see bxAnswer. */
 const BX_START = 10000, BX_LOAN = 1000;
 const BX_SOLO = [{ color: '#3b82f6' }, { color: '#e5484d' }, { color: '#30a46c' }, { color: '#f5a524' }, { color: '#a855f7' }, { color: '#14b8a6' }];
-/** The stake buttons for a pot: 10%, 30%, 50% and 75% of it, then all in. On 1,000 that is 100, 300, 500, 750; on 5,000 it is 500, 1,500,
- *  2,500, 3,750; on 10,000 it is 1,000, 3,000, 5,000, 7,500; on 100,000 it is 10,000, 30,000, 50,000, 75,000. A team can also type its own. */
+/** The stake buttons for a pot: 10%, 30%, 50% and 75% of a base, then all in. The base only steps up with every 5,000 held, so 1,000 to 4,999
+ *  plays as 1,000 (100, 300, 500, 750), 5,000 to 9,999 as 5,000 (500, 1,500, 2,500, 3,750), 10,000 to 14,999 as 10,000 (1,000, 3,000, 5,000,
+ *  7,500), and 100,000 as 100,000 (10,000, 30,000, 50,000, 75,000). Under 1,000 the base is the pot itself. A team can also type its own. */
 function bxStakes(pot) {
   pot = Math.max(0, Math.round(pot)); if (pot <= 0) return [];
-  const step = pot < 1000 ? 10 : pot < 10000 ? 50 : pot < 100000 ? 250 : 1000;
-  return [...[0.1, 0.3, 0.5, 0.75].map((f) => Math.max(step, Math.round(pot * f / step) * step)).filter((x, i, a) => x < pot && a.indexOf(x) === i), pot];
+  const base = pot < 1000 ? pot : pot < 5000 ? 1000 : Math.floor(pot / 5000) * 5000, step = base < 1000 ? 10 : 50;
+  return [...[0.1, 0.3, 0.5, 0.75].map((f) => Math.max(step, Math.round(base * f / step) * step)).filter((x, i, a) => x < pot && a.indexOf(x) === i), pot];
 }
 /** A team that has lost everything is lent a thousand to carry on with; it comes off its score at the end. */
 function bxBroke(t) { if (t.pot > 0) return false; t.pot = BX_LOAN; t.loan = (t.loan || 0) + BX_LOAN; return true; }
