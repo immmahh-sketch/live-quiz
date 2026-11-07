@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
-<link rel="stylesheet" href="assets/boxes.css?v=20261107b">
+<link rel="stylesheet" href="assets/boxes.css?v=20261107e">
 <link rel="stylesheet" href="assets/train.css">
 </head>
 <body class="host">
@@ -30,7 +30,7 @@
 <script src="assets/dpad.js"></script>
 <script src="assets/demo-quiz.js"></script>
 <script src="assets/party.js"></script>
-<script src="assets/boxes.js?v=20261107b"></script>
+<script src="assets/boxes.js?v=20261107e"></script>
 <script src="assets/letter.js"></script>
 <script src="assets/traitors.js"></script>
 <script src="assets/team.js"></script>
@@ -2329,11 +2329,13 @@ function kickPlayer(pid) {
 }
 /** Closing a preview: a tab opened by the builder can close itself, but phones and installed apps refuse, so if it is still here a moment later it goes back to the builder instead. */
 function closePreview() {
+  leavingNow();
   try { window.close(); } catch {}
   setTimeout(() => { if (!window.closed) { if (history.length > 1 && document.referrer) history.back(); else location.href = 'index.html'; } }, 300);
 }
 /** Back to the builder. A host window opened from the builder (window.open) goes back to that window and closes itself: an installed app hands the builder's address to its own window, so loading it here looked like the button doing nothing. Otherwise it simply goes there. */
 function backToBuilder() {
+  leavingNow();
   const url = TV ? 'tv.html' : 'index.html?quiz=' + G.quizId;
   if (!TV && window.opener && !window.opener.closed) {
     try { window.opener.focus(); } catch {}
@@ -3597,7 +3599,10 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowLeft' && !TV && !document.querySelector('.modal-bg') && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName || '')) { e.preventDefault(); return goBack(); }
   if (e.key === ' ' || e.key === 'Enter' || e.key === 'ArrowRight' || e.code === 'Space') { e.preventDefault(); if (!document.querySelector('.modal-bg')) primaryAction(); }
 });
-if (!TV) window.addEventListener('beforeunload', (e) => { if (G && G.phase !== 'lobby' && G.phase !== 'final') { e.preventDefault(); e.returnValue = ''; } });
+/* The "Leave site?" guard protects against a stray tab close, but not against the host's own Close / Back / End buttons: Chrome only raises it once the page has been clicked, and an installed app swallows it, so those buttons did nothing. They set leaving first. */
+let leaving = false;
+function leavingNow() { leaving = true; setTimeout(() => { leaving = false; }, 3000); }
+if (!TV) window.addEventListener('beforeunload', (e) => { if (!leaving && G && G.phase !== 'lobby' && G.phase !== 'final') { e.preventDefault(); e.returnValue = ''; } });
 </script>
 </body>
 </html>

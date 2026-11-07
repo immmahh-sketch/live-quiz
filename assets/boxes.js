@@ -13,7 +13,18 @@
  * Pool on the item (part 1): q.cats = [{ name, emoji, qs: [Q] }], q.reserve = [Q] (swaps), q.hostq = [Q] (questions the host has
  * never seen, for "Make the host answer"). Q is { t, o: [right, wrong, wrong, wrong] } or { t, a: [accepted answers], w: 'a wrong answer that looks right' }.
  * Phones talk to it with answer payloads { bx: 'v', k, v, go, dbl, target }: see bxAnswer. */
-const BX_START = 10000, BX_CHIPS = [100, 250, 500, 1000, 2000, 5000];
+const BX_START = 10000, BX_LOAN = 1000;
+const BX_SOLO = [{ color: '#3b82f6' }, { color: '#e5484d' }, { color: '#30a46c' }, { color: '#f5a524' }, { color: '#a855f7' }, { color: '#14b8a6' }];
+/** The stake buttons for a pot: 10%, 30%, 50% and 75% of it, then all in. On 1,000 that is 100, 300, 500, 750; on 5,000 it is 500, 1,500,
+ *  2,500, 3,750; on 10,000 it is 1,000, 3,000, 5,000, 7,500; on 100,000 it is 10,000, 30,000, 50,000, 75,000. A team can also type its own. */
+function bxStakes(pot) {
+  pot = Math.max(0, Math.round(pot)); if (pot <= 0) return [];
+  const step = pot < 1000 ? 10 : pot < 10000 ? 50 : pot < 100000 ? 250 : 1000;
+  return [...[0.1, 0.3, 0.5, 0.75].map((f) => Math.max(step, Math.round(pot * f / step) * step)).filter((x, i, a) => x < pot && a.indexOf(x) === i), pot];
+}
+/** A team that has lost everything is lent a thousand to carry on with; it comes off its score at the end. */
+function bxBroke(t) { if (t.pot > 0) return false; t.pot = BX_LOAN; t.loan = (t.loan || 0) + BX_LOAN; return true; }
+const bxNet = (t) => Math.max(0, t.pot) - (t.loan || 0);
 const BX_TEAMS = [
   { name: 'Red Dragons', emoji: '🐉', color: '#e5484d' }, { name: 'Blue Sharks', emoji: '🦈', color: '#3b82f6' },
   { name: 'Green Frogs', emoji: '🐸', color: '#30a46c' }, { name: 'Gold Lions', emoji: '🦁', color: '#f5a524' },
@@ -37,9 +48,17 @@ function bxSizes(n) {
   return { teams, total, cols: total / 5, cuts: [0.24, 0.5, 0.74, 1].map((f) => Math.round(total * f)) };
 }
 function bxInit(q) {
-  const ps = bxShuffle(bxPids()), sz = bxSizes(ps.length);
-  const teams = BX_TEAMS.slice(0, sz.teams).map((t, i) => ({ i, ...t, members: [], captain: null, pot: BX_START, powers: { double: 1, swap: 1, make: 1, host: 1, fifty: 1, pickfor: 1 } }));
-  ps.forEach((p, i) => teams[i % teams.length].members.push(p));
+  const solo = !!WARMUP || !!q.solo, isBot = (p) => (G.bots || []).some((x) => x.pid === p), start = +q.start || BX_START;
+  let ps = bxShuffle(bxPids()), sz = bxSizes(ps.length), teams;
+  if (solo) { // the warm-up: one phone, everyone for themselves (the real player first), no host to ask, so no "Make the host answer"
+    ps = [...ps.filter((p) => !isBot(p)), ...ps.filter(isBot)];
+    const cols = +q.cols || 10, total = cols * 5;
+    sz = { teams: ps.length, total, cols, cuts: q.cuts || [0.24, 0.5, 0.74, 1].map((f) => Math.round(total * f)) };
+    teams = ps.map((p, i) => ({ i, name: G.players[p].name, emoji: G.players[p].emoji || '🙂', color: BX_SOLO[i % BX_SOLO.length].color, members: [p], captain: p, pot: start, loan: 0, powers: { double: 1, swap: 1, make: 1, fifty: 1, pickfor: 1 } }));
+  } else {
+    teams = BX_TEAMS.slice(0, sz.teams).map((t, i) => ({ i, ...t, members: [], captain: null, pot: start, loan: 0, powers: { double: 1, swap: 1, make: 1, host: 1, fifty: 1, pickfor: 1 } }));
+    ps.forEach((p, i) => teams[i % teams.length].members.push(p));
+  }
   const cats = bxShuffle(q.cats || []).slice(0, 5), reserve = bxShuffle(q.reserve || []);
   const board = [];
   cats.forEach((c, r) => {
@@ -47,7 +66,7 @@ function bxInit(q) {
     for (let k = 0; k < sz.cols; k++) board.push({ cat: r, q: qs[k] || reserve.pop() || { t: 'A spare question: what is 2 + 2?', o: ['4', '3', '5', '22'] }, st: 'open' });
     reserve.push(...qs.slice(sz.cols));
   });
-  G.bx = { v: 1, ...sz, cats: cats.map((c) => ({ n: c.name, e: c.emoji || '' })), board, teams, turn: 0, asked: 0, part: 1, step: 'teams', votes: {}, cur: null, reserve: bxShuffle(reserve), hostq: bxShuffle(q.hostq || []), snap: Object.fromEntries(Object.values(G.players).map((p) => [p.id, p.score])), log: [] };
+  G.bx = { v: 1, solo, start, ...sz, cats: cats.map((c) => ({ n: c.name, e: c.emoji || '' })), board, teams, turn: 0, asked: 0, part: 1, step: solo ? 'seg' : 'teams', votes: {}, cur: null, reserve: bxShuffle(reserve), hostq: bxShuffle(q.hostq || []), snap: Object.fromEntries(Object.values(G.players).map((p) => [p.id, p.score])), log: [] };
 }
 /** Points earned by individuals in the bonus rounds since the last look go into their team's pot. */
 function bxAbsorb() {
@@ -55,13 +74,13 @@ function bxAbsorb() {
   const got = {};
   for (const p of Object.values(G.players)) {
     const ti = bxTeamOf(p.id), d = p.score - (b.snap[p.id] ?? p.score); b.snap[p.id] = p.score;
-    if (ti >= 0 && d) { b.teams[ti].pot = Math.max(0, b.teams[ti].pot + d); got[ti] = (got[ti] || 0) + d; }
+    if (ti >= 0 && d) { const t = b.teams[ti]; t.pot = Math.max(0, t.pot + d); bxBroke(t); got[ti] = (got[ti] || 0) + d; }
   }
   return got;
 }
 /** A player who joins after the teams were made goes to the smallest team. */
 function bxSync() {
-  const b = G.bx; if (!b || b.step === 'teams') return;
+  const b = G.bx; if (!b || b.solo || b.step === 'teams') return;
   for (const t of b.teams) { // someone removed from the game leaves their team; a captain who has gone is replaced
     t.members = t.members.filter((m) => G.players[m]);
     if (t.captain && !t.members.includes(t.captain) && b.step !== 'vote') t.captain = t.members[0] || null;
@@ -73,7 +92,7 @@ function bxStart() {
   G.q.bx = { part: q.part || 1 };
   if (!G.bx) bxInit(q);
   const b = G.bx; b.part = q.part || 1; b.votes = {};
-  if (b.part === 1 && b.step === 'teams') { /* the team reveal */ }
+  if (b.part === 1 && (b.step === 'teams' || (b.solo && !b.asked && !b.cur))) { /* the team reveal / the warm-up's first screen */ }
   else { b.lastAbsorb = bxAbsorb(); b.step = 'seg'; }
   persist(); render(); broadcastState(); bxBots();
 }
@@ -83,11 +102,11 @@ function bxGo(step) { const b = G.bx; b.step = step; b.votes = {}; persist(); re
 function bxPublic() {
   const b = G.bx; if (!b) return null; bxSync();
   const c = b.cur;
-  return { v: 1, step: b.step, part: b.part, turn: b.turn, pickTeam: bxPickTeam(), forcedBy: b.forcedBy || {}, pickNote: b.pickNote || '', total: b.total, cols: b.cols, asked: b.asked, cut: b.cuts[b.part - 1], cats: b.cats, board: b.board.map((x) => x.st),
-    teams: b.teams.map((t) => ({ i: t.i, name: t.name, emoji: t.emoji, color: t.color, members: t.members, captain: t.captain, pot: t.pot, powers: t.powers, spin: t.spin || null })),
-    votes: b.votes, absorb: b.lastAbsorb || null, chips: BX_CHIPS, names: Object.fromEntries(Object.values(G.players).map((p) => [p.id, { name: p.name, emoji: p.emoji || '' }])),
-    cur: c ? { num: c.num, cat: c.cat, stake: c.stake, dbl: c.dbl, by: c.by, origin: c.origin, mode: c.mode, sub: c.sub || '', canPass: c.mode === 'own' && !c.noPass, passes: (c.passes || 0), locked: c.locked !== undefined, lockedAs: c.locked !== undefined ? c.locked : null,
-      q: b.step === 'stake' || b.step === 'open' ? { t: '', kind: c.q.kind, opts: null } : { t: c.q.t, kind: c.q.kind, opts: c.q.opts ? c.q.opts.map((o) => o.t) : null }, used: c.used || [], res: b.step === 'result' || c.sub === 'judged' ? c.res : null, note: c.note || '' } : null };
+  return { v: 1, step: b.step, part: b.part, turn: b.turn, solo: !!b.solo, closing: !!b.closing, pickTeam: bxPickTeam(), forcedBy: b.forcedBy || {}, pickNote: b.pickNote || '', total: b.total, cols: b.cols, asked: b.asked, cut: b.cuts[b.part - 1], cats: b.cats, board: b.board.map((x) => x.st), boardBy: b.board.map((x) => x.by ?? -1),
+    teams: b.teams.map((t) => ({ i: t.i, name: t.name, emoji: t.emoji, color: t.color, members: t.members, captain: t.captain, pot: t.pot, loan: t.loan || 0, stakes: bxStakes(t.pot), powers: t.powers, spin: t.spin || null })),
+    votes: b.votes, absorb: b.lastAbsorb || null, names: Object.fromEntries(Object.values(G.players).map((p) => [p.id, { name: p.name, emoji: p.emoji || '' }])),
+    cur: c ? { num: c.num, at: c.openedAt || 0, cat: c.cat, stake: c.stake, dbl: c.dbl, by: c.by, origin: c.origin, mode: c.mode, sub: c.sub || '', canPass: c.mode === 'own' && !c.noPass, passes: (c.passes || 0), locked: c.locked !== undefined, lockedAs: c.locked !== undefined ? c.locked : null,
+      q: b.step === 'stake' || b.step === 'open' ? { t: '', kind: c.q.kind, opts: null } : { t: c.q.t, kind: c.q.kind, opts: c.q.opts ? c.q.opts.map((o) => o.t) : null, m: c.q.m || null }, used: c.used || [], res: b.step === 'result' || c.sub === 'judged' ? c.res : null, note: c.note || '' } : null };
 }
 
 // ---------------------------------------------------------------- what the phones do
@@ -95,6 +114,7 @@ function bxAnswer(pid, a) {
   const b = G.bx; if (!b || !a || a.bx !== 'v') return;
   const ti = bxTeamOf(pid); if (ti < 0) return;
   const t = b.teams[ti], cap = t.captain === pid, k = String(a.k || ''), v = a.v, go = !!a.go && cap, c = b.cur;
+  if (b.solo && k === 'next') { if (b.step === 'seg') return bxClickGo(); if (b.step === 'result' && !b.closing) return bxClose(bxNextTurn); return; }
   if (b.step === 'vote' && k === 'cap') { if (t.members.includes(v)) b.votes[pid] = v; }
   else if (b.step === 'pick' && ti === bxPickTeam() && k === 'pick') {
     const n = Math.round(+v); if (!(n >= 1 && n <= b.board.length) || b.board[n - 1].st !== 'open') return;
@@ -138,13 +158,13 @@ function bxPick(n) {
   b.step = 'stake'; b.votes = {}; sound('ding'); persist(); render(); broadcastState(); bxBots();
 }
 function bxMakeQ(raw, kind) {
-  const q = { id: raw.id || raw.t, t: raw.t, kind, answers: raw.a || [], decoy: raw.w || '' };
+  const q = { id: raw.id || raw.t, t: raw.t, kind, answers: raw.a || [], decoy: raw.w || '' }; if (raw.m) q.m = raw.m; // m: { k: 'img', url } a picture that clears as the seconds pass, or { k: 'tune', url, start, len } a clip
   if (kind === 'choice') q.opts = bxShuffle(raw.o.map((t, i) => ({ t, ok: i === 0 })));
   return q;
 }
 function bxStake(amt, dbl) {
   const b = G.bx, c = b.cur, t = b.teams[b.turn];
-  c.stake = Math.min(t.pot, Math.max(0, Math.round(amt) || 0)); if (t.pot >= 100) c.stake = Math.max(100, c.stake);
+  c.stake = Math.min(t.pot, Math.max(Math.min(10, t.pot), Math.round(amt) || 0));
   if (dbl && t.powers.double) { t.powers.double = 0; c.dbl = true; c.used.push('double'); }
   b.step = 'open'; b.votes = {}; sound('go'); persist(); render(); broadcastState();
 }
@@ -160,14 +180,14 @@ function bxPass() {
   const t = b.teams[c.by], delta = -Math.min(Math.floor(c.stake / 2), t.pot);
   t.pot = Math.max(0, t.pot + delta);
   const cell = b.board[c.num - 1]; cell.st = 'open'; cell.passed = true; cell.q = c.raw;
-  c.res = { passed: true, ok: null, delta, team: t.i, right: '', said: '' };
+  c.res = { passed: true, ok: null, delta, team: t.i, right: '', said: '', broke: bxBroke(t) };
   b.log.push({ n: c.num, team: t.i, passed: true, delta }); b.step = 'result';
   sound('trombone'); persist(); render(); broadcastState();
 }
 /** The drawer shuts (and the paper folds away) before the next team is up. */
 function bxClose(then) {
   const b = G.bx; if (b.closing) return;
-  b.closing = true; sound('whoosh'); render();
+  b.closing = true; sound('whoosh'); render(); broadcastState();
   setTimeout(() => { if (G.bx !== b) return; b.closing = false; then(); }, 1000);
 }
 function bxIsRight(c, v) {
@@ -185,7 +205,7 @@ function bxSettle(ok) {
   const delta = ok ? (c.dbl ? 3 : 1) * c.stake : -Math.min(c.stake, t.pot);
   t.pot = Math.max(0, t.pot + delta);
   const cell = b.board[c.num - 1]; cell.st = ok ? 'won' : 'lost'; cell.by = t.i;
-  c.res = { ok, delta, team: t.i, right: bxRightText(c), said: c.mode === 'host' ? 'the host' : c.locked !== undefined ? (c.q.opts ? c.q.opts[c.locked]?.t : c.locked) : '' };
+  c.res = { ok, delta, team: t.i, broke: bxBroke(t), right: bxRightText(c), said: c.mode === 'host' ? 'the host' : c.locked !== undefined ? (c.q.opts ? c.q.opts[c.locked]?.t : c.locked) : '' };
   b.log.push({ n: c.num, team: t.i, ok, delta }); b.asked++; b.step = 'result';
   sound(ok ? 'fanfare' : 'trombone'); if (ok) confetti();
   persist(); render(); broadcastState();
@@ -272,8 +292,8 @@ function bxWaitNote() {
 document.addEventListener('click', (e) => {
   const el = e.target.closest?.('[data-bx]'); if (!el || !G?.bx) return;
   const k = el.dataset.bx;
-  if (k === 'force') bxForce(); else if (k === 'hostnew') bxHostNew(); else if (k === 'hostright') bxHostJudge(true); else if (k === 'hostwrong') bxHostJudge(false);
-  else if (k === 'flip' && G.bx.step === 'result') { const c = G.bx.cur, r = c.res, t = G.bx.teams[r.team]; t.pot = Math.max(0, t.pot - r.delta); const cell = G.bx.board[c.num - 1]; const ok = !r.ok; const delta = ok ? (c.dbl ? 3 : 1) * c.stake : -Math.min(c.stake, t.pot); t.pot = Math.max(0, t.pot + delta); cell.st = ok ? 'won' : 'lost'; c.res = { ...r, ok, delta }; persist(); render(); broadcastState(); }
+  if (k === 'replay') { const m = G.bx.cur?.q.m; if (m) playTune({ media: { url: m.url, start: m.start || 0, length: m.len || 15 } }); } else if (k === 'force') bxForce(); else if (k === 'hostnew') bxHostNew(); else if (k === 'hostright') bxHostJudge(true); else if (k === 'hostwrong') bxHostJudge(false);
+  else if (k === 'flip' && G.bx.step === 'result') { const c = G.bx.cur, r = c.res, t = G.bx.teams[r.team]; if (r.broke) { t.pot -= BX_LOAN; t.loan -= BX_LOAN; } t.pot = Math.max(0, t.pot - r.delta); const cell = G.bx.board[c.num - 1]; const ok = !r.ok; const delta = ok ? (c.dbl ? 3 : 1) * c.stake : -Math.min(c.stake, t.pot); t.pot = Math.max(0, t.pot + delta); cell.st = ok ? 'won' : 'lost'; c.res = { ...r, ok, delta, broke: bxBroke(t) }; persist(); render(); broadcastState(); }
 });
 function bxNextBtn() { // the step button for each screen
   const b = G.bx, c = b.cur;
@@ -304,7 +324,7 @@ function bxClickGo() {
 function bxStrip() {
   const b = G.bx, act = b.step === 'pick' || b.step === 'stake' || b.step === 'ask' || b.step === 'locked' ? (b.cur ? b.cur.by : b.turn) : -1;
   return `<div class="bxteams">${b.teams.map((t) => `<div class="bxteam ${t.i === act ? 'on' : ''} ${b.cur && t.i === b.cur.origin && b.cur.by !== b.cur.origin ? 'asker' : ''}" style="--tc:${t.color}">
-    <div class="bxtn">${t.emoji} ${esc(t.name)}${(b.forcedBy || {})[t.i] !== undefined ? ` · 👈 ${esc(b.teams[b.forcedBy[t.i]].name)} pick their box` : ''}</div><div class="bxpot">${bxN(t.pot)}</div>
+    <div class="bxtn">${t.emoji} ${esc(t.name)}${(b.forcedBy || {})[t.i] !== undefined ? ` · 👈 ${esc(b.teams[b.forcedBy[t.i]].name)} pick their box` : ''}</div><div class="bxpot">${bxN(t.pot)}</div>${t.loan ? `<div class="bxcap">🏦 owes ${bxN(t.loan)}</div>` : ''}
     <div class="bxcap">${t.captain ? '👑 ' + esc(pname(t.captain)) : esc(t.members.map(pname).join(', '))}</div>
     <div class="bxpw">${Object.entries(BX_POWERS).map(([k, p]) => `<span class="${t.powers[k] ? '' : 'gone'}" title="${esc(p.name)}">${p.icon}</span>`).join('')}</div></div>`).join('')}</div>`;
 }
@@ -330,6 +350,14 @@ function bxVoteCounts() { // for the chart: how the answering team's members are
   const tally = {}; for (const m of mem) { const k = LQ.normText(v[m]); (tally[k] = tally[k] || { t: v[m], n: 0 }).n++; }
   return { n: mem.length, of: t.members.length, bars: Object.values(tally).sort((x, y) => y.n - x.n).map((x) => ({ t: x.t, p: Math.round(x.n / mem.length * 100), n: x.n })) };
 }
+/** The picture (blurred at first, clearing over 20 seconds) or the tune player of a question. */
+function bxMediaHtml(c, reveal) {
+  const m = c.q.m; if (!m) return '';
+  if (m.k === 'img') return `<div class="bxpic"><img src="${esc(m.url)}" alt="" style="animation-delay:-${reveal ? 99 : Math.max(0, (Date.now() - (c.openedAt || Date.now())) / 1000).toFixed(1)}s"></div>`;
+  if (m.k === 'tune') return `<div class="bxtune"><span class="bxvinyl" id="vinyl"></span><div class="bxtbar"><i id="tuneBar"></i></div>${G.bx.solo ? '' : '<button class="btn btn-ghost btn-sm" data-bx="replay">▶ Play again</button>'}</div>`;
+  return '';
+}
+let bxTuneKey = '';
 function bxQuestionHtml(reveal) {
   const b = G.bx, c = b.cur, ans = c.mode === 'host' ? null : bxVoteCounts(), tm = b.teams[c.by], org = b.teams[c.origin];
   const colors = ['#e21b3c', '#1368ce', '#d89e00', '#26890c'];
@@ -339,14 +367,14 @@ function bxQuestionHtml(reveal) {
   const status = c.mode === 'host' ? (c.sub === 'revealed' ? `🎤 The answer is… ${esc(bxRightText(c))}. Host: how did you do?` : '🎤 Host, you answer this one! Say it out loud.')
     : reveal ? '' : c.locked !== undefined ? `🔒 ${esc(tm.name)}'s captain has locked in an answer` : `${tm.emoji} ${esc(tm.name)}: ${ans.n} of ${ans.of} have picked${c.mode === 'made' ? ` · ${org.emoji} ${esc(org.name)} made them answer` : ''}`;
   const tags = `<span class="bxtag">Box ${c.num}</span><span class="bxtag">${esc(b.cats[c.cat].e)} ${esc(b.cats[c.cat].n)}</span><span class="bxtag gold">🎲 ${bxN(c.stake)} at stake${c.dbl ? ' · ⚡ ×4' : ''}</span>${(c.used || []).filter((u) => u !== 'double').map((u) => `<span class="bxtag">${BX_POWERS[u].icon} ${BX_POWERS[u].name}</span>`).join('')}`;
-  return `<div class="bxq"><div class="bxtags">${tags}</div><h1 class="bxqt">${esc(c.q.t)}</h1>${opts}<div class="bxstatus">${status}</div>${c.note ? `<div class="bxnote">${esc(c.note)}</div>` : ''}</div>`;
+  return `<div class="bxq"><div class="bxtags">${tags}</div><h1 class="bxqt">${esc(c.q.t)}</h1>${bxMediaHtml(c, reveal)}${opts}<div class="bxstatus">${status}</div>${c.note ? `<div class="bxnote">${esc(c.note)}</div>` : ''}</div>`;
 }
 function bxRender() {
   const b = G.bx; if (!b) return;
   bxSync();
   let main = '';
   const t = b.teams[b.turn], c = b.cur;
-  if (b.step === 'teams') main = `<div class="bxhero"><h1 class="big">📦 Box Clever</h1><p class="bxsub">${bxPids().length} players · ${b.teams.length} teams · ${b.total} boxes · ${bxN(BX_START)} each to start</p><div class="bxteamlist">${b.teams.map((tt) => `<div class="bxtl" style="--tc:${tt.color}"><h2>${tt.emoji} ${esc(tt.name)}</h2><div>${tt.members.map((m) => `<span class="bxmem">${pem(m)} ${esc(pname(m))}</span>`).join('')}</div></div>`).join('')}</div></div>`;
+  if (b.step === 'teams') main = `<div class="bxhero"><h1 class="big">📦 Box Clever</h1><p class="bxsub">${bxPids().length} players · ${b.teams.length} teams · ${b.total} boxes · ${bxN(b.start)} each to start</p><div class="bxteamlist">${b.teams.map((tt) => `<div class="bxtl" style="--tc:${tt.color}"><h2>${tt.emoji} ${esc(tt.name)}</h2><div>${tt.members.map((m) => `<span class="bxmem">${pem(m)} ${esc(pname(m))}</span>`).join('')}</div></div>`).join('')}</div></div>`;
   else if (b.step === 'vote') main = `<div class="bxhero"><h1 class="big">👑 Vote for your captain</h1><p class="bxsub">On your phone: tap the teammate who should have the final say. The captain's phone gets the deciding vote on everything.</p><div class="bxteamlist">${b.teams.map((tt) => { const done = tt.members.filter((m) => b.votes[m]).length; return `<div class="bxtl" style="--tc:${tt.color}"><h2>${tt.emoji} ${esc(tt.name)}</h2><div class="bxdone">${done} of ${tt.members.length} voted</div></div>`; }).join('')}</div></div>`;
   else if (b.step === 'captains') main = `<div class="bxhero"><h1 class="big">👑 Your captains</h1><div class="bxteamlist">${b.teams.map((tt) => `<div class="bxtl" style="--tc:${tt.color}"><h2>${tt.emoji} ${esc(tt.name)}</h2>${tt.spin?.tie ? `<div class="bxspin" data-at="${tt.spin.at}" data-cands="${esc(JSON.stringify(tt.spin.cands.map(pname)))}" data-win="${esc(pname(tt.captain))}"><span class="bxspinw">…</span><small>It's a tie: the spinner decides</small></div>` : `<div class="bxcapname">👑 ${pem(tt.captain)} ${esc(pname(tt.captain))}</div>`}</div>`).join('')}</div></div>`;
   else if (b.step === 'seg') main = `<div class="bxhero"><h1 class="big">${b.part === 1 ? 'Ready?' : '💰 Bonus round points'}</h1>${b.part > 1 ? `<div class="bxteamlist">${b.teams.map((tt) => { const d = (b.lastAbsorb || {})[tt.i] || 0; return `<div class="bxtl" style="--tc:${tt.color}"><h2>${tt.emoji} ${esc(tt.name)}</h2><div class="bxcapname">${d >= 0 ? '+' : '−'}${bxN(Math.abs(d))}</div><small>now ${bxN(tt.pot)}</small></div>`; }).join('')}</div>` : '<p class="bxsub">First up: ' + esc(t.name) + '</p>'}</div>`;
@@ -357,8 +385,8 @@ function bxRender() {
   else if (b.step === 'result') {
     const r = c.res, tt = b.teams[r.team];
     const inner = r.passed
-      ? `<div class="bxresult pass"><div class="bxbig">🏳️ Passed</div><div class="bxrans">${esc(c.q.t)}<br><small>Everyone has seen this one. The box goes back, and whoever takes it next can't pass it.</small></div><div class="bxdelta" style="--tc:${tt.color}">${tt.emoji} ${esc(tt.name)} −${bxN(Math.abs(r.delta))} → ${bxN(tt.pot)}</div></div>`
-      : `<div class="bxresult ${r.ok ? 'ok' : 'no'}"><div class="bxbig">${r.ok ? '✅ Correct!' : '❌ Wrong!'}</div><div class="bxrans">${esc(c.q.t)}<br><b>${esc(r.right)}</b></div>${r.said ? `<div class="bxsaid">${esc(tt.name)} said: ${esc(String(r.said))}</div>` : ''}<div class="bxdelta" style="--tc:${tt.color}">${tt.emoji} ${esc(tt.name)} ${r.delta >= 0 ? '+' : '−'}${bxN(Math.abs(r.delta))} → ${bxN(tt.pot)}</div>${!c.q.opts ? '<button class="btn btn-ghost btn-sm" data-bx="flip">↺ Mark it the other way</button>' : ''}</div>`;
+      ? `<div class="bxresult pass"><div class="bxbig">🏳️ Passed</div><div class="bxrans">${esc(c.q.t)}<br><small>Everyone has seen this one. The box goes back, and whoever takes it next can't pass it.</small></div><div class="bxdelta" style="--tc:${tt.color}">${tt.emoji} ${esc(tt.name)} −${bxN(Math.abs(r.delta))} → ${bxN(tt.pot)}</div>${r.broke ? bxBrokeNote(tt) : ''}</div>`
+      : `<div class="bxresult ${r.ok ? 'ok' : 'no'}"><div class="bxbig">${r.ok ? '✅ Correct!' : '❌ Wrong!'}</div>${bxMediaHtml(c, true)}<div class="bxrans">${esc(c.q.t)}<br><b>${esc(r.right)}</b></div>${r.said ? `<div class="bxsaid">${esc(tt.name)} said: ${esc(String(r.said))}</div>` : ''}<div class="bxdelta" style="--tc:${tt.color}">${tt.emoji} ${esc(tt.name)} ${r.delta >= 0 ? '+' : '−'}${bxN(Math.abs(r.delta))} → ${bxN(tt.pot)}</div>${r.broke ? bxBrokeNote(tt) : ''}${!c.q.opts ? '<button class="btn btn-ghost btn-sm" data-bx="flip">↺ Mark it the other way</button>' : ''}</div>`;
     main = bxCabinet() + bxPaper(inner);
   }
   const cutLeft = b.cuts[b.part - 1] - b.asked;
@@ -373,6 +401,10 @@ function bxRender() {
     paper.style.animationPlayState = 'running'; bxAnimDone = paper.dataset.key;
   }
   bind(); bxSpin();
+  if (b.solo && !bxAutoI) bxAutoI = setInterval(bxAuto, 400);
+  const tm = c?.q?.m, tkey = tm?.k === 'tune' && !b.solo && (b.step === 'ask' || b.step === 'locked') ? c.num + ':' + c.openedAt + ':' + tm.url : '';
+  if (tkey && bxTuneKey !== tkey) { bxTuneKey = tkey; playTune({ media: { url: tm.url, start: tm.start || 0, length: tm.len || 15 } }); }
+  else if (!tkey && bxTuneKey) { bxTuneKey = ''; stopTune(); }
 }
 /** The spinner: runs through the tied names, slowing down, and lands on the winner. */
 function bxSpin() {
@@ -389,51 +421,80 @@ function bxSpin() {
 function bxProjected() {
   const b = G.bx, add = {};
   for (const p of Object.values(G.players)) { const ti = bxTeamOf(p.id); if (ti >= 0 && !b.finalDone) add[ti] = (add[ti] || 0) + (p.score - (b.snap[p.id] ?? p.score)); }
-  return b.teams.map((t) => ({ t, add: add[t.i] || 0, pot: Math.max(0, t.pot + (add[t.i] || 0)) })).sort((x, y) => y.pot - x.pot);
+  return b.teams.map((t) => { const pot = Math.max(0, t.pot + (add[t.i] || 0)); return { t, add: add[t.i] || 0, pot, loan: t.loan || 0, net: pot - (t.loan || 0) }; }).sort((x, y) => y.net - x.net);
 }
 function bxScoreboard() {
-  const rows = bxProjected(), top = Math.max(1, rows[0].pot);
-  stage.innerHTML = `${topBar()}<div class="stage-main"><h1 class="big" style="font-size:2.6rem">📦 Team pots</h1><div class="board">${rows.map((r, i) => `<div class="brow"><div class="fill" data-w="${(r.pot / top) * 100}" style="background:${r.t.color}"></div><div class="rank">${i + 1}</div><div>${r.t.emoji} ${esc(r.t.name)}<small style="opacity:.7"> · ${esc(r.t.members.map(pname).join(', '))}</small>${r.add ? `<span class="delta" ${r.add < 0 ? 'style="color:#ffb3c0"' : ''}>${r.add > 0 ? '+' : ''}${bxN(r.add)} bonus</span>` : ''}</div><div>${bxN(r.pot)}</div></div>`).join('')}</div></div>
+  const rows = bxProjected(), top = Math.max(1, rows[0].net);
+  stage.innerHTML = `${topBar()}<div class="stage-main"><h1 class="big" style="font-size:2.6rem">📦 Team pots</h1><div class="board">${rows.map((r, i) => `<div class="brow"><div class="fill" data-w="${(Math.max(0, r.net) / top) * 100}" style="background:${r.t.color}"></div><div class="rank">${i + 1}</div><div>${r.t.emoji} ${esc(r.t.name)}<small style="opacity:.7"> · ${esc(r.t.members.map(pname).join(', '))}</small>${r.add ? `<span class="delta" ${r.add < 0 ? 'style="color:#ffb3c0"' : ''}>${r.add > 0 ? '+' : ''}${bxN(r.add)} bonus</span>` : ''}</div><div>${bxN(r.net)}${r.loan ? `<small style="display:block;opacity:.7;font-size:.5em">after repaying 🏦 ${bxN(r.loan)}</small>` : ''}</div></div>`).join('')}</div></div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary" data-act="primary">${G.qIndex + 1 < G.quiz.questions.length ? 'Next ▶' : 'Final results 🏆'}</button>`)}`;
   requestAnimationFrame(() => $$('.fill').forEach((f) => f.style.width = f.dataset.w + '%'));
   bind();
 }
+const bxBrokeNote = (t) => `<div class="bxnote">💸 ${esc(t.name)} went bankrupt! The bank lends ${bxN(BX_LOAN)} to carry on. It comes off the final score.</div>`;
 function bxFinalHtml() {
   const rows = bxProjected();
-  return `<h1 class="big" style="font-size:2.8rem">🏆 ${rows[0].t.emoji} ${esc(rows[0].t.name)} win!</h1><div class="bxteamlist">${rows.map((r, i) => `<div class="bxtl" style="--tc:${r.t.color};${i === 0 ? 'transform:scale(1.08)' : ''}"><h2>${['🥇', '🥈', '🥉', '4.'][i] || i + 1 + '.'} ${r.t.emoji} ${esc(r.t.name)}</h2><div class="bxcapname">${bxN(r.pot)}</div><div>${r.t.members.map((m) => `<span class="bxmem">${pem(m)} ${esc(pname(m))}${m === r.t.captain ? ' 👑' : ''}</span>`).join('')}</div></div>`).join('')}</div>`;
+  return `<h1 class="big" style="font-size:2.8rem">🏆 ${rows[0].t.emoji} ${esc(rows[0].t.name)} win!</h1><div class="bxteamlist">${rows.map((r, i) => `<div class="bxtl" style="--tc:${r.t.color};${i === 0 ? 'transform:scale(1.08)' : ''}"><h2>${['🥇', '🥈', '🥉', '4.'][i] || i + 1 + '.'} ${r.t.emoji} ${esc(r.t.name)}</h2><div class="bxcapname">${bxN(r.net)}</div>${r.loan ? `<small>after repaying 🏦 ${bxN(r.loan)} borrowed</small>` : ''}<div>${r.t.members.map((m) => `<span class="bxmem">${pem(m)} ${esc(pname(m))}${m === r.t.captain ? ' 👑' : ''}</span>`).join('')}</div></div>`).join('')}</div>`;
 }
 /** The last screen: every player carries their team's pot, so the usual final results rank the teams. */
 function bxFinal() {
   const b = G.bx; if (!b || b.finalDone) return; b.finalDone = true;
   bxAbsorb();
-  for (const p of Object.values(G.players)) { const ti = bxTeamOf(p.id); if (ti >= 0) p.score = b.teams[ti].pot; }
-  b.winner = b.teams.slice().sort((x, y) => y.pot - x.pot)[0]?.i;
+  for (const p of Object.values(G.players)) { const ti = bxTeamOf(p.id); if (ti >= 0) p.score = bxNet(b.teams[ti]); }
+  b.winner = b.teams.slice().sort((x, y) => bxNet(y) - bxNet(x))[0]?.i;
   persist();
 }
 
-// ---------------------------------------------------------------- bots (test games)
+// ---------------------------------------------------------------- bots (test games and the warm-up)
+/** Each bot is given a risk factor when it first has to bet: 0 is cautious (the small stakes), 1 is bold (big stakes, all in). A quarter of
+ *  them are "mixers" whose stakes could be anything. Risky bots double up more often and pass less. */
+function bxRisk(pid) {
+  const b = G.bx; b.risk = b.risk || {};
+  if (!b.risk[pid]) b.risk[pid] = { r: Math.round(Math.random() * 100) / 100, s: chance(0.25) ? 0.6 : 0.2 };
+  return b.risk[pid];
+}
+function bxBotStake(pid, pot) {
+  const st = bxStakes(pot), k = bxRisk(pid), w = st.map((_, i) => Math.exp(-Math.pow(i / Math.max(1, st.length - 1) - k.r, 2) / (2 * k.s * k.s)));
+  let x = Math.random() * w.reduce((a, c) => a + c, 0), i = 0;
+  for (; i < w.length - 1; i++) { x -= w[i]; if (x <= 0) break; }
+  return st[i];
+}
 function bxBots() {
   const b = G.bx; if (!b || !(G.bots || []).length) return;
-  const bot = (pid) => (G.bots || []).some((x) => x.pid === pid);
-  const later = (fn, ms) => botLater(() => { if (G.bx === b) fn(); }, ms);
+  const bot = (pid) => (G.bots || []).some((x) => x.pid === pid), sp = b.solo ? 0.45 : 1; // on one phone the bots do not dawdle
+  const later = (fn, ms) => botLater(() => { if (G.bx === b) fn(); }, ms * sp);
   const step = b.step, c = b.cur;
+  const skill = (m) => G.bots.find((x) => x.pid === m)?.skill ?? 0.5;
+  const guess = (m, c) => { const right = chance(0.35 + skill(m) * 0.5); return c.q.opts ? (right ? c.q.opts.findIndex((o) => o.ok) : c.q.opts.findIndex((o) => !o.ok)) : (right ? c.q.answers[0] : partyPick(['No idea', 'Pass', 'Dunno'])); };
   if (step === 'vote') for (const t of b.teams) for (const m of t.members) if (bot(m)) later(() => bxAnswer(m, { bx: 'v', k: 'cap', v: partyPick(t.members) }), rnd(1000, 4000));
   if (step === 'pick') { const t = b.teams[bxPickTeam()], open = () => b.board.map((x, i) => x.st === 'open' ? i + 1 : 0).filter(Boolean); if (bot(t.captain)) later(() => { if (b.step === 'pick') bxAnswer(t.captain, { bx: 'v', k: 'pick', v: partyPick(open()), go: true }); }, rnd(2500, 6000)); }
-  if (step === 'stake') { const t = b.teams[b.turn]; if (bot(t.captain)) later(() => { if (b.step === 'stake') bxAnswer(t.captain, { bx: 'v', k: 'stake', v: partyPick(BX_CHIPS.filter((x) => x <= t.pot).concat([Math.min(100, t.pot)])), dbl: chance(0.1), go: true }); }, rnd(2000, 5000)); }
+  if (step === 'stake') { const t = b.teams[b.turn]; if (bot(t.captain)) later(() => { if (b.step === 'stake') { bxAnswer(t.captain, { bx: 'v', k: 'stake', v: bxBotStake(t.captain, t.pot), dbl: chance(0.03 + 0.2 * bxRisk(t.captain).r), go: true }); } }, rnd(2000, 5000)); }
   if (step === 'ask' && c && c.mode !== 'host') {
     const t = b.teams[c.by];
-    for (const m of t.members) if (bot(m)) later(() => {
-      if (b.step !== 'ask' || b.cur !== c) return; const sk = (G.bots.find((x) => x.pid === m)?.skill ?? 0.5);
-      const right = chance(0.35 + sk * 0.5);
-      if (c.q.opts) bxAnswer(m, { bx: 'v', k: 'ans', v: right ? c.q.opts.findIndex((o) => o.ok) : c.q.opts.findIndex((o) => !o.ok) });
-      else bxAnswer(m, { bx: 'v', k: 'ans', v: right ? c.q.answers[0] : partyPick(['No idea', 'Pass', 'Dunno']) });
+    if (!b.solo) for (const m of t.members) if (bot(m)) later(() => {
+      if (b.step !== 'ask' || b.cur !== c) return;
+      bxAnswer(m, { bx: 'v', k: 'ans', v: guess(m, c) });
     }, rnd(2000, 7000));
     if (bot(t.captain)) later(() => {
       if (b.step !== 'ask' || b.cur !== c) return; const vs = b.votes.ans || {}, vals = Object.values(vs);
-      if (c.mode === 'own' && !c.noPass && chance(0.15)) return bxAnswer(t.captain, { bx: 'v', k: 'pass', v: 1, go: true });
+      if (c.mode === 'own' && !c.noPass && chance(0.2 * (1 - bxRisk(t.captain).r))) return bxAnswer(t.captain, { bx: 'v', k: 'pass', v: 1, go: true });
       if (c.mode === 'own' && chance(0.3) && !c.used.includes('fifty') && b.teams[c.origin].powers.fifty && (!c.q.opts || c.q.opts.length > 2)) return bxAnswer(t.captain, { bx: 'v', k: 'pow', v: 'fifty', go: true });
-      const v = vals.length ? vals.sort((x, y) => vals.filter((z) => z === y).length - vals.filter((z) => z === x).length)[0] : (c.q.opts ? 0 : 'Pass');
+      const v = vals.length ? vals.sort((x, y) => vals.filter((z) => z === y).length - vals.filter((z) => z === x).length)[0] : guess(t.captain, c);
       bxAnswer(t.captain, { bx: 'v', k: 'ans', v, go: true });
-    }, rnd(8000, 12000));
+    }, b.solo ? rnd(3500, 7000) : rnd(8000, 12000));
   }
+}
+
+// ---------------------------------------------------------------- the warm-up: nobody is there to press the host's buttons
+let bxAutoKey = '', bxAutoT = null, bxAutoI = null;
+/** On one phone the host screen is hidden, so the drawer opens, the answer is revealed and a bot's result moves on by itself. The
+ *  player's own result waits for their tap (a long fallback in case they have wandered off). */
+function bxAuto() {
+  const b = G.bx; if (!b || !b.solo || G.phase !== 'question') return;
+  const c = b.cur, key = [b.step, b.part, b.asked, c?.num, c?.mode, c?.locked !== undefined ? 1 : 0, b.closing ? 1 : 0].join();
+  if (key === bxAutoKey) return; bxAutoKey = key; clearTimeout(bxAutoT);
+  const at = (ms, fn) => { bxAutoT = setTimeout(() => { if (G.bx === b && bxAutoKey === key && !b.closing) fn(); }, ms); };
+  const botTeam = (ti) => (G.bots || []).some((x) => x.pid === b.teams[ti]?.captain);
+  if (b.step === 'open') at(1300, bxOpen);
+  else if (b.step === 'locked') at(1500, bxReveal);
+  else if (b.step === 'result') at(botTeam(b.cur?.res?.team ?? b.turn) ? 4500 : 30000, () => bxClose(bxNextTurn));
 }

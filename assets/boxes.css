@@ -140,3 +140,56 @@
 .bxwatch { display: flex; flex-direction: column; gap: 6px; }
 .bxwatch div { background: var(--white); border: 1px solid var(--line); border-radius: 10px; padding: 10px; font-weight: 700; }
 .center { text-align: center; }
+/* the warm-up: the cabinet, the paper and the other players, all on the phone */
+.bxrivals { display: flex; gap: 6px; margin-top: 30px; }
+.bxrv { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; padding: 5px 2px; border-radius: 10px; border: 2px solid var(--tc); background: var(--white); position: relative; line-height: 1.15; opacity: .85; }
+.bxrv.on { background: var(--tc); color: #fff; opacity: 1; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,.25); }
+.bxrv.me i { font-weight: 900; }
+.bxrv span { font-size: 1.25rem; }
+.bxrv i { font-style: normal; font-size: .68rem; font-weight: 700; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bxrv b { font: 400 .95rem/1.1 Impact, 'Arial Black', sans-serif; }
+.bxrv em { position: absolute; top: -7px; right: -3px; font-size: .75rem; font-style: normal; }
+.bxmeta { display: flex; justify-content: space-between; align-items: center; font-weight: 800; font-size: .85rem; color: var(--ink-2); margin: 2px 2px 0; }
+.bxmp { display: flex; gap: 6px; font-size: 1.1rem; }
+.bxmp .gone { opacity: .2; filter: grayscale(1); }
+.bxcab.ph { flex: none; gap: 3px; padding: 6px; border-width: 3px; border-radius: 10px; margin-top: 6px; }
+.bxcab.ph .bxcabrow { display: block; }
+.bxcab.ph .bxcat { display: block; text-align: left; font: 800 .68rem/1.2 var(--font); padding: 1px 6px; margin: 0 0 2px; border-width: 1px; border-radius: 4px; box-shadow: none; }
+.bxcab.ph .bxdrawers { gap: 4px; }
+.bxcab.ph .bxdr { height: 40px; }
+.bxcab.ph .bxdrface { gap: 2px; border-width: 1px; border-radius: 4px; }
+.bxcab.ph .bxplate { font-size: .8rem; padding: 1px 5px; min-width: 1.5em; min-height: 1em; }
+.bxcab.ph .bxhandle { height: 3px; }
+.bxcab.ph .bxdr.pk { cursor: pointer; }
+.bxcab.ph .bxdr.pk:active .bxdrface { transform: scale(.95); }
+.bxcab.ph.mini .bxcat { display: none; }
+.bxcab.ph.mini .bxdr { height: 20px; }
+.bxcab.ph.mini .bxplate { font-size: .5rem; padding: 0 3px; min-height: .9em; }
+.bxcab.ph.mini .bxhandle { display: none; }
+.bxcab.ph.mini .bxdr.out .bxdrface { transform: translateY(14%) scale(1.25); }
+.bxpaper.ph { position: relative; left: auto; right: auto; top: auto; bottom: auto; margin-top: 10px; padding: 12px 12px 14px; z-index: 5; justify-content: flex-start; overflow: visible; transform-origin: 50% 0; gap: 6px; }
+.bxpaper.ph .bxqph, .bxpaper.ph h2 { color: #2b2210; }
+.bxpaper.ph .muted { color: #6b5a30; }
+.bxpaper.ph .bxres.ok { background: rgba(60,160,40,.18); }
+.bxpaper.ph .bxres.no { background: rgba(200,40,60,.15); }
+.bxpaper.ph .bxres.pass { background: rgba(120,100,50,.15); }
+.bxpaper.ph .bxres .bxbig { font-size: 2rem; }
+.bxpaper.ph .bxtags span { background: #e6d6a2; color: #3b2a08; }
+.bxbroke { background: #fff3cd; color: #6b4a00; border-radius: 10px; padding: 8px 10px; font-weight: 700; }
+.bxph small { font-size: .7rem; font-weight: 700; opacity: .9; }
+@keyframes bxFoldPh { to { transform: translateY(-12vh) scale(.5, .05); opacity: 0; } }
+.bxpaper.ph.fold { animation: bxFoldPh .9s ease-in both; }
+.bxpaper.ph.fresh { animation: bxUnfold 1.7s cubic-bezier(.22,.8,.25,1) both; animation-play-state: paused; }
+
+/* pictures and tunes inside a box */
+.bxpic { display: flex; justify-content: center; }
+.bxpic img { max-width: 100%; max-height: 38vh; object-fit: contain; border-radius: 10px; border: 3px solid #2b2210; box-shadow: 0 6px 18px rgba(0,0,0,.35); animation: bxClear 20s linear both; background: #e8dcc0; min-height: 80px; min-width: 140px; }
+.app .bxpic img { max-height: 24vh; }
+@keyframes bxClear { from { filter: blur(26px) saturate(.5); transform: scale(1.03); } to { filter: blur(0) saturate(1); transform: none; } }
+.bxtune { display: flex; align-items: center; justify-content: center; gap: 12px; }
+.bxvinyl { width: 46px; height: 46px; border-radius: 50%; flex: none; background: radial-gradient(circle, #e9c46a 0 14%, #111 15% 100%); box-shadow: 0 0 0 3px #2b2210; }
+.bxvinyl.spin { animation: bxSpinV 1.6s linear infinite; background: radial-gradient(circle, #e9c46a 0 14%, #111 15% 60%, #333 61% 63%, #111 64% 100%); }
+@keyframes bxSpinV { to { transform: rotate(360deg); } }
+.bxtbar { flex: 1 1 auto; max-width: 260px; height: 8px; border-radius: 4px; background: rgba(0,0,0,.2); overflow: hidden; }
+.bxtbar i { display: block; height: 100%; width: 0; background: #ffd60a; }
+.bxcab.ph .bxcabrow { flex: none; }

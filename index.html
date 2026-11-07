@@ -502,7 +502,7 @@ function kAnswer(q) {
   if (q.type === 'nearest') return '✓ ' + (q.answer ?? '') + (q.unit ? ' ' + q.unit : '');
   if (q.type === 'unique') return `☝️ ${(q.prompts || []).length} prompts`;
   if (q.type === 'draw') return `🎨 ${q.turns || 3} drawings`;
-  if (q.type === 'boxes') return `📦 Box Clever, part ${q.part || 1} of 4${q.cats ? ` · ${q.cats.length} categories, ${q.cats.reduce((a, c) => a + (c.qs || []).length, 0)} questions in the pool` : ''}`;
+  if (q.type === 'boxes') return `📦 Box Clever, part ${q.part || 1} of ${q.cuts ? q.cuts.length : 4}${q.solo ? " (one-phone warm-up)" : ""}${q.cats ? ` · ${q.cats.length} categories, ${q.cats.reduce((a, c) => a + (c.qs || []).length, 0)} questions in the pool` : ''}`;
   if (q.type === 'twenty') return '🕵️ ' + ((q.answers || [])[0] || '?');
   if (q.type === 'intro') return '🎧 ' + (q.song || 'Beat the Intro');
   if (q.type === 'order') return (q.items || []).map((i) => i.text).join(' → ');
