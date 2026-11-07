@@ -219,7 +219,8 @@ function bxSettle(ok) {
 }
 function bxReveal() { const c = G.bx.cur; if (!c) return; if (c.mode === 'host') { c.sub = 'revealed'; persist(); render(); broadcastState(); return; } bxSettle(bxIsRight(c, c.locked)); }
 function bxNextTurn() {
-  const b = G.bx; b.cur = null; b.votes = {};
+  const b = G.bx; if (G.phase !== 'question') return; // a late timer from the last box must not carry on past the next item (it skipped Hot Potato)
+  b.cur = null; b.votes = {};
   b.turn = (b.turn + 1) % b.teams.length;
   for (const cell of b.board) if (cell.st === 'now') cell.st = 'open'; // nothing is on the table now: a box left half-picked goes back
   if (!b.board.some((x) => x.st === 'open')) b.asked = Math.max(b.asked, b.cuts[b.part - 1]); // and with no box left the part is over, whatever the count
@@ -527,7 +528,8 @@ let bxAutoKey = '', bxAutoT = null, bxAutoI = null;
 /** On one phone the host screen is hidden, so the drawer opens, the answer is revealed and a bot's result moves on by itself. The
  *  player's own result waits for their tap (a long fallback in case they have wandered off). */
 function bxAuto() {
-  const b = G.bx; if (!b || !b.solo || G.phase !== 'question') return;
+  const b = G.bx; if (!b || !b.solo) return;
+  if (G.phase !== 'question') { clearTimeout(bxAutoT); bxAutoKey = ''; return; } // nothing left over from a box goes on into the next item
   const c = b.cur, key = [b.step, b.part, b.asked, c?.num, c?.mode, c?.locked !== undefined ? 1 : 0, b.closing ? 1 : 0].join();
   if (key === bxAutoKey) return; bxAutoKey = key; clearTimeout(bxAutoT);
   const at = (ms, fn) => { bxAutoT = setTimeout(() => { if (G.bx === b && bxAutoKey === key && !b.closing) fn(); }, ms); };
