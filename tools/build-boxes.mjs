@@ -4,7 +4,7 @@
 // What it makes: ten categories of 16 questions (the game picks five at random when it starts, and uses 10 per row, or more
 // when more than 15 people join), a pile of spares for Swap, a pile the host has never seen for "Make the host answer", and the
 // bonus rounds that fall between the four parts: Blockbusters, The Race, Draw It and five Answer Smashes.
-// --warmup builds the one-phone version instead (code BOXCLEVER unless --code): you against three bots, 25 boxes (5 categories of 5),
+// --warmup builds the one-phone version instead (code BOXCLEVER unless --code): you against two bots, 25 boxes (5 categories of 5),
 // a round of Hot Potato after the 12th, no teams, no bonus. It leaves out everything in tools/boxes-last.json (the real quiz's pool),
 // writes tools/boxes-warmup-last.json and saves it as a replayable warm-up game with --save.
 // Questions that appeared in any quiz json under --avoid (default: ../lqsql/review and ../lqsql/backup) are left out.
@@ -177,13 +177,13 @@ if (WARM) {
   const solo = { solo: true, cols: 5, cuts: [12, 25], start: 1000 };
   const round = (title, intro, it) => { const id = uid('r'), m = {}; for (const q of it) { q.round = id; m[q.type] = (m[q.type] || 0) + 1; } rounds.push({ id, title, intro, brief: '', mix: m, count: it.length, types: Object.keys(m), practice: false }); items.push(...it); };
   const box = (part, extra) => ({ id: uid('q'), type: 'boxes', text: 'Box Clever', time: 0, media: { kind: 'none' }, partial: false, part, ...solo, ...extra });
-  round('Box Clever', 'You against three bots. Twenty-five boxes.', [box(1, { cats, reserve: reserve.slice(0, 14) })]);
+  round('Box Clever', 'You against two bots. Twenty-five boxes.', [box(1, { cats, reserve: reserve.slice(0, 14) })]);
   round('Hot Potato', 'Pass the bomb. Your points go into your pot.', [{ ...LQ.newQuestion('potato', settings), text: 'Hot Potato', bank: choiceBank(24), category: 'General knowledge', difficulty: 'medium' }]);
   round('Box Clever: the rest', 'Back to the boxes.', [box(2)]);
   const problems = []; items.forEach((q, i) => { const p = LQ.validate(q); if (p.length) problems.push(i + 1 + ' ' + q.type + ': ' + p.join('; ')); });
   console.log('problems:', problems.length ? problems.join(' | ') : 'none');
   const stamp = new Date().toISOString().slice(0, 10);
-  settings.warmup = { code: CODE, open: true, fun: true, replay: true, bots: 3, forQuiz: null, from: null, until: null, season: 's-boxclever-' + stamp };
+  settings.warmup = { code: CODE, open: true, fun: true, replay: true, bots: 2, forQuiz: null, from: null, until: null, season: 's-boxclever-' + stamp };
   const quiz = { title: TITLE, settings: { ...settings, rounds }, questions: items };
   fs.writeFileSync(path.join(here, 'boxes-warmup-last.json'), JSON.stringify(quiz, null, 1));
   console.log(`warm-up: ${cats.length} categories, board pool ${cats.reduce((a, c) => a + c.qs.length, 0)} (${cats.reduce((a, c) => a + c.qs.filter((q) => q.a).length, 0)} typed), potato ${items[1].bank.length}`);

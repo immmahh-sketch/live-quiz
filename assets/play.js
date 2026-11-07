@@ -261,7 +261,8 @@ function render() {
 /** With bots in the game, a button in the corner asks the host to hurry them up: they answer, take their turns and
  *  finish there and then, so nobody sits through their thinking time. One press per question is enough for everyone. */
 function syncHurry(s, qId) {
-  const want = s.phase === 'question' && s.bots > 0 && !s.hurried && !P.view && P.hurriedQ !== qId;
+  if (s.bx) P.sawBx = true; // Box Clever's bots already move fast, Hot Potato in the same go included
+  const want = s.phase === 'question' && !P.sawBx && s.bots > 0 && !s.hurried && !P.view && P.hurriedQ !== qId;
   let b = $('#hurryBots');
   document.body.classList.toggle('hurry-on', want);
   if (!want) { if (b) b.remove(); return; }
