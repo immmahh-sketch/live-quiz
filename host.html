@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
-<link rel="stylesheet" href="assets/boxes.css?v=20261107g">
+<link rel="stylesheet" href="assets/boxes.css?v=20261107h">
 <link rel="stylesheet" href="assets/train.css">
 </head>
 <body class="host">
@@ -30,7 +30,7 @@
 <script src="assets/dpad.js"></script>
 <script src="assets/demo-quiz.js"></script>
 <script src="assets/party.js"></script>
-<script src="assets/boxes.js?v=20261107g"></script>
+<script src="assets/boxes.js?v=20261107h"></script>
 <script src="assets/letter.js"></script>
 <script src="assets/traitors.js"></script>
 <script src="assets/team.js"></script>
@@ -395,7 +395,7 @@ function addBots(n) {
   G.bots = G.bots || [];
   for (let i = 0; i < n && G.bots.length < MAX_BOTS; i++) {
     const fx = G.fixedBots && BOX_BOTS[G.bots.length], [nm, em] = fx ? [fx.nm, fx.em] : BOT_NAMES[G.bots.length];
-    const bot = { pid: 'p_bot' + (G.bots.length + 1) + nm.toLowerCase().padEnd(4, 'x'), name: 'Bot ' + nm, emoji: em, skill: fx ? fx.skill : BOT_SKILL[G.bots.length], pace: BOT_PACE[G.bots.length], ...(fx ? { risk: fx.risk } : {}) };
+    const bot = { pid: 'p_bot' + (G.bots.length + 1) + nm.toLowerCase().padEnd(4, 'x'), name: 'Bot ' + nm, emoji: em, skill: fx ? fx.skill : BOT_SKILL[G.bots.length], pace: BOT_PACE[G.bots.length], ...(fx ? { risk: fx.risk, fixed: true } : {}) };
     G.bots.push(bot); present.set(bot.pid, bot.name);
     onHello({ pid: bot.pid, name: bot.name, emoji: bot.emoji });
   }

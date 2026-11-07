@@ -462,13 +462,30 @@ function bxBotStake(pid, pot) {
   for (; i < w.length - 1; i++) { x -= w[i]; if (x <= 0) break; }
   return st[i];
 }
+/** A number from 0 to 1 that depends only on the two strings, so it comes out the same in every game. */
+function bxHash(a, b) {
+  let h = 2166136261; for (const ch of a + '|' + b) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); }
+  h ^= h >>> 13; h = Math.imul(h, 0x5bd1e995); h ^= h >>> 15; return (h >>> 0) / 4294967296;
+}
 function bxBots() {
   const b = G.bx; if (!b || !(G.bots || []).length) return;
   const bot = (pid) => (G.bots || []).some((x) => x.pid === pid), sp = b.solo ? 0.45 : 1; // on one phone the bots do not dawdle
   const later = (fn, ms) => botLater(() => { if (G.bx === b) fn(); }, ms * sp);
   const step = b.step, c = b.cur;
   const skill = (m) => G.bots.find((x) => x.pid === m)?.skill ?? 0.5;
-  const guess = (m, c) => { const right = chance(0.35 + skill(m) * 0.5); return c.q.opts ? (right ? c.q.opts.findIndex((o) => o.ok) : c.q.opts.findIndex((o) => !o.ok)) : (right ? c.q.answers[0] : partyPick(['No idea', 'Pass', 'Dunno'])); };
+  const botOf = (m) => G.bots.find((x) => x.pid === m);
+  // A bot with a set nature (the warm-up's rivals) has a fixed result for every question, the same in every game: it either knows that one or
+  // it does not, whatever it does with its powers. The same goes for which wrong answer it gives.
+  const knows = (m, c) => { const bt = botOf(m); return bt?.fixed ? bxHash(bt.name, c.q.id) < 0.35 + bt.skill * 0.5 : chance(0.35 + skill(m) * 0.5); };
+  const guess = (m, c) => {
+    const right = knows(m, c), fixed = botOf(m)?.fixed;
+    if (c.q.opts) {
+      if (right) return c.q.opts.findIndex((o) => o.ok);
+      const wrong = c.q.opts.map((o, i) => ({ o, i })).filter((x) => !x.o.ok);
+      return (fixed ? wrong.sort((x, y) => bxHash(botOf(m).name, x.o.t) - bxHash(botOf(m).name, y.o.t))[0] : partyPick(wrong)).i;
+    }
+    return right ? c.q.answers[0] : fixed ? 'No idea' : partyPick(['No idea', 'Pass', 'Dunno']);
+  };
   if (step === 'vote') for (const t of b.teams) for (const m of t.members) if (bot(m)) later(() => bxAnswer(m, { bx: 'v', k: 'cap', v: partyPick(t.members) }), rnd(1000, 4000));
   if (step === 'pick') { const t = b.teams[bxPickTeam()], open = () => b.board.map((x, i) => x.st === 'open' ? i + 1 : 0).filter(Boolean); if (bot(t.captain)) later(() => { if (b.step === 'pick') bxAnswer(t.captain, { bx: 'v', k: 'pick', v: partyPick(open()), go: true }); }, rnd(2500, 6000)); }
   if (step === 'stake') { const t = b.teams[b.turn]; if (bot(t.captain)) later(() => { if (b.step === 'stake') { bxAnswer(t.captain, { bx: 'v', k: 'stake', v: bxBotStake(t.captain, t.pot), dbl: chance(0.03 + 0.2 * bxRisk(t.captain).r), go: true }); } }, rnd(2000, 5000)); }
@@ -480,7 +497,7 @@ function bxBots() {
     }, rnd(2000, 7000));
     if (bot(t.captain)) later(() => {
       if (b.step !== 'ask' || b.cur !== c) return; const vs = b.votes.ans || {}, vals = Object.values(vs);
-      if (c.mode === 'own' && !c.noPass && chance(0.2 * (1 - bxRisk(t.captain).r))) return bxAnswer(t.captain, { bx: 'v', k: 'pass', v: 1, go: true });
+      if (c.mode === 'own' && !c.noPass && (botOf(t.captain)?.fixed ? !knows(t.captain, c) && chance(0.2 + 0.4 * (1 - bxRisk(t.captain).r)) : chance(0.2 * (1 - bxRisk(t.captain).r)))) return bxAnswer(t.captain, { bx: 'v', k: 'pass', v: 1, go: true });
       if (c.mode === 'own' && chance(0.3) && !c.used.includes('fifty') && b.teams[c.origin].powers.fifty && (!c.q.opts || c.q.opts.length > 2)) return bxAnswer(t.captain, { bx: 'v', k: 'pow', v: 'fifty', go: true });
       const v = vals.length ? vals.sort((x, y) => vals.filter((z) => z === y).length - vals.filter((z) => z === x).length)[0] : guess(t.captain, c);
       bxAnswer(t.captain, { bx: 'v', k: 'ans', v, go: true });
