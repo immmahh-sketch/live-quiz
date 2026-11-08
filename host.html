@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
-<link rel="stylesheet" href="assets/boxes.css?v=20261108b">
+<link rel="stylesheet" href="assets/boxes.css?v=20261108c">
 <link rel="stylesheet" href="assets/train.css">
 </head>
 <body class="host">
@@ -30,7 +30,7 @@
 <script src="assets/dpad.js"></script>
 <script src="assets/demo-quiz.js"></script>
 <script src="assets/party.js"></script>
-<script src="assets/boxes.js?v=20261108b"></script>
+<script src="assets/boxes.js?v=20261108c"></script>
 <script src="assets/letter.js"></script>
 <script src="assets/traitors.js"></script>
 <script src="assets/team.js"></script>
@@ -369,7 +369,10 @@ async function warmupSave() {
   const rk = ranked();
   const log = (G.log || []).slice().sort((a, b) => a.index - b.index);
   // what each player answered, question by question, so the host can look through their go afterwards
-  const answersOf = (pid) => log.map((e) => { const a = e.players[pid] || {}; return { n: e.n, type: e.type, text: e.text || '', right: e.answer || '', given: a.answered ? a.answer || '' : '', correct: !!a.correct, points: a.points || 0 }; });
+  const plain = (pid) => log.map((e) => { const a = e.players[pid] || {}; return { index: e.index, seq: -1, row: { n: e.n, type: e.type, text: e.text || '', right: e.answer || '', given: a.answered ? a.answer || '' : '', correct: !!a.correct, points: a.points || 0 } }; });
+  // Box Clever: every turn of the game (all teams), with the box, category, stake and powers up front, then the question, so the host can read the go like a report
+  const turns = (G.bx?.log || []).filter((e) => e.rec).map((e, k) => { const r = e.rec, text = (r.meta.slice(0, 110) + ' ‖ ' + r.q).slice(0, 240); return { index: r.index, seq: k, row: { n: 0, type: 'boxes', text, right: r.right, given: r.said, correct: !!e.ok, points: e.delta || 0 } }; });
+  const answersOf = (pid) => { const rows = [...plain(pid), ...turns].sort((a, b) => a.index - b.index || a.seq - b.seq).map((x) => x.row); if (turns.length) rows.forEach((r, i) => { r.n = i + 1; }); return rows; };
   const real = rk.map((p, i) => ({ pid: p.id, name: p.name, emoji: p.emoji || '', score: p.score, rank: i + 1, answers: answersOf(p.id) })).filter((p) => !p.pid.startsWith('p_bot'));
   G.warmSaved = 'saving'; persist();
   try {

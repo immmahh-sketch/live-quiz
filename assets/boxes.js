@@ -172,6 +172,15 @@ function bxMakeQ(raw, kind) {
   if (kind === 'choice') q.opts = bxShuffle(raw.o.map((t, i) => ({ t, ok: i === 0 })));
   return q;
 }
+const BX_POWNAME = { double: '⚡ Double bet', swap: '🔄 Swap', make: '👉 Make them answer', host: '🎤 Make the host answer', fifty: '✂️ 50:50', pickfor: '👈 Pick their box' };
+/** One turn for the report kept with a warm-up go: which box and category, who answered, the stake, the powers used, what was said,
+ *  what the right answer was and what the pot is afterwards. t is the team whose pot moved (call it after the pot has been changed). */
+function bxRec(c, t, delta, ok, passed) {
+  const b = G.bx, org = b.teams[c.origin] || t, pw = (c.used || []).map((u) => BX_POWNAME[u] || u);
+  const who = passed ? `${t.name} passed` : c.mode === 'made' ? `${org.name} made ${t.name} answer` : c.mode === 'host' ? `${org.name}: the host answered` : t.name;
+  const said = passed ? 'Passed' : c.mode === 'host' ? 'the host' : c.locked !== undefined ? String(c.q.opts ? c.q.opts[c.locked]?.t : c.locked) : '';
+  return { index: G.qIndex, meta: [`Box ${c.num}`, b.cats[c.cat]?.n || '', who, c.stake ? 'stake ' + c.stake + (c.dbl ? ' (×4 back)' : '') : '', pw.join(' + '), 'pot ' + t.pot].filter(Boolean).join(' · '), q: String(c.q?.t || ''), said, right: passed ? '' : bxRightText(c) };
+}
 function bxStake(amt, dbl) {
   const b = G.bx, c = b.cur, t = b.teams[b.turn];
   c.stake = Math.min(t.pot, Math.max(Math.min(10, t.pot), Math.round(amt) || 0));
@@ -191,7 +200,7 @@ function bxPass() {
   t.pot = Math.max(0, t.pot + delta);
   const cell = b.board[c.num - 1]; cell.st = 'open'; cell.passed = true; cell.q = c.raw;
   c.res = { passed: true, ok: null, delta, team: t.i, right: '', said: '', broke: bxBroke(t) };
-  b.log.push({ n: c.num, team: t.i, passed: true, delta }); b.step = 'result';
+  b.log.push({ n: c.num, team: t.i, passed: true, delta, rec: bxRec(c, t, delta, null, true) }); b.step = 'result';
   sound('trombone'); persist(); render(); broadcastState();
 }
 /** The drawer shuts (and the paper folds away) before the next team is up. */
@@ -216,7 +225,7 @@ function bxSettle(ok) {
   t.pot = Math.max(0, t.pot + delta);
   const cell = b.board[c.num - 1]; cell.st = ok ? 'won' : 'lost'; cell.by = t.i;
   c.res = { ok, delta, team: t.i, broke: bxBroke(t), right: bxRightText(c), said: c.mode === 'host' ? 'the host' : c.locked !== undefined ? (c.q.opts ? c.q.opts[c.locked]?.t : c.locked) : '' };
-  b.log.push({ n: c.num, team: t.i, ok, delta }); b.asked++; b.step = 'result';
+  b.log.push({ n: c.num, team: t.i, ok, delta, rec: bxRec(c, t, delta, ok, false) }); b.asked++; b.step = 'result';
   sound(ok ? 'fanfare' : 'trombone'); if (ok) confetti();
   persist(); render(); broadcastState();
 }
