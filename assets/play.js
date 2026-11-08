@@ -3,6 +3,7 @@
 const { $, $$, esc, uid, TYPES, COLORS, store, unstore, ordinal } = LQ;
 const BRAND = LQ.brand(), BHB = BRAND.id === 'bhb';
 const PENDING = BHB ? 'lq_pending_bhb' : 'lq_pending'; // each app keeps its own waiting game code
+const LASTGAME = BHB ? 'lq_last_bhb' : 'lq_last'; // the last live game this phone was in, for 24 hours: offered again if the app is closed by accident
 /** The mark at the top of the join and install pages. */
 const joinLogo = () => BHB ? `<div class="joinlogo"><img src="${BRAND.logo}" alt="Black Horse Beamish"><h2>Training</h2></div>` : `<div class="joinlogo"><img src="assets/brand/mark.png" alt=""><h2>${esc(BRAND.name)}</h2></div>`;
 const app = $('#app');
@@ -19,7 +20,24 @@ function toast(msg, bad) { const t = $('#toast'); t.textContent = msg; t.classNa
 function send(event, payload) { if (ch) ch.send({ type: 'broadcast', event, payload }); }
 
 // ------------------------------------------------------------------ join
+/** The game this phone was last in, if it's less than a day old and hasn't finished. */
+function lastGame() {
+  const l = store(LASTGAME); if (!l) return null;
+  if (!/^[A-Z0-9]{6}$/.test(l.code || '') || Date.now() - l.at > 24 * 3600e3) { unstore(LASTGAME); return null; }
+  return l;
+}
+function renderRejoin(l) {
+  app.innerHTML = `<div class="joinbox card">${joinLogo()}
+    <h3 class="center" style="margin:6px 0 4px">Welcome back${l.name ? ', ' + esc(l.name) : ''}!</h3>
+    <p class="center muted" style="margin-top:0">You were in game <b>${esc(l.code)}</b>${l.emoji ? ' as ' + esc(l.emoji) + ' ' + esc(l.name) : ''}. Go back in?</p>
+    <button class="btn btn-primary btn-lg btn-block" id="rejoin">Rejoin game ${esc(l.code)}</button>
+    <button class="btn btn-ghost btn-block" id="rejoinNo" style="margin-top:10px">Join a different game</button></div>`;
+  $('#rejoin').onclick = () => { P.code = l.code; P.name = l.name || P.name; if (LQ.EMOJIS.includes(l.emoji)) P.emoji = l.emoji; P.askedLast = true; P.autoJoin = true; renderJoin(); };
+  $('#rejoinNo').onclick = () => { unstore(LASTGAME); P.askedLast = true; renderJoin(); };
+}
 function renderJoin(msg) {
+  const last = !msg && !P.askedLast && !new URLSearchParams(location.search).get('g') && lastGame();
+  if (last) return renderRejoin(last);
   const pend = store(PENDING); const pending = pend && Date.now() - pend.at < 3 * 3600000 ? pend.code : '';
   const code = (new URLSearchParams(location.search).get('g') || P.code || pending || '').toUpperCase();
   app.innerHTML = `<div class="joinbox card">${joinLogo()}<p class="center muted" style="margin-top:-6px">${BHB ? 'Join the session on the screen' : 'Join the game on the screen'}</p>
@@ -31,6 +49,7 @@ function renderJoin(msg) {
     <button class="btn btn-primary btn-lg btn-block">Let's go</button></form>
     ${BHB ? '' : `<p class="center muted small" style="margin:14px 0 0">No game on? <a href="home"><b>Play at home</b></a>: Millionaire, The Chase, The Weakest Link and The 1% Club, on your own or with friends.</p>`}</div>`;
   $$('[data-em]').forEach((b) => b.onclick = () => { P.emoji = b.dataset.em; $$('[data-em]').forEach((x) => x.classList.toggle('on', x === b)); });
+  if (P.autoJoin) { P.autoJoin = false; setTimeout(() => { if ($('#join') && $('#code').value && $('#name').value.trim()) $('#join').requestSubmit(); }, 0); }
   $('#scanBtn').onclick = () => scanQr((found) => { $('#code').value = found; if ($('#name').value.trim()) $('#join').requestSubmit(); else $('#name').focus(); });
   $('#join').onsubmit = (e) => {
     e.preventDefault();
@@ -115,7 +134,7 @@ function connect() {
       }
       await ch.track({ role: P.view ? 'viewer' : 'player', pid: P.pid, name: P.name, emoji: P.emoji });
       hello(); clearInterval(helloT); helloT = setInterval(() => { if (!P.joined) hello(); }, 2000);
-      setTimeout(() => { if (!P.joined) { clearInterval(helloT); leave(); renderJoin('No game found with that code. Check the screen — the host needs to have the game open.'); } }, 9000);
+      setTimeout(() => { if (!P.joined) { clearInterval(helloT); leave(); unstore(LASTGAME); renderJoin('No game found with that code. Check the screen — the host needs to have the game open.'); } }, 9000);
     } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') { toast('Connection trouble — retrying…', true); }
   });
   clearInterval(watchdogT); watchdogT = setInterval(watchdog, 1500);
@@ -145,7 +164,8 @@ function onState(s) {
   P.pausedRem = s.paused && s.phase === 'question' ? (s.wipe ? s.wipe.remainingMs : s.remainingMs) : null;
   syncPauseUi(s);
   syncCallBar(s);
-  if (!P.joined) { P.joined = true; clearInterval(helloT); }
+  if (!P.joined) { P.joined = true; clearInterval(helloT); if (!P.view && !P.test && !P.partner && /^[A-Z0-9]{6}$/.test(P.code || '')) store(LASTGAME, { code: P.code, name: P.name, emoji: P.emoji, at: Date.now() }); }
+  if (s.phase === 'final') unstore(LASTGAME);
   keepAwake();
   if (typeof teamBtnSync === 'function') teamBtnSync();
   if (s.phase === 'question' && typeof s.remainingMs === 'number') { P.deadline = Date.now() + (s.wipe ? s.wipe.remainingMs : s.remainingMs); partyDeadline(s); }
@@ -191,6 +211,7 @@ function render() {
   partyPhoneAfter(s); // the power cards button and the banner when a card is played (assets/party-phone.js)
   const qId = s.q?.id || '';
   syncHurry(s, qId);
+  syncCamAsk(s);
   if (s.race && s.q) { syncRace(s); const el = $('#racePos'); if (el) el.outerHTML = racePlaceHtml(s); }
   const rc = P.race && P.race.qId === qId ? P.race : null;
   if (s.wheel && P.viewKey.startsWith(`${s.phase}:${qId}:`)) {
@@ -235,7 +256,7 @@ function render() {
   else if (s.phase === 'slide' && s.slide?.groups && !s.slide.groups.again) app.innerHTML = top + top2 + `<div class="state slide">${groupWheelHtml(s.slide)}${ctrl('next', s.more === false ? 'Final results 🏆' : 'Next ▶')}</div>`;
   else if (s.phase === 'slide' && (s.slide?.layout || s.slide?.visual || s.slide?.kicker)) app.innerHTML = top + top2 + `<div class="state slide">${LQ.trainSlideHtml(s.slide)}${ctrl('next', s.more === false ? 'Final results 🏆' : 'Next ▶')}</div>`;
   else if (s.phase === 'slide') app.innerHTML = top + top2 + `<div class="state slide${s.slide?.theme === 'traitors' ? ' trslide' : ''}">${s.slide?.image ? `<img class="slideimg" src="${esc(s.slide.image)}" alt="">` : s.slide?.theme === 'traitors' ? trCrestSvg() : '<div class="em">🪧</div>'}${s.slide?.title ? `<h2>${esc(s.slide.theme === 'traitors' ? s.slide.title.replace(/^🗡\s*/, '') : s.slide.title)}</h2>` : ''}<div class="slidebody">${LQ.slideHtml(s.slide?.body || '')}</div>${ctrl('next', s.more === false ? 'Final results 🏆' : 'Next ▶')}</div>`;
-  else if (s.phase === 'typecard') { const t = s.typecard?.type; app.innerHTML = top + top2 + `<div class="state typecard"><div class="em">${TYPES[t]?.icon || '❓'}</div><p class="muted" style="margin:0">Next up${s.typecard?.run > 1 ? ` · ${s.typecard.run} questions` : ''}</p><h2>${esc(TYPES[t]?.label || '')}</h2><p style="font-weight:700">${esc(LQ.HOWTO[s.typecard?.how || (t === 'boxes' && s.roster ? 'boxesSolo' : t)] || '')}</p>${ctrl('next', "Let's go ▶")}</div>`; }
+  else if (s.phase === 'typecard') { const t = s.typecard?.type; app.innerHTML = top + top2 + `<div class="state typecard"><div class="em">${TYPES[t]?.icon || '❓'}</div><p class="muted" style="margin:0">Next up${s.typecard?.run > 1 ? ` · ${s.typecard.run} questions` : ''}</p><h2>${esc(TYPES[t]?.label || '')}</h2><p style="font-weight:700">${esc(t === 'potato' && s.typecard?.pts ? LQ.potatoHow(...s.typecard.pts) : LQ.HOWTO[s.typecard?.how || (t === 'boxes' && s.roster ? 'boxesSolo' : t)] || '')}</p>${ctrl('next', "Let's go ▶")}</div>`; }
   else if (s.phase === 'countdown' && s.raceIntro && s.raceIntro.kind && s.raceIntro.kind !== 'race') { const ri = s.raceIntro; app.innerHTML = top + top2 + `<div class="state raceintro"><div class="em">${ri.icon || '🎮'}</div><p class="muted" style="margin:0;font-weight:800;letter-spacing:.08em;text-transform:uppercase">${esc(ri.title || '')}</p><h2>${esc(ri.topic)}</h2><p style="font-weight:700">${esc(ri.sub || '')}</p></div>`; }
   else if (s.phase === 'countdown' && s.raceIntro) {
     const ri = s.raceIntro;
@@ -264,6 +285,22 @@ function render() {
 }
 /** With bots in the game, a button in the corner asks the host to hurry them up: they answer, take their turns and
  *  finish there and then, so nobody sits through their thinking time. One press per question is enough for everyone. */
+/** The host's video call has a name nobody owns yet and this player isn't matched to a face: let them tap their own name. */
+function syncCamAsk(s) {
+  const q = s.camq, want = !!q && q.none.includes(P.pid) && !P.view && !P.camLater && !['question', 'countdown'].includes(s.phase);
+  let el = $('#camAsk');
+  if (!want) { if (el) el.remove(); return; }
+  const key = q.names.join('|');
+  if (el && el.dataset.key === key) return;
+  if (!el) { document.body.insertAdjacentHTML('beforeend', '<div class="camask" id="camAsk"></div>'); el = $('#camAsk'); }
+  el.dataset.key = key;
+  el.innerHTML = `<b>📷 Are you on the video call?</b><span>Tap your name on it, so your face shows on the big screen.</span><div class="camasknames">${q.names.map((n) => `<button type="button" data-cam="${esc(n)}">${esc(n)}</button>`).join('')}</div><div class="camaskrow"><button type="button" data-cam="-">I'm not on camera</button><button type="button" data-cam="later">Not now</button></div>`;
+  el.onclick = (e) => {
+    const b = e.target.closest('[data-cam]'); if (!b) return;
+    if (b.dataset.cam === 'later') P.camLater = true; else send('camlink', { pid: P.pid, name: b.dataset.cam });
+    el.remove();
+  };
+}
 function syncHurry(s, qId) {
   if (s.bx) P.sawBx = true; // Box Clever's bots already move fast, Hot Potato in the same go included
   const want = s.phase === 'question' && !P.sawBx && s.bots > 0 && !s.hurried && !P.view && P.hurriedQ !== qId;
@@ -512,7 +549,7 @@ function potatoView(s) {
     return `<div class="state"><div class="em potbob">${live.map(() => '💣').join('')}</div><h2>${holders} ${live.length > 1 ? 'have the bombs' : 'has the bomb'}</h2><p class="muted">Fingers crossed it doesn't come to you…</p><p class="small muted">${p.passes} pass${p.passes === 1 ? '' : 'es'} so far</p></div>${boomNote}${foot}`;
   }
   const busy = live.map((b) => b.holder);
-  if (mine.stage === 'pass') return `<div class="pq">✅ Right! Get rid of it: who gets the bomb?</div><div class="potpass">${p.players.filter((x) => !busy.includes(x.pid)).map((x) => `<button class="btn" data-pass="${x.pid}" data-bomb="${mine.i}"><span class="em">${x.emoji || '🙂'}</span>${esc(x.name)}</button>`).join('')}</div>`;
+  if (mine.stage === 'pass') return `<div class="pq">✅ Right! +${(p.perCorrect ?? 50).toLocaleString('en-GB')} · get rid of it: who gets the bomb?</div><div class="potpass">${p.players.filter((x) => !busy.includes(x.pid)).map((x) => `<button class="btn" data-pass="${x.pid}" data-bomb="${mine.i}"><span class="em">${x.emoji || '🙂'}</span>${esc(x.name)}</button>`).join('')}</div>`;
   if (!mine.row) return `<div class="state"><div class="em">💣</div><h2>You've got the bomb!</h2></div>`;
   const wrong = mine.last?.ok === false && mine.last.pid === P.pid ? `<p class="center small" style="color:var(--bad);font-weight:800;margin:4px 0">✗ Wrong, it was ${esc(mine.last.answer)} (−${mine.last.lose ?? p.perWrong ?? 100}). Try this one, quick!</p>` : '';
   return `<div class="potalert">💣 You've got the bomb! Answer to pass it on</div>${wrong}<div class="pq">${esc(mine.row.text)}</div>${optsHtml(mine.row, 'data-pk')}${boomNote}${foot}`;
@@ -1009,12 +1046,13 @@ function warmBoardHtml(s) {
   const w = s.warm, mine = w.places?.[P.pid]; let hit = false;
   const place = (t) => w.board.filter((x) => x.score > t.score).length + 1;
   const test = w.test ? `<p class="small" style="font-weight:800;margin:10px 0 0">🧪 Test game: this score isn't saved.${mine ? ` It would have come ${ordinal(mine.place)} of ${w.count + 1}.` : ''}</p>` : '';
-  return `${test}<h3 style="margin:18px 0 4px">🏆 ${w.solo ? 'Scoreboard' : 'Warm-up scoreboard'}</h3><p class="muted small" style="margin:0 0 6px">${mine && !w.test ? `You're ${ordinal(mine.place)} of ${w.count} so far` : `${w.count} played so far`}</p>
-    <div class="board warmboard" id="warmBoard">${w.board.map((t) => { const me = !hit && mine && t.score === mine.score && t.name === P.name; if (me) hit = true; return `<div class="brow ${me ? 'me' : ''}"><div class="rank">${place(t)}</div><div>${esc(t.emoji || '')} ${esc(t.name)}</div><div>${t.score}</div></div>`; }).join('')}</div>
+  const nx = w.next, pts = (n) => Number(n).toLocaleString('en-GB');
+  return `${test}<h3 style="margin:18px 0 4px">🏆 ${nx ? 'Points towards ' + esc(nx.label) : w.solo ? 'Scoreboard' : 'Warm-up scoreboard'}</h3>${nx ? `<p class="small" style="margin:0 0 4px;font-weight:800">${esc(nx.when)}${mine && !w.test ? ` · you've banked ${pts(mine.score)} so far` : ''}</p>` : ''}<p class="muted small" style="margin:0 0 6px">${mine && !w.test ? `You're ${ordinal(mine.place)} of ${w.count} so far` : `${w.count} played so far`}</p>
+    <div class="board warmboard" id="warmBoard">${w.board.map((t) => { const me = !hit && mine && t.score === mine.score && t.name === P.name; if (me) hit = true; return `<div class="brow ${me ? 'me' : ''}"><div class="rank">${place(t)}</div><div>${esc(t.emoji || '')} ${esc(t.name)}</div><div>${nx ? pts(t.score) : t.score}</div></div>`; }).join('')}</div>
     ${w.solo ? '' : '<p class="muted small" style="margin-top:8px">The top score when the warm-up closes gets 1,000 bonus points at the start of the quiz.</p>'}`;
 }
 document.addEventListener('click', (e) => {
-  if (e.target.id === 'another') { leave(); P.code = ''; history.replaceState(null, '', location.pathname); renderJoin(); }
+  if (e.target.id === 'another') { leave(); unstore(LASTGAME); P.code = ''; history.replaceState(null, '', location.pathname); renderJoin(); }
   const c = e.target.closest?.('[data-ctrl]'); if (c) { send('ctrl', { pid: P.pid, cmd: c.dataset.ctrl }); c.disabled = true; if (!['pause', 'resume'].includes(c.dataset.ctrl)) c.textContent = 'Moving on…'; }
 });
 

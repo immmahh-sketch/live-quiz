@@ -323,7 +323,7 @@ async function bootWarmup() {
   let quiz = LQ.normalizeQuiz(r.quiz);
   quiz.questions = quiz.questions.filter((q) => LQ.validate(q).length === 0);
   quiz.rounds = quiz.rounds.filter((x) => quiz.questions.some((q) => q.round === x.id));
-  G = { code: newCode(), quizId: r.quiz.id, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: true, warmup: WARMUP, warmTop: r.top || [], warmCount: r.count || 0, warmBonus: r.bonus || null, warmUntil: r.until || null, warmSolo: !!r.standalone, warmBots: quiz.questions.some((q) => q.type === 'boxes') ? BOX_BOTS.length : r.bots ?? quiz.settings?.warmup?.bots ?? 3, fixedBots: quiz.questions.some((q) => q.type === 'boxes'), warmReplay: !!r.replay };
+  G = { code: newCode(), quizId: r.quiz.id, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: true, warmup: WARMUP, warmTop: r.top || [], warmCount: r.count || 0, warmBonus: r.bonus || null, warmUntil: r.until || null, warmSolo: !!r.standalone, warmNext: quiz.settings?.warmup?.next || null, warmBots: quiz.questions.some((q) => q.type === 'boxes') ? BOX_BOTS.length : r.bots ?? quiz.settings?.warmup?.bots ?? 3, fixedBots: quiz.questions.some((q) => q.type === 'boxes'), warmReplay: !!r.replay };
   persist(); connect();
   setTimeout(() => addBots(G.warmBots), 0); // settings.warmup.bots (3 unless set); a test go too, so the host sees it as players do
   setTimeout(() => { if (musicOn()) loadYT().catch(() => {}); }, 0);
@@ -414,6 +414,23 @@ function botLater(fn, ms) {
 function botClear() { while (botTimers.length) clearTimeout(botTimers.pop().id); }
 /** A phone asked to hurry the bots up: everything they were waiting to do happens now, and every later move comes fast,
  *  so the bots answer, take their turns and finish the race without the players sitting through their thinking time. */
+/** Players whose call camera isn't matched to them yet, and the call names nobody owns: phones show these so a player can pick their own (null when there's nothing to ask). */
+function camAskState() {
+  if (!onCall() || !window.QuizCam || !QuizCam.callNames) return null;
+  const ps = players().filter((p) => !p.id.startsWith('p_bot')), links = G.camLinks || {};
+  const owned = new Set(ps.map((p) => QuizCam.linkedName(p.id)).filter(Boolean));
+  const names = QuizCam.callNames.filter((c) => !c.host && c.name && !owned.has(c.name)).map((c) => c.name).slice(0, 12);
+  const none = ps.filter((p) => !QuizCam.linkedName(p.id) && links[p.id] !== '-').map((p) => p.id);
+  return names.length && none.length ? { names, none } : null;
+}
+const camAskCount = () => { const q = camAskState(); return q ? ` (${q.none.length} to match)` : ''; };
+function onCamLink({ pid, name }) {
+  if (!G.players[pid]) return;
+  const n = String(name || '');
+  if (n !== '-' && !QuizCam.callNames.some((c) => !c.host && c.name === n)) return;
+  G.camLinks = G.camLinks || {}; G.camLinks[pid] = n; persist(); broadcastState();
+  const open = document.querySelector('.camlinks'); if (open) open.closest('.modal').dispatchEvent(new Event('camredraw'));
+}
 function onHurry({ pid }) {
   if (!G.bots?.length || G.phase !== 'question' || !G.q || botsHurried()) return;
   if (!G.players[pid] && !(G.viewers || {})[pid]) return;
@@ -526,6 +543,7 @@ function connect() {
   ch.on('broadcast', { event: 'ctrl' }, ({ payload }) => onCtrl(payload || {}));
   ch.on('broadcast', { event: 'hint' }, ({ payload }) => onHint(payload || {}));
   ch.on('broadcast', { event: 'hurry' }, ({ payload }) => onHurry(payload || {}));
+  ch.on('broadcast', { event: 'camlink' }, ({ payload }) => onCamLink(payload || {})); // a player picking their own name on the call
   ch.on('broadcast', { event: 'card' }, ({ payload }) => onCard(payload || {})); // a power card (assets/party.js)
   ch.on('broadcast', { event: 'team' }, ({ payload }) => teamHandle(payload || {})); // a teammate's phone, and a Traitor's second phone (assets/team.js, assets/traitors.js)
   ch.on('broadcast', { event: 'tr' }, ({ payload }) => onTr(payload || {})); // the Traitor's menu and the vote (assets/traitors.js)
@@ -563,6 +581,7 @@ function onCall() { return !!window.QuizCall && (QuizCall.state === 'live' || Qu
 function stateForPlayers() {
   const s = { ...(G.quiz.settings?.noScores ? { noScores: true } : {}), phase: G.phase, code: G.code, qIndex: G.qIndex, num: qNum(G.qIndex), practice: G.qIndex >= 0 && practiceQ(), total: total(), more: G.qIndex + 1 < G.quiz.questions.length, title: G.quiz.title, now: Date.now(), auto: !!G.auto, paused: !!G.paused, ...(PREVIEW ? { preview: true } : {}), ...(G.test ? { test: true } : {}), ...(G.bots?.length && G.phase === 'question' ? { bots: G.bots.length, hurried: botsHurried() } : {}) };
   // the call phones can join, while this screen is on it (a fresh pass well before the old one runs out)
+  const cq = camAskState(); if (cq) s.camq = cq;
   if (onCall()) { if (callPassExp - Date.now() < 2 * 3600e3 && !callPassP) callPassP = makeCallPass().then(() => { if (callPass) broadcastState(); }).catch(() => {}).finally(() => { callPassP = null; }); if (callPass) s.call = { room: QuizCall.room, pass: callPass }; }
   const nowT = G.paused ? G.pausedAt : Date.now(); // a paused clock reads the same until it is picked up again
   if (G.phase === 'slide') { const q = question(); s.slide = { title: q.text || '', body: q.body || '', ...(q.theme === 'traitors' ? { theme: 'traitors' } : {}), image: q.media?.kind === 'image' ? q.media.url || '' : '', ...(q.layout ? { layout: q.layout } : {}), ...(q.kicker ? { kicker: q.kicker } : {}), ...(q.visual ? { visual: q.visual } : {}), ...(q.media?.credit ? { credit: q.media.credit } : {}), ...(q.groups ? { groups: { id: q.id, list: groupsView(q), roles: (q.groups.roles || []).map((r) => ({ r: r.r, t: r.t || '' })) } } : (q.exercise && teamsSlideFor(G.qIndex)) ? { groups: { again: true, id: teamsSlideFor(G.qIndex).id, list: groupsView(teamsSlideFor(G.qIndex)), roles: (teamsSlideFor(G.qIndex).groups.roles || []).map((r) => ({ r: r.r, t: r.t || '' })) } } : {}) }; if (G.brk) s.brk = { remainingMs: Math.max(0, G.brk.endsAt - nowT), totalMs: G.brk.totalMs, what: q.exercise ? 'exercise' : 'break' }; }
@@ -601,7 +620,7 @@ function stateForPlayers() {
   if (G.flash) s.flash = { id: G.flash.id, url: G.flash.url, ms: Math.max(0, G.flash.until - Date.now()) };
   const fp = flashAhead(); if (fp) { s.flashPre = fp; flashPreload(fp); }
   if (G.phase === 'countdown' && G.raceIntro) s.raceIntro = { kind: G.raceIntro.kind || 'race', title: TYPES[question().type]?.label, icon: TYPES[question().type]?.icon, sub: introSub(question()), step: G.raceIntro.step, n: G.raceIntro.n, topic: raceTopic(question()), target: +question().target || 10, maxWrong: question().maxWrong ?? 10 };
-  if (G.phase === 'typecard') s.typecard = { type: question().kind || question().type, n: qNum(G.qIndex), run: typeRun(G.qIndex), how: question().mode === 'live' ? 'task-live' : undefined };
+  if (G.phase === 'typecard') s.typecard = { type: question().kind || question().type, n: qNum(G.qIndex), run: typeRun(G.qIndex), how: question().mode === 'live' ? 'task-live' : undefined, pts: question().type === 'potato' ? [question().perCorrect ?? 50, question().perWrong ?? 100, question().penalty ?? 300] : undefined };
   if (G.phase === 'round') { const r = roundOf(G.qIndex); s.round = { n: r.n, title: r.title, practice: !!r.practice, intro: r.intro || '', count: r.count }; }
   if (G.phase === 'question' && G.q?.wheelRevealed !== undefined) s.wheel = { revealed: G.q.wheelRevealed, category: question().category, layout: G.q.view.layout };
   // A warm-up has no shared screen, so the phone's board turns the letters: it gets the ones already turned, never the rest
@@ -625,7 +644,7 @@ function stateForPlayers() {
   // A warm-up has no shared screen: everything plays on the phone, so a Picture Reveal's picture and tiles go there too.
   if (G.warmup && G.phase === 'question' && G.q?.reveal && question()?.media?.url) { const r = G.q.reveal; s.reveal = { url: question().media.url, cols: r.cols, rows: r.rows, off: r.order.slice(0, r.shown), blur: r.blur ? blurPx(r) : null }; }
   // a warm-up: the whole scoreboard so far, for every phone in the game to see where it ranks
-  if (G.phase === 'final' && G.warmup && G.warmSaved?.board) s.warm = { board: G.warmSaved.board.slice(0, 150), count: G.warmSaved.count, places: G.warmSaved.places || {}, test: !!G.warmSaved.test, solo: !!G.warmSolo };
+  if (G.phase === 'final' && G.warmup && G.warmSaved?.board) s.warm = { board: G.warmSaved.board.slice(0, 150), count: G.warmSaved.count, places: G.warmSaved.places || {}, test: !!G.warmSaved.test, solo: !!G.warmSolo, next: G.warmNext || undefined };
   partyState(s); // power cards, Play Your Cards Right, the task
   return s;
 }
@@ -2444,8 +2463,8 @@ async function grade(noAi, ctx) {
     const p = G.q.potato || { scores: {}, rights: {}, passes: 0, bombs: [] }, booms = p.bombs.map((b) => b.exploded).filter(Boolean);
     for (const pid of new Set([...livePids(), ...Object.keys(p.scores)])) {
       if (!PL[pid]) continue;
-      const pts = p.scores[pid] || 0, boom = booms.includes(pid), n = p.rights[pid] || 0, w = p.wrongs?.[pid] || 0, wn = w ? ` · ${w} wrong (−${w * (q.perWrong ?? 100)})` : '';
-      byPlayer[pid] = { answered: true, correct: pts > 0, partial: pts > 0 ? 1 : 0, points: pts, got: n, exploded: boom, note: boom ? `💥 BOOM! You were holding the bomb${wn}` : n ? `💣 ${n} right with the bomb in your hands${wn}` : w ? `💣 ${w} wrong (−${w * (q.perWrong ?? 100)})` : '💣 You survived the bomb' };
+      const pts = p.scores[pid] || 0, boom = booms.includes(pid), n = p.rights[pid] || 0, w = p.wrongs?.[pid] || 0, N = (x) => x.toLocaleString('en-GB'), bits = [n ? `✅ ${n} right (+${N(n * (q.perCorrect ?? 50))})` : '', w ? `❌ ${w} wrong (−${N(w * (q.perWrong ?? 100))})` : '', boom ? `💥 bomb (−${N(q.penalty ?? 300)})` : ''].filter(Boolean).join(' · ');
+      byPlayer[pid] = { answered: true, correct: pts > 0, partial: pts > 0 ? 1 : 0, points: pts, got: n, exploded: boom, note: boom ? `💥 BOOM! You were holding the bomb · ${bits}` : bits ? `💣 ${bits}` : '💣 You survived the bomb' };
       if (pts > 0) stats.right++;
     }
     stats.exploded = booms.map((x) => ({ pid: x, name: pname(x), emoji: pem(x) })); stats.passes = p.passes; stats.answered = Object.keys(byPlayer).length;
@@ -2844,7 +2863,7 @@ function renderTypeCard() {
     bind(); return;
   }
   stage.innerHTML = `<div class="stage-top"><div class="pillbox"><span class="hpill">${esc(G.quiz.title)}</span><span class="hpill">Question ${qNum(G.qIndex)} of ${total()}</span>${practiceQ() ? '<span class="hpill practicepill">🧪 Practice · no points</span>' : ''}</div></div>
-    <div class="stage-main typecard"><div class="tc-icon">${T.icon}</div><div class="tc-next">Next up${run > 1 ? ` · ${run} questions` : ''}</div><h1 class="big">${esc(T.label)}</h1><p class="tc-how">${esc(LQ.HOWTO[q.mode === 'live' ? 'task-live' : k] || T.blurb || '')}</p></div>
+    <div class="stage-main typecard"><div class="tc-icon">${T.icon}</div><div class="tc-next">Next up${run > 1 ? ` · ${run} questions` : ''}</div><h1 class="big">${esc(T.label)}</h1><p class="tc-how">${esc(q.type === 'potato' ? LQ.potatoHow(q.perCorrect ?? 50, q.perWrong ?? 100, q.penalty ?? 300) : LQ.HOWTO[q.mode === 'live' ? 'task-live' : k] || T.blurb || '')}</p></div>
     ${hostBar(`<button class="btn btn-ghost" data-act="end">End game</button><button class="btn btn-primary btn-lg" data-act="primary">Let's go ▶</button>`)}`;
   bind();
 }
@@ -2988,7 +3007,7 @@ function renderLobby() {
         <div class="players" id="players"></div>
         </div>
     </div></div>
-    ${hostBar(`<button class="btn btn-ghost" data-act="builder">${TV ? '🏠 Home' : PREVIEW ? 'Close preview' : 'Back to builder'}</button><button class="btn btn-ghost ${musicOn() ? 'on' : ''}" data-act="music" title="Background music while the clock runs (M)">${musicOn() ? '🎵 Music: on' : '🔇 Music: off'}</button><button class="btn btn-ghost ${G.auto ? 'on' : ''}" data-act="auto" title="Self-play: the screen moves on by itself and players can press Start and Next on their phones, so nobody has to sit at this screen">${G.auto ? '🎮 Runs itself: on' : '🎮 Runs itself: off'}</button>${TV ? '' : `<button class="btn btn-ghost ${G.solo ? 'on' : ''}" data-act="solo" title="Test by yourself: adds three bots and opens a player panel here so you can answer on this screen">${G.solo ? '🧪 Testing solo: on' : '🧪 Test by myself'}</button>`}<button class="btn btn-ghost" data-act="bots" ${(G.bots?.length || 0) >= MAX_BOTS ? 'disabled' : ''} title="Test mode: add simulated players who answer on their own (three, then five at a time, up to ${MAX_BOTS})">${(G.bots?.length || 0) >= MAX_BOTS ? `🤖 ${G.bots.length} bots (the most)` : G.bots?.length ? `🤖 ${G.bots.length} bots · add 5` : '🤖 Add test bots'}</button>${(G.bots?.length || 0) < MAX_BOTS ? `<button class="btn btn-ghost" data-act="bots20" title="Fill up to ${MAX_BOTS} bots to see a big game">🤖×${MAX_BOTS}</button>` : ''}${window.QuizCam?.on ? '<button class="btn btn-ghost" data-act="camlinks" title="Which camera on the call belongs to which player (matched by name; fix any here)">🎥 Cameras</button>' : ''}${!DEMO && !PREVIEW ? `<button class="btn btn-ghost ${G.bonuses?.length ? 'on' : ''}" data-act="bonus" title="Give a player bonus points before the first question, like the warm-up's top scorer">🎁 Bonus points${G.bonuses?.length ? ' · ' + G.bonuses.length : ''}</button>` : ''}<button class="btn btn-primary btn-lg" data-act="primary" id="startBtn">Start ▶</button>`)}`;
+    ${hostBar(`<button class="btn btn-ghost" data-act="builder">${TV ? '🏠 Home' : PREVIEW ? 'Close preview' : 'Back to builder'}</button><button class="btn btn-ghost ${musicOn() ? 'on' : ''}" data-act="music" title="Background music while the clock runs (M)">${musicOn() ? '🎵 Music: on' : '🔇 Music: off'}</button><button class="btn btn-ghost ${G.auto ? 'on' : ''}" data-act="auto" title="Self-play: the screen moves on by itself and players can press Start and Next on their phones, so nobody has to sit at this screen">${G.auto ? '🎮 Runs itself: on' : '🎮 Runs itself: off'}</button>${TV ? '' : `<button class="btn btn-ghost ${G.solo ? 'on' : ''}" data-act="solo" title="Test by yourself: adds three bots and opens a player panel here so you can answer on this screen">${G.solo ? '🧪 Testing solo: on' : '🧪 Test by myself'}</button>`}<button class="btn btn-ghost" data-act="bots" ${(G.bots?.length || 0) >= MAX_BOTS ? 'disabled' : ''} title="Test mode: add simulated players who answer on their own (three, then five at a time, up to ${MAX_BOTS})">${(G.bots?.length || 0) >= MAX_BOTS ? `🤖 ${G.bots.length} bots (the most)` : G.bots?.length ? `🤖 ${G.bots.length} bots · add 5` : '🤖 Add test bots'}</button>${(G.bots?.length || 0) < MAX_BOTS ? `<button class="btn btn-ghost" data-act="bots20" title="Fill up to ${MAX_BOTS} bots to see a big game">🤖×${MAX_BOTS}</button>` : ''}${window.QuizCam?.on ? '<button class="btn btn-ghost" data-act="camlinks" title="Which camera on the call belongs to which player (matched by name; fix any here)">🎥 Cameras${camAskCount()}</button>' : ''}${!DEMO && !PREVIEW ? `<button class="btn btn-ghost ${G.bonuses?.length ? 'on' : ''}" data-act="bonus" title="Give a player bonus points before the first question, like the warm-up's top scorer">🎁 Bonus points${G.bonuses?.length ? ' · ' + G.bonuses.length : ''}</button>` : ''}<button class="btn btn-primary btn-lg" data-act="primary" id="startBtn">Start ▶</button>`)}`;
   new QRCode($('#qr'), { text: url, width: 380, height: 380, correctLevel: QRCode.CorrectLevel.M });
   renderLobbyPlayers(); bind();
 }
@@ -3086,6 +3105,7 @@ function camLinksModal() {
       <p class="muted small">${names.length} on the call: ${names.map((c) => esc(c.name)).join(', ') || 'nobody yet'}</p>
       <div class="row" style="justify-content:flex-end"><button class="btn btn-primary" data-x style="background:var(--brand);color:#fff">Done</button></div>`;
     $('[data-x]', m).onclick = () => bg.remove();
+    m.addEventListener('camredraw', draw, { once: true });
     $$('[data-link]', m).forEach((sel) => sel.onchange = () => { G.camLinks = G.camLinks || {}; if (sel.value) G.camLinks[sel.dataset.link] = sel.value; else delete G.camLinks[sel.dataset.link]; persist(); draw(); });
   };
   draw();
@@ -3188,7 +3208,7 @@ function renderWarmFinal() {
         <div class="wusmall" style="margin-top:14px">This game</div>
         <ol class="wulist">${rk.map((p, i) => `<li class="${p.id === myPid() ? 'me' : ''}"><span class="n">${i + 1}</span><span class="nm">${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}</span><b>${p.score}</b></li>`).join('')}</ol>
         ${G.warmSolo ? '' : `<p class="wusmall" style="margin-top:auto">${G.warmBonus ? `Finish it for ${Number(G.warmBonus.play).toLocaleString('en-GB')} bonus points on quiz night; the top score when it closes${G.warmUntil ? ' on ' + esc(endsText(G.warmUntil)) : ''} gets ${Number(G.warmBonus.top).toLocaleString('en-GB')} more.` : `The top score when the warm-up closes${G.warmUntil ? ' on ' + esc(endsText(G.warmUntil)) : ''} gets 1,000 bonus points at the start of the quiz.`}</p>`}</div>
-      <div class="wuright"><div class="wusmall">🏆 ${G.warmSolo ? 'Scoreboard' : 'Warm-up scoreboard'}${sv?.count ? ` · ${sv.count} played so far` : ''}</div>
+      <div class="wuright"><div class="wusmall">🏆 ${G.warmNext ? 'Points towards ' + esc(G.warmNext.label) + ' · ' + esc(G.warmNext.when) : G.warmSolo ? 'Scoreboard' : 'Warm-up scoreboard'}${sv?.count ? ` · ${sv.count} played so far` : ''}</div>
         ${board.length ? `<ol class="wulist" id="wuBoard">${board.map((p, i) => `<li class="${i === meAt ? 'me' : ''}"><span class="n">${medal(place(p))}</span><span class="nm">${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}${i === meAt ? ' (you)' : ''}</span><b>${p.score}</b></li>`).join('')}</ol>`
           : `<p class="wusmall" style="margin-top:12px">${!sv || sv === 'saving' ? 'Loading the scoreboard…' : sv?.solo ? 'No scoreboard: this one was just for you.' : 'The scoreboard shows here once your score is saved.'}</p>`}</div>
     </div></div>

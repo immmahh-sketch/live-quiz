@@ -196,7 +196,7 @@ if (WARM) {
   const problems = []; items.forEach((q, i) => { const p = LQ.validate(q); if (p.length) problems.push(i + 1 + ' ' + q.type + ': ' + p.join('; ')); });
   console.log('problems:', problems.length ? problems.join(' | ') : 'none');
   const stamp = new Date().toISOString().slice(0, 10);
-  settings.warmup = { code: CODE, open: true, fun: true, replay: true, bots: 2, forQuiz: null, from: null, until: arg('--until', null), season: arg('--season', 's-boxclever-' + stamp) };
+  settings.warmup = { code: CODE, open: true, fun: true, replay: true, bots: 2, forQuiz: null, next: { label: 'the next hosted game', when: 'Date to be confirmed' }, from: null, until: arg('--until', null), season: arg('--season', 's-boxclever-' + stamp) };
   const quiz = { title: TITLE, settings: { ...settings, rounds }, questions: items };
   fs.writeFileSync(path.join(here, 'boxes-warmup-last.json'), JSON.stringify(quiz, null, 1));
   console.log(`warm-up: ${cats.length} categories, board pool ${cats.reduce((a, c) => a + c.qs.length, 0)} (${cats.reduce((a, c) => a + c.qs.filter((q) => q.a).length, 0)} typed), potato ${items[1].bank.length}`);
