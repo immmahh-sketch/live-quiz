@@ -18,7 +18,7 @@ run("node", ["--check", out]);
 fs.rmSync(out, { force: true });
 
 console.log("2/3 deploying…");
-run("npx", ["supabase", "functions", "deploy", "quiz-api", "--project-ref", "safcrtrfdzsnftghibot", "--no-verify-jwt"]);
+run("npx", ["supabase", "functions", "deploy", "quiz-api", "--project-ref", "safcrtrfdzsnftghibot", "--no-verify-jwt", ...(process.argv.includes("--yes") ? ["--yes"] : [])]); // --yes: the CLI asks before changing the production project
 
 console.log("3/3 checking it starts…");
 const KEY = "sb_publishable_RGaIB8W145BFCWzOxamQvA_7VIkTHMU";

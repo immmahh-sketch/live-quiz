@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
-<link rel="stylesheet" href="assets/boxes.css?v=20261108c">
+<link rel="stylesheet" href="assets/boxes.css?v=20261108d">
 <link rel="stylesheet" href="assets/train.css">
 </head>
 <body class="host">
@@ -30,7 +30,7 @@
 <script src="assets/dpad.js"></script>
 <script src="assets/demo-quiz.js"></script>
 <script src="assets/party.js"></script>
-<script src="assets/boxes.js?v=20261108c"></script>
+<script src="assets/boxes.js?v=20261108d"></script>
 <script src="assets/letter.js"></script>
 <script src="assets/traitors.js"></script>
 <script src="assets/team.js"></script>
@@ -210,7 +210,7 @@ async function returnToBank() {
   } catch (e) { toast(e.message, true); b.disabled = false; b.textContent = '↩ Return questions to the bank'; }
 }
 function toast(msg, bad) { const t = $('#toast'); t.textContent = msg; t.className = 'toast show' + (bad ? ' bad' : ''); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 3000); }
-const persist = () => store(SAVE_KEY, G);
+const persist = () => { store(SAVE_KEY, G); try { warmLive(); } catch {} };
 const players = () => Object.values(G.players);
 const ranked = () => players().slice().sort((a, b) => b.score - a.score || a.joinedAt - b.joinedAt);
 const isSlide = (q) => q?.type === 'slide';
@@ -362,6 +362,20 @@ async function warmupGate(pid) {
       if (G.phase === 'lobby') renderLobbyPlayers();
     }
   } catch {}
+}
+/** Tells the server this phone has started a go, and is still going (at most once every 20 s, whenever the game saves its state), so the
+ *  host's scoreboard can show who started and who didn't finish. Nothing goes for a test code, "Play on my phone", bots or before Start;
+ *  the server removes it when the score is saved. Players never see it. */
+let warmLiveAt = 0;
+function warmLive() {
+  if (!WARMUP || PLAYQ || /^TEST/.test(WARMUP) || typeof G === 'undefined' || !G || !G.warmup || G.phase === 'lobby' || G.phase === 'final') return;
+  const pid = myPid(), me = pid && G.players?.[pid]; if (!me) return;
+  const fresh = G.liveCode !== G.code;
+  if (!fresh && Date.now() - warmLiveAt < 20000) return;
+  warmLiveAt = Date.now(); G.liveCode = G.code;
+  const b = G.bx, item = G.quiz?.questions?.[G.qIndex], onBoxes = b && item?.type === 'boxes';
+  const progress = onBoxes ? { text: `📦 ${b.asked} of ${b.total} boxes`, step: b.asked, total: b.total } : { text: `Question ${Math.max(1, G.qIndex + 1)} of ${total()}${item?.type ? ' · ' + (LQ.TYPES[item.type]?.label || item.type) : ''}`, step: Math.max(1, G.qIndex + 1), total: total() };
+  api('warmup_start', { code: WARMUP, quizId: G.quizId, fresh, game: { code: G.code }, player: { pid, name: me.name, emoji: me.emoji || '' }, progress }, { timeout: 8000 }).catch(() => {});
 }
 /** The end of a warm-up: every real player's score goes on the scoreboard (bots never do). */
 async function warmupSave() {

@@ -671,7 +671,7 @@ function quizCard(q) {
     <div class="actions"><button class="btn btn-primary btn-sm" data-host="${q.id}" ${q.count ? '' : 'disabled'}>▶ Host</button>
       ${q.traitors ? `<button class="btn btn-sm btn-primary" data-hostpanel="${q.id}" ${q.count ? '' : 'disabled'} title="Opens the host screen and, in a window of its own that is never shared, the Traitor panel: HOLD ON, the stunt prompts and the Traitor's activity. Put that window where you can see it.">▶ Host + 🗡 Traitor screen</button><button class="btn btn-sm" data-trwin="${q.id}" title="Just the Traitor panel window (if the host screen is already open)">🗡 Panel window</button><button class="btn btn-sm btn-primary" data-traitors="${q.id}" title="Pick the Traitor in secret: open this on your phone while the laptop runs the quiz">🗡 Traitors</button>` : ''}
       <button class="btn btn-sm" data-playme="${q.id}" ${q.count ? '' : 'disabled'} title="Play it yourself on this phone, warm-up style: one screen, bots, nothing saved">📱 Play</button>
-      ${q.play ? `<button class="btn btn-sm" data-board="${q.id}" title="Every player's score, the link, and the tools for this game">🏆 Scoreboard</button><button class="btn btn-sm btn-primary" data-lb="${q.id}" title="One click: a leaderboard picture and post text, ready for Facebook">📣 Post scores</button>` : ''}
+      ${q.play ? `<button class="btn btn-sm" data-board="${q.id}" title="Every player's score, the link, and the tools for this game${q.play.playing || q.play.unfinished ? '. Green: playing right now. Grey: started a go and did not finish it' : ''}">🏆 Scoreboard${q.play.playing ? ` · 🟢 ${q.play.playing} playing` : ''}${q.play.unfinished ? ` · ⏸ ${q.play.unfinished} not finished` : ''}</button><button class="btn btn-sm btn-primary" data-lb="${q.id}" title="One click: a leaderboard picture and post text, ready for Facebook">📣 Post scores</button>` : ''}
       <button class="btn btn-sm ${q.share ? 'btn-primary' : 'btn-ghost'}" data-share="${q.id}" data-shared="${q.share ? 1 : 0}" ${q.count ? '' : 'disabled'} title="A link anyone can open to play this quiz on their phone, with no code">🔗 ${q.share ? 'Shared' : 'Link'}</button>
       <button class="btn btn-sm" data-open="${q.id}">Edit</button>
       <button class="btn btn-ghost btn-sm" data-dup="${q.id}">Duplicate</button>
@@ -693,6 +693,23 @@ function warmupBoardModal(id) {
   const bg = modal('<div id="wbBody"></div>'); $('.modal', bg).style.maxWidth = 'min(1040px, 96vw)'; S.boardOpen = { bg, id };
   if (S.warmData) drawBoardModal();
   else { $('#wbBody', bg).innerHTML = '<h3>🏆 Scoreboard</h3><p class="muted">Loading…</p>'; api('warmup_board').then(renderWarmups).catch((e) => toast(e.message, true)); }
+  // who has started a go and not finished it (host only), refreshed while this pop-up is open
+  const loadLive = () => api('warmup_live').then((l) => { S.liveData = l; if (S.boardOpen?.bg === bg && bg.isConnected && S.warmData) drawBoardModal(); }).catch(() => {});
+  loadLive();
+  const t = setInterval(() => { if (!bg.isConnected) return clearInterval(t); loadLive(); }, 20000);
+}
+/** The goes started and not finished for one warm-up: green = a ping in the last 3 minutes, grey = went quiet. */
+function warmupLiveHtml(w, plays) {
+  const rows = (S.liveData?.live || []).filter((l) => l.code === w.code && (l.season || '') === (w.season || '')); if (!rows.length) return '';
+  const now = S.liveData?.now ? Date.parse(S.liveData.now) : Date.now();
+  const ago = (t) => { const m = Math.max(0, Math.round((now - Date.parse(t)) / 60e3)); return m < 1 ? 'just now' : m < 60 ? `${m} min ago` : m < 48 * 60 ? `${Math.round(m / 60)} h ago` : `${Math.round(m / 1440)} days ago`; };
+  const at = (t) => new Date(t).toLocaleString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+  const on = rows.filter((l) => now - Date.parse(l.seen_at) < 3 * 60e3), off = rows.filter((l) => !on.includes(l));
+  const line = (l) => `<tr><td>${esc(l.emoji || '')} ${esc(l.name)}${plays.some((p) => p.pid === l.pid) ? ' <span class="muted small">· replaying</span>' : ''}</td><td class="small">${esc(l.progress || '')}</td><td class="small">started ${at(l.started_at)}</td><td class="muted small">last seen ${ago(l.seen_at)}</td></tr>`;
+  const tbl = (arr) => `<table class="wutable"><tbody>${arr.map(line).join('')}</tbody></table>`;
+  return `<div class="notice" style="margin:0 0 10px"><b>👀 Started a go</b> <span class="muted small">(only you can see this; it goes when their score is saved)</span>
+    ${on.length ? `<div style="margin-top:6px"><b>🟢 Playing now · ${on.length}</b>${tbl(on)}</div>` : ''}
+    ${off.length ? `<div style="margin-top:6px"><b>⏸ Started, not finished · ${off.length}</b>${tbl(off)}</div>` : ''}</div>`;
 }
 
 /** 🗡 Traitors: the host's secret control, made to be opened on a phone while the quiz runs on the laptop. It finds the live game by its
@@ -865,6 +882,7 @@ function warmupBoardHtml(w, r) {
         <button class="btn btn-sm btn-primary" data-wufb="${w.id}" title="One click: a leaderboard picture and post text, ready for Facebook">📣 Post scores</button>
         <button class="btn btn-ghost btn-sm" data-wutask="${w.id}" title="Judge the Taskmaster photos sent in the warm-up: the best three win points, the worst loses some">📸 Task photos</button>
         ${solo ? '' : `<button class="btn btn-ghost btn-sm" data-wurefresh="${w.id}" title="New questions from the bank for a later quiz, a new end time and a fresh scoreboard">🔄 Refresh for a new quiz</button>`}<button class="btn btn-ghost btn-sm" data-open="${w.id}">Edit</button></div>
+      ${warmupLiveHtml(w, plays)}
       ${plays.length ? `<table class="wutable"><thead><tr><th>#</th><th>Player</th><th>Score</th><th>Played</th><th>In that game</th><th></th></tr></thead><tbody>${plays.map((p, i) => `<tr><td>${i === 0 ? '🥇' : i + 1}</td><td>${esc(p.emoji || '')} ${esc(p.name)}${p.goes > 1 ? ` <span class="muted small">· ${p.goes} goes</span>` : ''}</td><td><b>${p.score}</b></td><td>${when(p.played_at)}</td><td class="muted small">${p.players} player${p.players === 1 ? '' : 's'} + ${p.bots} bots · game ${esc(p.game_code)} · came ${LQ.ordinal(p.rank)}</td><td>${p.has_answers ? `<button class="btn btn-ghost btn-sm" data-wuanswers="${esc(p.code)}|${esc(p.season || '')}|${esc(p.pid)}" title="What they answered, question by question">👀 Answers</button> ` : ''}<button class="btn btn-ghost btn-sm" data-wuforget="${esc(p.code)}|${esc(p.season || '')}|${esc(p.pid)}|${esc(p.name)}" title="Let that phone play again: a practice go that keeps their score, or reset their score">Let them replay</button>${p.test_go ? '<div class="muted small" style="margin-top:4px">🧪 Practice go allowed</div>' : ''}</td></tr>`).join('')}</tbody></table>` : '<p class="muted" style="margin:0">Nobody has played yet. Send the link!</p>'}
       ${solo ? `<p class="muted small" style="margin:8px 0 0">${w.replay ? 'Each phone shows its best go; the 👀 Answers are from that go.' : 'One go per phone'}; bots are never counted.</p>` : '<p class="muted small" style="margin:8px 0 0">One go per phone; bots are never counted. At the quiz, the 🎁 Bonus points button in the lobby picks out the top scorer.</p>'}</div>`;
   }).join('');
