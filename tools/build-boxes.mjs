@@ -39,7 +39,11 @@ for (const f of fs.readdirSync(path.join(BANK, 'topics')).filter((x) => x.endsWi
 const DECOYS = fs.existsSync(path.join(BANK, 'boxes-decoys.json')) ? Object.fromEntries(Object.entries(JSON.parse(fs.readFileSync(path.join(BANK, 'boxes-decoys.json'), 'utf8'))).map(([k, v]) => [norm(k), v])) : {}; // question text -> a believable wrong answer, written by hand
 const isNum = (a) => /^d{4}$/.test(a) || /^[d,.]+$/.test(a);
 const BAD = /\b(this picture|the picture|this image|the image|this clip|photo|shown|pictured|on screen|these)\b/i;
-const okQ = (q) => q.text && q.text.length <= 170 && !BAD.test(q.text) && !seenText.has(norm(q.text))
+// a giveaway: a long word of the right answer (or its first five letters) already sits in the question, e.g. "Which body system includes the lymph nodes?" -> "The lymphatic system"
+const STEMSKIP = /^(which|where|called|named|their|there|these|those|about|system|other|first|after|before|number|world)$/;
+const toks = (s) => norm(s).split(' ').filter((w) => w.length >= 5 && !STEMSKIP.test(w));
+const leaks = (q) => { const a = q.type === 'choice' ? q.options?.[0] : q.answers?.[0]; if (a == null) return false; const qt = toks(q.text).map((w) => w.slice(0, 5)); return toks(String(a)).some((w) => qt.includes(w.slice(0, 5))); };
+const okQ = (q) => q.text && q.text.length <= 170 && !BAD.test(q.text) && !seenText.has(norm(q.text)) && !leaks(q)
   && ((q.type === 'choice' && Array.isArray(q.options) && q.options.length === 4 && new Set(q.options.map(norm)).size === 4 && q.options.every((o) => String(o).length <= 40))
     || (q.type === 'text' && Array.isArray(q.answers) && q.answers.length && String(q.answers[0]).split(/\s+/).length <= 4 && String(q.answers[0]).length <= 32));
 
