@@ -65,6 +65,9 @@ function bxInit(q) {
   } else {
     teams = BX_TEAMS.slice(0, sz.teams).map((t, i) => ({ i, ...t, members: [], captain: null, pot: start, loan: 0, powers: { double: 1, swap: 1, make: 1, host: 1, fifty: 1, pickfor: 1 } }));
     ps.forEach((p, i) => teams[i % teams.length].members.push(p));
+    // Bonus points given before the game (the warm-up's 200 for playing, 1,000 for the winner) are part of the team's starting pot.
+    // The snapshot below already holds them, so they are not counted twice.
+    teams.forEach((t) => { const extra = t.members.reduce((a, m) => a + (G.players[m]?.bonus || 0), 0); if (extra) { t.pot = Math.max(0, start + extra); t.bonus = extra; } });
   }
   const all = q.cats || [], cats = (solo && all.length <= 5 ? all : bxShuffle(all)).slice(0, 5), reserve = bxShuffle(q.reserve || []); // the warm-up's five categories are the same for everyone, in the same order
   const board = [], spare = [];

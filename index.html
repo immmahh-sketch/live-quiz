@@ -770,7 +770,7 @@ async function warmupBonusModal(id) {
   const body = $('#wbnBody', bg);
   let r; try { r = await api('warmup_board'); } catch (e) { body.innerHTML = `<div class="error">${esc(e.message)}</div><div class="row" style="justify-content:flex-end"><button class="btn btn-primary" data-x>Close</button></div>`; $('[data-x]', bg).onclick = () => bg.remove(); return; }
   const quiz = S.quizzes.find((x) => x.id === id);
-  const wus = (r.warmups || []).filter((w) => w.forQuiz === id && !w.fun && w.bonus && (+w.bonus.play || +w.bonus.top)).sort((a, b) => (+a.week || 0) - (+b.week || 0) || String(a.until || '').localeCompare(String(b.until || '')));
+  const wus = (r.warmups || []).filter((w) => w.forQuiz === id && w.bonus && (+w.bonus.play || +w.bonus.top)).sort((a, b) => (+a.week || 0) - (+b.week || 0) || String(a.until || '').localeCompare(String(b.until || '')));
   // names that are the same person (the quiz's settings.warmSame) share a row, with their weeks added up once each
   let same = []; try { same = (await api('get', { id })).quiz?.settings?.warmSame || []; } catch {}
   const nn = (x) => String(x || '').toLowerCase().replace(/[^a-z0-9]/g, ''), par = {}, find = (x) => { par[x] = par[x] ?? x; return par[x] === x ? x : (par[x] = find(par[x])); };

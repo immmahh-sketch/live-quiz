@@ -1046,8 +1046,10 @@ function warmBoardHtml(s) {
   const w = s.warm, mine = w.places?.[P.pid]; let hit = false;
   const place = (t) => w.board.filter((x) => x.score > t.score).length + 1;
   const test = w.test ? `<p class="small" style="font-weight:800;margin:10px 0 0">🧪 Test game: this score isn't saved.${mine ? ` It would have come ${ordinal(mine.place)} of ${w.count + 1}.` : ''}</p>` : '';
-  const nx = w.next, pts = (n) => Number(n).toLocaleString('en-GB');
-  return `${test}<h3 style="margin:18px 0 4px">🏆 ${nx ? 'Points towards ' + esc(nx.label) : w.solo ? 'Scoreboard' : 'Warm-up scoreboard'}</h3>${nx ? `<p class="small" style="margin:0 0 4px;font-weight:800">${esc(nx.when)}${mine && !w.test ? ` · you've banked ${pts(mine.score)} so far` : ''}</p>` : ''}<p class="muted small" style="margin:0 0 6px">${mine && !w.test ? `You're ${ordinal(mine.place)} of ${w.count} so far` : `${w.count} played so far`}</p>
+  const nx = w.next, bn = w.bonus, pts = (n) => Number(n).toLocaleString('en-GB');
+  // linked to a hosted game: the leaderboard is the warm-up scores, and the bonus rules sit above it
+  const bonusLine = bn && nx ? `<p class="small" style="margin:0 0 6px;font-weight:800">🎁 Playing earns you ${pts(bn.play)} bonus points for ${esc(nx.label)} (${esc(String(nx.when).toLowerCase())}). The top score${w.untilText ? ' when it closes on ' + esc(w.untilText) : ''} gets ${pts(bn.top)} more, added to their starting points.</p>` : '';
+  return `${test}<h3 style="margin:18px 0 4px">🏆 ${bn && nx ? 'Warm-up leaderboard' : nx ? 'Points towards ' + esc(nx.label) : w.solo ? 'Scoreboard' : 'Warm-up scoreboard'}</h3>${nx && !bn ? `<p class="small" style="margin:0 0 4px;font-weight:800">${esc(nx.when)}${mine && !w.test ? ` · you've banked ${pts(mine.score)} so far` : ''}</p>` : ''}${bonusLine}<p class="muted small" style="margin:0 0 6px">${mine && !w.test ? `You're ${ordinal(mine.place)} of ${w.count} so far` : `${w.count} played so far`}</p>
     <div class="board warmboard" id="warmBoard">${w.board.map((t) => { const me = !hit && mine && t.score === mine.score && t.name === P.name; if (me) hit = true; return `<div class="brow ${me ? 'me' : ''}"><div class="rank">${place(t)}</div><div>${esc(t.emoji || '')} ${esc(t.name)}</div><div>${nx ? pts(t.score) : t.score}</div></div>`; }).join('')}</div>
     ${w.solo ? '' : '<p class="muted small" style="margin-top:8px">The top score when the warm-up closes gets 1,000 bonus points at the start of the quiz.</p>'}`;
 }

@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
-<link rel="stylesheet" href="assets/boxes.css?v=20261108a">
+<link rel="stylesheet" href="assets/boxes.css?v=20261108b">
 <link rel="stylesheet" href="assets/train.css">
 </head>
 <body class="host">
@@ -30,7 +30,7 @@
 <script src="assets/dpad.js"></script>
 <script src="assets/demo-quiz.js"></script>
 <script src="assets/party.js"></script>
-<script src="assets/boxes.js?v=20261108a"></script>
+<script src="assets/boxes.js?v=20261108b"></script>
 <script src="assets/letter.js"></script>
 <script src="assets/traitors.js"></script>
 <script src="assets/team.js"></script>
@@ -644,7 +644,7 @@ function stateForPlayers() {
   // A warm-up has no shared screen: everything plays on the phone, so a Picture Reveal's picture and tiles go there too.
   if (G.warmup && G.phase === 'question' && G.q?.reveal && question()?.media?.url) { const r = G.q.reveal; s.reveal = { url: question().media.url, cols: r.cols, rows: r.rows, off: r.order.slice(0, r.shown), blur: r.blur ? blurPx(r) : null }; }
   // a warm-up: the whole scoreboard so far, for every phone in the game to see where it ranks
-  if (G.phase === 'final' && G.warmup && G.warmSaved?.board) s.warm = { board: G.warmSaved.board.slice(0, 150), count: G.warmSaved.count, places: G.warmSaved.places || {}, test: !!G.warmSaved.test, solo: !!G.warmSolo, next: G.warmNext || undefined };
+  if (G.phase === 'final' && G.warmup && G.warmSaved?.board) s.warm = { board: G.warmSaved.board.slice(0, 150), count: G.warmSaved.count, places: G.warmSaved.places || {}, test: !!G.warmSaved.test, solo: !!G.warmSolo, next: G.warmNext || undefined, bonus: G.warmBonus || undefined, untilText: G.warmUntil ? endsText(G.warmUntil) : undefined };
   partyState(s); // power cards, Play Your Cards Right, the task
   return s;
 }
@@ -3125,7 +3125,7 @@ function warmCanon() {
 }
 /** What every phone that played this quiz's warm-ups has earned, all weeks together: { pid: { pts, played, topped[], name, emoji, why } }. */
 function warmBonusPeople(r) {
-  const wus = (r.warmups || []).filter((w) => w.forQuiz === G.quizId && !w.fun && w.bonus && (+w.bonus.play || +w.bonus.top));
+  const wus = (r.warmups || []).filter((w) => w.forQuiz === G.quizId && w.bonus && (+w.bonus.play || +w.bonus.top)); // a just-for-fun game counts too once it is linked to a quiz
   const byPid = {};
   for (const w of wus) {
     const rows = (r.plays || []).filter((p) => p.code === w.code && (p.season || '') === (w.season || '') && !String(p.pid).startsWith('p_bot'));
@@ -3207,8 +3207,8 @@ function renderWarmFinal() {
       <div class="wuleft"><h1 class="big wutitle">${me ? `You scored ${me.score}!` : 'Game over'}</h1>${status}
         <div class="wusmall" style="margin-top:14px">This game</div>
         <ol class="wulist">${rk.map((p, i) => `<li class="${p.id === myPid() ? 'me' : ''}"><span class="n">${i + 1}</span><span class="nm">${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}</span><b>${p.score}</b></li>`).join('')}</ol>
-        ${G.warmSolo ? '' : `<p class="wusmall" style="margin-top:auto">${G.warmBonus ? `Finish it for ${Number(G.warmBonus.play).toLocaleString('en-GB')} bonus points on quiz night; the top score when it closes${G.warmUntil ? ' on ' + esc(endsText(G.warmUntil)) : ''} gets ${Number(G.warmBonus.top).toLocaleString('en-GB')} more.` : `The top score when the warm-up closes${G.warmUntil ? ' on ' + esc(endsText(G.warmUntil)) : ''} gets 1,000 bonus points at the start of the quiz.`}</p>`}</div>
-      <div class="wuright"><div class="wusmall">🏆 ${G.warmNext ? 'Points towards ' + esc(G.warmNext.label) + ' · ' + esc(G.warmNext.when) : G.warmSolo ? 'Scoreboard' : 'Warm-up scoreboard'}${sv?.count ? ` · ${sv.count} played so far` : ''}</div>
+        ${G.warmSolo && G.warmBonus && G.warmNext ? `<p class="wusmall" style="margin-top:auto">🎁 Playing earns ${Number(G.warmBonus.play).toLocaleString('en-GB')} bonus points for ${esc(G.warmNext.label)} (${esc(G.warmNext.when)}). The top score${G.warmUntil ? ' when it closes on ' + esc(endsText(G.warmUntil)) : ''} gets ${Number(G.warmBonus.top).toLocaleString('en-GB')} more, added to their starting points.</p>` : G.warmSolo ? '' : `<p class="wusmall" style="margin-top:auto">${G.warmBonus ? `Finish it for ${Number(G.warmBonus.play).toLocaleString('en-GB')} bonus points on quiz night; the top score when it closes${G.warmUntil ? ' on ' + esc(endsText(G.warmUntil)) : ''} gets ${Number(G.warmBonus.top).toLocaleString('en-GB')} more.` : `The top score when the warm-up closes${G.warmUntil ? ' on ' + esc(endsText(G.warmUntil)) : ''} gets 1,000 bonus points at the start of the quiz.`}</p>`}</div>
+      <div class="wuright"><div class="wusmall">🏆 ${G.warmNext && G.warmBonus ? 'Warm-up leaderboard · ' + esc(G.warmNext.label) + ' · ' + esc(G.warmNext.when) : G.warmNext ? 'Points towards ' + esc(G.warmNext.label) + ' · ' + esc(G.warmNext.when) : G.warmSolo ? 'Scoreboard' : 'Warm-up scoreboard'}${sv?.count ? ` · ${sv.count} played so far` : ''}</div>
         ${board.length ? `<ol class="wulist" id="wuBoard">${board.map((p, i) => `<li class="${i === meAt ? 'me' : ''}"><span class="n">${medal(place(p))}</span><span class="nm">${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}${i === meAt ? ' (you)' : ''}</span><b>${p.score}</b></li>`).join('')}</ol>`
           : `<p class="wusmall" style="margin-top:12px">${!sv || sv === 'saving' ? 'Loading the scoreboard…' : sv?.solo ? 'No scoreboard: this one was just for you.' : 'The scoreboard shows here once your score is saved.'}</p>`}</div>
     </div></div>
