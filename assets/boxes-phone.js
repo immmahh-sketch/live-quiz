@@ -102,7 +102,7 @@ function bxPhoneBody(s) {
     const pv = g.votes.pow || {};
     pw += `<div class="bxpows">${['fifty', 'swap', 'make', 'host', 'pickfor'].filter((k) => t.powers[k] !== undefined).map((k) => { const have = t.powers[k], n = Object.values(pv).filter((x) => x === k).length, on = sel.power === k; return `<button type="button" class="bxpow ${have ? '' : 'gone'} ${on ? 'sel' : ''}" data-bxp="${k}" ${have ? '' : 'disabled'}>${BXP[k][0]} ${BXP[k][1]}${n ? `<i>${n}</i>` : ''}</button>`; }).join('')}</div>`;
     if (sel.power === 'make' || sel.power === 'pickfor') pw += `<p class="muted">${sel.power === 'make' ? 'Which team must answer?' : 'Whose next box will you pick?'}</p><div class="bxlist">${g.teams.filter((x) => x.i !== me.ti && (sel.power === 'make' || g.forcedBy[x.i] === undefined)).map((x) => `<button type="button" class="bxcand" data-bxtarget="${x.i}">${x.emoji} ${esc(x.name)}</button>`).join('')}</div>`;
-    else if (sel.power && me.cap) pw += `<button type="button" class="btn btn-ghost btn-block" id="bxUse">Use ${BXP[sel.power][1]}</button>`;
+    else if (sel.power && me.cap) pw += `<button type="button" class="bxuse" id="bxUse">${BXP[sel.power][0]} Use ${BXP[sel.power][1]}</button>`;
   } else if (c.mode === 'made') pw += `<p class="muted center">👉 ${esc(org.name)} made you answer! Your points change, not theirs.</p>`;
   return `${head}${tags}${q}${body}${lock}${pw}`;
 }
@@ -130,7 +130,7 @@ function bxBind(s) {
     else { bxSend('pass', 1); }
   };
   if ($('#bxLockA')) $('#bxLockA').onclick = () => { if (sel.v !== null && sel.v !== '' && sel.v !== undefined) { bxSend('ans', sel.v, { go: true }); $('#bxLockA').disabled = true; } };
-  $$('[data-bxp]').forEach((b) => b.onclick = () => { const k = b.dataset.bxp; sel.power = sel.power === k ? null : k; bxSend('pow', k); redo(); });
+  $$('[data-bxp]').forEach((b) => b.onclick = () => { const k = b.dataset.bxp; sel.power = sel.power === k ? null : k; bxSend('pow', k); redo(); setTimeout(() => { const u = $('#bxUse'); if (u) u.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 60); });
   if ($('#bxUse')) $('#bxUse').onclick = () => { bxSend('pow', sel.power, { go: true }); sel.power = null; $('#bxUse').disabled = true; };
   $$('[data-bxtarget]').forEach((b) => b.onclick = () => { bxSend('pow', sel.power || 'make', { go: true, target: +b.dataset.bxtarget }); sel.power = null; });
 }

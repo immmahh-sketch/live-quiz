@@ -10,7 +10,7 @@
  * parts; each part ends after its share of the questions (12, 25, 37, 50) and hands on with nextFrom(). Points that players earn in
  * the bonus rounds go into their team's pot when the next part (or the final result) begins.
  *
- * Pool on the item (part 1): q.cats = [{ name, emoji, qs: [Q] }], q.reserve = [Q] (swaps), q.hostq = [Q] (questions the host has
+ * Pool on the item (part 1): q.cats = [{ name, emoji, qs: [Q] }], q.reserve = [Q] (fills a category that runs short; Swap uses its own category's leftovers), q.hostq = [Q] (questions the host has
  * never seen, for "Make the host answer"). Q is { t, o: [right, wrong, wrong, wrong] } or { t, a: [accepted answers], w: 'a wrong answer that looks right' }.
  * Phones talk to it with answer payloads { bx: 'v', k, v, go, dbl, target }: see bxAnswer. */
 const BX_START = 10000, BX_LOAN = 1000;
@@ -66,14 +66,14 @@ function bxInit(q) {
     teams = BX_TEAMS.slice(0, sz.teams).map((t, i) => ({ i, ...t, members: [], captain: null, pot: start, loan: 0, powers: { double: 1, swap: 1, make: 1, host: 1, fifty: 1, pickfor: 1 } }));
     ps.forEach((p, i) => teams[i % teams.length].members.push(p));
   }
-  const cats = bxShuffle(q.cats || []).slice(0, 5), reserve = bxShuffle(q.reserve || []);
-  const board = [];
+  const all = q.cats || [], cats = (solo && all.length <= 5 ? all : bxShuffle(all)).slice(0, 5), reserve = bxShuffle(q.reserve || []); // the warm-up's five categories are the same for everyone, in the same order
+  const board = [], spare = [];
   cats.forEach((c, r) => {
-    const qs = bxShuffle(c.qs || []);
+    const qs = bxShuffle((c.qs || []).filter((x) => !(solo && x.m && x.m.k === 'img'))); // no blurred pictures on one phone: with no clock you could just wait for them to clear
     for (let k = 0; k < sz.cols; k++) board.push({ cat: r, q: qs[k] || reserve.pop() || { t: 'A spare question: what is 2 + 2?', o: ['4', '3', '5', '22'] }, st: 'open' });
-    reserve.push(...qs.slice(sz.cols));
+    spare.push(qs.slice(sz.cols)); // Swap draws from the same category's own leftovers
   });
-  G.bx = { v: 1, solo, start, ...sz, cats: cats.map((c) => ({ n: c.name, e: c.emoji || '' })), board, teams, turn: 0, asked: 0, part: 1, step: solo ? 'seg' : 'teams', votes: {}, cur: null, reserve: bxShuffle(reserve), hostq: bxShuffle(q.hostq || []), snap: Object.fromEntries(Object.values(G.players).map((p) => [p.id, p.score])), log: [] };
+  G.bx = { v: 1, solo, start, ...sz, cats: cats.map((c) => ({ n: c.name, e: c.emoji || '' })), board, teams, turn: 0, asked: 0, part: 1, step: solo ? 'seg' : 'teams', votes: {}, cur: null, reserve: bxShuffle(reserve), spare, hostq: bxShuffle(q.hostq || []), snap: Object.fromEntries(Object.values(G.players).map((p) => [p.id, p.score])), log: [] };
 }
 /** Points earned by individuals in the bonus rounds since the last look go into their team's pot. */
 function bxAbsorb() {
@@ -258,7 +258,7 @@ function bxPower(name, target) {
     else { c.q.opts = bxShuffle([{ t: c.q.answers[0], ok: true }, { t: c.q.decoy || bxDecoy(c), ok: false }]); }
     c.note = '✂️ 50:50 played';
   } else if (name === 'swap') {
-    const next = b.reserve.shift(); if (!next) { c.note = 'There are no spare questions left.'; return bxDone(); }
+    const next = (b.spare && b.spare[c.cat] || []).shift(); if (!next) { c.note = 'There are no spare questions left in this category.'; return bxDone(); }
     t.powers.swap = 0; c.used.push('swap'); c.raw = next; const keep = c.used, st = c.stake, dbl = c.dbl; c.q = bxMakeQ(next, next.o ? 'choice' : 'text'); c.used = keep; c.stake = st; c.dbl = dbl;
     c.note = '🔄 Swapped for a new question';
   } else if (name === 'make') {

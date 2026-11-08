@@ -1,5 +1,5 @@
 // Builds a Box Clever quiz (the team gambling game, assets/boxes.js) from the topic files in bank/topics and saves it.
-//   node tools/build-boxes.mjs --title "Box Clever · 14 Nov" [--save] [--update <quiz id>] [--no-media] [--avoid <dir-of-old-quizzes>]
+//   node tools/build-boxes.mjs --title "Box Clever · 14 Nov" [--save] [--update <quiz id>] [--code X --until <ISO> --season <s>, warm-up only] [--no-media] [--avoid <dir-of-old-quizzes>]
 // Writes the quiz to tools/boxes-last.json first (always), then saves it with --save (host password in LQ_PASSWORD).
 // What it makes: ten categories of 16 questions (the game picks five at random when it starts, and uses 10 per row, or more
 // when more than 15 people join), a pile of spares for Swap, a pile the host has never seen for "Make the host answer", and the
@@ -43,7 +43,7 @@ const okQ = (q) => q.text && q.text.length <= 170 && !BAD.test(q.text) && !seenT
   && ((q.type === 'choice' && Array.isArray(q.options) && q.options.length === 4 && new Set(q.options.map(norm)).size === 4 && q.options.every((o) => String(o).length <= 40))
     || (q.type === 'text' && Array.isArray(q.answers) && q.answers.length && String(q.answers[0]).split(/\s+/).length <= 4 && String(q.answers[0]).length <= 32));
 
-const CATS = [
+const REAL_CATS = [
   ['TV & Film', '🎬', ['british-sitcoms', 'soaps', 'reality-tv', 'quiz-shows', 'crime-dramas', 'friends', 'the-office', 'british-films', 'action-films', 'film-quotes', 'rom-coms', 'horror-films', 'us-tv', 'doctor-who', 'kids-tv']],
   ['Sport', '⚽', ['football', 'world-cup', 'olympics', 'cricket', 'rugby', 'tennis-golf', 'motorsport', 'boxing-combat', 'newcastle-v-sunderland']],
   ['In the news', '📰', ['covid-19', 'days-that-shook-the-world', 'the-2000s', 'the-2010s', 'famous-firsts', 'record-breakers']],
@@ -55,6 +55,15 @@ const CATS = [
   ['Geography', '🌍', ['uk-geography', 'world-geography', 'capital-cities', 'landmarks', 'flags', 'europe', 'usa']],
   ['Food & Drink', '🍔', ['food-drink', 'british-food', 'beer-wine-spirits', 'brands-logos']],
 ];
+// The one-phone warm-up has the same five categories for everyone, in this order.
+const WARM_CATS = [
+  ['Celebrities', '⭐', ['royal-family', 'oscars', 'one-hit-wonders', 'boy-bands-girl-groups', 'reality-tv', 'pop-music']],
+  ['Science', '🔬', ['space', 'human-body', 'science-technology', 'animals', 'nature-environment', 'computers-internet', 'maths-numbers']],
+  ['Music', '🎵', ['pop-music', 'rock-music', 'the-beatles', 'number-ones', 'eurovision', 'music-lyrics', 'classical-music']],
+  ['QI', '🤔', ['no-such-thing-as-a-fish', 'famous-firsts', 'record-breakers', 'words-language', 'mythology']],
+  ['Friends', '📺', ['friends']],
+];
+const CATS = WARM ? WARM_CATS : REAL_CATS;
 const taken = new Set();
 const take = (q) => { taken.add(norm(q.text)); return q; };
 /** n items with roughly 25% easy, 45% medium, 30% hard, taken from `pool` (shuffled). */
@@ -111,7 +120,7 @@ async function itunes(track, artist) {
 }
 const pickN = (arr, n, not) => shuffle(arr.filter((x) => !not.includes(x))).slice(0, n);
 async function mediaFor(name, plan) {
-  const out = [], nTune = Math.round((plan.tune || 0) * SCALE), nPic = Math.round((plan.pic || 0) * SCALE);
+  const out = [], nTune = Math.round((plan.tune || 0) * SCALE), nPic = WARM ? 0 : Math.round((plan.pic || 0) * SCALE); // no blurred pictures in the warm-up: there is no clock, so you could just wait for them to clear
   if (nTune) {
     const items = shuffle((plan.tt || []).flatMap((sl) => (byTopic[sl] || []).filter((q) => q.type === 'tune' && ['artist', 'song', 'film'].includes(q.ask) && (q.ask !== 'film' || q.film) && !seenText.has(norm(q.track + ' ' + q.artist)))));
     const ans = (q) => q.ask === 'artist' ? q.artist : q.ask === 'film' ? q.film : cleanTitle(q.track);
@@ -158,7 +167,7 @@ for (const [name, emoji, slugs] of CATS) {
   for (const s of slugs) for (const q of byTopic[s] || []) if (okQ(q) && !seen.has(norm(q.text)) && !taken.has(norm(q.text))) { seen.add(norm(q.text)); all.push(q); }
   const ch = all.filter((q) => q.type === 'choice'), tx = all.filter((q) => q.type === 'text' && textOk(q));
   if (args.includes('--candidates')) { console.log('## ' + name); for (const q of shuffle(all.filter((x) => x.type === 'text' && !isNum(String(x.answers[0])) && !DECOYS[norm(x.text)] && x.difficulty !== 'hard')).slice(0, 14)) console.log(JSON.stringify(q.text) + ' => ' + q.answers[0]); continue; }
-  const med = MEDIA[name] || [], N = WARM ? 10 : 16, nT = Math.max(0, (WARM ? 2 : 5) - Math.floor(med.length / 3)), nC = Math.max(0, N - nT - med.length);
+  const med = MEDIA[name] || [], N = WARM ? 10 : 16, nT = Math.min(tx.length, Math.max(0, (WARM ? 2 : 5) - Math.floor(med.length / 3))), nC = Math.max(0, N - nT - med.length); // a category with no typed questions (Friends) is all multiple choice
   const board = [...mix(ch, nC), ...mix(tx, nT)].map(take);
   const left = all.filter((q) => !board.includes(q));
   spare.push(...left.map((q) => ({ q, siblings: tx })));
@@ -178,12 +187,12 @@ if (WARM) {
   const round = (title, intro, it) => { const id = uid('r'), m = {}; for (const q of it) { q.round = id; m[q.type] = (m[q.type] || 0) + 1; } rounds.push({ id, title, intro, brief: '', mix: m, count: it.length, types: Object.keys(m), practice: false }); items.push(...it); };
   const box = (part, extra) => ({ id: uid('q'), type: 'boxes', text: 'Box Clever', time: 0, media: { kind: 'none' }, partial: false, part, ...solo, ...extra });
   round('Box Clever', 'You against two bots. Twenty-five boxes.', [box(1, { cats, reserve: reserve.slice(0, 14) })]);
-  round('Hot Potato', 'Pass the bomb. Your points go into your pot.', [{ ...LQ.newQuestion('potato', settings), text: 'Hot Potato', bank: choiceBank(24), category: 'General knowledge', difficulty: 'medium' }]);
+  round('Hot Potato', 'Pass the bomb. Your points go into your pot.', [{ ...LQ.newQuestion('potato', settings), text: 'Hot Potato', bank: choiceBank(24), perCorrect: 500, perWrong: 1000, penalty: 3000, category: 'General knowledge', difficulty: 'medium' }]);
   round('Box Clever: the rest', 'Back to the boxes.', [box(2)]);
   const problems = []; items.forEach((q, i) => { const p = LQ.validate(q); if (p.length) problems.push(i + 1 + ' ' + q.type + ': ' + p.join('; ')); });
   console.log('problems:', problems.length ? problems.join(' | ') : 'none');
   const stamp = new Date().toISOString().slice(0, 10);
-  settings.warmup = { code: CODE, open: true, fun: true, replay: true, bots: 2, forQuiz: null, from: null, until: null, season: 's-boxclever-' + stamp };
+  settings.warmup = { code: CODE, open: true, fun: true, replay: true, bots: 2, forQuiz: null, from: null, until: arg('--until', null), season: arg('--season', 's-boxclever-' + stamp) };
   const quiz = { title: TITLE, settings: { ...settings, rounds }, questions: items };
   fs.writeFileSync(path.join(here, 'boxes-warmup-last.json'), JSON.stringify(quiz, null, 1));
   console.log(`warm-up: ${cats.length} categories, board pool ${cats.reduce((a, c) => a + c.qs.length, 0)} (${cats.reduce((a, c) => a + c.qs.filter((q) => q.a).length, 0)} typed), potato ${items[1].bank.length}`);

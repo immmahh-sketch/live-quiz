@@ -132,6 +132,11 @@
 .bxpow { position: relative; font: 800 .95rem var(--font); padding: 12px 8px; border-radius: 12px; border: 2px solid var(--brand); background: var(--white); color: var(--brand); }
 .bxpow.sel { background: var(--brand); color: #fff; }
 .bxpow.gone { opacity: .3; border-color: var(--line); color: var(--ink-3); }
+/* the "Use …" button once a power is picked: dark, pill-shaped and pulsing so it can't be missed */
+.bxuse { display: block; width: 100%; margin-top: 12px; border: 0; border-radius: 999px; padding: 16px 18px; background: #2a1a8f; color: #fff; font: 900 1.15rem var(--font); letter-spacing: .2px; box-shadow: 0 4px 0 #150c5c, 0 0 0 0 rgba(91,61,245,.7); animation: bxUsePulse 1.1s ease-in-out infinite; }
+.bxuse:active { transform: translateY(2px); box-shadow: 0 2px 0 #150c5c; animation: none; }
+.bxuse:disabled { animation: none; opacity: .6; }
+@keyframes bxUsePulse { 0%, 100% { transform: scale(1); box-shadow: 0 4px 0 #150c5c, 0 0 0 0 rgba(91,61,245,.65); } 50% { transform: scale(1.04); box-shadow: 0 4px 0 #150c5c, 0 0 0 12px rgba(91,61,245,0); } }
 #bxDbl { width: 100%; margin-top: 6px; }
 .bxres { text-align: center; padding: 16px; border-radius: 14px; }
 .bxres.ok { background: #e3f6dc; }
