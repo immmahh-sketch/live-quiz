@@ -121,6 +121,7 @@ function connect() {
   ch.on('broadcast', { event: 'tq' }, ({ payload }) => onTwentyEvent(payload));
   ch.on('broadcast', { event: 'trs' }, ({ payload }) => { if (typeof trpOnPrivate === 'function') trpOnPrivate(payload); }); // a private word from the Traitors game
   ch.on('broadcast', { event: 'tms' }, ({ payload }) => { if (typeof teamOnMsg === 'function') teamOnMsg(payload); }); // team mode: the code, the team, who is knocking
+  ch.on('broadcast', { event: 'xmno' }, ({ payload }) => { if (payload?.pid === P.pid) toast(payload.why || "That didn't work", true); }); // Christmas Day: a power or a pinch that could not be played
   ch.on('broadcast', { event: 'cardno' }, ({ payload }) => { if (payload?.pid === P.pid) toast(payload.why || "That card can't be played right now", true); });
   ch.on('broadcast', { event: 'kick' }, ({ payload }) => { if (payload.pid === P.pid) { clearInterval(watchdogT); leave(); P.code = ''; renderJoin(payload.why ? String(payload.why).slice(0, 160) : 'The host has removed you from the game. You can join again if that was a mistake.'); } });
   ch.subscribe(async (status) => {

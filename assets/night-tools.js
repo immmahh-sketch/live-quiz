@@ -236,5 +236,113 @@ window.LQNT = (() => {
       toast('Your Traitors night is made. Read it through, add stunts with 🎬, then host it and pick the Traitor from the 🗡 Traitors button on the quiz card.');
     };
   }
-  return { hostUiHtml, hostUiBind, hostUiRead, cueHtml, cueBind, iljty, traitorsNight, IDEAS };
+
+  // ------------------------------------------------------------------ Christmas Day (assets/xmas.js)
+  /** A question's dish (Christmas Day): which dish a right answer collects. Only shown when the quiz has Christmas Day on. */
+  function xmHtml(q) {
+    if (!S.quiz?.settings?.xmas?.on || q.type === 'slide') return '';
+    const X = LQ.XMAS;
+    return `<div class="field" style="max-width:340px"><label>🎄 Christmas Day: the dish a right answer collects</label><select id="xm_dish"><option value="">None: plain question</option>${X.ITEMS.map((i) => `<option value="${i.k}" ${q.xi === i.k ? 'selected' : ''}>${i.icon} ${esc(i.name)} (${esc(i.cat)})</option>`).join('')}</select></div>`;
+  }
+  function xmBind(root, q, touch) { const el = $('#xm_dish', root); if (el) el.onchange = () => { if (el.value) q.xi = el.value; else delete q.xi; touch(); }; }
+  /** The mix of question types for a round of n, in the chosen style. */
+  const xmMix = (style, n) => { const sum = Object.values(style).reduce((a, b) => a + b, 0), mix = {}; let left = n; Object.entries(style).forEach(([t, w], i, arr) => { const k = i === arr.length - 1 ? left : Math.round(n * w / sum); mix[t] = Math.max(0, k); left -= k; }); return mix; };
+  /** Dishes in a shuffled order with no dish twice running (as far as the numbers allow). */
+  function xmInterleave(counts) {
+    const bag = []; for (const [k, n] of Object.entries(counts)) for (let i = 0; i < n; i++) bag.push(k);
+    const pool = shuffle(bag), out = []; let last = null;
+    while (pool.length) { let i = pool.findIndex((k) => k !== last); if (i < 0) i = 0; last = pool.splice(i, 1)[0]; out.push(last); }
+    return out;
+  }
+  async function xmasNight() {
+    const X = LQ.XMAS;
+    let extra = [];
+    try { const b = await api('bank_status', {}); extra = Object.entries(b.categories || {}).map(([n, c]) => [n, (c.types?.choice?.unused || 0) + (c.types?.text?.unused || 0)]).filter((x) => x[1] >= 20).sort((a, b) => a[0].localeCompare(b[0])); } catch { /* the usual list still works */ }
+    const catList = [...new Set(['Christmas', ...NIGHT_CATS, ...extra.map((e) => e[0])])];
+    const st = { dishes: X.dishes().map((i) => ({ k: i.k, cat: i.cat, n: i.n })), games: ['potato', 'blockbusters', 'race'] };
+    const m = modal(`<h2 style="margin-top:0">🎄 Make a Christmas Day night</h2>
+      <p class="muted" style="margin-top:0">The whole night is one Christmas Day, from stockings at 7am to midnight. Everyone builds a Christmas dinner: each dish is tied to a question category, and a right answer collects it. The rarer the dish, the fewer questions it comes up in and the fewer right answers collect it (only the quickest). The tomato ketchup needs a full plate and a 1% question. Every dish missing at the end costs 2,000; a full plate pays 5,000. Everyone is dealt a family character with a power; the elf, Uncle Keith, the doorbell and a power cut cause trouble. Questions come from the bank, with no AI.</p>
+      <div class="field"><label>Title</label><input type="text" id="xn_title" value="${esc('Christmas Day · ' + new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }))}"></div>
+      <div class="field"><label>The dishes <span class="muted">(category, and how many questions carry it)</span></label><div id="xn_dishes"></div>
+        <div class="help">Fewer questions make a dish harder to get: the rare ones also ask harder questions. Around 60 to 80 dish questions in all fills an evening.</div></div>
+      <div class="row" style="gap:12px;flex-wrap:wrap"><div class="field" style="width:230px"><label>🍅 Ketchup questions (1% Club style)</label><input type="number" id="xn_k" min="1" max="4" value="3"></div>
+        <div class="field" style="width:270px"><label>Question style</label><select id="xn_style"><option value="mixed" selected>Mixed: choice, typed, true or false</option><option value="choice">All multiple choice</option><option value="wide">Wider: adds ordering</option></select></div>
+        <div class="field" style="width:200px"><label>Half-time break (minutes)</label><input type="number" id="xn_brk" min="1" max="60" value="15"></div></div>
+      <div class="field"><label>Party games between the courses <span class="muted">(each is one round)</span></label><div id="xn_games" class="row" style="flex-wrap:wrap;gap:6px"></div></div>
+      <label class="check"><input type="checkbox" id="xn_fin" checked> Finish with Double Points Answer Smash, then The Final Chase</label>
+      <div id="xn_msg" class="small error" style="min-height:1.2em;margin-top:8px"></div>
+      <div class="row" style="justify-content:flex-end;gap:8px"><button class="btn btn-ghost" data-x>Cancel</button><button class="btn btn-primary btn-lg" id="xn_make">🎄 Make the night</button></div>`);
+    $('.modal', m).style.maxWidth = '820px';
+    const msg = (t) => { $('#xn_msg', m).textContent = t || ''; };
+    const draw = () => {
+      $('#xn_dishes', m).innerHTML = st.dishes.map((d, i) => { const it = X.item(d.k), R = X.RARITY[it.rar]; return `<div class="row" style="gap:8px;align-items:center;margin-bottom:4px"><span style="min-width:2em;text-align:center;font-size:1.3rem">${it.icon}</span><span style="width:150px"><b>${esc(it.name)}</b><br><span class="muted small">${R.stars} ${R.label}</span></span><select data-dc="${i}" style="max-width:220px">${catList.map((c) => `<option value="${esc(c)}" ${c === d.cat ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select><input type="number" data-dn="${i}" min="2" max="12" value="${d.n}" style="width:70px"><span class="muted small">questions</span></div>`; }).join('');
+      $$('[data-dc]', m).forEach((el) => el.onchange = () => { st.dishes[+el.dataset.dc].cat = el.value; });
+      $$('[data-dn]', m).forEach((el) => el.oninput = () => { st.dishes[+el.dataset.dn].n = LQ.clamp(Math.round(+el.value || 2), 2, 12); });
+      $('#xn_games', m).innerHTML = GAMES.map(([id, n]) => `<button class="btn btn-sm ${st.games.includes(id) ? 'btn-primary' : 'btn-ghost'}" data-g="${id}">${n}</button>`).join('');
+      $$('[data-g]', m).forEach((b) => b.onclick = () => { const g = b.dataset.g; st.games = st.games.includes(g) ? st.games.filter((x) => x !== g) : [...st.games, g]; draw(); });
+    };
+    $('[data-x]', m).onclick = () => m.remove();
+    draw();
+    $('#xn_make', m).onclick = async () => {
+      const title = $('#xn_title', m).value.trim() || 'Christmas Day', mins = LQ.clamp(Math.round(+$('#xn_brk', m).value || 15), 1, 60), nk = LQ.clamp(Math.round(+$('#xn_k', m).value || 3), 1, Math.min(4, X.KETCHUP_QS.length));
+      const style = STYLES[$('#xn_style', m).value] || STYLES.mixed, fin = $('#xn_fin', m).checked;
+      if (st.dishes.reduce((a, d) => a + d.n, 0) < 20) return msg('That is too few dish questions: aim for at least 40.');
+      const settings = { ...LQ.DEFAULT_SETTINGS, xmas: { on: true }, hostPanel: true };
+      const rounds = [], questions = [];
+      const slide = (text, body, extra = {}) => ({ ...LQ.newQuestion('slide', settings), id: uid('q'), text, body, ...extra });
+      const mkRound = (t, intro, extra = {}) => ({ id: uid('r'), title: t, intro: intro || '', brief: '', mix: {}, count: 0, types: [], practice: false, ...extra });
+      const welcome = mkRound('Welcome', ''); rounds.push(welcome);
+      const fam = X.CHARS.map((c) => `${c.icon} ${c.name}: ${c.power}`).join('\n');
+      questions.push(
+        slide('Welcome to Christmas Day!', 'Join on your phone at letsquiz.uk/play. Tonight is one long Christmas Day, from stockings at 7am to midnight, and everybody is building a Christmas dinner.', { round: welcome.id }),
+        slide('🎄 Build your Christmas dinner', `Every question belongs to a category, and every category is a dish: ${X.dishes().map((i) => `${i.icon} ${i.name}`).join(', ')}. Get a question right and the dish goes on your plate. The rarer dishes turn up less often, and only the quickest right answers collect them.\n\nThe last dish is 🍅 tomato ketchup. You need a full plate first, and then you must beat a 1% question.\n\nBeware: the quickest finger every few questions can PINCH a dish off someone else's plate, the elf swaps plates, and Uncle Keith helps himself.\n\nAt the end, every dish missing costs you 2,000 points. A full plate pays 5,000.`, { round: welcome.id }),
+        slide('👨‍👩‍👧 Meet the family', `Everyone has been dealt a family member, with a quirk that always works and one power to play between questions. Tap 🍽 on your phone to see yours.\n\n${fam}`, { round: welcome.id }));
+      // phase one: a round for each dish's category (filled from the bank), then the games, then the Smash and the Chase
+      const dishRounds = st.dishes.map((d) => { const it = X.item(d.k), r = mkRound(d.cat, '', { source: 'bankonly', difficulty: X.RARITY[it.rar].diff, mix: xmMix(style, d.n), count: d.n, _xm: d.k }); r.types = Object.keys(r.mix).filter((t) => r.mix[t] > 0); rounds.push(r); return r; });
+      const gameRounds = st.games.map((g) => { const label = GAMES.find((x) => x[0] === g)[1]; const r = mkRound(label, '', { mix: { [g]: 1 }, count: 1, types: [g], source: 'bankonly' }); rounds.push(r); return r; });
+      let smashR = null, chaseR = null;
+      if (fin) { smashR = mkRound('Double Points: Answer Smash', '', { mix: { smash: 5 }, count: 5, types: ['smash'], source: 'bankonly', double: true }); chaseR = mkRound('The Final Chase', '', { mix: { chase: 1 }, count: 1, types: ['chase'], source: 'bankonly' }); rounds.push(smashR, chaseR); }
+      settings.rounds = rounds;
+      m.remove();
+      S.quiz = normalizeQuiz({ title, settings, rounds, questions }); S.sel = 0; S.planner = false; S.undo = []; S.unconfirmed = false; renderEditor();
+      toast('Setting the night up, then filling the rounds from the bank…');
+      try { await save(); await writeAllRounds(); } catch (e) { toast(e.message || String(e), true); return; }
+      // phase two: dissolve the dish rounds into courses with the dishes mixed up, and lay the night out
+      const ids = (rs) => rs.filter(Boolean).map((r) => r.id), dm = Object.fromEntries(dishRounds.map((r) => [r.id, r._xm]));
+      try { xmLayout({ dishIds: dm, gameIds: ids(gameRounds), smashId: smashR?.id, chaseId: chaseR?.id, welcomeId: welcome.id, nk, mins }); } catch (e) { toast('The night was filled but could not be laid out: ' + (e.message || e), true); return; }
+      try { await save(); } catch { /* the editor keeps trying */ }
+      toast('Your Christmas Day night is made. Read it through, then host it. Each dish question is tagged: check or change one in the editor under 🎄.');
+    };
+  }
+  /** After the bank has filled the rounds: tag each question with its dish, mix them into four courses, and place the games, ketchup questions and break. */
+  function xmLayout({ dishIds, gameIds, smashId, chaseId, welcomeId, nk, mins }) {
+    const X = LQ.XMAS, qz = S.quiz, settings = qz.settings, byRound = (id) => qz.questions.filter((q) => q.round === id), roundOf_ = (id) => qz.rounds.find((r) => r.id === id);
+    const slide = (text, body, extra = {}) => ({ ...LQ.newQuestion('slide', settings), id: uid('q'), text, body, ...extra });
+    const mk = (t, intro, items, extra = {}) => { const r = { id: uid('r'), title: t, intro: intro || '', brief: '', mix: {}, count: 0, types: [], practice: false, ...extra }; for (const q of items) { q.round = r.id; if (q.type !== 'slide') r.mix[q.type] = (r.mix[q.type] || 0) + 1; } r.count = Object.values(r.mix).reduce((a, b) => a + b, 0); r.types = Object.keys(r.mix); return { r, items }; };
+    const taken = {}, counts = {};
+    for (const [rid, k] of Object.entries(dishIds)) { const list = byRound(rid); for (const q of list) q.xi = k; taken[k] = list; counts[k] = list.length; }
+    const order = xmInterleave(counts), seq = order.map((k) => taken[k].shift()).filter(Boolean);
+    if (seq.length < 20) throw new Error('the bank gave only ' + seq.length + ' questions for the dishes');
+    // four courses, the first and last a little shorter
+    const names = [['🧦 Stockings and presents', 'Morning has broken. Time to start collecting.'], ['🍳 Cooking the dinner', 'The kitchen is a war zone.'], ['🍽 The big dinner', 'Everybody to the table!'], ['📺 Telly and the board games', 'The King has spoken. Now the arguing begins.']];
+    const w = [0.22, 0.28, 0.28, 0.22], courses = []; let from = 0;
+    names.forEach(([t, intro], i) => { const n = i === 3 ? seq.length - from : Math.round(seq.length * w[i]); courses.push(mk(t, intro, seq.slice(from, from + n))); from += n; });
+    // the ketchup questions
+    const kq = shuffle(X.KETCHUP_QS).slice(0, nk).sort((a, b) => b.pct - a.pct).map((kd, i) => { const q = { ...LQ.newQuestion('club', settings), id: uid('q'), text: kd.text, answers: kd.answers.slice(), pct: kd.pct, why: kd.why, handMade: true, category: 'The 1% question', difficulty: 'hard', media: { kind: 'none' }, partial: false, xi: 'ketchup', time: 60 }; return mk(`🍅 The Ketchup Question${nk > 1 ? ' ' + (i + 1) : ''}`, 'You need a full plate of nine dishes. Beat the 1% question and the ketchup is yours.', [q]); });
+    const games = gameIds.map((id) => ({ r: roundOf_(id), items: byRound(id) })).filter((g) => g.r);
+    const out = [{ r: roundOf_(welcomeId), items: byRound(welcomeId) }];
+    const gapAfter = { 1: [], 2: [], 3: [], 4: [] }; [1, 3, 4, 2].forEach((c, i) => { if (games[i]) gapAfter[c].push(games[i]); }); games.slice(4).forEach((g) => gapAfter[2].push(g));
+    const kSlots = nk >= 3 ? [2, 3, 4] : nk === 2 ? [2, 4] : [4];
+    courses.forEach((c, i) => {
+      out.push(c); (gapAfter[i + 1] || []).forEach((g) => out.push(g));
+      const ki = kSlots.indexOf(i + 1); if (ki >= 0 && kq[ki]) out.push(kq[ki]);
+      if (i === 1) out.push(mk('Half-time', '', [slide('Half-time!', 'Top up your drinks, stretch your legs and check your plate. The dinner is only half cooked.', { break: true, breakMins: mins })]));
+    });
+    if (smashId && roundOf_(smashId)) out.push({ r: roundOf_(smashId), items: byRound(smashId) });
+    if (chaseId && roundOf_(chaseId)) out.push({ r: roundOf_(chaseId), items: byRound(chaseId) });
+    qz.rounds = out.map((x) => x.r); qz.questions = out.flatMap((x) => x.items);
+    for (const r of qz.rounds) delete r._xm;
+    touch(); S.sel = 0; renderEditor();
+  }
+  return { hostUiHtml, hostUiBind, hostUiRead, cueHtml, cueBind, iljty, traitorsNight, xmasNight, xmHtml, xmBind, IDEAS };
 })();

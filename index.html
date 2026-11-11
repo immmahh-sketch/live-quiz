@@ -30,7 +30,8 @@
 <script src="assets/fakecall.js?v=20261106b"></script>
 <script src="assets/hostctl.js?v=20261106c"></script>
 <script src="assets/boxes-creator.js?v=20261111a"></script>
-<script src="assets/night-tools.js?v=20261111a"></script>
+<script src="assets/xmas-data.js"></script>
+<script src="assets/night-tools.js?v=20261112a"></script>
 <script>
 const { $, $$, esc, uid, api, TYPES, COLORS, DEFAULT_SETTINGS, newQuestion, validate, youtubeId, resizeImage, orderQuestions, quizForSave, timeFor, composeCollage, buildCollageFor } = LQ;
 /** normalizeQuiz (common.js) keeps a fixed set of round fields. These ride along from the raw rounds, matched by id:
@@ -590,6 +591,7 @@ function renderList() {
     <div class="row" style="margin-bottom:18px"><h1 style="margin:0">Your quizzes</h1><div class="grow"></div>
       <a class="btn btn-primary" href="build.html" title="This week's format, filled from the bank, checked by the AI editor, with a report to read before you confirm">✨ One-click quiz builder</a>
       <button class="btn btn-primary" id="newTraitors" title="A whole quiz with the Traitors set up: Round Tables, half-time break and the Traitor's 20 Questions, filled from the bank">🗡 Make a Traitors night</button>
+      <button class="btn btn-primary" id="newXmas" title="A whole quiz played as one Christmas Day: everyone builds a Christmas dinner, with the elf, a family of characters and a 1% ketchup question">🎄 Make a Christmas Day night</button>
       <button class="btn btn-primary" id="newBoxes" title="Choose the categories, the number of boxes, the bots and the game code, and make a Box Clever game from the bank">📦 Make a Box Clever game</button>
       <button class="btn btn-ghost" id="newQuiz" title="A blank quiz, one written by AI, a Kahoot, or a build on your phone">+ New quiz ▾</button></div>
     ${tpls.length ? `<div class="tplsec"><div class="row" style="margin-bottom:8px"><h2 style="margin:0">📋 Weekly formats</h2><span class="muted small">Saved set-ups: rounds, types and prompts. One click writes a fresh quiz in that format.</span></div>
@@ -601,6 +603,7 @@ function renderList() {
     <div id="games" class="mt"></div>`;
   $('#newBoxes').onclick = () => LQBX.open();
   $('#newTraitors').onclick = () => LQNT.traitorsNight();
+  $('#newXmas').onclick = () => LQNT.xmasNight();
   $('#newQuiz').onclick = (e) => popMenu(e.currentTarget, [
     { label: '📝 Blank quiz', fn: newQuiz },
     { label: '✨ Write with AI', title: 'Give it a topic and the AI writes a quiz', fn: () => aiModal(true) },
@@ -1576,9 +1579,9 @@ function renderQForm() {
     </div>
     ${['club', 'wheel', 'tune', 'cards', 'behind', 'intro', 'task', 'about', 'whosaid', 'draw', 'twenty', 'race', 'potato', 'koth', 'chase', 'blockbusters', 'wipeout', 'unique', 'boxes'].includes(q.type) ? '' : `<div class="field"><label>Why <span class="muted">— optional: a line shown under the right answer on the screen and the phones (a training note)</span></label><textarea id="f_why" rows="2" placeholder="e.g. A third time goes on paper: the form shows what was agreed.">${esc(q.why || '')}</textarea></div>`}
     ${q.kind === 'reveal' ? `<div class="row"><div class="field" style="max-width:240px"><label>How the picture is revealed</label><select id="f_rstyle"><option value="tiles" ${q.revealStyle !== 'blur' ? 'selected' : ''}>Tiles flip over one by one</option><option value="blur" ${q.revealStyle === 'blur' ? 'selected' : ''}>A blur slowly clears</option></select></div>${q.revealStyle === 'blur' ? '' : `<div class="field" style="max-width:140px"><label>Tiles (12–20)</label><input type="number" id="f_tiles" min="12" max="20" value="${q.tiles || 16}"></div>`}</div>` : ''}
-    ${LQNT.cueHtml(q)}
+    ${LQNT.xmHtml(q)}${LQNT.cueHtml(q)}
     <div id="problems"></div>`;
-  LQNT.cueBind($('#qform'), q, touch);
+  LQNT.xmBind($('#qform'), q, touch); LQNT.cueBind($('#qform'), q, touch);
   if ($('#f_rstyle')) $('#f_rstyle').onchange = (e) => { q.revealStyle = e.target.value; touch(); renderQForm(); };
   if ($('#f_tiles')) $('#f_tiles').onchange = (e) => { q.tiles = LQ.clamp(+e.target.value || 16, 12, 20); e.target.value = q.tiles; touch(); };
   if ($('#f_text')) $('#f_text').oninput = (e) => { q.text = e.target.value; touch(); refreshTile(); };
@@ -1637,9 +1640,9 @@ function renderSlideForm(q) {
       ${S.quiz.rounds.length > 1 ? `<div class="field" style="max-width:240px"><label>Round</label><select id="f_round">${S.quiz.rounds.map((r, i) => `<option value="${r.id}" ${r.id === q.round ? 'selected' : ''}>${i + 1}. ${esc(r.title || 'Untitled round')}</option>`).join('')}</select></div>` : ''}
     </div>
     <p class="muted small">${q.break ? 'The clock starts as the slide comes up. On the screen: −1 min, +1 min, +5 min (or the − and + keys), and End break to move on early. When the game runs itself it moves on a few seconds after the clock hits zero.' : "It stays up until you press Next. Put it first in a round and it comes after the round's title card."}</p>
-    ${LQNT.cueHtml(q)}
+    ${LQNT.xmHtml(q)}${LQNT.cueHtml(q)}
     <div id="problems"></div>`;
-  LQNT.cueBind($('#qform'), q, touch);
+  LQNT.xmBind($('#qform'), q, touch); LQNT.cueBind($('#qform'), q, touch);
   $('#f_text').oninput = (e) => { q.text = e.target.value; touch(); refreshTile(); showProblems(); };
   $('#f_body').oninput = (e) => { q.body = e.target.value; touch(); showProblems(); };
   $('#f_kicker').oninput = (e) => { if (e.target.value.trim()) q.kicker = e.target.value; else delete q.kicker; touch(); };
@@ -2391,7 +2394,8 @@ function settingsModal() {
       <div class="row"><label class="check"><input type="checkbox" id="s_power" ${s.power?.on ? 'checked' : ''}> Power cards: everyone is dealt a hand to play from their phone between questions</label><div class="field" style="margin:0;width:110px"><label>Cards each</label><input type="number" id="s_hand" min="1" max="5" value="${s.power?.hand ?? 3}"></div></div>
       <div class="help">💰 Steal 1000 points · 🪞 Copycat someone's answer · 🔥 5× points (played blind) · 🐌 Cut someone's time by 30% · 🥶 Freeze someone out of the next question. One card per break; they act on the next everyone-answers question.</div>
       <label class="check" style="margin-top:6px"><input type="checkbox" id="s_bounty" ${s.bounty ? 'checked' : ''}> 🎯 Bounty: get a question right that the leader gets wrong and take 100 off them (the five quickest)</label>
-      <label class="check" style="margin-top:6px"><input type="checkbox" id="s_traitors" ${s.traitors?.on ? 'checked' : ''}> 🗡 The Traitors: one player is secretly the Traitor, with powers to steal, gift, block and message. The room votes to banish them at half time. A 🗡 Traitors button then appears on this quiz's card, to pick the Traitor from your phone.</label></div>
+      <label class="check" style="margin-top:6px"><input type="checkbox" id="s_traitors" ${s.traitors?.on ? 'checked' : ''}> 🗡 The Traitors: one player is secretly the Traitor, with powers to steal, gift, block and message. The room votes to banish them at half time. A 🗡 Traitors button then appears on this quiz's card, to pick the Traitor from your phone.</label>
+      <label class="check" style="margin-top:6px"><input type="checkbox" id="s_xmas" ${s.xmas?.on ? 'checked' : ''}> 🎄 Christmas Day: everyone builds a Christmas dinner (each question can carry a dish, set on the question), with a family character, the elf, pinches and a 1% ketchup question. Needs the questions tagged with a dish: the 🎄 Make a Christmas Day night button does it for you</label></div>
     ${LQNT.hostUiHtml()}
     <div class="field mt"><label>🔑 Game code</label>
       <label class="check"><input type="radio" name="s_gc" value="auto" ${s.gameCode?.auto === false ? '' : 'checked'}> Make a new code each time the game is hosted</label>
@@ -2432,6 +2436,7 @@ function settingsModal() {
     if ($('#s_power', m).checked) s.power = { on: true, hand: LQ.clamp(Math.round(+$('#s_hand', m).value || 3), 1, 5) }; else delete s.power;
     if ($('#s_bounty', m).checked) s.bounty = true; else delete s.bounty;
     if ($('#s_traitors', m).checked) s.traitors = { on: true }; else delete s.traitors;
+    if ($('#s_xmas', m).checked) s.xmas = { on: true }; else delete s.xmas;
     if ($('[name=s_gc]:checked', m).value === 'fixed') {
       const gc = $('#s_gccode', m).value.toUpperCase().replace(/[^A-Z0-9]/g, '');
       if (!/^[A-Z0-9]{4,10}$/.test(gc) || /^(TEST|VIEW)/.test(gc)) { toast('A game code is 4 to 10 letters or numbers, and cannot start with TEST or VIEW.', true); return; }

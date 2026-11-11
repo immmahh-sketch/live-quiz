@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="assets/style.css">
 <link rel="stylesheet" href="assets/boxes.css?v=20261108d">
 <link rel="stylesheet" href="assets/train.css">
+<link rel="stylesheet" href="assets/xmas.css">
 </head>
 <body class="host">
 <div class="stage" id="stage"><div class="stage-main"><span class="spinner"></span></div></div>
@@ -22,6 +23,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="assets/common.js"></script>
+<script src="assets/xmas-data.js"></script>
 <script src="assets/train-visuals.js"></script>
 <script src="assets/quizcall.js"></script>
 <script src="assets/facecam.js"></script>
@@ -33,6 +35,7 @@
 <script src="assets/boxes.js?v=20261111a"></script>
 <script src="assets/letter.js"></script>
 <script src="assets/traitors.js"></script>
+<script src="assets/xmas.js"></script>
 <script src="assets/team.js"></script>
 <script src="assets/taskmaster.js"></script>
 <script>
@@ -569,6 +572,7 @@ function connect() {
   ch.on('broadcast', { event: 'hurry' }, ({ payload }) => onHurry(payload || {}));
   ch.on('broadcast', { event: 'camlink' }, ({ payload }) => onCamLink(payload || {})); // a player picking their own name on the call
   ch.on('broadcast', { event: 'card' }, ({ payload }) => onCard(payload || {})); // a power card (assets/party.js)
+  ch.on('broadcast', { event: 'xm' }, ({ payload }) => { if (typeof onXm === 'function') onXm(payload || {}); }); // Christmas Day: a family power, a pinch, the elf (assets/xmas.js)
   ch.on('broadcast', { event: 'team' }, ({ payload }) => teamHandle(payload || {})); // a teammate's phone, and a Traitor's second phone (assets/team.js, assets/traitors.js)
   ch.on('broadcast', { event: 'tr' }, ({ payload }) => onTr(payload || {})); // the Traitor's menu and the vote (assets/traitors.js)
   ch.on('broadcast', { event: 'trctl' }, ({ payload }) => onTrCtl(payload || {})); // the host's phone control, sealed
@@ -825,7 +829,7 @@ function autoDelay() {
   return 0;
 }
 function scheduleAuto() {
-  clearTimeout(autoT); const d = autoDelay(); if (!d || G.paused || (trOn() && (trHoldOn() || ['table', 'chosen', 'verdict', 'confess', 'final'].includes(G.tr.screen?.kind)))) return;
+  clearTimeout(autoT); const d = autoDelay(); if (!d || G.paused || (typeof xmOn === 'function' && xmOn() && G.xm.screen) || (trOn() && (trHoldOn() || ['table', 'chosen', 'verdict', 'confess', 'final'].includes(G.tr.screen?.kind)))) return;
   const ph = G.phase, qi = G.qIndex;
   autoT = setTimeout(() => { if (G.auto && !G.paused && G.phase === ph && G.qIndex === qi && !document.querySelector('.modal-bg')) primaryAction(); }, d);
 }
@@ -848,6 +852,7 @@ function onCtrl({ pid, cmd }) {
 function primaryAction() {
   clearTimeout(autoT);
   if (G.paused) togglePause(false, true);
+  if (typeof xmOn === 'function' && xmOn() && G.xm.screen && G.phase !== 'lobby' && xmScreenNext()) return; // a Christmas Day surprise on screen
   if (trOn() && G.tr.screen && G.phase !== 'lobby' && trScreenNext()) return;
   // a Traitors letter waiting for the big screen comes up on this click (and the click is given back when it has been read)
   if (trOn() && !G.tr.screen && G.tr.notices?.length && ['round', 'slide', 'typecard', 'reveal', 'scoreboard'].includes(G.phase) && trInterlude(false, true)) return;
@@ -882,6 +887,7 @@ function skipScoreboard() {
   return G.quiz.questions.slice(G.qIndex + 1).some((x) => x.round === cur.round && !isSlide(x));
 }
 function nextFrom(i) {
+  if (typeof xmOn === 'function' && xmOn()) { if (xmInterlude()) return; if (i + 1 >= G.quiz.questions.length && xmEnd()) return; } // Christmas Day: a surprise between questions, then the dinner is served
   if (trOn()) { if (trInterlude(false)) return; if (trWantsTable(i)) return trTable(i); if (trListPending() && i >= trHalfIndex()) return trHoldForList(i); if (i + 1 >= G.quiz.questions.length && trEnd()) return; } // the Traitors: a pause, the Round Table, the last round
   return i + 1 < G.quiz.questions.length ? goTo(i + 1) : finish();
 }
@@ -1144,6 +1150,7 @@ function markPlayed(i) {
 /** Back: the previous slide, or the previous question asked again without points. */
 function canBack() { return !PREVIEW && !WARMUP && !G.warmup && !['lobby', 'final'].includes(G.phase) && G.qIndex > 0 && !(G.bx && question()?.type === 'boxes'); }
 function goBack() {
+  if (typeof xmOn === 'function' && xmOn() && G.xm.screen) return; // a Christmas Day screen: Next carries on
   if (trOn() && G.tr.screen) { if (G.tr.screen.kind === 'notice') { G.tr.screen = null; persist(); broadcastState(); render(); } return; } // a Traitors screen: only a notice can be put away
   if (!canBack()) return;
   clearInterval(tickT); clearInterval(countT); clearInterval(brkT); if (typeof stopTune === 'function') stopTune();
@@ -1160,7 +1167,7 @@ function skipNow() {
   G.raceIntro = null;
   nextFrom(G.qIndex);
 }
-function skipItem() { if (canSkip()) ask('Skip this one?', 'Nobody scores for it, and the quiz carries straight on to what comes next.', 'Skip it', 'Keep it').then((ok) => { if (ok) skipNow(); }); }
+function skipItem() { if (typeof xmOn === 'function' && xmOn() && G.xm.screen) return; if (canSkip()) ask('Skip this one?', 'Nobody scores for it, and the quiz carries straight on to what comes next.', 'Skip it', 'Keep it').then((ok) => { if (ok) skipNow(); }); }
 function startCountdown(i) {
   markPlayed(i);
   if (LQ.BANK_GAMES.includes(G.quiz.questions[i]?.type) || ['draw', 'twenty', 'unique', 'cards', 'behind', 'intro'].includes(G.quiz.questions[i]?.type) || (G.quiz.questions[i]?.type === 'task' && !WARMUP)) return startRaceIntro(i); // a splash first; the race adds 3-2-1 and the pistol
@@ -2338,6 +2345,7 @@ function buildReport() {
 function showScoreboard() { G.phase = 'scoreboard'; persist(); render(); broadcastState(); }
 async function finish() {
   if (typeof bxFinal === 'function') bxFinal(); // Box Clever: every player carries their team's pot
+  if (typeof xmFinal === 'function') xmFinal(); // Christmas Day: missing dishes cost, a full plate pays
   trPayHidden(); // the Traitors' secret bonuses (assets/traitors.js)
   clkFinal();
   G.phase = 'final'; persist(); render(); broadcastState(); if (!G.quiz.settings?.noScores) confetti();
@@ -2676,7 +2684,7 @@ async function grade(noAi, ctx) {
 // ------------------------------------------------------------------ rendering
 /** Fonts and pictures arrive after the screen is drawn and change its height: fit it again when they have. */
 function fitAfterLoad() { try { document.fonts?.ready.then(() => fitStage()); } catch {} $$('#stage img').forEach((im) => { if (!im.complete) im.addEventListener('load', () => fitStage(), { once: true }); }); setTimeout(fitStage, 500); }
-function render() { applyBrand(); renderPhase(); fitAfterLoad(); if (PREVIEW && G.phase === 'reveal') previewEnd(); mountClip(); scheduleAuto(); syncPause(); if (G.phase !== 'question') musicStop(); partyDecorate(); }
+function render() { applyBrand(); renderPhase(); fitAfterLoad(); if (PREVIEW && G.phase === 'reveal') previewEnd(); mountClip(); scheduleAuto(); syncPause(); if (G.phase !== 'question') musicStop(); partyDecorate(); if (typeof xmDecorate === 'function') xmDecorate(); }
 /** The reveal is the end of a preview: its buttons become Play it again and Close. */
 function previewEnd() {
   const p = $('[data-act="primary"]'); if (p) { p.dataset.act = 'again'; p.textContent = '↻ Play it again'; }
@@ -2692,6 +2700,7 @@ function applyBrand() {
 const BHB = () => LQ.brand().id === 'bhb';
 function renderPhase() {
   const ph = G.phase;
+  if (typeof xmOn === 'function' && xmOn() && G.xm.screen && ph !== 'lobby') return xmRenderScreen();
   if (trOn() && G.tr.screen && ph !== 'lobby') return trRenderScreen();
   if (ph === 'lobby') return renderLobby();
   if (ph === 'round') return renderRound();

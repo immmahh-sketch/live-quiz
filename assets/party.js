@@ -15,7 +15,7 @@ const partyPick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 const partyNote = (r, line) => { if (r) (r.party = r.party || []).push(line); };
 
 /** The game leaves the lobby: deal the power cards and fetch the warm-up's About You answers. */
-function partyGameStart() { powerDealAll(); wsLoad(); trEnsure(); trRegisterLive(); }
+function partyGameStart() { powerDealAll(); wsLoad(); trEnsure(); trRegisterLive(); if (typeof xmGameStart === 'function') xmGameStart(); }
 
 // ---------------------------------------------------------------- power cards + Bounty
 const POWER = {
@@ -73,6 +73,7 @@ function powerFlashShow() {
  *  one-card-each limit resets. */
 function partyStartQuestion(q) {
   G.fxGap = {}; trStartQuestion(q);
+  if (typeof xmStartQuestion === 'function') xmStartQuestion(q); // Christmas Day: the dish up for grabs, a doorbell or a power cut
   if (partyPlain(q) && G.fxPend?.length) {
     const fx = { frozen: {}, copy: {}, x5: {}, slow: {} };
     for (const f of G.fxPend) { if (f.kind === 'freeze') fx.frozen[f.target] = f.by; if (f.kind === 'copy') fx.copy[f.by] = f.target; if (f.kind === 'x5') fx.x5[f.by] = true; if (f.kind === 'slow') fx.slow[f.target] = f.by; }
@@ -116,6 +117,7 @@ function partyAfterGrade(byPlayer) {
       }
     }
   }
+  if (typeof xmAfterGrade === 'function') xmAfterGrade(byPlayer); // Christmas Day: who collects the dish
   trAfterGrade(byPlayer); // the Traitor's gifts, blocks and doubles; shields
 }
 /** The phones' share of all this: hands, what's in play, the last card played; Play Your Cards Right and the task. */
@@ -126,6 +128,7 @@ function partyState(s) {
   }
   if (G.quiz.settings.bounty && !WARMUP) s.bounty = true;
   trState(s); // the Traitors (assets/traitors.js)
+  if (typeof xmState === 'function') xmState(s); // Christmas Day (assets/xmas.js)
   const nowT = G.paused ? G.pausedAt : Date.now();
   if (G.phase === 'question' && G.q?.pc?.v) {
     const g = G.q.pc, q = question(), over = g.step === 'over', best = Math.max(0, ...Object.values(g.pos));
