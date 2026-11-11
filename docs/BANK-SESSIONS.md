@@ -87,6 +87,13 @@ answer is the place, so the player must know the fact and then find it on the ma
 2016 Olympics?"). Line-up pins ask a fact about one of the people or things shown. bank/pin-clues.json holds
 the clue for every place in the pin bank; tools/rewrite-pins.mjs applies it.
 
+## Christmas night preparation (host request, 11 Nov 2026)
+
+In the next session, after finishing any pending bank-next top-up, start the Christmas quiz prep described in
+`docs/CHRISTMAS-NIGHT.md`: audit the four existing Christmas topics by game type, then write fresh Christmas items
+for every type that is thin, as `bank/topics/christmas-night__N.json` imported with `TOPICS=christmas`. Keep doing this
+in later sessions until the plan says the night can be assembled. Do not create a new topic in topics.json.
+
 ## Quality flags and the host's standards (27 Sept 2026)
 
 After the host's feedback on "The Return!", the whole bank was reviewed by hand. Each item can carry flags in `q`:
