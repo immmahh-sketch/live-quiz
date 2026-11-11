@@ -29,19 +29,21 @@ const LQHostCtl = (() => {
     const b = d.bar || {};
     if (!b.game) { box.innerHTML = ''; box._hc = ''; return; } // the lobby: the host screen keeps its own buttons
     const callOn = b.callState === 'live' || b.callState === 'reconnecting';
+    const ui = Array.isArray(b.ui) ? b.ui : ['skip', 'end', 'back', 'music', 'call', 'fs', 'audiofix']; // the buttons this quiz wants (Settings > Host panel)
+    const def = {
+      skip: { t: '⏭ Skip this question', dis: b.canSkip === false, big: true }, end: { t: '⏹ End the quiz', cls: 'end', big: true },
+      back: { t: '◀ Back', dis: !b.canBack }, music: { t: b.music ? '🎵 Music: on' : '🔇 Music: off', on: b.music },
+      call: { t: callOn ? '🔴 On the quiz call' : b.callState === 'starting' ? '📞 Joining…' : '📞 Launch the quiz call', on: callOn, dis: b.callOk === false },
+      fs: { t: b.fs ? '⛶ Leave full screen' : '⛶ Full screen' }, audiofix: { t: '🎧 Reconnect audio' },
+      pause: { t: b.paused ? '▶ Resume' : '⏸ Pause', on: b.paused }, cam: { t: b.cam ? '🎥 Camera: on' : '🎥 Camera: off', on: b.cam, dis: b.camOk === false },
+      hurry: { t: '🤖 Hurry the bots up', dis: !b.bots }, brkplus: { t: '➕ Break: +1 min', dis: !b.brk }, brkminus: { t: '➖ Break: −1 min', dis: !b.brk },
+    };
+    const btn = (id) => { const d2 = def[id]; return d2 ? `<button class="hc-btn ${d2.on ? 'on' : ''} ${d2.cls || ''}" type="button" data-c="${id}" ${d2.dis ? 'disabled' : ''}>${d2.t}</button>` : ''; };
+    const big = ui.filter((id) => def[id]?.big).map(btn).join(''), rest = ui.filter((id) => def[id] && !def[id].big).map(btn).join('');
     const html = `<div class="hc">
       <button class="hc-next" type="button" data-c="next">Next ▶${b.primary && !/^next/i.test(b.primary) ? `<small>${esc(b.primary)}</small>` : ''}</button>
-      <div class="hc-main">
-        <button class="hc-btn" type="button" data-c="skip" ${b.canSkip === false ? 'disabled' : ''}>⏭ Skip this question</button>
-        <button class="hc-btn end" type="button" data-c="end">⏹ End the quiz</button>
-      </div>
-      <div class="hc-grid">
-        <button class="hc-btn" type="button" data-c="back" ${b.canBack ? '' : 'disabled'}>◀ Back</button>
-        <button class="hc-btn ${b.music ? 'on' : ''}" type="button" data-c="music">${b.music ? '🎵 Music: on' : '🔇 Music: off'}</button>
-        <button class="hc-btn ${callOn ? 'on' : ''}" type="button" data-c="call" ${b.callOk === false ? 'disabled' : ''}>${callOn ? '🔴 On the quiz call' : b.callState === 'starting' ? '📞 Joining…' : '📞 Launch the quiz call'}</button>
-        <button class="hc-btn" type="button" data-c="fs">${b.fs ? '⛶ Leave full screen' : '⛶ Full screen'}</button>
-        <button class="hc-btn" type="button" data-c="audiofix">🎧 Reconnect audio</button>
-      </div><div class="hc-msg"></div></div>`;
+      ${big ? `<div class="hc-main">${big}</div>` : ''}
+      ${rest ? `<div class="hc-grid">${rest}</div>` : ''}<div class="hc-msg"></div></div>`;
     const say = (t) => { shown = t; const m = box.querySelector('.hc-msg'); if (m) m.textContent = t; clearTimeout(msgT); msgT = setTimeout(() => { shown = ''; const m2 = box.querySelector('.hc-msg'); if (m2) m2.textContent = ''; }, 6000); };
     if (box._hc === html) { if (d.ctlNote) say(d.ctlNote); return; } // unchanged: leave the buttons alone (a redraw between a touch's down and up would lose the tap)
     box._hc = html; box.innerHTML = html; if (shown) box.querySelector('.hc-msg').textContent = shown;

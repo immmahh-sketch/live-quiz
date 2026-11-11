@@ -1267,7 +1267,24 @@ function youtubeId(url) {
   function fmtTime(ms) { const s = Math.max(0, Math.ceil(ms / 1000)); return s + 's'; }
   function ordinal(n) { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
-  return { SUPABASE_URL, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
+  /** The buttons the host can have on the host screen's bottom bar and on the host panel (the phone). A quiz picks which it wants in settings.hostUi = { screen: [ids], panel: [ids in order] }; with none picked it has the defaults. */
+  const HOSTUI = {
+    screen: [
+      { id: 'call', icon: '📞', label: 'Launch the quiz call' }, { id: 'cam', icon: '🎥', label: 'Camera in the corner' }, { id: 'fs', icon: '⛶', label: 'Full screen' },
+      { id: 'back', icon: '◀', label: 'Back one slide or question' }, { id: 'skip', icon: '⏭', label: 'Skip this question' }, { id: 'pause', icon: '⏸', label: 'Pause and resume' },
+      { id: 'music', icon: '🎵', label: 'Music on and off' }, { id: 'hurry', icon: '🤖', label: 'Hurry the bots up' }, { id: 'brkplus', icon: '➕', label: 'Break: add a minute' }, { id: 'brkminus', icon: '➖', label: 'Break: take a minute off' },
+    ],
+    panel: [
+      { id: 'skip', icon: '⏭', label: 'Skip this question', big: true }, { id: 'end', icon: '⏹', label: 'End the quiz', big: true }, { id: 'back', icon: '◀', label: 'Back' }, { id: 'music', icon: '🎵', label: 'Music on and off' },
+      { id: 'call', icon: '📞', label: 'Launch the quiz call' }, { id: 'fs', icon: '⛶', label: 'Full screen' }, { id: 'audiofix', icon: '🎧', label: 'Reconnect audio' },
+      { id: 'pause', icon: '⏸', label: 'Pause and resume' }, { id: 'cam', icon: '🎥', label: 'Camera in the corner on and off' }, { id: 'hurry', icon: '🤖', label: 'Hurry the bots up' }, { id: 'brkplus', icon: '➕', label: 'Break: add a minute' }, { id: 'brkminus', icon: '➖', label: 'Break: take a minute off' },
+    ],
+    defaults: { screen: ['call', 'cam', 'fs', 'back', 'skip', 'pause', 'music'], panel: ['skip', 'end', 'back', 'music', 'call', 'fs', 'audiofix'] },
+    /** The ids this quiz wants for 'screen' or 'panel', in order, with anything unknown dropped. */
+    list(settings, kind) { const l = settings && settings.hostUi && settings.hostUi[kind], known = HOSTUI[kind].map((x) => x.id); return Array.isArray(l) ? l.filter((x, i) => known.includes(x) && l.indexOf(x) === i) : HOSTUI.defaults[kind]; },
+  };
+
+  return { SUPABASE_URL, HOSTUI, SUPABASE_KEY, $, $$, esc, uid, clamp, sleep, shuffle, store, unstore, hostPassword, setHostPassword, api, client,
     GROUP_NAMES, groupSizes, potatoHow, BRANDS, brand, setBrand, TYPES, BANK_GAMES, NEW_GAME_DEFAULTS, cardNum, cardsOf, behindOf, behindRight, TWENTY_KINDS, TWENTY_QS, CUSTOM_KIND, seal, unseal, twentyKinds, twentyCustom, twentyQ, twentyBranch, twentyYes, twentyOpen, parseNum, nearestSpread, fmtNum, DRAW_WORDS, drawWords, drawHint, goodRows, BB_COLS, BB_ROWS, bbNeighbours, bbPath, bbBoardHtml, inkOn, SLIDE, BREAK, isPractice, typeInfo, slideHtml, breakMs, clockText, breakClockHtml, setBreakClock, EMOJIS, HOWTO, genLog, genPlan, pushLog, COLORS, DEFAULT_SETTINGS, DEFAULT_TIMES, timeFor, normalizeQuiz, orderQuestions, quizForSave, pickContext, newQuestion, newBankItem, correctId, validate, smashOf, wheelLayout, wheelBoardHtml, WHEEL_ROWS, youtubeId, isVideoUrl, videoHtml, speedPoints, normText, similarity, textMatch,
     newCode, playUrl, shortPlayUrl, bbTeams, BB_TEAM_PAIRS, resizeImage, fmtTime, ordinal, composeCollage, buildCollageFor, clubPoints, CLUB_PCTS, dingbatHtml, CONUNDRUM_POINTS, conundrumWord, sameLetters, scrambleWord, conundrumHtml, addUsage, usageCost, usageSummary, AI_PRICES, TUNE_ASKS, tunePrompt, bigArt, cleanTitle };
 })();

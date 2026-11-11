@@ -114,7 +114,9 @@ function trEnsure() {
   persist();
 }
 /** The code of this live game, left on the quiz so the host's phone can find it (builder: 🗡 Traitors on the quiz's card). */
-function trRegisterLive() { if (!trOn() || !G.quizId) return; api('live_set', { id: G.quizId, code: G.code }).catch(() => {}); }
+/** The host's phone panel is wanted by Traitors games, and by any quiz with stunt prompts or its own panel buttons. */
+const panelWanted = () => trOn() || !!(G.quiz && (G.quiz.settings?.hostPanel || G.quiz.settings?.hostUi?.panel || (G.quiz.questions || []).some((q) => q.cue)));
+function trRegisterLive() { if (!panelWanted() || !G.quizId) return; api('live_set', { id: G.quizId, code: G.code }).catch(() => {}); }
 
 // ---------------------------------------------------------------- what the phones are told
 /** The public side of it, in every state broadcast: nothing here says who the Traitor is. */
@@ -804,7 +806,7 @@ function hostNextBtn() {
 function hostBarState() {
   if (typeof G === 'undefined' || !G || ['lobby', 'final'].includes(G.phase) || !G.phase) return { game: false };
   const nb = hostNextBtn();
-  return { game: true, primary: nb.el ? nb.el.textContent.trim() : '', canNext: nb.kind !== 'none', canSkip: typeof canSkip === 'function' && canSkip(), canBack: typeof canBack === 'function' && canBack(), music: typeof musicOn === 'function' && musicOn(), callState: window.QuizCall ? QuizCall.state : 'off', callOk: !!(window.QuizCall && QuizCall.supported() && !WARMUP), fs: !!document.fullscreenElement };
+  return { game: true, primary: nb.el ? nb.el.textContent.trim() : '', canNext: nb.kind !== 'none', canSkip: typeof canSkip === 'function' && canSkip(), canBack: typeof canBack === 'function' && canBack(), music: typeof musicOn === 'function' && musicOn(), callState: window.QuizCall ? QuizCall.state : 'off', callOk: !!(window.QuizCall && QuizCall.supported() && !WARMUP), fs: !!document.fullscreenElement, ui: LQ.HOSTUI.list(G.quiz?.settings, 'panel'), paused: !!G.paused, cam: !!(window.QuizCam && QuizCam.on && QuizCam.enabled), camOk: !!(window.QuizCam && QuizCam.on), bots: !!(G.bots && G.bots.length), brk: !!(G.brk && G.phase === 'slide') };
 }
 /** A button pressed on the host panel: done here as if the host screen's own button had been pressed. Returns a short note for the panel ('' when all is well). */
 function hostCtl(name) {
@@ -825,6 +827,10 @@ function hostCtl(name) {
     }
     if (name === 'back') { if (!canBack()) return 'There is nothing to go back to.'; goBack(); return ''; }
     if (name === 'music') { toggleMusic(); return ''; }
+    if (name === 'pause') { if (['lobby', 'final'].includes(G.phase)) return 'There is nothing to pause.'; togglePause(); return ''; }
+    if (name === 'cam') { if (!window.QuizCam || !QuizCam.on) return 'The camera in the corner needs the quiz call to be on.'; camToggle(); return ''; }
+    if (name === 'hurry') { if (!G.bots?.length || G.phase !== 'question') return 'There are no bots waiting to answer.'; onHurry({ pid: '', host: true }); return ''; }
+    if (name === 'brkplus' || name === 'brkminus') { if (!G.brk || G.phase !== 'slide') return 'There is no break running.'; adjustBreak(name === 'brkplus' ? 1 : -1); return ''; }
     if (name === 'end') { if (!G.code || G.phase === 'final') return ''; clearInterval(tickT); clearInterval(countT); finish(); return ''; }
     if (name === 'call') {
       if (!window.QuizCall || !QuizCall.supported()) return 'This screen cannot join the quiz call.';
