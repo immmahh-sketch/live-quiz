@@ -1,0 +1,15 @@
+[
+{"type":"text","text":"What is the largest city in the North East of England?","answers":["Newcastle","Newcastle upon Tyne"],"difficulty":"easy"},
+{"type":"tf","text":"People from Newcastle upon Tyne are known as Geordies.","answer":true,"difficulty":"easy"},
+{"type":"choice","text":"Which North East city is famous for its Norman cathedral and its university?","options":["Durham","Sunderland","Carlisle","Lincoln"],"difficulty":"easy"},
+{"type":"choice","text":"Who is Newcastle United's all-time record goalscorer?","options":["Alan Shearer","Jackie Milburn","Peter Beardsley","Malcolm Macdonald"],"difficulty":"easy"},
+{"type":"choice","text":"In which year did construction of Durham Cathedral begin?","options":["1093","1066","1135","1189"],"difficulty":"hard"},
+{"type":"choice","text":"Which Newcastle bridge, opened in 1876, pivots on a central pier to let ships through?","options":["The Swing Bridge","The High Level Bridge","The King Edward VII Bridge","The Redheugh Bridge"],"difficulty":"hard"},
+{"type":"choice","text":"Captain James Cook was born in a village that is now part of which town?","options":["Middlesbrough","Whitby","Hartlepool","Redcar"],"difficulty":"hard"},
+{"type":"text","text":"On which river does the Northumberland town of Morpeth stand?","answers":["Wansbeck","River Wansbeck"],"difficulty":"hard"},
+{"type":"text","text":"What was the Roman name of the fort now known as Housesteads on Hadrian's Wall?","answers":["Vercovicium"],"difficulty":"hard"},
+{"type":"text","text":"In which Northumberland village was the landscape gardener Capability Brown born?","answers":["Kirkharle"],"difficulty":"hard","wow":true},
+{"type":"choice","text":"The wood engraver Thomas Bewick, famed for his books on British birds, was born in which county?","options":["Northumberland","County Durham","Cumbria","Yorkshire"],"difficulty":"hard"},
+{"type":"tf","text":"Alnwick Castle is the second-largest inhabited castle in England.","answer":true,"difficulty":"hard"},
+{"type":"text","text":"Which river gives the Northumberland town of Alnwick its name?","answers":["Aln","River Aln"],"difficulty":"hard"}
+]
