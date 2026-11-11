@@ -1,0 +1,16 @@
+[
+{"type":"choice","text":"Which fictional metal is Captain America's shield made from?","options":["Vibranium","Adamantium","Uru","Titanium"],"difficulty":"medium"},
+{"type":"choice","text":"Which actor plays Loki in the Marvel films?","options":["Tom Hiddleston","Chris Hemsworth","Cillian Murphy","Tom Hardy"],"difficulty":"medium"},
+{"type":"text","text":"What was the title of the first film in the Marvel Cinematic Universe, released in 2008?","answers":["Iron Man"],"difficulty":"medium"},
+{"type":"text","text":"Which blind lawyer is known by the secret identity Matt Murdock?","answers":["Daredevil"],"difficulty":"medium"},
+{"type":"text","text":"What is the real name of the 'Merc with a Mouth', Deadpool?","answers":["Wade Wilson","Wade"],"difficulty":"medium"},
+{"type":"text","text":"Which 2019 Marvel film briefly became the highest-grossing film of all time?","answers":["Avengers: Endgame","Endgame"],"difficulty":"medium"},
+{"type":"choice","text":"Which actor plays Bucky Barnes, the Winter Soldier?","options":["Sebastian Stan","Anthony Mackie","Chris Evans","Jeremy Renner"],"difficulty":"medium"},
+{"type":"text","text":"Which actor provides the voice of J.A.R.V.I.S. before playing Vision?","answers":["Paul Bettany","Bettany"],"difficulty":"medium"},
+{"type":"text","text":"Which artist co-created Spider-Man with Stan Lee?","answers":["Steve Ditko","Ditko"],"difficulty":"hard"},
+{"type":"choice","text":"In which year was the first issue of The Fantastic Four published, kicking off the Marvel Age of Comics?","options":["1961","1939","1975","1954"],"difficulty":"hard"},
+{"type":"text","text":"What is the name of Odin's eight-legged horse in Norse myth and in Marvel comics?","answers":["Sleipnir"],"difficulty":"hard"},
+{"type":"choice","text":"Which Hollywood legend played Hank Pym in the 2015 film 'Ant-Man'?","options":["Michael Douglas","Robert Redford","Harrison Ford","Jeff Bridges"],"difficulty":"hard"},
+{"type":"tf","text":"Wolverine first appeared in the pages of an issue of The Incredible Hulk.","answer":true,"difficulty":"hard","wow":true},
+{"type":"text","text":"What is the name of Doctor Strange's sentient red cape?","answers":["Cloak of Levitation","The Cloak of Levitation"],"difficulty":"hard"}
+]
