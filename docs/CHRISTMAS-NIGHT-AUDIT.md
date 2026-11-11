@@ -49,3 +49,7 @@ categories (Christmas, Christmas films, Christmas songs, Christmas TV), from `qu
 
 ## Session 4 (11 Nov)
 - `christmas__n4.json`: race "The Race: Christmas Crackers" (20 easy rows). Christmas races now ~14 usable. Aim for 2 more themed races (Christmas TV and songs).
+
+## Session 5 (11 Nov)
+- `childrens-books__6.json` topped up (8 medium, 7 hard); no Christmas content this session.
+- Thin Wipeout board to widen next: "Novels by Jane Austen" (6 right, closed set).
