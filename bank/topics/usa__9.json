@@ -1,0 +1,16 @@
+[
+{"type":"choice","text":"What is the capital of Texas?","options":["Austin","Houston","Dallas","San Antonio"],"difficulty":"medium"},
+{"type":"choice","text":"What is the capital of California?","options":["Sacramento","Los Angeles","San Francisco","San Diego"],"difficulty":"medium"},
+{"type":"choice","text":"Which state is nicknamed the Hawkeye State?","options":["Iowa","Nebraska","Kansas","Wisconsin"],"difficulty":"medium"},
+{"type":"text","text":"Who was the main author of the Declaration of Independence?","answers":["Thomas Jefferson","Jefferson"],"difficulty":"medium"},
+{"type":"choice","text":"Which state is nicknamed the Sooner State?","options":["Oklahoma","Arkansas","Kansas","Texas"],"difficulty":"medium"},
+{"type":"tf","text":"Philadelphia is the capital of Pennsylvania.","answer":false,"difficulty":"medium"},
+{"type":"choice","text":"In which state is the Grand Ole Opry, the home of country music?","options":["Tennessee","Kentucky","Texas","Georgia"],"difficulty":"medium"},
+{"type":"text","text":"What is the capital of Montana?","answers":["Helena"],"difficulty":"hard"},
+{"type":"text","text":"Which president's administration was rocked by the Teapot Dome scandal?","answers":["Warren G. Harding","Warren Harding","Harding"],"difficulty":"hard"},
+{"type":"choice","text":"Which state was the 49th to join the Union?","options":["Alaska","Hawaii","Arizona","New Mexico"],"difficulty":"hard"},
+{"type":"text","text":"Which 1803 Supreme Court case established the principle of judicial review?","answers":["Marbury v. Madison","Marbury v Madison","Marbury vs Madison"],"difficulty":"hard"},
+{"type":"choice","text":"Who is the only US president to have been elected unanimously by the Electoral College?","options":["George Washington","James Monroe","Thomas Jefferson","Andrew Jackson"],"difficulty":"hard","wow":true},
+{"type":"tf","text":"Nevada is the driest state in the USA.","answer":true,"difficulty":"hard"},
+{"type":"choice","text":"Which US state has the most active volcanoes?","options":["Alaska","Hawaii","Washington","Oregon"],"difficulty":"hard"}
+]
