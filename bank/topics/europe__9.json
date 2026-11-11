@@ -1,0 +1,16 @@
+[
+{"type":"choice","text":"The Leaning Tower of Pisa is in which country?","options":["Italy","Spain","Greece","France"],"difficulty":"easy"},
+{"type":"choice","text":"In which city would you find the Colosseum?","options":["Rome","Athens","Milan","Naples"],"difficulty":"easy"},
+{"type":"text","text":"Which European country is famously shaped like a boot?","answers":["Italy"],"difficulty":"easy"},
+{"type":"tf","text":"Spain and Portugal share the Iberian Peninsula.","answer":true,"difficulty":"easy"},
+{"type":"choice","text":"Which European country is home to the Eiffel Tower?","options":["France","Belgium","Italy","Switzerland"],"difficulty":"easy"},
+{"type":"choice","text":"What is the capital of Spain?","options":["Madrid","Barcelona","Seville","Valencia"],"difficulty":"easy"},
+{"type":"choice","text":"Which EU country has the longest land border with Russia?","options":["Finland","Poland","Estonia","Latvia"],"difficulty":"hard","wow":true},
+{"type":"choice","text":"Which European capital sits right on the border of two other countries?","options":["Bratislava","Vienna","Ljubljana","Luxembourg"],"difficulty":"hard","wow":true},
+{"type":"choice","text":"What is the highest peak in the Pyrenees?","options":["Aneto","Monte Perdido","Vignemale","Pica d'Estats"],"difficulty":"hard"},
+{"type":"text","text":"What is the capital of Moldova?","answers":["Chisinau","Chișinău","Kishinev"],"difficulty":"hard"},
+{"type":"tf","text":"Andorra's only official language is Catalan.","answer":true,"difficulty":"hard"},
+{"type":"choice","text":"The Rila Monastery and the Seven Rila Lakes are in which country?","options":["Bulgaria","Serbia","North Macedonia","Romania"],"difficulty":"hard"},
+{"type":"text","text":"What is the largest island of Estonia?","answers":["Saaremaa","Ösel"],"difficulty":"hard"},
+{"type":"choice","text":"Which 1648 settlement ended the Thirty Years' War?","options":["The Peace of Westphalia","The Treaty of Utrecht","The Congress of Vienna","The Treaty of Tordesillas"],"difficulty":"hard"}
+]
