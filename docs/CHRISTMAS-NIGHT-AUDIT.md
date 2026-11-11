@@ -53,3 +53,9 @@ categories (Christmas, Christmas films, Christmas songs, Christmas TV), from `qu
 ## Session 5 (11 Nov)
 - `childrens-books__6.json` topped up (8 medium, 7 hard); no Christmas content this session.
 - Thin Wipeout board to widen next: "Novels by Jane Austen" (6 right, closed set).
+
+## Loop finished (11 Nov, evening)
+- bank-next reports all 122 topics at target, so the recurring bank loop was stopped. The Christmas prep did NOT finish:
+  still to do are 2 more themed races (Christmas TV, songs), more `nearest` (aim 25), Christmas conundrums, reveal pictures,
+  a few more pins and festive dingbats, then assembling the ~100-question night. Restart with a manual session when wanted.
+- "People in the Christmas nativity story" Wipeout board has 10 right / 5 wrong (fine).
