@@ -46,3 +46,6 @@ categories (Christmas, Christmas films, Christmas songs, Christmas TV), from `qu
 - `christmas__12.json`: 37 balance questions (21 medium, 16 hard): traditions around the world, carol authors and composers, Advent, the Christmas Truce, Nutcracker, first Christmas card, and so on. Many first drafts were repeats of existing questions and were replaced.
 - Wipeout repair: Simpson family board widened to "Characters in The Simpsons"; Christmas tree board topped up (`50-simpsons-tree.json`).
 - Still to do: Christmas races (aim 6+), `nearest`, conundrums, reveal pictures, pins, festive dingbats, then assemble.
+
+## Session 4 (11 Nov)
+- `christmas__n4.json`: race "The Race: Christmas Crackers" (20 easy rows). Christmas races now ~14 usable. Aim for 2 more themed races (Christmas TV and songs).
