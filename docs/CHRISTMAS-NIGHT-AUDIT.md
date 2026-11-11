@@ -36,3 +36,8 @@ categories (Christmas, Christmas films, Christmas songs, Christmas TV), from `qu
 3. Christmas reveal pictures, if the picture source allows.
 4. Cracker jokes as `text` (answer = punchline), festive dingbats, pins (Bethlehem, Rovaniemi, Nuremberg, ...).
 5. Then assemble the night (see CHRISTMAS-NIGHT.md).
+
+## Session 2 (11 Nov, later)
+- `christmas__n2.json`: 4 more Wipeout boards (Christmas films, Santa names around the world, nativity people; the pudding board repeated an existing one and was retired, `49-retire-pudding-repeat.json`). Christmas Wipeout now about 14 usable.
+- `christmas__n3.json`: 12 cracker-joke multiple-choice questions (all easy, for a light round).
+- Still to do: Christmas races (aim 6+), more `nearest`, conundrums, reveal pictures, pins, festive dingbats.
