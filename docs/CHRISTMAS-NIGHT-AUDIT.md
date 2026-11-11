@@ -41,3 +41,8 @@ categories (Christmas, Christmas films, Christmas songs, Christmas TV), from `qu
 - `christmas__n2.json`: 4 more Wipeout boards (Christmas films, Santa names around the world, nativity people; the pudding board repeated an existing one and was retired, `49-retire-pudding-repeat.json`). Christmas Wipeout now about 14 usable.
 - `christmas__n3.json`: 12 cracker-joke multiple-choice questions (all easy, for a light round).
 - Still to do: Christmas races (aim 6+), more `nearest`, conundrums, reveal pictures, pins, festive dingbats.
+
+## Session 3 (11 Nov)
+- `christmas__12.json`: 37 balance questions (21 medium, 16 hard): traditions around the world, carol authors and composers, Advent, the Christmas Truce, Nutcracker, first Christmas card, and so on. Many first drafts were repeats of existing questions and were replaced.
+- Wipeout repair: Simpson family board widened to "Characters in The Simpsons"; Christmas tree board topped up (`50-simpsons-tree.json`).
+- Still to do: Christmas races (aim 6+), `nearest`, conundrums, reveal pictures, pins, festive dingbats, then assemble.
