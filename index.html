@@ -29,6 +29,7 @@
 <script src="assets/warmup-tools.js"></script>
 <script src="assets/fakecall.js?v=20261106b"></script>
 <script src="assets/hostctl.js?v=20261106c"></script>
+<script src="assets/boxes-creator.js?v=20261111a"></script>
 <script>
 const { $, $$, esc, uid, api, TYPES, COLORS, DEFAULT_SETTINGS, newQuestion, validate, youtubeId, resizeImage, orderQuestions, quizForSave, timeFor, composeCollage, buildCollageFor } = LQ;
 /** normalizeQuiz (common.js) keeps a fixed set of round fields. These ride along from the raw rounds, matched by id:
@@ -587,6 +588,7 @@ function renderList() {
   view.innerHTML = `
     <div class="row" style="margin-bottom:18px"><h1 style="margin:0">Your quizzes</h1><div class="grow"></div>
       <a class="btn btn-primary" href="build.html" title="This week's format, filled from the bank, checked by the AI editor, with a report to read before you confirm">✨ One-click quiz builder</a>
+      <button class="btn btn-primary" id="newBoxes" title="Choose the categories, the number of boxes, the bots and the game code, and make a Box Clever game from the bank">📦 Make a Box Clever game</button>
       <button class="btn btn-ghost" id="newQuiz" title="A blank quiz, one written by AI, a Kahoot, or a build on your phone">+ New quiz ▾</button></div>
     ${tpls.length ? `<div class="tplsec"><div class="row" style="margin-bottom:8px"><h2 style="margin:0">📋 Weekly formats</h2><span class="muted small">Saved set-ups: rounds, types and prompts. One click writes a fresh quiz in that format.</span></div>
       <div class="quizgrid">${tpls.map(tplCard).join('')}</div></div>` : ''}
@@ -595,6 +597,7 @@ function renderList() {
     <div class="quizgrid">${quizzes.map(quizCard).join('')}
       ${quizzes.length ? '' : '<div class="card newcard" id="newQuiz2">Create your first quiz</div>'}</div>
     <div id="games" class="mt"></div>`;
+  $('#newBoxes').onclick = () => LQBX.open();
   $('#newQuiz').onclick = (e) => popMenu(e.currentTarget, [
     { label: '📝 Blank quiz', fn: newQuiz },
     { label: '✨ Write with AI', title: 'Give it a topic and the AI writes a quiz', fn: () => aiModal(true) },
@@ -666,6 +669,7 @@ async function togglePlay(id, on) {
 }
 function quizCard(q) {
   return `<div class="card quizcard" ${q.hidden ? 'style="opacity:.6"' : ''}><h3>${q.hidden ? '🙈 ' : ''}${esc(q.title)}</h3>${q.play ? `<div class="row" style="gap:8px;margin:2px 0 6px">${playSwitch(q.id, q.play)}<span class="muted small">${q.play.fun ? 'Game' : 'Warm-up'} code <b>${esc(q.play.code)}</b></span></div>` : ''}
+    ${q.gameCode ? `<div class="muted small" style="margin:2px 0 4px">🔑 Game code <b>${esc(q.gameCode)}</b></div>` : ''}
     <div class="muted small">${q.count} question${q.count === 1 ? '' : 's'} · updated ${fmtDate(q.updated_at)}</div>
     <div class="types">${(q.types = q.types.filter((t) => t !== 'slide')).slice(0, 4).map((t) => `<span class="tag">${esc(TYPES[t]?.label || t)}</span>`).join('')}${q.types.length > 4 ? `<span class="tag" style="background:var(--paper);color:var(--ink-3)">+${q.types.length - 4} more</span>` : ''}</div>
     <div class="actions"><button class="btn btn-primary btn-sm" data-host="${q.id}" ${q.count ? '' : 'disabled'}>▶ Host</button>
@@ -1788,7 +1792,7 @@ function renderTypeBox() {
     }
   }
   if (q.type === 'boxes') {
-    box.innerHTML = `<div class="notice">📦 <b>Box Clever</b>: the team gambling game. It is built by script (<code>node tools/build-boxes.mjs</code>), not in this editor, and parts 2 to 4 carry on from part 1, which holds the question pool${q.cats ? ` (${q.cats.length} categories, ${(q.reserve || []).length} spares, ${(q.hostq || []).length} questions you have not seen for "Make the host answer")` : ''}. <b>Don't open the pool</b> if you want to stay in the dark. Delete or reorder the bonus rounds around it freely.</div>`;
+    box.innerHTML = `<div class="notice">📦 <b>Box Clever</b>: the team gambling game. Make a new one with <b>📦 Make a Box Clever game</b> on the quiz list (categories, boxes, bots, game code). Parts after the first carry on from part 1, which holds the question pool and the board size${q.rows ? ` (${q.rows} categories of ${q.cols} boxes)` : ''}${q.cats ? ` (${q.cats.length} categories, ${(q.reserve || []).length} spares, ${(q.hostq || []).length} questions you have not seen for "Make the host answer")` : ''}. <b>Don't open the pool</b> if you want to stay in the dark. Delete or reorder the bonus rounds around it freely.</div>`;
     return;
   }
   if (q.type === 'behind') {
@@ -2377,6 +2381,10 @@ function settingsModal() {
       <div class="help">💰 Steal 1000 points · 🪞 Copycat someone's answer · 🔥 5× points (played blind) · 🐌 Cut someone's time by 30% · 🥶 Freeze someone out of the next question. One card per break; they act on the next everyone-answers question.</div>
       <label class="check" style="margin-top:6px"><input type="checkbox" id="s_bounty" ${s.bounty ? 'checked' : ''}> 🎯 Bounty: get a question right that the leader gets wrong and take 100 off them (the five quickest)</label>
       <label class="check" style="margin-top:6px"><input type="checkbox" id="s_traitors" ${s.traitors?.on ? 'checked' : ''}> 🗡 The Traitors: one player is secretly the Traitor, with powers to steal, gift, block and message. The room votes to banish them at half time. A 🗡 Traitors button then appears on this quiz's card, to pick the Traitor from your phone.</label></div>
+    <div class="field mt"><label>🔑 Game code</label>
+      <label class="check"><input type="radio" name="s_gc" value="auto" ${s.gameCode?.auto === false ? '' : 'checked'}> Make a new code each time the game is hosted</label>
+      <div class="row" style="margin-top:6px;gap:8px;align-items:center"><label class="check" style="margin:0"><input type="radio" name="s_gc" value="fixed" ${s.gameCode?.auto === false ? 'checked' : ''}> Use this code every time:</label><input type="text" id="s_gccode" maxlength="10" value="${esc(s.gameCode?.auto === false ? s.gameCode.code : '')}" style="width:150px;text-transform:uppercase" placeholder="e.g. FRIDAY7"><button class="btn btn-ghost btn-sm" id="s_gcmake" type="button">🎲 Create a code</button></div>
+      <div class="help">With a code of its own, players can be sent the code before you host the game, and it is the same every time you host this quiz. 4 to 10 letters or numbers, never one another quiz already uses. The warm-up code below is separate.</div></div>
     <div class="field mt"><label>🔥 Warm-up game</label>
       <label class="check"><input type="checkbox" id="s_wu" ${s.warmup ? 'checked' : ''}> Open this quiz as a warm-up: anyone with the code plays it on their own phone against three bots, one go per phone, and every score goes on the warm-up scoreboard</label>
       <div class="row" id="s_wurow" style="${s.warmup ? '' : 'display:none'}"><div class="field grow" style="margin:0"><label>Code (3 to 12 letters or numbers)</label><input type="text" id="s_wucode" value="${esc(s.warmup?.code || 'WARMUP')}" maxlength="12" style="text-transform:uppercase"></div>
@@ -2393,6 +2401,8 @@ function settingsModal() {
     <div class="row mt" style="justify-content:flex-end"><button class="btn btn-ghost" data-x>Cancel</button><button class="btn btn-primary" data-ok>Done</button></div>`);
   $('[data-x]', m).onclick = () => m.remove();
   $('#s_wu', m).onchange = (e) => { $('#s_wurow', m).style.display = $('#s_wurow2', m).style.display = e.target.checked ? '' : 'none'; };
+  $('#s_gccode', m).oninput = (e) => { e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); $('[name=s_gc][value=fixed]', m).checked = true; };
+  $('#s_gcmake', m).onclick = () => { const used = new Set(S.quizzes.filter((x) => x.id !== S.quiz.id).map((x) => x.gameCode).filter(Boolean)); let c; do { c = LQ.newCode(); } while (used.has(c)); $('#s_gccode', m).value = c; $('[name=s_gc][value=fixed]', m).checked = true; };
   // the quizzes it can lead up to: every other quiz, the most recent first
   api('list').then((r) => { const sel = $('#s_wufor', m); if (!sel) return; const cur = s.warmup?.forQuiz || '';
     sel.innerHTML = '<option value="">(none yet)</option>' + r.quizzes.filter((x) => !x.template && !x.bank && x.id !== S.quiz.id).map((x) => `<option value="${x.id}" ${x.id === cur ? 'selected' : ''}>${esc(x.title)}</option>`).join(''); }).catch(() => {});
@@ -2409,6 +2419,12 @@ function settingsModal() {
     if ($('#s_power', m).checked) s.power = { on: true, hand: LQ.clamp(Math.round(+$('#s_hand', m).value || 3), 1, 5) }; else delete s.power;
     if ($('#s_bounty', m).checked) s.bounty = true; else delete s.bounty;
     if ($('#s_traitors', m).checked) s.traitors = { on: true }; else delete s.traitors;
+    if ($('[name=s_gc]:checked', m).value === 'fixed') {
+      const gc = $('#s_gccode', m).value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+      if (!/^[A-Z0-9]{4,10}$/.test(gc) || /^(TEST|VIEW)/.test(gc)) { toast('A game code is 4 to 10 letters or numbers, and cannot start with TEST or VIEW.', true); return; }
+      const other = S.quizzes.find((x) => x.id !== S.quiz.id && x.gameCode === gc); if (other) { toast(`The code ${gc} already belongs to “${other.title}”.`, true); return; }
+      s.gameCode = { auto: false, code: gc };
+    } else delete s.gameCode;
     const wcode = $('#s_wucode', m).value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12);
     if ($('#s_wu', m).checked) {
       if (wcode.length < 3) { toast('The code needs at least 3 letters or numbers.', true); return; }

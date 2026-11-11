@@ -50,16 +50,23 @@ const bxTeamOf = (pid) => (G.bx ? G.bx.teams.findIndex((t) => t.members.includes
 const bxPids = () => Object.keys(G.players).filter((p) => !(G.viewers || {})[p]);
 
 /** The game's size from the number of players: teams, questions, boxes per row, and where the bonus rounds fall. */
-function bxSizes(n) {
-  const teams = Math.max(1, Math.min(n <= 6 ? 2 : n <= 10 ? 3 : 4, n)), total = 50 + (n > 15 ? Math.ceil((n - 15) / 5) * 10 : 0);
+function bxSizes(n, q) {
+  const teams = Math.max(1, Math.min(n <= 6 ? 2 : n <= 10 ? 3 : 4, n));
+  if (q && +q.cols > 0) { // a board made to a set size (the in-app creator): boxes per category x categories, however many play
+    const cols = Math.min(20, Math.round(+q.cols)), total = cols * bxRows(q);
+    return { teams, total, cols, cuts: Array.isArray(q.cuts) && q.cuts.length ? q.cuts : [0.24, 0.5, 0.74, 1].map((f) => Math.round(total * f)) };
+  }
+  const total = 50 + (n > 15 ? Math.ceil((n - 15) / 5) * 10 : 0);
   return { teams, total, cols: total / 5, cuts: [0.24, 0.5, 0.74, 1].map((f) => Math.round(total * f)) };
 }
+/** How many categories (rows of drawers) the board has: the item's own number, otherwise five. */
+const bxRows = (q) => (Math.round(+q?.rows) >= 2 ? Math.min(7, Math.round(+q.rows)) : 5);
 function bxInit(q) {
   const solo = !!WARMUP || !!q.solo, isBot = (p) => (G.bots || []).some((x) => x.pid === p), start = +q.start || BX_START;
-  let ps = bxShuffle(bxPids()), sz = bxSizes(ps.length), teams;
+  let ps = bxShuffle(bxPids()), sz = bxSizes(ps.length, q), teams;
   if (solo) { // the warm-up: one phone, everyone for themselves (the real player first), no host to ask, so no "Make the host answer"
     ps = [...ps.filter((p) => !isBot(p)), ...ps.filter(isBot)];
-    const cols = +q.cols || 10, total = cols * 5;
+    const cols = +q.cols || 10, total = cols * bxRows(q);
     sz = { teams: ps.length, total, cols, cuts: q.cuts || [0.24, 0.5, 0.74, 1].map((f) => Math.round(total * f)) };
     teams = ps.map((p, i) => ({ i, name: G.players[p].name, emoji: G.players[p].emoji || '🙂', color: BX_SOLO[i % BX_SOLO.length].color, members: [p], captain: p, pot: start, loan: 0, powers: { double: 1, swap: 1, make: 1, fifty: 1, pickfor: 1 } }));
   } else {
@@ -69,14 +76,14 @@ function bxInit(q) {
     // The snapshot below already holds them, so they are not counted twice.
     teams.forEach((t) => { const extra = t.members.reduce((a, m) => a + (G.players[m]?.bonus || 0), 0); if (extra) { t.pot = Math.max(0, start + extra); t.bonus = extra; } });
   }
-  const all = q.cats || [], cats = (solo && all.length <= 5 ? all : bxShuffle(all)).slice(0, 5), reserve = bxShuffle(q.reserve || []); // the warm-up's five categories are the same for everyone, in the same order
+  const rowsN = bxRows(q), all = q.cats || [], cats = ((solo || q.rows) && all.length <= rowsN ? all : bxShuffle(all)).slice(0, rowsN), reserve = bxShuffle(q.reserve || []); // categories picked by hand (or the warm-up's five) are the same for everyone, in the same order
   const board = [], spare = [];
   cats.forEach((c, r) => {
     const qs = bxShuffle((c.qs || []).filter((x) => !(solo && x.m && x.m.k === 'img'))); // no blurred pictures on one phone: with no clock you could just wait for them to clear
     for (let k = 0; k < sz.cols; k++) board.push({ cat: r, q: qs[k] || reserve.pop() || { t: 'A spare question: what is 2 + 2?', o: ['4', '3', '5', '22'] }, st: 'open' });
     spare.push(qs.slice(sz.cols)); // Swap draws from the same category's own leftovers
   });
-  G.bx = { v: 1, solo, start, ...sz, cats: cats.map((c) => ({ n: c.name, e: c.emoji || '' })), board, teams, turn: 0, asked: 0, part: 1, step: solo ? 'seg' : 'teams', votes: {}, cur: null, reserve: bxShuffle(reserve), spare, hostq: bxShuffle(q.hostq || []), snap: Object.fromEntries(Object.values(G.players).map((p) => [p.id, p.score])), log: [] };
+  G.bx = { v: 1, solo, start, finish: q.finish || '', ...sz, cats: cats.map((c) => ({ n: c.name, e: c.emoji || '' })), board, teams, turn: 0, asked: 0, part: 1, step: solo ? 'seg' : 'teams', votes: {}, cur: null, reserve: bxShuffle(reserve), spare, hostq: bxShuffle(q.hostq || []), snap: Object.fromEntries(Object.values(G.players).map((p) => [p.id, p.score])), log: [] };
 }
 /** Points earned by individuals in the bonus rounds since the last look go into their team's pot. */
 function bxAbsorb() {
@@ -326,7 +333,7 @@ function bxNextBtn() { // the step button for each screen
   if (b.step === 'seg') return go(b.part === 1 ? 'Start ▶' : 'Carry on ▶');
   if (b.step === 'open') return go(`Open box ${c.num} ▶`);
   if (b.step === 'locked') return go('Reveal the answer ▶');
-  if (b.step === 'result') return go(b.asked >= b.cuts[b.part - 1] ? (b.part < 4 ? 'On to the bonus round ▶' : 'On to the Answer Smashes ▶') : 'Next team ▶');
+  if (b.step === 'result') return go(b.asked >= b.cuts[b.part - 1] ? (b.part < b.cuts.length ? 'On to the bonus round ▶' : (b.finish || (b.solo ? 'Finish ▶' : 'On to the Answer Smashes ▶'))) : 'Next team ▶');
   if (b.step === 'ask' && c?.mode === 'host') return c.sub === 'revealed' ? '<button class="btn btn-primary btn-lg" data-bx="hostright">✔ I got it right</button><button class="btn btn-ghost btn-lg" data-bx="hostwrong">✘ I got it wrong</button>' : `<button class="btn btn-ghost" data-bx="hostnew">I've seen this one: new question</button><button class="btn btn-primary btn-lg" id="bxReveal" data-next="1">Reveal the answer ▶</button>`;
   return `<button class="btn btn-ghost" data-bx="force">${b.step === 'pick' ? 'Pick a box for them' : b.step === 'stake' ? 'Set 500 for them' : b.step === 'ask' ? 'Lock in for them' : 'Decide for them'}</button>`;
 }

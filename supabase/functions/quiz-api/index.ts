@@ -1112,6 +1112,8 @@ Deno.serve(async (req) => {
         hidden: r.settings?.hidden === true, // hidden from the builder's list (and the TV's) until unhidden
         warmups: warmFor.get(r.id) || 0,
         traitors: r.settings?.traitors?.on === true, // Traitors mode is switched on
+        gameCode: r.settings?.gameCode?.auto === false ? String(r.settings.gameCode.code || "") : "", // a game code made in advance (empty: a new one each time it is hosted)
+        boxes: Array.isArray(r.questions) && r.questions.some((q: any) => q?.type === "boxes"), // a Box Clever game
         live: r.settings?.live?.code && Date.now() - Date.parse(r.settings.live.at || "") < 14 * 3600e3 ? String(r.settings.live.code) : "", // the code of the game being hosted now (the Traitors control on the builder finds it)
         // a warm-up or a just-for-fun game: people open it by its code, so it has an on/off switch in the builder
         play: r.settings?.warmup ? { code: String(r.settings.warmup.code || ""), on: r.settings.warmup.open !== false, fun: !!r.settings.warmup.fun, ended: !!(r.settings.warmup.until && Date.parse(r.settings.warmup.until) <= Date.now()), ...(() => { const mine = liveRows.filter((l) => l.quiz_id === r.id && String(l.season || "") === String(r.settings.warmup.season || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 40)); const playing = mine.filter((l) => Date.now() - Date.parse(l.seen_at) < 3 * 60e3).length; return { playing, unfinished: mine.length - playing }; })() } : null,
@@ -1150,6 +1152,17 @@ Deno.serve(async (req) => {
       const settings = typeof q.settings === "object" && q.settings ? q.settings : {};
       const questions = Array.isArray(q.questions) ? q.questions : [];
       if (JSON.stringify(questions).length > 2_000_000) return json({ error: "That quiz is too large to save." }, 413);
+      // a game code made in advance belongs to one quiz, and is not a warm-up's code or a test code
+      const gc = (settings as any).gameCode;
+      if (gc && gc.auto === false) {
+        const code = String(gc.code || "").toUpperCase();
+        if (!/^[A-Z0-9]{4,10}$/.test(code) || /^(TEST|VIEW)/.test(code)) return json({ error: "A game code is 4 to 10 letters or numbers, and cannot start with TEST or VIEW." }, 400);
+        const clash = ((await rest(`quiz_quizzes?settings->gameCode->>code=eq.${code}&select=id,title`)) || []).find((r: any) => r.id !== q.id);
+        if (clash) return json({ error: `The code ${code} already belongs to "${clash.title}".` }, 409);
+        const wu = ((await rest(`quiz_quizzes?settings->warmup->>code=eq.${code}&select=id,title`)) || []).find((r: any) => r.id !== q.id);
+        if (wu) return json({ error: `The code ${code} is the warm-up code of "${wu.title}".` }, 409);
+        (settings as any).gameCode = { auto: false, code };
+      }
       const payload = { title, settings, questions, updated_at: new Date().toISOString() };
       let rows;
       if (q.id && UUID_RE.test(String(q.id))) {
@@ -1291,6 +1304,115 @@ Deno.serve(async (req) => {
       }
       if (!read) return json({ error: "Upload a PDF of the Kahoot, or paste its link." }, 400);
       return json({ source: "pdf", ...(await kahootFromRead(read)), usage: read.usage || null });
+    }
+    if (action === "boxes_pool") {
+      // The questions for a Box Clever game made in the builder: for each category chosen, a mixed-difficulty pool from the bank
+      // (multiple choice, plus typed questions whose answer is a year or number, which can be given a believable wrong answer),
+      // spares for Swap, questions the host has never seen, and (for a hosted game) the bonus rounds' banks. Reads only.
+      const norm = (s: unknown) => String(s ?? "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, " ").trim();
+      const shuffle = <T,>(a: T[]): T[] => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+      const cats = (Array.isArray(body.cats) ? body.cats : []).slice(0, 7).map((c: any) => ({ name: String(c?.name || "").trim().slice(0, 24), emoji: String(c?.emoji || "").slice(0, 8), banks: (Array.isArray(c?.banks) ? c.banks : []).map((x: unknown) => String(x).slice(0, 60)).filter(Boolean).slice(0, 8) })).filter((c: any) => c.name && c.banks.length);
+      if (cats.length < 2) return json({ error: "Pick at least two categories." }, 400);
+      const cols = Math.max(3, Math.min(15, Math.round(+body.cols || 10))), typedShare = Math.max(0, Math.min(0.4, body.typed == null ? 0.2 : +body.typed || 0));
+      const want = Math.ceil(cols * 1.6); // the board plus a few of its own spares for Swap
+      // what earlier Box Clever games have already asked is left out
+      const seen = new Set<string>();
+      try {
+        for (const r of (await rest(`quiz_quizzes?title=ilike.*box%20clever*&select=questions`)) || []) for (const q of (Array.isArray(r.questions) ? r.questions : [])) if (q?.type === "boxes") {
+          for (const c of q.cats || []) for (const x of c.qs || []) seen.add(norm(x.t));
+          for (const x of [...(q.reserve || []), ...(q.hostq || [])]) seen.add(norm(x.t));
+        }
+      } catch (e) { console.warn("boxes_pool history", e); }
+      const BAD = /\b(this picture|the picture|this image|the image|this clip|photo|shown|pictured|on screen|these)\b/i;
+      const STEMSKIP = /^(which|where|called|named|their|there|these|those|about|system|other|first|after|before|number|world)$/;
+      const toks = (s: unknown) => norm(s).split(" ").filter((w) => w.length >= 5 && !STEMSKIP.test(w));
+      const leaks = (text: string, ans: string) => { const qt = toks(text).map((w) => w.slice(0, 5)); return toks(ans).some((w) => qt.includes(w.slice(0, 5))); }; // the answer's long word is already in the question
+      const isNum = (a: string) => /^\d{4}$/.test(a) || /^[\d,.]+$/.test(a);
+      const decoy = (a: string) => {
+        if (/^\d{4}$/.test(a)) { const y = +a, c = [y - 4, y - 3, y - 2, y - 1, y + 1, y + 2, y + 3, y + 5].filter((v) => v > 1000 && v <= 2026); return String(c[Math.floor(Math.random() * c.length)]); }
+        const n = parseFloat(a.replace(/,/g, "")), f = [0.5, 0.75, 1.25, 1.5, 2][Math.floor(Math.random() * 5)]; return String(Math.round(n * f));
+      };
+      const fine = (q: any) => q && typeof q.text === "string" && q.text.length <= 170 && !BAD.test(q.text) && !seen.has(norm(q.text)) && (!q.media || !q.media.kind || q.media.kind === "none") && !q.used && !q.giveaway && !q.doubt;
+      type Shaped = { s: any; id: string; type: string; d: string; text: string };
+      const shape = (q: any, type: string): Shaped | null => {
+        if (!fine(q)) return null;
+        const d = ["easy", "medium", "hard"].includes(q.difficulty) ? q.difficulty : "medium";
+        if (type === "choice") {
+          const opts: string[] = (q.options || []).map((o: any) => String(o?.text ?? ""));
+          const right = (q.options || []).find((o: any) => o.id === q.correct)?.text;
+          if (!right || opts.length !== 4 || new Set(opts.map(norm)).size !== 4 || opts.some((o) => o.length > 40) || leaks(q.text, String(right))) return null;
+          return { s: { t: q.text, o: [String(right), ...opts.filter((o) => o !== String(right))], d }, id: q.id, type, d, text: q.text };
+        }
+        const a = String((q.answers || [])[0] ?? "");
+        if (!a || !isNum(a) || a.length > 32 || leaks(q.text, a)) return null;
+        return { s: { t: q.text, a: (q.answers || []).map(String).slice(0, 4), w: decoy(a), d }, id: q.id, type, d, text: q.text };
+      };
+      const mix = (pool: Shaped[], n: number): Shaped[] => {
+        const w: Record<string, number> = { easy: Math.round(n * 0.25), medium: Math.round(n * 0.45) }; w.hard = n - w.easy - w.medium;
+        const rest0 = shuffle(pool), out: Shaped[] = [];
+        for (const d of ["easy", "medium", "hard"]) for (const q of rest0.filter((x) => x.d === d).slice(0, Math.max(0, w[d]))) out.push(q);
+        for (const q of rest0) { if (out.length >= n) break; if (!out.includes(q)) out.push(q); }
+        return shuffle(out.slice(0, n));
+      };
+      const taken = new Set<string>();
+      const out: any[] = [], spare: Shaped[] = [], ids: { type: string; id: string }[] = [], warnings: string[] = [];
+      for (const c of cats as any[]) {
+        const pools: Record<string, Shaped[]> = { choice: [], text: [] };
+        for (const type of ["choice", "text"]) {
+          const row = await bankPool(type, { categories: c.banks });
+          for (const q of row.questions) { const sh = shape(q, type); if (sh && !pools[type].some((x) => norm(x.text) === norm(sh.text))) pools[type].push(sh); }
+        }
+        pools.choice = pools.choice.filter((x) => !taken.has(norm(x.text))); pools.text = pools.text.filter((x) => !taken.has(norm(x.text)));
+        const nT = Math.min(pools.text.length, Math.round(want * typedShare)), nC = Math.min(pools.choice.length, want - nT);
+        const chosen = [...mix(pools.choice, nC), ...mix(pools.text, nT)];
+        chosen.forEach((x) => { taken.add(norm(x.text)); ids.push({ type: x.type, id: x.id }); });
+        spare.push(...[...pools.choice, ...pools.text].filter((x) => !chosen.includes(x)));
+        if (chosen.length < cols) warnings.push(`${c.name}: only ${chosen.length} questions are free in the bank for ${cols} boxes. The gaps are filled from the spares.`);
+        out.push({ name: c.name, emoji: c.emoji, qs: shuffle(chosen).map((x) => x.s), typed: chosen.filter((x) => x.type === "text").length });
+      }
+      const spares = shuffle(spare).filter((x) => !taken.has(norm(x.text)));
+      const reserve: any[] = [], hostq: any[] = [], nRes = Math.max(10, Math.round(cols * 2.4));
+      for (const x of spares) {
+        if (taken.has(norm(x.text))) continue;
+        if (reserve.length < nRes && x.d !== "hard") reserve.push(x); else if (hostq.length < 10) hostq.push(x); else continue;
+        taken.add(norm(x.text)); ids.push({ type: x.type, id: x.id });
+        if (reserve.length >= nRes && hostq.length >= 10) break;
+      }
+      let bonus: any = null;
+      if (body.bonus) {
+        const pickChoice = async (banks: string[], n: number) => {
+          const row = await bankPool("choice", { categories: banks }), pool: Shaped[] = [];
+          for (const q of row.questions) { const sh = shape(q, "choice"); if (sh && sh.d !== "hard" && !taken.has(norm(sh.text))) pool.push(sh); }
+          const got = mix(pool, n); got.forEach((x) => { taken.add(norm(x.text)); ids.push({ type: x.type, id: x.id }); });
+          return got.map((x) => ({ text: x.s.t, options: x.s.o, difficulty: x.d }));
+        };
+        const bb = await pickChoice(["General knowledge", "British history", "World geography", "Science and technology", "Food and drink", "Animals", "Pop music", "British sitcoms", "Football", "The 1990s"], 26);
+        const race = await pickChoice(["General knowledge", "UK geography", "Space and astronomy", "The 1980s", "Film quotes", "Famous landmarks", "The human body", "Pop music", "The Olympics", "Brands and logos"], 22);
+        const sm = await bankPool("smash", { sample: 80 });
+        const smash = shuffle(sm.questions.filter((q: any) => q && q.media?.url && q.pictureAnswer && q.clueAnswer && !q.used && !seen.has(norm(q.text)))).slice(0, 5).map((q: any) => {
+          const c = JSON.parse(JSON.stringify(q)); for (const k of ["used", "passed", "tooEasy", "giveaway", "doubt", "recycled", "local"]) delete c[k];
+          ids.push({ type: "smash", id: q.id }); c.bankId = q.id; c.id = "q_" + crypto.randomUUID().replace(/-/g, "").slice(0, 8); c.fromBank = true; return c;
+        });
+        bonus = { bb, race, smash };
+        if (bb.length < 10 || race.length < 10 || smash.length < 3) warnings.push("The bank is short of questions for the bonus rounds, so they are smaller than usual.");
+      }
+      return json({ cats: out, reserve: reserve.map((x) => x.s), hostq: hostq.map((x) => x.s), bonus, ids, warnings });
+    }
+    if (action === "boxes_mark") {
+      // Questions that went into a saved Box Clever game are stamped used for it, so the writer and other games leave them alone.
+      const quizId = UUID_RE.test(String(body.quizId || "")) ? String(body.quizId) : "";
+      if (!quizId) return json({ error: "Save the game first." }, 400);
+      const list: { type: string; id: string }[] = (Array.isArray(body.ids) ? body.ids : []).filter((x: any) => x && typeof x.type === "string" && typeof x.id === "string").slice(0, 800);
+      const byType = new Map<string, string[]>();
+      for (const x of list) byType.set(x.type, [...(byType.get(x.type) || []), x.id]);
+      let marked = 0; const now = new Date().toISOString();
+      for (const [type, idList] of byType) for (let i = 0; i < idList.length; i += 100) {
+        const chunk = idList.slice(i, i + 100);
+        const rows: any[] = (await rest(`quiz_bank?type=eq.${encodeURIComponent(type)}&id=in.(${chunk.map((id) => `"${id.replace(/"/g, "")}"`).join(",")})&select=q`)) || [];
+        const up = rows.map((r) => r.q).filter((q) => q && !q.used).map((q) => { q.used = { quiz: quizId, at: now }; return { id: q.id, type, category: String(q.category || ""), difficulty: String(q.difficulty || ""), used: true, q, updated_at: now }; });
+        if (up.length) { await rest(`quiz_bank?on_conflict=id`, { method: "POST", headers: { Prefer: "resolution=merge-duplicates,return=minimal" }, body: JSON.stringify(up) }); marked += up.length; }
+      }
+      return json({ ok: true, marked });
     }
     if (action === "bank_status") {
       const counts = await restAll(`quiz_bank_counts?select=type,category,difficulty,used,n&order=type,category,difficulty,used`);
