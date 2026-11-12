@@ -3,6 +3,12 @@
 The host wants the question bank filled by hand in this tool (no API spend), topic by topic,
 sessions one minute apart, until every topic in `bank/topics.json` is complete.
 
+**Second tranche (host request, 12 Nov 2026):** the first tranche (every topic at the targets below) is finished. Carry on with
+`node tools/bank-next.mjs --target 75` instead of the plain command: choice, text and tf go to 75 per topic, order and categorise to 8,
+everything else stays as below. Use `--target 75` in every `bank-next.mjs` call. The Christmas Day game (docs/CHRISTMAS-DAY.md) draws
+from nine categories, so fresh *hard* questions in Christmas, TV and film, music, history, geography, food and drink, celebrities, sport
+and science topics are especially welcome.
+
 Per topic the targets are: 50 multiple choice, 50 typed, 50 true/false, 5 put-in-order,
 5 categorise, 10 highbrow/lowbrow, 10 answer smash, 10 name that tune, 10 rhyme time, 5 wipeout boards,
 3 races, 5 drop the pin (10 for Geography topics), 5 match, 5 wheel of fortune, 5 1% Club and 3 dingbats.

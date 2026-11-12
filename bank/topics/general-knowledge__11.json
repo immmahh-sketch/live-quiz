@@ -1,0 +1,149 @@
+[
+ {
+  "type": "order",
+  "text": "Put these US states in the order they joined the Union, earliest first",
+  "items": [
+   "Delaware",
+   "Virginia",
+   "Ohio",
+   "Texas",
+   "Alaska"
+  ],
+  "hint": "earliest first",
+  "difficulty": "hard"
+ },
+ {
+  "type": "order",
+  "text": "Put these rivers in order of length, longest first",
+  "items": [
+   "Yangtze",
+   "Danube",
+   "Rhine",
+   "Thames",
+   "Tyne"
+  ],
+  "hint": "longest first",
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these elements in order of atomic number, lowest first",
+  "items": [
+   "Carbon",
+   "Iron",
+   "Silver",
+   "Gold",
+   "Uranium"
+  ],
+  "hint": "lowest atomic number first",
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "Herbivore, carnivore or omnivore?",
+  "categories": [
+   "Herbivore",
+   "Carnivore",
+   "Omnivore"
+  ],
+  "items": [
+   {
+    "text": "Cow",
+    "category": "Herbivore"
+   },
+   {
+    "text": "Lion",
+    "category": "Carnivore"
+   },
+   {
+    "text": "Brown bear",
+    "category": "Omnivore"
+   },
+   {
+    "text": "Rabbit",
+    "category": "Herbivore"
+   },
+   {
+    "text": "Crocodile",
+    "category": "Carnivore"
+   },
+   {
+    "text": "Pig",
+    "category": "Omnivore"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "Which country is each of these cities in?",
+  "categories": [
+   "Australia",
+   "Canada",
+   "New Zealand"
+  ],
+  "items": [
+   {
+    "text": "Adelaide",
+    "category": "Australia"
+   },
+   {
+    "text": "Hobart",
+    "category": "Australia"
+   },
+   {
+    "text": "Regina",
+    "category": "Canada"
+   },
+   {
+    "text": "Winnipeg",
+    "category": "Canada"
+   },
+   {
+    "text": "Dunedin",
+    "category": "New Zealand"
+   },
+   {
+    "text": "Napier",
+    "category": "New Zealand"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Shakespeare, Dickens or Hardy?",
+  "categories": [
+   "Shakespeare",
+   "Dickens",
+   "Hardy"
+  ],
+  "items": [
+   {
+    "text": "Cymbeline",
+    "category": "Shakespeare"
+   },
+   {
+    "text": "Coriolanus",
+    "category": "Shakespeare"
+   },
+   {
+    "text": "Barnaby Rudge",
+    "category": "Dickens"
+   },
+   {
+    "text": "Dombey and Son",
+    "category": "Dickens"
+   },
+   {
+    "text": "Jude the Obscure",
+    "category": "Hardy"
+   },
+   {
+    "text": "The Woodlanders",
+    "category": "Hardy"
+   }
+  ],
+  "difficulty": "hard"
+ }
+]
