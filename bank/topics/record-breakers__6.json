@@ -1,0 +1,716 @@
+[
+ {
+  "type": "choice",
+  "text": "Which team set the Premier League record of 100 points in a season, in 2017-18?",
+  "options": [
+   "Manchester City",
+   "Chelsea",
+   "Liverpool",
+   "Manchester United"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "Which Indian batter holds the record for most Test runs?",
+  "answers": [
+   "Sachin Tendulkar",
+   "Tendulkar"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "Which player passed Kareem Abdul-Jabbar in 2023 to become the NBA's all-time leading scorer?",
+  "answers": [
+   "LeBron James",
+   "LeBron"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "choice",
+  "text": "The Angel of the North at Gateshead is among Britain's largest sculptures. What is its wingspan?",
+  "options": [
+   "54 metres",
+   "30 metres",
+   "75 metres",
+   "100 metres"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "Which Serbian has won a record 24 men's Grand Slam singles titles?",
+  "answers": [
+   "Novak Djokovic",
+   "Djokovic"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "text",
+  "text": "Which British driver has won the most Formula One races?",
+  "answers": [
+   "Lewis Hamilton",
+   "Hamilton"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "text",
+  "text": "Which city hosted the first modern Olympic Games, in 1896?",
+  "answers": [
+   "Athens"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "text",
+  "text": "Which is the longest river in the United Kingdom?",
+  "answers": [
+   "The Severn",
+   "Severn",
+   "River Severn"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "Which is the highest mountain in the United Kingdom?",
+  "answers": [
+   "Ben Nevis"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "text",
+  "text": "Which solo artist has the most UK number one singles, with 21?",
+  "answers": [
+   "Elvis Presley",
+   "Elvis"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "Which Kenyan became the first woman to run a marathon in under 2 hours 10 minutes, in Chicago in 2024?",
+  "answers": [
+   "Ruth Chepngetich",
+   "Chepngetich"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "text",
+  "text": "Which structure is the longest wall in the world?",
+  "answers": [
+   "The Great Wall of China",
+   "Great Wall of China",
+   "Great Wall"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "text",
+  "text": "Which is the largest country in Africa by area?",
+  "answers": [
+   "Algeria"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "text",
+  "text": "Which is the largest country in South America by area?",
+  "answers": [
+   "Brazil"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "tf",
+  "text": "Sachin Tendulkar scored 100 international centuries.",
+  "answer": true,
+  "difficulty": "medium"
+ },
+ {
+  "type": "tf",
+  "text": "Brazil is the only country to have played in every men's World Cup.",
+  "answer": true,
+  "difficulty": "medium"
+ },
+ {
+  "type": "tf",
+  "text": "Canada has the longest coastline of any country.",
+  "answer": true,
+  "difficulty": "medium"
+ },
+ {
+  "type": "tf",
+  "text": "Australia is the largest island in the world.",
+  "answer": false,
+  "difficulty": "medium"
+ },
+ {
+  "type": "tf",
+  "text": "The longest tennis match at Wimbledon was played over three days.",
+  "answer": true,
+  "difficulty": "medium"
+ },
+ {
+  "type": "tf",
+  "text": "Elizabeth II reigned for longer than Louis XIV of France.",
+  "answer": false,
+  "difficulty": "hard"
+ },
+ {
+  "type": "tf",
+  "text": "Mondo Duplantis has broken the pole vault world record more than ten times.",
+  "answer": true,
+  "difficulty": "hard"
+ },
+ {
+  "type": "order",
+  "text": "Put these structures in order of height, tallest first",
+  "items": [
+   "Burj Khalifa",
+   "Shanghai Tower",
+   "Eiffel Tower",
+   "Elizabeth Tower (Big Ben)",
+   "Angel of the North"
+  ],
+  "hint": "tallest first",
+  "difficulty": "easy"
+ },
+ {
+  "type": "order",
+  "text": "Put these mountains in order of height, highest first",
+  "items": [
+   "Everest",
+   "K2",
+   "Kangchenjunga",
+   "Mont Blanc",
+   "Ben Nevis"
+  ],
+  "hint": "highest first",
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these Olympians in order of career Olympic gold medals, most first",
+  "items": [
+   "Michael Phelps",
+   "Usain Bolt",
+   "Jason Kenny",
+   "Chris Hoy",
+   "Steve Redgrave"
+  ],
+  "hint": "most gold medals first",
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "Mammal, bird or fish: which record-holder is which?",
+  "categories": [
+   "Mammal",
+   "Bird",
+   "Fish"
+  ],
+  "items": [
+   {
+    "text": "Blue whale",
+    "category": "Mammal"
+   },
+   {
+    "text": "Cheetah",
+    "category": "Mammal"
+   },
+   {
+    "text": "Peregrine falcon",
+    "category": "Bird"
+   },
+   {
+    "text": "Ostrich",
+    "category": "Bird"
+   },
+   {
+    "text": "Whale shark",
+    "category": "Fish"
+   },
+   {
+    "text": "Sailfish",
+    "category": "Fish"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Which continent is each of these record-breaking places on?",
+  "categories": [
+   "Africa",
+   "Asia",
+   "South America"
+  ],
+  "items": [
+   {
+    "text": "Sahara Desert",
+    "category": "Africa"
+   },
+   {
+    "text": "Kilimanjaro",
+    "category": "Africa"
+   },
+   {
+    "text": "Everest",
+    "category": "Asia"
+   },
+   {
+    "text": "Dead Sea",
+    "category": "Asia"
+   },
+   {
+    "text": "Angel Falls",
+    "category": "South America"
+   },
+   {
+    "text": "Atacama Desert",
+    "category": "South America"
+   }
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "Land, water or air: where was each speed record set?",
+  "categories": [
+   "Land",
+   "Water",
+   "Air"
+  ],
+  "items": [
+   {
+    "text": "Thrust SSC",
+    "category": "Land"
+   },
+   {
+    "text": "Mallard",
+    "category": "Land"
+   },
+   {
+    "text": "Bluebird K7",
+    "category": "Water"
+   },
+   {
+    "text": "Spirit of Australia",
+    "category": "Water"
+   },
+   {
+    "text": "SR-71 Blackbird",
+    "category": "Air"
+   },
+   {
+    "text": "X-15",
+    "category": "Air"
+   }
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "choice",
+  "text": "Which mammal makes the longest migration of any mammal, with a round trip of up to 20,000 kilometres?",
+  "options": [
+   "The grey whale",
+   "The humpback whale",
+   "The blue whale",
+   "The orca"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "choice",
+  "text": "Whose play The Mousetrap has run in London's West End since 1952?",
+  "options": [
+   "Agatha Christie",
+   "Noël Coward",
+   "Harold Pinter",
+   "J. B. Priestley"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "choice",
+  "text": "Which station is the busiest railway station in the world by passengers?",
+  "options": [
+   "Shinjuku, Tokyo",
+   "Grand Central, New York",
+   "London Waterloo",
+   "Gare du Nord, Paris"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "choice",
+  "text": "Which group's Greatest Hits is the best-selling album ever in the UK?",
+  "options": [
+   "Queen",
+   "ABBA",
+   "Oasis",
+   "Adele"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "choice",
+  "text": "Which type of tree has the oldest known individual living tree, at nearly 4,900 years old?",
+  "options": [
+   "The Great Basin bristlecone pine",
+   "The coast redwood",
+   "The English yew",
+   "The giant sequoia"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "choice",
+  "text": "Who became the youngest ever Formula One world champion, in 2010?",
+  "options": [
+   "Sebastian Vettel",
+   "Lewis Hamilton",
+   "Max Verstappen",
+   "Fernando Alonso"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "choice",
+  "text": "Which river carries the most water into the sea of any river in the world?",
+  "options": [
+   "The Amazon",
+   "The Nile",
+   "The Congo",
+   "The Yangtze"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "choice",
+  "text": "Which country receives the most international tourists in a typical year, with around 100 million?",
+  "options": [
+   "France",
+   "Spain",
+   "The United States",
+   "Italy"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "Which Dutch driver became the youngest ever to start a Formula One race, aged 17?",
+  "answers": [
+   "Max Verstappen",
+   "Verstappen"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "Which Ugandan set the men's 10,000 metres world record of 26 minutes 11 seconds in 2020?",
+  "answers": [
+   "Joshua Cheptegei",
+   "Cheptegei"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "text",
+  "text": "Which footballer has played in the most men's World Cup matches, with 26?",
+  "answers": [
+   "Lionel Messi",
+   "Messi"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "Which Roman structure was the largest amphitheatre ever built?",
+  "answers": [
+   "The Colosseum",
+   "Colosseum"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "tf",
+  "text": "A day on Venus is longer than a year on Venus.",
+  "answer": true,
+  "difficulty": "hard"
+ },
+ {
+  "type": "tf",
+  "text": "A cheetah can keep up its top speed for several minutes.",
+  "answer": false,
+  "difficulty": "medium"
+ },
+ {
+  "type": "tf",
+  "text": "A blue whale's tongue can weigh as much as an elephant.",
+  "answer": true,
+  "difficulty": "hard"
+ },
+ {
+  "type": "tf",
+  "text": "Antarctica is the driest continent.",
+  "answer": true,
+  "difficulty": "easy"
+ },
+ {
+  "type": "tf",
+  "text": "Mount Everest lies entirely within Nepal.",
+  "answer": false,
+  "difficulty": "medium"
+ },
+ {
+  "type": "choice",
+  "text": "Which building was the tallest in the United Kingdom, at 235 metres, until the Shard overtook it?",
+  "options": [
+   "One Canada Square, Canary Wharf",
+   "The BT Tower",
+   "Tower 42",
+   "The Heron Tower"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "choice",
+  "text": "Who became the youngest men's singles champion at Wimbledon, aged 17, in 1985?",
+  "options": [
+   "Boris Becker",
+   "Björn Borg",
+   "John McEnroe",
+   "Stefan Edberg"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "choice",
+  "text": "Which film franchise is the highest-grossing of all time?",
+  "options": [
+   "The Marvel Cinematic Universe",
+   "Star Wars",
+   "Harry Potter",
+   "James Bond"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "choice",
+  "text": "For how many league matches did Arsenal's 2003-04 'Invincibles' go unbeaten in total?",
+  "options": [
+   "49",
+   "38",
+   "42",
+   "51"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "choice",
+  "text": "Which is the longest known cave system in the world, in the American state of Kentucky?",
+  "options": [
+   "Mammoth Cave",
+   "Carlsbad Caverns",
+   "Waitomo Caves",
+   "Cheddar Gorge"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "text",
+  "text": "Which Kenyan holds the women's mile world record, set in 2023?",
+  "answers": [
+   "Faith Kipyegon",
+   "Kipyegon"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "text",
+  "text": "Which Scottish club has won the most league titles in the world, with 55?",
+  "answers": [
+   "Rangers",
+   "Rangers FC",
+   "Glasgow Rangers"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "Which club has won the most European Cup and Champions League titles?",
+  "answers": [
+   "Real Madrid"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "text",
+  "text": "Which is the highest mountain in Wales?",
+  "answers": [
+   "Snowdon",
+   "Yr Wyddfa"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "Which is the longest river in Scotland?",
+  "answers": [
+   "The Tay",
+   "Tay",
+   "River Tay"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "tf",
+  "text": "Wimbledon is the oldest tennis tournament in the world.",
+  "answer": true,
+  "difficulty": "medium"
+ },
+ {
+  "type": "tf",
+  "text": "Roger Bannister's four-minute mile record lasted less than two months.",
+  "answer": true,
+  "difficulty": "hard"
+ },
+ {
+  "type": "tf",
+  "text": "The London Underground is the oldest underground railway in the world.",
+  "answer": true,
+  "difficulty": "medium"
+ },
+ {
+  "type": "tf",
+  "text": "Everest is the tallest mountain in the solar system.",
+  "answer": false,
+  "difficulty": "easy"
+ },
+ {
+  "type": "tf",
+  "text": "Pluto has completed one full orbit of the Sun since its discovery in 1930.",
+  "answer": false,
+  "difficulty": "medium"
+ },
+ {
+  "type": "tf",
+  "text": "The Thames is the longest river in the United Kingdom.",
+  "answer": false,
+  "difficulty": "medium"
+ },
+ {
+  "type": "tf",
+  "text": "The giraffe, the tallest animal, has only seven neck bones.",
+  "answer": true,
+  "difficulty": "medium"
+ },
+ {
+  "type": "tf",
+  "text": "The Titanic was the largest ship in the world when she was completed in 1912.",
+  "answer": true,
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "Which Spaniard won the Tour de France five years in a row, from 1991 to 1995?",
+  "answers": [
+   "Miguel Indurain",
+   "Indurain"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "text",
+  "text": "Which Australian cricketer finished with a Test batting average of 99.94?",
+  "answers": [
+   "Donald Bradman",
+   "Don Bradman",
+   "Bradman"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "tf",
+  "text": "No bridge crosses the main stem of the Amazon River.",
+  "answer": true,
+  "difficulty": "medium"
+ },
+ {
+  "type": "choice",
+  "text": "Which Chinese dynasty built most of the Great Wall that visitors see today?",
+  "options": [
+   "The Ming",
+   "The Qin",
+   "The Han",
+   "The Tang"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "choice",
+  "text": "Which is the only bird able to fly backwards?",
+  "options": [
+   "The hummingbird",
+   "The kingfisher",
+   "The swift",
+   "The swallow"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "choice",
+  "text": "Which tennis player has spent the most weeks ranked world number one in the men's game?",
+  "options": [
+   "Novak Djokovic",
+   "Roger Federer",
+   "Pete Sampras",
+   "Rafael Nadal"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "choice",
+  "text": "Which Apollo mission holds the record for the farthest humans have ever travelled from Earth, in 1970?",
+  "options": [
+   "Apollo 13",
+   "Apollo 11",
+   "Apollo 17",
+   "Apollo 8"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "text",
+  "text": "Which is the largest landlocked country in the world by area?",
+  "answers": [
+   "Kazakhstan"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "tf",
+  "text": "Sharks are older than trees.",
+  "answer": true,
+  "difficulty": "hard"
+ },
+ {
+  "type": "choice",
+  "text": "Which city's Metro, opened in 1863 as the Metropolitan Railway, was the world's first underground passenger railway?",
+  "options": [
+   "London",
+   "Paris",
+   "New York",
+   "Berlin"
+  ],
+  "difficulty": "easy"
+ }
+]
