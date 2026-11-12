@@ -16,7 +16,7 @@ const partyName = (s, pid) => s.power?.players?.find((p) => p.pid === pid)?.name
 // ---------------------------------------------------------------- power cards
 /** Every state: the 🃏 button (with the hand), and the big banner when anyone plays a card. */
 function partyPhoneAfter(s) {
-  if (typeof xmPhoneAfter === 'function') xmPhoneAfter(s); // Christmas Day: the plate, the dish up for grabs, the surprises (assets/xmas-phone.js)
+  if (typeof xmPhoneAfter === 'function') xmPhoneAfter(s); // Christmas Day: the dish, the item up for grabs, the surprises (assets/xmas-phone.js)
   if (typeof trPhoneAfter === 'function') trPhoneAfter(s); // the Traitors (assets/traitors-phone.js)
   const pw = s.power, hand = (pw?.hands?.[P.pid] || []);
   let b = document.getElementById('pcardsBtn');

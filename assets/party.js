@@ -73,7 +73,7 @@ function powerFlashShow() {
  *  one-card-each limit resets. */
 function partyStartQuestion(q) {
   G.fxGap = {}; trStartQuestion(q);
-  if (typeof xmStartQuestion === 'function') xmStartQuestion(q); // Christmas Day: the dish up for grabs, a doorbell or a power cut
+  if (typeof xmStartQuestion === 'function') xmStartQuestion(q); // Christmas Day: the item up for grabs, a doorbell or a power cut
   if (partyPlain(q) && G.fxPend?.length) {
     const fx = { frozen: {}, copy: {}, x5: {}, slow: {} };
     for (const f of G.fxPend) { if (f.kind === 'freeze') fx.frozen[f.target] = f.by; if (f.kind === 'copy') fx.copy[f.by] = f.target; if (f.kind === 'x5') fx.x5[f.by] = true; if (f.kind === 'slow') fx.slow[f.target] = f.by; }
@@ -117,7 +117,7 @@ function partyAfterGrade(byPlayer) {
       }
     }
   }
-  if (typeof xmAfterGrade === 'function') xmAfterGrade(byPlayer); // Christmas Day: who collects the dish
+  if (typeof xmAfterGrade === 'function') xmAfterGrade(byPlayer); // Christmas Day: who collects the item
   trAfterGrade(byPlayer); // the Traitor's gifts, blocks and doubles; shields
 }
 /** The phones' share of all this: hands, what's in play, the last card played; Play Your Cards Right and the task. */

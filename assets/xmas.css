@@ -108,3 +108,19 @@
 .xpdark { position: fixed; inset: 0; z-index: 43; pointer-events: none; background: rgba(5,4,3,.55); }
 
 body.xpchip-on #app { margin-top: 52px; }
+
+/* The power cut on a phone: black everywhere except a swaying torch beam on the answers; the question stays hidden. */
+@property --xpsw { syntax: '<length>'; inherits: true; initial-value: 0px; }
+#xptorch { position: fixed; inset: 0; z-index: 42; pointer-events: none; animation: xpSway 4.5s ease-in-out infinite, xpFlick 2.3s steps(1) infinite;
+  background: radial-gradient(ellipse var(--rx, 160px) var(--ry, 110px) at calc(var(--tx, 50%) + var(--xpsw)) var(--ty, 60%), rgba(0,0,0,0) 0%, rgba(0,0,0,0) 45%, rgba(0,0,0,.55) 72%, #000 100%); }
+@keyframes xpSway { 0%, 100% { --xpsw: -10px; } 50% { --xpsw: 10px; } }
+@keyframes xpFlick { 0%, 100% { opacity: 1; } 47% { opacity: .93; } 49% { opacity: 1; } 83% { opacity: .95; } 85% { opacity: 1; } }
+body.xp-blackout #app { background: #000; }
+body.xp-blackout .pq, body.xp-blackout .pq *, body.xp-blackout .sitem .txt, body.xp-blackout .cnclue, body.xp-blackout .clubrow { visibility: hidden; }
+body.xp-blackout .ptimer { position: relative; z-index: 43; }
+
+/* Hand-drawn item pictures: they scale with the font size of whatever holds them, and grey out with it (filter: grayscale on the holder). */
+.xmico { display: inline-block; width: 1.15em; height: 1.15em; vertical-align: -0.2em; line-height: 1; }
+.xmico .xmsvg { width: 100%; height: 100%; display: block; overflow: visible; }
+.xpslot .xmico { width: 1em; height: 1em; vertical-align: baseline; }
+.xpketchup .k .xmico, .xpmini .r .is .xmico, .xmris .xmico { vertical-align: -0.15em; }

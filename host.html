@@ -2345,7 +2345,7 @@ function buildReport() {
 function showScoreboard() { G.phase = 'scoreboard'; persist(); render(); broadcastState(); }
 async function finish() {
   if (typeof bxFinal === 'function') bxFinal(); // Box Clever: every player carries their team's pot
-  if (typeof xmFinal === 'function') xmFinal(); // Christmas Day: missing dishes cost, a full plate pays
+  if (typeof xmFinal === 'function') xmFinal(); // Christmas Day: missing items cost, a full dish pays
   trPayHidden(); // the Traitors' secret bonuses (assets/traitors.js)
   clkFinal();
   G.phase = 'final'; persist(); render(); broadcastState(); if (!G.quiz.settings?.noScores) confetti();
