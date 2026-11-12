@@ -1360,7 +1360,8 @@ Deno.serve(async (req) => {
         const pools: Record<string, Shaped[]> = { choice: [], text: [] };
         for (const type of ["choice", "text"]) {
           const row = await bankPool(type, { categories: c.banks });
-          for (const q of row.questions) { const sh = shape(q, type); if (sh && !pools[type].some((x) => norm(x.text) === norm(sh.text))) pools[type].push(sh); }
+          const have = new Set<string>(); // a Set, not a scan of the pool for every question: the scan was quadratic and hit the worker's CPU limit as the bank grew
+          for (const q of row.questions) { const sh = shape(q, type); if (!sh) continue; const k = norm(sh.text); if (have.has(k)) continue; have.add(k); pools[type].push(sh); }
         }
         pools.choice = pools.choice.filter((x) => !taken.has(norm(x.text))); pools.text = pools.text.filter((x) => !taken.has(norm(x.text)));
         const nT = Math.min(pools.text.length, Math.round(want * typedShare)), nC = Math.min(pools.choice.length, want - nT);
