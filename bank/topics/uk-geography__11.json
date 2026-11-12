@@ -1,0 +1,154 @@
+[
+ {
+  "type": "sort",
+  "text": "England, Scotland or Wales: where is each city?",
+  "categories": [
+   "England",
+   "Scotland",
+   "Wales"
+  ],
+  "items": [
+   {
+    "text": "Leeds",
+    "category": "England"
+   },
+   {
+    "text": "Plymouth",
+    "category": "England"
+   },
+   {
+    "text": "Inverness",
+    "category": "Scotland"
+   },
+   {
+    "text": "Dundee",
+    "category": "Scotland"
+   },
+   {
+    "text": "Swansea",
+    "category": "Wales"
+   },
+   {
+    "text": "Newport",
+    "category": "Wales"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "England, Scotland or Wales: where is each mountain?",
+  "categories": [
+   "England",
+   "Scotland",
+   "Wales"
+  ],
+  "items": [
+   {
+    "text": "Scafell Pike",
+    "category": "England"
+   },
+   {
+    "text": "Helvellyn",
+    "category": "England"
+   },
+   {
+    "text": "Ben Nevis",
+    "category": "Scotland"
+   },
+   {
+    "text": "Cairn Gorm",
+    "category": "Scotland"
+   },
+   {
+    "text": "Snowdon",
+    "category": "Wales"
+   },
+   {
+    "text": "Cadair Idris",
+    "category": "Wales"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "Which river runs through each city?",
+  "categories": [
+   "Thames",
+   "Tyne",
+   "Mersey"
+  ],
+  "items": [
+   {
+    "text": "London",
+    "category": "Thames"
+   },
+   {
+    "text": "Oxford",
+    "category": "Thames"
+   },
+   {
+    "text": "Newcastle",
+    "category": "Tyne"
+   },
+   {
+    "text": "Gateshead",
+    "category": "Tyne"
+   },
+   {
+    "text": "Liverpool",
+    "category": "Mersey"
+   },
+   {
+    "text": "Warrington",
+    "category": "Mersey"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "text",
+  "text": "Which is the northernmost inhabited island in the United Kingdom, in Shetland?",
+  "answers": [
+   "Unst"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "text",
+  "text": "Which Cornish headland is the most southerly point of mainland Britain?",
+  "answers": [
+   "The Lizard",
+   "Lizard Point",
+   "Lizard"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "text",
+  "text": "Which is the northernmost city in the United Kingdom?",
+  "answers": [
+   "Inverness"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "text",
+  "text": "Which national park is the largest in the whole of the United Kingdom?",
+  "answers": [
+   "The Cairngorms",
+   "Cairngorms"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "text",
+  "text": "What is the largest island in Orkney called?",
+  "answers": [
+   "Mainland",
+   "The Mainland"
+  ],
+  "difficulty": "hard"
+ }
+]
