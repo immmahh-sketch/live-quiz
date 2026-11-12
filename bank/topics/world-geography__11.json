@@ -1,0 +1,172 @@
+[
+ {
+  "type": "sort",
+  "text": "Which continent is each country in?",
+  "categories": [
+   "Africa",
+   "Asia",
+   "Oceania"
+  ],
+  "items": [
+   {
+    "text": "Kenya",
+    "category": "Africa"
+   },
+   {
+    "text": "Ghana",
+    "category": "Africa"
+   },
+   {
+    "text": "Laos",
+    "category": "Asia"
+   },
+   {
+    "text": "Bhutan",
+    "category": "Asia"
+   },
+   {
+    "text": "Fiji",
+    "category": "Oceania"
+   },
+   {
+    "text": "Samoa",
+    "category": "Oceania"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "Landlocked or with a coastline?",
+  "categories": [
+   "Landlocked",
+   "Has a coastline"
+  ],
+  "items": [
+   {
+    "text": "Bolivia",
+    "category": "Landlocked"
+   },
+   {
+    "text": "Mongolia",
+    "category": "Landlocked"
+   },
+   {
+    "text": "Ethiopia",
+    "category": "Landlocked"
+   },
+   {
+    "text": "Peru",
+    "category": "Has a coastline"
+   },
+   {
+    "text": "Vietnam",
+    "category": "Has a coastline"
+   },
+   {
+    "text": "Kenya",
+    "category": "Has a coastline"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Which sea does each country border?",
+  "categories": [
+   "Mediterranean",
+   "Caspian",
+   "Baltic"
+  ],
+  "items": [
+   {
+    "text": "Libya",
+    "category": "Mediterranean"
+   },
+   {
+    "text": "Syria",
+    "category": "Mediterranean"
+   },
+   {
+    "text": "Azerbaijan",
+    "category": "Caspian"
+   },
+   {
+    "text": "Turkmenistan",
+    "category": "Caspian"
+   },
+   {
+    "text": "Latvia",
+    "category": "Baltic"
+   },
+   {
+    "text": "Estonia",
+    "category": "Baltic"
+   }
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "text",
+  "text": "Name one of the two doubly landlocked countries in the world, whose neighbours are all landlocked too.",
+  "answers": [
+   "Liechtenstein",
+   "Uzbekistan"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "choice",
+  "text": "Which lake is the highest navigable lake in the world?",
+  "options": [
+   "Lake Titicaca",
+   "Lake Victoria",
+   "Lake Baikal",
+   "Lake Superior"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "choice",
+  "text": "Which country is completely surrounded by South Africa?",
+  "options": [
+   "Lesotho",
+   "Eswatini",
+   "Botswana",
+   "Namibia"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "choice",
+  "text": "Which African country has coastlines on both the Atlantic and the Indian Ocean?",
+  "options": [
+   "South Africa",
+   "Tanzania",
+   "Namibia",
+   "Mozambique"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "choice",
+  "text": "Which country has land in both Africa and Asia?",
+  "options": [
+   "Egypt",
+   "Libya",
+   "Sudan",
+   "Saudi Arabia"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "text",
+  "text": "Which is the smallest of the world's five oceans?",
+  "answers": [
+   "The Arctic Ocean",
+   "Arctic Ocean",
+   "Arctic"
+  ],
+  "difficulty": "easy"
+ }
+]
