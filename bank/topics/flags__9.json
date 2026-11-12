@@ -1,0 +1,349 @@
+[
+ {
+  "type": "text",
+  "text": "Which country's flag is blue over yellow in two horizontal bands?",
+  "answers": [
+   "Ukraine"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "text",
+  "text": "Which colour is in the middle of the Italian flag?",
+  "answers": [
+   "White"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "text",
+  "text": "What colour is the cross on the flag of Finland?",
+  "answers": [
+   "Blue"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "text",
+  "text": "Which country's flag is a vertical tricolour of green, white and orange, in that order from the hoist?",
+  "answers": [
+   "Ireland",
+   "Republic of Ireland"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "Which country's flag shows an eagle holding a snake, perched on a cactus?",
+  "answers": [
+   "Mexico"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "Which country's flag features a green cedar tree?",
+  "answers": [
+   "Lebanon"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "Which country's flag features a white dragon on a yellow and orange background?",
+  "answers": [
+   "Bhutan"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "Which country's green flag has a white crescent and star and a white vertical stripe?",
+  "answers": [
+   "Pakistan"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "Which country's flag has light blue and white horizontal stripes with a golden sun in the centre?",
+  "answers": [
+   "Argentina"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "Which African country's flag has red, gold and green stripes with a black star in the centre?",
+  "answers": [
+   "Ghana"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "Which Asian country's flag has a red and blue taegeuk symbol in the centre of a white field?",
+  "answers": [
+   "South Korea",
+   "Republic of Korea"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "Which African country's flag is light blue with a single white five-pointed star?",
+  "answers": [
+   "Somalia"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "Which country's flag has nine blue and white stripes and a white cross in the corner?",
+  "answers": [
+   "Greece"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "Which country's flag is three horizontal bands of red, white and red?",
+  "answers": [
+   "Austria"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "Which Caribbean country's flag features a purple parrot?",
+  "answers": [
+   "Dominica"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "text",
+  "text": "Other than Switzerland, which country has a square national flag?",
+  "answers": [
+   "Vatican City",
+   "The Vatican",
+   "Vatican"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "text",
+  "text": "Which Pacific kingdom's flag is red with a white canton holding a red cross?",
+  "answers": [
+   "Tonga"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "text",
+  "text": "Which Balkan country's flag is red with a black double-headed eagle?",
+  "answers": [
+   "Albania"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "text",
+  "text": "What is the wheel on the flag of India called?",
+  "answers": [
+   "Ashoka Chakra",
+   "The Ashoka Chakra",
+   "Chakra",
+   "Dharma Chakra"
+  ],
+  "difficulty": "hard"
+ },
+ {
+  "type": "text",
+  "text": "Which Asian country's flag is a large yellow star on a red field?",
+  "answers": [
+   "Vietnam"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "How many stars are on the flag of the European Union?",
+  "answers": [
+   "12",
+   "Twelve"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these flags in order of how many stars they carry, most first",
+  "items": [
+   "United States",
+   "Brazil",
+   "European Union",
+   "China",
+   "Turkey"
+  ],
+  "hint": "most stars first",
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these flags in order of how many stripes they have, most first",
+  "items": [
+   "Malaysia",
+   "United States",
+   "Greece",
+   "Netherlands",
+   "Japan"
+  ],
+  "hint": "most stripes first",
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put the rings of the Olympic flag in order, left to right on the top row",
+  "items": [
+   "Blue",
+   "Yellow",
+   "Black",
+   "Green",
+   "Red"
+  ],
+  "hint": "left to right",
+  "difficulty": "medium"
+ },
+ {
+  "type": "sort",
+  "text": "Does the flag have a cross on it?",
+  "categories": [
+   "A cross",
+   "No cross"
+  ],
+  "items": [
+   {
+    "text": "Switzerland",
+    "category": "A cross"
+   },
+   {
+    "text": "Denmark",
+    "category": "A cross"
+   },
+   {
+    "text": "Georgia",
+    "category": "A cross"
+   },
+   {
+    "text": "Japan",
+    "category": "No cross"
+   },
+   {
+    "text": "Italy",
+    "category": "No cross"
+   },
+   {
+    "text": "Brazil",
+    "category": "No cross"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "Does the flag show an animal?",
+  "categories": [
+   "An animal",
+   "No animal"
+  ],
+  "items": [
+   {
+    "text": "Sri Lanka",
+    "category": "An animal"
+   },
+   {
+    "text": "Mexico",
+    "category": "An animal"
+   },
+   {
+    "text": "Bhutan",
+    "category": "An animal"
+   },
+   {
+    "text": "Canada",
+    "category": "No animal"
+   },
+   {
+    "text": "Japan",
+    "category": "No animal"
+   },
+   {
+    "text": "Ireland",
+    "category": "No animal"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "sort",
+  "text": "Is the flag red, white and blue?",
+  "categories": [
+   "Red, white and blue",
+   "Not red, white and blue"
+  ],
+  "items": [
+   {
+    "text": "France",
+    "category": "Red, white and blue"
+   },
+   {
+    "text": "Netherlands",
+    "category": "Red, white and blue"
+   },
+   {
+    "text": "Thailand",
+    "category": "Red, white and blue"
+   },
+   {
+    "text": "Italy",
+    "category": "Not red, white and blue"
+   },
+   {
+    "text": "Ireland",
+    "category": "Not red, white and blue"
+   },
+   {
+    "text": "Brazil",
+    "category": "Not red, white and blue"
+   }
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "What shape sits in the middle of the flag of Brazil?",
+  "answers": [
+   "A diamond",
+   "Diamond",
+   "Rhombus"
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "text",
+  "text": "Which country's flag has a sideways 'Y' made of coloured bands?",
+  "answers": [
+   "South Africa"
+  ],
+  "difficulty": "medium"
+ },
+ {
+  "type": "text",
+  "text": "What colour is the sun in the middle of the flag of Argentina?",
+  "answers": [
+   "Gold",
+   "Yellow"
+  ],
+  "difficulty": "easy"
+ }
+]
