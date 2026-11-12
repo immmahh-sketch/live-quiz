@@ -1,0 +1,88 @@
+[
+ {
+  "type": "order",
+  "text": "Put these capital cities in order from west to east, westernmost first",
+  "items": [
+   "Reykjavik",
+   "Lisbon",
+   "Dublin",
+   "Paris",
+   "Berlin"
+  ],
+  "hint": "westernmost first",
+  "difficulty": "easy"
+ },
+ {
+  "type": "order",
+  "text": "Put these capital cities in order from north to south, northernmost first",
+  "items": [
+   "Reykjavik",
+   "Oslo",
+   "London",
+   "Rome",
+   "Cairo"
+  ],
+  "hint": "northernmost first",
+  "difficulty": "medium"
+ },
+ {
+  "type": "order",
+  "text": "Put these capital cities in order of height above sea level, highest first",
+  "items": [
+   "La Paz",
+   "Quito",
+   "Addis Ababa",
+   "Mexico City",
+   "Kathmandu"
+  ],
+  "hint": "highest first",
+  "difficulty": "hard"
+ },
+ {
+  "type": "sort",
+  "text": "Is it the capital or not?",
+  "categories": [
+   "The capital",
+   "Not the capital"
+  ],
+  "items": [
+   {
+    "text": "Canberra",
+    "category": "The capital"
+   },
+   {
+    "text": "Ottawa",
+    "category": "The capital"
+   },
+   {
+    "text": "Brasília",
+    "category": "The capital"
+   },
+   {
+    "text": "Sydney",
+    "category": "Not the capital"
+   },
+   {
+    "text": "Toronto",
+    "category": "Not the capital"
+   },
+   {
+    "text": "Rio de Janeiro",
+    "category": "Not the capital"
+   }
+  ],
+  "difficulty": "easy"
+ },
+ {
+  "type": "tf",
+  "text": "Brasília, Brazil's capital, was built from scratch in the late 1950s.",
+  "answer": true,
+  "difficulty": "medium"
+ },
+ {
+  "type": "tf",
+  "text": "Istanbul is the capital of Turkey.",
+  "answer": false,
+  "difficulty": "medium"
+ }
+]
