@@ -1,5 +1,5 @@
 // Builds a Box Clever quiz (the team gambling game, assets/boxes.js) from the topic files in bank/topics and saves it.
-//   node tools/build-boxes.mjs --title "Box Clever · 14 Nov" [--save] [--update <quiz id>] [--code X --until <ISO> --season <s>, warm-up only] [--no-media] [--avoid <dir-of-old-quizzes>]
+//   node tools/build-boxes.mjs --title "Box Clever · 14 Nov" [--save] [--update <quiz id>] [--code X --from <ISO> --until <ISO> --season <s> --for <hosted quiz id>, warm-up only] [--no-media] [--avoid <dir-of-old-quizzes>]
 // Writes the quiz to tools/boxes-last.json first (always), then saves it with --save (host password in LQ_PASSWORD).
 // What it makes: ten categories of 16 questions (the game picks five at random when it starts, and uses 10 per row, or more
 // when more than 15 people join), a pile of spares for Swap, a pile the host has never seen for "Make the host answer", and the
@@ -27,6 +27,12 @@ if (fs.existsSync(OTHER)) {
   const real = JSON.parse(fs.readFileSync(OTHER, 'utf8'));
   for (const q of real.questions) { if (q.text) seenText.add(norm(q.text)); for (const c of q.cats || []) for (const x of c.qs) seenText.add(norm(x.t)); for (const x of [...(q.reserve || []), ...(q.hostq || [])]) seenText.add(norm(x.t)); for (const b of q.bank || []) seenText.add(norm(b.text)); }
 }
+// earlier Box Clever warm-ups (tools/warm-archive): a new week never repeats a question from the weeks before it
+const ARCH = path.join(here, 'warm-archive');
+if (fs.existsSync(ARCH)) for (const f of fs.readdirSync(ARCH).filter((x) => x.endsWith('.json'))) {
+  const old = JSON.parse(fs.readFileSync(path.join(ARCH, f), 'utf8'));
+  for (const q of old.questions || []) { if (q.text) seenText.add(norm(q.text)); for (const c of q.cats || []) for (const x of c.qs) seenText.add(norm(x.t)); for (const x of [...(q.reserve || []), ...(q.hostq || [])]) seenText.add(norm(x.t)); for (const b of q.bank || []) seenText.add(norm(b.text)); }
+}
 console.log('questions already played:', seenText.size);
 
 // ---- the topic files
@@ -43,7 +49,8 @@ const BAD = /\b(this picture|the picture|this image|the image|this clip|photo|sh
 const STEMSKIP = /^(which|where|called|named|their|there|these|those|about|system|other|first|after|before|number|world)$/;
 const toks = (s) => norm(s).split(' ').filter((w) => w.length >= 5 && !STEMSKIP.test(w));
 const leaks = (q) => { const a = q.type === 'choice' ? q.options?.[0] : q.answers?.[0]; if (a == null) return false; const qt = toks(q.text).map((w) => w.slice(0, 5)); return toks(String(a)).some((w) => qt.includes(w.slice(0, 5))); };
-const okQ = (q) => q.text && q.text.length <= 170 && !BAD.test(q.text) && !seenText.has(norm(q.text)) && !leaks(q)
+const DROP = args.flatMap((a, i) => (args[i - 1] === '--drop' ? [norm(a)] : [])); // --drop "fourth in line": leave out any question containing this (a pair that gives each other away)
+const okQ = (q) => q.text && q.text.length <= 170 && !BAD.test(q.text) && !DROP.some((d) => norm(q.text).includes(d)) && !seenText.has(norm(q.text)) && !leaks(q)
   && ((q.type === 'choice' && Array.isArray(q.options) && q.options.length === 4 && new Set(q.options.map(norm)).size === 4 && q.options.every((o) => String(o).length <= 40))
     || (q.type === 'text' && Array.isArray(q.answers) && q.answers.length && String(q.answers[0]).split(/\s+/).length <= 4 && String(q.answers[0]).length <= 32));
 
@@ -179,7 +186,7 @@ for (const [name, emoji, slugs] of CATS) {
   console.log(name.padEnd(13), 'pool', ch.length + 'c/' + tx.length + 't', '-> board', board.length, '+ media', med.length);
 }
 if (args.includes('--candidates')) process.exit(0);
-const spareQs = shuffle(spare).filter(({ q }) => !taken.has(norm(q.text)));
+const spareQs = shuffle(spare).filter(({ q }) => !taken.has(norm(q.text)) && textOk(q)); // a typed question with no wrong answer to offer would show "NaN" under 50:50
 const reserve = [], hostq = [];
 for (const { q, siblings } of spareQs) { if (taken.has(norm(q.text))) continue; if (reserve.length < 24 && (q.difficulty || 'medium') !== 'hard') { reserve.push(toQ(q, siblings)); take(q); } else if (hostq.length < 10) { hostq.push(toQ(q, siblings)); take(q); } if (reserve.length >= 24 && hostq.length >= 10) break; }
 console.log('reserve', reserve.length, 'host', hostq.length);
@@ -196,7 +203,7 @@ if (WARM) {
   const problems = []; items.forEach((q, i) => { const p = LQ.validate(q); if (p.length) problems.push(i + 1 + ' ' + q.type + ': ' + p.join('; ')); });
   console.log('problems:', problems.length ? problems.join(' | ') : 'none');
   const stamp = new Date().toISOString().slice(0, 10);
-  settings.warmup = { code: CODE, open: true, fun: true, replay: false, bots: 2, forQuiz: arg('--for', null), bonus: arg('--for', null) ? { play: 200, top: 1000 } : undefined, next: { label: 'the next hosted game', when: 'Date to be confirmed' }, from: null, until: arg('--until', null), season: arg('--season', 's-boxclever-' + stamp) };
+  settings.warmup = { code: CODE, open: true, fun: true, replay: false, bots: 2, forQuiz: arg('--for', null), bonus: arg('--for', null) ? { play: 200, top: 1000 } : undefined, next: { label: 'the next hosted game', when: 'Date to be confirmed' }, from: arg('--from', null), until: arg('--until', null), season: arg('--season', 's-boxclever-' + stamp) };
   const quiz = { title: TITLE, settings: { ...settings, rounds }, questions: items };
   fs.writeFileSync(path.join(here, 'boxes-warmup-last.json'), JSON.stringify(quiz, null, 1));
   console.log(`warm-up: ${cats.length} categories, board pool ${cats.reduce((a, c) => a + c.qs.length, 0)} (${cats.reduce((a, c) => a + c.qs.filter((q) => q.a).length, 0)} typed), potato ${items[1].bank.length}`);
