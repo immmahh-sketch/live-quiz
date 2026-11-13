@@ -28,10 +28,48 @@ function xmPlan() {
   return [...[0.15, 0.3, 0.45, 0.6, 0.75, 0.88].map((f) => ({ kind: 'elf', at: at(f) })), { kind: 'uncle', at: at(0.25) }, { kind: 'uncle', at: at(0.68) }, { kind: 'monopoly', at: at(0.8) },
     { kind: 'bell', at: at(0.2) }, { kind: 'bell', at: at(0.55) }, { kind: 'dark', at: at(0.4) }, { kind: 'table', at: at(0.33) }, { kind: 'table', at: at(0.66) }].map((e, i) => ({ ...e, id: i, done: false }));
 }
-function xmEnsure() {
+function xmEnsure(deal = true) {
   if (!G?.quiz?.settings?.xmas?.on || WARMUP || PREVIEW) return;
   if (!G.xm) G.xm = { plates: {}, chars: {}, used: {}, shield: {}, armed: {}, spilled: {}, nanUsed: {}, done: 0, queue: [], screen: null, seq: 0, flash: null, waveN: 0, bellNext: false, darkNext: false, final: null, finalDone: false, plan: xmPlan(), log: [] };
-  xmDealAll();
+  if (deal) xmDealAll(); // anyone who has not picked by the time the game starts is dealt a character
+}
+// ---------------------------------------------------------------- picking a character in the lobby
+// Players choose in the order they joined: first in gets first pick, and the later you arrive the less is left. A pick has XC.PICK_MS; if it runs out, you are dealt one.
+const xmJoinOrder = () => Object.values(G.players).sort((a, b) => (a.joinedAt || 0) - (b.joinedAt || 0)).map((p) => p.id);
+/** What is still on offer: the least-picked characters, so nobody doubles up until every character has been taken. */
+function xmAvail() {
+  const used = Object.values(G.xm.chars).filter(Boolean), n = (k) => used.filter((u) => u === k).length, low = Math.min(...XM.CHARS.map((c) => n(c.k)));
+  return XM.CHARS.filter((c) => n(c.k) === low).map((c) => c.k);
+}
+/** Whose turn it is to pick: the earliest joiner without a character. */
+function xmPickTurn() {
+  if (!G?.xm || G.phase !== 'lobby') return null;
+  const x = G.xm; for (const pid of Object.keys(x.chars)) if (!G.players[pid]) delete x.chars[pid]; // someone left: their character goes back on the list
+  const pid = xmJoinOrder().find((p) => !x.chars[p]);
+  if (!pid) { x.turn = null; return null; }
+  if (x.turn?.pid !== pid) x.turn = { pid, until: Date.now() + XC.PICK_MS, botAt: Date.now() + rnd(1500, 4000) };
+  return x.turn;
+}
+function xmPickDo(pid, k, auto) {
+  const x = G.xm; if (!x || G.phase !== 'lobby' || !G.players[pid] || x.chars[pid] || !xmAvail().includes(k)) return false;
+  x.chars[pid] = k; x.turn = null; xmPlate(pid); xmPickTurn(); persist(); sound('ding');
+  if (typeof renderLobbyPlayers === 'function') renderLobbyPlayers();
+  broadcastState(); return true;
+}
+let xmPickT = null;
+function xmPickRun() {
+  if (xmPickT) return;
+  xmPickT = setInterval(() => {
+    if (!xmOn() || G.phase !== 'lobby') { clearInterval(xmPickT); xmPickT = null; return; }
+    const t = xmPickTurn(); if (!t) return;
+    if (Date.now() >= t.until) xmPickDo(t.pid, partyPick(xmAvail()), true);
+    else if (xmRealBots().includes(t.pid) && Date.now() >= t.botAt) xmPickDo(t.pid, partyPick(xmAvail()), true);
+  }, 1000);
+}
+/** Someone has joined the lobby: they are in the queue to pick. */
+function xmLobbyJoin() {
+  if (!G?.quiz?.settings?.xmas?.on || WARMUP || PREVIEW || G.phase !== 'lobby') return;
+  xmEnsure(false); xmPickTurn(); xmPickRun(); broadcastState();
 }
 function xmDeal(pid) {
   if (G.xm.chars[pid]) return;
@@ -267,6 +305,7 @@ function xmFlashShow() {
 function onXm(m) {
   if (!xmOn() || !G.players[m.pid]) return;
   const pid = m.pid, x = G.xm;
+  if (m.op === 'pick') { const t = xmPickTurn(); if (t && t.pid === pid) xmPickDo(pid, m.k); return; }
   if (m.op === 'pinch') { const sc = x.screen; if (sc?.kind === 'pinch' && sc.step === 'pick' && sc.by === pid && xmPinchOptions(pid).some((o) => o.pid === m.target && o.k === m.k)) xmPinchDo(pid, m.target, m.k); return; }
   if (m.op === 'elf') return xmElfTap(pid);
   if (m.op === 'swap') { const sc = x.screen; if (sc?.kind === 'elf' && sc.step === 'choose' && sc.spotter === pid && G.players[m.a] && G.players[m.b] && m.a !== m.b) xmElfSwap(m.a, m.b, 'chosen'); return; }
@@ -332,7 +371,8 @@ function xmState(s) {
   const left = {}; for (const i of XM.ITEMS) left[i.k] = xmLeft(i.k);
   s.xm = { plates: Object.fromEntries(xmPlayers().map((p) => [p, Object.keys(xmPlate(p))])), chars: x.chars, used: x.used, shield: x.shield, armed: x.armed, spilled: x.spilled, left, cur, win: xmWindow(), flash: x.flash, wave: x.waveN, seq: x.seq,
     screen: xmPublicScreen(), clock: xmClock(), dark: !!(G.phase === 'question' && G.q?.xdark), darkN: G.q?.xdarkN || 0, darkOf: XC.DARK_QS, bell: !!(G.phase === 'question' && G.q?.xbell), elig: cur === 'ketchup' ? (G.q?.xelig || xmPlayers().filter((p) => xmFull9(p))) : null,
-    players: Object.values(G.players).map((p) => ({ pid: p.id, name: p.name, emoji: p.emoji || '', score: p.score })), final: x.final || null, qty: xmPlayers().length };
+    players: Object.values(G.players).sort((a, b) => (a.joinedAt || 0) - (b.joinedAt || 0)).map((p) => ({ pid: p.id, name: p.name, emoji: p.emoji || '', score: p.score })), final: x.final || null, qty: xmPlayers().length,
+    pick: G.phase === 'lobby' ? (() => { xmPickRun(); const t = xmPickTurn(); return { turn: t?.pid || null, ms: t ? Math.max(0, t.until - Date.now()) : 0, avail: xmAvail(), total: XC.PICK_MS }; })() : null };
 }
 
 // ---------------------------------------------------------------- the host screen

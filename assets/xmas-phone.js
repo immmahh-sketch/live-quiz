@@ -31,9 +31,43 @@ const xpMiniHtml = (s, skipMe) => `<div class="xpmini">${(s.xm.players || []).fi
 // ---------------------------------------------------------------- every state
 function xmPhoneAfter(s) {
   const x = s.xm;
-  if (!x || P.view || P.teamRole === 'act') { document.body.classList.remove('xpchip-on'); for (const id of ['xpbtn', 'xpchip', 'xpsheet', 'xpfull', 'xpgain', 'xpelf']) document.getElementById(id)?.remove(); XP.prev = null; return; }
-  xpWatchPlate(s); xpButton(s); xpChip(s); xpScreen(s); xpEvents(s); xpDark(s);
+  if (!x || P.view || P.teamRole === 'act') { document.body.classList.remove('xpchip-on'); for (const id of ['xpbtn', 'xpchip', 'xpsheet', 'xpfull', 'xpgain', 'xpelf', 'xppick', 'xppicked']) document.getElementById(id)?.remove(); XP.prev = null; return; }
+  xpPick(s); xpWatchPlate(s); xpButton(s); xpChip(s); xpScreen(s); xpEvents(s); xpDark(s);
   const sh = document.getElementById('xpsheet'); if (sh && sh.dataset.key !== xpSheetKey(s)) xpSheet(true);
+}
+// ---------------------------------------------------------------- the lobby: pick your character, in the order players joined
+const xpOrd = (n) => n + (n % 100 > 10 && n % 100 < 14 ? 'th' : ({ 1: 'st', 2: 'nd', 3: 'rd' }[n % 10] || 'th'));
+function xpPickOff() { document.getElementById('xppick')?.remove(); document.getElementById('xppicked')?.remove(); clearInterval(XP.pickT); XP.pickT = null; XP.pickKey = ''; }
+function xpPick(s) {
+  const x = s.xm, pk = x.pick, me = x.chars?.[P.pid];
+  if (s.phase !== 'lobby' || !pk) return xpPickOff();
+  const waiting = (x.players || []).map((p) => p.pid).filter((p) => !x.chars?.[p]);
+  if (me) { // chosen (or dealt): a small reminder while the others finish
+    document.getElementById('xppick')?.remove(); clearInterval(XP.pickT); XP.pickT = null; XP.pickKey = '';
+    const c = XPM.char(me); if (!c) return;
+    let b = document.getElementById('xppicked'); if (!b) { b = document.createElement('div'); b.id = 'xppicked'; b.className = 'xppicked'; document.body.appendChild(b); }
+    const h = `<span class="ic">${c.icon}</span><span><b>You're ${esc(c.name)}</b><small>${esc(c.quirk)}</small><small>${waiting.length ? waiting.length + ' still choosing…' : 'Everyone has chosen. Waiting for the host to start.'}</small></span>`;
+    if (b.dataset.h !== h) { b.dataset.h = h; b.innerHTML = h; }
+    return;
+  }
+  document.getElementById('xppicked')?.remove();
+  const myTurn = pk.turn === P.pid, ahead = waiting.indexOf(P.pid);
+  XP.pickEnd = Date.now() + pk.ms;
+  const key = [pk.turn, myTurn, pk.avail.join(), JSON.stringify(x.chars), XP.pickSel].join('|');
+  let el = document.getElementById('xppick');
+  if (el && XP.pickKey === key) return;
+  XP.pickKey = key; if (!pk.avail.includes(XP.pickSel) || !myTurn) XP.pickSel = null;
+  const taker = (k) => { const pid = Object.keys(x.chars || {}).find((p) => x.chars[p] === k); return pid ? xpNm(s, pid) : ''; };
+  const cards = XPM.CHARS.map((c) => { const on = pk.avail.includes(c.k), sel = XP.pickSel === c.k;
+    return `<button class="xppc ${on ? '' : 'taken'} ${on && myTurn ? 'can' : ''} ${sel ? 'sel' : ''}" data-c="${c.k}"><span class="ic">${c.icon}</span><span class="tx"><b>${esc(c.name)}</b><small>${esc(c.quirk)}</small><small><i>Power:</i> ${esc(c.power)}. ${esc(c.how)}</small></span>${on ? '' : `<em>${esc(taker(c.k) || 'Taken')} has this one</em>`}</button>`; }).join('');
+  const head = myTurn ? `<div class="xppt mine">Your pick! <b id="xpPickT">${Math.ceil(pk.ms / 1000)}</b> s</div>` : `<div class="xppt">You pick ${xpOrd(ahead + 1)}. ${esc(xpNm(s, pk.turn))} is choosing now…</div>`;
+  const html = `<div class="xpin"><div class="xpbig">Who are you?</div><div class="xpsmall">Pick your family character for Christmas Day. Players choose in the order they joined, so the later you arrive, the less there is to choose from.</div>${head}<div class="xppl">${cards}</div>${myTurn ? `<button class="xpgo" data-ok ${XP.pickSel ? '' : 'disabled'}>${XP.pickSel ? "I'll be " + esc(XPM.char(XP.pickSel).name) : 'Tap a character'}</button>` : ''}</div>`;
+  const scroll = el?.querySelector('.xpin')?.scrollTop || 0;
+  if (!el) { el = document.createElement('div'); el.id = 'xppick'; el.className = 'xpfull xppick'; document.body.appendChild(el); }
+  el.innerHTML = html; const inn = el.querySelector('.xpin'); if (inn) inn.scrollTop = scroll;
+  el.querySelectorAll('.xppc.can').forEach((b) => b.onclick = () => { XP.pickSel = b.dataset.c; XP.pickKey = ''; xpPick(P.state); });
+  el.querySelector('[data-ok]')?.addEventListener('click', (e) => { if (!XP.pickSel) return; e.target.disabled = true; xpMark(); send('xm', { pid: P.pid, op: 'pick', k: XP.pickSel }); });
+  clearInterval(XP.pickT); XP.pickT = setInterval(() => { const t = document.getElementById('xpPickT'); if (t) t.textContent = Math.max(0, Math.ceil((XP.pickEnd - Date.now()) / 1000)); }, 500);
 }
 /** My dish changed: items won pop on (a full-screen moment), items lost shake off. */
 function xpWatchPlate(s) {
@@ -63,6 +97,7 @@ function xpGain(s, gained, lost) {
 function xpButton(s) {
   const x = s.xm, me = x.chars?.[P.pid], can = x.win && !x.used?.[P.pid];
   let b = document.getElementById('xpbtn');
+  if (s.phase === 'lobby') { b?.remove(); return; } // nothing on the dish yet: the lobby is for choosing a character
   if (!b) { b = document.createElement('button'); b.id = 'xpbtn'; b.className = 'xpbtn'; b.onclick = () => xpSheet(); document.body.appendChild(b); }
   b.classList.toggle('pow', !!can && !!me);
   b.innerHTML = `🍽 <b>${xpCount(s)}/${XPM.ITEMS.length}</b><small>${can && me ? 'Power ready!' : 'Your dish'}</small>`;

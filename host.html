@@ -714,7 +714,7 @@ function onHello({ pid, name, emoji, test, view }) {
   if (view === true || G.viewers?.[pid]) return addViewer(pid, name, emoji);
   name = String(name || '').replace(/\s+/g, ' ').trim().slice(0, 20) || 'Player';
   emoji = LQ.EMOJIS.includes(emoji) ? emoji : '';
-  if (!G.players[pid]) { G.players[pid] = { id: pid, name, emoji, score: 0, joinedAt: Date.now() }; if (G.phase !== 'lobby') powerDeal(pid); persist(); if (G.phase === 'lobby') renderLobbyPlayers(); warmupGate(pid); if (G.wbonus) warmBonusGive(G.players[pid]); else warmBonusLoad(); }
+  if (!G.players[pid]) { G.players[pid] = { id: pid, name, emoji, score: 0, joinedAt: Date.now() }; if (G.phase !== 'lobby') powerDeal(pid); persist(); if (G.phase === 'lobby') renderLobbyPlayers(); warmupGate(pid); if (G.wbonus) warmBonusGive(G.players[pid]); else warmBonusLoad(); if (typeof xmLobbyJoin === 'function') xmLobbyJoin(); }
   else if ((G.players[pid].name !== name || G.players[pid].emoji !== emoji) && G.phase === 'lobby') { G.players[pid].name = name; G.players[pid].emoji = emoji; persist(); renderLobbyPlayers(); }
   if (test === true && !G.test) makeTest();
   trOnHello(pid);
@@ -3255,7 +3255,8 @@ function renderWarmFinal() {
 function renderLobbyPlayers() {
   const el = $('#players'); if (!el) return;
   const ps = players().sort((a, b) => a.joinedAt - b.joinedAt);
-  el.innerHTML = ps.length ? ps.map((p) => `<span class="pill" data-kick="${p.id}" style="${present.has(p.id) ? '' : 'opacity:.45'}">${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}${p.bonus ? ` <b class="bonustag">🎁 ${p.bonus > 0 ? '+' : ''}${p.bonus}</b>` : ''}</span>`).join('') : '<span style="opacity:.6;font-weight:800">Waiting for players…</span>';
+  const xch = (id) => { const c = typeof xmOn === 'function' && xmOn() ? LQ.XMAS.char(G.xm.chars[id]) : null; return c ? ` <span title="${esc(c.name)}">${c.icon}</span>` : ''; };
+  el.innerHTML = ps.length ? ps.map((p) => `<span class="pill" data-kick="${p.id}" style="${present.has(p.id) ? '' : 'opacity:.45'}">${p.emoji ? p.emoji + ' ' : ''}${esc(p.name)}${xch(p.id)}${p.bonus ? ` <b class="bonustag">🎁 ${p.bonus > 0 ? '+' : ''}${p.bonus}</b>` : ''}</span>`).join('') : '<span style="opacity:.6;font-weight:800">Waiting for players…</span>';
   const b = $('#startBtn'); if (b) b.disabled = !ps.length;
   $$('[data-kick]', el).forEach((x) => { x.style.cursor = 'pointer'; x.title = 'Click to remove this player'; x.onclick = () => kickPlayer(x.dataset.kick); });
 }

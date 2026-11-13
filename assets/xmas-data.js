@@ -112,7 +112,7 @@
     { text: 'If you write out every whole number from 1 to 100, how many times does the digit 1 appear?', answers: ['21', 'twenty-one', 'twenty one'], why: 'Ten times as the last digit (1, 11, … 91), ten times as the first digit of 10 to 19, and once in 100: 21.', pct: 12 },
   ];
 
-  const CFG = { PINCH_EVERY: 5, DARK_QS: 4, PINCH_MS: 30000, ELF_SPOT_MS: 14000, ELF_CHOOSE_MS: 25000, MAUREEN_HEAD_START_MS: 3000, MISSING: -2000, FULL: 5000, HIDE_Q: 6, WAKE_RARE: 300, COUSIN_WRONG: 100 };
+  const CFG = { PINCH_EVERY: 5, DARK_QS: 4, PICK_MS: 20000, PINCH_MS: 30000, ELF_SPOT_MS: 14000, ELF_CHOOSE_MS: 25000, MAUREEN_HEAD_START_MS: 3000, MISSING: -2000, FULL: 5000, HIDE_Q: 6, WAKE_RARE: 300, COUSIN_WRONG: 100 };
   const share = (rar) => (RARITY[rar] || RARITY[1]).share;
 
   window.LQ = window.LQ || {};

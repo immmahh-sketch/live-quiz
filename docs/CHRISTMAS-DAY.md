@@ -18,7 +18,7 @@ few surprises get in the way. Works for individuals and for teams (a team is one
   The ELF visits six times: everyone's phone shows him popping up; the first to tap him picks two dishes to swap one item each way (nobody taps: he picks).
   Uncle Keith (twice) takes an item from the fullest unshielded dish and slips it to an emptier one. The board-game row swaps the top two scores. A doorbell
   (twice) doubles the next question. A power cut (once) blacks out four plain questions in a row: the host screen goes dark, and on phones the screen goes black with the question hidden and a torch beam lighting only the answers (the host reads each question out). Answering, or a waiting screen, brings the phone lights back.
-- **The family:** everyone is dealt a character, the least-used first. Quirk (always on) and power (once, between questions):
+- **The family:** everyone picks a character in the lobby, in the order they joined (first in, first pick; 20 s each, then one is dealt; bots pick for themselves; anyone who has not picked when the host starts, or joins late, is dealt one). All eight are on offer; once taken, a character is greyed out until all eight are gone, then the list resets, so nobody doubles up early. Quirk (always on) and power (once, between questions):
   👵 Nan: first theft or swap against her fails / Handbag Surprise: any missing common item ·
   👴 Grandad: +300 for each rare item / Wake Up: next item question double points and a guaranteed item ·
   🧒 Teenager: elf-proof / Hide in Your Room: untouchable for six item questions ·
