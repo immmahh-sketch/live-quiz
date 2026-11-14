@@ -312,7 +312,8 @@ async function bootWarmup() {
   // A game already under way on this device carries on where it was (a reload, a dropped connection).
   const saved = store(SAVE_KEY);
   if (saved?.warmup === WARMUP && saved.phase !== 'lobby') {
-    if (saved.phase === 'final') {
+    if (saved.phase === 'final' && saved.warmShared) { unstore(SAVE_KEY); }
+    else if (saved.phase === 'final') {
       G = saved; if (!G.warmSaved?.ok) await warmupSave();
       if (!G.warmSaved?.ok) { connect(); return; }
       // Saved. What the server says decides from here: if that score has since been taken off the board (a test go,
@@ -328,7 +329,8 @@ async function bootWarmup() {
   let quiz = LQ.normalizeQuiz(r.quiz);
   quiz.questions = quiz.questions.filter((q) => LQ.validate(q).length === 0);
   quiz.rounds = quiz.rounds.filter((x) => quiz.questions.some((q) => q.round === x.id));
-  G = { code: newCode(), quizId: r.quiz.id, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: true, warmup: WARMUP, warmTop: r.top || [], warmCount: r.count || 0, warmBonus: r.bonus || null, warmUntil: r.until || null, warmSolo: !!r.standalone, warmNext: quiz.settings?.warmup?.next || null, cfgBots: boxCfgBots(quiz), warmBots: quiz.questions.some((q) => q.type === 'boxes') ? (boxCfgBots(quiz) || BOX_BOTS).length : r.bots ?? quiz.settings?.warmup?.bots ?? 3, fixedBots: quiz.questions.some((q) => q.type === 'boxes'), warmReplay: !!r.replay };
+  const shared = !!quiz.settings?.warmup?.shared, warmTok = Math.random().toString(36).slice(2, 9); // a room for two or more people (settings.warmup.shared): the game code IS the warm-up code, no bots, nothing saved
+  G = { code: shared ? WARMUP : newCode(), warmShared: shared, warmTok, quizId: r.quiz.id, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: true, warmup: WARMUP, warmTop: r.top || [], warmCount: r.count || 0, warmBonus: r.bonus || null, warmUntil: r.until || null, warmSolo: !!r.standalone || shared, warmNext: quiz.settings?.warmup?.next || null, cfgBots: shared ? null : boxCfgBots(quiz), warmBots: shared ? 0 : quiz.questions.some((q) => q.type === 'boxes') ? (boxCfgBots(quiz) || BOX_BOTS).length : r.bots ?? quiz.settings?.warmup?.bots ?? 3, fixedBots: !shared && quiz.questions.some((q) => q.type === 'boxes'), warmReplay: !!r.replay };
   persist(); connect();
   setTimeout(() => addBots(G.warmBots), 0); // settings.warmup.bots (3 unless set); a test go too, so the host sees it as players do
   setTimeout(() => { if (musicOn()) loadYT().catch(() => {}); }, 0);
@@ -357,7 +359,7 @@ async function bootPlayQuiz() {
 /** Someone joining from another phone who has had their go already is turned away, kindly. */
 const warmChecked = new Set();
 async function warmupGate(pid) {
-  if (!WARMUP || PLAYQ || warmChecked.has(pid) || pid.startsWith('p_bot') || pid === myPid()) return;
+  if (!WARMUP || PLAYQ || G?.warmShared || warmChecked.has(pid) || pid.startsWith('p_bot') || pid === myPid()) return;
   warmChecked.add(pid);
   try {
     const r = await api('warmup_check', { code: WARMUP, pids: [pid] });
@@ -373,7 +375,7 @@ async function warmupGate(pid) {
  *  the server removes it when the score is saved. Players never see it. */
 let warmLiveAt = 0;
 function warmLive() {
-  if (!WARMUP || PLAYQ || /^TEST/.test(WARMUP) || typeof G === 'undefined' || !G || !G.warmup || G.phase === 'lobby' || G.phase === 'final') return;
+  if (!WARMUP || PLAYQ || /^TEST/.test(WARMUP) || typeof G === 'undefined' || !G || G.warmShared || !G.warmup || G.phase === 'lobby' || G.phase === 'final') return;
   const pid = myPid(), me = pid && G.players?.[pid]; if (!me) return;
   const fresh = G.liveCode !== G.code;
   if (!fresh && Date.now() - warmLiveAt < 20000) return;
@@ -384,7 +386,8 @@ function warmLive() {
 }
 /** The end of a warm-up: every real player's score goes on the scoreboard (bots never do). */
 async function warmupSave() {
-  if (PLAYQ) { G.warmSaved = { ok: true, solo: true }; persist(); if (G.phase === 'final') render(); return; } // just for you: nothing goes on any scoreboard
+  if (G.warmShared) { try { ch.untrack(); } catch {} } // the game is over: stop showing as its host, so the next game can start fresh
+  if (PLAYQ || G.warmShared) { G.warmSaved = { ok: true, solo: true }; persist(); if (G.phase === 'final') render(); return; } // just for you: nothing goes on any scoreboard
   const rk = ranked();
   const log = (G.log || []).slice().sort((a, b) => a.index - b.index);
   // what each player answered, question by question, so the host can look through their go afterwards
@@ -577,6 +580,10 @@ function connect() {
   ch.on('broadcast', { event: 'tr' }, ({ payload }) => onTr(payload || {})); // the Traitor's menu and the vote (assets/traitors.js)
   ch.on('broadcast', { event: 'trctl' }, ({ payload }) => onTrCtl(payload || {})); // the host's phone control, sealed
   ch.on('presence', { event: 'sync' }, () => {
+    if (G.warmShared && G.warmTok && G.phase === 'lobby') { // two phones opened the room together and both started it: the one with the lower token keeps it, the other goes back and joins
+      const toks = (ch.presenceState().host || []).map((e) => e.tok).filter(Boolean);
+      if (toks.length > 1 && toks.some((t) => t < G.warmTok)) { unstore(SAVE_KEY); (window.top || window).location.reload(); return; }
+    }
     present.clear();
     for (const entries of Object.values(ch.presenceState())) for (const e of entries) if (e.role === 'player' && e.pid) present.set(e.pid, e.name);
     for (const b of G.bots || []) present.set(b.pid, b.name);
@@ -585,7 +592,7 @@ function connect() {
   });
   if (!WARMUP && !PREVIEW && typeof teamFindStart === 'function') teamFindStart(); // phones that have only a team code find this game here
   ch.subscribe(async (status) => {
-    if (status === 'SUBSCRIBED') { await ch.track({ role: 'host' }); trEnsure(); trRegisterLive(); render(); broadcastState(); startHeartbeat(); if (G.phase === 'question') startTick(); }
+    if (status === 'SUBSCRIBED') { await ch.track(G.warmShared ? { role: 'host', tok: G.warmTok } : { role: 'host' }); trEnsure(); trRegisterLive(); render(); broadcastState(); startHeartbeat(); if (G.phase === 'question') startTick(); }
     else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') toast('Connection trouble — retrying…', true);
   });
 }

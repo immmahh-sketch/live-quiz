@@ -1,0 +1,167 @@
+{
+  "title": "Laura's Box Clever",
+  "code": "LAURA",
+  "cols": 6,
+  "start": 1000,
+  "typed": 1,
+  "replay": true,
+  "bots": [
+    {
+      "name": "Paul",
+      "emoji": "🎩",
+      "skill": 0.75,
+      "risk": 0.6,
+      "swing": 0.2
+    },
+    {
+      "name": "Max",
+      "emoji": "🦁",
+      "skill": 0.6,
+      "risk": 0.2,
+      "swing": 0.2
+    }
+  ],
+  "cats": [
+    {
+      "name": "Friends",
+      "emoji": "📺",
+      "slugs": [
+        "friends"
+      ]
+    },
+    {
+      "name": "Kids TV",
+      "emoji": "🧸",
+      "slugs": [
+        "kids-tv"
+      ]
+    },
+    {
+      "name": "The Traitors",
+      "emoji": "🗡️",
+      "own": [
+        {
+          "t": "Who presents the UK version of 'The Traitors'?",
+          "o": [
+            "Claudia Winkleman",
+            "Davina McCall",
+            "Holly Willoughby",
+            "Emma Willis"
+          ],
+          "d": "easy"
+        },
+        {
+          "t": "What are the loyal players in 'The Traitors' called?",
+          "o": [
+            "Faithfuls",
+            "Loyalists",
+            "Believers",
+            "Allies"
+          ],
+          "d": "easy"
+        },
+        {
+          "t": "In which country is the UK version of 'The Traitors' filmed?",
+          "o": [
+            "Scotland",
+            "Wales",
+            "Ireland",
+            "Norway"
+          ],
+          "d": "easy"
+        },
+        {
+          "t": "Which castle is the setting for the UK 'Traitors'?",
+          "o": [
+            "Ardross Castle",
+            "Eilean Donan Castle",
+            "Inveraray Castle",
+            "Dunrobin Castle"
+          ],
+          "d": "medium"
+        },
+        {
+          "t": "What is the evening meeting called where one player is banished?",
+          "o": [
+            "The Round Table",
+            "The Banishing",
+            "The Council",
+            "The Conclave"
+          ],
+          "d": "medium"
+        },
+        {
+          "t": "Which Dutch show is 'The Traitors' based on?",
+          "o": [
+            "De Verraders",
+            "Wie is de Mol?",
+            "Heel Holland Bakt",
+            "Boer Zoekt Vrouw"
+          ],
+          "d": "medium"
+        },
+        {
+          "t": "Which actor hosts the American version of 'The Traitors'?",
+          "o": [
+            "Alan Cumming",
+            "Neil Patrick Harris",
+            "Ryan Seacrest",
+            "Jon Hamm"
+          ],
+          "d": "medium"
+        },
+        {
+          "t": "In which year did the UK 'The Traitors' begin?",
+          "a": [
+            "2022"
+          ],
+          "w": "2020",
+          "d": "medium"
+        },
+        {
+          "t": "Which comedian won the first 'Celebrity Traitors' in 2025?",
+          "o": [
+            "Alan Carr",
+            "Jonathan Ross",
+            "Joe Marler",
+            "Stephen Fry"
+          ],
+          "d": "hard"
+        },
+        {
+          "t": "Who won series three of 'The Traitors' alongside Leanne Quigley?",
+          "o": [
+            "Jake Brown",
+            "Harry Clark",
+            "Aaron Evans",
+            "Wilf Webster"
+          ],
+          "d": "hard"
+        }
+      ]
+    },
+    {
+      "name": "Science",
+      "emoji": "🔬",
+      "slugs": [
+        "space",
+        "human-body",
+        "science-technology",
+        "animals",
+        "nature-environment"
+      ]
+    },
+    {
+      "name": "Celebrities",
+      "emoji": "⭐",
+      "slugs": [
+        "royal-family",
+        "oscars",
+        "one-hit-wonders",
+        "boy-bands-girl-groups",
+        "reality-tv",
+        "pop-music"
+      ]
+    }
+  ]
+}

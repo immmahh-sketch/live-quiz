@@ -22,7 +22,7 @@ const seenText = new Set();
 for (const dir of AVOID) if (fs.existsSync(dir)) for (const f of fs.readdirSync(dir).filter((x) => x.endsWith('.json'))) {
   try { const j = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')); const qs = j.questions || j.quiz?.questions || []; for (const q of qs) { if (q.text) seenText.add(norm(q.text)); for (const b of q.bank || []) seenText.add(norm(b.text)); for (const r of q.rows || []) seenText.add(norm(r.text)); } } catch { /* not a quiz */ }
 }
-const OTHER = path.join(here, WARM ? 'boxes-last.json' : 'boxes-warmup-last.json'); // the real quiz and the warm-up share no question, whichever is built second
+for (const OTHER of (args.includes('--custom') ? ['boxes-last.json', 'boxes-warmup-last.json'] : [WARM ? 'boxes-last.json' : 'boxes-warmup-last.json']).map((x) => path.join(here, x))) // the real quiz and the warm-up share no question, whichever is built second (a one-off custom game avoids both)
 if (fs.existsSync(OTHER)) {
   const real = JSON.parse(fs.readFileSync(OTHER, 'utf8'));
   for (const q of real.questions) { if (q.text) seenText.add(norm(q.text)); for (const c of q.cats || []) for (const x of c.qs) seenText.add(norm(x.t)); for (const x of [...(q.reserve || []), ...(q.hostq || [])]) seenText.add(norm(x.t)); for (const b of q.bank || []) seenText.add(norm(b.text)); }
@@ -68,13 +68,15 @@ const REAL_CATS = [
 ];
 // The one-phone warm-up has the same five categories for everyone, in this order.
 const WARM_CATS = [
-  ['Celebrities', '⭐', ['royal-family', 'oscars', 'one-hit-wonders', 'boy-bands-girl-groups', 'reality-tv', 'pop-music']],
-  ['Science', '🔬', ['space', 'human-body', 'science-technology', 'animals', 'nature-environment', 'computers-internet', 'maths-numbers']],
+  ['TV & Film', '🎬', ['british-sitcoms', 'soaps', 'quiz-shows', 'crime-dramas', 'the-office', 'british-films', 'action-films', 'film-quotes', 'rom-coms', 'horror-films', 'us-tv', 'doctor-who', 'kids-tv', 'james-bond', 'musicals']],
+  ['Animals', '🐾', ['animals']],
   ['Music', '🎵', ['pop-music', 'rock-music', 'the-beatles', 'number-ones', 'eurovision', 'music-lyrics', 'classical-music']],
   ['QI', '🤔', ['no-such-thing-as-a-fish', 'famous-firsts', 'record-breakers', 'words-language', 'mythology']],
-  ['Friends', '📺', ['friends']],
+  ['Geography', '🌍', ['uk-geography', 'world-geography', 'capital-cities', 'landmarks', 'flags', 'europe', 'usa']],
 ];
-const CATS = WARM ? WARM_CATS : REAL_CATS;
+// --custom <file.json> (with --warmup): a one-off one-phone game: {title, code, cols, start, typed, replay, bots:[{name,emoji,skill,risk,swing}], cats:[{name, emoji, slugs, own?:[{t,o|a,w,d}]}]}; 'own' questions are used as the whole category
+const CUSTOM = arg('--custom', null) ? JSON.parse(fs.readFileSync(arg('--custom', null), 'utf8')) : null;
+const CATS = CUSTOM ? CUSTOM.cats.map((c) => [c.name, c.emoji, c.slugs || []]) : WARM ? WARM_CATS : REAL_CATS;
 const taken = new Set();
 const take = (q) => { taken.add(norm(q.text)); return q; };
 /** n items with roughly 25% easy, 45% medium, 30% hard, taken from `pool` (shuffled). */
@@ -174,11 +176,13 @@ if (!NOMEDIA && !args.includes('--candidates')) for (const [name] of CATS) if (P
 
 const cats = [], spare = [];
 for (const [name, emoji, slugs] of CATS) {
+  const own = CUSTOM?.cats.find((c) => c.name === name)?.own;
+  if (own) { own.forEach((o) => taken.add(norm(o.t))); cats.push({ name, emoji, qs: shuffle(own) }); console.log(name.padEnd(13), 'own questions', own.length); continue; }
   const all = []; const seen = new Set();
   for (const s of slugs) for (const q of byTopic[s] || []) if (okQ(q) && !seen.has(norm(q.text)) && !taken.has(norm(q.text))) { seen.add(norm(q.text)); all.push(q); }
   const ch = all.filter((q) => q.type === 'choice'), tx = all.filter((q) => q.type === 'text' && textOk(q));
   if (args.includes('--candidates')) { console.log('## ' + name); for (const q of shuffle(all.filter((x) => x.type === 'text' && !isNum(String(x.answers[0])) && !DECOYS[norm(x.text)] && x.difficulty !== 'hard')).slice(0, 14)) console.log(JSON.stringify(q.text) + ' => ' + q.answers[0]); continue; }
-  const med = MEDIA[name] || [], N = WARM ? 10 : 16, nT = Math.min(tx.length, Math.max(0, (WARM ? 2 : 5) - Math.floor(med.length / 3))), nC = Math.max(0, N - nT - med.length); // a category with no typed questions (Friends) is all multiple choice
+  const med = MEDIA[name] || [], N = CUSTOM ? CUSTOM.cols + 4 : WARM ? 10 : 16, nT = Math.min(tx.length, Math.max(0, (CUSTOM ? (CUSTOM.typed ?? 1) : WARM ? 2 : 5) - Math.floor(med.length / 3))), nC = Math.max(0, N - nT - med.length); // a category with no typed questions (Friends) is all multiple choice
   const board = [...mix(ch, nC), ...mix(tx, nT)].map(take);
   const left = all.filter((q) => !board.includes(q));
   spare.push(...left.map((q) => ({ q, siblings: tx })));
@@ -194,20 +198,22 @@ console.log('reserve', reserve.length, 'host', hostq.length);
 if (WARM) {
   const settings = { ...LQ.DEFAULT_SETTINGS }, items = [], rounds = [];
   const choiceBank = (n) => { const out = []; for (const sl of ['general-knowledge', 'british-history', 'world-geography', 'science-technology', 'food-drink', 'animals', 'pop-music', 'british-sitcoms', 'the-1990s', 'uk-geography', 'space', 'film-quotes']) for (const q of byTopic[sl] || []) if (q.type === 'choice' && okQ(q) && !taken.has(norm(q.text)) && ['easy', 'medium'].includes(q.difficulty || 'medium')) out.push(q); return mix(out, n).map(take).map((q) => ({ id: uid('b'), text: q.text, options: q.options.map(String) })); };
-  const solo = { solo: true, cols: 5, cuts: [12, 25], start: 1000 };
+  const solo = CUSTOM ? { solo: true, rows: cats.length, cols: CUSTOM.cols, cuts: [CUSTOM.cols * cats.length], start: CUSTOM.start || 1000 } : { solo: true, cols: 5, cuts: [12, 25], start: 1000 };
   const round = (title, intro, it) => { const id = uid('r'), m = {}; for (const q of it) { q.round = id; m[q.type] = (m[q.type] || 0) + 1; } rounds.push({ id, title, intro, brief: '', mix: m, count: it.length, types: Object.keys(m), practice: false }); items.push(...it); };
   const box = (part, extra) => ({ id: uid('q'), type: 'boxes', text: 'Box Clever', time: 0, media: { kind: 'none' }, partial: false, part, ...solo, ...extra });
-  round('Box Clever', 'You against two bots. Twenty-five boxes.', [box(1, { cats, reserve: reserve.slice(0, 14) })]);
-  round('Hot Potato', 'Pass the bomb. Your points go into your pot.', [{ ...LQ.newQuestion('potato', settings), text: 'Hot Potato', bank: choiceBank(24), perCorrect: 500, perWrong: 1000, penalty: 3000, category: 'General knowledge', difficulty: 'medium' }]);
-  round('Box Clever: the rest', 'Back to the boxes.', [box(2)]);
+  if (CUSTOM) round('Box Clever', 'You against ' + CUSTOM.bots.map((b) => b.name).join(' and ') + '. ' + CUSTOM.cols * cats.length + ' boxes.', [box(1, { cats, reserve: reserve.slice(0, 14) })]);
+  else round('Box Clever', 'You against two bots. Twenty-five boxes.', [box(1, { cats, reserve: reserve.slice(0, 14) })]);
+  if (!CUSTOM) round('Hot Potato', 'Pass the bomb. Your points go into your pot.', [{ ...LQ.newQuestion('potato', settings), text: 'Hot Potato', bank: choiceBank(24), perCorrect: 500, perWrong: 1000, penalty: 3000, category: 'General knowledge', difficulty: 'medium' }]);
+  if (!CUSTOM) round('Box Clever: the rest', 'Back to the boxes.', [box(2)]);
   const problems = []; items.forEach((q, i) => { const p = LQ.validate(q); if (p.length) problems.push(i + 1 + ' ' + q.type + ': ' + p.join('; ')); });
   console.log('problems:', problems.length ? problems.join(' | ') : 'none');
   const stamp = new Date().toISOString().slice(0, 10);
-  settings.warmup = { code: CODE, open: true, fun: true, replay: false, bots: 2, forQuiz: arg('--for', null), bonus: arg('--for', null) ? { play: 200, top: 1000 } : undefined, next: { label: 'the next hosted game', when: 'Date to be confirmed' }, from: arg('--from', null), until: arg('--until', null), season: arg('--season', 's-boxclever-' + stamp) };
+  if (CUSTOM) settings.boxes = { rows: cats.length, cols: CUSTOM.cols, start: CUSTOM.start || 1000, autoBots: true, bots: CUSTOM.bots };
+  settings.warmup = { code: CODE, open: true, fun: true, replay: CUSTOM ? !!CUSTOM.replay : false, bots: CUSTOM ? CUSTOM.bots.length : 2, forQuiz: arg('--for', null), bonus: arg('--for', null) ? { play: 200, top: 1000 } : undefined, next: { label: 'the next hosted game', when: 'Date to be confirmed' }, from: arg('--from', null), until: arg('--until', null), season: arg('--season', 's-boxclever-' + stamp) };
   const quiz = { title: TITLE, settings: { ...settings, rounds }, questions: items };
-  fs.writeFileSync(path.join(here, 'boxes-warmup-last.json'), JSON.stringify(quiz, null, 1));
-  console.log(`warm-up: ${cats.length} categories, board pool ${cats.reduce((a, c) => a + c.qs.length, 0)} (${cats.reduce((a, c) => a + c.qs.filter((q) => q.a).length, 0)} typed), potato ${items[1].bank.length}`);
-  if (SAVE && !problems.length) { const r = await api('save', { quiz }); console.log('SAVED', r.id || JSON.stringify(r)); } else console.log('(dry run: tools/boxes-warmup-last.json written, nothing saved)');
+  fs.writeFileSync(path.join(here, CUSTOM ? 'boxes-custom-last.json' : 'boxes-warmup-last.json'), JSON.stringify(quiz, null, 1));
+  console.log(`warm-up: ${cats.length} categories, board pool ${cats.reduce((a, c) => a + c.qs.length, 0)} (${cats.reduce((a, c) => a + c.qs.filter((q) => q.a).length, 0)} typed), potato ${items[1]?.bank?.length ?? 'none'}`);
+  if (SAVE && !problems.length) { const r = await api('save', { quiz }); console.log('SAVED', r.id || JSON.stringify(r)); } else console.log('(dry run: ' + (CUSTOM ? 'tools/boxes-custom-last.json' : 'tools/boxes-warmup-last.json') + ' written, nothing saved)');
   process.exit(0);
 }
 

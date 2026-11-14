@@ -167,6 +167,7 @@ function onState(s) {
   syncCallBar(s);
   if (!P.joined) { P.joined = true; clearInterval(helloT); if (!P.view && !P.test && !P.partner && /^[A-Z0-9]{6}$/.test(P.code || '')) store(LASTGAME, { code: P.code, name: P.name, emoji: P.emoji, at: Date.now() }); }
   if (s.phase === 'final') unstore(LASTGAME);
+  if (Array.isArray(s.roster) && !P.view && !s.roster.some((p) => p.id === P.pid) && Date.now() - (P.helloAt || 0) > 1500) { P.helloAt = Date.now(); hello(); } // a game restarted by someone else's phone never heard our hello: say it again
   keepAwake();
   if (typeof teamBtnSync === 'function') teamBtnSync();
   if (s.phase === 'question' && typeof s.remainingMs === 'number') { P.deadline = Date.now() + (s.wipe ? s.wipe.remainingMs : s.remainingMs); partyDeadline(s); }
@@ -245,6 +246,9 @@ function render() {
   if (P.member && s.phase === 'question' && (s.koth || s.race || s.tq)) app.innerHTML = top + top2 + `<div class="state"><div class="em">👥</div><h2>${esc(P.name)} plays this one</h2><p class="muted">This game is played on the team's main phone. Watch the shared screen, and help from your seat. You're back in for the next question.</p></div>`;
   else if (P.view && s.phase === 'question' && (s.race || s.wipe || s.potato || s.koth || s.bb || s.chase || s.draw || s.tq || s.uq || s.bi || s.pc || s.task || s.tm || s.ob || s.bx)) app.innerHTML = top + top2 + `<div class="state"><div class="em">👀</div><h2>You're watching this one</h2><p class="muted">It's a game for the players. Watch the shared screen; you're back in for the next question.</p></div>`;
   else if (s.phase === 'lobby' && P.view) app.innerHTML = top + top2 + `<div class="state"><div class="em">👀</div><h2>You're viewing, ${esc(P.name)}</h2><p class="muted">Play along with every question and keep your own score. You're not a player: you won't show in the game or on any leaderboard.</p></div>`;
+  else if (s.phase === 'lobby' && s.roster && bootQ.get('solo') === '1' && bootQ.get('room') === '1' && s.roster.filter((p) => !p.bot).length < 2) { // a shared room (two people, one game): wait for the other player
+    app.innerHTML = top + top2 + `<div class="state"><div class="em">⏳</div><h2>Waiting for the other player…</h2><p class="muted">They just need to open the same link and use the code <b>${esc(P.code)}</b>. The game starts as soon as they are in.</p></div>`;
+  }
   else if (s.phase === 'lobby' && s.roster && bootQ.get('solo') === '1') { // a warm-up on its own phone: nobody to wait for, so straight in
     app.innerHTML = top + top2 + '<div class="state"><div class="em">🎮</div><h2>Here we go…</h2></div>';
     if (!P.autoStarted) { P.autoStarted = true; send('ctrl', { pid: P.pid, cmd: 'start' }); }
@@ -280,7 +284,7 @@ function render() {
   else if (s.phase === 'grading') app.innerHTML = top + top2 + `<div class="state"><div class="em">⏱</div><h2>Time's up!</h2><p class="muted">Checking the answers…</p></div>`;
   else if (s.phase === 'reveal') app.innerHTML = top + top2 + (s.pin ? pinRevealHtml(s) : '') + resultHtml(s, r) + (s.preview ? '' : ctrl('next', s.practice ? 'Next ▶' : 'Scores ▶'));
   else if (s.phase === 'scoreboard') app.innerHTML = top + top2 + `<div class="state"><div class="em">${r?.rank === 1 ? '🥇' : r?.rank === 2 ? '🥈' : r?.rank === 3 ? '🥉' : '📊'}</div><h2>${r?.viewer ? '👀 Viewing' : r ? `You're ${ordinal(r.rank)} of ${r.of}` : 'Scoreboard'}</h2><p class="muted">${r ? r.score + ' points so far' : ''}</p>${s.top ? `<div class="board" style="width:100%;margin-bottom:12px">${s.top.slice(0, 8).map((t) => `<div class="brow ${t.name === P.name ? 'me' : ''}"><div class="rank">${t.rank}</div><div>${esc(t.name)}</div><div>${t.score}</div></div>`).join('')}</div>` : ''}${ctrl('next', (s.more ?? s.qIndex + 1 < s.total) ? 'Next ▶' : 'Final results 🏆')}</div>`;
-  else if (s.phase === 'final') { app.innerHTML = top + top2 + finalHtml(s, r); const b = $('#warmBoard'), me = b?.querySelector('.me'); if (b && me) b.scrollTop = Math.max(0, me.offsetTop - b.offsetTop - b.clientHeight / 2); }
+  else if (s.phase === 'final') { app.innerHTML = top + top2 + finalHtml(s, r) + (bootQ.get('room') === '1' ? '<div style="padding:12px 16px"><button class="btn btn-primary btn-lg btn-block" id="roomAgain">🔁 Play again</button></div>' : ''); if ($('#roomAgain')) $('#roomAgain').onclick = () => (window.top || window).location.reload(); const b = $('#warmBoard'), me = b?.querySelector('.me'); if (b && me) b.scrollTop = Math.max(0, me.offsetTop - b.offsetTop - b.clientHeight / 2); }
   if (s.reveal) syncReveal(s);
   if (s.roster && s.potato) syncPotRing(s);
 }
@@ -1093,7 +1097,7 @@ const bootQ = new URLSearchParams(location.search);
 // A warm-up (solo) plays tunes on this phone: the first tap unlocks the sound, as phones insist.
 if (bootQ.get('solo') === '1') document.addEventListener('pointerdown', () => { try { const c = P.actx || (P.actx = new (window.AudioContext || window.webkitAudioContext)()); if (c.state === 'suspended') c.resume(); } catch {} });
 const bootCode = (bootQ.get('g') || '').toUpperCase();
-if (bootQ.get('solo') === '1' && /^[A-Z0-9]{6}$/.test(bootCode)) {
+if (bootQ.get('solo') === '1' && /^[A-Z0-9]{4,12}$/.test(bootCode)) {
   // the host testing alone: this panel sits inside the host page, so join without the form
   P.code = bootCode; P.name = P.name || ({ '': 'Me', '2': 'Dave', '3': 'Ellie', '4': 'Sam' }[SLOT] || 'Dave'); store('lq_player' + SLOT, { pid: P.pid, name: P.name, emoji: P.emoji });
   connect();

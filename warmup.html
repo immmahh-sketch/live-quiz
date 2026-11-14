@@ -83,6 +83,7 @@ const SAVE_KEY = 'lq_live_warmup';
 // warmup?q=<quiz id>: "Play on my phone" for any quiz of yours, the way a warm-up plays (this phone must be signed in to the builder).
 const QID = (() => { const q = new URLSearchParams(location.search).get('q') || ''; return /^[0-9a-f-]{36}$/i.test(q) ? q : ''; })();
 const BOTSQ = new URLSearchParams(location.search).get('bots');
+let SHARED = false; // a room for two (settings.warmup.shared): the first phone in runs the game, the other joins it
 const TEST = /^TEST[A-Z0-9]+$/.test(CODE); // TEST in front of the code: the host trying the warm-up, as often as you like, nothing saved
 const brand = `<div class="brand"><img src="assets/brand/mark.png" alt="">Let's Quiz!</div>`;
 // Everyone who has played, best first; equal scores share a place. `mine` is picked out (and scrolled to).
@@ -99,13 +100,15 @@ async function start() {
   // (TESTWARMUP): that starts afresh every time and is saved apart, so it never touches a real one.
   if (QID) return playQuiz();
   const g = TEST ? null : store(SAVE_KEY);
-  if (g?.warmup === CODE && g.phase && g.phase !== 'lobby' && g.phase !== 'final' && me().pid) return game();
+  if (g?.warmup === CODE && g.phase && g.phase !== 'lobby' && g.phase !== 'final' && me().pid) { SHARED = !!g.warmShared; return game(); }
   app.innerHTML = `<div class="land">${brand}<p class="muted" style="color:#fff;opacity:.7">Loading…</p></div>`;
   let r;
   try { r = await LQ.api('warmup_open', { code: CODE, pid: me().pid, peek: true, week: WEEK }, { timeout: 20000 }); }
   catch (e) { return landError(e.message); }
   if (r.played) return played(r);
   if (!r.open) return closed(r);
+  if (r.standalone) { try { const full = await LQ.api('warmup_open', { code: CODE, pid: me().pid }, { timeout: 20000 }); if (full.quiz?.settings?.warmup?.shared) { SHARED = true; r.shared = true; } } catch {} }
+  if (SHARED && me().pid && me().name) return game(); // been here before: straight in
   intro(r);
 }
 /** The start page for "Play on my phone": the quiz's own title and mix, then the usual name and emoji. Nothing is saved. */
@@ -154,6 +157,7 @@ function intro(r) {
     ${r.personal ? '' : `<div class="card"><h2>🏆 Top scores so far</h2>${boardHtml(r.top || [])}${r.count > 10 ? `<p class="muted small" style="margin:8px 0 0">${r.count} people have played.</p>` : ''}</div>`}
     <p class="note">Friends can join your game too: the code is on your screen once it starts.</p></div>`;
   $$('[data-em]').forEach((b) => b.onclick = () => { emoji = b.dataset.em; $$('[data-em]').forEach((x) => x.classList.toggle('on', x === b)); });
+  if (r.shared) { const l = $('.lead'); if (l) l.textContent = 'Two players, one game. You each play on your own phone and see the same board. Whoever opens the code first starts it; the other one joins in.'; $$('.prize,.chips,.chip').forEach((x) => x.remove()); $$('.card').forEach((c) => { if (!c.querySelector('#nf')) c.remove(); }); const n = $('.note'); if (n) n.remove(); }
   $('#nf').onsubmit = (e) => {
     e.preventDefault();
     const name = $('#nm').value.replace(/\s+/g, ' ').trim();
@@ -198,6 +202,7 @@ function game() {
     </div>
     <iframe class="engine" id="hostFrame" title="" aria-hidden="true" tabindex="-1" allow="autoplay"></iframe>`;
   const hostFrame = $('#hostFrame');
+  if (SHARED) return room(hostFrame);
   hostFrame.src = (QID ? 'host?quiz=play&q=' + QID + (BOTSQ !== null ? '&bots=' + encodeURIComponent(BOTSQ) : '') : 'host?quiz=warmup&w=' + encodeURIComponent(CODE) + (WEEK ? '&wk=' + WEEK : '')) + '&x=' + Date.now().toString(36);
   // Sound comes from the hidden quiz frame, and phones only let it play after a tap: any tap in the game switches it on.
   const soundOn = () => { try { hostFrame.contentWindow.eval("sfx = sfx || new (window.AudioContext || window.webkitAudioContext)(); if (sfx.state === 'suspended') sfx.resume();"); } catch {} };
@@ -213,6 +218,37 @@ function game() {
     pf.addEventListener('load', () => { try { pf.contentDocument.addEventListener('pointerdown', soundOn); } catch {} });
   }, 300);
   $('#fs').onclick = () => { const d = document.documentElement; if (document.fullscreenElement) document.exitFullscreen?.(); else d.requestFullscreen?.().catch(() => {}); };
+}
+
+// ---------- a room for two: whoever opens it first runs the game (in the hidden frame), the other joins it ----------
+/** Who runs the game? Every phone that opens the room marks itself on the game's channel; if a host is already there we join it,
+ *  otherwise the phone with the lowest mark becomes the host (so two phones opening together cannot both start one). */
+function electHost() {
+  return new Promise((resolve) => {
+    const sb = LQ.client(), tok = Math.random().toString(36).slice(2, 10), ch = sb.channel('quiz-' + CODE, { config: { presence: { key: 'room_' + tok } } });
+    let t0 = 0, done = false, tick = null;
+    const stop = (v) => { if (done) return; done = true; clearInterval(tick); resolve({ v, ch, sb }); };
+    ch.subscribe(async (st) => {
+      if (st !== 'SUBSCRIBED') return;
+      await ch.track({ role: 'room', tok }); t0 = Date.now();
+      tick = setInterval(() => {
+        const ps = ch.presenceState(), rooms = Object.keys(ps).filter((k) => k.startsWith('room_')).sort();
+        if ((ps.host || []).length) return stop('join');
+        const age = Date.now() - t0;
+        if ((age > 2500 && rooms[0] === 'room_' + tok) || age > 25000) stop('host');
+      }, 500);
+    });
+    setTimeout(() => stop('host'), 40000);
+  });
+}
+async function room(hostFrame) {
+  const { v, ch, sb } = await electHost();
+  const pf = $('#playFrame'), join = () => { pf.src = 'play?g=' + encodeURIComponent(CODE) + '&solo=1&room=1'; pf.hidden = false; $('#waiting')?.remove(); };
+  $('#who').textContent = v === 'join' ? '🎮 Joining the game…' : '🎮 Starting the game…';
+  if (v === 'join') { try { sb.removeChannel(ch); } catch {} return join(); }
+  hostFrame.src = 'host?quiz=warmup&w=' + encodeURIComponent(CODE) + '&x=' + Date.now().toString(36);
+  const t0 = Date.now(), release = setInterval(() => { if ((ch.presenceState().host || []).length || Date.now() - t0 > 20000) { clearInterval(release); try { sb.removeChannel(ch); } catch {} } }, 500); // stay marked until the game itself shows as the host
+  const wait = setInterval(() => { let code = null; try { code = hostFrame.contentWindow.eval('typeof G !== "undefined" && G ? G.code : null'); } catch {} if (!code) return; clearInterval(wait); join(); }, 300);
 }
 start();
 </script>
