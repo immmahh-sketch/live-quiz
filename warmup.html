@@ -89,6 +89,8 @@ const SAVE_KEY = 'lq_live_warmup';
 const QID = (() => { const q = new URLSearchParams(location.search).get('q') || ''; return /^[0-9a-f-]{36}$/i.test(q) ? q : ''; })();
 const BOTSQ = new URLSearchParams(location.search).get('bots');
 let SHARED = false; // a room for two (settings.warmup.shared): the first phone in runs the game, the other joins it
+// pool=1: the 50 Box Clever games in tvbox/games (the ones Box2p plays on the TV): the game part-played, else the next one not played yet, each retired once finished. Names are asked once.
+const POOL = new URLSearchParams(location.search).get('pool') === '1';
 const BOXES = CAR || new URLSearchParams(location.search).get('boxes') === '1'; // car mode and the car app: the boxes and nothing else
 const TEST = /^TEST[A-Z0-9]+$/.test(CODE); // TEST in front of the code: the host trying the warm-up, as often as you like, nothing saved
 const brand = `<div class="brand"><img src="assets/brand/mark.png" alt="">Let's Quiz!</div>`;
@@ -104,6 +106,7 @@ async function start() {
   if (qs.get('reset') === '1') { LQ.unstore(SAVE_KEY); qs.delete('reset'); history.replaceState(null, '', location.pathname + (qs.toString() ? '?' + qs : '')); }
   // A game already going on this device carries straight on (a reload, a dropped connection). Not a test game
   // (TESTWARMUP): that starts afresh every time and is saved apart, so it never touches a real one.
+  if (POOL) return poolStart();
   if (QID) return playQuiz();
   const g = TEST ? null : store(SAVE_KEY);
   if (g?.warmup === CODE && g.phase && g.phase !== 'lobby' && g.phase !== 'final' && me().pid) { SHARED = !!g.warmShared; return game(); }
@@ -132,6 +135,33 @@ async function playQuiz() {
   if (!play.length) { app.innerHTML = `<div class="land">${brand}<h1>${esc(q.title || 'Your quiz')}</h1><div class="card"><div class="err">Nothing in this quiz can be played on a phone yet.</div></div></div>`; return; }
   intro({ title: q.title || 'Your quiz', standalone: true, test: true, personal: true, questions: play.length, skipped: nq.questions.length - play.length,
     bots: BOTSQ === null ? 3 : Math.max(0, Math.min(12, +BOTSQ || 0)), replay: true, top: [], count: 0, types: [...new Set(play.map((x) => x.kind || x.type))] });
+}
+// ---------- the pool: 50 games, each played once ----------
+const POOLKEY = 'lq_tvbox'; // the same record Box2p keeps on the TV: { played: {id: when}, order: [ids], cur: {id}, names }
+const poolRec = () => { const p = store(POOLKEY); const s = p && typeof p === 'object' ? p : {}; s.played = s.played || {}; s.order = s.order || []; return s; };
+let POOLGAME = null;
+async function poolStart() {
+  app.innerHTML = '<div class="land">' + brand + '<p class="muted" style="color:#fff;opacity:.7">Getting your game…</p></div>';
+  let idx; try { idx = await (await fetch('tvbox/index.json', { cache: 'no-cache' })).json(); } catch { return landError('The games could not be loaded. Check the internet connection.'); }
+  const S = poolRec(), ids = idx.games.map((g) => g.id);
+  S.order = S.order.filter((id) => ids.includes(id)); for (const id of ids.slice().sort(() => Math.random() - 0.5)) if (!S.order.includes(id)) S.order.push(id);
+  const left = S.order.filter((id) => !S.played[id]), cur = S.cur && idx.games.find((g) => g.id === S.cur.id), next = cur || idx.games.find((g) => g.id === left[0]);
+  store(POOLKEY, S);
+  if (!next) {
+    app.innerHTML = '<div class="land">' + brand + '<h1>🎉 All ' + ids.length + ' games played!</h1><div class="card"><p class="muted" style="margin:0 0 10px">Every game has been used once. Start again to play them all over.</p><button class="go" id="again">↻ Play them all again</button></div></div>';
+    $('#again').onclick = () => { S.played = {}; S.cur = null; store(POOLKEY, S); location.reload(); }; return;
+  }
+  POOLGAME = { id: next.id, resuming: !!cur, left: left.length, total: ids.length, cats: next.cats };
+  const m = me();
+  if (m.name && m.pid && new URLSearchParams(location.search).get('names') !== '1' && (!CAR || savedLocals().length)) return game(); // names are already set: straight in
+  intro({ title: 'Box Clever', standalone: true, shared: false, bots: 0, questions: 30, types: [], replay: true, count: 0, top: [] });
+  const lead = $('.lead'); if (lead) lead.textContent = POOLGAME.resuming ? 'Game ' + (+next.id.slice(1)) + ' is part-played: carry on where you left off.' : 'Game ' + (+next.id.slice(1)) + ' of ' + ids.length + ' · ' + left.length + ' not played yet. Take it in turns: it is you against each other, with no bots and no timer.';
+  $$('.chips,.note').forEach((x) => x.parentNode && x.parentNode.removeChild(x));
+  if (lead) lead.insertAdjacentHTML('afterend', '<div class="chips">' + next.cats.map((c) => '<span class="chip">' + esc(c.e) + ' ' + esc(c.n) + '</span>').join('') + '</div>');
+}
+function poolRetire() {
+  if (!POOLGAME) return; const S = poolRec(); S.played[POOLGAME.id] = new Date().toISOString(); if (S.cur && S.cur.id === POOLGAME.id) S.cur = null; store(POOLKEY, S);
+  if (!$('#poolbar')) { document.body.insertAdjacentHTML('beforeend', '<div id="poolbar" style="position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;gap:10px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(27,21,68,.94)"><button class="go" id="poolNext" style="margin:0">▶ Next game</button></div>'); $('#poolNext').onclick = () => location.reload(); }
 }
 function landError(msg) {
   app.innerHTML = `<div class="land">${brand}<h1>Warm-up</h1><div class="card"><div class="err">${esc(msg)}</div>
@@ -214,6 +244,11 @@ function game() {
     <iframe class="engine" id="hostFrame" title="" aria-hidden="true" tabindex="-1" allow="autoplay"></iframe>`;
   const hostFrame = $('#hostFrame');
   if (SHARED) return room(hostFrame);
+  if (POOL && POOLGAME) {
+    const S = poolRec(); if (!POOLGAME.resuming) { S.cur = { id: POOLGAME.id, at: new Date().toISOString() }; store(POOLKEY, S); }
+    hostFrame.src = 'host?quiz=tvbox&src=tvbox/games/' + POOLGAME.id + '.json' + (CAR ? '&car=1' : '') + '&x=' + Date.now().toString(36);
+    setInterval(() => { try { if (hostFrame.contentWindow.eval('typeof G !== "undefined" && G ? G.phase : null') === 'final') poolRetire(); } catch {} }, 1000);
+  } else
   hostFrame.src = (QID ? 'host?quiz=play&q=' + QID + (BOTSQ !== null ? '&bots=' + encodeURIComponent(BOTSQ) : '') : 'host?quiz=warmup&w=' + encodeURIComponent(CODE) + (WEEK ? '&wk=' + WEEK : '')) + (BOXES ? '&boxes=1' : '') + (CAR ? '&car=1' : '') + '&x=' + Date.now().toString(36);
   // Sound comes from the hidden quiz frame, and phones only let it play after a tap: any tap in the game switches it on.
   const soundOn = () => { try { hostFrame.contentWindow.eval("sfx = sfx || new (window.AudioContext || window.webkitAudioContext)(); if (sfx.state === 'suspended') sfx.resume();"); } catch {} };

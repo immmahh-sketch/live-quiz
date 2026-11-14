@@ -39,7 +39,7 @@ When the build finishes, EAS gives a link to the signed .ipa (it also installs s
 
 ## The car app plays boxes only
 
-The app opens `warmup?c=LAURA&boxes=1`. `boxes=1` drops every item that is not Box Clever's boxes (Hot Potato and the other mid-game rounds) for that game; the game's own pages are unchanged.
+The app opens `warmup?pool=1&car=1`: the 50 Box Clever games in `tvbox/games` (the same ones Box2p plays on the TV), the one part-played or the next not yet played, each retired once finished. No bots, no timer, read aloud and answered by voice; the names are asked once (`&names=1` asks again).
 
 ## Turn on CarPlay (after Apple approves the entitlement)
 

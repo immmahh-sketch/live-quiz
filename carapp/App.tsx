@@ -1,8 +1,8 @@
 // Box Clever for iPhone and CarPlay. The game itself is the web page (letsquiz.uk), shown full screen; this app adds three things the web
 // page cannot do: it listens for spoken answers (a web view has no speech recognition), it keeps running with the screen off or in the
 // background (audio mode), and it draws the CarPlay screen from the game's state.
-import React, { useCallback, useEffect, useRef } from 'react';
-import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { ActivityIndicator, Pressable, SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { WebView, WebViewMessageEvent } from 'react-native-webview';
 import Constants from 'expo-constants';
 import { useKeepAwake } from 'expo-keep-awake';
@@ -14,6 +14,7 @@ const extra = (Constants.expoConfig?.extra || {}) as { gameUrl: string; carplay:
 
 export default function App() {
   useKeepAwake();
+  const [err, setErr] = useState('');
   const web = useRef<WebView>(null);
   const listening = useRef<{ id: number; alts: string[] } | null>(null);
   const car = useRef<ReturnType<typeof startCarPlay> | null>(null);
@@ -78,10 +79,28 @@ export default function App() {
         allowsInlineMediaPlayback
         mediaPlaybackRequiresUserAction={false}
         setSupportMultipleWindows={false}
-        originWhitelist={['https://*']}
+        originWhitelist={['*']}
+        startInLoadingState
+        renderLoading={() => <View style={s.center}><ActivityIndicator color="#fff" size="large" /></View>}
+        onLoadStart={() => setErr('')}
+        onError={(e) => setErr(e.nativeEvent.description || 'The game could not be loaded.')}
+        onHttpError={(e) => setErr('The game returned an error (' + e.nativeEvent.statusCode + ').')}
       />
+      {err ? (
+        <View style={[s.center, s.over]}>
+          <Text style={s.msg}>{err}</Text>
+          <Text style={s.sub}>Check the phone's internet connection.</Text>
+          <Pressable style={s.btn} onPress={() => { setErr(''); web.current?.reload(); }}><Text style={s.btnt}>Try again</Text></Pressable>
+        </View>
+      ) : null}
     </SafeAreaView>
   );
 }
 
-const s = StyleSheet.create({ root: { flex: 1, backgroundColor: '#1b1544' }, web: { flex: 1, backgroundColor: '#1b1544' } });
+const s = StyleSheet.create({
+  root: { flex: 1, backgroundColor: '#1b1544' }, web: { flex: 1, backgroundColor: '#1b1544' },
+  center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24 },
+  over: { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: '#1b1544' },
+  msg: { color: '#fff', fontSize: 22, fontWeight: '800', textAlign: 'center' }, sub: { color: '#fff', opacity: 0.7, marginTop: 8, marginBottom: 20, textAlign: 'center' },
+  btn: { backgroundColor: '#ffd54a', borderRadius: 14, paddingVertical: 14, paddingHorizontal: 28 }, btnt: { color: '#1b1544', fontSize: 18, fontWeight: '900' },
+});
