@@ -14,7 +14,7 @@ function bxActor(g) {
   return (t && mine.find((p) => t.members.includes(p))) || P.pid;
 }
 function bxSend(k, v, extra) { send('answer', { pid: P.actAs || P.pid, qId: P.state.q.id, answer: { bx: 'v', k, v, ...(extra || {}) } }); }
-function bxMe(s) { const g = s.bx, pid = bxActor(g), ti = g.teams.findIndex((t) => t.members.includes(pid)); P.actAs = pid; return { ti, t: g.teams[ti], cap: g.teams[ti]?.captain === P.pid }; }
+function bxMe(s) { const g = s.bx, pid = bxActor(g), ti = g.teams.findIndex((t) => t.members.includes(pid)); P.actAs = pid; return { ti, t: g.teams[ti], cap: g.teams[ti]?.captain === pid }; }
 const bxTeamHead = (t) => `<div class="bxph" style="--tc:${t.color}"><span>${t.emoji} ${esc(t.name)}${t.loan ? ` <small>🏦 owes ${bxFmt(t.loan)}</small>` : ''}</span><b>${bxFmt(t.pot)}</b></div>`;
 let bxPaperDone = '';
 function bxBoardHtml(s, canPick, votes, sel) {
@@ -45,7 +45,7 @@ function bxPhoneBody(s) {
   if (g.step === 'seg' && g.solo) {
     const d = (g.absorb || {})[me.ti] || 0, others = g.teams.length - 1;
     return g.part === 1
-      ? `<div class="state"><div class="em">📦</div><h2>Box Clever</h2><p>You against ${g.teams.filter((x) => x.i !== me.ti && /^Bot /.test(x.name)).length === others ? others + ' bot' + (others === 1 ? '' : 's') : g.teams.filter((x) => x.i !== me.ti).map((x) => x.emoji + ' ' + esc(x.name)).join(' and ')}. ${g.total} boxes, ${bxFmt(t.pot)} points each to start.</p><p class="muted">Pick a box and choose how much to gamble. Right and you win your stake; wrong and you lose it. Not sure? Pass and lose half, but the box stays open for the next player. Use each power once.</p><button type="button" class="btn btn-primary btn-lg btn-block" id="bxNext">Let's go ▶</button></div>`
+      ? `<div class="state"><div class="em">📦</div><h2>Box Clever</h2><p>${window.LQ_TV ? esc(t.name) + ' against ' : 'You against '}${g.teams.filter((x) => x.i !== me.ti && /^Bot /.test(x.name)).length === others ? others + ' bot' + (others === 1 ? '' : 's') : g.teams.filter((x) => x.i !== me.ti).map((x) => x.emoji + ' ' + esc(x.name)).join(' and ')}. ${g.total} boxes, ${bxFmt(t.pot)} points each to start.</p><p class="muted">Pick a box and choose how much to gamble. Right and you win your stake; wrong and you lose it. Not sure? Pass and lose half, but the box stays open for the next player. Use each power once.</p><button type="button" class="btn btn-primary btn-lg btn-block" id="bxNext">Let's go ▶</button></div>`
       : `<div class="state"><div class="em">💰</div><h2>Bonus round points are in</h2><p>${d ? `<b>${d > 0 ? '+' : '−'}${bxFmt(Math.abs(d))}</b> for you. ` : ''}You now have <b>${bxFmt(t.pot)}</b>.</p><button type="button" class="btn btn-primary btn-lg btn-block" id="bxNext">Back to the boxes ▶</button></div>`;
   }
   if (g.step === 'seg') return `${head}<div class="state"><div class="em">💰</div><h2>${g.part === 1 ? 'Get ready' : 'Bonus points are in'}</h2><p class="muted">Your pot: ${bxFmt(t.pot)}</p></div>`;
@@ -165,12 +165,12 @@ function bxPhoneCab(s, canPick) {
     const n = r * g.cols + k + 1, stt = g.board[n - 1], cur = c && c.num === n, done = stt === 'won' || stt === 'lost' || stt === 'void', can = canPick && stt === 'open';
     const cls = cur && inQ ? 'out' : cur && inSel ? 'sel' : can && sel.v === n ? 'sel' : done ? 'done' : '';
     const by = g.boardBy?.[n - 1], tc = done && by >= 0 ? `--tc:${g.teams[by]?.color}` : '';
-    return `<div class="bxdr ${cls}${cur && inQ && g.closing ? ' shut' : ''}${can ? ' pk' : ''}" ${can ? `data-bxn="${n}"` : ''} style="${tc}"><div class="bxdrface"><span class="bxplate">${done ? '' : n}</span><i class="bxhandle"></i></div></div>`; }).join('')}</div></div>`).join('')}</div>`;
+    return `<div class="bxdr ${cls}${cur && inQ && g.closing ? ' shut' : ''}${can ? ' pk' : ''}" ${can ? `data-bxn="${n}"${window.LQ_TV ? ' tabindex="0"' : ''}` : ''} style="${tc}"><div class="bxdrface"><span class="bxplate">${done ? '' : n}</span><i class="bxhandle"></i></div></div>`; }).join('')}</div></div>`).join('')}</div>`;
 }
 function bxSoloHtml(s) {
   const g = s.bx, me = bxMe(s), c = g.cur, st = g.step; if (me.ti < 0) return bxPhoneBody(s);
   const act = c && st !== 'pick' ? c.by : g.turn;
-  const strip = `<div class="bxrivals">${g.teams.map((t) => `<div class="bxrv ${st !== 'seg' && t.i === act ? 'on' : ''} ${t.i === me.ti ? 'me' : ''}" style="--tc:${t.color}"><span>${t.emoji}</span><i>${t.i === me.ti ? 'You' : esc(t.name)}</i><b>${bxFmt(t.pot)}</b>${t.loan ? '<em title="Borrowed from the bank">🏦</em>' : ''}</div>`).join('')}</div>`;
+  const strip = `<div class="bxrivals">${g.teams.map((t) => `<div class="bxrv ${st !== 'seg' && t.i === act ? 'on' : ''} ${t.i === me.ti ? 'me' : ''}" style="--tc:${t.color}"><span>${t.emoji}</span><i>${t.i === me.ti && !window.LQ_TV ? 'You' : esc(t.name)}</i><b>${bxFmt(t.pot)}</b>${t.loan ? '<em title="Borrowed from the bank">🏦</em>' : ''}</div>`).join('')}</div>`;
   const pw = Object.entries(me.t.powers).map(([k, v]) => `<span class="${v ? '' : 'gone'}" title="${BXP[k][1]}">${BXP[k][0]}</span>`).join('');
   const head = `${strip}${st === 'seg' ? '' : `<div class="bxmeta"><span class="bxmp">${pw}</span><span>📦 ${g.asked} of ${g.total}</span></div>`}`;
   const body = bxPhoneBody(s);

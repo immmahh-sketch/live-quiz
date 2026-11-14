@@ -237,7 +237,7 @@ async function bvStep(s, my) {
 }
 /** Called at the end of bxBind: start the spoken part of a new step (once per step). */
 function bxVoiceTick(s) {
-  if (!s?.bx?.solo) return; // only the games played on phones (a team game on a host screen has captains and votes)
+  if (!s?.bx?.solo || window.LQ_TV) return; // only the games played on phones (not the TV version, which is read and moved with the remote)
   bvButton();
   if (!BV.on) return;
   const g = s.bx, c = g.cur;

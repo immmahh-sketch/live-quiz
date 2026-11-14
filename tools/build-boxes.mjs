@@ -33,6 +33,12 @@ if (fs.existsSync(ARCH)) for (const f of fs.readdirSync(ARCH).filter((x) => x.en
   const old = JSON.parse(fs.readFileSync(path.join(ARCH, f), 'utf8'));
   for (const q of old.questions || []) { if (q.text) seenText.add(norm(q.text)); for (const c of q.cats || []) for (const x of c.qs) seenText.add(norm(x.t)); for (const x of [...(q.reserve || []), ...(q.hostq || [])]) seenText.add(norm(x.t)); for (const b of q.bank || []) seenText.add(norm(b.text)); }
 }
+// --avoid-extra <dir>: more finished quiz json (e.g. the TV pool built so far): none of their questions are used again
+const EXTRA = arg('--avoid-extra', null);
+if (EXTRA && fs.existsSync(EXTRA)) for (const f of fs.readdirSync(EXTRA).filter((x) => x.endsWith('.json') && x !== 'index.json')) {
+  const old = JSON.parse(fs.readFileSync(path.join(EXTRA, f), 'utf8'));
+  for (const q of old.questions || []) { for (const c of q.cats || []) for (const x of c.qs) seenText.add(norm(x.t)); for (const x of [...(q.reserve || []), ...(q.hostq || [])]) seenText.add(norm(x.t)); }
+}
 console.log('questions already played:', seenText.size);
 
 // ---- the topic files
@@ -88,14 +94,20 @@ function mix(pool, n) {
   return shuffle(out.slice(0, n));
 }
 /** A believable wrong answer for a typed question: a nearby year or number, or another answer from the same topic of the same shape. */
-function decoyFor(q) {
+function decoyFor(q, siblings) {
   const a = String(q.answers[0]);
   if (DECOYS[norm(q.text)]) return DECOYS[norm(q.text)];
+  if (!/^d{4}$/.test(a) && !isNum(a) && SIBDECOY) { // siblingDecoys: the answer of another question of the same topic and the same shape (same number of words)
+    const words = a.split(/s+/).length, bad = new Set((q.answers || []).map(norm)), qt = norm(q.text);
+    const c = shuffle((siblings || []).filter((x) => x !== q && x.type === 'text' && x.topic === q.topic && String(x.answers[0]).split(/s+/).length === words && !bad.has(norm(x.answers[0])) && !qt.includes(norm(x.answers[0]))).map((x) => String(x.answers[0])));
+    if (c.length) return c[0];
+  }
   if (/^d{4}$/.test(a)) { const y = +a; const c = [y - 4, y - 3, y - 2, y - 1, y + 1, y + 2, y + 3, y + 5].filter((x) => x > 1000 && x <= 2026); return String(c[Math.floor(Math.random() * c.length)]); }
   const n = parseFloat(a.replace(/,/g, '')); const f = [0.5, 0.75, 1.25, 1.5, 2][Math.floor(Math.random() * 5)]; return String(Math.round(n * f));
 }
-const textOk = (q) => q.type !== 'text' || !!DECOYS[norm(q.text)] || isNum(String(q.answers[0]));
-const toQ = (q, siblings) => q.type === 'choice' ? { t: q.text, o: q.options.map(String), d: q.difficulty || 'medium' } : { t: q.text, a: q.answers.map(String), w: decoyFor(q), d: q.difficulty || 'medium' };
+const SIBDECOY = !!CUSTOM?.siblingDecoys;
+const textOk = (q) => q.type !== 'text' || !!DECOYS[norm(q.text)] || isNum(String(q.answers[0])) || SIBDECOY;
+const toQ = (q, siblings) => q.type === 'choice' ? { t: q.text, o: q.options.map(String), d: q.difficulty || 'medium' } : { t: q.text, a: q.answers.map(String), w: decoyFor(q, siblings), d: q.difficulty || 'medium' };
 
 // ---- pictures and tunes: a category's board is mixed up with "Who is this?" pictures and Name That Tune clips (--no-media leaves them out)
 const PLAN = {
@@ -180,7 +192,7 @@ for (const [name, emoji, slugs] of CATS) {
   if (own) { own.forEach((o) => taken.add(norm(o.t))); cats.push({ name, emoji, qs: shuffle(own) }); console.log(name.padEnd(13), 'own questions', own.length); continue; }
   const all = []; const seen = new Set();
   for (const s of slugs) for (const q of byTopic[s] || []) if (okQ(q) && !seen.has(norm(q.text)) && !taken.has(norm(q.text))) { seen.add(norm(q.text)); all.push(q); }
-  const ch = all.filter((q) => q.type === 'choice'), tx = all.filter((q) => q.type === 'text' && textOk(q));
+  const ch = all.filter((q) => q.type === 'choice'), tx = CUSTOM?.choiceOnly ? [] : all.filter((q) => q.type === 'text' && textOk(q)); // choiceOnly: nothing to type (a TV remote)
   if (args.includes('--candidates')) { console.log('## ' + name); for (const q of shuffle(all.filter((x) => x.type === 'text' && !isNum(String(x.answers[0])) && !DECOYS[norm(x.text)] && x.difficulty !== 'hard')).slice(0, 14)) console.log(JSON.stringify(q.text) + ' => ' + q.answers[0]); continue; }
   const med = MEDIA[name] || [], N = CUSTOM ? CUSTOM.cols + 4 : WARM ? 10 : 16, nT = Math.min(tx.length, Math.max(0, (CUSTOM ? (CUSTOM.typed ?? 1) : WARM ? 2 : 5) - Math.floor(med.length / 3))), nC = Math.max(0, N - nT - med.length); // a category with no typed questions (Friends) is all multiple choice
   const board = [...mix(ch, nC), ...mix(tx, nT)].map(take);
@@ -190,7 +202,7 @@ for (const [name, emoji, slugs] of CATS) {
   console.log(name.padEnd(13), 'pool', ch.length + 'c/' + tx.length + 't', '-> board', board.length, '+ media', med.length);
 }
 if (args.includes('--candidates')) process.exit(0);
-const spareQs = shuffle(spare).filter(({ q }) => !taken.has(norm(q.text)) && textOk(q)); // a typed question with no wrong answer to offer would show "NaN" under 50:50
+const spareQs = shuffle(spare).filter(({ q }) => !taken.has(norm(q.text)) && textOk(q) && (!CUSTOM?.choiceOnly || q.type === 'choice')); // a typed question with no wrong answer to offer would show "NaN" under 50:50
 const reserve = [], hostq = [];
 for (const { q, siblings } of spareQs) { if (taken.has(norm(q.text))) continue; if (reserve.length < 24 && (q.difficulty || 'medium') !== 'hard') { reserve.push(toQ(q, siblings)); take(q); } else if (hostq.length < 10) { hostq.push(toQ(q, siblings)); take(q); } if (reserve.length >= 24 && hostq.length >= 10) break; }
 console.log('reserve', reserve.length, 'host', hostq.length);
@@ -201,7 +213,7 @@ if (WARM) {
   const solo = CUSTOM ? { solo: true, rows: cats.length, cols: CUSTOM.cols, cuts: [CUSTOM.cols * cats.length], start: CUSTOM.start || 1000 } : { solo: true, cols: 5, cuts: [12, 25], start: 1000 };
   const round = (title, intro, it) => { const id = uid('r'), m = {}; for (const q of it) { q.round = id; m[q.type] = (m[q.type] || 0) + 1; } rounds.push({ id, title, intro, brief: '', mix: m, count: it.length, types: Object.keys(m), practice: false }); items.push(...it); };
   const box = (part, extra) => ({ id: uid('q'), type: 'boxes', text: 'Box Clever', time: 0, media: { kind: 'none' }, partial: false, part, ...solo, ...extra });
-  if (CUSTOM) round('Box Clever', 'You against ' + CUSTOM.bots.map((b) => b.name).join(' and ') + '. ' + CUSTOM.cols * cats.length + ' boxes.', [box(1, { cats, reserve: reserve.slice(0, 14) })]);
+  if (CUSTOM) round('Box Clever', (CUSTOM.bots.length ? 'You against ' + CUSTOM.bots.map((b) => b.name).join(' and ') : 'Two players') + '. ' + CUSTOM.cols * cats.length + ' boxes.', [box(1, { cats, reserve: reserve.slice(0, 14) })]);
   else round('Box Clever', 'You against two bots. Twenty-five boxes.', [box(1, { cats, reserve: reserve.slice(0, 14) })]);
   if (!CUSTOM) round('Hot Potato', 'Pass the bomb. Your points go into your pot.', [{ ...LQ.newQuestion('potato', settings), text: 'Hot Potato', bank: choiceBank(24), perCorrect: 500, perWrong: 1000, penalty: 3000, category: 'General knowledge', difficulty: 'medium' }]);
   if (!CUSTOM) round('Box Clever: the rest', 'Back to the boxes.', [box(2)]);

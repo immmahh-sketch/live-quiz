@@ -1,0 +1,75 @@
+/* Box Clever on a TV (play.html?tv=1). Everything is laid out on a 960x540 stage that tvplay.js scales to the screen (--tvs). */
+body.tvplay { margin: 0; background: #1b1544; overflow: hidden; height: 100vh; }
+body.tvplay #app { min-height: 0 !important; position: fixed; left: 50%; top: 50%; width: 960px; height: 540px; max-width: none; margin: 0; padding: 0; box-sizing: border-box; overflow: hidden;
+  transform: translate(-50%, -50%) scale(var(--tvs, 1)); transform-origin: center center; background: radial-gradient(900px 500px at 50% -10%, #2a1f6e, #1b1544 70%); color: #fff; display: block; }
+body.tvplay .tvhide { display: none !important; }
+body.tvplay .toast { display: none; }
+.tvhint { position: fixed; left: 0; right: 0; bottom: 0; text-align: center; font: 700 .72rem/1 Nunito, system-ui, sans-serif; color: rgba(255,255,255,.55); padding: 6px 0; pointer-events: none; z-index: 5; }
+
+/* the layout: scores along the top, the cabinet on the left, the question or choice on the right */
+.bxtv { height: 100%; box-sizing: border-box; padding: 10px 16px 24px; display: grid; grid-template-columns: 410px 1fr; grid-template-rows: auto 1fr; gap: 8px 16px; }
+.bxtv.wide { grid-template-columns: 1fr; }
+.bxtvh { grid-column: 1 / -1; display: flex; align-items: center; gap: 14px; }
+.bxtvh .bxrivals { margin: 0; flex: 1 1 auto; gap: 12px; }
+.bxtvh .bxrv { flex-direction: row; justify-content: center; gap: 10px; padding: 6px 14px; border-radius: 14px; font-size: 1.15rem; background: rgba(255,255,255,.1); color: #fff; border-width: 3px; }
+.bxtvh .bxrv span { font-size: 1.6rem; } .bxtvh .bxrv i { font-style: normal; font-weight: 900; } .bxtvh .bxrv b { font-size: 1.5rem; }
+.bxtvh .bxrv.on { background: var(--tc); transform: scale(1.04); }
+.bxtvh .bxmeta { margin: 0; color: rgba(255,255,255,.8); font-weight: 800; display: flex; gap: 12px; align-items: center; font-size: 1rem; white-space: nowrap; }
+.bxtvh .bxmp span { font-size: 1.3rem; margin-right: 4px; }
+.bxtvl { min-height: 0; overflow: hidden; position: relative; }
+.bxtvl .bxcab { height: 100%; margin: 0; }
+.bxtvl .bxcab.mini { opacity: .9; }
+.bxtvl .bxcabrow { display: grid; grid-template-columns: 76px 1fr; align-items: center; gap: 6px; margin-bottom: 5px; }
+.bxtvl .bxcat { font: 800 .72rem/1.05 Nunito, system-ui, sans-serif; color: #fff; text-align: left; }
+.bxtvl .bxdrawers { display: grid; grid-template-columns: repeat(var(--cols, 6), 1fr); gap: 4px; }
+.bxtvl .bxdr { height: 54px; }
+.bxtvl .bxplate { font-size: 1.1rem; }
+.bxtvr { min-height: 0; overflow-y: auto; overflow-x: hidden; background: #f4f3fb; color: #1b1544; border-radius: 18px; padding: 14px 18px; box-sizing: border-box; scrollbar-width: none; }
+.bxtvr::-webkit-scrollbar { display: none; }
+.bxtv.wide .bxtvr { background: transparent; color: #fff; display: flex; flex-direction: column; justify-content: center; text-align: center; font-size: 1.15rem; }
+.bxtv.wide .bxtvr .muted { color: rgba(255,255,255,.75); }
+.bxtvr .bxpaper { position: static; inset: auto; animation: none !important; transform: none !important; background: transparent; box-shadow: none; padding: 0; left: auto; right: auto; top: auto; bottom: auto; }
+.bxtvr .state { padding: 6px; } .bxtvr .state h2 { font-size: 1.6rem; margin: 6px 0; } .bxtvr .state .em { font-size: 3rem; }
+.bxtvr h2.bxh { font-size: 1.5rem; margin: 0 0 4px; }
+.bxtvr .muted { font-size: .95rem; }
+.bxtvr .bxqph { font-size: 1.55rem; line-height: 1.22; margin: 6px 0 10px; }
+.bxtvr .bxtags span { font-size: .9rem; }
+.bxtvr .bxoptsp { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.bxtvr .bxop { font-size: 1.25rem; padding: 14px 12px; }
+.bxtvr .bxchips { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.bxtvr .bxchip { font-size: 1.35rem; padding: 14px 8px; }
+.bxtvr .bxpows { grid-template-columns: repeat(3, 1fr); }
+.bxtvr .bxpow { font-size: .9rem; padding: 10px 6px; margin-top: 8px; }
+.bxtvr .btn-lg { font-size: 1.35rem; padding: 14px 10px; margin-top: 10px; }
+.bxtvr .bxres { padding: 8px; } .bxtvr .bxres .bxbig { font-size: 2.6rem; }
+.bxtvr #bxCust, .bxtvr .bxform:not(#bxTxt) { display: none; } /* no number box: the chips are enough */
+.bxtvr #bxTxt > input, .bxtvr #bxTxt > button { display: none; }
+
+/* typed answers */
+.tvtxt { background: #fff; border: 3px solid #5b3df5; border-radius: 12px; min-height: 42px; padding: 6px 14px; font: 900 1.6rem/1.3 Nunito, system-ui, sans-serif; text-align: center; letter-spacing: .04em; color: #1b1544; margin-bottom: 8px; }
+.tvtxt.empty::before { content: 'Type your answer'; color: #9a97b8; font-weight: 700; font-size: 1.1rem; letter-spacing: 0; }
+.tvcaret { display: inline-block; width: 3px; height: 1.3rem; background: #5b3df5; vertical-align: -.2rem; margin-left: 2px; animation: tvblink 1s steps(1) infinite; }
+@keyframes tvblink { 50% { opacity: 0; } }
+.tvkb { display: flex; flex-direction: column; gap: 5px; }
+.tvkbrow { display: flex; justify-content: center; gap: 5px; }
+.tvk { flex: 0 0 auto; min-width: 38px; height: 36px; border-radius: 8px; border: 2px solid #cfcbe6; background: #fff; color: #1b1544; font: 900 1.05rem Nunito, system-ui, sans-serif; padding: 0 6px; }
+.tvk.wide2 { min-width: 150px; }
+.tvlock { width: 100%; margin-top: 4px !important; }
+.tvfin { position: absolute; left: 0; right: 0; bottom: 30px; display: flex; justify-content: center; z-index: 6; }
+
+/* the focus ring (assets/dpad.js focuses things by direction) */
+body.tvplay :focus { outline: 4px solid #ffd54a !important; outline-offset: 3px; border-radius: 10px; }
+body.tvplay .bxdr:focus { outline-offset: 1px; }
+body.tvplay .bxdr:focus .bxdrface { filter: brightness(1.25); }
+
+/* the cabinet on the TV: a label and six drawers on every row, always full size */
+body.tvplay #app, body.tvplay .bxtv { overflow: clip; }
+body.tvplay .bxtvl .bxcab.ph { margin: 0; padding: 8px; height: 100%; box-sizing: border-box; gap: 4px; border-width: 4px; border-radius: 14px; justify-content: space-between; }
+body.tvplay .bxtvl .bxcab.ph .bxcabrow { display: grid; grid-template-columns: 74px 1fr; gap: 8px; align-items: center; flex: 1 1 0; }
+body.tvplay .bxtvl .bxcab.ph .bxcat, body.tvplay .bxtvl .bxcab.ph.mini .bxcat { display: flex !important; align-items: center; margin: 0; padding: 3px 5px; font-size: .72rem; line-height: 1.1; min-height: 40px; box-sizing: border-box; }
+body.tvplay .bxtvl .bxcab.ph .bxdr, body.tvplay .bxtvl .bxcab.ph.mini .bxdr { height: 56px; }
+body.tvplay .bxtvl .bxcab.ph .bxplate, body.tvplay .bxtvl .bxcab.ph.mini .bxplate { font-size: 1.1rem; padding: 2px 6px; min-width: 1.7em; }
+body.tvplay .bxtvl .bxcab.ph.mini .bxhandle, body.tvplay .bxtvl .bxcab.ph .bxhandle { display: block; height: 4px; }
+
+.tvturn { display: inline-block; background: var(--tc, #5b3df5); color: #fff; font: 900 1.05rem Nunito, system-ui, sans-serif; border-radius: 999px; padding: 4px 16px; margin-bottom: 4px; }
+.tvfin { gap: 14px; } .tvfin .btn { min-width: 220px; }

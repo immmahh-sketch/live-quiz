@@ -79,6 +79,7 @@ const app = $('#app');
 const WEEK = +(new URLSearchParams(location.search).get('wk') || 0) || 0; // TEST codes only: try one week of a weekly series
 const RAWCODE = (new URLSearchParams(location.search).get('c') || new URLSearchParams(location.search).get('code') || 'WARMUP').toUpperCase().replace(/[^A-Z0-9]/g, '');
 // CAR in front of a code (CARLAURA, CARWARMUP) is car mode: only the Box Clever boxes (no Hot Potato or other rounds), read aloud and answered by voice (hands-free switched on), and everyone in the car can add their names. Codes cannot start with CAR.
+if (RAWCODE === 'BOX2P') location.replace('tvbox?auto=1'); // BOX2P: Box Clever for two on the TV
 const CAR = /^CAR[A-Z0-9]{3,}$/.test(RAWCODE) || new URLSearchParams(location.search).get('car') === '1';
 const CODE = /^CAR[A-Z0-9]{3,}$/.test(RAWCODE) ? RAWCODE.slice(3) : RAWCODE;
 if (CAR) { try { localStorage.setItem('lq_handsfree', '1'); } catch {} }

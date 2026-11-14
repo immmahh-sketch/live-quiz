@@ -47,7 +47,9 @@ const PREVIEW = new URLSearchParams(location.search).get('quiz') === 'preview'; 
 // device that has played once can't play again.
 // "📱 Play on my phone": ?quiz=play&q=<quiz id> runs any quiz of yours the way a warm-up runs (hidden host, phone only, bots), as a
 // test game under the code TESTPLAY, so nothing is saved. warmup.html?q=<id> sets it up and shows the phone.
-const PLAYQ = (() => { const p = new URLSearchParams(location.search), id = p.get('q') || ''; return p.get('quiz') === 'play' && /^[0-9a-f-]{36}$/i.test(id) ? id : ''; })();
+// ?quiz=tvbox&src=tvbox/games/gNN.json: a Box Clever game from the TV pool (tvbox.html): a static file, two people on one remote, no bots, nothing saved.
+const TVQ = (() => { const p = new URLSearchParams(location.search), s = p.get('src') || ''; return p.get('quiz') === 'tvbox' && /^tvbox\/games\/g\d{2,3}\.json$/.test(s) ? s : ''; })();
+const PLAYQ = TVQ || (() => { const p = new URLSearchParams(location.search), id = p.get('q') || ''; return p.get('quiz') === 'play' && /^[0-9a-f-]{36}$/i.test(id) ? id : ''; })();
 const WARMUP = PLAYQ ? 'TESTPLAY' : new URLSearchParams(location.search).get('quiz') === 'warmup' ? (new URLSearchParams(location.search).get('w') || '').toUpperCase().replace(/[^A-Z0-9]/g, '') : '';
 if (WARMUP) document.body.classList.add('warmup');
 // On a TV (the Fire TV app, or ?tv=1): D-pad focus ring, self-play on, Back goes to the TV home.
@@ -306,8 +308,9 @@ const startsRound = (i) => {
 /** This device's player id: the one its player screen (play.html) keeps, so a device is one player. */
 function myPid() { const p = store('lq_player'); return p && /^p_[a-z0-9]{6,12}$/.test(p.pid || '') ? p.pid : ''; }
 async function bootWarmup() {
-  const back = () => { (window.top || window).location.href = PLAYQ ? 'warmup?q=' + PLAYQ : 'warmup?c=' + encodeURIComponent(WARMUP); };
+  const back = () => { (window.top || window).location.href = TVQ ? 'tvbox' : PLAYQ ? 'warmup?q=' + PLAYQ : 'warmup?c=' + encodeURIComponent(WARMUP); };
   if (!myPid()) return back(); // no name yet: warmup.html asks for one
+  if (TVQ) return bootTvQuiz();
   if (PLAYQ) return bootPlayQuiz();
   // A test game (TEST in front of the code) never carries on: every visit starts afresh.
   if (WARM_TEST) unstore(SAVE_KEY);
@@ -336,6 +339,21 @@ async function bootWarmup() {
   persist(); connect();
   setTimeout(() => addBots(G.warmBots), 0); // settings.warmup.bots (3 unless set); a test go too, so the host sees it as players do
   setTimeout(() => { if (musicOn()) loadYT().catch(() => {}); }, 0);
+}
+/** A TV pool game: the quiz is a static file; it carries straight on after a reload while it is unfinished. */
+async function bootTvQuiz() {
+  const saved = store(SAVE_KEY);
+  if (saved?.tvSrc === TVQ && saved.phase && saved.phase !== 'final') { G = saved; connect(); return; }
+  unstore(SAVE_KEY);
+  stage.innerHTML = '<div class="stage-main"><div class="waiting">Getting the questions ready…</div></div>';
+  let quiz;
+  try { const res = await fetch(TVQ); if (!res.ok) throw new Error('This game could not be loaded.'); quiz = LQ.normalizeQuiz(await res.json()); } catch (e) { return fail(e.message); }
+  quiz.questions = quiz.questions.filter((q) => LQ.validate(q).length === 0);
+  quiz.rounds = quiz.rounds.filter((x) => quiz.questions.some((q) => q.round === x.id));
+  quiz.settings = { ...quiz.settings, power: { on: false }, bounty: false };
+  if (!quiz.questions.length) return fail('Nothing in this game can be played.');
+  G = { code: newCode(), tvSrc: TVQ, quizId: 'tvbox', quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: true, warmup: WARMUP, warmTop: [], warmCount: 0, warmBonus: null, warmUntil: null, warmSolo: true, cfgBots: null, warmBots: 0, fixedBots: false, warmReplay: true };
+  persist(); connect();
 }
 /** Any quiz of yours on this phone: loaded with the builder's password (so this phone must be signed in to the builder), the break
  *  slides, camera tasks and Who Said That left out (they need a host or a warm-up's answers), power cards and Bounty off, three bots
@@ -2258,6 +2276,7 @@ function startTick() {
     if (G.paused) return;
     if (Date.now() - musicSyncAt > 2000) { musicSyncAt = Date.now(); musicSync(); }
     if (gameKind()) return gameTick();
+    if (G.q.bx) return; // Box Clever has no clock: after a reload the tick must not end it (its deadline is already in the past)
     const wipe = G.q.wipe;
     paintClock();
     if (wipe?.studyUntil) {
