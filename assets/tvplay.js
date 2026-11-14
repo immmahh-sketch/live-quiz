@@ -75,8 +75,10 @@
     tell('final');
   }
 
-  let busy = false, tm = 0;
-  new MutationObserver(() => { if (busy) return; clearTimeout(tm); tm = setTimeout(() => { busy = true; try { layout(); } finally { setTimeout(() => { busy = false; }, 0); } }, 0); }).observe(app, { childList: true });
+  // Re-arranged in the observer itself (a microtask, run before the screen is next painted), never in a timeout: otherwise the phone's own layout
+  // shows for a frame after every press and the screen flashes.
+  let busy = false;
+  new MutationObserver(() => { if (busy) return; busy = true; try { layout(); } finally { Promise.resolve().then(() => { busy = false; }); } }).observe(app, { childList: true });
   document.body.insertAdjacentHTML('beforeend', '<div class="tvhint">◀ ▲ ▼ ▶ move · OK choose · Back to pause</div>');
   // Back on a remote that sends a key (the Silk browser uses its history instead, which tvbox.html catches)
   let keyedAt = 0; window.addEventListener("keydown", () => { if (Date.now() - keyedAt > 400) { keyedAt = Date.now(); tell("key"); } }, true); // tells tvbox.html a key was pressed (it adds its Back step then, and wakes the sound)
