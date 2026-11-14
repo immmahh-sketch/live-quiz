@@ -114,6 +114,26 @@ function bxPhoneBody(s) {
   } else if (c.mode === 'made') pw += `<p class="muted center">👉 ${esc(org.name)} made you answer! Your points change, not theirs.</p>`;
   return `${head}${tags}${q}${body}${lock}${pw}`;
 }
+
+/** One phone (warm-up, car, TV, Box2p): using a power asks "Use it?" in a pop-up, so there is no scrolling down to a Use button. A power that needs a team
+ *  (Make them answer, Pick their box) lists the teams in the pop-up instead. A hosted team game keeps its own way (the captain's Use button). */
+function bxPowerPop(s, k) {
+  const g = s.bx, me = bxMe(s), needs = k === 'make' || k === 'pickfor', [em, name] = BXP[k];
+  const DESC = { fifty: 'Takes away wrong answers, so you choose between two.', swap: 'Swaps this question for a new one from the same category. Your stake stays the same.', make: 'Choose who has to answer this question. Their points change, not yours.', host: 'The host has to answer this one instead. It counts for you.', pickfor: "You choose which box they must play next. They still decide how much to gamble." };
+  const targets = needs ? g.teams.filter((x) => x.i !== me.ti && (k === 'make' || (g.forcedBy || {})[x.i] === undefined)) : [];
+  const old = document.getElementById('bxPop'); if (old) old.remove();
+  const d = document.createElement('div'); d.id = 'bxPop'; d.className = 'modal-bg bxpop';
+  d.innerHTML = '<div class="modal bxpopcard"><div class="bxpopem">' + em + '</div><h2>' + (needs ? esc(name) : 'Use ' + esc(name) + '?') + '</h2><p>' + esc(DESC[k] || '') + '</p>'
+    + (needs ? (targets.length ? targets.map((x) => '<button type="button" class="btn btn-primary btn-lg btn-block" data-t="' + x.i + '">' + x.emoji + ' ' + esc(x.name) + '</button>').join('') : '<p class="muted">There is nobody you can use it on.</p>')
+      : '<button type="button" class="btn btn-primary btn-lg btn-block" data-yes="1" data-autofocus>Yes, use it</button>')
+    + '<button type="button" class="btn btn-block" id="bxPopNo">Cancel</button></div>';
+  document.body.appendChild(d);
+  const close = () => d.remove();
+  d.querySelector('#bxPopNo').onclick = close; d.onclick = (e) => { if (e.target === d) close(); };
+  d.querySelectorAll('[data-t]').forEach((b) => { b.onclick = () => { close(); bxSend('pow', k, { go: true, target: +b.dataset.t }); }; });
+  const y = d.querySelector('[data-yes]'); if (y) y.onclick = () => { close(); bxSend('pow', k, { go: true }); };
+  if (window.LQ_TV && window.DPAD) setTimeout(() => window.DPAD.focusFirst(), 30);
+}
 function bxBind(s) {
   const g = s.bx, me = bxMe(s), sel = bxSel(), redo = () => { P.viewKey = ''; render(); };
   bxLoanPop(s);
@@ -138,7 +158,7 @@ function bxBind(s) {
     else { bxSend('pass', 1); }
   };
   if ($('#bxLockA')) $('#bxLockA').onclick = () => { if (sel.v !== null && sel.v !== '' && sel.v !== undefined) { bxSend('ans', sel.v, { go: true }); $('#bxLockA').disabled = true; } };
-  $$('[data-bxp]').forEach((b) => b.onclick = () => { const k = b.dataset.bxp; sel.power = sel.power === k ? null : k; bxSend('pow', k); redo(); setTimeout(() => { const u = $('#bxUse'); if (u) u.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 60); });
+  $$('[data-bxp]').forEach((b) => b.onclick = () => { const k = b.dataset.bxp; if (g.solo) return bxPowerPop(s, k); sel.power = sel.power === k ? null : k; bxSend('pow', k); redo(); setTimeout(() => { const u = $('#bxUse'); if (u) u.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 60); });
   if ($('#bxUse')) $('#bxUse').onclick = () => { bxSend('pow', sel.power, { go: true }); sel.power = null; $('#bxUse').disabled = true; };
   $$('[data-bxtarget]').forEach((b) => b.onclick = () => { bxSend('pow', sel.power || 'make', { go: true, target: +b.dataset.bxtarget }); sel.power = null; });
   if (typeof bxVoiceTick === 'function') bxVoiceTick(s); // hands-free mode (boxes-voice.js)
