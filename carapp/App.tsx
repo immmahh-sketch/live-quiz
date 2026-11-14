@@ -81,7 +81,7 @@ export default function App() {
         setSupportMultipleWindows={false}
         originWhitelist={['*']}
         startInLoadingState
-        renderLoading={() => <View style={s.center}><ActivityIndicator color="#fff" size="large" /></View>}
+        renderLoading={() => <View style={s.center}><ActivityIndicator color="#fff" size="large" /><Text style={s.sub}>Loading Box Clever…</Text></View>}
         onLoadStart={() => setErr('')}
         onError={(e) => setErr(e.nativeEvent.description || 'The game could not be loaded.')}
         onHttpError={(e) => setErr('The game returned an error (' + e.nativeEvent.statusCode + ').')}
