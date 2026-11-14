@@ -2,3 +2,8 @@ ios/
 android/
 node_modules/
 .expo/
+
+credentials.json
+*.p12
+*.p8
+*.mobileprovision
