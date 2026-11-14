@@ -24,7 +24,51 @@ const LQLeader = (() => {
   function loadImage(src) { return new Promise((res) => { const i = new Image(); i.onload = () => res(i); i.onerror = () => res(null); i.src = src; }); }
 
   const cap1 = (t) => String(t || '').trim().replace(/^./, (ch) => ch.toUpperCase());
+  /** The "drawers" style (d.style = 'drawers'): a filing cabinet, one drawer per player, the winner's pulled out and gold. Made for Box Clever. */
+  async function drawDrawers(d, topN = 5) {
+    const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d');
+    const rows = (d.rows || []).slice(0, topN), places = placeOf(d.rows || []), n = rows.length;
+    const bg = x.createLinearGradient(0, 0, 0, H); bg.addColorStop(0, '#08111f'); bg.addColorStop(1, '#17395f'); x.fillStyle = bg; x.fillRect(0, 0, W, H);
+    const spot = x.createRadialGradient(W / 2, 700, 60, W / 2, 700, 780); spot.addColorStop(0, 'rgba(255,214,10,.14)'); spot.addColorStop(1, 'rgba(255,214,10,0)'); x.fillStyle = spot; x.fillRect(0, 0, W, H);
+    const r = seeded(5); for (let i = 0; i < 60; i++) { x.globalAlpha = .15 + r() * .5; sparkle(x, r() * W, r() * H, 2 + r() * 5, r() * 3, '#cfe3ff'); } x.globalAlpha = 1;
+    x.save(); x.translate(W / 2, 78); rrect(x, -165, -34, 330, 68, 34); x.fillStyle = YELLOW; x.fill(); x.restore(); text(x, "LET'S QUIZ!", W / 2, 80, 40, { c: DEEP });
+    text(x, d.fixedHeading || (d.ended ? 'FINAL RESULTS' : d.heading || 'SCOREBOARD'), W / 2, 190, 124, { f: HEAD, w: 400, c: '#fff', stroke: '#08111f', shadow: 24, maxW: 980 });
+    const sub = wrap(x, cap1(d.title), BODY, 40, 900, 2); sub.forEach((l, i) => text(x, l, W / 2, 275 + i * 48, 40, { c: '#9fc3ee', maxW: 940 }));
+    const lead = rows[0]?.name || 'the leader', gap = n > 1 ? rows[0].score - rows[1].score : 0;
+    const tag = !n ? 'Nobody has played yet' : d.ended ? (gap > 0 && gap <= 1000 ? `${lead} wins by just ${fmt(gap)}!` : `Congratulations ${lead}! 🎉`) : `Can anyone catch ${lead}? 👀`;
+    text(x, tag, W / 2, sub.length > 1 ? 392 : 360, 54, { c: YELLOW, stroke: '#08111f', sw: 8, maxW: 940 });
+    // the cabinet
+    const gp = n > 5 ? 10 : 16, top0 = 440, zone = 610, dh = Math.max(56, Math.min(172, (zone - 48 - gp * Math.max(0, n - 1)) / Math.max(n, 1))), bodyH = n * dh + gp * Math.max(0, n - 1) + 48, cy0 = top0 + (zone - bodyH) / 2;
+    x.save(); rrect(x, 62, cy0 - 4, W - 124, bodyH + 8, 34); x.fillStyle = '#10243b'; x.shadowColor = 'rgba(0,0,0,.6)'; x.shadowBlur = 40; x.shadowOffsetY = 18; x.fill(); x.restore();
+    x.save(); rrect(x, 62, cy0 - 4, W - 124, bodyH + 8, 34); x.lineWidth = 6; x.strokeStyle = '#3d6a9c'; x.stroke(); x.restore();
+    const FR = { 1: ['#ffe27a', '#d9a010', '#7a5200'], 2: ['#eef2f8', '#aab4c6', '#5d6a80'], 3: ['#f0b283', '#b86f38', '#6e3a14'] }, REST = ['#38597d', '#2a4666', '#8fb4dd'];
+    rows.forEach((p, k) => {
+      const pl = places[k], pal = FR[pl], first = pl === 1, x0 = 90 + (first ? 0 : 0), w = W - 180, y = cy0 + 24 + k * (dh + gp), out = first ? 0 : 0;
+      x.save(); rrect(x, x0, y + out, w, dh, 20); const gr = x.createLinearGradient(0, y, 0, y + dh); gr.addColorStop(0, pal ? pal[0] : REST[0]); gr.addColorStop(1, pal ? pal[1] : REST[1]);
+      x.fillStyle = gr; x.shadowColor = first ? 'rgba(255,214,10,.55)' : 'rgba(0,0,0,.45)'; x.shadowBlur = first ? 36 : 16; x.shadowOffsetY = first ? 8 : 6; x.fill(); x.shadowColor = 'transparent'; x.lineWidth = 5; x.strokeStyle = pal ? pal[2] : REST[2]; x.stroke(); x.restore();
+      x.save(); rrect(x, x0 + 14, y + 12, w - 28, dh - 24, 12); x.lineWidth = 2; x.strokeStyle = pal ? 'rgba(0,0,0,.16)' : 'rgba(255,255,255,.12)'; x.stroke(); x.restore();
+      const ink = pal ? '#1b1340' : '#fff', mid = y + dh * .46, big = Math.min(dh * .42, 74);
+      // the number plate
+      x.save(); x.beginPath(); x.arc(x0 + 20 + big * .8, mid, big * .72, 0, Math.PI * 2); x.fillStyle = pal ? pal[2] : '#173048'; x.fill(); x.lineWidth = 4; x.strokeStyle = pal ? '#fff8' : '#8fb4dd'; x.stroke(); x.restore();
+      text(x, String(pl), x0 + 20 + big * .8, mid + 2, big * .86, { f: HEAD, w: 400, c: pal ? pal[0] : '#fff' });
+      text(x, p.emoji || '🙂', x0 + 40 + big * 2.2, mid, big * 1.05, { f: EMO });
+      text(x, p.name || 'Player', x0 + 40 + big * 3.0, mid, Math.min(dh * .4, 68), { a: 'left', c: ink, maxW: w - big * 3.0 - 330 });
+      text(x, (p.display ?? fmt(p.score)), x0 + w - 36, mid, Math.min(dh * .5, 88), { a: 'right', f: HEAD, w: 400, c: p.score < 0 ? '#c0283f' : ink, maxW: 300 });
+      // the brass handle
+      x.save(); rrect(x, x0 + w / 2 - 70, y + dh - 26, 140, 14, 7); x.fillStyle = pal ? '#fff9' : 'rgba(255,255,255,.35)'; x.fill(); x.lineWidth = 2; x.strokeStyle = 'rgba(0,0,0,.25)'; x.stroke(); x.restore();
+      if (first) text(x, '👑', x0 + 20 + big * .8, y - 4, 64, { f: EMO });
+    });
+    const cnt = d.count ?? (d.rows || []).length, plural = d.countText || `${cnt} player${cnt === 1 ? '' : 's'} played`;
+    const cl = d.footer || (d.ended ? 'Thanks for playing!' : d.until ? `Still time to play · closes ${closes(d.until)}` : 'Play it free on your phone');
+    const pill = (cy, w, h, fill, line, lw, label, size, col) => { x.save(); x.translate(W / 2, cy); rrect(x, -w / 2, -h / 2, w, h, h / 2); x.fillStyle = fill; x.shadowColor = 'rgba(0,0,0,.5)'; x.shadowBlur = 24; x.shadowOffsetY = 9; x.fill(); x.shadowColor = 'transparent'; x.lineWidth = lw; x.strokeStyle = line; x.stroke(); x.restore(); text(x, label, W / 2, cy + 3, size, { c: col, maxW: w - 60 }); };
+    text(x, plural, W / 2, 1096, 38, { c: '#cfe3ff' });
+    pill(1166, 800, 100, '#fff', YELLOW, 7, d.link || 'letsquiz.uk/play', 66, '#0c2a4d');
+    pill(1254, 660, 80, YELLOW, '#08111f', 6, `Game code: ${d.code || 'WARMUP'}`, 50, '#08111f');
+    text(x, cl, W / 2, 1318, 32, { c: '#9fc3ee', maxW: 980 });
+    return c;
+  }
   async function draw(d, topN = 5) {
+    if (d.style === 'drawers') return drawDrawers(d, topN);
     const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d');
     const rows = (d.rows || []).slice(0, topN), places = placeOf(d.rows || []), compact = topN > 5;
     // background: the Let's Quiz purple, rays and stars
