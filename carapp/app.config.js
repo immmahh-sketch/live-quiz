@@ -22,6 +22,10 @@ module.exports = () => ({
       infoPlist: {
         UIBackgroundModes: ['audio'],
         ITSAppUsesNonExemptEncryption: false,
+        // Apple's upload check wants a purpose text for each of these because the web view library can open them (a game page never does)
+        NSPhotoLibraryUsageDescription: 'Box Clever does not use your photos. This is needed only because the web view can offer a photo picker.',
+        NSPhotoLibraryAddUsageDescription: 'Box Clever does not save photos.',
+        NSCameraUsageDescription: 'Box Clever does not use the camera. This is needed only because the web view can offer a camera option.',
         ...(carplay ? { UIRequiredDeviceCapabilities: ['carplay'] } : {}),
       },
       ...(carplay ? { entitlements: { 'com.apple.developer.carplay-voice-based-conversation': true } } : {}),
