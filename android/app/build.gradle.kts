@@ -24,6 +24,14 @@ android {
         versionName = "1.3"
     }
 
+    // Two apps from one WebView: "tv" is the host's Let's Quiz! app (letsquiz.uk/tv); "box" is Box Clever for two (letsquiz.uk/box2p),
+    // which has its own id so both can sit on the same Fire TV. Each has its own name and start page (src/<flavour>/res/values/strings.xml).
+    flavorDimensions += "app"
+    productFlavors {
+        create("tv") { dimension = "app" }
+        create("box") { dimension = "app"; applicationId = "uk.letsquiz.box2p"; versionCode = 1; versionName = "1.0" }
+    }
+
     signingConfigs {
         if (keystoreProps.getProperty("storeFile") != null) {
             create("release") {

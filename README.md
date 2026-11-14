@@ -152,6 +152,12 @@ the DNS: four `A` and four `AAAA` records on the root pointing at GitHub Pages' 
 `www` CNAME to `immmahh-sketch.github.io`, all *DNS only* (not proxied) so GitHub can
 issue the certificate. The `CNAME` file in the repo tells Pages which domain to serve.
 
+### Box Clever for two (Fire TV, `uk.letsquiz.box2p`)
+A second app built from the same `android/` project (the `box` flavour): the same WebView, but it opens `letsquiz.uk/box2p` (Box Clever for two on one remote, `tvbox.html`) and has its own name, icon and banner. Build it with
+`JAVA_HOME="C:/Program Files/Android/Android Studio/jbr" ./gradlew.bat assembleBoxRelease` (signed with the same release key), copy
+`android/app/build/outputs/apk/box/release/app-box-release.apk` to `box2p.apk` in the repo root and push: in the Fire TV's **Downloader** app enter `letsquiz.uk/box2p.apk`.
+The host's app is now the `tv` flavour (`assembleTvRelease`).
+
 ### Fire TV app
 
 `android/` is a Gradle project (AGP 9, Java, no dependencies). Build with Android Studio's

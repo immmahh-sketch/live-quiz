@@ -31,7 +31,8 @@ import org.json.JSONObject;
  * the phones) lives on the website, so this app almost never needs updating.
  */
 public class MainActivity extends Activity {
-    private static final String HOME = "https://letsquiz.uk/tv";
+    /** The start page: letsquiz.uk/tv for the host app, letsquiz.uk/box2p for Box Clever for two (set per app in res/values/strings.xml). */
+    private String home() { return getString(R.string.home_url); }
     private WebView web;
     private FrameLayout root;
     private View fullscreenView;
@@ -118,7 +119,7 @@ public class MainActivity extends Activity {
         web.setFocusable(true);
         web.setFocusableInTouchMode(true);
         web.requestFocus();
-        if (savedInstanceState != null) web.restoreState(savedInstanceState); else web.loadUrl(HOME);
+        if (savedInstanceState != null) web.restoreState(savedInstanceState); else web.loadUrl(home());
     }
 
     /**
@@ -178,7 +179,7 @@ public class MainActivity extends Activity {
     private String offlinePage() {
         return "<!doctype html><html><body style='margin:0;background:#1b1544;color:#fff;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;text-align:center'>"
             + "<div><div style='font-size:64px'>📡</div><h1>Can't reach letsquiz.uk</h1><p style='font-size:20px;opacity:.8'>Check the Fire TV's internet connection, then press the centre button to try again.</p>"
-            + "<button onclick=\"location.href='" + HOME + "'\" autofocus style='font-size:24px;padding:14px 28px;border-radius:14px;border:0;background:#ffd60a;font-weight:bold'>Try again</button></div></body></html>";
+            + "<button onclick=\"location.href='" + home() + "'\" autofocus style='font-size:24px;padding:14px 28px;border-radius:14px;border:0;background:#ffd60a;font-weight:bold'>Try again</button></div></body></html>";
     }
 
     @Override
