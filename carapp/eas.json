@@ -10,7 +10,8 @@
         "resourceClass": "m-medium",
         "image": "macos-sequoia-15.6-xcode-26.0"
       },
-      "credentialsSource": "local"
+      "credentialsSource": "local",
+      "channel": "production"
     },
     "production-carplay": {
       "extends": "production",
@@ -23,7 +24,8 @@
       "ios": {
         "simulator": false,
         "resourceClass": "m-medium"
-      }
+      },
+      "channel": "preview"
     }
   },
   "submit": {

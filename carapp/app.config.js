@@ -11,6 +11,10 @@ module.exports = () => ({
     icon: './assets/icon.png',
     userInterfaceStyle: 'light',
     newArchEnabled: true,
+    // Over-the-air updates (EAS Update): the app's own JavaScript (App.tsx and src/) can be replaced without a new TestFlight build, as long as the
+    // native side is unchanged. A new native build needs a new `version` (the runtime version follows it), or old installs would get JS that does not fit.
+    runtimeVersion: { policy: 'appVersion' },
+    updates: { url: 'https://u.expo.dev/a838db3c-33ec-4657-ab9c-0b4b1671ccce', enabled: true, checkAutomatically: 'ON_LOAD', fallbackToCacheTimeout: 3000 },
     splash: { image: './assets/icon.png', resizeMode: 'contain', backgroundColor: '#1b1544' },
     ios: {
       supportsTablet: false,

@@ -54,6 +54,18 @@ eas submit --platform ios --latest
 
 `CARPLAY=1` adds the CarPlay scene, the `com.apple.developer.carplay-voice-based-conversation` entitlement and `UIRequiredDeviceCapabilities: carplay`. Without Apple's grant the signing step fails, which is why it is off by default.
 
+## Updates without TestFlight (OTA)
+
+The app checks for updates each time it opens (EAS Update, channel `production`) and uses a new one on that launch (waits up to 3 s). Most changes need no new build:
+the game is the website, which already updates itself, and the app's own JavaScript (`App.tsx`, `src/`) goes out with:
+
+```bash
+cd carapp
+npx eas-cli@latest update --channel production --environment production --message "what changed"
+```
+
+An update can only change JavaScript and assets. Anything native (a new library, `app.config.js` plugins or permissions, CarPlay on, a new Expo SDK) needs a new TestFlight build, and its `version` in `app.config.js` must be raised first: the runtime version follows the version, so an old install never receives JavaScript written for a newer native build.
+
 ## What is tested and what is not
 
 Tested here (Windows, no Mac): the injected scripts and the car list logic against the real game in a headless browser (a full two-player game driven by car "taps", and one driven by spoken replies through the listening shim); the config plugin's output (scene manifest, entitlement); the TypeScript.
