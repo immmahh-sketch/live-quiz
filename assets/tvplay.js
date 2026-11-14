@@ -46,10 +46,18 @@
     input.value = saved;
     const ui = el('tvkbwrap');
     ui.innerHTML = `<div class="tvtxt"><span id="tvTxtV"></span><i class="tvcaret"></i></div>
-      <div class="tvkb">${ROWS.map((r) => `<div class="tvkbrow">${[...r].map((c) => `<button type="button" class="tvk" data-k="${c}">${c}</button>`).join('')}</div>`).join('')}
-        <div class="tvkbrow"><button type="button" class="tvk wide2" data-k=" ">SPACE</button><button type="button" class="tvk" data-k="'">'</button><button type="button" class="tvk" data-k="-">-</button><button type="button" class="tvk wide2" data-k="⌫">⌫ DELETE</button></div>
-        <div class="tvkbrow"><button type="button" class="btn btn-primary btn-lg tvlock" id="tvLock" data-autofocus>Lock in answer</button></div></div>`;
+      <div class="tvkb">${ROWS.map((r) => `<div class="tvkbrow">${[...r].map((c) => `<button type="button" class="tvk" data-k="${c}"${c === "Q" ? " data-autofocus" : ""}>${c}</button>`).join('')}</div>`).join('')}
+        <div class="tvkbrow"><button type="button" class="tvk wide2" data-k=" ">SPACE</button><button type="button" class="tvk" data-k="'">'</button><button type="button" class="tvk" data-k="-">-</button><button type="button" class="tvk wide2" data-k="⌫">⌫ DELETE</button><button type="button" class="tvk tvlock" id="tvLock">✔ LOCK IN</button></div>
+      </div>`;
     form.append(ui);
+    // the question and what has been typed so far stay in view: the panel scrolls under them (the keyboard is below, and so are Pass and the powers)
+    const sticky = el('tvsticky'), box = form.parentNode, q = box.querySelector('.bxqph'), media = box.querySelector('.bxpic, .bxtune'), turn = form.closest('.bxtvr')?.querySelector('.tvturn');
+    box.insertBefore(sticky, form);
+    if (turn) sticky.append(turn);
+    if (q) sticky.append(q);
+    if (media) sticky.append(media);
+    sticky.append(ui.querySelector('.tvtxt'));
+    form.closest('.bxtvr')?.classList.add('tvtyped');
     const show = () => { ui.querySelector('#tvTxtV').textContent = input.value || ''; ui.querySelector('.tvtxt').classList.toggle('empty', !input.value); window.__tvTyped = { key, val: input.value }; };
     const add = (c) => { if (c === '⌫') input.value = input.value.slice(0, -1); else if (input.value.length < 60) input.value += c; show(); };
     ui.querySelectorAll('[data-k]').forEach((b) => { b.onclick = () => add(b.dataset.k); });
