@@ -4,7 +4,7 @@
 const carplay = process.env.CARPLAY === '1';
 module.exports = () => ({
   expo: {
-    name: 'Box Clever',
+    name: 'Lets Quiz (Carplay Edition)',
     slug: 'box-clever',
     version: '0.1.0',
     orientation: 'portrait',
