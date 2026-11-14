@@ -57,6 +57,7 @@ const quizId = new URLSearchParams(location.search).get('quiz');
 // TEST in front of a warm-up's code (TESTWARMUP): the host trying it, three bots as usual, nothing saved. It saves apart from a
 // real warm-up, so testing can never clobber a real game on the same phone.
 const WARM_TEST = /^TEST[A-Z0-9]+$/.test(WARMUP);
+const CAR_MODE = new URLSearchParams(location.search).get('car') === '1'; // car mode (CAR in front of the code): real people only, no bots
 const BOXES_ONLY = new URLSearchParams(location.search).get('boxes') === '1'; // the car app: Box Clever's boxes and nothing else (no Hot Potato or other mid-game rounds)
 const TEST_BOTS = 10; // a test live game (TEST in front of the code) plays against this many bots; a test warm-up keeps its three
 const SAVE_KEY = 'lq_live_' + quizId + (WARM_TEST ? '_test' : '');
@@ -331,7 +332,7 @@ async function bootWarmup() {
   quiz.questions = quiz.questions.filter((q) => LQ.validate(q).length === 0 && (!BOXES_ONLY || q.type === 'boxes'));
   quiz.rounds = quiz.rounds.filter((x) => quiz.questions.some((q) => q.round === x.id));
   const shared = !!quiz.settings?.warmup?.shared, warmTok = Math.random().toString(36).slice(2, 9); // a room for two or more people (settings.warmup.shared): the game code IS the warm-up code, no bots, nothing saved
-  G = { code: shared ? WARMUP : newCode(), warmShared: shared, warmTok, quizId: r.quiz.id, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: true, warmup: WARMUP, warmTop: r.top || [], warmCount: r.count || 0, warmBonus: r.bonus || null, warmUntil: r.until || null, warmSolo: !!r.standalone || shared, warmNext: quiz.settings?.warmup?.next || null, cfgBots: shared ? null : boxCfgBots(quiz), warmBots: shared ? 0 : quiz.questions.some((q) => q.type === 'boxes') ? (boxCfgBots(quiz) || BOX_BOTS).length : r.bots ?? quiz.settings?.warmup?.bots ?? 3, fixedBots: !shared && quiz.questions.some((q) => q.type === 'boxes'), warmReplay: !!r.replay };
+  G = { code: shared ? WARMUP : newCode(), warmShared: shared, warmTok, quizId: r.quiz.id, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: true, warmup: WARMUP, warmTop: r.top || [], warmCount: r.count || 0, warmBonus: r.bonus || null, warmUntil: r.until || null, warmSolo: !!r.standalone || shared, warmNext: quiz.settings?.warmup?.next || null, cfgBots: shared || CAR_MODE ? null : boxCfgBots(quiz), warmBots: shared || CAR_MODE ? 0 : quiz.questions.some((q) => q.type === 'boxes') ? (boxCfgBots(quiz) || BOX_BOTS).length : r.bots ?? quiz.settings?.warmup?.bots ?? 3, fixedBots: !shared && !CAR_MODE && quiz.questions.some((q) => q.type === 'boxes'), warmReplay: !!r.replay };
   persist(); connect();
   setTimeout(() => addBots(G.warmBots), 0); // settings.warmup.bots (3 unless set); a test go too, so the host sees it as players do
   setTimeout(() => { if (musicOn()) loadYT().catch(() => {}); }, 0);

@@ -157,7 +157,7 @@ function intro(r) {
     <div class="card"><h2>Who's playing?</h2>
       <form id="nf"><label for="nm">Your name (as it'll show on the scoreboard)</label><input type="text" id="nm" value="${esc(m.name)}" maxlength="20" autocomplete="nickname" placeholder="Your name">
       <label>Your emoji</label><div class="emopick">${LQ.EMOJIS.map((e) => `<button type="button" data-em="${e}" class="${e === emoji ? 'on' : ''}">${e}</button>`).join('')}</div>
-      ${solo(r) || CAR ? `<label for="loc">Anyone playing with you on this phone? (their names, separated by commas)</label><input type="text" id="loc" value="${esc(savedLocals().join(', '))}" maxlength="90" autocomplete="off" placeholder="e.g. Sam, Alex">` : ''}
+      ${solo(r) || CAR ? `<label for="loc">${CAR && !r.shared ? 'Who else is in the car? (their names, separated by commas)' : 'Anyone playing with you on this phone? (their names, separated by commas)'}</label><input type="text" id="loc" value="${esc(savedLocals().join(', '))}" maxlength="90" autocomplete="off" placeholder="e.g. Sam, Alex">` : ''}
       <div id="nerr"></div><button class="go">Let's play ▶</button></form>
       <p class="muted small" style="margin:10px 0 0">It all plays on your phone.${solo(r) ? (r.bonus ? ' Use the same phone for the hosted game and the bonus finds you.' : '') : " Use the same name you'll use on Friday, so the bonus finds you."}</p></div>
     ${r.personal ? '' : `<div class="card"><h2>🏆 Top scores so far</h2>${boardHtml(r.top || [])}${r.count > 10 ? `<p class="muted small" style="margin:8px 0 0">${r.count} people have played.</p>` : ''}</div>`}
@@ -169,6 +169,7 @@ function intro(r) {
     e.preventDefault();
     const name = $('#nm').value.replace(/\s+/g, ' ').trim();
     if (!name) { $('#nerr').innerHTML = '<div class="err" style="margin-top:10px">Tell us your name so it shows on the scoreboard.</div>'; $('#nm').focus(); return; }
+    if (CAR && !r.shared && !($('#loc') && $('#loc').value.split(',').some((x) => x.trim()))) { $('#nerr').innerHTML = '<div class="err" style="margin-top:10px">Car mode is for two or more people, with no bots. Add the other names, separated by commas.</div>'; ($('#loc') || $('#nm')).focus(); return; }
     store('lq_player', { pid: me().pid || uid('p'), name, emoji });
     if ($('#loc')) { try { localStorage.setItem('lq_locals', JSON.stringify($('#loc').value.split(',').map((x) => x.replace(/s+/g, ' ').trim().slice(0, 20)).filter(Boolean).slice(0, 5))); } catch {} }
     game();
@@ -212,7 +213,7 @@ function game() {
     <iframe class="engine" id="hostFrame" title="" aria-hidden="true" tabindex="-1" allow="autoplay"></iframe>`;
   const hostFrame = $('#hostFrame');
   if (SHARED) return room(hostFrame);
-  hostFrame.src = (QID ? 'host?quiz=play&q=' + QID + (BOTSQ !== null ? '&bots=' + encodeURIComponent(BOTSQ) : '') : 'host?quiz=warmup&w=' + encodeURIComponent(CODE) + (WEEK ? '&wk=' + WEEK : '')) + (BOXES ? '&boxes=1' : '') + '&x=' + Date.now().toString(36);
+  hostFrame.src = (QID ? 'host?quiz=play&q=' + QID + (BOTSQ !== null ? '&bots=' + encodeURIComponent(BOTSQ) : '') : 'host?quiz=warmup&w=' + encodeURIComponent(CODE) + (WEEK ? '&wk=' + WEEK : '')) + (BOXES ? '&boxes=1' : '') + (CAR ? '&car=1' : '') + '&x=' + Date.now().toString(36);
   // Sound comes from the hidden quiz frame, and phones only let it play after a tap: any tap in the game switches it on.
   const soundOn = () => { try { hostFrame.contentWindow.eval("sfx = sfx || new (window.AudioContext || window.webkitAudioContext)(); if (sfx.state === 'suspended') sfx.resume();"); } catch {} };
   document.addEventListener('pointerdown', soundOn);
@@ -255,7 +256,7 @@ async function room(hostFrame) {
   const pf = $('#playFrame'), join = () => { pf.src = 'play?g=' + encodeURIComponent(CODE) + '&solo=1&room=1'; pf.hidden = false; $('#waiting')?.remove(); };
   $('#who').textContent = v === 'join' ? '🎮 Joining the game…' : '🎮 Starting the game…';
   if (v === 'join') { try { sb.removeChannel(ch); } catch {} return join(); }
-  hostFrame.src = 'host?quiz=warmup&w=' + encodeURIComponent(CODE) + (BOXES ? '&boxes=1' : '') + '&x=' + Date.now().toString(36);
+  hostFrame.src = 'host?quiz=warmup&w=' + encodeURIComponent(CODE) + (BOXES ? '&boxes=1' : '') + (CAR ? '&car=1' : '') + '&x=' + Date.now().toString(36);
   const t0 = Date.now(), release = setInterval(() => { if ((ch.presenceState().host || []).length || Date.now() - t0 > 20000) { clearInterval(release); try { sb.removeChannel(ch); } catch {} } }, 500); // stay marked until the game itself shows as the host
   const wait = setInterval(() => { let code = null; try { code = hostFrame.contentWindow.eval('typeof G !== "undefined" && G ? G.code : null'); } catch {} if (!code) return; clearInterval(wait); join(); }, 300);
 }
