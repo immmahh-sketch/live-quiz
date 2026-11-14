@@ -975,6 +975,32 @@ Deno.serve(async (req) => {
       if (!q || q.settings?.share !== true) return json({ error: "This quiz isn't shared for play. Ask whoever sent the link to share it again." }, 403);
       return json({ quiz: { id: q.id, title: q.title, settings: q.settings, questions: q.questions } });
     }
+    // The Box Clever game pool (tvbox/games, played on the Fire TV by Box2p and in the phone app): no sign-in. A device claims a game when it
+    // starts it and marks it played when it ends; every device then skips games claimed or played anywhere else. Nothing about the players is kept.
+    if (action === "pool_state" || action === "pool_claim" || action === "pool_done" || action === "pool_reset") {
+      const pool = String(body.pool || "BOX2P").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 12) || "BOX2P";
+      const game = String(body.game || "").toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 12), dev = String(body.dev || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 40);
+      if (action === "pool_claim" || action === "pool_done") {
+        if (!/^g\d{2,3}$/.test(game) || !dev) return json({ error: "Which game, and which device?" }, 400);
+        const mine = (await rest("quiz_box_pool?pool=eq." + pool + "&game=eq." + game + "&select=dev,state"))?.[0];
+        if (action === "pool_claim") {
+          if (mine && mine.dev !== dev) return json({ ok: false, taken: true, state: mine.state }); // another device has it: choose another
+          if (!mine) await rest("quiz_box_pool", { method: "POST", headers: { Prefer: "return=minimal" }, body: JSON.stringify({ pool, game, dev, state: "claimed" }) });
+          return json({ ok: true });
+        }
+        // done: played (or dropped). Whoever finishes it, the game is used up.
+        const row = { pool, game, dev: mine?.dev || dev, state: "played", played_at: new Date().toISOString() };
+        await rest("quiz_box_pool?on_conflict=pool,game", { method: "POST", headers: { Prefer: "resolution=merge-duplicates,return=minimal" }, body: JSON.stringify(row) });
+        return json({ ok: true });
+      }
+      if (action === "pool_reset") { // the host starts the pool again (needs the host password)
+        if (!HOST_PW || body.password !== HOST_PW) return json({ error: "Wrong password." }, 401);
+        await rest("quiz_box_pool?pool=eq." + pool, { method: "DELETE" });
+        return json({ ok: true });
+      }
+      const rows: any[] = (await rest("quiz_box_pool?pool=eq." + pool + "&select=game,dev,state&limit=1000")) || [];
+      return json({ played: rows.filter((r) => r.state === "played").map((r) => r.game), claimed: rows.filter((r) => r.state === "claimed").map((r) => ({ game: r.game, dev: r.dev })) });
+    }
     if (action === "warmup_open" || action === "warmup_check" || action === "warmup_save" || action === "warmup_start") {
       const code = String(body.code || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 16); // a code is up to 12, TEST in front makes 16
       if (code.length < 3) return json({ error: "That's not a warm-up code." }, 400);

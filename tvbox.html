@@ -77,6 +77,16 @@ let INDEX = { games: [] }, offerAt = 0, inGame = false;
 const AUTO = new URLSearchParams(location.search).get('auto') === '1'; // Box2p: straight into the game being played, or the next one
 const fit = () => document.documentElement.style.setProperty('--s', String(Math.min(innerWidth / 960, innerHeight / 540)));
 fit(); addEventListener('resize', fit);
+// One list of played games for every device (the TV, the phone app): a game used anywhere is not offered again. The server (quiz-api: pool_state,
+// pool_claim, pool_done) knows which games are played and which another device has started; if it cannot be reached, this device's own list is used.
+const POOL = 'BOX2P';
+const devId = () => { let d = ''; try { d = localStorage.getItem('lq_pooldev') || ''; if (!d) { d = 'd' + Math.random().toString(36).slice(2, 10); localStorage.setItem('lq_pooldev', d); } } catch {} return d || 'd0'; };
+let SV = { played: new Set(), others: new Set(), ok: false };
+async function refreshPool() {
+  try { const r = await LQ.api('pool_state', { pool: POOL }, { timeout: 6000 }); SV = { played: new Set(r.played || []), others: new Set((r.claimed || []).filter((c) => c.dev !== devId()).map((c) => c.game)), ok: true }; for (const id of SV.played) S.played[id] = S.played[id] || 'elsewhere'; keep(); }
+  catch { SV = { played: new Set(), others: new Set(), ok: false }; }
+}
+const poolSay = (action, game) => LQ.api(action, { pool: POOL, game, dev: devId() }, { timeout: 6000 }).catch(() => null);
 const gm = (id) => INDEX.games.find((g) => g.id === id);
 const num = (id) => parseInt(id.slice(1), 10);
 
@@ -90,9 +100,9 @@ function order() { // every game once, in a mixed order that stays the same on t
   S.order = S.order.filter((id) => ids.includes(id)); for (const id of ids.slice().sort(() => Math.random() - 0.5)) if (!S.order.includes(id)) S.order.push(id);
   keep(); return S.order;
 }
-const unplayed = () => order().filter((id) => !S.played[id]);
-function menu() {
-  inGame = false; $('#game').hidden = true; $('#stage').hidden = false; $('#hostFrame').src = 'about:blank'; $('#playFrame').src = 'about:blank';
+const unplayed = () => order().filter((id) => !S.played[id] && !SV.others.has(id));
+async function menu() {
+  inGame = false; await refreshPool(); $('#game').hidden = true; $('#stage').hidden = false; $('#hostFrame').src = 'about:blank'; $('#playFrame').src = 'about:blank';
   const left = unplayed(), total = INDEX.games.length, nm = names();
   if (offerAt >= left.length) offerAt = 0;
   const offer = gm(S.cur?.id) && S.cur ? null : gm(left[offerAt]), cur = S.cur && gm(S.cur.id);
@@ -115,7 +125,7 @@ function menu() {
 }
 const focusId = (id) => setTimeout(() => { const b = $('#' + id); if (b) DPAD.focus(b); }, 60);
 /** a game is retired (played or dropped): it is not offered again until the pool is started again */
-function retire(id) { S.played[id] = new Date().toISOString(); if (S.cur?.id === id) S.cur = null; keep(); try { localStorage.removeItem(HOSTKEY); } catch {} }
+function retire(id) { poolSay('pool_done', id); S.played[id] = new Date().toISOString(); if (S.cur?.id === id) S.cur = null; keep(); try { localStorage.removeItem(HOSTKEY); } catch {} }
 
 // ---------------------------------------------------------------- a keyboard for the names (the remote walks over the keys)
 function overlay(html) { const o = $('#over'); o.innerHTML = `<div class="modal-bg"><div class="modal pop">${html}</div></div>`; return o; }
@@ -139,7 +149,8 @@ function rename(i) {
 
 // ---------------------------------------------------------------- the game
 let timer = null, finished = false;
-function start(id) {
+async function start(id) {
+  if (S.cur?.id !== id) { const c = await poolSay('pool_claim', id); if (c && c.taken) { await refreshPool(); const nx = unplayed().find((x) => x !== id); return nx ? start(nx) : menu(); } } // another device has it: take the next one
   const nm = names(), p = store('lq_player') || {};
   store('lq_player', { pid: /^p_[a-z0-9]{6,12}$/.test(p.pid || '') ? p.pid : uid('p'), name: nm[0], emoji: emoji(0) });
   try { localStorage.setItem('lq_locals', JSON.stringify([nm[1]])); } catch {}
@@ -178,7 +189,7 @@ addEventListener('message', (e) => {
   const m = e.data && e.data.lqtv; if (!m) return;
   if (m === 'key') ensureHist();
   else if (m === 'back') pause(); else if (m === 'menu') leave();
-  else if (m === 'next') { const nx = unplayed().find((x) => x !== S.cur?.id); leave(); if (nx) start(nx); }
+  else if (m === 'next') { const nx = unplayed().find((x) => x !== S.cur?.id); leave(); if (nx) start(nx); else menu(); }
   else if (m === 'final' && !finished && inGame) { finished = true; const id = S.cur?.id; if (id) retire(id); }
 });
 document.addEventListener('keydown', (e) => { sound(); ensureHist(); if (!inGame && !$('#over').innerHTML && (e.key === 'Escape')) { /* the browser's own Back leaves the page */ } if (inGame && e.key === 'Escape') pause(); }, true);
@@ -186,7 +197,7 @@ document.addEventListener('keydown', (e) => { sound(); ensureHist(); if (!inGame
 (async function boot() {
   try { INDEX = await (await fetch('tvbox/index.json')).json(); } catch { $('#menu').innerHTML = '<h1>Hmm.</h1><p class="sub">The games could not be loaded. Check the internet connection and try again.</p>'; return; }
   history.replaceState({ menu: 1 }, '');
-  menu();
+  await menu();
   if (AUTO && S.namesSet) { // the game being played, else the next one not played yet
     const id = S.cur && gm(S.cur.id) ? S.cur.id : unplayed()[0];
     if (id) setTimeout(() => start(id), 400);

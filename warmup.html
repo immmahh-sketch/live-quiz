@@ -139,18 +139,23 @@ async function playQuiz() {
 // ---------- the pool: 50 games, each played once ----------
 const POOLKEY = 'lq_tvbox'; // the same record Box2p keeps on the TV: { played: {id: when}, order: [ids], cur: {id}, names }
 const poolRec = () => { const p = store(POOLKEY); const s = p && typeof p === 'object' ? p : {}; s.played = s.played || {}; s.order = s.order || []; return s; };
+const poolDev = () => { let d = ''; try { d = localStorage.getItem('lq_pooldev') || ''; if (!d) { d = 'd' + Math.random().toString(36).slice(2, 10); localStorage.setItem('lq_pooldev', d); } } catch {} return d || 'd0'; };
+const poolSay = (action, game) => LQ.api(action, { pool: 'BOX2P', game, dev: poolDev() }, { timeout: 6000 }).catch(() => null); // another device's list too (the TV's); null: not reachable, this phone's own list is used
 let POOLGAME = null;
 async function poolStart() {
   app.innerHTML = '<div class="land">' + brand + '<p class="muted" style="color:#fff;opacity:.7">Getting your game…</p></div>';
   let idx; try { idx = await (await fetch('tvbox/index.json', { cache: 'no-cache' })).json(); } catch { return landError('The games could not be loaded. Check the internet connection.'); }
   const S = poolRec(), ids = idx.games.map((g) => g.id);
+  let others = new Set();
+  try { const r = await LQ.api('pool_state', { pool: 'BOX2P' }, { timeout: 6000 }); for (const id of r.played || []) S.played[id] = S.played[id] || 'elsewhere'; others = new Set((r.claimed || []).filter((c) => c.dev !== poolDev()).map((c) => c.game)); } catch {}
   S.order = S.order.filter((id) => ids.includes(id)); for (const id of ids.slice().sort(() => Math.random() - 0.5)) if (!S.order.includes(id)) S.order.push(id);
-  const left = S.order.filter((id) => !S.played[id]), cur = S.cur && idx.games.find((g) => g.id === S.cur.id), next = cur || idx.games.find((g) => g.id === left[0]);
+  const left = S.order.filter((id) => !S.played[id] && !others.has(id)), cur = S.cur && idx.games.find((g) => g.id === S.cur.id), next = cur || idx.games.find((g) => g.id === left[0]);
   store(POOLKEY, S);
   if (!next) {
     app.innerHTML = '<div class="land">' + brand + '<h1>🎉 All ' + ids.length + ' games played!</h1><div class="card"><p class="muted" style="margin:0 0 10px">Every game has been used once. Start again to play them all over.</p><button class="go" id="again">↻ Play them all again</button></div></div>';
     $('#again').onclick = () => { S.played = {}; S.cur = null; store(POOLKEY, S); location.reload(); }; return;
   }
+  if (!cur) { const c = await poolSay('pool_claim', next.id); if (c && c.taken) return poolStart(); } // another device just took it: choose again
   POOLGAME = { id: next.id, resuming: !!cur, left: left.length, total: ids.length, cats: next.cats };
   const m = me();
   if (m.name && m.pid && new URLSearchParams(location.search).get('names') !== '1' && (!CAR || savedLocals().length)) return game(); // names are already set: straight in
@@ -160,7 +165,7 @@ async function poolStart() {
   if (lead) lead.insertAdjacentHTML('afterend', '<div class="chips">' + next.cats.map((c) => '<span class="chip">' + esc(c.e) + ' ' + esc(c.n) + '</span>').join('') + '</div>');
 }
 function poolRetire() {
-  if (!POOLGAME) return; const S = poolRec(); S.played[POOLGAME.id] = new Date().toISOString(); if (S.cur && S.cur.id === POOLGAME.id) S.cur = null; store(POOLKEY, S);
+  if (!POOLGAME) return; if (!POOLGAME.done) { POOLGAME.done = true; poolSay('pool_done', POOLGAME.id); } const S = poolRec(); S.played[POOLGAME.id] = new Date().toISOString(); if (S.cur && S.cur.id === POOLGAME.id) S.cur = null; store(POOLKEY, S);
   if (!$('#poolbar')) { document.body.insertAdjacentHTML('beforeend', '<div id="poolbar" style="position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;gap:10px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(27,21,68,.94)"><button class="go" id="poolNext" style="margin:0">▶ Next game</button></div>'); $('#poolNext').onclick = () => location.reload(); }
 }
 function landError(msg) {
