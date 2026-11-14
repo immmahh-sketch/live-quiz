@@ -73,6 +73,28 @@ const BVP = (() => {
 })();
 
 // ---------------------------------------------------------------- talking and listening
+// Media audio: tell the phone this is playback (like music), not a call or a web beep, so it goes to the car speakers over Bluetooth/CarPlay.
+// A silent looping track keeps the phone's media session open between spoken lines, and shows "Box Clever" on the car's Now Playing screen.
+function bvAudioType(t) { try { if (navigator.audioSession) navigator.audioSession.type = t; } catch {} }
+function bvSilence() {
+  const n = 8000, b = new Uint8Array(44 + n * 2), v = new DataView(b.buffer), w = (o, x) => { for (let i = 0; i < x.length; i++) b[o + i] = x.charCodeAt(i); };
+  w(0, 'RIFF'); v.setUint32(4, 36 + n * 2, true); w(8, 'WAVEfmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true); v.setUint32(24, 8000, true); v.setUint32(28, 16000, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true); w(36, 'data'); v.setUint32(40, n * 2, true);
+  let bin = ''; for (let i = 0; i < b.length; i++) bin += String.fromCharCode(b[i]);
+  return 'data:audio/wav;base64,' + btoa(bin);
+}
+function bvMedia(on) {
+  try {
+    if (on) {
+      bvAudioType('playback');
+      if (!BV.media) { const a = new Audio(bvSilence()); a.loop = true; a.volume = 0.01; a.setAttribute('playsinline', ''); BV.media = a; }
+      BV.media.play().catch(() => {});
+      if ('mediaSession' in navigator && window.MediaMetadata) {
+        navigator.mediaSession.metadata = new MediaMetadata({ title: 'Box Clever', artist: "Let's Quiz!", album: 'Hands-free' });
+        navigator.mediaSession.playbackState = 'playing';
+      }
+    } else if (BV.media) { BV.media.pause(); if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'none'; }
+  } catch {}
+}
 function bvStatus(t) { const el = document.getElementById('bvstat'); if (el) el.textContent = t || ''; }
 function bvAbort() { try { if (BV_TTS) speechSynthesis.cancel(); } catch {} try { BV.rec && BV.rec.abort(); } catch {} BV.rec = null; bvStatus(''); }
 function bvPickVoice() {
@@ -87,6 +109,7 @@ function bvSay(text) {
     const u = new SpeechSynthesisUtterance(text); u.lang = 'en-GB'; if (BV.voice) u.voice = BV.voice;
     let done = false; const fin = () => { if (!done) { done = true; clearTimeout(t); res(); } };
     u.onend = fin; u.onerror = fin; const t = setTimeout(fin, 5000 + text.length * 95);
+    bvAudioType('playback'); if (BV.media && BV.media.paused) BV.media.play().catch(() => {});
     try { speechSynthesis.speak(u); } catch { fin(); }
   });
 }
@@ -96,11 +119,12 @@ function bvListen(ms) {
     if (!BV_SR) return res([]);
     const r = new BV_SR(); let got = [], done = false;
     r.lang = 'en-GB'; r.interimResults = false; r.continuous = false; r.maxAlternatives = 4;
-    const fin = () => { if (done) return; done = true; clearTimeout(t); BV.listening = false; try { r.stop(); } catch {} if (BV.rec === r) BV.rec = null; res(got); };
+    const fin = () => { if (done) return; done = true; clearTimeout(t); BV.listening = false; bvAudioType('playback'); try { r.stop(); } catch {} if (BV.rec === r) BV.rec = null; res(got); };
     r.onresult = (e) => { const last = e.results[e.results.length - 1]; got = [...last].map((a) => String(a.transcript || '').trim()).filter(Boolean); fin(); };
     r.onerror = fin; r.onend = fin;
     const t = setTimeout(fin, ms || 7000);
     BV.rec = r; BV.listening = true; bvStatus('🎙️ Listening…');
+    bvAudioType('play-and-record');
     try { r.start(); } catch { fin(); }
   });
 }
@@ -245,6 +269,7 @@ function bvButton() {
   tog.onclick = () => {
     BV.on = !BV.on; try { localStorage.setItem('lq_handsfree', BV.on ? '1' : '0'); } catch {}
     paint(); BV.key = ''; ++BV.tok; bvAbort();
+    bvMedia(BV.on);
     if (BV.on) {
       try { if (BV_TTS) { speechSynthesis.cancel(); speechSynthesis.speak(new SpeechSynthesisUtterance('')); } } catch {} // a tap is what lets the phone start talking
       if (!BV_TTS) toast('This browser cannot read aloud.', true);
