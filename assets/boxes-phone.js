@@ -5,8 +5,16 @@ const bxFmt = (n) => Math.round(n).toLocaleString('en-GB');
 const BXP = { double: ['⚡', 'Double bet'], swap: ['🔄', 'Swap question'], make: ['👉', 'Make them answer'], host: ['🎤', 'Make the host answer'], fifty: ['✂️', '50:50'], pickfor: ['👈', 'Pick their box'] };
 const BXC = ['#e21b3c', '#1368ce', '#d89e00', '#26890c'];
 const bxSel = () => (P.bxSel = P.bxSel && P.bxSel.k === (P.state?.bx?.step + ':' + (P.state?.bx?.cur?.num || '') + ':' + (P.state?.bx?.cur?.q?.t || '')) ? P.bxSel : { k: P.state.bx.step + ':' + (P.state.bx.cur?.num || '') + ':' + (P.state.bx.cur?.q?.t || ''), v: null, dbl: false, text: '', power: null });
-function bxSend(k, v, extra) { send('answer', { pid: P.pid, qId: P.state.q.id, answer: { bx: 'v', k, v, ...(extra || {}) } }); }
-function bxMe(s) { const g = s.bx, ti = g.teams.findIndex((t) => t.members.includes(P.pid)); return { ti, t: g.teams[ti], cap: g.teams[ti]?.captain === P.pid }; }
+/** The people sharing this phone (added on the start page, joined to the game as extra players): their game ids, in order. */
+function lqLocalPids() { let n = []; try { n = JSON.parse(localStorage.getItem('lq_locals') || '[]'); } catch {} return (Array.isArray(n) ? n : []).slice(0, 5).map((_, i) => 'p_l' + (i + 1) + String(P.pid).replace(/^p_/, '').slice(-5)); }
+/** Whose go it is among the people on this phone: the phone's owner, or whoever shares it. Everything below acts as them. */
+function bxActor(g) {
+  const loc = lqLocalPids(); if (!loc.length || !g.teams) return P.pid;
+  const mine = [P.pid, ...loc], ti = g.step === 'pick' ? g.pickTeam : g.step === 'stake' ? g.turn : g.step === 'result' ? (g.cur?.res?.team ?? g.turn) : g.cur ? g.cur.by : g.turn, t = g.teams[ti];
+  return (t && mine.find((p) => t.members.includes(p))) || P.pid;
+}
+function bxSend(k, v, extra) { send('answer', { pid: P.actAs || P.pid, qId: P.state.q.id, answer: { bx: 'v', k, v, ...(extra || {}) } }); }
+function bxMe(s) { const g = s.bx, pid = bxActor(g), ti = g.teams.findIndex((t) => t.members.includes(pid)); P.actAs = pid; return { ti, t: g.teams[ti], cap: g.teams[ti]?.captain === P.pid }; }
 const bxTeamHead = (t) => `<div class="bxph" style="--tc:${t.color}"><span>${t.emoji} ${esc(t.name)}${t.loan ? ` <small>🏦 owes ${bxFmt(t.loan)}</small>` : ''}</span><b>${bxFmt(t.pot)}</b></div>`;
 let bxPaperDone = '';
 function bxBoardHtml(s, canPick, votes, sel) {
@@ -133,6 +141,7 @@ function bxBind(s) {
   $$('[data-bxp]').forEach((b) => b.onclick = () => { const k = b.dataset.bxp; sel.power = sel.power === k ? null : k; bxSend('pow', k); redo(); setTimeout(() => { const u = $('#bxUse'); if (u) u.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 60); });
   if ($('#bxUse')) $('#bxUse').onclick = () => { bxSend('pow', sel.power, { go: true }); sel.power = null; $('#bxUse').disabled = true; };
   $$('[data-bxtarget]').forEach((b) => b.onclick = () => { bxSend('pow', sel.power || 'make', { go: true, target: +b.dataset.bxtarget }); sel.power = null; });
+  if (typeof bxVoiceTick === 'function') bxVoiceTick(s); // hands-free mode (boxes-voice.js)
 }
 
 const bxBrokeP = (g, r) => r.broke ? `<p class="bxbroke">💸 <b>${esc(g.teams[r.team]?.name || 'Bankrupt')}</b> is bankrupt: 0 points until the next go, when the bank lends ${bxFmt(1000)}. It comes off the final score.</p>` : '';

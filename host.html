@@ -57,6 +57,7 @@ const quizId = new URLSearchParams(location.search).get('quiz');
 // TEST in front of a warm-up's code (TESTWARMUP): the host trying it, three bots as usual, nothing saved. It saves apart from a
 // real warm-up, so testing can never clobber a real game on the same phone.
 const WARM_TEST = /^TEST[A-Z0-9]+$/.test(WARMUP);
+const BOXES_ONLY = new URLSearchParams(location.search).get('boxes') === '1'; // the car app: Box Clever's boxes and nothing else (no Hot Potato or other mid-game rounds)
 const TEST_BOTS = 10; // a test live game (TEST in front of the code) plays against this many bots; a test warm-up keeps its three
 const SAVE_KEY = 'lq_live_' + quizId + (WARM_TEST ? '_test' : '');
 const stage = $('#stage');
@@ -327,7 +328,7 @@ async function bootWarmup() {
   if (r.played) return back();
   if (!r.open) return fail(r.standalone ? 'This game has closed. Thanks for playing!' : 'This warm-up has closed. See you at the quiz!');
   let quiz = LQ.normalizeQuiz(r.quiz);
-  quiz.questions = quiz.questions.filter((q) => LQ.validate(q).length === 0);
+  quiz.questions = quiz.questions.filter((q) => LQ.validate(q).length === 0 && (!BOXES_ONLY || q.type === 'boxes'));
   quiz.rounds = quiz.rounds.filter((x) => quiz.questions.some((q) => q.round === x.id));
   const shared = !!quiz.settings?.warmup?.shared, warmTok = Math.random().toString(36).slice(2, 9); // a room for two or more people (settings.warmup.shared): the game code IS the warm-up code, no bots, nothing saved
   G = { code: shared ? WARMUP : newCode(), warmShared: shared, warmTok, quizId: r.quiz.id, quiz, phase: 'lobby', qIndex: -1, players: {}, startedAt: null, q: null, bots: [], auto: true, warmup: WARMUP, warmTop: r.top || [], warmCount: r.count || 0, warmBonus: r.bonus || null, warmUntil: r.until || null, warmSolo: !!r.standalone || shared, warmNext: quiz.settings?.warmup?.next || null, cfgBots: shared ? null : boxCfgBots(quiz), warmBots: shared ? 0 : quiz.questions.some((q) => q.type === 'boxes') ? (boxCfgBots(quiz) || BOX_BOTS).length : r.bots ?? quiz.settings?.warmup?.bots ?? 3, fixedBots: !shared && quiz.questions.some((q) => q.type === 'boxes'), warmReplay: !!r.replay };
@@ -359,7 +360,7 @@ async function bootPlayQuiz() {
 /** Someone joining from another phone who has had their go already is turned away, kindly. */
 const warmChecked = new Set();
 async function warmupGate(pid) {
-  if (!WARMUP || PLAYQ || G?.warmShared || warmChecked.has(pid) || pid.startsWith('p_bot') || pid === myPid()) return;
+  if (!WARMUP || PLAYQ || G?.warmShared || G?.players?.[pid]?.local || warmChecked.has(pid) || pid.startsWith('p_bot') || pid === myPid()) return;
   warmChecked.add(pid);
   try {
     const r = await api('warmup_check', { code: WARMUP, pids: [pid] });
@@ -395,7 +396,7 @@ async function warmupSave() {
   // Box Clever: every turn of the game (all teams), with the box, category, stake and powers up front, then the question, so the host can read the go like a report
   const turns = (G.bx?.log || []).filter((e) => e.rec).map((e, k) => { const r = e.rec, text = (r.meta.slice(0, 110) + ' ‖ ' + r.q).slice(0, 240); return { index: r.index, seq: k, row: { n: 0, type: 'boxes', text, right: r.right, given: r.said, correct: !!e.ok, points: e.delta || 0 } }; });
   const answersOf = (pid) => { const rows = [...plain(pid), ...turns].sort((a, b) => a.index - b.index || a.seq - b.seq).map((x) => x.row); if (turns.length) rows.forEach((r, i) => { r.n = i + 1; }); return rows; };
-  const real = rk.map((p, i) => ({ pid: p.id, name: p.name, emoji: p.emoji || '', score: p.score, rank: i + 1, answers: answersOf(p.id) })).filter((p) => !p.pid.startsWith('p_bot'));
+  const real = rk.map((p, i) => ({ pid: p.id, name: p.name, emoji: p.emoji || '', score: p.score, rank: i + 1, answers: answersOf(p.id) })).filter((p) => !p.pid.startsWith('p_bot') && !G.players[p.pid]?.local);
   G.warmSaved = 'saving'; persist();
   try {
     const r = await api('warmup_save', { code: WARMUP, quizId: G.quizId, game: { code: G.code, started_at: G.startedAt, bots: (G.bots || []).length }, players: real }, { timeout: 20000 });
@@ -674,7 +675,7 @@ function stateForPlayers() {
     const q = question();
     s.pin = { url: q.media.url, area: q.mode === 'area' ? (q.target || null) : null, spot: q.mode === 'area' ? null : q.pin, place: q.place || '', pins: G.q.results.stats.pins.map((p) => ({ pid: p.pid, name: p.name, x: p.x, y: p.y, hit: !!p.hit })) };
   }
-  if (G.warmup) s.roster = players().map((p) => ({ id: p.id, name: p.name, emoji: p.emoji || '', bot: p.id.startsWith('p_bot') }));
+  if (G.warmup) s.roster = players().map((p) => ({ id: p.id, name: p.name, emoji: p.emoji || '', bot: p.id.startsWith('p_bot'), local: !!p.local }));
   if (G.phase === 'final' || (G.warmup && G.phase === 'scoreboard')) s.top = ranked().slice(0, 10).map((p, i) => ({ name: p.name, score: p.score, rank: i + 1 }));
   // A warm-up has no shared screen: everything plays on the phone, so a Picture Reveal's picture and tiles go there too.
   if (G.warmup && G.phase === 'question' && G.q?.reveal && question()?.media?.url) { const r = G.q.reveal; s.reveal = { url: question().media.url, cols: r.cols, rows: r.rows, off: r.order.slice(0, r.shown), blur: r.blur ? blurPx(r) : null }; }
@@ -716,12 +717,12 @@ function answerText(q) {
   return '';
 }
 
-function onHello({ pid, name, emoji, test, view }) {
+function onHello({ pid, name, emoji, test, view, local }) {
   if (typeof pid !== 'string' || !/^p_[a-z0-9]{6,12}$/.test(pid)) return;
   if (view === true || G.viewers?.[pid]) return addViewer(pid, name, emoji);
   name = String(name || '').replace(/\s+/g, ' ').trim().slice(0, 20) || 'Player';
   emoji = LQ.EMOJIS.includes(emoji) ? emoji : '';
-  if (!G.players[pid]) { G.players[pid] = { id: pid, name, emoji, score: 0, joinedAt: Date.now() }; if (G.phase !== 'lobby') powerDeal(pid); persist(); if (G.phase === 'lobby') renderLobbyPlayers(); warmupGate(pid); if (G.wbonus) warmBonusGive(G.players[pid]); else warmBonusLoad(); if (typeof xmLobbyJoin === 'function') xmLobbyJoin(); }
+  if (!G.players[pid]) { G.players[pid] = { id: pid, name, emoji, score: 0, joinedAt: Date.now(), ...(local === true ? { local: true } : {}) }; if (G.phase !== 'lobby') powerDeal(pid); persist(); if (G.phase === 'lobby') renderLobbyPlayers(); warmupGate(pid); if (G.wbonus) warmBonusGive(G.players[pid]); else warmBonusLoad(); if (typeof xmLobbyJoin === 'function') xmLobbyJoin(); }
   else if ((G.players[pid].name !== name || G.players[pid].emoji !== emoji) && G.phase === 'lobby') { G.players[pid].name = name; G.players[pid].emoji = emoji; persist(); renderLobbyPlayers(); }
   if (test === true && !G.test) makeTest();
   trOnHello(pid);

@@ -1,0 +1,9 @@
+{
+  "cli": { "version": ">= 16.0.0", "appVersionSource": "remote" },
+  "build": {
+    "production": { "autoIncrement": true, "ios": { "resourceClass": "m-medium" } },
+    "production-carplay": { "extends": "production", "env": { "CARPLAY": "1" } },
+    "preview": { "distribution": "internal", "ios": { "simulator": false, "resourceClass": "m-medium" } }
+  },
+  "submit": { "production": {} }
+}

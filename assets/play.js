@@ -140,7 +140,13 @@ function connect() {
   });
   clearInterval(watchdogT); watchdogT = setInterval(watchdog, 1500);
 }
-function hello() { send('hello', { pid: P.pid, name: P.name, emoji: P.emoji, ...(P.test ? { test: true } : {}), ...(P.view ? { view: true } : {}) }); }
+function hello() {
+  send('hello', { pid: P.pid, name: P.name, emoji: P.emoji, ...(P.test ? { test: true } : {}), ...(P.view ? { view: true } : {}) });
+  if (bootQ.get('solo') === '1' && !P.view && typeof lqLocalPids === 'function') { // everyone sharing this phone joins the game too (they take turns on it)
+    let names = []; try { names = JSON.parse(localStorage.getItem('lq_locals') || '[]'); } catch {}
+    lqLocalPids().forEach((pid, i) => send('hello', { pid, name: String(names[i] || 'Player').slice(0, 20), emoji: LQ.EMOJIS[(i * 5 + 3) % LQ.EMOJIS.length], local: true }));
+  }
+}
 // ---- the phone stays awake while it is in a game ----
 // A phone that locks itself mid-game drops off the quiz call (and its camera stops). The Screen Wake Lock (Safari 16.4+,
 // iPhone home-screen apps from iOS 18.4) keeps it on while it is in a game; asked for again whenever the page comes
@@ -167,7 +173,7 @@ function onState(s) {
   syncCallBar(s);
   if (!P.joined) { P.joined = true; clearInterval(helloT); if (!P.view && !P.test && !P.partner && /^[A-Z0-9]{6}$/.test(P.code || '')) store(LASTGAME, { code: P.code, name: P.name, emoji: P.emoji, at: Date.now() }); }
   if (s.phase === 'final') unstore(LASTGAME);
-  if (Array.isArray(s.roster) && !P.view && !s.roster.some((p) => p.id === P.pid) && Date.now() - (P.helloAt || 0) > 1500) { P.helloAt = Date.now(); hello(); } // a game restarted by someone else's phone never heard our hello: say it again
+  if (Array.isArray(s.roster) && !P.view && (!s.roster.some((p) => p.id === P.pid) || (typeof lqLocalPids === 'function' && lqLocalPids().some((id) => !s.roster.some((p) => p.id === id)))) && Date.now() - (P.helloAt || 0) > 1500) { P.helloAt = Date.now(); hello(); } // a game restarted by someone else's phone never heard our hello: say it again
   keepAwake();
   if (typeof teamBtnSync === 'function') teamBtnSync();
   if (s.phase === 'question' && typeof s.remainingMs === 'number') { P.deadline = Date.now() + (s.wipe ? s.wipe.remainingMs : s.remainingMs); partyDeadline(s); }
@@ -246,7 +252,7 @@ function render() {
   if (P.member && s.phase === 'question' && (s.koth || s.race || s.tq)) app.innerHTML = top + top2 + `<div class="state"><div class="em">👥</div><h2>${esc(P.name)} plays this one</h2><p class="muted">This game is played on the team's main phone. Watch the shared screen, and help from your seat. You're back in for the next question.</p></div>`;
   else if (P.view && s.phase === 'question' && (s.race || s.wipe || s.potato || s.koth || s.bb || s.chase || s.draw || s.tq || s.uq || s.bi || s.pc || s.task || s.tm || s.ob || s.bx)) app.innerHTML = top + top2 + `<div class="state"><div class="em">👀</div><h2>You're watching this one</h2><p class="muted">It's a game for the players. Watch the shared screen; you're back in for the next question.</p></div>`;
   else if (s.phase === 'lobby' && P.view) app.innerHTML = top + top2 + `<div class="state"><div class="em">👀</div><h2>You're viewing, ${esc(P.name)}</h2><p class="muted">Play along with every question and keep your own score. You're not a player: you won't show in the game or on any leaderboard.</p></div>`;
-  else if (s.phase === 'lobby' && s.roster && bootQ.get('solo') === '1' && bootQ.get('room') === '1' && s.roster.filter((p) => !p.bot).length < 2) { // a shared room (two people, one game): wait for the other player
+  else if (s.phase === 'lobby' && s.roster && bootQ.get('solo') === '1' && bootQ.get('room') === '1' && s.roster.filter((p) => !p.bot && !p.local).length < 2) { // a shared room (two people, one game): wait for the other player
     app.innerHTML = top + top2 + `<div class="state"><div class="em">⏳</div><h2>Waiting for the other player…</h2><p class="muted">They just need to open the same link and use the code <b>${esc(P.code)}</b>. The game starts as soon as they are in.</p></div>`;
   }
   else if (s.phase === 'lobby' && s.roster && bootQ.get('solo') === '1') { // a warm-up on its own phone: nobody to wait for, so straight in
@@ -284,7 +290,7 @@ function render() {
   else if (s.phase === 'grading') app.innerHTML = top + top2 + `<div class="state"><div class="em">⏱</div><h2>Time's up!</h2><p class="muted">Checking the answers…</p></div>`;
   else if (s.phase === 'reveal') app.innerHTML = top + top2 + (s.pin ? pinRevealHtml(s) : '') + resultHtml(s, r) + (s.preview ? '' : ctrl('next', s.practice ? 'Next ▶' : 'Scores ▶'));
   else if (s.phase === 'scoreboard') app.innerHTML = top + top2 + `<div class="state"><div class="em">${r?.rank === 1 ? '🥇' : r?.rank === 2 ? '🥈' : r?.rank === 3 ? '🥉' : '📊'}</div><h2>${r?.viewer ? '👀 Viewing' : r ? `You're ${ordinal(r.rank)} of ${r.of}` : 'Scoreboard'}</h2><p class="muted">${r ? r.score + ' points so far' : ''}</p>${s.top ? `<div class="board" style="width:100%;margin-bottom:12px">${s.top.slice(0, 8).map((t) => `<div class="brow ${t.name === P.name ? 'me' : ''}"><div class="rank">${t.rank}</div><div>${esc(t.name)}</div><div>${t.score}</div></div>`).join('')}</div>` : ''}${ctrl('next', (s.more ?? s.qIndex + 1 < s.total) ? 'Next ▶' : 'Final results 🏆')}</div>`;
-  else if (s.phase === 'final') { app.innerHTML = top + top2 + finalHtml(s, r) + (bootQ.get('room') === '1' ? '<div style="padding:12px 16px"><button class="btn btn-primary btn-lg btn-block" id="roomAgain">🔁 Play again</button></div>' : ''); if ($('#roomAgain')) $('#roomAgain').onclick = () => (window.top || window).location.reload(); const b = $('#warmBoard'), me = b?.querySelector('.me'); if (b && me) b.scrollTop = Math.max(0, me.offsetTop - b.offsetTop - b.clientHeight / 2); }
+  else if (s.phase === 'final') { app.innerHTML = top + top2 + finalHtml(s, r) + (bootQ.get('room') === '1' ? '<div style="padding:12px 16px"><button class="btn btn-primary btn-lg btn-block" id="roomAgain">🔁 Play again</button></div>' : ''); if ($('#roomAgain')) $('#roomAgain').onclick = () => (window.top || window).location.reload(); if (typeof bxVoiceFinal === 'function' && s.bx) bxVoiceFinal(s); const b = $('#warmBoard'), me = b?.querySelector('.me'); if (b && me) b.scrollTop = Math.max(0, me.offsetTop - b.offsetTop - b.clientHeight / 2); }
   if (s.reveal) syncReveal(s);
   if (s.roster && s.potato) syncPotRing(s);
 }
