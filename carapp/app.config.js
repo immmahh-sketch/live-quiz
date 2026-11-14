@@ -27,6 +27,6 @@ module.exports = () => ({
       ['expo-build-properties', { ios: { deploymentTarget: '16.4' } }],
       ...(carplay ? ['./plugins/withCarPlay'] : []),
     ],
-    extra: { gameUrl: process.env.GAME_URL || 'https://letsquiz.uk/warmup?c=LAURA&boxes=1', carplay },
+    extra: { eas: { projectId: 'a838db3c-33ec-4657-ab9c-0b4b1671ccce' }, gameUrl: process.env.GAME_URL || 'https://letsquiz.uk/warmup?c=LAURA&boxes=1', carplay },
   },
 });
