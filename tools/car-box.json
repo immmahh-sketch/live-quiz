@@ -1,0 +1,16 @@
+{
+  "title": "Box Clever in the car",
+  "code": "BOXCAR",
+  "cols": 6,
+  "start": 1000,
+  "typed": 1,
+  "replay": true,
+  "bots": [ { "name": "Max", "emoji": "🦁", "skill": 0.6, "risk": 0.3, "swing": 0.2 } ],
+  "cats": [
+    { "name": "TV & Film", "emoji": "🎬", "slugs": ["british-sitcoms", "soaps", "quiz-shows", "crime-dramas", "the-office", "british-films", "action-films", "film-quotes", "rom-coms", "us-tv", "doctor-who", "kids-tv", "james-bond", "musicals"] },
+    { "name": "Music", "emoji": "🎵", "slugs": ["pop-music", "rock-music", "the-beatles", "number-ones", "eurovision", "music-lyrics", "classical-music"] },
+    { "name": "Geography", "emoji": "🌍", "slugs": ["uk-geography", "world-geography", "capital-cities", "landmarks", "flags", "europe", "usa"] },
+    { "name": "History", "emoji": "🏛️", "slugs": ["british-history", "tudors", "world-wars", "ancient-history", "20th-century", "famous-people"] },
+    { "name": "Food & Drink", "emoji": "🍔", "slugs": ["food-drink", "british-food", "beer-wine-spirits", "brands-logos"] }
+  ]
+}

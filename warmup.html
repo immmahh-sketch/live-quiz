@@ -77,14 +77,18 @@
 const { $, $$, esc, store, uid, ordinal } = LQ;
 const app = $('#app');
 const WEEK = +(new URLSearchParams(location.search).get('wk') || 0) || 0; // TEST codes only: try one week of a weekly series
-const CODE = (new URLSearchParams(location.search).get('c') || new URLSearchParams(location.search).get('code') || 'WARMUP').toUpperCase().replace(/[^A-Z0-9]/g, '');
+const RAWCODE = (new URLSearchParams(location.search).get('c') || new URLSearchParams(location.search).get('code') || 'WARMUP').toUpperCase().replace(/[^A-Z0-9]/g, '');
+// CAR in front of a code (CARLAURA, CARWARMUP) is car mode: only the Box Clever boxes (no Hot Potato or other rounds), read aloud and answered by voice (hands-free switched on), and everyone in the car can add their names. Codes cannot start with CAR.
+const CAR = /^CAR[A-Z0-9]{3,}$/.test(RAWCODE) || new URLSearchParams(location.search).get('car') === '1';
+const CODE = /^CAR[A-Z0-9]{3,}$/.test(RAWCODE) ? RAWCODE.slice(3) : RAWCODE;
+if (CAR) { try { localStorage.setItem('lq_handsfree', '1'); } catch {} }
 const me = () => { const p = store('lq_player') || {}; return { pid: /^p_[a-z0-9]{6,12}$/.test(p.pid || '') ? p.pid : '', name: p.name || '', emoji: LQ.EMOJIS.includes(p.emoji) ? p.emoji : '' }; };
 const SAVE_KEY = 'lq_live_warmup';
 // warmup?q=<quiz id>: "Play on my phone" for any quiz of yours, the way a warm-up plays (this phone must be signed in to the builder).
 const QID = (() => { const q = new URLSearchParams(location.search).get('q') || ''; return /^[0-9a-f-]{36}$/i.test(q) ? q : ''; })();
 const BOTSQ = new URLSearchParams(location.search).get('bots');
 let SHARED = false; // a room for two (settings.warmup.shared): the first phone in runs the game, the other joins it
-const BOXES = new URLSearchParams(location.search).get('boxes') === '1'; // the car app asks for the boxes and nothing else
+const BOXES = CAR || new URLSearchParams(location.search).get('boxes') === '1'; // car mode and the car app: the boxes and nothing else
 const TEST = /^TEST[A-Z0-9]+$/.test(CODE); // TEST in front of the code: the host trying the warm-up, as often as you like, nothing saved
 const brand = `<div class="brand"><img src="assets/brand/mark.png" alt="">Let's Quiz!</div>`;
 // Everyone who has played, best first; equal scores share a place. `mine` is picked out (and scrolled to).
@@ -153,13 +157,14 @@ function intro(r) {
     <div class="card"><h2>Who's playing?</h2>
       <form id="nf"><label for="nm">Your name (as it'll show on the scoreboard)</label><input type="text" id="nm" value="${esc(m.name)}" maxlength="20" autocomplete="nickname" placeholder="Your name">
       <label>Your emoji</label><div class="emopick">${LQ.EMOJIS.map((e) => `<button type="button" data-em="${e}" class="${e === emoji ? 'on' : ''}">${e}</button>`).join('')}</div>
-      ${solo(r) ? `<label for="loc">Anyone playing with you on this phone? (their names, separated by commas)</label><input type="text" id="loc" value="${esc(savedLocals().join(', '))}" maxlength="90" autocomplete="off" placeholder="e.g. Sam, Alex">` : ''}
+      ${solo(r) || CAR ? `<label for="loc">Anyone playing with you on this phone? (their names, separated by commas)</label><input type="text" id="loc" value="${esc(savedLocals().join(', '))}" maxlength="90" autocomplete="off" placeholder="e.g. Sam, Alex">` : ''}
       <div id="nerr"></div><button class="go">Let's play ▶</button></form>
       <p class="muted small" style="margin:10px 0 0">It all plays on your phone.${solo(r) ? (r.bonus ? ' Use the same phone for the hosted game and the bonus finds you.' : '') : " Use the same name you'll use on Friday, so the bonus finds you."}</p></div>
     ${r.personal ? '' : `<div class="card"><h2>🏆 Top scores so far</h2>${boardHtml(r.top || [])}${r.count > 10 ? `<p class="muted small" style="margin:8px 0 0">${r.count} people have played.</p>` : ''}</div>`}
     <p class="note">Friends can join your game too: the code is on your screen once it starts.</p></div>`;
   $$('[data-em]').forEach((b) => b.onclick = () => { emoji = b.dataset.em; $$('[data-em]').forEach((x) => x.classList.toggle('on', x === b)); });
   if (r.shared) { const l = $('.lead'); if (l) l.textContent = 'Two players, one game. You each play on your own phone and see the same board. Whoever opens the code first starts it; the other one joins in.'; $$('.prize,.chips,.chip').forEach((x) => x.remove()); $$('.card').forEach((c) => { if (!c.querySelector('#nf')) c.remove(); }); const n = $('.note'); if (n) n.remove(); }
+  if (CAR) { const h = $('.land h1'); if (h) h.insertAdjacentHTML('afterend', '<div class="chip" style="align-self:flex-start;background:#7ee0a8;color:#1b1544">🚗 Car mode: boxes only, read aloud, answered by voice</div>'); }
   $('#nf').onsubmit = (e) => {
     e.preventDefault();
     const name = $('#nm').value.replace(/\s+/g, ' ').trim();

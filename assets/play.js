@@ -69,12 +69,15 @@ function renderJoin(msg) {
     // A live game's code is always six characters; anything else can only be a warm-up (TESTWARMUP, say)
     else if (c.length !== 6) {
       LQ.api('warmup_open', { code: c, peek: true }, { timeout: 8000 }).then(() => { location.href = 'warmup?c=' + encodeURIComponent(c); })
+        .catch(() => (/^CAR[A-Z0-9]{3,}$/.test(c) ? LQ.api('warmup_open', { code: c.slice(3), peek: true }, { timeout: 8000 }).then(() => { location.href = 'warmup?c=' + encodeURIComponent(c); }) : Promise.reject()))  // CAR in front of a warm-up's code: car mode (warmup.html takes the CAR off)
         .catch(() => renderJoin('No game or warm-up has that code. Check it and try again.'));
       return;
     }
     connect();
     if (P.partner) return; // a Traitor's second phone is never a warm-up
-    LQ.api('warmup_open', { code: c, peek: true }, { timeout: 8000 }).then(() => { if (P.joined) return; clearInterval(watchdogT); leave(); location.href = 'warmup?c=' + encodeURIComponent(c); }).catch(() => {});
+    LQ.api('warmup_open', { code: c, peek: true }, { timeout: 8000 }).then(() => { if (P.joined) return; clearInterval(watchdogT); leave(); location.href = 'warmup?c=' + encodeURIComponent(c); }).catch(() => {
+      if (/^CAR[A-Z0-9]{3}$/.test(c)) LQ.api('warmup_open', { code: c.slice(3), peek: true }, { timeout: 8000 }).then(() => { if (P.joined) return; clearInterval(watchdogT); leave(); location.href = 'warmup?c=' + encodeURIComponent(c); }).catch(() => {}); // a short warm-up code with CAR in front (CARACE)
+    });
   };
 }
 // ---- QR scanner: the rear camera, decoded in the page; the code is the ?g= of the join link ----
