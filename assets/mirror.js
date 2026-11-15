@@ -11,8 +11,8 @@ const MIRROR = (() => {
   function snapshot() {
     let d = null; try { d = getDoc(); } catch {} if (!d || !d.body) return null;
     const v = d.defaultView || window, root = d.documentElement;
-    const frame = { hrefs: [...d.querySelectorAll('link[rel=stylesheet]')].map((l) => l.href), css: [...d.querySelectorAll('style')].map((s) => s.textContent).join('\n'), htmlClass: root.className || '', htmlStyle: root.getAttribute('style') || '', bodyClass: d.body.className || '', bodyStyle: d.body.getAttribute('style') || '', w: v.innerWidth, h: v.innerHeight, title: d.title || '' };
-    const b = d.body.cloneNode(true); b.querySelectorAll('script,iframe,video,audio,noscript,#bvbtn,#vrOver').forEach((x) => x.remove());
+    const frame = { hrefs: [...d.querySelectorAll('link[rel=stylesheet]')].map((l) => l.href), css: [...d.querySelectorAll('style')].map((s) => s.textContent).join('\n'), htmlClass: root.className || '', htmlStyle: root.getAttribute('style') || '', bodyClass: d.body.className || '', bodyStyle: d.body.getAttribute('style') || '', w: v.innerWidth || 390, h: v.innerHeight || 800, title: d.title || '' };
+    const b = d.body.cloneNode(true); b.querySelectorAll('script,iframe,video,audio,noscript,#bvbtn,#hvbtn,#vrOver').forEach((x) => x.remove());
     return { frame, html: b.innerHTML };
   }
   function send(full) {
@@ -36,7 +36,7 @@ const MIRROR = (() => {
       ch.on('presence', { event: 'sync' }, () => { const n = Object.keys(ch.presenceState()).filter((k) => k.startsWith('w_')).length; if (n && n !== watchers) { watchers = n; later(true); } else watchers = n; });
       ch.on('broadcast', { event: 'hello' }, () => { watchers = Math.max(1, watchers); later(true); });
       ch.subscribe((st) => { if (st === 'SUBSCRIBED') ch.track({ role: 'src' }); });
-      poll = setInterval(() => { watch(); if (watchers) later(false); }, 1200); watch();
+      poll = setInterval(() => { watch(); if (watchers) { later(false); try { ch.send({ type: 'broadcast', event: 'ping', payload: {} }); } catch {} } }, 1200); watch();
     } catch { ch = null; }
     return code();
   }

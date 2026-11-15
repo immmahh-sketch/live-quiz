@@ -38,7 +38,7 @@ function fit() { if (!F) return; const s = Math.min(innerWidth / F.w, innerHeigh
 addEventListener('resize', fit);
 function paint() { if (!loaded) return; try { const d = view.contentDocument; if (d && d.body) { d.body.innerHTML = html; d.body.style.pointerEvents = 'none'; } } catch {} }
 function onFrame(f) {
-  F = f; loaded = false; fit();
+  F = { ...f, w: f.w || 390, h: f.h || 800 }; loaded = false; fit();
   const esc = (x) => String(x).replace(/"/g, '&quot;');
   view.onload = () => { loaded = true; paint(); };
   view.srcdoc = `<!doctype html><html class="${esc(f.htmlClass)}" style="${esc(f.htmlStyle)}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="${esc(location.href)}">${f.hrefs.map((h) => `<link rel="stylesheet" href="${esc(h)}">`).join('')}<style>${f.css.replace(/<\/style/gi, '')}</style><style>*{pointer-events:none!important;-webkit-user-select:none;user-select:none}</style></head><body class="${esc(f.bodyClass)}" style="${esc(f.bodyStyle)}"></body></html>`;
@@ -51,6 +51,7 @@ function join(code) {
   sb = sb || LQ.client(); const key = 'w_' + Math.random().toString(36).slice(2, 10);
   ch = sb.channel('watch-' + code, { config: { broadcast: { self: false }, presence: { key } } });
   ch.on('broadcast', { event: 'frame' }, ({ payload }) => { lastAt = Date.now(); say(''); onFrame(payload); });
+  ch.on('broadcast', { event: 'ping' }, () => { lastAt = Date.now(); say(''); });
   ch.on('broadcast', { event: 'screen' }, ({ payload }) => { lastAt = Date.now(); say(''); html = payload.html || ''; paint(); });
   ch.subscribe((st) => { if (st === 'SUBSCRIBED') { ch.track({ role: 'w' }); setTimeout(() => ch.send({ type: 'broadcast', event: 'hello', payload: {} }), 400); } });
   const ask = setInterval(() => { if (!ch) return clearInterval(ask); if (Date.now() - lastAt > 6000) { say("Waiting for the game on the driver's phone… (open Let's Quiz there)"); try { ch.send({ type: 'broadcast', event: 'hello', payload: {} }); } catch {} } }, 5000);
