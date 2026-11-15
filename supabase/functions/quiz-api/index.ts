@@ -1277,7 +1277,7 @@ Deno.serve(async (req) => {
       }
       if (action === "pool_reset") { // the host starts the pool again (needs the host password)
         if (!HOST_PW || body.password !== HOST_PW) return json({ error: "Wrong password." }, 401);
-        await rest("quiz_box_pool?pool=eq." + pool, { method: "DELETE" });
+        await rest("quiz_box_pool?pool=eq." + pool + (body.claimsOnly === true ? "&state=eq.claimed" : ""), { method: "DELETE" }); // claimsOnly: let go of games started but not played (the ones played stay played)
         return json({ ok: true });
       }
       const rows: any[] = (await rest("quiz_box_pool?pool=eq." + pool + "&select=game,dev,state&limit=1000")) || [];
