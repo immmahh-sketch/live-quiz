@@ -84,6 +84,75 @@ async function sha16(s: string): Promise<string> {
   const d = new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)));
   return Array.from(d.slice(0, 16)).map((b) => b.toString(16).padStart(2, "0")).join("");
 }
+/** Makes (or finds) the MP3 for one line: the file is named from a hash of the voice and the words, so a line is only ever made once. Throws with .status when it cannot. */
+async function ttsMake(text: string, voice: string): Promise<{ url: string; cached: boolean }> {
+  const path = `tts/${await sha16(`a2|${voice}|${text}`)}.mp3`;
+  const have = await storageExists(path); if (have) return { url: have, cached: true };
+  if (!CF_AI_TOKEN || !CF_ACCOUNT) throw Object.assign(new Error("No voice service is set up."), { status: 501 });
+  const r = await fetch(`https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT}/ai/run/@cf/deepgram/aura-2-en`, { method: "POST", headers: { Authorization: `Bearer ${CF_AI_TOKEN}`, "Content-Type": "application/json" }, body: JSON.stringify({ text, speaker: voice, encoding: "mp3" }) });
+  if (!r.ok) throw Object.assign(new Error("The voice service said no: " + (await r.text()).slice(0, 200)), { status: 502 });
+  let bytes: Uint8Array;
+  if ((r.headers.get("content-type") || "").includes("json")) { const j: any = await r.json(); const b64 = j?.result?.audio || j?.audio || ""; if (!b64) throw Object.assign(new Error("The voice service sent no audio."), { status: 502 }); const bin = atob(b64); bytes = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i); }
+  else bytes = new Uint8Array(await r.arrayBuffer());
+  if (bytes.length < 800) throw Object.assign(new Error("The voice service sent no audio."), { status: 502 });
+  return { url: await storagePut(path, bytes, "audio/mpeg", "31536000"), cached: false };
+}
+// ---- the daily bank: every day the natural voice makes lines the games will need, up to a character budget, so that over time all of it comes from saved speech
+const SITE = "https://letsquiz.uk";
+const BANK_CHARS = +(Deno.env.get("TTS_BANK_CHARS") || 3000); // ~8,200 of Cloudflare's 10,000 free units a day (Aura-2 is 2,727 units per 1,000 characters); the rest is left for lines made while playing
+const LETTER_SAYS = ["Ay.", "Bee.", "Sea.", "Dee.", "Ee.", "Eff.", "Gee.", "Aitch."];
+const places = (n: number) => n.toLocaleString("en-GB");
+const STATIC_LINES: string[] = [...LETTER_SAYS, "Correct!", "Wrong.", "Passed.", "Not quite.", "Listen to the clip.", "Choose your next box and how much to gamble.", "Say A, B, C, D.", "Say A, B, C, D, or pass.", "Say A, B, C.", "Say A, B, C, or pass.", "Say A, B.", "Say A, B, or pass.",
+  "Pick your first move.", "Your next move.", "Plus one hundred.", "A lie!", "2 lives left.", "1 life left.", "You crossed the bridge! Five hundred bonus.", "The bridge has fallen.",
+  "Choose your quiz. Say Box Clever, Best of fifteen, Music quiz, or Bridge of Lies. Or say reset game points, or test.", "Say a box and how much to gamble, like box three, five hundred.", "You have used your clue.", "You have used your swap.",
+  ...Array.from({ length: 15 }, (_, i) => `${i + 1} so far.`), ...Array.from({ length: 16 }, (_, i) => `${places(i * 100)} points.`)];
+function boxGameLines(g: any): string[] {
+  const out: string[] = [], q0 = g?.questions?.[0] || {}, cats: any[] = q0.cats || [], cols = q0.cols || 1, rows = cats.length;
+  const names = cats.map((c) => c.name);
+  if (rows) {
+    out.push(`Box Clever. ${rows * cols} boxes in ${rows} rows: ${names.join(", ")}.`, `Everyone starts on ${places(q0.start || 1000)}. Let's go!`, `You have ${places(q0.start || 1000)} points in the pot.`);
+    out.push(`The rows are: ${names.map((n, r) => `${n}, boxes ${r * cols + 1} to ${(r + 1) * cols}`).join(". ")}.`, `Say a box number and your stake, like ${names[rows - 1]} three, one thousand.`);
+  }
+  for (const row of cats) for (const q of row.qs || []) {
+    if (q.t) out.push(q.t);
+    for (const o of q.o || []) out.push(`${o}.`);
+    for (const o of q.a || []) out.push(`${o}.`);
+    if (q.w) out.push(`${q.w}.`);
+    const right = q.o ? q.o[0] : (q.a || [])[0]; if (right) out.push(`The answer was ${right}.`);
+  }
+  return out;
+}
+function bridgeGameLines(g: any): string[] {
+  const out: string[] = [];
+  if (g?.cat) out.push(`The category is: ${g.cat}.`, `The shortest way across is ${g.n + g.m - 3} correct answers. You have three lives.`);
+  for (const t of g?.tiles || []) if (!t.pad && t.t) { out.push(`${t.t}.`); if (!t.ok) out.push(`${t.t} is not one.`); }
+  return out;
+}
+let bankKept: { at: number; set: Set<string> } | null = null;
+async function keptNames(): Promise<Set<string>> {
+  if (bankKept && Date.now() - bankKept.at < 120_000) return bankKept.set;
+  const set = new Set<string>();
+  for (let off = 0; off < 60000; off += 1000) {
+    const r = await fetch(`${SUPA_URL}/storage/v1/object/list/${BUCKET}`, { method: "POST", headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}`, "Content-Type": "application/json" }, body: JSON.stringify({ prefix: "tts", limit: 1000, offset: off }) });
+    if (!r.ok) break; const rows: any[] = (await r.json()) || []; for (const x of rows) set.add(String(x.name)); if (rows.length < 1000) break;
+  }
+  bankKept = { at: Date.now(), set }; return set;
+}
+/** The next lines worth keeping, most useful first: the usual lines, then the games nobody has played yet (a Box Clever game, a Bridge, a Box Clever game...). */
+async function* bankCandidates(): AsyncGenerator<string> {
+  for (const l of STATIC_LINES) yield l;
+  const get = async (u: string) => { try { const r = await fetch(`${SITE}/${u}`); return r.ok ? await r.json() : null; } catch { return null; } };
+  const order = async (pool: string, idx: string) => {
+    const ids: string[] = ((await get(idx))?.games || []).map((g: any) => g.id); let busy = new Set<string>();
+    try { const rows: any[] = (await rest(`quiz_box_pool?pool=eq.${pool}&select=game,state&limit=1000`)) || []; busy = new Set(rows.map((r) => r.game)); } catch {}
+    return [...ids.filter((i) => !busy.has(i)), ...ids.filter((i) => busy.has(i))];
+  };
+  const [bx, br] = [await order("BOX2P", "tvbox/index.json"), await order("BRIDGE", "bridge/index.json")];
+  for (let i = 0; i < Math.max(bx.length, br.length); i++) {
+    if (br[i]) { const g = await get(`bridge/games/${br[i]}.json`); if (g) for (const l of bridgeGameLines(g)) yield l; }
+    if (bx[i]) { const g = await get(`tvbox/games/${bx[i]}.json`); if (g) for (const l of boxGameLines(g)) yield l; }
+  }
+}
 async function storagePut(path: string, bytes: Uint8Array, contentType: string, cacheControl = ""): Promise<string> {
   const r = await fetch(`${SUPA_URL}/storage/v1/object/${BUCKET}/${path}`, {
     method: "POST",
@@ -961,19 +1030,41 @@ Deno.serve(async (req) => {
     if (action === "tts") {
       const text = String(body.text || "").replace(/\s+/g, " ").trim().slice(0, 400), voice = String(body.voice || "pandora");
       if (!text || !TTS_VOICES.includes(voice)) return json({ error: "Nothing to say." }, 400);
-      const key = `a2|${voice}|${text}`, hash = await sha16(key), path = `tts/${hash}.mp3`;
-      const have = await storageExists(path); if (have) return json({ url: have, cached: true });
-      if (!CF_AI_TOKEN || !CF_ACCOUNT) return json({ error: "No voice service is set up." }, 501);
-      const now = Date.now(); ttsRecent = ttsRecent.filter((t) => now - t < 60_000); if (ttsRecent.length >= 40) return json({ error: "Too many new lines at once." }, 429); ttsRecent.push(now);
+      try {
+        const path = `tts/${await sha16(`a2|${voice}|${text}`)}.mp3`, have = await storageExists(path); if (have) return json({ url: have, cached: true });
+        const now = Date.now(); ttsRecent = ttsRecent.filter((t) => now - t < 60_000); if (ttsRecent.length >= 40) return json({ error: "Too many new lines at once." }, 429); ttsRecent.push(now);
+        return json({ url: (await ttsMake(text, voice)).url });
+      } catch (e: any) { return json({ error: String(e?.message || e) }, e?.status || 502); }
+    }
+    // The daily bank (no sign-in; it only ever makes the games' own lines, up to a daily budget, so calling it often costs nothing extra): { } -> makes up to a dozen
+    // lines that are not kept yet. A scheduled job calls it until it says done. The day's count is kept in tts/_bank.json; a refused request (Cloudflare's daily allowance
+    // used up) stops it for the day.
+    if (action === "tts_bank") {
+      const day = new Date().toISOString().slice(0, 10), file = `${SUPA_URL}/storage/v1/object/${BUCKET}/tts/_bank.json`, hdr = { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}` };
+      let st: any = { day, chars: 0, made: 0, stopped: "" };
+      try { const r = await fetch(file, { headers: hdr }); if (r.ok) { const j = await r.json(); if (j.day === day) st = j; } } catch {}
+      const save = async () => { try { await storagePut("tts/_bank.json", new TextEncoder().encode(JSON.stringify(st)), "application/json"); } catch {} };
+      if (st.stopped) return json({ done: st.stopped, chars: st.chars, made: st.made, cap: BANK_CHARS });
+      if (st.chars >= BANK_CHARS) { st.stopped = "budget"; await save(); return json({ done: "budget", chars: st.chars, made: st.made, cap: BANK_CHARS }); }
+      const kept = await keptNames(), todo: string[] = []; let exhausted = true;
+      for await (const l of bankCandidates()) {
+        const text = l.replace(/\s+/g, " ").trim().slice(0, 400); if (!text) continue;
+        if (kept.has(`${await sha16(`a2|pandora|${text}`)}.mp3`)) continue;
+        todo.push(text); if (todo.length >= 12) { exhausted = false; break; }
+      }
+      let made = 0, chars = 0, stop = "";
       const t0 = Date.now();
-      const r = await fetch(`https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT}/ai/run/@cf/deepgram/aura-2-en`, { method: "POST", headers: { Authorization: `Bearer ${CF_AI_TOKEN}`, "Content-Type": "application/json" }, body: JSON.stringify({ text, speaker: voice, encoding: "mp3" }) });
-      if (!r.ok) return json({ error: "The voice service said no: " + (await r.text()).slice(0, 200) }, 502);
-      let bytes: Uint8Array;
-      if ((r.headers.get("content-type") || "").includes("json")) { const j: any = await r.json(); const b64 = j?.result?.audio || j?.audio || ""; if (!b64) return json({ error: "The voice service sent no audio." }, 502); const bin = atob(b64); bytes = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i); }
-      else bytes = new Uint8Array(await r.arrayBuffer());
-      if (bytes.length < 800) return json({ error: "The voice service sent no audio." }, 502);
-      const tCf = Date.now() - t0, url = await storagePut(path, bytes, "audio/mpeg", "31536000");
-      return json({ url, ms: { cf: tCf, put: Date.now() - t0 - tCf } });
+      for (let i = 0; i < todo.length && !stop && Date.now() - t0 < 90_000; i += 3) {
+        await Promise.all(todo.slice(i, i + 3).map(async (text) => {
+          if (stop || st.chars + chars + text.length > BANK_CHARS) { if (!stop) stop = "budget"; return; }
+          try { const r = await ttsMake(text, "pandora"); if (!r.cached) { made++; chars += text.length; } kept.add(`${await sha16(`a2|pandora|${text}`)}.mp3`); }
+          catch (e: any) { if (/daily free allocation|neurons/i.test(String(e?.message))) stop = "quota"; else if (e?.status === 501) stop = "off"; }
+        }));
+      }
+      st.chars += chars; st.made += made; if (stop) st.stopped = stop;
+      const done = stop || (exhausted && !todo.length ? "complete" : "");
+      if (done && !st.stopped) st.stopped = done; await save();
+      return json({ done, made, chars: st.chars, madeToday: st.made, cap: BANK_CHARS });
     }
 
     // Taskmaster: a phone sends its photo for a task (no sign-in). code is the game's code (or a warm-up's), key the
