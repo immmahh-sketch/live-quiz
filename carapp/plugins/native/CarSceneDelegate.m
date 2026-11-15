@@ -1,5 +1,9 @@
 #import <CarPlay/CarPlay.h>
+#if __has_include(<react-native-carplay/RNCarPlay.h>)
+#import <react-native-carplay/RNCarPlay.h>
+#else
 #import "RNCarPlay.h"
+#endif
 
 // The car's scene: gives react-native-carplay the car's interface controller and window, and tells it when the car screen is showing.
 @interface CarSceneDelegate : UIResponder <CPTemplateApplicationSceneDelegate>

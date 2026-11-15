@@ -6,7 +6,7 @@ module.exports = () => ({
   expo: {
     name: 'Lets Quiz (Carplay Edition)',
     slug: 'box-clever',
-    version: '0.1.0',
+    version: '0.2.0',
     orientation: 'portrait',
     icon: './assets/icon.png',
     userInterfaceStyle: 'light',
@@ -26,7 +26,6 @@ module.exports = () => ({
         NSPhotoLibraryUsageDescription: 'Box Clever does not use your photos. This is needed only because the web view can offer a photo picker.',
         NSPhotoLibraryAddUsageDescription: 'Box Clever does not save photos.',
         NSCameraUsageDescription: 'Box Clever does not use the camera. This is needed only because the web view can offer a camera option.',
-        ...(carplay ? { UIRequiredDeviceCapabilities: ['carplay'] } : {}),
       },
       ...(carplay ? { entitlements: { 'com.apple.developer.carplay-voice-based-conversation': true } } : {}),
     },

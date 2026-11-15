@@ -36,4 +36,18 @@ const withCompiledSources = (config) => withXcodeProject(config, (c) => {
   return c;
 });
 
-module.exports = (config) => withCompiledSources(withCopiedSources(withSceneManifest(config)));
+// react-native-carplay's Objective-C imports its own Swift header as "react_native_carplay/react_native_carplay-Swift.h", a path that only exists when pods
+// are built as frameworks. Expo builds them as static libraries, where the header is found as plain "react_native_carplay-Swift.h" (this failed the first
+// CarPlay build: 'react_native_carplay/react_native_carplay-Swift.h' file not found). Rewrite the import to try both, before pod install.
+const withSwiftHeaderFix = (config) => withDangerousMod(config, ['ios', (c) => {
+  const f = path.join(c.modRequest.projectRoot, 'node_modules', '@g4rb4g3', 'react-native-carplay', 'ios', 'RNCarPlay.m');
+  let s = fs.readFileSync(f, 'utf8');
+  const from = '#import "react_native_carplay/react_native_carplay-Swift.h"';
+  if (s.includes(from)) {
+    s = s.replace(from, () => ['#if __has_include("react_native_carplay/react_native_carplay-Swift.h")', from, '#else', '#import "react_native_carplay-Swift.h"', '#endif'].join(String.fromCharCode(10)));
+    fs.writeFileSync(f, s);
+  }
+  return c;
+}]);
+
+module.exports = (config) => withSwiftHeaderFix(withCompiledSources(withCopiedSources(withSceneManifest(config))));

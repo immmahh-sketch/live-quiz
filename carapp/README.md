@@ -52,7 +52,7 @@ eas build --platform ios --profile production-carplay
 eas submit --platform ios --latest
 ```
 
-`CARPLAY=1` adds the CarPlay scene, the `com.apple.developer.carplay-voice-based-conversation` entitlement and `UIRequiredDeviceCapabilities: carplay`. Without Apple's grant the signing step fails, which is why it is off by default.
+`CARPLAY=1` adds the CarPlay scene, the `com.apple.developer.carplay-voice-based-conversation` entitlement. Without Apple's grant the signing step fails, which is why it is off by default.
 
 ## Updates without TestFlight (OTA)
 
