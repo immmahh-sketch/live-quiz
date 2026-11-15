@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Passenger screen · Let's Quiz!</title>
+<link rel="icon" type="image/png" sizes="64x64" href="assets/brand/icon-64.png">
+<meta name="theme-color" content="#1b1544">
+<style>
+  html, body { margin: 0; height: 100%; background: #1b1544; color: #fff; font-family: Nunito, system-ui, sans-serif; overflow: hidden; }
+  #join { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 24px; text-align: center; }
+  #join h1 { margin: 0; font-size: 1.8rem; } #join p { margin: 0; opacity: .8; max-width: 26rem; line-height: 1.35; }
+  #code { font: 900 2.2rem/1 Nunito, system-ui, sans-serif; letter-spacing: .3em; text-transform: uppercase; text-align: center; width: 9em; padding: 12px; border-radius: 16px; border: 3px solid #ffd54a; background: #fff; color: #1b1544; }
+  #go { border: 0; border-radius: 16px; padding: 14px 30px; background: #2e9d57; color: #fff; font: 900 1.2rem Nunito, system-ui, sans-serif; }
+  #stage { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; }
+  #view { border: 0; transform-origin: 0 0; position: absolute; left: 0; top: 0; pointer-events: none; background: #1b1544; }
+  #msg { position: fixed; left: 0; right: 0; bottom: 0; padding: 6px 10px calc(6px + env(safe-area-inset-bottom)); text-align: center; font-size: .8rem; background: rgba(20,16,50,.8); display: none; }
+  #bye { position: fixed; top: calc(6px + env(safe-area-inset-top)); right: 8px; border: 0; border-radius: 999px; padding: 6px 12px; background: rgba(20,16,50,.7); color: #fff; font: 700 .8rem system-ui; opacity: .6; display: none; }
+</style>
+</head>
+<body>
+<div id="join">
+  <div style="font-size:3rem">📺</div><h1>Passenger screen</h1>
+  <p>Watch the game on the driver's phone. On that phone, open Let's Quiz and look for the line "Passenger screen" to find the 5-letter code. You can only watch: nothing you do here reaches the game.</p>
+  <input id="code" maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="CODE">
+  <button id="go" type="button">Watch</button>
+</div>
+<div id="stage"><iframe id="view" sandbox="allow-same-origin" title="The game"></iframe></div>
+<div id="msg"></div><button id="bye" type="button">Change code</button>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="assets/common.js"></script>
+<script>
+// The receiving side of assets/mirror.js: joins the channel 'watch-<code>', tells the phone it is here, and draws what the phone sends inside a frame of the phone's own size, scaled to fit.
+const $ = (s) => document.querySelector(s), view = $('#view');
+let sb = null, ch = null, F = null, html = '', loaded = false, lastAt = 0;
+const say = (t) => { const m = $('#msg'); m.textContent = t || ''; m.style.display = t ? 'block' : 'none'; };
+function fit() { if (!F) return; const s = Math.min(innerWidth / F.w, innerHeight / F.h); view.style.width = F.w + 'px'; view.style.height = F.h + 'px'; view.style.transform = `scale(${s})`; view.style.left = (innerWidth - F.w * s) / 2 + 'px'; view.style.top = (innerHeight - F.h * s) / 2 + 'px'; }
+addEventListener('resize', fit);
+function paint() { if (!loaded) return; try { const d = view.contentDocument; if (d && d.body) { d.body.innerHTML = html; d.body.style.pointerEvents = 'none'; } } catch {} }
+function onFrame(f) {
+  F = f; loaded = false; fit();
+  const esc = (x) => String(x).replace(/"/g, '&quot;');
+  view.onload = () => { loaded = true; paint(); };
+  view.srcdoc = `<!doctype html><html class="${esc(f.htmlClass)}" style="${esc(f.htmlStyle)}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="${esc(location.href)}">${f.hrefs.map((h) => `<link rel="stylesheet" href="${esc(h)}">`).join('')}<style>${f.css.replace(/<\/style/gi, '')}</style><style>*{pointer-events:none!important;-webkit-user-select:none;user-select:none}</style></head><body class="${esc(f.bodyClass)}" style="${esc(f.bodyStyle)}"></body></html>`;
+}
+function join(code) {
+  code = String(code || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 5); if (code.length < 5) { say('The code is 5 letters or numbers.'); $('#msg').style.display = 'block'; return; }
+  try { localStorage.setItem('lq_watchcode', code); } catch {}
+  $('#join').style.display = 'none'; $('#stage').style.display = 'flex'; $('#bye').style.display = 'block'; say('Connecting…');
+  try { if (ch) sb.removeChannel(ch); } catch {}
+  sb = sb || LQ.client(); const key = 'w_' + Math.random().toString(36).slice(2, 10);
+  ch = sb.channel('watch-' + code, { config: { broadcast: { self: false }, presence: { key } } });
+  ch.on('broadcast', { event: 'frame' }, ({ payload }) => { lastAt = Date.now(); say(''); onFrame(payload); });
+  ch.on('broadcast', { event: 'screen' }, ({ payload }) => { lastAt = Date.now(); say(''); html = payload.html || ''; paint(); });
+  ch.subscribe((st) => { if (st === 'SUBSCRIBED') { ch.track({ role: 'w' }); setTimeout(() => ch.send({ type: 'broadcast', event: 'hello', payload: {} }), 400); } });
+  const ask = setInterval(() => { if (!ch) return clearInterval(ask); if (Date.now() - lastAt > 6000) { say("Waiting for the game on the driver's phone… (open Let's Quiz there)"); try { ch.send({ type: 'broadcast', event: 'hello', payload: {} }); } catch {} } }, 5000);
+  try { navigator.wakeLock && navigator.wakeLock.request('screen').catch(() => {}); } catch {}
+}
+$('#go').onclick = () => join($('#code').value);
+$('#code').addEventListener('keydown', (e) => { if (e.key === 'Enter') join($('#code').value); });
+$('#bye').onclick = () => { try { sb.removeChannel(ch); } catch {} ch = null; F = null; location.href = 'watch'; };
+document.addEventListener('visibilitychange', () => { try { if (!document.hidden && navigator.wakeLock) navigator.wakeLock.request('screen').catch(() => {}); } catch {} });
+const q = new URLSearchParams(location.search).get('c'); let saved = ''; try { saved = localStorage.getItem('lq_watchcode') || ''; } catch {}
+if (q) join(q); else if (saved) { $('#code').value = saved; }
+</script>
+</body>
+</html>

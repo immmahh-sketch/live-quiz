@@ -75,6 +75,7 @@
 <script src="assets/common.js"></script>
 <script src="assets/hubkit.js?v=20261115b"></script>
 <script src="assets/voiceready.js?v=20261115j"></script>
+<script src="assets/mirror.js?v=20261115k"></script>
 <script>
 const { $, $$, esc, store, uid, ordinal } = LQ;
 const app = $('#app');
@@ -283,6 +284,7 @@ function gameGo() {
     </div>
     <iframe class="engine" id="hostFrame" title="" aria-hidden="true" tabindex="-1" allow="autoplay"></iframe>`;
   const hostFrame = $('#hostFrame');
+  try { MIRROR.start(() => { const pf = document.getElementById('playFrame'); return pf && !pf.hidden && pf.contentDocument && pf.contentDocument.body && pf.contentDocument.body.children.length ? pf.contentDocument : document; }); } catch {} // the passenger screen: a copy of the phone's game screen
   if (SHARED) return room(hostFrame);
   if (POOL && POOLGAME) {
     const S = poolRec(); if (!POOLGAME.resuming && !POOLGAME.test) { S.cur = { id: POOLGAME.id, at: new Date().toISOString() }; store(POOLKEY, S); }

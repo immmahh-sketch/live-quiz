@@ -59,6 +59,7 @@
 <script src="assets/boxes-voice.js?v=20261115j"></script>
 <script src="assets/hubvoice.js?v=20261115g"></script>
 <script src="assets/voiceready.js?v=20261115j"></script>
+<script src="assets/mirror.js?v=20261115k"></script>
 <script>
 // Bridge of Lies: a diamond of answers to one category, crossed from the red START pad on the left to the green FINISH pad on the right. A hidden path of true
 // answers joins them; everything else is a lie. A correct answer opens the tiles touching it. Every open tile has a letter (A, B, C...) to touch, click or say.
@@ -230,6 +231,7 @@ function screenFinal() {
   if (r && r.phase === 'play' && r.cur) { B = r; B.cur.tried = new Map(B.cur.tried || []); B.cur.note = ''; screenPlay(); }
   else { B = fresh(); screenIntro(); }
   addEventListener('resize', () => { if (B && B.phase === 'play' && B.cur) screenPlay(); });
+  try { MIRROR.start(); } catch {}
 })();
 </script>
 </body>

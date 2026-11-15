@@ -53,6 +53,7 @@
 <script src="assets/boxes-voice.js?v=20261115j"></script>
 <script src="assets/hubvoice.js?v=20261115g"></script>
 <script src="assets/voiceready.js?v=20261115j"></script>
+<script src="assets/mirror.js?v=20261115k"></script>
 <script>
 // Best of 15 and the Music quiz. Every question is multiple choice (A, B, C, D). Each player picks a category (the Music quiz is one mix of clips and music
 // questions) and answers 15. One clue (takes two wrong options away), one swap, passes as you like, 1 point each. Then the other player. The winner takes
@@ -234,6 +235,7 @@ async function voiceQ(my) {
   else if (r && r.phase === 'between') { R = r; finishRound(); }
   else { R = fresh(); screenCat(); }
   addEventListener('pagehide', () => { if (R) save(); });
+  try { MIRROR.start(); } catch {}
 })();
 </script>
 </body>

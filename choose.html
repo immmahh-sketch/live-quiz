@@ -37,6 +37,7 @@
 <script src="assets/hubkit.js?v=20261115b"></script>
 <script src="assets/dpad.js"></script>
 <script src="assets/boxes-voice.js?v=20261115j"></script>
+<script src="assets/mirror.js?v=20261115k"></script>
 <script src="assets/hubvoice.js?v=20261115g"></script>
 <script>
 // "Choose your quiz": the front door for the Fire TV, the phone app and the car. A tile for each quiz, and the game points that carry through whatever is played.
@@ -82,6 +83,7 @@ function hubVoice() {
 }
 draw(false); counts().then(() => draw(false)).catch(() => {});
 HV.button(hubVoice); if (HV.on()) { bvMedia(true); hubVoice(); }
+try { if (MIRROR.start() && MIRROR.hint()) { const h = document.createElement('div'); h.style.cssText = 'position:fixed;left:8px;right:8px;bottom:52px;text-align:center;font:700 .78rem system-ui;color:#fff;opacity:.85;pointer-events:none'; h.textContent = MIRROR.hint(); document.body.appendChild(h); } } catch {}
 </script>
 </body>
 </html>
