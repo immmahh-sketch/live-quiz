@@ -254,13 +254,13 @@ async function bvStep(s, my) {
   let noteNext = ''; // what a handler wants said before asking again ("Box 5 has gone.")
   /** Say `prompt` (a line, or its pieces), listen, and let `handle(alternatives)` return a result (or null to try again with `retry`). */
   const ask = async (prompt, retry, handle) => {
-    let lead = '';
+    let lead = '', noted = false;
     for (let i = 0; i < 4 && live(); i++) {
-      await bvSay(i ? [lead + (retry || bvText(prompt))] : prompt); if (!live()) return null;
+      await bvSay(i ? [noted ? lead : lead + (retry || bvText(prompt))] : prompt); // a note ("Box 3 has gone. Which box?") already asks again if (!live()) return null;
       const alts = await bvListen(i ? 8000 : 10000); if (!live()) return null;
-      if (!alts.length) { lead = 'I did not hear anything. '; continue; }
+      if (!alts.length) { lead = 'I did not hear anything. '; noted = false; continue; }
       noteNext = ''; const r = handle(alts); if (r !== null && r !== undefined) return r;
-      lead = noteNext ? noteNext + ' ' : '';
+      noted = !!noteNext; lead = noteNext ? noteNext + ' ' : '';
     }
     if (live()) { await bvSay('Tap the microphone button when you are ready to try again.'); bvStatus('Tap 🎙 to try again'); }
     return null;
