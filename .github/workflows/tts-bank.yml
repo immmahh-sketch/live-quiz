@@ -24,5 +24,5 @@ jobs:
               -H "Authorization: Bearer sb_publishable_RGaIB8W145BFCWzOxamQvA_7VIkTHMU" \
               -d '{"action":"tts_bank"}') || { echo "call failed"; exit 0; }
             echo "$i: $out"
-            case "$out" in *'"done":"'?*) break;; esac
+            case "$out" in *'"done":"'[a-z]*) break;; esac
           done
