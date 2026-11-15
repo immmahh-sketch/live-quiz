@@ -965,13 +965,15 @@ Deno.serve(async (req) => {
       const have = await storageExists(path); if (have) return json({ url: have, cached: true });
       if (!CF_AI_TOKEN || !CF_ACCOUNT) return json({ error: "No voice service is set up." }, 501);
       const now = Date.now(); ttsRecent = ttsRecent.filter((t) => now - t < 60_000); if (ttsRecent.length >= 40) return json({ error: "Too many new lines at once." }, 429); ttsRecent.push(now);
+      const t0 = Date.now();
       const r = await fetch(`https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT}/ai/run/@cf/deepgram/aura-2-en`, { method: "POST", headers: { Authorization: `Bearer ${CF_AI_TOKEN}`, "Content-Type": "application/json" }, body: JSON.stringify({ text, speaker: voice, encoding: "mp3" }) });
       if (!r.ok) return json({ error: "The voice service said no: " + (await r.text()).slice(0, 200) }, 502);
       let bytes: Uint8Array;
       if ((r.headers.get("content-type") || "").includes("json")) { const j: any = await r.json(); const b64 = j?.result?.audio || j?.audio || ""; if (!b64) return json({ error: "The voice service sent no audio." }, 502); const bin = atob(b64); bytes = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i); }
       else bytes = new Uint8Array(await r.arrayBuffer());
       if (bytes.length < 800) return json({ error: "The voice service sent no audio." }, 502);
-      return json({ url: await storagePut(path, bytes, "audio/mpeg", "31536000") });
+      const tCf = Date.now() - t0, url = await storagePut(path, bytes, "audio/mpeg", "31536000");
+      return json({ url, ms: { cf: tCf, put: Date.now() - t0 - tCf } });
     }
 
     // Taskmaster: a phone sends its photo for a task (no sign-in). code is the game's code (or a warm-up's), key the

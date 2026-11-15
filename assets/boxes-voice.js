@@ -2,7 +2,7 @@
  * It uses the browser's own speech: speechSynthesis to talk, SpeechRecognition (webkitSpeechRecognition on iPhone and Chrome) to listen.
  * Every choice is read back and needs a "yes" before it is sent, because a mis-heard word costs real points.
  * Hooked in at the end of bxBind (boxes-phone.js); the button appears on the Box Clever screens of a game played on phones. */
-const BV = { sayId: 0, on: false, tok: 0, key: '', rec: null, told: {}, voice: null, listening: false };
+const BV = { pending: null, sayId: 0, on: false, tok: 0, key: '', rec: null, told: {}, voice: null, listening: false };
 try { BV.on = localStorage.getItem('lq_handsfree') === '1'; } catch {}
 const BV_TTS = typeof speechSynthesis !== 'undefined' && typeof SpeechSynthesisUtterance !== 'undefined';
 const BV_SR = typeof window !== 'undefined' && (window.SpeechRecognition || window.webkitSpeechRecognition);
@@ -67,9 +67,29 @@ const BVP = (() => {
     const n = number(text);
     return n >= 1 ? Math.min(n, pot) : null;
   }
+  /** The box and the stake in one breath: "box 3, 1000 points", "box three one thousand", "history three, all in", "7 and 500".
+   *  Returns { n } (a box that is open), { gone }, { cat } (a row but no place), plus { amt } when a stake was said, or null when neither was. */
+  function pickStake(text, cats, cols, board, pot) {
+    text = String(text).replace(/(\d),(\d{3})/g, '$1$2'); // 2,000 -> 2000
+    const t = toks(text), kind = (x) => (/^\d+$/.test(x) ? 'd' : x === 'hundred' ? 'h' : x === 'thousand' ? 'k' : x in TENS ? 't' : x in UNITS ? (UNITS[x] >= 10 ? 'e' : 'u') : '');
+    const joins = (k, prev) => (k === 'h' ? prev === 'u' : k === 'k' ? 'utehk'.includes(prev) && prev !== '' : k === 'u' ? 'thk'.includes(prev) && prev !== '' : (k === 't' || k === 'e') ? prev === 'h' || prev === 'k' : false);
+    const groups = []; let cur = null;
+    t.forEach((x, i) => { const k = kind(x); if (!k) { cur = null; return; } if (cur && k !== 'd' && joins(k, cur.last)) { cur.to = i; cur.last = k; } else { cur = { from: i, to: i, last: k }; groups.push(cur); } });
+    groups.forEach((g) => { g.v = number(t.slice(g.from, g.to + 1).join(' ')); });
+    const allin = /\b(all in|everything|the lot|the maximum|max)\b/.test(norm(text));
+    let amt = allin ? pot : null, boxTokens = t.slice();
+    const hasCat = cats.some((c) => { const w = toks(c.n).filter((x) => !STOP.has(x)), long = w.filter((x) => x.length >= 4); return long.length ? long.some((x) => t.includes(x)) : w.length && w.every((x) => t.includes(x)); });
+    if (groups.length >= 2 && !allin) { const g = groups[groups.length - 1]; amt = g.v; boxTokens = t.slice(0, g.from).concat(t.slice(g.to + 1)); }
+    else if (groups.length >= 2 && allin) boxTokens = t.slice(0, groups[0].to + 1);
+    else if (groups.length === 1 && !allin && !hasCat && groups[0].v > board.length) return amt === null && groups[0].v >= 1 ? { amt: Math.min(groups[0].v, pot) } : null; // only a stake was said
+    const b = box(boxTokens.join(' '), cats, cols, board);
+    if (amt !== null) amt = Math.min(Math.max(1, amt), pot);
+    if (!b) return amt ? { amt } : null;
+    return amt ? Object.assign({}, b, { amt }) : b;
+  }
   const go = (text) => /\b(go|start|ready|begin|yes|yeah|okay|ok|lets)\b/.test(norm(text));
   const pass = (text) => /\bpass\b/.test(norm(text));
-  return { number, box, letter, yesno, stake, go, pass, norm };
+  return { number, box, pickStake, letter, yesno, stake, go, pass, norm };
 })();
 
 // ---------------------------------------------------------------- talking and listening
@@ -121,11 +141,18 @@ async function bvClip(text, voice) {
   })();
   BVN.urls.set(key, p); const url = await p; if (!url) BVN.urls.delete(key); return url;
 }
+// A line to speak is a string, or a list of pieces ("segments"), each a string or { s: what is said, t: what is shown }. Pieces are made and kept one by one, so a
+// sentence built from pieces that were spoken before (a name, a number, a letter) is nearly all in the cache already and plays without a wait.
+const BV_LETTER_SAYS = ['Ay.', 'Bee.', 'Sea.', 'Dee.', 'Ee.', 'Eff.', 'Gee.', 'Aitch.', 'Eye.', 'Jay.', 'Kay.', 'El.', 'Em.', 'En.', 'Oh.', 'Pee.', 'Queue.', 'Are.', 'Ess.', 'Tee.', 'You.', 'Vee.', 'Double you.', 'Ex.', 'Why.', 'Zed.'];
+/** The piece for a menu letter: said as its sound ("Bee."), shown as "B:". */
+const bvLetter = (i) => ({ s: BV_LETTER_SAYS[i] || 'Next.', t: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[i] + ':' });
+const bvSeg = (x) => (x && typeof x === 'object' ? x.s : x);
+const bvText = (x) => (Array.isArray(x) ? x.map((y) => (y && typeof y === 'object' ? y.t : y)).join(' ') : String(x == null ? '' : x));
 /** Warms the cache for lines that will be spoken soon (the questions to come), three at a time, so they play without a wait. */
 const bvQ = { list: [], run: 0 };
 function bvPrefetchMany(texts) {
   if (BVN.off || BVN.fails >= 3) return;
-  for (const t of texts || []) if (t && !bvQ.list.includes(t)) bvQ.list.push(t);
+  for (const x of texts || []) for (const y of Array.isArray(x) ? x : [x]) { const t = bvSeg(y); if (t && !bvQ.list.includes(t)) bvQ.list.push(t); }
   while (bvQ.run < 3 && bvQ.list.length) { bvQ.run++; bvClip(bvQ.list.shift()).catch(() => {}).then(() => { bvQ.run--; bvPrefetchMany([]); }); }
 }
 const bvPrefetch = (text) => bvPrefetchMany([text]);
@@ -133,23 +160,34 @@ const bvPrefetch = (text) => bvPrefetchMany([text]);
 function bvHush() { try { if (BV_TTS) speechSynthesis.cancel(); } catch {} try { BVN.stop && BVN.stop(); } catch {} }
 /** A tap is what lets the phone play sound: play a moment of silence on the voice's own player. */
 function bvUnlock() { try { if (!BVN.audio) { BVN.audio = new Audio(); BVN.audio.setAttribute('playsinline', ''); } BVN.audio.src = bvSilence(); BVN.audio.play().catch(() => {}); } catch {} }
-/** Speaks with the natural voice for the line `id` (see bvSay). Resolves 'done' when it was read, 'cut' when something newer took over or it was stopped,
- *  'fail' when it could not be played at all, so the device voice can read it instead. Once the audio has started it is never handed to the device voice. */
-function bvNeuralSay(text, id) {
+/** Speaks with the natural voice for the line `id` (see bvSay): the pieces one after another, the later ones being fetched while the first plays. Resolves 'done' when it
+ *  was read, 'cut' when something newer took over or it was stopped, 'fail' when it could not be played, so the device voice can read it instead (BVN.rest holds what is left
+ *  to read if some pieces had already been heard). Once a piece has started it is never repeated by the device voice. */
+function bvNeuralSay(segs, id) {
   return new Promise(async (res) => {
+    BVN.rest = '';
     if (BVN.off || BVN.fails >= 3 || typeof LQ === 'undefined') return res('fail');
-    const gen = BVN.gen;
-    const url = await Promise.race([bvClip(text), bvWait(15000).then(() => '')]);
-    if (gen !== BVN.gen || id !== BV.sayId) return res('cut'); // stopped, or a newer line has taken over, while the clip was being made
-    if (!url) { BVN.fails++; return res('fail'); }
-    let done = false, started = false;
-    const a = BVN.audio || (BVN.audio = new Audio()); a.setAttribute('playsinline', '');
-    const fin = (r) => { if (done) return; done = true; clearTimeout(tm); BVN.stop = null; a.onended = a.onerror = null; res(r); };
-    const tm = setTimeout(() => { try { a.pause(); } catch {} fin('done'); }, 70000);
+    const gen = BVN.gen, pieces = segs.map(bvSeg).filter(Boolean), clips = pieces.map((t) => bvClip(t)); // all made at once; the ones already kept come straight back
+    clips.forEach((p) => p.catch(() => {}));
+    let done = false, a = BVN.audio || (BVN.audio = new Audio()); a.setAttribute('playsinline', '');
+    const fin = (r) => { if (done) return; done = true; BVN.stop = null; a.onended = a.onerror = null; res(r); };
     BVN.stop = () => { try { a.pause(); } catch {} fin('cut'); };
-    a.onended = () => fin('done'); a.onerror = () => { if (!started) BVN.fails++; fin(started ? 'done' : 'fail'); };
-    bvAudioType('playback'); a.src = url;
-    a.play().then(() => { started = true; BVN.fails = 0; }).catch(() => fin(started ? 'done' : 'fail'));
+    for (let i = 0; i < pieces.length && !done; i++) {
+      const url = await Promise.race([clips[i], bvWait(15000).then(() => '')]);
+      if (done || gen !== BVN.gen || id !== BV.sayId) return fin('cut'); // stopped, or a newer line has taken over, while the clip was being made
+      if (!url) { BVN.fails++; BVN.rest = pieces.slice(i).join(' '); return fin(i ? 'fail' : 'fail'); }
+      const r = await new Promise((ok) => {
+        const tm = setTimeout(() => { try { a.pause(); } catch {} ok('done'); }, 70000);
+        let started = false; const end = (v) => { clearTimeout(tm); a.onended = a.onerror = null; ok(v); };
+        BVN.stop = () => { clearTimeout(tm); try { a.pause(); } catch {} a.onended = a.onerror = null; ok('cut'); };
+        a.onended = () => end('done'); a.onerror = () => { if (!started) BVN.fails++; end(started ? 'done' : 'fail'); };
+        bvAudioType('playback'); a.src = url;
+        a.play().then(() => { started = true; BVN.fails = 0; }).catch(() => end(started ? 'done' : 'fail'));
+      });
+      if (r === 'cut') return fin('cut');
+      if (r === 'fail') { BVN.rest = pieces.slice(i).join(' '); return fin('fail'); }
+    }
+    fin('done');
   });
 }
 /** Which voice speaks: a natural-sounding British woman. A voice chosen on the voice check page (lq_voice) wins; otherwise the best en-GB female voice on the device
@@ -174,13 +212,15 @@ function bvPickVoice(force) {
   BV.voice = (want && vs.find((v) => v.voiceURI === want || v.name === want)) || vs.map((v) => [bvScore(v), v]).filter((x) => x[0] >= 0).sort((a, b) => b[0] - a[0]).map((x) => x[1])[0] || null;
 }
 if (typeof speechSynthesis !== 'undefined') { try { speechSynthesis.addEventListener('voiceschanged', () => { BV.voice = null; bvPickVoice(); }); } catch {} }
-function bvSay(text) {
+function bvSay(line) {
   return new Promise(async (res) => {
-    if (!text) return res();
+    const segs = Array.isArray(line) ? line : [line], shown = bvText(line);
+    if (!shown.trim()) return res();
     const id = ++BV.sayId; bvHush(); // only the newest line is ever spoken, and never two voices at once
-    bvStatus('🔊 ' + text);
-    if ((await bvNeuralSay(text, id)) !== 'fail' || id !== BV.sayId) return res();
+    bvStatus('🔊 ' + shown);
+    if ((await bvNeuralSay(segs, id)) !== 'fail' || id !== BV.sayId) return res();
     if (!BV_TTS) return res();
+    const text = BVN.rest || segs.map(bvSeg).join(' ');
     bvPickVoice();
     const u = new SpeechSynthesisUtterance(text); u.lang = 'en-GB'; u.rate = 1; u.pitch = 1; if (BV.voice) { u.voice = BV.voice; u.lang = BV.voice.lang || 'en-GB'; }
     let done = false; const fin = () => { if (!done) { done = true; clearTimeout(t); res(); } };
@@ -211,105 +251,100 @@ const bvPlaces = (n) => n.toLocaleString('en-GB');
 async function bvStep(s, my) {
   const live = () => BV.tok === my && BV.on;
   const g = s.bx, me = bxMe(s), c = g.cur, T = (i) => g.teams[i], car = lqLocalPids().length > 0, turnOf = car ? `${me.t.name}, your go. ` : '', catName = (n) => g.cats[Math.floor((n - 1) / g.cols)].n;
-  /** Say `prompt`, listen, and let `handle(alternatives)` return a result (or null to try again with `retry`). */
+  let noteNext = ''; // what a handler wants said before asking again ("Box 5 has gone.")
+  /** Say `prompt` (a line, or its pieces), listen, and let `handle(alternatives)` return a result (or null to try again with `retry`). */
   const ask = async (prompt, retry, handle) => {
+    let lead = '';
     for (let i = 0; i < 4 && live(); i++) {
-      await bvSay(i ? retry : prompt); if (!live()) return null;
-      const alts = await bvListen(i ? 8000 : 9000); if (!live()) return null;
-      if (!alts.length) { retry = 'I did not hear anything. ' + (retry || prompt); continue; }
-      const r = handle(alts); if (r !== null && r !== undefined) return r;
+      await bvSay(i ? [lead + (retry || bvText(prompt))] : prompt); if (!live()) return null;
+      const alts = await bvListen(i ? 8000 : 10000); if (!live()) return null;
+      if (!alts.length) { lead = 'I did not hear anything. '; continue; }
+      noteNext = ''; const r = handle(alts); if (r !== null && r !== undefined) return r;
+      lead = noteNext ? noteNext + ' ' : '';
     }
     if (live()) { await bvSay('Tap the microphone button when you are ready to try again.'); bvStatus('Tap 🎙 to try again'); }
     return null;
   };
-  const confirm = async (text) => { // true / false / null
-    const r = await ask(text, 'Say yes, or no.', (alts) => { for (const a of alts) { const y = BVP.yesno(a); if (y) return y; } return null; });
-    return r === 'yes' ? true : r === 'no' ? false : null;
-  };
   const first = (alts, f) => { for (const a of alts) { const r = f(a); if (r !== null && r !== undefined && r !== -1 && r !== false) return r; } return null; };
+  // The spoken flow asks as little as it can: one go is "box three, one thousand" (the box and the stake together), one answer is "B". Nothing is read back for a yes:
+  // the next line says what was taken ("Box 3, History, for 1,000."), and the verdict follows the answer.
 
   if (g.step === 'seg' && s.bx.solo) {
     if (g.part !== 1) return;
     const rows = g.cats.map((x) => x.n).join(', ');
-    const go = await ask(`Box Clever. ${g.total} boxes in ${g.cats.length} rows: ${rows}. Everyone starts on ${bxFmt(me.t.pot)}. Say go when you are ready.`, 'Say go to start.', (alts) => (first(alts, (a) => BVP.go(a)) ? true : null));
-    if (go && live()) bxSend('next', 1);
+    await bvSay([`Box Clever. ${g.total} boxes in ${g.cats.length} rows: ${rows}.`, `Everyone starts on ${bxFmt(me.t.pot)}. Let's go!`]);
+    if (live()) bxSend('next', 1);
     return;
   }
   if (g.step === 'pick') {
     const picker = T(g.pickTeam), mine = g.pickTeam === me.ti;
     if (!mine) return void (await bvSay(`${picker.name} is choosing a box.`));
-    const rowsTold = BV.told.rows; BV.told.rows = true;
+    const pot = me.t.pot, rowsTold = BV.told.rows; BV.told.rows = true;
     const rows = g.cats.map((x, r) => `${x.n}, boxes ${r * g.cols + 1} to ${(r + 1) * g.cols}`).join('. ');
-    let prompt = rowsTold ? `${turnOf}Your pick. Which box?` : `${turnOf}Your pick. ${rows}. Which box? Say a number, or a row and a place, like ${g.cats[g.cats.length - 1].n} three.`;
-    for (let round = 0; round < 3 && live(); round++) {
-      let note = '';
-      const n = await ask(prompt, 'Say a box number, or a row and a place in it.', (alts) => {
-        for (const a of alts) { const b = BVP.box(a, g.cats, g.cols, P.state.bx.board); if (b?.n) return b.n; if (b?.gone) note = `Box ${b.gone} has gone. `; if (b?.cat !== undefined) note = 'Which place in the row? '; }
-        return note ? (void bvSay(note), null) : null;
-      });
-      if (!n || !live()) return;
-      const ok = await confirm(`Box ${n}, ${catName(n)}. Say yes to lock it in.`);
-      if (ok && live()) return void bxSend('pick', n, { go: true });
-      if (ok === null) return;
-      prompt = 'Which box instead?';
-    }
-    return;
+    const prompt = [`${me.t.name}, it's your turn.`, `You have ${bvPlaces(pot)} points in the pot.`, ...(rowsTold ? [] : [`The rows are: ${rows}.`]), 'Choose your next box and how much to gamble.',
+      ...(rowsTold ? [] : [`Say a box number and your stake, like ${g.cats[g.cats.length - 1].n} three, one thousand.`])];
+    let held = null; // a stake heard on its own, kept until the box comes
+    const r = await ask(prompt, 'Say a box and how much to gamble, like box three, five hundred.', (alts) => {
+      for (const a of alts) {
+        const x = BVP.pickStake(a, g.cats, g.cols, P.state.bx.board, pot); if (!x) continue;
+        if (x.amt) held = x.amt;
+        if (x.n) return { n: x.n, amt: x.amt || held };
+        if (x.gone) noteNext = `Box ${x.gone} has gone. Which box?`; else if (x.cat !== undefined) noteNext = 'Which place in the row?'; else if (x.amt) noteNext = `${bvPlaces(x.amt)}. Which box?`;
+      }
+      return null;
+    });
+    if (!r || !live()) return;
+    BV.pending = r.amt ? { num: r.n, amt: r.amt } : null;
+    return void bxSend('pick', r.n, { go: true });
   }
   if (g.step === 'stake') {
     const at = T(g.turn);
     if (g.turn !== me.ti) return void (await bvSay(`${at.name} is deciding how much to gamble.`));
-    const t = me.t, chips = t.stakes || [], pot = t.pot;
-    const opts = chips.slice(0, -1).map(bvPlaces).join(', ');
-    let prompt = `${turnOf}Box ${c.num}, ${catName(c.num)}. You have ${bvPlaces(pot)}. How much to gamble? Say ${opts ? opts + ', ' : ''}any amount, or all in, which is ${bvPlaces(pot)}.`;
-    for (let round = 0; round < 3 && live(); round++) {
-      const amt = await ask(prompt, 'Say an amount, or all in.', (alts) => first(alts, (a) => BVP.stake(a, pot)));
-      if (!amt || !live()) return;
-      const ok = await confirm(amt >= pot ? `All in, ${bvPlaces(pot)}. Say yes to gamble it.` : `Gamble ${bvPlaces(amt)}. Say yes to lock it in.`);
-      if (ok && live()) return void bxSend('stake', amt, { go: true });
-      if (ok === null) return;
-      prompt = 'How much instead?';
-    }
-    return;
+    const t = me.t, pot = t.pot, pend = BV.pending; BV.pending = null;
+    if (pend && pend.num === c.num && pend.amt) return void bxSend('stake', Math.max(1, Math.min(pend.amt, pot)), { go: true }); // already said with the box
+    const chips = t.stakes || [], opts = chips.slice(0, -1).map(bvPlaces).join(', ');
+    const amt = await ask([`Box ${c.num}, ${catName(c.num)}.`, `You have ${bvPlaces(pot)}. How much to gamble? Say ${opts ? opts + ', ' : ''}any amount, or all in.`], 'Say an amount, or all in.', (alts) => first(alts, (a) => BVP.stake(a, pot)));
+    if (!amt || !live()) return;
+    return void bxSend('stake', amt, { go: true });
   }
   if (g.step === 'ask' && c && c.mode !== 'host' && !c.locked) {
     const q = c.q, opts = q.opts, L = 'ABCD', mineAns = c.by === me.ti, who = T(c.by).name;
     if (q.m && q.m.k === 'tune') { await bvSay('Listen to the clip.'); for (let i = 0; i < 17 && live(); i++) await bvWait(1000); if (!live()) return; }
-    const read = `${q.t}${opts ? ' ' + opts.map((o, i) => `${L[i]}: ${o}.`).join(' ') : ''}`;
-    if (!mineAns) return void (await bvSay(`${read} ${who} is answering.`));
+    const head = `Box ${c.num}, ${catName(c.num)}${c.stake ? `, for ${bvPlaces(c.stake)}` : ''}.`;
+    const read = [q.t, ...(opts ? opts.flatMap((o, i) => [bvLetter(i), `${o}.`]) : [])]; // each piece is made once and kept, so the options can come in any order
+    if (!mineAns) return void (await bvSay([head, ...read, `${who} is answering.`]));
+    const lead = [...(turnOf ? [turnOf.trim()] : []), head, ...read];
     if (opts) {
-      const prompt = `${turnOf}${read} Say ${opts.map((_, i) => L[i]).join(', ')}${c.canPass ? ', or pass' : ''}.`;
-      for (let round = 0; round < 3 && live(); round++) {
-        const r = await ask(round ? 'Which one?' : prompt, `Say ${opts.map((_, i) => L[i]).join(', ')}${c.canPass ? ', or pass' : ''}.`, (alts) => {
-          if (c.canPass && alts.some((a) => BVP.pass(a))) return 'pass';
-          return first(alts, (a) => { const i = BVP.letter(a, opts); return i >= 0 ? i : null; });
-        });
-        if (r === null || !live()) return;
-        if (r === 'pass') { const ok = await confirm(`Pass and lose half your stake. Say yes to pass.`); if (ok && live()) return void bxSend('pass', 1, { go: true }); if (ok === null) return; continue; }
-        const ok = await confirm(`${L[r]}: ${opts[r]}. Say yes to lock it in.`);
-        if (ok && live()) return void bxSend('ans', r, { go: true });
-        if (ok === null) return;
-      }
-      return;
+      const say = `Say ${opts.map((_, i) => L[i]).join(', ')}${c.canPass ? ', or pass' : ''}.`;
+      const r = await ask([...lead, say], say, (alts) => {
+        if (c.canPass && alts.some((a) => BVP.pass(a))) return 'pass';
+        return first(alts, (a) => { const i = BVP.letter(a, opts); return i >= 0 ? i : null; });
+      });
+      if (r === null || !live()) return;
+      return void (r === 'pass' ? bxSend('pass', 1, { go: true }) : bxSend('ans', r, { go: true }));
     }
-    let prompt = `${turnOf}${read} Say your answer${c.canPass ? ', or pass' : ''}.`;
-    for (let round = 0; round < 3 && live(); round++) {
-      const said = await ask(prompt, 'Say your answer.', (alts) => (c.canPass && alts.some((a) => BVP.pass(a)) ? { pass: true } : { text: alts[0] }));
-      if (!said || !live()) return;
-      if (said.pass) { const ok = await confirm('Pass and lose half your stake. Say yes to pass.'); if (ok && live()) return void bxSend('pass', 1, { go: true }); if (ok === null) return; continue; }
-      const ok = await confirm(`I heard: ${said.text}. Say yes to lock it in, or no to say it again.`);
-      if (ok && live()) return void bxSend('ans', said.text, { go: true });
-      if (ok === null) return;
-      prompt = 'Say your answer again.';
-    }
-    return;
+    const said = await ask([...lead, `Say your answer${c.canPass ? ', or pass' : ''}.`], 'Say your answer.', (alts) => (c.canPass && alts.some((a) => BVP.pass(a)) ? { pass: true } : { text: alts[0] }));
+    if (!said || !live()) return;
+    return void (said.pass ? bxSend('pass', 1, { go: true }) : bxSend('ans', said.text, { go: true }));
   }
   if (g.step === 'result' && c?.res) {
     const r = c.res, rt = T(r.team);
-    const verdict = r.passed ? 'Passed.' : r.ok ? 'Correct!' : `Wrong. The answer was ${r.right}.`;
-    await bvSay(`${verdict} ${rt.name} ${r.delta >= 0 ? 'plus' : 'minus'} ${bvPlaces(Math.abs(r.delta))}. ${rt.name} now has ${bvPlaces(rt.pot)}.`);
+    await bvSay([...(r.passed ? ['Passed.'] : r.ok ? ['Correct!'] : ['Wrong.', `The answer was ${r.right}.`]), `${rt.name} ${r.delta >= 0 ? 'plus' : 'minus'} ${bvPlaces(Math.abs(r.delta))}.`, `${rt.name} now has ${bvPlaces(rt.pot)}.`]);
     if (!live()) return;
-    await bvWait(900); if (live() && !P.state.bx.closing) bxSend('next', 1);
+    await bvWait(400); if (live() && !P.state.bx.closing) bxSend('next', 1);
   }
+}
+/** What a Box Clever game will read out, piece by piece (its questions, options and right answers), so the natural voice can make them before they are needed. game = the game's file. */
+function bvBoxLines(game) {
+  const out = BV_LETTER_SAYS.slice(0, 4);
+  for (const row of ((game && game.questions && game.questions[0] && game.questions[0].cats) || [])) for (const q of row.qs || []) {
+    if (q.t) out.push(q.t);
+    for (const o of q.o || []) out.push(`${o}.`);
+    for (const o of q.a || []) out.push(`${o}.`);
+    if (q.w) out.push(`${q.w}.`);
+    const right = q.o ? q.o[0] : (q.a || [])[0]; if (right) out.push(`The answer was ${right}.`);
+  }
+  return out;
 }
 /** Called at the end of bxBind: start the spoken part of a new step (once per step). */
 function bxVoiceTick(s) {

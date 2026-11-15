@@ -56,8 +56,8 @@
 <script src="assets/common.js"></script>
 <script src="assets/hubkit.js?v=20261115b"></script>
 <script src="assets/dpad.js"></script>
-<script src="assets/boxes-voice.js?v=20261115f"></script>
-<script src="assets/hubvoice.js?v=20261115b"></script>
+<script src="assets/boxes-voice.js?v=20261115g"></script>
+<script src="assets/hubvoice.js?v=20261115g"></script>
 <script>
 // Bridge of Lies: a diamond of answers to one category, crossed from the red START pad on the left to the green FINISH pad on the right. A hidden path of true
 // answers joins them; everything else is a lie. A correct answer opens the tiles touching it. Every open tile has a letter (A, B, C...) to touch, click or say.
@@ -126,7 +126,7 @@ async function screenIntro() {
     <div class="card rules">Cross the diamond from the red pad on the left to the green pad on the right. Find the <b>true answers</b>: the shortest way across is <b>${across}</b> of them. Each correct answer opens the tiles touching it, and every open tile has a <b>letter</b>. The board is full of <b>lies</b>: you have <b>3 lives</b>. <b>100</b> points a correct answer, <b>500</b> bonus for getting across.</div>
     <button class="btn primary big" id="start" type="button" data-autofocus data-say="start|go|begin|ready|play|let's go">▶ Start</button>`;
   bindMenu(); const go = () => { B.phase = 'play'; B.cur.note = 'first'; save(); screenPlay(); }; $('#start').onclick = go; HUB.focusFirst();
-  if (sayOn()) HV.screen({ prompt: `${n}'s bridge. The category is: ${g.cat}. The shortest way across is ${across} correct answers. You have three lives. Say start when you are ready.`, hint: 'Say start.', items: [] });
+  if (sayOn()) { HV.screen({ prompt: [`${n}'s bridge.`, `The category is: ${g.cat}.`, `The shortest way across is ${across} correct answers. You have three lives.`], then: go }); prefetchBridge(B.cur); } // nothing to ask: on to the first move
 }
 
 function geometry() {
@@ -168,10 +168,10 @@ function pickTile(k) {
   const c = B.cur; if (c.over || c.tried.has(k)) return; const t = c.tiles[k]; HV.stop();
   c.tried.set(k, t.ok ? 1 : 0);
   if (t.ok) {
-    c.pts += 100; sfx.ok(); c.note = 'Correct! ' + t.t + '. +100';
+    c.pts += 100; sfx.ok(); c.note = 'Correct! ' + t.t + '. +100'; c.noteV = ['Correct!', `${t.t}.`, 'Plus one hundred.'];
     const i = Math.floor(k / c.m), j = k % c.m;
     if (around(c, i, j).some(([x, y]) => isEnd(c, x, y))) { c.crossed = true; c.over = true; c.pts += 500; sfx.win(); retireGame(c.id); }
-  } else { c.lives--; sfx.bad(); c.note = 'A lie! ' + t.t + ' is not one. ' + (c.lives ? c.lives + (c.lives === 1 ? ' life' : ' lives') + ' left.' : ''); if (c.lives <= 0) { c.over = true; sfx.lose(); retireGame(c.id); } }
+  } else { c.lives--; sfx.bad(); c.note = 'A lie! ' + t.t + ' is not one. ' + (c.lives ? c.lives + (c.lives === 1 ? ' life' : ' lives') + ' left.' : ''); c.noteV = ['A lie!', `${t.t} is not one.`, ...(c.lives ? [`${c.lives} ${c.lives === 1 ? 'life' : 'lives'} left.`] : [])]; if (c.lives <= 0) { c.over = true; sfx.lose(); retireGame(c.id); } }
   if (c.over) B.scores[B.turn] = c.pts;
   save(); screenPlay();
   const el = $(`#board .tile[data-i="${k}"]`); if (el) el.classList.add(t.ok ? 'pop' : 'shake');
@@ -180,12 +180,23 @@ function endTurn() { if (TEST) return screenFinal(); if (B.turn === 0) { B.turn 
 
 // ---------------------------------------------------------------- hands-free: say a letter (or what the tile says) for the next move
 function voicePlay(c, list) {
-  if (c.over) {
-    HV.screen({ prompt: `${c.crossed ? 'You crossed the bridge! Five hundred bonus. ' : 'The bridge has fallen. '}${c.pts} points. Say continue.`, hint: 'Say continue.', items: [] }); return;
+  if (c.over) { // read the result, then carry on by itself
+    HV.screen({ prompt: [c.noteV && c.noteV.length ? c.noteV : [], c.crossed ? 'You crossed the bridge! Five hundred bonus.' : 'The bridge has fallen.', `${bvPlaces(c.pts)} points.`].flat(), then: endTurn }); return;
   }
-  const lead = c.note === 'first' ? 'Pick your first move. ' : c.note ? c.note + ' ' : '';
-  HV.screen({ prompt: `${lead}${c.note === 'first' ? '' : 'Your next move. '}${movesText(c, list)}.`, hint: 'Say a letter, or the answer. Or say repeat.',
+  const lead = c.note === 'first' ? ['Pick your first move.'] : [...(c.noteV || (c.note ? [c.note] : [])), 'Your next move.'];
+  HV.screen({ prompt: [...lead, ...list.flatMap((k, n) => [bvLetter(n), `${c.tiles[k].t}.`])], hint: 'Say a letter, or the answer. Or say repeat.',
     items: [{ test: (alts) => { for (const a of alts) { const n = HV.letterIndex(a, list.length); if (n >= 0) return n + 1; } return false; }, fn: (n) => pickTile(list[n - 1]) }] });
+}
+/** Hands-free: the natural voice makes what this bridge will say (its tiles, the letters, the usual lines) while the first moves are being played, so each line is ready when it is needed. */
+function prefetchBridge(c) {
+  try {
+    if (!BV.on || !c) return;
+    const lines = [...BV_LETTER_SAYS.slice(0, 8), 'Pick your first move.', 'Your next move.', 'Correct!', 'A lie!', 'Plus one hundred.', '2 lives left.', '1 life left.', 'You crossed the bridge! Five hundred bonus.', 'The bridge has fallen.'];
+    const order = c.tiles.map((t, k) => [k, Math.floor(k / c.m) + (k % c.m)]).filter(([k]) => !c.tiles[k].pad).sort((a, b) => a[1] - b[1]).map((x) => x[0]); // nearest the start first
+    for (const k of order) { const t = c.tiles[k]; lines.push(`${t.t}.`); if (!t.ok) lines.push(`${t.t} is not one.`); }
+    for (let p = 0; p <= 1500; p += 100) lines.push(`${bvPlaces(p)} points.`);
+    bvPrefetchMany(lines);
+  } catch {}
 }
 function screenFinal() {
   HV.stop(); const n = names(), sc = B.scores;

@@ -3,6 +3,7 @@
  *   - prompt: what to say first (read out in a natural British woman's voice);
  *   - items: what can be said. Each is { words: ['next', 'carry on'], fn } (any of those phrases, heard whole), or { test(alts) -> truthy, fn } for answers like "B";
  *   - buttons on the page with data-say="start|begin" are added automatically, so every button on screen can be said;
+ *   - then: instead of listening, run this straight after the prompt has been read (a screen with nothing to ask);
  *   - always understood: "repeat" / "say that again" reads the prompt again.
  * A new screen cancels the one before. Nothing is spoken on the TV (the remote is used there) or when hands-free is off. */
 window.HV = (() => {
@@ -32,15 +33,16 @@ window.HV = (() => {
     return [...root.querySelectorAll('[data-say]')].filter((el) => !el.disabled && el.getClientRects().length && !el.closest('[hidden]'))
       .map((el) => ({ words: el.dataset.say.split('|').map((x) => x.trim()).filter(Boolean), fn: () => el.click(), el }));
   }
-  async function screen({ prompt = '', items = [], hint = '', dom = true, listenMs = 11000 } = {}) {
+  async function screen({ prompt = '', items = [], hint = '', dom = true, listenMs = 11000, then = null } = {}) {
     if (!on()) return null;
     const my = ++tok; try { bvAbort(); } catch {}
     const all = () => [...items, ...(dom ? domItems() : [])];
     let say = prompt, miss = 0;
     for (let round = 0; round < 6 && my === tok; round++) {
       if (say) { await bvSay(say); if (my !== tok) return null; }
+      if (then) { tok++; try { await then(); } catch (e) { console.error(e); } return null; } // nothing to ask: read it, then carry on by itself
       const alts = await bvListen(listenMs); if (my !== tok) return null;
-      if (!alts.length) { say = (miss++ ? '' : 'I did not hear anything. ') + (hint || prompt); if (miss > 3) break; continue; }
+      if (!alts.length) { say = (miss++ ? '' : 'I did not hear anything. ') + (hint || bvText(prompt)); if (miss > 3) break; continue; }
       if (hears(alts, ['repeat', 'say that again', 'say again', 'pardon', 'what was that', 'read it again', 'read that again'])) { say = prompt; continue; }
       let hit = null;
       for (const it of all()) { const ok = it.test ? it.test(alts) : hears(alts, it.words || []); if (ok !== false && ok !== null && ok !== undefined && ok !== -1) { hit = { it, ok }; break; } }

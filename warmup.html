@@ -145,6 +145,18 @@ const poolRec = () => { const p = store(POOLKEY); const s = p && typeof p === 'o
 const poolDev = () => { let d = ''; try { d = localStorage.getItem('lq_pooldev') || ''; if (!d) { d = 'd' + Math.random().toString(36).slice(2, 10); localStorage.setItem('lq_pooldev', d); } } catch {} return d || 'd0'; };
 const poolSay = (action, game) => LQ.api(action, { pool: 'BOX2P', game, dev: poolDev() }, { timeout: 6000 }).catch(() => null); // another device's list too (the TV's); null: not reachable, this phone's own list is used
 let POOLGAME = null;
+// Hands-free: have the natural voice make the game's questions, options and answers while the first ones are being played, so they are ready when read out.
+async function voicePrefetch(src) {
+  try {
+    if (localStorage.getItem('lq_handsfree') !== '1') return;
+    const g = await (await fetch(src)).json();
+    for (let i = 0; i < 90; i++) {
+      const w = document.getElementById('playFrame') && document.getElementById('playFrame').contentWindow;
+      if (w && typeof w.bvBoxLines === 'function') { if (w.eval('BV.on')) w.bvPrefetchMany(w.bvBoxLines(g)); return; }
+      await new Promise((r) => setTimeout(r, 1000));
+    }
+  } catch {}
+}
 async function poolStart() {
   if (HUB.test) { // the test game: the same 5 questions every time, nothing used up (see tvbox/test.json)
     POOLGAME = { id: 'test', test: true, resuming: false, left: 0, total: 1, cats: [] };
@@ -269,6 +281,7 @@ function game() {
   if (POOL && POOLGAME) {
     const S = poolRec(); if (!POOLGAME.resuming && !POOLGAME.test) { S.cur = { id: POOLGAME.id, at: new Date().toISOString() }; store(POOLKEY, S); }
     hostFrame.src = 'host?quiz=tvbox&src=' + (POOLGAME.test ? 'tvbox/test' : 'tvbox/games/' + POOLGAME.id) + '.json' + (CAR ? '&car=1' : '') + '&x=' + Date.now().toString(36);
+    voicePrefetch((POOLGAME.test ? 'tvbox/test' : 'tvbox/games/' + POOLGAME.id) + '.json');
     setInterval(() => { try { if (hostFrame.contentWindow.eval('typeof G !== "undefined" && G ? G.phase : null') === 'final') poolRetire(); } catch {} }, 1000);
   } else
   hostFrame.src = (QID ? 'host?quiz=play&q=' + QID + (BOTSQ !== null ? '&bots=' + encodeURIComponent(BOTSQ) : '') : 'host?quiz=warmup&w=' + encodeURIComponent(CODE) + (WEEK ? '&wk=' + WEEK : '')) + (BOXES ? '&boxes=1' : '') + (CAR ? '&car=1' : '') + '&x=' + Date.now().toString(36);

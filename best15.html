@@ -50,8 +50,8 @@
 <script src="assets/common.js"></script>
 <script src="assets/hubkit.js?v=20261115b"></script>
 <script src="assets/dpad.js"></script>
-<script src="assets/boxes-voice.js?v=20261115f"></script>
-<script src="assets/hubvoice.js?v=20261115b"></script>
+<script src="assets/boxes-voice.js?v=20261115g"></script>
+<script src="assets/hubvoice.js?v=20261115g"></script>
 <script>
 // Best of 15 and the Music quiz. Every question is multiple choice (A, B, C, D). Each player picks a category (the Music quiz is one mix of clips and music
 // questions) and answers 15. One clue (takes two wrong options away), one swap, passes as you like, 1 point each. Then the other player. The winner takes
@@ -172,7 +172,7 @@ function finishRound() {
       <div class="center" style="margin:auto"><p class="muted" style="margin:0">${esc(n[0])} got</p><div class="big" style="font-size:5rem">${c.score} <span style="font-size:2rem">out of ${N}</span></div><p class="sub">Now ${esc(n[1])}${MUSIC ? '' : ': choose your category'}.</p></div>
       <button class="btn primary big" id="go" type="button" data-autofocus data-say="next|continue|go|start|ready|my turn|${esc(n[1])}'s turn">${esc(n[1])}'s turn ▶</button>`;
     const go = () => { R.turn = 1; save(); screenCat(); }; $('#go').onclick = go; HUB.focusFirst();
-    if (sayOn()) HV.screen({ prompt: `${n[0]} got ${c.score} out of ${N}. Now ${n[1]}. Say go when you are ready.`, hint: 'Say go.', items: [] });
+    if (sayOn()) HV.screen({ prompt: [`${n[0]} got ${c.score} out of ${N}.`, `Now ${n[1]}.`], then: go }); // nothing to ask: on to the next player
   } else screenFinal();
 }
 function screenFinal() {
