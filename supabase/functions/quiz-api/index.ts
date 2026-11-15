@@ -102,13 +102,15 @@ async function ttsMake(text: string, voice: string): Promise<{ url: string; cach
 // A line is made on Cloudflare's metered price beyond the free allowance (about $0.03 per 1,000 characters), so the bank has a budget: BANK_DAY characters a day and BANK_TOTAL in all.
 const SITE = "https://letsquiz.uk";
 const BANK_DAY = +(Deno.env.get("TTS_BANK_CHARS") || 150000);
-const BANK_TOTAL = +(Deno.env.get("TTS_BANK_TOTAL") || 500000);
+const BANK_TOTAL = +(Deno.env.get("TTS_BANK_TOTAL") || 350000);
+const LIVE_TOTAL = +(Deno.env.get("TTS_LIVE_TOTAL") || 120000); // characters of lines made while playing (not kept yet when asked for) that the whole month may use
+const PLAN_GAMES = 10; // the bank voices the first ten games of each kind ahead of time; every other line is made as it is played, and kept
 const LETTER_SAYS = ["Ay.", "Bee.", "Sea.", "Dee.", "Ee.", "Eff.", "Gee.", "Aitch.", "Eye.", "Jay.", "Kay.", "El.", "Em.", "En.", "Oh.", "Pee.", "Queue.", "Are.", "Ess.", "Tee.", "You.", "Vee.", "Double you.", "Ex.", "Why.", "Zed."];
 const NAMES = ["Paul", "Laura"];
 const places = (n: number) => n.toLocaleString("en-GB");
 const range = (a: number, b: number, step = 1) => { const o: number[] = []; for (let i = a; i <= b; i += step) o.push(i); return o; };
 /** every score the games can reach: every 50 to 5,000, every 100 to 40,000 */
-const SCORE_VALUES: number[] = [...new Set([...range(0, 5000, 50), ...range(5000, 40000, 100)])];
+const SCORE_VALUES: number[] = [...new Set([...range(0, 2000, 50), ...range(2000, 12000, 100)])];
 const ttsClean = (t: string) => String(t || "").replace(/\s*[\(\[][^\)\]]*[\)\]]/g, "").replace(/\s+-\s+.*$/, "").replace(/\s+/g, " ").trim();
 const ttsBad = (x: any) => !x || x.used || x.tooEasy || x.giveaway || x.doubt || x.passed || (x.media && x.media.kind && x.media.kind !== "none");
 /** the pieces a Best of 15 multiple-choice question is read from: the question, each option, the answer */
@@ -197,7 +199,7 @@ let planCache: { at: number; stages: Stage[] } | null = null;
 async function planStages(): Promise<Stage[]> {
   if (planCache && Date.now() - planCache.at < 600_000) return planCache.stages;
   const [bi, ri] = await Promise.all([siteJson("tvbox/index.json"), siteJson("bridge/index.json")]);
-  const bx: string[] = (bi?.games || []).map((g: any) => g.id), br: string[] = (ri?.games || []).map((g: any) => g.id);
+  const bx: string[] = (bi?.games || []).map((g: any) => g.id).slice(0, PLAN_GAMES), br: string[] = (ri?.games || []).map((g: any) => g.id).slice(0, PLAN_GAMES);
   let cats: string[] = [];
   try { const counts: any[] = await restAll("quiz_bank_counts?select=type,category,used,n&type=eq.choice&used=eq.false&order=category"); const by: Record<string, number> = {}; for (const c of counts) if (c.category) by[c.category] = (by[c.category] || 0) + c.n; cats = Object.entries(by).filter(([k, n]) => n >= 30 && !MUSIC_CAT_LIST.includes(k)).sort((a, b) => b[1] - a[1]).map(([k]) => k); } catch {}
   const game = (kind: "box" | "bridge", id: string): Stage => ({ id: `${kind}:${id}`, label: `${kind === "box" ? "Box Clever" : "Bridge of Lies"} ${id}`, lines: async () => { const g = await siteJson(`${kind === "box" ? "tvbox" : "bridge"}/games/${id}.json`); return g ? (kind === "box" ? boxGameLines(g) : bridgeGameLines(g)) : []; } });
@@ -208,7 +210,7 @@ async function planStages(): Promise<Stage[]> {
   out.push({ id: "b15cats", label: "Best of 15 category prompts", lines: () => cats.flatMap((c) => [`For example, ${c}.`, `${c}.`, `Or ${c}.`]) });
   for (let i = 1; i < Math.max(bx.length, br.length); i++) {
     if (bx[i]) out.push(game("box", bx[i])); if (br[i]) out.push(game("bridge", br[i]));
-    out.push(music(i + 1)); if (cats[i - 1]) out.push({ id: `b15:${i - 1}`, label: `Best of 15: ${cats[i - 1]}`, ck: `c:${cats[i - 1]}`, once: true, page: choicePage([cats[i - 1]], 40) });
+    if (i < 4) out.push(music(i + 1)); if (i <= 7 && cats[i - 1]) out.push({ id: `b15:${i - 1}`, label: `Best of 15: ${cats[i - 1]}`, ck: `c:${cats[i - 1]}`, once: true, page: choicePage([cats[i - 1]], 40) });
   }
   planCache = { at: Date.now(), stages: out }; return out;
 }
@@ -1092,7 +1094,13 @@ Deno.serve(async (req) => {
       try {
         const path = `tts/${await sha16(`a2|${voice}|${text}`)}.mp3`, have = await storageExists(path); if (have) return json({ url: have, cached: true });
         const now = Date.now(); ttsRecent = ttsRecent.filter((t) => now - t < 60_000); if (ttsRecent.length >= 40) return json({ error: "Too many new lines at once." }, 429); ttsRecent.push(now);
-        return json({ url: (await ttsMake(text, voice)).url });
+        // lines made while playing have a budget of their own, so the month's spend cannot run past what was agreed
+        const sf = `${SUPA_URL}/storage/v1/object/${BUCKET}/tts/_bank.json`, sh = { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}` };
+        let sst: any = {}; try { const rr = await fetch(sf, { headers: sh }); if (rr.ok) sst = await rr.json(); } catch {}
+        if ((sst.live || 0) + text.length > LIVE_TOTAL) return json({ error: "The voice budget is used up." }, 402);
+        const made = await ttsMake(text, voice);
+        if (!made.cached) { sst.live = (sst.live || 0) + text.length; try { await storagePut("tts/_bank.json", new TextEncoder().encode(JSON.stringify(sst)), "audio/mpeg"); } catch {} }
+        return json({ url: made.url });
       } catch (e: any) { return json({ error: String(e?.message || e) }, e?.status || 502); }
     }
     // The speech bank (no sign-in; it only ever makes the games' own lines, in the plan's order, within a budget, so calling it often costs nothing extra): { } -> makes up to 36 lines that are
