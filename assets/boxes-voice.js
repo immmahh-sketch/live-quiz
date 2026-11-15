@@ -229,6 +229,22 @@ function bvSay(line) {
     try { speechSynthesis.speak(u); } catch { fin(); }
   });
 }
+/** A small "ting" just before the microphone opens, so you know it is your turn to speak. Resolves when it has finished, so it is not heard by the microphone. */
+function bvTing() {
+  return new Promise((res) => {
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return res();
+      const ctx = bvTing.ctx || (bvTing.ctx = new AC()); if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+      const t = ctx.currentTime;
+      [[1175, 0, 0.32], [1760, 0.07, 0.4]].forEach(([f, at, len]) => { // two soft overlapping bell tones
+        const o = ctx.createOscillator(), g = ctx.createGain(); o.type = 'sine'; o.frequency.value = f;
+        g.gain.setValueAtTime(0.0001, t + at); g.gain.exponentialRampToValueAtTime(0.16, t + at + 0.012); g.gain.exponentialRampToValueAtTime(0.0001, t + at + len);
+        o.connect(g); g.connect(ctx.destination); o.start(t + at); o.stop(t + at + len + 0.02);
+      });
+      setTimeout(res, 330);
+    } catch { res(); }
+  });
+}
 /** Listens once; resolves with the alternatives heard (best first), or [] when nothing was heard. */
 function bvListen(ms) {
   return new Promise((res) => {
@@ -238,10 +254,9 @@ function bvListen(ms) {
     const fin = () => { if (done) return; done = true; clearTimeout(t); BV.listening = false; bvAudioType('playback'); try { r.stop(); } catch {} if (BV.rec === r) BV.rec = null; res(got); };
     r.onresult = (e) => { const last = e.results[e.results.length - 1]; got = [...last].map((a) => String(a.transcript || '').trim()).filter(Boolean); BV.lastHeard = got; fin(); };
     r.onerror = (e) => { BV.lastErr = String((e && (e.error || e.message)) || 'error'); fin(); }; r.onend = fin;
-    const t = setTimeout(() => { if (!got.length && !BV.lastErr) BV.lastErr = 'timeout'; fin(); }, ms || 7000);
+    const t = setTimeout(() => { if (!got.length && !BV.lastErr) BV.lastErr = 'timeout'; fin(); }, (ms || 7000) + 400);
     BV.rec = r; BV.listening = true; bvStatus('🎙️ Listening…');
-    bvAudioType('play-and-record');
-    try { r.start(); } catch { fin(); }
+    bvTing().then(() => { if (done) return; bvAudioType('play-and-record'); try { r.start(); } catch { fin(); } });
   });
 }
 const bvWait = (ms) => new Promise((r) => setTimeout(r, ms));
