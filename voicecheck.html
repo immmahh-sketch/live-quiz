@@ -27,7 +27,7 @@
 <script src="assets/common.js"></script>
 <script src="assets/hubkit.js?v=20261115b"></script>
 <script src="assets/dpad.js"></script>
-<script src="assets/boxes-voice.js?v=20261115h"></script>
+<script src="assets/boxes-voice.js?v=20261115i"></script>
 <script>
 // Voice check: which voice reads the quizzes out on this device, a sample of it, and a choice of the others. The automatic choice is a natural British woman's voice
 // (see bvScore in boxes-voice.js); a voice picked here is remembered on this device (lq_voice).
@@ -46,7 +46,7 @@ function say(v) { try { speechSynthesis.cancel(); const u = new SpeechSynthesisU
 async function natHear(v) {
   natMsg = 'Fetching the voice…'; draw();
   const url = await bvClip(SAMPLE, v);
-  if (!url) { natMsg = BVN.fails >= 99 ? 'The natural voice is not switched on yet (no voice service key is set up).' : 'Could not fetch that voice just now. Try again.'; draw(); return; }
+  if (!url) { natMsg = BVN.quota ? "Cloudflare's free allowance for the natural voice is used up for today (it resets around midnight UK time). Lines already made still play." : BVN.fails >= 99 ? 'The natural voice is not switched on yet (no voice service key is set up).' : 'Could not fetch that voice just now. Try again.'; draw(); return; }
   natMsg = ''; draw(); try { speechSynthesis.cancel(); } catch {}
   const a = BVN.audio || (BVN.audio = new Audio()); a.src = url; a.play().catch(() => { natMsg = 'Tap Hear again to let this device play sound.'; draw(); });
 }

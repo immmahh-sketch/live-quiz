@@ -129,6 +129,9 @@ function bvAbort() { BV.sayId++; try { if (BV_TTS) speechSynthesis.cancel(); } c
 // The choice is on the voice check page: lq_nvoice = a voice name, or "off" for the device voice only.
 const BVN = { gen: 0, voice: 'pandora', off: false, fails: 0, audio: null, stop: null, urls: new Map(), base: 'https://safcrtrfdzsnftghibot.supabase.co/storage/v1/object/public/quiz-media/tts/' };
 try { const v = localStorage.getItem('lq_nvoice'); if (v === 'off') BVN.off = true; else if (v) BVN.voice = v; } catch {}
+// Cloudflare's free allowance (10,000 units a day) can run out; the service then refuses new lines until the next day (UTC). Only lines already kept can be played from then on.
+const bvDay = () => new Date().toISOString().slice(0, 10);
+BVN.quota = false; try { BVN.quota = localStorage.getItem('lq_nquota') === bvDay(); } catch {}
 const bvNorm = (t) => String(t || '').replace(/\s+/g, ' ').trim().slice(0, 400);
 async function bvHash(s) { const d = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s))); return Array.from(d.slice(0, 16)).map((b) => b.toString(16).padStart(2, '0')).join(''); }
 /** The MP3 for this line in this voice (making it first if it has never been spoken), or '' when the service can't be used. */
@@ -137,7 +140,12 @@ async function bvClip(text, voice) {
   if (BVN.urls.has(key)) return BVN.urls.get(key);
   const p = (async () => {
     try { const direct = BVN.base + (await bvHash(key)) + '.mp3', r = await fetch(direct, { method: 'HEAD' }); if (r.ok) return direct; } catch {}
-    try { const r = await LQ.api('tts', { text: t, voice: v }, { timeout: 20000 }); return (r && r.url) || ''; } catch (e) { if (/501|set up/i.test(String(e && (e.message || e)))) BVN.fails = 99; return ''; }
+    if (BVN.quota) return ''; // only lines already kept can be used today
+    try { const r = await LQ.api('tts', { text: t, voice: v }, { timeout: 20000 }); return (r && r.url) || ''; } catch (e) {
+      const m = String(e && (e.message || e));
+      if (/daily free allocation|used up|neurons/i.test(m)) { BVN.quota = true; try { localStorage.setItem('lq_nquota', bvDay()); } catch {} } else if (/501|set up/i.test(m)) BVN.fails = 99;
+      return '';
+    }
   })();
   BVN.urls.set(key, p); const url = await p; if (!url) BVN.urls.delete(key); return url;
 }
@@ -169,18 +177,20 @@ function bvNeuralSay(segs, id) {
     if (BVN.off || BVN.fails >= 3 || typeof LQ === 'undefined') return res('fail');
     const gen = BVN.gen, pieces = segs.map(bvSeg).filter(Boolean), clips = pieces.map((t) => bvClip(t)); // all made at once; the ones already kept come straight back
     clips.forEach((p) => p.catch(() => {}));
+    if (BVN.quota) { const all = await Promise.all(clips); if (all.some((u) => !u)) return res('fail'); } // allowance used up: a line is either wholly natural (every piece kept) or wholly the device voice, never half and half
     let done = false, a = BVN.audio || (BVN.audio = new Audio()); a.setAttribute('playsinline', '');
     const fin = (r) => { if (done) return; done = true; BVN.stop = null; a.onended = a.onerror = null; res(r); };
     BVN.stop = () => { try { a.pause(); } catch {} fin('cut'); };
     for (let i = 0; i < pieces.length && !done; i++) {
-      const url = await Promise.race([clips[i], bvWait(15000).then(() => '')]);
+      const url = await Promise.race([clips[i], bvWait(12000).then(() => '')]);
       if (done || gen !== BVN.gen || id !== BV.sayId) return fin('cut'); // stopped, or a newer line has taken over, while the clip was being made
-      if (!url) { BVN.fails++; BVN.rest = pieces.slice(i).join(' '); return fin(i ? 'fail' : 'fail'); }
+      if (!url) { if (!BVN.quota) BVN.fails++; BVN.rest = pieces.slice(i).join(' '); return fin('fail'); }
       const r = await new Promise((ok) => {
         const tm = setTimeout(() => { try { a.pause(); } catch {} ok('done'); }, 70000);
         let started = false; const end = (v) => { clearTimeout(tm); a.onended = a.onerror = null; ok(v); };
         BVN.stop = () => { clearTimeout(tm); try { a.pause(); } catch {} a.onended = a.onerror = null; ok('cut'); };
         a.onended = () => end('done'); a.onerror = () => { if (!started) BVN.fails++; end(started ? 'done' : 'fail'); };
+        try { if (BV_TTS) speechSynthesis.cancel(); } catch {}
         bvAudioType('playback'); a.src = url;
         a.play().then(() => { started = true; BVN.fails = 0; }).catch(() => end(started ? 'done' : 'fail'));
       });
@@ -221,6 +231,7 @@ function bvSay(line) {
     if ((await bvNeuralSay(segs, id)) !== 'fail' || id !== BV.sayId) return res();
     if (!BV_TTS) return res();
     const text = BVN.rest || segs.map(bvSeg).join(' ');
+    try { BVN.audio && BVN.audio.pause(); } catch {}
     bvPickVoice();
     const u = new SpeechSynthesisUtterance(text); u.lang = 'en-GB'; u.rate = 1; u.pitch = 1; if (BV.voice) { u.voice = BV.voice; u.lang = BV.voice.lang || 'en-GB'; }
     let done = false; const fin = () => { if (!done) { done = true; clearTimeout(t); res(); } };
