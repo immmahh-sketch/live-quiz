@@ -1,0 +1,98 @@
+{
+ "category": "Test round",
+ "questions": [
+  {
+   "id": "t1",
+   "type": "choice",
+   "t": "What is the capital city of France?",
+   "o": [
+    "Lyon",
+    "Paris",
+    "Marseille",
+    "Nice"
+   ],
+   "c": 1,
+   "lv": "easy"
+  },
+  {
+   "id": "t2",
+   "type": "choice",
+   "t": "How many sides does a hexagon have?",
+   "o": [
+    "Five",
+    "Six",
+    "Seven",
+    "Eight"
+   ],
+   "c": 1,
+   "lv": "easy"
+  },
+  {
+   "id": "t3",
+   "type": "choice",
+   "t": "Which planet is known as the Red Planet?",
+   "o": [
+    "Venus",
+    "Jupiter",
+    "Mars",
+    "Mercury"
+   ],
+   "c": 2,
+   "lv": "easy"
+  },
+  {
+   "id": "t4",
+   "type": "choice",
+   "t": "Which river runs through Newcastle upon Tyne?",
+   "o": [
+    "River Wear",
+    "River Tees",
+    "River Tyne",
+    "River Mersey"
+   ],
+   "c": 2,
+   "lv": "easy"
+  },
+  {
+   "id": "t5",
+   "type": "choice",
+   "t": "Who painted the Mona Lisa?",
+   "o": [
+    "Michelangelo",
+    "Leonardo da Vinci",
+    "Raphael",
+    "Botticelli"
+   ],
+   "c": 1,
+   "lv": "easy"
+  }
+ ],
+ "spares": [
+  {
+   "id": "s1",
+   "type": "choice",
+   "t": "What colour do you get by mixing blue and yellow?",
+   "o": [
+    "Green",
+    "Purple",
+    "Orange",
+    "Brown"
+   ],
+   "c": 0,
+   "lv": "easy"
+  },
+  {
+   "id": "s2",
+   "type": "choice",
+   "t": "How many days are there in a leap year?",
+   "o": [
+    "365",
+    "364",
+    "366",
+    "367"
+   ],
+   "c": 2,
+   "lv": "easy"
+  }
+ ]
+}

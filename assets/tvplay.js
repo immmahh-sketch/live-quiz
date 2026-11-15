@@ -77,8 +77,11 @@
     if (!done) return;
     app.querySelectorAll('.btn, .app-top').forEach((b) => { if (!b.closest('.tvfin')) b.classList.add('tvhide'); }); // the phone's own buttons (Join another game) make no sense here
     if (!app.querySelector('#tvMenu')) {
-      app.insertAdjacentHTML('beforeend', '<div class="tvfin"><button type="button" class="btn btn-primary btn-lg" id="tvNext" data-autofocus>▶ Next game</button><button type="button" class="btn btn-lg" id="tvMenu">🏠 Menu</button></div>');
-      app.querySelector('#tvMenu').onclick = () => tell('menu'); app.querySelector('#tvNext').onclick = () => tell('next');
+      // the winner takes a game point (shared with the other quizzes, see assets/hubkit.js in the page around this one)
+      let gp = ''; try { const top = PP()?.state?.top, H = parent.HUB; if (top && top.length > 1 && H) gp = '<div class="tvgp">' + H.awardBox(new URLSearchParams(location.search).get('g') || 'g', top.map((x) => ({ n: x.name, v: x.score }))).text + '</div>'; } catch {}
+      const T = parent.HUB && parent.HUB.test; if (T) gp = '<div class="tvgp">🧪 Test game: nothing used up, no game point.</div>';
+      app.insertAdjacentHTML('beforeend', gp + '<div class="tvfin"><button type="button" class="btn btn-primary btn-lg" id="tvNext" data-autofocus>' + (T ? '↻ Play the test again' : '▶ Next game') + '</button><button type="button" class="btn btn-lg" id="tvMenu">' + (T ? 'Back to the tests' : '🧭 Choose another quiz') + '</button></div>');
+      app.querySelector('#tvMenu').onclick = () => tell('hub'); app.querySelector('#tvNext').onclick = () => tell('next');
     }
     tell('final');
   }

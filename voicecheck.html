@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Voice check · Let's Quiz!</title>
+<link rel="icon" type="image/png" sizes="64x64" href="assets/brand/icon-64.png">
+<meta name="theme-color" content="#0f3b3a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/hubkit.css?v=20261115b">
+<style>
+  :root { --stage: #0f3b3a; --stage-2: #1f6b5e; }
+  .list { flex: 1 1 auto; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding: 4px 6px 6px 4px; }
+  .vrow { display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,.26); border: 3px solid rgba(255,255,255,.2); border-radius: 16px; padding: 8px 12px; }
+  .vrow.cur { border-color: var(--sun); background: rgba(255,213,74,.14); }
+  .vrow .nm { flex: 1; min-width: 0; font-weight: 900; font-size: 1.05rem; line-height: 1.1; } .vrow .nm small { display: block; font-weight: 700; opacity: .7; font-size: .78rem; }
+  .vrow .btn { padding: 6px 14px; font-size: .95rem; }
+  .now { font-weight: 800; font-size: 1.05rem; background: rgba(0,0,0,.26); border-radius: 14px; padding: 8px 14px; }
+  .tbadge { background: #ffb020; color: #3a2400; font-weight: 900; border-radius: 999px; padding: 3px 14px; font-size: .95rem; }
+</style>
+</head>
+<body>
+<div id="stage"><div class="screen" id="screen"></div></div>
+<div id="hubOver"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="assets/common.js"></script>
+<script src="assets/hubkit.js?v=20261115b"></script>
+<script src="assets/dpad.js"></script>
+<script src="assets/boxes-voice.js?v=20261115b"></script>
+<script>
+// Voice check: which voice reads the quizzes out on this device, a sample of it, and a choice of the others. The automatic choice is a natural British woman's voice
+// (see bvScore in boxes-voice.js); a voice picked here is remembered on this device (lq_voice).
+HUB.stage();
+const { $, esc } = HUB;
+const SAMPLE = 'Question one. Which river runs through Newcastle upon Tyne? A: the Tyne. B: the Wear. C: the Tees. D: the Mersey.';
+function say(v) { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(SAMPLE); u.lang = (v && v.lang) || 'en-GB'; u.rate = 1; u.pitch = 1; if (v) u.voice = v; speechSynthesis.speak(u); } catch {} }
+function draw() {
+  const vs = (typeof speechSynthesis !== 'undefined' ? bvVoices() : []).filter((v) => /^en/i.test(v.lang)), saved = (() => { try { return localStorage.getItem('lq_voice') || ''; } catch { return ''; } })();
+  BV.voice = null; bvPickVoice(true);
+  const cur = BV.voice, ranked = vs.map((v) => [bvScore(v), v]).sort((a, b) => b[0] - a[0]).map((x) => x[1]).slice(0, 14);
+  $('#screen').innerHTML = `<div class="brand"><img src="assets/brand/mark.png" alt=""><span class="grow">Let's Quiz!</span><span class="tbadge">🧪 TEST MODE</span></div>
+    <h1 style="font-size:1.8rem">🔊 Voice check</h1>
+    <div class="now">${cur ? `In use: <b>${esc(cur.name)}</b> (${esc(cur.lang)})${saved ? ' · chosen by you' : ' · chosen automatically'}` : 'This device has no voice to read the quizzes out (a TV usually has none: the quizzes are read on the screen there).'}</div>
+    <div class="row"><button class="btn primary" id="hear" type="button" data-autofocus>▶ Hear the voice in use</button><button class="btn" id="auto" type="button">Choose automatically</button></div>
+    <div class="list">${ranked.map((v, i) => `<div class="vrow${cur && v.voiceURI === cur.voiceURI && v.name === cur.name ? ' cur' : ''}"><span class="nm">${esc(v.name)}<small>${esc(v.lang)}${v.localService ? '' : ' · online'}</small></span><button class="btn" data-h="${i}" type="button">▶ Hear</button><button class="btn" data-u="${i}" type="button">Use</button></div>`).join('') || '<div class="muted">No voices found yet.</div>'}</div>
+    <div class="row"><button class="btn" id="back" type="button">← Back to the tests</button></div>`;
+  $('#hear').onclick = () => say(cur); $('#auto').onclick = () => { try { localStorage.removeItem('lq_voice'); } catch {} draw(); say(BV.voice); };
+  document.querySelectorAll('[data-h]').forEach((b) => { b.onclick = () => say(ranked[+b.dataset.h]); });
+  document.querySelectorAll('[data-u]').forEach((b) => { b.onclick = () => { const v = ranked[+b.dataset.u]; try { localStorage.setItem('lq_voice', v.voiceURI || v.name); } catch {} draw(); say(v); }; });
+  $('#back').onclick = () => { location.href = 'choosetest' + (HUB.mode.tv ? '?tv=1' : HUB.mode.car ? '?car=1' : ''); };
+  setTimeout(() => { try { DPAD.focusFirst(); } catch {} }, 50);
+}
+draw(); try { speechSynthesis.addEventListener('voiceschanged', draw); } catch {}
+</script>
+</body>
+</html>

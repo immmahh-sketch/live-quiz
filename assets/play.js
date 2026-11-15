@@ -67,7 +67,7 @@ function renderJoin(msg) {
     else if (/^VIEW[A-Z0-9]{6}$/.test(c)) { P.code = c.slice(4); P.view = true; P.pid = 'p_vw' + P.pid.replace(/^p_/, '').slice(0, 8); }
     else if (/^TEST[A-Z0-9]{6}$/.test(c)) { P.code = c.slice(4); P.test = true; }
     // BOX2P: Box Clever for two on the TV (tvbox.html): straight into the game being played, or the next one
-    else if (c === 'BOX2P') { location.href = 'tvbox?auto=1'; return; }
+    else if (c === 'BOX2P') { location.href = 'choose?tv=1'; return; }
     // A live game's code is always six characters; anything else can only be a warm-up (TESTWARMUP, say)
     else if (c.length !== 6) {
       LQ.api('warmup_open', { code: c, peek: true }, { timeout: 8000 }).then(() => { location.href = 'warmup?c=' + encodeURIComponent(c); })

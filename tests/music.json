@@ -1,0 +1,94 @@
+{
+ "category": "Test round",
+ "questions": [
+  {
+   "id": "tm0",
+   "type": "choice",
+   "t": "Which song contains the line 'The club isn't the best place to find a lover'?",
+   "o": [
+    "Thinking Out Loud",
+    "Perfect",
+    "Shape of You",
+    "Castle on the Hill"
+   ],
+   "c": 2,
+   "lv": "easy"
+  },
+  {
+   "id": "tm1",
+   "type": "choice",
+   "t": "Which song contains the line 'It was the third of September'?",
+   "o": [
+    "Ain't No Mountain High Enough",
+    "Papa Was a Rollin' Stone",
+    "September",
+    "What's Going On"
+   ],
+   "c": 1,
+   "lv": "hard"
+  },
+  {
+   "id": "tm2",
+   "type": "tune",
+   "kind": "artist",
+   "t": "Who is the artist?",
+   "o": [
+    "Backstreet Boys",
+    "The Cranberries",
+    "The Rembrandts",
+    "Etta James"
+   ],
+   "c": 3,
+   "lv": "medium",
+   "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/03/e5/16/03e516df-cca4-2b80-cb5f-9ed158f884eb/mzaf_211061804880636509.plus.aac.p.m4a",
+   "len": 15
+  },
+  {
+   "id": "tm3",
+   "type": "tune",
+   "kind": "song",
+   "t": "Name this song.",
+   "o": [
+    "Telephone",
+    "Life Is a Highway",
+    "Monster Mash",
+    "Material Girl"
+   ],
+   "c": 1,
+   "lv": "medium",
+   "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b6/3b/cc/b63bcca7-d123-dc36-79f3-df719227002e/mzaf_11791240884181899081.plus.aac.p.m4a",
+   "len": 15
+  },
+  {
+   "id": "tm4",
+   "type": "tune",
+   "kind": "film",
+   "t": "Which film is this music from?",
+   "o": [
+    "Furious 7",
+    "Shrek 2",
+    "Fawlty Towers",
+    "The Sopranos"
+   ],
+   "c": 3,
+   "lv": "medium",
+   "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a7/43/45/a74345a1-491c-5d05-8f52-9b8fef781496/mzaf_11265081538084137760.plus.aac.p.m4a",
+   "len": 15
+  }
+ ],
+ "spares": [
+  {
+   "id": "ts0",
+   "type": "choice",
+   "t": "Which two countries share the record for the most Eurovision wins?",
+   "o": [
+    "Italy and Spain",
+    "The UK and France",
+    "Norway and Denmark",
+    "Ireland and Sweden"
+   ],
+   "c": 3,
+   "lv": "medium"
+  }
+ ]
+}

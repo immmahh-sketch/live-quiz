@@ -86,3 +86,6 @@ body.tvplay .bxtvl .bxcab.ph.mini .bxhandle, body.tvplay .bxtvl .bxcab.ph .bxhan
 .bxtvr.tvtyped .tvk.tvlock { min-width: 130px; background: #5b3df5; color: #fff; border-color: #5b3df5; }
 .tvk.tvlock { background: #5b3df5; color: #fff; border-color: #5b3df5; }
 .bxtvr.tvtyped #bxLockA { display: none; } /* the keyboard has its own LOCK IN */
+
+/* the game point after Box Clever */
+.tvgp { position: absolute; left: 0; right: 0; bottom: 92px; text-align: center; z-index: 6; font-weight: 900; font-size: 1.25rem; color: #ffd54a; text-shadow: 0 2px 8px rgba(0,0,0,.6); }

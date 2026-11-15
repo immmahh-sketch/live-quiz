@@ -1,0 +1,49 @@
+/* The look shared by choose.html, best15.html and bridge.html: a 960x540 stage (540x960 on a portrait phone) scaled to fit, big buttons, a focus ring for the TV remote. */
+:root { --stage: #1b1544; --stage-2: #2a1f6e; --sun: #ffd54a; --ink: #1b1544; --brand: #5b3df5; --good: #2e9d57; --bad: #e5484d; --s: 1; --W: 960px; --H: 540px; }
+html, body { margin: 0; height: 100%; background: var(--stage); color: #fff; font-family: Nunito, system-ui, sans-serif; overflow: hidden; -webkit-tap-highlight-color: transparent; }
+button { font: inherit; cursor: pointer; color: inherit; }
+[hidden] { display: none !important; }
+#stage { position: fixed; left: 50%; top: 50%; width: var(--W); height: var(--H); transform: translate(-50%, -50%) scale(var(--s)); transform-origin: center; background: radial-gradient(900px 500px at 50% -10%, var(--stage-2), var(--stage) 70%); overflow: hidden; }
+.screen { height: 100%; box-sizing: border-box; padding: 22px 40px 14px; display: flex; flex-direction: column; gap: 12px; }
+.portrait .screen { padding: 22px 24px 14px; }
+.brand { display: flex; align-items: center; gap: 12px; font-weight: 900; font-size: 1.05rem; opacity: .85; }
+.brand img { width: 32px; height: 32px; } .brand .grow { flex: 1; }
+h1 { margin: 0; font-size: 2.6rem; line-height: 1.05; font-weight: 900; }
+h2 { margin: 0 0 6px; font-size: 1.5rem; }
+.sub { margin: 4px 0 0; font-weight: 700; font-size: 1.1rem; opacity: .85; }
+.row { display: flex; gap: 12px; align-items: stretch; }
+.grow { flex: 1 1 auto; } .muted { opacity: .75; font-weight: 700; } .small { font-size: .85rem; } .center { text-align: center; }
+.btn { border: 3px solid rgba(255,255,255,.3); background: rgba(255,255,255,.1); color: #fff; border-radius: 16px; padding: 10px 18px; font-weight: 900; font-size: 1.1rem; }
+.btn.primary { background: var(--sun); color: var(--ink); border-color: var(--sun); box-shadow: 0 5px 0 #b8960a; }
+.btn.big { font-size: 1.4rem; padding: 14px 26px; }
+.btn[disabled] { opacity: .35; cursor: default; }
+.card { background: rgba(255,255,255,.1); border: 3px solid rgba(255,255,255,.18); border-radius: 20px; padding: 14px 20px; }
+.chip { display: inline-block; background: rgba(255,255,255,.14); border-radius: 999px; padding: 5px 14px; font-weight: 800; }
+:focus { outline: 4px solid var(--sun); outline-offset: 3px; border-radius: 14px; }
+.btn:focus { transform: scale(1.03); }
+.hint { text-align: center; font-weight: 700; font-size: .75rem; opacity: .5; }
+/* the scoreboard of game points */
+.gp { display: flex; align-items: center; justify-content: center; gap: 14px; }
+.gp .who { display: flex; align-items: center; gap: 10px; background: #fff; color: var(--ink); border: 3px solid #fff; border-radius: 16px; padding: 6px 16px; font-weight: 900; font-size: 1.3rem; min-width: 190px; }
+.gp .who small { display: block; font-size: .7rem; opacity: .6; font-weight: 800; }
+.gp .who .em { font-size: 1.9rem; }
+.gp .pt { margin-left: auto; font-size: 2.2rem; line-height: 1; }
+.gp .dash { font-weight: 900; font-size: 1.6rem; opacity: .6; }
+.gp .who.lead { background: var(--sun); border-color: var(--sun); }
+/* overlays */
+.modal-bg { position: fixed; inset: 0; background: rgba(10,6,40,.82); display: grid; place-items: center; z-index: 50; }
+.hubpop { background: #fff; color: var(--ink); border-radius: 24px; padding: 20px 28px; width: 620px; max-width: 94vw; box-sizing: border-box; transform: scale(var(--s)); text-align: center; }
+.portrait .hubpop { width: 520px; padding: 16px 14px; }
+.hubpop h2 { font-size: 1.8rem; margin: 0 0 6px; } .hubpop p { margin: 0 0 12px; font-weight: 700; opacity: .75; }
+.hubpop .btn { color: var(--ink); background: #eeebff; border-color: #cfcbe6; display: block; width: 100%; margin: 8px 0; box-sizing: border-box; }
+.hubpop .btn.primary { background: var(--sun); border-color: var(--sun); }
+.kbtxt { background: #f4f3fb; border: 3px solid var(--brand); border-radius: 12px; min-height: 44px; padding: 6px 14px; font-weight: 900; font-size: 1.8rem; text-align: center; margin-bottom: 10px; color: var(--ink); overflow: hidden; }
+.kbtxt.empty::before { content: 'Type your name'; font-size: 1.1rem; opacity: .4; }
+/* the on-screen keyboard */
+.hkb { display: flex; flex-direction: column; gap: 5px; }
+.hkrow { display: flex; justify-content: center; gap: 5px; }
+.hk { border: 3px solid #cfcbe6; background: #eeebff; color: var(--ink); border-radius: 10px; min-width: 44px; padding: 6px 6px; font-weight: 900; font-size: 1.15rem; }
+.hk.w { min-width: 120px; } .hk.go { background: var(--sun); border-color: var(--sun); }
+.portrait .hk { min-width: 40px; padding: 8px 4px; }
+.portrait .hk.w { min-width: 110px; }
+.tv .hk { min-width: 46px; }

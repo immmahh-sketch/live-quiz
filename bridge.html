@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bridge of Lies · Let's Quiz!</title>
+<link rel="icon" type="image/png" sizes="64x64" href="assets/brand/icon-64.png">
+<meta name="theme-color" content="#1b1544">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/hubkit.css?v=20261115b">
+<style>
+  .top { display: flex; align-items: center; gap: 10px; font-weight: 900; }
+  .top .who { background: #fff; color: var(--ink); border-radius: 999px; padding: 4px 16px; font-size: 1.1rem; white-space: nowrap; }
+  .top .grow { flex: 1; min-width: 0; }
+  .top .pill { background: rgba(255,255,255,.14); border-radius: 999px; padding: 4px 12px; font-size: 1.05rem; white-space: nowrap; }
+  .top .tcat { font-size: 1.3rem; line-height: 1.05; }
+  .top .tcat small { display: block; font-size: .62rem; letter-spacing: .12em; opacity: .65; font-weight: 800; }
+  .lives { letter-spacing: 2px; }
+  .main { flex: 1 1 auto; min-height: 0; display: flex; gap: 14px; align-items: center; }
+  .portrait .main { flex-direction: column; align-items: stretch; }
+  .boardbox { flex: none; position: relative; margin: 0 auto; }
+  .boardbox svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .tile { position: absolute; border-radius: 50%; display: grid; place-items: center; text-align: center; font-weight: 900; line-height: 1; box-sizing: border-box; padding: 3px; overflow: hidden; word-break: normal; cursor: default; user-select: none;
+    background: radial-gradient(circle at 35% 30%, #34306f, #1a1741 70%); color: #8e8ac4; border: 3px solid #4b4694; box-shadow: inset 0 3px 6px rgba(0,0,0,.5); }
+  .tile.open { background: radial-gradient(circle at 35% 30%, #8d77ff, #5b3df5 70%); color: #fff; border-color: #d9d1ff; cursor: pointer; box-shadow: 0 0 14px 3px rgba(150,130,255,.75); overflow: visible; }
+  .tile.open:hover { border-color: var(--sun); }
+  .tile.ok { background: radial-gradient(circle at 35% 30%, #5ee08e, #1f9d57 70%); color: #fff; border-color: #c4f5d6; box-shadow: 0 0 14px 3px rgba(80,220,140,.7); }
+  .tile.bad { background: radial-gradient(circle at 35% 30%, #a02c3a, #5a1420 70%); color: #f0a9ad; border-color: #e5484d; text-decoration: line-through; }
+  .tile.rev { border-color: #8be3a9; color: #c4f5d6; background: radial-gradient(circle at 35% 30%, #2b6b48, #123b27 70%); }
+  .tile.start { background: radial-gradient(circle at 35% 30%, #ff7a82, #d12a37 70%); color: #fff; border-color: #ffd0d4; font-size: 9px; letter-spacing: .04em; }
+  .tile.end { background: radial-gradient(circle at 35% 30%, #6df0a2, #14a35a 70%); color: #fff; border-color: #d2ffe3; font-size: 9px; letter-spacing: .04em; }
+  .tile .ltr { position: absolute; left: 50%; top: -8px; transform: translateX(-50%); background: var(--sun); color: var(--ink); border-radius: 999px; min-width: 18px; height: 18px; line-height: 18px; font-size: 12px; padding: 0 3px; box-shadow: 0 2px 4px rgba(0,0,0,.5); }
+  .tile.pop { animation: pop .35s; } @keyframes pop { 0% { transform: scale(.7); } 60% { transform: scale(1.18); } 100% { transform: scale(1); } }
+  .tile.shake { animation: shake .4s; } @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+  .panel { flex: 1 1 0; min-width: 0; align-self: stretch; display: flex; flex-direction: column; gap: 8px; min-height: 0; }
+  .panel h3 { margin: 0; font-size: .9rem; letter-spacing: .1em; opacity: .75; text-transform: uppercase; }
+  .moves { display: flex; flex-direction: column; gap: 7px; overflow-y: auto; min-height: 0; padding: 4px 6px 6px 4px; }
+  .portrait .moves { display: grid; grid-template-columns: 1fr 1fr; }
+  .mv { display: flex; align-items: center; gap: 10px; text-align: left; background: #fff; color: var(--ink); border: 3px solid #fff; border-radius: 14px; padding: 6px 10px; font-weight: 900; font-size: 1.05rem; line-height: 1.05; min-height: 40px; }
+  .mv b { flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; background: var(--brand); color: #fff; font-size: 1.1rem; }
+  .mv:focus { outline: 4px solid var(--sun); outline-offset: 2px; transform: scale(1.02); }
+  .msg { background: rgba(255,255,255,.12); border-radius: 12px; padding: 6px 12px; font-weight: 800; font-size: .95rem; min-height: 1.3em; }
+  .msg.good { background: var(--good); } .msg.bad { background: var(--bad); }
+  .rules { font-weight: 700; line-height: 1.5; opacity: .92; } .rules b { color: var(--sun); }
+  .big { font-size: 3rem; font-weight: 900; line-height: 1.05; }
+  .scoreline { display: flex; gap: 16px; justify-content: center; } .scoreline .card { text-align: center; min-width: 200px; } .scoreline .card b { display: block; font-size: 3rem; line-height: 1; } .scoreline .card.win { background: var(--sun); color: var(--ink); border-color: var(--sun); }
+  body.testmode { --stage: #0f3b3a; --stage-2: #1f6b5e; }
+  .tbadge { background: #ffb020; color: #3a2400; font-weight: 900; border-radius: 999px; padding: 2px 12px; font-size: .85rem; }
+</style>
+</head>
+<body>
+<div id="stage"><div class="screen" id="screen"><div class="center" style="margin:auto">Loading…</div></div></div>
+<div id="hubOver"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="assets/common.js"></script>
+<script src="assets/hubkit.js?v=20261115b"></script>
+<script src="assets/dpad.js"></script>
+<script src="assets/boxes-voice.js?v=20261115b"></script>
+<script src="assets/hubvoice.js?v=20261115b"></script>
+<script>
+// Bridge of Lies: a diamond of answers to one category, crossed from the red START pad on the left to the green FINISH pad on the right. A hidden path of true
+// answers joins them; everything else is a lie. A correct answer opens the tiles touching it. Every open tile has a letter (A, B, C...) to touch, click or say.
+// A lie costs one of three lives. 100 points a correct answer, 500 more for getting across. Each player has their own bridge (50 in the pool, each used once on
+// any device); the higher score wins a game point. ?test=1: one short bridge (5 correct answers across), the same every time, nothing used up, no game point.
+HUB.stage();
+const { $, esc } = HUB;
+const TEST = HUB.test; if (TEST) document.body.classList.add('testmode');
+const KEY = 'lq_bridge', PLAYED = 'lq_bridge_played', LET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const pool = HUB.pool('BRIDGE');
+let B = null, INDEX = null, audio = null;
+const names = () => HUB.names();
+const sayOn = () => HV.on();
+const save = () => { if (TEST) return; const c = B.cur, keep = c && c.tried; if (c) c.tried = [...keep.entries()]; try { localStorage.setItem(KEY, JSON.stringify({ ...B, at: Date.now() })); } catch {} if (c) c.tried = keep; };
+const load = () => { if (TEST) return null; try { const r = JSON.parse(localStorage.getItem(KEY) || 'null'); if (r && Date.now() - r.at < 6 * 3600e3 && r.phase) return r; } catch {} return null; };
+const fresh = () => ({ phase: 'intro', turn: 0, scores: [null, null], cur: null, awarded: false });
+const played = () => { try { return new Set(JSON.parse(localStorage.getItem(PLAYED) || '[]')); } catch { return new Set(); } };
+const markPlayed = (id) => { const s = played(); s.add(id); try { localStorage.setItem(PLAYED, JSON.stringify([...s])); } catch {} };
+
+// ---------------------------------------------------------------- the board: a square lattice turned 45 degrees
+const around = (c, i, j) => [[i - 1, j], [i + 1, j], [i, j - 1], [i, j + 1]].filter(([x, y]) => x >= 0 && x < c.n && y >= 0 && y < c.m);
+const idx = (c, i, j) => i * c.m + j;
+const isEnd = (c, i, j) => i === c.n - 1 && j === c.m - 1;
+/** the tiles that can be chosen now: those touching the START pad or a correct tile already found, not yet tried */
+function openList(c) {
+  const s = new Set(), add = (i, j) => { for (const [x, y] of around(c, i, j)) { const k = idx(c, x, y); if (!c.tiles[k].pad && !c.tried.has(k)) s.add(k); } };
+  add(0, 0); c.tried.forEach((v, k) => { if (v === 1) add(Math.floor(k / c.m), k % c.m); });
+  return [...s].sort((a, b) => { const ai = Math.floor(a / c.m), aj = a % c.m, bi = Math.floor(b / c.m), bj = b % c.m; return (ai + aj) - (bi + bj) || (bi - bj) - (ai - aj) || a - b; }); // nearest the start first, top to bottom
+}
+function beep(f, d, type, vol) { try { audio = audio || new (window.AudioContext || window.webkitAudioContext)(); const o = audio.createOscillator(), g = audio.createGain(); o.type = type || 'sine'; o.frequency.value = f; g.gain.value = vol || 0.07; o.connect(g); g.connect(audio.destination); o.start(); g.gain.exponentialRampToValueAtTime(0.0001, audio.currentTime + d); o.stop(audio.currentTime + d); } catch {} }
+const sfx = { ok: () => { beep(660, .12); setTimeout(() => beep(880, .18), 110); }, bad: () => { beep(160, .35, 'sawtooth', .09); }, win: () => [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => beep(f, .3), i * 140)), lose: () => { beep(220, .3, 'sawtooth'); setTimeout(() => beep(150, .5, 'sawtooth'), 280); } };
+
+// ---------------------------------------------------------------- choosing a bridge
+async function chooseGame() {
+  if (TEST) return await (await fetch('tests/bridge.json')).json();
+  if (!INDEX) INDEX = await (await fetch('bridge/index.json')).json();
+  const ids = INDEX.games.map((g) => g.id);
+  let st = await pool.state();
+  const mine = played(), usable = () => ids.filter((id) => !mine.has(id) && !st.played.has(id) && !st.others.has(id));
+  let left = usable();
+  for (let i = 0; i < 6 && left.length; i++) {
+    const id = left[Math.floor(Math.random() * left.length)], c = await pool.claim(id);
+    if (c && c.taken) { st = await pool.state(); left = usable(); continue; }
+    return await (await fetch('bridge/games/' + id + '.json')).json();
+  }
+  return null;
+}
+const retireGame = (id) => { if (TEST || !id) return; markPlayed(id); pool.done(id); };
+
+// ---------------------------------------------------------------- screens
+const hubTo = () => (TEST ? 'choosetest' : 'choose') + (HUB.mode.tv ? '?tv=1' : HUB.mode.car ? '?car=1' : '');
+const topBar = (mid = '', cat = '') => `<div class="top"><span class="who">${HUB.emojis()[B.turn]} ${esc(names()[B.turn])}</span>${cat ? `<span class="grow tcat"><small>${TEST ? 'TEST · ' : ''}CATEGORY</small>${esc(cat)}</span>` : '<span class="grow"></span>'}${mid}<button class="btn" id="menuBtn" type="button" data-say="menu|quit|leave|exit" style="padding:4px 12px;font-size:.85rem">✕ Menu</button></div>`;
+function leave() { HV.stop(); if (B && B.cur && !B.cur.over) retireGame(B.cur.id); B = null; try { localStorage.removeItem(KEY); } catch {} location.href = hubTo(); }
+function bindMenu() { const b = $('#menuBtn'); if (b) b.onclick = () => (TEST ? leave() : HUB.confirmBox('Leave Bridge of Lies?', 'This bridge counts as used.', 'Yes, leave', leave)); }
+
+async function screenIntro() {
+  B.phase = 'intro'; B.cur = null; save();
+  const n = names()[B.turn];
+  $('#screen').innerHTML = `${topBar()}<div class="center" style="margin:auto"><div class="big">🌉</div><h1 style="margin-top:6px">${esc(n)}'s bridge</h1><p class="sub">Finding a bridge for you…</p></div>`; bindMenu();
+  let g = null; try { g = await chooseGame(); } catch {}
+  if (!g) { $('#screen').innerHTML = `${topBar()}<div class="center" style="margin:auto"><h2>${INDEX ? 'You have used every bridge!' : 'Hmm.'}</h2><p class="muted">${INDEX ? 'All 50 bridges have been crossed. More are on the way.' : 'The bridges could not be loaded. Check the internet connection.'}</p><button class="btn primary big" id="hub" type="button" data-autofocus data-say="choose another quiz|menu|back">${TEST ? 'Back to the tests' : 'Choose another quiz'}</button></div>`; $('#hub').onclick = leave; bindMenu(); HUB.focusFirst(); return; }
+  B.cur = { id: g.id, cat: g.cat, n: g.n, m: g.m, tiles: g.tiles, tried: new Map(), lives: 3, pts: 0, over: false, crossed: false, note: '' };
+  save();
+  const across = g.n + g.m - 3;
+  $('#screen').innerHTML = `${topBar()}<div class="center" style="margin:auto"><h1>${esc(n)}'s bridge</h1><p class="sub" style="margin-bottom:10px">The category:</p><div class="big" style="font-size:2.3rem">${esc(g.cat)}</div></div>
+    <div class="card rules">Cross the diamond from the red pad on the left to the green pad on the right. Find the <b>true answers</b>: the shortest way across is <b>${across}</b> of them. Each correct answer opens the tiles touching it, and every open tile has a <b>letter</b>. The board is full of <b>lies</b>: you have <b>3 lives</b>. <b>100</b> points a correct answer, <b>500</b> bonus for getting across.</div>
+    <button class="btn primary big" id="start" type="button" data-autofocus data-say="start|go|begin|ready|play|let's go">▶ Start</button>`;
+  bindMenu(); const go = () => { B.phase = 'play'; B.cur.note = 'first'; save(); screenPlay(); }; $('#start').onclick = go; HUB.focusFirst();
+  if (sayOn()) HV.screen({ prompt: `${n}'s bridge. The category is: ${g.cat}. The shortest way across is ${across} correct answers. You have three lives. Say start when you are ready.`, hint: 'Say start.', items: [] });
+}
+
+function geometry() {
+  const c = B.cur, portrait = document.documentElement.classList.contains('portrait'), s = c.n + c.m - 2;
+  const g = portrait ? { hx: 37, vy: 26, d: 43, p: 16 } : { hx: 46, vy: 32, d: 54, p: 18 };
+  return { ...g, portrait, s, W: s * g.hx + g.d + 2 * g.p, H: s * g.vy + g.d + 2 * g.p, at: (i, j) => [g.p + (i + j) * g.hx, g.p + ((i - j) + (c.m - 1)) * g.vy] };
+}
+function diamond(g, c) { // the board's gold-rimmed diamond (corners: the two pads and the two sides)
+  const q = (i, j) => { const [x, y] = g.at(i, j); return [x + g.d / 2, y + g.d / 2]; }, e = g.d * 0.78;
+  const [lx, ly] = q(0, 0), [tx, ty] = q(0, c.m - 1), [rx, ry] = q(c.n - 1, c.m - 1), [bx, by] = q(c.n - 1, 0);
+  return `<svg viewBox="0 0 ${g.W} ${g.H}" preserveAspectRatio="none"><polygon points="${lx - e},${ly} ${tx},${ty - e} ${rx + e},${ry} ${bx},${by + e}" fill="#120f35" stroke="#d4a24a" stroke-width="5" stroke-linejoin="round"/><polygon points="${lx - e + 9},${ly} ${tx},${ty - e + 9} ${rx + e - 9},${ry} ${bx},${by + e - 9}" fill="none" stroke="#6b4f1d" stroke-width="2" stroke-linejoin="round"/></svg>`;
+}
+function tileHtml(g, c, k, letters) {
+  const t = c.tiles[k], i = Math.floor(k / c.m), j = k % c.m, [x, y] = g.at(i, j), v = c.tried.get(k);
+  const st = `left:${x}px;top:${y}px;width:${g.d}px;height:${g.d}px`;
+  if (t.pad) return `<div class="tile ${t.pad}" style="${st}">${t.pad === 'start' ? 'START' : 'FINISH'}</div>`;
+  const longest = Math.max(...String(t.t).split(/\s+/).map((s) => s.length)), fs = (g.portrait ? 6 : 7.5) + (longest <= 6 ? 1.5 : longest <= 9 ? 0.5 : 0);
+  const cls = v === 1 ? 'ok' : v === 0 ? 'bad' : c.over ? (t.ok ? 'rev' : '') : letters.has(k) ? 'open' : '';
+  return `<div class="tile ${cls}" data-i="${k}" style="${st};font-size:${fs}px">${esc(t.t)}${cls === 'open' ? `<span class="ltr">${LET[letters.get(k)]}</span>` : ''}</div>`;
+}
+const movesText = (c, list) => list.map((k, n) => `${LET[n]}: ${c.tiles[k].t}`).join('. ');
+function screenPlay() {
+  const c = B.cur, g = geometry(), list = c.over ? [] : openList(c), letters = new Map(list.map((k, n) => [k, n]));
+  const note = c.note === 'first' ? '' : c.note;
+  const mid = `<span class="pill lives">${'❤️'.repeat(c.lives)}${'🖤'.repeat(3 - c.lives)}</span><span class="pill">⭐ ${c.pts}</span>`;
+  const panel = c.over
+    ? `<div class="panel"><div class="msg ${c.crossed ? 'good' : 'bad'}" style="font-size:1.3rem">${c.crossed ? '🎉 You crossed the bridge! +500 bonus' : '💥 The bridge has fallen!'}</div><div class="msg" style="font-size:1.2rem">${c.pts} points</div><button class="btn primary big" id="cont" type="button" data-autofocus data-say="continue|next|go on|carry on|ok|okay">${B.turn === 0 && !TEST ? esc(names()[1]) + "'s turn ▶" : TEST ? 'Finish ▶' : 'See the scores ▶'}</button></div>`
+    : `<div class="panel"><h3>Your next move</h3><div class="msg ${/^Correct/.test(note) ? 'good' : /lie/i.test(note) ? 'bad' : ''}" id="note">${esc(note) || 'Pick a letter.'}</div><div class="moves">${list.map((k, n) => `<button class="mv" type="button" data-i="${k}" data-say="${esc(c.tiles[k].t)}"><b>${LET[n]}</b><span>${esc(c.tiles[k].t)}</span></button>`).join('')}</div></div>`;
+  $('#screen').innerHTML = `${topBar(mid, c.cat)}<div class="main"><div class="boardbox" id="board" style="width:${g.W}px;height:${g.H}px">${diamond(g, c)}${c.tiles.map((_, k) => tileHtml(g, c, k, letters)).join('')}</div>${panel}</div>`;
+  bindMenu();
+  document.querySelectorAll('.mv').forEach((b) => { b.onclick = () => pickTile(+b.dataset.i); });
+  document.querySelectorAll('#board .tile.open').forEach((el) => { el.onclick = () => pickTile(+el.dataset.i); });
+  const ct = $('#cont'); if (ct) ct.onclick = endTurn;
+  HUB.focusFirst();
+  if (HUB.mode.tv && !c.over) { const f = $('.mv'); f && DPAD.focus(f); }
+  if (sayOn()) voicePlay(c, list);
+}
+function pickTile(k) {
+  const c = B.cur; if (c.over || c.tried.has(k)) return; const t = c.tiles[k]; HV.stop();
+  c.tried.set(k, t.ok ? 1 : 0);
+  if (t.ok) {
+    c.pts += 100; sfx.ok(); c.note = 'Correct! ' + t.t + '. +100';
+    const i = Math.floor(k / c.m), j = k % c.m;
+    if (around(c, i, j).some(([x, y]) => isEnd(c, x, y))) { c.crossed = true; c.over = true; c.pts += 500; sfx.win(); retireGame(c.id); }
+  } else { c.lives--; sfx.bad(); c.note = 'A lie! ' + t.t + ' is not one. ' + (c.lives ? c.lives + (c.lives === 1 ? ' life' : ' lives') + ' left.' : ''); if (c.lives <= 0) { c.over = true; sfx.lose(); retireGame(c.id); } }
+  if (c.over) B.scores[B.turn] = c.pts;
+  save(); screenPlay();
+  const el = $(`#board .tile[data-i="${k}"]`); if (el) el.classList.add(t.ok ? 'pop' : 'shake');
+}
+function endTurn() { if (TEST) return screenFinal(); if (B.turn === 0) { B.turn = 1; save(); screenIntro(); } else screenFinal(); }
+
+// ---------------------------------------------------------------- hands-free: say a letter (or what the tile says) for the next move
+function voicePlay(c, list) {
+  if (c.over) {
+    HV.screen({ prompt: `${c.crossed ? 'You crossed the bridge! Five hundred bonus. ' : 'The bridge has fallen. '}${c.pts} points. Say continue.`, hint: 'Say continue.', items: [] }); return;
+  }
+  const lead = c.note === 'first' ? 'Pick your first move. ' : c.note ? c.note + ' ' : '';
+  HV.screen({ prompt: `${lead}${c.note === 'first' ? '' : 'Your next move. '}${movesText(c, list)}.`, hint: 'Say a letter, or the answer. Or say repeat.',
+    items: [{ test: (alts) => { for (const a of alts) { const n = HV.letterIndex(a, list.length); if (n >= 0) return n + 1; } return false; }, fn: (n) => pickTile(list[n - 1]) }] });
+}
+function screenFinal() {
+  HV.stop(); const n = names(), sc = B.scores;
+  if (TEST) {
+    const c = B.cur;
+    $('#screen').innerHTML = `${topBar('', '')}<div class="center" style="margin:auto"><p class="muted" style="margin:0"><span class="tbadge">TEST</span></p><div class="big" style="font-size:3rem">${c.crossed ? '🎉 You crossed!' : '💥 The bridge fell'}</div><p class="sub">${c.pts} points. Nothing was used up and no game point was given. Run it as often as you like.</p></div>
+      <div class="row"><button class="btn primary big grow" id="again" type="button" data-autofocus data-say="play again|again|another go|restart">↻ Play the test again</button><button class="btn big grow" id="hub" type="button" data-say="back|test menu|menu|back to the tests">Back to the tests</button></div>`;
+    $('#again').onclick = () => { B = fresh(); screenIntro(); }; $('#hub').onclick = leave; bindMenu(); HUB.focusFirst();
+    if (sayOn()) HV.screen({ prompt: `${c.crossed ? 'You crossed the bridge.' : 'The bridge fell.'} ${c.pts} points. Say play again, or back to the tests.`, hint: 'Say play again, or back to the tests.', items: [] });
+    return;
+  }
+  const win = sc[0] === sc[1] ? -1 : sc[0] > sc[1] ? 0 : 1;
+  if (!B.awarded) { B.awarded = true; if (win >= 0) HUB.award(win, 'Bridge of Lies'); }
+  B.phase = 'final'; save();
+  const g = HUB.points();
+  $('#screen').innerHTML = `<div class="top"><span class="who">🌉 Bridge of Lies</span><span class="grow"></span><span class="pill">Final score</span></div>
+    <div class="scoreline">${[0, 1].map((i) => `<div class="card${win === i ? ' win' : ''}"><small>${HUB.emojis()[i]} ${esc(n[i])}</small><b>${sc[i]}</b></div>`).join('')}</div>
+    <div class="center"><div class="big" style="font-size:2.2rem">${win < 0 ? "It's a draw! No game point." : '🏆 ' + esc(n[win]) + ' wins!'}</div><p class="sub">${win < 0 ? '' : '+1 game point · '}Game points: <b>${esc(HUB.pointsText())}</b></p></div>
+    <div class="row"><button class="btn primary big grow" id="again" type="button" data-autofocus data-say="another round|play again|again|another|one more">↻ Another round</button><button class="btn big grow" id="hub" type="button" data-say="choose another quiz|another quiz|different quiz|menu|home|choose">Choose another quiz</button></div>`;
+  $('#again').onclick = () => { B = fresh(); save(); screenIntro(); }; $('#hub').onclick = leave; HUB.focusFirst();
+  if (sayOn()) HV.screen({ prompt: `${sc[0]} to ${sc[1]}. ${win < 0 ? 'A draw. No game point.' : n[win] + ' wins and takes a game point.'} Game points: ${n[0]} ${g[0]}, ${n[1]} ${g[1]}. Say another round, or choose another quiz.`, hint: 'Say another round, or choose another quiz.', items: [] });
+  try { localStorage.removeItem(KEY); } catch {}
+}
+
+// ---------------------------------------------------------------- start
+(function boot() {
+  HV.button(() => { if (!B) return; B.phase === 'play' ? screenPlay() : B.phase === 'final' ? screenFinal() : screenIntro(); });
+  const r = load();
+  if (r && r.phase === 'play' && r.cur) { B = r; B.cur.tried = new Map(B.cur.tried || []); B.cur.note = ''; screenPlay(); }
+  else { B = fresh(); screenIntro(); }
+  addEventListener('resize', () => { if (B && B.phase === 'play' && B.cur) screenPlay(); });
+})();
+</script>
+</body>
+</html>

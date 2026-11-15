@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Choose your test quiz · Let's Quiz!</title>
+<link rel="icon" type="image/png" sizes="64x64" href="assets/brand/icon-64.png">
+<meta name="theme-color" content="#0f3b3a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/hubkit.css?v=20261115b">
+<style>
+  :root { --stage: #0f3b3a; --stage-2: #1f6b5e; }
+  .tiles { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; flex: 1 1 auto; min-height: 0; }
+  .portrait .tiles { grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; }
+  .tile { border: 4px solid rgba(255,255,255,.3); border-radius: 26px; color: #fff; text-align: left; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; justify-content: center; background: rgba(0,0,0,.26); }
+  .tile .em { font-size: 2.4rem; line-height: 1; }
+  .tile b { font-size: 1.25rem; line-height: 1.05; font-weight: 900; }
+  .tile span { font-weight: 700; font-size: .85rem; opacity: .92; }
+  .tile .t { display: flex; flex-direction: column; gap: 5px; }
+  .tile small { font-weight: 800; font-size: .78rem; background: #ffb020; color: #3a2400; border-radius: 999px; padding: 2px 12px; align-self: flex-start; }
+  .tile:focus { outline: 5px solid var(--sun); outline-offset: 4px; transform: scale(1.03); }
+  .tbadge { background: #ffb020; color: #3a2400; font-weight: 900; border-radius: 999px; padding: 3px 14px; font-size: .95rem; }
+</style>
+</head>
+<body>
+<div id="stage"><div class="screen" id="screen"></div></div>
+<div id="hubOver"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="assets/common.js"></script>
+<script src="assets/hubkit.js?v=20261115b"></script>
+<script src="assets/dpad.js"></script>
+<script src="assets/boxes-voice.js?v=20261115b"></script>
+<script src="assets/hubvoice.js?v=20261115b"></script>
+<script>
+// "Choose your test quiz": one short test game for each quiz, to check them. Each test is the same every time, can be run again and again, uses up
+// nothing and gives no game points. (Box Clever: 5 questions. Best of 15 and the Music quiz: 5 questions. Bridge of Lies: a short bridge, 5 correct answers across.)
+HUB.stage();
+const { $ } = HUB;
+const q = HUB.mode.tv ? '&tv=1' : HUB.mode.car ? '&car=1' : '';
+const boxUrl = HUB.mode.tv ? 'tvbox?auto=1&hub=1&tv=1&test=1' : 'warmup?pool=1&hub=1&test=1' + (HUB.mode.car ? '&car=1' : '');
+const say = () => 'Say Box Clever, Best of fifteen, Music quiz, Bridge of Lies, or voice check. Or say back.';
+function hubVoice() { if (HV.on()) HV.screen({ prompt: 'Choose your test quiz. ' + say(), hint: say(), items: [] }); }
+$('#screen').innerHTML = `<div class="brand"><img src="assets/brand/mark.png" alt=""><span class="grow">Let's Quiz!</span><span class="tbadge">🧪 TEST MODE</span></div>
+  <h1 style="text-align:center;font-size:1.6rem">Choose your test quiz</h1>
+  <p class="muted center small" style="margin:0">One short game per quiz, the same every time. Run it as often as you like: nothing is used up and no game points are given.</p>
+  <div class="tiles">
+    <button class="tile" id="tBox" type="button" data-autofocus data-say="box clever|box|clever"><span class="em">📦</span><span class="t"><b>Box Clever</b><span>5 boxes, 5 questions.</span><small>test</small></span></button>
+    <button class="tile" id="tB15" type="button" data-say="best of fifteen|best of 15|best of|fifteen|15"><span class="em">🎯</span><span class="t"><b>Best of 15</b><span>5 questions, A to D, with a clue, a swap and a pass.</span><small>test</small></span></button>
+    <button class="tile" id="tMusic" type="button" data-say="music quiz|music|the music quiz"><span class="em">🎵</span><span class="t"><b>Music Quiz</b><span>5 questions: three clips and two music questions.</span><small>test</small></span></button>
+    <button class="tile" id="tBridge" type="button" data-say="bridge of lies|the bridge|bridge|lies"><span class="em">🌉</span><span class="t"><b>Bridge of Lies</b><span>A short bridge: 5 correct answers across.</span><small>test</small></span></button>
+    <button class="tile" id="tVoice" type="button" data-say="voice check|check the voice|voice|the voice"><span class="em">🔊</span><span class="t"><b>Voice check</b><span>Hear the voice that reads the quizzes out, and choose another.</span></span></button>
+  </div>
+  <div class="row"><button class="btn" id="back" type="button" data-say="back|go back|real quizzes|choose your quiz|menu">← Back to the real quizzes</button></div>`;
+$('#tBox').onclick = () => { location.href = boxUrl; };
+$('#tB15').onclick = () => { location.href = 'best15?test=1' + q; };
+$('#tMusic').onclick = () => { location.href = 'best15?mode=music&test=1' + q; };
+$('#tBridge').onclick = () => { location.href = 'bridge?test=1' + q; };
+$('#tVoice').onclick = () => { location.href = 'voicecheck?test=1' + q; };
+$('#back').onclick = HUB.goHub;
+setTimeout(() => { try { DPAD.focusFirst(); } catch {} }, 50);
+HV.button(hubVoice); if (HV.on()) { bvMedia(true); hubVoice(); }
+</script>
+</body>
+</html>

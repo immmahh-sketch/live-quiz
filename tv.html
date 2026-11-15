@@ -112,7 +112,7 @@ function renderHome() {
   $('#make').onclick = () => { T.plan = newPlan(); go('w1'); };
   $('#tpls').onclick = () => go('tpls');
   $('#demo').onclick = () => MOBILE ? (location.href = 'index.html') : demoChoice();
-  if ($('#box2p')) $('#box2p').onclick = () => { location.href = 'tvbox?auto=1'; }; // two people, one remote, no phones
+  if ($('#box2p')) $('#box2p').onclick = () => { location.href = 'choose?tv=1'; }; // two people, one remote, no phones
   if ($('#phoneDemo')) $('#phoneDemo').onclick = () => location.href = 'demo.html'; // the big screen and your player screen, side by side
   $('#logout').onclick = () => { LQ.setHostPassword(''); go('login', { replace: true }); };
 }

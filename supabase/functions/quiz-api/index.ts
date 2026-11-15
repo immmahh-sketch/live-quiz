@@ -975,6 +975,78 @@ Deno.serve(async (req) => {
       if (!q || q.settings?.share !== true) return json({ error: "This quiz isn't shared for play. Ask whoever sent the link to share it again." }, 403);
       return json({ quiz: { id: q.id, title: q.title, settings: q.settings, questions: q.questions } });
     }
+    // Best of 15 and the Music quiz (best15.html): every question is multiple choice (A, B, C, D), drawn from the bank on the spot. No sign-in.
+    // b15_cats lists the categories that still have enough unused multiple-choice questions; b15_draw hands back 15 for a category (or, with mode "music",
+    // a mix of music clips (name the song, the artist or the film) and music questions), a few spares for "swap the question", each with its options already
+    // shuffled and the right one marked; b15_retire stamps a question used when it is SHOWN, so it never comes up again in this game or in a quiz.
+    const MUSIC_CATS = ["Pop music", "Song lyrics", "Boy bands and girl groups", "Musicals", "Classical music", "Christmas songs", "UK number ones", "The Beatles", "One-hit wonders", "Eurovision", "Rock music", "Valentine's Day and love songs", "Halloween music"];
+    const mcShuf = <T,>(a: T[]): T[] => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+    const mcBad = (x: any) => !x || x.used || x.tooEasy || x.giveaway || x.doubt || x.passed || (x.media && x.media.kind && x.media.kind !== "none");
+    const mcChoice = (x: any) => { // a bank multiple-choice item as { id, t, o, c }
+      const opts: any[] = (x.options || []).filter((o: any) => o && String(o.text || "").trim());
+      if (opts.length < 3 || opts.length > 5 || !x.text || String(x.text).length > 240) return null;
+      const right = opts.find((o: any) => o.id === x.correct); if (!right) return null;
+      const o = mcShuf(opts).slice(0, 4); if (!o.includes(right)) o[Math.floor(Math.random() * o.length)] = right;
+      return { id: x.id, type: "choice", t: String(x.text), o: o.map((v: any) => String(v.text)), c: o.indexOf(right), lv: x.difficulty || "" };
+    };
+    const mcClean = (t: string) => String(t || "").replace(/\s*[\(\[][^\)\]]*[\)\]]/g, "").replace(/\s+-\s+.*$/, "").replace(/\s+/g, " ").trim();
+    const mcMix = (pool: any[], want: number) => { // a mix of easy, medium and hard
+      const p = mcShuf(pool), pick: any[] = [], take = (lv: string, n: number) => { for (const x of p) { if (n <= 0) break; if (x.lv === lv && !pick.includes(x)) { pick.push(x); n--; } } };
+      const e = Math.round(want / 3), h = Math.round(want * 0.27); take("easy", e); take("hard", h); take("medium", want - e - h);
+      for (const x of p) { if (pick.length >= want) break; if (!pick.includes(x)) pick.push(x); }
+      return pick;
+    };
+    if (action === "b15_cats") {
+      const counts: any[] = await restAll("quiz_bank_counts?select=type,category,used,n&type=eq.choice&used=eq.false&order=category");
+      const by: Record<string, number> = {}; for (const c of counts) if (c.category) by[c.category] = (by[c.category] || 0) + c.n;
+      return json({ categories: Object.entries(by).filter(([, n]) => n >= 30).map(([name, n]) => ({ name, n })).sort((a, b) => a.name.localeCompare(b.name)) });
+    }
+    if (action === "b15_draw") {
+      const music = body.mode === "music", want = Math.min(Math.max(+body.n || 15, 1), 20), spares = Math.min(Math.max(body.spares === undefined ? 6 : +body.spares || 0, 0), 10);
+      const cat = String(body.category || "").slice(0, 80);
+      if (!music && !cat) return json({ error: "Which category?" }, 400);
+      const quote = (x: string) => '"' + x.split("\\").join("\\\\").split('"').join('\\"') + '"';
+      const cats = music ? MUSIC_CATS : [cat];
+      const rows: any[] = (await rest("quiz_bank?type=eq.choice&used=is.false&category=in.(" + encodeURIComponent(cats.map(quote).join(",")) + ")&select=q&limit=500")) || [];
+      let ch = rows.map((r) => r.q).filter((x) => !mcBad(x)).map(mcChoice).filter(Boolean) as any[];
+      let out: any[] = [];
+      if (music) {
+        // clips: name the song, the artist, the film. The wrong options are the answers of other clips of the same kind.
+        const SEL = "select=id,lv:difficulty,ask:q->>ask,ans:q->answers->>0,url:q->media->>url,len:q->media->>length&order=pos";
+        const parts = await Promise.all([["song", 396], ["artist", 607], ["film", 174]].map(async ([k, n]) => (await rest("quiz_bank?type=eq.tune&used=is.false&q->>ask=eq." + k + "&" + SEL + "&limit=200&offset=" + Math.floor(Math.random() * Math.max(1, (n as number) - 200))) ) || []));
+        let tr: any[] = parts.flat();
+        tr = tr.filter((x) => x.url && x.ans && ["song", "artist", "film"].includes(x.ask) && mcClean(x.ans).length >= 2 && mcClean(x.ans).length <= 40);
+        const TXT: Record<string, string> = { song: "Name this song.", artist: "Who is the artist?", film: "Which film is this music from?" };
+        const clips: any[] = [];
+        for (const kind of ["song", "artist", "film"]) {
+          const pool = tr.filter((x) => x.ask === kind), n = Math.round((want + spares) * 0.6 / 3);
+          for (const x of mcMix(pool.map((p) => ({ ...p, lv: p.lv })), n)) {
+            const right = mcClean(x.ans), wrong = mcShuf(pool.filter((y) => y.id !== x.id && mcClean(y.ans).toLowerCase() !== right.toLowerCase()).map((y) => mcClean(y.ans))).filter((v, i, a) => a.indexOf(v) === i).slice(0, 3);
+            if (wrong.length < 3) continue;
+            const o = mcShuf([right, ...wrong]);
+            clips.push({ id: x.id, type: "tune", kind, t: TXT[kind], o, c: o.indexOf(right), lv: x.lv || "", url: x.url, len: +x.len || 15 });
+          }
+        }
+        const nClips = Math.min(clips.length, Math.round(want * 0.6)), nCh = want - nClips;
+        const mainClips = mcShuf(clips).slice(0, nClips + Math.round(spares * 0.6)), mainCh = mcMix(ch, nCh + spares - Math.round(spares * 0.6));
+        const all = mcShuf([...mainClips.slice(0, nClips), ...mainCh.slice(0, nCh)]);
+        const sp = [...mainClips.slice(nClips), ...mainCh.slice(nCh)];
+        if (all.length < want) return json({ error: "Not enough music questions left." }, 409);
+        return json({ category: "Music quiz", questions: all, spares: mcShuf(sp).slice(0, spares) });
+      }
+      if (ch.length < want + spares) return json({ error: "Not many questions left in " + cat + ". Try another category." }, 409);
+      const pick = mcMix(ch, want + spares);
+      return json({ category: cat, questions: mcShuf(pick.slice(0, want)), spares: pick.slice(want) });
+    }
+    if (action === "b15_retire") {
+      const ids = (Array.isArray(body.ids) ? body.ids : []).map((x: unknown) => String(x)).filter((x: string) => /^[A-Za-z0-9_-]{3,40}$/.test(x)).slice(0, 25);
+      if (!ids.length || body.test === true) return json({ ok: true, retired: 0 });
+      const hits: any[] = (await rest("quiz_bank?type=in.(choice,tune)&used=is.false&id=in.(" + ids.map((x: string) => '"' + x + '"').join(",") + ")&select=id,type,category,difficulty,q")) || [];
+      const now = new Date().toISOString();
+      for (const r of hits) r.q.used = { game: "best15", at: now };
+      if (hits.length) await rest("quiz_bank?on_conflict=id", { method: "POST", headers: { Prefer: "resolution=merge-duplicates,return=minimal" }, body: JSON.stringify(hits.map((r) => ({ id: r.id, type: r.type, category: String(r.category || ""), difficulty: String(r.difficulty || ""), used: true, q: r.q, updated_at: now }))) });
+      return json({ ok: true, retired: hits.length });
+    }
     // The Box Clever game pool (tvbox/games, played on the Fire TV by Box2p and in the phone app): no sign-in. A device claims a game when it
     // starts it and marks it played when it ends; every device then skips games claimed or played anywhere else. Nothing about the players is kept.
     if (action === "pool_state" || action === "pool_claim" || action === "pool_done" || action === "pool_reset") {

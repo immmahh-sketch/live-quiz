@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Choose your quiz · Let's Quiz!</title>
+<link rel="icon" type="image/png" sizes="64x64" href="assets/brand/icon-64.png">
+<meta name="theme-color" content="#1b1544">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/hubkit.css?v=20261115b">
+<style>
+  .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; flex: 1 1 auto; min-height: 0; }
+  .portrait .tiles { grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; }
+  .tile { border: 4px solid rgba(255,255,255,.25); border-radius: 26px; color: #fff; text-align: left; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; justify-content: center; position: relative; overflow: hidden; }
+  .tile .em { font-size: 3.2rem; line-height: 1; }
+  .tile b { font-size: 1.7rem; line-height: 1.05; font-weight: 900; }
+  .tile span { font-weight: 700; font-size: .95rem; opacity: .92; }
+  .tile small { font-weight: 800; font-size: .8rem; background: rgba(0,0,0,.28); border-radius: 999px; padding: 3px 12px; align-self: flex-start; margin-top: 4px; }
+  .tile .t { display: flex; flex-direction: column; gap: 6px; }
+  .tile.box { background: linear-gradient(150deg, #7a3df0, #3a1fb0); }
+  .tile.b15 { background: linear-gradient(150deg, #e5484d, #a5222d); }
+  .tile.music { background: linear-gradient(150deg, #f08a24, #b23c0f); }
+  .tile.bridge { background: linear-gradient(150deg, #1f9d7a, #0d5c6e); }
+  .tile:focus { outline: 5px solid var(--sun); outline-offset: 4px; transform: scale(1.03); }
+  .portrait h1 { font-size: 2.2rem; }
+  .foot { display: flex; align-items: center; gap: 12px; }
+  .nameBtn { border: 0; background: none; padding: 0; text-align: left; font: inherit; color: inherit; }
+  .testlink { font-size: .85rem; padding: 6px 14px; opacity: .75; }
+</style>
+</head>
+<body>
+<div id="stage"><div class="screen" id="screen"><div class="center" style="margin:auto">Loading…</div></div></div>
+<div id="hubOver"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="assets/common.js"></script>
+<script src="assets/hubkit.js?v=20261115b"></script>
+<script src="assets/dpad.js"></script>
+<script src="assets/boxes-voice.js?v=20261115b"></script>
+<script src="assets/hubvoice.js?v=20261115b"></script>
+<script>
+// "Choose your quiz": the front door for the Fire TV, the phone app and the car. A tile for each quiz, and the game points that carry through whatever is played.
+// Hands-free (the car): every tile and button can be said.
+HUB.stage();
+const { $, esc } = HUB;
+let left = { box: null, bridge: null };
+async function counts() {
+  const [a, b] = await Promise.all([HUB.pool('BOX2P').state(), HUB.pool('BRIDGE').state()]);
+  left.box = a.ok ? Math.max(0, 50 - a.played.size) : null; left.bridge = b.ok ? Math.max(0, 50 - b.played.size) : null;
+}
+function draw(speak) {
+  const n = HUB.names(), em = HUB.emojis(), g = HUB.points(), lead = g[0] === g[1] ? -1 : g[0] > g[1] ? 0 : 1;
+  const who = (i) => `<button class="who nameBtn${lead === i ? ' lead' : ''}" id="n${i}" type="button" data-say="${esc(n[i])}|player ${i + 1}|change ${esc(n[i])}'s name" style="display:flex"><span class="em">${em[i]}</span><span><small>Player ${i + 1}</small>${esc(n[i])}</span><span class="pt">${g[i]}</span></button>`;
+  const lbl = (k, noun) => left[k] == null ? '' : `<small>${left[k]} ${noun} left</small>`;
+  const tq = HUB.mode.tv ? '?tv=1' : HUB.mode.car ? '?car=1' : '';
+  $('#screen').innerHTML = `<div class="brand"><img src="assets/brand/mark.png" alt=""><span class="grow">Let's Quiz!</span><span class="muted small">Game points · reset at 3am</span></div>
+    <div class="gp">${who(0)}<span class="dash">–</span>${who(1)}</div>
+    <h1 style="text-align:center;font-size:1.6rem">Choose your quiz</h1>
+    <div class="tiles">
+      <button class="tile box" id="tBox" type="button" data-autofocus data-say="box clever|box|clever"><span class="em">📦</span><span class="t"><b>Box Clever</b><span>Gamble your way round the boxes.</span>${lbl('box', 'games')}</span></button>
+      <button class="tile b15" id="tB15" type="button" data-say="best of fifteen|best of 15|best of|fifteen|15"><span class="em">🎯</span><span class="t"><b>Best of 15</b><span>Pick a category. Fifteen questions. A, B, C or D.</span><small>any category</small></span></button>
+      <button class="tile music" id="tMusic" type="button" data-say="music quiz|music|the music quiz"><span class="em">🎵</span><span class="t"><b>Music Quiz</b><span>Name that song, artist or film. Clips and questions.</span><small>15 questions</small></span></button>
+      <button class="tile bridge" id="tBridge" type="button" data-say="bridge of lies|the bridge|bridge|lies"><span class="em">🌉</span><span class="t"><b>Bridge of Lies</b><span>Cross the bridge. Avoid the lies. Three lives.</span>${lbl('bridge', 'bridges')}</span></button>
+    </div>
+    <div class="foot"><button class="btn" id="reset" type="button" data-say="reset game points|reset the game points|reset points|reset">↺ Reset game points</button><span class="grow"></span><span class="muted small">${HUB.mode.tv ? '◀ ▲ ▼ ▶ move · OK choose' : 'Tap a quiz to start'}</span><button class="btn testlink" id="tTest" type="button" data-say="test|tests|test quiz|test menu|test quizzes">🧪 Test</button></div>`;
+  $('#tBox').onclick = () => { location.href = HUB.gameUrl.box(); };
+  $('#tB15').onclick = () => { location.href = HUB.gameUrl.best15(); };
+  $('#tMusic').onclick = () => { location.href = 'best15?mode=music' + (HUB.mode.tv ? '&tv=1' : HUB.mode.car ? '&car=1' : ''); };
+  $('#tBridge').onclick = () => { location.href = HUB.gameUrl.bridge(); };
+  $('#tTest').onclick = () => { location.href = 'choosetest' + tq; };
+  $('#n0').onclick = () => HUB.rename(0, () => { draw(); HUB.focusFirst(); });
+  $('#n1').onclick = () => HUB.rename(1, () => { draw(); HUB.focusFirst(); });
+  $('#reset').onclick = () => HUB.confirmBox('Reset the game points?', `Back to 0 – 0 (now ${HUB.pointsText()}).`, 'Yes, reset them', () => { HUB.resetPoints(); draw(); HUB.focusFirst(); if (HV.on()) HV.screen({ prompt: 'Game points reset. ' + sayChoices(), hint: sayChoices(), items: [] }); });
+  setTimeout(() => { try { DPAD.focusFirst(); } catch {} }, 50);
+  if (speak) hubVoice();
+}
+const sayChoices = () => 'Say Box Clever, Best of fifteen, Music quiz, or Bridge of Lies. Or say reset game points, or test.';
+function hubVoice() {
+  if (!HV.on()) return;
+  const g = HUB.points(), n = HUB.names();
+  HV.screen({ prompt: 'Choose your quiz. ' + sayChoices() + (g[0] || g[1] ? ` Game points: ${n[0]} ${g[0]}, ${n[1]} ${g[1]}.` : ''), hint: sayChoices(), items: [] });
+}
+draw(false); counts().then(() => draw(false)).catch(() => {});
+HV.button(hubVoice); if (HV.on()) { bvMedia(true); hubVoice(); }
+</script>
+</body>
+</html>

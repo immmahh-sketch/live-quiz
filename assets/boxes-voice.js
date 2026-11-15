@@ -97,16 +97,33 @@ function bvMedia(on) {
 }
 function bvStatus(t) { const el = document.getElementById('bvstat'); if (el) el.textContent = t || ''; }
 function bvAbort() { try { if (BV_TTS) speechSynthesis.cancel(); } catch {} try { BV.rec && BV.rec.abort(); } catch {} BV.rec = null; bvStatus(''); }
-function bvPickVoice() {
-  if (!BV_TTS || BV.voice) return;
-  const vs = speechSynthesis.getVoices() || [];
-  BV.voice = vs.find((v) => /en-GB/i.test(v.lang) && /daniel|serena|kate|google uk|female/i.test(v.name)) || vs.find((v) => /en-GB/i.test(v.lang)) || vs.find((v) => /^en/i.test(v.lang)) || null;
+/** Which voice speaks: a natural-sounding British woman. A voice chosen on the voice check page (lq_voice) wins; otherwise the best en-GB female voice on the device
+ *  (iPhone: Serena, Kate, Martha; Windows/Edge: Sonia, Libby, Hazel, Susan; Chrome: Google UK English Female; Android: the female Google en-GB voices), the better
+ *  "premium / enhanced / natural / online" versions first. A man's voice is only used if nothing else British is there. */
+function bvVoices() { try { return (speechSynthesis.getVoices() || []).slice(); } catch { return []; } }
+function bvScore(v) {
+  const n = (v.name || '') + ' ' + (v.voiceURI || ''), gb = /^en[-_]GB/i.test(v.lang || ''), en = /^en/i.test(v.lang || '');
+  const MALE = /daniel|oliver|arthur|george|thomas|ryan|james|harry|\bmale\b|\bman\b|rjs|gbb|gbd|rishi|aaron|alex\b|fred|evan/i;
+  const NAMES = ['serena', 'kate', 'martha', 'stephanie', 'sonia', 'libby', 'hazel', 'susan', 'google uk english female', 'gba', 'gbc', 'gbg', 'fis', 'female'];
+  let sc = gb ? 100 : en ? 20 : 0; if (!sc) return -1;
+  const i = NAMES.findIndex((x) => n.toLowerCase().includes(x)); if (i >= 0) sc += 60 - i * 3;
+  if (MALE.test(n) && !/female/i.test(n)) sc -= 80;
+  if (/premium|enhanced|natural|neural|online/i.test(n)) sc += 25;
+  if (/siri/i.test(n)) sc -= 5;
+  return sc;
 }
+function bvPickVoice(force) {
+  if (!BV_TTS || (BV.voice && !force)) return;
+  const vs = bvVoices(); if (!vs.length) return;
+  let want = ''; try { want = localStorage.getItem('lq_voice') || ''; } catch {}
+  BV.voice = (want && vs.find((v) => v.voiceURI === want || v.name === want)) || vs.map((v) => [bvScore(v), v]).filter((x) => x[0] >= 0).sort((a, b) => b[0] - a[0]).map((x) => x[1])[0] || null;
+}
+if (typeof speechSynthesis !== 'undefined') { try { speechSynthesis.addEventListener('voiceschanged', () => { BV.voice = null; bvPickVoice(); }); } catch {} }
 function bvSay(text) {
   return new Promise((res) => {
     if (!BV_TTS || !text) return res();
     bvPickVoice(); bvStatus('🔊 ' + text);
-    const u = new SpeechSynthesisUtterance(text); u.lang = 'en-GB'; if (BV.voice) u.voice = BV.voice;
+    const u = new SpeechSynthesisUtterance(text); u.lang = 'en-GB'; u.rate = 1; u.pitch = 1; if (BV.voice) { u.voice = BV.voice; u.lang = BV.voice.lang || 'en-GB'; }
     let done = false; const fin = () => { if (!done) { done = true; clearTimeout(t); res(); } };
     u.onend = fin; u.onerror = fin; const t = setTimeout(fin, 5000 + text.length * 95);
     bvAudioType('playback'); if (BV.media && BV.media.paused) BV.media.play().catch(() => {});

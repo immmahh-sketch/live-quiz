@@ -48,7 +48,7 @@ const PREVIEW = new URLSearchParams(location.search).get('quiz') === 'preview'; 
 // "📱 Play on my phone": ?quiz=play&q=<quiz id> runs any quiz of yours the way a warm-up runs (hidden host, phone only, bots), as a
 // test game under the code TESTPLAY, so nothing is saved. warmup.html?q=<id> sets it up and shows the phone.
 // ?quiz=tvbox&src=tvbox/games/gNN.json: a Box Clever game from the TV pool (tvbox.html): a static file, two people on one remote, no bots, nothing saved.
-const TVQ = (() => { const p = new URLSearchParams(location.search), s = p.get('src') || ''; return p.get('quiz') === 'tvbox' && /^tvbox\/games\/g\d{2,3}\.json$/.test(s) ? s : ''; })();
+const TVQ = (() => { const p = new URLSearchParams(location.search), s = p.get('src') || ''; return p.get('quiz') === 'tvbox' && /^tvbox\/(games\/g\d{2,3}|test)\.json$/.test(s) ? s : ''; })();
 const PLAYQ = TVQ || (() => { const p = new URLSearchParams(location.search), id = p.get('q') || ''; return p.get('quiz') === 'play' && /^[0-9a-f-]{36}$/i.test(id) ? id : ''; })();
 const WARMUP = PLAYQ ? 'TESTPLAY' : new URLSearchParams(location.search).get('quiz') === 'warmup' ? (new URLSearchParams(location.search).get('w') || '').toUpperCase().replace(/[^A-Z0-9]/g, '') : '';
 if (WARMUP) document.body.classList.add('warmup');

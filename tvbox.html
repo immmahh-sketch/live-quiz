@@ -6,6 +6,7 @@
 <title>Box Clever on the TV · Let's Quiz!</title>
 <link rel="icon" type="image/png" sizes="64x64" href="assets/brand/icon-64.png">
 <meta name="theme-color" content="#1b1544">
+<script>if (!/[?&]hub=1/.test(location.search)) location.replace('choose?tv=1'); // Box Clever opens from the "Choose your quiz" page</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
 <style>
@@ -66,6 +67,7 @@
 <div id="over"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="assets/common.js"></script>
+<script src="assets/hubkit.js?v=20261115b"></script>
 <script src="assets/dpad.js"></script>
 <script>
 const { $, esc, store, uid } = LQ;
@@ -92,8 +94,8 @@ const gm = (id) => INDEX.games.find((g) => g.id === id);
 const num = (id) => parseInt(id.slice(1), 10);
 
 // ---------------------------------------------------------------- names
-const emoji = (i) => { S.emojis = S.emojis || []; if (!S.emojis[i]) { const used = S.emojis.filter(Boolean); const pool = LQ.EMOJIS.filter((e) => !used.includes(e)); S.emojis[i] = pool[Math.floor(Math.random() * pool.length)]; keep(); } return S.emojis[i]; };
-const names = () => { if (!S.names) { const p = store('lq_player') || {}; let l = []; try { l = JSON.parse(localStorage.getItem('lq_locals') || '[]'); } catch {} S.names = [p.name || 'Player 1', l[0] || 'Player 2']; keep(); } return S.names; };
+const emoji = (i) => HUB.emojis()[i]; const emojiOld = (i) => { S.emojis = S.emojis || []; if (!S.emojis[i]) { const used = S.emojis.filter(Boolean); const pool = LQ.EMOJIS.filter((e) => !used.includes(e)); S.emojis[i] = pool[Math.floor(Math.random() * pool.length)]; keep(); } return S.emojis[i]; };
+const names = () => HUB.names(); const namesOld = () => { if (!S.names) { const p = store('lq_player') || {}; let l = []; try { l = JSON.parse(localStorage.getItem('lq_locals') || '[]'); } catch {} S.names = [p.name || 'Player 1', l[0] || 'Player 2']; keep(); } return S.names; };
 
 // ---------------------------------------------------------------- the menu
 function order() { // every game once, in a mixed order that stays the same on this TV
@@ -144,7 +146,7 @@ function rename(i) {
   const show = () => { const e = $('#kbv'); e.textContent = v; e.classList.toggle('empty', !v); };
   const add = (c) => { if (c === '⌫') v = v.slice(0, -1); else if (v.length < 14) v += (v && v.slice(-1) !== ' ' ? c.toLowerCase() : c); show(); };
   document.querySelectorAll('[data-k]').forEach((b) => b.onclick = () => add(b.dataset.k));
-  $('#kdone').onclick = () => { const n = v.trim() || 'Player ' + (i + 1); S.names = names().slice(); S.names[i] = n; keep(); close(); menu(); focusId('n' + i); };
+  $('#kdone').onclick = () => { const n = v.trim() || 'Player ' + (i + 1); S.names = names().slice(); S.names[i] = n; keep(); HUB.setName(i, n); close(); menu(); focusId('n' + i); };
   show(); setTimeout(() => DPAD.focusFirst(), 30);
 }
 
@@ -172,8 +174,25 @@ async function start(id) {
   }, 400);
   sound();
 }
+function retireNow() { if (S.cur && !finished) { finished = true; retire(S.cur.id); } }
+// The test game (?test=1): tvbox/test.json, the same 5 questions every time. Not claimed, not retired, no game point; "play again" starts it afresh.
+async function startTest() {
+  const nm = names(), p = store('lq_player') || {};
+  store('lq_player', { pid: /^p_[a-z0-9]{6,12}$/.test(p.pid || '') ? p.pid : uid('p'), name: nm[0], emoji: emoji(0) });
+  try { localStorage.setItem('lq_locals', JSON.stringify([nm[1]])); localStorage.removeItem(HOSTKEY); } catch {}
+  inGame = true; finished = true; $('#stage').hidden = true; $('#game').hidden = false; histOk = false; ensureHist();
+  const hf = $('#hostFrame'), pf = $('#playFrame'); pf.dataset.code = '';
+  hf.src = 'host?quiz=tvbox&src=tvbox/test.json&tv=1&x=' + Date.now().toString(36);
+  clearInterval(timer); const t0 = Date.now();
+  timer = setInterval(() => {
+    let code = null; try { code = hf.contentWindow.eval('typeof G !== "undefined" && G ? G.code : null'); } catch {}
+    if (code && !pf.dataset.code) { pf.dataset.code = code; pf.src = 'play?g=' + encodeURIComponent(code) + '&solo=1&tv=1&test=1'; pf.addEventListener('load', () => { sound(); try { pf.contentWindow.focus(); } catch {} }, { once: true }); }
+    if (!code && Date.now() - t0 > 40000) { clearInterval(timer); location.href = 'choosetest?tv=1'; }
+  }, 400);
+  sound();
+}
 function sound() { try { $('#hostFrame').contentWindow.eval("sfx = sfx || new (window.AudioContext || window.webkitAudioContext)(); if (sfx.state === 'suspended') sfx.resume();"); } catch {} }
-function leave() { clearInterval(timer); $('#playFrame').dataset.code = ''; menu(); }
+function leave() { if (HUB.test) { location.href = 'choosetest?tv=1'; return; } clearInterval(timer); $('#playFrame').dataset.code = ''; menu(); }
 function pause() {
   if (!inGame || $('#over').innerHTML) return;
   overlay(`<h2>⏸️ Paused</h2><p>The game is saved. You can carry on later.</p><button class="btn primary" id="resume" data-autofocus>▶ Carry on playing</button><button class="btn" id="quit">Quit to the menu</button>`);
@@ -189,7 +208,8 @@ addEventListener('popstate', () => { if (inGame) { histOk = false; ensureHist();
 addEventListener('message', (e) => {
   const m = e.data && e.data.lqtv; if (!m) return;
   if (m === 'key') ensureHist();
-  else if (m === 'back') pause(); else if (m === 'menu') leave();
+  else if (m === 'back') pause(); else if (m === 'menu') leave(); else if (m === 'hub') { if (HUB.test) { location.href = 'choosetest?tv=1'; return; } retireNow(); location.href = 'choose?tv=1'; }
+  else if (m === 'next' && HUB.test) { clearInterval(timer); startTest(); }
   else if (m === 'next') { const nx = unplayed().find((x) => x !== S.cur?.id); leave(); if (nx) start(nx); else menu(); }
   else if (m === 'final' && !finished && inGame) { finished = true; const id = S.cur?.id; if (id) retire(id); }
 });
@@ -198,8 +218,9 @@ document.addEventListener('keydown', (e) => { sound(); ensureHist(); if (!inGame
 (async function boot() {
   try { INDEX = await (await fetch('tvbox/index.json')).json(); } catch { $('#menu').innerHTML = '<h1>Hmm.</h1><p class="sub">The games could not be loaded. Check the internet connection and try again.</p>'; return; }
   history.replaceState({ menu: 1 }, '');
+  if (HUB.test) return startTest();
   await menu();
-  if (AUTO && S.namesSet) { // the game being played, else the next one not played yet
+  if (AUTO) { // the game being played, else the next one not played yet
     const id = S.cur && gm(S.cur.id) ? S.cur.id : unplayed()[0];
     if (id) setTimeout(() => start(id), 400);
   }
