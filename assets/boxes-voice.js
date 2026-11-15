@@ -85,7 +85,7 @@ function bvSilence() {
 function bvMedia(on) {
   try {
     if (on) {
-      bvAudioType('playback');
+      bvAudioType('playback'); bvUnlock();
       if (!BV.media) { const a = new Audio(bvSilence()); a.loop = true; a.volume = 0.01; a.setAttribute('playsinline', ''); BV.media = a; }
       BV.media.play().catch(() => {});
       if ('mediaSession' in navigator && window.MediaMetadata) {
@@ -100,7 +100,50 @@ function bvStatus(t) {
   // the phone app shows what is happening on the car screen: speaking, listening or idle
   try { if (window.ReactNativeWebView) window.ReactNativeWebView.postMessage(JSON.stringify({ t: 'voice', s: /^🔊/.test(t || '') ? 'speaking' : /^🎙/.test(t || '') ? 'listening' : 'idle' })); } catch {}
 }
-function bvAbort() { try { if (BV_TTS) speechSynthesis.cancel(); } catch {} try { BV.rec && BV.rec.abort(); } catch {} BV.rec = null; bvStatus(''); }
+function bvAbort() { try { if (BV_TTS) speechSynthesis.cancel(); } catch {} BVN.gen++; try { BVN.stop && BVN.stop(); } catch {} try { BV.rec && BV.rec.abort(); } catch {} BV.rec = null; bvStatus(''); }
+
+// ---------------------------------------------------------------- the natural voice
+// A neural British woman (Cloudflare Workers AI, Deepgram Aura-2, via the quiz-api "tts" action) reads each line. Every line is kept as an MP3 in the public
+// quiz-media bucket under a hash of the voice and the words, so a sentence is generated once for everyone; the browser works the hash out itself and goes
+// straight to the file when it exists. If the service is not set up, is slow or fails, the device's own voice (below) reads it instead, as before.
+// The choice is on the voice check page: lq_nvoice = a voice name, or "off" for the device voice only.
+const BVN = { gen: 0, voice: 'pandora', off: false, fails: 0, audio: null, stop: null, urls: new Map(), base: 'https://safcrtrfdzsnftghibot.supabase.co/storage/v1/object/public/quiz-media/tts/' };
+try { const v = localStorage.getItem('lq_nvoice'); if (v === 'off') BVN.off = true; else if (v) BVN.voice = v; } catch {}
+const bvNorm = (t) => String(t || '').replace(/\s+/g, ' ').trim().slice(0, 400);
+async function bvHash(s) { const d = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s))); return Array.from(d.slice(0, 16)).map((b) => b.toString(16).padStart(2, '0')).join(''); }
+/** The MP3 for this line in this voice (making it first if it has never been spoken), or '' when the service can't be used. */
+async function bvClip(text, voice) {
+  const t = bvNorm(text), v = voice || BVN.voice, key = 'a2|' + v + '|' + t;
+  if (BVN.urls.has(key)) return BVN.urls.get(key);
+  const p = (async () => {
+    try { const direct = BVN.base + (await bvHash(key)) + '.mp3', r = await fetch(direct, { method: 'HEAD' }); if (r.ok) return direct; } catch {}
+    try { const r = await LQ.api('tts', { text: t, voice: v }, { timeout: 20000 }); return (r && r.url) || ''; } catch (e) { if (/501|set up/i.test(String(e && (e.message || e)))) BVN.fails = 99; return ''; }
+  })();
+  BVN.urls.set(key, p); const url = await p; if (!url) BVN.urls.delete(key); return url;
+}
+/** Warms the cache for a line that will be spoken soon (the next question), so it plays without a wait. */
+function bvPrefetch(text) { if (!BVN.off && BVN.fails < 3 && text) bvClip(text).catch(() => {}); }
+/** A tap is what lets the phone play sound: play a moment of silence on the voice's own player. */
+function bvUnlock() { try { if (!BVN.audio) { BVN.audio = new Audio(); BVN.audio.setAttribute('playsinline', ''); } BVN.audio.src = bvSilence(); BVN.audio.play().catch(() => {}); } catch {} }
+/** Speaks with the natural voice. Resolves true when the line was read (or cut off by bvAbort), false when it could not be, so the device voice can take over. */
+function bvNeuralSay(text) {
+  return new Promise(async (res) => {
+    if (BVN.off || BVN.fails >= 3 || typeof LQ === 'undefined') return res(false);
+    if (BVN.stop) BVN.stop();
+    const gen = BVN.gen;
+    const url = await Promise.race([bvClip(text), bvWait(9000).then(() => '')]);
+    if (gen !== BVN.gen) return res(true); // cut off while it was being fetched
+    if (!url) { BVN.fails++; return res(false); }
+    let done = false;
+    const a = BVN.audio || (BVN.audio = new Audio()); a.setAttribute('playsinline', '');
+    const fin = (ok) => { if (done) return; done = true; clearTimeout(tm); BVN.stop = null; a.onended = a.onerror = null; res(ok); };
+    const tm = setTimeout(() => { try { a.pause(); } catch {} fin(true); }, 70000);
+    BVN.stop = () => { try { a.pause(); } catch {} fin(true); };
+    a.onended = () => fin(true); a.onerror = () => { BVN.fails++; fin(false); };
+    bvAudioType('playback'); a.src = url;
+    a.play().then(() => { BVN.fails = 0; }).catch(() => fin(false));
+  });
+}
 /** Which voice speaks: a natural-sounding British woman. A voice chosen on the voice check page (lq_voice) wins; otherwise the best en-GB female voice on the device
  *  (iPhone: Serena, Kate, Martha; Windows/Edge: Sonia, Libby, Hazel, Susan; Chrome: Google UK English Female; Android: the female Google en-GB voices), the better
  *  "premium / enhanced / natural / online" versions first. A man's voice is only used if nothing else British is there. */
@@ -124,9 +167,12 @@ function bvPickVoice(force) {
 }
 if (typeof speechSynthesis !== 'undefined') { try { speechSynthesis.addEventListener('voiceschanged', () => { BV.voice = null; bvPickVoice(); }); } catch {} }
 function bvSay(text) {
-  return new Promise((res) => {
-    if (!BV_TTS || !text) return res();
-    bvPickVoice(); bvStatus('🔊 ' + text);
+  return new Promise(async (res) => {
+    if (!text) return res();
+    bvStatus('🔊 ' + text);
+    if (await bvNeuralSay(text)) return res();
+    if (!BV_TTS) return res();
+    bvPickVoice();
     const u = new SpeechSynthesisUtterance(text); u.lang = 'en-GB'; u.rate = 1; u.pitch = 1; if (BV.voice) { u.voice = BV.voice; u.lang = BV.voice.lang || 'en-GB'; }
     let done = false; const fin = () => { if (!done) { done = true; clearTimeout(t); res(); } };
     u.onend = fin; u.onerror = fin; const t = setTimeout(fin, 5000 + text.length * 95);

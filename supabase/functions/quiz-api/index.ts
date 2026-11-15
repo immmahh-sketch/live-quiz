@@ -76,10 +76,18 @@ async function rest(path: string, init: RequestInit = {}) {
 function extFor(ct: string) {
   return ct.includes("mp4") ? "mp4" : ct.includes("mpeg") ? "mp3" : ct.includes("png") ? "png" : ct.includes("webp") ? "webp" : ct.includes("gif") ? "gif" : "jpg";
 }
-async function storagePut(path: string, bytes: Uint8Array, contentType: string): Promise<string> {
+// The natural voice (see the tts action): Cloudflare Workers AI, Deepgram Aura-2. Pandora is the British woman; the others are for trying on the voice check page.
+const CF_AI_TOKEN = Deno.env.get("CF_AI_TOKEN") || "", CF_ACCOUNT = Deno.env.get("CF_ACCOUNT_ID") || Deno.env.get("R2_ACCOUNT_ID") || "";
+const TTS_VOICES = ["pandora", "athena", "cordelia", "delia", "helena", "ophelia", "andromeda", "callista", "theia", "vesta"];
+let ttsRecent: number[] = [];
+async function sha16(s: string): Promise<string> {
+  const d = new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)));
+  return Array.from(d.slice(0, 16)).map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+async function storagePut(path: string, bytes: Uint8Array, contentType: string, cacheControl = ""): Promise<string> {
   const r = await fetch(`${SUPA_URL}/storage/v1/object/${BUCKET}/${path}`, {
     method: "POST",
-    headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}`, "Content-Type": contentType, "x-upsert": "true" },
+    headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}`, "Content-Type": contentType, "x-upsert": "true", ...(cacheControl ? { "cache-control": "max-age=" + cacheControl } : {}) },
     body: bytes,
   });
   if (!r.ok) throw new Error(`storage put ${path} -> ${r.status} ${await r.text()}`);
@@ -945,6 +953,25 @@ Deno.serve(async (req) => {
         }
       }
       return json({ questions: out });
+    }
+
+    // Natural voice (no sign-in): { text, voice } -> { url } of an MP3 read by Cloudflare Workers AI (Deepgram Aura-2). Every line is kept in the public
+    // quiz-media bucket under tts/<hash>.mp3, so the same sentence is only ever generated once; the browser works out the same hash and goes straight
+    // to the file when it is already there. No CF_AI_TOKEN set yet -> 501 and the pages fall back to the device's own voice.
+    if (action === "tts") {
+      const text = String(body.text || "").replace(/\s+/g, " ").trim().slice(0, 400), voice = String(body.voice || "pandora");
+      if (!text || !TTS_VOICES.includes(voice)) return json({ error: "Nothing to say." }, 400);
+      const key = `a2|${voice}|${text}`, hash = await sha16(key), path = `tts/${hash}.mp3`;
+      const have = await storageExists(path); if (have) return json({ url: have, cached: true });
+      if (!CF_AI_TOKEN || !CF_ACCOUNT) return json({ error: "No voice service is set up." }, 501);
+      const now = Date.now(); ttsRecent = ttsRecent.filter((t) => now - t < 60_000); if (ttsRecent.length >= 40) return json({ error: "Too many new lines at once." }, 429); ttsRecent.push(now);
+      const r = await fetch(`https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT}/ai/run/@cf/deepgram/aura-2-en`, { method: "POST", headers: { Authorization: `Bearer ${CF_AI_TOKEN}`, "Content-Type": "application/json" }, body: JSON.stringify({ text, speaker: voice, encoding: "mp3" }) });
+      if (!r.ok) return json({ error: "The voice service said no: " + (await r.text()).slice(0, 200) }, 502);
+      let bytes: Uint8Array;
+      if ((r.headers.get("content-type") || "").includes("json")) { const j: any = await r.json(); const b64 = j?.result?.audio || j?.audio || ""; if (!b64) return json({ error: "The voice service sent no audio." }, 502); const bin = atob(b64); bytes = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i); }
+      else bytes = new Uint8Array(await r.arrayBuffer());
+      if (bytes.length < 800) return json({ error: "The voice service sent no audio." }, 502);
+      return json({ url: await storagePut(path, bytes, "audio/mpeg", "31536000") });
     }
 
     // Taskmaster: a phone sends its photo for a task (no sign-in). code is the game's code (or a warm-up's), key the
