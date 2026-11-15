@@ -2,7 +2,7 @@
  * It uses the browser's own speech: speechSynthesis to talk, SpeechRecognition (webkitSpeechRecognition on iPhone and Chrome) to listen.
  * Every choice is read back and needs a "yes" before it is sent, because a mis-heard word costs real points.
  * Hooked in at the end of bxBind (boxes-phone.js); the button appears on the Box Clever screens of a game played on phones. */
-const BV = { on: false, tok: 0, key: '', rec: null, told: {}, voice: null, listening: false };
+const BV = { sayId: 0, on: false, tok: 0, key: '', rec: null, told: {}, voice: null, listening: false };
 try { BV.on = localStorage.getItem('lq_handsfree') === '1'; } catch {}
 const BV_TTS = typeof speechSynthesis !== 'undefined' && typeof SpeechSynthesisUtterance !== 'undefined';
 const BV_SR = typeof window !== 'undefined' && (window.SpeechRecognition || window.webkitSpeechRecognition);
@@ -100,7 +100,7 @@ function bvStatus(t) {
   // the phone app shows what is happening on the car screen: speaking, listening or idle
   try { if (window.ReactNativeWebView) window.ReactNativeWebView.postMessage(JSON.stringify({ t: 'voice', s: /^🔊/.test(t || '') ? 'speaking' : /^🎙/.test(t || '') ? 'listening' : 'idle' })); } catch {}
 }
-function bvAbort() { try { if (BV_TTS) speechSynthesis.cancel(); } catch {} BVN.gen++; try { BVN.stop && BVN.stop(); } catch {} try { BV.rec && BV.rec.abort(); } catch {} BV.rec = null; bvStatus(''); }
+function bvAbort() { BV.sayId++; try { if (BV_TTS) speechSynthesis.cancel(); } catch {} BVN.gen++; try { BVN.stop && BVN.stop(); } catch {} try { BV.rec && BV.rec.abort(); } catch {} BV.rec = null; bvStatus(''); }
 
 // ---------------------------------------------------------------- the natural voice
 // A neural British woman (Cloudflare Workers AI, Deepgram Aura-2, via the quiz-api "tts" action) reads each line. Every line is kept as an MP3 in the public
@@ -121,27 +121,35 @@ async function bvClip(text, voice) {
   })();
   BVN.urls.set(key, p); const url = await p; if (!url) BVN.urls.delete(key); return url;
 }
-/** Warms the cache for a line that will be spoken soon (the next question), so it plays without a wait. */
-function bvPrefetch(text) { if (!BVN.off && BVN.fails < 3 && text) bvClip(text).catch(() => {}); }
+/** Warms the cache for lines that will be spoken soon (the questions to come), three at a time, so they play without a wait. */
+const bvQ = { list: [], run: 0 };
+function bvPrefetchMany(texts) {
+  if (BVN.off || BVN.fails >= 3) return;
+  for (const t of texts || []) if (t && !bvQ.list.includes(t)) bvQ.list.push(t);
+  while (bvQ.run < 3 && bvQ.list.length) { bvQ.run++; bvClip(bvQ.list.shift()).catch(() => {}).then(() => { bvQ.run--; bvPrefetchMany([]); }); }
+}
+const bvPrefetch = (text) => bvPrefetchMany([text]);
+/** Whatever is being spoken stops (the natural voice and the device voice): only one voice is ever heard. */
+function bvHush() { try { if (BV_TTS) speechSynthesis.cancel(); } catch {} try { BVN.stop && BVN.stop(); } catch {} }
 /** A tap is what lets the phone play sound: play a moment of silence on the voice's own player. */
 function bvUnlock() { try { if (!BVN.audio) { BVN.audio = new Audio(); BVN.audio.setAttribute('playsinline', ''); } BVN.audio.src = bvSilence(); BVN.audio.play().catch(() => {}); } catch {} }
-/** Speaks with the natural voice. Resolves true when the line was read (or cut off by bvAbort), false when it could not be, so the device voice can take over. */
-function bvNeuralSay(text) {
+/** Speaks with the natural voice for the line `id` (see bvSay). Resolves 'done' when it was read, 'cut' when something newer took over or it was stopped,
+ *  'fail' when it could not be played at all, so the device voice can read it instead. Once the audio has started it is never handed to the device voice. */
+function bvNeuralSay(text, id) {
   return new Promise(async (res) => {
-    if (BVN.off || BVN.fails >= 3 || typeof LQ === 'undefined') return res(false);
-    if (BVN.stop) BVN.stop();
+    if (BVN.off || BVN.fails >= 3 || typeof LQ === 'undefined') return res('fail');
     const gen = BVN.gen;
-    const url = await Promise.race([bvClip(text), bvWait(9000).then(() => '')]);
-    if (gen !== BVN.gen) return res(true); // cut off while it was being fetched
-    if (!url) { BVN.fails++; return res(false); }
-    let done = false;
+    const url = await Promise.race([bvClip(text), bvWait(15000).then(() => '')]);
+    if (gen !== BVN.gen || id !== BV.sayId) return res('cut'); // stopped, or a newer line has taken over, while the clip was being made
+    if (!url) { BVN.fails++; return res('fail'); }
+    let done = false, started = false;
     const a = BVN.audio || (BVN.audio = new Audio()); a.setAttribute('playsinline', '');
-    const fin = (ok) => { if (done) return; done = true; clearTimeout(tm); BVN.stop = null; a.onended = a.onerror = null; res(ok); };
-    const tm = setTimeout(() => { try { a.pause(); } catch {} fin(true); }, 70000);
-    BVN.stop = () => { try { a.pause(); } catch {} fin(true); };
-    a.onended = () => fin(true); a.onerror = () => { BVN.fails++; fin(false); };
+    const fin = (r) => { if (done) return; done = true; clearTimeout(tm); BVN.stop = null; a.onended = a.onerror = null; res(r); };
+    const tm = setTimeout(() => { try { a.pause(); } catch {} fin('done'); }, 70000);
+    BVN.stop = () => { try { a.pause(); } catch {} fin('cut'); };
+    a.onended = () => fin('done'); a.onerror = () => { if (!started) BVN.fails++; fin(started ? 'done' : 'fail'); };
     bvAudioType('playback'); a.src = url;
-    a.play().then(() => { BVN.fails = 0; }).catch(() => fin(false));
+    a.play().then(() => { started = true; BVN.fails = 0; }).catch(() => fin(started ? 'done' : 'fail'));
   });
 }
 /** Which voice speaks: a natural-sounding British woman. A voice chosen on the voice check page (lq_voice) wins; otherwise the best en-GB female voice on the device
@@ -169,8 +177,9 @@ if (typeof speechSynthesis !== 'undefined') { try { speechSynthesis.addEventList
 function bvSay(text) {
   return new Promise(async (res) => {
     if (!text) return res();
+    const id = ++BV.sayId; bvHush(); // only the newest line is ever spoken, and never two voices at once
     bvStatus('🔊 ' + text);
-    if (await bvNeuralSay(text)) return res();
+    if ((await bvNeuralSay(text, id)) !== 'fail' || id !== BV.sayId) return res();
     if (!BV_TTS) return res();
     bvPickVoice();
     const u = new SpeechSynthesisUtterance(text); u.lang = 'en-GB'; u.rate = 1; u.pitch = 1; if (BV.voice) { u.voice = BV.voice; u.lang = BV.voice.lang || 'en-GB'; }

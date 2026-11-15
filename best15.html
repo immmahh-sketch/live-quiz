@@ -50,7 +50,7 @@
 <script src="assets/common.js"></script>
 <script src="assets/hubkit.js?v=20261115b"></script>
 <script src="assets/dpad.js"></script>
-<script src="assets/boxes-voice.js?v=20261115e"></script>
+<script src="assets/boxes-voice.js?v=20261115f"></script>
 <script src="assets/hubvoice.js?v=20261115b"></script>
 <script>
 // Best of 15 and the Music quiz. Every question is multiple choice (A, B, C, D). Each player picks a category (the Music quiz is one mix of clips and music
@@ -121,6 +121,8 @@ async function pick(cat) {
     const d = TEST ? await (await fetch('tests/' + (MUSIC ? 'music' : 'best15') + '.json')).json() : await call('b15_draw', MUSIC ? { mode: 'music', n: N, spares: 6 } : { category: cat, n: N, spares: 6 }, 25000);
     N = TEST ? d.questions.length : 15;
     R.cats[R.turn] = cat; R.cur = { cat, qs: d.questions, spares: d.spares || [], i: 0, score: 0, clue: false, swap: false, marks: [], hidden: [], res: null }; R.phase = 'play'; save();
+    // hands-free: have the natural voice make the questions to come while the first is being read, so there is no wait between them
+    try { if (BV.on) { const c = R.cur, out = []; c.qs.forEach((q, i) => { out.push(`${q.url ? `Question ${i + 1}. ${q.t} Listen.` : `Question ${i + 1}. ${q.t} ` + readOpts(q, c) + '.'}`); if (q.url) out.push(readOpts(q, c) + '.'); out.push(`Not quite. The answer was ${LET[q.c]}: ${q.o[q.c]}.`); }); bvPrefetchMany(out); } } catch {}
     busy = false; if (my === tok) screenQ();
   } catch (e) {
     busy = false; const msg = (e && e.message) || 'Could not get the questions.';
