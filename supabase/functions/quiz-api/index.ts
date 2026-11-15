@@ -97,21 +97,56 @@ async function ttsMake(text: string, voice: string): Promise<{ url: string; cach
   if (bytes.length < 800) throw Object.assign(new Error("The voice service sent no audio."), { status: 502 });
   return { url: await storagePut(path, bytes, "audio/mpeg", "31536000"), cached: false };
 }
-// ---- the daily bank: every day the natural voice makes lines the games will need, up to a character budget, so that over time all of it comes from saved speech
+// ---- the speech bank: the natural voice makes, ahead of time, every line the games will say, in a fixed order (the usual lines, one whole Box Clever game, one Bridge, the music
+// questions, every score, Best of 15's phrases, then the rest game by game), so a game plays from saved speech with no wait. Each line is made once and kept for good.
+// A line is made on Cloudflare's metered price beyond the free allowance (about $0.03 per 1,000 characters), so the bank has a budget: BANK_DAY characters a day and BANK_TOTAL in all.
 const SITE = "https://letsquiz.uk";
-const BANK_CHARS = +(Deno.env.get("TTS_BANK_CHARS") || 3000); // ~8,200 of Cloudflare's 10,000 free units a day (Aura-2 is 2,727 units per 1,000 characters); the rest is left for lines made while playing
-const LETTER_SAYS = ["Ay.", "Bee.", "Sea.", "Dee.", "Ee.", "Eff.", "Gee.", "Aitch."];
+const BANK_DAY = +(Deno.env.get("TTS_BANK_CHARS") || 150000);
+const BANK_TOTAL = +(Deno.env.get("TTS_BANK_TOTAL") || 500000);
+const LETTER_SAYS = ["Ay.", "Bee.", "Sea.", "Dee.", "Ee.", "Eff.", "Gee.", "Aitch.", "Eye.", "Jay.", "Kay.", "El.", "Em.", "En.", "Oh.", "Pee.", "Queue.", "Are.", "Ess.", "Tee.", "You.", "Vee.", "Double you.", "Ex.", "Why.", "Zed."];
+const NAMES = ["Paul", "Laura"];
 const places = (n: number) => n.toLocaleString("en-GB");
-const STATIC_LINES: string[] = [...LETTER_SAYS, "Correct!", "Wrong.", "Passed.", "Not quite.", "Listen to the clip.", "Choose your next box and how much to gamble.", "Say A, B, C, D.", "Say A, B, C, D, or pass.", "Say A, B, C.", "Say A, B, C, or pass.", "Say A, B.", "Say A, B, or pass.",
-  "Pick your first move.", "Your next move.", "Plus one hundred.", "A lie!", "2 lives left.", "1 life left.", "You crossed the bridge! Five hundred bonus.", "The bridge has fallen.",
-  "Choose your quiz. Say Box Clever, Best of fifteen, Music quiz, or Bridge of Lies. Or say reset game points, or test.", "Say a box and how much to gamble, like box three, five hundred.", "You have used your clue.", "You have used your swap.",
-  ...Array.from({ length: 15 }, (_, i) => `${i + 1} so far.`), ...Array.from({ length: 16 }, (_, i) => `${places(i * 100)} points.`)];
+const range = (a: number, b: number, step = 1) => { const o: number[] = []; for (let i = a; i <= b; i += step) o.push(i); return o; };
+/** every score the games can reach: every 50 to 5,000, every 100 to 40,000 */
+const SCORE_VALUES: number[] = [...new Set([...range(0, 5000, 50), ...range(5000, 40000, 100)])];
+const ttsClean = (t: string) => String(t || "").replace(/\s*[\(\[][^\)\]]*[\)\]]/g, "").replace(/\s+-\s+.*$/, "").replace(/\s+/g, " ").trim();
+const ttsBad = (x: any) => !x || x.used || x.tooEasy || x.giveaway || x.doubt || x.passed || (x.media && x.media.kind && x.media.kind !== "none");
+/** the pieces a Best of 15 multiple-choice question is read from: the question, each option, the answer */
+function choicePieces(x: any): string[] {
+  const opts: any[] = (x?.options || []).filter((o: any) => o && String(o.text || "").trim());
+  if (ttsBad(x) || opts.length < 3 || opts.length > 5 || !x.text || String(x.text).length > 240) return [];
+  const right = opts.find((o: any) => o.id === x.correct); if (!right) return [];
+  return [String(x.text), ...opts.map((o) => `${String(o.text)}.`), `The answer was ${String(right.text)}.`];
+}
+function basicsLines(): string[] {
+  const L: string[] = [...LETTER_SAYS, "Correct!", "Wrong.", "Passed.", "Not quite.", "Listen to the clip.", "Listen.", "Choose your next box and how much to gamble.",
+    "Say A, B, C, D.", "Say A, B, C, D, or pass.", "Say A, B, C.", "Say A, B, C, or pass.", "Say A, B.", "Say A, B, or pass.", "Say your answer.", "Say your answer, or pass.", "Say an amount, or all in.",
+    "Say a box and how much to gamble, like box three, five hundred.", "I did not hear anything.", "Tap the microphone button when you are ready to try again.", "Which place in the row?",
+    "Pick your first move.", "Your next move.", "Plus one hundred.", "A lie!", "2 lives left.", "1 life left.", "You crossed the bridge! Five hundred bonus.", "The bridge has fallen.", "You crossed the bridge.", "The bridge fell.",
+    "Choose your quiz. Say Box Clever, Best of fifteen, Music quiz, or Bridge of Lies. Or say reset game points, or test.", "Say a box and how much to gamble, like box three, five hundred.", "You have used your clue.", "You have used your swap.",
+    "Two are gone.", "A draw. No game point.", "It's a draw!", "Game points:", "Say another round, or choose another quiz.", "Say play again, or back to the tests.", "Or say surprise me.", "Say a category, or surprise me.", "Name this song.", "Who is the artist?", "Which film is this music from?",
+    ...range(1, 15).map((i) => `Question ${i}.`), ...range(0, 15).map((i) => `${i} so far.`), ...range(1, 40).map((n) => `Box ${n} has gone. Which box?`)];
+  for (const n of NAMES) L.push(`${n}, it's your turn.`, `${n}, your go.`, `${n} is choosing a box.`, `${n} is deciding how much to gamble.`, `${n} is answering.`, `Now ${n}.`, `${n} wins and takes a game point.`, `${n} wins!`, `${n}'s bridge.`, `${n}, choose your category.`, `${n}'s turn.`);
+  return L;
+}
+/** every score the games read out: Box Clever pots and changes, Bridge points, Best of 15 scores and game points */
+function scoreLines(): string[] {
+  const L: string[] = [];
+  for (const v of SCORE_VALUES) {
+    L.push(`You have ${places(v)} points in the pot.`, `For ${places(v)}.`, `Everyone starts on ${places(v)}. Let's go!`, `${places(v)} points.`, `${places(v)}.`);
+    for (const n of NAMES) L.push(`${n} plus ${places(v)}.`, `${n} minus ${places(v)}.`, `${n} now has ${places(v)}.`, `${n} ${places(v)}.`);
+  }
+  for (const n of NAMES) { for (let s = 0; s <= 15; s++) L.push(`${n} got ${s} out of 15.`); for (let g = 0; g <= 100; g++) L.push(`${n} ${g}.`); }
+  for (let a = 0; a <= 15; a++) for (let b = 0; b <= 15; b++) L.push(`${a} to ${b}.`);
+  return L;
+}
 function boxGameLines(g: any): string[] {
   const out: string[] = [], q0 = g?.questions?.[0] || {}, cats: any[] = q0.cats || [], cols = q0.cols || 1, rows = cats.length;
   const names = cats.map((c) => c.name);
   if (rows) {
     out.push(`Box Clever. ${rows * cols} boxes in ${rows} rows: ${names.join(", ")}.`, `Everyone starts on ${places(q0.start || 1000)}. Let's go!`, `You have ${places(q0.start || 1000)} points in the pot.`);
     out.push(`The rows are: ${names.map((n, r) => `${n}, boxes ${r * cols + 1} to ${(r + 1) * cols}`).join(". ")}.`, `Say a box number and your stake, like ${names[rows - 1]} three, one thousand.`);
+    for (let n = 1; n <= rows * cols; n++) out.push(`Box ${n}, ${names[Math.floor((n - 1) / cols)]}.`);
   }
   for (const row of cats) for (const q of row.qs || []) {
     if (q.t) out.push(q.t);
@@ -128,30 +163,54 @@ function bridgeGameLines(g: any): string[] {
   for (const t of g?.tiles || []) if (!t.pad && t.t) { out.push(`${t.t}.`); if (!t.ok) out.push(`${t.t} is not one.`); }
   return out;
 }
-let bankKept: { at: number; set: Set<string> } | null = null;
-async function keptNames(): Promise<Set<string>> {
-  if (bankKept && Date.now() - bankKept.at < 120_000) return bankKept.set;
-  const set = new Set<string>();
-  for (let off = 0; off < 60000; off += 1000) {
+const lineKey = async (text: string) => `${await sha16(`a2|pandora|${text}`)}.mp3`;
+const lineNorm = (l: string) => String(l || "").replace(/\s+/g, " ").trim().slice(0, 400);
+let bankKept: { at: number; set: Set<string>; bytes: number } | null = null;
+async function keptNames(fresh = false): Promise<Set<string>> {
+  if (!fresh && bankKept && Date.now() - bankKept.at < 120_000) return bankKept.set;
+  const set = new Set<string>(); let bytes = 0;
+  for (let off = 0; off < 200000; off += 1000) {
     const r = await fetch(`${SUPA_URL}/storage/v1/object/list/${BUCKET}`, { method: "POST", headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}`, "Content-Type": "application/json" }, body: JSON.stringify({ prefix: "tts", limit: 1000, offset: off }) });
-    if (!r.ok) break; const rows: any[] = (await r.json()) || []; for (const x of rows) set.add(String(x.name)); if (rows.length < 1000) break;
+    if (!r.ok) break; const rows: any[] = (await r.json()) || []; for (const x of rows) { set.add(String(x.name)); bytes += +(x.metadata?.size || 0); } if (rows.length < 1000) break;
   }
-  bankKept = { at: Date.now(), set }; return set;
+  bankKept = { at: Date.now(), set, bytes }; return set;
 }
-/** The next lines worth keeping, most useful first: the usual lines, then the games nobody has played yet (a Box Clever game, a Bridge, a Box Clever game...). */
-async function* bankCandidates(): AsyncGenerator<string> {
-  for (const l of STATIC_LINES) yield l;
-  const get = async (u: string) => { try { const r = await fetch(`${SITE}/${u}`); return r.ok ? await r.json() : null; } catch { return null; } };
-  const order = async (pool: string, idx: string) => {
-    const ids: string[] = ((await get(idx))?.games || []).map((g: any) => g.id); let busy = new Set<string>();
-    try { const rows: any[] = (await rest(`quiz_box_pool?pool=eq.${pool}&select=game,state&limit=1000`)) || []; busy = new Set(rows.map((r) => r.game)); } catch {}
-    return [...ids.filter((i) => !busy.has(i)), ...ids.filter((i) => busy.has(i))];
-  };
-  const [bx, br] = [await order("BOX2P", "tvbox/index.json"), await order("BRIDGE", "bridge/index.json")];
-  for (let i = 0; i < Math.max(bx.length, br.length); i++) {
-    if (br[i]) { const g = await get(`bridge/games/${br[i]}.json`); if (g) for (const l of bridgeGameLines(g)) yield l; }
-    if (bx[i]) { const g = await get(`tvbox/games/${bx[i]}.json`); if (g) for (const l of boxGameLines(g)) yield l; }
+async function siteJson(u: string): Promise<any> { try { const r = await fetch(`${SITE}/${u}`); return r.ok ? await r.json() : null; } catch { return null; } }
+/** One step of the plan: `lines` are all the lines it needs; a `page` stage reads the next few bank questions from a cursor instead (and says where it got to). */
+type Stage = { id: string; label: string; ck?: string; once?: boolean; lines?: () => Promise<string[]> | string[]; page?: (cur: any) => Promise<{ lines: string[]; cur: any }> };
+const MUSIC_CAT_LIST = ["Pop music", "Song lyrics", "Boy bands and girl groups", "Musicals", "Classical music", "Christmas songs", "UK number ones", "The Beatles", "One-hit wonders", "Eurovision", "Rock music", "Valentine's Day and love songs", "Halloween music"];
+const qv = (x: string) => '"' + x.split("\\").join("\\\\").split('"').join('\\"') + '"';
+/** a page of bank multiple-choice questions (their id order), 40 at a time, from where the cursor (the last id) got to */
+const choicePage = (cats: string[], size = 40) => async (cur: any) => {
+  const after = cur?.id ? `&id=gt.${encodeURIComponent(cur.id)}` : "";
+  const rows: any[] = (await rest("quiz_bank?type=eq.choice&used=is.false&category=in.(" + encodeURIComponent(cats.map(qv).join(",")) + ")" + after + `&select=id,q&order=id&limit=${size}`)) || [];
+  return { lines: rows.flatMap((r) => choicePieces(r.q)), cur: rows.length ? { id: rows[rows.length - 1].id } : { id: cur?.id || "", end: true } };
+};
+/** the answers of the music clips: they are the wrong options of one another */
+const tunePage = async (cur: any) => {
+  const after = cur?.id ? `&id=gt.${encodeURIComponent(cur.id)}` : "";
+  const rows: any[] = (await rest("quiz_bank?type=eq.tune&used=is.false&q->>ask=in.(song,artist,film)" + after + "&select=id,ans:q->answers->>0&order=id&limit=300")) || [];
+  const lines = rows.map((r) => ttsClean(r.ans)).filter((a) => a.length >= 2 && a.length <= 40).flatMap((a) => [`${a}.`, `The answer was ${a}.`]);
+  return { lines, cur: rows.length ? { id: rows[rows.length - 1].id } : { id: cur?.id || "", end: true } };
+};
+let planCache: { at: number; stages: Stage[] } | null = null;
+async function planStages(): Promise<Stage[]> {
+  if (planCache && Date.now() - planCache.at < 600_000) return planCache.stages;
+  const [bi, ri] = await Promise.all([siteJson("tvbox/index.json"), siteJson("bridge/index.json")]);
+  const bx: string[] = (bi?.games || []).map((g: any) => g.id), br: string[] = (ri?.games || []).map((g: any) => g.id);
+  let cats: string[] = [];
+  try { const counts: any[] = await restAll("quiz_bank_counts?select=type,category,used,n&type=eq.choice&used=eq.false&order=category"); const by: Record<string, number> = {}; for (const c of counts) if (c.category) by[c.category] = (by[c.category] || 0) + c.n; cats = Object.entries(by).filter(([k, n]) => n >= 30 && !MUSIC_CAT_LIST.includes(k)).sort((a, b) => b[1] - a[1]).map(([k]) => k); } catch {}
+  const game = (kind: "box" | "bridge", id: string): Stage => ({ id: `${kind}:${id}`, label: `${kind === "box" ? "Box Clever" : "Bridge of Lies"} ${id}`, lines: async () => { const g = await siteJson(`${kind === "box" ? "tvbox" : "bridge"}/games/${id}.json`); return g ? (kind === "box" ? boxGameLines(g) : bridgeGameLines(g)) : []; } });
+  const music = (k: number): Stage => ({ id: `music:${k}`, label: `Music quiz questions ${k}`, ck: "music", once: true, page: choicePage(MUSIC_CAT_LIST, 60) });
+  const out: Stage[] = [{ id: "basics", label: "The usual lines", lines: basicsLines }];
+  if (bx[0]) out.push(game("box", bx[0])); if (br[0]) out.push(game("bridge", br[0]));
+  out.push({ id: "tunes", label: "Music clip answers", ck: "tunes", page: tunePage }, music(1), { id: "scores", label: "Every score", lines: scoreLines });
+  out.push({ id: "b15cats", label: "Best of 15 category prompts", lines: () => cats.flatMap((c) => [`For example, ${c}.`, `${c}.`, `Or ${c}.`]) });
+  for (let i = 1; i < Math.max(bx.length, br.length); i++) {
+    if (bx[i]) out.push(game("box", bx[i])); if (br[i]) out.push(game("bridge", br[i]));
+    out.push(music(i + 1)); if (cats[i - 1]) out.push({ id: `b15:${i - 1}`, label: `Best of 15: ${cats[i - 1]}`, ck: `c:${cats[i - 1]}`, once: true, page: choicePage([cats[i - 1]], 40) });
   }
+  planCache = { at: Date.now(), stages: out }; return out;
 }
 async function storagePut(path: string, bytes: Uint8Array, contentType: string, cacheControl = ""): Promise<string> {
   const r = await fetch(`${SUPA_URL}/storage/v1/object/${BUCKET}/${path}`, {
@@ -1036,35 +1095,59 @@ Deno.serve(async (req) => {
         return json({ url: (await ttsMake(text, voice)).url });
       } catch (e: any) { return json({ error: String(e?.message || e) }, e?.status || 502); }
     }
-    // The daily bank (no sign-in; it only ever makes the games' own lines, up to a daily budget, so calling it often costs nothing extra): { } -> makes up to a dozen
-    // lines that are not kept yet. A scheduled job calls it until it says done. The day's count is kept in tts/_bank.json; a refused request (Cloudflare's daily allowance
-    // used up) stops it for the day.
+    // The speech bank (no sign-in; it only ever makes the games' own lines, in the plan's order, within a budget, so calling it often costs nothing extra): { } -> makes up to 36 lines that are
+    // not kept yet and says where it stands. A scheduled job calls it until it says done. The counts live in tts/_bank.json (today's characters, all characters since the start, the stages finished,
+    // the cursors into the bank's questions). Done: "budget" (today's or the total budget is used), "complete" (everything is kept), "quota"/"busy" (Cloudflare refused for now; not remembered).
     if (action === "tts_bank") {
       const day = new Date().toISOString().slice(0, 10), file = `${SUPA_URL}/storage/v1/object/${BUCKET}/tts/_bank.json`, hdr = { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}` };
-      let st: any = { day, chars: 0, made: 0, stopped: "" };
-      try { const r = await fetch(file, { headers: hdr }); if (r.ok) { const j = await r.json(); if (j.day === day) st = j; } } catch {}
-      const save = async () => { try { await storagePut("tts/_bank.json", new TextEncoder().encode(JSON.stringify(st)), "application/json"); } catch {} };
-      if (st.stopped) return json({ done: st.stopped, chars: st.chars, made: st.made, cap: BANK_CHARS });
-      if (st.chars >= BANK_CHARS) { st.stopped = "budget"; await save(); return json({ done: "budget", chars: st.chars, made: st.made, cap: BANK_CHARS }); }
-      const kept = await keptNames(), todo: string[] = []; let exhausted = true;
-      for await (const l of bankCandidates()) {
-        const text = l.replace(/\s+/g, " ").trim().slice(0, 400); if (!text) continue;
-        if (kept.has(`${await sha16(`a2|pandora|${text}`)}.mp3`)) continue;
-        todo.push(text); if (todo.length >= 12) { exhausted = false; break; }
+      let st: any = { day, chars: 0, made: 0, stopped: "", total: 0, totalMade: 0, done: {}, cur: {} };
+      try { const r = await fetch(file, { headers: hdr }); if (r.ok) { const j = await r.json(); st = { ...st, ...j, done: j.done || {}, cur: j.cur || {} }; if (j.day !== day) { st.day = day; st.chars = 0; st.made = 0; st.stopped = ""; } } } catch {}
+      let saveErr = ""; const save = async () => { try { await storagePut("tts/_bank.json", new TextEncoder().encode(JSON.stringify(st)), "audio/mpeg"); } catch (e: any) { saveErr = String(e?.message || e).slice(0, 200); } };
+      const reply = (done: string, made = 0) => json({ done, made, saveErr, chars: st.chars, madeToday: st.made, cap: BANK_DAY, total: st.total, totalCap: BANK_TOTAL, stagesDone: Object.keys(st.done).length });
+      if (st.stopped) return reply(st.stopped);
+      if (st.chars >= BANK_DAY || st.total >= BANK_TOTAL) { st.stopped = "budget"; await save(); return reply("budget"); }
+      const kept = await keptNames(), todo: string[] = [], seen = new Set<string>(), commit: Array<() => void> = []; let exhausted = true;
+      const want = async (lines: string[]) => { let n = 0; for (const l of lines) { const text = lineNorm(l); if (!text || seen.has(text)) continue; seen.add(text); if (kept.has(await lineKey(text))) continue; todo.push(text); n++; } return n; };
+      for (const sg of await planStages()) {
+        if (st.done[sg.id]) continue;
+        if (sg.page) {
+          const ck = sg.ck || sg.id; let cur = st.cur[ck] || null;
+          if (cur?.end) { st.done[sg.id] = true; continue; }
+          const p = await sg.page(cur); await want(p.lines);
+          const id = sg.id, once = !!sg.once, c2 = p.cur; commit.push(() => { st.cur[ck] = c2; if (c2.end || once) st.done[id] = true; });
+          if (todo.length >= 36) { exhausted = false; break; } continue;
+        }
+        const lines = await sg.lines!(); const n = await want(lines);
+        if (!n) { st.done[sg.id] = true; continue; }
+        if (todo.length >= 36) { exhausted = false; break; }
       }
-      let made = 0, chars = 0, stop = "";
-      const t0 = Date.now();
-      for (let i = 0; i < todo.length && !stop && Date.now() - t0 < 90_000; i += 3) {
-        await Promise.all(todo.slice(i, i + 3).map(async (text) => {
-          if (stop || st.chars + chars + text.length > BANK_CHARS) { if (!stop) stop = "budget"; return; }
-          try { const r = await ttsMake(text, "pandora"); if (!r.cached) { made++; chars += text.length; } kept.add(`${await sha16(`a2|pandora|${text}`)}.mp3`); }
-          catch (e: any) { if (/daily free allocation|neurons/i.test(String(e?.message))) stop = "quota"; else if (e?.status === 501) stop = "off"; }
+      let made = 0, chars = 0, stop = ""; const t0 = Date.now(), batch = todo.slice(0, 36);
+      for (let i = 0; i < batch.length && !stop && Date.now() - t0 < 100_000; i += 6) {
+        await Promise.all(batch.slice(i, i + 6).map(async (text) => {
+          if (stop || st.chars + chars + text.length > BANK_DAY || st.total + chars + text.length > BANK_TOTAL) { if (!stop) stop = "budget"; return; }
+          try { const r = await ttsMake(text, "pandora"); if (!r.cached) { made++; chars += text.length; } kept.add(await lineKey(text)); }
+          catch (e: any) { const m = String(e?.message || e); if (/daily free allocation|neurons|quota/i.test(m)) stop = "quota"; else if (e?.status === 501) stop = "off"; else if (/rate|too many|429|busy/i.test(m)) stop = "busy"; }
         }));
       }
-      st.chars += chars; st.made += made; if (stop) st.stopped = stop;
+      st.chars += chars; st.made += made; st.total += chars; st.totalMade += made;
+      if (!stop && batch.length >= todo.length) for (const c of commit) c(); // the cursors move on only once everything from the pages was made
       const done = stop || (exhausted && !todo.length ? "complete" : "");
-      if (done && !st.stopped) st.stopped = done; await save();
-      return json({ done, made, chars: st.chars, madeToday: st.made, cap: BANK_CHARS });
+      if (done === "budget" || done === "complete") st.stopped = done; await save();
+      return reply(done, made);
+    }
+    // Is a game's speech ready? { lines: [...] } -> how many of those lines are already kept (the pop-up before a quiz uses this), and whether the usual lines and the scores are done.
+    if (action === "tts_ready") {
+      const lines: string[] = (Array.isArray(body.lines) ? body.lines : []).slice(0, 3000).map((x: unknown) => lineNorm(String(x))).filter(Boolean);
+      const kept = await keptNames(body.fresh === true), uniq = [...new Set(lines)], miss: string[] = [];
+      for (const l of uniq) if (!kept.has(await lineKey(l))) miss.push(l);
+      let basics = false; try { const r = await fetch(`${SUPA_URL}/storage/v1/object/${BUCKET}/tts/_bank.json`, { headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}` } }); if (r.ok) { const j = await r.json(); basics = !!(j.done?.basics && j.done?.scores); } } catch {}
+      return json({ total: uniq.length, have: uniq.length - miss.length, missing: miss.slice(0, 8), basics });
+    }
+    // Where the bank has got to (for the daily check): characters made, an estimate of what that costs, the stages finished.
+    if (action === "tts_status") {
+      let st: any = {}; try { const r = await fetch(`${SUPA_URL}/storage/v1/object/${BUCKET}/tts/_bank.json`, { headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}` } }); if (r.ok) st = await r.json(); } catch {}
+      const kept = await keptNames(true), plan = await planStages();
+      return json({ day: st.day, today: st.chars || 0, total: st.total || 0, totalCap: BANK_TOTAL, dayCap: BANK_DAY, estCostUSD: Math.round(((st.total || 0) * 0.03) ) / 1000, kept: kept.size, bytes: bankKept?.bytes || 0, stagesDone: Object.keys(st.done || {}).length, stagesTotal: plan.length, nextStages: plan.filter((s) => !(st.done || {})[s.id]).slice(0, 6).map((s) => s.label), stopped: st.stopped || "" });
     }
 
     // Taskmaster: a phone sends its photo for a task (no sign-in). code is the game's code (or a warm-up's), key the
