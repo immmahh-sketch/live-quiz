@@ -20,10 +20,10 @@ export default function App() {
   const car = useRef<ReturnType<typeof startCarPlay> | null>(null);
 
   const js = useCallback((code: string) => web.current?.injectJavaScript(code + '; true;'), []);
-  const finish = useCallback(() => {
+  const finish = useCallback((err?: string) => {
     const l = listening.current; if (!l) return;
     listening.current = null;
-    js(`window.__lqSRDone(${l.id}, ${JSON.stringify(l.alts)})`);
+    js(`window.__lqSRDone(${l.id}, ${JSON.stringify(l.alts)}, ${JSON.stringify(err && l.alts.length === 0 ? err : '')})`);
   }, [js]);
 
   useSpeechRecognitionEvent('result', (e) => {
@@ -31,17 +31,17 @@ export default function App() {
     listening.current.alts = (e.results || []).map((r) => r.transcript).filter(Boolean).slice(0, 4);
     if (e.isFinal) finish();
   });
-  useSpeechRecognitionEvent('end', finish);
-  useSpeechRecognitionEvent('error', finish);
+  useSpeechRecognitionEvent('end', () => finish());
+  useSpeechRecognitionEvent('error', (e) => finish(String(e.error || 'error') + (e.message ? ': ' + e.message : '')));
 
   const listen = useCallback(async (id: number, lang: string) => {
     finish();
     try {
       const perm = await ExpoSpeechRecognitionModule.requestPermissionsAsync();
-      if (!perm.granted) { js(`window.__lqSRDone(${id}, [])`); return; }
+      if (!perm.granted) { js(`window.__lqSRDone(${id}, [], 'permission-denied: allow the microphone and speech recognition for this app in the iPhone Settings')`); return; }
       listening.current = { id, alts: [] };
       ExpoSpeechRecognitionModule.start({ lang: lang || 'en-GB', interimResults: false, maxAlternatives: 4, continuous: false });
-    } catch (e) { listening.current = null; js(`window.__lqSRDone(${id}, [])`); }
+    } catch (e) { listening.current = null; js(`window.__lqSRDone(${id}, [], ${JSON.stringify('start-failed: ' + String((e as any)?.message || e))})`); }
   }, [finish, js]);
 
   useEffect(() => {

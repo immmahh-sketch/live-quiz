@@ -184,12 +184,12 @@ function bvSay(text) {
 function bvListen(ms) {
   return new Promise((res) => {
     if (!BV_SR) return res([]);
-    const r = new BV_SR(); let got = [], done = false;
+    const r = new BV_SR(); let got = [], done = false; BV.lastErr = ''; BV.lastHeard = [];
     r.lang = 'en-GB'; r.interimResults = false; r.continuous = false; r.maxAlternatives = 4;
     const fin = () => { if (done) return; done = true; clearTimeout(t); BV.listening = false; bvAudioType('playback'); try { r.stop(); } catch {} if (BV.rec === r) BV.rec = null; res(got); };
-    r.onresult = (e) => { const last = e.results[e.results.length - 1]; got = [...last].map((a) => String(a.transcript || '').trim()).filter(Boolean); fin(); };
-    r.onerror = fin; r.onend = fin;
-    const t = setTimeout(fin, ms || 7000);
+    r.onresult = (e) => { const last = e.results[e.results.length - 1]; got = [...last].map((a) => String(a.transcript || '').trim()).filter(Boolean); BV.lastHeard = got; fin(); };
+    r.onerror = (e) => { BV.lastErr = String((e && (e.error || e.message)) || 'error'); fin(); }; r.onend = fin;
+    const t = setTimeout(() => { if (!got.length && !BV.lastErr) BV.lastErr = 'timeout'; fin(); }, ms || 7000);
     BV.rec = r; BV.listening = true; bvStatus('🎙️ Listening…');
     bvAudioType('play-and-record');
     try { r.start(); } catch { fin(); }

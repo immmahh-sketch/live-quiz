@@ -15,8 +15,9 @@ const speech = String.raw`
   SR.prototype.abort = function () { post({ op: 'abort', id: this.id }); };
   window.SpeechRecognition = SR;
   window.webkitSpeechRecognition = SR;
-  T.__lqSRDone = function (id, alts) {
+  T.__lqSRDone = function (id, alts, err) {
     var r = T.__lqSR.inst[id]; if (!r) return; delete T.__lqSR.inst[id];
+    try { if (err && r.onerror) r.onerror({ error: String(err) }); } catch (e) {}
     try { if (alts && alts.length && r.onresult) r.onresult({ results: [alts.map(function (t) { return { transcript: t }; })] }); } catch (e) {}
     try { if (r.onend) r.onend(); } catch (e) {}
   };
