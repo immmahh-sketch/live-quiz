@@ -141,6 +141,7 @@ async function bvClip(text, voice) {
   const p = (async () => {
     try { const direct = BVN.base + (await bvHash(key)) + '.mp3', r = await fetch(direct, { method: 'HEAD' }); if (r.ok) return direct; } catch {}
     if (BVN.quota) return ''; // only lines already kept can be used today
+    (BVN.live = BVN.live || []).push(t); // a line that was not kept yet and has to be made now (the speech bank should have it)
     try { const r = await LQ.api('tts', { text: t, voice: v }, { timeout: 20000 }); return (r && r.url) || ''; } catch (e) {
       const m = String(e && (e.message || e));
       if (/daily free allocation|used up|neurons/i.test(m)) { BVN.quota = true; try { localStorage.setItem('lq_nquota', bvDay()); } catch {} } else if (/501|set up/i.test(m)) BVN.fails = 99;
@@ -282,7 +283,7 @@ async function bvStep(s, my) {
   const ask = async (prompt, retry, handle) => {
     let lead = '', noted = false;
     for (let i = 0; i < 4 && live(); i++) {
-      await bvSay(i ? [noted ? lead : lead + (retry || bvText(prompt))] : prompt); // a note ("Box 3 has gone. Which box?") already asks again if (!live()) return null;
+      await bvSay(i ? (noted ? [lead.trim()] : [...(lead ? [lead.trim()] : []), retry || bvText(prompt)]) : prompt); // a note ("Box 3 has gone. Which box?") already asks again if (!live()) return null;
       const alts = await bvListen(i ? 8000 : 10000); if (!live()) return null;
       if (!alts.length) { lead = 'I did not hear anything. '; noted = false; continue; }
       noteNext = ''; const r = handle(alts); if (r !== null && r !== undefined) return r;
@@ -336,10 +337,10 @@ async function bvStep(s, my) {
   if (g.step === 'ask' && c && c.mode !== 'host' && !c.locked) {
     const q = c.q, opts = q.opts, L = 'ABCD', mineAns = c.by === me.ti, who = T(c.by).name;
     if (q.m && q.m.k === 'tune') { await bvSay('Listen to the clip.'); for (let i = 0; i < 17 && live(); i++) await bvWait(1000); if (!live()) return; }
-    const head = `Box ${c.num}, ${catName(c.num)}${c.stake ? `, for ${bvPlaces(c.stake)}` : ''}.`;
+    const head = [`Box ${c.num}, ${catName(c.num)}.`, ...(c.stake ? [`For ${bvPlaces(c.stake)}.`] : [])]; // pieces: the box, then the stake (each kept once)
     const read = [q.t, ...(opts ? opts.flatMap((o, i) => [bvLetter(i), `${o}.`]) : [])]; // each piece is made once and kept, so the options can come in any order
-    if (!mineAns) return void (await bvSay([head, ...read, `${who} is answering.`]));
-    const lead = [...(turnOf ? [turnOf.trim()] : []), head, ...read];
+    if (!mineAns) return void (await bvSay([...head, ...read, `${who} is answering.`]));
+    const lead = [...(turnOf ? [turnOf.trim()] : []), ...head, ...read];
     if (opts) {
       const say = `Say ${opts.map((_, i) => L[i]).join(', ')}${c.canPass ? ', or pass' : ''}.`;
       const r = await ask([...lead, say], say, (alts) => {
@@ -362,7 +363,8 @@ async function bvStep(s, my) {
 }
 /** What a Box Clever game will read out, piece by piece (its questions, options and right answers), so the natural voice can make them before they are needed. game = the game's file. */
 function bvBoxLines(game) {
-  const out = BV_LETTER_SAYS.slice(0, 4);
+  const out = BV_LETTER_SAYS.slice(0, 4), g0 = (game && game.questions && game.questions[0]) || {}, rowsN = (g0.cats || []).length, colsN = g0.cols || 1;
+  for (let n = 1; n <= rowsN * colsN; n++) out.push(`Box ${n}, ${g0.cats[Math.floor((n - 1) / colsN)].name}.`);
   for (const row of ((game && game.questions && game.questions[0] && game.questions[0].cats) || [])) for (const q of row.qs || []) {
     if (q.t) out.push(q.t);
     for (const o of q.o || []) out.push(`${o}.`);
@@ -390,7 +392,7 @@ function bxVoiceFinal(s) {
   if (!BV.on || BV.key === 'final') return;
   BV.key = 'final'; bvAbort(); ++BV.tok;
   const t = (s.bx?.teams || []).map((x) => ({ n: x.name, v: Math.max(0, x.pot) - (x.loan || 0) })).sort((a, b) => b.v - a.v);
-  if (t.length) bvSay(`Game over. ${t.map((x) => `${x.n} ${bvPlaces(x.v)}`).join('. ')}. ${t[0].n} wins!`);
+  if (t.length) bvSay(['Game over.', ...t.map((x) => `${x.n} ${bvPlaces(x.v)}.`), `${t[0].n} wins!`]);
 }
 function bvButton() {
   if (document.getElementById('bvbtn')) return;

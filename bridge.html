@@ -56,8 +56,9 @@
 <script src="assets/common.js"></script>
 <script src="assets/hubkit.js?v=20261115b"></script>
 <script src="assets/dpad.js"></script>
-<script src="assets/boxes-voice.js?v=20261115i"></script>
+<script src="assets/boxes-voice.js?v=20261115j"></script>
 <script src="assets/hubvoice.js?v=20261115g"></script>
+<script src="assets/voiceready.js?v=20261115j"></script>
 <script>
 // Bridge of Lies: a diamond of answers to one category, crossed from the red START pad on the left to the green FINISH pad on the right. A hidden path of true
 // answers joins them; everything else is a lie. A correct answer opens the tiles touching it. Every open tile has a letter (A, B, C...) to touch, click or say.
@@ -99,7 +100,7 @@ async function chooseGame() {
   const mine = played(), usable = () => ids.filter((id) => !mine.has(id) && !st.played.has(id) && !st.others.has(id));
   let left = usable();
   for (let i = 0; i < 6 && left.length; i++) {
-    const id = left[Math.floor(Math.random() * left.length)], c = await pool.claim(id);
+    const id = left[0], c = await pool.claim(id); // the lowest number first: the order the speech was made in
     if (c && c.taken) { st = await pool.state(); left = usable(); continue; }
     return await (await fetch('bridge/games/' + id + '.json')).json();
   }
@@ -122,6 +123,7 @@ async function screenIntro() {
   B.cur = { id: g.id, cat: g.cat, n: g.n, m: g.m, tiles: g.tiles, tried: new Map(), lives: 3, pts: 0, over: false, crossed: false, note: '' };
   save();
   const across = g.n + g.m - 3;
+  if (!TEST && typeof VR !== 'undefined' && !(await VR.check(VR.bridgeLines(g), 'Bridge of Lies game ' + (+g.id.slice(1))))) { B.cur = null; location.href = hubTo(); return; }
   $('#screen').innerHTML = `${topBar()}<div class="center" style="margin:auto"><h1>${esc(n)}'s bridge</h1><p class="sub" style="margin-bottom:10px">The category:</p><div class="big" style="font-size:2.3rem">${esc(g.cat)}</div></div>
     <div class="card rules">Cross the diamond from the red pad on the left to the green pad on the right. Find the <b>true answers</b>: the shortest way across is <b>${across}</b> of them. Each correct answer opens the tiles touching it, and every open tile has a <b>letter</b>. The board is full of <b>lies</b>: you have <b>3 lives</b>. <b>100</b> points a correct answer, <b>500</b> bonus for getting across.</div>
     <button class="btn primary big" id="start" type="button" data-autofocus data-say="start|go|begin|ready|play|let's go">▶ Start</button>`;
@@ -205,7 +207,7 @@ function screenFinal() {
     $('#screen').innerHTML = `${topBar('', '')}<div class="center" style="margin:auto"><p class="muted" style="margin:0"><span class="tbadge">TEST</span></p><div class="big" style="font-size:3rem">${c.crossed ? '🎉 You crossed!' : '💥 The bridge fell'}</div><p class="sub">${c.pts} points. Nothing was used up and no game point was given. Run it as often as you like.</p></div>
       <div class="row"><button class="btn primary big grow" id="again" type="button" data-autofocus data-say="play again|again|another go|restart">↻ Play the test again</button><button class="btn big grow" id="hub" type="button" data-say="back|test menu|menu|back to the tests">Back to the tests</button></div>`;
     $('#again').onclick = () => { B = fresh(); screenIntro(); }; $('#hub').onclick = leave; bindMenu(); HUB.focusFirst();
-    if (sayOn()) HV.screen({ prompt: `${c.crossed ? 'You crossed the bridge.' : 'The bridge fell.'} ${c.pts} points. Say play again, or back to the tests.`, hint: 'Say play again, or back to the tests.', items: [] });
+    if (sayOn()) HV.screen({ prompt: [c.crossed ? 'You crossed the bridge.' : 'The bridge fell.', `${bvPlaces(c.pts)} points.`, 'Say play again, or back to the tests.'], hint: 'Say play again, or back to the tests.', items: [] });
     return;
   }
   const win = sc[0] === sc[1] ? -1 : sc[0] > sc[1] ? 0 : 1;
@@ -217,7 +219,7 @@ function screenFinal() {
     <div class="center"><div class="big" style="font-size:2.2rem">${win < 0 ? "It's a draw! No game point." : '🏆 ' + esc(n[win]) + ' wins!'}</div><p class="sub">${win < 0 ? '' : '+1 game point · '}Game points: <b>${esc(HUB.pointsText())}</b></p></div>
     <div class="row"><button class="btn primary big grow" id="again" type="button" data-autofocus data-say="another round|play again|again|another|one more">↻ Another round</button><button class="btn big grow" id="hub" type="button" data-say="choose another quiz|another quiz|different quiz|menu|home|choose">Choose another quiz</button></div>`;
   $('#again').onclick = () => { B = fresh(); save(); screenIntro(); }; $('#hub').onclick = leave; HUB.focusFirst();
-  if (sayOn()) HV.screen({ prompt: `${sc[0]} to ${sc[1]}. ${win < 0 ? 'A draw. No game point.' : n[win] + ' wins and takes a game point.'} Game points: ${n[0]} ${g[0]}, ${n[1]} ${g[1]}. Say another round, or choose another quiz.`, hint: 'Say another round, or choose another quiz.', items: [] });
+  if (sayOn()) HV.screen({ prompt: [`${sc[0]} to ${sc[1]}.`, win < 0 ? 'A draw. No game point.' : `${n[win]} wins and takes a game point.`, 'Game points:', `${n[0]} ${g[0]}.`, `${n[1]} ${g[1]}.`, 'Say another round, or choose another quiz.'], hint: 'Say another round, or choose another quiz.', items: [] });
   try { localStorage.removeItem(KEY); } catch {}
 }
 

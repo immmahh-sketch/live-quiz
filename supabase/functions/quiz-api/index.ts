@@ -124,7 +124,7 @@ function basicsLines(): string[] {
     "Say a box and how much to gamble, like box three, five hundred.", "I did not hear anything.", "Tap the microphone button when you are ready to try again.", "Which place in the row?",
     "Pick your first move.", "Your next move.", "Plus one hundred.", "A lie!", "2 lives left.", "1 life left.", "You crossed the bridge! Five hundred bonus.", "The bridge has fallen.", "You crossed the bridge.", "The bridge fell.",
     "Choose your quiz. Say Box Clever, Best of fifteen, Music quiz, or Bridge of Lies. Or say reset game points, or test.", "Say a box and how much to gamble, like box three, five hundred.", "You have used your clue.", "You have used your swap.",
-    "Two are gone.", "A draw. No game point.", "It's a draw!", "Game points:", "Say another round, or choose another quiz.", "Say play again, or back to the tests.", "Or say surprise me.", "Say a category, or surprise me.", "Name this song.", "Who is the artist?", "Which film is this music from?",
+    "Two are gone.", "A draw. No game point.", "It's a draw!", "Game points:", "Say another round, or choose another quiz.", "Say play again, or back to the tests.", "Or say surprise me.", "Say a category, or surprise me.", "This quiz is not fully voiced yet. Some lines will pause while they are made. Say play anyway, or choose another quiz.", "Name this song.", "Who is the artist?", "Which film is this music from?",
     ...range(1, 15).map((i) => `Question ${i}.`), ...range(0, 15).map((i) => `${i} so far.`), ...range(1, 40).map((n) => `Box ${n} has gone. Which box?`)];
   for (const n of NAMES) L.push(`${n}, it's your turn.`, `${n}, your go.`, `${n} is choosing a box.`, `${n} is deciding how much to gamble.`, `${n} is answering.`, `Now ${n}.`, `${n} wins and takes a game point.`, `${n} wins!`, `${n}'s bridge.`, `${n}, choose your category.`, `${n}'s turn.`);
   return L;
@@ -1213,6 +1213,11 @@ Deno.serve(async (req) => {
       const rows: any[] = (await rest("quiz_bank?type=eq.choice&used=is.false&category=in.(" + encodeURIComponent(cats.map(quote).join(",")) + ")&select=q&limit=500")) || [];
       let ch = rows.map((r) => r.q).filter((x) => !mcBad(x)).map(mcChoice).filter(Boolean) as any[];
       let out: any[] = [];
+      // Speech already saved comes first: questions whose every line is kept play with no wait, so draw from those whenever there are enough of them.
+      const kept = await keptNames();
+      const isV = async (lines: string[]) => { for (const l of lines) if (!kept.has(await lineKey(lineNorm(l)))) return false; return true; };
+      const qLines = (x: any) => [x.t, ...x.o.map((o: string) => `${o}.`), `The answer was ${x.o[x.c]}.`];
+      { const vo: any[] = []; for (const x of ch) if (await isV(qLines(x))) vo.push(x); if (vo.length >= (music ? 14 : want + spares)) ch = vo; }
       if (music) {
         // clips: name the song, the artist, the film. The wrong options are the answers of other clips of the same kind.
         const SEL = "select=id,lv:difficulty,ask:q->>ask,ans:q->answers->>0,url:q->media->>url,len:q->media->>length&order=pos";
@@ -1230,8 +1235,10 @@ Deno.serve(async (req) => {
             clips.push({ id: x.id, type: "tune", kind, t: TXT[kind], o, c: o.indexOf(right), lv: x.lv || "", url: x.url, len: +x.len || 15 });
           }
         }
-        const nClips = Math.min(clips.length, Math.round(want * 0.6)), nCh = want - nClips;
-        const mainClips = mcShuf(clips).slice(0, nClips + Math.round(spares * 0.6)), mainCh = mcMix(ch, nCh + spares - Math.round(spares * 0.6));
+        const vc: any[] = []; for (const x of clips) if (await isV(qLines(x))) vc.push(x);
+        const useClips = vc.length >= Math.round(want * 0.6) + Math.round(spares * 0.6) ? vc : clips;
+        const nClips = Math.min(useClips.length, Math.round(want * 0.6)), nCh = want - nClips;
+        const mainClips = mcShuf(useClips).slice(0, nClips + Math.round(spares * 0.6)), mainCh = mcMix(ch, nCh + spares - Math.round(spares * 0.6));
         const all = mcShuf([...mainClips.slice(0, nClips), ...mainCh.slice(0, nCh)]);
         const sp = [...mainClips.slice(nClips), ...mainCh.slice(nCh)];
         if (all.length < want) return json({ error: "Not enough music questions left." }, 409);

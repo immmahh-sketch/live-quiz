@@ -50,8 +50,9 @@
 <script src="assets/common.js"></script>
 <script src="assets/hubkit.js?v=20261115b"></script>
 <script src="assets/dpad.js"></script>
-<script src="assets/boxes-voice.js?v=20261115i"></script>
+<script src="assets/boxes-voice.js?v=20261115j"></script>
 <script src="assets/hubvoice.js?v=20261115g"></script>
+<script src="assets/voiceready.js?v=20261115j"></script>
 <script>
 // Best of 15 and the Music quiz. Every question is multiple choice (A, B, C, D). Each player picks a category (the Music quiz is one mix of clips and music
 // questions) and answers 15. One clue (takes two wrong options away), one swap, passes as you like, 1 point each. Then the other player. The winner takes
@@ -104,7 +105,7 @@ async function screenCat() {
   HUB.focusFirst();
   if (sayOn()) {
     const rnd = () => cats[Math.floor(Math.random() * cats.length)].name;
-    HV.screen({ prompt: `${names()[R.turn]}, choose your category. For example ${rnd()}, ${rnd()}, or ${rnd()}. Or say surprise me.`, hint: 'Say a category, or surprise me.', dom: false,
+    HV.screen({ prompt: [`${names()[R.turn]}, choose your category.`, `For example, ${rnd()}.`, `${rnd()}.`, `Or ${rnd()}.`, 'Or say surprise me.'], hint: 'Say a category, or surprise me.', dom: false,
       items: [{ words: ['surprise me', 'surprise', 'random', 'you choose'], fn: () => pick(rnd()) }, { words: ['menu', 'quit', 'leave', 'exit'], fn: () => $('#menuBtn').click() },
         { test: (alts) => matchCat(alts, cats), fn: (name) => pick(name) }] });
   }
@@ -122,7 +123,10 @@ async function pick(cat) {
     N = TEST ? d.questions.length : 15;
     R.cats[R.turn] = cat; R.cur = { cat, qs: d.questions, spares: d.spares || [], i: 0, score: 0, clue: false, swap: false, marks: [], hidden: [], res: null }; R.phase = 'play'; save();
     // hands-free: have the natural voice make the questions to come while the first is being read, so there is no wait between them
-    try { if (BV.on) { const c = R.cur, out = []; c.qs.forEach((q, i) => { out.push(`${q.url ? `Question ${i + 1}. ${q.t} Listen.` : `Question ${i + 1}. ${q.t} ` + readOpts(q, c) + '.'}`); if (q.url) out.push(readOpts(q, c) + '.'); out.push(`Not quite. The answer was ${LET[q.c]}: ${q.o[q.c]}.`); }); bvPrefetchMany(out); } } catch {}
+    const lines = []; try { R.cur.qs.forEach((q, i) => { lines.push(`Question ${i + 1}.`, q.t, ...q.o.map((t) => `${t}.`), `The answer was ${q.o[q.c]}.`); }); } catch {}
+    if (!TEST && typeof VR !== 'undefined' && !(await VR.check(lines, MUSIC ? 'This Music quiz' : 'This Best of 15 round', 'Best of 15 makes some of its speech as it goes, because every round is different.'))) { busy = false; return leaveTo(); }
+    // hands-free: have the natural voice make the questions to come while the first is being read, so there is no wait between them
+    try { if (BV.on) bvPrefetchMany(lines); } catch {}
     busy = false; if (my === tok) screenQ();
   } catch (e) {
     busy = false; const msg = (e && e.message) || 'Could not get the questions.';
@@ -132,6 +136,9 @@ async function pick(cat) {
 
 function retire(q) { if (!q || q.shown) return; q.shown = true; if (!TEST) call('b15_retire', { ids: [q.id] }, 8000).catch(() => {}); }
 function readOpts(q, c) { return q.o.map((t, i) => (c.hidden.includes(i) ? null : `${LET[i]}: ${t}`)).filter(Boolean).join('. '); }
+/** the options as pieces to say: the letter's sound, then the option (each piece is kept once and used again in any question) */
+const optSegs = (q, c) => q.o.flatMap((t, i) => (c.hidden.includes(i) ? [] : [bvLetter(i), `${t}.`]));
+const answerSegs = (q, how) => (how === 'ok' ? ['Correct!'] : [how === 'pass' ? 'Passed.' : 'Not quite.', `The answer was ${q.o[q.c]}.`]);
 function screenQ() {
   tok++; const my = tok, c = R.cur, q = c.qs[c.i]; stopClip(); HV.stop(); if (!q) return finishRound();
   retire(q); save();
@@ -193,7 +200,7 @@ function screenFinal() {
     <div class="center"><div class="big" style="font-size:2.2rem">${win < 0 ? "It's a draw! No game point." : '🏆 ' + esc(n[win]) + ' wins!'}</div><p class="sub">${win < 0 ? '' : '+1 game point · '}Game points: <b>${esc(HUB.pointsText())}</b></p></div>
     <div class="row"><button class="btn primary big grow" id="again" type="button" data-autofocus data-say="another round|play again|again|another|one more">↻ Another round</button><button class="btn big grow" id="hub" type="button" data-say="choose another quiz|another quiz|different quiz|menu|home|choose">Choose another quiz</button></div>`;
   $('#again').onclick = () => { R = fresh(); save(); screenCat(); }; $('#hub').onclick = leaveTo; HUB.focusFirst();
-  if (sayOn()) HV.screen({ prompt: `${s[0]} to ${s[1]}. ${win < 0 ? 'A draw. No game point.' : n[win] + ' wins and takes a game point.'} Game points: ${n[0]} ${g[0]}, ${n[1]} ${g[1]}. Say another round, or choose another quiz.`, hint: 'Say another round, or choose another quiz.', items: [] });
+  if (sayOn()) HV.screen({ prompt: [`${s[0]} to ${s[1]}.`, win < 0 ? 'A draw. No game point.' : `${n[win]} wins and takes a game point.`, 'Game points:', `${n[0]} ${g[0]}.`, `${n[1]} ${g[1]}.`, 'Say another round, or choose another quiz.'], hint: 'Say another round, or choose another quiz.', items: [] });
   try { localStorage.removeItem(KEY); } catch {}
 }
 
@@ -201,14 +208,12 @@ function screenFinal() {
 async function voiceQ(my) {
   const c = R.cur, q = c.qs[c.i];
   if (c.res) { // the verdict, then on to the next question
-    const r = c.res; await bvSay(r.ok ? 'Correct!' : r.pass ? `Passed. The answer was ${LET[q.c]}: ${q.o[q.c]}.` : `Not quite. The answer was ${LET[q.c]}: ${q.o[q.c]}.`); if (my !== tok) return;
+    const r = c.res; await bvSay(answerSegs(q, r.ok ? 'ok' : r.pass ? 'pass' : 'no')); if (my !== tok) return;
     if (c.i + 1 < N) { await bvSay(`${c.score} so far.`); if (my !== tok) return; }
     const nx = $('#next'); if (my === tok && nx) nx.click(); return;
   }
-  if (q.url && !c.heard) { c.heard = true; await bvSay(`Question ${c.i + 1}. ${q.t} Listen.`); if (my !== tok) return; await playClip(q); if (my !== tok) return; }
-  const intro = q.url ? '' : `Question ${c.i + 1}. ${q.t} `;
-  const clueNote = c.hidden.length ? 'Two are gone. ' : '';
-  const prompt = `${intro}${clueNote}${readOpts(q, c)}.`;
+  if (q.url && !c.heard) { c.heard = true; await bvSay([`Question ${c.i + 1}.`, q.t, 'Listen.']); if (my !== tok) return; await playClip(q); if (my !== tok) return; }
+  const prompt = [...(q.url ? [] : [`Question ${c.i + 1}.`, q.t]), ...(c.hidden.length ? ['Two are gone.'] : []), ...optSegs(q, c)];
   const nOpts = q.o.length;
   await HV.screen({ prompt, hint: 'Say A, B, C or D. Or say give me a clue, swap the question, or pass.', dom: false,
     items: [

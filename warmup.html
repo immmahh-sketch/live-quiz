@@ -74,6 +74,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="assets/common.js"></script>
 <script src="assets/hubkit.js?v=20261115b"></script>
+<script src="assets/voiceready.js?v=20261115j"></script>
 <script>
 const { $, $$, esc, store, uid, ordinal } = LQ;
 const app = $('#app');
@@ -170,7 +171,7 @@ async function poolStart() {
   let others = new Set();
   try { const r = await LQ.api('pool_state', { pool: 'BOX2P' }, { timeout: 6000 }); for (const id of r.played || []) S.played[id] = S.played[id] || 'elsewhere'; others = new Set((r.claimed || []).filter((c) => c.dev !== poolDev()).map((c) => c.game)); } catch {}
   S.order = S.order.filter((id) => ids.includes(id)); for (const id of ids.slice().sort(() => Math.random() - 0.5)) if (!S.order.includes(id)) S.order.push(id);
-  const left = S.order.filter((id) => !S.played[id] && !others.has(id)), cur = S.cur && idx.games.find((g) => g.id === S.cur.id), next = cur || idx.games.find((g) => g.id === left[0]);
+  const left = ids.filter((id) => !S.played[id] && !others.has(id)), /* in the order the speech was made */ cur = S.cur && idx.games.find((g) => g.id === S.cur.id), next = cur || idx.games.find((g) => g.id === left[0]);
   store(POOLKEY, S);
   if (!next) {
     app.innerHTML = '<div class="land">' + brand + '<h1>🎉 All ' + ids.length + ' games played!</h1><div class="card"><p class="muted" style="margin:0 0 10px">Every game has been used once. Start again to play them all over.</p><button class="go" id="again">↻ Play them all again</button></div></div>';
@@ -269,7 +270,12 @@ function played(r) {
 // ---------- the game: everything on the phone screen ----------
 // The quiz runs in a hidden frame (host.html in warm-up mode: it keeps the clock, plays the bots and makes the sounds).
 // You play in the phone view, which shows the whole of every question itself. There is no second screen to watch.
+// Before a hands-free Box Clever game starts: is its speech all saved? If not, say so and let the player choose.
 function game() {
+  if (!(POOL && POOLGAME && !POOLGAME.test && !POOLGAME.resuming) || SHARED || typeof VR === 'undefined') return gameGo();
+  fetch('tvbox/games/' + POOLGAME.id + '.json').then((r) => r.json()).then((g) => VR.check(VR.boxLines(g), 'Box Clever game ' + (+POOLGAME.id.slice(1)))).catch(() => true).then((ok) => { if (ok) gameGo(); else HUB.goHub(); });
+}
+function gameGo() {
   document.body.style.overflow = 'hidden';
   app.innerHTML = `<div class="game">
       <div class="playhead"><span id="who">🎮 Let's play</span><span><button id="fs" type="button" title="Full screen">⛶</button></span></div>
