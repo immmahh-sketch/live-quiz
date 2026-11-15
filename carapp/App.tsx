@@ -47,7 +47,7 @@ export default function App() {
   useEffect(() => {
     if (!extra.carplay) return;
     try {
-      car.current = startCarPlay((k, v, ex) => js(`window.lqAct(${JSON.stringify(k)}, ${JSON.stringify(v)}, ${JSON.stringify(ex || {})})`));
+      car.current = startCarPlay();
     } catch (e) { /* no CarPlay module in this build */ }
     return () => car.current?.stop();
   }, [js]);
@@ -58,6 +58,8 @@ export default function App() {
       if (m.op === 'start') listen(m.id, m.lang);
       else if (m.op === 'stop') { try { ExpoSpeechRecognitionModule.stop(); } catch {} }
       else if (m.op === 'abort') { try { ExpoSpeechRecognitionModule.abort(); } catch {} finish(); }
+    } else if (m.t === 'voice') {
+      try { car.current?.setVoice(m.s); } catch {} // what the page is doing: speaking, listening or idle (shown on the car screen)
     } else if (m.t === 'state') {
       try { car.current?.setState(JSON.parse(m.s)); } catch {}
     }

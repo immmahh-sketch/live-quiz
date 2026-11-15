@@ -15,7 +15,7 @@ const withSceneManifest = (config) => withInfoPlist(config, (c) => {
     UIApplicationSupportsMultipleScenes: true,
     UISceneConfigurations: {
       UIWindowSceneSessionRoleApplication: [{ UISceneConfigurationName: 'Phone', UISceneDelegateClassName: 'PhoneSceneDelegate' }],
-      CPTemplateApplicationSceneSessionRoleApplication: [{ UISceneConfigurationName: 'CarPlay', UISceneDelegateClassName: 'CarSceneDelegate' }],
+      CPTemplateApplicationSceneSessionRoleApplication: [{ UISceneClassName: 'CPTemplateApplicationScene', UISceneConfigurationName: 'CarPlay', UISceneDelegateClassName: 'CarSceneDelegate' }],
     },
   };
   return c;

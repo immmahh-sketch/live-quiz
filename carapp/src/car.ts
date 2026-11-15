@@ -1,39 +1,25 @@
-// The car screen: one CarPlay list that is redrawn whenever the game's state changes. Tapping a row sends the same thing a tap on the
-// phone would. Only used when the app is built with CarPlay on (CARPLAY=1) and Apple has granted the entitlement.
-import { buildRows, GameState, Act } from './model';
+// The car screen. The app has Apple's voice-based conversation entitlement, which is voice-first: the car shows Apple's voice control indicator (what the app is doing:
+// ready, speaking, listening), and the quiz is played by voice through the phone, which reads the questions aloud and listens. The first CarPlay build drew a
+// list of boxes here; it crashed the moment it connected (the scene handler was the wrong kind for this category), and a list is not what this category is for.
+// Only used when the app is built with CarPlay on (CARPLAY=1) and Apple has granted the entitlement.
+export type VoiceMode = 'idle' | 'speaking' | 'listening';
 
-type Send = (k: string, v: unknown, extra?: Record<string, unknown>) => void;
-
-export function startCarPlay(send: Send) {
+export function startCarPlay(_send?: unknown) {
   // required here, not at the top, so a build without CarPlay never loads the native module
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const { CarPlay, ListTemplate } = require('@g4rb4g3/react-native-carplay');
-  let state: GameState | null = null;
-  let openRow: number | null = null; // while picking a box: the category whose boxes are showing
+  const { CarPlay, VoiceControlTemplate } = require('@g4rb4g3/react-native-carplay');
   let template: any = null;
-  let acts: (Act | undefined)[] = [];
-  let cap = 12; // some cars show fewer rows than others; asked from the car when it connects
-
-  const sections = () => {
-    const { title, rows } = buildRows(state, openRow);
-    const shown = rows.slice(0, cap);
-    acts = shown.map((r) => r.act);
-    return [{ header: title, items: shown.map((r, i) => ({ id: String(i), text: r.text, detailText: r.detail })) }];
-  };
-  const refresh = () => { try { template?.updateSections(sections()); } catch (e) { /* the car may have gone */ } };
-
+  let mode: VoiceMode = 'idle';
+  const states = [
+    { identifier: 'idle', titleVariants: ["Let's Quiz! Say your choice", "Let's Quiz!"], repeats: false },
+    { identifier: 'speaking', titleVariants: ['Speaking…', 'Speaking'], repeats: true },
+    { identifier: 'listening', titleVariants: ['Listening…', 'Listening'], repeats: true },
+  ];
+  const apply = () => { try { template?.activateVoiceControlState(mode); } catch (e) { /* the car may have gone */ } };
   const onConnect = () => {
-    template = new ListTemplate({
-      title: 'Box Clever',
-      sections: sections(),
-      onItemSelect: async ({ id }: { id?: string }) => {
-        const a = acts[Number(id)];
-        if (!a) return;
-        if ('row' in a) { openRow = a.row; refresh(); } else { const [k, v, extra] = a.send; send(k, v, extra); }
-      },
-    });
+    template = new VoiceControlTemplate({ voiceControlStates: states });
     CarPlay.setRootTemplate(template, false);
-    template.getMaximumListItemCount?.().then((n: number) => { if (n > 3) { cap = n; refresh(); } }).catch(() => {});
+    setTimeout(apply, 300);
   };
   const onDisconnect = () => { template = null; };
   CarPlay.registerOnConnect(onConnect);
@@ -41,7 +27,8 @@ export function startCarPlay(send: Send) {
   if (CarPlay.connected) onConnect();
 
   return {
-    setState(s: GameState) { state = s; if (s.needs !== 'pick') openRow = null; refresh(); },
+    setState(_s: unknown) { /* the game's boxes are not shown in the car */ },
+    setVoice(m: VoiceMode) { if (m === mode) return; mode = m; apply(); },
     stop() { CarPlay.unregisterOnConnect(onConnect); CarPlay.unregisterOnDisconnect(onDisconnect); },
   };
 }

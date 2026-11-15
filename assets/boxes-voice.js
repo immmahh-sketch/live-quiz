@@ -95,7 +95,11 @@ function bvMedia(on) {
     } else if (BV.media) { BV.media.pause(); if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'none'; }
   } catch {}
 }
-function bvStatus(t) { const el = document.getElementById('bvstat'); if (el) el.textContent = t || ''; }
+function bvStatus(t) {
+  const el = document.getElementById('bvstat'); if (el) el.textContent = t || '';
+  // the phone app shows what is happening on the car screen: speaking, listening or idle
+  try { if (window.ReactNativeWebView) window.ReactNativeWebView.postMessage(JSON.stringify({ t: 'voice', s: /^🔊/.test(t || '') ? 'speaking' : /^🎙/.test(t || '') ? 'listening' : 'idle' })); } catch {}
+}
 function bvAbort() { try { if (BV_TTS) speechSynthesis.cancel(); } catch {} try { BV.rec && BV.rec.abort(); } catch {} BV.rec = null; bvStatus(''); }
 /** Which voice speaks: a natural-sounding British woman. A voice chosen on the voice check page (lq_voice) wins; otherwise the best en-GB female voice on the device
  *  (iPhone: Serena, Kate, Martha; Windows/Edge: Sonia, Libby, Hazel, Susan; Chrome: Google UK English Female; Android: the female Google en-GB voices), the better
