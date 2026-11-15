@@ -1,28 +1,34 @@
 name: Bank natural-voice speech
 
-# Every day, just after Cloudflare's free Workers AI allowance resets (midnight UTC), ask the quiz API to make the natural voice's speech for the games' own lines
-# (Box Clever and Bridge of Lies games nobody has played yet first), whether or not anyone plays. Each line is made once and kept for good, so over time every game
-# is read from saved speech. The API holds the daily budget (TTS_BANK_CHARS, default 3,000 characters) and stops by itself when the allowance is used up.
-# No secrets are needed: the call is the same public one the website makes.
+# Keeps asking the quiz API to make the natural voice's speech for the games, in its plan's order (the usual lines, one Box Clever game, one Bridge, the music questions, every
+# score, Best of 15's phrases, then game by game). Each line is made once and kept for good. The API holds the budget (TTS_BANK_CHARS a day, TTS_BANK_TOTAL in all) and says
+# "budget" when it is used; "complete" when everything in the plan is kept. No secrets are needed: the call is the same public one the website makes.
 
 on:
   schedule:
-    - cron: "15 0 * * *"
+    - cron: "5,35 * * * *"
   workflow_dispatch:
+
+concurrency:
+  group: tts-bank
+  cancel-in-progress: false
 
 jobs:
   bank:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
     steps:
-      - name: Make today's speech
+      - name: Make the speech
         run: |
-          for i in $(seq 1 14); do
+          end=$(( $(date +%s) + 1500 ))
+          i=0
+          while [ $(date +%s) -lt $end ]; do
+            i=$((i+1))
             out=$(curl -sS -m 150 -X POST "https://safcrtrfdzsnftghibot.supabase.co/functions/v1/quiz-api" \
               -H "content-type: application/json" \
               -H "apikey: sb_publishable_RGaIB8W145BFCWzOxamQvA_7VIkTHMU" \
               -H "Authorization: Bearer sb_publishable_RGaIB8W145BFCWzOxamQvA_7VIkTHMU" \
-              -d '{"action":"tts_bank"}') || { echo "call failed"; exit 0; }
+              -d '{"action":"tts_bank"}') || { echo "call failed"; sleep 20; continue; }
             echo "$i: $out"
             case "$out" in *'"done":"'[a-z]*) break;; esac
           done
