@@ -1,0 +1,10 @@
+[
+{"type":"text","text":"In which American city would you find the Hollywood sign?","answers":["Los Angeles","LA"],"difficulty":"easy"},
+{"type":"text","text":"The Statue of Liberty stands on an island in the harbour of which city?","answers":["New York","New York City","NYC"],"difficulty":"easy"},
+{"type":"text","text":"Which US state is nicknamed the Peach State?","answers":["Georgia"],"difficulty":"medium"},
+{"type":"text","text":"The Kentucky Derby is run each May in which city?","answers":["Louisville"],"difficulty":"medium"},
+{"type":"text","text":"In which year did the United States buy Alaska from Russia?","answers":["1867"],"difficulty":"hard"},
+{"type":"sort","text":"Original thirteen colony or joined later?","categories":["One of the original 13","Joined later"],"items":[{"text":"Virginia","category":"One of the original 13"},{"text":"Texas","category":"Joined later"},{"text":"Massachusetts","category":"One of the original 13"},{"text":"Ohio","category":"Joined later"},{"text":"New Jersey","category":"One of the original 13"},{"text":"California","category":"Joined later"}],"difficulty":"medium"},
+{"type":"sort","text":"Borders Canada or Mexico?","categories":["Borders Canada","Borders Mexico"],"items":[{"text":"Montana","category":"Borders Canada"},{"text":"Arizona","category":"Borders Mexico"},{"text":"Maine","category":"Borders Canada"},{"text":"New Mexico","category":"Borders Mexico"},{"text":"Washington","category":"Borders Canada"},{"text":"Texas","category":"Borders Mexico"}],"difficulty":"medium"},
+{"type":"sort","text":"State capital or not?","categories":["State capital","Not the capital"],"items":[{"text":"Albany","category":"State capital"},{"text":"Buffalo","category":"Not the capital"},{"text":"Sacramento","category":"State capital"},{"text":"San Diego","category":"Not the capital"},{"text":"Juneau","category":"State capital"},{"text":"Anchorage","category":"Not the capital"}],"difficulty":"hard"}
+]
