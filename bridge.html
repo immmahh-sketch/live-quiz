@@ -68,13 +68,17 @@
 HUB.stage();
 const { $, esc } = HUB;
 const TEST = HUB.test; if (TEST) document.body.classList.add('testmode');
-const KEY = 'lq_bridge', PLAYED = 'lq_bridge_played', LET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+// ?warm=1&c=CODE: the weekly Bridge of Lies warm-up. One player, three fixed bridges (settings.warmup.bridge.rounds of the warm-up quiz, the same for everyone), 3 lives on each, and the total of the three is the score.
+const WQ = new URLSearchParams(location.search), WARM = WQ.get('warm') === '1', WCODE = (WQ.get('c') || 'WARMUP').toUpperCase().replace(/[^A-Z0-9]/g, ''), WWEEK = +WQ.get('wk') || 0;
+const KEY = WARM ? 'lq_bridge_warm' : 'lq_bridge', PLAYED = 'lq_bridge_played', LET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const pool = HUB.pool('BRIDGE');
 let B = null, INDEX = null, audio = null;
-const names = () => HUB.names();
-const sayOn = () => HV.on();
+const wme = () => { try { const p = JSON.parse(localStorage.getItem('lq_player') || 'null') || {}; return { pid: /^p_[a-z0-9]{6,12}$/.test(p.pid || '') ? p.pid : '', name: String(p.name || '').slice(0, 20), emoji: p.emoji || '🌉' }; } catch { return { pid: '', name: '', emoji: '🌉' }; } };
+const names = () => (WARM ? [wme().name || 'You'] : HUB.names());
+const emoji = () => (WARM ? wme().emoji : HUB.emojis()[B.turn]);
+const sayOn = () => !WARM && HV.on();
 const save = () => { if (TEST) return; const c = B.cur, keep = c && c.tried; if (c) c.tried = [...keep.entries()]; try { localStorage.setItem(KEY, JSON.stringify({ ...B, at: Date.now() })); } catch {} if (c) c.tried = keep; };
-const load = () => { if (TEST) return null; try { const r = JSON.parse(localStorage.getItem(KEY) || 'null'); if (r && Date.now() - r.at < 6 * 3600e3 && r.phase) return r; } catch {} return null; };
+const load = () => { if (TEST) return null; try { const r = JSON.parse(localStorage.getItem(KEY) || 'null'); if (r && Date.now() - r.at < (WARM ? 24 : 6) * 3600e3 && r.phase && (!WARM || r.code === WCODE)) return r; } catch {} return null; };
 const fresh = () => ({ phase: 'intro', turn: 0, scores: [null, null], cur: null, awarded: false });
 const played = () => { try { return new Set(JSON.parse(localStorage.getItem(PLAYED) || '[]')); } catch { return new Set(); } };
 const markPlayed = (id) => { const s = played(); s.add(id); try { localStorage.setItem(PLAYED, JSON.stringify([...s])); } catch {} };
@@ -107,13 +111,13 @@ async function chooseGame() {
   }
   return null;
 }
-const retireGame = (id) => { if (TEST || !id) return; markPlayed(id); pool.done(id); };
+const retireGame = (id) => { if (TEST || WARM || !id) return; markPlayed(id); pool.done(id); };
 
 // ---------------------------------------------------------------- screens
 const hubTo = () => (TEST ? 'choosetest' : 'choose') + (HUB.mode.tv ? '?tv=1' : HUB.mode.car ? '?car=1' : '');
-const topBar = (mid = '', cat = '') => `<div class="top"><span class="who">${HUB.emojis()[B.turn]} ${esc(names()[B.turn])}</span>${cat ? `<span class="grow tcat"><small>${TEST ? 'TEST · ' : ''}CATEGORY</small>${esc(cat)}</span>` : '<span class="grow"></span>'}${mid}<button class="btn" id="menuBtn" type="button" data-say="menu|quit|leave|exit" style="padding:4px 12px;font-size:.85rem">✕ Menu</button></div>`;
-function leave() { HV.stop(); if (B && B.cur && !B.cur.over) retireGame(B.cur.id); B = null; try { localStorage.removeItem(KEY); } catch {} location.href = hubTo(); }
-function bindMenu() { const b = $('#menuBtn'); if (b) b.onclick = () => (TEST ? leave() : HUB.confirmBox('Leave Bridge of Lies?', 'This bridge counts as used.', 'Yes, leave', leave)); }
+const topBar = (mid = '', cat = '') => `<div class="top"><span class="who">${emoji()} ${esc(names()[B.turn])}</span>${cat ? `<span class="grow tcat"><small>${TEST ? 'TEST · ' : ''}CATEGORY</small>${esc(cat)}</span>` : '<span class="grow"></span>'}${mid}<button class="btn" id="menuBtn" type="button" data-say="menu|quit|leave|exit" style="padding:4px 12px;font-size:.85rem">✕ Menu</button></div>`;
+function leave() { if (WARM) { try { HV.stop(); } catch {} location.href = 'warmup?c=' + encodeURIComponent(WCODE) + (WWEEK ? '&wk=' + WWEEK : ''); return; } HV.stop(); if (B && B.cur && !B.cur.over) retireGame(B.cur.id); B = null; try { localStorage.removeItem(KEY); } catch {} location.href = hubTo(); }
+function bindMenu() { const b = $('#menuBtn'); if (b) b.onclick = () => (TEST ? leave() : WARM ? HUB.confirmBox('Leave the warm-up?', 'Your place is saved: open the warm-up again to carry on.', 'Yes, leave', leave) : HUB.confirmBox('Leave Bridge of Lies?', 'This bridge counts as used.', 'Yes, leave', leave)); }
 
 async function screenIntro() {
   B.phase = 'intro'; B.cur = null; save();
@@ -154,9 +158,9 @@ const movesText = (c, list) => list.map((k, n) => `${LET[n]}: ${c.tiles[k].t}`).
 function screenPlay() {
   const c = B.cur, g = geometry(), list = c.over ? [] : openList(c), letters = new Map(list.map((k, n) => [k, n]));
   const note = c.note === 'first' ? '' : c.note;
-  const mid = `<span class="pill lives">${'❤️'.repeat(c.lives)}${'🖤'.repeat(3 - c.lives)}</span><span class="pill">⭐ ${c.pts}</span>`;
+  const mid = `${WARM ? `<span class="pill">🌉 ${B.round + 1} of 3</span>` : ''}<span class="pill lives">${'❤️'.repeat(c.lives)}${'🖤'.repeat(3 - c.lives)}</span><span class="pill">⭐ ${c.pts}</span>`;
   const panel = c.over
-    ? `<div class="panel"><div class="msg ${c.crossed ? 'good' : 'bad'}" style="font-size:1.3rem">${c.crossed ? '🎉 You crossed the bridge! +500 bonus' : '💥 The bridge has fallen!'}</div><div class="msg" style="font-size:1.2rem">${c.pts} points</div><button class="btn primary big" id="cont" type="button" data-autofocus data-say="continue|next|go on|carry on|ok|okay">${B.turn === 0 && !TEST ? esc(names()[1]) + "'s turn ▶" : TEST ? 'Finish ▶' : 'See the scores ▶'}</button></div>`
+    ? `<div class="panel"><div class="msg ${c.crossed ? 'good' : 'bad'}" style="font-size:1.3rem">${c.crossed ? '🎉 You crossed the bridge! +500 bonus' : '💥 The bridge has fallen!'}</div><div class="msg" style="font-size:1.2rem">${c.pts} points</div><button class="btn primary big" id="cont" type="button" data-autofocus data-say="continue|next|go on|carry on|ok|okay">${WARM ? (B.round < 2 ? 'Bridge ' + (B.round + 2) + ' of 3 ▶' : 'See your score ▶') : B.turn === 0 && !TEST ? esc(names()[1]) + "'s turn ▶" : TEST ? 'Finish ▶' : 'See the scores ▶'}</button></div>`
     : `<div class="panel"><h3>Your next move</h3><div class="msg ${/^Correct/.test(note) ? 'good' : /lie/i.test(note) ? 'bad' : ''}" id="note">${esc(note) || 'Pick a letter.'}</div><div class="moves">${list.map((k, n) => `<button class="mv" type="button" data-i="${k}" data-say="${esc(c.tiles[k].t)}"><b>${LET[n]}</b><span>${esc(c.tiles[k].t)}</span></button>`).join('')}</div></div>`;
   $('#screen').innerHTML = `${topBar(mid, c.cat)}<div class="main"><div class="boardbox" id="board" style="width:${g.W}px;height:${g.H}px">${diamond(g, c)}${c.tiles.map((_, k) => tileHtml(g, c, k, letters)).join('')}</div>${panel}</div>`;
   bindMenu();
@@ -179,7 +183,7 @@ function pickTile(k) {
   save(); screenPlay();
   const el = $(`#board .tile[data-i="${k}"]`); if (el) el.classList.add(t.ok ? 'pop' : 'shake');
 }
-function endTurn() { if (TEST) return screenFinal(); if (B.turn === 0) { B.turn = 1; save(); screenIntro(); } else screenFinal(); }
+function endTurn() { if (WARM) return warmNext(); if (TEST) return screenFinal(); if (B.turn === 0) { B.turn = 1; save(); screenIntro(); } else screenFinal(); }
 
 // ---------------------------------------------------------------- hands-free: say a letter (or what the tile says) for the next move
 function voicePlay(c, list) {
@@ -224,8 +228,65 @@ function screenFinal() {
   try { localStorage.removeItem(KEY); } catch {}
 }
 
+// ---------------------------------------------------------------- the warm-up: three fixed bridges, one total
+let W = null;
+const warmUrl = () => 'warmup?c=' + encodeURIComponent(WCODE) + (WWEEK ? '&wk=' + WWEEK : '');
+function warmError(msg) { $('#screen').innerHTML = `<div class="center" style="margin:auto"><div class="big">🌉</div><h2>${esc(msg)}</h2><button class="btn primary big" id="wback" type="button" data-autofocus>Back to the warm-up</button></div>`; $('#wback').onclick = () => { location.href = warmUrl(); }; }
+async function warmBoot() {
+  const me = wme();
+  if (!me.pid || !me.name) { location.replace(warmUrl()); return; } // no name yet: the warm-up page asks for it first
+  $('#screen').innerHTML = `<div class="center" style="margin:auto"><div class="big">🌉</div><p class="sub">Getting your bridges…</p></div>`;
+  let r; try { r = await LQ.api('warmup_open', { code: WCODE, pid: me.pid, week: WWEEK }, { timeout: 20000 }); } catch (e) { return warmError(e.message || 'The warm-up could not be loaded. Check the internet connection.'); }
+  const bw = r.quiz && r.quiz.settings && r.quiz.settings.warmup && r.quiz.settings.warmup.bridge, rounds = bw && bw.rounds;
+  if (!rounds || rounds.length < 3) return warmError('This warm-up has no bridges.');
+  if (r.played || !r.open) { location.replace(warmUrl()); return; }
+  W = { rounds: rounds.slice(0, 3), quizId: r.quiz.id, bonus: r.bonus || null, test: !!r.test };
+  const sv = load();
+  if (sv && sv.quizId === r.quiz.id) { B = sv; if (B.cur) B.cur.tried = new Map(B.cur.tried || []); }
+  else B = { ...fresh(), warm: true, code: WCODE, quizId: r.quiz.id, round: 0, rs: [], cr: [], started: new Date().toISOString(), saved: null };
+  if (B.phase === 'final') return warmFinal();
+  if (B.phase === 'play' && B.cur) { B.cur.note = ''; screenPlay(); } else warmIntro();
+  addEventListener('resize', () => { if (B && B.phase === 'play' && B.cur) screenPlay(); });
+  try { MIRROR.start(); } catch {}
+}
+function warmIntro() {
+  const rd = W.rounds[B.round]; B.phase = 'intro'; B.turn = 0;
+  B.cur = { id: 'w' + (B.round + 1), cat: rd.cat, n: rd.n, m: rd.m, tiles: rd.tiles, tried: new Map(), lives: 3, pts: 0, over: false, crossed: false, note: '' };
+  save();
+  const across = rd.n + rd.m - 3;
+  $('#screen').innerHTML = `${topBar()}<div class="center" style="margin:auto"><h1>Bridge ${B.round + 1} of 3</h1><p class="sub" style="margin-bottom:10px">The category:</p><div class="big" style="font-size:2.3rem">${esc(rd.cat)}</div></div>
+    <div class="card rules">${B.round === 0 ? 'Three bridges, and <b>your score is the total of the three</b>. ' : ''}Cross the diamond from the red pad on the left to the green pad on the right. Find the <b>true answers</b>: the shortest way across is <b>${across}</b> of them. Each correct answer opens the tiles touching it, and every open tile has a <b>letter</b>. The board is full of <b>lies</b>: you have <b>3 lives</b> on each bridge. <b>100</b> points a correct answer, <b>500</b> bonus for getting across.</div>
+    <button class="btn primary big" id="start" type="button" data-autofocus>▶ Start</button>`;
+  bindMenu(); $('#start').onclick = () => { B.phase = 'play'; B.cur.note = 'first'; save(); screenPlay(); }; HUB.focusFirst();
+}
+function warmNext() { const c = B.cur; B.rs[B.round] = c.pts; (B.cr = B.cr || [])[B.round] = !!c.crossed; if (B.round < 2) { B.round++; warmIntro(); } else warmFinal(); }
+async function warmFinal() {
+  B.phase = 'final'; save();
+  const me = wme(), total = (B.rs || []).reduce((a, b) => a + (+b || 0), 0), lines = (B.rs || []).map((p, i) => `<div class="msg" style="display:flex;justify-content:space-between"><span>Bridge ${i + 1}: ${esc(W.rounds[i].cat)} ${B.cr && B.cr[i] ? '🎉' : '💥'}</span><b>${p}</b></div>`).join('');
+  const draw = () => {
+    const s = B.saved, rows = (s && s.top) || [], bonus = W.bonus && !W.test && s ? `<p class="sub" style="margin:0">You've earned <b>${(+W.bonus.play || 0).toLocaleString('en-GB')}</b> bonus points for the next hosted game (use this same phone and they find you).</p>` : '';
+    $('#screen').innerHTML = `<div class="top"><span class="who">${emoji()} ${esc(me.name)}</span><span class="grow"></span><span class="pill">Warm-up score</span></div>
+      <div class="center" style="margin:auto"><div class="big" style="font-size:3.4rem">${total}</div><p class="sub" style="margin:0">points over three bridges${W.test ? ' · test: nothing saved' : ''}</p>${s && s.place ? `<p class="sub" style="margin:4px 0 0">${s.place === 1 ? '🥇 Top of the table!' : LQ.ordinal(s.place) + ' of ' + s.count + ' so far'}</p>` : ''}${bonus}</div>
+      <div class="panel" style="flex:none">${lines}${rows.length ? `<h3>Top scores</h3>${rows.slice(0, 5).map((x, i) => `<div class="msg" style="display:flex;justify-content:space-between"><span>${i + 1}. ${esc(x.emoji || '')} ${esc(x.name)}</span><b>${x.score}</b></div>`).join('')}` : ''}</div>
+      <div class="row"><button class="btn primary big grow" id="wdone" type="button" data-autofocus>${W.test ? 'Back to the warm-up' : 'See the scoreboard'}</button></div>`;
+    $('#wdone').onclick = () => { try { localStorage.removeItem(KEY); } catch {} location.href = warmUrl(); }; HUB.focusFirst();
+  };
+  if (B.saved) return draw();
+  $('#screen').innerHTML = `<div class="center" style="margin:auto"><div class="big">🌉</div><h1>${total} points</h1><p class="sub">Saving your score…</p></div>`;
+  const answers = (B.rs || []).map((p, i) => ({ n: i + 1, type: 'bridge', text: 'Bridge ' + (i + 1) + ': ' + W.rounds[i].cat, right: 'Cross the bridge', given: B.cr && B.cr[i] ? 'Crossed' : 'The bridge fell', correct: !!(B.cr && B.cr[i]), points: +p || 0 }));
+  try {
+    const r = await LQ.api('warmup_save', { code: WCODE, quizId: W.quizId, game: { code: 'BRIDGE', started_at: B.started, bots: 0 }, players: [{ pid: me.pid, name: me.name, emoji: me.emoji, score: total, rank: 1, answers }] }, { timeout: 20000 });
+    const pl = (r.places || {})[me.pid] || {};
+    B.saved = { place: pl.place || 0, score: pl.score ?? total, count: r.count || 0, top: r.top || [] }; save(); draw();
+  } catch (e) {
+    $('#screen').innerHTML = `<div class="center" style="margin:auto"><div class="big">${total}</div><h2>Your score is ${total}, but it could not be saved.</h2><p class="muted">${esc(e.message || 'Check the internet connection.')}</p><button class="btn primary big" id="wretry" type="button" data-autofocus>Try again</button></div>`;
+    $('#wretry').onclick = () => warmFinal();
+  }
+}
+
 // ---------------------------------------------------------------- start
 (function boot() {
+  if (WARM) return warmBoot();
   HV.button(() => { if (!B) return; B.phase === 'play' ? screenPlay() : B.phase === 'final' ? screenFinal() : screenIntro(); });
   const r = load();
   if (r && r.phase === 'play' && r.cur) { B = r; B.cur.tried = new Map(B.cur.tried || []); B.cur.note = ''; screenPlay(); }

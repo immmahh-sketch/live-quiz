@@ -91,6 +91,7 @@ const SAVE_KEY = 'lq_live_warmup';
 // warmup?q=<quiz id>: "Play on my phone" for any quiz of yours, the way a warm-up plays (this phone must be signed in to the builder).
 const QID = (() => { const q = new URLSearchParams(location.search).get('q') || ''; return /^[0-9a-f-]{36}$/i.test(q) ? q : ''; })();
 const BOTSQ = new URLSearchParams(location.search).get('bots');
+let BRIDGE = false; // a Bridge of Lies warm-up (settings.warmup.bridge): played on bridge.html, three bridges, one total
 let SHARED = false; // a room for two (settings.warmup.shared): the first phone in runs the game, the other joins it
 // pool=1: the 50 Box Clever games in tvbox/games (the ones Box2p plays on the TV): the game part-played, else the next one not played yet, each retired once finished. Names are asked once.
 const POOL = new URLSearchParams(location.search).get('pool') === '1';
@@ -121,7 +122,7 @@ async function start() {
   catch (e) { return landError(e.message); }
   if (r.played) return played(r);
   if (!r.open) return closed(r);
-  if (r.standalone) { try { const full = await LQ.api('warmup_open', { code: CODE, pid: me().pid }, { timeout: 20000 }); if (full.quiz?.settings?.warmup?.shared) { SHARED = true; r.shared = true; } } catch {} }
+  if (r.standalone) { try { const full = await LQ.api('warmup_open', { code: CODE, pid: me().pid }, { timeout: 20000 }); if (full.quiz?.settings?.warmup?.shared) { SHARED = true; r.shared = true; } if (full.quiz?.settings?.warmup?.bridge?.rounds?.length >= 3) { BRIDGE = true; r.bridge = true; } } catch {} }
   if (SHARED && me().pid && me().name) return game(); // been here before: straight in
   intro(r);
 }
@@ -212,7 +213,7 @@ function intro(r) {
   if (solo(r)) document.title = r.title + " · Let's Quiz!";
   app.innerHTML = `<div class="land">${brand}
     <h1>${esc(r.title)}</h1>
-    ${solo(r) ? `<p class="lead">${r.questions || 'Ten'} questions and games on your phone, against ${r.bots === 3 || r.bots == null ? 'three' : r.bots} bots.</p>
+    ${solo(r) ? `<p class="lead">${r.bridge ? 'Three bridges to cross on your phone: find the true answers and steer clear of the lies. Your score is the total of the three.' : `${r.questions || 'Ten'} questions and games on your phone, against ${r.bots === 3 || r.bots == null ? 'three' : r.bots} bots.`}</p>
     ${r.personal ? `<p class="muted" style="margin:0;color:#fff;opacity:.8">Plays like the warm-up: everything on this phone. ${r.skipped ? r.skipped + ' item' + (r.skipped === 1 ? ' is' : 's are') + ' left out (break slides, camera tasks and Who Said That need a host).' : ''}</p>` : `<div class="prize"><span class="big">🏆</span><span>${r.bonus ? `Play for <u>${fmtPts(r.bonus.play)} bonus points</u> in the next hosted game, and the top score when it closes gets <u>${fmtPts(r.bonus.top)}</u> more, added to their starting points` : 'Top the scoreboard'}<small>${r.replay ? 'Play as often as you like: your best score counts.' : 'One go per phone, so make it count!'}</small></span></div>`}
     ${r.best ? `<div class="chip" style="align-self:flex-start;background:#ffd54a;color:#1b1544">🔁 Your best so far: ${r.best.score} (${ordinal(r.best.place)} of ${r.count}) after ${r.best.goes} go${r.best.goes === 1 ? '' : 'es'}. Beat it!</div>` : ''}` : `<p class="lead">${r.questions ? r.questions : 'Twenty'} questions and games on your phone, against three bots, before quiz night.${(r.types || []).includes('about') ? ' Some are about YOU: watch out, your answers might come back on quiz night!' : ''}</p>
     <div class="prize"><span class="big">🏆</span><span>${r.bonus ? `Finish it for <u>${fmtPts(r.bonus.play)} bonus points</u> on quiz night, and the week's top score gets <u>${fmtPts(r.bonus.top)}</u>` : 'The top score starts the quiz <u>1,000 points</u> ahead'}<small>One go per phone, so make it count!</small></span></div>`}
@@ -220,15 +221,15 @@ function intro(r) {
     ${r.test ? `<div class="chip" style="align-self:flex-start;background:#7ee0a8;color:#1b1544">🧪 Test game: nothing is saved and you can play as often as you like</div>` : ''}
     ${r.practice ? `<div class="chip" style="align-self:flex-start;background:#ffd54a;color:#1b1544">🧪 Practice go: your score of ${r.practice.score} stays on the scoreboard, whatever you get this time</div>` : ''}
     ${r.until ? `<div class="chip" style="align-self:flex-start;background:rgba(255,255,255,.16)">⏰ Closes ${esc(endsText(r.until))} · ${leftText(r.until)}</div>` : ''}
-    ${solo(r) ? `<div class="chips">${typeChips(r)}</div>` : `<div class="chips"><span class="chip">💥 Wipeout</span><span class="chip">💣 Hot Potato</span><span class="chip">🏁 The Race</span><span class="chip">🕵️ 20 Questions</span><span class="chip">🎡 Wheel of Fortune</span><span class="chip">🧠 The 1% Club</span><span class="chip">🖼️ Picture Reveal</span><span class="chip">🔀 Answer Smash</span><span class="chip">📍 Drop the Pin</span>${(r.types || []).includes('task') ? '<span class="chip">📸 Taskmaster</span>' : ''}${(r.types || []).includes('about') ? '<span class="chip">🙋 About You</span>' : ''}<span class="chip">…and more</span></div>`}
+    ${solo(r) ? `<div class="chips">${r.bridge ? '<span class="chip">🌉 Bridge of Lies</span><span class="chip">❤️ 3 lives a bridge</span>' : typeChips(r)}</div>` : `<div class="chips"><span class="chip">💥 Wipeout</span><span class="chip">💣 Hot Potato</span><span class="chip">🏁 The Race</span><span class="chip">🕵️ 20 Questions</span><span class="chip">🎡 Wheel of Fortune</span><span class="chip">🧠 The 1% Club</span><span class="chip">🖼️ Picture Reveal</span><span class="chip">🔀 Answer Smash</span><span class="chip">📍 Drop the Pin</span>${(r.types || []).includes('task') ? '<span class="chip">📸 Taskmaster</span>' : ''}${(r.types || []).includes('about') ? '<span class="chip">🙋 About You</span>' : ''}<span class="chip">…and more</span></div>`}
     <div class="card"><h2>Who's playing?</h2>
       <form id="nf"><label for="nm">Your name (as it'll show on the scoreboard)</label><input type="text" id="nm" value="${esc(m.name)}" maxlength="20" autocomplete="nickname" placeholder="Your name">
       <label>Your emoji</label><div class="emopick">${LQ.EMOJIS.map((e) => `<button type="button" data-em="${e}" class="${e === emoji ? 'on' : ''}">${e}</button>`).join('')}</div>
-      ${solo(r) || CAR ? `<label for="loc">${CAR && !r.shared ? 'Who else is in the car? (their names, separated by commas)' : 'Anyone playing with you on this phone? (their names, separated by commas)'}</label><input type="text" id="loc" value="${esc(savedLocals().join(', '))}" maxlength="90" autocomplete="off" placeholder="e.g. Sam, Alex">` : ''}
+      ${(solo(r) && !r.bridge) || CAR ? `<label for="loc">${CAR && !r.shared ? 'Who else is in the car? (their names, separated by commas)' : 'Anyone playing with you on this phone? (their names, separated by commas)'}</label><input type="text" id="loc" value="${esc(savedLocals().join(', '))}" maxlength="90" autocomplete="off" placeholder="e.g. Sam, Alex">` : ''}
       <div id="nerr"></div><button class="go">Let's play ▶</button></form>
       <p class="muted small" style="margin:10px 0 0">It all plays on your phone.${solo(r) ? (r.bonus ? ' Use the same phone for the hosted game and the bonus finds you.' : '') : " Use the same name you'll use on Friday, so the bonus finds you."}</p></div>
     ${r.personal ? '' : `<div class="card"><h2>🏆 Top scores so far</h2>${boardHtml(r.top || [])}${r.count > 10 ? `<p class="muted small" style="margin:8px 0 0">${r.count} people have played.</p>` : ''}</div>`}
-    <p class="note">Friends can join your game too: the code is on your screen once it starts.</p></div>`;
+    ${r.bridge ? '' : '<p class="note">Friends can join your game too: the code is on your screen once it starts.</p>'}</div>`;
   $$('[data-em]').forEach((b) => b.onclick = () => { emoji = b.dataset.em; $$('[data-em]').forEach((x) => x.classList.toggle('on', x === b)); });
   if (r.shared) { const l = $('.lead'); if (l) l.textContent = 'Two players, one game. You each play on your own phone and see the same board. Whoever opens the code first starts it; the other one joins in.'; $$('.prize,.chips,.chip').forEach((x) => x.remove()); $$('.card').forEach((c) => { if (!c.querySelector('#nf')) c.remove(); }); const n = $('.note'); if (n) n.remove(); }
   if (CAR) { const h = $('.land h1'); if (h) h.insertAdjacentHTML('afterend', '<div class="chip" style="align-self:flex-start;background:#7ee0a8;color:#1b1544">🚗 Car mode: boxes only, read aloud, answered by voice</div>'); }
@@ -273,6 +274,7 @@ function played(r) {
 // You play in the phone view, which shows the whole of every question itself. There is no second screen to watch.
 // Before a hands-free Box Clever game starts: is its speech all saved? If not, say so and let the player choose.
 function game() {
+  if (BRIDGE) { location.href = 'bridge?warm=1&c=' + encodeURIComponent(CODE) + (WEEK ? '&wk=' + WEEK : ''); return; }
   if (!(POOL && POOLGAME && !POOLGAME.test && !POOLGAME.resuming) || SHARED || typeof VR === 'undefined') return gameGo();
   fetch('tvbox/games/' + POOLGAME.id + '.json').then((r) => r.json()).then((g) => VR.check(VR.boxLines(g), 'Box Clever game ' + (+POOLGAME.id.slice(1)))).catch(() => true).then((ok) => { if (ok) gameGo(); else HUB.goHub(); });
 }
