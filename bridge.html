@@ -152,7 +152,8 @@ function tileHtml(g, c, k, letters) {
   if (t.pad) return `<div class="tile ${t.pad}" style="${st}">${t.pad === 'start' ? 'START' : 'FINISH'}</div>`;
   const longest = Math.max(...String(t.t).split(/\s+/).map((s) => s.length)), fs = (g.portrait ? 6 : 7.5) + (longest <= 6 ? 1.5 : longest <= 9 ? 0.5 : 0);
   const cls = v === 1 ? 'ok' : v === 0 ? 'bad' : c.over ? (t.ok ? 'rev' : '') : letters.has(k) ? 'open' : '';
-  return `<div class="tile ${cls}" data-i="${k}" style="${st};font-size:${fs}px">${esc(t.t)}${cls === 'open' ? `<span class="ltr">${LET[letters.get(k)]}</span>` : ''}</div>`;
+  const hide = WARM && !c.over && cls === ''; // the warm-up keeps every answer hidden until it can be chosen
+  return `<div class="tile ${cls}" data-i="${k}" style="${st};font-size:${fs}px">${hide ? '' : esc(t.t)}${cls === 'open' ? `<span class="ltr">${LET[letters.get(k)]}</span>` : ''}</div>`;
 }
 const movesText = (c, list) => list.map((k, n) => `${LET[n]}: ${c.tiles[k].t}`).join('. ');
 function screenPlay() {
@@ -255,7 +256,7 @@ function warmIntro() {
   save();
   const across = rd.n + rd.m - 3;
   $('#screen').innerHTML = `${topBar()}<div class="center" style="margin:auto"><h1>Bridge ${B.round + 1} of 3</h1><p class="sub" style="margin-bottom:10px">The category:</p><div class="big" style="font-size:2.3rem">${esc(rd.cat)}</div></div>
-    <div class="card rules">${B.round === 0 ? 'Three bridges, and <b>your score is the total of the three</b>. ' : ''}Cross the diamond from the red pad on the left to the green pad on the right. Find the <b>true answers</b>: the shortest way across is <b>${across}</b> of them. Each correct answer opens the tiles touching it, and every open tile has a <b>letter</b>. The board is full of <b>lies</b>: you have <b>3 lives</b> on each bridge. <b>100</b> points a correct answer, <b>500</b> bonus for getting across.</div>
+    <div class="card rules">${B.round === 0 ? 'Three bridges, and <b>your score is the total of the three</b>. ' : ''}Cross the diamond from the red pad on the left to the green pad on the right. Find the <b>true answers</b>: the shortest way across is <b>${across}</b> of them. Each correct answer opens the tiles touching it, and every open tile has a <b>letter</b>: the answers stay hidden until you can choose them. Some true answers are <b>dead ends</b>, and the board is full of <b>lies</b>: you have <b>3 lives</b> on each bridge. <b>100</b> points a correct answer, <b>500</b> bonus for getting across.</div>
     <button class="btn primary big" id="start" type="button" data-autofocus>▶ Start</button>`;
   bindMenu(); $('#start').onclick = () => { B.phase = 'play'; B.cur.note = 'first'; save(); screenPlay(); }; HUB.focusFirst();
 }
