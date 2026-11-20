@@ -1,6 +1,6 @@
 [
 {
-"cat": "Friends episodes: \"The One with…\" or \"The One Where…\"",
+"cat": "Friends episode titles",
 "correct": [
 "Monica Gets a Roommate",
 "The Thumb",
@@ -196,7 +196,8 @@
 "Rachel's Bad Perm",
 "The Scratched Record"
 ],
-"source": "https://en.wikipedia.org/wiki/List_of_Friends_episodes"
+"source": "https://en.wikipedia.org/wiki/List_of_Friends_episodes",
+"hint": "Each tile shows what comes after \"The One with…\" or \"The One Where…\"."
 },
 {
 "cat": "US state capital cities",
@@ -297,7 +298,7 @@
 "source": "the 50 US state capitals"
 },
 {
-"cat": "Countries with populations of more than 50 million",
+"cat": "Countries over 50 million people",
 "correct": [
 "India",
 "China",
@@ -367,6 +368,7 @@
 "Cuba",
 "Hungary"
 ],
-"source": "https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_population (Spain, South Korea, Myanmar, Sudan and Colombia left out: within 3.5 million of 50 million)"
+"source": "https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_population (Spain, South Korea, Myanmar, Sudan and Colombia left out: within 3.5 million of 50 million)",
+"hint": "Populations are from Wikipedia's list of countries by population."
 }
 ]

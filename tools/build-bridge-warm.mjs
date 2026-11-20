@@ -60,7 +60,7 @@ src.forEach((g, k) => {
   const all = [...g.correct, ...g.wrong]; if (new Set(all.map(norm)).size !== all.length) throw new Error(g.cat + ': a tile appears twice');
   for (const t of all) if (t.length > 22 || t.split(/\s+/).length > 4 || t.split(/\s+/).some((w) => w.length > 12)) throw new Error(g.cat + ': "' + t + '" will not fit a tile');
   const b = board(SEED + k * 7919, g.correct, g.wrong);
-  out.push({ cat: g.cat, n: N, m: M, tiles: b.tiles }); info.push(`${g.cat}: route ${b.routeLen} tiles, ${b.spurs} dead-end tiles, ${b.tiles.filter((t) => t.ok).length} correct, ${b.tiles.filter((t) => t.ok === 0).length} lies`);
+  out.push({ cat: g.cat, ...(g.hint ? { hint: g.hint } : {}), n: N, m: M, tiles: b.tiles }); info.push(`${g.cat}: route ${b.routeLen} tiles, ${b.spurs} dead-end tiles, ${b.tiles.filter((t) => t.ok).length} correct, ${b.tiles.filter((t) => t.ok === 0).length} lies`);
 });
 fs.writeFileSync(path.join(root, 'tools/bridge-warm-boards.json'), JSON.stringify(out));
 console.log(info.join('\n'));
