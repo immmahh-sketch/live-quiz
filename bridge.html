@@ -261,7 +261,8 @@ function warmIntro() {
     <button class="btn primary big" id="start" type="button" data-autofocus>▶ Start</button>`;
   bindMenu(); $('#start').onclick = () => { B.phase = 'play'; B.cur.note = 'first'; save(); screenPlay(); }; HUB.focusFirst();
 }
-function warmNext() { const c = B.cur; B.rs[B.round] = c.pts; (B.cr = B.cr || [])[B.round] = !!c.crossed; (B.picks = B.picks || [])[B.round] = [...c.tried.entries()].map(([k, v]) => [String(c.tiles[k].t), v === 1 ? 1 : 0]); // every tile chosen, in order: 1 = a true answer, 0 = a lie if (B.round < 2) { B.round++; warmIntro(); } else warmFinal(); }
+/** every tile chosen is kept in order in B.picks: 1 = a true answer, 0 = a lie */
+function warmNext() { const c = B.cur; B.rs[B.round] = c.pts; (B.cr = B.cr || [])[B.round] = !!c.crossed; (B.picks = B.picks || [])[B.round] = [...c.tried.entries()].map(([k, v]) => [String(c.tiles[k].t), v === 1 ? 1 : 0]); if (B.round < 2) { B.round++; warmIntro(); } else warmFinal(); }
 async function warmFinal() {
   B.phase = 'final'; save();
   const me = wme(), total = (B.rs || []).reduce((a, b) => a + (+b || 0), 0), lines = (B.rs || []).map((p, i) => `<div class="msg" style="display:flex;justify-content:space-between"><span>Bridge ${i + 1}: ${esc(W.rounds[i].cat)} ${B.cr && B.cr[i] ? '🎉' : '💥'}</span><b>${p}</b></div>`).join('');
