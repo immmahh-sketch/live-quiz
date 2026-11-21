@@ -261,7 +261,7 @@ function warmIntro() {
     <button class="btn primary big" id="start" type="button" data-autofocus>▶ Start</button>`;
   bindMenu(); $('#start').onclick = () => { B.phase = 'play'; B.cur.note = 'first'; save(); screenPlay(); }; HUB.focusFirst();
 }
-function warmNext() { const c = B.cur; B.rs[B.round] = c.pts; (B.cr = B.cr || [])[B.round] = !!c.crossed; if (B.round < 2) { B.round++; warmIntro(); } else warmFinal(); }
+function warmNext() { const c = B.cur; B.rs[B.round] = c.pts; (B.cr = B.cr || [])[B.round] = !!c.crossed; (B.picks = B.picks || [])[B.round] = [...c.tried.entries()].map(([k, v]) => [String(c.tiles[k].t), v === 1 ? 1 : 0]); // every tile chosen, in order: 1 = a true answer, 0 = a lie if (B.round < 2) { B.round++; warmIntro(); } else warmFinal(); }
 async function warmFinal() {
   B.phase = 'final'; save();
   const me = wme(), total = (B.rs || []).reduce((a, b) => a + (+b || 0), 0), lines = (B.rs || []).map((p, i) => `<div class="msg" style="display:flex;justify-content:space-between"><span>Bridge ${i + 1}: ${esc(W.rounds[i].cat)} ${B.cr && B.cr[i] ? '🎉' : '💥'}</span><b>${p}</b></div>`).join('');
@@ -275,7 +275,14 @@ async function warmFinal() {
   };
   if (B.saved) return draw();
   $('#screen').innerHTML = `<div class="center" style="margin:auto"><div class="big">🌉</div><h1>${total} points</h1><p class="sub">Saving your score…</p></div>`;
-  const answers = (B.rs || []).map((p, i) => ({ n: i + 1, type: 'bridge', text: 'Bridge ' + (i + 1) + ': ' + W.rounds[i].cat, right: 'Cross the bridge', given: B.cr && B.cr[i] ? 'Crossed' : 'The bridge fell', correct: !!(B.cr && B.cr[i]), points: +p || 0 }));
+  // The builder's Answers pop-up: a row for each bridge (its total), then a row for every tile chosen in that bridge, in order (✅ a true answer, ❌ a lie).
+  const answers = [];
+  (B.rs || []).forEach((p, i) => {
+    const crossed = !!(B.cr && B.cr[i]), picks = (B.picks && B.picks[i]) || [];
+    answers.push({ n: 0, type: 'bridge', text: 'Bridge ' + (i + 1) + ' of 3: ' + W.rounds[i].cat + ' (bridge total)', right: 'Cross the bridge', given: crossed ? 'Crossed' : 'The bridge fell', correct: crossed, points: +p || 0 });
+    picks.forEach(([t, ok], k) => answers.push({ n: 0, type: 'bridge', text: 'Bridge ' + (i + 1) + ', choice ' + (k + 1), right: ok ? 'A true answer' : 'A lie', given: String(t), correct: !!ok, points: ok ? 100 : 0 }));
+  });
+  answers.forEach((a, k) => { a.n = k + 1; }); answers.length = Math.min(answers.length, 80);
   try {
     const r = await LQ.api('warmup_save', { code: WCODE, quizId: W.quizId, game: { code: 'BRIDGE', started_at: B.started, bots: 0 }, players: [{ pid: me.pid, name: me.name, emoji: me.emoji, score: total, rank: 1, answers }] }, { timeout: 20000 });
     const pl = (r.places || {})[me.pid] || {};
