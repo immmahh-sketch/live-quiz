@@ -1,0 +1,12 @@
+[
+{"type":"order","text":"Put these tech companies in order of founding, earliest first","items":["IBM","Microsoft","Apple","Amazon","Google"],"hint":"From 1911 to 1998","difficulty":"medium"},
+{"type":"order","text":"Put these programming languages in order of first release, earliest first","items":["Fortran","C","Python","Java","Rust"],"hint":"From the 1950s to 2010","difficulty":"hard"},
+{"type":"order","text":"Put these storage formats in order of introduction, earliest first","items":["Floppy disk","Compact disc","DVD","USB flash drive","Blu-ray"],"hint":"Four decades apart from first to last","difficulty":"hard"},
+{"type":"sort","text":"Open-source or proprietary software?","categories":["Open source","Proprietary"],"items":[{"text":"Linux","category":"Open source"},{"text":"Firefox","category":"Open source"},{"text":"VLC","category":"Open source"},{"text":"Apache web server","category":"Open source"},{"text":"Windows","category":"Proprietary"},{"text":"macOS","category":"Proprietary"},{"text":"Photoshop","category":"Proprietary"},{"text":"Excel","category":"Proprietary"}],"difficulty":"hard"},
+{"type":"text","text":"What does 'URL' stand for?","answers":["Uniform Resource Locator"],"difficulty":"medium"},
+{"type":"text","text":"What does 'USB' stand for?","answers":["Universal Serial Bus"],"difficulty":"medium"},
+{"type":"text","text":"What does 'RAM' stand for?","answers":["Random-access memory","Random access memory"],"difficulty":"medium"},
+{"type":"text","text":"Which company owns Instagram and WhatsApp?","answers":["Meta","Meta Platforms","Facebook"],"difficulty":"medium"},
+{"type":"text","text":"At which European research laboratory did Tim Berners-Lee invent the World Wide Web?","answers":["CERN"],"difficulty":"hard"},
+{"type":"text","text":"What was the name of the first widely used graphical web browser, released in 1993?","answers":["Mosaic","NCSA Mosaic"],"difficulty":"hard"}
+]
