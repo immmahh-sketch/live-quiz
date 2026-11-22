@@ -1,0 +1,21 @@
+[
+{"type":"text","text":"Which 1997 film saw Kate Winslet and Leonardo DiCaprio aboard a doomed liner?","answers":["Titanic"],"difficulty":"easy"},
+{"type":"text","text":"Which 1991 Disney film features a heroine called Belle?","answers":["Beauty and the Beast"],"difficulty":"easy"},
+{"type":"text","text":"Which country hosted and won the 1998 World Cup?","answers":["France"],"difficulty":"easy"},
+{"type":"text","text":"Which 1999 sci-fi film asks Neo to choose between a red pill and a blue pill?","answers":["The Matrix","Matrix"],"difficulty":"medium"},
+{"type":"text","text":"Which Nirvana frontman died in April 1994?","answers":["Kurt Cobain","Cobain"],"difficulty":"medium"},
+{"type":"text","text":"What is the name of the coffee shop in 'Friends'?","answers":["Central Perk"],"difficulty":"medium"},
+{"type":"text","text":"Which Welsh band's 1996 album 'Everything Must Go' followed the disappearance of Richey Edwards?","answers":["Manic Street Preachers","Manics"],"difficulty":"hard"},
+{"type":"text","text":"Which Italian tenor's 'Nessun Dorma' became the theme of the 1990 World Cup?","answers":["Luciano Pavarotti","Pavarotti"],"difficulty":"hard"},
+{"type":"tf","text":"'Titanic' was released in 1997.","answer":true,"difficulty":"easy"},
+{"type":"tf","text":"'The Matrix' was released in 1999.","answer":true,"difficulty":"medium"},
+{"type":"tf","text":"'Friends' ran for ten series.","answer":true,"difficulty":"medium"},
+{"type":"tf","text":"The Human Genome Project was declared complete in the 1990s.","answer":false,"difficulty":"hard"},
+{"type":"tf","text":"Windows 95 was released in 1995.","answer":true,"difficulty":"hard"},
+{"type":"order","text":"Put these Prime Ministers in order, earliest first","items":["Margaret Thatcher","John Major","Tony Blair"],"hint":"Three leaders across the 1990s","difficulty":"easy"},
+{"type":"order","text":"Put these Disney films in order of release, earliest first","items":["The Little Mermaid","Beauty and the Beast","Aladdin","The Lion King","Mulan"],"hint":"From 1989 to 1998","difficulty":"medium"},
+{"type":"order","text":"Put these Britpop albums in order of release, earliest first","items":["Parklife","Definitely Maybe","(What's the Story) Morning Glory?","Different Class","Be Here Now"],"hint":"From 1994 to 1997","difficulty":"hard"},
+{"type":"sort","text":"'Friends' or 'Frasier' character?","categories":["Friends","Frasier"],"items":[{"text":"Chandler","category":"Friends"},{"text":"Monica","category":"Friends"},{"text":"Rachel","category":"Friends"},{"text":"Phoebe","category":"Friends"},{"text":"Niles","category":"Frasier"},{"text":"Daphne","category":"Frasier"},{"text":"Roz","category":"Frasier"},{"text":"Martin","category":"Frasier"}],"difficulty":"medium"},
+{"type":"sort","text":"Disney or Pixar film of the 1990s?","categories":["Disney","Pixar"],"items":[{"text":"Aladdin","category":"Disney"},{"text":"Pocahontas","category":"Disney"},{"text":"Mulan","category":"Disney"},{"text":"Tarzan","category":"Disney"},{"text":"Toy Story","category":"Pixar"},{"text":"A Bug's Life","category":"Pixar"},{"text":"Toy Story 2","category":"Pixar"}],"difficulty":"medium"},
+{"type":"sort","text":"A Nirvana album or a Pearl Jam album?","categories":["Nirvana","Pearl Jam"],"items":[{"text":"Nevermind","category":"Nirvana"},{"text":"In Utero","category":"Nirvana"},{"text":"Bleach","category":"Nirvana"},{"text":"Incesticide","category":"Nirvana"},{"text":"Ten","category":"Pearl Jam"},{"text":"Vs.","category":"Pearl Jam"},{"text":"Vitalogy","category":"Pearl Jam"},{"text":"No Code","category":"Pearl Jam"}],"difficulty":"hard"}
+]
