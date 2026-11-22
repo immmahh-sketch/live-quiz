@@ -1,0 +1,21 @@
+[
+{"type":"text","text":"Which South African leader spent 27 years in prison before becoming president in 1994?","answers":["Nelson Mandela","Mandela"],"difficulty":"easy"},
+{"type":"text","text":"Which physicist developed the theory of relativity?","answers":["Albert Einstein","Einstein"],"difficulty":"easy"},
+{"type":"text","text":"Which civil rights leader gave the 'I Have a Dream' speech in 1963?","answers":["Martin Luther King","Martin Luther King Jr","Martin Luther King Jr.","Dr King","MLK"],"difficulty":"easy"},
+{"type":"text","text":"Which British computer scientist invented the World Wide Web in 1989?","answers":["Tim Berners-Lee","Berners-Lee","Sir Tim Berners-Lee"],"difficulty":"easy"},
+{"type":"text","text":"Which Roman leader was assassinated on the Ides of March in 44 BC?","answers":["Julius Caesar","Caesar"],"difficulty":"medium"},
+{"type":"text","text":"Which Polish astronomer proposed in 1543 that the Earth orbits the Sun?","answers":["Copernicus","Nicolaus Copernicus"],"difficulty":"medium"},
+{"type":"text","text":"Which Jamaican-born nurse set up the 'British Hotel' to care for soldiers in the Crimea?","answers":["Mary Seacole","Seacole"],"difficulty":"medium"},
+{"type":"text","text":"Which Indian leader led the 240-mile Salt March to Dandi in 1930?","answers":["Mahatma Gandhi","Gandhi","Mohandas Gandhi"],"difficulty":"medium"},
+{"type":"text","text":"Which Spanish conquistador overthrew the Aztec Empire in 1521?","answers":["Hernán Cortés","Hernan Cortes","Cortés","Cortes"],"difficulty":"medium"},
+{"type":"text","text":"Which Italian physicist led the team that built the first nuclear reactor, Chicago Pile-1, in 1942?","answers":["Enrico Fermi","Fermi"],"difficulty":"hard"},
+{"type":"text","text":"Which Persian polymath wrote the medical textbook 'The Canon of Medicine' around 1025?","answers":["Avicenna","Ibn Sina"],"difficulty":"hard"},
+{"type":"text","text":"Which English clergyman-scientist discovered oxygen independently in 1774 and invented soda water?","answers":["Joseph Priestley","Priestley"],"difficulty":"hard"},
+{"type":"text","text":"Which Danish astronomer lost part of his nose in a duel and kept a pet elk?","answers":["Tycho Brahe","Brahe"],"difficulty":"hard"},
+{"type":"text","text":"Which American chemist won the Nobel Prize in Chemistry in 1954 and the Peace Prize in 1962?","answers":["Linus Pauling","Pauling"],"difficulty":"hard"},
+{"type":"text","text":"Which Ottoman sultan conquered Constantinople in 1453?","answers":["Mehmed II","Mehmed the Conqueror","Mehmet II","Mehmed"],"difficulty":"hard"},
+{"type":"text","text":"Which former slave led the Haitian Revolution and was nicknamed 'the Black Napoleon'?","answers":["Toussaint Louverture","Toussaint L'Ouverture","Toussaint Louverture"],"difficulty":"hard"},
+{"type":"sort","text":"Painter or composer?","categories":["Painter","Composer"],"items":[{"text":"Vermeer","category":"Painter"},{"text":"Goya","category":"Painter"},{"text":"Turner","category":"Painter"},{"text":"Monet","category":"Painter"},{"text":"Vivaldi","category":"Composer"},{"text":"Handel","category":"Composer"},{"text":"Elgar","category":"Composer"},{"text":"Bartók","category":"Composer"}],"difficulty":"medium"},
+{"type":"sort","text":"Greek or Roman philosopher?","categories":["Greek","Roman"],"items":[{"text":"Plato","category":"Greek"},{"text":"Aristotle","category":"Greek"},{"text":"Epicurus","category":"Greek"},{"text":"Zeno of Citium","category":"Greek"},{"text":"Seneca","category":"Roman"},{"text":"Marcus Aurelius","category":"Roman"},{"text":"Cicero","category":"Roman"},{"text":"Lucretius","category":"Roman"}],"difficulty":"hard"},
+{"type":"sort","text":"Chemist or physicist?","categories":["Chemist","Physicist"],"items":[{"text":"Lavoisier","category":"Chemist"},{"text":"Mendeleev","category":"Chemist"},{"text":"Fritz Haber","category":"Chemist"},{"text":"Humphry Davy","category":"Chemist"},{"text":"Max Planck","category":"Physicist"},{"text":"Niels Bohr","category":"Physicist"},{"text":"James Clerk Maxwell","category":"Physicist"},{"text":"Werner Heisenberg","category":"Physicist"}],"difficulty":"hard"}
+]
