@@ -1,0 +1,12 @@
+[
+{"type":"text","text":"Which spirit is the main ingredient of a Mojito?","answers":["Rum","White rum"],"difficulty":"easy"},
+{"type":"text","text":"Which fruit purée is mixed with prosecco to make a Bellini?","answers":["Peach","White peach"],"difficulty":"medium"},
+{"type":"text","text":"Which Spanish town gave its name to sherry?","answers":["Jerez","Jerez de la Frontera"],"difficulty":"hard"},
+{"type":"text","text":"Which Scottish island is famous for peaty whiskies such as Laphroaig and Lagavulin?","answers":["Islay"],"difficulty":"hard"},
+{"type":"text","text":"Which grape variety is used to make Sancerre?","answers":["Sauvignon Blanc","Sauvignon"],"difficulty":"hard"},
+{"type":"text","text":"What name is given to the 1516 Bavarian purity law that restricted beer ingredients?","answers":["Reinheitsgebot","German Beer Purity Law"],"difficulty":"hard"},
+{"type":"text","text":"What name is given to the cooked heart of the agave plant, used to make tequila?","answers":["Piña","Pina"],"difficulty":"hard"},
+{"type":"tf","text":"Guinness is brewed in Dublin, at St James's Gate, with a lease signed for 9,000 years.","answer":true,"difficulty":"hard"},
+{"type":"order","text":"Put these breweries in order of founding, earliest first","items":["Guinness","Bass","Carlsberg","Heineken","Foster's"],"hint":"From 1759 to 1887","difficulty":"medium"},
+{"type":"sort","text":"Distilled from grapes or from grain?","categories":["Grapes","Grain"],"items":[{"text":"Brandy","category":"Grapes"},{"text":"Cognac","category":"Grapes"},{"text":"Grappa","category":"Grapes"},{"text":"Pisco","category":"Grapes"},{"text":"Whisky","category":"Grain"},{"text":"Bourbon","category":"Grain"},{"text":"Vodka","category":"Grain"},{"text":"Gin","category":"Grain"}],"difficulty":"easy"}
+]
