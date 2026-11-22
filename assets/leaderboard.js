@@ -67,8 +67,7 @@ const LQLeader = (() => {
     text(x, cl, W / 2, 1318, 32, { c: '#9fc3ee', maxW: 980 });
     return c;
   }
-  async function draw(d, topN = 5) {
-    if (d.style === 'drawers') return drawDrawers(d, topN);
+  async function drawPodium(d, topN = 5) {
     const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d');
     const rows = (d.rows || []).slice(0, topN), places = placeOf(d.rows || []), compact = topN > 5;
     // background: the Let's Quiz purple, rays and stars
@@ -129,6 +128,24 @@ const LQLeader = (() => {
     const lines = rows.map((p, i) => `${places[i] <= 3 ? medal[places[i] - 1] : places[i] + '.'} ${p.emoji ? p.emoji + ' ' : ''}${p.name} · ${(p.display ?? fmt(p.score))}`);
     return [d.captionIntro || `🏆 ${d.fixedHeading || (d.ended ? 'FINAL SCOREBOARD' : (d.heading || 'SCOREBOARD'))} · ${cap1(d.title)}`.trim(), '', ...lines, '', `${d.countText || (d.count ?? (d.rows || []).length) + ' players so far'}. ${d.ended ? 'Thanks for playing!' : d.until ? `Still time to play: it closes ${closes(d.until)}!` : 'Play it free on your phone!'}`, `👉 ${d.link || 'letsquiz.uk/play'} · game code ${d.code || 'WARMUP'}`].join('\n');
   }
-  return { draw, caption, fmt, W, H };
+  /** Every picture design, in order. assets/leaderboard-designs.js adds the rest. Each is { id, name, draw(d, topN) -> Promise<canvas> }. */
+  const designs = [{ id: 'podium', name: 'Classic podium', draw: drawPodium }, { id: 'drawers', name: 'Filing cabinet', draw: drawDrawers }];
+  /** d.design (or the older d.style) names the design to draw; with neither it is the classic podium. */
+  async function draw(d, topN = 5) {
+    const des = designs.find((z) => z.id === (d.design || d.style)) || designs[0];
+    try { await Promise.all([document.fonts.load('900 40px Nunito'), document.fonts.load('800 40px Nunito')]); } catch {}
+    return des.draw(d, topN);
+  }
+  /** One design for each click of "Post scores": a shuffled bag, so all of them come up before any repeats, and never the one used last time. */
+  function pickDesign() {
+    const ids = designs.map((z) => z.id); let bag = [], last = '';
+    try { bag = JSON.parse(localStorage.getItem('lq_lb_bag') || '[]').filter((i) => ids.includes(i)); last = localStorage.getItem('lq_lb_last') || ''; } catch {}
+    if (!bag.length) bag = ids.filter((i) => i !== last).sort(() => Math.random() - .5);
+    const id = bag.shift();
+    try { localStorage.setItem('lq_lb_bag', JSON.stringify(bag)); localStorage.setItem('lq_lb_last', id); } catch {}
+    return id;
+  }
+  const kit = { rrect, sparkle, seeded, closes, placeOf, fit, text, wrap, cap1, fmt, W, H, PURPLE, DEEP, YELLOW, PINK, CYAN, HEAD, BODY, EMO };
+  return { draw, caption, fmt, W, H, designs, pickDesign, kit };
 })();
 if (typeof window !== 'undefined') window.LQLeader = LQLeader;

@@ -25,6 +25,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="assets/common.js"></script>
 <script src="assets/leaderboard.js"></script>
+<script src="assets/leaderboard-designs.js"></script>
 <script src="assets/train-visuals.js"></script>
 <script src="assets/warmup-tools.js"></script>
 <script src="assets/fakecall.js?v=20261106b"></script>
@@ -858,16 +859,17 @@ async function leaderboardFor(id) {
 /** The pop-up that shows a leaderboard picture and its post text, to copy, download or share. getData(mode) gives the board; modes ([[key, label]…]) adds a "rank by" switch. */
 async function postBoardModal(getData, modes) {
   let mode = modes ? modes[0][0] : null, data = getData(mode);
-  let topN = 5, canvas = null;
+  let topN = 5, canvas = null, design = LQLeader.pickDesign(); // a different picture design each time the pop-up opens
   const bg = modal(`<h3 style="margin-top:0">📣 Post the scores</h3>
     ${modes ? `<div class="row" style="margin-bottom:8px;gap:8px"><span class="muted small">Rank by</span>${modes.map(([k, l]) => `<button class="btn btn-sm ${k === mode ? 'btn-primary' : 'btn-ghost'}" data-mode="${k}">${l}</button>`).join('')}</div>` : ''}
-    <div class="row" style="margin-bottom:8px;gap:8px"><span class="muted small">Show the top</span><button class="btn btn-sm btn-primary" data-top="5">5</button><button class="btn btn-sm btn-ghost" data-top="8">8</button></div>
+    <div class="row" style="margin-bottom:8px;gap:8px"><span class="muted small">Show the top</span><button class="btn btn-sm btn-primary" data-top="5">5</button><button class="btn btn-sm btn-ghost" data-top="8">8</button><span class="grow"></span><span class="muted small" id="lbDesign"></span><button class="btn btn-sm btn-ghost" id="lbAnother" title="Draw the same scores in a different design">🎲 Another design</button></div>
     <img id="lbImg" alt="Leaderboard" style="width:100%;max-width:420px;display:block;margin:0 auto 10px;border-radius:14px;box-shadow:0 6px 24px rgba(0,0,0,.25)">
     <div class="field"><label>Post text <span class="muted">— paste it under the picture</span></label><textarea id="lbText" rows="8"></textarea></div>
     <div class="row" style="gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="btn btn-ghost" data-x>Close</button><button class="btn" id="lbTxt">Copy text</button><button class="btn" id="lbShare" hidden>📤 Share…</button><button class="btn" id="lbCopy">Copy picture</button><button class="btn btn-primary" id="lbDl">⬇ Download picture</button></div>`);
   const blob = () => new Promise((res) => canvas.toBlob(res, 'image/png'));
-  const render = async () => { canvas = await LQLeader.draw(data, topN); $('#lbImg', bg).src = canvas.toDataURL('image/png'); $('#lbText', bg).value = LQLeader.caption(data, topN); $$('[data-top]', bg).forEach((b) => { const on = +b.dataset.top === topN; b.classList.toggle('btn-primary', on); b.classList.toggle('btn-ghost', !on); }); };
+  const render = async () => { canvas = await LQLeader.draw({ ...data, design }, topN); const di = LQLeader.designs.findIndex((z) => z.id === design); $('#lbDesign', bg).textContent = `Design ${di + 1} of ${LQLeader.designs.length}: ${LQLeader.designs[di]?.name || ''}`; $('#lbImg', bg).src = canvas.toDataURL('image/png'); $('#lbText', bg).value = LQLeader.caption(data, topN); $$('[data-top]', bg).forEach((b) => { const on = +b.dataset.top === topN; b.classList.toggle('btn-primary', on); b.classList.toggle('btn-ghost', !on); }); };
   $('[data-x]', bg).onclick = () => bg.remove();
+  $('#lbAnother', bg).onclick = () => { design = LQLeader.pickDesign(); render(); };
   $$('[data-top]', bg).forEach((b) => b.onclick = () => { topN = +b.dataset.top; render(); });
   $$('[data-mode]', bg).forEach((b) => b.onclick = () => { mode = b.dataset.mode; data = getData(mode); $$('[data-mode]', bg).forEach((x) => { const on = x === b; x.classList.toggle('btn-primary', on); x.classList.toggle('btn-ghost', !on); }); render(); });
   $('#lbDl', bg).onclick = async () => { const a = document.createElement('a'); a.href = URL.createObjectURL(await blob()); a.download = `scoreboard-${new Date().toISOString().slice(0, 10)}.png`; document.body.appendChild(a); a.click(); a.remove(); toast('Picture saved: now post it on Facebook.'); };
