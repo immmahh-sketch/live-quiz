@@ -1,0 +1,22 @@
+[
+{"type":"text","text":"What force keeps the planets in orbit around the Sun?","answers":["Gravity"],"difficulty":"easy"},
+{"type":"text","text":"What is the name of the galaxy that contains our solar system?","answers":["Milky Way","The Milky Way"],"difficulty":"easy"},
+{"type":"text","text":"Who became the first human in space, in April 1961?","answers":["Yuri Gagarin","Gagarin"],"difficulty":"easy"},
+{"type":"text","text":"Which planet is famous for the Great Red Spot, a storm bigger than Earth?","answers":["Jupiter"],"difficulty":"easy"},
+{"type":"text","text":"What name is given to a rock from space that survives its fall and lands on the ground?","answers":["Meteorite"],"difficulty":"easy"},
+{"type":"text","text":"Which moon of Saturn has lakes of liquid methane and a thick orange atmosphere?","answers":["Titan"],"difficulty":"medium"},
+{"type":"text","text":"Which NASA rover landed in Jezero Crater on Mars in February 2021?","answers":["Perseverance"],"difficulty":"medium"},
+{"type":"text","text":"Which telescope launched on Christmas Day 2021?","answers":["James Webb Space Telescope","James Webb","JWST","Webb"],"difficulty":"medium"},
+{"type":"text","text":"Which space shuttle broke apart 73 seconds after launch in January 1986?","answers":["Challenger","Space Shuttle Challenger"],"difficulty":"medium"},
+{"type":"text","text":"Which Apollo mission suffered an oxygen tank explosion in April 1970 but brought its crew home safely?","answers":["Apollo 13"],"difficulty":"medium"},
+{"type":"text","text":"What is the nearest star to our Sun?","answers":["Proxima Centauri","Proxima"],"difficulty":"medium"},
+{"type":"text","text":"Which Saturn orbiter was deliberately plunged into the planet in 2017?","answers":["Cassini","Cassini-Huygens"],"difficulty":"hard"},
+{"type":"text","text":"Which space telescope, launched in 2009, discovered thousands of exoplanets?","answers":["Kepler","Kepler Space Telescope"],"difficulty":"hard"},
+{"type":"text","text":"Which Indian mission became the first to land near the Moon's south polar region in August 2023?","answers":["Chandrayaan-3","Chandrayaan 3"],"difficulty":"hard"},
+{"type":"text","text":"What type of star is our Sun?","answers":["Yellow dwarf","G-type main-sequence star","G-type star","Yellow dwarf star"],"difficulty":"hard"},
+{"type":"text","text":"What was the name of the world's first space station, launched by the Soviet Union in 1971?","answers":["Salyut 1","Salyut"],"difficulty":"hard"},
+{"type":"order","text":"Put these Apollo missions in order, earliest first","items":["Apollo 8","Apollo 11","Apollo 13","Apollo 15","Apollo 17"],"hint":"From the first Moon orbit to the last landing","difficulty":"medium"},
+{"type":"sort","text":"Real or fictional spacecraft?","categories":["Real","Fictional"],"items":[{"text":"Voyager 1","category":"Real"},{"text":"Sputnik","category":"Real"},{"text":"Space Shuttle Discovery","category":"Real"},{"text":"Hubble","category":"Real"},{"text":"Millennium Falcon","category":"Fictional"},{"text":"USS Enterprise","category":"Fictional"},{"text":"Serenity","category":"Fictional"},{"text":"Nostromo","category":"Fictional"}],"difficulty":"easy"},
+{"type":"sort","text":"Planet or dwarf planet?","categories":["Planet","Dwarf planet"],"items":[{"text":"Mercury","category":"Planet"},{"text":"Venus","category":"Planet"},{"text":"Earth","category":"Planet"},{"text":"Mars","category":"Planet"},{"text":"Pluto","category":"Dwarf planet"},{"text":"Ceres","category":"Dwarf planet"},{"text":"Eris","category":"Dwarf planet"},{"text":"Makemake","category":"Dwarf planet"}],"difficulty":"medium"},
+{"type":"sort","text":"NASA or ESA mission?","categories":["NASA","ESA"],"items":[{"text":"Voyager","category":"NASA"},{"text":"Curiosity","category":"NASA"},{"text":"Perseverance","category":"NASA"},{"text":"Kepler","category":"NASA"},{"text":"Rosetta","category":"ESA"},{"text":"Gaia","category":"ESA"},{"text":"Giotto","category":"ESA"},{"text":"Mars Express","category":"ESA"}],"difficulty":"hard"}
+]
