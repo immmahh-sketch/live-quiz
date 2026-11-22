@@ -1,0 +1,22 @@
+[
+{"type":"text","text":"Which pair of organs in the chest do we use to breathe?","answers":["Lungs","The lungs"],"difficulty":"easy"},
+{"type":"text","text":"What is the largest organ of the human body?","answers":["Skin","The skin"],"difficulty":"easy"},
+{"type":"text","text":"How many chambers does the human heart have?","answers":["Four","4"],"difficulty":"easy"},
+{"type":"text","text":"What name is given to the blood vessels that carry blood away from the heart?","answers":["Arteries","Artery"],"difficulty":"easy"},
+{"type":"text","text":"Which blood group is the universal donor for red blood cells?","answers":["O negative","O-","O neg"],"difficulty":"medium"},
+{"type":"text","text":"Which is the largest muscle in the human body?","answers":["Gluteus maximus","Gluteus"],"difficulty":"medium"},
+{"type":"text","text":"Which hormone, made in the pancreas, lowers blood sugar?","answers":["Insulin"],"difficulty":"medium"},
+{"type":"text","text":"Which part of the brain controls balance and coordination?","answers":["Cerebellum","The cerebellum"],"difficulty":"medium"},
+{"type":"text","text":"Who described the circulation of the blood in 1628?","answers":["William Harvey","Harvey"],"difficulty":"hard"},
+{"type":"text","text":"Which surgeon pioneered antiseptic surgery with carbolic acid in the 1860s?","answers":["Joseph Lister","Lister"],"difficulty":"hard"},
+{"type":"text","text":"What is the name of the valve between the left atrium and the left ventricle?","answers":["Mitral valve","Bicuspid valve","Mitral"],"difficulty":"hard"},
+{"type":"text","text":"Which cells in the pancreas produce insulin?","answers":["Beta cells","Islets of Langerhans","Beta cell"],"difficulty":"hard"},
+{"type":"text","text":"What is the tiny filtering unit of the kidney called, where blood is first filtered?","answers":["Glomerulus","Nephron"],"difficulty":"hard"},
+{"type":"text","text":"Which nerve, the longest in the body, runs from the lower back down the leg?","answers":["Sciatic nerve","Sciatic"],"difficulty":"hard"},
+{"type":"order","text":"Put these in order of size, smallest first","items":["Cell","Tissue","Organ","Organ system","Whole body"],"hint":"From microscopic to the whole person","difficulty":"easy"},
+{"type":"order","text":"Put these in the order air passes through them when you breathe in","items":["Nose","Throat","Windpipe","Bronchi","Air sacs"],"hint":"From the outside world to where oxygen enters the blood","difficulty":"medium"},
+{"type":"order","text":"Put these in the order light passes through them to reach the back of the eye","items":["Cornea","Pupil","Lens","Vitreous humour","Retina"],"hint":"The retina is last","difficulty":"hard"},
+{"type":"sort","text":"Vitamin or mineral?","categories":["Vitamin","Mineral"],"items":[{"text":"Vitamin C","category":"Vitamin"},{"text":"Vitamin D","category":"Vitamin"},{"text":"Vitamin A","category":"Vitamin"},{"text":"Vitamin B12","category":"Vitamin"},{"text":"Iron","category":"Mineral"},{"text":"Calcium","category":"Mineral"},{"text":"Zinc","category":"Mineral"},{"text":"Potassium","category":"Mineral"}],"difficulty":"easy"},
+{"type":"sort","text":"Artery or vein?","categories":["Artery","Vein"],"items":[{"text":"Aorta","category":"Artery"},{"text":"Carotid","category":"Artery"},{"text":"Coronary","category":"Artery"},{"text":"Femoral artery","category":"Artery"},{"text":"Vena cava","category":"Vein"},{"text":"Jugular","category":"Vein"},{"text":"Saphenous","category":"Vein"},{"text":"Portal vein","category":"Vein"}],"difficulty":"medium"},
+{"type":"sort","text":"Hormone-producing (endocrine) gland or not?","categories":["Endocrine gland","Not endocrine"],"items":[{"text":"Thyroid","category":"Endocrine gland"},{"text":"Pituitary","category":"Endocrine gland"},{"text":"Adrenal","category":"Endocrine gland"},{"text":"Pineal","category":"Endocrine gland"},{"text":"Salivary gland","category":"Not endocrine"},{"text":"Sweat gland","category":"Not endocrine"},{"text":"Tear gland","category":"Not endocrine"},{"text":"Liver","category":"Not endocrine"}],"difficulty":"hard"}
+]
