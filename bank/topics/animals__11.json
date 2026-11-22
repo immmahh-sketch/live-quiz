@@ -1,0 +1,19 @@
+[
+{"type":"text","text":"Which African animal is famous for its black-and-white stripes?","answers":["Zebra","The zebra"],"difficulty":"easy"},
+{"type":"text","text":"What is the largest animal on Earth?","answers":["Blue whale","The blue whale"],"difficulty":"easy"},
+{"type":"text","text":"What is a baby kangaroo called?","answers":["Joey"],"difficulty":"easy"},
+{"type":"text","text":"How many legs does a spider have?","answers":["Eight","8"],"difficulty":"easy"},
+{"type":"text","text":"What is a group of owls called?","answers":["Parliament","A parliament"],"difficulty":"medium"},
+{"type":"text","text":"Which Australian marsupial produces cube-shaped droppings?","answers":["Wombat","The wombat"],"difficulty":"medium"},
+{"type":"text","text":"Which is the largest fish in the world?","answers":["Whale shark","The whale shark"],"difficulty":"medium"},
+{"type":"text","text":"Which Arctic mammal's black skin lies under transparent, hollow fur that looks white?","answers":["Polar bear","The polar bear"],"difficulty":"medium"},
+{"type":"text","text":"Which land mammal has the longest pregnancy, at around 22 months?","answers":["Elephant","African elephant","The elephant"],"difficulty":"medium"},
+{"type":"text","text":"What is the pouch in which a marsupial carries its young called?","answers":["Marsupium"],"difficulty":"hard"},
+{"type":"text","text":"Lonesome George was the last known individual of which island's giant tortoises?","answers":["Pinta Island","Pinta"],"difficulty":"hard"},
+{"type":"text","text":"Which reptile has the strongest bite force of any living animal?","answers":["Saltwater crocodile","Saltie","Estuarine crocodile"],"difficulty":"hard"},
+{"type":"text","text":"Which bird has the largest wingspan of any living bird, up to about 3.5 metres?","answers":["Wandering albatross","Albatross"],"difficulty":"hard"},
+{"type":"text","text":"What is a group of porcupines called?","answers":["Prickle","A prickle"],"difficulty":"hard"},
+{"type":"text","text":"Which jellyfish, Turritopsis dohrnii, is nicknamed 'immortal' because it can revert to a younger stage?","answers":["Immortal jellyfish","Turritopsis dohrnii"],"difficulty":"hard"},
+{"type":"order","text":"Put these animals in order of typical lifespan, longest first","items":["Greenland shark","Galápagos tortoise","African elephant","Domestic dog","Mayfly"],"hint":"One of them lives only a day or so as an adult","difficulty":"medium"},
+{"type":"sort","text":"Reptile or amphibian?","categories":["Reptile","Amphibian"],"items":[{"text":"Tortoise","category":"Reptile"},{"text":"Gecko","category":"Reptile"},{"text":"Komodo dragon","category":"Reptile"},{"text":"Crocodile","category":"Reptile"},{"text":"Newt","category":"Amphibian"},{"text":"Axolotl","category":"Amphibian"},{"text":"Salamander","category":"Amphibian"},{"text":"Toad","category":"Amphibian"}],"difficulty":"hard"}
+]
