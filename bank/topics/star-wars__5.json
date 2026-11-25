@@ -1,0 +1,15 @@
+[
+{"type":"choice","text":"Which species is the bounty hunter Greedo?","options":["Rodian","Wookiee","Twi'lek","Zabrak"],"difficulty":"medium"},
+{"type":"choice","text":"What is the name of the Rebel base planet that the Death Star is about to destroy in 'A New Hope'?","options":["Yavin 4","Hoth","Endor","Scarif"],"difficulty":"medium"},
+{"type":"choice","text":"Which species is Jabba the Hutt's dancer Oola?","options":["Twi'lek","Rodian","Zabrak","Mon Calamari"],"difficulty":"hard"},
+{"type":"text","text":"Which planet is home to the Gungans?","answers":["Naboo"],"difficulty":"medium"},
+{"type":"text","text":"What is the name of the Rebel pilot who leads Red Squadron in the Death Star trench run?","answers":["Garven Dreis","Red Leader","Dreis"],"difficulty":"hard"},
+{"type":"text","text":"What is the name of Admiral Ackbar's famous line about a trap?","answers":["It's a trap","It's a trap!"],"difficulty":"medium"},
+{"type":"tf","text":"Admiral Ackbar is a Mon Calamari.","answer":true,"difficulty":"medium"},
+{"type":"tf","text":"The Wookiee homeworld is Kashyyyk.","answer":true,"difficulty":"medium"},
+{"type":"tf","text":"Lando Calrissian was once the owner of the Millennium Falcon.","answer":true,"difficulty":"medium"},
+{"type":"tf","text":"Chewbacca's roar was created from recordings of a bear named Tarra, among other animals.","answer":true,"difficulty":"hard"},
+{"type":"tf","text":"The first Star Wars film's working title was 'The Adventures of Luke Starkiller'.","answer":true,"difficulty":"hard"},
+{"type":"tf","text":"The Millennium Falcon was designed partly from a hamburger.","answer":true,"difficulty":"hard"},
+{"type":"tf","text":"The cantina band's music in 'A New Hope' was composed by John Williams.","answer":true,"difficulty":"hard"}
+]
